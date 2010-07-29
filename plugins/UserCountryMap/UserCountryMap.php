@@ -109,4 +109,14 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 		echo base64_decode($_POST['imagedata']);
 		exit;
 	}
+	
+	function debug()
+	{
+		echo '<html><head><title>DEBUG: world map</title>';
+		echo '<script type="text/javascript" src="libs/jquery/jquery.js"></script>';
+		echo '<script type="text/javascript" src="libs/swfobject/swfobject.js"></script>';
+		echo '</head><body><div id="widgetUserCountryMapworldMap" style="width:600px;">';
+		echo $this->worldMap();
+		echo '</div></body></html>';
+	}
 }
