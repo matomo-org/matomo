@@ -61,12 +61,12 @@ a {
 }
 
 
-#loadingPiwik {
+.loadingPiwik {
 	font-size: 1.1em;
 	color: #29251C;
 	padding: 0.5em;
 }
-#loadingPiwik img {
+.loadingPiwik img {
 	margin-right:5px;
 }
 #loadingError {

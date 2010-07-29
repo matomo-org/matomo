@@ -27,7 +27,7 @@ function smarty_function_ajaxLoadingDiv($params, &$smarty)
 		$id = $params['id'];
 	}
 	return '<div id="'.$id.'" style="display:none">'.
-				'<div id="loadingPiwik"><img src="themes/default/images/loading-blue.gif" alt="" /> '. 
+				'<div class="loadingPiwik"><img src="themes/default/images/loading-blue.gif" alt="" /> '. 
 					Piwik_Translate('General_LoadingData') .
 				' </div>'.
 			'</div>';
