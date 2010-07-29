@@ -77,6 +77,7 @@ h3 {
 .widget #leftcolumn, .widget #rightcolumn {
 	float:left;
 	padding: 0 10px;
+	width:auto;
 }
 
 /* Calendar*/
