@@ -1073,7 +1073,7 @@ class Piwik
 	 */
 	public function getLogoPath()
 	{
-		return PIWIK_INCLUDE_PATH . '/themes/default/images/logo.png';
+		return Piwik_Common::getPathToPiwikRoot() . '/themes/default/images/logo.png';
 	}
 	
 	/**

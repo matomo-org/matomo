@@ -202,7 +202,7 @@ class Piwik_PDFReports_PDFRenderer extends TCPDF
 						{
 							$topMargin = 2;
 						}
-						$this->Image(PIWIK_INCLUDE_PATH."/".$this->reportRowsMetadata[$rowId]['logo'], $posX + ($leftMargin = 2), $posY + $topMargin, $logoWidth/4);
+						$this->Image(Piwik_Common::getPathToPiwikRoot()."/".$this->reportRowsMetadata[$rowId]['logo'], $posX + ($leftMargin = 2), $posY + $topMargin, $logoWidth/4);
 						$this->SetXY($restoreX, $restoreY);
 					}
 				}
