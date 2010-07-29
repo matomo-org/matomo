@@ -636,6 +636,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.google.com.vc'			=> array('Google', 'q'),
 		'www.google.com.vn'			=> array('Google', 'q'),
 
+		// Google SSL 
+		'encrypted.google.com'		=> array('Google SSL', 'q', 'search?q={k}'), 
+
 		// Powered by Google
 		'www.charter.net'			=> array('Google', 'q'),
 		'brisbane.t-online.de'		=> array('Google', 'q'),
