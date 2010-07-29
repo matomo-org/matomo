@@ -11,7 +11,8 @@ $(document).ready(function() {
 		allowscriptaccess: "always",
 		wmode: "opaque",
 		bgcolor: "#FFFFFF",
-		allowfullscreen: "true",
+		allowfullscreen: "true"
+		
 	};
 	
 {/literal}
