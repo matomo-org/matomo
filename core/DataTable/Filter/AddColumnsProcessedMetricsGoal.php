@@ -58,6 +58,9 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 	
 	protected function filter()
 	{
+		// Add standard processed metrics
+		parent::filter();
+		
 		$roundingPrecision = 2;
 		$expectedColumns = array();
 		foreach($this->table->getRows() as $key => $row)
@@ -145,7 +148,6 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 			$row->addColumns($newColumns);
 		}
 		$expectedColumns['revenue_per_visit'] = true;
-		$expectedColumns['conversion_rate'] = true;
 		
 		// make sure all goals values are set, 0 by default
 		// if no value then sorting would put at the end

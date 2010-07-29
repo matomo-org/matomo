@@ -310,8 +310,6 @@ class Piwik_API_API
     
         if(isset($reportMetadata['processedMetrics']))
         {
-        	// Add processed metrics
-        	$dataTable->filter('AddColumnsProcessedMetrics');
         	$processedMetricsAdded = Piwik_API_API::getInstance()->getDefaultProcessedMetrics();
         	foreach($processedMetricsAdded as $processedMetricId => $processedMetricTranslation)
         	{
@@ -327,10 +325,6 @@ class Piwik_API_API
         {
         	$metricsGoalDisplay = array('conversion_rate', 'revenue');
         	
-        	// to have conversion_rate, we need to apply the Goal processed filter
-        	// only requesting to process the basic metrics
-        	$dataTable->filter('AddColumnsProcessedMetricsGoal', array($enable=true, Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_MINIMAL_REPORT));
-
     		// Add processed metrics to be displayed for this report
         	foreach($metricsGoalDisplay as $goalMetricId)
         	{
@@ -340,6 +334,19 @@ class Piwik_API_API
         		}
         	}
         }
+        if(isset($reportMetadata['metricsGoal']))
+        {
+        	// To process conversion_rate, we need to apply the Goal processed filter
+        	// only requesting to process the basic metrics
+        	// This adds goal metrics as well as standard metrics
+        	$dataTable->filter('AddColumnsProcessedMetricsGoal', array($enable=true, Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_MINIMAL_REPORT));
+        }
+        elseif(isset($reportMetadata['processedMetrics']))
+        {
+        	// Add processed metrics
+        	$dataTable->filter('AddColumnsProcessedMetrics');
+        }
+        
         $dataTable->filter('SafeDecodeLabel', array($outputHTML = false));
         $renderer = new Piwik_DataTable_Renderer_Php();
         $renderer->setTable($dataTable);
