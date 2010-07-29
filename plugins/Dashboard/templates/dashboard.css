@@ -36,6 +36,8 @@
 
 .widgetContent h2 {
 	font-size:1.2em;
+	margin-left:10px;
+	font-weight:bold;
 }
 .widgetTop {
 	background:#b5b0a7 url(../../../themes/default/images/dashboard_h_bg.png) repeat-x 0 0;

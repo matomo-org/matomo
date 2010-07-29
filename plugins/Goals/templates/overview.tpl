@@ -9,9 +9,9 @@
 	
     <div class="goalEntry">
 	<h2>
-		{if $displayFullReport}<a href="javascript:broadcast.propagateAjax('module=Goals&action=goalReport&idGoal={$goal.id}')">{/if}
+		<a href="javascript:broadcast.propagateAjax('module=Goals&action=goalReport&idGoal={$goal.id}')">
 		{'Goals_GoalX'|translate:"'$name'"}
-		{if $displayFullReport}</a>{/if}
+		</a>
 	</h2>
 	<div id='leftcolumn'>
 		<div class="sparkline">{sparkline src=$goal.urlSparklineConversions}
