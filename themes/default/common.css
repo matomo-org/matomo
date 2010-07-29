@@ -286,7 +286,10 @@ a {
 	right:0;
 	font-size:12px;
 }
-
+.autocompleteMatched {
+	font-color:#5256BE;
+	font-weight:bold;
+}
 .sites_autocomplete label{
 	display:inline-block; 
 	padding:7px 12px 6px 0px;
@@ -457,17 +460,7 @@ a {
 .tableForm .submit {
 	text-align:center;
 }
-input.submit, .admin input.submit {
-	margin-top:15px;
-	background:transparent url(./images/background-submit.png) repeat scroll 0%;
-	font-size:1.4em;
-	border-color:#CCC #999 #999 #CCC;
-	border-style:double;
-	border-width:3px;
-	color:#333;
-	padding:0.15em;
-	align:center;
-}
+
 .ajaxError {
 	color: red;
 	text-align: center;
@@ -577,9 +570,23 @@ input.submit, .admin input.submit {
 	width:850px; 
 	margin:auto;
 }
-
+.center {
+	margin:auto;
+	text-align:center;
+	padding-bottom:10px;
+}
+textarea {
+	font-size: 1em;
+}
+.widget .entityContainer {
+	width:100%;
+}
+.widget .sparkline {
+	margin-left:5px;	
+}
 /* Main div for the Form and tables */
-#entityContainer .inp{  
+
+input, select, textarea {  
 	border-radius:4px;
 	-moz-border-radius:4px;
 	-webkit-border-radius:4px;
@@ -587,14 +594,21 @@ input.submit, .admin input.submit {
 	background:#fff url(../../themes/default/images/inp_bg.png) repeat-x 0 0;
 	padding:3px 10px;
 	color:#255792;
+	margin-bottom:3px;
 }
-#entityContainer select.inp{  
+input[disabled] {
+	background:none;
+	background-color:#E9E9E9;
+	font-style:italic;
+}
+
+select {  
 	padding-right:3px;
 	padding-left:7px;
 	margin-right:6px;
 }
 
-#entityContainer .but_submit{
+.submit {
 	clear:both; 
 	color:#fff;
 	font:18px Arial, Helvetica, sans-serif;
@@ -606,30 +620,37 @@ input.submit, .admin input.submit {
 	background:#847b6d url(../../themes/default/images/dashboard_h_bg_hover.png) repeat-x 0 0;
 	float:right; 
 	margin:12px 0 0 0;
+	margin-bottom:10px;
 }
-#entityContainer .link_but {
+/* on admin screen, Save button aligned on the left */
+.admin .submit {
+	margin-left:50px;
+	float:none;
+	
+}
+.entityContainer .link_but {
 	white-space:nowrap;
 	display:inline-block; 
 	margin:0 10px 0 0;
 	text-decoration:none;
 }
-#entityContainer .link_but img{
+.entityContainer .link_but img{
 	white-space:nowrap; 
 	margin:0 1px 0 0!important;
 }
-#entityAddContainer .entityTable th, #entityEditContainer .entityTable th, #entityEditContainer .entityTable td{ 
+.entityAddContainer .entityTable th, #entityEditContainer .entityTable th, #entityEditContainer .entityTable td{ 
 	vertical-align:middle!important; 
 }
 
-#entityAddContainer .entityTable tr td.first{
+.entityAddContainer .entityTable tr td.first{
 	font-weight:bold;
 }
-#entityAddContainer tr:hover{ 
+.entityAddContainer tr:hover{ 
 	background:none!important;
 }
 
 /* Add / Edit / List entities */
-#entityContainer{  
+.entityContainer{  
 	width:800px;
 	font-size:14px;
 }

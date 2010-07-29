@@ -19,7 +19,7 @@
 {ajaxErrorDiv}
 {ajaxLoadingDiv id=goalAjaxLoading}
 	
-<div id="entityContainer">
+<div class="entityContainer">
 	{if !isset($onlyShowAddNewGoal)}
 		{include file="Goals/templates/list_goal_edit.tpl"}
 	{/if}

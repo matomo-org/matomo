@@ -1,23 +1,23 @@
 
 $('.but').bind('click', function(e)
 {
-	if($('#keyword').val() != '')
-		$('#keyword').autocomplete('search', $('#keyword').val() + '%%%');
+	if($('#websiteSearch').val() != '')
+		$('#websiteSearch').autocomplete('search', $('#websiteSearch').val() + '%%%');
 	return false;
 });
 $(function() {
-	$("#keyword").click(function(e)
+	$("#websiteSearch").click(function(e)
 	{
 		$(this).val('');
 	});
-	$('#keyword').keyup(function(e)
+	$('#websiteSearch').keyup(function(e)
 	{
 		if(parseInt($(this).val().length) == 0)
 		{
 			reset();
 		}
 	});
-	$("#keyword").autocomplete({
+	$("#websiteSearch").autocomplete({
 		minLength: 1,
 		source: '?module=SitesManager&action=getSitesForAutocompleter',
 		select: function(event, ui) {
@@ -33,7 +33,7 @@ $(function() {
 			return false;
 		},
 		focus: function(event, ui) {
-			$('#keyword').val(ui.item.name);
+			$('#websiteSearch').val(ui.item.name);
 			return false;
 		},
 		search: function(event, ui) {
@@ -64,7 +64,7 @@ $(function() {
 	});
 	function reset()
 	{
-		$('#keyword').val('');
+		$('#websiteSearch').val('');
 		$('.custom_select_ul_list').show();
 		$(".ui-autocomplete").hide();
 		$("#reset").hide();

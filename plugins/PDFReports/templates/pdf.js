@@ -32,7 +32,7 @@ function formSetEditReport(idReport)
 function getPDFAjaxRequest(idReport, defaultApiMethod)
 {
 	var parameters = {};
-	piwikHelper.lazyScrollTo("#entityContainer", 400);
+	piwikHelper.lazyScrollTo(".entityContainer", 400);
 	parameters.idSite = piwik.idSite;
 	parameters.module = 'API';
 	parameters.method = defaultApiMethod;
@@ -87,20 +87,20 @@ function initManagePdf()
 	$('a[name=linkEditReport]').click(function(){
 		var idReport = $(this).attr('id');
 		formSetEditReport( idReport );
-		$('#entityAddContainer').show();
+		$('.entityAddContainer').show();
 		$('#entityEditContainer').hide();
 	});	
 	
 	// Add a Report click
 	$('#linkAddReport').click(function(){
-		$('#entityAddContainer').show();
+		$('.entityAddContainer').show();
 		$('#entityEditContainer').hide();
 		formSetEditReport( idReport = 0 );
 	});
 	
 	// Cancel click
 	$('.entityCancelLink').click(function(){
-		$('#entityAddContainer').hide();
+		$('.entityAddContainer').hide();
 		$('#entityEditContainer').show();
 		piwikHelper.hideAjaxError();
 	}).click();

@@ -100,14 +100,13 @@
 		<tr>
 			<td><label for="mailPassword">{'General_SmtpPassword'|translate}</label><br>
 				<span class="form-description">{'General_OnlyEnterIfRequiredPassword'|translate}<br/>
-				{'General_WarningPasswordStored'|translate}</span>
+				{'General_WarningPasswordStored'|translate:"<strong>":"</strong>"}</span>
 			</td>
 			<td>
 				<input type="password" id="mailPassword" value = "{$mail.password}" >
 			</td>
 		</tr>
 	</table>
-</div>
 </div>
 
 </table>

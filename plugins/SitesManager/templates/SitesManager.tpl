@@ -171,7 +171,9 @@ vertical-align:middle;
 				{$currencyHelpPlain}
 		</td></tr>
 	</table>
-	<span style='margin-left:20px'><input type="submit" class="submit" id='globalSettingsSubmit' value="{'General_Save'|translate}" /></span>
+	<span style='margin-left:20px'>
+		<input type="submit" class="submit" id='globalSettingsSubmit' value="{'General_Save'|translate}" />
+	</span>
 	{ajaxErrorDiv id=ajaxErrorGlobalSettings}
 	{ajaxLoadingDiv id=ajaxLoadingGlobalSettings}
 {/if}

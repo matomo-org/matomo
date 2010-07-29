@@ -12,6 +12,9 @@
 	z-index:1;
 }
 
+.widget p {
+	margin-left:10px;
+}
 /* container of each table */
 .dataTableWrapper {
 	width: 450px;

@@ -1,6 +1,5 @@
 {if !$show_autocompleter}
 <div class="sites_selection">
-<span id="sitesSelectionWrapper" style="display:none;" >
 	<label>{'General_Website'|translate}</label><span id="selectedSiteName" style="display:none">{$siteName}</span>
 	<span id="sitesSelection">
 		<form action="{url idSite=null}" method="get">
@@ -61,7 +60,7 @@
 			</div>
             
             <div class="custom_select_search">
-                <input type="text" length="15" id="keyword" class="inp">
+                <input type="text" length="15" id="websiteSearch" class="inp">
                 <input type="hidden" class="max_sitename_width" id="max_sitename_width" value="130" />
                 <input type="submit" value="Search" class="but">
 				<img title="Clear" id="reset" style="position: relative; top: 4px; left: -44px; cursor: pointer; display: none;" src="plugins/CoreHome/templates/images/reset_search.png"/>
@@ -72,6 +71,8 @@
 	{literal}<script type="text/javascript">
 $("#sitesSelectionSearch .custom_select_main_link").click(function(){
 	$("#sitesSelectionSearch .custom_select_block").toggleClass("custom_select_block_show");
+	
+		$('#websiteSearch').focus();
 	return false;
 });
     </script>{/literal}

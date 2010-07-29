@@ -1,4 +1,4 @@
-<div id='entityAddContainer' style='display:none'>
+<div class='entityAddContainer' style='display:none'>
 <div class='entityCancel'>
 	{'PDFReports_CancelAndReturnToPDF'|translate:"<a class='entityCancelLink'>":"</a>"}
 </div>
@@ -80,7 +80,7 @@
 	</tbody>
 </table>
 <input type="hidden" id="report_idreport" value="">
-<input type="submit" value="{'PDFReports_CreatePDFReport'|translate}" name="submit" id="report_submit" class="but_submit" />
+<input type="submit" value="{'PDFReports_CreatePDFReport'|translate}" name="submit" id="report_submit" class="submit" />
 </form>
 <div class='entityCancel'>
 	{'General_OrCancel'|translate:"<a class='entityCancelLink'>":"</a>"}

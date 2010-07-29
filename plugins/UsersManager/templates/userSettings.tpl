@@ -58,7 +58,7 @@
 	<td><label for="email">{'UsersManager_ChangePassword'|translate} </label></td>
 	<td><input size="25" value="" autocomplete="off" id="password" type="password" />
 	 <span class='form-description'>{'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne'|translate}</span>
-	<br /><input size="25" value="" autocomplete="off" id="passwordBis" type="password" />
+	<br /><br /><input size="25" value="" autocomplete="off" id="passwordBis" type="password" />
 	 <span class='form-description'> {'UsersManager_TypeYourPasswordAgain'|translate}</span>
 	 </td>
 </tr>
@@ -89,7 +89,7 @@
 	{ajaxErrorDiv id=ajaxErrorAnonymousUserSettings}
 	{ajaxLoadingDiv id=ajaxLoadingAnonymousUserSettings}
 
-	<table id='anonymousUserSettingsTable' class="adminTable adminTableNoBorder" style='width:800px'>
+	<table id='anonymousUserSettingsTable' class="adminTable adminTableNoBorder" style='width:850px'>
 	<tr>
 		<td style='width:400px'>{'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess'|translate}</td>
 		<td>

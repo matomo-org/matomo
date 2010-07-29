@@ -228,14 +228,6 @@ ol#menuList li, ul#widgetList li .button{
 }
 #addWidget .widget_button .arr{ vertical-align:top; }
 
-.widget input {
-	background: #F7F7FF none repeat scroll 0% 50%;
-	border: 1px solid #B3B3B3;
-	color: #0C183A;
-	font-size: 0.7em;
-	padding: 2px;
-}
-
 #widgetChooser {
 	padding-top:10px;
 }

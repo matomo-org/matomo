@@ -697,15 +697,15 @@ dataTable.prototype =
 			truncationOffset = 0;
 		}
 		var truncationLimit = 50;
-/*		Different truncation limit for different datatable types?
+		// Different truncation limit for different datatable types?
  		// in a subtable
 		if(typeof self.param.idSubtable != 'undefined') {}
 		// when showing all columns
 		if(typeof self.param.idSubtable == 'undefined'
-			&& self.param.viewDataTable == 'tableAllColumns') {}
+			&& self.param.viewDataTable == 'tableAllColumns') { truncationLimit = 25; }
 		// when showing all columns in a subtable, space is restricted
 		else if(self.param.viewDataTable == 'tableAllColumns') {}		
-*/		
+		
 		truncationLimit += truncationOffset;
 
 		$(domElemToTruncate).truncate(truncationLimit);
@@ -920,9 +920,6 @@ actionDataTable.prototype =
 				// label (first column of a data row) or not
 				$("td:first-child:odd", this).addClass('label labeleven');
 				$("td:first-child:even", this).addClass('label labelodd');
-				// we truncate the labels columns from the second row
-//				$("td:first-child", this).truncate(30);
-//			    $('.truncated', this).tooltip();
 			})
 			.removeClass('rowToProcess');
 	},

@@ -129,7 +129,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 		$pattern = str_replace('%', '', $pattern);
 		if(!count($sites))
 		{
-			$results[] = array('label' => Piwik_Translate('SitesManager_NotFound')."&nbsp;<span style='color: black'>$pattern</span>.", 'id' => '#');
+			$results[] = array('label' => Piwik_Translate('SitesManager_NotFound')."&nbsp;<font class='autocompleteMatched'>$pattern</font>.", 'id' => '#');
 		}
 		else
 		{
@@ -143,7 +143,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 					{
 						foreach ($matches[0] as $match)
 						{
-							$hl_name = str_replace($match, '<span style="color: black">'.$match.'</span>', $s['name']);
+							$hl_name = str_replace($match, '<font class="autocompleteMatched">'.$match.'</font>', $s['name']);
 						}
 					}
 				}

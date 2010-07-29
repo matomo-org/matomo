@@ -9,7 +9,7 @@
 <div class="centerLargeDiv">
 	<h2>{'PDFReports_ManagePdfReports'|translate}</h2>
 	
-	<div id="entityContainer">
+	<div class="entityContainer">
 		{ajaxErrorDiv}
 		{ajaxLoadingDiv}
 		{include file="PDFReports/templates/list.tpl"}
