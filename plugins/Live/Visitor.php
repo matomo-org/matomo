@@ -28,6 +28,8 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Provider/functions.php';
  */
 class Piwik_Live_Visitor
 {
+	const DELIMITER_PLUGIN_NAME = ", ";
+	
 	function __construct($visitorRawData)
 	{
 		$this->details = $visitorRawData;
@@ -71,6 +73,7 @@ class Piwik_Live_Visitor
 			'resolution' => $this->getResolution(),
 			'screenIcon' => $this->getScreenTypeIcon(),
 			'plugins' => $this->getPlugins(),
+			'pluginIcons' => $this->getPluginIcons(),
 			'lastActionDateTime' => $this->getDateTimeLastAction(),
 			'isVisitorGoalConverted' => $this->isVisitorGoalConverted(),
 			'goalIcon' => $this->getGoalIcon(),
@@ -80,7 +83,7 @@ class Piwik_Live_Visitor
 
 	function getServerDate()
 	{
-		return date('Y-m-d', strtotime($this->details['visit_last_action_time'])); 
+		return date('Y-m-d', strtotime($this->details['visit_last_action_time']));
 	}
 
 	function getIp()
@@ -150,10 +153,10 @@ class Piwik_Live_Visitor
 	function getRefererType()
 	{
 		$map = array(
-			Piwik_Common::REFERER_TYPE_SEARCH_ENGINE => 'searchEngine',
-			Piwik_Common::REFERER_TYPE_WEBSITE => 'website',
-			Piwik_Common::REFERER_TYPE_DIRECT_ENTRY => 'directEntry',
-			Piwik_Common::REFERER_TYPE_CAMPAIGN => 'campaign',
+		Piwik_Common::REFERER_TYPE_SEARCH_ENGINE => 'searchEngine',
+		Piwik_Common::REFERER_TYPE_WEBSITE => 'website',
+		Piwik_Common::REFERER_TYPE_DIRECT_ENTRY => 'directEntry',
+		Piwik_Common::REFERER_TYPE_CAMPAIGN => 'campaign',
 		);
 		if(isset($map[$this->details['referer_type']]))
 		{
@@ -185,7 +188,7 @@ class Piwik_Live_Visitor
 	function getSearchEngineUrl()
 	{
 		if($this->getRefererType() == 'searchEngine'
-			&& !empty($this->details['referer_name']))
+		&& !empty($this->details['referer_name']))
 		{
 			return Piwik_getSearchEngineUrlFromName($this->details['referer_name']);
 		}
@@ -215,16 +218,32 @@ class Piwik_Live_Visitor
 	 		'config_gears',
 	 		'config_silverlight',
 		);
-		$return = array();
+		$pluginShortNames = array();
 		foreach($plugins as $plugin)
 		{
 			if($this->details[$plugin] == 1)
 			{
 				$pluginShortName = substr($plugin, 7);
-				$return[] = $pluginShortName;
+				$pluginShortNames[] = $pluginShortName;
 			}
 		}
-		return implode(", ", $return);
+		return implode(self::DELIMITER_PLUGIN_NAME, $pluginShortNames);
+	}
+
+	function getPluginIcons()
+	{
+		$pluginNames = $this->getPlugins();
+		if( !empty($pluginNames) )
+		{
+			$pluginNames = explode(self::DELIMITER_PLUGIN_NAME, $pluginNames);
+			$pluginIcons = array();
+
+			foreach($pluginNames as $plugin) {
+				$pluginIcons[] = array("pluginIcon" =>Piwik_getPluginsLogo($plugin), "pluginName" =>$plugin);
+			}
+			return $pluginIcons;
+		}
+		return null;
 	}
 
 	function getOperatingSystem()
@@ -310,15 +329,15 @@ class Piwik_Live_Visitor
 		if(isset($this->details['match_attribute'])){
 			$goalicon = "";
 			switch ($this->details['match_attribute']) {
-	    		case "url":
-			    	$goalicon = "plugins/Live/templates/images/goal.png";
-	    			break;
-			    case "file":
-	        		$goalicon = "plugins/Live/templates/images/download.png";
-		        	break;
-			    case "external_website":
-	        		$goalicon = "plugins/Live/templates/images/outboundlink.png";
-		        	break;
+				case "url":
+					$goalicon = "plugins/Live/templates/images/goal.png";
+					break;
+				case "file":
+					$goalicon = "plugins/Live/templates/images/download.png";
+					break;
+				case "external_website":
+					$goalicon = "plugins/Live/templates/images/outboundlink.png";
+					break;
 			}
 			return $goalicon;
 		}
