@@ -42,7 +42,7 @@ If you would like to contribute a version of the client in another programming l
 &lt;?php <br/>
 // -- Piwik Tracking API init -- <br/>
 require_once "/path/to/PiwikTracker.php";<br/>
-PiwikTracker::$url = '{$piwikUrl}';<br/>
+PiwikTracker::$URL = '{$piwikUrl}';<br/>
  ?&gt;
 </code>
 </li><li>Choose a Tracking method, then paste the code onto every page you want to track.
