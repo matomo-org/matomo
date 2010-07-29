@@ -981,7 +981,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 		// get the urls and parse them
 		$refererUrl	= Piwik_Common::getRequestVar( 'urlref', '', 'string', $this->request);
-		$currentUrl	= Piwik_Common::getRequestVar( 'url', $defaultUrl, 'string', $this->request);
+		$currentUrl	= Piwik_Common::getRequestVar( 'url', '', 'string', $this->request);
 
 		$this->refererUrl = $refererUrl;
 		$this->refererUrlParse = @parse_url(Piwik_Common::unsanitizeInputValue($refererUrl));
