@@ -2,7 +2,7 @@
 	{'Goals_GoalConversionsBySegment'|translate:$goalName}
 	{else}{'Goals_ConversionsOverviewBySegment'|translate}{/if}</h2> 
 
-<div class='segmentSelector'>
+<div class='entityList goalSegments'>
 	{foreach from=$goalSegments key=segmentFamilyName item=segments}
 		<div class='segmentCategory'>
 			{'Goals_ViewGoalsBySegment'|translate:$segmentFamilyName}
