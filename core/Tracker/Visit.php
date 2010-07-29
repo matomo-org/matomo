@@ -85,6 +85,15 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			throw new Exception('Invalid idSite');
 		}
 		$this->idsite = $idsite;
+		
+		// When the 'url' and referer url parameter are not given, we might be in the 'Simple Image Tracker' mode.
+		// The URL can default to the Referer, which will be in this case 
+		// the URL of the page containing the Simple Image beacon
+		if(empty($this->request['urlref'])
+			&& empty($this->request['url']))
+		{
+    		$this->request['url'] = @$_SERVER['HTTP_REFERER'];
+		}
 	}
 
 	/**
@@ -972,7 +981,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 		// get the urls and parse them
 		$refererUrl	= Piwik_Common::getRequestVar( 'urlref', '', 'string', $this->request);
-		$currentUrl	= Piwik_Common::getRequestVar( 'url', '', 'string', $this->request);
+		$currentUrl	= Piwik_Common::getRequestVar( 'url', $defaultUrl, 'string', $this->request);
 
 		$this->refererUrl = $refererUrl;
 		$this->refererUrlParse = @parse_url(Piwik_Common::unsanitizeInputValue($refererUrl));
