@@ -6,11 +6,13 @@
 	
     <div class="clear"></div>
 	<h2>{'Goals_GoalsManagement'|translate}</h2>
-	<ul class='listCircle'>
-		<li><a onclick='' name='linkAddNewGoal'><u>{'Goals_CreateNewGOal'|translate}</u></a></li>
-		<li><a onclick='' name='linkEditGoals'>{'Goals_ViewAndEditGoals'|translate}</a></li>
-		<li>{'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate:"<a href='misc/redirectToUrl.php?url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>":"</a>"}</li>
-	</ul>
+	<div class="entityList">
+		<ul class='listCircle'>
+			<li><a onclick='' name='linkAddNewGoal'><u>{'Goals_CreateNewGOal'|translate}</u></a></li>
+			<li><a onclick='' name='linkEditGoals'>{'Goals_ViewAndEditGoals'|translate}</a></li>
+			<li>{'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate:"<a href='misc/redirectToUrl.php?url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>":"</a>"}</li>
+		</ul>
+	</div>
 	<br/>
 {/if}
 
@@ -23,7 +25,9 @@
 	{/if}
 	{include file="Goals/templates/form_add_goal.tpl"}
 	{if !isset($onlyShowAddNewGoal)}
-		<div class='entityCancel' style='display:none'>{'General_OrCancel'|translate:"<a id='entityCancelLink'>":"</a>"}</div>
+		<div class='entityCancel' style='display:none'>
+			{'General_OrCancel'|translate:"<a class='entityCancelLink'>":"</a>"}
+		</div>
 	{/if}
 	<a id='bottom'></a>
 </div>

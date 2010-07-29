@@ -22,7 +22,7 @@
 class Piwik_Visualization_Cloud
 {
 	protected $wordsArray = array();
-	public $truncatingLimit = 30;
+	public $truncatingLimit = 50;
 	
 	/*
 	 * Assign word to array

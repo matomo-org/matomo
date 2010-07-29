@@ -22,7 +22,7 @@ ul.ulGoalTopElements {
 	border-bottom:1px dotted #0033CC;
 	line-height:2em;
 }
-.segmentSelector{ 
+.goalSegments{ 
 	float: left;
 	width: 220px; 
 	min-height:450px;
@@ -30,22 +30,3 @@ ul.ulGoalTopElements {
 .segmentCategory {
 	margin-top:10px;
 }
-.segmentSelector ul.listCircle{
-	font-weight:normal; 
-	list-style:none;
-	padding:4px 0;
-}
-.segmentSelector ul li{
-	background:#fff url(../../../themes/default/images/li_dbl_gray.gif) no-repeat 6px 10px;
-	padding:0 0 0 21px;
-	line-height:22px;
-}
-.segmentSelector ul li .segment{
-	cursor:pointer;
-	border-bottom:1px solid #d0d0d0;
-}
-.segmentSelector ul li.activeSegment .segment {
-	font-weight: bold;
-	border:0;
-}
-
