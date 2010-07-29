@@ -56,7 +56,7 @@ $(function() {
       	<label>{'Feedback_MyMessage'|translate}<br /><i>{'Feedback_DetailsPlease'|translate}</i></label>
         <textarea name="body" cols="57" rows="10"></textarea><br />
       	<label><a href="#" id="feedback-home"><img src="plugins/Feedback/images/go-previous.png" border="0" title="{'General_Previous'|translate}" alt="[{'General_Previous'|translate}]" /></a></label>
-      <input id="feedback-form-submit" class="feedback-submit" type="submit" value="{'Feedback_SendFeedback'|translate}" />
+      <input id="feedback-form-submit" type="submit" class='submit' value="{'Feedback_SendFeedback'|translate}" />
     </form>
   </div>
   <div id="feedback-sent" style="display:none;">

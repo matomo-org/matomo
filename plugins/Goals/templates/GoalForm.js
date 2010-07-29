@@ -2,9 +2,9 @@
 function showAddNewGoal()
 {
 	hideForms();
-	$("#entityAddContainer").show();
+	$(".entityAddContainer").show();
 	showCancel();
-	piwikHelper.lazyScrollTo("#entityContainer", 400);
+	piwikHelper.lazyScrollTo(".entityContainer", 400);
 	return false;
 }
 
@@ -13,13 +13,13 @@ function showEditGoals()
 	hideForms();
 	$("#entityEditContainer").show();
 	showCancel();
-	piwikHelper.lazyScrollTo("#entityContainer", 400);
+	piwikHelper.lazyScrollTo(".entityContainer", 400);
 	return false;
 }
 
 function hideForms()
 {
-	$("#entityAddContainer").hide();
+	$(".entityAddContainer").hide();
 	$("#entityEditContainer").hide();
 }
 
@@ -97,7 +97,7 @@ function bindGoalForm()
 function getAjaxDeleteGoal(idGoal)
 {
 	var ajaxRequest = piwikHelper.getStandardAjaxConf('goalAjaxLoading');
-	piwikHelper.lazyScrollTo("#entityContainer", 400);
+	piwikHelper.lazyScrollTo(".entityContainer", 400);
 	
 	var parameters = {};
 	parameters.idSite = piwik.idSite;
@@ -113,7 +113,7 @@ function getAjaxDeleteGoal(idGoal)
 function getAjaxAddGoal()
 {
 	var ajaxRequest = piwikHelper.getStandardAjaxConf('goalAjaxLoading');
-	piwikHelper.lazyScrollTo("#entityContainer", 400);
+	piwikHelper.lazyScrollTo(".entityContainer", 400);
 	var parameters = {};
 	
 	parameters.idSite = piwik.idSite;

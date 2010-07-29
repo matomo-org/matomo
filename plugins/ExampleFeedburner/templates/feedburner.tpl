@@ -63,7 +63,7 @@ $(document).ready(function(){
 </table>
 {/if}
 
-<center>
+<div class='center entityContainer'>
 	<input id="feedburnerName" type="text" value="{$feedburnerFeedName}" />
-	<input id="feedburnerSubmit" type="submit" value="{'General_Ok'|translate}" />
-</center>
+	<input class="submit" id="feedburnerSubmit" type="submit" value="{'General_Ok'|translate}" />
+</div>

@@ -114,7 +114,6 @@ class Piwik_View implements Piwik_iView
 	{
 		try {
 			$this->currentModule = Piwik::getModule();
-			$this->currentPluginName = Piwik::getCurrentPlugin()->getClassName();
 			$this->userLogin = Piwik::getCurrentUserLogin();
 			
 			$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess(Zend_Registry::get('config')->General->site_selector_max_sites);

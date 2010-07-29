@@ -1,4 +1,4 @@
-<div id='entityAddContainer' style="display:none;">
+<div class='entityAddContainer' style="display:none;">
 <form>
 <table class="dataTable entityTable">
 	<thead>
@@ -68,6 +68,6 @@
 </table>
         <input type="hidden" name="methodGoalAPI" value="" />	
         <input type="hidden" name="goalIdUpdate" value="" />
-        <input type="submit" value="" name="submit" id="goal_submit" class="but_submit" />
+        <input type="submit" value="" name="submit" id="goal_submit" class="submit" />
 </form>
 </div>

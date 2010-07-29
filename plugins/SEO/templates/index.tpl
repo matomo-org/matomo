@@ -6,7 +6,7 @@
 		  {'Installation_SetupWebSiteURL'|translate|ucfirst} 
 		  <input type="text" id="seoUrl" size="40" value="{$urlToRank}" class="textbox" />
 		  <span style="padding-left:2px;"> 
-		  <input type="submit" id ="rankbutton" value="{'SEO_Rank'|translate}" />
+		  <input type="submit" class="submit" id="rankbutton" value="{'SEO_Rank'|translate}" />
 		  </span>
 	  </div>
 	
