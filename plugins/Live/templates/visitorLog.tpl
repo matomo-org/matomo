@@ -96,7 +96,7 @@
 	<td class="column" style="width:55%" width="55%">
 			<strong>
 				{$visitor.columns.actionDetails|@count}
-				{if $visitor.columns.actionDetails|@count eq 1}
+				{if $visitor.columns.actionDetails|@count <= 1}
 					{'Live_Action'|translate} 
 				{else}
 					{'Live_Actions'|translate}

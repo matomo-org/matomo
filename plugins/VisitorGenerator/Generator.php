@@ -453,7 +453,7 @@ class Piwik_VisitorGenerator_Generator
 		$this->setCurrentRequest( 'url' ,$url);
 		
 		// setup the title of the page
-		$this->setCurrentRequest( 'action_name',$this->getRandomString(15,5));
+		$this->setCurrentRequest( 'action_name',$this->getRandomString(100,5));
 	}
 	
 	/**

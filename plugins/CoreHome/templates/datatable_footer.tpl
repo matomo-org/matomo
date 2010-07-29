@@ -6,16 +6,16 @@
 
 
 {if $properties.show_offset_information}
-<div>
+<span>
 	<span class="dataTablePages"></span>
-</div>
+</span>
 {/if}
 
 {if $properties.show_pagination_control}
-<div>
+<span>
 	<span class="dataTablePrevious">&lsaquo; {'General_Previous'|translate}</span>
 	<span class="dataTableNext">{'General_Next'|translate} &rsaquo;</span>
-</div>
+</span>
 {/if}
 
 {if $properties.show_search}
@@ -86,7 +86,7 @@
 	</div>
 {/if}
 
-<span class="pk-loadingDataTable"><img src="themes/default/images/loading-blue.gif" /> {'General_LoadingData'|translate}</span>
+<span class="loadingPiwik" style='display:none'><img src="themes/default/images/loading-blue.gif" /> {'General_LoadingData'|translate}</span>
 </div>
 
 <div class="dataTableSpacer" />

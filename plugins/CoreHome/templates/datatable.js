@@ -136,7 +136,7 @@ dataTable.prototype =
 	
 	// Function called to trigger the AJAX request 
 	// The ajax request contains the function callback to trigger if the request is successful or failed
-	// displayLoading = false When we don't want to display the Loading... DIV .pk-loadingDataTable
+	// displayLoading = false When we don't want to display the Loading... DIV .loadingPiwik
 	// for example when the script add a Loading... it self and doesn't want to display the generic Loading
 	reloadAjaxDataTable: function(displayLoading, callbackSuccess)
 	{
@@ -153,7 +153,7 @@ dataTable.prototype =
 		
 		if(displayLoading)
 		{
-			$('#'+self.workingDivId+' .pk-loadingDataTable').last().css('display','block');
+			$('#'+self.workingDivId+' .loadingPiwik').last().css('display','block');
 		}
 		
 		$.ajax(self.buildAjaxRequest(callbackSuccess));
@@ -696,24 +696,16 @@ dataTable.prototype =
 		if(typeof truncationOffset == 'undefined') {
 			truncationOffset = 0;
 		}
-		var truncationLimit = 30;
-		// in a subtable
-		if(typeof self.param.idSubtable != 'undefined')
-		{
-			truncationLimit = 25;
-		}
+		var truncationLimit = 50;
+/*		Different truncation limit for different datatable types?
+ 		// in a subtable
+		if(typeof self.param.idSubtable != 'undefined') {}
 		// when showing all columns
 		if(typeof self.param.idSubtable == 'undefined'
-			&& self.param.viewDataTable == 'tableAllColumns')
-		{
-			truncationLimit = 17;
-		}
+			&& self.param.viewDataTable == 'tableAllColumns') {}
 		// when showing all columns in a subtable, space is restricted
-		else if(self.param.viewDataTable == 'tableAllColumns')
-		{
-			truncationLimit = 10;
-		}
-		
+		else if(self.param.viewDataTable == 'tableAllColumns') {}		
+*/		
 		truncationLimit += truncationOffset;
 
 		$(domElemToTruncate).truncate(truncationLimit);
@@ -760,7 +752,7 @@ dataTable.prototype =
 					'<tr>'+
 						'<td colspan="'+numberOfColumns+'" class="cellSubDataTable">'+
 							'<div id="'+divIdToReplaceWithSubTable+'">'+
-								'<span class="pk-loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif" />'+ _pk_translate('General_Loading_js') +'</span>'+
+								'<span class="loadingPiwik" style="display:inline"><img src="themes/default/images/loading-blue.gif" />'+ _pk_translate('General_Loading_js') +'</span>'+
 							'</div>'+
 						'</td>'+
 					'</tr>'
@@ -964,7 +956,7 @@ actionDataTable.prototype =
 			$(domElem).after( '\
 			<tr id="'+divIdToReplaceWithSubTable+'" class="cellSubDataTable">\
 				<td colspan="'+numberOfColumns+'">\
-						<span class="pk-loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif" /> Loading...</span>\
+						<span class="loadingPiwik" style="display:inline"><img src="themes/default/images/loading-blue.gif" /> Loading...</span>\
 				</td>\
 			</tr>\
 			');
