@@ -61,7 +61,7 @@
 		$("#visitsTotal").load("index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=ajaxTotalVisitors");
 	}
 
-	// updates the visit table, to refresh the already presented visotors pages
+	// updates the visit table, to refresh the already presented visitors pages
 	function updateVisitBox()
 	{
 		$("#visitsLive").load("index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=getLastVisitsStart");
@@ -79,66 +79,57 @@
 </script>
 
 <style>
-#visitsLive {
-	text-align:left;
-	font-size:90%;
-}
-#visitsLive .datetime, #visitsLive .country, #visitsLive .referer, #visitsLive .settings, #visitsLive .returning , #visitsLive .countActions{
-	border-bottom:1px solid #C1DAD7;
-	border-right:1px solid #C1DAD7;
-	padding:5px 5px 5px 12px;
-}
-
-#visitsLive .datetime {
-	background:#D4E3ED url(plugins/CoreHome/templates/images/bg_header.jpg) repeat-x scroll 0 0;
-	border-top:1px solid #C1DAD7;
-	color:#6D929B;
-	margin:0;
-	text-align:left;
+ #visitsLive {
+        text-align:left;
+        font-size:90%;
+        color:#444444;
+ }
+ #visitsLive .datetime, #visitsLive .country, #visitsLive .referer, #visitsLive .settings, #visitsLive .returning , #visitsLive .countActions{
+        border-bottom: 1px solid #d3d1c5;
+        border-right:1px solid #d3d1c5;
+        padding:5px 5px 5px 12px;
 }
 
-#visitsLive .country {
-	color:#4F6B72;
-	background:#FFFFFF url(plugins/CoreHome/templates/images/bullet1.gif) no-repeat scroll 0 0;
+ #visitsLive .datetime {
+        background:#E4E2D7;
+        border-top:1px solid #d3d1c5;
+        margin:0;
+        text-align:left;
 }
 
-#visitsLive .referer {
-	background:#F9FAFA none repeat scroll 0 0;
-	color:#797268;
+ #visitsLive .country {
+        background:#FFFFFF url(plugins/CoreHome/templates/images/bullet1.gif) no-repeat scroll 0 0;
 }
 
-#visitsLive .pagesTitle {
-	display:block;
-	float:left;
-	padding-top: 3px;
+ #visitsLive .referer {
+        background:#F9FAFA none repeat scroll 0 0;
 }
 
-#visitsLive .countActions {
-	background:#FFFFFF none repeat scroll 0 0;
-	color:#4F6B72;
+#visitsLive .referer:hover {
+        background:#FFFFF7;
 }
 
-#visitsLive .settings {
-	background:#FFFFFF none repeat scroll 0 0;
-	color:#4F6B72;
+ #visitsLive .pagesTitle {
+         display:block;
+         float:left;
 }
 
-#visitsLive .returning {
-	background:#F9FAFA none repeat scroll 0 0;
-	color:#797268;
-}
+ #visitsLive .countActions {
+         background:#FFFFFF none repeat scroll 0 0;
+ }
 
-#visitsLive .visit {
-}
+ #visitsLive .settings {
+         background:#FFFFFF none repeat scroll 0 0;
+ }
 
-#visitsLive .alt {
-}
+ #visitsLive .returning {
+         background:#F9FAFA none repeat scroll 0 0;
+ }
 
-#visitsLive .actions {
-	background:#F9FAFA none repeat scroll 0 0;
-	color:#797268;
-	padding:0px 5px 0px 12px;
-}
+ .visitsLiveFooter a.rightLink{
+         float:right;
+         padding-right:20px;
+ }
 
 </style>
 {/literal}
@@ -175,7 +166,8 @@
 {$visitors}
 </div>
 
-<div>
+<div class="visitsLiveFooter">
 	<a href="javascript:void(0);" onclick="onClickPause();"><img id="pauseImage" border="0" src="plugins/Live/templates/images/pause_disabled.gif" /></a>
 	<a href="javascript:void(0);" onclick="onClickPlay();"><img id="playImage" border="0" src="plugins/Live/templates/images/play.gif" /></a>
+	&nbsp; <a class="rightLink" href="javascript:broadcast.propagateAjax('module=Live&action=getLastVisitsDetails')">{'Live_LinkVisitorLog'|translate}</a>
 </div>

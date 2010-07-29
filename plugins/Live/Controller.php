@@ -30,7 +30,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 	public function widget($fetch = false)
 	{
 		$view = Piwik_View::factory('index');
-		$view->idSite = Piwik_Common::getRequestVar('idSite');		
+		$view->idSite = Piwik_Common::getRequestVar('idSite');
 		$view->visitorsCountHalfHour = $this->getUsersInLastXMin(30);
 		$view->visitorsCountToday = $this->getUsersInLastXDays(1);
 		$view->pisHalfhour = $this->getPageImpressionsInLastXMin(30);
@@ -42,55 +42,24 @@ class Piwik_Live_Controller extends Piwik_Controller
 
 	public function getLastVisitsDetails($fetch = false)
 	{
-		$view = Piwik_ViewDataTable::factory('');
+		$view = Piwik_ViewDataTable::factory();
 		$view->init( $this->pluginName,
 							__FUNCTION__,
-						'Live.getLastVisitsDetails',
-						'getPagesFromVisitId');
-// All colomns in DB which could be shown
-//'ip', 'idVisit', 'countActions', 'isVisitorReturning', 'country', 'countryFlag', 'continent', 'provider', 'providerUrl', 'idSite',
-//'serverDate', 'visitLength', 'visitLengthPretty', 'firstActionTimestamp', 'lastActionTimestamp', 'refererType', 'refererName',
-//'keywords', 'refererUrl', 'searchEngineUrl', 'searchEngineIcon', 'operatingSystem', 'operatingSystemShortName', 'operatingSystemIcon',
-//'browserFamily', 'browserFamilyDescription', 'browser', 'browserIcon', 'screen', 'resolution', 'screenIcon', 'plugins', 'lastActionDateTime',
-//'serverDatePretty', 'serverTimePretty', 'actionDetails'
+						'Live.getLastVisitsDetails');
 
-		$view->setColumnsToDisplay(array(
-			'idVisit',
-			'serverDatePretty',
-			'serverTimePretty',
-			'ip',
-			'countActions',
-			'visitLengthPretty',
-			'keywords',
-			'refererUrl',
-			'operatingSystemShortName',
-			'browser',
-			'screen',
-			'resolution',
-			'plugins',
-		));
-
-		$view->setColumnsTranslations(array(
-			'idVisit' => Piwik_Translate(''),
-			'serverDatePretty' => Piwik_Translate('Live_Date'),
-			'serverTimePretty' => Piwik_Translate('Live_Time'),
-			'ip' => 'IP',
-			'countActions' => Piwik_Translate('VisitorInterest_ColumnPagesPerVisit'),
-			'visitLengthPretty' => Piwik_Translate('VisitorInterest_ColumnVisitDuration'),
-			'keywords' => Piwik_Translate('Referers_ColumnKeyword'),
-			'refererUrl' => Piwik_Translate('Live_Referrer_URL'),
-			'operatingSystemShortName' => Piwik_Translate('UserSettings_ColumnOperatingSystem'),
-			'browser' => Piwik_Translate('UserSettings_ColumnBrowser'),
-			'screen' => Piwik_Translate('UserSettings_ColumnTypeOfScreen'),
-			'resolution' => Piwik_Translate('UserSettings_ColumnResolution'),
-			'plugins' => Piwik_Translate('UserSettings_ColumnPlugin'),
-		));
+		// All colomns in DB which could be shown
+		//'ip', 'idVisit', 'countActions', 'isVisitorReturning', 'country', 'countryFlag', 'continent', 'provider', 'providerUrl', 'idSite',
+		//'serverDate', 'visitLength', 'visitLengthPretty', 'firstActionTimestamp', 'lastActionTimestamp', 'refererType', 'refererName',
+		//'keywords', 'refererUrl', 'searchEngineUrl', 'searchEngineIcon', 'operatingSystem', 'operatingSystemShortName', 'operatingSystemIcon',
+		//'browserFamily', 'browserFamilyDescription', 'browser', 'browserIcon', 'screen', 'resolution', 'screenIcon', 'plugins', 'lastActionDateTime',
+		//'serverDatePretty', 'serverTimePretty', 'actionDetails'
 
 		$view->disableSort();
-		$view->setLimit(10);
-		$view->disableExcludeLowPopulation();
+		$view->setLimit(20);
+		$view->setTemplate("Live/templates/visitorLog.tpl");
 		$view->setSortedColumn('idVisit', 'ASC');
 		$view->disableSearchBox();
+		$view->disableOffsetInformation();
 		// "Include low population" link won't be displayed under this table
 		$view->disableExcludeLowPopulation();
 		// disable the tag cloud,  pie charts, bar chart icons
@@ -101,22 +70,11 @@ class Piwik_Live_Controller extends Piwik_Controller
 		return $this->renderView($view, $fetch);
 	}
 
-	function getPagesFromVisitId( $fetch = false)
-	{
-		$view = Piwik_ViewDataTable::factory('');
-		$view->init( $this->pluginName,
-							__FUNCTION__,
-						'Live.getLastVisitsForVisitor',
-						'getPagesFromVisitId');
-
-		return $this->renderView($view, $fetch);
-	}
-
 	public function getLastVisitsStart($fetch = false)
 	{
 		$view = Piwik_View::factory('lastVisits');
-		$view->idSite = Piwik_Common::getRequestVar('idSite');		
-		
+		$view->idSite = Piwik_Common::getRequestVar('idSite');
+
 		$view->visitors = $this->getLastVisits(10);
 
 		$rendered = $view->render($fetch);
@@ -167,7 +125,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 	public function ajaxTotalVisitors($fetch = false)
 	{
 		$view = Piwik_View::factory('totalVisits');
-		$view->idSite = Piwik_Common::getRequestVar('idSite');		
+		$view->idSite = Piwik_Common::getRequestVar('idSite');
 		$view->visitorsCountHalfHour = $this->getUsersInLastXMin(30);
 		$view->visitorsCountToday = $this->getUsersInLastXDays(1);
 		$view->pisHalfhour = $this->getPageImpressionsInLastXMin(30);
@@ -179,6 +137,6 @@ class Piwik_Live_Controller extends Piwik_Controller
 		{
 			return $rendered;
 		}
-		echo $rendered;	
+		echo $rendered;
 	}
 }
