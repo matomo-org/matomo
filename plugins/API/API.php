@@ -295,7 +295,7 @@ class Piwik_API_API
     	);
     }
     
-    private function handleTableReport($idSite, $period, $dataTable, $reportMetadata)
+    private function handleTableReport($idSite, $period, $dataTable, &$reportMetadata)
     {
     	// displayed columns
     	$columns = array_merge(
@@ -306,6 +306,7 @@ class Piwik_API_API
     	if($period != 'day')
     	{
     		unset($columns['nb_uniq_visitors']);
+    		unset($reportMetadata['metrics']['nb_uniq_visitors']);
     	}
     
         if(isset($reportMetadata['processedMetrics']))
