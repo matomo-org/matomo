@@ -55,7 +55,7 @@ class Piwik_LanguagesManager_API
 			return $this->languageNames;
 		}
 		$path = PIWIK_INCLUDE_PATH . "/lang/";
-		$languages = @glob($path . "*.php");
+		$languages = _glob($path . "*.php");
 		$pathLength = strlen($path);
 		$languageNames = array();
 		if($languages)

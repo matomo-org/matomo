@@ -729,7 +729,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			'debug_backtrace',
 			'create_function',
 			'eval',
-			'glob',
 		);
 		$infos['needed_functions'] = $needed_functions;
 		$infos['missing_functions'] = array();
@@ -746,6 +745,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			'set_time_limit',
 			'mail',
 			'parse_ini_file',
+			'glob',
 		);
 		$infos['desired_functions'] = $desired_functions;
 		$infos['missing_desired_functions'] = array();
