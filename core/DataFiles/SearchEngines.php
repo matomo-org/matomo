@@ -114,11 +114,11 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'apollo.lv/portal/search/'	=> array('Apollo lv', 'q', '?cof=FORID%3A11&q={k}&search_where=www'),
 
 		// APOLLO7
-		'www.apollo7.de'			=> array('Apollo7', 'query'),
+		'www.apollo7.de'			=> array('Apollo7', 'query', 'a7db/index.php?query={k}&de_sharelook=true&de_bing=true&de_witch=true&de_google=true&de_yahoo=true&de_lycos=true'),
 		'apollo7.de'				=> array('Apollo7', 'query'),
 
 		// AOL
-		'search.aol.com'			=> array('AOL', array('query', 'q'), 'aol/search?query={k}'),
+		'search.aol.com'			=> array('AOL', array('query', 'q'), 'aol/search?q={k}'),
 		'aolsearch.aol.com'			=> array('AOL', array('query', 'q')),
 		'www.aolrecherche.aol.fr'	=> array('AOL', array('query', 'q')),
 		'www.aolrecherches.aol.fr'	=> array('AOL', array('query', 'q')),
@@ -142,13 +142,13 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search.hp.my.aol.de'		=> array('AOL', array('query', 'q')),
 
 		// Aport
-		'sm.aport.ru'				=> array('Aport', 'r'),
+		'sm.aport.ru'				=> array('Aport', 'r', 'search?r={k}'),
 
 		// Arcor
-		'www.arcor.de'				=> array('Arcor', 'Keywords'),
+		'www.arcor.de'				=> array('Arcor', 'Keywords', 'content/searchresult.jsp?Keywords={k}'),
 
 		// Arianna (Libero.it)
-		'arianna.libero.it'			=> array('Arianna', 'query'),
+		'arianna.libero.it'			=> array('Arianna', 'query', 'search/abin/integrata.cgi?query={k}'),
 
 		// Ask
 		'www.ask.com'				=> array('Ask', array('ask', 'q'), 'web?q={k}'),
@@ -162,16 +162,17 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'es.ask.com'				=> array('Ask', 'q'),
 		'it.ask.com'				=> array('Ask', 'q'),
 		'nl.ask.com'				=> array('Ask', 'q'),
-		'ask.jp'					=> array('Ask', 'q'),
+		'jp.ask.com'				=> array('Ask', 'q'),
 
 		// Atlas
-		'search.atlas.cz'			=> array('Atlas', 'q', '?q={k}', 'windows-1250'),
+		'searchatlas.centrum.cz'	=> array('Atlas', 'q', '?q={k}'),
 
 		// Austronaut
-		'www2.austronaut.at'		=> array('Austronaut', 'begriff'),
-
+		'www2.austronaut.at'		=> array('Austronaut', 'q'),
+		'www1.austronaut.at'		=> array('Austronaut', 'q'),
+	
 		// Babylon
-		'search.babylon.com'		=> array('Babylon (Powered by Google)', 'q'),
+		'search.babylon.com'		=> array('Babylon (Powered by Google)', 'q', '?q={k}'),
 
 		// Baidu
 		'www.baidu.com'				=> array('Baidu', array('wd', 'word', 'kw'), 's?wd={k}', 'gb2312'),
