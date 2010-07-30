@@ -43,18 +43,26 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.1.cz'					=> array('1.cz', 'q', false, 'iso-8859-2'),
 
 		// 123people
-		'www.123people.com'			=> array('123people', 'search_term'),
-		'www.123people.de'			=> array('123people', 'search_term'),
-		'www.123people.es'			=> array('123people', 'search_term'),
-		'www.123people.fr'			=> array('123people', 'search_term'),
+		'www.123people.com'			=> array('123people', '', 's/{k}'),
+		'www.123people.de'			=> array('123people', ''),
+		'www.123people.es'			=> array('123people', ''),
+		'www.123people.fr'			=> array('123people', ''),
 
 		// 1und1
-		'portal.1und1.de'			=> array('1und1', 'search'),
-		'search.1und1.de'			=> array('1und1', 'su', 'search/web/?mc=suche%40web%40home.suche%40web&allparams=&smode=&su={k}&search=Suche&webRb='),
+		'search.1und1.de'			=> array('1und1', 'su', 'search/web/?su={k}'),
 
 		// Abacho
-		'search.abacho.com'			=> array('Abacho', 'q', 'suche?q={k}'),
-
+		'www.abacho.de'				=> array('Abacho', 'q', 'suche?q={k}'),
+		'www.abacho.com'			=> array('Abacho', 'q', '?q={k}&id=87'),
+		'www.abacho.co.uk'			=> array('Abacho', 'q', '?q={k}&id=94'),
+		'www.se.abacho.com'			=> array('Abacho', 'q', '?q={k}&id=98'),
+		'www.tr.abacho.com'			=> array('Abacho', 'q', '?q={k}&id=114'),
+		'www.abacho.at'				=> array('Abacho', 'q', 'suche?q={k}'),
+		'www.abacho.fr'				=> array('Abacho', 'q', '?q={k}&id=102'),
+		'www.abacho.es'				=> array('Abacho', 'q', '?q={k}&id=106'),
+		'www.abacho.ch'				=> array('Abacho', 'q', 'suche?q={k}'),
+		'www.abacho.it'				=> array('Abacho', 'q', '?q={k}&id=110'),
+	
 		// ABCsøk
 		'abcsok.no'					=> array('ABCsøk', 'q', '?q={k}'),
 		'www.abcsok.no'				=> array('ABCsøk', 'q'),
