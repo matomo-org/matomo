@@ -219,7 +219,7 @@ class Piwik_API_Proxy
 					}
 				}
 			} catch(Exception $e) {
-				throw new Exception(Piwik_TranslateException('General_ExceptionVariableNotFound', array($name)));
+				throw new Exception(Piwik_TranslateException('General_PleaseSpecifyValue', array($name)));
 			}
 			$finalParameters[] = $requestValue;
 		}
