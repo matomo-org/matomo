@@ -112,6 +112,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			'set_time_limit'  => 'Installation_SystemCheckTimeLimitHelp',
 			'mail'            => 'Installation_SystemCheckMailHelp',
 			'parse_ini_file'  => 'Installation_SystemCheckParseIniFileHelp',
+			'glob'            => 'Installation_SystemCheckGlobHelp',
 			'debug_backtrace' => 'Installation_SystemCheckDebugBacktraceHelp',
 			'create_function' => 'Installation_SystemCheckCreateFunctionHelp',
 			'eval'            => 'Installation_SystemCheckEvalHelp',
@@ -744,6 +745,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			'set_time_limit',
 			'mail',
 			'parse_ini_file',
+			'glob',
 		);
 		$infos['desired_functions'] = $desired_functions;
 		$infos['missing_desired_functions'] = array();

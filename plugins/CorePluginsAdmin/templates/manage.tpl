@@ -18,7 +18,7 @@
 	</thead>
 	<tbody id="plugins">
 	{foreach from=$pluginsName key=name item=plugin}
-	{if !$plugin.alwaysActivated}
+	{if isset($plugin.alwaysActivated) && !$plugin.alwaysActivated}
 		<tr class={if $plugin.activated}"active"{else}"deactivate"{/if}>
 			<td class="name">
 				{if isset($plugin.info.homepage)}<a title="{'CorePluginsAdmin_PluginHomepage'|translate}" href="{$plugin.info.homepage}">{/if}

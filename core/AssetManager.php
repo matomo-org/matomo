@@ -368,9 +368,9 @@ class Piwik_AssetManager
 	{	
 		$mergedFileDirectory = self::getMergedFileDirectory();
 		
-		$matchingFiles = glob( $mergedFileDirectory . "*." . $type );
+		$matchingFiles = @glob( $mergedFileDirectory . "*." . $type );
 		
-		if($matchingFiles === false)
+		if($matchingFiles == false)
 		{
 			return false;
 		}
