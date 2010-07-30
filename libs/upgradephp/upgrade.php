@@ -553,3 +553,72 @@ if(function_exists('parse_ini_file')) {
 		return $result + $globals;
 	}
 }
+
+/**
+ * fnmatch() replacement
+ *
+ * @since fnmatch() added to PHP 4.3.0; PHP 5.3.0 on Windows
+ * @author jk at ricochetsolutions dot com
+ * @author anthon (dot) pang (at) gmail (dot) com
+ *
+ * @param string $pattern shell wildcard pattern
+ * @param string $string tested string
+ * @param int $flags FNM_CASEFOLD (other flags not supported)
+ * @return bool True if there is a match, false otherwise
+ */
+if(!defined('FNM_CASEFOLD')) { define('FNM_CASEFOLD', 16); }
+if(function_exists('fnmatch')) {
+	// provide a wrapper
+	function _fnmatch($pattern, $string, $flags = 0) {
+		return fnmatch($pattern, $string, $flags);
+	}
+} else {
+    function _fnmatch($pattern, $string, $flags = 0) {
+		$regex = '#^' . strtr(preg_quote($pattern, '#'), array('\*' => '.*', '\?' => '.')) . '$#' . ($flags & FNM_CASEFOLD ? 'i' : '');
+		return preg_match($regex, $string);
+    }
+}
+
+/**
+ * glob() replacement.
+ * Behaves like glob($pattern, $flags)
+ *
+ * @author BigueNique AT yahoo DOT ca
+ * @author anthon (dot) pang (at) gmail (dot) com
+ *
+ * @param string $pattern
+ * @param int $flags GLOBL_ONLYDIR, GLOB_MARK, GLOB_NOSORT (other flags not supported; defaults to 0)
+ * @return array
+ */
+if(function_exists('glob')) {
+	// provide a wrapper
+	function _glob($pattern, $flags = 0) {
+		return glob($pattern, $flags);
+	}
+} else if(function_exists('opendir') && function_exists('readdir')) {
+	// we can't redefine glob() if it has been disabled
+	function _glob($pattern, $flags = 0) {
+		$path = dirname($pattern);
+		$filePattern = basename($pattern);
+		if(is_dir($path) && ($handle = opendir($path)) !== false) {
+			$matches = array();
+			while(($file = readdir($handle)) !== false) {
+				if(($file[0] != '.')
+						&& _fnmatch($filePattern, $file)
+						&& (!($flags & GLOB_ONLYDIR) || is_dir("$path/$file"))) {
+					$matches[] = "$path/$file" . ($flags & GLOB_MARK ? '/' : '');
+				}	
+			}
+			closedir($handle);
+			if(!($flags & GLOB_NOSORT)) {
+				sort($matches);
+			}
+			return $matches;
+		}
+		return false;
+	}
+} else {
+	function _glob($pattern, $flags = 0) {
+		return false;
+	}
+}
