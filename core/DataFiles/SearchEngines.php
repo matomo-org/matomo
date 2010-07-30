@@ -78,12 +78,12 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'alexa.com'					=> array('Alexa', 'q'),
 
 		// Alice Adsl
-		'rechercher.aliceadsl.fr'	=> array('Alice Adsl', 'qs'),
-		'search.alice.it'			=> array('Alice (powered by Virgilio)', 'qt'),
-		'ricerca.alice.it'			=> array('Alice (powered by Virgilio)', 'qs'),
+		'rechercher.aliceadsl.fr'	=> array('Alice Adsl', 'qs', 'google.pl?qs={k}'),
 
 		// Allesklar
 		'www.allesklar.de'			=> array('Allesklar', 'words', '?words={k}'),
+		'www.allesklar.at'			=> array('Allesklar', 'words'),
+		'www.allesklar.ch'			=> array('Allesklar', 'words'),
 
 		// AllTheWeb
 		'www.alltheweb.com'			=> array('AllTheWeb', 'q', 'search?q={k}'),
@@ -827,6 +827,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Ixquick
 		'ixquick.com'				=> array('Ixquick', 'query'),
 		'www.eu.ixquick.com'		=> array('Ixquick', 'query'),
+		'ixquick.de'				=> array('Ixquick', 'query'),
+		'www.ixquick.de'			=> array('Ixquick', 'query'),
 		'us.ixquick.com'			=> array('Ixquick', 'query'),
 		's1.us.ixquick.com'			=> array('Ixquick', 'query'),
 		's2.us.ixquick.com'			=> array('Ixquick', 'query'),
@@ -834,6 +836,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		's4.us.ixquick.com'			=> array('Ixquick', 'query'),
 		's5.us.ixquick.com'			=> array('Ixquick', 'query'),
 		'eu.ixquick.com'			=> array('Ixquick', 'query'),
+		's8-eu.ixquick.com'			=> array('Ixquick', 'query'),
+		's1-eu.ixquick.de'			=> array('Ixquick', 'query'),
 
 		// Jyxo
 		'jyxo.cz'					=> array('Jyxo', 'q'),
