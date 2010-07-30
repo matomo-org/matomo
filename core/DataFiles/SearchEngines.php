@@ -180,81 +180,51 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'zhidao.baidu.com'			=> array('Baidu', array('wd', 'word', 'kw'), false, 'gb2312'),
 		'tieba.baidu.com'			=> array('Baidu', array('wd', 'word', 'kw'), false, 'gb2312'),
 		'news.baidu.com'			=> array('Baidu', array('wd', 'word', 'kw'), false, 'gb2312'),
-		'web.gougou.com'			=> array('Baidu', 'search'),
-
-		// BBC
-		'search.bbc.co.uk'			=> array('BBC', 'q'),
-
+		'web.gougou.com'			=> array('Baidu', 'search', 'search?search={k}', 'gb2312'), // uses baidu search
+	
 		// Bellnet
-		'www.suchmaschine.com'		=> array('Bellnet', 'suchstr'),
+		'www.suchmaschine.com'		=> array('Bellnet', 'suchstr', 'cgi-bin/bellnet.cgi?suchstr={k}'),
 
 		// Biglobe
-		'cgi.search.biglobe.ne.jp'	=> array('Biglobe', 'q'),
-
-		// Bild
-		'www.bild.t-online.de'		=> array('Bild.de (enhanced by Google)', 'query'),
+		'cgi.search.biglobe.ne.jp'	=> array('Biglobe', 'q', 'cgi-bin/search-st?q={k}'),
 
 		// Bing
 		'www.bing.com'				=> array('Bing', 'q', 'search?q={k}'),
 
 		// Bing Images
-		'www.bing.com/images/search'=> array('Bing Images', 'q', 'search?q={k}'),
+		'www.bing.com/images/search'=> array('Bing Images', 'q', '?q={k}'),
 
 		// Blogdigger
 		'www.blogdigger.com'		=> array('Blogdigger', 'q'),
 
-		// Bloglines
-		'www.bloglines.com'			=> array('Bloglines', 'q'),
-
 		// Blogpulse
-		'www.blogpulse.com'			=> array('Blogpulse', 'query'),
+		'www.blogpulse.com'			=> array('Blogpulse', 'query', 'search?query={k}'),
 
 		// Bluewin
-		'search.bluewin.ch'			=> array('Bluewin', 'query'),
-
-		// Caloweb
-		'www.caloweb.de'			=> array('Caloweb', 'q'),
-
-		// Cegetel (Google)
-		'www.cegetel.net'			=> array('Cegetel (Google)', 'q'),
+		'search.bluewin.ch'			=> array('Bluewin', 'searchTerm', '?searchTerm={k}'),
 
 		// Centrum
-		'search.centrum.cz'			=> array('Centrum', 'q', 'index.php?q={k}', 'windows-1250'),
-		'fulltext.centrum.cz'		=> array('Centrum', 'q', false, 'windows-1250'),
-		'morfeo.centrum.cz'			=> array('Centrum', 'q', false, 'windows-1250'),
-
-		// Chello
-		'www.chello.fr'				=> array('Chello', 'q1'),
-
-		// Club Internet
-		'recherche.club-internet.fr'=> array('Club Internet', 'q'),
-
-		// Clusty
-		'clusty.com'				=> array('Clusty', 'query', 'search?query={k}'),
+		'search.centrum.cz'			=> array('Centrum', 'q', '?q={k}'),
+		'morfeo.centrum.cz'			=> array('Centrum', 'q', false),
 
 		// Conduit
 		'search.conduit.com'		=> array('Conduit.com', 'q', 'Results.aspx?q={k}'),
 
 		// Comcast
-		'www.comcast.net'			=> array('Comcast', 'query'),
-		'search.comcast.net'		=> array('Comcast', 'q'),
-		'search3.comcast.com'		=> array('Comcast', 'url'),
+		'search.comcast.net'		=> array('Comcast', 'q', '?q={k}'),
 
 		// Compuserve
-		'suche.compuserve.de'		=> array('Compuserve.de (Powered by Google)', 'q'),
-		'websearch.cs.com'			=> array('Compuserve.com (Enhanced by Google)', 'query'),
+		'websearch.cs.com'			=> array('Compuserve.com (Enhanced by Google)', 'query', 'cs/search?query={k}'),
 
 		// Copernic
-		'metaresults.copernic.com'	=> array('Copernic', ' '),
-
-		// Crossbot
-		'www.crossbot.de'			=> array('Crossbot', 'q'),
+		'ws.copernic.com'			=> array('Copernic', ''),
 
 		// Cuil
 		'www.cuil.com'				=> array('Cuil', 'q', 'search?q={k}'),
 
 		// Daemon search
 		'www.daemon-search.com'		=> array('Daemon search', 'q', 'explore/web?q={k}'),
+		'daemon-search.com'			=> array('Daemon search', 'q', false),
 
 		// DasOertliche
 		'www.dasoertliche.de'		=> array('DasOertliche', 'kw'),
