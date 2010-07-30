@@ -166,6 +166,10 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 							unset($row[$widgetId]);
 						}
 					}
+					else
+					{
+						unset($row[$widgetId]);
+					}
 				}
 			}
 			$layout = json_encode($layoutObject);
