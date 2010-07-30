@@ -35,14 +35,14 @@ class Piwik_UserCountryMap extends Piwik_Plugin
 
 /**
  *
- * @package Piwik_ExamplePlugin
+ * @package Piwik_UserCountryMap
  */
 class Piwik_UserCountryMap_Controller extends Piwik_Controller
 {
 	function worldMap()
 	{
 		$view = Piwik_View::factory('worldmap');
-
+		
 		$view->dataUrl = "?module=API"
 			. "&method=API.getProcessedReport&format=XML"
 			. "&apiModule=UserCountry&apiAction=getCountry"
@@ -51,15 +51,15 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 			. "&date=" . Piwik_Common::getRequestVar('date')
 			. "&token_auth=" . Piwik::getCurrentUserTokenAuth()
 			. "&filter_limit=-1";
-
+		
 		// definition of the color scale
-		$view->hueMin = 218;
-		$view->hueMax = 216;
-		$view->satMin = "0.22";
+		$view->hueMin = 218; 	
+		$view->hueMax = 216; 	
+		$view->satMin = "0.22"; 	
 		$view->satMax = "0.9";
 		$view->lgtMin = ".97";
 		$view->lgtMax = ".4";
-
+		
 		$request = new Piwik_API_Request(
 			'method=API.getMetadata&format=PHP'
 			. '&apiModule=UserCountry&apiAction=getCountry'
@@ -70,22 +70,22 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 			. '&filter_limit=-1'
 		);
 		$metaData = $request->process();
-
+		
 		$metrics = array();
 		foreach ($metaData[0]['metrics'] as $id => $val)
 		{
 			$metrics[] = array($id, $val);
-		}
-		foreach ($metaData[0]['processedMetrics'] as $id => $val)
+		} 
+		foreach ($metaData[0]['processedMetrics'] as $id => $val) 
 		{
 			$metrics[] = array($id, $val);
 		}
-
+		
 		$view->metrics = $metrics;
 		$view->defaultMetric = 'nb_visits';
 		echo $view->render();
 	}
-
+	
 	/*
 	 * shows the traditional extra page where the user
 	 * is able to download the exported image via right - click
@@ -95,10 +95,10 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 	function exportImage()
 	{
 		$view = Piwik_View::factory('exportImage');
-		$view->imageData = 'data:image/png;base64,'.$_POST['imageData'];
+		$view->imageData = 'data:image/png;base64,'.$_POST['imageData'];		
 		echo $view->render();
 	}
-
+	
 	/*
 	 * this outputs the image straight forward and is directly called
 	 * via flash download process
@@ -109,7 +109,12 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 		echo base64_decode($_POST['imagedata']);
 		exit;
 	}
-
+	
+	/*
+	 * debug mode for worldmap
+	 * helps to find JS bugs in IE8
+	 */
+	/*
 	function debug()
 	{
 		echo '<html><head><title>DEBUG: world map</title>';
@@ -118,5 +123,6 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 		echo '</head><body><div id="widgetUserCountryMapworldMap" style="width:600px;">';
 		echo $this->worldMap();
 		echo '</div></body></html>';
-	}
+	} 
+	// */
 }
