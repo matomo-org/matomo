@@ -194,8 +194,8 @@ class Piwik_Updater
 				$pathToUpdates = sprintf($this->pathUpdateFilePlugins, $name) . '*.php';
 			}
 			
-			$files = glob( $pathToUpdates );
-			if($files === false)
+			$files = @glob( $pathToUpdates );
+			if($files == false)
 			{
 				$files = array();
 			}

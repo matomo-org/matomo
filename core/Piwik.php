@@ -229,11 +229,11 @@ class Piwik
 	 */
 	public static function globr($sDir, $sPattern, $nFlags = NULL)
 	{
-		if(($aFiles = glob("$sDir/$sPattern", $nFlags)) == false)
+		if(($aFiles = @glob("$sDir/$sPattern", $nFlags)) == false)
 		{
 			$aFiles = array();
 		}
-		if(($aDirs = glob("$sDir/*", GLOB_ONLYDIR)) != false)
+		if(($aDirs = @glob("$sDir/*", GLOB_ONLYDIR)) != false)
 		{
 			foreach ($aDirs as $sSubDir)
 			{
