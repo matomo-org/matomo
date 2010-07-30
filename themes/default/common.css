@@ -514,7 +514,9 @@ a {
 	-moz-border-radius:0px!important;
 	-webkit-border-radius:0px!important;
 }
-
+.ui-datepicker select {
+	padding:0;	
+}
 
 .ui-datepicker-header .ui-icon-circle-triangle-w{ 
 	background: url(images/datepicker_arr_l.png) no-repeat 5px 4px!important;
