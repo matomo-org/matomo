@@ -2,7 +2,8 @@
 # Description
 # This powershell script will automatically run Piwik archiving for whatever
 # frequency you set it up to run, it is recommended that is be every 1 hour
-# or 3600 seconds.
+# or 3600 seconds. The script will also run scheduled tasks configured within 
+# piwik using the event hook 'TaskScheduler.getScheduledTasks'
 
 # It automatically fetches the Super User token_auth 
 # and triggers the archiving for all websites for all periods.
@@ -86,3 +87,11 @@ foreach($ID_SITE in $ID_SITES)
 }
 
 Write-Host "Piwik archiving finished."
+
+Write-Host "Starting Scheduled tasks..."
+Write-Host ""
+
+	& $PHP_BIN -c $PHP_INI "$PIWIK_PATH" "--" "module=API&method=CoreAdminHome.runScheduledTasks&format=csv&convertToUnicode=0&token_auth=$TOKEN_AUTH"
+
+Write-Host ""	
+Write-Host "Finished Scheduled tasks."
