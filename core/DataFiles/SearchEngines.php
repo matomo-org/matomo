@@ -230,25 +230,16 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.dasoertliche.de'		=> array('DasOertliche', 'kw'),
 
 		// DasTelefonbuch
-		'www.4call.dastelefonbuch.de'=> array('DasTelefonbuch', 'kw'),
-
-		// Defind.de
-		'suche.defind.de'			=> array('Defind.de', 'search'),
+		'www1.dastelefonbuch.de'	=> array('DasTelefonbuch', 'kw'),
 
 		// Delfi Latvia
-		'smart.delfi.lv'			=> array('Delfi lv', 'q'),
+		'smart.delfi.lv'			=> array('Delfi lv', 'q', 'find?q={k}'),
 
 		// Delfi
-		'otsing.delfi.ee'			=> array('Delfi EE', 'q'),
-
-		// Deskfeeds
-		'www.deskfeeds.com'			=> array('Deskfeeds', 'sx'),
+		'otsing.delfi.ee'			=> array('Delfi EE', 'q', 'find?q={k}'),
 
 		// Digg
 		'digg.com'					=> array('Digg', 's', 'search?s={k}'),
-
-		// Dino
-		'www.dino-online.de'		=> array('Dino', 'query'),
 
 		// dir.com
 		'fr.dir.com'				=> array('dir.com', 'req'),
@@ -260,33 +251,30 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.dmoz.org'				=> array('dmoz', 'search'),
 
 		// Dogpile
-		'search.dogpile.com'		=> array('Dogpile', 'q'),
+		'search.dogpile.com'		=> array('Dogpile', ''),
 		'nbci.dogpile.com'			=> array('Dogpile', 'q'),
 
 		// DuckDuckGo
 		'duckduckgo.com'			=> array('DuckDuckGo', 'q', '?q={k}'),
 
 		// earthlink
-		'search.earthlink.net'		=> array('Earthlink', 'q'),
+		'search.earthlink.net'		=> array('Earthlink', 'q', 'search?q={k}'),
 
 		// Ecosia (powered by Bing)
 		'ecosia.org'				=> array('Ecosia', 'q', 'search.php?q={k}'),
 		'www.ecosia.org'			=> array('Ecosia', 'q'),
 
 		// Eniro
-		'www.eniro.se'				=> array('Eniro', 'q'),
-
-		// Espotting
-		'affiliate.espotting.fr'	=> array('Espotting', 'keyword'),
+		'www.eniro.se'				=> array('Eniro', array('q', 'search_word'), 'query?q={k}'),
 
 		// Eudip
-		'www.eudip.com'				=> array('Eudip', ' '),
+		'www.eudip.com'				=> array('Eudip', ''),
 
 		// Eurip
-		'www.eurip.com'				=> array('Eurip', 'q'),
+		'www.eurip.com'				=> array('Eurip', 'q', 'search/?q={k}'),
 
 		// Euroseek
-		'www.euroseek.com'			=> array('Euroseek', 'string'),
+		'www.euroseek.com'			=> array('Euroseek', 'string', 'system/search.cgi?string={k}'),
 
 		// Everyclick
 		'www.everyclick.com'		=> array('Everyclick', 'keyword'),
