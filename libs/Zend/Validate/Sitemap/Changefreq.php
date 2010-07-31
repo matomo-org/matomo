@@ -17,7 +17,7 @@
  * @subpackage Sitemap
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Changefreq.php 21365 2010-03-07 09:38:41Z thomas $
+ * @version    $Id: Changefreq.php 22697 2010-07-26 21:14:47Z alexander $
  */
 
 /**

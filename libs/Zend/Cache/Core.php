@@ -16,7 +16,7 @@
  * @package    Zend_Cache
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Core.php 21293 2010-03-02 10:26:32Z mabe $
+ * @version    $Id: Core.php 22652 2010-07-21 04:30:24Z ramon $
  */
 
 
@@ -36,7 +36,7 @@ class Zend_Cache_Core
     /**
      * Backend Object
      *
-     * @var object $_backend
+     * @var Zend_Cache_Backend_Interface $_backend
      */
     protected $_backend = null;
 
@@ -167,7 +167,7 @@ class Zend_Cache_Core
     /**
      * Set the backend
      *
-     * @param  object $backendObject
+     * @param  Zend_Cache_Backend $backendObject
      * @throws Zend_Cache_Exception
      * @return void
      */
@@ -191,7 +191,7 @@ class Zend_Cache_Core
     /**
      * Returns the backend
      *
-     * @return object backend object
+     * @return Zend_Cache_Backend backend object
      */
     public function getBackend()
     {
@@ -475,7 +475,7 @@ class Zend_Cache_Core
             Zend_Cache::throwException(self::BACKEND_NOT_IMPLEMENTS_EXTENDED_IF);
         }
         if (!($this->_backendCapabilities['tags'])) {
-            Zend_Cache::throwException(self::BACKEND_NOT_SUPPORT_TAG);
+            Zend_Cache::throwException(self::BACKEND_NOT_SUPPORTS_TAG);
         }
 
         $ids = $this->_backend->getIdsMatchingTags($tags);
@@ -508,7 +508,7 @@ class Zend_Cache_Core
             Zend_Cache::throwException(self::BACKEND_NOT_IMPLEMENTS_EXTENDED_IF);
         }
         if (!($this->_backendCapabilities['tags'])) {
-            Zend_Cache::throwException(self::BACKEND_NOT_SUPPORT_TAG);
+            Zend_Cache::throwException(self::BACKEND_NOT_SUPPORTS_TAG);
         }
 
         $ids = $this->_backend->getIdsNotMatchingTags($tags);
@@ -541,7 +541,7 @@ class Zend_Cache_Core
             Zend_Cache::throwException(self::BACKEND_NOT_IMPLEMENTS_EXTENDED_IF);
         }
         if (!($this->_backendCapabilities['tags'])) {
-            Zend_Cache::throwException(self::BACKEND_NOT_SUPPORT_TAG);
+            Zend_Cache::throwException(self::BACKEND_NOT_SUPPORTS_TAG);
         }
 
         $ids = $this->_backend->getIdsMatchingAnyTags($tags);
@@ -598,7 +598,7 @@ class Zend_Cache_Core
             Zend_Cache::throwException(self::BACKEND_NOT_IMPLEMENTS_EXTENDED_IF);
         }
         if (!($this->_backendCapabilities['tags'])) {
-            Zend_Cache::throwException(self::BACKEND_NOT_SUPPORT_TAG);
+            Zend_Cache::throwException(self::BACKEND_NOT_SUPPORTS_TAG);
         }
         return $this->_backend->getTags();
     }
@@ -714,6 +714,7 @@ class Zend_Cache_Core
 
         // Create a default logger to the standard output stream
         // require_once 'Zend/Log/Writer/Stream.php';
+        // require_once 'Zend/Log.php';
         $logger = new Zend_Log(new Zend_Log_Writer_Stream('php://output'));
         $this->_options['logger'] = $logger;
     }

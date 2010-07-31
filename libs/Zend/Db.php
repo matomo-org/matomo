@@ -253,10 +253,10 @@ class Zend_Db
          * Load the adapter class.  This throws an exception
          * if the specified class cannot be loaded.
          */
-        // if (!class_exists($adapterName)) {
+        if (!class_exists($adapterName)) {
             // require_once 'Zend/Loader.php';
-            // Zend_Loader::loadClass($adapterName);
-        // }
+            Zend_Loader::loadClass($adapterName);
+        }
 
         /*
          * Create an instance of the adapter class.

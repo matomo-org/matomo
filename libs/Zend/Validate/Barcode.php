@@ -16,7 +16,7 @@
  * @package    Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Barcode.php 21748 2010-04-03 10:29:56Z thomas $
+ * @version    $Id: Barcode.php 22697 2010-07-26 21:14:47Z alexander $
  */
 
 /**
@@ -137,9 +137,9 @@ class Zend_Validate_Barcode extends Zend_Validate_Abstract
             $adapter = 'Zend_Validate_Barcode_' . $adapter;
         }
 
-        // if (!class_exists($adapter)) {
-            // Zend_Loader::loadClass($adapter);
-        // }
+        if (!class_exists($adapter)) {
+            Zend_Loader::loadClass($adapter);
+        }
 
         $this->_adapter = new $adapter($options);
         if (!$this->_adapter instanceof Zend_Validate_Barcode_AdapterInterface) {
@@ -194,6 +194,17 @@ class Zend_Validate_Barcode extends Zend_Validate_Abstract
         $this->_length = $adapter->getLength();
         $result        = $adapter->checkLength($value);
         if (!$result) {
+            if (is_array($this->_length)) {
+                $temp = $this->_length;
+                $this->_length = "";
+                foreach($temp as $length) {
+                    $this->_length .= "/";
+                    $this->_length .= $length;
+                }
+
+                $this->_length = substr($this->_length, 1);
+            }
+
             $this->_error(self::INVALID_LENGTH);
             return false;
         }

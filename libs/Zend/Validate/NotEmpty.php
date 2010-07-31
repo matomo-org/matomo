@@ -16,7 +16,7 @@
  * @package    Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: NotEmpty.php 20193 2010-01-11 10:40:43Z thomas $
+ * @version    $Id: NotEmpty.php 22697 2010-07-26 21:14:47Z alexander $
  */
 
 /**
@@ -32,31 +32,37 @@
  */
 class Zend_Validate_NotEmpty extends Zend_Validate_Abstract
 {
-    const BOOLEAN      = 1;
-    const INTEGER      = 2;
-    const FLOAT        = 4;
-    const STRING       = 8;
-    const ZERO         = 16;
-    const EMPTY_ARRAY  = 32;
-    const NULL         = 64;
-    const PHP          = 127;
-    const SPACE        = 128;
-    const ALL          = 255;
+    const BOOLEAN       = 1;
+    const INTEGER       = 2;
+    const FLOAT         = 4;
+    const STRING        = 8;
+    const ZERO          = 16;
+    const EMPTY_ARRAY   = 32;
+    const NULL          = 64;
+    const PHP           = 127;
+    const SPACE         = 128;
+    const OBJECT        = 256;
+    const OBJECT_STRING = 512;
+    const OBJECT_COUNT  = 1024;
+    const ALL           = 2047;
 
     const INVALID  = 'notEmptyInvalid';
     const IS_EMPTY = 'isEmpty';
 
     protected $_constants = array(
-        self::BOOLEAN      => 'boolean',
-        self::INTEGER      => 'integer',
-        self::FLOAT        => 'float',
-        self::STRING       => 'string',
-        self::ZERO         => 'zero',
-        self::EMPTY_ARRAY  => 'array',
-        self::NULL         => 'null',
-        self::PHP          => 'php',
-        self::SPACE        => 'space',
-        self::ALL          => 'all'
+        self::BOOLEAN       => 'boolean',
+        self::INTEGER       => 'integer',
+        self::FLOAT         => 'float',
+        self::STRING        => 'string',
+        self::ZERO          => 'zero',
+        self::EMPTY_ARRAY   => 'array',
+        self::NULL          => 'null',
+        self::PHP           => 'php',
+        self::SPACE         => 'space',
+        self::OBJECT        => 'object',
+        self::OBJECT_STRING => 'objectstring',
+        self::OBJECT_COUNT  => 'objectcount',
+        self::ALL           => 'all',
     );
 
     /**
@@ -72,7 +78,7 @@ class Zend_Validate_NotEmpty extends Zend_Validate_Abstract
      *
      * @var integer
      */
-    protected $_type = 237;
+    protected $_type = 493;
 
     /**
      * Constructor
@@ -151,14 +157,50 @@ class Zend_Validate_NotEmpty extends Zend_Validate_Abstract
      */
     public function isValid($value)
     {
-        if (!is_null($value) && !is_string($value) && !is_int($value) && !is_float($value) &&
-            !is_bool($value) && !is_array($value)) {
+        if ($value !== null && !is_string($value) && !is_int($value) && !is_float($value) &&
+            !is_bool($value) && !is_array($value) && !is_object($value)) {
             $this->_error(self::INVALID);
             return false;
         }
 
         $type    = $this->getType();
         $this->_setValue($value);
+        $object  = false;
+
+        // OBJECT_COUNT (countable object)
+        if ($type >= self::OBJECT_COUNT) {
+            $type -= self::OBJECT_COUNT;
+            $object = true;
+
+            if (is_object($value) && ($value instanceof Countable) && (count($value) == 0)) {
+                $this->_error(self::IS_EMPTY);
+                return false;
+            }
+        }
+
+        // OBJECT_STRING (object's toString)
+        if ($type >= self::OBJECT_STRING) {
+            $type -= self::OBJECT_STRING;
+            $object = true;
+
+            if ((is_object($value) && (!method_exists($value, '__toString'))) ||
+                (is_object($value) && (method_exists($value, '__toString')) && (((string) $value) == ""))) {
+                $this->_error(self::IS_EMPTY);
+                return false;
+            }
+        }
+
+        // OBJECT (object)
+        if ($type >= self::OBJECT) {
+            $type -= self::OBJECT;
+            // fall trough, objects are always not empty
+        } else if ($object === false) {
+            // object not allowed but object given -> return false
+            if (is_object($value)) {
+                $this->_error(self::IS_EMPTY);
+                return false;
+            }
+        }
 
         // SPACE ('   ')
         if ($type >= self::SPACE) {
@@ -172,7 +214,7 @@ class Zend_Validate_NotEmpty extends Zend_Validate_Abstract
         // NULL (null)
         if ($type >= self::NULL) {
             $type -= self::NULL;
-            if (is_null($value)) {
+            if ($value === null) {
                 $this->_error(self::IS_EMPTY);
                 return false;
             }

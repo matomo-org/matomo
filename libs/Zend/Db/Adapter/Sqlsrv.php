@@ -287,13 +287,13 @@ class Zend_Db_Adapter_Sqlsrv extends Zend_Db_Adapter_Abstract
         $this->_connect();
         $stmtClass = $this->_defaultStmtClass;
 
-        // if (!class_exists($stmtClass)) {
+        if (!class_exists($stmtClass)) {
             /**
              * @see Zend_Loader
              */
             // require_once 'Zend/Loader.php';
-            // Zend_Loader::loadClass($stmtClass);
-        // }
+            Zend_Loader::loadClass($stmtClass);
+        }
 
         $stmt = new $stmtClass($this, $sql);
         $stmt->setFetchMode($this->_fetchMode);

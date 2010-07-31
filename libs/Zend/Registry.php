@@ -109,10 +109,10 @@ class Zend_Registry extends ArrayObject
         /**
          * @see Zend_Loader
          */
-        // if (!class_exists($registryClassName)) {
+        if (!class_exists($registryClassName)) {
             // require_once 'Zend/Loader.php';
-            // Zend_Loader::loadClass($registryClassName);
-        // }
+            Zend_Loader::loadClass($registryClassName);
+        }
 
         self::$_registryClassName = $registryClassName;
     }

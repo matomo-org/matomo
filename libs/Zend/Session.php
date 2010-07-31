@@ -17,7 +17,7 @@
  * @package    Zend_Session
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Session.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Session.php 22588 2010-07-16 20:22:07Z ralph $
  * @since      Preview Release 0.2
  */
 
@@ -531,8 +531,9 @@ class Zend_Session extends Zend_Session_Abstract
                     unset($_SESSION['__ZF'][$namespace]);
                 }
 
-                // Expire Namespace by Global Hop (ENGH)
-                if (isset($namespace_metadata['ENGH']) && $namespace_metadata['ENGH'] >= 1) {
+                // Expire Namespace by Global Hop (ENGH) if it wasnt expired above
+                if (isset($_SESSION['__ZF'][$namespace]) && isset($namespace_metadata['ENGH']) && $namespace_metadata['ENGH'] >= 1) {
+
                     $_SESSION['__ZF'][$namespace]['ENGH']--;
 
                     if ($_SESSION['__ZF'][$namespace]['ENGH'] === 0) {
@@ -570,8 +571,8 @@ class Zend_Session extends Zend_Session_Abstract
                             unset($_SESSION['__ZF'][$namespace]['ENVGH'][$variable]);
                         }
                     }
-		    if(empty($_SESSION['__ZF'][$namespace]['ENVGH'])) {
-			unset($_SESSION['__ZF'][$namespace]['ENVGH']);	
+                    if (empty($_SESSION['__ZF'][$namespace]['ENVGH'])) {
+                        unset($_SESSION['__ZF'][$namespace]['ENVGH']);    
                     }
                 }
             }
@@ -774,10 +775,10 @@ class Zend_Session extends Zend_Session_Abstract
     private static function _processValidators()
     {
         foreach ($_SESSION['__ZF']['VALID'] as $validator_name => $valid_data) {
-            // if (!class_exists($validator_name)) {
+            if (!class_exists($validator_name)) {
                 // require_once 'Zend/Loader.php';
-                // Zend_Loader::loadClass($validator_name);
-            // }
+                Zend_Loader::loadClass($validator_name);
+            }
             $validator = new $validator_name;
             if ($validator->validate() === false) {
                 /** @see Zend_Session_Exception */

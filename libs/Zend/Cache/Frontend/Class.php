@@ -17,7 +17,7 @@
  * @subpackage Zend_Cache_Frontend
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Class.php 20379 2010-01-18 14:40:57Z mabe $
+ * @version    $Id: Class.php 22654 2010-07-22 18:44:13Z mabe $
  */
 
 /**
@@ -230,15 +230,25 @@ class Zend_Cache_Frontend_Class extends Zend_Cache_Core
     }
 
     /**
+     * ZF-9970
+     *
+     * @deprecated
+     */
+    private function _makeId($name, $args)
+    {
+        return $this->makeId($name, $args);
+    }
+
+    /**
      * Make a cache id from the method name and parameters
      *
-     * @param  string $name       Method name
-     * @param  array  $parameters Method parameters
+     * @param  string $name Method name
+     * @param  array  $args Method parameters
      * @return string Cache id
      */
-    private function _makeId($name, $parameters)
+    public function makeId($name, array $args = array())
     {
-        return md5($this->_cachedEntityLabel . '__' . $name . '__' . serialize($parameters));
+        return md5($this->_cachedEntityLabel . '__' . $name . '__' . serialize($args));
     }
 
 }

@@ -17,7 +17,7 @@
  * @subpackage Table
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Abstract.php 22616 2010-07-17 15:53:16Z ramon $
  */
 
 /**
@@ -111,10 +111,10 @@ abstract class Zend_Db_Table_Rowset_Abstract implements SeekableIterator, Counta
         if (isset($config['rowClass'])) {
             $this->_rowClass   = $config['rowClass'];
         }
-        // if (!class_exists($this->_rowClass)) {
+        if (!class_exists($this->_rowClass)) {
             // require_once 'Zend/Loader.php';
-            // Zend_Loader::loadClass($this->_rowClass);
-        // }
+            Zend_Loader::loadClass($this->_rowClass);
+        }
         if (isset($config['data'])) {
             $this->_data       = $config['data'];
         }
@@ -294,7 +294,7 @@ abstract class Zend_Db_Table_Rowset_Abstract implements SeekableIterator, Counta
      */
     public function valid()
     {
-        return $this->_pointer < $this->_count;
+        return $this->_pointer >= 0 && $this->_pointer < $this->_count;
     }
 
     /**
@@ -349,7 +349,12 @@ abstract class Zend_Db_Table_Rowset_Abstract implements SeekableIterator, Counta
      */
     public function offsetGet($offset)
     {
-        $this->_pointer = (int) $offset;
+        $offset = (int) $offset;
+        if ($offset < 0 || $offset >= $this->_count) {
+            // require_once 'Zend/Db/Table/Rowset/Exception.php';
+            throw new Zend_Db_Table_Rowset_Exception("Illegal index $offset");
+        }
+        $this->_pointer = $offset;
 
         return $this->current();
     }
