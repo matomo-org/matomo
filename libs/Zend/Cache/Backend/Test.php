@@ -17,7 +17,7 @@
  * @subpackage Zend_Cache_Backend
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Test.php 21292 2010-03-02 10:25:22Z mabe $
+ * @version    $Id: Test.php 22504 2010-06-30 17:05:07Z mabe $
  */
 
 
@@ -103,10 +103,13 @@ class Zend_Cache_Backend_Test extends Zend_Cache_Backend implements Zend_Cache_B
     public function load($id, $doNotTestCacheValidity = false)
     {
         $this->_addLog('get', array($id, $doNotTestCacheValidity));
+
         if ( $id == 'false'
           || $id == 'd8523b3ee441006261eeffa5c3d3a0a7'
           || $id == 'e83249ea22178277d5befc2c5e2e9ace'
-          || $id == '40f649b94977c0a6e76902e2a0b43587')
+          || $id == '40f649b94977c0a6e76902e2a0b43587'
+          || $id == '88161989b73a4cbfd0b701c446115a99'
+          || $id == '205fc79cba24f0f0018eb92c7c8b3ba4')
         {
             return false;
         }
@@ -116,10 +119,9 @@ class Zend_Cache_Backend_Test extends Zend_Cache_Backend implements Zend_Cache_B
         if ($id=='serialized2') {
             return serialize(array('headers' => array(), 'data' => 'foo'));
         }
-        if (($id=='71769f39054f75894288e397df04e445') or ($id=='615d222619fb20b527168340cebd0578')) {
-            return serialize(array('foo', 'bar'));
-        }
-        if (($id=='8a02d218a5165c467e7a5747cc6bd4b6') or ($id=='648aca1366211d17cbf48e65dc570bee')) {
+        if ( $id == '71769f39054f75894288e397df04e445' || $id == '615d222619fb20b527168340cebd0578'
+          || $id == '8a02d218a5165c467e7a5747cc6bd4b6' || $id == '648aca1366211d17cbf48e65dc570bee'
+          || $id == '4a923ef02d7f997ca14d56dfeae25ea7') {
             return serialize(array('foo', 'bar'));
         }
         return 'foo';

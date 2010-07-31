@@ -17,7 +17,7 @@
  * @subpackage Writer
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Abstract.php 22632 2010-07-18 18:30:08Z ramon $
  */
 
 /** Zend_Log_Filter_Priority */
@@ -29,7 +29,7 @@
  * @subpackage Writer
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Abstract.php 22632 2010-07-18 18:30:08Z ramon $
  */
 abstract class Zend_Log_Writer_Abstract implements Zend_Log_FactoryInterface
 {
@@ -54,6 +54,12 @@ abstract class Zend_Log_Writer_Abstract implements Zend_Log_FactoryInterface
     {
         if (is_integer($filter)) {
             $filter = new Zend_Log_Filter_Priority($filter);
+        }
+
+        if (!$filter instanceof Zend_Log_Filter_Interface) {
+            /** @see Zend_Log_Exception */
+            // require_once 'Zend/Log/Exception.php';
+            throw new Zend_Log_Exception('Invalid filter provided');
         }
 
         $this->_filters[] = $filter;
@@ -83,7 +89,7 @@ abstract class Zend_Log_Writer_Abstract implements Zend_Log_FactoryInterface
      * @param  Zend_Log_Formatter_Interface $formatter
      * @return void
      */
-    public function setFormatter($formatter)
+    public function setFormatter(Zend_Log_Formatter_Interface $formatter)
     {
         $this->_formatter = $formatter;
     }
@@ -106,7 +112,7 @@ abstract class Zend_Log_Writer_Abstract implements Zend_Log_FactoryInterface
 
     /**
      * Validate and optionally convert the config to array
-     * 
+     *
      * @param  array|Zend_Config $config Zend_Config or Array
      * @return array
      * @throws Zend_Log_Exception

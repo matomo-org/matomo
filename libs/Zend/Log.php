@@ -16,7 +16,7 @@
  * @package    Zend_Log
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Log.php 20893 2010-02-03 22:59:25Z yoshida@zend.co.jp $
+ * @version    $Id: Log.php 22632 2010-07-18 18:30:08Z ramon $
  */
 
 /**
@@ -24,7 +24,7 @@
  * @package    Zend_Log
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Log.php 20893 2010-02-03 22:59:25Z yoshida@zend.co.jp $
+ * @version    $Id: Log.php 22632 2010-07-18 18:30:08Z ramon $
  */
 class Zend_Log
 {
@@ -130,6 +130,9 @@ class Zend_Log
         $writer = $this->_constructFromConfig('writer', $config, $this->_defaultWriterNamespace);
 
         if (!$writer instanceof Zend_Log_Writer_Abstract) {
+            $writerName = is_object($writer)
+                        ? get_class($writer)
+                        : 'The specified writer';
             /** @see Zend_Log_Exception */
             // require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception("{$writerName} does not extend Zend_Log_Writer_Abstract!");
@@ -154,6 +157,9 @@ class Zend_Log
         $filter = $this->_constructFromConfig('filter', $config, $this->_defaultFilterNamespace);
 
         if (!$filter instanceof Zend_Log_Filter_Interface) {
+             $filterName = is_object($filter)
+                         ? get_class($filter)
+                         : 'The specified filter';
             /** @see Zend_Log_Exception */
             // require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception("{$filterName} does not implement Zend_Log_Filter_Interface");
@@ -185,10 +191,10 @@ class Zend_Log
 
         $params    = isset($config[ $type .'Params' ]) ? $config[ $type .'Params' ] : array();
         $className = $this->getClassName($config, $type, $namespace);
-        // if (!class_exists($className)) {
+        if (!class_exists($className)) {
             // require_once 'Zend/Loader.php';
-            // Zend_Loader::loadClass($className);
-        // }
+            Zend_Loader::loadClass($className);
+        }
 
         $reflection = new ReflectionClass($className);
         if (!$reflection->implementsInterface('Zend_Log_FactoryInterface')) {
@@ -351,7 +357,7 @@ class Zend_Log
         $name = strtoupper($name);
 
         if (isset($this->_priorities[$priority])
-            || array_search($name, $this->_priorities)) {
+            || false !== array_search($name, $this->_priorities)) {
             /** @see Zend_Log_Exception */
             // require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception('Existing priorities cannot be overwritten');
@@ -419,7 +425,8 @@ class Zend_Log
      * @param  $value   Value of the field
      * @return void
      */
-    public function setEventItem($name, $value) {
+    public function setEventItem($name, $value)
+    {
         $this->_extras = array_merge($this->_extras, array($name => $value));
     }
 }

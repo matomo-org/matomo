@@ -17,7 +17,7 @@
  * @subpackage PluginLoader
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: PluginLoader.php 21170 2010-02-23 19:50:16Z matthew $
+ * @version    $Id: PluginLoader.php 22604 2010-07-17 00:14:06Z ramon $
  */
 
 /** Zend_Loader_PluginLoader_Interface */
@@ -256,7 +256,7 @@ class Zend_Loader_PluginLoader implements Zend_Loader_PluginLoader_Interface
 
         if ($path != null) {
             $pos = array_search($path, $registry[$prefix]);
-            if ($pos === null) {
+            if (false === $pos) {
                 // require_once 'Zend/Loader/PluginLoader/Exception.php';
                 throw new Zend_Loader_PluginLoader_Exception('Prefix ' . $prefix . ' / Path ' . $path . ' was not found in the PluginLoader.');
             }

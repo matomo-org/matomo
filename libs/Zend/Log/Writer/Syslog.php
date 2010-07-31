@@ -17,7 +17,7 @@
  * @subpackage Writer
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Syslog.php 22477 2010-06-21 12:15:35Z matthew $
+ * @version    $Id: Syslog.php 22632 2010-07-18 18:30:08Z ramon $
  */
 
 /** Zend_Log_Writer_Abstract */
@@ -191,7 +191,7 @@ class Zend_Log_Writer_Syslog extends Zend_Log_Writer_Abstract
             throw new Zend_Log_Exception('Invalid log facility provided; please see http://php.net/openlog for a list of valid facility values');
         }
 
-        if (strstr(strtolower(PHP_OS), 'windows')
+        if ('WIN' == strtoupper(substr(PHP_OS, 0, 3))
             && ($facility !== LOG_USER)
         ) {
             // require_once 'Zend/Log/Exception.php';

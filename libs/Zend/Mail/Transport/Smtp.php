@@ -191,10 +191,10 @@ class Zend_Mail_Transport_Smtp extends Zend_Mail_Transport_Abstract
             if ($this->_auth) {
                 $connectionClass .= '_Auth_' . ucwords($this->_auth);
             }
-            // if (!class_exists($connectionClass)) {
+            if (!class_exists($connectionClass)) {
                 // require_once 'Zend/Loader.php';
-                // Zend_Loader::loadClass($connectionClass);
-            // }
+                Zend_Loader::loadClass($connectionClass);
+            }
             $this->setConnection(new $connectionClass($this->_host, $this->_port, $this->_config));
             $this->_connection->connect();
             $this->_connection->helo($this->_name);

@@ -16,7 +16,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Response
- * @version    $Id: Response.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Response.php 22555 2010-07-13 16:06:29Z shahar $
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -487,8 +487,8 @@ class Zend_Http_Response
     /**
      * Extract the headers from a response string
      *
-     * @param string $response_str
-     * @return array
+     * @param   string $response_str
+     * @return  array
      */
     public static function extractHeaders($response_str)
     {
@@ -507,7 +507,8 @@ class Zend_Http_Response
             $line = trim($line, "\r\n");
             if ($line == "") break;
 
-            if (preg_match("|^([\w-]+):\s+(.+)|", $line, $m)) {
+            // Locate headers like 'Location: ...' and 'Location:...' (note the missing space)
+            if (preg_match("|^([\w-]+):\s*(.+)|", $line, $m)) {
                 unset($last_header);
                 $h_name = strtolower($m[1]);
                 $h_value = $m[2];

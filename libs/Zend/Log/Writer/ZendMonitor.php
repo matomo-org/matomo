@@ -17,7 +17,7 @@
  * @subpackage Writer
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: ZendMonitor.php 22533 2010-07-07 02:38:14Z ramon $
  */
 
 /** Zend_Log_Writer_Abstract */
@@ -29,7 +29,7 @@
  * @subpackage Writer
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: ZendMonitor.php 22533 2010-07-07 02:38:14Z ramon $
  */
 class Zend_Log_Writer_ZendMonitor extends Zend_Log_Writer_Abstract
 {
@@ -51,7 +51,7 @@ class Zend_Log_Writer_ZendMonitor extends Zend_Log_Writer_Abstract
 
     /**
      * Create a new instance of Zend_Log_Writer_ZendMonitor
-     * 
+     *
      * @param  array|Zend_Config $config
      * @return Zend_Log_Writer_Syslog
      * @throws Zend_Log_Exception
@@ -64,10 +64,10 @@ class Zend_Log_Writer_ZendMonitor extends Zend_Log_Writer_Abstract
     /**
      * Is logging to this writer enabled?
      *
-     * If the Zend Monitor extension is not enabled, this log writer will 
-     * fail silently. You can query this method to determine if the log 
+     * If the Zend Monitor extension is not enabled, this log writer will
+     * fail silently. You can query this method to determine if the log
      * writer is enabled.
-     * 
+     *
      * @return bool
      */
     public function isEnabled()
@@ -103,7 +103,7 @@ class Zend_Log_Writer_ZendMonitor extends Zend_Log_Writer_Abstract
         unset($event['priority'], $event['message']);
 
         if (!empty($event)) {
-            monitor_custom_event($priority, $message, $event);
+            monitor_custom_event($priority, $message, false, $event);
         } else {
             monitor_custom_event($priority, $message);
         }

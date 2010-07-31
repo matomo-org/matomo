@@ -1083,15 +1083,15 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess, IteratorAggreg
         );
 
         $rowsetClass = $matchTable->getRowsetClass();
-        // if (!class_exists($rowsetClass)) {
-            // try {
+        if (!class_exists($rowsetClass)) {
+            try {
                 // require_once 'Zend/Loader.php';
-                // Zend_Loader::loadClass($rowsetClass);
-            // } catch (Zend_Exception $e) {
+                Zend_Loader::loadClass($rowsetClass);
+            } catch (Zend_Exception $e) {
                 // require_once 'Zend/Db/Table/Row/Exception.php';
-                // throw new Zend_Db_Table_Row_Exception($e->getMessage(), $e->getCode(), $e);
-            // }
-        // }
+                throw new Zend_Db_Table_Row_Exception($e->getMessage(), $e->getCode(), $e);
+            }
+        }
         $rowset = new $rowsetClass($config);
         return $rowset;
     }
@@ -1177,15 +1177,15 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess, IteratorAggreg
         }
 
         // assume the tableName is the class name
-        // if (!class_exists($tableName)) {
-            // try {
+        if (!class_exists($tableName)) {
+            try {
                 // require_once 'Zend/Loader.php';
-                // Zend_Loader::loadClass($tableName);
-            // } catch (Zend_Exception $e) {
+                Zend_Loader::loadClass($tableName);
+            } catch (Zend_Exception $e) {
                 // require_once 'Zend/Db/Table/Row/Exception.php';
-                // throw new Zend_Db_Table_Row_Exception($e->getMessage(), $e->getCode(), $e);
-            // }
-        // }
+                throw new Zend_Db_Table_Row_Exception($e->getMessage(), $e->getCode(), $e);
+            }
+        }
 
         $options = array();
 

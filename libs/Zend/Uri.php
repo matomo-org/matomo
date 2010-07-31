@@ -16,7 +16,7 @@
  * @package   Zend_Uri
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Uri.php 22083 2010-05-03 18:49:28Z shahar $
+ * @version   $Id: Uri.php 22539 2010-07-08 12:47:44Z shahar $
  */
 
 /**
@@ -127,14 +127,12 @@ abstract class Zend_Uri
             }
         }
 
-        // if (!class_exists($className)) {
-            // require_once 'Zend/Loader.php';
-            // try {
-                // Zend_Loader::loadClass($className);
-            // } catch (Exception $e) {
-                // require_once 'Zend/Uri/Exception.php';
-                // throw new Zend_Uri_Exception("\"$className\" not found");
-            // }
+        // require_once 'Zend/Loader.php';
+        // try {
+            // Zend_Loader::loadClass($className);
+        // } catch (Exception $e) {
+            // require_once 'Zend/Uri/Exception.php';
+            // throw new Zend_Uri_Exception("\"$className\" not found");
         // }
 
         $schemeHandler = new $className($scheme, $schemeSpecific);

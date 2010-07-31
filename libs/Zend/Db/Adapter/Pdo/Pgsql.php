@@ -17,7 +17,7 @@
  * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Pgsql.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Pgsql.php 22566 2010-07-16 02:07:36Z ramon $
  */
 
 
@@ -281,7 +281,10 @@ class Zend_Db_Adapter_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Abstract
     public function lastSequenceId($sequenceName)
     {
         $this->_connect();
-        $value = $this->fetchOne("SELECT CURRVAL(".$this->quote($sequenceName).")");
+        $sequenceName = trim((string) $sequenceName, $this->getQuoteIdentifierSymbol());
+        $value = $this->fetchOne("SELECT CURRVAL("
+               . $this->quote($this->quoteIdentifier($sequenceName, true))
+               . ")");
         return $value;
     }
 
@@ -296,7 +299,10 @@ class Zend_Db_Adapter_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Abstract
     public function nextSequenceId($sequenceName)
     {
         $this->_connect();
-        $value = $this->fetchOne("SELECT NEXTVAL(".$this->quote($sequenceName).")");
+        $sequenceName = trim((string) $sequenceName, $this->getQuoteIdentifierSymbol());
+        $value = $this->fetchOne("SELECT NEXTVAL("
+               . $this->quote($this->quoteIdentifier($sequenceName, true))
+               . ")");
         return $value;
     }
 

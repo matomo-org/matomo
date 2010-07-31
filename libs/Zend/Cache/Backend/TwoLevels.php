@@ -17,7 +17,7 @@
  * @subpackage Zend_Cache_Backend
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: TwoLevels.php 21954 2010-04-19 19:19:24Z mabe $
+ * @version    $Id: TwoLevels.php 22506 2010-06-30 17:23:21Z mabe $
  */
 
 
@@ -93,14 +93,14 @@ class Zend_Cache_Backend_TwoLevels extends Zend_Cache_Backend implements Zend_Ca
     /**
      * Slow Backend
      *
-     * @var Zend_Cache_Backend
+     * @var Zend_Cache_Backend_ExtendedInterface
      */
     protected $_slowBackend;
 
     /**
      * Fast Backend
      *
-     * @var Zend_Cache_Backend
+     * @var Zend_Cache_Backend_ExtendedInterface
      */
     protected $_fastBackend;
 
