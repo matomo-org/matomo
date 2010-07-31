@@ -356,42 +356,34 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search1-1.free.fr'			=> array('Free', 'q'),
 
 		// Freecause
-		'search.freecause.com'		=> array('FreeCause', 'q'),
+		'search.freecause.com'		=> array('FreeCause', 'q', '?p={k}'),
 
 		// Freenet
-		'suche.freenet.de'			=> array('Freenet', 'query'),
+		'suche.freenet.de'			=> array('Freenet', 'query', 'suche/?query={k}'),
 
 		// FriendFeed
-		'friendfeed.com'			=> array('FriendFeed', 'q'),
-
-		// Froogle
-		'froogle.google.com'		=> array('Google (Froogle)', 'q'),
-		'froogle.google.de'			=> array('Google (Froogle)', 'q'),
-		'froogle.google.co.uk'		=> array('Google (Froogle)', 'q'),
+		'friendfeed.com'			=> array('FriendFeed', 'q', 'search?q={k}'),
 
 		// GAIS
-		'gais.cs.ccu.edu.tw'		=> array('GAIS', 'query'),
+		'gais.cs.ccu.edu.tw'		=> array('GAIS', 'q', 'search.php?q={k}'),
 
 		// Geona 
 		'geona.net'					=> array('Geona', 'q', 'search?q={k}'),
 		'www.geona.net'				=> array('Geona', 'q', 'search?q={k}'),
 
 		// Gigablast
-		'www.gigablast.com'			=> array('Gigablast', 'q'),
-		'blogs.gigablast.com'		=> array('Gigablast (Blogs)', 'q'),
-		'travel.gigablast.com'		=> array('Gigablast (Travel)', 'q'),
+		'www.gigablast.com'			=> array('Gigablast', 'q', 'search?q={k}'),
 		'dir.gigablast.com'			=> array('Gigablast (Directory)', 'q'),
 
 		// GMX
-		'suche.gmx.net'				=> array('GMX', 'su'),
-		'www.gmx.net'				=> array('GMX', 'su'),
+		'suche.gmx.net'				=> array('GMX', 'su', 'search/web/?su={k}'),
 
 		// Gnadenmeer
 		'www.gnadenmeer.de'			=> array('Gnadenmeer', 'keyword'),
 
 		// goo
-		'search.goo.ne.jp'			=> array('goo', 'mt'),
-		'ocnsearch.goo.ne.jp'		=> array('goo', 'mt'),
+		'search.goo.ne.jp'			=> array('goo', 'MT', 'web.jsp?MT={k}'),
+		'ocnsearch.goo.ne.jp'		=> array('goo', 'MT'),
 
 		// Google
 		'www.google.com'			=> array('Google', 'q', 'search?q={k}'),
@@ -620,9 +612,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.google.com.vc'			=> array('Google', 'q'),
 		'www.google.com.vn'			=> array('Google', 'q'),
 
-		// Google SSL 
-		'encrypted.google.com'		=> array('Google SSL', 'q', 'search?q={k}'), 
-
 		// Powered by Google
 		'www.charter.net'			=> array('Google', 'q'),
 		'brisbane.t-online.de'		=> array('Google', 'q'),
@@ -647,6 +636,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Google Earth
 		'www.googleearth.de'		=> array('Google', 'q'),
 		'www.googleearth.fr'		=> array('Google', 'q'),
+
+		// Google SSL 
+		'encrypted.google.com'		=> array('Google SSL', 'q', 'search?q={k}'), 
 
 		// Google Blogsearch
 		'blogsearch.google.com'		=> array('Google Blogsearch', 'q', 'blogsearch?q={k}'),
@@ -756,6 +748,11 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'news.google.com.mx'		=> array('Google News', 'q'),
 		'news.google.com.pe'		=> array('Google News', 'q'),
 		'news.google.com.tw'		=> array('Google News', 'q'),
+
+		// Googe product search
+		'froogle.google.com'		=> array('Google Product search', 'q'),
+		'froogle.google.de'			=> array('Google Product search', 'q'),
+		'froogle.google.co.uk'		=> array('Google Product search', 'q'),
 
 		// Google syndicated search
 		'googlesyndicatedsearch.com'=> array('Google syndicated search', 'q'),
