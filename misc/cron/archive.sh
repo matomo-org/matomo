@@ -68,7 +68,7 @@ for idsite in $ID_SITES; do
   TEST_IS_NUMERIC=`echo $idsite | egrep '^[0-9]+$'`
   if [ "$TEST_IS_NUMERIC" ]
   then
-    for period in day week year; do
+    for period in day week month year; do
       echo ""
       echo "Archiving period = $period for idsite = $idsite..."
       CMD="$PHP_BIN -q $PIWIK_PATH -- module=API&method=VisitsSummary.getVisits&idSite=$idsite&period=$period&date=last52&format=xml&token_auth=$TOKEN_AUTH";
