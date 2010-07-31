@@ -180,7 +180,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'zhidao.baidu.com'			=> array('Baidu', array('wd', 'word', 'kw'), false, 'gb2312'),
 		'tieba.baidu.com'			=> array('Baidu', array('wd', 'word', 'kw'), false, 'gb2312'),
 		'news.baidu.com'			=> array('Baidu', array('wd', 'word', 'kw'), false, 'gb2312'),
-		'web.gougou.com'			=> array('Baidu', 'search', 'search?search={k}', 'gb2312'), // uses baidu search
+		'web.gougou.com'			=> array('Baidu', 'search', 'search?search={k}'), // uses baidu search
 	
 		// Bellnet
 		'www.suchmaschine.com'		=> array('Bellnet', 'suchstr', 'cgi-bin/bellnet.cgi?suchstr={k}'),
@@ -281,37 +281,29 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Excite
 		'search.excite.it'			=> array('Excite', 'q', 'web/?q={k}'),
-		'msxml.excite.com'			=> array('Excite', 'qkw'),
+		'msxml.excite.com'			=> array('Excite', ''),
 		'search.excite.fr'			=> array('Excite', 'q', 'web/?q={k}'),
 		'search.excite.de'			=> array('Excite', 'q', 'web/?q={k}'),
 		'search.excite.co.uk'		=> array('Excite', 'q', 'web/?q={k}'),
 		'search.excite.es'			=> array('Excite', 'q', 'web/?q={k}'),
 		'search.excite.nl'			=> array('Excite', 'q', 'web/?q={k}'),
-		'www.excite.co.jp'			=> array('Excite', 'search', 'search.gw?search={k}'),
+		'www.excite.co.jp'			=> array('Excite', 'search', 'search.gw?search={k}', 'SHIFT_JIS'),
 
 		// Exalead
 		'www.exalead.fr'			=> array('Exalead', 'q', 'search/results?q={k}'),
 		'www.exalead.com'			=> array('Exalead', 'q'),
 
 		// eo
-		'eo.st'						=> array('eo', 'q'),
+		'eo.st'						=> array('eo', 'x_query', 'cgi-bin/eolost.cgi?x_query={k}'),
 
 		// Facebook
 		'www.facebook.com'			=> array('Facebook', 'q', 'search/?q={k}'),
 
-		// Feedminer
-		'www.feedminer.com'			=> array('Feedminer', 'q'),
-
-		// Feedster
-		'www.feedster.com'			=> array('Feedster', ''),
-
 		// Francite
 		'recherche.francite.com'	=> array('Francite', 'name'),
-		'antisearch.francite.com'	=> array('Francite', 'KEYWORDS'),
 
 		// Fireball
-		'suche.fireball.de'			=> array('Fireball', 'query'),
-		'www.fireball.de'			=> array('Fireball', 'q'),
+		'www.fireball.de'			=> array('Fireball', 'q', 'ajax.asp?q={k}'),
 
 		// Firstfind
 		'www.firstsfind.com'		=> array('Firstsfind', 'qry'),
@@ -328,6 +320,35 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'ch.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
 		'us.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
 		'fr.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'ar.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'au.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'ca.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'cl.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'co.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'cz.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'dk.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'fi.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'hu.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'in.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'id.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'it.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'jp.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'kr.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'my.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'mx.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'nl.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'nz.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'pe.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'ph.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'ro.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'ru.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'sg.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'es.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'se.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'th.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'uk.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		've.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'vn.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
 
 		// Free
 		'search.free.fr'			=> array('Free', 'q'),
