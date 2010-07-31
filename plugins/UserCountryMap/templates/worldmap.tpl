@@ -42,7 +42,9 @@ $(document).ready(function() {
 	var attr = { id:"UserCountryMap" };
 	
 	swfobject.embedSWF("plugins/UserCountryMap/PiwikMap.swf", "UserCountryMap_map", "100%", "300", 
-		"9.0.0", "libs/swfobject/expressInstall.swf", fv, params, attr);
+	"9.0.0", "libs/swfobject/expressInstall.swf", fv, params, attr, function (e) {
+		//e.ref.height = Math.round($('#widgetUserCountryMapworldMap').width() *.55);
+	});
 	
 	$("#userCountryMapSelectMetrics").change(function(el) {
 		$("#UserCountryMap")[0].changeMode(el.currentTarget.value);
@@ -55,7 +57,7 @@ $(document).ready(function() {
 	});
 	
 	$(".userCountryMapFooterIcons a.tableIcon[var=fullscreen]").click(function() {
-		$("#UserCountryMap")[0].setFullscreenMode();
+		$("#UserCountryMap")[0].setFullscreenMode();	
 	});
 	
 	$(".userCountryMapFooterIcons a.tableIcon[var=export_png]").click(function() {
@@ -66,8 +68,6 @@ $(document).ready(function() {
 		$("#UserCountryMap")[0].height = Math.round($('#UserCountryMap').width() *.55);
 		$("#UserCountryMap")[0].setIconOffset($('#userCountryMapSelectMetrics').width()+22+($.browser.safari ? 22 : 0));
 	});
-	
-	$("#UserCountryMap")[0].height = Math.round($('#widgetUserCountryMapworldMap').width() *.55);
 	
 });
 
