@@ -58,3 +58,12 @@
          float:right;
          padding-right:20px;
  }
+ .actionGoalDetails {
+	margin-left:20px;
+	padding-bottom:10px;
+	font-size:90%;
+}
+table.dataTable td.highlightField {
+	background-color:#FFFFCB !important;
+}
+ 
