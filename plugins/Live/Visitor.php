@@ -78,6 +78,10 @@ class Piwik_Live_Visitor
 			'isVisitorGoalConverted' => $this->isVisitorGoalConverted(),
 			'goalIcon' => $this->getGoalIcon(),
    			'goalType' => $this->getGoalType(),
+			'goalName' => $this->getGoalName(),
+   			'goalRevenue' => $this->getGoalRevenue(),
+			'goalUrl' => $this->getGoalUrl(),
+   			'goalTimePretty' => $this->getGoalTimePretty()
 		);
 	}
 
@@ -104,7 +108,7 @@ class Piwik_Live_Visitor
 	{
 		return $this->details['idsite'];
 	}
-
+	
 	function getNumberOfActions()
 	{
 		return $this->details['visit_total_actions'];
@@ -318,17 +322,17 @@ class Piwik_Live_Visitor
 
 	function getGoalType()
 	{
-		if(isset($this->details['match_attribute'])){
-			return $this->details['match_attribute'];
+		if(isset($this->details['goal_match_attribute'])){
+			return ucfirst($this->details['goal_match_attribute']);
 		}
 		return false;
 	}
 
 	function getGoalIcon()
 	{
-		if(isset($this->details['match_attribute'])){
+		if(isset($this->details['goal_match_attribute'])){
 			$goalicon = "";
-			switch ($this->details['match_attribute']) {
+			switch ($this->details['goal_match_attribute']) {
 				case "url":
 					$goalicon = "plugins/Live/templates/images/goal.png";
 					break;
@@ -340,6 +344,38 @@ class Piwik_Live_Visitor
 					break;
 			}
 			return $goalicon;
+		}
+		return false;
+	}
+	
+	function getGoalName()
+	{
+		if(isset($this->details['goal_name'])){
+			return $this->details['goal_name'];
+		}
+		return false;
+	}
+	
+	function getGoalRevenue()
+	{
+		if(isset($this->details['goal_revenue'])){
+			return $this->details['goal_revenue'];
+		}
+		return false;
+	}
+
+	function getGoalUrl()
+	{
+		if(isset($this->details['goal_idaction_url'])){
+			return $this->details['goal_idaction_url'];
+		}
+		return false;
+	}
+
+	function getGoalTimePretty()
+	{
+		if(isset($this->details['goal_server_time'])){
+			return $this->details['goal_server_time'];
 		}
 		return false;
 	}

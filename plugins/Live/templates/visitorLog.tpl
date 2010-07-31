@@ -93,7 +93,7 @@
 			{if $visitor.columns.refererType == 'directEntry'}{'Referers_DirectEntry'|translate}{/if}
 		</div>
 	</td>
-	<td class="column" style="width:55%" width="55%">
+	<td class="column {if $visitor.columns.isVisitorGoalConverted}highlightField{/if}" style="width:55%" width="55%">
 			<strong>
 				{$visitor.columns.actionDetails|@count}
 				{if $visitor.columns.actionDetails|@count <= 1}
@@ -108,6 +108,18 @@
 			{foreach from=$visitor.columns.actionDetails item=action}
 				<li>
 					<a href="{$action.pageUrl}" target="_blank" style="text-decoration:underline;" title="{$action.pageUrl}">{$action.pageUrl|truncate:80:"...":true}</a>
+					{if $visitor.columns.goalUrl eq $action.pageIdAction}
+						<ul class="actionGoalDetails">
+							<li>
+								<img src="{$visitor.columns.goalIcon}" title="{$visitor.columns.goalType}" /> <strong>{'Live_GoalMatch'|translate}</strong> |
+								{'Live_GoalType'|translate}: <strong>{$visitor.columns.goalType}</strong> |
+								{'Live_GoalName'|translate}: <strong>{$visitor.columns.goalName}</strong> |
+								{if $visitor.columns.goalRevenue > 0}{'Live_GoalRevenue'|translate}: <strong>{$visitor.columns.goalRevenue} {$visitor.columns.siteCurrency}</strong> |{/if}
+								{'Live_GoalTime'|translate}: <strong>{$visitor.columns.goalTimePretty}</strong>
+								
+							</li>
+						</ul>
+					{/if}
 				</li>
 			{/foreach}
 			</ol>
