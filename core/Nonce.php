@@ -76,6 +76,15 @@ class Piwik_Nonce
 			return false;
 		}
 
+		// validate origin
+		$origin = Piwik_Url::getOrigin();
+		if(!empty($origin) &&
+			($origin == 'null'
+			|| !in_array($origin, Piwik_Url::getLocalOrigins())))
+		{
+			return false;
+		}
+
 		return true;
 	}
 }
