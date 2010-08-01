@@ -764,32 +764,25 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.gulesider.no'			=> array('Gule Sider', 'q'),
 
 		// HighBeam
-		'www.highbeam.com'			=> array('HighBeam', 'Q'),
+		'www.highbeam.com'			=> array('HighBeam', 'q', 'Search.aspx?q={k}'),
 
 		// Hit-Parade
-		'recherche.hit-parade.com'	=> array('Hit-Parade', 'p7'),
+		'req.hit-parade.com'		=> array('Hit-Parade', 'p7', 'general/recherche.asp?p7={k}'),
 		'class.hit-parade.com'		=> array('Hit-Parade', 'p7'),
+		'www.hit-parade.com'		=> array('Hit-Parade', 'p7'),
 
 		// Holmes.ge
-		'holmes.ge'					=> array('Holmes', 'q'),
+		'holmes.ge'					=> array('Holmes', 'q', 'search.htm?q={k}'),
+		'www.holmes.ge'				=> array('Holmes', 'q'),
 
 		// Hooseek.com
-		'www.hooseek.com'			=> array('Hooseek', 'recherche'),
+		'www.hooseek.com'			=> array('Hooseek', 'recherche', 'web?recherche={k}'),
 
-		// Hotbot via Lycos
-		'hotbot.lycos.com'			=> array('Hotbot (Lycos)', 'query'),
-		'search.hotbot.de'			=> array('Hotbot', 'query'),
-		'search.hotbot.fr'			=> array('Hotbot', 'query'),
+		// Hotbot
 		'www.hotbot.com'			=> array('Hotbot', 'query'),
 
-		// 1stekeuze
-		'zoek.1stekeuze.nl'			=> array('1stekeuze', 'terms'),
-
-		// Infoseek
-		'search.www.infoseek.co.jp'	=> array('Infoseek', 'qt'),
-
 		// Icerocket
-		'blogs.icerocket.com'		=> array('Icerocket', 'qt'),
+		'blogs.icerocket.com'		=> array('Icerocket', 'q', 'search?q={k}'),
 
 		// ICQ
 		'www.icq.com'				=> array('ICQ', 'q', 'search/results.php?q={k}'),
@@ -799,7 +792,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.ilse.nl'				=> array('Ilse NL', 'search_for', '?search_for={k}'),
 
 		// Iwon
-		'search.iwon.com'			=> array('Iwon', 'searchfor'),
+		'iwon.ask.com'				=> array('Iwon', 'q', 'web?q={k}'),
 
 		// Ixquick
 		'ixquick.com'				=> array('Ixquick', 'query'),
@@ -817,31 +810,19 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		's1-eu.ixquick.de'			=> array('Ixquick', 'query'),
 
 		// Jyxo
-		'jyxo.cz'					=> array('Jyxo', 'q'),
+		'jyxo.1188.cz'				=> array('Jyxo', 'q', 's?q={k}'),
 
 		// Jungle Spider
-		'www.jungle-spider.de'		=> array('Jungle Spider', 'qry'),
-
-		// Kartoo
-		'kartoo.com'				=> array('Kartoo', ''),
-		'kartoo.de'					=> array('Kartoo', ''),
-		'kartoo.fr'					=> array('Kartoo', ''),
+		'www.jungle-spider.de'		=> array('Jungle Spider', 'q'),
 
 		// Kataweb
 		'www.kataweb.it'			=> array('Kataweb', 'q'),
 
-		// Klug suchen
-		'www.klug-suchen.de'		=> array('Klug suchen!', 'query'),
-
-		// kostenlos
-		'www.kostenlos.de'			=> array('kostenlos.de', 'q'),
-
 		// Kvasir
-		'kvasir.no'					=> array('Kvasir', 'q'),
-		'www.kvasir.no'				=> array('Kvasir', 'q'),
+		'www.kvasir.no'				=> array('Kvasir', 'q', 'alle?q={k}'),
 
 		// Latne
-		'www.latne.lv'				=> array('Latne', 'q'),
+		'www.latne.lv'				=> array('Latne', 'q', 'siets.php?q={k}'),
 
 		// La Toile Du Québec via Google
 		'google.canoe.com'			=> array('La Toile Du Québec (Google)', 'q'),
@@ -1057,6 +1038,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.qualigo.ch'			=> array('Qualigo', 'q'),
 		'www.qualigo.de'			=> array('Qualigo', 'q'),
 		'www.qualigo.nl'			=> array('Qualigo', 'q'),
+
+		// Rakuten
+		'websearch.rakuten.co.jp'	=> array('Rakuten', 'qt'),
 
 		// Rambler
 		'nova.rambler.ru'			=> array('Rambler', array('query', 'words'), 'search?query={k}'),
