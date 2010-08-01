@@ -825,68 +825,43 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.latne.lv'				=> array('Latne', 'q', 'siets.php?q={k}'),
 
 		// La Toile Du Québec via Google
-		'google.canoe.com'			=> array('La Toile Du Québec (Google)', 'q'),
-		'www.toile.com'				=> array('La Toile Du Québec (Google)', 'q'),
+		'www.toile.com'				=> array('La Toile Du Québec (Google)', 'q', 'search?q={k}'),
 		'web.toile.com'				=> array('La Toile Du Québec (Google)', 'q'),
-
-		// La Toile Du Québec
-		'recherche.toile.qc.ca'		=> array('La Toile Du Québec', 'query'),
-
-		// Live.com
-		'search.live.com'			=> array('Live', 'q', 'results.aspx?q={k}'),
-		'beta.search.live.com'		=> array('Live', 'q'),
-		'www.live.com'				=> array('Live', 'q'),
-		'search.msn.com'			=> array('Live', 'q'),
-		'beta.search.msn.fr'		=> array('Live', 'q'),
-		'search.msn.fr'				=> array('Live', 'q'),
-		'search.msn.es'				=> array('Live', 'q'),
-		'search.msn.se'				=> array('Live', 'q'),
-		'search.latam.msn.com'		=> array('Live', 'q'),
-		'search.msn.nl'				=> array('Live', 'q'),
-		'leguide.fr.msn.com'		=> array('Live', 's'),
-		'leguide.msn.fr'			=> array('Live', 's'),
-		'search.msn.co.jp'			=> array('Live', 'q'),
-		'search.msn.no'				=> array('Live', 'q'),
-		'search.msn.at'				=> array('Live', 'q'),
-		'search.msn.com.hk'			=> array('Live', 'q'),
-		'search.t1msn.com.mx'		=> array('Live', 'q'),
-		'fr.ca.search.msn.com'		=> array('Live', 'q'),
-		'search.msn.be'				=> array('Live', 'q'),
-		'search.fr.msn.be'			=> array('Live', 'q'),
-		'search.msn.it'				=> array('Live', 'q'),
-		'sea.search.msn.it'			=> array('Live', 'q'),
-		'sea.search.msn.fr'			=> array('Live', 'q'),
-		'sea.search.msn.de'			=> array('Live', 'q'),
-		'sea.search.msn.com'		=> array('Live', 'q'),
-		'sea.search.fr.msn.be'		=> array('Live', 'q'),
-		'search.msn.com.tw'			=> array('Live', 'q'),
-		'search.msn.de'				=> array('Live', 'q'),
-		'search.msn.co.uk'			=> array('Live', 'q'),
-		'search.msn.co.za'			=> array('Live', 'q'),
-		'search.msn.ch'				=> array('Live', 'q'),
-		'search.msn.es'				=> array('Live', 'q'),
-		'search.msn.com.br'			=> array('Live', 'q'),
-		'search.ninemsn.com.au'		=> array('Live', 'q'),
-		'search.msn.dk'				=> array('Live', 'q'),
-		'search.arabia.msn.com'		=> array('Live', 'q'),
-		'search.prodigy.msn.com'	=> array('Live', 'q'),
 
 		// Looksmart
 		'www.looksmart.com'			=> array('Looksmart', 'key'),
 
 		// Lo.st
-		'lo.st'						=> array('Lo.st (Powered by Google)', 'x_query'),
+		'lo.st'						=> array('Lo.st (Powered by Google)', 'x_query', 'cgi-bin/eolost.cgi?x_query={k}'),
 
 		// Lycos
-		'search.lycos.com'			=> array('Lycos', 'query'),
-		'vachercher.lycos.fr'		=> array('Lycos', 'query'),
-		'www.lycos.fr'				=> array('Lycos', 'query'),
-		'suche.lycos.de'			=> array('Lycos', 'query'),
+		'search.lycos.com'			=> array('Lycos', 'query', '?query={k}'),
+		'search.lycos.com.au'		=> array('Lycos', 'query'),
+		'search.lycos.com.ar'		=> array('Lycos', 'query'),
+		'search.lycos.com.br'		=> array('Lycos', 'query'),
+		'search.lycos.com.co'		=> array('Lycos', 'query'),
+		'search.lycos.at'			=> array('Lycos', 'query'),
+		'search.lycos.be'			=> array('Lycos', 'query'),
+		'search.lycos.ca'			=> array('Lycos', 'query'),
+		'search.lycos.cl'			=> array('Lycos', 'query'),
+		'search.lycos.dk'			=> array('Lycos', 'query'),
+		'search.lycos.fi'			=> array('Lycos', 'query'),
+		'search.lycos.fr'			=> array('Lycos', 'query'),
 		'search.lycos.de'			=> array('Lycos', 'query'),
-		'sidesearch.lycos.com'		=> array('Lycos', 'query'),
-		'www.multimania.lycos.fr'	=> array('Lycos', 'query'),
-		'buscador.lycos.es'			=> array('Lycos', 'query'),
-
+		'search.lycos.in'			=> array('Lycos', 'query'),
+		'search.lycos.it'			=> array('Lycos', 'query'),
+		'search.lycos.co.jp'		=> array('Lycos', 'query'),
+		'search.lycos.co.kr'		=> array('Lycos', 'query'),
+		'search.lycos.mx'			=> array('Lycos', 'query'),
+		'search.lycos.nl'			=> array('Lycos', 'query'),
+		'search.lycos.co.nz'		=> array('Lycos', 'query'),
+		'search.lycos.com.pe'		=> array('Lycos', 'query'),
+		'search.lycos.es'			=> array('Lycos', 'query'),
+		'search.lycos.se'			=> array('Lycos', 'query'),
+		'search.lycos.ch'			=> array('Lycos', 'query'),
+		'search.lycos.co.uk'		=> array('Lycos', 'query'),
+		'search.lycos.com.ve'		=> array('Lycos', 'query'),
+	
 		// maailm.com
 		'www.maailm.com'			=> array('maailm.com', 'tekst'),
 
@@ -894,33 +869,26 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'go.mail.ru'				=> array('Mailru', 'q', 'search?q={k}', 'windows-1251'),
 
 		// Mamma
-		'mamma.com'					=> array('Mamma', 'query'),
+		'www.mamma.com'				=> array('Mamma', 'query', 'result.php?q={k}'),
 		'mamma75.mamma.com'			=> array('Mamma', 'query'),
-		'www.mamma.com'				=> array('Mamma', 'query'),
-
-		// Meceoo
-		'www.meceoo.fr'				=> array('Meceoo', 'kw'),
-
-		// Mediaset
-		'servizi.mediaset.it'		=> array('Mediaset', 'searchword'),
 
 		// Meta
-		'meta.ua'					=> array('Meta.ua', 'q'),
+		'meta.ua'					=> array('Meta.ua', 'q', 'search.asp?q={k}'),
+		'www.meta.ua'				=> array('Meta.ua', 'q'),
 
 		// Metacrawler
-		'search.metacrawler.com'	=> array('Metacrawler', 'general'),
+		'search.metacrawler.com'	=> array('Metacrawler', 'qkw'),
 
 		// Metager
-		'meta.rrzn.uni-hannover.de'	=> array('Metager', 'eingabe'),
+		'meta.rrzn.uni-hannover.de'	=> array('Metager', 'eingabe', 'meta/cgi-bin/meta.ger1?eingabe={k}'),
 		'www.metager.de'			=> array('Metager', 'eingabe'),
 
 		// Metager2
-		'www.metager2.de'			=> array('Metager2', 'q'),
+		'www.metager2.de'			=> array('Metager2', 'q', 'search/index.php?q={k}'),
 		'metager2.de'				=> array('Metager2', 'q'),
 
 		// Meinestadt
 		'www.meinestadt.de'			=> array('Meinestadt.de', 'words'),
-		'home.meinestadt.de'		=> array('Meinestadt.de', 'words'),
 
 		// Mister Wong
 		'www.mister-wong.com'		=> array('Mister Wong', 'keywords', 'search/?keywords={k}'),
