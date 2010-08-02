@@ -123,6 +123,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.aolrecherche.aol.fr'	=> array('AOL', array('query', 'q')),
 		'www.aolrecherches.aol.fr'	=> array('AOL', array('query', 'q')),
 		'www.aolimages.aol.fr'		=> array('AOL', array('query', 'q')),
+		'aim.search.aol.com'		=> array('AOL', array('query', 'q')),
 		'www.recherche.aol.fr'		=> array('AOL', array('query', 'q')),
 		'find.web.aol.com'			=> array('AOL', array('query', 'q')),
 		'recherche.aol.ca'			=> array('AOL', array('query', 'q')),
@@ -140,6 +141,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'suchet2.aol.de'			=> array('AOL', array('query', 'q')),
 		'search.hp.my.aol.com.au'	=> array('AOL', array('query', 'q')),
 		'search.hp.my.aol.de'		=> array('AOL', array('query', 'q')),
+		'search-intl.netscape.com'	=> array('AOL', array('query', 'q')),
 
 		// Aport
 		'sm.aport.ru'				=> array('Aport', 'r', 'search?r={k}'),
@@ -898,7 +900,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.monstercrawler.com'	=> array('Monstercrawler', 'qry'),
 
 		// Mozbot
-		'www.mozbot.fr'				=> array('mozbot', 'q'),
+		'www.mozbot.fr'				=> array('mozbot', 'q', 'results.php?q={k}'),
 		'www.mozbot.co.uk'			=> array('mozbot', 'q'),
 		'www.mozbot.com'			=> array('mozbot', 'q'),
 
@@ -919,71 +921,42 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 
 		// Najdi
-		'www.najdi.si'				=> array('Najdi.si', 'q'),
+		'www.najdi.si'				=> array('Najdi.si', 'q', 'search.jsp?q={k}'),
 
 		// Naver
 		'search.naver.com'			=> array('Naver', 'query', 'search.naver?query={k}', 'x-windows-949'),
 
 		// Needtofind
-		'ko.search.need2find.com'	=> array('Needtofind', 'searchfor'),
+		'ko.search.need2find.com'	=> array('Needtofind', 'searchfor', 'search/AJmain.jhtml?searchfor={k}'),
 
 		// Neti
 		'www.neti.ee'				=> array('Neti', 'query', 'cgi-bin/otsing?query={k}', 'iso-8859-1'),
 
 		// Netster
-		'www.netster.com'			=> array('Netster', 'keywords'),
-
-		// Netscape
-		'search-intl.netscape.com'	=> array('Netscape', 'search'),
-		'www.netscape.fr'			=> array('Netscape', 'q'),
-		'suche.netscape.de'			=> array('Netscape', 'q'),
-		'search.netscape.com'		=> array('Netscape', 'query'),
+		'www.ireit.com'				=> array('Netster', 'search', 'netstercom/?search={k}'),
 
 		// Nifty
-		'search.nifty.com'			=> array('Nifty', 'q'),
+		'search.nifty.com'			=> array('Nifty', 'q', 'websearch/search?q={k}'),
 
 		// Nigma
 		'www.nigma.ru'				=> array('Nigma', 's', 'index.php?s={k}'),
 		'nigma.ru'					=> array('Nigma', 's'),
 
-		// Nomade
-		'ie4.nomade.fr'				=> array('Nomade', 's'),
-		'rechercher.nomade.aliceadsl.fr'=> array('Nomade (AliceADSL)', 's'),
-		'rechercher.nomade.fr'		=> array('Nomade', 's'),
-
-		// Northern Light
-		'www.northernlight.com'		=> array('Northern Light', 'qr'),
-
-		// Numéricable
-		'www.numericable.fr'		=> array('Numéricable', 'query'),
-
 		// Onet
-		'szukaj.onet.pl'			=> array('Onet.pl', 'qt'),
+		'szukaj.onet.pl'			=> array('Onet.pl', 'qt', 'query.html?qt={k}'),
 
 		// Online.no
-		'www.online.no'				=> array('Online.no', 'q'),
+		'www.online.no'				=> array('Online.no', 'q', 'google/index.jsp?q={k}'),
 		'online.no'					=> array('Online.no', 'q'),
 
-		// Opera
-		'search.opera.com'			=> array('Opera', 'search'),
-
-		// Openfind
-		'wps.openfind.com.tw'		=> array('Openfind (Websearch)', 'query'),
-		'bbs2.openfind.com.tw'		=> array('Openfind (BBS)', 'query'),
-		'news.openfind.com.tw'		=> array('Openfind (News)', 'query'),
-
 		// Opplysningen 1881
-		'www.1881.no'				=> array('Opplysningen 1881', 'Query'),
-
-		// Overture
-		'www.overture.com'			=> array('Overture', 'Keywords'),
-		'www.fr.overture.com'		=> array('Overture', 'Keywords'),
+		'www.1881.no'				=> array('Opplysningen 1881', 'Query', 'Multi/?Query={k}'),
 
 		// Paperball
-		'suche.paperball.de'		=> array('Paperball', 'query'),
+		'www.paperball.de'			=> array('Paperball', 'q', 'suche/s/?q={k}'),
 
 		// Picsearch
-		'www.picsearch.com'			=> array('Picsearch', 'q'),
+		'www.picsearch.com'			=> array('Picsearch', 'q', 'index.cgi?q={k}'),
 
 		// Plazoo
 		'www.plazoo.com'			=> array('Plazoo', 'q'),
@@ -991,15 +964,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Poisk.Ru
 		'poisk.ru'					=> array('Poisk.Ru', 'text', 'cgi-bin/poisk?text={k}', 'windows-1251'),
 
-		// Postami
-		'www.postami.com'			=> array('Postami', 'query'),
-
 		// qip
-		'start.qip.ru'				=> array('qip.ru', 'query', 'search?query={k}'),
-		'search.qip.ru'				=> array('qip.ru', 'query'),
-
-		// Quick searches
-		'data.quicksearches.net'	=> array('QuickSearches', 'q'),
+		'search.qip.ru'				=> array('qip.ru', 'query', 'search?query={k}'),
 
 		// Qualigo
 		'www.qualigo.at'			=> array('Qualigo', 'q'),
