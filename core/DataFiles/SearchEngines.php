@@ -1090,15 +1090,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'ricerca.virgilio.it'		=> array('Virgilio', 'qs', 'ricerca?qs={k}'),
 
 		// Voila
-		'search.voila.com'			=> array('Voila', 'kw'),
-		'search.ke.voila.fr'		=> array('Voila', 'rdata'),
-		'moteur.voila.fr'			=> array('Voila', 'kw'),
-		'search.voila.fr'			=> array('Voila', 'kw'),
-		'beta.voila.fr'				=> array('Voila', 'kw'),
+		'search.ke.voila.fr'		=> array('Voila', 'rdata', 'S/voila?rdata={k}'),
 
 		// Volny
-		'volny.zlatestranky.cz'		=> array('Volny', 'search', 'fulltext/?search={k}', 'windows-1250'),
-		'web.volny.cz'				=> array('Volny', 'search', false, 'windows-1250'),
+		'web.volny.cz'				=> array('Volny', 'search', 'fulltext/?search={k}', 'windows-1250'),
 
 		// Walhello 
 		'www.walhello.info'			=> array('Walhello', 'key', 'search?key={k}'),
@@ -1106,49 +1101,33 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.walhello.de'			=> array('Walhello', 'key', 'search?key={k}'),
 		'www.walhello.nl'			=> array('Walhello', 'key', 'search?key={k}'),
 
-		// Wanadoo
-		'search.ke.wanadoo.fr'		=> array('Wanadoo', 'kw'),
-		'busca.wanadoo.es'			=> array('Wanadoo', 'buscar'),
-
 		// Web.de
-		'suche.web.de'				=> array('Web.de (Websuche)', 'su'),
-		'dir.web.de'				=> array('Web.de (Directory)', 'su'),
+		'suche.web.de'				=> array('Web.de', 'su', 'search/web/?su={k}'),
 
 		// Web.nl
-		'www.web.nl'				=> array('Web.nl', 'query'),
+		'www.web.nl'				=> array('Web.nl', 'zoekwoord'),
 
 		// Weborama
-		'www.weborama.fr'			=> array('weborama', 'query'),
+		'www.weborama.fr'			=> array('weborama', 'QUERY'),
 
 		// WebSearch
 		'www.websearch.com'			=> array('WebSearch', array('qkw', 'q'), 'search/results2.aspx?q={k}'), 
-
-		// Webtip
-		'www.webtip.de'				=> array('Webtip', 'keyword'),
 
 		// Wedoo
 		'fr.wedoo.com'				=> array('Wedoo', 'keyword'),
 
 		// Witch
-		'www.witch.de'				=> array('Witch', 'search'),
-
-		// WXS
-		'wxsl.nl'					=> array('Planet Internet', 'q'),
+		'www.witch.de'				=> array('Witch', 'search', 'search-result.php?cn=0&search={k}'),
 
 		// WWW
 		'search.www.ee'				=> array('www värav', 'query'),
 
 		// X-recherche
-		'www.x-recherche.com'		=> array('X-Recherche', 'mots'),
+		'www.x-recherche.com'		=> array('X-Recherche', 'MOTS', 'cgi-bin/websearch?MOTS={k}'),
 
 		// Yahoo
 		'search.yahoo.com'			=> array('Yahoo!', 'p', 'search?p={k}'),
-		'ink.yahoo.com'				=> array('Yahoo!', 'p'),
-		'ink.yahoo.fr'				=> array('Yahoo!', 'p'),
-		'fr.ink.yahoo.com'			=> array('Yahoo!', 'p'),
 		'search.yahoo.co.jp'		=> array('Yahoo!', 'p'),
-		'search.yahoo.fr'			=> array('Yahoo!', 'p'),
-		'fi.yahoo.com'				=> array('Yahoo!', 'p'),
 		'ar.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'au.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'br.search.yahoo.com'		=> array('Yahoo!', 'p'),
@@ -1159,6 +1138,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'de.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'es.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'espanol.search.yahoo.com'	=> array('Yahoo!', 'p'),
+		'fi.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'fr.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'hk.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'id.search.yahoo.com'		=> array('Yahoo!', 'p'),
@@ -1174,35 +1154,52 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'us.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'search.cn.yahoo.com'		=> array('Yahoo!', 'p'),
 		'one.cn.yahoo.com'			=> array('Yahoo!', 'p'),
-		'cns.3721.com'				=> array('Yahoo!', 'p'),	// acquired by Yahoo!
-
-		'au.yhs.search.yahoo.com'	=> array('Yahoo!', 'p', 'avg/search?p={k}'),
-		'de.yhs.search.yahoo.com'	=> array('Yahoo!', 'p', 'avg/search?p={k}'),
-		'us.yhs.search.yahoo.com'	=> array('Yahoo!', 'p', 'avg/search?p={k}'),
 		'de.dir.yahoo.com'			=> array('Yahoo! Webverzeichnis', ''),
 		'cf.dir.yahoo.com'			=> array('Yahoo! Directory', ''),
 		'fr.dir.yahoo.com'			=> array('Yahoo! Directory', ''),
 
 		// Yahoo! Images
 		'images.search.yahoo.com'	=> array('Yahoo! Images', 'p', 'search/images?p={k}'),
-
+		'ar.images.search.yahoo.com'	=> array('Yahoo! Images', 'p'),
+		'au.images.search.yahoo.com'	=> array('Yahoo! Images', 'p'),
+		'br.images.search.yahoo.com'	=> array('Yahoo! Images', 'p'),
+		'ch.images.search.yahoo.com'	=> array('Yahoo! Images', 'p'),
+		'ca.images.search.yahoo.com'	=> array('Yahoo! Images', 'p'),
+		'cade.images.search.yahoo.com'	=> array('Yahoo! Images', 'p'),
+		'cf.images.search.yahoo.com'	=> array('Yahoo! Images', 'p'),
+		'de.images.search.yahoo.com'	=> array('Yahoo! Images', 'p'),
+		'es.images.search.yahoo.com'	=> array('Yahoo! Images', 'p'),
+		'espanol.images.search.yahoo.com'	=> array('Yahoo! Images', 'p'),
+		'fi.images.search.yahoo.com'	=> array('Yahoo! Images', 'p'),
+		'fr.images.search.yahoo.com'	=> array('Yahoo! Images', 'p'),
+		'hk.images.search.yahoo.com'	=> array('Yahoo! Images', 'p'),
+		'id.images.search.yahoo.com'	=> array('Yahoo! Images', 'p'),
+		'it.images.search.yahoo.com'	=> array('Yahoo! Images', 'p'),
+		'kr.images.search.yahoo.com'	=> array('Yahoo! Images', 'p'),
+		'mx.images.search.yahoo.com'	=> array('Yahoo! Images', 'p'),
+		'nl.images.search.yahoo.com'	=> array('Yahoo! Images', 'p'),
+		'qc.images.search.yahoo.com'	=> array('Yahoo! Images', 'p'),
+		'ru.images.search.yahoo.com'	=> array('Yahoo! Images', 'p'),
+		'se.images.search.yahoo.com'	=> array('Yahoo! Images', 'p'),
+		'tw.images.search.yahoo.com'	=> array('Yahoo! Images', 'p'),
+		'uk.images.search.yahoo.com'	=> array('Yahoo! Images', 'p'),
+		'us.images.search.yahoo.com'	=> array('Yahoo! Images', 'p'),
+	
 		// Yandex
 		'yandex.ru'					=> array('Yandex', 'text', 'yandsearch?text={k}'),
 		'yandex.ua'					=> array('Yandex', 'text'),
 		'www.yandex.ru'				=> array('Yandex', 'text'),
-		'search.yaca.yandex.ru'		=> array('Yandex', 'text'),
-		'ya.ru'						=> array('Yandex', 'text'),
-		'www.ya.ru'					=> array('Yandex', 'text'),
 
 		// Yandex Images
 		'images.yandex.ru'			=> array('Yandex Images', 'text', 'yandsearch?text={k}'),
+		'images.yandex.ua'			=> array('Yandex Images', 'text'),
 
 		// Yasni
-		'www.yasni.de'				=> array('Yasni', 'name'),
-		'www.yasni.com'				=> array('Yasni', 'name'),
-		'www.yasni.co.uk'			=> array('Yasni', 'name'),
-		'www.yasni.ch'				=> array('Yasni', 'name'),
-		'www.yasni.at'				=> array('Yasni', 'name'),
+		'www.yasni.de'				=> array('Yasni', 'query'),
+		'www.yasni.com'				=> array('Yasni', 'query'),
+		'www.yasni.co.uk'			=> array('Yasni', 'query'),
+		'www.yasni.ch'				=> array('Yasni', 'query'),
+		'www.yasni.at'				=> array('Yasni', 'query'),
 
 		// Yellowmap
 		'www.yellowmap.de'			=> array('Yellowmap', ' '),
@@ -1212,17 +1209,17 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www3.zoek.nl'				=> array('Zoek', 'q'),
 
 		// Zhongsou
-		'p.zhongsou.com'			=> array('Zhongsou', 'w'),
+		'p.zhongsou.com'			=> array('Zhongsou', 'w', 'p?w={k}'),
 
 		// Zoeken
-		'www.zoeken.nl'				=> array('Zoeken', 'query'),
+		'www.zoeken.nl'				=> array('Zoeken', 'q', '?q={k}'),
 
 		// Zoohoo
 		'zoohoo.cz'					=> array('Zoohoo', 'q', '?q={k}', 'windows-1250'),
 		'www.zoohoo.cz'				=> array('Zoohoo', 'q', false, 'windows-1250'),
 
 		// Zoznam
-		'www.zoznam.sk'				=> array('Zoznam', 's'),
+		'www.zoznam.sk'				=> array('Zoznam', 's', 'hladaj.fcgi?s={k}&co=svet'),
 	);
 
 	$GLOBALS['Piwik_SearchEngines_NameToUrl'] = array();
