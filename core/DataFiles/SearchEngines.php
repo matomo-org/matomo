@@ -974,15 +974,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.qualigo.nl'			=> array('Qualigo', 'q'),
 
 		// Rakuten
-		'websearch.rakuten.co.jp'	=> array('Rakuten', 'qt'),
+		'websearch.rakuten.co.jp'	=> array('Rakuten', 'qt', 'WebIS?qt={k}'),
 
 		// Rambler
 		'nova.rambler.ru'			=> array('Rambler', array('query', 'words'), 'search?query={k}'),
-		'search.rambler.ru'			=> array('Rambler', 'words'),
-		'www.rambler.ru'			=> array('Rambler', 'words'),
-
-		// Reacteur.com
-		'www.reacteur.com'			=> array('Reacteur', 'kw'),
 
 		// RPMFind
 		'www.rpmfind.net'			=> array('rpmfind', 'query', 'linux/rpm2html/search.php?query={k}'),
@@ -990,32 +985,26 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'fr2.rpmfind.net'			=> array('rpmfind', 'query'),
 
 		// Sapo
-		'pesquisa.sapo.pt'			=> array('Sapo', 'q'),
+		'pesquisa.sapo.pt'			=> array('Sapo', 'q', '?q={k}'),
 
 		// Search.com
-		'www.search.com'			=> array('Search.com', 'q'),
+		'www.search.com'			=> array('Search.com', 'q', 'search?q={k}'),
 
 		// Search.ch
-		'www.search.ch'				=> array('Search.ch', 'q'),
+		'www.search.ch'				=> array('Search.ch', 'q', '?q={k}'),
 
 		// Searchalot
 		'www.searchalot.com'		=> array('Searchalot', 'q', '?q={k}'),
 		'searchalot.com'			=> array('Searchalot', 'q'),
 
 		// Seek
-		'www.seek.fr'				=> array('Searchalot', 'qry_str'),
-
-		// Searchscout
-		'www.searchscout.com'		=> array('Search Scout', 'gt_keywords'),
+		'www.seek.fr'				=> array('Seek.fr', ''),
 
 		// Searchy
-		'www.searchy.co.uk'			=> array('Searchy', 'search_term'),
-
-		// Sesam
-		'sesam.no'					=> array('Sesam', 'q'),
+		'www.searchy.co.uk'			=> array('Searchy', 'q', 'index.html?q={k}'),
 
 		// Setooz
-		'bg.setooz.com'				=> array('Setooz', 'query'),
+		'bg.setooz.com'				=> array('Setooz', 'query', 'search?query={k}'),
 		'el.setooz.com'				=> array('Setooz', 'query'),
 		'et.setooz.com'				=> array('Setooz', 'query'),
 		'fi.setooz.com'				=> array('Setooz', 'query'),
@@ -1040,16 +1029,13 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'ur.setooz.com'				=> array('Setooz', 'query'),
 
 		// Seznam
-		'search.seznam.cz'			=> array('Seznam', 'q'),
-		'search1.seznam.cz'			=> array('Seznam', 'q'),
-		'search2.seznam.cz'			=> array('Seznam', 'q'),
+		'search.seznam.cz'			=> array('Seznam', 'q', '?q={k}'),
 
 		// Sharelook
 		'www.sharelook.fr'			=> array('Sharelook', 'keyword'),
-		'www.sharelook.de'			=> array('Sharelook', 'keyword'),
 
 		// Skynet
-		'search.skynet.be'			=> array('Skynet', 'keywords'),
+		'www.skynet.be'				=> array('Skynet', 'q', 'services/recherche/google?q={k}'),
 
 		// Sogou
 		'www.sogou.com'				=> array('Sogou', 'query', 'web?query={k}'),
@@ -1057,39 +1043,24 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// soso.com
 		'www.soso.com'				=> array('Soso', 'w', 'q?w={k}', 'gb2312'),
 
-		// Sphere
-		'www.sphere.com'			=> array('Sphere', 'q'),
-
-		// Start.no
-		'www.start.no'				=> array('Google', 'q'),
-
 		// Startpagina
-		'startgoogle.startpagina.nl'=> array('Startpagina (Google)', 'q'),
+		'startgoogle.startpagina.nl'=> array('Startpagina (Google)', 'q', '?q={k}'),
 
 		// Suchmaschine.com
-		'www.suchmaschine.com'		=> array('Suchmaschine.com', 'suchstr'),
+		'www.suchmaschine.com'		=> array('Suchmaschine.com', 'suchstr', 'cgi-bin/wo.cgi?suchstr={k}'),
 
 		// Suchnase
-		'www.suchnase.de'			=> array('Suchnase', 'qkw'),
-
-		// Supereva
-		'search.supereva.com'		=> array('Supereva', 'q'),
-
-		// Sympatico
-		'search.sympatico.msn.ca'	=> array('Sympatico', 'q'),
-		'search.sli.sympatico.ca'	=> array('Sympatico', 'q'),
-		'search.fr.sympatico.msn.ca'=> array('Sympatico', 'q'),
-		'sea.search.fr.sympatico.msn.ca'=> array('Sympatico', 'q'),
+		'www.suchnase.de'			=> array('Suchnase', 'q'),
 
 		// Technorati
-		'www.technorati.com'		=> array('Technorati', ' '),
+		'technorati.com'			=> array('Technorati', 'q', 'search?return=sites&authority=all&q={k}'),
 
 		// Teoma
-		'www.teoma.com'				=> array('Teoma', 't'),
+		'www.teoma.com'				=> array('Teoma', 'q', 'web?q={k}'),
 
 		// Tiscali
-		'search.tiscali.it'			=> array('Tiscali', 'key'),
-		'search-dyn.tiscali.it'		=> array('Tiscali', 'key'),
+		'search.tiscali.it'			=> array('Tiscali', 'q', '?q={k}'),
+		'search-dyn.tiscali.it'		=> array('Tiscali', 'q'),
 		'hledani.tiscali.cz'		=> array('Tiscali', 'query', false, 'windows-1250'),
 
 		// Tixuma
@@ -1103,26 +1074,20 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.trouvez.com'			=> array('Trouvez.com', 'query'),
 
 		// Trusted-Search
-		'www.trusted--search.com'	=> array('Trusted Search', 'w'),
+		'www.trusted--search.com'	=> array('Trusted Search', 'w', 'search?w={k}'),
 
 		// Twingly
-		'www.twingly.com'			=> array('Twingly', 'q'),
+		'www.twingly.com'			=> array('Twingly', 'q', 'search?q={k}'),
 
 		// Vinden
-		'zoek.vinden.nl'			=> array('Vinden', 'query'),
+		'www.vinden.nl'				=> array('Vinden', 'q', '?q={k}'),
 
 		// Vindex
-		'www.vindex.nl'				=> array('Vindex', 'search_for'),
+		'www.vindex.nl'				=> array('Vindex', 'search_for', '/web?search_for={k}'),
+		'search.vindex.nl'			=> array('Vindex', 'search_for'),
 
 		// Virgilio
-		'search.virgilio.it'		=> array('Virgilio', 'qs'),
-		'ricerca.virgilio.it'		=> array('Virgilio', 'qs'),
-
-		// vivisimo
-		'vivisimo.com'				=> array('Vivisimo', 'query', 'search/?query={k}'),
-		'search.vivisimo.com'		=> array('Vivisimo', 'query'),
-
-		'de.vivisimo.com'			=> array('Vivisimo', 'query', 'search/?query={k}&dlang=de&v%3Aproject=de-vivisimo-com'),
+		'ricerca.virgilio.it'		=> array('Virgilio', 'qs', 'ricerca?qs={k}'),
 
 		// Voila
 		'search.voila.com'			=> array('Voila', 'kw'),
