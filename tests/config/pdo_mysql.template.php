@@ -8,6 +8,7 @@
 login=		@superuser.loging@
 password=	@superuser.password@
 email=		@superuser.email@
+salt=f0cf9c5b0d542272ff20ddfb4a646686
 
 [database]
 host=		@database.main.host@
