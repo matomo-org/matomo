@@ -18,7 +18,7 @@
  */
 class Piwik_ViewDataTable_GenerateGraphData_ChartPie extends Piwik_ViewDataTable_GenerateGraphData
 {
-	protected $graphLimit = 4;
+	protected $graphLimit = 6;
 	
 	protected function getViewDataTableId()
 	{
