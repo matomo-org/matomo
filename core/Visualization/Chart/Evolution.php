@@ -65,7 +65,7 @@ class Piwik_Visualization_Chart_Evolution extends Piwik_Visualization_Chart
 				$lineValue = new hollow_dot($value);
 				
 				$unit = $this->yUnit;
-				$lineValue->tooltip("$label<br>$value$unit $labelName");
+				$lineValue->tooltip("$label<br><b>$value$unit</b> $labelName");
 				if(!empty($this->xOnClick))
 				{
 					$lineValue->on_click("piwikHelper.redirectToUrl('".$this->xOnClick[$j]."')");

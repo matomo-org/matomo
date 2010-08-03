@@ -190,6 +190,10 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 		$this->tooltip = new tooltip();
 		$this->tooltip->set_shadow( true );
 		$this->tooltip->set_stroke( 1 );
+		$this->tooltip->set_colour( "#B4B09C" );
+		$this->tooltip->set_background_colour( "#F9FAFA" );
+		$this->tooltip->set_title_style( "{font-size: 14px; font-family:Arial; font-weight:bold; color: #7E735A;}" );
+		$this->tooltip->set_body_style( "{font-size: 14px; font-family:Arial; color: #000000;} " );
 				
 		// Attach elements to the graph
 		$this->chart->set_x_axis($this->x);
