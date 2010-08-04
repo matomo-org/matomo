@@ -205,6 +205,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Bluewin
 		'search.bluewin.ch'			=> array('Bluewin', 'searchTerm', '?searchTerm={k}'),
 
+		// canoe.ca
+		'web.canoe.ca'				=> array('Canoe.ca', 'q', 'search?q={k}'),
+
 		// Centrum
 		'search.centrum.cz'			=> array('Centrum', 'q', '?q={k}'),
 		'morfeo.centrum.cz'			=> array('Centrum', 'q', false),
