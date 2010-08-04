@@ -1205,6 +1205,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.yellowmap.de'			=> array('Yellowmap', ' '),
 		'yellowmap.de'				=> array('Yellowmap', ' '),
 
+		// Yippy
+		'search.yippy.com'			=> array('Yippy', 'query', 'search?query={k}'),
+
 		// Zoek
 		'www3.zoek.nl'				=> array('Zoek', 'q'),
 
