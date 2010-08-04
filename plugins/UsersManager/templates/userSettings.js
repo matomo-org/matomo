@@ -46,6 +46,12 @@ function getAnonymousUserSettingsAJAX()
 $(document).ready( function() {
 	$('#userSettingsSubmit').click( function() {
 		$.ajax( getUserSettingsAJAX() );
+		var defaultDate = $('input[name=defaultDate]:checked').val();
+		if(defaultDate == 'today' || defaultDate == 'yesterday') {
+			broadcast.propagateNewPage('period=day&date='+defaultDate);
+		} else {
+			broadcast.propagateNewPage('date=today&period='+defaultDate);
+		}
 	});
 	$('#userSettingsTable input').keypress( function(e) {
 		var key=e.keyCode || e.which;
