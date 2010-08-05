@@ -1097,6 +1097,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Voila
 		'search.ke.voila.fr'		=> array('Voila', 'rdata', 'S/voila?rdata={k}'),
+		'www.lemoteur.fr'			=> array('Voila', 'rdata', 'S/voila?rdata={k}'), // uses voila search
 
 		// Volny
 		'web.volny.cz'				=> array('Volny', 'search', 'fulltext/?search={k}', 'windows-1250'),
