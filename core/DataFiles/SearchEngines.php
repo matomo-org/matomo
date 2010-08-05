@@ -955,6 +955,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Opplysningen 1881
 		'www.1881.no'				=> array('Opplysningen 1881', 'Query', 'Multi/?Query={k}'),
 
+		// Orange
+		'busca.orange.es'			=> array('Orange', 'q', 'search?q={k}'),
+	
 		// Paperball
 		'www.paperball.de'			=> array('Paperball', 'q', 'suche/s/?q={k}'),
 
