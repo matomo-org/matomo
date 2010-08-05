@@ -334,7 +334,7 @@ class Piwik_Live_Visitor
 			$goalicon = "";
 			switch ($this->details['goal_match_attribute']) {
 				case "url":
-					$goalicon = "plugins/Live/templates/images/goal.png";
+					$goalicon = "themes/default/images/goal.png";
 					break;
 				case "file":
 					$goalicon = "plugins/Live/templates/images/download.png";

@@ -1,7 +1,7 @@
 <div class="home" id="content" style="display: block;">
 <a graphid="VisitsSummarygetEvolutionGraph" name="evolutionGraph"></a>
 <h2>{'Live_VisitorLog'|translate}</h2>
-<div id="{$properties.uniqueId}">
+<div id="{$properties.uniqueId}" class="visitorLog">
 
 {if isset($arrayDataTable.result) and $arrayDataTable.result == 'error'}
 		{$arrayDataTable.message}
@@ -33,8 +33,8 @@
 	<td style="display:none;"></td>
 	<td class="label" style="width:12%" width="12%">
 
-				{$visitor.columns.serverDatePretty} - {$visitor.columns.serverTimePretty}
-				{if isset($visitor.columns.ip)} <br/>IP: {$visitor.columns.ip}{/if}
+				<strong>{$visitor.columns.serverDatePretty} - {$visitor.columns.serverTimePretty}</strong>
+				{if !empty($visitor.columns.ip)} <br/>IP: {$visitor.columns.ip}{/if}
 				{if (isset($visitor.columns.provider)&&$visitor.columns.provider!='IP')} 
 					<br />
 					{'Provider_ColumnProvider'|translate}: 
@@ -111,12 +111,9 @@
 					{if $visitor.columns.goalUrl eq $action.pageIdAction}
 						<ul class="actionGoalDetails">
 							<li>
-								<img src="{$visitor.columns.goalIcon}" title="{$visitor.columns.goalType}" /> <strong>{'Live_GoalMatch'|translate}</strong> |
-								{'Live_GoalType'|translate}: <strong>{$visitor.columns.goalType}</strong> |
-								{'Live_GoalName'|translate}: <strong>{$visitor.columns.goalName}</strong> |
-								{if $visitor.columns.goalRevenue > 0}{'Live_GoalRevenue'|translate}: <strong>{$visitor.columns.goalRevenue} {$visitor.columns.siteCurrency}</strong> |{/if}
-								{'Live_GoalTime'|translate}: <strong>{$visitor.columns.goalTimePretty}</strong>
-								
+								<img src="{$visitor.columns.goalIcon}" title="{$visitor.columns.goalType}" /> 
+								<strong>{$visitor.columns.goalName}</strong>, 
+								{if $visitor.columns.goalRevenue > 0}{'Live_GoalRevenue'|translate}: <strong>{$visitor.columns.goalRevenue} {$visitor.columns.siteCurrency}</strong>{/if}
 							</li>
 						</ul>
 					{/if}
