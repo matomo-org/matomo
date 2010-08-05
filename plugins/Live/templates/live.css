@@ -1,28 +1,25 @@
-@CHARSET "UTF-8";
-
- #visitsLive {
+#visitsLive {
         text-align:left;
         font-size:90%;
         color:#444444;
- }
- #visitsLive .datetime, #visitsLive .country, #visitsLive .referer, #visitsLive .settings, #visitsLive .returning , #visitsLive .countActions{
+}
+#visitsLive .datetime, #visitsLive .country, #visitsLive .referer, #visitsLive .settings, #visitsLive .returning , #visitsLive .countActions{
         border-bottom: 1px solid #d3d1c5;
         border-right:1px solid #d3d1c5;
         padding:5px 5px 5px 12px;
 }
-
- #visitsLive .datetime {
+#visitsLive .datetime {
         background:#E4E2D7;
         border-top:1px solid #d3d1c5;
         margin:0;
         text-align:left;
 }
 
- #visitsLive .country {
+#visitsLive .country {
         background:#FFFFFF url(plugins/CoreHome/templates/images/bullet1.gif) no-repeat scroll 0 0;
 }
 
- #visitsLive .referer {
+#visitsLive .referer {
         background:#F9FAFA none repeat scroll 0 0;
 }
 
@@ -35,30 +32,33 @@
          float:left;
 }
 
- #visitsLive .countActions {
-         background:#FFFFFF none repeat scroll 0 0;
- }
+#visitsLive .countActions {
+        background:#FFFFFF none repeat scroll 0 0;
+}
 
- #visitsLive .settings {
-         background:#FFFFFF none repeat scroll 0 0;
- }
+#visitsLive .settings {
+        background:#FFFFFF none repeat scroll 0 0;
+}
 
- #visitsLive .returning {
-         background:#F9FAFA none repeat scroll 0 0;
- }
+#visitsLive .returning {
+        background:#F9FAFA none repeat scroll 0 0;
+}
 .visitsLiveFooter img {
 	vertical-align:middle;	
 }
- .visitsLiveFooter {
- 	line-height:2.5em;
- }
- 
- 
- .visitsLiveFooter a.rightLink{
+.visitsLiveFooter {
+	line-height:2.5em;
+}
+
+.visitorLog table img {
+	margin:0;
+	margin-right:3px;
+}
+.visitsLiveFooter a.rightLink{
          float:right;
          padding-right:20px;
- }
- .actionGoalDetails {
+}
+.actionGoalDetails {
 	margin-left:20px;
 	padding-bottom:10px;
 	font-size:90%;
@@ -66,4 +66,3 @@
 table.dataTable td.highlightField {
 	background-color:#FFFFCB !important;
 }
- 
