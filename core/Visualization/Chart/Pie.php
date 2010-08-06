@@ -45,7 +45,7 @@ class Piwik_Visualization_Chart_Pie extends Piwik_Visualization_Chart
 		$pie->set_start_angle( 35 );
 		$pie->add_animation( new pie_fade() );
 		$pie->set_label_colour('#142448');
-		$pie->set_colours( array('#3C5A69','#679BB5','#695A3C','#B58E67','#969696') );
+		$pie->set_colours( array('#3C5A69','#679BB5','#695A3C','#B58E67','#8AA68A','#A4D2A6','#A68A98','#D2A4BB','#969696') );
 
 		// create the Pie values
 		$yValues = $this->yValues[$dataSetToDisplay];
