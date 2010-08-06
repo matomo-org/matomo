@@ -702,14 +702,14 @@ class Piwik_Common
 		{
 			if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
 			{
-				$salt = Piwik_Tracker_Config::getInstance()->superuser['salt'];
+				$salt = @Piwik_Tracker_Config::getInstance()->superuser['salt'];
 			}
 			else
 			{
 				$config = Zend_Registry::get('config');
 				if($config !== false)
 				{
-					$salt = $config->superuser->salt;
+					$salt = @$config->superuser->salt;
 				}
 			}
 		}
