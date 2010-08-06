@@ -45,6 +45,11 @@ abstract class Piwik_Controller
 	 */
 	function __construct()
 	{
+		$this->init();
+	}
+	
+	protected function init()
+	{
 		$aPluginName = explode('_', get_class($this));
 		$this->pluginName = $aPluginName[1];
 		$date = Piwik_Common::getRequestVar('date', 'yesterday', 'string');
@@ -58,7 +63,6 @@ abstract class Piwik_Controller
 			$this->date = null;
 		}
 	}
-	
 	/**
 	 * Helper method to convert "today" or "yesterday" to the default timezone specified.
 	 * If the date is absolute, ie. YYYY-MM-DD, it will not be converted to the timezone
