@@ -80,7 +80,7 @@ class Piwik_Nonce
 		$origin = Piwik_Url::getOrigin();
 		if(!empty($origin) &&
 			($origin == 'null'
-			|| !in_array($origin, Piwik_Url::getLocalOrigins())))
+			|| !in_array($origin, Piwik_Url::getAcceptableOrigins())))
 		{
 			return false;
 		}
