@@ -21,7 +21,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Live/Visitor.php';
 class Piwik_Live_API
 {
 	static private $instance = null;
-	/*
+	/**
 	 * @return Piwik_Live_API
 	 */
 	static public function getInstance()
