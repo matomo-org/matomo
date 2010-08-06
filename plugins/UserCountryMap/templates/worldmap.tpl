@@ -40,8 +40,9 @@ $(document).ready(function() {
 {literal}	
 	
 	var attr = { id:"UserCountryMap" };
-	
-	swfobject.embedSWF("plugins/UserCountryMap/PiwikMap.swf", "UserCountryMap_map", "100%", "300", 
+{/literal}	
+	swfobject.embedSWF("plugins/UserCountryMap/PiwikMap.swf?piwik={$version}", "UserCountryMap_map", "100%", "300", 
+{literal}	
 	"9.0.0", "libs/swfobject/expressInstall.swf", fv, params, attr, function (e) {
 		//e.ref.height = Math.round($('#widgetUserCountryMapworldMap').width() *.55);
 	});
