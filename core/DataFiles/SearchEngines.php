@@ -888,6 +888,11 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Metacrawler
 		'search.metacrawler.com'	=> array('Metacrawler', 'qkw'),
 
+		// MetaCrawler DE
+		's1.metacrawler.de'			=> array('MetaCrawler DE', 'qry', '?qry={k}'),
+		's2.metacrawler.de'			=> array('MetaCrawler DE', 'qry'),
+		's3.metacrawler.de'			=> array('MetaCrawler DE', 'qry'),
+
 		// Metager
 		'meta.rrzn.uni-hannover.de'	=> array('Metager', 'eingabe', 'meta/cgi-bin/meta.ger1?eingabe={k}'),
 		'www.metager.de'			=> array('Metager', 'eingabe'),
@@ -1056,6 +1061,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Startpagina
 		'startgoogle.startpagina.nl'=> array('Startpagina (Google)', 'q', '?q={k}'),
 
+		// suche.info
+		'suche.info'				=> array('Suche.info', 'Keywords', 'suche.php?Keywords={k}'),
+		'www.suche.info'			=> array('Suche.info', 'Keywords'),
+	
 		// Suchmaschine.com
 		'www.suchmaschine.com'		=> array('Suchmaschine.com', 'suchstr', 'cgi-bin/wo.cgi?suchstr={k}'),
 
