@@ -104,6 +104,8 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 
 		$this->includeData = Zend_Registry::get('config')->General->serve_widget_and_data;
 		$idSite = Piwik_Common::getRequestVar('idSite', 1);
+		
+		Piwik_API_Request::reloadAuthUsingTokenAuth();
 		if(Piwik::isUserHasViewAccess($idSite) && $this->includeData)
 		{
 			$this->chartData = $this->getFlashData();
