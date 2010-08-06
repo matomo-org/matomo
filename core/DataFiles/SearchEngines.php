@@ -146,6 +146,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Aport
 		'sm.aport.ru'				=> array('Aport', 'r', 'search?r={k}'),
 
+		// arama
+		'arama.com'					=> array('Arama', 'q', 'search.php3?q={k}'),
+		'www.arama.com'				=> array('Arama', 'q'),
+	
 		// Arcor
 		'www.arcor.de'				=> array('Arcor', 'Keywords', 'content/searchresult.jsp?Keywords={k}'),
 
