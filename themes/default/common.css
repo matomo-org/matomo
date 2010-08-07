@@ -232,9 +232,7 @@ a {
 
 .sites_selection .custom_select, .sites_selection #sitesSelection{
 	z-index:19;
-	position:absolute; 
-	top:0;
-	right:0;
+	position:relative; 
 	display:inline-block; 
 	padding:6px 6px 5px 6px;
 	background:#fff url(./images/sites_selection.png) repeat-x 0 0;
