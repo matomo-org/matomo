@@ -267,7 +267,13 @@ class Piwik_Archive_Single extends Piwik_Archive
 		// uncompress when selecting from the BLOB table
 		if($typeValue == 'blob' && $db->hasBlobDataType())
 		{
-			$value = gzuncompress($value);
+			$tmp = @gzuncompress($value);
+			if($tmp === false)
+			{
+				var_dump($value);
+				die;
+			}
+			$value = $tmp;
 		}
 		
 		if($typeValue == 'numeric' 
@@ -356,7 +362,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 
 			if($hasBlobs)
 			{
-				$this->blobCached[$name] = gzuncompress($value);
+				$this->blobCached[$name] = @gzuncompress($value);
 			}
 			else
 			{

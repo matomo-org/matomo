@@ -666,7 +666,7 @@ class Piwik_Common
 	{
 		// we set the unserialized version only for arrays as you can have set a serialized string on purpose
 		if (preg_match('/^a:[0-9]+:{/', $str)
-			&& !preg_match('/(^|;|{|})O:\+?[0-9]+:"/', $str)
+			&& !preg_match('/(^|;|{|}|,)(O|C):\+?[0-9]+:"/', $str)
 			&& strpos($str, "\0") === false)
 		{
 			if( ($arrayValue = @unserialize($str)) !== false
