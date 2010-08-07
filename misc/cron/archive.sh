@@ -2,12 +2,12 @@
 
 # Description
 # This cron script will automatically run Piwik archiving every hour.
-# The script will also run scheduled tasks configured within piwik using 
+# The script will also run scheduled tasks configured within piwik using
 # the event hook 'TaskScheduler.getScheduledTasks'
 
-# It automatically fetches the Super User token_auth 
+# It automatically fetches the Super User token_auth
 # and triggers the archiving for all websites for all periods.
-# This ensures that all reports are pre-computed and Piwik renders very fast. 
+# This ensures that all reports are pre-computed and Piwik renders very fast.
 
 # Documentation
 # Please check the documentation on http://piwik.org/docs/setup-auto-archiving/
@@ -18,12 +18,12 @@
 #MAILTO="youremail@example.com"
 #5 * * * * www-data /path/to/piwik/misc/cron/archive.sh > /dev/null
 #-----------------END CRON TAB--
-# When an error occurs (eg. php memory error, timeout) the error messages 
-# will be sent to youremail@example.com.  
-#   
+# When an error occurs (eg. php memory error, timeout) the error messages
+# will be sent to youremail@example.com.
+#
 # Optimization for high traffic websites
 # You may want to override the following settings in config/config.ini.php:
-# See documentation of the fields in your piwik/config/config.ini.php 
+# See documentation of the fields in your piwik/config/config.ini.php
 #
 # [General]
 # time_before_archive_considered_outdated = 3600
@@ -66,12 +66,11 @@ echo "Starting Piwik reports archiving..."
 echo ""
 for idsite in $ID_SITES; do
   TEST_IS_NUMERIC=`echo $idsite | egrep '^[0-9]+$'`
-  if [ "$TEST_IS_NUMERIC" ]
-  then
+  if test -n "$TEST_IS_NUMERIC"; then
     for period in day week month year; do
       echo ""
       echo "Archiving period = $period for idsite = $idsite..."
-      CMD="$PHP_BIN -q $PIWIK_PATH -- module=API&method=VisitsSummary.getVisits&idSite=$idsite&period=$period&date=last52&format=xml&token_auth=$TOKEN_AUTH";
+      CMD="$PHP_BIN -q $PIWIK_PATH -- module=API&method=VisitsSummary.getVisits&idSite=$idsite&period=$period&date=last52&format=xml&token_auth=$TOKEN_AUTH"
       $CMD
     done
 
@@ -84,8 +83,7 @@ echo "Reports archiving finished."
 
 echo "Starting Scheduled tasks..."
 echo ""
-	CMD="$PHP_BIN -q $PIWIK_PATH -- module=API&method=CoreAdminHome.runScheduledTasks&format=csv&convertToUnicode=0&token_auth=$TOKEN_AUTH";
-	$CMD
+CMD="$PHP_BIN -q $PIWIK_PATH -- module=API&method=CoreAdminHome.runScheduledTasks&format=csv&convertToUnicode=0&token_auth=$TOKEN_AUTH"
+$CMD
 echo "Finished Scheduled tasks."
 echo ""
-
