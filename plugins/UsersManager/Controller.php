@@ -95,15 +95,15 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		}
 		else
 		{
-    		$user = Piwik_UsersManager_API::getInstance()->getUser($userLogin);
-    		$view->userAlias = $user['alias'];
-    		$view->userEmail = $user['email'];
+			$user = Piwik_UsersManager_API::getInstance()->getUser($userLogin);
+			$view->userAlias = $user['alias'];
+	 		$view->userEmail = $user['email'];
 		}
 		
 		$defaultReport = Piwik_UsersManager_API::getInstance()->getUserPreference($userLogin, Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT);
 		if($defaultReport === false)
 		{
-    		$defaultReport = $this->getDefaultWebsiteId();
+			$defaultReport = $this->getDefaultWebsiteId();
 		}
 		$view->defaultReport = $defaultReport;
 
@@ -191,11 +191,11 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 			}
 			else
 			{
-    			// we manually imitate what would happen, in case the anonymous user logs in 
-    			// and is redirected to the first website available to him in the list
-    			// @see getDefaultWebsiteId()
-    			reset($anonymousSites);
-    			$anonymousDefaultReport = key($anonymousSites);
+				// we manually imitate what would happen, in case the anonymous user logs in 
+				// and is redirected to the first website available to him in the list
+				// @see getDefaultWebsiteId()
+				reset($anonymousSites);
+				$anonymousDefaultReport = key($anonymousSites);
 			} 
 		}
 		$view->anonymousDefaultReport = $anonymousDefaultReport;
@@ -216,16 +216,16 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		$response = new Piwik_API_ResponseBuilder(Piwik_Common::getRequestVar('format'));
 		try {
 			Piwik::checkUserIsSuperUser();
-    		$this->checkTokenInUrl();
-    		$anonymousDefaultReport = Piwik_Common::getRequestVar('anonymousDefaultReport');
-    		$anonymousDefaultDate = Piwik_Common::getRequestVar('anonymousDefaultDate');
-    		$userLogin = 'anonymous';
-    		Piwik_UsersManager_API::getInstance()->setUserPreference($userLogin, 
-    															Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT, 
-    															$anonymousDefaultReport);
-    		Piwik_UsersManager_API::getInstance()->setUserPreference($userLogin, 
-    															Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT_DATE, 
-    															$anonymousDefaultDate);
+			$this->checkTokenInUrl();
+			$anonymousDefaultReport = Piwik_Common::getRequestVar('anonymousDefaultReport');
+			$anonymousDefaultDate = Piwik_Common::getRequestVar('anonymousDefaultDate');
+			$userLogin = 'anonymous';
+			Piwik_UsersManager_API::getInstance()->setUserPreference($userLogin, 
+																Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT, 
+																$anonymousDefaultReport);
+			Piwik_UsersManager_API::getInstance()->setUserPreference($userLogin, 
+																Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT_DATE, 
+																$anonymousDefaultDate);
 			$toReturn = $response->getResponse();
 		} catch(Exception $e ) {
 			$toReturn = $response->getResponseException( $e );
@@ -240,17 +240,17 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 	{
 		$response = new Piwik_API_ResponseBuilder(Piwik_Common::getRequestVar('format'));
 		try {
-    		$this->checkTokenInUrl();
-    		$alias = Piwik_Common::getRequestVar('alias');
-    		$email = Piwik_Common::getRequestVar('email');
-    		$defaultReport = Piwik_Common::getRequestVar('defaultReport');
-    		$defaultDate = Piwik_Common::getRequestVar('defaultDate');
+			$this->checkTokenInUrl();
+			$alias = Piwik_Common::getRequestVar('alias');
+			$email = Piwik_Common::getRequestVar('email');
+			$defaultReport = Piwik_Common::getRequestVar('defaultReport');
+			$defaultDate = Piwik_Common::getRequestVar('defaultDate');
 
-    		$newPassword = false;
-    		$password = Piwik_Common::getRequestvar('password', false);
-    		$passwordBis = Piwik_Common::getRequestvar('passwordBis', false);
-    		if(!empty($password)
-    			|| !empty($passwordBis))
+			$newPassword = false;
+			$password = Piwik_Common::getRequestvar('password', false);
+			$passwordBis = Piwik_Common::getRequestvar('passwordBis', false);
+			if(!empty($password)
+				|| !empty($passwordBis))
 			{
 				if($password != $passwordBis)
 				{
@@ -259,53 +259,53 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 				$newPassword = $password;
 			}
 			
-    		$userLogin = Piwik::getCurrentUserLogin();
-    		if(Piwik::isUserIsSuperUser())
-    		{
-    			$superUser = Zend_Registry::get('config')->superuser;
-    			$updatedSuperUser = false;
-    			if($newPassword !== false)
-    			{
-    				$md5PasswordSuperUser = md5($newPassword);
-    				$superUser->password = $md5PasswordSuperUser;
-    				$updatedSuperUser = true;
-    			}
-    			if($superUser->email != $email)
-    			{
-    				$superUser->email = $email;
-    				$updatedSuperUser = true;
-    			}
+			$userLogin = Piwik::getCurrentUserLogin();
+			if(Piwik::isUserIsSuperUser())
+			{
+				$superUser = Zend_Registry::get('config')->superuser;
+				$updatedSuperUser = false;
+				if($newPassword !== false)
+				{
+					$md5PasswordSuperUser = md5($newPassword);
+					$superUser->password = $md5PasswordSuperUser;
+					$updatedSuperUser = true;
+				}
+	 			if($superUser->email != $email)
+				{
+					$superUser->email = $email;
+	 				$updatedSuperUser = true;
+				}
 				if($updatedSuperUser)
 				{
-    				Zend_Registry::get('config')->superuser = $superUser->toArray();
-    			}
-    		}
-    		else
-    		{
-    			Piwik_UsersManager_API::getInstance()->updateUser($userLogin, $newPassword, $email, $alias);
-    		}
-    		
+					Zend_Registry::get('config')->superuser = $superUser->toArray();
+				}
+			}
+			else
+			{
+				Piwik_UsersManager_API::getInstance()->updateUser($userLogin, $newPassword, $email, $alias);
+			}
+
 			// logs the user in with the new password
-    		if($newPassword !== false)
-    		{
-        		$info = array(	'login' => $userLogin, 
-        						'md5Password' => md5($newPassword),
-        		);
-        		Piwik_PostEvent('Login.initSession', $info);
-    		}
-    		
-    		Piwik_UsersManager_API::getInstance()->setUserPreference($userLogin, 
-    															Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT, 
-    															$defaultReport);
-    		Piwik_UsersManager_API::getInstance()->setUserPreference($userLogin, 
-    															Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT_DATE, 
-    															$defaultDate);
-    															
+			if($newPassword !== false)
+			{
+				$info = array(
+					'login' => $userLogin, 
+					'md5Password' => md5($newPassword),
+					'rememberMe' => false,
+				);
+				Piwik_PostEvent('Login.initSession', $info);
+			}
+
+			Piwik_UsersManager_API::getInstance()->setUserPreference($userLogin, 
+																Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT, 
+																$defaultReport);
+			Piwik_UsersManager_API::getInstance()->setUserPreference($userLogin, 
+																Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT_DATE, 
+																$defaultDate);
 			$toReturn = $response->getResponse();
 		} catch(Exception $e ) {
 			$toReturn = $response->getResponseException( $e );
 		}
 		echo $toReturn;
 	}
-	
 }
