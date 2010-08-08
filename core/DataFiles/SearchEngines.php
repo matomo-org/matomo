@@ -1002,6 +1002,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Sapo
 		'pesquisa.sapo.pt'			=> array('Sapo', 'q', '?q={k}'),
 
+		// scroogle.org
+		'www.scroogle.org'			=> array('Scroogle', ''),
+	
 		// Search.com
 		'www.search.com'			=> array('Search.com', 'q', 'search?q={k}'),
 
@@ -1163,6 +1166,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'hk.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'id.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'it.search.yahoo.com'		=> array('Yahoo!', 'p'),
+		'in.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'kr.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'mx.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'nl.search.yahoo.com'		=> array('Yahoo!', 'p'),
@@ -1174,6 +1178,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'us.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'search.cn.yahoo.com'		=> array('Yahoo!', 'p'),
 		'one.cn.yahoo.com'			=> array('Yahoo!', 'p'),
+		'siteexplorer.search.yahoo.com'	=> array('Yahoo!', 'p'),
 		'de.dir.yahoo.com'			=> array('Yahoo! Webverzeichnis', ''),
 		'cf.dir.yahoo.com'			=> array('Yahoo! Directory', ''),
 		'fr.dir.yahoo.com'			=> array('Yahoo! Directory', ''),
