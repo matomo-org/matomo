@@ -77,9 +77,10 @@ class Piwik_Login_Controller extends Piwik_Controller
 			{
 				$login = $form->getSubmitValue('form_login');
 				$password = $form->getSubmitValue('form_password');
+				$rememberMe = $form->getSubmitValue('form_rememberme') == '1';
 				$md5Password = md5($password);
 				try {
-					$this->authenticateAndRedirect($login, $md5Password, $urlToRedirect);
+					$this->authenticateAndRedirect($login, $md5Password, $rememberMe, $urlToRedirect);
 				} catch(Exception $e) {
 					$messageNoAccess = $e->getMessage();
 				}
@@ -122,7 +123,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$urlToRedirect = Piwik_Common::getRequestVar('url', $currentUrl, 'string');
 		$urlToRedirect = htmlspecialchars_decode($urlToRedirect);
 
-		$this->authenticateAndRedirect($login, $password, $urlToRedirect);
+		$this->authenticateAndRedirect($login, $password, false, $urlToRedirect);
 	}
 
 	/**
@@ -130,13 +131,15 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 *
 	 * @param string $login (user name)
 	 * @param string $md5Password (md5 hash of password)
+	 * @param bool $rememberMe Remember me?
 	 * @param string $urlToRedirect (URL to redirect to, if successfully authenticated)
 	 * @return string (failure message if unable to authenticate)
 	 */
-	protected function authenticateAndRedirect($login, $md5Password, $urlToRedirect)
+	protected function authenticateAndRedirect($login, $md5Password, $rememberMe, $urlToRedirect)
 	{
 		$info = array(	'login' => $login, 
 						'md5Password' => $md5Password,
+						'rememberMe' => $rememberMe,
 		);
 		Piwik_PostEvent('Login.initSession', $info);
 		Piwik_Url::redirectToUrl($urlToRedirect);

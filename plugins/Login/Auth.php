@@ -30,13 +30,8 @@ class Piwik_Login_Auth implements Piwik_Auth
 		$rootPassword = Zend_Registry::get('config')->superuser->password;
 		$rootToken = Piwik_UsersManager_API::getInstance()->getTokenAuth($rootLogin, $rootPassword);
 
-		if($this->login == $rootLogin
+		if(($this->login == $rootLogin || is_null($this->login))
 			&& $this->token_auth == $rootToken)
-		{
-			return new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE, $this->login, $this->token_auth );
-		}
-
-		if($this->token_auth === $rootToken)
 		{
 			return new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE, $rootLogin, $rootToken );
 		}

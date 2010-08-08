@@ -119,8 +119,8 @@ minimum_memory_limit = 128
 ; login cookie name
 login_cookie_name = piwik_auth
 
-; login cookie expiration (30 days)
-login_cookie_expire = 2592000
+; login cookie expiration (14 days)
+login_cookie_expire = 1209600
 
 ; The path on the server in which the cookie will be available on. 
 ; Defaults to empty. See spec in http://curl.haxx.se/rfc/cookie_spec.html

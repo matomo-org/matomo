@@ -597,6 +597,7 @@ $translations = array(
 	'Login_PasswordRepeat' => 'Password (repeat)',
 	'Login_ChangePassword' => 'Change password',
 	'Login_LoginOrEmail' => 'Username or E-mail',
+	'Login_RememberMe' => 'Remember Me',
 	'Login_LogIn' => 'Sign in',
 	'Login_Logout' => 'Sign out',
 	'Login_LostYourPassword' => 'Lost your password?',
