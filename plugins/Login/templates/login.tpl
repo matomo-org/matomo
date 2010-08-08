@@ -25,9 +25,9 @@
 		<label>{'Login_Password'|translate}:<br />
 		<input type="password" name="form_password" id="form_password" class="input" value="" size="20" tabindex="20" /></label>
 	</p>
-	{*
-		<p class="forgetmenot"><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90" /> Remember Me</label></p>
-	*}
+	<p class="forgetmenot">
+		<label><input name="form_rememberme" type="checkbox" id="form_rememberme" value="1" tabindex="90" {if $form_data.form_rememberme.value}checked="checked" {/if}/> {'Login_RememberMe'|translate} </label>
+	</p>
 	<p class="submit">
 		<input type="submit" value="{'Login_LogIn'|translate}" tabindex="100" />
 	</p>

@@ -61,7 +61,7 @@ class Piwik_Cookie
 		$this->expire = $expire;
 		if(is_null($expire)
 			|| !is_numeric($expire)
-			|| $expire <= 0)
+			|| $expire < 0)
 		{
 			$this->expire = $this->getDefaultExpire();
 		}

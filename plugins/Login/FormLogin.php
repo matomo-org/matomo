@@ -31,6 +31,13 @@ class Piwik_Login_FormLogin extends Piwik_QuickForm2
 
 		$this->addElement('hidden', 'form_nonce');
 
+		$this->addElement('checkbox', 'form_rememberme');
+
 		$this->addElement('submit', 'submit');
+
+		// default values
+		$this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
+			'form_rememberme' => 0,
+		)));
 	}
 }
