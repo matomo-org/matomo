@@ -30,26 +30,50 @@ class Piwik_Login_Auth implements Piwik_Auth
 		$rootPassword = Zend_Registry::get('config')->superuser->password;
 		$rootToken = Piwik_UsersManager_API::getInstance()->getTokenAuth($rootLogin, $rootPassword);
 
-		if(($this->login == $rootLogin || is_null($this->login))
-			&& $this->token_auth == $rootToken)
+		if(is_null($this->login))
 		{
-			return new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE, $rootLogin, $rootToken );
-		}
+			if($this->token_auth == $rootToken)
+			{
+				return new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE, $rootLogin, $this->token_auth );
+			}
 
-		$login = Piwik_FetchOne(
-					'SELECT login 
+			$login = Piwik_FetchOne(
+					'SELECT login
 					FROM '.Piwik_Common::prefixTable('user').' 
 					WHERE token_auth = ?',
 					array($this->token_auth)
-		);
-		if($login !== false)
-		{
-			if(is_null($this->login)
-				|| $this->login == $login)
+			);
+			if(!$login !== false)
 			{
 				return new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS, $login, $this->token_auth );
 			}
 		}
+		else if(!empty($this->login))
+		{
+			if($this->login == $rootLogin
+				&& ($this->getHashTokenAuth($rootLogin, $rootToken) == $this->token_auth)
+				|| $rootToken == $this->token_auth)
+			{
+				$this->setTokenAuth($rootToken);
+				return new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE, $rootLogin, $this->token_auth );
+			}
+
+			$login = $this->login;
+			$userToken = Piwik_FetchOne(
+					'SELECT token_auth
+					FROM '.Piwik_Common::prefixTable('user').' 
+					WHERE login = ?',
+					array($login)
+			);
+			if($userToken !== false
+				&& ($this->getHashTokenAuth($login, $userToken) == $this->token_auth)
+				|| $userToken == $this->token_auth)
+			{
+				$this->setTokenAuth($userToken);
+				return new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS, $login, $userToken );
+			}
+		}
+
 		return new Piwik_Auth_Result( Piwik_Auth_Result::FAILURE, $this->login, $this->token_auth );
 	}
 
@@ -61,5 +85,10 @@ class Piwik_Login_Auth implements Piwik_Auth
 	public function setTokenAuth($token_auth)
 	{
 		$this->token_auth = $token_auth;
+	}
+
+	public function getHashTokenAuth($login, $token_auth)
+	{
+		return md5($login . $token_auth);
 	}
 }
