@@ -93,7 +93,6 @@ class Piwik_Login extends Piwik_Plugin
 		$auth = Zend_Registry::get('auth');
 		$auth->setLogin($login);
 		$auth->setTokenAuth($tokenAuth);
-
 		$authResult = $auth->authenticate();
 		if(!$authResult->isValid())
 		{
@@ -108,7 +107,7 @@ class Piwik_Login extends Piwik_Plugin
 		$authCookiePath = Zend_Registry::get('config')->General->login_cookie_path;
 		$cookie = new Piwik_Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
 		$cookie->set('login', $login);
-		$cookie->set('token_auth', $authResult->getTokenAuth());
+		$cookie->set('token_auth', $auth->getHashTokenAuth($login, $authResult->getTokenAuth()));
 		$cookie->save();
 
 		Zend_Session::regenerateId();
