@@ -115,7 +115,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 	 * debug mode for worldmap
 	 * helps to find JS bugs in IE8
 	 */
-	//*
+	/*
 	function debug()
 	{
 		echo '<html><head><title>DEBUG: world map</title>';
