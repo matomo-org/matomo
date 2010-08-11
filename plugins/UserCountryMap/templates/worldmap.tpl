@@ -41,11 +41,12 @@ $(document).ready(function() {
 	
 	var attr = { id:"UserCountryMap" };
 {/literal}	
-	swfobject.embedSWF("plugins/UserCountryMap/PiwikMap.swf?piwik={$version}", "UserCountryMap_map", "100%", "300", 
+	swfobject.embedSWF("plugins/UserCountryMap/PiwikMap.swf?piwik={$version}", "UserCountryMap_map", 
+		"100%", Math.round($('#UserCountryMap_content').width() *.55), "9.0.0", 
+		"libs/swfobject/expressInstall.swf", fv, params, attr
+	);
 {literal}	
-	"9.0.0", "libs/swfobject/expressInstall.swf", fv, params, attr, function (e) {
-		//e.ref.height = Math.round($('#widgetUserCountryMapworldMap').width() *.55);
-	});
+	
 	
 	$("#userCountryMapSelectMetrics").change(function(el) {
 		$("#UserCountryMap")[0].changeMode(el.currentTarget.value);
