@@ -404,7 +404,7 @@ abstract class Piwik_Controller
 		}
 
 		if($websiteId) {
-			header("Location:index.php?module=".$moduleToRedirect
+			header("Location: index.php?module=".$moduleToRedirect
 									."&action=".$actionToRedirect
 									."&idSite=".$websiteId
 									."&period=".$defaultPeriod
