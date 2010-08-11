@@ -276,19 +276,40 @@ class PiwikTracker
      */
     protected function sendRequest($url)
     {
-		if(function_exists('stream_context_create')) {
-			$timeout = 600; // Allow debug while blocking the request
+		$timeout = 600; // Allow debug while blocking the request
+		$response = '';
+
+		if(function_exists('curl_init'))
+		{
+			$ch = curl_init();
+			curl_setopt_array($ch, array(
+				CURLOPT_URL => $url,
+				CURLOPT_USERAGENT => $this->userAgent,
+				CURLOPT_HEADER => false,
+				CURLOPT_TIMEOUT => $timeout,
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_HTTPHEADER => array(
+					'Accept-Language: ' . $this->acceptLanguage,
+					'Cookie: ',
+				),
+			));
+			ob_start();
+			$response = @curl_exec($ch);
+			ob_end_clean();
+		}
+		else if(function_exists('stream_context_create'))
+		{
 			$stream_options = array(
 				'http' => array(
-                  'user_agent' => $this->userAgent,
-                  'header' => "Accept-Language: " . $this->acceptLanguage . "\r\n" .
-							  "Cookie: \r\n",
-				  'timeout' => $timeout, // PHP 5.2.1
+					'user_agent' => $this->userAgent,
+					'header' => "Accept-Language: " . $this->acceptLanguage . "\r\n" .
+					            "Cookie: \r\n",
+					'timeout' => $timeout, // PHP 5.2.1
 				)
 			);
 			$ctx = stream_context_create($stream_options);
+			$response = file_get_contents($url, 0, $ctx);
 		}
-		$response = file_get_contents($url, 0, $ctx);
 		return $response;
     }
     
