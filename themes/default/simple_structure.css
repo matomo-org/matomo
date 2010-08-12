@@ -2,7 +2,7 @@ html { background: #eee; }
 #content {
 	background: #fff;
 	color: #000;
-	font-family: Georgia, "Times New Roman", Times, serif;
+	font-family: Arial, Georgia, "Times New Roman", Times, serif;
 	padding: 1em 2em;
 	width:780px;
 	margin:auto;
@@ -23,6 +23,7 @@ html { background: #eee; }
 #title {
 	padding-bottom:5px;
 	border-bottom:1px solid #F0F0F0;
+	font:42px Georgia, "Times New Roman", Times, serif;
 }
 p, dt {
 	line-height: 120%;
