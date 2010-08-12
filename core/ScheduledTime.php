@@ -20,8 +20,6 @@
  */
 abstract class Piwik_ScheduledTime
 {
-
-#
 	/**
 	 * @link http://php.net/manual/en/function.date.php, format string : 'G'
 	 * @var integer 
