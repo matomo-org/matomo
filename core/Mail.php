@@ -29,7 +29,7 @@ class Piwik_Mail extends Zend_Mail
 		$this->initSmtpTransport();
 	}
 	
-	public function setFrom($email, $name)
+	public function setFrom($email, $name = null)
 	{
 		$piwikHost = @$_SERVER['HTTP_HOST'];
 		if(strlen($piwikHost) == 0)
