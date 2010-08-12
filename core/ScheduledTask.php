@@ -18,22 +18,22 @@
  */
 class Piwik_ScheduledTask
 {
-    /**
-     * Class name where the specified method is located
-     * @var string 
-     */
+	/**
+	 * Class name where the specified method is located
+	 * @var string 
+	 */
 	var $className;
-#
-    /**
-     * Class method to run when task is scheduled
-     * @var string 
-     */
+
+	/**
+	 * Class method to run when task is scheduled
+	 * @var string 
+	 */
 	var $methodName;
 	
-    /**
-     * The scheduled time policy
-     * @var Piwik_ScheduledTime
-     */
+	/**
+	 * The scheduled time policy
+	 * @var Piwik_ScheduledTime
+	 */
 	var $scheduledTime;
 
 	function __construct( $_className, $_methodName, $_scheduledTime)
