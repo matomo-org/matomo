@@ -131,10 +131,16 @@ piwikHelper.ajaxHandleResponse = function(response, loadingDivID, errorDivID)
 	{
 		// add updated=1 to the URL so that a "Your changes have been saved" message is displayed
 		var urlToRedirect = String(window.location.pathname) + String(window.location.search);
-		updatedUrl = 'updated=1';
-		if(urlToRedirect.search(new RegExp(updatedUrl)) == -1)
+		var updatedUrl = new RegExp('&updated=([0-9]+)');
+		var updatedCounter = updatedUrl.exec(urlToRedirect);
+		if(!updatedCounter)
 		{
-			urlToRedirect += '&' + updatedUrl;
+			urlToRedirect += '&updated=1';
+		}
+		else
+		{
+			updatedCounter = 1 + parseInt(updatedCounter[1]);
+			urlToRedirect = urlToRedirect.replace(new RegExp('(&updated=[0-9]+)'), '&updated=' + updatedCounter);
 		}
 		var currentHashStr = window.location.hash;
 		if(currentHashStr.length > 0) {
