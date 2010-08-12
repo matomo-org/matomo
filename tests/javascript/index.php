@@ -117,7 +117,7 @@ $(document).ready(function () {
 		equals( typeof tracker.hook.test._isSiteHostName, 'function', "isSiteHostName" );
 
 		// test wildcards
-		tracker.setDomains( ['*.example.com'] );
+		tracker.setDomains( ['*.Example.com'] );
 		// skip test if testing on localhost
 		ok( window.location.hostname != 'localhost' ? !tracker.hook.test._isSiteHostName('localhost') : true, '!isSiteHostName("localhost")' );
 
