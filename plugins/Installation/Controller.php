@@ -677,7 +677,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		{
 			Piwik::createWebConfigFiles();
 		}
-		else if(strpos($serverSoftware, 'Apache/') === 0)
+		else if(strpos($serverSoftware, 'Apache') === 0)
 		{
 			Piwik::createHtAccessFiles();
 		}
