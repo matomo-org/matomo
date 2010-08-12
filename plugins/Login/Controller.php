@@ -30,10 +30,11 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$referer = $ns->referer;
 		if(empty($referer))
 		{
-			// if the referer contains module=Login, Installation, or CoreUpdater, or action=logout, we instead redirect to the doc root
+			// if the referer contains module=Login|Installation|CoreUpdater, or we just logged out, we instead redirect to the doc root
 			$referer = Piwik_Url::getLocalReferer();
 			if(empty($referer)
-				|| preg_match('/module=(Login|Installation|CoreUpdater)/', $referer))
+				|| preg_match('/module=(Login|Installation|CoreUpdater)/', $referer)
+				|| (Piwik::getModule() == 'CoreHome' && Piwik::getAction() == ''))
 			{
 				$referer = 'index.php';
 			}
