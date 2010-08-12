@@ -574,7 +574,7 @@ if (!this.Piwik) {
 				var i, alias, offset;
 
 				for (i = 0; i < configHostsAlias.length; i++) {
-					alias = configHostsAlias[i];
+					alias = configHostsAlias[i].toLowerCase();
 
 					if (hostName == alias) {
 						return true;
