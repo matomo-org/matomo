@@ -37,7 +37,6 @@
 		}
 	});</script>
 	{/literal}
-</span>
 </div>
 {else}
 <div class="sites_autocomplete">
