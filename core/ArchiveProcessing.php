@@ -149,6 +149,14 @@ abstract class Piwik_ArchiveProcessing
 	public $site 	= null;
 	
 	/**
+	 * Current time.
+	 * This value is cached.
+	 *
+	 * @var int
+	 */
+	public $time	= null;
+
+	/**
 	 * Starting datetime in UTC
 	 *
 	 * @var string
@@ -206,6 +214,7 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	public function __construct()
 	{
+		$this->time = time();
 	}
 	
 	/**
@@ -339,12 +348,12 @@ abstract class Piwik_ArchiveProcessing
 		// if the current archive is a DAY and if it's today,
 		// we set this minDatetimeArchiveProcessedUTC that defines the lifetime value of today's archive
 		if( $this->period->getNumberOfSubperiods() == 0
-			&& ($this->startTimestampUTC > time() ||
-				($this->startTimestampUTC <= time() && $this->endTimestampUTC > time()))
+			&& ($this->startTimestampUTC > $this->time ||
+				($this->startTimestampUTC <= $this->time && $this->endTimestampUTC > $this->time))
 			)
 		{
 			$this->temporaryArchive = true;
-			$minDatetimeArchiveProcessedUTC = time() - self::getTodayArchiveTimeToLive();
+			$minDatetimeArchiveProcessedUTC = $this->time - self::getTodayArchiveTimeToLive();
 			// see #1150; if new archives are not triggered from the browser, 
 			// we still want to try and return the latest archive available for today (rather than return nothing)
 			if($this->isArchivingDisabled())
@@ -359,7 +368,7 @@ abstract class Piwik_ArchiveProcessing
 		//   recent enough means minDatetimeArchiveProcessedUTC = 00:00:01 this morning
 		else
 		{
-			if($this->endTimestampUTC <= time())
+			if($this->endTimestampUTC <= $this->time)
 			{
 				$minDatetimeArchiveProcessedUTC = $this->endTimestampUTC+1;
 			}

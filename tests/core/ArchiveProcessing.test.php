@@ -93,12 +93,15 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 	// test of validity of an archive, for today's archive
 	public function test_init_today()
 	{
+		$now = time();
+
 		Piwik_ArchiveProcessing::setBrowserTriggerArchiving(true);
 		
 		$archiveProcessing = $this->createArchiveProcessing('day', 'today', 'UTC-1');
+		$archiveProcessing->time = $now;
 		
 		// we look at anything processed within the time to live range
-		$dateMinArchived = time() - Piwik_ArchiveProcessing::getTodayArchiveTimeToLive();
+		$dateMinArchived = $now - Piwik_ArchiveProcessing::getTodayArchiveTimeToLive();
 		$this->assertEqual($archiveProcessing->getMinTimeArchivedProcessed(), $dateMinArchived);
 		$this->assertTrue($archiveProcessing->isArchiveTemporary());
 
@@ -115,7 +118,7 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 		$this->assertEqual($archiveProcessing->getMinTimeArchivedProcessed(), $dateMinArchived);
 		
 		$this->assertEqual($archiveProcessing->getStartDatetimeUTC(), date('Y-m-d').' 01:00:00');
-		$this->assertEqual($archiveProcessing->getEndDatetimeUTC(), date('Y-m-d', time()+86400).' 00:59:59');
+		$this->assertEqual($archiveProcessing->getEndDatetimeUTC(), date('Y-m-d', $now+86400).' 00:59:59');
 		$this->assertTrue($archiveProcessing->isArchiveTemporary());
 	}
 	
