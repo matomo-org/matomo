@@ -138,6 +138,12 @@ class Piwik_VisitsSummary_API
 	
 	public function getSumVisitsLengthPretty( $idSite, $period, $date )
 	{
-		return Piwik::getPrettyTimeFromSeconds($this->getSumVisitsLength( $idSite, $period, $date ));
+		$table = $this->getSumVisitsLength( $idSite, $period, $date );
+		if($table instanceof Piwik_DataTable_Array) {
+			$table->filter('ColumnCallbackReplace', array(0, 'Piwik::getPrettyTimeFromSeconds'));
+		} else {
+			$table = Piwik::getPrettyTimeFromSeconds($table);
+		}
+		return $table;
 	}
 }
