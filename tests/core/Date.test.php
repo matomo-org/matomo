@@ -91,6 +91,12 @@ class Test_Piwik_Date extends UnitTestCase
 		$utcDayEnd = '2010-01-02 00:59:59';
 		$this->assertEqual($date->getDateStartUTC(), $utcDayStart);
 		$this->assertEqual($date->getDateEndUTC(), $utcDayEnd);
+
+		$date = $date->setTimezone('America/Vancouver');
+		$utcDayStart = '2010-01-01 08:00:00';
+		$utcDayEnd = '2010-01-02 07:59:59';
+		$this->assertEqual($date->getDateStartUTC(), $utcDayStart);
+		$this->assertEqual($date->getDateEndUTC(), $utcDayEnd);
 	}
 	
 	function test_modifyDate_withTimezone()
@@ -164,7 +170,7 @@ class Test_Piwik_Date extends UnitTestCase
 		$dateExpected = Piwik_Date::factory('2010-04-05');
 		$date = $date->addPeriod(5, 'week');
 		$this->assertEqual($date->getTimestamp(), $dateExpected->getTimestamp());
-}
+	}
 
 	function test_subPeriod()
 	{
@@ -179,4 +185,3 @@ class Test_Piwik_Date extends UnitTestCase
 		$this->assertEqual($date->getTimestamp(), $dateExpected->getTimestamp());
 	}
 }
-
