@@ -35,6 +35,28 @@ piwikHelper.windowModal = function( domSelector, onValidate )
 	$.unblockUI
 }
 
+piwikHelper.getCurrentQueryStringWithParametersModified = function(newparams)
+{
+	var parameters = String(window.location.search);
+	if(newparams) {
+		if(parameters != '') {
+			var r, i, keyvalue, keysvalues = newparams.split('&');
+			for(i in keysvalues) {
+				keyvalue = keysvalues[i].split('=');
+				r = new RegExp('(^|[?&])'+keyvalue[0]+'=[^&]*');
+				parameters = parameters.replace(r, '');
+			}
+			parameters += '&' + newparams;
+			if(parameters[0] == '&') {
+				parameters = parameters.substring(1);
+			}
+		} else {
+			parameters = '?' + newparams;
+		}
+	}
+	return String(window.location.pathname) + parameters;
+}
+
 /*
  *  Returns query string for an object of key,values
  *  Note: we don't use $.param from jquery as it doesn't return array values the PHP way (returns a=v1&a=v2 instead of a[]=v1&a[]=v2)
@@ -95,7 +117,7 @@ piwikHelper.hideAjaxLoading = function(loadingDivID)
 	$('#'+loadingDivID).hide();
 }
 
-piwikHelper.getStandardAjaxConf = function(loadingDivID, errorDivID)
+piwikHelper.getStandardAjaxConf = function(loadingDivID, errorDivID, params)
 {
 	piwikHelper.showAjaxLoading(loadingDivID);
 	piwikHelper.hideAjaxError(errorDivID);
@@ -104,7 +126,7 @@ piwikHelper.getStandardAjaxConf = function(loadingDivID, errorDivID)
 	ajaxRequest.url = 'index.php';
 	ajaxRequest.dataType = 'json';
 	ajaxRequest.error = piwikHelper.ajaxHandleError;
-	ajaxRequest.success = function(response) { piwikHelper.ajaxHandleResponse(response, loadingDivID, errorDivID); };
+	ajaxRequest.success = function(response) { piwikHelper.ajaxHandleResponse(response, loadingDivID, errorDivID, params); };
 	return ajaxRequest;
 }
 
@@ -120,7 +142,7 @@ piwikHelper.ajaxHandleError = function()
 		}, 2000);
 }
 
-piwikHelper.ajaxHandleResponse = function(response, loadingDivID, errorDivID)
+piwikHelper.ajaxHandleResponse = function(response, loadingDivID, errorDivID, params)
 {
 	if(response.result == "error") 
 	{
@@ -130,7 +152,7 @@ piwikHelper.ajaxHandleResponse = function(response, loadingDivID, errorDivID)
 	else
 	{
 		// add updated=1 to the URL so that a "Your changes have been saved" message is displayed
-		var urlToRedirect = String(window.location.pathname) + String(window.location.search);
+		var urlToRedirect = piwikHelper.getCurrentQueryStringWithParametersModified(params);
 		var updatedUrl = new RegExp('&updated=([0-9]+)');
 		var updatedCounter = updatedUrl.exec(urlToRedirect);
 		if(!updatedCounter)

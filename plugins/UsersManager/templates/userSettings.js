@@ -1,6 +1,14 @@
 function getUserSettingsAJAX()
 {
-	var ajaxRequest = piwikHelper.getStandardAjaxConf('ajaxLoadingUserSettings', 'ajaxErrorUserSettings');
+	var params;
+	var defaultDate = $('input[name=defaultDate]:checked').val();
+	if(defaultDate == 'today' || defaultDate == 'yesterday') {
+		params = 'period=day&date='+defaultDate;
+	} else {
+		params = 'date=today&period='+defaultDate;
+	}
+
+	var ajaxRequest = piwikHelper.getStandardAjaxConf('ajaxLoadingUserSettings', 'ajaxErrorUserSettings', params);
 	var alias = $('#alias').val();
 	var email = $('#email').val();
 	var password = $('#password').val();
@@ -9,7 +17,6 @@ function getUserSettingsAJAX()
 	if(defaultReport == 1) {
 		defaultReport = $('#defaultReportWebsite option:selected').val();
 	}
-	var defaultDate = $('input[name=defaultDate]:checked').val();
 	var request = '';
 	request += 'module=UsersManager';
 	request += '&action=recordUserSettings';
@@ -21,6 +28,7 @@ function getUserSettingsAJAX()
 	request += '&defaultReport='+defaultReport;
 	request += '&defaultDate='+defaultDate;
  	request += '&token_auth=' + piwik.token_auth;
+
 	ajaxRequest.data = request;
 	return ajaxRequest;
 }
@@ -46,12 +54,6 @@ function getAnonymousUserSettingsAJAX()
 $(document).ready( function() {
 	$('#userSettingsSubmit').click( function() {
 		$.ajax( getUserSettingsAJAX() );
-		var defaultDate = $('input[name=defaultDate]:checked').val();
-		if(defaultDate == 'today' || defaultDate == 'yesterday') {
-			broadcast.propagateNewPage('period=day&date='+defaultDate);
-		} else {
-			broadcast.propagateNewPage('date=today&period='+defaultDate);
-		}
 	});
 	$('#userSettingsTable input').keypress( function(e) {
 		var key=e.keyCode || e.which;
