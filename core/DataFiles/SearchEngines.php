@@ -641,6 +641,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search3.incredimail.com'	=> array('Google', 'q'),
 		'search.incredimail.com'	=> array('Google', 'q'),
 		'search.sweetim.com'		=> array('Google', 'q'),
+		'www.darkoogle.com'			=> array('Google', 'q'),
+		'darkoogle.com'				=> array('Google', 'q'),
 
 		// Google Earth
 		'www.googleearth.de'		=> array('Google', 'q'),
