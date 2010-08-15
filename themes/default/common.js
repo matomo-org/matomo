@@ -48,7 +48,7 @@ piwikHelper.getCurrentQueryStringWithParametersModified = function(newparams)
 			}
 			parameters += '&' + newparams;
 			if(parameters[0] == '&') {
-				parameters = parameters.substring(1);
+				parameters = '?' + parameters.substring(1);
 			}
 		} else {
 			parameters = '?' + newparams;
