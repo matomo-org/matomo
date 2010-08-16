@@ -68,7 +68,6 @@ $(document).ready(function() {
 	
 	$(window).resize(function() {
 		$("#UserCountryMap")[0].height = Math.round($('#UserCountryMap').width() *.55);
-		$("#UserCountryMap")[0].setIconOffset($('#userCountryMapSelectMetrics').width()+22+($.browser.safari ? 22 : 0));
 	});
 	
 });
