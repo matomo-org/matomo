@@ -55,10 +55,10 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 		// definition of the color scale
 		$view->hueMin = 218; 	
 		$view->hueMax = 216; 	
-		$view->satMin = "0.22"; 	
+		$view->satMin = "0.285"; 	
 		$view->satMax = "0.9";
 		$view->lgtMin = ".97";
-		$view->lgtMax = ".4";
+		$view->lgtMax = ".44";
 		
 		$request = new Piwik_API_Request(
 			'method=API.getMetadata&format=PHP'
