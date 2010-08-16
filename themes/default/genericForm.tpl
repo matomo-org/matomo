@@ -32,7 +32,5 @@
 		</table>
 	</div>
 
-	<div class="submit">
 	{$form_data.submit.html}
-	</div>
 </form>
