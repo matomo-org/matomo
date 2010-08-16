@@ -18,8 +18,8 @@ $(document).ready(function() {
 {/literal}
 
 	{* this hacks helps jquery to distingish between safari and chrome. *}
-	$.browser.chrome = /chrome/.test(navigator.userAgent.toLowerCase());
-	if ($.browser.chrome) $.browser.safari = false;
+	var isSafari = (navigator.userAgent.toLowerCase().indexOf("safari") != -1 && 
+		navigator.userAgent.toLowerCase().indexOf("chrome") == -1 ? true : false); 
 	
 	fv.dataUrl = encodeURIComponent("{$dataUrl}");
 	fv.hueMin = {$hueMin};
@@ -29,7 +29,7 @@ $(document).ready(function() {
 	fv.lgtMin = {$lgtMin};
 	fv.lgtMax = {$lgtMax};
 	{* we need to add 22 pixel for safari due to wrong width calculation for the select *}
-	fv.iconOffset = $('#userCountryMapSelectMetrics').width() + 22 + ($.browser.safari ? 22 : 0);
+	fv.iconOffset = $('#userCountryMapSelectMetrics').width() + 22 + (isSafari ? 22 : 0);
 	fv.defaultMetric = "{$defaultMetric}";
 	
 	fv.txtLoading = encodeURIComponent("{'General_Loading_js'|translate}");
