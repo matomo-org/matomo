@@ -43,7 +43,7 @@ class Piwik_Login_Auth implements Piwik_Auth
 					WHERE token_auth = ?',
 					array($this->token_auth)
 			);
-			if(!$login !== false)
+			if($login !== false)
 			{
 				return new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS, $login, $this->token_auth );
 			}
