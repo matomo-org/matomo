@@ -1178,6 +1178,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'tw.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'uk.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'us.search.yahoo.com'		=> array('Yahoo!', 'p'),
+		'us.yhs.search.yahoo.com'	=> array('Yahoo!', 'p'),
 		'search.cn.yahoo.com'		=> array('Yahoo!', 'p'),
 		'one.cn.yahoo.com'			=> array('Yahoo!', 'p'),
 		'siteexplorer.search.yahoo.com'	=> array('Yahoo!', 'p'),
