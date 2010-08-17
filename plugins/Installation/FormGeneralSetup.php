@@ -53,7 +53,7 @@ class Piwik_Installation_FormGeneralSetup extends Piwik_QuickForm2
 			'content' => '&nbsp;&nbsp;' . Piwik_Translate('Installation_CommunityNewsletter'),
 		));
 
-		$this->addElement('submit', 'submit', array('value' => Piwik_Translate('Installation_SubmitGo')));
+		$this->addElement('submit', 'submit', array('value' => Piwik_Translate('Installation_SubmitGo'), 'class' => 'submit'));
 
 		// default values
 		$this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
