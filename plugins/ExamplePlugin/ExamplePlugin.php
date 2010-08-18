@@ -59,6 +59,8 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
 		Piwik_AddWidget('ExamplePlugin_exampleWidgets', 'ExamplePlugin_exampleWidget', 'ExamplePlugin', 'exampleWidget');
 		Piwik_AddWidget('ExamplePlugin_exampleWidgets', 'ExamplePlugin_blogPiwikRss', 'ExamplePlugin', 'blogPiwik');
 		Piwik_AddWidget('ExamplePlugin_exampleWidgets', 'ExamplePlugin_photostreamMatt', 'ExamplePlugin', 'photostreamMatt');
+		Piwik_AddWidget('ExamplePlugin_exampleWidgets', 'ExamplePlugin_piwikDownloadCount', 'ExamplePlugin', 'piwikDownloadCount');
+		Piwik_AddWidget('ExamplePlugin_exampleWidgets', 'ExamplePlugin_websitesAndUsers', 'ExamplePlugin', 'websitesAndUsers');
 	}
 }
 
@@ -105,6 +107,25 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 	function photostreamMatt()
 	{
 		echo '<iframe align=center src=http://www.flickr.com/slideShow/index.gne?user_id=34965144@N00&set_id=72157602308487455 frameBorder=0 width=380 scrolling=no height=500></iframe> ';
+	}
+	
+	/**
+	 * this widgets shows how to make a remote API request to piwik.org 
+	 * you find the main JS code in templates/piwikDownloadCount.tpl
+	 */
+	function piwikDownloadCount()
+	{
+		$view = Piwik_View::factory('piwikDownloadCount'); 
+		echo $view->render();
+	}
+	
+	function websitesAndUsers()
+	{
+		$view = Piwik_View::factory('websitesAndUsers'); 
+		$view->siteCount = Piwik_FetchOne("SELECT COUNT(*) FROM piwik_site");
+		$view->users = Piwik_FetchOne("SELECT COUNT(*) FROM piwik_user")+1; // + 1 for default admin user
+		$view->version = Piwik_Version::VERSION;
+		echo $view->render();
 	}
 	
 	/**
