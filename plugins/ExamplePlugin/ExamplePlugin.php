@@ -59,7 +59,7 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
 		Piwik_AddWidget('ExamplePlugin_exampleWidgets', 'ExamplePlugin_exampleWidget', 'ExamplePlugin', 'exampleWidget');
 		Piwik_AddWidget('ExamplePlugin_exampleWidgets', 'ExamplePlugin_blogPiwikRss', 'ExamplePlugin', 'blogPiwik');
 		Piwik_AddWidget('ExamplePlugin_exampleWidgets', 'ExamplePlugin_photostreamMatt', 'ExamplePlugin', 'photostreamMatt');
-		Piwik_AddWidget('ExamplePlugin_exampleWidgets', 'ExamplePlugin_piwikDownloadCount', 'ExamplePlugin', 'piwikDownloadCount');
+		Piwik_AddWidget('ExamplePlugin_exampleWidgets', 'ExamplePlugin_piwikDownloads', 'ExamplePlugin', 'piwikDownloads');
 		Piwik_AddWidget('ExamplePlugin_exampleWidgets', 'ExamplePlugin_websitesAndUsers', 'ExamplePlugin', 'websitesAndUsers');
 	}
 }
@@ -113,9 +113,9 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 	 * this widgets shows how to make a remote API request to piwik.org 
 	 * you find the main JS code in templates/piwikDownloadCount.tpl
 	 */
-	function piwikDownloadCount()
+	function piwikDownloads()
 	{
-		$view = Piwik_View::factory('piwikDownloadCount'); 
+		$view = Piwik_View::factory('piwikDownloads'); 
 		echo $view->render();
 	}
 	
