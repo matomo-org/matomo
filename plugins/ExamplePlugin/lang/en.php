@@ -16,4 +16,8 @@ $translations = array(
 	'ExamplePlugin_exampleWidget' => 'Example widget',
 	'ExamplePlugin_blogPiwikRss' => 'Blog Piwik RSS',
 	'ExamplePlugin_photostreamMatt' => 'Matt\'s Photos',
+	'ExamplePlugin_websitesAndUsers' => 'Website and Users',
+	'ExamplePlugin_piwikDownloads' => 'Piwik Downloads',
+	'ExamplePlugin_piwikDownloadsMsg' => 'Piwik has been downloaded %s times.'
+	
 );

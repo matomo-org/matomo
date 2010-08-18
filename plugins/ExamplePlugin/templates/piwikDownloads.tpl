@@ -18,5 +18,5 @@
 
 </script>
 <div style="padding:1.5em;text-align:center">
-	Piwik has been downloaded <b class="piwikDownloadCount_cnt" >...</b> times.
+	{"ExamplePlugin_piwikDownloadsMsg"|translate|replace:'%s':'<b class="piwikDownloadCount_cnt" >...</b>'}
 </div>
