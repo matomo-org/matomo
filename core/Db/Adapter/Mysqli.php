@@ -59,8 +59,9 @@ class Piwik_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db
 	{
 		$serverVersion = $this->getServerVersion();
 		$clientVersion = $this->getClientVersion();
-		if(version_compare($serverVersion, '5') >= 0
-			&& version_compare($clientVersion, '5') < 0)
+		// incompatible change to DECIMAL implementation in 5.0.3
+		if(version_compare($serverVersion, '5.0.3') >= 0
+			&& version_compare($clientVersion, '5.0.3') < 0)
 		{
 			throw new Exception(Piwik_TranslateException('General_ExceptionIncompatibleClientServerVersions', array('MySQL', $clientVersion, $serverVersion)));
 		}
