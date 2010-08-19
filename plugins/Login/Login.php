@@ -38,6 +38,12 @@ class Piwik_Login extends Piwik_Plugin
 		return $hooks;
 	}
 
+	/**
+	 * Redirects to Login form with error message.
+	 * Listens to FrontController.NoAccessException hook.
+	 *
+	 * @param Piwik_Event_Notification $notification
+	 */
 	function noAccess( $notification )
 	{
 		$exception  = $notification->getNotificationObject();
@@ -47,6 +53,12 @@ class Piwik_Login extends Piwik_Plugin
 		$controller->login($exceptionMessage);
 	}
 
+	/**
+	 * Set login name and autehntication token for authentication request.
+	 * Listens to API.Request.authenticate hook.
+	 *
+	 * @param Piwik_Event_Notification $notification
+	 */
 	function ApiRequestAuthenticate($notification)
 	{
 		$tokenAuth = $notification->getNotificationObject();
@@ -54,6 +66,12 @@ class Piwik_Login extends Piwik_Plugin
 		Zend_Registry::get('auth')->setTokenAuth($tokenAuth);
 	}
 
+	/**
+	 * Initializes the authentication object.
+	 * Listens to FrontController.initAuthenticationObject hook.
+	 *
+	 * @param Piwik_Event_Notification $notification
+	 */
 	function initAuthenticationObject($notification)
 	{
 		$auth = new Piwik_Login_Auth();
@@ -81,6 +99,12 @@ class Piwik_Login extends Piwik_Plugin
 		$auth->setTokenAuth($defaultTokenAuth);
 	}
 	
+	/**
+	 * Authenticate user and initializes the session.
+	 * Listens to Login.initSession hook.
+	 *
+	 * @param Piwik_Event_Notification $notification
+	 */
 	function initSession($notification)
 	{
 		$info = $notification->getNotificationObject();

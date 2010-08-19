@@ -25,6 +25,8 @@ interface Piwik_Auth {
 	public function getName();
 
 	/**
+	 * Authenticates user
+	 *
 	 * @return Piwik_Auth_Result
 	 */
 	public function authenticate();

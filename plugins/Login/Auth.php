@@ -19,11 +19,21 @@ class Piwik_Login_Auth implements Piwik_Auth
 	protected $login = null;
 	protected $token_auth = null;
 
+	/**
+	 * Authentication module's name, e.g., "Login"
+	 *
+	 * @return string
+	 */
 	public function getName()
 	{
 		return 'Login';
 	}
 
+	/**
+	 * Authenticates user
+	 *
+	 * @return Piwik_Auth_Result
+	 */
 	public function authenticate()
 	{
 		$rootLogin = Zend_Registry::get('config')->superuser->login;
@@ -77,16 +87,33 @@ class Piwik_Login_Auth implements Piwik_Auth
 		return new Piwik_Auth_Result( Piwik_Auth_Result::FAILURE, $this->login, $this->token_auth );
 	}
 
+	/**
+	 * Accessor to set login name
+	 *
+	 * @param string $login user login
+	 */
 	public function setLogin($login)
 	{
 		$this->login = $login;
 	}
 
+	/**
+	 * Accessor to set authentication token
+	 *
+	 * @param string $token_auth authentication token
+	 */
 	public function setTokenAuth($token_auth)
 	{
 		$this->token_auth = $token_auth;
 	}
 
+	/**
+	 * Accessor to compute the hashed authentication token
+	 *
+	 * @param string $login user login
+	 * @param string $token_auth authentication token
+	 * @return string hashed authentication token
+	 */
 	public function getHashTokenAuth($login, $token_auth)
 	{
 		return md5($login . $token_auth);
