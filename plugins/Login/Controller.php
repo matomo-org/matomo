@@ -97,11 +97,11 @@ class Piwik_Login_Controller extends Piwik_Controller
 	/**
 	 * Authenticate user and password.  Redirect if successful.
 	 *
-	 * @param string $login (user name)
-	 * @param string $md5Password (md5 hash of password)
+	 * @param string $login user name
+	 * @param string $md5Password md5 hash of password
 	 * @param bool $rememberMe Remember me?
-	 * @param string $urlToRedirect (URL to redirect to, if successfully authenticated)
-	 * @return string (failure message if unable to authenticate)
+	 * @param string $urlToRedirect URL to redirect to, if successfully authenticated
+	 * @return string failure message if unable to authenticate
 	 */
 	protected function authenticateAndRedirect($login, $md5Password, $rememberMe, $urlToRedirect = 'index.php')
 	{
@@ -140,8 +140,8 @@ class Piwik_Login_Controller extends Piwik_Controller
 	/**
 	 * Validate user (by username or email address).
 	 *
-	 * @param string $loginMail (user name or email address)
-	 * @return string (failure message if unable to validate)
+	 * @param string $loginMail user name or email address
+	 * @return string failure message if unable to validate
 	 */
 	protected function lostPasswordFormValidated($loginMail)
 	{
@@ -221,10 +221,10 @@ class Piwik_Login_Controller extends Piwik_Controller
 	/**
 	 * Validate password reset request.  If successful, set new password and redirect.
 	 *
-	 * @param string $loginMail (user name or email address)
-	 * @param string $token (password reset token)
-	 * @param string $pssword (new password)
-	 * @return string (failure message)
+	 * @param string $loginMail user name or email address
+	 * @param string $token password reset token
+	 * @param string $password new password
+	 * @return string failure message
 	 */
 	protected function resetPasswordFormValidated($loginMail, $token, $password)
 	{
@@ -270,7 +270,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 	/**
 	 * Get user information
 	 *
-	 * @param string $loginMail (user login or email address)
+	 * @param string $loginMail user login or email address
 	 * @return array ("login" => '...', "email" => '...', "password" => '...') or null, if user not found
 	 */
 	protected function getUserInformation($loginMail)
@@ -302,9 +302,9 @@ class Piwik_Login_Controller extends Piwik_Controller
 	/**
 	 * Generate a password reset token.  Expires in (roughly) 24 hours.
 	 *
-	 * @param array (user information)
-	 * @param int $timestamp (Unix timestamp)
-	 * @return string (generated token)
+	 * @param array user information
+	 * @param int $timestamp Unix timestamp
+	 * @return string generated token
 	 */
 	protected function generatePasswordResetToken($user, $timestamp = null)
 	{
@@ -326,8 +326,8 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 * Validate token.
 	 *
 	 * @param string $token
-	 * @param array $user (user information)
-	 * @return bool (true if valid, false otherwise)
+	 * @param array $user user information
+	 * @return bool true if valid, false otherwise
 	 */
 	protected function isValidToken($token, $user)
 	{
