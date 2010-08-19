@@ -18,38 +18,6 @@
 class Piwik_Login_Controller extends Piwik_Controller
 {
 	/**
-	 * Get referer to redirect to upon successful login.
-	 * Remembers referer URL even if navigation is: login form -> reset password -> login form
-	 *
-	 * @returns string
-	 */
-	static public function getRefererToRedirect()
-	{
-		// retrieve any previously saved referer
-		$ns = new Zend_Session_Namespace('Piwik_Login.referer');
-		$referer = $ns->referer;
-		if(empty($referer))
-		{
-			// if the referer contains module=Login|Installation|CoreUpdater, or we just logged out, we instead redirect to the doc root
-			$referer = Piwik_Url::getLocalReferer();
-			if(empty($referer)
-				|| preg_match('/module=(Login|Installation|CoreUpdater)/', $referer)
-				|| (Piwik::getModule() == 'CoreHome' && Piwik::getAction() == ''))
-			{
-				$referer = 'index.php';
-			}
-			$ns->referer = $referer;
-			$ns->setExpirationSeconds(300, 'referer');
-		}
-		else if(!Piwik_Url::isLocalUrl($referer))
-		{
-			$referer = 'index.php';
-		}
-
-		return $referer;
-	}
-
-	/**
 	 * Default action
 	 *
 	 * @param none
@@ -69,8 +37,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 */
 	function login($messageNoAccess = null)
 	{
-		$urlToRedirect = self::getRefererToRedirect();
-
 		$form = new Piwik_Login_FormLogin();
 		if($form->validate())
 		{
@@ -82,7 +48,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 				$rememberMe = $form->getSubmitValue('form_rememberme') == '1';
 				$md5Password = md5($password);
 				try {
-					$this->authenticateAndRedirect($login, $md5Password, $rememberMe, $urlToRedirect);
+					$this->authenticateAndRedirect($login, $md5Password, $rememberMe);
 				} catch(Exception $e) {
 					$messageNoAccess = $e->getMessage();
 				}
@@ -137,7 +103,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 * @param string $urlToRedirect (URL to redirect to, if successfully authenticated)
 	 * @return string (failure message if unable to authenticate)
 	 */
-	protected function authenticateAndRedirect($login, $md5Password, $rememberMe, $urlToRedirect)
+	protected function authenticateAndRedirect($login, $md5Password, $rememberMe, $urlToRedirect = 'index.php')
 	{
 		$info = array(	'login' => $login, 
 						'md5Password' => $md5Password,
@@ -156,7 +122,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 	function lostPassword()
 	{
 		$messageNoAccess = null;
-		$urlToRedirect = self::getRefererToRedirect();
 
 		$form = new Piwik_Login_FormPassword();
 		if($form->validate())
@@ -176,7 +141,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 * Validate user (by username or email address).
 	 *
 	 * @param string $loginMail (user name or email address)
-	 * @param string $urlToRedirect (URL to redirect to, if successfully validated)
 	 * @return string (failure message if unable to validate)
 	 */
 	protected function lostPasswordFormValidated($loginMail)
@@ -237,7 +201,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 	function resetPassword()
 	{
 		$messageNoAccess = null;
-		$urlToRedirect = self::getRefererToRedirect();
 
 		$form = new Piwik_Login_FormResetPassword();
 		if($form->validate())
@@ -260,8 +223,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 *
 	 * @param string $loginMail (user name or email address)
 	 * @param string $token (password reset token)
-	 * @param array of string $newPassword (new password)
-	 * @param string $urlToRedirect (URL to redirect to, if successfully validated)
+	 * @param string $pssword (new password)
 	 * @return string (failure message)
 	 */
 	protected function resetPasswordFormValidated($loginMail, $token, $password)
