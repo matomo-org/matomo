@@ -2,7 +2,7 @@
  * Piwik - Web Analytics
  *
  * @link http://piwik.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
  */
 var Piwik,piwik_log,piwik_track;if(!this.Piwik){Piwik=(function(){var b,f={},d=document,c=navigator,g=screen,l=window,i=l.location.hostname,h=false,o=[];function n(q){return typeof q!=="undefined"}function e(t,s,r,q){if(t.addEventListener){t.addEventListener(s,r,q);return true}else{if(t.attachEvent){return t.attachEvent("on"+s,r)}}t["on"+s]=r}function k(r,u){var q="",t,s;for(t in f){s=f[t][r];if(typeof s==="function"){q+=s(u)}}return q}function m(q){if(n(b)){var r;do{r=new Date()}while(r.getTime()<b)}k("unload")}function p(r){if(!h){h=true;k("load");for(var q=0;q<o.length;q++){o[q]()}}return true}function a(){if(d.addEventListener){e(d,"DOMContentLoaded",function(){d.removeEventListener("DOMContentLoaded",arguments.callee,false);p()})}else{if(d.attachEvent){d.attachEvent("onreadystatechange",function(){if(d.readyState==="complete"){d.detachEvent("onreadystatechange",arguments.callee);
