@@ -41,7 +41,7 @@
 }
 .widgetTop {
 	background:#b5b0a7 url(../../../themes/default/images/dashboard_h_bg.png) repeat-x 0 0;
-	border-radius:4px;
+	border-radius:4px 4px 0 0;
 	-moz-border-radius:4px 4px 0 0;
 	-webkit-border-radius:4px 4px 0 0;
 	width: 100%;
