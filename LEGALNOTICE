@@ -139,6 +139,10 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link:  https//sourceforge.net/projects/sparkline/
 	License:  Dual-licensed: New BSD or GPL v2
 
+	Name:  sprintf
+	Link:  http://www.diveintojavascript.com/projects/javascript-sprintf
+	License:  New BSD
+
 	Name:  swfObject
 	Link:  http://code.google.com/p/swfobject/
 	License:  MIT
