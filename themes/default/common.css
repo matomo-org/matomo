@@ -108,7 +108,7 @@ a {
 	float:left; 
 	margin-right:12px;
 	z-index:11;
-	position:absolute; 
+	position:absolute;
 }
 #periodString:hover {
 	background:#f1f0eb;
@@ -467,6 +467,7 @@ a {
 	border: 3px solid red;
 	margin: 10px;
 	padding: 10px;
+	border-radius:9px;
 	-moz-border-radius:9px;
 	-webkit-border-radius:9px;
 }
@@ -478,7 +479,7 @@ a {
 	display:inline-block;
 	background-color: #ffffe0;
 	border: 1px solid #e6db55;
-	border-radius:border-radius:3px;
+	border-radius:3px;
 	-moz-border-radius:3px;
 	-webkit-border-radius:3px;
 }
