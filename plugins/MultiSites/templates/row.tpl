@@ -22,5 +22,5 @@
 <td style="width:180px">
     <div id="sparkline_%idsite%" style="width: 100px; margin: auto">
 	%sparkline%
-    </div
+    </div>
 </td>
