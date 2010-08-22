@@ -226,6 +226,7 @@ a {
 }
 
 .sites_selection label{
+	vertical-align: top;
 	display:inline-block; 
 	padding:7px 24px 6px 0px;
 }
