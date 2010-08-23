@@ -28,6 +28,8 @@ function formSetEditReport(idReport)
 	$('#report_additional_emails').text(report.additional_emails);
 	
 	$('#reportsList input').attr('checked', false);
+
+	var key;
 	for(key in report.reports)
 	{
 		$('#'+report.reports[key]).attr('checked','checked');
@@ -87,7 +89,7 @@ function initManagePdf()
 			ajaxRequest.data = parameters;
 			$.ajax( ajaxRequest );
 		}
-		piwikHelper.windowModal( '.dialog#confirm', onDelete)
+		piwikHelper.windowModal( '.dialog#confirm', onDelete);
 	});
 
 	// Edit Report click
