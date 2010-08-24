@@ -107,15 +107,15 @@ class Piwik_SitesManager_API
 		$urls = $this->getAliasSiteUrlsFromId($idSite);
 		return array_merge(array($site['main_url']), $urls);
 	}
-	
+
 	/**
-	 * Returns the list of all the websites ID registered
-	 * 
-	 * @return array the list of websites ID
+	 * Returns the list of all the website IDs registered.
+	 * Caller must check access.
+	 *
+	 * @return array The list of website IDs
 	 */
-	public function getAllSitesId()
+	private function getSitesId()
 	{
-		Piwik::checkUserIsSuperUser();
 		$result = Piwik_FetchAll("SELECT idsite FROM ".Piwik_Common::prefixTable('site'));
 		$idSites = array();
 		foreach($result as $idSite)
@@ -123,6 +123,18 @@ class Piwik_SitesManager_API
 			$idSites[] = $idSite['idsite'];
 		}
 		return $idSites;
+	}
+	
+	/**
+	 * Returns the list of all the website IDs registered.
+	 * Requires super user access.
+	 *
+	 * @return array The list of website IDs
+	 */
+	public function getAllSitesId()
+	{
+		Piwik::checkUserIsSuperUser();
+		return Piwik_SitesManager_API::getInstance()->getSitesId();
 	}
 	
 	
@@ -341,7 +353,7 @@ class Piwik_SitesManager_API
 	{
 		Piwik::checkUserIsSuperUser();
 		
-		$idSites = Piwik_SitesManager_API::getInstance()->getAllSitesId();
+		$idSites = Piwik_SitesManager_API::getInstance()->getSitesId();
 		if(!in_array($idSite, $idSites))
 		{
 			throw new Exception("website id = $idSite not found");
@@ -583,6 +595,12 @@ class Piwik_SitesManager_API
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
 
+		$idSites = Piwik_SitesManager_API::getInstance()->getSitesId();
+		if(!in_array($idSite, $idSites))
+		{
+			throw new Exception("website id = $idSite not found");
+		}
+
 		$this->checkName($siteName);
 		
 		// SQL fields to update
@@ -738,6 +756,14 @@ class Piwik_SitesManager_API
 		$return = array();
 		foreach($timezones as $timezone)
 		{
+			// filter out timezones not recognized by strtotime()
+			// @see http://bugs.php.net/46111
+			$testDate = '2008-09-18 13:00:00 ' . $timezone;
+			if(!strtotime($testDate))
+			{
+				continue;
+			}
+			
 			$timezoneExploded = explode('/', $timezone);
 			$continent = $timezoneExploded[0];
 			
