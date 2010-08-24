@@ -756,6 +756,14 @@ class Piwik_SitesManager_API
 		$return = array();
 		foreach($timezones as $timezone)
 		{
+			// filter out timezones not recognized by strtotime()
+			// @see http://bugs.php.net/46111
+			$testDate = '2008-09-18 13:00:00 ' . $timezone;
+			if(!strtotime($testDate))
+			{
+				continue;
+			}
+			
 			$timezoneExploded = explode('/', $timezone);
 			$continent = $timezoneExploded[0];
 			
