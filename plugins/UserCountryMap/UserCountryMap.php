@@ -74,7 +74,9 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 		$metrics = array();
 		foreach ($metaData[0]['metrics'] as $id => $val)
 		{
-			$metrics[] = array($id, $val);
+			if (Piwik_Common::getRequestVar('period') == 'day' || $id != 'nb_uniq_visitors') {
+				$metrics[] = array($id, $val);
+			}
 		} 
 		foreach ($metaData[0]['processedMetrics'] as $id => $val) 
 		{
