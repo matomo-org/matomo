@@ -134,8 +134,11 @@
 		showSuperfishUl : function(){
 			var o = sf.op,
 				sh = sf.c.shadowClass+'-off',
-				$ul = this.addClass(o.hoverClass)
-					.find('>ul:hidden').css('visibility','visible');
+				$ul = this.addClass(o.hoverClass).find('>ul:hidden');
+				if($ul){
+					$ul.css('visibility','visible');
+				}
+				
 			sf.IE7fix.call($ul);
 			o.onBeforeShow.call($ul);
 			$ul.animate(o.animation,o.speed,function(){ sf.IE7fix.call($ul); o.onShow.call($ul); });
