@@ -213,6 +213,10 @@ abstract class Piwik_Controller
 		{
 			$period = $paramsToSet['period'];
 		}
+		if(is_null($this->site))
+		{
+			throw new Piwik_Access_NoAccessException("Website not initialized, check that you are logged in and/or using the correct token_auth.");
+		}
 		$last30Relative = new Piwik_Period_Range($period, $range, $this->site->getTimezone() );
 		
 		$last30Relative->setDefaultEndDate(Piwik_Date::factory($endDate));
