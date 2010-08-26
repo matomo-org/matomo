@@ -88,7 +88,7 @@ vertical-align:middle;
 	<table class="admin" id="editSites" border=1 cellpadding="10">
 		<thead>
 			<tr>
-			<th>{'SitesManager_Id'|translate}</th>
+			<th>{'General_Id'|translate}</th>
 			<th>{'General_Name'|translate}</th>
 			<th>{'SitesManager_Urls'|translate}</th>
 			<th>{'SitesManager_ExcludedIps'|translate}</th>

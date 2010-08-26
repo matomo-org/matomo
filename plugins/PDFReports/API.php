@@ -103,6 +103,7 @@ class Piwik_PDFReports_API
 						),
 					"idreport = '$idReport'"
 		);	
+		self::$cache = array();
 	}
 	
 	/**
@@ -122,7 +123,11 @@ class Piwik_PDFReports_API
 						),
 						"idreport = '$idReport'"
 		);	
+		self::$cache = array();
 	}
+	
+	// static cache storing reports
+	public static $cache = array();
 	
 	/**
 	 * Returns the list of PDF reports matching the passed parameters
@@ -135,6 +140,12 @@ class Piwik_PDFReports_API
 	 */
 	public function getReports($idSite = false, $period = false, $idReport = false, $ifSuperUserReturnOnlySuperUserReports = false)
 	{
+		$cacheKey = (int)$idSite .'.'. (string)$period .'.'. (int)$idReport .'.'. (int)$ifSuperUserReturnOnlySuperUserReports;
+		if(isset(self::$cache[$cacheKey]))
+		{
+			return self::$cache[$cacheKey];
+		}
+
 		$sqlWhere = '';
 		$bind = array();
 		
@@ -175,6 +186,9 @@ class Piwik_PDFReports_API
 		{
 			throw new Exception("Requested PDF report couldn't be found.");
 		}
+		// static cache
+		self::$cache[$cacheKey] = $reports;
+		
 		return $reports;
 	}
 	
@@ -287,6 +301,78 @@ class Piwik_PDFReports_API
 			);
     	}
 	}
+
+	public function sendEmailReport($idReport, $idSite)
+	{
+		$reports = $this->getReports($idSite, $period = false, $idReport);
+		$report = reset($reports);
+		list($outputFilename, $prettyDate, $websiteName) = 
+			Piwik_PDFReports_API::getInstance()->generateReport(
+					$idReport, 
+					Piwik_Date::now()->subPeriod(1, $report['period']),
+					$idSite,
+					$outputType = Piwik_PDFReports_API::OUTPUT_PDF_SAVE_ON_DISK
+					);
+
+		
+		$emails = self::getEmailsFromString($report['additional_emails']);
+		if($report['email_me'] == 1)
+		{		
+			$emails[] = Piwik::getCurrentUserEmail();
+		}
+		$this->sendReportEmailPdfAttached($emails, $outputFilename, $prettyDate, $websiteName, $report);
+	}
+	
+	protected function sendReportEmailPdfAttached($emails, $outputFilename, $prettyDate, $websiteName, $report)
+	{
+		$periods = self::getPeriodToFrequency();
+		$message  = Piwik_Translate('PDFReports_EmailHello');
+		$message .= "\n" . Piwik_Translate('PDFReports_PleaseFindAttachedFile', array($periods[$report['period']], $websiteName));
+		$subject = "Reports " . $websiteName . " - ".$prettyDate;
+
+		if(!file_exists($outputFilename))
+		{
+			throw new Exception("The PDF file wasn't found in $outputFilename");
+		}
+		$filename = basename($outputFilename);
+		$handle = fopen($outputFilename, "r");
+		$contents = fread($handle, filesize($outputFilename));
+		fclose($handle);
+		
+		$mail = new Piwik_Mail();
+		$mail->setSubject($subject);
+		$mail->setBodyText($message);
+		$fromEmailName = Piwik_Translate('PDFReports_PiwikReports');
+		$fromEmailAddress = Zend_Registry::get('config')->General->noreply_email_address;
+		$mail->setFrom($fromEmailAddress, $fromEmailName);
+		$mail->createAttachment(	$contents, 
+									'application/pdf', 
+									Zend_Mime::DISPOSITION_INLINE, 
+									Zend_Mime::ENCODING_BASE64, 
+									$filename
+		);
+		
+		foreach ($emails as $email)
+		{
+			$mail->addTo($email);
+    
+    		try {
+    			$mail->send();
+    		} catch(Exception $e) {
+    			throw new Exception("An error occured while sending the PDF Report ".
+    								" to ". implode(', ',$mail->getRecipients()). ". Error was '". $e->getMessage()."'");
+    		}
+    		$mail->clearRecipients();
+		}
+		// Update flag in DB
+		Zend_Registry::get('db')->update( Piwik_Common::prefixTable('pdf'), 
+					array( 'ts_last_sent' => Piwik_Date::now()->getDatetime() ),
+					"idreport = " . $report['idreport']
+		);	
+		
+		// Remove PDF file
+		unlink($outputFilename);
+	}
 	
 	private function checkAdditionalEmails($additionalEmails)
 	{
@@ -294,7 +380,7 @@ class Piwik_PDFReports_API
 		{
 			return '';
 		}
-		$additionalEmails = Piwik_PDFReports::getEmailsFromString($additionalEmails);
+		$additionalEmails = self::getEmailsFromString($additionalEmails);
 		foreach($additionalEmails as &$email)
 		{
 			$email = trim($email);
@@ -304,6 +390,17 @@ class Piwik_PDFReports_API
 			}
 		}
 		$additionalEmails = implode(',',$additionalEmails);
+		return $additionalEmails;
+	}
+
+	static protected function getEmailsFromString($additionalEmails)
+	{
+		if(empty($additionalEmails))
+		{
+			return array();
+		}
+		$additionalEmails = explode(',', trim($additionalEmails));
+		$additionalEmails = array_filter($additionalEmails, 'strlen');
 		return $additionalEmails;
 	}
 	
@@ -341,5 +438,14 @@ class Piwik_PDFReports_API
 			throw new Exception(Piwik_Translate("Period schedule must be one of the following: " . implode(', ', $availablePeriods)));
 		}
 	}
-	
+
+	static public function getPeriodToFrequency()
+	{
+		$periods = array(
+			'day' => Piwik_Translate('General_Daily'),
+			'week' => Piwik_Translate('General_Weekly'),
+			'month' => Piwik_Translate('General_Monthly'),
+		);
+		return $periods;
+	}
 }
