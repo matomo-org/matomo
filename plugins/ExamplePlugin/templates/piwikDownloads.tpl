@@ -1,5 +1,5 @@
 <div style="padding:1.5em;text-align:center">
-	{"ExamplePlugin_piwikDownloadsMsg"|translate|replace:'%s':'<b class="piwikDownloadCount_cnt" >...</b>'}
+	{"ExamplePlugin_PiwikHasBeenDownloaded"|translate:$prettyDate:'<b class="piwikDownloadCount_cnt" >...</b>'}
 </div>
 {* 
  * loading piwik download stats from demo.piwik.org 

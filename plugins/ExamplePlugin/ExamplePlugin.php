@@ -116,6 +116,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 	function piwikDownloads()
 	{
 		$view = Piwik_View::factory('piwikDownloads'); 
+		$this->setGeneralVariablesView($view);
 		echo $view->render();
 	}
 	
