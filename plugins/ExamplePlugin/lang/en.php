@@ -18,6 +18,6 @@ $translations = array(
 	'ExamplePlugin_photostreamMatt' => 'Matt\'s Photos',
 	'ExamplePlugin_websitesAndUsers' => 'Website and Users',
 	'ExamplePlugin_piwikDownloads' => 'Piwik Downloads',
-	'ExamplePlugin_piwikDownloadsMsg' => 'Piwik has been downloaded %s times.'
+	'ExamplePlugin_PiwikHasBeenDownloaded' => 'On %s, Piwik was downloaded %s times.'
 	
 );
