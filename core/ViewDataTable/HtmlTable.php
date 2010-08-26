@@ -73,6 +73,8 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 		$this->isDataAvailable = true;
 		try {
 			$this->loadDataTableFromAPI();
+		} catch(Piwik_Access_NoAccessException $e) {
+			throw $e;
 		} catch(Exception $e) {
 			$this->isDataAvailable = false;
 		}
