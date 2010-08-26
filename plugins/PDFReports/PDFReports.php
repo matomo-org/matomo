@@ -68,77 +68,15 @@ class Piwik_PDFReports extends Piwik_Plugin
 		// For each, generate the file and send the message with the attached report
 		foreach($reportsToGenerate as $report)
 		{
-			list($outputFilename, $prettyDate, $websiteName) = 
-											Piwik_PDFReports_API::getInstance()->generateReport(
-													$report['idreport'], 
-													Piwik_Date::now()->subPeriod(1, $period),
-													$report['idsite'],
-													$outputType = Piwik_PDFReports_API::OUTPUT_PDF_SAVE_ON_DISK
-													);
-
-			$emails = self::getEmailsFromString($report['additional_emails']);
-			if($report['email_me'] == 1)
-			{		
-				$emails[] = Piwik::getCurrentUserEmail();
-			}
-			$this->sendReportEmail($emails, $outputFilename, $prettyDate, $websiteName, $report);
+			Piwik_PDFReports_API::sendEmailReport(	$report['idreport'], 
+													$report['idsite'], 
+													$period);
 		}
-	}
-	
-	function sendReportEmail($emails, $outputFilename, $prettyDate, $websiteName, $report)
-	{
-		$periods = self::getPeriodToFrequency();
-		$message  = Piwik_Translate('PDFReports_EmailHello');
-		$message .= "\n" . Piwik_Translate('PDFReports_PleaseFindAttachedFile', array($periods[$report['period']], $websiteName));
-		$subject = "Reports " . $websiteName . " - ".$prettyDate;
-
-		if(!file_exists($outputFilename))
-		{
-			throw new Exception("The PDF file wasn't found in $outputFilename");
-		}
-		$filename = basename($outputFilename);
-		$handle = fopen($outputFilename, "r");
-		$contents = fread($handle, filesize($outputFilename));
-		fclose($handle);
-		
-		$mail = new Piwik_Mail();
-		$mail->setSubject($subject);
-		$mail->setBodyText($message);
-		$fromEmailName = Piwik_Translate('PDFReports_PiwikReports');
-		$fromEmailAddress = Zend_Registry::get('config')->General->noreply_email_address;
-		$mail->setFrom($fromEmailAddress, $fromEmailName);
-		$mail->createAttachment(	$contents, 
-									'application/pdf', 
-									Zend_Mime::DISPOSITION_INLINE, 
-									Zend_Mime::ENCODING_BASE64, 
-									$filename
-		);
-		
-		foreach ($emails as $email)
-		{
-			$mail->addTo($email);
-    
-    		try {
-    			$mail->send();
-    		} catch(Exception $e) {
-    			throw new Exception("An error occured while sending the PDF Report ".
-    								" to ". implode(', ',$mail->getRecipients()). ". Error was '". $e->getMessage()."'");
-    		}
-    		$mail->clearRecipients();
-		}
-		// Update flag in DB
-		Zend_Registry::get('db')->update( Piwik_Common::prefixTable('pdf'), 
-					array( 'ts_last_sent' => Piwik_Date::now()->getDatetime() ),
-					"idreport = " . $report['idreport']
-		);	
-		
-		// Remove PDF file
-		unlink($outputFilename);
 	}
 		
     function addTopMenu()
     {
-    	Piwik_AddTopMenu( 'PDFReports_PDF', array('module' => 'PDFReports', 'action' => 'index'), true, 13);
+    	Piwik_AddTopMenu( 'PDFReports_EmailReports', array('module' => 'PDFReports', 'action' => 'index'), true, 13);
     }
 	
     function install()
@@ -172,24 +110,5 @@ class Piwik_PDFReports extends Piwik_Plugin
 		}
 	}
 
-	static public function getPeriodToFrequency()
-	{
-		$periods = array(
-			'day' => Piwik_Translate('General_Daily'),
-			'week' => Piwik_Translate('General_Weekly'),
-			'month' => Piwik_Translate('General_Monthly'),
-		);
-		return $periods;
-	}
 
-	static public function getEmailsFromString($additionalEmails)
-	{
-		if(empty($additionalEmails))
-		{
-			return array();
-		}
-		$additionalEmails = explode(',', trim($additionalEmails));
-		$additionalEmails = array_filter($additionalEmails, 'strlen');
-		return $additionalEmails;
-	}
 }
