@@ -78,6 +78,16 @@ function initManagePdf()
 		return false;
 	});
 	
+	// Email now
+	$('a[name=linkEmailNow]').click(function(){
+		var idReport = $(this).attr('idreport');
+		var ajaxRequest = piwikHelper.getStandardAjaxConf();
+		parameters = getPDFAjaxRequest(idReport, 'PDFReports.sendEmailReport');
+		parameters.idReport = idReport;
+		ajaxRequest.data = parameters;
+		$.ajax( ajaxRequest );
+	});
+	
 	// Delete PDF
 	$('a[name=linkDeleteReport]').click(function(){
 		var idReport = $(this).attr('id');

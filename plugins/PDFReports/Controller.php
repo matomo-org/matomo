@@ -39,7 +39,7 @@ class Piwik_PDFReports_Controller extends Piwik_Controller
 		$view->newColumnAfter = round(count($availableReports) / $columnsCount);
 		$view->reportsByCategory = $reportsByCategory;
 		$view->reportsJSON = json_encode($reportsById);
-		$view->periods = Piwik_PDFReports::getPeriodToFrequency();
+		$view->periods = Piwik_PDFReports_API::getPeriodToFrequency();
 		$view->reports = $reports;
 		echo $view->render();
 	}
