@@ -369,7 +369,7 @@ class Test_Piwik_UsersManager extends Test_Database
     	$user = Piwik_UsersManager_API::getInstance()->getUser($login);
 		
 	    // check that the date registered is correct
-		$this->assertTrue( $time <= strtotime($user['date_registered']) && strtotime($user['date_registered'] <=  time(), 
+		$this->assertTrue( $time <= strtotime($user['date_registered']) && strtotime($user['date_registered']) <=  time(), 
 				"the date_registered ".strtotime($user['date_registered'])." is different from the time() ". time());
 		$this->assertTrue($user['date_registered'] <= time() );
 		
