@@ -35,6 +35,17 @@ foreach($widgets as $category => $widgetsInCategory)
 		$widgetUrl = Piwik_Common::getArrayFromQueryString($url);
 		$widgetUrl['moduleToWidgetize'] = $widget['parameters']['module'];
 		$widgetUrl['actionToWidgetize'] = $widget['parameters']['action'];
+		$parameters = $widget['parameters'];
+		unset($parameters['module']);
+		unset($parameters['action']);
+		foreach($parameters as $name => $value)
+		{
+			if(is_array($value))
+			{
+				$value = current($value);
+			}
+			$widgetUrl[$name] = $value;
+		}
 		$widgetUrl = Piwik_Url::getQueryStringFromParameters($widgetUrl);
 		
 		echo '<div id="widgetIframe"><iframe width="500" height="350" 
