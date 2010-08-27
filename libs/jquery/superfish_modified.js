@@ -125,7 +125,6 @@
 			var o = sf.op,
 				not = (o.retainPath===true) ? o.$path : '';
 			o.retainPath = false;
-//			var $ul = $(['li.',o.hoverClass].join(''),this).add(this).not(not).removeClass(o.hoverClass)
 			var $ul = $(['li.',o.hoverClass].join(''),this).add(this).not(not)	// piwik
 					.find('>ul').hide().css('visibility','hidden');
 			o.onHide.call($ul);
@@ -133,12 +132,13 @@
 		},
 		showSuperfishUl : function(){
 			var o = sf.op,
-				sh = sf.c.shadowClass+'-off',
-				$ul = this.addClass(o.hoverClass).find('>ul:hidden');
-				if($ul){
-					$ul.css('visibility','visible');
-				}
-				
+			sh = sf.c.shadowClass+'-off',
+			$ul = this.addClass(o.hoverClass);
+			if($ul){
+				$ul = $ul.find('>ul:hidden');
+				if($ul) $ul.css('visibility','visible');
+			}
+			
 			sf.IE7fix.call($ul);
 			o.onBeforeShow.call($ul);
 			$ul.animate(o.animation,o.speed,function(){ sf.IE7fix.call($ul); o.onShow.call($ul); });
