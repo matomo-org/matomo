@@ -76,8 +76,8 @@ class Piwik_Login_Auth implements Piwik_Auth
 					array($login)
 			);
 			if($userToken !== false
-				&& ($this->getHashTokenAuth($login, $userToken) == $this->token_auth)
-				|| $userToken == $this->token_auth)
+				&& (($this->getHashTokenAuth($login, $userToken) == $this->token_auth)
+				|| $userToken == $this->token_auth))
 			{
 				$this->setTokenAuth($userToken);
 				return new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS, $login, $userToken );
