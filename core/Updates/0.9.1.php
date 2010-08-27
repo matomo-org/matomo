@@ -32,15 +32,21 @@ class Piwik_Updates_0_9_1 extends Piwik_Updates
 
 		return array(
 			'UPDATE '. Piwik_Common::prefixTable('site') .'
-				SET timezone = "UTC" WHERE timezone IN ('. $timezoneList .')' => false,
+				SET timezone = "UTC" 
+				WHERE timezone IN ('. $timezoneList .')' => false,
 
 			'UPDATE `'. Piwik_Common::prefixTable('option') .'`
-				SET option_value = "UTC" WHERE option_name = "SitesManager_DefaultTimezone" AND option_value IN ('. $timezoneList .')' => false,
+				SET option_value = "UTC" 
+			WHERE option_name = "SitesManager_DefaultTimezone" 
+				AND option_value IN ('. $timezoneList .')' => false,
 		);
 	}
 
 	static function update()
 	{
-		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+		if(Piwik::isTimezoneSupportEnabled())
+		{
+			Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+		}
 	}
 }
