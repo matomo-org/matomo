@@ -59,7 +59,6 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
     	$pluginsShouldBeDisabled = array(
 		'AnonymizeIP',
     		'DBStats',
-    		'Live',
 		'SecurityInfo',
 		'VisitorGenerator',
     	);
