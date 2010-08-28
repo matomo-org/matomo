@@ -9,7 +9,6 @@ $translations = array(
 	'General_OpenSourceWebAnalytics' => 'Open Kjeldekode Nettanalyse',
 	'General_YourDashboard' => 'Ditt Dashbord',
 	'General_API' => 'API',
-	'General_Widgets' => '',
 	'General_Settings' => 'Innstillingar',
 	'General_GiveUsYourFeedback' => 'Gje oss attendemelding!',
 	'General_Unknown' => 'Ukjent',
@@ -54,6 +53,10 @@ $translations = array(
 
 
 
+
+
+
+
 ',
 	'General_ColumnUniquePageviews' => 'Unike sidevisingar',
 	'General_ColumnValuePerVisit' => 'Verdi per vising',
@@ -64,9 +67,9 @@ $translations = array(
 	'General_NoDataForTagCloud' => 'Inga data for denne taggskyen',
 	'General_DisplayNormalTable' => 'Vis vanleg tabell',
 	'General_DisplayMoreData' => 'Vis meir data',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%s Piwik %s er eit samarbeidsprosjekt. %s Om du likar Piwik, kan du hjelpa til! Sjekk ut %s Korleis delta i Piwik?%s ',
+	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s er eit samarbeidsprosjekt. %3$s Om du likar Piwik, kan du hjelpa til! Sjekk ut %4$s Korleis delta i Piwik?%5$s ',
 	'General_YouAreCurrentlyViewingDemoOfPiwik' => 'Du sjå for tida ein demonstrasjon av %s; %sLast ned%s den fulle utgåva! Sjekk ut %s',
-	'General_PiwikXIsAvailablePleaseUpdateNow' => 'Piwik %s er komen. %s Venlegast oppdater nå!%s (sjå %s endringar%s).',
+	'General_PiwikXIsAvailablePleaseUpdateNow' => 'Piwik %1$s er komen. %2$s Venlegast oppdater nå!%3$s (sjå %4$s endringar%5$s).',
 	'General_BackToPiwik' => 'Attende til Piwik',
 	'General_ShortMonth_1' => 'Jan',
 	'General_ShortMonth_2' => 'Feb',
@@ -111,6 +114,10 @@ $translations = array(
 
 
 
+
+
+
+
 ',
 	'CorePluginsAdmin_MainDescription' => 'Innstikk utvidar funksjonane til Piwik. Når eit innstikk er lagt til, kan du slå det av og på her.',
 	'CorePluginsAdmin_Plugin' => 'Innstikk',
@@ -134,9 +141,11 @@ $translations = array(
 	'CoreHome_ShowJSCode' => 'Vis JavaScriptkoden for å setja inn.',
 	'CoreHome_IncludeAllPopulation_js' => 'Inkluder heile populasjonen',
 	'CoreHome_ExcludeLowPopulation_js' => 'Ekskluder låg populasjon',
-	'CoreHome_PageOf_js' => '%s av %s',
+	'CoreHome_PageOf_js' => '%1$s av %2$s',
 	'CoreHome_Loading_js' => 'Lastar...',
 	'CoreHome_DayFormat' => '%langDag% %dag% %langMånad% %langtÅr%
+
+
 
 ',
 	'CoreHome_PeriodDay' => 'Dag',
@@ -169,13 +178,17 @@ $translations = array(
 	'CoreUpdater_UpdateTitle' => 'Piwik &rsaquo; Oppdatering',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'Databaseoppdatering krevjast',
 	'CoreUpdater_YourDatabaseIsOutOfDate' => 'Piwik databasa di er gamal, og må bli oppgradert før du kan fortsetja.',
-	'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY' => 'Piwik databasa vil bli oppgradert frå versjon %s til den nye versjonen %s.',
+	'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY' => 'Piwik databasa vil bli oppgradert frå versjon %1$s til den nye versjonen %2$s.',
 	'CoreUpdater_TheFollowingPluginsWillBeUpgradedX' => 'Dei følgjande innstikka vil bli oppdatert: %s.',
 	'CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient' => 'Oppdateringa av databasa kan ta litt tid, så ha tolmod.',
 	'CoreUpdater_UpgradePiwik' => 'Oppdater Piwik',
-	'CoreUpdater_HelpMessageContent' => 'Les %s Piwik OBS %s som forklarar dei vanlegaste feila under oppdatering. %s Spør dine systemadministratorar, dei kan kanskje hjelpa deg me feilen, som sannsynlegvis hev noko med MySQL databasa di å gjera.',
+	'CoreUpdater_HelpMessageContent' => 'Les %1$s Piwik OBS %2$s som forklarar dei vanlegaste feila under oppdatering. %3$s Spør dine systemadministratorar, dei kan kanskje hjelpa deg me feilen, som sannsynlegvis hev noko med MySQL databasa di å gjera.',
 	'CoreUpdater_CriticalErrorDuringTheUpgradeProcess' => 'Kritisk feil under oppdateringa:',
 	'CoreUpdater_HelpMessageIntroductionWhenError' => 'Ovanfor står kjernefeilmeldinga. Den burde forklare grunnen, men om du treng meir hjelp:
+
+
+
+
 
 
 
@@ -205,6 +218,8 @@ $translations = array(
 	'Actions_ColumnUniqueClicks' => 'Unike klikk',
 	'Actions_ColumnDownloads' => 'Nedlastingar
 
+
+
 ',
 	'Actions_ColumnUniqueDownloads' => 'Unike nedlastingar',
 	'Actions_ColumnPageName' => 'Sidenamn',
@@ -219,6 +234,10 @@ $translations = array(
 
 
 
+
+
+
+
 ',
 	'Dashboard_Close_js' => 'Lukk',
 	'Dashboard_TitleWidgetInDashboard_js' => 'Dingsen finnes allereie i dashbordet',
@@ -229,9 +248,13 @@ $translations = array(
 	'Referers_SearchEngines' => 'Søkjemotorar',
 	'Referers_Keywords' => 'Nøkkelord
 
+
+
 ',
 	'Referers_DirectEntry' => 'Direkte vitjing',
 	'Referers_Websites' => 'Nettstader
+
+
 
 ',
 	'Referers_Campaigns' => 'Kampanjar',
@@ -261,6 +284,10 @@ $translations = array(
 	'Referers_WidgetCampaigns' => 'Liste over kampanjar',
 	'Referers_WidgetExternalWebsites' => 'Liste over eksterne nettsider',
 	'Referers_WidgetSearchEngines' => 'Beste søkjemotorar
+
+
+
+
 
 
 
@@ -482,6 +509,8 @@ $translations = array(
 	'UserCountry_country_pg' => 'Papua New Guinea',
 	'UserCountry_country_ph' => 'Filippinene
 
+
+
 ',
 	'UserCountry_country_pk' => 'Pakistan',
 	'UserCountry_country_pl' => 'Polen',
@@ -528,6 +557,8 @@ $translations = array(
 	'UserCountry_country_tj' => 'Tadsjikistan',
 	'UserCountry_country_tk' => 'Tokelau',
 	'UserCountry_country_tl' => 'Aust Timor
+
+
 
 ',
 	'UserCountry_country_tm' => 'Turkmenistan',
@@ -581,6 +612,8 @@ $translations = array(
 	'VisitsSummary_WidgetLastVisits' => 'Siste vitjingar',
 	'VisitsSummary_WidgetVisits' => 'Vitjingsoversikt
 
+
+
 ',
 	'VisitsSummary_WidgetLastVisitors' => 'Graf over dei siste unike vitjarane',
 	'VisitsSummary_WidgetOverviewGraph' => 'Oversikt med graf',
@@ -596,6 +629,8 @@ $translations = array(
 	'VisitFrequency_ReturnMaxActions' => '%s maksimum handlingar frå ein tilbakevendande vitjar',
 	'VisitFrequency_ReturnTotalTime' => '%s samla tid brukt av tilbakevendande vitjarar',
 	'VisitFrequency_ReturnBounceRate' => '%s tilbakevendande vitjarar hev hoppa (forsvunne frå nettstaden etter ei sidevising)
+
+
 
 ',
 	'VisitFrequency_WidgetOverview' => 'Frekvensoversikt',
@@ -637,7 +672,11 @@ $translations = array(
 	'UsersManager_ManageAccess' => 'Bestem tilgang',
 	'UsersManager_MainDescription' => 'Bestem kven av brukarane som hev korleis tilgang til dine nettstader.
 
+
+
 Du kan òg setja tilgang til alle nettstadene på ein gong.
+
+
 
 ',
 	'UsersManager_Sites' => 'Nettstader',
@@ -648,6 +687,8 @@ Du kan òg setja tilgang til alle nettstadene på ein gong.
 	'UsersManager_PrivView' => 'Les',
 	'UsersManager_PrivAdmin' => 'Administrator',
 	'UsersManager_ChangeAllConfirm' => 'Er du sikker på at du vil endra \'%s\' tilgangar på alle nettstadene?
+
+
 
 ',
 	'UsersManager_Login' => 'Brukar',
@@ -669,14 +710,20 @@ Du kan òg setja tilgang til alle nettstadene på ein gong.
 	'UsersManager_ExceptionUserDoesNotExist' => 'Brukar \'%s\' finst ikkje.',
 	'UsersManager_ExceptionAccessValues' => 'Parameteren tilgang må ha ein av dei følgjande verdiane :
 
+
+
 [ %s ]',
 	'SitesManager_Sites' => 'Nettstadar',
 	'SitesManager_WebsitesManagement' => 'Nettstadsbehandling',
 	'SitesManager_MainDescription' => 'Your Web Analytics reports need Websites! Add, update, delete Websites, and show the JavaScript to insert in your pages.
 
+
+
 Din nettanalyserapport treng nettstader! Legg til, oppdater og fjern nettstader, samt vis javaScript koden som trengs på sidene dine.',
 	'SitesManager_JsTrackingTag' => 'JavaScript Sporing skode',
 	'SitesManager_JsTrackingTagHelp' => 'Here is the JavaScript Tracking tag to include on all your pages
+
+
 
 Her er JavaScript sporingskoden som du på leggja ved alle sidene dine',
 	'SitesManager_ShowTrackingTag' => 'vis sporingskode',
@@ -689,20 +736,30 @@ Her er JavaScript sporingskoden som du på leggja ved alle sidene dine',
 	'SitesManager_DeleteConfirm_js' => 'Er du sikker på at du vil sletta denne nettstaden %s?',
 	'SitesManager_ExceptionDeleteSite' => 'It is not possible to delete this website as it is the only registered website. Add a new website first, then delete this one.
 
+
+
 Det er ikkje mulig å sletta denne nettstaden, ettersom det er den einaste registrerte nettstaden. Legg til ein ny nettstad først, så kan du sletta denne etterpå.',
 	'SitesManager_ExceptionNoUrl' => 'Du må skriva minst ein adresse for nettstaden.',
 	'SitesManager_ExceptionEmptyName' => 'Stadsnamnet kan ikkje vera tomt.',
 	'SitesManager_ExceptionInvalidUrl' => 'Adressa \'%s\' er ikkje ein gyldig adresse (URL)',
 	'Installation_Installation' => 'Installasjon
 
+
+
 ',
 	'Installation_InstallationStatus' => 'Installasjonstatus
+
+
 
 ',
 	'Installation_PercentDone' => '%s %% Ferdig',
 	'Installation_NoConfigFound' => 'Du prøvar å nå ein Piwikside, men konfigurasjonen vart ikkje funnen.<br /><b>&nbsp;&nbsp;&raquo; Du kan <a href=\'index.php\'>installera Piwik nå</a></b><br /><small>
 
+
+
 Om du allereie har hatt Piwik installert og hev nokre tabellar i databasen treng du ikkje bekymra deg. Du kan nytta dei same tabellane og data.
+
+
 
 </small>',
 	'Installation_MysqlSetup' => 'MySQL database installasjon',
@@ -714,6 +771,8 @@ Om du allereie har hatt Piwik installert og hev nokre tabellar i databasen treng
 	'Installation_ContinueToPiwik' => 'Forsett til Piwik',
 	'Installation_SetupWebsite' => 'Sett opp ei nettstad
 
+
+
 ',
 	'Installation_SetupWebsiteError' => 'Det skjedde ein feil då nettsiden blei lagt til',
 	'Installation_GeneralSetup' => 'Generelt oppsett',
@@ -724,10 +783,16 @@ Om du allereie har hatt Piwik installert og hev nokre tabellar i databasen treng
 	'Installation_Email' => 'epost',
 	'Installation_SecurityNewsletter' => 'send meg epost når det kjem oppdateringar og tryggleiksvarslingar
 
+
+
 ',
 	'Installation_CommunityNewsletter' => 'email me with community updates (new plugins, new features, etc.)
 
+
+
 send meg epost når det kjem oppdateringar frå fellesskapet (nye innstikk, funksjonar osb.)
+
+
 
 ',
 	'Installation_PasswordDoNotMatch' => 'Passorda stemmer ikkje',
@@ -743,6 +808,8 @@ send meg epost når det kjem oppdateringar frå fellesskapet (nye innstikk, funk
 	'Installation_SystemCheckWriteDirs' => 'Katalogar med skrivetilgang',
 	'Installation_SystemCheckWriteDirsHelp' => 'To fix this error on your Linux system, try typing in the following command(s)
 
+
+
 For å fiksa denne feilen på din Linux tenar, prøv den/dei føljande kommandoen(e)',
 	'Installation_SystemCheckMemoryLimit' => 'Minnegrense',
 	'Installation_SystemCheckMemoryLimitHelp' => 'På eit nettsted me høg trafikk, kan arkiveringsprosessen nytta meir minne enn den hev lov til.<br />Sjå innstillinga memory_limit i din php.ini fil om nødvendig.',
@@ -754,7 +821,7 @@ For å fiksa denne feilen på din Linux tenar, prøv den/dei føljande kommandoe
 	'Installation_SystemCheckError' => 'Det skjedde ein feil - du må fiksa han før du kan fortsetje',
 	'Installation_SystemCheckWarning' => 'Piwik vil virka som normalt, men det kan hende at nokon funksjonar manglar',
 	'Installation_Tables' => 'Opprettar tabellane',
-	'Installation_TablesWithSameNamesFound' => 'Nokre %s tabellar i databasen din %s hev dei same namna som dei tabellane Piwik prøvar å lage',
+	'Installation_TablesWithSameNamesFound' => 'Nokre %1$s tabellar i databasen din %2$s hev dei same namna som dei tabellane Piwik prøvar å lage',
 	'Installation_TablesFound' => 'Dei føljande tabellane vart funnen i databasen',
 	'Installation_TablesWarningHelp' => 'Du må velja om du vil nytta dei eksisterande tabellane slik dei er, eller å sletta dei og starta på nytt.',
 	'Installation_TablesReuse' => 'Nytt dei eksisterande tabellane',
@@ -765,15 +832,18 @@ For å fiksa denne feilen på din Linux tenar, prøv den/dei føljande kommandoe
 	'Installation_GoBackAndDefinePrefix' => 'Gå tilbake og vel ein prefiks for Piwik tabellane',
 	'Installation_ConfirmDeleteExistingTables' => 'Er du sikker på at du vil sletta tabellane: %s ifrå databasen?
 
+
+
 ÅTVARING: DEI KAN IKKJE BLI GJENOPPRETTA! ',
 	'Installation_Welcome' => 'Velkommen!',
 	'Installation_WelcomeHelp' => '<p>Piwik er ein open kjeldekode nettsanalyseprogramvare som gjer det enkelt å henta ut informasjonen du ønskjer frå dine vitjarar.</p><p>Denne prosessen er delt opp i %s enkle steg, og tek omkring 5 minuttar.</p>',
-	'Provider_WidgetProviders' => '',
-	'Provider_ColumnProvider' => '',
-	'Provider_SubmenuLocationsProvider' => '',
 	'Goals_ColumnConversions' => 'Overgangar',
 	'Goals_ColumnConversionRate' => 'Overgangsrate',
 	'Goals_ColumnRevenue' => 'Forteneste
+
+
+
+
 
 
 
@@ -807,6 +877,10 @@ For å fiksa denne feilen på din Linux tenar, prøv den/dei føljande kommandoe
 
 
 
+
+
+
+
 ',
 	'General_AllWebsitesDashboard' => 'Dashbord for alle nettstadar',
 	'General_NotValid' => '%s er ugyldig',
@@ -830,10 +904,8 @@ For å fiksa denne feilen på din Linux tenar, prøv den/dei føljande kommandoe
 	'General_ExportAsImage_js' => 'Eksporter som bilete',
 	'General_YourChangesHaveBeenSaved' => 'Endringane dine er lagra.',
 	'General_ColumnPercentageVisits' => '% Vitjingar',
-	'General_ColumnConversionRate' => '',
 	'General_VisitDuration' => 'Gjen. vitjingslengde (i sekund)',
 	'General_PageBounceRateDefinition' => 'Prosentandel vitjarar som starta på denne sida, men forsvann med ein gong.',
-	'General_ColumnExitRate' => '',
 	'General_PageExitRateDefinition' => 'Prosent av vitjarar som forlét nettstaden med ein gong.',
 	'General_ColumnBounces' => 'Hopp',
 	'General_BouncesDefinition' => 'Talet på vitjingar som starta på denne sida men har forlate nettstaden med ein gong.',
@@ -864,7 +936,6 @@ For å fiksa denne feilen på din Linux tenar, prøv den/dei føljande kommandoe
 	'General_AboutPiwikX' => 'Om Piwik %s',
 	'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin' => '%s er tilgjengeleg. ...',
 	'General_ExceptionDatabaseVersion' => 'Din %1$s versjon er %2$s, men Piwik krev minst %3$s.',
-	'General_ExceptionIncompatibleClientServerVersions' => '',
 	'General_ExceptionMissingFile' => 'Manglar fila: %s',
 	'General_ExceptionFilesizeMismatch' => 'Filstorleiken stemmer ikkje: %1$s (forventa lengde: %2$s, fann: %3$s)',
 	'General_ExceptionFileIntegrity' => 'Integritetssjekk feila: %s',
@@ -872,10 +943,6 @@ For å fiksa denne feilen på din Linux tenar, prøv den/dei føljande kommandoe
 	'General_ExceptionVariableNotFound' => 'Den nødvendige variabelen \'%s\' stemmer ikkje, eller har ikkje blitt funnet i API-førespurnaden.',
 	'General_ExceptionMethodNotFound' => 'Metoden \'%s\' finnes ikkje, eller er utilgjengeleg i modulen \'%s\'.',
 	'General_ExceptionSubtableNotFoundInArchive' => 'Du ber om ein presis undertabell, men det er ikkje noko slik data i arkivet.',
-	'General_ExceptionInvalidRendererFormat' => '',
-	'General_ExceptionInvalidPeriod' => '',
-	'General_ExceptionInvalidDateRange' => '',
-	'General_ExceptionGoalNotFound' => '',
 	'General_ExceptionUndeletableFile' => 'Kunne ikkje sletta %s',
 	'General_ExceptionPrivilege' => 'Du kan ikkje nå denne ressursen, av di den krev \'%s\' tilgang.',
 	'General_ExceptionPrivilegeAtLeastOneWebsite' => 'Du kan ikkje nå denne ressursen, av di den krev \'%s\' tilgang for minst ein nettstad.',
@@ -890,24 +957,9 @@ For å fiksa denne feilen på din Linux tenar, prøv den/dei føljande kommandoe
 	'General_WarningFileIntegrityNoManifest' => 'Sjekking av filintegritet kunne ikkje bli utført av di manifest.inc.php manglar.',
 	'General_WarningFileIntegrityNoMd5file' => 'Sjekking av filintegritet kunne ikkje bli utført av di md5_file()-funksjonen manglar.',
 	'General_FileIntegrityWarningExplanation' => 'Sjekking av filintegritet feila med feilmeldingar. Dette skyldast truleg at nokre av Piwik sine filar berre vart delvis eller feilaktig lasta opp. Du bør lasta opp Piwik på nytt i BINARY modus og oppfriska denne siden til feilmeldingane forsvinn.',
-	'Actions_PluginDescription' => '',
-	'Actions_SubmenuPagesEntry' => '',
-	'Actions_SubmenuPagesExit' => '',
-	'Actions_SubmenuPageTitles' => '',
 	'Actions_ColumnPageURL' => 'Side URL',
-	'AnonymizeIP_PluginDescription' => '',
-	'API_PluginDescription' => '',
-	'API_QuickDocumentationTitle' => '',
-	'API_GenerateVisits' => '',
-	'API_MoreInformation' => '',
-	'API_UserAuthentication' => '',
-	'API_UsingTokenAuth' => '',
-	'API_KeepTokenSecret' => '',
-	'CoreAdminHome_PluginDescription' => '',
 	'CoreAdminHome_MenuGeneralSettings' => 'Generelle innstillingar',
 	'CoreAdminHome_Administration' => 'Administrasjon',
-	'CoreHome_PluginDescription' => '',
-	'CoreHome_WebAnalyticsReports' => '',
 	'CoreHome_ShortDay_1_js' => 'Søn',
 	'CoreHome_ShortDay_2_js' => 'Mån',
 	'CoreHome_ShortDay_3_js' => 'Tys',
@@ -942,11 +994,6 @@ For å fiksa denne feilen på din Linux tenar, prøv den/dei føljande kommandoe
 	'CoreUpdater_ClickHereToViewSqlQueries' => 'Klikk her for å sjå og kopiera SQL-spurnadene som vil bli køyrd',
 	'CoreUpdater_NoteItIsExpectedThatQueriesFail' => 'Merk: om du køyrer spurnadene manuelt, er det forventa at nokon vil feila. Om det skjer, kan du berre ignorera dei og fortsetja på lista.',
 	'CoreUpdater_ReadyToGo' => 'Er du klar?',
-	'CoreUpdater_ErrorDIYHelp' => '',
-	'CoreUpdater_ErrorDIYHelp_1' => '',
-	'CoreUpdater_ErrorDIYHelp_2' => '',
-	'CoreUpdater_ErrorDIYHelp_3' => '',
-	'CoreUpdater_ErrorDIYHelp_4' => '',
 	'CoreUpdater_ErrorDIYHelp_5' => 'Rapporter problemet (og løysinga) slik at Piwik kan bli forbetra',
 	'CoreUpdater_YouMustDownloadPackageOrFixPermissions' => 'Piwik kan ikkje overskriva den gjeldande installasjonen. Du kan enten fikse katalog/filtilgangen, eller laste ned pakken og installera versjon %s manuelt:',
 	'CoreUpdater_DownloadingUpdateFromX' => 'Lastar ned oppdatering frå %s',
@@ -956,24 +1003,13 @@ For å fiksa denne feilen på din Linux tenar, prøv den/dei føljande kommandoe
 	'CoreUpdater_ExceptionArchiveIncompatible' => 'Ugyldig arkiv: %s',
 	'CoreUpdater_ExceptionArchiveEmpty' => 'Tomt arkiv.',
 	'CoreUpdater_ExceptionArchiveIncomplete' => 'Arkivet er mangelfullt: nokon filar manglar (td %s).',
-	'Dashboard_PluginDescription' => '',
 	'DBStats_PluginDescription' => 'Dette innstikket rapporterer Piwiks bruk av MySQL-databasen.',
 	'DBStats_LearnMore' => 'For å læra meir om korleis Piwik prosesserar data, og korleis gjera at Piwik virkar bra for nettstader med medium og høg trafikk, sjå dokumentasjonen %s.',
 	'DBStats_RowCount' => 'Rad',
-	'ExampleAPI_PluginDescription' => '',
-	'ExampleFeedburner_PluginDescription' => '',
-	'ExampleRssWidget_PluginDescription' => '',
-	'ExampleUI_PluginDescription' => '',
-	'Feedback_PluginDescription' => '',
-	'Feedback_DoYouHaveBugReportOrFeatureRequest' => '',
-	'Feedback_ViewAnswersToFAQ' => '',
 	'Feedback_WhyAreMyVisitsNoTracked' => 'Kvifor blir ikkje vitjarane på nettstaden min registrert?',
 	'Feedback_HowToExclude' => 'Korleis ekskluderer eg registrering av mine eige vitjingar?',
 	'Feedback_WhyWrongCountry' => 'Kvifor visar Piwik min vitjing frå feil land?',
 	'Feedback_HowToAnonymizeIP' => 'Korleis maskerer eg vitjarane sine ip-adresser i databasen? ',
-	'Feedback_VisitTheForums' => '',
-	'Feedback_LearnWaysToParticipate' => '',
-	'Feedback_SpecialRequest' => '',
 	'Feedback_ContactThePiwikTeam' => 'Kontakt Piwik-teamet!',
 	'Feedback_IWantTo' => 'Eg ønskjer:',
 	'Feedback_CategoryShareStory' => 'Del ein suksesshistorie i bruken av Piwik',
@@ -982,9 +1018,7 @@ For å fiksa denne feilen på din Linux tenar, prøv den/dei føljande kommandoe
 	'Feedback_CategorySecurity' => 'Rapporter ein tryggleikssak',
 	'Feedback_MyEmailAddress' => 'Min epostadresse:',
 	'Feedback_MyMessage' => 'Min melding:',
-	'Feedback_DetailsPlease' => '',
 	'Feedback_SendFeedback' => 'Send attendemelding',
-	'Feedback_ManuallySendEmailTo' => '',
 	'Feedback_MessageSent' => 'Meldinga din vart sendt til Piwik-teamet.',
 	'Feedback_ThankYou' => 'Takk for at hjelper oss med å forbetra Piwik!',
 	'Feedback_ThePiwikTeam' => 'Piwik-teamet',
@@ -993,31 +1027,17 @@ For å fiksa denne feilen på din Linux tenar, prøv den/dei føljande kommandoe
 	'Goals_Goals' => 'Mål',
 	'Goals_Overview' => 'Oversikt',
 	'Goals_GoalsOverview' => 'Måloversikt',
-	'Goals_GoalsManagement' => '',
-	'Goals_ConversionsOverviewBySegment' => '',
-	'Goals_GoalConversionsBySegment' => '',
 	'Goals_ViewGoalsBySegment' => 'Vis mål etter %s',
-	'Goals_PluginDescription' => '',
 	'Goals_GoalX' => 'Mål %s',
-	'Goals_OverallRevenue' => '',
-	'Goals_OverallConversionRate' => '',
-	'Goals_Conversions' => '',
-	'Goals_ConversionRate' => '',
-	'Goals_NoGoalsNeedAccess' => '',
 	'Goals_AddNewGoal' => 'Legg til eit nytt mål',
-	'Goals_AddNewGoalOrEditExistingGoal' => '',
-	'Goals_AddGoal_js' => '',
 	'Goals_UpdateGoal_js' => 'Oppdater mål',
 	'Goals_DeleteGoalConfirm_js' => 'Er du sikker på at du vil sletta målet %s?',
 	'Goals_CreateNewGOal' => 'Opprett eit nytt mål',
 	'Goals_ViewAndEditGoals' => 'Vis og endre mål',
 	'Goals_GoalName' => 'Målnamn',
-	'Goals_GoalIsTriggered' => '',
 	'Goals_GoalIsTriggeredWhen' => 'Målet er nådd når',
 	'Goals_WhenVisitors' => 'Når vitjarar',
-	'Goals_WhereThe' => '',
 	'Goals_Manually' => 'manuelt',
-	'Goals_ManuallyTriggeredUsingJavascriptFunction' => '',
 	'Goals_VisitUrl' => 'Vitj ein gitt URL (side eller gruppe av sider)',
 	'Goals_URL' => 'URL',
 	'Goals_Filename' => 'filnamn',
@@ -1025,23 +1045,9 @@ For å fiksa denne feilen på din Linux tenar, prøv den/dei føljande kommandoe
 	'Goals_Download' => 'Last ned ein fil',
 	'Goals_ClickOutlink' => 'Klikk på ein lenke til ein ekstern nettstad',
 	'Goals_Optional' => '(frivillig)',
-	'Goals_WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore' => '',
-	'Goals_DefaultRevenue' => '',
-	'Goals_DefaultRevenueHelp' => '',
-	'Goals_ConversionsOverview' => '',
-	'Goals_BestCountries' => '',
-	'Goals_BestKeywords' => '',
-	'Goals_BestReferers' => '',
-	'Goals_ReturningVisitorsConversionRateIs' => '',
-	'Goals_NewVisitorsConversionRateIs' => '',
 	'Goals_Contains' => 'inneheld %s',
 	'Goals_IsExactly' => 'er nøyaktig %s',
-	'Goals_MatchesExpression' => '',
-	'Goals_CaseSensitive' => '',
 	'Goals_Pattern' => 'Mønster',
-	'Goals_ExceptionInvalidMatchingString' => '',
-	'Goals_LearnMoreAboutGoalTrackingDocumentation' => '',
-	'Installation_PluginDescription' => '',
 	'Installation_DatabaseSetup' => 'Databaseoppsett ',
 	'Installation_DatabaseSetupServer' => 'databasetenar',
 	'Installation_DatabaseSetupLogin' => 'brukarnamn',
@@ -1049,125 +1055,42 @@ For å fiksa denne feilen på din Linux tenar, prøv den/dei føljande kommandoe
 	'Installation_DatabaseSetupDatabaseName' => 'databasenamn',
 	'Installation_DatabaseSetupTablePrefix' => 'tabellprefiks ',
 	'Installation_DatabaseSetupAdapter' => 'adapter',
-	'Installation_DatabaseErrorConnect' => '',
 	'Installation_DatabaseCheck' => 'Databasesjekk',
-	'Installation_DatabaseServerVersion' => '',
-	'Installation_DatabaseClientVersion' => '',
-	'Installation_DatabaseCreation' => '',
-	'Installation_PleaseFixTheFollowingErrors' => '',
-	'Installation_LargePiwikInstances' => '',
-	'Installation_JsTagArchivingHelp' => '',
-	'Installation_SetupWebSiteName' => '',
-	'Installation_SetupWebSiteURL' => '',
-	'Installation_Timezone' => '',
-	'Installation_SetupWebsiteSetupSuccess' => '',
-	'Installation_Requirements' => '',
-	'Installation_Optional' => '',
-	'Installation_Legend' => '',
-	'Installation_Extension' => '',
-	'Installation_SystemCheckExtensions' => '',
-	'Installation_SystemCheckDatabaseHelp' => '',
-	'Installation_SystemCheckPdoAndMysqliHelp' => '',
-	'Installation_SystemCheckPhpPdoAndMysqliSite' => '',
-	'Installation_SystemCheckWinPdoAndMysqliHelp' => '',
-	'Installation_SystemCheckSplHelp' => '',
-	'Installation_SystemCheckZlibHelp' => '',
-	'Installation_SystemCheckIconvHelp' => '',
-	'Installation_SystemCheckDomHelp' => '',
 	'Installation_SystemCheckJson' => 'JSON',
-	'Installation_SystemCheckJsonHelp' => '',
-	'Installation_SystemCheckJsonSite' => '',
 	'Installation_SystemCheckXml' => 'XML',
-	'Installation_SystemCheckXmlHelp' => '',
-	'Installation_SystemCheckXmlSite' => '',
 	'Installation_SystemCheckOpenURL' => 'Open URL',
-	'Installation_SystemCheckOpenURLHelp' => '',
 	'Installation_SystemCheckFunctions' => 'Nødvendige funksjonar',
 	'Installation_SystemCheckMailHelp' => 'Attendemeldingar og \'Tapt Passord\'-meldingar vart ikkje sendt uten mail().',
-	'Installation_SystemCheckParseIniFileHelp' => '',
-	'Installation_SystemCheckDebugBacktraceHelp' => '',
-	'Installation_SystemCheckCreateFunctionHelp' => '',
-	'Installation_SystemCheckEvalHelp' => '',
-	'Installation_SystemCheckMbstring' => '',
-	'Installation_SystemCheckMbstringExtensionHelp' => '',
-	'Installation_SystemCheckMbstringFuncOverloadHelp' => '',
 	'Installation_SystemCheckFileIntegrity' => 'Filintegritet',
 	'Installation_SystemCheckAutoUpdateHelp' => 'Merk: Piwiks ettklikks oppdatering krev skrivetilgang til Piwik-katalogen og dens innhald.',
 	'Installation_SystemCheckProtocol' => 'Protokoll',
-	'Installation_SystemCheckProtocolHelp' => '',
 	'Installation_SystemCheckIpv4' => 'IPv4',
 	'Installation_SystemCheckIpv4Help' => 'Du bør slå av IPv6 i vevtenaren din.',
-	'Installation_ConfigurationHelp' => '',
-	'LanguagesManager_PluginDescription' => '',
-	'LanguagesManager_AboutPiwikTranslations' => '',
 	'Live_PluginDescription' => 'Spioner på vitjarane dine i sanntid!',
 	'Live_VisitorLog' => 'Vitjarlogg',
 	'Live_Date' => 'Dato',
 	'Live_Time' => 'Tid',
-	'Live_Referrer_URL' => '',
 	'Live_Last30Minutes' => 'Siste 30 minuttar',
-	'Login_PluginDescription' => '',
 	'Login_PasswordRepeat' => 'Passord (gjenta)',
 	'Login_ChangePassword' => 'Bytt passord',
-	'Login_PasswordResetToken' => '',
 	'Login_PasswordsDoNotMatch' => 'Passorda stemmer ikkje',
 	'Login_PasswordSuccessfullyChanged' => 'Passordbytte vart vellykka!',
-	'Login_InvalidNonceOrReferer' => '',
-	'Login_InvalidOrExpiredToken' => '',
-	'Login_ExceptionPasswordMD5HashExpected' => '',
-	'Login_ExceptionInvalidSuperUserAuthenticationMethod' => '',
-	'MultiSites_PluginDescription' => '',
 	'MultiSites_Evolution' => 'Evolusjon',
-	'Provider_PluginDescription' => '',
-	'Referers_PluginDescription' => '',
-	'SecurityInfo_PluginDescription' => '',
 	'SecurityInfo_Security' => 'Tryggleik',
-	'SecurityInfo_SecurityInformation' => '',
 	'SecurityInfo_Test' => 'Test',
 	'SecurityInfo_Result' => 'Resultat',
-	'SEO_SeoRankings' => '',
-	'SEO_AlexaRank' => '',
-	'SEO_YahooIndexedPages' => '',
-	'SEO_DomainAge' => '',
-	'SEO_YahooBacklinks' => '',
-	'SEO_Rank' => '',
 	'SEO_Backlinks' => 'Attendelenkjar',
 	'SEO_Pages' => 'Sider',
-	'SEO_SEORankingsFor' => '',
-	'SitesManager_PluginDescription' => '',
-	'SitesManager_TrackingTags' => '',
-	'SitesManager_AliasUrlHelp' => '',
 	'SitesManager_ExceptionInvalidTimezone' => 'Tidssonen "%s" er ugyldig. Skriv ein gyldig tidssone. ',
-	'SitesManager_ExceptionInvalidCurrency' => '',
-	'SitesManager_ExceptionInvalidIPFormat' => '',
-	'SitesManager_SuperUserCan' => '',
 	'SitesManager_ExcludedIps' => 'Ekskluderte IPar',
 	'SitesManager_GlobalListExcludedIps' => 'Global liste over ekskluderte IPar',
-	'SitesManager_ListOfIpsToBeExcludedOnAllWebsites' => '',
-	'SitesManager_ExcludedParameters' => '',
-	'SitesManager_GlobalListExcludedQueryParameters' => '',
-	'SitesManager_ListOfQueryParametersToBeExcludedOnAllWebsites' => '',
-	'SitesManager_ListOfQueryParametersToExclude' => '',
-	'SitesManager_PiwikWillAutomaticallyExcludeCommonSessionParameters' => '',
-	'SitesManager_HelpExcludedIps' => '',
 	'SitesManager_YourCurrentIpAddressIs' => 'Din gjeldande IP-adresse er %s ',
 	'SitesManager_SelectACity' => 'Vel ein by',
 	'SitesManager_ChooseCityInSameTimezoneAsYou' => 'Vel ein by i same tidssone som deg.',
-	'SitesManager_ChangingYourTimezoneWillOnlyAffectDataForward' => '',
-	'SitesManager_AdvancedTimezoneSupportNotFound' => '',
-	'SitesManager_UTCTimeIs' => '',
-	'SitesManager_Timezone' => '',
-	'SitesManager_GlobalWebsitesSettings' => '',
-	'SitesManager_DefaultTimezoneForNewWebsites' => '',
-	'SitesManager_SelectDefaultTimezone' => '',
 	'SitesManager_Currency' => 'Valuta',
-	'SitesManager_CurrencySymbolWillBeUsedForGoals' => '',
-	'SitesManager_DefaultCurrencyForNewWebsites' => '',
-	'SitesManager_SelectDefaultCurrency' => '',
 	'SitesManager_Save_js' => 'Lagre',
 	'SitesManager_Cancel_js' => 'Avbryt',
 	'TranslationsAdmin_PluginDescription' => 'Hjelp med å omsetja Piwik til ditt språk.',
-	'UserCountry_PluginDescription' => '',
 	'UserCountry_Location' => 'Plass',
 	'UserSettings_PluginDescription' => 'Rapporter diverse vitjarinnstillingar: Nettlesar, Nettlesarfamilie, operativsystem, oppløysing og globale innstillingar.  ',
 	'UserSettings_OperatingSystems' => 'Operativsystem',
@@ -1175,9 +1098,6 @@ For å fiksa denne feilen på din Linux tenar, prøv den/dei føljande kommandoe
 	'UserSettings_PluginDetectionDoesNotWorkInIE' => 'Merk: Registrering av innstikk virkar ikkje i Internet Explorer. Denne rapporten er berre basert på andre nettlesarar enn IE.',
 	'UsersManager_PluginDescription' => 'Piwiks brukarhehandling: Opprett ein ny brukar, endre ein eksisterande brukar eller oppdater tilgangar. Desse handlingane kan også nyttast gjennom APIet. ',
 	'UsersManager_TheSuperUserAliasCannotBeChanged' => 'Namnet på superbrukaren kan ikkje endrast. ',
-	'UsersManager_ReportToLoadByDefault' => '',
-	'UsersManager_ReportDateToLoadByDefault' => '',
-	'UsersManager_ForAnonymousUsersReportDateToLoadByDefault' => '',
 	'UsersManager_ExcludeVisitsViaCookie' => 'Utelukk dine vitjingar frå Piwik med ein informasjonskapsel. ',
 	'UsersManager_YourVisitsAreIgnoredOnDomain' => '%sDine vitjingar blir ignorert av Piwik på %s %s (Informasjonskapselen frå Piwik vart funnen i din nettlesar).',
 	'UsersManager_YourVisitsAreNotIgnored' => '%sDine vitjingar blir ikkje ignorert av Piwik%s (Informasjonskapselen frå Piwik vart ikkje funnen i din nettlesar). ',
@@ -1189,77 +1109,25 @@ For å fiksa denne feilen på din Linux tenar, prøv den/dei føljande kommandoe
 	'UsersManager_ChangePassword' => 'Bytt passord',
 	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => 'Om du ønskjer å bytte passordet, skriv inn eit nytt et.
 
+
+
 Ellers skriv du ingenting.',
 	'UsersManager_TypeYourPasswordAgain' => 'Skriv ditt nye passord på nytt.',
 	'UsersManager_TheLoginScreen' => ' Innloggingsskjermen   ',
 	'UsersManager_YourUsernameCannotBeChanged' => 'Brukarnamnet ditt kan ikkje endrast.',
 	'UsersManager_ExceptionPasswordMD5HashExpected' => 'UsersManager.getTokenAuth forventar eit MD5-hasja passord (ein 32 teikn lang streng). Nytt md5()-funksjonen på passord før du kallar denne metoden. ',
-	'VisitFrequency_PluginDescription' => '',
-	'VisitFrequency_ColumnAverageVisitDurationForReturningVisitors' => '',
 	'VisitFrequency_ColumnAvgActionsPerReturningVisit' => 'Gjen. handlingar per tilbakevendande vitjing',
 	'VisitFrequency_ReturnAvgActions' => '%s handlingar per tilbakevendande vitjing',
-	'VisitFrequency_ReturnAverageVisitDuration' => '',
-	'VisitorGenerator_PluginDescription' => '',
-	'VisitorGenerator_VisitorGenerator' => '',
-	'VisitorGenerator_Warning' => '',
-	'VisitorGenerator_NotReversible' => '',
 	'VisitorGenerator_AreYouSure' => 'Er du sikker på at du vil generera falske vitjingar?',
 	'VisitorGenerator_ChoiceYes' => 'Ja, eg er sikker!',
-	'VisitorGenerator_Submit' => '',
 	'VisitorGenerator_SelectWebsite' => 'Vel nettstad',
 	'VisitorGenerator_Visitors' => 'Vitjarar',
 	'VisitorGenerator_MinVisitors' => 'Minimum vitjarar',
 	'VisitorGenerator_MaxVisitors' => 'Maksimum vitjarar',
-	'VisitorGenerator_NbActions' => '',
 	'VisitorGenerator_ActionsPerVisit' => 'Handlingar per vitjing',
-	'VisitorGenerator_NbRequestsPerSec' => '',
-	'VisitorGenerator_DaysToCompute' => '',
 	'VisitorGenerator_Date' => 'Dato',
-	'VisitorInterest_PluginDescription' => '',
 	'VisitorInterest_Engagement' => 'Engasjement',
-	'VisitsSummary_PluginDescription' => '',
-	'VisitsSummary_VisitsSummary' => '',
-	'VisitsSummary_NbActionsDescription' => '',
-	'VisitsSummary_AverageVisitDuration' => '',
-	'VisitsSummary_NbActionsPerVisit' => '',
-	'VisitTime_PluginDescription' => '',
-	'Widgetize_PluginDescription' => '',
-	'General_Report' => '',
-	'General_Download' => '',
-	'General_Description' => '',
-	'General_ExportThisReport' => '',
-	'General_YearsDays' => '',
-	'General_DaysHours' => '',
-	'General_HoursMinutes' => '',
-	'General_YouMustBeLoggedIn' => '',
-	'General_DisplaySimpleTable' => '',
-	'General_DisplayTableWithMoreMetrics' => '',
-	'General_DisplayTableWithGoalMetrics' => '',
-	'General_NewReportsWillBeProcessedByCron' => '',
-	'General_ReportsWillBeProcessedAtMostEveryHour' => '',
-	'General_IfArchivingIsFastYouCanSetupCronRunMoreOften' => '',
 	'General_Daily' => 'Dagleg',
 	'General_Weekly' => 'Kvar veke',
 	'General_Monthly' => 'Kvar månad',
-	'General_ConfigFileIsNotWritable' => '',
-	'General_PleaseSpecifyValue' => '',
-	'General_UseSMTPServerForEmail' => '',
-	'General_SmtpServerAddress' => '',
-	'General_SmtpPort' => '',
-	'General_AuthenticationMethodSmtp' => '',
-	'General_SmtpUsername' => '',
-	'General_SmtpPassword' => '',
-	'General_SelectYesIfYouWantToSendEmailsViaServer' => '',
-	'General_OnlyUsedIfUserPwdIsSet' => '',
-	'General_OnlyEnterIfRequired' => '',
-	'General_OnlyEnterIfRequiredPassword' => '',
-	'General_WarningPasswordStored' => '',
-	'General_InvalidResponse' => '',
-	'General_ChooseLanguage' => '',
-	'General_ChoosePeriod' => '',
-	'General_ChooseWebsite' => '',
-	'General_Language' => '',
-	'General_PleaseUpdatePiwik' => '',
-	'General_RequestTimedOut' => '',
-	'CoreUpdater_UpdateHasBeenCancelledExplanation' => '',
 );

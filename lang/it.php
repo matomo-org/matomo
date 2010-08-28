@@ -60,9 +60,9 @@ $translations = array(
 	'General_NoDataForTagCloud' => 'Non ci sono dati per questa Tag Cloud.',
 	'General_DisplayNormalTable' => 'Visualizza tabella sintetica',
 	'General_DisplayMoreData' => 'Visualizza pi&ugrave; dati',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%s Piwik %s &egrave; un progetto a cui tutti possono partecipare. %s Se ti piace, puoi farlo anche tu! Vedi %s Come posso aiutare Piwik?%s ',
+	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s &egrave; un progetto a cui tutti possono partecipare. %3$s Se ti piace, puoi farlo anche tu! Vedi %4$s Come posso aiutare Piwik?%5$s ',
 	'General_YouAreCurrentlyViewingDemoOfPiwik' => 'Stai vedendo una versione dimostrativa di %s; %sscarica%s la versione completa ora! Visita %s',
-	'General_PiwikXIsAvailablePleaseUpdateNow' => 'La versione %s di Piwik &egrave; disponibile. %s Aggiorna ora!%s (%svedi le modifiche%s).',
+	'General_PiwikXIsAvailablePleaseUpdateNow' => 'La versione %1$s di Piwik &egrave; disponibile. %2$s Aggiorna ora!%3$s (%4$svedi le modifiche%5$s).',
 	'General_BackToPiwik' => 'Torna a Piwik',
 	'General_ShortMonth_1' => 'Gen',
 	'General_ShortMonth_2' => 'Feb',
@@ -146,7 +146,7 @@ $translations = array(
 	'CoreHome_ShowJSCode' => 'Mostra il codice JavaScript da inserire',
 	'CoreHome_IncludeAllPopulation_js' => 'Vedi tutti',
 	'CoreHome_ExcludeLowPopulation_js' => 'Vedi i migliori',
-	'CoreHome_PageOf_js' => '%s di %s',
+	'CoreHome_PageOf_js' => '%1$s di %2$s',
 	'CoreHome_Loading_js' => 'Caricamento...',
 	'CoreHome_DayFormat' => '%longDay% %day% %longMonth% %longYear%',
 	'CoreHome_PeriodDay' => 'Giorno',
@@ -223,11 +223,11 @@ $translations = array(
 	'CoreUpdater_UpdateTitle' => 'Piwik &rsaquo; Aggiornamenti',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'Aggiornamento del Database richiesto',
 	'CoreUpdater_YourDatabaseIsOutOfDate' => 'Il tuo Database Piwik &egrave; obsoleto e deve essere aggiornato prima di continuare.',
-	'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY' => 'Il Database Piwik deve essere aggiornato dalla versione %s alla nuova versione %s.',
+	'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY' => 'Il Database Piwik deve essere aggiornato dalla versione %1$s alla nuova versione %2$s.',
 	'CoreUpdater_TheFollowingPluginsWillBeUpgradedX' => 'Il seguente Plugin sar&agrave; aggiornato: %s.',
 	'CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient' => 'L\'aggiornamento del Database potrebbe richiedere qualche istante, attendere.',
 	'CoreUpdater_UpgradePiwik' => 'Aggiornamento Piwik',
-	'CoreUpdater_HelpMessageContent' => 'Controlla le %s Piwik FAQ %s, ti spiegheranno gli errori pi&ugrave; comuni durante l\'aggiornamento. %s Chiedi all\'amministratore di sistema per gli errori che ti sembrano relativi alla configurazione di MySQL o al server, piuttosto che a Piwik.',
+	'CoreUpdater_HelpMessageContent' => 'Controlla le %1$s Piwik FAQ %2$s, ti spiegheranno gli errori pi&ugrave; comuni durante l\'aggiornamento. %3$s Chiedi all\'amministratore di sistema per gli errori che ti sembrano relativi alla configurazione di MySQL o al server, piuttosto che a Piwik.',
 	'CoreUpdater_CriticalErrorDuringTheUpgradeProcess' => 'Errore critico durante l\'aggiornamento:',
 	'CoreUpdater_HelpMessageIntroductionWhenError' => 'Il messaggio qui sopra ti spiega l\'errore occorso durante l\'aggiornamento. Ti spiega cosa l\'ha causato, ma se vuoi ulteriore aiuto:',
 	'CoreUpdater_HelpMessageIntroductionWhenWarning' => 'L\'aggiornamento &egrave; stato completato con successo, tuttavia si sono verificati dei piccoli problemi. Puoi leggerne qui sopra una breve descrizione. Per maggiori informazioni:',
@@ -241,7 +241,7 @@ $translations = array(
 	'CoreUpdater_ThereIsNewVersionAvailableForUpdate' => 'C\'&egrave; una nuova versione di Piwik disponibile per l\'aggiornamento.',
 	'CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage' => 'Puoi aggiornare alla versione %s in automatico o scaricare il pacchetto e installarlo manualmente:',
 	'CoreUpdater_DownloadX' => 'Scarica %s',
-	'CoreUpdater_UpdateHasBeenCancelledExplanation' => 'Il "Piwik One Click Update" &egrave; stato cancellato. Se non riesci a sistemare il problema causato dal messaggio di errore indicato, &egrave; consigliabile aggiornare manualmente Piwik. %s Controlla il %sManuale di aggiornamento%s per iniziare!',
+	'CoreUpdater_UpdateHasBeenCancelledExplanation' => 'Il "Piwik One Click Update" &egrave; stato cancellato. Se non riesci a sistemare il problema causato dal messaggio di errore indicato, &egrave; consigliabile aggiornare manualmente Piwik. %1$s Controlla il %2$sManuale di aggiornamento%3$s per iniziare!',
 	'CoreUpdater_VerifyingUnpackedFiles' => 'Sto verificando i file scompattati',
 	'CoreUpdater_CreatingBackupOfConfigurationFile' => 'Sto creando un backup del file di configurazione in %s',
 	'CoreUpdater_InstallingTheLatestVersion' => 'Sto installando l\'ultima versione',
@@ -330,6 +330,7 @@ $translations = array(
 	'Goals_Conversions' => '%s conversioni',
 	'Goals_ConversionRate' => '%s rapporto di conversione',
 	'Goals_NoGoalsNeedAccess' => 'Solo un Amministratore o il Super Utente possono aggiungere Obiettivi per un sito. Chiedi a tuo amministratore di Piwik di settare un Obiettivo per il tuo sito.<br/>
+
 Tracciare gli obiettivi &egrave; un ottimo aiuto per capire e massimizzare le prestazioni del tuo sito!',
 	'Goals_AddNewGoal' => 'Aggiungi un nuovo obiettivo',
 	'Goals_AddNewGoalOrEditExistingGoal' => '%sAggiungi un nuovo obiettivo%s o %sModifica%s un obiettivo esistente',
@@ -405,7 +406,7 @@ Tracciare gli obiettivi &egrave; un ottimo aiuto per capire e massimizzare le pr
 	'Installation_SystemCheckError' => 'Si &egrave; verificato un errore - deve essere corretto prima di proseguire',
 	'Installation_SystemCheckWarning' => 'Piwik non sar&agrave; pienamente funzionante, ma alcune funzioni potrebbero essere mancanti.',
 	'Installation_Tables' => 'Sto creando le tabelle',
-	'Installation_TablesWithSameNamesFound' => 'Alcune %s tabelle nel tuo Database %s hanno lo stesso nome delle tabelle che Piwik sta cercando di creare.',
+	'Installation_TablesWithSameNamesFound' => 'Alcune %1$s tabelle nel tuo Database %2$s hanno lo stesso nome delle tabelle che Piwik sta cercando di creare.',
 	'Installation_TablesFound' => 'Le seguenti tabelle sono state create nel Database',
 	'Installation_TablesWarningHelp' => 'Scegliere se riusare le tabelle esistenti nel Database (da una precedente installazione di Piwik) o procedere con un nuova installazione cancellando tutti i dati esistenti.',
 	'Installation_TablesReuse' => 'Riusa le tabelle esistenti',
@@ -417,7 +418,7 @@ Tracciare gli obiettivi &egrave; un ottimo aiuto per capire e massimizzare le pr
 	'Installation_ConfirmDeleteExistingTables' => 'Sei sicuro di voler cancellare le tabelle %s dal tuo Database? ATTENZIONE: I DATI NON POTRANNO ESSERE RECUPERATI!',
 	'Installation_Welcome' => 'Benvenuto!',
 	'Installation_WelcomeHelp' => '<p>Piwik &egrave; un software open source che ti permette di analizzare facilmente le informazioni dei visitatori che visitano i tuoi siti web.</p><p>Questa procedura si divide in %s semplici passaggi e si completa nel giro di 5 minuti.</p>',
-	'Installation_ErrorInvalidState' => 'Errore: sembra che stai tentando di saltare un passaggio del processo di installazione, i tuoi Cookies sono disabilitati o il file di configurazione Piwik &egrave; stato gi&agrave; creato. %sControlla che i Cookies siano attivati%s e %s ripeti l\'installazione dal primo passaggio %s.',
+	'Installation_ErrorInvalidState' => 'Errore: sembra che stai tentando di saltare un passaggio del processo di installazione, i tuoi Cookies sono disabilitati o il file di configurazione Piwik &egrave; stato gi&agrave; creato. %1$sControlla che i Cookies siano attivati%2$s e %3$s ripeti l\'installazione dal primo passaggio %4$s.',
 	'Installation_PluginDescription' => 'Processo di installazione di Piwik. L\'installazione &egrave; di solito fatta una sola volta. Se il file di configurazione (config/config.inc.php) viene cancellato, l\'installazione partir&agrave; di nuovo.',
 	'Installation_DatabaseSetup' => 'Setup database',
 	'Installation_DatabaseSetupServer' => 'database server',
@@ -496,11 +497,16 @@ Tracciare gli obiettivi &egrave; un ottimo aiuto per capire e massimizzare le pr
 	'Login_PasswordSuccessfullyChanged' => 'Password cambiata correttamente.',
 	'Login_InvalidOrExpiredToken' => 'Il token non &egrave; valido o &egrave; scaduto',
 	'Login_MailPasswordRecoveryBody' => 'Ciao %1$s, una richiesta di reset della password &egrave; stata ricevuta da %2$s. Per resettare la tua password:
+
  1) Vai al form per resettare la password qui: %3$s
+
  2) Inserisci il seguente token %4$s
+
  3) Completa il form (inserendo la tua passowrd due volte) e invia.
+
 Nota: questo token scadr&agrave; in 24 ore.',
 	'MultiSites_PluginDescription' => 'Mostra un sommario delle statistiche per il multi-sito.
+
 Attualmente mantenuto come un plugin Piwik del core.',
 	'Provider_WidgetProviders' => 'Providers',
 	'Provider_ColumnProvider' => 'Provider',
@@ -902,7 +908,7 @@ Attualmente mantenuto come un plugin Piwik del core.',
 	'UsersManager_DeleteConfirm_js' => 'Sei sicuro di voler cancellare l\'utente \'%s\'?',
 	'UsersManager_ExceptionLoginExists' => 'Utente "%s" gi&agrave; esistente.',
 	'UsersManager_ExceptionEmailExists' => 'Utente con l\'e-mail "%s\" &egrave; gi&agrave; esistente.',
-	'UsersManager_ExceptionInvalidLoginFormat' => 'Il nome utente deve essere lungo tra %s e %s caratteri e contenere solo lettere, numeri o i caratteri \'_\' oppure \'-\' oppure \'.\'',
+	'UsersManager_ExceptionInvalidLoginFormat' => 'Il nome utente deve essere lungo tra %1$s e %2$s caratteri e contenere solo lettere, numeri o i caratteri \'_\' oppure \'-\' oppure \'.\'',
 	'UsersManager_ExceptionInvalidPassword' => 'La password deve essere lunga tra 6 e 26 caratteri.',
 	'UsersManager_ExceptionInvalidEmail' => 'L\'e-mail inserita non &egrave; valida.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'L\'utente "%s" non esiste, di conseguenza non pu&ograve; essere eliminato.',

@@ -60,9 +60,9 @@ $translations = array(
 	'General_NoDataForTagCloud' => 'Pa të dhëna për këtë re etiketash.',
 	'General_DisplayNormalTable' => 'Shfaq tabelë normale',
 	'General_DisplayMoreData' => 'Shfaq më tepër të dhëna',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%s Piwik %s është projekt bashkëpunimi. %s Po qe se e pëlqeni Piwik-un, mund të ndihmoni! Shihni se %s Si mund të ndihmoni te Piwik-u?%s ',
+	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s është projekt bashkëpunimi. %3$s Po qe se e pëlqeni Piwik-un, mund të ndihmoni! Shihni se %4$s Si mund të ndihmoni te Piwik-u?%5$s ',
 	'General_YouAreCurrentlyViewingDemoOfPiwik' => 'Tani për tani po shihni një provë të %s; %sshkarkoni%s versionin e plotë! Shiheni %s',
-	'General_PiwikXIsAvailablePleaseUpdateNow' => 'Mund të kihet Piwik %s. %s Ju lutem, përditësojeni tani!%s (shihni %s ndryshimet%s).',
+	'General_PiwikXIsAvailablePleaseUpdateNow' => 'Mund të kihet Piwik %1$s. %2$s Ju lutem, përditësojeni tani!%3$s (shihni %4$s ndryshimet%5$s).',
 	'General_BackToPiwik' => 'Mbrapsht te Piwik-u',
 	'General_ShortMonth_1' => 'Jan',
 	'General_ShortMonth_2' => 'Shk',
@@ -121,7 +121,7 @@ $translations = array(
 	'CoreHome_ShowJSCode' => 'Shfaqe kodin JavaScript që duhet futur',
 	'CoreHome_IncludeAllPopulation_js' => 'Përfshi krejt popullatën',
 	'CoreHome_ExcludeLowPopulation_js' => 'Përjashto popullatën e ulët',
-	'CoreHome_PageOf_js' => '%s nga %s',
+	'CoreHome_PageOf_js' => '%1$s nga %2$s',
 	'CoreHome_Loading_js' => 'Po ngarkohet...',
 	'CoreHome_DayFormat' => '%longDay% %day% %longMonth% %longYear%',
 	'CoreHome_PeriodDay' => 'Ditë',
@@ -170,11 +170,11 @@ $translations = array(
 	'CoreUpdater_UpdateTitle' => 'Piwik &rsaquo; Përditësim',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'Lypset Përmirësim i Bazës së të Dhënave',
 	'CoreUpdater_YourDatabaseIsOutOfDate' => 'Baza juaj e të dhënave për Piwik-un është e vjetruar, dhe duhet përmirësuar përpara se të mund të vazhdoni.',
-	'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY' => 'Baza e të dhënave për Piwik-un do të përmirësohet prej versionit %s te versioni i ri %s.',
+	'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY' => 'Baza e të dhënave për Piwik-un do të përmirësohet prej versionit %1$s te versioni i ri %2$s.',
 	'CoreUpdater_TheFollowingPluginsWillBeUpgradedX' => 'Shtojcat vijuese do të përditësohen: %s.',
 	'CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient' => 'Procesi i përditësimit të bazës së të dhënave mund të zgjasë ca, ndaj bëni durim.',
 	'CoreUpdater_UpgradePiwik' => 'Përmirësojeni Piwik-un',
-	'CoreUpdater_HelpMessageContent' => 'Hidhini një sy %s Piwik FAQ %s që shpjegojnë gabimet më të rëndomta gjatë përditësimesh. %s Pyesni përgjegjësin e sistemit tuaj - ai mund të jetë në gjendje të t\'ju ndihmojë për gabimin, i cili ka shumë të ngjarë të ketë lidhje me rregullimet e shërbyesit tuaj ose ato të MySQL-së.',
+	'CoreUpdater_HelpMessageContent' => 'Hidhini një sy %1$s Piwik FAQ %2$s që shpjegojnë gabimet më të rëndomta gjatë përditësimesh. %3$s Pyesni përgjegjësin e sistemit tuaj - ai mund të jetë në gjendje të t\'ju ndihmojë për gabimin, i cili ka shumë të ngjarë të ketë lidhje me rregullimet e shërbyesit tuaj ose ato të MySQL-së.',
 	'CoreUpdater_CriticalErrorDuringTheUpgradeProcess' => 'Gabim Kritik gjatë procesit të përditësimit:',
 	'CoreUpdater_HelpMessageIntroductionWhenError' => 'Sa më sipër, është thelbi i mesazhit të gabimit. Do të ndihmonte të shpjegohej shkaku, por nëse keni nevojë për ndihmë të mëtejshme, ju lutem:',
 	'CoreUpdater_HelpMessageIntroductionWhenWarning' => 'Përditësimi u plotësua me sukses, sidoqoftë pati ca kleçka gjatë procesit. Ju lutem, lexoni përshkrimet më sipër për hollësi. Për më tepër ndihmë:',
@@ -188,7 +188,7 @@ $translations = array(
 	'CoreUpdater_ThereIsNewVersionAvailableForUpdate' => 'Mund të kihet një version i ri, i përmirësuar, i Piwik-ut',
 	'CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage' => 'Mund ta përmirësoni automatikisht me versionin %s, ose të shkarkoni paketën dhe ta instaloni atë dorazi:',
 	'CoreUpdater_DownloadX' => 'Shkarko %s',
-	'CoreUpdater_UpdateHasBeenCancelledExplanation' => 'Përditësimi Piwik Me Një Klik u anulua. Nëse nuk ndreqni dot gabimin me mesazhin e mësipërm, këshillohet ta përditësoni Piwik-un dorazi. %s Ju lutem, shihni %sdokumentimin e Përditësimeve%s për t\'ia filluar!',
+	'CoreUpdater_UpdateHasBeenCancelledExplanation' => 'Përditësimi Piwik Me Një Klik u anulua. Nëse nuk ndreqni dot gabimin me mesazhin e mësipërm, këshillohet ta përditësoni Piwik-un dorazi. %1$s Ju lutem, shihni %2$sdokumentimin e Përditësimeve%3$s për t\'ia filluar!',
 	'CoreUpdater_VerifyingUnpackedFiles' => 'Po verifikohen kartelat e shpaketuara',
 	'CoreUpdater_CreatingBackupOfConfigurationFile' => 'Po krijohet një kopjeruajtje e kartelës së formësimit te %s',
 	'CoreUpdater_InstallingTheLatestVersion' => 'Po instalohet versioni më i fundit',
@@ -277,7 +277,7 @@ $translations = array(
 	'Installation_SystemCheckError' => 'Ndodhi një gabim - duhet të ndreqet përpara se të ecni më tej',
 	'Installation_SystemCheckWarning' => 'Piwik-u do të punojë normalisht por mund t\'i mungojnë disa veçori',
 	'Installation_Tables' => 'Krijim tabelash',
-	'Installation_TablesWithSameNamesFound' => 'Disa tabela %s te baza juaj e të dhënave %s kanë të njëjtit emra si tabelat që Piwik-u po përpiqet të krijojë',
+	'Installation_TablesWithSameNamesFound' => 'Disa tabela %1$s te baza juaj e të dhënave %2$s kanë të njëjtit emra si tabelat që Piwik-u po përpiqet të krijojë',
 	'Installation_TablesFound' => 'Te baza e të dhënave u gjetën tabelat vijuese',
 	'Installation_TablesWarningHelp' => 'Ose zgjidhni përdorimin sërish të tabelave ekzistuese të bazës së të dhënave, ose përzgjidhni instalimin nga e para për të fshirë tërë të dhënat ekzistuese te baza e të dhënave.',
 	'Installation_TablesReuse' => 'Ripërdor tabelat ekzistuese',
@@ -289,7 +289,7 @@ $translations = array(
 	'Installation_ConfirmDeleteExistingTables' => 'Jeni i sigurt se doni të fshihen tabelat: %s prej bazës së të dhënave? KUJDES: NUK DO TË MUND TË RIKTHENI TË DHËNAT PREJ KËTYRE TABELAVE!',
 	'Installation_Welcome' => 'Mirë se vini!',
 	'Installation_WelcomeHelp' => '<p>Piwik-u është një program analize web, me burim të hapur, që e bën të lehtë të kihen të dhëna që dëshironi rreth vizitorëve tuaj.</p><p>Ky proces është ndarë në %s hapa të kollajtë dhe do të zgjasë rreth 5 minuta.</p>',
-	'Installation_ErrorInvalidState' => 'Gabim: duket se po provoni të anashkaloni një hap të procesit të Instalimit, ose keni të çaktivizuara "cookies", ose kartela e formësimit të Piwik-ut është e krijuar tashmë. %sSigurohuni që "cookies" janë të aktivizuara%s dhe kthehuni mbrapsht %s te faqja e parë e instalimit %s.',
+	'Installation_ErrorInvalidState' => 'Gabim: duket se po provoni të anashkaloni një hap të procesit të Instalimit, ose keni të çaktivizuara "cookies", ose kartela e formësimit të Piwik-ut është e krijuar tashmë. %1$sSigurohuni që "cookies" janë të aktivizuara%2$s dhe kthehuni mbrapsht %3$s te faqja e parë e instalimit %4$s.',
 	'Installation_DatabaseSetup' => 'Rregullim baze të dhënash',
 	'Installation_DatabaseErrorConnect' => 'Gabim gjatë provës për t\'u lidhur me shërbyesin e bazës së të dhënave',
 	'Installation_ConnectionCharacterSetNotUtf8' => 'Lidhja e klientit te shërbyesi i bazës së të dhënave nuk po bëhet nën UTF8',
@@ -298,7 +298,7 @@ $translations = array(
 	'Installation_SetupWebsiteSetupSuccess' => '"Site"-i Web %s u shtua me sukses! ',
 	'Installation_Extension' => 'zgjerim',
 	'Installation_SystemCheckDatabaseHelp' => 'Piwik-u lyp ose zgjerimin mysqli, ose që të dy zgjerimet PDO dhe pdo_mysql.',
-	'Installation_SystemCheckPdoAndMysqliHelp' => 'Në një shërbyes Linux mund ta përpiloni php-në me mundësitë vijuese: %s te php.ini juaj, shtoni rreshtat vijues: %s',
+	'Installation_SystemCheckPdoAndMysqliHelp' => 'Në një shërbyes Linux mund ta përpiloni php-në me mundësitë vijuese: %1$s te php.ini juaj, shtoni rreshtat vijues: %2$s',
 	'Installation_SystemCheckPhpPdoAndMysqliSite' => 'Më tepër të dhëna te: <a style="color:red" href="http://php.net/pdo">PHP PDO</a> dhe <a style="color:red" href="http://php.net/mysqli">MYSQLI</a>.',
 	'Installation_SystemCheckWinPdoAndMysqliHelp' => 'Në një shërbyes Windows mund të shtoni rreshtat vijues te php.ini juaj: %s',
 	'Installation_SystemCheckJson' => 'JSON',
@@ -325,21 +325,36 @@ $translations = array(
 	'Login_PasswordSuccessfullyChanged' => 'Fjalëkalimi u ndryshua me sukses!',
 	'Login_InvalidUsernameEmail' => 'Emër përdoruesi dhe/ose vendndodhje e-mail e pavlefshme',
 	'Login_MailTopicPasswordRecovery' => 'Ricaktim fjalëkalimi',
-	'Login_MailPasswordRecoveryBody' => 'Tungjatjeta %s,
+	'Login_MailPasswordRecoveryBody' => 'Tungjatjeta %1$s,
 
-Kërkesa për ricaktim fjalëkalimi erdhi prej %s.
+
+
+Kërkesa për ricaktim fjalëkalimi erdhi prej %2$s.
+
+
 
 Për ricaktimin e fjalëkalimit tuaj:
 
+
+
 1) Shkoni te Formulari për Ricaktim Fjalëkalimesh te:
-	%s
+
+	%3$s
+
+
 
 2) Jepni elementin vijues:
-	%s
+
+	%4$s
+
+
 
 3) Plotësoni formularin (duke e dhënë fjalëkalimin tuaj të ri dy herë) dhe parashtrojeni.
 
+
+
 Shënim: ky element do të skadojë brenda 24 orësh.
+
 ',
 	'Login_InvalidOrExpiredToken' => 'Elementi është i pavlefshëm ose ka skaduar',
 	'Login_PasswordSent' => 'Hollësitë se si të ricaktoni fjalëkalimin tuaj u dërguan. Kontrolloni e-mail-et tuaj.',
@@ -353,7 +368,7 @@ Shënim: ky element do të skadojë brenda 24 orësh.
 	'Referers_DirectEntry' => 'Zë i Drejtpërdrejtë',
 	'Referers_Websites' => '"Site"-e Web',
 	'Referers_Campaigns' => 'Fushata',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%s (prej %s)',
+	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (prej %2$s)',
 	'Referers_Evolution' => 'Zhvillime përgjatë periudhës',
 	'Referers_Type' => 'Lloj Referuesi',
 	'Referers_ColumnRefererType' => 'Lloj Referuesi',
@@ -731,7 +746,7 @@ Shënim: ky element do të skadojë brenda 24 orësh.
 	'UsersManager_DeleteConfirm_js' => 'Jeni i sigurt se doni të fshihet përdoruesi %s?',
 	'UsersManager_ExceptionLoginExists' => 'Ka tashmë një hyrje për \'%s\'.',
 	'UsersManager_ExceptionEmailExists' => 'Ka tashmë një përdorues me email-in \'%s\'.',
-	'UsersManager_ExceptionInvalidLoginFormat' => 'Hyrja duhet të jetë ndërmjet %s dhe %s shenjash e gjatë, dhe duhet të përmbajë vetëm shkronja, numra, ose shenjat \'_\' ose \'-\' ose \'.\'',
+	'UsersManager_ExceptionInvalidLoginFormat' => 'Hyrja duhet të jetë ndërmjet %1$s dhe %2$s shenjash e gjatë, dhe duhet të përmbajë vetëm shkronja, numra, ose shenjat \'_\' ose \'-\' ose \'.\'',
 	'UsersManager_ExceptionInvalidPassword' => 'Fjalëkalimi duhet të jetë nga 6 deri 26 shenja i gjatë.',
 	'UsersManager_ExceptionInvalidEmail' => 'Email-i s\'është në format të vlefshëm.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Përdoruesi \'%s\' s\'ekziston, ndaj s\'mund të fshihet.',
