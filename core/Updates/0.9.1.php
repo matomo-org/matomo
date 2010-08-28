@@ -17,6 +17,10 @@ class Piwik_Updates_0_9_1 extends Piwik_Updates
 {
 	static function getSql($schema = 'Myisam')
 	{
+		if(!Piwik::isTimezoneSupportEnabled())
+		{
+			return array();
+		}
 		// @see http://bugs.php.net/46111
 		$timezones = timezone_identifiers_list();
 		$brokenTZ = array();
