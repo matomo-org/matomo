@@ -313,6 +313,7 @@ Plugins[] 		= CoreUpdater
 ; disabled in 0.7-rc1
 Plugins[]       = PDFReports
 Plugins[] 		= UserCountryMap
+Plugins[] 		= Live
 
 [PluginsInstalled]
 PluginsInstalled[] = Login
