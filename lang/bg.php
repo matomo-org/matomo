@@ -61,9 +61,9 @@ $translations = array(
 	'General_NoDataForTagCloud' => 'Няма данни за този таг облак.',
 	'General_DisplayNormalTable' => 'Нормална таблица',
 	'General_DisplayMoreData' => 'Покажи повече данни',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%s Piwik %s е отворен проект. %s Ако Piwik, Ви допада можете да ни помогнете! Научете %s как можете да ни помогнете?%s ',
+	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s е отворен проект. %3$s Ако Piwik, Ви допада можете да ни помогнете! Научете %4$s как можете да ни помогнете?%5$s ',
 	'General_YouAreCurrentlyViewingDemoOfPiwik' => 'Това е демо версия, можете да  %s; %sизтеглите%s пълната версия! Вижте %s',
-	'General_PiwikXIsAvailablePleaseUpdateNow' => 'Piwik %s е наличен. %s Обновете сега. %s (вижте %s промените%s).',
+	'General_PiwikXIsAvailablePleaseUpdateNow' => 'Piwik %1$s е наличен. %2$s Обновете сега. %3$s (вижте %4$s промените%5$s).',
 	'General_BackToPiwik' => 'Върни се в Piwik',
 	'General_ShortMonth_1' => 'Яну',
 	'General_ShortMonth_2' => 'Фев',
@@ -149,13 +149,13 @@ $translations = array(
 	'API_QuickDocumentation' => '<h2>API документация</h2><p>Ако все още нямате данни <a href=\'misc/generateVisits.php\' target=_blank>можете да генерирате</a> използвайки скрипта за Генериране на Посещения.</p><p>Можете да използвате различни формати за различните методи. Извличането на информация от Piwik е много лесно!</p><p><b>За повече информация вижте: <a href=\'http://dev.piwik.org/trac/wiki/API\'>официалната API документация</a> или <a href=\'http://dev.piwik.org/trac/wiki/API/Reference\'>API ръководство</a>.</b></P><h2>Идентифициране на потребител</h2><p>Ако искате да <b>извлечете данни </b> трябва да добавите <code><u>&token_auth=%s</u></code> параметъра в кода.</p><p>Този token_auth е шифър (Вашето потребителско име и парола), <b>запазете го само за вас!</p>',
 	'API_LoadedAPIs' => 'Успешно заредени %s API-та',
 	'CoreHome_NoPrivileges' => 'Вие сте влезли, като \'%s\' , но нямате достъп до тази услуга в Piwik.<br />Моля, поискайте от Piwik администратора права за да извършите това действие.',
-	'CoreHome_JavascriptDisabled' => 'JavaScript трябва да бъде разрешен за да използвате Piwik в стандартен изглед.<br />Същото е ако JavaScript не е разрешен или браузъра не го поддържа.<br />За да използвате стандартен изглед разрешете JavaScript от настройките на Вашия браузър и %sопитайте отново%s.<br />',
+	'CoreHome_JavascriptDisabled' => 'JavaScript трябва да бъде разрешен за да използвате Piwik в стандартен изглед.<br />Същото е ако JavaScript не е разрешен или браузъра не го поддържа.<br />За да използвате стандартен изглед разрешете JavaScript от настройките на Вашия браузър и %1$sопитайте отново%2$s.<br />',
 	'CoreHome_TableNoData' => 'Няма данни',
 	'CoreHome_CategoryNoData' => 'Няма данни в тази категория. Опитайте "Включи всички данни".',
 	'CoreHome_ShowJSCode' => 'Покажи JavaScript кода за вмъкване в сайта',
 	'CoreHome_IncludeAllPopulation_js' => 'Включи всички данни',
 	'CoreHome_ExcludeLowPopulation_js' => 'Изключи данните с ниско равнище',
-	'CoreHome_PageOf_js' => '%s от %s',
+	'CoreHome_PageOf_js' => '%1$s от %2$s',
 	'CoreHome_Loading_js' => 'Зарежда...',
 	'CoreHome_DayFormat' => '%longDay% %day% %longMonth% %longYear%',
 	'CoreHome_PeriodDay' => 'Ден',
@@ -188,7 +188,7 @@ $translations = array(
 	'CoreUpdater_UpdateTitle' => 'Обновления',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'Необходимо е да се обнови базата от данни (БД)',
 	'CoreUpdater_YourDatabaseIsOutOfDate' => 'Базата от данни (БД) на Piwik е остаряла. Трябва да обновите преди да продължите нататък.',
-	'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY' => 'Piwik базата от данни (БД) ще бъде обновена от %s версия към %s.',
+	'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY' => 'Piwik базата от данни (БД) ще бъде обновена от %1$s версия към %2$s.',
 	'CoreUpdater_TheFollowingPluginsWillBeUpgradedX' => 'Следните плъгини ще бъдат обновени: %s.',
 	'CoreUpdater_TheUpgradeProcessMayFail' => 'Ако е голяма Piwik базата от данни (БД), обновяването може да отнеме по-дълго време от стандартното. Ако желаете обновяването да е по-бързо можете да обновите, чрез командния ред така (само за напреднали): <code>$ php път/до/piwik/index.php</code>',
 	'CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient' => 'Обновяването на базата от данни (БД) отнема известно време! Бъдете търпеливи...',
@@ -199,7 +199,7 @@ $translations = array(
 	'CoreUpdater_ErrorDIYHelp_3' => 'опцията `ръчно обновяване` на таблиците в Piwik базата от данни (БД), определяне на стойността на version_core на версията на провалилота се актуализация',
 	'CoreUpdater_ErrorDIYHelp_4' => 'повторно стартирайте обновлението (чрез браузъра или от командния ред) за да продължите с останалите обновления',
 	'CoreUpdater_ErrorDIYHelp_5' => 'изпратете този проблем и/или решение на Piwik екипа - възможно е това да е важно!',
-	'CoreUpdater_HelpMessageContent' => 'Проверете %s Често Задавани Въпроси (ЧЗВ) %s , където са обяснени възможните грешки по време на обновяването. %s Посъветвайте се с вашия системен администратор - те са в състояние да ви помогнат с грешка, която най-вероятно е свързана със сървъра или MySQL настройка.',
+	'CoreUpdater_HelpMessageContent' => 'Проверете %1$s Често Задавани Въпроси (ЧЗВ) %2$s , където са обяснени възможните грешки по време на обновяването. %3$s Посъветвайте се с вашия системен администратор - те са в състояние да ви помогнат с грешка, която най-вероятно е свързана със сървъра или MySQL настройка.',
 	'CoreUpdater_CriticalErrorDuringTheUpgradeProcess' => 'Открита е КРИТИЧНА грешка по време на обновяването:',
 	'CoreUpdater_HelpMessageIntroductionWhenError' => 'Открита е грешка в ядрото на Piwik. Ако имате нужда от допълнителна помощ моля обърнете се към нашия форум и/или прочетете документацията:',
 	'CoreUpdater_HelpMessageIntroductionWhenWarning' => 'Актуализацията приключи успешно, но бяха открити грешки по време на процеса. Моля, прочетете документацията за допълнителна информация:',
@@ -213,7 +213,7 @@ $translations = array(
 	'CoreUpdater_ThereIsNewVersionAvailableForUpdate' => 'Открита е нова версия на Piwik, можете да обновите!',
 	'CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage' => 'Можете да обновите автоматично към версия %s или да изтеглите обновлението и инсталирате ръчно:',
 	'CoreUpdater_DownloadX' => 'Изтегляне %s',
-	'CoreUpdater_UpdateHasBeenCancelledExplanation' => 'Автоматичното обновяване на Piwik е отказано. Опитайте отново! Ако не успеете автоматично да обновите Piwik, опитайте ръчно. %s Моля прочетете %s документацията %s и продължете!',
+	'CoreUpdater_UpdateHasBeenCancelledExplanation' => 'Автоматичното обновяване на Piwik е отказано. Опитайте отново! Ако не успеете автоматично да обновите Piwik, опитайте ръчно. %1$s Моля прочетете %2$s документацията %3$s и продължете!',
 	'CoreUpdater_DownloadingUpdateFromX' => 'Изтегляне на обновлението от %s',
 	'CoreUpdater_UnpackingTheUpdate' => 'Разархивиране на обновлението',
 	'CoreUpdater_VerifyingUnpackedFiles' => 'Разархивираните файлове',
@@ -253,7 +253,7 @@ $translations = array(
 	'Referers_DirectEntry' => 'Директни посещения',
 	'Referers_Websites' => 'Сайтове',
 	'Referers_Campaigns' => 'Кампании',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%s (от %s)',
+	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (от %2$s)',
 	'Referers_Evolution' => 'Развитие за периода',
 	'Referers_Type' => 'Тип на референцията',
 	'Referers_ColumnRefererType' => 'Тип на референцията',
@@ -629,11 +629,11 @@ $translations = array(
 	'Login_InvalidUsernameEmail' => 'Грешно потребителско име и/или имейл адрес',
 	'Login_InvalidOrExpiredToken' => 'Token е грешен или изтекъл',
 	'Login_MailTopicPasswordRecovery' => 'Възстановяване на парола',
-	'Login_MailPasswordRecoveryBody' => 'Здравей %s,
+	'Login_MailPasswordRecoveryBody' => 'Здравей %1$s,
 
 
 
-Искането за възстановяване на парола генерира формуляр, който трябва да попълните %s.
+Искането за възстановяване на парола генерира формуляр, който трябва да попълните %2$s.
 
 
 
@@ -643,13 +643,13 @@ $translations = array(
 
 1) Отидете на Възстановяване на парола от тук:
 
-	%s
+	%3$s
 
 
 
 2) Въведете следния token:
 
-	%s
+	%4$s
 
 
 
@@ -657,9 +657,7 @@ $translations = array(
 
 
 
-Забележка: този token ще изтече след 24 часа.
-
-',
+Забележка: този token ще изтече след 24 часа.',
 	'Login_PasswordSent' => 'Информацията относно възстановяването на паролата в изпратена. Проверете електронната си поща.',
 	'Login_ContactAdmin' => 'Възможни причини: функцията mail() е липсваща или забранена на сървъра. <br />Свържете се с вашия Piwik администратор.',
 	'UsersManager_UsersManagement' => 'Управление на потребители',
@@ -683,7 +681,7 @@ $translations = array(
 	'UsersManager_DeleteConfirm_js' => 'Наистина ли искате да изтриете потребителя %s?',
 	'UsersManager_ExceptionLoginExists' => 'Потребител с име \'%s\' вече съществува.',
 	'UsersManager_ExceptionEmailExists' => 'Потребител с имейл \'%s\' вече съществува.',
-	'UsersManager_ExceptionInvalidLoginFormat' => 'Потребителското име трябва да бъде между %s и %s символа дълго и може да съдържа само букви, цифри и/или символите \'_\' и/или \'-\' и/или \'.\'',
+	'UsersManager_ExceptionInvalidLoginFormat' => 'Потребителското име трябва да бъде между %1$s и %2$s символа дълго и може да съдържа само букви, цифри и/или символите \'_\' и/или \'-\' и/или \'.\'',
 	'UsersManager_ExceptionInvalidPassword' => 'Дължината на паролата трябва да бъде между 6 и 26 символа.',
 	'UsersManager_ExceptionInvalidEmail' => 'Имейла, който сте въвели не е валиден.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Потребителя \'%s\' не съществува, по тази причина не може да бъде изтрит.',
@@ -744,9 +742,11 @@ $translations = array(
 	'Installation_SystemCheckPhp' => 'PHP версия',
 	'Installation_SystemCheckExtensions' => 'Други необходими разширения',
 	'Installation_SystemCheckDatabaseHelp' => 'Необходимо е за да инстаалирате Piwik базата от данни(БД) да поддържа mysqli или PDO и pdo_mysql разширенията.',
-	'Installation_SystemCheckPdoAndMysqliHelp' => 'За Linux сървър компилирайте php със следните опции: %s
+	'Installation_SystemCheckPdoAndMysqliHelp' => 'За Linux сървър компилирайте php със следните опции: %1$s
 
-във Вашия php.ini, добавете следните редове: %s',
+
+
+във Вашия php.ini, добавете следните редове: %2$s',
 	'Installation_SystemCheckPhpPdoAndMysqliSite' => 'Повече информация: <a style="color:red" href="http://php.net/pdo">PHP PDO</a> и <a style="color:red" href="http://php.net/mysqli">MYSQLI</a>.',
 	'Installation_SystemCheckWinPdoAndMysqliHelp' => 'За Windows сървър добавете следните редове в php.ini: %s',
 	'Installation_SystemCheckSplHelp' => 'Трябва да конфигурирате PHP - Standard PHP Library (SPL) да се поддържа (по подразбиране).',
@@ -771,7 +771,7 @@ $translations = array(
 	'Installation_SystemCheckError' => 'Открита е грешка - трябва да бъде поправена преди да преминете нататък',
 	'Installation_SystemCheckWarning' => 'Piwik ще работи нормално, но някои услуги ще липсват',
 	'Installation_Tables' => 'Създаване на таблици',
-	'Installation_TablesWithSameNamesFound' => 'Някои %s таблици в базата от данни (БД) %s имат същите имена, както тези, които Piwik се опитва да създаде',
+	'Installation_TablesWithSameNamesFound' => 'Някои %1$s таблици в базата от данни (БД) %2$s имат същите имена, както тези, които Piwik се опитва да създаде',
 	'Installation_TablesFound' => 'Следните таблици бяха открити в базата от данни (БД)',
 	'Installation_TablesWarningHelp' => 'Изберете дали да обновите данните в съществуващите таблици или да инсталирате Piwik на чисто.',
 	'Installation_TablesReuse' => 'Използвай съществуващите таблици',
@@ -783,7 +783,7 @@ $translations = array(
 	'Installation_ConfirmDeleteExistingTables' => 'Наистина ли искате да изтриете следните таблици: %s от базата от данни (БД)? ПРЕДУПРЕЖДЕНИЕ: ДАННИТЕ ОТ ТАЗИ ТАБЛИЦА НЕ МОГАТ ДА БЪДАТ ВЪЗСТАНОВЕНИ!!!',
 	'Installation_Welcome' => 'Добре дошли!',
 	'Installation_WelcomeHelp' => '<p>Piwik е анализатор (уеб брояч) с отворен код, който гъвкаво и лесно предоставя информация за посетителите на сайта ви.</p><p>Този процес е съкратен в %s лесни стъпки и не отнема повече от 5 минути.</p>',
-	'Installation_ErrorInvalidState' => 'Грешка: възможно е да сте опитали да прескочите стъпка от инсталацията или е забранена поддръжката на бисквитките (cookies) или конфигурационният файл на Piwik вече съществува. %sПроверете дали са разрешени бисквитките (cookies)%s и се върнете %s на първата страница на инсталацията%s.',
+	'Installation_ErrorInvalidState' => 'Грешка: възможно е да сте опитали да прескочите стъпка от инсталацията или е забранена поддръжката на бисквитките (cookies) или конфигурационният файл на Piwik вече съществува. %1$sПроверете дали са разрешени бисквитките (cookies)%2$s и се върнете %3$s на първата страница на инсталацията%4$s.',
 	'Provider_WidgetProviders' => 'Доставчици',
 	'Provider_ColumnProvider' => 'И-нет доставчик',
 	'Provider_SubmenuLocationsProvider' => 'Места &amp; Доставчик',

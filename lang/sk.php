@@ -52,9 +52,9 @@ $translations = array(
 	'General_NoDataForTagCloud' => 'Pre tento oblak nie sú dáta',
 	'General_DisplayNormalTable' => 'Zobraziť bežnú tabuľku',
 	'General_DisplayMoreData' => 'Zobraziť viac dát',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%s Piwik %s je kolaboratívny projekt. %s Ak sa Vám Piwik páči, tak môžete pomôcť! Pozrite sa na %sAko prispieť do projektu Piwik?%s ',
+	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s je kolaboratívny projekt. %3$s Ak sa Vám Piwik páči, tak môžete pomôcť! Pozrite sa na %4$sAko prispieť do projektu Piwik?%5$s ',
 	'General_YouAreCurrentlyViewingDemoOfPiwik' => 'Aktuálne prezeráte demo %s; %sdownload%s úplnej verzie! Pozrite si %s',
-	'General_PiwikXIsAvailablePleaseUpdateNow' => 'Piwik %s je k dispozícií. %s Prosím vykonajte aktualizáciu!%s (pozrite %s zmeny%s).',
+	'General_PiwikXIsAvailablePleaseUpdateNow' => 'Piwik %1$s je k dispozícií. %2$s Prosím vykonajte aktualizáciu!%3$s (pozrite %4$s zmeny%5$s).',
 	'General_BackToPiwik' => 'Späť na Piwik',
 	'CorePluginsAdmin_Plugins' => 'Zásuvné moduly',
 	'CorePluginsAdmin_PluginsManagement' => 'Správa modulov',
@@ -80,7 +80,7 @@ $translations = array(
 	'CoreHome_ShowJSCode' => 'Zobraziť javascript kód pre vloženie',
 	'CoreHome_IncludeAllPopulation_js' => 'Vrátane celej populácie',
 	'CoreHome_ExcludeLowPopulation_js' => 'Bez nízkej populácie',
-	'CoreHome_PageOf_js' => '%s z %s',
+	'CoreHome_PageOf_js' => '%1$s z %2$s',
 	'CoreHome_Loading_js' => 'Načítavanie…',
 	'CoreHome_LocalizedDateFormat' => '%A %d %B %Y',
 	'CoreHome_PeriodDay' => 'Deň',
@@ -114,12 +114,12 @@ $translations = array(
 	'CoreUpdater_UpdateRequired' => 'Vyžaduje sa aktualizácia',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'Vyžaduje sa aktualizácia databázy',
 	'CoreUpdater_YourDatabaseIsOutOfDate' => 'Vaša Piwik databáza je zastaralá a musí byť zaktualizovaná, aby ste mohli pokračovať ďalej.',
-	'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY' => 'Piwik bude zaktualizovaný z verzie %s na verziu %s.',
+	'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY' => 'Piwik bude zaktualizovaný z verzie %1$s na verziu %2$s.',
 	'CoreUpdater_PiwikWillBeUpgradedToVersionX' => 'Piwik bude zaktualizovaný na verziu %s.',
 	'CoreUpdater_TheFollowingPluginsWillBeUpgradedX' => 'Nasledujúce moduly budú zaktualizované: %s.',
 	'CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient' => 'Aktualizácia databázy môžte chvíľu trvať, tak buďte prosím trpezlivý.',
 	'CoreUpdater_UpgradePiwik' => 'Aktualizácia Piwik',
-	'CoreUpdater_HelpMessageContent' => 'Pozrite si %s Piwik FAQ %s, kde sú vysvetlené najčastejšie problémy počas aktualizácie. %s Požiadajte svojho systémového administrátora - mal by Vám vedieť pomôcť s chybami, ktoré sa s najväčšou pravdepodobnosťou týkajú Vášho servera alebo nastavenia MySQL.',
+	'CoreUpdater_HelpMessageContent' => 'Pozrite si %1$s Piwik FAQ %2$s, kde sú vysvetlené najčastejšie problémy počas aktualizácie. %3$s Požiadajte svojho systémového administrátora - mal by Vám vedieť pomôcť s chybami, ktoré sa s najväčšou pravdepodobnosťou týkajú Vášho servera alebo nastavenia MySQL.',
 	'CoreUpdater_CriticalErrorDuringTheUpgradeProcess' => 'Kritická chyba počas procesu aktualizácie:',
 	'CoreUpdater_HelpMessageIntroductionWhenError' => 'Vyššie je uvedená hlavná chybová správa, ktorá by mala vysvetliť problém. Ak potrebujete ďalšiu pomoc, tak prosím:',
 	'CoreUpdater_HelpMessageIntroductionWhenWarning' => 'Aktualizácia je úspešne ukončená, vyskytli sa však problémy. Prečítajte si nasledovné detaily. Ďalšiu pomoc nájdete na:',
@@ -133,7 +133,7 @@ $translations = array(
 	'CoreUpdater_ThereIsNewVersionAvailableForUpdate' => 'Je dostupná nová verzia Piwik na aktualizáciu',
 	'CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage' => 'Môžete aktualizovať na verziu %s automaticky alebo si tiahnuť balíček a vykonať aktualizáciu manuálne:',
 	'CoreUpdater_DownloadX' => 'Stiahnuť %s',
-	'CoreUpdater_UpdateHasBeenCancelledExplanation' => 'Piwik aktualizácia „jedným kliknutím“ bola zrušená. Ak neviete vyriešiť uvedené chybové hlásenia, odporúčame Vám urobiť aktualizáciu manuálne. %s Pred začiatkom sa pozrite sa do %sdokumentácie k aktualizácií%s!',
+	'CoreUpdater_UpdateHasBeenCancelledExplanation' => 'Piwik aktualizácia „jedným kliknutím“ bola zrušená. Ak neviete vyriešiť uvedené chybové hlásenia, odporúčame Vám urobiť aktualizáciu manuálne. %1$s Pred začiatkom sa pozrite sa do %2$sdokumentácie k aktualizácií%3$s!',
 	'CoreUpdate_DownloadingUpdateFromX' => 'Sťahovanie aktualizácie z %s',
 	'CoreUpdate_UnpackingTheUpdate' => 'Rozbalovanie aktualizácie',
 	'CoreUpdater_VerifyingUnpackedFiles' => 'Verifikácia rozbalených súborov',
@@ -251,14 +251,17 @@ $translations = array(
 	'UserCountry_country_ch' => 'Švajčiarsko',
 	'UserCountry_country_ci' => 'Pobrežie Slonoviny',
 	'UserCountry_country_ck' => 'Cookove ostrovy
+
 ',
 	'UserCountry_country_cl' => 'Čile',
 	'UserCountry_country_cm' => 'Kamerun',
 	'UserCountry_country_cn' => 'Čína',
 	'UserCountry_country_co' => 'Kolumbia',
 	'UserCountry_country_cr' => 'Kostarika
+
 ',
 	'UserCountry_country_cs' => 'Srbsko-Čierna Hora
+
 ',
 	'UserCountry_country_cu' => 'Kuba',
 	'UserCountry_country_cv' => 'Kapverdy',
@@ -317,11 +320,13 @@ $translations = array(
 	'UserCountry_country_iq' => 'Irak',
 	'UserCountry_country_ir' => 'Iránska islamská republika',
 	'UserCountry_country_is' => 'Island
+
 ',
 	'UserCountry_country_it' => 'Taliansko',
 	'UserCountry_country_je' => 'Jersey',
 	'UserCountry_country_jm' => 'Jamajka',
 	'UserCountry_country_jo' => 'Jordánsko
+
 ',
 	'UserCountry_country_jp' => 'Japonsko',
 	'UserCountry_country_ke' => 'Keňa',
@@ -334,6 +339,7 @@ $translations = array(
 	'UserCountry_country_kr' => 'Kórejská republika',
 	'UserCountry_country_kw' => 'Kuvajt',
 	'UserCountry_country_ky' => 'Kajmanie ostrovy
+
 ',
 	'UserCountry_country_kz' => 'Kazachstan',
 	'UserCountry_country_la' => 'Laos',
@@ -541,7 +547,7 @@ $translations = array(
 	'UsersManager_DeleteConfirm_js' => 'Ste si istý, že chcete odstrániť používateľa %s?',
 	'UsersManager_ExceptionLoginExists' => 'Používateľ (login) \'%s\' už existuje.',
 	'UsersManager_ExceptionEmailExists' => 'Používateľ s e-mailom \'%s\' už existuje.',
-	'UsersManager_ExceptionInvalidLoginFormat' => 'Počet znakov pre Používateľ (login) musí byť medzi %s a %s a obsahovať iba písmená, číslice alebo znaky \'_\', \'-\', a \'.\'',
+	'UsersManager_ExceptionInvalidLoginFormat' => 'Počet znakov pre Používateľ (login) musí byť medzi %1$s a %2$s a obsahovať iba písmená, číslice alebo znaky \'_\', \'-\', a \'.\'',
 	'UsersManager_ExceptionInvalidPassword' => 'Dĺžka hesla musí byť od 6 do 26 znakov.',
 	'UsersManager_ExceptionInvalidEmail' => 'E-mailová adresa nemá platný formát.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Používateľ \'%s\' neexistuje a preto nemôže byť odstránený.',
@@ -608,7 +614,7 @@ $translations = array(
 	'Installation_SystemCheckError' => 'Vyskytla sa chyba - musíte ju vyriešiť, inak nie je možné pokračovať',
 	'Installation_SystemCheckWarning' => 'Piwik bude fungovať normálne, ale niektoré vlastnosti budú chýbať.',
 	'Installation_Tables' => 'Vytváranie tabuliek',
-	'Installation_TablesWithSameNamesFound' => 'Niektoré %s tabuľky vo vašej databáze %s majú rovnaké názvy, ako sa snaží vytvoriť Piwik',
+	'Installation_TablesWithSameNamesFound' => 'Niektoré %1$s tabuľky vo vašej databáze %2$s majú rovnaké názvy, ako sa snaží vytvoriť Piwik',
 	'Installation_TablesWarning' => 'Niektoré <span id="linkToggle">Piwik tabuľky</span> už existujú v databáze',
 	'Installation_TablesFound' => 'Nasledujúce tabuľky boli nájdené.',
 	'Installation_TablesWarningHelp' => 'Vyberte si použitie už existujúcich tabuliek alebo výber čistej inštalácie s vymazaním všetkých existujúcich dát v databáze.',
@@ -621,7 +627,7 @@ $translations = array(
 	'Installation_ConfirmDeleteExistingTables' => 'Ste si istý, že chcete zmazať tabuľky: %s z Vašej databázy? VAROVANIE: DÁTA Z TÝCHTO TABULIEK NEBUDE MOŽNÉ OBNOVIŤ!',
 	'Installation_Welcome' => 'Vitajte!',
 	'Installation_WelcomeHelp' => '<p>Piwik je open source projekt analýzy webstránok, ktorý zjednodušuje získavanie informácií o Vašich návštevníkoch.</p><p>Tento proces je rozdelený do %s jednoduchých krokov a bude trvať asi 5 minút.</p>',
-	'Installation_ErrorInvalidState' => 'Chyba: zdá sa, že sa pokúšate preskočiť krok v inštalačnom procese, alebo máte zakázané „cookies“, alebo je Piwik konfiguračný súbor už vytvorený. %sUistite sa, že máte povolené „cookies“%s a potom choďte späť %s na prvú stránku inštalácie %s.',
+	'Installation_ErrorInvalidState' => 'Chyba: zdá sa, že sa pokúšate preskočiť krok v inštalačnom procese, alebo máte zakázané „cookies“, alebo je Piwik konfiguračný súbor už vytvorený. %1$sUistite sa, že máte povolené „cookies“%2$s a potom choďte späť %3$s na prvú stránku inštalácie %4$s.',
 	'Provider_WidgetProviders' => 'Poskytovatelia',
 	'Provider_SubmenuLocationsProvider' => 'Umiestnenie & poskytovateľ',
 	'DBStats_DatabaseUsage' => 'Využitie databázy',
@@ -751,6 +757,7 @@ $translations = array(
 	'VisitTime_ColumnServerTime' => 'Serverový čas',
 	'VisitTime_ColumnLocalTime' => 'Miestny čas',
 	'SitesManager_JsTrackingTag' => 'JavaScript sledovacia značka (tag)
+
 ',
 	'SitesManager_JsTrackingTagHelp' => 'Tu je JavaScript sledovacia značka (tag) na vloženie do vašich stránok',
 	'SitesManager_ShowTrackingTag' => 'zobraziť sledovaciu značku',
