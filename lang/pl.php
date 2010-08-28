@@ -479,8 +479,10 @@ $translations = array(
 	'Installation_SystemCheckProtocol' => 'Protokół',
 	'Installation_SystemCheckIpv4' => 'IPv4',
 	'Installation_Tables' => 'Utworzenie tabel',
+	'Installation_TablesWithSameNamesFound' => 'Niektóre %1$s tabele w Twojej bazie danych %2$s mają takie same nazwy jak te które próbuje utworzyć Piwik',
 	'Installation_TablesFound' => 'Następujące tabele zostały znalezione w bazie danych',
-	'Installation_TablesReuse' => 'Ponownie użyj istniejących tabel',
+	'Installation_TablesWarningHelp' => 'Wybierz ponowne użycie istniejących tabel w bazie danych albo czystą instalacje w celu usunięcia wszystkich istniejących danych z bazy',
+	'Installation_TablesReuse' => 'Użyj ponownie istniejących tabel',
 	'Installation_TablesDelete' => 'Usuń wykryte tabele',
 	'Installation_TablesDeletedSuccess' => 'Istniejące tabele Piwik usunięte pomyślnie',
 	'Installation_TablesCreatedSuccess' => 'Tabele utworzone pomyślnie!',
@@ -520,7 +522,15 @@ $translations = array(
 
 
 
+
+
+
+
 A password reset request was received from %2$s.
+
+
+
+
 
 
 
@@ -528,19 +538,39 @@ To reset your password:
 
 
 
+
+
+
+
 1) Go to the Password Reset Form at:
+
+
 
 	%3$s
 
 
 
+
+
+
+
 2) Enter the following token:
+
+
 
 	%4$s
 
 
 
+
+
+
+
 3) Fill out the form (entering your new password twice) and submit.
+
+
+
+
 
 
 
@@ -634,6 +664,8 @@ Note: this token will expire in 24 hrs.',
 	'SitesManager_ListOfIpsToBeExcludedOnAllWebsites' => 'Poniższe IP zostaną wykluczone ze śledzenia na wszystkich stronach.',
 	'SitesManager_ExcludedParameters' => 'Parametry wykluczenia',
 	'SitesManager_HelpExcludedIps' => 'Wpisz liste IP, po jednym w wierszu, które chcesz wykluczyć ze śledzenia przez Piwik.
+
+
 
 Możesz użyć wildcards, np. %1$s lub %2$s',
 	'SitesManager_YourCurrentIpAddressIs' => 'Twój aktualny adres IP to %s',
