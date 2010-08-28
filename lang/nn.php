@@ -1,6 +1,6 @@
 <?php 
 $translations = array(
-	'General_Locale' => 'nn_NO.UTF8',
+	'General_Locale' => 'nn_NO.UTF-8',
 	'General_TranslatorName' => 'Kristoffer Egil Bonarjee,Simon Hansen',
 	'General_TranslatorEmail' => 'kristoffer.egil@bonarjee.in,simonboba@gmail.com',
 	'General_EnglishLanguageName' => 'Norwegian Nynorsk',
