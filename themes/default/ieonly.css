@@ -1,0 +1,53 @@
+/**
+ * Implementation of CSS3PIE for Internet Explorer
+ */
+
+input, textarea, select, .submit, .entityTable,
+.ui-datepicker, .ui-datepicker-header,
+.ajaxError, .ajaxSuccess,
+.sites_autocomplete .custom_select,
+.sites_selection .custom_select, .sites_selection #sitesSelection,
+#header_message, #periodString,
+.nav li, .nav_sep, 
+.dialog, .dialog input,
+ol#menuList li, ul#widgetList li .button,
+#addWidget, #mt thead,
+#tablist li a,
+.ui-corner-all
+{
+	behavior: url("./libs/CSS3PIE/PIE.php");
+}
+
+.widget, 
+.widgetTop {
+	position: relative;
+	behavior: url("./libs/CSS3PIE/PIE.php");
+}
+.ui-widget-content {
+	z-index: 1003!important;
+}
+
+.widgetContent {
+	width: 99.8%;
+	overflow: hidden;
+}
+
+/**
+ * IE7 fixes
+ */
+
+/* position of sub nav */
+*+html .pageWrap {
+	padding-top: 0!important;
+}
+*+html .nav_sep {
+	margin-top: 0!important;
+}
+
+/* backgroud colors of plugins table*/
+*+html .adminTable thead th {
+	background-color:#464646!important;
+}
+*+html .adminTable .active td {
+	background-color:#ECF9DD!important;
+}
