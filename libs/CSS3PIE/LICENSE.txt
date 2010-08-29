@@ -1,0 +1,13 @@
+Copyright 2010 Jason Johnston
+
+CSS3 PIE is licensed under the terms of the Apache License Version 2.0, or
+alternatively under the terms of the General Public License (GPL) Version 2.
+You may use PIE according to either of these licenses as is most appropriate
+for your project on a case-by-case basis.
+
+The terms of each license can be found in the main directory of the PIE source
+repository:
+
+Apache License: http://github.com/lojjic/PIE/blob/master/LICENSE-APACHE2.txt
+GPL2 License: http://github.com/lojjic/PIE/blob/master/LICENSE-GPL2.txt
+
