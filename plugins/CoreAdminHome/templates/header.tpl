@@ -14,6 +14,9 @@
 {includeAssets type="css"}
 {includeAssets type="js"}
 
+<!--[if IE]>
+<link rel="stylesheet" type="text/css" href="themes/default/ieonly.css" />
+<![endif]-->
 </head>
 <body>
 <div id="root">
