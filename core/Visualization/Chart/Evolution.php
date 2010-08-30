@@ -60,12 +60,17 @@ class Piwik_Visualization_Chart_Evolution extends Piwik_Visualization_Chart
 			$labelName = $this->yLabels[$dataSetToDisplay];
 			$lineValues = array();
 			$j = 0;
+			$unit = $this->yUnit;
 			foreach($this->xLabels as $label) {
 				$value = (float)$yValues[$j];
+				$whole = (int)$value;
+				if(($value - $whole) >= 0.005)
+				{
+					$value = sprintf('%.2f', $value);
+				}
 				$lineValue = new hollow_dot($value);
-				
-				$unit = $this->yUnit;
 				$lineValue->tooltip("$label<br><b>$value$unit</b> $labelName");
+
 				if(!empty($this->xOnClick))
 				{
 					$lineValue->on_click("piwikHelper.redirectToUrl('".$this->xOnClick[$j]."')");
