@@ -70,9 +70,9 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		
 		// conversion rate for new and returning visitors
 		$conversionRateReturning = $this->getConversionRateReturningVisitors($this->idSite, Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'), $idGoal);
-		$view->conversion_rate_returning = round( $conversionRateReturning, self::CONVERSION_RATE_PRECISION ) . "%";
+		$view->conversion_rate_returning = sprintf('%.' . self::CONVERSION_RATE_PRECISION . 'f%%', $conversionRateReturning);
 		$conversionRateNew = $this->getConversionRateNewVisitors($this->idSite, Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'), $idGoal);
-		$view->conversion_rate_new = round( $conversionRateNew, self::CONVERSION_RATE_PRECISION ) . "%";
+		$view->conversion_rate_new = sprintf('%.' . self::CONVERSION_RATE_PRECISION . 'f%%', $conversionRateNew);
 		return $view;
 	}
 	
