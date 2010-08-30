@@ -59,6 +59,15 @@ class Test_Piwik_Date extends UnitTestCase
 		$date = Piwik_Date::factory('yesterdaySameTime', 'Africa/Brazzaville');
 		$dateExpected = Piwik_Date::factory('now', 'Africa/Brazzaville')->subHour(24);
 		$this->assertEqual($date->getDatetime(), $dateExpected->getDatetime());
+
+		// convert to/from local time
+		$now = time();
+		$date = Piwik_Date::factory($now, 'America/New_York');
+		$time = $date->getTimestamp();
+
+		$date = Piwik_Date::factory($time)->setTimezone('America/New_York');
+		$time = $date->getTimestamp();
+		$this->assertEqual($now, $time);
 	}
 	
 	function test_setTimezone_dayInUTC()
