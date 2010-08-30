@@ -146,6 +146,12 @@ class Test_Piwik_Login extends Test_Database
 		$auth->setTokenAuth($tokenAuth);
 		$rc = $auth->authenticate();
 
+		// valid login & hashed token auth
+		$auth->setLogin($user['login']);
+		$hash = $auth->getHashTokenAuth($user['login'], $tokenAuth);
+		$auth->setTokenAuth($hash);
+		$rc = $auth->authenticate();
+
 		$user = Zend_Registry::get('config')->superuser->toArray();
 		$password = $user['password'];
 		$tokenAuth = Piwik_UsersManager_API::getInstance()->getTokenAuth($user['login'], $password);
@@ -183,6 +189,13 @@ class Test_Piwik_Login extends Test_Database
 		// valid login & token auth
 		$auth->setLogin($user['login']);
 		$auth->setTokenAuth($tokenAuth);
+		$rc = $auth->authenticate();
+		$this->assertEqual( $rc->getCode(), Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE );
+
+		// valid login & hashed token auth
+		$auth->setLogin($user['login']);
+		$hash = $auth->getHashTokenAuth($user['login'], $tokenAuth);
+		$auth->setTokenAuth($hash);
 		$rc = $auth->authenticate();
 		$this->assertEqual( $rc->getCode(), Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE );
 	}
