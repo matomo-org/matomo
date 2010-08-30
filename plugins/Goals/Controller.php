@@ -110,7 +110,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$datatable = $request->process();
 		$dataRow = $datatable->getFirstRow();
 		$view->nb_conversions = $dataRow->getColumn('nb_conversions');
-		$view->conversion_rate = $dataRow->getColumn('conversion_rate');
+		$view->conversion_rate = sprintf('%.' . self::CONVERSION_RATE_PRECISION . 'f%%', $dataRow->getColumn('conversion_rate'));
 		$view->revenue = $dataRow->getColumn('revenue');
 		
 		$goalMetrics = array();
