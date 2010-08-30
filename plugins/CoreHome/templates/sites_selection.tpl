@@ -43,13 +43,13 @@
     <label>{'General_Website'|translate}</label>
     <div id="sitesSelectionSearch" class="custom_select">
     
-        <a href="index.php?module=CoreHome&amp;action=index&amp;period={$period}&amp;date={$date}&amp;idSite={$idSite}" class="custom_select_main_link custom_select_collapsed">{$siteName}</a>
+        <a href="javascript:broadcast.propagateNewPage( 'idSite={$idSite}' );" class="custom_select_main_link custom_select_collapsed">{$siteName}</a>
         
         <div class="custom_select_block">
             <div id="custom_select_container">
             <ul class="custom_select_ul_list" >
                 {foreach from=$sites item=info}
-                    <li><a {if $idSite==$info.idsite} style="display: none"{/if} href="index.php?module=CoreHome&amp;action=index&amp;period={$period}&amp;date={$date}&amp;idSite={$info.idsite}">{$info.name}</a></li>
+                    <li><a {if $idSite==$info.idsite} style="display: none"{/if} href="javascript:broadcast.propagateNewPage( 'idSite={$info.idsite}');">{$info.name}</a></li>
 				{/foreach}
             </ul>
             </div>
