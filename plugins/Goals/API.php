@@ -203,7 +203,7 @@ class Piwik_Goals_API
 		}
 		// conversion_rate has an appended % for consistency with other API outputs
 		// This filter will work both on DataTable and DataTable_Array
-		$dataTable->filter('ColumnCallbackReplace', array('conversion_rate', create_function('$label', 'return $label . "%";')));
+		$dataTable->filter('ColumnCallbackReplace', array('conversion_rate', create_function('$label', 'return sprintf("%.' . Piwik_Goals::ROUNDING_PRECISION . 'f%%", $label);')));
 		return $dataTable;
 	}
 	
