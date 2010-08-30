@@ -92,23 +92,6 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 		return array_keys($this->yValues);
 	}
 
-	/**
-	 * Get max Y-value from data set.
-	 *
-	 * @param array $values
-	 * @return mixed
-	 */
-	protected function getMaxYValue($values)
-	{
-		// strings containing pretty-formatted numbers must be cast to int,
-		// otherwise max() uses string comparison
-		if(is_array($values) && is_string($values[0]))
-		{
-			array_walk($values, create_function('&$v, $k', '$v = (int)$v;'));
-		}
-		return max($values);
-	}
-
 	public function getMaxValue()
 	{
 		$datasetsIds = $this->getDataSetsToDisplay();
@@ -119,7 +102,7 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 		$maxCrossDataSets = false;
 		foreach($datasetsIds as $dataset)
 		{
-			$maxValue = $this->getMaxYValue($this->yValues[$dataset]);
+			$maxValue = max($this->yValues[$dataset]);
 			if($maxCrossDataSets === false 
 				|| $maxValue > $maxCrossDataSets)
 			{
