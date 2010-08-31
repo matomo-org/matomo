@@ -307,7 +307,7 @@ class Piwik_PDFReports_API
 		$reports = $this->getReports($idSite, $period = false, $idReport);
 		$report = reset($reports);
 		list($outputFilename, $prettyDate, $websiteName) = 
-			Piwik_PDFReports_API::getInstance()->generateReport(
+			$this->generateReport(
 					$idReport, 
 					Piwik_Date::now()->subPeriod(1, $report['period']),
 					$idSite,

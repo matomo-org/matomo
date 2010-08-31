@@ -43,6 +43,4 @@ class Piwik_PDFReports_Controller extends Piwik_Controller
 		$view->reports = $reports;
 		echo $view->render();
 	}
-	
-	
 }
