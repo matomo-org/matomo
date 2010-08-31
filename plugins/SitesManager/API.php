@@ -941,9 +941,9 @@ class Piwik_SitesManager_API
 		return $urls;
 	}
 
-        static public function getPatternMatchSites($pattern)
+        public function getPatternMatchSites($pattern)
 	{
-		$ids = self::getSitesIdWithAtLeastViewAccess();
+		$ids = $this->getSitesIdWithAtLeastViewAccess();
 		$ids_str = '';
 		foreach($ids as $id_num => $id_val)
 		{
