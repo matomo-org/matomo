@@ -8,7 +8,7 @@
     <li>{'Goals_BestCountries'|translate} {include file='Goals/templates/list_top_segment.tpl' topSegment=$topSegments.country}</li>
     {if count($topSegments.keyword)>0}<li>{'Goals_BestKeywords'|translate} {include file='Goals/templates/list_top_segment.tpl' topSegment=$topSegments.keyword}</li>{/if}
     {if count($topSegments.website)>0}<li>{'Goals_BestReferers'|translate} {include file='Goals/templates/list_top_segment.tpl' topSegment=$topSegments.website}</li>{/if}
-    <li>{'Goals_ReturningVisitorsConversionRateIs'|translate:"<b>$conversion_rate_returning</b>"}, {'Goals_NewVisitorsConversionRateIs'|translate:"<b>$conversion_rate_new%</b>"}</li>
+    <li>{'Goals_ReturningVisitorsConversionRateIs'|translate:"<b>$conversion_rate_returning</b>"}, {'Goals_NewVisitorsConversionRateIs'|translate:"<b>$conversion_rate_new</b>"}</li>
 	</ul>
 {/if}
 
