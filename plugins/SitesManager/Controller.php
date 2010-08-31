@@ -125,7 +125,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 	function getSitesForAutocompleter()
 	{
 		$pattern = Piwik_Common::getRequestVar('term');
-		$sites = Piwik_SitesManager_API::getPatternMatchSites($pattern);
+		$sites = Piwik_SitesManager_API::getInstance()->getPatternMatchSites($pattern);
 		$pattern = str_replace('%', '', $pattern);
 		if(!count($sites))
 		{
