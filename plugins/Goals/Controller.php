@@ -24,6 +24,11 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		'revenue' => 'Goals_ColumnRevenue',
 	);
 	
+	private function formatConversionRate($conversionRate)
+	{
+		return sprintf('%.' . self::CONVERSION_RATE_PRECISION . 'f%%', $conversionRate);
+	}
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -70,9 +75,9 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		
 		// conversion rate for new and returning visitors
 		$conversionRateReturning = $this->getConversionRateReturningVisitors($this->idSite, Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'), $idGoal);
-		$view->conversion_rate_returning = sprintf('%.' . self::CONVERSION_RATE_PRECISION . 'f%%', $conversionRateReturning);
+		$view->conversion_rate_returning = $this->formatConversionRate($conversionRateReturning);
 		$conversionRateNew = $this->getConversionRateNewVisitors($this->idSite, Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'), $idGoal);
-		$view->conversion_rate_new = sprintf('%.' . self::CONVERSION_RATE_PRECISION . 'f%%', $conversionRateNew);
+		$view->conversion_rate_new = $this->formatConversionRate($conversionRateNew);
 		return $view;
 	}
 	
@@ -110,7 +115,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$datatable = $request->process();
 		$dataRow = $datatable->getFirstRow();
 		$view->nb_conversions = $dataRow->getColumn('nb_conversions');
-		$view->conversion_rate = sprintf('%.' . self::CONVERSION_RATE_PRECISION . 'f%%', $dataRow->getColumn('conversion_rate'));
+		$view->conversion_rate = $this->formatConversionRate($dataRow->getColumn('conversion_rate'));
 		$view->revenue = $dataRow->getColumn('revenue');
 		
 		$goalMetrics = array();
@@ -223,7 +228,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
     				$topSegment[] = array (
     					'name' => $row->getColumn('label'),
     					'nb_conversions' => $conversions,
-    					'conversion_rate' => $row->getColumn($columnConversionRate),
+					'conversion_rate' => $this->formatConversionRate($row->getColumn($columnConversionRate)),
     					'metadata' => $row->getMetadata(),
     				);
 				}
@@ -241,7 +246,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		return array (
 				'id'				=> $idGoal,
 				'nb_conversions' 	=> $dataRow->getColumn('nb_conversions'),
-				'conversion_rate'	=> $dataRow->getColumn('conversion_rate'),
+				'conversion_rate'	=> $this->formatConversionRate($dataRow->getColumn('conversion_rate')),
 				'revenue'			=> $dataRow->getColumn('revenue'),
 				'urlSparklineConversions' 		=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_conversions'), 'idGoal' => $idGoal)),
 				'urlSparklineConversionRate' 	=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('conversion_rate'), 'idGoal' => $idGoal)),
