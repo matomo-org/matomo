@@ -22,7 +22,7 @@
  * - date1 		= starting day of the period
  * - date2 		= ending day of the period
  * - period 	= integer that defines the period (day/week/etc.). @see period::getId()
- * - ts_archived = timestamp when the archive was processed
+ * - ts_archived = timestamp when the archive was processed (UTC)
  * - name 		= the name of the report (ex: uniq_visitors or search_keywords_by_search_engines)
  * - value 		= the actual data
  * 
@@ -642,7 +642,7 @@ abstract class Piwik_ArchiveProcessing
 									$this->period->getDateStart()->toString('Y-m-d'), 
 									$this->period->getDateEnd()->toString('Y-m-d'), 
 									$this->periodId, 
-									date("Y-m-d H:i:s"),
+									gmdate("Y-m-d H:i:s"),
 									$record->name,
 									$record->value,
 							)
@@ -672,8 +672,8 @@ abstract class Piwik_ArchiveProcessing
 		
 		if($this->minDatetimeArchiveProcessedUTC)
 		{
-    		$timeStampWhere = " AND ts_archived >= ? ";
-    		$bindSQL[] = Piwik_Date::factory($this->minDatetimeArchiveProcessedUTC)->getDatetime();
+			$timeStampWhere = " AND ts_archived >= ? ";
+			$bindSQL[] = Piwik_Date::factory($this->minDatetimeArchiveProcessedUTC)->getDatetime();
 		}
 		
 		$sqlQuery = "	SELECT idarchive, value, name, date1 as startDate
