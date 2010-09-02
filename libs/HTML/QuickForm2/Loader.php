@@ -47,6 +47,7 @@
  * Exception classes for HTML_QuickForm2
  */
 // require_once 'HTML/QuickForm2/Exception.php';
+require_once dirname(__FILE__) . '/Exception.php';
 
 /**
  * Class with static methods for loading classes and files 

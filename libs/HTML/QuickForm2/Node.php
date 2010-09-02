@@ -59,6 +59,7 @@ if (null === HTML_Common2::getOption('id_force_append_index')) {
  * Exception classes for HTML_QuickForm2
  */
 // require_once 'HTML/QuickForm2/Exception.php';
+require_once dirname(__FILE__) . '/Exception.php';
 
 /**
  * Static factory class for QuickForm2 elements
