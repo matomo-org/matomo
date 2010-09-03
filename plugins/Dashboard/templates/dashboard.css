@@ -26,6 +26,7 @@
 	margin:10px 7px;
 	overflow: hidden;
 	border-radius:4px;
+	font-size:14px;
 	-moz-border-radius:4px;
 	-webkit-border-radius:4px;
 }
@@ -74,7 +75,7 @@
 	cursor: pointer;
 }
 
-#close.button {
+#close.button, #maximise.button {
 	float: right;
 	display: none;
 	margin: 6px 6px 0 0;
