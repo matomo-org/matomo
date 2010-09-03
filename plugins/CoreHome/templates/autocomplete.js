@@ -68,7 +68,13 @@ $(function() {
 			$(".custom_select_block_show").width(parseInt(widthSitesSelection));
 
 		}
-	});
+	}).data("autocomplete")._renderItem = function( ul, item ) {
+		return $( "<li></li>" )
+		.data( "item.autocomplete", item )
+		.append( $( "<a></a>" ).html( item.label ) )
+		.appendTo( ul );
+	};
+
 	function reset()
 	{
 		$('#websiteSearch').val('');
