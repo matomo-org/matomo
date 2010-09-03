@@ -16,6 +16,8 @@ function dashboard()
 
 dashboard.prototype =
 {
+	isMaximised: false,
+	
 	//function called on dashboard initialisation
 	init: function(layout)
 	{
@@ -150,17 +152,26 @@ dashboard.prototype =
 		widgetElement = $('#'+ uniqueId, self.dashboardElement);
 		widgetElement
 			.hover( function() {
-					$(this).addClass('widgetHover');
-					$('.widgetTop', this).addClass('widgetTopHover');
- 					$('.button#close', this).show();
+					if(!self.isMaximised) {
+						$(this).addClass('widgetHover');
+						$('.widgetTop', this).addClass('widgetTopHover');
+						$('.button#close, .button#maximise', this).show();
+					}
  				}, function() {
-					$(this).removeClass('widgetHover');
-					$('.widgetTop', this).removeClass('widgetTopHover');
-					$('.button#close', this).hide();
+ 					if(!self.isMaximised) {
+ 						$(this).removeClass('widgetHover');
+ 						$('.widgetTop', this).removeClass('widgetTopHover');
+ 						$('.button#close, .button#maximise', this).hide();
+ 					}
 			});
 		$('.button#close', widgetElement)
 			.click( function(ev){
 				self.onDeleteItem(this, ev);
+			});
+
+		$('.button#maximise', widgetElement)
+			.click( function(ev){
+				self.onMaximiseItem(this, ev);
 			});
 
 		widgetElement.show();
@@ -182,7 +193,7 @@ dashboard.prototype =
 			$('object', this).show();
 			$('.widgetHover', this).removeClass('widgetHover');
 			$('.widgetTopHover', this).removeClass('widgetTopHover');
-			$('.button#close', this).hide();
+			$('.button#close, .button#maximise', this).hide();
 			self.saveLayout();
 		}
 
@@ -202,6 +213,31 @@ dashboard.prototype =
 					});
 	},
 
+	onMaximiseItem: function(target, ev) {
+		var self = this;
+		self.isMaximised = true;
+		var mydialog = $(target).parents('.sortable');
+		$(mydialog).css({'minWidth': '500px', 'maxWidth': '1000px'});
+		$('.button#close, .button#maximise', mydialog).hide();
+		mydialog.before('<div id="placeholder"> </div>');
+		mydialog.dialog({
+			title: '',
+			bgiframe: true,
+			modal: true,
+			width: 'auto',
+			position: ['center', 'center'],
+			resizable: true,
+			autoOpen: true,
+			close: function(event, ui) {
+				self.isMaximised = false;
+				mydialog.dialog("destroy");
+				$('#placeholder').replaceWith(mydialog);
+				mydialog.removeAttr('style');
+			}
+		});
+	},
+	
+	
 	// on mouse click on close widget button
 	// we ask for confirmation and if 'yes' is clicked, we delete the widget from the dashboard
 	onDeleteItem: function(target, ev)
