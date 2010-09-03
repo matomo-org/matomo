@@ -173,7 +173,12 @@ class Piwik_View implements Piwik_iView
 	{
 		if($form instanceof Piwik_QuickForm2)
 		{
-			HTML_QuickForm2_Renderer::register('smarty', 'HTML_QuickForm2_Renderer_Smarty');
+			static $registered = false;
+			if(!$registered)
+			{
+				HTML_QuickForm2_Renderer::register('smarty', 'HTML_QuickForm2_Renderer_Smarty');
+				$registered = true;
+			}
 
 			// Create the renderer object	
 			$renderer = HTML_QuickForm2_Renderer::factory('smarty');
