@@ -23,9 +23,9 @@ require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
  */
 class Piwik
 {
-	const CLASSES_PREFIX = "Piwik_";
-	const COMPRESSED_FILE_LOCATION = "tmp/assets/";
-	const MAGIC_MIME_DATABASE = "/libs/gnuwin32/file/magic";
+	const CLASSES_PREFIX = 'Piwik_';
+	const COMPRESSED_FILE_LOCATION = '/tmp/assets/';
+	const MAGIC_MIME_DATABASE = '/libs/gnuwin32/file/magic';
 
 	public static $idPeriods =  array(
 			'day'	=> 1,
@@ -569,10 +569,11 @@ class Piwik
 	 */
 	static public function serveStaticFile($file, $contentType = null)
 	{
-		if ( $contentType == null || strlen($contentType) == 0 )
+		if (empty($contentType) && function_exists('finfo_open'))
 		{
-			$finfo = finfo_open(FILEINFO_MIME, PIWIK_DOCUMENT_ROOT . self::MAGIC_MIME_DATABASE);
+			$finfo = finfo_open(FILEINFO_MIME, PIWIK_INCLUDE_PATH . self::MAGIC_MIME_DATABASE);
 			$contentType = finfo_file($finfo, $file);
+			finfo_close($info);
 		}
 
 		if (file_exists($file) && function_exists('readfile')) {
@@ -605,7 +606,7 @@ class Piwik
 				// optional compression
 				$compressed = false;
 				$encoding = '';
-				$compressedFileLocation = PIWIK_DOCUMENT_ROOT . "/" . self::COMPRESSED_FILE_LOCATION . basename($file);
+				$compressedFileLocation = PIWIK_USER_PATH . self::COMPRESSED_FILE_LOCATION . basename($file);
 				$phpOutputCompressionEnabled = (ini_get('zlib.output_compression') == 1);
 
 				if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && !$phpOutputCompressionEnabled)
