@@ -573,7 +573,7 @@ class Piwik
 		{
 			$finfo = finfo_open(FILEINFO_MIME, PIWIK_INCLUDE_PATH . self::MAGIC_MIME_DATABASE);
 			$contentType = finfo_file($finfo, $file);
-			finfo_close($info);
+			finfo_close($finfo);
 		}
 
 		if (file_exists($file) && function_exists('readfile')) {
