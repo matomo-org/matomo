@@ -24,6 +24,8 @@ require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
 class Piwik
 {
 	const CLASSES_PREFIX = "Piwik_";
+	const COMPRESSED_FILE_LOCATION = "tmp/assets/";
+	const MAGIC_MIME_DATABASE = "/libs/gnuwin32/file/magic";
 
 	public static $idPeriods =  array(
 			'day'	=> 1,
@@ -536,6 +538,154 @@ class Piwik
 		}
 
 		return $messages;
+	}
+	
+	/*
+	 * This method is used when a static file is served through php.
+	 *
+	 * It performs the following actions:
+	 * 	- Checks the file is readable or returns "HTTP/1.0 404 Not Found"
+	 *  - Returns "HTTP/1.1 304 Not Modified" after comparing the HTTP_IF_MODIFIED_SINCE
+	 *	  with the modification date of the static file
+	 *	- Will try to compress the static file according to HTTP_ACCEPT_ENCODING. Compressed files are store in
+	 *	  the /tmp directory. If compressing extensions are not available, a manually gzip compressed file
+	 *	  can be provided in the /tmp directory. It has to bear the same name with an added .gz extension.
+	 *	  Using manually compressed static files requires you to manually update the compressed file when
+	 *	  the static file is updated.
+	 *	- Overrides server cache control config to allow caching
+	 *	- Sends Very Accept-Encoding to tell proxies to store different version of the static file according
+	 *	  to users encoding capacities.
+	 *
+	 * Warning:
+	 * 		Compressed filed are stored in the /tmp directory.
+	 * 		If this method is used with two files bearing the same name but located in different locations,
+	 * 		there is a risk of conflict. One file could be served with the content of the other.
+	 * 		A future upgrade of this method would be to recreate the directory structure of the static file
+	 * 		within a /tmp/compressed-static-files directory.
+	 *
+	 * @param string $file The location of the static file to serve
+	 * @param string $contentType The content type of the static file. If not provided, the content type will estimated
+	 * 							  using the gnuwin32 magic mime database.
+	 */
+	static public function serveStaticFile($file, $contentType = null)
+	{
+		if ( $contentType == null || strlen($contentType) == 0 )
+		{
+			$finfo = finfo_open(FILEINFO_MIME, PIWIK_DOCUMENT_ROOT . self::MAGIC_MIME_DATABASE);
+			$contentType = finfo_file($finfo, $file);
+		}
+
+		if (file_exists($file) && function_exists('readfile')) {
+			
+			// conditional GET
+			$modifiedSince = '';
+			if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
+				$modifiedSince = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
+			}
+
+			// strip any trailing data appended to header
+			if (false !== ($semicolon = strpos($modifiedSince, ';'))) {
+				$modifiedSince = substr($modifiedSince, 0, $semicolon);
+			}
+
+			$lastModified = gmdate('D, d M Y H:i:s', filemtime($file)) . ' GMT';
+
+			// Override server cache control config
+			header('Cache-Control: public, must-revalidate');
+			header('Pragma:');
+			header('Vary: Accept-Encoding');
+
+			// Returns 304 if not modified since
+			if ($modifiedSince == $lastModified) {
+
+				header('HTTP/1.1 304 Not Modified');
+
+			} else {
+
+				// optional compression
+				$compressed = false;
+				$encoding = '';
+				$compressedFileLocation = PIWIK_DOCUMENT_ROOT . "/" . self::COMPRESSED_FILE_LOCATION . basename($file);
+				$phpOutputCompressionEnabled = (ini_get('zlib.output_compression') == 1);
+
+				if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && !$phpOutputCompressionEnabled)
+				{
+					$acceptEncoding = $_SERVER['HTTP_ACCEPT_ENCODING'];
+
+					if (extension_loaded('zlib') && function_exists('file_get_contents') && function_exists('file_put_contents'))
+					{
+						if (preg_match('/(?:^|, ?)(deflate)(?:,|$)/', $acceptEncoding, $matches))
+						{
+							$encoding = 'deflate';
+							$filegz = $compressedFileLocation .'.deflate';
+						}
+						else if (preg_match('/(?:^|, ?)((x-)?gzip)(?:,|$)/', $acceptEncoding, $matches))
+						{
+							$encoding = $matches[1];
+							$filegz = $compressedFileLocation .'.gz';
+						}
+
+						if (!empty($encoding))
+						{
+							// compress-on-demand and use cache
+							if(!file_exists($filegz) || (filemtime($file) > filemtime($filegz)))
+							{
+								$data = file_get_contents($file);
+
+								if ($encoding == 'deflate')
+								{
+									$data = gzdeflate($data, 9);
+								}
+								else if ($encoding == 'gzip' || $encoding == 'x-gzip')
+								{
+									$data = gzencode($data, 9);
+								}
+
+								file_put_contents($filegz, $data);
+								$file = $filegz;
+							}
+
+							$compressed = true;
+							$file = $filegz;
+						}
+					}
+					else
+					{
+						// manually compressed
+						$filegz = $compressedFileLocation .'.gz';
+						if (preg_match('/(?:^|, ?)((x-)?gzip)(?:,|$)/', $acceptEncoding, $matches) && file_exists($filegz) && (filemtime($file) < filemtime($filegz)))
+						{
+							$encoding = $matches[1];
+							$compressed = true;
+							$file = $filegz;
+						}
+					}
+				}
+
+				header('Last-Modified: ' . $lastModified);
+
+				if (!$phpOutputCompressionEnabled)
+				{
+					header('Content-Length: ' . filesize($file));
+				}
+
+				header('Content-Type: '.$contentType);
+
+				if ($compressed)
+				{
+					header('Content-Encoding: ' . $encoding);
+				}
+
+				if (!@readfile($file))
+				{
+					header ('HTTP/1.0 505 Internal server error');
+				}
+			}
+
+		} else {
+
+			header ('HTTP/1.0 404 Not Found');
+		}
 	}
 
 /*
@@ -1728,5 +1878,4 @@ class Piwik
 	{
 		return Piwik_Db_Schema::getInstance()->getTablesInstalled($forceReload, $idSite);
 	}
-		
 }

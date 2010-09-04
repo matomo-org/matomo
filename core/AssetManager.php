@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: AssetManager.php
+ * @version $Id$
  *
  * @category Piwik
  * @package Piwik
@@ -28,7 +28,7 @@ require_once PIWIK_INCLUDE_PATH . '/libs/jsmin/jsmin.php';
  * 	- Identifies required assets
  *  - Includes assets in the rendered HTML page
  *  - Manages asset merging and minifying
- *  - Manages both server-side and client-side cache
+ *  - Manages server-side cache
  *
  * Whether assets are included individually or as merged files is defined by
  * the global option 'disable_merged_assets'. When set to 1, files will be
@@ -39,12 +39,16 @@ require_once PIWIK_INCLUDE_PATH . '/libs/jsmin/jsmin.php';
  * @package Piwik
  */
 class Piwik_AssetManager
-{		
+{
+	const MERGED_CSS_FILE = "asset_manager_global_css.css";
+	const MERGED_JS_FILE = "asset_manager_global_js.js";
 	const CSS_IMPORT_EVENT = "AssetManager.getCssFiles";
-	const JS_IMPORT_EVENT = "AssetManager.getJsFiles";	
+	const JS_IMPORT_EVENT = "AssetManager.getJsFiles";
 	const MERGED_FILE_DIR = "tmp/assets/";
 	const CSS_IMPORT_DIRECTIVE = "<link rel='stylesheet' type='text/css' href='%s' /> \n";
 	const JS_IMPORT_DIRECTIVE = "<script type='text/javascript' src='%s'> </script> \n";
+	const GET_CSS_MODULE_ACTION = "index.php?module=CoreHome&action=getCss";
+	const GET_JS_MODULE_ACTION = "index.php?module=CoreHome&action=getJs";
 	const MINIFIED_JS_RATIO = 100;
 	
 	/**
@@ -54,13 +58,13 @@ class Piwik_AssetManager
 	 */
 	public static function getCssAssets()
 	{
-		if ( self::getDisableMergedAssets() ) 
+		if ( self::getDisableMergedAssets() )
 		{
 			// Individual includes mode
-			self::removeMergedAsset("css");
+			self::removeMergedAsset(self::MERGED_CSS_FILE);
 			return self::getIndividualCssIncludes();
 		} 
-		return self::getMergedCssInclude();			
+		return sprintf ( self::CSS_IMPORT_DIRECTIVE, self::GET_CSS_MODULE_ACTION );
 	}
 	
 	/**
@@ -73,35 +77,15 @@ class Piwik_AssetManager
 		if ( self::getDisableMergedAssets() ) 
 		{
 			// Individual includes mode
-			self::removeMergedAsset("js");
+			self::removeMergedAsset(self::MERGED_JS_FILE);
 			return self::getIndividualJsIncludes();
 		} 
-		return self::getMergedJsInclude();
-	}
-	
-	/**
-	 * Returns the merged CSS file inclusion directive(s) using the getAsset.php file.
-	 *
-	 * @return string
-	 */
-	private static function getMergedCssInclude()   
-	{
-		// Check existing merged asset
-		$mergedCssFileHash = self::getMergedAssetHash("css");	
-		
-		// Generate asset when none exists
-		if ( !$mergedCssFileHash )
-		{
-			$mergedCssFileHash = self::generateMergedCssFile();
-		}
-
-		return sprintf ( self::CSS_IMPORT_DIRECTIVE, self::MERGED_FILE_DIR . $mergedCssFileHash . ".css" );
+		return sprintf ( self::JS_IMPORT_DIRECTIVE, self::GET_JS_MODULE_ACTION );
 	}
 
 	/**
 	 * Generate the merged css file.
 	 *
-	 * @return string Hashcode of the merged file.
 	 * @throws Exception if a file can not be opened in write mode
 	 */
 	private static function generateMergedCssFile()
@@ -126,15 +110,12 @@ class Piwik_AssetManager
 
 		$mergedContent = cssmin::minify($mergedContent);
 		
-		// Compute HASH
-		$hashcode = md5($mergedContent);
-		
 		// Remove the previous file
-		self::removeMergedAsset("css");
+		self::removeMergedAsset(self::MERGED_CSS_FILE);
 		
 		// Tries to open the new file
-		$newFilePath = self::getLocationFromHash($hashcode, "css");
-		$newFile = fopen($newFilePath, "w");	
+		$newFilePath = self::getAbsoluteMergedFileLocation(self::MERGED_CSS_FILE);
+		$newFile = fopen($newFilePath, "w");
 
 		if (!$newFile) {
 			throw new Exception ("The file : " . $newFile . " can not be opened in write mode.");
@@ -144,8 +125,6 @@ class Piwik_AssetManager
 		fwrite($newFile, $mergedContent);
 		fclose($newFile);
 		@chmod($newFilePath, 0755);
-
-		return $hashcode;
 	}
 	
 	/**
@@ -213,30 +192,10 @@ class Piwik_AssetManager
 			throw new Exception("The css asset with 'href' = " . $cssFile . " is not readable");
 		}
 	}
-	
-	/**
-	 * Returns the merged JS file inclusion directive(s) using the getAsset.php file.
-	 *
-	 * @return string
-	 */
-	private static function getMergedJsInclude()   
-	{	
-		// Check existing merged asset
-		$mergedJsFileHash = self::getMergedAssetHash("js");
-		
-		// Generate asset when none exists
-		if ( !$mergedJsFileHash )
-		{
-			$mergedJsFileHash = self::generateMergedJsFile();
-		}
-		
-		return sprintf ( self::JS_IMPORT_DIRECTIVE, self::MERGED_FILE_DIR . $mergedJsFileHash . ".js" ); 
-	}
 
 	/**
 	 * Generate the merged js file.
 	 *
-	 * @return string Hashcode of the merged file.
 	 * @throws Exception if a file can not be opened in write mode
 	 */
 	private static function generateMergedJsFile()
@@ -260,15 +219,12 @@ class Piwik_AssetManager
 			$mergedContent = $mergedContent . PHP_EOL . $content;
 		}
 		
-		// Compute HASH
-		$hashcode = md5($mergedContent);
-		
 		// Remove the previous file
-		self::removeMergedAsset("js");
+		self::removeMergedAsset(self::MERGED_JS_FILE);
 		
 		// Tries to open the new file
-		$newFilePath = self::getLocationFromHash($hashcode, "js");
-		$newFile = fopen($newFilePath, "w");	
+		$newFilePath = self::getAbsoluteMergedFileLocation(self::MERGED_JS_FILE);
+		$newFile = fopen($newFilePath, "w");
 
 		if (!$newFile) {
 			throw new Exception ("The file : " . $newFile . " can not be opened in write mode.");
@@ -278,8 +234,6 @@ class Piwik_AssetManager
 		fwrite($newFile, $mergedContent);
 		fclose($newFile);
 		@chmod($newFilePath, 0755);
-	
-		return $hashcode;
 	}
 	
 	/**
@@ -309,7 +263,7 @@ class Piwik_AssetManager
 		$jsFiles = array();
 		Piwik_PostEvent(self::JS_IMPORT_EVENT, $jsFiles);
 		$jsFiles = self::sortJsFiles($jsFiles);
-		return $jsFiles; 		
+		return $jsFiles;
 	}
 	
 	/**
@@ -358,85 +312,89 @@ class Piwik_AssetManager
 	}
 
 	/**
-	 * Gets the hashcode of the merged file according to its type
+	 * Returns the css merged file absolute location.
+	 * If there is none, the generation process will be triggered.
 	 *
-	 * @param string $type js|css
-	 * @return string The hashcode of the merged file, false if not present.
-	 * @throws Exception if there is more than one file of the same type.
+	 * @return string The absolute location of the css merged file
 	 */
-	private static function getMergedAssetHash ($type)
-	{	
-		$mergedFileDirectory = self::getMergedFileDirectory();
+	public static function getMergedCssFileLocation()
+	{
+		$isGenerated = self::isGenerated(self::MERGED_CSS_FILE);
 		
-		$matchingFiles = _glob( $mergedFileDirectory . "*." . $type );
-		
-		if($matchingFiles == false)
+		if ( !$isGenerated )
 		{
-			return false;
+			self::generateMergedCssFile();
 		}
-		switch ( count($matchingFiles) )
-		{
-			case 0:				
-				return false;
-				
-			case 1:
-				$mergedFile = $matchingFiles[0];
-				$hashcode = basename($mergedFile, ".".$type);
-				
-				if ( empty($hashcode) ) {
-					throw new Exception("The merged asset : " . $mergedFile . " couldn't be parsed for getting the hashcode.");
-				}
-				return $hashcode;
-			default:
-				throw new Exception("There are more than 1 merged file of the same type in the merged file directory. 
-				This should not happen. Please delete all files in piwik/tmp/assets/ and refresh the page.");
-		}		
+		
+		return self::getAbsoluteMergedFileLocation(self::MERGED_CSS_FILE);
 	}
 	
 	/**
-	 * Check if the merged file directory exists and is writable.
+	 * Returns the js merged file absolute location.
+	 * If there is none, the generation process will be triggered.
 	 *
-	 * @return string The directory location
-	 * @throws Exception if directory is not writable.
+	 * @return string The absolute location of the js merged file
 	 */
-	private static function getMergedFileDirectory ()
+	public static function getMergedJsFileLocation()
 	{
- 		$mergedFileDirectory = self::getAbsoluteLocation(self::MERGED_FILE_DIR);
-			
-		if (!is_dir($mergedFileDirectory))
+		$isGenerated = self::isGenerated(self::MERGED_JS_FILE);
+		
+		if ( !$isGenerated )
 		{
-			Piwik_Common::mkdir($mergedFileDirectory, 0755, false);
-			@chmod($mergedFileDirectory, 0755);
+			self::generateMergedJsFile();
 		}
 		
-		if (!is_writable($mergedFileDirectory))
-		{
-			throw new Exception("Directory " . $mergedFileDirectory . " has to be writable.");
-		}
-
-		return $mergedFileDirectory;
+		return self::getAbsoluteMergedFileLocation(self::MERGED_JS_FILE);
+	}	
+	
+	/**
+	 * Check if the provided merged file is generated
+	 *
+	 * @param string $filename filename of the merged asset
+	 * @return boolean true is file exists and is readable, false otherwise
+	 */	
+	private function isGenerated($filename)
+	{
+		return is_readable (self::getAbsoluteMergedFileLocation($filename));
 	}
 
 	/**
-	 * Remove the previous merged file if it exists
+	 * Removes the previous merged file if it exists.
+	 * Also tries to remove compressed version of the merged file.
 	 *
-	 * @param string $type js|css
+	 * @param string $filename filename of the merged asset
+	 * @see Piwik::serveStaticFile()
 	 * @throws Exception if the file couldn't be deleted
 	 */	
-	private static function removeMergedAsset($type)
+	private static function removeMergedAsset($filename)
 	{
-		$mergedAssetHash = self::getMergedAssetHash($type);
+		$isGenerated = self::isGenerated($filename);
 		
-		if ( $mergedAssetHash != false )
+		if ( $isGenerated )
 		{
-			$previousFileLocation = self::getMergedFileDirectory() . $mergedAssetHash . "." . $type;
-			
-			if ( !unlink ( $previousFileLocation ) ) {
-				throw Exception ("Unable to delete merged file : " . $previousFileLocation . ". Please delete the file and refresh");
+			if ( !unlink ( self::getAbsoluteMergedFileLocation($filename) ) )
+			{
+				throw Exception ("Unable to delete merged file : " . $filename . ". Please delete the file and refresh");
 			}
+			
+			// Tries to remove compressed version of the merged file.
+			// See Piwik::serveStaticFile() for more info on static file compression
+			$compressedFileLocation = Piwik::COMPRESSED_FILE_LOCATION . $filename;
+			
+			@unlink ( $compressedFileLocation . ".deflate");
+			@unlink ( $compressedFileLocation . ".gz");
 		}
 	}
-
+	
+	/**
+	 * Remove previous merged assets
+	 */
+	public static function removeMergedAssets()
+	{
+		self::removeMergedAsset(self::MERGED_CSS_FILE);
+		self::removeMergedAsset(self::MERGED_JS_FILE);
+	}
+	
 	/**
 	 * Check if asset is readable
 	 *
@@ -449,6 +407,40 @@ class Piwik_AssetManager
 	}
 
 	/**
+	 * Check if the merged file directory exists and is writable.
+	 *
+	 * @return string The directory location
+	 * @throws Exception if directory is not writable.
+	 */
+	private static function getMergedFileDirectory ()
+	{
+ 		$mergedFileDirectory = self::getAbsoluteLocation(self::MERGED_FILE_DIR);
+
+		if (!is_dir($mergedFileDirectory))
+		{
+			Piwik_Common::mkdir($mergedFileDirectory, 0755, false);
+			@chmod($mergedFileDirectory, 0755);
+		}
+
+		if (!is_writable($mergedFileDirectory))
+		{
+			throw new Exception("Directory " . $mergedFileDirectory . " has to be writable.");
+		}
+
+		return $mergedFileDirectory;
+	}
+
+	/**
+	 * Builds the absolute location of the requested merged file
+	 *
+	 * @return absolute location of the merged file
+	 */
+	private static function getAbsoluteMergedFileLocation( $mergedFile )
+	{
+		return self::getMergedFileDirectory() . $mergedFile;
+	}
+
+	/**
 	 * Returns the full path of an asset file
 	 *
 	 * @param string $relativePath Relative path to file
@@ -458,27 +450,6 @@ class Piwik_AssetManager
 	{
 		// served by web server directly, so must be a public path
 		return PIWIK_DOCUMENT_ROOT . "/" . $relativePath;
-	}	
-	
-	/**
-	 * Returns the full path of the merged file based on its hash.
-	 *
-	 * @param string $hash Computed hash
-	 * @param string $type js|css
-	 * @return string
-	 */
-	private static function getLocationFromHash ( $hash, $type )
-	{
-		return self::getMergedFileDirectory() . $hash . "." . $type; 
-	}
-	
-	/**
-	 * Remove previous merged assets
-	 */
-	public static function removeMergedAssets()
-	{
-		self::removeMergedAsset("css");
-		self::removeMergedAsset("js");
 	}
 	
 	/**
