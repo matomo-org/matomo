@@ -80,6 +80,12 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link:  http://github.com/lojjic/PIE
 	License:  Dual-licensed: Apache v2 or GPL v2
 
+	Name:  gnuwin32 - file package
+	Link:  http://gnuwin32.sourceforge.net/packages/file.htm
+	License:  BSD
+	Notes:
+	- Only the magic mime database file is provided
+
 	Name:  jQuery
 	Link:  http://jquery.com/
 	License:  Dual-licensed: MIT or GPL

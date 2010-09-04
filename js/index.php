@@ -12,80 +12,17 @@ if(!empty($_SERVER['QUERY_STRING'])) {
 	exit;
 }
 
-$file = '../piwik.js';
+/**
+ * @see core/Piwik.php
+ */
 
-if (file_exists($file) && function_exists('readfile')) {
-	// conditional GET
-	$modifiedSince = '';
-	if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
-		$modifiedSince = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
-	}
-	$lastModified = gmdate('D, d M Y H:i:s', filemtime($file)) . ' GMT';
+define('PIWIK_INCLUDE_PATH', '..');
+define('PIWIK_DOCUMENT_ROOT', '..');
 
-	// optional compression
-	$compressed = false;
-	$encoding = '';
-	if (isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {
-		$acceptEncoding = $_SERVER['HTTP_ACCEPT_ENCODING'];
-		if (extension_loaded('zlib') && function_exists('file_get_contents') && function_exists('file_put_contents')) {
-			if (preg_match('/(?:^|, ?)(deflate)(?:,|$)/', $acceptEncoding, $matches)) {
-				$encoding = 'deflate';
-				$filegz = '../tmp/piwik.js.deflate';
-			} else if (preg_match('/(?:^|, ?)((x-)?gzip)(?:,|$)/', $acceptEncoding, $matches)) {
-				$encoding = $matches[1];
-				$filegz = '../tmp/piwik.js.gz';
-			}
+require_once PIWIK_INCLUDE_PATH . '/core/Piwik.php';
 
-			if (!empty($encoding)) {
-				// compress-on-demand and use cache
-				if(!file_exists($filegz) || (filemtime($file) > filemtime($filegz))) {
-					$data = file_get_contents($file);
+$file = 'piwik.js';
 
-					if ($encoding == 'deflate') {
-						$data = gzcompress($data, 9);
-					} else if ($encoding == 'gzip' || $encoding == 'x-gzip') {
-						$data = gzencode($data, 9);
-					}
+Piwik::serveStaticFile($file, "application/javascript; charset=UTF-8");
 
-					file_put_contents($filegz, $data);
-					$file = $filegz;
-				}
-
-				$compressed = true;
-				$file = $filegz;
-			}
-		} else {
-			// manually compressed
-			$filegz = '../tmp/piwik.js.gz';
-			if (preg_match('/(?:^|, ?)((x-)?gzip)(?:,|$)/', $acceptEncoding, $matches) && file_exists($filegz) && (filemtime($file) < filemtime($filegz))) {
-				$encoding = $matches[1];
-				$compressed = true;
-				$file = $filegz;
-			}
-		}
-	}
-
-	// strip any trailing data appended to header
-	if (false !== ($semicolon = strpos($modifiedSince, ';'))) {
-		$modifiedSince = substr($modifiedSince, 0, $semicolon);
-	}
-
-	if ($modifiedSince == $lastModified) {
-		header('HTTP/1.1 304 Not Modified');
-	} else {
-		header('Last-Modified: ' . $lastModified);
-		header('Content-Length: ' . filesize($file));
-		header('Content-Type: application/javascript; charset=UTF-8');
-
-		if ($compressed) {
-			header('Content-Encoding: ' . $encoding);
-		}
-
-		if (!readfile($file)) {
-			header ('HTTP/1.0 505 Internal server error');
-		}
-	}
-} else {
-	header ('HTTP/1.0 404 Not Found');
-}
 exit;

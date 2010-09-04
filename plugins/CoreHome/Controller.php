@@ -87,6 +87,30 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 	{
 		$this->setDateTodayIfWebsiteCreatedToday();
 		$view = $this->getDefaultIndexView();
-		echo $view->render();		
+		echo $view->render();
+	}
+	
+	/*
+	 * This method is called when the asset manager is configured in merged mode.
+	 * It returns the content of the css merged file.
+	 * 
+	 * @see core/AssetManager.php
+	 */
+	public function getCss ()
+	{
+		$cssMergedFile = Piwik_AssetManager::getMergedCssFileLocation();
+		Piwik::serveStaticFile($cssMergedFile, "text/css");
+	}
+	
+	/*
+	 * This method is called when the asset manager is configured in merged mode.
+	 * It returns the content of the js merged file.
+	 * 
+	 * @see core/AssetManager.php
+	 */
+	public function getJs ()
+	{
+		$jsMergedFile = Piwik_AssetManager::getMergedJsFileLocation();
+		Piwik::serveStaticFile($jsMergedFile, "application/javascript; charset=UTF-8");
 	}
 }
