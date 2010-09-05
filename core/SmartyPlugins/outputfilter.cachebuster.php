@@ -25,7 +25,7 @@
  *           <code>$smarty->load_filter('output','cachebuster');</code>
  *           from application.
  * @author   Anthon Pang <apang at softwaredevelopment dot ca>
- * @version  1.0
+ * @version  1.1
  * @param string
  * @param Smarty
  */
@@ -38,12 +38,14 @@ function smarty_outputfilter_cachebuster($source, &$smarty)
 		'~<script type=[\'"]text/javascript[\'"] src=[\'"]([^\'"]+)[\'"]>~',
 		'~<script src=[\'"]([^\'"]+)[\'"] type=[\'"]text/javascript[\'"]>~',
 		'~<link rel=[\'"]stylesheet[\'"] type=[\'"]text/css[\'"] href=[\'"]([^\'"]+)[\'"] ?/?>~',
+		'~(src|href)=\"index.php\?module=([A-Za-z0-9_]+)&action=([A-Za-z0-9_]+)\?piwik=~',
 	);
 
 	$replace = array(
 		'<script type="text/javascript" src="$1?'. $tag .'">',
 		'<script type="text/javascript" src="$1?'. $tag .'">',
 		'<link rel="stylesheet" type="text/css" href="$1?'. $tag .'" />',
+		'$1="index.php?module=$2&action=$3&piwik=',
 	);
 
 	return preg_replace($pattern, $replace, $source);
