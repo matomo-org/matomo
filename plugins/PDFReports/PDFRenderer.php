@@ -86,10 +86,6 @@ class Piwik_PDFReports_PDFRenderer extends TCPDF
 
 	/**
 	 * Generate a header of page.
-	 *
-	 * @param string $title Title of report
-	 * @param string $description Description of Report
-	 * @param int $columnCount number of columns
 	 */
 	private function paintReportHeader()
 	{
