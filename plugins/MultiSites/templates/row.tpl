@@ -19,8 +19,10 @@
     <div class="actions"style="display:none">%actionsSummary%</div>
     <div class="unique" >%uniqueSummary%</div>
 </td>
+{if $show_sparklines}
 <td style="width:180px">
     <div id="sparkline_%idsite%" style="width: 100px; margin: auto">
 	%sparkline%
     </div>
 </td>
+{/if}

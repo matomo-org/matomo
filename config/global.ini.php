@@ -70,6 +70,9 @@ autocomplete_min_sites = 5
 ; maximum number of websites showed in search results in autocompleter
 site_selector_max_sites = 10
 
+; if set to 1, shows sparklines (evolution graph) in multisites reports
+show_multisites_sparklines = 1
+
 ; this action name is used when the URL ends with a slash / 
 ; it is useful to have an actual string to write in the UI
 action_default_name = index

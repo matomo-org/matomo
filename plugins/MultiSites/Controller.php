@@ -109,7 +109,8 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		}
 		$this->setGeneralVariablesView($view);
 		$this->setMinMaxDateAcrossWebsites($mySites, $view);
-		
+		$view->show_sparklines = Zend_Registry::get('config')->General->show_multisites_sparklines;
+
 		echo $view->render();
 	}
 
