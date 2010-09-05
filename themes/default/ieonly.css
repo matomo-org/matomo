@@ -15,13 +15,13 @@ ol#menuList li, ul#widgetList li .button,
 #tablist li a,
 .ui-corner-all
 {
-	behavior: url("./libs/CSS3PIE/PIE.php");
+	behavior: url("/index.php?module=CoreHome&action=getPieHtc");
 }
 
 .widget, 
 .widgetTop {
 	position: relative;
-	behavior: url("./libs/CSS3PIE/PIE.php");
+	behavior: url("/index.php?module=CoreHome&action=getPieHtc");
 }
 .ui-widget-content {
 	z-index: 1003!important;
