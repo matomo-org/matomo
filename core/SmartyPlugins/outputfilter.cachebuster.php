@@ -31,12 +31,13 @@
  */
 function smarty_outputfilter_cachebuster($source, &$smarty)
 {
-	$tag = $smarty->get_template_vars('tag');
+	$version = $smarty->get_template_vars('piwik_version');
+	$tag = 'piwik=' . $version;
 
 	$pattern = array(
-		'~<script type="text/javascript" src="([^"]+)">~',
-		'~<script src="([^"]+)" type="text/javascript">~',
-		'~<link rel="stylesheet" type="text/css" href="([^"]+)" ?/?>~',
+		'~<script type=[\'"]text/javascript[\'"] src=[\'"]([^\'"]+)[\'"]>~',
+		'~<script src=[\'"]([^\'"]+)[\'"] type=[\'"]text/javascript[\'"]>~',
+		'~<link rel=[\'"]stylesheet[\'"] type=[\'"]text/css[\'"] href=[\'"]([^\'"]+)[\'"] ?/?>~',
 	);
 
 	$replace = array(

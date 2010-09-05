@@ -85,7 +85,6 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 		
 		$view->metrics = $metrics;
 		$view->defaultMetric = 'nb_visits';
-		$view->version = Piwik_Version::VERSION;
 		echo $view->render();
 	}
 	

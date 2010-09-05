@@ -69,16 +69,23 @@ class Piwik_View implements Piwik_iView
 		}
 		$this->smarty->error_reporting = $error_reporting;
 
-		$this->smarty->assign('tag', 'piwik=' . Piwik_Version::VERSION);
 		if($filter)
 		{
 			$this->smarty->load_filter('output', 'cachebuster');
-			$this->smarty->load_filter('output', 'ajaxcdn');
+
+			$use_ajax_cdn = Zend_Registry::get('config')->General->use_ajax_cdn;
+			if($use_ajax_cdn)
+			{
+				$this->smarty->load_filter('output', 'ajaxcdn');
+			}
+
 			$this->smarty->load_filter('output', 'trimwhitespace');
 		}
 
 		// global value accessible to all templates: the piwik base URL for the current request
 		$this->piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
+
+		$this->piwik_version = Piwik_Version::VERSION;
 	}
 	
 	/**
@@ -123,7 +130,6 @@ class Piwik_View implements Piwik_iView
 			$this->token_auth = Piwik::getCurrentUserTokenAuth();
 			$this->userHasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
 			$this->userIsSuperUser = Piwik::isUserIsSuperUser();
-			$this->piwik_version = Piwik_Version::VERSION;
 			$this->latest_version_available = Piwik_UpdateCheck::isNewestVersionAvailable();
 			if(Zend_Registry::get('config')->General->autocomplete_min_sites <= count($sites))
 			{

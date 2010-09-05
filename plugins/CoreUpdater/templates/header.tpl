@@ -7,7 +7,7 @@
 	<link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico" />
 
 	<link rel="stylesheet" type="text/css" href="themes/default/simple_structure.css" />
-	<link rel="stylesheet" type="text/css" href="libs/jquery/themes/base/jquery-ui.css" class="ui-theme" />
+	<link rel="stylesheet" type="text/css" href="libs/jquery/themes/base/jquery-ui.css" />
 	<link rel="stylesheet" type="text/css" href="themes/default/styles.css" />
 {literal}
 <style>
