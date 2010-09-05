@@ -124,7 +124,7 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 	private function setMinMaxDateAcrossWebsites($mySites, $view)
 	{
 		$minDate = null;
-		$maxDate = Piwik_Date::now();
+		$maxDate = Piwik_Date::now()->subDay(1);
 		foreach($mySites as &$site)
 		{
 			// look for 'now' in the website's timezone
