@@ -28,18 +28,12 @@
  */
 function smarty_outputfilter_ajaxcdn($source, &$smarty)
 {
-	$use_ajax_cdn = Zend_Registry::get('config')->General->use_ajax_cdn;
-	if(!$use_ajax_cdn)
-	{
-		return $source;
-	}
-
 	$jquery_version = Zend_Registry::get('config')->General->jquery_version;
 	$jqueryui_version = Zend_Registry::get('config')->General->jqueryui_version;
 	$swfobject_version = Zend_Registry::get('config')->General->swfobject_version;
 
 	$pattern = array(
-		'~<link rel="stylesheet" type="text/css" href="libs/jquery/themes/([^"]*)" class="ui-theme" />~',
+		'~<link rel="stylesheet" type="text/css" href="libs/jquery/themes/([^"]*)" />~',
 		'~<script type="text/javascript" src="libs/jquery/jquery\.js([^"]*)">~',
 		'~<script type="text/javascript" src="libs/jquery/jquery-ui\.js([^"]*)">~',
 		'~<script type="text/javascript" src="libs/jquery/jquery-ui-18n\.js([^"]*)">~',
@@ -47,7 +41,7 @@ function smarty_outputfilter_ajaxcdn($source, &$smarty)
 	);
 
 	$replace = array(
-		'<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryui_version.'/themes/\\1" class="ui-theme" />',
+		'<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryui_version.'/themes/\\1" />',
 		'<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/'.$jquery_version.'/jquery.min.js">',
 		'<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryui_version.'/jquery-ui.min.js">',
 		'<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryui_version.'/i18n/jquery-ui-18n.min.js">',

@@ -7,15 +7,19 @@
  * @version $Id$
  */
 
+/**
+ * Tracker proxy
+ */
 if(!empty($_SERVER['QUERY_STRING'])) {
 	include '../piwik.php';
 	exit;
 }
 
 /**
+ * piwik.js proxy
+ *
  * @see core/Piwik.php
  */
-
 define('PIWIK_INCLUDE_PATH', '..');
 define('PIWIK_DOCUMENT_ROOT', '..');
 
