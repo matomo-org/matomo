@@ -53,7 +53,7 @@
 			<span>{'General_ColumnNbUniqVisitors'|translate}</span>
 			<span class="arrow"></span>
 		</th>
-		<th id="evolution" style=" width:350px" colspan="2">
+		<th id="evolution" style=" width:350px" colspan="{if $show_sparklines}2{else}1{/if}">
 		<span class="arrow "></span>
 			<span class="evolution" style="cursor:pointer;" onClick="params = setOrderBy(this,allSites, params, $('#evolution_selector').val() + 'Summary');"> {'MultiSites_Evolution'|translate}</span>
 			<select class="selector" id="evolution_selector" onchange="params['evolutionBy'] = $('#evolution_selector').val(); switchEvolution(params);">
