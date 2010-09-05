@@ -19,9 +19,9 @@
 //begin piwik
 			click = function(){
 				var $$ = $(this);
-				if($$.find('ul li').size() == 0) {
+				if($$.find('ul li').length == 0) {
 					sf.currentActiveMenu = $$.parents('li');
-					if(sf.currentActiveMenu.size() == 0) {
+					if(sf.currentActiveMenu.length == 0) {
 						sf.currentActiveMenu = $$;
 					}
 				} else {
@@ -125,18 +125,19 @@
 			var o = sf.op,
 				not = (o.retainPath===true) ? o.$path : '';
 			o.retainPath = false;
-			var $ul = $(['li.',o.hoverClass].join(''),this).add(this).not(not)	// piwik
-					.find('>ul').hide().css('visibility','hidden');
-			o.onHide.call($ul);
+			var $ul = $(['li.',o.hoverClass].join(''),this).add(this).not(not).find('>ul');
+			if($ul.length){
+				$ul.hide().css('visibility','hidden');
+				o.onHide.call($ul);
+			}
 			return this;
 		},
 		showSuperfishUl : function(){
 			var o = sf.op,
 			sh = sf.c.shadowClass+'-off',
-			$ul = this.addClass(o.hoverClass);
-			if($ul){
-				$ul = $ul.find('>ul:hidden');
-				if($ul) $ul.css('visibility','visible');
+			$ul = this.addClass(o.hoverClass).find('>ul:hidden');
+			if($ul.length){
+				$ul.css('visibility','visible');
 			}
 			
 			sf.IE7fix.call($ul);
