@@ -13,7 +13,12 @@ $('.but').bind('click', function(e)
 	return false;
 });
 $(function() {
-	$("#websiteSearch").click(function(e)
+	if($('#websiteSearch').length == 0)
+	{
+		return;
+	}
+
+	$('#websiteSearch').click(function(e)
 	{
 		$(this).val('');
 	});
@@ -24,7 +29,7 @@ $(function() {
 			reset();
 		}
 	});
-	$("#websiteSearch").autocomplete({
+	$('#websiteSearch').autocomplete({
 		minLength: 1,
 		source: '?module=SitesManager&action=getSitesForAutocompleter',
 		select: function(event, ui) {
@@ -86,6 +91,4 @@ $(function() {
 	{
 		reset();
 	});
-
 });
-		
