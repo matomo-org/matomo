@@ -353,7 +353,7 @@ class Piwik_AssetManager
 	 * @param string $filename filename of the merged asset
 	 * @return boolean true is file exists and is readable, false otherwise
 	 */	
-	private function isGenerated($filename)
+	private static function isGenerated($filename)
 	{
 		return is_readable (self::getAbsoluteMergedFileLocation($filename));
 	}
