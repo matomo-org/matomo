@@ -72,10 +72,9 @@
 	$(".userCountryMapFooterIcons a.tableIcon[var=export_png]").click(function() {
 		$("#UserCountryMap")[0].exportPNG();
 	});
-/*	
+
 	$(window).resize(function() {
 		$("#UserCountryMap")[0].height = Math.round($('#UserCountryMap').width() *.55);
 	});
-*/
 {/literal}
 </script>
