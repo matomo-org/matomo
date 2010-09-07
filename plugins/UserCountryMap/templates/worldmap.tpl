@@ -75,7 +75,7 @@
 
 	$(window).resize(function() {
 		if($('#UserCountryMap').length) {
-			$("#UserCountryMap")[0].height = Math.round($('#UserCountryMap').width() *.55);
+			$("#UserCountryMap").height( Math.round($('#UserCountryMap').width() *.55) );
 		}
 	});
 {/literal}
