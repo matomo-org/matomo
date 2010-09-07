@@ -1,8 +1,15 @@
+<div id="UserCountryMap_content" style="position:relative; overflow:hidden;">
+	<div id="UserCountryMap_map">{'General_RequiresFlash'|translate}</div>
+	<div style="height:3px"></div>
+	<select id="userCountryMapSelectMetrics" style="position:absolute; left: 5px; bottom: 0px;">
+		{foreach from=$metrics item=metric}
+			<option value="{$metric[0]}" {if $metric[0] == $defaultMetric}selected="selected"{/if}>{$metric[1]}</option>
+		{/foreach}
+	</select>
+</div>
+
 <script type="text/javascript">
-
 {literal}
-
-$(document).ready(function() {
 	var fv = {};
 	
 	var params = {
@@ -65,22 +72,10 @@ $(document).ready(function() {
 	$(".userCountryMapFooterIcons a.tableIcon[var=export_png]").click(function() {
 		$("#UserCountryMap")[0].exportPNG();
 	});
-	
+/*	
 	$(window).resize(function() {
 		$("#UserCountryMap")[0].height = Math.round($('#UserCountryMap').width() *.55);
 	});
-	
-});
-
+*/
 {/literal}
-
 </script>
-<div id="UserCountryMap_content" style="position:relative; overflow:hidden;">
-	<div id="UserCountryMap_map">{'General_RequiresFlash'|translate}</div>
-	<div style="height:3px"></div>
-	<select id="userCountryMapSelectMetrics" style="position:absolute; left: 5px; bottom: 0px;">
-		{foreach from=$metrics item=metric}
-			<option value="{$metric[0]}" {if $metric[0] == $defaultMetric}selected="selected"{/if}>{$metric[1]}</option>
-		{/foreach}
-	</select>
-</div>
