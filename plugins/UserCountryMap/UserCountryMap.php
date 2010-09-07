@@ -39,6 +39,8 @@ class Piwik_UserCountryMap extends Piwik_Plugin
  */
 class Piwik_UserCountryMap_Controller extends Piwik_Controller
 {
+	const TRANSPARENT_PNG_PIXEL = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==';
+
 	function worldMap()
 	{
 		$view = Piwik_View::factory('worldmap');
@@ -96,8 +98,10 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 	 */
 	function exportImage()
 	{
+		Piwik::checkUserHasSomeViewAccess();
+
 		$view = Piwik_View::factory('exportImage');
-		$view->imageData = 'data:image/png;base64,'.$_POST['imageData'];		
+		$view->imageData = 'data:image/png;base64,'. Piwik_Common::getRequestVar('imageData', self::TRANSPARENT_PNG_PIXEL, 'string', $_POST);
 		echo $view->render();
 	}
 	
@@ -107,8 +111,10 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 	 */
 	function outputImage()
 	{
+		Piwik::checkUserHasSomeViewAccess();
+
 		header('Content-Type: image/png');
-		echo base64_decode($_POST['imagedata']);
+		echo base64_decode(Piwik_Common::getRequestVar('imageData', self::TRANSPARENT_PNG_PIXEL, 'string', $_POST));
 		exit;
 	}
 	
