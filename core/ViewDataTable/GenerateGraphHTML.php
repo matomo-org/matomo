@@ -159,7 +159,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 			'height'               => $this->height,
 			'ofcLibraryPath'       => 'libs/open-flash-chart/',
 			'swfLibraryPath'       => 'libs/swfobject/',
-			'requiredFlashVersion' => '9.0.0',
+			'requiredFlashVersion' => '10.0.0',
 			'isDataAvailable'      => $isDataAvailable,
 			'includeData'          => $this->includeData,
 			'data'                 => $this->chartData,
