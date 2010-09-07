@@ -114,7 +114,23 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 		Piwik::checkUserHasSomeViewAccess();
 
 		header('Content-Type: image/png');
-		echo base64_decode(Piwik_Common::getRequestVar('imageData', self::TRANSPARENT_PNG_PIXEL, 'string', $_POST));
+		$data = base64_decode(Piwik_Common::getRequestVar('imageData', self::TRANSPARENT_PNG_PIXEL, 'string', $_POST));
+
+		if(function_exists('imagecreatefromstring'))
+		{
+			// validate image data
+			$imgResource = imagecreatefromstring($data);
+			if($imgResource !== false)
+			{
+				// output image and clean-up
+				imagepng($imgResource);
+				imagedestroy($imgResource);
+			}
+		}
+		else
+		{
+			echo $data;
+		}
 		exit;
 	}
 	
