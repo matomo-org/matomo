@@ -331,16 +331,19 @@ class Piwik_Live_Visitor
 	function getGoalIcon()
 	{
 		if(isset($this->details['goal_match_attribute'])){
-			$goalicon = "";
+			$goalicon = '';
 			switch ($this->details['goal_match_attribute']) {
-				case "url":
-					$goalicon = "themes/default/images/goal.png";
+				case 'url':
+					$goalicon = 'themes/default/images/goal.png';
 					break;
 				case "file":
-					$goalicon = "plugins/Live/templates/images/download.png";
+					$goalicon = 'plugins/Live/templates/images/download.png';
 					break;
-				case "external_website":
-					$goalicon = "plugins/Live/templates/images/outboundlink.png";
+				case 'external_website':
+					$goalicon = 'plugins/Live/templates/images/outboundlink.png';
+					break;
+				case 'manually':
+					$goalicon = 'plugins/Live/templates/images/thumbsup.png';
 					break;
 			}
 			return $goalicon;
