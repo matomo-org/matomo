@@ -16,7 +16,7 @@
 }
 
 #visitsLive .country {
-        background:#FFFFFF url(plugins/CoreHome/templates/images/bullet1.gif) no-repeat scroll 0 0;
+        background:#FFFFFF url(../../../plugins/CoreHome/templates/images/bullet1.gif) no-repeat scroll 0 0;
 }
 
 #visitsLive .referer {
