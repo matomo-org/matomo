@@ -91,7 +91,15 @@ class Piwik_AssetManager
 	private static function generateMergedCssFile()
 	{
 		$mergedContent = "";
-		
+
+		// absolute path to doc root
+		$rootDirectory = realpath(PIWIK_DOCUMENT_ROOT);
+		if($rootDirectory != '/' && substr($rootDirectory, -1) != '/')
+		{
+			$rootDirectory .= '/';
+		}
+		$rootDirectoryLen = strlen($rootDirectory);
+
 		// Loop through each css file
 		$files = self::getCssFiles();
 		foreach ($files as $file) {
@@ -102,9 +110,16 @@ class Piwik_AssetManager
 			$content = file_get_contents ($fileLocation);
 			
 			// Rewrite css url directives
-			$baseDirectory = dirname($file) . "/";
-			$content = preg_replace ("/(url\(['\"]?)([^'\")]*)/", "$1" . $baseDirectory . "$2", $content);
-			
+			// - assumes these are all relative paths
+			$baseDirectory = dirname($file);
+			$content = preg_replace_callback(
+				"/(url\(['\"]?)([^'\")]*)/",
+				create_function(
+					'$matches',
+					"return \$matches[1] . substr(realpath(PIWIK_DOCUMENT_ROOT . '/$baseDirectory/' . \$matches[2]), $rootDirectoryLen);"
+				),
+				$content
+			);
 			$mergedContent = $mergedContent . $content;
 		}
 
