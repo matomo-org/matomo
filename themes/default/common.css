@@ -189,7 +189,7 @@ a {
 }
 /* Orange alerts box */
 .header_alert {
-	background:#FFFDF7 url(./images/ico_alert.png) no-repeat 7px 4px;
+	background:#FFFDF7 url(images/ico_alert.png) no-repeat 7px 4px;
 	border: 1px solid #FF7F00 ;	
 	font-weight:bold;
 }
@@ -199,7 +199,7 @@ a {
 
 /* Blue info box */
 .header_info {
-	background:#FAFAFA url(./images/ico_info.png) no-repeat 7px 4px;
+	background:#FAFAFA url(images/ico_info.png) no-repeat 7px 4px;
 	border: 1px solid #CBD9EB ;	
 }
 .header_info , .header_info  a { 
@@ -236,7 +236,7 @@ a {
 	position:relative; 
 	display:inline-block; 
 	padding:6px 6px 5px 6px;
-	background:#fff url(./images/sites_selection.png) repeat-x 0 0;
+	background:#fff url(images/sites_selection.png) repeat-x 0 0;
 	border: 1px solid #d4d4d4;	
 	color:#255792;
 	border-radius:4px;
@@ -252,7 +252,7 @@ a {
 	padding:0 6px;
 	display:block; 
 	text-decoration:none; 
-	background: url(./images/sort_subtable_desc.png) no-repeat right 0;
+	background: url(images/sort_subtable_desc.png) no-repeat right 0;
 }
 
 .sites_selection .custom_select_ul_list{
@@ -300,7 +300,7 @@ a {
 	position:relative; 
 	z-index:19;
 	padding:6px 6px 5px 6px;
-	background:#fff url(./images/sites_selection.png) repeat-x 0 0;
+	background:#fff url(images/sites_selection.png) repeat-x 0 0;
 	border: 1px solid #d4d4d4;	
 	color:#255792;
 	border-radius:4px;
@@ -313,14 +313,14 @@ a {
 	padding:0 20px 0 4px;
 	display:block; 
 	text-decoration:none; 
-	background: url(./images/sort_subtable_desc.png) no-repeat right 0;
+	background: url(images/sort_subtable_desc.png) no-repeat right 0;
 }
 
 .sites_autocomplete .custom_select_collapsed{
-	background: url(./images/sort_subtable_desc.png) no-repeat right 0;
+	background: url(images/sort_subtable_desc.png) no-repeat right 0;
 }
 .sites_autocomplete .custom_select_loading{
-	background: url(./images/loading-blue.gif) no-repeat right 0;
+	background: url(images/loading-blue.gif) no-repeat right 0;
 }
 
 .sites_autocomplete .custom_select_ul_list{
@@ -593,7 +593,7 @@ input, select, textarea {
 	-moz-border-radius:4px;
 	-webkit-border-radius:4px;
 	border:1px solid #d4d4d4;
-	background:#fff url(../../themes/default/images/inp_bg.png) repeat-x 0 0;
+	background:#fff url(images/inp_bg.png) repeat-x 0 0;
 	padding:3px 10px;
 	color:#255792;
 	margin-bottom:3px;
@@ -619,7 +619,7 @@ select {
 	-moz-border-radius:4px;
 	-webkit-border-radius:4px;
 	border:0;
-	background:#847b6d url(../../themes/default/images/dashboard_h_bg_hover.png) repeat-x 0 0;
+	background:#847b6d url(images/dashboard_h_bg_hover.png) repeat-x 0 0;
 	float:right; 
 	margin:12px 0 0 0;
 	margin-bottom:10px;
@@ -704,7 +704,7 @@ table.entityTable tr td a {
 	padding:4px 0;
 }
 .entityList ul li{
-	background:#fff url(../../themes/default/images/li_dbl_gray.gif) no-repeat 6px 10px;
+	background:#fff url(images/li_dbl_gray.gif) no-repeat 6px 10px;
 	padding:0 0 0 21px;
 	line-height:22px;
 }
