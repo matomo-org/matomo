@@ -102,7 +102,7 @@ class Piwik_AssetManager
 			$content = file_get_contents ($fileLocation);
 			
 			// Rewrite css url directives
-			$baseDirectory = "../../" . dirname($file) . "/";
+			$baseDirectory = dirname($file) . "/";
 			$content = preg_replace ("/(url\(['\"]?)([^'\")]*)/", "$1" . $baseDirectory . "$2", $content);
 			
 			$mergedContent = $mergedContent . $content;
