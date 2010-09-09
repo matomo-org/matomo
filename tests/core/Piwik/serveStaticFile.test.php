@@ -40,13 +40,8 @@ define("NULL_FILE_SRV_MODE", "nullFile");
 define("GHOST_FILE_SRV_MODE", "ghostFile");
 define("TEST_FILE_SRV_MODE", "testFile");
 
-require_once PIWIK_PATH_TEST_TO_ROOT . "/core/Common.php";
-if(Piwik_Common::isPhpCliMode())
-{
-	return;
-}
-
 // Getting the file mode from the request
+require_once PIWIK_PATH_TEST_TO_ROOT . "/core/Common.php";
 $staticFileServerMode = Piwik_Common::getRequestVar(FILE_MODE_REQUEST_VAR, UNIT_TEST_MODE);
 
 /**
@@ -95,6 +90,11 @@ if ( $staticFileServerMode === STATIC_SERVER_MODE )
 
 	// Stops the execution of the whole file
 	exit;
+}
+
+if(Piwik_Common::isPhpCliMode())
+{
+	return;
 }
 
 if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
