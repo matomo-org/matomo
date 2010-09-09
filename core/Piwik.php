@@ -539,9 +539,9 @@ class Piwik
 
 		return $messages;
 	}
-	
-	/*
-	 * This method is used when a static file is served through php.
+
+	/**
+	 * Serve static files through php proxy.
 	 *
 	 * It performs the following actions:
 	 * 	- Checks the file is readable or returns "HTTP/1.0 404 Not Found"
@@ -564,45 +564,40 @@ class Piwik
 	 * 		within a /tmp/compressed-static-files directory.
 	 *
 	 * @param string $file The location of the static file to serve
-	 * @param string $contentType The content type of the static file. If not provided, the content type will estimated
-	 * 							  using the gnuwin32 magic mime database.
+	 * @param string $contentType The content type of the static file.
 	 */
-	static public function serveStaticFile($file, $contentType = null)
+	static public function serveStaticFile($file, $contentType)
 	{
-		if (empty($contentType) && function_exists('finfo_open'))
+		if (file_exists($file) && function_exists('readfile'))
 		{
-			$finfo = finfo_open(FILEINFO_MIME, PIWIK_INCLUDE_PATH . self::MAGIC_MIME_DATABASE);
-			$contentType = finfo_file($finfo, $file);
-			finfo_close($finfo);
-		}
-
-		if (file_exists($file) && function_exists('readfile')) {
-			
 			// conditional GET
 			$modifiedSince = '';
-			if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
+			if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))
+			{
 				$modifiedSince = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
 			}
 
 			// strip any trailing data appended to header
-			if (false !== ($semicolon = strpos($modifiedSince, ';'))) {
+			if (false !== ($semicolon = strpos($modifiedSince, ';')))
+			{
 				$modifiedSince = substr($modifiedSince, 0, $semicolon);
 			}
 
-			$lastModified = gmdate('D, d M Y H:i:s', filemtime($file)) . ' GMT';
+			$fileModifiedTime = @filemtime($file);
+			$lastModified = gmdate('D, d M Y H:i:s', $fileModifiedTime) . ' GMT';
 
 			// Override server cache control config
-			header('Cache-Control: public, must-revalidate');
-			header('Pragma:');
-			header('Vary: Accept-Encoding');
+			@header('Cache-Control: public, must-revalidate');
+			@header('Pragma:');
+			@header('Vary: Accept-Encoding');
 
 			// Returns 304 if not modified since
-			if ($modifiedSince == $lastModified) {
-
-				header('HTTP/1.1 304 Not Modified');
-
-			} else {
-
+			if ($modifiedSince == $lastModified)
+			{
+				@header('HTTP/1.1 304 Not Modified');
+			}
+			else
+			{
 				// optional compression
 				$compressed = false;
 				$encoding = '';
@@ -629,7 +624,7 @@ class Piwik
 						if (!empty($encoding))
 						{
 							// compress-on-demand and use cache
-							if(!file_exists($filegz) || (filemtime($file) > filemtime($filegz)))
+							if(!file_exists($filegz) || ($fileModifiedTime > @filemtime($filegz)))
 							{
 								$data = file_get_contents($file);
 
@@ -654,7 +649,7 @@ class Piwik
 					{
 						// manually compressed
 						$filegz = $compressedFileLocation .'.gz';
-						if (preg_match('/(?:^|, ?)((x-)?gzip)(?:,|$)/', $acceptEncoding, $matches) && file_exists($filegz) && (filemtime($file) < filemtime($filegz)))
+						if (preg_match('/(?:^|, ?)((x-)?gzip)(?:,|$)/', $acceptEncoding, $matches) && file_exists($filegz) && ($fileModifiedTime < @filemtime($filegz)))
 						{
 							$encoding = $matches[1];
 							$compressed = true;
@@ -663,29 +658,32 @@ class Piwik
 					}
 				}
 
-				header('Last-Modified: ' . $lastModified);
+				@header('Last-Modified: ' . $lastModified);
 
 				if (!$phpOutputCompressionEnabled)
 				{
-					header('Content-Length: ' . filesize($file));
+					@header('Content-Length: ' . filesize($file));
 				}
 
-				header('Content-Type: '.$contentType);
+				if(!empty($contentType))
+				{
+					@header('Content-Type: '.$contentType);
+				}
 
 				if ($compressed)
 				{
-					header('Content-Encoding: ' . $encoding);
+					@header('Content-Encoding: ' . $encoding);
 				}
 
 				if (!@readfile($file))
 				{
-					header ('HTTP/1.0 505 Internal server error');
+					@header ('HTTP/1.0 505 Internal server error');
 				}
 			}
-
-		} else {
-
-			header ('HTTP/1.0 404 Not Found');
+		}
+		else
+		{
+			@header ('HTTP/1.0 404 Not Found');
 		}
 	}
 
@@ -1093,7 +1091,7 @@ class Piwik
 		}
 		return $value;
 	}
-	
+
 	/**
 	 * Pretty format monetary value for a site
 	 *
@@ -1110,7 +1108,7 @@ class Piwik
 		{
 			$space = '&nbsp;';
 		}
-		
+
 		$currencyAfter = '';
 		// manually put the currency symbol after the amount for euro
 		// (maybe more currencies prefer this notation?)
@@ -1120,7 +1118,7 @@ class Piwik
 			$currencyBefore = '';
 		}
 
-		// if the input is a number (it could be a string or INPUT form), 
+		// if the input is a number (it could be a string or INPUT form),
 		// and if this number is not an int, we round to precision 2
 		if(is_numeric($value))
 		{
@@ -1172,7 +1170,7 @@ class Piwik
 	static public function getPrettyTimeFromSeconds($numberOfSeconds, $displayTimeAsSentence = true)
 	{
 		$numberOfSeconds = (int)$numberOfSeconds;
-		
+
 		// Display 01:45:17 time format
 		if($displayTimeAsSentence === false)
 		{
@@ -1219,14 +1217,14 @@ class Piwik
 
 	/**
 	 * Returns relative path to the App logo
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getLogoPath()
 	{
 		return Piwik_Common::getPathToPiwikRoot() . '/themes/default/images/logo.png';
 	}
-	
+
 	/**
 	 * Returns the Javascript code to be inserted on every page to track
 	 *
@@ -1281,7 +1279,7 @@ class Piwik
 		if(!Piwik::isUserIsSuperUser())
 		{
 			$user = Piwik_UsersManager_API::getInstance()->getUser(Piwik::getCurrentUserLogin());
-			return $user['email']; 
+			return $user['email'];
 		}
 		$superuser = Zend_Registry::get('config')->superuser;
 		return $superuser->email;
@@ -1364,7 +1362,7 @@ class Piwik
 			throw new Exception(Piwik_Translate('General_YouMustBeLoggedIn'));
 		}
 	}
-	
+
 	/**
 	 * Helper method user to set the current as Super User.
 	 * This should be used with great care as this gives the user all permissions.
@@ -1533,26 +1531,26 @@ class Piwik
 	{
 		return Piwik_Common::getRequestVar('action', '', 'string');
 	}
-	
+
 	/**
 	 * Helper method used in API function to introduce array elements in API parameters.
 	 * Array elements can be passed by comma separated values, or using the notation
-	 * array[]=value1&array[]=value2 in the URL. 
+	 * array[]=value1&array[]=value2 in the URL.
 	 * This function will handle both cases and return the array.
-	 * 
+	 *
 	 * @param $columns String or array
-	 * @return array 
+	 * @return array
 	 */
 	static public function getArrayFromApiParameter($columns)
 	{
 		return $columns === false
 				? array()
-				: (is_array($columns) 
-					? $columns 
+				: (is_array($columns)
+					? $columns
 					: explode(',', $columns)
 					);
 	}
-	
+
 	/**
 	 * Redirect to module (and action)
 	 *

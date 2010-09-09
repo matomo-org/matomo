@@ -40,8 +40,13 @@ define("NULL_FILE_SRV_MODE", "nullFile");
 define("GHOST_FILE_SRV_MODE", "ghostFile");
 define("TEST_FILE_SRV_MODE", "testFile");
 
-// Getting the file mode from the request
 require_once PIWIK_PATH_TEST_TO_ROOT . "/core/Common.php";
+if(Piwik_Common::isPhpCliMode())
+{
+	return;
+}
+
+// Getting the file mode from the request
 $staticFileServerMode = Piwik_Common::getRequestVar(FILE_MODE_REQUEST_VAR, UNIT_TEST_MODE);
 
 /**
@@ -64,6 +69,7 @@ if ( $staticFileServerMode === STATIC_SERVER_MODE )
 
 	define("PIWIK_DOCUMENT_ROOT", PIWIK_PATH_TEST_TO_ROOT);
 	define("PIWIK_INCLUDE_PATH", PIWIK_PATH_TEST_TO_ROOT);
+	define("PIWIK_USER_PATH", PIWIK_PATH_TEST_TO_ROOT);
 	require_once PIWIK_PATH_TEST_TO_ROOT . '/core/Piwik.php';
 
 	switch ($staticFileServerMode)
@@ -411,9 +417,19 @@ class Test_Piwik_serveStaticFile extends UnitTestCase
 	 */
 	private function getStaticSrvUrl()
 	{
+		$path = Piwik_Url::getCurrentScriptPath();
+		if(substr($path, -7) == '/tests/')
+		{
+			$path .= 'core/Piwik/';
+		}
+		else if(substr($path, -18) != '/tests/core/Piwik/')
+		{
+			throw new Exception('unsupported test path: ' . $path);
+		}
+
 		return
 			"http://" . getenv("SERVER_NAME") . ":" . getenv("SERVER_PORT") .
-			"/tests/core/Piwik/serveStaticFile.test.php?" . FILE_MODE_REQUEST_VAR . "=" . STATIC_SERVER_MODE .
+			$path . "serveStaticFile.test.php?" . FILE_MODE_REQUEST_VAR . "=" . STATIC_SERVER_MODE .
 			"&" . SRV_MODE_REQUEST_VAR . "=";
 	}
 
