@@ -104,7 +104,7 @@ if(function_exists('spl_autoload_register'))
 	// preserve any existing __autoload
 	if(function_exists('__autoload'))
 	{
-		spl_auto_register('__autoload');
+		spl_autoload_register('__autoload');
 	}
 }
 else
