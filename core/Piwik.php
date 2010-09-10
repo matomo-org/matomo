@@ -25,7 +25,6 @@ class Piwik
 {
 	const CLASSES_PREFIX = 'Piwik_';
 	const COMPRESSED_FILE_LOCATION = '/tmp/assets/';
-	const MAGIC_MIME_DATABASE = '/libs/gnuwin32/file/magic';
 
 	public static $idPeriods =  array(
 			'day'	=> 1,
