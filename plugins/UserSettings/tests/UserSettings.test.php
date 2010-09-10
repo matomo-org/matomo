@@ -606,7 +606,7 @@ class Test_Piwik_UserSettings extends UnitTestCase
 			false),
 		'VMS_Mosaic/3.8-1 (Motif;OpenVMS V7.3-2 DEC 3000 - M700) libwww/2.12_Mosaic' => array(
 			array('MC', 'NCSA Mosaic', 'Mosaic', '3.8', '3', '8', 'unknown'),
-			false),
+			array('VMS', 'OpenVMS', 'OpenVMS')),
 		'Mosaic from Digital/1.02_Win32' => array(
 			array('MC', 'NCSA Mosaic', 'Mosaic', '1.02', '1', '02', 'unknown'),
 			array('W95', 'Windows 95', 'Win 95')),
@@ -778,6 +778,20 @@ class Test_Piwik_UserSettings extends UnitTestCase
 		'Mozilla/4.76 [en] (PalmOS; U; WebPro/3.0; Palm-Arz1)' => array(
 			array('WP', 'WebPro', 'WebPro', '3.0', '3', '0', 'unknown'),
 			array('POS', 'Palm OS', 'Palm OS')),
+
+		// SymbianOS
+		'Nokia3650/1.0 SymbianOS/6.1 Series60/1.2 Profile/MIDP-1.0 Configuration/CLDC-1.0' => array(
+			false,
+			array('SYM', 'SymbianOS', 'SymbianOS')),
+		'Mozilla/5.0 (SymbianOS/9.4; U; Series60/5.0 Nokia5800d-1b/20.2.014; Profile/MIDP-2.1 Configuration/CLDC-1.1 ) AppleWebKit/413 (KHTML, like Gecko) Safari/413' => array(
+			array('SF', 'Safari', 'Safari', '2.0', '2', '0', 'webkit'),
+			array('SYM', 'SymbianOS', 'SymbianOS')),
+		'Opera/9.80 (S60; SymbOS; Opera Mobi/499; U; en-GB) Presto/2.4.18 Version/10.00' => array(
+			array('OP', 'Opera', 'Opera', '10.00', '10', '00', 'opera'),
+			array('SYM', 'SymbianOS', 'SymbianOS')),
+		'SonyEricssonG700/R100 Mozilla/4.0 (compatible; MSIE 6.0; Symbian OS; 958) Opera 8.65 [ru]' => array(
+			array('OP', 'Opera', 'Opera', '8.65', '8', '65', 'opera'),
+			array('SYM', 'SymbianOS', 'SymbianOS')),
 	);
 
 	public function test_getBrowser()
