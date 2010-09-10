@@ -92,11 +92,6 @@ if ( $staticFileServerMode === STATIC_SERVER_MODE )
 	exit;
 }
 
-if(Piwik_Common::isPhpCliMode())
-{
-	return;
-}
-
 if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 {
 	require_once PIWIK_PATH_TEST_TO_ROOT . "/tests/config_test.php";
@@ -428,7 +423,7 @@ class Test_Piwik_serveStaticFile extends UnitTestCase
 		}
 
 		return
-			"http://" . getenv("SERVER_NAME") . ":" . getenv("SERVER_PORT") .
+			"http://" . $_SERVER['HTTP_HOST'] .
 			$path . "serveStaticFile.test.php?" . FILE_MODE_REQUEST_VAR . "=" . STATIC_SERVER_MODE .
 			"&" . SRV_MODE_REQUEST_VAR . "=";
 	}
