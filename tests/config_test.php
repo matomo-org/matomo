@@ -1,7 +1,7 @@
 <?php
 if(!defined("PIWIK_PATH_TEST_TO_ROOT")) 
 {
-	define('PIWIK_PATH_TEST_TO_ROOT', '..');
+	define('PIWIK_PATH_TEST_TO_ROOT', realpath(dirname(__FILE__) . '/..'));
 }
 if(!defined('PIWIK_USER_PATH'))
 {

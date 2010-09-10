@@ -1,6 +1,5 @@
 <?php
 flush();
-define('PIWIK_PATH_TEST_TO_ROOT', '..');
 require_once "config_test.php";
 Piwik::createConfigObject();
 $databaseTestName = Zend_Registry::get('config')->database_tests->dbname;

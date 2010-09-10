@@ -14,7 +14,7 @@
  */
 
 if(!defined("PIWIK_PATH_TEST_TO_ROOT")) {
-	define('PIWIK_PATH_TEST_TO_ROOT', getcwd()."/../../..");
+	define('PIWIK_PATH_TEST_TO_ROOT', realpath(dirname(__FILE__) . '/../../..'));
 }
 
 // This is Piwik logo, the static file used in this test suit
@@ -503,7 +503,7 @@ class Test_Piwik_serveStaticFile extends UnitTestCase
 
 	private function getCompressedFileLocation()
 	{
-		return PIWIK_PATH_TEST_TO_ROOT . "/" . Piwik::COMPRESSED_FILE_LOCATION . basename(TEST_FILE_LOCATION);
+		return PIWIK_PATH_TEST_TO_ROOT . Piwik::COMPRESSED_FILE_LOCATION . basename(TEST_FILE_LOCATION);
 	}
 
 	private function removeCompressedFiles()
