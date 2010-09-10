@@ -195,6 +195,7 @@ class UserAgentParser
 	// OS regex => OS ID
 	static protected $operatingSystems = array(
 			'Android'				=> 'AND',
+			'Maemo'					=> 'MAE',
 			'Linux'					=> 'LIN',
 
 			'CYGWIN_NT-6.1'			=> 'WI7',
@@ -226,6 +227,11 @@ class UserAgentParser
 			'Win32'					=> 'W95',
 			'Win95'					=> 'W95',		
 			'Windows 95'			=> 'W95',
+
+			'Windows Phone OS 7.0'	=> 'WP7',
+			'Windows Mobile 6.5'	=> 'W65',
+			'Windows Mobile 6.1'	=> 'W61',
+			'Windows CE'			=> 'WCE',
 
 			'iPod'					=> 'IPD',
 			'iPad'					=> 'IPA',
@@ -496,6 +502,9 @@ class UserAgentParser
 			'WNT' => 'Win NT',
 			'WME' => 'Win Me',
 			'W95' => 'Win 95',
+			'WP7' => 'WinPhone 7',
+			'W65' => 'WinMo 6.5',
+			'W61' => 'WinMo 6.1',
 			'WCE' => 'Win CE',
 			'WOS' => 'webOS',
 			'UNK' => 'Unknown',

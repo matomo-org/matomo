@@ -239,6 +239,15 @@ class Test_Piwik_UserSettings extends UnitTestCase
 			array('LIN', 'Linux', 'Linux')),
 
 		// Fennec
+		'Mozilla/5.0 (Android; Linux armv7l; rv:2.0.1) Gecko/20100101 Firefox/4.0.1 Fennec/2.0.1' => array(
+			array('FE', 'Fennec', 'Fennec', '2.0', '2', '0', 'gecko'),
+			array('AND', 'Android', 'Android')),
+		'Mozilla/5.0 (Maemo; Linux armv7l; rv2.0.1) Gecko/20100101 Firefox/4.0.1 Fennec/2.0.1' => array(
+			array('FE', 'Fennec', 'Fennec', '2.0', '2', '0', 'gecko'),
+			array('MAE', 'Maemo', 'Maemo')),
+		'Mozilla/5.0 (X11; Linux i686; rv2.0.1) Gecko/20100101 Firefox/4.0.1 Fennec/2.0.1' => array(
+			array('FE', 'Fennec', 'Fennec', '2.0', '2', '0', 'gecko'),
+			array('LIN', 'Linux', 'Linux')),
 		'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.2a1pre) Gecko/20090626 Fennec/1.0b2' => array(
 			array('FE', 'Fennec', 'Fennec', '1.0', '1', '0', 'gecko'),
 			array('MAC', 'Mac OS', 'Mac OS')),
@@ -250,6 +259,9 @@ class Test_Piwik_UserSettings extends UnitTestCase
 			array('LIN', 'Linux', 'Linux')),
 
 		// Firefox (formerly Firebird, formerly Phoenix; and rebranded versions)
+		'Mozilla/5.0 (Windows NT 6.1; rv:2.0.1) Gecko/20100101 Firefox/4.0.1' => array(
+			array('FF', 'Firefox', 'Firefox', '4.0', '4', '0', 'gecko'),
+			array('WI7', 'Windows 7', 'Win 7')),
 		'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:2.0a1pre) Gecko/2008060602 Minefield/4.0a1pre' => array(
 			array('FF', 'Firefox', 'Firefox', '4.0', '4', '0', 'gecko'),
 			array('LIN', 'Linux', 'Linux')),
@@ -469,6 +481,14 @@ class Test_Piwik_UserSettings extends UnitTestCase
 		'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Win64; x64; SV1; .NET CLR 2.0.50727)' => array(
 			array('IE', 'Internet Explorer', 'IE', '6.0', '6', '0', 'ie'),
 			array('WS3', 'Windows Server 2003 / XP x64', 'Win S2003')),
+
+		// IE Mobile
+		'Mozilla/4.0 (compatible; MSIE 7.0; Windows Phone OS 7.0; Trident/3.1; IEMobile/7.0; DeviceManufacturer; DeviceModel)' => array(
+			array('IE', 'Internet Explorer', 'IE', '7.0', '7', '0', 'ie'),
+			array('WP7', 'Windows Phone OS 7.0', 'WinPhone 7')),
+		'Mozilla/4.0 (compatible; MSIE 6.0; Windows CE; IEMobile 7.11)' => array(
+			array('IE', 'Internet Explorer', 'IE', '6.0', '6', '0', 'ie'),
+			array('WCE', 'Windows CE', 'Win CE')),
 
 		// Internet Explorer with misbehaving Google Tool Bar
 		'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; GTB6.5; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) ; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)' => array(
