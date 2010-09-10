@@ -253,9 +253,14 @@ class UserAgentParser
 
 			'BlackBerry'			=> 'BLB',
 
+			'SymbOS'				=> 'SYM',
+			'Symbian OS'			=> 'SYM',
+			'SymbianOS'				=> 'SYM',
+
 			'SunOS'					=> 'SOS',
 			'AIX'					=> 'AIX',
 			'HP-UX'					=> 'HPX',
+			'OpenVMS'				=> 'VMS',
 
 			'FreeBSD'				=> 'BSD',
 			'NetBSD'				=> 'NBS',
