@@ -651,6 +651,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.googleearth.de'		=> array('Google', 'q'),
 		'www.googleearth.fr'		=> array('Google', 'q'),
 
+		// Google Cache
+		'webcache.googleusercontent.com'=> array('Google', '/\/search\?q=cache:[A-Za-z0-9]+:[^+]+([^&]+)/', 'search?q={k}'),
+
 		// Google SSL 
 		'encrypted.google.com'		=> array('Google SSL', 'q', 'search?q={k}'), 
 
@@ -806,7 +809,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.ilse.nl'				=> array('Ilse NL', 'search_for', '?search_for={k}'),
 
 		// InfoSpace (and related web properties)
-		'infospace.com'				=> array('InfoSpace', '/^\/[^\/]+\/ws\/results\/[^\/]+\/([^\/]+)/', 'ispace/ws/results/Web/{k}/1/1/content-top-left/Relevance/'),
+		'infospace.com'				=> array('InfoSpace', '/\/[^\/]+\/ws\/results\/[^\/]+\/([^\/]+)/', 'ispace/ws/results/Web/{k}/1/1/content-top-left/Relevance/'),
 		'search.infospace.com'		=> array('InfoSpace'),
 		'dogpile.com'				=> array('InfoSpace'),
 		'search.dogpile.com'		=> array('InfoSpace'),
