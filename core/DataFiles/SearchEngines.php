@@ -364,7 +364,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search1-1.free.fr'			=> array('Free', 'q'),
 
 		// Freecause
-		'search.freecause.com'		=> array('FreeCause', 'q', '?p={k}'),
+		'search.freecause.com'		=> array('FreeCause', 'p', '?p={k}'),
 
 		// Freenet
 		'suche.freenet.de'			=> array('Freenet', 'query', 'suche/?query={k}'),
@@ -838,6 +838,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		 * That includes:
 		 * - search.kiwee.com
 		 * - ws.copernic.com
+		 * - result.iminent.com
 		 */
 
 		// Iwon
@@ -1147,6 +1148,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Virgilio
 		'ricerca.virgilio.it'		=> array('Virgilio', 'qs', 'ricerca?qs={k}'),
+		'ricercaimmagini.virgilio.it'	=> array('Virgilio', 'qs'),
+		'ricercavideo.virgilio.it'	=> array('Virgilio', 'qs'),
+		'ricercanews.virgilio.it'	=> array('Virgilio', 'qs'),
 
 		// Voila
 		'search.ke.voila.fr'		=> array('Voila', 'rdata', 'S/voila?rdata={k}'),
