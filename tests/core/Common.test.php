@@ -363,7 +363,16 @@ class Test_Piwik_Common extends UnitTestCase
     	
     }
     
-    
+    /**
+     * Test 'url' fix up
+     */
+    function test_getUrlRequestVar_googleCacheFixUp()
+    {
+        $url = 'http://webcache.googleusercontent.com/search?q=cache:CD2SncROLs4J:piwik.org/blog/2010/04/piwik-0-6-security-advisory/+piwik+security&cd=1&hl=en&ct=clnk';
+        $_GET['url'] = $url;
+
+        $this->assertEqual( Piwik_Common::getUrlRequestVar(''), 'http://piwik.org/blog/2010/04/piwik-0-6-security-advisory/' );
+    }
     
     /**
      * no query string => false
