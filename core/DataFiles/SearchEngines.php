@@ -46,10 +46,11 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.1.cz'					=> array('1.cz', 'q', false, 'iso-8859-2'),
 
 		// 123people
-		'www.123people.com'			=> array('123people', '', 's/{k}'),
-		'www.123people.de'			=> array('123people', ''),
-		'www.123people.es'			=> array('123people', ''),
-		'www.123people.fr'			=> array('123people', ''),
+		'www.123people.com'			=> array('123people', '/s\/([^\/]+)/', 's/{k}'),
+		'www.123people.de'			=> array('123people'),
+		'www.123people.es'			=> array('123people'),
+		'www.123people.fr'			=> array('123people'),
+		'www.123people.it'			=> array('123people'),
 
 		// 1und1
 		'search.1und1.de'			=> array('1und1', 'su', 'search/web/?su={k}'),

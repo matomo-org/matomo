@@ -1050,7 +1050,7 @@ class Piwik_Common
 		// no search query
 		if(!isset($refererParsed['query']))
 		{
-			return false;
+			$refererParsed['query'] = '';
 		}
 		require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
 

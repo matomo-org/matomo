@@ -707,6 +707,11 @@ class Test_Piwik_Common extends UnitTestCase
 			// Powered by InfoSpace metasearch
 			'http://search.kiwee.com/pemonitorhosted/ws/results/Web/mobile analytics/1/417/TopNavigation/Source/iq=true/zoom=off/_iceUrlFlag=7?_IceUrl=true'
 				=> array('name' => 'InfoSpace', 'keywords' => 'mobile analytics'),
+		
+			// 123people
+			'http://www.123people.de/s/piwik'
+				=> array('name' => '123people', 'keywords' => 'piwik'),
+
 		);
 		
 		foreach($urls as $refererUrl => $expectedReturnedValue) {
