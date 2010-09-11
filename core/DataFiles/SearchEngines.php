@@ -34,6 +34,9 @@
  *
  *  A more complicated example, with an array of possible variable names, and a custom charset:
  *  'www.baidu.com'			=> array('Baidu', array('wd', 'word', 'kw'), 's?wd={k}', 'gb2312'),
+ *
+ *  Another example using a regular expression to parse the path for keywords:
+ *  'infospace.com'         => array('InfoSpace', array('/dir1\/(pattern)\/dir2/'), '/dir1/{k}/dir2/stuff/'),
  */
 if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 {
@@ -802,6 +805,21 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Ilse
 		'www.ilse.nl'				=> array('Ilse NL', 'search_for', '?search_for={k}'),
 
+		// InfoSpace (and related web properties)
+		'infospace.com'				=> array('InfoSpace', '/^\/[^\/]+\/ws\/results\/[^\/]+\/([^\/]+)/', 'ispace/ws/results/Web/{k}/1/1/content-top-left/Relevance/'),
+		'search.infospace.com'		=> array('InfoSpace'),
+		'dogpile.com'				=> array('InfoSpace'),
+		'search.dogpile.com'		=> array('InfoSpace'),
+		'search.nation.com'			=> array('InfoSpace'),
+		'search.go2net.com'			=> array('InfoSpace'),
+		'metacrawler.com'			=> array('InfoSpace'),
+		'search.metacrawler.com'	=> array('InfoSpace'),
+		'webfetch.com'				=> array('InfoSpace'),
+		'search.webfetch.com'		=> array('InfoSpace'),
+		'webcrawler.com'			=> array('InfoSpace'),
+		'search.webcrawler.com'		=> array('InfoSpace'),
+		'search.dogreatgood.com'	=> array('InfoSpace'),
+
 		// Iwon
 		'iwon.ask.com'				=> array('Iwon', 'q', 'web?q={k}'),
 
@@ -887,10 +905,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'meta.ua'					=> array('Meta.ua', 'q', 'search.asp?q={k}'),
 		'www.meta.ua'				=> array('Meta.ua', 'q'),
 
-		// Metacrawler
-		'search.metacrawler.com'	=> array('Metacrawler', 'qkw'),
-
-		// MetaCrawler DE
+		// MetaCrawler.de
 		's1.metacrawler.de'			=> array('MetaCrawler DE', 'qry', '?qry={k}'),
 		's2.metacrawler.de'			=> array('MetaCrawler DE', 'qry'),
 		's3.metacrawler.de'			=> array('MetaCrawler DE', 'qry'),

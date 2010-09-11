@@ -609,14 +609,14 @@ class Test_Piwik_Common extends UnitTestCase
 			'http://www.google.com/search?hl=en&q=+piWIk+&btnG=Google+Search&aq=f&oq='
 				=> array('name' => 'Google', 'keywords' => 'piwik'),
 				
-			// testing special case of google images
+			// testing special case of Google images
 			'http://images.google.com/imgres?imgurl=http://www.linux-corner.info/snapshot1.png&imgrefurl=http://www.oxxus.net/blog/archives/date/2007/10/page/41/&usg=__-xYvnp1IKpRZKjRDQVhpfExMkuM=&h=781&w=937&sz=203&hl=en&start=1&tbnid=P9LqKMIbdhlg-M:&tbnh=123&tbnw=148&prev=/images%3Fq%3Dthis%2Bmy%2Bquery%2Bwith%2Bhttp://domain%2Bname%2Band%2Bstrange%2Bcharacters%2B%2526%2B%255E%2B%257C%2B%253C%253E%2B%2525%2B%2522%2B%2527%2527%2BEOL%26gbv%3D2%26hl%3Den%26sa%3DG'
 				=> array('name' => 'Google Images', 'keywords' => 'this my query with http://domain name and strange characters & ^ | <> % " \'\' eol'),
 			
 			'http://www.google.fr/search?hl=en&q=%3C%3E+%26test%3B+piwik+%26quot%3B&ei=GcXJSb-VKoKEsAPmnIjzBw&sa=X&oi=revisions_inline&ct=unquoted-query-link'
 				=> array('name' => 'Google', 'keywords' => '<> &test; piwik &quot;'),
 				
-			// testing baidu special case (several variable names possible, and custom encoding)
+			// testing Baidu special case (several variable names possible, and custom encoding)
 			// see http://dev.piwik.org/trac/ticket/589
 			
 			// keyword is in "wd" 
@@ -650,7 +650,7 @@ class Test_Piwik_Common extends UnitTestCase
 			'http://www.google.ge/search?hl=en&q=%E1%83%A1%E1%83%90%E1%83%A5%E1%83%90%E1%83%A0%E1%83%97%E1%83%95%E1%83%94%E1%83%9A%E1%83%9D&btnG=Google+Search' 
 				=> array('name' => 'Google', 'keywords' => 'საქართველო'),
 			
-			// new google url formats
+			// new Google url formats
 			'http://www.google.com/url?sa=t&source=web&ct=res&cd=7&url=http%3A%2F%2Fwww.example.com%2Fmypage.htm&ei=0SjdSa-1N5O8M_qW8dQN&rct=j&q=flowers&usg=AFQjCNHJXSUh7Vw7oubPaO3tZOzz-F-u_w&sig2=X8uCFh6IoPtnwmvGMULQfw'
 				=> array('name' => 'Google', 'keywords' => 'flowers'),
 			'http://www.google.com/webhp?tab=mw#hl=en&source=hp&q=test+hash&btnG=Google+Search&aq=f&aqi=&aql=&oq=&fp=22b4dcbb1403dc0f'
@@ -658,7 +658,7 @@ class Test_Piwik_Common extends UnitTestCase
 			'http://www.google.com/#hl=en&source=hp&q=test+hash&aq=f&aqi=n1g5g-s1g1g-s1g2&aql=&oq=&fp=22b4dcbb1403dc0f'
 				=> false,
 				
-			// new google image format
+			// new Google image format
 			'http://www.google.com/imgres?imgurl=http://www.imagedomain.com/zoom/34782_ZOOM.jpg&imgrefurl=http://www.mydomain.com/product/Omala-Govindra-Tank-XS-Brown-and-Chile.html&usg=__BD6z_JrJRAFjScDRhj4Tp8Vm_Zo=&h=610&w=465&sz=248&hl=en&start=3&itbs=1&tbnid=aiNVNce9-ZYAPM:&tbnh=136&tbnw=104&prev=/images%3Fq%3DFull%2BSupport%2BTummy%26hl%3Den%26safe%3Doff%26sa%3DG%26gbv%3D2%26tbs%3Disch:1'
 				=> array('name' => 'Google Images', 'keywords' => 'full support tummy'),
 
@@ -666,10 +666,17 @@ class Test_Piwik_Common extends UnitTestCase
 			'http://www.google.com/cse?cx=006944612449134755049%3Ahq5up-97k4u&cof=FORID%3A10&q=piwik&ad=w9&num=10&rurl=http%3A%2F%2Fwww.homepagle.com%2Fsearch.php%3Fcx%3D006944612449134755049%253Ahq5up-97k4u%26cof%3DFORID%253A10%26q%3D89'
 				=> array('name' => 'Google Custom Search', 'keywords' => 'piwik'),
 				
-			// bing image search has a special URL
+			// Bing image search has a special URL
 			'http://www.bing.com/images/search?q=piwik&go=&form=QBIL'
 				=> array('name' => 'Bing Images', 'keywords' => 'piwik'),
-				
+
+			// InfoSpace
+			'http://infospace.com/ispace/ws/results/Web/real time web analytics/1/417/TopNavigation/Relevance/iq=true/zoom=off/enginefilter=all/_iceUrlFlag=7?_IceUrl=true'
+				=> array('name' => 'InfoSpace', 'keywords' => 'real time web analytics'),
+
+			// Powered by InfoSpace metasearch
+			'http://search.kiwee.com/pemonitorhosted/ws/results/Web/mobile analytics/1/417/TopNavigation/Source/iq=true/zoom=off/_iceUrlFlag=7?_IceUrl=true'
+				=> array('name' => 'InfoSpace', 'keywords' => 'mobile analytics'),
 		);
 		
 		foreach($urls as $refererUrl => $expectedReturnedValue) {
