@@ -673,12 +673,10 @@ class Test_Piwik_Common extends UnitTestCase
 			'http://www.google.ca/url?sa=t&source=web&cd=1&ved=0CBQQFjAA&url=http%3A%2F%2Fwww.robocoder.ca%2F&rct=j&q=web%20analytics%20gpl%20OR%20open%20OR%20source%20%22real%20time%22%20-sco&ei=zv6KTILkGsG88gaxoqz9Cw&usg=AFQjCNEv2Mp3ruU8YCMI40Pqo9ijjXvsUA'
 				=> array('name' => 'Google', 'keywords' => 'web analytics gpl or open or source "real time" -sco'),
 
-/*
 			// Google cache
 			'http://webcache.googleusercontent.com/search?q=cache:CD2SncROLs4J:piwik.org/blog/2010/04/piwik-0-6-security-advisory/+piwik+security&cd=1&hl=en&ct=clnk'
-				=> array('name' => 'Google Cache', 'keywords' => 'piwik security'),
-*/
-				
+				=> array('name' => 'Google', 'keywords' => 'piwik security'),
+
 			// Bing image search has a special URL
 			'http://www.bing.com/images/search?q=piwik&go=&form=QBIL'
 				=> array('name' => 'Bing Images', 'keywords' => 'piwik'),

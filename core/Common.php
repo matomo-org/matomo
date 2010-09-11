@@ -1100,9 +1100,9 @@ class Piwik_Common
 				if($variableName[0] == '/')
 				{
 					// regular expression match
-					if(preg_match($variableName, $refererPath, $matches))
+					if(preg_match($variableName, $refererUrl, $matches))
 					{
-						$key = $matches[1];
+						$key = trim(urldecode($matches[1]));
 						break;
 					}
 				}
