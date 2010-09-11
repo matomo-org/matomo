@@ -231,9 +231,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Compuserve
 		'websearch.cs.com'			=> array('Compuserve.com (Enhanced by Google)', 'query', 'cs/search?query={k}'),
 
-		// Copernic
-		'ws.copernic.com'			=> array('Copernic', ''),
-
 		// Cuil
 		'www.cuil.com'				=> array('Cuil', 'q', 'search?q={k}'),
 
@@ -835,6 +832,13 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'webcrawler.com'			=> array('InfoSpace'),
 		'search.webcrawler.com'		=> array('InfoSpace'),
 		'search.dogreatgood.com'	=> array('InfoSpace'),
+	
+		/*
+		 * Infospace powered metasearches are handled in Piwik_Common::extractSearchEngineInformationFromUrl()
+		 * That includes:
+		 * - search.kiwee.com
+		 * - ws.copernic.com
+		 */
 
 		// Iwon
 		'iwon.ask.com'				=> array('Iwon', 'q', 'web?q={k}'),
