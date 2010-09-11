@@ -262,10 +262,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search.dmoz.org'			=> array('dmoz', 'search'),
 		'www.dmoz.org'				=> array('dmoz', 'search'),
 
-		// Dogpile
-		'search.dogpile.com'		=> array('Dogpile', ''),
-		'nbci.dogpile.com'			=> array('Dogpile', 'q'),
-
 		// DuckDuckGo
 		'duckduckgo.com'			=> array('DuckDuckGo', 'q', '?q={k}'),
 
@@ -813,6 +809,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search.infospace.com'		=> array('InfoSpace'),
 		'dogpile.com'				=> array('InfoSpace'),
 		'search.dogpile.com'		=> array('InfoSpace'),
+		'nbci.dogpile.com'			=> array('InfoSpace'),
 		'search.nation.com'			=> array('InfoSpace'),
 		'search.go2net.com'			=> array('InfoSpace'),
 		'metacrawler.com'			=> array('InfoSpace'),
