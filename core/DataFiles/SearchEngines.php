@@ -199,10 +199,11 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'cgi.search.biglobe.ne.jp'	=> array('Biglobe', 'q', 'cgi-bin/search-st?q={k}'),
 
 		// Bing
-		'www.bing.com'				=> array('Bing', 'q', 'search?q={k}'),
+		'www.bing.com'				=> array('Bing', array('q', 'Q'), 'search?q={k}'),
+		'm.bing.com'				=> array('Bing'),
 
 		// Bing Images
-		'www.bing.com/images/search'=> array('Bing Images', 'q', '?q={k}'),
+		'www.bing.com/images/search'=> array('Bing Images', array('q', 'Q'), '?q={k}'),
 
 		// Blogdigger
 		'www.blogdigger.com'		=> array('Blogdigger', 'q'),

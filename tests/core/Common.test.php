@@ -686,9 +686,19 @@ class Test_Piwik_Common extends UnitTestCase
 			'http://webcache.googleusercontent.com/search?q=cache:CD2SncROLs4J:piwik.org/blog/2010/04/piwik-0-6-security-advisory/+piwik+security&cd=1&hl=en&ct=clnk'
 				=> array('name' => 'Google', 'keywords' => 'piwik security'),
 
+			// Bing Mobile
+			'http://m.bing.com/search/search.aspx?Q=piwik&d=&dl=&pq=&a=results&MID=8015'
+				=> array('name' => 'Bing', 'keywords' => 'piwik'),
+
 			// Bing image search has a special URL
 			'http://www.bing.com/images/search?q=piwik&go=&form=QBIL'
 				=> array('name' => 'Bing Images', 'keywords' => 'piwik'),
+
+/*
+			// Bing mobile image search has a special URL
+			'http://m.bing.com/search/search.aspx?A=imageresults&Q=piwik&D=Image&MID=8015&SI=0&PN=0&SCO=0'
+				=> array('name' => 'Bing Images', 'keywords' => 'piwik'),
+*/
 
 			// InfoSpace
 			'http://infospace.com/ispace/ws/results/Web/real time web analytics/1/417/TopNavigation/Relevance/iq=true/zoom=off/enginefilter=all/_iceUrlFlag=7?_IceUrl=true'
