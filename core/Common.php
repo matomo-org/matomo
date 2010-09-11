@@ -1033,7 +1033,15 @@ class Piwik_Common
 		}
 		elseif(!array_key_exists($refererHost, $GLOBALS['Piwik_SearchEngines']))
 		{
-			return false;
+			if(strpos($refererPath, '/pemonitorhosted/ws/results/') === 0)
+			{
+				// private-label search powered by InfoSpace Metasearch
+				$refererHost = 'infospace.com';
+			}
+			else
+			{
+				return false;
+			}
 		}
 		$searchEngineName = $GLOBALS['Piwik_SearchEngines'][$refererHost][0];
 		$variableNames = null;
@@ -1062,12 +1070,24 @@ class Piwik_Common
 
 		foreach($variableNames as $variableName)
 		{
-			// search for keywords now &vname=keyword
-			$key = strtolower(self::getParameterFromQueryString($query, $variableName));
-			$key = trim(urldecode($key));
-			if(!empty($key))
+			if($variableName[0] == '/')
 			{
-				break;
+				// regular expression match
+				if(preg_match($variableName, $refererPath, $matches))
+				{
+					$key = $matches[1];
+					break;
+				}
+			}
+			else
+			{
+				// search for keywords now &vname=keyword
+				$key = strtolower(self::getParameterFromQueryString($query, $variableName));
+				$key = trim(urldecode($key));
+				if(!empty($key))
+				{
+					break;
+				}
 			}
 		}
 		if(empty($key))
