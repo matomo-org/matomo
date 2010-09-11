@@ -154,7 +154,7 @@ class Piwik_Tracker_GoalManager
 		}
 		$goal = $goals[$idGoal];
 		
-		$url = Piwik_Common::getRequestVar( 'url', '', 'string', $request);
+		$url = Piwik_Common::getUrlRequestVar( '', $request);
 		$goal['url'] = Piwik_Tracker_Action::excludeQueryParametersFromUrl($url, $idSite);
 		$goal['revenue'] = Piwik_Common::getRequestVar('revenue', $goal['revenue'], 'float', $request);
 		$this->convertedGoals[] = $goal;

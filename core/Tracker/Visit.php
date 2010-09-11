@@ -92,7 +92,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		if(empty($this->request['urlref'])
 			&& empty($this->request['url']))
 		{
-    		$this->request['url'] = @$_SERVER['HTTP_REFERER'];
+			$this->request['url'] = @$_SERVER['HTTP_REFERER'];
 		}
 	}
 
@@ -981,7 +981,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 		// get the urls and parse them
 		$refererUrl	= Piwik_Common::getRequestVar( 'urlref', '', 'string', $this->request);
-		$currentUrl	= Piwik_Common::getRequestVar( 'url', '', 'string', $this->request);
+		$currentUrl	= Piwik_Common::getUrlRequestVar( '', $this->request);
 
 		$this->refererUrl = $refererUrl;
 		$this->refererUrlParse = @parse_url(Piwik_Common::unsanitizeInputValue($refererUrl));
