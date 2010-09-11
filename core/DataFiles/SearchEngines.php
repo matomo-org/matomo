@@ -1058,7 +1058,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'searchalot.com'			=> array('Searchalot', 'q'),
 
 		// SearchCanvas
-		'www.searchcanvas.com'		=> array('SearchCanvas', 'q', 'web?q=piwik'),
+		'www.searchcanvas.com'		=> array('SearchCanvas', 'q', 'web?q={k}'),
 
 		// Seek
 		'www.seek.fr'				=> array('Seek.fr', ''),
@@ -1141,7 +1141,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.trouvez.com'			=> array('Trouvez.com', 'query'),
 
 		// TrovaRapido
-		'www.trovarapido.com'		=> array('TrovaRapido', 'q', 'result.php?q=piwik'),
+		'www.trovarapido.com'		=> array('TrovaRapido', 'q', 'result.php?q={k}'),
 	
 		// Trusted-Search
 		'www.trusted--search.com'	=> array('Trusted Search', 'w', 'search?w={k}'),
