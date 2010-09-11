@@ -144,6 +144,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'suchet2.aol.de'			=> array('AOL', array('query', 'q')),
 		'search.hp.my.aol.com.au'	=> array('AOL', array('query', 'q')),
 		'search.hp.my.aol.de'		=> array('AOL', array('query', 'q')),
+		'search.hp.my.aol.it'		=> array('AOL', array('query', 'q')),
 		'search-intl.netscape.com'	=> array('AOL', array('query', 'q')),
 
 		// Aport
@@ -996,6 +997,13 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Poisk.Ru
 		'poisk.ru'					=> array('Poisk.Ru', 'text', 'cgi-bin/poisk?text={k}', 'windows-1251'),
 
+		// qbyrd.com
+		'www.qbyrd.com'				=> array('Qbyrd', 'q', 'web?q={k}'),
+		'de.qbyrd.com'				=> array('Qbyrd', 'q'),
+		'es.qbyrd.com'				=> array('Qbyrd', 'q'),
+		'fr.qbyrd.com'				=> array('Qbyrd', 'q'),
+		'it.qbyrd.com'				=> array('Qbyrd', 'q'),
+
 		// qip
 		'search.qip.ru'				=> array('qip.ru', 'query', 'search?query={k}'),
 
@@ -1033,12 +1041,12 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'searchalot.com'			=> array('Searchalot', 'q'),
 
 		// search-results.com
-		'www.search-results.com'	=> array('Search', 'q', 'web?q={k}'),
-		'de.search-results.com'		=> array('Search', 'q'),
-		'es.search-results.com'		=> array('Search', 'q'),
-		'eu.search-results.com'		=> array('Search', 'q'),
-		'fr.search-results.com'		=> array('Search', 'q'),
-		'it.search-results.com'		=> array('Search', 'q'),
+		'www.search-results.com'	=> array('Search-Results.com', 'q', 'web?q={k}'),
+		'de.search-results.com'		=> array('Search-Results.com', 'q'),
+		'es.search-results.com'		=> array('Search-Results.com', 'q'),
+		'eu.search-results.com'		=> array('Search-Results.com', 'q'),
+		'fr.search-results.com'		=> array('Search-Results.com', 'q'),
+		'it.search-results.com'		=> array('Search-Results.com', 'q'),
 
 		// Seek
 		'www.seek.fr'				=> array('Seek.fr', ''),
