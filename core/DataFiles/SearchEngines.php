@@ -289,7 +289,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Excite
 		'search.excite.it'			=> array('Excite', 'q', 'web/?q={k}'),
-		'msxml.excite.com'			=> array('Excite', ''),
+		'msxml.excite.com'			=> array('Excite', '/\/[^\/]+\/ws\/results\/[^\/]+\/([^\/]+)/'),
 		'search.excite.fr'			=> array('Excite', 'q', 'web/?q={k}'),
 		'search.excite.de'			=> array('Excite', 'q', 'web/?q={k}'),
 		'search.excite.co.uk'		=> array('Excite', 'q', 'web/?q={k}'),
