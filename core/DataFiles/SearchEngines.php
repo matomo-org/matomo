@@ -307,6 +307,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Facebook
 		'www.facebook.com'			=> array('Facebook', 'q', 'search/?q={k}'),
 
+		// Fast Browser Search
+		'www.fastbrowsersearch.com'	=> array('Fast Browser Search', 'q', 'results/results.aspx?q={k}'),
+
 		// Francite
 		'recherche.francite.com'	=> array('Francite', 'name'),
 
@@ -642,6 +645,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search.sweetim.com'		=> array('Google', 'q'),
 		'www.darkoogle.com'			=> array('Google', 'q'),
 		'darkoogle.com'				=> array('Google', 'q'),
+		'search.hiyo.com'			=> array('Google', 'q'),
 
 		// Google Earth
 		'www.googleearth.de'		=> array('Google', 'q'),
