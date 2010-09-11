@@ -795,6 +795,19 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Hotbot
 		'www.hotbot.com'			=> array('Hotbot', 'query'),
 
+		// IAC Search & Media (qbyrd.com & search-results.com)
+		'www.qbyrd.com'				=> array('IAC', 'q', 'web?q={k}'),
+		'de.qbyrd.com'				=> array('IAC', 'q'),
+		'es.qbyrd.com'				=> array('IAC', 'q'),
+		'fr.qbyrd.com'				=> array('IAC', 'q'),
+		'it.qbyrd.com'				=> array('IAC', 'q'),
+		'www.search-results.com'	=> array('IAC', 'q', 'web?q={k}'),
+		'de.search-results.com'		=> array('IAC', 'q'),
+		'es.search-results.com'		=> array('IAC', 'q'),
+		'eu.search-results.com'		=> array('IAC', 'q'),
+		'fr.search-results.com'		=> array('IAC', 'q'),
+		'it.search-results.com'		=> array('IAC', 'q'),
+
 		// Icerocket
 		'blogs.icerocket.com'		=> array('Icerocket', 'q', 'search?q={k}'),
 
@@ -997,13 +1010,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Poisk.Ru
 		'poisk.ru'					=> array('Poisk.Ru', 'text', 'cgi-bin/poisk?text={k}', 'windows-1251'),
 
-		// qbyrd.com
-		'www.qbyrd.com'				=> array('Qbyrd', 'q', 'web?q={k}'),
-		'de.qbyrd.com'				=> array('Qbyrd', 'q'),
-		'es.qbyrd.com'				=> array('Qbyrd', 'q'),
-		'fr.qbyrd.com'				=> array('Qbyrd', 'q'),
-		'it.qbyrd.com'				=> array('Qbyrd', 'q'),
-
 		// qip
 		'search.qip.ru'				=> array('qip.ru', 'query', 'search?query={k}'),
 
@@ -1039,14 +1045,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Searchalot
 		'www.searchalot.com'		=> array('Searchalot', 'q', '?q={k}'),
 		'searchalot.com'			=> array('Searchalot', 'q'),
-
-		// search-results.com
-		'www.search-results.com'	=> array('Search-Results.com', 'q', 'web?q={k}'),
-		'de.search-results.com'		=> array('Search-Results.com', 'q'),
-		'es.search-results.com'		=> array('Search-Results.com', 'q'),
-		'eu.search-results.com'		=> array('Search-Results.com', 'q'),
-		'fr.search-results.com'		=> array('Search-Results.com', 'q'),
-		'it.search-results.com'		=> array('Search-Results.com', 'q'),
 
 		// Seek
 		'www.seek.fr'				=> array('Seek.fr', ''),
