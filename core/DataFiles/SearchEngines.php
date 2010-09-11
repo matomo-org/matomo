@@ -1032,6 +1032,14 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.searchalot.com'		=> array('Searchalot', 'q', '?q={k}'),
 		'searchalot.com'			=> array('Searchalot', 'q'),
 
+		// search-results.com
+		'www.search-results.com'	=> array('Search', 'q', 'web?q={k}'),
+		'de.search-results.com'		=> array('Search', 'q'),
+		'es.search-results.com'		=> array('Search', 'q'),
+		'eu.search-results.com'		=> array('Search', 'q'),
+		'fr.search-results.com'		=> array('Search', 'q'),
+		'it.search-results.com'		=> array('Search', 'q'),
+
 		// Seek
 		'www.seek.fr'				=> array('Seek.fr', ''),
 
@@ -1194,6 +1202,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'uk.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'us.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'us.yhs.search.yahoo.com'	=> array('Yahoo!', 'p'),
+		'it.yhs.search.yahoo.com '	=> array('Yahoo!', 'p'),
 		'search.cn.yahoo.com'		=> array('Yahoo!', 'p'),
 		'one.cn.yahoo.com'			=> array('Yahoo!', 'p'),
 		'siteexplorer.search.yahoo.com'	=> array('Yahoo!', 'p'),
