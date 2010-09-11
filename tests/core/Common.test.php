@@ -715,6 +715,9 @@ class Test_Piwik_Common extends UnitTestCase
 			'http://www.123people.de/s/piwik'
 				=> array('name' => '123people', 'keywords' => 'piwik'),
 
+			// msxml.excite.com (using regex)
+			'http://msxml.excite.com/excite/ws/results/Images/test/1/408/TopNavigation/Relevance/iq=true/zoom=off/_iceUrlFlag=7?_IceUrl=true&padv=qall%3dpiwik%26qphrase%3d%26qany%3d%26qnot%3d'
+				=> array('name' => 'Excite', 'keywords' => 'test')
 		);
 		
 		foreach($urls as $refererUrl => $expectedReturnedValue) {
