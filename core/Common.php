@@ -1067,26 +1067,54 @@ class Piwik_Common
 			$query = str_replace('&', '&amp;', strstr($query, '?'));
 			$searchEngineName = 'Google Images';
 		}
-
-		foreach($variableNames as $variableName)
+		else if($searchEngineName == 'Google' && strpos($query, '&as_q=') !== false)
 		{
-			if($variableName[0] == '/')
+			$keys = array();
+			$key = self::getParameterFromQueryString($query, 'as_q');
+			if(!empty($key))
 			{
-				// regular expression match
-				if(preg_match($variableName, $refererPath, $matches))
-				{
-					$key = $matches[1];
-					break;
-				}
+				array_push($keys, $key);
 			}
-			else
+			$key = self::getParameterFromQueryString($query, 'as_oq');
+			if(!empty($key))
 			{
-				// search for keywords now &vname=keyword
-				$key = strtolower(self::getParameterFromQueryString($query, $variableName));
-				$key = trim(urldecode($key));
-				if(!empty($key))
+				array_push($keys, str_replace('+', ' OR ', $key));
+			}
+			$key = self::getParameterFromQueryString($query, 'as_epq');
+			if(!empty($key))
+			{
+				array_push($keys, "\"$key\"");
+			}
+			$key = self::getParameterFromQueryString($query, 'as_eq');
+			if(!empty($key))
+			{
+				array_push($keys, "-$key");
+			}
+			$key = trim(urldecode(strtolower(implode(' ', $keys))));
+		}
+
+		if(empty($key))
+		{
+			foreach($variableNames as $variableName)
+			{
+				if($variableName[0] == '/')
 				{
-					break;
+					// regular expression match
+					if(preg_match($variableName, $refererPath, $matches))
+					{
+						$key = $matches[1];
+						break;
+					}
+				}
+				else
+				{
+					// search for keywords now &vname=keyword
+					$key = strtolower(self::getParameterFromQueryString($query, $variableName));
+					$key = trim(urldecode($key));
+					if(!empty($key))
+					{
+						break;
+					}
 				}
 			}
 		}

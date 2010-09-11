@@ -665,6 +665,19 @@ class Test_Piwik_Common extends UnitTestCase
 			// Google CSE is not standard google
 			'http://www.google.com/cse?cx=006944612449134755049%3Ahq5up-97k4u&cof=FORID%3A10&q=piwik&ad=w9&num=10&rurl=http%3A%2F%2Fwww.homepagle.com%2Fsearch.php%3Fcx%3D006944612449134755049%253Ahq5up-97k4u%26cof%3DFORID%253A10%26q%3D89'
 				=> array('name' => 'Google Custom Search', 'keywords' => 'piwik'),
+
+			// Google advanced search
+			'http://www.google.ca/search?hl=en&as_q=web+analytics&as_epq=real+time&as_oq=gpl+open+source&as_eq=oracle&num=10&lr=&as_filetype=&ft=i&as_sitesearch=&as_qdr=all&as_rights=&as_occt=any&cr=&as_nlo=&as_nhi=&safe=images'
+				=> array('name' => 'Google', 'keywords' => 'web analytics gpl or open or source "real time" -oracle'),
+
+			'http://www.google.ca/url?sa=t&source=web&cd=1&ved=0CBQQFjAA&url=http%3A%2F%2Fwww.robocoder.ca%2F&rct=j&q=web%20analytics%20gpl%20OR%20open%20OR%20source%20%22real%20time%22%20-sco&ei=zv6KTILkGsG88gaxoqz9Cw&usg=AFQjCNEv2Mp3ruU8YCMI40Pqo9ijjXvsUA'
+				=> array('name' => 'Google', 'keywords' => 'web analytics gpl or open or source "real time" -sco'),
+
+/*
+			// Google cache
+			'http://webcache.googleusercontent.com/search?q=cache:CD2SncROLs4J:piwik.org/blog/2010/04/piwik-0-6-security-advisory/+piwik+security&cd=1&hl=en&ct=clnk'
+				=> array('name' => 'Google Cache', 'keywords' => 'piwik security'),
+*/
 				
 			// Bing image search has a special URL
 			'http://www.bing.com/images/search?q=piwik&go=&form=QBIL'
