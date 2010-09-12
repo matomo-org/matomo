@@ -3,7 +3,7 @@ $translations = array(
 	'General_Locale' => 'be_BY.UTF-8',
 	'General_TranslatorName' => '<a href="http://www.fatcow.com">Fat Cow</a>',
 	'General_TranslatorEmail' => 'by.marcis@gmail.com',
-	'General_EnglishLanguageName' => 'Belarussian',
+	'General_EnglishLanguageName' => 'Belarusian',
 	'General_OriginalLanguageName' => 'Беларуская',
 	'General_HelloUser' => 'Прывітанне, %s!',
 	'General_OpenSourceWebAnalytics' => 'Open Source Web Analytics',
