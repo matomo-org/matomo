@@ -721,7 +721,15 @@ class Test_Piwik_Common extends UnitTestCase
 
 			// msxml.excite.com (using regex)
 			'http://msxml.excite.com/excite/ws/results/Images/test/1/408/TopNavigation/Relevance/iq=true/zoom=off/_iceUrlFlag=7?_IceUrl=true&padv=qall%3dpiwik%26qphrase%3d%26qany%3d%26qnot%3d'
-				=> array('name' => 'Excite', 'keywords' => 'test')
+				=> array('name' => 'Excite', 'keywords' => 'test'),
+
+			// test that master record is used to backfill subsequent rows
+			'http://www.baidu.com/?wd=test1'
+				=> array('name' => 'Baidu', 'keywords' => 'test1'),
+			'http://tieba.baidu.com/?kw=test2'
+				=> array('name' => 'Baidu', 'keywords' => 'test2'),
+			'http://web.gougou.com/?search=test3'
+				=> array('name' => 'Baidu', 'keywords' => 'test3'),
 		);
 		
 		foreach($urls as $refererUrl => $expectedReturnedValue) {
