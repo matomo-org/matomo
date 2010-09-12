@@ -20,7 +20,6 @@ if(!defined("PIWIK_PATH_TEST_TO_ROOT")) {
 // This is Piwik logo, the static file used in this test suit
 define("TEST_FILE_LOCATION", PIWIK_PATH_TEST_TO_ROOT . "/tests/core/Piwik/lipsum.txt");
 define("TEST_FILE_CONTENT_TYPE", "text/plain");
-define("TEST_FILE_MODE", 0644);
 
 // Defines http request parameters
 define("FILE_MODE_REQUEST_VAR", "fileMode");
@@ -147,7 +146,14 @@ class Test_Piwik_serveStaticFile extends UnitTestCase
 		curl_close($curlHandle);
 
 		// Restoring file mode
-		chmod(TEST_FILE_LOCATION, TEST_FILE_MODE);
+		if(Piwik_Common::isWindows())
+		{
+			chmod(TEST_FILE_LOCATION, 0777);
+		}
+		else
+		{
+			chmod(TEST_FILE_LOCATION, 0644);
+		}
 
 		$this->assertEqual($responseInfo["http_code"], 505);
 	}
