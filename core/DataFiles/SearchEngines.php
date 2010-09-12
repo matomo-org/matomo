@@ -625,7 +625,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Powered by Google
 		'www.charter.net'			=> array('Google', 'q'),
-		'brisbane.t-online.de'		=> array('Google', 'q'),
 		'miportal.bellsouth.net'	=> array('Google', 'string'),
 		'home.bellsouth.net'		=> array('Google', 'string'),
 		'pesquisa.clix.pt'			=> array('Google', 'q'),
@@ -766,7 +765,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'news.google.com.pe'		=> array('Google News', 'q'),
 		'news.google.com.tw'		=> array('Google News', 'q'),
 
-		// Googe product search
+		// Google product search
 		'froogle.google.com'		=> array('Google Product search', 'q'),
 		'froogle.google.de'			=> array('Google Product search', 'q'),
 		'froogle.google.co.uk'		=> array('Google Product search', 'q'),
@@ -1133,8 +1132,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Tixuma
 		'www.tixuma.de'				=> array('Tixuma', 'sc', 'index.php?mp=search&stp=&sc={k}&tg=0'),
 
-		// T-Online
-		'suche.t-online.de'			=> array('T-Online', 'q'),
+		// T-Online (Powered by Google)
+		'suche.t-online.de'			=> array('T-Online', 'q', 'fast-cgi/tsc?mandant=toi&context=internet-tab&q={k}'),
+		'brisbane.t-online.de'		=> array('T-Online', 'q'),
 		'navigationshilfe.t-online.de'=> array('T-Online', 'q', 'dtag/dns/results?mode=search_top&q={k}'),
 
 		// Trouvez.com

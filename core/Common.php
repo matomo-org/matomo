@@ -1047,11 +1047,14 @@ class Piwik_Common
 		{
 			$refererPath = $refererParsed['path'];
 		}
+
 		// no search query
 		if(!isset($refererParsed['query']))
 		{
 			$refererParsed['query'] = '';
 		}
+		$query = $refererParsed['query'];
+
 		require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
 
 		$refererHostPath = $refererHost . $refererPath;
@@ -1061,7 +1064,11 @@ class Piwik_Common
 		}
 		elseif(!array_key_exists($refererHost, $GLOBALS['Piwik_SearchEngines']))
 		{
-			if(strpos($refererPath, '/pemonitorhosted/ws/results/') === 0)
+			if(strpos($query, 'cx=partner-pub-') === 0)
+			{
+				$refererHost = 'www.google.com/cse';
+			}
+			else if(strpos($refererPath, '/pemonitorhosted/ws/results/') === 0)
 			{
 				// private-label search powered by InfoSpace Metasearch
 				$refererHost = 'infospace.com';
@@ -1086,7 +1093,6 @@ class Piwik_Common
 		{
 			$variableNames = array($variableNames);
 		}
-		$query = $refererParsed['query'];
 
 		if($searchEngineName == 'Google Images'
 			|| ($searchEngineName == 'Google' && strpos($refererUrl, '/imgres') !== false) )

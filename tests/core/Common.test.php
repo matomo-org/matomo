@@ -675,6 +675,10 @@ class Test_Piwik_Common extends UnitTestCase
 			'http://www.google.com/cse?cx=006944612449134755049%3Ahq5up-97k4u&cof=FORID%3A10&q=piwik&ad=w9&num=10&rurl=http%3A%2F%2Fwww.homepagle.com%2Fsearch.php%3Fcx%3D006944612449134755049%253Ahq5up-97k4u%26cof%3DFORID%253A10%26q%3D89'
 				=> array('name' => 'Google Custom Search', 'keywords' => 'piwik'),
 
+			// Powered by Google CSE
+			'http://www.cathoogle.com/results?cx=partner-pub-6379407697620666%3Alil1v7i1hv0&cof=FORID%3A9&safe=active&q=i+love+piwik&sa=Cathoogle+Search&siteurl=www.cathoogle.com%2F#867'
+				=> array('name' => 'Google Custom Search', 'keywords' => 'i love piwik'),
+
 			// Google advanced search
 			'http://www.google.ca/search?hl=en&as_q=web+analytics&as_epq=real+time&as_oq=gpl+open+source&as_eq=oracle&num=10&lr=&as_filetype=&ft=i&as_sitesearch=&as_qdr=all&as_rights=&as_occt=any&cr=&as_nlo=&as_nhi=&safe=images'
 				=> array('name' => 'Google', 'keywords' => 'web analytics gpl or open or source "real time" -oracle'),
