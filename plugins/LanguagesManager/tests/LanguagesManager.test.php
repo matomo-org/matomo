@@ -115,5 +115,49 @@ class Test_Languages_Manager extends UnitTestCase
 	{
 		$this->assertFalse(Piwik_LanguagesManager_API::getInstance()->getTranslationsForLanguage("../no-language"));
 	}
-}
 
+	// test English short name for language
+	function test_getLanguageNamesInEnglish()
+	{
+		require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Languages.php';
+
+		$languages = Piwik_LanguagesManager_API::getInstance()->getAvailableLanguages();
+		foreach($languages as $language)
+		{
+			require PIWIK_INCLUDE_PATH . "/lang/$language.php";
+			$name = $translations['General_EnglishLanguageName'];
+
+			if($language != 'en')
+			{
+				$this->assertFalse($name == 'English');
+			}
+
+			$languageCode = substr($language, 0, 2);
+			$this->assertTrue(isset($GLOBALS['Piwik_LanguageList'][$languageCode]));
+			$names = $GLOBALS['Piwik_LanguageList'][$languageCode];
+
+			if(isset($GLOBALS['Piwik_LanguageList'][$language]))
+			{
+				if(is_array($names))
+				{
+					$this->assertTrue(in_array($name, $names));
+				}
+				else
+				{
+					$this->assertTrue($name == $names);
+				}
+			}
+			else
+			{
+				if(is_array($names))
+				{
+					$this->fail("There are \"official\" language names to choose from for $languageCode, e.g., ". implode(', ', $names));
+				}
+				else
+				{
+					$this->assertTrue(strpos($name, $names) !== false);
+				}
+			}
+		}
+	}
+}
