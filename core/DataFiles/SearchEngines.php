@@ -91,7 +91,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.acoon.de'				=> array('Acoon', 'begriff', 'cgi-bin/search.exe?begriff={k}'),
 
 		// Alexa
-		'alexa.com'				=> array('Alexa', 'q', 'search?q={k}'),
+		'alexa.com'					=> array('Alexa', 'q', 'search?q={k}'),
 
 		// Alice Adsl
 		'rechercher.aliceadsl.fr'	=> array('Alice Adsl', 'qs', 'google.pl?qs={k}'),
@@ -121,7 +121,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'apollo.lv/portal/search/'	=> array('Apollo lv', 'q', '?cof=FORID%3A11&q={k}&search_where=www'),
 
 		// APOLLO7
-		'apollo7.de'			=> array('Apollo7', 'query', 'a7db/index.php?query={k}&de_sharelook=true&de_bing=true&de_witch=true&de_google=true&de_yahoo=true&de_lycos=true'),
+		'apollo7.de'				=> array('Apollo7', 'query', 'a7db/index.php?query={k}&de_sharelook=true&de_bing=true&de_witch=true&de_google=true&de_yahoo=true&de_lycos=true'),
 
 		// AOL
 		'search.aol.com'			=> array('AOL', array('query', 'q'), 'aol/search?q={k}'),
@@ -237,7 +237,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.cuil.com'				=> array('Cuil', 'q', 'search?q={k}'),
 
 		// Daemon search
-		'daemon-search.com'		=> array('Daemon search', 'q', 'explore/web?q={k}'),
+		'daemon-search.com'			=> array('Daemon search', 'q', 'explore/web?q={k}'),
 
 		// DasOertliche
 		'www.dasoertliche.de'		=> array('DasOertliche', 'kw'),
@@ -324,7 +324,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.flix.de'				=> array('Flix.de', 'keyword'),
 
 		// Forestle
-		'{}.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'forestle.org'				=> array('Forestle', 'q', 'search.php?q={k}'),
+		'{}.forestle.org'			=> array('Forestle'),
 
 		// Free
 		'search.free.fr'			=> array('Free', 'q'),
@@ -878,7 +879,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.metager.de'			=> array('Metager'),
 
 		// Metager2
-		'metager2.de'			=> array('Metager2', 'q', 'search/index.php?q={k}'),
+		'metager2.de'				=> array('Metager2', 'q', 'search/index.php?q={k}'),
 
 		// Meinestadt
 		'www.meinestadt.de'			=> array('Meinestadt.de', 'words'),
@@ -936,7 +937,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'szukaj.onet.pl'			=> array('Onet.pl', 'qt', 'query.html?qt={k}'),
 
 		// Online.no
-		'online.no'				=> array('Online.no', 'q', 'google/index.jsp?q={k}'),
+		'online.no'					=> array('Online.no', 'q', 'google/index.jsp?q={k}'),
 
 		// Opplysningen 1881
 		'www.1881.no'				=> array('Opplysningen 1881', 'Query', 'Multi/?Query={k}'),

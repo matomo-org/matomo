@@ -595,11 +595,20 @@ class Test_Piwik_Common extends UnitTestCase
 	public function test_SearchEngines_areDefinedCorrectly()
 	{
 		require_once "DataFiles/SearchEngines.php";
+
+		$searchEngines = array();
 		foreach($GLOBALS['Piwik_SearchEngines'] as $host => $info)
 		{
 			if(isset($info[2]) && $info[2] !== false)
 			{
 				$this->assertTrue(strrpos($info[2], "{k}") !== false, $host . " search URL is not defined correctly, must contain the macro {k}");
+			}
+
+			if(!array_key_exists($info[0], $searchEngines))
+			{
+				$searchEngines[$info[0]] = true;
+
+				$this->assertTrue(strpos($host, '{}') === false, $host . " search URL is the master record and should not contain {}");
 			}
 		}
 	}
