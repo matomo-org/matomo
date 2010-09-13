@@ -1037,14 +1037,14 @@ class Piwik_Common
 			array(
 				'/^(w+[0-9]*|search)\./',
 				'/(^|\.)m\./',
-				'/\.(com|org|net|co)\.('.$countries.')(\/|$)/',
-				'/(^|\.)('.$countries.')(\.|\/|$)/',
+				'/(\.(com|org|net|co|it|edu))?\.('.$countries.')(\/|$)/',
+				'/^('.$countries.')\./',
 			),
 			array(
 				'',
 				'$1',
-				'.{}$3',
-				'$1{}$3',
+				'.{}$4',
+				'{}.',
 			),
 			$url);
 	}
