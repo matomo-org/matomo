@@ -135,6 +135,15 @@ class Test_Piwik_serveStaticFile extends UnitTestCase
 	 */
 	public function test_nonReadableFile()
 	{
+        /**
+         * This test would fail on a windows environment because it is not possible to remove reading rights on a
+         * windows file using PHP.
+         */
+        if(Piwik_Common::isWindows())
+        {
+            return;
+        }        
+
 		// Setting mode so the testing file is non-readable
 		chmod(TEST_FILE_LOCATION, 0200);
 
