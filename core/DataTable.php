@@ -11,6 +11,11 @@
  */
 
 /**
+ * @see destroy()
+ */
+require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
+
+/**
  * 
  * ---- DataTable
  * A DataTable is a data structure used to store complex tables of data.
