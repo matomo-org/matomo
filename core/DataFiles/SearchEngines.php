@@ -28,6 +28,14 @@
  * search Engine.  This serves as the master record so additional URLs
  * don't have to duplicate all the information, but can override when needed.
  * 
+ * The URL, "example.com", will match "example.com", "m.example.com",
+ * "www.example.com", and "search.example.com".
+ *
+ * For region-specific search engines, the URL, "{}.example.com" will match
+ * any ISO3166-1 alpha2 country code against "{}".  Similarly, "example.{}"
+ * will match against valid country TLDs, but should be used sparingly to
+ * avoid false positives.
+ *
  * You can add new search engines icons by adding the icon in the
  * plugins/Referers/images/searchEngines directory using the format
  * 'mainSearchEngineUrl.png'. Example: www.google.com.png
@@ -50,7 +58,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 	$GLOBALS['Piwik_SearchEngines'] = array(
 		// 1
 		'1.cz'						=> array('1.cz', 'q', 'index.php?q={k}', 'iso-8859-2'),
-		'www.1.cz'					=> array('1.cz'),
 
 		// 123people
 		'www.123people.com'			=> array('123people', '/s\/([^\/]+)/', 's/{k}'),
@@ -76,7 +83,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 	
 		// ABCsøk
 		'abcsok.no'					=> array('ABCsøk', 'q', '?q={k}'),
-		'www.abcsok.no'				=> array('ABCsøk'),
 
 		// about
 		'search.about.com'			=> array('About', 'terms', '?terms={k}'),
@@ -85,8 +91,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.acoon.de'				=> array('Acoon', 'begriff', 'cgi-bin/search.exe?begriff={k}'),
 
 		// Alexa
-		'www.alexa.com'				=> array('Alexa', 'q', 'search?q={k}'),
-		'alexa.com'					=> array('Alexa'),
+		'alexa.com'				=> array('Alexa', 'q', 'search?q={k}'),
 
 		// Alice Adsl
 		'rechercher.aliceadsl.fr'	=> array('Alice Adsl', 'qs', 'google.pl?qs={k}'),
@@ -104,29 +109,19 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Altavista
 		'www.altavista.com'			=> array('AltaVista', 'q', 'web/results?q={k}'),
-		'listings.altavista.com'	=> array('AltaVista'),
-		'www.altavista.de'			=> array('AltaVista'),
-		'altavista.fr'				=> array('AltaVista'),
-		'de.altavista.com'			=> array('AltaVista'),
-		'fr.altavista.com'			=> array('AltaVista'),
-		'es.altavista.com'			=> array('AltaVista'),
-		'www.altavista.fr'			=> array('AltaVista'),
 		'search.altavista.com'		=> array('AltaVista'),
-		'search.fr.altavista.com'	=> array('AltaVista'),
-		'se.altavista.com'			=> array('AltaVista'),
+		'listings.altavista.com'	=> array('AltaVista'),
+		'altavista.de'				=> array('AltaVista'),
+		'altavista.fr'				=> array('AltaVista'),
+		'{}.altavista.com'			=> array('AltaVista'),
 		'be-nl.altavista.com'		=> array('AltaVista'),
 		'be-fr.altavista.com'		=> array('AltaVista'),
-		'it.altavista.com'			=> array('AltaVista'),
-		'us.altavista.com'			=> array('AltaVista'),
-		'nl.altavista.com'			=> array('Altavista'),
-		'ch.altavista.com'			=> array('AltaVista'),
 
 		// Apollo Latvia
 		'apollo.lv/portal/search/'	=> array('Apollo lv', 'q', '?cof=FORID%3A11&q={k}&search_where=www'),
 
 		// APOLLO7
-		'www.apollo7.de'			=> array('Apollo7', 'query', 'a7db/index.php?query={k}&de_sharelook=true&de_bing=true&de_witch=true&de_google=true&de_yahoo=true&de_lycos=true'),
-		'apollo7.de'				=> array('Apollo7'),
+		'apollo7.de'			=> array('Apollo7', 'query', 'a7db/index.php?query={k}&de_sharelook=true&de_bing=true&de_witch=true&de_google=true&de_yahoo=true&de_lycos=true'),
 
 		// AOL
 		'search.aol.com'			=> array('AOL', array('query', 'q'), 'aol/search?q={k}'),
@@ -160,7 +155,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// arama
 		'arama.com'					=> array('Arama', 'q', 'search.php3?q={k}'),
-		'www.arama.com'				=> array('Arama'),
 	
 		// Arcor
 		'www.arcor.de'				=> array('Arcor', 'Keywords', 'content/searchresult.jsp?Keywords={k}'),
@@ -173,15 +167,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'web.ask.com'				=> array('Ask'),
 		'images.ask.com'			=> array('Ask'),
 		'ask.reference.com'			=> array('Ask'),
-		'www.ask.co.uk'				=> array('Ask'),
-		'uk.ask.com'				=> array('Ask'),
-		'fr.ask.com'				=> array('Ask'),
-		'de.ask.com'				=> array('Ask'),
-		'es.ask.com'				=> array('Ask'),
-		'it.ask.com'				=> array('Ask'),
-		'nl.ask.com'				=> array('Ask'),
-		'jp.ask.com'				=> array('Ask'),
 		'iwon.ask.com'				=> array('Ask'),
+		'www.ask.co.uk'				=> array('Ask'),
+		'{}.ask.com'				=> array('Ask'),
 
 		// Atlas
 		'searchatlas.centrum.cz'	=> array('Atlas', 'q', '?q={k}'),
@@ -249,8 +237,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.cuil.com'				=> array('Cuil', 'q', 'search?q={k}'),
 
 		// Daemon search
-		'www.daemon-search.com'		=> array('Daemon search', 'q', 'explore/web?q={k}'),
-		'daemon-search.com'			=> array('Daemon search'),
+		'daemon-search.com'		=> array('Daemon search', 'q', 'explore/web?q={k}'),
 
 		// DasOertliche
 		'www.dasoertliche.de'		=> array('DasOertliche', 'kw'),
@@ -273,8 +260,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// dmoz
 		'dmoz.org'					=> array('dmoz', 'search'),
 		'editors.dmoz.org'			=> array('dmoz'),
-		'search.dmoz.org'			=> array('dmoz'),
-		'www.dmoz.org'				=> array('dmoz'),
 
 		// DuckDuckGo
 		'duckduckgo.com'			=> array('DuckDuckGo', 'q', '?q={k}'),
@@ -284,7 +269,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Ecosia (powered by Bing)
 		'ecosia.org'				=> array('Ecosia', 'q', 'search.php?q={k}'),
-		'www.ecosia.org'			=> array('Ecosia'),
 
 		// Eniro
 		'www.eniro.se'				=> array('Eniro', array('q', 'search_word'), 'query?q={k}'),
@@ -340,40 +324,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.flix.de'				=> array('Flix.de', 'keyword'),
 
 		// Forestle
-		'de.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
-		'at.forestle.org'			=> array('Forestle'),
-		'ch.forestle.org'			=> array('Forestle'),
-		'us.forestle.org'			=> array('Forestle'),
-		'fr.forestle.org'			=> array('Forestle'),
-		'ar.forestle.org'			=> array('Forestle'),
-		'au.forestle.org'			=> array('Forestle'),
-		'ca.forestle.org'			=> array('Forestle'),
-		'cl.forestle.org'			=> array('Forestle'),
-		'co.forestle.org'			=> array('Forestle'),
-		'cz.forestle.org'			=> array('Forestle'),
-		'dk.forestle.org'			=> array('Forestle'),
-		'fi.forestle.org'			=> array('Forestle'),
-		'hu.forestle.org'			=> array('Forestle'),
-		'in.forestle.org'			=> array('Forestle'),
-		'id.forestle.org'			=> array('Forestle'),
-		'it.forestle.org'			=> array('Forestle'),
-		'jp.forestle.org'			=> array('Forestle'),
-		'kr.forestle.org'			=> array('Forestle'),
-		'my.forestle.org'			=> array('Forestle'),
-		'mx.forestle.org'			=> array('Forestle'),
-		'nl.forestle.org'			=> array('Forestle'),
-		'nz.forestle.org'			=> array('Forestle'),
-		'pe.forestle.org'			=> array('Forestle'),
-		'ph.forestle.org'			=> array('Forestle'),
-		'ro.forestle.org'			=> array('Forestle'),
-		'ru.forestle.org'			=> array('Forestle'),
-		'sg.forestle.org'			=> array('Forestle'),
-		'es.forestle.org'			=> array('Forestle'),
-		'se.forestle.org'			=> array('Forestle'),
-		'th.forestle.org'			=> array('Forestle'),
-		'uk.forestle.org'			=> array('Forestle'),
-		've.forestle.org'			=> array('Forestle'),
-		'vn.forestle.org'			=> array('Forestle'),
+		'{}.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
 
 		// Free
 		'search.free.fr'			=> array('Free', 'q'),
@@ -394,7 +345,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Geona 
 		'geona.net'					=> array('Geona', 'q', 'search?q={k}'),
-		'www.geona.net'				=> array('Geona'),
 
 		// Gigablast
 		'www.gigablast.com'			=> array('Gigablast', 'q', 'search?q={k}'),
@@ -645,7 +595,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search3.incredimail.com'	=> array('Google'),
 		'search4.incredimail.com'	=> array('Google'),
 		'search.sweetim.com'		=> array('Google'),
-		'www.darkoogle.com'			=> array('Google'),
 		'darkoogle.com'				=> array('Google'),
 		'search.darkoogle.com'		=> array('Google'),
 		'search.hiyo.com'			=> array('Google'),
@@ -793,7 +742,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Holmes.ge
 		'holmes.ge'					=> array('Holmes', 'q', 'search.htm?q={k}'),
-		'www.holmes.ge'				=> array('Holmes'),
 
 		// Hooseek.com
 		'www.hooseek.com'			=> array('Hooseek', 'recherche', 'web?recherche={k}'),
@@ -803,16 +751,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// IAC Search & Media (qbyrd.com & search-results.com)
 		'www.qbyrd.com'				=> array('IAC', 'q', 'web?q={k}'),
-		'de.qbyrd.com'				=> array('IAC'),
-		'es.qbyrd.com'				=> array('IAC'),
-		'fr.qbyrd.com'				=> array('IAC'),
-		'it.qbyrd.com'				=> array('IAC'),
+		'{}.qbyrd.com'				=> array('IAC'),
 		'www.search-results.com'	=> array('IAC'),
-		'de.search-results.com'		=> array('IAC'),
-		'es.search-results.com'		=> array('IAC'),
-		'eu.search-results.com'		=> array('IAC'),
-		'fr.search-results.com'		=> array('IAC'),
-		'it.search-results.com'		=> array('IAC'),
+		'{}.search-results.com'		=> array('IAC'),
 
 		// Icerocket
 		'blogs.icerocket.com'		=> array('Icerocket', 'q', 'search?q={k}'),
@@ -826,18 +767,13 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// InfoSpace (and related web properties)
 		'infospace.com'				=> array('InfoSpace', '/\/[^\/]+\/ws\/results\/[^\/]+\/([^\/]+)/', 'ispace/ws/results/Web/{k}/1/1/content-top-left/Relevance/'),
-		'search.infospace.com'		=> array('InfoSpace'),
 		'dogpile.com'				=> array('InfoSpace'),
-		'search.dogpile.com'		=> array('InfoSpace'),
 		'nbci.dogpile.com'			=> array('InfoSpace'),
 		'search.nation.com'			=> array('InfoSpace'),
 		'search.go2net.com'			=> array('InfoSpace'),
 		'metacrawler.com'			=> array('InfoSpace'),
-		'search.metacrawler.com'	=> array('InfoSpace'),
 		'webfetch.com'				=> array('InfoSpace'),
-		'search.webfetch.com'		=> array('InfoSpace'),
 		'webcrawler.com'			=> array('InfoSpace'),
-		'search.webcrawler.com'		=> array('InfoSpace'),
 		'search.dogreatgood.com'	=> array('InfoSpace'),
 	
 		/*
@@ -931,7 +867,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Meta
 		'meta.ua'					=> array('Meta.ua', 'q', 'search.asp?q={k}'),
-		'www.meta.ua'				=> array('Meta.ua'),
 
 		// MetaCrawler.de
 		's1.metacrawler.de'			=> array('MetaCrawler DE', 'qry', '?qry={k}'),
@@ -943,8 +878,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.metager.de'			=> array('Metager'),
 
 		// Metager2
-		'www.metager2.de'			=> array('Metager2', 'q', 'search/index.php?q={k}'),
-		'metager2.de'				=> array('Metager2'),
+		'metager2.de'			=> array('Metager2', 'q', 'search/index.php?q={k}'),
 
 		// Meinestadt
 		'www.meinestadt.de'			=> array('Meinestadt.de', 'words'),
@@ -996,15 +930,13 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search.nifty.com'			=> array('Nifty', 'q', 'websearch/search?q={k}'),
 
 		// Nigma
-		'www.nigma.ru'				=> array('Nigma', 's', 'index.php?s={k}'),
-		'nigma.ru'					=> array('Nigma'),
+		'nigma.ru'					=> array('Nigma', 's', 'index.php?s={k}'),
 
 		// Onet
 		'szukaj.onet.pl'			=> array('Onet.pl', 'qt', 'query.html?qt={k}'),
 
 		// Online.no
-		'www.online.no'				=> array('Online.no', 'q', 'google/index.jsp?q={k}'),
-		'online.no'					=> array('Online.no'),
+		'online.no'				=> array('Online.no', 'q', 'google/index.jsp?q={k}'),
 
 		// Opplysningen 1881
 		'www.1881.no'				=> array('Opplysningen 1881', 'Query', 'Multi/?Query={k}'),
@@ -1063,8 +995,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.search.ch'				=> array('Search.ch', 'q', '?q={k}'),
 
 		// Searchalot
-		'www.searchalot.com'		=> array('Searchalot', 'q', '?q={k}'),
-		'searchalot.com'			=> array('Searchalot'),
+		'searchalot.com'			=> array('Searchalot', 'q', '?q={k}'),
 
 		// SearchCanvas
 		'www.searchcanvas.com'		=> array('SearchCanvas', 'q', 'web?q={k}'),
@@ -1077,28 +1008,11 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Setooz
 		'bg.setooz.com'				=> array('Setooz', 'query', 'search?query={k}'),
-		'el.setooz.com'				=> array('Setooz'),
-		'et.setooz.com'				=> array('Setooz'),
-		'fi.setooz.com'				=> array('Setooz'),
-		'hu.setooz.com'				=> array('Setooz'),
-		'lt.setooz.com'				=> array('Setooz'),
-		'lv.setooz.com'				=> array('Setooz'),
-		'no.setooz.com'				=> array('Setooz'),
-		'pl.setooz.com'				=> array('Setooz'),
-		'sk.setooz.com'				=> array('Setooz'),
-		'sv.setooz.com'				=> array('Setooz'),
-		'tr.setooz.com'				=> array('Setooz'),
-		'uk.setooz.com'				=> array('Setooz'),
-		'ar.setooz.com'				=> array('Setooz'),
-		'bs.setooz.com'				=> array('Setooz'),
-		'cs.setooz.com'				=> array('Setooz'),
 		'da.setooz.com'				=> array('Setooz'),
-		'hr.setooz.com'				=> array('Setooz'),
-		'nl.setooz.com'				=> array('Setooz'),
+		'el.setooz.com'				=> array('Setooz'),
 		'fa.setooz.com'				=> array('Setooz'),
-		'ro.setooz.com'				=> array('Setooz'),
-		'sr.setooz.com'				=> array('Setooz'),
 		'ur.setooz.com'				=> array('Setooz'),
+		'{}.setooz.com'				=> array('Setooz'),
 
 		// Seznam
 		'search.seznam.cz'			=> array('Seznam', 'q', '?q={k}'),
@@ -1120,7 +1034,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// suche.info
 		'suche.info'				=> array('Suche.info', 'Keywords', 'suche.php?Keywords={k}'),
-		'www.suche.info'			=> array('Suche.info'),
 	
 		// Suchmaschine.com
 		'www.suchmaschine.com'		=> array('Suchmaschine.com', 'suchstr', 'cgi-bin/wo.cgi?suchstr={k}'),
@@ -1332,7 +1245,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Yandex
 		'yandex.ru'					=> array('Yandex', 'text', 'yandsearch?text={k}'),
 		'yandex.ua'					=> array('Yandex'),
-		'www.yandex.ru'				=> array('Yandex'),
 
 		// Yandex Images
 		'images.yandex.ru'			=> array('Yandex Images', 'text', 'yandsearch?text={k}'),
@@ -1346,8 +1258,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.yasni.at'				=> array('Yasni'),
 
 		// Yellowmap
-		'www.yellowmap.de'			=> array('Yellowmap', ' '),
-		'yellowmap.de'				=> array('Yellowmap'),
+		'yellowmap.de'				=> array('Yellowmap', ' '),
 
 		// Yippy
 		'search.yippy.com'			=> array('Yippy', 'query', 'search?query={k}'),
@@ -1363,7 +1274,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Zoohoo
 		'zoohoo.cz'					=> array('Zoohoo', 'q', '?q={k}', 'windows-1250'),
-		'www.zoohoo.cz'				=> array('Zoohoo'),
 
 		// Zoznam
 		'www.zoznam.sk'				=> array('Zoznam', 's', 'hladaj.fcgi?s={k}&co=svet'),

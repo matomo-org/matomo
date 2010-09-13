@@ -1009,6 +1009,47 @@ class Piwik_Common
  	}
 
 	/**
+	 * Reduce URL to more minimal form.  2 letter country codes are
+	 * replaced by '{}', while other parts are simply removed.
+	 *
+	 * Examples:
+	 *   www.example.com -> example.com
+	 *   search.example.com -> example.com
+	 *   m.example.com -> example.com
+	 *   de.example.com -> {}.example.com
+	 *   example.de -> example.{}
+	 *   example.co.uk -> example.{}
+	 *
+	 * @param string $url
+	 * @return string
+	 */
+	static public function getLossyUrl($url)
+	{
+		require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
+
+		static $countries;
+		if(!isset($countries))
+		{
+			$countries = implode('|', array_keys($GLOBALS['Piwik_CountryList']));
+		}
+	
+		return preg_replace(
+			array(
+				'/^(w+[0-9]*|search)\./',
+				'/(^|\.)m\./',
+				'/\.(com|org|net|co)\.('.$countries.')(\/|$)/',
+				'/(^|\.)('.$countries.')(\.|\/|$)/',
+			),
+			array(
+				'',
+				'$1',
+				'.{}$3',
+				'$1{}$3',
+			),
+			$url);
+	}
+
+	/**
 	 * Extracts a keyword from a raw not encoded URL.
 	 * Will only extract keyword if a known search engine has been detected.
 	 * Returns the keyword:
@@ -1064,7 +1105,12 @@ class Piwik_Common
 		}
 		elseif(!array_key_exists($refererHost, $GLOBALS['Piwik_SearchEngines']))
 		{
-			if(strpos($query, 'cx=partner-pub-') === 0)
+			$hostPattern = self::getLossyUrl($refererHost);
+			if(array_key_exists($hostPattern, $GLOBALS['Piwik_SearchEngines']))
+			{
+				$refererHost = $hostPattern;
+			}
+			else if(strpos($query, 'cx=partner-pub-') === 0)
 			{
 				$refererHost = 'www.google.com/cse';
 			}
