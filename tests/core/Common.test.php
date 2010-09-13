@@ -832,5 +832,22 @@ class Test_Piwik_Common extends UnitTestCase
 		$ua = Piwik_Common::unserialize_array($a);
 		$this->assertEqual( $a, $ua );
     }
+
+	function test_getLossyUrl()
+	{
+		$urls = array(
+			'example.com' => 'example.com',
+			'm.example.com' => 'example.com',
+			'www.example.com' => 'example.com',
+			'search.example.com' => 'example.com',
+			'example.ca' => 'example.{}',
+			'us.example.com' => '{}.example.com',
+			'www.m.example.ca' => 'example.{}',
+		);
+		foreach($urls as $input => $expected)
+		{
+			$this->assertEqual( Piwik_Common::getLossyUrl($input), $expected);
+		}
+	}
 }
 
