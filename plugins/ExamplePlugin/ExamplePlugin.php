@@ -139,7 +139,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 		$out = '';
 		$out .= '<i>This page aims to list the different functions you can use when programming plugins for Piwik.</i><br />';
 		$out .= '<b>Be careful, the following APIs may change in the near future as Piwik is still in development.</b><br />';
-		
+
 		$out .= '<h2>General</h2>';
 		$out .= '<h3>Accessible from your plugin controller</h3>';
 		
@@ -189,7 +189,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 		$out .= 'In order to translate strings within Javascript code, you can use the javascript function _pk_translate( token );.
 				<ul><li>The "token" parameter is the string unique key found in the translation file. For this token string to be available in Javascript, you must
 				suffix your token by "_js" in the language file. For example, you can add <code>\'Goals_AddGoal_js\' => \'Add Goal\',</code> in the lang/en.php file</li>
-				<li>You then need to instruct Piwik to load your Javascript translations for your plugin; by default, all translation strings are not loaded in Javascript for performance reasons. This can be done by calling the Smarty modifier before any your javascript includes that would be using the translations, eg. 
+				<li>You then need to instruct Piwik to load your Javascript translations for your plugin; by default, all translation strings are not loaded in Javascript for performance reasons. This can be done by calling a custom-made Smarty modifier before the Javascript code requiring translations, eg. 
 					<code>{loadJavascriptTranslations plugins=\'$YOUR_PLUGIN_NAME\'}</code>. In our previous example, the $YOUR_PLUGIN_NAME being Goals, we would write <code>{loadJavascriptTranslations plugins=\'Goals\'}</code>
 					</li><li>You can then print this string from your JS code by doing <code>_pk_translate(\'Goals_AddGoal_js\');</code>.
 					</li></ul>';
