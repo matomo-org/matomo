@@ -372,14 +372,15 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.google.cat'			=> array('Google'),
 		'go.google.com'				=> array('Google'),
 
-		// Google typos
-		'gogole.com'				=> array('Google'),
-		'gppgle.com'				=> array('Google'),
+		// Google vs typo squatters
 		'wwwgoogle.com'				=> array('Google'),
 		'wwwgoogle.{}'				=> array('Google'),
+		'gogole.com'				=> array('Google'),
+		'gogole.{}'					=> array('Google'),
+		'gppgle.com'				=> array('Google'),
+		'gppgle.{}'					=> array('Google'),
+		'googel.com'				=> array('Google'),
 		'googel.{}'					=> array('Google'),
-		'google.{}'					=> array('Google'),
-		'google.{}'					=> array('Google'),
 
 		// Powered by Google
 		'verden.abcsok.no'			=> array('Google'),
