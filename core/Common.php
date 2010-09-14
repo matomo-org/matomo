@@ -1098,19 +1098,22 @@ class Piwik_Common
 
 		require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
 
-		$refererHostPath = $refererHost . $refererPath;
-		if(array_key_exists($refererHostPath, $GLOBALS['Piwik_SearchEngines']))
+		$hostPattern = self::getLossyUrl($refererHost);
+		if(array_key_exists($refererHost . $refererPath, $GLOBALS['Piwik_SearchEngines']))
 		{
-			$refererHost = $refererHostPath;
+			$refererHost = $refererHost . $refererPath;
+		}
+		elseif(array_key_exists($hostPattern . $refererPath, $GLOBALS['Piwik_SearchEngines']))
+		{
+			$refererHost = $hostPattern . $refererPath;
+		}
+		elseif(array_key_exists($hostPattern, $GLOBALS['Piwik_SearchEngines']))
+		{
+			$refererHost = $hostPattern;
 		}
 		elseif(!array_key_exists($refererHost, $GLOBALS['Piwik_SearchEngines']))
 		{
-			$hostPattern = self::getLossyUrl($refererHost);
-			if(array_key_exists($hostPattern, $GLOBALS['Piwik_SearchEngines']))
-			{
-				$refererHost = $hostPattern;
-			}
-			else if(strpos($query, 'cx=partner-pub-') === 0)
+			if(strpos($query, 'cx=partner-pub-') === 0)
 			{
 				$refererHost = 'www.google.com/cse';
 			}
