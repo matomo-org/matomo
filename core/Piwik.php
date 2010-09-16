@@ -578,7 +578,6 @@ class Piwik
 			@header('Cache-Control: public, must-revalidate');
 			@header('Pragma:');
 			@header('Vary: Accept-Encoding');
-			//@header('Content-Disposition: inline; filename='. basename($file));
 
 			// Returns 304 if not modified since
 			if ($modifiedSince == $lastModified)
