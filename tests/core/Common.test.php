@@ -363,7 +363,7 @@ class Test_Piwik_Common extends UnitTestCase
     /**
      * Test 'url' fix up
      */
-    function test_getUrlRequestVar_searchEngineCacheFixUp()
+    function test_getUrlRequestVar_googleCacheFixUp()
     {
         $url = 'http://webcache.googleusercontent.com/search?q=cache:CD2SncROLs4J:piwik.org/blog/2010/04/piwik-0-6-security-advisory/+piwik+security&cd=1&hl=en&ct=clnk';
         $_GET['url'] = $url;
@@ -695,10 +695,6 @@ class Test_Piwik_Common extends UnitTestCase
 			// Google cache
 			'http://webcache.googleusercontent.com/search?q=cache:CD2SncROLs4J:piwik.org/blog/2010/04/piwik-0-6-security-advisory/+piwik+security&cd=1&hl=en&ct=clnk'
 				=> array('name' => 'Google', 'keywords' => 'piwik security'),
-
-			// Bing cache
-			'http://cc.bingj.com/cache.aspx?q=web+analytics&d=5020318678516316&mkt=en-CA&setlang=en-CA&w=6ea8ea88,ff6c44df'
-				=> array('name' => 'Bing', 'keywords' => 'web analytics'),
 
 			// Bing Mobile
 			'http://m.bing.com/search/search.aspx?Q=piwik&d=&dl=&pq=&a=results&MID=8015'

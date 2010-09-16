@@ -200,9 +200,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Bing
 		'bing.com'					=> array('Bing', array('q', 'Q'), 'search?q={k}'),
 
-		// Bing Cache
-		'cc.bingj.com'				=> array('Bing'),
-
 		// Bing Images
 		'bing.com/images/search'	=> array('Bing Images', array('q', 'Q'), '?q={k}'),
 
