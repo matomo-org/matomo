@@ -658,33 +658,6 @@ class Piwik_Common
 	}
 
 	/**
-	 * Get 'url' request var and apply fix-ups
-	 *
-	 * @param string $varDefault default value. If '', and if the type doesn't match, exit() !
-	 * @param array $requestArrayToUse
-	 *
-	 * @exception if the variable type is not known
-	 * @exception if the variable we want to read doesn't have neither a value nor a default value specified
-	 *
-	 * @return mixed The variable after cleaning
-	 */
-	static public function getUrlRequestVar($varDefault = null, $requestArrayToUse = null)
-	{
-		$urlValue = self::getRequestVar('url', $varDefault, 'string', $requestArrayToUse);
-
-		// fix-up for Google cache
-		if(strpos($urlValue, 'http://webcache.googleusercontent.com/') === 0)
-		{
-			if(preg_match('/\/search\?q=cache:[A-Za-z0-9]+:([^+]+)/', $urlValue, $matches))
-			{
-				$urlValue = 'http://' . $matches[1];
-			}
-		}
-
-		return $urlValue;
-	}
-
-	/**
 	 * Unserialize (serialized) array
 	 *
 	 * @param string
