@@ -109,6 +109,26 @@ $(document).ready(function () {
 		equals( tracker.hook.test._unescape("%26%3D%3F%3B%2F%23"), '&=?;/#', 'unescapeWrapper()' );
 	});
 
+	test("Tracker getHostname()", function() {
+		var tracker = Piwik.getTracker();
+
+		equals( typeof tracker.hook.test._getHostname, 'function', 'getHostname' );
+
+		equals( tracker.hook.test._getHostname('http://example.com'), 'example.com', 'http://example.com');
+		equals( tracker.hook.test._getHostname('http://example.com/'), 'example.com', 'http://example.com/');
+		equals( tracker.hook.test._getHostname('http://example.com/index'), 'example.com', 'http://example.com/index');
+		equals( tracker.hook.test._getHostname('http://example.com/index?q=xyz'), 'example.com', 'http://example.com/index?q=xyz');
+		equals( tracker.hook.test._getHostname('http://example.com/?q=xyz'), 'example.com', 'http://example.com/?q=xyz');
+		equals( tracker.hook.test._getHostname('http://example.com/?q=xyz#hash'), 'example.com', 'http://example.com/?q=xyz#hash');
+		equals( tracker.hook.test._getHostname('http://example.com#hash'), 'example.com', 'http://example.com#hash');
+		equals( tracker.hook.test._getHostname('http://example.com/#hash'), 'example.com', 'http://example.com/#hash');
+		equals( tracker.hook.test._getHostname('http://example.com:80'), 'example.com', 'http://example.com:80');
+		equals( tracker.hook.test._getHostname('http://example.com:80/'), 'example.com', 'http://example.com:80/');
+		equals( tracker.hook.test._getHostname('https://example.com/'), 'example.com', 'https://example.com/');
+		equals( tracker.hook.test._getHostname('http://user@example.com/'), 'example.com', 'http://user@example.com/');
+		equals( tracker.hook.test._getHostname('http://user:password@example.com/'), 'example.com', 'http://user:password@example.com/');
+	});
+
 	test("Tracker setDomains() and isSiteHostName()", function() {
 		expect(9);
 
