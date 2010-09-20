@@ -169,7 +169,7 @@ if (!this.Piwik) {
 			// scheme : // [username [: password] @] hostame [: port] [/ [path] [? query] [# fragment]]
 			var e = new RegExp('^(?:(?:https?|ftp):)/*(?:[^@]+@)?([^:/#]+)'),
 				matches = e.exec(url);
-			return matches ? matches[1] : '';
+			return matches ? matches[1] : url;
 		}
 
 		/*
