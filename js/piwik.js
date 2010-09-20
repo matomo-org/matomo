@@ -41,7 +41,8 @@ if (!this.Piwik) {
 		navigatorAlias = navigator,
 		screenAlias = screen,
 		windowAlias = window,
-		hostnameAlias = windowAlias.location.hostname,
+		locationHrefAlias = windowAlias.location.href,
+		locationHostnameAlias = windowAlias.location.hostname,
 
 		/* DOM Ready */
 		hasLoaded = false,
@@ -162,6 +163,16 @@ if (!this.Piwik) {
 		}
 
 		/*
+		 * Extract hostname from URL
+		 */
+		function getHostname(url) {
+			// scheme : // [username [: password] @] hostame [: port] [/ [path] [? query] [# fragment]]
+			var e = new RegExp('^(?:(?:https?|ftp):)/*(?:[^@]+@)?([^:/#]+)'),
+				matches = e.exec(url);
+			return matches ? matches[1] : '';
+		}
+
+		/*
 		 * Piwik Tracker class
 		 *
 		 * trackerUrl and trackerSiteId are optional arguments to the constructor
@@ -169,6 +180,15 @@ if (!this.Piwik) {
 		 * See: Tracker.setTrackerUrl() and Tracker.setSiteId()
 		 */
 		function Tracker(trackerUrl, siteId) {
+			/************************************************************
+			 * Search engine cache detection and fix-up
+			 ************************************************************/
+			if (locationHostnameAlias == 'webcache.googleusercontent' ||
+					locationHostnameAlias == 'cc.bingj.com') {
+				locationHrefAlias = documentAlias.links[0].href;
+				locationHostnameAlias = getHostname(locationHrefAlias);
+			}
+
 			/************************************************************
 			 * Private members
 			 ************************************************************/
@@ -189,7 +209,7 @@ if (!this.Piwik) {
 			configDownloadExtensions = '7z|aac|arc|arj|asf|asx|avi|bin|csv|deb|dmg|doc|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt|qtm?|ra(m|r)?|rpm|sea|sit|tar|t?bz2?|tgz|torrent|txt|wav|wma|wmv|wpd||xls|xml|z|zip',
 
 			// Hosts or alias(es) to not treat as outlinks
-			configHostsAlias = [hostnameAlias],
+			configHostsAlias = [locationHostnameAlias],
 
 			// Anchor classes to not track
 			configIgnoreClasses = [],
@@ -487,7 +507,7 @@ if (!this.Piwik) {
 				now = new Date();
 				request = 'idsite=' + configTrackerSiteId +
 						'&rec=1' + 
-				        '&url=' + escapeWrapper(isDefined(configCustomUrl) ? configCustomUrl : documentAlias.location.href) +
+				        '&url=' + escapeWrapper(isDefined(configCustomUrl) ? configCustomUrl : locationHrefAlias) +
 				        '&res=' + screenAlias.width + 'x' + screenAlias.height +
 				        '&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
 				        '&cookie=' + browserHasCookies +
@@ -831,10 +851,10 @@ if (!this.Piwik) {
 				setDomains: function (hostsAlias) {
 					if (typeof hostsAlias == 'object' && hostsAlias instanceof Array) {
 						configHostsAlias = hostsAlias;
-						// configHostAlias.push(hostnameAlias); // array.push added in IE5.5
-						configHostsAlias[configHostsAlias.length] = hostnameAlias;
+						// configHostAlias.push(locationHostnameAlias); // array.push added in IE5.5
+						configHostsAlias[configHostsAlias.length] = locationHostnameAlias;
 					} else if (typeof hostsAlias == 'string') {
-						configHostsAlias = [hostsAlias, hostnameAlias];
+						configHostsAlias = [hostsAlias, locationHostnameAlias];
 					}
 				},
 
