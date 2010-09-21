@@ -653,7 +653,10 @@ class Test_Piwik_Common extends UnitTestCase
 			
 			'http://www.google.ge/search?hl=en&q=%E1%83%A1%E1%83%90%E1%83%A5%E1%83%90%E1%83%A0%E1%83%97%E1%83%95%E1%83%94%E1%83%9A%E1%83%9D&btnG=Google+Search' 
 				=> array('name' => 'Google', 'keywords' => 'საქართველო'),
-			
+
+			'http://search.naver.com/search.naver?sm=tab_hty&where=nexearch&query=mysql%B7%CE%B1%D7'
+				=> array('name' => 'Naver', 'keywords' => 'mysqlα'),
+
 			// new Google url formats
 			'http://www.google.com/url?sa=t&source=web&ct=res&cd=7&url=http%3A%2F%2Fwww.example.com%2Fmypage.htm&ei=0SjdSa-1N5O8M_qW8dQN&rct=j&q=flowers&usg=AFQjCNHJXSUh7Vw7oubPaO3tZOzz-F-u_w&sig2=X8uCFh6IoPtnwmvGMULQfw'
 				=> array('name' => 'Google', 'keywords' => 'flowers'),
