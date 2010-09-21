@@ -1088,9 +1088,10 @@ class Piwik_Common
 		{
 			if(strpos($query, 'cx=partner-pub-') === 0)
 			{
+				// Google custom search engine
 				$refererHost = 'www.google.com/cse';
 			}
-			else if(strpos($refererPath, '/pemonitorhosted/ws/results/') === 0)
+			elseif(strpos($refererPath, '/pemonitorhosted/ws/results/') === 0)
 			{
 				// private-label search powered by InfoSpace Metasearch
 				$refererHost = 'infospace.com';
