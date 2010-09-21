@@ -838,8 +838,11 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'qc.images.yahoo.com'		=> array('Yahoo! Images'),
 	
 		// Yandex
-		'yandex.ru'					=> array('Yandex', 'text', 'yandsearch?text={k}'),
-		'yandex.ua'					=> array('Yandex'),
+		'www.yandex.com'			=> array('Yandex', 'text', 'yandsearch?text={k}'),
+		'www.yandex.ru'				=> array('Yandex'),
+		'www.yandex.ua'				=> array('Yandex'),
+		'www.yandex.by'				=> array('Yandex'),
+		'www.yandex.kz'				=> array('Yandex'),
 
 		// Yandex Images
 		'images.yandex.ru'			=> array('Yandex Images', 'text', 'yandsearch?text={k}'),
