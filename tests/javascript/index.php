@@ -26,6 +26,8 @@ function url(value) {
  </script>
 </head>
 <body>
+<div style="display:none;"><a href="http://piwik.org/qa">First anchor link</a></div>
+
 <?php
 $sqlite = false;
 if (file_exists("enable_sqlite")) {
@@ -34,7 +36,6 @@ if (file_exists("enable_sqlite")) {
 	}
 }
 ?>
-
 
  <h1 id="qunit-header">piwik.js: Piwik Unit Tests</h1>
  <h2 id="qunit-banner"></h2>
@@ -109,7 +110,9 @@ $(document).ready(function () {
 		equals( tracker.hook.test._unescape("%26%3D%3F%3B%2F%23"), '&=?;/#', 'unescapeWrapper()' );
 	});
 
-	test("Tracker getHostname()", function() {
+	test("Tracker getHostname() and cacheFixup()", function() {
+		expect(16);
+
 		var tracker = Piwik.getTracker();
 
 		equals( typeof tracker.hook.test._getHostname, 'function', 'getHostname' );
@@ -127,6 +130,12 @@ $(document).ready(function () {
 		equals( tracker.hook.test._getHostname('https://example.com/'), 'example.com', 'https://example.com/');
 		equals( tracker.hook.test._getHostname('http://user@example.com/'), 'example.com', 'http://user@example.com/');
 		equals( tracker.hook.test._getHostname('http://user:password@example.com/'), 'example.com', 'http://user:password@example.com/');
+
+		same( tracker.hook.test._cacheFixup( 'webcache.googleusercontent.com', 'http://webcache.googleusercontent.com/search?q=cache:CD2SncROLs4J:piwik.org/blog/2010/04/piwik-0-6-security-advisory/+piwik+security&cd=1&hl=en&ct=clnk' ),
+				['piwik.org', 'http://piwik.org/qa'], 'webcache.googleusercontent.com' );
+
+		same( tracker.hook.test._cacheFixup( 'cc.bingj.com', 'http://cc.bingj.com/cache.aspx?q=web+analytics&d=5020318678516316&mkt=en-CA&setlang=en-CA&w=6ea8ea88,ff6c44df' ),
+				['piwik.org', 'http://piwik.org/qa'], 'cc.bingj.com' );
 	});
 
 	test("Tracker setDomains() and isSiteHostName()", function() {

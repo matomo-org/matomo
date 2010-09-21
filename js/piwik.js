@@ -173,6 +173,17 @@ if (!this.Piwik) {
 		}
 
 		/*
+		 * Search engine cache detection and fix-up
+		 */
+		function cacheFixup(hostname, href) {
+			if (hostname == 'webcache.googleusercontent.com' || hostname == 'cc.bingj.com') {
+				href = documentAlias.links[0].href;
+				hostname = getHostname(href);
+			}
+			return [hostname, href];
+		}
+
+		/*
 		 * Piwik Tracker class
 		 *
 		 * trackerUrl and trackerSiteId are optional arguments to the constructor
@@ -180,18 +191,14 @@ if (!this.Piwik) {
 		 * See: Tracker.setTrackerUrl() and Tracker.setSiteId()
 		 */
 		function Tracker(trackerUrl, siteId) {
-			/************************************************************
-			 * Search engine cache detection and fix-up
-			 ************************************************************/
-			if (locationHostnameAlias == 'webcache.googleusercontent' ||
-					locationHostnameAlias == 'cc.bingj.com') {
-				locationHrefAlias = documentAlias.links[0].href;
-				locationHostnameAlias = getHostname(locationHrefAlias);
-			}
 
 			/************************************************************
 			 * Private members
 			 ************************************************************/
+
+			var locationArray = cacheFixup(locationHostnameAlias, locationHrefAlias);
+			locationHostnameAlias = locationArray[0];
+			locationHrefAlias = locationArray[1];
 
 			var	// Tracker URL
 			configTrackerUrl = trackerUrl || '',
