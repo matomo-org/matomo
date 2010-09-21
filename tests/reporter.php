@@ -2,7 +2,7 @@
 class HtmlTimerReporter extends HtmlReporter
 {
     function HtmlTimerReporter($intro = '') {
-        $this->HtmlReporter();
+        $this->HtmlReporter('UTF-8');
         $this->timer = new Piwik_Timer;
         $this->intro = $intro;
     }

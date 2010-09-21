@@ -5,6 +5,7 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 }
 
 // require_once 'Referers/API.php';
+require_once 'Referers/functions.php';
 
 class Test_Referers extends UnitTestCase
 {
@@ -62,6 +63,20 @@ class Test_Referers extends UnitTestCase
 
 			$host = substr($name, 0, -4);
 			$this->assertTrue(array_key_exists($host, $searchEngines), $host);
+		}
+	}
+
+	// get search engine host from url
+	function test_getSearchEngineHostFromUrl()
+	{
+		$data = array(
+			'http://www.google.com/cse' => 'www.google.com',
+			'http://www.google.com' => 'www.google.com',
+		);
+
+		foreach($data as $url => $expected)
+		{
+			$this->assertEqual(Piwik_getSearchEngineHostFromUrl($url), $expected, $url);
 		}
 	}
 }

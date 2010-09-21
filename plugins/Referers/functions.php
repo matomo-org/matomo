@@ -74,7 +74,12 @@ function Piwik_getSearchEngineLogoFromUrl($url)
  */
 function Piwik_getSearchEngineHostFromUrl($url)
 {
-	return substr($url, strpos($url,'//') + 2);
+	$url = substr($url, strpos($url,'//') + 2);
+	if(($p = strpos($url, '/')) !== false)
+	{
+		$url = substr($url, 0, $p);
+	}
+	return $url;
 }
 
 /**

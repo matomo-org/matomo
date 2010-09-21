@@ -1120,7 +1120,7 @@ class Piwik_Common
 		if($searchEngineName == 'Google Images'
 			|| ($searchEngineName == 'Google' && strpos($refererUrl, '/imgres') !== false) )
 		{
-			$query = urldecode(trim(strtolower(self::getParameterFromQueryString($query, 'prev'))));
+			$query = urldecode(trim(self::getParameterFromQueryString($query, 'prev')));
 			$query = str_replace('&', '&amp;', strstr($query, '?'));
 			$searchEngineName = 'Google Images';
 		}
@@ -1147,7 +1147,7 @@ class Piwik_Common
 			{
 				array_push($keys, "-$key");
 			}
-			$key = trim(urldecode(strtolower(implode(' ', $keys))));
+			$key = trim(urldecode(implode(' ', $keys)));
 		}
 
 		if(empty($key))
@@ -1166,7 +1166,7 @@ class Piwik_Common
 				else
 				{
 					// search for keywords now &vname=keyword
-					$key = strtolower(self::getParameterFromQueryString($query, $variableName));
+					$key = self::getParameterFromQueryString($query, $variableName);
 					$key = trim(urldecode($key));
 					if(!empty($key))
 					{
@@ -1186,9 +1186,16 @@ class Piwik_Common
 			$charset = trim($GLOBALS['Piwik_SearchEngines'][$refererHost][3]);
 			if(!empty($charset))
 			{
-				$key = @iconv($charset, 'utf-8//IGNORE', $key);
+				$newkey = @iconv($charset, 'UTF-8//IGNORE', $key);
+				if(!empty($newkey))
+				{
+					$key = $newkey;
+				}
 			}
 		}
+
+		$key = function_exists('mb_strtolower') ? mb_strtolower($key, 'UTF-8') : strtolower($key);
+
 		return array(
 			'name' => $searchEngineName,
 			'keywords' => $key,
