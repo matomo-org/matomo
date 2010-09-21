@@ -176,7 +176,7 @@ if (!this.Piwik) {
 		 * Search engine cache detection and fix-up
 		 */
 		function cacheFixup(hostname, href) {
-			if (hostname == 'webcache.googleusercontent.com' || hostname == 'cc.bingj.com') {
+			if (hostname == 'webcache.googleusercontent.com' || hostname == 'cc.bingj.com' || hostname.substr(0, 9) == '74.6.239.') {
 				href = documentAlias.links[0].href;
 				hostname = getHostname(href);
 			}

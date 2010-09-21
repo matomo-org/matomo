@@ -111,7 +111,7 @@ $(document).ready(function () {
 	});
 
 	test("Tracker getHostname() and cacheFixup()", function() {
-		expect(16);
+		expect(18);
 
 		var tracker = Piwik.getTracker();
 
@@ -136,6 +136,12 @@ $(document).ready(function () {
 
 		same( tracker.hook.test._cacheFixup( 'cc.bingj.com', 'http://cc.bingj.com/cache.aspx?q=web+analytics&d=5020318678516316&mkt=en-CA&setlang=en-CA&w=6ea8ea88,ff6c44df' ),
 				['piwik.org', 'http://piwik.org/qa'], 'cc.bingj.com' );
+
+		same( tracker.hook.test._cacheFixup( '74.6.239.185', 'http://74.6.239.185/search/srpcache?ei=UTF-8&p=piwik&fr=yfp-t-964&fp_ip=ca&u=http://cc.bingj.com/cache.aspx?q=piwik&d=4770519086662477&mkt=en-US&setlang=en-US&w=f4bc05d8,8c8af2e3&icp=1&.intl=us&sig=PXmPDNqapxSQ.scsuhIpZA--' ),
+				['piwik.org', 'http://piwik.org/qa'], 'yahoo cache (1)' );
+
+		same( tracker.hook.test._cacheFixup( '74.6.239.84', 'http://74.6.239.84/search/srpcache?ei=UTF-8&p=web+analytics&fr=yfp-t-715&u=http://cc.bingj.com/cache.aspx?q=web+analytics&d=5020318680482405&mkt=en-CA&setlang=en-CA&w=a68d7af0,873cfeb0&icp=1&.intl=ca&sig=x6MgjtrDYvsxi8Zk2ZX.tw--' ),
+				['piwik.org', 'http://piwik.org/qa'], 'yahoo cache (1)' );
 	});
 
 	test("Tracker setDomains() and isSiteHostName()", function() {
