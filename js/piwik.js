@@ -17,9 +17,8 @@
  * Browser [In]Compatibility
  *
  * This version of piwik.js is known to not work with:
- * - IE4 (and below) - try..catch and for..in not introduced until IE5
- *
- * @todo Move to minimum EMCAScript v3 (IE5.5).
+ * - IE4 - try..catch and for..in introduced in IE5
+ * - IE5 - named anonymous functions and array.push introduced in IE5.5
  */
 
 // Guard against loading the script twice
@@ -125,33 +124,27 @@ if (!this.Piwik) {
 		 */
 		function addReadyListener() {
 			if (documentAlias.addEventListener) {
-//				addEventListener(documentAlias, "DOMContentLoaded", function ready() { // named functions added in IE 5.5
-				addEventListener(documentAlias, "DOMContentLoaded", function () {
-//                        documentAlias.removeEventListener("DOMContentLoaded", ready, false);
-                        documentAlias.removeEventListener("DOMContentLoaded", arguments.callee, false);
+				addEventListener(documentAlias, "DOMContentLoaded", function ready() {
+                        documentAlias.removeEventListener("DOMContentLoaded", ready, false);
 						loadHandler();
 					});
 			} else if (documentAlias.attachEvent) {
-//				documentAlias.attachEvent("onreadystatechange", function ready() {
-				documentAlias.attachEvent("onreadystatechange", function () { // named functions added in IE 5.5
+				documentAlias.attachEvent("onreadystatechange", function ready() {
 					if (documentAlias.readyState === "complete") {
-//						documentAlias.detachEvent("onreadystatechange", ready);
-						documentAlias.detachEvent("onreadystatechange", arguments.callee);
+						documentAlias.detachEvent("onreadystatechange", ready);
 						loadHandler();
 					}
 				});
 
 				if (documentAlias.documentElement.doScroll && windowAlias == windowAlias.top) {
-//					(function ready() { // named functions added in IE 5.5
-					(function () {
+					(function ready() {
 						if (hasLoaded) {
 							return;
 						}
 						try {
 							documentAlias.documentElement.doScroll("left");
 						} catch (error) {
-//							setTimeout(ready, 0);
-							setTimeout(arguments.callee, 0);
+							setTimeout(ready, 0);
 							return;
 						}
 						loadHandler();
@@ -176,7 +169,10 @@ if (!this.Piwik) {
 		 * Search engine cache detection and fix-up
 		 */
 		function cacheFixup(hostname, href) {
-			if (hostname == 'webcache.googleusercontent.com' || hostname == 'cc.bingj.com' || hostname.substr(0, 9) == '74.6.239.') {
+			if (hostname == 'webcache.googleusercontent.com' || // Google
+					hostname == 'cc.bingj.com' ||				// Bing
+					hostname.substr(0, 9) == '74.6.239.')		// Yahoo (via Inktomi)
+			{
 				href = documentAlias.links[0].href;
 				hostname = getHostname(href);
 			}
@@ -364,8 +360,7 @@ if (!this.Piwik) {
 						for (k in value) {
 							v = str(k, value);
 							if (v) {
-								// partial.push(quote(k) + ':' + v); // array.push added in IE5.5
-								partial[partial.length] = quote(k) + ':' + v;
+								partial.push(quote(k) + ':' + v);
 							}
 						}
 
@@ -858,8 +853,7 @@ if (!this.Piwik) {
 				setDomains: function (hostsAlias) {
 					if (typeof hostsAlias == 'object' && hostsAlias instanceof Array) {
 						configHostsAlias = hostsAlias;
-						// configHostAlias.push(locationHostnameAlias); // array.push added in IE5.5
-						configHostsAlias[configHostsAlias.length] = locationHostnameAlias;
+						configHostsAlias.push(locationHostnameAlias);
 					} else if (typeof hostsAlias == 'string') {
 						configHostsAlias = [hostsAlias, locationHostnameAlias];
 					}
