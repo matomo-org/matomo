@@ -39,6 +39,7 @@
 <input type="checkbox" name="choice" id="choice" value="yes" /> <label for="choice">{'VisitorGenerator_ChoiceYes'|translate}</label>
 <br />
 <input type="hidden" value="{$token_auth}" name="token_auth" />
+<input type="hidden" value="{$nonce}" name="form_nonce" />
 <input type="submit" value="{'VisitorGenerator_Submit'|translate}" name="submit" class="submit" />
 </form>
 

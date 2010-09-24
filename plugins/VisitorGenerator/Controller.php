@@ -24,6 +24,7 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller {
 		$view = Piwik_View::factory('index');
 		$this->setBasicVariablesView($view);
 		$view->assign('sitesList', $sitesList);
+		$view->nonce = Piwik_Nonce::getNonce('Piwik_VisitorGenerator.generate');
 
 		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();
@@ -39,7 +40,10 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller {
 		$COOKIE = $_COOKIE;
 		$REQUEST = $_REQUEST;
 
-		if(Piwik_Common::getRequestVar('choice', 'no') != 'yes') {
+		$nonce = Piwik_Common::getRequestVar('form_nonce', '', 'string', $POST);
+		if(Piwik_Common::getRequestVar('choice', 'no') != 'yes' ||
+				!Piwik_Nonce::verifyNonce('Piwik_VisitorGenerator.generate', $nonce))
+		{
 			Piwik::redirectToModule('VisitorGenerator', 'index');
 		}
 
@@ -47,7 +51,11 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller {
 		$maxVisitors = Piwik_Common::getRequestVar('maxVisitors', 100, 'int');
 		$nbActions = Piwik_Common::getRequestVar('nbActions', 10, 'int');
 		$daysToCompute = Piwik_Common::getRequestVar('daysToCompute', 1, 'int');
-		$idSite = Piwik_Common::getRequestVar('idSite');
+
+		// get idSite from POST with fallback to GET
+		$idSite = Piwik_Common::getRequestVar('idSite', false, 'int', $GET);
+		$idSite = Piwik_Common::getRequestVar('idSite', $idSite, 'int', $POST);
+
 		Piwik::setMaxExecutionTime(0);
 
 		$loadedPlugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
