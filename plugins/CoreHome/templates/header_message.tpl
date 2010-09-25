@@ -18,12 +18,12 @@
 		{'General_DownloadFullVersion'|translate:"<a href='http://piwik.org/'>":"</a>":"<a href='http://piwik.org'>piwik.org</a>"}
 	{elseif $latest_version_available}
 		{if $isSuperUser}
-			{'General_PiwikXIsAvailablePleaseUpdateNow'|translate:$latest_version_available:"<br /><a href='index.php?module=CoreUpdater&action=newVersionAvailable'>":"</a>":"<a href='misc/redirectToUrl.php?url=http://piwik.org/changelog/' target='_blank'>":"</a>"}
+			{'General_PiwikXIsAvailablePleaseUpdateNow'|translate:$latest_version_available:"<br /><a href='index.php?module=CoreUpdater&action=newVersionAvailable'>":"</a>":"<a href='?module=Proxy&action=redirect&url=http://piwik.org/changelog/' target='_blank'>":"</a>"}
 		{else}
-			{'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin'|translate:"<a href='misc/redirectToUrl.php?url=http://piwik.org/' target='_blank'>Piwik</a> <a href='misc/redirectToUrl.php?url=http://piwik.org/changelog/' target='_blank'>$latest_version_available</a>"}
+			{'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin'|translate:"<a href='?module=Proxy&action=redirect&url=http://piwik.org/' target='_blank'>Piwik</a> <a href='?module=Proxy&action=redirect&url=http://piwik.org/changelog/' target='_blank'>$latest_version_available</a>"}
 		{/if}
 	{else}
-		{'General_PiwikIsACollaborativeProjectYouCanContribute'|translate:"<a href='misc/redirectToUrl.php?url=http://piwik.org' target='_blank'>":"$piwik_version</a>":"<br />":"<a target='_blank' href='misc/redirectToUrl.php?url=http://piwik.org/contribute/'>":"</a>"}
+		{'General_PiwikIsACollaborativeProjectYouCanContribute'|translate:"<a href='?module=Proxy&action=redirect&url=http://piwik.org' target='_blank'>":"$piwik_version</a>":"<br />":"<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/contribute/'>":"</a>"}
 	{/if}
 </span>
 </span>

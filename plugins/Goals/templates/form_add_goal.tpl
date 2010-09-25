@@ -53,7 +53,7 @@
 	</tbody>
 	<tbody id="manual_trigger_section" style="display:none">
 		<tr><td colspan="2" class="first">
-				{'Goals_WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore'|translate:"<a target='_blank' href='misc/redirectToUrl.php?url=http://piwik.org/docs/javascript-tracking/'>":"</a>"}
+				{'Goals_WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore'|translate:"<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/javascript-tracking/'>":"</a>"}
 		</td></tr>
 	</tbody>
 	<tbody>

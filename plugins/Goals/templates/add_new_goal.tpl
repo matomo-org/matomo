@@ -6,6 +6,6 @@
 <p>
 {'Goals_NoGoalsNeedAccess'|translate}
 </p>
-<p>{'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate:"<a href='misc/redirectToUrl.php?url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>":"</a>"}
+<p>{'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate:"<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>":"</a>"}
 </p>
 {/if}

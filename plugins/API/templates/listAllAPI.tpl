@@ -15,7 +15,7 @@
         <p>{'API_GenerateVisits'|translate:'VisitorGenerator':'VisitorGenerator'}</p>
     {/if}
     
-    <p><b>{'API_MoreInformation'|translate:"<a target='_blank' href='misc/redirectToUrl.php?url=http://dev.piwik.org/trac/wiki/API'>":"</a>":"<a target='_blank' href='misc/redirectToUrl.php?url=http://dev.piwik.org/trac/wiki/API/Reference'>":"</a>"}</b></p>
+    <p><b>{'API_MoreInformation'|translate:"<a target='_blank' href='?module=Proxy&action=redirect&url=http://dev.piwik.org/trac/wiki/API'>":"</a>":"<a target='_blank' href='?module=Proxy&action=redirect&url=http://dev.piwik.org/trac/wiki/API/Reference'>":"</a>"}</b></p>
     
     <h2>{'API_UserAuthentication'|translate}</h2>
     <p>

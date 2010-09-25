@@ -47,8 +47,8 @@ class Piwik_AssetManager
 	const MERGED_FILE_DIR = "tmp/assets/";
 	const CSS_IMPORT_DIRECTIVE = "<link rel=\"stylesheet\" type=\"text/css\" href=\"%s\" />\n";
 	const JS_IMPORT_DIRECTIVE = "<script type=\"text/javascript\" src=\"%s\"></script>\n";
-	const GET_CSS_MODULE_ACTION = "index.php?module=CoreHome&action=getCss";
-	const GET_JS_MODULE_ACTION = "index.php?module=CoreHome&action=getJs";
+	const GET_CSS_MODULE_ACTION = "index.php?module=Proxy&action=getCss";
+	const GET_JS_MODULE_ACTION = "index.php?module=Proxy&action=getJs";
 	const MINIFIED_JS_RATIO = 100;
 	
 	/**

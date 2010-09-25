@@ -1,6 +1,6 @@
 {if isset($onlyShowAddNewGoal)}
     <h2>{'Goals_AddNewGoal'|translate}</h2>
-    <p>{'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate:"<a href='misc/redirectToUrl.php?url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>":"</a>"}
+    <p>{'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate:"<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>":"</a>"}
     </p>
 {else}
 	
@@ -10,7 +10,7 @@
 		<ul class='listCircle'>
 			<li><a onclick='' name='linkAddNewGoal'><u>{'Goals_CreateNewGOal'|translate}</u></a></li>
 			<li><a onclick='' name='linkEditGoals'>{'Goals_ViewAndEditGoals'|translate}</a></li>
-			<li>{'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate:"<a href='misc/redirectToUrl.php?url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>":"</a>"}</li>
+			<li>{'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate:"<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>":"</a>"}</li>
 		</ul>
 	</div>
 	<br/>
