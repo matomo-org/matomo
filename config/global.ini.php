@@ -285,6 +285,7 @@ error_reporting = E_ALL|E_NOTICE
 Plugins[] 		= CorePluginsAdmin
 Plugins[] 		= CoreAdminHome
 Plugins[] 		= CoreHome
+Plugins[]		= Proxy
 Plugins[] 		= API
 Plugins[] 		= Widgetize
 Plugins[] 		= LanguagesManager
@@ -313,8 +314,7 @@ Plugins[] 		= UsersManager
 Plugins[] 		= SitesManager
 Plugins[] 		= Installation
 Plugins[] 		= CoreUpdater
-; disabled in 0.7-rc1
-Plugins[]       = PDFReports
+Plugins[]		= PDFReports
 Plugins[] 		= UserCountryMap
 Plugins[] 		= Live
 
@@ -328,4 +328,3 @@ PluginsInstalled[] = Installation
 [Plugins_Tracker]
 Plugins_Tracker[] = Provider
 Plugins_Tracker[] = Goals
-

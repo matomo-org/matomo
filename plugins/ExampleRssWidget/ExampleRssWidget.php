@@ -114,7 +114,7 @@ class Piwik_ExampleRssWidget_Rss
 			$date = @strftime("%B %e, %Y", strtotime($post->pubDate()));
 			$link = $post->link();
 			
-			$output .= '<li><a class="rss-title" title="" target="_blank" href="misc/redirectToUrl.php?url='.$link.'">'.$title.'</a>'.
+			$output .= '<li><a class="rss-title" title="" target="_blank" href="?module=Proxy&action=redirect&url='.$link.'">'.$title.'</a>'.
 						'<span class="rss-date">'.$date.'</span>';
 			if($this->showDescription) 
 			{

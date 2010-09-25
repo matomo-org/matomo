@@ -43,14 +43,16 @@ class Piwik_PluginsManager
 	protected $loadedPlugins = array();
 	
 	protected $doLoadAlwaysActivatedPlugins = true;
-	protected $pluginToAlwaysActivate = array(  'CoreHome', 
-												'CoreUpdater', 
-												'CoreAdminHome', 
-												'CorePluginsAdmin', 
-												'Installation', 
-												'SitesManager', 
-												'UsersManager',
-												'API',
+	protected $pluginToAlwaysActivate = array(
+		'CoreHome', 
+		'CoreUpdater', 
+		'CoreAdminHome', 
+		'CorePluginsAdmin', 
+		'Installation', 
+		'SitesManager', 
+		'UsersManager',
+		'API',
+		'Proxy',
 	);
 
 	static private $instance = null;

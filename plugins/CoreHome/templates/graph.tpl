@@ -3,7 +3,7 @@
 
 	{if $flashParameters.isDataAvailable || !$flashParameters.includeData}
 		<div><div id="{$chartDivId}">
-			{'General_RequiresFlash'|translate} >= {$flashParameters.requiredFlashVersion}. <a target="_blank" href="misc/redirectToUrl.php?url={'http://piwik.org/faq/troubleshooting/#faq_53'|escape:"url"}">{'General_GraphHelp'|translate}</a>
+			{'General_RequiresFlash'|translate} >= {$flashParameters.requiredFlashVersion}. <a target="_blank" href="?module=Proxy&action=redirect&url={'http://piwik.org/faq/troubleshooting/#faq_53'|escape:"url"}">{'General_GraphHelp'|translate}</a>
 		</div></div>
 		<script type="text/javascript">
 <!--

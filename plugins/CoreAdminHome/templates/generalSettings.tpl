@@ -19,13 +19,13 @@
 		
 		<label><input type="radio" value="0" name="enableBrowserTriggerArchiving"{if $enableBrowserTriggerArchiving==0} checked="checked"{/if} /> 
 			{'General_No'|translate} <br />
-			<span class="form-description">{'General_ArchivingTriggerDescription'|translate:"<a href='misc/redirectToUrl.php?url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>":"</a>"}</span>
+			<span class="form-description">{'General_ArchivingTriggerDescription'|translate:"<a href='?module=Proxy&action=redirect&php?url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>":"</a>"}</span>
 		</label> 
 	</fieldset>
 	<td>
 	{capture assign=browserArchivingHelp}
 		{'General_ArchivingInlineHelp'|translate}<br /> 
-		{'General_SeeTheOfficialDocumentationForMoreInformation'|translate:"<a href='misc/redirectToUrl.php?url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>":"</a>"}
+		{'General_SeeTheOfficialDocumentationForMoreInformation'|translate:"<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>":"</a>"}
 	{/capture}
 	{$browserArchivingHelp|inlineHelp}	</td>
 	</td>

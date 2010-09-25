@@ -27,15 +27,15 @@ $(function() {
 
   <div id="feedback-faq">
     <p><strong>{'Feedback_DoYouHaveBugReportOrFeatureRequest'|translate}</strong></p>
-    <p> &bull; {'Feedback_ViewAnswersToFAQ'|translate:"<a target='_blank' href='misc/redirectToUrl.php?url=http://piwik.org/faq/'>":"</a>"}.</p>
+    <p> &bull; {'Feedback_ViewAnswersToFAQ'|translate:"<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/faq/'>":"</a>"}.</p>
     <ul>
       <li>» {'Feedback_WhyAreMyVisitsNoTracked'|translate}</li>
       <li>» {'Feedback_HowToExclude'|translate}</li>
       <li>» {'Feedback_WhyWrongCountry'|translate}</li>
       <li>» {'Feedback_HowToAnonymizeIP'|translate}</li>
     </ul>
-    <p> &bull; {'Feedback_VisitTheForums'|translate:"<a target='_blank' href='misc/redirectToUrl.php?url=http://forum.piwik.org/'>":"</a>"}.</p>
-    <p> &bull; {'Feedback_LearnWaysToParticipate'|translate:"<a target='_blank' href='misc/redirectToUrl.php?url=http://piwik.org/contribute/'>":"</a>"}.</p>
+    <p> &bull; {'Feedback_VisitTheForums'|translate:"<a target='_blank' href='?module=Proxy&action=redirect&url=http://forum.piwik.org/'>":"</a>"}.</p>
+    <p> &bull; {'Feedback_LearnWaysToParticipate'|translate:"<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/contribute/'>":"</a>"}.</p>
     <br />
     <p><strong>{'Feedback_SpecialRequest'|translate}</strong></p>
     <p> &bull;  <a target='_blank' href="#" id="feedback-contact">{'Feedback_ContactThePiwikTeam'|translate}</a></p>

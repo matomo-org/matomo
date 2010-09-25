@@ -40,8 +40,8 @@ class Piwik_Updates_0_6_rc1 extends Piwik_Updates
 	{
 		// first we disable the plugins and keep an array of warnings messages 
 		$pluginsToDisableMessage = array(
-			'SearchEnginePosition' => "SearchEnginePosition plugin was disabled, because it is not compatible with the new Piwik 0.6. \n You can download the latest version of the plugin, compatible with Piwik 0.6.\n<a target='_blank' href='misc/redirectToUrl.php?url=http://dev.piwik.org/trac/ticket/502'>Click here.</a>", 
-			'GeoIP' => "GeoIP plugin was disabled, because it is not compatible with the new Piwik 0.6. \nYou can download the latest version of the plugin, compatible with Piwik 0.6.\n<a target='_blank' href='misc/redirectToUrl.php?url=http://dev.piwik.org/trac/ticket/45'>Click here.</a>"
+			'SearchEnginePosition' => "SearchEnginePosition plugin was disabled, because it is not compatible with the new Piwik 0.6. \n You can download the latest version of the plugin, compatible with Piwik 0.6.\n<a target='_blank' href='?module=Proxy&action=redirect&url=http://dev.piwik.org/trac/ticket/502'>Click here.</a>", 
+			'GeoIP' => "GeoIP plugin was disabled, because it is not compatible with the new Piwik 0.6. \nYou can download the latest version of the plugin, compatible with Piwik 0.6.\n<a target='_blank' href='?module=Proxy&action=redirect&url=http://dev.piwik.org/trac/ticket/45'>Click here.</a>"
 		);
 		$disabledPlugins = array();
 		foreach($pluginsToDisableMessage as $pluginToDisable => $warningMessage) 
