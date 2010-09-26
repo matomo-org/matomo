@@ -835,7 +835,7 @@ class Piwik_Common
 			$browserLang = self::sanitizeInputValues(@$_SERVER['HTTP_ACCEPT_LANGUAGE']);
 			if(empty($browserLang) && self::isPhpCliMode())
 			{
-				$browserLang = @$_ENV['LANG'];
+				$browserLang = @getenv('LANG');
 			}
 		}
 
