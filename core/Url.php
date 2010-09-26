@@ -399,6 +399,7 @@ class Piwik_Url
 		// whitelist the *.piwik.org domain
 		if(!preg_match('~^http://(qa\.|demo\.|dev\.|forum\.)?piwik.org(/|$)~', $url))
 		{
+			// plugin's author (developer) home page URLs also ok
 			$homepageUrls = array();
 			$listPlugins = Piwik_PluginsManager::getInstance()->readPluginsDirectory();
 
