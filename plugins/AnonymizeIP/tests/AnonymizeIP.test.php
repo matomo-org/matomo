@@ -36,7 +36,8 @@ class Test_Piwik_AnonymizeIP extends UnitTestCase
 			// each IP is tested with 0 to 4 octets masked
 			for($maskLength = 0; $maskLength <= 4; $maskLength++)
 			{
-				$this->assertTrue( Piwik_AnonymizeIP::applyIPMask($ip, $maskLength) == $expected[$maskLength] );
+				$res = Piwik_AnonymizeIP::applyIPMask($ip, $maskLength);
+				$this->assertEqual( $res, $expected[$maskLength], "Got $res, Expected " . $expected[$maskLength] );
 			}
 		}
 	}
