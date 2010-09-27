@@ -41,7 +41,7 @@ class Piwik_API extends Piwik_Plugin {
 	public function getCssFiles($notification) {
 		$cssFiles = &$notification->getNotificationObject();
 		
-		$cssFiles[] = "plugins/API/templates/styles.css";
+		$cssFiles[] = "plugins/API/css/styles.css";
 	}
 
 }
