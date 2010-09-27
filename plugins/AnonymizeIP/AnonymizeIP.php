@@ -65,8 +65,8 @@ class Piwik_AnonymizeIP extends Piwik_Plugin
 		}
 
 		// unpack byte array and mask to 32-bits
-		$res = unpack('V', $maskedIP) & 0xffffffff;
-		return sprintf("%u", $res[1]);
+		$res = unpack('V', $maskedIP);
+		return sprintf("%u", $res[1] & 0xffffffff);
 	}
 
 	/**
