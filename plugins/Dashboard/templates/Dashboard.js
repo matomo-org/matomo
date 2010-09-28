@@ -199,6 +199,7 @@ dashboard.prototype =
 
 		//launch 'sortable' property on every dashboard widgets
 		self.dashboardElement
+					.sortable('destroy')
 					.sortable({
 						items: 'div.sortable',
 						opacity: 0.6,
