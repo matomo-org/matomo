@@ -21,7 +21,7 @@ ol#menuList li, ul#widgetList li .button,
 .widget, 
 .widgetTop {
 	position: relative;
-	behavior: url("index.php?module=CoreHome&action=getPieHtc");
+	behavior: url("index.php?module=Proxy&action=getPieHtc");
 }
 .ui-widget-content {
 	z-index: 1003!important;
