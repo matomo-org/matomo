@@ -40,7 +40,7 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller {
 		$COOKIE = $_COOKIE;
 		$REQUEST = $_REQUEST;
 
-		$nonce = Piwik_Common::getRequestVar('form_nonce', '', 'string', $POST);
+		$nonce = Piwik_Common::getRequestVar('form_nonce', '', 'string', $_POST);
 		if(Piwik_Common::getRequestVar('choice', 'no') != 'yes' ||
 				!Piwik_Nonce::verifyNonce('Piwik_VisitorGenerator.generate', $nonce))
 		{
@@ -53,8 +53,8 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller {
 		$daysToCompute = Piwik_Common::getRequestVar('daysToCompute', 1, 'int');
 
 		// get idSite from POST with fallback to GET
-		$idSite = Piwik_Common::getRequestVar('idSite', false, 'int', $GET);
-		$idSite = Piwik_Common::getRequestVar('idSite', $idSite, 'int', $POST);
+		$idSite = Piwik_Common::getRequestVar('idSite', false, 'int', $_GET);
+		$idSite = Piwik_Common::getRequestVar('idSite', $idSite, 'int', $_POST);
 
 		Piwik::setMaxExecutionTime(0);
 
