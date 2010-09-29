@@ -225,7 +225,7 @@ broadcast.loadAjaxContent = function(urlAjax)
 broadcast.customAjaxHandleError = function ()
 {
     broadcast.lastUrlRequested = null;
-    ajaxHandleError();
+    piwikHelper.ajaxHandleError();
 };
 
 /*
