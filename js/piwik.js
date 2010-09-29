@@ -43,7 +43,7 @@ if (!this.Piwik) {
 
 		/* DOM Ready */
 		hasLoaded = false,
-		registeredOnLoadHandlers = [];
+		registeredOnLoadHandlers = [],
 
 		/*
 		 * encode or escape
@@ -55,7 +55,7 @@ if (!this.Piwik) {
 		 * decode or unescape
 		 * - decodeURIComponent added in IE5.5
 		 */
-		unescapeWrapper = windowAlias.decodeURIComponent || unescape,
+		unescapeWrapper = windowAlias.decodeURIComponent || unescape;
 
 		/************************************************************
 		 * Private methods
