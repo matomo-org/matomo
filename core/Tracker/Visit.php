@@ -315,8 +315,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 						SET $sqlActionUpdate ".implode($updateParts, ', ')."
 						WHERE idsite = ?
 							AND idvisit = ?
-							AND visitor_idcookie = ?
-						LIMIT 1";
+							AND visitor_idcookie = ?";
 		array_push($sqlBind, $this->idsite, $this->visitorInfo['idvisit'], $this->visitorInfo['visitor_idcookie'] );
 		$result = Piwik_Tracker::getDatabase()->query($sqlQuery, $sqlBind);
 
