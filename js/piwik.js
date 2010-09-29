@@ -40,12 +40,22 @@ if (!this.Piwik) {
 		navigatorAlias = navigator,
 		screenAlias = screen,
 		windowAlias = window,
-		locationHrefAlias = windowAlias.location.href,
-		locationHostnameAlias = windowAlias.location.hostname,
 
 		/* DOM Ready */
 		hasLoaded = false,
 		registeredOnLoadHandlers = [];
+
+		/*
+		 * encode or escape
+		 * - encodeURIComponent added in IE5.5
+		 */
+		escapeWrapper = windowAlias.encodeURIComponent || escape,
+
+		/*
+		 * decode or unescape
+		 * - decodeURIComponent added in IE5.5
+		 */
+		unescapeWrapper = windowAlias.decodeURIComponent || unescape,
 
 		/************************************************************
 		 * Private methods
@@ -156,6 +166,29 @@ if (!this.Piwik) {
 		}
 
 		/*
+		 * Get page referrer
+		 */
+		function getReferrer() {
+			var referrer = '';
+			try {
+				referrer = top.document.referrer;
+			} catch (e) {
+				if (parent) {
+					try {
+						referrer = parent.document.referrer;
+					} catch (e2) {
+						referrer = '';
+					}
+				}
+			}
+			if (referrer === '') {
+				referrer = documentAlias.referrer;
+			}
+
+			return referrer;
+		}
+
+		/*
 		 * Extract hostname from URL
 		 */
 		function getHostname(url) {
@@ -166,9 +199,21 @@ if (!this.Piwik) {
 		}
 
 		/*
-		 * Search engine cache detection and fix-up
+		 * Extract parameter from URL
 		 */
-		function cacheFixup(hostname, href) {
+		function getParameter(url, varName) {
+			// scheme : // [username [: password] @] hostame [: port] [/ [path] [? query] [# fragment]]
+			var e = new RegExp('^(?:https?|ftp)(?::/*(?:[^?]+)[?])([^\#]+)'),
+				matches = e.exec(url),
+				f = new RegExp('(?:^|&)'+varName+'=([^&]*)'),
+				result = matches ? f.exec(matches[1]) : 0;
+				return result ? unescapeWrapper(result[1]) : '';
+		}
+
+		/*
+		 * Fix-up URL when page rendered from search engine cache or translated page
+		 */
+		function urlFixup(hostname, href, referrer) {
 			if (hostname == 'webcache.googleusercontent.com' || // Google
 					hostname == 'cc.bingj.com' ||				// Bing
 					hostname.substr(0, 9) == '74.6.239.')		// Yahoo (via Inktomi)
@@ -176,7 +221,14 @@ if (!this.Piwik) {
 				href = documentAlias.links[0].href;
 				hostname = getHostname(href);
 			}
-			return [hostname, href];
+			else if(hostname == 'translate.googleusercontent.com')	// Google
+			{
+				if (referrer == '')
+					referrer = href;
+				href = getParameter(href, 'u');
+				hostname = getHostname(href);
+			}
+			return [hostname, href, referrer];
 		}
 
 		/*
@@ -192,11 +244,14 @@ if (!this.Piwik) {
 			 * Private members
 			 ************************************************************/
 
-			var locationArray = cacheFixup(locationHostnameAlias, locationHrefAlias);
-			locationHostnameAlias = locationArray[0];
-			locationHrefAlias = locationArray[1];
+			var
+			// Current URL and Referrer URL
+			locationArray = urlFixup(windowAlias.location.hostname, windowAlias.location.href, getReferrer()),
+			locationHostnameAlias = locationArray[0],
+			locationHrefAlias = locationArray[1],
+			pageReferrer = locationArray[2],
 
-			var	// Tracker URL
+			// Tracker URL
 			configTrackerUrl = trackerUrl || '',
 
 			// Site ID
@@ -231,7 +286,6 @@ if (!this.Piwik) {
 
 			// Client-side data collection
 			browserHasCookies = '0',
-			pageReferrer,
 
 			// Plugin, Parameter name, MIME type, detected
 			pluginMap = {
@@ -252,18 +306,6 @@ if (!this.Piwik) {
 
 			// Guard against installing the link tracker more than once per Tracker instance
 			linkTrackingInstalled = false,
-
-			/*
-			 * encode or escape
-			 * - encodeURIComponent added in IE5.5
-			 */
-			escapeWrapper = windowAlias.encodeURIComponent || escape,
-
-			/*
-			 * decode or unescape
-			 * - decodeURIComponent added in IE5.5
-			 */
-			unescapeWrapper = windowAlias.decodeURIComponent || unescape,
 
 			/*
 			 * stringify
@@ -462,29 +504,6 @@ if (!this.Piwik) {
 						}
 					}
 				}
-			}
-
-			/*
-			 * Get page referrer
-			 */
-			function getReferrer() {
-				var referrer = '';
-				try {
-					referrer = top.document.referrer;
-				} catch (e) {
-					if (parent) {
-						try {
-							referrer = parent.document.referrer;
-						} catch (e2) {
-							referrer = '';
-						}
-					}
-				}
-				if (referrer === '') {
-					referrer = documentAlias.referrer;
-				}
-
-				return referrer;
 			}
 
 			/*
@@ -771,7 +790,6 @@ if (!this.Piwik) {
 			/*
 			 * initialize tracker
 			 */
-			pageReferrer = getReferrer();
 			browserHasCookies = hasCookies();
 			detectBrowserPlugins();
 

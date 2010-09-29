@@ -110,12 +110,13 @@ $(document).ready(function () {
 		equals( tracker.hook.test._unescape("%26%3D%3F%3B%2F%23"), '&=?;/#', 'unescapeWrapper()' );
 	});
 
-	test("Tracker getHostname() and cacheFixup()", function() {
-		expect(18);
+	test("Tracker getHostname(), getParameter(), and urlFixup()", function() {
+		expect(24);
 
 		var tracker = Piwik.getTracker();
 
 		equals( typeof tracker.hook.test._getHostname, 'function', 'getHostname' );
+		equals( typeof tracker.hook.test._getParameter, 'function', 'getParameter' );
 
 		equals( tracker.hook.test._getHostname('http://example.com'), 'example.com', 'http://example.com');
 		equals( tracker.hook.test._getHostname('http://example.com/'), 'example.com', 'http://example.com/');
@@ -131,17 +132,25 @@ $(document).ready(function () {
 		equals( tracker.hook.test._getHostname('http://user@example.com/'), 'example.com', 'http://user@example.com/');
 		equals( tracker.hook.test._getHostname('http://user:password@example.com/'), 'example.com', 'http://user:password@example.com/');
 
-		same( tracker.hook.test._cacheFixup( 'webcache.googleusercontent.com', 'http://webcache.googleusercontent.com/search?q=cache:CD2SncROLs4J:piwik.org/blog/2010/04/piwik-0-6-security-advisory/+piwik+security&cd=1&hl=en&ct=clnk' ),
-				['piwik.org', 'http://piwik.org/qa'], 'webcache.googleusercontent.com' );
+		equals( tracker.hook.test._getParameter('http://piwik.org/', 'q'), '', 'no query');
+		equals( tracker.hook.test._getParameter('http://piwik.org/?q=test', 'q'), 'test', '?q');
+		equals( tracker.hook.test._getParameter('http://piwik.org/?p=test1&q=test2', 'q'), 'test2', '&q');
+		equals( tracker.hook.test._getParameter('http://piwik.org/?q=http%3a%2f%2flocalhost%2f%3fr%3d1%26q%3dfalse', 'q'), 'http://localhost/?r=1&q=false', 'url');
 
-		same( tracker.hook.test._cacheFixup( 'cc.bingj.com', 'http://cc.bingj.com/cache.aspx?q=web+analytics&d=5020318678516316&mkt=en-CA&setlang=en-CA&w=6ea8ea88,ff6c44df' ),
-				['piwik.org', 'http://piwik.org/qa'], 'cc.bingj.com' );
+		same( tracker.hook.test._urlFixup( 'webcache.googleusercontent.com', 'http://webcache.googleusercontent.com/search?q=cache:CD2SncROLs4J:piwik.org/blog/2010/04/piwik-0-6-security-advisory/+piwik+security&cd=1&hl=en&ct=clnk', '' ),
+				['piwik.org', 'http://piwik.org/qa', ''], 'webcache.googleusercontent.com' );
 
-		same( tracker.hook.test._cacheFixup( '74.6.239.185', 'http://74.6.239.185/search/srpcache?ei=UTF-8&p=piwik&fr=yfp-t-964&fp_ip=ca&u=http://cc.bingj.com/cache.aspx?q=piwik&d=4770519086662477&mkt=en-US&setlang=en-US&w=f4bc05d8,8c8af2e3&icp=1&.intl=us&sig=PXmPDNqapxSQ.scsuhIpZA--' ),
-				['piwik.org', 'http://piwik.org/qa'], 'yahoo cache (1)' );
+		same( tracker.hook.test._urlFixup( 'cc.bingj.com', 'http://cc.bingj.com/cache.aspx?q=web+analytics&d=5020318678516316&mkt=en-CA&setlang=en-CA&w=6ea8ea88,ff6c44df', '' ),
+				['piwik.org', 'http://piwik.org/qa', ''], 'cc.bingj.com' );
 
-		same( tracker.hook.test._cacheFixup( '74.6.239.84', 'http://74.6.239.84/search/srpcache?ei=UTF-8&p=web+analytics&fr=yfp-t-715&u=http://cc.bingj.com/cache.aspx?q=web+analytics&d=5020318680482405&mkt=en-CA&setlang=en-CA&w=a68d7af0,873cfeb0&icp=1&.intl=ca&sig=x6MgjtrDYvsxi8Zk2ZX.tw--' ),
-				['piwik.org', 'http://piwik.org/qa'], 'yahoo cache (1)' );
+		same( tracker.hook.test._urlFixup( '74.6.239.185', 'http://74.6.239.185/search/srpcache?ei=UTF-8&p=piwik&fr=yfp-t-964&fp_ip=ca&u=http://cc.bingj.com/cache.aspx?q=piwik&d=4770519086662477&mkt=en-US&setlang=en-US&w=f4bc05d8,8c8af2e3&icp=1&.intl=us&sig=PXmPDNqapxSQ.scsuhIpZA--', '' ),
+				['piwik.org', 'http://piwik.org/qa', ''], 'yahoo cache (1)' );
+
+		same( tracker.hook.test._urlFixup( '74.6.239.84', 'http://74.6.239.84/search/srpcache?ei=UTF-8&p=web+analytics&fr=yfp-t-715&u=http://cc.bingj.com/cache.aspx?q=web+analytics&d=5020318680482405&mkt=en-CA&setlang=en-CA&w=a68d7af0,873cfeb0&icp=1&.intl=ca&sig=x6MgjtrDYvsxi8Zk2ZX.tw--', '' ),
+				['piwik.org', 'http://piwik.org/qa', ''], 'yahoo cache (2)' );
+
+		same( tracker.hook.test._urlFixup( 'translate.googleusercontent.com', 'http://translate.googleusercontent.com/translate_c?hl=en&ie=UTF-8&sl=en&tl=fr&u=http://piwik.org/&prev=_t&rurl=translate.google.com&twu=1&usg=ALkJrhirI_ijXXT7Ja_aDGndEJbE7pJqpQ', '' ),
+				['piwik.org', 'http://piwik.org/', 'http://translate.googleusercontent.com/translate_c?hl=en&ie=UTF-8&sl=en&tl=fr&u=http://piwik.org/&prev=_t&rurl=translate.google.com&twu=1&usg=ALkJrhirI_ijXXT7Ja_aDGndEJbE7pJqpQ'], 'translate.googleusercontent.com' );
 	});
 
 	test("Tracker setDomains() and isSiteHostName()", function() {
