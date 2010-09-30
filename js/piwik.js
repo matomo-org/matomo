@@ -203,7 +203,7 @@ if (!this.Piwik) {
 		 */
 		function getParameter(url, varName) {
 			// scheme : // [username [: password] @] hostame [: port] [/ [path] [? query] [# fragment]]
-			var e = new RegExp('^(?:https?|ftp)(?::/*(?:[^?]+)[?])([^\#]+)'),
+			var e = new RegExp('^(?:https?|ftp)(?::/*(?:[^?]+)[?])([^#]+)'),
 				matches = e.exec(url),
 				f = new RegExp('(?:^|&)'+varName+'=([^&]*)'),
 				result = matches ? f.exec(matches[1]) : 0;
@@ -223,8 +223,9 @@ if (!this.Piwik) {
 			}
 			else if(hostname == 'translate.googleusercontent.com')	// Google
 			{
-				if (referrer == '')
+				if (referrer === '') {
 					referrer = href;
+				}
 				href = getParameter(href, 'u');
 				hostname = getHostname(href);
 			}
@@ -249,7 +250,7 @@ if (!this.Piwik) {
 			locationArray = urlFixup(windowAlias.location.hostname, windowAlias.location.href, getReferrer()),
 			locationHostnameAlias = locationArray[0],
 			locationHrefAlias = locationArray[1],
-			pageReferrer = locationArray[2],
+			configReferrerUrl = locationArray[2],
 
 			// Tracker URL
 			configTrackerUrl = trackerUrl || '',
@@ -532,7 +533,7 @@ if (!this.Piwik) {
 				        '&res=' + screenAlias.width + 'x' + screenAlias.height +
 				        '&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
 				        '&cookie=' + browserHasCookies +
-				        '&urlref=' + escapeWrapper(pageReferrer) +
+				        '&urlref=' + escapeWrapper(configReferrerUrl) +
 				        '&rand=' + Math.random();
 				// plugin data
 				for (i in pluginMap) {
@@ -885,6 +886,15 @@ if (!this.Piwik) {
 						configIgnoreClasses = ignoreClasses;
 					} else if (typeof ignoreClasses == 'string') {
 						configIgnoreClasses = [ignoreClasses];
+					}
+				},
+
+				/*
+				 * Override referrer
+				 */
+				setReferrerUrl: function (url) {
+					if (isDefined(url)) {
+						configReferrerUrl = url;
 					}
 				},
 
