@@ -309,12 +309,13 @@ $(document).ready(function () {
 	});
 
 	test("Tracking", function() {
-		expect(<?php echo $sqlite ? 14 : 3; ?>);
+		expect(<?php echo $sqlite ? 16 : 4; ?>);
 
 		var tracker = Piwik.getTracker();
 
 		var startTime, stopTime;
 
+		equals( typeof tracker.setReferrerUrl, 'function', 'setReferrerUrl' );
 		equals( typeof tracker.hook.test._beforeUnloadHandler, 'function', 'beforeUnloadHandler' );
 
 		startTime = new Date();
@@ -335,6 +336,7 @@ if ($sqlite) {
 		tracker.setSiteId(1);
 		tracker.setCustomData({ "token" : "'. $token .'" });
 		tracker.setDocumentTitle("PiwikTest");
+		tracker.setReferrerUrl("http://referrer.example.com");
 
 		tracker.enableLinkTracking();
 
@@ -370,6 +372,7 @@ if ($sqlite) {
 					ok( ! /example.(org|php)/.test( results ), "click: ignored" );
 					ok( /idgoal=42.*?revenue=69.*?Michael.*?Mandy/.test( results ), "trackGoal()" );
 					ok( /CompatibilityLayer/.test( results ), "piwik_log(): compatibility layer" );
+					ok( /referrer.example.com/.test( results ), "setReferrerUrl()" );
 
 					start();
 				}
