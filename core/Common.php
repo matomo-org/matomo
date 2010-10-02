@@ -747,6 +747,9 @@ class Piwik_Common
 	{
 		// note: these may be spoofed
 		static $clientHeaders = array(
+			// CloudFlare
+			'HTTP_CF_CONNECTING_IP',
+
 			// ISP proxy
 			'HTTP_CLIENT_IP',
 
@@ -876,9 +879,9 @@ class Piwik_Common
 	{
 		$country = null;
 		Piwik_PostEvent('Common.getCountry', $country, $ip);
-		if($country)
+		if(!empty($country))
 		{
-			return $country;
+			return strtolower($country);
 		}
 
 		if(empty($lang) || strlen($lang) < 2)
