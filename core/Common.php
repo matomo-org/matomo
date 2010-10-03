@@ -718,9 +718,38 @@ class Piwik_Common
 	}
 
 	/**
+	 * Test whether or not an IP address is public.
+	 * For performance, we don't check to see if an IP address is actually in an assigned/allocated netblock.
+	 *
+	 * @param long|string $ip
+	 * @return bool True if IP in private address range; false otherwise
+	 */
+	static public function isPublicIp($ip)
+	{
+		if(is_int($ip))
+		{
+			$ip = sprintf("%u", $ip);
+		}
+
+		// reference: http://www.iana.org/abuse/faq.html
+		if(($ip >= '167772160' && $ip <= '184549375')			// 10.0.0.0/8 (private)
+			|| ($ip >= '2896166912' && $ip <= '2887778303')		// 172.16.0.0/12 (private)
+			|| ($ip >= '3232235520' && $ip <= '3232301055')		// 192.168.0.0/16 (private)
+			|| ($ip >= '2851995648' && $ip <= '2852061183')		// 169.254.0.0/16 (auto-configuration)
+			|| ($ip >= '2130706432' && $ip <= '2147483647')		// 127.0.0.0/8 (loopback)
+			|| ($ip >= '3758096384' && $ip <= '4026531839'))	// 224.0.0.0 - 239.255.255.255 (multicast; should never appear as a source address)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Convert dotted IP to a stringified integer representation
 	 *
-	 * @return string ip
+	 * @param string $ipStringFrom optional dotted IP address
+	 * @return string IP address as a stringified integer
 	 */
 	static public function getIp( $ipStringFrom = false )
 	{
@@ -745,6 +774,41 @@ class Piwik_Common
 	 */
 	static public function getIpString()
 	{
+		static $trustedProxies = null;
+		if(is_null($trustedProxies))
+		{
+			$trustedProxies = array();
+			if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
+			{
+				if(isset(Piwik_Tracker_Config::getInstance()->Tracker['trusted_proxy_addresses']))
+				{
+					$trustedProxies = Piwik_Tracker_Config::getInstance()->Tracker['trusted_proxy_addresses'];
+				}
+			}
+			else
+			{
+				$config = Zend_Registry::get('config');
+				if($config !== false && isset($config->Tracker->trusted_proxy_addresses))
+				{
+					$trustedProxies = $config->Tracker->trusted_proxy_addresses;
+				}
+			}
+		}
+
+		// default
+		$ip = isset($_SERVER['REMOTE_ADDR']) ?  self::getFirstIpFromList($_SERVER['REMOTE_ADDR']) : '0.0.0.0';
+
+		return self::getProxyIp($ip, $trustedProxies);
+	}
+
+	/**
+	 * Returns the proxy client's IP address
+	 *
+	 * @param string $ip DottedIP address of client
+	 * @param array List of dotted IP addresses of trusted proxies
+	 */
+	static public function getProxyIp($ip, $proxies)
+	{
 		// note: these may be spoofed
 		static $clientHeaders = array(
 			// CloudFlare
@@ -757,25 +821,25 @@ class Piwik_Common
 			'HTTP_X_FORWARDED_FOR',
 		);
 
+		// examine proxy headers
 		foreach($clientHeaders as $clientHeader)
 		{
 			if(!empty($_SERVER[$clientHeader]))
 			{
-				$ip = self::getFirstIpFromList($_SERVER[$clientHeader]);
-				if(!empty($ip) && stripos($ip, 'unknown') === false)
+				$clientIp = self::getFirstIpFromList($_SERVER[$clientHeader]);
+				if(!empty($clientIp) && stripos($clientIp, 'unknown') === false)
 				{
-					return $ip;
+					// accept public IP addresses, and any IP address through a trusted proxy
+					if(self::isPublicIp(ip2long($clientIp)) || 
+						in_array($ip, $proxies))
+					{
+						return $clientIp;
+					}
 				}
 			}
 		}
 
-		// default
-		if(isset($_SERVER['REMOTE_ADDR']))
-		{
-			return self::getFirstIpFromList($_SERVER['REMOTE_ADDR']);
-		}
-
-		return '0.0.0.0';
+		return $ip;
 	}
 
 	/**

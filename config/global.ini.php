@@ -243,6 +243,11 @@ page_maximum_length = 1024;
 ; for IPv4 addresses, valid values are 0..4
 ip_address_mask_length = 1
 
+; IP address list of trusted reverse proxy(-ies) for which
+; all IP addresses in the proxy header are accepted; 
+; if not set, only public IP addresses are accepted
+;trusted_proxy_addresses[] =
+
 [mail]
 transport = 	 					; smtp or empty 
 port = 25
