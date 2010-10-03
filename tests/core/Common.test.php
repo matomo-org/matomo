@@ -863,5 +863,66 @@ class Test_Piwik_Common extends UnitTestCase
 			$this->assertEqual( Piwik_Common::getLossyUrl($input), $expected);
 		}
 	}
-}
 
+	function test_isPublicIp()
+	{
+		$ips = array(
+			167772159 => true,
+			'167772159' => true,
+			167772160 => false,
+			'167772160' => false,
+			184549375 => false,
+			'184549375' => false,
+			184549376 => true,
+			'184549376' => true,
+			3232235519 => true,
+			'3232235519' => true,
+			3232235520 => false,
+			'3232235520' => false,
+			323224 => true,
+			'323224' => true,
+			3232301055 => false,
+			'3232301055' => false,
+			3232301056 => true,
+			'3232301056' => true,
+		);
+		foreach($ips as $ip => $expected)
+		{
+			$this->assertEqual( Piwik_Common::isPublicIp($ip), $expected, $ip );
+		}
+	}
+
+	function test_getProxyIp()
+	{
+		$ips = array(
+			'0.0.0.0' => true,
+			'72.14.204.99' => true,
+			'127.0.0.1' => false,
+			'169.254.0.1' => false,
+			'208.80.152.2' => true,
+			'224.0.0.1' => false,
+		);
+
+		// no proxies
+		foreach($ips as $ip => $dontcare)
+		{
+			$this->assertEqual( Piwik_Common::getProxyIp($ip, array()), $ip, $ip );
+		}
+
+		// 1.1.1.1 is not a trusted proxy
+		$_SERVER['REMOTE_ADDR'] = '1.1.1.1';
+		foreach($ips as $ip => $expected)
+		{
+			$_SERVER['HTTP_X_FORWARDED_FOR'] = $ip;
+			$this->assertEqual( Piwik_Common::getProxyIp('1.1.1.1', array('2.2.2.2')), $expected ? $ip : '1.1.1.1', $ip);
+		}
+
+		// 1.1.1.1 is a trusted proxy
+		$_SERVER['REMOTE_ADDR'] = '1.1.1.1';
+		foreach($ips as $ip => $dontcare)
+		{
+			$_SERVER['HTTP_X_FORWARDED_FOR'] = $ip;
+			$this->assertEqual( Piwik_Common::getProxyIp('1.1.1.1', array('1.1.1.1')), $ip, $ip);
+		}
+	}
+}
