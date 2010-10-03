@@ -316,6 +316,7 @@ $(document).ready(function () {
 		var startTime, stopTime;
 
 		equals( typeof tracker.setReferrerUrl, 'function', 'setReferrerUrl' );
+
 		equals( typeof tracker.hook.test._beforeUnloadHandler, 'function', 'beforeUnloadHandler' );
 
 		startTime = new Date();
@@ -370,7 +371,7 @@ if ($sqlite) {
 					ok( /example.pdf/.test( results ), "click: implicit download (by file extension)" );
 					ok( /example.word/.test( results ), "click: explicit download" );
 					ok( ! /example.(org|php)/.test( results ), "click: ignored" );
-					ok( /idgoal=42.*?revenue=69.*?Michael.*?Mandy/.test( results ), "trackGoal()" );
+					ok( /Michael.*?Mandy.*?idgoal=42.*?revenue=69/.test( results ), "trackGoal()" );
 					ok( /CompatibilityLayer/.test( results ), "piwik_log(): compatibility layer" );
 					ok( /referrer.example.com/.test( results ), "setReferrerUrl()" );
 
