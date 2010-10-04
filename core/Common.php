@@ -787,7 +787,7 @@ class Piwik_Common
 				$config = Zend_Registry::get('config');
 				if($config !== false )
 				{
-					$trustedProxies = $config->Tracker->trusted_proxy_addresses;
+					$trustedProxies = @$config->Tracker->trusted_proxy_addresses->toArray();
 				}
 			}
 			if(!is_array($trustedProxies))
