@@ -352,7 +352,8 @@ if ($sqlite) {
 			triggerEvent( document.getElementById(buttons[i]), "click" );
 		}
 
-		tracker.trackGoal(42, 69, { "boy" : "Michael", "girl" : "Mandy" });
+		tracker.setRequestMethod("POST");
+		tracker.trackGoal(42, 69, { "token" : getToken(), "boy" : "Michael", "girl" : "Mandy"});
 
 		piwik_log("CompatibilityLayer", 1, "piwik.php", {"token":"'. $token .'"});
 

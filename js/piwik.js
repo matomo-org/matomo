@@ -252,6 +252,9 @@ if (!this.Piwik) {
 			locationHrefAlias = locationArray[1],
 			configReferrerUrl = locationArray[2],
 
+			// Request method (GET or POST)
+			configRequestMethod = 'GET',
+
 			// Tracker URL
 			configTrackerUrl = trackerUrl || '',
 
@@ -473,14 +476,47 @@ if (!this.Piwik) {
 			 * Send image request to Piwik server using GET.
 			 * The infamous web bug is a transparent, single pixel (1x1) image
 			 */
-			function getImage(url, delay) {
-				var now = new Date(),
-				image = new Image(1, 1);
+			function getImage(request) {
+				var image = new Image(1, 1);
+				image.onLoad = function () { };
+				image.src = configTrackerUrl + '?' + request;
+			}
 
+			/*
+			 * POST request to Piwik server using XMLHttpRequest.
+			 */
+			function sendXmlHttpRequest(request) {
+				try {
+					// we use the progid Microsoft.XMLHTTP because
+					// IE5.5 included MSXML 2.5; the progid MSXML2.XMLHTTP
+					// is pinned to MSXML2.XMLHTTP.3.0
+					var xhr = windowAlias.XMLHttpRequest ? new windowAlias.XMLHttpRequest() :
+						windowAlias.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') :
+						null;
+					xhr.open('POST', configTrackerUrl, false);
+					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+					xhr.setRequestHeader('Content-Length', request.length);
+					xhr.setRequestHeader('Connection', 'close');
+					xhr.send(request);
+				} catch(e) {
+					// fallback
+					getImage(request);
+				}
+			}
+
+			/*
+			 * Send request
+			 */
+			function sendRequest(request, delay)
+			{
+				var now = new Date();
 				expireDateTime = now.getTime() + delay;
 
-				image.onLoad = function () { };
-				image.src = url;
+				if (configRequestMethod == 'POST') {
+					sendXmlHttpRequest(request);
+				} else {
+					getImage(request);
+				}
 			}
 
 			/*
@@ -559,7 +595,7 @@ if (!this.Piwik) {
 					request += '&data=' + escapeWrapper(stringify(configCustomData));
 				}
 
-				return configTrackerUrl + '?' + request;
+				return request;
 			}
 
 			/*
@@ -570,7 +606,7 @@ if (!this.Piwik) {
 					'&action_name=' + escapeWrapper(isDefined(customTitle) ? customTitle : configTitle); // refs #530;
 
 				request += executePluginMethod('log');
-				getImage(request, configTrackerPause);
+				sendRequest(request, configTrackerPause);
 			}
 			
 			/*
@@ -586,7 +622,7 @@ if (!this.Piwik) {
 				}
 
 				request += executePluginMethod('goal');
-				getImage(request, configTrackerPause);
+				sendRequest(request, configTrackerPause);
 			}
 			
 			/*
@@ -598,7 +634,7 @@ if (!this.Piwik) {
 					'&redirect=0';
 
 				request += executePluginMethod('click');
-				getImage(request, configTrackerPause);
+				sendRequest(request, configTrackerPause);
 			}
 
 			/*
@@ -879,6 +915,13 @@ if (!this.Piwik) {
 					} else if (typeof ignoreClasses == 'string') {
 						configIgnoreClasses = [ignoreClasses];
 					}
+				},
+
+				/*
+				 * Set request method (GET or POST; default is GET)
+				 */
+				setRequestMethod: function (method) {
+					configRequestMethod = method || 'GET';
 				},
 
 				/*

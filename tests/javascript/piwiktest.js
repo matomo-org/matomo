@@ -35,7 +35,7 @@ Piwik.addPlugin('testPlugin', {
 	 * - returns URL components to be appended to tracker URL
 	 */
 	click: function () {
-		return '&data=' + encodeURIComponent('{"token":"' + getToken() + '"}');
+		return '&testdata=' + encodeURIComponent('{"token":"' + getToken() + '"}');
 	},
 
 	/*
@@ -43,7 +43,7 @@ Piwik.addPlugin('testPlugin', {
 	 * - returns URL components to be appended to tracker URL
 	 */
 	goal: function () {
-		return '&data=' + encodeURIComponent('{"token":"' + getToken() + '"}');
+		return '&testdata=' + encodeURIComponent('{"token":"' + getToken() + '"}');
 	},
 
 	/*
