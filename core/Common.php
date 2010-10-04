@@ -790,6 +790,10 @@ class Piwik_Common
 					$trustedProxies = $config->Tracker->trusted_proxy_addresses;
 				}
 			}
+			if(!is_array($trustedProxies))
+			{
+				$trustedProxies = array();
+			}
 		}
 
 		// default
