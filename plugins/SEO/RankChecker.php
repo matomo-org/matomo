@@ -54,7 +54,7 @@ class Piwik_SEO_RankChecker
 	{
 		$url = $this->url;
 		$xml = simplexml_load_string($this->getPage('http://data.alexa.com/data?cli=10&url=' . $url));
-		return $xml->SD->POPULARITY['TEXT'];
+		return $xml ? $xml->SD->POPULARITY['TEXT'] : '';
 	}
 
 	public function getDmoz()
