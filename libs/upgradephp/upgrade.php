@@ -116,10 +116,13 @@ if (!function_exists("json_encode")) {
       if (is_array($var) || ($obj=is_object($var))) {
 
          #-- check if array is associative
-         if (!$obj) foreach ((array)$var as $i=>$v) {
-            if (!is_int($i)) {
-               $obj = 1;
-               break;
+         if (!$obj) {
+            $expect = 0;
+            foreach ((array)$var as $i=>$v) {
+               if (!is_int($i) || $i !== $expect) {
+                  $obj = 1;
+                  break;
+               }
             }
          }
 
