@@ -48,16 +48,21 @@ if (isset($_GET['results'])) {
 
 	echo "</body></html>\n";
 } else {
-	if (!isset($_GET['data'])) {
+	if (!isset($_REQUEST['data'])) {
 		header("HTTP/1.0 400 Bad Request");
 	} else {
-		$data = json_decode($_GET['data']);
+		$data = json_decode($_REQUEST['data']);
+
 		$token = isset($data->token) ? $data->token : '';
 
 		$ip = $_SERVER['REMOTE_ADDR'];
 		$ts = $_SERVER['REQUEST_TIME'];
 		$uri = $_SERVER['REQUEST_URI'];
-		$referer = $_SERVER['HTTP_REFERER'];
+		if($_SERVER['REQUEST_METHOD'] == 'POST') {
+			$uri .= '?' . file_get_contents('php://input');
+		}
+		$uri = htmlspecialchars($uri);
+		$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 		$ua = $_SERVER['HTTP_USER_AGENT'];
 
 		$query = sqlite_exec($dbhandle, "INSERT INTO requests (token, ip, ts, uri, referer, ua) VALUES (\"$token\", \"$ip\", \"$ts\", \"$uri\", \"$referer\", \"$ua\")", $error);
