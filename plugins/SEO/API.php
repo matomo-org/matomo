@@ -61,7 +61,7 @@ class Piwik_SEO_API
 			),
 			Piwik_Translate('SEO_AlexaRank') => array(
 				'rank' => $rank->getAlexaRank(),
-				'logo' => Piwik_getSearchEngineLogoFromUrl('http://www.alexa.com'),
+				'logo' => Piwik_getSearchEngineLogoFromUrl('http://alexa.com'),
 				'id' => 'alexa',
 			),
 			Piwik_Translate('SEO_DomainAge') => array(
