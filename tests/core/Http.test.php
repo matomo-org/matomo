@@ -3,12 +3,17 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 {
 	require_once dirname(__FILE__)."/../../tests/config_test.php";
 }
+
 class Test_Piwik_Http extends UnitTestCase
 {
 	public function test_fetchRemoteFile()
 	{
+		Piwik::createConfigObject();
+
 		$methods = array(
-			'curl', 'stream', 'socket'
+			'curl',
+			'stream',
+			'socket',
 		);
 
 		$this->assertTrue( in_array(Piwik_Http::getTransportMethod(), $methods) );

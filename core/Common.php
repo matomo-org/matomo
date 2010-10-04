@@ -780,15 +780,12 @@ class Piwik_Common
 			$trustedProxies = array();
 			if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
 			{
-				if(isset(Piwik_Tracker_Config::getInstance()->Tracker['trusted_proxy_addresses']))
-				{
-					$trustedProxies = Piwik_Tracker_Config::getInstance()->Tracker['trusted_proxy_addresses'];
-				}
+				$trustedProxies = @Piwik_Tracker_Config::getInstance()->Tracker['trusted_proxy_addresses'];
 			}
 			else
 			{
 				$config = Zend_Registry::get('config');
-				if($config !== false && isset($config->Tracker->trusted_proxy_addresses))
+				if($config !== false )
 				{
 					$trustedProxies = $config->Tracker->trusted_proxy_addresses;
 				}
