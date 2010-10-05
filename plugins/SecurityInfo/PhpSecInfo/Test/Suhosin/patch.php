@@ -31,7 +31,7 @@ class PhpSecInfo_Test_Suhosin_Patch extends PhpSecInfo_Test_Suhosin
 		} else {
 			$this->current_value = false;
 
-			$constants = get_defined_constants(false);
+			$constants = get_defined_constants();
 			if(isset($constants['SUHOSIN_PATCH']) && $constants['SUHOSIN_PATCH'] == 1) {
 				$this->current_value = true;
 			}
