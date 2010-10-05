@@ -119,7 +119,7 @@ if (!function_exists("json_encode")) {
          if (!$obj) {
             $expect = 0;
             foreach ((array)$var as $i=>$v) {
-               if (!is_int($i) || $i !== $expect) {
+               if (!is_int($i) || $i !== $expect++) {
                   $obj = 1;
                   break;
                }
