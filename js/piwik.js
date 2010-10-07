@@ -311,9 +311,6 @@ if (!this.Piwik) {
 			// Guard against installing the link tracker more than once per Tracker instance
 			linkTrackingInstalled = false,
 
-			// Have we already sent the page view and browser settings payload?
-			payloadSent = false,
-
 			/*
 			 * stringify
 			 * - based on public domain JSON implementation at http://www.json.org/json2.js (2009-04-16)
@@ -493,7 +490,7 @@ if (!this.Piwik) {
 					var xhr = windowAlias.XMLHttpRequest ? new windowAlias.XMLHttpRequest() :
 						windowAlias.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') :
 						null;
-					xhr.open('POST', configTrackerUrl, false);
+					xhr.open('POST', configTrackerUrl, true);
 					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
 					xhr.setRequestHeader('Content-Length', request.length);
 					xhr.setRequestHeader('Connection', 'close');
@@ -561,7 +558,8 @@ if (!this.Piwik) {
 
 			/*
 			 * Returns the URL to call piwik.php, 
-			 * with the standard parameters (plugins, resolution, url, referer, etc.)
+			 * with the standard parameters (plugins, resolution, url, referer, etc.).
+			 * Sends the pageview and browser settings with every request in case of race conditions.
 			 */
 			function getRequest(customData) {
 				var i,
@@ -569,21 +567,16 @@ if (!this.Piwik) {
 				request = 'idsite=' + configTrackerSiteId +
 					'&rec=1' + 
 					'&rand=' + Math.random() +
-					'&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds();
+					'&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
 
-				// only send the pageview and browser settings once
-				if (!payloadSent) {
-					payloadSent = true;
+					'&url=' + escapeWrapper(isDefined(configCustomUrl) ? configCustomUrl : locationHrefAlias) +
+					'&urlref=' + escapeWrapper(configReferrerUrl) +
+					'&res=' + screenAlias.width + 'x' + screenAlias.height +
+					'&cookie=' + browserHasCookies;
 
-					request += '&url=' + escapeWrapper(isDefined(configCustomUrl) ? configCustomUrl : locationHrefAlias) +
-						'&urlref=' + escapeWrapper(configReferrerUrl) +
-						'&res=' + screenAlias.width + 'x' + screenAlias.height +
-						'&cookie=' + browserHasCookies;
-
-					// plugin data
-					for (i in pluginMap) {
-						request += '&' + pluginMap[i][0] + '=' + pluginMap[i][2];
-					}
+				// plugin data
+				for (i in pluginMap) {
+					request += '&' + pluginMap[i][0] + '=' + pluginMap[i][2];
 				}
 
 				// custom data
@@ -930,7 +923,6 @@ if (!this.Piwik) {
 				setReferrerUrl: function (url) {
 					if (isDefined(url)) {
 						configReferrerUrl = url;
-						payloadSent = false;
 					}
 				},
 
@@ -940,7 +932,6 @@ if (!this.Piwik) {
 				setCustomUrl: function (url) {
 					if (isDefined(url)) {
 						configCustomUrl = url;
-						payloadSent = false;
 					}
 				},
 
