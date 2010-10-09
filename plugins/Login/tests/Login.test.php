@@ -142,12 +142,14 @@ class Test_Piwik_Login extends Test_Database
 		$auth->setLogin($user['login']);
 		$auth->setTokenAuth($tokenAuth);
 		$rc = $auth->authenticate();
+		$this->assertEqual( $rc->getCode(), Piwik_Auth_Result::SUCCESS );
 
 		// valid login & hashed token auth
 		$auth->setLogin($user['login']);
 		$hash = $auth->getHashTokenAuth($user['login'], $tokenAuth);
 		$auth->setTokenAuth($hash);
 		$rc = $auth->authenticate();
+		$this->assertEqual( $rc->getCode(), Piwik_Auth_Result::SUCCESS );
 
 		$user = Zend_Registry::get('config')->superuser->toArray();
 		$password = $user['password'];
