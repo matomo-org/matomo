@@ -55,7 +55,18 @@ if(!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER)
 
 if(!defined('PIWIK_ENABLE_DISPATCH') || PIWIK_ENABLE_DISPATCH)
 {
-	$controller = Piwik_FrontController::getInstance();
-	$controller->init();
-	$controller->dispatch();
+	try {
+		$controller = Piwik_FrontController::getInstance();
+		$controller->init();
+		$controller->dispatch();
+	} catch (Exception $e) {
+		if(!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER)
+		{
+			throw $e;
+		}
+		else
+		{
+			error_log($e->getMessage(), 0);
+		}
+	}
 }
