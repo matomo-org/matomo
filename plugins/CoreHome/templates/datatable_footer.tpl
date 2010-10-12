@@ -89,4 +89,4 @@
 <span class="loadingPiwik" style='display:none'><img src="themes/default/images/loading-blue.gif" /> {'General_LoadingData'|translate}</span>
 </div>
 
-<div class="dataTableSpacer" />
+<div class="dataTableSpacer"></div>
