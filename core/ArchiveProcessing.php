@@ -348,8 +348,7 @@ abstract class Piwik_ArchiveProcessing
 		// if the current archive is a DAY and if it's today,
 		// we set this minDatetimeArchiveProcessedUTC that defines the lifetime value of today's archive
 		if( $this->period->getNumberOfSubperiods() == 0
-			&& ($this->startTimestampUTC > $this->time ||
-				($this->startTimestampUTC <= $this->time && $this->endTimestampUTC > $this->time))
+			&& ($this->startTimestampUTC <= $this->time && $this->endTimestampUTC > $this->time)
 			)
 		{
 			$this->temporaryArchive = true;
@@ -374,10 +373,9 @@ abstract class Piwik_ArchiveProcessing
 			}
 			else
 			{
-    			$this->temporaryArchive = true;
-				$minDatetimeArchiveProcessedUTC = Piwik_Date::factory('today', $this->site->getTimezone())
-													->setTimezone($this->site->getTimezone())
-													->getTimestamp();
+				$this->temporaryArchive = true;
+				$today = date('Y-m-d', Piwik_Date::factory('now', $this->site->getTimezone())->getTimestamp());
+				$minDatetimeArchiveProcessedUTC = Piwik_Date::factory($today)->getTimestamp();
 			}
 		}
 		return $minDatetimeArchiveProcessedUTC;
