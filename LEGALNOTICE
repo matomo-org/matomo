@@ -48,6 +48,10 @@ SEPARATELY LICENSED COMPONENTS AND LIBRARIES
 	The following components/libraries are distributed in this package,
 	and subject to their respective licenses.
 
+	Name:  javascriptTag.tpl - tracking tag to embed in your web pages
+	Link:  http://dev.piwik.org/trac/browser/trunk/core/Tracker/javascriptTag.tpl
+	License:  Public Domain
+
 	Name:  jquery.truncate
 	Link:  http://dev.piwik.org/trac/browser/trunk/libs/jquery/truncate/
 	License:  New BSD
