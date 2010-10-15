@@ -66,6 +66,8 @@ class Piwik_Live_Controller extends Piwik_Controller
 		$view->disableShowAllViewsIcons();
 		// disable the button "show more datas"
 		$view->disableShowAllColumns();
+		// disable the RSS feed
+		$view->disableShowExportAsRssFeed();
 
 		return $this->renderView($view, $fetch);
 	}
