@@ -269,6 +269,7 @@ abstract class Piwik_ViewDataTable
 		$this->viewProperties['show_table_all_columns'] = Piwik_Common::getRequestVar('show_table_all_columns', true);
 		$this->viewProperties['show_all_views_icons'] = Piwik_Common::getRequestVar('show_all_views_icons', true);
 		$this->viewProperties['show_export_as_image_icon'] = Piwik_Common::getRequestVar('show_export_as_image_icon', false);
+		$this->viewProperties['show_export_as_rss_feed'] = Piwik_Common::getRequestVar('show_export_as_rss_feed', true);
 		$this->viewProperties['show_exclude_low_population'] = Piwik_Common::getRequestVar('show_exclude_low_population', true);
 		$this->viewProperties['show_offset_information'] = Piwik_Common::getRequestVar('show_offset_information', true);
 		$this->viewProperties['show_pagination_control'] = Piwik_Common::getRequestVar('show_pagination_control', true);
@@ -754,6 +755,14 @@ abstract class Piwik_ViewDataTable
 		$this->viewProperties['show_all_views_icons'] = false;
 	}
 	
+	/**
+	 * Whether or not to show the export to RSS feed icon
+	 */
+	public function disableShowExportAsRssFeed()
+	{
+		$this->viewProperties['show_export_as_rss_feed'] = false;
+	}
+
 	/**
 	 * Whether or not to show the "goal" icon
 	 */
