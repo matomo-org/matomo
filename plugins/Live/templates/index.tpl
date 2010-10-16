@@ -17,7 +17,8 @@ function initSpy()
 			timeout: 8000,
 			customParameterName: 'minIdVisit',
 			customParameterValueCallback: lastIdVisit,
-			fadeInSpeed: 600
+			fadeInSpeed: 600,
+			appendTo: 'div#content'
 		});
 	}
 }
