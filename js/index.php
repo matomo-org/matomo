@@ -22,10 +22,11 @@ if(!empty($_SERVER['QUERY_STRING'])) {
  */
 define('PIWIK_INCLUDE_PATH', '..');
 define('PIWIK_DOCUMENT_ROOT', '..');
+define('PIWIK_USER_PATH', '..');
 
 require_once PIWIK_INCLUDE_PATH . '/core/Piwik.php';
 
-$file = 'piwik.js';
+$file = '../piwik.js';
 
 Piwik::serveStaticFile($file, "application/javascript; charset=UTF-8");
 
