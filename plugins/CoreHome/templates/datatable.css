@@ -235,6 +235,7 @@ table thead div {
 
 #sortIconContainer {
 	float: right;
+	position: relative;
 }
 
 #sortIcon {
