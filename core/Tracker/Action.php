@@ -156,7 +156,17 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		{
 			if(!in_array(strtolower($name), $parametersToExclude))
 			{
-				$validQuery .= $name.'='.$value.$separator;
+				if (is_array($value))
+				{
+					foreach ($value as $param)
+					{
+						$validQuery.=$name.'%5B%5D='.$param.$separator;
+					}
+				}
+				else
+				{
+					$validQuery .= $name.'='.$value.$separator;
+				}
 			}
 		}
 		$parsedUrl['query'] = substr($validQuery,0,-strlen($separator));

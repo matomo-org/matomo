@@ -46,6 +46,12 @@ class Test_Piwik_TrackerAction extends  Test_Database
 			// testing with capital parameter
 			'http://a.com/index?p1=v1&P2=v2&p3=v3',
 		
+			// testing with array []
+			'http://a.com/index?p1=v1&p2[]=v2a&p2[]=v2b&p2[]=v2c&p3=v3&p4=v4',
+
+			// testing with missing value
+			'http://a.com/index?p1=v1&p2=&p3=v3&p4',
+
 			// testing with extra &&
 			'http://a.com/index?p1=v1&&p2=v2&p3=v3&p4=v4&&',
 		);
@@ -54,29 +60,32 @@ class Test_Piwik_TrackerAction extends  Test_Database
 	}
 	
 	/*
-	 * No excluded query parameters specified, appart from the standard "session" parameters, always excluded
+	 * No excluded query parameters specified, apart from the standard "session" parameters, always excluded
 	 */
 	function test_excludeQueryParameters_none()
 	{
 		$excludedQueryParameters = '';
+		$expectedUrls = array(
+			'http:////wrongurl',
+			'http://username:password@hostname:80/path#anchor',
+			'http://a.com/index?p1=v1',
+			'http://a.com/index?p1=v1&P2=v2&p3=v3',
+			'http://a.com/index?p1=v1&p2%5B%5D=v2a&p2%5B%5D=v2b&p2%5B%5D=v2c&p3=v3&p4=v4',
+
+			// orphaned p4 is automatically discarded
+			'http://a.com/index?p1=v1&p2=&p3=v3',
+
+			// the extra & are automatically cleaned up
+			'http://a.com/index?p1=v1&p2=v2&p3=v3&p4=v4',
+		);
 		$this->setUpRootAccess();
 		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), $excludedIps = '', $excludedQueryParameters);
 		$urls = $this->getTestUrls();
 		foreach($urls as $url)
 		{
-			$expectedUrl = $url;
-			if($url=='http://username:password@hostname:80/path?phpSESSID=value#anchor')
-			{
-				$expectedUrl = 'http://username:password@hostname:80/path#anchor';
-			}
-			
-			// the extra & are automatically cleaned up
-			if($url=='http://a.com/index?p1=v1&&p2=v2&p3=v3&p4=v4&&')
-			{
-				$expectedUrl = 'http://a.com/index?p1=v1&p2=v2&p3=v3&p4=v4';
-			}
-			$this->assertEqual($expectedUrl, Piwik_Tracker_Action::excludeQueryParametersFromUrl($url, $idsite));
+			$filteredUrls[] = Piwik_Tracker_Action::excludeQueryParametersFromUrl($url, $idsite);
 		}
+		$this->assertEqual($expectedUrls, $filteredUrls);
 	}
 	
 	/*
@@ -89,6 +98,8 @@ class Test_Piwik_TrackerAction extends  Test_Database
 			'http:////wrongurl',
 			'http://username:password@hostname:80/path#anchor',
 			'http://a.com/index?p1=v1',
+			'http://a.com/index?p1=v1&p3=v3',
+			'http://a.com/index?p1=v1&p3=v3',
 			'http://a.com/index?p1=v1&p3=v3',
 			'http://a.com/index?p1=v1&p3=v3',
 		);
@@ -115,6 +126,8 @@ class Test_Piwik_TrackerAction extends  Test_Database
 			'http:////wrongurl',
 			'http://username:password@hostname:80/path#anchor',
 			'http://a.com/index?p1=v1',
+			'http://a.com/index?p1=v1&p3=v3',
+			'http://a.com/index?p1=v1&p3=v3',
 			'http://a.com/index?p1=v1&p3=v3',
 			'http://a.com/index?p1=v1&p3=v3',
 		);
