@@ -160,7 +160,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 				{
 					foreach ($value as $param)
 					{
-						$validQuery.=$name.'%5B%5D='.$param.$separator;
+						$validQuery.=$name.'[]='.$param.$separator;
 					}
 				}
 				else
