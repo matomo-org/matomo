@@ -126,22 +126,23 @@ class Piwik_Live_API
 	{
 		$table = new Piwik_DataTable();
 
+		$site = new Piwik_Site($idSite);
+		$timezone = $site->getTimezone();
+
 		foreach($visitorDetails as $visitorDetail)
 		{
 			$this->cleanVisitorDetails($visitorDetail);
 			$visitor = new Piwik_Live_Visitor($visitorDetail);
 			$visitorDetailsArray = $visitor->getAllVisitorDetails();
 
-			$site = new Piwik_Site($idSite);
-			$timezone = $site->getTimezone();
-			
 			$visitorDetailsArray['siteCurrency'] = $site->getCurrency();
 
 			$dateTimeVisit = Piwik_Date::factory($visitorDetailsArray['firstActionTimestamp'], $timezone);
 			$visitorDetailsArray['serverDatePretty'] = $dateTimeVisit->getLocalized('%shortDay% %day% %shortMonth%');
 			$visitorDetailsArray['serverTimePretty'] = $dateTimeVisit->getLocalized('%time%');
 
-			if(!empty($visitorDetailsArray['goalTimePretty'])) {
+			if(!empty($visitorDetailsArray['goalTimePretty']))
+			{
 				$dateTimeConversion = Piwik_Date::factory($visitorDetailsArray['goalTimePretty'], $timezone);
 				$visitorDetailsArray['goalTimePretty'] = $dateTimeConversion->getLocalized('%shortDay% %day% %shortMonth% %time%');
 			}
@@ -200,13 +201,15 @@ class Piwik_Live_API
 			$whereBind[] = $minIdVisit;
 		}
 
-		//increse limit by offset when visitor paginates
-		if(!empty($offset)) {
+		// increase limit by offset when visitor paginates
+		if(!empty($offset))
+		{
 			$limit += (int)$offset;
 		}
 		
 		// SQL Filter with provided period
-		if (!empty($period) && !empty($date)) {
+		if (!empty($period) && !empty($date))
+		{
 
 			$currentSite = new Piwik_Site($idSite);
 			$currentTimezone = $currentSite->getTimezone();
@@ -273,7 +276,8 @@ class Piwik_Live_API
 		if($minutes != 0)
 		{
 			$timeLimit = mktime(date("H"), date("i") - $minutes, 0, date("m"),   date("d"),   date("Y"));
-			$where[] = " visit_last_action_time > '".date('Y-m-d H:i:s',$timeLimit)."'";
+			$where[] = " visit_last_action_time > ?";
+			$whereBind[] = date('Y-m-d H:i:s',$timeLimit);
 		}
 
 		if($days != 0)
@@ -284,7 +288,8 @@ class Piwik_Live_API
 			$oDate = Piwik_Date::factory("now", $sTimezone)
 				->setTimezone($sTimezone)
 				->subDay($days - 1);
-			$where[] = " visit_last_action_time > '".$oDate->getDateStartUTC()."'";
+			$where[] = " visit_last_action_time > ?";
+			$whereBind[] = $oDate->getDateStartUTC();
 
 		}
 
