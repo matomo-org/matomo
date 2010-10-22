@@ -436,6 +436,34 @@ class Test_Piwik_Common extends UnitTestCase
     	$this->assertEqual($result, $expectedResult);
     }
 
+	function test_getParameterFromQueryString()
+	{
+		$tests = array(
+			'x=1' => '1',
+			'?x=1' => '1',
+			'x[]=' => array(''),
+			'x[]=1' => array('1'),
+			'?x[]=1&x[]=2' => array('1', '2'),
+			'?x%5b%5d=3&x[]=4' => array('3', '4'),
+			'?x%5B]=5&x[%5D=6' => array('5', '6'),
+
+			// don't unescape the value, otherwise it becomes
+			//   ?x[]=A&y=1
+			'?x%5B%5D=A%26y%3D1' => array('A%26y%3D1'),
+			//   ?z=y&x[]=1
+			'?z=y%26x%5b%5d%3d1' => false,
+		);
+
+		// use $i as the test index because simpletest uses sprintf() internally and the percent encoding causes an error
+		$i = 0;
+		foreach($tests as $test => $expected)
+		{
+			$i++;
+			$this->assertFalse(Piwik_Common::getParameterFromQueryString($test, 'y'), $i);
+			$this->assertTrue(Piwik_Common::getParameterFromQueryString($test, 'x') === $expected, $i);
+		}
+	}
+
     public function test_isValidFilenameValidValues()
     {
     
