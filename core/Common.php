@@ -347,9 +347,11 @@ class Piwik_Common
 				$name = $exploded[0];
 
 				// if array without indexes
-				if( substr($name,-2,2) == '[]' )
+				$count = 0;
+				$tmp = preg_replace('/(\[|%5b)(]|%5d)$/i', '', $name, -1, $count);
+				if($tmp && $count)
 				{
-					$name = substr($name, 0, -2);
+					$name = $tmp;
 					if( isset($nameToValue[$name]) == false || is_array($nameToValue[$name]) == false )
 					{
 						$nameToValue[$name] = array();
