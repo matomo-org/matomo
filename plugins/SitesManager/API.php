@@ -669,33 +669,8 @@ class Piwik_SitesManager_API
 	 */
 	public function getCurrencyList()
 	{
-		return array(
-			'USD' => 'US Dollar ($)',
-			'EUR' => 'Euro (€)',
-			'JPY' => 'Japanese Yen (¥)',
-			'GBP' => 'British Pound Sterling (£)',
-			'AUD' => 'Australian Dollar (A$)',
-			'KRW' => 'South Korean Won (₩)',
-			'BRL' => 'Brazilian Real (R$)',
-			'CNY' => 'Chinese Yuan Renminbi (CN¥)',
-			'DKK' => 'Danish Krone (Dkr)',
-			'RUB' => 'Russian Ruble (RUB)',
-			'SEK' => 'Swedish Krona (Skr)',
-			'NOK' => 'Norwegian Krone (Nkr)',
-			'PLN' => 'Polish Zloty (zł)',
-			'TRY' => 'Turkish Lira (TL)',
-			'TWD' => 'New Taiwan Dollar (NT$)',
-			'HKD' => 'Hong Kong Dollar (HK$)',
-			'THB' => 'Thai Baht (฿)',
-			'IDR' => 'Indonesian Rupiah (Rp)',
-			'ARS' => 'Argentine Peso (AR$)',
-			'MXN' => 'Mexican Peso (MXN)',
-			'VND' => 'Vietnamese Dong (₫)',
-			'PHP' => 'Philippine Peso (Php)',
-			'INR' => 'Indian Rupee (Rs.)',
-			'VEF' => 'Venezuelan bolívar (Bs. F)',
-			'CHF' => 'Swiss Franc (Fr.)',
-		);
+		$currencies = Piwik::getCurrencyList();
+		return array_map(create_function('$a', 'return $a[1]." (".$a[0].")";'), $currencies);
 	}
 	
 	/**
@@ -705,35 +680,9 @@ class Piwik_SitesManager_API
 	 */
 	public function getCurrencySymbols()
 	{
-		return array(
-			'USD' => '$',
-			'EUR' => '€',
-			'JPY' => '¥',
-			'GBP' => '£',
-			'AUD' => 'A$',
-			'KRW' => '₩',
-			'BRL' => 'R$',
-			'CNY' => 'CN¥',
-			'DKK' => 'Dkr',
-			'RUB' => 'RUB',
-			'SEK' => 'Skr',
-			'NOK' => 'Nkr',
-			'PLN' => 'zł',
-			'TRY' => 'TL',
-			'TWD' => 'NT$',
-			'HKD' => 'HK$',
-			'THB' => '฿',
-			'IDR' => 'Rp',
-			'ARS' => 'AR$',
-			'MXN' => 'MXN',
-			'VND' => '₫',
-			'PHP' => 'Php',
-			'INR' => 'Rs.',
-			'VEF' => 'Bs. F',
-			'CHF' => 'Fr.',
-		);
+		$currencies = Piwik::getCurrencyList();
+		return array_map(create_function('$a', 'return $a[0];'), $currencies);
 	}
-	
 	
 	/**
 	 * Returns the list of timezones supported. 

@@ -1007,6 +1007,22 @@ class Piwik
  */
 
 	/**
+	 * Returns a list of currency symbols
+	 *
+	 * @return array array( currencyCode => symbol, ... )
+	 */
+	static public function getCurrencyList()
+	{
+		static $currenciesList = null;
+		if(is_null($currenciesList))
+		{
+			require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Currencies.php';
+			$currenciesList = $GLOBALS['Piwik_CurrencyList'];
+		}
+		return $currenciesList;
+	}
+
+	/**
 	 * Computes the division of i1 by i2. If either i1 or i2 are not number, or if i2 has a value of zero
 	 * we return 0 to avoid the division by zero.
 	 *
@@ -1048,13 +1064,15 @@ class Piwik
 	 */
 	static public function getCurrency($idSite)
 	{
-		static $symbols = null;
-		if(is_null($symbols))
-		{
-			$symbols = Piwik_SitesManager_API::getInstance()->getCurrencySymbols();
-		}
+		$symbols = self::getCurrencyList();
 		$site = new Piwik_Site($idSite);
-		return $symbols[$site->getCurrency()];
+		$currency = $site->getCurrency();
+		if(isset($symbols[$currency]))
+		{
+			return $symbols[$currency][0];
+		}
+
+		return '';
 	}
 
 	/**
