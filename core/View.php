@@ -35,6 +35,7 @@ class Piwik_View implements Piwik_iView
 	private $smarty = false;
 	private $variables = array();
 	private $contentType = 'text/html; charset=utf-8';
+	private $xFrameOptions = null;
 
 	public function __construct( $templateFile, $smConf = array(), $filter = true )
 	{
@@ -154,20 +155,38 @@ class Piwik_View implements Piwik_iView
 		}
  
 		@header('Content-Type: '.$this->contentType);
-		@header("Pragma: ");
-		@header("Cache-Control: no-store, must-revalidate");
+		@header('Pragma: ');
+		@header('Cache-Control: no-store, must-revalidate');
+		if($this->xFrameOptions)
+		{
+			@header('X-Frame-Options: '.$this->xFrameOptions);
+		}
 		
 		return $this->smarty->fetch($this->template);
 	}
 
 	/**
-	 * Set Content-Type field in HTTP response
+	 * Set Content-Type field in HTTP response.
+	 * Since PHP 5.1.2, header() protects against header injection attacks.
 	 *
 	 * @param string $contentType
 	 */
 	public function setContentType( $contentType )
 	{
 		$this->contentType = $contentType;
+	}
+
+	/**
+	 * Set X-Frame-Options field in the HTTP response.
+	 *
+	 * @param string $option ('deny' or 'sameorigin')
+	 */
+	public function setXFrameOptions( $option = 'deny' )
+	{
+		if($option == 'deny' || $option == 'sameorigin')
+		{
+			$this->xFrameOptions = $option;
+		}
 	}
 
 	/**
