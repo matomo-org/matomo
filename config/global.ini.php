@@ -119,6 +119,11 @@ minimum_pgsql_version = 8.3
 ; Minimum adviced memory limit in php.ini file (see memory_limit value)
 minimum_memory_limit = 128
 
+; by default, Piwik uses relative URLs, so you can login using http:// or https://
+; (the latter assumes you have a valid SSL certificate).
+; If set to 1, Piwik redirects the login form to use a secure connection (i.e., https).
+force_ssl_login = 0
+
 ; login cookie name
 login_cookie_name = piwik_auth
 
@@ -128,7 +133,6 @@ login_cookie_expire = 1209600
 ; The path on the server in which the cookie will be available on. 
 ; Defaults to empty. See spec in http://curl.haxx.se/rfc/cookie_spec.html
 login_cookie_path = 
-
 
 ; email address that appears as a Sender in the password recovery email
 ; if specified, {DOMAIN} will be replaced by the current Piwik domain
