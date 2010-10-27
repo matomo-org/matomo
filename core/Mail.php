@@ -49,15 +49,17 @@ class Piwik_Mail extends Zend_Mail
 			return;
 		}
 		$smtpConfig = array();
-		if ( !empty($config->auth->type)
-			 || !empty($config->auth->username)
-			 || !empty($config->auth->password)
+		if ( !empty($config->type)
+			 || !empty($config->username)
+			 || !empty($config->password)
+			 || !empty($config->security)
 		)
 		{
 			$smtpConfig = array(
-    						'auth' => $config->auth->type,
-            				'username' => $config->auth->username,
-            				'password' => $config->auth->password
+    						'auth' => $config->type,
+            				'username' => $config->username,
+            				'password' => $config->password,
+            				'ssl' => $config->security,
 			);
 		}
 		

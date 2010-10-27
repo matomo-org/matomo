@@ -64,11 +64,12 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
     		// Update email settings
 			$mail = Zend_Registry::get('config')->mail;
 			$mail->transport = (Piwik_Common::getRequestVar('mailUseSmtp') == '1') ? 'smtp' : '';
-			$mail->port = Piwik_Common::getRequestVar('mailPort', 25);
+			$mail->port = Piwik_Common::getRequestVar('mailPort', '');
 			$mail->host = Piwik_Common::getRequestVar('mailHost', '');
 			$mail->type = Piwik_Common::getRequestVar('mailType', '');
 			$mail->username = Piwik_Common::getRequestVar('mailUsername', '');
 			$mail->password = Piwik_Common::getRequestVar('mailPassword', '');
+			$mail->encryption = Piwik_Common::getRequestVar('mailEncryption', '');
 			Zend_Registry::get('config')->mail = $mail->toArray();
 			
 			$toReturn = $response->getResponse();
@@ -77,5 +78,4 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
 		}
 		echo $toReturn;
 	}
-	
 }
