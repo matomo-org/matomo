@@ -50,6 +50,7 @@
 	{$archiveTodayTTLHelp|inlineHelp}	</td>
 	</td>
 </tr>
+</table>
 
 <div id='emailSettings'>
 <table class="adminTable adminTableNoBorder" style='width:600px;'>
@@ -63,7 +64,7 @@
 		</td>
 	</tr>
 </table>
-
+</div>
 
 <div id='smtpSettings'>
 	<table class="adminTable adminTableNoBorder" style='width:550px;'>	
@@ -109,7 +110,6 @@
 	</table>
 </div>
 
-</table>
 <input type="submit" value="{'General_Save'|translate}" id="generalSettingsSubmit" class="submit" />
 <br /><br />
 
