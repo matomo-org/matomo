@@ -253,12 +253,13 @@ ip_address_mask_length = 1
 ;trusted_proxy_addresses[] =
 
 [mail]
-transport = 	 					; smtp or empty 
-port = 25
-host = 								; SMTP server address 
-type =  							; SMTP Auth type. By default: NONE. For example: LOGIN 
-username =  						; SMTP username
-password =  						; SMTP password 
+transport =							; smtp (using the configuration below) or empty (using built-in mail() function)
+port =								; optional; defaults to 25 when security is none or tls; 465 for ssl
+host =								; SMTP server address 
+type =								; SMTP Auth type. By default: NONE. For example: LOGIN 
+username =							; SMTP username
+password =							; SMTP password 
+encryption =						; SMTP transport-layer encryption, either 'ssl', 'tls', or empty (i.e., none).
 
 [log]
 ;possible values for log: screen, database, file

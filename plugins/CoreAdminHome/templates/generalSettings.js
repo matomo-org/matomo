@@ -24,6 +24,7 @@ function getGeneralSettingsAJAX()
  	request += '&mailType=' + $('#mailType').val();
  	request += '&mailUsername=' + $('#mailUsername').val();
  	request += '&mailPassword=' + $('#mailPassword').val();
+	request += '&mailEncryption=' + $('#mailEncryption').val();
 	ajaxRequest.data = request;
 	return ajaxRequest;
 }
@@ -60,4 +61,3 @@ $(document).ready( function() {
 		}
 	)
 });
-

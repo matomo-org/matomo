@@ -73,7 +73,8 @@
 			<td style='width:200px'><input type="text" id="mailHost" value="{$mail.host}"></td>
 		</tr>
 		<tr>
-			<td><label for="mailPort">{'General_SmtpPort'|translate}</label></td>
+			<td><label for="mailPort">{'General_SmtpPort'|translate}</label><br>
+				<span class="form-description">{'General_OptionalSmtpPort'|translate}</i></td>
 			<td><input type="text" id="mailPort" value="{$mail.port}"></td>
 		</tr>
 		<tr>
@@ -81,7 +82,7 @@
 				<span class="form-description">{'General_OnlyUsedIfUserPwdIsSet'|translate}</span>
 			</td>
 			<td>
-				<select id="mailType" >
+				<select id="mailType">
 					<option value="" {if $mail.type eq ''} selected="selected" {/if}></option>
 					<option id="plain" {if $mail.type eq 'PLAIN'} selected="selected" {/if} value="PLAIN">PLAIN</option>
 					<option id="login" {if $mail.type eq 'LOGIN'} selected="selected" {/if} value="LOGIN"> LOGIN</option>
@@ -105,6 +106,17 @@
 			</td>
 			<td>
 				<input type="password" id="mailPassword" value = "{$mail.password}" >
+			</td>
+		</tr>
+		<tr>
+			<td><label for="mailEncryption">{'General_SmtpEncryption'|translate}</label><br>
+				<span class="form-description">{'General_EncryptedSmtpTransport'|translate}</i></td>
+			<td>
+				<select id="mailEncryption">
+					<option value="" {if $mail.encryption eq ''} selected="selected" {/if}></option>
+					<option id="ssl" {if $mail.encryption eq 'ssl'} selected="selected" {/if} value="ssl">SSL</option>
+					<option id="tls" {if $mail.encryption eq 'tls'} selected="selected" {/if} value="tls">TLS</option>
+				</select> 
 			</td>
 		</tr>
 	</table>
