@@ -37,6 +37,8 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 */
 	function login($messageNoAccess = null)
 	{
+		self::checkForceSslLogin();
+
 		$form = new Piwik_Login_FormLogin();
 		if($form->validate())
 		{
@@ -63,6 +65,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$view->AccessErrorString = $messageNoAccess;
 		$view->nonce = Piwik_Nonce::getNonce('Piwik_Login.login');
 		$view->linkTitle = Piwik::getRandomTitle();
+		$view->forceSslLogin = Zend_Registry::get('config')->General->force_ssl_login;
 		$view->addForm( $form );
 		echo $view->render();
 	}
@@ -75,6 +78,8 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 */
 	function logme()
 	{
+		self::checkForceSslLogin();
+
 		$password = Piwik_Common::getRequestVar('password', null, 'string');
 		if(strlen($password) != 32)
 		{
@@ -121,6 +126,8 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 */
 	function lostPassword()
 	{
+		self::checkForceSslLogin();
+
 		$messageNoAccess = null;
 
 		$form = new Piwik_Login_FormPassword();
@@ -133,6 +140,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$view = Piwik_View::factory('lostPassword');
 		$view->AccessErrorString = $messageNoAccess;
 		$view->linkTitle = Piwik::getRandomTitle();
+		$view->forceSslLogin = Zend_Registry::get('config')->General->force_ssl_login;
 		$view->addForm( $form );
 		echo $view->render();
 	}
@@ -200,6 +208,8 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 */
 	function resetPassword()
 	{
+		self::checkForceSslLogin();
+
 		$messageNoAccess = null;
 
 		$form = new Piwik_Login_FormResetPassword();
@@ -214,6 +224,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$view = Piwik_View::factory('resetPassword');
 		$view->AccessErrorString = $messageNoAccess;
 		$view->linkTitle = Piwik::getRandomTitle();
+		$view->forceSslLogin = Zend_Registry::get('config')->General->force_ssl_login;
 		$view->addForm( $form );
 		echo $view->render();
 	}
@@ -372,5 +383,28 @@ class Piwik_Login_Controller extends Piwik_Controller
 	{
 		self::clearSession();
 		Piwik::redirectToModule('CoreHome');
+	}
+
+	/**
+	 * Check force_ssl_login and redirect if connection isn't secure and not using a reverse proxy
+	 *
+	 * @param none
+	 * @return void
+	 */
+	protected function checkForceSslLogin()
+	{
+		$forceSslLogin = Zend_Registry::get('config')->General->force_ssl_login;
+		if($forceSslLogin)
+		{
+			$reverseProxy = Zend_Registry::get('config')->General->reverse_proxy;
+			if(!(Piwik_Url::getCurrentScheme() == 'https' || $reverseProxy))
+			{
+				$url = 'https://'
+					. Piwik_Url::getCurrentHost()
+					. Piwik_Url::getCurrentScriptName()
+					. Piwik_Url::getCurrentQueryString();
+				Piwik_Url::redirectToUrl($url);
+			}
+		}
 	}
 }
