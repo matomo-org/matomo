@@ -28,8 +28,7 @@ class Piwik_Live_API
 	{
 		if (self::$instance == null)
 		{
-			$c = __CLASS__;
-			self::$instance = new $c();
+			self::$instance = new self;
 		}
 		return self::$instance;
 	}
@@ -227,8 +226,9 @@ class Piwik_Live_API
 
 			array_push(     $where, Piwik_Common::prefixTable('log_visit') . ".visit_first_action_time BETWEEN ? AND ?");
 			array_push(     $whereBind,
-			$processedPeriod->getDateStart()->toString(),
-			$processedPeriod->getDateEnd()->addDay(1)->toString());
+				$processedPeriod->getDateStart()->toString(),
+				$processedPeriod->getDateEnd()->addDay(1)->toString()
+			);
 		}
 
 		$sqlWhere = "";

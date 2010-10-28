@@ -43,7 +43,6 @@ class Piwik_API extends Piwik_Plugin {
 		
 		$cssFiles[] = "plugins/API/css/styles.css";
 	}
-
 }
 
 
@@ -62,8 +61,7 @@ class Piwik_API_API
 	{
 		if (self::$instance == null)
 		{
-			$c = __CLASS__;
-			self::$instance = new $c();
+			self::$instance = new self;
 		}
 		return self::$instance;
 	}
