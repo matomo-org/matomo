@@ -23,9 +23,8 @@ class Piwik_Menu_Main extends Piwik_Menu_Abstract
 	static public function getInstance()
 	{
 		if (self::$instance == null)
-		{			
-			$c = get_class();
-			self::$instance = new $c();
+		{
+			self::$instance = new self;
 		}
 		return self::$instance;
 	}
