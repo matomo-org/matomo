@@ -52,14 +52,14 @@ class Piwik_Mail extends Zend_Mail
 		if ( !empty($config->type)
 			 || !empty($config->username)
 			 || !empty($config->password)
-			 || !empty($config->security)
+			 || !empty($config->encryption)
 		)
 		{
 			$smtpConfig = array(
     						'auth' => $config->type,
             				'username' => $config->username,
             				'password' => $config->password,
-            				'ssl' => $config->security,
+            				'ssl' => $config->encryption,
 			);
 		}
 		
