@@ -308,7 +308,7 @@ class Piwik_PDFReports_API
 		list($outputFilename, $prettyDate, $websiteName) = 
 			$this->generateReport(
 					$idReport, 
-					Piwik_Date::now()->subPeriod(1, $report['period']),
+					Piwik_Date::now()->subPeriod(1, $report['period'])->toString(),
 					$idSite,
 					$outputType = Piwik_PDFReports_API::OUTPUT_PDF_SAVE_ON_DISK
 					);
