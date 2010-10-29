@@ -143,6 +143,10 @@ login_password_recovery_email_name = Piwik
 ; standard email address displayed when sending emails
 noreply_email_address = "noreply@{DOMAIN}"
 
+; feedback email address;
+; when testing, use your own email address or "nobody"
+feedback_email_address = "hello@piwik.org"
+
 ; during archiving, Piwik will limit the number of results recorded, for performance reasons
 ; maximum number of rows for any of the Referers tables (keywords, search engines, campaigns, etc.)
 datatable_archiving_maximum_rows_referers = 1000
