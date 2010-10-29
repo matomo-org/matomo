@@ -317,7 +317,15 @@ class Piwik_PDFReports_API
 		$emails = self::getEmailsFromString($report['additional_emails']);
 		if($report['email_me'] == 1)
 		{		
-			$emails[] = Piwik::getCurrentUserEmail();
+			if(Piwik::getCurrentUserLogin() == $report['login'])
+			{
+				$emails[] = Piwik::getCurrentUserEmail();
+			}
+			else
+			{
+				$user = Piwik_UsersManager_API::getInstance()->getUser($report['login']);
+				$emails[] = $user['email'];
+			}
 		}
 		$this->sendReportEmailPdfAttached($emails, $outputFilename, $prettyDate, $websiteName, $report);
 	}
