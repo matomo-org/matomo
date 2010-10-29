@@ -295,7 +295,6 @@ error_reporting = E_ALL|E_NOTICE
 Plugins[] 		= CorePluginsAdmin
 Plugins[] 		= CoreAdminHome
 Plugins[] 		= CoreHome
-Plugins[]		= Proxy
 Plugins[] 		= API
 Plugins[] 		= Widgetize
 Plugins[] 		= LanguagesManager
