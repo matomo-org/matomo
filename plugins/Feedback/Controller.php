@@ -34,6 +34,7 @@ class Piwik_Feedback_Controller extends Piwik_Controller
 		$nonce = Piwik_Common::getRequestVar('nonce', '', 'string');
 
 		$view = Piwik_View::factory('sent');
+		$view->feedbackEmailAddress = Zend_Registry::get('config')->General->feedback_email_address;
 		try
 		{
 			$minimumBodyLength = 35;
@@ -56,7 +57,7 @@ class Piwik_Feedback_Controller extends Piwik_Controller
 
 			$mail = new Piwik_Mail();
 			$mail->setFrom(Piwik_Common::unsanitizeInputValue($email));
-			$mail->addTo('hello@piwik.org', 'Piwik Team');
+			$mail->addTo($view->feedbackEmailAddress, 'Piwik Team');
 			$mail->setSubject('[ Feedback form - Piwik ] ' . $category);
 			$mail->setBodyText(Piwik_Common::unsanitizeInputValue($body) . "\n"
 				. 'Piwik ' . Piwik_Version::VERSION . "\n"
