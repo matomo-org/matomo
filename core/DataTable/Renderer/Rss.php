@@ -22,13 +22,13 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 {
 	function render()
 	{
-		return $this->renderTable($this->table);
+		return $this->output($this->renderTable($this->table));
 	}
 	
 	function renderException()
 	{
 		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
-		return 'Error: '.$exceptionMessage;
+		return $this->output('Error: '.$exceptionMessage);
 	}
 	
 	protected function renderTable($table)
@@ -74,17 +74,20 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 		$header = $this->getRssHeader();
 		$footer = $this->getRssFooter();
 		
-		return $this->output( $header . $out . $footer);
+		return $header . $out . $footer;
 	}
+
 	protected function output($str)
 	{
-		@header("Content-Type: text/xml;charset=utf-8");
+		@header('Content-Type: text/xml; charset=utf-8');
 		return $str;
 	}
+
 	protected function getRssFooter()
 	{
 		return "\t</channel>\n</rss>";
 	}
+
 	protected function getRssHeader()
 	{
 		$generationDate = date('r');

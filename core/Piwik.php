@@ -101,6 +101,40 @@ class Piwik
 	}
 
 /*
+ * HTTP response cache headers
+ */
+	/**
+	 * Workaround IE bug when downloading certain document types over SSL and
+	 * cache control headers are present, e.g.,
+	 *
+	 *    Cache-Control: no-cache
+	 *    Cache-Control: no-store,max-age=0,must-revalidate
+	 *    Pragma: no-cache
+	 *
+	 * @see http://support.microsoft.com/kb/316431/
+	 * @see RFC2616
+	 *
+	 * @param string $override One of "public", "private", "no-cache", or "no-store". (optional)
+	 */
+	static public function overrideCacheControlHeaders($override = null)
+	{
+		if($override ||
+			Piwik_Url::getCurrentScheme() == 'https' ||
+			Zend_Registry::get('config')->General->reverse_proxy)
+		{
+			@header('Pragma: ');
+			if(in_array($override, array('public', 'private', 'no-cache', 'no-store')))
+			{
+				@header("Cache-Control: $override, must-revalidate");
+			}
+			else
+			{
+				@header('Cache-Control: must-revalidate');
+			}
+		}
+	}
+
+/*
  * File and directory operations
  */
 
@@ -574,9 +608,8 @@ class Piwik
 			$fileModifiedTime = @filemtime($file);
 			$lastModified = gmdate('D, d M Y H:i:s', $fileModifiedTime) . ' GMT';
 
-			// Override server cache control config
-			@header('Cache-Control: public, must-revalidate');
-			@header('Pragma:');
+			// set HTTP response headers
+			self::overrideCacheControlHeaders('public');
 			@header('Vary: Accept-Encoding');
 			@header('Content-Disposition: inline; filename='.basename($file));
 

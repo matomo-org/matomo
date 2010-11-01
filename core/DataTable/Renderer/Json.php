@@ -74,6 +74,7 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 	
 	static private function renderHeader ()
 	{
-		@header( "Content-Type: application/json" );
+		@header('Content-Type: application/json; charset=utf-8');
+		Piwik::overrideCacheControlHeaders();
 	}
 }

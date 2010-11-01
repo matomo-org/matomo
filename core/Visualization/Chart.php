@@ -125,12 +125,7 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 	
 	public function render()
 	{
-		if(Piwik_Url::getCurrentScheme() == 'https' ||
-			Zend_Registry::get('config')->General->reverse_proxy)
-		{
-			@header("Pragma: ");
-			@header("Cache-Control: must-revalidate");
-		}
+		Piwik::overrideCacheControlHeaders();
 		return $this->chart->toPrettyString();
 	}
 	
