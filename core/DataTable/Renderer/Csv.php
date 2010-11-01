@@ -265,8 +265,9 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 			return 'No data available';
 		}
 		// silent fail otherwise unit tests fail
-		@header("Content-Type: application/vnd.ms-excel");
-		@header("Content-Disposition: attachment; filename=piwik-report-export.csv");
+		@header('Content-Type: application/vnd.ms-excel');
+		@header('Content-Disposition: attachment; filename=piwik-report-export.csv');
+		Piwik::overrideCacheControlHeaders();
 		if($this->convertToUnicode 
 			&& function_exists('mb_convert_encoding'))
 		{

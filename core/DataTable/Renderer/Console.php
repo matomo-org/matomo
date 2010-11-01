@@ -22,13 +22,13 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 	
 	function render()
 	{
-		return $this->renderTable($this->table);
+		return $this->output($this->renderTable($this->table));
 	}
 	
 	function renderException()
 	{
 		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
-		return 'Error: '.$exceptionMessage;
+		return $this->output('Error: '.$exceptionMessage);
 	}
 	
 	function setPrefixRow($str)
@@ -130,6 +130,11 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 		}
 		
 		return $output;
-		
-	}	
+	}
+
+	protected function output( $content )
+	{
+		@header('Content-Type: text/html; charset=utf-8');
+		return $content;
+	}
 }

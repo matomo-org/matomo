@@ -24,21 +24,19 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 {
 	function render()
 	{
-		return $this->renderTable($this->table);
+		return $this->output($this->renderTable($this->table));
 	}
 	
 	function renderException()
 	{
 		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
 		
-		@header("Content-Type: text/xml;charset=utf-8");
 		$return = 
-			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n" .
 			"<result>\n".
 			"\t<error message=\"".$exceptionMessage."\" />\n".
 			"</result>";		
 		
-		return $return;
+		return $this->output($return);
 	}
 	
 	protected function getArrayFromDataTable($table)
@@ -64,7 +62,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 				return $out;
 			}
 			$out = "<results>\n$out</results>";
-			return $this->output($out);
+			return $out;
 		}
 	
 		// integer value of ZERO is a value we want to display
@@ -75,7 +73,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 				throw new Exception("Illegal state, what xml shall we return?");
 			}
 			$out = "<result />";
-			return $this->output($out);
+			return $out;
 		}
 		if($table instanceof Piwik_DataTable_Simple)
 		{
@@ -100,7 +98,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 			{
 				$out = "<result>".$this->formatValue($out)."</result>";
 			}
-			return $this->output($out);
+			return $out;
 		}
 		
 		if($table instanceof Piwik_DataTable)
@@ -111,10 +109,8 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 				return $out;
 			}
 			$out = "<result>\n$out</result>";
-			return $this->output($out);
+			return $out;
 		}
-		
-		
 	}
 	
 	protected function renderDataTableArray($table, $array, $prefixLines = "")
@@ -324,7 +320,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 	protected function output( $xml )
 	{
 		// silent fail because otherwise it throws an exception in the unit tests
-		@header("Content-Type: text/xml;charset=utf-8");
+		@header('Content-Type: text/xml; charset=utf-8');
 		$xml = '<?xml version="1.0" encoding="utf-8" ?>' .  "\n" . $xml;
 		return $xml;
 	}

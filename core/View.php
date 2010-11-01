@@ -154,9 +154,8 @@ class Piwik_View implements Piwik_iView
 			$this->totalNumberOfQueries = 0;
 		}
  
+		Piwik::overrideCacheControlHeaders('no-store');
 		@header('Content-Type: '.$this->contentType);
-		@header('Pragma: ');
-		@header('Cache-Control: no-store, must-revalidate');
 		if($this->xFrameOptions)
 		{
 			@header('X-Frame-Options: '.$this->xFrameOptions);

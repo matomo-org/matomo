@@ -35,13 +35,13 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 		$this->allColumns = array();
 		$this->i = 0;
 
-		return $this->renderTable($this->table);
+		return $this->output($this->renderTable($this->table));
 	}
 	
 	function renderException()
 	{
 		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
-		return nl2br($exceptionMessage);
+		return $this->output(nl2br($exceptionMessage));
 	}
 	
 	protected function renderTable($table)
@@ -64,7 +64,7 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 		}
 
 		$out = $this->renderDataTable();
-		return $this->output($out);
+		return $out;
 	}	
 
 	protected function buildTableStructure($table, $columnToAdd = null, $valueToAdd = null)
@@ -181,7 +181,7 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 	protected function output( $xml )
 	{
 		// silent fail because otherwise it throws an exception in the unit tests
-		@header("Content-Type: text/html;charset=utf-8");
+		@header('Content-Type: text/html; charset=utf-8');
 		return $xml;
 	}
 }
