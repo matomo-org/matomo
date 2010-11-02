@@ -264,8 +264,10 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 			{
 				$superUser = Zend_Registry::get('config')->superuser;
 				$updatedSuperUser = false;
+
 				if($newPassword !== false)
 				{
+					$newPassword = Piwik_Common::unsanitizeInputValue($newPassword);
 					$md5PasswordSuperUser = md5($newPassword);
 					$superUser->password = $md5PasswordSuperUser;
 					$updatedSuperUser = true;
@@ -283,6 +285,10 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 			else
 			{
 				Piwik_UsersManager_API::getInstance()->updateUser($userLogin, $newPassword, $email, $alias);
+				if($newPassword !== false)
+				{
+					$newPassword = Piwik_Common::unsanitizeInputValue($newPassword);
+				}
 			}
 
 			// logs the user in with the new password

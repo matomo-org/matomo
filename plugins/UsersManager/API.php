@@ -311,8 +311,10 @@ class Piwik_UsersManager_API
 		
 		$this->checkLogin($userLogin);
 		$this->checkUserIsNotSuperUser($userLogin);
-		$this->checkPassword($password);
 		$this->checkEmail($email);
+
+		$password = Piwik_Common::unsanitizeInputValue($password);
+		$this->checkPassword($password);
 
 		$alias = $this->getCleanAlias($alias,$userLogin);
 		$passwordTransformed = $this->getCleanPassword($password);
@@ -333,7 +335,6 @@ class Piwik_UsersManager_API
 		
 		// we reload the access list which doesn't yet take in consideration this new user
 		Zend_Registry::get('access')->reloadAccess();
-		
 	}
 	
 	/**
@@ -357,6 +358,7 @@ class Piwik_UsersManager_API
 		}
 		else
 		{
+			$password = Piwik_Common::unsanitizeInputValue($password);
 			$this->checkPassword($password);
 			$password = $this->getCleanPassword($password);
 		}
