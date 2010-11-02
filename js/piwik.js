@@ -249,6 +249,13 @@ if (!this.Piwik) {
 			 ************************************************************/
 
 			var
+/*<DEBUG>*/
+			/*
+			 * registered (user-defined) hooks
+			 */
+			registeredHooks = {},
+/*</DEBUG>*/
+
 			// Current URL and Referrer URL
 			locationArray = urlFixup(windowAlias.location.hostname, windowAlias.location.href, getReferrer()),
 			locationHostnameAlias = locationArray[0],
@@ -421,12 +428,7 @@ if (!this.Piwik) {
 				}
 
 				return str('', {'': value});
-			},
-
-			/*
-			 * registered (user-defined) hooks
-			 */
-			registeredHooks = {};
+			};
 
 			/*
 			 * Set cookie value
@@ -786,6 +788,7 @@ if (!this.Piwik) {
 				}
 			}
 
+/*<DEBUG>*/
 			/*
 			 * Register a user-defined hook
 			 * - if userHook is a string, object construction is deferred,
@@ -807,6 +810,7 @@ if (!this.Piwik) {
 				}
 				return hookObj;
 			}
+/*</DEBUG>*/
 
 			/************************************************************
 			 * Constructor
@@ -828,6 +832,7 @@ if (!this.Piwik) {
 			 ************************************************************/
 
 			return {
+/*<DEBUG>*/
 				/*
 				 * Hook accessors
 				 */
@@ -835,7 +840,7 @@ if (!this.Piwik) {
 				getHook: function (hookName) {
 					return registeredHooks[hookName];
 				},
-
+/*</DEBUG>*/
 				/*
 				 * Specify the Piwik server URL
 				 */
