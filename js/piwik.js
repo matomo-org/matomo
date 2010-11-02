@@ -251,7 +251,7 @@ if (!this.Piwik) {
 			var
 /*<DEBUG>*/
 			/*
-			 * registered (user-defined) hooks
+			 * registered test hooks
 			 */
 			registeredHooks = {},
 /*</DEBUG>*/
@@ -790,9 +790,8 @@ if (!this.Piwik) {
 
 /*<DEBUG>*/
 			/*
-			 * Register a user-defined hook
-			 * - if userHook is a string, object construction is deferred,
-			 *   permitting the addition of privileged members
+			 * Register a test hook.  Using eval() permits access to otherwise
+			 * privileged membmers.
 			 */
 			function registerHook(hookName, userHook) {
 				var hookObj = null;
@@ -822,10 +821,12 @@ if (!this.Piwik) {
 			browserHasCookies = hasCookies();
 			detectBrowserPlugins();
 
+/*<DEBUG>*/
 			/*
-			 * initialize plugins
+			 * initialize test plugin
 			 */
 			executePluginMethod('run', registerHook);
+/*</DEBUG>*/
 
 			/************************************************************
 			 * Public data and methods
@@ -834,13 +835,14 @@ if (!this.Piwik) {
 			return {
 /*<DEBUG>*/
 				/*
-				 * Hook accessors
+				 * Test hook accessors
 				 */
 				hook: registeredHooks,
 				getHook: function (hookName) {
 					return registeredHooks[hookName];
 				},
 /*</DEBUG>*/
+
 				/*
 				 * Specify the Piwik server URL
 				 */
