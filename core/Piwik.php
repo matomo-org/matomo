@@ -101,8 +101,18 @@ class Piwik
 	}
 
 /*
- * HTTP response cache headers
+ * HTTP headers
  */
+	/**
+	 * Returns true if this appears to be a secure HTTPS connection
+	 *
+	 * @return bool
+	 */
+	static public function isHttps()
+	{
+		return Piwik_Url::getCurrentScheme() === 'https' || Zend_Registry::get('config')->General->reverse_proxy;
+	}
+
 	/**
 	 * Workaround IE bug when downloading certain document types over SSL and
 	 * cache control headers are present, e.g.,
@@ -118,9 +128,7 @@ class Piwik
 	 */
 	static public function overrideCacheControlHeaders($override = null)
 	{
-		if($override ||
-			Piwik_Url::getCurrentScheme() == 'https' ||
-			Zend_Registry::get('config')->General->reverse_proxy)
+		if($override || self::isHttps())
 		{
 			@header('Pragma: ');
 			if(in_array($override, array('public', 'private', 'no-cache', 'no-store')))

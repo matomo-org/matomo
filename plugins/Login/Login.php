@@ -132,6 +132,7 @@ class Piwik_Login extends Piwik_Plugin
 		$cookie = new Piwik_Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
 		$cookie->set('login', $login);
 		$cookie->set('token_auth', $auth->getHashTokenAuth($login, $authResult->getTokenAuth()));
+		$cookie->setSecure(Piwik::isHttps());
 		$cookie->save();
 
 		Zend_Session::regenerateId();

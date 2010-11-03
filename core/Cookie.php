@@ -34,7 +34,28 @@ class Piwik_Cookie
 	 * The expire time for the cookie (expressed in UNIX Timestamp)
 	 */
 	protected $expire = null;
-	
+
+	/**
+	 * Restrict cookie path
+	 */
+	protected $path = '';
+
+	/**
+	 * Restrict cookie to a domain (or subdomains)
+	 */
+	protected $domain = '';
+
+	/**
+	 * If true, cookie should only be transmitted over secure HTTPS
+	 */
+	protected $secure = false;
+
+	/**
+	 * If true, cookie will only be made available via the HTTP protocol.
+	 * Note: not well supported by browsers.
+	 */
+	protected $httponly = false;
+
 	/**
 	 * The content of the cookie
 	 */
@@ -158,7 +179,7 @@ class Piwik_Cookie
 		}
 		
 		$this->setP3PHeader();
-		$this->setCookie( $this->name, $cookieString, $this->expire, $this->path);
+		$this->setCookie($this->name, $cookieString, $this->expire, $this->path, $this->domain, $this->secure, $this->httponly);
 	}
 
 	/**
@@ -246,6 +267,36 @@ class Piwik_Cookie
 		}
 
 		return '';
+	}
+
+	/**
+	 * Set cookie domain
+	 *
+	 * @param string $domain
+	 */
+	public function setDomain($domain)
+	{
+		$this->domain = $domain;
+	}
+	
+	/**
+	 * Set secure flag
+	 *
+	 * @param bool $secure
+	 */
+	public function setSecure($secure)
+	{
+		$this->secure = $secure;
+	}
+	
+	/**
+	 * Set HTTP only
+	 *
+	 * @param bool $httponly
+	 */
+	public function setHttpOnly($httponly)
+	{
+		$this->httponly = $httponly;
 	}
 	
 	/**
