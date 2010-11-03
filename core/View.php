@@ -182,7 +182,7 @@ class Piwik_View implements Piwik_iView
 	 */
 	public function setXFrameOptions( $option = 'deny' )
 	{
-		if($option == 'deny' || $option == 'sameorigin')
+		if($option === 'deny' || $option === 'sameorigin')
 		{
 			$this->xFrameOptions = $option;
 		}
