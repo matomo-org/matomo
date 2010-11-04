@@ -46,7 +46,15 @@ abstract class Piwik_DataTable_Renderer
 	{
 		return $this->renderSubTables;
 	}
-	
+
+	/**
+	 * Output HTTP Content-Type header
+	 */
+	protected function renderHeader()
+	{
+		@header('Content-Type: text/html; charset=utf-8');
+	}
+
 	/**
 	 * Computes the dataTable output and returns the string/binary
 	 * 
