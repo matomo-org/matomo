@@ -63,7 +63,20 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 	
 	public function render()
 	{
-		return $this->output($this->renderTable($this->table));
+		$str = $this->renderTable($this->table);
+		if(empty($str))
+		{
+			return 'No data available';
+		}
+
+		$this->renderHeader();
+
+		if($this->convertToUnicode 
+			&& function_exists('mb_convert_encoding'))
+		{
+			$str = chr(255) . chr(254) . mb_convert_encoding($str, 'UTF-16LE', 'UTF-8');
+		}
+		return $str;
 	}
 	
 	function renderException()
@@ -258,21 +271,11 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		return $value;
 	}
 	
-	protected function output( $str )
+	protected function renderHeader()
 	{
-		if(empty($str))
-		{
-			return 'No data available';
-		}
 		// silent fail otherwise unit tests fail
 		@header('Content-Type: application/vnd.ms-excel');
 		@header('Content-Disposition: attachment; filename=piwik-report-export.csv');
 		Piwik::overrideCacheControlHeaders();
-		if($this->convertToUnicode 
-			&& function_exists('mb_convert_encoding'))
-		{
-			$str = chr(255) . chr(254) . mb_convert_encoding($str, 'UTF-16LE', 'UTF-8');
-		}
-		return $str;
 	}
 }

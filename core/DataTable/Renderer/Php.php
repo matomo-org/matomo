@@ -48,6 +48,8 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 
 	public function render( $dataTable = null )
 	{
+		$this->renderHeader();
+
 		if(is_null($dataTable))
 		{
 			$dataTable = $this->table;
@@ -62,11 +64,13 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 			}
 			$toReturn =  "<pre>" . var_export($toReturn, true ) . "</pre>";
 		}
-		return $this->output($toReturn);
+		return $toReturn;
 	}
 	
 	function renderException()
 	{
+		$this->renderHeader();
+
 		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
 		
 		$return = array('result' => 'error', 'message' => $exceptionMessage);
@@ -76,7 +80,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 			$return = serialize($return);
 		}
 		
-		return $this->output($return);
+		return $return;
 	}
 	
 	/**
@@ -230,11 +234,5 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 			$array[$columnName] = $columnValue;
 		}
 		return $array;
-	}
-
-	protected function output( $content )
-	{
-		@header('Content-Type: text/html; charset=utf-8');
-		return $content;
 	}
 }
