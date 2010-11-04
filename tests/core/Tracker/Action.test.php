@@ -72,8 +72,8 @@ class Test_Piwik_TrackerAction extends  Test_Database
 			'http://a.com/index?p1=v1&P2=v2&p3=v3',
 			'http://a.com/index?p1=v1&p2[]=v2a&p2[]=v2b&p2[]=v2c&p3=v3&p4=v4',
 
-			// orphaned p4 is automatically discarded
-			'http://a.com/index?p1=v1&p2=&p3=v3',
+			// normalize orphaned p4
+			'http://a.com/index?p1=v1&p2=&p3=v3&p4=',
 
 			// the extra & are automatically cleaned up
 			'http://a.com/index?p1=v1&p2=v2&p3=v3&p4=v4',

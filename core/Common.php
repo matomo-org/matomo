@@ -35,6 +35,10 @@ class Piwik_Common
 	 */
 	const HTML_ENCODING_QUOTE_STYLE		= ENT_COMPAT;
 
+/*
+ * Database
+ */
+
 	/**
 	 * Returns the table name prefixed by the table prefix.
 	 * Works in both Tracker and UI mode.
@@ -63,6 +67,46 @@ class Piwik_Common
 		return $prefixTable . $table;
 	}
 
+/*
+ * Tracker
+ */
+
+	static protected function initCorePiwikInTrackerMode()
+	{
+		static $init = false;
+		if(!empty($GLOBALS['PIWIK_TRACKER_MODE'])
+			&& $init === false)
+		{
+			$init = true;
+			require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
+			require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
+			require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
+			try {
+				$access = Zend_Registry::get('access');
+			} catch (Exception $e) {
+				Piwik::createAccessObject();
+			}
+			try {
+				$config = Zend_Registry::get('config');
+			} catch (Exception $e) {
+				Piwik::createConfigObject();
+			}
+			try {
+				$db = Zend_Registry::get('db');
+			} catch (Exception $e) {
+				Piwik::createDatabaseObject();
+			}
+
+			$pluginsManager = Piwik_PluginsManager::getInstance();
+			$pluginsManager->loadPlugins( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
+		}
+		
+	}
+
+/*
+ * File-based Cache
+ */
+
 	/**
 	 * @var Piwik_CacheFile
 	 */
@@ -75,6 +119,7 @@ class Piwik_Common
 		}
 		return self::$trackerCache;
 	}
+
 	/**
 	 * Returns array containing data about the website: goals, URLs, etc.
 	 *
@@ -142,6 +187,43 @@ class Piwik_Common
 		$cache->set($cacheId, $value);
 		return true;
 	}
+
+	/**
+	 * Regenerate Tracker cache files
+	 *
+	 * @param array $idSites array of idSites to clear cache for
+	 */
+	static public function regenerateCacheWebsiteAttributes($idSites = array())
+	{
+		if(!is_array($idSites))
+		{
+			$idSites = array( $idSites );
+		}
+		foreach($idSites as $idSite) {
+			self::deleteCacheWebsiteAttributes($idSite);
+			self::getCacheWebsiteAttributes($idSite);
+		}
+	}
+
+	/**
+	 * Delete existing Tracker cache
+	 *
+	 * @param string $idSite (website ID of the site to clear cache for
+	 */
+	static public function deleteCacheWebsiteAttributes( $idSite )
+	{
+		$cache = new Piwik_CacheFile('tracker');
+		$cache->delete($idSite);
+	}
+
+	/**
+	 * Deletes all Tracker cache files
+	 */
+	static public function deleteAllCache()
+	{
+		$cache = new Piwik_CacheFile('tracker');
+		$cache->deleteAll();
+	}
 	
 	/**
 	 * Tracker requests will automatically trigger the Scheduled tasks.
@@ -192,77 +274,11 @@ class Piwik_Common
 		}
 		printDebug("Next run will be from: ". date('Y-m-d H:i:s', $nextRunTime) .' UTC');
 	}
-	
-	static protected function initCorePiwikInTrackerMode()
-	{
-		static $init = false;
-		if(!empty($GLOBALS['PIWIK_TRACKER_MODE'])
-			&& $init === false)
-		{
-			$init = true;
-			require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
-			require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
-			require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
-			try {
-				$access = Zend_Registry::get('access');
-			} catch (Exception $e) {
-				Piwik::createAccessObject();
-			}
-			try {
-				$config = Zend_Registry::get('config');
-			} catch (Exception $e) {
-				Piwik::createConfigObject();
-			}
-			try {
-				$db = Zend_Registry::get('db');
-			} catch (Exception $e) {
-				Piwik::createDatabaseObject();
-			}
 
-			$pluginsManager = Piwik_PluginsManager::getInstance();
-			$pluginsManager->loadPlugins( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
-		}
-		
-	}
+/*
+ * URLs
+ */
 
-	/**
-	 * Regenerate Tracker cache files
-	 *
-	 * @param array $idSites array of idSites to clear cache for
-	 */
-	static public function regenerateCacheWebsiteAttributes($idSites = array())
-	{
-		if(!is_array($idSites))
-		{
-			$idSites = array( $idSites );
-		}
-		foreach($idSites as $idSite) {
-			self::deleteCacheWebsiteAttributes($idSite);
-			self::getCacheWebsiteAttributes($idSite);
-		}
-	}
-
-	/**
-	 * Delete existing Tracker cache
-	 *
-	 * @param string $idSite (website ID of the site to clear cache for
-	 */
-	static public function deleteCacheWebsiteAttributes( $idSite )
-	{
-		$cache = new Piwik_CacheFile('tracker');
-		$cache->delete($idSite);
-	}
-
-	/**
-	 * Deletes all Tracker cache files
-	 */
-	static public function deleteAllCache()
-	{
-		$cache = new Piwik_CacheFile('tracker');
-		$cache->deleteAll();
-	}
-	
-	
 	/**
 	 * Returns the path and query part from a URL.
 	 * Eg. http://piwik.org/test/index.php?module=CoreHome will return /test/index.php?module=CoreHome
@@ -283,15 +299,6 @@ class Piwik_Common
 			$result .= '?'.$parsedUrl['query'];
 		}
 		return $result;
-	}
-
-	/**
-	 * ending WITHOUT slash
-	 * @return string
-	 */
-	static public function getPathToPiwikRoot()
-	{
-		return realpath( dirname(__FILE__). "/.." );
 	}
 
 	/**
@@ -345,23 +352,29 @@ class Piwik_Common
 			{
 				$exploded = explode('=',$value);
 				$name = $exploded[0];
+				$value = $exploded[1];
+			}
+			else
+			{
+				$name = $value;
+				$value = '';
+			}
 
-				// if array without indexes
-				$count = 0;
-				$tmp = preg_replace('/(\[|%5b)(]|%5d)$/i', '', $name, -1, $count);
-				if($tmp && $count)
+			// if array without indexes
+			$count = 0;
+			$tmp = preg_replace('/(\[|%5b)(]|%5d)$/i', '', $name, -1, $count);
+			if(!empty($tmp) && $count)
+			{
+				$name = $tmp;
+				if( isset($nameToValue[$name]) == false || is_array($nameToValue[$name]) == false )
 				{
-					$name = $tmp;
-					if( isset($nameToValue[$name]) == false || is_array($nameToValue[$name]) == false )
-					{
-						$nameToValue[$name] = array();
-					}
-					array_push($nameToValue[$name],$exploded[1]);
+					$nameToValue[$name] = array();
 				}
-				else
-				{
-					$nameToValue[$name] = $exploded[1];
-				}
+				array_push($nameToValue[$name], $value);
+			}
+			else if(!empty($name))
+			{
+				$nameToValue[$name] = $value;
 			}
 		}
 		return $nameToValue;
@@ -395,7 +408,34 @@ class Piwik_Common
         $uri .= !empty($parsed['fragment']) ? '#'.$parsed['fragment'] : '';
         return $uri;
     }
+
+	/**
+	 * Returns true if the string passed may be a URL.
+	 * We don't need a precise test here because the value comes from the website
+	 * tracked source code and the URLs may look very strange.
+	 *
+	 * @param string $url
+	 * @return bool
+	 */
+	static function isLookLikeUrl( $url )
+	{
+		return preg_match('~^(ftp|news|http|https)?://(.*)$~', $url, $matches) !== 0
+				&& strlen($matches[2]) > 0;
+	}
+
+/*
+ * File operations
+ */
     
+	/**
+	 * ending WITHOUT slash
+	 * @return string
+	 */
+	static public function getPathToPiwikRoot()
+	{
+		return realpath( dirname(__FILE__). "/.." );
+	}
+
 	/**
 	 * Create directory if permitted
 	 *
@@ -460,19 +500,9 @@ class Piwik_Common
 		return (0 !== preg_match('/(^[a-zA-Z0-9]+([a-zA-Z_0-9.-]*))$/', $filename));
 	}
 
-	/**
-	 * Returns true if the string passed may be a URL.
-	 * We don't need a precise test here because the value comes from the website
-	 * tracked source code and the URLs may look very strange.
-	 *
-	 * @param string $url
-	 * @return bool
-	 */
-	static function isLookLikeUrl( $url )
-	{
-		return preg_match('~^(ftp|news|http|https)?://(.*)$~', $url, $matches) !== 0
-				&& strlen($matches[2]) > 0;
-	}
+/*
+ * Escaping input
+ */
 
 	/**
 	 * Returns the variable after cleaning operations.
@@ -686,6 +716,10 @@ class Piwik_Common
 		return $str;
 	}
 
+/*
+ * Generating unique strings
+ */
+
 	/**
 	 * Returns a 32 characters long uniq ID
 	 *
@@ -721,6 +755,34 @@ class Piwik_Common
 		}
 		return $salt;
 	}
+
+	/**
+	 * Generate random string
+	 *
+	 * @param string $length string length
+	 * @param string $alphabet characters allowed in random string
+	 * @return string random string with given length
+	 */
+	public static function getRandomString($length = 16, $alphabet = "abcdefghijklmnoprstuvwxyz0123456789")
+	{
+		$chars = $alphabet;
+		$str = '';
+
+		list($usec, $sec) = explode(" ", microtime());
+		$seed = ((float)$sec+(float)$usec)*100000;
+		mt_srand($seed);
+
+		for($i = 0; $i < $length; $i++)
+		{
+			$rand_key = mt_rand(0, strlen($chars)-1);
+			$str  .= substr($chars, $rand_key, 1);
+		}
+		return str_shuffle($str);
+	}
+
+/*
+ * IP addresses
+ */
 
 	/**
 	 * Test whether or not an IP address is public.
@@ -865,6 +927,10 @@ class Piwik_Common
 		return trim(self::sanitizeInputValues($ip));
 	}
 
+/*
+ * DataFiles
+ */
+
 	/**
 	 * Returns the continent of a given country
 	 *
@@ -882,6 +948,25 @@ class Piwik_Common
 		}
 		return 'unk';
 	}
+	/**
+	 * Returns list of valid country codes
+	 *
+	 * @return array of 2 letter ISO codes
+	 */
+	static public function getCountriesList()
+	{
+		static $countriesList = null;
+		if(is_null($countriesList))
+		{
+			require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
+			$countriesList = array_keys($GLOBALS['Piwik_CountryList']);
+		}
+		return $countriesList;
+	}
+
+/*
+ * Browser Language
+ */
 
 	/**
 	 * Returns the browser language code, eg. "en-gb,en;q=0.5"
@@ -966,22 +1051,6 @@ class Piwik_Common
 	/**
 	 * Returns list of valid country codes
 	 *
-	 * @return array of 2 letter ISO codes
-	 */
-	static public function getCountriesList()
-	{
-		static $countriesList = null;
-		if(is_null($countriesList))
-		{
-			require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
-			$countriesList = array_keys($GLOBALS['Piwik_CountryList']);
-		}
-		return $countriesList;
-	}
-
-	/**
-	 * Returns list of valid country codes
-	 *
 	 * @param string $browserLanguage
 	 * @param array of string $validCountries
 	 * @param bool $enableLanguageToCountryGuess (if true, will guess country based on language that lacks region information)
@@ -1053,6 +1122,10 @@ class Piwik_Common
  		}
 		return 'xx';
  	}
+
+/*
+ * Referrer
+ */
 
 	/**
 	 * Reduce URL to more minimal form.  2 letter country codes are
@@ -1275,29 +1348,9 @@ class Piwik_Common
 		);
 	}
 
-	/**
-	 * Generate random string
-	 *
-	 * @param string $length string length
-	 * @param string $alphabet characters allowed in random string
-	 * @return string random string with given length
-	 */
-	public static function getRandomString($length = 16, $alphabet = "abcdefghijklmnoprstuvwxyz0123456789")
-	{
-		$chars = $alphabet;
-		$str = '';
-
-		list($usec, $sec) = explode(" ", microtime());
-		$seed = ((float)$sec+(float)$usec)*100000;
-		mt_srand($seed);
-
-		for($i = 0; $i < $length; $i++)
-		{
-			$rand_key = mt_rand(0, strlen($chars)-1);
-			$str  .= substr($chars, $rand_key, 1);
-		}
-		return str_shuffle($str);
-	}
+/*
+ * System environment
+ */
 
 	/**
 	 * Returns true if PHP was invoked from command-line interface (shell)
@@ -1324,8 +1377,9 @@ class Piwik_Common
 	}
 }
 
-
 /**
+ * Mark orphaned object for garbage collection
+ *
  * For more information: @link http://dev.piwik.org/trac/ticket/374
  */
 function destroy(&$var) 
