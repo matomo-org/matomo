@@ -28,7 +28,6 @@ class Piwik_ExampleAPI extends Piwik_Plugin
 	{
 		return array(
 			'description' => Piwik_Translate('ExampleAPI_PluginDescription'),
-			'homepage' => 'index.php?module=API&action=listAllAPI#ExampleAPI',
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => '0.1',
