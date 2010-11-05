@@ -28,9 +28,13 @@
 			<td class="vers">{$plugin.info.version}</td>
 			<td class="desc">
 				{$plugin.info.description|nl2br}
-				&nbsp;<cite>By 
-					{if isset($plugin.info.author_homepage)}<a title="Author Homepage" href="?module=Proxy&action=redirect&url={$plugin.info.author_homepage}">{/if}
-					{$plugin.info.author}{if isset($plugin.info.author_homepage)}</a>{/if}.</cite>
+				{if isset($plugin.info.license)}
+					&nbsp;({if isset($plugin.info.license_homepage)}<a title="{'CorePluginsAdmin_LicenseHomepage'|translate}" href="?module=Proxy&action=redirect&url={$plugin.info.license_homepage}">{/if}{$plugin.info.license}{if isset($plugin.info.license_homepage)}</a>){/if}
+				{/if}
+				{if isset($plugin.info.author)}
+					&nbsp;<cite>By 
+					{if isset($plugin.info.author_homepage)}<a title="{'CorePluginsAdmin_AuthorHomepage'|translate}" href="?module=Proxy&action=redirect&url={$plugin.info.author_homepage}">{/if}{$plugin.info.author}{if isset($plugin.info.author_homepage)}</a>{/if}.</cite>
+				{/if}
 			</td>
 			<td class="status">
 				{if $plugin.alwaysActivated}<span title="{'CorePluginsAdmin_ActivatedHelp'|translate}" class="active">{'CorePluginsAdmin_Active'|translate}</span>
