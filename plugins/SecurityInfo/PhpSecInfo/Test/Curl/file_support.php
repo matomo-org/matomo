@@ -34,7 +34,7 @@ class PhpSecInfo_Test_Curl_File_Support extends PhpSecInfo_Test_Curl
 	var $recommended_value = '5.1.6+ or 4.4.4+';
 
 	function _retrieveCurrentValue() {
-		$this->current_value = phpversion();
+		$this->current_value = PHP_VERSION;
 	}
 	
 

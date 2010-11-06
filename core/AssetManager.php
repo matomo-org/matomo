@@ -94,7 +94,7 @@ class Piwik_AssetManager
 
 		// absolute path to doc root
 		$rootDirectory = realpath(PIWIK_DOCUMENT_ROOT);
-		if($rootDirectory != '/' && substr($rootDirectory, -1) != '/')
+		if($rootDirectory != '/' && substr_compare($rootDirectory, '/', -1))
 		{
 			$rootDirectory .= '/';
 		}

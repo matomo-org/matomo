@@ -20,7 +20,6 @@ class Piwik_API extends Piwik_Plugin {
 	public function getInformation() {
 		return array(
 			'description' => Piwik_Translate('API_PluginDescription'),
-			'homepage' => '?module=Proxy&action=redirect&url=http://dev.piwik.org/trac/wiki/API/Reference',
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,

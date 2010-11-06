@@ -17,7 +17,7 @@
  */
 
 $piwik_minimumPHPVersion = '5.1.3';
-$piwik_currentPHPVersion = phpversion();
+$piwik_currentPHPVersion = PHP_VERSION;
 if( version_compare($piwik_minimumPHPVersion , $piwik_currentPHPVersion ) > 0 )
 {
 	$piwik_errorMessage = "<p><b>To run Piwik you need at least PHP version $piwik_minimumPHPVersion </b></p> 

@@ -198,7 +198,7 @@ class PhpSecInfo
 			if (isset($opts['format'])) {
 				$this->setFormat($opts['format']);
 			} else {
-				if (strtolower(php_sapi_name()) == 'cli' ) {
+				if (!strcasecmp(PHP_SAPI, 'cli')) {
 					$this->setFormat('Cli');
 				} else {
 					$this->setFormat(PHPSECINFO_FORMAT_DEFAULT);
@@ -207,7 +207,7 @@ class PhpSecInfo
 			
 		} else { /* Use defaults */
 			$this->setViewDirectory(dirname(__FILE__).DIRECTORY_SEPARATOR . PHPSECINFO_VIEW_DIR_DEFAULT);
-			if (strtolower(php_sapi_name()) == 'cli' ) {
+			if (!strcasecmp(PHP_SAPI, 'cli')) {
 				$this->setFormat('Cli');
 			} else {
 				$this->setFormat(PHPSECINFO_FORMAT_DEFAULT);

@@ -45,21 +45,21 @@ function smarty_modifier_escape($string, $esc_type = 'html', $char_set = 'ISO-88
         case 'hex':
             // escape every character into hex
             $return = '';
-            for ($x=0; $x < strlen($string); $x++) {
+            for ($x=0, $len = strlen($string); $x < $len; $x++) {
                 $return .= '%' . bin2hex($string[$x]);
             }
             return $return;
             
         case 'hexentity':
             $return = '';
-            for ($x=0; $x < strlen($string); $x++) {
+            for ($x=0, $len = strlen($string); $x < $len; $x++) {
                 $return .= '&#x' . bin2hex($string[$x]) . ';';
             }
             return $return;
 
         case 'decentity':
             $return = '';
-            for ($x=0; $x < strlen($string); $x++) {
+            for ($x=0, $len = strlen($string); $x < $len; $x++) {
                 $return .= '&#' . ord($string[$x]) . ';';
             }
             return $return;
