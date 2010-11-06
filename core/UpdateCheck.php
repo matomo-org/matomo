@@ -37,7 +37,7 @@ class Piwik_UpdateCheck
 			Piwik_SetOption(self::LAST_TIME_CHECKED, time(), $autoload = 1);
 			$parameters = array(
 				'piwik_version' => Piwik_Version::VERSION,
-				'php_version' => phpversion(),
+				'php_version' => PHP_VERSION,
 				'url' => Piwik_Url::getCurrentUrlWithoutQueryString(),
 				'trigger' => Piwik_Common::getRequestVar('module','','string'),
 				'timezone' => Piwik_SitesManager_API::getInstance()->getDefaultTimezone(),

@@ -188,7 +188,7 @@ class Piwik_Log_Formatter_ScreenFormatter implements Zend_Log_Formatter_Interfac
 			$string = str_replace(array('<br>','<br />','<br/>'), "\n", $string);
 			if(is_array($string))
 			{
-				for($i=0; $i< count($string); $i++)
+				for($i=0, $count = count($string); $i < $count; $i++)
 				{
 					$string[$i] = strip_tags($string[$i]);
 				}

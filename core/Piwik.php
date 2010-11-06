@@ -45,7 +45,7 @@ class Piwik
 	 */
 	static public function prefixClass( $class )
 	{
-		if(substr_count($class, Piwik::CLASSES_PREFIX) > 0)
+		if(!strncmp($class, Piwik::CLASSES_PREFIX, strlen(Piwik::CLASSES_PREFIX)))
 		{
 			return $class;
 		}
@@ -61,7 +61,7 @@ class Piwik
 	static public function unprefixClass( $class )
 	{
 		$lenPrefix = strlen(Piwik::CLASSES_PREFIX);
-		if(substr($class, 0, $lenPrefix) == Piwik::CLASSES_PREFIX)
+		if(!strncmp($class, Piwik::CLASSES_PREFIX, $lenPrefix))
 		{
 			return substr($class, $lenPrefix);
 		}

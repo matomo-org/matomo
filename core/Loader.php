@@ -18,7 +18,7 @@
 class Piwik_Loader
 {
 	// our class search path; current directory is intentionally excluded
-	protected static $dirs = array( '/core/', '/libs/', '/plugins/' );
+	protected static $dirs = array( '/core/', '/plugins/' );
 
 	/**
 	 * Get class file name
@@ -41,7 +41,7 @@ class Piwik_Loader
 			return $class;
 		}
 
-		if(substr($class, 0, 6) == 'Piwik/')
+		if(!strncmp($class, 'Piwik/', 6))
 		{
 			return substr($class, 6);
 		}
@@ -58,25 +58,42 @@ class Piwik_Loader
 	public static function loadClass($class)
 	{
 		$classPath = self::getClassFileName($class);
-		while(!empty($classPath))
+		if($class == 'Piwik' || !strncmp($class, 'Piwik_', 6))
 		{
-			// auto-discover class location
-			for($i = 0; $i < count(self::$dirs); $i++)
+			// Piwik classes are in core/ or plugins/
+			do
 			{
-				$path = PIWIK_INCLUDE_PATH . self::$dirs[$i] . $classPath . '.php';
-				if(file_exists($path))
+				// auto-discover class location
+				foreach(self::$dirs as $dir)
 				{
-					require_once $path; // prefixed by PIWIK_INCLUDE_PATH
-					if(class_exists($class, false) || interface_exists($class, false))
+					$path = PIWIK_INCLUDE_PATH . $dir . $classPath . '.php';
+					if(file_exists($path))
 					{
-						return;
+						require_once $path; // prefixed by PIWIK_INCLUDE_PATH
+						if(class_exists($class, false) || interface_exists($class, false))
+						{
+							return;
+						}
 					}
 				}
-			}
 
-			// truncate to find file with multiple class definitions
-			$lastSlash = strrpos($classPath, '/');
-			$classPath = ($lastSlash === false) ? '' : substr($classPath, 0, $lastSlash);
+				// truncate to find file with multiple class definitions
+				$lastSlash = strrpos($classPath, '/');
+				$classPath = ($lastSlash === false) ? '' : substr($classPath, 0, $lastSlash);
+			} while(!empty($classPath));
+		}
+		else
+		{
+			// non-Piwik classes (e.g., Zend Framework) are in libs/
+			$path = PIWIK_INCLUDE_PATH . '/libs/' . $classPath . '.php';
+			if(file_exists($path))
+			{
+				require_once $path; // prefixed by PIWIK_INCLUDE_PATH
+				if(class_exists($class, false) || interface_exists($class, false))
+				{
+					return;
+				}
+			}
 		}
 		throw new Exception("Class \"$class\" not found.");
 	}

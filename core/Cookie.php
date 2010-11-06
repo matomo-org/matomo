@@ -124,8 +124,10 @@ class Piwik_Cookie
 		if (!empty($Domain))
 		{	
 			// Fix the domain to accept domains with and without 'www.'.
-			if (strtolower(substr($Domain, 0, 4)) == 'www.')  $Domain = substr($Domain, 4);
-			
+			if (!strncasecmp($Domain, 'www.', 4))
+			{
+				$Domain = substr($Domain, 4);
+			}			
 			$Domain = '.' . $Domain;
 			
 			// Remove port information.
@@ -191,7 +193,7 @@ class Piwik_Cookie
 	private function extractSignedContent($content)
 	{
 		$signature = substr($content, -40);
-		if(substr($content, -43, 3) == self::VALUE_SEPARATOR . '_=' &&
+		if(!substr_compare($content, self::VALUE_SEPARATOR . '_=', -43, 3) &&
 				$signature == sha1(substr($content, 0, -40) . Piwik_Common::getSalt()))
 		{
 			// strip trailing: VALUE_SEPARATOR '_=' signature"

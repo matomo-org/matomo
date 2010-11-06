@@ -42,7 +42,7 @@ class PhpSecInfo_Test_Core_Magic_Quotes_GPC extends PhpSecInfo_Test_Core
 	 * @return boolean
 	 */
 	function isTestable() {
-		return version_compare(phpversion(), '6', '<') ;
+		return version_compare(PHP_VERSION, '6', '<') ;
 	}
 
 

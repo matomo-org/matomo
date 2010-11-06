@@ -47,7 +47,7 @@ class PhpSecInfo_Test_Core_Allow_Url_Fopen extends PhpSecInfo_Test_Core
 	 *
 	 */
 	function _execTest() {
-		if ( version_compare(phpversion(), '5.2', '<') ) { /* this is much more severe if we're running < 5.2 */
+		if ( version_compare(PHP_VERSION, '5.2', '<') ) { /* this is much more severe if we're running < 5.2 */
 			if ($this->current_value == $this->recommended_value) {
 				return PHPSECINFO_TEST_RESULT_OK;
 			}
@@ -66,7 +66,7 @@ class PhpSecInfo_Test_Core_Allow_Url_Fopen extends PhpSecInfo_Test_Core
 	 */
 	function _setMessages() {
 		parent::_setMessages();
-		if ( version_compare(phpversion(), '5.2', '<') ) { /* this is much more severe if we're running < 5.2 */
+		if ( version_compare(PHP_VERSION, '5.2', '<') ) { /* this is much more severe if we're running < 5.2 */
 			$this->setMessageForResult(PHPSECINFO_TEST_RESULT_OK, 'en', 'allow_url_fopen is disabled, which is the recommended setting');
 			$this->setMessageForResult(PHPSECINFO_TEST_RESULT_WARN, 'en', 'allow_url_fopen is enabled.  This could be a serious security risk.  You should disable allow_url_fopen and consider using the <a href="http://php.net/manual/en/ref.curl.php" target="_blank">PHP cURL functions</a> instead.');
 		

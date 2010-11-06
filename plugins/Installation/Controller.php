@@ -677,14 +677,14 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		{
 			Piwik::createWebConfigFiles();
 		}
-		else if(strpos($serverSoftware, 'Apache') === 0)
+		else if(!strncmp($serverSoftware, 'Apache', 6))
 		{
 			Piwik::createHtAccessFiles();
 		}
 		Piwik::createWebRootFiles();
 
 		$infos['phpVersion_minimum'] = $minimumPhpVersion;
-		$infos['phpVersion'] = phpversion();
+		$infos['phpVersion'] = PHP_VERSION;
 		$infos['phpVersion_ok'] = version_compare( $minimumPhpVersion, $infos['phpVersion']) === -1;
 
 		// critical errors

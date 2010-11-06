@@ -392,14 +392,14 @@ class Piwik_Common
         	return false;
         }
         
-        $uri = !empty($parsed['scheme']) ? $parsed['scheme'].':'.((strtolower($parsed['scheme']) == 'mailto') ? '' : '//') : '';
+        $uri = !empty($parsed['scheme']) ? $parsed['scheme'].':'.(!strcasecmp($parsed['scheme'], 'mailto') ? '' : '//') : '';
         $uri .= !empty($parsed['user']) ? $parsed['user'].(!empty($parsed['pass']) ? ':'.$parsed['pass'] : '').'@' : '';
         $uri .= !empty($parsed['host']) ? $parsed['host'] : '';
         $uri .= !empty($parsed['port']) ? ':'.$parsed['port'] : '';
         
         if (!empty($parsed['path'])) 
         {
-            $uri .= (substr($parsed['path'], 0, 1) == '/') 
+            $uri .= (!strncmp($parsed['path'], '/', 1))
             			? $parsed['path'] 
             			: ((!empty($uri) ? '/' : '' ) . $parsed['path']);
         }
@@ -537,7 +537,7 @@ class Piwik_Common
 			$value = self::sanitizeInputValue($value);
 
 			// Undo the damage caused by magic_quotes; deprecated in php 5.3 but not removed until php 6
-			if ( version_compare(phpversion(), '6') === -1
+			if ( version_compare(PHP_VERSION, '6') === -1
 				&& get_magic_quotes_gpc())
 			{
 				$value = stripslashes($value);
@@ -615,7 +615,7 @@ class Piwik_Common
 			$requestArrayToUse = $_GET + $_POST;
 		}
 		$varDefault = self::sanitizeInputValues( $varDefault );
-		if($varType == 'int')
+		if($varType === 'int')
 		{
 			// settype accepts only integer
 			// 'int' is simply a shortcut for 'integer'
@@ -653,19 +653,19 @@ class Piwik_Common
 		{
 			$ok = false;
 
-			if($varType == 'string')
+			if($varType === 'string')
 			{
 				if(is_string($value)) $ok = true;
 			}
-			elseif($varType == 'integer')
+			elseif($varType === 'integer')
 			{
 				if($value == (string)(int)$value) $ok = true;
 			}
-			elseif($varType == 'float')
+			elseif($varType === 'float')
 			{
 				if($value == (string)(float)$value) $ok = true;
 			}
-			elseif($varType == 'array')
+			elseif($varType === 'array')
 			{
 				if(is_array($value)) $ok = true;
 			}
@@ -775,7 +775,7 @@ class Piwik_Common
 		for($i = 0; $i < $length; $i++)
 		{
 			$rand_key = mt_rand(0, strlen($chars)-1);
-			$str  .= substr($chars, $rand_key, 1);
+			$str .= substr($chars, $rand_key, 1);
 		}
 		return str_shuffle($str);
 	}
@@ -826,7 +826,7 @@ class Piwik_Common
 		}
 
 		// accept ipv4-mapped addresses
-		if(strpos($ipStringFrom, '::ffff:') === 0)
+		if(!strncmp($ipStringFrom, '::ffff:', 7))
 		{
 			$ipStringFrom = substr($ipStringFrom, 7);
 		}
@@ -920,7 +920,7 @@ class Piwik_Common
 	static public function getFirstIpFromList($ip)
 	{
 		$p = strpos($ip, ',');
-		if($p!==false)
+		if($p !== false)
 		{
 			return trim(self::sanitizeInputValues(substr($ip, 0, $p)));
 		}
@@ -1232,12 +1232,12 @@ class Piwik_Common
 		}
 		elseif(!array_key_exists($refererHost, $GLOBALS['Piwik_SearchEngines']))
 		{
-			if(strpos($query, 'cx=partner-pub-') === 0)
+			if(!strncmp($query, 'cx=partner-pub-', 15))
 			{
 				// Google custom search engine
 				$refererHost = 'www.google.com/cse';
 			}
-			elseif(strpos($refererPath, '/pemonitorhosted/ws/results/') === 0)
+			elseif(!strncmp($refererPath, '/pemonitorhosted/ws/results/', 28))
 			{
 				// private-label search powered by InfoSpace Metasearch
 				$refererHost = 'infospace.com';
@@ -1263,14 +1263,14 @@ class Piwik_Common
 			$variableNames = array($variableNames);
 		}
 
-		if($searchEngineName == 'Google Images'
-			|| ($searchEngineName == 'Google' && strpos($refererUrl, '/imgres') !== false) )
+		if($searchEngineName === 'Google Images'
+			|| ($searchEngineName === 'Google' && strpos($refererUrl, '/imgres') !== false) )
 		{
 			$query = urldecode(trim(self::getParameterFromQueryString($query, 'prev')));
 			$query = str_replace('&', '&amp;', strstr($query, '?'));
 			$searchEngineName = 'Google Images';
 		}
-		else if($searchEngineName == 'Google' && strpos($query, '&as_q=') !== false)
+		else if($searchEngineName === 'Google' && strpos($query, '&as_q=') !== false)
 		{
 			$keys = array();
 			$key = self::getParameterFromQueryString($query, 'as_q');
@@ -1362,7 +1362,7 @@ class Piwik_Common
 	{
 		$remoteAddr = @$_SERVER['REMOTE_ADDR'];
 		return	PHP_SAPI == 'cli' ||
-				(substr(PHP_SAPI, 0, 3) == 'cgi' && empty($remoteAddr));
+				(!strncmp(PHP_SAPI, 'cgi', 3) && empty($remoteAddr));
 	}
 
 	/**
@@ -1373,7 +1373,7 @@ class Piwik_Common
 	 */
 	static public function isWindows()
 	{
-		return strtoupper(substr(PHP_OS, 0, 3)) == 'WIN';
+		return DIRECTORY_SEPARATOR == '\\';
 	}
 }
 

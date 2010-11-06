@@ -307,7 +307,7 @@ class Piwik_Url
 		$pathContains = Piwik_Common::isWindows() ? 'stripos' : 'strpos';
 
 		// test the scheme/protocol portion of the reconstructed "current" URL
-		if(stripos($url, 'http://') === 0 || stripos($url, 'https://') === 0)
+		if(!strncasecmp($url, 'http://', 7) || !strncasecmp($url, 'https://', 8))
 		{
 			// determine the offset to begin the comparison
 			$offset = strpos($url, '://');
