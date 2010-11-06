@@ -24,6 +24,8 @@ abstract class Piwik_Plugin
 	 * - 'author' => string             // plugin author 
 	 * - 'author_homepage' => string    // author homepage URL (or email "mailto:youremail@example.org")
 	 * - 'homepage' => string           // plugin homepage URL
+	 * - 'license' => string            // plugin license
+	 * - 'license_homepage' => string   // license homepage URL
 	 * - 'version' => string            // plugin version number; examples and 3rd party plugins must not use Piwik_Version::VERSION; 3rd party plugins must increment the version number with each plugin release
 	 * - 'translationAvailable' => bool // is there a translation file in plugins/your-plugin/lang/* ?
 	 * - 'TrackerPlugin' => bool        // should we load this plugin during the stats logging process?
