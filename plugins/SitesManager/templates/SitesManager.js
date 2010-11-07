@@ -32,6 +32,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 	function getAddSiteAJAX( row )
 	{
 		var ajaxRequest = piwikHelper.getStandardAjaxConf();
+		ajaxRequest.type = 'POST';
 		
 		var parameters = {};
 	 	var siteName = $(row).find('input#name').val();
@@ -74,6 +75,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 	function getUpdateSiteAJAX( row )
 	{
 		var ajaxRequest = piwikHelper.getStandardAjaxConf();
+		ajaxRequest.type = 'POST';
 		
 		var siteName = $(row).find('input#siteName').val();
 		var idSite = $(row).children('#idSite').html();
