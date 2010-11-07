@@ -44,7 +44,7 @@ class Piwik_CoreHome extends Piwik_Plugin
 		$cssFiles[] = "plugins/CoreHome/templates/menu.css";
 		$cssFiles[] = "plugins/CoreHome/templates/datatable.css";
 		$cssFiles[] = "plugins/CoreHome/templates/cloud.css";
-                $cssFiles[] = "plugins/CoreHome/templates/jquery.ui.autocomplete.css";
+		$cssFiles[] = "plugins/CoreHome/templates/jquery.ui.autocomplete.css";
 	}
 
 	function getJsFiles( $notification )
