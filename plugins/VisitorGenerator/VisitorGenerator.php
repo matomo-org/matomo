@@ -41,4 +41,3 @@ class Piwik_VisitorGenerator extends Piwik_Plugin {
 		);
 	}
 }
-?>
