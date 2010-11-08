@@ -45,8 +45,11 @@
 	            	&checkForErrors;
 -->
 	            	&verifyLinksAndImages;
-	            
-	            	<clickLink description="click 'Next'" label="Next &raquo;" />
+
+	            	<retry description="wait for piwik.php tracking test" maxcount="10">
+						<sleep description"pause" seconds="1" />
+		            	<clickLink description="click 'Next'" label="Next &raquo;" />
+					</retry>
 	            	
 	            	<!-- 2. systemCheck -->
 	            	
