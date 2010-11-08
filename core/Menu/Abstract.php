@@ -176,4 +176,3 @@ abstract class Piwik_Menu_Abstract {
 	}
 
 }
-?>
