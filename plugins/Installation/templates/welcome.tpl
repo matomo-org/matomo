@@ -14,9 +14,23 @@
 <script type="text/javascript">
 <!--
 $(function() {
-if (document.location.protocol === 'https:') {
-	$('p.nextStep a').attr('href', $('p.nextStep a').attr('href') + '&clientProtocol=https');
-}
+	// client-side test for https to handle the case where the server is behind a reverse proxy
+	if (document.location.protocol === 'https:') {
+		$('p.nextStep a').attr('href', $('p.nextStep a').attr('href') + '&clientProtocol=https');
+	}
+
+	// client-side test for broken tracker (e.g., mod_security rule)
+	$('p.nextStep').hide();
+	$.ajax({
+		url: 'piwik.php',
+		data: 'url=http://example.com',
+		complete: function() {
+			$('p.nextStep').show();
+		},
+		error: function(req) {
+			$('p.nextStep a').attr('href', $('p.nextStep a').attr('href') + '&trackerStatus=' + req.status);
+		}
+	});
 });
 //-->
 </script>
