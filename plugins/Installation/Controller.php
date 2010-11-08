@@ -832,6 +832,9 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		}
 
 		$infos['timezone'] = Piwik::isTimezoneSupportEnabled();
+
+		$infos['tracker_status'] = Piwik_Common::getRequestVar('trackerStatus', 0, 'int');
+
 		return $infos;
 	}
 

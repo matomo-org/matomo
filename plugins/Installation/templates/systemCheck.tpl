@@ -152,6 +152,17 @@
 		</td>
 	</tr>
 	<tr>
+		<td class="label">{'Installation_SystemCheckTracker'|translate}</td>
+		<td>
+			{if $infos.tracker_status == 0}
+				{$ok}
+			{else}
+				{$warning} {$infos.tracker_status}
+				<br /><i>{'Installation_SystemCheckTrackerHelp'|translate}</i>
+			{/if}	
+		</td>
+	</tr>
+	<tr>
 		<td class="label">{'Installation_SystemCheckMemoryLimit'|translate}</td>
 		<td>
 			{if $infos.memory_ok}
