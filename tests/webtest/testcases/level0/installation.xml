@@ -41,7 +41,9 @@
 	                <verifyText description="check page text" text="Welcome!" />
 	                <verifyText description="check page text" text="This process is split up into 9 easy steps and will take around 5 minutes" />
 
+<!--
 	            	&checkForErrors;
+-->
 	            	&verifyLinksAndImages;
 	            
 	            	<clickLink description="click 'Next'" label="Next &raquo;" />
