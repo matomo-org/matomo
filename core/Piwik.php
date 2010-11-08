@@ -114,6 +114,24 @@ class Piwik
 	}
 
 	/**
+	 * Set response header, e.g., HTTP/1.0 200 Ok
+	 *
+	 * @return bool
+	 */
+	static public function setHttpStatus($status)
+	{
+		if(substr_compare(PHP_SAPI, '-fcgi', -5))
+		{
+			@header($_SERVER['SERVER_PROTOCOL'] . ' ' . $status);
+		}
+		else
+		{
+			// FastCGI
+			@header('Status: ' . $status);
+		}
+	}
+
+	/**
 	 * Workaround IE bug when downloading certain document types over SSL and
 	 * cache control headers are present, e.g.,
 	 *
@@ -624,7 +642,7 @@ class Piwik
 			// Returns 304 if not modified since
 			if ($modifiedSince == $lastModified)
 			{
-				@header('HTTP/1.1 304 Not Modified');
+				self::setHttpStatus('304 Not Modified');
 			}
 			else
 			{
@@ -707,13 +725,13 @@ class Piwik
 
 				if (!@readfile($file))
 				{
-					@header ('HTTP/1.0 505 Internal server error');
+					self::setHttpStatus('505 Internal server error');
 				}
 			}
 		}
 		else
 		{
-			@header ('HTTP/1.0 404 Not Found');
+			self::setHttpStatus('404 Not Found');
 		}
 	}
 
