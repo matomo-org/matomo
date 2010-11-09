@@ -574,8 +574,7 @@ class Piwik_Common
 	 */
 	static public function sanitizeInputValue($value)
 	{
-		// decodeURIComponent
-		$value = preg_replace_callback('/%([0-9A-F]{2})/i', create_function('$matches', 'return chr(hexdec($matches[1]));'), $value);
+		// $_GET and $_REQUEST already urldecode()'d
 		$value = html_entity_decode($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
 		return htmlspecialchars( $value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8' );
 	}
