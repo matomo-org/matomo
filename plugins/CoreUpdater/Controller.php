@@ -85,7 +85,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	
 	private function oneClick_Download()
 	{
-		$this->pathPiwikZip = PIWIK_USER_PATH . self::PATH_TO_EXTRACT_LATEST_VERSION . '/latest.zip';
+		$this->pathPiwikZip = PIWIK_USER_PATH . self::PATH_TO_EXTRACT_LATEST_VERSION . 'latest.zip';
 		Piwik::checkDirectoriesWritableOrDie( array(self::PATH_TO_EXTRACT_LATEST_VERSION) );
 
 		// we catch exceptions in the caller (i.e., oneClickUpdate)
@@ -99,8 +99,15 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		$archive = new PclZip($this->pathPiwikZip);
 
 		$pathExtracted = PIWIK_USER_PATH . self::PATH_TO_EXTRACT_LATEST_VERSION;
-		if ( false == ($archive_files = $archive->extract(
-							PCLZIP_OPT_PATH, $pathExtracted)) )
+		if ( 0 == ($archive_files = $archive->extract(
+							PCLZIP_OPT_PATH, $pathExtracted,
+							PCLZIP_OPT_STOP_ON_ERROR,
+							PCLZIP_CB_PRE_EXTRACT, create_function(
+								'$p_event, &$p_header',
+								// callback should return 0 to skip, 1 to resume, 2 to abort
+								"return strncmp(\$p_header['filename'], '$pathExtracted', strlen('$pathExtracted')) ? 2 : 1;"
+							)
+			)))
 		{
 			throw new Exception(Piwik_TranslateException('CoreUpdater_ExceptionArchiveIncompatible', $archive->errorInfo(true)));
 		}	
