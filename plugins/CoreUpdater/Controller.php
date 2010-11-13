@@ -95,21 +95,12 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	
 	private function oneClick_Unpack()
 	{
-		require_once PIWIK_INCLUDE_PATH . '/libs/PclZip/pclzip.lib.php';
-		$archive = new PclZip($this->pathPiwikZip);
+		$archive = Piwik_Unzip::getDefaultUnzip($this->pathPiwikZip);
 
 		$pathExtracted = PIWIK_USER_PATH . self::PATH_TO_EXTRACT_LATEST_VERSION;
-		if ( 0 == ($archive_files = $archive->extract(
-							PCLZIP_OPT_PATH, $pathExtracted,
-							PCLZIP_OPT_STOP_ON_ERROR,
-							PCLZIP_CB_PRE_EXTRACT, create_function(
-								'$p_event, &$p_header',
-								// callback should return 0 to skip, 1 to resume, 2 to abort
-								"return strncmp(\$p_header['filename'], '$pathExtracted', strlen('$pathExtracted')) ? 2 : 1;"
-							)
-			)))
+		if ( 0 == ($archive_files = $archive->extract($pathExtracted) ) )
 		{
-			throw new Exception(Piwik_TranslateException('CoreUpdater_ExceptionArchiveIncompatible', $archive->errorInfo(true)));
+			throw new Exception(Piwik_TranslateException('CoreUpdater_ExceptionArchiveIncompatible', $archive->errorInfo()));
 		}	
 	
 		if ( 0 == count($archive_files) )
@@ -117,7 +108,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 			throw new Exception(Piwik_TranslateException('CoreUpdater_ExceptionArchiveEmpty'));
 		}
 		unlink($this->pathPiwikZip);
-		$this->pathRootExtractedPiwik = $pathExtracted . '/piwik';
+		$this->pathRootExtractedPiwik = $pathExtracted . 'piwik';
 	}
 	
 	private function oneClick_Verify()
