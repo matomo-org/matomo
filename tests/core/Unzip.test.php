@@ -20,6 +20,14 @@ class Test_Piwik_Unzip extends UnitTestCase
 
 			$extractDir = PIWIK_USER_PATH . '/tmp/latest/';
 
+			$unzip = Piwik_Unzip::getDefaultUnzip($filename);
+			$res = $unzip->extract($extractDir);
+			$this->assertEqual(count($res), 1);
+			$this->assertTrue(file_exists($extractDir . $test . '.txt'));
+			$this->assertFalse(file_exists(dirname(__FILE__) . '/' . $test . '.txt'));
+			$this->assertFalse(file_exists(dirname(__FILE__) . '/../../tests/' . $test . '.txt'));
+			unlink($extractDir . $test . '.txt');
+
 			$unzip = new Piwik_Unzip_ZipArchive($filename);
 			$res = $unzip->extract($extractDir);
 			$this->assertEqual(count($res), 1);
