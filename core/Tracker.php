@@ -402,6 +402,7 @@ if(!function_exists('printDebug'))
  */
 function Piwik_Tracker_ExitWithException($e)
 {
+	header('Content-Type: text/html; charset=utf-8');
 	if(isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG'])
 	{
 		$trailer = '<font color="#888888">Backtrace:<br /><pre>'.$e->getTraceAsString().'</pre></font>';
