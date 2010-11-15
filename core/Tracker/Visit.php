@@ -79,14 +79,11 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$this->request = $requestArray;
 
 		$idsite = Piwik_Common::getRequestVar('idsite', 0, 'int', $this->request);
-		if($idsite <= 0)
-		{
-			die;
-		}
 		Piwik_PostEvent('Tracker.setRequest.idSite', $idsite);
 		if($idsite <= 0)
 		{
-			throw new Exception('Invalid idSite');
+			$idsite = Piwik_Common::getRequestVar('idsite', '', 'string', $this->request);
+			Piwik_Tracker_ExitWithException(new Exception('Invalid idsite: '.$idsite));
 		}
 		$this->idsite = $idsite;
 		
@@ -552,10 +549,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		if(!$excluded)
 		{
 			$parameterForceRecord = 'rec';
-			$toRecord = Piwik_Common::getRequestVar($parameterForceRecord, false, 'int');
+			$toRecord = Piwik_Common::getRequestVar($parameterForceRecord, false, 'int', $this->request);
 			if(!$toRecord)
 			{
-				printDebug('GET parameter '.$parameterForceRecord.' not found in URL, request excluded');
+				printDebug($_SERVER['REQUEST_METHOD'].' parameter '.$parameterForceRecord.' not found in URL, request excluded');
 				$excluded = true;
 			}
 		}
