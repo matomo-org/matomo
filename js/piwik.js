@@ -104,6 +104,8 @@ if (!this.Piwik) {
 		 * Handle beforeunload event
 		 */
 		function beforeUnloadHandler(unloadEvent /* not used */) {
+			executePluginMethod('unload');
+
 			/*
 			 * Delay/pause (blocks UI)
 			 */
@@ -114,8 +116,6 @@ if (!this.Piwik) {
 					now = new Date();
 				} while (now.getTime() < expireDateTime);
 			}
-
-			executePluginMethod('unload');
 		}
 
 		/*
