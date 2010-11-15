@@ -112,7 +112,7 @@ abstract class Piwik_Tracker_Db
 	/**
 	 * Connects to the DB
 	 * 
-	 * @throws Exception if there was an error connecting the DB
+	 * @throws Piwik_Tracker_Db_Exception if there was an error connecting the DB
 	 */
 	abstract public function connect();
 	
@@ -130,7 +130,7 @@ abstract class Piwik_Tracker_Db
 	 * @param string Query 
 	 * @param array Parameters to bind
 	 * @see also query()
-	 * @throws Exception if an exception occured
+	 * @throws Piwik_Tracker_Db_Exception if an exception occured
 	 */
 	abstract public function fetchAll( $query, $parameters = array() );
 	
@@ -141,7 +141,7 @@ abstract class Piwik_Tracker_Db
 	 * @param array Parameters to bind
 	 * @see also query()
 	 * 
-	 * @throws Exception if an exception occured
+	 * @throws Piwik_Tracker_Db_Exception if an exception occured
 	 */
 	abstract public function fetch( $query, $parameters = array() );
 	
@@ -188,7 +188,7 @@ abstract class Piwik_Tracker_Db
 	 * @param array|string Parameters to bind array('idsite'=> 1)
 	 * 
 	 * @return PDOStatement or false if failed
-	 * @throws Exception if an exception occured
+	 * @throws Piwik_Tracker_Db_Exception if an exception occured
 	 */
 	abstract public function query($query, $parameters = array());
 
@@ -208,4 +208,11 @@ abstract class Piwik_Tracker_Db
 	 * @return bool True if error number matches; false otherwise
 	 */
 	abstract public function isErrNo($e, $errno);
+}
+
+/**
+ * @package Piwik
+ * @subpackage Piwik_Tracker
+ */
+class Piwik_Tracker_Db_Exception extends Exception {
 }

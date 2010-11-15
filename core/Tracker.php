@@ -76,22 +76,24 @@ class Piwik_Tracker
 	{
 		$this->init();
 		
-		if( $this->isVisitValid() )
-		{
-			try {
+		try {
+			if( $this->isVisitValid() )
+			{
 				self::connectDatabase();
 				
 				$visit = $this->getNewVisitObject();
 				$visit->setRequest($this->request);
 				$visit->handle();
 				unset($visit);
-			} catch (PDOException $e) {
-				printDebug($e->getMessage());
-			} catch(Piwik_Tracker_Visit_Excluded $e) {
 			}
+
+			Piwik_Common::runScheduledTasks($now = $this->getCurrentTimestamp());
+		} catch (Piwik_Tracker_Db_Exception $e) {
+			printDebug($e->getMessage());
+		} catch(Piwik_Tracker_Visit_Excluded $e) {
+		} catch(Exception $e) {
+			Piwik_Tracker_ExitWithException($e);
 		}
-		
-		Piwik_Common::runScheduledTasks($now = $this->getCurrentTimestamp());
 
 		$this->end();
 	}
@@ -391,4 +393,30 @@ if(!function_exists('printDebug'))
     		}
     	}
     }
+}
+
+/**
+ * Displays exception in a friendly UI and exits.
+ *
+ * @param Exception $e
+ */
+function Piwik_Tracker_ExitWithException($e)
+{
+	if(isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG'])
+	{
+		$trailer = '<font color="#888888">Backtrace:<br /><pre>'.$e->getTraceAsString().'</pre></font>';
+	}
+	else
+	{
+		$trailer = '<p>Edit piwik.php (or bootstrap.php) to enable tracker debugging and display a backtrace:</p>
+					<blockquote><pre>$GLOBALS[\'PIWIK_TRACKER_DEBUG\'] = true;</pre></blockquote>';
+	}
+
+	$headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_header.tpl');
+	$footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_footer.tpl');
+	$headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
+	
+	echo $headerPage . '<p>' . $e->getMessage() . '</p>' . $trailer . $footerPage;
+
+	exit;
 }

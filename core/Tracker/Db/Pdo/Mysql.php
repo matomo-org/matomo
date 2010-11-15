@@ -113,7 +113,7 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
 			}
 			return $sth->fetchAll(PDO::FETCH_ASSOC);
 		} catch (PDOException $e) {
-			throw new Exception("Error query: ".$e->getMessage());
+			throw new Piwik_Tracker_Db_Exception("Error query: ".$e->getMessage());
 		}
 	}
 	
@@ -136,7 +136,7 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
 			}
 			return $sth->fetch(PDO::FETCH_ASSOC);			
 		} catch (PDOException $e) {
-			throw new Exception("Error query: ".$e->getMessage());
+			throw new Piwik_Tracker_Db_Exception("Error query: ".$e->getMessage());
 		}
 	}
 
@@ -175,7 +175,7 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
 			}
 			return $sth;
 		} catch (PDOException $e) {
-			throw new Exception("Error query: ".$e->getMessage() . "
+			throw new Piwik_Tracker_Db_Exception("Error query: ".$e->getMessage() . "
 								In query: $query
 								Parameters: ".var_export($parameters, true));
 		}

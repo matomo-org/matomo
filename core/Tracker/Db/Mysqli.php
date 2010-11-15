@@ -76,12 +76,12 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 		$this->connection = mysqli_connect($this->host, $this->username, $this->password, $this->dbname, $this->port, $this->socket);
 		if(!$this->connection || mysqli_connect_errno())
 		{
-			throw new Exception("Connect failed: " . mysqli_connect_error());
+			throw new Piwik_Tracker_Db_Exception("Connect failed: " . mysqli_connect_error());
 		}
 
 		if($this->charset && !mysqli_set_charset($this->connection, $this->charset))
 		{
-			throw new Exception("Set Charset failed: " . mysqli_error($this->connection));
+			throw new Piwik_Tracker_Db_Exception("Set Charset failed: " . mysqli_error($this->connection));
 		}
 
 		$this->password = '';
@@ -132,7 +132,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 			}
 			return $rows;
 		} catch (Exception $e) {
-			throw new Exception("Error query: ".$e->getMessage());
+			throw new Piwik_Tracker_Db_Exception("Error query: ".$e->getMessage());
 		}
 	}
 	
@@ -168,7 +168,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 			}
 			return $row;
 		} catch (Exception $e) {
-			throw new Exception("Error query: ".$e->getMessage());
+			throw new Piwik_Tracker_Db_Exception("Error query: ".$e->getMessage());
 		}
 	}
 	
@@ -207,7 +207,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 			}
 			return $result;
 		} catch (Exception $e) {
-			throw new Exception("Error query: ".$e->getMessage() . "
+			throw new Piwik_Tracker_Db_Exception("Error query: ".$e->getMessage() . "
 								In query: $query
 								Parameters: ".var_export($parameters, true));
 		}
