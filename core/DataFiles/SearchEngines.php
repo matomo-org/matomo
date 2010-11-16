@@ -371,7 +371,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'google.{}'					=> array('Google'),
 		'www2.google.com'			=> array('Google'),
 		'ipv6.google.com'			=> array('Google'),
-		'www.google.cat'			=> array('Google'),
 		'go.google.com'				=> array('Google'),
 
 		// Google vs typo squatters
