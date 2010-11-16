@@ -298,5 +298,8 @@ if(!isset($GLOBALS['Piwik_CountryList']))
 			'a2' => 'unk',
 			'ap' => 'asi',
 			'o1' => 'unk',
+
+			// Catalan (Spain)
+			'cat' => 'eur',
 		);
 }
