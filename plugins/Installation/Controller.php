@@ -116,6 +116,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			'debug_backtrace' => 'Installation_SystemCheckDebugBacktraceHelp',
 			'create_function' => 'Installation_SystemCheckCreateFunctionHelp',
 			'eval'            => 'Installation_SystemCheckEvalHelp',
+			'gzcompress'      => 'Installation_SystemCheckGzcompressHelp',
+			'gzuncompress'    => 'Installation_SystemCheckGzuncompressHelp',
 		);
 
 		$view->problemWithSomeDirectories = (false !== array_search(false, $view->infos['directories']));
@@ -729,6 +731,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			'debug_backtrace',
 			'create_function',
 			'eval',
+			'gzcompress',
+			'gzuncompress',
 		);
 		$infos['needed_functions'] = $needed_functions;
 		$infos['missing_functions'] = array();
