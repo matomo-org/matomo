@@ -299,7 +299,7 @@ if(!isset($GLOBALS['Piwik_CountryList']))
 			'ap' => 'asi',
 			'o1' => 'unk',
 
-			// Catalan (Spain)
+			// Catalonia (Spain)
 			'cat' => 'eur',
 		);
 }
