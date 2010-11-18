@@ -47,33 +47,5 @@ class Test_Piwik_Url extends UnitTestCase
     	}
     	$this->assertEqual(Piwik_Url::getCurrentQueryStringWithParametersModified($parametersNameToValue), '');
     }
-
-    public function test_isAcceptableRemoteUrl()
-    {
-	Piwik::createConfigObject();
-
-        $data = array(
-            // piwik white list
-            'http://piwik.org' => true,
-            'http://piwik.org/' => true,
-            'http://qa.piwik.org/' => true,
-            'http://forum.piwik.org/' => true,
-            'http://dev.piwik.org/' => true,
-            'http://demo.piwik.org/' => true,
-
-            // not in the whitelist (i.e., doesn't match regexp)
-            'http://www.piwik.org' => false,
-            'https://demo.piwik.org' => false,
-
-            // plugin author_homepage (must be an exact match)
-            'http://clearcode.cc' => false,
-            'http://clearcode.cc/' => true,
-        );
-
-	foreach($data as $url => $expected)
-        {
-            $this->assertEqual(Piwik_Url::isAcceptableRemoteUrl($url), $expected, $url);
-        }
-    }
 }
 

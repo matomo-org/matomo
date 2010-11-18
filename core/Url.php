@@ -387,46 +387,4 @@ class Piwik_Url
 
 		return $origins;
 	}
-
-	/**
-	 * Validate URL against a whitelist.
-	 *
-	 * @param string $url
-	 * @return bool True if valid; false otherwise
-	 */
-	static public function isAcceptableRemoteUrl($url)
-	{
-		// whitelist the *.piwik.org domain
-		if(!preg_match('~^http://(qa\.|demo\.|dev\.|forum\.)?piwik.org([#?/]|$)~', $url))
-		{
-			// plugin's author (developer) home page URLs also ok
-			$homepageUrls = array();
-			$listPlugins = Piwik_PluginsManager::getInstance()->readPluginsDirectory();
-
-			foreach($listPlugins as $pluginName)
-			{
-				$oPlugin = Piwik_PluginsManager::getInstance()->loadPlugin($pluginName);
-				$info = $oPlugin->getInformation();
-				if(isset($info['homepage']))
-				{
-					$homepageUrls[$info['homepage']] = true;
-				}
-				else if(isset($info['author_homepage']))
-				{
-					$homepageUrls[$info['author_homepage']] = true;
-				}
-				else if(isset($info['license_homepage']))
-				{
-					$homepageUrls[$info['license_homepage']] = true;
-				}
-			}
-
-			if(!array_key_exists($url, $homepageUrls))
-			{
-				return false;
-			}
-		}
-
-		return true;
-	}
 }

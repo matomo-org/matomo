@@ -105,13 +105,6 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 	 */
 	public function redirect()
 	{
-		// validate url against whitelist
-		$url = Piwik_Common::getRequestVar('url', '', 'string', $_GET);
-		if(!Piwik_Url::isAcceptableRemoteUrl($url))
-		{
-			exit;
-		}
-
 		// validate referer
 		$referer = Piwik_Url::getReferer();
 		if(!empty($referer) && (Piwik_Url::getLocalReferer() === false))
@@ -119,10 +112,64 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 			exit;
 		}
 
-		echo
+		$url = Piwik_Common::getRequestVar('url', '', 'string', $_GET);
+
+		// mask visits to *.piwik.org
+		if(self::isPiwikUrl($url))
+		{
+			echo
 '<html><head>
 <meta http-equiv="refresh" content="0;url=' . $url . '" />
 </head></html>';
+		}
 
+		// standard redirect for other whitelisted URLs
+		if(self::isAcceptableRemoteUrl($url))
+		{
+			Piwik_Url::redirectToUrl($url);
+			exit;
+		}
+	}
+
+	/**
+	 * Validate URL against *.piwik.org domains
+	 *
+	 * @param string $url
+	 * @return bool True if valid; false otherwise
+	 */
+	static public function isPiwikUrl($url)
+	{
+		if(preg_match('~^http://(qa\.|demo\.|dev\.|forum\.)?piwik.org([#?/]|$)~', $url))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Validate URL against a whitelist, so action=redirect can't be
+	 * used as an open redirect proxy.
+	 *
+	 * @param string $url
+	 * @return bool True if valid; false otherwise
+	 */
+	static public function isAcceptableRemoteUrl($url)
+	{
+		$homepageUrls = array();
+		$listPlugins = Piwik_PluginsManager::getInstance()->readPluginsDirectory();
+
+		foreach($listPlugins as $pluginName)
+		{
+			$oPlugin = Piwik_PluginsManager::getInstance()->loadPlugin($pluginName);
+			$info = $oPlugin->getInformation();
+			if((isset($info['homepage']) && $url == $info['homepage'])
+				|| (isset($info['author_homepage']) && $url == $info['author_homepage'])
+				|| (isset($info['license_homepage']) && $url == $info['license_homepage']))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
