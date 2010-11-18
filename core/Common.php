@@ -480,9 +480,9 @@ class Piwik_Common
 	{
 		if (file_exists($path))
 		{
-		    return realpath($path);
+			return realpath($path);
 		}
-	    return $path;
+		return $path;
 	}
 
 	/**
