@@ -32,7 +32,7 @@ The Piwik Tracking API allows to trigger visits (page views and Goal conversions
 </p>
 
 <p>We currently provide a <b>PHP client</b> to call the API from your PHP projects. 
-If you would like to contribute a version of the client in another programming language (Python, Java, Ruby, Perl, etc.) please <a target='_blank' href='{$currentUrlWithoutFilename}?module=Proxy&action=redirect&url=http://dev.piwik.org/'>create a ticket</a> in our developer area (attach the client code to the ticket).
+If you would like to contribute a version of the client in another programming language (Python, Java, Ruby, Perl, etc.) please <a target='_blank' href='{$currentUrlWithoutFilename}?module=Proxy&action=redirect&url=http://dev.piwik.org/'>create a ticket</a> in our developer area (please attach the client code to the ticket).
 </p><p>Follow these instructions to get started with the Tracking API:
 <ul style='list-style-type:decimal;'>
 <li><a href='{$currentUrlWithoutFilename}{url action=downloadPiwikTracker}' target='_blank'>Click here to download the file PiwikTracker.php</a>
