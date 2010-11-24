@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<project>
+   <paths>
+      <left>D:\piwik\svn\trunk\tests\integration\expected\</left>
+      <right>D:\piwik\svn\trunk\tests\integration\processed\</right>
+      <filter>*</filter>
+      <subfolders>0</subfolders>
+      <left-readonly>0</left-readonly>
+      <right-readonly>0</right-readonly>
+   </paths>
+</project>
