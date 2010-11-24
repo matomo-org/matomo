@@ -107,7 +107,6 @@ class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 			// Feedburner errors are malformed
 			if(strpos($data, 'The server encountered a temporary error') !== false)
 			{
-				$data = 'The server encountered a temporary error';
 				throw new Exception('Feedburner stats temporarily unavailable');
 			}
 			$xml = new SimpleXMLElement($data);
