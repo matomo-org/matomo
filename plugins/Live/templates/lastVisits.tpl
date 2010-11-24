@@ -2,13 +2,13 @@
 	<div id="{$visitor.idVisit}" class="visit{if $visitor.idVisit % 2} alt{/if}">
 		<div style="display:none" class="idvisit">{$visitor.idVisit}</div>
 			<div class="datetime">
-				{$visitor.serverDatePretty} - {$visitor.serverTimePretty}
+				{$visitor.serverDatePretty} - {$visitor.serverTimePretty} ({$visitor.visitLengthPretty})
 				&nbsp;<img src="{$visitor.countryFlag}" title="{$visitor.country}, Provider {$visitor.provider}" />
 				&nbsp;<img src="{$visitor.browserIcon}" title="{$visitor.browser} with plugins {$visitor.plugins} enabled" />
 				&nbsp;<img src="{$visitor.operatingSystemIcon}" title="{$visitor.operatingSystem}, {$visitor.resolution}" />
-				&nbsp;{if $visitor.isVisitorGoalConverted}<img src="{$visitor.goalIcon}" title="{$visitor.goalType}" />{/if}
+				&nbsp;{if $visitor.isVisitorGoalConverted}<img src="{$visitor.goalIcon}" title="{'Goals_GoalConversion'|translate} ({$visitor.goalType})" />{/if}
 				{if $visitor.isVisitorReturning}&nbsp;<img src="plugins/Live/templates/images/returningVisitor.gif" title="Returning Visitor" />{/if}
-				&nbsp;<label id="" title="IP: {$visitor.ip} - Duration: {$visitor.visitLengthPretty}">more...</label>
+				{if $visitor.ip}IP: {$visitor.ip}{/if}
 			</div>
 			<!--<div class="settings"></div>-->
 			<div class="referer">
