@@ -28,6 +28,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 	public function getSparklines()
 	{
 		$view = Piwik_View::factory('sparklines');
+		$this->setPeriodVariablesView($view);
 		$this->setSparklinesAndNumbers($view);		
 		echo $view->render();
 	}
