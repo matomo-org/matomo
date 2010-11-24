@@ -5,7 +5,6 @@
 			<bounce_count>2</bounce_count>
 			<max_actions>2</max_actions>
 			<nb_actions>4</nb_actions>
-			<nb_uniq_visitors>3</nb_uniq_visitors>
 			<nb_visits>3</nb_visits>
 			<sum_visit_length>360</sum_visit_length>
 			<bounce_rate>67%</bounce_rate>
@@ -24,7 +23,6 @@
 			<bounce_count>1</bounce_count>
 			<max_actions>1</max_actions>
 			<nb_actions>1</nb_actions>
-			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_visits>1</nb_visits>
 			<bounce_rate>100%</bounce_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>

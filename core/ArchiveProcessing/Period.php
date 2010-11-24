@@ -117,8 +117,13 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		$records = array();
 		foreach($results as $name => $value)
 		{
-			if($name == 'nb_uniq_visitors' && ($this->periodId == Piwik::$idPeriods['week'] || $this->periodId == Piwik::$idPeriods['month']))
+			if($name == 'nb_uniq_visitors')
 			{
+				// we do not process Unique Visitors for year
+				if($this->periodId == Piwik::$idPeriods['year'])
+				{
+					continue;
+				}
 			    $value = (float) $this->computeNbUniqVisitors();
 			}
 			$records[$name] = new Piwik_ArchiveProcessing_Record_Numeric(
