@@ -55,6 +55,15 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime);
 	}
 	
+	function test_apiGetReportMetadata_year()
+	{
+		$this->setApiNotToCall(array());
+		$this->setApiToCall( 'API.getProcessedReport' );
+		$dateTime = '2009-01-04 00:11:42';
+		$idSite = $this->createWebsite($dateTime);
+        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime, 'year');
+	}
+	
 	/*
 	 * Testing various wrong Tracker requests and check that they behave as expected:
 	 * not throwing errors and not recording data.
