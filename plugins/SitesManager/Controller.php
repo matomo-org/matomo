@@ -138,7 +138,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 				$hl_name = $s['name'];
 				if(strlen($pattern) > 0)
 				{
-					preg_match_all("/$pattern+/i", $hl_name, $matches);
+					@preg_match_all("/$pattern+/i", $hl_name, $matches);
 					if (is_array($matches[0]) && count($matches[0]) >= 1)
 					{
 						foreach ($matches[0] as $match)
