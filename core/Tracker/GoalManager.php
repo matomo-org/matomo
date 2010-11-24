@@ -103,7 +103,7 @@ class Piwik_Tracker_GoalManager
 					{
 						$pattern .= 'i';
 					}
-					$match = (preg_match($pattern, $url) == 1);
+					$match = (@preg_match($pattern, $url) == 1);
 					break;
 				case 'contains':
 					if($goal['case_sensitive'])
