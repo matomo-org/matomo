@@ -120,6 +120,8 @@ class Piwik_AssetManager
 				),
 				$content
 			);
+			// replace \ windows directory separator with /
+			$content = str_replace("\\", "/", $content);
 			$mergedContent = $mergedContent . $content;
 		}
 
