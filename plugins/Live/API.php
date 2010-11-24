@@ -130,7 +130,7 @@ class Piwik_Live_API
 
 		foreach($visitorDetails as $visitorDetail)
 		{
-			$this->cleanVisitorDetails($visitorDetail);
+			$this->cleanVisitorDetails($visitorDetail, $idSite);
 			$visitor = new Piwik_Live_Visitor($visitorDetail);
 			$visitorDetailsArray = $visitor->getAllVisitorDetails();
 
@@ -139,7 +139,7 @@ class Piwik_Live_API
 			$dateTimeVisit = Piwik_Date::factory($visitorDetailsArray['firstActionTimestamp'], $timezone);
 			$visitorDetailsArray['serverDatePretty'] = $dateTimeVisit->getLocalized('%shortDay% %day% %shortMonth%');
 			$visitorDetailsArray['serverTimePretty'] = $dateTimeVisit->getLocalized('%time%');
-
+			$visitorDetailsArray['goalConversions'] = $visitorDetail['count_goal_conversions'];
 			if(!empty($visitorDetailsArray['goalTimePretty']))
 			{
 				$dateTimeConversion = Piwik_Date::factory($visitorDetailsArray['goalTimePretty'], $timezone);
@@ -237,12 +237,14 @@ class Piwik_Live_API
 			$sqlWhere = " WHERE " . join(' AND ', $where);
 		}
 
+		// Group by idvisit so that a visitor converting 2 goals only appears twice
 		$sql = "SELECT 	" . Piwik_Common::prefixTable('log_visit') . ".* ,
 						" . Piwik_Common::prefixTable ( 'goal' ) . ".match_attribute as goal_match_attribute,
 						" . Piwik_Common::prefixTable ( 'goal' ) . ".name as goal_name,
 						" . Piwik_Common::prefixTable ( 'goal' ) . ".revenue as goal_revenue,
 						" . Piwik_Common::prefixTable ( 'log_conversion' ) . ".idaction_url as goal_idaction_url,
-						" . Piwik_Common::prefixTable ( 'log_conversion' ) . ".server_time as goal_server_time
+						" . Piwik_Common::prefixTable ( 'log_conversion' ) . ".server_time as goal_server_time,
+						count(*) as count_goal_conversions
 				FROM " . Piwik_Common::prefixTable('log_visit') . "
 					LEFT JOIN ".Piwik_Common::prefixTable('log_conversion')."
 					ON " . Piwik_Common::prefixTable('log_visit') . ".idvisit = " . Piwik_Common::prefixTable('log_conversion') . ".idvisit
@@ -251,6 +253,7 @@ class Piwik_Live_API
 						AND  " . Piwik_Common::prefixTable('goal') . ".idgoal = " . Piwik_Common::prefixTable('log_conversion') . ".idgoal)
 					AND " . Piwik_Common::prefixTable('goal') . ".deleted = 0
 					$sqlWhere
+				GROUP BY idvisit
 				ORDER BY idvisit DESC
 				LIMIT ".(int)$limit;
 		return Piwik_FetchAll($sql, $whereBind);
@@ -329,14 +332,15 @@ class Piwik_Live_API
 
 	/**
 	 * Removes fields that are not meant to be displayed (md5 config hash)
-	 * Or that the user should only access if he is super user (cookie, IP)
+	 * Or that the user should only access if he is super user or admin (cookie, IP)
 	 *
 	 * @return void
 	 */
-	private function cleanVisitorDetails( &$visitorDetails )
+	private function cleanVisitorDetails( &$visitorDetails, $idSite )
 	{
 		$toUnset = array('config_md5config');
-		if(!Piwik::isUserIsSuperUser())
+		if(!Piwik::isUserIsSuperUser()
+			&& !Piwik::isUserHasAdminAccess($idSite))
 		{
 			$toUnset[] = 'visitor_idcookie';
 			$toUnset[] = 'location_ip';

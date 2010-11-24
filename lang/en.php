@@ -439,6 +439,7 @@ $translations = array(
 	'Goals_ColumnConversions' => 'Conversions',
 	'Goals_ColumnRevenue' => 'Revenue',
 	'Goals_GoalX' => 'Goal %s',
+	'Goals_GoalConversion' => 'Goal conversion',
 	'Goals_OverallRevenue' => '%s overall revenue',
 	'Goals_OverallConversionRate' => '%s overall conversion rate (visits with a completed goal)',
 	'Goals_Conversions' => '%s conversions',
