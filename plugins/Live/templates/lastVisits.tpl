@@ -3,8 +3,8 @@
 		<div style="display:none" class="idvisit">{$visitor.idVisit}</div>
 			<div class="datetime">
 				{$visitor.serverDatePretty} - {$visitor.serverTimePretty} ({$visitor.visitLengthPretty})
-				&nbsp;<img src="{$visitor.countryFlag}" title="{$visitor.country}, Provider {$visitor.provider}" />
-				&nbsp;<img src="{$visitor.browserIcon}" title="{$visitor.browser} with plugins {$visitor.plugins} enabled" />
+				&nbsp;<img src="{$visitor.countryFlag}" title="{$visitor.country}, {'Provider_ColumnProvider'|translate} {$visitor.provider}" />
+				&nbsp;<img src="{$visitor.browserIcon}" title="{$visitor.browser}, {'UserSettings_Plugins'|translate}: {$visitor.plugins}" />
 				&nbsp;<img src="{$visitor.operatingSystemIcon}" title="{$visitor.operatingSystem}, {$visitor.resolution}" />
 				&nbsp;{if $visitor.isVisitorGoalConverted}<img src="{$visitor.goalIcon}" title="{'Goals_GoalConversion'|translate} ({$visitor.goalType})" />{/if}
 				{if $visitor.isVisitorReturning}&nbsp;<img src="plugins/Live/templates/images/returningVisitor.gif" title="Returning Visitor" />{/if}
@@ -15,10 +15,10 @@
 				{if $visitor.refererType != 'directEntry'}from <a href="{$visitor.refererUrl}" target="_blank">{if !empty($visitor.searchEngineIcon)}<img src="{$visitor.searchEngineIcon}" /> {/if}{$visitor.refererName}</a>
 					{if !empty($visitor.keywords)}"{$visitor.keywords}"{/if}
 				{/if}
-				{if $visitor.refererType == 'directEntry'}Direct entry{/if}
+				{if $visitor.refererType == 'directEntry'}{'Referers_DirectEntry'|translate}{/if}
 			</div>
 		<div id="{$visitor.idVisit}_actions" class="settings">
-			<span class="pagesTitle">Pages:</span>&nbsp;
+			<span class="pagesTitle">{'Actions_SubmenuPages'|translate}:</span>&nbsp;
 			{php} $col = 0;	{/php}
 			{foreach from=$visitor.actionDetails item=action}
 			  {php}

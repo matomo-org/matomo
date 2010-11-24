@@ -3,7 +3,7 @@
 	<thead>
 	<tr>
 	<th id="label" class="sortable label" style="cursor: auto;">
-	<div id="thDIV">{'Live_Date'|translate}</div></th>
+	<div id="thDIV">{'General_Date'|translate}</div></th>
 	<th id="label" class="sortable label" style="cursor: auto;">
 	<div id="thDIV">{'General_ColumnNbVisits'|translate}</div></th>
 	<th id="label" class="sortable label" style="cursor: auto;">
@@ -17,7 +17,7 @@
 	<td class="columnodd">{$pisToday}</td>
 	</tr>
 	<tr class="">
-	<td class="columnodd">{'Live_Last30Minutes'|translate}</td>
+	<td class="columnodd">{'Live_LastMinutes'|translate:30}</td>
 	<td class="columnodd">{$visitorsCountHalfHour}</td>
 	<td class="columnodd">{$pisHalfhour}</td>
 	</tr>
