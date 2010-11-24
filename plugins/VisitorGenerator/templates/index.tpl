@@ -8,7 +8,7 @@
 <form method="POST" action="{url module=VisitorGenerator action=generate}">
 <table class="adminTable adminTableNoBorder" style="width: 600px;">
 <tr>
-    <td><label for="idSite">{'VisitorGenerator_SelectWebsite'|translate}</label></td>
+    <td><label for="idSite">{'General_ChooseWebsite'|translate}</label></td>
     <td><select name="idSite">
     {foreach from=$sitesList item=site}
         <option value="{$site.idsite}">{$site.name}</option>

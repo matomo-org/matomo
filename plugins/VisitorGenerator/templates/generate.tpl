@@ -7,9 +7,9 @@
 <table class="adminTable adminTableNoBorder" style="width: 600px;">
 <thead>
     <tr>
-        <th>{'VisitorGenerator_Visitors'|translate}</th>
-        <th>{'VisitorGenerator_ActionsPerVisit'|translate}</th>
-        <th>{'VisitorGenerator_Date'|translate}</th>
+        <th>{'General_Visitors'|translate}</th>
+        <th>{'General_ColumnActionsPerVisit'|translate}</th>
+        <th>{'General_Date'|translate}</th>
     </tr>
 </thead>
 <tbody>

@@ -17,7 +17,7 @@
 	<tr>
 	<th style="display:none"></th>
 	<th id="label" class="sortable label" style="cursor: auto;width:12%" width="12%">
-	<div id="thDIV">{'Live_Date'|translate}<div></th>
+	<div id="thDIV">{'General_Date'|translate}<div></th>
 	<th id="label" class="sortable label" style="cursor: auto;width:13%" width="13%">
 	<div id="thDIV">{'General_Visitors'|translate}<div></th>
 	<th id="label" class="sortable label" style="cursor: auto;width:15%" width="15%">
