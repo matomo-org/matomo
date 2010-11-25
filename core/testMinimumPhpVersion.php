@@ -96,7 +96,7 @@ if (!function_exists('file_get_contents'))
 	}
 }
 
-if(isset($piwik_errorMessage))
+if(!empty($piwik_errorMessage))
 {
 	Piwik_ExitWithMessage($piwik_errorMessage, false, true);
 }
