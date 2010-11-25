@@ -69,8 +69,7 @@ class Piwik_PDFReports extends Piwik_Plugin
 		foreach($reportsToGenerate as $report)
 		{
 			Piwik_PDFReports_API::getInstance()->sendEmailReport(	$report['idreport'], 
-																	$report['idsite'], 
-																	$period);
+																	$report['idsite']);
 		}
 	}
 		
