@@ -301,9 +301,9 @@ class Piwik_PDFReports_API
     	}
 	}
 
-	public function sendEmailReport($idReport, $idSite, $period = false)
+	public function sendEmailReport($idReport, $idSite)
 	{
-		$reports = $this->getReports($idSite, $period, $idReport);
+		$reports = $this->getReports($idSite, $period = false, $idReport);
 		$report = reset($reports);
 		list($outputFilename, $prettyDate, $websiteName) = 
 			$this->generateReport(
