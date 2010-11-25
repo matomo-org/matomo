@@ -116,12 +116,10 @@ class Piwik_AssetManager
 				"/(url\(['\"]?)([^'\")]*)/",
 				create_function(
 					'$matches',
-					"return \$matches[1] . substr(realpath(PIWIK_DOCUMENT_ROOT . '/$baseDirectory/' . \$matches[2]), $rootDirectoryLen);"
+					"return \$matches[1] . str_replace('\\\\', '/', substr(realpath(PIWIK_DOCUMENT_ROOT . '/$baseDirectory/' . \$matches[2]), $rootDirectoryLen));"
 				),
 				$content
 			);
-			// replace \ windows directory separator with /
-			$content = str_replace("\\", "/", $content);
 			$mergedContent = $mergedContent . $content;
 		}
 
