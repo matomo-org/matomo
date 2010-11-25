@@ -23,44 +23,54 @@ class Piwik_ScheduledTime_Monthly extends Piwik_ScheduledTime
 	public function getRescheduledTime()
 	{
 		$currentTime = $this->getTime();
-		
+
 		// Adds one month
-		$rescheduledTime = mktime ( 	date('H', $currentTime), 
+		$rescheduledTime = mktime ( date('H', $currentTime),
 									date('i', $currentTime), 
 									date('s', $currentTime),
 									date('n', $currentTime) + 1,
-									date('j', $currentTime),
+									1,
 									date('Y', $currentTime)
 									);
-									
+
+		$nextMonthLength = cal_days_in_month(CAL_GREGORIAN, date('n', $rescheduledTime), date('Y', $rescheduledTime));
+
+		// Sets scheduled day
+		if ( $this->day !== null )
+		{
+			$scheduledDay = $this->day;
+		}
+		else
+		{
+			$scheduledDay = date('j', $currentTime);
+		}
+
+		// Caps scheduled day
+		if ( $scheduledDay > $nextMonthLength )
+		{
+			$scheduledDay = $nextMonthLength;
+		}
+
+		// Adjusts the scheduled day
+		$rescheduledTime += ($scheduledDay - 1) * 86400;
+
 		// Adjusts the scheduled hour
 		$rescheduledTime = $this->adjustHour($rescheduledTime);
 		
-		// Adjusts the scheduled day
-		$rescheduledTime = $this->adjustDay($rescheduledTime);
-		
-		if ( $this->week !== null )
-		{
-			// Computes the week number of the scheduled month
-			$rescheduledWeek = date('W', $rescheduledTime) - (4 * (date('n', $rescheduledTime)-1) );
-			$weekError = $rescheduledWeek - $this->week;
-			
-			if ( $weekError != 0)
-			{ 
-				/*
-				 * Adds or remove a multiple of 7 days to adjust the scheduled week to the one specified
-				 * with setWeek()
-				 */
-				$rescheduledTime = mktime ( 	date('H', $rescheduledTime), 
-											date('i', $rescheduledTime), 
-											date('s', $rescheduledTime),
-											date('n', $rescheduledTime),
-											date('j', $rescheduledTime) - (7 * $weekError),
-											date('Y', $rescheduledTime)
-											);
-			}
-		}
-		
 		return $rescheduledTime;
+	}
+
+	/*
+	 * @param  _day the day to set, has to be >= 1 and < 32
+	 * @throws Exception if parameter _day is invalid
+	 */
+	public function setDay($_day)
+	{
+		if (!($_day >=1 && $_day < 32))
+		{
+			throw new Exception ("Invalid day parameter, must be >=1 and < 32");
+		}
+
+		$this->day = $_day;
 	}
 }
