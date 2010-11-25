@@ -21,7 +21,7 @@
 	{if isset($plugin.alwaysActivated) && !$plugin.alwaysActivated}
 		<tr class={if $plugin.activated}"active"{else}"deactivate"{/if}>
 			<td class="name">
-				{if isset($plugin.info.homepage)}<a title="{'CorePluginsAdmin_PluginHomepage'|translate}" href="{$plugin.info.homepage}">{/if}
+				{if isset($plugin.info.homepage)}<a title="{'CorePluginsAdmin_PluginHomepage'|translate}" href="{$plugin.info.homepage}" target="_blank">{/if}
 				{$name}
 				{if isset($plugin.info.homepage)}</a>{/if}
 			</td>
@@ -29,11 +29,11 @@
 			<td class="desc">
 				{$plugin.info.description|nl2br}
 				{if isset($plugin.info.license)}
-					&nbsp;({if isset($plugin.info.license_homepage)}<a title="{'CorePluginsAdmin_LicenseHomepage'|translate}" href="?module=Proxy&action=redirect&url={$plugin.info.license_homepage}">{/if}{$plugin.info.license}{if isset($plugin.info.license_homepage)}</a>){/if}
+					&nbsp;({if isset($plugin.info.license_homepage)}<a title="{'CorePluginsAdmin_LicenseHomepage'|translate}" target="_blank" href="{$plugin.info.license_homepage}">{/if}{$plugin.info.license}{if isset($plugin.info.license_homepage)}</a>){/if}
 				{/if}
 				{if isset($plugin.info.author)}
 					&nbsp;<cite>By 
-					{if isset($plugin.info.author_homepage)}<a title="{'CorePluginsAdmin_AuthorHomepage'|translate}" href="?module=Proxy&action=redirect&url={$plugin.info.author_homepage}">{/if}{$plugin.info.author}{if isset($plugin.info.author_homepage)}</a>{/if}.</cite>
+					{if isset($plugin.info.author_homepage)}<a title="{'CorePluginsAdmin_AuthorHomepage'|translate}" href="{$plugin.info.author_homepage}" target="_blank">{/if}{$plugin.info.author}{if isset($plugin.info.author_homepage)}</a>{/if}.</cite>
 				{/if}
 			</td>
 			<td class="status">
