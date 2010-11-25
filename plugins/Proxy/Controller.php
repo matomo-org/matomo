@@ -24,7 +24,7 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 	 *
 	 * @param string $imageData Base-64 encoded image data (via $_POST)
 	 */
-	static public function outputImageBase64()
+	static public function exportImageWindow()
 	{
 		Piwik::checkUserHasSomeViewAccess();
 
@@ -35,7 +35,7 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 	
 	function exportImage()
 	{
-		self::outputImageBase64();
+		self::exportImageWindow();
 	}
 
 	/**
@@ -43,7 +43,7 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 	 *
 	 * @param string $imageData Base-64 encoded image data (via $_POST)
 	 */
-	static public function outputImageBinary()
+	static public function outputBinaryImage()
 	{
 		Piwik::checkUserHasSomeViewAccess();
 
@@ -70,7 +70,7 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 
 	function outputImage()
 	{
-		self::outputImageBinary();
+		self::outputBinaryImage();
 	}
 
 	/**
