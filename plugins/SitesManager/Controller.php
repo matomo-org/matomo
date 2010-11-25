@@ -133,6 +133,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 		}
 		else
 		{
+			$pattern = str_replace('/', '\\/', $pattern);
 			foreach($sites as $s)
 			{
 				$hl_name = $s['name'];
