@@ -409,7 +409,7 @@ function Piwik_Tracker_ExitWithException($e)
 	}
 	else
 	{
-		$trailer = '<p>Edit piwik.php (or bootstrap.php) to enable tracker debugging and display a backtrace:</p>
+		$trailer = '<p>Edit the following line in piwik.php to enable tracker debugging and display a backtrace:</p>
 					<blockquote><pre>$GLOBALS[\'PIWIK_TRACKER_DEBUG\'] = true;</pre></blockquote>';
 	}
 
