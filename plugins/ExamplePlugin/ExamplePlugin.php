@@ -27,7 +27,7 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
 	{
 		return array(
 			'description' => Piwik_Translate('ExamplePlugin_PluginDescription'),
-			'homepage' => 'http://plugins.piwik.org/',
+			'homepage' => 'http://piwik.org/',
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'license' => 'GPL v3 or later',

@@ -132,13 +132,7 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 <meta http-equiv="refresh" content="0;url=' . $url . '" />
 </head></html>';
 		}
-
-		// standard redirect for other whitelisted URLs
-		if(self::isAcceptableRemoteUrl($url))
-		{
-			Piwik_Url::redirectToUrl($url);
-			exit;
-		}
+		exit;
 	}
 
 	/**
@@ -156,30 +150,4 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 		return false;
 	}
 
-	/**
-	 * Validate URL against a whitelist, so action=redirect can't be
-	 * used as an open redirect proxy.
-	 *
-	 * @param string $url
-	 * @return bool True if valid; false otherwise
-	 */
-	static public function isAcceptableRemoteUrl($url)
-	{
-		$homepageUrls = array();
-		$listPlugins = Piwik_PluginsManager::getInstance()->readPluginsDirectory();
-
-		foreach($listPlugins as $pluginName)
-		{
-			$oPlugin = Piwik_PluginsManager::getInstance()->loadPlugin($pluginName);
-			$info = $oPlugin->getInformation();
-			if((isset($info['homepage']) && $url == $info['homepage'])
-				|| (isset($info['author_homepage']) && $url == $info['author_homepage'])
-				|| (isset($info['license_homepage']) && $url == $info['license_homepage']))
-			{
-				return true;
-			}
-		}
-
-		return false;
-	}
 }
