@@ -2,8 +2,8 @@
 
 <project>
    <paths>
-      <left>D:\piwik\svn\trunk\tests\integration\expected\</left>
-      <right>D:\piwik\svn\trunk\tests\integration\processed\</right>
+      <left>expected\</left>
+      <right>processed\</right>
       <filter>*</filter>
       <subfolders>0</subfolders>
       <left-readonly>0</left-readonly>
