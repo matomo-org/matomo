@@ -16,11 +16,13 @@
  * This file must be compatible PHP4.
  */
 
+$piwik_errorMessage = '';
+
 $piwik_minimumPHPVersion = '5.1.3';
 $piwik_currentPHPVersion = PHP_VERSION;
 if( version_compare($piwik_minimumPHPVersion , $piwik_currentPHPVersion ) > 0 )
 {
-	$piwik_errorMessage = "<p><b>To run Piwik you need at least PHP version $piwik_minimumPHPVersion </b></p> 
+	$piwik_errorMessage .= "<p><b>To run Piwik you need at least PHP version $piwik_minimumPHPVersion</b></p> 
 				<p>Unfortunately it seems your webserver is using PHP version $piwik_currentPHPVersion. </p>
 				<p>Please try to update your PHP version, Piwik is really worth it! Nowadays most web hosts 
 				support PHP $piwik_minimumPHPVersion.</p>";
@@ -29,11 +31,18 @@ if( version_compare($piwik_minimumPHPVersion , $piwik_currentPHPVersion ) > 0 )
 $piwik_zend_compatibility_mode = ini_get("zend.ze1_compatibility_mode");
 if($piwik_zend_compatibility_mode == 1)
 {
-	$piwik_errorMessage = "<p><b>Piwik is not compatible with the directive <code>zend.ze1_compatibility_mode = On</code></b></p> 
+	$piwik_errorMessage .= "<p><b>Piwik is not compatible with the directive <code>zend.ze1_compatibility_mode = On</code></b></p> 
 				<p>It seems your php.ini file has <pre>zend.ze1_compatibility_mode = On</pre>It makes PHP5 behave like PHP4.
 				If you want to use Piwik you need to set <pre>zend.ze1_compatibility_mode = Off</pre> in your php.ini configuration file. You may have to ask your system administrator.</p>";
 }
-      
+
+if(!class_exists('ArrayObject', false))
+{
+	$piwik_errorMessage .= "<p><b>Piwik and Zend Framework require the SPL extension</p> 
+				<p>It appears your PHP was compiled with --disable-spl.
+				To enjoy Piwik, you need PHP (re-)compiled without that configure option.</p>";
+}
+
 /**
  * Displays info/warning/error message in a friendly UI and exits.
  *
