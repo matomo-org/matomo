@@ -70,7 +70,7 @@ autocomplete_min_sites = 5
 ; maximum number of websites showed in search results in autocompleter
 site_selector_max_sites = 10
 
-; if set to 1, shows sparklines (evolution graph) in multisites reports
+; if set to 1, shows sparklines (evolution graph) in 'All Websites' report (MultiSites plugin)
 show_multisites_sparklines = 1
 
 ; this action name is used when the URL ends with a slash / 
