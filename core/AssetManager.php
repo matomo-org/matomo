@@ -111,6 +111,7 @@ class Piwik_AssetManager
 			
 			// Rewrite css url directives
 			// - assumes these are all relative paths
+			// - rewrite windows directory separator \\ to /
 			$baseDirectory = dirname($file);
 			$content = preg_replace_callback(
 				"/(url\(['\"]?)([^'\")]*)/",
