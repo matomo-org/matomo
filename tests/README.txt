@@ -11,6 +11,10 @@ The file will run all unit tests and integration tests.
 You can also run one test file at a time by executing the test file directly eg. 
 http://path/to/piwik/trunk/tests/core/DataTable.test.php
 
+You can also run tests from the command line:
+  $ cd path/to/piwik
+  $ find . -name '*.test.php' -exec php {} \;
+
  UNIT TESTs
 ===========
 Unit tests use the Simpletest Unit Testing framework.
