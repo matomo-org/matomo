@@ -458,11 +458,8 @@ table.dataTableActions img.link {
 	margin-left:-0.5em;
 }
 tr td.label img.plusMinus {
-	margin-right: 0em;
 	margin-left:-1em;
-}
-tr td.label img.plusMinus {
-	margin-right /*\**/: 4px\9
+	margin-right: 4px;
 }
 
 .pk-emptyDataTable {
