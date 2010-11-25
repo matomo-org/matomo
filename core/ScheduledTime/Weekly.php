@@ -37,13 +37,32 @@ class Piwik_ScheduledTime_Weekly extends Piwik_ScheduledTime
 		$rescheduledTime = $this->adjustHour($rescheduledTime);
 		
 		// Adjusts the scheduled day
-		$rescheduledTime = $this->adjustDay($rescheduledTime);
+		if ( $this->day !== null )
+		{
+			// Removes or adds a number of days to set the scheduled day to the one specified with setDay()
+			$rescheduledTime = mktime ( date('H', $rescheduledTime),
+										date('i', $rescheduledTime),
+										date('s', $rescheduledTime),
+										date('n', $rescheduledTime),
+										date('j', $rescheduledTime) - (date('N', $rescheduledTime) - $this->day),
+										date('Y', $rescheduledTime)
+										);
+		}
 		
 		return $rescheduledTime;
 	}
 	
-	public function setWeek($_week)
+	/*
+	 * @param  _day the day to set, has to be >= 1 and < 8
+	 * @throws Exception if parameter _day is invalid
+	 */
+	public function setDay($_day)
 	{
-		throw new Exception ("Method not supported");
+		if (!($_day >=1 && $_day < 8))
+		{
+			throw new Exception ("Invalid day parameter, must be >=1 and < 8");
+		}
+
+		$this->day = $_day;
 	}
 }

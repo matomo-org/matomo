@@ -43,10 +43,4 @@ class Piwik_ScheduledTime_Hourly extends Piwik_ScheduledTime
 	{
 		throw new Exception ("Method not supported");
 	}
-	
-	public function setWeek($_week)
-	{
-		throw new Exception ("Method not supported");
-	}
-	
 }

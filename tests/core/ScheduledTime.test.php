@@ -24,49 +24,25 @@ class Test_Piwik_ScheduledTime extends UnitTestCase
 	private $JANUARY_01_1971_11_00_00;
 	private $JANUARY_01_1971_12_00_00;
 	private $JANUARY_01_1971_12_10_00;
-	
 	private $JANUARY_02_1971_09_00_00;
 	private $JANUARY_02_1971_09_10_00;
-	private $JANUARY_02_1971_12_10_00;
-	
-	private $JANUARY_03_1971_12_10_00;
-	
 	private $JANUARY_04_1971_09_00_00;
 	private $JANUARY_04_1971_09_10_00;
-	private $JANUARY_04_1971_12_10_00;
-	
 	private $JANUARY_05_1971_09_00_00;
 	private $JANUARY_05_1971_09_10_00;
 	private $JANUARY_05_1971_12_00_00;
-	
 	private $JANUARY_08_1971_09_00_00;
 	private $JANUARY_08_1971_09_10_00;
-	
 	private $JANUARY_09_1971_09_00_00;
 	private $JANUARY_09_1971_09_10_00;
-	
 	private $JANUARY_11_1971_09_00_00;
 	private $JANUARY_11_1971_09_10_00;
-	
-	private $JANUARY_12_1971_09_00_00;
-	private $JANUARY_18_1971_09_00_00;
-	private $JANUARY_19_1971_09_00_00;
-	
-	private $JANUARY_25_1971_09_00_00;
-	private $JANUARY_26_1971_09_00_00;
-	
+	private $JANUARY_15_1971_09_00_00;
+	private $JANUARY_31_1971_09_00_00;
 	private $FEBRUARY_01_1971_09_00_00;
 	private $FEBRUARY_02_1971_09_00_00;
-	private $FEBRUARY_03_1971_09_00_00;
-	private $FEBRUARY_03_1971_12_10_00;
-	private $FEBRUARY_04_1971_09_00_00;
-	private $FEBRUARY_04_1971_12_10_00;
 	private $FEBRUARY_05_1971_09_00_00;
-	private $FEBRUARY_08_1971_09_00_00;
-	private $FEBRUARY_15_1971_09_00_00;
-	private $FEBRUARY_16_1971_09_00_00;
-	private $FEBRUARY_17_1971_09_00_00;
-	
+	private $FEBRUARY_28_1971_09_00_00;
 	private $MARCH_05_1971_09_00_00;
 	
 	function __construct( $title = '')
@@ -78,49 +54,25 @@ class Test_Piwik_ScheduledTime extends UnitTestCase
 		$this->JANUARY_01_1971_11_00_00 = mktime(11,00,00,1,1,1971);
 		$this->JANUARY_01_1971_12_00_00 = mktime(12,00,00,1,1,1971);
 		$this->JANUARY_01_1971_12_10_00 = mktime(12,10,00,1,1,1971);
-		
 		$this->JANUARY_02_1971_09_00_00 = mktime(9,00,00,1,2,1971);
 		$this->JANUARY_02_1971_09_10_00 = mktime(9,10,00,1,2,1971);
-		$this->JANUARY_02_1971_12_10_00 = mktime(12,10,00,1,2,1971);
-		
-		$this->JANUARY_03_1971_12_10_00 = mktime(12,10,00,1,3,1971);
-		
 		$this->JANUARY_04_1971_09_00_00 = mktime(9,00,00,1,4,1971);
 		$this->JANUARY_04_1971_09_10_00 = mktime(9,10,00,1,4,1971);
-		$this->JANUARY_04_1971_12_10_00 = mktime(12,10,00,1,4,1971);
-		
 		$this->JANUARY_05_1971_09_00_00 = mktime(9,00,00,1,5,1971);
 		$this->JANUARY_05_1971_09_10_00 = mktime(9,10,00,1,5,1971);
 		$this->JANUARY_05_1971_12_00_00 = mktime(12,00,00,1,5,1971);
-		
 		$this->JANUARY_08_1971_09_00_00 = mktime(9,00,00,1,8,1971);
 		$this->JANUARY_08_1971_09_10_00 = mktime(9,10,00,1,8,1971);
-		
 		$this->JANUARY_09_1971_09_00_00 = mktime(9,00,00,1,9,1971);
 		$this->JANUARY_09_1971_09_10_00 = mktime(9,10,00,1,9,1971);
-		
 		$this->JANUARY_11_1971_09_00_00 = mktime(9,00,00,1,11,1971);
 		$this->JANUARY_11_1971_09_10_00 = mktime(9,10,00,1,11,1971);
-		
-		$this->JANUARY_12_1971_09_00_00 = mktime(9,00,00,1,12,1971);
-		$this->JANUARY_18_1971_09_00_00 = mktime(9,00,00,1,18,1971);
-		$this->JANUARY_19_1971_09_00_00 = mktime(9,00,00,1,19,1971);
-		
-		$this->JANUARY_25_1971_09_00_00 = mktime(9,00,00,1,25,1971);
-		$this->JANUARY_26_1971_09_00_00 = mktime(9,00,00,1,26,1971);
-
-		$this->FEBRUARY_01_1971_09_00_00 = mktime(9,00,00,2,1,1971);	
-		$this->FEBRUARY_02_1971_09_00_00 = mktime(9,00,00,2,2,1971);	
-		$this->FEBRUARY_03_1971_09_00_00 = mktime(9,00,00,2,3,1971);	
-		$this->FEBRUARY_03_1971_12_10_00 = mktime(12,10,00,2,3,1971);	
-		$this->FEBRUARY_04_1971_09_00_00 = mktime(9,00,00,2,4,1971);	
-		$this->FEBRUARY_04_1971_12_10_00 = mktime(12,10,00,2,4,1971);	
-		$this->FEBRUARY_05_1971_09_00_00 = mktime(9,00,00,2,5,1971);	
-		$this->FEBRUARY_08_1971_09_00_00 = mktime(9,00,00,2,8,1971);	
-		$this->FEBRUARY_15_1971_09_00_00 = mktime(9,00,00,2,15,1971);	
-		$this->FEBRUARY_16_1971_09_00_00 = mktime(9,00,00,2,16,1971);	
-		$this->FEBRUARY_17_1971_09_00_00 = mktime(9,00,00,2,17,1971);	
-		
+		$this->JANUARY_15_1971_09_00_00 = mktime(9,00,00,1,15,1971);
+		$this->JANUARY_31_1971_09_00_00 = mktime(9,00,00,1,31,1971);
+		$this->FEBRUARY_01_1971_09_00_00 = mktime(9,00,00,2,1,1971);
+		$this->FEBRUARY_02_1971_09_00_00 = mktime(9,00,00,2,2,1971);
+		$this->FEBRUARY_05_1971_09_00_00 = mktime(9,00,00,2,5,1971);
+		$this->FEBRUARY_28_1971_09_00_00 = mktime(9,00,00,2,28,1971);
 		$this->MARCH_05_1971_09_00_00 = mktime(9,00,00,3,5,1971);
 
 		parent::__construct( $title );
@@ -321,11 +273,11 @@ class Test_Piwik_ScheduledTime extends UnitTestCase
 	/*
 	 * Tests invalid call to setDay on Piwik_ScheduledTime_Monthly
 	 */
-	public function test_setDay_ScheduledTime_Monthly_Over_7()
+	public function test_setDay_ScheduledTime_Monthly_Over_31()
 	{
 		try {
 			$monthlySchedule = new Piwik_ScheduledTime_Monthly();
-			$monthlySchedule->setDay(8);
+			$monthlySchedule->setDay(32);
 			$this->fail("Exception not raised.");
 		}
 		catch (Exception $expected) {
@@ -334,86 +286,7 @@ class Test_Piwik_ScheduledTime extends UnitTestCase
 		}
 	}
 	
-	/*
-	 * Tests forbidden call to setWeek on Piwik_ScheduledTime_Hourly
-	 */
-	public function test_setWeek_ScheduledTime_Hourly()
-	{
-		try {
-			$hourlySchedule = new Piwik_ScheduledTime_Hourly();
-			$hourlySchedule->setWeek(1);
-			$this->fail("Exception not raised.");
-		}
-		catch (Exception $expected) {
-			$this->pass();
-			return;
-		}
-	}
-	
-	/*
-	 * Tests forbidden call to setWeek on Piwik_ScheduledTime_Daily
-	 */
-	public function test_setWeek_ScheduledTime_Daily()
-	{
-		try {
-			$dailySchedule = new Piwik_ScheduledTime_Daily();
-			$dailySchedule->setWeek(1);
-			$this->fail("Exception not raised.");
-		}
-		catch (Exception $expected) {
-			$this->pass();
-			return;
-		}
-	}
-	
-	/*
-	 * Tests forbidden call to setWeek on Piwik_ScheduledTime_Weekly
-	 */
-	public function test_setWeek_ScheduledTime_Weekly()
-	{
-		try {
-			$weeklySchedule = new Piwik_ScheduledTime_Weekly();
-			$weeklySchedule->setWeek(1);
-			$this->fail("Exception not raised.");
-		}
-		catch (Exception $expected) {
-			$this->pass();
-			return;
-		}
-	}	
-	
-	/*
-	 * Tests invalid call to setWeek on Piwik_ScheduledTime_Monthly
-	 */
-	public function test_setWeek_ScheduledTime_Monthly_Week_0()
-	{
-		try {
-			$monthlySchedule = new Piwik_ScheduledTime_Monthly();
-			$monthlySchedule->setWeek(0);
-			$this->fail("Exception not raised.");
-		}
-		catch (Exception $expected) {
-			$this->pass();
-			return;
-		}
-	}
 
-	/*
-	 * Tests invalid call to setWeek on Piwik_ScheduledTime_Monthly
-	 */
-	public function test_setWeek_ScheduledTime_Monthly_Over_4()
-	{
-		try {
-			$monthlySchedule = new Piwik_ScheduledTime_Monthly();
-			$monthlySchedule->setWeek(5);
-			$this->fail("Exception not raised.");
-		}
-		catch (Exception $expected) {
-			$this->pass();
-			return;
-		}
-	}	
-	
 	/*
 	 * Tests getRescheduledTime on Piwik_ScheduledTime_Hourly
 	 *
@@ -748,7 +621,7 @@ class Test_Piwik_ScheduledTime extends UnitTestCase
 		 *
 		 * Expected :
 		 *  getRescheduledTime returns Monday January 11 1971 09:10:00 GMT
-		 *  The task will run at January 11 1971 10:00:00 GMT which is ok because setHour has not been called
+		 *  The task will run at Monday January 11 1971 10:00:00 GMT which is ok because setHour has not been called
 		 */
 		$weeklySchedule = new Piwik_ScheduledTime_Weekly_Test();
 		$weeklySchedule->setDay(1);
@@ -765,13 +638,29 @@ class Test_Piwik_ScheduledTime extends UnitTestCase
 		 *  - setHour is not called, no need to control the scheduled hour
 		 *
 		 * Expected :
-		 *  getRescheduledTime returns January 11 1971 09:00:00 GMT
+		 *  getRescheduledTime returns Monday January 11 1971 09:00:00 GMT
 		 */
 		$weeklySchedule = new Piwik_ScheduledTime_Weekly_Test();
 		$weeklySchedule->setDay(1);
 		$weeklySchedule->setReturnValue('getTime', $this->JANUARY_05_1971_09_00_00);
 		$this->assertEqual($weeklySchedule->getRescheduledTime(), $this->JANUARY_11_1971_09_00_00);
 
+		/*
+		 * Test 4
+		 *
+		 * Context :
+		 *  - Cron runs at Monday January 4 1971 09:00:00 GMT
+		 *  - getRescheduledTime is called within the same second as the cron task
+		 *  - setDay is set to 5
+		 *  - setHour is not called, no need to control the scheduled hour
+		 *
+		 * Expected :
+		 *  getRescheduledTime returns Friday January 15 1971 09:00:00 GMT
+		 */
+		$weeklySchedule = new Piwik_ScheduledTime_Weekly_Test();
+		$weeklySchedule->setDay(5);
+		$weeklySchedule->setReturnValue('getTime', $this->JANUARY_04_1971_09_00_00);
+		$this->assertEqual($weeklySchedule->getRescheduledTime(), $this->JANUARY_15_1971_09_00_00);
 	}
 	
 	/*
@@ -873,10 +762,10 @@ class Test_Piwik_ScheduledTime extends UnitTestCase
 	}
 	
 	/*
-	 * Tests getRescheduledTime on Piwik_ScheduledTime_Monthly with unspecified hour, unspecified day and unspecified week
+	 * Tests getRescheduledTime on Piwik_ScheduledTime_Monthly with unspecified hour and unspecified day
 	 *
 	 */
-	public function test_getRescheduledTime_Monthly_Unspecified_Hour_Unspecified_Day_Unspecified_Week()
+	public function test_getRescheduledTime_Monthly_Unspecified_Hour_Unspecified_Day()
 	{
 		/*
 		 * Test 1
@@ -886,7 +775,6 @@ class Test_Piwik_ScheduledTime extends UnitTestCase
 		 *  - getRescheduledTime is called within the same second as the cron task
 		 *  - setHour is not called, no need to control the scheduled hour
 		 *  - setDay is not called, no need to control the scheduled day
-		 *  - setWeek is not called, no need to control the scheduled week
 		 *
 		 * Expected :
 		 *  getRescheduledTime returns February 1 1971 09:00:00 GMT
@@ -903,7 +791,6 @@ class Test_Piwik_ScheduledTime extends UnitTestCase
 		 *  - getRescheduledTime is called within the same second as the cron task
 		 *  - setHour is not called, no need to control the scheduled hour
 		 *  - setDay is not called, no need to control the scheduled day
-		 *  - setWeek is not called, no need to control the scheduled week
 		 *
 		 * Expected :
 		 *  getRescheduledTime returns February 5 1971 09:00:00 GMT
@@ -920,7 +807,6 @@ class Test_Piwik_ScheduledTime extends UnitTestCase
 		 *  - getRescheduledTime is called within the same second as the cron task
 		 *  - setHour is not called, no need to control the scheduled hour
 		 *  - setDay is not called, no need to control the scheduled day
-		 *  - setWeek is not called, no need to control the scheduled week
 		 *
 		 * Expected :
 		 *  getRescheduledTime returns March 5 1971 09:00:00 GMT
@@ -928,344 +814,97 @@ class Test_Piwik_ScheduledTime extends UnitTestCase
 		$monthlySchedule = new Piwik_ScheduledTime_Monthly_Test();
 		$monthlySchedule->setReturnValue('getTime', $this->FEBRUARY_05_1971_09_00_00);
 		$this->assertEqual($monthlySchedule->getRescheduledTime(), $this->MARCH_05_1971_09_00_00);
-	}
-	
-	/*
-	 * Tests getRescheduledTime on Piwik_ScheduledTime_Monthly with unspecified hour, unspecified day and specified week
-	 *
-	 */
-	public function test_getRescheduledTime_Monthly_Unspecified_Hour_Unspecified_Day_Specified_Week()
-	{
-		/*
-		 * Test 1
-		 *
-		 * Context :
-		 *  - Cron runs at January 1 1971 09:00:00 GMT
-		 *  - getRescheduledTime is called within the same second as the cron task
-		 *  - setHour is not called, no need to control the scheduled hour
-		 *  - setDay is not called, no need to control the scheduled day
-		 *  - setWeek is set to 1
-		 *
-		 * Expected :
-		 *  getRescheduledTime returns Monday February 1 1971 09:00:00 GMT
-		 */
-		$monthlySchedule = new Piwik_ScheduledTime_Monthly_Test();
-		$monthlySchedule->setWeek(1);
-		$monthlySchedule->setReturnValue('getTime', $this->JANUARY_01_1971_09_00_00);
-		$this->assertEqual($monthlySchedule->getRescheduledTime(), $this->FEBRUARY_01_1971_09_00_00);
-		
-		/*
-		 * Test 2
-		 *
-		 * Context :
-		 *  - Cron fails to run at January 1 1971 09:00:00 GMT, cron restarts at January 3 1971 12:00:00 GMT
-		 *  - getRescheduledTime is called 10 minutes after the cron task
-		 *  - setHour is not called, no need to control the scheduled hour
-		 *  - setDay is not called, no need to control the scheduled day
-		 *  - setWeek is set to 1
-		 *
-		 * Expected :
-		 *  getRescheduledTime returns February 3 1971 12:10:00 GMT
-		 */
-		$monthlySchedule = new Piwik_ScheduledTime_Monthly_Test();
-		$monthlySchedule->setWeek(1);
-		$monthlySchedule->setReturnValue('getTime', $this->JANUARY_03_1971_12_10_00);
-		$this->assertEqual($monthlySchedule->getRescheduledTime(), $this->FEBRUARY_03_1971_12_10_00);
-		
-		/*
-		 * Test 3
-		 *
-		 * Context :
-		 *  - Cron fails to run at January 1 1971 09:00:00 GMT, cron restarts at January 4 1971 09:00:00 GMT
-		 *  - getRescheduledTime is called within the same second as the cron task
-		 *  - setHour is not called, no need to control the scheduled hour
-		 *  - setDay is not called, no need to control the scheduled day
-		 *  - setWeek is set to 1
-		 *
-		 * Expected :
-		 *  getRescheduledTime returns Monday February 4 1971 09:00:00 GMT
-		 */
-		$monthlySchedule = new Piwik_ScheduledTime_Monthly_Test();
-		$monthlySchedule->setWeek(1);
-		$monthlySchedule->setReturnValue('getTime', $this->JANUARY_04_1971_09_00_00);
-		$this->assertEqual($monthlySchedule->getRescheduledTime(), $this->FEBRUARY_04_1971_09_00_00);
-		
+
 		/*
 		 * Test 4
 		 *
 		 * Context :
-		 *  - Cron fails to run at January 1 1971 09:00:00 GMT, cron restarts at January 11 1971 09:00:00 GMT
+		 *  - Cron runs at January 31 1971 09:00:00 GMT
 		 *  - getRescheduledTime is called within the same second as the cron task
 		 *  - setHour is not called, no need to control the scheduled hour
 		 *  - setDay is not called, no need to control the scheduled day
-		 *  - setWeek is set to 1
 		 *
 		 * Expected :
-		 *  getRescheduledTime returns February 4 1971 09:00:00 GMT
+		 *  getRescheduledTime returns February 28 1971 09:00:00 GMT
 		 */
 		$monthlySchedule = new Piwik_ScheduledTime_Monthly_Test();
-		$monthlySchedule->setWeek(1);
-		$monthlySchedule->setReturnValue('getTime', $this->JANUARY_11_1971_09_00_00);
-		$this->assertEqual($monthlySchedule->getRescheduledTime(), $this->FEBRUARY_04_1971_09_00_00);
-		
-		/*
-		 * Test 5
-		 *
-		 * Context :
-		 *  - Cron fails to run at January 1 1971 09:00:00 GMT, cron restarts at January 18 1971 09:00:00 GMT
-		 *  - getRescheduledTime is called within the same second as the cron task
-		 *  - setHour is not called, no need to control the scheduled hour
-		 *  - setDay is not called, no need to control the scheduled day
-		 *  - setWeek is set to 1
-		 *
-		 * Expected :
-		 *  getRescheduledTime returns February 4 1971 09:00:00 GMT
-		 */
-		$monthlySchedule = new Piwik_ScheduledTime_Monthly_Test();
-		$monthlySchedule->setWeek(1);
-		$monthlySchedule->setReturnValue('getTime', $this->JANUARY_18_1971_09_00_00);
-		$this->assertEqual($monthlySchedule->getRescheduledTime(), $this->FEBRUARY_04_1971_09_00_00);
-		
-		/*
-		 * Test 6
-		 *
-		 * Context :
-		 *  - Cron fails to run at January 1 1971 09:00:00 GMT, cron restarts at January 25 1971 09:00:00 GMT
-		 *  - getRescheduledTime is called within the same second as the cron task
-		 *  - setHour is not called, no need to control the scheduled hour
-		 *  - setDay is not called, no need to control the scheduled day
-		 *  - setWeek is set to 1
-		 *
-		 * Expected :
-		 *  getRescheduledTime returns February 4 1971 09:00:00 GMT
-		 */
-		$monthlySchedule = new Piwik_ScheduledTime_Monthly_Test();
-		$monthlySchedule->setWeek(1);
-		$monthlySchedule->setReturnValue('getTime', $this->JANUARY_25_1971_09_00_00);
-		$this->assertEqual($monthlySchedule->getRescheduledTime(), $this->FEBRUARY_04_1971_09_00_00);
-		
-		/*
-		 * Test 7
-		 *
-		 * Context :
-		 *  - Cron fails to run at January 1 1971 09:00:00 GMT, cron restarts at January 26 1971 09:00:00 GMT
-		 *  - getRescheduledTime is called within the same second as the cron task
-		 *  - setHour is not called, no need to control the scheduled hour
-		 *  - setDay is not called, no need to control the scheduled day
-		 *  - setWeek is set to 1
-		 *
-		 * Expected :
-		 *  getRescheduledTime returns February 5 1971 09:00:00 GMT
-		 */
-		$monthlySchedule = new Piwik_ScheduledTime_Monthly_Test();
-		$monthlySchedule->setWeek(1);
-		$monthlySchedule->setReturnValue('getTime', $this->JANUARY_26_1971_09_00_00);
-		$this->assertEqual($monthlySchedule->getRescheduledTime(), $this->FEBRUARY_05_1971_09_00_00);
-		
-		/*
-		 * Test 8
-		 *
-		 * Context :
-		 *  - Cron to runs at January 1 1971 09:00:00 GMT
-		 *  - getRescheduledTime is called within the same second as the cron task
-		 *  - setHour is not called, no need to control the scheduled hour
-		 *  - setDay is not called, no need to control the scheduled day
-		 *  - setWeek is set to 2
-		 *
-		 * Expected :
-		 *  getRescheduledTime returns February 8 1971 09:00:00 GMT
-		 */
-		$monthlySchedule = new Piwik_ScheduledTime_Monthly_Test();
-		$monthlySchedule->setWeek(2);
-		$monthlySchedule->setReturnValue('getTime', $this->JANUARY_01_1971_09_00_00);
-		$this->assertEqual($monthlySchedule->getRescheduledTime(), $this->FEBRUARY_08_1971_09_00_00);
-	}
-	
-	/*
-	 * Tests getRescheduledTime on Piwik_ScheduledTime_Monthly with unspecified hour, specified day and unspecified week
-	 *
-	 */
-	public function test_getRescheduledTime_Monthly_Unspecified_Hour_Specified_Day_Unspecified_Week()
-	{
-		/*
-		 * Test 1
-		 *
-		 * Context :
-		 *  - Cron runs at January 1 1971 09:00:00 GMT
-		 *  - getRescheduledTime is called within the same second as the cron task
-		 *  - setHour is not called, no need to control the scheduled hour
-		 *  - setDay is set to 1
-		 *  - setWeek is not called, no need to control the scheduled week
-		 *
-		 * Expected :
-		 *  getRescheduledTime returns Monday February 1 1971 09:00:00 GMT
-		 */
-		$monthlySchedule = new Piwik_ScheduledTime_Monthly_Test();
-		$monthlySchedule->setDay(1);
-		$monthlySchedule->setReturnValue('getTime', $this->JANUARY_01_1971_09_00_00);
-		$this->assertEqual($monthlySchedule->getRescheduledTime(), $this->FEBRUARY_01_1971_09_00_00);
-		
-		/*
-		 * Test 2
-		 *
-		 * Context :
-		 *  - Cron runs at Saturday January 2 1971 09:00:00 GMT
-		 *  - getRescheduledTime is called within the same second as the cron task
-		 *  - setHour is not called, no need to control the scheduled hour
-		 *  - setDay is set to 2
-		 *  - setWeek is not called, no need to control the scheduled week
-		 *
-		 * Expected :
-		 *  getRescheduledTime returns Tuesday February 2 1971 09:00:00 GMT
-		 */
-		$monthlySchedule = new Piwik_ScheduledTime_Monthly_Test();
-		$monthlySchedule->setDay(2);
-		$monthlySchedule->setReturnValue('getTime', $this->JANUARY_02_1971_09_00_00);
-		$this->assertEqual($monthlySchedule->getRescheduledTime(), $this->FEBRUARY_02_1971_09_00_00);
-		
-		/*
-		 * Test 3
-		 *
-		 * Context :
-		 *  - Cron runs at Saturday January 2 1971 09:00:00 GMT
-		 *  - getRescheduledTime is called within the same second as the cron task
-		 *  - setHour is not called, no need to control the scheduled hour
-		 *  - setDay is set to 3
-		 *  - setWeek is not called, no need to control the scheduled week
-		 *
-		 * Expected :
-		 *  getRescheduledTime returns Wednesday February 3 1971 09:00:00 GMT
-		 */
-		$monthlySchedule = new Piwik_ScheduledTime_Monthly_Test();
-		$monthlySchedule->setDay(3);
-		$monthlySchedule->setReturnValue('getTime', $this->JANUARY_02_1971_09_00_00);
-		$this->assertEqual($monthlySchedule->getRescheduledTime(), $this->FEBRUARY_03_1971_09_00_00);
+		$monthlySchedule->setReturnValue('getTime', $this->JANUARY_31_1971_09_00_00);
+		$this->assertEqual($monthlySchedule->getRescheduledTime(), $this->FEBRUARY_28_1971_09_00_00);
 	}
 
+	
 	/*
-	 * Tests getRescheduledTime on Piwik_ScheduledTime_Monthly with specified hour, specified day and specified week
+	 * Tests getRescheduledTime on Piwik_ScheduledTime_Monthly with unspecified hour and specified day
 	 *
 	 */
-	public function test_getRescheduledTime_Monthly_Specified_Hour_Specified_Day_Specified_Week()
+	public function test_getRescheduledTime_Monthly_Unspecified_Hour_Specified_Day()
 	{
 		/*
 		 * Test 1
 		 *
 		 * Context :
-		 *  - Cron fails to run at January 1 1971 09:00:00 GMT, runs at January 2 1971 12:10:00 GMT
+		 *  - Cron runs at January 1 1971 09:00:00 GMT
 		 *  - getRescheduledTime is called within the same second as the cron task
-		 *  - setHour is set to 9
+		 *  - setHour is not called, no need to control the scheduled hour
 		 *  - setDay is set to 1
-		 *  - setWeek is set to 1
 		 *
 		 * Expected :
 		 *  getRescheduledTime returns Monday February 1 1971 09:00:00 GMT
 		 */
 		$monthlySchedule = new Piwik_ScheduledTime_Monthly_Test();
-		$monthlySchedule->setHour(9);
 		$monthlySchedule->setDay(1);
-		$monthlySchedule->setWeek(1);
-		$monthlySchedule->setReturnValue('getTime', $this->JANUARY_02_1971_12_10_00);
+		$monthlySchedule->setReturnValue('getTime', $this->JANUARY_01_1971_09_00_00);
 		$this->assertEqual($monthlySchedule->getRescheduledTime(), $this->FEBRUARY_01_1971_09_00_00);
 		
 		/*
 		 * Test 2
 		 *
 		 * Context :
-		 *  - Cron fails to run at January 1 1971 09:00:00 GMT, runs at January 2 1971 12:10:00 GMT
+		 *  - Cron runs at Saturday January 2 1971 09:00:00 GMT
 		 *  - getRescheduledTime is called within the same second as the cron task
-		 *  - setHour is set to 9
+		 *  - setHour is not called, no need to control the scheduled hour
 		 *  - setDay is set to 2
-		 *  - setWeek is set to 1
 		 *
 		 * Expected :
 		 *  getRescheduledTime returns Tuesday February 2 1971 09:00:00 GMT
 		 */
 		$monthlySchedule = new Piwik_ScheduledTime_Monthly_Test();
-		$monthlySchedule->setHour(9);
 		$monthlySchedule->setDay(2);
-		$monthlySchedule->setWeek(1);
-		$monthlySchedule->setReturnValue('getTime', $this->JANUARY_02_1971_12_10_00);
+		$monthlySchedule->setReturnValue('getTime', $this->JANUARY_02_1971_09_00_00);
 		$this->assertEqual($monthlySchedule->getRescheduledTime(), $this->FEBRUARY_02_1971_09_00_00);
 		
 		/*
 		 * Test 3
 		 *
 		 * Context :
-		 *  - Cron fails to run at January 1 1971 09:00:00 GMT, runs at January 2 1971 12:10:00 GMT
+		 *  - Cron runs at Friday January 15 1971 09:00:00 GMT
 		 *  - getRescheduledTime is called within the same second as the cron task
-		 *  - setHour is set to 9
-		 *  - setDay is set to 3
-		 *  - setWeek is set to 1
+		 *  - setHour is not called, no need to control the scheduled hour
+		 *  - setDay is set to 1
 		 *
 		 * Expected :
-		 *  getRescheduledTime returns Wednesday February 3 1971 09:00:00 GMT
+		 *  getRescheduledTime returns Monday February 1 1971 09:00:00 GMT
 		 */
 		$monthlySchedule = new Piwik_ScheduledTime_Monthly_Test();
-		$monthlySchedule->setHour(9);
-		$monthlySchedule->setDay(3);
-		$monthlySchedule->setWeek(1);
-		$monthlySchedule->setReturnValue('getTime', $this->JANUARY_02_1971_12_10_00);
-		$this->assertEqual($monthlySchedule->getRescheduledTime(), $this->FEBRUARY_03_1971_09_00_00);
-		
+		$monthlySchedule->setDay(1);
+		$monthlySchedule->setReturnValue('getTime', $this->JANUARY_15_1971_09_00_00);
+		$this->assertEqual($monthlySchedule->getRescheduledTime(), $this->FEBRUARY_01_1971_09_00_00);
+
 		/*
 		 * Test 4
 		 *
 		 * Context :
-		 *  - Cron fails to run at January 1 1971 09:00:00 GMT, runs at January 2 1971 12:10:00 GMT
+		 *  - Cron runs at Friday January 15 1971 09:00:00 GMT
 		 *  - getRescheduledTime is called within the same second as the cron task
-		 *  - setHour is set to 9
-		 *  - setDay is set to 1
-		 *  - setWeek is set to 3
+		 *  - setHour is not called, no need to control the scheduled hour
+		 *  - setDay is set to 31
 		 *
 		 * Expected :
-		 *  getRescheduledTime returns Monday February 15 1971 09:00:00 GMT
+		 *  getRescheduledTime returns Sunday February 28 1971 09:00:00 GMT
 		 */
 		$monthlySchedule = new Piwik_ScheduledTime_Monthly_Test();
-		$monthlySchedule->setHour(9);
-		$monthlySchedule->setDay(1);
-		$monthlySchedule->setWeek(3);
-		$monthlySchedule->setReturnValue('getTime', $this->JANUARY_02_1971_12_10_00);
-		$this->assertEqual($monthlySchedule->getRescheduledTime(), $this->FEBRUARY_15_1971_09_00_00);
-		
-		/*
-		 * Test 5
-		 *
-		 * Context :
-		 *  - Cron fails to run at January 1 1971 09:00:00 GMT, runs at January 2 1971 12:10:00 GMT
-		 *  - getRescheduledTime is called within the same second as the cron task
-		 *  - setHour is set to 9
-		 *  - setDay is set to 2
-		 *  - setWeek is set to 3
-		 *
-		 * Expected :
-		 *  getRescheduledTime returns Tuesday February 16 1971 09:00:00 GMT
-		 */
-		$monthlySchedule = new Piwik_ScheduledTime_Monthly_Test();
-		$monthlySchedule->setHour(9);
-		$monthlySchedule->setDay(2);
-		$monthlySchedule->setWeek(3);
-		$monthlySchedule->setReturnValue('getTime', $this->JANUARY_02_1971_12_10_00);
-		$this->assertEqual($monthlySchedule->getRescheduledTime(), $this->FEBRUARY_16_1971_09_00_00);
-		
-		/*
-		 * Test 6
-		 *
-		 * Context :
-		 *  - Cron fails to run at January 1 1971 09:00:00 GMT, runs at January 2 1971 12:10:00 GMT
-		 *  - getRescheduledTime is called within the same second as the cron task
-		 *  - setHour is set to 9
-		 *  - setDay is set to 3
-		 *  - setWeek is set to 3
-		 *
-		 * Expected :
-		 *  getRescheduledTime returns Wednesday February 17 1971 09:00:00 GMT
-		 */
-		$monthlySchedule = new Piwik_ScheduledTime_Monthly_Test();
-		$monthlySchedule->setHour(9);
-		$monthlySchedule->setDay(3);
-		$monthlySchedule->setWeek(3);
-		$monthlySchedule->setReturnValue('getTime', $this->JANUARY_02_1971_12_10_00);
-		$this->assertEqual($monthlySchedule->getRescheduledTime(), $this->FEBRUARY_17_1971_09_00_00);
+		$monthlySchedule->setDay(31);
+		$monthlySchedule->setReturnValue('getTime', $this->JANUARY_15_1971_09_00_00);
+		$this->assertEqual($monthlySchedule->getRescheduledTime(), $this->FEBRUARY_28_1971_09_00_00);
 	}
 }

@@ -27,16 +27,13 @@ abstract class Piwik_ScheduledTime
 	var $hour;
 	
 	/**
-	 * @link http://php.net/manual/en/function.date.php, format string : 'N'
+	 * For weekly scheduling : http://php.net/manual/en/function.date.php, format string : 'N'
+	 * For monthly scheduling : day of the month (1 to 31),
+	 * capped to http://php.net/manual/en/function.cal-days-in-month.php when needed
 	 * @var integer
 	 */
 	var $day;
 	
-	/**
-	 * Represents week number within a month (1 to 4)
-	 * @var integer
-	 */
-	var $week;
 
 	/*
 	 * Returns the system time used by subclasses to compute schedulings.
@@ -57,46 +54,24 @@ abstract class Piwik_ScheduledTime
 	abstract public function getRescheduledTime();
 
 	/*
+	 * @param  _day the day to set
+	 * @throws Exception if method not supported by subclass or parameter _day is invalid
+	 */
+	abstract public function setDay($_day);
+
+	/*
 	 * @param  _hour the hour to set, has to be >= 0 and < 24
 	 * @throws Exception if method not supported by subclass or parameter _hour is invalid
 	 */
 	public function setHour($_hour)
 	{
 		if (!($_hour >=0 && $_hour < 24))
-		{			
+		{
 			throw new Exception ("Invalid hour parameter, must be >=0 and < 24");
 		}
 
 		$this->hour = $_hour;
 	}
-	
-	/*
-	 * @param  _day the day to set, has to be >= 1 and < 8
-	 * @throws Exception if method not supported by subclass or parameter _hour is invalid
-	 */
-	public function setDay($_day)
-	{
-		if (!($_day >=1 && $_day < 8))
-		{
-			throw new Exception ("Invalid day parameter, must be >=1 and < 8");
-		}
-
-		$this->day = $_day;
-	}
-	
-	/*
-	 * @param  _week the week to set, has to be >= 1 and < 5
-	 * @throws Exception if method not supported by subclass or parameter _week is invalid
-	 */
-	public function setWeek($_week)
-	{
-		if (!($_week >=1 && $_week < 5))
-		{
-			throw new Exception ("Invalid day parameter, must be >=1 and < 5");
-		}
-
-		$this->week = $_week;
-	}	
 	
 	/*
 	 * Computes the delta in seconds needed to adjust the rescheduled time to the required hour.
@@ -117,29 +92,6 @@ abstract class Piwik_ScheduledTime
 										date('Y', $rescheduledTime)
 										);
 		}
-		return $rescheduledTime;
-	}
-	
-	/*
-	 * Computes the delta in seconds needed to adjust the rescheduled time to the required day.
-	 * 
-	 * @param rescheduledTime The rescheduled time to be adjusted
-	 * @return adjusted rescheduled time
-	 */	
-	protected function adjustDay ($rescheduledTime)
-	{
-		if ( $this->day !== null )
-		{
-			// Removes or adds a umber of day to set the scheduled day to the one specified with setDay()
-			$rescheduledTime = mktime ( 	date('H', $rescheduledTime), 
-										date('i', $rescheduledTime),
-										date('s', $rescheduledTime),
-										date('n', $rescheduledTime),
-										date('j', $rescheduledTime) - (date('N', $rescheduledTime) - $this->day),
-										date('Y', $rescheduledTime)
-										);
-		}
-		
 		return $rescheduledTime;
 	}
 }
