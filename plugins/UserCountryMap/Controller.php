@@ -75,7 +75,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 	 */
 	function exportImage()
 	{
-		Piwik_Proxy_Controller::exportImageBase64();
+		Piwik_Proxy_Controller::exportImageWindow();
 	}
 	
 	/*
@@ -84,7 +84,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 	 */
 	function outputImage()
 	{
-		Piwik_Proxy_Controller::exportImageBinary();
+		Piwik_Proxy_Controller::outputBinaryImage();
 	}
 	
 	/*
