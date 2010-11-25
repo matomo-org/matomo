@@ -6,11 +6,11 @@
  * To make a comprehensive test suit for Piwik::serveStaticFile() (ie. being able to test combinations of request
  * headers, being able to test response headers and so on) we need to simulate static file requests in a controlled
  * environment
- * For the sake of code organization, the php code which simulates requests using Piwik::serveStaticFile() is provided
- * alongside the unit testing code for Piwik::serveStaticFile()
+ * The php code which simulates requests using Piwik::serveStaticFile() is provided in the same file (ie. this one)
+ * as the unit testing code for Piwik::serveStaticFile()
  *
- * This decision has a structural impact on the usual unit test file structure. This additional file has been created
- * to avoid making too many modifications to /tests/core/Piwik.test.php
+ * This decision has a structural impact on the usual unit test file structure
+ * serveStaticFile.test.php has been created to avoid making too many modifications to /tests/core/Piwik.test.php
  */
 
 if(!defined("PIWIK_PATH_TEST_TO_ROOT")) {
@@ -27,14 +27,14 @@ define("SRV_MODE_REQUEST_VAR", "serverMode");
 define("ZLIB_OUTPUT_REQUEST_VAR", "zlibOutput");
 
 /**
- * This constants define the mode in which this php file is used :
+ * These constants define the mode in which this php file is used :
  * - for unit testing Piwik::serveStaticFile() or
  * - as a static file server
  */
 define("STATIC_SERVER_MODE", "staticServerMode");
 define("UNIT_TEST_MODE", "unitTestMode");
 
-// This constants define which action will be performed by the static server.
+// These constants define which action will be performed by the static server.
 define("NULL_FILE_SRV_MODE", "nullFile");
 define("GHOST_FILE_SRV_MODE", "ghostFile");
 define("TEST_FILE_SRV_MODE", "testFile");
@@ -155,14 +155,7 @@ class Test_Piwik_serveStaticFile extends UnitTestCase
 		curl_close($curlHandle);
 
 		// Restoring file mode
-		if(Piwik_Common::isWindows())
-		{
-			chmod(TEST_FILE_LOCATION, 0777);
-		}
-		else
-		{
-			chmod(TEST_FILE_LOCATION, 0644);
-		}
+		chmod(TEST_FILE_LOCATION, 0644);
 
 		$this->assertEqual($responseInfo["http_code"], 505);
 	}
