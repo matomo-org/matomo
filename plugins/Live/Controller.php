@@ -90,7 +90,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 
 	public function getLastVisits($limit = 10)
 	{
-		$api = new Piwik_API_Request("method=Live.getLastVisits&idSite=$this->idSite&limit=$limit&format=php&serialize=0&disable_generic_filters=1");
+		$api = new Piwik_API_Request("method=Live.getLastVisits&idSite=$this->idSite&format_limit=$limit&format=php&serialize=0&disable_generic_filters=1");
 		$visitors = $api->process();
 
 		return $visitors;
