@@ -6,8 +6,8 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 
 class Test_Piwik_Unzip extends UnitTestCase
 {
-    public function test_relativePath()
-    {
+	public function test_relativePath()
+	{
 		if(defined('ZIPARCHIVE::ER_OK'))
 		{
 			$test = 'relative';
@@ -26,7 +26,7 @@ class Test_Piwik_Unzip extends UnitTestCase
 			$this->assertTrue(file_exists($extractDir . $test . '.txt'));
 			$this->assertFalse(file_exists(dirname(__FILE__) . '/' . $test . '.txt'));
 			$this->assertFalse(file_exists(dirname(__FILE__) . '/../../tests/' . $test . '.txt'));
-			@unlink($extractDir . $test . '.txt');
+			unlink($extractDir . $test . '.txt');
 
 			$unzip = new Piwik_Unzip_ZipArchive($filename);
 			$res = $unzip->extract($extractDir);
@@ -34,7 +34,7 @@ class Test_Piwik_Unzip extends UnitTestCase
 			$this->assertTrue(file_exists($extractDir . $test . '.txt'));
 			$this->assertFalse(file_exists(dirname(__FILE__) . '/' . $test . '.txt'));
 			$this->assertFalse(file_exists(dirname(__FILE__) . '/../../tests/' . $test . '.txt'));
-			@unlink($extractDir . $test . '.txt');
+			unlink($extractDir . $test . '.txt');
 
 			$unzip = new Piwik_Unzip_PclZip($filename);
 			$res = $unzip->extract($extractDir);
@@ -42,14 +42,15 @@ class Test_Piwik_Unzip extends UnitTestCase
 			$this->assertTrue(file_exists($extractDir . $test . '.txt'));
 			$this->assertFalse(file_exists(dirname(__FILE__) . '/' . $test . '.txt'));
 			$this->assertFalse(file_exists(dirname(__FILE__) . '/../../tests/' . $test . '.txt'));
-			@unlink($extractDir . $test . '.txt');
+			unlink($extractDir . $test . '.txt');
 
-			@unlink($filename);
+			unlink($filename);
 		}
 	}
 
-    public function test_relativePathAttack()
-    {
+	public function test_relativePathAttack()
+	{
+		clearstatcache();
 		if(defined('ZIPARCHIVE::ER_OK'))
 		{
 			$test = 'zaatt';
@@ -80,12 +81,13 @@ class Test_Piwik_Unzip extends UnitTestCase
 			$this->assertFalse(file_exists(dirname(__FILE__) . '/../' . $test . '.txt'));
 			$this->assertFalse(file_exists(dirname(__FILE__) . '/../../' . $test . '.txt'));
 
-			@unlink($filename);
+			unlink($filename);
 		}
 	}
 
-    public function test_absolutePathAttack()
-    {
+	public function test_absolutePathAttack()
+	{
+		clearstatcache();
 		if(defined('ZIPARCHIVE::ER_OK'))
 		{
 			$test = 'zaabs';
@@ -110,7 +112,7 @@ class Test_Piwik_Unzip extends UnitTestCase
 			$this->assertFalse(file_exists($extractDir . $test . '.txt'));
 			$this->assertFalse(file_exists(dirname(__FILE__) . '/' . $test . '.txt'));
 
-			@unlink($filename);
+			unlink($filename);
 		}
 	}
 }
