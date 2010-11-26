@@ -26,7 +26,7 @@ class Test_Piwik_Unzip extends UnitTestCase
 			$this->assertTrue(file_exists($extractDir . $test . '.txt'));
 			$this->assertFalse(file_exists(dirname(__FILE__) . '/' . $test . '.txt'));
 			$this->assertFalse(file_exists(dirname(__FILE__) . '/../../tests/' . $test . '.txt'));
-			unlink($extractDir . $test . '.txt');
+			@unlink($extractDir . $test . '.txt');
 
 			$unzip = new Piwik_Unzip_ZipArchive($filename);
 			$res = $unzip->extract($extractDir);
@@ -34,7 +34,7 @@ class Test_Piwik_Unzip extends UnitTestCase
 			$this->assertTrue(file_exists($extractDir . $test . '.txt'));
 			$this->assertFalse(file_exists(dirname(__FILE__) . '/' . $test . '.txt'));
 			$this->assertFalse(file_exists(dirname(__FILE__) . '/../../tests/' . $test . '.txt'));
-			unlink($extractDir . $test . '.txt');
+			@unlink($extractDir . $test . '.txt');
 
 			$unzip = new Piwik_Unzip_PclZip($filename);
 			$res = $unzip->extract($extractDir);
@@ -42,9 +42,9 @@ class Test_Piwik_Unzip extends UnitTestCase
 			$this->assertTrue(file_exists($extractDir . $test . '.txt'));
 			$this->assertFalse(file_exists(dirname(__FILE__) . '/' . $test . '.txt'));
 			$this->assertFalse(file_exists(dirname(__FILE__) . '/../../tests/' . $test . '.txt'));
-			unlink($extractDir . $test . '.txt');
+			@unlink($extractDir . $test . '.txt');
 
-			unlink($filename);
+			@unlink($filename);
 		}
 	}
 
@@ -80,7 +80,7 @@ class Test_Piwik_Unzip extends UnitTestCase
 			$this->assertFalse(file_exists(dirname(__FILE__) . '/../' . $test . '.txt'));
 			$this->assertFalse(file_exists(dirname(__FILE__) . '/../../' . $test . '.txt'));
 
-			unlink($filename);
+			@unlink($filename);
 		}
 	}
 
@@ -110,7 +110,7 @@ class Test_Piwik_Unzip extends UnitTestCase
 			$this->assertFalse(file_exists($extractDir . $test . '.txt'));
 			$this->assertFalse(file_exists(dirname(__FILE__) . '/' . $test . '.txt'));
 
-			unlink($filename);
+			@unlink($filename);
 		}
 	}
 }
