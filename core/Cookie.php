@@ -193,7 +193,7 @@ class Piwik_Cookie
 	private function extractSignedContent($content)
 	{
 		$signature = substr($content, -40);
-		if(!substr_compare($content, self::VALUE_SEPARATOR . '_=', -43, 3) &&
+		if(substr($content, -43, 3) == self::VALUE_SEPARATOR . '_=' &&
 				$signature == sha1(substr($content, 0, -40) . Piwik_Common::getSalt()))
 		{
 			// strip trailing: VALUE_SEPARATOR '_=' signature"
