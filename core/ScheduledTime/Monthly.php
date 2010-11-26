@@ -33,7 +33,7 @@ class Piwik_ScheduledTime_Monthly extends Piwik_ScheduledTime
 									date('Y', $currentTime)
 									);
 
-		$nextMonthLength = date('t', $rescheduledTimeU);
+		$nextMonthLength = date('t', $rescheduledTime);
 
 		// Sets scheduled day
 		if ( $this->day !== null )
