@@ -28,8 +28,7 @@ abstract class Piwik_ScheduledTime
 	
 	/**
 	 * For weekly scheduling : http://php.net/manual/en/function.date.php, format string : 'N'
-	 * For monthly scheduling : day of the month (1 to 31),
-	 * capped to http://php.net/manual/en/function.cal-days-in-month.php when needed
+	 * For monthly scheduling : day of the month (1 to 31) (note: will be capped at the latest day available the month)
 	 * @var integer
 	 */
 	var $day;
