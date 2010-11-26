@@ -650,8 +650,10 @@ class Piwik
 				$compressed = false;
 				$encoding = '';
 				$compressedFileLocation = PIWIK_USER_PATH . self::COMPRESSED_FILE_LOCATION . basename($file);
-				$phpOutputCompressionEnabled = (ini_get('zlib.output_compression') == 1);
 
+				// Off = ''; On = '1'; otherwise, it's a buffer size
+				$zlibOutputCompression = ini_get('zlib.output_compression');
+				$phpOutputCompressionEnabled = !empty($zlibOutputCompression);
 				if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && !$phpOutputCompressionEnabled)
 				{
 					$acceptEncoding = $_SERVER['HTTP_ACCEPT_ENCODING'];
