@@ -24,7 +24,7 @@ _paq.push(["setCustomData", { "token" : getToken() }]);
 _paq.push(["trackPageView", "Asynchronous tracker"]);';
 }
 ?>
- </script>';
+ </script>
  <script src="../../js/piwik.js" type="text/javascript"></script>
  <script src="piwiktest.js" type="text/javascript"></script>
  <script src="../../libs/jquery/jquery.js" type="text/javascript"></script>
@@ -318,7 +318,7 @@ $(document).ready(function () {
 	});
 
 	test("Tracking", function() {
-		expect(<?php echo $sqlite ? 20 : 6; ?>);
+		expect(<?php echo $sqlite ? 21 : 6; ?>);
 
 		var tracker = Piwik.getTracker();
 
@@ -362,6 +362,11 @@ if ($sqlite) {
 		// async tracker proxy
 		_paq.push(["trackLink", "http://example.fr/async.zip", "download",  { "token" : getToken() }]);
 
+		// push function
+		_paq.push([ function(t) {
+			tracker.trackLink("http://example.de", "link", { "token" : t });
+		}, getToken() ]);
+
 		var buttons = new Array("click1", "click2", "click3", "click4", "click5", "click6", "click7");
 		for (var i=0; i < buttons.length; i++) {
 			triggerEvent( document.getElementById(buttons[i]), "click" );
@@ -378,12 +383,13 @@ if ($sqlite) {
 				url: url("piwik.php?results='. $token .'"),
 				success: function(results) {
 //alert(results);
-					ok( /\<span\>11\<\/span\>/.test( results ), "count tracking events" );
+					ok( /\<span\>12\<\/span\>/.test( results ), "count tracking events" );
 					ok( /PiwikTest/.test( results ), "trackPageView()" );
 					ok( /Asynchronous/.test( results ), "async trackPageView()" );
 					ok( /CustomTitleTest/.test( results ), "trackPageView(customTitle)" );
 					ok( /example.ca/.test( results ), "trackLink()" );
 					ok( /example.fr/.test( results ), "async trackLink()" );
+					ok( /example.de/.test( results ), "push function" );
 					ok( /example.net/.test( results ), "click: implicit outlink (by outbound URL)" );
 					ok( /example.html/.test( results ), "click: explicit outlink" );
 					ok( /example.pdf/.test( results ), "click: implicit download (by file extension)" );

@@ -75,6 +75,24 @@ if (!this.Piwik) {
 		}
 
 		/*
+		 * apply wrapper
+		 *
+		 * @param array parameterArray An array comprising either:
+		 *		[ 'methodName', optional_parameters ]
+		 * or:
+		 * 		[ functionObject, optional_parameters ] 
+		 */
+		function apply(parameterArray) {
+			var f = parameterArray.shift();
+
+			if (typeof f == 'string') {
+				asyncTracker[f].apply(this, parameterArray);
+			} else {
+				f.apply(this, parameterArray);
+			}
+		}
+
+		/*
 		 * Cross-browser helper function to add event handler
 		 */
 		function addEventListener(element, eventType, eventHandler, useCapture) {
@@ -1046,16 +1064,13 @@ if (!this.Piwik) {
 				}
 			};
 		}
-
+		
 		/*
 		 * Proxy object
 		 */
 		function TrackerProxy() {
 			return {
-				// @param array parameterArray An array comprising [ 'methodName', optional_parameters ]
-				push: function (parameterArray) {
-					asyncTracker[parameterArray.shift()].apply(this, parameterArray);
-				}
+				push: apply
 			};
 		}
 
@@ -1068,7 +1083,7 @@ if (!this.Piwik) {
 				asyncTracker = new Tracker();
 
 				for (var i = 0; i < _paq.length; i++) {
-					asyncTracker[_paq[i].shift()].apply(this, _paq[i]);
+					apply(_paq[i]);
 				}
 
 				// replace initialization array with proxy object
