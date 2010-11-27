@@ -3,6 +3,28 @@
 <html>
 <head>
  <title>piwik.js: Piwik Unit Tests</title>
+ <script type="text/javascript">
+function getToken() {
+	return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
+}
+<?php
+$sqlite = false;
+if (file_exists("enable_sqlite")) {
+	if (extension_loaded('sqlite')) {
+		$sqlite = true;
+	}
+}
+
+if ($sqlite) {
+  echo '
+var _paq = _paq || [];
+_paq.push(["setSiteId", 1]);
+_paq.push(["setTrackerUrl", "piwik.php"]);
+_paq.push(["setCustomData", { "token" : getToken() }]);
+_paq.push(["trackPageView", "Asynchronous tracker"]);';
+}
+?>
+ </script>';
  <script src="../../js/piwik.js" type="text/javascript"></script>
  <script src="piwiktest.js" type="text/javascript"></script>
  <script src="../../libs/jquery/jquery.js" type="text/javascript"></script>
@@ -27,15 +49,6 @@ function url(value) {
 </head>
 <body>
 <div style="display:none;"><a href="http://piwik.org/qa">First anchor link</a></div>
-
-<?php
-$sqlite = false;
-if (file_exists("enable_sqlite")) {
-	if (extension_loaded('sqlite')) {
-		$sqlite = true;
-	}
-}
-?>
 
  <h1 id="qunit-header">piwik.js: Piwik Unit Tests</h1>
  <h2 id="qunit-banner"></h2>
@@ -66,10 +79,6 @@ if (file_exists("enable_sqlite")) {
  <div id="main" style="display:none;"></div>
 
  <script>
-function getToken() {
-	return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
-}
-
 $(document).ready(function () {
 
 	test("Basic requirements", function() {
@@ -309,9 +318,12 @@ $(document).ready(function () {
 	});
 
 	test("Tracking", function() {
-		expect(<?php echo $sqlite ? 16 : 4; ?>);
+		expect(<?php echo $sqlite ? 20 : 6; ?>);
 
 		var tracker = Piwik.getTracker();
+
+		ok( ! ( _paq instanceof Array ), "async tracker proxy not an array" );
+		equals( typeof tracker, typeof _paq, "async tracker proxy" );
 
 		var startTime, stopTime;
 
@@ -335,7 +347,7 @@ if ($sqlite) {
 	echo '
 		tracker.setTrackerUrl("piwik.php");
 		tracker.setSiteId(1);
-		tracker.setCustomData({ "token" : "'. $token .'" });
+		tracker.setCustomData({ "token" : getToken() });
 		tracker.setDocumentTitle("PiwikTest");
 		tracker.setReferrerUrl("http://referrer.example.com");
 
@@ -345,7 +357,10 @@ if ($sqlite) {
 
 		tracker.trackPageView("CustomTitleTest");
 
-		tracker.trackLink("http://example.ca", "link", { "token" : "'. $token .'" });
+		tracker.trackLink("http://example.ca", "link", { "token" : getToken() });
+
+		// async tracker proxy
+		_paq.push(["trackLink", "http://example.fr/async.zip", "download",  { "token" : getToken() }]);
 
 		var buttons = new Array("click1", "click2", "click3", "click4", "click5", "click6", "click7");
 		for (var i=0; i < buttons.length; i++) {
@@ -355,7 +370,7 @@ if ($sqlite) {
 		tracker.setRequestMethod("POST");
 		tracker.trackGoal(42, 69, { "token" : getToken(), "boy" : "Michael", "girl" : "Mandy"});
 
-		piwik_log("CompatibilityLayer", 1, "piwik.php", {"token":"'. $token .'"});
+		piwik_log("CompatibilityLayer", 1, "piwik.php", { "token" : getToken() });
 
 		stop();
 		setTimeout(function() {
@@ -363,10 +378,12 @@ if ($sqlite) {
 				url: url("piwik.php?results='. $token .'"),
 				success: function(results) {
 //alert(results);
-					ok( /\<span\>9\<\/span\>/.test( results ), "count tracking events" );
+					ok( /\<span\>11\<\/span\>/.test( results ), "count tracking events" );
 					ok( /PiwikTest/.test( results ), "trackPageView()" );
+					ok( /Asynchronous/.test( results ), "async trackPageView()" );
 					ok( /CustomTitleTest/.test( results ), "trackPageView(customTitle)" );
 					ok( /example.ca/.test( results ), "trackLink()" );
+					ok( /example.fr/.test( results ), "async trackLink()" );
 					ok( /example.net/.test( results ), "click: implicit outlink (by outbound URL)" );
 					ok( /example.html/.test( results ), "click: explicit outlink" );
 					ok( /example.pdf/.test( results ), "click: implicit download (by file extension)" );
@@ -389,4 +406,3 @@ if ($sqlite) {
 
 </body>
 </html>
-
