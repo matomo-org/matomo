@@ -10,7 +10,7 @@
  */
 
 /*jslint browser:true, forin:true, plusplus:false, onevar:false, eqeqeq:false, strict:false */
-/*global window escape unescape ActiveXObject */
+/*global window escape unescape ActiveXObject _paq:true */
 
 // Note: YUICompressor 2.4.2 won't compress piwik_log() because of the the "evil" eval().
 //       Override this behaviour using http://yuilibrary.com/projects/yuicompressor/ticket/2343811
@@ -58,7 +58,10 @@ if (!this.Piwik) {
 		 * decode or unescape
 		 * - decodeURIComponent added in IE5.5
 		 */
-		unescapeWrapper = windowAlias.decodeURIComponent || unescape;
+		unescapeWrapper = windowAlias.decodeURIComponent || unescape,
+
+		/* asynchronous tracker */
+		asyncTracker;
 
 		/************************************************************
 		 * Private methods
@@ -68,7 +71,7 @@ if (!this.Piwik) {
 		 * Is property (or variable) defined?
 		 */
 		function isDefined(property) {
-			return typeof property !== 'undefined';
+			return (property = typeof property) !== 'undefined' && property !== 'unknown';
 		}
 
 		/*
@@ -566,7 +569,7 @@ if (!this.Piwik) {
 			 * with the standard parameters (plugins, resolution, url, referer, etc.).
 			 * Sends the pageview and browser settings with every request in case of race conditions.
 			 */
-			function getRequest(customData) {
+			function getRequest(customData, pluginMethod) {
 				var i,
 				now = new Date(),
 				request = 'idsite=' + configTrackerSiteId +
@@ -579,7 +582,7 @@ if (!this.Piwik) {
 					'&res=' + screenAlias.width + 'x' + screenAlias.height +
 					'&cookie=' + browserHasCookies;
 
-				// plugin data
+				// browser plugin data
 				for (i in pluginMap) {
 					request += '&' + pluginMap[i][0] + '=' + pluginMap[i][2];
 				}
@@ -593,6 +596,9 @@ if (!this.Piwik) {
 					request += '&data=' + escapeWrapper(stringify(configCustomData));
 				}
 
+				// tracker plugin hook
+				request += executePluginMethod(pluginMethod);
+
 				return request;
 			}
 
@@ -600,10 +606,9 @@ if (!this.Piwik) {
 			 * Log the page view / visit
 			 */
 			function logPageView(customTitle, customData) {
-				var request = getRequest(customData) +
+				var request = getRequest(customData, 'log') +
 					'&action_name=' + escapeWrapper(isDefined(customTitle) ? customTitle : configTitle); // refs #530;
 
-				request += executePluginMethod('log');
 				sendRequest(request, configTrackerPause);
 			}
 			
@@ -611,7 +616,7 @@ if (!this.Piwik) {
 			 * Log the goal with the server
 			 */
 			function logGoal(idGoal, customRevenue, customData) {
-				var request = getRequest(customData) +
+				var request = getRequest(customData, 'goal') +
 					'&idgoal=' + idGoal;
 
 				// custom revenue
@@ -619,7 +624,6 @@ if (!this.Piwik) {
 					request += '&revenue=' + customRevenue;
 				}
 
-				request += executePluginMethod('goal');
 				sendRequest(request, configTrackerPause);
 			}
 			
@@ -627,11 +631,10 @@ if (!this.Piwik) {
 			 * Log the link or click  with the server
 			 */
 			function logLink(url, linkType, customData) {
-				var request = getRequest(customData) +
+				var request = getRequest(customData, 'click') +
 					'&' + linkType + '=' + escapeWrapper(url) +
 					'&redirect=0';
 
-				request += executePluginMethod('click');
 				sendRequest(request, configTrackerPause);
 			}
 
@@ -1044,6 +1047,35 @@ if (!this.Piwik) {
 			};
 		}
 
+		/*
+		 * Proxy object
+		 */
+		function TrackerProxy() {
+			return {
+				// @param array parameterArray An array comprising [ 'methodName', optional_parameters ]
+				push: function (parameterArray) {
+					asyncTracker[parameterArray.shift()].apply(this, parameterArray);
+				}
+			};
+		}
+
+		/*
+		 * Process asynchronous tracking requests
+		 */
+		function processAsynchronousTracker()
+		{
+			if (isDefined(_paq)) {
+				asyncTracker = new Tracker();
+
+				for (var i = 0; i < _paq.length; i++) {
+					asyncTracker[_paq[i].shift()].apply(this, _paq[i]);
+				}
+
+				// replace initialization array with proxy object
+				_paq = new TrackerProxy();
+			}
+		}
+
 		/************************************************************
 		 * Constructor
 		 ************************************************************/
@@ -1051,6 +1083,7 @@ if (!this.Piwik) {
 		// initialize the Piwik singleton
 		addEventListener(windowAlias, 'beforeunload', beforeUnloadHandler, false);
 		addReadyListener();
+		processAsynchronousTracker();
 
 		/************************************************************
 		 * Public data and methods
@@ -1065,7 +1098,7 @@ if (!this.Piwik) {
 			},
 
 			/*
-			 * Get Tracker
+			 * Get Tracker (factory method)
 			 */
 			getTracker: function (piwikUrl, siteId) {
 				return new Tracker(piwikUrl, siteId);
@@ -1083,7 +1116,6 @@ if (!this.Piwik) {
 	 *
 	 *   var piwik_install_tracker, piwik_tracker_pause, piwik_download_extensions, piwik_hosts_alias, piwik_ignore_classes;
 	 */
-
 
 	/*
 	 * Track page visit
