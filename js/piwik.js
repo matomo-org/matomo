@@ -99,7 +99,8 @@ if (!this.Piwik) {
 			if (element.addEventListener) {
 				element.addEventListener(eventType, eventHandler, useCapture);
 				return true;
-			} else if (element.attachEvent) {
+			}
+			if (element.attachEvent) {
 				return element.attachEvent('on' + eventType, eventHandler);
 			}
 			element['on' + eventType] = eventHandler;
@@ -172,16 +173,15 @@ if (!this.Piwik) {
 
 				if (documentAlias.documentElement.doScroll && windowAlias == windowAlias.top) {
 					(function ready() {
-						if (hasLoaded) {
-							return;
+						if (!hasLoaded) {
+							try {
+								documentAlias.documentElement.doScroll('left');
+							} catch (error) {
+								setTimeout(ready, 0);
+								return;
+							}
+							loadHandler();
 						}
-						try {
-							documentAlias.documentElement.doScroll('left');
-						} catch (error) {
-							setTimeout(ready, 0);
-							return;
-						}
-						loadHandler();
 					}());
 				}
 			}
