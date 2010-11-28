@@ -860,6 +860,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Yippy
 		'search.yippy.com'			=> array('Yippy', 'query', 'search?query={k}'),
 
+		// YouGoo
+		'www.yougoo.fr'				=> array('YouGoo', 'q', '?cx=search&q={k}'),
+
 		// Zoek
 		'www3.zoek.nl'				=> array('Zoek', 'q'),
 
