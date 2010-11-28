@@ -9,11 +9,10 @@
  * @version $Id$
  */
 
+// Refer to README for build instructions when minifying this file for distribution.
+
 /*jslint browser:true, forin:true, plusplus:false, onevar:false, eqeqeq:false, strict:false */
 /*global window escape unescape ActiveXObject _paq:true */
-
-// Note: YUICompressor 2.4.2 won't compress piwik_log() because of the the "evil" eval().
-//       Override this behaviour using http://yuilibrary.com/projects/yuicompressor/ticket/2343811
 /*jslint evil:true */
 
 /*
@@ -24,11 +23,12 @@
  * - IE5 - named anonymous functions and array.push introduced in IE5.5
  */
 
-// Guard against loading the script twice
-var Piwik, piwik_log, piwik_track;
-if (!this.Piwik) {
+var
+	// asynchronous tracker (or proxy)
+	_paq = _paq || [],
+
 	// Piwik singleton and namespace
-	Piwik = (function () {
+	Piwik =	Piwik || (function() {
 		/************************************************************
 		 * Private data
 		 ************************************************************/
@@ -78,9 +78,9 @@ if (!this.Piwik) {
 		 * apply wrapper
 		 *
 		 * @param array parameterArray An array comprising either:
-		 *		[ 'methodName', optional_parameters ]
+		 *      [ 'methodName', optional_parameters ]
 		 * or:
-		 * 		[ functionObject, optional_parameters ] 
+		 *      [ functionObject, optional_parameters ] 
 		 */
 		function apply(parameterArray) {
 			var f = parameterArray.shift();
@@ -1065,30 +1065,14 @@ if (!this.Piwik) {
 			};
 		}
 		
-		/*
+		/************************************************************
 		 * Proxy object
-		 */
+		 ************************************************************/
+
 		function TrackerProxy() {
 			return {
 				push: apply
 			};
-		}
-
-		/*
-		 * Process asynchronous tracking requests
-		 */
-		function processAsynchronousTracker()
-		{
-			if (isDefined(_paq)) {
-				asyncTracker = new Tracker();
-
-				for (var i = 0; i < _paq.length; i++) {
-					apply(_paq[i]);
-				}
-
-				// replace initialization array with proxy object
-				_paq = new TrackerProxy();
-			}
 		}
 
 		/************************************************************
@@ -1098,7 +1082,15 @@ if (!this.Piwik) {
 		// initialize the Piwik singleton
 		addEventListener(windowAlias, 'beforeunload', beforeUnloadHandler, false);
 		addReadyListener();
-		processAsynchronousTracker();
+
+		asyncTracker = new Tracker();
+
+		for (var i = 0; i < _paq.length; i++) {
+			apply(_paq[i]);
+		}
+
+		// replace initialization array with proxy object
+		_paq = new TrackerProxy();
 
 		/************************************************************
 		 * Public data and methods
@@ -1119,7 +1111,7 @@ if (!this.Piwik) {
 				return new Tracker(piwikUrl, siteId);
 			}
 		};
-	}());
+	}()),
 
 	/************************************************************
 	 * Deprecated functionality below
@@ -1131,6 +1123,8 @@ if (!this.Piwik) {
 	 *
 	 *   var piwik_install_tracker, piwik_tracker_pause, piwik_download_extensions, piwik_hosts_alias, piwik_ignore_classes;
 	 */
+
+	piwik_track,
 
 	/*
 	 * Track page visit
@@ -1177,4 +1171,3 @@ if (!this.Piwik) {
 			piwikTracker.enableLinkTracking();
 		}
 	};
-}
