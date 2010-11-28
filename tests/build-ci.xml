@@ -75,14 +75,14 @@
 		<delete dir="${basedir}/../schemaspy-report"/>
 		<mkdir dir="${basedir}/../schemaspy-report"/>
 
-		<java jar="${basedir}/lib/java/schemaSpy_3.1.1.jar" fork="true" failonerror="false" resultproperty="result-schemaspy" maxmemory="256m" dir="${basedir}">
+		<java jar="${basedir}/lib/java/schemaSpy_5.0.0.jar" fork="true" failonerror="false" resultproperty="result-schemaspy" maxmemory="256m" dir="${basedir}">
 			<arg value="-t"/>
 			<arg value="mysql"/>
 			<arg value="-host"/>
 			<arg value="${database.main.host}:${database.main.port}"/>
 			<arg value="-db"/>
 			<arg value="${database.main.name}"/>
-			<arg value="-cp"/>
+			<arg value="-dp"/>
 			<arg path="${basedir}/lib/java/mysql-connector-java-5.1.7.jar"/>
 			<arg value="-u"/>
 			<arg value="${database.main.username}"/>
