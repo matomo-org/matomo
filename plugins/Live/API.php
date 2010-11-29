@@ -132,10 +132,14 @@ class Piwik_Live_API
 	 */
 	private function getFilterLimit($limit)
 	{
+		$limit = (int)$limit;
 		if(isset($_REQUEST['filter_limit']))
 		{
 			$limit = Piwik_Common::getRequestVar('filter_limit', $limit, 'int');
-			unset($_REQUEST['filter_limit']);
+		}
+		else
+		{
+			$_REQUEST['filter_limit'] = "$limit";
 		}
 
 		return $limit;
@@ -245,12 +249,15 @@ class Piwik_Live_API
 				$date = date('Y-m-d', Piwik_Date::factory('now', $currentTimezone)->subDay(1)->getTimestamp());
 			}
 			$processedDate = Piwik_Date::factory($date, $currentTimezone);
+//			$processedDate = Piwik_Date::factory($date)->setTimezone($currentTimezone);
 			$processedPeriod = Piwik_Period::factory($period, $processedDate);
 
 			array_push(     $where, Piwik_Common::prefixTable('log_visit') . ".visit_first_action_time BETWEEN ? AND ?");
 			array_push(     $whereBind,
 				$processedPeriod->getDateStart()->toString(),
 				$processedPeriod->getDateEnd()->addDay(1)->toString()
+//				$processedPeriod->getDateStart()->toString('Y-m-d H:m:s'),
+//				$processedPeriod->getDateEnd()->addDay(1)->toString('Y-m-d H:m:s')
 			);
 		}
 
