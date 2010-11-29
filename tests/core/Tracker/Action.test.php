@@ -17,6 +17,7 @@ class Test_Piwik_TrackerAction extends  Test_Database
 		$userFile = PIWIK_PATH_TEST_TO_ROOT . '/tests/resources/Tracker/Action.config.ini.php';
 		$config = Piwik_Tracker_Config::getInstance();
 		$config->init($userFile);
+		$config->setTestEnvironment();
 	}
 
 	function tearDown()
@@ -33,6 +34,11 @@ class Test_Piwik_TrackerAction extends  Test_Database
 	
 	protected function getTestUrls()
 	{
+		$campaignNameParam = Piwik_Tracker_Config::getInstance()->Tracker['campaign_var_name'];
+		$campaignKwdParam = Piwik_Tracker_Config::getInstance()->Tracker['campaign_keyword_var_name'];
+		$this->assertTrue(!empty($campaignNameParam));
+		$this->assertTrue(!empty($campaignKwdParam));
+		
 		$urls = array(
 			// a wrongly formatted url (parse_url returns false)
 			'http:////wrongurl',
@@ -40,8 +46,8 @@ class Test_Piwik_TrackerAction extends  Test_Database
 			// a URL with all components
 			'http://username:password@hostname:80/path?phpSESSID=value#anchor',
 			
-			// a standard url 
-			'http://a.com/index?p1=v1',
+			// a standard url with excluded campaign parameters
+			'http://a.com/index?p1=v1&'.$campaignNameParam.'=Adwords-CPC&'.$campaignKwdParam.'=My killer keyword',
 		
 			// testing with capital parameter
 			'http://a.com/index?p1=v1&P2=v2&p3=v3',
