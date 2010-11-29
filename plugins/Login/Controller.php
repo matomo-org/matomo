@@ -67,7 +67,10 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$view->linkTitle = Piwik::getRandomTitle();
 		$view->forceSslLogin = Zend_Registry::get('config')->General->force_ssl_login;
 		$view->addForm( $form );
-		$view->setXFrameOptions('deny');
+		if(!($view->enableFramedLogins = Zend_Registry::get('config')->General->enable_framed_logins))
+		{
+			$view->setXFrameOptions('sameorigin');
+		}
 		echo $view->render();
 	}
 
@@ -143,7 +146,10 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$view->linkTitle = Piwik::getRandomTitle();
 		$view->forceSslLogin = Zend_Registry::get('config')->General->force_ssl_login;
 		$view->addForm( $form );
-		$view->setXFrameOptions('deny');
+		if(!($view->enableFramedLogins = Zend_Registry::get('config')->General->enable_framed_logins))
+		{
+			$view->setXFrameOptions('sameorigin');
+		}
 		echo $view->render();
 	}
 
@@ -228,7 +234,10 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$view->linkTitle = Piwik::getRandomTitle();
 		$view->forceSslLogin = Zend_Registry::get('config')->General->force_ssl_login;
 		$view->addForm( $form );
-		$view->setXFrameOptions('deny');
+		if(!($view->enableFramedLogins = Zend_Registry::get('config')->General->enable_framed_logins))
+		{
+			$view->setXFrameOptions('sameorigin');
+		}
 		echo $view->render();
 	}
 
