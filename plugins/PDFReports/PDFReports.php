@@ -88,7 +88,7 @@ class Piwik_PDFReports extends Piwik_Plugin
 					description VARCHAR(255) NOT NULL,
 					period VARCHAR(10) NULL,
 					email_me TINYINT NULL,
-					additional_emails VARCHAR(255) NULL,
+					additional_emails TEXT NULL,
 					reports TEXT NOT NULL,
 					ts_created TIMESTAMP NULL,
 					ts_last_sent TIMESTAMP NULL,
