@@ -22,17 +22,18 @@ abstract class Piwik_ScheduledTime
 {
 	/**
 	 * @link http://php.net/manual/en/function.date.php, format string : 'G'
+	 * Defaults to midnight
 	 * @var integer 
 	 */
-	var $hour;
+	var $hour = 0;
 	
 	/**
-	 * For weekly scheduling : http://php.net/manual/en/function.date.php, format string : 'N'
-	 * For monthly scheduling : day of the month (1 to 31) (note: will be capped at the latest day available the month)
+	 * For weekly scheduling : http://php.net/manual/en/function.date.php, format string : 'N', defaults to Monday
+	 * For monthly scheduling : day of the month (1 to 31) (note: will be capped at the latest day available the
+	 * month), defaults to first day of the month
 	 * @var integer
 	 */
-	var $day;
-	
+	var $day = 1;
 
 	/*
 	 * Returns the system time used by subclasses to compute schedulings.
@@ -83,7 +84,7 @@ abstract class Piwik_ScheduledTime
 		if ( $this->hour !== null )
 		{
 			// Reset the number of minutes and set the scheduled hour to the one specified with setHour()
-			$rescheduledTime = mktime ( 	$this->hour,
+			$rescheduledTime = mktime ( $this->hour,
 										0,
 										date('s', $rescheduledTime),
 										date('n', $rescheduledTime),
