@@ -140,6 +140,10 @@ login_password_recovery_email_address = "password-recovery@{DOMAIN}"
 ; name that appears as a Sender in the password recovery email
 login_password_recovery_email_name = Piwik
 
+; Set to 1 to disable the framebuster (a click-jacking countermeasure).
+; Default is 0 (i.e., bust frames on the Login forms).
+enable_framed_logins = 0
+
 ; standard email address displayed when sending emails
 noreply_email_address = "noreply@{DOMAIN}"
 
