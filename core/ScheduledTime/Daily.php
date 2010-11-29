@@ -24,7 +24,7 @@ class Piwik_ScheduledTime_Daily extends Piwik_ScheduledTime
 		$currentTime = $this->getTime();
 		
 		// Add one day
-		$rescheduledTime = mktime ( 	date('H', $currentTime), 
+		$rescheduledTime = mktime ( date('H', $currentTime),
 									date('i', $currentTime),
 									date('s', $currentTime),
 									date('n', $currentTime),
