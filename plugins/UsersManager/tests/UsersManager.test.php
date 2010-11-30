@@ -166,7 +166,7 @@ class Test_Piwik_UsersManager extends Test_Database
     function test_addUser_wrongLogin3()
     {
     	try {
-    		Piwik_UsersManager_API::getInstance()->addUser("gegag11gge@", "password", "email@email.com", "alias");
+    		Piwik_UsersManager_API::getInstance()->addUser("gegag11gge&", "password", "email@email.com", "alias");
     	}
     	catch (Exception $expected) {
     		$this->assertPattern("(UsersManager_ExceptionInvalidLogin)", $expected->getMessage());
