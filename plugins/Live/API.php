@@ -309,22 +309,16 @@ class Piwik_Live_API
 
 		if($minutes != 0)
 		{
-			$timeLimit = mktime(date("H"), date("i") - $minutes, 0, date("m"),   date("d"),   date("Y"));
+			$timeLimit = mktime(date('H'), date('i') - $minutes, 0, date('m'),  date('d'), date('Y'));
 			$where[] = " visit_last_action_time > ?";
-			$whereBind[] = date('Y-m-d H:i:s',$timeLimit);
+			$whereBind[] = date('Y-m-d H:i:s', $timeLimit);
 		}
 
 		if($days != 0)
 		{
-			$oSite = new Piwik_Site($idSite);
-			$sTimezone = $oSite->getTimezone();
-
-			$oDate = Piwik_Date::factory("now", $sTimezone)
-				->setTimezone($sTimezone)
-				->subDay($days - 1);
+			$timeLimit = mktime(date('H'), date('i'), 0, date('m'), date('d') - $days, date('Y'));
 			$where[] = " visit_last_action_time > ?";
-			$whereBind[] = $oDate->getDateStartUTC();
-
+			$whereBind[] = date('Y-m-d H:i:s', $timeLimit);
 		}
 
 		$sqlWhere = "";
