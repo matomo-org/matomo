@@ -36,6 +36,10 @@
  * will match against valid country TLDs, but should be used sparingly to
  * avoid false positives.
  *
+ * The charset should be an encoding supported by mbstring.  If unspecified,
+ * we'll assume it's UTF-8.
+ * Reference: http://www.php.net/manual/en/mbstring.encodings.php
+ *
  * You can add new search engines icons by adding the icon in the
  * plugins/Referers/images/searchEngines directory using the format
  * 'mainSearchEngineUrl.png'. Example: www.google.com.png
@@ -248,6 +252,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// DasTelefonbuch
 		'www1.dastelefonbuch.de'	=> array('DasTelefonbuch', 'kw'),
+
+		// Daum
+		'search.daum.net'			=> array('Daum', 'q', 'search?q={k}', 'EUC-KR'),
 
 		// Delfi Latvia
 		'smart.delfi.lv'			=> array('Delfi lv', 'q', 'find?q={k}'),
@@ -589,6 +596,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Najdi
 		'www.najdi.si'				=> array('Najdi.si', 'q', 'search.jsp?q={k}'),
+
+		// Nate
+		'search.nate.com'			=> array('Nate', 'q', 'search/all.html?q={k}', 'EUC-KR'),
 
 		// Naver
 		'search.naver.com'			=> array('Naver', 'query', 'search.naver?query={k}', 'EUC-KR'),
