@@ -227,12 +227,6 @@ class Piwik_Live_API
 			$whereBind[] = $minIdVisit;
 		}
 
-		// increase limit by offset when visitor paginates
-		if(!empty($offset))
-		{
-			$limit += (int)$offset;
-		}
-		
 		// SQL Filter with provided period
 		if (!empty($period) && !empty($date))
 		{
@@ -284,8 +278,18 @@ class Piwik_Live_API
 					AND " . Piwik_Common::prefixTable('goal') . ".deleted = 0
 					$sqlWhere
 				GROUP BY idvisit
-				ORDER BY idvisit DESC
-				LIMIT ".(int)$limit;
+				ORDER BY idvisit DESC";
+
+		if(!empty($limit))
+		{
+			$sql .= " LIMIT ".(int)$limit;
+
+			if(!empty($offset))
+			{
+				$sql .= " OFFSET ".(int)$offset;
+			}
+		}
+		
 		return Piwik_FetchAll($sql, $whereBind);
 	}
 
