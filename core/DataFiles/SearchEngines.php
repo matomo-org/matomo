@@ -591,7 +591,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.najdi.si'				=> array('Najdi.si', 'q', 'search.jsp?q={k}'),
 
 		// Naver
-		'search.naver.com'			=> array('Naver', 'query', 'search.naver?query={k}', 'x-windows-949'),
+		'search.naver.com'			=> array('Naver', 'query', 'search.naver?query={k}', 'EUC-KR'),
 
 		// Needtofind
 		'ko.search.need2find.com'	=> array('Needtofind', 'searchfor', 'search/AJmain.jhtml?searchfor={k}'),
@@ -732,7 +732,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Tiscali
 		'search.tiscali.it'			=> array('Tiscali', 'q', '?q={k}'),
 		'search-dyn.tiscali.it'		=> array('Tiscali'),
-		'hledani.tiscali.cz'		=> array('Tiscali', 'query', false, 'windows-1250'),
+		'hledani.tiscali.cz'		=> array('Tiscali', 'query'),
 
 		// Tixuma
 		'www.tixuma.de'				=> array('Tixuma', 'sc', 'index.php?mp=search&stp=&sc={k}&tg=0'),
