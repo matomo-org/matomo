@@ -668,10 +668,6 @@ class Test_Piwik_Common extends UnitTestCase
 			'http://www.google.cn/search?hl=zh-CN&q=%E6%B5%8F%E8%A7%88%E5%85%AC%E4%BA%A4%E5%9C%B0%E9%93%81%E7%AB%99%E7%82%B9%E4%BF%A1%E6%81%AF&btnG=Google+%E6%90%9C%E7%B4%A2&meta=cr%3DcountryCN&aq=f&oq='
 				=> array('name' => 'Google', 'keywords' => '浏览公交地铁站点信息'),
 			
-			// testing custom charset
-			'http://hledani.tiscali.cz/web/search.php?lang=cs&query=v+%E8esk%E9m+internetu&kde=cz_internet'
-				=> array('name' => 'Tiscali', 'keywords' => 'v českém internetu'),
-			
 			// testing other exotic unicode characters
 			'http://www.yandex.ru/yandsearch?text=%D1%87%D0%B0%D1%81%D1%82%D0%BE%D1%82%D0%B0+%D1%80%D0%B0%D1%81%D0%BF%D0%B0%D0%B4%D0%B0+%D1%81%D1%82%D0%B5%D0%BA%D0%BB%D0%B0&stpar2=%2Fh1%2Ftm11%2Fs1&stpar4=%2Fs1&stpar1=%2Fu0%27,%20%27%D1%87%D0%B0%D1%81%D1%82%D0%BE%D1%82%D0%B0+%D1%80%D0%B0%D1%81%D0%BF%D0%B0%D0%B4%D0%B0+%D1%81%D1%82%D0%B5%D0%BA%D0%BB%D0%B0'
 				=> array('name' => 'Yandex', 'keywords' => 'частота распада стекла'),
@@ -681,9 +677,6 @@ class Test_Piwik_Common extends UnitTestCase
 			
 			'http://www.google.ge/search?hl=en&q=%E1%83%A1%E1%83%90%E1%83%A5%E1%83%90%E1%83%A0%E1%83%97%E1%83%95%E1%83%94%E1%83%9A%E1%83%9D&btnG=Google+Search' 
 				=> array('name' => 'Google', 'keywords' => 'საქართველო'),
-
-			'http://search.naver.com/search.naver?sm=tab_hty&where=nexearch&query=mysql%B7%CE%B1%D7'
-				=> array('name' => 'Naver', 'keywords' => 'mysqlα'),
 
 			// new Google url formats
 			'http://www.google.com/url?sa=t&source=web&ct=res&cd=7&url=http%3A%2F%2Fwww.example.com%2Fmypage.htm&ei=0SjdSa-1N5O8M_qW8dQN&rct=j&q=flowers&usg=AFQjCNHJXSUh7Vw7oubPaO3tZOzz-F-u_w&sig2=X8uCFh6IoPtnwmvGMULQfw'
