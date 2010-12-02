@@ -32,6 +32,8 @@
 					</transaction>
 				</sql>
 
+				<invoke description="get account index" url="/" />
+
 				<!-- 1. welcome -->
 
 				<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
