@@ -1,4 +1,4 @@
-<project name="canoo" default="webtest" basedir=".">
+<project name="webtest" default="webtest" basedir=".">
 
 	<property file="webtest/config/webtest.properties"/>
 	<echo>${wt.home}</echo>
