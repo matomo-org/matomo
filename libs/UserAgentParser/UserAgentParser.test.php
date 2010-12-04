@@ -1,4 +1,6 @@
 <?php
+if(!isset($_GET['setUserAgent']) && !isset($_SERVER['HTTP_USER_AGENT']))  die;
+
 require_once dirname(__FILE__).'/UserAgentParser.php';
 echo "<h2>UserAgentParser php library test</h2>";
 $testUserAgent = array( 
