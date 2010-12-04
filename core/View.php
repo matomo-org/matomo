@@ -141,7 +141,8 @@ class Piwik_View implements Piwik_iView
 				$this->show_autocompleter = false;
 			}
 
-			$this->loginModule = Piwik::getLoginPluginName();
+			// @todo temporary workaround for #1331
+			$this->loginModule = method_exists('Piwik', 'getLoginPluginName') ? Piwik::getLoginPluginName() : 'Login';
 		} catch(Exception $e) {
 			// can fail, for example at installation (no plugin loaded yet)		
 		}
@@ -154,7 +155,11 @@ class Piwik_View implements Piwik_iView
 			$this->totalNumberOfQueries = 0;
 		}
  
-		Piwik::overrideCacheControlHeaders('no-store');
+		// @todo temporary workaround for #1331
+		if(method_exists('Piwik', 'overrideCacheControlHeaders'))
+		{
+			Piwik::overrideCacheControlHeaders('no-store');
+		}
 		@header('Content-Type: '.$this->contentType);
 		if($this->xFrameOptions)
 		{
