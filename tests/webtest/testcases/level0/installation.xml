@@ -62,10 +62,10 @@
 				&verifyLinksAndImages;
 
 				<not description="check if system check passed">
-					<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error.png']"/>
+					<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error.png']" />
 				</not>
 
-				<verifyXPath description="looking for ok image" xpath="//img[@src='themes/default/images/ok.png']"/>
+				<verifyXPath description="looking for ok image" xpath="//img[@src='themes/default/images/ok.png']" />
 
 				<clickLink description="click 'Next'" label="Next &raquo;" />
 
@@ -84,7 +84,7 @@
 				<setInputField description="set database name" name="dbname" value="${db.name}" />
 				<setInputField description="set database port" name="tables_prefix" value="canoo_" />
 
-				<clickButton description="click 'Go!' button" label="Go!"/>
+				<clickButton description="click 'Go!' button" label="Go!" />
 
 				<!-- 4. databaseCheck -->
 <!--
@@ -101,17 +101,17 @@
 				<!-- 5. tablesCreation -->
 
 				<not description="check if no error">
-					<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']"/>
+					<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']" />
 				</not>
 
 				<not description="check if no warning">
-					<verifyXPath description="looking for warning image" xpath="//img[@src='themes/default/images/warning_medium.png']"/>
+					<verifyXPath description="looking for warning image" xpath="//img[@src='themes/default/images/warning_medium.png']" />
 				</not>
 
 				<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 				<verifyText description="check page text" text="Piwik" />
 				<verifyText description="check page text" text="Tables created with success!" />
-				<verifyXPath description="looking for success image" xpath="//img[@src='themes/default/images/success_medium.png']"/>
+				<verifyXPath description="looking for success image" xpath="//img[@src='themes/default/images/success_medium.png']" />
 
 				&checkForErrors;
 				&verifyLinksAndImages;
@@ -132,16 +132,16 @@
 				<setInputField description="set repeated Piwik password" name="password_bis" value="piwik_password" />
 				<setInputField description="set Piwik email" name="email" value="nobody@piwik.org" />
 
-				<clickButton description="click 'Go!' button" label="Go!"/>
+				<clickButton description="click 'Go!' button" label="Go!" />
 
 				<!-- 7. firstWebsiteSetup -->
 
 				<not description="check if no error">
-					<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']"/>
+					<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']" />
 				</not>
 
 				<not description="check if no warning">
-					<verifyXPath description="looking for warning image" xpath="//img[@src='themes/default/images/warning_medium.png']"/>
+					<verifyXPath description="looking for warning image" xpath="//img[@src='themes/default/images/warning_medium.png']" />
 				</not>
 
 				<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
@@ -155,16 +155,16 @@
 				<setInputField description="set Piwik URL" name="url" value="${wt.config.protocol}://${wt.config.host}:${wt.config.port}${wt.config.basepath}" />
 				<setSelectField description="set Piwik timezone" name="timezone" value="UTC" />
 
-				<clickButton description="click 'Go!' button" label="Go!"/>
+				<clickButton description="click 'Go!' button" label="Go!" />
 
 				<!-- 8. displayJavascriptCode -->
 
 				<not description="check if no error">
-					<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']"/>
+					<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']" />
 				</not>
 
 				<not description="check if no warning">
-					<verifyXPath description="looking for warning image" xpath="//img[@src='themes/default/images/warning_medium.png']"/>
+					<verifyXPath description="looking for warning image" xpath="//img[@src='themes/default/images/warning_medium.png']" />
 				</not>
 
 				<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
@@ -199,7 +199,7 @@
 				<setInputField description="set Piwik login" htmlId="form_login" value="piwik_login" />
 				<setInputField description="set Piwik password" htmlId="form_password" value="piwik_password" />
 
-				<clickButton description="click 'Sign in' button" label="Sign in"/>
+				<clickButton description="click 'Sign in' button" label="Sign in" />
 
 				<!-- logged in -->
 
