@@ -32,7 +32,7 @@
 						
 	{if count($errorMessages) > 0}
 		<div class="warning">
-			<p><img src="themes/default/images/warning_medium.png" /> {'CoreUpdater_ErrorDuringPluginsUpdates'|translate}</p>
+			<p><img src="themes/default/images/error_medium.png" /> {'CoreUpdater_ErrorDuringPluginsUpdates'|translate}</p>
 			{foreach from=$errorMessages item=message}
 			<pre>{$message}</pre><br />
 			{/foreach}
