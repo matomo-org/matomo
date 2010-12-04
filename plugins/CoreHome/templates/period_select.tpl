@@ -9,7 +9,7 @@
 		</div>
 		<div class="period-type">
 			<h6>{'General_Period'|translate}</h6>            
-			<span id="otherPeriods">{foreach from=$periodsNames  key=label item=thisPeriod}<input type="radio" name="period" autocomplete="off" id="period_id_{$label}" value="{url period=$label}"{if $label==$period} checked="checked"{/if} /><label for="period_id_{$label}" >{$thisPeriod.singular}</label><br />{/foreach}</span>
+			<span id="otherPeriods">{foreach from=$periodsNames  key=label item=thisPeriod}<input type="radio" name="period" id="period_id_{$label}" value="{url period=$label}"{if $label==$period} checked="checked"{/if} /><label for="period_id_{$label}" >{$thisPeriod.singular}</label><br />{/foreach}</span>
 		</div>
 	</div>
 </div>
