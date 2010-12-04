@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project [
+	<!ENTITY time  SYSTEM "../modules/time.xml">
+	<!ENTITY checkForErrors SYSTEM "../modules/errors.xml">
+	<!ENTITY verifyLinksAndImages SYSTEM "../modules/common_pages.xml">
+	<!ENTITY raquo "&#187;">
+	<!ENTITY rsaquo "&#8250;" >
+]>
+
+<project name="Level 1 - auto update" basedir="." default="webtest">
+	&time;
+	<target name="webtest">
+		<webtest name="auto update">
+			<steps>
+
+				<!-- logging in -->
+
+				<invoke description="get account index" url="/" />
+				<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Sign in" />
+				<verifyText description="check page text" text="Piwik" />
+				<verifyText description="check page text" text="Lost your password?" />
+
+				&checkForErrors;
+				&verifyLinksAndImages;
+					
+				<setInputField description="set Piwik login" htmlId="form_login" value="piwik_login" />
+				<setInputField description="set Piwik password" htmlId="form_password" value="piwik_password" />
+
+				<clickButton description="click 'Sign in' button" label="Sign in" />
+
+				<!-- logged in -->
+
+				<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Web Analytics Reports" />
+				<verifyText description="check page text" text="Piwik" />
+				<verifyText description="check page text" text="Dashboard" />
+				<verifyText description="check page text" text="Hello" />
+
+				<!-- update notice -->
+
+				<verifyText description="check page text" text="New Update:" />
+				<mouseOver description="expand header message" htmlId="header_message" />
+				<verifyText description="check page text" text="Please update now!" />
+				<enableJavaScript enable="false"/>
+				<clickLink description="click 'Please update now'" href="action=newVersionAvailable" />
+
+				<!-- one click update -->
+
+				<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Update" />
+				<verifyText description="check page text" text="Piwik" />
+				<verifyText description="check page text" text="Update Automatically" />
+				<verifyText description="check page text" text="Download" />
+
+				<clickButton description="click 'Update Automatically' Button" label="Update Automatically" />
+				<!-- invoke description="one click update" url="/index.php?module=CoreUpdater&amp;action=oneClickUpdate" /-->
+
+				<!-- download, unzip -->
+
+				<not description="check for errors">
+					<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']" />
+				</not>
+
+				<not description="check if zip archive passed">
+					<verifyText description="check page text" text="Incompatible archive" />
+				</not>
+
+				<verifyText description="check page text" text="Piwik updated successfully!" />
+				<clickButton description="click 'Continue to Piwik' button" label="Continue to Piwik" />
+
+				<!-- db update -->
+
+				<ifStep description="check if db update required">
+					<condition>
+						<verifyText description="check page text" text="Database Upgrade Required" />
+					</condition>
+					<then>
+						<clickButton description="click 'Upgrade Piwik' button" label="Upgrade Piwik" />
+
+						<!-- db update done -->
+
+						<not description="check for errors">
+							<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']" />
+						</not>
+
+						<verifyText description="check page text" text="Piwik has been successfully updated!" />
+
+					</then>
+				</ifStep>
+
+				<!-- still logged in -->
+
+				<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Web Analytics Reports" />
+				<verifyText description="check page text" text="Piwik" />
+				<verifyText description="check page text" text="Dashboard" />
+				<verifyText description="check page text" text="Hello" />
+
+				<not description="up to date">
+					<verifyText description="check page text" text="New Update:" />
+				</not>
+
+			</steps>
+		</webtest>
+	</target>
+</project>
