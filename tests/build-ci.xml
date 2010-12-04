@@ -63,7 +63,7 @@
 		<echo>MYSQLI unit tests finished</echo>
 	</target>
 
-	<target name="webtest">
+	<target name="webtest" depends="prepare-build-filesystem">
 		<mkdir dir="${basedir}/integration/processed"/>
 		<delete file="${basedir}/../config/config.ini.php"/>
 		<ant antfile="${basedir}/build-webtest.xml"/>
