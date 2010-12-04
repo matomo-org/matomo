@@ -18,8 +18,7 @@
 
 				<property environment="env" />
 
-				<!-- get src="http://builds.piwik.org/piwik-1.0.zip" dest="piwik-1.0.zip" /-->
-				<get src="http://localhost/piwik-1.0.zip" dest="piwik-1.0.zip" />
+				<get src="http://builds.piwik.org/piwik-1.0.zip" dest="piwik-1.0.zip" />
 
 				<unzip src="piwik-1.0.zip" dest="${env.WORKSPACE}" />
 
