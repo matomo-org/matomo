@@ -198,7 +198,16 @@ class Test_Piwik_serveStaticFile extends UnitTestCase
 
 		// Tests if cache control headers are correctly set
 		$this->assertEqual($this->getCacheControlValue($fullResponse), "public, must-revalidate");
-		$this->assertEqual($this->getPragma($fullResponse), "Pragma:");
+
+                $serverSoftware = $_SERVER['SERVER_SOFTWARE'];
+                if(preg_match('/^Microsoft-IIS\/(.+)/', $serverSoftware, $matches) && version_compare($matches[1], '7') >= 0)
+                {
+			$this->assertTrue($this->getPragma($fullResponse) == null);
+                }
+                else if(!strncmp($serverSoftware, 'Apache', 6))
+                {
+			$this->assertEqual($this->getPragma($fullResponse), "Pragma:");
+		}
 	}
 
 	/**
