@@ -28,7 +28,7 @@ class Piwik_Http
 		$method = 'curl';
 		if(!extension_loaded('curl'))
 		{
-			$method = 'stream';
+			$method = 'fopen';
 			if(@ini_get('allow_url_fopen') != '1')
 			{
 				$method = 'socket';
@@ -242,7 +242,7 @@ class Piwik_Http
 			// determine success or failure
 			@fclose(@$fsock);
 		}
-		else if($method == 'stream')
+		else if($method == 'fopen')
 		{
 			$response = false;
 

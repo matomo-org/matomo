@@ -12,7 +12,7 @@ class Test_Piwik_Http extends UnitTestCase
 
 		$methods = array(
 			'curl',
-			'stream',
+			'fopen',
 			'socket',
 		);
 
