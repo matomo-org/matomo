@@ -74,11 +74,12 @@ class Piwik_Live_API
 	/*
 	 * @return Piwik_DataTable
 	 */
-	public function getLastVisitsDetails( $idSite, $period = false, $date = false, $limit = 25, $filter_offset = 0, $minIdVisit = false )
+	public function getLastVisitsDetails( $idSite, $period = false, $date = false, $limit = 25, $offset = 0, $minIdVisit = false )
 	{
 		Piwik::checkUserHasViewAccess($idSite);
 		$limit = $this->getFilterLimit($limit);
-		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $limit, $filter_offset, $minIdVisit); 
+		$offset = $this->getFilterOffset($offset);
+		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $limit, $offset, $minIdVisit); 
 		$dataTable = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
 		return $dataTable;
 	}
@@ -143,6 +144,20 @@ class Piwik_Live_API
 		}
 
 		return $limit;
+	}
+
+	/*
+	 * Returns the filter_offset
+	 *
+	 * @param int $offset Default offset
+	 * @return int Returns the filter_offset if defined; otherwise, it returns the default
+	 */
+	private function getFilterOffset($offset)
+	{
+		$offset = Piwik_Common::getRequestVar('filter_offset', (int)$offset, 'int');
+		$_REQUEST['filter_offset'] = '0';
+
+		return $offset;
 	}
 
 	/*
