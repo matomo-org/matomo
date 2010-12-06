@@ -42,7 +42,9 @@ class Piwik_Live_API
 	public function getLastVisitForVisitor( $visitorId, $idSite )
 	{
 		Piwik::checkUserHasViewAccess($idSite);
-		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $limit = 1, $offset = false, $minIdVisit = false, $visitorId);
+		$limit = $this->getFilterLimit(1);
+		$this->getFilterOffset(0);
+		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $limit, $offset = false, $minIdVisit = false, $visitorId);
 		$table = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
 		return $table;
 	}
@@ -54,6 +56,7 @@ class Piwik_Live_API
 	{
 		Piwik::checkUserHasViewAccess($idSite);
 		$limit = $this->getFilterLimit($limit);
+		$this->getFilterOffset(0);
 		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $limit, $offset = false, $minIdVisit = false, $visitorId);
 		$table = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
 		return $table;
@@ -66,6 +69,7 @@ class Piwik_Live_API
 	{
 		Piwik::checkUserHasViewAccess($idSite);
 		$limit = $this->getFilterLimit($limit);
+		$this->getFilterOffset(0);
 		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $limit, $offset = false, $minIdVisit, $visitorId = false);
 		$table = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
 		return $table;
