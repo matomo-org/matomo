@@ -1033,8 +1033,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function detectRefererSearchEngine()
 	{
-		$searchEngineInformation = Piwik_Common::extractSearchEngineInformationFromUrl(Piwik_Common::unsanitizeInputValue($this->refererUrl));
-		Piwik_PostEvent('Tracker.detectRefererSearchEngine', $searchEngineInformation);
+		$rawRefererUrl = Piwik_Common::unsanitizeInputValue($this->refererUrl);
+		$searchEngineInformation = Piwik_Common::extractSearchEngineInformationFromUrl($rawRefererUrl);
+		Piwik_PostEvent('Tracker.detectRefererSearchEngine', $searchEngineInformation, $rawRefererUrl);
 		if($searchEngineInformation === false)
 		{
 			return false;
