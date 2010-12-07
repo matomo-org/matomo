@@ -62,13 +62,16 @@ SEPARATELY LICENSED COMPONENTS AND LIBRARIES
 
 	Name:  PiwikMap.swf - map renderer
 	Link:  http://dev.piwik.org/trac/browser/worldmap/trunk/mapRenderer
-	License:  GPL
+	License:  LGPL
 	Notes:
 	- depends on as3corelib (http://code.google.com/p/as3corelib/); New BSD
+	- depends on Flex SDK; MPL 1.1 and Adobe Flex SDK license
 
-	Name:  PiwikMap - data builder
-	Link:  http://bitbucket.org/gka/piwik-map/overview
-	License:  MIT
+	Name:  PiwikMap - data builder/preprocessor
+	Link:  http://dev.piwik.org/trac/browser/worldmap/trunk/mapPreprocessor
+	License:  GPL
+	Notes:
+	- see also http://www.openflashmap.org/
 
 	Name:  PiwikTracker - server-side tracker
 	Link: http://dev.piwik.org/trac/browser/trunk/libs/PiwikTracker/PiwikTracker.php
@@ -184,6 +187,8 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	License:  LGPL
 	Notes:
 	- includes JSON.php (New BSD)
+	- depends on FlashDevelop (http://www.flashdevelop.org/); MIT
+	- depends on Flex SDK; MPL 1.1 and Adobe Flex SDK license
 
 	Name:  PclZip
 	Link:  http://www.phpconcept.net/pclzip/
