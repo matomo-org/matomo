@@ -687,6 +687,7 @@ class Piwik_Common
 					return $varDefault;
 				}
 			}
+			settype($value, $varType);
 		}
 		return $value;
 	}
