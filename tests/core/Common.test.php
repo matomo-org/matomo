@@ -314,6 +314,7 @@ class Test_Piwik_Common extends UnitTestCase
     function test_getRequestVar_stringdefault()
     {
     	$_GET['test'] = "1413.431413";
+    	$this->assertTrue( is_float(Piwik_Common::getRequestVar('test', 45, 'float')) );
     	$this->assertEqual( Piwik_Common::getRequestVar('test', 45, 'int'), 45);
     	$this->assertEqual( Piwik_Common::getRequestVar('test', 45, 'string'), "1413.431413");
     	$_GET['test'] = '';
