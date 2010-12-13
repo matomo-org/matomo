@@ -10,6 +10,15 @@ function cleanup() {
 }
 
 #
+# Check build environment
+#
+
+if [ ! -e "${WORKSPACE}/trunk" ]; then
+	echo "Piwik trunk not present!"
+	exit 2;
+fi
+
+#
 # Clean up build environment
 #
 cleanup
@@ -19,7 +28,8 @@ rm -f latest.zip
 # Package into a release
 #
 
-svn export http://dev.piwik.org/svn/trunk piwik
+cp -R trunk piwik
+find piwik -name '.svn' -type d -prune -exec rm -rf {} \;
 rm -rf piwik/tmp/*
 rm -f piwik/misc/db-schema*
 rm -f piwik/misc/diagram_general_request*
