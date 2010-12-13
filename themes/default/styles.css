@@ -34,6 +34,9 @@
 	list-style:none;
 	background:#FFF;
 	border: 1px solid #1F447F;
+	overflow:auto;
+	width:190px;
+	height:400px;
 }
 .formDiv_ul_list li {
 	padding:0px;
