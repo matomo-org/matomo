@@ -23,4 +23,158 @@
       match="piwik"
       />
   </parameter>
+
+  <parameter
+   name="DbServer"
+   defaultValue="localhost"
+   tags="MySQL,dbServer">
+
+    <parameterEntry   type="TextFile"   scope="install.sql$"    match="PlaceholderForServer"	/>
+  </parameter>
+  <parameter
+    name="Automatic Database Server PHP File"
+    defaultValue="host = &quot;{DbServer}&quot;"
+    tags="Hidden, MySQL"
+	>
+    <parameterEntry
+    type="TextFile"
+    scope="config\\config.ini.php$"
+    match="host\s*=\s*[^\r\n]*" 
+	/>
+  </parameter>
+
+
+  <parameter
+    name="DbName"
+    defaultValue="piwik"
+    tags="MySQL,dbName"
+	>
+    <parameterValidation
+    type="RegularExpression"
+    validationString="^\w{1,16}$"
+	/>
+    <!-- Replace ‘PlaceHolderForDbName’ in install.sql file with the User input -->
+
+    <parameterEntry
+    type="TextFile"
+    scope="install.sql$"
+    match="PlaceholderForDbName"
+	/>
+  </parameter>
+
+  <!--  TextFile matches : Use a hidden parameter to  replace the place holders in the config file with the help of regular expressions -->
+  <parameter
+    name="Automatic Database Name PHP File"
+    defaultValue="dbname = &quot;{DbName}&quot;"
+    tags="Hidden, MySQL"
+	>
+    <parameterEntry
+    type="TextFile"
+    scope="config\\config.ini.php$"
+    match="dbname\s*=\s*[^\r\n]*" 
+	/>
+  </parameter>
+
+  <parameter
+    name="DbUsername"
+    defaultValue="piwikuser"
+    tags="MySQL,DbUsername"
+	>
+    <parameterValidation
+    type="RegularExpression"
+    validationString="^\w{1,16}$"
+	/>
+    <!-- Replace ‘PlaceHolderForDbUserName’ in install.sql file with the User input -->
+
+    <parameterEntry
+    type="TextFile"
+    scope="install.sql$"
+    match="PlaceholderForDbUsername"
+	/>
+  </parameter>
+
+  <!--  TextFile matches : Use a hidden parameter to  replace the place holders in the config file with the help of regular expressions -->
+
+  <parameter
+    name="Automatic Database Username PHP File"
+    defaultValue="username = &quot;{DbUsername}&quot;"
+    tags="Hidden,MySQL"
+	>
+    <parameterEntry
+    type="TextFile"
+    scope="config\\config.ini.php$"
+    match="username\s*=\s*[^\r\n]*" 
+	/>
+  </parameter>
+
+  <!-- This parameter prompts the user for the database user's password.-->
+  <parameter
+    name="DbPassword"
+    description="Minimum 4 characters and maximum 20 characters"
+    tags="New,Password,MySQL,DbUserPassword"
+	>
+   <parameterValidation type="RegularExpression" validationString=".{4,20}" />
+    <!-- Replace ‘PlaceHolderForDbPassword’ in install.sql file with the User input -->
+
+    <parameterEntry
+    type="TextFile"
+    scope="install.sql$"
+    match="PlaceholderForDbPassword"
+	/>
+  </parameter>
+  <!--  TextFile matches : Use a hidden parameter to  replace the place holders in the config file with the help of regular expressions -->
+  <parameter
+    name="Automatic Database Password PHP File"
+    defaultValue="password = &quot;{DbPassword}&quot;"
+    tags="Hidden, MySQL"
+	>
+    <parameterEntry
+    type="TextFile"
+    scope="config\\config.ini.php$"
+    match="password\s*=(.{6,20})&quot;"
+	/>
+  </parameter>
+  
+
+  <parameter
+    name="DbAdminUsername"
+    defaultValue="root"
+    tags="MySQL,DbAdminUsername"
+	>
+  </parameter>
+
+
+  <parameter
+    name="DbAdminPassword"
+    description="Password for the database administrator account."
+    tags="Password,MySQL,DbAdminPassword"
+	>
+  </parameter>
+ 
+
+  <parameter
+    name="Connection String"
+    defaultValue="Server={DbServer};Database={DbName};uid={DbAdminUsername};Pwd={DbAdminPassword};"
+    tags="Hidden,MySQLConnectionString,Validate,MySQL"
+	>
+    <!--  Execute install.sql file -->
+
+    <parameterEntry
+    type="ProviderPath"
+    scope="dbmysql"
+    match="install.sql$"
+	/>
+  </parameter>
+
+  <parameter
+  name="Automatic Database adapter"
+  defaultValue="adapter = &quot;PDO_MYSQL&quot;"
+  tags="Hidden, MySQL"
+	>
+    <parameterEntry
+    type="TextFile"
+    scope="config\\config.ini.php$"
+    match="adapter\s*=\s*[^\r\n]*" 
+	/>
+  </parameter>
 </parameters>
