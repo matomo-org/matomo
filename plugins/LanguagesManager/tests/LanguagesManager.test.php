@@ -41,34 +41,43 @@ class Test_Languages_Manager extends UnitTestCase
 			$this->assertTrue(count($strings) > 100); // at least 100 translations in the language file
 			$this->assertTrue(strlen($content) == 0, "buffer was ".strlen($content)." long but should be zero. Translation file for '$language' must be buggy.");
 			
-			// checking that translated strings have the same number of %s as the english source strings
 			$cleanedStrings = array();
 			foreach($strings as $string)
 			{
 				$stringLabel = $string['label'];
 				$stringValue = $string['value'];
 				
-				if(!empty($stringValue)
-					&& isset($englishStringsWithParameters[$stringLabel]))
+				// Testing that the translated string is not empty => '',
+				if(empty($stringValue))
 				{
-					$englishParametersCount = $englishStringsWithParameters[$stringLabel];
-					$countTranslation = $this->getCountParametersToReplace($stringValue);
-					if($englishParametersCount != $countTranslation)
-					{
-						// Write fixed file in given location
-						// Will trigger a ->fail()
-						$writeCleanedFile = true;
-                		echo "The string $stringLabel has $englishParametersCount parameters in English, but $countTranslation in the language $language. <br/>\n";
-					}
-					else
-					{
-						$cleanedStrings[$stringLabel] = $stringValue;
-					}
+					$writeCleanedFile = true;
+            		echo "$language: The string $stringLabel is empty in the translation file, removing the line. <br/>\n";
+            		$cleanedStrings[$stringLabel] = false;
 				}
-				// No %s found
+    			// checking that translated strings have the same number of %s as the english source strings
 				else
 				{
-					$cleanedStrings[$stringLabel] = $stringValue;
+					if(isset($englishStringsWithParameters[$stringLabel]))
+    				{
+    					$englishParametersCount = $englishStringsWithParameters[$stringLabel];
+    					$countTranslation = $this->getCountParametersToReplace($stringValue);
+    					if($englishParametersCount != $countTranslation)
+    					{
+    						// Write fixed file in given location
+    						// Will trigger a ->fail()
+    						$writeCleanedFile = true;
+                    		echo "$language: The string $stringLabel has $englishParametersCount parameters in English, but $countTranslation in this translation. <br/>\n";
+    					}
+    					else
+    					{
+    						$cleanedStrings[$stringLabel] = $stringValue;
+    					}
+    				}
+    				// No %s found
+    				else
+    				{
+    					$cleanedStrings[$stringLabel] = $stringValue;
+    				}
 				}
 			}
 			if($writeCleanedFile)
@@ -87,7 +96,10 @@ class Test_Languages_Manager extends UnitTestCase
 		$tstr .= '$translations = array('.PHP_EOL;
 		foreach($translations as $key => $value)
 		{
-			$tstr .= "\t'".$key."' => '".addcslashes($value,"'")."',".PHP_EOL;
+			if(!empty($value))
+			{
+				$tstr .= "\t'".$key."' => '".addcslashes($value,"'")."',".PHP_EOL;
+			}
 		}
 		$tstr .= ');'.PHP_EOL;
 		$path = $pathFixedTranslations . $filename;
