@@ -149,6 +149,7 @@ class Piwik
 		if($override || self::isHttps())
 		{
 			@header('Pragma: ');
+			@header('Expires: ');
 			if(in_array($override, array('public', 'private', 'no-cache', 'no-store')))
 			{
 				@header("Cache-Control: $override, must-revalidate");
