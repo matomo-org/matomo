@@ -1,8 +1,8 @@
 <?php 
 $translations = array(
 	'General_Locale' => 'zh_TW.UTF-8',
-	'General_TranslatorName' => 'Eros',
-	'General_TranslatorEmail' => 'php.twn@gmail.com',
+	'General_TranslatorName' => '<a href="http://www.freegroup.org/">Pseric</a>, Eros',
+	'General_TranslatorEmail' => 'pserics@gmail.com, php.twn@gmail.com',
 	'General_EnglishLanguageName' => 'Traditional Chinese (Taiwan)',
 	'General_OriginalLanguageName' => '台灣語',
 	'General_HelloUser' => '您好， %s！',
