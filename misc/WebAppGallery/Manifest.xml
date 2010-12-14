@@ -5,4 +5,9 @@
     setAclUser="anonymousAuthenticationUser"
     setAclAccess="Modify"
   />
+  <dbmysql
+    path="install.sql"
+    commandDelimeter="//"
+    removeCommandDelimeter="true"
+  />
 </MSDeploy.iisApp>
