@@ -1,20 +1,36 @@
 <?php 
 $translations = array(
 	'General_Locale' => 'es_ES.UTF-8',
-	'General_TranslatorName' => 'Marcos Alberto Sanmartín Pereira
+	'General_TranslatorName' => 'Marcos Alberto Sanmartín Pereira,
 
 
 
-David Ernesto Soto Vásquez
+
+
+
+
+David Ernesto Soto Vásquez,
+
+
+
+
 
 
 
 Fernando SFEIR',
-	'General_TranslatorEmail' => 'ahriman89@gmail.com
+	'General_TranslatorEmail' => 'ahriman89@gmail.com,
 
 
 
-ddiods@hotmail.com
+
+
+
+
+ddiods@hotmail.com,
+
+
+
+
 
 
 
@@ -709,7 +725,15 @@ fersfeir@niux.com.ar',
 
 
 
+
+
+
+
 Los alias de las URLs para un sitio web no aparecerán en el informe Referencias > Sitios web. 
+
+
+
+
 
 
 
@@ -774,6 +798,10 @@ Tenga en cuenta que no es necesario especificar las direcciones URL con y sin \'
 	'Installation_SystemCheckExtensions' => 'Extensiones requeridas',
 	'Installation_SystemCheckDatabaseHelp' => 'Piwik requiere o bien la extensión mysqli o ambas extensiones PDO y pdo_mysql.',
 	'Installation_SystemCheckPdoAndMysqliHelp' => 'En un servidor Linux puede compilar php con las siguientes opciones: %1$s
+
+
+
+
 
 
 
@@ -977,6 +1005,10 @@ En su php.ini, añada las siguientes líneas: %2$s',
 	'VisitFrequency_PluginDescription' => 'Reporta varias estadísticas sobre los Visitante que ha vuelto versus los Visitantes Nuevos. ',
 	'VisitorInterest_PluginDescription' => 'Reportes sobre el Interés de los Visitantes: número de paginas vistas, tiempo que estuvieron en el sitio web.',
 	'VisitsSummary_PluginDescription' => 'Reporta los Números Generales del Análisis: visita, visitantes únicos, número de acciones, porcentaje de abandono, etc.
+
+
+
+
 
 
 
@@ -1250,4 +1282,12 @@ En su php.ini, añada las siguientes líneas: %2$s',
 	'PDFReports_AreYouSureYouWantToDeleteReport' => 'Esta seguro que desea borrar este Reporte PDF y su programación de envío?',
 	'PDFReports_ThereIsNoPDFReportToManage' => 'No hay Reportes PDF que administrar para este sitio web %s',
 	'PDFReports_YouMustBeLoggedIn' => 'Debe autenticarse para crear y programar envíos de Reportes PDF.',
+	'General_Id' => 'Id',
+	'General_ExceptionPrivilegeAtLeastOneWebsite' => 'No se puede acceder a este recurso, ya que requiere un %s de acceso a por lo menos un sitio web.',
+	'General_ExceptionPrivilegeAccessWebsite' => 'No se puede acceder a este recurso, ya que requiere un %s de acceso al sitio web id = %d.',
+	'API_MoreInformation' => 'Para mayor información acerca de las APIs Piwik, por favor mire la %s Introducción a las API Piwik %s y a la %s Referencia de las API Piwik %s.',
+	'CoreUpdater_YouMustDownloadPackageOrFixPermissions' => 'Piwik no puede sobreescribir la instalación actual. Usted puede arreglar los permisos de los directorios / archivos, o descargar el paquete e instalar la versión %s manualmente:',
+	'SitesManager_ExceptionInvalidIPFormat' => 'La IP a excluir "%s" no tiene un formato válido de IP (por ejemplo, %s).',
+	'PDFReports_EmailReports' => 'Informes por correo electrónico',
+	'PDFReports_SendReportNow' => 'Enviar Reporte ahora',
 );

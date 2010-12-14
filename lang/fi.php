@@ -704,6 +704,10 @@ $translations = array(
 
 
 
+
+
+
+
 Lisää php.ini-tiedostoon seuraavat rivit: %2$s',
 	'Installation_SystemCheckPhpPdoAndMysqliSite' => 'Lisätietoa: <a style="color:red" href="http://php.net/pdo">PHP PDO</a> ja <a style="color:red" href="http://php.net/mysqli">MYSQLI</a>.',
 	'Installation_SystemCheckWinPdoAndMysqliHelp' => 'Windows-palvelimella php.ini-tiedostoon tulee lisätä seuraavat rivit: %s',
@@ -993,6 +997,10 @@ Lisää php.ini-tiedostoon seuraavat rivit: %2$s',
 
 
 
+
+
+
+
 Tavoitteet ovat hyvä tapa ymmärtää ja maksimoida verkkosivujesi tehokkuus!',
 	'Goals_AddNewGoal' => 'Lisää uusi tavoite',
 	'Goals_AddNewGoalOrEditExistingGoal' => '%sLisää uusi tavoite%s tai %smuokkaa%s olemassaolevia tavoitteita',
@@ -1232,4 +1240,7 @@ Tavoitteet ovat hyvä tapa ymmärtää ja maksimoida verkkosivujesi tehokkuus!',
 	'Live_GoalTime' => '1. vaihtamisen aika',
 	'Live_GoalRevenue' => 'Tuotto',
 	'Live_GoalDetails' => 'Lisätiedot',
+	'General_Id' => 'Id',
+	'PDFReports_EmailReports' => 'Sähköpostiraportit',
+	'PDFReports_SendReportNow' => 'Lähetä raportti nyt',
 );

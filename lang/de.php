@@ -1440,4 +1440,11 @@ $translations = array(
 	'Live_GoalType' => 'Typ',
 	'Live_GoalRevenue' => 'Einnahmen',
 	'Live_GoalDetails' => 'Details',
+	'General_Id' => 'Id',
+	'General_IfArchivingIsFastYouCanSetupCronRunMoreOften' => 'Insofern der Archivierungsprozess nicht zu viel Zeit in Anspruch nimmt, können Sie einen Cronjob einrichten um die Archivierung häufiger laufen zu lassen.',
+	'Installation_SystemCheckGlobHelp' => 'Diese eingebaute Funktion ist auf ihrem System deaktiviert. Piwik wird versuchen, diese Funktion zu emulieren, aber dabei möglicherweise auf weitere Sicherheitseinschränkungen stoßen. Die Funktionalität kann beeinträchtigt werden.',
+	'Live_LinkVisitorLog' => 'Zeige detailliertes Besucher-Log',
+	'Live_GoalTime' => 'Zeit der ersten Konversion',
+	'PDFReports_EmailReports' => 'E-Mail Berichte',
+	'PDFReports_SendReportNow' => 'Bericht jetzt senden',
 );
