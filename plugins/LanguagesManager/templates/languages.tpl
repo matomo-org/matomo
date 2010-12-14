@@ -5,7 +5,7 @@
 			<option value="{$currentLanguageCode}">{$currentLanguageName}</option>
 			<option href='?module=Proxy&action=redirect&url=http://piwik.org/translations/'>{'LanguagesManager_AboutPiwikTranslations'|translate}</option>
 			{foreach from=$languages item=language}
-			<option value="{$language.code}">{$language.name}</option>
+			<option value="{$language.code}" title="{$language.name} ({$language.english_name})">{$language.name}</option>
 			{/foreach}
 		</select>
 		<input type="submit" value="go" />
