@@ -426,6 +426,10 @@ $translations = array(
 
 
 
+
+
+
+
  Dans votre php.ini, ajoutez les lignes suivantes: %2$s',
 	'Installation_SystemCheckPhpPdoAndMysqliSite' => 'Plus d\'informations sur: <a style="color:red" href="http://php.net/pdo">PHP PDO</a> et <a style="color:red" href="http://php.net/mysqli">MYSQLI</a>.',
 	'Installation_SystemCheckWinPdoAndMysqliHelp' => 'Sur un serveur windows vous pouvez ajouter les lignes suivantes à votre php.ini: %s',
@@ -1118,6 +1122,10 @@ $translations = array(
 
 
 
+
+
+
+
 Vous pouvez soit corriger les permissions du répertoire/fichier, soit télécharger le package et installer la version %s manuellement:',
 	'Goals_GoalsOverview' => 'Vue d\'ensemble des Objectifs',
 	'Goals_GoalsManagement' => 'Gestion des Objectifs',
@@ -1216,4 +1224,27 @@ Note: cette clef expirera dans 24h.',
 	'PDFReports_CreatePDFReport' => 'Créer un rapport PDF',
 	'PDFReports_UpdatePDFReport' => 'Mettre à jour un rapport PDF',
 	'PDFReports_EmailHello' => 'Bonjour,',
+	'General_Id' => 'Id',
+	'General_NewUpdatePiwikX' => 'Nouvelle mise à jour : Piwik %s',
+	'CoreUpdater_HelpMessageContent' => 'Allez voir la %1$s FAQ Piwik %2$s qui explique les erreurs courantes lors de la mise à jour. %3$s Demandez à votre administrateur système - il pourra être à même avec cette erreur qui est très probablement liée à la configuration de votre serveur MySQL.',
+	'Installation_SystemCheckGlobHelp' => 'Cette fonction native a été désactivée sur votre hôte. Piwik va tenter de l\'émuler mais il pourra rencontrer des restrictions de sécurité. Les fonctionnalités pourront en être impactées.',
+	'Live_GoalTime' => 'Temps de première conversion',
+	'Live_GoalRevenue' => 'Revenu',
+	'Live_GoalDetails' => 'Détails',
+	'PDFReports_PluginDescription' => 'Créez et téléchargez vos rapports PDF personnalisés et recevez les par e-mail quotidiennement, hebdomadairement ou mensuellement.',
+	'PDFReports_ManagePdfReports' => 'Gérer les rapports PDF',
+	'PDFReports_EmailReports' => 'Rapports e-mail',
+	'PDFReports_SendReportNow' => 'Envoyer le rapport maintenant',
+	'PDFReports_CancelAndReturnToPDF' => 'Annuler et %sretourner à la liste des rapports PDF%s',
+	'PDFReports_DescriptionWillBeFirstPage' => 'La description du rapport sera affichée sur la première page du rapport PDF',
+	'PDFReports_WeeklyScheduleHelp' => 'Planification hebdomadaire : le rapport sera envoyé le Lundi de chaque semaine.',
+	'PDFReports_MonthlyScheduleHelp' => 'Planification mensuelle : le rapport sera envoyé le premier jour de chaque mois.',
+	'PDFReports_AlsoSendReportToTheseEmails' => 'Envoyer le rapport aussi à ces adresses e-mail (une par ligne) :',
+	'PDFReports_ReportsIncludedInPDF' => 'Rapports inclus en PDF',
+	'PDFReports_PiwikReports' => 'Rapports Piwik',
+	'PDFReports_DefaultPDFContainingAllReports' => 'Rapport PDF par défaut contenant tous les rapports disponibles',
+	'PDFReports_PleaseFindAttachedFile' => 'Veuillez trouver en pièce jointe votre rapport %1$s pour %2$s.',
+	'PDFReports_AreYouSureYouWantToDeleteReport' => 'Etes vous sûr de vouloir supprimer ce rapport PDF ainsi que sa planification?',
+	'PDFReports_ThereIsNoPDFReportToManage' => 'Il n\'y a aucun rapport PDF à gérer pour le site %s',
+	'PDFReports_YouMustBeLoggedIn' => 'Vous devez être connecté afin de pouvoir créer et planifier des rapports PDF personnalisés.',
 );

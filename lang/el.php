@@ -1225,4 +1225,7 @@ $translations = array(
 	'Live_GoalTime' => '1ος χρόνος Μετατροπής',
 	'Live_GoalRevenue' => 'Πρόσοδος',
 	'Live_GoalDetails' => 'Λεπτομέρειες',
+	'General_Id' => 'Α/Α',
+	'PDFReports_EmailReports' => 'Αναφορές Ηλεκτρονικής Αλληλογραφίας',
+	'PDFReports_SendReportNow' => 'Αποστολή Αναφοράς τώρα',
 );

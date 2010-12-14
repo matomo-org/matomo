@@ -1,8 +1,8 @@
 <?php 
 $translations = array(
 	'General_Locale' => 'bg_BG.UTF-8',
-	'General_TranslatorName' => '<a href="http://kristalinchavdarov.net/">Kristalin Chavdarov</a>, <a href="http://coffebreak.info/">Andon Ivanov</a>, <a href="http://all4teens.net/">Tom Atanasov</a>',
-	'General_TranslatorEmail' => 'kristalin[at]kividesign[dot]com, Virosss[at]abv[dot]bg, tomivr[at][do not disturb]abv[dot]bg',
+	'General_TranslatorName' => '<a href="http://kristalinchavdarov.net/">Kristalin Chavdarov</a>, <a href="http://coffebreak.info/">Andon Ivanov</a>, Tom Atanasov',
+	'General_TranslatorEmail' => 'kristalin[at]kividesign[dot]com, Virosss[at]abv[dot]bg, tomivr[at]abv[dot]bg',
 	'General_EnglishLanguageName' => 'Bulgarian',
 	'General_OriginalLanguageName' => 'Български',
 	'General_HelloUser' => 'Здравей, %s!',
@@ -633,7 +633,15 @@ $translations = array(
 
 
 
+
+
+
+
 Искането за възстановяване на парола генерира формуляр, който трябва да попълните %2$s.
+
+
+
+
 
 
 
@@ -641,19 +649,39 @@ $translations = array(
 
 
 
+
+
+
+
 1) Отидете на Възстановяване на парола от тук:
+
+
 
 	%3$s
 
 
 
+
+
+
+
 2) Въведете следния token:
+
+
 
 	%4$s
 
 
 
+
+
+
+
 3) Попълнете формуляра (въведете паролата си) и изпратете.
+
+
+
+
 
 
 
@@ -743,6 +771,10 @@ $translations = array(
 	'Installation_SystemCheckExtensions' => 'Други необходими разширения',
 	'Installation_SystemCheckDatabaseHelp' => 'Необходимо е за да инстаалирате Piwik базата от данни(БД) да поддържа mysqli или PDO и pdo_mysql разширенията.',
 	'Installation_SystemCheckPdoAndMysqliHelp' => 'За Linux сървър компилирайте php със следните опции: %1$s
+
+
+
+
 
 
 
@@ -1251,4 +1283,12 @@ $translations = array(
 	'Mobile_NetworkNotReachable' => 'Мрежата не постижима',
 	'Mobile_SaveSuccessError' => 'Моля, проверете настройките',
 	'Mobile_YouAreOffline' => 'За съжаление, в момента не сте на линия',
+	'General_Id' => 'ИД',
+	'General_WarningPasswordStored' => '%sВнимание:%s Тази парола ще се съхранява в конфигурационния файл видими за всички, които я ползват.',
+	'Live_GoalType' => 'Тип',
+	'Live_GoalTime' => '1-ви реализации време',
+	'Live_GoalRevenue' => 'Приходи',
+	'Live_GoalDetails' => 'Детайли',
+	'PDFReports_EmailReports' => 'Email доклади',
+	'PDFReports_SendReportNow' => 'Изпрати доклад сега',
 );
