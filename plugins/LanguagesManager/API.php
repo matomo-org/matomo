@@ -18,6 +18,10 @@
 class Piwik_LanguagesManager_API 
 {
 	static private $instance = null;
+	
+	/**
+	 * @return Piwik_LanguagesManager_API 
+	 */
 	static public function getInstance()
 	{
 		if (self::$instance == null)
@@ -114,7 +118,11 @@ class Piwik_LanguagesManager_API
 		foreach($filenames as $filename) 
 		{
 			require PIWIK_INCLUDE_PATH . "/lang/$filename.php";
-			$languagesInfo[] = array( 'code' => $filename, 'name' => $translations['General_OriginalLanguageName']);
+			$languagesInfo[] = array( 
+				'code' => $filename, 
+				'name' => $translations['General_OriginalLanguageName'],
+				'english_name' => $translations['General_EnglishLanguageName']
+			);
 		}
 		$this->availableLanguageNames = $languagesInfo;
 		return $this->availableLanguageNames;

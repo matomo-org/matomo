@@ -98,7 +98,7 @@
 							if($(i).attr('href')) {
 								child_options+="<li><b><a target='_blank' href='"+$(i).attr('href')+"'>"+i.firstChild.nodeValue+"</a></b></li>\n";
 							} else {
-								child_options+="<li><a href='"+FormAction+SelectName+"="+OptionValue+"'>"+i.firstChild.nodeValue+"</a></li>\n";
+								child_options+="<li><a title='"+$(i).attr('title')+"' href='"+FormAction+SelectName+"="+OptionValue+"'>"+i.firstChild.nodeValue+"</a></li>\n";
 							}
 						}
 					}
