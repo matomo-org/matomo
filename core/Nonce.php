@@ -77,14 +77,65 @@ class Piwik_Nonce
 		}
 
 		// validate origin
-		$origin = Piwik_Url::getOrigin();
+		$origin = self::getOrigin();
 		if(!empty($origin) &&
 			($origin == 'null'
-			|| !in_array($origin, Piwik_Url::getAcceptableOrigins())))
+			|| !in_array($origin, self::getAcceptableOrigins())))
 		{
 			return false;
 		}
 
 		return true;
+	}
+
+	/**
+	 * Get ORIGIN header, false if not found
+	 *
+	 * @return string|false
+	 */
+	static public function getOrigin()
+	{
+		if(!empty($_SERVER['HTTP_ORIGIN']))
+		{
+			return $_SERVER['HTTP_ORIGIN'];
+		}
+		return false;
+	}
+
+	/**
+	 * Returns acceptable origins (not simply scheme://host) that
+	 * should handle a variety of proxy and web server (mis)configurations,.
+	 *
+	 * @return array
+	 */
+	static public function getAcceptableOrigins()
+	{
+		$host = Piwik_Url::getCurrentHost(null);
+		$port = '';
+
+		// parse host:port
+		if(preg_match('/^([^:]+):([0-9]+)$/', $host, $matches))
+		{
+			$host = $matches[1];
+			$port = $matches[2];
+		}
+
+		if(empty($host))
+		{
+			return array();
+		}
+
+		// standard ports
+		$origins[] = 'http://'.$host;
+		$origins[] = 'https://'.$host;
+
+		// non-standard ports
+		if(!empty($port) && $port != 80 && $port != 443)
+		{
+			$origins[] = 'http://'.$host.':'.$port;
+			$origins[] = 'https://'.$host.':'.$port;
+		}
+
+		return $origins;
 	}
 }

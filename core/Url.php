@@ -151,9 +151,10 @@ class Piwik_Url
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
 	 * will return "example.org"
 	 *
+	 * @param string $default Default value to return if host unknown
 	 * @return string
 	 */
-	static public function getCurrentHost()
+	static public function getCurrentHost($default = 'unknown')
 	{
 		if (!empty($_SERVER['HTTP_X_FORWARDED_HOST']))
 		{
@@ -165,7 +166,7 @@ class Piwik_Url
 			return $_SERVER['HTTP_HOST'];
 		}
 
-		return 'unknown';
+		return $default;
 	}
 
 	/**
@@ -335,56 +336,5 @@ class Piwik_Url
 		}
 
 		return false;
-	}
-
-	/**
-	 * Get ORIGIN header, false if not found
-	 *
-	 * @return string|false
-	 */
-	static public function getOrigin()
-	{
-		if(!empty($_SERVER['HTTP_ORIGIN']))
-		{
-			return $_SERVER['HTTP_ORIGIN'];
-		}
-		return false;
-	}
-
-	/**
-	 * Get acceptable origins
-	 *
-	 * @return array
-	 */
-	static public function getAcceptableOrigins()
-	{
-		$host = self::getCurrentHost();
-		if($host == 'unknown')
-		{
-			return array();
-		}
-
-		// parse host:port
-		$port = 80;
-		if(preg_match('/^([^:]+):([0-9]+)$/', $host, $matches))
-		{
-			$host = $matches[1];
-			$port = $matches[2];
-		}
-
-		// assume standard ports
-		$origins = array(
-			'http' => "http://$host",
-			'https' => "https://$host",
-		);
-
-		// handle non-standard port
-		if($port != 80 && $port != 443)
-		{
-			$scheme = self::getCurrentScheme();
-			$origins[$scheme] = "$scheme://$host:$port";
-		}
-
-		return $origins;
 	}
 }
