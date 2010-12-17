@@ -1,4 +1,4 @@
-/**
+/*!
  * Piwik - Web Analytics
  *
  * @link http://piwik.org
