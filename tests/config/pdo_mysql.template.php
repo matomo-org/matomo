@@ -29,3 +29,6 @@ dbname=		@database.test.name@
 adapter=	PDO_MYSQL
 tables_prefix=	piwiktests_
 schema=		Myisam
+
+[General]
+proxy_client_headers[] = HTTP_X_FORWARDED_FOR

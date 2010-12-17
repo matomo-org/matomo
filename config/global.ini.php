@@ -184,6 +184,22 @@ serve_widget_and_data = 1
 ; If set to 1, Piwik adds a response header to workaround the IE+Flash+HTTPS bug.
 reverse_proxy = 0
 
+; List of proxy headers for client IP addresses
+;
+; CloudFlare
+;proxy_client_headers[] = HTTP_CF_CONNECTING_IP
+;
+; ISP proxy
+;proxy_client_headers[] = HTTP_CLIENT_IP
+;
+; de facto standard
+;proxy_client_headers[] = HTTP_X_FORWARDED_FOR
+
+; List of proxy headers for host IP addresses
+;
+; de facto standard
+;proxy_host_headers[] = HTTP_X_FORWARDED_HOST
+
 ; The release server is an essential part of the Piwik infrastructure/ecosystem
 ; to provide the latest software version.
 latest_version_url = http://piwik.org/latest.zip
@@ -192,7 +208,6 @@ latest_version_url = http://piwik.org/latest.zip
 ; provide services to Piwik installations, e.g., getLatestVersion and
 ; subscribeNewsletter.
 api_service_url = http://api.piwik.org
-
 
 [Tracker]
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
@@ -254,11 +269,6 @@ page_maximum_length = 1024;
 ; if the AnonymizeIP plugin is deactivated, this value is ignored
 ; for IPv4 addresses, valid values are 0..4
 ip_address_mask_length = 1
-
-; IP address list of trusted reverse proxy(-ies) for which
-; all IP addresses in the proxy header are accepted; 
-; if not set, only public IP addresses are accepted
-;trusted_proxy_addresses[] =
 
 [mail]
 transport =							; smtp (using the configuration below) or empty (using built-in mail() function)

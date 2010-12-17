@@ -785,34 +785,6 @@ class Piwik_Common
  */
 
 	/**
-	 * Test whether or not an IP address is public.
-	 * For performance, we don't check to see if an IP address is actually in an assigned/allocated netblock.
-	 *
-	 * @param long|string $ip
-	 * @return bool True if IP in private address range; false otherwise
-	 */
-	static public function isPublicIp($ip)
-	{
-		if(is_int($ip))
-		{
-			$ip = sprintf("%u", $ip);
-		}
-
-		// reference: http://www.iana.org/abuse/faq.html
-		if(($ip >= '167772160' && $ip <= '184549375')			// 10.0.0.0/8 (private)
-			|| ($ip >= '2896166912' && $ip <= '2887778303')		// 172.16.0.0/12 (private)
-			|| ($ip >= '3232235520' && $ip <= '3232301055')		// 192.168.0.0/16 (private)
-			|| ($ip >= '2851995648' && $ip <= '2852061183')		// 169.254.0.0/16 (auto-configuration)
-			|| ($ip >= '2130706432' && $ip <= '2147483647')		// 127.0.0.0/8 (loopback)
-			|| ($ip >= '3758096384' && $ip <= '4026531839'))	// 224.0.0.0 - 239.255.255.255 (multicast; should never appear as a source address)
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * Convert dotted IP to a stringified integer representation
 	 *
 	 * @param string $ipStringFrom optional dotted IP address
@@ -836,95 +808,76 @@ class Piwik_Common
 
 	/**
 	 * Returns the best possible IP of the current user, in the format A.B.C.D
+	 * For example, this could be the proxy client's IP address.
 	 *
 	 * @return string ip
 	 */
 	static public function getIpString()
 	{
-		static $trustedProxies = null;
-		if(is_null($trustedProxies))
+		static $clientHeaders = null;
+		if(is_null($clientHeaders))
 		{
-			$trustedProxies = array();
 			if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
 			{
-				$trustedProxies = @Piwik_Tracker_Config::getInstance()->Tracker['trusted_proxy_addresses'];
+				$clientHeaders = @Piwik_Tracker_Config::getInstance()->General['proxy_client_headers'];
 			}
 			else
 			{
 				$config = Zend_Registry::get('config');
-				if($config !== false && isset($config->Tracker->trusted_proxy_addresses))
+				if($config !== false && isset($config->General->proxy_client_headers))
 				{
-					$trustedProxies = $config->Tracker->trusted_proxy_addresses->toArray();
+					$clientHeaders = $config->General->proxy_client_headers->toArray();
 				}
 			}
-			if(!is_array($trustedProxies))
+			if(!is_array($clientHeaders))
 			{
-				$trustedProxies = array();
+				$clientHeaders = array();
 			}
 		}
 
-		// default
-		$ip = isset($_SERVER['REMOTE_ADDR']) ?  self::getFirstIpFromList($_SERVER['REMOTE_ADDR']) : '0.0.0.0';
-
-		return self::getProxyIp($ip, $trustedProxies);
+		return self::getProxyFromHeader($_SERVER['REMOTE_ADDR'], $clientHeaders);
 	}
 
 	/**
-	 * Returns the proxy client's IP address
+	 * Returns the proxy
 	 *
-	 * @param string $ip DottedIP address of client
-	 * @param array List of dotted IP addresses of trusted proxies
+	 * @param string $default Default value to return if no matching proxy header
+	 * @param array $proxyHeaders List of proxy headers
+	 * @return string
 	 */
-	static public function getProxyIp($ip, $proxies)
+	static public function getProxyFromHeader($default, $proxyHeaders)
 	{
-		// note: these may be spoofed
-		static $clientHeaders = array(
-			// CloudFlare
-			'HTTP_CF_CONNECTING_IP',
-
-			// ISP proxy
-			'HTTP_CLIENT_IP',
-
-			// de facto standard
-			'HTTP_X_FORWARDED_FOR',
-		);
-
 		// examine proxy headers
-		foreach($clientHeaders as $clientHeader)
+		foreach($proxyHeaders as $proxyHeader)
 		{
-			if(!empty($_SERVER[$clientHeader]))
+			if(!empty($_SERVER[$proxyHeader]))
 			{
-				$clientIp = self::getFirstIpFromList($_SERVER[$clientHeader]);
-				if(!empty($clientIp) && stripos($clientIp, 'unknown') === false)
+				$proxyIp = self::getFirstElementFromList($_SERVER[$proxyHeader]);
+				if(!empty($proxyIp) && stripos($proxyIp, 'unknown') === false)
 				{
-					// accept public IP addresses, and any IP address through a trusted proxy
-					if(self::isPublicIp(ip2long($clientIp)) || 
-						in_array($ip, $proxies))
-					{
-						return $clientIp;
-					}
+					return $proxyIp;
 				}
 			}
 		}
 
-		return $ip;
+		return $default;
 	}
 
 	/**
-	 * Returns the first element of a comma separated list of IPs
+	 * Returns the first element of a comma separated list
 	 *
-	 * @param string $ip
+	 * @param string $csv
 	 *
 	 * @return string first element before ','
 	 */
-	static public function getFirstIpFromList($ip)
+	static public function getFirstElementFromList($csv)
 	{
-		$p = strpos($ip, ',');
+		$p = strpos($csv, ',');
 		if($p !== false)
 		{
-			return trim(self::sanitizeInputValues(substr($ip, 0, $p)));
+			return trim(self::sanitizeInputValues(substr($csv, 0, $p)));
 		}
-		return trim(self::sanitizeInputValues($ip));
+		return trim(self::sanitizeInputValues($csv));
 	}
 
 /*
