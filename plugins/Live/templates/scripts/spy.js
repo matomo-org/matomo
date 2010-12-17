@@ -1,7 +1,6 @@
 /*
 	jQuery Plugin spy (leftlogic.com/info/articles/jquery_spy2)
 	(c) 2006 Remy Sharp (leftlogic.com)
-	$Id$
 */
 var spyRunning = 1;
 
