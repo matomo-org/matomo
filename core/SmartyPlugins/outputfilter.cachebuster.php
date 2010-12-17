@@ -31,21 +31,25 @@
  */
 function smarty_outputfilter_cachebuster($source, &$smarty)
 {
-	$version = $smarty->get_template_vars('piwik_version');
-	$tag = 'piwik=' . $version;
+	static $cachebuster = null;
+	if(is_null($cachebuster))
+	{
+		$cachebuster = md5(Piwik_Common::getSalt() . phpversion() . $smarty->get_template_vars('piwik_version'));
+	}
+	$tag = 'cb=' . $cachebuster;
 
 	$pattern = array(
 		'~<script type=[\'"]text/javascript[\'"] src=[\'"]([^\'"]+)[\'"]>~',
 		'~<script src=[\'"]([^\'"]+)[\'"] type=[\'"]text/javascript[\'"]>~',
 		'~<link rel=[\'"]stylesheet[\'"] type=[\'"]text/css[\'"] href=[\'"]([^\'"]+)[\'"] ?/?>~',
-		'~(src|href)=\"index.php\?module=([A-Za-z0-9_]+)&action=([A-Za-z0-9_]+)\?piwik=~',
+		'~(src|href)=\"index.php\?module=([A-Za-z0-9_]+)&action=([A-Za-z0-9_]+)\?cb=~',
 	);
 
 	$replace = array(
 		'<script type="text/javascript" src="$1?'. $tag .'">',
 		'<script type="text/javascript" src="$1?'. $tag .'">',
 		'<link rel="stylesheet" type="text/css" href="$1?'. $tag .'" />',
-		'$1="index.php?module=$2&action=$3&piwik=',
+		'$1="index.php?module=$2&action=$3&cb=',
 	);
 
 	return preg_replace($pattern, $replace, $source);
