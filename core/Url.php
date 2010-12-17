@@ -156,17 +156,26 @@ class Piwik_Url
 	 */
 	static public function getCurrentHost($default = 'unknown')
 	{
-		if (!empty($_SERVER['HTTP_X_FORWARDED_HOST']))
+		static $hostHeaders = null;
+		if(is_null($hostHeaders))
 		{
-			return Piwik_Common::getFirstIpFromList($_SERVER['HTTP_X_FORWARDED_HOST']);
+			$config = Zend_Registry::get('config');
+			if($config !== false && isset($config->General->proxy_host_headers))
+			{
+				$hostHeaders = $config->General->proxy_host_headers->toArray();
+			}
+			if(!is_array($hostHeaders))
+			{
+				$hostHeaders = array();
+			}
 		}
 
 		if(isset($_SERVER['HTTP_HOST']))
 		{
-			return $_SERVER['HTTP_HOST'];
+			$default = Piwik_Common::sanitizeInputValue($_SERVER['HTTP_HOST']);
 		}
 
-		return $default;
+		return Piwik_Common::getProxyFromHeader($default, $hostHeaders);
 	}
 
 	/**
