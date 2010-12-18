@@ -7,6 +7,7 @@ function cleanup() {
 	rm -rf piwik
 	rm -f *.html
 	rm -f *.xml
+	rm -f *.sql
 }
 
 #
@@ -41,9 +42,10 @@ mv README.txt piwik/tests/
 
 cp piwik/misc/How\ to\ install\ Piwik.html .
 cp piwik/misc/package/WebAppGallery/*.* .
+rm -rf piwik/misc/package/
 
 find piwik -type f -printf '%s ' -exec md5sum {} \; | fgrep -v 'manifest.inc.php' | sed '1,$ s/\([0-9]*\) \([a-z0-9]*\) *piwik\/\(.*\)/\t\t"\3" => array("\1", "\2"),/; 1 s/^/<?php\nclass Manifest {\n\tstatic $files=array(\n/; $ s/$/\n\t);\n}/' > piwik/config/manifest.inc.php
 
-zip -q -r latest.zip piwik How\ to\ install\ Piwik.html *.xml > /dev/null 2> /dev/null
+zip -q -r latest.zip piwik How\ to\ install\ Piwik.html *.xml *.sql > /dev/null 2> /dev/null
 
 cleanup
