@@ -104,6 +104,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$this->skipThisStep( __FUNCTION__ );
 
 		$view->infos = self::getSystemInformation();
+		$this->session->general_infos = $view->infos['general_infos'];
+
 		$view->helpMessages = array(
 			'zlib'            => 'Installation_SystemCheckZlibHelp',
 			'SPL'             => 'Installation_SystemCheckSplHelp',
@@ -565,8 +567,14 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$dbInfos = $this->session->db_infos;
 		$config->database = $dbInfos;
 
+		if(!empty($this->session->general_infos))
+		{
+			$config->General = $this->session->general_infos;
+		}
+
 		unset($this->session->superuser_infos);
 		unset($this->session->db_infos);
+		unset($this->session->general_infos);
 	}
 
 	/**
@@ -671,9 +679,9 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 		$infos = array();
 
+		$infos['general_infos'] = array();
 		$infos['directories'] = Piwik::checkDirectoriesWritable();
 		$infos['can_auto_update'] = Piwik::canAutoUpdate();
-
 		
 		$serverSoftware = isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : '';
 		if(preg_match('/^Microsoft-IIS\/(.+)/', $serverSoftware, $matches) && version_compare($matches[1], '7') >= 0)
@@ -815,14 +823,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 		$infos['isWindows'] = Piwik_Common::isWindows();
 
-		$infos['protocol_ok'] = true;
-		$infos['protocol'] = self::getProtocolInformation();
-		if(Piwik_Url::getCurrentScheme() == 'http' &&
-			$infos['protocol'] !== null)
-		{
-			$infos['protocol_ok'] = false;
-		}
-
 		$integrityInfo = Piwik::getFileIntegrityInformation();
 		$infos['integrity'] = $integrityInfo[0];
 		
@@ -840,42 +840,21 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 		$infos['tracker_status'] = Piwik_Common::getRequestVar('trackerStatus', 0, 'int');
 
+		$infos['protocol'] = Piwik_ProxyHeaders::getProtocolInformation();
+		if(Piwik_Url::getCurrentScheme() == 'http' && $infos['protocol'] !== null)
+		{
+			$infos['general_infos']['reverse_proxy'] = '1';
+		}
+		if(count($headers = Piwik_ProxyHeaders::getProxyClientHeaders()) > 0)
+		{
+			$infos['general_infos']['proxy_client_headers'] = $headers;
+		}
+		if(count($headers = Piwik_ProxyHeaders::getProxyHostHeaders()) > 0)
+		{
+			$infos['general_infos']['proxy_host_headers'] = $headers;
+		}
+
 		return $infos;
-	}
-
-	/**
-	 * Get protocol information, with the exception of HTTPS
-	 *
-	 * @return string protocol information
-	 */
-	public static function getProtocolInformation()
-	{
-		if(Piwik_Common::getRequestVar('clientProtocol', 'http', 'string') == 'https')
-		{
-			return 'https';
-		}
-
-		if(isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)
-		{
-			return 'SERVER_PORT=443';
-		}
-
-		if(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https')
-		{
-			return 'X-Forwarded-Proto';
-		}
-
-		if(isset($_SERVER['HTTP_X_FORWARDED_SCHEME']) && strtolower($_SERVER['HTTP_X_FORWARDED_SCHEME']) == 'https')
-		{
-			return 'X-Forwarded-Scheme';
-		}
-
-		if(isset($_SERVER['HTTP_X_URL_SCHEME']) && strtolower($_SERVER['HTTP_X_URL_SCHEME']) == 'https')
-		{
-			return 'X-Url-Scheme';
-		}
-
-		return null;
 	}
 
 	/**

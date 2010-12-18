@@ -17,7 +17,9 @@ class Piwik_Updates_1_1 extends Piwik_Updates
 {
 	static function update($schema = 'Myisam')
 	{
-		$rootLogin = Zend_Registry::get('config')->superuser->login;
+		$config = Zend_Registry::get('config');
+
+		$rootLogin = $config->superuser->login;
 		try {
 			// throws an exception if invalid
 			Piwik::checkValidLoginString($rootLogin);
@@ -26,5 +28,30 @@ class Piwik_Updates_1_1 extends Piwik_Updates
 						. $e->getMessage()
 						. ' Edit your config/config.ini.php to change it.');
 		}
+
+		$generalInfo = $config->General->toArray();
+		if(!isset($generalInfo['proxy_client_headers']) && count($headers = Piwik_ProxyHeaders::getProxyClientHeaders()) > 0)
+		{
+			$generalInfo['proxy_client_headers'] = $headers;
+		}
+		if(!isset($generalInfo['proxy_host_headers']) && count($headers = Piwik_ProxyHeaders::getProxyHostHeaders()) > 0)
+		{
+			$generalInfo['proxy_host_headers'] = $headers;
+		}
+		if(isset($headers))
+		{
+			if(is_writable( Piwik_Config::getDefaultUserConfigPath() ))
+			{
+				$config->General = $generalInfo;
+				$config->__destruct();
+				Piwik::createConfigObject();
+			}
+			else
+			{
+				throw new Exception('You appear to be using a proxy server.  Edit your config/config.ini.php to configure proxy_client_headers[] and/or proxy_host_headers[].');
+			}
+		}
+
+		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
 	}
 }
