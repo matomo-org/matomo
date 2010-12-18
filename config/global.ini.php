@@ -186,18 +186,18 @@ reverse_proxy = 0
 
 ; List of proxy headers for client IP addresses
 ;
-; CloudFlare
+; CloudFlare (CF-Connecting-IP)
 ;proxy_client_headers[] = HTTP_CF_CONNECTING_IP
 ;
-; ISP proxy
+; ISP proxy (Client-IP)
 ;proxy_client_headers[] = HTTP_CLIENT_IP
 ;
-; de facto standard
+; de facto standard (X-Forwarded-For)
 ;proxy_client_headers[] = HTTP_X_FORWARDED_FOR
 
 ; List of proxy headers for host IP addresses
 ;
-; de facto standard
+; de facto standard (X-Forwarded-Host)
 ;proxy_host_headers[] = HTTP_X_FORWARDED_HOST
 
 ; The release server is an essential part of the Piwik infrastructure/ecosystem
