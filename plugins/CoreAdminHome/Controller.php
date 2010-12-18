@@ -23,6 +23,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
 
 	public function generalSettings()
 	{
+		Piwik::checkUserIsSuperUser();
 		$view = Piwik_View::factory('generalSettings');
 		$enableBrowserTriggerArchiving = Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled();
 		$todayArchiveTimeToLive = Piwik_ArchiveProcessing::getTodayArchiveTimeToLive();
@@ -51,6 +52,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
 	
 	public function setGeneralSettings()
 	{
+		Piwik::checkUserIsSuperUser();
 		$response = new Piwik_API_ResponseBuilder(Piwik_Common::getRequestVar('format'));
 		try {
     		Piwik::checkUserIsSuperUser();
