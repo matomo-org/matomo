@@ -40,7 +40,7 @@ mkdir piwik/tests
 mv README.txt piwik/tests/
 
 cp piwik/misc/How\ to\ install\ Piwik.html .
-cp piwik/misc/package/WebAppGallery/*.xml .
+cp piwik/misc/package/WebAppGallery/*.* .
 
 find piwik -type f -printf '%s ' -exec md5sum {} \; | fgrep -v 'manifest.inc.php' | sed '1,$ s/\([0-9]*\) \([a-z0-9]*\) *piwik\/\(.*\)/\t\t"\3" => array("\1", "\2"),/; 1 s/^/<?php\nclass Manifest {\n\tstatic $files=array(\n/; $ s/$/\n\t);\n}/' > piwik/config/manifest.inc.php
 
