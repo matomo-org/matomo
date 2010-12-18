@@ -67,7 +67,7 @@ class Piwik_Cookie
 	const VALUE_SEPARATOR = ':';
 	
 	/**
-	 * Instanciate a new Cookie object and tries to load the cookie content if the cookie
+	 * Instantiate a new Cookie object and tries to load the cookie content if the cookie
 	 * exists already.
 	 * 
 	 * @param string cookie Name
@@ -226,10 +226,7 @@ class Piwik_Cookie
 			// no numeric value are base64 encoded so we need to decode them
 			if(!is_numeric($varValue))
 			{
-				$varValue = base64_decode($varValue);
-
-				// some of the values may be serialized array so we try to unserialize it
-				$varValue = Piwik_Common::unserialize_array($varValue);
+				$varValue = json_decode(base64_decode($varValue));
 			}
 			
 			$this->value[$varName] = $varValue;
@@ -249,11 +246,7 @@ class Piwik_Cookie
 		{
 			if(!is_numeric($value))
 			{
-				if(is_array($value))
-				{
-					$value = serialize($value);
-				}
-				$value = base64_encode($value);
+				$value = base64_encode(json_encode($value));
 			}
 		
 			$cookieStr .= "$name=$value" . self::VALUE_SEPARATOR;
