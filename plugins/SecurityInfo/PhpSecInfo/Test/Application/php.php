@@ -32,7 +32,7 @@ class PhpSecInfo_Test_Application_Php extends PhpSecInfo_Test_Application
 		$timeout = Piwik_UpdateCheck::SOCKET_TIMEOUT;
 		try {
 			$latestVersion = Piwik_Http::sendHttpRequest($url, $timeout);
-			$versionInfo = Piwik_Common::unserialize_array($latestVersion);
+			$versionInfo = safe_unserialize($latestVersion);
 			$this->recommended_value = $versionInfo['version'];
 		} catch(Exception $e) {
 			$this->recommended_value = '';
