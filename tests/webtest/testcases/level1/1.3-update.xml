@@ -67,7 +67,7 @@
 				<verifyText description="check page text" text="Piwik updated successfully!" />
 				<clickButton description="click 'Continue to Piwik' button" label="Continue to Piwik" />
 
-				<!-- db update -->
+				<!-- db update? -->
 
 				<ifStep description="check if db update required">
 					<condition>
@@ -83,11 +83,25 @@
 						</not>
 
 						<verifyText description="check page text" text="Piwik has been successfully updated!" />
-
 					</then>
 				</ifStep>
 
-				<!-- still logged in -->
+				<!-- logged out? -->
+				<ifStep description="check if re-login required">
+					<condition>
+						<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Sign in" />
+					</condition>
+					<then>
+						<setInputField description="set Piwik login" htmlId="form_login" value="piwik_login" />
+						<setInputField description="set Piwik password" htmlId="form_password" value="piwik_password" />
+
+						<!-- sign in -->
+
+						<clickButton description="click 'Sign in' button" label="Sign in" />
+					</then>
+				</ifStep>
+
+				<!-- logged in -->
 
 				<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Web Analytics Reports" />
 				<verifyText description="check page text" text="Piwik" />
