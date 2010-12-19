@@ -828,7 +828,7 @@ class Piwik_Common
 		{
 			if(!empty($_SERVER[$proxyHeader]))
 			{
-				$proxyIp = self::getFirstElementFromList($_SERVER[$proxyHeader]);
+				$proxyIp = self::getLastElementFromList($_SERVER[$proxyHeader]);
 				if(!empty($proxyIp) && stripos($proxyIp, 'unknown') === false)
 				{
 					return $proxyIp;
@@ -852,6 +852,23 @@ class Piwik_Common
 		if($p !== false)
 		{
 			return trim(self::sanitizeInputValues(substr($csv, 0, $p)));
+		}
+		return trim(self::sanitizeInputValues($csv));
+	}
+
+	/**
+	 * Returns the last element of a comma separated list
+	 *
+	 * @param string $csv
+	 *
+	 * @return string last element after ','
+	 */
+	static public function getLastElementFromList($csv)
+	{
+		$p = strrpos($csv, ',');
+		if($p !== false)
+		{
+			return trim(self::sanitizeInputValues(substr($csv, $p+1)));
 		}
 		return trim(self::sanitizeInputValues($csv));
 	}
