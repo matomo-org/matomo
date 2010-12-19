@@ -35,7 +35,7 @@ class Piwik_Nonce
 	static public function getNonce($id, $ttl = 300)
 	{
 		// save session-dependent nonce
-		$ns = new Zend_Session_Namespace($id);
+		$ns = new Piwik_Session_Namespace($id);
 		$nonce = $ns->nonce;
 
 		// re-use an unexpired nonce (a small deviation from the "used only once" principle, so long as we do not reset the expiration)
@@ -60,7 +60,7 @@ class Piwik_Nonce
 	 */
 	static public function verifyNonce($id, $cnonce)
 	{
-		$ns = new Zend_Session_Namespace($id);
+		$ns = new Piwik_Session_Namespace($id);
 		$nonce = $ns->nonce;
 
 		// validate token

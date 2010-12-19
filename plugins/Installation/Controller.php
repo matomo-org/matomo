@@ -36,7 +36,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 	public function __construct()
 	{
-		$this->session = new Zend_Session_Namespace('Piwik_Installation');
+		$this->session = new Piwik_Session_Namespace('Piwik_Installation');
 		if(!isset($this->session->currentStepDone))
 		{
 			$this->session->currentStepDone = '';

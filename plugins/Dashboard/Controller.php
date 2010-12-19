@@ -94,7 +94,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		$currentUser = Piwik::getCurrentUserLogin();
 		if($currentUser == 'anonymous')
 		{
-			$session = new Zend_Session_Namespace("Piwik_Dashboard");
+			$session = new Piwik_Session_Namespace("Piwik_Dashboard");
 			$session->dashboardLayout = $layout;
 		}
 		else
@@ -115,7 +115,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 
 		if($currentUser == 'anonymous')
 		{
-			$session = new Zend_Session_Namespace("Piwik_Dashboard");
+			$session = new Piwik_Session_Namespace("Piwik_Dashboard");
 
 			if(!isset($session->dashboardLayout))
 			{
