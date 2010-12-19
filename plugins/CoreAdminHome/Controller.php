@@ -55,7 +55,6 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
 		Piwik::checkUserIsSuperUser();
 		$response = new Piwik_API_ResponseBuilder(Piwik_Common::getRequestVar('format'));
 		try {
-    		Piwik::checkUserIsSuperUser();
     		$this->checkTokenInUrl();
     		$enableBrowserTriggerArchiving = Piwik_Common::getRequestVar('enableBrowserTriggerArchiving');
     		$todayArchiveTimeToLive = Piwik_Common::getRequestVar('todayArchiveTimeToLive');
