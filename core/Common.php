@@ -811,7 +811,13 @@ class Piwik_Common
 			}
 		}
 
-		return self::getProxyFromHeader($_SERVER['REMOTE_ADDR'], $clientHeaders);
+		$default = '0.0.0.0';
+		if(isset($_SERVER['REMOTE_ADDR']))
+		{
+			$default = $_SERVER['REMOTE_ADDR']);
+		}
+
+		return self::getProxyFromHeader($default, $clientHeaders);
 	}
 
 	/**
