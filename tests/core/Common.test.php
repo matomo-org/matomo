@@ -807,6 +807,23 @@ class Test_Piwik_Common extends UnitTestCase
 		}
 	}
 
+	function test_getLastElementFromList()
+	{
+		$tests = array(
+			'' => '',
+			'a' => 'a',
+			' a ' => 'a',
+			' a, b' => 'b',
+			'a ,b ' => 'b',
+			'a,' => '',
+		);
+
+		foreach($tests as $csv => $expected)
+		{
+			$this->assertEqual( Piwik_Common::getLastElementFromList($csv), $expected);
+		}
+	}
+
 	function test_getProxyFromHeader()
 	{
 		$ips = array(
