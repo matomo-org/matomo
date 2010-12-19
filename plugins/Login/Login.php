@@ -123,7 +123,7 @@ class Piwik_Login extends Piwik_Plugin
 			throw new Exception(Piwik_Translate('Login_LoginPasswordNotCorrect'));
 		}
 
-		$ns = new Zend_Session_Namespace('Piwik_Login.referer');
+		$ns = new Piwik_Session_Namespace('Piwik_Login.referer');
 		unset($ns->referer);
 
 		$authCookieName = Zend_Registry::get('config')->General->login_cookie_name;

@@ -17,8 +17,13 @@
  */
 class Piwik_Session extends Zend_Session
 {
-    public static function start($options = false)
+	public static function start($options = false)
 	{
+		if(Piwik_Common::isPhpCliMode())
+		{
+			return;
+		}
+
 		// use cookies to store session id on the client side
 		@ini_set('session.use_cookies', '1');
 
