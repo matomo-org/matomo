@@ -9,6 +9,7 @@
  * @package Piwik
  */
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
+$GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'] = false;
 define('PIWIK_ENABLE_TRACKING', true);
 
 if(file_exists('bootstrap.php'))
