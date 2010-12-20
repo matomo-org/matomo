@@ -15,7 +15,6 @@ require_once PIWIK_INCLUDE_PATH . '/libs/tcpdf/tcpdf.php';
 
 class Piwik_PDFReports_PDFRenderer extends TCPDF
 {
-	private $reportFont     	   = 'helvetica';
 	private $reportFontBold 	   = 'B';
 	private $reportSimpleFontSize = '12';
 	private $reportHeaderFontSize = '22';
@@ -41,12 +40,38 @@ class Piwik_PDFReports_PDFRenderer extends TCPDF
 	private $currentPage = 0;
 	private $lastTableIsSimpleReport = false;
 
-	public function __construct($websiteName, $prettyDate, $description)
+	public function __construct($websiteName, $prettyDate, $description, $language)
 	{
 		parent::__construct();
 		$this->websiteName = $websiteName;
 		$this->prettyDate = $prettyDate;
 		$this->description = $description;
+		
+		switch($language)
+		{
+			case 'zh-tw':
+			case 'ja':
+				$reportFont = 'msungstdlight';
+				break;
+			
+			case 'zh-cn':
+				$reportFont = 'stsongstdlight';
+			break;
+			
+			case 'ko':
+				$reportFont = 'hysmyeongjostdmedium';
+				break;
+			
+			case 'ar':
+				$reportFont = 'almohanad';
+				break;
+				
+			case 'en':
+			default:
+				$reportFont = 'dejavusans';
+				break;
+		}
+		$this->reportFont = $reportFont;
 	}
 
 	public function setReport($reportMetadata, $report, $columns, $rowsMetadata)
