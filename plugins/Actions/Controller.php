@@ -214,8 +214,8 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	{
 		$view->setColumnsToDisplay( array('label','nb_visits','nb_hits') );
 		$view->setColumnTranslation('label', Piwik_Translate('Actions_ColumnDownloadURL'));
-		$view->setColumnTranslation('nb_hits', Piwik_Translate('Actions_ColumnDownloads'));
 		$view->setColumnTranslation('nb_visits', Piwik_Translate('Actions_ColumnUniqueDownloads'));
+		$view->setColumnTranslation('nb_hits', Piwik_Translate('Actions_ColumnDownloads'));
 		$view->disableExcludeLowPopulation();
 		$this->configureGenericViewActions($view);
 	}
@@ -227,8 +227,8 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	{
 		$view->setColumnsToDisplay( array('label','nb_visits','nb_hits') );
 		$view->setColumnTranslation('label', Piwik_Translate('Actions_ColumnClickedURL'));
-		$view->setColumnTranslation('nb_hits', Piwik_Translate('Actions_ColumnClicks'));
 		$view->setColumnTranslation('nb_visits', Piwik_Translate('Actions_ColumnUniqueClicks'));
+		$view->setColumnTranslation('nb_hits', Piwik_Translate('Actions_ColumnClicks'));
 		$view->disableExcludeLowPopulation();
 		$this->configureGenericViewActions($view);
 	}
