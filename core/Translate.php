@@ -16,7 +16,7 @@
 class Piwik_Translate
 {
 	static private $instance = null;
-	private $englishLanguageLoaded = false;
+	private $loadedLanguage = false;
 	
 	/**
 	 * @return Piwik_Translate
@@ -32,26 +32,45 @@ class Piwik_Translate
 
 	public function loadEnglishTranslation()
 	{
-		require PIWIK_INCLUDE_PATH . '/lang/en.php';
-		$this->mergeTranslationArray($translations);
-		$this->setLocale();
-		$this->englishLanguageLoaded = true;
+		$this->loadTranslation('en');
 	}
 	
 	public function unloadEnglishTranslation()
 	{
 		$GLOBALS['Piwik_translations'] = array();
-		$this->englishLanguageLoaded = false;
 	}
 
-	public function loadUserTranslation()
+	public function reloadLanguage($language = false)
 	{
-		$language = $this->getLanguageToLoad();
-		if($language === 'en' 
-			&& $this->englishLanguageLoaded)
+		if(empty($language))
+		{
+			$language = $this->getLanguageToLoad();
+		}
+		Piwik_Translate::getInstance()->loadCoreTranslation($language);
+		Piwik_PluginsManager::getInstance()->loadPluginTranslations($language);
+	}
+	
+	/**
+	 * Reads the specified code translation file in memory.
+	 * 
+	 * @param $language 2 letter language code. If not specified, will detect current user translation, or load default translation.
+	 * @return void
+	 */
+	public function loadCoreTranslation($language = false)
+	{
+		if(empty($language))
+		{
+			$language = $this->getLanguageToLoad();
+		}
+		if($this->loadedLanguage == $language)
 		{
 			return;
 		}
+		$this->loadTranslation($language);
+	}
+	
+	private function loadTranslation($language)
+	{
 		$path = PIWIK_INCLUDE_PATH . '/lang/' . $language . '.php';
 		if(!is_readable($path))
 		{
@@ -60,6 +79,7 @@ class Piwik_Translate
 		require $path;
 		$this->mergeTranslationArray($translations);
 		$this->setLocale();
+		$this->loadedLanguage = $language;
 	}
 	
 	public function mergeTranslationArray($translation)
@@ -89,7 +109,7 @@ class Piwik_Translate
 		$language = Piwik_Common::getRequestVar('language', is_null($language) ? '' : $language, 'string');
 		if(empty($language))
 		{
-			$language = Zend_Registry::get('config')->General->default_language;
+			$language = $this->getLanguageDefault();
 		}
 		if( Piwik_Common::isValidFilename($language))
 		{
@@ -101,6 +121,10 @@ class Piwik_Translate
 		}
 	}
 	
+	public function getLanguageDefault()
+	{
+		return Zend_Registry::get('config')->General->default_language;
+	}
 	/**
 	 * Generate javascript translations array
 	 * 

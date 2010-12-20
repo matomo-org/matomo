@@ -31,8 +31,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 				'alwaysActivated' => Piwik_PluginsManager::getInstance()->isPluginAlwaysActivated($pluginName),
 			);
 		}
-
-		Piwik_PluginsManager::getInstance()->loadTranslations();
+		Piwik_PluginsManager::getInstance()->loadPluginTranslations();
 
 		$loadedPlugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
 		foreach($loadedPlugins as $oPlugin)

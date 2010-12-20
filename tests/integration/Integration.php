@@ -212,10 +212,10 @@ abstract class Test_Integration extends Test_Database
 	 * @param $formats Array of 'format' to fetch from API
 	 * @param $periods Array of 'period' to query API
 	 * @param $setDateLastN If set to true, the 'date' parameter will be rewritten to query instead a range of dates, rather than one period only.
-	 * 
+	 * @param $language 2 letter language code, defaults to default piwik language
 	 * @return array of API URLs query strings
 	 */ 
-	protected function generateUrlsApi( $parametersToSet, $formats, $periods, $setDateLastN = false )
+	protected function generateUrlsApi( $parametersToSet, $formats, $periods, $setDateLastN = false, $language = false )
 	{
 		// Get the URLs to query against the API for all functions starting with get*
 		$skipped = $requestUrls = array();
@@ -263,6 +263,11 @@ abstract class Test_Integration extends Test_Database
     					$parametersToSet['date'] = $firstDate . ',' . $secondDate;
     				}
     				
+    				// Set response language
+    				if($language !== false)
+    				{
+    					$parametersToSet['language'] = $language;
+    				}
         			// Generate for each specified format
         			foreach($formats as $format)
         			{
@@ -307,16 +312,22 @@ abstract class Test_Integration extends Test_Database
 	 * @param $formats String or array of formats to fetch from API 
 	 * @param $idSite Id site
 	 * @param $dateTime Date time string of reports to request
+	 * @param $periods String or array of strings of periods (day, week, month, year)
 	 * @param $setDateLastN When set to true, 'date' parameter passed to API request will be rewritten to query a range of dates rather than 1 date only
+	 * @param $language 2 letter language code to request data in
 	 * 
 	 * @return void
 	 */
-	function callGetApiCompareOutput($testName, $formats = 'xml', $idSite = false, $dateTime = false, $periods = 'day', $setDateLastN = false)
+	function callGetApiCompareOutput($testName, $formats = 'xml', $idSite = false, $dateTime = false, $periods = false, $setDateLastN = false, $language = false)
 	{
 		$path = $this->getPathToTestDirectory();
 		$pathProcessed = $path . "/processed/";
 		$pathExpected = $path . "/expected/";
 		
+		if($periods === false)
+		{
+			$periods = 'day';
+		}
 		if(!is_writable($pathProcessed))
 		{
 			$this->fail('To run the tests, you need to give write permissions to the following directory (create it if it doesn\'t exist).<code><br/>mkdir '. $pathProcessed.'<br/>chmod 777 '.$pathProcessed.'</code><br/>');
@@ -339,7 +350,7 @@ abstract class Test_Integration extends Test_Database
 		{
 			$periods = array($periods);
 		}
-		$requestUrls = $this->generateUrlsApi($parametersToSet, $formats, $periods, $setDateLastN);
+		$requestUrls = $this->generateUrlsApi($parametersToSet, $formats, $periods, $setDateLastN, $language);
     	
     	foreach($requestUrls as $apiId => $requestUrl)
     	{

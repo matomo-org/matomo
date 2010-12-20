@@ -239,13 +239,12 @@ class Piwik_FrontController
 			}
 			
 			Zend_Registry::get('access')->reloadAccess($authAdapter);
-			Piwik_Translate::getInstance()->loadUserTranslation();
 			
-			Piwik::raiseMemoryLimitIfNecessary();
+			Piwik_Translate::getInstance()->reloadLanguage();
 
-			$pluginsManager->setLanguageToLoad( Piwik_Translate::getInstance()->getLanguageToLoad() );
-			$pluginsManager->loadTranslations();
+			Piwik::raiseMemoryLimitIfNecessary();
 			$pluginsManager->postLoadPlugins();
+
 			
 			Piwik_PostEvent('FrontController.checkForUpdates');
 		} catch(Exception $e) {

@@ -55,13 +55,18 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime);
 	}
 	
+	/**
+	 * Test the Yearly metadata API response, 
+	 * with no visits, with custom response language 
+	 */
 	function test_apiGetReportMetadata_year()
 	{
 		$this->setApiNotToCall(array());
 		$this->setApiToCall( 'API.getProcessedReport' );
 		$dateTime = '2009-01-04 00:11:42';
 		$idSite = $this->createWebsite($dateTime);
-        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime, 'year');
+		$language = 'fr';
+        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime, 'year', $setDateLastN = false, $language);
 	}
 	
 	/*
