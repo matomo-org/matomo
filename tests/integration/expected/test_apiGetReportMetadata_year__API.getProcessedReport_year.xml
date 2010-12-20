@@ -3,45 +3,45 @@
 	<website>Piwik test</website>
 	<prettyDate>2009</prettyDate>
 	<metadata>
-		<category>Visitors</category>
-		<name>Country</name>
+		<category>Visiteurs</category>
+		<name>Pays</name>
 		<module>UserCountry</module>
 		<action>getCountry</action>
-		<dimension>Country</dimension>
+		<dimension>Pays</dimension>
 		<metrics>
-			<nb_visits>Visits</nb_visits>
+			<nb_visits>Visites</nb_visits>
 			<nb_actions>Actions</nb_actions>
 
 		</metrics>
 		<processedMetrics>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
-			<bounce_rate>Bounce Rate</bounce_rate>
-			<conversion_rate>Conversion Rate</conversion_rate>
+			<nb_actions_per_visit>Actions par visite</nb_actions_per_visit>
+			<avg_time_on_site>Temps moyen sur le site</avg_time_on_site>
+			<bounce_rate>Taux de rebond</bounce_rate>
+			<conversion_rate>Taux de conversion</conversion_rate>
 
 		</processedMetrics>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
-			<conversion_rate>Conversion Rate</conversion_rate>
-			<revenue>Revenue</revenue>
+			<conversion_rate>Taux de conversion</conversion_rate>
+			<revenue>Revenu</revenue>
 
 		</metricsGoal>
 		<processedMetricsGoal>
-			<revenue_per_visit>Value per Visit</revenue_per_visit>
+			<revenue_per_visit>Valeur par Visite</revenue_per_visit>
 
 		</processedMetricsGoal>
 		<uniqueId>UserCountry_getCountry</uniqueId>
 
 	</metadata>
 	<columns>
-		<label>Country</label>
-		<nb_visits>Visits</nb_visits>
+		<label>Pays</label>
+		<nb_visits>Visites</nb_visits>
 		<nb_actions>Actions</nb_actions>
-		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
-		<bounce_rate>Bounce Rate</bounce_rate>
-		<conversion_rate>Conversion Rate</conversion_rate>
-		<revenue>Revenue</revenue>
+		<nb_actions_per_visit>Actions par visite</nb_actions_per_visit>
+		<avg_time_on_site>Temps moyen sur le site</avg_time_on_site>
+		<bounce_rate>Taux de rebond</bounce_rate>
+		<conversion_rate>Taux de conversion</conversion_rate>
+		<revenue>Revenu</revenue>
 
 	</columns>
 	<reportData/>

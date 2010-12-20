@@ -252,7 +252,8 @@ class Piwik_Url
 		$query = '';
 		foreach($parameters as $name => $value)
 		{
-			if(empty($value))
+			if(is_null($value)
+				|| $value === false)
 			{
 				continue;
 			}

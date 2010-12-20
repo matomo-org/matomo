@@ -250,7 +250,8 @@ class Piwik_Common
 			return;
 		}
 		$nextRunTime = $cache['lastTrackerCronRun'] + $minimumInterval;
-		if($cache['lastTrackerCronRun'] === false
+		if(	(isset($GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS']) && $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'])
+			|| $cache['lastTrackerCronRun'] === false
 			|| $nextRunTime < $now )
 		{
 			$cache['lastTrackerCronRun'] = $now;

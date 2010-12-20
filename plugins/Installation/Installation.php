@@ -61,7 +61,7 @@ class Piwik_Installation extends Piwik_Plugin
 			$message = '';
 		}
 
-		Piwik_Translate::getInstance()->loadUserTranslation();
+		Piwik_Translate::getInstance()->loadCoreTranslation();
 
 		Piwik_PostEvent('Installation.startInstallation', $this);
 

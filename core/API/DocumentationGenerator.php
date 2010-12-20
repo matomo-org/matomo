@@ -165,9 +165,11 @@ class Piwik_API_DocumentationGenerator
 		// the parameter 'format' can be set to all API methods (used in tests)
 		// the parameter 'hideIdSubDatable' is used for integration tests only
 		// the parameter 'serialize' sets php outputs human readable, used in integration tests and debug
+		// the parameter 'language' sets the language for the response (eg. country names)
 		$aParameters['format'] = false;
 		$aParameters['hideIdSubDatable'] = false;
 		$aParameters['serialize'] = false;
+		$aParameters['language'] = false;
 		
 		$moduleName = Piwik_API_Proxy::getInstance()->getModuleNameFromClassName($class);
 		$urlExample = '?module=API&method='.$moduleName.'.'.$methodName.'&';
@@ -185,7 +187,6 @@ class Piwik_API_DocumentationGenerator
 				return false;
 			}
 		}
-		
 		return substr($urlExample,0,-1);
 	}
 	

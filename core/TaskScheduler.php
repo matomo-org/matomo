@@ -46,8 +46,10 @@ class Piwik_TaskScheduler
 			$timetable = unserialize($option);
 		}
 
-		// DEBUG Force trigger all Scheduled tasks, uncomment
-//		$timetable = array();
+		if(isset($GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS']) && $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'])
+		{
+			$timetable = array();
+		}
 		// Collects tasks
 		Piwik_PostEvent(self::GET_TASKS_EVENT, $tasks);
 

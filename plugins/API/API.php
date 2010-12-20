@@ -96,17 +96,20 @@ class Piwik_API_API
 	}
 	
     /*
-     * Loads reports metadata, then return the requested one (possibly matching parameters, if passed)
+     * Loads reports metadata, then return the requested one, 
+     * matching optional API parameters.
      */
-	public function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array())
+	public function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $language = false)
     {
+    	Piwik_Translate::getInstance()->reloadLanguage($language);
     	static $reportsMetadata = array();
-    	if(!isset($reportsMetadata[$idSite]))
+    	$cacheKey = $idSite.$language;
+    	if(!isset($reportsMetadata[$cacheKey]))
     	{
-    		$reportsMetadata[$idSite] = Piwik_API_API::getInstance()->getReportMetadata($idSite);
+    		$reportsMetadata[$cacheKey] = $this->getReportMetadata($idSite);
     	}
     	
-    	foreach($reportsMetadata[$idSite] as $report)
+    	foreach($reportsMetadata[$cacheKey] as $report)
     	{
     		if($report['module'] == $apiModule
     			&& $report['action'] == $apiAction)
@@ -139,7 +142,7 @@ class Piwik_API_API
 	public function getReportMetadata($idSites = false) 
 	{
 		$idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
-
+		
 		$availableReports = array();
 		Piwik_PostEvent('API.getReportMetadata', $availableReports, $idSites);
 		foreach ($availableReports as &$availableReport) {
@@ -200,17 +203,17 @@ class Piwik_API_API
 		return $availableReports;
 	}
 
-	public function getProcessedReport($idSite, $date, $period, $apiModule, $apiAction, $apiParameters = false)
+	public function getProcessedReport($idSite, $date, $period, $apiModule, $apiAction, $apiParameters = false, $language = false)
     {
     	if($apiParameters === false)
     	{
     		$apiParameters = array();
     	}
         // Is this report found in the Metadata available reports?
-        $reportMetadata = $this->getMetadata($idSite, $apiModule, $apiAction, $apiParameters);
+        $reportMetadata = $this->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language);
         if(empty($reportMetadata))
         {
-        	throw new Exception("Requested report not found in the list of available reports. \n");
+        	throw new Exception("Requested report $apiModule.$apiAction for Website id=$idSite not found in the list of available reports. \n");
         }
         $reportMetadata = reset($reportMetadata);
         
@@ -221,6 +224,8 @@ class Piwik_API_API
 			'period' => $period,
 			'date' => $date,
 			'format' => 'original',
+			'serialize' => '0',
+			'language' => $language,
 		));
 		$url = Piwik_Url::getQueryStringFromParameters($parameters);
         $request = new Piwik_API_Request($url);
@@ -230,7 +235,6 @@ class Piwik_API_API
         } catch(Exception $e) {
         	throw new Exception("API returned an error: ".$e->getMessage()."\n");
         }
-        
         // Table with a Dimension (Keywords, Pages, Browsers, etc.)
         if(isset($reportMetadata['dimension']))
         {
@@ -309,7 +313,7 @@ class Piwik_API_API
     	
         if(isset($reportMetadata['processedMetrics']))
         {
-        	$processedMetricsAdded = Piwik_API_API::getInstance()->getDefaultProcessedMetrics();
+        	$processedMetricsAdded = $this->getDefaultProcessedMetrics();
         	foreach($processedMetricsAdded as $processedMetricId => $processedMetricTranslation)
         	{
         		// this processed metric can be displayed for this report
