@@ -55,6 +55,7 @@ if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 	require_once PIWIK_INCLUDE_PATH .'/core/Loader.php';
 	require_once PIWIK_INCLUDE_PATH .'/core/ErrorHandler.php';
 	require_once PIWIK_INCLUDE_PATH .'/core/ExceptionHandler.php';
+	$timer = new Piwik_Timer();
 	set_error_handler('Piwik_ErrorHandler');
 	set_exception_handler('Piwik_ExceptionHandler');
 	printDebug($_GET);
@@ -74,4 +75,5 @@ if(!defined('PIWIK_ENABLE_TRACKING') || PIWIK_ENABLE_TRACKING)
 	$process->main();
 	ob_end_flush();
 	printDebug($_COOKIE);
+	printDebug($timer);
 }

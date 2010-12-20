@@ -276,7 +276,7 @@ class Piwik_PDFReports_API
         }
 	
         // Generates the PDF Report
-		$pdf = new Piwik_PDFReports_PDFRenderer($websiteName, $prettyDate, $description);
+		$pdf = new Piwik_PDFReports_PDFRenderer($websiteName, $prettyDate, $description, $language);
         $pdf->paintFirstPage();
         foreach($processedReports as $report)
         {

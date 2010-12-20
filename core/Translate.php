@@ -46,7 +46,9 @@ class Piwik_Translate
 		{
 			$language = $this->getLanguageToLoad();
 		}
-		Piwik_Translate::getInstance()->loadCoreTranslation($language);
+		$this->unloadEnglishTranslation();
+		$this->loadEnglishTranslation();
+		$this->loadCoreTranslation($language);
 		Piwik_PluginsManager::getInstance()->loadPluginTranslations($language);
 	}
 	
