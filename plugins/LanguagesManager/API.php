@@ -43,6 +43,7 @@ class Piwik_LanguagesManager_API
 	public function isLanguageAvailable($languageCode)
 	{
 		return $languageCode !== false
+			&& Piwik_Common::isValidFilename($languageCode)
 			&& in_array($languageCode, $this->getAvailableLanguages());
 	}
 	
@@ -171,6 +172,10 @@ class Piwik_LanguagesManager_API
 	public function setLanguageForUser($login, $languageCode)
 	{
 		Piwik::checkUserIsSuperUserOrTheUser($login);
+		if(!$this->isLanguageAvailable($languageCode))
+		{
+			return false;
+		}
 		$paramsBind = array($login, $languageCode, $languageCode);
 		Piwik_Query('INSERT INTO '.Piwik_Common::prefixTable('user_language') .
 					' (login, language)
@@ -201,6 +206,10 @@ class Piwik_LanguagesManager_API
 	 */
 	public function setLanguageForSession($languageCode)
 	{
+		if(!$this->isLanguageAvailable($languageCode))
+		{
+			return false;
+		}
 		$session = new Piwik_Session_Namespace("Piwik_LanguagesManager");
 		$session->language = $languageCode;
 	}
