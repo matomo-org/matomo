@@ -40,7 +40,14 @@ if(!class_exists('ArrayObject', false))
 {
 	$piwik_errorMessage .= "<p><b>Piwik and Zend Framework require the SPL extension</p> 
 				<p>It appears your PHP was compiled with --disable-spl.
-				To enjoy Piwik, you need PHP (re-)compiled without that configure option.</p>";
+				To enjoy Piwik, you need PHP compiled without that configure option.</p>";
+}
+
+if(!function_exists('session_cache_limiter'))
+{
+	$piwik_errorMessage .= "<p><b>Piwik and Zend_Session require the session extension</p> 
+				<p>It appears your PHP was compiled with --disable-session.
+				To enjoy Piwik, you need PHP compiled without that configure option.</p>";
 }
 
 /**
