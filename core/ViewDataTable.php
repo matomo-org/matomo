@@ -345,7 +345,7 @@ abstract class Piwik_ViewDataTable
 	{
 		if(is_null($this->dataTable))
 		{
-			throw new Exception("The DataTable requested has not been loaded yet.");
+			throw new Exception("The DataTable object has not yet been created");
 		}
 		return $this->dataTable;
 	}

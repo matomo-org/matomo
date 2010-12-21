@@ -42,8 +42,7 @@ class Piwik_Live_API
 	public function getLastVisitForVisitor( $visitorId, $idSite )
 	{
 		Piwik::checkUserHasViewAccess($idSite);
-		$limit = $this->getFilterLimit(1);
-		$this->getFilterOffset(0);
+		$limit = 1;
 		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $limit, $offset = false, $minIdVisit = false, $visitorId);
 		$table = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
 		return $table;
@@ -55,9 +54,7 @@ class Piwik_Live_API
 	public function getLastVisitsForVisitor( $visitorId, $idSite, $limit = 10 )
 	{
 		Piwik::checkUserHasViewAccess($idSite);
-		$limit = $this->getFilterLimit($limit);
-		$this->getFilterOffset(0);
-		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $limit, $offset = false, $minIdVisit = false, $visitorId);
+		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $limit, $offset = 0, $minIdVisit = false, $visitorId);
 		$table = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
 		return $table;
 	}
@@ -68,9 +65,7 @@ class Piwik_Live_API
 	public function getLastVisits( $idSite, $limit = 10, $minIdVisit = false )
 	{
 		Piwik::checkUserHasViewAccess($idSite);
-		$limit = $this->getFilterLimit($limit);
-		$this->getFilterOffset(0);
-		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $limit, $offset = false, $minIdVisit, $visitorId = false);
+		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $limit, $offset = 0, $minIdVisit, $visitorId = false);
 		$table = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
 		return $table;
 	}
@@ -78,11 +73,17 @@ class Piwik_Live_API
 	/*
 	 * @return Piwik_DataTable
 	 */
-	public function getLastVisitsDetails( $idSite, $period = false, $date = false, $limit = 25, $offset = 0, $minIdVisit = false )
+	public function getLastVisitsDetails( $idSite, $period = false, $date = false, $limit = false, $offset = false, $minIdVisit = false )
 	{
+		if(empty($limit)) 
+		{
+			$limit = Piwik_Common::getRequestVar('filter_limit', 100, 'int');
+		}
+		if(empty($offset))
+		{
+			$offset = Piwik_Common::getRequestVar('filter_offset', 0, 'int');
+		}
 		Piwik::checkUserHasViewAccess($idSite);
-		$limit = $this->getFilterLimit($limit);
-		$offset = $this->getFilterOffset($offset);
 		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $limit, $offset, $minIdVisit); 
 		$dataTable = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
 		return $dataTable;
@@ -127,41 +128,6 @@ class Piwik_Live_API
 		Piwik::checkUserHasViewAccess($idSite);
 		$visitorData = $this->loadLastVisitorInLastXTimeFromDatabase($idSite, $minutes, $days = 0, self::TYPE_FETCH_PAGEVIEWS);
 		return $visitorData;
-	}
-
-	/*
-	 * Returns the filter_limit
-	 *
-	 * @param int $limit Default limit
-	 * @return int Returns the filter_limit if defined; otherwise, it returns the default
-	 */
-	private function getFilterLimit($limit)
-	{
-		$limit = (int)$limit;
-		if(isset($_REQUEST['filter_limit']))
-		{
-			$limit = Piwik_Common::getRequestVar('filter_limit', $limit, 'int');
-		}
-		else
-		{
-			$_REQUEST['filter_limit'] = "$limit";
-		}
-
-		return $limit;
-	}
-
-	/*
-	 * Returns the filter_offset
-	 *
-	 * @param int $offset Default offset
-	 * @return int Returns the filter_offset if defined; otherwise, it returns the default
-	 */
-	private function getFilterOffset($offset)
-	{
-		$offset = Piwik_Common::getRequestVar('filter_offset', (int)$offset, 'int');
-		$_REQUEST['filter_offset'] = '0';
-
-		return $offset;
 	}
 
 	/*
@@ -229,6 +195,7 @@ class Piwik_Live_API
 	 */
 	private function loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $limit = false, $offset = false, $minIdVisit = false, $visitorId = false)
 	{
+//		var_dump($period); var_dump($date); var_dump($limit); var_dump($offset); var_dump($minIdVisit); var_dump($visitorId);
 		$where = $whereBind = array();
 
 		$where[] = Piwik_Common::prefixTable('log_visit') . ".idsite = ? ";
@@ -253,15 +220,7 @@ class Piwik_Live_API
 			$currentSite = new Piwik_Site($idSite);
 			$currentTimezone = $currentSite->getTimezone();
 
-			if($date == 'now' || $date == 'today')
-			{
-				$date = date('Y-m-d', Piwik_Date::factory('now', $currentTimezone)->getTimestamp());
-			}
-			elseif($date == 'yesterday' || $date == 'yesterdaySameTime')
-			{
-				$date = date('Y-m-d', Piwik_Date::factory('now', $currentTimezone)->subDay(1)->getTimestamp());
-			}
-			$processedDate = Piwik_Date::factory($date)->setTimezone($currentTimezone);
+			$processedDate = Piwik_Date::factory($date, $currentTimezone)->setTimezone($currentTimezone);
 			$processedPeriod = Piwik_Period::factory($period, $processedDate);
 
 			array_push(     $where, Piwik_Common::prefixTable('log_visit') . ".visit_first_action_time BETWEEN ? AND ?");
@@ -298,15 +257,18 @@ class Piwik_Live_API
 
 		if(!empty($limit))
 		{
-			$sql .= " LIMIT ".(int)$limit;
-
+			$offsetSql = '';
 			if(!empty($offset))
 			{
-				$sql .= " OFFSET ".(int)$offset;
+				$offsetSql = (int)$offset . ", ";
 			}
+			$sql .= " LIMIT $offsetSql ".(int)$limit;
+
 		}
+		$data = Piwik_FetchAll($sql, $whereBind);
 		
-		return Piwik_FetchAll($sql, $whereBind);
+//		var_dump($whereBind); echo($sql);var_dump($data);
+		return $data;
 	}
 
 	/**

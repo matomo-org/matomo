@@ -53,7 +53,7 @@ class Piwik_Live extends Piwik_Plugin
 
 	function addMenu()
 	{
-		Piwik_AddMenu('General_Visitors', 'Live_VisitorLog', array('module' => 'Live', 'action' => 'getLastVisitsDetails'));
+		Piwik_AddMenu('General_Visitors', 'Live_VisitorLog', array('module' => 'Live', 'action' => 'getVisitorLog'));
 	}
 
 	public function addWidget() {
