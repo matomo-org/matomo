@@ -74,6 +74,9 @@ if(!defined('PIWIK_ENABLE_TRACKING') || PIWIK_ENABLE_TRACKING)
 	$process = new Piwik_Tracker();
 	$process->main();
 	ob_end_flush();
-	printDebug($_COOKIE);
-	printDebug($timer);
+    if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
+    {	
+    	printDebug($_COOKIE);
+    	printDebug($timer);
+    }
 }
