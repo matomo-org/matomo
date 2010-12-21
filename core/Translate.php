@@ -74,7 +74,7 @@ class Piwik_Translate
 	private function loadTranslation($language)
 	{
 		$path = PIWIK_INCLUDE_PATH . '/lang/' . $language . '.php';
-		if(!is_readable($path))
+		if(!Piwik_Common::isValidFilename($language) || !is_readable($path))
 		{
 			throw new Exception(Piwik_TranslateException('General_ExceptionLanguageFileNotFound', array($language)));
 		}
