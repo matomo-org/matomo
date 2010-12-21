@@ -8,7 +8,7 @@
  *
  * @package Piwik
  */
-failing();
+
 if(file_exists('bootstrap.php'))
 {
 	require_once 'bootstrap.php';
