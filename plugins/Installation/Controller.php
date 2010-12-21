@@ -19,15 +19,15 @@ class Piwik_Installation_Controller extends Piwik_Controller
 {
 	// public so plugins can add/delete installation steps
 	public $steps = array(
-			'welcome'				=> 'Installation_Welcome',
-			'systemCheck'			=> 'Installation_SystemCheck',
-			'databaseSetup'			=> 'Installation_DatabaseSetup',
-			'databaseCheck'			=> 'Installation_DatabaseCheck',
-			'tablesCreation'		=> 'Installation_Tables',
-			'generalSetup'			=> 'Installation_GeneralSetup',
-			'firstWebsiteSetup'		=> 'Installation_SetupWebsite',
-			'displayJavascriptCode'	=> 'Installation_JsTag',
-			'finished'				=> 'Installation_Congratulations',
+			'welcome'               => 'Installation_Welcome',
+			'systemCheck'           => 'Installation_SystemCheck',
+			'databaseSetup'         => 'Installation_DatabaseSetup',
+			'databaseCheck'         => 'Installation_DatabaseCheck',
+			'tablesCreation'        => 'Installation_Tables',
+			'generalSetup'          => 'Installation_GeneralSetup',
+			'firstWebsiteSetup'     => 'Installation_SetupWebsite',
+			'displayJavascriptCode' => 'Installation_JsTag',
+			'finished'              => 'Installation_Congratulations',
 		);
 
 	protected $pathView = 'Installation/templates/';
@@ -110,7 +110,10 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			'zlib'            => 'Installation_SystemCheckZlibHelp',
 			'SPL'             => 'Installation_SystemCheckSplHelp',
 			'iconv'           => 'Installation_SystemCheckIconvHelp',
-			'dom'             => 'Installation_SystemCheckDomHelp',
+			'json'            => 'Installation_SystemCheckWarnJsonHelp',
+			'libxml'          => 'Installation_SystemCheckWarnLibXmlHelp',
+			'dom'             => 'Installation_SystemCheckWarnDomHelp',
+			'SimpleXML'       => 'Installation_SystemCheckWarnSimpleXMLHelp',
 			'set_time_limit'  => 'Installation_SystemCheckTimeLimitHelp',
 			'mail'            => 'Installation_SystemCheckMailHelp',
 			'parse_ini_file'  => 'Installation_SystemCheckParseIniFileHelp',
@@ -166,13 +169,13 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$port = Piwik_Db_Adapter::getDefaultPortForAdapter($adapter);
 
 			$dbInfos = array(
-				'host' 			=> $form->getSubmitValue('host'),
-				'username' 		=> $form->getSubmitValue('username'),
-				'password' 		=> $form->getSubmitValue('password'),
-				'dbname' 		=> $form->getSubmitValue('dbname'),
+				'host'          => $form->getSubmitValue('host'),
+				'username'      => $form->getSubmitValue('username'),
+				'password'      => $form->getSubmitValue('password'),
+				'dbname'        => $form->getSubmitValue('dbname'),
 				'tables_prefix' => $form->getSubmitValue('tables_prefix'),
-				'adapter' 		=> $adapter,
-				'port'			=> $port,
+				'adapter'       => $adapter,
+				'port'          => $port,
 			);
 
 			if(($portIndex = strpos($dbInfos['host'], '/')) !== false)
@@ -378,10 +381,10 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		if($form->validate())
 		{
 			$superUserInfos = array(
-				'login' 		=> $form->getSubmitValue('login'),
-				'password' 		=> md5( $form->getSubmitValue('password') ),
-				'email' 		=> $form->getSubmitValue('email'),
-				'salt'			=> Piwik_Common::generateUniqId(),
+				'login'    => $form->getSubmitValue('login'),
+				'password' => md5( $form->getSubmitValue('password') ),
+				'email'    => $form->getSubmitValue('email'),
+				'salt'     => Piwik_Common::generateUniqId(),
 			);
 
 			$this->session->superuser_infos = $superUserInfos;
@@ -724,18 +727,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 		$infos['adapters'] = Piwik_Db_Adapter::getAdapters();
 
-		$infos['json'] = false;
-		if(in_array('json', $extensions))
-		{
-			$infos['json'] = true;
-		}
-
-		$infos['xml'] = false;
-		if(in_array('xml', $extensions))
-		{
-			$infos['xml'] = true;
-		}
-
 		$needed_functions = array(
 			'debug_backtrace',
 			'create_function',
@@ -754,6 +745,22 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		}
 
 		// warnings
+		$desired_extensions = array(
+			'json',
+			'libxml',
+			'dom',
+			'SimpleXML',
+		);
+		$infos['desired_extensions'] = $desired_extensions;
+		$infos['missing_desired_extensions'] = array();
+		foreach($desired_extensions as $desired_extension)
+		{
+			if(!in_array($desired_extension, $extensions))
+			{
+				$infos['missing_desired_extensions'][] = $desired_extension;
+			}
+		}
+
 		$desired_functions = array(
 			'set_time_limit',
 			'mail',
@@ -815,7 +822,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$infos['memoryCurrent'] = '-1';
 
 		$raised = Piwik::raiseMemoryLimitIfNecessary();
-		if(	$memoryValue = Piwik::getMemoryLimitValue() )
+		if( $memoryValue = Piwik::getMemoryLimitValue() )
 		{
 			$infos['memoryCurrent'] = $memoryValue.'M';
 			$infos['memory_ok'] = $memoryValue >= $minimumMemoryLimit;

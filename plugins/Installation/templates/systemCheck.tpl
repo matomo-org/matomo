@@ -40,29 +40,7 @@
 		</td>
 	</tr>
 	{/if}
-	<tr>
-		<td valign="top">
-			{'Installation_SystemCheckJson'|translate}
-		</td>
-		<td>{if $infos.json || $infos.xml}{$ok}
-			{else}{$error}{/if}
-		</td>
 	</tr>
-	{if !$infos.json && !$infos.xml}
-	<tr>
-		<td colspan="2" class="error">
-			<small>
-				{'Installation_SystemCheckJsonHelp'|translate}
-				<br />
-				{if version_compare($infos.phpVersion, '5.2.0') >= 0}
-					{'Installation_SystemCheckJsonSite'|translate}
-				{else}
-					{'Installation_SystemCheckXmlSite'|translate}
-				{/if}
-			</small>
-		</td>
-	</tr>
-	{/if}
 	<tr>
 		<td class="label">{'Installation_SystemCheckExtensions'|translate}</td>
 		<td>{foreach from=$infos.needed_extensions item=needed_extension}
@@ -188,14 +166,6 @@
 				<br />{$warning} <i>{'Installation_SystemCheckAutoUpdateHelp'|translate}</i>{/if}	
 		</td>
 	</tr>
-	{if $infos.json}
-	<tr>
-		<td class="label">{'Installation_SystemCheckXml'|translate}</td>
-		<td>
-			{if $infos.xml}{$ok}{else}{$warning}<br /><i>{'Installation_SystemCheckXmlHelp'|translate}</i>{/if}
-		</td>
-	</tr>
-	{/if}
 	<tr>
 		<td class="label">{'Installation_SystemCheckGD'|translate}</td>
 		<td>
@@ -213,7 +183,21 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="label">{'Installation_SystemCheckFunctions'|translate}</td>
+		<td class="label">{'Installation_SystemCheckOtherExtensions'|translate}</td>
+		<td>{foreach from=$infos.desired_extensions item=desired_extension}
+				{if in_array($desired_extension, $infos.missing_desired_extensions)}
+					{$warning} {$desired_extension}
+					<p>
+					<i>{$helpMessages[$desired_extension]|translate}</i>
+					</p>
+				{else}
+					{$ok} {$desired_extension}<br />
+				{/if}
+			{/foreach}
+		</td>
+	</tr>
+	<tr>
+		<td class="label">{'Installation_SystemCheckOtherFunctions'|translate}</td>
 		<td>{foreach from=$infos.desired_functions item=desired_function}
 				{if in_array($desired_function, $infos.missing_desired_functions)}
 					{$warning} {$desired_function}
