@@ -127,6 +127,14 @@
 	</table>
 
 		{/if}
+		
+		{if count($arrayDataTable) == 20}
+		{* We set a fake large rows count so that 'Next' paginate link is forced to display
+		   This is hard coded because the Visitor Log datatable is not fully loaded in memory, 
+		   but needs to fetch only the N rows in the logs
+		   *}
+		{php}$this->_tpl_vars['javascriptVariablesToSet']['totalRows'] = 100000; {/php}
+		{/if}
 		{if $properties.show_footer}
 			{include file="CoreHome/templates/datatable_footer.tpl"}
 		{/if}
