@@ -102,7 +102,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		
 		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($this->parametersToModify);
 
-		$this->includeData = Zend_Registry::get('config')->General->serve_widget_and_data;
+		$this->includeData = Zend_Registry::get('config')->Debug->serve_widget_and_data;
 		$idSite = Piwik_Common::getRequestVar('idSite', 1);
 		
 		Piwik_API_Request::reloadAuthUsingTokenAuth();

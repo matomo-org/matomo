@@ -55,6 +55,11 @@ track_visits_inside_piwik_ui = 0
 ; this option must be set to 1 when adding, removing or modifying javascript and css files
 disable_merged_assets = 0
 
+; If set to 0, Flash widgets require separate HTTP requests
+; (i.e., one request to load the JavaScript which instantiates Open Flash Chart; the other request is made by OFC to download the JSON data for the chart)
+; If set to 1, Piwik uses a single HTTP request per Flash widget to serve both the widget and data
+serve_widget_and_data = 1
+
 [General]
 ; character used to automatically create categories in the Actions > Pages, Outlinks and Downloads reports
 ; for example a URL like "example.com/blog/development/first-post" will create 
@@ -175,11 +180,6 @@ use_ajax_cdn = 0
 jquery_version = 1.4.2
 jqueryui_version = 1.8.4
 swfobject_version = 2.2
-
-; If set to 0, Flash widgets require separate HTTP requests
-; (i.e., one request to load the JavaScript which instantiates Open Flash Chart; the other request is made by OFC to download the JSON data for the chart)
-; If set to 1, Piwik uses a single HTTP request per Flash widget to serve both the widget and data
-serve_widget_and_data = 1
 
 ; If set to 1, Piwik adds a response header to workaround the IE+Flash+HTTPS bug.
 reverse_proxy = 0
