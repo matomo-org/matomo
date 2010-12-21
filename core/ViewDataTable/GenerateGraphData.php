@@ -87,7 +87,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		}
 		$this->mainAlreadyExecuted = true;
 
-		if (!Zend_Registry::get('config')->General->serve_widget_and_data)
+		if (!Zend_Registry::get('config')->Debug->serve_widget_and_data)
 		{
 			@header( "Content-Type: application/json" );
 		}
