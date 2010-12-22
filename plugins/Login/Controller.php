@@ -64,16 +64,23 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$view = Piwik_View::factory('login');
 		$view->AccessErrorString = $messageNoAccess;
 		$view->nonce = Piwik_Nonce::getNonce('Piwik_Login.login');
-		$view->linkTitle = Piwik::getRandomTitle();
-		$view->forceSslLogin = Zend_Registry::get('config')->General->force_ssl_login;
 		$view->addForm( $form );
-		if(!($view->enableFramedLogins = Zend_Registry::get('config')->General->enable_framed_logins))
-		{
-			$view->setXFrameOptions('sameorigin');
-		}
+		$this->configureView($view);
 		echo $view->render();
 	}
 
+	private function configureView($view)
+	{
+		$enableFramedLogins = Zend_Registry::get('config')->General->enable_framed_logins;
+		$view->enableFramedLogins = $enableFramedLogins;
+		if(!$enableFramedLogins)
+		{
+			$view->setXFrameOptions('sameorigin');
+		}
+		$view->forceSslLogin = Zend_Registry::get('config')->General->force_ssl_login;
+		$view->linkTitle = Piwik::getRandomTitle();
+	}
+	
 	/**
 	 * Form-less login
 	 *
@@ -143,13 +150,8 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 		$view = Piwik_View::factory('lostPassword');
 		$view->AccessErrorString = $messageNoAccess;
-		$view->linkTitle = Piwik::getRandomTitle();
-		$view->forceSslLogin = Zend_Registry::get('config')->General->force_ssl_login;
 		$view->addForm( $form );
-		if(!($view->enableFramedLogins = Zend_Registry::get('config')->General->enable_framed_logins))
-		{
-			$view->setXFrameOptions('sameorigin');
-		}
+		$this->configureView($view);
 		echo $view->render();
 	}
 
@@ -201,8 +203,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		{
 			$view->ErrorString = $e->getMessage();
 		}
-
-		$view->linkTitle = Piwik::getRandomTitle();
+		$this->configureView($view);
 		echo $view->render();
 
 		exit;
@@ -231,13 +232,9 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 		$view = Piwik_View::factory('resetPassword');
 		$view->AccessErrorString = $messageNoAccess;
-		$view->linkTitle = Piwik::getRandomTitle();
 		$view->forceSslLogin = Zend_Registry::get('config')->General->force_ssl_login;
 		$view->addForm( $form );
-		if(!($view->enableFramedLogins = Zend_Registry::get('config')->General->enable_framed_logins))
-		{
-			$view->setXFrameOptions('sameorigin');
-		}
+		$this->configureView($view);
 		echo $view->render();
 	}
 
@@ -284,7 +281,8 @@ class Piwik_Login_Controller extends Piwik_Controller
 			$view->ErrorString = $e->getMessage();
 		}
 
-		$view->linkTitle = Piwik::getRandomTitle();
+		$this->configureView($view);
+		
 		echo $view->render();
 
 		exit;
