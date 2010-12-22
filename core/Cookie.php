@@ -226,7 +226,7 @@ class Piwik_Cookie
 			// no numeric value are base64 encoded so we need to decode them
 			if(!is_numeric($varValue))
 			{
-				$varValue = json_decode(base64_decode($varValue));
+				$varValue = json_decode(base64_decode($varValue), $assoc = true);
 			}
 			
 			$this->value[$varName] = $varValue;
