@@ -75,12 +75,18 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		foreach($mySites as &$site)
 		{
 			$idSite = $site['idsite'];
-			$site['visits'] = array_shift($visitsArray[$idSite]->getColumn(0));
-			$site['actions'] = array_shift($actionsArray[$idSite]->getColumn(0));
-			$site['unique'] = array_shift($uniqueUsersArray[$idSite]->getColumn(0));
-			$site['lastVisits'] = array_shift($lastVisitsArray[$idSite]->getColumn(0));
-			$site['lastActions'] = array_shift($lastActionsArray[$idSite]->getColumn(0));
-			$site['lastUnique'] = array_shift($lastUniqueUsersArray[$idSite]->getColumn(0));
+			$tmp = $visitsArray[$idSite]->getColumn(0);
+			$site['visits'] = $tmp[0];
+			$tmp = $actionsArray[$idSite]->getColumn(0);
+			$site['actions'] = $tmp[0];
+			$tmp = $uniqueUsersArray[$idSite]->getColumn(0);
+			$site['unique'] = $tmp[0];
+			$tmp = $lastVisitsArray[$idSite]->getColumn(0);
+			$site['lastVisits'] = $tmp[0];
+			$tmp = $lastActionsArray[$idSite]->getColumn(0);
+			$site['lastActions'] = $tmp[0];
+			$tmp = $lastUniqueUsersArray[$idSite]->getColumn(0);
+			$site['lastUnique'] = $tmp[0];
 			$site['visitsSummaryValue'] = $visitsSummary[$idSite];
 			$site['actionsSummaryValue'] = $actionsSummary[$idSite];
 			$site['uniqueSummaryValue'] = $uniqueSummary[$idSite];
@@ -156,8 +162,10 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		foreach($mySites as $site)
 		{
 			$idSite = $site['idsite'];
-			$current = array_shift($currentVisitsArray[$idSite]->getColumn(0));
-			$last = array_shift($lastVisitsArray[$idSite]->getColumn(0));
+			$tmp = $currentVisitsArray[$idSite]->getColumn(0);
+			$current = $tmp[0];
+			$tmp = $lastVisitsArray[$idSite]->getColumn(0);
+			$last = $tmp[0];
 			$summaryArray[$idSite] = $this->fillSummary($current, $last, $this->evolutionBy);
 		}
 		return $summaryArray;
