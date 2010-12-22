@@ -70,9 +70,9 @@ class Piwik_Cookie
 	 * Instantiate a new Cookie object and tries to load the cookie content if the cookie
 	 * exists already.
 	 * 
-	 * @param string cookie Name
-	 * @param int The timestamp after which the cookie will expire, eg time() + 86400
-	 * @param string The path on the server in which the cookie will be available on. 
+	 * @param string $cookieName cookie Name
+	 * @param int $expire The timestamp after which the cookie will expire, eg time() + 86400; use 0 (int zero) to expire cookie at end of browser session
+	 * @param string $path The path on the server in which the cookie will be available on. 
 	 * @param string $keyStore Will be used to store several bits of data (eg. one array per website)
 	 */
 	public function __construct( $cookieName, $expire = null, $path = null, $keyStore = false)

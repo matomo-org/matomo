@@ -149,6 +149,9 @@ login_password_recovery_email_name = Piwik
 ; Default is 0 (i.e., bust frames on the Login forms).
 enable_framed_logins = 0
 
+; language cookie name for session
+language_cookie_name = piwik_lang
+
 ; standard email address displayed when sending emails
 noreply_email_address = "noreply@{DOMAIN}"
 

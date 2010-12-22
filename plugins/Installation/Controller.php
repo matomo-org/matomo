@@ -586,7 +586,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	public function saveLanguage()
 	{
 		$language = Piwik_Common::getRequestVar('language');
-		Piwik_LanguagesManager_API::getInstance()->setLanguageForSession($language);
+		Piwik_LanguagesManager::setLanguageForSession($language);
 		Piwik_Url::redirectToReferer();
 	}
 
