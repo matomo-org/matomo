@@ -37,7 +37,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * as well as the data itself, pre-processed and ready to be displayed
 	 * @return 
 	 */
-	function _test_apiGetReportMetadata()
+	function test_apiGetReportMetadata()
 	{
 		$this->setApiNotToCall(array());
 		$this->setApiToCall( 'API' );
@@ -59,7 +59,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * Test the Yearly metadata API response, 
 	 * with no visits, with custom response language 
 	 */
-	function _test_apiGetReportMetadata_year()
+	function test_apiGetReportMetadata_year()
 	{
 		$this->setApiNotToCall(array());
 		$this->setApiToCall( 'API.getProcessedReport' );
