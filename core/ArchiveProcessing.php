@@ -396,14 +396,9 @@ abstract class Piwik_ArchiveProcessing
 		$this->idArchive = $this->isArchived();
 	
 		if($this->idArchive === false
-			&& $this->isArchivingDisabled())
+			||	$this->debugAlwaysArchive)
 		{
-			$this->isThereSomeVisits = false;
-		}
-		elseif($this->idArchive === false
-				||	$this->debugAlwaysArchive)
-		{
-			return null;
+			return false;
 		}
 		return $this->idArchive;
 	}
@@ -728,7 +723,7 @@ abstract class Piwik_ArchiveProcessing
 	 *
 	 * @return bool
 	 */
-	protected function isArchivingDisabled()
+	public function isArchivingDisabled()
 	{
 		if(!self::isBrowserTriggerArchivingEnabled()
 			&& !Piwik_Common::isPhpCliMode())
