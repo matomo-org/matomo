@@ -10,7 +10,7 @@ class Test_Piwik_Nonce extends UnitTestCase
 {
 	public function setUp()
 	{
-		$this->host = $_SERVER['HTTP_HOST'];
+		$this->host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
 	}
 	
 	public function tearDown()
@@ -20,6 +20,8 @@ class Test_Piwik_Nonce extends UnitTestCase
 
 	public function test_getAcceptableOrigins()
 	{
+		Piwik::createConfigObject();
+
 		$tests = array(
 			// HTTP_HOST => expected
 			'example.com' => array( 'http://example.com', 'https://example.com' ),
