@@ -64,7 +64,7 @@ class Piwik_Tracker
 	{
 		self::$forcedDateTime = $dateTime;
 	}
-	protected function getCurrentTimestamp()
+	public function getCurrentTimestamp()
 	{
 		if(!is_null(self::$forcedDateTime))
 		{

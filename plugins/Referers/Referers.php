@@ -403,7 +403,8 @@ class Piwik_Referers extends Piwik_Plugin
 					break;
 
 					default:
-						throw new Exception("Non expected referer_type = " . $row['referer_type']);
+						// The referer type is user submitted for goal conversions, we ignore any malformed value
+						continue;
 					break;
 				}
 			}
