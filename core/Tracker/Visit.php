@@ -189,14 +189,13 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 				// - which result in handleKnownVisit throwing the exception 
 				//   because the UPDATE didn't affect any rows (one row was found, but not updated since no field changed)
 				// - the exception is caught here and will result in a new visit incorrectly
-				//   (it was simply a double request happening in the same second
-				// In this case, we cancel the current conversion to be recorded
+				// In this case, we cancel the current conversion to be recorded:
 				if($requestIsManualGoalConversion)
 				{
 					$someGoalsConverted = false;
 				}
-				// When the row wasn't found in the logs, we only force 
-				// a new visitor when the request was not a manual goal conversion
+				// When the row wasn't found in the logs, and this is a pageview or
+				// goal matching URL, we force a new visitor  
 				else
 				{
 					$this->visitorKnown = false;
