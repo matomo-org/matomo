@@ -183,34 +183,4 @@ class Piwik_LanguagesManager_API
 					ON DUPLICATE KEY UPDATE language=?',
 					$paramsBind);
 	}
-
-	/**
-	 * Returns the langage for the session
-	 *
-	 * @return string|null
-	 */
-	public function getLanguageForSession()
-	{
-		$session = new Piwik_Session_Namespace("Piwik_LanguagesManager");
-		if(isset($session->language))
-		{
-			return $session->language;
-		}
-		return null;
-	}
-
-	/**
-	 * Set the language for the session
-	 *
-	 * @param string $languageCode ISO language code
-	 */
-	public function setLanguageForSession($languageCode)
-	{
-		if(!$this->isLanguageAvailable($languageCode))
-		{
-			return false;
-		}
-		$session = new Piwik_Session_Namespace("Piwik_LanguagesManager");
-		$session->language = $languageCode;
-	}
 }

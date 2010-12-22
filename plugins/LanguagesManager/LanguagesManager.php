@@ -141,7 +141,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	 */
 	static protected function getLanguageFromPreferences()
 	{
-		if(($language = Piwik_LanguagesManager_API::getInstance()->getLanguageForSession()) != null)
+		if(($language = self::getLanguageForSession()) != null)
 		{
 			return $language;
 		}
@@ -152,5 +152,40 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 		} catch(Exception $e) {
 			return false;
 		}
+	}
+
+
+	/**
+	 * Returns the langage for the session
+	 *
+	 * @return string|null
+	 */
+	static public function getLanguageForSession()
+	{
+		$cookieName = Zend_Registry::get('config')->General->language_cookie_name;
+		$cookie = new Piwik_Cookie($cookieName);
+		if($cookie->isCookieFound())
+		{
+			return $cookie->get('language');
+		}
+		return null;
+	}
+
+	/**
+	 * Set the language for the session
+	 *
+	 * @param string $languageCode ISO language code
+	 */
+	static public function setLanguageForSession($languageCode)
+	{
+		if(!Piwik_LanguagesManager_API::getInstance()->isLanguageAvailable($languageCode))
+		{
+			return false;
+		}
+
+		$cookieName = Zend_Registry::get('config')->General->language_cookie_name;
+		$cookie = new Piwik_Cookie($authCookieName, 0);
+		$cookie->set('language', $languageCode);
+		$cookie->save();
 	}
 }
