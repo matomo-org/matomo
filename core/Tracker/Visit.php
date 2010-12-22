@@ -133,8 +133,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$action = null;
 
 		$idGoal = Piwik_Common::getRequestVar('idgoal', 0, 'int', $this->request);
+		$requestIsManualGoalConversion = ($idGoal > 0);
 		// this request is from the JS call to piwikTracker.trackGoal()
-		if($idGoal > 0)
+		if($requestIsManualGoalConversion)
 		{
 			$someGoalsConverted = $goalManager->detectGoalId($this->idsite, $idGoal, $this->request);
 			// if we find a idgoal in the URL, but then the goal is not valid, this is most likely a fake request
@@ -182,8 +183,24 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 								);
 				}
 			} catch(Piwik_Tracker_Visit_VisitorNotFoundInDatabase $e) {
-				printDebug($e->getMessage());
-				$this->visitorKnown = false;
+				
+				// There is an edge case when:
+				// - two manual goal conversions happen in the same second
+				// - which result in handleKnownVisit throwing the exception 
+				//   because the UPDATE didn't affect any rows (one row was found, but not updated since no field changed)
+				// - the exception is caught here and will result in a new visit incorrectly
+				//   (it was simply a double request happening in the same second
+				// In this case, we cancel the current conversion to be recorded
+				if($requestIsManualGoalConversion)
+				{
+					$someGoalsConverted = false;
+				}
+				// When the row wasn't found in the logs, we only force 
+				// a new visitor when the request was not a manual goal conversion
+				else
+				{
+					$this->visitorKnown = false;
+				}
 			}
 		}
 
@@ -474,7 +491,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function getVisitorIp()
 	{
-		return $this->visitorInfo['location_ip']; 
+		return $this->visitorInfo['location_ip'];
 	}
 	
 
@@ -876,7 +893,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	{
 		printDebug("We manage the cookie...");
 
-		
 		if( isset($this->visitorInfo['referer_type'])
 			&& $this->visitorInfo['referer_type'] != Piwik_Common::REFERER_TYPE_DIRECT_ENTRY)
 		{
