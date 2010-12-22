@@ -463,24 +463,36 @@ if (in_array('mysqli', @get_loaded_extensions()) && !function_exists('mysqli_set
 if(function_exists('parse_ini_file')) {
 	// provide a wrapper
 	function _parse_ini_file($filename, $process_sections = false) {
-		return parse_ini_file($filename, $process_sections);
+		return file_exists($filename) ? parse_ini_file($filename, $process_sections) : false;
 	}
 } else {
 	// we can't redefine parse_ini_file() if it has been disabled
 	function _parse_ini_file($filename, $process_sections = false)
 	{
+		if(!file_exists($filename)) {
+			return false;
+		}
+
 		if(function_exists('file_get_contents')) {
 			$ini = file_get_contents($filename);
-		} else if(function_exists('file') && version_compare(phpversion(), '6') >= 0) {
-			$ini = implode(file($filename), FILE_TEXT);
+		} else if(function_exists('file')) {
+			if($ini = file($filename)) {
+				$ini = implode("\n", $ini);
+			}
 		} else if(function_exists('fopen') && function_exists('fread')) {
 			$handle = fopen($filename, 'r');
+			if(!$handle) {
+				return false;
+			}
 			$ini = fread($handle, filesize($filename));
 			fclose($handle);
 		} else {
 			return false;
 		}
 
+		if($ini === false) {
+			return false;
+		}
 		if(is_string($ini)) { $ini = explode("\n", str_replace("\r", "\n", $ini)); }
 		if (count($ini) == 0) { return array(); }
 
