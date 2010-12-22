@@ -184,7 +184,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 		}
 
 		$cookieName = Zend_Registry::get('config')->General->language_cookie_name;
-		$cookie = new Piwik_Cookie($authCookieName, 0);
+		$cookie = new Piwik_Cookie($cookieName, 0);
 		$cookie->set('language', $languageCode);
 		$cookie->save();
 	}
