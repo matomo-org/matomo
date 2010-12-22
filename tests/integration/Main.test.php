@@ -37,7 +37,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * as well as the data itself, pre-processed and ready to be displayed
 	 * @return 
 	 */
-	function test_apiGetReportMetadata()
+	function _test_apiGetReportMetadata()
 	{
 		$this->setApiNotToCall(array());
 		$this->setApiToCall( 'API' );
@@ -59,7 +59,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * Test the Yearly metadata API response, 
 	 * with no visits, with custom response language 
 	 */
-	function test_apiGetReportMetadata_year()
+	function _test_apiGetReportMetadata_year()
 	{
 		$this->setApiNotToCall(array());
 		$this->setApiToCall( 'API.getProcessedReport' );
@@ -122,14 +122,40 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * - URLs parameters exclude is tested
 	 * - In a returning visit, tracks a Goal conversion 
 	 *   URL matching, with custom referer and keyword
+	 *   
+	 *   NO cookie support
 	 */
 	function test_OneVisitorTwoVisits() 
 	{
 		// Tests run in UTC, the Tracker in UTC
     	$dateTime = '2010-03-06 11:22:33';
     	$idSite = $this->createWebsite($dateTime);
-    	
         $t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+        
+		$t->disableCookieSupport();
+        $this->doTest_oneVisitorTwoVisits($t, $dateTime, $idSite );
+        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime);
+	}
+	
+	/*
+	 * Same as before, but with cookie support, which incurs some slight changes 
+	 * in the reporting data (more accurate unique visitor count, better referer tracking for goals, etc.)
+	 */
+	function test_OneVisitorTwoVisits_withCookieSupport() 
+	{
+		// Tests run in UTC, the Tracker in UTC
+    	$dateTime = '2010-03-06 11:22:33';
+    	$idSite = $this->createWebsite($dateTime);
+        $t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+        
+        $this->doTest_oneVisitorTwoVisits($t, $dateTime, $idSite );
+        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime);
+	}
+	
+
+	private function doTest_oneVisitorTwoVisits($t, $dateTime, $idSite )
+	{
+		
         $t->setUrlReferer( 'http://referer.com/page.htm?param=valuewith some spaces');
     	
     	// Testing URL excluded parameters
@@ -189,9 +215,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // -
         // End of second visit
         
-        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime);
 	}
-
 	/*
 	 * Tests Tracker several websites, different days.
 	 * Tests API for period=day/week/month/year, requesting data for both websites, 
@@ -208,41 +232,43 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	
     	// -
     	// First visitor on Idsite 1: one page view
-        $t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
-        $t->setUrlReferer( 'http://referer.com/page.htm?param=valuewith some spaces');
-        $t->setUrl('http://example.org/homepage');
-        $this->checkResponse($t->doTrackPageView(''));
+        $visitorA = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+        $visitorA->setUrlReferer( 'http://referer.com/page.htm?param=valuewith some spaces');
+        $visitorA->setUrl('http://example.org/homepage');
+        $this->checkResponse($visitorA->doTrackPageView(''));
         
         // - 
     	// Second new visitor on Idsite 1: one page view 
-    	$t->setIp('1.5.6.8');
-    	$t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1)->getDatetime());
-        $t->setUrlReferer( '' );
-    	$t->setUserAgent('Opera/9.63 (Windows NT 5.1; U; en) Presto/2.1.1');
-    	$t->setUrl('http://example.org/products');
-    	$this->checkResponse($t->doTrackPageView('second visitor, first page view'));
+        $visitorB = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+    	$visitorB->setIp('1.5.6.8');
+    	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1)->getDatetime());
+        $visitorB->setUrlReferer( '' );
+    	$visitorB->setUserAgent('Opera/9.63 (Windows NT 5.1; U; en) Presto/2.1.1');
+    	$visitorB->setUrl('http://example.org/products');
+    	$this->checkResponse($visitorB->doTrackPageView('second visitor, first page view'));
 
     	// -
     	// Second visitor again on Idsite 1: 2 page views 2 days later, 2010-01-05
-    	$t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->getDatetime());
-        $t->setUrlReferer( 'http://referer.com/Other_Page.htm' );
-    	$t->setUrl('http://example.org/homepage');
-    	$this->checkResponse($t->doTrackPageView('second visitor, two days later a new visit'));
+    	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->getDatetime());
+        $visitorB->setUrlReferer( 'http://referer.com/Other_Page.htm' );
+    	$visitorB->setUrl('http://example.org/homepage');
+    	$this->checkResponse($visitorB->doTrackPageView('second visitor, two days later a new visit'));
     	// Second page view 6 minutes later
-    	$t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.1)->getDatetime());
-    	$t->setUrl('http://example.org/thankyou');
-    	$this->checkResponse($t->doTrackPageView('second pageview'));
+    	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.1)->getDatetime());
+    	$visitorB->setUrl('http://example.org/thankyou');
+    	$this->checkResponse($visitorB->doTrackPageView('second pageview'));
     	
     	// -
     	// First visitor on Idsite 2: one page view, with Website referer
-        $t2 = $this->getTracker($idSite2, Piwik_Date::factory($dateTime)->addHour(24)->getDatetime(), $defaultInit = true);
-        $t2->setUserAgent('Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0;)');
-        $t2->setUrlReferer('http://only-homepage-referer.com/');
-        $t2->setUrl('http://example2.com/home');
-        $this->checkResponse($t2->doTrackPageView('Website 2 page view'));
+        $visitorAsite2 = $this->getTracker($idSite2, Piwik_Date::factory($dateTime)->addHour(24)->getDatetime(), $defaultInit = true);
+        $visitorAsite2->setUserAgent('Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0;)');
+        $visitorAsite2->setUrlReferer('http://only-homepage-referer.com/');
+        $visitorAsite2->setUrl('http://example2.com/home');
+        $this->checkResponse($visitorAsite2->doTrackPageView('Website 2 page view'));
         
         // Returning visitor on Idsite 2 1 day later, one page view, with chinese referer
 //TODO when we can test frequency, when Piwik_Tracker_Client supports cookies read/send
+// UNTICK
 //    	$t2->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48 + 10)->getDatetime());
 //        $t2->setUrlReferer('http://www.baidu.com/s?wd=%D0%C2+%CE%C5&n=2');
 //        $t2->setUrl('http://example2.com/home');
