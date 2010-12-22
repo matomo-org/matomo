@@ -84,11 +84,9 @@
 			<td>
 				<select id="mailType">
 					<option value="" {if $mail.type eq ''} selected="selected" {/if}></option>
-					<option id="plain" {if $mail.type eq 'PLAIN'} selected="selected" {/if} value="PLAIN">PLAIN</option>
-					<option id="login" {if $mail.type eq 'LOGIN'} selected="selected" {/if} value="LOGIN"> LOGIN</option>
-					<option id="cram-md5" {if $mail.type eq 'CRAM-MD5'} selected="selected" {/if} value="CRAM-MD5"> CRAM-MD5</option>
-					<option id="digest-md5" {if $mail.type eq 'DIGEST-MD5'} selected="selected" {/if} value="DIGEST-MD5"> DIGEST-MD5</option>
-					<option id="pop-before-smtp" {if $mail.type eq 'POP-before-SMTP'} selected="selected" {/if} value="POP-before-SMTP"> POP-before-SMTP</option>
+					<option id="plain" {if $mail.type eq 'Plain'} selected="selected" {/if} value="Plain">Plain</option>
+					<option id="login" {if $mail.type eq 'Login'} selected="selected" {/if} value="Login"> Login</option>
+					<option id="cram-md5" {if $mail.type eq 'Crammd5'} selected="selected" {/if} value="Crammd5"> Crammd5</option>
 				</select> 
 			</td>
 		</tr>
