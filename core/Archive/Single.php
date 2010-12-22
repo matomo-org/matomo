@@ -180,10 +180,17 @@ class Piwik_Archive_Single extends Piwik_Archive
 			$idArchive = $archiveProcessing->loadArchive();
 			if(empty($idArchive))
 			{
-				Piwik::log("$logMessage not archived yet, starting processing...");
-				$archiveJustProcessed = true;
-				$archiveProcessing->launchArchiving();
-				$idArchive = $archiveProcessing->getIdArchive();
+				if($archiveProcessing->isArchivingDisabled())
+				{
+					$archiveProcessing->isThereSomeVisits = false;
+				}
+				else
+				{
+    				Piwik::log("$logMessage not archived yet, starting processing...");
+    				$archiveJustProcessed = true;
+    				$archiveProcessing->launchArchiving();
+    				$idArchive = $archiveProcessing->getIdArchive();
+				}
 			}
 			else
 			{
