@@ -13,6 +13,8 @@ class Test_Piwik_Url extends UnitTestCase
      */
     public function test_allMethods()
     {
+	Piwik::createConfigObject();
+
     	$this->assertEqual(Piwik_Url::getCurrentQueryStringWithParametersModified(array()),Piwik_Url::getCurrentQueryString() );
     	$this->assertEqual(Piwik_Url::getCurrentUrl(), Piwik_Url::getCurrentUrlWithoutQueryString());
     	$this->assertEqual(Piwik_Url::getCurrentUrl(), Piwik_Url::getCurrentScheme() . '://' . Piwik_Url::getCurrentHost() . Piwik_Url::getCurrentScriptName() );
