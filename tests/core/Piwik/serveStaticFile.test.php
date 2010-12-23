@@ -200,6 +200,8 @@ class Test_Piwik_serveStaticFile extends UnitTestCase
 		$this->assertEqual($this->getCacheControlValue($fullResponse), "public, must-revalidate");
 		$pragma = $this->getPragma($fullResponse);
 		$this->assertTrue($pragma == null || $pragma == 'Pragma:');
+		$expires = $this->getExpires($fullResponse);
+		$this->assertTrue($expires == null || $expires == 'Expires:');
 	}
 
 	/**
@@ -484,6 +486,18 @@ class Test_Piwik_serveStaticFile extends UnitTestCase
 	private function getPragma($fullResponse)
 	{
 		preg_match_all('/(Pragma:[[:print:]]*)/', $fullResponse, $matches);
+
+		if (isset($matches[1][0]))
+		{
+			return trim($matches[1][0]);
+		}
+
+		return null;
+	}
+
+	private function getExpires($fullResponse)
+	{
+		preg_match_all('/(Expires:[[:print:]]*)/', $fullResponse, $matches);
 
 		if (isset($matches[1][0]))
 		{
