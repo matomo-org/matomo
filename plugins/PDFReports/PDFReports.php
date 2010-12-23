@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Piwik - Open source web analytics
  * 
@@ -39,10 +40,40 @@ class Piwik_PDFReports extends Piwik_Plugin
 	
 	function getScheduledTasks ( $notification )
 	{
+		// Reports have to be sent when the period ends for all websites
+		$maxHourOffset = 0;
+		$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess();
+		$baseDate = Piwik_Date::factory("1971-01-01");
+		foreach($sites as &$site)
+		{
+			$offsetDate = Piwik_Date::factory($baseDate,  $site['timezone']);
+
+			// Earlier means a negative timezone
+			if ( $offsetDate->isEarlier($baseDate) )
+			{
+				// Gets the timezone offset
+				$hourOffset = (24 - date ('H', $offsetDate->getTimestamp()));
+
+				if ( $hourOffset > $maxHourOffset )
+				{
+					$maxHourOffset = $hourOffset;
+				}
+			}
+		}
+
 		$tasks = &$notification->getNotificationObject();
-		$tasks[] = new Piwik_ScheduledTask ( $this, 'dailySchedule', new Piwik_ScheduledTime_Daily() );
-		$tasks[] = new Piwik_ScheduledTask ( $this, 'weeklySchedule', new Piwik_ScheduledTime_Weekly() );
-		$tasks[] = new Piwik_ScheduledTask ( $this, 'monthlySchedule', new Piwik_ScheduledTime_Monthly() );
+
+		$dailySchedule = new Piwik_ScheduledTime_Daily();
+		$dailySchedule->setHour($maxHourOffset);
+		$tasks[] = new Piwik_ScheduledTask ( $this, 'dailySchedule', $dailySchedule );
+
+		$weeklySchedule = new Piwik_ScheduledTime_Weekly();
+		$weeklySchedule->setHour($maxHourOffset);
+		$tasks[] = new Piwik_ScheduledTask ( $this, 'weeklySchedule', $weeklySchedule );
+
+		$monthlySchedule = new Piwik_ScheduledTime_Monthly();
+		$monthlySchedule->setHour($maxHourOffset);
+		$tasks[] = new Piwik_ScheduledTask ( $this, 'monthlySchedule', $monthlySchedule );
 	}
 	
 	function dailySchedule()
