@@ -132,6 +132,6 @@ class Piwik_Login extends Piwik_Plugin
 		$cookie->setSecure(Piwik::isHttps());
 		$cookie->save();
 
-		Zend_Session::regenerateId();
+		Piwik_Session::regenerateId();
 	}
 }

@@ -45,7 +45,7 @@ class Piwik_Login_FormResetPassword extends Piwik_QuickForm2
 				'form_token' => $resetToken,
 			)));
 
-			$this->attributes['action'] = Piwik_Url::getCurrentQueryStringWithParametersModified( array('token' => null) );
+			$this->attributes['action'] = 'index.php' . Piwik_Url::getCurrentQueryStringWithParametersModified( array('token' => null) );
 		}
 	}
 }

@@ -358,7 +358,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		for($i = 0; $i <= 24; $i++)
 		{
 			$generatedToken = self::generatePasswordResetToken($user, $now + $i*60*60);
-			if($generatedToken == $token)
+			if($generatedToken === $token)
 			{
 				return true;
 			}
@@ -380,7 +380,8 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$cookie = new Piwik_Cookie($authCookieName);
 		$cookie->delete();
 
-		Zend_Session::expireSessionCookie();
+		Piwik_Session::expireSessionCookie();
+		Piwik_Session::regenerateId();
 	}
 
 	/**

@@ -27,7 +27,7 @@
 
 	<p>
 		<label>{'Login_PasswordRepeat'|translate}:<br />
-		<input type="password" name="form_password_bis" id="form_password" class="input" value="" size="20" tabindex="30" /></label>
+		<input type="password" name="form_password_bis" id="form_password_bis" class="input" value="" size="20" tabindex="30" /></label>
 	</p>
 
 	<p>

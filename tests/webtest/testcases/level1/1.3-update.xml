@@ -16,7 +16,7 @@
 
 				<!-- logging in -->
 
-				<invoke description="get account index" url="/" />
+				<invoke description="get index" url="/" />
 				<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Sign in" />
 				<verifyText description="check page text" text="Piwik" />
 				<verifyText description="check page text" text="Lost your password?" />
