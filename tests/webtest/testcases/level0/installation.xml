@@ -32,7 +32,7 @@
 					</transaction>
 				</sql>
 
-				<invoke description="get account index" url="/" />
+				<invoke description="get index" url="/" />
 
 				<!-- 1. welcome -->
 

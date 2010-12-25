@@ -34,7 +34,7 @@ function smarty_outputfilter_cachebuster($source, &$smarty)
 	static $cachebuster = null;
 	if(is_null($cachebuster))
 	{
-		$cachebuster = md5(Piwik_Common::getSalt() . phpversion() . $smarty->get_template_vars('piwik_version'));
+		$cachebuster = md5(Piwik_Common::getSalt() . PHP_VERSION . $smarty->get_template_vars('piwik_version'));
 	}
 	$tag = 'cb=' . $cachebuster;
 
