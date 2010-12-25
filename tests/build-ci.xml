@@ -68,7 +68,7 @@
 		<delete file="${basedir}/../config/config.ini.php"/>
 		<exec executable="${php.executable}" dir="${basedir}" outputproperty="piwik_reset_token">
 			<arg value="-r" />
-			<arg value="echo md5(strftime('%Y%m%d%H', time()+24*60*60) . 'piwik_login' . 'nobody@piwik.org' . md5('piwik_password'));" />
+			<arg value="@date_default_timezone_set('UTC'); echo md5(strftime('%Y%m%d%H', time()+24*60*60) . 'piwik_login' . 'nobody@piwik.org' . md5('piwik_password'));" />
 		</exec>
 		<ant antfile="${basedir}/build-webtest.xml">
 			<!--property name="piwik_reset_token" value="${piwik_reset_token}"/-->
