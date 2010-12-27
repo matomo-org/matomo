@@ -220,7 +220,7 @@ class Piwik_Live_API
 			$currentSite = new Piwik_Site($idSite);
 			$currentTimezone = $currentSite->getTimezone();
 
-			$processedDate = Piwik_Date::factory($date, $currentTimezone)->setTimezone($currentTimezone);
+			$processedDate = Piwik_Date::factory($date)->setTimezone($currentTimezone);
 			$processedPeriod = Piwik_Period::factory($period, $processedDate);
 
 			array_push(     $where, Piwik_Common::prefixTable('log_visit') . ".visit_first_action_time BETWEEN ? AND ?");
