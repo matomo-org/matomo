@@ -121,7 +121,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 			'year' => Piwik_Translate('General_CurrentYear'),
 		);
 		
-		$view->ignoreCookieSet = $this->isIgnoreCookieFound();
+		$view->ignoreCookieSet = Piwik_Tracker_Cookie::isIgnoreCookieFound();
 		$this->initViewAnonymousUserSettings($view);
 		$view->piwikHost = Piwik_Url::getCurrentHost();
 		$this->setBasicVariablesView($view);
@@ -134,31 +134,10 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		Piwik::checkUserHasSomeViewAccess();
 		Piwik::checkUserIsNotAnonymous();
 		$this->checkTokenInUrl();
-		$cookie = $this->getIgnoreCookie();
-		if($cookie->isCookieFound())
-		{
-			$cookie->delete();
-		}
-		else
-		{
-			$cookie->save();
-		}
+		Piwik_Tracker_Cookie::setIgnoreCookie();
 		Piwik::redirectToModule('UsersManager', 'userSettings');
 	}
 
-	protected function getIgnoreCookie()
-	{
-		$cookie_name = Zend_Registry::get('config')->Tracker->ignore_visits_cookie_name;
-		$cookie_path = Zend_Registry::get('config')->Tracker->cookie_path;
-		return new Piwik_Cookie($cookie_name, null, $cookie_path);
-	}
-	
-	protected function isIgnoreCookieFound()
-	{
-		$cookie = $this->getIgnoreCookie();
-		return $cookie->isCookieFound();
-	}
-	
 	/**
 	 * The Super User can modify Anonymous user settings
 	 * @param $view
