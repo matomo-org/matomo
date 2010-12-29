@@ -790,23 +790,6 @@ class Test_Piwik_Common extends UnitTestCase
 		}
 	}
 
-	function test_getFirstElementFromList()
-	{
-		$tests = array(
-			'' => '',
-			'a' => 'a',
-			' a ' => 'a',
-			' a, b' => 'a',
-			'a ,b ' => 'a',
-			',b' => '',
-		);
-
-		foreach($tests as $csv => $expected)
-		{
-			$this->assertEqual( Piwik_Common::getFirstElementFromList($csv), $expected);
-		}
-	}
-
 	function test_getLastElementFromList()
 	{
 		$tests = array(
@@ -821,6 +804,8 @@ class Test_Piwik_Common extends UnitTestCase
 		foreach($tests as $csv => $expected)
 		{
 			$this->assertEqual( Piwik_Common::getLastElementFromList($csv), $expected);
+
+			$this->assertEqual( Piwik_Common::getLastElementFromList($csv . ', d', 'd'), $expected);
 		}
 	}
 
@@ -854,6 +839,13 @@ class Test_Piwik_Common extends UnitTestCase
 		foreach($ips as $ip)
 		{
 			$_SERVER['HTTP_X_FORWARDED_FOR'] = $ip;
+			$this->assertEqual( Piwik_Common::getProxyFromHeader('1.1.1.1', array('HTTP_X_FORWARDED_FOR')), $ip, $ip);
+
+			$_SERVER['HTTP_X_FORWARDED_FOR'] = '1.2.3.4, ' . $ip;
+			$this->assertEqual( Piwik_Common::getProxyFromHeader('1.1.1.1', array('HTTP_X_FORWARDED_FOR')), $ip, $ip);
+
+			// misconfiguration
+			$_SERVER['HTTP_X_FORWARDED_FOR'] = $ip . ', 1.1.1.1';
 			$this->assertEqual( Piwik_Common::getProxyFromHeader('1.1.1.1', array('HTTP_X_FORWARDED_FOR')), $ip, $ip);
 		}
 	}

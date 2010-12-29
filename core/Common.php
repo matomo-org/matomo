@@ -835,8 +835,8 @@ class Piwik_Common
 		{
 			if(!empty($_SERVER[$proxyHeader]))
 			{
-				$proxyIp = self::getLastElementFromList($_SERVER[$proxyHeader]);
-				if(!empty($proxyIp) && stripos($proxyIp, 'unknown') === false)
+				$proxyIp = self::getLastElementFromList($_SERVER[$proxyHeader], $default);
+				if(strlen($proxyIp) && stripos($proxyIp, 'unknown') === false)
 				{
 					return $proxyIp;
 				}
@@ -847,37 +847,29 @@ class Piwik_Common
 	}
 
 	/**
-	 * Returns the first element of a comma separated list
-	 *
-	 * @param string $csv
-	 *
-	 * @return string first element before ','
-	 */
-	static public function getFirstElementFromList($csv)
-	{
-		$p = strpos($csv, ',');
-		if($p !== false)
-		{
-			return trim(self::sanitizeInputValues(substr($csv, 0, $p)));
-		}
-		return trim(self::sanitizeInputValues($csv));
-	}
-
-	/**
 	 * Returns the last element of a comma separated list
 	 *
-	 * @param string $csv
+	 * @param string $csv Comma separated list of elements
+	 * @param string $exclude Optional: skip this element, if present
 	 *
 	 * @return string last element after ','
 	 */
-	static public function getLastElementFromList($csv)
+	static public function getLastElementFromList($csv, $exclude = null)
 	{
 		$p = strrpos($csv, ',');
 		if($p !== false)
 		{
-			return trim(self::sanitizeInputValues(substr($csv, $p+1)));
+			$elements = explode(',', $csv);
+			for($i = count($elements); $i--; )
+			{
+				$element = trim(self::sanitizeInputValue($elements[$i]));
+				if($exclude === null || $element !== $exclude)
+				{
+					return $element;
+				}
+			}
 		}
-		return trim(self::sanitizeInputValues($csv));
+		return trim(self::sanitizeInputValue($csv));
 	}
 
 /*
