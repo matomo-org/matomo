@@ -238,7 +238,7 @@ class Piwik
 				}
 				else
 				{
-					$message = "For example, on a linux server, if your apache user is www-data you can try to execute:<br />"
+					$message = "For example, on a Linux server, if your Apache httpd user is www-data you can try to execute:<br />"
 					         . "<code>chown -R www-data:www-data ".Piwik_Common::getPathToPiwikRoot()."</code><br />"
 					         . "<code>chmod -R 0755 ".Piwik_Common::getPathToPiwikRoot()."</code><br />";
 				}
@@ -335,7 +335,7 @@ class Piwik
 				}
 			}
 		}
-		$directoryMessage = "<p><b>Piwik couldn't write to some directories</b>.</p> <p>Try to Execute the following commands on your Linux server:</p>"
+		$directoryMessage = "<p><b>Piwik couldn't write to some directories</b>.</p> <p>Try to Execute the following commands on your server:</p>"
 		                  . "<blockquote>$directoryList</blockquote>"
 		                  . "<p>If this doesn't work, you can try to create the directories with your FTP software, and set the CHMOD to 0777 (with your FTP software, right click on the directories, permissions).</p>"
 		                  . "<p>After applying the modifications, you can <a href='index.php'>refresh the page</a>.</p>"
