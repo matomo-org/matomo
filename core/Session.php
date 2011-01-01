@@ -77,6 +77,11 @@ class Piwik_Session extends Zend_Session
 				if($ok)
 				{
 					@ini_set('session.save_path', $sessionPath);
+
+					// garbage collection may disabled by default (e.g., Debian)
+					if(ini_get('session.gc_probability') == 0) {
+						@ini_set('session.gc_probability', 1);
+					}
 				}
 				// else rely on default setting (assuming it is configured to a writeable folder)
 			}
