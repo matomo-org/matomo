@@ -208,6 +208,21 @@
 				<verifyText description="check page text" text="Dashboard" />
 				<verifyText description="check page text" text="Hello" />
 
+				<!-- change language -->
+				<sleep description="sleep" seconds="5" />
+				<clickLink description="click 'Deutsch'" href="index.php?module=LanguagesManager&amp;action=saveLanguage&amp;language=de" />
+
+				<verifyText description="check page text" text="Hallo" />
+
+				<sleep description="sleep" seconds="3" />
+				<clickLink description="click 'Français'" href="index.php?module=LanguagesManager&amp;action=saveLanguage&amp;language=fr" />
+
+				<verifyText description="check page text" text="Bonjour" />
+
+				<sleep description="sleep" seconds="3" />
+				<clickLink description="click 'English'" href="index.php?module=LanguagesManager&amp;action=saveLanguage&amp;language=en" />
+
+				<verifyText description="check page text" text="Hello" />
 			</steps>
 		</webtest>
 	</target>
