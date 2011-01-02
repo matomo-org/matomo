@@ -41,7 +41,8 @@
 				<verifyText description="check page text" text="New Update:" />
 				<mouseOver description="expand header message" htmlId="header_message" />
 				<verifyText description="check page text" text="Please update now!" />
-				<enableJavaScript enable="false"/>
+
+				<sleep description="sleep" seconds="5" />
 				<clickLink description="click 'Please update now'" href="action=newVersionAvailable" />
 
 				<!-- one click update -->

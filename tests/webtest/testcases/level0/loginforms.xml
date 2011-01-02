@@ -145,8 +145,7 @@
 				<verifyText description="check page text" text="Hello" />
 				<verifyText description="check page text" text="Sign out" />
 
-				<enableJavaScript description="Disable JS" enable="false" />
-
+				<sleep description="sleep" seconds="5" />
 				<clickLink description="click 'Sign out'" label="Sign out" />
 
 				<!-- logged out -->
