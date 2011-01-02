@@ -190,7 +190,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		$language = Piwik_Common::getRequestVar('language', '');
 		if(!empty($language))
 		{
-			Piwik_LanguagesManage::setLanguageForSession($language);
+			Piwik_LanguagesManager::setLanguageForSession($language);
 		}
 		$this->runUpdaterAndExit();
 	}

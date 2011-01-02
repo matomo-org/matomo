@@ -208,6 +208,11 @@
 				<verifyText description="check page text" text="Dashboard" />
 				<verifyText description="check page text" text="Hello" />
 
+				<!-- change language -->
+				<clickLink description="click 'English'" label="English" />
+				<clickLink description="click 'Deutsch'" label="Deutsch" />
+				<verifyText description="check page text" text="Hallo" />
+
 			</steps>
 		</webtest>
 	</target>
