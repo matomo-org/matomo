@@ -75,7 +75,7 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 	{
 		Piwik_AddAdminMenu('CoreAdminHome_MenuGeneralSettings', 
 							array('module' => 'CoreAdminHome', 'action' => 'generalSettings'),
-							Piwik::isUserIsSuperUser(),
+							Piwik::isUserHasSomeAdminAccess(),
 							$order = 6);
 	}
 	

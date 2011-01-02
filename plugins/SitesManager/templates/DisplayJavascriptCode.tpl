@@ -1,20 +1,6 @@
 
 {literal}
 <style>
-code {
-	background-color:#F6F9F9;
-	border-color:#3B3BB5;
-	border-style:dashed dashed dashed solid;
-	border-width:1px 1px 1px 5px;
-	direction:ltr;
-	display:table;
-	font-size:100%;
-	margin:12px 2px 0px;
-	padding:5px 50px 5px 15px;
-	text-align:left;
-	line-height:1.3em;
-	font-family: "Courier New" Courier monospace;
-}
 .trackingHelp ul { 
 	padding-left:40px;
 	list-style-type:square;

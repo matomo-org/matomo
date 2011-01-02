@@ -23,26 +23,30 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
 
 	public function generalSettings()
 	{
-		Piwik::checkUserIsSuperUser();
-		$view = Piwik_View::factory('generalSettings');
-		$enableBrowserTriggerArchiving = Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled();
-		$todayArchiveTimeToLive = Piwik_ArchiveProcessing::getTodayArchiveTimeToLive();
-		$showWarningCron = false;
-		if(!$enableBrowserTriggerArchiving
-			&& $todayArchiveTimeToLive < 3600)
-		{
-			$showWarningCron = true;
-		}
-		$view->showWarningCron = $showWarningCron;
-		$view->todayArchiveTimeToLive = $todayArchiveTimeToLive;
-		$view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
 		
-	
-		if(!Zend_Registry::get('config')->isFileWritable())
+		$view = Piwik_View::factory('generalSettings');
+		
+		if(Piwik::isUserIsSuperUser())
 		{
-			$view->configFileNotWritable = true;
+    		$enableBrowserTriggerArchiving = Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled();
+    		$todayArchiveTimeToLive = Piwik_ArchiveProcessing::getTodayArchiveTimeToLive();
+    		$showWarningCron = false;
+    		if(!$enableBrowserTriggerArchiving
+    			&& $todayArchiveTimeToLive < 3600)
+    		{
+    			$showWarningCron = true;
+    		}
+    		$view->showWarningCron = $showWarningCron;
+    		$view->todayArchiveTimeToLive = $todayArchiveTimeToLive;
+    		$view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
+    		
+    	
+    		if(!Zend_Registry::get('config')->isFileWritable())
+    		{
+    			$view->configFileNotWritable = true;
+    		}
+    		$view->mail = Zend_Registry::get('config')->mail->toArray();
 		}
-		$view->mail = Zend_Registry::get('config')->mail->toArray();
 		
 		$this->setBasicVariablesView($view);
 		$view->topMenu = Piwik_GetTopMenu();
@@ -79,4 +83,32 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
 		}
 		echo $toReturn;
 	}
+	
+	/**
+     * Shows the "Track Visits" checkbox.
+     */
+    public function optOut()
+    {
+        $view = Piwik_View::factory('optOut');
+        $view->trackVisits = !Piwik_Tracker_Cookie::isIgnoreCookieFound();
+        $view->nonce = Piwik_Nonce::getNonce('Piwik_OptOut', 3600);
+        echo $view->render();
+    }
+
+    /**
+     * Public interface of the controller to change
+     * the status. Checks the nonce for correctness.
+     */
+    public function changeOptOutStatus()
+    {
+        $trackVisits = Piwik_Common::getRequestVar('trackVisits', false);
+        $nonce = Piwik_Common::getRequestVar('nonce');
+
+        if (Piwik_Nonce::verifyNonce('Piwik_OptOut', $nonce)) {
+			Piwik_Tracker_Cookie::setIgnoreCookie();
+        } else {
+            throw new Exception('Invalid form. Please refresh the page and try again.');
+        }
+        Piwik::redirectToModule('CoreAdminHome', 'optOut');
+    }
 }

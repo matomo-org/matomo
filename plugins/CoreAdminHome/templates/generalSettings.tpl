@@ -3,10 +3,12 @@
 {include file="CoreAdminHome/templates/header.tpl"}
 {loadJavascriptTranslations plugins='UsersManager'}
 
+{if $isSuperUser}
 <h2>{'General_GeneralSettings'|translate}</h2>
 
 {ajaxErrorDiv id=ajaxError}
 {ajaxLoadingDiv id=ajaxLoading}
+
 <table class="adminTable adminTableNoBorder" style='width:900px;'>
 <tr>
 	<td style='width:400px'>{'General_AllowPiwikArchivingToTriggerBrowser'|translate}</td>
@@ -52,6 +54,7 @@
 </tr>
 </table>
 
+<h2>{'CoreAdminHome_EmailServerSettings'|translate}</h2>
 <div id='emailSettings'>
 <table class="adminTable adminTableNoBorder" style='width:600px;'>
 	<tr>
@@ -122,5 +125,17 @@
 
 <input type="submit" value="{'General_Save'|translate}" id="generalSettingsSubmit" class="submit" />
 <br /><br />
+
+{/if}
+<h2>{'CoreAdminHome_OptOutForYourVisitors'|translate}</h2>
+
+<p>{'CoreAdminHome_OptOutExplanation'|translate}
+{capture name=optOutUrl}{$piwikUrl}index.php?module=CoreAdminHome&action=optOut{/capture}
+{assign var=optOutUrl value=$smarty.capture.optOutUrl}
+{capture name=iframeOptOut}<iframe frameborder="no" width="600px" height="200px" src="{$smarty.capture.optOutUrl}"></iframe>{/capture}
+<code>{$smarty.capture.iframeOptOut|escape:'html'}</code>
+<br/>
+{'CoreAdminHome_OptOutExplanationBis'|translate:"<a href='$optOutUrl' target='_blank'>":"</a>"}
+</p>
 
 {include file="CoreAdminHome/templates/footer.tpl"}
