@@ -23,7 +23,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
 
 	public function generalSettings()
 	{
-		
+		Piwik::checkUserHasSomeAdminAccess();
 		$view = Piwik_View::factory('generalSettings');
 		
 		if(Piwik::isUserIsSuperUser())
