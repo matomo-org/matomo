@@ -89,26 +89,18 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
      */
     public function optOut()
     {
-        $view = Piwik_View::factory('optOut');
-        $view->trackVisits = !Piwik_Tracker_Cookie::isIgnoreCookieFound();
-        $view->nonce = Piwik_Nonce::getNonce('Piwik_OptOut', 3600);
-        echo $view->render();
-    }
+		$trackVisits = !Piwik_Tracker_Cookie::isIgnoreCookieFound();
 
-    /**
-     * Public interface of the controller to change
-     * the status. Checks the nonce for correctness.
-     */
-    public function changeOptOutStatus()
-    {
-        $trackVisits = Piwik_Common::getRequestVar('trackVisits', false);
-        $nonce = Piwik_Common::getRequestVar('nonce');
-
-        if (Piwik_Nonce::verifyNonce('Piwik_OptOut', $nonce)) {
+		$nonce = Piwik_Common::getRequestVar('nonce', false);
+		if($nonce !== false && Piwik_Nonce::verifyNonce('Piwik_OptOut', $nonce))
+		{
 			Piwik_Tracker_Cookie::setIgnoreCookie();
-        } else {
-            throw new Exception('Invalid form. Please refresh the page and try again.');
-        }
-        Piwik::redirectToModule('CoreAdminHome', 'optOut');
-    }
+			$trackVisits = !$trackVisits;
+		}
+ 
+		$view = Piwik_View::factory('optOut');
+		$view->trackVisits = $trackVisits;
+		$view->nonce = Piwik_Nonce::getNonce('Piwik_OptOut', 3600);
+		echo $view->render();
+	}
 }
