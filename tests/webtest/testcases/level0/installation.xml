@@ -208,10 +208,16 @@
 				<verifyText description="check page text" text="Dashboard" />
 				<verifyText description="check page text" text="Hello" />
 
-				<!-- change language -->
-				<clickLink description="click 'English'" label="English" />
-				<clickLink description="click 'Deutsch'" label="Deutsch" />
+				<!-- change language; "sleep" is a kludge -->
+				<sleep description="it is typically wise to include a sleep" seconds="5" />
+				<clickLink description="click 'Deutsch'" href="index.php?module=LanguagesManager&amp;action=saveLanguage&amp;language=de" />
 				<verifyText description="check page text" text="Hallo" />
+				<sleep description="it is typically wise to include a sleep" seconds="3" />
+				<clickLink description="click 'Français'" href="index.php?module=LanguagesManager&amp;action=saveLanguage&amp;language=fr" />
+				<verifyText description="check page text" text="Bonjour" />
+				<sleep description="it is typically wise to include a sleep" seconds="3" />
+				<clickLink description="click 'English'" href="index.php?module=LanguagesManager&amp;action=saveLanguage&amp;language=en" />
+				<verifyText description="check page text" text="Hello" />
 
 			</steps>
 		</webtest>
