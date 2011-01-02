@@ -43,7 +43,7 @@ piwik.js is unit tested and you can run tests in piwik/tests/javascript/
  WEBTESTS
 =========
 The Installation process is also webtested. They are ran by the continuous integration server.
-http://dev.piwik.org/svn/trunk/tests/webtest/testcases/level0/
+http://dev.piwik.org/svn/trunk/tests/webtest/testcases/
 
  CONTINOUS INTEGRATION
 ======================
