@@ -410,7 +410,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'visit_goal_converted'  	=> $someGoalsConverted ? 1: 0,
 			'referer_type' 				=> $refererInfo['referer_type'],
 			'referer_name' 				=> $refererInfo['referer_name'],
-			'referer_url' 				=> $refererInfo['referer_url'],
+			'referer_url' 				=> Piwik_Common::unsanitizeInputValue($refererInfo['referer_url']),
 			'referer_keyword' 			=> $refererInfo['referer_keyword'],
 			'config_md5config' 			=> $userInfo['config_md5config'],
 			'config_os' 				=> $userInfo['config_os'],
