@@ -663,11 +663,7 @@ Note: this token will expire in 24 hrs.',
 	'SitesManager_GlobalListExcludedIps' => 'Globalna lista wykluczonych IP',
 	'SitesManager_ListOfIpsToBeExcludedOnAllWebsites' => 'Poniższe IP zostaną wykluczone ze śledzenia na wszystkich stronach.',
 	'SitesManager_ExcludedParameters' => 'Parametry wykluczenia',
-	'SitesManager_HelpExcludedIps' => 'Wpisz liste IP, po jednym w wierszu, które chcesz wykluczyć ze śledzenia przez Piwik.
-
-
-
-Możesz użyć wildcards, np. %1$s lub %2$s',
+	'SitesManager_HelpExcludedIps' => 'Wpisz liste IP, po jednym w wierszu, które chcesz wykluczyć ze śledzenia przez Piwik.        Możesz użyć wildcards, np. %1$s lub %2$s',
 	'SitesManager_YourCurrentIpAddressIs' => 'Twój aktualny adres IP to %s',
 	'SitesManager_SelectACity' => 'Wybierz miasto',
 	'SitesManager_ChooseCityInSameTimezoneAsYou' => 'Wybierz miasto z tą samą strefą czasową co Twoja.',

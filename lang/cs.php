@@ -1120,9 +1120,7 @@ Poznámka: tento klíč expiruje za 24 hodin.',
 	'SitesManager_JsTrackingTagHelp' => 'Zde je JavaScriptový zaznamenávací tag pro vložení na všechny vaše stránky',
 	'SitesManager_ShowTrackingTag' => 'zobrazit zaznamenávací tagy',
 	'SitesManager_NotFound' => 'Zádné www sídla nenalezený pro',
-	'SitesManager_AliasUrlHelp' => 'Je doporučeno, ale ne vyžadováno, specifikovat různé URL, jednu na řádku, které vaší návštěvníci používají pro přístup ke stránkám.
-Aliasy se neobjeví hlášení Odkazující stránky>WWW sídla.
-Všimněte si, že není nutné zadávat URL s a bez \'www\'. Piwik automaticky rozezná obě.',
+	'SitesManager_AliasUrlHelp' => 'Je doporučeno, ale ne vyžadováno, specifikovat různé URL, jednu na řádku, které vaší návštěvníci používají pro přístup ke stránkám.  Aliasy se neobjeví hlášení Odkazující stránky>WWW sídla.  Všimněte si, že není nutné zadávat URL s a bez \'www\'. Piwik automaticky rozezná obě.',
 	'SitesManager_ExceptionInvalidTimezone' => 'Časová zóna %s je neplatná. Prozím zadejte platnou zónu.',
 	'SitesManager_ExceptionInvalidCurrency' => 'Měna %s je neplatná. Prosím zadejte platný symbol měny. (např.: %s)',
 	'SitesManager_ExceptionInvalidIPFormat' => 'IP adresa k vynechání "%s" není v platném formátu (např.: %s)',

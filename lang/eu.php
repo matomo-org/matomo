@@ -720,11 +720,7 @@ Oharra: tokena 24 ordutan iraungiko da.
 	'SitesManager_ShowTrackingTag' => 'erakutsi jarraipen-etiketa',
 	'SitesManager_NoWebsites' => 'Ez daukazu kudeatzeko webgunerik.',
 	'SitesManager_AddSite' => 'Gehitu webgune berria',
-	'SitesManager_AliasUrlHelp' => 'Gomendagarria da, baina ez beharrezkoa, bisitariek webgune hau atzitzeko erabiltzen dituzten URL ezberdinak zehaztea. 
-
-Webgune baterako alias URLak ez dira agertuko Erreferenteak > Webguneak txostenean. 
-
-Konturatu ez dela beharrezkoa URLak \'www\'-rekin edo gabe zehaztea, Piwik-ek automatikoki biak hartzen baititu kontuan.',
+	'SitesManager_AliasUrlHelp' => 'Gomendagarria da, baina ez beharrezkoa, bisitariek webgune hau atzitzeko erabiltzen dituzten URL ezberdinak zehaztea.     Webgune baterako alias URLak ez dira agertuko Erreferenteak > Webguneak txostenean.     Konturatu ez dela beharrezkoa URLak \'www\'-rekin edo gabe zehaztea, Piwik-ek automatikoki biak hartzen baititu kontuan.',
 	'SitesManager_Id' => 'Id',
 	'SitesManager_Name' => 'Izena',
 	'SitesManager_Urls' => 'URLak',
@@ -784,9 +780,7 @@ Konturatu ez dela beharrezkoa URLak \'www\'-rekin edo gabe zehaztea, Piwik-ek au
 	'Installation_SystemCheckPhp' => 'PHP bertsioa',
 	'Installation_SystemCheckExtensions' => 'Beharrezko bestelako hedapenak',
 	'Installation_SystemCheckDatabaseHelp' => 'Piwik-ek mysqli hedapena edo PDO eta pdo_mysql hedapenak behar ditu.',
-	'Installation_SystemCheckPdoAndMysqliHelp' => 'Linux zerbitzari batean ondorengo aukerekin konpila dezakezu php:: %1$s
-
-Gehitu ondorengo lerroak zure php.ini fitxategian: %2$s',
+	'Installation_SystemCheckPdoAndMysqliHelp' => 'Linux zerbitzari batean ondorengo aukerekin konpila dezakezu php:: %1$s    Gehitu ondorengo lerroak zure php.ini fitxategian: %2$s',
 	'Installation_SystemCheckPhpPdoAndMysqliSite' => 'Argibide gehiago: <a style="color:red" href="http://php.net/pdo">PHP PDO</a> eta <a style="color:red" href="http://php.net/mysqli">MYSQLI</a>.',
 	'Installation_SystemCheckWinPdoAndMysqliHelp' => 'Windows zerbitzari batean ondorengo lerroak gehi ditzakezu zure php.ini fitxategian: %s',
 	'Installation_SystemCheckSplHelp' => 'Standard PHP Library (SPL) lehenetsita gaituta duela konfiguratu eta birkonpilatu behar duzu PHP.',

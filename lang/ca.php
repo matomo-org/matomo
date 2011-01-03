@@ -198,8 +198,7 @@ $translations = array(
 	'CoreUpdater_InstallingTheLatestVersion' => 'S\'està instal·lant la darrera versió',
 	'CoreUpdater_PiwikUpdatedSuccessfully' => 'El Piwik s\'ha actualitzat correctament!',
 	'CoreUpdater_UpdateHasBeenCancelledExplanation' => 'L\'actualització en un clic del Piwik ha estat cancel·lada. Si no podeu arreglar l\'error de més amunt, us recomanem que actualitzeu el Piwik manualment. %1$s Si us plau, mireu-vos la %2$sDocumentació d\'actualització (en anglès)%3$s per a començar!',
-	'CoreUpdater_TheUpgradeProcessMayFail' => 'Si teniu una base de dades molt gran, les actualitzacions poden trigar massa temps en acabar a través del navegador. En aquesta situació podeu executar les actualitzacions des del terminal:
-<code>$ php path/to/piwik/index.php</code>',
+	'CoreUpdater_TheUpgradeProcessMayFail' => 'Si teniu una base de dades molt gran, les actualitzacions poden trigar massa temps en acabar a través del navegador. En aquesta situació podeu executar les actualitzacions des del terminal:  <code>$ php path/to/piwik/index.php</code>',
 	'CoreUpdater_ErrorDIYHelp' => 'Si sou un usuari avançat i trobeu un error en l\'actualització de la base de dades:',
 	'CoreUpdater_ErrorDIYHelp_1' => 'identifiqueu i corregiu l\'origen de l\'error (per exemple: memory_limit o max_execution_time)',
 	'CoreUpdater_ErrorDIYHelp_2' => 'executeu les consultes restants de l\'actualització que han fallat',
@@ -746,9 +745,7 @@ $translations = array(
 	'UsersManager_ExceptionUserDoesNotExist' => 'L\'usuari \'%s\' no existeix.',
 	'UsersManager_ExceptionAccessValues' => 'El paràmetre permisos ha de tenir un dels següents valors: [ %s ]',
 	'UsersManager_UsersManagement' => 'Gestiona els usuaris',
-	'UsersManager_UsersManagementMainDescription' => 'Creeu nous usuaris o actualitzeu els existents.
-
-Podeu configurar els seus permisos a dalt.',
+	'UsersManager_UsersManagementMainDescription' => 'Creeu nous usuaris o actualitzeu els existents.    Podeu configurar els seus permisos a dalt.',
 	'UsersManager_MainDescription' => 'Decidiu quin tipus d\'accés té cada usuari al Piwik. També podeu configurar tots els llocs web de cop.',
 	'UsersManager_ExceptionInvalidLoginFormat' => 'El nom d\'usuari ha de tenir una longitud d\'entre %1$s i %2$s caràcters i estar format únicament per lletres, xifres o els caràcters \'_\', \'-\' o \'.\'',
 	'UsersManager_ExceptionSuperUser' => 'Aquest és el superusuari i no es pot consultar, editar o esborrar mitjançant l\'API. Podeu editar-lo manualment en el fitxer de configuració del Piwik.',

@@ -1,40 +1,8 @@
 <?php 
 $translations = array(
 	'General_Locale' => 'es_ES.UTF-8',
-	'General_TranslatorName' => 'Marcos Alberto Sanmartín Pereira,
-
-
-
-
-
-
-
-David Ernesto Soto Vásquez,
-
-
-
-
-
-
-
-Fernando SFEIR',
-	'General_TranslatorEmail' => 'ahriman89@gmail.com,
-
-
-
-
-
-
-
-ddiods@hotmail.com,
-
-
-
-
-
-
-
-fersfeir@niux.com.ar',
+	'General_TranslatorName' => 'Marcos Alberto Sanmartín Pereira,                        David Ernesto Soto Vásquez,                        Fernando SFEIR',
+	'General_TranslatorEmail' => 'ahriman89@gmail.com,                        ddiods@hotmail.com,                        fersfeir@niux.com.ar',
 	'General_EnglishLanguageName' => 'Spanish',
 	'General_OriginalLanguageName' => 'Español',
 	'General_HelloUser' => '¡Hola, %s!',
@@ -721,23 +689,7 @@ fersfeir@niux.com.ar',
 	'SitesManager_ShowTrackingTag' => 'mostrar código de seguimiento',
 	'SitesManager_NoWebsites' => 'Usted no tiene ningún sitio web que administrar.',
 	'SitesManager_AddSite' => 'Añadir un nuevo Sitio',
-	'SitesManager_AliasUrlHelp' => 'Se recomienda, pero no es obligatorio, especificar las diferentes URLs que sus visitantes utilizan para acceder a este sitio web. 
-
-
-
-
-
-
-
-Los alias de las URLs para un sitio web no aparecerán en el informe Referencias > Sitios web. 
-
-
-
-
-
-
-
-Tenga en cuenta que no es necesario especificar las direcciones URL con y sin \'www\' ya que Piwik considera automáticamente ambas.',
+	'SitesManager_AliasUrlHelp' => 'Se recomienda, pero no es obligatorio, especificar las diferentes URLs que sus visitantes utilizan para acceder a este sitio web.                         Los alias de las URLs para un sitio web no aparecerán en el informe Referencias > Sitios web.                         Tenga en cuenta que no es necesario especificar las direcciones URL con y sin \'www\' ya que Piwik considera automáticamente ambas.',
 	'SitesManager_Id' => 'Id',
 	'SitesManager_Name' => 'Nombre',
 	'SitesManager_Urls' => 'URLs',
@@ -797,15 +749,7 @@ Tenga en cuenta que no es necesario especificar las direcciones URL con y sin \'
 	'Installation_SystemCheckPhp' => 'Versión PHP',
 	'Installation_SystemCheckExtensions' => 'Extensiones requeridas',
 	'Installation_SystemCheckDatabaseHelp' => 'Piwik requiere o bien la extensión mysqli o ambas extensiones PDO y pdo_mysql.',
-	'Installation_SystemCheckPdoAndMysqliHelp' => 'En un servidor Linux puede compilar php con las siguientes opciones: %1$s
-
-
-
-
-
-
-
-En su php.ini, añada las siguientes líneas: %2$s',
+	'Installation_SystemCheckPdoAndMysqliHelp' => 'En un servidor Linux puede compilar php con las siguientes opciones: %1$s                        En su php.ini, añada las siguientes líneas: %2$s',
 	'Installation_SystemCheckPhpPdoAndMysqliSite' => 'Más información en: <a style="color:red" href="http://php.net/pdo">PHP PDO</a> y <a style="color:red" href="http://php.net/mysqli">MYSQLI</a>.',
 	'Installation_SystemCheckWinPdoAndMysqliHelp' => 'En un servidor Windows puede añadir las siguientes líneas a su php.ini: %s',
 	'Installation_SystemCheckSplHelp' => 'Necesita configurar y reconstruir PHP con la Librería Estándar de PHP habilitada (por defecto).',
@@ -1004,15 +948,7 @@ En su php.ini, añada las siguientes líneas: %2$s',
 	'UsersManager_PluginDescription' => 'Administración de Usuarios en Piwik: agregar nuevo Usuario, editar uno existente, actualizar permisos. Todas las acciones están también disponibles en la API.',
 	'VisitFrequency_PluginDescription' => 'Reporta varias estadísticas sobre los Visitante que ha vuelto versus los Visitantes Nuevos. ',
 	'VisitorInterest_PluginDescription' => 'Reportes sobre el Interés de los Visitantes: número de paginas vistas, tiempo que estuvieron en el sitio web.',
-	'VisitsSummary_PluginDescription' => 'Reporta los Números Generales del Análisis: visita, visitantes únicos, número de acciones, porcentaje de abandono, etc.
-
-
-
-
-
-
-
-',
+	'VisitsSummary_PluginDescription' => 'Reporta los Números Generales del Análisis: visita, visitantes únicos, número de acciones, porcentaje de abandono, etc.                        ',
 	'VisitsSummary_NbActionsDescription' => '%s acciones (paginas vistas, descargas y enlaces externos)',
 	'VisitTime_PluginDescription' => 'Reporta el tiempo Local y del Servidor. La información del tiempo del Servidor puede ser útil para programar un mantenimiento al sitio web.',
 	'Widgetize_PluginDescription' => 'Este plugin hace muy fácil exportar cualquier Widget de Piwik a tu blog, sitio web o a iGoogle y Netvibes!',
@@ -1290,4 +1226,26 @@ En su php.ini, añada las siguientes líneas: %2$s',
 	'SitesManager_ExceptionInvalidIPFormat' => 'La IP a excluir "%s" no tiene un formato válido de IP (por ejemplo, %s).',
 	'PDFReports_EmailReports' => 'Informes por correo electrónico',
 	'PDFReports_SendReportNow' => 'Enviar Reporte ahora',
+	'General_ChooseDate' => 'Elija una fecha',
+	'General_SmtpEncryption' => 'Encriptación SMTP',
+	'General_OptionalSmtpPort' => 'Opcional. Por defecto 25 para SMTP sin encriptación y TLS, y 465 para SSL SMTP',
+	'General_EncryptedSmtpTransport' => 'Ingrese el tipo de encriptación de su servidor SMTP',
+	'CorePluginsAdmin_AuthorHomepage' => 'Web del Autor',
+	'CorePluginsAdmin_LicenseHomepage' => 'Licencia de la Wrb',
+	'Dashboard_Maximise_js' => 'Maximizar',
+	'Goals_GoalConversion' => 'Conversión de objetivos',
+	'Installation_SystemCheckGzcompressHelp' => 'Es necesario habilitar la extensión zlib y la función gzcompress.',
+	'Installation_SystemCheckGzuncompressHelp' => 'Es necesario habilitar la extensión zlib y la función gzcompress.',
+	'Installation_SystemCheckTracker' => 'Estado del tracker',
+	'Installation_SystemCheckTrackerHelp' => 'Las peticiones GET a piwik.php fallaron. Intente incluir en la lista blanca de mod_security y  HTTP Authentication esta URL.',
+	'Live_LastMinutes' => 'Últimos %s minutos',
+	'Login_RememberMe' => 'Recuerdeme',
+	'Mobile_DefaultReportDate' => 'Fecha del reporte',
+	'Referers_SubmenuOverview' => 'General',
+	'UserCountry_country_a1' => 'Proxy Anonimo',
+	'UserCountry_country_a2' => 'Proveedor Satelital',
+	'UserCountry_country_ap' => 'Región Asia/Pacífico',
+	'UserCountry_country_o1' => 'Otro País',
+	'UserCountry_continent_ant' => 'Antártida',
+	'UserCountry_continent_amc' => 'América Central',
 );

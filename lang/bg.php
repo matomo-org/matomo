@@ -770,15 +770,7 @@ $translations = array(
 	'Installation_SystemCheckPhp' => 'PHP версия',
 	'Installation_SystemCheckExtensions' => 'Други необходими разширения',
 	'Installation_SystemCheckDatabaseHelp' => 'Необходимо е за да инстаалирате Piwik базата от данни(БД) да поддържа mysqli или PDO и pdo_mysql разширенията.',
-	'Installation_SystemCheckPdoAndMysqliHelp' => 'За Linux сървър компилирайте php със следните опции: %1$s
-
-
-
-
-
-
-
-във Вашия php.ini, добавете следните редове: %2$s',
+	'Installation_SystemCheckPdoAndMysqliHelp' => 'За Linux сървър компилирайте php със следните опции: %1$s                във Вашия php.ini, добавете следните редове: %2$s',
 	'Installation_SystemCheckPhpPdoAndMysqliSite' => 'Повече информация: <a style="color:red" href="http://php.net/pdo">PHP PDO</a> и <a style="color:red" href="http://php.net/mysqli">MYSQLI</a>.',
 	'Installation_SystemCheckWinPdoAndMysqliHelp' => 'За Windows сървър добавете следните редове в php.ini: %s',
 	'Installation_SystemCheckSplHelp' => 'Трябва да конфигурирате PHP - Standard PHP Library (SPL) да се поддържа (по подразбиране).',

@@ -464,4 +464,6 @@ $translations = array(
 	'VisitorInterest_OnePage' => 'صفحة واحدة',
 	'VisitorInterest_NPages' => '%s صفحات',
 	'VisitorInterest_BetweenXYSeconds' => '%1$s - %2$s ثانية',
+	'General_ChooseDate' => 'اختر التاريخ',
+	'General_SmtpEncryption' => 'تشفير SMTP',
 );

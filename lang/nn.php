@@ -49,15 +49,7 @@ $translations = array(
 	'General_ColumnActionsPerVisit' => 'Handlingar per Vitjing',
 	'General_ColumnAvgTimeOnSite' => 'Gjen. tid på nettstaden',
 	'General_ColumnBounceRate' => 'Hopprate',
-	'General_ColumnPageviews' => 'Sidevisingar
-
-
-
-
-
-
-
-',
+	'General_ColumnPageviews' => 'Sidevisingar        ',
 	'General_ColumnUniquePageviews' => 'Unike sidevisingar',
 	'General_ColumnValuePerVisit' => 'Verdi per vising',
 	'General_ColumnVisitsWithConversions' => 'Vitjingar med overgang',
@@ -110,15 +102,7 @@ $translations = array(
 	'General_LongDay_6' => 'Laurdag',
 	'General_LongDay_7' => 'Sundag',
 	'CorePluginsAdmin_Plugins' => 'Innstikk',
-	'CorePluginsAdmin_PluginsManagement' => 'Innstikkstyring
-
-
-
-
-
-
-
-',
+	'CorePluginsAdmin_PluginsManagement' => 'Innstikkstyring        ',
 	'CorePluginsAdmin_MainDescription' => 'Innstikk utvidar funksjonane til Piwik. Når eit innstikk er lagt til, kan du slå det av og på her.',
 	'CorePluginsAdmin_Plugin' => 'Innstikk',
 	'CorePluginsAdmin_Version' => 'Versjon',
@@ -143,11 +127,7 @@ $translations = array(
 	'CoreHome_ExcludeLowPopulation_js' => 'Ekskluder låg populasjon',
 	'CoreHome_PageOf_js' => '%1$s av %2$s',
 	'CoreHome_Loading_js' => 'Lastar...',
-	'CoreHome_DayFormat' => '%langDag% %dag% %langMånad% %langtÅr%
-
-
-
-',
+	'CoreHome_DayFormat' => '%langDag% %dag% %langMånad% %langtÅr%    ',
 	'CoreHome_PeriodDay' => 'Dag',
 	'CoreHome_PeriodWeek' => 'Veke',
 	'CoreHome_PeriodMonth' => 'Månad',
@@ -184,15 +164,7 @@ $translations = array(
 	'CoreUpdater_UpgradePiwik' => 'Oppdater Piwik',
 	'CoreUpdater_HelpMessageContent' => 'Les %1$s Piwik OBS %2$s som forklarar dei vanlegaste feila under oppdatering. %3$s Spør dine systemadministratorar, dei kan kanskje hjelpa deg me feilen, som sannsynlegvis hev noko med MySQL databasa di å gjera.',
 	'CoreUpdater_CriticalErrorDuringTheUpgradeProcess' => 'Kritisk feil under oppdateringa:',
-	'CoreUpdater_HelpMessageIntroductionWhenError' => 'Ovanfor står kjernefeilmeldinga. Den burde forklare grunnen, men om du treng meir hjelp:
-
-
-
-
-
-
-
-',
+	'CoreUpdater_HelpMessageIntroductionWhenError' => 'Ovanfor står kjernefeilmeldinga. Den burde forklare grunnen, men om du treng meir hjelp:        ',
 	'CoreUpdater_HelpMessageIntroductionWhenWarning' => 'Oppdateringa var vellykka, med det var problem i prosessen. Sjå dei øvrige forklaringane for detaljar. For meir hjelp:',
 	'CoreUpdater_UpgradeComplete' => 'Oppgradering ferdig!',
 	'CoreUpdater_WarningMessages' => 'Åtvaringar:',
@@ -216,11 +188,7 @@ $translations = array(
 	'Actions_SubmenuDownloads' => 'Nedlastingar',
 	'Actions_ColumnClicks' => 'Klikk',
 	'Actions_ColumnUniqueClicks' => 'Unike klikk',
-	'Actions_ColumnDownloads' => 'Nedlastingar
-
-
-
-',
+	'Actions_ColumnDownloads' => 'Nedlastingar    ',
 	'Actions_ColumnUniqueDownloads' => 'Unike nedlastingar',
 	'Actions_ColumnPageName' => 'Sidenamn',
 	'Actions_ColumnClickedURL' => 'Klikka URL',
@@ -230,15 +198,7 @@ $translations = array(
 	'Dashboard_DeleteWidgetConfirm' => 'Er du sikker på at du vil fjerna denne dingsen frå ditt dashbord?',
 	'Dashboard_SelectWidget' => 'Vel den dingsen du vil legga til dashbordet',
 	'Dashboard_AddPreviewedWidget_js' => 'Legg framvist dings til dashbordet',
-	'Dashboard_WidgetPreview_js' => 'Dingsframvising
-
-
-
-
-
-
-
-',
+	'Dashboard_WidgetPreview_js' => 'Dingsframvising        ',
 	'Dashboard_Close_js' => 'Lukk',
 	'Dashboard_TitleWidgetInDashboard_js' => 'Dingsen finnes allereie i dashbordet',
 	'Dashboard_TitleClickToAdd_js' => 'Klikk for å leggja til i dashbordet',
@@ -246,17 +206,9 @@ $translations = array(
 	'Dashboard_WidgetNotFound_js' => 'Dingsen vart ikkje funnen',
 	'Referers_Referers' => 'Referansar',
 	'Referers_SearchEngines' => 'Søkjemotorar',
-	'Referers_Keywords' => 'Nøkkelord
-
-
-
-',
+	'Referers_Keywords' => 'Nøkkelord    ',
 	'Referers_DirectEntry' => 'Direkte vitjing',
-	'Referers_Websites' => 'Nettstader
-
-
-
-',
+	'Referers_Websites' => 'Nettstader    ',
 	'Referers_Campaigns' => 'Kampanjar',
 	'Referers_Evolution' => 'Utvikling over perioden',
 	'Referers_Type' => 'Referansetype',
@@ -283,15 +235,7 @@ $translations = array(
 	'Referers_WidgetKeywords' => 'Liste over nøkkelord',
 	'Referers_WidgetCampaigns' => 'Liste over kampanjar',
 	'Referers_WidgetExternalWebsites' => 'Liste over eksterne nettsider',
-	'Referers_WidgetSearchEngines' => 'Beste søkjemotorar
-
-
-
-
-
-
-
-',
+	'Referers_WidgetSearchEngines' => 'Beste søkjemotorar        ',
 	'Referers_WidgetOverview' => 'Oversikt',
 	'UserSettings_VisitorSettings' => 'Vitjarinnstillingar',
 	'UserSettings_BrowserFamilies' => 'Nettlesarfamiliar',
@@ -507,11 +451,7 @@ $translations = array(
 	'UserCountry_country_pe' => 'Peru',
 	'UserCountry_country_pf' => 'Fransk Polynesia',
 	'UserCountry_country_pg' => 'Papua New Guinea',
-	'UserCountry_country_ph' => 'Filippinene
-
-
-
-',
+	'UserCountry_country_ph' => 'Filippinene    ',
 	'UserCountry_country_pk' => 'Pakistan',
 	'UserCountry_country_pl' => 'Polen',
 	'UserCountry_country_pm' => 'Saint Pierre og Miquelon',
@@ -556,11 +496,7 @@ $translations = array(
 	'UserCountry_country_th' => 'Thailand',
 	'UserCountry_country_tj' => 'Tadsjikistan',
 	'UserCountry_country_tk' => 'Tokelau',
-	'UserCountry_country_tl' => 'Aust Timor
-
-
-
-',
+	'UserCountry_country_tl' => 'Aust Timor    ',
 	'UserCountry_country_tm' => 'Turkmenistan',
 	'UserCountry_country_tn' => 'Tunisia',
 	'UserCountry_country_to' => 'Tonga',
@@ -610,11 +546,7 @@ $translations = array(
 	'VisitsSummary_GenerateTime' => '%s sekundar å generera denne siden',
 	'VisitsSummary_GenerateQueries' => '%s spørjingar køyrd',
 	'VisitsSummary_WidgetLastVisits' => 'Siste vitjingar',
-	'VisitsSummary_WidgetVisits' => 'Vitjingsoversikt
-
-
-
-',
+	'VisitsSummary_WidgetVisits' => 'Vitjingsoversikt    ',
 	'VisitsSummary_WidgetLastVisitors' => 'Graf over dei siste unike vitjarane',
 	'VisitsSummary_WidgetOverviewGraph' => 'Oversikt med graf',
 	'VisitsSummary_SubmenuOverview' => 'Oversikt',
@@ -628,11 +560,7 @@ $translations = array(
 	'VisitFrequency_ReturnActions' => '%s handlingar frå dei tilbakevendande vitjarane',
 	'VisitFrequency_ReturnMaxActions' => '%s maksimum handlingar frå ein tilbakevendande vitjar',
 	'VisitFrequency_ReturnTotalTime' => '%s samla tid brukt av tilbakevendande vitjarar',
-	'VisitFrequency_ReturnBounceRate' => '%s tilbakevendande vitjarar hev hoppa (forsvunne frå nettstaden etter ei sidevising)
-
-
-
-',
+	'VisitFrequency_ReturnBounceRate' => '%s tilbakevendande vitjarar hev hoppa (forsvunne frå nettstaden etter ei sidevising)    ',
 	'VisitFrequency_WidgetOverview' => 'Frekvensoversikt',
 	'VisitFrequency_WidgetGraphReturning' => 'Graf tilbakevendande vitjarar',
 	'VisitFrequency_SubmenuFrequency' => 'Frekvens',
@@ -670,15 +598,7 @@ $translations = array(
 	'UsersManager_UsersManagement' => 'Brukarbehandling',
 	'UsersManager_UsersManagementMainDescription' => 'Lag nye brukarar eller oppdater eksisterande brukarar. Du kan deretter setta deira tilgangar ovanfor.',
 	'UsersManager_ManageAccess' => 'Bestem tilgang',
-	'UsersManager_MainDescription' => 'Bestem kven av brukarane som hev korleis tilgang til dine nettstader.
-
-
-
-Du kan òg setja tilgang til alle nettstadene på ein gong.
-
-
-
-',
+	'UsersManager_MainDescription' => 'Bestem kven av brukarane som hev korleis tilgang til dine nettstader.    Du kan òg setja tilgang til alle nettstadene på ein gong.    ',
 	'UsersManager_Sites' => 'Nettstader',
 	'UsersManager_AllWebsites' => 'Alle nettstader',
 	'UsersManager_ApplyToAllWebsites' => 'Gjer gjeldande for alle nettstader',
@@ -686,11 +606,7 @@ Du kan òg setja tilgang til alle nettstadene på ein gong.
 	'UsersManager_PrivNone' => 'Inga tilgang',
 	'UsersManager_PrivView' => 'Les',
 	'UsersManager_PrivAdmin' => 'Administrator',
-	'UsersManager_ChangeAllConfirm' => 'Er du sikker på at du vil endra \'%s\' tilgangar på alle nettstadene?
-
-
-
-',
+	'UsersManager_ChangeAllConfirm' => 'Er du sikker på at du vil endra \'%s\' tilgangar på alle nettstadene?    ',
 	'UsersManager_Login' => 'Brukar',
 	'UsersManager_Password' => 'Passord',
 	'UsersManager_Email' => 'Epost',
@@ -708,24 +624,12 @@ Du kan òg setja tilgang til alle nettstadene på ein gong.
 	'UsersManager_ExceptionEditAnonymous' => 'Den anonyme brukaren kan ikkje bli endra eller sletta. Den er brukt av Piwik for å definera ein brukar som ikkje hev logga inn. Til døme kan du gjera statistikken offentleg tilgjengeleg ved å gjeva lesetilgang til den anonyme brukaren.',
 	'UsersManager_ExceptionSuperUser' => 'Den valde brukaren er superbrukaren, og kan ikkje bli henta, endra eller redigert via APIet. Du kan endre han manuelt i Piwik sin konfigurasjonsfil.',
 	'UsersManager_ExceptionUserDoesNotExist' => 'Brukar \'%s\' finst ikkje.',
-	'UsersManager_ExceptionAccessValues' => 'Parameteren tilgang må ha ein av dei følgjande verdiane :
-
-
-
-[ %s ]',
+	'UsersManager_ExceptionAccessValues' => 'Parameteren tilgang må ha ein av dei følgjande verdiane :    [ %s ]',
 	'SitesManager_Sites' => 'Nettstadar',
 	'SitesManager_WebsitesManagement' => 'Nettstadsbehandling',
-	'SitesManager_MainDescription' => 'Your Web Analytics reports need Websites! Add, update, delete Websites, and show the JavaScript to insert in your pages.
-
-
-
-Din nettanalyserapport treng nettstader! Legg til, oppdater og fjern nettstader, samt vis javaScript koden som trengs på sidene dine.',
+	'SitesManager_MainDescription' => 'Your Web Analytics reports need Websites! Add, update, delete Websites, and show the JavaScript to insert in your pages.    Din nettanalyserapport treng nettstader! Legg til, oppdater og fjern nettstader, samt vis javaScript koden som trengs på sidene dine.',
 	'SitesManager_JsTrackingTag' => 'JavaScript Sporing skode',
-	'SitesManager_JsTrackingTagHelp' => 'Here is the JavaScript Tracking tag to include on all your pages
-
-
-
-Her er JavaScript sporingskoden som du på leggja ved alle sidene dine',
+	'SitesManager_JsTrackingTagHelp' => 'Here is the JavaScript Tracking tag to include on all your pages    Her er JavaScript sporingskoden som du på leggja ved alle sidene dine',
 	'SitesManager_ShowTrackingTag' => 'vis sporingskode',
 	'SitesManager_NoWebsites' => 'Du har inga nettstader å administrera.',
 	'SitesManager_AddSite' => 'Legg til ein ny nettstad',
@@ -734,34 +638,14 @@ Her er JavaScript sporingskoden som du på leggja ved alle sidene dine',
 	'SitesManager_Urls' => 'Adresser',
 	'SitesManager_MenuSites' => 'Nettstader',
 	'SitesManager_DeleteConfirm_js' => 'Er du sikker på at du vil sletta denne nettstaden %s?',
-	'SitesManager_ExceptionDeleteSite' => 'It is not possible to delete this website as it is the only registered website. Add a new website first, then delete this one.
-
-
-
-Det er ikkje mulig å sletta denne nettstaden, ettersom det er den einaste registrerte nettstaden. Legg til ein ny nettstad først, så kan du sletta denne etterpå.',
+	'SitesManager_ExceptionDeleteSite' => 'It is not possible to delete this website as it is the only registered website. Add a new website first, then delete this one.    Det er ikkje mulig å sletta denne nettstaden, ettersom det er den einaste registrerte nettstaden. Legg til ein ny nettstad først, så kan du sletta denne etterpå.',
 	'SitesManager_ExceptionNoUrl' => 'Du må skriva minst ein adresse for nettstaden.',
 	'SitesManager_ExceptionEmptyName' => 'Stadsnamnet kan ikkje vera tomt.',
 	'SitesManager_ExceptionInvalidUrl' => 'Adressa \'%s\' er ikkje ein gyldig adresse (URL)',
-	'Installation_Installation' => 'Installasjon
-
-
-
-',
-	'Installation_InstallationStatus' => 'Installasjonstatus
-
-
-
-',
+	'Installation_Installation' => 'Installasjon    ',
+	'Installation_InstallationStatus' => 'Installasjonstatus    ',
 	'Installation_PercentDone' => '%s %% Ferdig',
-	'Installation_NoConfigFound' => 'Du prøvar å nå ein Piwikside, men konfigurasjonen vart ikkje funnen.<br /><b>&nbsp;&nbsp;&raquo; Du kan <a href=\'index.php\'>installera Piwik nå</a></b><br /><small>
-
-
-
-Om du allereie har hatt Piwik installert og hev nokre tabellar i databasen treng du ikkje bekymra deg. Du kan nytta dei same tabellane og data.
-
-
-
-</small>',
+	'Installation_NoConfigFound' => 'Du prøvar å nå ein Piwikside, men konfigurasjonen vart ikkje funnen.<br /><b>&nbsp;&nbsp;&raquo; Du kan <a href=\'index.php\'>installera Piwik nå</a></b><br /><small>    Om du allereie har hatt Piwik installert og hev nokre tabellar i databasen treng du ikkje bekymra deg. Du kan nytta dei same tabellane og data.    </small>',
 	'Installation_MysqlSetup' => 'MySQL database installasjon',
 	'Installation_MysqlErrorConnect' => 'Det skjedde ein feil ved tilknyting til MySQL databasen',
 	'Installation_JsTag' => 'JavaScript tagg',
@@ -769,11 +653,7 @@ Om du allereie har hatt Piwik installert og hev nokre tabellar i databasen treng
 	'Installation_Congratulations' => 'Gratulerer',
 	'Installation_CongratulationsHelp' => '<p>Gratulerer! Din Piwik installasjon er ferdog.</p><p>Ver sikker på at JavaScript koden er skrevet på sidene dine, og vent på dine første vitjarar!</p>',
 	'Installation_ContinueToPiwik' => 'Forsett til Piwik',
-	'Installation_SetupWebsite' => 'Sett opp ei nettstad
-
-
-
-',
+	'Installation_SetupWebsite' => 'Sett opp ei nettstad    ',
 	'Installation_SetupWebsiteError' => 'Det skjedde ein feil då nettsiden blei lagt til',
 	'Installation_GeneralSetup' => 'Generelt oppsett',
 	'Installation_GeneralSetupSuccess' => 'Generelt oppsett vart vellykka',
@@ -781,36 +661,18 @@ Om du allereie har hatt Piwik installert og hev nokre tabellar i databasen treng
 	'Installation_Password' => 'passord',
 	'Installation_PasswordRepeat' => 'passord (gjenteken)',
 	'Installation_Email' => 'epost',
-	'Installation_SecurityNewsletter' => 'send meg epost når det kjem oppdateringar og tryggleiksvarslingar
-
-
-
-',
-	'Installation_CommunityNewsletter' => 'email me with community updates (new plugins, new features, etc.)
-
-
-
-send meg epost når det kjem oppdateringar frå fellesskapet (nye innstikk, funksjonar osb.)
-
-
-
-',
+	'Installation_SecurityNewsletter' => 'send meg epost når det kjem oppdateringar og tryggleiksvarslingar    ',
+	'Installation_CommunityNewsletter' => 'email me with community updates (new plugins, new features, etc.)    send meg epost når det kjem oppdateringar frå fellesskapet (nye innstikk, funksjonar osb.)    ',
 	'Installation_PasswordDoNotMatch' => 'Passorda stemmer ikkje',
 	'Installation_SubmitGo' => 'Gå!',
 	'Installation_SystemCheck' => 'Systemsjekk',
 	'Installation_SystemCheckPhp' => 'PHP utgåve',
 	'Installation_SystemCheckPdo' => 'Pdo utviding',
 	'Installation_SystemCheckPdoMysql' => 'Pdo_Mysql utviding',
-	'Installation_SystemCheckPdoError' => 'Du må slå på PDO- og PDO_MYSQL-utvidingane i din php.ini fil.
-
-',
+	'Installation_SystemCheckPdoError' => 'Du må slå på PDO- og PDO_MYSQL-utvidingane i din php.ini fil.  ',
 	'Installation_SystemCheckPdoHelp' => 'På ein Windows tenar kan du leggje til dei føljande linjene i din php.ini %s <br /><br />På ein Linux tenar kan du kompilera php med den føljande innstillinga %s Legg til dei føljande linjene i din php.ini %s<br /><br />For meir informasjon, sjå <a style="color:red" href="http://php.net/pdo">PHP sin nettstad</a>.',
 	'Installation_SystemCheckWriteDirs' => 'Katalogar med skrivetilgang',
-	'Installation_SystemCheckWriteDirsHelp' => 'To fix this error on your Linux system, try typing in the following command(s)
-
-
-
-For å fiksa denne feilen på din Linux tenar, prøv den/dei føljande kommandoen(e)',
+	'Installation_SystemCheckWriteDirsHelp' => 'To fix this error on your Linux system, try typing in the following command(s)    For å fiksa denne feilen på din Linux tenar, prøv den/dei føljande kommandoen(e)',
 	'Installation_SystemCheckMemoryLimit' => 'Minnegrense',
 	'Installation_SystemCheckMemoryLimitHelp' => 'På eit nettsted me høg trafikk, kan arkiveringsprosessen nytta meir minne enn den hev lov til.<br />Sjå innstillinga memory_limit i din php.ini fil om nødvendig.',
 	'Installation_SystemCheckGD' => 'GD &gt; 2.x (biletebehandling)',
@@ -830,24 +692,12 @@ For å fiksa denne feilen på din Linux tenar, prøv den/dei føljande kommandoe
 	'Installation_TablesCreatedSuccess' => 'Opprettinga av tabellane vart vellykka!',
 	'Installation_DatabaseCreatedSuccess' => 'Oppretting av databasen %s vart vellykka!',
 	'Installation_GoBackAndDefinePrefix' => 'Gå tilbake og vel ein prefiks for Piwik tabellane',
-	'Installation_ConfirmDeleteExistingTables' => 'Er du sikker på at du vil sletta tabellane: %s ifrå databasen?
-
-
-
-ÅTVARING: DEI KAN IKKJE BLI GJENOPPRETTA! ',
+	'Installation_ConfirmDeleteExistingTables' => 'Er du sikker på at du vil sletta tabellane: %s ifrå databasen?    ÅTVARING: DEI KAN IKKJE BLI GJENOPPRETTA! ',
 	'Installation_Welcome' => 'Velkommen!',
 	'Installation_WelcomeHelp' => '<p>Piwik er ein open kjeldekode nettsanalyseprogramvare som gjer det enkelt å henta ut informasjonen du ønskjer frå dine vitjarar.</p><p>Denne prosessen er delt opp i %s enkle steg, og tek omkring 5 minuttar.</p>',
 	'Goals_ColumnConversions' => 'Overgangar',
 	'Goals_ColumnConversionRate' => 'Overgangsrate',
-	'Goals_ColumnRevenue' => 'Forteneste
-
-
-
-
-
-
-
-',
+	'Goals_ColumnRevenue' => 'Forteneste        ',
 	'DBStats_DatabaseUsage' => 'Databasebruk',
 	'DBStats_MainDescription' => 'Piwik lagrar alle dine nettsanalysedata i MySQL-databasen. Nett no nyttar Piwiks tabellar %s.',
 	'DBStats_Table' => 'Tabell',
@@ -873,15 +723,7 @@ For å fiksa denne feilen på din Linux tenar, prøv den/dei føljande kommandoe
 	'ExamplePlugin_photostreamMatt' => 'Matt sine bilete',
 	'General_Dashboard' => 'Dashbord',
 	'General_DashboardForASpecificWebsite' => 'Dashbord for ein spesifikk nettstad',
-	'General_MultiSitesSummary' => 'Alle nettstadar
-
-
-
-
-
-
-
-',
+	'General_MultiSitesSummary' => 'Alle nettstadar        ',
 	'General_AllWebsitesDashboard' => 'Dashbord for alle nettstadar',
 	'General_NotValid' => '%s er ugyldig',
 	'General_OrCancel' => 'eller %s Avbryt %s',
@@ -1107,11 +949,7 @@ For å fiksa denne feilen på din Linux tenar, prøv den/dei føljande kommandoe
 	'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed' => 'Merk: Disse innstillingane blir ikkje brukt om du ikkje har nokon sider som er tilgjengelge for anonyme brukarar.',
 	'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess' => 'Når brukarar vitjar Piwik uten å vera innlogga, skal dei ha tilgang til',
 	'UsersManager_ChangePassword' => 'Bytt passord',
-	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => 'Om du ønskjer å bytte passordet, skriv inn eit nytt et.
-
-
-
-Ellers skriv du ingenting.',
+	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => 'Om du ønskjer å bytte passordet, skriv inn eit nytt et.    Ellers skriv du ingenting.',
 	'UsersManager_TypeYourPasswordAgain' => 'Skriv ditt nye passord på nytt.',
 	'UsersManager_TheLoginScreen' => ' Innloggingsskjermen   ',
 	'UsersManager_YourUsernameCannotBeChanged' => 'Brukarnamnet ditt kan ikkje endrast.',
