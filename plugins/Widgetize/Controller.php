@@ -41,7 +41,10 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 	
-	function js()
+	/**
+	 * Disabled for now, not obvious that this is useful (iframe sounds like a better solution)
+	 */
+	private function js()
 	{
 		Piwik_API_Request::reloadAuthUsingTokenAuth();
 		$controllerName = Piwik_Common::getRequestVar('moduleToWidgetize');
@@ -49,7 +52,6 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 		$parameters = array ( $fetch = true );
 		$content = Piwik_FrontController::getInstance()->fetchDispatch( $controllerName, $actionName, $parameters);
 		$view = Piwik_View::factory('js');
-		$view->piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
 		$content = str_replace(array("\t","\n","\r\n","\r"), "", $content);
 		$view->content = $content;
 		echo $view->render();

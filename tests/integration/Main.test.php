@@ -62,7 +62,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	function test_apiGetReportMetadata_year()
 	{
 		$this->setApiNotToCall(array());
-		$this->setApiToCall( 'API.getProcessedReport' );
+		$this->setApiToCall( array('API.getProcessedReport', 'LanguagesManager.getTranslationsForLanguage', 'LanguagesManager.getAvailableLanguageNames') );
 		$dateTime = '2009-01-04 00:11:42';
 		$idSite = $this->createWebsite($dateTime);
 		$language = 'fr';
@@ -216,6 +216,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // End of second visit
         
 	}
+	
 	/*
 	 * Tests Tracker several websites, different days.
 	 * Tests API for period=day/week/month/year, requesting data for both websites, 

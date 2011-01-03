@@ -32,8 +32,16 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->idSite = Piwik_Common::getRequestVar('idSite');
+		$this->idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
 		$this->goals = Piwik_Goals_API::getInstance()->getGoals($this->idSite);
+		foreach($this->goals as &$goal)
+		{
+			$goal['name'] = Piwik_Common::sanitizeInputValue($goal['name']);
+			if(isset($goal['pattern']))
+			{
+				$goal['pattern'] = Piwik_Common::sanitizeInputValue($goal['pattern']);
+			}
+		}
 	}
 	
 	public function widgetGoalReport()
@@ -168,13 +176,15 @@ class Piwik_Goals_Controller extends Piwik_Controller
 
 		if(empty($idGoal))
 		{
-			$idGoal = Piwik_Common::getRequestVar('idGoal', false);
+			$idGoal = Piwik_Common::getRequestVar('idGoal', false, 'int');
 		}
 		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.get');
 		$view->setParametersToModify(array('idGoal' => $idGoal));
 		
 		foreach($columns as $columnName)
 		{
+			$columnTranslation = '';
+
 			// find the right translation for this column, eg. find 'revenue' if column is Goal_1_revenue
 			foreach($this->goalColumnNameToLabel as $metric => $metricTranslation)
 			{

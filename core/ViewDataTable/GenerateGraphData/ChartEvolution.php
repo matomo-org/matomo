@@ -18,6 +18,15 @@
  */
 class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDataTable_GenerateGraphData
 {
+	protected function checkStandardDataTable()
+	{
+		// DataTable_Array and DataTable allowed for the evolution chart
+		if(!($this->dataTable instanceof Piwik_DataTable_Array)
+			&& !($this->dataTable instanceof Piwik_DataTable))
+		{
+			throw new Exception("Unexpected data type to render.");
+		}
+	}
 	protected function getViewDataTableId()
 	{
 		return 'generateDataChartEvolution';
@@ -119,7 +128,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 				$yAxisLabelToValueCleaned[$yAxisLabel][] = $columnValue;
 			}
 		}
-		$idSite = Piwik_Common::getRequestVar('idSite');
+		$idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
 		
 		$unit = $this->yAxisUnit;
 		if(empty($unit))

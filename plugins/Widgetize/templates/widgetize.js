@@ -56,10 +56,11 @@ function widgetize()
 		self.deleteEmbedElements();
 		var exportButtonsElement = $('<span id="exportButtons">');
 
+		var urlIframe = self.getEmbedUrl(widgetParameters, "iframe");
 		// We first build the HTML code that will load the widget in an IFRAME
 		var widgetIframeHtml = '<div id="widgetIframe">'+
 								'<iframe width="100%" height="350" src="'+
-									self.getEmbedUrl(widgetParameters, "iframe")+ 
+									urlIframe + 
 									'" scrolling="no" frameborder="0" marginheight="0" marginwidth="0">'+
 								'</iframe>'+
 							'</div>';
@@ -71,7 +72,10 @@ function widgetize()
 				'<span id="embedThisWidgetIframeInput">'+
 					self.getInputFormWithHtml('iframeEmbed', widgetIframeHtml)+
 				'</span>'+
-			'</div>'
+			'</div>' +
+			'<div> <label for="embedThisWidgetDirectLink">&rsaquo; Direct Link</label>'+
+					'<span id="embedThisWidgetDirectLink"> '+self.getInputFormWithHtml('directLinkEmbed', urlIframe)+' - <a href="'+urlIframe+'" target="_blank">'+_pk_translate('General_OpenInNewWindow_js')+'</a></span>'
+					+'</div>'
 		);
 		
 		// Add the Flash Export if a flash <embed> is found in the widget 

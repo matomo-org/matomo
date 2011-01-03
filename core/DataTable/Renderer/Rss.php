@@ -22,13 +22,13 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 {
 	function render()
 	{
-		$this->renderHeader();
+		self::renderHeader();
 		return $this->renderTable($this->table);
 	}
 	
 	function renderException()
 	{
-		$this->renderHeader();
+		self::renderHeader();
 		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
 		return 'Error: '.$exceptionMessage;
 	}
@@ -41,12 +41,11 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 			throw new Exception("RSS Feed only used on Piwik_DataTable_Array with keyName = 'date'");
 		}
 		
-		$idSite = Piwik_Common::getRequestVar('idSite', 1);
+		$idSite = Piwik_Common::getRequestVar('idSite', 1, 'int');
 		$period = Piwik_Common::getRequestVar('period');
-		$currentUrl = Piwik_Url::getCurrentUrlWithoutFileName();
 		
-		$piwikUrl = $currentUrl . "?module=CoreHome&action=index&idSite=" . $idSite . "&period=" . $period;
-		
+		$piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName() 
+						. "?module=CoreHome&action=index&idSite=" . $idSite . "&period=" . $period;
 		$out = "";
 		$moreRecentFirst = array_reverse($table->getArray(), true);
 		foreach($moreRecentFirst as $date => $subtable )
@@ -55,9 +54,9 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 			$site = $table->metadata[$date]['site'];
 	
 			$pudDate = date('r', $timestamp);
-			
+			 
 			$dateInSiteTimezone = Piwik_Date::factory($timestamp)->setTimezone($site->getTimezone())->toString('Y-m-d');
-			$thisPiwikUrl = htmlentities($piwikUrl . "&date=$dateInSiteTimezone");
+			$thisPiwikUrl = Piwik_Common::sanitizeInputValue($piwikUrl . "&date=$dateInSiteTimezone");
 			$siteName = $site->getName();
 			$title = $siteName . " on ". $date;
 			
@@ -69,7 +68,7 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 		<author>http://piwik.org</author>
 		<description>";	
 			
-			$out .= htmlspecialchars( $this->renderDataTable($subtable) );
+			$out .= Piwik_Common::sanitizeInputValue( $this->renderDataTable($subtable) );
 			$out .= "</description>\n\t</item>\n";
 		}
 		
@@ -79,7 +78,7 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 		return $header . $out . $footer;
 	}
 
-	protected function renderHeader()
+	protected static function renderHeader()
 	{
 		@header('Content-Type: text/xml; charset=utf-8');
 	}

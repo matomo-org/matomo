@@ -66,7 +66,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 		{
 			return;
 		} 
-		$websiteId = Piwik_Common::getRequestVar('idSite', false);
+		$websiteId = Piwik_Common::getRequestVar('idSite', false, 'int');
 		if ($websiteId) {
 			$website = new Piwik_Site($websiteId);
 			$datetimeCreationDate = $this->site->getCreationDate()->getDatetime();

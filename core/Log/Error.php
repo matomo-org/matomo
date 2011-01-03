@@ -86,7 +86,9 @@ class Piwik_Log_Error_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Scre
 	    // it gives an errno 0, and in this case the objective is to NOT display anything on the screen!
 	    // is there any other case where the errno is zero at this point?
 	    if($errno == 0) return '';
-	    $strReturned .= "\n<div style='word-wrap: break-word; border: 3px solid red; padding:4px; width:70%; background-color:#FFFF96;'><b>";
+	    $strReturned .= "\n<div style='word-wrap: break-word; border: 3px solid red; padding:4px; width:70%; background-color:#FFFF96;'>
+	    <strong>There is an error. Please report the message and full backtrace in the <a href='?module=Proxy&action=redirect&url=http://forum.piwik.org' target='_blank'>Piwik forums</a>.<br /><br/>
+	    ";
 	    switch($errno)
 	    {
 	        case E_ERROR:               $strReturned .=  "Error";                  break;
@@ -106,11 +108,11 @@ class Piwik_Log_Error_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Scre
 	        case E_USER_DEPRECATED:     $strReturned .=  "User Deprecated";        break;
 	        default:                    $strReturned .=  "Unknown error ($errno)"; break;
 	    }
-	    $strReturned .= ":</b> <i>$errstr</i> in <b>$errfile</b> on line <b>$errline</b>\n";
+	    $strReturned .= ":</strong> <i>$errstr</i> in <b>$errfile</b> on line <b>$errline</b>\n";
 	    $strReturned .= "<br /><br />Backtrace --&gt;<div style=\"font-family:Courier;font-size:10pt\">";
 	    $strReturned .= str_replace("\n", "<br />\n", $backtrace);
-	    $strReturned .= "</div><br /><br />";
-	    $strReturned .= "\n</pre></div><br />";
+	    $strReturned .= "</div><br />";
+	    $strReturned .= "\n </pre></div><br />";
 	    
 	    return parent::format($strReturned);
     }

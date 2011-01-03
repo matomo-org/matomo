@@ -10,7 +10,7 @@
 			<thead>
 			<tr>
 			{foreach from=$dataTableColumns item=column}
-				<th class="sortable" id="{$column}">{$columnTranslations[$column]}</td>
+				<th class="sortable" id="{$column}">{$columnTranslations[$column]|escape:'html'}</td>
 			{/foreach}
 			</tr>
 			</thead>
@@ -18,18 +18,20 @@
 			<tbody>
 			{foreach from=$arrayDataTable item=row}
 			<tr {if $row.idsubdatatable}class="level{$row.level} rowToProcess subActionsDataTable" id="{$row.idsubdatatable}"{else}class="actionsDataTable rowToProcess level{$row.level}"{/if}>
-				{foreach from=$dataTableColumns item=column}
-				<td>
-					{if isset($row.columns[$column])}{$row.columns[$column]}{else}{$defaultWhenColumnValueNotDefined}{/if}
-				</td>
-				{/foreach}
+			{foreach from=$dataTableColumns item=column}
+			<td>
+				{include file="CoreHome/templates/datatable_cell.tpl"}
+			</td>
+			{/foreach}
 			</tr>
 			{/foreach}
 			</tbody>
 		</table>
 		{/if}
 	
-		{include file="CoreHome/templates/datatable_footer.tpl"}
+		{if $properties.show_footer}
+		  {include file="CoreHome/templates/datatable_footer.tpl"}
+        {/if}
 		{include file="CoreHome/templates/datatable_actions_js.tpl"}
 	{/if}
 	</div>

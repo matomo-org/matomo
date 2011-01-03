@@ -103,10 +103,15 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($this->parametersToModify);
 
 		$this->includeData = !Zend_Registry::get('config')->Debug->disable_merged_requests;
-		$idSite = Piwik_Common::getRequestVar('idSite', 1);
+		$idSite = Piwik_Common::getRequestVar('idSite', 1, 'int');
 		
 		Piwik_API_Request::reloadAuthUsingTokenAuth();
-		if(Piwik::isUserHasViewAccess($idSite) && $this->includeData)
+		if(!Piwik::isUserHasViewAccess($idSite))
+		{
+			throw new Exception(Piwik_TranslateException('General_ExceptionPrivilegeAccessWebsite', array("'view'", $idSite)));
+
+		}
+		if($this->includeData)
 		{
 			$this->chartData = $this->getFlashData();
 		}

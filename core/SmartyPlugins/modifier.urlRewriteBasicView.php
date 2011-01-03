@@ -36,5 +36,5 @@ function smarty_modifier_urlRewriteBasicView($parameters)
 
 	// add module=CoreHome&action=showInContext
 	$url = $url . '&amp;module=CoreHome&amp;action=showInContext';
-	return htmlspecialchars($url);
+	return Piwik_Common::sanitizeInputValue($url);
 }

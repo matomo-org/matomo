@@ -435,6 +435,7 @@ class Piwik
 			'/config',
 			'/core',
 			'/lang',
+			'/tmp',
 		);
 		foreach($directoriesToProtect as $directoryToProtect)
 		{
@@ -444,7 +445,7 @@ class Piwik
 		// more selective allow/deny filters
 		$allowAny = "<Files \"*\">\nAllow from all\nSatisfy any\n</Files>\n";
 		$allowStaticAssets = "<Files ~ \"\\.(test\.php|gif|ico|jpg|png|js|css|swf)$\">\nSatisfy any\nAllow from all\n</Files>\n";
-		$denyDirectPhp = "<Files ~ \"\\.(php|php4|php5|inc|tpl)$\">\nDeny from all\n</Files>\n";
+		$denyDirectPhp = "<Files ~ \"\\.(php|php4|php5|inc|tpl|in)$\">\nDeny from all\n</Files>\n";
 		$directoriesToProtect = array(
 			'/js' => $allowAny,
 			'/libs' => $denyDirectPhp . $allowStaticAssets,
@@ -474,9 +475,14 @@ class Piwik
           <add segment="config" />
           <add segment="core" />
           <add segment="lang" />
+          <add segment="tmp" />
         </hiddenSegments>
         <fileExtensions>
           <add fileExtension=".tpl" allowed="false" />
+          <add fileExtension=".php4" allowed="false" />
+          <add fileExtension=".php5" allowed="false" />
+          <add fileExtension=".inc" allowed="false" />
+          <add fileExtension=".in" allowed="false" />
         </fileExtensions>
       </requestFiltering>
     </security>
@@ -1306,9 +1312,9 @@ class Piwik
 		$jsTag = file_get_contents( PIWIK_INCLUDE_PATH . "/core/Tracker/javascriptTag.tpl");
 		$jsTag = nl2br(htmlentities($jsTag));
 		$piwikUrl = preg_match('~^(http|https)://(.*)$~', $piwikUrl, $matches);
-		$piwikUrl = $matches[2];
+		$piwikUrl = @$matches[2];
 		$jsTag = str_replace('{$idSite}', $idSite, $jsTag);
-		$jsTag = str_replace('{$piwikUrl}', $piwikUrl, $jsTag);
+		$jsTag = str_replace('{$piwikUrl}', Piwik_Common::sanitizeInputValue($piwikUrl), $jsTag);
 		$jsTag = str_replace('{$hrefTitle}', Piwik::getRandomTitle(), $jsTag);
 		return $jsTag;
 	}
@@ -1337,6 +1343,18 @@ class Piwik
 		$id = abs(intval(md5(Piwik_Url::getCurrentHost())));
 		$title = $titles[ $id % count($titles)];
 		return $title;
+	}
+	
+	/**
+	 * Number of websites to show in the Website selector
+	 * 
+	 * @return int
+	 */
+	static public function getWebsitesCountToDisplay()
+	{
+		$count = max(Zend_Registry::get('config')->General->site_selector_max_sites,
+					Zend_Registry::get('config')->General->autocomplete_min_sites);
+		return (int)$count;
 	}
 
 /*
@@ -1423,10 +1441,15 @@ class Piwik
 			return false;
 		}
 	}
+	
+	static public function isUserIsAnonymous()
+	{
+		return Piwik::getCurrentUserLogin() == 'anonymous';
+	}
 
 	static public function checkUserIsNotAnonymous()
 	{
-		if(Piwik::getCurrentUserLogin() == 'anonymous')
+		if(self::isUserIsAnonymous())
 		{
 			throw new Exception(Piwik_Translate('General_YouMustBeLoggedIn'));
 		}

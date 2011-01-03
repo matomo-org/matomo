@@ -51,11 +51,11 @@ class Piwik_SitesManager_API
 		{
 			$piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
 		}
-		$piwikUrl = addslashes(Piwik_Common::sanitizeInputValues($piwikUrl));
+		$piwikUrl = Piwik_Common::sanitizeInputValues($piwikUrl);
 		
 		$htmlEncoded = Piwik::getJavascriptCode($idSite, $piwikUrl);
 		$htmlEncoded = str_replace(array('<br>','<br />','<br/>'), '', $htmlEncoded);
-		return html_entity_decode($htmlEncoded);
+		return $htmlEncoded;
 	}
 	
 	/**
@@ -906,7 +906,7 @@ class Piwik_SitesManager_API
 								WHERE (		s.name like ? 
 										OR 	s.main_url like ?) 
 									AND idsite in ($ids_str) 
-								LIMIT ".Zend_Registry::get('config')->General->site_selector_max_sites, 
+								LIMIT ".Piwik::getWebsitesCountToDisplay(), 
 							$bind) ;
 		return $sites;
 	}

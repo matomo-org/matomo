@@ -12,8 +12,8 @@
 			</div>
 			<!--<div class="settings"></div>-->
 			<div class="referer">
-				{if $visitor.refererType != 'directEntry'}from <a href="{$visitor.refererUrl}" target="_blank">{if !empty($visitor.searchEngineIcon)}<img src="{$visitor.searchEngineIcon}" /> {/if}{$visitor.refererName}</a>
-					{if !empty($visitor.keywords)}"{$visitor.keywords}"{/if}
+				{if $visitor.refererType != 'directEntry'}from <a href="{$visitor.refererUrl|escape:'html'}" target="_blank">{if !empty($visitor.searchEngineIcon)}<img src="{$visitor.searchEngineIcon}" /> {/if}{$visitor.refererName|escape:'html'}</a>
+					{if !empty($visitor.keywords)}"{$visitor.keywords|escape:'html'}"{/if}
 				{/if}
 				{if $visitor.refererType == 'directEntry'}{'Referers_DirectEntry'|translate}{/if}
 			</div>
@@ -28,7 +28,7 @@
 				  $col=0;
 		  		}
 				{/php}
-				<a href="{$action.pageUrl}" target="_blank"><img align="middle" src="plugins/Live/templates/images/file{php} echo $col; {/php}.png" title="{$action.pageUrl}" /></a>
+				<a href="{$action.pageUrl|escape:'html'}" target="_blank"><img align="middle" src="plugins/Live/templates/images/file{php} echo $col; {/php}.png" title="{$action.pageUrl|escape:'html'}" /></a>
 			{/foreach}
 		</div>
 	</div>

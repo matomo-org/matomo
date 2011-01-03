@@ -70,7 +70,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	/**
 	 * Installation Step 1: Welcome
 	 */
-	function welcome($message)
+	function welcome($message = false)
 	{
 		// Delete merged js/css files to force regenerations based on updated activated plugin list
 		Piwik_AssetManager::removeMergedAssets();
@@ -494,7 +494,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$viewTrackingHelp->displaySiteName = $siteName;
 		$viewTrackingHelp->jsTag = Piwik::getJavascriptCode($idSite, Piwik_Url::getCurrentUrlWithoutFileName());
 		$viewTrackingHelp->idSite = $idSite;
-		$viewTrackingHelp->currentUrlWithoutFilename = Piwik_Url::getCurrentUrlWithoutFileName();
 
 		// Assign the html output to a smarty variable
 		$view->trackingHelp = $viewTrackingHelp->render();
@@ -637,7 +636,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$message = Piwik_Translate('Installation_ErrorInvalidState',
 						array( '<br /><b>',
 								'</b>',
-								'<a href=\''.Piwik_Url::getCurrentUrlWithoutFileName().'\'>',
+								'<a href=\''.Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName()).'\'>',
 								'</a>')
 					);
 			Piwik::exitWithErrorMessage( $message );

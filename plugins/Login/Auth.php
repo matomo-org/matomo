@@ -42,7 +42,7 @@ class Piwik_Login_Auth implements Piwik_Auth
 
 		if(is_null($this->login))
 		{
-			if($this->token_auth == $rootToken)
+			if($this->token_auth === $rootToken)
 			{
 				return new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE, $rootLogin, $this->token_auth );
 			}
@@ -53,16 +53,16 @@ class Piwik_Login_Auth implements Piwik_Auth
 					WHERE token_auth = ?',
 					array($this->token_auth)
 			);
-			if($login !== false)
+			if(!empty($login))
 			{
 				return new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS, $login, $this->token_auth );
 			}
 		}
 		else if(!empty($this->login))
 		{
-			if($this->login == $rootLogin
-				&& ($this->getHashTokenAuth($rootLogin, $rootToken) == $this->token_auth)
-				|| $rootToken == $this->token_auth)
+			if($this->login === $rootLogin
+				&& ($this->getHashTokenAuth($rootLogin, $rootToken) === $this->token_auth)
+				|| $rootToken === $this->token_auth)
 			{
 				$this->setTokenAuth($rootToken);
 				return new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE, $rootLogin, $this->token_auth );
@@ -75,9 +75,9 @@ class Piwik_Login_Auth implements Piwik_Auth
 					WHERE login = ?',
 					array($login)
 			);
-			if($userToken !== false
-				&& (($this->getHashTokenAuth($login, $userToken) == $this->token_auth)
-				|| $userToken == $this->token_auth))
+			if(!empty($userToken)
+				&& (($this->getHashTokenAuth($login, $userToken) === $this->token_auth)
+				|| $userToken === $this->token_auth))
 			{
 				$this->setTokenAuth($userToken);
 				return new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS, $login, $userToken );

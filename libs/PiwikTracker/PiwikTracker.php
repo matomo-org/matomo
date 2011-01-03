@@ -23,6 +23,10 @@ class PiwikTracker
 	 */
 	static public $URL = '';
 	
+	/**
+	 * API Version
+	 * @var int
+	 */
 	const VERSION = 1;
 	
 	/**

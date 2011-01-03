@@ -67,6 +67,7 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 		} catch(Exception $e) {
 			$this->isDataAvailable = false;
 		}
+		$this->checkStandardDataTable();
 		$this->view = $this->buildView();
 	}
 	

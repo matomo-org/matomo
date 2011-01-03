@@ -59,6 +59,7 @@ if(!function_exists('session_cache_limiter'))
  */
 function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks = false)
 {
+	@header('Content-Type: text/html; charset=utf-8');
 	if($optionalTrace)
 	{
 		$optionalTrace = '<font color="#888888">Backtrace:<br /><pre>'.$optionalTrace.'</pre></font>';

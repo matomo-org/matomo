@@ -48,7 +48,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 
 	public function render( $dataTable = null )
 	{
-		$this->renderHeader();
+		self::renderHeader();
 
 		if(is_null($dataTable))
 		{
@@ -69,7 +69,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 	
 	function renderException()
 	{
-		$this->renderHeader();
+		self::renderHeader();
 
 		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
 		
@@ -170,9 +170,13 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		{
 			$array = $this->renderSimpleTable($this->table);
 		}
-		else
+		elseif($this->table instanceof Piwik_DataTable)
 		{
 			$array = $this->renderTable($this->table);
+		}
+		else
+		{
+			throw new Exception("Unexpected data type to render.");
 		}
 				
 		if($this->serialize)

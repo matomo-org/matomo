@@ -18,12 +18,11 @@
 			<tbody>
 			{foreach from=$arrayDataTable item=row}
 			<tr {if $row.idsubdatatable}class="rowToProcess subActionsDataTable" id="{$row.idsubdatatable}"{else} class="actionsDataTable rowToProcess"{/if}>
-				{foreach from=$dataTableColumns item=column}
-				<td>
-				{if !$row.idsubdatatable && $column=='label' && isset($row.metadata.url)}<span class="urlLink">{$row.metadata.url}</span>{/if}
-				{if isset($row.columns[$column])}{$row.columns[$column]}{else}{$defaultWhenColumnValueNotDefined}{/if}
-				</td>
-				{/foreach}
+			{foreach from=$dataTableColumns item=column}
+			<td>
+				{include file="CoreHome/templates/datatable_cell.tpl"}
+			</td>
+			{/foreach}
 			</tr>
 			{/foreach}
 			</tbody>

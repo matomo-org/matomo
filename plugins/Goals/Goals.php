@@ -163,7 +163,7 @@ class Piwik_Goals extends Piwik_Plugin
 	function addWidgets()
 	{
 		Piwik_AddWidget('Goals_Goals', 'Goals_GoalsOverview', 'Goals', 'widgetGoalsOverview');
-		$goals = Piwik_Tracker_GoalManager::getGoalDefinitions(Piwik_Common::getRequestVar('idSite'));
+		$goals = Piwik_Tracker_GoalManager::getGoalDefinitions(Piwik_Common::getRequestVar('idSite', null, 'int'));
 		if(count($goals) > 0)
 		{
 			foreach($goals as $goal) 
@@ -175,7 +175,7 @@ class Piwik_Goals extends Piwik_Plugin
 	
 	function addMenus()
 	{
-		$goals = Piwik_Tracker_GoalManager::getGoalDefinitions(Piwik_Common::getRequestVar('idSite'));
+		$goals = Piwik_Tracker_GoalManager::getGoalDefinitions(Piwik_Common::getRequestVar('idSite', null, 'int'));
 		if(count($goals)==0)
 		{
 			Piwik_AddMenu('Goals_Goals', '', array('module' => 'Goals', 'action' => 'addNewGoal'), true, 25);

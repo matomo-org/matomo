@@ -105,7 +105,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 		$currentUrl = 'index.php';
 		$urlToRedirect = Piwik_Common::getRequestVar('url', $currentUrl, 'string');
-		$urlToRedirect = htmlspecialchars_decode($urlToRedirect);
+		$urlToRedirect = Piwik_Common::unsanitizeInputValue($urlToRedirect);
 
 		$this->authenticateAndRedirect($login, $password, false, $urlToRedirect);
 	}
@@ -178,7 +178,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$resetToken = self::generatePasswordResetToken($user);
 
 		$ip = Piwik_Common::getIpString();
-		$url = Piwik_Url::getCurrentUrlWithoutQueryString() . "?module=Login&action=resetPassword&token=$resetToken";
+		$url = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutQueryString() . "?module=Login&action=resetPassword&token=$resetToken");
 
 		// send email with new password
 		try
