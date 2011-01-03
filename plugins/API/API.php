@@ -139,8 +139,13 @@ class Piwik_API_API
 	 * @param string $idSites Comma separated list of website Ids
 	 * @return array
 	 */
-	public function getReportMetadata($idSites = false) 
+	public function getReportMetadata($idSites = array()) 
 	{
+		if (!is_array($idSites)) 
+		{ 
+            $idSites = array($idSites); 
+		}
+		 
 		$idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
 		
 		$availableReports = array();
