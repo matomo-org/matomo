@@ -375,7 +375,7 @@ abstract class Piwik_ArchiveProcessing
 			{
 				$this->temporaryArchive = true;
 				$timezone = $this->site->getTimezone();
-				$minDatetimeArchiveProcessedUTC = Piwik_Date::factory('today', $timezone)->setTimezone($timezone)->getTimestamp();
+				$minDatetimeArchiveProcessedUTC = Piwik_Date::factory(Piwik_Date::factory('now', $timezone)->getDateStartUTC())->setTimezone($timezone)->getTimestamp();
 			}
 		}
 		return $minDatetimeArchiveProcessedUTC;

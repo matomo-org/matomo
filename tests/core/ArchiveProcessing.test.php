@@ -58,7 +58,7 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 		$archiveProcessing = $this->createArchiveProcessing('month', $dateLabel, $siteTimezone);
 		
 		// min finished timestamp considered when looking at archive timestamp 
-		$dateMinArchived = Piwik_Date::factory($dateLabel)->getTimestamp();
+		$dateMinArchived = Piwik_Date::factory($dateLabel)->setTimezone($siteTimezone)->getTimestamp();
 		$minTimestamp = $archiveProcessing->getMinTimeArchivedProcessed();
 		$this->assertEqual($minTimestamp, $dateMinArchived, Piwik_Date::factory($minTimestamp)->getDatetime() . " != " . Piwik_Date::factory($dateMinArchived)->getDatetime());
 		$this->assertTrue($archiveProcessing->isArchiveTemporary());
