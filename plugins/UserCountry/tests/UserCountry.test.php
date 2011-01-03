@@ -4,7 +4,7 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 	require_once dirname(__FILE__)."/../../../tests/config_test.php";
 }
 
-require 'UserCountry/functions.php';
+require_once 'UserCountry/functions.php';
 
 class Test_Piwik_UserCountry extends UnitTestCase
 {
