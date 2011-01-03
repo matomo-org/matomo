@@ -4,6 +4,7 @@
 	<!ENTITY time  SYSTEM "../modules/time.xml">
 	<!ENTITY checkForErrors SYSTEM "../modules/errors.xml">
 	<!ENTITY verifyLinksAndImages SYSTEM "../modules/common_pages.xml">
+	<!ENTITY loadMacros SYSTEM "../modules/macros.xml">
 	<!ENTITY raquo "&#187;">
 	<!ENTITY rsaquo "&#8250;" >
 ]>
@@ -16,6 +17,8 @@
 				<header name="piwik_auth" value="" />
 			</config>
 			<steps>
+
+				&loadMacros;
 
 				<invoke description="get login form" url="/" />
 
@@ -145,8 +148,7 @@
 				<verifyText description="check page text" text="Hello" />
 				<verifyText description="check page text" text="Sign out" />
 
-				<sleep description="sleep" seconds="5" />
-				<clickLink description="click 'Sign out'" label="Sign out" />
+				<retryClickLink description="click 'Sign out'" label="Sign out" maxcount="5"  seconds="1" />
 
 				<!-- logged out -->
 

@@ -4,6 +4,7 @@
 	<!ENTITY time  SYSTEM "../modules/time.xml">
 	<!ENTITY checkForErrors SYSTEM "../modules/errors.xml">
 	<!ENTITY verifyLinksAndImages SYSTEM "../modules/common_pages.xml">
+	<!ENTITY loadMacros SYSTEM "../modules/macros.xml">
 	<!ENTITY raquo "&#187;">
 	<!ENTITY rsaquo "&#8250;" >
 ]>
@@ -13,6 +14,9 @@
 	<target name="webtest">
 		<webtest name="auto update">
 			<steps>
+				<echo>Auto-Updated</echo>
+
+				&loadMacros;
 
 				<!-- logging in -->
 
@@ -42,8 +46,7 @@
 				<mouseOver description="expand header message" htmlId="header_message" />
 				<verifyText description="check page text" text="Please update now!" />
 
-				<sleep description="sleep" seconds="5" />
-				<clickLink description="click 'Please update now'" href="action=newVersionAvailable" />
+				<retryClickLink description="click 'Please update now'" href="action=newVersionAvailable" maxcount="30" seconds="1" />
 
 				<!-- one click update -->
 

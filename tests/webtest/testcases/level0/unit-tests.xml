@@ -4,6 +4,10 @@
 	<!ENTITY time  SYSTEM "../modules/time.xml">
 	<!ENTITY checkForErrors SYSTEM "../modules/errors.xml">
 	<!ENTITY verifyLinksAndImages SYSTEM "../modules/common_pages.xml">
+	<!ENTITY loadMacros SYSTEM "../modules/macros.xml">
+	<!ENTITY raquo "&#187;">
+	<!ENTITY rsaquo "&#8250;" >
+
 ]>
 
 <project name="Smoke test level0 - deploy test" basedir="."	default="webtest">
@@ -11,6 +15,10 @@
 	<target name="webtest">
 		<webtest name="unit tests">
 			<steps>
+				<echo>Unit Tests</echo>
+
+				&loadMacros;
+
 				<echo>Piwik install - dbsetup: db.name: ${db.name}</echo>
 				<sql
 					driver="com.mysql.jdbc.Driver"
