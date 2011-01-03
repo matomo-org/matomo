@@ -39,7 +39,9 @@ class HtmlTimerReporter extends HtmlReporter
         print "<strong>" . $this->getExceptionCount() . "</strong> exceptions.";
         print "<br/> ";
         print $this->timer;
-        print " - 	";
+        print " - Current date:	";
+        print Piwik_Date::factory('now')->getDatetime();
+        print " - ";
         print $this->timer->getMemoryLeak();
         print "</div>\n";
         print "</body>\n</html>\n";
