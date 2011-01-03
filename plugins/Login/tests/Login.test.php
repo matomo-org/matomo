@@ -88,6 +88,12 @@ class Test_Piwik_Login extends Test_Database
 		$rc = $auth->authenticate();
 		$this->assertEqual( $rc->getCode(), Piwik_Auth_Result::FAILURE );
 
+		// not equal
+		$auth->setLogin('anonymous');
+		$auth->setTokenAuth(0);
+		$rc = $auth->authenticate();
+		$this->assertEqual( $rc->getCode(), Piwik_Auth_Result::FAILURE );
+
 		// API authentication
 		$auth->setLogin(null);
 		$auth->setTokenAuth('anonymous');
@@ -129,6 +135,24 @@ class Test_Piwik_Login extends Test_Database
 		// empty login
 		$auth->setLogin('');
 		$auth->setTokenAuth($tokenAuth);
+		$rc = $auth->authenticate();
+		$this->assertEqual( $rc->getCode(), Piwik_Auth_Result::FAILURE );
+
+		// not equal
+		$auth->setLogin(0);
+		$auth->setTokenAuth(0);
+		$rc = $auth->authenticate();
+		$this->assertEqual( $rc->getCode(), Piwik_Auth_Result::FAILURE );
+
+		// not equal
+		$auth->setLogin(0);
+		$auth->setTokenAuth($tokenAuth);
+		$rc = $auth->authenticate();
+		$this->assertEqual( $rc->getCode(), Piwik_Auth_Result::FAILURE );
+
+		// not equal
+		$auth->setLogin($user['login']);
+		$auth->setTokenAuth(0);
 		$rc = $auth->authenticate();
 		$this->assertEqual( $rc->getCode(), Piwik_Auth_Result::FAILURE );
 
@@ -176,6 +200,12 @@ class Test_Piwik_Login extends Test_Database
 		// empty login
 		$auth->setLogin('');
 		$auth->setTokenAuth($tokenAuth);
+		$rc = $auth->authenticate();
+		$this->assertEqual( $rc->getCode(), Piwik_Auth_Result::FAILURE );
+
+		// not equal
+		$auth->setLogin($user['login']);
+		$auth->setTokenAuth(0);
 		$rc = $auth->authenticate();
 		$this->assertEqual( $rc->getCode(), Piwik_Auth_Result::FAILURE );
 

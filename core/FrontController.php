@@ -125,6 +125,8 @@ class Piwik_FrontController
 			return call_user_func_array( array($controller, $action ), $parameters);
 		} catch(Piwik_Access_NoAccessException $e) {
 			Piwik_PostEvent('FrontController.NoAccessException', $e);					
+		} catch(Exception $e) {
+			Piwik_ExitWithMessage($e->getMessage(), false, true);
 		}
 	}
 	
@@ -248,7 +250,7 @@ class Piwik_FrontController
 			
 			Piwik_PostEvent('FrontController.checkForUpdates');
 		} catch(Exception $e) {
-			Piwik_ExitWithMessage($e->getMessage(), $e->getTraceAsString(), true);
+			Piwik_ExitWithMessage($e->getMessage(), false, true);
 		}
 	}
 	

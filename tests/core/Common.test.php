@@ -62,17 +62,17 @@ class Test_Piwik_Common extends UnitTestCase
 	// sanitize an array OK
 	function test_sanitizeInputValues_array1()
 	{
-		$a1 = array('test1' => 't1', 't45', "teatae''", 4568, array('test'), 1.52);
+		$a1 = array('test1' => 't1', 't45', "teatae", 4568, array('test'), 1.52);
 		$this->assertEqual( $a1, Piwik_Common::sanitizeInputValues($a1));
 	}
 	
 	// sanitize an array OK
 	function test_sanitizeInputValues_array2()
 	{
-		$a1 = array('test1' => 't1', 't45', "teatae''", 4568, array('test'), 1.52,
-				array('test1' => 't1', 't45', "teatae''", 4568, array('test'), 1.52),
-				array('test1' => 't1', 't45', "teatae''", 4568, array('test'), 1.52),
-				array( array(array(array('test1' => 't1', 't45', "teatae''", 4568, array('test'), 1.52)))
+		$a1 = array('test1' => 't1', 't45', "teatae", 4568, array('test'), 1.52,
+				array('test1' => 't1', 't45', "teatae", 4568, array('test'), 1.52),
+				array('test1' => 't1', 't45', "teatae", 4568, array('test'), 1.52),
+				array( array(array(array('test1' => 't1', 't45', "teatae", 4568, array('test'), 1.52)))
 				));
 		$this->assertEqual( $a1, Piwik_Common::sanitizeInputValues($a1));
 	}
@@ -108,7 +108,7 @@ class Test_Piwik_Common extends UnitTestCase
 	function test_sanitizeInputValues_badString()
 	{
 		$string = '& " < > 123abc\'';
-		$stringOK = '&amp; &quot; &lt; &gt; 123abc\'';
+		$stringOK = '&amp; &quot; &lt; &gt; 123abc&#039;';
 		$this->assertEqual($stringOK, Piwik_Common::sanitizeInputValues($string));
 
 	}
@@ -130,7 +130,7 @@ class Test_Piwik_Common extends UnitTestCase
 	function test_sanitizeInputValues_HTML()
 	{
 		$html = "<test toto='mama' piwik=\"cool\">Piwik!!!!!</test>";
-		$htmlOK = "&lt;test toto='mama' piwik=&quot;cool&quot;&gt;Piwik!!!!!&lt;/test&gt;";
+		$htmlOK = "&lt;test toto=&#039;mama&#039; piwik=&quot;cool&quot;&gt;Piwik!!!!!&lt;/test&gt;";
 		$this->assertEqual($htmlOK, Piwik_Common::sanitizeInputValues($html));
 	}
 	
@@ -138,7 +138,7 @@ class Test_Piwik_Common extends UnitTestCase
 	function test_sanitizeInputValues_SQLQuery()
 	{
 		$sql = "SELECT piwik FROM piwik_tests where test= 'super\"value' AND cool=toto #comment here";
-		$sqlOK = "SELECT piwik FROM piwik_tests where test= 'super&quot;value' AND cool=toto #comment here";
+		$sqlOK = "SELECT piwik FROM piwik_tests where test= &#039;super&quot;value&#039; AND cool=toto #comment here";
 		$this->assertEqual($sqlOK, Piwik_Common::sanitizeInputValues($sql));
 	}
 	
@@ -175,15 +175,12 @@ class Test_Piwik_Common extends UnitTestCase
 	// sanitize with magic quotes off
 	function test_sanitizeInputValues_magicquotesOFF()
 	{
-		
 		$this->assertTrue(@set_magic_quotes_runtime(0));
 		$this->assertEqual(@get_magic_quotes_runtime(), 0);
 		$this->test_sanitizeInputValues_array1();
 		$this->test_sanitizeInputValues_array2();
 		$this->test_sanitizeInputValues_badString();
 		$this->test_sanitizeInputValues_HTML();
-		
-		
 	}
 	
     /**
@@ -317,7 +314,7 @@ class Test_Piwik_Common extends UnitTestCase
     	$_GET['test'] = '';
     	$this->assertEqual( Piwik_Common::getRequestVar('test', 45, 'string'), '45');
     	$this->assertEqual( Piwik_Common::getRequestVar('test', "geaga", 'string'), "geaga");
-    	$this->assertEqual( Piwik_Common::getRequestVar('test', "'}{}}{}{}'", 'string'), "'}{}}{}{}'");
+    	$this->assertEqual( Piwik_Common::getRequestVar('test', "&#039;}{}}{}{}&#039;", 'string'), "&#039;}{}}{}{}&#039;");
     	
     }
 	

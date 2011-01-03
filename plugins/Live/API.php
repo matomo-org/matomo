@@ -345,8 +345,7 @@ class Piwik_Live_API
 	private function cleanVisitorDetails( &$visitorDetails, $idSite )
 	{
 		$toUnset = array('config_md5config');
-		if(!Piwik::isUserIsSuperUser()
-			&& !Piwik::isUserHasAdminAccess($idSite))
+		if(Piwik::isUserIsAnonymous())
 		{
 			$toUnset[] = 'visitor_idcookie';
 			$toUnset[] = 'location_ip';

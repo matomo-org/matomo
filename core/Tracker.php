@@ -23,7 +23,6 @@
 class Piwik_Tracker
 {	
 	protected $stateValid = self::STATE_NOTHING_TO_NOTICE;
-	protected $urlToRedirect;
 	
 	/**
 	 * @var Piwik_Tracker_Db
@@ -31,10 +30,8 @@ class Piwik_Tracker
 	protected static $db = null;
 	
 	const STATE_NOTHING_TO_NOTICE = 1;
-	const STATE_TO_REDIRECT_URL = 2;
 	const STATE_LOGGING_DISABLE = 10;
 	const STATE_EMPTY_REQUEST = 11;
-	const STATE_TRACK_ONLY = 12;
 	const STATE_NOSCRIPT_REQUEST = 13;
 		
 	const COOKIE_INDEX_IDVISITOR 				= 1;
@@ -113,15 +110,8 @@ class Piwik_Tracker
 		$this->loadTrackerPlugins();
 		$this->handleDisabledTracker();
 		$this->handleEmptyRequest();
-		$this->handleDownloadRedirect();
-		$this->handleOutlinkRedirect();
-		$this->handleDataPush();
 	}
 
-	// display the logo or pixel 1*1 GIF
-	// or a marketing page if no parameters in the url
-	// or redirect to a url
-	// or load a URL (rss feed) (forward the cookie as well)
 	protected function end()
 	{
 		switch($this->getState())
@@ -136,14 +126,6 @@ class Piwik_Tracker
 				echo "<a href='/'>Piwik</a> is a free open source <a href='http://piwik.org'>web analytics</a> alternative to Google analytics.";
 			break;
 			
-			case self::STATE_TO_REDIRECT_URL:
-				$this->sendHeader('Location: ' . $this->getUrlToRedirect());
-			break;
-			
-			case self::STATE_TRACK_ONLY:
-				printDebug("Data push, tracking only");
-			break;
-
 			case self::STATE_NOSCRIPT_REQUEST:
 			case self::STATE_NOTHING_TO_NOTICE:
 			default:
@@ -284,16 +266,6 @@ class Piwik_Tracker
 		return $this->stateValid;
 	}
 	
-	protected function setUrlToRedirect( $url )
-	{
-		$this->urlToRedirect = $url;
-	}
-	
-	protected function getUrlToRedirect()
-	{
-		return $this->urlToRedirect;
-	}
-	
 	protected function setState( $value )
 	{
 		$this->stateValid = $value;
@@ -316,42 +288,6 @@ class Piwik_Tracker
 		}
 	}
 	
-	protected function handleDataPush()
-	{
-		if( Piwik_Common::getRequestVar( 'data_push', 0, 'int', $this->request) == 1)
-		{
-			$this->setState( self::STATE_TRACK_ONLY );
-		}
-	}
-
-	protected function handleDownloadRedirect()
-	{
-		$urlDownload = Piwik_Common::getRequestVar( 'download', '', 'string', $this->request);
-
-		if( !empty($urlDownload) )
-		{
-			if( Piwik_Common::getRequestVar( 'redirect', 1, 'int', $this->request) == 1)
-			{
-				$this->setState( self::STATE_TO_REDIRECT_URL );
-				$this->setUrlToRedirect ( $urlDownload );
-			}
-		}
-	}
-	
-	protected function handleOutlinkRedirect()
-	{
-		$urlOutlink = Piwik_Common::getRequestVar( 'link', '', 'string', $this->request);
-		
-		if( !empty($urlOutlink) )
-		{
-			if( Piwik_Common::getRequestVar( 'redirect', 1, 'int', $this->request) == 1)
-			{
-				$this->setState( self::STATE_TO_REDIRECT_URL );
-				$this->setUrlToRedirect ( $urlOutlink);
-			}
-		}
-	}
-
 	protected function handleEmptyRequest()
 	{
 		$countParameters = count($this->request);

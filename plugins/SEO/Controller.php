@@ -21,12 +21,13 @@ class Piwik_SEO_Controller extends Piwik_Controller
 		$site = new Piwik_Site($idSite);
 
 		$url = urldecode(Piwik_Common::getRequestVar('url', '', 'string'));
-		if(empty($url))
+
+		if(empty($url) || @parse_url($url) === false)
 		{
 			$url = $site->getMainUrl();
 		}
-		$dataTable = Piwik_SEO_API::getInstance()->getRank($url);
 
+		$dataTable = Piwik_SEO_API::getInstance()->getRank($url);
 		
 		$view = Piwik_View::factory('index');
 		$view->urlToRank = $url;

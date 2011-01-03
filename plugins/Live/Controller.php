@@ -18,7 +18,6 @@ class Piwik_Live_Controller extends Piwik_Controller
 	function __construct()
 	{
 		parent::__construct();
-		$this->idSite = Piwik_Common::getRequestVar('idSite');
 		$this->minIdVisit = Piwik_Common::getRequestVar('minIdVisit', 0, 'int');
 	}
 
@@ -30,7 +29,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 	public function widget($fetch = false)
 	{
 		$view = Piwik_View::factory('index');
-		$view->idSite = Piwik_Common::getRequestVar('idSite');
+		$view->idSite = $this->idSite;
 		$view->visitorsCountHalfHour = $this->getUsersInLastXMin(30);
 		$view->visitorsCountToday = $this->getUsersInLastXDays(1);
 		$view->pisHalfhour = $this->getPageImpressionsInLastXMin(30);
@@ -77,7 +76,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 	public function getLastVisitsStart($fetch = false)
 	{
 		$view = Piwik_View::factory('lastVisits');
-		$view->idSite = Piwik_Common::getRequestVar('idSite');
+		$view->idSite = $this->idSite;
 
 		$view->visitors = $this->getLastVisits(10);
 
@@ -129,7 +128,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 	public function ajaxTotalVisitors($fetch = false)
 	{
 		$view = Piwik_View::factory('totalVisits');
-		$view->idSite = Piwik_Common::getRequestVar('idSite');
+		$view->idSite = $this->idSite;
 		$view->visitorsCountHalfHour = $this->getUsersInLastXMin(30);
 		$view->visitorsCountToday = $this->getUsersInLastXDays(1);
 		$view->pisHalfhour = $this->getPageImpressionsInLastXMin(30);

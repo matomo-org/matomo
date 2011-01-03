@@ -126,7 +126,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		{
 			return;
 		}
-
+		
 		$goalManager = new Piwik_Tracker_GoalManager();
 		$someGoalsConverted = false;
 		$actionUrlId = 0;
@@ -228,7 +228,12 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		}
 		unset($goalManager);
 		unset($action);
+		$this->printCookie();
 		
+	}
+	
+	protected function printCookie()
+	{
 		printDebug("<pre>");
 		printDebug($this->cookie);
 		printDebug("</pre>");
@@ -278,7 +283,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function handleKnownVisit($actionUrlId, $someGoalsConverted)
 	{
-
 		// gather information that needs to be updated
 		$valuesToUpdate = array();
 		if($someGoalsConverted)
@@ -337,14 +341,15 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$result = Piwik_Tracker::getDatabase()->query($sqlQuery, $sqlBind);
 
 		printDebug('Updating visitor with idvisit='.$this->visitorInfo['idvisit'].', setting visit_last_action_time='.$datetimeServer.' and visit_total_time='.$visitTotalTime);
+		
+		$this->visitorInfo['visit_last_action_time'] = $serverTimestamp;
 		if(Piwik_Tracker::getDatabase()->rowCount($result) == 0)
 		{
+			printDebug("Visitor with this idcookie and idvisit wasn't found in the DB.");
 			throw new Piwik_Tracker_Visit_VisitorNotFoundInDatabase(
 						"The visitor with visitor_idcookie=".$this->visitorInfo['visitor_idcookie']." and idvisit=".$this->visitorInfo['idvisit']
 						." wasn't found in the DB, we fallback to a new visitor");
 		}
-
-		$this->visitorInfo['visit_last_action_time'] = $serverTimestamp;
 
 		Piwik_PostEvent('Tracker.knownVisitorInformation', $this->visitorInfo);
 	}
@@ -708,6 +713,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 								$this->getCookiePath(),
 								$key = $this->idsite ) );
 
+		$this->printCookie();
+		
 		/*
 		 * Case the visitor has the piwik cookie.
 		 * We make sure all the data that should saved in the cookie is available.
@@ -735,6 +742,14 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 				printDebug("The visitor is known because he has the piwik cookie (idcookie = {$this->visitorInfo['visitor_idcookie']}, idvisit = {$this->visitorInfo['idvisit']}, last action = ".date("r", $this->visitorInfo['visit_last_action_time']).") ");
 			}
+			else
+			{
+				printDebug("Visitor has the piwik cookie, but some values are invalid: ts first action = $timestampLastAction, ts last action = $timestampFirstAction, idvisit = $idVisit, id last action = $idLastAction.");
+			}
+		}
+		else
+		{
+			printDebug("Visitor doesn't have the piwik cookie (id=".$idVisitor);
 		}
 
 		/*

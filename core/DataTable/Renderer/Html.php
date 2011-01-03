@@ -31,7 +31,7 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 
 	function render()
 	{
-		$this->renderHeader();
+		self::renderHeader();
 		$this->tableStructure = array();
 		$this->allColumns = array();
 		$this->i = 0;
@@ -41,7 +41,7 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 	
 	function renderException()
 	{
-		$this->renderHeader();
+		self::renderHeader();
 		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
 		return nl2br($exceptionMessage);
 	}
@@ -151,7 +151,7 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 					$value = "-";
 					if(isset($row[$name]))
 					{
-						$value = $this->formatValue($row[$name]);
+						$value = self::formatValueXml($row[$name]);
 					}
 					
 					$html .= "\t\t<td>$value</td>\n";
@@ -163,20 +163,5 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 		$html .= "</tbody>\n</table>\n";
 		
 		return $html;
-	}
-
-	protected function formatValue($value)
-	{
-		if(is_string($value)
-			&& !is_numeric($value)) 
-		{
-			$value = html_entity_decode($value, ENT_COMPAT, 'UTF-8');
-			$value = htmlspecialchars($value);
-		}
-		elseif($value===false)
-		{
-			$value = 0;
-		}
-		return $value;
 	}
 }

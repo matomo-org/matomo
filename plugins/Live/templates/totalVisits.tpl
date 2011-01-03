@@ -12,7 +12,7 @@
 	</thead>
 	<tbody>
 	<tr class="">
-	<td class="columnodd">{'General_Today'|translate}</td>
+	<td class="columnodd">{'Live_LastHours'|translate:24}</td>
 	<td class="columnodd">{$visitorsCountToday}</td>
 	<td class="columnodd">{$pisToday}</td>
 	</tr>

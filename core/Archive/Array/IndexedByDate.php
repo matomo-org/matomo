@@ -109,7 +109,7 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 									FROM $table
 									WHERE idarchive IN ( $inIds )
 										AND name IN ( $inNames )";
-			$values = $db->fetchAll($sql);
+			$values = $db->fetchAll($sql, $fields);
 			foreach($values as $value)
 			{
 				$timestamp = Piwik_Date::factory($value['startDate'])->getTimestamp();

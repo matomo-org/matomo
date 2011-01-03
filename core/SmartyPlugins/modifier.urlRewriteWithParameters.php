@@ -20,5 +20,5 @@ function smarty_modifier_urlRewriteWithParameters($parameters)
 {
 	$parameters['updated'] = null;
 	$url = Piwik_Url::getCurrentQueryStringWithParametersModified($parameters);
-	return htmlspecialchars($url);
+	return Piwik_Common::sanitizeInputValue($url);
 }

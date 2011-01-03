@@ -24,14 +24,13 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 {
 	function render()
 	{
-		$this->renderHeader();
-
+		self::renderHeader();
 		return '<?xml version="1.0" encoding="utf-8" ?>' .  "\n" . $this->renderTable($this->table);
 	}
 	
 	function renderException()
 	{
-		$this->renderHeader();
+		self::renderHeader();
 
 		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
 		
@@ -100,7 +99,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 			}
 			else
 			{
-				$out = "<result>".$this->formatValue($out)."</result>";
+				$out = "<result>".self::formatValueXml($out)."</result>";
 			}
 			return $out;
 		}
@@ -142,7 +141,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 	  			}
 	  			else
 	  			{
-		  			$xml .= $prefixLines . "\t<result $nameDescriptionAttribute=\"$valueAttribute\">".$this->formatValue($value)."</result>\n";	  				
+		  			$xml .= $prefixLines . "\t<result $nameDescriptionAttribute=\"$valueAttribute\">".self::formatValueXml($value)."</result>\n";	  				
 	  			}
 	  		}
 	  		return $xml;
@@ -252,7 +251,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 		{
 			if(!is_array($row))
 			{
-				$value = $this->formatValue($row);
+				$value = self::formatValueXml($row);
 				$out .= $prefixLine."\t\t<$rowId>".$value."</$rowId>\n";
 				continue;
 			}
@@ -285,7 +284,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 					}
 					else
 					{
-						$value = $this->formatValue($value);
+						$value = self::formatValueXml($value);
 					}
 					$out .= $prefixLine."\t\t<$name>".$value."</$name>\n";
 				} 
@@ -301,27 +300,12 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 		$out = '';
 		foreach($array as $keyName => $value)
 		{
-			$out .= $prefixLine."\t<$keyName>".$this->formatValue($value)."</$keyName>\n"; 
+			$out .= $prefixLine."\t<$keyName>".self::formatValueXml($value)."</$keyName>\n"; 
 		}
 		return $out;
 	}
 	
-	protected function formatValue($value)
-	{
-		if(is_string($value)
-			&& !is_numeric($value)) 
-		{
-			$value = html_entity_decode($value, ENT_COMPAT, 'UTF-8');
-			$value = htmlspecialchars($value);
-		}
-		elseif($value===false)
-		{
-			$value = 0;
-		}
-		return $value;
-	}
-	
-	protected function renderHeader()
+	protected static function renderHeader()
 	{
 		// silent fail because otherwise it throws an exception in the unit tests
 		@header('Content-Type: text/xml; charset=utf-8');

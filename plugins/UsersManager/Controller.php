@@ -30,7 +30,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		if(count($IdSitesAdmin) > 0)
 		{
 			$defaultWebsiteId = $IdSitesAdmin[0];
-			$idSiteSelected = Piwik_Common::getRequestVar('idsite', $defaultWebsiteId);
+			$idSiteSelected = Piwik_Common::getRequestVar('idsite', $defaultWebsiteId, 'int');
 		}
 		
 		if($idSiteSelected==='all')
@@ -67,7 +67,6 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		$view->idSiteSelected = $idSiteSelected;
 		$view->users = $users;
 		$view->usersAccessByWebsite = $usersAccessByWebsite;
-		$view->formUrl = Piwik_Url::getCurrentUrl();
 		$view->websites = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
 		$this->setBasicVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();

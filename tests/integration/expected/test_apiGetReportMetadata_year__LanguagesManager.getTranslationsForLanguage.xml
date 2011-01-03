@@ -1,0 +1,4907 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>General_Locale</label>
+		<value>fr_FR.UTF-8</value>
+	</row>
+	<row>
+		<label>General_TranslatorName</label>
+		<value>Vincent BIRET</value>
+	</row>
+	<row>
+		<label>General_TranslatorEmail</label>
+		<value>admin@get-surf.com</value>
+	</row>
+	<row>
+		<label>General_EnglishLanguageName</label>
+		<value>French</value>
+	</row>
+	<row>
+		<label>General_OriginalLanguageName</label>
+		<value>Français</value>
+	</row>
+	<row>
+		<label>General_HelloUser</label>
+		<value>Bonjour, %s</value>
+	</row>
+	<row>
+		<label>General_OpenSourceWebAnalytics</label>
+		<value>Analyse web libre</value>
+	</row>
+	<row>
+		<label>General_Dashboard</label>
+		<value>Tableau de bord</value>
+	</row>
+	<row>
+		<label>General_DashboardForASpecificWebsite</label>
+		<value>Tableau de bord pour un site particulier</value>
+	</row>
+	<row>
+		<label>General_MultiSitesSummary</label>
+		<value>Tous les sites web</value>
+	</row>
+	<row>
+		<label>General_AllWebsitesDashboard</label>
+		<value>Tableau de bord de tous les sites</value>
+	</row>
+	<row>
+		<label>General_API</label>
+		<value>API</value>
+	</row>
+	<row>
+		<label>General_Widgets</label>
+		<value>Widgets</value>
+	</row>
+	<row>
+		<label>General_Settings</label>
+		<value>Paramètres</value>
+	</row>
+	<row>
+		<label>General_GiveUsYourFeedback</label>
+		<value>Envoyez-nous vos commentaires !</value>
+	</row>
+	<row>
+		<label>General_Unknown</label>
+		<value>Inconnu</value>
+	</row>
+	<row>
+		<label>General_Required</label>
+		<value>%s requis</value>
+	</row>
+	<row>
+		<label>General_NotValid</label>
+		<value>%s n'est pas valide</value>
+	</row>
+	<row>
+		<label>General_Error</label>
+		<value>Erreur</value>
+	</row>
+	<row>
+		<label>General_Warning</label>
+		<value>Attention</value>
+	</row>
+	<row>
+		<label>General_BackToHomepage</label>
+		<value>Retour à la page d'accueil Piwik</value>
+	</row>
+	<row>
+		<label>General_Yes</label>
+		<value>Oui</value>
+	</row>
+	<row>
+		<label>General_No</label>
+		<value>Non</value>
+	</row>
+	<row>
+		<label>General_Delete</label>
+		<value>Supprimer</value>
+	</row>
+	<row>
+		<label>General_Edit</label>
+		<value>Éditer</value>
+	</row>
+	<row>
+		<label>General_Ok</label>
+		<value>Ok</value>
+	</row>
+	<row>
+		<label>General_Close</label>
+		<value>Fermer</value>
+	</row>
+	<row>
+		<label>General_Logout</label>
+		<value>Déconnexion</value>
+	</row>
+	<row>
+		<label>General_Username</label>
+		<value>Nom d'utilisateur</value>
+	</row>
+	<row>
+		<label>General_Done</label>
+		<value>Fait</value>
+	</row>
+	<row>
+		<label>General_Details</label>
+		<value>Détails</value>
+	</row>
+	<row>
+		<label>General_Default</label>
+		<value>Par défaut</value>
+	</row>
+	<row>
+		<label>General_LoadingData</label>
+		<value>Chargement des données...</value>
+	</row>
+	<row>
+		<label>General_Loading_js</label>
+		<value>Chargement...</value>
+	</row>
+	<row>
+		<label>General_YourChangesHaveBeenSaved</label>
+		<value>Vos modifications ont été enregistrées.</value>
+	</row>
+	<row>
+		<label>General_ErrorRequest</label>
+		<value>Oups ! Problème rencontré durant la requête, veuillez réessayer.</value>
+	</row>
+	<row>
+		<label>General_Next</label>
+		<value>Suivant</value>
+	</row>
+	<row>
+		<label>General_Previous</label>
+		<value>Précédent</value>
+	</row>
+	<row>
+		<label>General_Search</label>
+		<value>Rechercher</value>
+	</row>
+	<row>
+		<label>General_Others</label>
+		<value>Autres</value>
+	</row>
+	<row>
+		<label>General_Table</label>
+		<value>Tableau</value>
+	</row>
+	<row>
+		<label>General_Piechart</label>
+		<value>Pointe de tarte</value>
+	</row>
+	<row>
+		<label>General_TagCloud</label>
+		<value>Nuage de tags</value>
+	</row>
+	<row>
+		<label>General_VBarGraph</label>
+		<value>Histogramme vertical</value>
+	</row>
+	<row>
+		<label>General_Export</label>
+		<value>Exporter</value>
+	</row>
+	<row>
+		<label>General_ExportAsImage_js</label>
+		<value>Exporter au format Image</value>
+	</row>
+	<row>
+		<label>General_SaveImageOnYourComputer</label>
+		<value>Pour enregistrer l'image sur votre ordinateur, faites un clic droit sur l'image et sélectionnez &quot;Enregistrer l'image sous...&quot;</value>
+	</row>
+	<row>
+		<label>General_Refresh</label>
+		<value>Rafraîchir la page</value>
+	</row>
+	<row>
+		<label>General_Today</label>
+		<value>Aujourd'hui</value>
+	</row>
+	<row>
+		<label>General_Yesterday</label>
+		<value>Hier</value>
+	</row>
+	<row>
+		<label>General_CurrentWeek</label>
+		<value>Semaine courante</value>
+	</row>
+	<row>
+		<label>General_CurrentMonth</label>
+		<value>Mois courant</value>
+	</row>
+	<row>
+		<label>General_CurrentYear</label>
+		<value>Année courante</value>
+	</row>
+	<row>
+		<label>General_Visitors</label>
+		<value>Visiteurs</value>
+	</row>
+	<row>
+		<label>General_ColumnNbUniqVisitors</label>
+		<value>Visiteurs uniques</value>
+	</row>
+	<row>
+		<label>General_ColumnNbVisits</label>
+		<value>Visites</value>
+	</row>
+	<row>
+		<label>General_ColumnNbActions</label>
+		<value>Actions</value>
+	</row>
+	<row>
+		<label>General_ColumnMaxActions</label>
+		<value>Nombre maximum d'actions en une visite</value>
+	</row>
+	<row>
+		<label>General_ColumnSumVisitLength</label>
+		<value>Temps total passé par les visiteurs (en secondes)</value>
+	</row>
+	<row>
+		<label>General_ColumnLabel</label>
+		<value>Nom</value>
+	</row>
+	<row>
+		<label>General_ColumnActionsPerVisit</label>
+		<value>Actions par visite</value>
+	</row>
+	<row>
+		<label>General_ColumnAvgTimeOnSite</label>
+		<value>Temps moyen sur le site</value>
+	</row>
+	<row>
+		<label>General_ColumnBounceRate</label>
+		<value>Taux de rebond</value>
+	</row>
+	<row>
+		<label>General_ColumnPageviews</label>
+		<value>Vues</value>
+	</row>
+	<row>
+		<label>General_ColumnUniquePageviews</label>
+		<value>Vues uniques</value>
+	</row>
+	<row>
+		<label>General_ColumnValuePerVisit</label>
+		<value>Valeur par Visite</value>
+	</row>
+	<row>
+		<label>General_ColumnVisitsWithConversions</label>
+		<value>Visites avec Conversions</value>
+	</row>
+	<row>
+		<label>General_Save</label>
+		<value>Enregistrer</value>
+	</row>
+	<row>
+		<label>General_ForExampleShort</label>
+		<value>ex.</value>
+	</row>
+	<row>
+		<label>General_Website</label>
+		<value>Site</value>
+	</row>
+	<row>
+		<label>General_GeneralSettings</label>
+		<value>Paramètres généraux</value>
+	</row>
+	<row>
+		<label>General_AllowPiwikArchivingToTriggerBrowser</label>
+		<value>Autoriser l'archivage de Piwik à se déclencher lorsque les rapports sont visionnés depuis le navigateur</value>
+	</row>
+	<row>
+		<label>General_ArchivingInlineHelp</label>
+		<value>Pour les sites à trafic moyen et fort il est recommandé de désactiver l'archivage de Piwik depuis le navigateur. Nous vous recommandons de mettre en place une tâche planifiée (cron) qui génère les rapports toutes les heures.</value>
+	</row>
+	<row>
+		<label>General_ArchivingTriggerDescription</label>
+		<value>Recommandé pour les installations importantes de Piwik, vous devriez %s mettre en place une tâche planifiée (cron) %s pour générer les rapports automatiquement.</value>
+	</row>
+	<row>
+		<label>General_SeeTheOfficialDocumentationForMoreInformation</label>
+		<value>Consultez la %s documentation officielle %s pour plus d'information.</value>
+	</row>
+	<row>
+		<label>General_ReportsForTodayWillBeProcessedAtMostEvery</label>
+		<value>Les rapports d'aujourd'hui seront traités au plus tous (toutes) les</value>
+	</row>
+	<row>
+		<label>General_NSeconds</label>
+		<value>%s secondes</value>
+	</row>
+	<row>
+		<label>General_SmallTrafficYouCanLeaveDefault</label>
+		<value>Pour les sites à faible trafic, vous pouvez laisser le délais %s secondes par défaut, et ainsi accéder aux rapports en temps réel.</value>
+	</row>
+	<row>
+		<label>General_RequiresFlash</label>
+		<value>L'affichage des graphs dans Piwik requiert Flash</value>
+	</row>
+	<row>
+		<label>General_GraphHelp</label>
+		<value>Plus d'informations à propos de l'affichage des graphs dans Piwik.</value>
+	</row>
+	<row>
+		<label>General_NoDataForGraph</label>
+		<value>Aucune donnée pour ce graphique</value>
+	</row>
+	<row>
+		<label>General_NoDataForTagCloud</label>
+		<value>Aucune donnée pour ce nuage de tags.</value>
+	</row>
+	<row>
+		<label>General_DisplayNormalTable</label>
+		<value>Voir tableau normal</value>
+	</row>
+	<row>
+		<label>General_DisplayMoreData</label>
+		<value>Voir plus de données</value>
+	</row>
+	<row>
+		<label>General_PiwikIsACollaborativeProjectYouCanContribute</label>
+		<value>%1$s Piwik %2$s est un projet collaboratif. %3$s Si vous aimez Piwik, vous pouvez nous aider! Allez voir %4$s Comment contribuer à Piwik ?%5$s </value>
+	</row>
+	<row>
+		<label>General_YouAreCurrentlyViewingDemoOfPiwik</label>
+		<value>Vous êtes dans la démo de %s; %stéléchargez%s la version complète ! Visitez %s.</value>
+	</row>
+	<row>
+		<label>General_PiwikXIsAvailablePleaseUpdateNow</label>
+		<value>Piwik %1$s est maintenant disponible. %2$s Merci de mettre à jour!%3$s (voir %4$s les modifications%5$s).</value>
+	</row>
+	<row>
+		<label>General_PiwikXIsAvailablePleaseNotifyPiwikAdmin</label>
+		<value>%s est disponible. Merci de prévenir l'administrateur du site.</value>
+	</row>
+	<row>
+		<label>General_BackToPiwik</label>
+		<value>Retourner à Piwik</value>
+	</row>
+	<row>
+		<label>General_ShortMonth_1</label>
+		<value>Jan</value>
+	</row>
+	<row>
+		<label>General_ShortMonth_2</label>
+		<value>Fév</value>
+	</row>
+	<row>
+		<label>General_ShortMonth_3</label>
+		<value>Mar</value>
+	</row>
+	<row>
+		<label>General_ShortMonth_4</label>
+		<value>Avr</value>
+	</row>
+	<row>
+		<label>General_ShortMonth_5</label>
+		<value>Mai</value>
+	</row>
+	<row>
+		<label>General_ShortMonth_6</label>
+		<value>Jun</value>
+	</row>
+	<row>
+		<label>General_ShortMonth_7</label>
+		<value>Jul</value>
+	</row>
+	<row>
+		<label>General_ShortMonth_8</label>
+		<value>Aoû</value>
+	</row>
+	<row>
+		<label>General_ShortMonth_9</label>
+		<value>Sep</value>
+	</row>
+	<row>
+		<label>General_ShortMonth_10</label>
+		<value>Oct</value>
+	</row>
+	<row>
+		<label>General_ShortMonth_11</label>
+		<value>Nov</value>
+	</row>
+	<row>
+		<label>General_ShortMonth_12</label>
+		<value>Dec</value>
+	</row>
+	<row>
+		<label>General_LongMonth_1</label>
+		<value>Janvier</value>
+	</row>
+	<row>
+		<label>General_LongMonth_2</label>
+		<value>Février</value>
+	</row>
+	<row>
+		<label>General_LongMonth_3</label>
+		<value>Mars</value>
+	</row>
+	<row>
+		<label>General_LongMonth_4</label>
+		<value>Avril</value>
+	</row>
+	<row>
+		<label>General_LongMonth_5</label>
+		<value>Mai</value>
+	</row>
+	<row>
+		<label>General_LongMonth_6</label>
+		<value>Juin</value>
+	</row>
+	<row>
+		<label>General_LongMonth_7</label>
+		<value>Juillet</value>
+	</row>
+	<row>
+		<label>General_LongMonth_8</label>
+		<value>Août</value>
+	</row>
+	<row>
+		<label>General_LongMonth_9</label>
+		<value>Septembre</value>
+	</row>
+	<row>
+		<label>General_LongMonth_10</label>
+		<value>Octobre</value>
+	</row>
+	<row>
+		<label>General_LongMonth_11</label>
+		<value>Novembre</value>
+	</row>
+	<row>
+		<label>General_LongMonth_12</label>
+		<value>Décembre</value>
+	</row>
+	<row>
+		<label>General_ShortDay_1</label>
+		<value>Lun</value>
+	</row>
+	<row>
+		<label>General_ShortDay_2</label>
+		<value>Mar</value>
+	</row>
+	<row>
+		<label>General_ShortDay_3</label>
+		<value>Mer</value>
+	</row>
+	<row>
+		<label>General_ShortDay_4</label>
+		<value>Jeu</value>
+	</row>
+	<row>
+		<label>General_ShortDay_5</label>
+		<value>Ven</value>
+	</row>
+	<row>
+		<label>General_ShortDay_6</label>
+		<value>Sam</value>
+	</row>
+	<row>
+		<label>General_ShortDay_7</label>
+		<value>Dim</value>
+	</row>
+	<row>
+		<label>General_LongDay_1</label>
+		<value>Lundi</value>
+	</row>
+	<row>
+		<label>General_LongDay_2</label>
+		<value>Mardi</value>
+	</row>
+	<row>
+		<label>General_LongDay_3</label>
+		<value>Mercredi</value>
+	</row>
+	<row>
+		<label>General_LongDay_4</label>
+		<value>Jeudi</value>
+	</row>
+	<row>
+		<label>General_LongDay_5</label>
+		<value>Vendredi</value>
+	</row>
+	<row>
+		<label>General_LongDay_6</label>
+		<value>Samedi</value>
+	</row>
+	<row>
+		<label>General_LongDay_7</label>
+		<value>Dimanche</value>
+	</row>
+	<row>
+		<label>General_ExceptionDatabaseVersion</label>
+		<value>Votre version de %1$s est %2$s mais Piwik a besoin au minimum de la version %3$s.</value>
+	</row>
+	<row>
+		<label>General_ExceptionIncompatibleClientServerVersions</label>
+		<value>La version de votre client %1$s est %2$s ce qui est incompatible avec le serveur de version %3$s.</value>
+	</row>
+	<row>
+		<label>General_ExceptionMissingFile</label>
+		<value>Fichier manquant : %s</value>
+	</row>
+	<row>
+		<label>General_ExceptionFilesizeMismatch</label>
+		<value>Différence de taille de fichier : %1$s (longueur attendue: %2$s, rencontrée : %3$s)</value>
+	</row>
+	<row>
+		<label>General_ExceptionFileIntegrity</label>
+		<value>Échec du contrôle d'intégrité : %s</value>
+	</row>
+	<row>
+		<label>General_ExceptionNonceMismatch</label>
+		<value>Impossible de vérifier le token de sécurité pour ce formulaire.</value>
+	</row>
+	<row>
+		<label>General_WarningFileIntegritySkipped</label>
+		<value>Environnement de développement détecté. Contrôle d'intégrité ignoré.</value>
+	</row>
+	<row>
+		<label>General_WarningFileIntegrityNoManifest</label>
+		<value>Le contrôle d'intégrité n'a pu être effectué car le fichier manifest.inc.php est manquant.</value>
+	</row>
+	<row>
+		<label>General_WarningFileIntegrityNoMd5file</label>
+		<value>Le contrôle d'intégrité n'a pu être effectué car la fonction md5_file() est manquante.</value>
+	</row>
+	<row>
+		<label>General_FileIntegrityWarningExplanation</label>
+		<value>Le contrôle d'intégrité a échoué et a rapporté des erreurs. Cela est probablement du à un envoi de fichier partiel ou en échec des fichiers de Piwik. Vous devriez envoyer de nouveau les fichiers de Piwik et rafraichir cette page jusqu'à ce qu'elle n'affiche plus aucune erreur.</value>
+	</row>
+	<row>
+		<label>Actions_PluginDescription</label>
+		<value>Effectue des rapports sur les affichages de pages, les liens sortants et les téléchargements. Le suivi des liens sortants et des téléchargements est automatique!</value>
+	</row>
+	<row>
+		<label>Actions_Actions</label>
+		<value>Actions</value>
+	</row>
+	<row>
+		<label>Actions_SubmenuPages</label>
+		<value>Pages</value>
+	</row>
+	<row>
+		<label>Actions_SubmenuPageTitles</label>
+		<value>Titres des pages</value>
+	</row>
+	<row>
+		<label>Actions_SubmenuOutlinks</label>
+		<value>Liens sortants</value>
+	</row>
+	<row>
+		<label>Actions_SubmenuDownloads</label>
+		<value>Téléchargements</value>
+	</row>
+	<row>
+		<label>Actions_ColumnClicks</label>
+		<value>Clics</value>
+	</row>
+	<row>
+		<label>Actions_ColumnUniqueClicks</label>
+		<value>Clics uniques</value>
+	</row>
+	<row>
+		<label>Actions_ColumnDownloads</label>
+		<value>Téléchargements</value>
+	</row>
+	<row>
+		<label>Actions_ColumnUniqueDownloads</label>
+		<value>Téléchargements uniques</value>
+	</row>
+	<row>
+		<label>Actions_ColumnPageName</label>
+		<value>Nom de la page</value>
+	</row>
+	<row>
+		<label>Actions_ColumnPageURL</label>
+		<value>Url de la page</value>
+	</row>
+	<row>
+		<label>Actions_ColumnClickedURL</label>
+		<value>Url cliquées</value>
+	</row>
+	<row>
+		<label>Actions_ColumnDownloadURL</label>
+		<value>Url de téléchargement</value>
+	</row>
+	<row>
+		<label>AnonymizeIP_PluginDescription</label>
+		<value>Masque les adresses IP des visiteurs pour remplir les conditions légales et politiques locales.</value>
+	</row>
+	<row>
+		<label>API_PluginDescription</label>
+		<value>Toutes les données de Piwik sont disponibles au travers de simples APIs. Ce plugin est le point d'entrée du web service, ainsi vous pouvez obtenir vos données Statistiques Web en xml, json, php, csv, etc.</value>
+	</row>
+	<row>
+		<label>API_QuickDocumentation</label>
+		<value>&lt;h2&gt;Documentation rapide de l'API&lt;/h2&gt;&lt;p&gt;Si vous n'avez pas de données pour ajourd'hui, vous pouvez d'abord  &lt;a href='misc/generateVisits.php' target=_blank&gt;générer des données&lt;/a&gt; en utilisant le Générateur de Visites.&lt;/p&gt;&lt;p&gt;Vous pouvez essayer les différents formats disponibles pour chaque méthode. Il est très facile d'extraire n'importe quelle donnée que vous voulez de Piwik!&lt;/p&gt;&lt;p&gt;&lt;b&gt;Pour plus d'informations visitez la &lt;a href='http://dev.piwik.org/trac/wiki/API'&gt;Documentation officielle de l'API&lt;/a&gt; or the &lt;a href='http://dev.piwik.org/trac/wiki/API/Reference'&gt;Référence API&lt;/a&gt;.&lt;/b&gt;&lt;/P&gt;&lt;h2&gt;Identification&lt;/h2&gt;&lt;p&gt;Si vous voulez &lt;b&gt;utiliser les données dans vos scripts, dans une crontab, etc. &lt;/b&gt; vous devez ajouter le paramètre &lt;code&gt;&lt;u&gt;&amp;token_auth=%s&lt;/u&gt;&lt;/code&gt; to the API calls URLs that require authentication.&lt;/p&gt;&lt;p&gt;Cette token_auth est aussi secrètes que votre nom d'utilisateur ou votre mot de passe, &lt;b&gt;ne la partagez pas!&lt;/p&gt;</value>
+	</row>
+	<row>
+		<label>API_LoadedAPIs</label>
+		<value>%s API chargées avec succès</value>
+	</row>
+	<row>
+		<label>CoreAdminHome_PluginDescription</label>
+		<value>Zone d'administration de Piwik.</value>
+	</row>
+	<row>
+		<label>CoreAdminHome_MenuGeneralSettings</label>
+		<value>Paramètres généraux</value>
+	</row>
+	<row>
+		<label>CoreHome_PluginDescription</label>
+		<value>Structure des rapports statistiques web.</value>
+	</row>
+	<row>
+		<label>CoreHome_NoPrivileges</label>
+		<value>Vous êtes connecté en tant que '%s' mais vous n'avez apparemment aucune permission de définie dans Piwik.&lt;br /&gt;Demandez à votre administrateur Piwik de vous donner l'accès 'voir' à un site web.</value>
+	</row>
+	<row>
+		<label>CoreHome_JavascriptDisabled</label>
+		<value>JavaScript doit être activé pour que vous puissiez utiliser Piwik de manière basique.&lt;br /&gt;Cependant, il semble que JasvaScript ne soit pas supporté ou soit désactivé sur votre navigateur.&lt;br /&gt;Pour utiliser l'interface basique, activez JavaScript en modifiant les options de votre navigateur, ensuite %1$sessayez encore%2$s.&lt;br /&gt;</value>
+	</row>
+	<row>
+		<label>CoreHome_TableNoData</label>
+		<value>Aucune donnée pour cette table.</value>
+	</row>
+	<row>
+		<label>CoreHome_CategoryNoData</label>
+		<value>Aucune donnée pour cette catégorie. Essayez &quot;d'inclure toute la population&quot;.</value>
+	</row>
+	<row>
+		<label>CoreHome_ShowJSCode</label>
+		<value>Afficher le code JavaScript à insérer</value>
+	</row>
+	<row>
+		<label>CoreHome_IncludeAllPopulation_js</label>
+		<value>Inclure toute la population</value>
+	</row>
+	<row>
+		<label>CoreHome_ExcludeLowPopulation_js</label>
+		<value>Exclure les populations mineures</value>
+	</row>
+	<row>
+		<label>CoreHome_PageOf_js</label>
+		<value>%1$s de %2$s</value>
+	</row>
+	<row>
+		<label>CoreHome_Loading_js</label>
+		<value>Chargement en cours...</value>
+	</row>
+	<row>
+		<label>CoreHome_DayFormat</label>
+		<value>%longDay% %day% %longMonth% %longYear%</value>
+	</row>
+	<row>
+		<label>CoreHome_PeriodDay</label>
+		<value>Jour</value>
+	</row>
+	<row>
+		<label>CoreHome_PeriodWeek</label>
+		<value>Semaine</value>
+	</row>
+	<row>
+		<label>CoreHome_PeriodMonth</label>
+		<value>Mois</value>
+	</row>
+	<row>
+		<label>CoreHome_PeriodYear</label>
+		<value>Année</value>
+	</row>
+	<row>
+		<label>CoreHome_PeriodDays</label>
+		<value>jours</value>
+	</row>
+	<row>
+		<label>CoreHome_PeriodWeeks</label>
+		<value>semaines</value>
+	</row>
+	<row>
+		<label>CoreHome_PeriodMonths</label>
+		<value>moirs</value>
+	</row>
+	<row>
+		<label>CoreHome_PeriodYears</label>
+		<value>années</value>
+	</row>
+	<row>
+		<label>CoreHome_DaySu_js</label>
+		<value>Di</value>
+	</row>
+	<row>
+		<label>CoreHome_DayMo_js</label>
+		<value>Lu</value>
+	</row>
+	<row>
+		<label>CoreHome_DayTu_js</label>
+		<value>Ma</value>
+	</row>
+	<row>
+		<label>CoreHome_DayWe_js</label>
+		<value>Me</value>
+	</row>
+	<row>
+		<label>CoreHome_DayTh_js</label>
+		<value>Je</value>
+	</row>
+	<row>
+		<label>CoreHome_DayFr_js</label>
+		<value>Ve</value>
+	</row>
+	<row>
+		<label>CoreHome_DaySa_js</label>
+		<value>Sa</value>
+	</row>
+	<row>
+		<label>CoreHome_ShortDay_1_js</label>
+		<value>Dim</value>
+	</row>
+	<row>
+		<label>CoreHome_ShortDay_2_js</label>
+		<value>Lun</value>
+	</row>
+	<row>
+		<label>CoreHome_ShortDay_3_js</label>
+		<value>Mar</value>
+	</row>
+	<row>
+		<label>CoreHome_ShortDay_4_js</label>
+		<value>Mer</value>
+	</row>
+	<row>
+		<label>CoreHome_ShortDay_5_js</label>
+		<value>Jeu</value>
+	</row>
+	<row>
+		<label>CoreHome_ShortDay_6_js</label>
+		<value>Ven</value>
+	</row>
+	<row>
+		<label>CoreHome_ShortDay_7_js</label>
+		<value>Sam</value>
+	</row>
+	<row>
+		<label>CoreHome_LongDay_1_js</label>
+		<value>Dimanche</value>
+	</row>
+	<row>
+		<label>CoreHome_LongDay_2_js</label>
+		<value>Lundi</value>
+	</row>
+	<row>
+		<label>CoreHome_LongDay_3_js</label>
+		<value>Mardi</value>
+	</row>
+	<row>
+		<label>CoreHome_LongDay_4_js</label>
+		<value>Mercredi</value>
+	</row>
+	<row>
+		<label>CoreHome_LongDay_5_js</label>
+		<value>Jeudi</value>
+	</row>
+	<row>
+		<label>CoreHome_LongDay_6_js</label>
+		<value>Vendredi</value>
+	</row>
+	<row>
+		<label>CoreHome_LongDay_7_js</label>
+		<value>Samedi</value>
+	</row>
+	<row>
+		<label>CoreHome_ShortMonth_1_js</label>
+		<value>Jan</value>
+	</row>
+	<row>
+		<label>CoreHome_ShortMonth_2_js</label>
+		<value>Fév</value>
+	</row>
+	<row>
+		<label>CoreHome_ShortMonth_3_js</label>
+		<value>Mar</value>
+	</row>
+	<row>
+		<label>CoreHome_ShortMonth_4_js</label>
+		<value>Avr</value>
+	</row>
+	<row>
+		<label>CoreHome_ShortMonth_5_js</label>
+		<value>Mai</value>
+	</row>
+	<row>
+		<label>CoreHome_ShortMonth_6_js</label>
+		<value>Jun</value>
+	</row>
+	<row>
+		<label>CoreHome_ShortMonth_7_js</label>
+		<value>Jul</value>
+	</row>
+	<row>
+		<label>CoreHome_ShortMonth_8_js</label>
+		<value>Aoû</value>
+	</row>
+	<row>
+		<label>CoreHome_ShortMonth_9_js</label>
+		<value>Sep</value>
+	</row>
+	<row>
+		<label>CoreHome_ShortMonth_10_js</label>
+		<value>Oct</value>
+	</row>
+	<row>
+		<label>CoreHome_ShortMonth_11_js</label>
+		<value>Nov</value>
+	</row>
+	<row>
+		<label>CoreHome_ShortMonth_12_js</label>
+		<value>Déc</value>
+	</row>
+	<row>
+		<label>CoreHome_MonthJanuary_js</label>
+		<value>Janvier</value>
+	</row>
+	<row>
+		<label>CoreHome_MonthFebruary_js</label>
+		<value>Février</value>
+	</row>
+	<row>
+		<label>CoreHome_MonthMarch_js</label>
+		<value>Mars</value>
+	</row>
+	<row>
+		<label>CoreHome_MonthApril_js</label>
+		<value>Avril</value>
+	</row>
+	<row>
+		<label>CoreHome_MonthMay_js</label>
+		<value>Mai</value>
+	</row>
+	<row>
+		<label>CoreHome_MonthJune_js</label>
+		<value>Juin</value>
+	</row>
+	<row>
+		<label>CoreHome_MonthJuly_js</label>
+		<value>Juillet</value>
+	</row>
+	<row>
+		<label>CoreHome_MonthAugust_js</label>
+		<value>Août</value>
+	</row>
+	<row>
+		<label>CoreHome_MonthSeptember_js</label>
+		<value>Septembre</value>
+	</row>
+	<row>
+		<label>CoreHome_MonthOctober_js</label>
+		<value>Octobre</value>
+	</row>
+	<row>
+		<label>CoreHome_MonthNovember_js</label>
+		<value>Novembre</value>
+	</row>
+	<row>
+		<label>CoreHome_MonthDecember_js</label>
+		<value>Décembre</value>
+	</row>
+	<row>
+		<label>CorePluginsAdmin_PluginDescription</label>
+		<value>Interface d'administration des plugins.</value>
+	</row>
+	<row>
+		<label>CorePluginsAdmin_Plugins</label>
+		<value>Plugins</value>
+	</row>
+	<row>
+		<label>CorePluginsAdmin_PluginsManagement</label>
+		<value>Gestionnaire de plugins</value>
+	</row>
+	<row>
+		<label>CorePluginsAdmin_MainDescription</label>
+		<value>Les plugins étendent et ajoutent des fonctionnalités à Piwik. Une fois un plugin installé, vous pouvez l'activer ou le désactiver ici.</value>
+	</row>
+	<row>
+		<label>CorePluginsAdmin_Plugin</label>
+		<value>Plugin</value>
+	</row>
+	<row>
+		<label>CorePluginsAdmin_Version</label>
+		<value>Version</value>
+	</row>
+	<row>
+		<label>CorePluginsAdmin_Description</label>
+		<value>Description</value>
+	</row>
+	<row>
+		<label>CorePluginsAdmin_Status</label>
+		<value>État</value>
+	</row>
+	<row>
+		<label>CorePluginsAdmin_Action</label>
+		<value>Action</value>
+	</row>
+	<row>
+		<label>CorePluginsAdmin_PluginHomepage</label>
+		<value>Page d'accueil du plugin</value>
+	</row>
+	<row>
+		<label>CorePluginsAdmin_Activated</label>
+		<value>Activé</value>
+	</row>
+	<row>
+		<label>CorePluginsAdmin_Active</label>
+		<value>Actif</value>
+	</row>
+	<row>
+		<label>CorePluginsAdmin_Inactive</label>
+		<value>Inactif</value>
+	</row>
+	<row>
+		<label>CorePluginsAdmin_ActivatedHelp</label>
+		<value>Ce plugin ne peut être désactivé</value>
+	</row>
+	<row>
+		<label>CorePluginsAdmin_Deactivate</label>
+		<value>Désactiver</value>
+	</row>
+	<row>
+		<label>CorePluginsAdmin_Activate</label>
+		<value>Activer</value>
+	</row>
+	<row>
+		<label>CorePluginsAdmin_MenuPlugins</label>
+		<value>Plugins</value>
+	</row>
+	<row>
+		<label>CoreUpdater_PluginDescription</label>
+		<value>Mécanisme de mise à jour Piwik</value>
+	</row>
+	<row>
+		<label>CoreUpdater_UpdateTitle</label>
+		<value>Mise à jour</value>
+	</row>
+	<row>
+		<label>CoreUpdater_DatabaseUpgradeRequired</label>
+		<value>Mise à jour de la base de données requise</value>
+	</row>
+	<row>
+		<label>CoreUpdater_YourDatabaseIsOutOfDate</label>
+		<value>Votre base de données est expirée et doit être mise à jour avant de pouvoir continuer.</value>
+	</row>
+	<row>
+		<label>CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY</label>
+		<value>La base de données de Piwik sera mise à jour depuis la version %1$s vers la version %2$s.</value>
+	</row>
+	<row>
+		<label>CoreUpdater_TheFollowingPluginsWillBeUpgradedX</label>
+		<value>Les plugins suivants seront mis à jour : %s.</value>
+	</row>
+	<row>
+		<label>CoreUpdater_NoteForLargePiwikInstances</label>
+		<value>Note importante pour les installations Piwik de taille importante</value>
+	</row>
+	<row>
+		<label>CoreUpdater_TheUpgradeProcessMayFailExecuteCommand</label>
+		<value>Si votre base de données Piwik est trop volumineuse, la mise à jour pourra être trop longue pour l'effectuer depuis le navigateur. dans ce cas exécutez depuis la ligne de commande : %s</value>
+	</row>
+	<row>
+		<label>CoreUpdater_YouCouldManuallyExecuteSqlQueries</label>
+		<value>Si vous n'aviez pas la possibilité d'utiliser la console (CLI) et si Piwik échouait à se mettre à jour (à cause du délais d'expiration de la base de données, du navigateur ou n'importe quel autre problème), vous pourriez exécuter manuellement les requêtes SQL pour mettre à jour Piwik.</value>
+	</row>
+	<row>
+		<label>CoreUpdater_ClickHereToViewSqlQueries</label>
+		<value>Cliquez ici pour visualiser la liste des commandes SQL qui vont être exécutées</value>
+	</row>
+	<row>
+		<label>CoreUpdater_NoteItIsExpectedThatQueriesFail</label>
+		<value>Note: si vous exécutez manuellement ces requêtes, il se peut que certaines d'entre elles échouent. Dans ce cas, ignorez simplement les erreurs, et exécutez les suivantes dans la liste.</value>
+	</row>
+	<row>
+		<label>CoreUpdater_ReadyToGo</label>
+		<value>Prêt à démarrer?</value>
+	</row>
+	<row>
+		<label>CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient</label>
+		<value>Le procédé de mise à jour peut être long, veuillez patienter.</value>
+	</row>
+	<row>
+		<label>CoreUpdater_UpgradePiwik</label>
+		<value>Mettez Piwik à jour</value>
+	</row>
+	<row>
+		<label>CoreUpdater_ErrorDIYHelp</label>
+		<value>Si vous êtes un utilisateur avancé et que vous rencontrez une erreur lors de la mise à jour de la base de données :</value>
+	</row>
+	<row>
+		<label>CoreUpdater_ErrorDIYHelp_1</label>
+		<value>identifiez la source exacte du problème (ex, memory_limit ou max_execution_time)</value>
+	</row>
+	<row>
+		<label>CoreUpdater_ErrorDIYHelp_2</label>
+		<value>exécutez les requêtes restantes qui ont échoué</value>
+	</row>
+	<row>
+		<label>CoreUpdater_ErrorDIYHelp_3</label>
+		<value>mettez à jour manuellement la table `option` de votre base de données Piwik, en spécifiant la valeur de version_core à la version de celle de l'échec de la mise à jour</value>
+	</row>
+	<row>
+		<label>CoreUpdater_ErrorDIYHelp_4</label>
+		<value>ré-exécutez le gestionnaire de mise à jour (en commande ou via le navigateur) pour continuer l'installation des mises à jour restantes</value>
+	</row>
+	<row>
+		<label>CoreUpdater_ErrorDIYHelp_5</label>
+		<value>rapportez le problème et la solution à Piwik, de cette manière il pourra être vérifié et distribué</value>
+	</row>
+	<row>
+		<label>CoreUpdater_CriticalErrorDuringTheUpgradeProcess</label>
+		<value>Erreur Critique pendant le procédé de mise à jour :</value>
+	</row>
+	<row>
+		<label>CoreUpdater_HelpMessageIntroductionWhenError</label>
+		<value>Ci-dessus est le message d'erreur du noyau. Cela devrait expliquer la cause, mais si vous nécessitez d'avantage d'aide merci de :</value>
+	</row>
+	<row>
+		<label>CoreUpdater_HelpMessageIntroductionWhenWarning</label>
+		<value>La mise à jour a été complétée avec succès. Cependant, des problèmes sont survenus. Lisez la description ci-dessus pour plus de détails. Pour d'avantage d'aide :</value>
+	</row>
+	<row>
+		<label>CoreUpdater_UpgradeComplete</label>
+		<value>Mise à jour complète !</value>
+	</row>
+	<row>
+		<label>CoreUpdater_WarningMessages</label>
+		<value>Messages d'avertissement :</value>
+	</row>
+	<row>
+		<label>CoreUpdater_ErrorDuringPluginsUpdates</label>
+		<value>Erreurs pendant les mises à jour de plugins :</value>
+	</row>
+	<row>
+		<label>CoreUpdater_WeAutomaticallyDeactivatedTheFollowingPlugins</label>
+		<value>Nous avons automatiquement désactivé les plugins suivants : %s</value>
+	</row>
+	<row>
+		<label>CoreUpdater_PiwikHasBeenSuccessfullyUpgraded</label>
+		<value>Piwik a été mis à jour avec succès !</value>
+	</row>
+	<row>
+		<label>CoreUpdater_ContinueToPiwik</label>
+		<value>Continuer vers Piwik</value>
+	</row>
+	<row>
+		<label>CoreUpdater_UpdateAutomatically</label>
+		<value>Mettre à jour automatiquement</value>
+	</row>
+	<row>
+		<label>CoreUpdater_ThereIsNewVersionAvailableForUpdate</label>
+		<value>Il y a une nouvelle mise à jour de Piwik disponible</value>
+	</row>
+	<row>
+		<label>CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage</label>
+		<value>Vous pouvez mettre à jour vers la version %s automatiquement ou télécharger l'archive et l'installer manuellement:</value>
+	</row>
+	<row>
+		<label>CoreUpdater_DownloadX</label>
+		<value>Télécharger %s</value>
+	</row>
+	<row>
+		<label>CoreUpdater_UpdateHasBeenCancelled</label>
+		<value>La mise à jour a été annulée.</value>
+	</row>
+	<row>
+		<label>CoreUpdater_DownloadingUpdateFromX</label>
+		<value>Téléchargement de la mise à jour depuis %s</value>
+	</row>
+	<row>
+		<label>CoreUpdater_UnpackingTheUpdate</label>
+		<value>Décompression de la mise à jour</value>
+	</row>
+	<row>
+		<label>CoreUpdater_VerifyingUnpackedFiles</label>
+		<value>Vérification des fichiers décompressés</value>
+	</row>
+	<row>
+		<label>CoreUpdater_CreatingBackupOfConfigurationFile</label>
+		<value>Création d'une sauvegarde du fichier de configuration dans le répertoire %s</value>
+	</row>
+	<row>
+		<label>CoreUpdater_InstallingTheLatestVersion</label>
+		<value>Installation de la dernière version</value>
+	</row>
+	<row>
+		<label>CoreUpdater_PiwikUpdatedSuccessfully</label>
+		<value>Piwik a été mis à jour avec succès!</value>
+	</row>
+	<row>
+		<label>CoreUpdater_EmptyDatabaseError</label>
+		<value>La base de données %s est vide. Vous devez éditer ou supprimer votre fichier de configuration Piwik.</value>
+	</row>
+	<row>
+		<label>CoreUpdater_ExceptionAlreadyLatestVersion</label>
+		<value>Votre version de Piwik %s est à jour.</value>
+	</row>
+	<row>
+		<label>CoreUpdater_ExceptionArchiveIncompatible</label>
+		<value>Archive incompatible: %s</value>
+	</row>
+	<row>
+		<label>CoreUpdater_ExceptionArchiveEmpty</label>
+		<value>Archive vide.</value>
+	</row>
+	<row>
+		<label>CoreUpdater_ExceptionArchiveIncomplete</label>
+		<value>L'archive est incomplète: des fichiers sont manquants (ex. %s).</value>
+	</row>
+	<row>
+		<label>Dashboard_PluginDescription</label>
+		<value>Votre tableau de bord de statistiques web. Vous pouvez personnaliser votre tableau de bord: ajoutez de nouveau widgets, changez l'ordre de vos widgets. Chaque utilisateur peut accéder à son propre tableau de bord.</value>
+	</row>
+	<row>
+		<label>Dashboard_Dashboard</label>
+		<value>Tableau de bord</value>
+	</row>
+	<row>
+		<label>Dashboard_AddWidget</label>
+		<value>Ajouter un widget...</value>
+	</row>
+	<row>
+		<label>Dashboard_DeleteWidgetConfirm</label>
+		<value>Êtes-vous sûr de vouloir supprimer ce widget du tableau de bord?</value>
+	</row>
+	<row>
+		<label>Dashboard_SelectWidget</label>
+		<value>Sélectionnez le widget à ajouter au tableau de bord</value>
+	</row>
+	<row>
+		<label>Dashboard_AddPreviewedWidget_js</label>
+		<value>Ajouter le widget visualisé au tableau de bord</value>
+	</row>
+	<row>
+		<label>Dashboard_WidgetPreview_js</label>
+		<value>Prévisualisation du Widget</value>
+	</row>
+	<row>
+		<label>Dashboard_Close_js</label>
+		<value>Fermer</value>
+	</row>
+	<row>
+		<label>Dashboard_TitleWidgetInDashboard_js</label>
+		<value>Widget déjà présent sur le tableau de bord</value>
+	</row>
+	<row>
+		<label>Dashboard_TitleClickToAdd_js</label>
+		<value>Cliquez pour ajouter au tableau de bord</value>
+	</row>
+	<row>
+		<label>Dashboard_LoadingWidget_js</label>
+		<value>Chargement du widget, patientez svp...</value>
+	</row>
+	<row>
+		<label>Dashboard_WidgetNotFound_js</label>
+		<value>Widget introuvable</value>
+	</row>
+	<row>
+		<label>DBStats_PluginDescription</label>
+		<value>Ce plugin effectue des rapports sur l'utilisation de la base de données MySQL par les tables de Piwik.</value>
+	</row>
+	<row>
+		<label>DBStats_DatabaseUsage</label>
+		<value>Utilisation de la base de données</value>
+	</row>
+	<row>
+		<label>DBStats_MainDescription</label>
+		<value>Piwik stocke toutes vos donnés de statistiques web dans la base de données MySQL. En ce moment les tables de Piwik utilisent %s.</value>
+	</row>
+	<row>
+		<label>DBStats_LearnMore</label>
+		<value>Pour en apprendre plus à propos de la manière dont Piwik traite les données et sur comment faire fonctionner Piwik correctement pour les sites à moyen et fort trafic, consultez la documentation %s.</value>
+	</row>
+	<row>
+		<label>DBStats_Table</label>
+		<value>Table</value>
+	</row>
+	<row>
+		<label>DBStats_RowCount</label>
+		<value>Nombre de lignes</value>
+	</row>
+	<row>
+		<label>DBStats_DataSize</label>
+		<value>Taille des données</value>
+	</row>
+	<row>
+		<label>DBStats_IndexSize</label>
+		<value>Taille de l'index</value>
+	</row>
+	<row>
+		<label>DBStats_TotalSize</label>
+		<value>Taille totale</value>
+	</row>
+	<row>
+		<label>ExampleAPI_PluginDescription</label>
+		<value>Plugin d'exemple: Comment créer une API pour votre plugin, exporter vos données dans de multiples formats sans aucun développement spécial?</value>
+	</row>
+	<row>
+		<label>ExampleFeedburner_PluginDescription</label>
+		<value>Plugin d'exemple: Comment afficher votre abonnement Feedburner dans un Widget dans le tableau de bord?</value>
+	</row>
+	<row>
+		<label>ExampleRssWidget_PluginDescription</label>
+		<value>Plugin d'exemple: Comment créer un nouveau widget qui lit un flux RSS?</value>
+	</row>
+	<row>
+		<label>ExampleUI_PluginDescription</label>
+		<value>Plugin d'exemple: Ce plugin montre comment fonctionne l'interface utilisateur de Piwik: création de tables, graphs, etc.</value>
+	</row>
+	<row>
+		<label>Feedback_PluginDescription</label>
+		<value>Envoie vos retours à l'Equipe Piwik. Partagez vos idées et suggestions avec nous!</value>
+	</row>
+	<row>
+		<label>Feedback_DoYouHaveBugReportOrFeatureRequest</label>
+		<value>Avez vous un bug à rapporter ou une fonctionnalité à demander?</value>
+	</row>
+	<row>
+		<label>Feedback_ViewAnswersToFAQ</label>
+		<value>Voir les réponses de %s la FAQ %s</value>
+	</row>
+	<row>
+		<label>Feedback_WhyAreMyVisitsNoTracked</label>
+		<value>Pourquoi les visites de mes sites web ne sont pas enregistrées?</value>
+	</row>
+	<row>
+		<label>Feedback_HowToExclude</label>
+		<value>Comment puis-je exclure le suivi de mes visites?</value>
+	</row>
+	<row>
+		<label>Feedback_WhyWrongCountry</label>
+		<value>Pourquoi Piwik affiche un mauvais pays pour ma visite?</value>
+	</row>
+	<row>
+		<label>Feedback_HowToAnonymizeIP</label>
+		<value>Comment puis-je masquer les adresse IP de mes visiteurs de ma base de données?</value>
+	</row>
+	<row>
+		<label>Feedback_VisitTheForums</label>
+		<value>Visitez les %s Forums%s</value>
+	</row>
+	<row>
+		<label>Feedback_LearnWaysToParticipate</label>
+		<value>Renseignez vous sur les manières dont vous pouvez %s participer%s</value>
+	</row>
+	<row>
+		<label>Feedback_SpecialRequest</label>
+		<value>Avez vous une demande spéciale pour l'Equipe Piwik? </value>
+	</row>
+	<row>
+		<label>Feedback_ContactThePiwikTeam</label>
+		<value>Contactez l'Equipe Piwik!</value>
+	</row>
+	<row>
+		<label>Feedback_IWantTo</label>
+		<value>Je veux:</value>
+	</row>
+	<row>
+		<label>Feedback_CategoryShareStory</label>
+		<value>Partager une réussite avec Piwik</value>
+	</row>
+	<row>
+		<label>Feedback_CategorySponsor</label>
+		<value>Sponsoriser Piwik</value>
+	</row>
+	<row>
+		<label>Feedback_CategoryHire</label>
+		<value>Employer un consultant Piwik</value>
+	</row>
+	<row>
+		<label>Feedback_CategorySecurity</label>
+		<value>Rapporter un problème de sécurité</value>
+	</row>
+	<row>
+		<label>Feedback_MyEmailAddress</label>
+		<value>Mon adresse e-mail:</value>
+	</row>
+	<row>
+		<label>Feedback_MyMessage</label>
+		<value>Mon message:</value>
+	</row>
+	<row>
+		<label>Feedback_DetailsPlease</label>
+		<value>(merci d'inclure les détails)</value>
+	</row>
+	<row>
+		<label>Feedback_SendFeedback</label>
+		<value>Envoyer le retour</value>
+	</row>
+	<row>
+		<label>Feedback_ManuallySendEmailTo</label>
+		<value>Merci d'envoyer manuellement votre message à</value>
+	</row>
+	<row>
+		<label>Feedback_MessageSent</label>
+		<value>Votre message a été envoyé à l'Equipe Piwik.</value>
+	</row>
+	<row>
+		<label>Feedback_ThankYou</label>
+		<value>Merci d'avoir aidé à améliorer Piwik!</value>
+	</row>
+	<row>
+		<label>Feedback_ThePiwikTeam</label>
+		<value>L'Equipe Piwik</value>
+	</row>
+	<row>
+		<label>Feedback_ExceptionBodyLength</label>
+		<value>Le message doit faire au moins %s caractères de longueur.</value>
+	</row>
+	<row>
+		<label>Feedback_ExceptionNoUrls</label>
+		<value>Le message ne peut contenir d'URL pour éviter les problèmes de spam.</value>
+	</row>
+	<row>
+		<label>Goals_PluginDescription</label>
+		<value>Créer des objectifs et consulter les rapports sur vos conversions d'objectifs: évolution au cours du temps, revenu par visite, conversion par référant, par mot clef, etc.</value>
+	</row>
+	<row>
+		<label>Goals_ColumnConversions</label>
+		<value>Conversions</value>
+	</row>
+	<row>
+		<label>Goals_ColumnConversionRate</label>
+		<value>Taux de Conversion</value>
+	</row>
+	<row>
+		<label>Goals_ColumnRevenue</label>
+		<value>Revenu</value>
+	</row>
+	<row>
+		<label>Goals_OverallRevenue</label>
+		<value>%s revenu global</value>
+	</row>
+	<row>
+		<label>Goals_OverallConversionRate</label>
+		<value>%s taux de conversion global (visites avec un objectif rempli)</value>
+	</row>
+	<row>
+		<label>Goals_Conversions</label>
+		<value>%s conversions</value>
+	</row>
+	<row>
+		<label>Goals_ConversionRate</label>
+		<value>%s taux de conversion</value>
+	</row>
+	<row>
+		<label>Goals_NoGoalsNeedAccess</label>
+		<value>Uniquement un administrateur ou le super utilisateur peut ajouter un objectif à un site web donné. Veuillez demander à votre administrateur Piwik de mettre en place un objectif pour votre site web. &lt;br /&gt; Les objectifs sont un bon moyen pour comprendre et optimiser les performances de vos sites web! </value>
+	</row>
+	<row>
+		<label>Goals_AddNewGoal</label>
+		<value>Ajoutez un nouvel objectif</value>
+	</row>
+	<row>
+		<label>Goals_AddNewGoalOrEditExistingGoal</label>
+		<value>%sAjouter un nouvel objectif%s or %sEditer%s des objectifs existants</value>
+	</row>
+	<row>
+		<label>Goals_AddGoal_js</label>
+		<value>Ajouter un objectif</value>
+	</row>
+	<row>
+		<label>Goals_UpdateGoal_js</label>
+		<value>Mettre à jour un objectif</value>
+	</row>
+	<row>
+		<label>Goals_DeleteGoalConfirm_js</label>
+		<value>Etes vous sûr de vouloir supprimer l'objectif %s?</value>
+	</row>
+	<row>
+		<label>Goals_GoalName</label>
+		<value>Nom de l'objectif</value>
+	</row>
+	<row>
+		<label>Goals_GoalIsTriggered</label>
+		<value>L'objectif est déclenché</value>
+	</row>
+	<row>
+		<label>Goals_GoalIsTriggeredWhen</label>
+		<value>L'objectif est déclenché quand</value>
+	</row>
+	<row>
+		<label>Goals_WhenVisitors</label>
+		<value>quand les visiteurs</value>
+	</row>
+	<row>
+		<label>Goals_Manually</label>
+		<value>manuellement</value>
+	</row>
+	<row>
+		<label>Goals_ManuallyTriggeredUsingJavascriptFunction</label>
+		<value>Les objectifs sont déclenchés manuellement en utilisant l'API Javascript trackGoal()</value>
+	</row>
+	<row>
+		<label>Goals_VisitUrl</label>
+		<value>Visiter une URL donnée (page ou groupe de pages)</value>
+	</row>
+	<row>
+		<label>Goals_Download</label>
+		<value>Télécharger un fichier</value>
+	</row>
+	<row>
+		<label>Goals_ClickOutlink</label>
+		<value>Cliquez sur un Lien vers un site externe</value>
+	</row>
+	<row>
+		<label>Goals_Optional</label>
+		<value>(optionnel)</value>
+	</row>
+	<row>
+		<label>Goals_WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore</label>
+		<value>où la page visitée contient un appel à la méthode JavaScript piwikTracker.trackGoal() (%sapprenez-en plus%s)</value>
+	</row>
+	<row>
+		<label>Goals_DefaultRevenue</label>
+		<value>Le revenue par défaut de l'objectif est </value>
+	</row>
+	<row>
+		<label>Goals_DefaultRevenueHelp</label>
+		<value>Par exemple, un formulaire de contact soumis par un visiteur peut avoir une valeur de 10 € en moyenne. Piwik vous aidera à comprendre comment se comportent vos visiteurs.</value>
+	</row>
+	<row>
+		<label>Goals_ConversionsOverview</label>
+		<value>Vue globale des conversions</value>
+	</row>
+	<row>
+		<label>Goals_BestCountries</label>
+		<value>Vos meilleurs pays de conversion sont: </value>
+	</row>
+	<row>
+		<label>Goals_BestKeywords</label>
+		<value>Vos meilleurs mots clefs sont: </value>
+	</row>
+	<row>
+		<label>Goals_BestReferers</label>
+		<value>Vos meilleurs sites web de conversion sont: </value>
+	</row>
+	<row>
+		<label>Goals_ReturningVisitorsConversionRateIs</label>
+		<value>Le taux de conversion des visiteurs déjà venus est %s</value>
+	</row>
+	<row>
+		<label>Goals_NewVisitorsConversionRateIs</label>
+		<value>Le taux de conversion des nouveaux visiteurs est %s</value>
+	</row>
+	<row>
+		<label>Goals_Contains</label>
+		<value>contient %s</value>
+	</row>
+	<row>
+		<label>Goals_IsExactly</label>
+		<value>est exactement %s</value>
+	</row>
+	<row>
+		<label>Goals_MatchesExpression</label>
+		<value>correspond à l'expression %s</value>
+	</row>
+	<row>
+		<label>Goals_CaseSensitive</label>
+		<value>Correspondance sensible à la case</value>
+	</row>
+	<row>
+		<label>Goals_Pattern</label>
+		<value>Modèle</value>
+	</row>
+	<row>
+		<label>Installation_PluginDescription</label>
+		<value>Procédé d'installation de Piwik. L'installation est effectuée une unique fois. Si le fichier de configuration config/config.inc.php est supprimé, l'installation recommencera.</value>
+	</row>
+	<row>
+		<label>Installation_Installation</label>
+		<value>Installation</value>
+	</row>
+	<row>
+		<label>Installation_InstallationStatus</label>
+		<value>Statut de l'installation</value>
+	</row>
+	<row>
+		<label>Installation_PercentDone</label>
+		<value>%s %% Fait</value>
+	</row>
+	<row>
+		<label>Installation_NoConfigFound</label>
+		<value>Le fichier de configuration de Piwik ne peut être trouvé et vous essayez d'accéder à une page de Piwik.&lt;br&gt; &lt;b&gt;  » Vous pouvez &lt;a href='index.php'&gt;installer Piwik maintenant&lt;/a&gt;&lt;/b&gt;&lt;br&gt;&lt;small&gt;Si vous avez déjà installé Piwik ne vous inquiétez pas Piwik réutilisera ces tables et leurs données.&lt;/small&gt;</value>
+	</row>
+	<row>
+		<label>Installation_DatabaseSetup</label>
+		<value>Installation de la base de données</value>
+	</row>
+	<row>
+		<label>Installation_DatabaseSetupServer</label>
+		<value>serveur de la base de données</value>
+	</row>
+	<row>
+		<label>Installation_DatabaseSetupLogin</label>
+		<value>compte</value>
+	</row>
+	<row>
+		<label>Installation_DatabaseSetupPassword</label>
+		<value>mot de passe</value>
+	</row>
+	<row>
+		<label>Installation_DatabaseSetupDatabaseName</label>
+		<value>nom de la base</value>
+	</row>
+	<row>
+		<label>Installation_DatabaseSetupTablePrefix</label>
+		<value>préfixe des tables</value>
+	</row>
+	<row>
+		<label>Installation_DatabaseSetupAdapter</label>
+		<value>adaptateur</value>
+	</row>
+	<row>
+		<label>Installation_DatabaseErrorConnect</label>
+		<value>Erreur lors de la tentative de connexion au serveur de base de données</value>
+	</row>
+	<row>
+		<label>Installation_DatabaseCheck</label>
+		<value>Vérification de la base de données</value>
+	</row>
+	<row>
+		<label>Installation_DatabaseServerVersion</label>
+		<value>Version du serveur de base de données</value>
+	</row>
+	<row>
+		<label>Installation_DatabaseClientVersion</label>
+		<value>Version du client de base de données</value>
+	</row>
+	<row>
+		<label>Installation_DatabaseCreation</label>
+		<value>Création de la base de données</value>
+	</row>
+	<row>
+		<label>Installation_PleaseFixTheFollowingErrors</label>
+		<value>Merci de corriger les erreurs suivantes</value>
+	</row>
+	<row>
+		<label>Installation_JsTag</label>
+		<value>Tag JavaScript</value>
+	</row>
+	<row>
+		<label>Installation_JsTagHelp</label>
+		<value>&lt;p&gt;Pour comptabiliser tous les visiteurs vous devez copier le tag sur toutes vos pages.&lt;/p&gt;&lt;p&gt;Vos pages n'ont pas besoin d'être en PHP, Piwik fonctionne avec tout type de pages (HTML, ASP, Perl ou n'importe quel autre langage).&lt;/p&gt;&lt;p&gt;Ici se trouve le code à insérer : (copiez/collez dans toutes vos pages) &lt;/p&gt;</value>
+	</row>
+	<row>
+		<label>Installation_JsTagHelpTitle</label>
+		<value>Comment insérer le tag dans vos sites web?</value>
+	</row>
+	<row>
+		<label>Installation_LargePiwikInstances</label>
+		<value>Aide pour les instances de Piwik volumineuses</value>
+	</row>
+	<row>
+		<label>Installation_JsTagArchivingHelp</label>
+		<value>Pour les sites à moyen et fort trafic, lisez &lt;a target=&quot;_blank&quot; href=&quot;http://piwik.org/docs/setup-auto-archiving/&quot;&gt;la page d'explication sur comment mettre en place une page d'auto archivage&lt;/a&gt; pour que Piwik devienne réellement rapide!</value>
+	</row>
+	<row>
+		<label>Installation_Congratulations</label>
+		<value>Félicitations</value>
+	</row>
+	<row>
+		<label>Installation_CongratulationsHelp</label>
+		<value>&lt;p&gt;Félicitations! Votre installation de Piwik est terminée.&lt;/p&gt;&lt;p&gt;Assurez vous que le code JavaScript est présent sur toutes vos pages et attendez vos premiers visiteurs!&lt;/p&gt;</value>
+	</row>
+	<row>
+		<label>Installation_ContinueToPiwik</label>
+		<value>Continuer vers Piwik</value>
+	</row>
+	<row>
+		<label>Installation_SetupWebsite</label>
+		<value>Paramétrer un site</value>
+	</row>
+	<row>
+		<label>Installation_SetupWebSiteName</label>
+		<value>nom du site web</value>
+	</row>
+	<row>
+		<label>Installation_SetupWebSiteURL</label>
+		<value>Url du site web</value>
+	</row>
+	<row>
+		<label>Installation_Timezone</label>
+		<value>fuseau horaire du site web</value>
+	</row>
+	<row>
+		<label>Installation_SetupWebsiteError</label>
+		<value>Une erreur a été rencontrée pendant l'ajout du site</value>
+	</row>
+	<row>
+		<label>Installation_SetupWebsiteSetupSuccess</label>
+		<value>Site %s créé avec succès!</value>
+	</row>
+	<row>
+		<label>Installation_GeneralSetup</label>
+		<value>Paramètres généraux</value>
+	</row>
+	<row>
+		<label>Installation_GeneralSetupSuccess</label>
+		<value>Paramètres généraux configurés avec succès</value>
+	</row>
+	<row>
+		<label>Installation_SuperUserLogin</label>
+		<value>login du super user</value>
+	</row>
+	<row>
+		<label>Installation_Password</label>
+		<value>mot de passe</value>
+	</row>
+	<row>
+		<label>Installation_PasswordRepeat</label>
+		<value>mot de passe (à nouveau)</value>
+	</row>
+	<row>
+		<label>Installation_Email</label>
+		<value>courriel</value>
+	</row>
+	<row>
+		<label>Installation_SecurityNewsletter</label>
+		<value>Envoyez moi un courriel pour les mises à jour de versions majeures de piwik ou pour les alertes de sécurité</value>
+	</row>
+	<row>
+		<label>Installation_CommunityNewsletter</label>
+		<value>Envoyez moi un courriel pour les nouveautés de la communauté (nouveaux plugins, nouvelles fonctionnalités, etc.)</value>
+	</row>
+	<row>
+		<label>Installation_PasswordDoNotMatch</label>
+		<value>Le mot de passe ne concorde pas</value>
+	</row>
+	<row>
+		<label>Installation_SubmitGo</label>
+		<value>Go!</value>
+	</row>
+	<row>
+		<label>Installation_Requirements</label>
+		<value>Pré-requis Piwik</value>
+	</row>
+	<row>
+		<label>Installation_Optional</label>
+		<value>Optionnel</value>
+	</row>
+	<row>
+		<label>Installation_Legend</label>
+		<value>Légendes</value>
+	</row>
+	<row>
+		<label>Installation_Extension</label>
+		<value>extension</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheck</label>
+		<value>Vérification du système</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckPhp</label>
+		<value>Version PHP</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckExtensions</label>
+		<value>Extensions requises</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckDatabaseHelp</label>
+		<value>Piwik requiert ou l'extension mysqli ou les extensions pdo et pdo_mysql.</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckPdoAndMysqliHelp</label>
+		<value>Sur un serveur linux vous pouvez compiler PHP avec les options suivantes : %1$s
+
+
+
+
+
+
+
+ Dans votre php.ini, ajoutez les lignes suivantes: %2$s</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckPhpPdoAndMysqliSite</label>
+		<value>Plus d'informations sur: &lt;a style=&quot;color:red&quot; href=&quot;http://php.net/pdo&quot;&gt;PHP PDO&lt;/a&gt; et &lt;a style=&quot;color:red&quot; href=&quot;http://php.net/mysqli&quot;&gt;MYSQLI&lt;/a&gt;.</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckWinPdoAndMysqliHelp</label>
+		<value>Sur un serveur windows vous pouvez ajouter les lignes suivantes à votre php.ini: %s</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckSplHelp</label>
+		<value>Vous devez configurer et recompiler PHP avec la librairie standard (par défaut).</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckZlibHelp</label>
+		<value>Vous devez reconfigurer et recompiler PHP avec le support zlib, --with-zlib.</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckIconvHelp</label>
+		<value>Vous devez configurer PHP et le recompiler avec le support &quot;iconv&quot; activé, --with-iconv.</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckDomHelp</label>
+		<value>DOM est une partie du coeur de PHP. Vous avez probablement besoin d'installer le module dom ex, php-5-dom.</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckJson</label>
+		<value>JSON</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckJsonHelp</label>
+		<value>Vous devez recompiler PHP avec l'extension &quot;json&quot; ou &quot;xml&quot; activée.</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckJsonSite</label>
+		<value>Plus d'informations sur : &lt;a style=&quot;color:red&quot; href=&quot;http://php.net/json&quot;&gt;PHP JSON&lt;/a&gt;.</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckXml</label>
+		<value>XML</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckXmlHelp</label>
+		<value>Des plugins et librairies tierces pourront avoir besoin de l'extension XML.</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckXmlSite</label>
+		<value>Plus d'informations sur: &lt;a style=&quot;color:red&quot; href=&quot;http://php.net/xml&quot;&gt;PHP XML&lt;/a&gt;.</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckWriteDirs</label>
+		<value>Répertoires avec les droits d'accès en écriture</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckWriteDirsHelp</label>
+		<value>Pour corriger les erreurs sur votre système Linux essayez de taper les commandes suivantes</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckMemoryLimit</label>
+		<value>Limite mémoire</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckMemoryLimitHelp</label>
+		<value>Sur un site à trafic important le processus d'archivage peut prendre plus de mémoire que la limite actuelle autorisée.&lt;br /&gt;Référez vous à la configuration memory_limit de votre php.ini si nécessaire.</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckOpenURL</label>
+		<value>Ouvrez l'URL</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckOpenURLHelp</label>
+		<value>Abonnements à la newsletter, notifications des mises à jour, et mise à jour en un click requièrent l'extension curl, allow_url_fopen=On, ou fsockopen() activé.</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckGD</label>
+		<value>GD &gt; 2.x (graphiques)</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckGDHelp</label>
+		<value>Les sparklines (petits graphs) ne fonctionneront pas.</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckFunctions</label>
+		<value>Fonctions requises</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckTimeLimitHelp</label>
+		<value>Sur un site à trafic important le processus d'archivage peut prendre plus de temps qu'il n'est déjà autorisé.&lt;br /&gt; Référez vous à la configuration max_execution_time de votre php.ini si nécessaire.</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckMailHelp</label>
+		<value>Les Feedback (commentaires) et mots de passe perdus ne pourront être envoyés sans la fonciton mail().</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckParseIniFileHelp</label>
+		<value>Cette fonction incluse a été désactivée sur votre serveur. Piwik va essayer d'émuler cette fonction mais il est possible que vous rencontriez des restrictions de sécurité par la suite. Les performances seront aussi impactées.</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckDebugBacktraceHelp</label>
+		<value>View::factory ne pourra pas créer des vues pour le module appelé.</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckCreateFunctionHelp</label>
+		<value>Piwik utilise des fonctions anonymes pour les callbacks.</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckMbstring</label>
+		<value>mbstring</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckMbstringHelp</label>
+		<value>Vous devriez paramètrer mbstring.func_overload à &quot;0&quot;.</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckFileIntegrity</label>
+		<value>Intégrité du fichier</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckError</label>
+		<value>Une erreur s'est produite — elle doit être corrigée avant de pouvoir continuer</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckWarning</label>
+		<value>Piwik fonctionnera normalement mais certaines fonctionnalités seront manquantes</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckProtocol</label>
+		<value>Protocole</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckProtocolHelp</label>
+		<value>Si Piwik se situe derrière un proxy inversé ajoutez ces lignes dans config/config.ini.php sous la section [General]:</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckIpv4</label>
+		<value>IPv4</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckIpv4Help</label>
+		<value>Vous devriez désactiver IPv6 dans la configuration de votre server.</value>
+	</row>
+	<row>
+		<label>Installation_Tables</label>
+		<value>Création des tables</value>
+	</row>
+	<row>
+		<label>Installation_TablesWithSameNamesFound</label>
+		<value>Environ %1$s tables dans votre base de données %2$s ont le même nom que celles que Piwik essaie de créer.</value>
+	</row>
+	<row>
+		<label>Installation_TablesFound</label>
+		<value>Les tables suivantes ont été trouvées dans la base de données</value>
+	</row>
+	<row>
+		<label>Installation_TablesWarningHelp</label>
+		<value>Vous pouvez choisir de réutiliser les tables de la base de données existante ou sélectionner une nouvelle installation pour effacer toutes les données existantes dans la base de données.</value>
+	</row>
+	<row>
+		<label>Installation_TablesReuse</label>
+		<value>Réutiliser les tables existantes</value>
+	</row>
+	<row>
+		<label>Installation_TablesDelete</label>
+		<value>Supprimer les tables détectées</value>
+	</row>
+	<row>
+		<label>Installation_TablesDeletedSuccess</label>
+		<value>Tables Piwik existantes supprimées avec succès</value>
+	</row>
+	<row>
+		<label>Installation_TablesCreatedSuccess</label>
+		<value>Tables crées avec succès!</value>
+	</row>
+	<row>
+		<label>Installation_DatabaseCreatedSuccess</label>
+		<value>Base de données %s crée avec succès !</value>
+	</row>
+	<row>
+		<label>Installation_GoBackAndDefinePrefix</label>
+		<value>Retournez à la page précédente et définissez le préfixe pour les tables Piwik</value>
+	</row>
+	<row>
+		<label>Installation_ConfirmDeleteExistingTables</label>
+		<value>Etes vous sûr de vouloir supprimer les tables : %s de votre base de données? ATTENTION: LES DONNEES SERONT DEFINITIVEMENT PERDUES!</value>
+	</row>
+	<row>
+		<label>Installation_Welcome</label>
+		<value>Bienvenue!</value>
+	</row>
+	<row>
+		<label>Installation_WelcomeHelp</label>
+		<value>&lt;p&gt;Piwik est une application d'analyse du web Open Source qui vous permet d'obtenir facilement les informations que vous désirez sur vos visiteurs.&lt;/p&gt;	&lt;p&gt;Ce procédé est divisé en %s étapes faciles et vous prendra 5 minutes environ.&lt;/p&gt;</value>
+	</row>
+	<row>
+		<label>Installation_ConfigurationHelp</label>
+		<value>Votre configuration de Piwik semble être erronée. Vous pouvez ou bien supprimer config/config.inc.php et reprendre l'installation ou corriger les paramètres de connexion.</value>
+	</row>
+	<row>
+		<label>Installation_ErrorInvalidState</label>
+		<value>Erreur: il semble que vous essayez de sauter une étape du processus d'installation, ou vous avez désactivé les cookies, ou le fichier de configuration de Piwik est déjà créé. %1$sAssurez vous que les cookies sont bien activés%2$s et retournez %3$s à la première page d'installation %4$s.</value>
+	</row>
+	<row>
+		<label>LanguagesManager_PluginDescription</label>
+		<value>Ce plugin affichera la liste des langues disponibles pour l'interface de Piwik. Le langage sélectionné sera sauvegardé dans les préférences de chaque utilisateur.</value>
+	</row>
+	<row>
+		<label>LanguagesManager_AboutPiwikTranslations</label>
+		<value>A propos des traductions de Piwik</value>
+	</row>
+	<row>
+		<label>Live_PluginDescription</label>
+		<value>Espionnez vos visiteurs, en temps réel!</value>
+	</row>
+	<row>
+		<label>Live_VisitorLog</label>
+		<value>Log visiteur</value>
+	</row>
+	<row>
+		<label>Live_Date</label>
+		<value>Date</value>
+	</row>
+	<row>
+		<label>Live_Time</label>
+		<value>Temps</value>
+	</row>
+	<row>
+		<label>Live_Referrer_URL</label>
+		<value>URL du référant</value>
+	</row>
+	<row>
+		<label>Login_PluginDescription</label>
+		<value>Plugin de login, lisant les identifiants du fichier config/config.inc.php pour le the Super Utilisateur, et depuis la base de données pour les autres utilisateurs. Peut être facilement remplacé pour introduire un nouveau système d'authentification (OpenID, htaccess, custom Auth, etc.).</value>
+	</row>
+	<row>
+		<label>Login_LoginPasswordNotCorrect</label>
+		<value>Mot de passe et nom d'utilisateur incorrects.</value>
+	</row>
+	<row>
+		<label>Login_Password</label>
+		<value>Mot de passe</value>
+	</row>
+	<row>
+		<label>Login_PasswordRepeat</label>
+		<value>Mot de passe (répétez)</value>
+	</row>
+	<row>
+		<label>Login_ChangePassword</label>
+		<value>Modifier le mot de passe</value>
+	</row>
+	<row>
+		<label>Login_LoginOrEmail</label>
+		<value>Nom d'utilisateur ou courriel</value>
+	</row>
+	<row>
+		<label>Login_LogIn</label>
+		<value>Connexion</value>
+	</row>
+	<row>
+		<label>Login_Logout</label>
+		<value>Déconnexion</value>
+	</row>
+	<row>
+		<label>Login_LostYourPassword</label>
+		<value>Mot de passe perdu ?</value>
+	</row>
+	<row>
+		<label>Login_RemindPassword</label>
+		<value>Rappeler le mot de passe</value>
+	</row>
+	<row>
+		<label>Login_PasswordResetToken</label>
+		<value>Clef de remise à zéro du mot de passe</value>
+	</row>
+	<row>
+		<label>Login_PasswordReminder</label>
+		<value>Entrez un nom d'utilisateur ou un courriel valide, vous recevrez votre nouveau mot de passe par courriel.</value>
+	</row>
+	<row>
+		<label>Login_PasswordsDoNotMatch</label>
+		<value>Les mots de passe ne correspondent pas.</value>
+	</row>
+	<row>
+		<label>Login_PasswordSuccessfullyChanged</label>
+		<value>Mot de passe modifié avec succès!</value>
+	</row>
+	<row>
+		<label>Login_InvalidUsernameEmail</label>
+		<value>Nom d'utilisateur et/ou courriel invalide.</value>
+	</row>
+	<row>
+		<label>Login_InvalidNonceOrReferer</label>
+		<value>La clef de sécurité du formulaire est invalide ou a expiré. Merci de recharger le formulaire et de vérifier que vous avez activé les cookies.</value>
+	</row>
+	<row>
+		<label>Login_InvalidOrExpiredToken</label>
+		<value>La Clef est invalide ou a expiré</value>
+	</row>
+	<row>
+		<label>Login_MailTopicPasswordRecovery</label>
+		<value>Récupération du mot de passe</value>
+	</row>
+	<row>
+		<label>Login_PasswordSent</label>
+		<value>Le mot de passe vient juste d'être envoyé. Veuillez vérifier vos courriels.</value>
+	</row>
+	<row>
+		<label>Login_ContactAdmin</label>
+		<value>Raison possible : Votre hébergeur peut avoir désactivé la fonction mail(). &lt;br /&gt; Veuillez contacter votre administrateur Piwik.</value>
+	</row>
+	<row>
+		<label>MultiSites_PluginDescription</label>
+		<value>Affiche le sommaire/les statistiques multi-site. Actuellement maintenu comme un plugin Piwik cœur.</value>
+	</row>
+	<row>
+		<label>Provider_PluginDescription</label>
+		<value>Effectue des rapports sur les FAI des visiteurs.</value>
+	</row>
+	<row>
+		<label>Provider_WidgetProviders</label>
+		<value>Fournisseurs d'accès à Internet</value>
+	</row>
+	<row>
+		<label>Provider_ColumnProvider</label>
+		<value>FAI</value>
+	</row>
+	<row>
+		<label>Provider_SubmenuLocationsProvider</label>
+		<value>Situation géographique et FAI</value>
+	</row>
+	<row>
+		<label>Referers_PluginDescription</label>
+		<value>Effectue des rapports sur les données des référents: moteurs de recherche, mots clefs, sites web, suivi de campagne, entrée directe. </value>
+	</row>
+	<row>
+		<label>Referers_Referers</label>
+		<value>Référents</value>
+	</row>
+	<row>
+		<label>Referers_SearchEngines</label>
+		<value>Moteurs de recherche</value>
+	</row>
+	<row>
+		<label>Referers_Keywords</label>
+		<value>Mots-clés</value>
+	</row>
+	<row>
+		<label>Referers_DirectEntry</label>
+		<value>Entrées directes</value>
+	</row>
+	<row>
+		<label>Referers_Websites</label>
+		<value>Sites Internet</value>
+	</row>
+	<row>
+		<label>Referers_Campaigns</label>
+		<value>Campagnes</value>
+	</row>
+	<row>
+		<label>Referers_Evolution</label>
+		<value>Évolution sur la période</value>
+	</row>
+	<row>
+		<label>Referers_Type</label>
+		<value>Types d'affluents</value>
+	</row>
+	<row>
+		<label>Referers_ColumnRefererType</label>
+		<value>Type de Provenance</value>
+	</row>
+	<row>
+		<label>Referers_ColumnSearchEngine</label>
+		<value>Moteur de recherche</value>
+	</row>
+	<row>
+		<label>Referers_ColumnWebsite</label>
+		<value>Site Web</value>
+	</row>
+	<row>
+		<label>Referers_ColumnWebsitePage</label>
+		<value>Page du site</value>
+	</row>
+	<row>
+		<label>Referers_ColumnKeyword</label>
+		<value>Mot clef</value>
+	</row>
+	<row>
+		<label>Referers_ColumnCampaign</label>
+		<value>Campagne</value>
+	</row>
+	<row>
+		<label>Referers_DetailsByRefererType</label>
+		<value>Détails de types d'affluents</value>
+	</row>
+	<row>
+		<label>Referers_TypeDirectEntries</label>
+		<value>%s entrées directes</value>
+	</row>
+	<row>
+		<label>Referers_TypeSearchEngines</label>
+		<value>%s depuis des moteurs de recherche</value>
+	</row>
+	<row>
+		<label>Referers_TypeWebsites</label>
+		<value>%s depuis d'autres sites Internet</value>
+	</row>
+	<row>
+		<label>Referers_TypeCampaigns</label>
+		<value>%s depuis des campagnes</value>
+	</row>
+	<row>
+		<label>Referers_Distinct</label>
+		<value>Provenances distinctes par type de Provenance</value>
+	</row>
+	<row>
+		<label>Referers_DistinctSearchEngines</label>
+		<value>Moteurs de recherche distincts</value>
+	</row>
+	<row>
+		<label>Referers_DistinctKeywords</label>
+		<value>mots clef distincts</value>
+	</row>
+	<row>
+		<label>Referers_DistinctCampaigns</label>
+		<value>campagnes distinctes</value>
+	</row>
+	<row>
+		<label>Referers_DistinctWebsites</label>
+		<value>sites web distincts</value>
+	</row>
+	<row>
+		<label>Referers_SubmenuEvolution</label>
+		<value>Évolution</value>
+	</row>
+	<row>
+		<label>Referers_SubmenuSearchEngines</label>
+		<value>Moteurs de recherche et mots-clés</value>
+	</row>
+	<row>
+		<label>Referers_SubmenuWebsites</label>
+		<value>Sites Internet</value>
+	</row>
+	<row>
+		<label>Referers_SubmenuCampaigns</label>
+		<value>Campagnes</value>
+	</row>
+	<row>
+		<label>Referers_WidgetKeywords</label>
+		<value>Liste des mots-clés</value>
+	</row>
+	<row>
+		<label>Referers_WidgetCampaigns</label>
+		<value>Liste des campagnes</value>
+	</row>
+	<row>
+		<label>Referers_WidgetExternalWebsites</label>
+		<value>Liste des sites Internet externes</value>
+	</row>
+	<row>
+		<label>Referers_WidgetSearchEngines</label>
+		<value>Meilleurs moteurs de recherche</value>
+	</row>
+	<row>
+		<label>Referers_WidgetOverview</label>
+		<value>Récapitulatif</value>
+	</row>
+	<row>
+		<label>SecurityInfo_PluginDescription</label>
+		<value>Basé sur PhpSecInfo du Consortium de Sécurité de PHP, ce plugin fournit des information de sécurité à propos de votre environnement PHP et donne des suggestions pour son amélioration. C'est un outil d'approche sécurité multi-couches. Cela ne remplace ni les pratiques de développement sécurisé ni les audit du code.</value>
+	</row>
+	<row>
+		<label>SecurityInfo_Security</label>
+		<value>Sécurité</value>
+	</row>
+	<row>
+		<label>SecurityInfo_SecurityInformation</label>
+		<value>Information de sécurité de PHP</value>
+	</row>
+	<row>
+		<label>SecurityInfo_Test</label>
+		<value>Test</value>
+	</row>
+	<row>
+		<label>SecurityInfo_Result</label>
+		<value>Résultat</value>
+	</row>
+	<row>
+		<label>SitesManager_PluginDescription</label>
+		<value>Gestion des sites web dans Piwik: Ajoute un nouveau site web, modifie un existant, affiche le code JavaScript à inclure dans vos pages. Toutes les actions sont disponibles au travers de l'API.</value>
+	</row>
+	<row>
+		<label>SitesManager_Sites</label>
+		<value>Sites</value>
+	</row>
+	<row>
+		<label>SitesManager_WebsitesManagement</label>
+		<value>Gestion des sites</value>
+	</row>
+	<row>
+		<label>SitesManager_MainDescription</label>
+		<value>Piwik a besoin de sites pour générer des rapports ! Ajoutez, éditez et supprimez des sites, et voyez le code JavaScript à inclure dans vos pages.</value>
+	</row>
+	<row>
+		<label>SitesManager_JsTrackingTag</label>
+		<value>Code JavaScript de suivit</value>
+	</row>
+	<row>
+		<label>SitesManager_JsTrackingTagHelp</label>
+		<value>Ci-dessous le code JavaScript à inclure dans toutes vos pages </value>
+	</row>
+	<row>
+		<label>SitesManager_ShowTrackingTag</label>
+		<value>Afficher le code</value>
+	</row>
+	<row>
+		<label>SitesManager_NoWebsites</label>
+		<value>Vous n'avez aucun site Internet à administrer.</value>
+	</row>
+	<row>
+		<label>SitesManager_AddSite</label>
+		<value>Ajouter un site</value>
+	</row>
+	<row>
+		<label>SitesManager_AliasUrlHelp</label>
+		<value>Il est recommandé, mais pas requis, de spécifier les URL différentes que vos utilisateurs utilisent pour accéder au site web. Les URL d'alias pour un site n'apparaitront pas dans Référents &gt; Sites Internet. Il n'est pas nécessaire d'entrer les URL avec et sans les www, Piwik les traite automatiquement.</value>
+	</row>
+	<row>
+		<label>SitesManager_Id</label>
+		<value>Id</value>
+	</row>
+	<row>
+		<label>SitesManager_Name</label>
+		<value>Nom</value>
+	</row>
+	<row>
+		<label>SitesManager_Urls</label>
+		<value>URLs</value>
+	</row>
+	<row>
+		<label>SitesManager_MenuSites</label>
+		<value>Sites</value>
+	</row>
+	<row>
+		<label>SitesManager_DeleteConfirm_js</label>
+		<value>Êtes-vous sûr de vouloir supprimer le site %s?</value>
+	</row>
+	<row>
+		<label>SitesManager_ExceptionDeleteSite</label>
+		<value>Impossible de supprimer le site car c'est le seul site enregistré dans Piwik. Vous pouvez d'abord en ajouter un nouveau, puis supprimez celui-ci.</value>
+	</row>
+	<row>
+		<label>SitesManager_ExceptionNoUrl</label>
+		<value>Vous devez spécifier au moins une url pour le site.</value>
+	</row>
+	<row>
+		<label>SitesManager_ExceptionEmptyName</label>
+		<value>Le nom du site ne peut être vide.</value>
+	</row>
+	<row>
+		<label>SitesManager_ExceptionInvalidUrl</label>
+		<value>L'url '%s' est invalide.</value>
+	</row>
+	<row>
+		<label>SitesManager_SuperUserCan</label>
+		<value>Le super utilisateur peut aussi %s spécifier les paramètres généraux%s pour les nouveaux sites web.</value>
+	</row>
+	<row>
+		<label>SitesManager_ExcludedIps</label>
+		<value>IPs Exclues</value>
+	</row>
+	<row>
+		<label>SitesManager_GlobalListExcludedIps</label>
+		<value>Liste globale des IPs Exclues</value>
+	</row>
+	<row>
+		<label>SitesManager_ListOfIpsToBeExcludedOnAllWebsites</label>
+		<value>Les adresses IP ci-dessous seront exclues des statistiques sur tous les sites web.</value>
+	</row>
+	<row>
+		<label>SitesManager_ExcludedParameters</label>
+		<value>Paramètres Exclus</value>
+	</row>
+	<row>
+		<label>SitesManager_GlobalListExcludedQueryParameters</label>
+		<value>Liste globale des paramètres Url des requêtes à exclure</value>
+	</row>
+	<row>
+		<label>SitesManager_ListOfQueryParametersToBeExcludedOnAllWebsites</label>
+		<value>Les paramètres ci-dessous seront exclus des statistiques de tous les sites web.</value>
+	</row>
+	<row>
+		<label>SitesManager_ListOfQueryParametersToExclude</label>
+		<value>Entrez la liste des paramètres Url, un par ligne, à exclure des rapports des Url de pages.</value>
+	</row>
+	<row>
+		<label>SitesManager_PiwikWillAutomaticallyExcludeCommonSessionParameters</label>
+		<value>Piwik exclura automatiquement les paramètres de session communs (%s).</value>
+	</row>
+	<row>
+		<label>SitesManager_HelpExcludedIps</label>
+		<value>Entrez une liste d'adresses IP, une par ligne, que vous souhaitez exclure des statistiques Piwik. Vous pouvez utiliser des caractères jokers ex %1$s ou %2$s</value>
+	</row>
+	<row>
+		<label>SitesManager_YourCurrentIpAddressIs</label>
+		<value>Votre adresse IP actuelle est %s</value>
+	</row>
+	<row>
+		<label>SitesManager_SelectACity</label>
+		<value>Sélectionnez une ville</value>
+	</row>
+	<row>
+		<label>SitesManager_ChooseCityInSameTimezoneAsYou</label>
+		<value>Choisissez une ville qui se trouve dans le même fuseau horaire que vous.</value>
+	</row>
+	<row>
+		<label>SitesManager_ChangingYourTimezoneWillOnlyAffectDataForward</label>
+		<value>Le fait de modifier votre fuseau horaire affectera uniquement les nouvelles données, ce n'est pas rétroactif.</value>
+	</row>
+	<row>
+		<label>SitesManager_AdvancedTimezoneSupportNotFound</label>
+		<value>Le support avancé des fuseaux horaires n'a pu être trouvé dans votre configuration de PHP (supporté dans PHP&gt;=5.2). Vous pouvez toujours choisir manuellement un décalage UTC.</value>
+	</row>
+	<row>
+		<label>SitesManager_UTCTimeIs</label>
+		<value>l'heure UTC est %s.</value>
+	</row>
+	<row>
+		<label>SitesManager_Timezone</label>
+		<value>Fuseau horaire</value>
+	</row>
+	<row>
+		<label>SitesManager_GlobalWebsitesSettings</label>
+		<value>Paramètres généraux des sites web</value>
+	</row>
+	<row>
+		<label>SitesManager_DefaultTimezoneForNewWebsites</label>
+		<value>Fuseau horaire par défaut pour les nouveaux sites web</value>
+	</row>
+	<row>
+		<label>SitesManager_SelectDefaultTimezone</label>
+		<value>Vous pouvez sélectionner le fuseau horaire par défaut pour les nouveaux sites web.</value>
+	</row>
+	<row>
+		<label>SitesManager_Currency</label>
+		<value>Devise</value>
+	</row>
+	<row>
+		<label>SitesManager_CurrencySymbolWillBeUsedForGoals</label>
+		<value>Le symbole de la devise sera affiché à côté des revenus des Objectifs</value>
+	</row>
+	<row>
+		<label>SitesManager_DefaultCurrencyForNewWebsites</label>
+		<value>Devise par défaut pour les nouveaux sites web</value>
+	</row>
+	<row>
+		<label>SitesManager_SelectDefaultCurrency</label>
+		<value>Vous pouvez sélectionner la devise par défaut pour les nouveaux sites web.</value>
+	</row>
+	<row>
+		<label>TranslationsAdmin_PluginDescription</label>
+		<value>Aidez à traduire Piwik dans votre langue.</value>
+	</row>
+	<row>
+		<label>TranslationsAdmin_MenuTranslations</label>
+		<value>Traductions</value>
+	</row>
+	<row>
+		<label>TranslationsAdmin_MenuLanguages</label>
+		<value>Langues</value>
+	</row>
+	<row>
+		<label>TranslationsAdmin_Plugin</label>
+		<value>Plugin</value>
+	</row>
+	<row>
+		<label>TranslationsAdmin_Definition</label>
+		<value>Définition</value>
+	</row>
+	<row>
+		<label>TranslationsAdmin_DefaultString</label>
+		<value>Chaine par défaut (English)</value>
+	</row>
+	<row>
+		<label>TranslationsAdmin_TranslationString</label>
+		<value>Traduction (Langue actuelle : %s)</value>
+	</row>
+	<row>
+		<label>TranslationsAdmin_Translations</label>
+		<value>Traductions</value>
+	</row>
+	<row>
+		<label>TranslationsAdmin_FixPermissions</label>
+		<value>Veuillez définir les propriétés des fichiers systèmes</value>
+	</row>
+	<row>
+		<label>TranslationsAdmin_AvailableLanguages</label>
+		<value>Langues disponibles</value>
+	</row>
+	<row>
+		<label>TranslationsAdmin_AddLanguage</label>
+		<value>Ajouter langue</value>
+	</row>
+	<row>
+		<label>TranslationsAdmin_LanguageCode</label>
+		<value>Code langue</value>
+	</row>
+	<row>
+		<label>TranslationsAdmin_Export</label>
+		<value>Exporter langue</value>
+	</row>
+	<row>
+		<label>TranslationsAdmin_Import</label>
+		<value>Importer langue</value>
+	</row>
+	<row>
+		<label>UserCountry_PluginDescription</label>
+		<value>Effectue des rapports sur les pays des visiteurs.</value>
+	</row>
+	<row>
+		<label>UserCountry_Country</label>
+		<value>Pays</value>
+	</row>
+	<row>
+		<label>UserCountry_Continent</label>
+		<value>Continent</value>
+	</row>
+	<row>
+		<label>UserCountry_DistinctCountries</label>
+		<value>%s pays différents</value>
+	</row>
+	<row>
+		<label>UserCountry_SubmenuLocations</label>
+		<value>Provenances géographiques</value>
+	</row>
+	<row>
+		<label>UserCountry_WidgetContinents</label>
+		<value>Continents des visiteurs</value>
+	</row>
+	<row>
+		<label>UserCountry_WidgetCountries</label>
+		<value>Pays des visiteurs</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ac</label>
+		<value>Ascension (île)</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ad</label>
+		<value>Andorre</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ae</label>
+		<value>Émirats arabes unis</value>
+	</row>
+	<row>
+		<label>UserCountry_country_af</label>
+		<value>Afghanistan</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ag</label>
+		<value>Antigua-et-Barbuda</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ai</label>
+		<value>Anguilla</value>
+	</row>
+	<row>
+		<label>UserCountry_country_al</label>
+		<value>Albanie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_am</label>
+		<value>Arménie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_an</label>
+		<value>Antilles Néerlandaises</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ao</label>
+		<value>Angola</value>
+	</row>
+	<row>
+		<label>UserCountry_country_aq</label>
+		<value>Antarctique</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ar</label>
+		<value>Argentine</value>
+	</row>
+	<row>
+		<label>UserCountry_country_as</label>
+		<value>Samoa Américaines</value>
+	</row>
+	<row>
+		<label>UserCountry_country_at</label>
+		<value>Autriche</value>
+	</row>
+	<row>
+		<label>UserCountry_country_au</label>
+		<value>Australie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_aw</label>
+		<value>Aruba</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ax</label>
+		<value>État libre associé d'Åland</value>
+	</row>
+	<row>
+		<label>UserCountry_country_az</label>
+		<value>Azerbaïdjan</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ba</label>
+		<value>Bosnie-Herzégovine</value>
+	</row>
+	<row>
+		<label>UserCountry_country_bb</label>
+		<value>La Barbade</value>
+	</row>
+	<row>
+		<label>UserCountry_country_bd</label>
+		<value>Bangladesh</value>
+	</row>
+	<row>
+		<label>UserCountry_country_be</label>
+		<value>Belgique</value>
+	</row>
+	<row>
+		<label>UserCountry_country_bf</label>
+		<value>Burkina Faso</value>
+	</row>
+	<row>
+		<label>UserCountry_country_bg</label>
+		<value>Bulgarie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_bh</label>
+		<value>Bahreïn</value>
+	</row>
+	<row>
+		<label>UserCountry_country_bi</label>
+		<value>Burundi</value>
+	</row>
+	<row>
+		<label>UserCountry_country_bj</label>
+		<value>Bénin</value>
+	</row>
+	<row>
+		<label>UserCountry_country_bl</label>
+		<value>Saint Barthélemy</value>
+	</row>
+	<row>
+		<label>UserCountry_country_bm</label>
+		<value>Bermudes</value>
+	</row>
+	<row>
+		<label>UserCountry_country_bn</label>
+		<value>Brunei</value>
+	</row>
+	<row>
+		<label>UserCountry_country_bo</label>
+		<value>Bolivie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_br</label>
+		<value>Brésil</value>
+	</row>
+	<row>
+		<label>UserCountry_country_bs</label>
+		<value>Bahamas</value>
+	</row>
+	<row>
+		<label>UserCountry_country_bt</label>
+		<value>Bhutan</value>
+	</row>
+	<row>
+		<label>UserCountry_country_bu</label>
+		<value>Union du Myanmar</value>
+	</row>
+	<row>
+		<label>UserCountry_country_bv</label>
+		<value>Ile Bouvet</value>
+	</row>
+	<row>
+		<label>UserCountry_country_bw</label>
+		<value>Botswana</value>
+	</row>
+	<row>
+		<label>UserCountry_country_by</label>
+		<value>Belarus</value>
+	</row>
+	<row>
+		<label>UserCountry_country_bz</label>
+		<value>Belize</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ca</label>
+		<value>Canada</value>
+	</row>
+	<row>
+		<label>UserCountry_country_cc</label>
+		<value>Iles des Cocos (Keeling)</value>
+	</row>
+	<row>
+		<label>UserCountry_country_cd</label>
+		<value>Congo, République démocratique du</value>
+	</row>
+	<row>
+		<label>UserCountry_country_cf</label>
+		<value>République d'Afrique Centrale</value>
+	</row>
+	<row>
+		<label>UserCountry_country_cg</label>
+		<value>Congo</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ch</label>
+		<value>Suisse</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ci</label>
+		<value>Cote D'Ivoire</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ck</label>
+		<value>Iles Cook</value>
+	</row>
+	<row>
+		<label>UserCountry_country_cl</label>
+		<value>Chili</value>
+	</row>
+	<row>
+		<label>UserCountry_country_cm</label>
+		<value>Cameroun</value>
+	</row>
+	<row>
+		<label>UserCountry_country_cn</label>
+		<value>Chine</value>
+	</row>
+	<row>
+		<label>UserCountry_country_co</label>
+		<value>Colombie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_cp</label>
+		<value>Ile de La Passion</value>
+	</row>
+	<row>
+		<label>UserCountry_country_cr</label>
+		<value>Costa Rica</value>
+	</row>
+	<row>
+		<label>UserCountry_country_cs</label>
+		<value>Serbie Monténégro</value>
+	</row>
+	<row>
+		<label>UserCountry_country_cu</label>
+		<value>Cuba</value>
+	</row>
+	<row>
+		<label>UserCountry_country_cv</label>
+		<value>Cap Vert</value>
+	</row>
+	<row>
+		<label>UserCountry_country_cx</label>
+		<value>Ile Christmas</value>
+	</row>
+	<row>
+		<label>UserCountry_country_cy</label>
+		<value>Chypre</value>
+	</row>
+	<row>
+		<label>UserCountry_country_cz</label>
+		<value>République Tchèque</value>
+	</row>
+	<row>
+		<label>UserCountry_country_de</label>
+		<value>Allemagne</value>
+	</row>
+	<row>
+		<label>UserCountry_country_dg</label>
+		<value>Diego Garcia</value>
+	</row>
+	<row>
+		<label>UserCountry_country_dj</label>
+		<value>Djibouti</value>
+	</row>
+	<row>
+		<label>UserCountry_country_dk</label>
+		<value>Danemark</value>
+	</row>
+	<row>
+		<label>UserCountry_country_dm</label>
+		<value>Dominique</value>
+	</row>
+	<row>
+		<label>UserCountry_country_do</label>
+		<value>République Dominicaine</value>
+	</row>
+	<row>
+		<label>UserCountry_country_dz</label>
+		<value>Algérie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ea</label>
+		<value>Ceuta, Melilla</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ec</label>
+		<value>Équateur</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ee</label>
+		<value>Estonie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_eg</label>
+		<value>Égypte</value>
+	</row>
+	<row>
+		<label>UserCountry_country_eh</label>
+		<value>Sahara occidental</value>
+	</row>
+	<row>
+		<label>UserCountry_country_er</label>
+		<value>Erythrée</value>
+	</row>
+	<row>
+		<label>UserCountry_country_es</label>
+		<value>Espagne</value>
+	</row>
+	<row>
+		<label>UserCountry_country_et</label>
+		<value>Ethiopie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_eu</label>
+		<value>Union Européenne</value>
+	</row>
+	<row>
+		<label>UserCountry_country_fi</label>
+		<value>Finlande</value>
+	</row>
+	<row>
+		<label>UserCountry_country_fj</label>
+		<value>Fidji</value>
+	</row>
+	<row>
+		<label>UserCountry_country_fk</label>
+		<value>Iles Falkland</value>
+	</row>
+	<row>
+		<label>UserCountry_country_fm</label>
+		<value>Micronesia, Federated States of</value>
+	</row>
+	<row>
+		<label>UserCountry_country_fo</label>
+		<value>Iles Faroe</value>
+	</row>
+	<row>
+		<label>UserCountry_country_fr</label>
+		<value>France</value>
+	</row>
+	<row>
+		<label>UserCountry_country_fx</label>
+		<value>France métropolitaine</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ga</label>
+		<value>Gabon</value>
+	</row>
+	<row>
+		<label>UserCountry_country_gb</label>
+		<value>Grande Bretagne</value>
+	</row>
+	<row>
+		<label>UserCountry_country_gd</label>
+		<value>Grenade</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ge</label>
+		<value>Géorgie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_gf</label>
+		<value>Guyane Française</value>
+	</row>
+	<row>
+		<label>UserCountry_country_gg</label>
+		<value>Ile de Guernesey</value>
+	</row>
+	<row>
+		<label>UserCountry_country_gh</label>
+		<value>Ghana</value>
+	</row>
+	<row>
+		<label>UserCountry_country_gi</label>
+		<value>Gibraltar</value>
+	</row>
+	<row>
+		<label>UserCountry_country_gl</label>
+		<value>Groenland</value>
+	</row>
+	<row>
+		<label>UserCountry_country_gm</label>
+		<value>Gambie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_gn</label>
+		<value>Guinée</value>
+	</row>
+	<row>
+		<label>UserCountry_country_gp</label>
+		<value>Guadeloupe</value>
+	</row>
+	<row>
+		<label>UserCountry_country_gq</label>
+		<value>Guinée Équatoriale</value>
+	</row>
+	<row>
+		<label>UserCountry_country_gr</label>
+		<value>Grèce</value>
+	</row>
+	<row>
+		<label>UserCountry_country_gs</label>
+		<value>Géorgie du Sud-et-les Îles Sandwich du Sud</value>
+	</row>
+	<row>
+		<label>UserCountry_country_gt</label>
+		<value>Guatemala</value>
+	</row>
+	<row>
+		<label>UserCountry_country_gu</label>
+		<value>Guam</value>
+	</row>
+	<row>
+		<label>UserCountry_country_gw</label>
+		<value>Guinée-Bissau</value>
+	</row>
+	<row>
+		<label>UserCountry_country_gy</label>
+		<value>Guyane</value>
+	</row>
+	<row>
+		<label>UserCountry_country_hk</label>
+		<value>Hong Kong</value>
+	</row>
+	<row>
+		<label>UserCountry_country_hm</label>
+		<value>Iles heard et Mac Donald</value>
+	</row>
+	<row>
+		<label>UserCountry_country_hn</label>
+		<value>Honduras</value>
+	</row>
+	<row>
+		<label>UserCountry_country_hr</label>
+		<value>Croatie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ht</label>
+		<value>Haïti</value>
+	</row>
+	<row>
+		<label>UserCountry_country_hu</label>
+		<value>Hongrie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ic</label>
+		<value>Iles Canaries</value>
+	</row>
+	<row>
+		<label>UserCountry_country_id</label>
+		<value>Indonésie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ie</label>
+		<value>Irlande</value>
+	</row>
+	<row>
+		<label>UserCountry_country_il</label>
+		<value>Israël</value>
+	</row>
+	<row>
+		<label>UserCountry_country_im</label>
+		<value>Iles de Man</value>
+	</row>
+	<row>
+		<label>UserCountry_country_in</label>
+		<value>Inde</value>
+	</row>
+	<row>
+		<label>UserCountry_country_io</label>
+		<value>Océan indien (Territoire Britannique)</value>
+	</row>
+	<row>
+		<label>UserCountry_country_iq</label>
+		<value>Irak</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ir</label>
+		<value>Iran, République Islamique de</value>
+	</row>
+	<row>
+		<label>UserCountry_country_is</label>
+		<value>Islande</value>
+	</row>
+	<row>
+		<label>UserCountry_country_it</label>
+		<value>Italie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_je</label>
+		<value>Jersey</value>
+	</row>
+	<row>
+		<label>UserCountry_country_jm</label>
+		<value>Jamaïque</value>
+	</row>
+	<row>
+		<label>UserCountry_country_jo</label>
+		<value>Jordanie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_jp</label>
+		<value>Japon</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ke</label>
+		<value>Kenya</value>
+	</row>
+	<row>
+		<label>UserCountry_country_kg</label>
+		<value>Kirghizstan</value>
+	</row>
+	<row>
+		<label>UserCountry_country_kh</label>
+		<value>Kampuchea (ex Cambodge)</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ki</label>
+		<value>Kiribati</value>
+	</row>
+	<row>
+		<label>UserCountry_country_km</label>
+		<value>Comores</value>
+	</row>
+	<row>
+		<label>UserCountry_country_kn</label>
+		<value>Saint Christophe Nieves Ang.</value>
+	</row>
+	<row>
+		<label>UserCountry_country_kp</label>
+		<value>Corée du Nord</value>
+	</row>
+	<row>
+		<label>UserCountry_country_kr</label>
+		<value>Corée du Sud</value>
+	</row>
+	<row>
+		<label>UserCountry_country_kw</label>
+		<value>Koweït</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ky</label>
+		<value>Iles Caïmans</value>
+	</row>
+	<row>
+		<label>UserCountry_country_kz</label>
+		<value>Kazakhstan</value>
+	</row>
+	<row>
+		<label>UserCountry_country_la</label>
+		<value>Laos</value>
+	</row>
+	<row>
+		<label>UserCountry_country_lb</label>
+		<value>Liban</value>
+	</row>
+	<row>
+		<label>UserCountry_country_lc</label>
+		<value>Sainte Lucie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_li</label>
+		<value>Liechtenstein</value>
+	</row>
+	<row>
+		<label>UserCountry_country_lk</label>
+		<value>Sri Lanka</value>
+	</row>
+	<row>
+		<label>UserCountry_country_lr</label>
+		<value>Liberia</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ls</label>
+		<value>Lesotho</value>
+	</row>
+	<row>
+		<label>UserCountry_country_lt</label>
+		<value>Lituanie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_lu</label>
+		<value>Luxembourg</value>
+	</row>
+	<row>
+		<label>UserCountry_country_lv</label>
+		<value>Lettonie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ly</label>
+		<value>Lybie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ma</label>
+		<value>Maroc</value>
+	</row>
+	<row>
+		<label>UserCountry_country_mc</label>
+		<value>Monaco</value>
+	</row>
+	<row>
+		<label>UserCountry_country_md</label>
+		<value>Moldavie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_me</label>
+		<value>Monténégro</value>
+	</row>
+	<row>
+		<label>UserCountry_country_mf</label>
+		<value>Saint Martin</value>
+	</row>
+	<row>
+		<label>UserCountry_country_mg</label>
+		<value>Madagascar</value>
+	</row>
+	<row>
+		<label>UserCountry_country_mh</label>
+		<value>Iles Marshall</value>
+	</row>
+	<row>
+		<label>UserCountry_country_mk</label>
+		<value>Macédoine</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ml</label>
+		<value>Mali</value>
+	</row>
+	<row>
+		<label>UserCountry_country_mm</label>
+		<value>Myanmar</value>
+	</row>
+	<row>
+		<label>UserCountry_country_mn</label>
+		<value>Mongolie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_mo</label>
+		<value>Macao</value>
+	</row>
+	<row>
+		<label>UserCountry_country_mp</label>
+		<value>Iles Mariannes du Nord</value>
+	</row>
+	<row>
+		<label>UserCountry_country_mq</label>
+		<value>Martinique</value>
+	</row>
+	<row>
+		<label>UserCountry_country_mr</label>
+		<value>Mauritanie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ms</label>
+		<value>Montserrat</value>
+	</row>
+	<row>
+		<label>UserCountry_country_mt</label>
+		<value>Malte</value>
+	</row>
+	<row>
+		<label>UserCountry_country_mu</label>
+		<value>Ile Maurice</value>
+	</row>
+	<row>
+		<label>UserCountry_country_mv</label>
+		<value>Maldives</value>
+	</row>
+	<row>
+		<label>UserCountry_country_mw</label>
+		<value>Malawi</value>
+	</row>
+	<row>
+		<label>UserCountry_country_mx</label>
+		<value>Mexique</value>
+	</row>
+	<row>
+		<label>UserCountry_country_my</label>
+		<value>Malaisie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_mz</label>
+		<value>Mozambique</value>
+	</row>
+	<row>
+		<label>UserCountry_country_na</label>
+		<value>Namibie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_nc</label>
+		<value>Nouvelle Calédonie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ne</label>
+		<value>Niger</value>
+	</row>
+	<row>
+		<label>UserCountry_country_nf</label>
+		<value>Ile Norfolk</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ng</label>
+		<value>Nigeria</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ni</label>
+		<value>Nicaragua</value>
+	</row>
+	<row>
+		<label>UserCountry_country_nl</label>
+		<value>Pays-Bas</value>
+	</row>
+	<row>
+		<label>UserCountry_country_no</label>
+		<value>Norvège</value>
+	</row>
+	<row>
+		<label>UserCountry_country_np</label>
+		<value>Népal</value>
+	</row>
+	<row>
+		<label>UserCountry_country_nr</label>
+		<value>Nauru</value>
+	</row>
+	<row>
+		<label>UserCountry_country_nt</label>
+		<value>Zone Neutre</value>
+	</row>
+	<row>
+		<label>UserCountry_country_nu</label>
+		<value>Nioue</value>
+	</row>
+	<row>
+		<label>UserCountry_country_nz</label>
+		<value>Nouvelle Zélande</value>
+	</row>
+	<row>
+		<label>UserCountry_country_om</label>
+		<value>Oman</value>
+	</row>
+	<row>
+		<label>UserCountry_country_pa</label>
+		<value>Panama</value>
+	</row>
+	<row>
+		<label>UserCountry_country_pe</label>
+		<value>Pérou</value>
+	</row>
+	<row>
+		<label>UserCountry_country_pf</label>
+		<value>Polynésie Française</value>
+	</row>
+	<row>
+		<label>UserCountry_country_pg</label>
+		<value>Papouasie Nouvelle Guinée</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ph</label>
+		<value>Philippines</value>
+	</row>
+	<row>
+		<label>UserCountry_country_pk</label>
+		<value>Pakistan</value>
+	</row>
+	<row>
+		<label>UserCountry_country_pl</label>
+		<value>Pologne</value>
+	</row>
+	<row>
+		<label>UserCountry_country_pm</label>
+		<value>Saint Pierre et Miquelon</value>
+	</row>
+	<row>
+		<label>UserCountry_country_pn</label>
+		<value>Iles Pitcairn</value>
+	</row>
+	<row>
+		<label>UserCountry_country_pr</label>
+		<value>Puerto Rico</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ps</label>
+		<value>Palestine</value>
+	</row>
+	<row>
+		<label>UserCountry_country_pt</label>
+		<value>Portugal</value>
+	</row>
+	<row>
+		<label>UserCountry_country_pw</label>
+		<value>Palau</value>
+	</row>
+	<row>
+		<label>UserCountry_country_py</label>
+		<value>Paraguay</value>
+	</row>
+	<row>
+		<label>UserCountry_country_qa</label>
+		<value>Qatar</value>
+	</row>
+	<row>
+		<label>UserCountry_country_re</label>
+		<value>La Réunion</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ro</label>
+		<value>Roumanie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ru</label>
+		<value>Russie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_rs</label>
+		<value>Serbie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_rw</label>
+		<value>Rwanda</value>
+	</row>
+	<row>
+		<label>UserCountry_country_sa</label>
+		<value>Arabie Saoudite</value>
+	</row>
+	<row>
+		<label>UserCountry_country_sb</label>
+		<value>Iles Salomon</value>
+	</row>
+	<row>
+		<label>UserCountry_country_sc</label>
+		<value>Seychelles</value>
+	</row>
+	<row>
+		<label>UserCountry_country_sd</label>
+		<value>Soudan</value>
+	</row>
+	<row>
+		<label>UserCountry_country_se</label>
+		<value>Suède</value>
+	</row>
+	<row>
+		<label>UserCountry_country_sf</label>
+		<value>Finlande</value>
+	</row>
+	<row>
+		<label>UserCountry_country_sg</label>
+		<value>Singapour</value>
+	</row>
+	<row>
+		<label>UserCountry_country_sh</label>
+		<value>Sainte Hélène</value>
+	</row>
+	<row>
+		<label>UserCountry_country_si</label>
+		<value>Slovénie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_sj</label>
+		<value>Svalbard et Ile Jan Mayen</value>
+	</row>
+	<row>
+		<label>UserCountry_country_sk</label>
+		<value>Slovaquie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_sl</label>
+		<value>Sierra Leone</value>
+	</row>
+	<row>
+		<label>UserCountry_country_sm</label>
+		<value>Saint-Marin</value>
+	</row>
+	<row>
+		<label>UserCountry_country_sn</label>
+		<value>Sénégal</value>
+	</row>
+	<row>
+		<label>UserCountry_country_so</label>
+		<value>Somalie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_sr</label>
+		<value>Surinam</value>
+	</row>
+	<row>
+		<label>UserCountry_country_st</label>
+		<value>Sao Tome et Principe</value>
+	</row>
+	<row>
+		<label>UserCountry_country_su</label>
+		<value>Ex U.R.S.S</value>
+	</row>
+	<row>
+		<label>UserCountry_country_sv</label>
+		<value>El Salvador</value>
+	</row>
+	<row>
+		<label>UserCountry_country_sy</label>
+		<value>Syrie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_sz</label>
+		<value>Swaziland</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ta</label>
+		<value>Île Tristan da Cunha</value>
+	</row>
+	<row>
+		<label>UserCountry_country_tc</label>
+		<value>Iles Turks et Caicos</value>
+	</row>
+	<row>
+		<label>UserCountry_country_td</label>
+		<value>Tchad</value>
+	</row>
+	<row>
+		<label>UserCountry_country_tf</label>
+		<value>Terres australes et antarctiques françaises</value>
+	</row>
+	<row>
+		<label>UserCountry_country_tg</label>
+		<value>Togo</value>
+	</row>
+	<row>
+		<label>UserCountry_country_th</label>
+		<value>Thaïlande</value>
+	</row>
+	<row>
+		<label>UserCountry_country_tj</label>
+		<value>Tadjikistan</value>
+	</row>
+	<row>
+		<label>UserCountry_country_tk</label>
+		<value>Tokelaou</value>
+	</row>
+	<row>
+		<label>UserCountry_country_tl</label>
+		<value>Timor Oriental</value>
+	</row>
+	<row>
+		<label>UserCountry_country_tm</label>
+		<value>Turkménistan</value>
+	</row>
+	<row>
+		<label>UserCountry_country_tn</label>
+		<value>Tunisie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_to</label>
+		<value>Tonga</value>
+	</row>
+	<row>
+		<label>UserCountry_country_tp</label>
+		<value>Timor Oriental</value>
+	</row>
+	<row>
+		<label>UserCountry_country_tr</label>
+		<value>Turquie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_tt</label>
+		<value>Trinité et Tobago </value>
+	</row>
+	<row>
+		<label>UserCountry_country_tv</label>
+		<value>Tuvalu</value>
+	</row>
+	<row>
+		<label>UserCountry_country_tw</label>
+		<value>Taïwan</value>
+	</row>
+	<row>
+		<label>UserCountry_country_tz</label>
+		<value>Tanzanie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ua</label>
+		<value>Ukraine</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ug</label>
+		<value>Ouganda</value>
+	</row>
+	<row>
+		<label>UserCountry_country_uk</label>
+		<value>Royaume-Uni</value>
+	</row>
+	<row>
+		<label>UserCountry_country_um</label>
+		<value>Îles mineures éloignées des États-Unis</value>
+	</row>
+	<row>
+		<label>UserCountry_country_us</label>
+		<value>Etats Unis</value>
+	</row>
+	<row>
+		<label>UserCountry_country_uy</label>
+		<value>Uruguay</value>
+	</row>
+	<row>
+		<label>UserCountry_country_uz</label>
+		<value>Ouzbékistan</value>
+	</row>
+	<row>
+		<label>UserCountry_country_va</label>
+		<value>Vatican</value>
+	</row>
+	<row>
+		<label>UserCountry_country_vc</label>
+		<value>Saint Vincent et Grenadines</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ve</label>
+		<value>Venezuela</value>
+	</row>
+	<row>
+		<label>UserCountry_country_vg</label>
+		<value>Iles Vierges Britanniques</value>
+	</row>
+	<row>
+		<label>UserCountry_country_vi</label>
+		<value>Iles Vierges U.S.</value>
+	</row>
+	<row>
+		<label>UserCountry_country_vn</label>
+		<value>Vietnam</value>
+	</row>
+	<row>
+		<label>UserCountry_country_vu</label>
+		<value>Vanuatu</value>
+	</row>
+	<row>
+		<label>UserCountry_country_wf</label>
+		<value>Wallis et Futuna</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ws</label>
+		<value>Samoa Occidentales</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ye</label>
+		<value>Yémen</value>
+	</row>
+	<row>
+		<label>UserCountry_country_yt</label>
+		<value>Mayotte</value>
+	</row>
+	<row>
+		<label>UserCountry_country_yu</label>
+		<value>Yougoslavie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_za</label>
+		<value>Afrique du Sud</value>
+	</row>
+	<row>
+		<label>UserCountry_country_zm</label>
+		<value>Zambie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_zr</label>
+		<value>Zaïre</value>
+	</row>
+	<row>
+		<label>UserCountry_country_zw</label>
+		<value>Zimbabwe</value>
+	</row>
+	<row>
+		<label>UserCountry_continent_eur</label>
+		<value>Europe</value>
+	</row>
+	<row>
+		<label>UserCountry_continent_afr</label>
+		<value>Afrique</value>
+	</row>
+	<row>
+		<label>UserCountry_continent_asi</label>
+		<value>Asie</value>
+	</row>
+	<row>
+		<label>UserCountry_continent_ams</label>
+		<value>Amérique du sud et centrale</value>
+	</row>
+	<row>
+		<label>UserCountry_continent_amn</label>
+		<value>Amérique du nord</value>
+	</row>
+	<row>
+		<label>UserCountry_continent_oce</label>
+		<value>Océanie</value>
+	</row>
+	<row>
+		<label>UserCountryMap_map</label>
+		<value>carte</value>
+	</row>
+	<row>
+		<label>UserCountryMap_worldMap</label>
+		<value>mappemonde</value>
+	</row>
+	<row>
+		<label>UserSettings_PluginDescription</label>
+		<value>Effectue des rapports variés sur les paramètres utilisateurs: navigateur, famille du navigateur, système d'exploitation, plugins, résolution, paramètres généraux.</value>
+	</row>
+	<row>
+		<label>UserSettings_VisitorSettings</label>
+		<value>Paramètres visiteur</value>
+	</row>
+	<row>
+		<label>UserSettings_BrowserFamilies</label>
+		<value>Familles de navigateurs</value>
+	</row>
+	<row>
+		<label>UserSettings_Browsers</label>
+		<value>Navigateurs</value>
+	</row>
+	<row>
+		<label>UserSettings_Plugins</label>
+		<value>Plugins</value>
+	</row>
+	<row>
+		<label>UserSettings_Configurations</label>
+		<value>Configurations</value>
+	</row>
+	<row>
+		<label>UserSettings_OperatingSystems</label>
+		<value>Système d'exploitation</value>
+	</row>
+	<row>
+		<label>UserSettings_Resolutions</label>
+		<value>Résolutions</value>
+	</row>
+	<row>
+		<label>UserSettings_WideScreen</label>
+		<value>Largeur d'écran</value>
+	</row>
+	<row>
+		<label>UserSettings_ColumnBrowserFamily</label>
+		<value>Famille de navigateur</value>
+	</row>
+	<row>
+		<label>UserSettings_ColumnBrowser</label>
+		<value>Navigateur</value>
+	</row>
+	<row>
+		<label>UserSettings_ColumnPlugin</label>
+		<value>Plugin</value>
+	</row>
+	<row>
+		<label>UserSettings_ColumnConfiguration</label>
+		<value>Configuration</value>
+	</row>
+	<row>
+		<label>UserSettings_ColumnOperatingSystem</label>
+		<value>Système d'exploitation</value>
+	</row>
+	<row>
+		<label>UserSettings_ColumnResolution</label>
+		<value>Résolution</value>
+	</row>
+	<row>
+		<label>UserSettings_ColumnTypeOfScreen</label>
+		<value>Type d'écran</value>
+	</row>
+	<row>
+		<label>UserSettings_WidgetResolutions</label>
+		<value>Résolutions d'écran</value>
+	</row>
+	<row>
+		<label>UserSettings_WidgetBrowsers</label>
+		<value>Navigateurs du visiteur</value>
+	</row>
+	<row>
+		<label>UserSettings_WidgetPlugins</label>
+		<value>Liste de Plugins</value>
+	</row>
+	<row>
+		<label>UserSettings_WidgetWidescreen</label>
+		<value>Normal / Écran large</value>
+	</row>
+	<row>
+		<label>UserSettings_WidgetBrowserFamilies</label>
+		<value>Navigateurs par famille</value>
+	</row>
+	<row>
+		<label>UserSettings_WidgetOperatingSystems</label>
+		<value>Systèmes d'exploitation</value>
+	</row>
+	<row>
+		<label>UserSettings_WidgetGlobalVisitors</label>
+		<value>Configuration globale des visiteurs</value>
+	</row>
+	<row>
+		<label>UserSettings_SubmenuSettings</label>
+		<value>Paramètres</value>
+	</row>
+	<row>
+		<label>UsersManager_PluginDescription</label>
+		<value>Gestion des utilisateurs dans Piwik: ajouter un nouvel utilisateur, en éditer, mettre à jour les permissions. Toutes les actions sont aussi disponibles au travers de l'API.</value>
+	</row>
+	<row>
+		<label>UsersManager_UsersManagement</label>
+		<value>Gestion des utilisateurs</value>
+	</row>
+	<row>
+		<label>UsersManager_UsersManagementMainDescription</label>
+		<value>Créez de nouveaux utilisateurs ou modifiez-les. Vous pourrez ensuite changez leurs permissions ci-dessus.</value>
+	</row>
+	<row>
+		<label>UsersManager_ManageAccess</label>
+		<value>Gestion des accès utilisateurs</value>
+	</row>
+	<row>
+		<label>UsersManager_MainDescription</label>
+		<value>Décidez quels utilisateurs ont accès à quels sites. Vous pouvez aussi changer les permissions de tous les sites d'un seul coup.</value>
+	</row>
+	<row>
+		<label>UsersManager_Sites</label>
+		<value>Sites</value>
+	</row>
+	<row>
+		<label>UsersManager_AllWebsites</label>
+		<value>Tous les sites Internet</value>
+	</row>
+	<row>
+		<label>UsersManager_ApplyToAllWebsites</label>
+		<value>Appliquer à tous les sites</value>
+	</row>
+	<row>
+		<label>UsersManager_User</label>
+		<value>Utilisateur</value>
+	</row>
+	<row>
+		<label>UsersManager_PrivNone</label>
+		<value>Pas d'accès</value>
+	</row>
+	<row>
+		<label>UsersManager_PrivView</label>
+		<value>Consultation</value>
+	</row>
+	<row>
+		<label>UsersManager_PrivAdmin</label>
+		<value>Administration</value>
+	</row>
+	<row>
+		<label>UsersManager_ChangeAllConfirm</label>
+		<value>Êtes-vous sûr de vouloir changer les permissions de '%s' sur tous les sites Internet?</value>
+	</row>
+	<row>
+		<label>UsersManager_Password</label>
+		<value>Mot de passe</value>
+	</row>
+	<row>
+		<label>UsersManager_Email</label>
+		<value>Courriel</value>
+	</row>
+	<row>
+		<label>UsersManager_Alias</label>
+		<value>Alias</value>
+	</row>
+	<row>
+		<label>UsersManager_TheSuperUserAliasCannotBeChanged</label>
+		<value>L'alias du super utilisateur ne peut $etre changé.</value>
+	</row>
+	<row>
+		<label>UsersManager_ReportToLoadByDefault</label>
+		<value>Rapport à charger par défaut</value>
+	</row>
+	<row>
+		<label>UsersManager_ReportDateToLoadByDefault</label>
+		<value>Date du rapport à charger par défaut</value>
+	</row>
+	<row>
+		<label>UsersManager_ForAnonymousUsersReportDateToLoadByDefault</label>
+		<value>Pour les utilisateurs anonymes, date du rapport à charger par défaut</value>
+	</row>
+	<row>
+		<label>UsersManager_ExcludeVisitsViaCookie</label>
+		<value>Excluez vos visites en utilisant un cookie</value>
+	</row>
+	<row>
+		<label>UsersManager_YourVisitsAreIgnored</label>
+		<value>%sVos visites sont ignorées par Piwik%s (le cookie d'exclusion de Piwik a été trouvé sur votre navigateur).</value>
+	</row>
+	<row>
+		<label>UsersManager_YourVisitsAreNotIgnored</label>
+		<value>%sVos visites sont prises en compte par Piwik%s (le cookie d'exclusion de Piwik n'a  pas été trouvé sur votre navigateur).</value>
+	</row>
+	<row>
+		<label>UsersManager_ClickHereToDeleteTheCookie</label>
+		<value>Cliquez ici pour supprimer le cookie et pour que Piwik prenne en compte vos visites</value>
+	</row>
+	<row>
+		<label>UsersManager_ClickHereToSetTheCookie</label>
+		<value>Cliquez ici pour mettre en place un cookie qui permettra à Piwik d'ignorer vos visites sur vos sites</value>
+	</row>
+	<row>
+		<label>UsersManager_Edit</label>
+		<value>Modifier</value>
+	</row>
+	<row>
+		<label>UsersManager_AddUser</label>
+		<value>Ajouter un nouvel utilisateur</value>
+	</row>
+	<row>
+		<label>UsersManager_MenuUsers</label>
+		<value>Utilisateurs</value>
+	</row>
+	<row>
+		<label>UsersManager_MenuUserSettings</label>
+		<value>Paramètres utilisateurs</value>
+	</row>
+	<row>
+		<label>UsersManager_MenuAnonymousUserSettings</label>
+		<value>Paramètres utilisateurs anonymes</value>
+	</row>
+	<row>
+		<label>UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed</label>
+		<value>Note: Vous n'avez aucun site web dont l'accès est accordé à l'utilisateur anonyme, les paramètres suivants resteront inutilisés.</value>
+	</row>
+	<row>
+		<label>UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess</label>
+		<value>Quand les utilisateurs ne sont pas connectés et accèdent à Piwik, il verront</value>
+	</row>
+	<row>
+		<label>UsersManager_ChangePassword</label>
+		<value>Modifier le mot de passe</value>
+	</row>
+	<row>
+		<label>UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne</label>
+		<value>Si vous souhaitez modifier votre mot de passe tapez en un nouveau. Sinon laissez le champ vide.</value>
+	</row>
+	<row>
+		<label>UsersManager_TypeYourPasswordAgain</label>
+		<value>Tapez à nouveau votre nouveau mot de passe.</value>
+	</row>
+	<row>
+		<label>UsersManager_TheLoginScreen</label>
+		<value>L'interface de connexion</value>
+	</row>
+	<row>
+		<label>UsersManager_DeleteConfirm_js</label>
+		<value>Etes vous sûr de vouloir supprimer l'utilisateur %s?</value>
+	</row>
+	<row>
+		<label>UsersManager_YourUsernameCannotBeChanged</label>
+		<value>Votre nom d'utilisateur a été modifié.</value>
+	</row>
+	<row>
+		<label>UsersManager_ExceptionLoginExists</label>
+		<value>Le login '%s' existe déjà.</value>
+	</row>
+	<row>
+		<label>UsersManager_ExceptionEmailExists</label>
+		<value>L'utilisateur avec l'e-mail '%s' existe déjà.</value>
+	</row>
+	<row>
+		<label>UsersManager_ExceptionInvalidPassword</label>
+		<value>Le mot de passe doit faire entre 6 et 26 caractères.</value>
+	</row>
+	<row>
+		<label>UsersManager_ExceptionInvalidEmail</label>
+		<value>L'adresse courriel est invalide.</value>
+	</row>
+	<row>
+		<label>UsersManager_ExceptionDeleteDoesNotExist</label>
+		<value>L'utilisateur '%s' est inexistant, il n'a pu être supprimé.</value>
+	</row>
+	<row>
+		<label>UsersManager_ExceptionAdminAnonymous</label>
+		<value>Vous ne pouvez pas autoriser l'accès administrateur à l'utilisateur Anonyme.</value>
+	</row>
+	<row>
+		<label>UsersManager_ExceptionEditAnonymous</label>
+		<value>L'utilisateur Anonyme ne peut être édité ou supprimé. Il est utilisé pour identifier un utilisateur qui ne s'est pas encore connecté. Par exemple vous pouvez rendre vos statistiques publiques en accordant l'accès 'vue' à l'utilisateur 'anonyme'.</value>
+	</row>
+	<row>
+		<label>UsersManager_ExceptionSuperUser</label>
+		<value>L'utilisateur demandé est le Super Utilisateur qui ne peut être sélectionné, édité ou supprimé depuis l'API. Vous pouvez l'éditer manuellement depuis le fichier de configuration.</value>
+	</row>
+	<row>
+		<label>UsersManager_ExceptionUserDoesNotExist</label>
+		<value>L'utilisateur '%s' est inexistant.</value>
+	</row>
+	<row>
+		<label>UsersManager_ExceptionAccessValues</label>
+		<value>Le paramètre access doit contenir une des valeurs suivantes : [ %s ]</value>
+	</row>
+	<row>
+		<label>VisitFrequency_PluginDescription</label>
+		<value>Effectue des rapports sur les visiteurs déjà venus vis à vis des nouveaux visiteurs.</value>
+	</row>
+	<row>
+		<label>VisitFrequency_Evolution</label>
+		<value>Évolution sur la période</value>
+	</row>
+	<row>
+		<label>VisitFrequency_ColumnReturningVisits</label>
+		<value>Visites retour</value>
+	</row>
+	<row>
+		<label>VisitFrequency_ColumnActionsByReturningVisits</label>
+		<value>Actions des visites retour</value>
+	</row>
+	<row>
+		<label>VisitFrequency_ColumnMaximumActionsByAReturningVisit</label>
+		<value>Nombre maximum d'actions par une visite retour</value>
+	</row>
+	<row>
+		<label>VisitFrequency_ColumnTotalTimeSpentByReturningVisits</label>
+		<value>Temps total passé par les visites retour (en secondes)</value>
+	</row>
+	<row>
+		<label>VisitFrequency_ColumnBounceRateForReturningVisits</label>
+		<value>Pourcentage de rebond par les visites retour</value>
+	</row>
+	<row>
+		<label>VisitFrequency_ReturnVisits</label>
+		<value>%s visites de visiteurs connus</value>
+	</row>
+	<row>
+		<label>VisitFrequency_ReturnActions</label>
+		<value>%s actions de visites de visiteurs connus</value>
+	</row>
+	<row>
+		<label>VisitFrequency_ReturnMaxActions</label>
+		<value>%s actions maximums par visite de visiteur connus</value>
+	</row>
+	<row>
+		<label>VisitFrequency_ReturnTotalTime</label>
+		<value>%s temps total passé par des visiteurs connus</value>
+	</row>
+	<row>
+		<label>VisitFrequency_ReturnBounceRate</label>
+		<value>%s visiteurs connus ont survolé (quitté le site après une page)</value>
+	</row>
+	<row>
+		<label>VisitFrequency_WidgetOverview</label>
+		<value>Récapitulatif de la Fréquence</value>
+	</row>
+	<row>
+		<label>VisitFrequency_WidgetGraphReturning</label>
+		<value>Graphique de visites de visiteurs connus</value>
+	</row>
+	<row>
+		<label>VisitFrequency_SubmenuFrequency</label>
+		<value>Fréquence</value>
+	</row>
+	<row>
+		<label>VisitorInterest_PluginDescription</label>
+		<value>Effectue des rapports à propos des intérêts des visiteurs: nombre de pages vues, temps passé sur le site.</value>
+	</row>
+	<row>
+		<label>VisitorInterest_VisitsPerDuration</label>
+		<value>Visites par durée de la visite</value>
+	</row>
+	<row>
+		<label>VisitorInterest_VisitsPerNbOfPages</label>
+		<value>Visites par nombre de pages</value>
+	</row>
+	<row>
+		<label>VisitorInterest_ColumnVisitDuration</label>
+		<value>Durée de la visite</value>
+	</row>
+	<row>
+		<label>VisitorInterest_ColumnPagesPerVisit</label>
+		<value>Pages par visite</value>
+	</row>
+	<row>
+		<label>VisitorInterest_WidgetLengths</label>
+		<value>Durée des visites</value>
+	</row>
+	<row>
+		<label>VisitorInterest_WidgetPages</label>
+		<value>Pages par visite</value>
+	</row>
+	<row>
+		<label>VisitorInterest_SubmenuFrequencyLoyalty</label>
+		<value>Fréquence et Fidélité</value>
+	</row>
+	<row>
+		<label>VisitorInterest_PlusXMin</label>
+		<value>%s min</value>
+	</row>
+	<row>
+		<label>VisitorInterest_OnePage</label>
+		<value>1 page</value>
+	</row>
+	<row>
+		<label>VisitorInterest_NPages</label>
+		<value>%s pages</value>
+	</row>
+	<row>
+		<label>VisitsSummary_PluginDescription</label>
+		<value>Effectue des rapports sur les valeurs générales des statistiques: visites, visiteurs uniques, nombre d'actions, taux de rebond, etc.</value>
+	</row>
+	<row>
+		<label>VisitsSummary_VisitsSummary</label>
+		<value>Récapitulatif des visites</value>
+	</row>
+	<row>
+		<label>VisitsSummary_NbVisits</label>
+		<value>%s visites</value>
+	</row>
+	<row>
+		<label>VisitsSummary_NbUniqueVisitors</label>
+		<value>%s visiteurs uniques</value>
+	</row>
+	<row>
+		<label>VisitsSummary_NbActionsDescription</label>
+		<value>%s actions (pages vues, téléchargements et liens de sortie)</value>
+	</row>
+	<row>
+		<label>VisitsSummary_TotalTime</label>
+		<value>%s temps total passé par les visiteurs</value>
+	</row>
+	<row>
+		<label>VisitsSummary_MaxNbActions</label>
+		<value>%s actions maximums en une visite</value>
+	</row>
+	<row>
+		<label>VisitsSummary_NbVisitsBounced</label>
+		<value>%s visiteurs ont survolé (quitté le site après une page)</value>
+	</row>
+	<row>
+		<label>VisitsSummary_EvolutionOverLastPeriods</label>
+		<value>Évolution sur les 30 derniers %s</value>
+	</row>
+	<row>
+		<label>VisitsSummary_Report</label>
+		<value>Rapport</value>
+	</row>
+	<row>
+		<label>VisitsSummary_GenerateTime</label>
+		<value>%s secondes pour générer la page</value>
+	</row>
+	<row>
+		<label>VisitsSummary_GenerateQueries</label>
+		<value>%s requêtes exécutées</value>
+	</row>
+	<row>
+		<label>VisitsSummary_WidgetLastVisits</label>
+		<value>Graphique des dernières visites</value>
+	</row>
+	<row>
+		<label>VisitsSummary_WidgetVisits</label>
+		<value>Récapitulatif des visites</value>
+	</row>
+	<row>
+		<label>VisitsSummary_WidgetLastVisitors</label>
+		<value>Graphique des derniers visiteurs uniques</value>
+	</row>
+	<row>
+		<label>VisitsSummary_WidgetOverviewGraph</label>
+		<value>Graphique récapitulatif</value>
+	</row>
+	<row>
+		<label>VisitsSummary_SubmenuOverview</label>
+		<value>Récapitulatif</value>
+	</row>
+	<row>
+		<label>VisitTime_PluginDescription</label>
+		<value>Effectue des rapports sur la date locale et serveur. Les informations serveur peuvent être utiles pour planifier une maintenance sur un site web.</value>
+	</row>
+	<row>
+		<label>VisitTime_LocalTime</label>
+		<value>Visites par heure locale</value>
+	</row>
+	<row>
+		<label>VisitTime_ServerTime</label>
+		<value>Visites par heure du serveur</value>
+	</row>
+	<row>
+		<label>VisitTime_ColumnServerTime</label>
+		<value>Heure serveur</value>
+	</row>
+	<row>
+		<label>VisitTime_ColumnLocalTime</label>
+		<value>Heure locale</value>
+	</row>
+	<row>
+		<label>VisitTime_WidgetLocalTime</label>
+		<value>Visites par fuseau horaire local</value>
+	</row>
+	<row>
+		<label>VisitTime_WidgetServerTime</label>
+		<value>Visites par fuseau horaire du serveur</value>
+	</row>
+	<row>
+		<label>VisitTime_SubmenuTimes</label>
+		<value>Horaires</value>
+	</row>
+	<row>
+		<label>VisitTime_NHour</label>
+		<value>%sh</value>
+	</row>
+	<row>
+		<label>Widgetize_PluginDescription</label>
+		<value>Le plugin rend l'export de n'importe quel Widget Piwik dans votre blog, site web ou sur Igoogle et Netvibes!</value>
+	</row>
+	<row>
+		<label>General_SaveImageOnYourComputer_js</label>
+		<value>Pour sauvegarder l'image sur votre ordinateur faites un clic droit dessus et sélectionnez &quot;Enregistrer l'image sous...&quot;</value>
+	</row>
+	<row>
+		<label>CoreUpdater_UpdateHasBeenCancelledExplanation</label>
+		<value>La mise à jour de Piwik en un clic a été désactivée. Si vous ne pouvez pas corriger la cause du message d'erreur ci-dessous, il est recommandé que vous fassiez manuellement la mise à jour de Piwik. %1$sConsultez la documentation%2$s de la mise à jour%3$s  pour commencer!</value>
+	</row>
+	<row>
+		<label>ExamplePlugin_PluginDescription</label>
+		<value>Plugin d'exemple: ce plugin décrit comment créer un plugin très simple qui exporte 2 widgets du tableau de bord</value>
+	</row>
+	<row>
+		<label>ExamplePlugin_exampleWidgets</label>
+		<value>Widgets d'exemple</value>
+	</row>
+	<row>
+		<label>ExamplePlugin_exampleWidget</label>
+		<value>Widget d'exemple</value>
+	</row>
+	<row>
+		<label>ExamplePlugin_blogPiwikRss</label>
+		<value>Flux RSS du blog Piwik</value>
+	</row>
+	<row>
+		<label>ExamplePlugin_photostreamMatt</label>
+		<value>Photos de Matt</value>
+	</row>
+	<row>
+		<label>General_GoTo</label>
+		<value>Rendez vous à %s</value>
+	</row>
+	<row>
+		<label>General_PageBounceRateDefinition</label>
+		<value>Pourcentage de visites qui ont commencé sur cette page et se sont terminées juste après.</value>
+	</row>
+	<row>
+		<label>General_ColumnExitRate</label>
+		<value>Taux de sortie</value>
+	</row>
+	<row>
+		<label>General_PageExitRateDefinition</label>
+		<value>Pourcentage de visites sur cette page qui ont quitté le site juste après.</value>
+	</row>
+	<row>
+		<label>General_ColumnBounces</label>
+		<value>Rebonds</value>
+	</row>
+	<row>
+		<label>General_BouncesDefinition</label>
+		<value>Nombre de visites qui ont commencé sur cette page et se sont terminées juste après.</value>
+	</row>
+	<row>
+		<label>General_ColumnEntrances</label>
+		<value>Entrées</value>
+	</row>
+	<row>
+		<label>General_EntrancesDefinition</label>
+		<value>Nombre de visites qui ont commencé sur cette page</value>
+	</row>
+	<row>
+		<label>General_ColumnExits</label>
+		<value>Sorties</value>
+	</row>
+	<row>
+		<label>General_ExitsDefinition</label>
+		<value>Nombre de visites qui ont terminé sur cette page</value>
+	</row>
+	<row>
+		<label>General_ColumnAverageTimeOnPage</label>
+		<value>Temps moyen sur la page</value>
+	</row>
+	<row>
+		<label>General_AverageTimeOnPageDefinition</label>
+		<value>Le temps moyen passé par les visiteurs sur cette page</value>
+	</row>
+	<row>
+		<label>General_DaysHours</label>
+		<value>%1$s jours %2$s heures</value>
+	</row>
+	<row>
+		<label>General_HoursMinutes</label>
+		<value>%1$s heures %2$s min</value>
+	</row>
+	<row>
+		<label>General_MinutesSeconds</label>
+		<value>%1$s min %2$ss</value>
+	</row>
+	<row>
+		<label>General_Seconds</label>
+		<value>%ss</value>
+	</row>
+	<row>
+		<label>General_DisplayGoals</label>
+		<value>Afficher les objectifs</value>
+	</row>
+	<row>
+		<label>General_ConfigFileIsNotWritable</label>
+		<value>Le fichier de configuration de Piwik %s n'a pas la permission d'écriture, vos modifications ne seront pas sauvegardées. %s Merci de modifier les permissions du fichier de configuration de manière à le rendre accessible en écriture.</value>
+	</row>
+	<row>
+		<label>Actions_SubmenuPagesEntry</label>
+		<value>Pages d'entrée</value>
+	</row>
+	<row>
+		<label>Actions_SubmenuPagesExit</label>
+		<value>Pages de sortie</value>
+	</row>
+	<row>
+		<label>CoreAdminHome_Administration</label>
+		<value>Administration</value>
+	</row>
+	<row>
+		<label>CoreHome_WebAnalyticsReports</label>
+		<value>Rapports des statistiques web.</value>
+	</row>
+	<row>
+		<label>Goals_Goals</label>
+		<value>Objectifs</value>
+	</row>
+	<row>
+		<label>Goals_Overview</label>
+		<value>Vue d'ensemble</value>
+	</row>
+	<row>
+		<label>Goals_WhereThe</label>
+		<value>où le</value>
+	</row>
+	<row>
+		<label>Live_Last30Minutes</label>
+		<value>Les dernières 30 minutes</value>
+	</row>
+	<row>
+		<label>MultiSites_Evolution</label>
+		<value>Évolution</value>
+	</row>
+	<row>
+		<label>UsersManager_YourVisitsAreIgnoredOnDomain</label>
+		<value>%sVos visites sont ignorées par Piwik sur %s %s(Le cookie d'exclusion de Piwik est présent sur votre navigateur)</value>
+	</row>
+	<row>
+		<label>UsersManager_ClickHereToSetTheCookieOnDomain</label>
+		<value>Cliquez ici pour mettre en place un cookie qui exclura vos visites sur ceux de vos sites web qui sont analysés par Piwik sur %s</value>
+	</row>
+	<row>
+		<label>VisitorInterest_Engagement</label>
+		<value>Engagement</value>
+	</row>
+	<row>
+		<label>General_Report</label>
+		<value>Rapport</value>
+	</row>
+	<row>
+		<label>General_Download</label>
+		<value>Télécharger</value>
+	</row>
+	<row>
+		<label>General_OrCancel</label>
+		<value>ou %s Annuler %s</value>
+	</row>
+	<row>
+		<label>General_Description</label>
+		<value>Description</value>
+	</row>
+	<row>
+		<label>General_Name</label>
+		<value>Nom</value>
+	</row>
+	<row>
+		<label>General_Value</label>
+		<value>Valeur</value>
+	</row>
+	<row>
+		<label>General_Date</label>
+		<value>Date</value>
+	</row>
+	<row>
+		<label>General_Period</label>
+		<value>Période</value>
+	</row>
+	<row>
+		<label>General_DateRange</label>
+		<value>Période :</value>
+	</row>
+	<row>
+		<label>General_ExportThisReport</label>
+		<value>Exporter ce jeu de données dans d'autres formats</value>
+	</row>
+	<row>
+		<label>General_ColumnPercentageVisits</label>
+		<value>%s Visites</value>
+	</row>
+	<row>
+		<label>General_ColumnConversionRate</label>
+		<value>Taux de conversion</value>
+	</row>
+	<row>
+		<label>General_VisitDuration</label>
+		<value>Durée moy. des visites (en secondes)</value>
+	</row>
+	<row>
+		<label>General_YearsDays</label>
+		<value>%1$s années %2$s jours</value>
+	</row>
+	<row>
+		<label>General_YouMustBeLoggedIn</label>
+		<value>Vous devez être connecté(e) pour accéder à cette fonctionnalité.</value>
+	</row>
+	<row>
+		<label>General_MediumToHighTrafficItIsRecommendedTo</label>
+		<value>Pour les sites à moyen et fort trafic, nous recommandons d'effectuer les rapports du jours au plus toutes les demies heures (%s secondes) ou toutes les heures (%secondes).</value>
+	</row>
+	<row>
+		<label>General_DisplaySimpleTable</label>
+		<value>Afficher un tableau simple</value>
+	</row>
+	<row>
+		<label>General_DisplayTableWithMoreMetrics</label>
+		<value>Afficher un tableau avec plus d'unités</value>
+	</row>
+	<row>
+		<label>General_DisplayTableWithGoalMetrics</label>
+		<value>Afficher un tableau avec des Objectifs en tant qu'unités</value>
+	</row>
+	<row>
+		<label>General_YouAreViewingDemoShortMessage</label>
+		<value>Vous êtes en train de visionner la démonstration de Piwik</value>
+	</row>
+	<row>
+		<label>General_DownloadFullVersion</label>
+		<value>%1$sTéléchargez%2$s la version complète! Rendez vous sur %3$s</value>
+	</row>
+	<row>
+		<label>General_AboutPiwikX</label>
+		<value>À propos de Piwik %s</value>
+	</row>
+	<row>
+		<label>General_NewReportsWillBeProcessedByCron</label>
+		<value>Quand l'archivage de Piwik n'est pas déclenché par le navigateur, les nouveaux rapports seront générés par la crontab.</value>
+	</row>
+	<row>
+		<label>General_ReportsWillBeProcessedAtMostEveryHour</label>
+		<value>Les rapports seront donc traités tout au plus à chaque heure.</value>
+	</row>
+	<row>
+		<label>General_IfArchivingIsFastYouCanSetupCronRunMoreOften</label>
+		<value>En supposant que l'archivage soit rapide pour votre installation, vous pouvez paramétrer la crontab pour s'exécuter plus fréquemment.</value>
+	</row>
+	<row>
+		<label>General_Daily</label>
+		<value>Quotidiennement</value>
+	</row>
+	<row>
+		<label>General_Weekly</label>
+		<value>Hebdomadaire</value>
+	</row>
+	<row>
+		<label>General_Monthly</label>
+		<value>Mensuellement</value>
+	</row>
+	<row>
+		<label>General_ExceptionVariableNotFound</label>
+		<value>La variable '%s' requise est incorrecte ou n'a pas été trouvée lors de l'appel à l'API</value>
+	</row>
+	<row>
+		<label>General_ExceptionMethodNotFound</label>
+		<value>La méthode '%s' n'existe pas ou n'est pas disponible dans le module '%s'</value>
+	</row>
+	<row>
+		<label>General_ExceptionSubtableNotFoundInArchive</label>
+		<value>Vous demandez une sous-table précise, mais il n'y a pas de telles données dans les archives. </value>
+	</row>
+	<row>
+		<label>General_ExceptionInvalidRendererFormat</label>
+		<value>Le format de rendu '%s' n'est pas valide. Veuillez essayer un de ceux-ci à la place: %s.</value>
+	</row>
+	<row>
+		<label>General_ExceptionInvalidPeriod</label>
+		<value>La période '%s' n'est pas supportée. Veuillez essayer parmi celles-ci à la place: %s.</value>
+	</row>
+	<row>
+		<label>General_ExceptionInvalidDateRange</label>
+		<value>La date '%s' ne correspond pas au format suivant : %s.</value>
+	</row>
+	<row>
+		<label>General_ExceptionGoalNotFound</label>
+		<value>L'objectif id = %s n'a put être trouvé.</value>
+	</row>
+	<row>
+		<label>General_ExceptionUndeletableFile</label>
+		<value>Impossible de supprimer %s</value>
+	</row>
+	<row>
+		<label>General_ExceptionPrivilege</label>
+		<value>Vous ne pouvez accéder à cette ressource, ceci requiert un accès de type %s.</value>
+	</row>
+	<row>
+		<label>General_ExceptionPrivilegeAtLeastOneWebsite</label>
+		<value>Vous ne pouvez accéder à cette ressource, ceci requiert au moins un accès de type %s à un site web.</value>
+	</row>
+	<row>
+		<label>General_ExceptionPrivilegeAccessWebsite</label>
+		<value>Vous ne pouvez pas accéder à cette ressource, ceci requiert un accès de type %s pour le site id = %d.</value>
+	</row>
+	<row>
+		<label>General_ExceptionInvalidArchiveTimeToLive</label>
+		<value>La durée de l'archivage doit être un nombre de secondes supérieur à zéro.</value>
+	</row>
+	<row>
+		<label>General_ExceptionUnreadableFileDisabledMethod</label>
+		<value>Le fichier de configuration {%s} n'a pas pu être lu. votre hébergeur a probablement désactivé %s.</value>
+	</row>
+	<row>
+		<label>General_ExceptionInvalidToken</label>
+		<value>La clef partagée (token) n'est pas valide.</value>
+	</row>
+	<row>
+		<label>General_ExceptionInvalidDateFormat</label>
+		<value>Le format de date doit être: %s ou n'importe quel mot clef supporté par la fonction %s (visitez %s pour plus d'informations)</value>
+	</row>
+	<row>
+		<label>General_ExceptionLanguageFileNotFound</label>
+		<value>Le fichier de langage '%s' n'a pas été trouvé.</value>
+	</row>
+	<row>
+		<label>General_UseSMTPServerForEmail</label>
+		<value>Utiliser le serveur SMTP pour les mails</value>
+	</row>
+	<row>
+		<label>General_SmtpServerAddress</label>
+		<value>Adresse du serveur SMTP</value>
+	</row>
+	<row>
+		<label>General_SmtpPort</label>
+		<value>Port du serveur SMTP</value>
+	</row>
+	<row>
+		<label>General_AuthenticationMethodSmtp</label>
+		<value>Méthode d'authentification au serveur SMTP</value>
+	</row>
+	<row>
+		<label>General_SmtpUsername</label>
+		<value>Nom d'utilisateur SMTP</value>
+	</row>
+	<row>
+		<label>General_SmtpPassword</label>
+		<value>Mot de passe SMTP</value>
+	</row>
+	<row>
+		<label>General_SelectYesIfYouWantToSendEmailsViaServer</label>
+		<value>Sélectionnez &quot;Oui&quot; si vous voulez ou devez envoyer un e-mail via un serveur nommé à la place de la fonction de courrier local.</value>
+	</row>
+	<row>
+		<label>General_OnlyUsedIfUserPwdIsSet</label>
+		<value>Seulement utilisé si un nom d'utilisateur / mot de passe est activée, demandez à votre fournisseur si vous n'êtes pas la méthode à utiliser.</value>
+	</row>
+	<row>
+		<label>General_OnlyEnterIfRequired</label>
+		<value>Entrez un nom d'utilisateur seulement si le serveur SMTP le requiert</value>
+	</row>
+	<row>
+		<label>General_OnlyEnterIfRequiredPassword</label>
+		<value>Entrez un mot de passe seulement si le serveur SMTP le requiert</value>
+	</row>
+	<row>
+		<label>General_WarningPasswordStored</label>
+		<value>%sAttention:%s Ce mot de passe sera stocké dans le fichier de configuration et sera visible pour n'importe qui y ayant accès.</value>
+	</row>
+	<row>
+		<label>General_InvalidResponse</label>
+		<value>Les données reçues sont invalides</value>
+	</row>
+	<row>
+		<label>General_ChooseLanguage</label>
+		<value>Sélectionnez la langue</value>
+	</row>
+	<row>
+		<label>General_ChoosePeriod</label>
+		<value>Sélectionnez la période</value>
+	</row>
+	<row>
+		<label>General_ChooseWebsite</label>
+		<value>Sélectionnez le site web</value>
+	</row>
+	<row>
+		<label>General_Language</label>
+		<value>Langue</value>
+	</row>
+	<row>
+		<label>General_PleaseUpdatePiwik</label>
+		<value>Merci de mettre à jour Piwik</value>
+	</row>
+	<row>
+		<label>General_RequestTimedOut</label>
+		<value>Une requête vers %s a expiré. Veuillez réessayer.</value>
+	</row>
+	<row>
+		<label>API_QuickDocumentationTitle</label>
+		<value>Documentation rapide de l'API.</value>
+	</row>
+	<row>
+		<label>API_GenerateVisits</label>
+		<value>Si vous n'avez pas de données pour aujourd'hui vous pouvez en générer en utilisant le plugin %s. Vous pouvez activer le plugin %s, ensuite cliquez sur le menu 'Générateur de visites' dans la zone d'administration de Piwik.</value>
+	</row>
+	<row>
+		<label>API_MoreInformation</label>
+		<value>Pour plus d'informations à propos de l'API de Piwik, merci de visiter %s l'introduction à Piwik %s et %s la référence de l'API Piwik %s.</value>
+	</row>
+	<row>
+		<label>API_UserAuthentication</label>
+		<value>Authentification de l'utilisateur</value>
+	</row>
+	<row>
+		<label>API_UsingTokenAuth</label>
+		<value>Si vous souhaitez %s requêter des données depuis un script, une crontab, etc %s vous devez ajouter le paramètre %s aux appels d'URLs de l'API qui requièrent une authentification.</value>
+	</row>
+	<row>
+		<label>API_KeepTokenSecret</label>
+		<value>Cette clef partagée (tocken_auth) est aussi secrète que votre login et mot de passe, %s ne la partagez pas%s!</value>
+	</row>
+	<row>
+		<label>CoreHome_ThereIsNoDataForThisReport</label>
+		<value>Il n'y a pas de données pour ce rapport.</value>
+	</row>
+	<row>
+		<label>CoreUpdater_YouMustDownloadPackageOrFixPermissions</label>
+		<value>Piwik ne peut pas écraser votre installation courante.
+
+
+
+
+
+
+
+Vous pouvez soit corriger les permissions du répertoire/fichier, soit télécharger le package et installer la version %s manuellement:</value>
+	</row>
+	<row>
+		<label>Goals_GoalsOverview</label>
+		<value>Vue d'ensemble des Objectifs</value>
+	</row>
+	<row>
+		<label>Goals_GoalsManagement</label>
+		<value>Gestion des Objectifs</value>
+	</row>
+	<row>
+		<label>Goals_ConversionsOverviewBySegment</label>
+		<value>Vue d'ensemble des conversions par segments</value>
+	</row>
+	<row>
+		<label>Goals_GoalConversionsBySegment</label>
+		<value>Conversions de l'objectif %s par segment</value>
+	</row>
+	<row>
+		<label>Goals_ViewGoalsBySegment</label>
+		<value>Visualiser les Objectifs par %s</value>
+	</row>
+	<row>
+		<label>Goals_GoalX</label>
+		<value>Objectif %s</value>
+	</row>
+	<row>
+		<label>Goals_CreateNewGOal</label>
+		<value>Créer un nouvel Objectif</value>
+	</row>
+	<row>
+		<label>Goals_ViewAndEditGoals</label>
+		<value>Afficher et modifier un Objectif</value>
+	</row>
+	<row>
+		<label>Goals_URL</label>
+		<value>URL</value>
+	</row>
+	<row>
+		<label>Goals_Filename</label>
+		<value>nom de fichier</value>
+	</row>
+	<row>
+		<label>Goals_ExternalWebsiteUrl</label>
+		<value>URL externe du site web</value>
+	</row>
+	<row>
+		<label>Goals_ExceptionInvalidMatchingString</label>
+		<value>Si vous choisissez 'correspondance exacte', la chaine de caractères doit être une URL commençant par %s. Par exemple,'%s'.</value>
+	</row>
+	<row>
+		<label>Goals_LearnMoreAboutGoalTrackingDocumentation</label>
+		<value>Apprenez en plus à propos de %s Comment traquer les Objectifs dans Piwik %s dans la documentation utilisateur</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckEvalHelp</label>
+		<value>Requis part le système de modèle HTML QuickForm et Smarty.</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckMbstringExtensionHelp</label>
+		<value>L'extension mbstring est requise pour les caractères multi-bytes lors des réponses de l'API utilisant des valeurs séparées par des virgules (CSV) ou par des tabulations (TSV).</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckMbstringFuncOverloadHelp</label>
+		<value>Vous devriez régler mbstring.func_overload à &quot;0&quot;.</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckAutoUpdateHelp</label>
+		<value>Note: La mise à jour de Piwik en un clic requiert une permission en écriture sur le dossier de Piwik et son contenu.</value>
+	</row>
+	<row>
+		<label>Login_MailPasswordRecoveryBody</label>
+		<value>Bonjour %1$s, Une requête de remise à zéro du mot de passe a été reçue depuis %2$s. Pour remettre à zéro le mot de passe: 1) Rendez vous au formulaire de remise à zéro du mot de passe à l'adresse : %3$s 
+
+
+
+2) Entrez la clef suivante: %4$s 
+
+
+
+3) Remplissez le formulaire (en entrant deux fois votre nouveaux mot de passe) et soumettez le.
+
+
+
+Note: cette clef expirera dans 24h.</value>
+	</row>
+	<row>
+		<label>Login_ExceptionPasswordMD5HashExpected</label>
+		<value>Le paramètre mot de passe doit être le hash MD5 du mot de passe.</value>
+	</row>
+	<row>
+		<label>Login_ExceptionInvalidSuperUserAuthenticationMethod</label>
+		<value>Le Super Utilisateur ne peut pas être authentifié en utilisant le mécanisme '%s'.</value>
+	</row>
+	<row>
+		<label>Referers_MetricsFromRefererTypeGraphLegend</label>
+		<value>%1$s (depuis %2$s)</value>
+	</row>
+	<row>
+		<label>Referers_UsingNDistinctUrls</label>
+		<value>(utilisant %s urls distinctes)</value>
+	</row>
+	<row>
+		<label>SEO_SeoRankings</label>
+		<value>Notations des SEO</value>
+	</row>
+	<row>
+		<label>SEO_AlexaRank</label>
+		<value>Notation Alexa</value>
+	</row>
+	<row>
+		<label>SEO_YahooIndexedPages</label>
+		<value>Pages indexées Yahoo</value>
+	</row>
+	<row>
+		<label>SEO_DomainAge</label>
+		<value>Age du domaine</value>
+	</row>
+	<row>
+		<label>SEO_YahooBacklinks</label>
+		<value>Liens de retour Yahoo</value>
+	</row>
+	<row>
+		<label>SEO_Rank</label>
+		<value>Notation</value>
+	</row>
+	<row>
+		<label>SEO_Backlinks</label>
+		<value>Liens de retour</value>
+	</row>
+	<row>
+		<label>SEO_Pages</label>
+		<value>Pages</value>
+	</row>
+	<row>
+		<label>SEO_SEORankingsFor</label>
+		<value>Notations SEO pour %s</value>
+	</row>
+	<row>
+		<label>SitesManager_TrackingTags</label>
+		<value>Tags de suivit pour %s</value>
+	</row>
+	<row>
+		<label>SitesManager_NotFound</label>
+		<value>Aucun site trouvé pour</value>
+	</row>
+	<row>
+		<label>SitesManager_ExceptionInvalidTimezone</label>
+		<value>Le fuseau horaire '%s' n'est pas valide. Veuillez entrer un fuseau horaire valide.</value>
+	</row>
+	<row>
+		<label>SitesManager_ExceptionInvalidCurrency</label>
+		<value>La monnaie '%s' n'est pas valide. Veuillez entrer un symbole monétaire valide (ex. %s)</value>
+	</row>
+	<row>
+		<label>SitesManager_ExceptionInvalidIPFormat</label>
+		<value>L'IP à exclure '%s' n'a pas un format valide (ex. %s).</value>
+	</row>
+	<row>
+		<label>SitesManager_Save_js</label>
+		<value>Enregistrer</value>
+	</row>
+	<row>
+		<label>SitesManager_Cancel_js</label>
+		<value>Annuler</value>
+	</row>
+	<row>
+		<label>UserCountry_Location</label>
+		<value>Localisation</value>
+	</row>
+	<row>
+		<label>UserSettings_PluginDetectionDoesNotWorkInIE</label>
+		<value>Note : La détection des plugins ne fonctionne pas avec Internet Explorer. Ce rapport est basé sur les navigateurs non-IE.</value>
+	</row>
+	<row>
+		<label>UsersManager_ExceptionInvalidLoginFormat</label>
+		<value>Le login doit contenir entre %1$s et %2$s caractères et être composé uniquement de lettres, chiffres, ou les caractères '_' ou '-' ou '.'</value>
+	</row>
+	<row>
+		<label>UsersManager_ExceptionPasswordMD5HashExpected</label>
+		<value>UsersManager.getTokenAuth attend un mot de passe hashé en MD5 (chaine de 32 caractères). Veuillez appeler la fonction md5() sur le mot de passe avant d'appeler cette méthode.</value>
+	</row>
+	<row>
+		<label>VisitFrequency_ColumnAverageVisitDurationForReturningVisitors</label>
+		<value>Durée moyenne des visites pour les visiteurs connus (en secondes)</value>
+	</row>
+	<row>
+		<label>VisitFrequency_ColumnAvgActionsPerReturningVisit</label>
+		<value>Nombre d'actions moyen par visiteur connu.</value>
+	</row>
+	<row>
+		<label>VisitFrequency_ReturnAvgActions</label>
+		<value>%s actions par visiteur connu</value>
+	</row>
+	<row>
+		<label>VisitFrequency_ReturnAverageVisitDuration</label>
+		<value>%s durée moyenne de la visite des visiteurs connus</value>
+	</row>
+	<row>
+		<label>VisitorGenerator_PluginDescription</label>
+		<value>Plugin visant à créer de fausses visites. Il peut être utilisé par les utilisateurs Piwik ou par les développeurs comme un moyen aisé de générer de fausses données de manière à peupler les rapports Piwik.</value>
+	</row>
+	<row>
+		<label>VisitorGenerator_VisitorGenerator</label>
+		<value>Générateur de visites</value>
+	</row>
+	<row>
+		<label>VisitorGenerator_Warning</label>
+		<value>Vous êtes sur le point de générer de fausses visites qui seront enregistrées dans votre base de donnés Piwik</value>
+	</row>
+	<row>
+		<label>VisitorGenerator_NotReversible</label>
+		<value>Il sera %s impossible%s de supprimer facilement ces données des logs Piwik.</value>
+	</row>
+	<row>
+		<label>VisitorGenerator_AreYouSure</label>
+		<value>Etes vous sûrs de vouloir générer de fausses visites?</value>
+	</row>
+	<row>
+		<label>VisitorGenerator_ChoiceYes</label>
+		<value>Oui, je suis sûr!</value>
+	</row>
+	<row>
+		<label>VisitorGenerator_Submit</label>
+		<value>Soumettre</value>
+	</row>
+	<row>
+		<label>VisitorGenerator_SelectWebsite</label>
+		<value>Sélectionner le site Web</value>
+	</row>
+	<row>
+		<label>VisitorGenerator_Visitors</label>
+		<value>Visiteurs</value>
+	</row>
+	<row>
+		<label>VisitorGenerator_MinVisitors</label>
+		<value>Visiteurs Minimum</value>
+	</row>
+	<row>
+		<label>VisitorGenerator_MaxVisitors</label>
+		<value>Visiteurs Maximum</value>
+	</row>
+	<row>
+		<label>VisitorGenerator_NbActions</label>
+		<value>Nombre d'actions</value>
+	</row>
+	<row>
+		<label>VisitorGenerator_ActionsPerVisit</label>
+		<value>Actions par visite</value>
+	</row>
+	<row>
+		<label>VisitorGenerator_NbRequestsPerSec</label>
+		<value>Requêtes par seconde</value>
+	</row>
+	<row>
+		<label>VisitorGenerator_DaysToCompute</label>
+		<value>Jours à calculer</value>
+	</row>
+	<row>
+		<label>VisitorGenerator_Date</label>
+		<value>Date</value>
+	</row>
+	<row>
+		<label>VisitorInterest_BetweenXYMinutes</label>
+		<value>%1$s-%2$s min</value>
+	</row>
+	<row>
+		<label>VisitorInterest_BetweenXYSeconds</label>
+		<value>%1$s-%2$ss</value>
+	</row>
+	<row>
+		<label>VisitsSummary_AverageVisitDuration</label>
+		<value>%s durée moyenne de la visite</value>
+	</row>
+	<row>
+		<label>VisitsSummary_NbActionsPerVisit</label>
+		<value>%s actions par visite</value>
+	</row>
+	<row>
+		<label>General_PleaseSpecifyValue</label>
+		<value>Merci de spécifier une valeur pour %s</value>
+	</row>
+	<row>
+		<label>General_ExceptionConfigurationFileNotFound</label>
+		<value>Le fichier de configuration {%s} n'a pas été trouvé</value>
+	</row>
+	<row>
+		<label>Live_LinkVisitorLog</label>
+		<value>Voir les logs visiteurs détaillés</value>
+	</row>
+	<row>
+		<label>Live_Actions</label>
+		<value>Actions</value>
+	</row>
+	<row>
+		<label>Live_Action</label>
+		<value>Action</value>
+	</row>
+	<row>
+		<label>Live_GoalType</label>
+		<value>Type</value>
+	</row>
+	<row>
+		<label>Mobile_AnonymousAccess</label>
+		<value>Accès anonyme</value>
+	</row>
+	<row>
+		<label>Mobile_EnableGraphsLabel</label>
+		<value>Afficher les graphs</value>
+	</row>
+	<row>
+		<label>Mobile_SaveSuccessError</label>
+		<value>Merci de vérifier vos paramètres</value>
+	</row>
+	<row>
+		<label>Mobile_YouAreOffline</label>
+		<value>Désolé, vous êtes actuellement déconnecté</value>
+	</row>
+	<row>
+		<label>UserCountryMap_toggleFullscreen</label>
+		<value>Plein écran</value>
+	</row>
+	<row>
+		<label>PDFReports_PDF</label>
+		<value>PDF</value>
+	</row>
+	<row>
+		<label>PDFReports_EmailSchedule</label>
+		<value>Planification courriel</value>
+	</row>
+	<row>
+		<label>PDFReports_SendReportTo</label>
+		<value>Envoyer le(s) rapport(s) à </value>
+	</row>
+	<row>
+		<label>PDFReports_SentToMe</label>
+		<value>Envoyer à moi</value>
+	</row>
+	<row>
+		<label>PDFReports_CreateAndSchedulePDFReport</label>
+		<value>Créer et planifier un rapport PDF</value>
+	</row>
+	<row>
+		<label>PDFReports_CreatePDFReport</label>
+		<value>Créer un rapport PDF</value>
+	</row>
+	<row>
+		<label>PDFReports_UpdatePDFReport</label>
+		<value>Mettre à jour un rapport PDF</value>
+	</row>
+	<row>
+		<label>PDFReports_EmailHello</label>
+		<value>Bonjour,</value>
+	</row>
+	<row>
+		<label>General_Id</label>
+		<value>Id</value>
+	</row>
+	<row>
+		<label>General_NewUpdatePiwikX</label>
+		<value>Nouvelle mise à jour : Piwik %s</value>
+	</row>
+	<row>
+		<label>CoreUpdater_HelpMessageContent</label>
+		<value>Allez voir la %1$s FAQ Piwik %2$s qui explique les erreurs courantes lors de la mise à jour. %3$s Demandez à votre administrateur système - il pourra être à même avec cette erreur qui est très probablement liée à la configuration de votre serveur MySQL.</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckGlobHelp</label>
+		<value>Cette fonction native a été désactivée sur votre hôte. Piwik va tenter de l'émuler mais il pourra rencontrer des restrictions de sécurité. Les fonctionnalités pourront en être impactées.</value>
+	</row>
+	<row>
+		<label>Live_GoalTime</label>
+		<value>Temps de première conversion</value>
+	</row>
+	<row>
+		<label>Live_GoalRevenue</label>
+		<value>Revenu</value>
+	</row>
+	<row>
+		<label>Live_GoalDetails</label>
+		<value>Détails</value>
+	</row>
+	<row>
+		<label>PDFReports_PluginDescription</label>
+		<value>Créez et téléchargez vos rapports PDF personnalisés et recevez les par e-mail quotidiennement, hebdomadairement ou mensuellement.</value>
+	</row>
+	<row>
+		<label>PDFReports_ManagePdfReports</label>
+		<value>Gérer les rapports PDF</value>
+	</row>
+	<row>
+		<label>PDFReports_EmailReports</label>
+		<value>Rapports e-mail</value>
+	</row>
+	<row>
+		<label>PDFReports_SendReportNow</label>
+		<value>Envoyer le rapport maintenant</value>
+	</row>
+	<row>
+		<label>PDFReports_CancelAndReturnToPDF</label>
+		<value>Annuler et %sretourner à la liste des rapports PDF%s</value>
+	</row>
+	<row>
+		<label>PDFReports_DescriptionWillBeFirstPage</label>
+		<value>La description du rapport sera affichée sur la première page du rapport PDF</value>
+	</row>
+	<row>
+		<label>PDFReports_WeeklyScheduleHelp</label>
+		<value>Planification hebdomadaire : le rapport sera envoyé le Lundi de chaque semaine.</value>
+	</row>
+	<row>
+		<label>PDFReports_MonthlyScheduleHelp</label>
+		<value>Planification mensuelle : le rapport sera envoyé le premier jour de chaque mois.</value>
+	</row>
+	<row>
+		<label>PDFReports_AlsoSendReportToTheseEmails</label>
+		<value>Envoyer le rapport aussi à ces adresses e-mail (une par ligne) :</value>
+	</row>
+	<row>
+		<label>PDFReports_ReportsIncludedInPDF</label>
+		<value>Rapports inclus en PDF</value>
+	</row>
+	<row>
+		<label>PDFReports_PiwikReports</label>
+		<value>Rapports Piwik</value>
+	</row>
+	<row>
+		<label>PDFReports_DefaultPDFContainingAllReports</label>
+		<value>Rapport PDF par défaut contenant tous les rapports disponibles</value>
+	</row>
+	<row>
+		<label>PDFReports_PleaseFindAttachedFile</label>
+		<value>Veuillez trouver en pièce jointe votre rapport %1$s pour %2$s.</value>
+	</row>
+	<row>
+		<label>PDFReports_AreYouSureYouWantToDeleteReport</label>
+		<value>Etes vous sûr de vouloir supprimer ce rapport PDF ainsi que sa planification?</value>
+	</row>
+	<row>
+		<label>PDFReports_ThereIsNoPDFReportToManage</label>
+		<value>Il n'y a aucun rapport PDF à gérer pour le site %s</value>
+	</row>
+	<row>
+		<label>PDFReports_YouMustBeLoggedIn</label>
+		<value>Vous devez être connecté afin de pouvoir créer et planifier des rapports PDF personnalisés.</value>
+	</row>
+</result>

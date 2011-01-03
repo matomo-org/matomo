@@ -173,7 +173,7 @@ class Piwik_Log_Formatter_ScreenFormatter implements Zend_Log_Formatter_Interfac
 	function formatEvent($event)
 	{
 		// no injection in error messages, backtrace when displayed on screen
-		return array_map('htmlspecialchars', $event);
+		return array_map('Piwik_Common::sanitizeInputValue', $event);
 	}
 
 	function format($string)
@@ -197,6 +197,10 @@ class Piwik_Log_Formatter_ScreenFormatter implements Zend_Log_Formatter_Interfac
 			{
 				$string = strip_tags($string);
 			}
+		}
+		else
+		{
+			@header('Content-Type: text/html; charset=utf-8');
 		}
 		return $string;
 	}

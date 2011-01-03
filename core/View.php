@@ -84,8 +84,8 @@ class Piwik_View implements Piwik_iView
 		}
 
 		// global value accessible to all templates: the piwik base URL for the current request
-		$this->piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
-
+		$this->piwikUrl = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
+		$this->currentUrlWithoutFilename = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
 		$this->piwik_version = Piwik_Version::VERSION;
 	}
 	
@@ -124,10 +124,10 @@ class Piwik_View implements Piwik_iView
 			$this->currentModule = Piwik::getModule();
 			$this->userLogin = Piwik::getCurrentUserLogin();
 			
-			$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess(Zend_Registry::get('config')->General->site_selector_max_sites);
+			$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess(Piwik::getWebsitesCountToDisplay());
 			usort($sites, create_function('$site1, $site2', 'return strcasecmp($site1["name"], $site2["name"]);'));
 			$this->sites = $sites;
-			$this->url = Piwik_Url::getCurrentUrl();
+			$this->url = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrl());
 			$this->token_auth = Piwik::getCurrentUserTokenAuth();
 			$this->userHasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
 			$this->userIsSuperUser = Piwik::isUserIsSuperUser();
@@ -141,7 +141,7 @@ class Piwik_View implements Piwik_iView
 				$this->show_autocompleter = false;
 			}
 
-			// @todo temporary workaround for #1331
+			// workaround for #1331
 			$this->loginModule = method_exists('Piwik', 'getLoginPluginName') ? Piwik::getLoginPluginName() : 'Login';
 		} catch(Exception $e) {
 			// can fail, for example at installation (no plugin loaded yet)		
@@ -155,7 +155,7 @@ class Piwik_View implements Piwik_iView
 			$this->totalNumberOfQueries = 0;
 		}
  
-		// @todo temporary workaround for #1331
+		// workaround for #1331
 		if(method_exists('Piwik', 'overrideCacheControlHeaders'))
 		{
 			Piwik::overrideCacheControlHeaders('no-store');

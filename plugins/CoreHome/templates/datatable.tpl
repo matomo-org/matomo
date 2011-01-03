@@ -11,7 +11,7 @@
 			<thead>
 			<tr>
 			{foreach from=$dataTableColumns item=column name=head}
-				<th class="sortable {if $smarty.foreach.head.first}first{elseif $smarty.foreach.head.last}last{/if}" id="{$column}"><div id="thDIV">{$columnTranslations[$column]}</div></th>
+				<th class="sortable {if $smarty.foreach.head.first}first{elseif $smarty.foreach.head.last}last{/if}" id="{$column}"><div id="thDIV">{$columnTranslations[$column]|escape:'html'}</div></th>
 			{/foreach}
 			</tr>
 			</thead>
@@ -19,13 +19,11 @@
 			<tbody>
 			{foreach from=$arrayDataTable item=row}
 			<tr {if $row.idsubdatatable && $javascriptVariablesToSet.controllerActionCalledWhenRequestSubTable != null}class="subDataTable" id="{$row.idsubdatatable}"{/if}>
-{foreach from=$dataTableColumns item=column}
-<td>
-{if !$row.idsubdatatable && $column=='label' && !empty($row.metadata.url)}<span class="urlLink">{$row.metadata.url}</span>{/if}
-{if $column=='label'}{logoHtml metadata=$row.metadata alt=$row.columns.label}{/if}
-{if isset($row.columns[$column])}{$row.columns[$column]}{else}{$defaultWhenColumnValueNotDefined}{/if}
-</td>
-{/foreach}
+				{foreach from=$dataTableColumns item=column}
+				<td>
+					{include file="CoreHome/templates/datatable_cell.tpl"}
+				</td>
+				{/foreach}
 			</tr>
 			{/foreach}
 			</tbody>

@@ -4,7 +4,7 @@
 	<form method="post" style="padding: 8px;" >
 	  <div align="left" class="mediumtext">
 		  {'Installation_SetupWebSiteURL'|translate|ucfirst} 
-		  <input type="text" id="seoUrl" size="30" value="{$urlToRank}" class="textbox" />
+		  <input type="text" id="seoUrl" size="30" value="{$urlToRank|escape:'html'}" class="textbox" />
 		  <span style="padding-left:2px;"> 
 		  <input type="submit" id="rankbutton" value="{'SEO_Rank'|translate}" />
 		  </span>
@@ -16,7 +16,10 @@
 	   		{if empty($ranks)}
 	   			{'General_Error'|translate}
 	   		{else}
-	   			{'SEO_SEORankingsFor'|translate:"<a href='$urlToRank' target='_blank'>$urlToRank</a>"}
+{capture name=cleanUrl}
+<a href='{$urlToRank|escape:'html'}' target='_blank'>{$urlToRank|escape:'html'}</a>
+{/capture}
+	   			{'SEO_SEORankingsFor'|translate:$smarty.capture.cleanUrl}
 	   			<table cellspacing='2' style='margin:auto;line-height:1.5em;padding-top:10px'>
 	   			{foreach from=$ranks item=rank}
 	   			<tr>

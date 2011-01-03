@@ -26,5 +26,5 @@
  */
 function smarty_function_url($params, &$smarty)
 {
-	return htmlspecialchars('index.php' . Piwik_Url::getCurrentQueryStringWithParametersModified( $params ));
+	return Piwik_Common::sanitizeInputValue('index.php' . Piwik_Url::getCurrentQueryStringWithParametersModified( $params ));
 }

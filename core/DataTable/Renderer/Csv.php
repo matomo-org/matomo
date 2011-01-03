@@ -69,7 +69,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 			return 'No data available';
 		}
 
-		$this->renderHeader();
+		self::renderHeader();
 
 		if($this->convertToUnicode 
 			&& function_exists('mb_convert_encoding'))
@@ -271,7 +271,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		return $value;
 	}
 	
-	protected function renderHeader()
+	protected static function renderHeader()
 	{
 		// silent fail otherwise unit tests fail
 		@header('Content-Type: application/vnd.ms-excel');

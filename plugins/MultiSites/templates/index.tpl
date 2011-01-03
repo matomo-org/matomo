@@ -8,7 +8,7 @@
 	var allSites = new Array();
 	var params = new Array();
 	{foreach from=$mySites key=i item=site}
-		allSites[{$i}] = new setRowData({$site.idsite}, {$site.visits}, {$site.actions}, {$site.unique}, '{$site.name|escape:"quotes"}', '{$site.main_url}', '{$site.visitsSummaryValue|replace:",":"."}', '{$site.actionsSummaryValue|replace:",":"."}', '{$site.uniqueSummaryValue|replace:",":"."}');
+		allSites[{$i}] = new setRowData({$site.idsite}, {$site.visits}, {$site.actions}, {$site.unique}, '{$site.name|escape:"javascript"}', '{$site.main_url|escape:"javascript"}', '{$site.visitsSummaryValue|replace:",":"."}', '{$site.actionsSummaryValue|replace:",":"."}', '{$site.uniqueSummaryValue|replace:",":"."}');
 	{/foreach}
 	params['period'] = '{$period}';
 	params['date'] = '{$date}';
@@ -19,8 +19,8 @@
 	params['site'] = '{$site}';
 	params['limit'] = '{$limit}';
 	params['page'] = 1;
-	params['prev'] = "{'General_Previous'|translate}";
-	params['next'] = "{'General_Next'|translate}";
+	params['prev'] = "{'General_Previous'|translate|escape:"javascript"}";
+	params['next'] = "{'General_Next'|translate|escape:"javascript"}";
 	params['row'] = '{$row|escape:"javascript"}';
 </script>
 

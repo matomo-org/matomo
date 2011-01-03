@@ -46,7 +46,7 @@ class Piwik_Feedback_Controller extends Piwik_Controller
 			{
 				throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidEmail'));
 			}
-			if(strpos($body, 'http://') !== false)
+			if(preg_match('/https?:/i', $body))
 			{
 				throw new Exception(Piwik_TranslateException('Feedback_ExceptionNoUrls'));
 			}

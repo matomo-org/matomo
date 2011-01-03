@@ -217,52 +217,10 @@ dataTable.prototype =
 		self.handleLowPopulationLink(domElem);
 		self.handleOffsetInformation(domElem);
 		self.handleExportBox(domElem);
-		self.handleLinkedRows(domElem);
 		self.applyCosmetics(domElem);
 		self.handleSubDataTable(domElem);
 	},
-	
-	handleLinkedRows: function(domElem)
-	{
-		var self = this;
 		
-		var urlLinkFoundDom = $("tr td:first-child:has('.urlLink')", domElem);
-		if(urlLinkFoundDom.length == 0)
-		{
-			self.truncate( $("table tr td:first-child", domElem) );
-		}
-		else
-		{
-			urlLinkFoundDom.each( function(){
-				// we add a link based on the <span id="urlLink"> present in the column label (the first column)
-				// if this span is there, we add the link around the HTML in the TD
-				// but we add this link only for the rows that are not clickable already (subDataTable)
-				var imgToPrepend = '';
-				if( $(this).find('img').length == 0 )
-				{
-					var imageLinkWidth = 10;
-					var imageLinkHeight = 9;
-					imgToPrepend = '<img class="link" width="'+imageLinkWidth+'" height="'+imageLinkHeight+'" src="themes/default/images/link.gif" /> ';
-				}
-				var urlLinkDom = $('.urlLink',this);
-				var urlToLink = $(urlLinkDom).html();
-				$(urlLinkDom).remove();
-				
-				var truncationOffsetBecauseImageIsPrepend = -2; //website subtable needs -9. 
-
-				self.truncate( $(this), truncationOffsetBecauseImageIsPrepend );
-				if( urlToLink.match("javascript:") )
-				{
-					$(this).prepend(imgToPrepend).wrapInner('<a href="#" onclick="' + urlToLink.replace("javascript:","") + '"></a>');
-				}
-				else
-				{
-					$(this).prepend(imgToPrepend).wrapInner('<a target="_blank" href="' + urlToLink + '"></a>');
-				} 	
-			});
-		}
-	},
-	
 	// if sorting the columns is enabled, when clicking on a column, 
 	// - if this column was already the one used for sorting, we revert the order desc<->asc
 	// - we send the ajax request with the new sorting information
@@ -732,6 +690,8 @@ dataTable.prototype =
 		$("td:first-child:even", domElem).addClass('label labelodd');
 		$("tr:odd td", domElem).slice(1).addClass('columnodd');
 		$("tr:even td", domElem).slice(1).addClass('columneven');
+
+		$('td span.label', domElem).each(function(){ self.truncate($(this)); } );
 		
 	},
  	
@@ -824,7 +784,6 @@ actionDataTable.prototype =
 	handleExportBox: dataTable.prototype.handleExportBox,
 	handleSort: dataTable.prototype.handleSort,
 	onClickSort: dataTable.prototype.onClickSort,
-	handleLinkedRows: dataTable.prototype.handleLinkedRows,
 	truncate: dataTable.prototype.truncate,
 	handleOffsetInformation: dataTable.prototype.handleOffsetInformation,
 	setActiveIcon: dataTable.prototype.setActiveIcon,
@@ -864,7 +823,6 @@ actionDataTable.prototype =
 		
 		self.handleExportBox(domElem);
 		self.handleSort(domElem);
-		self.handleLinkedRows(domElem);
 		self.handleOffsetInformation(domElem);
 		if( self.workingDivId != undefined)
 		{
@@ -882,7 +840,7 @@ actionDataTable.prototype =
 		.css('font-weight','bold');			
 			
 		$("th:first-child", domElem).addClass('label');
-		
+		$('td span.label', domElem).each(function(){ self.truncate($(this)); } );
 		var imagePlusMinusWidth = 12;
 		var imagePlusMinusHeight = 12;
 		$('tr.subActionsDataTable.rowToProcess td:first-child')

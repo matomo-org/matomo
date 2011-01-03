@@ -383,7 +383,7 @@ class Piwik_API_ResponseBuilder
             	} 
             } else { 
                 $xml.= $marginLeft . 
-                		"<$key>".$value."</$key>\n"; 
+                		"<$key>".Piwik_DataTable_Renderer::formatValueXml($value)."</$key>\n"; 
             } 
         } 
         return $xml; 

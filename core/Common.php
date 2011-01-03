@@ -33,7 +33,7 @@ class Piwik_Common
 	 * Flag used with htmlspecialchar
 	 * See php.net/htmlspecialchars
 	 */
-	const HTML_ENCODING_QUOTE_STYLE		= ENT_COMPAT;
+	const HTML_ENCODING_QUOTE_STYLE		= ENT_QUOTES;
 
 /*
  * Database
@@ -577,6 +577,7 @@ class Piwik_Common
 	{
 		// $_GET and $_REQUEST already urldecode()'d
 		$value = html_entity_decode($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
+		$value = str_replace(array("\n","\r","\0"), "", $value);
 		return htmlspecialchars( $value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8' );
 	}
 

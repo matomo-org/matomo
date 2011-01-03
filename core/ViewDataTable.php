@@ -184,7 +184,6 @@ abstract class Piwik_ViewDataTable
 		{
 			$type = Piwik_Common::getRequestVar('viewDataTable', $defaultType, 'string');
 		}
-		
 		switch($type)
 		{
 			case 'cloud':
@@ -371,6 +370,19 @@ abstract class Piwik_ViewDataTable
 	}
 	
 	/**
+	 * Checks that the API returned a normal DataTable (as opposed to DataTable_Array)
+	 * @throws Exception
+	 * @return void
+	 */
+	protected function checkStandardDataTable()
+	{
+		if(!($this->dataTable instanceof Piwik_DataTable))
+		{
+			throw new Exception("Unexpected data type to render.");
+		}
+	}
+	
+	/**
 	 * Hook called after the dataTable has been loaded from the API
 	 * Can be used to add, delete or modify the data freshly loaded
 	 */
@@ -552,7 +564,7 @@ abstract class Piwik_ViewDataTable
 		
 		foreach($_GET as $name => $value)
 		{
-			try{
+			try {
 				$requestValue = Piwik_Common::getRequestVar($name);
 			}
 			catch(Exception $e) {
@@ -635,7 +647,7 @@ abstract class Piwik_ViewDataTable
 	{
 		if(isset($_GET[$nameVar]))
 		{
-			return htmlspecialchars($_GET[$nameVar]);
+			return Piwik_Common::sanitizeInputValue($_GET[$nameVar]);
 		}
 		$default = $this->getDefault($nameVar);
 		return $default;
@@ -855,6 +867,11 @@ abstract class Piwik_ViewDataTable
 	 */
 	public function setColumnTranslation( $columnName, $columnTranslation, $columnDescription = false )
 	{
+		if(empty($columnTranslation))
+		{
+			throw new Exception('Unknown column: '.$columnName);
+		}
+
 		$this->columnsTranslations[$columnName] = $columnTranslation;
 		$this->columnsDescriptions[$columnName] = $columnDescription;
 	}

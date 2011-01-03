@@ -37,9 +37,14 @@ class Test_Languages_Manager extends UnitTestCase
 			$writeCleanedFile = false; 
 			$strings = Piwik_LanguagesManager_API::getInstance()->getTranslationsForLanguage($language);
 			$content = ob_get_flush();
-			$this->assertTrue(strpos(serialize($strings), "<script") === false, " language file containing javascript");
+			$serializedStrings = serialize($strings);
+			$invalids = array("<script", 'document.', 'javascript:', 'src=', 'BACKGROUND=', 'onload=' );
+			foreach($invalids as $invalid)
+			{
+				$this->assertTrue(stripos($serializedStrings, $invalid) === false, "$language: language file containing javascript");
+			}
 			$this->assertTrue(count($strings) > 100); // at least 100 translations in the language file
-			$this->assertTrue(strlen($content) == 0, "buffer was ".strlen($content)." long but should be zero. Translation file for '$language' must be buggy.");
+			$this->assertTrue(strlen($content) == 0, "$language: buffer was ".strlen($content)." long but should be zero. Translation file for '$language' must be buggy.");
 			
 			$cleanedStrings = array();
 			foreach($strings as $string)
@@ -78,6 +83,18 @@ class Test_Languages_Manager extends UnitTestCase
     				{
     					$cleanedStrings[$stringLabel] = $stringValue;
     				}
+				}
+				// remove excessive line breaks from translations
+				if($stringLabel != 'Login_MailPasswordRecoveryBody'
+					&& !empty($cleanedStrings[$stringLabel]))
+				{
+					$stringNoLineBreak = str_replace(array("\n", "\r"), " ", $cleanedStrings[$stringLabel]);
+					if($cleanedStrings[$stringLabel] !== $stringNoLineBreak)
+					{
+						echo "$language: found line breaks in some strings in $stringLabel <br/>\n";
+						$writeCleanedFile = true;
+						$cleanedStrings[$stringLabel] = $stringNoLineBreak;
+					}
 				}
 			}
 			if($writeCleanedFile)
@@ -153,7 +170,7 @@ class Test_Languages_Manager extends UnitTestCase
 				}
 				else
 				{
-					$this->assertTrue($name == $names);
+					$this->assertTrue($name == $names, "$language: failed because $name == $names <br/>");
 				}
 			}
 			else

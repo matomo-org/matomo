@@ -63,7 +63,6 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
 		Piwik_AddWidget('ExamplePlugin_exampleWidgets', 'ExamplePlugin_blogPiwikRss', 'ExamplePlugin', 'blogPiwik');
 		Piwik_AddWidget('ExamplePlugin_exampleWidgets', 'ExamplePlugin_photostreamMatt', 'ExamplePlugin', 'photostreamMatt');
 		Piwik_AddWidget('ExamplePlugin_exampleWidgets', 'ExamplePlugin_piwikDownloads', 'ExamplePlugin', 'piwikDownloads');
-		Piwik_AddWidget('ExamplePlugin_exampleWidgets', 'ExamplePlugin_websitesAndUsers', 'ExamplePlugin', 'websitesAndUsers');
 	}
 }
 
@@ -120,15 +119,6 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 	{
 		$view = Piwik_View::factory('piwikDownloads'); 
 		$this->setGeneralVariablesView($view);
-		echo $view->render();
-	}
-	
-	function websitesAndUsers()
-	{
-		$view = Piwik_View::factory('websitesAndUsers'); 
-		$view->siteCount = Piwik_FetchOne("SELECT COUNT(*) FROM piwik_site");
-		$view->users = Piwik_FetchOne("SELECT COUNT(*) FROM piwik_user")+1; // + 1 for default admin user
-		$view->version = Piwik_Version::VERSION;
 		echo $view->render();
 	}
 	

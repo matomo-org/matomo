@@ -89,11 +89,12 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 	
 	private function loadValuesFromDB($fields)
 	{
+		$inNames = $this->getSqlStringFieldsArray($fields);
  		$sql = "SELECT value, name, idarchive, idsite
 								FROM {$this->getNumericTableName()}
 								WHERE idarchive IN ( {$this->getArchiveIds()} )
-									AND name IN ( {$this->getSqlStringFieldsArray($fields)} )";
-		return Piwik_FetchAll($sql);
+									AND name IN ( $inNames )";
+		return Piwik_FetchAll($sql, $fields);
 	}
 
 	private function getFirstArchive()
