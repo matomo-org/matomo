@@ -1690,15 +1690,7 @@
 	</row>
 	<row>
 		<label>Installation_SystemCheckPdoAndMysqliHelp</label>
-		<value>Sur un serveur linux vous pouvez compiler PHP avec les options suivantes : %1$s
-
-
-
-
-
-
-
- Dans votre php.ini, ajoutez les lignes suivantes: %2$s</value>
+		<value>Sur un serveur linux vous pouvez compiler PHP avec les options suivantes : %1$s                 Dans votre php.ini, ajoutez les lignes suivantes: %2$s</value>
 	</row>
 	<row>
 		<label>Installation_SystemCheckPhpPdoAndMysqliSite</label>
@@ -3770,7 +3762,7 @@
 	</row>
 	<row>
 		<label>UsersManager_YourUsernameCannotBeChanged</label>
-		<value>Votre nom d'utilisateur a été modifié.</value>
+		<value>Votre nom d'utilisateur ne peut pas être modifié.</value>
 	</row>
 	<row>
 		<label>UsersManager_ExceptionLoginExists</label>
@@ -4450,15 +4442,7 @@
 	</row>
 	<row>
 		<label>CoreUpdater_YouMustDownloadPackageOrFixPermissions</label>
-		<value>Piwik ne peut pas écraser votre installation courante.
-
-
-
-
-
-
-
-Vous pouvez soit corriger les permissions du répertoire/fichier, soit télécharger le package et installer la version %s manuellement:</value>
+		<value>Piwik ne peut pas écraser votre installation courante.                Vous pouvez soit corriger les permissions du répertoire/fichier, soit télécharger le package et installer la version %s manuellement:</value>
 	</row>
 	<row>
 		<label>Goals_GoalsOverview</label>
