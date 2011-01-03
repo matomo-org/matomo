@@ -17,6 +17,7 @@
 				<header name="piwik_auth" value="" />
 			</config>
 			<steps>
+				<echo>Login Forms</echo>
 
 				&loadMacros;
 
