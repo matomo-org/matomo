@@ -293,6 +293,7 @@ class Piwik_PDFReports_API
         		@unlink($outputFilename);
     		break;
         	case self::OUTPUT_PDF_DOWNLOAD:
+        		$outputFilename = "$websiteName - $prettyDate - $description.pdf";
         		$flagOutput = 'D';
     		break;
         	default:

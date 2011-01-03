@@ -349,8 +349,6 @@ class Piwik_API_API
         	// Add processed metrics
         	$dataTable->filter('AddColumnsProcessedMetrics');
         }
-        
-        $dataTable->filter('SafeDecodeLabel');
         $renderer = new Piwik_DataTable_Renderer_Php();
         $renderer->setTable($dataTable);
         $renderer->setSerialize(false);

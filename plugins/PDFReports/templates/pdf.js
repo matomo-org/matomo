@@ -18,7 +18,7 @@ function formSetEditReport(idReport)
 	{
 		report = piwik.PDFReports[idReport];
 	}
-	$('#report_description').text(report.description);
+	$('#report_description').html(report.description);
 	$('#report_period option[value='+report.period+']').attr('selected', 'selected');
 	if(report.email_me == 1)
 	{
