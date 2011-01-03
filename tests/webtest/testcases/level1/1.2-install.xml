@@ -4,6 +4,7 @@
 	<!ENTITY time  SYSTEM "../modules/time.xml">
 	<!ENTITY checkForErrors SYSTEM "../modules/errors.xml">
 	<!ENTITY verifyLinksAndImages SYSTEM "../modules/common_pages.xml">
+	<!ENTITY loadMacros SYSTEM "../modules/macros.xml">
 	<!ENTITY raquo "&#187;">
 	<!ENTITY rsaquo "&#8250;" >
 ]>
@@ -13,6 +14,9 @@
 	<target name="webtest">
 		<webtest name="install index">
 			<steps>
+				<echo>Installation</echo>
+
+				&loadMacros;
 
 				<echo>Piwik install - dbsetup: db.name: ${db.name}</echo>
 				<sql
@@ -46,10 +50,7 @@
 -->
 				&verifyLinksAndImages;
 
-				<retry description="wait for piwik.php tracking test" maxcount="10">
-					<sleep description="pause" seconds="1" />
-					<clickLink description="click 'Next'" label="Next &raquo;" />
-				</retry>
+				<retryClickLink description="wait for piwik.php tracking test" label="Next &raquo;" maxcount="10" seconds="1" />
 
 				<!-- 2. systemCheck -->
 
@@ -209,18 +210,15 @@
 				<verifyText description="check page text" text="Hello" />
 
 				<!-- change language -->
-				<sleep description="sleep" seconds="5" />
-				<clickLink description="click 'Deutsch'" href="index.php?module=LanguagesManager&amp;action=saveLanguage&amp;language=de" />
+				<retryClickLink description="click 'Deutsch'" href="index.php?module=LanguagesManager&amp;action=saveLanguage&amp;language=de" maxcount="5" seconds="1" />
 
 				<verifyText description="check page text" text="Hallo" />
 
-				<sleep description="sleep" seconds="5" />
-				<clickLink description="click 'Français'" href="index.php?module=LanguagesManager&amp;action=saveLanguage&amp;language=fr" />
+				<retryClickLink description="click 'Français'" href="index.php?module=LanguagesManager&amp;action=saveLanguage&amp;language=fr" maxcount="5" seconds="1" />
 
 				<verifyText description="check page text" text="Bonjour" />
 
-				<sleep description="sleep" seconds="5" />
-				<clickLink description="click 'English'" href="index.php?module=LanguagesManager&amp;action=saveLanguage&amp;language=en" />
+				<retryClickLink description="click 'English'" href="index.php?module=LanguagesManager&amp;action=saveLanguage&amp;language=en" maxcount="5" seconds="1" />
 
 				<verifyText description="check page text" text="Hello" />
 			</steps>

@@ -4,6 +4,7 @@
 	<!ENTITY time  SYSTEM "../modules/time.xml">
 	<!ENTITY checkForErrors SYSTEM "../modules/errors.xml">
 	<!ENTITY verifyLinksAndImages SYSTEM "../modules/common_pages.xml">
+	<!ENTITY loadMacros SYSTEM "../modules/macros.xml">
 	<!ENTITY raquo "&#187;">
 	<!ENTITY rsaquo "&#8250;" >
 ]>
@@ -13,6 +14,8 @@
 	<target name="webtest">
 		<webtest name="install index">
 			<steps>
+
+				&loadMacros;
 
 				<echo>Piwik install - dbsetup: db.name: ${db.name}</echo>
 				<sql
@@ -46,10 +49,7 @@
 -->
 				&verifyLinksAndImages;
 
-				<retry description="wait for piwik.php tracking test" maxcount="10">
-					<sleep description="pause" seconds="1" />
-					<clickLink description="click 'Next'" label="Next &raquo;" />
-				</retry>
+				<retryClickLink description="wait for piwik.php tracking test" label="Next &raquo;" maxcount="10" seconds="1" />
 
 				<!-- 2. systemCheck -->
 

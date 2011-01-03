@@ -1,0 +1,13 @@
+<macrodef name="retryClickLink" description="clickLink with retry and timeout">
+	<attribute name="maxcount" default="1" />
+	<attribute name="seconds" default="1" />
+	<attribute name="description" />
+	<attribute name="label" />
+	<attribute name="href" />
+	<sequential>
+		<retry description="@{description}" maxcount="@{maxcount}">
+			<sleep description="pause" seconds="@{seconds}" />
+			<clickLink description="click link" label="@{label}" href="@{href}" />
+		</retry>
+	</sequential>
+</macrodef>
