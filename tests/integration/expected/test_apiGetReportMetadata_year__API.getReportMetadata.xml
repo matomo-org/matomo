@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<category>Actions</category>
+		<name>Downloads</name>
+		<module>Actions</module>
+		<action>getDownloads</action>
+		<dimension>Download URL</dimension>
+		<metrics>
+			<nb_hits>Pageviews</nb_hits>
+			<nb_visits>Visits</nb_visits>
+
+		</metrics>
+		<uniqueId>Actions_getDownloads</uniqueId>
+
+	</row>
+	<row>
+		<category>Actions</category>
+		<name>Outlinks</name>
+		<module>Actions</module>
+		<action>getOutlinks</action>
+		<dimension>Clicked URL</dimension>
+		<metrics>
+			<nb_hits>Pageviews</nb_hits>
+			<nb_visits>Visits</nb_visits>
+
+		</metrics>
+		<uniqueId>Actions_getOutlinks</uniqueId>
+
+	</row>
+	<row>
+		<category>Actions</category>
+		<name>Page titles</name>
+		<module>Actions</module>
+		<action>getPageTitles</action>
+		<dimension>Page Name</dimension>
+		<metrics>
+			<nb_hits>Pageviews</nb_hits>
+			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+
+		</metrics>
+		<uniqueId>Actions_getPageTitles</uniqueId>
+
+	</row>
+	<row>
+		<category>Actions</category>
+		<name>Pages</name>
+		<module>Actions</module>
+		<action>getPageUrls</action>
+		<dimension>Page URL</dimension>
+		<metrics>
+			<nb_visits>Unique Pageviews</nb_visits>
+			<nb_hits>Pageviews</nb_hits>
+			<entry_nb_visits>Entrances</entry_nb_visits>
+			<avg_time_on_page>Avg. time on page</avg_time_on_page>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<exit_nb_visits>Exits</exit_nb_visits>
+			<exit_rate>Exit rate</exit_rate>
+
+		</metrics>
+		<uniqueId>Actions_getPageUrls</uniqueId>
+
+	</row>
+	<row>
+		<category>Goals</category>
+		<name>Goals</name>
+		<module>Goals</module>
+		<action>get</action>
+		<metrics>
+			<nb_conversions>Conversions</nb_conversions>
+			<conversion_rate>Conversion Rate</conversion_rate>
+			<revenue>Revenue</revenue>
+
+		</metrics>
+		<uniqueId>Goals_get</uniqueId>
+
+	</row>
+	<row>
+		<category>Providers</category>
+		<name>Provider</name>
+		<module>Provider</module>
+		<action>getProvider</action>
+		<dimension>Provider</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_actions>Actions</nb_actions>
+
+		</metrics>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
+
+		</processedMetrics>
+		<uniqueId>Provider_getProvider</uniqueId>
+
+	</row>
+	<row>
+		<category>Referrers</category>
+		<name>Campaigns</name>
+		<module>Referers</module>
+		<action>getCampaigns</action>
+		<dimension>Campaign</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_actions>Actions</nb_actions>
+
+		</metrics>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
+
+		</processedMetrics>
+		<metricsGoal>
+			<nb_conversions>Conversions</nb_conversions>
+			<conversion_rate>Conversion Rate</conversion_rate>
+			<revenue>Revenue</revenue>
+
+		</metricsGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Value per Visit</revenue_per_visit>
+
+		</processedMetricsGoal>
+		<uniqueId>Referers_getCampaigns</uniqueId>
+
+	</row>
+	<row>
+		<category>Referrers</category>
+		<name>Keywords</name>
+		<module>Referers</module>
+		<action>getKeywords</action>
+		<dimension>Keyword</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_actions>Actions</nb_actions>
+
+		</metrics>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
+
+		</processedMetrics>
+		<metricsGoal>
+			<nb_conversions>Conversions</nb_conversions>
+			<conversion_rate>Conversion Rate</conversion_rate>
+			<revenue>Revenue</revenue>
+
+		</metricsGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Value per Visit</revenue_per_visit>
+
+		</processedMetricsGoal>
+		<uniqueId>Referers_getKeywords</uniqueId>
+
+	</row>
+	<row>
+		<category>Referrers</category>
+		<name>Referrer Type</name>
+		<module>Referers</module>
+		<action>getRefererType</action>
+		<dimension>Referrer Type</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_actions>Actions</nb_actions>
+
+		</metrics>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
+
+		</processedMetrics>
+		<metricsGoal>
+			<nb_conversions>Conversions</nb_conversions>
+			<conversion_rate>Conversion Rate</conversion_rate>
+			<revenue>Revenue</revenue>
+
+		</metricsGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Value per Visit</revenue_per_visit>
+
+		</processedMetricsGoal>
+		<uniqueId>Referers_getRefererType</uniqueId>
+
+	</row>
+	<row>
+		<category>Referrers</category>
+		<name>Search Engines</name>
+		<module>Referers</module>
+		<action>getSearchEngines</action>
+		<dimension>Search Engine</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_actions>Actions</nb_actions>
+
+		</metrics>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
+
+		</processedMetrics>
+		<metricsGoal>
+			<nb_conversions>Conversions</nb_conversions>
+			<conversion_rate>Conversion Rate</conversion_rate>
+			<revenue>Revenue</revenue>
+
+		</metricsGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Value per Visit</revenue_per_visit>
+
+		</processedMetricsGoal>
+		<uniqueId>Referers_getSearchEngines</uniqueId>
+
+	</row>
+	<row>
+		<category>Referrers</category>
+		<name>Websites</name>
+		<module>Referers</module>
+		<action>getWebsites</action>
+		<dimension>Website</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_actions>Actions</nb_actions>
+
+		</metrics>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
+
+		</processedMetrics>
+		<metricsGoal>
+			<nb_conversions>Conversions</nb_conversions>
+			<conversion_rate>Conversion Rate</conversion_rate>
+			<revenue>Revenue</revenue>
+
+		</metricsGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Value per Visit</revenue_per_visit>
+
+		</processedMetricsGoal>
+		<uniqueId>Referers_getWebsites</uniqueId>
+
+	</row>
+	<row>
+		<category>Visitor Settings</category>
+		<name>Visitor browsers</name>
+		<module>UserSettings</module>
+		<action>getBrowser</action>
+		<dimension>Browser</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_actions>Actions</nb_actions>
+
+		</metrics>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
+
+		</processedMetrics>
+		<uniqueId>UserSettings_getBrowser</uniqueId>
+
+	</row>
+	<row>
+		<category>Visitor Settings</category>
+		<name>Browsers by family</name>
+		<module>UserSettings</module>
+		<action>getBrowserType</action>
+		<dimension>Browser family</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_actions>Actions</nb_actions>
+
+		</metrics>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
+
+		</processedMetrics>
+		<uniqueId>UserSettings_getBrowserType</uniqueId>
+
+	</row>
+	<row>
+		<category>Visitor Settings</category>
+		<name>Global visitors configuration</name>
+		<module>UserSettings</module>
+		<action>getConfiguration</action>
+		<dimension>Configuration</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_actions>Actions</nb_actions>
+
+		</metrics>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
+
+		</processedMetrics>
+		<uniqueId>UserSettings_getConfiguration</uniqueId>
+
+	</row>
+	<row>
+		<category>Visitor Settings</category>
+		<name>Operating systems</name>
+		<module>UserSettings</module>
+		<action>getOS</action>
+		<dimension>Operating system</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_actions>Actions</nb_actions>
+
+		</metrics>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
+
+		</processedMetrics>
+		<uniqueId>UserSettings_getOS</uniqueId>
+
+	</row>
+	<row>
+		<category>Visitor Settings</category>
+		<name>List of Plugins</name>
+		<module>UserSettings</module>
+		<action>getPlugin</action>
+		<dimension>Plugin</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<nb_visits_percentage>% Visits</nb_visits_percentage>
+
+		</metrics>
+		<uniqueId>UserSettings_getPlugin</uniqueId>
+
+	</row>
+	<row>
+		<category>Visitor Settings</category>
+		<name>Screen resolutions</name>
+		<module>UserSettings</module>
+		<action>getResolution</action>
+		<dimension>Resolution</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_actions>Actions</nb_actions>
+
+		</metrics>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
+
+		</processedMetrics>
+		<uniqueId>UserSettings_getResolution</uniqueId>
+
+	</row>
+	<row>
+		<category>Visitor Settings</category>
+		<name>Normal / Widescreen</name>
+		<module>UserSettings</module>
+		<action>getWideScreen</action>
+		<dimension>Type of screen</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_actions>Actions</nb_actions>
+
+		</metrics>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
+
+		</processedMetrics>
+		<uniqueId>UserSettings_getWideScreen</uniqueId>
+
+	</row>
+	<row>
+		<category>Visitors</category>
+		<name>Returning Visits</name>
+		<module>VisitFrequency</module>
+		<action>get</action>
+		<metrics>
+			<nb_visits_returning>Returning Visits</nb_visits_returning>
+			<nb_actions_returning>Actions by Returning Visits</nb_actions_returning>
+			<avg_time_on_site_returning>Avg. Visit Duration for Returning Visitors (in seconds)</avg_time_on_site_returning>
+			<bounce_rate_returning>Bounce rate for Returning Visits</bounce_rate_returning>
+			<nb_actions_per_visit_returning>Avg. Actions per Returning visit</nb_actions_per_visit_returning>
+
+		</metrics>
+		<uniqueId>VisitFrequency_get</uniqueId>
+
+	</row>
+	<row>
+		<category>Visitors</category>
+		<name>Continent</name>
+		<module>UserCountry</module>
+		<action>getContinent</action>
+		<dimension>Continent</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_actions>Actions</nb_actions>
+
+		</metrics>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
+
+		</processedMetrics>
+		<metricsGoal>
+			<nb_conversions>Conversions</nb_conversions>
+			<conversion_rate>Conversion Rate</conversion_rate>
+			<revenue>Revenue</revenue>
+
+		</metricsGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Value per Visit</revenue_per_visit>
+
+		</processedMetricsGoal>
+		<uniqueId>UserCountry_getContinent</uniqueId>
+
+	</row>
+	<row>
+		<category>Visitors</category>
+		<name>Country</name>
+		<module>UserCountry</module>
+		<action>getCountry</action>
+		<dimension>Country</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_actions>Actions</nb_actions>
+
+		</metrics>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
+
+		</processedMetrics>
+		<metricsGoal>
+			<nb_conversions>Conversions</nb_conversions>
+			<conversion_rate>Conversion Rate</conversion_rate>
+			<revenue>Revenue</revenue>
+
+		</metricsGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Value per Visit</revenue_per_visit>
+
+		</processedMetricsGoal>
+		<uniqueId>UserCountry_getCountry</uniqueId>
+
+	</row>
+	<row>
+		<category>Visitors</category>
+		<name>Pages per visit</name>
+		<module>VisitorInterest</module>
+		<action>getNumberOfVisitsPerPage</action>
+		<dimension>Pages per visit</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+
+		</metrics>
+		<uniqueId>VisitorInterest_getNumberOfVisitsPerPage</uniqueId>
+
+	</row>
+	<row>
+		<category>Visitors</category>
+		<name>Length of Visits</name>
+		<module>VisitorInterest</module>
+		<action>getNumberOfVisitsPerVisitDuration</action>
+		<dimension>Visit duration</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+
+		</metrics>
+		<uniqueId>VisitorInterest_getNumberOfVisitsPerVisitDuration</uniqueId>
+
+	</row>
+	<row>
+		<category>Visits Summary</category>
+		<name>Visits Summary</name>
+		<module>VisitsSummary</module>
+		<action>get</action>
+		<metrics>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_visits>Visits</nb_visits>
+			<nb_actions>Actions</nb_actions>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<avg_time_on_site>Avg. Visit Duration (in seconds)</avg_time_on_site>
+			<max_actions>Maximum actions in one visit</max_actions>
+
+		</metrics>
+		<uniqueId>VisitsSummary_get</uniqueId>
+
+	</row>
+	<row>
+		<category>Visits Summary</category>
+		<name>Visits by local time</name>
+		<module>VisitTime</module>
+		<action>getVisitInformationPerLocalTime</action>
+		<dimension>Local time</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_actions>Actions</nb_actions>
+
+		</metrics>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
+
+		</processedMetrics>
+		<uniqueId>VisitTime_getVisitInformationPerLocalTime</uniqueId>
+
+	</row>
+	<row>
+		<category>Visits Summary</category>
+		<name>Visits by server time</name>
+		<module>VisitTime</module>
+		<action>getVisitInformationPerServerTime</action>
+		<dimension>Server time</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_actions>Actions</nb_actions>
+
+		</metrics>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
+
+		</processedMetrics>
+		<metricsGoal>
+			<nb_conversions>Conversions</nb_conversions>
+			<conversion_rate>Conversion Rate</conversion_rate>
+			<revenue>Revenue</revenue>
+
+		</metricsGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Value per Visit</revenue_per_visit>
+
+		</processedMetricsGoal>
+		<uniqueId>VisitTime_getVisitInformationPerServerTime</uniqueId>
+
+	</row>
+
+</result>
