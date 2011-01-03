@@ -14,7 +14,7 @@
 	<target name="webtest">
 		<webtest name="auto update">
 			<steps>
-				<echo>Auto-Updated</echo>
+				<echo>Auto-Update</echo>
 
 				&loadMacros;
 
