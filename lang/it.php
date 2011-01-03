@@ -329,9 +329,7 @@ $translations = array(
 	'Goals_OverallConversionRate' => '%s rapporto di conversione complessivo (visite con un obiettivo completato)',
 	'Goals_Conversions' => '%s conversioni',
 	'Goals_ConversionRate' => '%s rapporto di conversione',
-	'Goals_NoGoalsNeedAccess' => 'Solo un Amministratore o il Super Utente possono aggiungere Obiettivi per un sito. Chiedi a tuo amministratore di Piwik di settare un Obiettivo per il tuo sito.<br/>
-
-Tracciare gli obiettivi &egrave; un ottimo aiuto per capire e massimizzare le prestazioni del tuo sito!',
+	'Goals_NoGoalsNeedAccess' => 'Solo un Amministratore o il Super Utente possono aggiungere Obiettivi per un sito. Chiedi a tuo amministratore di Piwik di settare un Obiettivo per il tuo sito.<br/>    Tracciare gli obiettivi &egrave; un ottimo aiuto per capire e massimizzare le prestazioni del tuo sito!',
 	'Goals_AddNewGoal' => 'Aggiungi un nuovo obiettivo',
 	'Goals_AddNewGoalOrEditExistingGoal' => '%sAggiungi un nuovo obiettivo%s o %sModifica%s un obiettivo esistente',
 	'Goals_AddGoal_js' => 'Aggiungi un obiettivo',
@@ -433,9 +431,7 @@ Tracciare gli obiettivi &egrave; un ottimo aiuto per capire e massimizzare le pr
 	'Installation_DatabaseClientVersion' => 'Versione del client del database',
 	'Installation_DatabaseCreation' => 'Creazione del database',
 	'Installation_DatabaseClientCharset' => 'Set dei caratteri del client del database',
-	'Installation_ConnectionCharacterSetNotUtf8' => 'La connessione del client del databse non &egrave; settata come predefinito a UTF8. Questo non &egrave; un problema grave:
-<b>Piwik funzioner&agrave; correttamente</b>. Tuttavia per coerenza, &egrave; raccomandabile che tu faccia una delle seguenti cose: 
-<ul style="list-style: disc;margin-left:10px"><li>nel tuo config/config.ini.php, aggiungi <code>charset = utf8</code> sotto la sezione [database] del tuo file di configurazione Piwik <code>config/config.ini.php</code></li><li>ricompila libmysql --with-charset=utf8</li></ul>',
+	'Installation_ConnectionCharacterSetNotUtf8' => 'La connessione del client del databse non &egrave; settata come predefinito a UTF8. Questo non &egrave; un problema grave:  <b>Piwik funzioner&agrave; correttamente</b>. Tuttavia per coerenza, &egrave; raccomandabile che tu faccia una delle seguenti cose:   <ul style="list-style: disc;margin-left:10px"><li>nel tuo config/config.ini.php, aggiungi <code>charset = utf8</code> sotto la sezione [database] del tuo file di configurazione Piwik <code>config/config.ini.php</code></li><li>ricompila libmysql --with-charset=utf8</li></ul>',
 	'Installation_DatabaseTimezone' => 'Timezone del database',
 	'Installation_TimezoneMismatch' => 'date.timezone di PHP non &egrave; lo stesso del timezone del database server. Ci&ograve; potrebbe causare problemi con i report, non mostrando i dati per la giusta ora del giorno. Maggiori informazioni qui %s',
 	'Installation_JsTagHelpTitle' => 'Come inserire il codice sul tuo sito?',
@@ -505,9 +501,7 @@ Tracciare gli obiettivi &egrave; un ottimo aiuto per capire e massimizzare le pr
  3) Completa il form (inserendo la tua passowrd due volte) e invia.
 
 Nota: questo token scadr&agrave; in 24 ore.',
-	'MultiSites_PluginDescription' => 'Mostra un sommario delle statistiche per il multi-sito.
-
-Attualmente mantenuto come un plugin Piwik del core.',
+	'MultiSites_PluginDescription' => 'Mostra un sommario delle statistiche per il multi-sito.    Attualmente mantenuto come un plugin Piwik del core.',
 	'Provider_WidgetProviders' => 'Providers',
 	'Provider_ColumnProvider' => 'Provider',
 	'Provider_SubmenuLocationsProvider' => 'Localit&agrave; & provider',

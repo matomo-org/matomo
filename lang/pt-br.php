@@ -1,11 +1,7 @@
 <?php 
 $translations = array(
 	'General_Locale' => 'pt_BR.UTF-8',
-	'General_TranslatorName' => 'Marcos Napier, Marcela Ferraro, Zob
-
-
-
-',
+	'General_TranslatorName' => 'Marcos Napier, Marcela Ferraro, Zob        ',
 	'General_TranslatorEmail' => 'marcusbacus@gmail.com, mah_ferraro@yahoo.com.br',
 	'General_EnglishLanguageName' => 'Brazilian Portuguese',
 	'General_OriginalLanguageName' => 'Portugu&ecirc;s brasileiro',

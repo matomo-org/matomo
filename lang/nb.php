@@ -411,8 +411,7 @@ $translations = array(
 	'Installation_PercentDone' => '%s %% ferdig',
 	'Installation_NoConfigFound' => 'Klarte ikke finne konfigurasjonsfilen for Piwik, og du prøver å få tilgang til en Piwik-side. <br /><b>&nbsp;&nbsp;&raquo;Du kan <a href=\'index.php\'>installere Piwik nå</a></b><br /><small>Hvis du prøvde å installere Piwik tidligere og har noen tabeller i databasen, kan du ta det med ro. Du kan bruke de gamle tabellene og beholde dine eksisterende data!</small>',
 	'Installation_MysqlSetup' => 'MySQL database oppsett',
-	'Installation_MysqlErrorConnect' => 'Feil ved tilkobling til databasen
-',
+	'Installation_MysqlErrorConnect' => 'Feil ved tilkobling til databasen ',
 	'Installation_JsTag' => 'JavaScript-kode',
 	'Installation_JsTagHelp' => '<p>For å telle alle besøkende, du må plassere JavaScript-koden på alle dine sider.</p><p>Dine sider trenger ikke være laget med PHP, Piwik vil virke på alle typer sider (uansett om det er HTML, ASP, Perl eller noe annet språk).</p><p>Her er koden du må sette inn: (kopier og lim på alle dine sider)</p>',
 	'Installation_Congratulations' => 'Gratulerer',
@@ -421,8 +420,7 @@ $translations = array(
 	'Installation_SetupWebsite' => 'Legg til et nettsted',
 	'Installation_SetupWebsiteError' => 'Det skjedde en feil da nettstedet ble lagt til.',
 	'Installation_GeneralSetup' => 'Generelt oppsett',
-	'Installation_GeneralSetupSuccess' => 'Generelt oppsett ble lagret
-',
+	'Installation_GeneralSetupSuccess' => 'Generelt oppsett ble lagret ',
 	'Installation_SystemCheck' => 'Systemsjekk',
 	'Installation_SystemCheckPhp' => 'PHP-versjon',
 	'Installation_SystemCheckPdo' => 'PDO-utvidelse',
@@ -436,8 +434,7 @@ $translations = array(
 	'Installation_SystemCheckGD' => 'GD &gt; 2.x (grafikk)',
 	'Installation_SystemCheckGDHelp' => 'Mindre grafiske elementer vil ikke fungere som ønsket.',
 	'Installation_SystemCheckTimeLimit' => 'set_time_limit() tilgjengelig',
-	'Installation_SystemCheckTimeLimitHelp' => 'På en høyt trafikkert webside, kan arkiveringsprossessen kreve mer tid enn det som nå er tillatt.<br />Se på max_execution_time i din php.ini fil hvis nødvendig.
-',
+	'Installation_SystemCheckTimeLimitHelp' => 'På en høyt trafikkert webside, kan arkiveringsprossessen kreve mer tid enn det som nå er tillatt.<br />Se på max_execution_time i din php.ini fil hvis nødvendig. ',
 	'Installation_SystemCheckMail' => 'mail() tilgjengelig',
 	'Installation_SystemCheckError' => 'En feil oppstod - må fikses før du kan fortsette',
 	'Installation_SystemCheckWarning' => 'Piwik vil virke normalt, men noen tjenester vil kanskje mangle',
@@ -447,8 +444,7 @@ $translations = array(
 	'Installation_TablesWarningHelp' => 'Enten velg å bruke de eksisterende tabellene eller velg en ren installasjon for å slette all eksisterende data i databasen.',
 	'Installation_TablesReuse' => 'Bruk de eksisterende tabellene',
 	'Installation_TablesDelete' => 'Slett de oppdagede tabellene',
-	'Installation_TablesDeletedSuccess' => 'Eksisterende Piwik-tabeller ble vellykket slettet
-',
+	'Installation_TablesDeletedSuccess' => 'Eksisterende Piwik-tabeller ble vellykket slettet ',
 	'Installation_TablesCreatedSuccess' => 'Tabellene ble vellykket opprettet!',
 	'Installation_DatabaseCreatedSuccess' => 'Databasen %s ble vellykket opprettet!',
 	'Installation_TablesDeleteConfirm' => 'Er du sikker på at du vil slette alle Piwik-tabellene fra denne databasen?',
@@ -622,9 +618,7 @@ $translations = array(
 	'SitesManager_Name' => 'Navn',
 	'SitesManager_Urls' => 'URL-er',
 	'SitesManager_MenuSites' => 'Nettsteder',
-	'SitesManager_DeleteConfirm_js' => 'Er du sikker på at du ønsker å slette nettstedet %s?
-
-',
+	'SitesManager_DeleteConfirm_js' => 'Er du sikker på at du ønsker å slette nettstedet %s?  ',
 	'SitesManager_ExceptionDeleteSite' => 'Det er ikke mulig å slette dette nettstedet, da det er det eneste registrerte nettstedet. Legg til et nytt nettsted, og deretter slett dette.',
 	'SitesManager_ExceptionNoUrl' => 'Du må spesifisere minst en URL til nettstedet.',
 	'SitesManager_ExceptionEmptyName' => 'Nettstedets navn kan ikke være tomt.',

@@ -422,15 +422,7 @@ $translations = array(
 	'Installation_SystemCheckPhp' => 'Version PHP',
 	'Installation_SystemCheckExtensions' => 'Extensions requises',
 	'Installation_SystemCheckDatabaseHelp' => 'Piwik requiert ou l\'extension mysqli ou les extensions pdo et pdo_mysql.',
-	'Installation_SystemCheckPdoAndMysqliHelp' => 'Sur un serveur linux vous pouvez compiler PHP avec les options suivantes : %1$s
-
-
-
-
-
-
-
- Dans votre php.ini, ajoutez les lignes suivantes: %2$s',
+	'Installation_SystemCheckPdoAndMysqliHelp' => 'Sur un serveur linux vous pouvez compiler PHP avec les options suivantes : %1$s                 Dans votre php.ini, ajoutez les lignes suivantes: %2$s',
 	'Installation_SystemCheckPhpPdoAndMysqliSite' => 'Plus d\'informations sur: <a style="color:red" href="http://php.net/pdo">PHP PDO</a> et <a style="color:red" href="http://php.net/mysqli">MYSQLI</a>.',
 	'Installation_SystemCheckWinPdoAndMysqliHelp' => 'Sur un serveur windows vous pouvez ajouter les lignes suivantes à votre php.ini: %s',
 	'Installation_SystemCheckSplHelp' => 'Vous devez configurer et recompiler PHP avec la librairie standard (par défaut).',
@@ -948,7 +940,7 @@ $translations = array(
 	'UsersManager_TypeYourPasswordAgain' => 'Tapez à nouveau votre nouveau mot de passe.',
 	'UsersManager_TheLoginScreen' => 'L\'interface de connexion',
 	'UsersManager_DeleteConfirm_js' => 'Etes vous sûr de vouloir supprimer l\'utilisateur %s?',
-	'UsersManager_YourUsernameCannotBeChanged' => 'Votre nom d\'utilisateur a été modifié.',
+	'UsersManager_YourUsernameCannotBeChanged' => 'Votre nom d\'utilisateur ne peut pas être modifié.',
 	'UsersManager_ExceptionLoginExists' => 'Le login \'%s\' existe déjà.',
 	'UsersManager_ExceptionEmailExists' => 'L\'utilisateur avec l\'e-mail \'%s\' existe déjà.',
 	'UsersManager_ExceptionInvalidPassword' => 'Le mot de passe doit faire entre 6 et 26 caractères.',
@@ -1118,15 +1110,7 @@ $translations = array(
 	'API_UsingTokenAuth' => 'Si vous souhaitez %s requêter des données depuis un script, une crontab, etc %s vous devez ajouter le paramètre %s aux appels d\'URLs de l\'API qui requièrent une authentification.',
 	'API_KeepTokenSecret' => 'Cette clef partagée (tocken_auth) est aussi secrète que votre login et mot de passe, %s ne la partagez pas%s!',
 	'CoreHome_ThereIsNoDataForThisReport' => 'Il n\'y a pas de données pour ce rapport.',
-	'CoreUpdater_YouMustDownloadPackageOrFixPermissions' => 'Piwik ne peut pas écraser votre installation courante.
-
-
-
-
-
-
-
-Vous pouvez soit corriger les permissions du répertoire/fichier, soit télécharger le package et installer la version %s manuellement:',
+	'CoreUpdater_YouMustDownloadPackageOrFixPermissions' => 'Piwik ne peut pas écraser votre installation courante.                Vous pouvez soit corriger les permissions du répertoire/fichier, soit télécharger le package et installer la version %s manuellement:',
 	'Goals_GoalsOverview' => 'Vue d\'ensemble des Objectifs',
 	'Goals_GoalsManagement' => 'Gestion des Objectifs',
 	'Goals_ConversionsOverviewBySegment' => 'Vue d\'ensemble des conversions par segments',

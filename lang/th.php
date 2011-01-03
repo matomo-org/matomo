@@ -183,7 +183,7 @@ $translations = array(
 	'General_ExceptionFilesizeMismatch' => 'ขนาดของไฟล์ไม่ตรงกัน: %1$s (ขนาดไฟล์ที่คาดไว้: %2$s, พบ: %3$s)',
 	'General_ExceptionFileIntegrity' => 'ตรวจสอบความสมบูรณ์ล้มเหลว: %s',
 	'General_ExceptionNonceMismatch' => 'ไม่สามารถตรวจสอบความปลอดภัยของ token ในฟอร์มนี้ได้',
-	'General_PleaseSpecifyValue' => 'กรุณาระบถค่าสำหรับ \'%s\'.',
+	'General_PleaseSpecifyValue' => 'กรุณาระบุค่าสำหรับ \'%s\'.',
 	'General_ExceptionMethodNotFound' => 'วิธี \'%s\' ไม่มีอยู่หรือไม่สามารถใช้ได้ในโมดูล \'%s\' นี้ได้',
 	'General_ExceptionSubtableNotFoundInArchive' => 'คุณต้องการให้มีการสร้างแม่นยำใน subTable แต่หากไม่มีข้อมูลดังกล่าวในที่เก็บนั้น',
 	'General_ExceptionInvalidRendererFormat' => 'รูปแบบ Renderer \'%s\' ไม่ถูกต้อง ลองใช้ดังต่อไปนี้แทน: %s',
@@ -525,8 +525,7 @@ $translations = array(
 	'Installation_SystemCheckPdo' => 'ส่วนเสริม Pdo',
 	'Installation_SystemCheckPdoMysql' => 'ส่วนเสริม Pdo_Myql',
 	'Installation_SystemCheckPdoError' => 'คุณจำเป็นต้องให้ PDO และ PDO_MYSQL ทำงานโดยแก้ในไฟลล์ php.ini',
-	'Installation_SystemCheckPdoHelp' => 'สำหรับเซิฟเวอร์วินโดวส์ คุณสามารถเพิ่มบรรทัดดังนี้ในไฟลล์ php.ini ของคุณ %s <br />
-<br /> บนเซฟเวอร์ลีนุกซ์ คุณสามารถคอมไพล์ php ด้วยออพชั่น %s ในไฟลล์ php.ini เพิ่มบรรทัดดังต่อไปนี้ %s <br /><br /> ข้อมูลเพิ่มเติม <a style="color:red" href="http://php.net/pdo">เว็บไซต์PHP</a>',
+	'Installation_SystemCheckPdoHelp' => 'สำหรับเซิฟเวอร์วินโดวส์ คุณสามารถเพิ่มบรรทัดดังนี้ในไฟลล์ php.ini ของคุณ %s <br />  <br /> บนเซฟเวอร์ลีนุกซ์ คุณสามารถคอมไพล์ php ด้วยออพชั่น %s ในไฟลล์ php.ini เพิ่มบรรทัดดังต่อไปนี้ %s <br /><br /> ข้อมูลเพิ่มเติม <a style="color:red" href="http://php.net/pdo">เว็บไซต์PHP</a>',
 	'Installation_SystemCheckWriteDirs' => 'ไดเร็กทอรีสามารถเขียนได้',
 	'Installation_SystemCheckWriteDirsHelp' => 'เพื่อแก้ปัญหานี้สำหรับระบบ Linux ลองพิมพ์คำสั่งต่อไปนี้ (s)',
 	'Installation_SystemCheckMemoryLimit' => 'ขีดจำกัดของหน่วยความจำ',
@@ -1243,4 +1242,5 @@ $translations = array(
 	'VisitTime_ColumnLocalTime' => 'เวลาของท้องถิ่น',
 	'VisitTime_PluginDescription' => 'รายงานเวลาในเครื่องและเซิร์ฟเวอร์ ซึ่งเวลาในเซิร์ฟเวอร์มีข้อมูลที่เป็นประโยชน์ในการกำหนดตารางการบำรุงรักษาบนเว็บไซต์',
 	'Widgetize_PluginDescription' => 'ปลั๊กอินการสามารถทำโดยให้ง่ายต่อการส่งออก Widget ซึ่ง Piwik ใดๆ ก็ตามใน Blog ของคุณ เว็บไซต์หรือบน Igoogle และ Netvibes มาก',
+	'General_SmtpEncryption' => 'เข้ารหัส SMTP',
 );

@@ -109,9 +109,7 @@ $translations = array(
 	'CorePluginsAdmin_Activate' => 'Активувати',
 	'CorePluginsAdmin_MenuPlugins' => 'Плагіни',
 	'CorePluginsAdmin_PluginsManagement' => 'Керування плагінами',
-	'CorePluginsAdmin_MainDescription' => 'Plugins extend and expand the functionality of Piwik.
-
-Плагіни розширюють та примножують функціонал Piwik. Як тільки плагін встановлено його можна автивувати або деактивувати тут.',
+	'CorePluginsAdmin_MainDescription' => 'Plugins extend and expand the functionality of Piwik.    Плагіни розширюють та примножують функціонал Piwik. Як тільки плагін встановлено його можна автивувати або деактивувати тут.',
 	'CorePluginsAdmin_Plugin' => 'Плагін',
 	'CorePluginsAdmin_Version' => 'Версія',
 	'CorePluginsAdmin_Description' => 'Опис',
@@ -222,9 +220,7 @@ $translations = array(
 	'Installation_TablesWithSameNamesFound' => 'Деякі %1$s таблиці в базі даних %2$s мають імена тих таблиць що створюються Piwik-ом.',
 	'Installation_DatabaseCreatedSuccess' => 'Базу даних %s створено успішно!',
 	'Installation_GoBackAndDefinePrefix' => 'Повернутися і встановити префікс для таблиць Piwik',
-	'Installation_ConfirmDeleteExistingTables' => 'Впевнені що хочете видалити таблиці: %s з бази даних?
-
-ЗАСТЕРЕЖЕННЯ: ДАНІ З ЦИХ ТАБЛИЦЬ НЕМОЖУТЬ БУТИ ВІДНОВЛЕНІ!',
+	'Installation_ConfirmDeleteExistingTables' => 'Впевнені що хочете видалити таблиці: %s з бази даних?    ЗАСТЕРЕЖЕННЯ: ДАНІ З ЦИХ ТАБЛИЦЬ НЕМОЖУТЬ БУТИ ВІДНОВЛЕНІ!',
 	'Installation_ErrorInvalidState' => 'Помилка: здається була спроба пропустити крок процесу встановлення, або браузер не приймає куки, або файл конфігурації Piwik вже створено. %1$sПереконайтеся що куки дозволено%2$s та поверніться %3$s до першого кроку процесу встановлення %4$s.',
 	'Login_LoginPasswordNotCorrect' => 'Ім\'я користувача та пароль невірні',
 	'Login_Login' => 'Ім\'я користувача',

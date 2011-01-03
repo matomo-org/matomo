@@ -1238,4 +1238,5 @@ $translations = array(
 	'Live_GoalTime' => '1st Conversion time',
 	'Live_GoalRevenue' => 'Revenue',
 	'Live_GoalDetails' => 'Details',
+	'General_SmtpEncryption' => 'SMTP 加密',
 );

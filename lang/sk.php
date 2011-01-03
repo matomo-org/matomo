@@ -1,8 +1,8 @@
 <?php 
 $translations = array(
 	'General_Locale' => 'sk_SK.UTF-8',
-	'General_TranslatorName' => 'Zdenko Podobný, Miroslav Habara',
-	'General_TranslatorEmail' => 'zdenop@gmail.com, miroslav.habara@gmail.com',
+	'General_TranslatorName' => 'Miroslav Habara, Zdenko Podobný',
+	'General_TranslatorEmail' => 'miroslav.habara@gmail.com, zdenop@gmail.com',
 	'General_EnglishLanguageName' => 'Slovak',
 	'General_OriginalLanguageName' => 'Slovensky',
 	'General_HelloUser' => 'Vitaj %s!',
@@ -250,25 +250,13 @@ $translations = array(
 	'UserCountry_country_cg' => 'Kongo',
 	'UserCountry_country_ch' => 'Švajčiarsko',
 	'UserCountry_country_ci' => 'Pobrežie Slonoviny',
-	'UserCountry_country_ck' => 'Cookove ostrovy
-
-
-
-',
+	'UserCountry_country_ck' => 'Cookove ostrovy        ',
 	'UserCountry_country_cl' => 'Čile',
 	'UserCountry_country_cm' => 'Kamerun',
 	'UserCountry_country_cn' => 'Čína',
 	'UserCountry_country_co' => 'Kolumbia',
-	'UserCountry_country_cr' => 'Kostarika
-
-
-
-',
-	'UserCountry_country_cs' => 'Srbsko-Čierna Hora
-
-
-
-',
+	'UserCountry_country_cr' => 'Kostarika        ',
+	'UserCountry_country_cs' => 'Srbsko-Čierna Hora        ',
 	'UserCountry_country_cu' => 'Kuba',
 	'UserCountry_country_cv' => 'Kapverdy',
 	'UserCountry_country_cx' => 'Vianočný ostrov',
@@ -325,19 +313,11 @@ $translations = array(
 	'UserCountry_country_io' => 'Britské indickooceánske územie',
 	'UserCountry_country_iq' => 'Irak',
 	'UserCountry_country_ir' => 'Iránska islamská republika',
-	'UserCountry_country_is' => 'Island
-
-
-
-',
+	'UserCountry_country_is' => 'Island        ',
 	'UserCountry_country_it' => 'Taliansko',
 	'UserCountry_country_je' => 'Jersey',
 	'UserCountry_country_jm' => 'Jamajka',
-	'UserCountry_country_jo' => 'Jordánsko
-
-
-
-',
+	'UserCountry_country_jo' => 'Jordánsko        ',
 	'UserCountry_country_jp' => 'Japonsko',
 	'UserCountry_country_ke' => 'Keňa',
 	'UserCountry_country_kg' => 'Kirgizsko',
@@ -348,11 +328,7 @@ $translations = array(
 	'UserCountry_country_kp' => 'Kórejská ľudovodemokratická republika',
 	'UserCountry_country_kr' => 'Kórejská republika',
 	'UserCountry_country_kw' => 'Kuvajt',
-	'UserCountry_country_ky' => 'Kajmanie ostrovy
-
-
-
-',
+	'UserCountry_country_ky' => 'Kajmanie ostrovy        ',
 	'UserCountry_country_kz' => 'Kazachstan',
 	'UserCountry_country_la' => 'Laos',
 	'UserCountry_country_lb' => 'Libanon',
@@ -768,11 +744,7 @@ $translations = array(
 	'VisitsSummary_EvolutionOverLastPeriods' => 'Vývoj za posledné %s',
 	'VisitTime_ColumnServerTime' => 'Serverový čas',
 	'VisitTime_ColumnLocalTime' => 'Miestny čas',
-	'SitesManager_JsTrackingTag' => 'JavaScript sledovacia značka (tag)
-
-
-
-',
+	'SitesManager_JsTrackingTag' => 'JavaScript sledovacia značka (tag)        ',
 	'SitesManager_JsTrackingTagHelp' => 'Tu je JavaScript sledovacia značka (tag) na vloženie do vašich stránok',
 	'SitesManager_ShowTrackingTag' => 'zobraziť sledovaciu značku',
 	'General_Dashboard' => 'Nástenka',
@@ -813,9 +785,7 @@ $translations = array(
 	'General_ColumnEntrances' => 'Vstupná stránka',
 	'General_EntrancesDefinition' => 'Počet návštev, ktoré začal na tejto stránke.',
 	'General_ColumnExits' => 'Odchody',
-	'General_ExitsDefinition' => 'Počet návštev, ktore skončil na tejto stránke.
-
-',
+	'General_ExitsDefinition' => 'Počet návštev, ktore skončil na tejto stránke.      ',
 	'General_ColumnAverageTimeOnPage' => 'Priem. doba na stránke',
 	'General_AverageTimeOnPageDefinition' => 'Priemerná doba, ktorú návštevníci strávili na tejto stránke.',
 	'General_YearsDays' => '%1$s rokov %2$s dní',
@@ -826,30 +796,22 @@ $translations = array(
 	'General_ForExampleShort' => 'eg.',
 	'General_YouMustBeLoggedIn' => 'Musíte byť prihlásený pre prístup k tejto functionnality.',
 	'General_GeneralSettings' => 'Všeobecné nastavenia',
-	'General_AllowPiwikArchivingToTriggerBrowser' => 'Povoliť archivácie pre spustenie, keď je možné vidieť reporty z prehliadača
-
-',
+	'General_AllowPiwikArchivingToTriggerBrowser' => 'Povoliť archivácie pre spustenie, keď je možné vidieť reporty z prehliadača      ',
 	'General_ArchivingInlineHelp' => 'Pre stredné až vysoké návštevnosti webových stránok, sa odporúča vypnúť Piwik archiváciu z prehliadača. Namiesto toho odporúčame nastaviť cron práce na spracovanie Piwik správy každú hodinu.',
 	'General_ArchivingTriggerDescription' => 'Doporučené pre väčšie inštalácie Piwik, musíte %s nastavit cron %s aby spracovával správy automaticky.',
-	'General_ReportsForTodayWillBeProcessedAtMostEvery' => 'Správy pre dnešný deň budú spracované pre každého
-
-',
+	'General_ReportsForTodayWillBeProcessedAtMostEvery' => 'Správy pre dnešný deň budú spracované pre každého      ',
 	'General_NSeconds' => '%s sekúnd',
 	'General_SmallTrafficYouCanLeaveDefault' => 'Pri malej návštevnosti web stránky, môžete ponechať predvolený počet sekúnd %s, a prístup do všetkých správ v reálnom čase.',
 	'General_Daily' => 'Denne',
 	'General_Weekly' => 'Týždenne',
 	'General_Monthly' => 'Mesačne',
 	'General_ExceptionUndeletableFile' => 'Nemožno zmazať %s',
-	'General_ExceptionConfigurationFileNotFound' => 'Konfiguračný súbor{%s} nebol nájdený.
-
-',
+	'General_ExceptionConfigurationFileNotFound' => 'Konfiguračný súbor{%s} nebol nájdený.      ',
 	'General_ExceptionUnreadableFileDisabledMethod' => 'Konfiguračný súbor {%s} sa nedá čítať. Váš hostiteľ môže byť poskodený %s.',
 	'General_ExceptionInvalidToken' => 'Token nie je platný.',
 	'General_ExceptionInvalidDateFormat' => 'Formát dátumu musí byť: %s alebo kľúčového slova ktoré podporuje funkciu %s (pozri %s pre viac informácií)',
 	'General_ExceptionLanguageFileNotFound' => 'Jazykový súbor \'%s\' nebol nájdený.',
-	'General_WarningFileIntegritySkipped' => 'Vývojové prostredie detekované. Súbor kontrola integrity preskočený.
-
-',
+	'General_WarningFileIntegritySkipped' => 'Vývojové prostredie detekované. Súbor kontrola integrity preskočený.      ',
 	'General_WarningFileIntegrityNoManifest' => 'Súbor kontrola integrity nemohla byť vykonaná z dôvodu chýbajúcich manifest.inc.php.',
 	'General_WarningFileIntegrityNoMd5file' => 'Súbor kontrola integrity nemožno dokončiť z dôvodu chýbajúcich md5_file () funkcie.',
 	'General_FileIntegrityWarningExplanation' => 'Súbor kontrola integrity zlyhal a vykazuje nejaké chyby. To je najviac pravdepodobné kvôli čiastočnému nahratiu alebo sa nepodarilo nahrať niektoré zo súborov Piwik. Mali by ste reupload všetky súbory v binárnom móde a obnovte túto stránku, kým nebude vykazovať žiadne chyby.',
@@ -863,9 +825,7 @@ $translations = array(
 	'General_OnlyUsedIfUserPwdIsSet' => 'Používa sa používateľské meno/heslo ak je nastavené, opýtajte sa svojho poskytovateľa, ak si nie ste istí, ktorú metódu použiť.',
 	'General_OnlyEnterIfRequired' => 'Ak to Váš SMTP server vyžaduje zadajte meno',
 	'General_OnlyEnterIfRequiredPassword' => 'Ak to Váš SMTP server vyžaduje zadajte heslo',
-	'General_WarningPasswordStored' => '%sVarovanie:%s Toto heslo bude uložené v konfiguračnom súbore viditeľné pre všetkých, ako prístup.
-
-',
+	'General_WarningPasswordStored' => '%sVarovanie:%s Toto heslo bude uložené v konfiguračnom súbore viditeľné pre všetkých, ako prístup.      ',
 	'General_InvalidResponse' => 'Prijaté dáta sú neplatné.',
 	'General_ChooseLanguage' => 'Vyberte jazyk',
 	'General_ChoosePeriod' => 'Vyberte si obdobie',
@@ -879,9 +839,7 @@ $translations = array(
 	'Goals_GoalsOverview' => 'Prehľad cieľov',
 	'Goals_GoalsManagement' => 'Správa cieľov',
 	'Goals_ConversionsOverviewBySegment' => 'Konverzie, prehľad podľa segmentov',
-	'Goals_GoalConversionsBySegment' => 'Cieľ %s konverzia segmentu
-
-',
+	'Goals_GoalConversionsBySegment' => 'Cieľ %s konverzia segmentu    ',
 	'Goals_ViewGoalsBySegment' => 'Zobraziť ciele %s',
 	'Goals_OverallRevenue' => '%s celkové príjmy',
 	'Goals_OverallConversionRate' => '%s celková miera konverzie (návštevy s cieľom dokončenia)',
@@ -917,9 +875,7 @@ $translations = array(
 	'Goals_Contains' => 'obsahuje %s',
 	'Goals_IsExactly' => 'je presne %s',
 	'Goals_Pattern' => 'Vzor',
-	'CoreHome_PluginDescription' => 'Web Analytik report štruktúra.
-
-',
+	'CoreHome_PluginDescription' => 'Web Analytik report štruktúra.    ',
 	'CoreHome_WebAnalyticsReports' => 'Web Analytik report',
 	'CoreHome_ThereIsNoDataForThisReport' => 'Neexistujú žiadne dáta pre túto správu.',
 	'CoreHome_ShortDay_1_js' => 'Ne',
@@ -948,9 +904,7 @@ $translations = array(
 	'CoreHome_ShortMonth_10_js' => 'Okt',
 	'CoreHome_ShortMonth_11_js' => 'Nov',
 	'CoreHome_ShortMonth_12_js' => 'Dec',
-	'Actions_PluginDescription' => 'Správy o zobrazenie stránky, odkazy a súbory na prevzatie.
-
-Odkazy a súbory na prevzatie sa sledujú automaticky!',
+	'Actions_PluginDescription' => 'Správy o zobrazenie stránky, odkazy a súbory na prevzatie.    Odkazy a súbory na prevzatie sa sledujú automaticky!',
 	'Actions_SubmenuPagesEntry' => 'Vstupné stránky',
 	'Actions_SubmenuPagesExit' => 'Výstupné stránky',
 	'Actions_SubmenuPageTitles' => 'Názov stránky',
@@ -1016,18 +970,12 @@ Odkazy a súbory na prevzatie sa sledujú automaticky!',
 	'PDFReports_SendReportNow' => 'Teraz poslať report',
 	'PDFReports_EmailSchedule' => 'E-mail report',
 	'PDFReports_SendReportTo' => 'Poslať report',
-	'PDFReports_SentToMe' => 'Pošli na
-
-',
+	'PDFReports_SentToMe' => 'Pošli na    ',
 	'PDFReports_CreateAndSchedulePDFReport' => 'Vytvorenie plánu a PDF reportu',
 	'PDFReports_CancelAndReturnToPDF' => 'Zrušiť a vrátiť sa %s do zoznamu zostáv vo formáte PDF %s',
 	'PDFReports_DescriptionWillBeFirstPage' => 'Popis reportu sa zobrazí na prvej stránke tohoto reportu vo formáte PDF.',
-	'PDFReports_WeeklyScheduleHelp' => 'Týždenný plán: správa bude odoslaná prvý pondelok každého týždňa.
-
-',
-	'PDFReports_MonthlyScheduleHelp' => 'Mesačný plán: správa bude odoslaná prvý deň každého mesiaca.
-
-',
+	'PDFReports_WeeklyScheduleHelp' => 'Týždenný plán: správa bude odoslaná prvý pondelok každého týždňa.    ',
+	'PDFReports_MonthlyScheduleHelp' => 'Mesačný plán: správa bude odoslaná prvý deň každého mesiaca.    ',
 	'PDFReports_AlsoSendReportToTheseEmails' => 'Tiež poslať správu na tieto e-maily (jeden e-mail na riadok):',
 	'PDFReports_ReportsIncludedInPDF' => 'Reporty zahrnuté v PDF',
 	'PDFReports_CreatePDFReport' => 'Vytvoriť report v PDF',
@@ -1070,9 +1018,7 @@ Odkazy a súbory na prevzatie sa sledujú automaticky!',
 	'Mobile_AnonymousAccess' => 'Anonymný prístup',
 	'Mobile_AccessUrlLabel' => 'Prístup Url',
 	'Mobile_EnableGraphsLabel' => 'Zobraziť grafy',
-	'Mobile_MultiChartInfo' => 'na každej webovej stránke na uvítacej obrazovke
-
-',
+	'Mobile_MultiChartInfo' => 'na každej webovej stránke na uvítacej obrazovke    ',
 	'SEO_SeoRankings' => 'SEO hodnotenie',
 	'SEO_AlexaRank' => 'Alexa hodnotenie',
 	'SEO_YahooIndexedPages' => 'Yahoo zaindexované stránky',
@@ -1084,4 +1030,16 @@ Odkazy a súbory na prevzatie sa sledujú automaticky!',
 	'SEO_SEORankingsFor' => 'SEO hodnotenie pre %s',
 	'VisitTime_PluginDescription' => 'Report miestneho a serverového času. Serverový čas môže byť užitočný pre plánovanie údržby na internetových stránkach.',
 	'Widgetize_PluginDescription' => 'Je veľmi jednoduché vypublikovať plugin na svoj blog, web alebo na stránke iGoogle a Netvibes!',
+	'General_NotValid' => '%s nie je platné',
+	'General_SeeTheOfficialDocumentationForMoreInformation' => ' Pre viac informácií pozri %sofficiálne dokumentácie%s.',
+	'General_MediumToHighTrafficItIsRecommendedTo' => 'Pre web stránky, ktoré majú stredne veľkú až veľkú návštevnosť, odporúčame pre spracovanie štatistík nastavenie v daný deň maximálne na každú každú pol hodinu (%s sekúnd), alebo každú hodinu (%s sekúnd).',
+	'General_RequiresFlash' => 'Zobrazenie grafu vyžaduje Flash',
+	'General_GraphHelp' => 'Ďalšie informácie o zobrazení grafov.',
+	'General_DisplaySimpleTable' => 'Zobrazenie jednoduché tabuľky',
+	'General_DisplayTableWithMoreMetrics' => 'Zobraziť tabuľku s viacerými metrikami',
+	'General_DisplayTableWithGoalMetrics' => 'Zobraziť tabuľku s cieľmi metrík',
+	'General_YouAreViewingDemoShortMessage' => 'Momentálne prehliadate demo Piwik',
+	'General_NewUpdatePiwikX' => 'Nové aktualizácie: Piwik %s',
+	'General_AboutPiwikX' => 'O Piwik %s',
+	'General_SmtpEncryption' => 'SMTP šifrovanie',
 );

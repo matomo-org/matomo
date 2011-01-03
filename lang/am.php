@@ -118,8 +118,7 @@ $translations = array(
 	'CorePluginsAdmin_Deactivate' => 'አቦዝን',
 	'CorePluginsAdmin_Activate' => 'አግብር',
 	'CorePluginsAdmin_MenuPlugins' => 'ተሰኪዎች',
-	'API_QuickDocumentation' => '<h2>የኤፒአይ ፈጣን ስነዳ</h2><p>ለዛሬ ውሂብ ከሌለዎት በመጀመሪያ <a href=\'misc/generateVisits.php\' target=_blank>ወሂብ ለማመንጨት</a> ጉብኝት አመንጪ ስክሪፕቱን መጠቀም ይችላሉ።</p><p>የተለያዩ ቅርፀቶችን ለተቀሩት ሜተዶች መጠቀም ይቻላል። ከፒዊክ ላይ የሚፈለገውን ውሂብ ብቻ ለይቶ ማውጣት ይቻላል!</p><p><b>ለተጨማሪ መረጃ የሚከተለውን መመልከት ይችላሉ<a href=\'http://dev.piwik.org/trac/wiki/API\'>የኤፒአይ ይፋ ስነዳ</a> or the <a href=\'http://dev.piwik.org/trac/wiki/API/Reference\'>የኤፒአይ ማጣቀሻ</a>.</b></P><h2>የተጠቃሚ ማረጋገጫ</h2><p>በግል ስክሪፕትዎ ላይ <b>የተመለከተውን ውሂብ  በክሮንታብ ወዘተ ማግኘት ከፈለጉ. </b> የሚከተለውን ግቤት<code><u>&token_auth=%s</u></code> ማረጋገጫ ወደ ሚፈልገው የኤፒአይ የመጥሪያ ዩአርኤል  መጨመር ይጠበቅብዎታል። 
-</p><p>ይህ token_auth እንደመግቢያ እና የይለፍ ቃል በምስጢር መያዝ ይኖርበታል <b>ከማንም ጋር አይጋሩት!</p>',
+	'API_QuickDocumentation' => '<h2>የኤፒአይ ፈጣን ስነዳ</h2><p>ለዛሬ ውሂብ ከሌለዎት በመጀመሪያ <a href=\'misc/generateVisits.php\' target=_blank>ወሂብ ለማመንጨት</a> ጉብኝት አመንጪ ስክሪፕቱን መጠቀም ይችላሉ።</p><p>የተለያዩ ቅርፀቶችን ለተቀሩት ሜተዶች መጠቀም ይቻላል። ከፒዊክ ላይ የሚፈለገውን ውሂብ ብቻ ለይቶ ማውጣት ይቻላል!</p><p><b>ለተጨማሪ መረጃ የሚከተለውን መመልከት ይችላሉ<a href=\'http://dev.piwik.org/trac/wiki/API\'>የኤፒአይ ይፋ ስነዳ</a> or the <a href=\'http://dev.piwik.org/trac/wiki/API/Reference\'>የኤፒአይ ማጣቀሻ</a>.</b></P><h2>የተጠቃሚ ማረጋገጫ</h2><p>በግል ስክሪፕትዎ ላይ <b>የተመለከተውን ውሂብ  በክሮንታብ ወዘተ ማግኘት ከፈለጉ. </b> የሚከተለውን ግቤት<code><u>&token_auth=%s</u></code> ማረጋገጫ ወደ ሚፈልገው የኤፒአይ የመጥሪያ ዩአርኤል  መጨመር ይጠበቅብዎታል።   </p><p>ይህ token_auth እንደመግቢያ እና የይለፍ ቃል በምስጢር መያዝ ይኖርበታል <b>ከማንም ጋር አይጋሩት!</p>',
 	'API_LoadedAPIs' => 'ማስጋባት ተሳክቷል %s ኤፒአይዎች',
 	'CoreHome_NoPrivileges' => 'እንደ \'%s\' ገብተዋል ነገር ግን ፒዊክ ውስጥ ምንም ዓይነት ፈቃድ አልተቀመጠልዎትም።<br />የፒዊክ መናጅዎትን የድር ገበታ ትይታ ፈቃድ እንዲሰጥዎ ይጠይቁ።.',
 	'CoreHome_TableNoData' => 'ለዚህ ሰንጠረዥ ምንም ውሂብ የለም',

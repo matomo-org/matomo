@@ -700,15 +700,7 @@ $translations = array(
 	'Installation_SystemCheckPhp' => 'PHP:n versio',
 	'Installation_SystemCheckExtensions' => 'Muut vaaditut lisäosat',
 	'Installation_SystemCheckDatabaseHelp' => 'Piwik vaatii joko mysqli-lisäosan tai sekä PDO- että pdo_mysql-lisäosat..',
-	'Installation_SystemCheckPdoAndMysqliHelp' => 'Linux-palvelimella voit kääntää PHP:n seuraavilla asetuksilla: %1$s
-
-
-
-
-
-
-
-Lisää php.ini-tiedostoon seuraavat rivit: %2$s',
+	'Installation_SystemCheckPdoAndMysqliHelp' => 'Linux-palvelimella voit kääntää PHP:n seuraavilla asetuksilla: %1$s                        Lisää php.ini-tiedostoon seuraavat rivit: %2$s',
 	'Installation_SystemCheckPhpPdoAndMysqliSite' => 'Lisätietoa: <a style="color:red" href="http://php.net/pdo">PHP PDO</a> ja <a style="color:red" href="http://php.net/mysqli">MYSQLI</a>.',
 	'Installation_SystemCheckWinPdoAndMysqliHelp' => 'Windows-palvelimella php.ini-tiedostoon tulee lisätä seuraavat rivit: %s',
 	'Installation_SystemCheckSplHelp' => 'PHP pitää olla asennettuna "Standard PHP Library (SPL)"-asetuksen kanssa.',
@@ -993,15 +985,7 @@ Lisää php.ini-tiedostoon seuraavat rivit: %2$s',
 	'Goals_OverallConversionRate' => '%s yleinen siirtymisaste (käynti jossa täytetään tavoite)',
 	'Goals_Conversions' => '%s siirtymää',
 	'Goals_ConversionRate' => '%s siirtymisaste',
-	'Goals_NoGoalsNeedAccess' => 'Vain ylläpitäjä voi lisätä tavoitteita tälle sivulle. Pyydä Piwik-sivusi ylläpitäjää luomaan tavoite sivulle.<br/>
-
-
-
-
-
-
-
-Tavoitteet ovat hyvä tapa ymmärtää ja maksimoida verkkosivujesi tehokkuus!',
+	'Goals_NoGoalsNeedAccess' => 'Vain ylläpitäjä voi lisätä tavoitteita tälle sivulle. Pyydä Piwik-sivusi ylläpitäjää luomaan tavoite sivulle.<br/>                        Tavoitteet ovat hyvä tapa ymmärtää ja maksimoida verkkosivujesi tehokkuus!',
 	'Goals_AddNewGoal' => 'Lisää uusi tavoite',
 	'Goals_AddNewGoalOrEditExistingGoal' => '%sLisää uusi tavoite%s tai %smuokkaa%s olemassaolevia tavoitteita',
 	'Goals_AddGoal_js' => 'Lisää tavoite',
@@ -1243,4 +1227,26 @@ Tavoitteet ovat hyvä tapa ymmärtää ja maksimoida verkkosivujesi tehokkuus!',
 	'General_Id' => 'Id',
 	'PDFReports_EmailReports' => 'Sähköpostiraportit',
 	'PDFReports_SendReportNow' => 'Lähetä raportti nyt',
+	'General_ChooseDate' => 'Valitse päiväys',
+	'General_SmtpEncryption' => 'SMTP:n salaus',
+	'General_OptionalSmtpPort' => 'Valinnainen. Oletus 25 salaamattomalle ja TLS:lle ja 465 SSL:lle.',
+	'General_EncryptedSmtpTransport' => 'Valitse SMTP-palvelimen vaatima salaus.',
+	'CorePluginsAdmin_AuthorHomepage' => 'Tekijän kotisivu',
+	'CorePluginsAdmin_LicenseHomepage' => 'Lisenssisivu',
+	'Dashboard_Maximise_js' => 'Suurenna',
+	'Goals_GoalConversion' => 'Maalin muunnos',
+	'Installation_SystemCheckGzcompressHelp' => 'zlib-laajennus ja gzcompress-funktio täytyy olla käytössä.',
+	'Installation_SystemCheckGzuncompressHelp' => 'zlib-laajennus ja gzuncompress-funktio täytyy olla käytössä.',
+	'Installation_SystemCheckTracker' => 'Seurantapalvelimen tila',
+	'Installation_SystemCheckTrackerHelp' => 'GET-pyyntö piwik.php:n epäonnistui. Voit kokeilla poistaa tämän osoitteen mod_securitystä ja HTTP-autentikoinnista.',
+	'Live_LastMinutes' => 'Edelliset %s minuuttia',
+	'Login_RememberMe' => 'Muista minut',
+	'Mobile_DefaultReportDate' => 'Raportin päivä',
+	'Referers_SubmenuOverview' => 'Yleiskatsaus',
+	'UserCountry_country_a1' => 'Anonyymi välityspalvelin',
+	'UserCountry_country_a2' => 'Satelliittiyhteys',
+	'UserCountry_country_ap' => 'Aasia/Tyyni valtameri',
+	'UserCountry_country_o1' => 'Muu maa',
+	'UserCountry_continent_ant' => 'Etelänapamanner',
+	'UserCountry_continent_amc' => 'Keski-Amerikka',
 );

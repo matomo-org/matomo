@@ -521,8 +521,7 @@ $translations = array(
 	'Installation_SystemCheckPhp' => 'Версия PHP',
 	'Installation_SystemCheckExtensions' => 'Необходимые модули',
 	'Installation_SystemCheckDatabaseHelp' => 'Piwik требует использования mysqli или использования PDO и pdo_mysql.',
-	'Installation_SystemCheckPdoAndMysqliHelp' => 'На Linux серверах PHP должен быть скомпилирован со следующими опциями: %1$s
-В php.ini добавьте строки: %2$s',
+	'Installation_SystemCheckPdoAndMysqliHelp' => 'На Linux серверах PHP должен быть скомпилирован со следующими опциями: %1$s  В php.ini добавьте строки: %2$s',
 	'Installation_SystemCheckPhpPdoAndMysqliSite' => 'Больше информации о <a style="color:red" href="http://php.net/pdo">PHP PDO</a> и <a style="color:red" href="http://php.net/mysqli">MYSQLI</a>.',
 	'Installation_SystemCheckWinPdoAndMysqliHelp' => 'На Windows серверах вы должны добавить следующие тсроки в файл php.ini: %s',
 	'Installation_SystemCheckSplHelp' => 'Вам необходимо сконфигурировать иил пересобрать PHP со включенной стандартной библиотекой (значение по умолчанию).',
