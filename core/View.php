@@ -124,7 +124,10 @@ class Piwik_View implements Piwik_iView
 			$this->currentModule = Piwik::getModule();
 			$this->userLogin = Piwik::getCurrentUserLogin();
 			
-			$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess(Piwik::getWebsitesCountToDisplay());
+			// workaround for #1331
+			$count = method_exists('Piwik', 'getWebsitesCountToDisplay') ? Piwik::getWebsitesCountToDisplay() : 1;
+
+			$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess($count);
 			usort($sites, create_function('$site1, $site2', 'return strcasecmp($site1["name"], $site2["name"]);'));
 			$this->sites = $sites;
 			$this->url = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrl());
