@@ -155,7 +155,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 		{
 			$this->isThereSomeVisits = false;
 			$this->alreadyChecked = true;
-			$logMessage = "Preparing archive: ";
+			$logMessage = "Preparing archive: " . $this->period->getLabel() . "(" . $this->period->getPrettyString() . ")";
 			// if the END of the period is BEFORE the website creation date
 			// we already know there are no stats for this period
 			// we add one day to make sure we don't miss the day of the website creation
