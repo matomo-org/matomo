@@ -124,7 +124,9 @@ class Piwik_Referers_API
 	public function getUrlsFromWebsiteId($idSite, $period, $date, $idSubtable)
 	{
 		$dataTable = $this->getDataTable('Referers_urlByWebsite',$idSite, $period, $date, $expanded = false, $idSubtable);
-		$dataTable->queueFilter('ColumnCallbackAddMetadata', array( 'label', 'url', create_function('$label', 'return $label;')) );
+		// the htmlspecialchars_decode call is for BC for before 1.1 
+		// as the Referer URL was previously encoded in the log tables, but is now recorded raw
+		$dataTable->queueFilter('ColumnCallbackAddMetadata', array( 'label', 'url', create_function('$label', 'return htmlspecialchars_decode($label);')) );
 		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getPathFromUrl'));
 		return $dataTable;
 	}
