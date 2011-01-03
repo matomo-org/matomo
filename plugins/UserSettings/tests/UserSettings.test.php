@@ -8,7 +8,7 @@ if(!class_exists('Piwik_UserSettings', false))
 {
 	require_once 'UserSettings/UserSettings.php';
 }
-require 'UserSettings/functions.php';
+require_once 'UserSettings/functions.php';
 
 class Test_Piwik_UserSettings extends UnitTestCase
 {
