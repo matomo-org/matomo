@@ -374,8 +374,8 @@ abstract class Piwik_ArchiveProcessing
 			else
 			{
 				$this->temporaryArchive = true;
-				$today = date('Y-m-d', Piwik_Date::factory('now', $this->site->getTimezone())->getTimestamp());
-				$minDatetimeArchiveProcessedUTC = Piwik_Date::factory($today)->getTimestamp();
+				$timezone = $this->site->getTimezone();
+				$minDatetimeArchiveProcessedUTC = Piwik_Date::factory('today', $timezone)->setTimezone($timezone)->getTimestamp();
 			}
 		}
 		return $minDatetimeArchiveProcessedUTC;
@@ -629,17 +629,16 @@ abstract class Piwik_ArchiveProcessing
 		// @see http://dev.piwik.org/trac/ticket/987
 		$query = "INSERT IGNORE INTO ".$table->getTableName()." (idarchive, idsite, date1, date2, period, ts_archived, name, value)
 					VALUES (?,?,?,?,?,?,?,?)";
-		Piwik_Query($query, 
-							array(	$this->idArchive,
-									$this->idsite, 
-									$this->period->getDateStart()->toString('Y-m-d'), 
-									$this->period->getDateEnd()->toString('Y-m-d'), 
-									$this->periodId, 
-									gmdate("Y-m-d H:i:s"),
-									$record->name,
-									$record->value,
-							)
-					);
+		$bindSql = array(	$this->idArchive,
+							$this->idsite, 
+							$this->period->getDateStart()->toString('Y-m-d'), 
+							$this->period->getDateEnd()->toString('Y-m-d'), 
+							$this->periodId, 
+							date("Y-m-d H:i:s"),
+							$record->name,
+							$record->value,
+		);
+		Piwik_Query($query, $bindSql);
 	}
 	
 	/**
