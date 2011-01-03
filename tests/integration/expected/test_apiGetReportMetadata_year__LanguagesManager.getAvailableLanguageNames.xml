@@ -81,9 +81,19 @@
 		<english_name>Galician</english_name>
 	</row>
 	<row>
+		<code>he</code>
+		<name>עברית</name>
+		<english_name>Hebrew</english_name>
+	</row>
+	<row>
 		<code>hu</code>
 		<name>Magyar</name>
 		<english_name>Hungarian</english_name>
+	</row>
+	<row>
+		<code>id</code>
+		<name>Bahasa Indonesia</name>
+		<english_name>Indonesian</english_name>
 	</row>
 	<row>
 		<code>it</code>
