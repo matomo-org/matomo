@@ -16,8 +16,18 @@ require_once PIWIK_INCLUDE_PATH . '/libs/tcpdf/tcpdf.php';
 class Piwik_PDFReports_PDFRenderer extends TCPDF
 {
 	private $reportFontBold 	   = 'B';
-	private $reportSimpleFontSize = '12';
-	private $reportHeaderFontSize = '22';
+	private $reportSimpleFontSize = 9;
+	private $reportHeaderFontSize = 22;
+	private $cellHeight = 6;
+	private $bottomMargin = 10;
+	private $reportWidthPortrait = 180;
+	private $reportWidthLandscape = 270;
+	private $minWidthLabelCell = 100;
+	private $maxColumnCountPortraitOrientation = 7;
+	private $logoWidth = 16;
+	private $logoHeight = 16;
+	private $truncateAfter = 50;
+	private $leftSpacesBeforeLogo = 7;
 	private $logoImagePosition = array(10,40);
 	private $headerTextColor = array(0,89,89);
 	private $reportTextColor = array(68,68,68);
@@ -26,11 +36,6 @@ class Piwik_PDFReports_PDFRenderer extends TCPDF
 	private $tableHeaderBorderColor = array(193,218,215);
 	private $tableBackgroundColor 	 = array(249,250,250);
 	private $rowTopBottomBorder = array(231,231,231);
-	private $cellHeight = 7;
-	private $bottomMargin = 10;
-	private $reportWidthPortrait = 180;
-	private $reportWidthLandscape = 270;
-	private $maxColumnCountPortraitOrientation = 7;
 	private $width;
 	private $report;
 	private $reportMetadata;
@@ -95,15 +100,20 @@ class Piwik_PDFReports_PDFRenderer extends TCPDF
 		//Image($file, $x='', $y='', $w=0, $h=0, $type='', $link='', $align='', $resize=false, $dpi=300, $palign='', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false) {
 		$this->Image(Piwik::getLogoPath(), $this->logoImagePosition[0], $this->logoImagePosition[1], 180/$factor=2, 0, $type='', $link='', $align='', $resize=false, $dpi=300);
 		$this->Ln(8);
+
+		$websiteTitle = $this->formatText(Piwik_Translate('General_Website') ." " .$this->websiteName);
 		$this->SetFont($this->reportFont,'',$this->reportHeaderFontSize + 5);
 		$this->SetTextColor($this->headerTextColor[0],$this->headerTextColor[1],$this->headerTextColor[2]);
-		$this->Cell(40, 210, Piwik_Translate('General_Website') ." " .$this->websiteName );
+		$this->Cell(40, 210, $websiteTitle );
 		$this->Ln(8*4);
+		
+		$dateRange = $this->formatText(Piwik_Translate('General_DateRange')." " . $this->prettyDate);
 		$this->SetFont($this->reportFont,'',$this->reportHeaderFontSize);
 		$this->SetTextColor($this->reportTextColor[0],$this->reportTextColor[1],$this->reportTextColor[2]);
-		$this->Cell(40, 210, Piwik_Translate('General_DateRange')." " . $this->prettyDate);
+		$this->Cell(40, 210, $dateRange);
+		
 		$this->Ln(8*20);
-		$this->Write(1, $this->description);
+		$this->Write(1, $this->formatText($this->description));
 		$this->Ln(8);
 		$this->SetFont($this->reportFont,'',$this->reportHeaderFontSize);
 		$this->Ln();
@@ -133,7 +143,7 @@ class Piwik_PDFReports_PDFRenderer extends TCPDF
 			}
 		}
 		$this->lastTableIsSimpleReport = $currentTableIsSimpleReport;
-		$title = $this->reportMetadata['name'];
+		$title = $this->formatText($this->reportMetadata['name']);
 		$this->SetFont($this->reportFont,$this->reportFontBold,$this->reportHeaderFontSize);
 		$this->SetTextColor($this->headerTextColor[0],$this->headerTextColor[1],$this->headerTextColor[2]);
 		$this->Cell(40, 20, $title);
@@ -161,6 +171,11 @@ class Piwik_PDFReports_PDFRenderer extends TCPDF
 		$this->paintReportTableHeader();
 		$this->paintReportTable();
 	}
+	
+	private function formatText($text)
+	{
+		return Piwik_Common::unsanitizeInputValue($text);
+	}
 
 	private function paintReportTable()
 	{
@@ -172,10 +187,7 @@ class Piwik_PDFReports_PDFRenderer extends TCPDF
 		$fill = false;
 		$logo = $url = false;
 		$posY = $posX = 0;
-		$logoWidth = $logoHeight = 16;
-		$truncateAfter = 25;
-		$leftSpaces = 7;
-		$leftSpaces = str_repeat(' ', $leftSpaces);
+		$leftSpacesBeforeLogo = str_repeat(' ', $this->leftSpacesBeforeLogo);
 
 		// Draw a body of report table
 		foreach($this->report as $rowId => $row)
@@ -195,23 +207,25 @@ class Piwik_PDFReports_PDFRenderer extends TCPDF
 					$posY = $this->GetY();
 					if (isset($row[$columnId]))
 					{
-						$text = substr($row[$columnId],0,$truncateAfter) ;
+						$text = substr($row[$columnId],0,$this->truncateAfter) ;
 						if ($isLogoDisplayable)
 						{
-							$text = $leftSpaces . $text;
+							$text = $leftSpacesBeforeLogo . $text;
 						}
 					}
+					$text = $this->formatText($text);
+					
 					$this->Cell($this->labelCellWidth,$this->cellHeight,$text,'LR',0,'L',$fill, $url);
 
 					if($isLogoDisplayable)
 					{
 						if(isset($this->reportRowsMetadata[$rowId]['logoWidth']))
 						{
-							$logoWidth = $this->reportRowsMetadata[$rowId]['logoWidth'];
+							$this->logoWidth = $this->reportRowsMetadata[$rowId]['logoWidth'];
 						}
 						if(isset($this->reportRowsMetadata[$rowId]['logoHeight']))
 						{
-							$logoHeight = $this->reportRowsMetadata[$rowId]['logoHeight'];
+							$this->logoHeight = $this->reportRowsMetadata[$rowId]['logoHeight'];
 						}
 						$restoreY = $this->getY();
 						$restoreX = $this->getX();
@@ -219,11 +233,11 @@ class Piwik_PDFReports_PDFRenderer extends TCPDF
 						$this->SetX($posX );
 						$topMargin = 1.3;
 						// Country flags are not very high, force a bigger top margin
-						if($logoHeight < 16)
+						if($this->logoHeight < 16)
 						{
 							$topMargin = 2;
 						}
-						$this->Image(Piwik_Common::getPathToPiwikRoot()."/".$this->reportRowsMetadata[$rowId]['logo'], $posX + ($leftMargin = 2), $posY + $topMargin, $logoWidth/4);
+						$this->Image(Piwik_Common::getPathToPiwikRoot()."/".$this->reportRowsMetadata[$rowId]['logo'], $posX + ($leftMargin = 2), $posY + $topMargin, $this->logoWidth/4);
 						$this->SetXY($restoreX, $restoreY);
 					}
 				}
@@ -284,7 +298,7 @@ class Piwik_PDFReports_PDFRenderer extends TCPDF
 		}
 		// Computes available column width
 		$this->totalWidth = $totalWidth;
-		$this->labelCellWidth = round(($this->totalWidth / $columnsCount) * 2);
+		$this->labelCellWidth = max(round(($this->totalWidth / $columnsCount) * 2), $this->minWidthLabelCell);
 		if($columnsCount == 2)
 		{
 			$this->labelCellWidth = $this->totalWidth / 2;
@@ -317,6 +331,7 @@ class Piwik_PDFReports_PDFRenderer extends TCPDF
 		$posX = $initPosX;
 		foreach ($this->reportColumns as $columnId => $columnName)
 		{
+			$columnName = $this->formatText($columnName);
 			//Label column
 			if ($countColumns == 0)
 			{
@@ -345,6 +360,7 @@ class Piwik_PDFReports_PDFRenderer extends TCPDF
 	{
 		$this->SetFont($this->reportFont,$this->reportFontBold,$this->reportSimpleFontSize);
 		$this->SetTextColor($this->reportTextColor[0],$this->reportTextColor[1],$this->reportTextColor[2]);
+		$message = $this->formatText($message);
 		$this->Write("1em", $message);
 		$this->Ln();
 	}
