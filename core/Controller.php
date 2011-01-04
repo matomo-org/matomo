@@ -431,7 +431,7 @@ abstract class Piwik_Controller
 			Piwik_ExitWithMessage($errorMessage, false, true);
 		}
 
-		Piwik_FrontController::dispatch(Piwik::getLoginPluginName(), false);
+		Piwik_FrontController::getInstance()->dispatch(Piwik::getLoginPluginName(), false);
 		exit;
 	}
 	
