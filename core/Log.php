@@ -173,7 +173,7 @@ class Piwik_Log_Formatter_ScreenFormatter implements Zend_Log_Formatter_Interfac
 	function formatEvent($event)
 	{
 		// no injection in error messages, backtrace when displayed on screen
-		return array_map('Piwik_Common::sanitizeInputValue', $event);
+		return array_map(array('Piwik_Common','sanitizeInputValue'), $event);
 	}
 
 	function format($string)
