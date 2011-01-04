@@ -261,7 +261,7 @@ if (!function_exists("json_decode")) {
          #-= in-object
          elseif ($state==='}') {
             list($i, $n) = json_decode($json, 0, $n, 0, ":");   // this allowed non-string indicies
-            list($v, $n) = json_decode($json, 0, $n+1, 0, ",}");
+            list($v, $n) = json_decode($json, $assoc, $n+1, 0, ",}");
             $val[$i] = $v;
             if ($json[$n] == "}") { return array($val, $n); }
          }
