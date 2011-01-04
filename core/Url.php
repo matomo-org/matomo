@@ -170,12 +170,12 @@ class Piwik_Url
 			}
 		}
 
+		$default = Piwik_Common::sanitizeInputValue($default);
 		if(isset($_SERVER['HTTP_HOST']))
 		{
 			$default = Piwik_Common::sanitizeInputValue($_SERVER['HTTP_HOST']);
 		}
 
-		$default = Piwik_Common::sanitizeInputValue($default);
 		// @todo temporary workaround for #1331
 		if(!method_exists('Piwik_Common', 'getProxyFromHeader'))
 		{
