@@ -233,7 +233,7 @@ class Piwik_Cookie
 				}
 				else
 				{
-					$varValue = json_decode(base64_decode($varValue), $assoc = true);
+					$varValue = @json_decode(base64_decode($varValue), $assoc = true);
 				}
 			}
 			
