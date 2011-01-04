@@ -8,7 +8,7 @@ class Test_Piwik_Unzip extends UnitTestCase
 {
 	public function test_relativePath()
 	{
-		if(defined('ZIPARCHIVE::ER_OK'))
+		if(class_exists('ZipArchive', false))
 		{
 			$test = 'relative';
 			$filename = dirname(__FILE__) . '/' . $test . '.zip';
@@ -51,7 +51,7 @@ class Test_Piwik_Unzip extends UnitTestCase
 	public function test_relativePathAttack()
 	{
 		clearstatcache();
-		if(defined('ZIPARCHIVE::ER_OK'))
+		if(class_exists('ZipArchive', false))
 		{
 			$test = 'zaatt';
 			$filename = dirname(__FILE__) . '/' . $test . '.zip';
@@ -88,7 +88,7 @@ class Test_Piwik_Unzip extends UnitTestCase
 	public function test_absolutePathAttack()
 	{
 		clearstatcache();
-		if(defined('ZIPARCHIVE::ER_OK'))
+		if(class_exists('ZipArchive', false))
 		{
 			$test = 'zaabs';
 			$filename = dirname(__FILE__) . '/' . $test . '.zip';

@@ -25,7 +25,7 @@ class Piwik_Unzip
 	 */
 	static public function getDefaultUnzip($filename)
 	{
-		if(defined('ZIPARCHIVE::ER_OK'))
+		if(class_exists('ZipArchive', false))
 			return new Piwik_Unzip_ZipArchive($filename);
 
 		return new Piwik_Unzip_PclZip($filename);
