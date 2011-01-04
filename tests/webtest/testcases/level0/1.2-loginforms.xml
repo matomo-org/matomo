@@ -149,7 +149,7 @@
 				<verifyText description="check page text" text="Hello" />
 				<verifyText description="check page text" text="Sign out" />
 
-				<retryClickLink description="click 'Sign out'" label="Sign out" maxcount="5"  seconds="1" />
+				<retryClickLink description="click 'Sign out'" label="Sign out" maxcount="5"  seconds="2" />
 
 				<!-- logged out -->
 
