@@ -26,6 +26,10 @@ class Test_Piwik_Cookie extends UnitTestCase
 
 	function test_jsonSerialize()
 	{
+		// @see http://bugs.php.net/38680
+		if(PHP_VERSION >= '5.2.0' && PHP_VERSION < '5.2.1')
+			return;
+
 		$tests = array(
 			'null' => null,
 			'bool false' => false,
