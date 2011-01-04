@@ -46,7 +46,7 @@ class Piwik_PDFReports extends Piwik_Plugin
 		$baseDate = Piwik_Date::factory("1971-01-01");
 		foreach($sites as &$site)
 		{
-			$offsetDate = Piwik_Date::factory($baseDate,  $site['timezone']);
+			$offsetDate = Piwik_Date::factory($baseDate->toString(),  $site['timezone']);
 
 			// Earlier means a negative timezone
 			if ( $offsetDate->isEarlier($baseDate) )
