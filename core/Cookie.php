@@ -227,7 +227,7 @@ class Piwik_Cookie
 			if(!is_numeric($varValue))
 			{
 				// @see http://bugs.php.net/38680
-				if(PHP_VERSION == '5.2.0')
+				if(PHP_VERSION < '5.2.1')
 				{
 					$varValue = safe_unserialize(base64_decode($varValue));
 				}
@@ -255,7 +255,7 @@ class Piwik_Cookie
 			if(!is_numeric($value))
 			{
 				// @see http://bugs.php.net/38680
-				if(PHP_VERSION == '5.2.0')
+				if(PHP_VERSION < '5.2.1')
 				{
 					$value = base64_encode(safe_serialize($value));
 				}
