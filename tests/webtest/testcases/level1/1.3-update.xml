@@ -46,7 +46,7 @@
 				<mouseOver description="expand header message" htmlId="header_message" />
 				<verifyText description="check page text" text="Please update now!" />
 
-				<enableJavaScript  enable="false" />
+				<enableJavaScript enable="false" />
 				<clickLink description="click 'Please update now'" href="action=newVersionAvailable" />
 
 				<!-- one click update -->
@@ -88,6 +88,7 @@
 						</not>
 
 						<verifyText description="check page text" text="Piwik has been successfully updated!" />
+						<clickButton description="click 'Continue to Piwik' button" label="Continue to Piwik" />
 					</then>
 				</ifStep>
 
