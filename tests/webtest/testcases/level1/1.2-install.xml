@@ -210,15 +210,15 @@
 				<verifyText description="check page text" text="Hello" />
 
 				<!-- change language -->
-				<retryClickLink description="click 'Deutsch'" href="index.php?module=LanguagesManager&amp;action=saveLanguage&amp;language=de" maxcount="5" seconds="1" />
+				<retryClickLink description="click 'Deutsch'" href="index.php?module=LanguagesManager&amp;action=saveLanguage&amp;language=de" maxcount="5" seconds="2" />
 
 				<verifyText description="check page text" text="Hallo" />
 
-				<retryClickLink description="click 'Français'" href="index.php?module=LanguagesManager&amp;action=saveLanguage&amp;language=fr" maxcount="5" seconds="1" />
+				<retryClickLink description="click 'Français'" href="index.php?module=LanguagesManager&amp;action=saveLanguage&amp;language=fr" maxcount="5" seconds="2" />
 
 				<verifyText description="check page text" text="Bonjour" />
 
-				<retryClickLink description="click 'English'" href="index.php?module=LanguagesManager&amp;action=saveLanguage&amp;language=en" maxcount="5" seconds="1" />
+				<retryClickLink description="click 'English'" href="index.php?module=LanguagesManager&amp;action=saveLanguage&amp;language=en" maxcount="5" seconds="2" />
 
 				<verifyText description="check page text" text="Hello" />
 			</steps>
