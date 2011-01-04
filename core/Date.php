@@ -44,6 +44,10 @@ class Piwik_Date
 	 */
 	static public function factory($dateString, $timezone = null)
 	{
+		if($dateString instanceof self)
+		{
+			$dateString = $dateString->toString();
+		}
 		if($dateString == 'now')
 		{
 			$date = self::now();
