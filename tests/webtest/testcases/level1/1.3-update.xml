@@ -46,7 +46,8 @@
 				<mouseOver description="expand header message" htmlId="header_message" />
 				<verifyText description="check page text" text="Please update now!" />
 
-				<retryClickLink description="click 'Please update now'" href="action=newVersionAvailable" maxcount="30" seconds="3" />
+				<enableJavaScript  enable="false" />
+				<clickLink description="click 'Please update now'" href="action=newVersionAvailable" />
 
 				<!-- one click update -->
 
