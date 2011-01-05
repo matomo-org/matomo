@@ -781,7 +781,8 @@ class Piwik_Common
 			$ipStringFrom = substr($ipStringFrom, 7);
 		}
 		// Ip is A.B.C.D:54287 
-		if(($posColon = strpos($ipStringFrom, ':')) != false)
+		if(($posColon = strpos($ipStringFrom, ':')) != false
+			&& $posColon > 6)
 		{
 			$ipStringFrom = substr($ipStringFrom, 0, $posColon);
 		}
