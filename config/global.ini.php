@@ -111,9 +111,6 @@ time_before_today_archive_considered_outdated = 10
 ; to trigger the Piwik archiving process.
 enable_browser_archiving_triggering = 1
 
-; PHP minimum required version (minimum requirement known to date = ->newInstanceArgs)
-minimum_php_version = 5.1.3
-
 ; MySQL minimum required version
 ; note: timezone support added in 4.1.3
 minimum_mysql_version = 4.1

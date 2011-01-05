@@ -18,7 +18,8 @@
 
 $piwik_errorMessage = '';
 
-$piwik_minimumPHPVersion = '5.1.3';
+// Minimum requirement: ->newInstanceArgs in 5.1.3
+$piwik_minimumPHPVersion = '5.1.3RC';
 $piwik_currentPHPVersion = PHP_VERSION;
 if( version_compare($piwik_minimumPHPVersion , $piwik_currentPHPVersion ) > 0 )
 {
