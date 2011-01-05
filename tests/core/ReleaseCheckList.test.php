@@ -20,7 +20,7 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
     	$this->checkEqual(array('General' => 'default_language'), 'en');
     	$this->checkEqual(array('Tracker' => 'record_statistics'), '1');
     	$this->checkEqual(array('Tracker' => 'visit_standard_length'), '1800');
-    	$this->checkEqual(array('Tracker' => 'enable_detect_unique_visitor_using_settings'), '1');
+    	$this->checkEqual(array('Tracker' => 'trust_visitors_cookies'), '0');
     	// logging messages are disabled
     	$this->checkEqual(array('log' => 'logger_message'), '');
     	$this->checkEqual(array('log' => 'logger_exception'), array('screen'));
