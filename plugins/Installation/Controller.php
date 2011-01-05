@@ -676,7 +676,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	 */
 	public static function getSystemInformation()
 	{
-		$minimumPhpVersion = Zend_Registry::get('config')->General->minimum_php_version;
+		global $piwik_minimumPHPVersion;
 		$minimumMemoryLimit = Zend_Registry::get('config')->General->minimum_memory_limit;
 
 		$infos = array();
@@ -696,9 +696,9 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		}
 		Piwik::createWebRootFiles();
 
-		$infos['phpVersion_minimum'] = $minimumPhpVersion;
+		$infos['phpVersion_minimum'] = $piwik_minimumPHPVersion;
 		$infos['phpVersion'] = PHP_VERSION;
-		$infos['phpVersion_ok'] = version_compare( $minimumPhpVersion, $infos['phpVersion']) === -1;
+		$infos['phpVersion_ok'] = version_compare( $piwik_minimumPHPVersion, $infos['phpVersion']) === -1;
 
 		// critical errors
 		$extensions = @get_loaded_extensions();
