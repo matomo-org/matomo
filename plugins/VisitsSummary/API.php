@@ -139,7 +139,7 @@ class Piwik_VisitsSummary_API
 	{
 		$table = $this->getSumVisitsLength( $idSite, $period, $date );
 		if($table instanceof Piwik_DataTable_Array) {
-			$table->filter('ColumnCallbackReplace', array(0, 'Piwik::getPrettyTimeFromSeconds'));
+			$table->filter('ColumnCallbackReplace', array(0, array('Piwik', 'getPrettyTimeFromSeconds')));
 		} else {
 			$table = Piwik::getPrettyTimeFromSeconds($table);
 		}
