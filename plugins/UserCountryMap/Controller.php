@@ -16,8 +16,6 @@
  */
 class Piwik_UserCountryMap_Controller extends Piwik_Controller
 {
-	const TRANSPARENT_PNG_PIXEL = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=';
-
 	function worldMap()
 	{
 		$view = Piwik_View::factory('worldmap');
