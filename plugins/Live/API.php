@@ -253,7 +253,7 @@ class Piwik_Live_API
 					AND " . Piwik_Common::prefixTable('goal') . ".deleted = 0
 					$sqlWhere
 				GROUP BY idvisit
-				ORDER BY idvisit DESC";
+				ORDER BY visit_last_action_time DESC";
 
 		if(!empty($limit))
 		{
