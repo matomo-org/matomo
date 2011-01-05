@@ -148,7 +148,7 @@ class Piwik_Live_API
 
 			$visitorDetailsArray['siteCurrency'] = $site->getCurrency();
 
-			$dateTimeVisit = Piwik_Date::factory($visitorDetailsArray['firstActionTimestamp'], $timezone);
+			$dateTimeVisit = Piwik_Date::factory($visitorDetailsArray['lastActionTimestamp'], $timezone);
 			$visitorDetailsArray['serverDatePretty'] = $dateTimeVisit->getLocalized('%shortDay% %day% %shortMonth%');
 			$visitorDetailsArray['serverTimePretty'] = $dateTimeVisit->getLocalized('%time%');
 			$visitorDetailsArray['goalConversions'] = $visitorDetail['count_goal_conversions'];
