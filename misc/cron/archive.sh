@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/sh -e
 
 # Description
 # This cron script will automatically run Piwik archiving every hour.
@@ -28,7 +28,6 @@
 # [General]
 # time_before_archive_considered_outdated = 3600
 # enable_browser_archiving_triggering = false
-#
 #===========================================================================
 
 for TEST_PHP_BIN in php5 php php-cli php-cgi; do
