@@ -42,7 +42,7 @@ abstract class Piwik_Menu_Abstract {
 	/**
 	 * Adds a new entry to the menu.
 	 */
-	public function add($menuName, $subMenuName, $url, $displayedForCurrentUser, $order) {
+	public function add($menuName, $subMenuName, $url, $displayedForCurrentUser, $order = 50) {
 		$this->menuEntries[] = array(
 			$menuName,
 			$subMenuName,
