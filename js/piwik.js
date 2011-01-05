@@ -70,7 +70,7 @@ var
 		 * Is property (or variable) defined?
 		 */
 		function isDefined(property) {
-			return (property = typeof property) !== 'undefined' && property !== 'unknown';
+			return typeof property !== 'undefined';
 		}
 
 		/*
@@ -548,8 +548,11 @@ var
 				var i, mimeType;
 
 				// Safari and Opera
-				// IE6: typeof navigator.javaEnabled == 'unknown'
-				if (isDefined(navigatorAlias.javaEnabled) && navigatorAlias.javaEnabled()) {
+				// IE6/IE7 navigator.javaEnabled can't be aliased, so test directly
+				if (typeof navigator.javaEnabled !== 'unknown' &&
+					isDefined(navigatorAlias.javaEnabled) &&
+					navigatorAlias.javaEnabled())
+				{
 					pluginMap.java[2] = '1';
 				}
 
