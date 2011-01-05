@@ -21,7 +21,7 @@
 		
 		<label><input type="radio" value="0" name="enableBrowserTriggerArchiving"{if $enableBrowserTriggerArchiving==0} checked="checked"{/if} /> 
 			{'General_No'|translate} <br />
-			<span class="form-description">{'General_ArchivingTriggerDescription'|translate:"<a href='?module=Proxy&action=redirect&php?url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>":"</a>"}</span>
+			<span class="form-description">{'General_ArchivingTriggerDescription'|translate:"<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>":"</a>"}</span>
 		</label> 
 	</fieldset>
 	<td>
