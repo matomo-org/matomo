@@ -660,7 +660,24 @@ class Piwik
 
 				// Off = ''; On = '1'; otherwise, it's a buffer size
 				$zlibOutputCompression = ini_get('zlib.output_compression');
-				$phpOutputCompressionEnabled = !empty($zlibOutputCompression);
+
+				// could be ob_gzhandler, ob_deflatehandler, etc
+				$outputHandler = ini_get('output_handler');
+
+				// output handlers can be stacked
+				$obHandlers = ob_list_handlers();
+
+				// user defined handler via wrapper
+				$autoPrependFile = ini_get('auto_prepend_file');
+				$autoAppendFile = ini_get('auto_append_file');
+
+				$phpOutputCompressionEnabled = !empty($zlibOutputCompression) ||
+					!empty($outputHandler) ||
+					(isset($obHandlers[0]) && $obHandlers[0] !== 'default output handler') ||
+					count($obHandlers) > 1 ||
+					!empty($autoPrependFile) ||
+					!empty($autoAppendFile);
+
 				if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && !$phpOutputCompressionEnabled)
 				{
 					$acceptEncoding = $_SERVER['HTTP_ACCEPT_ENCODING'];
