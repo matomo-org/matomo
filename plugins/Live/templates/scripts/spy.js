@@ -126,8 +126,10 @@ $.fn.spy = function(settings) {
 			if (spyRunning && (!spy.parsing)) {
 			    var customParameterValue = o.customParameterValueCallback.call();
 				parameters[o.customParameterName] = customParameterValue;
+				spyRunning = 0; 
 				$.get(o.ajax, parameters, function(r) {
 					spy.parse(e, r);
+					spyRunning = 1; 
 				});
 			}
 		}, o.timeout);
