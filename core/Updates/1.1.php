@@ -29,6 +29,11 @@ class Piwik_Updates_1_1 extends Piwik_Updates
 						. ' Edit your config/config.ini.php to change it.');
 		}
 
+		// Warning!
+		// This code below will copy in the config.ini.php ALL the values found in the 
+		// General section (including the ones in global.ini.php). This is not desired!
+		// We leave this code as is since this migration does impact a fraction of users
+		// Do not reuse this code for future migration of config file values.
 		$generalInfo = $config->General->toArray();
 		if(!isset($generalInfo['proxy_client_headers']) && count($headers = Piwik_ProxyHeaders::getProxyClientHeaders()) > 0)
 		{
