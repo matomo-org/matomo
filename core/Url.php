@@ -171,7 +171,8 @@ class Piwik_Url
 		}
 
 		$default = Piwik_Common::sanitizeInputValue($default);
-		if(isset($_SERVER['HTTP_HOST']))
+		if(isset($_SERVER['HTTP_HOST'])
+			&& !empty($_SERVER['HTTP_HOST']))
 		{
 			$default = Piwik_Common::sanitizeInputValue($_SERVER['HTTP_HOST']);
 		}
