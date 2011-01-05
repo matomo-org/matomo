@@ -211,7 +211,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			|| !$isLastActionInTheSameVisit)
 		{
 			$this->handleNewVisit($actionUrlId, $someGoalsConverted);
-				if(!is_null($action))
+			if(!is_null($action))
 			{
 				$action->record( $this->visitorInfo['idvisit'], 0, 0 );
 			}
@@ -262,9 +262,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 					$type = "outlink";
 					break;
 			}
-			printDebug("Detected action <u>$type</u>,
-						Action name: ". $action->getActionName() . ",
-						Action URL = ". $action->getActionUrl() );
+			printDebug("Action is a <u>$type</u>,".
+						"\n  Action name: ". $action->getActionName() . ",".
+						"\n  Action URL = ". $action->getActionUrl() );
 		}
 	}
 	/**
@@ -299,7 +299,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 		$serverTimestamp 	= $this->getCurrentTimestamp();
 		$datetimeServer = Piwik_Tracker::getDatetimeFromTimestamp($serverTimestamp);
-		printDebug("Visit known. Current date is ".$datetimeServer);
+		printDebug("Visit is known. ");
 
 		$visitTotalTime = $this->getCurrentTimestamp() - $this->visitorInfo['visit_first_action_time'];
 		$valuesToUpdate['visit_last_action_time'] = $datetimeServer;
@@ -715,78 +715,59 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 		$this->printCookie();
 		
-		/*
-		 * Case the visitor has the piwik cookie.
-		 * We make sure all the data that should saved in the cookie is available.
-		 */
 		if( false !== ($idVisitor = $this->cookie->get( Piwik_Tracker::COOKIE_INDEX_IDVISITOR )) )
 		{
-			$timestampLastAction = $this->cookie->get( Piwik_Tracker::COOKIE_INDEX_TIMESTAMP_LAST_ACTION );
-			$timestampFirstAction = $this->cookie->get( Piwik_Tracker::COOKIE_INDEX_TIMESTAMP_FIRST_ACTION );
-			$idVisit = $this->cookie->get( Piwik_Tracker::COOKIE_INDEX_ID_VISIT );
-			$idLastAction = $this->cookie->get( Piwik_Tracker::COOKIE_INDEX_ID_LAST_ACTION );
-
-			if(		$timestampLastAction !== false && is_numeric($timestampLastAction)
-				&& 	$timestampFirstAction !== false && is_numeric($timestampFirstAction)
-				&& 	$idVisit !== false && is_numeric($idVisit)
-				&& 	$idLastAction !== false && is_numeric($idLastAction)
-			)
-			{
-				$this->visitorInfo['visitor_idcookie'] = $idVisitor;
-				$this->visitorInfo['visit_last_action_time'] = $timestampLastAction;
-				$this->visitorInfo['visit_first_action_time'] = $timestampFirstAction;
-				$this->visitorInfo['idvisit'] = $idVisit;
-				$this->visitorInfo['visit_exit_idaction_url'] = $idLastAction;
-
-				$this->visitorKnown = true;
-
-				printDebug("The visitor is known because he has the piwik cookie (idcookie = {$this->visitorInfo['visitor_idcookie']}, idvisit = {$this->visitorInfo['idvisit']}, last action = ".date("r", $this->visitorInfo['visit_last_action_time']).") ");
-			}
-			else
-			{
-				printDebug("Visitor has the piwik cookie, but some values are invalid: ts first action = $timestampLastAction, ts last action = $timestampFirstAction, idvisit = $idVisit, id last action = $idLastAction.");
-			}
+			$this->visitorInfo['visitor_idcookie'] = $idVisitor;
+			$this->visitorKnown = true;
+			printDebug("The visitor has the piwik cookie (idcookie = ".$this->visitorInfo['visitor_idcookie'].") ");
 		}
 		else
 		{
-			printDebug("Visitor doesn't have the piwik cookie (id=".$idVisitor);
+			printDebug("Visitor doesn't have the piwik cookie.");
 		}
 
-		/*
-		 * If the visitor doesn't have the piwik cookie, we look for a visitor
-		 * that has exactly the same configuration and that visited the website today.
-		 */
-		if( !$this->visitorKnown
-			&& Piwik_Tracker_Config::getInstance()->Tracker['enable_detect_unique_visitor_using_settings'])
+		$userInfo = $this->getUserSettingsInformation();
+		$md5Config = $userInfo['config_md5config'];
+		$bindSql = array( $this->getCurrentDate(), $this->idsite, $md5Config);
+		$where = '';
+		
+		if( Piwik_Tracker_Config::getInstance()->Tracker['trust_visitors_cookies']
+			&& !empty($this->visitorInfo['visitor_idcookie']))
 		{
-			$userInfo = $this->getUserSettingsInformation();
-			$md5Config = $userInfo['config_md5config'];
+			// If the visitor cookies should be trusted (ie. intranet) we add this condition
+			$where = 'AND visitor_idcookie = ? ';
+			$bindSql[] = $idVisitor;
+		}
+		
+		$visitRow = Piwik_Tracker::getDatabase()->fetch(
+									" SELECT  	visitor_idcookie,
+												visit_last_action_time,
+												visit_first_action_time,
+												idvisit,
+												visit_exit_idaction_url
+									FROM ".Piwik_Common::prefixTable('log_visit').
+									" WHERE visit_server_date = ?
+										AND idsite = ?
+										AND config_md5config = ?
+										".$where."
+									ORDER BY visit_last_action_time DESC
+									LIMIT 1", $bindSql
+									);
+		if($visitRow
+			&& count($visitRow) > 0)
+		{
+			$this->visitorInfo['visitor_idcookie'] = $visitRow['visitor_idcookie'];
+			$this->visitorInfo['visit_last_action_time'] = strtotime($visitRow['visit_last_action_time']);
+			$this->visitorInfo['visit_first_action_time'] = strtotime($visitRow['visit_first_action_time']);
+			$this->visitorInfo['idvisit'] = $visitRow['idvisit'];
+			$this->visitorInfo['visit_exit_idaction_url'] = $visitRow['visit_exit_idaction_url'];
 
-			$visitRow = Piwik_Tracker::getDatabase()->fetch(
-										" SELECT  	visitor_idcookie,
-													visit_last_action_time,
-													visit_first_action_time,
-													idvisit,
-													visit_exit_idaction_url
-										FROM ".Piwik_Common::prefixTable('log_visit').
-										" WHERE visit_server_date = ?
-											AND idsite = ?
-											AND config_md5config = ?
-										ORDER BY visit_last_action_time DESC
-										LIMIT 1",
-										array( $this->getCurrentDate(), $this->idsite, $md5Config));
-			if($visitRow
-				&& count($visitRow) > 0)
+			$this->visitorKnown = true;
+
+			printDebug("The visitor is known because of his userSettings+IP (idvisit = {$this->visitorInfo['idvisit']}, last action = ".date("r", $this->visitorInfo['visit_last_action_time']).", first action = ".date("r", $this->visitorInfo['visit_first_action_time']) .")");
+			if(!empty($where))
 			{
-				$this->visitorInfo['visitor_idcookie'] = $visitRow['visitor_idcookie'];
-				$this->visitorInfo['visit_last_action_time'] = strtotime($visitRow['visit_last_action_time']);
-				$this->visitorInfo['visit_first_action_time'] = strtotime($visitRow['visit_first_action_time']);
-				$this->visitorInfo['idvisit'] = $visitRow['idvisit'];
-				$this->visitorInfo['visit_exit_idaction_url'] = $visitRow['visit_exit_idaction_url'];
-
-				$this->visitorKnown = true;
-
-				printDebug("The visitor is known because of his userSettings+IP (idcookie = {$visitRow['visitor_idcookie']}, idvisit = {$this->visitorInfo['idvisit']}, last action = ".date("r", $this->visitorInfo['visit_last_action_time']).", first action = ".date("r", $this->visitorInfo['visit_first_action_time']) .")");
+				printDebug("Also matched the visitor based on his idcookie: {$visitRow['visitor_idcookie']}");
 			}
 		}
 	}
@@ -915,32 +896,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		// idcookie has been generated in handleNewVisit or we simply propagate the old value
 		$this->cookie->set( 	Piwik_Tracker::COOKIE_INDEX_IDVISITOR,
 								$this->visitorInfo['visitor_idcookie'] );
-
-		// the last action timestamp is the current timestamp
-		$this->cookie->set( 	Piwik_Tracker::COOKIE_INDEX_TIMESTAMP_LAST_ACTION,
-								$this->visitorInfo['visit_last_action_time'] );
-
-		// the first action timestamp is the timestamp of the first action of the current visit
-		$this->cookie->set( 	Piwik_Tracker::COOKIE_INDEX_TIMESTAMP_FIRST_ACTION,
-								$this->visitorInfo['visit_first_action_time'] );
-
-		// the idvisit has been generated by mysql in handleNewVisit or simply propagated here
-		$this->cookie->set( 	Piwik_Tracker::COOKIE_INDEX_ID_VISIT,
-								$this->visitorInfo['idvisit'] );
-
-		// the last action ID is the current exit idaction
-		if(isset($this->visitorInfo['visit_exit_idaction_url'] ))
-		{
-			$this->cookie->set( 	Piwik_Tracker::COOKIE_INDEX_ID_LAST_ACTION,
-								$this->visitorInfo['visit_exit_idaction_url'] );
-		}
-
-		// for a new visit, we flag the visit with visitor_returning
-		if(isset($this->visitorInfo['visitor_returning']))
-		{
-			$this->cookie->set( Piwik_Tracker::COOKIE_INDEX_VISITOR_RETURNING,
-								$this->visitorInfo['visitor_returning'] );
-		}
 
 		$this->cookie->save();
 	}

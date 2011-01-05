@@ -35,10 +35,6 @@ class Piwik_Tracker
 	const STATE_NOSCRIPT_REQUEST = 13;
 		
 	const COOKIE_INDEX_IDVISITOR 				= 1;
-	const COOKIE_INDEX_TIMESTAMP_LAST_ACTION 	= 2;
-	const COOKIE_INDEX_TIMESTAMP_FIRST_ACTION 	= 3;
-	const COOKIE_INDEX_ID_VISIT 				= 4;
-	const COOKIE_INDEX_ID_LAST_ACTION 			= 5;
 	const COOKIE_INDEX_REFERER_ID_VISIT			= 6;
 	const COOKIE_INDEX_REFERER_TIMESTAMP		= 7;
 	const COOKIE_INDEX_REFERER_TYPE				= 8;
@@ -110,6 +106,8 @@ class Piwik_Tracker
 		$this->loadTrackerPlugins();
 		$this->handleDisabledTracker();
 		$this->handleEmptyRequest();
+		
+		printDebug("Current datetime: ".date("Y-m-d H:i:s", $this->getCurrentTimestamp()));
 	}
 
 	protected function end()
@@ -281,7 +279,7 @@ class Piwik_Tracker
 				Piwik_PluginsManager::getInstance()->doNotLoadAlwaysActivatedPlugins();
 				Piwik_PluginsManager::getInstance()->loadPlugins( $pluginsTracker['Plugins_Tracker'] );
 				
-				printDebug("Loading plugins: { ". implode(",", $pluginsTracker['Plugins_Tracker']) . "}");
+				printDebug("Loading plugins: { ". implode(",", $pluginsTracker['Plugins_Tracker']) . " }");
 			}
 		} catch(Exception $e) {
 			printDebug("ERROR: ".$e->getMessage());

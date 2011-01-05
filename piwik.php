@@ -59,7 +59,7 @@ if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 	$timer = new Piwik_Timer();
 	set_error_handler('Piwik_ErrorHandler');
 	set_exception_handler('Piwik_ExceptionHandler');
-	printDebug($_GET);
+	printDebug("Input parameters: <br/>" . var_export($_GET, true));
 	Piwik_Tracker_Db::enableProfiling();
 	// Config might have been created by proxy-piwik.php
 	try {

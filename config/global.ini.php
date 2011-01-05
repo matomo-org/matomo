@@ -226,11 +226,11 @@ default_time_one_page_visit = 0
 ; when set to 1, the first ever referer used to reach the website will be used
 use_first_referer_to_determine_goal_referer = 0
 
-; if set to 1, Piwik will try to match visitors without cookie to a previous visitor that has the same
-; configuration: OS, browser, resolution, IP, etc. This heuristic adds an extra SQL query for each page view without cookie. 
-; it is advised to set it to 1 for more accurate detection of unique visitors.
-; However when most users have the same IP, and the same configuration, it is advised to set it to 0
-enable_detect_unique_visitor_using_settings = 1
+; By default, Piwik does not trust the idcookie as accurate and will always check that if the visitor visited
+; the website earlier by looking for a visitor with the same IP and user configuration (to avoid abuse or misbehaviour)
+; This setting should only be set to 1 in an intranet setting, where most users have the same configuration (browsers, OS)
+; and the same IP. If left to 0 in this setting, all visitors will be counted as one single visitor. 
+trust_visitors_cookies = 0
 
 ; if set to 1, Piwik attempts a "best guess" at the visitor's country of
 ; origin when the preferred language tag omits region information.
