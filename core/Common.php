@@ -1339,3 +1339,11 @@ function destroy(&$var)
 	unset($var);
 	$var = null;
 }
+
+
+// http://bugs.php.net/bug.php?id=53632
+if (strpos(str_replace('.','',serialize($_REQUEST)), '22250738585072011') !== false)
+{
+  header('Status: 422 Unprocessable Entity');
+  die('Exit');
+}
