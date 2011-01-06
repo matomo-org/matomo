@@ -65,4 +65,46 @@ class Test_Piwik extends UnitTestCase
     	}
     	Piwik_Translate::getInstance()->unloadEnglishTranslation();
     }
+
+	public function test_checkValidLoginString()
+	{
+		$fail = array(
+			'',
+			'   ',
+			'a',
+			'aa',
+			'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+			'alpha/beta',
+			'alpha:beta',
+			'alpha;beta',
+			'alpha<beta',
+			'alpha=beta',
+			'alpha>beta',
+			'alpha?beta',
+		);
+    	foreach($fail as $toTest)
+    	{
+			try {
+	    		Piwik::checkValidLoginString($toTest);
+				$this->fail('Exception raised, expected fail: '. $toTest);
+			} catch(Exception $e) {
+	    		$this->pass();
+			}
+    	}
+
+		$pass = array(
+			'aaa',
+			'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+			'shoot_puck@the-goal.com',
+		);
+    	foreach($pass as $toTest)
+    	{
+			try {
+	    		Piwik::checkValidLoginString($toTest);
+				$this->pass();
+			} catch(Exception $e) {
+	    		$this->fail('Exception raised, expected pass: '. $toTest);
+			}
+    	}
+	}
 }
