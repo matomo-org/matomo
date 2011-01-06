@@ -57,7 +57,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 			}
 			else
 			{
-				$messageNoAccess = Piwik_Translate('Login_InvalidNonceOrReferer');
+				$messageNoAccess = Piwik_Translate('Login_InvalidNonceOrHeaders');
 			}
 		}
 
