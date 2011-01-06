@@ -395,7 +395,7 @@ class Piwik_AssetManager
 			
 			// Tries to remove compressed version of the merged file.
 			// See Piwik::serveStaticFile() for more info on static file compression
-			$compressedFileLocation = Piwik::COMPRESSED_FILE_LOCATION . $filename;
+			$compressedFileLocation = PIWIK_USER_PATH . Piwik::COMPRESSED_FILE_LOCATION . $filename;
 			
 			@unlink ( $compressedFileLocation . ".deflate");
 			@unlink ( $compressedFileLocation . ".gz");
@@ -430,7 +430,7 @@ class Piwik_AssetManager
 	 */
 	private static function getMergedFileDirectory ()
 	{
- 		$mergedFileDirectory = self::getAbsoluteLocation(self::MERGED_FILE_DIR);
+ 		$mergedFileDirectory = PIWIK_USER_PATH . '/' . self::MERGED_FILE_DIR;
 
 		if (!is_dir($mergedFileDirectory))
 		{
