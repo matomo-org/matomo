@@ -74,6 +74,7 @@ vertical-align:middle;
 
 <h2>{'SitesManager_WebsitesManagement'|translate}</h2>
 <p>{'SitesManager_MainDescription'|translate}
+{'SitesManager_YouCurrentlyHaveAccessToNWebsites'|translate:"<b>$adminSitesCount</b>"}
 {if $isSuperUser}
 <br />{'SitesManager_SuperUserCan'|translate:"<a href='#globalSettings'>":"</a>"}
 {/if}

@@ -30,6 +30,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 			$site['excluded_parameters'] = str_replace(',','<br/>', $site['excluded_parameters']);
 		}
 		$view->adminSites = $sites;
+		$view->adminSitesCount = count($sites);
 
 		$timezones = Piwik_SitesManager_API::getInstance()->getTimezonesList();
 		$view->timezoneSupported = Piwik::isTimezoneSupportEnabled();

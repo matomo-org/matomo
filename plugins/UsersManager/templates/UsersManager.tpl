@@ -96,7 +96,8 @@
 {if $userIsSuperUser}
 	<br />
 	<h2>{'UsersManager_UsersManagement'|translate}</h2>
-	<p>{'UsersManager_UsersManagementMainDescription'|translate}</p>
+	<p>{'UsersManager_UsersManagementMainDescription'|translate} 
+	{'UsersManager_ThereAreCurrentlyNRegisteredUsers'|translate:"<b>$usersCount</b>"}</p>
 
 	{ajaxErrorDiv id=ajaxErrorUsersManagement}
 	{ajaxLoadingDiv id=ajaxLoadingUsersManagement}
