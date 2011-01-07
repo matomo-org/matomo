@@ -126,7 +126,7 @@ class Piwik_FrontController
 		} catch(Piwik_Access_NoAccessException $e) {
 			Piwik_PostEvent('FrontController.NoAccessException', $e);					
 		} catch(Exception $e) {
-			Piwik_ExitWithMessage($e->getMessage(), false, true);
+			Piwik_ExitWithMessage($e->getMessage(), false /* DEBUG ONLY $e->getTraceAsString() */, true);
 		}
 	}
 	
