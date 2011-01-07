@@ -120,7 +120,18 @@ class Piwik_Url
 		 */
 		if(empty($url))
 		{
-			$url = $_SERVER['SCRIPT_NAME'];
+			if(isset($_SERVER['SCRIPT_NAME']))
+			{
+				$url = $_SERVER['SCRIPT_NAME'];
+			}
+			elseif(isset($_SERVER['SCRIPT_FILENAME']))
+			{
+				$url = $_SERVER['SCRIPT_FILENAME'];
+			}
+			elseif(isset($argv))
+			{
+				$url = $argv[0];
+			}
 		}
 
 		if(!isset($url[0]) || $url[0] !== '/')
