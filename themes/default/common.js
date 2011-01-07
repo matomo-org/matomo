@@ -33,7 +33,20 @@ piwikHelper.windowModal = function( domSelector, onValidate )
 	
 	$.unblockUI
 }
-
+var globalAjaxQueue = [];
+piwikHelper.queueAjaxRequest = function( request )
+{
+	globalAjaxQueue.push(request);
+}
+piwikHelper.abortQueueAjax = function()
+{
+	for(var request in globalAjaxQueue) {
+		console.log('aborting '+request);
+		globalAjaxQueue[request].abort();
+	}
+	globalAjaxQueue = [];
+	return true;
+}
 piwikHelper.getCurrentQueryStringWithParametersModified = function(newparams)
 {
 	var parameters = String(window.location.search);

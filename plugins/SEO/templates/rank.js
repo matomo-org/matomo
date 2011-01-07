@@ -26,7 +26,7 @@ $(document).ready(function() {
 					idSite: piwik.idSite
 				}
 		};
-		$.ajax( ajaxRequest );
+		piwikHelper.queueAjaxRequest( $.ajax( ajaxRequest ) );
 	}  
 	
 	// click on Rank button

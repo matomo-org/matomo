@@ -117,7 +117,7 @@ dashboard.prototype =
 		{
 			widgetParameters['viewDataTable'] = viewDataTableToRestore;
 		}
-		$.ajax(widgetsHelper.getLoadWidgetAjaxRequest(uniqueId, widgetParameters, onWidgetLoadedReplaceElementWithContent));
+		piwikHelper.queueAjaxRequest( $.ajax(widgetsHelper.getLoadWidgetAjaxRequest(uniqueId, widgetParameters, onWidgetLoadedReplaceElementWithContent)) );
 	},
 	
 	addDummyWidgetAtBottomOfColumn: function(columnNumber)
