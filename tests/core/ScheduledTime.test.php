@@ -312,9 +312,9 @@ class Test_Piwik_ScheduledTime extends UnitTestCase
 		 * Expected :
 		 *  getRescheduledTime returns Saturday January 2 1971 00:00:00 UTC
 		 */
-		$hourlySchedule = new Piwik_ScheduledTime_Daily_Test();
-		$hourlySchedule->setReturnValue('getTime', $this->JANUARY_01_1971_09_10_00);
-		$this->assertEqual($hourlySchedule->getRescheduledTime(), $this->JANUARY_02_1971_00_00_00);
+		$dailySchedule = new Piwik_ScheduledTime_Daily_Test();
+		$dailySchedule->setReturnValue('getTime', $this->JANUARY_01_1971_09_10_00);
+		$this->assertEqual($dailySchedule->getRescheduledTime(), $this->JANUARY_02_1971_00_00_00);
 	}
 
 	/*
@@ -333,10 +333,10 @@ class Test_Piwik_ScheduledTime extends UnitTestCase
 		 * Expected :
 		 *  getRescheduledTime returns Saturday January 2 1971 09:00:00 UTC
 		 */
-		$hourlySchedule = new Piwik_ScheduledTime_Daily_Test();
-		$hourlySchedule->setHour(9);
-		$hourlySchedule->setReturnValue('getTime', $this->JANUARY_01_1971_09_00_00);
-		$this->assertEqual($hourlySchedule->getRescheduledTime(), $this->JANUARY_02_1971_09_00_00);
+		$dailySchedule = new Piwik_ScheduledTime_Daily_Test();
+		$dailySchedule->setHour(9);
+		$dailySchedule->setReturnValue('getTime', $this->JANUARY_01_1971_09_00_00);
+		$this->assertEqual($dailySchedule->getRescheduledTime(), $this->JANUARY_02_1971_09_00_00);
 
 		/*
 		 * Test 2
@@ -348,10 +348,10 @@ class Test_Piwik_ScheduledTime extends UnitTestCase
 		 * Expected :
 		 *  getRescheduledTime returns Saturday January 2 1971 09:00:00 UTC
 		 */
-		$hourlySchedule = new Piwik_ScheduledTime_Daily_Test();
-		$hourlySchedule->setHour(9);
-		$hourlySchedule->setReturnValue('getTime', $this->JANUARY_01_1971_12_10_00);
-		$this->assertEqual($hourlySchedule->getRescheduledTime(), $this->JANUARY_02_1971_09_00_00);
+		$dailySchedule = new Piwik_ScheduledTime_Daily_Test();
+		$dailySchedule->setHour(9);
+		$dailySchedule->setReturnValue('getTime', $this->JANUARY_01_1971_12_10_00);
+		$this->assertEqual($dailySchedule->getRescheduledTime(), $this->JANUARY_02_1971_09_00_00);
 
         /*
          * Test 3
@@ -363,10 +363,10 @@ class Test_Piwik_ScheduledTime extends UnitTestCase
          * Expected :
          *  getRescheduledTime returns Saturday January 2 1971 00:00:00 UTC
          */
-        $hourlySchedule = new Piwik_ScheduledTime_Daily_Test();
-        $hourlySchedule->setHour(0);
-        $hourlySchedule->setReturnValue('getTime', $this->JANUARY_01_1971_12_10_00);
-        $this->assertEqual($hourlySchedule->getRescheduledTime(), $this->JANUARY_02_1971_00_00_00);
+        $dailySchedule = new Piwik_ScheduledTime_Daily_Test();
+        $dailySchedule->setHour(0);
+        $dailySchedule->setReturnValue('getTime', $this->JANUARY_01_1971_12_10_00);
+        $this->assertEqual($dailySchedule->getRescheduledTime(), $this->JANUARY_02_1971_00_00_00);
 	}
 	
 	/*
