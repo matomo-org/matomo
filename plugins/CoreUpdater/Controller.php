@@ -32,6 +32,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		$view = Piwik_View::factory('update_new_version_available');
 		$view->piwik_version = Piwik_Version::VERSION;
 		$view->piwik_new_version = $newVersion;
+		$view->piwik_latest_version_url = Zend_Registry::get('config')->General->latest_version_url;
 		$view->can_auto_update = Piwik::canAutoUpdate();
 		echo $view->render();
 	}
@@ -39,7 +40,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	public function oneClickUpdate()
 	{
 		Piwik::checkUserIsSuperUser();
-		$this->checkNewVersionIsAvailableOrDie();
+		$this->newVersion = $this->checkNewVersionIsAvailableOrDie();
 
 		Piwik::setMaxExecutionTime(0);
 
@@ -89,7 +90,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		Piwik::checkDirectoriesWritableOrDie( array(self::PATH_TO_EXTRACT_LATEST_VERSION) );
 
 		// we catch exceptions in the caller (i.e., oneClickUpdate)
-		$url = Zend_Registry::get('config')->General->latest_version_url;
+		$url = Zend_Registry::get('config')->General->latest_version_url . '?cb=' . $this->newVersion;
 		$fetched = Piwik_Http::fetchRemoteFile($url, $this->pathPiwikZip);
 	}
 	
