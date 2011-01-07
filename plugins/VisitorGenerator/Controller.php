@@ -82,6 +82,19 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller {
 		$timer = new Piwik_Timer;
 
 		$startTime = time() - ($daysToCompute-1)*86400;
+		
+		
+		// Update site.ts_created if we generate visits on days before the website was created
+		$site = new Piwik_Site($idSite);
+		$minGeneratedDate = Piwik_Date::factory($startTime);
+		if($minGeneratedDate->isEarlier($site->getCreationDate()))
+		{
+			// direct access to the website table (bad practise but this is a debug / dev plugin)
+    		Zend_Registry::get('db')->update(Piwik_Common::prefixTable("site"), 
+    							array('ts_created' =>  $minGeneratedDate->getDatetime()),
+    							"idsite = $idSite");
+			
+		}
 		$dates = array();
 		while($startTime <= time()) {
 			$visitors = rand($minVisitors, $maxVisitors);
