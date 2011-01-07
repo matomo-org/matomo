@@ -14,7 +14,7 @@
 		<input type="hidden" name="action" value="oneClickUpdate" />
 		<input type="submit" class="submit" value="{'CoreUpdater_UpdateAutomatically'|translate}" />
 {/if}
-		<a style="margin-left:50px" class="submit button" href="http://piwik.org/latest.zip">{'CoreUpdater_DownloadX'|translate:$piwik_new_version}</a><br />
+		<a style="margin-left:50px" class="submit button" href="{$piwik_latest_version_url}?cb={$piwik_new_version}">{'CoreUpdater_DownloadX'|translate:$piwik_new_version}</a><br />
 {if $can_auto_update}
 	</form>
 {/if}
