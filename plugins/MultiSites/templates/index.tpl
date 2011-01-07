@@ -85,12 +85,7 @@
 prepareRows(allSites, params, '{$orderBy}');
 
 {if $autoRefreshTodayReport}
-{literal}
-function refreshAfter(timeoutPeriod) {
-	setTimeout("location.reload(true);",timeoutPeriod);
-}
-refreshAfter(5*60*1000);
-{/literal}
+piwikHelper.refreshAfter(5*60*1000);
 {/if}
 </script>
 </div>

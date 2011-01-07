@@ -38,8 +38,8 @@ class Piwik_CoreHome extends Piwik_Plugin
 	{		
 		$cssFiles = &$notification->getNotificationObject();
 		
-		$cssFiles[] = "themes/default/common.css";
 		$cssFiles[] = "libs/jquery/themes/base/jquery-ui.css";
+		$cssFiles[] = "themes/default/common.css";
 		$cssFiles[] = "plugins/CoreHome/templates/styles.css";
 		$cssFiles[] = "plugins/CoreHome/templates/menu.css";
 		$cssFiles[] = "plugins/CoreHome/templates/datatable.css";

@@ -1,5 +1,5 @@
 .admin img {
-	vertical-align: baseline;
+	vertical-align: middle;;
 }
 .admin a {
 	color: black;
@@ -89,89 +89,44 @@ table.admin  tbody td:hover, table.admin  tbody th:hover {
 	padding-bottom:20px;
 }
 .adminTable {
-	border-width: 1px;
-	border-style: solid;
-	border-collapse: collapse;
 	width: 100%;
 	clear: both;
 	margin: 0;
 }
 .adminTable a {
 	text-decoration: none;
+	color:#2B5C97;
 }
 .adminTable abbr {
 	white-space: nowrap;
 }
-.adminTable td, .adminTable th {
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #ccc;
+.adminTable td {
 	font-size: 13px;
 	vertical-align: text-top;
 	vertical-align:top;
-}
-.adminTable td {
 	padding: 7px 15px 9px 10px;
 	vertical-align: top;
 }
-.adminTable th {
-	padding: 9px 15px 6px 10px;
-	text-align: left;
-	line-height: 1.3em;
-}
-.adminTable th input {
-	margin: 0 0 0 8px;
-	padding: 0;
+.adminTable td.action-links {
+	text-align: right;
 }
 .adminTable .check-column {
 	text-align: right;
 	width: 1.5em;
 	padding: 0;
 }
-.adminTable {
-	border-color: #ccc;
-}
-.adminTable tbody th.check-column {
-	padding: 8px 0 22px;
-}
 .adminTable .num {
 	text-align: center;
-}
-.adminTable td, .adminTable th {
-	border-bottom-color: #ccc;
-}
-.adminTable thead {
-	background-color: #464646;
-	color: #d7d7d7;
-}
-.adminTable td.action-links, .adminTable th.action-links {
-	text-align: right;
 }
 .adminTable .name {
 	font-weight: bold;
 }
-.adminTable a {
-	border-bottom:1px dotted;
-	color:#2B5C97;
-}
-.adminTable .active {
-	background-color: #ECF9DD;
-}
-
 .adminTable .ui-inline-help {
 	margin-top:0;
 	width:100%;
 }
-/* admin table, without borders */
-.adminTableNoBorder {
-	border:0;
-}
-.adminTableNoBorder td, .adminTableNoBorder th {
-	border:0;
-}
 
 /* other styles */
-
 .form-description {
 	color:#666666;
 	font-style:italic;

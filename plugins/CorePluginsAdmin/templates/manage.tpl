@@ -6,7 +6,8 @@
 
 <h2>{'CorePluginsAdmin_PluginsManagement'|translate}</h2>
 <p>{'CorePluginsAdmin_MainDescription'|translate}</p>
-<table class="adminTable">
+<div class='entityContainer'>
+<table class="dataTable entityTable">
 	<thead>
 	<tr>
 		<th>{'CorePluginsAdmin_Plugin'|translate}</th>
@@ -19,7 +20,7 @@
 	<tbody id="plugins">
 	{foreach from=$pluginsName key=name item=plugin}
 	{if isset($plugin.alwaysActivated) && !$plugin.alwaysActivated}
-		<tr class={if $plugin.activated}"active"{else}"deactivate"{/if}>
+		<tr {if $plugin.activated}class="highlight"{/if}>
 			<td class="name">
 				{if isset($plugin.info.homepage)}<a title="{'CorePluginsAdmin_PluginHomepage'|translate}" href="{$plugin.info.homepage}" target="_blank">{/if}
 				{$name}
@@ -37,14 +38,12 @@
 				{/if}
 			</td>
 			<td class="status">
-				{if $plugin.alwaysActivated}<span title="{'CorePluginsAdmin_ActivatedHelp'|translate}" class="active">{'CorePluginsAdmin_Active'|translate}</span>
-				{elseif $plugin.activated}{'CorePluginsAdmin_Active'|translate}
+				{if $plugin.activated}{'CorePluginsAdmin_Active'|translate}
 				{else}{'CorePluginsAdmin_Inactive'|translate}{/if}
 			</td>
 			
-			<td class="togl action-links" {if $plugin.alwaysActivated}title="{'CorePluginsAdmin_ActivatedHelp'|translate}"{/if}>
-				{if $plugin.alwaysActivated} <center>-</center>  
-				{elseif $plugin.activated}<a href='index.php?module=CorePluginsAdmin&action=deactivate&pluginName={$name}&token_auth={$token_auth}'>{'CorePluginsAdmin_Deactivate'|translate}</a>
+			<td class="togl action-links">
+				{if $plugin.activated}<a href='index.php?module=CorePluginsAdmin&action=deactivate&pluginName={$name}&token_auth={$token_auth}'>{'CorePluginsAdmin_Deactivate'|translate}</a>
 				{else}<a href='index.php?module=CorePluginsAdmin&action=activate&pluginName={$name}&token_auth={$token_auth}'>{'CorePluginsAdmin_Activate'|translate}</a>{/if}
 			</td> 
 		</tr>
@@ -52,6 +51,7 @@
 {/foreach}
 </tbody>
 </table>
+</div>
 
 </div>
 {include file="CoreAdminHome/templates/footer.tpl"}

@@ -14,17 +14,9 @@
 	font-weight:bold;
 	text-align:center;
 }
-
-#access td, #users td {
-	spacing: 0px;
-	padding: 2px 5px 5px 4px;
-	border: 1px solid #660000;
-	width: 100px;
-}
 .editable:hover, .addrow:hover, .updateAccess:hover, .accessGranted:hover, .adduser:hover, .edituser:hover, .deleteuser:hover, .updateuser:hover, .cancel:hover{
 	cursor: pointer;
 }
-
 .addrow {
 	font-color:#3A477B;
 	padding:1em;
@@ -63,29 +55,31 @@
 {ajaxLoadingDiv}
 <div id="accessUpdated" class="ajaxSuccess">{'General_Done'|translate}!</div>
 
-<table class="admin" id="access">
-<thead>
-<tr>
-	<th>{'UsersManager_User'|translate}</th>
-	<th>{'UsersManager_PrivNone'|translate}</th>
-	<th>{'UsersManager_PrivView'|translate}</th>
-	<th>{'UsersManager_PrivAdmin'|translate}</th>
-</tr>
-</thead>
-
-<tbody>
-{assign var=accesValid value="<img src='plugins/UsersManager/images/ok.png' class='accessGranted' />"}
-{assign var=accesInvalid value="<img src='plugins/UsersManager/images/no-access.png' class='updateAccess' />"}
-{foreach from=$usersAccessByWebsite key=login item=access}
-<tr>
-	<td id='login'>{$login}</td>
-	<td id='noaccess'>{if $access=='noaccess' and $idSiteSelected!='all'}{$accesValid}{else}{$accesInvalid}{/if}&nbsp;</td>
-	<td id='view'>{if $access=='view' and $idSiteSelected!='all'}{$accesValid}{else}{$accesInvalid}{/if}&nbsp;</td>
-	<td id='admin'>{if $access=='admin' and $idSiteSelected!='all'}{$accesValid}{else}{$accesInvalid}{/if}&nbsp;</td>
-</tr>
-{/foreach}
-</tbody>
-</table>
+<div class="entityContainer" style='width:500px'>
+	<table class="entityTable dataTable" id="access">
+		<thead>
+		<tr>
+			<th class='first'>{'UsersManager_User'|translate}</th>
+			<th>{'UsersManager_PrivNone'|translate}</th>
+			<th>{'UsersManager_PrivView'|translate}</th>
+			<th>{'UsersManager_PrivAdmin'|translate}</th>
+		</tr>
+		</thead>
+		
+		<tbody>
+		{assign var=accesValid value="<img src='plugins/UsersManager/images/ok.png' class='accessGranted' />"}
+		{assign var=accesInvalid value="<img src='plugins/UsersManager/images/no-access.png' class='updateAccess' />"}
+		{foreach from=$usersAccessByWebsite key=login item=access}
+		<tr>
+			<td id='login'>{$login}</td>
+			<td id='noaccess'>{if $access=='noaccess' and $idSiteSelected!='all'}{$accesValid}{else}{$accesInvalid}{/if}&nbsp;</td>
+			<td id='view'>{if $access=='view' and $idSiteSelected!='all'}{$accesValid}{else}{$accesInvalid}{/if}&nbsp;</td>
+			<td id='admin'>{if $access=='admin' and $idSiteSelected!='all'}{$accesValid}{else}{$accesInvalid}{/if}&nbsp;</td>
+		</tr>
+		{/foreach}
+		</tbody>
+	</table>
+</div>
 
 <div class="dialog" id="confirm"> 
 	<p>{'UsersManager_ChangeAllConfirm'|translate:"<span id='login'></span>"}</p>
@@ -102,7 +96,8 @@
 	{ajaxErrorDiv id=ajaxErrorUsersManagement}
 	{ajaxLoadingDiv id=ajaxLoadingUsersManagement}
 
-	<table class="admin" id="users">
+	<div class="entityContainer" style='margin-bottom:50px'>
+	<table class="entityTable dataTable" id="users">
 		<thead>
 			<tr>
 				<th>{'General_Username'|translate}</th>
@@ -124,15 +119,15 @@
 					<td id="email" class="editable">{$user.email}</td>
 					<td id="alias" class="editable">{$user.alias}</td>
 					<td id="alias">{$user.token_auth}</td>
-					<td><img src='plugins/UsersManager/images/edit.png' class="edituser" id="row{$i}" href='#' /></td>
-					<td><img src='plugins/UsersManager/images/remove.png' class="deleteuser" id="row{$i}" value="Delete" /></td>
+					<td><span class="edituser link_but" id="row{$i}"><img title="{'General_Edit'|translate}" src='themes/default/images/ico_edit.png' /> {'General_Edit'|translate} </span></td>
+					<td><span class="deleteuser link_but" id="row{$i}"><img title="{'General_Delete'|translate}" src='themes/default/images/ico_delete.png' /> {'General_Delete'|translate} </span></td>
 				</tr>
 				{/if}
 			{/foreach}
 		</tbody>
 	</table>
-	
-	<div class="addrow"><a href="#"><img src='plugins/UsersManager/images/add.png' /> {'UsersManager_AddUser'|translate}</a></div>
+	<div class="addrow"><img src='plugins/UsersManager/images/add.png' /> {'UsersManager_AddUser'|translate}</div>
+	</div>	
 {/if}
 
 {include file="CoreAdminHome/templates/footer.tpl"}

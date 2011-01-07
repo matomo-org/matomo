@@ -11,6 +11,8 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 	var currencies = _currencies;
 	var defaultTimezone = _defaultTimezone;
 	var defaultCurrency = _defaultCurrency;
+	var siteBeingEdited = false;
+	var siteBeingEditedName = '';
 
 	function getDeleteSiteAJAX( idSite )
 	{
@@ -143,8 +145,8 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 				<td><textarea cols="20" rows="4" id="excludedQueryParameters"></textarea><br />'+excludedQueryParametersHelp+'</td>\
 				<td>'+getTimezoneSelector(defaultTimezone)+'<br />' + timezoneHelp + '</td>\
 				<td>'+getCurrencySelector(defaultCurrency)+'<br />' + currencyHelp + '</td>\
-				<td><img src="plugins/UsersManager/images/ok.png" class="addsite" href="#" title="' + _pk_translate('SitesManager_Save_js') + '" /></td>\
-	  			<td><img src="plugins/UsersManager/images/remove.png" class="cancel" title="' + _pk_translate('SitesManager_Cancel_js') +'" /></td>\
+				<td><input type="submit" class="addsite submit" value="' + _pk_translate('General_Save_js') +'" /></td>\
+	  			<td><span class="cancel link_but">'+sprintf(_pk_translate('General_OrCancel_js'),"","")+'</span></td>\
 	 		</tr>')
 	  			.appendTo('#editSites')
 		;
@@ -179,19 +181,35 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 			piwikHelper.hideAjaxError();
 			var idRow = $(this).attr('id');
 			if(alreadyEdited[idRow]==1) return;
+			if(siteBeingEdited)
+			{
+				alert(sprintf(_pk_translate('SitesManager_OnlyOneSiteAtTime_js'), '"'+$("<div/>").html(siteBeingEditedName).text()+'"'));
+				return;
+			}
+			siteBeingEdited = true;
+			
 			alreadyEdited[idRow] = 1;
 			$('tr#'+idRow+' .editableSite').each(
 				// make the fields editable
 				// change the EDIT button to VALID button
 				function (i,n) {
 					var contentBefore = $(n).html();
+
 					var idName = $(n).attr('id');
 					if(idName == 'siteName')
 					{
+						siteBeingEditedName = contentBefore;
 						var contentAfter = '<input id="'+idName+'" value="'+contentBefore+'" size="15" />';
+						
+						var inputSave = $('<br/><input style="margin-top:50px" type="submit" class="submit" value="'+_pk_translate('General_Save_js')+'" />')
+											.click( function(){ submitUpdateSite($(this).parent()); });
+						var spanCancel = $('<div><br/>'+sprintf(_pk_translate('General_OrCancel_js'),"","")+'</div>')
+											.click( function(){ piwikHelper.refreshAfter(0); } );
 						$(n)
 							.html(contentAfter)
-							.keypress( submitSiteOnEnter );
+							.keypress( submitSiteOnEnter )
+							.append(inputSave)
+							.append(spanCancel);
 					}
 					if(idName == 'urls')
 					{
@@ -228,7 +246,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 			$(this)
 				.toggle()
 				.parent()
-				.prepend( $('<img src="plugins/UsersManager/images/ok.png" class="updateSite" title="' + _pk_translate('SitesManager_Save_js') + '" />')
+				.prepend( $('<input type="submit" class="updateSite submit" value="' + _pk_translate('General_Save_js') + '" />')
 							.click( function(){ $.ajax( getUpdateSiteAJAX( $('tr#'+idRow) ) ); } ) 
 					);
 		});
@@ -281,8 +299,12 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		var key=e.keyCode || e.which;
 		if (key==13)
 		{
-			$(this).parent().find('.updateSite').click();
+			submitUpdateSite(this);
 			$(this).find('.addsite').click();
 		}
+	}
+	function submitUpdateSite(self)
+	{
+		$(self).parent().find('.updateSite').click();
 	}
 }

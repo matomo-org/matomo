@@ -9,7 +9,7 @@
 <div style="max-width:980px;">
 {foreach from=$results.test_results key=i item=section}
 <h2>{$i}</h2>
-<table class="adminTable">
+<table class="dataTable entityTable">
 	<thead>
 		<tr>
 		<th>{'SecurityInfo_Test'|translate}</th>

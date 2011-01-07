@@ -5,7 +5,7 @@
 <h2>{'UsersManager_MenuUserSettings'|translate}</h2>
 
 <br />
-<table id='userSettingsTable' class="adminTable adminTableNoBorder" style='width:1000px'>
+<table id='userSettingsTable' class="adminTable" style='width:1000px'>
 <tr>
 	<td><label for="username">{'General_Username'|translate} </label></td>
 	<td>
@@ -89,7 +89,7 @@
 	{ajaxErrorDiv id=ajaxErrorAnonymousUserSettings}
 	{ajaxLoadingDiv id=ajaxLoadingAnonymousUserSettings}
 
-	<table id='anonymousUserSettingsTable' class="adminTable adminTableNoBorder" style='width:850px'>
+	<table id='anonymousUserSettingsTable' class="adminTable" style='width:850px'>
 	<tr>
 		<td style='width:400px'>{'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess'|translate}</td>
 		<td>

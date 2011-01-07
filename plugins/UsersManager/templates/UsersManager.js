@@ -202,7 +202,7 @@ $(document).ready( function() {
 			$(this)
 				.toggle()
 				.parent()
-				.prepend( $('<img src="plugins/UsersManager/images/ok.png" class="updateuser" />')
+				.prepend( $('<input type="submit" class="submit updateuser"  value="'+_pk_translate('General_Save_js')+'" />')
 				.click( function(){ $.ajax( getUpdateUserAJAX( $('tr#'+idRow) ) ); } ) 
 			);
 		});
@@ -239,8 +239,8 @@ $(document).ready( function() {
 				<td><input id="useradd_email" value="email@domain.com" size="15" /></td>\
 				<td><input id="useradd_alias" value="alias" size="15" /></td>\
 				<td>-</td>\
-				<td><img src="plugins/UsersManager/images/ok.png" class="adduser" /></td>\
-	  			<td><img src="plugins/UsersManager/images/remove.png" class="cancel" /></td>\
+				<td><input type="submit" class="submit adduser"  value="'+_pk_translate('General_Save_js')+'" /></td>\
+	  			<td><span class="cancel">'+sprintf(_pk_translate('General_OrCancel_js'),"","")+'</span></td>\
 	 		</tr>')
 	  			.appendTo('#users')
 		;
