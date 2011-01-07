@@ -30,7 +30,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		if(count($IdSitesAdmin) > 0)
 		{
 			$defaultWebsiteId = $IdSitesAdmin[0];
-			$idSiteSelected = Piwik_Common::getRequestVar('idsite', $defaultWebsiteId, 'int');
+			$idSiteSelected = Piwik_Common::getRequestVar('idsite', $defaultWebsiteId);
 		}
 		
 		if($idSiteSelected==='all')
