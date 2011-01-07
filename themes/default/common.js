@@ -41,7 +41,6 @@ piwikHelper.queueAjaxRequest = function( request )
 piwikHelper.abortQueueAjax = function()
 {
 	for(var request in globalAjaxQueue) {
-		console.log('aborting '+request);
 		globalAjaxQueue[request].abort();
 	}
 	globalAjaxQueue = [];
