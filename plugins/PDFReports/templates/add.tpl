@@ -84,6 +84,6 @@
 </form>
 <div class='entityCancel'>
 	{'General_OrCancel'|translate:"<a class='entityCancelLink'>":"</a>"}
-</span>
+</div>
 </div>
 

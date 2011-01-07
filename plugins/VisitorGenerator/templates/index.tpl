@@ -6,7 +6,7 @@
 <p>{'VisitorGenerator_PluginDescription'|translate}</p>
 
 <form method="POST" action="{url module=VisitorGenerator action=generate}">
-<table class="adminTable adminTableNoBorder" style="width: 600px;">
+<table class="adminTable" style="width: 600px;">
 <tr>
     <td><label for="idSite">{'General_ChooseWebsite'|translate}</label></td>
     <td><select name="idSite">

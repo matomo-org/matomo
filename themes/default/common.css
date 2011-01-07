@@ -496,6 +496,10 @@ a {
 	font-size:8pt;
 	line-height:140%;
 }
+div.ui-state-highlight {
+	border-color:#545903;
+	background-color:#FFFFD6;
+}
 
 .ui-datepicker{ 
 	border: 1px solid #fff!important;
@@ -628,7 +632,10 @@ select {
 .admin .submit {
 	margin-left:50px;
 	float:none;
-	
+}
+
+.admin .entityContainer .submit {
+	margin:0;
 }
 .entityContainer .link_but {
 	white-space:nowrap;
@@ -652,7 +659,7 @@ select {
 }
 
 /* Add / Edit / List entities */
-.entityContainer{  
+.entityContainer {
 	width:800px;
 	font-size:14px;
 }
@@ -686,7 +693,9 @@ select {
 table.entityTable tr td a {
 	text-decoration:underline;
 }
-
+.entityTable tr.highlight td {
+	background-color: #ECF9DD;
+}
 
 /* cancel button below Forms */
 .entityCancel {

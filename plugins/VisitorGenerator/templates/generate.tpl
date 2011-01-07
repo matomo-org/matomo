@@ -4,7 +4,7 @@
 
 <h2>{'VisitorGenerator_VisitorGenerator'|translate}</h2>
 
-<table class="adminTable adminTableNoBorder" style="width: 600px;">
+<table class="entityTable dataTable" style="width: 600px;">
 <thead>
     <tr>
         <th>{'General_Visitors'|translate}</th>

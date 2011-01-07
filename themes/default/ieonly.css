@@ -44,10 +44,3 @@ ol#menuList li, ul#widgetList li .button,
 	margin-top: 0!important;
 }
 
-/* backgroud colors of plugins table*/
-*+html .adminTable thead th {
-	background-color:#464646!important;
-}
-*+html .adminTable .active td {
-	background-color:#ECF9DD!important;
-}

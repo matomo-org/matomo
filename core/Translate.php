@@ -148,8 +148,15 @@ class Piwik_Translate
 		}
 		$moduleRegex = substr($moduleRegex, 0, -1);
 		$moduleRegex .= ')_.*_js$#i';
-		
-		foreach($GLOBALS['Piwik_translations'] as $key => $value)
+
+		// Hack: common translations used in JS but not only, force as them to be defined in JS
+		$translations = $GLOBALS['Piwik_translations'];
+		$toSetInJs = array('General_Save', 'General_OrCancel');
+		foreach($toSetInJs as $toSetId) 
+		{
+    		$translations[$toSetId.'_js'] = $translations[$toSetId];
+		}
+		foreach($translations as $key => $value)
 		{
 			if( preg_match($moduleRegex,$key) ) {
 				$js .= '"'.$key.'": "'.str_replace('"','\"',$value).'",';

@@ -9,7 +9,7 @@
 {ajaxErrorDiv id=ajaxError}
 {ajaxLoadingDiv id=ajaxLoading}
 
-<table class="adminTable adminTableNoBorder" style='width:900px;'>
+<table class="adminTable" style='width:900px;'>
 <tr>
 	<td style='width:400px'>{'General_AllowPiwikArchivingToTriggerBrowser'|translate}</td>
 	<td style='width:220px'>
@@ -56,7 +56,7 @@
 
 <h2>{'CoreAdminHome_EmailServerSettings'|translate}</h2>
 <div id='emailSettings'>
-<table class="adminTable adminTableNoBorder" style='width:600px;'>
+<table class="adminTable" style='width:600px;'>
 	<tr>
 		<td>{'General_UseSMTPServerForEmail'|translate}</label><br>
 			<span class="form-description">{'General_SelectYesIfYouWantToSendEmailsViaServer'|translate}</span>
@@ -70,7 +70,7 @@
 </div>
 
 <div id='smtpSettings'>
-	<table class="adminTable adminTableNoBorder" style='width:550px;'>	
+	<table class="adminTable" style='width:550px;'>	
 		<tr>
 			<td><label for="mailHost">{'General_SmtpServerAddress'|translate}</label></td>
 			<td style='width:200px'><input type="text" id="mailHost" value="{$mail.host}"></td>
