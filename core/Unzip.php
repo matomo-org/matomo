@@ -18,16 +18,23 @@
 class Piwik_Unzip
 {
 	/**
-	 * Returns an unarchiver
+	 * Factory method to create an unarchiver
 	 *
+	 * @param string $name Name of unarchiver
 	 * @param string $filename Name of .zip archive
 	 * @return Piwik_Unzip
 	 */
-	static public function getDefaultUnzip($filename)
+	static public function factory($name, $filename)
 	{
-		if(class_exists('ZipArchive', false))
-			return new Piwik_Unzip_ZipArchive($filename);
+		switch($name)
+		{
+			case 'ZipArchive':
+				if(class_exists('ZipArchive', false))
+					return new Piwik_Unzip_ZipArchive($filename);
 
-		return new Piwik_Unzip_PclZip($filename);
+			case 'PclZip':
+			default:
+				return new Piwik_Unzip_PclZip($filename);
+		}
 	}
 }
