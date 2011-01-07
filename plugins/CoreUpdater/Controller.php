@@ -139,6 +139,14 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	private function oneClick_Copy()
 	{
 		/*
+		 * Make sure the execute bit is set for this shell script
+		 */
+		if(!Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled())
+		{
+			@chmod($this->pathRootExtractedPiwik . '/misc/cron/archive.sh', 0755);
+		}
+
+		/*
 		 * Copy all files to PIWIK_INCLUDE_PATH.
 		 * These files are accessed through the dispatcher.
 		 */
