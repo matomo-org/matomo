@@ -96,7 +96,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	
 	private function oneClick_Unpack()
 	{
-		$archive = Piwik_Unzip::getDefaultUnzip($this->pathPiwikZip);
+		$archive = Piwik_Unzip::factory('PclZip', $this->pathPiwikZip);
 
 		$pathExtracted = PIWIK_USER_PATH . self::PATH_TO_EXTRACT_LATEST_VERSION;
 		if ( 0 == ($archive_files = $archive->extract($pathExtracted) ) )
