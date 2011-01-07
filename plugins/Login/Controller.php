@@ -381,7 +381,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$cookie->delete();
 
 		Piwik_Session::expireSessionCookie();
-		Piwik_Session::regenerateId();
 	}
 
 	/**
