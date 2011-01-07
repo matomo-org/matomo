@@ -163,7 +163,7 @@ dataTable.prototype =
 			$('#'+self.workingDivId+' .loadingPiwik').last().css('display','block');
 		}
 		
-		$.ajax(self.buildAjaxRequest(callbackSuccess));
+		piwikHelper.queueAjaxRequest($.ajax(self.buildAjaxRequest(callbackSuccess)));
 	},
 			
 	

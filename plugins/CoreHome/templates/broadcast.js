@@ -72,6 +72,10 @@ broadcast.pageload = function( hash ) {
 broadcast.propagateAjax = function (ajaxUrl)
 {
 	broadcast.init();
+	
+	// abort all existing ajax requests
+	piwikHelper.abortQueueAjax();
+	
     // available in global scope
     var currentHashStr = window.location.hash;
 
@@ -217,7 +221,7 @@ broadcast.loadAjaxContent = function(urlAjax)
 	    success: sectionLoaded, // Callback when the request succeeds
 	    data: new Object
     };
-    $.ajax(ajaxRequest);
+    piwikHelper.queueAjaxRequest( $.ajax(ajaxRequest) );
     return false;
 };
 
