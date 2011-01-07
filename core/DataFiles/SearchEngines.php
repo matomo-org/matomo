@@ -848,14 +848,11 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 	
 		// Yandex
 		'yandex.com'				=> array('Yandex', 'text', 'yandsearch?text={k}'),
-		'yandex.ru'					=> array('Yandex'),
-		'yandex.ua'					=> array('Yandex'),
-		'yandex.by'					=> array('Yandex'),
-		'yandex.kz'					=> array('Yandex'),
+		'yandex.{}'					=> array('Yandex'),
 
 		// Yandex Images
-		'images.yandex.ru'			=> array('Yandex Images', 'text', 'yandsearch?text={k}'),
-		'images.yandex.ua'			=> array('Yandex Images'),
+		'images.yandex.com'			=> array('Yandex Images', 'text', 'yandsearch?text={k}'),
+		'images.yandex.{}'			=> array('Yandex Images'),
 
 		// Yasni
 		'www.yasni.de'				=> array('Yasni', 'query'),
