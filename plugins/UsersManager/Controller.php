@@ -66,6 +66,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		
 		$view->idSiteSelected = $idSiteSelected;
 		$view->users = $users;
+		$view->usersCount = count($users);
 		$view->usersAccessByWebsite = $usersAccessByWebsite;
 		$view->websites = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
 		$this->setBasicVariablesView($view);
