@@ -331,8 +331,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			$sqlBind[] = $value;
 		}
 
-		$sqlQuery = "/* SHARDING_ID_SITE = ". $this->idsite ." */
-						UPDATE ". Piwik_Common::prefixTable('log_visit')."
+		$sqlQuery = "UPDATE ". Piwik_Common::prefixTable('log_visit')."
 						SET $sqlActionUpdate ".implode($updateParts, ', ')."
 						WHERE idsite = ?
 							AND idvisit = ?

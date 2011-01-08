@@ -1979,11 +1979,10 @@ class Piwik
 	 * Get list of tables installed
 	 *
 	 * @param bool $forceReload Invalidate cache
-	 * @param string $idSite
 	 * @return array Tables installed
 	 */
-	static public function getTablesInstalled($forceReload = true,  $idSite = null)
+	static public function getTablesInstalled($forceReload = true)
 	{
-		return Piwik_Db_Schema::getInstance()->getTablesInstalled($forceReload, $idSite);
+		return Piwik_Db_Schema::getInstance()->getTablesInstalled($forceReload);
 	}
 }

@@ -70,7 +70,7 @@ abstract class Piwik_TablePartitioning
 	{
 		if(is_null(self::$tablesAlreadyInstalled))
 		{
-			self::$tablesAlreadyInstalled = Piwik::getTablesInstalled($forceReload = false, $this->idSite);
+			self::$tablesAlreadyInstalled = Piwik::getTablesInstalled($forceReload = false);
 		}
 		
 		if(!in_array($this->generatedTableName, self::$tablesAlreadyInstalled))
@@ -81,7 +81,6 @@ abstract class Piwik_TablePartitioning
 			$config = Zend_Registry::get('config');
 			$prefixTables = $config->database->tables_prefix;
 			$sql = str_replace( $prefixTables . $this->tableName, $this->generatedTableName, $sql);
-			$sql = "/* SHARDING_ID_SITE = ".$this->idSite." */ ".$sql;
 			$db->query( $sql );
 			
 			self::$tablesAlreadyInstalled[] = $this->generatedTableName;

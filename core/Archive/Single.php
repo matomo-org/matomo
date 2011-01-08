@@ -254,7 +254,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 		}
 
 		$db = Zend_Registry::get('db');
-		$value = $db->fetchOne("/* SHARDING_ID_SITE = ".$this->site->getId()." */  SELECT value 
+		$value = $db->fetchOne("SELECT value 
 								FROM $table
 								WHERE idarchive = ?
 									AND name = ?",	

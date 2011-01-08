@@ -339,7 +339,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 	 * @param string $idSite
 	 * @return array Tables installed
 	 */
-	public function getTablesInstalled($forceReload = true,  $idSite = null)
+	public function getTablesInstalled($forceReload = true)
 	{
 		if(is_null($this->tablesInstalled)
 			|| $forceReload === true)
@@ -361,15 +361,8 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 
 			// at this point we have only the piwik tables which is good
 			// but we still miss the piwik generated tables (using the class Piwik_TablePartitioning)
-			$idSiteInSql = "no";
-			if(!is_null($idSite))
-			{
-				$idSiteInSql = $idSite;
-			}
-			$allArchiveNumeric = $db->fetchCol("/* SHARDING_ID_SITE = ".$idSiteInSql." */
-												SHOW TABLES LIKE '".$prefixTables."archive_numeric%'");
-			$allArchiveBlob = $db->fetchCol("/* SHARDING_ID_SITE = ".$idSiteInSql." */
-												SHOW TABLES LIKE '".$prefixTables."archive_blob%'");
+			$allArchiveNumeric = $db->fetchCol("SHOW TABLES LIKE '".$prefixTables."archive_numeric%'");
+			$allArchiveBlob = $db->fetchCol("SHOW TABLES LIKE '".$prefixTables."archive_blob%'");
 
 			$allTablesReallyInstalled = array_merge($tablesInstalled, $allArchiveNumeric, $allArchiveBlob);
 
