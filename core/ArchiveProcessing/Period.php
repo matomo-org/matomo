@@ -291,6 +291,14 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		Piwik_PostEvent('ArchiveProcessing_Period.compute', $this);		
 	}
 
+	/**
+	 * Processes number of unique visitors for the given period
+	 * 
+	 * This is the only metric we process from the logs directly, 
+	 * since unique visitors cannot be summed like other metrics.
+	 * 
+	 * @return int
+	 */
 	protected function computeNbUniqVisitors()
 	{
 		$query = "
@@ -343,8 +351,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
     			foreach($result as $row) {
     				$idArchivesToDelete[] = $row['idarchive'];
     			}
-    			$query = "/* SHARDING_ID_SITE = ".$this->idsite." */ 	
-    						DELETE 
+    			$query = "DELETE 
     						FROM %s
     						WHERE idarchive IN (".implode(',',$idArchivesToDelete).")
     						";

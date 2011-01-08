@@ -452,8 +452,7 @@ abstract class Piwik_ArchiveProcessing
 	protected function postCompute()
 	{
 		// delete the first done = ERROR 
-		Piwik_Query("/* SHARDING_ID_SITE = ".$this->idsite." */ 
-					DELETE FROM ".$this->tableArchiveNumeric->getTableName()." 
+		Piwik_Query("DELETE FROM ".$this->tableArchiveNumeric->getTableName()." 
 					WHERE idarchive = ? AND name = 'done'",
 					array($this->idArchive)
 		);
@@ -547,9 +546,8 @@ abstract class Piwik_ArchiveProcessing
 	protected function loadNextIdarchive()
 	{
 		$db = Zend_Registry::get('db');
-		$id = $db->fetchOne("/* SHARDING_ID_SITE = ".$this->idsite." */ 
-						SELECT max(idarchive) 
-						FROM ".$this->tableArchiveNumeric->getTableName());
+		$id = $db->fetchOne("SELECT max(idarchive) 
+							FROM ".$this->tableArchiveNumeric->getTableName());
 		if(empty($id))
 		{
 			$id = 0;

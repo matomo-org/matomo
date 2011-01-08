@@ -216,8 +216,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		{
 			return;
 		}
-		$idAction = Piwik_Tracker::getDatabase()->fetchAll("/* SHARDING_ID_SITE = ".$this->idSite." */
-							SELECT idaction, type 
+		$idAction = Piwik_Tracker::getDatabase()->fetchAll(
+							"SELECT idaction, type 
 							FROM ".Piwik_Common::prefixTable('log_action')
 						."  WHERE "
 						."		( hash = CRC32(?) AND name = ? AND type = ? ) "
@@ -242,9 +242,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			}
 		}
 
-		$sql = "/* SHARDING_ID_SITE = ".$this->idSite." */ 
-							INSERT INTO ". Piwik_Common::prefixTable('log_action'). 
-							"( name, hash, type ) VALUES (?,CRC32(?),?)";
+		$sql = "INSERT INTO ". Piwik_Common::prefixTable('log_action'). 
+				"( name, hash, type ) VALUES (?,CRC32(?),?)";
 
 		if( is_null($this->idActionName) 
 		    && !is_null($this->getActionNameType()) )
@@ -287,8 +286,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		{
 			$idActionName = 0;
 		}
-		Piwik_Tracker::getDatabase()->query("/* SHARDING_ID_SITE = ".$this->idSite." */ 
-						INSERT INTO ".Piwik_Common::prefixTable('log_link_visit_action')
+		Piwik_Tracker::getDatabase()->query( 
+						"INSERT INTO ".Piwik_Common::prefixTable('log_link_visit_action')
 						." (idvisit, idaction_url, idaction_name, idaction_url_ref, time_spent_ref_action) 
 							VALUES (?,?,?,?,?)",
 					array($idVisit, $this->getIdActionUrl(), $idActionName , $idRefererAction, $timeSpentRefererAction)

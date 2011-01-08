@@ -338,7 +338,7 @@ class Piwik_Actions extends Piwik_Plugin
 		$archiveProcessing->insertBlobRecord('Actions_actions', $s);
 		destroy($dataTable);
 
-		unset($this->actionsTablesByType);
+		destroy($this->actionsTablesByType);
 	}
 	
 	protected function deleteInvalidSummedColumnsFromDataTable($dataTable)

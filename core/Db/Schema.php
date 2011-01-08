@@ -241,9 +241,9 @@ class Piwik_Db_Schema
 	 * @param string $idSite
 	 * @return array Tables installed
 	 */
-	public function getTablesInstalled($forceReload = true,  $idSite = null)
+	public function getTablesInstalled($forceReload = true)
 	{
-		return $this->getSchema()->getTablesInstalled($forceReload, $idSite);
+		return $this->getSchema()->getTablesInstalled($forceReload);
 	}
 
 	/**
@@ -276,6 +276,6 @@ interface Piwik_Db_Schema_Interface
 	public function dropTables( $doNotDelete = array() );
 
 	public function getTablesNames();
-	public function getTablesInstalled($forceReload = true,  $idSite = null);
+	public function getTablesInstalled($forceReload = true);
 	public function hasTables();
 }
