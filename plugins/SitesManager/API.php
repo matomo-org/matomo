@@ -761,6 +761,23 @@ class Piwik_SitesManager_API
 		}
 		return $return;
 	}
+
+	/**
+	 * Returns the list of unique timezones from all configured sites.
+	 *
+	 * @return array ( string )
+	 */
+	public function getUniqueSiteTimezones()
+	{
+		Piwik::checkUserIsSuperUser();
+		$results = Piwik_FetchAll("SELECT distinct timezone FROM ".Piwik_Common::prefixTable('site'));
+		$timezones = array();
+		foreach($results as $result)
+		{
+			$timezones[] = $result['timezone'];
+		}
+		return $timezones;
+	}
 	
 	/**
 	 * Insert the list of alias URLs for the website.
