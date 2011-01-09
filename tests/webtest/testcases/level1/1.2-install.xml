@@ -170,7 +170,7 @@
 
 				<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 				<verifyText description="check page text" text="Piwik" />
-				<verifyText description="check page text" text="JavaScript Code" />
+				<verifyText description="check page text" text="JavaScript code" />
 
 				&checkForErrors;
 				&verifyLinksAndImages;
