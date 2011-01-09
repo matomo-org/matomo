@@ -24,7 +24,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			'databaseSetup'         => 'Installation_DatabaseSetup',
 			'databaseCheck'         => 'Installation_DatabaseCheck',
 			'tablesCreation'        => 'Installation_Tables',
-			'generalSetup'          => 'Installation_GeneralSetup',
+			'generalSetup'          => 'Installation_SuperUser',
 			'firstWebsiteSetup'     => 'Installation_SetupWebsite',
 			'displayJavascriptCode' => 'Installation_JsTag',
 			'finished'              => 'Installation_Congratulations',
