@@ -380,7 +380,7 @@ if ($sqlite) {
 		stop();
 		setTimeout(function() {
 			jQuery.ajax({
-				url: url("piwik.php?results='. $token .'"),
+				url: url("piwik.php?results=" + getToken()),
 				success: function(results) {
 //alert(results);
 					ok( /\<span\>12\<\/span\>/.test( results ), "count tracking events" );
