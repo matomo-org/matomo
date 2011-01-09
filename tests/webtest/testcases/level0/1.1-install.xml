@@ -85,7 +85,7 @@
 				<setInputField description="set database name" name="dbname" value="${db.name}" />
 				<setInputField description="set database port" name="tables_prefix" value="canoo_" />
 
-				<clickButton description="click 'Go!' button" label="Go!" />
+				<clickButton description="click 'Next »' button" label="Next »" />
 
 				<!-- 4. databaseCheck -->
 <!--
@@ -133,7 +133,7 @@
 				<setInputField description="set repeated Piwik password" name="password_bis" value="piwik_password" />
 				<setInputField description="set Piwik email" name="email" value="nobody@piwik.org" />
 
-				<clickButton description="click 'Go!' button" label="Go!" />
+				<clickButton description="click 'Next »' button" label="Next »" />
 
 				<!-- 7. firstWebsiteSetup -->
 
@@ -156,7 +156,7 @@
 				<setInputField description="set Piwik URL" name="url" value="${wt.config.protocol}://${wt.config.host}:${wt.config.port}${wt.config.basepath}" />
 				<setSelectField description="set Piwik timezone" name="timezone" value="UTC" />
 
-				<clickButton description="click 'Go!' button" label="Go!" />
+				<clickButton description="click 'Next »' button" label="Next »" />
 
 				<!-- 8. displayJavascriptCode -->
 
