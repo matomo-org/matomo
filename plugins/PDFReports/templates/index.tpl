@@ -7,7 +7,7 @@
 </div>
 
 <div class="centerLargeDiv">
-	<h2>{'PDFReports_ManagePdfReports'|translate}</h2>
+	<h2>{'PDFReports_ManageEmailReports'|translate}</h2>
 	
 	<div class="entityContainer">
 		{ajaxErrorDiv}

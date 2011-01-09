@@ -2,7 +2,7 @@
 
 {if isset($displayGeneralSetupSuccess)}
 <span id="toFade" class="success">
-	{'Installation_GeneralSetupSuccess'|translate}
+	{'Installation_SuperUserSetupSuccess'|translate}
 	<img src="themes/default/images/success_medium.png" />
 </span>
 {/if}
