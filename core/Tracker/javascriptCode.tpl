@@ -9,4 +9,4 @@ try {
   piwikTracker.enableLinkTracking();
 } catch( err ) {}
 </script><noscript><p><img src="http://{$piwikUrl}piwik.php?idsite={$idSite}" style="border:0" alt="" /></p></noscript>
-<!-- End Piwik Tracking Tag -->
+<!-- End Piwik Tracking Code -->

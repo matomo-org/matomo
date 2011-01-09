@@ -1326,14 +1326,14 @@ class Piwik
 	 */
 	static public function getJavascriptCode($idSite, $piwikUrl)
 	{
-		$jsTag = file_get_contents( PIWIK_INCLUDE_PATH . "/core/Tracker/javascriptTag.tpl");
-		$jsTag = nl2br(htmlentities($jsTag));
+		$jsCode = file_get_contents( PIWIK_INCLUDE_PATH . "/core/Tracker/javascriptCode.tpl");
+		$jsCode = nl2br(htmlentities($jsCode));
 		$piwikUrl = preg_match('~^(http|https)://(.*)$~', $piwikUrl, $matches);
 		$piwikUrl = @$matches[2];
-		$jsTag = str_replace('{$idSite}', $idSite, $jsTag);
-		$jsTag = str_replace('{$piwikUrl}', Piwik_Common::sanitizeInputValue($piwikUrl), $jsTag);
-		$jsTag = str_replace('{$hrefTitle}', Piwik::getRandomTitle(), $jsTag);
-		return $jsTag;
+		$jsCode = str_replace('{$idSite}', $idSite, $jsCode);
+		$jsCode = str_replace('{$piwikUrl}', Piwik_Common::sanitizeInputValue($piwikUrl), $jsCode);
+		$jsCode = str_replace('{$hrefTitle}', Piwik::getRandomTitle(), $jsCode);
+		return $jsCode;
 	}
 
 	/**

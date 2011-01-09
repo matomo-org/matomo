@@ -12,6 +12,6 @@ try {
  piwikTracker.enableLinkTracking();
 } catch(err) {}
 </script>
-<!-- End Piwik Tag -->
+<!-- End Piwik Code -->
 {/literal}
 {/if}

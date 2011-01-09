@@ -47,7 +47,7 @@ always_archive_data_day = 0;
 ; and a profiling summary will be printed at the end of the request
 enable_sql_profiler = 0
 
-; if set to 1, a Piwik tag will be included in the Piwik UI footer and will track visits, pages, etc. to idsite = 1
+; if set to 1, a Piwik tracking code will be included in the Piwik UI footer and will track visits, pages, etc. to idsite = 1
 ; this is useful for Piwik developers as an easy way to create data in their local Piwik
 track_visits_inside_piwik_ui = 0
 
