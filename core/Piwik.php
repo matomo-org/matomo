@@ -630,12 +630,12 @@ class Piwik
 			if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))
 			{
 				$modifiedSince = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
-			}
 
-			// strip any trailing data appended to header
-			if (false !== ($semicolon = strpos($modifiedSince, ';')))
-			{
-				$modifiedSince = substr($modifiedSince, 0, $semicolon);
+				// strip any trailing data appended to header
+				if (false !== ($semicolon = strpos($modifiedSince, ';')))
+				{
+					$modifiedSince = substr($modifiedSince, 0, $semicolon);
+				}
 			}
 
 			$fileModifiedTime = @filemtime($file);
@@ -647,7 +647,7 @@ class Piwik
 			@header('Content-Disposition: inline; filename='.basename($file));
 
 			// Returns 304 if not modified since
-			if ($modifiedSince == $lastModified)
+			if ($modifiedSince === $lastModified)
 			{
 				self::setHttpStatus('304 Not Modified');
 			}
