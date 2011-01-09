@@ -891,7 +891,14 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 				$this->cookie->set( Piwik_Tracker::COOKIE_INDEX_REFERER_TIMESTAMP, $this->getCurrentTimestamp());
 			}
 		}
-
+        	
+        // for a new visit, we flag the visit with visitor_returning
+        if(isset($this->visitorInfo['visitor_returning']))
+        {
+            $this->cookie->set( Piwik_Tracker::COOKIE_INDEX_VISITOR_RETURNING,
+            $this->visitorInfo['visitor_returning'] );
+        }
+        
 		// idcookie has been generated in handleNewVisit or we simply propagate the old value
 		$this->cookie->set( 	Piwik_Tracker::COOKIE_INDEX_IDVISITOR,
 								$this->visitorInfo['visitor_idcookie'] );
