@@ -21,22 +21,27 @@ $dbhandle = sqlite_open( 'unittest.dbf' );
 if ($dbhandle) {
 	// SQLite 3.3 supports CREATE TABLE IF NOT EXISTS
 
-	$result = sqlite_array_query($dbhandle, "SELECT COUNT(*) FROM requests");
+	$result = @sqlite_array_query($dbhandle, "SELECT COUNT(*) FROM requests");
 	if ($result === false) {
 		try {
 			$query = sqlite_exec( $dbhandle, 'CREATE TABLE requests (token TEXT, ip TEXT, ts TEXT, uri TEXT, referer TEXT, ua TEXT);' );
 		} catch (Exception $e) { }
 	}
 }
+else
+{
+	header("HTTP/1.0 500 Internal Server Error");
+	exit;
+}
 
 if (isset($_GET['results'])) {
-	$token = $_GET['results'];
+	$token = get_magic_quotes_gpc() ? stripslashes($_GET['results']) : $_GET['results'];
 	$ua = $_SERVER['HTTP_USER_AGENT'];
 
 	echo "<html><head><title>$token</title></head><body>\n";
 
 //	$result = sqlite_array_query($dbhandle, "SELECT uri FROM requests");
-	$result = sqlite_array_query($dbhandle, "SELECT uri FROM requests WHERE token = \"$token\" AND ua = \"$ua\"");
+	$result = @sqlite_array_query($dbhandle, "SELECT uri FROM requests WHERE token = \"$token\" AND ua = \"$ua\"");
 	if ($result !== false) {
 		$nofRows = count($result);
 		echo "<span>$nofRows</span>\n";
@@ -51,19 +56,20 @@ if (isset($_GET['results'])) {
 	if (!isset($_REQUEST['data'])) {
 		header("HTTP/1.0 400 Bad Request");
 	} else {
-		$data = json_decode($_REQUEST['data']);
-
-		$token = isset($data->token) ? $data->token : '';
-
 		$ip = $_SERVER['REMOTE_ADDR'];
 		$ts = $_SERVER['REQUEST_TIME'];
+
 		$uri = $_SERVER['REQUEST_URI'];
 		if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$uri .= '?' . file_get_contents('php://input');
 		}
 		$uri = htmlspecialchars($uri);
+
 		$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 		$ua = $_SERVER['HTTP_USER_AGENT'];
+
+		$data = json_decode(get_magic_quotes_gpc() ? stripslashes($_REQUEST['data']) : $_REQUEST['data'], true);
+		$token = isset($data['token']) ? $data['token'] : '';
 
 		$query = sqlite_exec($dbhandle, "INSERT INTO requests (token, ip, ts, uri, referer, ua) VALUES (\"$token\", \"$ip\", \"$ts\", \"$uri\", \"$referer\", \"$ua\")", $error);
 		if (!$query) {
