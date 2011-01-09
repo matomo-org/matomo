@@ -10,16 +10,15 @@
 
 // Refer to README for build instructions when minifying this file for distribution.
 
-/*jslint browser:true, forin:true, plusplus:false, onevar:false, eqeqeq:false, strict:false */
-/*global window escape unescape ActiveXObject _paq:true */
-/*jslint evil:true */
+/*jslint browser:true, forin:true, plusplus:false, onevar:false, strict:true, evil:true */
+/*global window unescape ActiveXObject _paq:true */
 
 /*
  * Browser [In]Compatibility
  *
  * This version of piwik.js is known to not work with:
  * - IE4 - try..catch and for..in introduced in IE5
- * - IE5 - named anonymous functions and array.push introduced in IE5.5
+ * - IE5 - named anonymous functions, array.push, encodeURIComponent, and decodeURIComponent introduced in IE5.5
  */
 
 var
@@ -27,7 +26,9 @@ var
 	_paq = _paq || [],
 
 	// Piwik singleton and namespace
-	Piwik =	Piwik || (function() {
+	Piwik =	Piwik || (function () {
+		"use strict";
+
 		/************************************************************
 		 * Private data
 		 ************************************************************/
@@ -48,19 +49,20 @@ var
 		registeredOnLoadHandlers = [],
 
 		/*
-		 * encode or escape
-		 * - encodeURIComponent added in IE5.5
+		 * encode
 		 */
-		escapeWrapper = windowAlias.encodeURIComponent || escape,
+		encodeWrapper = windowAlias.encodeURIComponent,
 
 		/*
-		 * decode or unescape
-		 * - decodeURIComponent added in IE5.5
+		 * decode
 		 */
-		unescapeWrapper = windowAlias.decodeURIComponent || unescape,
+		decodeWrapper = windowAlias.decodeURIComponent,
 
 		/* asynchronous tracker */
-		asyncTracker;
+		asyncTracker,
+
+		/* iterator */
+		i;
 
 		/************************************************************
 		 * Private methods
@@ -74,6 +76,27 @@ var
 		}
 
 		/*
+		 * Is property a function?
+		 */
+		function isFunction(property) {
+			return typeof property === 'function';
+		}
+
+		/*
+		 * Is property an object?
+		 */
+		function isObject(property) {
+			return typeof property === 'object';
+		}
+
+		/*
+		 * Is property a string?
+		 */
+		function isString(property) {
+			return typeof property === 'string';
+		}
+
+		/*
 		 * apply wrapper
 		 *
 		 * @param array parameterArray An array comprising either:
@@ -84,7 +107,7 @@ var
 		function apply(parameterArray) {
 			var f = parameterArray.shift();
 
-			if (typeof f == 'string') {
+			if (isString(f)) {
 				asyncTracker[f].apply(this, parameterArray);
 			} else {
 				f.apply(this, parameterArray);
@@ -113,7 +136,7 @@ var
 
 			for (i in plugins) {
 				pluginMethod = plugins[i][methodName];
-				if (typeof pluginMethod === 'function') {
+				if (isFunction(pluginMethod)) {
 					result += pluginMethod(callback);
 				}
 			}
@@ -124,7 +147,7 @@ var
 		/*
 		 * Handle beforeunload event
 		 */
-		function beforeUnloadHandler(unloadEvent /* not used */) {
+		function beforeUnloadHandler() {
 			executePluginMethod('unload');
 
 			/*
@@ -142,11 +165,12 @@ var
 		/*
 		 * Handler for onload event
 		 */
-		function loadHandler(loadEvent /* unused */) {
+		function loadHandler() {
+			var i;
 			if (!hasLoaded) {
 				hasLoaded = true;
 				executePluginMethod('load');
-				for (var i = 0; i < registeredOnLoadHandlers.length; i++) {
+				for (i = 0; i < registeredOnLoadHandlers.length; i++) {
 					registeredOnLoadHandlers[i]();
 				}
 			}
@@ -170,7 +194,7 @@ var
 					}
 				});
 
-				if (documentAlias.documentElement.doScroll && windowAlias == windowAlias.top) {
+				if (documentAlias.documentElement.doScroll && windowAlias === windowAlias.top) {
 					(function ready() {
 						if (!hasLoaded) {
 							try {
@@ -228,24 +252,21 @@ var
 			// scheme : // [username [: password] @] hostame [: port] [/ [path] [? query] [# fragment]]
 			var e = new RegExp('^(?:https?|ftp)(?::/*(?:[^?]+)[?])([^#]+)'),
 				matches = e.exec(url),
-				f = new RegExp('(?:^|&)'+varName+'=([^&]*)'),
+				f = new RegExp('(?:^|&)' + varName + '=([^&]*)'),
 				result = matches ? f.exec(matches[1]) : 0;
-				return result ? unescapeWrapper(result[1]) : '';
+				return result ? decodeWrapper(result[1]) : '';
 		}
 
 		/*
 		 * Fix-up URL when page rendered from search engine cache or translated page
 		 */
 		function urlFixup(hostname, href, referrer) {
-			if (hostname == 'webcache.googleusercontent.com' || // Google
-					hostname == 'cc.bingj.com' ||				// Bing
-					hostname.substr(0, 5) == '74.6.')			// Yahoo (via Inktomi 74.6.0.0/16)
-			{
+			if (hostname === 'webcache.googleusercontent.com' ||			// Google
+					hostname === 'cc.bingj.com' ||							// Bing
+					hostname.substr(0, 5) === '74.6.') {					// Yahoo (via Inktomi 74.6.0.0/16)
 				href = documentAlias.links[0].href;
 				hostname = getHostname(href);
-			}
-			else if(hostname == 'translate.googleusercontent.com')	// Google
-			{
+			} else if (hostname === 'translate.googleusercontent.com') {	// Google
 				if (referrer === '') {
 					referrer = href;
 				}
@@ -254,6 +275,155 @@ var
 			}
 			return [hostname, href, referrer];
 		}
+
+		/*
+		 * UTF-8 encoding
+		 */
+		function utf8_encode(argString) {
+			return unescape(encodeWrapper(argString));
+		}
+
+		/************************************************************
+		 * sha1
+		 * - based on sha1 from http://phpjs.org/functions/sha1:512 (MIT / GPL v2)
+		 ************************************************************/
+		function sha1(str) {
+			// http://kevin.vanzonneveld.net
+			// +   original by: Webtoolkit.info (http://www.webtoolkit.info/)
+			// + namespaced by: Michael White (http://getsprink.com)
+			// +      input by: Brett Zamir (http://brett-zamir.me)
+			// +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+			// -    depends on: utf8_encode
+			// *     example 1: sha1('Kevin van Zonneveld');
+			// *     returns 1: '54916d2e62f65b3afa6e192e6a601cdbe5cb5897'
+
+			var
+				rotate_left = function (n, s) {
+					return (n << s) | (n >>> (32 - s));
+				},
+
+				cvt_hex = function (val) {
+					var str = "",
+						i,
+						v;
+
+					for (i = 7; i >= 0; i--) {
+						v = (val >>> (i * 4)) & 0x0f;
+						str += v.toString(16);
+					}
+					return str;
+				},
+
+				blockstart,
+				i, j,
+				W = [],
+				H0 = 0x67452301,
+				H1 = 0xEFCDAB89,
+				H2 = 0x98BADCFE,
+				H3 = 0x10325476,
+				H4 = 0xC3D2E1F0,
+				A, B, C, D, E,
+				temp,
+				str_len,
+				word_array = [];
+
+				str = utf8_encode(str);
+				str_len = str.length;
+
+			for (i = 0; i < str_len - 3; i += 4) {
+				j = str.charCodeAt(i) << 24 | str.charCodeAt(i + 1) << 16 |
+				str.charCodeAt(i + 2) << 8 | str.charCodeAt(i + 3);
+				word_array.push(j);
+			}
+
+			switch (str_len & 3) {
+				case 0:
+					i = 0x080000000;
+					break;
+				case 1:
+					i = str.charCodeAt(str_len - 1) << 24 | 0x0800000;
+					break;
+				case 2:
+					i = str.charCodeAt(str_len - 2) << 24 | str.charCodeAt(str_len - 1) << 16 | 0x08000;
+					break;
+				case 3:
+					i = str.charCodeAt(str_len - 3) << 24 | str.charCodeAt(str_len - 2) << 16 | str.charCodeAt(str_len - 1) << 8 | 0x80;
+					break;
+			}
+
+			word_array.push(i);
+
+			while ((word_array.length & 15) !== 14) {
+				word_array.push(0);
+			}
+
+			word_array.push(str_len >>> 29);
+			word_array.push((str_len << 3) & 0x0ffffffff);
+
+			for (blockstart = 0; blockstart < word_array.length; blockstart += 16) {
+				for (i = 0; i < 16; i++) {
+					W[i] = word_array[blockstart + i];
+				}
+
+				for (i = 16; i <= 79; i++) {
+					W[i] = rotate_left(W[i - 3] ^ W[i - 8] ^ W[i - 14] ^ W[i - 16], 1);
+				}
+
+				A = H0;
+				B = H1;
+				C = H2;
+				D = H3;
+				E = H4;
+
+				for (i = 0; i <= 19; i++) {
+					temp = (rotate_left(A, 5) + ((B & C) | (~B & D)) + E + W[i] + 0x5A827999) & 0x0ffffffff;
+					E = D;
+					D = C;
+					C = rotate_left(B, 30);
+					B = A;
+					A = temp;
+				}
+
+				for (i = 20; i <= 39; i++) {
+					temp = (rotate_left(A, 5) + (B ^ C ^ D) + E + W[i] + 0x6ED9EBA1) & 0x0ffffffff;
+					E = D;
+					D = C;
+					C = rotate_left(B, 30);
+					B = A;
+					A = temp;
+				}
+
+				for (i = 40; i <= 59; i++) {
+					temp = (rotate_left(A, 5) + ((B & C) | (B & D) | (C & D)) + E + W[i] + 0x8F1BBCDC) & 0x0ffffffff;
+					E = D;
+					D = C;
+					C = rotate_left(B, 30);
+					B = A;
+					A = temp;
+				}
+
+				for (i = 60; i <= 79; i++) {
+					temp = (rotate_left(A, 5) + (B ^ C ^ D) + E + W[i] + 0xCA62C1D6) & 0x0ffffffff;
+					E = D;
+					D = C;
+					C = rotate_left(B, 30);
+					B = A;
+					A = temp;
+				}
+
+				H0 = (H0 + A) & 0x0ffffffff;
+				H1 = (H1 + B) & 0x0ffffffff;
+				H2 = (H2 + C) & 0x0ffffffff;
+				H3 = (H3 + D) & 0x0ffffffff;
+				H4 = (H4 + E) & 0x0ffffffff;
+			}
+
+			temp = cvt_hex(H0) + cvt_hex(H1) + cvt_hex(H2) + cvt_hex(H3) + cvt_hex(H4);
+			return temp.toLowerCase();
+		}
+		/************************************************************
+		 * end sha1
+		 ************************************************************/
 
 		/*
 		 * Piwik Tracker class
@@ -318,6 +488,15 @@ var
 			// Custom data
 			configCustomData,
 
+			// First-party cookie name
+			configCookieName = '_pk_id',
+
+			// First-party cookie lifetime (days)
+			configCookieExpire = 730,
+
+			// First-party cookie domain
+			configCookieDomain,
+
 			// Client-side data collection
 			browserHasCookies = '0',
 
@@ -341,10 +520,13 @@ var
 			// Guard against installing the link tracker more than once per Tracker instance
 			linkTrackingInstalled = false,
 
-			/*
-			 * stringify
+			// Hash function
+			hash = sha1,
+
+			/************************************************************
+			 * stringify (json encode)
 			 * - based on public domain JSON implementation at http://www.json.org/json2.js (2009-04-16)
-			 */
+			 ************************************************************/
 			stringify = function (value) {
 
 				var escapable = new RegExp('[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]', 'g'),
@@ -360,7 +542,7 @@ var
 					return escapable.test(string) ?
 						'"' + string.replace(escapable, function (a) {
 							var c = meta[a];
-							return typeof c === 'string' ? c :
+							return isString(c) ? c :
 								'\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
 						}) + '"' :
 						'"' + string + '"';
@@ -383,7 +565,7 @@ var
 					}
 
 					// If the value has a toJSON method, call it to obtain a replacement value.
-					if (value && typeof value === 'object' && typeof value.toJSON === 'function') {
+					if (value && isObject(value) && isFunction(value.toJSON)) {
 						value = value.toJSON(key);
 					}
 
@@ -449,6 +631,9 @@ var
 
 				return str('', {'': value});
 			};
+			/************************************************************
+			 * end stringify
+			 ************************************************************/
 
 			/*
 			 * Set cookie value
@@ -463,7 +648,7 @@ var
 					expiryDate.setTime(expiryDate.getTime() + daysToExpire * 8.64e7);
 				}
 
-				documentAlias.cookie = cookieName + '=' + escapeWrapper(value) +
+				documentAlias.cookie = cookieName + '=' + encodeWrapper(value) +
 					(daysToExpire ? ';expires=' + expiryDate.toGMTString() : '') +
 					';path=' + (path ? path : '/') +
 					(domain ? ';domain=' + domain : '') +
@@ -478,7 +663,7 @@ var
 
 					cookieMatch = cookiePattern.exec(documentAlias.cookie);
 
-				return cookieMatch ? unescapeWrapper(cookieMatch[2]) : 0;
+				return cookieMatch ? decodeWrapper(cookieMatch[2]) : 0;
 			}
 
 			/*
@@ -520,7 +705,7 @@ var
 					xhr.setRequestHeader('Content-Length', request.length);
 					xhr.setRequestHeader('Connection', 'close');
 					xhr.send(request);
-				} catch(e) {
+				} catch (e) {
 					// fallback
 					getImage(request);
 				}
@@ -534,7 +719,7 @@ var
 				var now = new Date();
 				expireDateTime = now.getTime() + delay;
 
-				if (configRequestMethod == 'POST') {
+				if (configRequestMethod === 'POST') {
 					sendXmlHttpRequest(request);
 				} else {
 					getImage(request);
@@ -550,14 +735,13 @@ var
 				// Safari and Opera
 				// IE6/IE7 navigator.javaEnabled can't be aliased, so test directly
 				if (typeof navigator.javaEnabled !== 'unknown' &&
-					isDefined(navigatorAlias.javaEnabled) &&
-					navigatorAlias.javaEnabled())
-				{
+						isDefined(navigatorAlias.javaEnabled) &&
+						navigatorAlias.javaEnabled()) {
 					pluginMap.java[2] = '1';
 				}
 
 				// Firefox
-				if (typeof windowAlias.GearsFactory === 'function') {
+				if (isFunction(windowAlias.GearsFactory)) {
 					pluginMap.gears[2] = '1';
 				}
 
@@ -578,7 +762,7 @@ var
 				var testCookieName = '_pk_testcookie';
 				if (!isDefined(navigatorAlias.cookieEnabled)) {
 					setCookie(testCookieName, '1');
-					return getCookie(testCookieName) == '1' ? '1' : '0';
+					return getCookie(testCookieName) === '1' ? '1' : '0';
 				}
 
 				return navigatorAlias.cookieEnabled ? '1' : '0';
@@ -592,28 +776,44 @@ var
 			function getRequest(customData, pluginMethod) {
 				var i,
 				now = new Date(),
-				request = 'idsite=' + configTrackerSiteId +
-					'&rec=1' + 
-					'&rand=' + Math.random() +
-					'&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
+				fpc = getCookie(configCookieName),
+				request = '&res=' + screenAlias.width + 'x' + screenAlias.height + '&cookie=' + browserHasCookies;
 
-					'&url=' + escapeWrapper(isDefined(configCustomUrl) ? configCustomUrl : locationHrefAlias) +
-					'&urlref=' + escapeWrapper(configReferrerUrl) +
-					'&res=' + screenAlias.width + 'x' + screenAlias.height +
-					'&cookie=' + browserHasCookies;
-
-				// browser plugin data
 				for (i in pluginMap) {
 					request += '&' + pluginMap[i][0] + '=' + pluginMap[i][2];
 				}
 
+				// generate first party cookie
+				// note: this is just to prototype the implementation; the server doesn't do anything with this yet
+				if (!fpc) {
+					// generate a pseudo-unique ID to fingerprint this user;
+					// note: this doesn't have to be a RFC4122-compliant UUID
+					fpc = hash(
+							(isDefined(navigatorAlias.userAgent) ? navigatorAlias.userAgent : '') +
+							(isDefined(navigatorAlias.platform) ? navigatorAlias.platform : '') +
+							request
+						);
+				}
+
+				setCookie(configCookieName, fpc, configCookieExpire, '/', configCookieDomain);
+
+				// build out the rest of the request
+				request = 'idsite=' + configTrackerSiteId +
+					'&rec=1' + 
+					'&rand=' + Math.random() +
+					'&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
+					'&url=' + encodeWrapper(isDefined(configCustomUrl) ? configCustomUrl : locationHrefAlias) +
+					'&urlref=' + encodeWrapper(configReferrerUrl) +
+					'&fpc=' + fpc +
+					request;
+
 				// custom data
 				if (isDefined(customData)) {
 					if (customData !== null) {
-						request += '&data=' + escapeWrapper(stringify(customData));
+						request += '&data=' + encodeWrapper(stringify(customData));
 					}
 				} else if (isDefined(configCustomData)) {
-					request += '&data=' + escapeWrapper(stringify(configCustomData));
+					request += '&data=' + encodeWrapper(stringify(configCustomData));
 				}
 
 				// tracker plugin hook
@@ -627,7 +827,7 @@ var
 			 */
 			function logPageView(customTitle, customData) {
 				var request = getRequest(customData, 'log') +
-					'&action_name=' + escapeWrapper(isDefined(customTitle) ? customTitle : configTitle); // refs #530;
+					'&action_name=' + encodeWrapper(isDefined(customTitle) ? customTitle : configTitle); // refs #530;
 
 				sendRequest(request, configTrackerPause);
 			}
@@ -652,7 +852,7 @@ var
 			 */
 			function logLink(url, linkType, customData) {
 				var request = getRequest(customData, 'click') +
-					'&' + linkType + '=' + escapeWrapper(url) +
+					'&' + linkType + '=' + encodeWrapper(url) +
 					'&redirect=0';
 
 				sendRequest(request, configTrackerPause);
@@ -667,17 +867,17 @@ var
 				for (i = 0; i < configHostsAlias.length; i++) {
 					alias = configHostsAlias[i].toLowerCase();
 
-					if (hostName == alias) {
+					if (hostName === alias) {
 						return true;
 					}
 
-					if (alias.substr(0, 2) == '*.') {
-						if ((hostName) == alias.substr(2)) {
+					if (alias.substr(0, 2) === '*.') {
+						if ((hostName) === alias.substr(2)) {
 							return true;
 						}
 
 						offset = hostName.length - alias.length + 1;
-						if ((offset > 0) && (hostName.substr(offset) == alias.substr(1))) {
+						if ((offset > 0) && (hostName.substr(offset) === alias.substr(1))) {
 							return true;
 						}
 					}
@@ -752,7 +952,7 @@ var
 					clickEvent = windowAlias.event;
 				}
 
-				if (isDefined(clickEvent.target))  {
+				if (isDefined(clickEvent.target)) {
 					sourceElement = clickEvent.target;
 				} else if (isDefined(clickEvent.srcElement)) {
 					sourceElement = clickEvent.srcElement;
@@ -761,7 +961,7 @@ var
 				}
 
 				while ((parentElement = sourceElement.parentNode) &&
-						((tag = sourceElement.tagName) != 'A' && tag != 'AREA')) {
+						((tag = sourceElement.tagName) !== 'A' && tag !== 'AREA')) {
 					sourceElement = parentElement;
 				}
 
@@ -819,10 +1019,10 @@ var
 			function registerHook(hookName, userHook) {
 				var hookObj = null;
 
-				if (typeof hookName == 'string' && !isDefined(registeredHooks[hookName])) {
-					if (typeof userHook == 'object') {
+				if (isString(hookName) && !isDefined(registeredHooks[hookName])) {
+					if (isObject(userHook)) {
 						hookObj = userHook;
-					} else if (typeof userHook == 'string') {
+					} else if (isString(userHook)) {
 						try {
 							eval('hookObj =' + userHook);
 						} catch (e) { }
@@ -866,170 +1066,191 @@ var
 				},
 /*</DEBUG>*/
 
-				/*
+				/**
 				 * Specify the Piwik server URL
+				 *
+				 * @param string trackerUrl
 				 */
 				setTrackerUrl: function (trackerUrl) {
-					if (isDefined(trackerUrl)) {
-						configTrackerUrl = trackerUrl;
-					}
+					configTrackerUrl = trackerUrl;
 				},
 
-				/*
+				/**
 				 * Specify the site ID
+				 *
+				 * @param int|string siteId
 				 */
 				setSiteId: function (siteId) {
-					if (isDefined(siteId)) {
-						configTrackerSiteId = siteId;
-					}
+					configTrackerSiteId = siteId;
 				},
 
-				/*
+				/**
 				 * Pass custom data to the server
+				 *
+				 * @param mixed customData
 				 */
 				setCustomData: function (customData) {
-					if (isDefined(customData)) {
-						configCustomData = customData;
-					}
+					configCustomData = customData;
 				},
 
-				/*
+				/**
 				 * Set delay for link tracking (in milliseconds)
+				 *
+				 * @param int delay
 				 */
 				setLinkTrackingTimer: function (delay) {
-					if (isDefined(delay)) {
-						configTrackerPause = delay;
-					}
+					configTrackerPause = delay;
 				},
 
-				/*
+				/**
 				 * Set list of file extensions to be recognized as downloads
+				 *
+				 * @param string extensions
 				 */
 				setDownloadExtensions: function (extensions) {
-					if (isDefined(extensions)) {
-						configDownloadExtensions = extensions;
-					}
+					configDownloadExtensions = extensions;
 				},
 
-				/*
+				/**
 				 * Specify additional file extensions to be recognized as downloads
+				 *
+				 * @param string extensions
 				 */
 				addDownloadExtensions: function (extensions) {
-					if (isDefined(extensions)) {
-						configDownloadExtensions += '|' + extensions;
-					}
+					configDownloadExtensions += '|' + extensions;
 				},
 
-				/*
+				/**
 				 * Set array of domains to be treated as local
+				 *
+				 * @param string|array hostsAlias
 				 */
 				setDomains: function (hostsAlias) {
-					if (typeof hostsAlias == 'object' && hostsAlias instanceof Array) {
-						configHostsAlias = hostsAlias;
-						configHostsAlias.push(locationHostnameAlias);
-					} else if (typeof hostsAlias == 'string') {
-						configHostsAlias = [hostsAlias, locationHostnameAlias];
-					}
+					configHostsAlias = isString(hostsAlias) ? [hostsAlias] : hostsAlias;
+					configHostsAlias.push(locationHostnameAlias);
 				},
 
-				/*
+				/**
 				 * Set array of classes to be ignored if present in link
+				 *
+				 * @param string|array ignoreClasses
 				 */
 				setIgnoreClasses: function (ignoreClasses) {
-					if (typeof ignoreClasses == 'object' && ignoreClasses instanceof Array) {
-						configIgnoreClasses = ignoreClasses;
-					} else if (typeof ignoreClasses == 'string') {
-						configIgnoreClasses = [ignoreClasses];
-					}
+					configIgnoreClasses = isString(ignoreClasses) ? [ignoreClasses] : ignoreClasses;
 				},
 
-				/*
-				 * Set request method (GET or POST; default is GET)
+				/**
+				 * Set request method
+				 *
+				 * @param string method GET or POST; default is GET
 				 */
 				setRequestMethod: function (method) {
 					configRequestMethod = method || 'GET';
 				},
 
-				/*
+				/**
 				 * Override referrer
+				 *
+				 * @param string url
 				 */
 				setReferrerUrl: function (url) {
-					if (isDefined(url)) {
-						configReferrerUrl = url;
-					}
+					configReferrerUrl = url;
 				},
 
-				/*
+				/**
 				 * Override url
+				 *
+				 * @param string url
 				 */
 				setCustomUrl: function (url) {
-					if (isDefined(url)) {
-						configCustomUrl = url;
-					}
+					configCustomUrl = url;
 				},
 
-				/*
+				/**
 				 * Override document.title
+				 *
+				 * @param string title
 				 */
 				setDocumentTitle: function (title) {
-					if (isDefined(title)) {
-						configTitle = title;
-					}
+					configTitle = title;
 				},
 
-				/*
+				/**
 				 * Set array of classes to be treated as downloads
+				 *
+				 * @param string|array downloadClasses
 				 */
 				setDownloadClasses: function (downloadClasses) {
-					if (typeof downloadClasses == 'object' && downloadClasses instanceof Array) {
-						configDownloadClasses = downloadClasses;
-					} else if (typeof downloadClasses == 'string') {
-						configDownloadClasses = [downloadClasses];
-					}
+					configDownloadClasses = isString(downloadClasses) ? [downloadClasses] : downloadClasses;
 				},
 
-				/*
+				/**
 				 * Set download class name (i.e., override default: piwik_download)
 				 * (deprecated)
+				 *
+				 * @param string className
 				 */
 				setDownloadClass: function (className) {
-					if (typeof className == 'string') {
-						configDownloadClasses = [className];
-					}
+					configDownloadClasses = [className];
 				},
 
-				/*
+				/**
 				 * Set array of classes to be treated as outlinks
+				 *
+				 * @param string|array linkClasses
 				 */
 				setLinkClasses: function (linkClasses) {
-					if (typeof linkClasses == 'object' && linkClasses instanceof Array) {
-						configLinkClasses = linkClasses;
-					} else if (typeof linkClasses == 'string') {
-						configLinkClasses = [linkClasses];
-					}
+					configLinkClasses = isString(linkClasses) ? [linkClasses] : linkClasses;
 				},
 
-				/*
+				/**
 				 * Set outlink class name (i.e., override default: piwik_link)
 				 * (deprecated)
+				 *
+				 * @param string className
 				 */
 				setLinkClass: function (className) {
-					if (typeof className == 'string') {
-						configLinkClasses = [className];
-					}
+					configLinkClasses = [className];
 				},
 
-				/*
+				/**
+				 * Set first-party cookie name
+				 *
+				 * @param string cookieName
+				 */
+				setCookieName: function (cookieName) {
+					configCookieName = cookieName;
+				},
+
+				/**
+				 * Set first-party cookie expiry
+				 *
+				 * @param int expire Number of days relative to today
+				 */
+				setCookieExpire: function (expire) {
+					configCookieExpire = expire;
+				},
+
+				/**
+				 * Set first-party cookie domain
+				 *
+				 * @param string domain
+				 */
+				setCookieDomain: function (domain) {
+					configCookieDomain = domain;
+				},
+
+				/**
 				 * Add click listener to a specific link element.
 				 * When clicked, Piwik will log the click automatically.
+				 *
+				 * @param DOMElement element
 				 */
 				addListener: function (element) {
-					if (isDefined(element)) {
-						addClickListener(element);
-					}
+					addClickListener(element);
 				},
 
-				/*
+				/**
 				 * Install link tracker
 				 */
 				enableLinkTracking: function () {
@@ -1044,22 +1265,33 @@ var
 					}
 				},
 
-				/*
+				/**
 				 * Trigger a goal
+				 *
+				 * @param int|string idGoal
+				 * @param int|float customRevenue
+				 * @param mixed customData
 				 */
 				trackGoal: function (idGoal, customRevenue, customData) {
 					logGoal(idGoal, customRevenue, customData);
 				},
 
-				/*
+				/**
 				 * Manually log a click from your own code
+				 *
+				 * @param string sourceUrl
+				 * @param string linkType
+				 * @param mixed customData
 				 */
 				trackLink: function (sourceUrl, linkType, customData) {
 					logLink(sourceUrl, linkType, customData);
 				},
 
-				/*
+				/**
 				 * Log visit to this page
+				 *
+				 * @param string customTitle
+				 * @param mixed customData
 				 */
 				trackPageView: function (customTitle, customData) {
 					logPageView(customTitle, customData);
@@ -1069,6 +1301,8 @@ var
 		
 		/************************************************************
 		 * Proxy object
+		 * - this allows the caller to continue push()'ing to _paq
+		 *   after the Tracker has been initialized and loaded
 		 ************************************************************/
 
 		function TrackerProxy() {
@@ -1087,7 +1321,7 @@ var
 
 		asyncTracker = new Tracker();
 
-		for (var i = 0; i < _paq.length; i++) {
+		for (i = 0; i < _paq.length; i++) {
 			apply(_paq[i]);
 		}
 
@@ -1099,15 +1333,22 @@ var
 		 ************************************************************/
 
 		return {
-			/*
+			/**
 			 * Add plugin
+			 *
+			 * @param string pluginName
+			 * @param Object pluginObj
 			 */
 			addPlugin: function (pluginName, pluginObj) {
 				plugins[pluginName] = pluginObj;
 			},
 
-			/*
+			/**
 			 * Get Tracker (factory method)
+			 *
+			 * @param string piwikUrl
+			 * @param int|string siteId
+			 * @return Tracker
 			 */
 			getTracker: function (piwikUrl, siteId) {
 				return new Tracker(piwikUrl, siteId);
@@ -1128,10 +1369,16 @@ var
 
 	piwik_track,
 
-	/*
+	/**
 	 * Track page visit
+	 *
+	 * @param string documentTitle
+	 * @param int|string siteId
+	 * @param string piwikUrl
+	 * @param mixed customData
 	 */
 	piwik_log = function (documentTitle, siteId, piwikUrl, customData) {
+		"use strict";
 
 		function getOption(optionName) {
 			try {
@@ -1142,26 +1389,39 @@ var
 		}
 
 		// instantiate the tracker
-		var piwikTracker = Piwik.getTracker(piwikUrl, siteId);
+		var option, piwikTracker = Piwik.getTracker(piwikUrl, siteId);
 
 		// initializer tracker
 		piwikTracker.setDocumentTitle(documentTitle);
 		piwikTracker.setCustomData(customData);
 
 		// handle Piwik globals
-		piwikTracker.setLinkTrackingTimer(getOption('tracker_pause'));
-		piwikTracker.setDownloadExtensions(getOption('download_extensions'));
-		piwikTracker.setDomains(getOption('hosts_alias'));
-		piwikTracker.setIgnoreClasses(getOption('ignore_classes'));
+		if ((option = getOption('tracker_pause'))) {
+			piwikTracker.setLinkTrackingTimer(option);
+		}
+		if ((option = getOption('download_extensions'))) {
+			piwikTracker.setDownloadExtensions(option);
+		}
+		if ((option = getOption('hosts_alias'))) {
+			piwikTracker.setDomains(option);
+		}
+		if ((option = getOption('ignore_classes'))) {
+			piwikTracker.setIgnoreClasses(option);
+		}
 
 		// track this page view
 		piwikTracker.trackPageView();
 
 		// default is to install the link tracker
-		if (getOption('install_tracker') !== false) {
+		if ((getOption('install_tracker'))) {
 
-			/*
+			/**
 			 * Track click manually (function is defined below)
+			 *
+			 * @param string sourceUrl
+			 * @param int|string siteId
+			 * @param string piwikUrl
+			 * @param string linkType
 			 */
 			piwik_track = function (sourceUrl, siteId, piwikUrl, linkType) {
 				piwikTracker.setSiteId(siteId);
