@@ -24,9 +24,9 @@ p {
 
 <div class='trackingHelp'>
 To record visitors, visits and page views in Piwik, you must add a Tracking code in all your pages. 
-We recommend to use the standard Javascript Tracking tag.
+We recommend to use the standard Javascript Tracking code.
 
-<h3>Standard JavaScript Tracking tag</h3>
+<h3>Standard JavaScript Tracking code</h3>
 Copy and paste the following code in all the pages you want to track with Piwik. 
 <br />In most websites, blogs, CMS, etc. you can edit your website templates and add this code in a "footer" file.
 
