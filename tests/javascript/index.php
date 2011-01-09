@@ -107,16 +107,16 @@ $(document).ready(function () {
 	});
 
 	module("piwik");
-	test("Tracker escape and unescape wrappers", function() {
+	test("Tracker encode and decode wrappers", function() {
 		expect(4);
 
 		var tracker = Piwik.getTracker();
 
-		equals( typeof tracker.hook.test._escape, 'function', 'escapeWrapper' );
-		equals( typeof tracker.hook.test._unescape, 'function', 'unescapeWrapper' );
+		equals( typeof tracker.hook.test._encode, 'function', 'encodeWrapper' );
+		equals( typeof tracker.hook.test._decode, 'function', 'decodeWrapper' );
 
-		equals( tracker.hook.test._escape("&=?;/#"), '%26%3D%3F%3B%2F%23', 'escapeWrapper()' );
-		equals( tracker.hook.test._unescape("%26%3D%3F%3B%2F%23"), '&=?;/#', 'unescapeWrapper()' );
+		equals( tracker.hook.test._encode("&=?;/#"), '%26%3D%3F%3B%2F%23', 'encodeWrapper()' );
+		equals( tracker.hook.test._decode("%26%3D%3F%3B%2F%23"), '&=?;/#', 'decodeWrapper()' );
 	});
 
 	test("Tracker getHostname(), getParameter(), and urlFixup()", function() {

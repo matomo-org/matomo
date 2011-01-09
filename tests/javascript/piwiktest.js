@@ -14,7 +14,7 @@ Piwik.addPlugin('testPlugin', {
 	 * - function or string to be eval()'d
 	 */
 	run: function (registerHookCallback) {
-		registerHookCallback('test', '{ _isSiteHostName : isSiteHostName, _getClassesRegExp : getClassesRegExp, _hasCookies : hasCookies, _getCookie : getCookie, _setCookie : setCookie, _escape : escapeWrapper, _unescape : unescapeWrapper, _getLinkType : getLinkType, _beforeUnloadHandler : beforeUnloadHandler, _stringify : stringify, _getHostname : getHostname,  _getParameter : getParameter, _urlFixup : urlFixup}');
+		registerHookCallback('test', '{ _isSiteHostName : isSiteHostName, _getClassesRegExp : getClassesRegExp, _hasCookies : hasCookies, _getCookie : getCookie, _setCookie : setCookie, _encode : encodeWrapper, _decode : decodeWrapper, _getLinkType : getLinkType, _beforeUnloadHandler : beforeUnloadHandler, _stringify : stringify, _getHostname : getHostname,  _getParameter : getParameter, _urlFixup : urlFixup}');
 	},
 
 	/*
