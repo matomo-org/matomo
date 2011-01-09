@@ -42,11 +42,11 @@ class Piwik_PDFReports extends Piwik_Plugin
 	{
 		// Reports have to be sent when the period ends for all websites
 		$maxHourOffset = 0;
-		$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess();
+		$uniqueTimezones = Piwik_SitesManager_API::getInstance()->getUniqueSiteTimezones();
 		$baseDate = Piwik_Date::factory("1971-01-01");
-		foreach($sites as &$site)
+		foreach($uniqueTimezones as &$timezone)
 		{
-			$offsetDate = Piwik_Date::factory($baseDate->toString(),  $site['timezone']);
+			$offsetDate = Piwik_Date::factory($baseDate->toString(), $timezone);
 
 			// Earlier means a negative timezone
 			if ( $offsetDate->isEarlier($baseDate) )
