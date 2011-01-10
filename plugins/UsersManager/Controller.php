@@ -66,7 +66,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		
 		$view->idSiteSelected = $idSiteSelected;
 		$view->users = $users;
-		$view->usersCount = count($users);
+		$view->usersCount = count($users) - 1;
 		$view->usersAccessByWebsite = $usersAccessByWebsite;
 		$view->websites = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
 		$this->setBasicVariablesView($view);
@@ -121,7 +121,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 			'year' => Piwik_Translate('General_CurrentYear'),
 		);
 		
-		$view->ignoreCookieSet = Piwik_Tracker_Cookie::isIgnoreCookieFound();
+		$view->ignoreCookieSet = Piwik_Tracker_IgnoreCookie::isIgnoreCookieFound();
 		$this->initViewAnonymousUserSettings($view);
 		$view->piwikHost = Piwik_Url::getCurrentHost();
 		$this->setBasicVariablesView($view);
@@ -134,7 +134,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		Piwik::checkUserHasSomeViewAccess();
 		Piwik::checkUserIsNotAnonymous();
 		$this->checkTokenInUrl();
-		Piwik_Tracker_Cookie::setIgnoreCookie();
+		Piwik_Tracker_IgnoreCookie::setIgnoreCookie();
 		Piwik::redirectToModule('UsersManager', 'userSettings');
 	}
 
