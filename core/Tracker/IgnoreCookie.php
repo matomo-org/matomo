@@ -16,7 +16,7 @@
  * @package Piwik
  * @subpackage Piwik_Tracker
  */
-class Piwik_Tracker_Cookie
+class Piwik_Tracker_IgnoreCookie
 {
 	/**
 	 * Get ignore (visit) cookie

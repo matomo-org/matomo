@@ -612,7 +612,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function isIgnoreCookieFound()
 	{
-		if(Piwik_Tracker_Cookie::isIgnoreCookieFound())
+		if(Piwik_Tracker_IgnoreCookie::isIgnoreCookieFound())
 		{
 			printDebug('Piwik ignore cookie was found, visit not tracked.');
 			return true;

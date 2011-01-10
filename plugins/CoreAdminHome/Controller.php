@@ -89,12 +89,12 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
      */
     public function optOut()
     {
-		$trackVisits = !Piwik_Tracker_Cookie::isIgnoreCookieFound();
+		$trackVisits = !Piwik_Tracker_IgnoreCookie::isIgnoreCookieFound();
 
 		$nonce = Piwik_Common::getRequestVar('nonce', false);
 		if($nonce !== false && Piwik_Nonce::verifyNonce('Piwik_OptOut', $nonce))
 		{
-			Piwik_Tracker_Cookie::setIgnoreCookie();
+			Piwik_Tracker_IgnoreCookie::setIgnoreCookie();
 			$trackVisits = !$trackVisits;
 		}
  
