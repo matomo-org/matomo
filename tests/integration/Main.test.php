@@ -228,15 +228,17 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	$dateTime = '2010-01-03 11:22:33';
     	$idSite = $this->createWebsite($dateTime);
     	$idSite2 = $this->createWebsite($dateTime);
-    	$this->setApiToCall(array('VisitsSummary.get','Referers.getWebsites', 'Actions.getPageUrls'));
+    	$this->setApiToCall(array('VisitFrequency.get', 'VisitsSummary.get','Referers.getWebsites', 'Actions.getPageUrls', 'Actions.getPageTitles'));
     	ob_start();
     	
     	// -
-    	// First visitor on Idsite 1: one page view
+    	// First visitor on Idsite 1: two page views 
         $visitorA = $this->getTracker($idSite, $dateTime, $defaultInit = true);
         $visitorA->setUrlReferer( 'http://referer.com/page.htm?param=valuewith some spaces');
         $visitorA->setUrl('http://example.org/homepage');
-        $this->checkResponse($visitorA->doTrackPageView(''));
+        $this->checkResponse($visitorA->doTrackPageView('first page view'));
+    	$visitorA->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
+        $this->checkResponse($visitorA->doTrackPageView('first visitor/second page view'));
         
         // - 
     	// Second new visitor on Idsite 1: one page view 
@@ -246,18 +248,18 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $visitorB->setUrlReferer( '' );
     	$visitorB->setUserAgent('Opera/9.63 (Windows NT 5.1; U; en) Presto/2.1.1');
     	$visitorB->setUrl('http://example.org/products');
-    	$this->checkResponse($visitorB->doTrackPageView('second visitor, first page view'));
+    	$this->checkResponse($visitorB->doTrackPageView('first page view'));
 
     	// -
     	// Second visitor again on Idsite 1: 2 page views 2 days later, 2010-01-05
     	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->getDatetime());
         $visitorB->setUrlReferer( 'http://referer.com/Other_Page.htm' );
     	$visitorB->setUrl('http://example.org/homepage');
-    	$this->checkResponse($visitorB->doTrackPageView('second visitor, two days later a new visit'));
+    	$this->checkResponse($visitorB->doTrackPageView('second visitor/two days later/a new visit'));
     	// Second page view 6 minutes later
     	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.1)->getDatetime());
     	$visitorB->setUrl('http://example.org/thankyou');
-    	$this->checkResponse($visitorB->doTrackPageView('second pageview'));
+    	$this->checkResponse($visitorB->doTrackPageView('second visitor/two days later/second page view'));
     	
     	// -
     	// First visitor on Idsite 2: one page view, with Website referer
@@ -268,8 +270,6 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $this->checkResponse($visitorAsite2->doTrackPageView('Website 2 page view'));
         
         // Returning visitor on Idsite 2 1 day later, one page view, with chinese referer
-//TODO when we can test frequency, when Piwik_Tracker_Client supports cookies read/send
-// UNTICK
 //    	$t2->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48 + 10)->getDatetime());
 //        $t2->setUrlReferer('http://www.baidu.com/s?wd=%D0%C2+%CE%C5&n=2');
 //        $t2->setUrl('http://example2.com/home');
