@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result idSite="1">
+		<result date="2009-12-28 to 2010-01-03">
+			<row>
+				<label> first page view</label>
+				<nb_visits>2</nb_visits>
+				<nb_hits>2</nb_hits>
+				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+			</row>
+			<row>
+				<label>first visitor</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<subtable>
+					<row>
+						<label> second page view</label>
+						<nb_visits>1</nb_visits>
+						<nb_hits>1</nb_hits>
+						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+					</row>
+				</subtable>
+			</row>
+		</result>
+		<result date="2010-01-04 to 2010-01-10">
+			<row>
+				<label>second visitor</label>
+				<nb_visits>2</nb_visits>
+				<nb_hits>2</nb_hits>
+				<subtable>
+					<row>
+						<label>two days later</label>
+						<nb_visits>2</nb_visits>
+						<nb_hits>2</nb_hits>
+						<subtable>
+							<row>
+								<label> second page view</label>
+								<nb_visits>1</nb_visits>
+								<nb_hits>1</nb_hits>
+								<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+							</row>
+							<row>
+								<label> a new visit</label>
+								<nb_visits>1</nb_visits>
+								<nb_hits>1</nb_hits>
+								<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+							</row>
+						</subtable>
+					</row>
+				</subtable>
+			</row>
+		</result>
+		<result date="2010-01-11 to 2010-01-17" />
+		<result date="2010-01-18 to 2010-01-24" />
+		<result date="2010-01-25 to 2010-01-31" />
+		<result date="2010-02-01 to 2010-02-07" />
+		<result date="2010-02-08 to 2010-02-14" />
+	</result>
+	<result idSite="2">
+		<result date="2009-12-28 to 2010-01-03" />
+		<result date="2010-01-04 to 2010-01-10">
+			<row>
+				<label> Website 2 page view</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			</row>
+		</result>
+		<result date="2010-01-11 to 2010-01-17" />
+		<result date="2010-01-18 to 2010-01-24" />
+		<result date="2010-01-25 to 2010-01-31" />
+		<result date="2010-02-01 to 2010-02-07" />
+		<result date="2010-02-08 to 2010-02-14" />
+	</result>
+</results>
