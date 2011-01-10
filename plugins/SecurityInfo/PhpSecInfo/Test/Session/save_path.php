@@ -38,6 +38,10 @@ class PhpSecInfo_Test_Session_Save_Path extends PhpSecInfo_Test_Session
 				$this->current_value = $this->sys_get_temp_dir();
 			}
 		}
+
+		if( preg_match('/^[0-9]+;(.+)/', $this->current_value, $matches) ) {
+			$this->current_value = $matches[1];
+		}
 	}
 
 
@@ -66,9 +70,10 @@ class PhpSecInfo_Test_Session_Save_Path extends PhpSecInfo_Test_Session
 	 */
 	function _execTest() {
 
-		$perms = fileperms($this->current_value);
-
-		if ($this->current_value
+		$perms = @fileperms($this->current_value);
+		if ($perms === false) {
+			return PHPSECINFO_TEST_RESULT_WARN;
+		} else if ($this->current_value
 			&& !preg_match("|".PHPSECINFO_TEST_COMMON_TMPDIR."/?|", $this->current_value)
 			&& ! ($perms & 0x0004)
 			&& ! ($perms & 0x0002) ) {
@@ -91,6 +96,7 @@ class PhpSecInfo_Test_Session_Save_Path extends PhpSecInfo_Test_Session
 		$this->setMessageForResult(PHPSECINFO_TEST_RESULT_NOTRUN, 'en', 'Test not run -- currently disabled on Windows OSes');
 		$this->setMessageForResult(PHPSECINFO_TEST_RESULT_OK, 'en', 'save_path is enabled, which is the
 						recommended setting. Make sure your save_path path is not world-readable');
+		$this->setMessageForResult(PHPSECINFO_TEST_RESULT_WARN, 'en', 'unable to retrieve file permissions on save_path');
 		$this->setMessageForResult(PHPSECINFO_TEST_RESULT_NOTICE, 'en', 'save_path is disabled, or is set to a
 						common world-writable directory.  This typically allows other users on this server
 						to access session files. You should set	save_path to a non-world-readable directory');
