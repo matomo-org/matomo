@@ -473,17 +473,20 @@ var
 			// Hosts or alias(es) to not treat as outlinks
 			configHostsAlias = [locationHostnameAlias],
 
-			// Anchor classes to not track
+			// HTML anchor element classes to not track
 			configIgnoreClasses = [],
 
-			// Download class name
+			// HTML anchor element classes to treat as downloads
 			configDownloadClasses = [],
 
-			// (Out) Link class name
+			// HTML anchor element classes to treat at outlinks
 			configLinkClasses = [],
 
 			// Maximum delay to wait for web bug image to be fetched (in milliseconds)
 			configTrackerPause = 500,
+
+			// Disallow hash tags in URL
+			configDiscardHashTag,
 
 			// Custom data
 			configCustomData,
@@ -680,6 +683,19 @@ var
 */
 
 			/*
+			 * Purify URL.
+			 */
+			function purify(str) {
+				var targetPattern;
+
+				if (configDiscardHashTag) {
+					targetPattern = new RegExp('#.*');
+					return str.replace(targetPattern, '');
+				}
+				return str;
+			}
+
+			/*
 			 * Send image request to Piwik server using GET.
 			 * The infamous web bug is a transparent, single pixel (1x1) image
 			 */
@@ -802,8 +818,8 @@ var
 					'&rec=1' + 
 					'&rand=' + Math.random() +
 					'&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
-					'&url=' + encodeWrapper(isDefined(configCustomUrl) ? configCustomUrl : locationHrefAlias) +
-					'&urlref=' + encodeWrapper(configReferrerUrl) +
+					'&url=' + encodeWrapper(purify(isDefined(configCustomUrl) ? configCustomUrl : locationHrefAlias)) +
+					'&urlref=' + encodeWrapper(purify(configReferrerUrl)) +
 					'&fpc=' + fpc +
 					request;
 
@@ -852,7 +868,7 @@ var
 			 */
 			function logLink(url, linkType, customData) {
 				var request = getRequest(customData, 'click') +
-					'&' + linkType + '=' + encodeWrapper(url) +
+					'&' + linkType + '=' + encodeWrapper(purify(url)) +
 					'&redirect=0';
 
 				sendRequest(request, configTrackerPause);
@@ -1211,6 +1227,15 @@ var
 				 */
 				setLinkClass: function (className) {
 					configLinkClasses = [className];
+				},
+
+				/**
+				 * Strip hash tag (or anchor) from URL
+				 *
+				 * @param bool enableFilter
+				 */
+				discardHashTag: function (enableFilter) {
+					configDiscardHashTag = enableFilter;
 				},
 
 				/**
