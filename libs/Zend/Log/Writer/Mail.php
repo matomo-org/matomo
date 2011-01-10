@@ -17,7 +17,7 @@
  * @subpackage Writer
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Mail.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Mail.php 23576 2010-12-23 23:25:44Z ramon $
  */
 
 /** Zend_Log_Writer_Abstract */
@@ -41,7 +41,7 @@
  * @subpackage Writer
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Mail.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Mail.php 23576 2010-12-23 23:25:44Z ramon $
  */
 class Zend_Log_Writer_Mail extends Zend_Log_Writer_Abstract
 {
@@ -101,6 +101,18 @@ class Zend_Log_Writer_Mail extends Zend_Log_Writer_Abstract
     protected $_subjectPrependText;
 
     /**
+     * MethodMap for Zend_Mail's headers
+     *
+     * @var array
+     */
+    protected static $_methodMapHeaders = array(
+        'from' => 'setFrom',
+        'to' => 'addTo',
+        'cc' => 'addCc',
+        'bcc' => 'addBcc',
+    );
+
+    /**
      * Class constructor.
      *
      * Constructs the mail writer; requires a Zend_Mail instance, and takes an
@@ -113,21 +125,131 @@ class Zend_Log_Writer_Mail extends Zend_Log_Writer_Abstract
      */
     public function __construct(Zend_Mail $mail, Zend_Layout $layout = null)
     {
-        $this->_mail      = $mail;
-        $this->_layout    = $layout;
+        $this->_mail = $mail;
+        if (null !== $layout) {
+            $this->setLayout($layout);
+        }
         $this->_formatter = new Zend_Log_Formatter_Simple();
     }
-    
+
     /**
      * Create a new instance of Zend_Log_Writer_Mail
-     * 
+     *
      * @param  array|Zend_Config $config
      * @return Zend_Log_Writer_Mail
-     * @throws Zend_Log_Exception
      */
     static public function factory($config)
     {
-        throw new Zend_Exception('Zend_Log_Writer_Mail does not currently implement a factory');
+        $config = self::_parseConfig($config);
+        $mail = self::_constructMailFromConfig($config);
+        $writer = new self($mail);
+
+        if (isset($config['layout']) || isset($config['layoutOptions'])) {
+            $writer->setLayout($config);
+        }
+        if (isset($config['layoutFormatter'])) {
+            $layoutFormatter = new $config['layoutFormatter'];
+            $writer->setLayoutFormatter($layoutFormatter);
+        }
+        if (isset($config['subjectPrependText'])) {
+            $writer->setSubjectPrependText($config['subjectPrependText']);
+        }
+
+        return $writer;
+    }
+
+    /**
+     * Set the layout
+     *
+     * @param Zend_Layout|array $layout
+     * @return Zend_Log_Writer_Mail
+     * @throws Zend_Log_Exception
+     */
+    public function setLayout($layout)
+    {
+        if (is_array($layout)) {
+            $layout = $this->_constructLayoutFromConfig($layout);
+        }
+
+        if (!$layout instanceof Zend_Layout) {
+            // require_once 'Zend/Log/Exception.php';
+            throw new Zend_Log_Exception('Mail must be an instance of Zend_Layout or an array');
+        }
+        $this->_layout = $layout;
+
+        return $this;
+    }
+
+    /**
+     * Construct a Zend_Mail instance based on a configuration array
+     *
+     * @param array $config
+     * @return Zend_Mail
+     * @throws Zend_Log_Exception
+     */
+    protected static function _constructMailFromConfig(array $config)
+    {
+        $mailClass = 'Zend_Mail';
+        if (isset($config['mail'])) {
+            $mailClass = $config['mail'];
+        }
+
+        if (!array_key_exists('charset', $config)) {
+            $config['charset'] = null;
+        }
+        $mail = new $mailClass($config['charset']);
+        if (!$mail instanceof Zend_Mail) {
+            throw new Zend_Log_Exception($mail . 'must extend Zend_Mail');
+        }
+
+        if (isset($config['subject'])) {
+            $mail->setSubject($config['subject']);
+        }
+
+        $headerAddresses = array_intersect_key($config, self::$_methodMapHeaders);
+        if (count($headerAddresses)) {
+            foreach ($headerAddresses as $header => $address) {
+                $method = self::$_methodMapHeaders[$header];
+                if (is_array($address) && isset($address['name'])
+                    && !is_numeric($address['name'])
+                ) {
+                    $params = array(
+                        $address['email'],
+                        $address['name']
+                    );
+                } else if (is_array($address) && isset($address['email'])) {
+                    $params = array($address['email']);
+                } else {
+                    $params = array($address);
+                }
+                call_user_func_array(array($mail, $method), $params);
+            }
+        }
+
+        return $mail;
+    }
+
+    /**
+     * Construct a Zend_Layout instance based on a configuration array
+     *
+     * @param array $config
+     * @return Zend_Layout
+     * @throws Zend_Log_Exception
+     */
+    protected function _constructLayoutFromConfig(array $config)
+    {
+        $config = array_merge(array(
+            'layout' => 'Zend_Layout',
+            'layoutOptions' => null
+        ), $config);
+
+        $layoutClass = $config['layout'];
+        $layout = new $layoutClass($config['layoutOptions']);
+        if (!$layout instanceof Zend_Layout) {
+            throw new Zend_Log_Exception($layout . 'must extend Zend_Layout');
+        }
+
+        return $layout;
     }
 
     /**
@@ -211,6 +333,7 @@ class Zend_Log_Writer_Mail extends Zend_Log_Writer_Abstract
      *
      * @param  string $subject Subject prepend text.
      * @return Zend_Log_Writer_Mail
+     * @throws Zend_Log_Exception
      */
     public function setSubjectPrependText($subject)
     {

@@ -16,7 +16,7 @@
  * @package    Zend_Loader
  * @subpackage Autoloader
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Resource.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Resource.php 23568 2010-12-20 08:13:20Z mjh_ca $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -88,6 +88,7 @@ class Zend_Loader_Autoloader_Resource implements Zend_Loader_Autoloader_Interfac
         if (!empty($namespace)) {
             $namespace .= '_';
         }
+        // require_once 'Zend/Loader/Autoloader.php';
         Zend_Loader_Autoloader::getInstance()->unshiftAutoloader($this, $namespace);
     }
 
@@ -205,6 +206,12 @@ class Zend_Loader_Autoloader_Resource implements Zend_Loader_Autoloader_Interfac
      */
     public function setOptions(array $options)
     {
+        // Set namespace first, see ZF-10836
+        if (isset($options['namespace'])) {
+            $this->setNamespace($options['namespace']);
+            unset($options['namespace']);
+        }
+
         $methods = get_class_methods($this);
         foreach ($options as $key => $value) {
             $method = 'set' . ucfirst($key);

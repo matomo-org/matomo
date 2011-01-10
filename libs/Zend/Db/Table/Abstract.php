@@ -17,7 +17,7 @@
  * @subpackage Table
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 21079 2010-02-18 18:15:49Z tech13 $
+ * @version    $Id: Abstract.php 23578 2010-12-24 16:31:45Z ramon $
  */
 
 /**
@@ -807,12 +807,23 @@ abstract class Zend_Db_Table_Abstract
             //get db configuration
             $dbConfig = $this->_db->getConfig();
 
+            $port = isset($dbConfig['options']['port'])
+                  ? ':'.$dbConfig['options']['port']
+                  : (isset($dbConfig['port'])
+                  ? ':'.$dbConfig['port']
+                  : null);
+
+            $host = isset($dbConfig['options']['host'])
+                  ? ':'.$dbConfig['options']['host']
+                  : (isset($dbConfig['host'])
+                  ? ':'.$dbConfig['host']
+                  : null);
+
             // Define the cache identifier where the metadata are saved
             $cacheId = md5( // port:host/dbname:schema.table (based on availabilty)
-                (isset($dbConfig['options']['port']) ? ':'.$dbConfig['options']['port'] : null)
-                . (isset($dbConfig['options']['host']) ? ':'.$dbConfig['options']['host'] : null)
-                . '/'.$dbConfig['dbname'].':'.$this->_schema.'.'.$this->_name
-                );
+                    $port . $host . '/'. $dbConfig['dbname'] . ':'
+                  . $this->_schema. '.' . $this->_name
+            );
         }
 
         // If $this has no metadata cache or metadata cache misses
@@ -961,7 +972,7 @@ abstract class Zend_Db_Table_Abstract
      * You can elect to return only a part of this information by supplying its key name,
      * otherwise all information is returned as an array.
      *
-     * @param  $key The specific info part to return OPTIONAL
+     * @param  string $key The specific info part to return OPTIONAL
      * @return mixed
      */
     public function info($key = null)

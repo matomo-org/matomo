@@ -16,7 +16,7 @@
  * @package    Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 22473 2010-06-20 08:30:04Z thomas $
+ * @version    $Id: Abstract.php 22472 2010-06-20 07:36:16Z thomas $
  */
 
 /**

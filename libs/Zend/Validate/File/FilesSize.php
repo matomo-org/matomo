@@ -16,7 +16,7 @@
  * @package   Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: FilesSize.php 20455 2010-01-20 22:54:18Z thomas $
+ * @version   $Id: FilesSize.php 20454 2010-01-20 22:50:59Z thomas $
  */
 
 /**

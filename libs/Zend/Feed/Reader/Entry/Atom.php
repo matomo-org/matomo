@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Reader
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Atom.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Atom.php 23484 2010-12-10 03:57:59Z mjh_ca $
  */
 
 /**
@@ -74,7 +74,7 @@ class Zend_Feed_Reader_Entry_Atom extends Zend_Feed_Reader_EntryAbstract impleme
 
         $threadClass = Zend_Feed_Reader::getPluginLoader()->getClassName('Thread_Entry');
         $this->_extensions['Thread_Entry'] = new $threadClass($entry, $entryKey, $type);
-        
+
         $threadClass = Zend_Feed_Reader::getPluginLoader()->getClassName('DublinCore_Entry');
         $this->_extensions['DublinCore_Entry'] = new $threadClass($entry, $entryKey, $type);
     }
@@ -344,7 +344,7 @@ class Zend_Feed_Reader_Entry_Atom extends Zend_Feed_Reader_EntryAbstract impleme
 
         return $this->_data['commentfeedlink'];
     }
-    
+
     /**
      * Get category data as a Zend_Feed_Reader_Collection_Category object
      *
@@ -357,7 +357,7 @@ class Zend_Feed_Reader_Entry_Atom extends Zend_Feed_Reader_EntryAbstract impleme
         }
 
         $categoryCollection = $this->getExtension('Atom')->getCategories();
-        
+
         if (count($categoryCollection) == 0) {
             $categoryCollection = $this->getExtension('DublinCore')->getCategories();
         }
@@ -366,7 +366,7 @@ class Zend_Feed_Reader_Entry_Atom extends Zend_Feed_Reader_EntryAbstract impleme
 
         return $this->_data['categories'];
     }
-    
+
     /**
      * Get source feed metadata from the entry
      *
@@ -382,7 +382,7 @@ class Zend_Feed_Reader_Entry_Atom extends Zend_Feed_Reader_EntryAbstract impleme
 
         $this->_data['source'] = $source;
 
-        return $this->_data['source']; 
+        return $this->_data['source'];
     }
 
     /**

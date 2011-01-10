@@ -17,7 +17,7 @@
  * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Exception.php 20629 2010-01-25 21:17:23Z ralph $
+ * @version    $Id: Exception.php 20625 2010-01-25 21:03:53Z ralph $
  */
 
 /**

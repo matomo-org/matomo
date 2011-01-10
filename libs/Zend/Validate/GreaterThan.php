@@ -16,7 +16,7 @@
  * @package    Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: GreaterThan.php 20358 2010-01-17 19:03:49Z thomas $
+ * @version    $Id: GreaterThan.php 20352 2010-01-17 17:55:38Z thomas $
  */
 
 /**

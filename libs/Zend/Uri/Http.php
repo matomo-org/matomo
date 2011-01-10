@@ -16,7 +16,7 @@
  * @package   Zend_Uri
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Http.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version   $Id: Http.php 23409 2010-11-19 19:55:25Z bittarman $
  */
 
 /**
@@ -522,7 +522,7 @@ class Zend_Uri_Http extends Zend_Uri
     }
 
     /**
-     * Returns the path and filename portion of the URL, or FALSE if none.
+     * Returns the path and filename portion of the URL.
      *
      * @return string
      */

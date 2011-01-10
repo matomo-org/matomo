@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Writer
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Rss.php 22108 2010-05-05 13:44:11Z padraic $
+ * @version    $Id: Rss.php 23484 2010-12-10 03:57:59Z mjh_ca $
  */
 
 /** @see Zend_Feed_Writer_Feed */
@@ -46,8 +46,8 @@ class Zend_Feed_Writer_Renderer_Feed_Rss
 {
     /**
      * Constructor
-     * 
-     * @param  Zend_Feed_Writer_Feed $container 
+     *
+     * @param  Zend_Feed_Writer_Feed $container
      * @return void
      */
     public function __construct (Zend_Feed_Writer_Feed $container)
@@ -57,7 +57,7 @@ class Zend_Feed_Writer_Renderer_Feed_Rss
 
     /**
      * Render RSS feed
-     * 
+     *
      * @return Zend_Feed_Writer_Renderer_Feed_Rss
      */
     public function render()
@@ -71,7 +71,7 @@ class Zend_Feed_Writer_Renderer_Feed_Rss
         $rss = $this->_dom->createElement('rss');
         $this->setRootElement($rss);
         $rss->setAttribute('version', '2.0');
-        
+
         $channel = $this->_dom->createElement('channel');
         $rss->appendChild($channel);
         $this->_dom->appendChild($rss);
@@ -88,14 +88,14 @@ class Zend_Feed_Writer_Renderer_Feed_Rss
         $this->_setAuthors($this->_dom, $channel);
         $this->_setCopyright($this->_dom, $channel);
         $this->_setCategories($this->_dom, $channel);
-        
+
         foreach ($this->_extensions as $ext) {
             $ext->setType($this->getType());
             $ext->setRootElement($this->getRootElement());
             $ext->setDomDocument($this->getDomDocument(), $channel);
             $ext->render();
         }
-        
+
         foreach ($this->_container as $entry) {
             if ($this->getDataContainer()->getEncoding()) {
                 $entry->setEncoding($this->getDataContainer()->getEncoding());
@@ -120,9 +120,9 @@ class Zend_Feed_Writer_Renderer_Feed_Rss
 
     /**
      * Set feed language
-     * 
-     * @param DOMDocument $dom 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $dom
+     * @param DOMElement $root
      * @return void
      */
     protected function _setLanguage(DOMDocument $dom, DOMElement $root)
@@ -138,9 +138,9 @@ class Zend_Feed_Writer_Renderer_Feed_Rss
 
     /**
      * Set feed title
-     * 
-     * @param DOMDocument $dom 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $dom
+     * @param DOMElement $root
      * @return void
      */
     protected function _setTitle(DOMDocument $dom, DOMElement $root)
@@ -166,9 +166,9 @@ class Zend_Feed_Writer_Renderer_Feed_Rss
 
     /**
      * Set feed description
-     * 
-     * @param DOMDocument $dom 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $dom
+     * @param DOMElement $root
      * @return void
      */
     protected function _setDescription(DOMDocument $dom, DOMElement $root)
@@ -193,9 +193,9 @@ class Zend_Feed_Writer_Renderer_Feed_Rss
 
     /**
      * Set date feed was last modified
-     * 
-     * @param DOMDocument $dom 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $dom
+     * @param DOMElement $root
      * @return void
      */
     protected function _setDateModified(DOMDocument $dom, DOMElement $root)
@@ -214,9 +214,9 @@ class Zend_Feed_Writer_Renderer_Feed_Rss
 
     /**
      * Set feed generator string
-     * 
-     * @param DOMDocument $dom 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $dom
+     * @param DOMElement $root
      * @return void
      */
     protected function _setGenerator(DOMDocument $dom, DOMElement $root)
@@ -242,9 +242,9 @@ class Zend_Feed_Writer_Renderer_Feed_Rss
 
     /**
      * Set link to feed
-     * 
-     * @param DOMDocument $dom 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $dom
+     * @param DOMElement $root
      * @return void
      */
     protected function _setLink(DOMDocument $dom, DOMElement $root)
@@ -270,12 +270,12 @@ class Zend_Feed_Writer_Renderer_Feed_Rss
             $link->setAttribute('isPermaLink', 'false');
         }
     }
-    
+
     /**
      * Set feed authors
-     * 
-     * @param DOMDocument $dom 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $dom
+     * @param DOMElement $root
      * @return void
      */
     protected function _setAuthors(DOMDocument $dom, DOMElement $root)
@@ -295,12 +295,12 @@ class Zend_Feed_Writer_Renderer_Feed_Rss
             $root->appendChild($author);
         }
     }
-    
+
     /**
      * Set feed copyright
-     * 
-     * @param DOMDocument $dom 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $dom
+     * @param DOMElement $root
      * @return void
      */
     protected function _setCopyright(DOMDocument $dom, DOMElement $root)
@@ -317,9 +317,9 @@ class Zend_Feed_Writer_Renderer_Feed_Rss
 
     /**
      * Set feed channel image
-     * 
-     * @param DOMDocument $dom 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $dom
+     * @param DOMElement $root
      * @return void
      */
     protected function _setImage(DOMDocument $dom, DOMElement $root)
@@ -422,12 +422,12 @@ class Zend_Feed_Writer_Renderer_Feed_Rss
             $img->appendChild($desc);
         }
     }
-    
+
     /**
      * Set date feed was created
-     * 
-     * @param DOMDocument $dom 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $dom
+     * @param DOMElement $root
      * @return void
      */
     protected function _setDateCreated(DOMDocument $dom, DOMElement $root)
@@ -444,9 +444,9 @@ class Zend_Feed_Writer_Renderer_Feed_Rss
 
     /**
      * Set date feed last build date
-     * 
-     * @param DOMDocument $dom 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $dom
+     * @param DOMElement $root
      * @return void
      */
     protected function _setLastBuildDate(DOMDocument $dom, DOMElement $root)
@@ -462,12 +462,12 @@ class Zend_Feed_Writer_Renderer_Feed_Rss
         );
         $lastBuildDate->appendChild($text);
     }
-    
+
     /**
      * Set base URL to feed links
-     * 
-     * @param DOMDocument $dom 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $dom
+     * @param DOMElement $root
      * @return void
      */
     protected function _setBaseUrl(DOMDocument $dom, DOMElement $root)
@@ -478,12 +478,12 @@ class Zend_Feed_Writer_Renderer_Feed_Rss
         }
         $root->setAttribute('xml:base', $baseUrl);
     }
-    
+
     /**
      * Set feed categories
-     * 
-     * @param DOMDocument $dom 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $dom
+     * @param DOMElement $root
      * @return void
      */
     protected function _setCategories(DOMDocument $dom, DOMElement $root)

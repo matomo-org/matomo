@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Reader
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Entry.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Entry.php 23484 2010-12-10 03:57:59Z mjh_ca $
  */
 
 /**
@@ -102,7 +102,7 @@ class Zend_Feed_Reader_Extension_DublinCore_Entry
 
         return $this->_data['authors'];
     }
-    
+
     /**
      * Get categories (subjects under DC)
      *
@@ -113,13 +113,13 @@ class Zend_Feed_Reader_Extension_DublinCore_Entry
         if (array_key_exists('categories', $this->_data)) {
             return $this->_data['categories'];
         }
-        
+
         $list = $this->_xpath->evaluate($this->getXpathPrefix() . '//dc11:subject');
 
         if (!$list->length) {
             $list = $this->_xpath->evaluate($this->getXpathPrefix() . '//dc10:subject');
         }
-        
+
         if ($list->length) {
             $categoryCollection = new Zend_Feed_Reader_Collection_Category;
             foreach ($list as $category) {
@@ -132,11 +132,11 @@ class Zend_Feed_Reader_Extension_DublinCore_Entry
         } else {
             $categoryCollection = new Zend_Feed_Reader_Collection_Category;
         }
-        
+
         $this->_data['categories'] = $categoryCollection;
-        return $this->_data['categories'];  
+        return $this->_data['categories'];
     }
-    
+
 
     /**
      * Get the entry content

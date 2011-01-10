@@ -16,7 +16,7 @@
  * @package    Zend_Cache
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Cache.php 21974 2010-04-23 17:10:17Z alexander $
+ * @version    $Id: Cache.php 23154 2010-10-18 17:41:06Z mabe $
  */
 
 
@@ -40,7 +40,7 @@ abstract class Zend_Cache
      *
      * @var array
      */
-    public static $standardBackends = array('File', 'Sqlite', 'Memcached', 'Apc', 'ZendPlatform',
+    public static $standardBackends = array('File', 'Sqlite', 'Memcached', 'Libmemcached', 'Apc', 'ZendPlatform',
                                             'Xcache', 'TwoLevels', 'ZendServer_Disk', 'ZendServer_ShMem');
 
     /**
@@ -48,10 +48,10 @@ abstract class Zend_Cache
      *
      * @var array
      */
-    public static $standardExtendedBackends = array('File', 'Apc', 'TwoLevels', 'Memcached', 'Sqlite');
+    public static $standardExtendedBackends = array('File', 'Apc', 'TwoLevels', 'Memcached', 'Libmemcached', 'Sqlite');
 
     /**
-     * Only for backward compatibily (may be removed in next major release)
+     * Only for backward compatibility (may be removed in next major release)
      *
      * @var array
      * @deprecated
@@ -59,12 +59,12 @@ abstract class Zend_Cache
     public static $availableFrontends = array('Core', 'Output', 'Class', 'File', 'Function', 'Page');
 
     /**
-     * Only for backward compatibily (may be removed in next major release)
+     * Only for backward compatibility (may be removed in next major release)
      *
      * @var array
      * @deprecated
      */
-    public static $availableBackends = array('File', 'Sqlite', 'Memcached', 'Apc', 'ZendPlatform', 'Xcache', 'TwoLevels');
+    public static $availableBackends = array('File', 'Sqlite', 'Memcached', 'Libmemcached', 'Apc', 'ZendPlatform', 'Xcache', 'TwoLevels');
 
     /**
      * Consts for clean() method
@@ -84,7 +84,7 @@ abstract class Zend_Cache
      * @param array  $backendOptions  associative array of options for the corresponding backend constructor
      * @param boolean $customFrontendNaming if true, the frontend argument is used as a complete class name ; if false, the frontend argument is used as the end of "Zend_Cache_Frontend_[...]" class name
      * @param boolean $customBackendNaming if true, the backend argument is used as a complete class name ; if false, the backend argument is used as the end of "Zend_Cache_Backend_[...]" class name
-     * @param boolean $autoload if true, there will no // require_once for backend and frontend (usefull only for custom backends/frontends)
+     * @param boolean $autoload if true, there will no // require_once for backend and frontend (useful only for custom backends/frontends)
      * @throws Zend_Cache_Exception
      * @return Zend_Cache_Core|Zend_Cache_Frontend
      */
@@ -113,7 +113,7 @@ abstract class Zend_Cache
     }
 
     /**
-     * Frontend Constructor
+     * Backend Constructor
      *
      * @param string  $backend
      * @param array   $backendOptions
@@ -154,7 +154,7 @@ abstract class Zend_Cache
     }
 
     /**
-     * Backend Constructor
+     * Frontend Constructor
      *
      * @param string  $frontend
      * @param array   $frontendOptions

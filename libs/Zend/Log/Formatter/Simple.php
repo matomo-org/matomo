@@ -17,7 +17,7 @@
  * @subpackage Formatter
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Simple.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Simple.php 23576 2010-12-23 23:25:44Z ramon $
  */
 
 /** Zend_Log_Formatter_Interface */
@@ -29,7 +29,7 @@
  * @subpackage Formatter
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Simple.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Simple.php 23576 2010-12-23 23:25:44Z ramon $
  */
 class Zend_Log_Formatter_Simple implements Zend_Log_Formatter_Interface
 {
@@ -44,6 +44,7 @@ class Zend_Log_Formatter_Simple implements Zend_Log_Formatter_Interface
      * Class constructor
      *
      * @param  null|string  $format  Format specifier for log messages
+     * @return void
      * @throws Zend_Log_Exception
      */
     public function __construct($format = null)

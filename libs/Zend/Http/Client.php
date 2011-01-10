@@ -16,7 +16,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client
- * @version    $Id: Client.php 22539 2010-07-08 12:47:44Z shahar $
+ * @version    $Id: Client.php 23484 2010-12-10 03:57:59Z mjh_ca $
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -50,10 +50,10 @@
 // require_once 'Zend/Http/Response/Stream.php';
 
 /**
- * Zend_Http_Client is an implemetation of an HTTP client in PHP. The client
+ * Zend_Http_Client is an implementation of an HTTP client in PHP. The client
  * supports basic features like sending different HTTP requests and handling
  * redirections, as well as more advanced features like proxy settings, HTTP
- * authentication and cookie persistance (using a Zend_Http_CookieJar object)
+ * authentication and cookie persistence (using a Zend_Http_CookieJar object)
  *
  * @todo Implement proxy settings
  * @category   Zend
@@ -119,10 +119,11 @@ class Zend_Http_Client
         'strict'          => true,
         'output_stream'   => false,
         'encodecookies'   => true,
+        'rfc3986_strict'  => false
     );
 
     /**
-     * The adapter used to preform the actual connection to the server
+     * The adapter used to perform the actual connection to the server
      *
      * @var Zend_Http_Client_Adapter_Interface
      */
@@ -157,7 +158,7 @@ class Zend_Http_Client
     protected $paramsGet = array();
 
     /**
-     * Assiciative array of POST parameters
+     * Associative array of POST parameters
      *
      * @var array
      */
@@ -232,7 +233,7 @@ class Zend_Http_Client
     /**
      * Fileinfo magic database resource
      *
-     * This varaiable is populated the first time _detectFileMimeType is called
+     * This variable is populated the first time _detectFileMimeType is called
      * and is then reused on every call to this method
      *
      * @var resource
@@ -240,7 +241,7 @@ class Zend_Http_Client
     static protected $_fileInfoDb = null;
 
     /**
-     * Contructor method. Will create a new HTTP client. Accepts the target
+     * Constructor method. Will create a new HTTP client. Accepts the target
      * URL and optionally configuration array.
      *
      * @param Zend_Uri_Http|string $uri
@@ -368,12 +369,12 @@ class Zend_Http_Client
      *
      * This function can be used in several ways to set the client's request
      * headers:
-     * 1. By providing two parameters: $name as the header to set (eg. 'Host')
-     *    and $value as it's value (eg. 'www.example.com').
+     * 1. By providing two parameters: $name as the header to set (e.g. 'Host')
+     *    and $value as it's value (e.g. 'www.example.com').
      * 2. By providing a single header string as the only parameter
-     *    eg. 'Host: www.example.com'
+     *    e.g. 'Host: www.example.com'
      * 3. By providing an array of headers as the first parameter
-     *    eg. array('host' => 'www.example.com', 'x-foo: bar'). In This case
+     *    e.g. array('host' => 'www.example.com', 'x-foo: bar'). In This case
      *    the function will call itself recursively for each array item.
      *
      * @param string|array $name Header name, full header string ('Header: value')
@@ -384,7 +385,7 @@ class Zend_Http_Client
      */
     public function setHeaders($name, $value = null)
     {
-        // If we got an array, go recusive!
+        // If we got an array, go recursive!
         if (is_array($name)) {
             foreach ($name as $k => $v) {
                 if (is_string($k)) {
@@ -585,7 +586,10 @@ class Zend_Http_Client
      */
     public function setCookieJar($cookiejar = true)
     {
-        // Zend_Loader::loadClass('Zend_Http_CookieJar');
+        if (!class_exists('Zend_Http_CookieJar')) {
+            // require_once 'Zend/Loader.php';
+            Zend_Loader::loadClass('Zend_Http_CookieJar');
+        }
 
         if ($cookiejar instanceof Zend_Http_CookieJar) {
             $this->cookiejar = $cookiejar;
@@ -623,7 +627,10 @@ class Zend_Http_Client
      */
     public function setCookie($cookie, $value = null)
     {
-        // Zend_Loader::loadClass('Zend_Http_Cookie');
+        if (!class_exists('Zend_Http_Cookie')) {
+            // require_once 'Zend/Loader.php';
+            Zend_Loader::loadClass('Zend_Http_Cookie');
+        }
 
         if (is_array($cookie)) {
             foreach ($cookie as $c => $v) {
@@ -835,13 +842,16 @@ class Zend_Http_Client
     public function setAdapter($adapter)
     {
         if (is_string($adapter)) {
-            // try {
-                // Zend_Loader::loadClass($adapter);
-            // } catch (Zend_Exception $e) {
-                /** @see Zend_Http_Client_Exception */
-                // require_once 'Zend/Http/Client/Exception.php';
-                // throw new Zend_Http_Client_Exception("Unable to load adapter '$adapter': {$e->getMessage()}", 0, $e);
-            // }
+            if (!class_exists($adapter)) {
+                // require_once 'Zend/Loader.php';
+                try {
+                    Zend_Loader::loadClass($adapter);
+                } catch (Zend_Exception $e) {
+                    /** @see Zend_Http_Client_Exception */
+                    // require_once 'Zend/Http/Client/Exception.php';
+                    throw new Zend_Http_Client_Exception("Unable to load adapter '$adapter': {$e->getMessage()}", 0, $e);
+                }
+            }
 
             $adapter = new $adapter;
         }
@@ -910,10 +920,10 @@ class Zend_Http_Client
                 // require_once 'Zend/Http/Client/Exception.php';
                 throw new Zend_Http_Client_Exception("Could not open temp file {$this->_stream_name}");
         }
-        
+
         return $fp;
     }
-    
+
     /**
      * Send the HTTP request and return an HTTP response object
      *
@@ -950,6 +960,9 @@ class Zend_Http_Client
                        $query .= '&';
                    }
                 $query .= http_build_query($this->paramsGet, null, '&');
+                if ($this->config['rfc3986_strict']) {
+                    $query = str_replace('+', '%20', $query);
+                }
 
                 $uri->setQuery($query);
             }
@@ -1009,7 +1022,7 @@ class Zend_Http_Client
 
             // Load cookies into cookie jar
             if (isset($this->cookiejar)) {
-                $this->cookiejar->addCookiesFromResponse($response, $uri);
+                $this->cookiejar->addCookiesFromResponse($response, $uri, $this->config['encodecookies']);
             }
 
             // If we got redirected, look for the Location header
@@ -1104,7 +1117,7 @@ class Zend_Http_Client
         }
 
         // Set the Content-Type header
-        if ($this->method == self::POST &&
+        if (($this->method == self::POST || $this->method == self::PUT) &&
            (! isset($this->headers[strtolower(self::CONTENT_TYPE)]) && isset($this->enctype))) {
 
             $headers[] = self::CONTENT_TYPE . ': ' . $this->enctype;

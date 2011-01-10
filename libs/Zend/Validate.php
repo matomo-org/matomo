@@ -16,7 +16,7 @@
  * @package    Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Validate.php 21340 2010-03-05 15:33:49Z thomas $
+ * @version    $Id: Validate.php 21339 2010-03-05 15:32:25Z thomas $
  */
 
 /**
@@ -203,7 +203,9 @@ class Zend_Validate implements Zend_Validate_Interface
                     $class = $namespace . '_' . $className;
                     $file  = str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
                     if (Zend_Loader::isReadable($file)) {
-                        Zend_Loader::loadClass($class);
+                        if (!class_exists($class)) {
+                            Zend_Loader::loadClass($class);
+                        }
                         $className = $class;
                         break;
                     }

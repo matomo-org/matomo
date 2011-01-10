@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Writer
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Feed.php 20519 2010-01-22 14:06:24Z padraic $
+ * @version    $Id: Feed.php 23486 2010-12-10 04:05:30Z mjh_ca $
  */
 
 /**
@@ -107,7 +107,7 @@ implements Iterator, Countable
     {
         $this->_entries[] = $deleted;
     }
-    
+
     /**
      * Creates a new Zend_Feed_Writer_Deleted data container for use. This is NOT
      * added to the current feed automatically, but is necessary to create a
@@ -205,7 +205,7 @@ implements Iterator, Countable
         return count($this->_entries);
     }
 
-	/**
+    /**
      * Return the current entry
      *
      * @return Zend_Feed_Reader_Entry_Interface
@@ -225,7 +225,7 @@ implements Iterator, Countable
         return $this->_entriesKey;
     }
 
-	/**
+    /**
      * Move the feed pointer forward
      *
      * @return void

@@ -16,7 +16,7 @@
  * @package   Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Upload.php 22399 2010-06-09 19:08:28Z thomas $
+ * @version   $Id: Upload.php 23570 2010-12-20 08:38:30Z mjh_ca $
  */
 
 /**
@@ -134,6 +134,11 @@ class Zend_Validate_File_Upload extends Zend_Validate_Abstract
             $this->_files = $_FILES;
         } else {
             $this->_files = $files;
+        }
+
+        // see ZF-10738
+        if (is_null($this->_files)) {
+            $this->_files = array();
         }
 
         foreach($this->_files as $file => $content) {

@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Writer
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Atom.php 22098 2010-05-04 18:03:29Z padraic $
+ * @version    $Id: Atom.php 23484 2010-12-10 03:57:59Z mjh_ca $
  */
 
 /** @see Zend_Feed_Writer_Feed */
@@ -51,8 +51,8 @@ class Zend_Feed_Writer_Renderer_Feed_Atom
 {
     /**
      * Constructor
-     * 
-     * @param  Zend_Feed_Writer_Feed $container 
+     *
+     * @param  Zend_Feed_Writer_Feed $container
      * @return void
      */
     public function __construct (Zend_Feed_Writer_Feed $container)
@@ -62,7 +62,7 @@ class Zend_Feed_Writer_Renderer_Feed_Atom
 
     /**
      * Render Atom feed
-     * 
+     *
      * @return Zend_Feed_Writer_Renderer_Feed_Atom
      */
     public function render()
@@ -82,6 +82,7 @@ class Zend_Feed_Writer_Renderer_Feed_Atom
         $this->_setTitle($this->_dom, $root);
         $this->_setDescription($this->_dom, $root);
         $this->_setImage($this->_dom, $root);
+        $this->_setIcon($this->_dom, $root);
         $this->_setDateCreated($this->_dom, $root);
         $this->_setDateModified($this->_dom, $root);
         $this->_setGenerator($this->_dom, $root);
@@ -92,14 +93,14 @@ class Zend_Feed_Writer_Renderer_Feed_Atom
         $this->_setCopyright($this->_dom, $root);
         $this->_setCategories($this->_dom, $root);
         $this->_setHubs($this->_dom, $root);
-        
+
         foreach ($this->_extensions as $ext) {
             $ext->setType($this->getType());
             $ext->setRootElement($this->getRootElement());
             $ext->setDomDocument($this->getDomDocument(), $root);
             $ext->render();
         }
-        
+
         foreach ($this->_container as $entry) {
             if ($this->getDataContainer()->getEncoding()) {
                 $entry->setEncoding($this->getDataContainer()->getEncoding());

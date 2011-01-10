@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Reader
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: EntryInterface.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: EntryInterface.php 23484 2010-12-10 03:57:59Z mjh_ca $
  */
 
 /**
@@ -133,7 +133,7 @@ interface Zend_Feed_Reader_EntryInterface
      * @return string
      */
     public function getCommentFeedLink();
-    
+
     /**
      * Get all categories
      *

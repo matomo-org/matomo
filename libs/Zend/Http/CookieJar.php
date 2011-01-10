@@ -15,7 +15,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage CookieJar
- * @version    $Id: CookieJar.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: CookieJar.php 23443 2010-11-24 11:53:13Z shahar $
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -116,11 +116,12 @@ class Zend_Http_CookieJar implements Countable, IteratorAggregate
      *
      * @param Zend_Http_Cookie|string $cookie
      * @param Zend_Uri_Http|string    $ref_uri Optional reference URI (for domain, path, secure)
+     * @param boolean $encodeValue
      */
-    public function addCookie($cookie, $ref_uri = null)
+    public function addCookie($cookie, $ref_uri = null, $encodeValue = true)
     {
         if (is_string($cookie)) {
-            $cookie = Zend_Http_Cookie::fromString($cookie, $ref_uri);
+            $cookie = Zend_Http_Cookie::fromString($cookie, $ref_uri, $encodeValue);
         }
 
         if ($cookie instanceof Zend_Http_Cookie) {
@@ -142,8 +143,9 @@ class Zend_Http_CookieJar implements Countable, IteratorAggregate
      *
      * @param Zend_Http_Response $response
      * @param Zend_Uri_Http|string $ref_uri Requested URI
+     * @param boolean $encodeValue
      */
-    public function addCookiesFromResponse($response, $ref_uri)
+    public function addCookiesFromResponse($response, $ref_uri, $encodeValue = true)
     {
         if (! $response instanceof Zend_Http_Response) {
             // require_once 'Zend/Http/Exception.php';
@@ -155,10 +157,10 @@ class Zend_Http_CookieJar implements Countable, IteratorAggregate
 
         if (is_array($cookie_hdrs)) {
             foreach ($cookie_hdrs as $cookie) {
-                $this->addCookie($cookie, $ref_uri);
+                $this->addCookie($cookie, $ref_uri, $encodeValue);
             }
         } elseif (is_string($cookie_hdrs)) {
-            $this->addCookie($cookie_hdrs, $ref_uri);
+            $this->addCookie($cookie_hdrs, $ref_uri, $encodeValue);
         }
     }
 

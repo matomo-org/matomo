@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Writer
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: RendererInterface.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: RendererInterface.php 23484 2010-12-10 03:57:59Z mjh_ca $
  */
 
 /**
@@ -29,53 +29,53 @@ interface Zend_Feed_Writer_Renderer_RendererInterface
 {
     /**
      * Render feed/entry
-     * 
+     *
      * @return void
      */
     public function render();
 
     /**
      * Save feed and/or entry to XML and return string
-     * 
+     *
      * @return string
      */
     public function saveXml();
 
     /**
      * Get DOM document
-     * 
+     *
      * @return DOMDocument
      */
     public function getDomDocument();
 
     /**
      * Get document element from DOM
-     * 
+     *
      * @return DOMElement
      */
     public function getElement();
 
     /**
      * Get data container containing feed items
-     * 
+     *
      * @return mixed
      */
     public function getDataContainer();
 
     /**
      * Should exceptions be ignored?
-     * 
+     *
      * @return mixed
      */
     public function ignoreExceptions();
-    
+
     /**
      * Get list of thrown exceptions
-     * 
+     *
      * @return array
      */
     public function getExceptions();
-    
+
     /**
      * Set the current feed type being exported to "rss" or "atom". This allows
      * other objects to gracefully choose whether to execute or not, depending
@@ -84,14 +84,14 @@ interface Zend_Feed_Writer_Renderer_RendererInterface
      * @param string $type
      */
     public function setType($type);
-    
+
     /**
      * Retrieve the current or last feed type exported.
      *
      * @return string Value will be "rss" or "atom"
      */
     public function getType();
-    
+
     /**
      * Sets the absolute root element for the XML feed being generated. This
      * helps simplify the appending of namespace declarations, but also ensures
@@ -101,7 +101,7 @@ interface Zend_Feed_Writer_Renderer_RendererInterface
      * @param DOMElement $root
      */
     public function setRootElement(DOMElement $root);
-    
+
     /**
      * Retrieve the absolute root element for the XML feed being generated.
      *

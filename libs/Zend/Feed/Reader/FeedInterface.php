@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Reader
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: FeedInterface.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: FeedInterface.php 23484 2010-12-10 03:57:59Z mjh_ca $
  */
 
 /**
@@ -111,7 +111,7 @@ interface Zend_Feed_Reader_FeedInterface extends Iterator, Countable
      * @return string|null
      */
     public function getTitle();
-    
+
     /**
      * Get all categories
      *

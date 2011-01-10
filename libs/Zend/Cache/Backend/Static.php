@@ -17,7 +17,7 @@
  * @subpackage Zend_Cache_Backend
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: BlackHole.php 17867 2009-08-28 09:42:11Z yoshida@zend.co.jp $
+ * @version    $Id: Static.php 22950 2010-09-16 19:33:00Z mabe $
  */
 
 /**
@@ -166,7 +166,7 @@ class Zend_Cache_Backend_Static
         if (empty($fileName)) {
             $fileName = $this->_options['index_filename'];
         }
-        if (is_null($this->_tagged) && $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME)) {
+        if ($this->_tagged === null && $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME)) {
             $this->_tagged = $tagged;
         } elseif (!$this->_tagged) {
             return false;
@@ -211,7 +211,7 @@ class Zend_Cache_Backend_Static
         }
 
         clearstatcache();
-        if (is_null($id) || strlen($id) == 0) {
+        if ($id === null || strlen($id) == 0) {
             $id = $this->_detectId();
         } else {
             $id = $this->_decodeId($id);
@@ -225,7 +225,7 @@ class Zend_Cache_Backend_Static
         $pathName = realpath($this->_options['public_dir']) . dirname($id);
         $this->_createDirectoriesFor($pathName);
 
-        if (is_null($id) || strlen($id) == 0) {
+        if ($id === null || strlen($id) == 0) {
             $dataUnserialized = unserialize($data);
             $data = $dataUnserialized['data'];
         }
@@ -239,9 +239,9 @@ class Zend_Cache_Backend_Static
         }
         @chmod($file, $this->_octdec($this->_options['cache_file_umask']));
 
-        if (is_null($this->_tagged) && $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME)) {
+        if ($this->_tagged === null && $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME)) {
             $this->_tagged = $tagged;
-        } elseif (is_null($this->_tagged)) {
+        } elseif ($this->_tagged === null) {
             $this->_tagged = array();
         }
         if (!isset($this->_tagged[$id])) {
@@ -261,22 +261,15 @@ class Zend_Cache_Backend_Static
      */
     protected function _createDirectoriesFor($path)
     {
-        if ( !is_dir($path)
-          && !@mkdir($path, $this->_options['cache_directory_umask'], true)) {
-            $lastErr = error_get_last();
-            Zend_Cache::throwException("Can't create directory: {$lastErr['message']}");
-        }
-
-        /*
-        $parts = explode('/', $path);
-        $directory = '';
-        foreach ($parts as $part) {
-            $directory = rtrim($directory, '/') . '/' . $part;
-            if (!is_dir($directory)) {
-                mkdir($directory, $this->_octdec($this->_options['cache_directory_umask']));
+        if (!is_dir($path)) {
+            $oldUmask = umask(0);
+            if ( !@mkdir($path, $this->_octdec($this->_options['cache_directory_umask']), true)) {
+                $lastErr = error_get_last();
+                umask($oldUmask);
+                Zend_Cache::throwException("Can't create directory: {$lastErr['message']}");
             }
+            umask($oldUmask);
         }
-        */
     }
 
     /**
@@ -305,7 +298,7 @@ class Zend_Cache_Backend_Static
             Zend_Cache::throwException('Invalid cache id: does not match expected public_dir path');
         }
         $fileName = basename($id);
-        if (is_null($this->_tagged) && $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME)) {
+        if ($this->_tagged === null && $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME)) {
             $this->_tagged = $tagged;
         } elseif (!$this->_tagged) {
             return false;
@@ -394,7 +387,7 @@ class Zend_Cache_Backend_Static
                 if (empty($tags)) {
                     throw new Zend_Exception('Cannot use tag matching modes as no tags were defined');
                 }
-                if (is_null($this->_tagged) && $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME)) {
+                if ($this->_tagged === null && $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME)) {
                     $this->_tagged = $tagged;
                 } elseif (!$this->_tagged) {
                     return true;
@@ -412,11 +405,11 @@ class Zend_Cache_Backend_Static
                 $result = true;
                 break;
             case Zend_Cache::CLEANING_MODE_ALL:
-                if (is_null($this->_tagged)) {
+                if ($this->_tagged === null) {
                     $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME);
                     $this->_tagged = $tagged;
                 }
-                if (is_null($this->_tagged) || empty($this->_tagged)) {
+                if ($this->_tagged === null || empty($this->_tagged)) {
                     return true;
                 }
                 $urls = array_keys($this->_tagged);
@@ -434,11 +427,11 @@ class Zend_Cache_Backend_Static
                 if (empty($tags)) {
                     throw new Zend_Exception('Cannot use tag matching modes as no tags were defined');
                 }
-                if (is_null($this->_tagged)) {
+                if ($this->_tagged === null) {
                     $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME);
                     $this->_tagged = $tagged;
                 }
-                if (is_null($this->_tagged) || empty($this->_tagged)) {
+                if ($this->_tagged === null || empty($this->_tagged)) {
                     return true;
                 }
                 $urls = array_keys($this->_tagged);
@@ -481,7 +474,7 @@ class Zend_Cache_Backend_Static
      */
     public function getInnerCache()
     {
-        if (is_null($this->_tagCache)) {
+        if ($this->_tagCache === null) {
             Zend_Cache::throwException('An Inner Cache has not been set; use setInnerCache()');
         }
         return $this->_tagCache;
@@ -550,7 +543,7 @@ class Zend_Cache_Backend_Static
      */
     protected function _octdec($val)
     {
-        if (decoct(octdec($val)) == $val && is_string($val)) {
+        if (is_string($val) && decoct(octdec($val)) == $val) {
             return octdec($val);
         }
         return $val;

@@ -17,7 +17,7 @@
  * @subpackage Formatter
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Xml.php 20104 2010-01-06 21:26:01Z matthew $
+ * @version    $Id: Xml.php 23576 2010-12-23 23:25:44Z ramon $
  */
 
 /** Zend_Log_Formatter_Interface */
@@ -29,17 +29,17 @@
  * @subpackage Formatter
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Xml.php 20104 2010-01-06 21:26:01Z matthew $
+ * @version    $Id: Xml.php 23576 2010-12-23 23:25:44Z ramon $
  */
 class Zend_Log_Formatter_Xml implements Zend_Log_Formatter_Interface
 {
     /**
-     * @var Relates XML elements to log data field keys.
+     * @var string Name of root element
      */
     protected $_rootElement;
 
     /**
-     * @var Relates XML elements to log data field keys.
+     * @var array Relates XML elements to log data field keys.
      */
     protected $_elementMap;
 
@@ -52,8 +52,9 @@ class Zend_Log_Formatter_Xml implements Zend_Log_Formatter_Interface
      * Class constructor
      *
      * @param string $rootElement Name of root element
-     * @param array $elementMap
+     * @param array $elementMap Relates XML elements to log data field keys
      * @param string $encoding Encoding to use (defaults to UTF-8)
+     * @return void
      */
     public function __construct($rootElement = 'logEntry', $elementMap = null, $encoding = 'UTF-8')
     {

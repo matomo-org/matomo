@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Reader
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: EntryAbstract.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: EntryAbstract.php 22662 2010-07-24 17:37:36Z mabe $
  */
 
 /**
@@ -83,7 +83,7 @@ abstract class Zend_Feed_Reader_Extension_EntryAbstract
         $this->_entryKey    = $entryKey;
         $this->_domDocument = $entry->ownerDocument;
 
-        if (!is_null($type)) {
+        if ($type !== null) {
             $this->_data['type'] = $type;
         } else {
             $this->_data['type'] = Zend_Feed_Reader::detectType($entry->ownerDocument, true);

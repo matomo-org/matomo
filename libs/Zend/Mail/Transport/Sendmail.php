@@ -17,7 +17,7 @@
  * @subpackage Transport
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Sendmail.php 21605 2010-03-22 15:09:03Z yoshida@zend.co.jp $
+ * @version    $Id: Sendmail.php 23484 2010-12-10 03:57:59Z mjh_ca $
  */
 
 
@@ -74,14 +74,14 @@ class Zend_Mail_Transport_Sendmail extends Zend_Mail_Transport_Abstract
      */
     public function __construct($parameters = null)
     {
-        if ($parameters instanceof Zend_Config) { 
-            $parameters = $parameters->toArray(); 
+        if ($parameters instanceof Zend_Config) {
+            $parameters = $parameters->toArray();
         }
 
-        if (is_array($parameters)) { 
+        if (is_array($parameters)) {
             $parameters = implode(' ', $parameters);
         }
-        
+
         $this->parameters = $parameters;
     }
 
@@ -109,7 +109,7 @@ class Zend_Mail_Transport_Sendmail extends Zend_Mail_Transport_Abstract
             if(!is_string($this->parameters)) {
                 /**
                  * @see Zend_Mail_Transport_Exception
-                 * 
+                 *
                  * Exception is thrown here because
                  * $parameters is a public property
                  */

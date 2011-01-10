@@ -17,7 +17,7 @@
  * @subpackage Zend_Cache_Backend
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: TwoLevels.php 22506 2010-06-30 17:23:21Z mabe $
+ * @version    $Id: TwoLevels.php 22736 2010-07-30 16:25:54Z andyfowler $
  */
 
 
@@ -201,6 +201,11 @@ class Zend_Cache_Backend_TwoLevels extends Zend_Cache_Backend implements Zend_Ca
             $boolSlow = $this->_slowBackend->save($preparedData, $id, $tags, $lifetime);
             if ($boolSlow === true) {
                 $boolFast = $this->_fastBackend->remove($id);
+                if (!$boolFast && !$this->_fastBackend->test($id)) {
+                    // some backends return false on remove() even if the key never existed. (and it won't if fast is full)
+                    // all we care about is that the key doesn't exist now
+                    $boolFast = true;
+                }
             }
         }
 

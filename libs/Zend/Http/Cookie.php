@@ -17,7 +17,7 @@
  * @package    Zend_Http
  * @subpackage Cookie
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Cookie.php 21020 2010-02-11 17:27:23Z shahar $
+ * @version    $Id: Cookie.php 23443 2010-11-24 11:53:13Z shahar $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -277,7 +277,7 @@ class Zend_Http_Cookie
      *
      * @param string $cookieStr
      * @param Zend_Uri_Http|string $refUri Reference URI for default values (domain, path)
-     * @param boolean $encodeValue Weither or not the cookie's value should be
+     * @param boolean $encodeValue Whether or not the cookie's value should be
      *                             passed through urlencode/urldecode
      * @return Zend_Http_Cookie A new Zend_Http_Cookie object or false on failure.
      */
@@ -395,7 +395,7 @@ class Zend_Http_Cookie
 
         // Check for either exact match or suffix match
         return ($cookieDomain == $host ||
-                preg_match("/\.$cookieDomain$/", $host));
+                preg_match('/\.' . preg_quote($cookieDomain) . '$/', $host));
     }
 
     /**

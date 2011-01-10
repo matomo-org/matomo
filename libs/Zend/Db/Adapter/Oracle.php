@@ -17,7 +17,7 @@
  * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Oracle.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Oracle.php 23573 2010-12-23 18:20:00Z mikaelkael $
  */
 
 /**
@@ -147,7 +147,8 @@ class Zend_Db_Adapter_Oracle extends Zend_Db_Adapter_Abstract
     public function isConnected()
     {
         return ((bool) (is_resource($this->_connection)
-                     && get_resource_type($this->_connection) == 'oci8 connection'));
+                    && (get_resource_type($this->_connection) == 'oci8 connection'
+                     || get_resource_type($this->_connection) == 'oci8 persistent connection')));
     }
 
     /**
@@ -600,46 +601,6 @@ class Zend_Db_Adapter_Oracle extends Zend_Db_Adapter_Abstract
     public function _getExecuteMode()
     {
         return $this->_execute_mode;
-    }
-
-    /**
-     * Inserts a table row with specified data.
-     *
-     * Oracle does not support anonymous ('?') binds.
-     *
-     * @param mixed $table The table to insert data into.
-     * @param array $bind Column-value pairs.
-     * @return int The number of affected rows.
-     */
-    public function insert($table, array $bind)
-    {
-        $i = 0;
-        // extract and quote col names from the array keys
-        $cols = array();
-        $vals = array();
-        foreach ($bind as $col => $val) {
-            $cols[] = $this->quoteIdentifier($col, true);
-            if ($val instanceof Zend_Db_Expr) {
-                $vals[] = $val->__toString();
-                unset($bind[$col]);
-            } else {
-                $vals[] = ':'.$col.$i;
-                unset($bind[$col]);
-                $bind[':'.$col.$i] = $val;
-            }
-            $i++;
-        }
-
-        // build the statement
-        $sql = "INSERT INTO "
-             . $this->quoteIdentifier($table, true)
-             . ' (' . implode(', ', $cols) . ') '
-             . 'VALUES (' . implode(', ', $vals) . ')';
-
-        // execute the statement and return the number of affected rows
-        $stmt = $this->query($sql, $bind);
-        $result = $stmt->rowCount();
-        return $result;
     }
 
     /**
