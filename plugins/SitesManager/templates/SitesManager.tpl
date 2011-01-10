@@ -47,7 +47,7 @@ $(document).ready( function() {
 <style>
 .entityTable tr td {
     vertical-align: top;
-    padding-top:15px;
+    padding-top:7px;
 }
 
 .addRowSite:hover, .editableSite:hover, .addsite:hover, .cancel:hover, .deleteSite:hover, .editSite:hover, .updateSite:hover{

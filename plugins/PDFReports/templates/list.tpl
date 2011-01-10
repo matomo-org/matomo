@@ -35,7 +35,7 @@
 		        <td>{$periods[$report.period]}
 		        	<!-- Last sent on {$report.ts_last_sent} -->
 		        </td>
-				<td>{if $report.email_me == 1}{$currentUserEmail}{/if} 
+				<td>{if $report.email_me == 1}{$currentUserEmail}{if !empty($report.additional_emails)}<br/>{/if}{/if} 
 					{$report.additional_emails|replace:",":" "}
 					<br/><a href='#' idreport='{$report.idreport}' name='linkEmailNow' class="link_but" style='margin-top:3px'><img border=0 src='themes/default/images/email.png'> {'PDFReports_SendReportNow'|translate}</a>
 					</td>
