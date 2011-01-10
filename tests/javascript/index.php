@@ -119,8 +119,8 @@ $(document).ready(function () {
 		equals( tracker.hook.test._decode("%26%3D%3F%3B%2F%23"), '&=?;/#', 'decodeWrapper()' );
 	});
 
-	test("Tracker getHostname(), getParameter(), and urlFixup()", function() {
-		expect(24);
+	test("Tracker getHostname(), getParameter(), urlFixup(), and purify()", function() {
+		expect(32);
 
 		var tracker = Piwik.getTracker();
 
@@ -146,6 +146,8 @@ $(document).ready(function () {
 		equals( tracker.hook.test._getParameter('http://piwik.org/?p=test1&q=test2', 'q'), 'test2', '&q');
 		equals( tracker.hook.test._getParameter('http://piwik.org/?q=http%3a%2f%2flocalhost%2f%3fr%3d1%26q%3dfalse', 'q'), 'http://localhost/?r=1&q=false', 'url');
 
+		equals( typeof tracker.hook.test._urlFixup, 'function', 'urlFixup' );
+
 		same( tracker.hook.test._urlFixup( 'webcache.googleusercontent.com', 'http://webcache.googleusercontent.com/search?q=cache:CD2SncROLs4J:piwik.org/blog/2010/04/piwik-0-6-security-advisory/+piwik+security&cd=1&hl=en&ct=clnk', '' ),
 				['piwik.org', 'http://piwik.org/qa', ''], 'webcache.googleusercontent.com' );
 
@@ -160,6 +162,18 @@ $(document).ready(function () {
 
 		same( tracker.hook.test._urlFixup( 'translate.googleusercontent.com', 'http://translate.googleusercontent.com/translate_c?hl=en&ie=UTF-8&sl=en&tl=fr&u=http://piwik.org/&prev=_t&rurl=translate.google.com&twu=1&usg=ALkJrhirI_ijXXT7Ja_aDGndEJbE7pJqpQ', '' ),
 				['piwik.org', 'http://piwik.org/', 'http://translate.googleusercontent.com/translate_c?hl=en&ie=UTF-8&sl=en&tl=fr&u=http://piwik.org/&prev=_t&rurl=translate.google.com&twu=1&usg=ALkJrhirI_ijXXT7Ja_aDGndEJbE7pJqpQ'], 'translate.googleusercontent.com' );
+
+		equals( typeof tracker.hook.test._purify, 'function', 'purify' );
+
+		equals( tracker.hook.test._purify('http://example.com'), 'http://example.com', 'http://example.com');
+		equals( tracker.hook.test._purify('http://example.com#hash'), 'http://example.com#hash', 'http://example.com#hash');
+		equals( tracker.hook.test._purify('http://example.com/?q=xyz#hash'), 'http://example.com/?q=xyz#hash', 'http://example.com/?q=xyz#hash');
+
+		tracker.discardHashTag(true);
+
+		equals( tracker.hook.test._purify('http://example.com'), 'http://example.com', 'http://example.com');
+		equals( tracker.hook.test._purify('http://example.com#hash'), 'http://example.com', 'http://example.com#hash');
+		equals( tracker.hook.test._purify('http://example.com/?q=xyz#hash'), 'http://example.com/?q=xyz', 'http://example.com/?q=xyz#hash');
 	});
 
 	test("Tracker setDomains() and isSiteHostName()", function() {
