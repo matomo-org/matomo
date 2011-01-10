@@ -16,7 +16,7 @@
  * @package   Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: ExcludeMimeType.php 21936 2010-04-18 16:23:34Z thomas $
+ * @version   $Id: ExcludeMimeType.php 21935 2010-04-18 16:21:35Z thomas $
  */
 
 /**

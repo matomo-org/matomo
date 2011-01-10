@@ -16,7 +16,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client_Adapter
- * @version    $Id: Curl.php 22221 2010-05-21 07:00:58Z dragonbe $
+ * @version    $Id: Curl.php 23484 2010-12-10 03:57:59Z mjh_ca $
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -334,7 +334,7 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
                 $curlMethod = CURLOPT_CUSTOMREQUEST;
                 $curlValue = "TRACE";
                 break;
-            
+
             case Zend_Http_Client::HEAD:
                 $curlMethod = CURLOPT_CUSTOMREQUEST;
                 $curlValue = "HEAD";

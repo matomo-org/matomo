@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Writer
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Entry.php 22065 2010-04-30 14:04:57Z padraic $
+ * @version    $Id: Entry.php 23484 2010-12-10 03:57:59Z mjh_ca $
  */
 
 /**
@@ -46,14 +46,14 @@ class Zend_Feed_Writer_Entry
      * @var array
      */
     protected $_data = array();
-    
+
     /**
      * Registered extensions
      *
      * @var array
      */
     protected $_extensions = array();
-    
+
     /**
      * Holds the value "atom" or "rss" depending on the feed type set when
      * when last exported.
@@ -61,7 +61,7 @@ class Zend_Feed_Writer_Entry
      * @var string
      */
     protected $_type = null;
-    
+
     /**
      * Constructor: Primarily triggers the registration of core extensions and
      * loads those appropriate to this data container.
@@ -84,8 +84,8 @@ class Zend_Feed_Writer_Entry
     {
         $author = array();
         if (is_array($name)) {
-            if (!array_key_exists('name', $name) 
-                || empty($name['name']) 
+            if (!array_key_exists('name', $name)
+                || empty($name['name'])
                 || !is_string($name['name'])
             ) {
                 // require_once 'Zend/Feed/Exception.php';
@@ -100,8 +100,8 @@ class Zend_Feed_Writer_Entry
                 $author['email'] = $name['email'];
             }
             if (isset($name['uri'])) {
-                if (empty($name['uri']) 
-                    || !is_string($name['uri']) 
+                if (empty($name['uri'])
+                    || !is_string($name['uri'])
                     || !Zend_Uri::check($name['uri'])
                 ) {
                     // require_once 'Zend/Feed/Exception.php';
@@ -148,7 +148,7 @@ class Zend_Feed_Writer_Entry
             $this->addAuthor($author);
         }
     }
-    
+
     /**
      * Set the feed character encoding
      *
@@ -212,7 +212,7 @@ class Zend_Feed_Writer_Entry
     public function setDateCreated($date = null)
     {
         $zdate = null;
-        if (is_null($date)) {
+        if ($date === null) {
             $zdate = new Zend_Date;
         } elseif (ctype_digit($date) && strlen($date) == 10) {
             $zdate = new Zend_Date($date, Zend_Date::TIMESTAMP);
@@ -233,7 +233,7 @@ class Zend_Feed_Writer_Entry
     public function setDateModified($date = null)
     {
         $zdate = null;
-        if (is_null($date)) {
+        if ($date === null) {
             $zdate = new Zend_Date;
         } elseif (ctype_digit($date) && strlen($date) == 10) {
             $zdate = new Zend_Date($date, Zend_Date::TIMESTAMP);
@@ -337,7 +337,7 @@ class Zend_Feed_Writer_Entry
         }
         $this->_data['commentFeedLinks'][] = $link;
     }
-    
+
     /**
      * Set a links to an XML feed for any comments associated with this entry.
      * Each link is an array with keys "uri" and "type", where type is one of:
@@ -456,7 +456,7 @@ class Zend_Feed_Writer_Entry
         }
         return $this->_data['id'];
     }
-    
+
     /**
      * Get a link to the HTML source
      *
@@ -536,12 +536,12 @@ class Zend_Feed_Writer_Entry
         }
         return $this->_data['commentFeedLinks'];
     }
-    
+
     /**
      * Add a entry category
      *
      * @param string $category
-     */ 
+     */
     public function addCategory(array $category)
     {
         if (!isset($category['term'])) {
@@ -551,7 +551,7 @@ class Zend_Feed_Writer_Entry
             . ' readable category name');
         }
         if (isset($category['scheme'])) {
-            if (empty($category['scheme']) 
+            if (empty($category['scheme'])
                 || !is_string($category['scheme'])
                 || !Zend_Uri::check($category['scheme'])
             ) {
@@ -565,7 +565,7 @@ class Zend_Feed_Writer_Entry
         }
         $this->_data['categories'][] = $category;
     }
-    
+
     /**
      * Set an array of entry categories
      *
@@ -577,7 +577,7 @@ class Zend_Feed_Writer_Entry
             $this->addCategory($category);
         }
     }
-    
+
     /**
      * Get the entry categories
      *
@@ -590,7 +590,7 @@ class Zend_Feed_Writer_Entry
         }
         return $this->_data['categories'];
     }
-    
+
     /**
      * Adds an enclosure to the entry. The array parameter may contain the
      * keys 'uri', 'type' and 'length'. Only 'uri' is required for Atom, though the
@@ -611,7 +611,7 @@ class Zend_Feed_Writer_Entry
         }
         $this->_data['enclosure'] = $enclosure;
     }
-    
+
     /**
      * Retrieve an array of all enclosures to be added to entry.
      *
@@ -624,7 +624,7 @@ class Zend_Feed_Writer_Entry
         }
         return $this->_data['enclosure'];
     }
-    
+
     /**
      * Unset a specific data point
      *
@@ -636,7 +636,7 @@ class Zend_Feed_Writer_Entry
             unset($this->_data[$name]);
         }
     }
-    
+
     /**
      * Get registered extensions
      *
@@ -660,7 +660,7 @@ class Zend_Feed_Writer_Entry
         }
         return null;
     }
-    
+
     /**
      * Set the current feed type being exported to "rss" or "atom". This allows
      * other objects to gracefully choose whether to execute or not, depending
@@ -672,7 +672,7 @@ class Zend_Feed_Writer_Entry
     {
         $this->_type = $type;
     }
-    
+
     /**
      * Retrieve the current or last feed type exported.
      *
@@ -703,7 +703,7 @@ class Zend_Feed_Writer_Entry
         throw new Zend_Feed_Exception('Method: ' . $method
             . ' does not exist and could not be located on a registered Extension');
     }
-    
+
     /**
      * Creates a new Zend_Feed_Writer_Source data container for use. This is NOT
      * added to the current feed automatically, but is necessary to create a
@@ -731,7 +731,7 @@ class Zend_Feed_Writer_Entry
     {
         $this->_data['source'] = $source;
     }
-    
+
     /**
      * @return Zend_Feed_Writer_Source
      */

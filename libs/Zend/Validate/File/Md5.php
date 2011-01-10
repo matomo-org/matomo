@@ -16,7 +16,7 @@
  * @package   Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Md5.php 22697 2010-07-26 21:14:47Z alexander $
+ * @version   $Id: Md5.php 22668 2010-07-25 14:50:46Z thomas $
  */
 
 /**
@@ -47,7 +47,7 @@ class Zend_Validate_File_Md5 extends Zend_Validate_File_Hash
     protected $_messageTemplates = array(
         self::DOES_NOT_MATCH => "File '%value%' does not match the given md5 hashes",
         self::NOT_DETECTED   => "A md5 hash could not be evaluated for the given file",
-        self::NOT_FOUND      => "File '%value%' could not be found",
+        self::NOT_FOUND      => "File '%value%' is not readable or does not exist",
     );
 
     /**

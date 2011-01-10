@@ -16,6 +16,7 @@
  * @package    Zend
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Exception.php 23484 2010-12-10 03:57:59Z mjh_ca $
  */
 
 /**
@@ -53,9 +54,9 @@ class Zend_Exception extends Exception
      * Overloading
      *
      * For PHP < 5.3.0, provides access to the getPrevious() method.
-     * 
-     * @param  string $method 
-     * @param  array $args 
+     *
+     * @param  string $method
+     * @param  array $args
      * @return mixed
      */
     public function __call($method, array $args)
@@ -75,8 +76,8 @@ class Zend_Exception extends Exception
     {
         if (version_compare(PHP_VERSION, '5.3.0', '<')) {
             if (null !== ($e = $this->getPrevious())) {
-                return $e->__toString() 
-                       . "\n\nNext " 
+                return $e->__toString()
+                       . "\n\nNext "
                        . parent::__toString();
             }
         }

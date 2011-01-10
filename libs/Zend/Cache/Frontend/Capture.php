@@ -17,6 +17,7 @@
  * @subpackage Zend_Cache_Frontend
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Capture.php 23484 2010-12-10 03:57:59Z mjh_ca $
  */
 
 
@@ -45,7 +46,7 @@ class Zend_Cache_Frontend_Capture extends Zend_Cache_Core
      * @var array
      */
     protected $_tags = array();
-    
+
     protected $_extension = null;
 
     /**
@@ -74,7 +75,7 @@ class Zend_Cache_Frontend_Capture extends Zend_Cache_Core
     public function _flush($data)
     {
         $id = array_pop($this->_idStack);
-        if (is_null($id)) {
+        if ($id === null) {
             Zend_Cache::throwException('use of _flush() without a start()');
         }
         if ($this->_extension) {

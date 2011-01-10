@@ -17,7 +17,7 @@
  * @subpackage Statement
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Oci.php 21105 2010-02-19 21:27:09Z mikaelkael $
+ * @version    $Id: Oci.php 21104 2010-02-19 21:26:36Z mikaelkael $
  */
 
 /**

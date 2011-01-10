@@ -17,7 +17,7 @@
  * @subpackage Zend_Cache_Frontend
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: File.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: File.php 23330 2010-11-14 20:08:09Z mabe $
  */
 
 
@@ -97,22 +97,31 @@ class Zend_Cache_Frontend_File extends Zend_Cache_Core
     }
 
     /**
-     * Change the master_file option
+     * Change the master_files option
      *
-     * @param string $masterFile the complete path and name of the master file
+     * @param array $masterFiles the complete paths and name of the master files
      */
-    public function setMasterFiles($masterFiles)
+    public function setMasterFiles(array $masterFiles)
     {
-        clearstatcache();
-        $this->_specificOptions['master_file'] = $masterFiles[0]; // to keep a compatibility
-        $this->_specificOptions['master_files'] = $masterFiles;
+        $this->_specificOptions['master_file']  = null; // to keep a compatibility
+        $this->_specificOptions['master_files'] = null;
         $this->_masterFile_mtimes = array();
+
+        clearstatcache();
         $i = 0;
         foreach ($masterFiles as $masterFile) {
-            $this->_masterFile_mtimes[$i] = @filemtime($masterFile);
-            if ((!($this->_specificOptions['ignore_missing_master_files'])) && (!($this->_masterFile_mtimes[$i]))) {
-                Zend_Cache::throwException('Unable to read master_file : '.$masterFile);
+            $mtime = @filemtime($masterFile);
+
+            if (!$this->_specificOptions['ignore_missing_master_files'] && !$mtime) {
+                Zend_Cache::throwException('Unable to read master_file : ' . $masterFile);
             }
+
+            $this->_masterFile_mtimes[$i] = $mtime;
+            $this->_specificOptions['master_files'][$i] = $masterFile;
+            if ($i === 0) { // to keep a compatibility
+                $this->_specificOptions['master_files'] = $masterFile;
+            }
+
             $i++;
         }
     }
@@ -127,7 +136,7 @@ class Zend_Cache_Frontend_File extends Zend_Cache_Core
      */
     public function setMasterFile($masterFile)
     {
-          $this->setMasterFiles(array(0 => $masterFile));
+          $this->setMasterFiles(array($masterFile));
     }
 
     /**

@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Writer
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Atom.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: AtomAbstract.php 23484 2010-12-10 03:57:59Z mjh_ca $
  */
 
 /** @see Zend_Feed_Writer_Feed */
@@ -45,8 +45,8 @@ class Zend_Feed_Writer_Renderer_Feed_Atom_AtomAbstract
 {
     /**
      * Constructor
-     * 
-     * @param  Zend_Feed_Writer_Feed $container 
+     *
+     * @param  Zend_Feed_Writer_Feed $container
      * @return void
      */
     public function __construct ($container)
@@ -56,9 +56,9 @@ class Zend_Feed_Writer_Renderer_Feed_Atom_AtomAbstract
 
     /**
      * Set feed language
-     * 
-     * @param  DOMDocument $dom 
-     * @param  DOMElement $root 
+     *
+     * @param  DOMDocument $dom
+     * @param  DOMElement $root
      * @return void
      */
     protected function _setLanguage(DOMDocument $dom, DOMElement $root)
@@ -71,9 +71,9 @@ class Zend_Feed_Writer_Renderer_Feed_Atom_AtomAbstract
 
     /**
      * Set feed title
-     * 
-     * @param  DOMDocument $dom 
-     * @param  DOMElement $root 
+     *
+     * @param  DOMDocument $dom
+     * @param  DOMElement $root
      * @return void
      */
     protected function _setTitle(DOMDocument $dom, DOMElement $root)
@@ -100,9 +100,9 @@ class Zend_Feed_Writer_Renderer_Feed_Atom_AtomAbstract
 
     /**
      * Set feed description
-     * 
-     * @param  DOMDocument $dom 
-     * @param  DOMElement $root 
+     *
+     * @param  DOMDocument $dom
+     * @param  DOMElement $root
      * @return void
      */
     protected function _setDescription(DOMDocument $dom, DOMElement $root)
@@ -119,9 +119,9 @@ class Zend_Feed_Writer_Renderer_Feed_Atom_AtomAbstract
 
     /**
      * Set date feed was last modified
-     * 
-     * @param  DOMDocument $dom 
-     * @param  DOMElement $root 
+     *
+     * @param  DOMDocument $dom
+     * @param  DOMElement $root
      * @return void
      */
     protected function _setDateModified(DOMDocument $dom, DOMElement $root)
@@ -149,9 +149,9 @@ class Zend_Feed_Writer_Renderer_Feed_Atom_AtomAbstract
 
     /**
      * Set feed generator string
-     * 
-     * @param  DOMDocument $dom 
-     * @param  DOMElement $root 
+     *
+     * @param  DOMDocument $dom
+     * @param  DOMElement $root
      * @return void
      */
     protected function _setGenerator(DOMDocument $dom, DOMElement $root)
@@ -176,9 +176,9 @@ class Zend_Feed_Writer_Renderer_Feed_Atom_AtomAbstract
 
     /**
      * Set link to feed
-     * 
-     * @param  DOMDocument $dom 
-     * @param  DOMElement $root 
+     *
+     * @param  DOMDocument $dom
+     * @param  DOMElement $root
      * @return void
      */
     protected function _setLink(DOMDocument $dom, DOMElement $root)
@@ -195,9 +195,9 @@ class Zend_Feed_Writer_Renderer_Feed_Atom_AtomAbstract
 
     /**
      * Set feed links
-     * 
-     * @param  DOMDocument $dom 
-     * @param  DOMElement $root 
+     *
+     * @param  DOMDocument $dom
+     * @param  DOMElement $root
      * @return void
      */
     protected function _setFeedLinks(DOMDocument $dom, DOMElement $root)
@@ -227,12 +227,12 @@ class Zend_Feed_Writer_Renderer_Feed_Atom_AtomAbstract
             $flink->setAttribute('href', $href);
         }
     }
-    
+
     /**
-     * Set feed authors 
-     * 
-     * @param  DOMDocument $dom 
-     * @param  DOMElement $root 
+     * Set feed authors
+     *
+     * @param  DOMDocument $dom
+     * @param  DOMElement $root
      * @return void
      */
     protected function _setAuthors(DOMDocument $dom, DOMElement $root)
@@ -270,9 +270,9 @@ class Zend_Feed_Writer_Renderer_Feed_Atom_AtomAbstract
 
     /**
      * Set feed identifier
-     * 
-     * @param  DOMDocument $dom 
-     * @param  DOMElement $root 
+     *
+     * @param  DOMDocument $dom
+     * @param  DOMElement $root
      * @return void
      */
     protected function _setId(DOMDocument $dom, DOMElement $root)
@@ -302,12 +302,12 @@ class Zend_Feed_Writer_Renderer_Feed_Atom_AtomAbstract
         $text = $dom->createTextNode($this->getDataContainer()->getId());
         $id->appendChild($text);
     }
-    
+
     /**
      * Set feed copyright
-     * 
-     * @param  DOMDocument $dom 
-     * @param  DOMElement $root 
+     *
+     * @param  DOMDocument $dom
+     * @param  DOMElement $root
      * @return void
      */
     protected function _setCopyright(DOMDocument $dom, DOMElement $root)
@@ -324,9 +324,9 @@ class Zend_Feed_Writer_Renderer_Feed_Atom_AtomAbstract
 
     /**
      * Set feed level logo (image)
-     * 
-     * @param DOMDocument $dom 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $dom
+     * @param DOMElement $root
      * @return void
      */
     protected function _setImage(DOMDocument $dom, DOMElement $root)
@@ -340,12 +340,31 @@ class Zend_Feed_Writer_Renderer_Feed_Atom_AtomAbstract
         $text = $dom->createTextNode($image['uri']);
         $img->appendChild($text);
     }
-    
+
     /**
-     * Set date feed was created 
-     * 
-     * @param  DOMDocument $dom 
-     * @param  DOMElement $root 
+     * Set feed level icon (image)
+     *
+     * @param DOMDocument $dom
+     * @param DOMElement $root
+     * @return void
+     */
+    protected function _setIcon(DOMDocument $dom, DOMElement $root)
+    {
+        $image = $this->getDataContainer()->getIcon();
+        if (!$image) {
+            return;
+        }
+        $img = $dom->createElement('icon');
+        $root->appendChild($img);
+        $text = $dom->createTextNode($image['uri']);
+        $img->appendChild($text);
+    }
+
+    /**
+     * Set date feed was created
+     *
+     * @param  DOMDocument $dom
+     * @param  DOMElement $root
      * @return void
      */
     protected function _setDateCreated(DOMDocument $dom, DOMElement $root)
@@ -359,12 +378,12 @@ class Zend_Feed_Writer_Renderer_Feed_Atom_AtomAbstract
             );
         }
     }
-    
+
     /**
      * Set base URL to feed links
-     * 
-     * @param  DOMDocument $dom 
-     * @param  DOMElement $root 
+     *
+     * @param  DOMDocument $dom
+     * @param  DOMElement $root
      * @return void
      */
     protected function _setBaseUrl(DOMDocument $dom, DOMElement $root)
@@ -375,12 +394,12 @@ class Zend_Feed_Writer_Renderer_Feed_Atom_AtomAbstract
         }
         $root->setAttribute('xml:base', $baseUrl);
     }
-    
+
     /**
-     * Set hubs to which this feed pushes 
-     * 
-     * @param  DOMDocument $dom 
-     * @param  DOMElement $root 
+     * Set hubs to which this feed pushes
+     *
+     * @param  DOMDocument $dom
+     * @param  DOMElement $root
      * @return void
      */
     protected function _setHubs(DOMDocument $dom, DOMElement $root)
@@ -396,12 +415,12 @@ class Zend_Feed_Writer_Renderer_Feed_Atom_AtomAbstract
             $root->appendChild($hub);
         }
     }
-    
+
     /**
-     * Set feed cateories 
-     * 
-     * @param  DOMDocument $dom 
-     * @param  DOMElement $root 
+     * Set feed cateories
+     *
+     * @param  DOMDocument $dom
+     * @param  DOMElement $root
      * @return void
      */
     protected function _setCategories(DOMDocument $dom, DOMElement $root)

@@ -17,7 +17,7 @@
  * @subpackage Zend_Cache_Frontend
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Class.php 22654 2010-07-22 18:44:13Z mabe $
+ * @version    $Id: Class.php 23051 2010-10-07 17:01:21Z mabe $
  */
 
 /**
@@ -218,11 +218,16 @@ class Zend_Cache_Frontend_Class extends Zend_Cache_Core
             // A cache is not available (or not valid for this frontend)
             ob_start();
             ob_implicit_flush(false);
-            $return = call_user_func_array(array($this->_cachedEntity, $name), $parameters);
-            $output = ob_get_contents();
-            ob_end_clean();
-            $data = array($output, $return);
-            $this->save($data, $id, $this->_tags, $this->_specificLifetime, $this->_priority);
+
+            try {
+                $return = call_user_func_array(array($this->_cachedEntity, $name), $parameters);
+                $output = ob_get_clean();
+                $data = array($output, $return);
+                $this->save($data, $id, $this->_tags, $this->_specificLifetime, $this->_priority);
+            } catch (Exception $e) {
+                ob_end_clean();
+                throw $e;
+            }
         }
 
         echo $output;

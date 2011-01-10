@@ -16,7 +16,7 @@
  * @package    Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: CreditCard.php 22697 2010-07-26 21:14:47Z alexander $
+ * @version    $Id: CreditCard.php 22668 2010-07-25 14:50:46Z thomas $
  */
 
 /**
@@ -64,13 +64,13 @@ class Zend_Validate_CreditCard extends Zend_Validate_Abstract
      * @var array
      */
     protected $_messageTemplates = array(
-        self::CHECKSUM       => "Luhn algorithm (mod-10 checksum) failed on '%value%'",
+        self::CHECKSUM       => "'%value%' seems to contain an invalid checksum",
         self::CONTENT        => "'%value%' must contain only digits",
-        self::INVALID        => "Invalid type given, value should be a string",
+        self::INVALID        => "Invalid type given. String expected",
         self::LENGTH         => "'%value%' contains an invalid amount of digits",
         self::PREFIX         => "'%value%' is not from an allowed institute",
-        self::SERVICE        => "Validation of '%value%' has been failed by the service",
-        self::SERVICEFAILURE => "The service returned a failure while validating '%value%'",
+        self::SERVICE        => "'%value%' seems to be an invalid creditcard number",
+        self::SERVICEFAILURE => "An exception has been raised while validating '%value%'",
     );
 
     /**

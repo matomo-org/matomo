@@ -16,7 +16,7 @@
  * @package    Zend_Config
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Ini.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Ini.php 23484 2010-12-10 03:57:59Z mjh_ca $
  */
 
 /**
@@ -93,7 +93,8 @@ class Zend_Config_Writer_Ini extends Zend_Config_Writer_FileAbstract
                        .  $this->_addBranch($this->_config)
                        .  "\n";
         } else {
-            foreach ($this->_config as $sectionName => $data) {
+            $config = $this->_sortRootElements($this->_config);
+            foreach ($config as $sectionName => $data) {
                 if (!($data instanceof Zend_Config)) {
                     $iniString .= $sectionName
                                .  ' = '
@@ -159,5 +160,34 @@ class Zend_Config_Writer_Ini extends Zend_Config_Writer_FileAbstract
             // require_once 'Zend/Config/Exception.php';
             throw new Zend_Config_Exception('Value can not contain double quotes "');
         }
+    }
+
+    /**
+     * Root elements that are not assigned to any section needs to be
+     * on the top of config.
+     *
+     * @see    http://framework.zend.com/issues/browse/ZF-6289
+     * @param  Zend_Config
+     * @return Zend_Config
+     */
+    protected function _sortRootElements(Zend_Config $config)
+    {
+        $configArray = $config->toArray();
+        $sections = array();
+
+        // remove sections from config array
+        foreach ($configArray as $key => $value) {
+            if (is_array($value)) {
+                $sections[$key] = $value;
+                unset($configArray[$key]);
+            }
+        }
+
+        // readd sections to the end
+        foreach ($sections as $key => $value) {
+            $configArray[$key] = $value;
+        }
+
+        return new Zend_Config($configArray);
     }
 }

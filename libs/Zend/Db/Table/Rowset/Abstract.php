@@ -17,7 +17,7 @@
  * @subpackage Table
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 22616 2010-07-17 15:53:16Z ramon $
+ * @version    $Id: Abstract.php 23484 2010-12-10 03:57:59Z mjh_ca $
  */
 
 /**
@@ -245,20 +245,8 @@ abstract class Zend_Db_Table_Rowset_Abstract implements SeekableIterator, Counta
             return null;
         }
 
-        // do we already have a row object for this position?
-        if (empty($this->_rows[$this->_pointer])) {
-            $this->_rows[$this->_pointer] = new $this->_rowClass(
-                array(
-                    'table'    => $this->_table,
-                    'data'     => $this->_data[$this->_pointer],
-                    'stored'   => $this->_stored,
-                    'readOnly' => $this->_readOnly
-                )
-            );
-        }
-
         // return the row object
-        return $this->_rows[$this->_pointer];
+        return $this->_loadAndReturnRow($this->_pointer);
     }
 
     /**
@@ -390,17 +378,17 @@ abstract class Zend_Db_Table_Rowset_Abstract implements SeekableIterator, Counta
      */
     public function getRow($position, $seek = false)
     {
-        $key = $this->key();
         try {
-            $this->seek($position);
-            $row = $this->current();
+            $row = $this->_loadAndReturnRow($position);
         } catch (Zend_Db_Table_Rowset_Exception $e) {
             // require_once 'Zend/Db/Table/Rowset/Exception.php';
             throw new Zend_Db_Table_Rowset_Exception('No row could be found at position ' . (int) $position, 0, $e);
         }
-        if ($seek == false) {
-            $this->seek($key);
+
+        if ($seek == true) {
+            $this->seek($position);
         }
+
         return $row;
     }
 
@@ -419,6 +407,29 @@ abstract class Zend_Db_Table_Rowset_Abstract implements SeekableIterator, Counta
             $this->_data[$i] = $row->toArray();
         }
         return $this->_data;
+    }
+
+    protected function _loadAndReturnRow($position)
+    {
+        if (!isset($this->_data[$position])) {
+            // require_once 'Zend/Db/Table/Rowset/Exception.php';
+            throw new Zend_Db_Table_Rowset_Exception("Data for provided position does not exist");
+        }
+
+        // do we already have a row object for this position?
+        if (empty($this->_rows[$position])) {
+            $this->_rows[$position] = new $this->_rowClass(
+                array(
+                    'table'    => $this->_table,
+                    'data'     => $this->_data[$position],
+                    'stored'   => $this->_stored,
+                    'readOnly' => $this->_readOnly
+                )
+            );
+        }
+
+        // return the row object
+        return $this->_rows[$position];
     }
 
 }

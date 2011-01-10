@@ -17,7 +17,7 @@
  * @subpackage Table
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 22230 2010-05-21 20:59:18Z ralph $
+ * @version    $Id: Abstract.php 23484 2010-12-10 03:57:59Z mjh_ca $
  */
 
 /**
@@ -646,7 +646,7 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess, IteratorAggreg
     {
         return new ArrayIterator((array) $this->_data);
     }
-    
+
     /**
      * Returns the column/value data as an array.
      *

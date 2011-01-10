@@ -16,7 +16,7 @@
  * @package   Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Size.php 22697 2010-07-26 21:14:47Z alexander $
+ * @version   $Id: Size.php 22668 2010-07-25 14:50:46Z thomas $
  */
 
 /**
@@ -48,7 +48,7 @@ class Zend_Validate_File_Size extends Zend_Validate_Abstract
     protected $_messageTemplates = array(
         self::TOO_BIG   => "Maximum allowed size for file '%value%' is '%max%' but '%size%' detected",
         self::TOO_SMALL => "Minimum expected size for file '%value%' is '%min%' but '%size%' detected",
-        self::NOT_FOUND => "File '%value%' could not be found",
+        self::NOT_FOUND => "File '%value%' is not readable or does not exist",
     );
 
     /**

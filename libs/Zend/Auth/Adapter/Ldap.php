@@ -17,7 +17,7 @@
  * @subpackage Zend_Auth_Adapter
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Ldap.php 21320 2010-03-04 16:05:09Z sgehrig $
+ * @version    $Id: Ldap.php 23486 2010-12-10 04:05:30Z mjh_ca $
  */
 
 /**
@@ -335,8 +335,8 @@ class Zend_Auth_Adapter_Ldap implements Zend_Auth_Adapter_Interface
                     $messages[1] = '';
                     $messages[] = "$canonicalName authentication successful";
                     if ($requireRebind === true) {
-	                    // rebinding with authenticated user
-	                    $ldap->bind($dn, $password);
+                        // rebinding with authenticated user
+                        $ldap->bind($dn, $password);
                     }
                     return new Zend_Auth_Result(Zend_Auth_Result::SUCCESS, $canonicalName, $messages);
                 } else {

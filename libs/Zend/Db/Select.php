@@ -17,7 +17,7 @@
  * @subpackage Select
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Select.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Select.php 23516 2010-12-16 13:26:11Z bittarman $
  */
 
 
@@ -207,8 +207,8 @@ class Zend_Db_Select
      * The first parameter $name can be a simple string, in which case the
      * correlation name is generated automatically.  If you want to specify
      * the correlation name, the first parameter must be an associative
-     * array in which the key is the physical table name, and the value is
-     * the correlation name.  For example, array('table' => 'alias').
+     * array in which the key is the correlation name, and the value is
+     * the physical table name.  For example, array('alias' => 'table').
      * The correlation name is prepended to all columns fetched for this
      * table.
      *
@@ -219,8 +219,8 @@ class Zend_Db_Select
      * no correlation name is generated or prepended to the columns named
      * in the second parameter.
      *
-     * @param  array|string|Zend_Db_Expr $name The table name or an associative array relating table name to
-     *                                         correlation name.
+     * @param  array|string|Zend_Db_Expr $name The table name or an associative array
+     *                                         relating correlation name to table name.
      * @param  array|string|Zend_Db_Expr $cols The columns to select from this table.
      * @param  string $schema The schema name to specify, if any.
      * @return Zend_Db_Select This Zend_Db_Select object.
@@ -467,7 +467,7 @@ class Zend_Db_Select
      *
      * @param string   $cond  The WHERE condition.
      * @param mixed    $value OPTIONAL The value to quote into the condition.
-     * @param constant $type  OPTIONAL The type of the given value
+     * @param int      $type  OPTIONAL The type of the given value
      * @return Zend_Db_Select This Zend_Db_Select object.
      */
     public function where($cond, $value = null, $type = null)
@@ -484,7 +484,7 @@ class Zend_Db_Select
      *
      * @param string   $cond  The WHERE condition.
      * @param mixed    $value OPTIONAL The value to quote into the condition.
-     * @param constant $type  OPTIONAL The type of the given value
+     * @param int      $type  OPTIONAL The type of the given value
      * @return Zend_Db_Select This Zend_Db_Select object.
      *
      * @see where()
@@ -526,14 +526,14 @@ class Zend_Db_Select
      * appears. See {@link where()} for an example
      *
      * @param string $cond The HAVING condition.
-     * @param string|Zend_Db_Expr $val The value to quote into the condition.
+     * @param mixed    $value OPTIONAL The value to quote into the condition.
+     * @param int      $type  OPTIONAL The type of the given value
      * @return Zend_Db_Select This Zend_Db_Select object.
      */
-    public function having($cond)
+    public function having($cond, $value = null, $type = null)
     {
-        if (func_num_args() > 1) {
-            $val = func_get_arg(1);
-            $cond = $this->_adapter->quoteInto($cond, $val);
+        if ($value !== null) {
+            $cond = $this->_adapter->quoteInto($cond, $value, $type);
         }
 
         if ($this->_parts[self::HAVING]) {
@@ -551,16 +551,16 @@ class Zend_Db_Select
      * Otherwise identical to orHaving().
      *
      * @param string $cond The HAVING condition.
-     * @param mixed  $val  The value to quote into the condition.
+     * @param mixed    $value OPTIONAL The value to quote into the condition.
+     * @param int      $type  OPTIONAL The type of the given value
      * @return Zend_Db_Select This Zend_Db_Select object.
      *
      * @see having()
      */
-    public function orHaving($cond)
+    public function orHaving($cond, $value = null, $type = null)
     {
-        if (func_num_args() > 1) {
-            $val = func_get_arg(1);
-            $cond = $this->_adapter->quoteInto($cond, $val);
+        if ($value !== null) {
+            $cond = $this->_adapter->quoteInto($cond, $value, $type);
         }
 
         if ($this->_parts[self::HAVING]) {

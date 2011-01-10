@@ -17,7 +17,7 @@
  * @subpackage Zend_Auth_Adapter_Http
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Http.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Http.php 23484 2010-12-10 03:57:59Z mjh_ca $
  */
 
 
@@ -538,7 +538,7 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
         }
 
         $password = $this->_basicResolver->resolve($creds[0], $this->_realm);
-        if ($password && $password == $creds[1]) {
+        if ($password && $this->_secureStringCompare($password, $creds[1])) {
             $identity = array('username'=>$creds[0], 'realm'=>$this->_realm);
             return new Zend_Auth_Result(Zend_Auth_Result::SUCCESS, $identity);
         } else {
@@ -640,7 +640,7 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
 
         // If our digest matches the client's let them in, otherwise return
         // a 401 code and exit to prevent access to the protected resource.
-        if ($digest == $data['response']) {
+        if ($this->_secureStringCompare($digest, $data['response'])) {
             $identity = array('username'=>$data['username'], 'realm'=>$data['realm']);
             return new Zend_Auth_Result(Zend_Auth_Result::SUCCESS, $identity);
         } else {
@@ -843,5 +843,27 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
         $temp = null;
 
         return $data;
+    }
+
+    /**
+     * Securely compare two strings for equality while avoided C level memcmp()
+     * optimisations capable of leaking timing information useful to an attacker
+     * attempting to iteratively guess the unknown string (e.g. password) being
+     * compared against.
+     *
+     * @param string $a
+     * @param string $b
+     * @return bool
+     */
+    protected function _secureStringCompare($a, $b)
+    {
+        if (strlen($a) !== strlen($b)) {
+            return false;
+        }
+        $result = 0;
+        for ($i = 0; $i < strlen($a); $i++) {
+            $result |= ord($a[$i]) ^ ord($b[$i]);
+        }
+        return $result == 0;
     }
 }

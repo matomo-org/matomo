@@ -16,7 +16,7 @@
  * @package    Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Hostname.php 21063 2010-02-15 23:00:17Z thomas $
+ * @version    $Id: Hostname.php 23488 2010-12-10 07:22:55Z mjh_ca $
  */
 
 /**
@@ -46,31 +46,33 @@
  */
 class Zend_Validate_Hostname extends Zend_Validate_Abstract
 {
-    const INVALID                 = 'hostnameInvalid';
-    const IP_ADDRESS_NOT_ALLOWED  = 'hostnameIpAddressNotAllowed';
-    const UNKNOWN_TLD             = 'hostnameUnknownTld';
-    const INVALID_DASH            = 'hostnameDashCharacter';
-    const INVALID_HOSTNAME_SCHEMA = 'hostnameInvalidHostnameSchema';
-    const UNDECIPHERABLE_TLD      = 'hostnameUndecipherableTld';
-    const INVALID_HOSTNAME        = 'hostnameInvalidHostname';
-    const INVALID_LOCAL_NAME      = 'hostnameInvalidLocalName';
-    const LOCAL_NAME_NOT_ALLOWED  = 'hostnameLocalNameNotAllowed';
     const CANNOT_DECODE_PUNYCODE  = 'hostnameCannotDecodePunycode';
+    const INVALID                 = 'hostnameInvalid';
+    const INVALID_DASH            = 'hostnameDashCharacter';
+    const INVALID_HOSTNAME        = 'hostnameInvalidHostname';
+    const INVALID_HOSTNAME_SCHEMA = 'hostnameInvalidHostnameSchema';
+    const INVALID_LOCAL_NAME      = 'hostnameInvalidLocalName';
+    const INVALID_URI             = 'hostnameInvalidUri';
+    const IP_ADDRESS_NOT_ALLOWED  = 'hostnameIpAddressNotAllowed';
+    const LOCAL_NAME_NOT_ALLOWED  = 'hostnameLocalNameNotAllowed';
+    const UNDECIPHERABLE_TLD      = 'hostnameUndecipherableTld';
+    const UNKNOWN_TLD             = 'hostnameUnknownTld';
 
     /**
      * @var array
      */
     protected $_messageTemplates = array(
-        self::INVALID                 => "Invalid type given, value should be a string",
-        self::IP_ADDRESS_NOT_ALLOWED  => "'%value%' appears to be an IP address, but IP addresses are not allowed",
-        self::UNKNOWN_TLD             => "'%value%' appears to be a DNS hostname but cannot match TLD against known list",
-        self::INVALID_DASH            => "'%value%' appears to be a DNS hostname but contains a dash in an invalid position",
-        self::INVALID_HOSTNAME_SCHEMA => "'%value%' appears to be a DNS hostname but cannot match against hostname schema for TLD '%tld%'",
-        self::UNDECIPHERABLE_TLD      => "'%value%' appears to be a DNS hostname but cannot extract TLD part",
-        self::INVALID_HOSTNAME        => "'%value%' does not match the expected structure for a DNS hostname",
-        self::INVALID_LOCAL_NAME      => "'%value%' does not appear to be a valid local network name",
-        self::LOCAL_NAME_NOT_ALLOWED  => "'%value%' appears to be a local network name but local network names are not allowed",
         self::CANNOT_DECODE_PUNYCODE  => "'%value%' appears to be a DNS hostname but the given punycode notation cannot be decoded",
+        self::INVALID                 => "Invalid type given. String expected",
+        self::INVALID_DASH            => "'%value%' appears to be a DNS hostname but contains a dash in an invalid position",
+        self::INVALID_HOSTNAME        => "'%value%' does not match the expected structure for a DNS hostname",
+        self::INVALID_HOSTNAME_SCHEMA => "'%value%' appears to be a DNS hostname but cannot match against hostname schema for TLD '%tld%'",
+        self::INVALID_LOCAL_NAME      => "'%value%' does not appear to be a valid local network name",
+        self::INVALID_URI             => "'%value%' does not appear to be a valid URI hostname",
+        self::IP_ADDRESS_NOT_ALLOWED  => "'%value%' appears to be an IP address, but IP addresses are not allowed",
+        self::LOCAL_NAME_NOT_ALLOWED  => "'%value%' appears to be a local network name but local network names are not allowed",
+        self::UNDECIPHERABLE_TLD      => "'%value%' appears to be a DNS hostname but cannot extract TLD part",
+        self::UNKNOWN_TLD             => "'%value%' appears to be a DNS hostname but cannot match TLD against known list",
     );
 
     /**
@@ -99,6 +101,11 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
      * Allows all types of hostnames
      */
     const ALLOW_ALL   = 7;
+
+    /**
+     * Allows all types of hostnames
+     */
+    const ALLOW_URI = 8;
 
     /**
      * Array of valid top-level-domains
@@ -196,7 +203,7 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
         'CH'  => array(1 => '/^[\x{002d}0-9a-zà-öø-ÿœ]{1,63}$/iu'),
         'CL'  => array(1 => '/^[\x{002d}0-9a-záéíñóúü]{1,63}$/iu'),
         'CN'  => 'Hostname/Cn.php',
-        'COM' => 'Zend/Validate/Hostname/Com.php',
+        'COM' => 'Hostname/Com.php',
         'DE'  => array(1 => '/^[\x{002d}0-9a-zà-öø-ÿăąāćĉčċďđĕěėęēğĝġģĥħĭĩįīıĵķĺľļłńňņŋŏőōœĸŕřŗśŝšşťţŧŭůűũųūŵŷźžż]{1,63}$/iu'),
         'DK'  => array(1 => '/^[\x{002d}0-9a-zäéöü]{1,63}$/iu'),
         'ES'  => array(1 => '/^[\x{002d}0-9a-zàáçèéíïñòóúü·]{1,63}$/iu'),
@@ -208,7 +215,7 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
             6 => '/^[\x{002d}0-9a-zἀ-ἇἐ-ἕἠ-ἧἰ-ἷὀ-ὅὐ-ὗὠ-ὧὰ-ώᾀ-ᾇᾐ-ᾗᾠ-ᾧᾰ-ᾴᾶᾷῂῃῄῆῇῐ-ΐῖῗῠ-ῧῲῳῴῶῷ]{1,63}$/iu'),
         'FI'  => array(1 => '/^[\x{002d}0-9a-zäåö]{1,63}$/iu'),
         'GR'  => array(1 => '/^[\x{002d}0-9a-zΆΈΉΊΌΎ-ΡΣ-ώἀ-ἕἘ-Ἕἠ-ὅὈ-Ὅὐ-ὗὙὛὝὟ-ώᾀ-ᾴᾶ-ᾼῂῃῄῆ-ῌῐ-ΐῖ-Ίῠ-Ῥῲῳῴῶ-ῼ]{1,63}$/iu'),
-        'HK'  => 'Zend/Validate/Hostname/Cn.php',
+        'HK'  => 'Hostname/Cn.php',
         'HU'  => array(1 => '/^[\x{002d}0-9a-záéíóöúüőű]{1,63}$/iu'),
         'INFO'=> array(1 => '/^[\x{002d}0-9a-zäåæéöøü]{1,63}$/iu',
             2 => '/^[\x{002d}0-9a-záéíóöúüőű]{1,63}$/iu',
@@ -220,15 +227,15 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
             8 => '/^[\x{002d}0-9a-záéíñóúü]{1,63}$/iu'),
         'IO'  => array(1 => '/^[\x{002d}0-9a-zà-öø-ÿăąāćĉčċďđĕěėęēğĝġģĥħĭĩįīıĵķĺľļłńňņŋŏőōœĸŕřŗśŝšşťţŧŭůűũųūŵŷźžż]{1,63}$/iu'),
         'IS'  => array(1 => '/^[\x{002d}0-9a-záéýúíóþæöð]{1,63}$/iu'),
-        'JP'  => 'Zend/Validate/Hostname/Jp.php',
+        'JP'  => 'Hostname/Jp.php',
         'KR'  => array(1 => '/^[\x{AC00}-\x{D7A3}]{1,17}$/iu'),
         'LI'  => array(1 => '/^[\x{002d}0-9a-zà-öø-ÿœ]{1,63}$/iu'),
         'LT'  => array(1 => '/^[\x{002d}0-9ąčęėįšųūž]{1,63}$/iu'),
         'MD'  => array(1 => '/^[\x{002d}0-9ăâîşţ]{1,63}$/iu'),
         'MUSEUM' => array(1 => '/^[\x{002d}0-9a-zà-öø-ÿāăąćċčďđēėęěğġģħīįıķĺļľłńņňŋōőœŕŗřśşšţťŧūůűųŵŷźżžǎǐǒǔ\x{01E5}\x{01E7}\x{01E9}\x{01EF}ə\x{0292}ẁẃẅỳ]{1,63}$/iu'),
-        'NET' => 'Zend/Validate/Hostname/Com.php',
+        'NET' => 'Hostname/Com.php',
         'NO'  => array(1 => '/^[\x{002d}0-9a-zàáä-éêñ-ôöøüčđńŋšŧž]{1,63}$/iu'),
-        'NU'  => 'Zend/Validate/Hostname/Com.php',
+        'NU'  => 'Hostname/Com.php',
         'ORG' => array(1 => '/^[\x{002d}0-9a-záéíñóúü]{1,63}$/iu',
             2 => '/^[\x{002d}0-9a-zóąćęłńśźż]{1,63}$/iu',
             3 => '/^[\x{002d}0-9a-záäåæéëíðóöøúüýþ]{1,63}$/iu',
@@ -279,14 +286,14 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
         'SJ'  => array(1 => '/^[\x{002d}0-9a-zàáä-éêñ-ôöøüčđńŋšŧž]{1,63}$/iu'),
         'TH'  => array(1 => '/^[\x{002d}0-9a-z\x{0E01}-\x{0E3A}\x{0E40}-\x{0E4D}\x{0E50}-\x{0E59}]{1,63}$/iu'),
         'TM'  => array(1 => '/^[\x{002d}0-9a-zà-öø-ÿāăąćĉċčďđēėęěĝġģĥħīįĵķĺļľŀłńņňŋőœŕŗřśŝşšţťŧūŭůűųŵŷźżž]{1,63}$/iu'),
-        'TW'  => 'Zend/Validate/Hostname/Cn.php',
+        'TW'  => 'Hostname/Cn.php',
         'TR'  => array(1 => '/^[\x{002d}0-9a-zğıüşöç]{1,63}$/iu'),
         'VE'  => array(1 => '/^[\x{002d}0-9a-záéíóúüñ]{1,63}$/iu'),
         'VN'  => array(1 => '/^[ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯư\x{1EA0}-\x{1EF9}]{1,63}$/iu'),
         'ایران' => array(1 => '/^[\x{0621}-\x{0624}\x{0626}-\x{063A}\x{0641}\x{0642}\x{0644}-\x{0648}\x{067E}\x{0686}\x{0698}\x{06A9}\x{06AF}\x{06CC}\x{06F0}-\x{06F9}]{1,30}$/iu'),
-        '中国' => 'Zend/Validate/Hostname/Cn.php',
-        '公司' => 'Zend/Validate/Hostname/Cn.php',
-        '网络' => 'Zend/Validate/Hostname/Cn.php'
+        '中国' => 'Hostname/Cn.php',
+        '公司' => 'Hostname/Cn.php',
+        '网络' => 'Hostname/Cn.php'
     );
 
     protected $_idnLength = array(
@@ -505,6 +512,21 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
             }
         }
 
+        // RFC3986 3.2.2 states:
+        // 
+        //     The rightmost domain label of a fully qualified domain name
+        //     in DNS may be followed by a single "." and should be if it is 
+        //     necessary to distinguish between the complete domain name and
+        //     some local domain.
+        //     
+        // Strip trailing '.' since it is not necessary to validate a non-IP
+        // hostname.
+        //
+        // (see ZF-6363)
+        if (substr($value, -1) === '.') {
+            $value = substr($value, 0, strlen($value)-1);
+        }
+        
         // Check input against DNS hostname schema
         $domainParts = explode('.', $value);
         if ((count($domainParts) > 1) && (strlen($value) >= 4) && (strlen($value) <= 254)) {
@@ -544,7 +566,7 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
                     $regexChars = array(0 => '/^[a-z0-9\x2d]{1,63}$/i');
                     if ($this->_options['idn'] &&  isset($this->_validIdns[strtoupper($this->_tld)])) {
                         if (is_string($this->_validIdns[strtoupper($this->_tld)])) {
-                            $regexChars += include(dirname(__FILE__) . '/../../' . $this->_validIdns[strtoupper($this->_tld)]);
+                            $regexChars += include(dirname(__FILE__) . DIR_SEPARATOR . $this->_validIdns[strtoupper($this->_tld)]);
                         } else {
                             $regexChars += $this->_validIdns[strtoupper($this->_tld)];
                         }
@@ -615,6 +637,15 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
             }
         } else if ($this->_options['allow'] & self::ALLOW_DNS) {
             $this->_error(self::INVALID_HOSTNAME);
+        }
+
+        // Check for URI Syntax (RFC3986)
+        if ($this->_options['allow'] & self::ALLOW_URI) {
+            if (preg_match("/^([a-zA-Z0-9-._~!$&\'()*+,;=]|%[[:xdigit:]]{2}){1,254}$/i", $value)) {
+                return true;
+            } else {
+                $this->_error(self::INVALID_URI);
+            }
         }
 
         // Check input against local network name schema; last chance to pass validation

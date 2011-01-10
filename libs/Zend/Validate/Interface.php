@@ -16,7 +16,7 @@
  * @package    Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Interface.php 20358 2010-01-17 19:03:49Z thomas $
+ * @version    $Id: Interface.php 23262 2010-10-27 14:03:36Z matthew $
  */
 
 /**
@@ -36,7 +36,7 @@ interface Zend_Validate_Interface
      *
      * @param  mixed $value
      * @return boolean
-     * @throws Zend_Valid_Exception If validation of $value is impossible
+     * @throws Zend_Validate_Exception If validation of $value is impossible
      */
     public function isValid($value);
 

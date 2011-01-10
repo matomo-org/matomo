@@ -16,7 +16,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client_Adapter
- * @version    $Id: Interface.php 16214 2009-06-21 19:34:03Z thomas $
+ * @version    $Id: Stream.php 23582 2010-12-28 00:17:56Z ramon $
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -36,11 +36,11 @@ interface Zend_Http_Client_Adapter_Stream
 {
     /**
      * Set output stream
-     * 
+     *
      * This function sets output stream where the result will be stored.
-     * 
+     *
      * @param resource $stream Stream to write the output to
-     * 
+     *
      */
-    function setOutputStream($stream);
+    public function setOutputStream($stream);
 }

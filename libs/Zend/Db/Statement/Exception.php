@@ -17,7 +17,7 @@
  * @subpackage Statement
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Exception.php 20514 2010-01-22 07:57:10Z ralph $
+ * @version    $Id: Exception.php 20513 2010-01-22 07:55:48Z ralph $
  */
 
 /**

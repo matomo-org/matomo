@@ -16,14 +16,14 @@
  * @package    Zend_Feed_Writer
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Entry.php 20326 2010-01-16 00:20:43Z padraic $
+ * @version    $Id: Entry.php 23484 2010-12-10 03:57:59Z mjh_ca $
  */
- 
+
 /**
  * @see Zend_Feed_Writer_Extension_RendererAbstract
  */
 // require_once 'Zend/Feed/Writer/Extension/RendererAbstract.php';
- 
+
 /**
  * @category   Zend
  * @package    Zend_Feed_Writer
@@ -42,10 +42,10 @@ class Zend_Feed_Writer_Extension_Slash_Renderer_Entry
      * @var bool
      */
     protected $_called = false;
-    
+
     /**
      * Render entry
-     * 
+     *
      * @return void
      */
     public function render()
@@ -58,30 +58,30 @@ class Zend_Feed_Writer_Extension_Slash_Renderer_Entry
             $this->_appendNamespaces();
         }
     }
-    
+
     /**
      * Append entry namespaces
-     * 
+     *
      * @return void
      */
     protected function _appendNamespaces()
     {
         $this->getRootElement()->setAttribute('xmlns:slash',
-            'http://purl.org/rss/1.0/modules/slash/');  
+            'http://purl.org/rss/1.0/modules/slash/');
     }
 
     /**
      * Set entry comment count
-     * 
-     * @param  DOMDocument $dom 
-     * @param  DOMElement $root 
+     *
+     * @param  DOMDocument $dom
+     * @param  DOMElement $root
      * @return void
      */
     protected function _setCommentCount(DOMDocument $dom, DOMElement $root)
     {
         $count = $this->getDataContainer()->getCommentCount();
         if (!$count) {
-            $count = 0;
+            return;
         }
         $tcount = $this->_dom->createElement('slash:comments');
         $tcount->nodeValue = $count;

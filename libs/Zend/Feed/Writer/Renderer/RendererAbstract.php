@@ -16,15 +16,15 @@
  * @package    Zend_Feed_Writer
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: RendererAbstract.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: RendererAbstract.php 23484 2010-12-10 03:57:59Z mjh_ca $
  */
- 
+
 /** @see Zend_Feed_Writer */
 // require_once 'Zend/Feed/Writer.php';
 
 /** @see Zend_Version */
 // require_once 'Zend/Version.php';
- 
+
 /**
  * @category   Zend
  * @package    Zend_Feed_Writer
@@ -38,7 +38,7 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
      * @var array
      */
     protected $_extensions = array();
-    
+
     /**
      * @var mixed
      */
@@ -58,14 +58,14 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
      * @var array
      */
     protected $_exceptions = array();
-    
+
     /**
      * Encoding of all text values
      *
      * @var string
      */
     protected $_encoding = 'UTF-8';
-    
+
     /**
      * Holds the value "atom" or "rss" depending on the feed type set when
      * when last exported.
@@ -73,7 +73,7 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
      * @var string
      */
     protected $_type = null;
-    
+
     /**
      * @var DOMElement
      */
@@ -81,8 +81,8 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
 
     /**
      * Constructor
-     * 
-     * @param  mixed $container 
+     *
+     * @param  mixed $container
      * @return void
      */
     public function __construct($container)
@@ -91,10 +91,10 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
         $this->setType($container->getType());
         $this->_loadExtensions();
     }
-    
+
     /**
      * Save XML to string
-     * 
+     *
      * @return string
      */
     public function saveXml()
@@ -104,7 +104,7 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
 
     /**
      * Get DOM document
-     * 
+     *
      * @return DOMDocument
      */
     public function getDomDocument()
@@ -114,7 +114,7 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
 
     /**
      * Get document element from DOM
-     * 
+     *
      * @return DOMElement
      */
     public function getElement()
@@ -124,18 +124,18 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
 
     /**
      * Get data container of items being rendered
-     * 
+     *
      * @return mixed
      */
     public function getDataContainer()
     {
         return $this->_container;
     }
-    
+
     /**
      * Set feed encoding
-     * 
-     * @param  string $enc 
+     *
+     * @param  string $enc
      * @return Zend_Feed_Writer_Renderer_RendererAbstract
      */
     public function setEncoding($enc)
@@ -143,10 +143,10 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
         $this->_encoding = $enc;
         return $this;
     }
-    
+
     /**
      * Get feed encoding
-     * 
+     *
      * @return string
      */
     public function getEncoding()
@@ -156,8 +156,8 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
 
     /**
      * Indicate whether or not to ignore exceptions
-     * 
-     * @param  bool $bool 
+     *
+     * @param  bool $bool
      * @return Zend_Feed_Writer_Renderer_RendererAbstract
      */
     public function ignoreExceptions($bool = true)
@@ -172,14 +172,14 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
 
     /**
      * Get exception list
-     * 
+     *
      * @return array
      */
     public function getExceptions()
     {
         return $this->_exceptions;
     }
-    
+
     /**
      * Set the current feed type being exported to "rss" or "atom". This allows
      * other objects to gracefully choose whether to execute or not, depending
@@ -191,7 +191,7 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
     {
         $this->_type = $type;
     }
-    
+
     /**
      * Retrieve the current or last feed type exported.
      *
@@ -201,7 +201,7 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
     {
         return $this->_type;
     }
-    
+
     /**
      * Sets the absolute root element for the XML feed being generated. This
      * helps simplify the appending of namespace declarations, but also ensures
@@ -214,7 +214,7 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
     {
         $this->_rootElement = $root;
     }
-    
+
     /**
      * Retrieve the absolute root element for the XML feed being generated.
      *
@@ -224,7 +224,7 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
     {
         return $this->_rootElement;
     }
-    
+
     /**
      * Load extensions from Zend_Feed_Writer
      *

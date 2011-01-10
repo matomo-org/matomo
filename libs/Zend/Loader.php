@@ -16,7 +16,7 @@
  * @package    Zend_Loader
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Loader.php 22020 2010-04-27 16:35:56Z matthew $
+ * @version    $Id: Loader.php 23484 2010-12-10 03:57:59Z mjh_ca $
  */
 
 /**
@@ -61,7 +61,7 @@ class Zend_Loader
         }
 
         // Autodiscover the path from the class name
-        // Implementation is PHP namespace-aware, and based on 
+        // Implementation is PHP namespace-aware, and based on
         // Framework Interop Group reference implementation:
         // http://groups.google.com/group/php-standards/web/psr-0-final-proposal
         $className = ltrim($class, '\\');
@@ -174,7 +174,7 @@ class Zend_Loader
     public static function isReadable($filename)
     {
         if (is_readable($filename)) {
-            // Return early if the filename is readable without needing the 
+            // Return early if the filename is readable without needing the
             // include_path
             return true;
         }
@@ -182,7 +182,7 @@ class Zend_Loader
         if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN'
             && preg_match('/^[a-z]:/i', $filename)
         ) {
-            // If on windows, and path provided is clearly an absolute path, 
+            // If on windows, and path provided is clearly an absolute path,
             // return false immediately
             return false;
         }
@@ -207,8 +207,8 @@ class Zend_Loader
      *
      * If no path provided, uses current include_path. Works around issues that
      * occur when the path includes stream schemas.
-     * 
-     * @param  string|null $path 
+     *
+     * @param  string|null $path
      * @return array
      */
     public static function explodeIncludePath($path = null)
@@ -218,7 +218,7 @@ class Zend_Loader
         }
 
         if (PATH_SEPARATOR == ':') {
-            // On *nix systems, include_paths which include paths with a stream 
+            // On *nix systems, include_paths which include paths with a stream
             // schema cannot be safely explode'd, so we have to be a bit more
             // intelligent in the approach.
             $paths = preg_split('#:(?!//)#', $path);

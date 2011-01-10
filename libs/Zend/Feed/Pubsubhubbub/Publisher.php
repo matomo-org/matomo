@@ -16,6 +16,7 @@
  * @package    Zend_Feed_Pubsubhubbub
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Publisher.php 23075 2010-10-10 21:31:30Z padraic $
  */
 
 /**
@@ -73,7 +74,7 @@ class Zend_Feed_Pubsubhubbub_Publisher
      */
     public function __construct($config = null)
     {
-        if (!is_null($config)) {
+        if ($config !== null) {
             $this->setConfig($config);
         }
     }
@@ -305,7 +306,7 @@ class Zend_Feed_Pubsubhubbub_Publisher
             $this->removeParameter($name);
             return $this;
         }
-        if (empty($value) || (!is_string($value) && !is_null($value))) {
+        if (empty($value) || (!is_string($value) && $value !== null)) {
             // require_once 'Zend/Feed/Pubsubhubbub/Exception.php';
             throw new Zend_Feed_Pubsubhubbub_Exception('Invalid parameter "value"'
                 .' of "' . $value . '" must be a non-empty string');
@@ -411,7 +412,7 @@ class Zend_Feed_Pubsubhubbub_Publisher
             $params[] = urlencode($name) . '=' . urlencode($value);
         }
         $paramString = implode('&', $params);
-        $client->setRawData($paramString);
+        $client->setRawData($paramString, 'application/x-www-form-urlencoded');
         return $client;
     }
 }

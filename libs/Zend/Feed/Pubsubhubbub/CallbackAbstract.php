@@ -17,6 +17,7 @@
  * @subpackage Callback
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: CallbackAbstract.php 23484 2010-12-10 03:57:59Z mjh_ca $
  */
 
 /**
@@ -40,7 +41,7 @@ abstract class Zend_Feed_Pubsubhubbub_CallbackAbstract
     implements Zend_Feed_Pubsubhubbub_CallbackInterface
 {
     /**
-     * An instance of Zend_Feed_Pubsubhubbub_Model_SubscriptionInterface used 
+     * An instance of Zend_Feed_Pubsubhubbub_Model_SubscriptionInterface used
      * to background save any verification tokens associated with a subscription
      * or other.
      *
@@ -73,7 +74,7 @@ abstract class Zend_Feed_Pubsubhubbub_CallbackAbstract
      */
     public function __construct($config = null)
     {
-        if (!is_null($config)) {
+        if ($config !== null) {
             $this->setConfig($config);
         }
     }
