@@ -178,20 +178,6 @@ abstract class Piwik_ArchiveProcessing
 	public $logTable;
 	
 	/**
-	 * Name of the DB table _log_link_visit_action
-	 *
-	 * @var string
-	 */
-	public $logVisitActionTable;
-	
-	/**
-	 * Name of the DB table _log_action
-	 *
-	 * @var string
-	 */
-	public $logActionTable;
-	
-	/**
 	 * When set to true, we always archive, even if the archive is already available.
 	 * You can change this settings automatically in the config/global.ini.php always_archive_data under the [Debug] section
 	 *
@@ -428,10 +414,9 @@ abstract class Piwik_ArchiveProcessing
 	{
 		$this->loadNextIdarchive();
 		$this->insertNumericRecord('done', Piwik_ArchiveProcessing::DONE_ERROR);
+		
+		// Can be removed when GeoIp is in core
 		$this->logTable 			= Piwik_Common::prefixTable('log_visit');
-		$this->logVisitActionTable 	= Piwik_Common::prefixTable('log_link_visit_action');
-		$this->logActionTable	 	= Piwik_Common::prefixTable('log_action');
-		$this->logConversionTable	= Piwik_Common::prefixTable('log_conversion');
 		
 		$temporary = 'definitive archive';
 		if($this->isArchiveTemporary())

@@ -213,15 +213,16 @@ class Piwik_Actions extends Piwik_Plugin
 		/*
 		 * Page URLs and Page names, general stats
 		 */
+		//@todo remove join
 		$queryString = "SELECT name,
 							type,
 							idaction,
 							count(distinct t1.idvisit) as `". Piwik_Archive::INDEX_NB_VISITS ."`, 
 							count(distinct visitor_idcookie) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`,
 							count(*) as `". Piwik_Archive::INDEX_PAGE_NB_HITS ."`							
-					FROM (".$archiveProcessing->logTable." as t1
-						LEFT JOIN ".$archiveProcessing->logVisitActionTable." as t2 USING (idvisit))
-							LEFT JOIN ".$archiveProcessing->logActionTable." as t3 ON (t2.%s = idaction)
+					FROM (".Piwik_Common::prefixTable('log_visit')." as t1
+						LEFT JOIN ".Piwik_Common::prefixTable('log_link_visit_action')." as t2 USING (idvisit))
+							LEFT JOIN ".Piwik_Common::prefixTable('log_action')." as t3 ON (t2.%s = idaction)
 					WHERE visit_last_action_time >= ?
 						AND visit_last_action_time <= ?
 						AND idsite = ?
@@ -240,7 +241,7 @@ class Piwik_Actions extends Piwik_Plugin
 							sum(visit_total_actions) as `". Piwik_Archive::INDEX_PAGE_ENTRY_NB_ACTIONS ."`,
 							sum(visit_total_time) as `". Piwik_Archive::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH ."`,							
 							sum(case visit_total_actions when 1 then 1 else 0 end) as `". Piwik_Archive::INDEX_PAGE_ENTRY_BOUNCE_COUNT ."`
-					FROM ".$archiveProcessing->logTable." 
+					FROM ".Piwik_Common::prefixTable('log_visit')." 
 					WHERE visit_last_action_time >= ?
 						AND visit_last_action_time <= ?
 						AND idsite = ?
@@ -255,7 +256,7 @@ class Piwik_Actions extends Piwik_Plugin
 		$queryString = "SELECT %s as idaction,
 							count(distinct visitor_idcookie) as `". Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS ."`,
 							count(*) as `". Piwik_Archive::INDEX_PAGE_EXIT_NB_VISITS ."`
-				 	FROM ".$archiveProcessing->logTable." 
+				 	FROM ".Piwik_Common::prefixTable('log_visit')." 
 				 	WHERE visit_last_action_time >= ?
 						AND visit_last_action_time <= ?
 				 		AND idsite = ?
@@ -267,10 +268,11 @@ class Piwik_Actions extends Piwik_Plugin
 		/*
 		 * Time per action
 		 */
+		//@todo remove join
 		$queryString = "SELECT %s as idaction,
 							sum(time_spent_ref_action) as `".Piwik_Archive::INDEX_PAGE_SUM_TIME_SPENT."`
-					FROM (".$archiveProcessing->logTable." log_visit 
-						JOIN ".$archiveProcessing->logVisitActionTable." log_link_visit_action USING (idvisit))
+					FROM (".Piwik_Common::prefixTable('log_visit')." log_visit 
+						JOIN ".Piwik_Common::prefixTable('log_link_visit_action')." log_link_visit_action USING (idvisit))
 					WHERE visit_last_action_time >= ?
 						AND visit_last_action_time <= ?
 				 		AND idsite = ?

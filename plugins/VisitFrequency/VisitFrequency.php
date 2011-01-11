@@ -109,7 +109,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 							sum(visit_total_time) as sum_visit_length_returning,							
 							sum(case visit_total_actions when 1 then 1 else 0 end) as bounce_count_returning,
 							sum(case visit_goal_converted when 1 then 1 else 0 end) as nb_visits_converted_returning
-				 	FROM ".$archiveProcessing->logTable."
+				 	FROM ".Piwik_Common::prefixTable('log_visit')."
 				 	WHERE visit_last_action_time >= ?
 						AND visit_last_action_time <= ?
 				 		AND idsite = ?

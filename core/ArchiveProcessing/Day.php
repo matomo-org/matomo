@@ -43,7 +43,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 							sum(visit_total_time) as sum_visit_length,
 							sum(case visit_total_actions when 1 then 1 else 0 end) as bounce_count,
 							sum(case visit_goal_converted when 1 then 1 else 0 end) as nb_visits_converted
-					FROM ".$this->logTable."
+					FROM ".Piwik_Common::prefixTable('log_visit')."
 					WHERE visit_last_action_time >= ?
 						AND visit_last_action_time <= ?
 						AND idsite = ?
@@ -86,7 +86,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	public function getSimpleDataTableFromSelect($select, $labelCount)
 	{
 		$query = "SELECT $select 
-			 	FROM ".$this->logTable." 
+			 	FROM ".Piwik_Common::prefixTable('log_visit')." 
 			 	WHERE visit_last_action_time >= ?
 						AND visit_last_action_time <= ?
 			 			AND idsite = ?";
@@ -152,7 +152,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 							sum(visit_total_time) as `". Piwik_Archive::INDEX_SUM_VISIT_LENGTH ."`,
 							sum(case visit_total_actions when 1 then 1 else 0 end) as `". Piwik_Archive::INDEX_BOUNCE_COUNT ."`,
 							sum(case visit_goal_converted when 1 then 1 else 0 end) as `". Piwik_Archive::INDEX_NB_VISITS_CONVERTED ."`
-				FROM ".$this->logTable."
+				FROM ".Piwik_Common::prefixTable('log_visit')."
 				WHERE visit_last_action_time >= ?
 						AND visit_last_action_time <= ?
 						AND idsite = ?
@@ -341,7 +341,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 						count(*) as `". Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS ."`,
 						sum(revenue) as `". Piwik_Archive::INDEX_GOAL_REVENUE ."`
 						$segments
-			 	FROM ".$this->logConversionTable."
+			 	FROM ".Piwik_Common::prefixTable('log_conversion')."
 			 	WHERE server_time >= ?
 						AND server_time <= ?
 			 			AND idsite = ?
@@ -357,7 +357,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 						count(*) as `". Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS ."`,
 						sum(revenue) as `". Piwik_Archive::INDEX_GOAL_REVENUE ."`,
 						$segment as label
-			 	FROM ".$this->logConversionTable."
+			 	FROM ".Piwik_Common::prefixTable('log_conversion')."
 			 	WHERE server_time >= ?
 						AND server_time <= ?
 			 			AND idsite = ?
