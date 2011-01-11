@@ -77,8 +77,7 @@ class Piwik
 	 */
 	static public function install()
 	{
-		// smarty->compile_dir is prefixed by PIWIK_USER_PATH in Piwik_View
-		Piwik_Common::mkdir(Zend_Registry::get('config')->smarty->compile_dir);
+		Piwik_Common::mkdir(PIWIK_USER_PATH . '/' . Zend_Registry::get('config')->smarty->compile_dir);
 	}
 
 	/**
