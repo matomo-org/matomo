@@ -118,15 +118,18 @@ class Piwik_Login extends Piwik_Plugin
 		$auth->setLogin($login);
 		$auth->setTokenAuth($tokenAuth);
 		$authResult = $auth->authenticate();
-		if(!$authResult->isValid())
-		{
-			throw new Exception(Piwik_Translate('Login_LoginPasswordNotCorrect'));
-		}
 
 		$authCookieName = Zend_Registry::get('config')->General->login_cookie_name;
 		$authCookieExpiry = $rememberMe ? time() + Zend_Registry::get('config')->General->login_cookie_expire : 0;
 		$authCookiePath = Zend_Registry::get('config')->General->login_cookie_path;
 		$cookie = new Piwik_Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
+		if(!$authResult->isValid())
+
+		{
+			$cookie->delete();
+			throw new Exception(Piwik_Translate('Login_LoginPasswordNotCorrect'));
+		}
+
 		$cookie->set('login', $login);
 		$cookie->set('token_auth', $auth->getHashTokenAuth($login, $authResult->getTokenAuth()));
 		$cookie->setSecure(Piwik::isHttps());
