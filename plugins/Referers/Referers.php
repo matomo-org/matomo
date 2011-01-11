@@ -272,19 +272,19 @@ class Piwik_Referers extends Piwik_Plugin
 							referer_name, 
 							referer_keyword,
 							referer_url,
-							count(distinct visitor_idcookie) as nb_uniq_visitors,
-							count(*) as nb_visits,
-							sum(visit_total_actions) as nb_actions,
-							max(visit_total_actions) as max_actions, 
-							sum(visit_total_time) as sum_visit_length,							
-							sum(case visit_total_actions when 1 then 1 else 0 end) as bounce_count,
-							sum(case visit_goal_converted when 1 then 1 else 0 end) as nb_visits_converted
+							count(distinct visitor_idcookie) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`, 
+							count(*) as `". Piwik_Archive::INDEX_NB_VISITS ."`,
+							sum(visit_total_actions) as `". Piwik_Archive::INDEX_NB_ACTIONS ."`, 
+							max(visit_total_actions) as `". Piwik_Archive::INDEX_MAX_ACTIONS ."`, 
+							sum(visit_total_time) as `". Piwik_Archive::INDEX_SUM_VISIT_LENGTH ."`,
+							sum(case visit_total_actions when 1 then 1 else 0 end) as `". Piwik_Archive::INDEX_BOUNCE_COUNT ."`,
+							sum(case visit_goal_converted when 1 then 1 else 0 end) as `". Piwik_Archive::INDEX_NB_VISITS_CONVERTED ."`
 				 	FROM ".$archiveProcessing->logTable."
 				 	WHERE visit_last_action_time >= ?
 						AND visit_last_action_time <= ?
 				 		AND idsite = ?
 				 	GROUP BY referer_type, referer_name, referer_url, referer_keyword
-				 	ORDER BY nb_visits DESC";
+				 	ORDER BY `". Piwik_Archive::INDEX_NB_VISITS ."` DESC";
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ));
 
 		$this->interestBySearchEngine =
