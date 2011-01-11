@@ -226,15 +226,7 @@ class Piwik_Cookie
 			// no numeric value are base64 encoded so we need to decode them
 			if(!is_numeric($varValue))
 			{
-				// @see http://bugs.php.net/38680
-				if(PHP_VERSION < '5.2.1')
-				{
-					$varValue = safe_unserialize(base64_decode($varValue));
-				}
-				else
-				{
-					$varValue = @json_decode(base64_decode($varValue), $assoc = true);
-				}
+				$varValue = safe_unserialize(base64_decode($varValue));
 			}
 			
 			$this->value[$varName] = $varValue;
@@ -254,15 +246,7 @@ class Piwik_Cookie
 		{
 			if(!is_numeric($value))
 			{
-				// @see http://bugs.php.net/38680
-				if(PHP_VERSION < '5.2.1')
-				{
-					$value = base64_encode(safe_serialize($value));
-				}
-				else
-				{
-					$value = base64_encode(json_encode($value));
-				}
+				$value = base64_encode(safe_serialize($value));
 			}
 		
 			$cookieStr .= "$name=$value" . self::VALUE_SEPARATOR;
