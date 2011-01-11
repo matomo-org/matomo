@@ -155,7 +155,6 @@ class Test_Piwik_Integration_Main extends Test_Integration
 
 	private function doTest_oneVisitorTwoVisits($t, $dateTime, $idSite )
 	{
-		
         $t->setUrlReferer( 'http://referer.com/page.htm?param=valuewith some spaces');
     	
     	// Testing URL excluded parameters

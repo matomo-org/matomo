@@ -216,7 +216,7 @@ record_statistics			= 1
 ; length of a visit in seconds. If a visitor comes back on the website visit_standard_length seconds after his last page view, it will be recorded as a new visit  
 visit_standard_length       = 1800
 
-; visitors that stay on the website and view only one page will be considered staying 0 second
+; visitors that stay on the website and view only one page will be considered as time on site of 0 second
 default_time_one_page_visit = 0
 
 ; if set to 0, any goal conversion will be credited to the last more recent non empty referer. 

@@ -29,7 +29,7 @@ interface Piwik_Tracker_Action_Interface {
 	public function getActionUrl();
 	public function getActionName();
 	public function getActionType();
-	public function record( $idVisit, $idRefererAction, $timeSpentRefererAction );
+	public function record( $idVisit, $idRefererActionUrl, $idRefererActionName, $timeSpentRefererAction );
 	public function getIdActionUrl();
 	public function getIdActionName();
 	public function getIdLinkVisitAction();
@@ -251,6 +251,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			Piwik_Tracker::getDatabase()->query($sql,
 				array($this->getActionName(), $this->getActionName(), $this->getActionNameType()));
 			$this->idActionName = Piwik_Tracker::getDatabase()->lastInsertId();
+			printDebug("Recording a new page name in the lookup table: ". $this->idActionName);
 		}
 
 		if( is_null($this->idActionUrl) )
@@ -258,6 +259,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			Piwik_Tracker::getDatabase()->query($sql,
 				array($this->getActionUrl(), $this->getActionUrl(), $this->getActionType()));
 			$this->idActionUrl = Piwik_Tracker::getDatabase()->lastInsertId();
+			printDebug("Recording a new page URL in the lookup table: ". $this->idActionUrl);
 		}
 	}
 	
@@ -274,11 +276,11 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	 * Records in the DB the association between the visit and this action.
 	 * 
 	 * @param int idVisit is the ID of the current visit in the DB table log_visit
-	 * @param int idRefererAction is the ID of the last action done by the current visit. 
+	 * @param int idRefererActionUrl is the ID of the last action done by the current visit. 
 	 * @param int timeSpentRefererAction is the number of seconds since the last action was done. 
-	 * 				It is directly related to idRefererAction.
+	 * 				It is directly related to idRefererActionUrl.
 	 */
-	 public function record( $idVisit, $idRefererAction, $timeSpentRefererAction)
+	 public function record( $idVisit, $idRefererActionUrl, $idRefererActionName, $timeSpentRefererAction)
 	 {
 		$this->loadIdActionNameAndUrl();
 		$idActionName = $this->getIdActionName();
@@ -288,9 +290,9 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		}
 		Piwik_Tracker::getDatabase()->query( 
 						"INSERT INTO ".Piwik_Common::prefixTable('log_link_visit_action')
-						." (idvisit, idaction_url, idaction_name, idaction_url_ref, time_spent_ref_action) 
-							VALUES (?,?,?,?,?)",
-					array($idVisit, $this->getIdActionUrl(), $idActionName , $idRefererAction, $timeSpentRefererAction)
+						." (idvisit, idaction_url, idaction_name, idaction_url_ref, idaction_name_ref, time_spent_ref_action) 
+							VALUES (?,?,?,?,?,?)",
+					array($idVisit, $this->getIdActionUrl(), $idActionName , $idRefererActionUrl, $idRefererActionName, $timeSpentRefererAction)
 					);
 		
 		$this->idLinkVisitAction = Piwik_Tracker::getDatabase()->lastInsertId(); 
@@ -299,7 +301,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			'idSite' => $this->idSite, 
 			'idLinkVisitAction' => $this->idLinkVisitAction, 
 			'idVisit' => $idVisit, 
-			'idRefererAction' => $idRefererAction, 
+			'idRefererActionUrl' => $idRefererActionUrl, 
+			'idRefererActionName' => $idRefererActionName, 
 			'timeSpentRefererAction' => $timeSpentRefererAction, 
 		); 
 		printDebug($info);

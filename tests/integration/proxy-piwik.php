@@ -24,6 +24,8 @@ require_once PIWIK_INCLUDE_PATH .'/libs/upgradephp/upgrade.php';
 Piwik::createConfigObject();
 Zend_Registry::get('config')->setTestEnvironment();	
 Piwik_Tracker_Config::getInstance()->setTestEnvironment();
+// Do not run scheduled tasks during tests
+Piwik_Tracker_Config::getInstance()->setTestValue('Tracker', 'scheduled_tasks_min_interval', 0);
 
 // Custom IP to use for this visitor
 $customIp = Piwik_Common::getRequestVar('cip', false);
@@ -39,5 +41,7 @@ if(!empty($customDatetime))
 	Piwik_Tracker::setForceDateTime($customDatetime);
 }
 
+// Disable provider plugin, because it is so slow to do reverse ip lookup in dev environment somehow
+Piwik_Tracker::setPluginsNotToLoad(array('Provider'));
 include '../../piwik.php';
 ob_flush();

@@ -45,6 +45,9 @@ class Piwik_Actions_API
 		{
 			$dataTable = $archive->getDataTable($name, $idSubtable);
 		}
+		// Must be applied before Sort in this case, since the DataTable can contain both int and strings indexes 
+		// (in the transition period between pre 1.2 and post 1.2 datatable structure)
+		$dataTable->filter('ReplaceColumnNames', array($recursive = true));
 		$dataTable->filter('Sort', array('nb_visits', 'desc', $naturalSort = false, $expanded));
 		$dataTable->queueFilter('ReplaceSummaryRowLabel');
 		return $dataTable;
@@ -62,21 +65,26 @@ class Piwik_Actions_API
 	public function getPageUrls( $idSite, $period, $date, $expanded = false, $idSubtable = false )
 	{
 		$dataTable = $this->getDataTable('Actions_actions_url', $idSite, $period, $date, $expanded, $idSubtable );
-		
+		$this->filterPageDatatable($dataTable);
+		return $dataTable;
+	}
+	
+	protected function filterPageDatatable($dataTable)
+	{
 		// Average time on page = total time on page / number visits on that page
-		$dataTable->filter('ColumnCallbackAddColumnQuotient', array('avg_time_on_page', 'sum_time_spent', 'nb_visits', 0));
+		$dataTable->queueFilter('ColumnCallbackAddColumnQuotient', array('avg_time_on_page', 'sum_time_spent', 'nb_visits', 0));
 		
 		// Bounce rate = single page visits on this page / visits started on this page
-		$dataTable->filter('ColumnCallbackAddColumnPercentage', array('bounce_rate', 'entry_bounce_count', 'entry_nb_visits', 0));
+		$dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('bounce_rate', 'entry_bounce_count', 'entry_nb_visits', 0));
 		
 		// % Exit = Number of visits that finished on this page / visits on this page
-		$dataTable->filter('ColumnCallbackAddColumnPercentage', array('exit_rate', 'exit_nb_visits', 'nb_hits', 0));
-		return $dataTable;
+		$dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('exit_rate', 'exit_nb_visits', 'nb_hits', 0));
 	}
 
 	public function getPageTitles( $idSite, $period, $date, $expanded = false, $idSubtable = false)
 	{
 		$dataTable = $this->getDataTable('Actions_actions', $idSite, $period, $date, $expanded, $idSubtable);
+		$this->filterPageDatatable($dataTable);
 		return $dataTable;
 	}
 

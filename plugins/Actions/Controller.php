@@ -33,7 +33,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	public function getPageUrls($fetch = false)
 	{
 		$view = $this->getPageUrlsView(__FUNCTION__, 'getPageUrlsSubDataTable');
-		$this->configureViewPageUrls($view);
+		$this->configureViewPages($view);
 		$this->configureViewActions($view);
 		return $this->renderView($view, $fetch);
 	}
@@ -41,12 +41,12 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	public function getPageUrlsSubDataTable($fetch = false)
 	{
 		$view = $this->getPageUrlsView(__FUNCTION__, 'getPageUrlsSubDataTable');
-		$this->configureViewPageUrls($view);
+		$this->configureViewPages($view);
 		$this->configureViewActions($view);
 		return $this->renderView($view, $fetch);
 	}
 
-	protected function configureViewPageUrls($view)
+	protected function configureViewPages($view)
 	{
 		$view->setColumnsToDisplay( array('label','nb_hits','nb_visits', 'bounce_rate', 'avg_time_on_page', 'exit_rate') );
 	}
@@ -110,7 +110,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 						'Actions.getPageTitles',
 						'getPageTitlesSubDataTable' );
 		$view->setColumnTranslation('label', Piwik_Translate('Actions_ColumnPageName'));
-		$this->configureViewPageTitles($view);
+		$this->configureViewPages($view);
 		$this->configureViewActions($view);
 		return $this->renderView($view, $fetch);
 	}
@@ -122,15 +122,11 @@ class Piwik_Actions_Controller extends Piwik_Controller
 						__FUNCTION__,
 						'Actions.getPageTitles',
 						'getPageTitlesSubDataTable'  );
-		$this->configureViewPageTitles($view);
+		$this->configureViewPages($view);
 		$this->configureViewActions($view);
 		return $this->renderView($view, $fetch);
 	}
 
-	protected function configureViewPageTitles($view)
-	{
-		$view->setColumnsToDisplay( array('label','nb_hits','nb_visits') );
-	}
 	
 	public function getDownloads($fetch = false)
 	{

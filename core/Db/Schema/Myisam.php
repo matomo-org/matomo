@@ -175,8 +175,10 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 							  visit_first_action_time DATETIME NOT NULL,
 							  visit_last_action_time DATETIME NOT NULL,
 							  visit_server_date DATE NOT NULL,
-							  visit_exit_idaction_url INTEGER(11) NOT NULL,
-							  visit_entry_idaction_url INTEGER(11) NOT NULL,
+							  visit_exit_idaction_url INTEGER(11) UNSIGNED NOT NULL,
+							  visit_exit_idaction_name INTEGER(11) UNSIGNED NOT NULL,
+							  visit_entry_idaction_url INTEGER(11) UNSIGNED NOT NULL,
+							  visit_entry_idaction_name INTEGER(11) UNSIGNED NOT NULL,
 							  visit_total_actions SMALLINT(5) UNSIGNED NOT NULL,
 							  visit_total_time SMALLINT(5) UNSIGNED NOT NULL,
 							  visit_goal_converted TINYINT(1) NOT NULL,
@@ -239,6 +241,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 											  idaction_url INTEGER(10) UNSIGNED NOT NULL,
 											  idaction_url_ref INTEGER(10) UNSIGNED NOT NULL,
 											  idaction_name INTEGER(10) UNSIGNED,
+											  idaction_name_ref INTEGER(10) UNSIGNED NOT NULL,
 											  time_spent_ref_action INTEGER(10) UNSIGNED NOT NULL,
 											  PRIMARY KEY(idlink_va),
 											  INDEX index_idvisit(idvisit)
@@ -257,7 +260,8 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 								option_name VARCHAR( 255 ) NOT NULL,
 								option_value LONGTEXT NOT NULL,
 								autoload TINYINT NOT NULL DEFAULT '1',
-								PRIMARY KEY ( option_name )
+								PRIMARY KEY ( option_name ),
+								INDEX autoload( autoload )
 								)  DEFAULT CHARSET=utf8
 			",
 

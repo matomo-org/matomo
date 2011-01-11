@@ -51,6 +51,7 @@ class Test_Database extends UnitTestCase
 		Piwik_Option::getInstance()->clearCache();
 		Piwik_Common::deleteAllCache();
 		Piwik::truncateAllTables();
+		Piwik_Archive::clearCache();
 	}
 	
 	public function testHelloWorld()

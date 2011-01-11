@@ -129,7 +129,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		
 		$goalManager = new Piwik_Tracker_GoalManager();
 		$someGoalsConverted = false;
-		$actionUrlId = 0;
+		$idActionUrl = $idActionName = 0;
 		$action = null;
 
 		$idGoal = Piwik_Common::getRequestVar('idgoal', 0, 'int', $this->request);
@@ -154,7 +154,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			$someGoalsConverted = $goalManager->detectGoalsMatchingUrl($this->idsite, $action);
 
 			$action->loadIdActionNameAndUrl();
-			$actionUrlId = $action->getIdActionUrl();
+			$idActionUrl = $action->getIdActionUrl();
+			$idActionName = $action->getIdActionName();
 		}
 
 		// the visitor and session
@@ -172,13 +173,15 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		if( $this->isVisitorKnown()
 			&& $isLastActionInTheSameVisit)
 		{
-			$idActionReferer = $this->visitorInfo['visit_exit_idaction_url'];
+			$idRefererActionUrl = $this->visitorInfo['visit_exit_idaction_url'];
+			$idRefererActionName = $this->visitorInfo['visit_exit_idaction_name'];
 			try {
-				$this->handleKnownVisit($actionUrlId, $someGoalsConverted);
+				$this->handleKnownVisit($idActionUrl, $idActionName, $someGoalsConverted);
 				if(!is_null($action))
 				{
 					$action->record( 	$this->visitorInfo['idvisit'],
-										$idActionReferer,
+										$idRefererActionUrl,
+										$idRefererActionName,
 										$this->visitorInfo['time_spent_ref_action']
 								);
 				}
@@ -210,10 +213,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		if(!$this->isVisitorKnown()
 			|| !$isLastActionInTheSameVisit)
 		{
-			$this->handleNewVisit($actionUrlId, $someGoalsConverted);
+			$this->handleNewVisit($idActionUrl, $idActionName, $someGoalsConverted);
 			if(!is_null($action))
 			{
-				$action->record( $this->visitorInfo['idvisit'], 0, 0 );
+				$action->record( $this->visitorInfo['idvisit'], 0, 0, 0 );
 			}
 		}
 
@@ -281,7 +284,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 * Tracker.knownVisitorInformation is triggered after saving the new visit data
 	 * Even data is an array with updated information about the visit
 	 */
-	protected function handleKnownVisit($actionUrlId, $someGoalsConverted)
+	protected function handleKnownVisit($idActionUrl, $idActionName, $someGoalsConverted)
 	{
 		// gather information that needs to be updated
 		$valuesToUpdate = array();
@@ -291,10 +294,14 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		}
 
 		$sqlActionUpdate = '';
-		if(!empty($actionUrlId))
+		if(!empty($idActionUrl))
 		{
-			$valuesToUpdate['visit_exit_idaction_url'] = $actionUrlId;
+			$valuesToUpdate['visit_exit_idaction_url'] = $idActionUrl;
 			$sqlActionUpdate = "visit_total_actions = visit_total_actions + 1, ";
+		}
+		if(!empty($idActionName))
+		{
+			$valuesToUpdate['visit_exit_idaction_name'] = $idActionName;
 		}
 
 		$serverTimestamp 	= $this->getCurrentTimestamp();
@@ -360,7 +367,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 *
 	 * 2) Insert the visit information
 	 */
-	protected function handleNewVisit($actionUrlId, $someGoalsConverted)
+	protected function handleNewVisit($idActionUrl, $idActionName, $someGoalsConverted)
 	{
 		printDebug("New Visit.");
 
@@ -402,8 +409,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'visit_server_date'     	=> $this->getCurrentDate(),
 			'visit_first_action_time' 	=> Piwik_Tracker::getDatetimeFromTimestamp($serverTimestamp),
 			'visit_last_action_time' 	=> Piwik_Tracker::getDatetimeFromTimestamp($serverTimestamp),
-			'visit_entry_idaction_url' 	=> $actionUrlId,
-			'visit_exit_idaction_url' 	=> $actionUrlId,
+			'visit_entry_idaction_url' 	=> $idActionUrl,
+			'visit_entry_idaction_name' => $idActionName,
+			'visit_exit_idaction_url' 	=> $idActionUrl,
+			'visit_exit_idaction_name' 	=> $idActionName,
 			'visit_total_actions' 		=> 1,
 			'visit_total_time' 			=> $defaultTimeOnePageVisit,
 			'visit_goal_converted'  	=> $someGoalsConverted ? 1: 0,
@@ -738,12 +747,14 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			$bindSql[] = $idVisitor;
 		}
 		
+		// @todo should not use visit_server_date but visit_last_action_time + check INDEX is used as expected
 		$visitRow = Piwik_Tracker::getDatabase()->fetch(
 									" SELECT  	visitor_idcookie,
 												visit_last_action_time,
 												visit_first_action_time,
 												idvisit,
-												visit_exit_idaction_url
+												visit_exit_idaction_url,
+												visit_exit_idaction_name
 									FROM ".Piwik_Common::prefixTable('log_visit').
 									" WHERE visit_server_date = ?
 										AND idsite = ?
@@ -760,6 +771,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			$this->visitorInfo['visit_first_action_time'] = strtotime($visitRow['visit_first_action_time']);
 			$this->visitorInfo['idvisit'] = $visitRow['idvisit'];
 			$this->visitorInfo['visit_exit_idaction_url'] = $visitRow['visit_exit_idaction_url'];
+			$this->visitorInfo['visit_exit_idaction_name'] = $visitRow['visit_exit_idaction_name'];
 
 			$this->visitorKnown = true;
 
@@ -876,6 +888,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	{
 		printDebug("We manage the cookie...");
 
+		// If new visit && not direct entry
 		if( isset($this->visitorInfo['referer_type'])
 			&& $this->visitorInfo['referer_type'] != Piwik_Common::REFERER_TYPE_DIRECT_ENTRY)
 		{
