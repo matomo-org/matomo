@@ -64,9 +64,9 @@ $CONFIG = Parse-IniFile $PIWIK_CONFIG
 $PIWIK_SUPERUSER=$CONFIG["superuser"]["login"].Replace('"', '')
 $PIWIK_SUPERUSER_MD5_PASSWORD=$CONFIG["superuser"]["password"].Replace('"', '')
 
-$TOKEN_AUTH= & $PHP_BIN -c $PHP_INI "$PIWIK_PATH" "--" "module=API&method=UsersManager.getTokenAuth&userLogin=$PIWIK_SUPERUSER&md5Password=$PIWIK_SUPERUSER_MD5_PASSWORD&format=php&serialize=0"
+$TOKEN_AUTH= & $PHP_BIN -q -c $PHP_INI "$PIWIK_PATH" "--" "module=API&method=UsersManager.getTokenAuth&userLogin=$PIWIK_SUPERUSER&md5Password=$PIWIK_SUPERUSER_MD5_PASSWORD&format=php&serialize=0"
 
-$ID_SITES= & $PHP_BIN -c $PHP_INI "$PIWIK_PATH" "--" "module=API&method=SitesManager.getAllSitesId&token_auth=$TOKEN_AUTH&format=csv&convertToUnicode=0"
+$ID_SITES= & $PHP_BIN -q -c $PHP_INI "$PIWIK_PATH" "--" "module=API&method=SitesManager.getAllSitesId&token_auth=$TOKEN_AUTH&format=csv&convertToUnicode=0"
 
 Write-Host "Starting Piwik archiving..."
 
@@ -78,7 +78,7 @@ foreach($ID_SITE in $ID_SITES)
     {
       Write-Host ""
       Write-Host "Archiving period = $period for idsite = $ID_SITE..."
-      & $PHP_BIN -c $PHP_INI "$PIWIK_PATH" "--" "module=API&method=VisitsSummary.getVisits&idSite=$ID_SITE&period=$period&date=last52&format=xml&token_auth=$TOKEN_AUTH"      
+      & $PHP_BIN -q -c $PHP_INI "$PIWIK_PATH" "--" "module=API&method=VisitsSummary.getVisits&idSite=$ID_SITE&period=$period&date=last52&format=xml&token_auth=$TOKEN_AUTH"      
     }
 
     Write-Host ""
@@ -91,7 +91,7 @@ Write-Host "Piwik archiving finished."
 Write-Host "Starting Scheduled tasks..."
 Write-Host ""
 
-	& $PHP_BIN -c $PHP_INI "$PIWIK_PATH" "--" "module=API&method=CoreAdminHome.runScheduledTasks&format=csv&convertToUnicode=0&token_auth=$TOKEN_AUTH"
+	& $PHP_BIN -q -c $PHP_INI "$PIWIK_PATH" "--" "module=API&method=CoreAdminHome.runScheduledTasks&format=csv&convertToUnicode=0&token_auth=$TOKEN_AUTH"
 
 Write-Host ""	
 Write-Host "Finished Scheduled tasks."
