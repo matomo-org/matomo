@@ -94,6 +94,15 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
 					}
 					$columnValue = $newSubColumns;
 				}
+				// If we happen to rename a column to a name that already exists, 
+				// sum both values in the column. This should really not happen, but 
+				// we introduced in 1.1 a new dataTable indexing scheme for Actions table, and 
+				// could end up with both strings and their int indexes counterpart in a monthly/yearly dataTable 
+				// built from DataTable with both formats
+				if(isset($newColumns[$columnName]))
+				{
+					$columnValue += $newColumns[$columnName];
+				}
 			}
 			$newColumns[$columnName] = $columnValue;
 		}

@@ -53,7 +53,6 @@ class Piwik_Tracker_Config
 	 *
 	 * @var array
 	 */
-	public $config = array();
 	protected $initialized = false;
 	protected $configGlobal = false;
 	protected $configUser = false;
@@ -115,10 +114,6 @@ class Piwik_Tracker_Config
 		{
 			$section = array_merge($section, $this->configUser[$name]);
 		}
-		if(isset($this->config[$name]))
-		{
-			$section = array_merge($section, $this->config[$name]);
-		}
 		return count($section) ? $section : null;
 	}
 	
@@ -141,5 +136,12 @@ class Piwik_Tracker_Config
 		}
 		$this->database = $this->database_tests;
 		$this->PluginsInstalled = array();	
+	}
+	/**
+	 * Should only be used in tests/
+	 */
+	public function setTestValue($section, $name, $value)
+	{
+		$this->configUser[$section][$name] = $value;
 	}
 }

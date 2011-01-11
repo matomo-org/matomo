@@ -98,7 +98,10 @@ class Piwik_Common
 			}
 
 			$pluginsManager = Piwik_PluginsManager::getInstance();
-			$pluginsManager->loadPlugins( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
+			$pluginsToLoad = Zend_Registry::get('config')->Plugins->Plugins->toArray();
+			$pluginsForcedNotToLoad = Piwik_Tracker::getPluginsNotToLoad();
+			$pluginsToLoad = array_diff($pluginsToLoad, $pluginsForcedNotToLoad);
+			$pluginsManager->loadPlugins( $pluginsToLoad );
 		}
 		
 	}

@@ -528,7 +528,7 @@ class Piwik_PluginsManager_PluginException extends Exception
 function Piwik_PostEvent( $eventName,  &$object = null, $info = array() )
 {
 	$notification = new Piwik_Event_Notification($object, $eventName, $info);
-	Piwik_PluginsManager::getInstance()->dispatcher->postNotification( $notification, true, false );
+	Piwik_PluginsManager::getInstance()->dispatcher->postNotification( $notification, $pending = false, $bubble = false );
 }
 
 /**

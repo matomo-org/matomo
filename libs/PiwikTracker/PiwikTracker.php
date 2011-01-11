@@ -334,10 +334,22 @@ class PiwikTracker
 			$content = $response;
 		}
 		// The cookie in the response will be set in the next request
-		preg_match('/^Set-Cookie: (.*?);/m', $header, $cookie);
+		preg_match_all('/^Set-Cookie: (.*?);/m', $header, $cookie);
 		if(!empty($cookie[1]))
 		{
-			$this->requestCookie = $cookie[1];
+			// in case several cookies returned, we keep only the latest one (ie. XDEBUG puts its cookie first in the list)
+			if(is_array($cookie[1]))
+			{
+				$cookie = end($cookie[1]);
+			}
+			else
+			{
+				$cookie = $cookie[1];
+			}
+			if(strpos($cookie, 'XDEBUG') === false)
+			{
+				$this->requestCookie = $cookie;
+			}
 		}
 
 		return $content;

@@ -23,7 +23,6 @@
 class Piwik_Tracker
 {	
 	protected $stateValid = self::STATE_NOTHING_TO_NOTICE;
-	
 	/**
 	 * @var Piwik_Tracker_Db
 	 */
@@ -45,6 +44,8 @@ class Piwik_Tracker
 	static protected $forcedDateTime = null;
 	static protected $forcedIpString = null;
 	
+	static protected $pluginsNotToLoad = array();
+	
 	public function __construct($args = null)
 	{
 		$this->request = $args ? $args : $_GET + $_POST;
@@ -57,6 +58,7 @@ class Piwik_Tracker
 	{
 		self::$forcedDateTime = $dateTime;
 	}
+	
 	public function getCurrentTimestamp()
 	{
 		if(!is_null(self::$forcedDateTime))
@@ -65,6 +67,20 @@ class Piwik_Tracker
 		}
 		return time();
 	}
+
+	/**
+	 * Do not load the specified plugins (used during testing, to disable Provider plugin)
+	 * @param $plugins
+	 */
+	static public function setPluginsNotToLoad($plugins)
+	{
+		self::$pluginsNotToLoad = $plugins;
+	}
+	static public function getPluginsNotToLoad()
+	{
+		return self::$pluginsNotToLoad;
+	}
+	
 	public function main()
 	{
 		$this->init();
@@ -276,6 +292,7 @@ class Piwik_Tracker
 			if(is_array($pluginsTracker)
 				&& count($pluginsTracker) != 0)
 			{
+				$pluginsTracker['Plugins_Tracker'] = array_diff($pluginsTracker['Plugins_Tracker'], self::getPluginsNotToLoad());
 				Piwik_PluginsManager::getInstance()->doNotLoadAlwaysActivatedPlugins();
 				Piwik_PluginsManager::getInstance()->loadPlugins( $pluginsTracker['Plugins_Tracker'] );
 				

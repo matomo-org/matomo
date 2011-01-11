@@ -53,6 +53,22 @@ abstract class Piwik_Archive
 	const INDEX_GOALS = 10;
 	const INDEX_SUM_DAILY_NB_UNIQ_VISITORS = 11;
 	
+	// Specific to the Actions reports
+	const INDEX_PAGE_NB_HITS = 12;
+	const INDEX_PAGE_SUM_TIME_SPENT = 13;
+	
+	const INDEX_PAGE_EXIT_NB_UNIQ_VISITORS = 14;
+	const INDEX_PAGE_EXIT_NB_VISITS = 15;
+	const INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS = 16;
+	
+	const INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS = 17;
+	const INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS = 18;
+	const INDEX_PAGE_ENTRY_NB_VISITS = 19;
+	const INDEX_PAGE_ENTRY_NB_ACTIONS = 20;
+	const INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH = 21;
+	const INDEX_PAGE_ENTRY_BOUNCE_COUNT = 22;
+	
+	// Goal reports
 	const INDEX_GOAL_NB_CONVERSIONS = 1;
 	const INDEX_GOAL_REVENUE = 2;
 
@@ -68,6 +84,21 @@ abstract class Piwik_Archive
 				Piwik_Archive::INDEX_REVENUE				=> 'revenue',
 				Piwik_Archive::INDEX_GOALS					=> 'goals',
 				Piwik_Archive::INDEX_SUM_DAILY_NB_UNIQ_VISITORS => 'sum_daily_nb_uniq_visitors',
+				
+				// Actions metrics
+				Piwik_Archive::INDEX_PAGE_NB_HITS => 'nb_hits',
+				Piwik_Archive::INDEX_PAGE_SUM_TIME_SPENT => 'sum_time_spent',
+				
+				Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS => 'exit_nb_uniq_visitors',
+				Piwik_Archive::INDEX_PAGE_EXIT_NB_VISITS => 'exit_nb_visits',
+				Piwik_Archive::INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS => 'sum_daily_exit_nb_uniq_visitors',
+				
+				Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS => 'entry_nb_uniq_visitors',
+				Piwik_Archive::INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS => 'sum_daily_entry_nb_uniq_visitors',
+				Piwik_Archive::INDEX_PAGE_ENTRY_NB_VISITS => 'entry_nb_visits',
+				Piwik_Archive::INDEX_PAGE_ENTRY_NB_ACTIONS => 'entry_nb_actions',
+				Piwik_Archive::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH => 'entry_sum_visit_length',
+				Piwik_Archive::INDEX_PAGE_ENTRY_BOUNCE_COUNT => 'entry_bounce_count',
 			);
 
 	public static $mappingFromIdToNameGoal = array(
@@ -270,5 +301,10 @@ abstract class Piwik_Archive
 	public function getIdSite()
 	{
 		return $this->site->getId();
-	}	
+	}
+	
+	static public function clearCache()
+	{
+		self::$alreadyBuilt = array();
+	}
 }

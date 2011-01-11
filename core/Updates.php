@@ -22,7 +22,11 @@ abstract class Piwik_Updates
 	 * Return SQL to be executed in this update
 	 *
 	 * @param string Schema name
-	 * @return array
+	 * @return array( 
+	 * 		'INSERT .... ' => true,// if an error occurs during the query, it will be ignored 
+	 * 		'ALTER .... ' => false // if an error occurs, the update will stop and fail 
+	 *                             // and user will have to manually runthe query 
+	 * )
 	 */
 	static function getSql($schema = 'Myisam')
 	{
