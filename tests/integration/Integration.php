@@ -375,6 +375,7 @@ abstract class Test_Integration extends Test_Database
     		}
 			// When tests run on Windows EOL delimiters are not the same as UNIX default EOL used in the renderers
     		$expected = str_replace("\r\n", "\n", $expected); 
+    		$response = str_replace("\r\n", "\n", $response); 
     		$this->assertEqual(trim($response), trim($expected), "<br/>\nDifferences with expected in: $processedFilePath ");
     		if($response != $expected)
     		{
