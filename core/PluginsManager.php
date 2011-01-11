@@ -523,12 +523,13 @@ class Piwik_PluginsManager_PluginException extends Exception
  * @param $object Object, array or string that the listeners can read and/or modify.
  *                Listeners can call $object =& $notification->getNotificationObject(); to fetch and then modify this variable.
  * @param $info Additional array of data that can be used by the listeners, but not edited
+ * @param $pending Should the notification be posted to plugins that register after the notification was sent?
  * @return void
  */
-function Piwik_PostEvent( $eventName,  &$object = null, $info = array() )
+function Piwik_PostEvent( $eventName,  &$object = null, $info = array(), $pending = false )
 {
 	$notification = new Piwik_Event_Notification($object, $eventName, $info);
-	Piwik_PluginsManager::getInstance()->dispatcher->postNotification( $notification, $pending = false, $bubble = false );
+	Piwik_PluginsManager::getInstance()->dispatcher->postNotification( $notification, $pending, $bubble = false );
 }
 
 /**
