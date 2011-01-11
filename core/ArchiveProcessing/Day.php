@@ -145,13 +145,13 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	public function getArrayInterestForLabel($label)
 	{
 		$query = "SELECT 	$label as label,
-							count(distinct visitor_idcookie) as nb_uniq_visitors, 
-							count(*) as nb_visits,
-							sum(visit_total_actions) as nb_actions, 
-							max(visit_total_actions) as max_actions, 
-							sum(visit_total_time) as sum_visit_length,
-							sum(case visit_total_actions when 1 then 1 else 0 end) as bounce_count,
-							sum(case visit_goal_converted when 1 then 1 else 0 end) as nb_visits_converted
+							count(distinct visitor_idcookie) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`, 
+							count(*) as `". Piwik_Archive::INDEX_NB_VISITS ."`,
+							sum(visit_total_actions) as `". Piwik_Archive::INDEX_NB_ACTIONS ."`, 
+							max(visit_total_actions) as `". Piwik_Archive::INDEX_MAX_ACTIONS ."`, 
+							sum(visit_total_time) as `". Piwik_Archive::INDEX_SUM_VISIT_LENGTH ."`,
+							sum(case visit_total_actions when 1 then 1 else 0 end) as `". Piwik_Archive::INDEX_BOUNCE_COUNT ."`,
+							sum(case visit_goal_converted when 1 then 1 else 0 end) as `". Piwik_Archive::INDEX_NB_VISITS_CONVERTED ."`
 				FROM ".$this->logTable."
 				WHERE visit_last_action_time >= ?
 						AND visit_last_action_time <= ?
@@ -309,14 +309,27 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 */
 	public function updateInterestStats( $newRowToAdd, &$oldRowToUpdate)
 	{
-		$oldRowToUpdate[Piwik_Archive::INDEX_NB_UNIQ_VISITORS]		+= $newRowToAdd['nb_uniq_visitors'];
-		$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS] 			+= $newRowToAdd['nb_visits'];
-		$oldRowToUpdate[Piwik_Archive::INDEX_NB_ACTIONS] 			+= $newRowToAdd['nb_actions'];
-		$oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS] 		 	= (float)max($newRowToAdd['max_actions'], $oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS]);
-		$oldRowToUpdate[Piwik_Archive::INDEX_SUM_VISIT_LENGTH]		+= $newRowToAdd['sum_visit_length'];
-		$oldRowToUpdate[Piwik_Archive::INDEX_BOUNCE_COUNT] 			+= $newRowToAdd['bounce_count'];
-		$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS_CONVERTED] 	+= $newRowToAdd['nb_visits_converted'];
-	}
+		// Pre 1.2 format: string indexed rows are returned from the DB
+		// Left here for Backward compatibility with plugins doing custom SQL queries using these metrics as string
+		if(!isset($newRowToAdd[Piwik_Archive::INDEX_NB_VISITS]))
+		{
+    		$oldRowToUpdate[Piwik_Archive::INDEX_NB_UNIQ_VISITORS]		+= $newRowToAdd['nb_uniq_visitors'];
+    		$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS] 			+= $newRowToAdd['nb_visits'];
+    		$oldRowToUpdate[Piwik_Archive::INDEX_NB_ACTIONS] 			+= $newRowToAdd['nb_actions'];
+    		$oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS] 		 	= (float)max($newRowToAdd['max_actions'], $oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS]);
+    		$oldRowToUpdate[Piwik_Archive::INDEX_SUM_VISIT_LENGTH]		+= $newRowToAdd['sum_visit_length'];
+    		$oldRowToUpdate[Piwik_Archive::INDEX_BOUNCE_COUNT] 			+= $newRowToAdd['bounce_count'];
+    		$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS_CONVERTED] 	+= $newRowToAdd['nb_visits_converted'];
+    		return;
+		}
+		$oldRowToUpdate[Piwik_Archive::INDEX_NB_UNIQ_VISITORS]		+= $newRowToAdd[Piwik_Archive::INDEX_NB_UNIQ_VISITORS];
+		$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS] 			+= $newRowToAdd[Piwik_Archive::INDEX_NB_VISITS];
+		$oldRowToUpdate[Piwik_Archive::INDEX_NB_ACTIONS] 			+= $newRowToAdd[Piwik_Archive::INDEX_NB_ACTIONS];
+		$oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS] 		 	= (float)max($newRowToAdd[Piwik_Archive::INDEX_MAX_ACTIONS], $oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS]);
+		$oldRowToUpdate[Piwik_Archive::INDEX_SUM_VISIT_LENGTH]		+= $newRowToAdd[Piwik_Archive::INDEX_SUM_VISIT_LENGTH];
+		$oldRowToUpdate[Piwik_Archive::INDEX_BOUNCE_COUNT] 			+= $newRowToAdd[Piwik_Archive::INDEX_BOUNCE_COUNT];
+		$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS_CONVERTED] 	+= $newRowToAdd[Piwik_Archive::INDEX_NB_VISITS_CONVERTED];
+	} 
 	
 	public function queryConversionsBySegment($segments = '')
 	{
@@ -325,8 +338,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 			$segments = ", ". $segments;
 		}
 		$query = "SELECT idgoal,
-						count(*) as nb_conversions,
-						sum(revenue) as revenue
+						count(*) as `". Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS ."`,
+						sum(revenue) as `". Piwik_Archive::INDEX_GOAL_REVENUE ."`
 						$segments
 			 	FROM ".$this->logConversionTable."
 			 	WHERE server_time >= ?
@@ -341,8 +354,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	public function queryConversionsBySingleSegment($segment)
 	{
 		$query = "SELECT idgoal,
-						count(*) as nb_conversions,
-						sum(revenue) as revenue,
+						count(*) as `". Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS ."`,
+						sum(revenue) as `". Piwik_Archive::INDEX_GOAL_REVENUE ."`,
 						$segment as label
 			 	FROM ".$this->logConversionTable."
 			 	WHERE server_time >= ?
@@ -418,8 +431,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 
 	function updateGoalStats($newRowToAdd, &$oldRowToUpdate)
 	{
-		$oldRowToUpdate[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS]	+= $newRowToAdd['nb_conversions'];
-		$oldRowToUpdate[Piwik_Archive::INDEX_GOAL_REVENUE] 			+= $newRowToAdd['revenue'];
+		$oldRowToUpdate[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS]	+= $newRowToAdd[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS];
+		$oldRowToUpdate[Piwik_Archive::INDEX_GOAL_REVENUE] 			+= $newRowToAdd[Piwik_Archive::INDEX_GOAL_REVENUE];
 	}
 	
 	function getNewGoalRow()
@@ -431,8 +444,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	
 	function getGoalRowFromQueryRow($queryRow)
 	{
-		return array(	Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS 	=> $queryRow['nb_conversions'], 
-						Piwik_Archive::INDEX_GOAL_REVENUE 			=> $queryRow['revenue'], 
+		return array(	Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS 	=> $queryRow[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS], 
+						Piwik_Archive::INDEX_GOAL_REVENUE 			=> $queryRow[Piwik_Archive::INDEX_GOAL_REVENUE], 
 					);
 	}
 }

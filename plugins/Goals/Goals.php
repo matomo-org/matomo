@@ -279,8 +279,8 @@ class Piwik_Goals extends Piwik_Plugin
 			if(!isset($goals[$row['idgoal']])) $goals[$row['idgoal']] = $archiveProcessing->getNewGoalRow();
 			$archiveProcessing->updateGoalStats($row, $goals[$row['idgoal']]);
 
-			$revenue += $row['revenue'];
-			$nb_conversions += $row['nb_conversions'];
+			$revenue += $row[Piwik_Archive::INDEX_GOAL_REVENUE];
+			$nb_conversions += $row[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS];
 		}
 		
 		// Stats by goal, for all visitors
