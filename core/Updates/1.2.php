@@ -19,6 +19,8 @@ class Piwik_Updates_1_2 extends Piwik_Updates
 	{
 		return array(
 		    'ALTER TABLE `'. Piwik_Common::prefixTable('log_visit') .'` 
+			    DROP `visit_server_date`,
+			    DROP INDEX `index_idsite_date_config`,
 		    	ADD `visit_entry_idaction_name` INT UNSIGNED NOT NULL AFTER `visit_entry_idaction_url`,
 			    ADD `visit_exit_idaction_name` INT UNSIGNED NOT NULL AFTER `visit_exit_idaction_url`,
 			    CHANGE `visit_exit_idaction_url` `visit_exit_idaction_url` INT UNSIGNED NOT NULL, 

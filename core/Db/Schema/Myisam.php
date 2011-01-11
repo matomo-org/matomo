@@ -174,7 +174,6 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 							  visitor_returning TINYINT(1) NOT NULL,
 							  visit_first_action_time DATETIME NOT NULL,
 							  visit_last_action_time DATETIME NOT NULL,
-							  visit_server_date DATE NOT NULL,
 							  visit_exit_idaction_url INTEGER(11) UNSIGNED NOT NULL,
 							  visit_exit_idaction_name INTEGER(11) UNSIGNED NOT NULL,
 							  visit_entry_idaction_url INTEGER(11) UNSIGNED NOT NULL,
@@ -207,7 +206,6 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 							  location_continent CHAR(3) NOT NULL,
 							  PRIMARY KEY(idvisit),
 							  INDEX index_idsite_idvisit (idsite, idvisit),
-							  INDEX index_idsite_date_config (idsite, visit_server_date, config_md5config(8)),
 							  INDEX index_idsite_datetime_config (idsite, visit_last_action_time, config_md5config(8))
 							)  DEFAULT CHARSET=utf8
 			",
