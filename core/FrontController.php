@@ -217,7 +217,7 @@ class Piwik_FrontController
 			try {
 				Piwik::createDatabaseObject();
 			} catch(Exception $e) {
-				Piwik_PostEvent('FrontController.badConfigurationFile', $e);
+				Piwik_PostEvent('FrontController.badConfigurationFile', $e, $info = array(), $pending = true);
 				throw $e;
 			}
 
