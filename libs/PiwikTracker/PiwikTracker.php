@@ -352,7 +352,8 @@ class PiwikTracker
     	{
     		throw new Exception('You must first set the Piwik Tracker URL by calling PiwikTracker::$URL = \'http://your-website.org/piwik/\';');
     	}
-    	if(strpos(self::$URL, '/piwik.php') === false)
+    	if(strpos(self::$URL, '/piwik.php') === false
+    		&& strpos(self::$URL, '/proxy-piwik.php') === false)
     	{
     		self::$URL .= '/piwik.php';
     	}
