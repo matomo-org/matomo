@@ -57,7 +57,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	// can be overwritten in constructor
 	protected $timestamp;
 	protected $ipString;
-
+	
+	const TIME_IN_PAST_TO_SEARCH_FOR_VISITOR = 86400;
+	
 	public function __construct($forcedIpString = null, $forcedDateTime = null)
 	{
 		$this->timestamp = time();
@@ -406,7 +408,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'visitor_localtime' 		=> $localTime,
 			'visitor_idcookie' 			=> $idcookie,
 			'visitor_returning' 		=> $returningVisitor,
-			'visit_server_date'     	=> $this->getCurrentDate(),
 			'visit_first_action_time' 	=> Piwik_Tracker::getDatetimeFromTimestamp($serverTimestamp),
 			'visit_last_action_time' 	=> Piwik_Tracker::getDatetimeFromTimestamp($serverTimestamp),
 			'visit_entry_idaction_url' 	=> $idActionUrl,
@@ -736,7 +737,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 		$userInfo = $this->getUserSettingsInformation();
 		$md5Config = $userInfo['config_md5config'];
-		$bindSql = array( $this->getCurrentDate(), $this->idsite, $md5Config);
+		$timeLookBack = date('Y-m-d H:i:s', $this->getCurrentTimestamp() - self::TIME_IN_PAST_TO_SEARCH_FOR_VISITOR);
+		$bindSql = array( $timeLookBack, $this->idsite, $md5Config);
 		$where = '';
 		
 		if( Piwik_Tracker_Config::getInstance()->Tracker['trust_visitors_cookies']
@@ -747,22 +749,21 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			$bindSql[] = $idVisitor;
 		}
 		
-		// @todo should not use visit_server_date but visit_last_action_time + check INDEX is used as expected
-		$visitRow = Piwik_Tracker::getDatabase()->fetch(
-									" SELECT  	visitor_idcookie,
-												visit_last_action_time,
-												visit_first_action_time,
-												idvisit,
-												visit_exit_idaction_url,
-												visit_exit_idaction_name
-									FROM ".Piwik_Common::prefixTable('log_visit').
-									" WHERE visit_server_date = ?
-										AND idsite = ?
-										AND config_md5config = ?
-										".$where."
-									ORDER BY visit_last_action_time DESC
-									LIMIT 1", $bindSql
-									);
+		$sql = " SELECT  	visitor_idcookie,
+							visit_last_action_time,
+							visit_first_action_time,
+							idvisit,
+							visit_exit_idaction_url,
+							visit_exit_idaction_name
+				FROM ".Piwik_Common::prefixTable('log_visit').
+				" WHERE visit_last_action_time >= ?
+					AND idsite = ?
+					AND config_md5config = ?
+					".$where."
+				ORDER BY visit_last_action_time DESC
+				LIMIT 1";
+		$visitRow = Piwik_Tracker::getDatabase()->fetch($sql, $bindSql);
+		
 		if($visitRow
 			&& count($visitRow) > 0)
 		{
