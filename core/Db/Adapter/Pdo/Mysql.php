@@ -160,6 +160,8 @@ class Piwik_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Pi
 		return null;
 	}
 	
+	private $cachePreparedStatement = array();
+
 	/**
 	 * Prepares and executes an SQL statement with bound data.
 	 * Caches prepared statements to avoid preparing the same query more than once
@@ -170,20 +172,19 @@ class Piwik_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Pi
 	 */
 	public function query($sql, $bind = array())
 	{
-		static $cachePreparedStatement = array();
-	
-        if (!is_array($bind)) {
-            $bind = array($bind);
-        }
-		if(isset($cachePreparedStatement[$sql]))
+		if(isset($this->cachePreparedStatement[$sql]))
 		{
-			$stmt = $cachePreparedStatement[$sql];
+			if (!is_array($bind)) {
+				$bind = array($bind);
+			}
+
+			$stmt = $this->cachePreparedStatement[$sql];
 			$stmt->execute($bind);
 			return $stmt;
 		}
 
 		$stmt = parent::query($sql, $bind);
-		$cachePreparedStatement[$sql] = $stmt;
+		$this->cachePreparedStatement[$sql] = $stmt;
 		return $stmt;
 	}
 	
