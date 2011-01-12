@@ -235,14 +235,18 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 
 			'log_link_visit_action' => "CREATE TABLE {$prefixTables}log_link_visit_action (
 											  idlink_va INTEGER(11) NOT NULL AUTO_INCREMENT,
+									          idsite int(10) UNSIGNED NOT NULL,
+									          server_time DATETIME NOT NULL,
 											  idvisit INTEGER(10) UNSIGNED NOT NULL,
+											  visitor_idcookie char(32) NOT NULL,
 											  idaction_url INTEGER(10) UNSIGNED NOT NULL,
 											  idaction_url_ref INTEGER(10) UNSIGNED NOT NULL,
 											  idaction_name INTEGER(10) UNSIGNED,
 											  idaction_name_ref INTEGER(10) UNSIGNED NOT NULL,
 											  time_spent_ref_action INTEGER(10) UNSIGNED NOT NULL,
 											  PRIMARY KEY(idlink_va),
-											  INDEX index_idvisit(idvisit)
+											  INDEX index_idvisit(idvisit),
+									          INDEX index_idsite_servertime ( idsite, server_time )
 											)  DEFAULT CHARSET=utf8
 			",
 

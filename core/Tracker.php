@@ -98,7 +98,7 @@ class Piwik_Tracker
 
 			Piwik_Common::runScheduledTasks($now = $this->getCurrentTimestamp());
 		} catch (Piwik_Tracker_Db_Exception $e) {
-			printDebug($e->getMessage());
+			printDebug("<b>".$e->getMessage()."</b>");
 		} catch(Piwik_Tracker_Visit_Excluded $e) {
 		} catch(Exception $e) {
 			Piwik_Tracker_ExitWithException($e);
