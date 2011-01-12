@@ -27,8 +27,20 @@ class Piwik_Updates_1_2 extends Piwik_Updates
 			    CHANGE `visit_entry_idaction_url` `visit_entry_idaction_url` INT UNSIGNED NOT NULL
 			   ' => false,
 		    'ALTER TABLE `'. Piwik_Common::prefixTable('log_link_visit_action') .'` 
-				ADD `idaction_name_ref` INT UNSIGNED NOT NULL AFTER `idaction_name`
+				ADD `idsite` INT( 10 ) UNSIGNED NOT NULL AFTER `idlink_va` , 
+				ADD `server_time` DATETIME NOT NULL AFTER `idsite`,
+				ADD `visitor_idcookie` char(32) NOT NULL AFTER `idsite`,
+				ADD `idaction_name_ref` INT UNSIGNED NOT NULL AFTER `idaction_name`,
+				ADD INDEX `index_idsite_servertime` ( `idsite` , `server_time` )
 			   ' => false,
+			// Backfill logs as best as we can
+			'UPDATE '.Piwik_Common::prefixTable('log_link_visit_action') .' as action, 
+				  	'.Piwik_Common::prefixTable('log_visit') .'  as visit
+                SET action.idsite = visit.idsite, 
+                	action.server_time = visit.visit_last_action_time, 
+                	action.visitor_idcookie = visit.visitor_idcookie 
+                WHERE action.idvisit=visit.idvisit
+                ' => false, 
 			'ALTER TABLE `'. Piwik_Common::prefixTable('option') .'` ADD INDEX ( `autoload` ) ' => false,
 		);
 	}

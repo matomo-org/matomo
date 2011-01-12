@@ -217,14 +217,13 @@ class Piwik_Actions extends Piwik_Plugin
 		$queryString = "SELECT name,
 							type,
 							idaction,
-							count(distinct t1.idvisit) as `". Piwik_Archive::INDEX_NB_VISITS ."`, 
+							count(distinct idvisit) as `". Piwik_Archive::INDEX_NB_VISITS ."`, 
 							count(distinct visitor_idcookie) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`,
 							count(*) as `". Piwik_Archive::INDEX_PAGE_NB_HITS ."`							
-					FROM (".Piwik_Common::prefixTable('log_visit')." as t1
-						LEFT JOIN ".Piwik_Common::prefixTable('log_link_visit_action')." as t2 USING (idvisit))
-							LEFT JOIN ".Piwik_Common::prefixTable('log_action')." as t3 ON (t2.%s = idaction)
-					WHERE visit_last_action_time >= ?
-						AND visit_last_action_time <= ?
+					FROM ".Piwik_Common::prefixTable('log_link_visit_action')." as log_link_visit_action
+							LEFT JOIN ".Piwik_Common::prefixTable('log_action')." as log_action ON (log_link_visit_action.%s = idaction)
+					WHERE server_time >= ?
+						AND server_time <= ?
 						AND idsite = ?
 				 		AND %s > 0
 					GROUP BY idaction
@@ -268,13 +267,11 @@ class Piwik_Actions extends Piwik_Plugin
 		/*
 		 * Time per action
 		 */
-		//@todo remove join
 		$queryString = "SELECT %s as idaction,
 							sum(time_spent_ref_action) as `".Piwik_Archive::INDEX_PAGE_SUM_TIME_SPENT."`
-					FROM (".Piwik_Common::prefixTable('log_visit')." log_visit 
-						JOIN ".Piwik_Common::prefixTable('log_link_visit_action')." log_link_visit_action USING (idvisit))
-					WHERE visit_last_action_time >= ?
-						AND visit_last_action_time <= ?
+					FROM ".Piwik_Common::prefixTable('log_link_visit_action')."  
+					WHERE server_time >= ?
+						AND server_time <= ?
 				 		AND idsite = ?
 				 		AND time_spent_ref_action > 0
 				 		AND %s > 0

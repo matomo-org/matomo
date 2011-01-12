@@ -182,6 +182,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 				if(!is_null($action))
 				{
 					$action->record( 	$this->visitorInfo['idvisit'],
+										$this->visitorInfo['visitor_idcookie'],
 										$idRefererActionUrl,
 										$idRefererActionName,
 										$this->visitorInfo['time_spent_ref_action']
@@ -218,7 +219,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			$this->handleNewVisit($idActionUrl, $idActionName, $someGoalsConverted);
 			if(!is_null($action))
 			{
-				$action->record( $this->visitorInfo['idvisit'], 0, 0, 0 );
+				$action->record( $this->visitorInfo['idvisit'], $this->visitorInfo['visitor_idcookie'], 0, 0, 0 );
 			}
 		}
 
@@ -248,6 +249,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	{
 		$action->setIdSite($this->idsite);
 		$action->setRequest($this->request);
+		$action->setTimestamp($this->getCurrentTimestamp());
 		$action->init();
 		if($this->detectActionIsOutlinkOnAliasHost($action))
 		{

@@ -29,26 +29,15 @@ interface Piwik_Tracker_Action_Interface {
 	public function getActionUrl();
 	public function getActionName();
 	public function getActionType();
-	public function record( $idVisit, $idRefererActionUrl, $idRefererActionName, $timeSpentRefererAction );
+	public function record( $idVisit, $visitorIdCookie, $idRefererActionUrl, $idRefererActionName, $timeSpentRefererAction );
 	public function getIdActionUrl();
 	public function getIdActionName();
 	public function getIdLinkVisitAction();
 }
 
 /**
- * Handles an action by the visitor.
- * A request to the piwik.php script is associated with one Action.
- * This class is used to build the Action Name (which can be built from the URL, 
- * or can be directly specified in the JS code, etc.).
- * It also saves the Action when necessary in the DB. 
- *  
- * About the Action concept:
- * - An action is defined by a name.
- * - The name can be specified in the JS Code in the variable 'action_name'
- *    For example you can decide to use the javascript value document.title as an action_name
- * - Handling UTF8 in the action name
- * PLUGIN_IDEA - An action is associated to URLs and link to the URL from the reports (currently actions do not link to the url of the pages)
- * PLUGIN_IDEA - An action hit by a visitor is associated to the HTML title of the page that triggered the action and this HTML title is displayed in the interface
+ * Handles an action (page view, download or outlink) by the visitor.
+ * Parses the action name and URL from the request array, then records the action in the log table.
  * 
  * @package Piwik
  * @subpackage Piwik_Tracker
@@ -57,6 +46,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 {
 	private $request;
 	private $idSite;
+	private $timestamp;
 	private $idLinkVisitAction;
 	private $idActionName = null;
 	private $idActionUrl = null;
@@ -271,6 +261,11 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		$this->idSite = $idSite;
 	}
 	
+	function setTimestamp($timestamp)
+	{
+		$this->timestamp = $timestamp;
+	}
+	
 	
 	/**
 	 * Records in the DB the association between the visit and this action.
@@ -280,7 +275,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	 * @param int timeSpentRefererAction is the number of seconds since the last action was done. 
 	 * 				It is directly related to idRefererActionUrl.
 	 */
-	 public function record( $idVisit, $idRefererActionUrl, $idRefererActionName, $timeSpentRefererAction)
+	 public function record( $idVisit, $visitorIdCookie, $idRefererActionUrl, $idRefererActionName, $timeSpentRefererAction)
 	 {
 		$this->loadIdActionNameAndUrl();
 		$idActionName = $this->getIdActionName();
@@ -290,10 +285,18 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		}
 		Piwik_Tracker::getDatabase()->query( 
 						"INSERT INTO ".Piwik_Common::prefixTable('log_link_visit_action')
-						." (idvisit, idaction_url, idaction_name, idaction_url_ref, idaction_name_ref, time_spent_ref_action) 
-							VALUES (?,?,?,?,?,?)",
-					array($idVisit, $this->getIdActionUrl(), $idActionName , $idRefererActionUrl, $idRefererActionName, $timeSpentRefererAction)
-					);
+						." (idvisit, idsite, server_time, visitor_idcookie, idaction_url, idaction_name, idaction_url_ref, idaction_name_ref, time_spent_ref_action) 
+							VALUES (?,?,?,?,?,?,?,?,?)",
+					array(	$idVisit, 
+							$this->idSite, 
+							Piwik_Tracker::getDatetimeFromTimestamp($this->timestamp),
+							$visitorIdCookie,
+							$this->getIdActionUrl(), 
+							$idActionName , 
+							$idRefererActionUrl, 
+							$idRefererActionName, 
+							$timeSpentRefererAction
+		));
 		
 		$this->idLinkVisitAction = Piwik_Tracker::getDatabase()->lastInsertId(); 
 		
