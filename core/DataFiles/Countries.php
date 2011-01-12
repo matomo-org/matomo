@@ -78,7 +78,7 @@ if(!isset($GLOBALS['Piwik_CountryList']))
 			'cu' => 'amc',
 			'cv' => 'afr',
 			'cx' => 'asi',
-			'cy' => 'asi',
+			'cy' => 'eur',
 			'cz' => 'eur',
 			'de' => 'eur',
 			'dj' => 'afr',
