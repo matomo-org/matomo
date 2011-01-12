@@ -226,7 +226,17 @@ class Piwik_Cookie
 			// no numeric value are base64 encoded so we need to decode them
 			if(!is_numeric($varValue))
 			{
-				$varValue = safe_unserialize(base64_decode($varValue));
+				$tmpValue = base64_decode($varValue);
+				$varValue = safe_unserialize(tmpValue);
+
+				// discard entire cookie
+				// note: this assumes we never serialize a boolean
+				if($varValue === false && $varValue !== 'b:0;')
+				{
+					$this->value = array();
+					unset($_COOKIE[$this->name]);
+					break;
+				}
 			}
 			
 			$this->value[$varName] = $varValue;
