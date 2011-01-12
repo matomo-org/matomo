@@ -154,31 +154,4 @@ class Piwik_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db
 		$revision = (int) ($version % 100);
 		return $major . '.' . $minor . '.' . $revision;
 	}
-	
-	/**
-	 * Prepares and executes an SQL statement with bound data.
-	 * Caches prepared statements to avoid preparing the same query more than once
-	 *
-	 * @param mixed $sql
-	 * @param mixed $bind
-	 * @return Zend_Db_Statement_Interface
-	 */
-	public function query($sql, $bind = array())
-	{
-		static $cachePreparedStatement = array();
-	
-        if (!is_array($bind)) {
-            $bind = array($bind);
-        }
-		if(isset($cachePreparedStatement[$sql]))
-		{
-			$stmt = $cachePreparedStatement[$sql];
-			$stmt->execute($bind);
-			return $stmt;
-		}
-
-		$stmt = parent::query($sql, $bind);
-		$cachePreparedStatement[$sql] = $stmt;
-		return $stmt;
-	}
 }
