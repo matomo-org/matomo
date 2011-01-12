@@ -99,7 +99,7 @@ class Piwik_SEO_RankChecker
 	public function getBacklinksYahoo()
 	{
 		$url = $this->url;
-		$url = 'http://siteexplorer.search.yahoo.com/search?p='.urlencode("http://$url");
+		$url = 'http://siteexplorer.search.yahoo.com/search?p='.urlencode($url);
 		$data = $this->getPage($url);
 		preg_match('/Inlinks \(([0-9\,]+)\)/si', $data, $p);
 		$value = isset($p[1]) ? $this->toInt($p[1]) : 0;
@@ -124,7 +124,7 @@ class Piwik_SEO_RankChecker
 	public function getIndexedYahoo()
 	{
 		$url = $this->url;
-		$url = 'http://siteexplorer.search.yahoo.com/search?p='.urlencode("http://$url");
+		$url = 'http://siteexplorer.search.yahoo.com/search?p='.urlencode($url);
 		$data = $this->getPage($url);
 		preg_match('/Pages \(([0-9,]{1,})\)/im', $data, $p);
 		$value = isset($p[1]) ? $this->toInt($p[1]) : 0;
