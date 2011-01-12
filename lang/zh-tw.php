@@ -4,7 +4,7 @@ $translations = array(
 	'General_TranslatorName' => '<a href="http://www.freegroup.org/">Pseric</a>, Eros',
 	'General_TranslatorEmail' => 'pserics@gmail.com, php.twn@gmail.com',
 	'General_EnglishLanguageName' => 'Traditional Chinese (Taiwan)',
-	'General_OriginalLanguageName' => '台灣語',
+	'General_OriginalLanguageName' => '繁體中文',
 	'General_HelloUser' => '您好， %s！',
 	'General_OpenSourceWebAnalytics' => '開放原始碼的網站流量分析軟體',
 	'General_YourDashboard' => '您的儀表板',
