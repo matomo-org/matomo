@@ -53,7 +53,7 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 		if(function_exists('imagecreatefromstring'))
 		{
 			// validate image data
-			$imgResource = imagecreatefromstring($data);
+			$imgResource = @imagecreatefromstring($data);
 			if($imgResource !== false)
 			{
 				// output image and clean-up
