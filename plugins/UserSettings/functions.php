@@ -159,7 +159,11 @@ function Piwik_getScreenTypeFromResolution($resolution)
 	$height= intval(substr($resolution, strpos($resolution, 'x') + 1));
 	$ratio = Piwik::secureDiv($width, $height);
 	
-	if($ratio < 1.4)
+	if($width < 640)
+	{
+		$name = 'mobile';
+	}
+	elseif($ratio < 1.4)
 	{
 		$name = 'normal';
 	}
