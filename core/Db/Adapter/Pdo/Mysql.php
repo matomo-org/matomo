@@ -187,5 +187,4 @@ class Piwik_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Pi
 		$this->cachePreparedStatement[$sql] = $stmt;
 		return $stmt;
 	}
-	
 }

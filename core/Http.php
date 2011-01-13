@@ -294,9 +294,17 @@ class Piwik_Http
 				CURLOPT_USERAGENT => 'Piwik/'.Piwik_Version::VERSION.($userAgent ? " $userAgent" : ''),
 				CURLOPT_HEADER => false,
 				CURLOPT_CONNECTTIMEOUT => $timeout,
-//				CURLOPT_CAINFO => PIWIK_INCLUDE_PATH . '/core/DataFiles/cacert.pem',
 			);
 			@curl_setopt_array($ch, $curl_options);
+
+			/*
+			 * use local list of Certificate Authorities, if available
+			 */
+			if(Piwik_Common::isWindows() &&
+				file_exists(PIWIK_INCLUDE_PATH . '/core/DataFiles/cacert.pem'))
+			{
+				@curl_setopt($ch, CURLOPT_CAINFO, PIWIK_INCLUDE_PATH . '/core/DataFiles/cacert.pem');
+			}
 
 			/*
 			 * as of php 5.2.0, CURLOPT_FOLLOWLOCATION can't be set if
