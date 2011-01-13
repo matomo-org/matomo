@@ -125,6 +125,7 @@ class Piwik_AssetManager
 		}
 
 		$mergedContent = cssmin::minify($mergedContent);
+		$mergedContent = str_replace("\n", "\r\n", $mergedContent);
 		
 		// Remove the previous file
 		self::removeMergedAsset(self::MERGED_CSS_FILE);
@@ -233,6 +234,7 @@ class Piwik_AssetManager
 			
 			$mergedContent = $mergedContent . PHP_EOL . $content;
 		}
+		$mergedContent = str_replace("\n", "\r\n", $mergedContent);
 		
 		// Remove the previous file
 		self::removeMergedAsset(self::MERGED_JS_FILE);
