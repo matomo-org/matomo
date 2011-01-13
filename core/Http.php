@@ -294,6 +294,7 @@ class Piwik_Http
 				CURLOPT_USERAGENT => 'Piwik/'.Piwik_Version::VERSION.($userAgent ? " $userAgent" : ''),
 				CURLOPT_HEADER => false,
 				CURLOPT_CONNECTTIMEOUT => $timeout,
+//				CURLOPT_CAINFO => PIWIK_INCLUDE_PATH . '/core/DataFiles/cacert.pem',
 			);
 			@curl_setopt_array($ch, $curl_options);
 
