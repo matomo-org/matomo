@@ -240,9 +240,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	
 	protected function printCookie()
 	{
-		printDebug("<pre>");
 		printDebug($this->cookie);
-		printDebug("</pre>");
 	}
 
 	protected function handleAction($action)
