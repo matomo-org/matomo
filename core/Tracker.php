@@ -335,12 +335,12 @@ if(!function_exists('printDebug'))
     		if(is_array($info))
     		{
     			print("<pre>");
-    			print(var_export($info,true));
+    			print(htmlspecialchars(var_export($info,true), ENT_QUOTES));
     			print("</pre>");
     		}
     		else
     		{
-    			print($info . "<br />\n");
+    			print(htmlspecialchars($info, ENT_QUOTES) . "<br />\n");
     		}
     	}
     }
