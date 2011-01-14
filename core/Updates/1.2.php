@@ -27,28 +27,28 @@ class Piwik_Updates_1_2 extends Piwik_Updates
 			    ADD `visit_exit_idaction_name` INT UNSIGNED NOT NULL AFTER `visit_exit_idaction_url`,
 			    CHANGE `visit_exit_idaction_url` `visit_exit_idaction_url` INT UNSIGNED NOT NULL, 
 			    CHANGE `visit_entry_idaction_url` `visit_entry_idaction_url` INT UNSIGNED NOT NULL,
-			    ADD `idvisitor` BIGINT( 20 ) UNSIGNED NOT NULL AFTER `idsite`, 
-			    ADD `config_id` BIGINT( 20 ) UNSIGNED NOT NULL AFTER `config_md5config`
+			    ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`, 
+			    ADD `config_id` BINARY(8) NOT NULL AFTER `config_md5config`
 			   ' => false,
 		    'ALTER TABLE `'. Piwik_Common::prefixTable('log_link_visit_action') .'` 
 				ADD `idsite` INT( 10 ) UNSIGNED NOT NULL AFTER `idlink_va` , 
 				ADD `server_time` DATETIME NOT NULL AFTER `idsite`,
-				ADD `idvisitor` BIGINT(20) UNSIGNED NOT NULL AFTER `idsite`,
+				ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`,
 				ADD `idaction_name_ref` INT UNSIGNED NOT NULL AFTER `idaction_name`,
 				ADD INDEX `index_idsite_servertime` ( `idsite` , `server_time` )
 			   ' => false,
 
 		    'ALTER TABLE `'. Piwik_Common::prefixTable('log_conversion') .'` 
-			    ADD `idvisitor` BIGINT( 20 ) UNSIGNED NOT NULL AFTER `idsite`
+			    ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`
 			   ' => false,
 		
 			// Migrate 128bits IDs inefficiently stored as 8bytes (256 bits) into 64bits
     		'UPDATE '.Piwik_Common::prefixTable('log_visit') .'
-    			SET idvisitor = cast(conv(substring(visitor_idcookie,1,16), 16, 10) as unsigned integer),
-    				config_id = cast(conv(substring(config_id,1,16), 16, 10) as unsigned integer)
+    			SET idvisitor = binary(unhex(substring(visitor_idcookie,1,16))),
+    				config_id = binary(unhex(substring(config_md5config,1,16)))
 	   			' => false,	
     		'UPDATE '.Piwik_Common::prefixTable('log_conversion') .'
-    			SET idvisitor = cast(conv(substring(visitor_idcookie,1,16), 16, 10) as unsigned integer)
+    			SET idvisitor = binary(unhex(substring(visitor_idcookie,1,16)))
 	   			' => false,	
 			
 			// Drop migrated fields

@@ -286,7 +286,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		Piwik_Tracker::getDatabase()->query( 
 						"INSERT INTO ".Piwik_Common::prefixTable('log_link_visit_action')
 						." (idvisit, idsite, idvisitor, server_time, idaction_url, idaction_name, idaction_url_ref, idaction_name_ref, time_spent_ref_action) 
-							VALUES (?,?,".Piwik_Tracker::getBindConvertStringAsBigInt().",?,?,?,?,?,?)",
+							VALUES (?,?,?,?,?,?,?,?,?)",
 					array(	$idVisit, 
 							$this->idSite, 
 							$visitorIdCookie,

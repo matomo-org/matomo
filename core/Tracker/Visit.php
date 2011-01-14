@@ -344,7 +344,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 						SET $sqlActionUpdate ".implode($updateParts, ', ')."
 						WHERE idsite = ?
 							AND idvisit = ?
-							AND idvisitor = ". Piwik_Tracker::getBindConvertStringAsBigInt();
+							AND idvisitor = ?";
 		array_push($sqlBind, $this->idsite, $this->visitorInfo['idvisit'], $this->visitorInfo['idvisitor'] );
 		$result = Piwik_Tracker::getDatabase()->query($sqlQuery, $sqlBind);
 
@@ -355,7 +355,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		{
 			printDebug("Visitor with this idcookie and idvisit wasn't found in the DB.");
 			throw new Piwik_Tracker_Visit_VisitorNotFoundInDatabase(
-						"The visitor with idvisitor=".$this->visitorInfo['idvisitor']." and idvisit=".$this->visitorInfo['idvisit']
+						"The visitor with idvisitor=".bin2hex($this->visitorInfo['idvisitor'])." and idvisit=".$this->visitorInfo['idvisit']
 						." wasn't found in the DB, we fallback to a new visitor");
 		}
 
@@ -389,7 +389,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		
 		$serverTimestamp 	= $this->getCurrentTimestamp();
 
-		$idcookie = substr($this->getVisitorIdcookie(), 0, 16);
+		$idcookie = $this->getVisitorIdcookie();
 		$returningVisitor = $this->isVisitorKnown() ? 1 : 0;
 
 		$defaultTimeOnePageVisit = Piwik_Tracker_Config::getInstance()->Tracker['default_time_one_page_visit'];
@@ -461,23 +461,11 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$this->visitorInfo['referer_keyword'] = substr($this->visitorInfo['referer_keyword'], 0, 255);
 		$this->visitorInfo['config_resolution'] = substr($this->visitorInfo['config_resolution'], 0, 9);
 
-		// idVisitor and configId appear as 16b long md5 hash, but are inserted as bigint
-		$idVisitor = $this->visitorInfo['idvisitor'];
-		$configId = $this->visitorInfo['config_id'];
-		unset($this->visitorInfo['idvisitor']);
-		unset($this->visitorInfo['config_id']);
-		
-		$fields = implode(", ", array_keys($this->visitorInfo)) . ', idvisitor, config_id';
-		$values = substr(str_repeat( "?,",count($this->visitorInfo)),0,-1)
-					.', '.Piwik_Tracker::getBindConvertStringAsBigInt()
-					.', '.Piwik_Tracker::getBindConvertStringAsBigInt();
+		$fields = implode(", ", array_keys($this->visitorInfo));
+		$values = substr(str_repeat( "?,",count($this->visitorInfo)),0,-1);
 
 		$sql = "INSERT INTO ".Piwik_Common::prefixTable('log_visit'). " ($fields) VALUES ($values)";
-
-		$this->visitorInfo['idvisitor'] = $idVisitor;
-		$this->visitorInfo['config_id'] = $configId;
 		$bind = array_values($this->visitorInfo);
-
 		Piwik_Tracker::getDatabase()->query( $sql, $bind);
 		
 		$idVisit = Piwik_Tracker::getDatabase()->lastInsertId();
@@ -503,7 +491,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		}
 		else
 		{
-			$idcookie = $this->getVisitorUniqueId();
+			$idcookie = Piwik_Common::hex2bin(substr($this->getVisitorUniqueId(), 0, 16));
 		}
 
 		return $idcookie;
@@ -739,9 +727,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		if( false !== ($idVisitor = $this->cookie->get( Piwik_Tracker::COOKIE_INDEX_IDVISITOR ))
 			&& strlen($idVisitor) >= 16)
 		{
-			$this->visitorInfo['idvisitor'] = substr($idVisitor, 0, 16);
+			$this->visitorInfo['idvisitor'] = Piwik_Common::hex2bin(substr($idVisitor, 0, 16));
 			$this->visitorKnown = true;
-			printDebug("The visitor has the piwik cookie (idvisitor = ".$this->visitorInfo['idvisitor'].") ");
+			printDebug("The visitor has the piwik cookie (idvisitor = ".$idVisitor.") ");
 		}
 		else
 		{
@@ -751,27 +739,28 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$userInfo = $this->getUserSettingsInformation();
 		$configId = $userInfo['config_id'];
 		$timeLookBack = date('Y-m-d H:i:s', $this->getCurrentTimestamp() - self::TIME_IN_PAST_TO_SEARCH_FOR_VISITOR);
+
+		$where = "visit_last_action_time >= ?
+					AND idsite = ?
+					AND config_id = ?";
 		$bindSql = array( $timeLookBack, $this->idsite, $configId);
-		$where = '';
 		
 		if( Piwik_Tracker_Config::getInstance()->Tracker['trust_visitors_cookies']
 			&& !empty($this->visitorInfo['idvisitor']))
 		{
 			// If the visitor cookies should be trusted (ie. intranet) we add this condition
-			$where = 'AND idvisitor = '.Piwik_Tracker::getBindConvertStringAsBigInt();
+			$where .= ' AND idvisitor = ?';
 			$bindSql[] = $this->visitorInfo['idvisitor'];
 		}
 		
-		$sql = " SELECT  	".Piwik_Tracker::getSelectConvertBigIntAsString('idvisitor')." as idvisitor,
+		$sql = " SELECT  	idvisitor,
 							visit_last_action_time,
 							visit_first_action_time,
 							idvisit,
 							visit_exit_idaction_url,
 							visit_exit_idaction_name
 				FROM ".Piwik_Common::prefixTable('log_visit').
-				" WHERE visit_last_action_time >= ?
-					AND idsite = ?
-					AND config_id = ".Piwik_Tracker::getBindConvertStringAsBigInt()."
+				" WHERE
 					".$where."
 				ORDER BY visit_last_action_time DESC
 				LIMIT 1";
@@ -791,7 +780,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			printDebug("The visitor is known (idvisit = {$this->visitorInfo['idvisit']}, last action = ".date("r", $this->visitorInfo['visit_last_action_time']).", first action = ".date("r", $this->visitorInfo['visit_first_action_time']) .")");
 			if(!empty($where))
 			{
-				printDebug("Also matched the visitor based on his idcookie: {$visitRow['idvisitor']}");
+				printDebug("Also matched the visitor based on his idcookie: ".bin2hex($visitRow['idvisitor']));
 			}
 		}
 		else
@@ -931,7 +920,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
         
 		// idcookie has been generated in handleNewVisit or we simply propagate the old value
 		$this->cookie->set( 	Piwik_Tracker::COOKIE_INDEX_IDVISITOR,
-								$this->visitorInfo['idvisitor'] );
+								bin2hex($this->visitorInfo['idvisitor']) );
 
 		$this->cookie->save();
 	}
@@ -1154,12 +1143,12 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	}
 
 	/**
-	 * Returns a MD5 of all the configuration settings
+	 * Returns a 64-bit hash of all the configuration settings
 	 * @return string
 	 */
 	protected function getConfigHash( $os, $browserName, $browserVersion, $resolution, $plugin_Flash, $plugin_Java, $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF, $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie, $ip, $browserLang)
 	{
-		return substr( md5( $os . $browserName . $browserVersion . $resolution . $plugin_Flash . $plugin_Java . $plugin_Director . $plugin_Quicktime . $plugin_RealPlayer . $plugin_PDF . $plugin_WindowsMedia . $plugin_Gears . $plugin_Silverlight . $plugin_Cookie . $ip . $browserLang ), 0, 16);
+		return substr( md5( $os . $browserName . $browserVersion . $resolution . $plugin_Flash . $plugin_Java . $plugin_Director . $plugin_Quicktime . $plugin_RealPlayer . $plugin_PDF . $plugin_WindowsMedia . $plugin_Gears . $plugin_Silverlight . $plugin_Cookie . $ip . $browserLang, $raw_output = true ), 0, 8);
 	}
 
 	/**
