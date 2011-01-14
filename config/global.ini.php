@@ -181,7 +181,8 @@ jquery_version = 1.4.2
 jqueryui_version = 1.8.4
 swfobject_version = 2.2
 
-; If set to 1, Piwik adds a response header to workaround the IE+Flash+HTTPS bug.
+; Set to 1 if using a reverse proxy (https to http)
+; or your web server doesn't set $_SERVER['HTTPS'] when using https
 reverse_proxy = 0
 
 ; List of proxy headers for client IP addresses
