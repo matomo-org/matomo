@@ -220,13 +220,8 @@ class Piwik_Tracker_GoalManager
 			}
 			printDebug($newGoal);
 
-			// idvisitor has a special INSERT 
-			$idVisitor = $newGoal['idvisitor'];
-			unset($newGoal['idvisitor']);
-			
-			$fields = implode(", ", array_keys($newGoal)) . ', idvisitor ';
-			$bindFields = substr(str_repeat( "?,",count($newGoal)),0,-1) . ','. Piwik_Tracker::getBindConvertStringAsBigInt();
-			$newGoal['idvisitor'] = $idVisitor;
+			$fields = implode(", ", array_keys($newGoal));
+			$bindFields = substr(str_repeat( "?,",count($newGoal)),0,-1);
 			
 			try {
 				$sql = "INSERT IGNORE INTO " . Piwik_Common::prefixTable('log_conversion') . "	

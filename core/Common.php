@@ -762,6 +762,23 @@ class Piwik_Common
 	}
 
 /*
+ * Conversions
+ */
+
+	/**
+	 * Convert hexadecimal representation into binary data.
+	 *
+	 * @see http://php.net/bin2hex
+	 *
+	 * @param string $str Hexadecimal representation
+	 * @return string
+	 */
+	static public function hex2bin($str)
+	{
+		return pack("H*" , $str);
+	}
+
+/*
  * IP addresses
  */
 

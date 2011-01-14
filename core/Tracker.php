@@ -324,26 +324,6 @@ class Piwik_Tracker
 			$this->setState(self::STATE_LOGGING_DISABLE);
 		}
 	}
-
-	/**
-	 * Helper which returns the function call to convert the first 16 chars of a md5 hash to a BIGINT
-	 * 
-	 * @return string used in SQL statement
-	 */
-	static public function getBindConvertStringAsBigInt()
-	{
-		return 'cast(conv(?, 16, 10) as unsigned integer)';
-	}
-	
-	/**
-	 * Reverse int to string conversion 
-	 * @see getBindConvertStringAsBigInt()
-	 * @param $field
-	 */
-	static public function getSelectConvertBigIntAsString($field)
-	{
-		return "LPAD(LOWER(conv(".$field.",10,16)), 16, '0')";
-	}
 }
 
 if(!function_exists('printDebug')) 

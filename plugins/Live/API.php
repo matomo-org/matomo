@@ -204,7 +204,7 @@ class Piwik_Live_API
 		if(!empty($visitorId))
 		{
 			$where[] = Piwik_Common::prefixTable('log_visit') . ".idvisitor = ? ";
-			$whereBind[] = $visitorId;
+			$whereBind[] = Piwik_Common::hex2bin($visitorId);
 		}
 
 		if(!empty($minIdVisit))
