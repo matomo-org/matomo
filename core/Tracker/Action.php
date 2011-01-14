@@ -170,9 +170,9 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		}
 		$parsedUrl['query'] = substr($validQuery,0,-strlen($separator));
 		$url = Piwik_Common::getParseUrlReverse($parsedUrl);
-		printDebug('Excluded parameters "'.implode(',',$excludedParameters).'" from URL.
-					 Before was <br/><code>"'.$originalUrl.'"</code>, <br/>
-					 After is <br/><code>"'.$url.'"</code>');
+		printDebug('Excluded parameters "'.implode(',',$excludedParameters).'" from URL');
+		printDebug(' Before was "'.$originalUrl.'"');
+		printDebug(' After is "'.$url.'"');
 		return $url;
 	}
 	
@@ -285,12 +285,12 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		}
 		Piwik_Tracker::getDatabase()->query( 
 						"INSERT INTO ".Piwik_Common::prefixTable('log_link_visit_action')
-						." (idvisit, idsite, server_time, visitor_idcookie, idaction_url, idaction_name, idaction_url_ref, idaction_name_ref, time_spent_ref_action) 
-							VALUES (?,?,?,?,?,?,?,?,?)",
+						." (idvisit, idsite, idvisitor, server_time, idaction_url, idaction_name, idaction_url_ref, idaction_name_ref, time_spent_ref_action) 
+							VALUES (?,?,".Piwik_Tracker::getBindConvertStringAsBigInt().",?,?,?,?,?,?)",
 					array(	$idVisit, 
 							$this->idSite, 
-							Piwik_Tracker::getDatetimeFromTimestamp($this->timestamp),
 							$visitorIdCookie,
+							Piwik_Tracker::getDatetimeFromTimestamp($this->timestamp),
 							$this->getIdActionUrl(), 
 							$idActionName , 
 							$idRefererActionUrl, 

@@ -177,7 +177,7 @@ class Piwik_Tracker_GoalManager
 		$goal = array(
 			'idvisit' 			=> $visitorInformation['idvisit'],
 			'idsite' 			=> $idSite,
-			'visitor_idcookie' 	=> $visitorInformation['visitor_idcookie'],
+			'idvisitor' 		=> $visitorInformation['idvisitor'],
 			'server_time' 		=> Piwik_Tracker::getDatetimeFromTimestamp($visitorInformation['visit_last_action_time']),
 			'location_country'  => $location_country,
 			'location_continent'=> $location_continent,
@@ -220,14 +220,19 @@ class Piwik_Tracker_GoalManager
 			}
 			printDebug($newGoal);
 
-			$fields = implode(", ", array_keys($newGoal));
-			$bindFields = substr(str_repeat( "?,",count($newGoal)),0,-1);
-
+			// idvisitor has a special INSERT 
+			$idVisitor = $newGoal['idvisitor'];
+			unset($newGoal['idvisitor']);
+			
+			$fields = implode(", ", array_keys($newGoal)) . ', idvisitor ';
+			$bindFields = substr(str_repeat( "?,",count($newGoal)),0,-1) . ','. Piwik_Tracker::getBindConvertStringAsBigInt();
+			$newGoal['idvisitor'] = $idVisitor;
+			
 			try {
-				Piwik_Tracker::getDatabase()->query(
-					"INSERT IGNORE INTO " . Piwik_Common::prefixTable('log_conversion') . "	($fields)
-					VALUES ($bindFields) ", array_values($newGoal)
-				);
+				$sql = "INSERT IGNORE INTO " . Piwik_Common::prefixTable('log_conversion') . "	
+						($fields) VALUES ($bindFields) ";
+				$bind = array_values($newGoal);
+				Piwik_Tracker::getDatabase()->query($sql, $bind);
 			} catch( Exception $e) {
 				if(Piwik_Tracker::getDatabase()->isErrNo($e, '1062'))
 				{

@@ -242,7 +242,8 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // - 
     	// Second new visitor on Idsite 1: one page view 
         $visitorB = $this->getTracker($idSite, $dateTime, $defaultInit = true);
-    	$visitorB->setIp('1.5.6.8');
+    	$visitorB->setIp('100.52.656.83');
+    	$visitorB->setResolution(800, 300);
     	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1)->getDatetime());
         $visitorB->setUrlReferer( '' );
     	$visitorB->setUserAgent('Opera/9.63 (Windows NT 5.1; U; en) Presto/2.1.1');

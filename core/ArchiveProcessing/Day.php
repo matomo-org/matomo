@@ -36,7 +36,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 */
 	protected function compute()
 	{
-		$query = "SELECT 	count(distinct visitor_idcookie) as nb_uniq_visitors, 
+		$query = "SELECT 	count(distinct idvisitor) as nb_uniq_visitors, 
 							count(*) as nb_visits,
 							sum(visit_total_actions) as nb_actions, 
 							max(visit_total_actions) as max_actions, 
@@ -145,7 +145,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	public function getArrayInterestForLabel($label)
 	{
 		$query = "SELECT 	$label as label,
-							count(distinct visitor_idcookie) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`, 
+							count(distinct idvisitor) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`, 
 							count(*) as `". Piwik_Archive::INDEX_NB_VISITS ."`,
 							sum(visit_total_actions) as `". Piwik_Archive::INDEX_NB_ACTIONS ."`, 
 							max(visit_total_actions) as `". Piwik_Archive::INDEX_MAX_ACTIONS ."`, 
