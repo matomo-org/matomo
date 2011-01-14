@@ -406,9 +406,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$forceSslLogin = Zend_Registry::get('config')->General->force_ssl_login;
 		if($forceSslLogin)
 		{
-			$reverseProxy = Zend_Registry::get('config')->General->reverse_proxy;
-			if(Piwik_Url::getCurrentScheme() != 'https' 
-				&& !$reverseProxy)
+			if(!Piwik::isHttps())
 			{
 				$url = 'https://'
 					. Piwik_Url::getCurrentHost()
