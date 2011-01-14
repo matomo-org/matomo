@@ -102,7 +102,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 		/* @var $archiveProcessing Piwik_ArchiveProcessing */
 		$archiveProcessing = $notification->getNotificationObject();
 		
-		$query = "SELECT 	count(distinct visitor_idcookie) as nb_uniq_visitors_returning,
+		$query = "SELECT 	count(distinct idvisitor) as nb_uniq_visitors_returning,
 							count(*) as nb_visits_returning, 
 							sum(visit_total_actions) as nb_actions_returning,
 							max(visit_total_actions) as max_actions_returning, 

@@ -368,7 +368,7 @@ class Piwik_Cookie
 	 */
 	public function __toString()
 	{
-		$str = 'COOKIE '.$this->name.', rows count: '.count($this->value). ', cookie size = '.strlen($this->generateContentString()).' bytes<br/>';
+		$str = 'COOKIE '.$this->name.', rows count: '.count($this->value). ', cookie size = '.strlen($this->generateContentString())." bytes\n";
 		$str .= var_export($this->value, $return = true);
 		return $str;
 	}

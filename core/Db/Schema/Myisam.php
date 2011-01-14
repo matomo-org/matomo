@@ -169,8 +169,8 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 			'log_visit' => "CREATE TABLE {$prefixTables}log_visit (
 							  idvisit INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 							  idsite INTEGER(10) UNSIGNED NOT NULL,
+							  idvisitor BIGINT( 20 ) UNSIGNED NOT NULL,
 							  visitor_localtime TIME NOT NULL,
-							  visitor_idcookie CHAR(32) NOT NULL,
 							  visitor_returning TINYINT(1) NOT NULL,
 							  visit_first_action_time DATETIME NOT NULL,
 							  visit_last_action_time DATETIME NOT NULL,
@@ -185,7 +185,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 							  referer_name VARCHAR(70) NULL,
 							  referer_url TEXT NOT NULL,
 							  referer_keyword VARCHAR(255) NULL,
-							  config_md5config CHAR(32) NOT NULL,
+							  config_id BIGINT( 20 ) UNSIGNED NOT NULL,
 							  config_os CHAR(3) NOT NULL,
 							  config_browser_name VARCHAR(10) NOT NULL,
 							  config_browser_version VARCHAR(20) NOT NULL,
@@ -206,14 +206,14 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 							  location_continent CHAR(3) NOT NULL,
 							  PRIMARY KEY(idvisit),
 							  INDEX index_idsite_idvisit (idsite, idvisit),
-							  INDEX index_idsite_datetime_config (idsite, visit_last_action_time, config_md5config(8))
+							  INDEX index_idsite_datetime_config (idsite, visit_last_action_time, config_id)
 							)  DEFAULT CHARSET=utf8
 			",
 
 			'log_conversion' => "CREATE TABLE `{$prefixTables}log_conversion` (
 									  idvisit int(10) unsigned NOT NULL,
 									  idsite int(10) unsigned NOT NULL,
-									  visitor_idcookie char(32) NOT NULL,
+									  idvisitor BIGINT(20) NOT NULL,
 									  server_time datetime NOT NULL,
 									  idaction_url int(11) default NULL,
 									  idlink_va int(11) default NULL,
@@ -236,9 +236,9 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 			'log_link_visit_action' => "CREATE TABLE {$prefixTables}log_link_visit_action (
 											  idlink_va INTEGER(11) NOT NULL AUTO_INCREMENT,
 									          idsite int(10) UNSIGNED NOT NULL,
+									  		  idvisitor BIGINT(20) NOT NULL,
 									          server_time DATETIME NOT NULL,
 											  idvisit INTEGER(10) UNSIGNED NOT NULL,
-											  visitor_idcookie char(32) NOT NULL,
 											  idaction_url INTEGER(10) UNSIGNED NOT NULL,
 											  idaction_url_ref INTEGER(10) UNSIGNED NOT NULL,
 											  idaction_name INTEGER(10) UNSIGNED,

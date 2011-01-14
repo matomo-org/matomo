@@ -302,7 +302,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	protected function computeNbUniqVisitors()
 	{
 		$query = "
-			SELECT count(distinct visitor_idcookie) as nb_uniq_visitors 
+			SELECT count(distinct idvisitor) as nb_uniq_visitors 
 			FROM ".Piwik_Common::prefixTable('log_visit')."
 			WHERE visit_last_action_time >= ?
     				AND visit_last_action_time <= ? 

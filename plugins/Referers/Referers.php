@@ -272,7 +272,7 @@ class Piwik_Referers extends Piwik_Plugin
 							referer_name, 
 							referer_keyword,
 							referer_url,
-							count(distinct visitor_idcookie) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`, 
+							count(distinct idvisitor) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`, 
 							count(*) as `". Piwik_Archive::INDEX_NB_VISITS ."`,
 							sum(visit_total_actions) as `". Piwik_Archive::INDEX_NB_ACTIONS ."`, 
 							max(visit_total_actions) as `". Piwik_Archive::INDEX_MAX_ACTIONS ."`, 

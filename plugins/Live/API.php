@@ -203,7 +203,7 @@ class Piwik_Live_API
 		
 		if(!empty($visitorId))
 		{
-			$where[] = Piwik_Common::prefixTable('log_visit') . ".visitor_idcookie = ? ";
+			$where[] = Piwik_Common::prefixTable('log_visit') . ".idvisitor = ? ";
 			$whereBind[] = $visitorId;
 		}
 
@@ -344,10 +344,10 @@ class Piwik_Live_API
 	 */
 	private function cleanVisitorDetails( &$visitorDetails, $idSite )
 	{
-		$toUnset = array('config_md5config');
+		$toUnset = array('config_id');
 		if(Piwik::isUserIsAnonymous())
 		{
-			$toUnset[] = 'visitor_idcookie';
+			$toUnset[] = 'idvisitor';
 			$toUnset[] = 'location_ip';
 		}
 		foreach($toUnset as $keyName)

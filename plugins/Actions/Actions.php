@@ -218,7 +218,7 @@ class Piwik_Actions extends Piwik_Plugin
 							type,
 							idaction,
 							count(distinct idvisit) as `". Piwik_Archive::INDEX_NB_VISITS ."`, 
-							count(distinct visitor_idcookie) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`,
+							count(distinct idvisitor) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`,
 							count(*) as `". Piwik_Archive::INDEX_PAGE_NB_HITS ."`							
 					FROM ".Piwik_Common::prefixTable('log_link_visit_action')." as log_link_visit_action
 							LEFT JOIN ".Piwik_Common::prefixTable('log_action')." as log_action ON (log_link_visit_action.%s = idaction)
@@ -235,7 +235,7 @@ class Piwik_Actions extends Piwik_Plugin
 		 * Entry actions for Page URLs and Page names
 		 */
 		$queryString = "SELECT %s as idaction,
-							count(distinct visitor_idcookie) as `". Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS ."`, 
+							count(distinct idvisitor) as `". Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS ."`, 
 							count(*) as `". Piwik_Archive::INDEX_PAGE_ENTRY_NB_VISITS ."`,
 							sum(visit_total_actions) as `". Piwik_Archive::INDEX_PAGE_ENTRY_NB_ACTIONS ."`,
 							sum(visit_total_time) as `". Piwik_Archive::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH ."`,							
@@ -253,7 +253,7 @@ class Piwik_Actions extends Piwik_Plugin
 		 * Exit actions
 		 */
 		$queryString = "SELECT %s as idaction,
-							count(distinct visitor_idcookie) as `". Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS ."`,
+							count(distinct idvisitor) as `". Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS ."`,
 							count(*) as `". Piwik_Archive::INDEX_PAGE_EXIT_NB_VISITS ."`
 				 	FROM ".Piwik_Common::prefixTable('log_visit')." 
 				 	WHERE visit_last_action_time >= ?
