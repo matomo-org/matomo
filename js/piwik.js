@@ -733,13 +733,14 @@ var
 			function sendRequest(request, delay)
 			{
 				var now = new Date();
-				expireDateTime = now.getTime() + delay;
 
 				if (configRequestMethod === 'POST') {
 					sendXmlHttpRequest(request);
 				} else {
 					getImage(request);
 				}
+
+				expireDateTime = now.getTime() + delay;
 			}
 
 			/*
