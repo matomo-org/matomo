@@ -170,8 +170,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 				{
 					$hash = '#' . Piwik_Url::getQueryStringFromParameters( $queryStringAsHash + $parameters);
 				}
-				$link = Piwik_Url::getCurrentUrlWithoutQueryString() . 
-						'?' .
+				$link = 'index.php?' .
 						Piwik_Url::getQueryStringFromParameters( array(
 							'module' => 'CoreHome',
 							'action' => 'index',
