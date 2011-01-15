@@ -60,6 +60,9 @@ disable_merged_assets = 0
 ; If set to 0, Piwik uses a single HTTP request per Flash widget to serve both the widget and data
 disable_merged_requests = 0
 
+; If set to 1, all requests to piwik.php will be forced to be 'new visitors'
+tracker_always_new_visitor = 0
+
 [General]
 ; character used to automatically create categories in the Actions > Pages, Outlinks and Downloads reports
 ; for example a URL like "example.com/blog/development/first-post" will create 

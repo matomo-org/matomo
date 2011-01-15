@@ -218,7 +218,10 @@ class Piwik_Tracker_GoalManager
 				$newGoal['idaction_url'] = $action->getIdActionUrl();
 				$newGoal['idlink_va'] = $action->getIdLinkVisitAction();
 			}
-			printDebug($newGoal);
+
+			$newGoalDebug = $newGoal;
+			$newGoalDebug['idvisitor'] = bin2hex($newGoalDebug['idvisitor']);
+			printDebug($newGoalDebug);
 
 			$fields = implode(", ", array_keys($newGoal));
 			$bindFields = substr(str_repeat( "?,",count($newGoal)),0,-1);

@@ -4,10 +4,27 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 	require_once dirname(__FILE__)."/../../tests/config_test.php";
 }
 
-
+/**
+ * Random tests about what is happening in php
+ */
 require_once 'Timer.php';		
 class Test_PHP_Related extends UnitTestCase
 {
+	function test_binHex()
+	{
+		$various = array(
+			'ffffffffffffffff',
+			'0000000000000000',
+			'0000000000000001',
+		);
+		foreach($various as $id => $test)
+		{
+			$bin = pack("H*" , $test);
+			$this->assertEqual(strlen($bin), 8);
+			$this->assertEqual( $test, bin2hex($bin));
+		}
+	}
+	
 	// conclusion: 
 	// - it's ok to have big holes in your array index values
 	// - obvious: it's not ok to index array by strings when you can do magic and index with int
