@@ -220,6 +220,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		
 		Piwik::setMaxExecutionTime(0);
 		
+		$sqlQueries = $updater->getSqlQueriesToExecute();
 		if(Piwik_Common::isPhpCliMode())
 		{
 			$view = Piwik_View::factory('update_welcome');
@@ -231,7 +232,10 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 				$this->doExecuteUpdates($view, $updater, $componentsWithUpdateFile);
 			}
 		}
-		else if(Piwik_Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1)
+		else if(Piwik_Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1
+			// If there is only one query to run, it is the standard    UPDATE piwik_option SET option_value = "1.x" WHERE option_name = "version_core";
+			// Therefore we don't display the warning "Schema Upgrade" message to users and automatically upgrade  
+			|| count($sqlQueries) == 1)
 		{
 			$this->warningMessages = array();
 			$view = Piwik_View::factory('update_database_done');
@@ -240,7 +244,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		else
 		{
 			$view = Piwik_View::factory('update_welcome');
-    		$view->queries = $updater->getSqlQueriesToExecute();
+    		$view->queries = $sqlQueries;
 			$this->doWelcomeUpdates($view, $componentsWithUpdateFile);
 		}
 		exit;
