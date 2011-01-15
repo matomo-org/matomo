@@ -109,7 +109,7 @@ class Piwik_SEO_RankChecker
 	public function getAge()
 	{
 		$url = preg_replace('/^www\./', '', $this->url);
-		$url = "http://www.who.is/whois-com/ip-address/$url";
+		$url = 'http://www.who.is/whois/'.urlencode($url);
 		$data = $this->getPage($url);
 		preg_match('#Creation Date: ([a-z0-9-]+)#si', $data, $p);
 		if(!isset($p[1]))
