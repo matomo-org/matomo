@@ -443,6 +443,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 		Piwik_PostEvent('Tracker.newVisitorInformation', $this->visitorInfo);
 
+		printDebug($this->visitorInfo);
 		$this->saveVisitorInformation();
 	}
 
@@ -487,14 +488,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	{
 		if($this->isVisitorKnown())
 		{
-			$idcookie = $this->visitorInfo['idvisitor'];
+			return $this->visitorInfo['idvisitor'];
 		}
-		else
-		{
-			$idcookie = Piwik_Common::hex2bin(substr($this->getVisitorUniqueId(), 0, 16));
-		}
-
-		return $idcookie;
+		$uniqueId = substr($this->getVisitorUniqueId(), 0, Piwik_Tracker::LENGTH_HEX_ID_STRING);
+		return Piwik_Common::hex2bin($uniqueId);
 	}
 
 	/**
@@ -723,11 +720,12 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 								$key = $this->idsite ) );
 
 		$this->printCookie();
-		
+
+		// Does the idvisitor cookie contain a 16b string?
 		if( false !== ($idVisitor = $this->cookie->get( Piwik_Tracker::COOKIE_INDEX_IDVISITOR ))
-			&& strlen($idVisitor) >= 16)
+			&& strlen($idVisitor) == Piwik_Tracker::LENGTH_HEX_ID_STRING)
 		{
-			$this->visitorInfo['idvisitor'] = Piwik_Common::hex2bin(substr($idVisitor, 0, 16));
+			$this->visitorInfo['idvisitor'] = Piwik_Common::hex2bin($idVisitor);
 			$this->visitorKnown = true;
 			printDebug("The visitor has the piwik cookie (idvisitor = ".$idVisitor.") ");
 		}
@@ -744,10 +742,11 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 					AND idsite = ?
 					AND config_id = ?";
 		$bindSql = array( $timeLookBack, $this->idsite, $configId);
-		
-		if( Piwik_Tracker_Config::getInstance()->Tracker['trust_visitors_cookies']
-			&& !empty($this->visitorInfo['idvisitor']))
+		if(Piwik_Tracker_Config::getInstance()->Tracker['trust_visitors_cookies']
+				&& !empty($this->visitorInfo['idvisitor']))
 		{
+			printDebug("Matching the visitor based on his idcookie: ".bin2hex($this->visitorInfo['idvisitor']) ."...");
+			
 			// If the visitor cookies should be trusted (ie. intranet) we add this condition
 			$where .= ' AND idvisitor = ?';
 			$bindSql[] = $this->visitorInfo['idvisitor'];
@@ -765,7 +764,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 				ORDER BY visit_last_action_time DESC
 				LIMIT 1";
 		$visitRow = Piwik_Tracker::getDatabase()->fetch($sql, $bindSql);
-		if($visitRow
+		
+		if( !Piwik_Tracker_Config::getInstance()->Debug['tracker_always_new_visitor']
+			&& $visitRow
 			&& count($visitRow) > 0)
 		{
 			$this->visitorInfo['idvisitor'] = $visitRow['idvisitor'];
@@ -777,11 +778,11 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 			$this->visitorKnown = true;
 
-			printDebug("The visitor is known (idvisit = {$this->visitorInfo['idvisit']}, last action = ".date("r", $this->visitorInfo['visit_last_action_time']).", first action = ".date("r", $this->visitorInfo['visit_first_action_time']) .")");
-			if(!empty($where))
-			{
-				printDebug("Also matched the visitor based on his idcookie: ".bin2hex($visitRow['idvisitor']));
-			}
+			printDebug("The visitor is known (idvisitor = ".bin2hex($this->visitorInfo['idvisitor']).",
+						config_id = ".bin2hex($configId).", 
+						idvisit = {$this->visitorInfo['idvisit']}, 
+						last action = ".date("r", $this->visitorInfo['visit_last_action_time']).", 
+						first action = ".date("r", $this->visitorInfo['visit_first_action_time']) .")");
 		}
 		else
 		{
@@ -1148,7 +1149,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function getConfigHash( $os, $browserName, $browserVersion, $resolution, $plugin_Flash, $plugin_Java, $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF, $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie, $ip, $browserLang)
 	{
-		return substr( md5( $os . $browserName . $browserVersion . $resolution . $plugin_Flash . $plugin_Java . $plugin_Director . $plugin_Quicktime . $plugin_RealPlayer . $plugin_PDF . $plugin_WindowsMedia . $plugin_Gears . $plugin_Silverlight . $plugin_Cookie . $ip . $browserLang, $raw_output = true ), 0, 8);
+		$hash = md5( $os . $browserName . $browserVersion . $resolution . $plugin_Flash . $plugin_Java . $plugin_Director . $plugin_Quicktime . $plugin_RealPlayer . $plugin_PDF . $plugin_WindowsMedia . $plugin_Gears . $plugin_Silverlight . $plugin_Cookie . $ip . $browserLang, $raw_output = true );
+		return substr( $hash, 0, Piwik_Tracker::LENGTH_BINARY_ID);
 	}
 
 	/**
