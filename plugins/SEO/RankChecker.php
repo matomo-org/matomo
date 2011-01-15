@@ -32,7 +32,7 @@ class Piwik_SEO_RankChecker
 	private function getPage($url)
 	{
 		try {
-			return Piwik_Http::sendHttpRequest($url, $timeout = 10, @$_SERVER['HTTP_USER_AGENT']);
+			return str_replace('&nbsp;', ' ', Piwik_Http::sendHttpRequest($url, $timeout = 10, @$_SERVER['HTTP_USER_AGENT']));
 		} catch(Exception $e) {
 			return '';
 		}
@@ -111,7 +111,7 @@ class Piwik_SEO_RankChecker
 		$url = preg_replace('/^www\./', '', $this->url);
 		$url = 'http://www.who.is/whois/'.urlencode($url);
 		$data = $this->getPage($url);
-		preg_match('#Creation Date: ([a-z0-9-]+)#si', $data, $p);
+		preg_match('#Creation Date:\s+([a-z0-9/-]+)#si', $data, $p);
 		if(!isset($p[1]))
 		{
 			return null;
