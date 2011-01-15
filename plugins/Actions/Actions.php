@@ -410,6 +410,9 @@ class Piwik_Actions extends Piwik_Plugin
 		$split = array_map('trim', $split);
 		$split = array_filter($split, 'strlen');
 
+		// forces array key to start at 0
+		$split = array_values($split);
+		
 		if( empty($split) )
 		{
 		    if($type == Piwik_Tracker_Action::TYPE_ACTION_NAME) {

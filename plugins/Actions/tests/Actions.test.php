@@ -21,35 +21,35 @@ class Test_Piwik_Actions extends UnitTestCase
 		$tests = array(
 			array(
 				'params' =>	array( 'name' => 'http://example.org/', 'type' => Piwik_Tracker_Action::TYPE_ACTION_URL),
-				'expected' => array('index' ),
+				'expected' => array('/index' ),
 			),
 			array(
 				'params' =>	array( 'name' => 'http://example.org/path/', 'type' => Piwik_Tracker_Action::TYPE_ACTION_URL),
-				'expected' => array( 'path', 'index' ),
+				'expected' => array( 'path', '/index' ),
 			),
 			array(
 				'params' =>	array( 'name' => 'http://example.org/test/path', 'type' => Piwik_Tracker_Action::TYPE_ACTION_URL),
-				'expected' => array( 'test', 'path' ),
+				'expected' => array( 'test', '/path' ),
 			),
 			array(
 				'params' =>	array( 'name' => 'Test / Path', 'type' => Piwik_Tracker_Action::TYPE_ACTION_URL),
-				'expected' => array( 'Test', 'Path' ),
+				'expected' => array( 'Test', '/Path' ),
 			),
 			array(
 				'params' =>	array( 'name' => '    Test trim   ', 'type' => Piwik_Tracker_Action::TYPE_ACTION_URL),
-				'expected' => array( 'Test trim' ),
+				'expected' => array( '/Test trim' ),
 			),
 			array(
 				'params' =>	array( 'name' => 'Category / Subcategory', 'type' => Piwik_Tracker_Action::TYPE_ACTION_NAME),
-				'expected' => array( 'Category', 'Subcategory' ),
+				'expected' => array( 'Category', ' Subcategory' ),
 			),
 			array(
 				'params' =>	array( 'name' => '/path/index.php?var=test', 'type' => Piwik_Tracker_Action::TYPE_ACTION_NAME),
-				'expected' => array( 'path', 'index.php?var=test' ),
+				'expected' => array( 'path', ' index.php?var=test' ),
 			),
 			array(
 				'params' =>	array( 'name' => 'http://example.org/path/Default.aspx#anchor', 'type' => Piwik_Tracker_Action::TYPE_ACTION_NAME),
-				'expected' => array( 'path', 'Default.aspx' ),
+				'expected' => array( 'path', ' Default.aspx' ),
 			),
 			array(
 				'params' =>	array( 'name' => '', 'type' => Piwik_Tracker_Action::TYPE_ACTION_NAME),
@@ -80,7 +80,8 @@ class Test_Piwik_Actions extends UnitTestCase
 		foreach($tests as $test) {
 			$params = $test['params'];
 			$expected = $test['expected'];
-			$this->assertEqual($action->public_getActionExplodedNames($params['name'],$params['type']), $expected);
+			$processed = $action->public_getActionExplodedNames($params['name'],$params['type']);
+			$this->assertEqual($processed, $expected, "Processed: ".var_export($processed, true) . " | Expected: ". var_export($expected, true));
 		}
 	}
 }
