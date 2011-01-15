@@ -222,7 +222,7 @@ class Piwik_Common
 	/**
 	 * Deletes all Tracker cache files
 	 */
-	static public function deleteAllCache()
+	static public function deleteTrackerCache()
 	{
 		$cache = new Piwik_CacheFile('tracker');
 		$cache->deleteAll();

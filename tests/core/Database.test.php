@@ -43,13 +43,14 @@ class Test_Database extends UnitTestCase
 	}
 	public function setUp()
 	{
-		Piwik_Common::deleteAllCache();
+		Piwik_Common::deleteTrackerCache();
 	}
 	
 	public function tearDown()
 	{
+		Piwik_DataTable_Manager::getInstance()->deleteAll();
 		Piwik_Option::getInstance()->clearCache();
-		Piwik_Common::deleteAllCache();
+		Piwik_Common::deleteTrackerCache();
 		Piwik::truncateAllTables();
 		Piwik_Archive::clearCache();
 	}

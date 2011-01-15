@@ -49,6 +49,17 @@ class Piwik_Tracker_Config
 	}
 	
 	/**
+	 * Re-inits the object
+	 * Useful after the instance was messed up with (on purpose) in tests
+	 */
+	public function clear()
+	{
+		$this->configGlobal = false;
+		$this->configUser = false;
+		$this->initialized = false;
+	}
+	
+	/**
 	 * Contains configuration files values
 	 *
 	 * @var array
