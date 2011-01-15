@@ -26,7 +26,7 @@
  */
 abstract class Piwik_DataTable_Filter
 {
-	/*
+	/**
 	 * @var Piwik_DataTable
 	 */
 	protected $table;

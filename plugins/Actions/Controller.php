@@ -74,7 +74,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->setColumnTranslation('entry_bounce_count', Piwik_Translate('General_ColumnBounces'), Piwik_Translate('General_BouncesDefinition'));
 		$view->setColumnTranslation('entry_nb_visits', Piwik_Translate('General_ColumnEntrances'), Piwik_Translate('General_EntrancesDefinition'));
 		// remove pages that are not entry pages
-		$view->queueFilter('ColumnCallbackDeleteRow', array('entry_nb_visits', 'strlen'));
+		$view->queueFilter('ColumnCallbackDeleteRow', array('entry_nb_visits', 'strlen'), $priorityFilter = true);
 	}
 
 	public function getExitPageUrls($fetch = false)
@@ -99,7 +99,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->setColumnsToDisplay( array('label', 'exit_nb_visits', 'nb_visits', 'exit_rate') );
 		$view->setColumnTranslation('exit_nb_visits', Piwik_Translate('General_ColumnExits'), Piwik_Translate('General_ExitsDefinition'));
 		// remove pages that are not exit pages
-		$view->queueFilter('ColumnCallbackDeleteRow', array('exit_nb_visits', 'strlen'));
+		$view->queueFilter('ColumnCallbackDeleteRow', array('exit_nb_visits', 'strlen'), $priorityFilter = true);
 	}
 	
 	public function getPageTitles($fetch = false)
