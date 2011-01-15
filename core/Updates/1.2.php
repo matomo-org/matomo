@@ -27,6 +27,7 @@ class Piwik_Updates_1_2 extends Piwik_Updates
 			    ADD `visit_exit_idaction_name` INT UNSIGNED NOT NULL AFTER `visit_exit_idaction_url`,
 			    CHANGE `visit_exit_idaction_url` `visit_exit_idaction_url` INT UNSIGNED NOT NULL, 
 			    CHANGE `visit_entry_idaction_url` `visit_entry_idaction_url` INT UNSIGNED NOT NULL,
+			    CHANGE `referer_type` `referer_type` TINYINT UNSIGNED NULL DEFAULT NULL,
 			    ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`, 
 			    ADD `config_id` BINARY(8) NOT NULL AFTER `config_md5config`
 			   ' => false,
