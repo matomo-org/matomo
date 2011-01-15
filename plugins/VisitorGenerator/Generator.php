@@ -471,7 +471,7 @@ class Piwik_VisitorGenerator_Generator
 		$deep = mt_rand(0,$this->maximumUrlDepth);
 		for($i=0;$i<$deep;$i++)
 		{
-			$name = $this->getRandomString(1,1,'alnum');
+			$name = $this->getRandomString(5-$deep,7-$deep,'alnum');
 			
 			$url .= '/'.$name;
 		}

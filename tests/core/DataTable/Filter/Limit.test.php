@@ -41,6 +41,7 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 		$this->assertEqual($table->getRowsCount(), 3);
 		$this->assertEqual($table->getFirstRow()->getColumn('idRow'), 2);
 		$this->assertEqual($table->getLastRow()->getColumn('idRow'), 4);
+		$this->assertEqual($table->getRowsCountBeforeLimitFilter(), 10);
 	}
 	
 	public function test_limitLessThanCount_shouldReturnCountLimit()
@@ -52,6 +53,7 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 		$this->assertEqual($table->getRowsCount(), 7);
 		$this->assertEqual($table->getFirstRow()->getColumn('idRow'), 2);
 		$this->assertEqual($table->getLastRow()->getColumn('idRow'), 8);
+		$this->assertEqual($table->getRowsCountBeforeLimitFilter(), 10);
 	}
 	
 	public function test_limitIsCount_shouldNotDeleteAnything()
@@ -59,10 +61,12 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 		$offset = 0;
 		$limit = 10;
 		$table = $this->getDataTableCount10();
+		$this->assertEqual($table->getRowsCountBeforeLimitFilter(), 10);
 		$filter = new Piwik_DataTable_Filter_Limit($table, $offset, $limit);
 		$this->assertEqual($table->getRowsCount(), 10);
 		$this->assertEqual($table->getFirstRow()->getColumn('idRow'), 0);
 		$this->assertEqual($table->getLastRow()->getColumn('idRow'), 9);
+		$this->assertEqual($table->getRowsCountBeforeLimitFilter(), 10);
 	}
 	
 	public function test_limitGreaterThanCount_shouldReturnCountUntilCount()
@@ -70,10 +74,12 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 		$offset = 5;
 		$limit = 20;
 		$table = $this->getDataTableCount10();
+		$this->assertEqual($table->getRowsCountBeforeLimitFilter(), 10);
 		$filter = new Piwik_DataTable_Filter_Limit($table, $offset, $limit);
 		$this->assertEqual($table->getRowsCount(), 5);
 		$this->assertEqual($table->getFirstRow()->getColumn('idRow'), 5);
 		$this->assertEqual($table->getLastRow()->getColumn('idRow'), 9);
+		$this->assertEqual($table->getRowsCountBeforeLimitFilter(), 10);
 	}
 	
 	public function test_limitIsNull_shouldReturnCountIsOffset()
@@ -84,6 +90,7 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 		$this->assertEqual($table->getRowsCount(), 9);
 		$this->assertEqual($table->getFirstRow()->getColumn('idRow'), 1);
 		$this->assertEqual($table->getLastRow()->getColumn('idRow'), 9);
+		$this->assertEqual($table->getRowsCountBeforeLimitFilter(), 10);
 	}
 	
 	public function test_offsetJustBeforeSummaryRow_shouldJustReturnSummaryRow()
@@ -95,6 +102,7 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 		$this->assertEqual($table->getRowsCount(), 1);
 		$this->assertEqual($table->getFirstRow()->getColumn('idRow'), 9);
 		$this->assertEqual($table->getLastRow()->getColumn('idRow'), 9);
+		$this->assertEqual($table->getRowsCountBeforeLimitFilter(), 10);
 	}
 	
 	public function test_offsetJustBeforeSummaryRowWithBigLimit_shouldJustReturnSummaryRow()
@@ -106,6 +114,7 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 		$this->assertEqual($table->getRowsCount(), 1);
 		$this->assertEqual($table->getFirstRow()->getColumn('idRow'), 9);
 		$this->assertEqual($table->getLastRow()->getColumn('idRow'), 9);
+		$this->assertEqual($table->getRowsCountBeforeLimitFilter(), 10);
 	}
 
 	public function test_offsetBeforeSummaryRow_shouldJustReturnRowAndSummaryRow()
@@ -117,6 +126,7 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 		$this->assertEqual($table->getRowsCount(), 2);
 		$this->assertEqual($table->getFirstRow()->getColumn('idRow'), 8);
 		$this->assertEqual($table->getLastRow()->getColumn('idRow'), 9);
+		$this->assertEqual($table->getRowsCountBeforeLimitFilter(), 10);
 	}
 	
 	public function test_offsetGreaterThanCount_shouldReturnEmptyTable()
@@ -126,6 +136,7 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 		$table = $this->getDataTableCount10();
 		$filter = new Piwik_DataTable_Filter_Limit($table, $offset, $limit);
 		$this->assertEqual($table->getRowsCount(), 0);
+		$this->assertEqual($table->getRowsCountBeforeLimitFilter(), 10);
 	}
 	
 	public function test_limitIsZero_shouldReturnEmptyTable()
@@ -135,9 +146,10 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 		$table = $this->getDataTableCount10();
 		$filter = new Piwik_DataTable_Filter_Limit($table, $offset, $limit);
 		$this->assertEqual($table->getRowsCount(), 0);
+		$this->assertEqual($table->getRowsCountBeforeLimitFilter(), 10);
 	}
 	
-		/**
+	/**
 	 * Test to filter a table with a offset, limit
 	 */
 	 function test_filter_OffsetLimit()

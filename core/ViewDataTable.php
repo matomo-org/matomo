@@ -91,6 +91,13 @@ abstract class Piwik_ViewDataTable
 	protected $queuedFilters = array();
 	
 	/**
+	 * List of filter to apply just before the 'Generic' filters 
+	 * These filters should delete rows from the table
+	 * @var array
+	 */
+	protected $queuedFiltersPriority = array();
+	
+	/**
 	 * @see init()
 	 * @var string
 	 */
@@ -388,7 +395,21 @@ abstract class Piwik_ViewDataTable
 	 */
 	protected function postDataTableLoadedFromAPI()
 	{
-		// Apply datatable filters that were queued by the controllers
+		// First, filters that delete rows 
+		foreach($this->queuedFiltersPriority as $filter)
+		{
+			$filterName = $filter[0];
+			$filterParameters = $filter[1];
+			$this->dataTable->filter($filterName, $filterParameters);
+		}
+
+		// Second, generic filters (Sort, Limit, Replace Column Names, etc.)
+		$requestString = $this->getRequestString();
+		$request = Piwik_API_Request::getRequestArrayFromString($requestString);
+		$genericFilter = new Piwik_API_DataTableGenericFilter($this->dataTable, $request);
+		$genericFilter->filter();
+
+		// Finally, apply datatable filters that were queued (should be 'presentation' filters that do not affect the number of rows)
 		foreach($this->queuedFilters as $filter)
 		{
 			$filterName = $filter[0];
@@ -408,6 +429,7 @@ abstract class Piwik_ViewDataTable
 		// - the format = original specifies that we want to get the original DataTable structure itself, not rendered
 		$requestString  = 'method='.$this->apiMethodToRequestDataTable;
 		$requestString .= '&format=original';
+		$requestString .= '&disable_generic_filters=1';
 		
 		$toSetEventually = array(
 			'filter_limit',
@@ -417,7 +439,6 @@ abstract class Piwik_ViewDataTable
 			'filter_excludelowpop_value',
 			'filter_column', 
 			'filter_pattern',
-			'disable_generic_filters',
 			'disable_queued_filters'
 		);
 
@@ -973,10 +994,19 @@ abstract class Piwik_ViewDataTable
 	 * 
 	 * @param $filterName
 	 * @param $parameters
+	 * @param $runBeforeGenericFilters Set to true if the filter will delete rows from the table, 
+	 * 									and should therefore be ran before Sort, Limit, etc.
 	 * @return void
 	 */
-	public function queueFilter($filterName, $parameters)
+	public function queueFilter($filterName, $parameters, $runBeforeGenericFilters = false)
 	{
-		$this->queuedFilters[] = array($filterName, $parameters);
+		if($runBeforeGenericFilters)
+		{
+			$this->queuedFiltersPriority[] = array($filterName, $parameters);
+		}
+		else
+		{
+			$this->queuedFilters[] = array($filterName, $parameters);
+		}
 	}
 }

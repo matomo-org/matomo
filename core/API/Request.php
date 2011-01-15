@@ -40,15 +40,7 @@ class Piwik_API_Request
 {	
 	protected $request = null;
 	
-	/**
-	 * Constructs the request to the API, given the request url
-	 * 
-	 * @param string GET request that defines the API call (must at least contain a "method" parameter) 
-	 *  Example: method=UserSettings.getWideScreen&idSite=1&date=yesterday&period=week&format=xml
-	 * 	If a request is not provided, then we use the $_GET and $_POST superglobal and fetch
-	 * 	the values directly from the HTTP GET query.
-	 */
-	function __construct($request = null)
+	static public function getRequestArrayFromString($request)
 	{
 		$defaultRequest = $_GET + $_POST;
 		$requestArray = $defaultRequest;
@@ -79,8 +71,20 @@ class Piwik_API_Request
 				$element = trim($element);
 			}
 		}
-		
-		$this->request = $requestArray;
+		return $requestArray;
+	}
+	
+	/**
+	 * Constructs the request to the API, given the request url
+	 * 
+	 * @param string GET request that defines the API call (must at least contain a "method" parameter) 
+	 *  Example: method=UserSettings.getWideScreen&idSite=1&date=yesterday&period=week&format=xml
+	 * 	If a request is not provided, then we use the $_GET and $_POST superglobal and fetch
+	 * 	the values directly from the HTTP GET query.
+	 */
+	function __construct($request = null)
+	{
+		$this->request = self::getRequestArrayFromString($request);
 	}
 	
 	/**

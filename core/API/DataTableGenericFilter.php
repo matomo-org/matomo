@@ -135,10 +135,6 @@ class Piwik_API_DataTableGenericFilter
 
 			if(!$exceptionRaised)
 			{
-				if($filterName == 'Limit')
-				{
-					$datatable->setRowsCountBeforeLimitFilter();
-				}
 				$datatable->filter($filterName, $filterParameters);
 				$filterApplied = true;
 			}

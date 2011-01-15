@@ -17,7 +17,7 @@
  * @subpackage Piwik_DataTable
  */
 class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
-{	
+{
 	/**
 	 * Filter constructor.
 	 * 
@@ -41,6 +41,8 @@ class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
 	protected function filter()
 	{
 		$table = $this->table;
+		$table->setRowsCountBeforeLimitFilter();
+		
 		$rowsCount = $table->getRowsCount();
 		
 		// we delete from 0 to offset
