@@ -191,8 +191,8 @@ dataTable.prototype =
 		{
 			dataTableSel.find('object').remove();
 			dataTableSel.html( $(content) );
-			piwikHelper.lazyScrollTo(dataTableSel[0], 400);
 		}
+		piwikHelper.lazyScrollTo(dataTableSel[0], 400);
 	},	
 		
 			
