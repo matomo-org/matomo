@@ -336,7 +336,15 @@ abstract class Test_Integration extends Test_Database
 			'idSite' 	=> $idSite,
 			'date'		=> date('Y-m-d', strtotime($dateTime)),
 			'expanded'  => '1',
-			'piwikUrl'  => 'http://example.org/piwik/'
+			'piwikUrl'  => 'http://example.org/piwik/',
+		
+			// Used in Actions.getPageUrl, .getDownload, etc.
+			// tied to Main.test.php doTest_oneVisitorTwoVisits
+			// will need refactoring when these same API functions are tested in a new function
+			'downloadUrl' 	=> 'http://piwik.org/path/again/latest.zip?phpsessid=this is ignored when searching',
+			'outlinkUrl' 	=> 'http://dev.piwik.org/svn',
+			'pageUrl' 		=> 'http://example.org/index.htm?sessionid=this is also ignored by default',
+			'pageName' 		=> ' Checkout / Purchasing... ',
 		);
 		
 		// Give it enough time for the current API test to finish (call all get* APIs)

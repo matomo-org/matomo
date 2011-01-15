@@ -28,6 +28,83 @@ class Piwik_Actions_API
 		return self::$instance;
 	}
 	
+
+	/**
+	 * Backward compatibility. Fallsback to getPageTitles() instead.
+	 * @deprecated Deprecated since Piwik 0.5
+	 */
+	public function getActions( $idSite, $period, $date, $expanded = false, $idSubtable = false )
+	{
+	    return $this->getPageTitles( $idSite, $period, $date, $expanded, $idSubtable );
+	}
+	
+	public function getPageUrls( $idSite, $period, $date, $expanded = false, $idSubtable = false )
+	{
+		$dataTable = $this->getDataTable('Actions_actions_url', $idSite, $period, $date, $expanded, $idSubtable );
+		$this->filterPageDatatable($dataTable);
+		$this->filterActionsDataTable($dataTable, $expanded);
+		return $dataTable;
+	}
+	
+	public function getPageUrl( $idSite, $period, $date, $pageUrl)
+	{
+		$callBackParameters = array('Actions_actions_url', $idSite, $period, $date, $expanded = false, $idSubtable = false );
+		$dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageUrl, Piwik_Tracker_Action::TYPE_ACTION_URL);
+		$this->filterPageDatatable($dataTable);
+		$this->filterActionsDataTable($dataTable);
+		return $dataTable;
+	}
+	
+	public function getPageTitles( $idSite, $period, $date, $expanded = false, $idSubtable = false)
+	{
+		$dataTable = $this->getDataTable('Actions_actions', $idSite, $period, $date, $expanded, $idSubtable);
+		$this->filterPageDatatable($dataTable);
+		$this->filterActionsDataTable($dataTable, $expanded);
+		return $dataTable;
+	}
+	
+	public function getPageTitle( $idSite, $period, $date, $pageName)
+	{
+		$callBackParameters = array('Actions_actions', $idSite, $period, $date, $expanded = false, $idSubtable = false );
+		$dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageName, Piwik_Tracker_Action::TYPE_ACTION_NAME);
+		$this->filterActionsDataTable($dataTable);
+		$this->filterPageDatatable($dataTable);
+		return $dataTable;
+	}
+	
+	public function getDownloads( $idSite, $period, $date, $expanded = false, $idSubtable = false )
+	{
+		$dataTable = $this->getDataTable('Actions_downloads', $idSite, $period, $date, $expanded, $idSubtable );
+		$this->filterActionsDataTable($dataTable, $expanded);
+		return $dataTable;
+	}
+
+	public function getDownload( $idSite, $period, $date, $downloadUrl)
+	{
+		$callBackParameters = array('Actions_downloads', $idSite, $period, $date, $expanded = false, $idSubtable = false );
+		$dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $downloadUrl, Piwik_Tracker_Action::TYPE_DOWNLOAD);
+		$this->filterActionsDataTable($dataTable);
+		return $dataTable;
+	}
+	
+	public function getOutlinks( $idSite, $period, $date, $expanded = false, $idSubtable = false )
+	{
+		$dataTable = $this->getDataTable('Actions_outlink', $idSite, $period, $date, $expanded, $idSubtable );
+		$this->filterActionsDataTable($dataTable, $expanded);
+		return $dataTable;
+	}
+
+	public function getOutlink( $idSite, $period, $date, $outlinkUrl)
+	{
+		$callBackParameters = array('Actions_outlink', $idSite, $period, $date, $expanded = false, $idSubtable = false );
+		$dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $outlinkUrl, Piwik_Tracker_Action::TYPE_OUTLINK);
+		$this->filterActionsDataTable($dataTable);
+		return $dataTable;
+	}
+	
+	/**
+	 * Loads the DataTable from the Archive
+	 */
 	protected function getDataTable($name, $idSite, $period, $date, $expanded, $idSubtable )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
@@ -45,30 +122,79 @@ class Piwik_Actions_API
 		{
 			$dataTable = $archive->getDataTable($name, $idSubtable);
 		}
-		// Must be applied before Sort in this case, since the DataTable can contain both int and strings indexes 
-		// (in the transition period between pre 1.2 and post 1.2 datatable structure)
-		$dataTable->filter('ReplaceColumnNames', array($recursive = true));
-		$dataTable->filter('Sort', array('nb_visits', 'desc', $naturalSort = false, $expanded));
-		$dataTable->queueFilter('ReplaceSummaryRowLabel');
 		return $dataTable;
 	}
-
+	
 	/**
-	 * Backward compatibility. Fallsback to getPageTitles() instead.
-	 * @deprecated Deprecated since Piwik 0.5
+	 * Will search in the DataTable for a Label matching the searched string
+	 * and return only the matching row, or an empty datatable
 	 */
-	public function getActions( $idSite, $period, $date, $expanded = false, $idSubtable = false )
+	protected function getFilterPageDatatableSearch( $callBackParameters, $search, $actionType, $table = false, $searchTree = false, $searchCurrentLevel = 0 )
 	{
-	    return $this->getPageTitles( $idSite, $period, $date, $expanded, $idSubtable );
+		if($table === false)
+		{
+			$table = call_user_func_array(array($this, 'getDataTable'), $callBackParameters);
+		}
+		if($searchTree === false)
+		{
+    		if($actionType == Piwik_Tracker_Action::TYPE_ACTION_NAME)
+    		{
+    			$search = Piwik_Common::unsanitizeInputValue($search);
+    		}
+    		else
+    		{
+    			$search = Piwik_Tracker_Action::excludeQueryParametersFromUrl($search, $idSite = $callBackParameters[1]);
+    		}
+			$searchTree = Piwik_Actions::getActionExplodedNames($search, $actionType);
+		}
+
+		$rows = $table->getRows();
+		$labelSearch = $searchTree[$searchCurrentLevel];
+		$isEndSearch = ((count($searchTree)-1) == $searchCurrentLevel);
+		foreach($rows as $key => $row)
+		{
+			$found = false;
+			// Found a match at this level
+			$label = $row->getColumn('label');
+			if($label === $labelSearch)
+			{
+				// Is this the end of the search tree? then we found the requested row
+				if($isEndSearch)
+				{
+//					var_dump($label); var_dump($labelSearch); exit;
+					$table = new Piwik_DataTable();
+					$table->addRow($row);
+					return $table;
+				}
+				
+				// If we still need to search deeper, call search 
+				$idSubTable = $row->getIdSubDataTable();
+				// Update the idSubtable in the callback parameter list, to fetch this subtable from the archive
+				$callBackParameters[5] = $idSubTable;
+				$subTable = call_user_func_array(array($this, 'getDataTable'), $callBackParameters);
+				$found = $this->getFilterPageDatatableSearch($callBackParameters, $search, $actionType, $subTable, $searchTree, $searchCurrentLevel+1);
+				
+				if($found)
+				{
+					return $found;
+				}
+			}
+			if(!$found)
+			{
+				$table->deleteRow($key);
+			}
+		}
+		// Case the DataTable was searched but nothing was found, @see getFilterPageDatatableSearch()
+		if($searchCurrentLevel == 0)
+		{
+			return new Piwik_DataTable;
+		}
+		return false;
 	}
 	
-	public function getPageUrls( $idSite, $period, $date, $expanded = false, $idSubtable = false )
-	{
-		$dataTable = $this->getDataTable('Actions_actions_url', $idSite, $period, $date, $expanded, $idSubtable );
-		$this->filterPageDatatable($dataTable);
-		return $dataTable;
-	}
-	
+	/**
+	 * Common filters for Page URLs and Page Titles
+	 */
 	protected function filterPageDatatable($dataTable)
 	{
 		// Average time on page = total time on page / number visits on that page
@@ -80,24 +206,18 @@ class Piwik_Actions_API
 		// % Exit = Number of visits that finished on this page / visits on this page
 		$dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('exit_rate', 'exit_nb_visits', 'nb_hits', 0));
 	}
-
-	public function getPageTitles( $idSite, $period, $date, $expanded = false, $idSubtable = false)
+	
+	/**
+	 * Common filters for all Actions API getters
+	 */
+	protected function filterActionsDataTable($dataTable, $expanded = false)
 	{
-		$dataTable = $this->getDataTable('Actions_actions', $idSite, $period, $date, $expanded, $idSubtable);
-		$this->filterPageDatatable($dataTable);
-		return $dataTable;
-	}
-
-	public function getDownloads( $idSite, $period, $date, $expanded = false, $idSubtable = false )
-	{
-		$dataTable = $this->getDataTable('Actions_downloads', $idSite, $period, $date, $expanded, $idSubtable );
-		return $dataTable;
-	}
-
-	public function getOutlinks( $idSite, $period, $date, $expanded = false, $idSubtable = false )
-	{
-		$dataTable = $this->getDataTable('Actions_outlink', $idSite, $period, $date, $expanded, $idSubtable );
-		return $dataTable;
+		// Must be applied before Sort in this case, since the DataTable can contain both int and strings indexes 
+		// (in the transition period between pre 1.2 and post 1.2 datatable structure)
+		$dataTable->filter('ReplaceColumnNames', array($recursive = true));
+		$dataTable->filter('Sort', array('nb_visits', 'desc', $naturalSort = false, $expanded));
+		
+		$dataTable->queueFilter('ReplaceSummaryRowLabel');
 	}
 }
 

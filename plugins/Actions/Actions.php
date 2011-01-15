@@ -405,7 +405,7 @@ class Piwik_Actions extends Piwik_Plugin
 		}
 
 		$split = explode($categoryDelimiter, $name, self::$limitLevelSubCategory);
-
+		
 		// trim every category and remove empty categories
 		$split = array_map('trim', $split);
 		$split = array_filter($split, 'strlen');
@@ -420,6 +420,19 @@ class Piwik_Actions extends Piwik_Plugin
 			return array( trim($defaultName) );
 		}
 
+		$lastPageName = end($split);
+		// we are careful to prefix the page URL / name with some value
+		// so that if a page has the same name as a category 
+		// we don't merge both entries 
+		if($type == Piwik_Tracker_Action::TYPE_ACTION_URL )
+		{
+			$lastPageName = '/' . $lastPageName;
+		}
+		elseif($type == Piwik_Tracker_Action::TYPE_ACTION_NAME) 
+		{
+			$lastPageName = ' ' . $lastPageName;
+		}
+		$split[count($split)-1] = $lastPageName;
 		return array_values( $split );
 	}
 	
@@ -526,18 +539,6 @@ class Piwik_Actions extends Piwik_Plugin
 			$currentTable =& $currentTable[$actionCategory];
 		}
 		$actionShortName = $actionExplodedNames[$end];
-
-		// we are careful to prefix the page URL / name with some value
-		// so that if a page has the same name as a category 
-		// we don't merge both entries 
-		if($actionType == Piwik_Tracker_Action::TYPE_ACTION_URL )
-		{
-			$actionShortName = '/' . $actionShortName;
-		}
-		else 
-		{
-			$actionShortName = ' ' . $actionShortName;
-		}
 
 		// currentTable is now the array element corresponding the the action
 		// at this point we may be for example at the 4th level of depth in the hierarchy
