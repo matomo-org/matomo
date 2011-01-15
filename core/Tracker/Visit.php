@@ -742,6 +742,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 					AND idsite = ?
 					AND config_id = ?";
 		$bindSql = array( $timeLookBack, $this->idsite, $configId);
+		
 		if(Piwik_Tracker_Config::getInstance()->Tracker['trust_visitors_cookies']
 				&& !empty($this->visitorInfo['idvisitor']))
 		{
@@ -1149,7 +1150,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function getConfigHash( $os, $browserName, $browserVersion, $resolution, $plugin_Flash, $plugin_Java, $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF, $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie, $ip, $browserLang)
 	{
-		$hash = md5( $os . $browserName . $browserVersion . $resolution . $plugin_Flash . $plugin_Java . $plugin_Director . $plugin_Quicktime . $plugin_RealPlayer . $plugin_PDF . $plugin_WindowsMedia . $plugin_Gears . $plugin_Silverlight . $plugin_Cookie . $ip . $browserLang, $raw_output = true );
+		$hash = md5( $os . $browserName . $browserVersion . $plugin_Flash . $plugin_Java . $plugin_Director . $plugin_Quicktime . $plugin_RealPlayer . $plugin_PDF . $plugin_WindowsMedia . $plugin_Gears . $plugin_Silverlight . $plugin_Cookie . $ip . $browserLang, $raw_output = true );
 		return substr( $hash, 0, Piwik_Tracker::LENGTH_BINARY_ID);
 	}
 
