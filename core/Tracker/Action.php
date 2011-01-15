@@ -109,7 +109,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	
 	protected function setActionName($name)
 	{
-		$name = $this->truncate($name);
+		$name = $this->cleanupString($name);
 		$this->actionName = $name;
 	}
 	
@@ -121,7 +121,6 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	protected function setActionUrl($url)
 	{
 		$url = self::excludeQueryParametersFromUrl($url, $this->idSite);
-		$url = $this->truncate($url);
 		$this->actionUrl = $url;
 	}
 	
@@ -130,6 +129,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		$website = Piwik_Common::getCacheWebsiteAttributes( $idSite );
 		$originalUrl = Piwik_Common::unsanitizeInputValue($originalUrl);
 		$parsedUrl = @parse_url($originalUrl);
+		$originalUrl = self::cleanupString($originalUrl);
 		if(empty($parsedUrl['query']))
 		{
 			return $originalUrl;
@@ -182,12 +182,6 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		$this->setActionName($info['name']);
 		$this->setActionType($info['type']);
 		$this->setActionUrl($info['url']);
-	}
-	
-	protected function truncate( $label )
-	{
-		$limit = Piwik_Tracker_Config::getInstance()->Tracker['page_maximum_length'];
-		return substr($label, 0, $limit);
 	}
 	
 	/**
@@ -380,17 +374,21 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			// rebuild the name from the array of cleaned categories
 			$actionName = implode($actionCategoryDelimiter, $split);
 		}
-		
-		$url = trim($url);
-		$url = str_replace(array("\n", "\r"), "", $url);
-
-		$actionName = trim($actionName);
-		$actionName = str_replace(array("\n", "\r"), "", $actionName);
+		$url = self::cleanupString($url);
+		$actionName = self::cleanupString($actionName);
 
 		return array(
 			'name' => empty($actionName) ? '' : $actionName,
 			'type' => $actionType,
 			'url'  => $url,
 		);
+	}
+	
+	protected static function cleanupString($string)
+	{
+		$string = trim($string);
+		$string = str_replace(array("\n", "\r"), "", $string);
+		$limit = Piwik_Tracker_Config::getInstance()->Tracker['page_maximum_length'];
+		return substr($string, 0, $limit);
 	}
 }

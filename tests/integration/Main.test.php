@@ -181,7 +181,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         
         // Click on file download after 12 minutes (4th action)
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.2)->getDatetime());
-        $this->checkResponse($t->doTrackAction( 'http://piwik.org/latest.zip', 'download' ));
+        $this->checkResponse($t->doTrackAction( 'http://piwik.org/path/again/latest.zip', 'download' ));
         
         // Create Goal 1: Triggered by JS, after 18 minutes
         $idGoal = Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');
@@ -210,7 +210,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $t->setUrlReferer( 'http://search.yahoo.com/search?p=purchase');
         
         // Goal Tracking URL matching, testing custom referer including keyword
-        $this->checkResponse($t->doTrackPageView( 'Purchasing...'));
+        $this->checkResponse($t->doTrackPageView( 'Checkout/Purchasing...'));
         // -
         // End of second visit
         

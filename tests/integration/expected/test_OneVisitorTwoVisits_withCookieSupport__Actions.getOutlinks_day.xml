@@ -7,7 +7,7 @@
 		<sum_time_spent>360</sum_time_spent>
 		<subtable>
 			<row>
-				<label> /svn</label>
+				<label>/svn</label>
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>

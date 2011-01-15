@@ -242,6 +242,11 @@ class Test_Piwik_TrackerAction extends  Test_Database
 										'type' => Piwik_Tracker_Action::TYPE_ACTION_URL),
 			),
 			array(
+				'request' => array(		'name' => null, 'url' => "\n"),
+				'expected' => array(	'name' => null,	'url' => '',
+										'type' => Piwik_Tracker_Action::TYPE_ACTION_URL),
+			),
+			array(
 				'request' => array( 'url' => 'http://example.org/category/',
 									'action_name' => 'custom name with/one delimiter/two delimiters/'),
 				'expected' => array(	'name' => 'custom name with/one delimiter/two delimiters',
