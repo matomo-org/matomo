@@ -62,7 +62,11 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	function test_apiGetReportMetadata_year()
 	{
 		$this->setApiNotToCall(array());
-		$this->setApiToCall( array('API.getProcessedReport', 'API.getReportMetadata', 'LanguagesManager.getTranslationsForLanguage', 'LanguagesManager.getAvailableLanguageNames') );
+		$this->setApiToCall( array('API.getProcessedReport', 
+									'API.getReportMetadata', 
+									'LanguagesManager.getTranslationsForLanguage', 
+									'LanguagesManager.getAvailableLanguageNames',
+									'SitesManager.getJavascriptTag') );
 		$dateTime = '2009-01-04 00:11:42';
 		$idSite = $this->createWebsite($dateTime);
 		$language = 'fr';
