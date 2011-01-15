@@ -128,8 +128,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	{
 		$website = Piwik_Common::getCacheWebsiteAttributes( $idSite );
 		$originalUrl = Piwik_Common::unsanitizeInputValue($originalUrl);
-		$parsedUrl = @parse_url($originalUrl);
 		$originalUrl = self::cleanupString($originalUrl);
+		$parsedUrl = @parse_url($originalUrl);
 		if(empty($parsedUrl['query']))
 		{
 			return $originalUrl;
