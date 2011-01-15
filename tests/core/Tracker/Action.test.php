@@ -23,6 +23,7 @@ class Test_Piwik_TrackerAction extends  Test_Database
 	function tearDown()
 	{
 		$GLOBALS['PIWIK_TRACKER_MODE'] = false;
+		Piwik_Tracker_Config::getInstance()->clear();
 	}
 
 	protected function setUpRootAccess()

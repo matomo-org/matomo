@@ -30,6 +30,8 @@ class Test_Piwik_TrackerConfig extends UnitTestCase
     	$expectedArray = array('value1', 'value2');
     	$array = $config->TestArrayOnlyInGlobalFile;
     	$this->assertEqual($array['my_array'], $expectedArray);
+    	
+		Piwik_Tracker_Config::getInstance()->clear();
     }
 }
 

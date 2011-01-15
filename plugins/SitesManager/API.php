@@ -473,7 +473,7 @@ class Piwik_SitesManager_API
 		Piwik::checkUserIsSuperUser();
 		$excludedIps = $this->checkAndReturnExcludedIps($excludedIps);
 		Piwik_SetOption(self::OPTION_EXCLUDED_IPS_GLOBAL, $excludedIps);
-		Piwik_Common::deleteAllCache();
+		Piwik_Common::deleteTrackerCache();
 		return true;
 	}
 	
@@ -500,7 +500,7 @@ class Piwik_SitesManager_API
 		Piwik::checkUserIsSuperUser();
 		$excludedQueryParameters = $this->checkAndReturnExcludedQueryParameters($excludedQueryParameters);
 		Piwik_SetOption(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL, $excludedQueryParameters);
-		Piwik_Common::deleteAllCache();
+		Piwik_Common::deleteTrackerCache();
 		return true;
 	}
 	

@@ -139,15 +139,14 @@ class Piwik_Actions_API
 		{
     		if($actionType == Piwik_Tracker_Action::TYPE_ACTION_NAME)
     		{
-    			$search = Piwik_Common::unsanitizeInputValue($search);
+    			$searchedString = Piwik_Common::unsanitizeInputValue($search);
     		}
     		else
     		{
-    			$search = Piwik_Tracker_Action::excludeQueryParametersFromUrl($search, $idSite = $callBackParameters[1]);
+    			$searchedString = Piwik_Tracker_Action::excludeQueryParametersFromUrl($search, $idSite = $callBackParameters[1]);
     		}
-			$searchTree = Piwik_Actions::getActionExplodedNames($search, $actionType);
+			$searchTree = Piwik_Actions::getActionExplodedNames($searchedString, $actionType);
 		}
-
 		$rows = $table->getRows();
 		$labelSearch = $searchTree[$searchCurrentLevel];
 		$isEndSearch = ((count($searchTree)-1) == $searchCurrentLevel);
@@ -173,7 +172,6 @@ class Piwik_Actions_API
 				$callBackParameters[5] = $idSubTable;
 				$subTable = call_user_func_array(array($this, 'getDataTable'), $callBackParameters);
 				$found = $this->getFilterPageDatatableSearch($callBackParameters, $search, $actionType, $subTable, $searchTree, $searchCurrentLevel+1);
-				
 				if($found)
 				{
 					return $found;

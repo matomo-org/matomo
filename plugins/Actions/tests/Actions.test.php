@@ -10,12 +10,20 @@ require_once 'Tracker/Config.php';
 
 class Test_Piwik_Actions extends UnitTestCase
 {
-	function test_getActionExplodedNames()
+	
+	function setUp()
 	{
 		$userFile = PIWIK_INCLUDE_PATH . '/tests/resources/plugins/Actions/Actions.config.ini.php';
-
 		Piwik::createConfigObject($userFile);
-
+	}
+	
+	function tearDown()
+	{
+		Piwik::createConfigObject();
+	}
+	
+	function test_getActionExplodedNames()
+	{
 		$action = new Test_Piwik_Actions_getActionExplodedNames();
 
 		$tests = array(
