@@ -217,13 +217,14 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $this->checkResponse($t->doTrackPageView( 'Checkout/Purchasing...'));
         // -
         // End of second visit
-        
 	}
 	
 	/*
 	 * Tests Tracker several websites, different days.
 	 * Tests API for period=day/week/month/year, requesting data for both websites, 
 	 * and requesting data for last N periods.
+	 * Also tests a visit that spans over 2 days.
+	 * And testing empty URL and empty Page name request
 	 */
 	function test_TwoVisitors_twoWebsites_differentDays()
 	{
@@ -231,17 +232,23 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	$dateTime = '2010-01-03 11:22:33';
     	$idSite = $this->createWebsite($dateTime);
     	$idSite2 = $this->createWebsite($dateTime);
-    	$this->setApiToCall(array('VisitFrequency.get', 'VisitsSummary.get','Referers.getWebsites', 'Actions.getPageUrls', 'Actions.getPageTitles'));
+    	$this->setApiToCall(array('VisitFrequency.get', 
+    								'VisitsSummary.get',
+    								'Referers.getWebsites', 
+    								'Actions.getPageUrls', 
+    								'Actions.getPageTitles'));
     	ob_start();
     	
     	// -
-    	// First visitor on Idsite 1: two page views 
-        $visitorA = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+    	// First visitor on Idsite 1: two page views
+    	$datetimeSpanOverTwoDays = '2010-01-03 23:55:00'; 
+        $visitorA = $this->getTracker($idSite, $datetimeSpanOverTwoDays, $defaultInit = true);
         $visitorA->setUrlReferer( 'http://referer.com/page.htm?param=valuewith some spaces');
         $visitorA->setUrl('http://example.org/homepage');
         $this->checkResponse($visitorA->doTrackPageView('first page view'));
-    	$visitorA->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
-        $this->checkResponse($visitorA->doTrackPageView('first visitor/second page view'));
+    	$visitorA->setForceVisitDateTime(Piwik_Date::factory($datetimeSpanOverTwoDays)->addHour(0.1)->getDatetime());
+    	$visitorA->setUrl('  ');
+        $this->checkResponse($visitorA->doTrackPageView('  '));
         
         // - 
     	// Second new visitor on Idsite 1: one page view 
