@@ -192,7 +192,7 @@ class Piwik_FrontController
 			);
 			
 			Piwik::checkDirectoriesWritableOrDie($directoriesToCheck);
-			self::assignCliParametersToRequest();
+			Piwik_Common::assignCliParametersToRequest();
 
 			Piwik_Translate::getInstance()->loadEnglishTranslation();
 
@@ -252,24 +252,6 @@ class Piwik_FrontController
 		} catch(Exception $e) {
 			Piwik_ExitWithMessage($e->getMessage(), false, true);
 		}
-	}
-	
-	/**
-	 * Assign CLI parameters as if they were REQUEST or GET parameters.
-	 * You can trigger Piwik from the command line by
-	 * # /usr/bin/php5 /path/to/piwik/index.php -- "module=API&method=Actions.getActions&idSite=1&period=day&date=previous8&format=php"
-	 */
-	static protected function assignCliParametersToRequest()
-	{
-		if(isset($_SERVER['argc'])
-			&& $_SERVER['argc'] > 0)
-		{
-			for ($i=1; $i < $_SERVER['argc']; $i++)
-			{
-				parse_str($_SERVER['argv'][$i],$tmp);
-				$_GET = array_merge($_GET, $tmp);
-			}
-		}				
 	}
 }
 
