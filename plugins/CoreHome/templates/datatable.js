@@ -927,6 +927,8 @@ actionDataTable.prototype =
 			// reset search for subcategories
 			delete self.param.filter_column;
 			delete self.param.filter_pattern;
+			delete self.param.filter_offset;
+			delete self.param.filter_limit;
 			
 			self.param.idSubtable = idSubTable;
 			self.param.action = self.param.controllerActionCalledWhenRequestSubTable;
