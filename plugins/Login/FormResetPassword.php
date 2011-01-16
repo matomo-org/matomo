@@ -36,6 +36,8 @@ class Piwik_Login_FormResetPassword extends Piwik_QuickForm2
 		$this->addElement('text', 'form_token')
 		     ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Login_PasswordResetToken')));
 
+		$this->addElement('hidden', 'form_nonce');
+
 		$this->addElement('submit', 'submit');
 
 		$resetToken = Piwik_Common::getRequestVar('token', '', 'string');
