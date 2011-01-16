@@ -180,7 +180,6 @@ $translations = array(
 	'General_ExceptionNonceMismatch' => 'Could not verify the security token on this form.',
 	'General_PleaseSpecifyValue' => 'Please specify a value for \'%s\'.',
 	'General_ExceptionMethodNotFound' => 'The method \'%s\' does not exist or is not available in the module \'%s\'.',
-	'General_ExceptionSubtableNotFoundInArchive' => 'You are requesting a precise subTable but there is not such data in the Archive.',
 	'General_ExceptionInvalidRendererFormat' => 'Renderer format \'%s\' not valid. Try any of the following instead: %s.',
 	'General_ExceptionInvalidPeriod' => 'The period \'%s\' is not supported. Try any of the following instead: %s',
 	'General_ExceptionInvalidDateRange' => 'The date \'%s\' is not a correct date range. It should have the following format: %s.',
