@@ -927,6 +927,7 @@ actionDataTable.prototype =
 			// reset search for subcategories
 			delete self.param.filter_column;
 			delete self.param.filter_pattern;
+			// reset main offset which doesn't apply to subtables
 			delete self.param.filter_offset;
 			delete self.param.filter_limit;
 			
