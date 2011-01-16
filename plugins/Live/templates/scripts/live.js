@@ -4,7 +4,6 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-
 // first I'm ensuring that 'last' has been initialised (with last.constructor == Object),
 // then prev.html() == last.html() will return true if the HTML is the same, or false,
 // if I have a different entry.
@@ -26,7 +25,12 @@ function lastIdVisit()
 	updateTotalVisits();
 	updateVisitBox();
 
-	return $('#visitsLive > div:lt(2) .idvisit').html();
+	minIdVisit = $('#visitsLive > div:lt(2) .idvisit').html();
+	if(!isNaN(minIdVisit)&&parseInt(minIdVisit)==minIdVisit)
+	{
+		return minIdVisit;
+	}
+	return false;
 }
 var pauseImage = "plugins/Live/templates/images/pause.gif";
 var pauseDisabledImage = "plugins/Live/templates/images/pause_disabled.gif";
