@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <results>
 	<result idSite="1">
-		<result date="2010-01-03">
+		<result date="2010-01-03" />
+		<result date="2010-01-04">
 			<row>
 				<label>referer.com</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -25,7 +26,6 @@
 				</subtable>
 			</row>
 		</result>
-		<result date="2010-01-04" />
 		<result date="2010-01-05">
 			<row>
 				<label>referer.com</label>

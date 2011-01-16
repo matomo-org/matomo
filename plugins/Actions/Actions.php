@@ -469,6 +469,10 @@ class Piwik_Actions extends Piwik_Plugin
 			{
 				if(!isset(self::$cacheParsedAction[$row['idaction']]))
 				{
+					// This can happen when
+					// - We select an entry page ID that was only seen yesterday, so wasn't selected in the first query
+					// - We count time spent on a page, when this page was only seen yesterday
+					continue;
 					var_dump($row);
 					debug_print_backtrace();
 					throw new Exception("id action ". $row['idaction'] . " was not cached, but we expected it. Pleas report this issue in Piwik forums.");

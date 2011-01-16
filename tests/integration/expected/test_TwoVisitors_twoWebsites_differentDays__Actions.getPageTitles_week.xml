@@ -6,39 +6,18 @@
 				<label> first page view</label>
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
-				<sum_time_spent>360</sum_time_spent>
-				<entry_nb_visits>2</entry_nb_visits>
-				<entry_nb_actions>3</entry_nb_actions>
-				<entry_sum_visit_length>360</entry_sum_visit_length>
+				<sum_time_spent>0</sum_time_spent>
+				<entry_nb_visits>1</entry_nb_visits>
+				<entry_nb_actions>1</entry_nb_actions>
+				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
 				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
-				<sum_daily_entry_nb_uniq_visitors>2</sum_daily_entry_nb_uniq_visitors>
+				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
-				<avg_time_on_page>180</avg_time_on_page>
-				<bounce_rate>50%</bounce_rate>
-				<exit_rate>50%</exit_rate>
-			</row>
-			<row>
-				<label>first visitor</label>
-				<nb_visits>1</nb_visits>
-				<nb_hits>1</nb_hits>
-				<sum_time_spent>0</sum_time_spent>
-				<exit_nb_visits>1</exit_nb_visits>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0%</bounce_rate>
-				<exit_rate>100%</exit_rate>
-				<subtable>
-					<row>
-						<label> second page view</label>
-						<nb_visits>1</nb_visits>
-						<nb_hits>1</nb_hits>
-						<sum_time_spent>0</sum_time_spent>
-						<exit_nb_visits>1</exit_nb_visits>
-						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-						<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
-					</row>
-				</subtable>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>50%</exit_rate>
 			</row>
 		</result>
 		<result date="2010-01-04 to 2010-01-10">
@@ -91,6 +70,18 @@
 						</subtable>
 					</row>
 				</subtable>
+			</row>
+			<row>
+				<label>page title not defined</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<exit_nb_visits>1</exit_nb_visits>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>100%</exit_rate>
 			</row>
 		</result>
 		<result date="2010-01-11 to 2010-01-17" />

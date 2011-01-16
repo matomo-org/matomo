@@ -300,10 +300,11 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		{
 			$valuesToUpdate['visit_exit_idaction_url'] = $idActionUrl;
 			$sqlActionUpdate = "visit_total_actions = visit_total_actions + 1, ";
-		}
-		if(!empty($idActionName))
-		{
-			$valuesToUpdate['visit_exit_idaction_name'] = $idActionName;
+    		if(empty($idActionName))
+    		{
+    			$idActionName = 0;
+    		}
+    		$valuesToUpdate['visit_exit_idaction_name'] = $idActionName;
 		}
 
 		$serverTimestamp 	= $this->getCurrentTimestamp();
