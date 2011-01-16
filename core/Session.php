@@ -30,6 +30,15 @@ class Piwik_Session extends Zend_Session
 		// prevent attacks involving session ids passed in URLs
 		@ini_set('session.use_only_cookies', '1');
 
+		// advise browser that session cookie should only be sent over secure connection
+		if(Piwik::isHttps())
+		{
+			@ini_set('session.cookie_secure', '1');
+		}
+
+		// advise browser that session cookie should only be accessible through the HTTP protocol (i.e., not JavaScript)
+		@ini_set('session.cookie_httponly', '1');
+
 		// don't use the default: PHPSESSID
 		$sessionName = defined('PIWIK_SESSION_NAME') ? PIWIK_SESSION_NAME : 'PIWIK_SESSID';
 		@ini_set('session.name', $sessionName);
