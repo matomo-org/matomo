@@ -125,6 +125,11 @@ $.fn.spy = function(settings) {
 		spy.ajaxTimer = window.setInterval(function() {
 			if (spyRunning && (!spy.parsing)) {
 			    var customParameterValue = o.customParameterValueCallback.call();
+			    if(!customParameterValue)
+			    {
+			    	spyRunning = 0; 
+			    	return;
+			    }
 				parameters[o.customParameterName] = customParameterValue;
 				spyRunning = 0; 
 				piwikHelper.queueAjaxRequest( $.get(o.ajax, parameters, function(r) {
