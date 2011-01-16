@@ -22,6 +22,7 @@
 	<p>
 		<label>{'Login_LoginOrEmail'|translate}:<br />
 		<input type="text" name="form_login" id="form_login" class="input" value="" size="20" tabindex="10" /></label>
+		<input type="hidden" name="form_nonce" id="form_nonce" value="{$nonce}" /></label>
 	</p>
 	<p class="submit">
 		<input type="submit" value="{'Login_RemindPassword'|translate}" tabindex="100" />
