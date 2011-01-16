@@ -170,7 +170,7 @@ class Piwik_Period_Range extends Piwik_Period
 		}
 	}
 	
-	function toString()
+	function toString($format = "Y-m-d")
 	{
 		if(!$this->subperiodsProcessed)
 		{
@@ -179,7 +179,7 @@ class Piwik_Period_Range extends Piwik_Period
 		$range = array();
 		foreach($this->subperiods as $element)
 		{
-			$range[] = $element->toString();
+			$range[] = $element->toString($format);
 		}
 		return $range;
 	}

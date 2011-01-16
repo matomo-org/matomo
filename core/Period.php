@@ -186,7 +186,7 @@ abstract class Piwik_Period
 		$this->subperiods[] = $date;
 	}
 	
-	public function toString()
+	public function toString($format = "Y-m-d")
 	{
 		if(!$this->subperiodsProcessed)
 		{
@@ -195,7 +195,7 @@ abstract class Piwik_Period
 		$dateString = array();
 		foreach($this->subperiods as $period)
 		{
-			$dateString[] = $period->toString();
+			$dateString[] = $period->toString($format);
 		}
 		return $dateString;
 	}

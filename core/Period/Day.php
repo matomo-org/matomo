@@ -51,9 +51,9 @@ class Piwik_Period_Day extends Piwik_Period
 		throw new Exception("Adding a subperiod is not supported for Piwik_Period_Day");
 	}
 	
-	public function toString()
+	public function toString($format = "Y-m-d")
 	{
-		return $this->date->toString("Y-m-d");
+		return $this->date->toString($format);
 	}
 	public function __toString()
 	{
