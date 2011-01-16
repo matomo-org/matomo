@@ -26,6 +26,8 @@ class Piwik_Login_FormPassword extends Piwik_QuickForm2
 		$this->addElement('text', 'form_login')
 		     ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Login_LoginOrEmail')));
 
+		$this->addElement('hidden', 'form_nonce');
+
 		$this->addElement('submit', 'submit');
 	}
 }
