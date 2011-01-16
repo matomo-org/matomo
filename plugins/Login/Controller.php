@@ -63,14 +63,20 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 		$view = Piwik_View::factory('login');
 		$view->AccessErrorString = $messageNoAccess;
-		$view->nonce = Piwik_Nonce::getNonce('Piwik_Login.login');
 		$view->addForm( $form );
 		$this->configureView($view);
 		echo $view->render();
 	}
 
+	/**
+	 * Configure common view properties
+	 *
+	 * @param Piwik_View $view
+	 */
 	private function configureView($view)
 	{
+		$view->linkTitle = Piwik::getRandomTitle();
+
 		$enableFramedLogins = Zend_Registry::get('config')->General->enable_framed_logins;
 		$view->enableFramedLogins = $enableFramedLogins;
 		if(!$enableFramedLogins)
@@ -78,7 +84,8 @@ class Piwik_Login_Controller extends Piwik_Controller
 			$view->setXFrameOptions('sameorigin');
 		}
 		$view->forceSslLogin = Zend_Registry::get('config')->General->force_ssl_login;
-		$view->linkTitle = Piwik::getRandomTitle();
+		// crsf token: don't trust the submitted value; generate/fetch it from session data
+		$view->nonce = Piwik_Nonce::getNonce('Piwik_Login.login');
 	}
 	
 	/**
@@ -144,8 +151,16 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$form = new Piwik_Login_FormPassword();
 		if($form->validate())
 		{
-			$loginMail = $form->getSubmitValue('form_login');
-			$messageNoAccess = $this->lostPasswordFormValidated($loginMail);
+			$nonce = $form->getSubmitValue('form_nonce');
+			if(Piwik_Nonce::verifyNonce('Piwik_Login.login', $nonce))
+			{
+				$loginMail = $form->getSubmitValue('form_login');
+				$messageNoAccess = $this->lostPasswordFormValidated($loginMail);
+			}
+			else
+			{
+				$messageNoAccess = Piwik_Translate('Login_InvalidNonceOrHeaders');
+			}
 		}
 
 		$view = Piwik_View::factory('lostPassword');
@@ -224,10 +239,18 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$form = new Piwik_Login_FormResetPassword();
 		if($form->validate())
 		{
-			$loginMail = $form->getSubmitValue('form_login');
-			$token = $form->getSubmitValue('form_token');
-			$password = $form->getSubmitValue('form_password');
-			$messageNoAccess = $this->resetPasswordFormValidated($loginMail, $token, $password);
+			$nonce = $form->getSubmitValue('form_nonce');
+			if(Piwik_Nonce::verifyNonce('Piwik_Login.login', $nonce))
+			{
+				$loginMail = $form->getSubmitValue('form_login');
+				$token = $form->getSubmitValue('form_token');
+				$password = $form->getSubmitValue('form_password');
+				$messageNoAccess = $this->resetPasswordFormValidated($loginMail, $token, $password);
+			}
+			else
+			{
+				$messageNoAccess = Piwik_Translate('Login_InvalidNonceOrHeaders');
+			}
 		}
 
 		$view = Piwik_View::factory('resetPassword');
