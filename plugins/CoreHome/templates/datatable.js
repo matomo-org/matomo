@@ -729,6 +729,8 @@ dataTable.prototype =
 					
 					// reset all the filters from the Parent table
 					var filtersToRestore = self.resetAllFilters();
+					// do not ignore the exclude low population click
+					self.param.enable_filter_excludelowpop = filtersToRestore.enable_filter_excludelowpop;
 					
 					self.param.idSubtable = idSubTable;
 					self.param.action = self.param.controllerActionCalledWhenRequestSubTable;
@@ -787,6 +789,8 @@ actionDataTable.prototype =
 	truncate: dataTable.prototype.truncate,
 	handleOffsetInformation: dataTable.prototype.handleOffsetInformation,
 	setActiveIcon: dataTable.prototype.setActiveIcon,
+	resetAllFilters: dataTable.prototype.resetAllFilters,
+	restoreAllFilters: dataTable.prototype.restoreAllFilters,
 	
 	//initialisation of the actionDataTable
 	init: function(workingDivId, domElem)
@@ -923,19 +927,19 @@ actionDataTable.prototype =
 			</tr>\
 			');
 			var savedActionVariable = self.param.action;
-		
-			// reset search for subcategories
-			delete self.param.filter_column;
-			delete self.param.filter_pattern;
-			// reset main offset which doesn't apply to subtables
-			delete self.param.filter_offset;
-			delete self.param.filter_limit;
+
+			// reset all the filters from the Parent table
+			var filtersToRestore = self.resetAllFilters();
+
 			
 			self.param.idSubtable = idSubTable;
 			self.param.action = self.param.controllerActionCalledWhenRequestSubTable;
 			
 			self.reloadAjaxDataTable(false, function(resp){self.actionsSubDataTableLoaded(resp)});
 			self.param.action = savedActionVariable;
+
+			self.restoreAllFilters(filtersToRestore);
+			
 			delete self.param.idSubtable;		
 		}
 		// else we toggle all these rows
@@ -1022,8 +1026,7 @@ actionDataTable.prototype =
 		}
 		
 		// we execute the bindDataTableEvent function for the new DIV
-		self.init(self.workingDivId, $('#'+self.workingDivId));
-//		self.init(self.workingDivId, $('#'+idToReplace));
+		self.init(self.workingDivId, $('#'+idToReplace));
 		
 		//bind back the click event (disabled to avoid double-click problem)
 		self.disabledRowDom.click(
