@@ -34,15 +34,11 @@ class Piwik_DataTable_Filter_PatternRecursive extends Piwik_DataTable_Filter
 		$this->patternToSearchQuoted = Piwik_DataTable_Filter_Pattern::getPatternQuoted($patternToSearch);
 		$this->patternToSearch = $patternToSearch;//preg_quote($patternToSearch);
 		$this->columnToFilter = $columnToFilter;
-		$this->filter();
+		$this->filter($table);
 	}
 	
-	protected function filter( $table = null )
+	protected function filter( $table )
 	{
-		if(is_null($table))
-		{
-			$table = $this->table;
-		}
 		$rows = $table->getRows();
 		
 		foreach($rows as $key => $row)

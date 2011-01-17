@@ -35,12 +35,12 @@ class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
 			$limit = -1;
 		}
 		$this->limit = $limit;
-		$this->filter();
+		$this->filter($table);
 	}	
 	
-	protected function filter()
+	protected function filter($table)
 	{
-		$table = $this->table;
+		$table = $table;
 		$table->setRowsCountBeforeLimitFilter();
 		
 		$rowsCount = $table->getRowsCount();

@@ -27,14 +27,14 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 	public function __construct( $table, $enable = true )
 	{
 		parent::__construct($table);
-		$this->filter();
+		$this->filter($table);
 	}
 	
-	protected function filter()
+	protected function filter($table)
 	{
 		$rowsIdToDelete = array();	
 		$bounceRateColumnWasSet = false;	
-		foreach($this->table->getRows() as $key => $row)
+		foreach($table->getRows() as $key => $row)
 		{
 			$nbVisits = $this->getColumn($row, Piwik_Archive::INDEX_NB_VISITS, 'nb_visits');
 			if($nbVisits == 0)
@@ -69,8 +69,9 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 			} catch(Exception $e) {
 				$bounceRateColumnWasSet = true;
 			}
+			$this->filterSubTable($row);
 		}
-		$this->table->deleteRows($rowsIdToDelete);
+		$table->deleteRows($rowsIdToDelete);
 	}
 	
 	/**

@@ -20,12 +20,12 @@ class Piwik_DataTable_Filter_Truncate extends Piwik_DataTable_Filter
 	{
 		parent::__construct($table);
 		$this->truncateAfter = $truncateAfter;
-		$this->filter();
+		$this->filter($table);
 	}	
 	
-	protected function filter()
+	protected function filter($table)
 	{
-		$this->table->filter('AddSummaryRow', array($this->truncateAfter));
-		$this->table->filter('ReplaceSummaryRowLabel');
+		$table->filter('AddSummaryRow', array($this->truncateAfter));
+		$table->filter('ReplaceSummaryRowLabel');
 	}
 }

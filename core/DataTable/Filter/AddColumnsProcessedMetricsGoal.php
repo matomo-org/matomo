@@ -56,14 +56,14 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 		parent::__construct($table);
 	}
 	
-	protected function filter()
+	protected function filter($table)
 	{
 		// Add standard processed metrics
-		parent::filter();
+		parent::filter($table);
 		
 		$roundingPrecision = 2;
 		$expectedColumns = array();
-		foreach($this->table->getRows() as $key => $row)
+		foreach($table->getRows() as $key => $row)
 		{
 			$currentColumns = $row->getColumns();
 			$newColumns = array();
@@ -152,7 +152,7 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 		// make sure all goals values are set, 0 by default
 		// if no value then sorting would put at the end
 		$expectedColumns = array_keys($expectedColumns);
-		$rows = $this->table->getRows();
+		$rows = $table->getRows();
 		foreach($rows as &$row)
 		{
 			foreach($expectedColumns as $name)

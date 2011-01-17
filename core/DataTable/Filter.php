@@ -26,19 +26,23 @@
  */
 abstract class Piwik_DataTable_Filter
 {
-	/**
-	 * @var Piwik_DataTable
-	 */
-	protected $table;
-	
 	public function __construct($table)
 	{
 		if(!($table instanceof Piwik_DataTable))
 		{
 			throw new Exception("The filter accepts only a Piwik_DataTable object.");
 		}
-		$this->table = $table;
 	}
 	
-	abstract protected function filter();
+	abstract protected function filter($table);
+	
+	public function filterSubTable(Piwik_DataTable_Row $row)
+	{
+		try {
+			$subTable = Piwik_DataTable_Manager::getInstance()->getTable( $row->getIdSubDataTable() );
+			$this->filter($subTable);
+		} catch(Exception $e) {
+			// case idSubTable == null, or if the table is not loaded in memory
+		}
+	}
 }

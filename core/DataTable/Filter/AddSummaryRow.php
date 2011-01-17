@@ -40,24 +40,24 @@ class Piwik_DataTable_Filter_AddSummaryRow extends Piwik_DataTable_Filter
 
 		if($table->getRowsCount() > $startRowToSummarize + 1)
 		{
-			$this->filter();
+			$this->filter($table);
 		}
 	}
 
-	protected function filter()
+	protected function filter($table)
 	{
-		$this->table->filter('Sort', 
+		$table->filter('Sort', 
 							array( $this->columnToSortByBeforeTruncating, 'desc'));
 		
-		$rows = $this->table->getRows();
-		$count = $this->table->getRowsCount();
+		$rows = $table->getRows();
+		$count = $table->getRowsCount();
 		$newRow = new Piwik_DataTable_Row();
 		for($i = $this->startRowToSummarize; $i < $count; $i++)
 		{
 			if(!isset($rows[$i]))
 			{
 				// case when the last row is a summary row, it is not indexed by $cout but by Piwik_DataTable::ID_SUMMARY_ROW
-				$summaryRow = $this->table->getRowFromId(Piwik_DataTable::ID_SUMMARY_ROW);
+				$summaryRow = $table->getRowFromId(Piwik_DataTable::ID_SUMMARY_ROW);
 				$newRow->sumRow($summaryRow);
 			}
 			else
@@ -67,8 +67,8 @@ class Piwik_DataTable_Filter_AddSummaryRow extends Piwik_DataTable_Filter
 		}
 		
 		$newRow->setColumns(array('label' => $this->labelSummaryRow) + $newRow->getColumns());
-		$this->table->filter('Limit', array(0, $this->startRowToSummarize));
-		$this->table->addSummaryRow($newRow);
+		$table->filter('Limit', array(0, $this->startRowToSummarize));
+		$table->addSummaryRow($newRow);
 		unset($rows);
 	}
 }

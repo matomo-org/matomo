@@ -45,6 +45,9 @@
 						<entry_sum_visit_length>360</entry_sum_visit_length>
 						<entry_bounce_count>0</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
+						<avg_time_on_page>180</avg_time_on_page>
+						<bounce_rate>0%</bounce_rate>
+						<exit_rate>50%</exit_rate>
 						<subtable>
 							<row>
 								<label> second page view</label>
@@ -54,6 +57,9 @@
 								<exit_nb_visits>1</exit_nb_visits>
 								<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 								<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
+								<avg_time_on_page>0</avg_time_on_page>
+								<bounce_rate>0%</bounce_rate>
+								<exit_rate>100%</exit_rate>
 							</row>
 							<row>
 								<label> a new visit</label>
@@ -66,6 +72,9 @@
 								<entry_bounce_count>0</entry_bounce_count>
 								<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 								<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
+								<avg_time_on_page>360</avg_time_on_page>
+								<bounce_rate>0%</bounce_rate>
+								<exit_rate>0%</exit_rate>
 							</row>
 						</subtable>
 					</row>

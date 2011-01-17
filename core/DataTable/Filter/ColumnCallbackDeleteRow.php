@@ -26,18 +26,19 @@ class Piwik_DataTable_Filter_ColumnCallbackDeleteRow extends Piwik_DataTable_Fil
 		parent::__construct($table);
 		$this->function = $function;
 		$this->columnToFilter = $columnToFilter;
-		$this->filter();
+		$this->filter($table);
 	}
 	
-	protected function filter()
+	protected function filter($table)
 	{
-		foreach($this->table->getRows() as $key => $row)
+		foreach($table->getRows() as $key => $row)
 		{
 			$columnValue = $row->getColumn($this->columnToFilter);
 			if( !call_user_func( $this->function, $columnValue))
 			{
-				$this->table->deleteRow($key);
+				$table->deleteRow($key);
 			}
+			$this->filterSubTable($row);
 		}
 	}
 }

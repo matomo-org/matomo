@@ -406,8 +406,8 @@ abstract class Piwik_ViewDataTable
 		// Second, generic filters (Sort, Limit, Replace Column Names, etc.)
 		$requestString = $this->getRequestString();
 		$request = Piwik_API_Request::getRequestArrayFromString($requestString);
-		$genericFilter = new Piwik_API_DataTableGenericFilter($this->dataTable, $request);
-		$genericFilter->filter();
+		$genericFilter = new Piwik_API_DataTableGenericFilter($request);
+		$genericFilter->filter($this->dataTable);
 
 		// Finally, apply datatable filters that were queued (should be 'presentation' filters that do not affect the number of rows)
 		foreach($this->queuedFilters as $filter)

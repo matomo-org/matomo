@@ -256,8 +256,8 @@ class Piwik_API_ResponseBuilder
 		// if the flag disable_generic_filters is defined we skip the generic filters
 		if('false' == Piwik_Common::getRequestVar('disable_generic_filters', 'false', 'string', $this->request))
 		{
-			$genericFilter = new Piwik_API_DataTableGenericFilter($datatable, $this->request);
-			$genericFilter->filter();
+			$genericFilter = new Piwik_API_DataTableGenericFilter($this->request);
+			$genericFilter->filter($datatable);
 		}
 		
 		// we automatically safe decode all datatable labels (against xss) 

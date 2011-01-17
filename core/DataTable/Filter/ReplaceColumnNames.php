@@ -45,15 +45,10 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
 		{
 			$this->mappingToApply = $mappingToApply;
 		}
-		$this->filter();
+		$this->filter($table);
 	}
 	
-	protected function filter()
-	{
-		$this->filterTable($this->table);
-	}
-	
-	protected function filterTable($table)
+	protected function filter($table)
 	{
 		foreach($table->getRows() as $key => $row)
 		{
@@ -62,12 +57,7 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
 			$row->setColumns( $newColumns );
 			if($this->applyFilterRecursively)
 			{
-				try {
-					$subTable = Piwik_DataTable_Manager::getInstance()->getTable( $row->getIdSubDataTable() );
-					$this->filterTable($subTable);
-				} catch(Exception $e){
-					// case idSubTable == null, or if the table is not loaded in memory
-				}
+				$this->filterSubTable($row);
 			}
 		}
 	}

@@ -48,12 +48,12 @@ class Piwik_DataTable_Filter_ColumnCallbackAddColumnQuotient extends Piwik_DataT
 			$this->columnNameUsedAsDivisor = $divisorValueOrDivisorColumnName;
 		}
 		$this->quotientPrecision = $quotientPrecision;
-		$this->filter();
+		$this->filter($table);
 	}
 	
-	protected function filter()
+	protected function filter($table)
 	{
-		foreach($this->table->getRows() as $key => $row)
+		foreach($table->getRows() as $key => $row)
 		{
 			$value = $row->getColumn($this->columnValueToRead);
 			if(!is_null($this->totalValueUsedAsDivisor))
@@ -66,6 +66,8 @@ class Piwik_DataTable_Filter_ColumnCallbackAddColumnQuotient extends Piwik_DataT
 			}
 			$formattedValue = $this->formatValue($value, $divisor); 
 			$row->addColumn($this->columnNameToAdd, $formattedValue);
+		
+			$this->filterSubTable($row);
 		}
 	}
 	
