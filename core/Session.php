@@ -70,7 +70,7 @@ class Piwik_Session extends Zend_Session
 
 				if(!is_dir($sessionPath))
 				{
-					Piwik_Common::mkdir($sessionPath, 0755, true);
+					Piwik_Common::mkdir($sessionPath);
 					if(!is_dir($sessionPath))
 					{
 						// Unable to mkdir $sessionPath
