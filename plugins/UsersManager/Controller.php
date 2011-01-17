@@ -83,7 +83,10 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		$view->usersAliasByLogin = $usersAliasByLogin;
 		$view->usersCount = count($users) - 1;
 		$view->usersAccessByWebsite = $usersAccessByWebsite;
-		$view->websites = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
+		$websites = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
+    	function orderByName($a, $b) { return strcmp($a['name'], $b['name']); }
+		uasort($websites, 'orderByName');
+		$view->websites = $websites;
 		$this->setBasicVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();
