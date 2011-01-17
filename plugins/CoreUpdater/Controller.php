@@ -297,13 +297,14 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 			$this->warningMessages = array_merge($this->warningMessages, array_slice($integrityInfo, 1));
 		}
 
+		Piwik_View::clearCompiledTemplates();
+
 		$view->coreError = $this->coreError;
 		$view->warningMessages = $this->warningMessages;
 		$view->errorMessages = $this->errorMessages;
 		$view->current_piwik_version = $currentVersion;
 		$view->pluginNamesToUpdate = $pluginNamesToUpdate;
 		$view->coreToUpdate = $coreToUpdate; 
-		$view->clearCompiledTemplates();
 		echo $view->render();
 	}
 
@@ -311,11 +312,12 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	{
 		$this->loadAndExecuteUpdateFiles($updater, $componentsWithUpdateFile);
 
+		Piwik_View::clearCompiledTemplates();
+
 		$view->coreError = $this->coreError;
 		$view->warningMessages = $this->warningMessages;
 		$view->errorMessages = $this->errorMessages;
 		$view->deactivatedPlugins = $this->deactivatedPlugins;
-		$view->clearCompiledTemplates();
 		echo $view->render();
 	}
 
