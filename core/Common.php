@@ -454,6 +454,18 @@ class Piwik_Common
 			@mkdir($path, $mode = 0755, $recursive = true);
 		}
 
+		// try to overcome restrictive umask (mis-)configuration
+		if(!is_writable($path))
+		{
+			@chmod($path, 0755);
+			if(!is_writable($path))
+			{
+				@chmod($path, 0775);
+
+				// enough! we're not going to make the directory world-writeable
+			}
+		}
+
 		if($denyAccess)
 		{
 			self::createHtAccess($path);
