@@ -251,7 +251,7 @@ class Piwik_View implements Piwik_iView
 	 */
 	static public function clearCompiledTemplates()
 	{
-		$view = Piwik_View::factory();
+		$view = new Piwik_View(null);
 		$view->smarty->clear_compiled_tpl();
 	}
 
