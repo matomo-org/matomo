@@ -427,11 +427,11 @@ class Piwik_Actions extends Piwik_Plugin
 		// we are careful to prefix the page URL / name with some value
 		// so that if a page has the same name as a category 
 		// we don't merge both entries 
-		if($type == Piwik_Tracker_Action::TYPE_ACTION_URL )
+		if($type != Piwik_Tracker_Action::TYPE_ACTION_NAME )
 		{
 			$lastPageName = '/' . $lastPageName;
 		}
-		elseif($type == Piwik_Tracker_Action::TYPE_ACTION_NAME) 
+		else 
 		{
 			$lastPageName = ' ' . $lastPageName;
 		}

@@ -225,6 +225,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * and requesting data for last N periods.
 	 * Also tests a visit that spans over 2 days.
 	 * And testing empty URL and empty Page name request
+	 * Also testing a click on a mailto counted as outlink
 	 */
 	function test_TwoVisitors_twoWebsites_differentDays()
 	{
@@ -236,7 +237,8 @@ class Test_Piwik_Integration_Main extends Test_Integration
     								'VisitsSummary.get',
     								'Referers.getWebsites', 
     								'Actions.getPageUrls', 
-    								'Actions.getPageTitles'));
+    								'Actions.getPageTitles',
+    	                            'Actions.getOutlinks'));
     	ob_start();
     	
     	// -
@@ -271,6 +273,12 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.1)->getDatetime());
     	$visitorB->setUrl('http://example.org/thankyou');
     	$this->checkResponse($visitorB->doTrackPageView('second visitor/two days later/second page view'));
+    	
+    	// Testing a strange combination causing an error in r3767
+    	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.2)->getDatetime());
+    	$this->checkResponse($visitorB->doTrackAction('mailto:test@example.org', 'link'));
+    	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.25)->getDatetime());
+    	$this->checkResponse($visitorB->doTrackAction('mailto:test@example.org/strangelink', 'link'));
     	
     	// -
     	// First visitor on Idsite 2: one page view, with Website referer
