@@ -176,7 +176,7 @@ class Piwik
 	{
 		if ( is_dir( $source ) )
 		{
-			@mkdir( $target );
+			Piwik_Common::mkdir( $target, false );
 			$d = dir( $source );
 			while ( false !== ( $entry = $d->read() ) )
 			{
@@ -374,8 +374,7 @@ class Piwik
 
 			if(!file_exists($directoryToCheck))
 			{
-				// the mode in mkdir is modified by the current umask
-				Piwik_Common::mkdir($directoryToCheck, 0755, false);
+				Piwik_Common::mkdir($directoryToCheck);
 			}
 
 			$directory = Piwik_Common::realpath($directoryToCheck);

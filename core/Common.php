@@ -444,14 +444,14 @@ class Piwik_Common
 	 * Create directory if permitted
 	 *
 	 * @param string $path
-	 * @param int $mode (in octal)
 	 * @param bool $denyAccess
 	 */
-	static public function mkdir( $path, $mode = 0755, $denyAccess = true )
+	static public function mkdir( $path, $denyAccess = true )
 	{
 		if(!is_dir($path))
 		{
-			@mkdir($path, $mode, $recursive = true);
+			// the mode in mkdir is modified by the current umask
+			@mkdir($path, $mode = 0755, $recursive = true);
 		}
 
 		if($denyAccess)

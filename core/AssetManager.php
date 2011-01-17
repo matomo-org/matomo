@@ -436,7 +436,7 @@ class Piwik_AssetManager
 
 		if (!is_dir($mergedFileDirectory))
 		{
-			Piwik_Common::mkdir($mergedFileDirectory, 0755, false);
+			Piwik_Common::mkdir($mergedFileDirectory);
 		}
 
 		if (!is_writable($mergedFileDirectory))
