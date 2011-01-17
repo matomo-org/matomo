@@ -25,6 +25,7 @@ function smarty_core_write_file($params, &$smarty)
 
     // write to tmp file, then rename it to avoid file locking race condition
     $_tmp_file = tempnam($_dirname, 'wrt');
+    @chmod($_tmp_file, 0600);
 
     if (!($fd = @fopen($_tmp_file, 'wb'))) {
         $_tmp_file = $_dirname . DIRECTORY_SEPARATOR . uniqid('wrt');
