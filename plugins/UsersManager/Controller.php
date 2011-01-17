@@ -41,12 +41,10 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		{
 			$usersAccessByWebsite = Piwik_UsersManager_API::getInstance()->getUsersAccessFromSite( $idSiteSelected );
 		}
-	
-		// requires super user access
-		$usersLogin = Piwik_UsersManager_API::getInstance()->getUsersLogin();
-		
+		 
 		// we dont want to display the user currently logged so that the user can't change his settings from admin to view...
 		$currentlyLogged = Piwik::getCurrentUserLogin();
+		$usersLogin = Piwik_UsersManager_API::getInstance()->getUsersLogin();
 		foreach($usersLogin as $login)
 		{
 			if(!isset($usersAccessByWebsite[$login]))
@@ -56,16 +54,33 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		}
 		unset($usersAccessByWebsite[$currentlyLogged]);
 
+		
+		// $usersAccessByWebsite is not supposed to contain unexistant logins, but it does when upgrading from some old Piwik version
+		foreach($usersAccessByWebsite as $login => $access)
+		{
+		    if(!in_array($login, $usersLogin))
+		    {
+		        unset($usersAccessByWebsite[$login]);
+		        continue;
+		    }
+		}
+		
 		ksort($usersAccessByWebsite);
 		
 		$users = array();
-		if(Zend_Registry::get('access')->isSuperUser())
+		$usersAliasByLogin = array(); 
+		if(Piwik::isUserHasSomeAdminAccess())
 		{
 			$users = Piwik_UsersManager_API::getInstance()->getUsers();
+			foreach($users as $user)
+			{
+			    $usersAliasByLogin[$user['login']] = $user['alias'];
+			}
 		}
 		
 		$view->idSiteSelected = $idSiteSelected;
 		$view->users = $users;
+		$view->usersAliasByLogin = $usersAliasByLogin;
 		$view->usersCount = count($users) - 1;
 		$view->usersAccessByWebsite = $usersAccessByWebsite;
 		$view->websites = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();

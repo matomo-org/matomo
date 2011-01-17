@@ -71,12 +71,20 @@ class Piwik_UsersManager_API
 	 */
 	public function getUsers()
 	{
-		Piwik::checkUserIsSuperUser();
+		Piwik::checkUserHasSomeAdminAccess();
 		
 		$db = Zend_Registry::get('db');
 		$users = $db->fetchAll("SELECT * 
 								FROM ".Piwik_Common::prefixTable("user")." 
 								ORDER BY login ASC");
+		// Non Super user can only access login & alias 
+		if(!Piwik::isUserIsSuperUser())
+		{
+		    foreach($users as &$user)
+		    {
+		        $user = array('login' => $user['login'], 'alias' => $user['alias'] );
+		    }
+		}
 		return $users;
 	}
 	

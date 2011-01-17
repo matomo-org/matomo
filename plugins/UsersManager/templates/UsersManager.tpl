@@ -60,6 +60,7 @@
 		<thead>
 		<tr>
 			<th class='first'>{'UsersManager_User'|translate}</th>
+			<th>{'UsersManager_Alias'|translate}</th>
 			<th>{'UsersManager_PrivNone'|translate}</th>
 			<th>{'UsersManager_PrivView'|translate}</th>
 			<th>{'UsersManager_PrivAdmin'|translate}</th>
@@ -72,6 +73,7 @@
 		{foreach from=$usersAccessByWebsite key=login item=access}
 		<tr>
 			<td id='login'>{$login}</td>
+			<td>{$usersAliasByLogin[$login]}</td>
 			<td id='noaccess'>{if $access=='noaccess' and $idSiteSelected!='all'}{$accesValid}{else}{$accesInvalid}{/if}&nbsp;</td>
 			<td id='view'>{if $access=='view' and $idSiteSelected!='all'}{$accesValid}{else}{$accesInvalid}{/if}&nbsp;</td>
 			<td id='admin'>{if $access=='admin' and $idSiteSelected!='all'}{$accesValid}{else}{$accesInvalid}{/if}&nbsp;</td>
