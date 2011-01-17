@@ -46,7 +46,6 @@ function printDebug($text)
 require_once PIWIK_INCLUDE_PATH .'/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Loader.php';
 require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Exception.php';
-require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Loader.php';
 require_once PIWIK_INCLUDE_PATH .'/core/ErrorHandler.php';
 require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Registry.php';
 require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Config/Ini.php';
