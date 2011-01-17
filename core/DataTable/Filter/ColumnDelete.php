@@ -25,12 +25,12 @@ class Piwik_DataTable_Filter_ColumnDelete extends Piwik_DataTable_Filter
 	{
 		parent::__construct($table);
 		$this->columnToDelete = $columnToDelete;
-		$this->filter();
+		$this->filter($table);
 	}
 	
-	protected function filter()
+	protected function filter($table)
 	{
-		$this->table->deleteColumn($this->columnToDelete);
+		$table->deleteColumn($this->columnToDelete);
 	}
 	
 }

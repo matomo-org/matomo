@@ -30,12 +30,12 @@ class Piwik_DataTable_Filter_AddConstantMetadata extends Piwik_DataTable_Filter
 		parent::__construct($table);
 		$this->name = $metadataName;
 		$this->value = $metadataValue;
-		$this->filter();
+		$this->filter($table);
 	}
 	
-	protected function filter()
+	protected function filter($table)
 	{
-		foreach($this->table->getRows() as $row)
+		foreach($table->getRows() as $row)
 		{
 			$row->addMetadata($this->name, $this->value);
 		}

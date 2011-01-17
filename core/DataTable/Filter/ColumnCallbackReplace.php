@@ -28,12 +28,12 @@ class Piwik_DataTable_Filter_ColumnCallbackReplace extends Piwik_DataTable_Filte
 		$this->functionToApply = $functionToApply;
 		$this->functionParameters = $functionParameters;
 		$this->columnToFilter = $columnToFilter;
-		$this->filter();
+		$this->filter($table);
 	}
 	
-	protected function filter()
+	protected function filter($table)
 	{
-		foreach($this->table->getRows() as $key => $row)
+		foreach($table->getRows() as $key => $row)
 		{
 			// when a value is not defined, we set it to zero by default (rather than displaying '-')
 			$value = $this->getElementToReplace($row, $this->columnToFilter);
@@ -48,6 +48,7 @@ class Piwik_DataTable_Filter_ColumnCallbackReplace extends Piwik_DataTable_Filte
 			}
 			$newValue = call_user_func_array( $this->functionToApply, $parameters);
 			$this->setElementToReplace($row, $this->columnToFilter, $newValue);
+			$this->filterSubTable($row);
 		}
 	}
 	

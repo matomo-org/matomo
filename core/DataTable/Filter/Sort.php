@@ -36,7 +36,7 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 		$this->columnToSort = $columnToSort;
 		$this->naturalSort = $naturalSort;
 		$this->setOrder($order);
-		$this->filter();
+		$this->filter($table);
 	}
 	
 	function setOrder($order)
@@ -149,13 +149,13 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 		return $this->columnToSort;
 	}
 	
-	protected function filter()
+	protected function filter($table)
 	{
-		if($this->table instanceof Piwik_DataTable_Simple)
+		if($table instanceof Piwik_DataTable_Simple)
 		{
 			return;
 		}
-		$rows = $this->table->getRows();
+		$rows = $table->getRows();
 		if(count($rows) == 0)
 		{
 			return;
@@ -183,6 +183,6 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 				$methodToUse = "sortString";
 			}
 		}
-		$this->table->sort( array($this,$methodToUse), $this->columnToSort );
+		$table->sort( array($this,$methodToUse), $this->columnToSort );
 	}
 }

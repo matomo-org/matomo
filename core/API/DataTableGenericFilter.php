@@ -16,15 +16,14 @@
  */
 class Piwik_API_DataTableGenericFilter
 {
-	function __construct( $datatable, $request )
+	function __construct( $request )
 	{
-		$this->table = $datatable;
 		$this->request = $request;
 	}
 
-	public function filter()
+	public function filter($table)
 	{
-		$this->applyGenericFilters($this->table);
+		$this->applyGenericFilters($table);
 	}
 	
 	/**

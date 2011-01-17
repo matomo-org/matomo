@@ -35,17 +35,17 @@ class Piwik_DataTable_Filter_ExcludeLowPopulation extends Piwik_DataTable_Filter
 			{
 				$minimumPercentageThreshold = self::MINIMUM_SIGNIFICANT_PERCENTAGE_THRESHOLD;
 			}
-			$allValues = $this->table->getColumn($this->columnToFilter);
+			$allValues = $table->getColumn($this->columnToFilter);
 			$sumValues = array_sum($allValues);
 			$minimumValue = $sumValues * $minimumPercentageThreshold;
 		}
 		self::$minimumValue = $minimumValue;
-		$this->filter();
+		$this->filter($table);
 	}
 	
-	function filter()
+	function filter($table)
 	{
-		$this->table->filter('ColumnCallbackDeleteRow',
+		$table->filter('ColumnCallbackDeleteRow',
 							array($this->columnToFilter, 
 								array("Piwik_DataTable_Filter_ExcludeLowPopulation", "excludeLowPopulation")
 							)

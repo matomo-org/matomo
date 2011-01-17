@@ -23,12 +23,12 @@ class Piwik_DataTable_Filter_Null extends Piwik_DataTable_Filter
 	public function __construct( $table )
 	{
 		parent::__construct($table);
-		$this->filter();
+		$this->filter($table);
 	}
 	
-	protected function filter()
+	protected function filter($table)
 	{
-		foreach($this->table->getRows() as $key => $row)
+		foreach($table->getRows() as $key => $row)
 		{
 		}
 	}
