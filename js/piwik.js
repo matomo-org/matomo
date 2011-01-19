@@ -825,23 +825,24 @@ var
 			}
 
 			/*
+			 * Get cookie name with prefix and domain hash
+			 */
+			function getCookieName(baseName) {
+				return configCookieNamePrefix + baseName + '.' + domainHash;
+			}
+
+			/*
 			 * Does browser have cookies enabled (for this site)?
 			 */
 			function hasCookies() {
-				var testCookieName = configCookieNamePrefix + 'testcookie';
+				var testCookieName = getCookieName('testcookie');
+
 				if (!isDefined(navigatorAlias.cookieEnabled)) {
 					setCookie(testCookieName, '1');
 					return getCookie(testCookieName) === '1' ? '1' : '0';
 				}
 
 				return navigatorAlias.cookieEnabled ? '1' : '0';
-			}
-
-			/*
-			 * Get cookie name with prefix and domain hash
-			 */
-			function getCookieName(baseName) {
-				return configCookieNamePrefix + baseName + '.' + domainHash;
 			}
 
 			/*
