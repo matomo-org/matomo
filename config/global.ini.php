@@ -349,7 +349,7 @@ Plugins[] 		= CoreUpdater
 Plugins[]		= PDFReports
 Plugins[] 		= UserCountryMap
 Plugins[] 		= Live
-
+Plugins[]		= CustomVariables
 [PluginsInstalled]
 PluginsInstalled[] = Login
 PluginsInstalled[] = CoreAdminHome
