@@ -69,7 +69,7 @@ var
 		 ************************************************************/
 
 		/*
-		 * Is property (or variable) defined?
+		 * Is property defined?
 		 */
 		function isDefined(property) {
 			return typeof property !== 'undefined';
@@ -84,6 +84,8 @@ var
 
 		/*
 		 * Is property an object?
+		 *
+		 * @return bool Returns true if property is null, an Object, or subclass of Object (i.e., an instanceof String, Date, etc.)
 		 */
 		function isObject(property) {
 			return typeof property === 'object';
@@ -93,7 +95,7 @@ var
 		 * Is property a string?
 		 */
 		function isString(property) {
-			return typeof property === 'string';
+			return typeof property === 'string' || property instanceof String;
 		}
 
 		/*
@@ -108,9 +110,9 @@ var
 			var f = parameterArray.shift();
 
 			if (isString(f)) {
-				asyncTracker[f].apply(this, parameterArray);
+				asyncTracker[f].apply(asyncTracker, parameterArray);
 			} else {
-				f.apply(this, parameterArray);
+				f.apply(asyncTracker, parameterArray);
 			}
 		}
 
@@ -153,7 +155,9 @@ var
 			/*
 			 * Delay/pause (blocks UI)
 			 */
-			if (isDefined(expireDateTime)) {
+			if (expireDateTime) {
+				// the things we do for backwards compatibility...
+				// in ECMA-262 5th ed., we could simply use:  while (Date.now() < expireDateTime) { }
 				var now;
 
 				do {
@@ -194,7 +198,7 @@ var
 					}
 				});
 
-				if (documentAlias.documentElement.doScroll && windowAlias === windowAlias.top) {
+				if (documentAlias.documentElement.doScroll && windowAlias === top) {
 					(function ready() {
 						if (!hasLoaded) {
 							try {
@@ -238,7 +242,7 @@ var
 		/*
 		 * Extract hostname from URL
 		 */
-		function getHostname(url) {
+		function getHostName(url) {
 			// scheme : // [username [: password] @] hostame [: port] [/ [path] [? query] [# fragment]]
 			var e = new RegExp('^(?:(?:https?|ftp):)/*(?:[^@]+@)?([^:/#]+)'),
 				matches = e.exec(url);
@@ -258,22 +262,33 @@ var
 		}
 
 		/*
-		 * Fix-up URL when page rendered from search engine cache or translated page
+		 * Set cookie value
 		 */
-		function urlFixup(hostname, href, referrer) {
-			if (hostname === 'webcache.googleusercontent.com' ||			// Google
-					hostname === 'cc.bingj.com' ||							// Bing
-					hostname.substr(0, 5) === '74.6.') {					// Yahoo (via Inktomi 74.6.0.0/16)
-				href = documentAlias.links[0].href;
-				hostname = getHostname(href);
-			} else if (hostname === 'translate.googleusercontent.com') {	// Google
-				if (referrer === '') {
-					referrer = href;
-				}
-				href = getParameter(href, 'u');
-				hostname = getHostname(href);
+		function setCookie(cookieName, value, msToExpire, path, domain, secure) {
+			var expiryDate;
+
+			// relative time to expire in milliseconds
+			if (msToExpire) {
+				expiryDate = new Date();
+				expiryDate.setTime(expiryDate.getTime() + msToExpire);
 			}
-			return [hostname, href, referrer];
+
+			documentAlias.cookie = cookieName + '=' + encodeWrapper(value) +
+				(msToExpire ? ';expires=' + expiryDate.toGMTString() : '') +
+				';path=' + (path ? path : '/') +
+				(domain ? ';domain=' + domain : '') +
+				(secure ? ';secure' : '');
+		}
+
+		/*
+		 * Get cookie value
+		 */
+		function getCookie(cookieName) {
+			var cookiePattern = new RegExp('(^|;)[ ]*' + cookieName + '=([^;]*)'),
+
+				cookieMatch = cookiePattern.exec(documentAlias.cookie);
+
+			return cookieMatch ? decodeWrapper(cookieMatch[2]) : 0;
 		}
 
 		/*
@@ -288,14 +303,11 @@ var
 		 * - based on sha1 from http://phpjs.org/functions/sha1:512 (MIT / GPL v2)
 		 ************************************************************/
 		function sha1(str) {
-			// http://kevin.vanzonneveld.net
 			// +   original by: Webtoolkit.info (http://www.webtoolkit.info/)
 			// + namespaced by: Michael White (http://getsprink.com)
 			// +      input by: Brett Zamir (http://brett-zamir.me)
 			// +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-			// -    depends on: utf8_encode
-			// *     example 1: sha1('Kevin van Zonneveld');
-			// *     returns 1: '54916d2e62f65b3afa6e192e6a601cdbe5cb5897'
+			// +   jslinted by: Anthon Pang (http://piwik.org)
 
 			var
 				rotate_left = function (n, s) {
@@ -425,6 +437,145 @@ var
 		 * end sha1
 		 ************************************************************/
 
+		/************************************************************
+		 * stringify (json encode)
+		 * - based on public domain JSON implementation at http://www.json.org/json2.js (2009-04-16)
+		 ************************************************************/
+		function stringify(value) {
+
+			var escapable = new RegExp('[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]', 'g'),
+				// table of character substitutions
+				meta = {'\b': '\\b', '\t': '\\t', '\n': '\\n', '\f': '\\f', '\r': '\\r', '"' : '\\"', '\\': '\\\\'};
+
+			// If the string contains no control characters, no quote characters, and no
+			// backslash characters, then we can safely slap some quotes around it.
+			// Otherwise we must also replace the offending characters with safe escape
+			// sequences.
+			function quote(string) {
+				escapable.lastIndex = 0;
+				return escapable.test(string) ?
+					'"' + string.replace(escapable, function (a) {
+						var c = meta[a];
+						return isString(c) ? c :
+							'\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
+					}) + '"' :
+					'"' + string + '"';
+			}
+
+			function f(n) {
+				return n < 10 ? '0' + n : n;
+			}
+
+			// Produce a string from holder[key].
+			function str(key, holder) {
+				var i,          // The loop counter.
+					k,          // The member key.
+					v,          // The member value.
+					partial,
+					value = holder[key];
+
+				if (value === null) {
+					return 'null';
+				}
+
+				// If the value has a toJSON method, call it to obtain a replacement value.
+				if (value && isObject(value) && isFunction(value.toJSON)) {
+					value = value.toJSON(key);
+				}
+
+				// What happens next depends on the value's type.
+				switch (typeof value) {
+				case 'string':
+					return quote(value);
+
+				case 'number':
+					// JSON numbers must be finite. Encode non-finite numbers as null.
+					return isFinite(value) ? String(value) : 'null';
+
+				case 'boolean':
+				case 'null':
+					// If the value is a boolean or null, convert it to a string. Note:
+					// typeof null does not produce 'null'. The case is included here in
+					// the remote chance that this gets fixed someday.
+					return String(value);
+
+				case 'object':
+					// Make an array to hold the partial results of stringifying this object value.
+					partial = [];
+
+					// Is the value an array?
+					// if (Object.prototype.toString.call(value)=="[object Array]") {	// call added in IE5.5
+					if (value instanceof Array) {
+						// The value is an array. Stringify every element. Use null as a placeholder
+						// for non-JSON values.
+						for (i = 0; i < value.length; i++) {
+							partial[i] = str(i, value) || 'null';
+						}
+
+						// Join all of the elements together, separated with commas, and wrap them in
+						// brackets.
+						v = partial.length === 0 ? '[]' : '[' + partial.join(',') + ']';
+						return v;
+					}
+
+					// if (Object.prototype.toString.call(value)=="[object Date]") {	// call added in IE5.5
+					if (value instanceof Date) {
+						return quote(value.getUTCFullYear()   + '-' +
+							f(value.getUTCMonth() + 1) + '-' +
+							f(value.getUTCDate())      + 'T' +
+							f(value.getUTCHours())     + ':' +
+							f(value.getUTCMinutes())   + ':' +
+							f(value.getUTCSeconds())   + 'Z');
+					}
+
+					// Otherwise, iterate through all of the keys in the object.
+					for (k in value) {
+						v = str(k, value);
+						if (v) {
+							partial.push(quote(k) + ':' + v);
+						}
+					}
+
+					// Join all of the member texts together, separated with commas,
+					// and wrap them in braces.
+					v = partial.length === 0 ? '{}' : '{' + partial.join(',') + '}';
+					return v;
+				}
+			}
+
+			return str('', {'': value});
+		}
+		/************************************************************
+		 * end stringify
+		 ************************************************************/
+
+		/*
+		 * Fix-up URL when page rendered from search engine cache or translated page
+		 */
+		function urlFixup(hostname, href, referrer) {
+			if (hostname === 'webcache.googleusercontent.com' ||			// Google
+					hostname === 'cc.bingj.com' ||							// Bing
+					hostname.substring(0, 5) === '74.6.') {					// Yahoo (via Inktomi 74.6.0.0/16)
+				href = documentAlias.links[0].href;
+				hostname = getHostName(href);
+			} else if (hostname === 'translate.googleusercontent.com') {	// Google
+				if (referrer === '') {
+					referrer = href;
+				}
+				href = getParameter(href, 'u');
+				hostname = getHostName(href);
+			}
+			return [hostname, href, referrer];
+		}
+
+		/*
+		 * Fix-up domain
+		 */
+		function domainFixup(domain) {
+			var dl = domain.length;
+			return (domain.charAt(--dl) === '.') ? domain.substring(0, dl) : domain;
+		}
+
 		/*
 		 * Piwik Tracker class
 		 *
@@ -447,8 +598,8 @@ var
 /*</DEBUG>*/
 
 			// Current URL and Referrer URL
-			locationArray = urlFixup(windowAlias.location.hostname, windowAlias.location.href, getReferrer()),
-			locationHostnameAlias = locationArray[0],
+			locationArray = urlFixup(documentAlias.domain, windowAlias.location.href, getReferrer()),
+			domainAlias = domainFixup(locationArray[0]),
 			locationHrefAlias = locationArray[1],
 			configReferrerUrl = locationArray[2],
 
@@ -471,7 +622,7 @@ var
 			configDownloadExtensions = '7z|aac|ar[cj]|as[fx]|avi|bin|csv|deb|dmg|doc|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|ms[ip]|od[bfgpst]|og[gv]|pdf|phps|png|ppt|qtm?|ra[mr]?|rpm|sea|sit|tar|t?bz2?|tgz|torrent|txt|wav|wm[av]|wpd||xls|xml|z|zip',
 
 			// Hosts or alias(es) to not treat as outlinks
-			configHostsAlias = [locationHostnameAlias],
+			configHostsAlias = [domainAlias],
 
 			// HTML anchor element classes to not track
 			configIgnoreClasses = [],
@@ -485,20 +636,40 @@ var
 			// Maximum delay to wait for web bug image to be fetched (in milliseconds)
 			configTrackerPause = 500,
 
+			// Heart beat after initial page view (in milliseconds)
+			configHeartBeatTimer = 30000,
+
 			// Disallow hash tags in URL
 			configDiscardHashTag,
 
 			// Custom data
 			configCustomData,
 
-			// First-party cookie name
-			configCookieName = '_pk_id',
+			// Server cookies (first- or third-party, depending on where Piwik is hosted)
+			configServerCookies,
 
-			// First-party cookie lifetime (days)
-			configCookieExpire = 730,
+			// First-party cookie name prefix
+			configCookieNamePrefix = '_pk_',
 
 			// First-party cookie domain
+			// User agent defaults to origin hostname
 			configCookieDomain,
+
+			// First-party cookie path
+			// Default is user agent defined.
+			configCookiePath,
+
+			// Do we attribute the conversion to the first referrer or the most recent referrer?
+			configConversionAttributionFirstReferer,
+
+			// Life of the visitor cookie (in milliseconds)
+			configVisitorCookieTimeout = 63072000000, // 2 years
+
+			// Life of the session cookie (in milliseconds)
+			configSessionCookieTimeout = 1800000, // 30 minutes
+
+			// Life of the referral cookie (in milliseconds)
+			configReferralCookieTimeout = 15768000000, // 6 months
 
 			// Client-side data collection
 			browserHasCookies = '0',
@@ -526,161 +697,15 @@ var
 			// Hash function
 			hash = sha1,
 
-			/************************************************************
-			 * stringify (json encode)
-			 * - based on public domain JSON implementation at http://www.json.org/json2.js (2009-04-16)
-			 ************************************************************/
-			stringify = function (value) {
+			// Internal state of the pseudo click handler
+			lastButton,
+			lastTarget,
 
-				var escapable = new RegExp('[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]', 'g'),
-					// table of character substitutions
-					meta = {'\b': '\\b', '\t': '\\t', '\n': '\\n', '\f': '\\f', '\r': '\\r', '"' : '\\"', '\\': '\\\\'};
+			// Visitor ID
+			visitorId,
 
-				// If the string contains no control characters, no quote characters, and no
-				// backslash characters, then we can safely slap some quotes around it.
-				// Otherwise we must also replace the offending characters with safe escape
-				// sequences.
-				function quote(string) {
-					escapable.lastIndex = 0;
-					return escapable.test(string) ?
-						'"' + string.replace(escapable, function (a) {
-							var c = meta[a];
-							return isString(c) ? c :
-								'\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
-						}) + '"' :
-						'"' + string + '"';
-				}
-
-				function f(n) {
-					return n < 10 ? '0' + n : n;
-				}
-
-				// Produce a string from holder[key].
-				function str(key, holder) {
-					var i,          // The loop counter.
-						k,          // The member key.
-						v,          // The member value.
-						partial,
-						value = holder[key];
-
-					if (value === null) {
-						return 'null';
-					}
-
-					// If the value has a toJSON method, call it to obtain a replacement value.
-					if (value && isObject(value) && isFunction(value.toJSON)) {
-						value = value.toJSON(key);
-					}
-
-					// What happens next depends on the value's type.
-					switch (typeof value) {
-					case 'string':
-						return quote(value);
-
-					case 'number':
-						// JSON numbers must be finite. Encode non-finite numbers as null.
-						return isFinite(value) ? String(value) : 'null';
-
-					case 'boolean':
-					case 'null':
-						// If the value is a boolean or null, convert it to a string. Note:
-						// typeof null does not produce 'null'. The case is included here in
-						// the remote chance that this gets fixed someday.
-						return String(value);
-
-					case 'object':
-						// Make an array to hold the partial results of stringifying this object value.
-						partial = [];
-
-						// Is the value an array?
-						// if (Object.prototype.toString.call(value)=="[object Array]") {	// call added in IE5.5
-						if (value instanceof Array) {
-							// The value is an array. Stringify every element. Use null as a placeholder
-							// for non-JSON values.
-							for (i = 0; i < value.length; i++) {
-								partial[i] = str(i, value) || 'null';
-							}
-
-							// Join all of the elements together, separated with commas, and wrap them in
-							// brackets.
-							v = partial.length === 0 ? '[]' : '[' + partial.join(',') + ']';
-							return v;
-						}
-
-						// if (Object.prototype.toString.call(value)=="[object Date]") {	// call added in IE5.5
-						if (value instanceof Date) {
-							return quote(value.getUTCFullYear()   + '-' +
-								f(value.getUTCMonth() + 1) + '-' +
-								f(value.getUTCDate())      + 'T' +
-								f(value.getUTCHours())     + ':' +
-								f(value.getUTCMinutes())   + ':' +
-								f(value.getUTCSeconds())   + 'Z');
-						}
-
-						// Otherwise, iterate through all of the keys in the object.
-						for (k in value) {
-							v = str(k, value);
-							if (v) {
-								partial.push(quote(k) + ':' + v);
-							}
-						}
-
-						// Join all of the member texts together, separated with commas,
-						// and wrap them in braces.
-						v = partial.length === 0 ? '{}' : '{' + partial.join(',') + '}';
-						return v;
-					}
-				}
-
-				return str('', {'': value});
-			};
-			/************************************************************
-			 * end stringify
-			 ************************************************************/
-
-			/*
-			 * Set cookie value
-			 */
-			function setCookie(cookieName, value, daysToExpire, path, domain, secure) {
-				var expiryDate;
-
-				if (daysToExpire) {
-					// time is in milliseconds
-					expiryDate = new Date();
-					// there are 1000 * 60 * 60 * 24 milliseconds in a day (i.e., 86400000 or 8.64e7)
-					expiryDate.setTime(expiryDate.getTime() + daysToExpire * 8.64e7);
-				}
-
-				documentAlias.cookie = cookieName + '=' + encodeWrapper(value) +
-					(daysToExpire ? ';expires=' + expiryDate.toGMTString() : '') +
-					';path=' + (path ? path : '/') +
-					(domain ? ';domain=' + domain : '') +
-					(secure ? ';secure' : '');
-			}
-
-			/*
-			 * Get cookie value
-			 */
-			function getCookie(cookieName) {
-				var cookiePattern = new RegExp('(^|;)[ ]*' + cookieName + '=([^;]*)'),
-
-					cookieMatch = cookiePattern.exec(documentAlias.cookie);
-
-				return cookieMatch ? decodeWrapper(cookieMatch[2]) : 0;
-			}
-
-			/*
-			 * Discard cookie
-			 */
-/*			// NOT CURRENTLY USED
-			function dropCookie(cookieName, path, domain) {
-				// browser may not delete cookie until browser closed (session ends)
-				if (getCookie(cookieName)) {
-					// clear value, set expires in the past
-					setCookie(cookieName, '', -1, path, domain);
-				}
-			}
-*/
+			// Domain hash value
+			domainHash;
 
 			/*
 			 * Purify URL.
@@ -693,6 +718,33 @@ var
 					return str.replace(targetPattern, '');
 				}
 				return str;
+			}
+
+			/*
+			 * Is the host local?  (i.e., not an outlink)
+			 */
+			function isSiteHostName(hostName) {
+				var i, alias, offset;
+
+				for (i = 0; i < configHostsAlias.length; i++) {
+					alias = configHostsAlias[i].toLowerCase();
+
+					if (hostName === alias) {
+						return true;
+					}
+
+					if (alias.substring(0, 2) === '*.') {
+						if (hostName === alias.substring(2)) {
+							return true;
+						}
+
+						offset = hostName.length - alias.length + 1;
+						if ((offset > 0) && (hostName.substring(offset) === alias.substring(1))) {
+							return true;
+						}
+					}
+				}
+				return false;
 			}
 
 			/*
@@ -776,7 +828,7 @@ var
 			 * Does browser have cookies enabled (for this site)?
 			 */
 			function hasCookies() {
-				var testCookieName = '_pk_testcookie';
+				var testCookieName = configCookieNamePrefix + 'testcookie';
 				if (!isDefined(navigatorAlias.cookieEnabled)) {
 					setCookie(testCookieName, '1');
 					return getCookie(testCookieName) === '1' ? '1' : '0';
@@ -786,50 +838,127 @@ var
 			}
 
 			/*
+			 * Get cookie name with prefix and domain hash
+			 */
+			function getCookieName(baseName) {
+				return configCookieNamePrefix + baseName + '.' + domainHash;
+			}
+
+			/*
+			 * Update domain hash
+			 */
+			function updateDomainHash() {
+				domainHash = hash((configCookieDomain || domainAlias) + (configCookiePath || '/')).substring(0, 8); // 8 hexits = 32 bits
+			}
+
+			/*
 			 * Returns the URL to call piwik.php, 
 			 * with the standard parameters (plugins, resolution, url, referer, etc.).
 			 * Sends the pageview and browser settings with every request in case of race conditions.
 			 */
 			function getRequest(customData, pluginMethod) {
 				var i,
-				now = new Date(),
-				fpc = getCookie(configCookieName),
+				now = new Date(), nowTs = Math.round(now.getTime() / 1000),
+				tmpContainer, newVisitor, uuid, visitCount, createTs, currentVisitTs, lastVisitTs, referralTs, referralUrl, currentRefererHostName, originalRefererHostName,
+				idname = getCookieName('id'),
+				sesname = getCookieName('ses'),
+				refname = getCookieName('ref'),
+				id = getCookie(idname),
+				ses = getCookie(sesname),
+				ref = getCookie(refname),
 				request = '&res=' + screenAlias.width + 'x' + screenAlias.height + '&cookie=' + browserHasCookies;
 
 				for (i in pluginMap) {
 					request += '&' + pluginMap[i][0] + '=' + pluginMap[i][2];
 				}
 
-				// generate first party cookie
-				// note: this is just to prototype the implementation; the server doesn't do anything with this yet
-				if (!fpc) {
+				if (id) {
+					// returning visitor
+					newVisitor = '0';
+					tmpContainer = id.split('.');
+					uuid = tmpContainer[0];
+					createTs = tmpContainer[1];
+					visitCount = tmpContainer[2];
+					currentVisitTs = tmpContainer[3];
+					lastVisitTs = tmpContainer[4];
+				} else {
+					// new visitor
+					newVisitor = '1';
+
+					// seconds since Unix epoch
+					createTs = nowTs;
+
+					// no previous visit
+					lastVisitTs = '';
+
 					// generate a pseudo-unique ID to fingerprint this user;
-					// note: this doesn't have to be a RFC4122-compliant UUID
-					fpc = hash(
+					// note: this isn't a RFC4122-compliant UUID
+					uuid = hash(
 							(isDefined(navigatorAlias.userAgent) ? navigatorAlias.userAgent : '') +
 							(isDefined(navigatorAlias.platform) ? navigatorAlias.platform : '') +
-							request
-						);
+							request + Math.round(now.getTime / 1000)
+						).substring(0, 16); // 16 hexits = 64 bits
+
+					visitCount = 0;
 				}
 
-				setCookie(configCookieName, fpc, configCookieExpire, '/', configCookieDomain);
+				if (ref) {
+					tmpContainer = ref.split(' ');
+					referralTs = tmpContainer[0];
+					referralUrl = tmpContainer[1];
+				}
+
+				if (!ses) {
+					// new session (aka new visit)
+					visitCount++;
+
+					lastVisitTs = currentVisitTs;
+
+					// the referral URL depends on the first or last referrer attribution
+					currentRefererHostName = getHostName(configReferrerUrl);
+					originalRefererHostName = ref ? getHostName(ref) : '';
+					if (currentRefererHostName.length && // there is a referer
+							!isSiteHostName(currentRefererHostName) && // domain is not the current domain
+							(!configConversionAttributionFirstReferer || // attribute to last known referer
+							!originalRefererHostName.length || // previously empty
+							isSiteHostName(originalRefererHostName))) { // previously set but in current domain
+						// record this referral
+						referralTs = nowTs;
+						referralUrl = configReferrerUrl;
+
+						// set the referral cookie
+						setCookie(refname, referralTs + ' ' + referralUrl, configReferralCookieTimeout, configCookiePath, configCookieDomain);
+					}
+				}
+
+				currentVisitTs = nowTs;
+
+				// update other cookies
+				setCookie(idname, uuid + '.' + createTs + '.' + visitCount + '.' + currentVisitTs + '.' + lastVisitTs, configVisitorCookieTimeout, configCookiePath, configCookieDomain);
+				setCookie(sesname, '*', configSessionCookieTimeout, configCookiePath, configCookieDomain);
 
 				// build out the rest of the request
 				request = 'idsite=' + configTrackerSiteId +
 					'&rec=1' + 
 					'&rand=' + Math.random() +
 					'&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
-					'&url=' + encodeWrapper(purify(isDefined(configCustomUrl) ? configCustomUrl : locationHrefAlias)) +
+					'&url=' + encodeWrapper(purify(configCustomUrl || locationHrefAlias)) +
 					'&urlref=' + encodeWrapper(purify(configReferrerUrl)) +
-					'&fpc=' + fpc +
+					'&_id=' + uuid + '&_idts=' + createTs + '&_idvc=' + visitCount + '&_idn=' + newVisitor +
+					'&_ref=' + encodeWrapper(purify(referralUrl)) +
+					'&_refts=' + referralTs +
+					'&_viewts=' + lastVisitTs +
+					'&_ses=' + (configServerCookies ? 0 : 1) +
 					request;
 
+				// custom variables
+/*
+					request += '&cvar=' + ...;
+*/
 				// custom data
-				if (isDefined(customData)) {
-					if (customData !== null) {
-						request += '&data=' + encodeWrapper(stringify(customData));
-					}
-				} else if (isDefined(configCustomData)) {
+				if (customData) {
+					request += '&data=' + encodeWrapper(stringify(customData));
+				} else if (configCustomData) {
 					request += '&data=' + encodeWrapper(stringify(configCustomData));
 				}
 
@@ -844,11 +973,11 @@ var
 			 */
 			function logPageView(customTitle, customData) {
 				var request = getRequest(customData, 'log') +
-					'&action_name=' + encodeWrapper(isDefined(customTitle) ? customTitle : configTitle); // refs #530;
+					'&action_name=' + encodeWrapper(customTitle || configTitle); // refs #530;
 
 				sendRequest(request, configTrackerPause);
 			}
-			
+
 			/*
 			 * Log the goal with the server
 			 */
@@ -857,7 +986,7 @@ var
 					'&idgoal=' + idGoal;
 
 				// custom revenue
-				if (isDefined(customRevenue) && customRevenue !== null) {
+				if (customRevenue) {
 					request += '&revenue=' + customRevenue;
 				}
 
@@ -876,40 +1005,12 @@ var
 			}
 
 			/*
-			 * Is the host local?  (i.e., not an outlink)
-			 */
-			function isSiteHostName(hostName) {
-				var i, alias, offset;
-
-				for (i = 0; i < configHostsAlias.length; i++) {
-					alias = configHostsAlias[i].toLowerCase();
-
-					if (hostName === alias) {
-						return true;
-					}
-
-					if (alias.substr(0, 2) === '*.') {
-						if ((hostName) === alias.substr(2)) {
-							return true;
-						}
-
-						offset = hostName.length - alias.length + 1;
-						if ((offset > 0) && (hostName.substr(offset) === alias.substr(1))) {
-							return true;
-						}
-					}
-				}
-
-				return false;
-			}
-
-			/*
 			 * Construct regular expression of classes
 			 */
 			function getClassesRegExp(configClasses, defaultClass) {
 				var i, classesRegExp = '(^| )(piwik[_-]' + defaultClass;
 
-				if (isDefined(configClasses)) {
+				if (configClasses) {
 					for (i = 0; i < configClasses.length; i++) {
 						classesRegExp += '|' + configClasses[i];
 					}
@@ -960,22 +1061,10 @@ var
 			}
 
 			/*
-			 * Handle click event
+			 * Process clicks
 			 */
-			function clickHandler(clickEvent) {
-				var sourceElement, parentElement, tag, linkType;
-
-				if (!isDefined(clickEvent)) {
-					clickEvent = windowAlias.event;
-				}
-
-				if (isDefined(clickEvent.target)) {
-					sourceElement = clickEvent.target;
-				} else if (isDefined(clickEvent.srcElement)) {
-					sourceElement = clickEvent.srcElement;
-				} else {
-					return;
-				}
+			function processClick(sourceElement) {
+				var parentElement, tag, linkType;
 
 				while ((parentElement = sourceElement.parentNode) &&
 						((tag = sourceElement.tagName) !== 'A' && tag !== 'AREA')) {
@@ -1001,16 +1090,52 @@ var
 			}
 
 			/*
+			 * Handle click event
+			 */
+			function clickHandler(evt) {
+				var button, target;
+
+				evt = evt || windowAlias.event;
+				button = evt.which || evt.button;
+				target = evt.target || evt.srcElement;
+
+				// Using evt.type (added in IE4), we avoid defining separate handlers for mouseup and mousedown.
+				if (evt.type === 'click') {
+					if (target) {
+						processClick(target);
+					}
+				} else if (evt.type === 'mousedown') {
+					if ((button === 1 || button === 2) && target) {
+						lastButton = button;
+						lastTarget = target;
+					} else {
+						lastButton = lastTarget = null;
+					}
+				} else if (evt.type === 'mouseup') {
+					if (button === lastButton && target === lastTarget) {
+						processClick(target);
+					}
+					lastButton = lastTarget = null;
+				}
+			}
+
+			/*
 			 * Add click listener to a DOM element
 			 */
-			function addClickListener(element) {
-				addEventListener(element, 'click', clickHandler, false);
+			function addClickListener(element, enable) {
+				if (enable) {
+					// for simplicity and performance, we ignore drag events
+					addEventListener(element, 'click', clickHandler, false);
+					addEventListener(element, 'click', clickHandler, false);
+				} else {
+					addEventListener(element, 'click', clickHandler, false);
+				}
 			}
 
 			/*
 			 * Add click handlers to anchor and AREA elements, except those to be ignored
 			 */
-			function addClickListeners() {
+			function addClickListeners(enable) {
 				if (!linkTrackingInstalled) {
 					linkTrackingInstalled = true;
 
@@ -1021,7 +1146,7 @@ var
 					if (linkElements) {
 						for (i = 0; i < linkElements.length; i++) {
 							if (!ignorePattern.test(linkElements[i].className)) {
-								addClickListener(linkElements[i]);
+								addClickListener(linkElements[i], enable);
 							}
 						}
 					}
@@ -1036,7 +1161,7 @@ var
 			function registerHook(hookName, userHook) {
 				var hookObj = null;
 
-				if (isString(hookName) && !isDefined(registeredHooks[hookName])) {
+				if (isString(hookName) && !isDefined(registeredHooks[hookName]) && userHook) {
 					if (isObject(userHook)) {
 						hookObj = userHook;
 					} else if (isString(userHook)) {
@@ -1060,6 +1185,7 @@ var
 			 */
 			browserHasCookies = hasCookies();
 			detectBrowserPlugins();
+			updateDomainHash();
 
 /*<DEBUG>*/
 			/*
@@ -1084,6 +1210,15 @@ var
 /*</DEBUG>*/
 
 				/**
+				 * Get visitor ID (from first party cookie)
+				 *
+				 * @return string Visitor ID in hexits (or null, if not yet known)
+				 */
+				getVisitorId: function () {
+					return visitorId;
+				},
+
+				/**
 				 * Specify the Piwik server URL
 				 *
 				 * @param string trackerUrl
@@ -1104,10 +1239,58 @@ var
 				/**
 				 * Pass custom data to the server
 				 *
-				 * @param mixed customData
+				 * Examples:
+				 *   tracker.setCustomData(object);
+				 *   tracker.setCustomData(key, value);
+				 *
+				 * @param mixed key_or_obj
+				 * @param mixed opt_value
 				 */
-				setCustomData: function (customData) {
-					configCustomData = customData;
+				setCustomData: function (key_or_obj, opt_value) {
+					if (isObject(key_or_obj)) {
+						configCustomData = key_or_obj;
+					} else {
+						if (!configCustomData) {
+							configCustomData = [];
+						}
+						configCustomData[key_or_obj] = opt_value;
+					}
+				},
+
+				/**
+				 * Get custom data
+				 *
+				 * @return mixed
+				 */
+				getCustomData: function () {
+					return configCustomData;
+				},
+
+				/**
+				 * Set custom variable
+				 *
+				 * @param int slotId
+				 * @param string key
+				 * @param string value
+				 * @param int opt_scope Optional scope (1 = visitor, 2 = session, 3 = page)
+				 */
+				setCustomVar: function (slotId, key, value, opt_scope) {
+				},
+
+				/**
+				 * Get custom variable
+				 *
+				 * @param int slotId
+				 */
+				getCustomVar: function (slotId) {
+				},
+
+				/**
+				 * Delete custom variable
+				 *
+				 * @param int slotId
+				 */
+				deleteCustomVar: function (slotId) {
 				},
 
 				/**
@@ -1144,7 +1327,7 @@ var
 				 */
 				setDomains: function (hostsAlias) {
 					configHostsAlias = isString(hostsAlias) ? [hostsAlias] : hostsAlias;
-					configHostsAlias.push(locationHostnameAlias);
+					configHostsAlias.push(domainAlias);
 				},
 
 				/**
@@ -1202,32 +1385,12 @@ var
 				},
 
 				/**
-				 * Set download class name (i.e., override default: piwik_download)
-				 * (deprecated)
-				 *
-				 * @param string className
-				 */
-				setDownloadClass: function (className) {
-					configDownloadClasses = [className];
-				},
-
-				/**
 				 * Set array of classes to be treated as outlinks
 				 *
 				 * @param string|array linkClasses
 				 */
 				setLinkClasses: function (linkClasses) {
 					configLinkClasses = isString(linkClasses) ? [linkClasses] : linkClasses;
-				},
-
-				/**
-				 * Set outlink class name (i.e., override default: piwik_link)
-				 * (deprecated)
-				 *
-				 * @param string className
-				 */
-				setLinkClass: function (className) {
-					configLinkClasses = [className];
 				},
 
 				/**
@@ -1240,21 +1403,12 @@ var
 				},
 
 				/**
-				 * Set first-party cookie name
+				 * Set first-party cookie name prefix
 				 *
-				 * @param string cookieName
+				 * @param string cookieNamePrefix
 				 */
-				setCookieName: function (cookieName) {
-					configCookieName = cookieName;
-				},
-
-				/**
-				 * Set first-party cookie expiry
-				 *
-				 * @param int expire Number of days relative to today
-				 */
-				setCookieExpire: function (expire) {
-					configCookieExpire = expire;
+				setCookieNamePrefix: function (cookieNamePrefix) {
+					configCookieNamePrefix = cookieNamePrefix;
 				},
 
 				/**
@@ -1263,7 +1417,54 @@ var
 				 * @param string domain
 				 */
 				setCookieDomain: function (domain) {
-					configCookieDomain = domain;
+					configCookieDomain = domainFixup(domain);
+					updateDomainHash();
+				},
+
+				/**
+				 * Set first-party cookie path
+				 *
+				 * @param string domain
+				 */
+				setCookiePath: function (path) {
+					configCookiePath = path;
+					updateDomainHash();
+				},
+
+				/**
+				 * Set visitor cookie timeout (in milliseconds)
+				 *
+				 * @param int timeout
+				 */
+				setVisitorCookieTimeout: function (timeout) {
+					configVisitorCookieTimeout = timeout;
+				},
+
+				/**
+				 * Set session cookie timeout (in milliseconds)
+				 *
+				 * @param int timeout
+				 */
+				setSessionCookieTimeout: function (timeout) {
+					configSessionCookieTimeout = timeout;
+				},
+
+				/**
+				 * Set referral cookie timeout (in milliseconds)
+				 *
+				 * @param int timeout
+				 */
+				setReferralCookieTimeout: function (timeout) {
+					configReferralCookieTimeout = timeout;
+				},
+
+				/**
+				 * Set conversion attribution to first referer
+				 *
+				 * @param bool enable If true, use first referer; if false, use the last referer
+				 */
+				setConversionAttributionFirstReferer: function (enable) {
+					configConversionAttributionFirstReferer = enable;
 				},
 
 				/**
@@ -1271,23 +1472,70 @@ var
 				 * When clicked, Piwik will log the click automatically.
 				 *
 				 * @param DOMElement element
+				 * @param bool enable If true, use pseudo click-handler (mousedown+mouseup)
 				 */
-				addListener: function (element) {
-					addClickListener(element);
+				addListener: function (element, enable) {
+					addClickListener(element, enable);
 				},
 
 				/**
 				 * Install link tracker
+				 *
+				 * The default behaviour is to use actual click events.  However, some browsers
+				 * (e.g., Firefox, Opera, and Konqueror) don't generate click events for the middle mouse button.
+				 *
+				 * To capture more "clicks", the pseudo click-handler uses mousedown + mouseup events.
+				 * This is not industry standard and is vulnerable to false positives (e.g., drag events).
+				 *
+				 * @param bool enable If true, use pseudo click-handler (mousedown+mouseup)
 				 */
-				enableLinkTracking: function () {
+				enableLinkTracking: function (enable) {
 					if (hasLoaded) {
 						// the load event has already fired, add the click listeners now
-						addClickListeners();
+						addClickListeners(enable);
 					} else {
 						// defer until page has loaded
 						registeredOnLoadHandlers[registeredOnLoadHandlers.length] = function () {
-							addClickListeners();
+							addClickListeners(enable);
 						};
+					}
+				},
+
+				/**
+				 * Enable third-party server cookies
+				 *
+				 * @param bool enable
+				 */
+				enableServerCookies: function (enable) {
+					configServerCookies = enable;
+				},
+
+				/**
+				 * Set heartbeat (in milliseconds)
+				 *
+				 * @param int delay
+				 */
+				setHeartBeatTimer: function (delay) {
+					configHeartBeatTimer = delay;
+				},
+
+				/**
+				 * Frame buster
+				 */
+				killFrame: function () {
+					if (windowAlias !== top) {
+						top.location = windowAlias.location;
+					}
+				},
+
+				/**
+				 * Redirect if browsing offline (aka file: buster)
+				 *
+				 * @param string url Redirect to this URL
+				 */
+				redirectFile: function (url) {
+					if (windowAlias.location.protocol === 'file:') {
+						windowAlias.location = url;
 					}
 				},
 
@@ -1321,6 +1569,14 @@ var
 				 */
 				trackPageView: function (customTitle, customData) {
 					logPageView(customTitle, customData);
+
+					// @todo: a potential optimization might be to send the heartbeat only on the first page of a new session (visit)
+					if (configHeartBeatTimer) {
+						setTimeout(function () {
+								logPageView(customTitle, customData);
+							}, configHeartBeatTimer
+						);
+					}
 				}
 			};
 		}
@@ -1380,82 +1636,4 @@ var
 				return new Tracker(piwikUrl, siteId);
 			}
 		};
-	}()),
-
-	/************************************************************
-	 * Deprecated functionality below
-	 * - for legacy piwik.js compatibility
-	 ************************************************************/
-
-	/*
-	 * Piwik globals
-	 *
-	 *   var piwik_install_tracker, piwik_tracker_pause, piwik_download_extensions, piwik_hosts_alias, piwik_ignore_classes;
-	 */
-
-	piwik_track,
-
-	/**
-	 * Track page visit
-	 *
-	 * @param string documentTitle
-	 * @param int|string siteId
-	 * @param string piwikUrl
-	 * @param mixed customData
-	 */
-	piwik_log = function (documentTitle, siteId, piwikUrl, customData) {
-		"use strict";
-
-		function getOption(optionName) {
-			try {
-				return eval('piwik_' + optionName);
-			} catch (e) { }
-
-			return; /* undefined */
-		}
-
-		// instantiate the tracker
-		var option, piwikTracker = Piwik.getTracker(piwikUrl, siteId);
-
-		// initializer tracker
-		piwikTracker.setDocumentTitle(documentTitle);
-		piwikTracker.setCustomData(customData);
-
-		// handle Piwik globals
-		if ((option = getOption('tracker_pause'))) {
-			piwikTracker.setLinkTrackingTimer(option);
-		}
-		if ((option = getOption('download_extensions'))) {
-			piwikTracker.setDownloadExtensions(option);
-		}
-		if ((option = getOption('hosts_alias'))) {
-			piwikTracker.setDomains(option);
-		}
-		if ((option = getOption('ignore_classes'))) {
-			piwikTracker.setIgnoreClasses(option);
-		}
-
-		// track this page view
-		piwikTracker.trackPageView();
-
-		// default is to install the link tracker
-		if ((getOption('install_tracker'))) {
-
-			/**
-			 * Track click manually (function is defined below)
-			 *
-			 * @param string sourceUrl
-			 * @param int|string siteId
-			 * @param string piwikUrl
-			 * @param string linkType
-			 */
-			piwik_track = function (sourceUrl, siteId, piwikUrl, linkType) {
-				piwikTracker.setSiteId(siteId);
-				piwikTracker.setTrackerUrl(piwikUrl);
-				piwikTracker.trackLink(sourceUrl, linkType);
-			};
-
-			// set-up link tracking
-			piwikTracker.enableLinkTracking();
-		}
-	};
+	}());

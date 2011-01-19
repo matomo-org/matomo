@@ -2,6 +2,7 @@
                     "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
  <title>piwik.js: Piwik Unit Tests</title>
  <script type="text/javascript">
 function getToken() {
@@ -30,6 +31,7 @@ _paq.push(["trackPageView", "Asynchronous tracker"]);';
  <script src="../../libs/jquery/jquery.js" type="text/javascript"></script>
  <link rel="stylesheet" href="assets/qunit.css" type="text/css" media="screen" />
  <script src="assets/qunit.js" type="text/javascript"></script>
+ <script src="jslint/fulljslint.js" type="text/javascript"></script>
  <script type="text/javascript">
 <!--
 /**
@@ -81,14 +83,21 @@ function url(value) {
  <script>
 $(document).ready(function () {
 
+	test("JSLint", function() {
+		expect(1);
+		var src = '<?php
+			$src = file_get_contents('../../js/piwik.js');
+			$src = strtr($src, array('\\'=>'\\\\',"'"=>"\\'",'"'=>'\\"',"\r"=>'\\r',"\n"=>'\\n','</'=>'<\/'));
+			echo $src; ?>';
+		ok( JSLINT(src), "JSLint" );
+	});
+
 	test("Basic requirements", function() {
-		expect(5);
+		expect(3);
 
 		equals( typeof encodeURIComponent, 'function', 'encodeURIComponent' );
 		ok( RegExp, "RegExp" );
 		ok( Piwik, "Piwik" );
-		ok( piwik_log, "piwik_log" );
-		equals( typeof piwik_track, 'undefined', "piwk_track" );
 	});
 
 	module("piwik test");
@@ -107,6 +116,38 @@ $(document).ready(function () {
 	});
 
 	module("piwik");
+	test("Tracker is_a functions", function() {
+		expect(22);
+
+		var tracker = Piwik.getTracker();
+
+		equals( typeof tracker.hook.test._isDefined, 'function', 'isDefined' );
+		ok( tracker.hook.test._isDefined(tracker), 'isDefined true' );
+		ok( tracker.hook.test._isDefined(tracker.hook), 'isDefined(obj.exists) true' );
+		ok( !tracker.hook.test._isDefined(tracker.non_existant_property), 'isDefined(obj.missing) false' );
+
+		equals( typeof tracker.hook.test._isFunction, 'function', 'isFunction' );
+		ok( tracker.hook.test._isFunction(tracker.hook.test._isFunction), 'isFunction(isFunction)' );
+		ok( tracker.hook.test._isFunction(function () { }), 'isFunction(function)' );
+
+		equals( typeof tracker.hook.test._isObject, 'function', 'isObject' );
+		ok( tracker.hook.test._isObject(null), 'isObject(null)' ); // null is an object!
+		ok( tracker.hook.test._isObject(new Object), 'isObject(Object)' );
+		ok( tracker.hook.test._isObject(window), 'isObject(window)' );
+		ok( !tracker.hook.test._isObject('string'), 'isObject("string")' );
+		ok( tracker.hook.test._isObject(new String), 'isObject(String)' ); // String is an object!
+
+		equals( typeof tracker.hook.test._isString, 'function', 'isString' );
+		ok( tracker.hook.test._isString(''), 'isString(emptyString)' );
+		ok( tracker.hook.test._isString('abc'), 'isString("abc")' );
+		ok( tracker.hook.test._isString('123'), 'isString("123")' );
+		ok( !tracker.hook.test._isString(123), 'isString(123)' );
+		ok( !tracker.hook.test._isString(null), 'isString(null)' );
+		ok( !tracker.hook.test._isString(window), 'isString(window)' );
+		ok( !tracker.hook.test._isString(function () { }), 'isString(function)' );
+		ok( tracker.hook.test._isString(new String), 'isString(String)' ); // String is a string
+	});
+
 	test("Tracker encode and decode wrappers", function() {
 		expect(4);
 
@@ -119,27 +160,27 @@ $(document).ready(function () {
 		equals( tracker.hook.test._decode("%26%3D%3F%3B%2F%23"), '&=?;/#', 'decodeWrapper()' );
 	});
 
-	test("Tracker getHostname(), getParameter(), urlFixup(), and purify()", function() {
-		expect(32);
+	test("Tracker getHostName(), getParameter(), urlFixup(), domainFixup(), and purify()", function() {
+		expect(40);
 
 		var tracker = Piwik.getTracker();
 
-		equals( typeof tracker.hook.test._getHostname, 'function', 'getHostname' );
+		equals( typeof tracker.hook.test._getHostName, 'function', 'getHostName' );
 		equals( typeof tracker.hook.test._getParameter, 'function', 'getParameter' );
 
-		equals( tracker.hook.test._getHostname('http://example.com'), 'example.com', 'http://example.com');
-		equals( tracker.hook.test._getHostname('http://example.com/'), 'example.com', 'http://example.com/');
-		equals( tracker.hook.test._getHostname('http://example.com/index'), 'example.com', 'http://example.com/index');
-		equals( tracker.hook.test._getHostname('http://example.com/index?q=xyz'), 'example.com', 'http://example.com/index?q=xyz');
-		equals( tracker.hook.test._getHostname('http://example.com/?q=xyz'), 'example.com', 'http://example.com/?q=xyz');
-		equals( tracker.hook.test._getHostname('http://example.com/?q=xyz#hash'), 'example.com', 'http://example.com/?q=xyz#hash');
-		equals( tracker.hook.test._getHostname('http://example.com#hash'), 'example.com', 'http://example.com#hash');
-		equals( tracker.hook.test._getHostname('http://example.com/#hash'), 'example.com', 'http://example.com/#hash');
-		equals( tracker.hook.test._getHostname('http://example.com:80'), 'example.com', 'http://example.com:80');
-		equals( tracker.hook.test._getHostname('http://example.com:80/'), 'example.com', 'http://example.com:80/');
-		equals( tracker.hook.test._getHostname('https://example.com/'), 'example.com', 'https://example.com/');
-		equals( tracker.hook.test._getHostname('http://user@example.com/'), 'example.com', 'http://user@example.com/');
-		equals( tracker.hook.test._getHostname('http://user:password@example.com/'), 'example.com', 'http://user:password@example.com/');
+		equals( tracker.hook.test._getHostName('http://example.com'), 'example.com', 'http://example.com');
+		equals( tracker.hook.test._getHostName('http://example.com/'), 'example.com', 'http://example.com/');
+		equals( tracker.hook.test._getHostName('http://example.com/index'), 'example.com', 'http://example.com/index');
+		equals( tracker.hook.test._getHostName('http://example.com/index?q=xyz'), 'example.com', 'http://example.com/index?q=xyz');
+		equals( tracker.hook.test._getHostName('http://example.com/?q=xyz'), 'example.com', 'http://example.com/?q=xyz');
+		equals( tracker.hook.test._getHostName('http://example.com/?q=xyz#hash'), 'example.com', 'http://example.com/?q=xyz#hash');
+		equals( tracker.hook.test._getHostName('http://example.com#hash'), 'example.com', 'http://example.com#hash');
+		equals( tracker.hook.test._getHostName('http://example.com/#hash'), 'example.com', 'http://example.com/#hash');
+		equals( tracker.hook.test._getHostName('http://example.com:80'), 'example.com', 'http://example.com:80');
+		equals( tracker.hook.test._getHostName('http://example.com:80/'), 'example.com', 'http://example.com:80/');
+		equals( tracker.hook.test._getHostName('https://example.com/'), 'example.com', 'https://example.com/');
+		equals( tracker.hook.test._getHostName('http://user@example.com/'), 'example.com', 'http://user@example.com/');
+		equals( tracker.hook.test._getHostName('http://user:password@example.com/'), 'example.com', 'http://user:password@example.com/');
 
 		equals( tracker.hook.test._getParameter('http://piwik.org/', 'q'), '', 'no query');
 		equals( tracker.hook.test._getParameter('http://piwik.org/?q=test', 'q'), 'test', '?q');
@@ -163,6 +204,16 @@ $(document).ready(function () {
 		same( tracker.hook.test._urlFixup( 'translate.googleusercontent.com', 'http://translate.googleusercontent.com/translate_c?hl=en&ie=UTF-8&sl=en&tl=fr&u=http://piwik.org/&prev=_t&rurl=translate.google.com&twu=1&usg=ALkJrhirI_ijXXT7Ja_aDGndEJbE7pJqpQ', '' ),
 				['piwik.org', 'http://piwik.org/', 'http://translate.googleusercontent.com/translate_c?hl=en&ie=UTF-8&sl=en&tl=fr&u=http://piwik.org/&prev=_t&rurl=translate.google.com&twu=1&usg=ALkJrhirI_ijXXT7Ja_aDGndEJbE7pJqpQ'], 'translate.googleusercontent.com' );
 
+		equals( typeof tracker.hook.test._domainFixup, 'function', 'domainFixup' );
+
+		same( tracker.hook.test._domainFixup( 'localhost' ), 'localhost', 'domainFixup: localhost' );
+		same( tracker.hook.test._domainFixup( 'localhost.' ), 'localhost', 'domainFixup: localhost.' );
+		same( tracker.hook.test._domainFixup( 'localhost.localdomain' ), 'localhost.localdomain', 'domainFixup: localhost.localdomain' );
+		same( tracker.hook.test._domainFixup( 'localhost.localdomain.' ), 'localhost.localdomain', 'domainFixup: localhost.localdomain.' );
+		same( tracker.hook.test._domainFixup( '127.0.0.1' ), '127.0.0.1', 'domainFixup: 127.0.0.1' );
+		same( tracker.hook.test._domainFixup( 'www.example.com' ), 'www.example.com', 'domainFixup: www.example.com' );
+		same( tracker.hook.test._domainFixup( 'www.example.com.' ), 'www.example.com', 'domainFixup: www.example.com.' );
+
 		equals( typeof tracker.hook.test._purify, 'function', 'purify' );
 
 		equals( tracker.hook.test._purify('http://example.com'), 'http://example.com', 'http://example.com');
@@ -185,6 +236,7 @@ $(document).ready(function () {
 
 		// test wildcards
 		tracker.setDomains( ['*.Example.com'] );
+
 		// skip test if testing on localhost
 		ok( window.location.hostname != 'localhost' ? !tracker.hook.test._isSiteHostName('localhost') : true, '!isSiteHostName("localhost")' );
 
@@ -255,8 +307,8 @@ $(document).ready(function () {
 		equals( tracker.hook.test._getCookie( cookieName ), expectedValue, 'getCookie(), setCookie()' );
 	});
 
-	test("Tracker setDownloadExtensions(), addDownloadExtensions(), setDownloadClass(), setLinkClass(), and getLinkType()", function() {
-		expect(29);
+	test("Tracker setDownloadExtensions(), addDownloadExtensions(), setDownloadClasses(), setLinkClasses(), and getLinkType()", function() {
+		expect(23);
 
 		var tracker = Piwik.getTracker();
 
@@ -285,20 +337,10 @@ $(document).ready(function () {
 		equals( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true), 'download', '[2] .pk == download extension' );
 		equals( tracker.hook.test._getLinkType('something', 'piwiktest.xyz', true), 'download', '.xyz == download extension' );
 
-		tracker.setDownloadClass('my_download');
-		equals( tracker.hook.test._getLinkType('my_download', 'piwiktest.ext', true), 'download', 'my_download' );
-		equals( tracker.hook.test._getLinkType('abc my_download xyz', 'piwiktest.ext', true), 'download', 'abc my_download xyz' );
-		equals( tracker.hook.test._getLinkType('piwik_download', 'piwiktest.ext', true), 'download', 'download (default)' );
-
 		tracker.setDownloadClasses(['a', 'b']);
 		equals( tracker.hook.test._getLinkType('abc piwik_download', 'piwiktest.ext', true), 'download', 'download (default)' );
 		equals( tracker.hook.test._getLinkType('abc a', 'piwiktest.ext', true), 'download', 'download (a)' );
 		equals( tracker.hook.test._getLinkType('b abc', 'piwiktest.ext', true), 'download', 'download (b)' );
-
-		tracker.setLinkClass('my_link');
-		equals( tracker.hook.test._getLinkType('my_link', 'piwiktest.ext', true), 'link', 'my_link' );
-		equals( tracker.hook.test._getLinkType('abc my_link xyz', 'piwiktest.ext', true), 'link', 'abc my_link xyz' );
-		equals( tracker.hook.test._getLinkType('piwik_link', 'piwiktest.ext', true), 'link', '[2] link default' );
 
 		tracker.setLinkClasses(['c', 'd']);
 		equals( tracker.hook.test._getLinkType('abc piwik_link', 'piwiktest.ext', true), 'link', 'link (default)' );
@@ -331,8 +373,22 @@ $(document).ready(function () {
 		), '[{"domains":["example.com","example.ca"]},{"names":["Sean","Cathy"]}]', 'Nested members' );
 	});
 
+	test("utf8_encode(), sha1()", function() {
+		expect(6);
+
+		var tracker = Piwik.getTracker();
+
+		equals( typeof tracker.hook.test._utf8_encode, 'function', 'utf8_encode' );
+		equals( tracker.hook.test._utf8_encode('hello world'), '<?php echo utf8_encode("hello world"); ?>', 'utf8_encode("hello world")' );
+		equals( tracker.hook.test._utf8_encode('Gesamtgröße'), '<?php echo utf8_encode("Gesamtgröße"); ?>', 'utf8_encode("Gesamtgröße")' );
+		equals( tracker.hook.test._utf8_encode('您好'), '<?php echo utf8_encode("您好"); ?>', 'utf8_encode("您好")' );
+
+		equals( typeof tracker.hook.test._sha1, 'function', 'sha1' );
+		equals( tracker.hook.test._sha1('hello world'), '<?php echo sha1("hello world"); ?>', 'sha1("hello world")' );
+	});
+
 	test("Tracking", function() {
-		expect(<?php echo $sqlite ? 21 : 6; ?>);
+		expect(<?php echo $sqlite ? 20 : 5; ?>);
 
 		var tracker = Piwik.getTracker();
 
@@ -389,15 +445,12 @@ if ($sqlite) {
 		tracker.setRequestMethod("POST");
 		tracker.trackGoal(42, 69, { "token" : getToken(), "boy" : "Michael", "girl" : "Mandy"});
 
-		piwik_log("CompatibilityLayer", 1, "piwik.php", { "token" : getToken() });
-
 		stop();
 		setTimeout(function() {
 			jQuery.ajax({
 				url: url("piwik.php?results=" + getToken()),
 				success: function(results) {
-//alert(results);
-					ok( /\<span\>12\<\/span\>/.test( results ), "count tracking events" );
+					ok( /\<span\>11\<\/span\>/.test( results ), "count tracking events" );
 					ok( /PiwikTest/.test( results ), "trackPageView()" );
 					ok( /Asynchronous/.test( results ), "async trackPageView()" );
 					ok( /CustomTitleTest/.test( results ), "trackPageView(customTitle)" );
@@ -410,7 +463,6 @@ if ($sqlite) {
 					ok( /example.word/.test( results ), "click: explicit download" );
 					ok( ! /example.(org|php)/.test( results ), "click: ignored" );
 					ok( /Michael.*?Mandy.*?idgoal=42.*?revenue=69/.test( results ), "trackGoal()" );
-					ok( /CompatibilityLayer/.test( results ), "piwik_log(): compatibility layer" );
 					ok( /referrer.example.com/.test( results ), "setReferrerUrl()" );
 
 					start();

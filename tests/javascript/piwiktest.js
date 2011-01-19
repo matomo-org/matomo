@@ -14,7 +14,31 @@ Piwik.addPlugin('testPlugin', {
 	 * - function or string to be eval()'d
 	 */
 	run: function (registerHookCallback) {
-		registerHookCallback('test', '{ _isSiteHostName : isSiteHostName, _getClassesRegExp : getClassesRegExp, _hasCookies : hasCookies, _getCookie : getCookie, _setCookie : setCookie, _encode : encodeWrapper, _decode : decodeWrapper, _getLinkType : getLinkType, _beforeUnloadHandler : beforeUnloadHandler, _stringify : stringify, _getHostname : getHostname,  _getParameter : getParameter, _urlFixup : urlFixup, _purify : purify}');
+		registerHookCallback('test',
+			'{' +
+				'_isDefined : isDefined,' +
+				'_isFunction : isFunction,' +
+				'_isObject : isObject,' +
+				'_isString : isString,' +
+				'_isSiteHostName : isSiteHostName,' +
+				'_getClassesRegExp : getClassesRegExp,' +
+				'_hasCookies : hasCookies,' +
+				'_getCookie : getCookie,' +
+				'_setCookie : setCookie,' +
+				'_encode : encodeWrapper,' +
+				'_decode : decodeWrapper,' +
+				'_getLinkType : getLinkType,' +
+				'_beforeUnloadHandler : beforeUnloadHandler,' +
+				'_stringify : stringify,' +
+				'_getHostName : getHostName,' +
+				'_getParameter : getParameter,' +
+				'_urlFixup : urlFixup,' +
+				'_domainFixup : domainFixup,' +
+				'_sha1 : sha1,' +
+				'_utf8_encode : utf8_encode,' +
+				'_purify : purify' +
+			'}'
+		);
 	},
 
 	/*
