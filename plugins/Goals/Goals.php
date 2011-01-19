@@ -50,7 +50,7 @@ class Piwik_Goals extends Piwik_Plugin
 	 * The API returns general Goal metrics: conv, conv rate and revenue globally 
 	 * and for each goal.
 	 * 
-	 * Also, this will update metadata of all other reports that have Goal segmentatation.
+	 * Also, this will update metadata of all other reports that have Goal segmentation
 	 */
 	public function getReportMetadata($notification) 
 	{
@@ -126,23 +126,22 @@ class Piwik_Goals extends Piwik_Plugin
 	
 	static public function getReportsWithGoalMetrics()
 	{
-		$segments = array();
-		Piwik_PostEvent('Goals.getReportsWithGoalMetrics', $segments);
-		$segmentsByGroup = array();
-		foreach($segments as $segment)
+		$dimensions = array();
+		Piwik_PostEvent('Goals.getReportsWithGoalMetrics', $dimensions);
+		$dimensionsByGroup = array();
+		foreach($dimensions as $dimension)
 		{
-			$group = $segment['category'];
-			unset($segment['category']);
-			$segmentsByGroup[$group][] = $segment;
+			$group = $dimension['category'];
+			unset($dimension['category']);
+			$dimensionsByGroup[$group][] = $dimension;
 		}
-		return $segmentsByGroup;
+		return $dimensionsByGroup;
 	}
 	
 	function getJsFiles( $notification )
 	{
 		$jsFiles = &$notification->getNotificationObject();
 		$jsFiles[] = "plugins/Goals/templates/GoalForm.js";
-		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
 	}
 
 	function getCssFiles( $notification )
@@ -268,13 +267,13 @@ class Piwik_Goals extends Piwik_Plugin
 		$archiveProcessing = $notification->getNotificationObject();
 		
 		// by processing visitor_returning segment, we can also simply sum and get stats for all goals.
-		$query = $archiveProcessing->queryConversionsBySegment('visitor_returning');
+		$query = $archiveProcessing->queryConversionsByDimension('visitor_returning');
 
 		$nb_conversions = $revenue = 0;
 		$goals = $goalsByVisitorReturning = array();
 		while($row = $query->fetch() )
 		{
-			$goalsByVisitorReturning[$row['idgoal']][$row['visitor_returning']] = $archiveProcessing->getGoalRowFromQueryRow($row);
+			$goalsByVisitorReturning[$row['idgoal']][$row['label']] = $archiveProcessing->getGoalRowFromQueryRow($row);
 			
 			if(!isset($goals[$row['idgoal']])) $goals[$row['idgoal']] = $archiveProcessing->getNewGoalRow();
 			$archiveProcessing->updateGoalStats($row, $goals[$row['idgoal']]);

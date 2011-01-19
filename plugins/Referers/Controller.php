@@ -158,10 +158,9 @@ class Piwik_Referers_Controller extends Piwik_Controller
 											'getKeywordsFromCampaignId'
 								);
 
-		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
-		$view->setLimit( 5 );
 		$view->enableShowGoals();
+		$view->setLimit( 5 );
 		$view->setColumnsToDisplay( array('label','nb_visits') );
 		$view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnCampaign'));
 		return $this->renderView($view, $fetch);

@@ -717,11 +717,11 @@ table.entityTable tr td a {
 	padding:0 0 0 21px;
 	line-height:22px;
 }
-.entityList ul li .segment{
+.entityList ul li .dimension{
 	cursor:pointer;
 	border-bottom:1px solid #d0d0d0;
 }
-.entityList ul li.activeSegment .segment {
+.entityList ul li.activeDimension .dimension {
 	font-weight: bold;
 	border:0;
 }

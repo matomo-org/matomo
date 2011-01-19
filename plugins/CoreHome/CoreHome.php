@@ -70,6 +70,7 @@ class Piwik_CoreHome extends Piwik_Plugin
 		$jsFiles[] = "plugins/CoreHome/templates/calendar.js";
 		$jsFiles[] = "plugins/CoreHome/templates/date.js";
 		$jsFiles[] = "plugins/CoreHome/templates/autocomplete.js";
+		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
 	}
 	
 }

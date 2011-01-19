@@ -45,6 +45,10 @@ class Piwik_Tracker
 	const LENGTH_HEX_ID_STRING = 16;
 	const LENGTH_BINARY_ID = 8;
 	
+	// These are also hardcoded in the Javascript
+	const MAX_CUSTOM_VARIABLES = 5;
+	const MAX_LENGTH_CUSTOM_VARIABLE = 50;
+	
 	static protected $forcedDateTime = null;
 	static protected $forcedIpString = null;
 	

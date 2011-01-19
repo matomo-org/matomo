@@ -36,20 +36,10 @@ class Piwik_Referers_API
 	 */
 	protected function getDataTable($name, $idSite, $period, $date, $expanded, $idSubtable = null)
 	{
-		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $period, $date );
+	    $dataTable = Piwik_Archive::getDataTableFromArchive($name, $idSite, $period, $date, $expanded, $idSubtable = null);
 
-		if($expanded)
-		{
-			$dataTable = $archive->getDataTableExpanded($name, $idSubtable);
-		}
-		else
-		{
-			$dataTable = $archive->getDataTable($name, $idSubtable);
-		}
-		$dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS, 'desc', $naturalSort = false, $expanded));
+	    $dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS, 'desc', $naturalSort = false, $expanded));
 		$dataTable->queueFilter('ReplaceColumnNames', array($expanded));
-		$dataTable->queueFilter('ReplaceSummaryRowLabel');
 		return $dataTable;
 	}
 	

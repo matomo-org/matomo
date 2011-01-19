@@ -1,5 +1,5 @@
 
-{foreach from=$topSegment item=element name=topGoalElements}
+{foreach from=$topDimension item=element name=topGoalElements}
 	{assign var=goal_nb_conversion value=$element.nb_conversions}
 	{assign var=goal_conversion_rate value=$element.conversion_rate}
 	<span class='goalTopElement' title='{'Goals_Conversions'|translate:"<b>$goal_nb_conversion</b>"}, 

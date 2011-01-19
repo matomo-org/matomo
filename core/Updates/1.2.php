@@ -29,7 +29,17 @@ class Piwik_Updates_1_2 extends Piwik_Updates
 			    CHANGE `visit_entry_idaction_url` `visit_entry_idaction_url` INT UNSIGNED NOT NULL,
 			    CHANGE `referer_type` `referer_type` TINYINT UNSIGNED NULL DEFAULT NULL,
 			    ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`, 
-			    ADD `config_id` BINARY(8) NOT NULL AFTER `config_md5config`
+			    ADD `config_id` BINARY(8) NOT NULL AFTER `config_md5config`,
+			    ADD custom_var_k1 VARCHAR(50) DEFAULT NULL,
+    			ADD custom_var_v1 VARCHAR(50) DEFAULT NULL,
+    			ADD custom_var_k2 VARCHAR(50) DEFAULT NULL,
+    			ADD custom_var_v2 VARCHAR(50) DEFAULT NULL,
+    			ADD custom_var_k3 VARCHAR(50) DEFAULT NULL,
+    			ADD custom_var_v3 VARCHAR(50) DEFAULT NULL,
+    			ADD custom_var_k4 VARCHAR(50) DEFAULT NULL,
+    			ADD custom_var_v4 VARCHAR(50) DEFAULT NULL,
+    			ADD custom_var_k5 VARCHAR(50) DEFAULT NULL,
+    			ADD custom_var_v5 VARCHAR(50) DEFAULT NULL
 			   ' => false,
 		    'ALTER TABLE `'. Piwik_Common::prefixTable('log_link_visit_action') .'` 
 				ADD `idsite` INT( 10 ) UNSIGNED NOT NULL AFTER `idlink_va` , 
@@ -40,7 +50,17 @@ class Piwik_Updates_1_2 extends Piwik_Updates
 			   ' => false,
 
 		    'ALTER TABLE `'. Piwik_Common::prefixTable('log_conversion') .'` 
-			    ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`
+			    ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`,
+			    ADD custom_var_k1 VARCHAR(50) DEFAULT NULL,
+    			ADD custom_var_v1 VARCHAR(50) DEFAULT NULL,
+    			ADD custom_var_k2 VARCHAR(50) DEFAULT NULL,
+    			ADD custom_var_v2 VARCHAR(50) DEFAULT NULL,
+    			ADD custom_var_k3 VARCHAR(50) DEFAULT NULL,
+    			ADD custom_var_v3 VARCHAR(50) DEFAULT NULL,
+    			ADD custom_var_k4 VARCHAR(50) DEFAULT NULL,
+    			ADD custom_var_v4 VARCHAR(50) DEFAULT NULL,
+    			ADD custom_var_k5 VARCHAR(50) DEFAULT NULL,
+    			ADD custom_var_v5 VARCHAR(50) DEFAULT NULL
 			   ' => false,
 		
 			// Migrate 128bits IDs inefficiently stored as 8bytes (256 bits) into 64bits
@@ -77,7 +97,6 @@ class Piwik_Updates_1_2 extends Piwik_Updates
 		
 			// New index used max once per request, in case this table grows significantly in the future
 			'ALTER TABLE `'. Piwik_Common::prefixTable('option') .'` ADD INDEX ( `autoload` ) ' => false,
-		
 		);
 	}
 

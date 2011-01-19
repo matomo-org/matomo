@@ -47,6 +47,7 @@ class PiwikTracker
     	$this->localSecond = false;
     	$this->hasCookies = false;
     	$this->plugins = false;
+    	$this->visitorCustomVar = false;
     	$this->customData = false;
     	$this->forcedDatetime = false;
 
@@ -78,6 +79,18 @@ class PiwikTracker
     public function setUrlReferer( $url )
     {
     	$this->urlReferer = $url;
+    }
+    
+    /**
+     * Sets Visitor Custom Variable
+     * 
+     * @param int Custom variable slot ID from 1-5
+     * @param string Custom variable name
+     * @param string Custom variable value
+     */
+    public function setVisitorCustomVar($id, $name, $value)
+    {
+        $this->visitorCustomVar[$id] = array($name, $value);
     }
     
     /**
@@ -390,7 +403,8 @@ class PiwikTracker
 			(($this->localHour !== false && $this->localMinute !== false && $this->localSecond !== false) ? '&h=' . $this->localHour . '&m=' . $this->localMinute  . '&s=' . $this->localSecond : '' ).
 	        (!empty($this->width) && !empty($this->height) ? '&res=' . $this->width . 'x' . $this->height : '') .
 	        (!empty($this->hasCookies) ? '&cookie=' . $this->hasCookies : '') .
-	        (!empty($this->customData) ? '&data=' . $this->customData : '') 
+	        (!empty($this->customData) ? '&data=' . $this->customData : '') . 
+	        (!empty($this->visitorCustomVar) ? '&cvar=' . urlencode(json_encode($this->visitorCustomVar)) : '')
         ;
     	return $url;
     }

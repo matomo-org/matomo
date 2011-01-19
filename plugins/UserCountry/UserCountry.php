@@ -30,7 +30,6 @@ class Piwik_UserCountry extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		$hooks = array(
-			'AssetManager.getJsFiles' => 'getJsFiles',
 			'ArchiveProcessing_Day.compute' => 'archiveDay',
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
@@ -61,12 +60,6 @@ class Piwik_UserCountry extends Piwik_Plugin
 		);
 	}
 	
-	function getJsFiles( $notification )
-	{
-		$jsFiles = &$notification->getNotificationObject();
-		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
-	}
-	
 	function addWidgets()
 	{
 		Piwik_AddWidget( 'General_Visitors', 'UserCountry_WidgetContinents', 'UserCountry', 'getContinent');
@@ -80,14 +73,14 @@ class Piwik_UserCountry extends Piwik_Plugin
 	
 	function getReportsWithGoalMetrics( $notification )
 	{
-		$segments =& $notification->getNotificationObject();
-		$segments = array_merge($segments, array(
-        		array(	'category'  => Piwik_Translate('UserCountry_Location'),
+		$dimensions =& $notification->getNotificationObject();
+		$dimensions = array_merge($dimensions, array(
+        		array(	'category'  => Piwik_Translate('General_Visit'),
             			'name'   => Piwik_Translate('UserCountry_Country'),
             			'module' => 'UserCountry',
             			'action' => 'getCountry',
         		),
-        		array(	'category'  => Piwik_Translate('UserCountry_Location'),
+        		array(	'category'  => Piwik_Translate('General_Visit'),
             			'name'   => Piwik_Translate('UserCountry_Continent'),
             			'module' => 'UserCountry',
             			'action' => 'getContinent',
@@ -128,7 +121,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 	
 	protected function archiveDayAggregateGoals($archiveProcessing)
 	{
-		$query = $archiveProcessing->queryConversionsBySegment("location_continent,location_country");
+		$query = $archiveProcessing->queryConversionsByDimension(array("location_continent","location_country"));
 		while($row = $query->fetch() )
 		{
 			if(!isset($this->interestByCountry[$row['location_country']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByCountry[$row['location_country']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow();
