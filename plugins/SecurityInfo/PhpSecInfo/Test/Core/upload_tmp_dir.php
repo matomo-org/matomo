@@ -64,9 +64,10 @@ class PhpSecInfo_Test_Core_Upload_Tmp_Dir extends PhpSecInfo_Test_Core
 	 */
 	function _execTest() {
 
-		$perms = fileperms($this->current_value);
-
-		if ($this->current_value
+		$perms = @fileperms($this->current_value);
+		if ($perms === false) {
+			return PHPSECINFO_TEST_RESULT_WARN;
+		} else if ($this->current_value
 			&& !preg_match("|".PHPSECINFO_TEST_COMMON_TMPDIR."/?|", $this->current_value)
 			&& ! ($perms & 0x0004)
 			&& ! ($perms & 0x0002) ) {
@@ -79,7 +80,6 @@ class PhpSecInfo_Test_Core_Upload_Tmp_Dir extends PhpSecInfo_Test_Core
 		return PHPSECINFO_TEST_RESULT_NOTICE;
 	}
 
-
 	/**
 	 * Set the messages specific to this test
 	 *
@@ -90,6 +90,7 @@ class PhpSecInfo_Test_Core_Upload_Tmp_Dir extends PhpSecInfo_Test_Core
 		$this->setMessageForResult(PHPSECINFO_TEST_RESULT_NOTRUN, 'en', 'Test not run -- currently disabled on Windows OSes');
 		$this->setMessageForResult(PHPSECINFO_TEST_RESULT_OK, 'en', 'upload_tmp_dir is enabled, which is the
 						recommended setting. Make sure your upload_tmp_dir path is not world-readable');
+		$this->setMessageForResult(PHPSECINFO_TEST_RESULT_WARN, 'en', 'unable to retrieve file permissions on upload_tmp_dir');
 		$this->setMessageForResult(PHPSECINFO_TEST_RESULT_NOTICE, 'en', 'upload_tmp_dir is disabled, or is set to a
 						common world-writable directory.  This typically allows other users on this server
 						to access temporary copies of files uploaded via your PHP scripts.  You should set
