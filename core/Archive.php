@@ -273,6 +273,35 @@ abstract class Piwik_Archive
 	 */
 	abstract public function getDataTableExpanded($name, $idSubTable = null);
 
+
+	/**
+	 * Helper - Loads a DataTable from the Archive.
+	 * Optionally loads the table recursively,
+	 * or optionally fetches a given subtable with $idSubtable
+	 */
+	static public function getDataTableFromArchive($name, $idSite, $period, $date, $expanded, $idSubtable = null )
+	{
+		Piwik::checkUserHasViewAccess( $idSite );
+		$archive = Piwik_Archive::build($idSite, $period, $date );
+		if($idSubtable === false)
+		{
+			$idSubtable = null;
+		}
+		
+		if($expanded)
+		{
+			$dataTable = $archive->getDataTableExpanded($name, $idSubtable);
+		}
+		else
+		{
+			$dataTable = $archive->getDataTable($name, $idSubtable);
+		}
+		
+		$dataTable->queueFilter('ReplaceSummaryRowLabel');
+		
+		return $dataTable;
+	}
+	
 	/**
 	 * Sets the site
 	 *

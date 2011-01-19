@@ -35,7 +35,6 @@ class Piwik_Referers extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		$hooks = array(
-			'AssetManager.getJsFiles' => 'getJsFiles',
 			'ArchiveProcessing_Day.compute' => 'archiveDay',
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
@@ -114,15 +113,15 @@ class Piwik_Referers extends Piwik_Plugin
 	}
 	
 	/**
-	 * Adds Goal segments, so that the segments are displayed in the UI Goal Overview page
+	 * Adds Goal dimensions, so that the dimensions are displayed in the UI Goal Overview page
 	 * 
 	 * @param $notification
 	 * @return void
 	 */
 	function getReportsWithGoalMetrics( $notification )
 	{
-		$segments =& $notification->getNotificationObject();
-		$segments = array_merge($segments, array(
+		$dimensions =& $notification->getNotificationObject();
+		$dimensions = array_merge($dimensions, array(
         		array(	'category'  => Piwik_Translate('Referers_Referers'),
             			'name'   => Piwik_Translate('Referers_Keywords'),
             			'module' => 'Referers',
@@ -151,12 +150,6 @@ class Piwik_Referers extends Piwik_Plugin
     	));
 	}
 	
-	function getJsFiles( $notification )
-	{
-		$jsFiles = &$notification->getNotificationObject();
-		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
-	}
-
 	function __construct()
 	{
 		$this->columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
@@ -268,24 +261,8 @@ class Piwik_Referers extends Piwik_Plugin
 	 */
 	protected function archiveDayAggregateVisits(Piwik_ArchiveProcessing $archiveProcessing)
 	{
-		$query = "SELECT 	referer_type, 
-							referer_name, 
-							referer_keyword,
-							referer_url,
-							count(distinct idvisitor) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`, 
-							count(*) as `". Piwik_Archive::INDEX_NB_VISITS ."`,
-							sum(visit_total_actions) as `". Piwik_Archive::INDEX_NB_ACTIONS ."`, 
-							max(visit_total_actions) as `". Piwik_Archive::INDEX_MAX_ACTIONS ."`, 
-							sum(visit_total_time) as `". Piwik_Archive::INDEX_SUM_VISIT_LENGTH ."`,
-							sum(case visit_total_actions when 1 then 1 else 0 end) as `". Piwik_Archive::INDEX_BOUNCE_COUNT ."`,
-							sum(case visit_goal_converted when 1 then 1 else 0 end) as `". Piwik_Archive::INDEX_NB_VISITS_CONVERTED ."`
-				 	FROM ".Piwik_Common::prefixTable('log_visit')."
-				 	WHERE visit_last_action_time >= ?
-						AND visit_last_action_time <= ?
-				 		AND idsite = ?
-				 	GROUP BY referer_type, referer_name, referer_url, referer_keyword
-				 	ORDER BY `". Piwik_Archive::INDEX_NB_VISITS ."` DESC";
-		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ));
+	    $dimension = array("referer_type", "referer_name", "referer_keyword", "referer_url");
+	    $query = $archiveProcessing->queryVisitsByDimension($dimension);
 
 		$this->interestBySearchEngine =
 			$this->interestByKeyword =
@@ -368,7 +345,7 @@ class Piwik_Referers extends Piwik_Plugin
 	 */
 	protected function archiveDayAggregateGoals($archiveProcessing)
 	{
-		$query = $archiveProcessing->queryConversionsBySegment("referer_type,referer_name,referer_keyword");
+		$query = $archiveProcessing->queryConversionsByDimension(array("referer_type","referer_name","referer_keyword"));
 		while($row = $query->fetch() )
 		{
 			if(empty($row['referer_type']))

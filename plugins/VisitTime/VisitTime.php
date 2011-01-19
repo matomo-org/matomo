@@ -73,8 +73,8 @@ class Piwik_VisitTime extends Piwik_Plugin
 
 	function getReportsWithGoalMetrics( $notification )
 	{
-		$segments =& $notification->getNotificationObject();
-		$segments[] = array('category'  => Piwik_Translate('VisitTime_ColumnServerTime'),
+		$dimensions =& $notification->getNotificationObject();
+		$dimensions[] = array('category'  => Piwik_Translate('VisitTime_ColumnServerTime'),
                 			'name'   => Piwik_Translate('VisitTime_ColumnServerTime'),
                 			'module' => 'VisitTime',
                 			'action' => 'getVisitInformationPerServerTime',
@@ -125,7 +125,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 	
 	protected function archiveDayAggregateGoals($archiveProcessing)
 	{
-		$query = $archiveProcessing->queryConversionsBySingleSegment("HOUR(server_time)");
+		$query = $archiveProcessing->queryConversionsByDimension("HOUR(server_time)");
 		$goalByServerTime = array();
 		while($row = $query->fetch())
 		{

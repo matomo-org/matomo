@@ -161,7 +161,7 @@ class Piwik_Tracker_GoalManager
 		return true;
 	}
 
-	function recordGoals($idSite, $visitorInformation, $action)
+	function recordGoals($idSite, $visitorInformation, $visitCustomVariables, $action)
 	{
 		$location_country = isset($visitorInformation['location_country']) 
 							? $visitorInformation['location_country'] 
@@ -206,6 +206,8 @@ class Piwik_Tracker_GoalManager
 			}
 		}
 
+		$goal += $visitCustomVariables;
+		
 		foreach($this->convertedGoals as $convertedGoal)
 		{
 			printDebug("- Goal ".$convertedGoal['idgoal'] ." matched. Recording...");

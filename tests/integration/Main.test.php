@@ -303,4 +303,55 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite = 'all', $dateTime, $periods, $setDateLastN = true);
 	}
 	
+	function test_twoVisitsWithCustomVariables()
+	{
+	    // Tests run in UTC, the Tracker in UTC
+    	$dateTime = '2010-01-03 11:22:33';
+    	$idSite = $this->createWebsite($dateTime);
+    	$this->setApiToCall(array(	'VisitsSummary.get',
+    	                            'CustomVariables.getCustomVariables'
+    	));
+    	ob_start();
+        $idGoal = Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');
+    	// -
+        $visitorA = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+
+        // At first, visitor custom var is set to LoggedOut
+        $visitorA->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
+    	$visitorA->setUrl('http://example.org/homepage');
+    	$visitorA->setVisitorCustomVar($id = 1, $name = 'VisitorType', $value = 'LoggedOut');
+        $this->checkResponse($visitorA->doTrackPageView('Homepage'));
+        
+        // After login, set to LoggedIn, should overwrite previous value
+        $visitorA->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.2)->getDatetime());
+    	$visitorA->setUrl('http://example.org/profile');
+    	$visitorA->setVisitorCustomVar($id = 1, $name = 'VisitorType', $value = 'LoggedIn');
+        $this->checkResponse($visitorA->doTrackPageView('Profile page'));
+        
+        $visitorA->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.3)->getDatetime());
+    	$visitorA->setVisitorCustomVar($id = 2, $name = 'NOTSETBECAUSE EMPTY VALUE', $value = '');
+        $this->checkResponse($visitorA->doTrackPageView('Profile page'));
+    	$this->checkResponse($visitorA->doTrackGoal($idGoal));
+        
+        // - 
+    	// Second new visitor on Idsite 1: one page view 
+        $visitorB = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+    	$visitorB->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.6) Gecko/2009011913 Firefox/3.0.6');
+    	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1)->getDatetime());
+    	$visitorB->setVisitorCustomVar($id = 1, $name = 'VisitorType', $value = 'LoggedOut');
+    	$visitorB->setVisitorCustomVar($id = 2, $name = 'Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz', $value = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz');
+    	$visitorB->setVisitorCustomVar($id = -2, $name = 'not tracked', $value = 'not tracked');
+    	$visitorB->setVisitorCustomVar($id = 6, $name = 'not tracked', $value = 'not tracked');
+    	$visitorB->setVisitorCustomVar($id = 6, $name = array('not tracked'), $value = 'not tracked');
+    	$visitorB->setUrl('http://example.org/homepage');
+    	$this->checkResponse($visitorB->doTrackGoal($idGoal, 1000));
+
+    	// Test Referer.get* methods in XML
+    	$periods = array('day', 'week');
+    	// Request data for both websites at once
+    	$idSite = 'all';
+    	// Request data for the last 6 periods
+        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite = 'all', $dateTime, $periods, $setDateLastN = true);
+	}
+	
 }

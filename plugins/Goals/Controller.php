@@ -55,7 +55,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	{
 		$view = $this->getGoalReportView();
 		$view->displayFullReport = true;
-        $view->goalSegments = Piwik_Goals::getReportsWithGoalMetrics();
+        $view->goalDimensions = Piwik_Goals::getReportsWithGoalMetrics();
 		echo $view->render();
 	}
 	
@@ -79,7 +79,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$view->goalName = $goalDefinition['name'];
 		$view->graphEvolution = $this->getEvolutionGraph(true, array('nb_conversions'), $idGoal);
 		$view->nameGraphEvolution = 'GoalsgetEvolutionGraph'.$idGoal;
-		$view->topSegments = $this->getTopSegments($idGoal);
+		$view->topDimensions = $this->getTopDimensions($idGoal);
 		
 		// conversion rate for new and returning visitors
 		$conversionRateReturning = $this->getConversionRateReturningVisitors($this->idSite, Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'), $idGoal);
@@ -93,7 +93,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	{
 		$view = $this->getOverviewView();
 		$view->goalsJSON = json_encode($this->goals);
-        $view->goalSegments = Piwik_Goals::getReportsWithGoalMetrics();
+        $view->goalDimensions = Piwik_Goals::getReportsWithGoalMetrics();
 		$view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
 		$view->displayFullReport = true;
 		echo $view->render();
@@ -207,19 +207,19 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	}
 	
 	
-	protected function getTopSegments($idGoal)
+	protected function getTopDimensions($idGoal)
 	{ 
 		$columnNbConversions = 'goal_'.$idGoal.'_nb_conversions';
 		$columnConversionRate = 'goal_'.$idGoal.'_conversion_rate';
 		
-		$topSegmentsToLoad = array(
+		$topDimensionsToLoad = array(
 			'country' => 'UserCountry.getCountry',
 			'keyword' => 'Referers.getKeywords',
 			'website' => 'Referers.getWebsites',
 		);
 		
-		$topSegments = array();
-		foreach($topSegmentsToLoad as $segmentName => $apiMethod)
+		$topDimensions = array();
+		foreach($topDimensionsToLoad as $dimensionName => $apiMethod)
 		{
 			$request = new Piwik_API_Request("method=$apiMethod
 												&format=original
@@ -229,13 +229,13 @@ class Piwik_Goals_Controller extends Piwik_Controller
 												&filter_sort_column=$columnNbConversions
 												&filter_limit=3");
 			$datatable = $request->process();
-			$topSegment = array();
+			$topDimension = array();
 			foreach($datatable->getRows() as $row)
 			{
 				$conversions = $row->getColumn($columnNbConversions);
 				if($conversions > 0)
 				{
-    				$topSegment[] = array (
+    				$topDimension[] = array (
     					'name' => $row->getColumn('label'),
     					'nb_conversions' => $conversions,
 					'conversion_rate' => $this->formatConversionRate($row->getColumn($columnConversionRate)),
@@ -243,9 +243,9 @@ class Piwik_Goals_Controller extends Piwik_Controller
     				);
 				}
 			}
-			$topSegments[$segmentName] = $topSegment;
+			$topDimensions[$dimensionName] = $topDimension;
 		}
-		return $topSegments;
+		return $topDimensions;
 	}
 	
 	protected function getMetricsForGoal($idGoal)

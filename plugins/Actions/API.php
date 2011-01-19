@@ -40,7 +40,7 @@ class Piwik_Actions_API
 	
 	public function getPageUrls( $idSite, $period, $date, $expanded = false, $idSubtable = false )
 	{
-		$dataTable = $this->getDataTable('Actions_actions_url', $idSite, $period, $date, $expanded, $idSubtable );
+		$dataTable = Piwik_Archive::getDataTableFromArchive('Actions_actions_url', $idSite, $period, $date, $expanded, $idSubtable );
 		$this->filterPageDatatable($dataTable);
 		$this->filterActionsDataTable($dataTable, $expanded);
 		return $dataTable;
@@ -57,7 +57,7 @@ class Piwik_Actions_API
 	
 	public function getPageTitles( $idSite, $period, $date, $expanded = false, $idSubtable = false)
 	{
-		$dataTable = $this->getDataTable('Actions_actions', $idSite, $period, $date, $expanded, $idSubtable);
+		$dataTable = Piwik_Archive::getDataTableFromArchive('Actions_actions', $idSite, $period, $date, $expanded, $idSubtable);
 		$this->filterPageDatatable($dataTable);
 		$this->filterActionsDataTable($dataTable, $expanded);
 		return $dataTable;
@@ -74,7 +74,7 @@ class Piwik_Actions_API
 	
 	public function getDownloads( $idSite, $period, $date, $expanded = false, $idSubtable = false )
 	{
-		$dataTable = $this->getDataTable('Actions_downloads', $idSite, $period, $date, $expanded, $idSubtable );
+		$dataTable = Piwik_Archive::getDataTableFromArchive('Actions_downloads', $idSite, $period, $date, $expanded, $idSubtable );
 		$this->filterActionsDataTable($dataTable, $expanded);
 		return $dataTable;
 	}
@@ -89,7 +89,7 @@ class Piwik_Actions_API
 	
 	public function getOutlinks( $idSite, $period, $date, $expanded = false, $idSubtable = false )
 	{
-		$dataTable = $this->getDataTable('Actions_outlink', $idSite, $period, $date, $expanded, $idSubtable );
+		$dataTable = Piwik_Archive::getDataTableFromArchive('Actions_outlink', $idSite, $period, $date, $expanded, $idSubtable );
 		$this->filterActionsDataTable($dataTable, $expanded);
 		return $dataTable;
 	}
@@ -103,29 +103,6 @@ class Piwik_Actions_API
 	}
 	
 	/**
-	 * Loads the DataTable from the Archive
-	 */
-	protected function getDataTable($name, $idSite, $period, $date, $expanded, $idSubtable )
-	{
-		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $period, $date );
-		if($idSubtable === false)
-		{
-			$idSubtable = null;
-		}
-		
-		if($expanded)
-		{
-			$dataTable = $archive->getDataTableExpanded($name, $idSubtable);
-		}
-		else
-		{
-			$dataTable = $archive->getDataTable($name, $idSubtable);
-		}
-		return $dataTable;
-	}
-	
-	/**
 	 * Will search in the DataTable for a Label matching the searched string
 	 * and return only the matching row, or an empty datatable
 	 */
@@ -133,7 +110,7 @@ class Piwik_Actions_API
 	{
 		if($table === false)
 		{
-			$table = call_user_func_array(array($this, 'getDataTable'), $callBackParameters);
+			$table = call_user_func_array(array('Piwik_Archive', 'getDataTableFromArchive'), $callBackParameters);
 		}
 		if($searchTree === false)
 		{
@@ -170,7 +147,7 @@ class Piwik_Actions_API
 				$idSubTable = $row->getIdSubDataTable();
 				// Update the idSubtable in the callback parameter list, to fetch this subtable from the archive
 				$callBackParameters[5] = $idSubTable;
-				$subTable = call_user_func_array(array($this, 'getDataTable'), $callBackParameters);
+				$subTable = call_user_func_array(array('Piwik_Archive', 'getDataTableFromArchive'), $callBackParameters);
 				$found = $this->getFilterPageDatatableSearch($callBackParameters, $search, $actionType, $subTable, $searchTree, $searchCurrentLevel+1);
 				if($found)
 				{

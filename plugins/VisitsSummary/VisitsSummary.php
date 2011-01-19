@@ -34,7 +34,6 @@ class Piwik_VisitsSummary extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		return array(
-			'AssetManager.getJsFiles' => 'getJsFiles',
 			'API.getReportMetadata' => 'getReportMetadata',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenu',
@@ -64,12 +63,6 @@ class Piwik_VisitsSummary extends Piwik_Plugin
 			'processedMetrics' => false,
 		);
 	}
-	
-	function getJsFiles( $notification )
-	{
-		$jsFiles = &$notification->getNotificationObject();
-		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
-	}	
 	
 	function addWidgets()
 	{

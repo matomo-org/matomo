@@ -128,7 +128,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		{
 			return;
 		}
-		
+		$this->visitorCustomVariables = $this->getCustomVariables();
 		$goalManager = new Piwik_Tracker_GoalManager();
 		$someGoalsConverted = false;
 		$idActionUrl = $idActionName = 0;
@@ -230,7 +230,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		if($someGoalsConverted)
 		{
 			$goalManager->setCookie($this->cookie);
-			$goalManager->recordGoals( $this->idsite, $this->visitorInfo, $action);
+			$goalManager->recordGoals( $this->idsite, $this->visitorInfo, $this->visitorCustomVariables, $action);
 		}
 		unset($goalManager);
 		unset($action);
@@ -315,6 +315,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$valuesToUpdate['visit_last_action_time'] = $datetimeServer;
 		$valuesToUpdate['visit_total_time'] = $visitTotalTime;
 
+		// Custom Variables overwrite previous values on each page view
+		$valuesToUpdate = array_merge($valuesToUpdate, $this->visitorCustomVariables);
+		
 		// trigger event before update
 		Piwik_PostEvent('Tracker.knownVisitorUpdate', $valuesToUpdate);
 		
@@ -441,10 +444,17 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'location_browser_lang'		=> $userInfo['location_browser_lang'],
 			'location_country' 			=> $country,
 		);
-
+		
+		// Add Custom variable key,value to the visitor array
+		$this->visitorInfo = array_merge($this->visitorInfo, $this->visitorCustomVariables);
+		
 		Piwik_PostEvent('Tracker.newVisitorInformation', $this->visitorInfo);
 
-		printDebug($this->visitorInfo);
+		$debugVisitInfo = $this->visitorInfo;
+		$debugVisitInfo['idvisitor'] = bin2hex($debugVisitInfo['idvisitor']);
+		$debugVisitInfo['config_id'] = bin2hex($debugVisitInfo['config_id']);
+		printDebug($debugVisitInfo);
+		
 		$this->saveVisitorInformation();
 	}
 
@@ -790,6 +800,50 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		{
 			printDebug("The visitor was not matched with an existing visitor...");
 		}
+	}
+	
+	protected function getCustomVariables()
+	{
+	    $customVar = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar( 'cvar', '', 'string', $this->request));
+	    $customVar = @json_decode($customVar, $assoc = true);
+	    
+	    if(!is_array($customVar))
+	    {
+	        return array();
+	    }
+	    $visitorCustomVar = array();
+	    foreach($customVar as $id => $keyValue)
+	    {
+	        $id = (int)$id;
+	        if($id < 1 
+	            || $id > Piwik_Tracker::MAX_CUSTOM_VARIABLES
+	            || count($keyValue) != 2
+	            || empty($keyValue[0])
+	            || empty($keyValue[1])
+	            || !is_string($keyValue[0])
+	            || !is_string($keyValue[1])
+	            )
+	        {
+	            printDebug("Invalid custom variables detected (id=$id)");
+	            continue;
+	        }
+	        
+	        $key = $this->truncateCustomVariable($keyValue[0]);
+	        $value = $this->truncateCustomVariable($keyValue[1]);
+            $visitorCustomVar['custom_var_k'.$id] = $key; 
+            $visitorCustomVar['custom_var_v'.$id] = $value; 
+	    }
+	    if(!empty($visitorCustomVar))
+	    {
+	        printDebug("Visitor Custom Variables: "); 
+	        printDebug($visitorCustomVar);
+	    }
+	    return $visitorCustomVar;
+	}
+	
+	protected function truncateCustomVariable($input)
+	{
+	    return substr($input, 0, Piwik_Tracker::MAX_LENGTH_CUSTOM_VARIABLE);
 	}
 	
 	/**

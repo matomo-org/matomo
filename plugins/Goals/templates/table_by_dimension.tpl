@@ -1,15 +1,15 @@
-<h2 id='titleGoalsBySegment'>{if isset($idGoal)}
-	{'Goals_GoalConversionsBySegment'|translate:$goalName}
-	{else}{'Goals_ConversionsOverviewBySegment'|translate}{/if}</h2> 
+<h2 id='titleGoalsByDimension'>{if isset($idGoal)}
+	{'Goals_GoalConversionsBy'|translate:$goalName}
+	{else}{'Goals_ConversionsOverviewBy'|translate}{/if}</h2> 
 
-<div class='entityList goalSegments'>
-	{foreach from=$goalSegments key=segmentFamilyName item=segments}
-		<div class='segmentCategory'>
-			{'Goals_ViewGoalsBySegment'|translate:$segmentFamilyName}
+<div class='entityList goalDimensions'>
+	{foreach from=$goalDimensions key=dimensionFamilyName item=dimensions}
+		<div class='dimensionCategory'>
+			{'Goals_ViewGoalsBy'|translate:$dimensionFamilyName}
 			<ul class='listCircle'>
-			{foreach from=$segments item=segment}
-				<li title='{'Goals_ViewGoalsBySegment'|translate:$segment.name}' class='goalSegment' module='{$segment.module}' action='{$segment.action}'>
-					<span class='segment'>{$segment.name}</span>
+			{foreach from=$dimensions item=dimension}
+				<li title='{'Goals_ViewGoalsBy'|translate:$dimension.name}' class='goalDimension' module='{$dimension.module}' action='{$dimension.action}'>
+					<span class='dimension'>{$dimension.name}</span>
 				</li>
 			{/foreach}
 			</ul>
@@ -20,7 +20,7 @@
 <div style='float: left;'>
 	{ajaxLoadingDiv id=tableGoalsLoading}
 	
-	<div id='tableGoalsBySegment'></div>
+	<div id='tableGoalsByDimension'></div>
 </div>
 <div class="clear"></div>
 {literal}
@@ -28,13 +28,13 @@
 $(document).ready( function() {
 	var countLoaded = 0;
 	/* 
-	 * For each 'segment' in the list, a click will trigger an ajax request to load the datatable 
-	 * showing Goals metrics (conversion, conv. rates, revenue) for this segment
+	 * For each 'dimension' in the list, a click will trigger an ajax request to load the datatable 
+	 * showing Goals metrics (conversion, conv. rates, revenue) for this dimension
 	 */
-	$('.goalSegment').click( function() {
+	$('.goalDimension').click( function() {
 		var self = this;
-		$('.goalSegment').removeClass('activeSegment');
-		$(this).addClass('activeSegment');
+		$('.goalDimension').removeClass('activeDimension');
+		$(this).addClass('activeDimension');
 		var module = $(this).attr('module');
 		var action = $(this).attr('action');
 		widgetUniqueId = module+action;
@@ -51,24 +51,24 @@ $(document).ready( function() {
 			if(widgetUniqueId != self.expectedWidgetUniqueId) {
 				return;
 			}
-			$('#tableGoalsBySegment').html($(response));
+			$('#tableGoalsByDimension').html($(response));
 			$('#tableGoalsLoading').hide();
-			$('#tableGoalsBySegment').show();
+			$('#tableGoalsByDimension').show();
 			
 			countLoaded++;
 			// only scroll down to the loaded datatable if this is not the first one
 			// otherwise, screen would jump down to the table when loading the report 
 			if(countLoaded > 1)
 			{
-				piwikHelper.lazyScrollTo("#titleGoalsBySegment", 400);
+				piwikHelper.lazyScrollTo("#titleGoalsByDimension", 400);
 			}
 		};
-		$('#tableGoalsBySegment').hide();
+		$('#tableGoalsByDimension').hide();
 		$('#tableGoalsLoading').show();
 		ajaxRequest = widgetsHelper.getLoadWidgetAjaxRequest(widgetUniqueId, widgetParameters, onWidgetLoadedCallback);
 		$.ajax(ajaxRequest);
 	});
-	$('.goalSegment').first().click();
+	$('.goalDimension').first().click();
 });
 </script>
 {/literal}
