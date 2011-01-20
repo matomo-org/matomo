@@ -1,0 +1,5 @@
+Piwik modifications to libs/
+---
+Here is a list of Piwik hacks made to some of the libraries used in Piwik.
+ * Smarty/ in r3773
+ 
