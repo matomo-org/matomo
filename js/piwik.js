@@ -1264,6 +1264,13 @@ var
 						// set the referral cookie
 						setCookie(refname, referralTs + ' ' + referralUrl, configReferralCookieTimeout, configCookiePath, configCookieDomain);
 					}
+
+					// send heart beat
+					if (configHeartBeatTimer) {
+						setTimeout(function () {
+							this.logLink('1', 'ping', customData);
+						}, configHeartBeatTimer);
+					}
 				}
 
 				currentVisitTs = nowTs;
@@ -1459,8 +1466,8 @@ var
 			function addClickListener(element, enable) {
 				if (enable) {
 					// for simplicity and performance, we ignore drag events
-					addEventListener(element, 'click', clickHandler, false);
-					addEventListener(element, 'click', clickHandler, false);
+					addEventListener(element, 'mouseup', clickHandler, false);
+					addEventListener(element, 'mousedown', clickHandler, false);
 				} else {
 					addEventListener(element, 'click', clickHandler, false);
 				}
@@ -1912,14 +1919,6 @@ var
 				 */
 				trackPageView: function (customTitle, customData) {
 					logPageView(customTitle, customData);
-
-					// @todo: a potential optimization might be to send the heartbeat only on the first page of a new session (visit)
-					if (configHeartBeatTimer) {
-						setTimeout(function () {
-								logPageView(customTitle, customData);
-							}, configHeartBeatTimer
-						);
-					}
 				}
 			};
 		}
