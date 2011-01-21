@@ -1341,8 +1341,7 @@ var
 			 */
 			function logLink(url, linkType, customData) {
 				var request = getRequest(customData, 'click') +
-					'&' + linkType + '=' + encodeWrapper(purify(url)) +
-					'&redirect=0';
+					'&' + linkType + '=' + encodeWrapper(purify(url));
 
 				sendRequest(request, configTrackerPause);
 			}
