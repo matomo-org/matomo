@@ -35,34 +35,34 @@ var
 
 		var expireDateTime,
 
-		/* plugins */
-		plugins = {},
+			/* plugins */
+			plugins = {},
 
-		/* alias frequently used globals for added minification */
-		documentAlias = document,
-		navigatorAlias = navigator,
-		screenAlias = screen,
-		windowAlias = window,
+			/* alias frequently used globals for added minification */
+			documentAlias = document,
+			navigatorAlias = navigator,
+			screenAlias = screen,
+			windowAlias = window,
 
-		/* DOM Ready */
-		hasLoaded = false,
-		registeredOnLoadHandlers = [],
+			/* DOM Ready */
+			hasLoaded = false,
+			registeredOnLoadHandlers = [],
 
-		/*
-		 * encode
-		 */
-		encodeWrapper = windowAlias.encodeURIComponent,
+			/*
+			 * encode
+			 */
+			encodeWrapper = windowAlias.encodeURIComponent,
 
-		/*
-		 * decode
-		 */
-		decodeWrapper = windowAlias.decodeURIComponent,
+			/*
+			 * decode
+			 */
+			decodeWrapper = windowAlias.decodeURIComponent,
 
-		/* asynchronous tracker */
-		asyncTracker,
+			/* asynchronous tracker */
+			asyncTracker,
 
-		/* iterator */
-		i;
+			/* iterator */
+			i;
 
 		/************************************************************
 		 * Private methods
@@ -171,6 +171,7 @@ var
 		 */
 		function loadHandler() {
 			var i;
+
 			if (!hasLoaded) {
 				hasLoaded = true;
 				executePluginMethod('load');
@@ -187,9 +188,9 @@ var
 		function addReadyListener() {
 			if (documentAlias.addEventListener) {
 				addEventListener(documentAlias, 'DOMContentLoaded', function ready() {
-                        documentAlias.removeEventListener('DOMContentLoaded', ready, false);
-						loadHandler();
-					});
+					documentAlias.removeEventListener('DOMContentLoaded', ready, false);
+					loadHandler();
+				});
 			} else if (documentAlias.attachEvent) {
 				documentAlias.attachEvent('onreadystatechange', function ready() {
 					if (documentAlias.readyState === 'complete') {
@@ -221,6 +222,7 @@ var
 		 */
 		function getReferrer() {
 			var referrer = '';
+
 			try {
 				referrer = top.document.referrer;
 			} catch (e) {
@@ -246,6 +248,7 @@ var
 			// scheme : // [username [: password] @] hostame [: port] [/ [path] [? query] [# fragment]]
 			var e = new RegExp('^(?:(?:https?|ftp):)/*(?:[^@]+@)?([^:/#]+)'),
 				matches = e.exec(url);
+
 			return matches ? matches[1] : url;
 		}
 
@@ -258,7 +261,8 @@ var
 				matches = e.exec(url),
 				f = new RegExp('(?:^|&)' + varName + '=([^&]*)'),
 				result = matches ? f.exec(matches[1]) : 0;
-				return result ? decodeWrapper(result[1]) : '';
+
+			return result ? decodeWrapper(result[1]) : '';
 		}
 
 		/*
@@ -327,20 +331,25 @@ var
 				},
 
 				blockstart,
-				i, j,
+				i,
+				j,
 				W = [],
 				H0 = 0x67452301,
 				H1 = 0xEFCDAB89,
 				H2 = 0x98BADCFE,
 				H3 = 0x10325476,
 				H4 = 0xC3D2E1F0,
-				A, B, C, D, E,
+				A,
+				B,
+				C,
+				D,
+				E,
 				temp,
 				str_len,
 				word_array = [];
 
-				str = utf8_encode(str);
-				str_len = str.length;
+			str = utf8_encode(str);
+			str_len = str.length;
 
 			for (i = 0; i < str_len - 3; i += 4) {
 				j = str.charCodeAt(i) << 24 | str.charCodeAt(i + 1) << 16 |
@@ -349,18 +358,18 @@ var
 			}
 
 			switch (str_len & 3) {
-				case 0:
-					i = 0x080000000;
-					break;
-				case 1:
-					i = str.charCodeAt(str_len - 1) << 24 | 0x0800000;
-					break;
-				case 2:
-					i = str.charCodeAt(str_len - 2) << 24 | str.charCodeAt(str_len - 1) << 16 | 0x08000;
-					break;
-				case 3:
-					i = str.charCodeAt(str_len - 3) << 24 | str.charCodeAt(str_len - 2) << 16 | str.charCodeAt(str_len - 1) << 8 | 0x80;
-					break;
+			case 0:
+				i = 0x080000000;
+				break;
+			case 1:
+				i = str.charCodeAt(str_len - 1) << 24 | 0x0800000;
+				break;
+			case 2:
+				i = str.charCodeAt(str_len - 2) << 24 | str.charCodeAt(str_len - 1) << 16 | 0x08000;
+				break;
+			case 3:
+				i = str.charCodeAt(str_len - 3) << 24 | str.charCodeAt(str_len - 2) << 16 | str.charCodeAt(str_len - 1) << 8 | 0x80;
+				break;
 			}
 
 			word_array.push(i);
@@ -456,6 +465,7 @@ var
 				return escapable.test(string) ?
 					'"' + string.replace(escapable, function (a) {
 						var c = meta[a];
+
 						return isString(c) ? c :
 							'\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
 					}) + '"' :
@@ -831,6 +841,7 @@ var
 
 			        return typeof reviver === 'function' ? (function walk(holder, key) {
 			            var k, v, value = holder[key];
+
 			            if (value && typeof value === 'object') {
 			                for (k in value) {
 			                    if (Object.hasOwnProperty.call(value, k)) {
@@ -846,7 +857,7 @@ var
 			            return reviver.call(holder, key, value);
 			        }({'': result}, '')) : result;
 			    };
-		}());
+			}());
 
 
 		/*
@@ -873,6 +884,7 @@ var
 		 */
 		function domainFixup(domain) {
 			var dl = domain.length;
+
 			return (domain.charAt(--dl) === '.') ? domain.substring(0, dl) : domain;
 		}
 
@@ -891,124 +903,124 @@ var
 
 			var
 /*<DEBUG>*/
-			/*
-			 * registered test hooks
-			 */
-			registeredHooks = {},
+				/*
+				 * registered test hooks
+				 */
+				registeredHooks = {},
 /*</DEBUG>*/
 
-			// Current URL and Referrer URL
-			locationArray = urlFixup(documentAlias.domain, windowAlias.location.href, getReferrer()),
-			domainAlias = domainFixup(locationArray[0]),
-			locationHrefAlias = locationArray[1],
-			configReferrerUrl = locationArray[2],
+				// Current URL and Referrer URL
+				locationArray = urlFixup(documentAlias.domain, windowAlias.location.href, getReferrer()),
+				domainAlias = domainFixup(locationArray[0]),
+				locationHrefAlias = locationArray[1],
+				configReferrerUrl = locationArray[2],
 
-			// Request method (GET or POST)
-			configRequestMethod = 'GET',
+				// Request method (GET or POST)
+				configRequestMethod = 'GET',
 
-			// Tracker URL
-			configTrackerUrl = trackerUrl || '',
+				// Tracker URL
+				configTrackerUrl = trackerUrl || '',
 
-			// Site ID
-			configTrackerSiteId = siteId || '',
+				// Site ID
+				configTrackerSiteId = siteId || '',
 
-			// Document URL
-			configCustomUrl,
+				// Document URL
+				configCustomUrl,
 
-			// Document title
-			configTitle = documentAlias.title,
+				// Document title
+				configTitle = documentAlias.title,
 
-			// Extensions to be treated as download links
-			configDownloadExtensions = '7z|aac|ar[cj]|as[fx]|avi|bin|csv|deb|dmg|doc|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|ms[ip]|od[bfgpst]|og[gv]|pdf|phps|png|ppt|qtm?|ra[mr]?|rpm|sea|sit|tar|t?bz2?|tgz|torrent|txt|wav|wm[av]|wpd||xls|xml|z|zip',
+				// Extensions to be treated as download links
+				configDownloadExtensions = '7z|aac|ar[cj]|as[fx]|avi|bin|csv|deb|dmg|doc|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|ms[ip]|od[bfgpst]|og[gv]|pdf|phps|png|ppt|qtm?|ra[mr]?|rpm|sea|sit|tar|t?bz2?|tgz|torrent|txt|wav|wm[av]|wpd||xls|xml|z|zip',
 
-			// Hosts or alias(es) to not treat as outlinks
-			configHostsAlias = [domainAlias],
+				// Hosts or alias(es) to not treat as outlinks
+				configHostsAlias = [domainAlias],
 
-			// HTML anchor element classes to not track
-			configIgnoreClasses = [],
+				// HTML anchor element classes to not track
+				configIgnoreClasses = [],
 
-			// HTML anchor element classes to treat as downloads
-			configDownloadClasses = [],
+				// HTML anchor element classes to treat as downloads
+				configDownloadClasses = [],
 
-			// HTML anchor element classes to treat at outlinks
-			configLinkClasses = [],
+				// HTML anchor element classes to treat at outlinks
+				configLinkClasses = [],
 
-			// Maximum delay to wait for web bug image to be fetched (in milliseconds)
-			configTrackerPause = 500,
+				// Maximum delay to wait for web bug image to be fetched (in milliseconds)
+				configTrackerPause = 500,
 
-			// Heart beat after initial page view (in milliseconds)
-			configHeartBeatTimer = 30000,
+				// Heart beat after initial page view (in milliseconds)
+				configHeartBeatTimer = 30000,
 
-			// Disallow hash tags in URL
-			configDiscardHashTag,
+				// Disallow hash tags in URL
+				configDiscardHashTag,
 
-			// Custom data
-			configCustomData,
+				// Custom data
+				configCustomData,
 
-			// First-party cookie name prefix
-			configCookieNamePrefix = '_pk_',
+				// First-party cookie name prefix
+				configCookieNamePrefix = '_pk_',
 
-			// First-party cookie domain
-			// User agent defaults to origin hostname
-			configCookieDomain,
+				// First-party cookie domain
+				// User agent defaults to origin hostname
+				configCookieDomain,
 
-			// First-party cookie path
-			// Default is user agent defined.
-			configCookiePath,
+				// First-party cookie path
+				// Default is user agent defined.
+				configCookiePath,
 
-			// Do we attribute the conversion to the first referrer or the most recent referrer?
-			configConversionAttributionFirstReferer,
+				// Do we attribute the conversion to the first referrer or the most recent referrer?
+				configConversionAttributionFirstReferer,
 
-			// Life of the visitor cookie (in milliseconds)
-			configVisitorCookieTimeout = 63072000000, // 2 years
+				// Life of the visitor cookie (in milliseconds)
+				configVisitorCookieTimeout = 63072000000, // 2 years
 
-			// Life of the session cookie (in milliseconds)
-			configSessionCookieTimeout = 1800000, // 30 minutes
+				// Life of the session cookie (in milliseconds)
+				configSessionCookieTimeout = 1800000, // 30 minutes
 
-			// Life of the referral cookie (in milliseconds)
-			configReferralCookieTimeout = 15768000000, // 6 months
+				// Life of the referral cookie (in milliseconds)
+				configReferralCookieTimeout = 15768000000, // 6 months
 
-			// Custom Variables read from cookie
-			customVariables = false,
+				// Custom Variables read from cookie
+				customVariables = false,
 
-			// Custom Variables names and values are each truncated before being sent in the request or recorded in the cookie
-			customVariableMaximumLength = 100,
+				// Custom Variables names and values are each truncated before being sent in the request or recorded in the cookie
+				customVariableMaximumLength = 100,
 			
-			// Client-side data collection
-			browserHasCookies = '0',
+				// Client-side data collection
+				browserHasCookies = '0',
 
-			// Plugin, Parameter name, MIME type, detected
-			pluginMap = {
-				// document types
-				pdf:         ['pdf',   'application/pdf',               '0'],
-				// media players
-				quicktime:   ['qt',    'video/quicktime',               '0'],
-				realplayer:  ['realp', 'audio/x-pn-realaudio-plugin',   '0'],
-				wma:         ['wma',   'application/x-mplayer2',        '0'],
-				// interactive multimedia 
-				director:    ['dir',   'application/x-director',        '0'],
-				flash:       ['fla',   'application/x-shockwave-flash', '0'],
-				// RIA
-				java:        ['java',  'application/x-java-vm',         '0'],
-				gears:       ['gears', 'application/x-googlegears',     '0'],
-				silverlight: ['ag',    'application/x-silverlight',     '0']
-			},
+				// Plugin, Parameter name, MIME type, detected
+				pluginMap = {
+					// document types
+					pdf:         ['pdf',   'application/pdf',               '0'],
+					// media players
+					quicktime:   ['qt',    'video/quicktime',               '0'],
+					realplayer:  ['realp', 'audio/x-pn-realaudio-plugin',   '0'],
+					wma:         ['wma',   'application/x-mplayer2',        '0'],
+					// interactive multimedia 
+					director:    ['dir',   'application/x-director',        '0'],
+					flash:       ['fla',   'application/x-shockwave-flash', '0'],
+					// RIA
+					java:        ['java',  'application/x-java-vm',         '0'],
+					gears:       ['gears', 'application/x-googlegears',     '0'],
+					silverlight: ['ag',    'application/x-silverlight',     '0']
+				},
 
-			// Guard against installing the link tracker more than once per Tracker instance
-			linkTrackingInstalled = false,
+				// Guard against installing the link tracker more than once per Tracker instance
+				linkTrackingInstalled = false,
 
-			// Hash function
-			hash = sha1,
+				// Hash function
+				hash = sha1,
 
-			// Internal state of the pseudo click handler
-			lastButton,
-			lastTarget,
+				// Internal state of the pseudo click handler
+				lastButton,
+				lastTarget,
 
-			// Visitor ID
-			visitorId,
+				// Visitor ID
+				visitorId,
 
-			// Domain hash value
-			domainHash;
+				// Domain hash value
+				domainHash;
 
 			/*
 			 * Purify URL.
@@ -1056,6 +1068,7 @@ var
 			 */
 			function getImage(request) {
 				var image = new Image(1, 1);
+
 				image.onLoad = function () { };
 				image.src = configTrackerUrl + '?' + request;
 			}
@@ -1071,6 +1084,7 @@ var
 					var xhr = windowAlias.XMLHttpRequest ? new windowAlias.XMLHttpRequest() :
 						windowAlias.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') :
 						null;
+
 					xhr.open('POST', configTrackerUrl, true);
 					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
 					xhr.setRequestHeader('Content-Length', request.length);
@@ -1085,8 +1099,7 @@ var
 			/*
 			 * Send request
 			 */
-			function sendRequest(request, delay)
-			{
+			function sendRequest(request, delay) {
 				var now = new Date();
 
 				if (configRequestMethod === 'POST') {
@@ -1128,34 +1141,6 @@ var
 			}
 
 			/*
-			 * Inits the custom variables object
-			 */
-			function getCustomVariablesFromCookie()
-			{
-				var cookieName = getCookieName('cvar'),
-					cookie = getCookie(cookieName);
-				if(cookie.length)
-				{
-					cookie = json_parse(cookie);
-					if(isObject(cookie)) {
-						return cookie;
-					}
-				}
-				return {};
-			}
-			
-			/*
-			 * Lazy loads the custom variables from the cookie, only once during this page view
-			 */
-			function loadCustomVariables()
-			{
-				if(customVariables == false)
-				{
-					customVariables = getCustomVariablesFromCookie();
-				}
-			}
-			
-			/*
 			 * Get cookie name with prefix and domain hash
 			 */
 			function getCookieName(baseName) {
@@ -1184,22 +1169,58 @@ var
 			}
 
 			/*
+			 * Inits the custom variables object
+			 */
+			function getCustomVariablesFromCookie() {
+				var cookieName = getCookieName('cvar'),
+					cookie = getCookie(cookieName);
+
+				if (cookie.length) {
+					cookie = json_parse(cookie);
+					if (isObject(cookie)) {
+						return cookie;
+					}
+				}
+				return {};
+			}
+
+			/*
+			 * Lazy loads the custom variables from the cookie, only once during this page view
+			 */
+			function loadCustomVariables() {
+				if (customVariables === false) {
+					customVariables = getCustomVariablesFromCookie();
+				}
+			}
+
+			/*
 			 * Returns the URL to call piwik.php, 
 			 * with the standard parameters (plugins, resolution, url, referer, etc.).
 			 * Sends the pageview and browser settings with every request in case of race conditions.
 			 */
 			function getRequest(customData, pluginMethod) {
 				var i,
-				now = new Date(), nowTs = Math.round(now.getTime() / 1000),
-				tmpContainer, newVisitor, uuid, visitCount, createTs, currentVisitTs, lastVisitTs, referralTs, referralUrl, currentRefererHostName, originalRefererHostName,
-				customVariablesString,
-				idname = getCookieName('id'),
-				sesname = getCookieName('ses'),
-				refname = getCookieName('ref'),
-				id = getCookie(idname),
-				ses = getCookie(sesname),
-				ref = getCookie(refname),
-				request = '&res=' + screenAlias.width + 'x' + screenAlias.height + '&cookie=' + browserHasCookies;
+					now = new Date(),
+					nowTs = Math.round(now.getTime() / 1000),
+					tmpContainer,
+					newVisitor,
+					uuid,
+					visitCount,
+					createTs,
+					currentVisitTs,
+					lastVisitTs,
+					referralTs,
+					referralUrl,
+					currentRefererHostName,
+					originalRefererHostName,
+					customVariablesString,
+					idname = getCookieName('id'),
+					sesname = getCookieName('ses'),
+					refname = getCookieName('ref'),
+					id = getCookie(idname),
+					ses = getCookie(sesname),
+					ref = getCookie(refname),
+					request = '&res=' + screenAlias.width + 'x' + screenAlias.height + '&cookie=' + browserHasCookies;
 
 				for (i in pluginMap) {
 					request += '&' + pluginMap[i][0] + '=' + pluginMap[i][2];
@@ -1220,7 +1241,7 @@ var
 
 					// seconds since Unix epoch
 					createTs = nowTs;
-					currentVisitsTs = nowTs;
+					currentVisitTs = nowTs;
 
 					// no previous visit
 					lastVisitTs = '';
@@ -1228,10 +1249,10 @@ var
 					// generate a pseudo-unique ID to fingerprint this user;
 					// note: this isn't a RFC4122-compliant UUID
 					uuid = hash(
-							(isDefined(navigatorAlias.userAgent) ? navigatorAlias.userAgent : '') +
+						(isDefined(navigatorAlias.userAgent) ? navigatorAlias.userAgent : '') +
 							(isDefined(navigatorAlias.platform) ? navigatorAlias.platform : '') +
 							request + Math.round(now.getTime / 1000)
-						).substring(0, 16); // 16 hexits = 64 bits
+					).substring(0, 16); // 16 hexits = 64 bits
 
 					visitCount = 0;
 				}
@@ -1373,10 +1394,10 @@ var
 
 				// does class indicate whether it is an (explicit/forced) outlink or a download?
 				var downloadPattern = getClassesRegExp(configDownloadClasses, 'download'),
-				linkPattern = getClassesRegExp(configLinkClasses, 'link'),
+					linkPattern = getClassesRegExp(configLinkClasses, 'link'),
 
-				// does file extension indicate that it is a download?
-				downloadExtensionsPattern = new RegExp('\\.(' + configDownloadExtensions + ')([?&#]|$)', 'i');
+					// does file extension indicate that it is a download?
+					downloadExtensionsPattern = new RegExp('\\.(' + configDownloadExtensions + ')([?&#]|$)', 'i');
 
 				// optimization of the if..elseif..else construct below
 				return linkPattern.test(className) ? 'link' : (downloadPattern.test(className) || downloadExtensionsPattern.test(href) ? 'download' : 0);
@@ -1408,7 +1429,7 @@ var
 			function processClick(sourceElement) {
 				var parentElement, tag, linkType;
 
-				while ((parentElement = sourceElement.parentNode) &&
+				while (!!(parentElement = sourceElement.parentNode) &&
 						((tag = sourceElement.tagName) !== 'A' && tag !== 'AREA')) {
 					sourceElement = parentElement;
 				}
@@ -1617,8 +1638,7 @@ var
 				 */
 				setCustomVariable: function (index, varName, value) {
 					loadCustomVariables();
-					if(index > 0 && index <= 5)
-					{
+					if (index > 0 && index <= 5) {
 						customVariables[index] = [varName.substring(0, customVariableMaximumLength), value.substring(0, customVariableMaximumLength)];
 					}
 				},
