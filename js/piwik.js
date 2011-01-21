@@ -1132,8 +1132,8 @@ var
 			 */
 			function getCustomVariablesFromCookie()
 			{
-				name = getCookieName('cvar');
-				cookie = getCookie(name);
+				var cookieName = getCookieName('cvar'),
+					cookie = getCookie(cookieName);
 				if(cookie.length)
 				{
 					cookie = json_parse(cookie);
@@ -1192,6 +1192,7 @@ var
 				var i,
 				now = new Date(), nowTs = Math.round(now.getTime() / 1000),
 				tmpContainer, newVisitor, uuid, visitCount, createTs, currentVisitTs, lastVisitTs, referralTs, referralUrl, currentRefererHostName, originalRefererHostName,
+				customVariablesString,
 				idname = getCookieName('id'),
 				sesname = getCookieName('ses'),
 				refname = getCookieName('ref'),
@@ -1294,7 +1295,7 @@ var
 					'&_ref=' + encodeWrapper(purify(referralUrl)) +
 					'&_refts=' + referralTs +
 					'&_viewts=' + lastVisitTs +
-					'&_cvar=' + customVariablesString
+					'&_cvar=' + customVariablesString +
 					request;
 
 				// custom data
@@ -1612,21 +1613,21 @@ var
 				 * Set custom variable to this visit
 				 *
 				 * @param int index
-				 * @param string name
+				 * @param string varName
 				 * @param string value
 				 */
-				setCustomVariable: function (index, name, value) {
+				setCustomVariable: function (index, varName, value) {
 					loadCustomVariables();
 					if(index > 0 && index <= 5)
 					{
-						customVariables[index] = [name.substring(0, customVariableMaximumLength), value.substring(0, customVariableMaximumLength)];
+						customVariables[index] = [varName.substring(0, customVariableMaximumLength), value.substring(0, customVariableMaximumLength)];
 					}
 				},
 
 				/**
 				 * Get custom variable
 				 *
-				 * @param int slotId
+				 * @param int index
 				 */
 				getCustomVariable: function (index) {
 					loadCustomVariables();
@@ -1636,10 +1637,10 @@ var
 				/**
 				 * Delete custom variable
 				 *
-				 * @param int slotId
+				 * @param int index
 				 */
 				deleteCustomVariable: function (index) {
-					setCustomVariable(index, "", "");
+					this.setCustomVariable(index, "", "");
 				},
 
 				/**
