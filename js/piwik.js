@@ -945,9 +945,6 @@ var
 			// Custom data
 			configCustomData,
 
-			// Server cookies (first- or third-party, depending on where Piwik is hosted)
-			configServerCookies,
-
 			// First-party cookie name prefix
 			configCookieNamePrefix = '_pk_',
 
@@ -1222,6 +1219,7 @@ var
 
 					// seconds since Unix epoch
 					createTs = nowTs;
+					currentVisitsTs = nowTs;
 
 					// no previous visit
 					lastVisitTs = '';
@@ -1236,11 +1234,15 @@ var
 
 					visitCount = 0;
 				}
+				visitorId = uuid;
 
 				if (ref) {
-					tmpContainer = ref.split(' ');
+					tmpContainer = ref.split('.', 1);
 					referralTs = tmpContainer[0];
 					referralUrl = tmpContainer[1];
+				} else {
+					referralTs = 0;
+					referralUrl = '';
 				}
 
 				if (!ses) {
@@ -1262,7 +1264,7 @@ var
 						referralUrl = configReferrerUrl;
 
 						// set the referral cookie
-						setCookie(refname, referralTs + ' ' + referralUrl, configReferralCookieTimeout, configCookiePath, configCookieDomain);
+						setCookie(refname, referralTs + '.' + referralUrl, configReferralCookieTimeout, configCookiePath, configCookieDomain);
 					}
 
 					// send heart beat
@@ -1292,7 +1294,6 @@ var
 					'&_ref=' + encodeWrapper(purify(referralUrl)) +
 					'&_refts=' + referralTs +
 					'&_viewts=' + lastVisitTs +
-					'&_ses=' + (configServerCookies ? 0 : 1) +
 					'&_cvar=' + customVariablesString
 					request;
 
@@ -1849,15 +1850,6 @@ var
 							addClickListeners(enable);
 						};
 					}
-				},
-
-				/**
-				 * Enable third-party server cookies
-				 *
-				 * @param bool enable
-				 */
-				enableServerCookies: function (enable) {
-					configServerCookies = enable;
 				},
 
 				/**
