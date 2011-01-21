@@ -97,6 +97,9 @@ class Piwik_Updates_1_2 extends Piwik_Updates
 		
 			// New index used max once per request, in case this table grows significantly in the future
 			'ALTER TABLE `'. Piwik_Common::prefixTable('option') .'` ADD INDEX ( `autoload` ) ' => false,
+		
+		    // new field for websites
+		    'ALTER TABLE `'. Piwik_Common::prefixTable('site') .'` ADD `group` VARCHAR( 250 ) NOT NULL' => false,
 		);
 	}
 
