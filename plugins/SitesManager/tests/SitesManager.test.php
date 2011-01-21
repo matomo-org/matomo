@@ -494,8 +494,8 @@ class Test_Piwik_SitesManager extends Test_Database
     	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"));
     	
     	$resultWanted = array(
-    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD'),
-    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD'),
+    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
+    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
     	);
     		
 		FakeAccess::setIdSitesAdmin (array(1,3));
@@ -530,8 +530,8 @@ class Test_Piwik_SitesManager extends Test_Database
     	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"));
     	
     	$resultWanted = array(
-    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD'),
-    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD'),
+    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
+    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
     	);
     		
 		FakeAccess::setIdSitesView (array(1,3));
@@ -566,8 +566,8 @@ class Test_Piwik_SitesManager extends Test_Database
     	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"));
     	
     	$resultWanted = array(
-    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD'),
-    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD'),
+    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
+    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
     	);
     		
 		FakeAccess::setIdSitesView (array(1,3));
@@ -645,7 +645,16 @@ class Test_Piwik_SitesManager extends Test_Database
     	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",$urls);
     	
     	$newMainUrl = "http://main.url";
+    	
+    	// Also test that the group was set to empty, and is searchable
+    	$websites = Piwik_SitesManager_API::getInstance()->getSitesFromGroup('');
+    	$this->assertEqual(count($websites), 1);
+    	
     	Piwik_SitesManager_API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl );
+    	
+    	// the Update doesn't change the group field
+    	$websites = Piwik_SitesManager_API::getInstance()->getSitesFromGroup('');
+    	$this->assertEqual(count($websites), 1);
     	
     	$allUrls = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idsite);
     	
@@ -676,25 +685,40 @@ class Test_Piwik_SitesManager extends Test_Database
     
     /**
      * several urls => both main and alias are updated
+     * also test the update of group field
      */
-    function test_updateSite_severalUrls()
+    function test_updateSite_severalUrls_andGroup()
     {
     	$urls = array("http://piwiknew.com",
 						"http://piwiknew.net",
 						"http://piwiknew.org",
 						"http://piwiknew.fr");
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",$urls);
+    	
+    	$group = 'GROUP Before';
+    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",$urls, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group);
+    	
+    	$websites = Piwik_SitesManager_API::getInstance()->getSitesFromGroup($group);
+    	$this->assertEqual(count($websites), 1);
     	
     	$newurls = array("http://piwiknew2.com",
 						"http://piwiknew2.net",
 						"http://piwiknew2.org",
 						"http://piwiknew2.fr");
-    	Piwik_SitesManager_API::getInstance()->updateSite($idsite, "test toto@{}",$newurls );
+
+    	$groupAfter = '   GROUP After';
+    	Piwik_SitesManager_API::getInstance()->updateSite($idsite, "test toto@{}",$newurls, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $groupAfter);
+
+    	// no result for the group before update 
+    	$websites = Piwik_SitesManager_API::getInstance()->getSitesFromGroup($group);
+    	$this->assertEqual(count($websites), 0);
+    	
+    	// Testing that the group was updated properly (and testing that the group value is trimmed before inserted/searched)
+    	$websites = Piwik_SitesManager_API::getInstance()->getSitesFromGroup($groupAfter . ' ');
+    	$this->assertEqual(count($websites), 1);
     	
     	$allUrls = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idsite);
     	sort($allUrls);
     	sort($newurls);
-    	
     	$this->assertEqual($allUrls,$newurls);
 
     }
