@@ -29,7 +29,6 @@ Piwik.addPlugin('testPlugin', {
 				'_decode : decodeWrapper,' +
 				'_getLinkType : getLinkType,' +
 				'_beforeUnloadHandler : beforeUnloadHandler,' +
-				'_stringify : stringify,' +
 				'_getHostName : getHostName,' +
 				'_getParameter : getParameter,' +
 				'_urlFixup : urlFixup,' +

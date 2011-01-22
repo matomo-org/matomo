@@ -28,7 +28,6 @@ _paq.push(["trackPageView", "Asynchronous tracker"]);';
  </script>
  <script src="../../js/piwik.js" type="text/javascript"></script>
  <script src="piwiktest.js" type="text/javascript"></script>
- <script src="../../libs/jquery/jquery.js" type="text/javascript"></script>
  <link rel="stylesheet" href="assets/qunit.css" type="text/css" media="screen" />
  <script src="assets/qunit.js" type="text/javascript"></script>
  <script src="jslint/fulljslint.js" type="text/javascript"></script>
@@ -81,7 +80,9 @@ function url(value) {
  <div id="main" style="display:none;"></div>
 
  <script>
-$(document).ready(function () {
+var hasLoaded = false;
+function PiwikTest() {
+    hasLoaded = true;
 
 	test("JSLint", function() {
 		expect(1);
@@ -90,6 +91,31 @@ $(document).ready(function () {
 			$src = strtr($src, array('\\'=>'\\\\',"'"=>"\\'",'"'=>'\\"',"\r"=>'\\r',"\n"=>'\\n','</'=>'<\/'));
 			echo $src; ?>';
 		ok( JSLINT(src), "JSLint" );
+	});
+
+	test("JSON", function() {
+		expect(10);
+
+		var tracker = Piwik.getTracker(), dummy;
+
+		equals( JSON.stringify(true), 'true', 'Boolean (true)' );
+		equals( JSON.stringify(false), 'false', 'Boolean (false)' );
+		equals( JSON.stringify(42), '42', 'Number' );
+		equals( JSON.stringify("ABC"), '"ABC"', 'String' );
+
+		var d = new Date();
+		d.setTime(1240013340000);
+		ok( JSON.stringify(d) == '"2009-04-18T00:09:00Z"'
+		|| JSON.stringify(d) == '"2009-04-18T00:09:00.000Z"', 'Date');
+
+		equals( JSON.stringify(null), 'null', 'null' );
+		equals( typeof JSON.stringify(dummy), 'undefined', 'undefined' );
+		equals( JSON.stringify([1, 2, 3]), '[1,2,3]', 'Array of numbers' );
+		equals( JSON.stringify({'key' : 'value'}), '{"key":"value"}', 'Object (members)' );
+		equals( JSON.stringify(
+			[ {'domains' : ['example.com', 'example.ca']},
+			  {'names' : ['Sean', 'Cathy'] } ]
+		), '[{"domains":["example.com","example.ca"]},{"names":["Sean","Cathy"]}]', 'Nested members' );
 	});
 
 	test("Basic requirements", function() {
@@ -348,31 +374,6 @@ $(document).ready(function () {
 		equals( tracker.hook.test._getLinkType('d abc', 'piwiktest.ext', true), 'link', 'link (d)' );
 	});
 
-	test("JSON", function() {
-		expect(10);
-
-		var tracker = Piwik.getTracker(), dummy;
-
-		equals( tracker.hook.test._stringify(true), 'true', 'Boolean (true)' );
-		equals( tracker.hook.test._stringify(false), 'false', 'Boolean (false)' );
-		equals( tracker.hook.test._stringify(42), '42', 'Number' );
-		equals( tracker.hook.test._stringify("ABC"), '"ABC"', 'String' );
-
-		var d = new Date();
-		d.setTime(1240013340000);
-		ok( tracker.hook.test._stringify(d) == '"2009-04-18T00:09:00Z"'
-		|| tracker.hook.test._stringify(d) == '"2009-04-18T00:09:00.000Z"', 'Date');
-
-		equals( tracker.hook.test._stringify(null), 'null', 'null' );
-		equals( typeof tracker.hook.test._stringify(dummy), 'undefined', 'undefined' );
-		equals( tracker.hook.test._stringify([1, 2, 3]), '[1,2,3]', 'Array of numbers' );
-		equals( tracker.hook.test._stringify({'key' : 'value'}), '{"key":"value"}', 'Object (members)' );
-		equals( tracker.hook.test._stringify(
-			[ {'domains' : ['example.com', 'example.ca']},
-			  {'names' : ['Sean', 'Cathy'] } ]
-		), '[{"domains":["example.com","example.ca"]},{"names":["Sean","Cathy"]}]', 'Nested members' );
-	});
-
 	test("utf8_encode(), sha1()", function() {
 		expect(6);
 
@@ -388,7 +389,7 @@ $(document).ready(function () {
 	});
 
 	test("Tracking", function() {
-		expect(<?php echo $sqlite ? 20 : 5; ?>);
+		expect(<?php echo $sqlite ? 20 : 6; ?>);
 
 		var tracker = Piwik.getTracker();
 
@@ -437,43 +438,89 @@ if ($sqlite) {
 			tracker.trackLink("http://example.de", "link", { "token" : t });
 		}, getToken() ]);
 
-		var buttons = new Array("click1", "click2", "click3", "click4", "click5", "click6", "click7");
-		for (var i=0; i < buttons.length; i++) {
-			triggerEvent( document.getElementById(buttons[i]), "click" );
-		}
-
 		tracker.setRequestMethod("POST");
 		tracker.trackGoal(42, 69, { "token" : getToken(), "boy" : "Michael", "girl" : "Mandy"});
 
+		tracker.setRequestMethod("GET");
+		var buttons = new Array("click1", "click2", "click3", "click4", "click5", "click6", "click7");
+		for (var i=0; i < buttons.length; i++) {
+			QUnit.triggerEvent( document.getElementById(buttons[i]), "click" );
+		}
+
+		var xhr = window.XMLHttpRequest ? new window.XMLHttpRequest() :
+			window.ActiveXObject ? new ActiveXObject("Microsoft.XMLHTTP") :
+			null;
+
 		stop();
 		setTimeout(function() {
-			jQuery.ajax({
-				url: url("piwik.php?results=" + getToken()),
-				success: function(results) {
-					ok( /\<span\>11\<\/span\>/.test( results ), "count tracking events" );
-					ok( /PiwikTest/.test( results ), "trackPageView()" );
-					ok( /Asynchronous/.test( results ), "async trackPageView()" );
-					ok( /CustomTitleTest/.test( results ), "trackPageView(customTitle)" );
-					ok( /example.ca/.test( results ), "trackLink()" );
-					ok( /example.fr/.test( results ), "async trackLink()" );
-					ok( /example.de/.test( results ), "push function" );
-					ok( /example.net/.test( results ), "click: implicit outlink (by outbound URL)" );
-					ok( /example.html/.test( results ), "click: explicit outlink" );
-					ok( /example.pdf/.test( results ), "click: implicit download (by file extension)" );
-					ok( /example.word/.test( results ), "click: explicit download" );
-					ok( ! /example.(org|php)/.test( results ), "click: ignored" );
-					ok( /Michael.*?Mandy.*?idgoal=42.*?revenue=69/.test( results ), "trackGoal()" );
-					ok( /referrer.example.com/.test( results ), "setReferrerUrl()" );
+			xhr.open("GET", "piwik.php?results=" + getToken(), false);
+			xhr.send(null);
+			results = xhr.responseText;
 
-					start();
-				}
-			});
-		}, 2000);
+			ok( /\<span\>11\<\/span\>/.test( results ), "count tracking events" );
+			ok( /PiwikTest/.test( results ), "trackPageView()" );
+			ok( /Asynchronous/.test( results ), "async trackPageView()" );
+			ok( /CustomTitleTest/.test( results ), "trackPageView(customTitle)" );
+			ok( /example.ca/.test( results ), "trackLink()" );
+			ok( /example.fr/.test( results ), "async trackLink()" );
+			ok( /example.de/.test( results ), "push function" );
+			ok( /example.net/.test( results ), "click: implicit outlink (by outbound URL)" );
+			ok( /example.html/.test( results ), "click: explicit outlink" );
+			ok( /example.pdf/.test( results ), "click: implicit download (by file extension)" );
+			ok( /example.word/.test( results ), "click: explicit download" );
+			ok( ! /example.(org|php)/.test( results ), "click: ignored" );
+			ok( /Michael.*?Mandy.*?idgoal=42.*?revenue=69/.test( results ), "trackGoal()" );
+			ok( /referrer.example.com/.test( results ), "setReferrerUrl()" );
+
+			start();
+		}, 3000);
 		';
 }
 ?>
 	});
-});
+}
+
+function addEventListener(element, eventType, eventHandler, useCapture) {
+	if (element.addEventListener) {
+		element.addEventListener(eventType, eventHandler, useCapture);
+		return true;
+	}
+	if (element.attachEvent) {
+		return element.attachEvent('on' + eventType, eventHandler);
+	}
+	element['on' + eventType] = eventHandler;
+}
+
+(function (f) {
+	if (document.addEventListener) {
+		addEventListener(document, 'DOMContentLoaded', function ready() {
+			document.removeEventListener('DOMContentLoaded', ready, false);
+			f();
+		});
+	} else if (document.attachEvent) {
+		document.attachEvent('onreadystatechange', function ready() {
+			if (document.readyState === 'complete') {
+				document.detachEvent('onreadystatechange', ready);
+				f();
+			}
+		});
+
+		if (document.documentElement.doScroll && window === top) {
+			(function ready() {
+				if (!hasLoaded) {
+					try {
+						document.documentElement.doScroll('left');
+					} catch (error) {
+						setTimeout(ready, 0);
+						return;
+					}
+					f();
+				}
+			}());
+		}
+	}
+	addEventListener(window, 'load', f, false);
+})(PiwikTest);
  </script>
 
 </body>
