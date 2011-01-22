@@ -1136,6 +1136,7 @@ var
 					id = getCookie(idname),
 					ses = getCookie(sesname),
 					ref = getCookie(refname),
+					secure = documentAlias.location.protocol === 'https',
 					request = '&res=' + screenAlias.width + 'x' + screenAlias.height + '&cookie=' + browserHasCookies;
 
 				for (i in pluginMap) {
@@ -1202,7 +1203,7 @@ var
 						referralUrl = configReferrerUrl;
 
 						// set the referral cookie
-						setCookie(refname, referralTs + '.' + referralUrl, configReferralCookieTimeout, configCookiePath, configCookieDomain);
+						setCookie(refname, referralTs + '.' + referralUrl, configReferralCookieTimeout, configCookiePath, configCookieDomain, secure);
 					}
 
 					// send heart beat
@@ -1219,9 +1220,9 @@ var
 				customVariablesString = JSON.stringify(customVariables);
 				
 				// update other cookies
-				setCookie(idname, uuid + '.' + createTs + '.' + visitCount + '.' + currentVisitTs + '.' + lastVisitTs, configVisitorCookieTimeout, configCookiePath, configCookieDomain);
-				setCookie(sesname, '*', configSessionCookieTimeout, configCookiePath, configCookieDomain);
-				setCookie(getCookieName('cvar'), customVariablesString, configSessionCookieTimeout, configCookiePath, configCookieDomain);
+				setCookie(idname, uuid + '.' + createTs + '.' + visitCount + '.' + currentVisitTs + '.' + lastVisitTs, configVisitorCookieTimeout, configCookiePath, configCookieDomain, secure);
+				setCookie(sesname, '*', configSessionCookieTimeout, configCookiePath, configCookieDomain, secure);
+				setCookie(getCookieName('cvar'), customVariablesString, configSessionCookieTimeout, configCookiePath, configCookieDomain, secure);
 				
 				// build out the rest of the request
 				request = 'idsite=' + configTrackerSiteId +
