@@ -1,0 +1,149 @@
+/**
+* $Id: Jash.css,v 1.2 2007/07/13 04:38:41 billyreisinger Exp $
+*
+* Jash - JavaScript Shell
+* Copyright: 2007, Billy Reisinger
+* Documentation: http://www.billyreisinger.com/jash/
+* License: GNU General Public License - http://www.gnu.org/licenses/gpl.html
+*
+* This program is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public License
+* as published by the Free Software Foundation; either version 2
+* of the License, or (at your option) any later version.
+* 
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* 
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+**/
+#JashParent {
+	width: 581px;
+	height: 450px;
+	border: 1px solid gray;
+	color: black;
+	z-index: 10000;
+	overflow: hidden;
+	background: #ccc;
+	opacity: 0.90;
+	filter: alpha(opacity=90);
+	position: absolute;
+	left: 25%;
+	color: black;
+	font-family: monospace;
+}
+#JashParent a, #JashParent a:visited, #JashParent a:active, #JashParent a:hover {
+	text-decoration: none;
+	color: black;
+}
+.transparentMode {
+	opacity: 0.20 !important;
+	filter: alpha(opacity=20) !important;
+}
+#JashDragBar {
+	BACKGROUND: gray;
+	CURSOR: move;
+	COLOR: white;
+	font-family: monospace;
+	font-weight: bold;
+	text-indent: 4px;
+	font-size: 14px;
+	HEIGHT: 25px;
+	TEXT-ALIGN: left;
+	overflow: hidden;
+	border: 1px outset white;
+}
+.JashXButton {
+    border: 1px solid white;
+    color: white !important;
+    position: absolute;
+    background: #bbb;
+    width: 20px; 
+    text-align: center;
+    display: block;
+    right: 3px; _right: 1px;
+    top: 4px; _top: 1px;
+    font-family: Arial sans-serif;
+    font-size: 18px;
+    cursor: pointer;
+}
+a.JashXButton:hover {
+	background: #ddd; 
+}
+#JashTextareaWrap {
+	width: 100%;
+	_height: 420px;
+}
+html>body #JashTextareaWrap {
+	height: 100%;
+}
+#JashOutput {
+	border: 2px inset white;
+	FONT-SIZE: 10px;
+	font-family: "Lucida Console", monaco, monospace;
+	BACKGROUND: black;
+	width: 99%;
+	COLOR: lightgreen;
+	PADDING: 2px;
+	height: 60%;
+	height: expression(parseInt(this.parentNode.parentNode.offsetHeight * (3/5)) + 'px');
+	
+}
+#JashInput {
+	padding: 2px;
+	WIDTH: 99%;
+	border: 2px inset white;
+	HEIGHT: 25%;
+	font-family: monospace;
+	font-size: 11px;
+	height: expression(parseInt(this.parentNode.parentNode.offsetHeight * (3/13)) + 'px');
+}
+#JashParent .cssEntry {
+	background: lightgreen;
+	font-size: 11px;
+	font-family: monospace;
+}
+#JashBottomBar {
+	BACKGROUND: #ccc;
+	POSITION: relative;
+	HEIGHT: 20px;
+	overflow: hidden;
+	margin-top: 2px;
+}
+#JashBottomBar a {
+	HEIGHT: 14px;
+	font-size: 9px;
+	font-weight: normal;
+	font-family: arial;
+	float: left;
+	padding: 4px;
+	background: #eee;
+	cursor: pointer;
+	border: 1px outset white;
+	margin-right: 1px;
+}
+#JashBottomBar a:hover {
+	padding-top: 3px;
+	padding-bottom: 5px;
+	background-color: white;
+}
+#JashBottomBar a:active, #JashBottomBar a:focus {
+	padding-top: 5px;
+	padding-bottom: 3px;
+	background-color: #ddd;
+}
+#JashResizeButton {
+	BORDER: 1px solid gray;
+	BACKGROUND: #eee;
+	WIDTH: 17px;
+	height: 17px;
+	line-height: 0;
+	CURSOR: move;
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	z-index: 2000;
+}

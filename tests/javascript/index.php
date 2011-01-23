@@ -29,6 +29,7 @@ _paq.push(["trackPageView", "Asynchronous tracker"]);';
  <script src="../../js/piwik.js" type="text/javascript"></script>
  <script src="piwiktest.js" type="text/javascript"></script>
  <link rel="stylesheet" href="assets/qunit.css" type="text/css" media="screen" />
+ <link rel="stylesheet" href="jash/Jash.css" type="text/css" media="screen" />
  <script src="assets/qunit.js" type="text/javascript"></script>
  <script src="jslint/fulljslint.js" type="text/javascript"></script>
  <script type="text/javascript">
@@ -522,6 +523,8 @@ function addEventListener(element, eventType, eventHandler, useCapture) {
 	addEventListener(window, 'load', f, false);
 })(PiwikTest);
  </script>
+
+<a href="#" onclick="javascript:(function(){document.body.appendChild(document.createElement('script')).src='jash/Jash.js';})();"><img src="gnome-terminal.png" border="0" /></a>
 
 </body>
 </html>
