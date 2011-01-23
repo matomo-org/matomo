@@ -33,6 +33,21 @@ _paq.push(["trackPageView", "Asynchronous tracker"]);';
  <script src="assets/qunit.js" type="text/javascript"></script>
  <script src="jslint/fulljslint.js" type="text/javascript"></script>
  <script type="text/javascript">
+function loadJash() {
+	var jashDiv;
+
+	if (document.getElementById)
+		jashDiv = document.getElementById('jashDiv');
+	else if (document.layers)
+		jashDiv = document['jashDiv'];
+	else if (document.all)
+		jashDiv = document.all['jashDiv'];
+
+	jashDiv.innerHTML = '';
+	document.body.appendChild(document.createElement('script')).src='jash/Jash.js';
+}
+ </script>
+ <script type="text/javascript">
 <!--
 /**
  * Add random number to url to stop IE from caching
@@ -524,7 +539,9 @@ function addEventListener(element, eventType, eventHandler, useCapture) {
 })(PiwikTest);
  </script>
 
-<a href="#" onclick="javascript:(function(){document.body.appendChild(document.createElement('script')).src='jash/Jash.js';})();"><img src="gnome-terminal.png" border="0" /></a>
+ <div id="jashDiv">
+ <a href="#" onclick="javascript:loadJash();" title="Open JavaScript Shell"><img src="gnome-terminal.png" border="0" width="24" height="24" /></a>
+ </div>
 
 </body>
 </html>
