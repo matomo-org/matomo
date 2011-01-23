@@ -885,7 +885,7 @@ var
 				configCookiePath,
 
 				// Do we attribute the conversion to the first referrer or the most recent referrer?
-				configConversionAttributionFirstReferer,
+				configConversionAttributionFirstReferrer,
 
 				// Life of the visitor cookie (in milliseconds)
 				configVisitorCookieTimeout = 63072000000, // 2 years
@@ -1127,8 +1127,8 @@ var
 					lastVisitTs,
 					referralTs,
 					referralUrl,
-					currentRefererHostName,
-					originalRefererHostName,
+					currentReferrerHostName,
+					originalReferrerHostName,
 					customVariablesString,
 					idname = getCookieName('id'),
 					sesname = getCookieName('ses'),
@@ -1191,13 +1191,13 @@ var
 					lastVisitTs = currentVisitTs;
 
 					// the referral URL depends on the first or last referrer attribution
-					currentRefererHostName = getHostName(configReferrerUrl);
-					originalRefererHostName = ref ? getHostName(ref) : '';
-					if (currentRefererHostName.length && // there is a referer
-							!isSiteHostName(currentRefererHostName) && // domain is not the current domain
-							(!configConversionAttributionFirstReferer || // attribute to last known referer
-							!originalRefererHostName.length || // previously empty
-							isSiteHostName(originalRefererHostName))) { // previously set but in current domain
+					currentReferrerHostName = getHostName(configReferrerUrl);
+					originalReferrerHostName = ref ? getHostName(ref) : '';
+					if (currentReferrerHostName.length && // there is a referer
+							!isSiteHostName(currentReferrerHostName) && // domain is not the current domain
+							(!configConversionAttributionFirstReferrer || // attribute to last known referer
+							!originalReferrerHostName.length || // previously empty
+							isSiteHostName(originalReferrerHostName))) { // previously set but in current domain
 						// record this referral
 						referralTs = nowTs;
 						referralUrl = configReferrerUrl;
@@ -1753,8 +1753,8 @@ var
 				 *
 				 * @param bool enable If true, use first referer; if false, use the last referer
 				 */
-				setConversionAttributionFirstReferer: function (enable) {
-					configConversionAttributionFirstReferer = enable;
+				setConversionAttributionFirstReferrer: function (enable) {
+					configConversionAttributionFirstReferrer = enable;
 				},
 
 				/**
