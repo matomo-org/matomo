@@ -29,18 +29,43 @@ class Piwik_DBStats_API
  	public function getDBStatus()
 	{
 		Piwik::checkUserIsSuperUser();
-		$configDb = Zend_Registry::get('config')->database->toArray();
-		// we decode the password. Password is html encoded because it's enclosed between " double quotes
-		$configDb['password'] = htmlspecialchars_decode($configDb['password']);
-		if(!isset($configDb['port']))
+
+		if(function_exists('mysql_connect'))
 		{
-			// before 0.2.4 there is no port specified in config file
-			$configDb['port'] = '3306';  
+			$configDb = Zend_Registry::get('config')->database->toArray();
+			// we decode the password. Password is html encoded because it's enclosed between " double quotes
+			$configDb['password'] = htmlspecialchars_decode($configDb['password']);
+			if(!isset($configDb['port']))
+			{
+				// before 0.2.4 there is no port specified in config file
+				$configDb['port'] = '3306';  
+			}
+
+			$link   = mysql_connect($configDb['host'], $configDb['username'], $configDb['password']);
+			$status = mysql_stat($link);
+			mysql_close($link);
+		}
+		else
+		{
+			$db = Zend_Registry::get('db');
+
+			$fullStatus = $db->fetchAssoc('SHOW STATUS;');
+			if(empty($fullStatus)) {
+				throw new Exception('Error, SHOW STATUS failed');
+			}
+
+			$status = array(
+				'Uptime: ' . $fullStatus['Uptime']['Value'],
+				'Threads: ' . $fullStatus['Threads_running']['Value'],
+				'Questions: ' . $fullStatus['Questions']['Value'],
+				'Slow queries: ' . $fullStatus['Slow_queries']['Value'],
+				'Opens: ', // not available via SHOW STATUS
+				'Flush tables: ' . $fullStatus['Flush_commands']['Value'],
+				'Open tables: ' . $fullStatus['Open_tables']['Value'],
+				'Queries per second avg: ', // not available via SHOW STATUS
+			);
 		}
 
-		$link   = mysql_connect($configDb['host'], $configDb['username'], $configDb['password']);
-		$status = mysql_stat($link);
-		mysql_close($link);
 		return $status;
 	}
 	
