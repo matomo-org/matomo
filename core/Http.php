@@ -300,8 +300,7 @@ class Piwik_Http
 			/*
 			 * use local list of Certificate Authorities, if available
 			 */
-			if(Piwik_Common::isWindows() &&
-				file_exists(PIWIK_INCLUDE_PATH . '/core/DataFiles/cacert.pem'))
+			if(file_exists(PIWIK_INCLUDE_PATH . '/core/DataFiles/cacert.pem'))
 			{
 				@curl_setopt($ch, CURLOPT_CAINFO, PIWIK_INCLUDE_PATH . '/core/DataFiles/cacert.pem');
 			}
