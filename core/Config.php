@@ -184,15 +184,18 @@ class Piwik_Config
 	public function setTestEnvironment()
 	{
 		$this->isTestEnvironment = true;
-		$this->database = $this->database_tests->toArray();
-		// for unit tests, we set that no plugin is installed. This will force
-		// the test initialization to create the plugins tables, execute ALTER queries, etc.
-		$this->PluginsInstalled = array();
-		
+
 		foreach(Piwik_Tracker_Config::$toRestoreFromGlobalConfig as $section)
 		{
 			$this->$section = $this->defaultConfig->$section->toArray();
 		}
+
+		$this->database = $this->database_tests->toArray();
+
+		// for unit tests, we set that no plugin is installed. This will force
+		// the test initialization to create the plugins tables, execute ALTER queries, etc.
+		$this->PluginsInstalled = array();
+
 		$this->disableSavingConfigurationFileUpdates();
 	}
 
