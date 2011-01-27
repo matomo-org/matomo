@@ -128,9 +128,9 @@ class Piwik_Url
 			{
 				$url = $_SERVER['SCRIPT_FILENAME'];
 			}
-			elseif(isset($argv))
+			elseif(isset($_SERVER['argv']))
 			{
-				$url = $argv[0];
+				$url = $_SERVER['argv'][0];
 			}
 		}
 
