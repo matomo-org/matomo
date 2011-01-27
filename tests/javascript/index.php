@@ -1,9 +1,9 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
                     "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
- <title>piwik.js: Piwik Unit Tests</title>
+ <title>piwik.js: Unit Tests</title>
  <script type="text/javascript">
 function getToken() {
 	return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
@@ -46,28 +46,82 @@ function loadJash() {
 	jashDiv.innerHTML = '';
 	document.body.appendChild(document.createElement('script')).src='jash/Jash.js';
 }
- </script>
- <script type="text/javascript">
-<!--
-/**
- * Add random number to url to stop IE from caching
- *
- * @example url("data/test.html")
- * @result "data/test.html?10538358428943"
- *
- * @example url("data/test.php?foo=bar")
- * @result "data/test.php?foo=bar&10538358345554"
- */
-function url(value) {
-        return value + (/\?/.test(value) ? "&" : "?") + new Date().getTime() + "" + parseInt(Math.random()*100000);
+
+function dropCookie(cookieName, path, domain) {
+	var expiryDate = new Date();
+
+	expiryDate.setTime(expiryDate.getTime() - 3600);
+	document.cookie = cookieName + '=;expires=' + expiryDate.toGMTString() +
+		';path=' + (path ? path : '') +
+		(domain ? ';domain=' + domain : '');
 }
-//-->
+
+function deleteCookies() {
+	// aggressively delete cookies
+
+	// 1. get all cookies
+	var
+		cookies = (document.cookie).split(';'),
+		aCookie,
+		cookiePattern = new RegExp('^ *([^=]*)='),
+		cookieMatch,
+		cookieName,
+		domain,
+		domains = [],
+		path,
+		paths = [];
+
+	// 2. construct list of domains
+	domain = document.domain;
+	if (domain.substring(0, 1) !== '.') {
+		domain = '.' + domain;
+	}
+	domains.push( domain );
+	while ((i = domain.indexOf('.')) >= 0) {
+		domain = domain.substring(i+1);
+		domains.push( domain );
+	}
+	domains.push( '' );
+	domains.push( null );
+
+	// 3. construct list of paths
+	path = window.location.pathname;
+	while ((i = path.lastIndexOf('/')) >= 0) {
+		paths.push(path + '/');
+		paths.push(path);
+		path = path.substring(0, i);
+	}
+	paths.push( '/' );
+	paths.push( '' );
+	paths.push( null );
+
+	// 4. iterate through cookies
+	for (aCookie in cookies) {
+
+		// 5. extract cookie name
+		cookieMatch = cookiePattern.exec(cookies[aCookie]);
+		if (cookieMatch) {
+			cookieName = cookieMatch[1];
+
+			// 6. iterate through domains
+			for (i = 0; i < domains.length; i++) {
+
+				// 7. iterate through paths
+				for (j = 0; j < paths.length; j++) {
+
+					// 8. drop cookie
+					dropCookie(cookieName, paths[j], domains[i]);
+				}
+			}
+		}
+	}
+}
  </script>
 </head>
 <body>
 <div style="display:none;"><a href="http://piwik.org/qa">First anchor link</a></div>
 
- <h1 id="qunit-header">piwik.js: Piwik Unit Tests</h1>
+ <h1 id="qunit-header">piwik.js: Unit Tests</h1>
  <h2 id="qunit-banner"></h2>
  <div id="qunit-testrunner-toolbar"></div>
  <h2 id="qunit-userAgent"></h2>
@@ -100,6 +154,8 @@ var hasLoaded = false;
 function PiwikTest() {
     hasLoaded = true;
 
+	module('externals');
+
 	test("JSLint", function() {
 		expect(1);
 		var src = '<?php
@@ -130,9 +186,11 @@ function PiwikTest() {
 		equals( JSON.stringify({'key' : 'value'}), '{"key":"value"}', 'Object (members)' );
 		equals( JSON.stringify(
 			[ {'domains' : ['example.com', 'example.ca']},
-			  {'names' : ['Sean', 'Cathy'] } ]
+			{'names' : ['Sean', 'Cathy'] } ]
 		), '[{"domains":["example.com","example.ca"]},{"names":["Sean","Cathy"]}]', 'Nested members' );
 	});
+
+	module("core");
 
 	test("Basic requirements", function() {
 		expect(3);
@@ -142,7 +200,6 @@ function PiwikTest() {
 		ok( Piwik, "Piwik" );
 	});
 
-	module("piwik test");
 	test("Test API - addPlugin(), getTracker(), getHook(), and hook", function() {
 		expect(6);
 
@@ -157,7 +214,50 @@ function PiwikTest() {
 		equals( typeof tracker.hook.test, 'object', "test Tracker hook.test" );
 	});
 
-	module("piwik");
+	test("API methods", function() {
+		expect(35);
+
+		var tracker = Piwik.getTracker();
+
+		equals( typeof tracker.getVisitorId, 'function', 'getVisitorId' );
+		equals( typeof tracker.setTrackerUrl, 'function', 'setTrackerUrl' );
+		equals( typeof tracker.setSiteId, 'function', 'setSiteId' );
+		equals( typeof tracker.setCustomData, 'function', 'setCustomData' );
+		equals( typeof tracker.getCustomData, 'function', 'getCustomData' );
+		equals( typeof tracker.setCustomVariable, 'function', 'setCustomVariable' );
+		equals( typeof tracker.getCustomVariable, 'function', 'getCustomVariable' );
+		equals( typeof tracker.deleteCustomVariable, 'function', 'deleteCustomVariable' );
+		equals( typeof tracker.setLinkTrackingTimer, 'function', 'setLinkTrackingTimer' );
+		equals( typeof tracker.setDownloadExtensions, 'function', 'setDownloadExtensions' );
+		equals( typeof tracker.addDownloadExtensions, 'function', 'addDownloadExtensions' );
+		equals( typeof tracker.setDomains, 'function', 'setDomains' );
+		equals( typeof tracker.setIgnoreClasses, 'function', 'setIgnoreClasses' );
+		equals( typeof tracker.setRequestMethod, 'function', 'setRequestMethod' );
+		equals( typeof tracker.setReferrerUrl, 'function', 'setReferrerUrl' );
+		equals( typeof tracker.setCustomUrl, 'function', 'setCustomUrl' );
+		equals( typeof tracker.setDocumentTitle, 'function', 'setDocumentTitle' );
+		equals( typeof tracker.setDownloadClasses, 'function', 'setDownloadClasses' );
+		equals( typeof tracker.setLinkClasses, 'function', 'setLinkClasses' );
+		equals( typeof tracker.discardHashTag, 'function', 'discardHashTag' );
+		equals( typeof tracker.setCookieNamePrefix, 'function', 'setCookieNamePrefix' );
+		equals( typeof tracker.setCookieDomain, 'function', 'setCookieDomain' );
+		equals( typeof tracker.setCookiePath, 'function', 'setCookiePath' );
+		equals( typeof tracker.setVisitorCookieTimeout, 'function', 'setVisitorCookieTimeout' );
+		equals( typeof tracker.setSessionCookieTimeout, 'function', 'setSessionCookieTimeout' );
+		equals( typeof tracker.setReferralCookieTimeout, 'function', 'setReferralCookieTimeout' );
+		equals( typeof tracker.setConversionAttributionFirstReferrer, 'function', 'setConversionAttributionFirstReferrer' );
+		equals( typeof tracker.addListener, 'function', 'addListener' );
+		equals( typeof tracker.enableLinkTracking, 'function', 'enableLinkTracking' );
+		equals( typeof tracker.setHeartBeatTimer, 'function', 'setHeartBeatTimer' );
+		equals( typeof tracker.killFrame, 'function', 'killFrame' );
+		equals( typeof tracker.redirectFile, 'function', 'redirectFile' );
+		equals( typeof tracker.trackGoal, 'function', 'trackGoal' );
+		equals( typeof tracker.trackLink, 'function', 'trackLink' );
+		equals( typeof tracker.trackPageView, 'function', 'trackPageView' );
+	});
+
+	module("API and internals");
+
 	test("Tracker is_a functions", function() {
 		expect(22);
 
@@ -344,7 +444,7 @@ function PiwikTest() {
 		ok( tracker.hook.test._hasCookies() == '1', 'hasCookies()' );
 
 		var cookieName = '_pk_test_harness' + Math.random(),
-		    expectedValue = Math.random();
+			expectedValue = Math.random();
 		tracker.hook.test._setCookie( cookieName, expectedValue );
 		equals( tracker.hook.test._getCookie( cookieName ), expectedValue, 'getCookie(), setCookie()' );
 	});
@@ -404,8 +504,8 @@ function PiwikTest() {
 		equals( tracker.hook.test._sha1('hello world'), '<?php echo sha1("hello world"); ?>', 'sha1("hello world")' );
 	});
 
-	test("Tracking", function() {
-		expect(<?php echo $sqlite ? 20 : 6; ?>);
+	test("Internal timers and setLinkTrackingTimer()", function() {
+		expect(5);
 
 		var tracker = Piwik.getTracker();
 
@@ -413,8 +513,6 @@ function PiwikTest() {
 		equals( typeof tracker, typeof _paq, "async tracker proxy" );
 
 		var startTime, stopTime;
-
-		equals( typeof tracker.setReferrerUrl, 'function', 'setReferrerUrl' );
 
 		equals( typeof tracker.hook.test._beforeUnloadHandler, 'function', 'beforeUnloadHandler' );
 
@@ -429,9 +527,29 @@ function PiwikTest() {
 		tracker.hook.test._beforeUnloadHandler();
 		stopTime = new Date();
 		ok( (stopTime.getTime() - startTime.getTime()) >= 2000, 'setLinkTrackingTimer()' );
+	});
+
 <?php
 if ($sqlite) {
 	echo '
+
+	module("request", {
+		setup: function () {
+			ok(true, "request.setup");
+
+			deleteCookies();
+			ok(document.cookie === "", "deleteCookies");
+		},
+		teardown: function () {
+			ok(true, "request.teardown");
+		}
+	});
+
+	test("tracking and cookies", function() {
+		expect(17);
+
+		var tracker = Piwik.getTracker();
+
 		tracker.setTrackerUrl("piwik.php");
 		tracker.setSiteId(1);
 		tracker.setCustomData({ "token" : getToken() });
@@ -490,10 +608,10 @@ if ($sqlite) {
 
 			start();
 		}, 3000);
-		';
+	});
+	';
 }
 ?>
-	});
 }
 
 function addEventListener(element, eventType, eventHandler, useCapture) {
