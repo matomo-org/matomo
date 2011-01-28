@@ -19,6 +19,31 @@
 class Piwik_Tracker_IgnoreCookie
 {
 	/**
+	 * Get tracking cookie
+	 *
+	 * @return Piwik_Cookie
+	 */
+	static public function getTrackingCookie()
+	{
+		if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
+		{
+			$cookie_name = @Piwik_Tracker_Config::getInstance()->Tracker['cookie_name'];
+			$cookie_path = @Piwik_Tracker_Config::getInstance()->Tracker['cookie_path'];
+		}
+		else
+		{
+			$config = Zend_Registry::get('config');
+			if($config !== false)
+			{
+				$cookie_name = @$config->Tracker->cookie_name;
+				$cookie_path = @$config->Tracker->cookie_path;
+			}
+		}
+
+		return new Piwik_Cookie($cookie_name, null, $cookie_path);
+	}
+
+	/**
 	 * Get ignore (visit) cookie
 	 *
 	 * @return Piwik_Cookie
@@ -48,15 +73,18 @@ class Piwik_Tracker_IgnoreCookie
 	 */
 	static public function setIgnoreCookie()
 	{
-		$cookie = self::getIgnoreCookie();
-		if($cookie->isCookieFound())
+		$ignoreCookie = self::getIgnoreCookie();
+		if($ignoreCookie->isCookieFound())
 		{
-			$cookie->delete();
+			$ignoreCookie->delete();
 		}
 		else
 		{
-			$cookie->set('ignore', '*');
-			$cookie->save();
+			$ignoreCookie->set('ignore', '*');
+			$ignoreCookie->save();
+
+			$trackingCookie = self::getTrackingCookie();
+			$trackingCookie->delete();
 		}
 	}
 
