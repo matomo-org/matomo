@@ -1,5 +1,5 @@
 // jslint.js
-// 2011-01-21
+// 2011-01-26
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -158,116 +158,156 @@ SOFTWARE.
 
 /*members "\b", "\t", "\n", "\f", "\r", "!=", "!==", "\"", "%", "'",
     "(begin)", "(breakage)", "(context)", "(end)", "(error)", "(global)",
-    "(identifier)", "(last)", "(line)", "(loopage)", "(name)", "(onevar)",
+    "(identifier)", "(line)", "(loopage)", "(name)", "(onevar)",
     "(params)", "(scope)", "(statement)", "(token)", "(verb)", ")", "*",
     "+", "-", "/", ";", "<", "</", "<=", "==", "===", ">",
-    ">=", ADSAFE, ActiveXObject, Array, Boolean, COM, CScript, Canvas,
-    CustomAnimation, Date, Debug, E, Enumerator, Error, EvalError, expression,
-    FadeAnimation, Flash, FormField, Frame, Function, HotKey, Image, JSON,
-    LN10, LN2, LOG10E, LOG2E, MAX_VALUE, MIN_VALUE, Math, MenuItem,
-    MoveAnimation, NEGATIVE_INFINITY, Number, Object, Option, PI,
-    POSITIVE_INFINITY, Point, RangeError, Rectangle, ReferenceError, RegExp,
-    ResizeAnimation, RotateAnimation, SQRT1_2, SQRT2, ScrollBar, String,
-    Style, SyntaxError, System, Text, TextArea, Timer, TypeError, URIError,
-    URL, VBArray, WScript, Web, Window, XMLDOM, XMLHttpRequest, "\\", a,
-    abbr, acronym, activeborder, activecaption, addEventListener, address,
-    adsafe, alert, aliceblue, all, animator, antiquewhite, appleScript,
-    applet, apply, approved, appworkspace, aqua, aquamarine, area,
-    arguments, arity, array, article, aside, assign, at, audio,
-    autocomplete, azure, b, background, "background-attachment",
-    "background-color", "background-image", "background-position",
-    "background-repeat", base, bdo, beep, beige, big, bisque, bitwise,
-    black, blanchedalmond, block, blockquote, blue, blueviolet, blur, body,
-    border, "border-bottom", "border-bottom-color", "border-bottom-style",
-    "border-bottom-width", "border-collapse", "border-color", "border-left",
-    "border-left-color", "border-left-style", "border-left-width",
-    "border-right", "border-right-color", "border-right-style",
-    "border-right-width", "border-spacing", "border-style", "border-top",
-    "border-top-color", "border-top-style", "border-top-width",
-    "border-width", bottom, br, braille, brown, browser, burlywood, button,
-    buttonface, buttonhighlight, buttonshadow, buttontext, bytesToUIString,
-    c, cadetblue, call, callee, caller, canvas, cap, caption,
-    "caption-side", captiontext, case, center, charAt, charCodeAt,
-    character, chartreuse, chocolate, chooseColor, chooseFile, chooseFolder,
-    cite, clear, clearInterval, clearTimeout, clip, close, closeWidget,
-    closed, closure, cm, code, col, colgroup, color, command, comments,
-    concat, confirm, console, constructor, content, convertPathToHFS,
-    convertPathToPlatform, coral, cornflowerblue, cornsilk,
-    "counter-increment", "counter-reset", create, crimson, css, cursor,
-    cyan, d, darkblue, darkcyan, darkgoldenrod, darkgray, darkgreen,
-    darkkhaki, darkmagenta, darkolivegreen, darkorange, darkorchid, darkred,
-    darksalmon, darkseagreen, darkslateblue, darkslategray, darkturquoise,
-    darkviolet, data, datalist, dd, debug, decodeURI, decodeURIComponent,
-    deeppink, deepskyblue, default, defaultStatus, defineClass, del,
-    deserialize, details, devel, dfn, dialog, dimgray, dir, direction,
-    display, disrupt, div, dl, do, document, dodgerblue, dt, edge, edition,
-    else, em, embed, embossed, empty, "empty-cells", encodeURI,
-    encodeURIComponent, entityify, errors, es5, escape, eval, event,
-    evidence, evil, ex, exception, exec, fieldset, figure, filesystem,
-    firebrick, first, float, floor, floralwhite, focus, focusWidget, font,
-    "font-family", "font-size", "font-size-adjust", "font-stretch",
-    "font-style", "font-variant", "font-weight", footer, for, forestgreen,
-    forin, form, fragment, frame, frames, frameset, from, fromCharCode,
-    fuchsia, fud, funct, function, functions, g, gainsboro, gc,
-    getComputedStyle, ghostwhite, global, globals, gold, goldenrod, gray,
-    graytext, green, greenyellow, h1, h2, h3, h4, h5, h6, handheld,
-    hasOwnProperty, head, header, height, help, hgroup, highlight,
-    highlighttext, history, honeydew, hotpink, hr, "hta:application", html,
-    i, iTunes, id, identifier, iframe, img, immed, implieds, in,
-    inactiveborder, inactivecaption, inactivecaptiontext, include, indent,
-    indexOf, indianred, indigo, infobackground, infotext, init, input, ins,
-    isAlpha, isApplicationRunning, isArray, isDigit, isFinite, isNaN, ivory,
-    join, jslint, json, kbd, keygen, keys, khaki, konfabulatorVersion,
-    label, lang, last, lavender, lavenderblush, lawngreen, lbp, led, left,
-    legend, lemonchiffon, length, "letter-spacing", li, lib, lightblue,
-    lightcoral, lightcyan, lightgoldenrodyellow, lightgreen, lightpink,
-    lightsalmon, lightseagreen, lightskyblue, lightslategray,
-    lightsteelblue, lightyellow, lime, limegreen, line, "line-height",
-    linen, link, "list-style", "list-style-image", "list-style-position",
-    "list-style-type", load, loadClass, location, log, m, magenta, map,
-    margin, "margin-bottom", "margin-left", "margin-right", "margin-top",
-    mark, "marker-offset", maroon, match, "max-height", "max-width", maxerr,
-    maxlen, md5, mediumaquamarine, mediumblue, mediumorchid, mediumpurple,
-    mediumseagreen, mediumslateblue, mediumspringgreen, mediumturquoise,
-    mediumvioletred, member, menu, menutext, message, meta, meter,
-    midnightblue, "min-height", "min-width", mintcream, mistyrose, mm,
-    moccasin, moveBy, moveTo, name, nav, navajowhite, navigator, navy,
-    newcap, next, noframes, nomen, noscript, nud, object, ol, oldlace,
-    olive, olivedrab, on, onbeforeunload, onblur, onerror, onevar, onfocus,
-    onload, onresize, onunload, opacity, open, openURL, opener, opera,
-    optgroup, option, orange, orangered, orchid, outer, outline,
-    "outline-color", "outline-style", "outline-width", output, overflow,
-    "overflow-x", "overflow-y", p, padding, "padding-bottom",
-    "padding-left", "padding-right", "padding-top", "page-break-after",
-    "page-break-before", palegoldenrod, palegreen, paleturquoise,
-    palevioletred, papayawhip, param, parent, parseFloat, parseInt,
-    passfail, pc, peachpuff, peru, pink, play, plum, plusplus, pop,
-    popupMenu, position, postcomments, powderblue, pre, predef,
-    preferenceGroups, preferences, prev, print, progress, projection,
-    prompt, prototype, pt, purple, push, px, q, quit, quote, quotes, random,
-    range, raw, readFile, readUrl, reason, red, regexp, reloadWidget,
-    removeEventListener, replace, report, reserved, resizeBy, resizeTo,
-    resolvePath, resumeUpdates, rhino, right, rosybrown, royalblue, rp, rt,
-    ruby, runCommand, runCommandInBg, saddlebrown, safe, salmon, samp,
-    sandybrown, saveAs, savePreferences, screen, script, scroll, scrollBy,
-    scrollTo, scrollbar, seagreen, seal, search, seashell, second, section,
-    select, serialize, setInterval, setTimeout, shift,
-    showWidgetPreferences, sienna, silver, skyblue, slateblue, slategray,
-    sleep, slice, small, snow, sort, source, span, spawn, speak, speech,
-    split, springgreen, src, stack, statement, status, steelblue, strict,
-    strong, style, styleproperty, sub, substr, sup, supplant, suppressUpdates,
-    switch, sync, system, table, "table-layout", tan, tbody, td, teal,
-    tellWidget, test, "text-align", "text-decoration", "text-indent",
-    "text-shadow", "text-transform", textarea, tfoot, th, thead, third,
-    thistle, threeddarkshadow, threedface, threedhighlight,
-    threedlightshadow, threedshadow, thru, time, title, toLowerCase,
-    toString, toUpperCase, toint32, token, tomato, top, tr, tree, tt, tty,
-    turquoise, tv, type, u, ul, undef, unescape, "unicode-bidi", unused,
-    unwatch, updateNow, urls, value, valueOf, var, version,
-    "vertical-align", video, violet, visibility, was, watch, wheat, while,
-    white, "white-space", whitesmoke, widget, width, window, windowframe,
-    windows, windowtext, "word-spacing", "word-wrap", wrap, yahooCheckLogin,
-    yahooLogin, yahooLogout, yellow, yellowgreen, "z-index", "}"
+    ">=", ADSAFE, 
+    ActiveXObject, Array, Boolean, COM, CScript, Canvas, CustomAnimation, 
+    Date, Debug, E, Enumerator, Error, EvalError, FadeAnimation, Flash, 
+    FormField, Frame, Function, HotKey, Image, JSON, LN10, LN2, LOG10E, 
+    LOG2E, MAX_VALUE, MIN_VALUE, Math, MenuItem, MoveAnimation, 
+    NEGATIVE_INFINITY, Number, Object, Option, PI, POSITIVE_INFINITY, Point, 
+    RangeError, Rectangle, ReferenceError, RegExp, ResizeAnimation, 
+    RotateAnimation, SQRT1_2, SQRT2, ScrollBar, String, Style, SyntaxError, 
+    System, Text, TextArea, Timer, TypeError, URIError, URL, VBArray, 
+    WScript, Web, Window, XMLDOM, XMLHttpRequest, "\\", a, a_function, 
+    a_label, a_not_allowed, a_not_defined, a_scope, abbr, acronym, 
+    activeborder, activecaption, addEventListener, address, adsafe, 
+    adsafe_a, adsafe_autocomplete, adsafe_bad_id, adsafe_div, 
+    adsafe_fragment, adsafe_go, adsafe_html, adsafe_id, adsafe_id_go, 
+    adsafe_lib, adsafe_lib_second, adsafe_missing_id, adsafe_name_a, 
+    adsafe_placement, adsafe_prefix_a, adsafe_script, adsafe_source, 
+    adsafe_subscript_a, adsafe_tag, alert, aliceblue, all, already_defined, 
+    and, animator, antiquewhite, appleScript, applet, apply, approved, 
+    appworkspace, aqua, aquamarine, area, arguments, arity, article, aside, 
+    assign, assign_exception, assignment_function_expression, at, 
+    attribute_case_a, audio, autocomplete, avoid_a, azure, b, background, 
+    "background-attachment", "background-color", "background-image", 
+    "background-position", "background-repeat", bad_assignment, bad_color_a, 
+    bad_constructor, bad_entity, bad_html, bad_id_a, bad_in_a, 
+    bad_invocation, bad_name_a, bad_new, bad_number, bad_operand, bad_type, 
+    bad_url, bad_wrap, base, bdo, beep, beige, big, bisque, bitwise, black, 
+    blanchedalmond, block, blockquote, blue, blueviolet, blur, body, border, 
+    "border-bottom", "border-bottom-color", "border-bottom-style", 
+    "border-bottom-width", "border-collapse", "border-color", "border-left", 
+    "border-left-color", "border-left-style", "border-left-width", 
+    "border-right", "border-right-color", "border-right-style", 
+    "border-right-width", "border-spacing", "border-style", "border-top", 
+    "border-top-color", "border-top-style", "border-top-width", 
+    "border-width", bottom, br, braille, brown, browser, burlywood, button, 
+    buttonface, buttonhighlight, buttonshadow, buttontext, bytesToUIString, 
+    c, cadetblue, call, callee, caller, canvas, cap, caption, 
+    "caption-side", captiontext, case, center, charAt, charCodeAt, 
+    character, chartreuse, chocolate, chooseColor, chooseFile, chooseFolder, 
+    cite, clear, clearInterval, clearTimeout, clip, close, closeWidget, 
+    closed, closure, cm, code, col, colgroup, color, combine_var, command, 
+    comments, concat, conditional_assignment, confirm, confusing_a, 
+    confusing_regexp, console, constructor, constructor_name_a, content, 
+    control_a, convertPathToHFS, convertPathToPlatform, coral, 
+    cornflowerblue, cornsilk, "counter-increment", "counter-reset", create, 
+    crimson, css, cursor, cyan, d, dangerous_comment, dangling_a, darkblue, 
+    darkcyan, darkgoldenrod, darkgray, darkgreen, darkkhaki, darkmagenta, 
+    darkolivegreen, darkorange, darkorchid, darkred, darksalmon, 
+    darkseagreen, darkslateblue, darkslategray, darkturquoise, darkviolet, 
+    data, datalist, dd, debug, decodeURI, decodeURIComponent, deeppink, 
+    deepskyblue, default, defaultStatus, defineClass, del, deleted, 
+    deserialize, details, devel, dfn, dialog, dimgray, dir, direction, 
+    display, disrupt, div, dl, do, document, dodgerblue, dt, duplicate_a, 
+    edge, edition, else, em, embed, embossed, empty, "empty-cells", 
+    empty_block, empty_case, empty_class, encodeURI, encodeURIComponent, 
+    entityify, errors, es5, escape, eval, event, evidence, evil, ex, 
+    exception, exec, expected_a, expected_a_at_b_c, expected_a_b, 
+    expected_a_b_from_c_d, expected_at_a, expected_attribute_a, 
+    expected_attribute_value_a, expected_class_a, expected_fraction_a, 
+    expected_id_a, expected_identifier_a, expected_identifier_a_reserved, 
+    expected_lang_a, expected_linear_a, expected_media_a, expected_name_a, 
+    expected_nonstandard_style_attribute, expected_number_a, 
+    expected_operator_a, expected_percent_a, expected_positive_a, 
+    expected_pseudo_a, expected_selector_a, expected_small_a, 
+    expected_space_a_b, expected_string_a, expected_style_attribute, 
+    expected_style_pattern, expected_tagname_a, fieldset, figure, 
+    filesystem, firebrick, first, float, floor, floralwhite, focus, 
+    focusWidget, font, "font-family", "font-size", "font-size-adjust", 
+    "font-stretch", "font-style", "font-variant", "font-weight", footer, 
+    for, for_if, forestgreen, forin, form, fragment, frame, frames, 
+    frameset, from, fromCharCode, fuchsia, fud, funct, function, 
+    function_block, function_eval, function_loop, function_statement, 
+    function_strict, functions, g, gainsboro, gc, getComputedStyle, get_set, 
+    ghostwhite, global, globals, gold, goldenrod, gray, graytext, green, 
+    greenyellow, h1, h2, h3, h4, h5, h6, handheld, hasOwnProperty, head, 
+    header, height, help, hgroup, highlight, highlighttext, history, 
+    honeydew, hotpink, hr, "hta:application", html, html_confusion_a, 
+    html_handlers, i, iTunes, id, identifier, identifier_function, iframe, 
+    img, immed, implied_evil, implieds, in, inactiveborder, inactivecaption, 
+    inactivecaptiontext, include, indent, indexOf, indianred, indigo, 
+    infobackground, infotext, init, input, ins, insecure_a, isAlpha, 
+    isApplicationRunning, isArray, isDigit, isFinite, isNaN, ivory, join, 
+    jslint, json, kbd, keygen, keys, khaki, konfabulatorVersion, label, 
+    label_a_b, lang, lavender, lavenderblush, lawngreen, lbp, 
+    leading_decimal_a, led, left, legend, lemonchiffon, length, 
+    "letter-spacing", li, lib, lightblue, lightcoral, lightcyan, 
+    lightgoldenrodyellow, lightgreen, lightpink, lightsalmon, lightseagreen, 
+    lightskyblue, lightslategray, lightsteelblue, lightyellow, lime, 
+    limegreen, line, "line-height", linen, link, "list-style", 
+    "list-style-image", "list-style-position", "list-style-type", load, 
+    loadClass, location, log, m, magenta, map, margin, "margin-bottom", 
+    "margin-left", "margin-right", "margin-top", mark, "marker-offset", 
+    maroon, match, "max-height", "max-width", maxerr, maxlen, md5, 
+    mediumaquamarine, mediumblue, mediumorchid, mediumpurple, 
+    mediumseagreen, mediumslateblue, mediumspringgreen, mediumturquoise, 
+    mediumvioletred, member, menu, menutext, message, meta, meter, 
+    midnightblue, "min-height", "min-width", mintcream, missing_a, 
+    missing_a_after_b, missing_option, missing_property, missing_space_a_b, 
+    missing_url, missing_use_strict, mistyrose, mixed, mm, moccasin, mode, 
+    moveBy, moveTo, move_invocation, move_var, name, name_function, nav, 
+    navajowhite, navigator, navy, nested_comment, newcap, next, noframes, 
+    nomen, noscript, not, not_a_constructor, not_a_function, not_a_label, 
+    not_a_scope, not_greater, nud, object, ol, oldlace, olive, olivedrab, 
+    on, onbeforeunload, onblur, onerror, onevar, onfocus, onload, onresize, 
+    onunload, opacity, open, openURL, opener, opera, optgroup, option, 
+    orange, orangered, orchid, outer, outline, "outline-color", 
+    "outline-style", "outline-width", output, overflow, "overflow-x", 
+    "overflow-y", p, padding, "padding-bottom", "padding-left", 
+    "padding-right", "padding-top", "page-break-after", "page-break-before", 
+    palegoldenrod, palegreen, paleturquoise, palevioletred, papayawhip, 
+    param, parameter_a_get_b, parameter_set_a, paren, parent, parseFloat, 
+    parseInt, passfail, pc, peachpuff, peru, pink, play, plum, plusplus, 
+    pop, popupMenu, position, postcomments, powderblue, pre, predef, 
+    preferenceGroups, preferences, prev, print, progress, projection, 
+    prompt, prototype, pt, purple, push, px, q, quit, quote, quotes, radix, 
+    random, range, raw, readFile, readUrl, read_only, reason, red, 
+    redefinition_a, regexp, reloadWidget, removeEventListener, replace, 
+    report, reserved, reserved_a, resizeBy, resizeTo, resolvePath, 
+    resumeUpdates, rhino, right, rosybrown, royalblue, rp, rt, ruby, 
+    runCommand, runCommandInBg, saddlebrown, safe, salmon, samp, sandybrown, 
+    saveAs, savePreferences, scanned_a_b, screen, script, scroll, scrollBy, 
+    scrollTo, scrollbar, seagreen, seal, search, seashell, second, section, 
+    select, serialize, setInterval, setTimeout, shift, 
+    showWidgetPreferences, sienna, silver, skyblue, slash_equal, slateblue, 
+    slategray, sleep, slice, small, snow, sort, source, span, spawn, speak, 
+    speech, split, springgreen, src, stack, statement, statement_block, 
+    status, steelblue, stopping, strange_loop, strict, strong, style, 
+    styleproperty, sub, subscript, substr, sup, supplant, suppressUpdates, 
+    switch, sync, system, table, "table-layout", tag_a_in_b, tan, tbody, td, 
+    teal, tellWidget, test, "text-align", "text-decoration", "text-indent", 
+    "text-shadow", "text-transform", textarea, tfoot, th, thead, third, 
+    thistle, threeddarkshadow, threedface, threedhighlight, 
+    threedlightshadow, threedshadow, thru, time, title, toLowerCase, 
+    toString, toUpperCase, toint32, token, tomato, too_long, too_many, top, 
+    tr, trailing_decimal_a, tree, tt, tty, turquoise, tv, type, u, ul, 
+    unbegun_comment, unclosed, unclosed_comment, unclosed_regexp, undef, 
+    unescape, unescaped_a, unexpected_a, unexpected_char_a_b, 
+    unexpected_comment, unexpected_member_a, unexpected_space_a_b, 
+    "unicode-bidi", unnecessary_escapement, unnecessary_initialize, 
+    unnecessary_use, unreachable_a_b, unrecognized_style_attribute_a, 
+    unrecognized_tag_a, unsafe, unused, unwatch, updateNow, url, urls, 
+    use_array, use_braces, use_object, used_before_a, value, valueOf, var, 
+    var_a_not, version, "vertical-align", video, violet, visibility, was, 
+    watch, weird_new, weird_program, wheat, while, white, "white-space", 
+    whitesmoke, widget, width, window, windowframe, windows, windowtext, 
+    "word-spacing", "word-wrap", wrap, wrap_immediate, wrap_regexp, 
+    write_is_wrong, yahooCheckLogin, yahooLogin, yahooLogout, yellow, 
+    yellowgreen, "z-index", "}"
 */
 
 // We build the application inside a function so that we produce only a single
@@ -398,7 +438,183 @@ var JSLINT = (function () {
             top             : false,
             XMLHttpRequest  : false
         },
-
+        bundle = {
+            a_function: "'{a}' is a function.",
+            a_label: "'{a}' is a statement label.",
+            a_not_allowed: "'{a}' is not allowed.",
+            a_not_defined: "'{a}' is not defined.",
+            a_scope: "'{a}' used out of scope.",
+            adsafe: "ADsafe violation.",
+            adsafe_a: "ADsafe violation: '{a}'.",
+            adsafe_autocomplete: "ADsafe autocomplete violation.",
+            adsafe_bad_id: "ADSAFE violation: bad id.",
+            adsafe_div: "ADsafe violation: Wrap the widget in a div.",
+            adsafe_fragment: "ADSAFE: Use the fragment option.",
+            adsafe_go: "ADsafe violation: Missing ADSAFE.go.",
+            adsafe_html: "Currently, ADsafe does not operate on whole HTML documents. It operates on <div> fragments and .js files.",
+            adsafe_id: "ADsafe violation: id does not match.",
+            adsafe_id_go: "ADsafe violation: Missing ADSAFE.id or ADSAFE.go.",
+            adsafe_lib: "ADsafe lib violation.",
+            adsafe_lib_second: "ADsafe: The second argument to lib must be a function.",
+            adsafe_missing_id: "ADSAFE violation: missing ID_.",
+            adsafe_name_a: "ADsafe name violation: '{a}'.",
+            adsafe_placement: "ADsafe script placement violation.",
+            adsafe_prefix_a: "ADsafe violation: An id must have a '{a}' prefix",
+            adsafe_script: "ADsafe script violation.",
+            adsafe_source: "ADsafe unapproved script source.",
+            adsafe_subscript_a: "ADsafe subscript '{a}'.",
+            adsafe_tag: "ADsafe violation: Disallowed tag '{a}'.",
+            already_defined: "'{a}' is already defined.",
+            and: "The '&&' subexpression should be wrapped in parens.",
+            assign_exception: "Do not assign to the exception parameter.",
+            assignment_function_expression: "Expected an assignment or function call and instead saw an expression.",
+            attribute_case_a: "Attribute '{a}' not all lower case.",
+            avoid_a: "Avoid '{a}'.",
+            bad_assignment: "Bad assignment.",
+            bad_color_a: "Bad hex color '{a}'.",
+            bad_constructor: "Bad constructor.",
+            bad_entity: "Bad entity.",
+            bad_html: "Bad HTML string",
+            bad_id_a: "Bad id: '{a}'.",
+            bad_in_a: "Bad for in variable '{a}'.",
+            bad_invocation: "Bad invocation.",
+            bad_name_a: "Bad name: '{a}'.",
+            bad_new: "Do not use 'new' for side effects.",
+            bad_number: "Bad number '{a}'.",
+            bad_operand: "Bad operand.",
+            bad_type: "Bad type.",
+            bad_url: "Bad url string.",
+            bad_wrap: "Do not wrap function literals in parens unless they are to be immediately invoked.",
+            combine_var: "Combine this with the previous 'var' statement.",
+            conditional_assignment: "Expected a conditional expression and instead saw an assignment.",
+            confusing_a: "Confusing use of '{a}'.",
+            confusing_regexp: "Confusing regular expression.",
+            constructor_name_a: "A constructor name '{a}' should start with an uppercase letter.",
+            control_a: "Unexpected control character '{a}'.",
+            css: "A css file should begin with @charset 'UTF-8';",
+            dangling_a: "Unexpected dangling '_' in '{a}'.",
+            dangerous_comment: "Dangerous comment.",
+            deleted: "Only properties should be deleted.",
+            duplicate_a: "Duplicate '{a}'.",
+            empty_block: "Empty block.",
+            empty_case: "Empty case.",
+            empty_class: "Empty class.",
+            evil: "eval is evil.",
+            expected_a: "Expected '{a}'.",
+            expected_a_b: "Expected '{a}' and instead saw '{b}'.",
+            expected_a_b_from_c_d: "Expected '{a}' to match '{b}' from line {c} and instead saw '{d}'.",
+            expected_at_a: "Expected an at-rule, and instead saw @{a}.",
+            expected_a_at_b_c: "Expected '{a}' at column {b}, not column {c}.",
+            expected_attribute_a: "Expected an attribute, and instead saw [{a}].",
+            expected_attribute_value_a: "Expected an attribute value and instead saw '{a}'.",
+            expected_class_a: "Expected a class, and instead saw .{a}.",
+            expected_fraction_a: "Expected a number between 0 and 1 and instead saw '{a}'",
+            expected_id_a: "Expected an id, and instead saw #{a}.",
+            expected_identifier_a: "Expected an identifier and instead saw '{a}'.",
+            expected_identifier_a_reserved: "Expected an identifier and instead saw '{a}' (a reserved word).",
+            expected_linear_a: "Expected a linear unit and instead saw '{a}'.",
+            expected_lang_a: "Expected a lang code, and instead saw :{a}.",
+            expected_media_a: "Expected a CSS media type, and instead saw '{a}'.",
+            expected_name_a: "Expected a name and instead saw '{a}'.",
+            expected_nonstandard_style_attribute: "Expected a non-standard style attribute and instead saw '{a}'.",
+            expected_number_a: "Expected a number and instead saw '{a}'.",
+            expected_operator_a: "Expected an operator and instead saw '{a}'.",
+            expected_percent_a: "Expected a percentage and instead saw '{a}'",
+            expected_positive_a: "Expected a positive number and instead saw '{a}'",
+            expected_pseudo_a: "Expected a pseudo, and instead saw :{a}.",
+            expected_selector_a: "Expected a CSS selector, and instead saw {a}.",
+            expected_small_a: "Expected a small number and instead saw '{a}'",
+            expected_space_a_b: "Expected exactly one space between '{a}' and '{b}'.",
+            expected_string_a: "Expected a string and instead saw {a}.",
+            expected_style_attribute: "Excepted a style attribute, and instead saw '{a}'.",
+            expected_style_pattern: "Expected a style pattern, and instead saw '{a}'.",
+            expected_tagname_a: "Expected a tagName, and instead saw {a}.",
+            for_if: "The body of a for in should be wrapped in an if statement to filter unwanted properties from the prototype.",
+            function_block: "Function statements should not be placed in blocks. " +
+                "Use a function expression or move the statement to the top of " +
+                "the outer function.",
+            function_eval: "The Function constructor is eval.",
+            function_loop: "Don't make functions within a loop.",
+            function_statement: "Function statements are not invocable. " +
+                "Wrap the whole function invocation in parens.",
+            function_strict: "Use the function form of \"use strict\".",
+            get_set: "get/set are ES5 features.",
+            html_confusion_a: "HTML confusion in regular expression '<{a}'.",
+            html_handlers: "Avoid HTML event handlers.",
+            identifier_function: "Expected an identifier in an assignment and instead saw a function invocation.",
+            implied_evil: "Implied eval is evil. Pass a function instead of a string.",
+            insecure_a: "Insecure '{a}'.",
+            isNaN: "Use the isNaN function to compare with NaN.",
+            label_a_b: "Label '{a}' on '{b}' statement.",
+            lang: "lang is deprecated.",
+            leading_decimal_a: "A leading decimal point can be confused with a dot: '.{a}'.",
+            missing_a: "Missing '{a}'.",
+            missing_a_after_b: "Missing '{a}' after '{b}'.",
+            missing_option: "Missing option value.",
+            missing_property: "Missing property name.",
+            missing_space_a_b: "Missing space between '{a}' and '{b}'.",
+            missing_url: "Missing url.",
+            missing_use_strict: "Missing \"use strict\" statement.",
+            mixed: "Mixed spaces and tabs.",
+            move_invocation: "Move the invocation into the parens that contain the function.",
+            move_var: "Move 'var' declarations to the top of the function.",
+            name_function: "Missing name in function statement.",
+            nested_comment: "Nested comment.",
+            not: "Nested not.",
+            not_a_constructor: "Do not use {a} as a constructor.",
+            not_a_function: "'{a}' is not a function.",
+            not_a_label: "'{a}' is not a label.",
+            not_a_scope: "'{a}' is out of scope.",
+            not_greater: "'{a}' should not be greater than '{b}'.",
+            parameter_a_get_b: "Unexpected parameter '{a}' in get {b} function.",
+            parameter_set_a: "Expected parameter (value) in set {a} function.",
+            radix: "Missing radix parameter.",
+            read_only: "Read only.",
+            redefinition_a: "Redefinition of '{a}'.",
+            reserved_a: "Reserved name '{a}'.",
+            scanned_a_b: "{a} ({b}% scanned).",
+            slash_equal: "A regular expression literal can be confused with '/='.",
+            statement_block: "Expected to see a statement and instead saw a block.",
+            stopping: "Stopping. ",
+            strange_loop: "Strange loop.",
+            strict: "Strict violation.",
+            subscript: "['{a}'] is better written in dot notation.",
+            tag_a_in_b: "A '<{a}>' must be within '<{b}>'.",
+            too_long: "Line too long.",
+            too_many: "Too many errors.",
+            trailing_decimal_a: "A trailing decimal point can be confused with a dot: '.{a}'.",
+            type: "type is unnecessary.",
+            unbegun_comment: "Unbegun comment.",
+            unclosed: "Unclosed string.",
+            unclosed_comment: "Unclosed comment.",
+            unclosed_regexp: "Unclosed regular expression.",
+            unescaped_a: "Unescaped '{a}'.",
+            unexpected_a: "Unexpected '{a}'.",
+            unexpected_char_a_b: "Unexpected character '{a}' in {b}.",
+            unexpected_comment: "Unexpected comment.",
+            unexpected_member_a: "Unexpected /*member {a}.",
+            unexpected_space_a_b: "Unexpected space between '{a}' and '{b}'.",
+            unnecessary_escapement: "Unnecessary escapement.",
+            unnecessary_initialize: "It is not necessary to initialize '{a}' to 'undefined'.",
+            unnecessary_use: "Unnecessary \"use strict\".",
+            unreachable_a_b: "Unreachable '{a}' after '{b}'.",
+            unrecognized_style_attribute_a: "Unrecognized style attribute '{a}'.",
+            unrecognized_tag_a: "Unrecognized tag '<{a}>'.",
+            unsafe: "Unsafe character.",
+            url: "JavaScript URL.",
+            use_array: "Use the array literal notation [].",
+            use_braces: "Spaces are hard to count. Use {{a}}.",
+            use_object: "Use the object literal notation {}.",
+            used_before_a: "'{a}' was used before it was defined.",
+            var_a_not: "Variable {a} was not declared correctly.",
+            weird_new: "Weird construction. Delete 'new'.",
+            weird_program: "Weird program.",
+            wrap_immediate: "Wrap an immediate function invocation in parentheses " +
+                "to assist the reader in understanding that the expression " +
+                "is the result of a function, and not the function itself.",
+            wrap_regexp: "Wrap the /regexp/ literal in parens to disambiguate the slash operator.",
+            write_is_wrong: "document.write can be a form of eval."
+        },
         cssAttributeData,
         cssAny,
 
@@ -619,7 +835,6 @@ var JSLINT = (function () {
         ],
 
         functions,      // All of the functions
-
         global,         // The global scope
         htmltag = {
             a:        {},
@@ -1035,7 +1250,7 @@ var JSLINT = (function () {
         };
     }
 
-// Non standard methods
+// Substandard methods
 
     if (typeof String.prototype.entityify !== 'function') {
         String.prototype.entityify = function () {
@@ -1131,8 +1346,10 @@ var JSLINT = (function () {
             name: 'JSLintError',
             line: l,
             character: ch,
-            message: m + " (" + Math.floor((l / lines.length) * 100) +
-                    "% scanned)."
+            message: bundle.scanned_a_b.supplant({
+                a: m, 
+                b: Math.floor((l / lines.length) * 100)
+            })
         };
     }
 
@@ -1150,7 +1367,7 @@ var JSLINT = (function () {
             evidence: lines[l - 1] || '',
             line: l,
             character: ch,
-            a: a,
+            a: a || t.value,
             b: b,
             c: c,
             d: d
@@ -1158,11 +1375,11 @@ var JSLINT = (function () {
         w.reason = m.supplant(w);
         JSLINT.errors.push(w);
         if (option.passfail) {
-            quit("Stopping. ", l, ch);
+            quit(bundle.stopping, l, ch);
         }
         warnings += 1;
         if (warnings >= option.maxerr) {
-            quit("Too many errors.", l, ch);
+            quit(bundle.too_many, l, ch);
         }
         return w;
     }
@@ -1176,7 +1393,7 @@ var JSLINT = (function () {
 
     function error(m, t, a, b, c, d) {
         var w = warning(m, t, a, b, c, d);
-        quit("Stopping, unable to continue.", w.line, w.character);
+        quit(bundle.stopping, w.line, w.character);
     }
 
     function errorAt(m, l, ch, a, b, c, d) {
@@ -1219,15 +1436,15 @@ var JSLINT = (function () {
             line += 1;
             at = s.search(/ \t/);
             if (at >= 0) {
-                warningAt("Mixed spaces and tabs.", line, at + 1);
+                warningAt(bundle.mixed, line, at + 1);
             }
             s = s.replace(/\t/g, tab);
             at = s.search(cx);
             if (at >= 0) {
-                warningAt("Unsafe character.", line, at);
+                warningAt(bundle.unsafe, line, at);
             }
             if (option.maxlen && option.maxlen < s.length) {
-                warningAt("Line too long.", line, s.length);
+                warningAt(bundle.too_long, line, s.length);
             }
             return true;
         }
@@ -1247,19 +1464,17 @@ var JSLINT = (function () {
             t = Object.create(t);
             if (type === '(string)' || type === '(range)') {
                 if (jx.test(value)) {
-                    warningAt("Script URL.", line, from);
+                    warningAt(bundle.url, line, from);
                 }
             }
             if (type === '(identifier)') {
                 t.identifier = true;
                 if (value === '__iterator__' || value === '__proto__') {
-                    errorAt("Reserved name '{a}'.",
-                        line, from, value);
+                    errorAt(bundle.reserved_a, line, from, value);
                 } else if (option.nomen &&
                         (value.charAt(0) === '_' ||
                         value.charAt(value.length - 1) === '_')) {
-                    warningAt("Unexpected {a} in '{b}'.", line, from,
-                        "dangling '_'", value);
+                    warningAt(bundle.dangling_a, line, from, value);
                 }
             }
             if (value !== undefined) {
@@ -1306,8 +1521,7 @@ var JSLINT = (function () {
                 var c, value = '';
                 from = character;
                 if (s.charAt(0) !== begin) {
-                    errorAt("Expected '{a}' and instead saw '{b}'.",
-                        line, character, begin, s.charAt(0));
+                    errorAt(bundle.expected_a_b, line, character, begin, s.charAt(0));
                 }
                 for (;;) {
                     s = s.slice(1);
@@ -1315,7 +1529,7 @@ var JSLINT = (function () {
                     c = s.charAt(0);
                     switch (c) {
                     case '':
-                        errorAt("Missing '{a}'.", line, character, c);
+                        errorAt(bundle.missing_a, line, character, c);
                         break;
                     case end:
                         s = s.slice(1);
@@ -1323,7 +1537,7 @@ var JSLINT = (function () {
                         return it('(range)', value);
                     case xquote:
                     case '\\':
-                        warningAt("Unexpected '{a}'.", line, character, c);
+                        warningAt(bundle.unexpected_a, line, character, c);
                         break;
                     }
                     value += c;
@@ -1352,8 +1566,7 @@ var JSLINT = (function () {
                     var c, j, r = '';
 
                     if (jsonmode && x !== '"') {
-                        warningAt("Strings must use doublequote.",
-                            line, character);
+                        warningAt(bundle.expected_a, line, character, '"');
                     }
 
                     if (xquote === x || (xmode === 'scriptstring' && !xquote)) {
@@ -1365,7 +1578,7 @@ var JSLINT = (function () {
                         j += n;
                         if (i >= 32 && i <= 126 &&
                                 i !== 34 && i !== 92 && i !== 39) {
-                            warningAt("Unnecessary escapement.", line, character);
+                            warningAt(bundle.unexpected_a, line, character, '\\');
                         }
                         character += n;
                         c = String.fromCharCode(i);
@@ -1375,7 +1588,7 @@ var JSLINT = (function () {
                         while (j >= s.length) {
                             j = 0;
                             if (xmode !== 'html' || !nextLine()) {
-                                errorAt("Unclosed string.", line, from);
+                                errorAt(bundle.unclosed, line, from);
                             }
                         }
                         c = s.charAt(j);
@@ -1388,32 +1601,30 @@ var JSLINT = (function () {
                             if (c === '\n' || c === '\r') {
                                 break;
                             }
-                            warningAt("Control character in string: {a}.",
+                            warningAt(bundle.control_a,
                                 line, character + j, s.slice(0, j));
                         } else if (c === xquote) {
-                            warningAt("Bad HTML string", line, character + j);
+                            warningAt(bundle.bad_html, line, character + j);
                         } else if (c === '<') {
                             if (option.safe && xmode === 'html') {
-                                warningAt("ADsafe string violation.",
-                                    line, character + j);
+                                warningAt(bundle.adsafe_a, line, character + j, c);
                             } else if (s.charAt(j + 1) === '/' && (xmode || option.safe)) {
-                                warningAt("Expected '<\\/' and instead saw '</'.", line, character);
+                                warningAt(bundle.expected_a_b, line, character, 
+                                    '<\\/', '</');
                             } else if (s.charAt(j + 1) === '!' && (xmode || option.safe)) {
-                                warningAt("Unexpected '<!' in a string.", line, character);
+                                warningAt(bundle.unexpected_a, line, character, '<!');
                             }
                         } else if (c === '\\') {
                             if (xmode === 'html') {
                                 if (option.safe) {
-                                    warningAt("ADsafe string violation.",
-                                        line, character + j);
+                                    warningAt(bundle.adsafe_a, line, character + j, c);
                                 }
                             } else if (xmode === 'styleproperty') {
                                 j += 1;
                                 character += 1;
                                 c = s.charAt(j);
                                 if (c !== x) {
-                                    warningAt("Escapement in style string.",
-                                        line, character + j);
+                                    warningAt(bundle.unexpected_a, line, character, '\\');
                                 }
                             } else {
                                 j += 1;
@@ -1421,8 +1632,7 @@ var JSLINT = (function () {
                                 c = s.charAt(j);
                                 switch (c) {
                                 case xquote:
-                                    warningAt("Bad HTML string", line,
-                                        character + j);
+                                    warningAt(bundle.bad_html, line, character + j);
                                     break;
                                 case '\\':
                                 case '"':
@@ -1430,7 +1640,7 @@ var JSLINT = (function () {
                                     break;
                                 case '\'':
                                     if (jsonmode) {
-                                        warningAt("Avoid \\'.", line, character);
+                                        warningAt(bundle.unexpected_a, line, character, '\\\'');
                                     }
                                     break;
                                 case 'b':
@@ -1453,18 +1663,18 @@ var JSLINT = (function () {
                                     break;
                                 case 'v':
                                     if (jsonmode) {
-                                        warningAt("Avoid \\v.", line, character);
+                                        warningAt(bundle.unexpected_a, line, character, '\\v');
                                     }
                                     c = '\v';
                                     break;
                                 case 'x':
                                     if (jsonmode) {
-                                        warningAt("Avoid \\x-.", line, character);
+                                        warningAt(bundle.unexpected_a, line, character, '\\x');
                                     }
                                     esc(2);
                                     break;
                                 default:
-                                    warningAt("Bad escapement.", line, character);
+                                    warningAt(bundle.unexpected_a, line, character, '\\');
                                 }
                             }
                         }
@@ -1505,7 +1715,7 @@ var JSLINT = (function () {
                             if (xmode === 'html') {
                                 return it('(error)', s.charAt(0));
                             } else {
-                                errorAt("Unexpected '{a}'.",
+                                errorAt(bundle.unexpected_a,
                                     line, character, s.substr(0, 1));
                             }
                         }
@@ -1521,34 +1731,28 @@ var JSLINT = (function () {
 
                         if (c.isDigit()) {
                             if (xmode !== 'style' && !isFinite(Number(t))) {
-                                warningAt("Bad number '{a}'.",
-                                    line, character, t);
+                                warningAt(bundle.bad_number, line, character, t);
                             }
                             if (xmode !== 'style' &&
                                     xmode !== 'styleproperty' &&
                                     s.substr(0, 1).isAlpha()) {
-                                warningAt("Missing space after '{a}'.",
-                                    line, character, t);
+                                warningAt(bundle.expected_space_a_b,
+                                    line, character, c, s.charAt(0));
                             }
                             if (c === '0') {
                                 d = t.substr(1, 1);
                                 if (d.isDigit()) {
                                     if (token.id !== '.' && xmode !== 'styleproperty') {
-                                        warningAt("Don't use extra leading zeros '{a}'.",
+                                        warningAt(bundle.unexpected_a,
                                             line, character, t);
                                     }
                                 } else if (jsonmode && (d === 'x' || d === 'X')) {
-                                    warningAt("Avoid 0x-. '{a}'.",
-                                        line, character, t);
+                                    warningAt(bundle.unexpected_a, line, character, '0x');
                                 }
                             }
                             if (t.substr(t.length - 1) === '.') {
-                                warningAt(
-                                    "A trailing decimal point can be confused with a dot '{a}'.",
-                                    line,
-                                    character,
-                                    t
-                                );
+                                warningAt(bundle.trailing_decimal_a, line,
+                                    character, t);
                             }
                             return it('(number)', t);
                         }
@@ -1564,11 +1768,11 @@ var JSLINT = (function () {
 
                         case '//':
                             if (src || (xmode && xmode !== 'script')) {
-                                warningAt("Unexpected comment.", line, character);
+                                warningAt(bundle.unexpected_comment, line, character);
                             } else if (xmode === 'script' && /<\s*\//i.test(s)) {
-                                warningAt("Unexpected <\/ in comment.", line, character);
+                                warningAt(bundle.unexpected_a, line, character, '<\/');
                             } else if ((option.safe || xmode === 'script') && ax.test(s)) {
-                                warningAt("Dangerous comment.", line, character);
+                                warningAt(bundle.dangerous_comment, line, character);
                             }
                             collect_comment(s);
                             s = '';
@@ -1578,10 +1782,10 @@ var JSLINT = (function () {
 
                         case '/*':
                             if (src || (xmode && xmode !== 'script' && xmode !== 'style' && xmode !== 'styleproperty')) {
-                                warningAt("Unexpected comment.", line, character);
+                                warningAt(bundle.unexpected_comment, line, character);
                             }
                             if (option.safe && ax.test(s)) {
-                                warningAt("ADsafe comment violation.", line, character);
+                                warningAt(bundle.dangerous_comment, line, character);
                             }
                             for (;;) {
                                 i = s.search(lx);
@@ -1590,17 +1794,16 @@ var JSLINT = (function () {
                                 }
                                 collect_comment(s);
                                 if (!nextLine()) {
-                                    errorAt("Unclosed comment.", line, character);
+                                    errorAt(bundle.unclosed_comment, line, character);
                                 } else {
                                     if (option.safe && ax.test(s)) {
-                                        warningAt("ADsafe comment violation.",
-                                            line, character);
+                                        warningAt(bundle.dangerous_comment, line, character);
                                     }
                                 }
                             }
                             character += i + 2;
                             if (s.substr(i, 1) === '/') {
-                                errorAt("Nested comment.", line, character);
+                                errorAt(bundle.nested_comment, line, character);
                             }
                             collect_comment(s.substr(0, i));
                             s = s.substr(i + 2);
@@ -1627,7 +1830,7 @@ var JSLINT = (function () {
                         case '/':
                             if (token.id === '/=') {
                                 errorAt(
-                                    "A regular expression literal can be confused with '/='.",
+                                    bundle.slash_equal,
                                     line,
                                     from
                                 );
@@ -1642,12 +1845,11 @@ var JSLINT = (function () {
                                     l += 1;
                                     switch (c) {
                                     case '':
-                                        errorAt("Unclosed regular expression.",
-                                            line, from);
+                                        errorAt(bundle.unclosed_regexp, line, from);
                                         return;
                                     case '/':
                                         if (depth > 0) {
-                                            warningAt("Unescaped '{a}'.",
+                                            warningAt(bundle.unescaped_a,
                                                 line, from + l, '/');
                                         }
                                         c = s.substr(0, l - 1);
@@ -1664,24 +1866,21 @@ var JSLINT = (function () {
                                         s = s.substr(l);
                                         q = s.charAt(0);
                                         if (q === '/' || q === '*') {
-                                            errorAt("Confusing regular expression.",
+                                            errorAt(bundle.confusing_regexp,
                                                 line, from);
                                         }
                                         return it('(regexp)', c);
                                     case '\\':
                                         c = s.charAt(l);
                                         if (c < ' ') {
-                                            warningAt(
-                                                "Unexpected control character in regular expression.",
-                                                line,
-                                                from + l
-                                            );
+                                            warningAt(bundle.control_a,
+                                                line, from + l, String(c));
                                         } else if (c === '<') {
                                             warningAt(
-                                                "Unexpected escaped character '{a}' in regular expression.",
+                                                bundle.unexpected_a, 
                                                 line,
                                                 from + l,
-                                                c
+                                                '\\'
                                             );
                                         }
                                         l += 1;
@@ -1699,7 +1898,7 @@ var JSLINT = (function () {
                                                 break;
                                             default:
                                                 warningAt(
-                                                    "Expected '{a}' and instead saw '{b}'.",
+                                                    bundle.expected_a_b,
                                                     line,
                                                     from + l,
                                                     ':',
@@ -1715,7 +1914,7 @@ var JSLINT = (function () {
                                         break;
                                     case ')':
                                         if (depth === 0) {
-                                            warningAt("Unescaped '{a}'.",
+                                            warningAt(bundle.unescaped_a,
                                                 line, from + l, ')');
                                         } else {
                                             depth -= 1;
@@ -1728,12 +1927,8 @@ var JSLINT = (function () {
                                             q += 1;
                                         }
                                         if (q > 1) {
-                                            warningAt(
-                                                "Spaces are hard to count. Use {{a}}.",
-                                                line,
-                                                from + l,
-                                                q
-                                            );
+                                            warningAt(bundle.use_braces,
+                                                line, from + l, q);
                                         }
                                         break;
                                     case '[':
@@ -1741,16 +1936,16 @@ var JSLINT = (function () {
                                         if (c === '^') {
                                             l += 1;
                                             if (option.regexp) {
-                                                warningAt("Insecure '{a}'.",
+                                                warningAt(bundle.insecure_a,
                                                     line, from + l, c);
                                             } else if (s.charAt(l) === ']') {
-                                                errorAt("Unescaped '{a}'.",
+                                                errorAt(bundle.unescaped_a,
                                                     line, from + l, '^');
                                             }
                                         }
                                         q = false;
                                         if (c === ']') {
-                                            warningAt("Empty class.", line,
+                                            warningAt(bundle.empty_class, line,
                                                 from + l - 1);
                                             q = true;
                                         }
@@ -1760,7 +1955,7 @@ klass:                                  do {
                                             switch (c) {
                                             case '[':
                                             case '^':
-                                                warningAt("Unescaped '{a}'.",
+                                                warningAt(bundle.unescaped_a,
                                                     line, from + l, c);
                                                 q = true;
                                                 break;
@@ -1768,14 +1963,14 @@ klass:                                  do {
                                                 if (q) {
                                                     q = false;
                                                 } else {
-                                                    warningAt("Unescaped '{a}'.",
+                                                    warningAt(bundle.unescaped_a,
                                                         line, from + l, '-');
                                                     q = true;
                                                 }
                                                 break;
                                             case ']':
                                                 if (!q) {
-                                                    warningAt("Unescaped '{a}'.",
+                                                    warningAt(bundle.unescaped_a,
                                                         line, from + l - 1, '-');
                                                 }
                                                 break klass;
@@ -1783,23 +1978,24 @@ klass:                                  do {
                                                 c = s.charAt(l);
                                                 if (c < ' ') {
                                                     warningAt(
-                                                        "Unexpected control character in regular expression.",
+                                                        bundle.control_a,
                                                         line,
-                                                        from + l
+                                                        from + l,
+                                                        String(c)
                                                     );
                                                 } else if (c === '<') {
                                                     warningAt(
-                                                        "Unexpected escaped character '{a}' in regular expression.",
+                                                        bundle.unexpected_a,
                                                         line,
                                                         from + l,
-                                                        c
+                                                        '\\'
                                                     );
                                                 }
                                                 l += 1;
                                                 q = true;
                                                 break;
                                             case '/':
-                                                warningAt("Unescaped '{a}'.",
+                                                warningAt(bundle.unescaped_a,
                                                     line, from + l - 1, '/');
                                                 q = true;
                                                 break;
@@ -1808,7 +2004,7 @@ klass:                                  do {
                                                     c = s.charAt(l);
                                                     if (c === '!' || c === '/') {
                                                         warningAt(
-                                                            "HTML confusion in regular expression '<{a}'.",
+                                                            bundle.html_confusion_a,
                                                             line,
                                                             from + l,
                                                             c
@@ -1824,7 +2020,7 @@ klass:                                  do {
                                         break;
                                     case '.':
                                         if (option.regexp) {
-                                            warningAt("Insecure '{a}'.", line,
+                                            warningAt(bundle.insecure_a, line,
                                                 from + l, c);
                                         }
                                         break;
@@ -1834,7 +2030,7 @@ klass:                                  do {
                                     case '}':
                                     case '+':
                                     case '*':
-                                        warningAt("Unescaped '{a}'.", line,
+                                        warningAt(bundle.unescaped_a, line,
                                             from + l, c);
                                         break;
                                     case '<':
@@ -1842,7 +2038,7 @@ klass:                                  do {
                                             c = s.charAt(l);
                                             if (c === '!' || c === '/') {
                                                 warningAt(
-                                                    "HTML confusion in regular expression '<{a}'.",
+                                                    bundle.html_confusion_a,
                                                     line,
                                                     from + l,
                                                     c
@@ -1866,7 +2062,7 @@ klass:                                  do {
                                             c = s.charAt(l);
                                             if (c < '0' || c > '9') {
                                                 warningAt(
-                                                    "Expected a number and instead saw '{a}'.",
+                                                    bundle.expected_number_a,
                                                     line,
                                                     from + l,
                                                     c
@@ -1902,7 +2098,7 @@ klass:                                  do {
                                             }
                                             if (s.charAt(l) !== '}') {
                                                 warningAt(
-                                                    "Expected '{a}' and instead saw '{b}'.",
+                                                    bundle.expected_a_b,
                                                     line,
                                                     from + l,
                                                     '}',
@@ -1916,7 +2112,7 @@ klass:                                  do {
                                             }
                                             if (low > high) {
                                                 warningAt(
-                                                    "'{a}' should not be greater than '{b}'.",
+                                                    bundle.not_greater,
                                                     line,
                                                     from + l,
                                                     low,
@@ -1946,21 +2142,21 @@ klass:                                  do {
                                 }
                                 i = s.indexOf('<!');
                                 if (i >= 0) {
-                                    errorAt("Nested HTML comment.",
+                                    errorAt(bundle.nested_comment,
                                         line, character + i);
                                 }
                                 if (!nextLine()) {
-                                    errorAt("Unclosed HTML comment.", l, c);
+                                    errorAt(bundle.unclosed_comment, l, c);
                                 }
                             }
                             l = s.indexOf('<!');
                             if (l >= 0 && l < i) {
-                                errorAt("Nested HTML comment.",
+                                errorAt(bundle.nested_comment,
                                     line, character + l);
                             }
                             character += i;
                             if (s.charAt(i + 2) !== '>') {
-                                errorAt("Expected -->.", line, character);
+                                errorAt(bundle.expected_a, line, character, '-->');
                             }
                             character += 3;
                             s = s.slice(i + 3);
@@ -1979,7 +2175,7 @@ klass:                                  do {
                                     t += c;
                                 }
                                 if (t.length !== 4 && t.length !== 7) {
-                                    warningAt("Bad hex color '{a}'.", line,
+                                    warningAt(bundle.bad_color_a, line,
                                         from + l, t);
                                 }
                                 return it('(color)', t);
@@ -1999,7 +2195,7 @@ klass:                                  do {
                                     if (!((c >= '0' && c <= '9') ||
                                             (c >= 'a' && c <= 'z') ||
                                             c === '#')) {
-                                        errorAt("Bad entity", line, from + l,
+                                        errorAt(bundle.bad_entity, line, from + l,
                                             character);
                                     }
                                 }
@@ -2018,24 +2214,24 @@ klass:                                  do {
 
         if (option.safe && funct['(global)'] &&
                 typeof predefined[t] !== 'boolean') {
-            warning('ADsafe global: ' + t + '.', token);
+            warning(bundle.adsafe_a, token, t);
         } else if (t === 'hasOwnProperty') {
-            warning("'hasOwnProperty' is a really bad name.");
+            warning(bundle.bad_name_a, token, t);
         }
 
 // Define t in the current function in the current scope.
 
         if (is_own(funct, t) && !funct['(global)']) {
             warning(funct[t] === true ?
-                "'{a}' was used before it was defined." :
-                "'{a}' is already defined.",
+                bundle.used_before_a :
+                bundle.already_defined,
                 nexttoken, t);
         }
         funct[t] = type;
         if (funct['(global)']) {
             global[t] = funct;
             if (is_own(implied, t)) {
-                warning("'{a}' was used before it was defined.", nexttoken, t);
+                warning(bundle.used_before_a, nexttoken, t);
                 delete implied[t];
             }
         } else {
@@ -2048,7 +2244,7 @@ klass:                                  do {
         var b, obj, filter, o = nexttoken.value, t, v;
         switch (o) {
         case '*/':
-            error("Unbegun comment.");
+            error(bundle.unbegun_comment);
             break;
         case '/*members':
         case '/*member':
@@ -2060,14 +2256,14 @@ klass:                                  do {
             break;
         case '/*jslint':
             if (option.safe) {
-                warning("ADsafe restriction.");
+                warning(bundle.adsafe);
             }
             obj = option;
             filter = boolOptions;
             break;
         case '/*global':
             if (option.safe) {
-                warning("ADsafe restriction.");
+                warning(bundle.adsafe);
             }
             obj = predefined;
             break;
@@ -2087,21 +2283,20 @@ loop:   for (;;) {
             }
             if (t.type !== '(string)' && t.type !== '(identifier)' &&
                     o !== '/*members') {
-                error("Bad option.", t);
+                error(bundle.unexpected_a, t);
             }
             v = lex.token();
             if (v.id === ':') {
                 v = lex.token();
                 if (obj === membersOnly) {
-                    error("Expected '{a}' and instead saw '{b}'.",
+                    error(bundle.expected_a_b,
                         t, '*/', ':');
                 }
                 if (t.value === 'indent' && o === '/*jslint') {
                     b = +v.value;
                     if (typeof b !== 'number' || !isFinite(b) || b < 0 ||
                             Math.floor(b) !== b) {
-                        error("Expected a small integer and instead saw '{a}'.",
-                            v, v.value);
+                        error(bundle.expected_small_a, v, v.value);
                     }
                     obj.white = true;
                     obj.indent = b;
@@ -2109,7 +2304,7 @@ loop:   for (;;) {
                     b = +v.value;
                     if (typeof b !== 'number' || !isFinite(b) || b <= 0 ||
                             Math.floor(b) !== b) {
-                        error("Expected a small integer and instead saw '{a}'.",
+                        error(bundle.expected_small_a,
                             v, v.value);
                     }
                     obj.maxerr = b;
@@ -2117,7 +2312,7 @@ loop:   for (;;) {
                     b = +v.value;
                     if (typeof b !== 'number' || !isFinite(b) || b < 0 ||
                             Math.floor(b) !== b) {
-                        error("Expected a small integer and instead saw '{a}'.",
+                        error(bundle.expected_small_a,
                             v, v.value);
                     }
                     obj.maxlen = b;
@@ -2126,12 +2321,12 @@ loop:   for (;;) {
                 } else if (v.value === 'false') {
                     obj[t.value] = false;
                 } else {
-                    error("Bad option value.", v);
+                    error(bundle.unexpected_a, v);
                 }
                 t = lex.token();
             } else {
                 if (o === '/*jslint') {
-                    error("Missing option value.", t);
+                    error(bundle.missing_option, t);
                 }
                 obj[t.value] = false;
                 t = v;
@@ -2189,8 +2384,8 @@ loop:   for (;;) {
 
     function expected_at(at) {
         if (nexttoken.from !== at) {
-            warning("Expected '{a}' at column {b}, not column {c}.",
-                nexttoken, nexttoken.value, at, nexttoken.from);
+            warning(bundle.expected_a_at_b_c, nexttoken, nexttoken.value, at, 
+                nexttoken.from);
         }
     }
 
@@ -2230,14 +2425,15 @@ loop:   for (;;) {
                         expected_at(1);
                     } else if (nexttoken.edge === 'case') {
                         expected_at(indent.at - option.indent);
-                    } else if (!indent.array || nexttoken.line !== token.line) {
+                    } else if (indent.mode !== 'array' || nexttoken.line !== token.line) {
                         expected_at(indent.at);
                     }
 
 // If the token is not an edge, but is the first token on the line.
 
                 } else if (nexttoken.line !== token.line &&
-                        nexttoken.from < indent.at + option.indent) {
+                        nexttoken.from < indent.at + 
+                        (indent.mode === 'expression' ? 0 : option.indent)) {
                     expected_at(indent.at + option.indent);
                 }
             } else if (nexttoken.line !== token.line) {
@@ -2245,9 +2441,11 @@ loop:   for (;;) {
                     expected_at(indent.at);
                 } else {
                     indent.wrap = true;
-                    if (nexttoken.from <
-                            indent.at + (indent.expression ? 0 : option.indent)) {
-                        expected_at(indent.at + indent.expression);
+                    if (indent.mode === 'statement' || indent.mode === 'var') {
+                        expected_at(indent.at + option.indent);
+                    } else if (nexttoken.from < indent.at + 
+                            (indent.mode === 'expression' ? 0 : option.indent)) {
+                        expected_at(indent.at + option.indent);
                     }
                 }
             }
@@ -2256,20 +2454,17 @@ loop:   for (;;) {
         switch (token.id) {
         case '(number)':
             if (nexttoken.id === '.') {
-                warning(
-                    "A dot following a number can be confused with a decimal point.",
-                    token
-                );
+                warning(bundle.trailing_decimal_a);
             }
             break;
         case '-':
             if (nexttoken.id === '-' || nexttoken.id === '--') {
-                warning("Confusing minusses.");
+                warning(bundle.confusing_a);
             }
             break;
         case '+':
             if (nexttoken.id === '+' || nexttoken.id === '++') {
-                warning("Confusing plusses.");
+                warning(bundle.confusing_a);
             }
             break;
         }
@@ -2279,21 +2474,10 @@ loop:   for (;;) {
 
         if (id && nexttoken.id !== id) {
             if (t) {
-                if (nexttoken.id === '(end)') {
-                    warning("Unmatched '{a}'.", t, t.id);
-                } else {
-                    warning(
-                        "Expected '{a}' to match '{b}' from line {c} and instead saw '{d}'.",
-                        nexttoken,
-                        id,
-                        t.id,
-                        t.line,
-                        nexttoken.value
-                    );
-                }
-            } else if (nexttoken.type !== '(identifier)' ||
-                    nexttoken.value !== id) {
-                warning("Expected '{a}' and instead saw '{b}'.",
+                warning(bundle.expected_a_b_from_c_d, nexttoken,
+                    id, t.id, t.line, nexttoken.value);
+            } else if (nexttoken.type !== '(identifier)' || nexttoken.value !== id) {
+                warning(bundle.expected_a_b,
                     nexttoken, id, nexttoken.value);
             }
         }
@@ -2311,31 +2495,35 @@ loop:   for (;;) {
 // Indentation intention
 
     function edge(mode) {
-        nexttoken.edge = indent.open && (mode || true);
+        nexttoken.edge = !indent || (indent.open && (mode || true));
     }
 
 
     function step_in(mode) {
         var open, was;
-        if (option.indent) {
+        if (option.white && option.indent) {
             if (typeof mode === 'number') {
                 indent = {
                     at: mode,
                     open: true,
                     was: was
                 };
+            } else if (!indent) {
+                indent = {
+                    at: 1,
+                    mode: 'statement',
+                    open: true
+                };
             } else {
                 was = indent;
-                open = (mode === 'var' && option.indent === 4) ||
+                open = mode === 'var' ||
                     (nexttoken.line !== token.line && mode !== 'statement');
                 indent = {
-                    array: mode === 'array' || mode === 'control',
                     at: (open || mode === 'control' ?
                         was.at + option.indent : was.at) +
                         (was.wrap ? option.indent : 0),
-                    expression: mode === 'expression',
+                    mode: mode,
                     open: open,
-                    statement: mode === 'statement' || mode === 'var',
                     was: was
                 };
                 if (mode === 'var' && open) {
@@ -2363,21 +2551,19 @@ loop:   for (;;) {
     function one_space(left, right) {
         left = left || token;
         right = right || nexttoken;
-        if (right.id !== '(end)' && (left.line !== right.line ||
-                (option.white && left.thru + 1 !== right.from))) {
-            warning("Expected exactly one space between '{a}' and '{b}'.",
-                right, left.value, right.value);
+        if (right.id !== '(end)' && option.white &&
+                (token.line !== right.line ||
+                token.thru + 1 !== right.from)) {
+            warning(bundle.expected_space_a_b, right, token.value, right.value);
         }
     }
 
     function one_space_only(left, right) {
         left = left || token;
         right = right || nexttoken;
-        if (right.id !== '(end)' && option.white &&
-                (token.line !== right.line ||
-                token.thru + 1 !== right.from)) {
-            warning("Expected exactly one space between '{a}' and '{b}'.",
-                right, token.value, right.value);
+        if (right.id !== '(end)' && (left.line !== right.line ||
+                (option.white && left.thru + 1 !== right.from))) {
+            warning(bundle.expected_space_a_b, right, left.value, right.value);
         }
     }
 
@@ -2386,8 +2572,7 @@ loop:   for (;;) {
         right = right || nexttoken;
         if ((option.white || xmode === 'styleproperty' || xmode === 'style') &&
                 left.thru !== right.from && left.line === right.line) {
-            warning("Unexpected space between '{a}' and '{b}'.", right,
-                left.value, right.value);
+            warning(bundle.unexpected_space_a_b, right, left.value, right.value);
         }
     }
 
@@ -2396,8 +2581,7 @@ loop:   for (;;) {
         right = right || nexttoken;
         if (right.id !== '(end)' && (left.line !== right.line ||
                 (option.white && left.thru !== right.from))) {
-            warning("Unexpected space between '{a}' and '{b}'.",
-                right, left.value, right.value);
+            warning(bundle.unexpected_space_a_b, right, left.value, right.value);
         }
     }
 
@@ -2406,33 +2590,44 @@ loop:   for (;;) {
             left = left || token;
             right = right || nexttoken;
             if (left.thru === right.from && left.line === right.line) {
-                warning("Missing space between '{a}' and '{b}'.",
-                    right, left.value, right.value);
+                warning(bundle.missing_space_a_b, right, left.value, right.value);
             }
         }
     }
 
     function comma() {
-        no_space_only();
-        advance(',');
-        discard();
-        spaces();
+        if (nexttoken.id !== ',') {
+            warning(bundle.expected_a_b, nexttoken, ',', nexttoken.value);
+        } else {
+            if (option.white) {
+                no_space_only();
+            }
+            advance(',');
+            discard();
+            spaces();
+        }
     }
 
 
     function semicolon() {
-        no_space_only();
-        advance(';');
-        discard();
-        if (semicolon_coda[nexttoken.id] !== true) {
-            spaces();
+        if (nexttoken.id !== ';') {
+            warning(bundle.expected_a_b, nexttoken, ';', nexttoken.value);
+        } else {
+            if (option.white) {
+                no_space_only();
+            }
+            advance(';');
+            discard();
+            if (semicolon_coda[nexttoken.id] !== true) {
+                spaces();
+            }
         }
     }
 
     function use_strict() {
         if (nexttoken.value === 'use strict') {
             if (strict_mode) {
-                warning("Unnecessary \"use strict\".");
+                warning(bundle.unnecessary_use);
             }
             edge();
             advance();
@@ -2468,12 +2663,12 @@ loop:   for (;;) {
 
         var left;
         if (nexttoken.id === '(end)') {
-            error("Unexpected early end of program.", token);
+            error(bundle.unexpected_a, token, nexttoken.id);
         }
         advance();
         if (option.safe && typeof predefined[token.value] === 'boolean' &&
                 (nexttoken.id !== '(' && nexttoken.id !== '.')) {
-            warning('ADsafe violation.', token);
+            warning(bundle.adsafe, token);
         }
         if (initial) {
             anonname = 'anonymous';
@@ -2486,16 +2681,12 @@ loop:   for (;;) {
                 left = token.nud();
             } else {
                 if (nexttoken.type === '(number)' && token.id === '.') {
-                    warning(
-                        "A leading decimal point can be confused with a dot: '.{a}'.",
-                        token,
-                        nexttoken.value
-                    );
+                    warning(bundle.leading_decimal_a, token,
+                        nexttoken.value);
                     advance();
                     return token;
                 } else {
-                    error("Expected an identifier and instead saw '{a}'.",
-                        token, token.id);
+                    error(bundle.expected_identifier_a, token, token.id);
                 }
             }
             while (rbp < nexttoken.lbp) {
@@ -2503,8 +2694,7 @@ loop:   for (;;) {
                 if (token.led) {
                     left = token.led(left);
                 } else {
-                    error("Expected an operator and instead saw '{a}'.",
-                        token, token.id);
+                    error(bundle.expected_operator_a, token, token.id);
                 }
             }
         }
@@ -2579,10 +2769,10 @@ loop:   for (;;) {
             this.arity = 'prefix';
             if (this.id === '++' || this.id === '--') {
                 if (option.plusplus) {
-                    warning("Unexpected use of '{a}'.", this, this.id);
+                    warning(bundle.unexpected_a, this);
                 } else if ((!this.first.identifier || this.first.reserved) &&
                         this.first.id !== '.' && this.first.id !== '[') {
-                    warning("Bad operand.", this);
+                    warning(bundle.bad_operand, this);
                 }
             }
             return this;
@@ -2638,8 +2828,7 @@ loop:   for (;;) {
 
     function expected_relation(node) {
         if (node.assign) {
-            warning("Expected a conditional expression and instead saw an assignment.",
-                node);
+            warning(bundle.conditional_assignment, node);
         }
         return node;
     }
@@ -2649,16 +2838,15 @@ loop:   for (;;) {
         var x = infix(s, 100, function (left, that) {
             var right = expression(100);
             if (eqeq) {
-                warning("Expected '{a}' and instead saw '{b}'.",
-                    that, eqeq, that.id);
+                warning(bundle.expected_a_b, that, eqeq, that.id);
             } else if (left.id === 'NaN' || right.id === 'NaN') {
-                warning("Use the isNaN function to compare with NaN.", that);
+                warning(bundle.isNaN, that);
             }
             if (left.id === '!') {
-                warning("Confusing use of '{a}'.", left, '!');
+                warning(bundle.confusing_a, left);
             }
             if (right.id === '!') {
-                warning("Confusing use of '{a}'.", left, '!');
+                warning(bundle.confusing_a, right);
             }
             that.first = left;
             that.second = right;
@@ -2672,20 +2860,20 @@ loop:   for (;;) {
         var x = infix(s, 20, function (left, that) {
             var l;
             if (option.bitwise && bit) {
-                warning("Unexpected use of '{a}'.", that, that.id);
+                warning(bundle.unexpected_a, that);
             }
             that.first = left;
             if (predefined[left.value] === false &&
                     scope[left.value]['(global)'] === true) {
-                warning("Read only.", left);
+                warning(bundle.read_only, left);
             } else if (left['function']) {
-                warning("'{a}' is a function.", left, left.value);
+                warning(bundle.a_function, left);
             }
             if (option.safe) {
                 l = left;
                 do {
                     if (typeof predefined[l.value] === 'boolean') {
-                        warning('ADsafe violation.', l);
+                        warning(bundle.adsafe, l);
                     }
                     l = l.first;
                 } while (l);
@@ -2693,25 +2881,22 @@ loop:   for (;;) {
             if (left) {
                 if (left.id === '.' || left.id === '[') {
                     if (!left.first || left.first.value === 'arguments') {
-                        warning('Bad assignment.', that);
+                        warning(bundle.bad_assignment, that);
                     }
                     that.second = expression(19);
                     return that;
                 } else if (left.identifier && !left.reserved) {
                     if (funct[left.value] === 'exception') {
-                        warning("Do not assign to the exception parameter.", left);
+                        warning(bundle.assign_exception, left);
                     }
                     that.second = expression(19);
                     return that;
                 }
                 if (left === syntax['function']) {
-                    warning(
-                        "Expected an identifier in an assignment and instead saw a function invocation.",
-                        token
-                    );
+                    warning(bundle.identifier_function, token);
                 }
             }
-            error("Bad assignment.", that);
+            error(bundle.bad_assignment, that);
         });
         x.assign = true;
         return x;
@@ -2721,7 +2906,7 @@ loop:   for (;;) {
     function bitwise(s, p) {
         return infix(s, p, function (left, that) {
             if (option.bitwise) {
-                warning("Unexpected use of '{a}'.", that, that.id);
+                warning(bundle.unexpected_a, that);
             }
             that.first = left;
             that.second = expression(p);
@@ -2735,10 +2920,10 @@ loop:   for (;;) {
         x.led = function (left) {
             no_space_only(prevtoken, token);
             if (option.plusplus) {
-                warning("Unexpected use of '{a}'.", this, this.id);
+                warning(bundle.unexpected_a, this);
             } else if ((!left.identifier || left.reserved) &&
                     left.id !== '.' && left.id !== '[') {
-                warning("Bad operand.", this);
+                warning(bundle.bad_operand, this);
             }
             this.first = left;
             this.arity = 'suffix';
@@ -2752,10 +2937,9 @@ loop:   for (;;) {
         if (nexttoken.identifier) {
             advance();
             if (option.safe && banned[token.value]) {
-                warning("ADsafe violation: '{a}'.", token, token.value);
+                warning(bundle.adsafe_a, token);
             } else if (token.reserved && !option.es5) {
-                warning("Expected an identifier and instead saw '{a}' (a reserved word).",
-                    token, token.id);
+                warning(bundle.expected_identifier_a_reserved, token);
             }
             return token.value;
         }
@@ -2768,10 +2952,9 @@ loop:   for (;;) {
             return i;
         }
         if (token.id === 'function' && nexttoken.id === '(') {
-            warning("Missing name in function statement.");
+            warning(bundle.name_function);
         } else {
-            error("Expected an identifier and instead saw '{a}'.",
-                nexttoken, nexttoken.value);
+            error(bundle.expected_identifier_a);
         }
     }
 
@@ -2786,7 +2969,7 @@ loop:   for (;;) {
 // We don't like the empty statement.
 
         if (t.id === ';') {
-            warning("Unnecessary semicolon.", t);
+            warning(bundle.unexpected_a, t);
             semicolon();
             return;
         }
@@ -2800,12 +2983,10 @@ loop:   for (;;) {
             scope = Object.create(s);
             addlabel(t.value, 'label');
             if (labelled[nexttoken.id] !== true) {
-                warning("Label '{a}' on '{b}' statement.",
-                    nexttoken, t.value, nexttoken.value);
+                warning(bundle.label_a_b, nexttoken, t.value, nexttoken.value);
             }
             if (jx.test(t.value + ':')) {
-                warning("Label '{a}' looks like a javascript url.",
-                    t, t.value);
+                warning(bundle.url, t);
             }
             nexttoken.label = t;
             t = nexttoken;
@@ -2829,17 +3010,13 @@ loop:   for (;;) {
             }
         } else {
             if (r.id === '(' && r.first.id === 'new') {
-                warning("Do not use 'new' for side effects.");
+                warning(bundle.bad_new);
             } else if (!r.assign && r.id !== 'delete' && r.id !== '++' &&
                     r.id !== '--' && r.id !== '(') {
-                warning(
-                    "Expected an assignment or function call and instead saw an expression.",
-                    token
-                );
+                warning(bundle.assignment_function_expression, token);
             }
             if (nexttoken.id !== ';') {
-                warningAt("Missing semicolon.", token.line,
-                    token.from + token.value.length);
+                warning(bundle.expected_a_b, nexttoken, ';', nexttoken.value);
             } else {
                 semicolon();
             }
@@ -2863,22 +3040,21 @@ loop:   for (;;) {
                             peek(0).id !== '.' ||
                             (peek(1).value !== 'id' &&
                             peek(1).value !== 'go')) {
-                        error('ADsafe violation: Missing ADSAFE.id or ADSAFE.go.',
-                            nexttoken);
+                        error(bundle.adsafe_id_go);
                     }
                 }
                 if (nexttoken.value === 'ADSAFE' &&
                         peek(0).id === '.' &&
                         peek(1).value === 'id') {
                     if (adsafe_may) {
-                        error('ADsafe violation.', nexttoken);
+                        error(bundle.adsafe, nexttoken);
                     }
                     advance('ADSAFE');
                     advance('.');
                     advance('id');
                     advance('(');
                     if (nexttoken.value !== adsafe_id) {
-                        error('ADsafe violation: id does not match.', nexttoken);
+                        error(bundle.adsafe_id, nexttoken);
                     }
                     advance('(string)');
                     advance(')');
@@ -2896,19 +3072,19 @@ loop:   for (;;) {
                     comma();
                     f = expression(0);
                     if (f.id !== 'function') {
-                        error('The second argument to lib must be a function.', f);
+                        error(bundle.adsafe_lib_second, f);
                     }
                     p = f.funct['(params)'];
                     p = p && p.join(', ');
                     if (p && p !== 'lib') {
-                        error("Expected '{a}' and instead saw '{b}'.",
+                        error(bundle.expected_a_b,
                             f, '(lib)', '(' + p + ')');
                     }
                     advance(')');
                     semicolon();
                     return a;
                 } else {
-                    error("ADsafe lib violation.");
+                    error(bundle.adsafe_lib);
                 }
                 break;
             }
@@ -2919,12 +3095,12 @@ loop:   for (;;) {
 
         while (postscript[nexttoken.id] !== true) {
             if (nexttoken.id === ';') {
-                warning("Unnecessary semicolon.");
+                warning(bundle.unexpected_a, nexttoken);
                 semicolon();
             } else {
                 if (d) {
-                    warning("Unreachable '{a}' after '{b}'.", nexttoken,
-                        nexttoken.value, d.value);
+                    warning(bundle.unreachable_a_b, nexttoken, nexttoken.value, 
+                        d.value);
                     d = null;
                 }
                 s = statement();
@@ -2959,18 +3135,17 @@ loop:   for (;;) {
             step_in();
             if (!ordinary && !use_strict() && !m && option.strict &&
                     funct['(context)']['(global)']) {
-                warning("Missing \"use strict\" statement.");
+                warning(bundle.missing_use_strict);
             }
             a = statements();
             strict_mode = m;
             step_out('}', t);
             discard();
         } else if (!ordinary) {
-            error("Expected '{a}' and instead saw '{b}'.",
+            error(bundle.expected_a_b,
                 nexttoken, '{', nexttoken.value);
         } else {
-            warning("Expected '{a}' and instead saw '{b}'.",
-                nexttoken, '{', nexttoken.value);
+            warning(bundle.expected_a_b, nexttoken, '{', nexttoken.value);
             a = [statement()];
             if (a[0].disrupt) {
                 a.disrupt = true;
@@ -2980,7 +3155,7 @@ loop:   for (;;) {
         scope = s;
         inblock = b;
         if (ordinary && a.length === 0) {
-            warning("Empty block.");
+            warning(bundle.empty_block);
         }
         return a;
     }
@@ -2988,7 +3163,7 @@ loop:   for (;;) {
 
     function countMember(m) {
         if (membersOnly && typeof membersOnly[m] !== 'boolean') {
-            warning("Unexpected /*member '{a}'.", token, m);
+            warning(bundle.unexpected_member_a, token, m);
         }
         if (typeof member[m] === 'number') {
             member[m] += 1;
@@ -3062,7 +3237,7 @@ loop:   for (;;) {
                     this['function'] = true;
                     break;
                 case 'label':
-                    warning("'{a}' is a statement label.", token, v);
+                    warning(bundle.a_label, token, v);
                     break;
                 }
 
@@ -3071,7 +3246,7 @@ loop:   for (;;) {
 
             } else if (funct['(global)']) {
                 if (option.undef && typeof predefined[v] !== 'boolean') {
-                    warning("'{a}' is not defined.", token, v);
+                    warning(bundle.a_not_defined, token, v);
                 }
                 note_implied(token);
 
@@ -3084,10 +3259,10 @@ loop:   for (;;) {
                 case 'function':
                 case 'var':
                 case 'unused':
-                    warning("'{a}' used out of scope.", token, v);
+                    warning(bundle.a_scope, token, v);
                     break;
                 case 'label':
-                    warning("'{a}' is a statement label.", token, v);
+                    warning(bundle.a_label, token, v);
                     break;
                 case 'outer':
                 case 'global':
@@ -3100,11 +3275,11 @@ loop:   for (;;) {
                     if (s === true) {
                         funct[v] = true;
                     } else if (s === null) {
-                        warning("'{a}' is not allowed.", token, v);
+                        warning(bundle.a_not_allowed, token, v);
                         note_implied(token);
                     } else if (typeof s !== 'object') {
                         if (option.undef) {
-                            warning("'{a}' is not defined.", token, v);
+                            warning(bundle.a_not_defined, token, v);
                         } else {
                             funct[v] = true;
                         }
@@ -3127,7 +3302,7 @@ loop:   for (;;) {
                             funct[v] = s['(global)'] ? 'global' : 'outer';
                             break;
                         case 'label':
-                            warning("'{a}' is a statement label.", token, v);
+                            warning(bundle.a_label, token, v);
                             break;
                         }
                     }
@@ -3136,8 +3311,7 @@ loop:   for (;;) {
             return this;
         },
         led: function () {
-            error("Expected an operator and instead saw '{a}'.",
-                nexttoken, nexttoken.value);
+            error(bundle.expected_operator_a);
         }
     };
 
@@ -3159,7 +3333,7 @@ loop:   for (;;) {
     delim(')');
     delim(']');
     delim('"');
-    delim("'");
+    delim('\'');
     delim(';');
     delim(':');
     delim(',');
@@ -3172,14 +3346,14 @@ loop:   for (;;) {
     reserve('finally');
     reservevar('arguments', function (x) {
         if (strict_mode && funct['(global)']) {
-            warning("Strict violation.", x);
+            warning(bundle.strict, x);
         } else if (option.safe) {
-            warning("ADsafe violation.", x);
+            warning(bundle.adsafe, x);
         }
     });
     reservevar('eval', function (x) {
         if (option.safe) {
-            warning("ADsafe violation.", x);
+            warning(bundle.adsafe, x);
         }
     });
     reservevar('false');
@@ -3189,9 +3363,9 @@ loop:   for (;;) {
     reservevar('this', function (x) {
         if (strict_mode && ((funct['(statement)'] && //// correct this test.
                 funct['(name)'].charAt(0) > 'Z') || funct['(global)'])) {
-            warning("Strict violation.", x);
+            warning(bundle.strict, x);
         } else if (option.safe) {
-            warning("ADsafe violation.", x);
+            warning(bundle.adsafe, x);
         }
     });
     reservevar('true');
@@ -3201,7 +3375,7 @@ loop:   for (;;) {
     assignop('-=');
     assignop('*=');
     assignop('/=').nud = function () {
-        error("A regular expression literal can be confused with '/='.");
+        error(bundle.slash_equal);
     };
     assignop('%=');
     assignop('&=', true);
@@ -3219,10 +3393,17 @@ loop:   for (;;) {
         that.third = expression(10);
         return that;
     });
-
+    
     infix('||', 40, function (left, that) {
-        that.first = expected_relation(left);
-        that.second = expected_relation(expression(50));
+        function paren_check(that) {
+            if (that.id === '&&' && !that.paren) {
+                warning(bundle.and, that);
+            }
+            return that;
+        }        
+    
+        that.first = paren_check(expected_relation(left));        
+        that.second = paren_check(expected_relation(expression(40)));
         return that;
     });
     infix('&&', 50, function (left, that) {
@@ -3252,7 +3433,7 @@ loop:   for (;;) {
             left.value += right.value;
             left.thru = right.thru;
             if (jx.test(left.value)) {
-                warning("JavaScript URL.", left);
+                warning(bundle.url, left);
             }
             return left;
         }
@@ -3262,13 +3443,13 @@ loop:   for (;;) {
     });
     prefix('+', 'num');
     prefix('+++', function () {
-        warning("Confusing pluses.");
+        warning(bundle.confusing_a, token);
         this.first = expression(150);
         this.arity = 'prefix';
         return this;
     });
     infix('+++', 130, function (left) {
-        warning("Confusing pluses.");
+        warning(bundle.confusing_a, token);
         this.first = left;
         this.second = expression(130);
         return this;
@@ -3276,13 +3457,13 @@ loop:   for (;;) {
     infix('-', 130);
     prefix('-');
     prefix('---', function () {
-        warning("Confusing minuses.");
+        warning(bundle.confusing_a, token);
         this.first = expression(150);
         this.arity = 'prefix';
         return this;
     });
     infix('---', 130, function (left) {
-        warning("Confusing minuses.");
+        warning(bundle.confusing_a, token);
         this.first = left;
         this.second = expression(130);
         return this;
@@ -3300,7 +3481,7 @@ loop:   for (;;) {
         one_space();
         var p = expression(0);
         if (!p || (p.id !== '.' && p.id !== '[')) {
-            warning("Only properties should be deleted.");
+            warning(bundle.deleted);
         }
         this.first = p;
         return this;
@@ -3310,7 +3491,7 @@ loop:   for (;;) {
     prefix('~', function () {
         no_space_only();
         if (option.bitwise) {
-            warning("Unexpected '{a}'.", this, '~');
+            warning(bundle.unexpected_a, this);
         }
         expression(150);
         return this;
@@ -3320,7 +3501,7 @@ loop:   for (;;) {
         this.first = expression(150);
         this.arity = 'prefix';
         if (bang[this.first.id] === true) {
-            warning("Confusing use of '{a}'.", this, '!');
+            warning(bundle.confusing_a, this);
         }
         return this;
     });
@@ -3332,15 +3513,15 @@ loop:   for (;;) {
             if (c.identifier) {
                 switch (c.value) {
                 case 'Object':
-                    warning("Use the object literal notation {}.", token);
+                    warning(bundle.use_object, token);
                     break;
                 case 'Array':
                     if (nexttoken.id !== '(') {
-                        warning("Use the array literal notation [].", token);
+                        warning(bundle.use_array, token);
                     } else {
                         advance('(');
                         if (nexttoken.id === ')') {
-                            warning("Use the array literal notation [].", token);
+                            warning(bundle.use_array, token);
                         }
                         advance(')');
                     }
@@ -3351,11 +3532,11 @@ loop:   for (;;) {
                 case 'Boolean':
                 case 'Math':
                 case 'JSON':
-                    warning("Do not use {a} as a constructor.", token, c.value);
+                    warning(bundle.not_a_constructor, c);
                     break;
                 case 'Function':
                     if (!option.evil) {
-                        warning("The Function constructor is eval.");
+                        warning(bundle.function_eval);
                     }
                     break;
                 case 'Date':
@@ -3365,23 +3546,20 @@ loop:   for (;;) {
                     if (c.id !== 'function') {
                         i = c.value.substr(0, 1);
                         if (option.newcap && (i < 'A' || i > 'Z')) {
-                            warning(
-                                "A constructor name should start with an uppercase letter.",
-                                token
-                            );
+                            warning(bundle.constructor_name_a, token);
                         }
                     }
                 }
             } else {
                 if (c.id !== '.' && c.id !== '[' && c.id !== '(') {
-                    warning("Bad constructor.", token);
+                    warning(bundle.bad_constructor, token);
                 }
             }
         } else {
-            warning("Weird construction. Delete 'new'.", this);
+            warning(bundle.weird_new, this);
         }
         if (nexttoken.id !== '(') {
-            warning("Missing '()' invoking a constructor.");
+            warning(bundle.missing_a, nexttoken, '()');
         }
         this.first = c;
         return this;
@@ -3394,9 +3572,7 @@ loop:   for (;;) {
             no_space(prevtoken, token);
         }
         if (!left.immed && left.id === 'function') {
-            warning("Wrap an immediate function invocation in parentheses " +
-                "to assist the reader in understanding that the expression " +
-                "is the result of a function, and not the function itself.");
+            warning(bundle.wrap_immediate);
         }
         var p = [];
         if (left) {
@@ -3405,20 +3581,17 @@ loop:   for (;;) {
                     if (left.value !== 'Number' && left.value !== 'String' &&
                             left.value !== 'Boolean' &&
                             left.value !== 'Date') {
-                        if (left.value === 'Math') {
-                            warning("Math is not a function.", left);
+                        if (left.value === 'Math' || left.value === 'JSON') {
+                            warning(bundle.not_a_function, left);
                         } else if (option.newcap) {
-                            warning(
-                                "Missing 'new' prefix when invoking a constructor.",
-                                left
-                            );
+                            warning(bundle.missing_a, left, 'new');
                         }
                     }
                 }
             } else if (left.id === '.') {
                 if (option.safe && left.first.value === 'Math' &&
                         left.second === 'random') {
-                    warning("ADsafe violation.", left);
+                    warning(bundle.adsafe, left);
                 }
             }
         }
@@ -3438,25 +3611,22 @@ loop:   for (;;) {
         step_out(')', this);
         if (typeof left === 'object') {
             if (left.value === 'parseInt' && p.length === 1) {
-                warning("Missing radix parameter.", left);
+                warning(bundle.radix, left);
             }
             if (!option.evil) {
                 if (left.value === 'eval' || left.value === 'Function' ||
                         left.value === 'execScript') {
-                    warning("eval is evil.", left);
+                    warning(bundle.evil, left);
                 } else if (p[0] && p[0].id === '(string)' &&
                         (left.value === 'setTimeout' ||
                         left.value === 'setInterval')) {
-                    warning(
-                        "Implied eval is evil. Pass a function instead of a string.",
-                        left
-                    );
+                    warning(bundle.implied_evil, left);
                 }
             }
             if (!left.identifier && left.id !== '.' && left.id !== '[' &&
                     left.id !== '(' && left.id !== '&&' && left.id !== '||' &&
                     left.id !== '?') {
-                warning("Bad invocation.", left);
+                warning(bundle.bad_invocation, left);
             }
         }
         that.first = left;
@@ -3468,24 +3638,20 @@ loop:   for (;;) {
         step_in('expression');
         discard();
         no_space();
+        edge();
         if (nexttoken.id === 'function') {
             nexttoken.immed = true;
         }
         var v = expression(0);
+        v.paren = true;
         no_space();
         step_out(')', this);
         discard();
         if (v.id === 'function') {
             if (nexttoken.id === '(') {
-                warning(
-                    "Move the invocation into the parens that contain the function.",
-                    nexttoken
-                );
+                warning(bundle.move_invocation);
             } else {
-                warning(
-                    "Do not wrap function literals in parens unless they are to be immediately invoked.",
-                    this
-                );
+                warning(bundle.bad_wrap, this);
             }
         }
         return v;
@@ -3502,22 +3668,22 @@ loop:   for (;;) {
         that.second = token;
         if (left && left.value === 'arguments' &&
                 (m === 'callee' || m === 'caller')) {
-            warning("Avoid arguments.{a}.", left, m);
+            warning(bundle.avoid_a, left, 'arguments.' + m);
         } else if (!option.evil && left && left.value === 'document' &&
                 (m === 'write' || m === 'writeln')) {
-            warning("document.write can be a form of eval.", left);
+            warning(bundle.write_is_wrong, left);
         } else if (option.adsafe) {
             if (left && left.value === 'ADSAFE') {
                 if (m === 'id' || m === 'lib') {
-                    warning("ADsafe violation.", that);
+                    warning(bundle.adsafe, that);
                 } else if (m === 'go') {
                     if (xmode !== 'script') {
-                        warning("ADsafe violation.", that);
+                        warning(bundle.adsafe, that);
                     } else if (adsafe_went || nexttoken.id !== '(' ||
                             peek(0).id !== '(string)' ||
                             peek(0).value !== adsafe_id ||
                             peek(1).id !== ',') {
-                        error("ADsafe violation: go.", that);
+                        error(bundle.adsafe_a, that, 'go');
                     }
                     adsafe_went = true;
                     adsafe_may = false;
@@ -3525,11 +3691,11 @@ loop:   for (;;) {
             }
         }
         if (!option.evil && (m === 'eval' || m === 'execScript')) {
-            warning('eval is evil.');
+            warning(bundle.evil);
         } else if (option.safe) {
             for (;;) {
                 if (banned[m] === true) {
-                    warning("ADsafe restricted word '{a}'.", token, m);
+                    warning(bundle.adsafe_a, token, m);
                 }
                 if (typeof predefined[left.value] !== 'boolean' ||
                         nexttoken.id === '(') {
@@ -3537,12 +3703,12 @@ loop:   for (;;) {
                 }
                 if (standard_member[m] === true) {
                     if (nexttoken.id === '.') {
-                        warning("ADsafe violation.", that);
+                        warning(bundle.adsafe, that);
                     }
                     break;
                 }
                 if (nexttoken.id !== '.') {
-                    warning("ADsafe violation.", that);
+                    warning(bundle.adsafe, that);
                     break;
                 }
                 advance('.');
@@ -3564,27 +3730,26 @@ loop:   for (;;) {
         step_in();
         edge();
         var e = expression(0), s;
-        if (e && e.type === '(string)') {
+        if (e.type === '(string)') {
             if (option.safe && banned[e.value] === true) {
-                warning("ADsafe restricted word '{a}'.", that, e.value);
+                warning(bundle.adsafe_a, e);
             } else if (!option.evil &&
                     (e.value === 'eval' || e.value === 'execScript')) {
-                warning("eval is evil.", that);
+                warning(bundle.evil, e);
             } else if (option.safe &&
                     (e.value.charAt(0) === '_' || e.value.charAt(0) === '-')) {
-                warning("ADsafe restricted subscript '{a}'.", that, e.value);
+                warning(bundle.adsafe_subscript_a, e);
             }
             countMember(e.value);
             if (!option.sub && ix.test(e.value)) {
                 s = syntax[e.value];
                 if (!s || !s.reserved) {
-                    warning("['{a}'] is better written in dot notation.",
-                        e, e.value);
+                    warning(bundle.subscript, e);
                 }
             }
-        } else if (!e || e.type !== '(number)' || e.value < 0) {
+        } else if (e.type !== '(number)' || e.value < 0) {
             if (option.safe) {
-                warning('ADsafe subscripting.');
+                warning(bundle.adsafe_subscript_a, e);
             }
         }
         step_out(']', that);
@@ -3600,7 +3765,7 @@ loop:   for (;;) {
         step_in('array');
         while (nexttoken.id !== '(end)') {
             while (nexttoken.id === ',') {
-                warning("Extra comma.");
+                warning(bundle.unexpected_a, nexttoken);
                 advance(',');
             }
             if (nexttoken.id === ']') {
@@ -3611,7 +3776,7 @@ loop:   for (;;) {
             if (nexttoken.id === ',') {
                 comma();
                 if (nexttoken.id === ']' && !option.es5) {
-                    warning("Extra comma.", token);
+                    warning(bundle.unexpected_a, token);
                     break;
                 }
             } else {
@@ -3632,8 +3797,7 @@ loop:   for (;;) {
                 if (option.adsafe &&
                         (id.charAt(0) === '_' ||
                         id.charAt(id.length - 1) === '_')) {
-                    warning("Unexpected {a} in '{b}'.", token,
-                        "dangling '_'", id);
+                    warning(bundle.dangling_a, token);
                 }
                 advance();
             } else if (nexttoken.id === '(number)') {
@@ -3696,7 +3860,6 @@ loop:   for (;;) {
         func.block = block(false);
 
         scope = s;
-        funct['(last)'] = token.line;
         funct = funct['(context)'];
         return func;
     }
@@ -3715,7 +3878,7 @@ loop:   for (;;) {
             edge();
             if (nexttoken.value === 'get' && peek().id !== ':') {
                 if (!option.es5) {
-                    warning("get/set are ES5 features.");
+                    warning(bundle.get_set);
                 }
                 get = nexttoken;
                 one_space_only();
@@ -3723,15 +3886,15 @@ loop:   for (;;) {
                 name = nexttoken;
                 i = property_name();
                 if (!i) {
-                    error("Missing property name.");
+                    error(bundle.missing_property);
                 }
                 doFunction(get, '');
                 if (funct['(loopage)']) {
-                    warning("Don't make functions within a loop.", t);
+                    warning(bundle.function_loop, t);
                 }
                 p = get.first;
                 if (p) {
-                    warning("Unexpected parameter '{a}' in get {b} function.", t, p[0], i);
+                    warning(bundle.parameter_a_get_b, t, p[0], i);
                 }
                 comma();
                 set = nexttoken;
@@ -3741,19 +3904,19 @@ loop:   for (;;) {
                 one_space_only();
                 j = property_name();
                 if (i !== j) {
-                    error("Expected '{a}' and instead saw '{b}'.", token, i, j);
+                    error(bundle.expected_a_b, token, i, j);
                 }
                 doFunction(set, '');
                 p = set.first;
                 if (!p || p.length !== 1 || p[0] !== 'value') {
-                    warning("Expected (value) in set {a} function.", t, i);
+                    warning(bundle.parameter_set_a, t, i);
                 }
                 name.first = [get, set];
             } else {
                 name = nexttoken;
                 i = property_name();
                 if (typeof i !== 'string') {
-                    error("Missing property name.");
+                    error(bundle.missing_property);
                 }
                 advance(':');
                 discard();
@@ -3762,7 +3925,7 @@ loop:   for (;;) {
             }
             this.first.push(name);
             if (seen[i] === true) {
-                warning("Duplicate member '{a}'.", nexttoken, i);
+                warning(bundle.duplicate_a, nexttoken, i);
             }
             seen[i] = true;
             countMember(i);
@@ -3774,10 +3937,10 @@ loop:   for (;;) {
                 if (nexttoken.id !== ',') {
                     break;
                 }
-                warning("Extra comma.");
+                warning(bundle.unexpected_a, nexttoken);
             }
             if (nexttoken.id === '}' && !option.es5) {
-                warning("Extra comma.", token);
+                warning(bundle.unexpected_a, token);
             }
         }
         step_out('}', this);
@@ -3787,11 +3950,11 @@ loop:   for (;;) {
 
     stmt('{', function () {
         discard();
-        warning("Expected to see a statement and instead saw a block.");
+        warning(bundle.statement_block);
         this.arity = 'statement';
         this.block = statements();
         this.disrupt = this.block.disrupt;
-        advance('}');
+        advance('}', this);
         discard();
         return this;
     });
@@ -3808,7 +3971,7 @@ loop:   for (;;) {
         var assign, id, name;
 
         if (funct['(onevar)'] && option.onevar) {
-            warning("Too many var statements.");
+            warning(bundle.combine_var);
         } else if (!funct['(global)']) {
             funct['(onevar)'] = true;
         }
@@ -3816,12 +3979,10 @@ loop:   for (;;) {
         this.first = [];
         step_in('var');
         for (;;) {
-            spaces();
-            edge();
             name = nexttoken;
             id = identifier();
             if (funct['(global)'] && predefined[id] === false) {
-                warning("Redefinition of '{a}'.", token, id);
+                warning(bundle.redefinition_a, token, id);
             }
             addlabel(id, 'unused');
 
@@ -3832,11 +3993,10 @@ loop:   for (;;) {
                 advance('=');
                 spaces();
                 if (nexttoken.id === 'undefined') {
-                    warning("It is not necessary to initialize '{a}' to 'undefined'.", token, id);
+                    warning(bundle.unnecessary_initialize, token, id);
                 }
                 if (peek(0).id === '=' && nexttoken.identifier) {
-                    error("Variable {a} was not declared correctly.",
-                        nexttoken, nexttoken.value);
+                    error(bundle.var_a_not);
                 }
                 assign.second = expression(0);
                 assign.arity = 'infix';
@@ -3854,6 +4014,8 @@ loop:   for (;;) {
                 indent.open = false;
                 indent.at -= option.indent;
             }
+            spaces();
+            edge();
         }
         var_mode = false;
         step_out();
@@ -3863,10 +4025,7 @@ loop:   for (;;) {
     stmt('function', function () {
         one_space();
         if (inblock) {
-            warning(
-                "Function statements should not be placed in blocks. Use a function expression or move the statement to the top of the outer function.",
-                token
-            );
+            warning(bundle.function_block, token);
         }
         var i = identifier();
         if (i) {
@@ -3875,7 +4034,7 @@ loop:   for (;;) {
         }
         doFunction(this, i, true);
         if (nexttoken.id === '(' && nexttoken.line === token.line) {
-            error("Function statements are not invocable. Wrap the whole function invocation in parens.");
+            error(bundle.function_statement);
         }
         this.arity = 'statement';
         return this;
@@ -3889,7 +4048,7 @@ loop:   for (;;) {
         }
         doFunction(this, i);
         if (funct['(loopage)']) {
-            warning("Don't make functions within a loop.");
+            warning(bundle.function_loop);
         }
         this.arity = 'function';
         return this;
@@ -3933,7 +4092,7 @@ loop:   for (;;) {
 
         var b, e, s, t;
         if (option.adsafe) {
-            warning("ADsafe try violation.", this);
+            warning(bundle.adsafe_a, this);
         }
         one_space();
         this.arity = 'statement';
@@ -3953,8 +4112,7 @@ loop:   for (;;) {
             e = nexttoken.value;
             this.first = e;
             if (nexttoken.type !== '(identifier)') {
-                warning("Expected an identifier and instead saw '{a}'.",
-                    nexttoken, e);
+                warning(bundle.expected_identifier_a, nexttoken);
             } else {
                 addlabel(e, 'exception');
             }
@@ -3976,8 +4134,7 @@ loop:   for (;;) {
             one_space();
             this.third = block(false);
         } else if (!b) {
-            error("Expected '{a}' and instead saw '{b}'.",
-                nexttoken, 'catch', nexttoken.value);
+            error(bundle.expected_a_b, nexttoken, 'catch', nexttoken.value);
         }
         return this;
     });
@@ -4001,7 +4158,7 @@ loop:   for (;;) {
         one_space();
         this.block = block(true);
         if (this.block.disrupt) {
-            warning("Strange loop.", prevtoken);
+            warning(bundle.strange_loop, prevtoken);
         }
         funct['(breakage)'] -= 1;
         funct['(loopage)'] -= 1;
@@ -4032,7 +4189,7 @@ loop:   for (;;) {
         no_space();
         step_out(')', t);
         discard();
-        one_space_only();
+        one_space();
         advance('{');
         step_in();
         this.second = [];
@@ -4065,15 +4222,15 @@ loop:   for (;;) {
                         b = false;
                     }
                 } else {
-                    warning("Missing break after case.");
+                    warning(bundle.missing_a_after_b, nexttoken, 'break', 'case');
                 }
             } else {
-                warning("Empty case");
+                warning(bundle.empty_case);
             }
             this.second.push(t);
         }
         if (this.second.length === 0) {
-            warning("switch without cases.");
+            warning(bundle.missing_a, nexttoken, 'case');
         }
         if (nexttoken.id === 'default') {
             spaces();
@@ -4102,7 +4259,7 @@ loop:   for (;;) {
 
     stmt('debugger', function () {
         if (!option.debug) {
-            warning("All 'debugger' statements should be removed.");
+            warning(bundle.unexpected_a, this);
         }
         this.arity = 'statement';
         return this;
@@ -4115,13 +4272,13 @@ loop:   for (;;) {
         this.arity = 'statement';
         this.block = block(true);
         if (this.block.disrupt) {
-            warning("Strange loop.", prevtoken);
+            warning(bundle.strange_loop, prevtoken);
         }
         one_space();
         advance('while');
         discard();
         var t = nexttoken;
-        one_space_only();
+        one_space();
         advance('(');
         step_in();
         discard();
@@ -4147,7 +4304,7 @@ loop:   for (;;) {
         spaces(this, t);
         no_space();
         if (nexttoken.id === 'var') {
-            error("Move 'var' declarations to the top of the function.");
+            error(bundle.move_var);
         }
         edge();
         if (peek(0).id === 'in') {
@@ -4159,7 +4316,7 @@ loop:   for (;;) {
             case 'var':
                 break;
             default:
-                warning("Bad for in variable '{a}'.", v, v.value);
+                warning(bundle.bad_in_a, v);
             }
             advance();
             i = nexttoken;
@@ -4172,7 +4329,7 @@ loop:   for (;;) {
             s = block(true);
             if (!f && (s.length > 1 || typeof s[0] !== 'object' ||
                     s[0].value !== 'if' || s[0].first.id === 'true')) {
-                warning("The body of a for in should be wrapped in an if statement to filter unwanted properties from the prototype.", this);
+                warning(bundle.for_if, this);
             }
         } else {
             if (nexttoken.id !== ';') {
@@ -4193,7 +4350,7 @@ loop:   for (;;) {
             }
             semicolon(token);
             if (nexttoken.id === ';') {
-                error("Expected '{a}' and instead saw '{b}'.", nexttoken, ')', ';');
+                error(bundle.expected_a_b, nexttoken, ')', ';');
             }
             if (nexttoken.id !== ')') {
                 this.third = [];
@@ -4213,7 +4370,7 @@ loop:   for (;;) {
             s = block(true);
         }
         if (s.disrupt) {
-            warning("Strange loop.", prevtoken);
+            warning(bundle.strange_loop, prevtoken);
         }
         this.block = s;
         funct['(breakage)'] -= 1;
@@ -4226,14 +4383,14 @@ loop:   for (;;) {
         var v = nexttoken.value;
         this.arity = 'statement';
         if (funct['(breakage)'] === 0) {
-            warning("Unexpected '{a}'.", nexttoken, this.value);
+            warning(bundle.unexpected_a, this);
         }
         if (nexttoken.identifier && token.line === nexttoken.line) {
             one_space_only();
             if (funct[v] !== 'label') {
-                warning("'{a}' is not a label.", nexttoken, v);
+                warning(bundle.not_a_label, nexttoken);
             } else if (scope[v] !== funct) {
-                warning("'{a}' is out of scope.", nexttoken, v);
+                warning(bundle.not_a_scope, nexttoken);
             }
             this.first = nexttoken;
             advance();
@@ -4246,14 +4403,14 @@ loop:   for (;;) {
         var v = nexttoken.value;
         this.arity = 'statement';
         if (funct['(breakage)'] === 0) {
-            warning("Unexpected '{a}'.", nexttoken, this.value);
+            warning(bundle.unexpected_a, this);
         }
         if (nexttoken.identifier && token.line === nexttoken.line) {
             one_space_only();
             if (funct[v] !== 'label') {
-                warning("'{a}' is not a label.", nexttoken, v);
+                warning(bundle.not_a_label, nexttoken);
             } else if (scope[v] !== funct) {
-                warning("'{a}' is out of scope.", nexttoken, v);
+                warning(bundle.not_a_scope, nexttoken);
             }
             this.first = nexttoken;
             advance();
@@ -4267,7 +4424,7 @@ loop:   for (;;) {
         if (nexttoken.id !== ';' && nexttoken.line === token.line) {
             one_space_only();
             if (nexttoken.id === '/' || nexttoken.id === '(regexp)') {
-                warning("Wrap the /regexp/ literal in parens to disambiguate the slash operator.");
+                warning(bundle.wrap_regexp);
             }
             this.first = expression(20);
         }
@@ -4315,25 +4472,18 @@ loop:   for (;;) {
             var o = {}, t = nexttoken;
             advance('{');
             if (nexttoken.id !== '}') {
-                for (;;) {
-                    if (nexttoken.id === '(end)') {
-                        error("Missing '}' to match '{' from line {a}.",
-                            nexttoken, t.line);
-                    } else if (nexttoken.id === '}') {
-                        warning("Unexpected comma.", token);
-                        break;
-                    } else if (nexttoken.id === ',') {
-                        error("Unexpected comma.", nexttoken);
-                    } else if (nexttoken.id !== '(string)') {
-                        warning("Expected a string and instead saw {a}.",
-                            nexttoken, nexttoken.value);
+                while (nexttoken.id !== '(end)') {
+                    while (nexttoken.id === ',') {
+                        warning(bundle.unexpected_a, nexttoken);
+                        comma();
+                    }
+                    if (nexttoken.id !== '(string)') {
+                        warning(bundle.expected_string_a);
                     }
                     if (o[nexttoken.value] === true) {
-                        warning("Duplicate key '{a}'.",
-                            nexttoken, nexttoken.value);
+                        warning(bundle.duplicate_a);
                     } else if (nexttoken.value === '__proto__') {
-                        warning("Stupid key '{a}'.",
-                            nexttoken, nexttoken.value);
+                        warning(bundle.dangling_a);
                     } else {
                         o[nexttoken.value] = true;
                     }
@@ -4343,34 +4493,37 @@ loop:   for (;;) {
                     if (nexttoken.id !== ',') {
                         break;
                     }
-                    advance(',');
+                    comma();
+                    if (nexttoken.id === '}') {
+                        warning(bundle.unexpected_a, token);
+                        break;
+                    }  
                 }
             }
-            advance('}');
+            advance('}', t);
         }
 
         function jsonArray() {
             var t = nexttoken;
             advance('[');
             if (nexttoken.id !== ']') {
-                for (;;) {
-                    if (nexttoken.id === '(end)') {
-                        error("Missing ']' to match '[' from line {a}.",
-                            nexttoken, t.line);
-                    } else if (nexttoken.id === ']') {
-                        warning("Unexpected comma.", token);
-                        break;
-                    } else if (nexttoken.id === ',') {
-                        error("Unexpected comma.", nexttoken);
+                while (nexttoken.id !== '(end)') {
+                    while (nexttoken.id === ',') {
+                        warning(bundle.unexpected_a, nexttoken);
+                        comma();
                     }
                     jsonValue();
                     if (nexttoken.id !== ',') {
                         break;
                     }
-                    advance(',');
+                    comma();
+                    if (nexttoken.id === ']') {
+                        warning(bundle.unexpected_a, token);
+                        break;
+                    } 
                 }
             }
-            advance(']');
+            advance(']', t);
         }
 
         switch (nexttoken.id) {
@@ -4389,14 +4542,11 @@ loop:   for (;;) {
             break;
         case '-':
             advance('-');
-            if (token.thru !== nexttoken.from) {
-                warning("Unexpected space after '-'.", token);
-            }
             no_space_only();
             advance('(number)');
             break;
         default:
-            error("Expected a JSON value.", nexttoken);
+            error(bundle.unexpected_a);
         }
     }
 
@@ -4431,11 +4581,12 @@ loop:   for (;;) {
     }
 
     function cssColor() {
-        var i, number, value;
+        var i, number, t, value;
         if (nexttoken.identifier) {
             value = nexttoken.value;
             if (value === 'rgb' || value === 'rgba') {
                 advance();
+                t = nexttoken;
                 advance('(');
                 for (i = 0; i < 3; i += 1) {
                     if (i) {
@@ -4443,21 +4594,18 @@ loop:   for (;;) {
                     }
                     number = nexttoken.value;
                     if (nexttoken.type !== '(number)' || number < 0) {
-                        warning("Expected a positive number and instead saw '{a}'",
-                            nexttoken, number);
+                        warning(bundle.expected_positive_a, nexttoken);
                         advance();
                     } else {
                         advance();
                         if (nexttoken.id === '%') {
                             advance('%');
                             if (number > 100) {
-                                warning("Expected a percentage and instead saw '{a}'",
-                                    token, number);
+                                warning(bundle.expected_percent_a, token, number);
                             }
                         } else {
                             if (number > 255) {
-                                warning("Expected a small number and instead saw '{a}'",
-                                    token, number);
+                                warning(bundle.expected_small_a, token, number);
                             }
                         }
                     }
@@ -4466,16 +4614,15 @@ loop:   for (;;) {
                     comma();
                     number = +nexttoken.value;
                     if (nexttoken.type !== '(number)' || number < 0 || number > 1) {
-                        warning("Expected a number between 0 and 1 and instead saw '{a}'",
-                            nexttoken, number);
+                        warning(bundle.expected_fraction_a, nexttoken);
                     }
                     advance();
                     if (nexttoken.id === '%') {
-                        warning("Unexpected '%'.");
+                        warning(bundle.unexpected_a);
                         advance('%');
                     }
                 }
-                advance(')');
+                advance(')', t);
                 return true;
             } else if (cssColorData[nexttoken.value] === true) {
                 advance();
@@ -4501,8 +4648,7 @@ loop:   for (;;) {
                 no_space_only();
                 advance();
             } else if (+token.value !== 0) {
-                warning("Expected a linear unit and instead saw '{a}'.",
-                    nexttoken, nexttoken.value);
+                warning(bundle.expected_linear_a);
             }
             return true;
         }
@@ -4559,8 +4705,7 @@ loop:   for (;;) {
             advance();
             advance('(');
             if (!nexttoken.identifier) {
-                warning("Expected a name and instead saw '{a}'.",
-                    nexttoken, nexttoken.value);
+                warning(bundle.expected_name_a);
             }
             advance();
             advance(')');
@@ -4573,8 +4718,7 @@ loop:   for (;;) {
     function cssCommaList() {
         while (nexttoken.id !== ';') {
             if (!cssName() && !cssString()) {
-                warning("Expected a name and instead saw '{a}'.",
-                    nexttoken, nexttoken.value);
+                warning(bundle.expected_name_a);
             }
             if (nexttoken.id !== ',') {
                 return true;
@@ -4592,8 +4736,7 @@ loop:   for (;;) {
             if (nexttoken.id === ',') {
                 comma();
                 if (nexttoken.type !== '(string)') {
-                    warning("Expected a string and instead saw '{a}'.",
-                        nexttoken, nexttoken.value);
+                    warning(bundle.expected_string_a);
                 }
                 advance();
             }
@@ -4604,23 +4747,20 @@ loop:   for (;;) {
             advance();
             advance('(');
             if (!nexttoken.identifier) {
-                warning("Expected a name and instead saw '{a}'.",
-                    nexttoken, nexttoken.value);
+                warning(bundle.expected_name_a);
             }
             advance();
             if (nexttoken.id === ',') {
                 comma();
                 if (nexttoken.type !== '(string)') {
-                    warning("Expected a string and instead saw '{a}'.",
-                        nexttoken, nexttoken.value);
+                    warning(bundle.expected_string_a);
                 }
                 advance();
             }
             if (nexttoken.id === ',') {
                 comma();
                 if (nexttoken.type !== '(string)') {
-                    warning("Expected a string and instead saw '{a}'.",
-                        nexttoken, nexttoken.value);
+                    warning(bundle.expected_string_a);
                 }
                 advance();
             }
@@ -4638,8 +4778,7 @@ loop:   for (;;) {
             advance('(');
             for (i = 0; i < 4; i += 1) {
                 if (!cssLength()) {
-                    warning("Expected a number and instead saw '{a}'.",
-                        nexttoken, nexttoken.value);
+                    warning(bundle.expected_number_a);
                     break;
                 }
             }
@@ -4658,22 +4797,22 @@ loop:   for (;;) {
             c = url.charAt(0);
             if (c === '"' || c === '\'') {
                 if (url.slice(-1) !== c) {
-                    warning("Bad url string.");
+                    warning(bundle.bad_url);
                 } else {
                     url = url.slice(1, -1);
                     if (url.indexOf(c) >= 0) {
-                        warning("Bad url string.");
+                        warning(bundle.bad_url);
                     }
                 }
             }
             if (!url) {
-                warning("Missing url.");
+                warning(bundle.missing_url);
             }
-            advance();
             if (option.safe && ux.test(url)) {
-                error("ADsafe URL violation.");
+                error(bundle.adsafe_a, nexttoken, url);
             }
             urls.push(url);
+            advance();
             return true;
         }
         return false;
@@ -4688,8 +4827,7 @@ loop:   for (;;) {
                     cssUrl();
                     break;
                 case 'expression':
-                    warning("Unexpected expression '{a}'.",
-                        nexttoken, nexttoken.value);
+                    warning(bundle.unexpected_a);
                     advance();
                     break;
                 default:
@@ -4908,36 +5046,30 @@ loop:   for (;;) {
         while (nexttoken.id === '*' || nexttoken.id === '#' ||
                 nexttoken.value === '_') {
             if (!option.css) {
-                warning("Unexpected '{a}'.", nexttoken, nexttoken.value);
+                warning(bundle.unexpected_a);
             }
             advance();
         }
         if (nexttoken.id === '-') {
             if (!option.css) {
-                warning("Unexpected '{a}'.", nexttoken, nexttoken.value);
+                warning(bundle.unexpected_a);
             }
             advance('-');
             if (!nexttoken.identifier) {
-                warning(
-                    "Expected a non-standard style attribute and instead saw '{a}'.",
-                    nexttoken,
-                    nexttoken.value
-                );
+                warning(bundle.expected_nonstandard_style_attribute);
             }
             advance();
             return cssAny;
         } else {
             if (!nexttoken.identifier) {
-                warning("Excepted a style attribute, and instead saw '{a}'.",
-                    nexttoken, nexttoken.value);
+                warning(bundle.expected_style_attribute);
             } else {
                 if (is_own(cssAttributeData, nexttoken.value)) {
                     v = cssAttributeData[nexttoken.value];
                 } else {
                     v = cssAny;
                     if (!option.css) {
-                        warning("Unrecognized style attribute '{a}'.",
-                            nexttoken, nexttoken.value);
+                        warning(bundle.unrecognized_style_attribute_a);
                     }
                 }
             }
@@ -5034,7 +5166,7 @@ loop:   for (;;) {
                 return;
             }
         }
-        warning("Unexpected token '{a}'.", nexttoken, nexttoken.value);
+        warning(bundle.unexpected_a);
     }
 
     function substyle() {
@@ -5045,7 +5177,7 @@ loop:   for (;;) {
                 return;
             }
             while (nexttoken.id === ';') {
-                warning("Misplaced ';'.");
+                warning(bundle.unexpected_a);
                 semicolon();
             }
             v = styleAttribute();
@@ -5054,8 +5186,7 @@ loop:   for (;;) {
                 advance();
             } else {
                 if (!styleValue(v)) {
-                    warning("Unexpected token '{a}'.", nexttoken,
-                        nexttoken.value);
+                    warning(bundle.unexpected_a);
                     advance();
                 }
             }
@@ -5065,12 +5196,12 @@ loop:   for (;;) {
                 if (nexttoken.identifier && nexttoken.value === 'important') {
                     advance();
                 } else {
-                    warning("Expected '{a}' and instead saw '{b}'.",
+                    warning(bundle.expected_a_b,
                         nexttoken, 'important', nexttoken.value);
                 }
             }
             if (nexttoken.id === '}' || nexttoken.id === xquote) {
-                warning("Missing '{a}'.", nexttoken, ';');
+                warning(bundle.expected_a_b, nexttoken, ';', nexttoken.value);
             } else {
                 semicolon();
             }
@@ -5081,8 +5212,7 @@ loop:   for (;;) {
         if (nexttoken.identifier) {
             if (!is_own(htmltag, option.cap ?
                     nexttoken.value.toLowerCase() : nexttoken.value)) {
-                warning("Expected a tagName, and instead saw {a}.",
-                    nexttoken, nexttoken.value);
+                warning(bundle.expected_tagname_a);
             }
             advance();
         } else {
@@ -5121,8 +5251,7 @@ loop:   for (;;) {
                     advance();
                     advance('(');
                     if (!nexttoken.identifier) {
-                        warning("Expected a lang code, and instead saw :{a}.",
-                            nexttoken, nexttoken.value);
+                        warning(bundle.expected_lang_a);
                     }
                     advance(')');
                     break;
@@ -5139,21 +5268,19 @@ loop:   for (;;) {
                     advance();
                     advance('(');
                     if (nexttoken.id === ':' && peek(0).value === 'not') {
-                        warning("Nested not.");
+                        warning(bundle.not);
                     }
                     styleSelector();
                     advance(')');
                     break;
                 default:
-                    warning("Expected a pseudo, and instead saw :{a}.",
-                        nexttoken, nexttoken.value);
+                    warning(bundle.expected_pseudo_a);
                 }
                 break;
             case '#':
                 advance('#');
                 if (!nexttoken.identifier) {
-                    warning("Expected an id, and instead saw #{a}.",
-                        nexttoken, nexttoken.value);
+                    warning(bundle.expected_id_a);
                 }
                 advance();
                 break;
@@ -5163,16 +5290,14 @@ loop:   for (;;) {
             case '.':
                 advance('.');
                 if (!nexttoken.identifier) {
-                    warning("Expected a class, and instead saw #.{a}.",
-                        nexttoken, nexttoken.value);
+                    warning(bundle.expected_class_a);
                 }
                 advance();
                 break;
             case '[':
                 advance('[');
                 if (!nexttoken.identifier) {
-                    warning("Expected an attribute, and instead saw [{a}].",
-                        nexttoken, nexttoken.value);
+                    warning(bundle.expected_attribute_a);
                 }
                 advance();
                 if (nexttoken.id === '=' || nexttoken.value === '~=' ||
@@ -5182,24 +5307,21 @@ loop:   for (;;) {
                         nexttoken.id === '^=') {
                     advance();
                     if (nexttoken.type !== '(string)') {
-                        warning("Expected a string, and instead saw {a}.",
-                            nexttoken, nexttoken.value);
+                        warning(bundle.expected_string_a);
                     }
                     advance();
                 }
                 advance(']');
                 break;
             default:
-                error("Expected a CSS selector, and instead saw {a}.",
-                    nexttoken, nexttoken.value);
+                error(bundle.expected_selector_a);
             }
         }
     }
 
     function stylePattern() {
         if (nexttoken.id === '{') {
-            warning("Expected a style pattern, and instead saw '{a}'.", nexttoken,
-                nexttoken.id);
+            warning(bundle.expected_style_pattern);
         }
         for (;;) {
             styleSelector();
@@ -5238,7 +5360,7 @@ loop:   for (;;) {
                 case 'import':
                     advance();
                     if (!cssUrl()) {
-                        warning("Expected '{a}' and instead saw '{b}'.",
+                        warning(bundle.expected_a_b,
                             nexttoken, 'url', nexttoken.value);
                         advance();
                     }
@@ -5248,7 +5370,7 @@ loop:   for (;;) {
                     advance();
                     for (;;) {
                         if (!nexttoken.identifier || cssMedia[nexttoken.value] === true) {
-                            error("Expected a CSS media type, and instead saw '{a}'.", nexttoken, nexttoken.id);
+                            error(bundle.expected_media_a);
                         }
                         advance();
                         if (nexttoken.id !== ',') {
@@ -5261,12 +5383,10 @@ loop:   for (;;) {
                     advance('}');
                     break;
                 default:
-                    warning("Expected an at-rule, and instead saw @{a}.",
-                        nexttoken, nexttoken.value);
+                    warning(bundle.expected_at_a);
                 }
             } else {
-                warning("Expected an at-rule, and instead saw '{a}'.",
-                    nexttoken, nexttoken.value);
+                warning(bundle.expected_at_a);
             }
         }
         stylelist();
@@ -5278,25 +5398,21 @@ loop:   for (;;) {
     function doBegin(n) {
         if (n !== 'html' && !option.fragment) {
             if (n === 'div' && option.adsafe) {
-                error("ADSAFE: Use the fragment option.");
+                error(bundle.adsafe_fragment);
             } else {
-                error("Expected '{a}' and instead saw '{b}'.",
-                    token, 'html', n);
+                error(bundle.expected_a_b, token, 'html', n);
             }
         }
         if (option.adsafe) {
             if (n === 'html') {
-                error(
-                    "Currently, ADsafe does not operate on whole HTML documents. It operates on <div> fragments and .js files.",
-                    token
-                );
+                error(bundle.adsafe_html, token);
             }
             if (option.fragment) {
                 if (n !== 'div') {
-                    error("ADsafe violation: Wrap the widget in a div.", token);
+                    error(bundle.adsafe_div, token);
                 }
             } else {
-                error("Use the fragment option.", token);
+                error(bundle.adsafe_fragment, token);
             }
         }
         option.browser = true;
@@ -5308,59 +5424,57 @@ loop:   for (;;) {
         if (a === 'id') {
             u = typeof v === 'string' ? v.toUpperCase() : '';
             if (ids[u] === true) {
-                warning("Duplicate id='{a}'.", nexttoken, v);
+                warning(bundle.duplicate_a, nexttoken, v);
             }
             if (!/^[A-Za-z][A-Za-z0-9._:\-]*$/.test(v)) {
-                warning("Bad id: '{a}'.", nexttoken, v);
+                warning(bundle.bad_id_a, nexttoken, v);
             } else if (option.adsafe) {
                 if (adsafe_id) {
                     if (v.slice(0, adsafe_id.length) !== adsafe_id) {
-                        warning("ADsafe violation: An id must have a '{a}' prefix",
-                            nexttoken, adsafe_id);
+                        warning(bundle.adsafe_prefix_a, nexttoken, adsafe_id);
                     } else if (!/^[A-Z]+_[A-Z]+$/.test(v)) {
-                        warning("ADSAFE violation: bad id.");
+                        warning(bundle.adsafe_bad_id);
                     }
                 } else {
                     adsafe_id = v;
                     if (!/^[A-Z]+_$/.test(v)) {
-                        warning("ADSAFE violation: bad id.");
+                        warning(bundle.adsafe_bad_id);
                     }
                 }
             }
             x = v.search(dx);
             if (x >= 0) {
-                warning("Unexpected character '{a}' in {b}.", token, v.charAt(x), a);
+                warning(bundle.unexpected_char_a_b, token, v.charAt(x), a);
             }
             ids[u] = true;
         } else if (a === 'class' || a === 'type' || a === 'name') {
             x = v.search(qx);
             if (x >= 0) {
-                warning("Unexpected character '{a}' in {b}.", token, v.charAt(x), a);
+                warning(bundle.unexpected_char_a_b, token, v.charAt(x), a);
             }
             ids[u] = true;
         } else if (a === 'href' || a === 'background' ||
                 a === 'content' || a === 'data' ||
                 a.indexOf('src') >= 0 || a.indexOf('url') >= 0) {
             if (option.safe && ux.test(v)) {
-                error("ADsafe URL violation.");
+                error(bundle.bad_url, nexttoken, v);
             }
             urls.push(v);
         } else if (a === 'for') {
             if (option.adsafe) {
                 if (adsafe_id) {
                     if (v.slice(0, adsafe_id.length) !== adsafe_id) {
-                        warning("ADsafe violation: An id must have a '{a}' prefix",
-                            nexttoken, adsafe_id);
+                        warning(bundle.adsafe_prefix_a, nexttoken, adsafe_id);
                     } else if (!/^[A-Z]+_[A-Z]+$/.test(v)) {
-                        warning("ADSAFE violation: bad id.");
+                        warning(bundle.adsafe_bad_id);
                     }
                 } else {
-                    warning("ADSAFE violation: bad id.");
+                    warning(bundle.adsafe_bad_id);
                 }
             }
         } else if (a === 'name') {
             if (option.adsafe && v.indexOf('_') >= 0) {
-                warning("ADsafe name violation.");
+                warning(bundle.adsafe_name_a, nexttoken, v);
             }
         }
     }
@@ -5370,27 +5484,25 @@ loop:   for (;;) {
         src = false;
         if (!t) {
             error(
-                "Unrecognized tag '<{a}>'.",
+                bundle.unrecognized_tag_a,
                 nexttoken,
                 n === n.toLowerCase() ? n : n + ' (capitalization error)'
             );
         }
         if (stack.length > 0) {
             if (n === 'html') {
-                error("Too many <html> tags.", token);
+                error(bundle.unexpected_a, token, n);
             }
             x = t.parent;
             if (x) {
                 if (x.indexOf(' ' + stack[stack.length - 1].name + ' ') < 0) {
-                    error("A '<{a}>' must be within '<{b}>'.",
-                        token, n, x);
+                    error(bundle.tag_a_in_b, token, n, x);
                 }
             } else if (!option.adsafe && !option.fragment) {
                 i = stack.length;
                 do {
                     if (i <= 0) {
-                        error("A '<{a}>' must be within '<{b}>'.",
-                            token, n, 'body');
+                        error(bundle.tag_a_in_b, token, n, 'body');
                     }
                     i -= 1;
                 } while (stack[i].name !== 'body');
@@ -5399,28 +5511,28 @@ loop:   for (;;) {
         switch (n) {
         case 'div':
             if (option.adsafe && stack.length === 1 && !adsafe_id) {
-                warning("ADSAFE violation: missing ID_.");
+                warning(bundle.adsafe_missing_id);
             }
             break;
         case 'script':
             xmode = 'script';
             advance('>');
             if (a.lang) {
-                warning("lang is deprecated.", token);
+                warning(bundle.lang, token);
             }
             if (option.adsafe && stack.length !== 1) {
-                warning("ADsafe script placement violation.", token);
+                warning(bundle.adsafe_placement, token);
             }
             if (a.src) {
                 if (option.adsafe && (!adsafe_may || !approved[a.src])) {
-                    warning("ADsafe unapproved script source.", token);
+                    warning(bundle.adsafe_source, token);
                 }
                 if (a.type) {
-                    warning("type is unnecessary.", token);
+                    warning(bundle.type, token);
                 }
             } else {
                 if (adsafe_went) {
-                    error("ADsafe script violation.", token);
+                    error(bundle.adsafe_script, token);
                 }
                 step_in(nexttoken.from);
                 use_strict();
@@ -5430,8 +5542,7 @@ loop:   for (;;) {
             xmode = 'html';
             advance('</');
             if (!nexttoken.identifier && nexttoken.value !== 'script') {
-                warning("Expected '{a}' and instead saw '{b}'.",
-                    nexttoken, 'script', nexttoken.value);
+                warning(bundle.expected_a_b, nexttoken, 'script', nexttoken.value);
             }
             advance();
             xmode = 'outer';
@@ -5443,8 +5554,7 @@ loop:   for (;;) {
             xmode = 'html';
             advance('</');
             if (!nexttoken.identifier && nexttoken.value !== 'style') {
-                warning("Expected '{a}' and instead saw '{b}'.",
-                    nexttoken, 'style', nexttoken.value);
+                warning(bundle.expected_a_b, nexttoken, 'style', nexttoken.value);
             }
             advance();
             xmode = 'outer';
@@ -5464,11 +5574,11 @@ loop:   for (;;) {
             case 'hidden':
             case 'image':
                 if (option.adsafe && a.autocomplete !== 'off') {
-                    warning("ADsafe autocomplete violation.");
+                    warning(bundle.adsafe_autocomplete);
                 }
                 break;
             default:
-                warning("Bad input type.");
+                warning(bundle.bad_type);
             }
             break;
         case 'applet':
@@ -5483,7 +5593,7 @@ loop:   for (;;) {
         case 'object':
         case 'param':
             if (option.adsafe) {
-                warning("ADsafe violation: Disallowed tag: " + n);
+                warning(bundle.adsafe_tag, nexttoken, n);
             }
             break;
         }
@@ -5507,7 +5617,7 @@ loop:   for (;;) {
                 attributes = {};
                 t = nexttoken;
                 if (!t.identifier) {
-                    warning("Bad identifier {a}.", t, t.value);
+                    warning(bundle.bad_name_a, t);
                 }
                 n = t.value;
                 if (option.cap) {
@@ -5521,7 +5631,7 @@ loop:   for (;;) {
                 }
                 v = htmltag[n];
                 if (typeof v !== 'object') {
-                    error("Unrecognized tag '<{a}>'.", t, n);
+                    error(bundle.unrecognized_tag_a, t, n);
                 }
                 e = v.empty;
                 t.type = n;
@@ -5529,8 +5639,7 @@ loop:   for (;;) {
                     if (nexttoken.id === '/') {
                         advance('/');
                         if (nexttoken.id !== '>') {
-                            warning("Expected '{a}' and instead saw '{b}'.",
-                                nexttoken, '>', nexttoken.value);
+                            warning(bundle.expected_a_b, nexttoken, '>', nexttoken.value);
                         }
                         break;
                     }
@@ -5539,9 +5648,9 @@ loop:   for (;;) {
                     }
                     if (!nexttoken.identifier) {
                         if (nexttoken.id === '(end)' || nexttoken.id === '(error)') {
-                            error("Missing '>'.", nexttoken);
+                            warning(bundle.expected_a_b, nexttoken, '>', nexttoken.value);
                         }
-                        warning("Bad identifier.");
+                        warning(bundle.bad_name_a);
                     }
                     option.white = true;
                     spaces();
@@ -5549,22 +5658,22 @@ loop:   for (;;) {
                     option.white = w;
                     advance();
                     if (!option.cap && a !== a.toLowerCase()) {
-                        warning("Attribute '{a}' not all lower case.", nexttoken, a);
+                        warning(bundle.attribute_case_a, token);
                     }
                     a = a.toLowerCase();
                     xquote = '';
                     if (is_own(attributes, a)) {
-                        warning("Attribute '{a}' repeated.", nexttoken, a);
+                        warning(bundle.duplicate_a, token, a);
                     }
                     if (a.slice(0, 2) === 'on') {
                         if (!option.on) {
-                            warning("Avoid HTML event handlers.");
+                            warning(bundle.html_handlers);
                         }
                         xmode = 'scriptstring';
                         advance('=');
                         q = nexttoken.id;
-                        if (q !== '"' && q !== "'") {
-                            error("Missing quote.");
+                        if (q !== '"' && q !== '\'') {
+                            error(bundle.expected_a_b, nexttoken, '"', nexttoken.value);
                         }
                         xquote = q;
                         wmode = option.white;
@@ -5574,7 +5683,7 @@ loop:   for (;;) {
                         statements('on');
                         option.white = wmode;
                         if (nexttoken.id !== q) {
-                            error("Missing close quote on script attribute.");
+                            error(bundle.expected_a_b, nexttoken, q, nexttoken.value);
                         }
                         xmode = 'html';
                         xquote = '';
@@ -5584,8 +5693,8 @@ loop:   for (;;) {
                         xmode = 'scriptstring';
                         advance('=');
                         q = nexttoken.id;
-                        if (q !== '"' && q !== "'") {
-                            error("Missing quote.");
+                        if (q !== '"' && q !== '\'') {
+                            error(bundle.expected_a_b, nexttoken, '"', nexttoken.value);
                         }
                         xmode = 'styleproperty';
                         xquote = q;
@@ -5605,7 +5714,7 @@ loop:   for (;;) {
                                     nexttoken.type !== '(string)' &&
                                     nexttoken.type !== '(number)' &&
                                     nexttoken.type !== '(color)') {
-                                warning("Expected an attribute value and instead saw '{a}'.", token, a);
+                                warning(bundle.expected_attribute_value_a, token, a);
                             }
                             advance();
                         } else {
@@ -5626,7 +5735,7 @@ loop:   for (;;) {
                 xmode = 'html';
                 advance('</');
                 if (!nexttoken.identifier) {
-                    warning("Bad identifier.");
+                    warning(bundle.bad_name_a);
                 }
                 n = nexttoken.value;
                 if (option.cap) {
@@ -5634,25 +5743,25 @@ loop:   for (;;) {
                 }
                 advance();
                 if (!stack) {
-                    error("Unexpected '{a}'.", nexttoken, closetag(n));
+                    error(bundle.unexpected_a, nexttoken, closetag(n));
                 }
                 t = stack.pop();
                 if (!t) {
-                    error("Unexpected '{a}'.", nexttoken, closetag(n));
+                    error(bundle.unexpected_a, nexttoken, closetag(n));
                 }
                 if (t.name !== n) {
-                    error("Expected '{a}' and instead saw '{b}'.",
+                    error(bundle.expected_a_b,
                         nexttoken, closetag(t.name), closetag(n));
                 }
                 if (nexttoken.id !== '>') {
-                    error("Missing '{a}'.", nexttoken, '>');
+                    error(bundle.expected_a_b, nexttoken, '>', nexttoken.value);
                 }
                 xmode = 'outer';
                 advance('>');
                 break;
             case '<!':
                 if (option.safe) {
-                    warning("ADsafe HTML violation.");
+                    warning(bundle.adsafe_a);
                 }
                 xmode = 'html';
                 for (;;) {
@@ -5661,13 +5770,13 @@ loop:   for (;;) {
                         break;
                     }
                     if (nexttoken.value.indexOf('--') >= 0) {
-                        error("Unexpected --.");
+                        error(bundle.unexpected_a, nexttoken, '--');
                     }
                     if (nexttoken.value.indexOf('<') >= 0) {
-                        error("Unexpected <.");
+                        error(bundle.unexpected_a, nexttoken, '<');
                     }
                     if (nexttoken.value.indexOf('>') >= 0) {
-                        error("Unexpected >.");
+                        error(bundle.unexpected_a, nexttoken, '>');
                     }
                 }
                 xmode = 'outer';
@@ -5677,7 +5786,7 @@ loop:   for (;;) {
                 return;
             default:
                 if (nexttoken.id === '(end)') {
-                    error("Missing '{a}'.", nexttoken,
+                    error(bundle.missing_a, nexttoken,
                         '</' + stack[stack.length - 1].value + '>');
                 } else {
                     advance();
@@ -5689,7 +5798,7 @@ loop:   for (;;) {
             }
         }
         if (nexttoken.id !== '(end)') {
-            error("Unexpected material after the end.");
+            error(bundle.unexpected_a);
         }
     }
 
@@ -5802,7 +5911,7 @@ loop:   for (;;) {
             if (nexttoken.value.charAt(0) === '<') {
                 html();
                 if (option.adsafe && !adsafe_went) {
-                    warning("ADsafe violation: Missing ADSAFE.go.", this);
+                    warning(bundle.adsafe_go, this);
                 }
             } else {
                 switch (nexttoken.id) {
@@ -5821,12 +5930,12 @@ loop:   for (;;) {
                     if (token.id !== '@' || !nexttoken.identifier ||
                             nexttoken.value !== 'charset' || token.line !== 1 ||
                             token.from !== 1) {
-                        error("A css file should begin with @charset 'UTF-8';");
+                        error(bundle.css);
                     }
                     advance();
                     if (nexttoken.type !== '(string)' &&
                             nexttoken.value !== 'UTF-8') {
-                        error("A css file should begin with @charset 'UTF-8';");
+                        error(bundle.css);
                     }
                     advance();
                     semicolon();
@@ -5835,7 +5944,7 @@ loop:   for (;;) {
 
                 default:
                     if (option.adsafe && option.fragment) {
-                        error("Expected '{a}' and instead saw '{b}'.",
+                        error(bundle.expected_a_b,
                             nexttoken, '<div>', nexttoken.value);
                     }
 
@@ -5848,12 +5957,12 @@ loop:   for (;;) {
                         semicolon();
                     }
                     if (nexttoken.value === 'use strict') {
-                        warning("Use the function form of \"use strict\".");
+                        warning(bundle.function_strict);
                         use_strict();
                     }
                     JSLINT.tree = statements('lib');
                     if (JSLINT.tree.disrupt) {
-                        warning("Weird program.", prevtoken);
+                        warning(bundle.weird_program, prevtoken);
                     }
                 }
             }
@@ -5948,7 +6057,6 @@ loop:   for (;;) {
             fu.name = f['(name)'];
             fu.param = f['(params)'];
             fu.line = f['(line)'];
-            fu.last = f['(last)'];
             data.functions.push(fu);
         }
 
@@ -5970,7 +6078,7 @@ loop:   for (;;) {
     itself.report = function (option) {
         var data = itself.data();
 
-        var a = [], c, e, err, f, i, k, l, m = '', n, o = [], s;
+        var a = [], c, e, err, f, i, j, k, l, m = '', n, names, o = [], s;
 
         function detail(h, array) {
             var b, i, singularity;
@@ -6051,10 +6159,14 @@ loop:   for (;;) {
 
             for (i = 0; i < data.functions.length; i += 1) {
                 f = data.functions[i];
-
-                o.push('<br><div class=function><i>' + f.line + '-' +
-                    f.last + '</i> ' + (f.name || '') + '(' +
-                    (f.param ? f.param.join(', ') : '') + ')</div>');
+                names = [];
+                if (f.param) {
+                    for (j = 0; j < f.param.length; j += 1) {
+                        names[j] = f.param[j].value;
+                    }
+                }
+                o.push('<br><div class=function><i>' + f.line + '</i> ' + 
+                    (f.name || '') + '(' + names.join(', ') + ')</div>');
                 detail('<big><b>Unused</b></big>', f.unused);
                 detail('Closure', f.closure);
                 detail('Variable', f['var']);
@@ -6096,7 +6208,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2011-01-21';
+    itself.edition = '2011-01-26';
 
     return itself;
 

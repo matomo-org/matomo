@@ -884,6 +884,9 @@ var
 				// Default is user agent defined.
 				configCookiePath,
 
+				// Do Not Track
+				configDoNotTrack,
+
 				// Do we attribute the conversion to the first referrer or the most recent referrer?
 				configConversionAttributionFirstReferrer,
 
@@ -1018,13 +1021,15 @@ var
 			function sendRequest(request, delay) {
 				var now = new Date();
 
-				if (configRequestMethod === 'POST') {
-					sendXmlHttpRequest(request);
-				} else {
-					getImage(request);
-				}
+				if (!configDoNotTrack || !navigatorAlias.doNotTrack) {
+					if (configRequestMethod === 'POST') {
+						sendXmlHttpRequest(request);
+					} else {
+						getImage(request);
+					}
 
-				expireDateTime = now.getTime() + delay;
+					expireDateTime = now.getTime() + delay;
+				}
 			}
 
 			/*
@@ -1133,11 +1138,20 @@ var
 					idname = getCookieName('id'),
 					sesname = getCookieName('ses'),
 					refname = getCookieName('ref'),
+					cvarname = getCookieName('cvar'),
 					id = getCookie(idname),
 					ses = getCookie(sesname),
 					ref = getCookie(refname),
 					secure = documentAlias.location.protocol === 'https',
 					request = '&res=' + screenAlias.width + 'x' + screenAlias.height + '&cookie=' + browserHasCookies;
+
+				if (configDoNotTrack && navigatorAlias.doNotTrack) {
+					setCookie(idname, '', -1, configCookiePath, configCookieDomain);
+					setCookie(sesname, '', -1, configCookiePath, configCookieDomain);
+					setCookie(cvarname, '', -1, configCookiePath, configCookieDomain);
+					setCookie(refname, '', -1, configCookiePath, configCookieDomain);
+					return '';
+				}
 
 				for (i in pluginMap) {
 					request += '&' + pluginMap[i][0] + '=' + pluginMap[i][2];
@@ -1166,8 +1180,8 @@ var
 					// generate a pseudo-unique ID to fingerprint this user;
 					// note: this isn't a RFC4122-compliant UUID
 					uuid = hash(
-						(isDefined(navigatorAlias.userAgent) ? navigatorAlias.userAgent : '') +
-							(isDefined(navigatorAlias.platform) ? navigatorAlias.platform : '') +
+						(navigatorAlias.userAgent || '') +
+							(navigatorAlias.platform || '') +
 							request + Math.round(now.getTime / 1000)
 					).substring(0, 16); // 16 hexits = 64 bits
 
@@ -1222,7 +1236,7 @@ var
 				// update other cookies
 				setCookie(idname, uuid + '.' + createTs + '.' + visitCount + '.' + currentVisitTs + '.' + lastVisitTs, configVisitorCookieTimeout, configCookiePath, configCookieDomain, secure);
 				setCookie(sesname, '*', configSessionCookieTimeout, configCookiePath, configCookieDomain, secure);
-				setCookie(getCookieName('cvar'), customVariablesString, configSessionCookieTimeout, configCookiePath, configCookieDomain, secure);
+				setCookie(cvarname, customVariablesString, configSessionCookieTimeout, configCookiePath, configCookieDomain, secure);
 				
 				// build out the rest of the request
 				request = 'idsite=' + configTrackerSiteId +
@@ -1755,6 +1769,15 @@ var
 				 */
 				setConversionAttributionFirstReferrer: function (enable) {
 					configConversionAttributionFirstReferrer = enable;
+				},
+
+				/**
+				 * Handle do-not-track requests
+				 *
+				 * @param bool enable If true, don't track if user agent sends 'do-not-track' header
+				 */
+				setDoNotTrack: function (enable) {
+					configDoNotTrack = enable;
 				},
 
 				/**
