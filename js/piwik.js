@@ -1021,7 +1021,7 @@ var
 			function sendRequest(request, delay) {
 				var now = new Date();
 
-				if (!configDoNotTrack || !navigatorAlias.doNotTrack) {
+				if (!configDoNotTrack) {
 					if (configRequestMethod === 'POST') {
 						sendXmlHttpRequest(request);
 					} else {
@@ -1145,7 +1145,7 @@ var
 					secure = documentAlias.location.protocol === 'https',
 					request = '&res=' + screenAlias.width + 'x' + screenAlias.height + '&cookie=' + browserHasCookies;
 
-				if (configDoNotTrack && navigatorAlias.doNotTrack) {
+				if (configDoNotTrack) {
 					setCookie(idname, '', -1, configCookiePath, configCookieDomain);
 					setCookie(sesname, '', -1, configCookiePath, configCookieDomain);
 					setCookie(cvarname, '', -1, configCookiePath, configCookieDomain);
@@ -1777,7 +1777,7 @@ var
 				 * @param bool enable If true, don't track if user agent sends 'do-not-track' header
 				 */
 				setDoNotTrack: function (enable) {
-					configDoNotTrack = enable;
+					configDoNotTrack = enable && navigatorAlias.doNotTrack;
 				},
 
 				/**
