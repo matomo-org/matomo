@@ -777,6 +777,34 @@ var
 		 ************************************************************/
 
 		/*
+		 * Fix-up URL when page rendered from search engine cache or translated page
+		 */
+		function urlFixup(hostName, href, referrer) {
+			if (hostName === 'webcache.googleusercontent.com' ||			// Google
+					hostName === 'cc.bingj.com' ||							// Bing
+					hostName.substring(0, 5) === '74.6.') {					// Yahoo (via Inktomi 74.6.0.0/16)
+				href = documentAlias.links[0].href;
+				hostName = getHostName(href);
+			} else if (hostName === 'translate.googleusercontent.com') {	// Google
+				if (referrer === '') {
+					referrer = href;
+				}
+				href = getParameter(href, 'u');
+				hostName = getHostName(href);
+			}
+			return [hostName, href, referrer];
+		}
+
+		/*
+		 * Fix-up domain
+		 */
+		function domainFixup(domain) {
+			var dl = domain.length;
+
+			return (domain.charAt(--dl) === '.') ? domain.substring(0, dl) : domain;
+		}
+
+		/*
 		 * Piwik Tracker class
 		 *
 		 * trackerUrl and trackerSiteId are optional arguments to the constructor
@@ -790,34 +818,6 @@ var
 			 ************************************************************/
 
 			var
-				/*
-				 * Fix-up URL when page rendered from search engine cache or translated page
-				 */
-				urlFixup = function (hostName, href, referrer) {
-					if (hostName === 'webcache.googleusercontent.com' ||			// Google
-							hostName === 'cc.bingj.com' ||							// Bing
-							hostName.substring(0, 5) === '74.6.') {					// Yahoo (via Inktomi 74.6.0.0/16)
-						href = documentAlias.links[0].href;
-						hostName = getHostName(href);
-					} else if (hostName === 'translate.googleusercontent.com') {	// Google
-						if (referrer === '') {
-							referrer = href;
-						}
-						href = getParameter(href, 'u');
-						hostName = getHostName(href);
-					}
-					return [hostName, href, referrer];
-				},
-
-				/*
-				 * Fix-up domain
-				 */
-				domainFixup = function (domain) {
-					var dl = domain.length;
-
-					return (domain.charAt(--dl) === '.') ? domain.substring(0, dl) : domain;
-				},
-
 /*<DEBUG>*/
 				/*
 				 * registered test hooks
