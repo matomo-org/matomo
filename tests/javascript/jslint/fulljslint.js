@@ -1,5 +1,5 @@
 // jslint.js
-// 2011-01-26
+// 2011-01-28
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -3794,10 +3794,13 @@ loop:   for (;;) {
         if (!id) {
             if (nexttoken.id === '(string)') {
                 id = nexttoken.value;
-                if (option.adsafe &&
-                        (id.charAt(0) === '_' ||
-                        id.charAt(id.length - 1) === '_')) {
-                    warning(bundle.dangling_a, token);
+                if (option.safe) {
+                    if (banned[id]) {
+                        warning(bundle.adsafe_a);
+                    } else if (id.charAt(0) === '_' || 
+                            id.charAt(id.length - 1) === '_') {
+                        warning(bundle.dangling_a);
+                    }
                 }
                 advance();
             } else if (nexttoken.id === '(number)') {
@@ -4185,7 +4188,10 @@ loop:   for (;;) {
         no_space();
         step_in();
         this.arity = 'statement';
-        this.first = expression(20);
+        this.first = expected_relation(expression(0));
+        if (this.first.id === 'NaN') {
+            warning(bundle.unexpected_a, this.first);
+        }
         no_space();
         step_out(')', t);
         discard();
@@ -4201,7 +4207,11 @@ loop:   for (;;) {
             advance('case');
             for (;;) {
                 one_space();
-                t.first.push(expression(0));
+                s = expression(0);
+                t.first.push(s);
+                if (s.id === 'NaN') {
+                    warning(bundle.unexpected_a, s);
+                }
                 no_space_only();
                 advance(':');
                 discard();
@@ -6208,7 +6218,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2011-01-26';
+    itself.edition = '2011-01-28';
 
     return itself;
 
