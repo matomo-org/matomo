@@ -15,10 +15,7 @@ if(file_exists('bootstrap.php'))
 }
 
 error_reporting(E_ALL|E_NOTICE);
-if(!defined('PIWIK_DISPLAY_ERRORS') || PIWIK_DISPLAY_ERRORS)
-{
-	@ini_set('display_errors', 1);
-}
+@ini_set('display_errors', (!defined('PIWIK_DISPLAY_ERRORS') || PIWIK_DISPLAY_ERRORS) ? 1 : 0);
 @ini_set('xdebug.show_exception_trace', 0);
 @ini_set('magic_quotes_runtime', 0);
 
