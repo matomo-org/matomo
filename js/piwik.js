@@ -779,20 +779,20 @@ var
 		/*
 		 * Fix-up URL when page rendered from search engine cache or translated page
 		 */
-		function urlFixup(hostname, href, referrer) {
-			if (hostname === 'webcache.googleusercontent.com' ||			// Google
-					hostname === 'cc.bingj.com' ||							// Bing
-					hostname.substring(0, 5) === '74.6.') {					// Yahoo (via Inktomi 74.6.0.0/16)
+		function urlFixup(hostName, href, referrer) {
+			if (hostName === 'webcache.googleusercontent.com' ||			// Google
+					hostName === 'cc.bingj.com' ||							// Bing
+					hostName.substring(0, 5) === '74.6.') {					// Yahoo (via Inktomi 74.6.0.0/16)
 				href = documentAlias.links[0].href;
-				hostname = getHostName(href);
-			} else if (hostname === 'translate.googleusercontent.com') {	// Google
+				hostName = getHostName(href);
+			} else if (hostName === 'translate.googleusercontent.com') {	// Google
 				if (referrer === '') {
 					referrer = href;
 				}
 				href = getParameter(href, 'u');
-				hostname = getHostName(href);
+				hostName = getHostName(href);
 			}
-			return [hostname, href, referrer];
+			return [hostName, href, referrer];
 		}
 
 		/*
@@ -1369,7 +1369,7 @@ var
 
 				if (isDefined(sourceElement.href)) {
 					// browsers, such as Safari, don't downcase hostname and href
-					var originalSourceHostName = sourceElement.hostname,
+					var originalSourceHostName = sourceElement.hostname || getHostName(sourceElement.href),
 						sourceHostName = originalSourceHostName.toLowerCase(),
 						sourceHref = sourceElement.href.replace(originalSourceHostName, sourceHostName),
 						scriptProtocol = new RegExp('^(javascript|vbscript|jscript|mocha|livescript|ecmascript): *', 'i');
