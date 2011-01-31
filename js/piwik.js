@@ -864,8 +864,11 @@ var
 				// Maximum delay to wait for web bug image to be fetched (in milliseconds)
 				configTrackerPause = 500,
 
-				// Heart beat after initial page view (in milliseconds)
-				configHeartBeatTimer = 30000,
+				// Recurring heart beat after initial page view (in milliseconds)
+				configHeartBeatTimer,
+
+				// Ping after initial page view (in milliseconds)
+				configPingTimer,
 
 				// Disallow hash tags in URL
 				configDiscardHashTag,
@@ -1220,13 +1223,22 @@ var
 						setCookie(refname, referralTs + '.' + referralUrl, configReferralCookieTimeout, configCookiePath, configCookieDomain, secure);
 					}
 
-					// send heart beat
+					// send heartbeat
 					if (configHeartBeatTimer) {
+						setInterval(function () {
+							var request = getRequest(customData, 'heartbeat') + '&hb=1';
+
+							sendRequest(request, configTrackerPause);
+						}, configHeartBeatTimer);
+					}
+
+					// send ping 
+					if (configPingTimer) {
 						setTimeout(function () {
 							var request = getRequest(customData, 'ping') + '&ping=1';
 
 							sendRequest(request, configTrackerPause);
-						}, configHeartBeatTimer);
+						}, configPingTimer);
 					}
 				}
 
@@ -1821,6 +1833,15 @@ var
 				 */
 				setHeartBeatTimer: function (delay) {
 					configHeartBeatTimer = delay;
+				},
+
+				/**
+				 * Set ping (in milliseconds)
+				 *
+				 * @param int delay
+				 */
+				setPingTimer: function (delay) {
+					configPingTimer = delay;
 				},
 
 				/**
