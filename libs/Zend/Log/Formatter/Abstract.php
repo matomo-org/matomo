@@ -14,25 +14,27 @@
  *
  * @category   Zend
  * @package    Zend_Log
+ * @subpackage Formatter
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: FactoryInterface.php 23647 2011-01-21 18:54:14Z intiilapa $
+ * @version    $Id: Abstract.php 23648 2011-01-21 19:04:20Z intiilapa $
  */
+
+/** @see Zend_Log_Formatter_Interface */
+// require_once 'Zend/Log/Formatter/Interface.php';
+
+/** @see Zend_Log_FactoryInterface */
+// require_once 'Zend/Log/FactoryInterface.php';
 
 /**
  * @category   Zend
  * @package    Zend_Log
+ * @subpackage Formatter
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: FactoryInterface.php 23647 2011-01-21 18:54:14Z intiilapa $
+ * @version    $Id: Abstract.php 23648 2011-01-21 19:04:20Z intiilapa $
  */
-interface Zend_Log_FactoryInterface
+abstract class Zend_Log_Formatter_Abstract
+    implements Zend_Log_Formatter_Interface, Zend_Log_FactoryInterface
 {
-    /**
-     * Construct a Zend_Log driver
-     *
-     * @param  array|Zend_Config $config
-     * @return Zend_Log_FactoryInterface
-     */
-    static public function factory($config);
 }
