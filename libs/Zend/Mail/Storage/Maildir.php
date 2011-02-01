@@ -17,7 +17,7 @@
  * @subpackage Storage
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Maildir.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Maildir.php 23651 2011-01-21 21:51:00Z mikaelkael $
  */
 
 
@@ -257,7 +257,7 @@ class Zend_Mail_Storage_Maildir extends Zend_Mail_Storage_Abstract
      * Supported parameters are:
      *   - dirname dirname of mbox file
      *
-     * @param  $params array mail reader specific parameters
+     * @param array $params mail reader specific parameters
      * @throws Zend_Mail_Storage_Exception
      */
     public function __construct($params)

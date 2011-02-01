@@ -17,7 +17,7 @@
  * @subpackage Zend_Cache_Backend
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Static.php 22950 2010-09-16 19:33:00Z mabe $
+ * @version    $Id: Static.php 23651 2011-01-21 21:51:00Z mikaelkael $
  */
 
 /**
@@ -343,14 +343,16 @@ class Zend_Cache_Backend_Static
             if (!is_writable($directory)) {
                 return false;
             }
-            foreach (new DirectoryIterator($directory) as $file) {
-                if (true === $file->isFile()) {
-                    if (false === unlink($file->getPathName())) {
-                        return false;
+            if (is_dir($directory)) {
+                foreach (new DirectoryIterator($directory) as $file) {
+                    if (true === $file->isFile()) {
+                        if (false === unlink($file->getPathName())) {
+                            return false;
+                        }
                     }
                 }
             }
-            rmdir(dirname($path));
+            rmdir($directory);
         }
         if (file_exists($file)) {
             if (!is_writable($file)) {
@@ -538,7 +540,7 @@ class Zend_Cache_Backend_Static
      * Detect an octal string and return its octal value for file permission ops
      * otherwise return the non-string (assumed octal or decimal int already)
      *
-     * @param $val The potential octal in need of conversion
+     * @param string $val The potential octal in need of conversion
      * @return int
      */
     protected function _octdec($val)
@@ -551,9 +553,12 @@ class Zend_Cache_Backend_Static
 
     /**
      * Decode a request URI from the provided ID
+     *
+     * @param string $id
+     * @return string
      */
     protected function _decodeId($id)
     {
-        return pack('H*', $id);;
+        return pack('H*', $id);
     }
 }

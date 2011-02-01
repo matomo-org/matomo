@@ -17,7 +17,7 @@
  * @subpackage Zend_Cache_Backend
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Backend.php 20880 2010-02-03 18:18:32Z matthew $
+ * @version    $Id: Backend.php 23651 2011-01-21 21:51:00Z mikaelkael $
  */
 
 
@@ -200,7 +200,7 @@ class Zend_Cache_Backend
     /**
      * Verify if the given temporary directory is readable and writable
      *
-     * @param $dir temporary directory
+     * @param string $dir temporary directory
      * @return boolean true if the directory is ok
      */
     protected function _isGoodTmpDir($dir)

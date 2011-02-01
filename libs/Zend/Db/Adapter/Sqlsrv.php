@@ -17,7 +17,7 @@
  * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Sqlsrv.php 23584 2010-12-28 19:51:49Z matthew $
+ * @version    $Id: Sqlsrv.php 23588 2010-12-28 23:06:39Z matthew $
  */
 
 /**

@@ -17,7 +17,7 @@
  * @subpackage Zend_Cache_Frontend
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Output.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Output.php 23591 2010-12-29 21:39:21Z mabe $
  */
 
 
@@ -88,8 +88,7 @@ class Zend_Cache_Frontend_Output extends Zend_Cache_Core
     public function end($tags = array(), $specificLifetime = false, $forcedDatas = null, $echoData = true, $priority = 8)
     {
         if ($forcedDatas === null) {
-            $data = ob_get_contents();
-            ob_end_clean();
+            $data = ob_get_clean();
         } else {
             $data =& $forcedDatas;
         }

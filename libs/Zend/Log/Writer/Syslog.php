@@ -17,7 +17,7 @@
  * @subpackage Writer
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Syslog.php 23576 2010-12-23 23:25:44Z ramon $
+ * @version    $Id: Syslog.php 23595 2010-12-30 10:09:31Z intiilapa $
  */
 
 /** Zend_Log */
@@ -257,6 +257,11 @@ class Zend_Log_Writer_Syslog extends Zend_Log_Writer_Abstract
             $this->_initializeSyslog();
         }
 
-        syslog($priority, $event['message']);
+        $message = $event['message'];
+        if ($this->_formatter instanceof Zend_Log_Formatter_Interface) {
+            $message = $this->_formatter->format($event);
+        }
+
+        syslog($priority, $message);
     }
 }

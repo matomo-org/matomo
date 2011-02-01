@@ -17,7 +17,7 @@
  * @subpackage Table
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 23578 2010-12-24 16:31:45Z ramon $
+ * @version    $Id: Abstract.php 23657 2011-01-22 16:01:47Z ralph $
  */
 
 /**
@@ -1046,14 +1046,24 @@ abstract class Zend_Db_Table_Abstract
          */
         if (is_string($this->_sequence) && !isset($data[$pkIdentity])) {
             $data[$pkIdentity] = $this->_db->nextSequenceId($this->_sequence);
+            $pkSuppliedBySequence = true;
         }
 
         /**
          * If the primary key can be generated automatically, and no value was
          * specified in the user-supplied data, then omit it from the tuple.
+         * 
+         * Note: this checks for sensible values in the supplied primary key
+         * position of the data.  The following values are considered empty:
+         *   null, false, true, '', array()
          */
-        if (array_key_exists($pkIdentity, $data) && $data[$pkIdentity] === null) {
-            unset($data[$pkIdentity]);
+        if (!isset($pkSuppliedBySequence) && array_key_exists($pkIdentity, $data)) {
+            if ($data[$pkIdentity] === null                                        // null
+                || $data[$pkIdentity] === ''                                       // empty string
+                || is_bool($data[$pkIdentity])                                     // boolean
+                || (is_array($data[$pkIdentity]) && empty($data[$pkIdentity]))) {  // empty array
+                unset($data[$pkIdentity]);
+            }
         }
 
         /**
