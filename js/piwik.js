@@ -864,11 +864,11 @@ var
 				// Maximum delay to wait for web bug image to be fetched (in milliseconds)
 				configTrackerPause = 500,
 
-				// Recurring heart beat after initial page view (in milliseconds)
-				configHeartBeatTimer,
-
 				// Ping after initial page view (in milliseconds)
 				configPingTimer,
+
+				// Recurring heart beat after initial ping (in milliseconds)
+				configHeartBeatTimer,
 
 				// Disallow hash tags in URL
 				configDiscardHashTag,
@@ -1223,21 +1223,21 @@ var
 						setCookie(refname, referralTs + '.' + referralUrl, configReferralCookieTimeout, configCookiePath, configCookieDomain, secure);
 					}
 
-					// send heartbeat
-					if (configHeartBeatTimer) {
-						setInterval(function () {
-							var request = getRequest(customData, 'heartbeat') + '&hb=1';
-
-							sendRequest(request, configTrackerPause);
-						}, configHeartBeatTimer);
-					}
-
 					// send ping 
 					if (configPingTimer) {
 						setTimeout(function () {
 							var request = getRequest(customData, 'ping') + '&ping=1';
 
 							sendRequest(request, configTrackerPause);
+
+							// send heartbeat
+							if (configHeartBeatTimer) {
+								setInterval(function () {
+									var request = getRequest(customData, 'heartbeat') + '&hb=1';
+
+									sendRequest(request, configTrackerPause);
+								}, configHeartBeatTimer);
+							}
 						}, configPingTimer);
 					}
 				}
@@ -1829,19 +1829,12 @@ var
 				/**
 				 * Set heartbeat (in milliseconds)
 				 *
-				 * @param int delay
+				 * @param int initialDelay
+				 * @param int recurringDelay
 				 */
-				setHeartBeatTimer: function (delay) {
-					configHeartBeatTimer = delay;
-				},
-
-				/**
-				 * Set ping (in milliseconds)
-				 *
-				 * @param int delay
-				 */
-				setPingTimer: function (delay) {
-					configPingTimer = delay;
+				setHeartBeatTimer: function (initialDelay, recurringDelay) {
+					configPingTimer = initialDelay;
+					configHeartBeatTimer = recurringDelay;
 				},
 
 				/**
