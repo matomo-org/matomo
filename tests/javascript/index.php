@@ -215,7 +215,7 @@ function PiwikTest() {
 	});
 
 	test("API methods", function() {
-		expect(36);
+		expect(35);
 
 		var tracker = Piwik.getTracker();
 
@@ -249,7 +249,6 @@ function PiwikTest() {
 		equals( typeof tracker.addListener, 'function', 'addListener' );
 		equals( typeof tracker.enableLinkTracking, 'function', 'enableLinkTracking' );
 		equals( typeof tracker.setHeartBeatTimer, 'function', 'setHeartBeatTimer' );
-		equals( typeof tracker.setPingTimer, 'function', 'setPingTimer' );
 		equals( typeof tracker.killFrame, 'function', 'killFrame' );
 		equals( typeof tracker.redirectFile, 'function', 'redirectFile' );
 		equals( typeof tracker.trackGoal, 'function', 'trackGoal' );
