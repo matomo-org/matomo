@@ -931,8 +931,8 @@ var
 				// Guard against installing the link tracker more than once per Tracker instance
 				linkTrackingInstalled = false,
 
-				// Hash function
-				hash = sha1,
+				// Guard against installing the activity tracker more than once per Tracker instance
+				activityTrackingInstalled = false,
 
 				// Last activity timestamp
 				lastActivityTime,
@@ -943,6 +943,9 @@ var
 
 				// Visitor ID
 				visitorId,
+
+				// Hash function
+				hash = sha1,
 
 				// Domain hash value
 				domainHash;
@@ -1282,7 +1285,9 @@ var
 				sendRequest(request, configTrackerPause);
 
 				// send ping
-				if (configMinimumVisitTime && configHeartBeatTimer) {
+				if (configMinimumVisitTime && configHeartBeatTimer && !activityTrackingInstalled) {
+					activityTrackingInstalled = true;
+
 					// add event handlers; cross-browser compatibility here varies significantly
 					// @see http://quirksmode.org/dom/events
 					addEventListener(documentAlias, 'click', activityHandler);
