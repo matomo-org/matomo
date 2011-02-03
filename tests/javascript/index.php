@@ -215,7 +215,11 @@ function PiwikTest() {
 	});
 
 	test("API methods", function() {
-		expect(35);
+		expect(38);
+
+		equals( typeof Piwik.addPlugin, 'function', 'addPlugin' );
+		equals( typeof Piwik.getTracker, 'function', 'getTracker' );
+		equals( typeof Piwik.getAsyncTracker, 'function', 'getAsyncTracker' );
 
 		var tracker = Piwik.getTracker();
 
