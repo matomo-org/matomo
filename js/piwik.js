@@ -1124,7 +1124,7 @@ var
 			 * Process all "activity" events.
 			 * For performance, this function must have low overhead.
 			 */
-			function activityHandler() {
+			function activityHandler(evt) {
 				var now = new Date();
 
 				lastActivityTime = now.getTime();
@@ -1235,45 +1235,6 @@ var
 						// set the referral cookie
 						setCookie(refname, referralTs + '.' + referralUrl, configReferralCookieTimeout, configCookiePath, configCookieDomain, secure);
 					}
-
-					// send ping 
-					if (configMinimumVisitTime && configHeartBeatTimer) {
-						// add event handlers; cross-browser compatibility here varies significantly
-						// @see http://quirksmode.org/dom/events
-						addEventListener(documentAlias, 'click', activityHandler);
-						addEventListener(documentAlias, 'mouseup', activityHandler);
-						addEventListener(documentAlias, 'mousedown', activityHandler);
-						addEventListener(documentAlias, 'mousemove', activityHandler);
-						addEventListener(documentAlias, 'mousewheel', activityHandler);
-						addEventListener(windowAlias, 'DOMMouseScroll', activityHandler);
-						addEventListener(windowAlias, 'scroll', activityHandler);
-						addEventListener(documentAlias, 'keypress', activityHandler);
-						addEventListener(documentAlias, 'keydown', activityHandler);
-						addEventListener(documentAlias, 'keyup', activityHandler);
-						addEventListener(windowAlias, 'resize', activityHandler);
-						addEventListener(windowAlias, 'focus', activityHandler);
-						addEventListener(windowAlias, 'blur', activityHandler);
-
-						// periodic check for activity
-						lastActivityTime = now.getTime();
-						setTimeout(function heartBeat() {
-							var now = new Date(),
-								request;
-
-							// there was activity during the heart beat period;
-							// on average, this is going to overstate the visitLength by configHeartBeatTimer/2
-							if ((lastActivityTime + configHeartBeatTimer) > now.getTime()) {
-								// send ping if minimum visit time has elapsed
-								if (configMinimumVisitTime > now.getTime()) {
-									request = getRequest(customData, 'ping') + '&ping=1';
-									sendRequest(request, configTrackerPause);
-								}
-
-								// resume heart beat
-								setTimeout(heartBeat, configHeartBeatTimer);
-							}
-						}, configHeartBeatTimer);
-					}
 				}
 
 				currentVisitTs = nowTs;
@@ -1315,10 +1276,51 @@ var
 			 * Log the page view / visit
 			 */
 			function logPageView(customTitle, customData) {
-				var request = getRequest(customData, 'log') +
-					'&action_name=' + encodeWrapper(customTitle || configTitle); // refs #530;
+				var now = new Date(),
+					request = getRequest(customData, 'log') + '&action_name=' + encodeWrapper(customTitle || configTitle);
 
 				sendRequest(request, configTrackerPause);
+
+				// send ping
+				if (configMinimumVisitTime && configHeartBeatTimer) {
+					// add event handlers; cross-browser compatibility here varies significantly
+					// @see http://quirksmode.org/dom/events
+					addEventListener(documentAlias, 'click', activityHandler);
+					addEventListener(documentAlias, 'mouseup', activityHandler);
+					addEventListener(documentAlias, 'mousedown', activityHandler);
+					addEventListener(documentAlias, 'mousemove', activityHandler);
+					addEventListener(documentAlias, 'mousewheel', activityHandler);
+					addEventListener(windowAlias, 'DOMMouseScroll', activityHandler);
+					addEventListener(windowAlias, 'scroll', activityHandler);
+					addEventListener(documentAlias, 'keypress', activityHandler);
+					addEventListener(documentAlias, 'keydown', activityHandler);
+					addEventListener(documentAlias, 'keyup', activityHandler);
+					addEventListener(windowAlias, 'resize', activityHandler);
+					addEventListener(windowAlias, 'focus', activityHandler);
+					addEventListener(windowAlias, 'blur', activityHandler);
+
+					// periodic check for activity
+					lastActivityTime = now.getTime();
+					setTimeout(function heartBeat() {
+						var now = new Date(),
+							request;
+
+						// there was activity during the heart beat period;
+						// on average, this is going to overstate the visitLength by configHeartBeatTimer/2
+						if ((lastActivityTime + configHeartBeatTimer) > now.getTime()) {
+							// send ping if minimum visit time has elapsed
+							if (configMinimumVisitTime < now.getTime()) {
+								request = getRequest(customData, 'ping') + '&ping=1';
+
+								sendRequest(request, configTrackerPause);
+							}
+
+							// resume heart beat
+							setTimeout(heartBeat, configHeartBeatTimer);
+						}
+						// else heart beat cancelled due to inactivity
+					}, configHeartBeatTimer);
+				}
 			}
 
 			/*
