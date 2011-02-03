@@ -13,6 +13,9 @@
 	&time;
 	<target name="webtest">
 		<webtest name="pre-install">
+			<config>
+				<option name="ThrowExceptionOnScriptError" value="false" />
+			</config>
 			<steps>
 				<echo>Pre-install</echo>
 
