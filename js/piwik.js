@@ -1260,17 +1260,16 @@ var
 							var now = new Date(),
 								request;
 
-							// send ping if minimum visit time has elapsed and
-							// there was activity in the last half of the heart beat period
-							if ((configMinimumVisitTime > now.getTime()) &&
-									((lastActivityTime + configHeartBeatTimer / 2) > now.getTime())) {
-								request = getRequest(customData, 'ping') + '&ping=1';
-								sendRequest(request, configTrackerPause);
-							}
-
-							// resume heart beat if any activity during the heart beat period;
-							// terminates if no activity during the heart beat
+							// there was activity during the heart beat period;
+							// on average, this is going to overstate the visitLength by configHeartBeatTimer/2
 							if ((lastActivityTime + configHeartBeatTimer) > now.getTime()) {
+								// send ping if minimum visit time has elapsed
+								if (configMinimumVisitTime > now.getTime()) {
+									request = getRequest(customData, 'ping') + '&ping=1';
+									sendRequest(request, configTrackerPause);
+								}
+
+								// resume heart beat
 								setTimeout(heartBeat, configHeartBeatTimer);
 							}
 						}, configHeartBeatTimer);
