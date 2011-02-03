@@ -864,8 +864,8 @@ var
 				// Maximum delay to wait for web bug image to be fetched (in milliseconds)
 				configTrackerPause = 500,
 
-				// Ping after initial page view (in milliseconds)
-				configPingTimer,
+				// Minimum visit time after initial page view (in milliseconds)
+				configMinimumVisitTime,
 
 				// Recurring heart beat after initial ping (in milliseconds)
 				configHeartBeatTimer,
@@ -933,6 +933,9 @@ var
 
 				// Hash function
 				hash = sha1,
+
+				// Last activity timestamp
+				lastActivityTime,
 
 				// Internal state of the pseudo click handler
 				lastButton,
@@ -1118,6 +1121,16 @@ var
 			}
 
 			/*
+			 * Process all "activity" events.
+			 * For performance, this function must have low overhead.
+			 */
+			function activityHandler() {
+				var now = new Date();
+
+				lastActivityTime = now.getTime();
+			}
+
+			/*
 			 * Returns the URL to call piwik.php, 
 			 * with the standard parameters (plugins, resolution, url, referer, etc.).
 			 * Sends the pageview and browser settings with every request in case of race conditions.
@@ -1224,21 +1237,43 @@ var
 					}
 
 					// send ping 
-					if (configPingTimer) {
-						setTimeout(function () {
-							var request = getRequest(customData, 'ping') + '&ping=1';
+					if (configMinimumVisitTime && configHeartBeatTimer) {
+						// add event handlers; cross-browser compatibility here varies significantly
+						// @see http://quirksmode.org/dom/events
+						addEventListener(documentAlias, 'click', activityHandler);
+						addEventListener(documentAlias, 'mouseup', activityHandler);
+						addEventListener(documentAlias, 'mousedown', activityHandler);
+						addEventListener(documentAlias, 'mousemove', activityHandler);
+						addEventListener(documentAlias, 'mousewheel', activityHandler);
+						addEventListener(windowAlias, 'DOMMouseScroll', activityHandler);
+						addEventListener(windowAlias, 'scroll', activityHandler);
+						addEventListener(documentAlias, 'keypress', activityHandler);
+						addEventListener(documentAlias, 'keydown', activityHandler);
+						addEventListener(documentAlias, 'keyup', activityHandler);
+						addEventListener(windowAlias, 'resize', activityHandler);
+						addEventListener(windowAlias, 'focus', activityHandler);
+						addEventListener(windowAlias, 'blur', activityHandler);
 
-							sendRequest(request, configTrackerPause);
+						// periodic check for activity
+						lastActivityTime = now.getTime();
+						setTimeout(function heartBeat() {
+							var now = new Date(),
+								request;
 
-							// send heartbeat
-							if (configHeartBeatTimer) {
-								setInterval(function () {
-									var request = getRequest(customData, 'heartbeat') + '&hb=1';
-
-									sendRequest(request, configTrackerPause);
-								}, configHeartBeatTimer);
+							// send ping if minimum visit time has elapsed and
+							// there was activity in the last half of the heart beat period
+							if ((configMinimumVisitTime > now.getTime()) &&
+									((lastActivityTime + configHeartBeatTimer / 2) > now.getTime())) {
+								request = getRequest(customData, 'ping') + '&ping=1';
+								sendRequest(request, configTrackerPause);
 							}
-						}, configPingTimer);
+
+							// resume heart beat if any activity during the heart beat period;
+							// terminates if no activity during the heart beat
+							if ((lastActivityTime + configHeartBeatTimer) > now.getTime()) {
+								setTimeout(heartBeat, configHeartBeatTimer);
+							}
+						}, configHeartBeatTimer);
 					}
 				}
 
@@ -1829,12 +1864,14 @@ var
 				/**
 				 * Set heartbeat (in milliseconds)
 				 *
-				 * @param int initialDelay
-				 * @param int recurringDelay
+				 * @param int minimumVisitLength
+				 * @param int heartBeatDelay
 				 */
-				setHeartBeatTimer: function (initialDelay, recurringDelay) {
-					configPingTimer = initialDelay;
-					configHeartBeatTimer = recurringDelay;
+				setHeartBeatTimer: function (minimumVisitLength, heartBeatDelay) {
+					var now = new Date();
+
+					configMinimumVisitTime = now.getTime() + minimumVisitLength;
+					configHeartBeatTimer = heartBeatDelay;
 				},
 
 				/**
@@ -1944,6 +1981,15 @@ var
 			 */
 			getTracker: function (piwikUrl, siteId) {
 				return new Tracker(piwikUrl, siteId);
+			},
+
+			/**
+			 * Get internal asynchronous tracker object
+			 *
+			 * @return Tracker
+			 */
+			getAsyncTracker: function () {
+				return asyncTracker;
 			}
 		};
 	}());
