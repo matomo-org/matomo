@@ -180,8 +180,8 @@ datatable_archiving_maximum_rows_standard = 500
 use_ajax_cdn = 0
 
 ; required AJAX library versions
-jquery_version = 1.4.2
-jqueryui_version = 1.8.4
+jquery_version = 1.5
+jqueryui_version = 1.8.9
 swfobject_version = 2.2
 
 ; Set to 1 if using a reverse proxy (https to http)
