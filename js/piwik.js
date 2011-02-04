@@ -12,6 +12,7 @@
 
 /*
  * Browser [In]Compatibility
+ * - minimum required ECMAScript: ECMA-262, edition 3
  *
  * This version of piwik.js is known to not work with:
  * - IE4 - try..catch and for..in introduced in IE5
@@ -782,7 +783,7 @@ var
 		function urlFixup(hostName, href, referrer) {
 			if (hostName === 'webcache.googleusercontent.com' ||			// Google
 					hostName === 'cc.bingj.com' ||							// Bing
-					hostName.substring(0, 5) === '74.6.') {					// Yahoo (via Inktomi 74.6.0.0/16)
+					hostName.slice(0, 5) === '74.6.') {					// Yahoo (via Inktomi 74.6.0.0/16)
 				href = documentAlias.links[0].href;
 				hostName = getHostName(href);
 			} else if (hostName === 'translate.googleusercontent.com') {	// Google
@@ -801,7 +802,7 @@ var
 		function domainFixup(domain) {
 			var dl = domain.length;
 
-			return (domain.charAt(--dl) === '.') ? domain.substring(0, dl) : domain;
+			return (domain.charAt(--dl) === '.') ? domain.slice(0, dl) : domain;
 		}
 
 		/*
@@ -976,13 +977,13 @@ var
 						return true;
 					}
 
-					if (alias.substring(0, 2) === '*.') {
-						if (hostName === alias.substring(2)) {
+					if (alias.slice(0, 2) === '*.') {
+						if (hostName === alias.slice(2)) {
 							return true;
 						}
 
 						offset = hostName.length - alias.length + 1;
-						if ((offset > 0) && (hostName.substring(offset) === alias.substring(1))) {
+						if ((offset > 0) && (hostName.slice(offset) === alias.slice(1))) {
 							return true;
 						}
 					}
@@ -1095,7 +1096,7 @@ var
 			 * Update domain hash
 			 */
 			function updateDomainHash() {
-				domainHash = hash((configCookieDomain || domainAlias) + (configCookiePath || '/')).substring(0, 8); // 8 hexits = 32 bits
+				domainHash = hash((configCookieDomain || domainAlias) + (configCookiePath || '/')).slice(0, 8); // 8 hexits = 32 bits
 			}
 
 			/*
@@ -1143,6 +1144,7 @@ var
 					now = new Date(),
 					nowTs = Math.round(now.getTime() / 1000),
 					tmpContainer,
+					tmpPos,
 					newVisitor,
 					uuid,
 					visitCount,
@@ -1202,16 +1204,16 @@ var
 						(navigatorAlias.userAgent || '') +
 							(navigatorAlias.platform || '') +
 							request + Math.round(now.getTime / 1000)
-					).substring(0, 16); // 16 hexits = 64 bits
+					).slice(0, 16); // 16 hexits = 64 bits
 
 					visitCount = 0;
 				}
 				visitorId = uuid;
 
 				if (ref) {
-					tmpContainer = ref.split('.', 1);
-					referralTs = tmpContainer[0];
-					referralUrl = tmpContainer[1];
+					tmpPos = ref.indexOf('.');
+					referralTs = ref.slice(0, tmpPos);
+					referralUrl = ref.slice(tmpPos + 1);
 				} else {
 					referralTs = 0;
 					referralUrl = '';
@@ -1625,7 +1627,7 @@ var
 				setCustomVariable: function (index, varName, value) {
 					loadCustomVariables();
 					if (index > 0 && index <= 5) {
-						customVariables[index] = [varName.substring(0, customVariableMaximumLength), value.substring(0, customVariableMaximumLength)];
+						customVariables[index] = [varName.slice(0, customVariableMaximumLength), value.slice(0, customVariableMaximumLength)];
 					}
 				},
 
@@ -1649,12 +1651,12 @@ var
 				},
 
 				/**
-				 * Set delay for link tracking (in milliseconds)
+				 * Set delay for link tracking (in seconds)
 				 *
 				 * @param int delay
 				 */
 				setLinkTrackingTimer: function (delay) {
-					configTrackerPause = delay;
+					configTrackerPause = delay * 1000;
 				},
 
 				/**
@@ -1789,30 +1791,30 @@ var
 				},
 
 				/**
-				 * Set visitor cookie timeout (in milliseconds)
+				 * Set visitor cookie timeout (in seconds)
 				 *
 				 * @param int timeout
 				 */
 				setVisitorCookieTimeout: function (timeout) {
-					configVisitorCookieTimeout = timeout;
+					configVisitorCookieTimeout = timeout * 1000;
 				},
 
 				/**
-				 * Set session cookie timeout (in milliseconds)
+				 * Set session cookie timeout (in seconds)
 				 *
 				 * @param int timeout
 				 */
 				setSessionCookieTimeout: function (timeout) {
-					configSessionCookieTimeout = timeout;
+					configSessionCookieTimeout = timeout * 1000;
 				},
 
 				/**
-				 * Set referral cookie timeout (in milliseconds)
+				 * Set referral cookie timeout (in seconds)
 				 *
 				 * @param int timeout
 				 */
 				setReferralCookieTimeout: function (timeout) {
-					configReferralCookieTimeout = timeout;
+					configReferralCookieTimeout = timeout * 1000;
 				},
 
 				/**
@@ -1868,7 +1870,7 @@ var
 				},
 
 				/**
-				 * Set heartbeat (in milliseconds)
+				 * Set heartbeat (in seconds)
 				 *
 				 * @param int minimumVisitLength
 				 * @param int heartBeatDelay
@@ -1876,8 +1878,8 @@ var
 				setHeartBeatTimer: function (minimumVisitLength, heartBeatDelay) {
 					var now = new Date();
 
-					configMinimumVisitTime = now.getTime() + minimumVisitLength;
-					configHeartBeatTimer = heartBeatDelay;
+					configMinimumVisitTime = now.getTime() + minimumVisitLength * 1000;
+					configHeartBeatTimer = heartBeatDelay * 1000;
 				},
 
 				/**
