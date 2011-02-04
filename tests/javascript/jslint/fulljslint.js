@@ -2290,8 +2290,7 @@ loop:   for (;;) {
                 }
                 t = lex.token();
             }
-            if (t.type !== '(string)' && t.type !== '(identifier)' &&
-                    o !== '/*members') {
+            if (t.type !== '(string)' && !t.identifier && o !== '/*members') {
                 error(bundle.unexpected_a, t);
             }
             v = lex.token();
@@ -2479,7 +2478,7 @@ loop:   for (;;) {
             if (t) {
                 warning(bundle.expected_a_b_from_c_d, nexttoken,
                     id, t.id, t.line, nexttoken.value);
-            } else if (nexttoken.type !== '(identifier)' || nexttoken.value !== id) {
+            } else if (!nexttoken.identifier || nexttoken.value !== id) {
                 warning(bundle.expected_a_b,
                     nexttoken, id, nexttoken.value);
             }
@@ -3583,7 +3582,7 @@ loop:   for (;;) {
         }
         var p = [];
         if (left) {
-            if (left.type === '(identifier)') {
+            if (left.identifier) {
                 if (left.value.match(/^[A-Z]([A-Z0-9_$]*[a-z][A-Za-z0-9_$]*)?$/)) {
                     if (left.value !== 'Number' && left.value !== 'String' &&
                             left.value !== 'Boolean' &&
@@ -4134,7 +4133,7 @@ loop:   for (;;) {
             scope = Object.create(s);
             e = nexttoken.value;
             this.first = e;
-            if (nexttoken.type !== '(identifier)') {
+            if (!nexttoken.identifier) {
                 warning(bundle.expected_identifier_a, nexttoken);
             } else {
                 add_label(e, 'exception');
