@@ -609,9 +609,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Neti
 		'www.neti.ee'				=> array('Neti', 'query', 'cgi-bin/otsing?query={k}', 'iso-8859-1'),
 
-		// Netster
-		'www.ireit.com'				=> array('Netster', 'search', 'netstercom/?search={k}'),
-
 		// Nifty
 		'search.nifty.com'			=> array('Nifty', 'q', 'websearch/search?q={k}'),
 
