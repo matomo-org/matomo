@@ -79,7 +79,7 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return array of group names strings
 	 */
-	public function getWebsitesGroups()
+	public function getSitesGroups()
 	{
 		Piwik::checkUserIsSuperUser();
 		$groups = Zend_Registry::get('db')->fetchAll("SELECT DISTINCT `group` FROM ".Piwik_Common::prefixTable("site"));
