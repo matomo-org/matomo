@@ -10,7 +10,7 @@
 		<delete dir="${env.WORKSPACE}/documentation"/>
 		<mkdir dir="${env.WORKSPACE}/documentation"/>
 
-		<copy file="${workspace.home}/misc/phpdoc-config.ini" tofile="${env.WORKSPACE}/phpdoc-config.ini"/>
+		<copy file="${workspace.home}/misc/phpdoc-config.ini" tofile="${env.WORKSPACE}/phpdoc-config.ini" overwrite="true" />
 		<replace file="${env.WORKSPACE}/phpdoc-config.ini" token="target = documentation" value="target = ${env.WORKSPACE}/documentation"/>
 
 		<exec executable="${php.executable}" dir="${workspace.home}/" failonerror="true" failifexecutionfails="true">
