@@ -718,7 +718,7 @@ class Test_Piwik_SitesManager extends Test_Database
     	
     	// Test fetch website groups
     	$expectedGroups = array(trim($groupAfter));
-    	$fetched = Piwik_SitesManager_API::getInstance()->getWebsitesGroups();
+    	$fetched = Piwik_SitesManager_API::getInstance()->getSitesGroups();
     	$this->assertEqual($expectedGroups, $fetched);
     	
     	$allUrls = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idsite);
@@ -728,7 +728,7 @@ class Test_Piwik_SitesManager extends Test_Database
 
     }
 
-    function test_getWebsitesGroups()
+    function test_getSitesGroups()
     {
     	$groups = array( 'group1', ' group1 ', '', 'group2');
     	$expectedGroups = array('group1','','group2');
@@ -737,7 +737,7 @@ class Test_Piwik_SitesManager extends Test_Database
     		Piwik_SitesManager_API::getInstance()->addSite("test toto@{}", 'http://example.org',$excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group);
     	}
     	
-    	$this->assertEqual($expectedGroups, Piwik_SitesManager_API::getInstance()->getWebsitesGroups());
+    	$this->assertEqual($expectedGroups, Piwik_SitesManager_API::getInstance()->getSitesGroups());
     	
     }
     function test_addSites_invalidTimezone()
