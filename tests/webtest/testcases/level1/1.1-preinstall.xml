@@ -52,10 +52,10 @@
 				<replace file="${env.WORKSPACE}/build/config/global.ini.php">
 					<replacefilter 
 						token="latest_version_url = http://piwik.org/latest.zip" 
-						value="latest_version_url = http://${env.HTTP_HOST}/hudson.private/jobs/Piwik/workspace/latest.zip" />
+						value="latest_version_url = http://${env.HTTP_HOST}/jenkins.private/jobs/Piwik/workspace/latest.zip" />
 					<replacefilter 
 						token="api_service_url = http://api.piwik.org" 
-						value="api_service_url = http://${env.HTTP_HOST}/hudson.private/jobs/Piwik/workspace" />
+						value="api_service_url = http://${env.HTTP_HOST}/jenkins.private/jobs/Piwik/workspace" />
 				</replace>
 				<length file="${env.WORKSPACE}/build/config/global.ini.php" property="configLEN" />
 				<checksum file="${env.WORKSPACE}/build/config/global.ini.php" property="configMD5" />
