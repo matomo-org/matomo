@@ -182,7 +182,28 @@ class Piwik_UsersManager_API
 			$return[$user['login']] = $user['access'];
 		}
 		return $return;
+	}
+	
+	public function getUsersWithSiteAccess( $idSite, $access )
+	{
+		Piwik::checkUserHasAdminAccess( $idSite );
+		$this->checkAccessType( $access );
 		
+		$db = Zend_Registry::get('db');
+		$users = $db->fetchAll("SELECT login
+								FROM ".Piwik_Common::prefixTable("access")
+								." WHERE idsite = ? AND access = ?", array($idSite, $access));
+		$logins = array();
+		foreach($users as $user)
+		{
+			$logins[] = $user['login'];
+		}
+		if(empty($logins))
+		{
+			return array();
+		}
+		$logins = implode(',', $logins);
+		return $this->getUsers($logins);
 	}
 	
 	/**
