@@ -520,28 +520,34 @@ class Test_Piwik_UsersManager extends Test_Database
     
     /**
      * normal case
+     * as well as selecting specific user names, comma separated
      */
     function test_getUsers()
     {
-    	
-    	Piwik_UsersManager_API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
-    	Piwik_UsersManager_API::getInstance()->addUser("geggeqge632ge56a4qag", "geqgegeagae", "tesggt@tesgt.com", "alias");
-    	Piwik_UsersManager_API::getInstance()->addUser("geggeqgeqagqegg", "geqgeaggggae", "tesgggt@tesgt.com");
-    	
-    	   $users = Piwik_UsersManager_API::getInstance()->getUsers();
-    	   foreach($users as &$user)
-    	   {
-    	   	unset($user['token_auth']);
-    	   	unset($user['date_registered']);
-    	   }
-    	$this->assertEqual($users, 
-    		array(
-    			array('login' => "gegg4564eqgeqag", 'password' => md5("geqgegagae"),    'alias' => "alias", 'email' => "tegst@tesgt.com"),
-    			array('login' => "geggeqge632ge56a4qag",  'password' => md5("geqgegeagae"),'alias' =>  "alias",  'email' => "tesggt@tesgt.com"),
-    			array('login' => "geggeqgeqagqegg",  'password' => md5("geqgeaggggae"),  'alias' => 'geggeqgeqagqegg','email' => "tesgggt@tesgt.com"),
-    		)
-    	);
-    	
+        Piwik_UsersManager_API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        Piwik_UsersManager_API::getInstance()->addUser("geggeqge632ge56a4qag", "geqgegeagae", "tesggt@tesgt.com", "alias");
+        Piwik_UsersManager_API::getInstance()->addUser("geggeqgeqagqegg", "geqgeaggggae", "tesgggt@tesgt.com");
+        
+        $users = Piwik_UsersManager_API::getInstance()->getUsers();
+        $users = $this->removeNonTestableFieldsFromUsers($users);
+        $user1 = array('login' => "gegg4564eqgeqag", 'password' => md5("geqgegagae"),    'alias' => "alias", 'email' => "tegst@tesgt.com");
+        $user2 = array('login' => "geggeqge632ge56a4qag",  'password' => md5("geqgegeagae"),'alias' =>  "alias",  'email' => "tesggt@tesgt.com");
+        $user3 = array('login' => "geggeqgeqagqegg",  'password' => md5("geqgeaggggae"),  'alias' => 'geggeqgeqagqegg','email' => "tesgggt@tesgt.com");
+        $expectedUsers = array($user1, $user2, $user3);
+        $this->assertEqual($users, $expectedUsers);
+        $this->assertEqual( $this->removeNonTestableFieldsFromUsers(Piwik_UsersManager_API::getInstance()->getUsers('gegg4564eqgeqag')), array($user1));
+        $this->assertEqual( $this->removeNonTestableFieldsFromUsers(Piwik_UsersManager_API::getInstance()->getUsers('gegg4564eqgeqag,geggeqge632ge56a4qag')), array($user1, $user2));
+        
+    }
+    
+    function removeNonTestableFieldsFromUsers($users)
+    {
+    	foreach($users as &$user)
+        {
+            unset($user['token_auth']);
+            unset($user['date_registered']);
+        }
+        return $users;
     }
     
     /**
@@ -687,6 +693,7 @@ class Test_Piwik_UsersManager extends Test_Database
     	$access = Piwik_UsersManager_API::getInstance()->getSitesAccessFromUser("gegg4564eqgeqag");
 	$access = $this->_flatten($access);
     	$this->assertEqual( array($id1,$id3), array_keys($access));
+    	
     }
     /**
      * normal case, string idSites comma separated access set for multiple sites
