@@ -74,6 +74,25 @@ class Piwik_SitesManager_API
 	}
 	
 	/**
+	 * Returns the list of website groups, including the empty group 
+	 * if no group were specified for some websites
+	 * 
+	 * @return array of group names strings
+	 */
+	public function getWebsitesGroups()
+	{
+		Piwik::checkUserIsSuperUser();
+		$groups = Zend_Registry::get('db')->fetchAll("SELECT DISTINCT `group` FROM ".Piwik_Common::prefixTable("site"));
+		$cleanedGroups = array();
+		foreach($groups as $group)
+		{
+			$cleanedGroups[] = $group['group'];
+		}
+	    $cleanedGroups = array_map('trim', $cleanedGroups);
+		return $cleanedGroups;
+	}
+	
+	/**
 	 * Returns the website information : name, main_url
 	 * 
 	 * @exception if the site ID doesn't exist or the user doesn't have access to it
@@ -446,6 +465,10 @@ class Piwik_SitesManager_API
 	 */
 	private function checkAndReturnExcludedIps($excludedIps)
 	{
+		if(empty($excludedIps))
+		{ 
+			return '';
+		}
 		$ips = explode(',', $excludedIps);
 		$ips = array_map('trim', $ips);
 		$ips = array_filter($ips, 'strlen');
