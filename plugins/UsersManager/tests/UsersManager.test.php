@@ -744,14 +744,14 @@ class Test_Piwik_UsersManager extends Test_Database
 		
     	Piwik_UsersManager_API::getInstance()->setUserAccess("user1", "view", array($id1,$id2));
     	Piwik_UsersManager_API::getInstance()->setUserAccess("user2", "admin", array($id1));
-    	Piwik_UsersManager_API::getInstance()->setUserAccess("user2", "view", array($id3));
+    	Piwik_UsersManager_API::getInstance()->setUserAccess("user2", "view", array($id3, $id2));
     	
     	$access1 = Piwik_UsersManager_API::getInstance()->getSitesAccessFromUser("user1");
 	$access1 = $this->_flatten($access1);
     	$access2 = Piwik_UsersManager_API::getInstance()->getSitesAccessFromUser("user2");
 	$access2 = $this->_flatten($access2);
     	$wanted1 = array( $id1 => 'view', $id2 => 'view', );
-    	$wanted2 = array( $id1 => 'admin', $id3 => 'view' );
+    	$wanted2 = array( $id1 => 'admin', $id2 => 'view', $id3 => 'view' );
     	
     	$this->assertEqual($access1, $wanted1);
     	$this->assertEqual($access2, $wanted2);
@@ -761,7 +761,7 @@ class Test_Piwik_UsersManager extends Test_Database
     	$access2 = Piwik_UsersManager_API::getInstance()->getUsersAccessFromSite($id2);
     	$access3 = Piwik_UsersManager_API::getInstance()->getUsersAccessFromSite($id3);
     	$wanted1 = array( 'user1' => 'view', 'user2' => 'admin', );
-    	$wanted2 = array( 'user1' => 'view' );
+    	$wanted2 = array( 'user1' => 'view', 'user2' => 'view' );
     	$wanted3 = array( 'user2' => 'view' );
     	
     	$this->assertEqual($access1, $wanted1);
@@ -770,12 +770,21 @@ class Test_Piwik_UsersManager extends Test_Database
     	
     	$access1 = Piwik_UsersManager_API::getInstance()->getUsersSitesFromAccess('view');
     	$access2 = Piwik_UsersManager_API::getInstance()->getUsersSitesFromAccess('admin');
-    	$wanted1 = array( 'user1' => array($id1,$id2), 'user2' => array($id3) );
+    	$wanted1 = array( 'user1' => array($id1,$id2), 'user2' => array($id3, $id2) );
     	$wanted2 = array( 'user2' => array($id1) );
     	
     	$this->assertEqual($access1, $wanted1);
     	$this->assertEqual($access2, $wanted2);
  
+    	// Test getUsersWithSiteAccess
+    	$users = Piwik_UsersManager_API::getInstance()->getUsersWithSiteAccess($id1, $access = 'view');
+    	$this->assertTrue(count($users) == 1 && $users[0]['login'] == 'user1');    	
+    	$users = Piwik_UsersManager_API::getInstance()->getUsersWithSiteAccess($id2, $access = 'view');
+    	$this->assertTrue(count($users) == 2);    	
+    	$users = Piwik_UsersManager_API::getInstance()->getUsersWithSiteAccess($id1, $access = 'admin');
+    	$this->assertTrue(count($users) == 1 && $users[0]['login'] == 'user2');
+    	$users = Piwik_UsersManager_API::getInstance()->getUsersWithSiteAccess($id3, $access = 'admin');
+    	$this->assertTrue(count($users) == 0);
     }
     
     /**
