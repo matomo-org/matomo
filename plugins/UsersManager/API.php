@@ -67,16 +67,26 @@ class Piwik_UsersManager_API
 	/**
 	 * Returns the list of all the users
 	 * 
+	 * @param string Comma separated list of users to select. If not specified, will return all users
 	 * @return array the list of all the users
 	 */
-	public function getUsers()
+	public function getUsers( $userLogins = '' )
 	{
 		Piwik::checkUserHasSomeAdminAccess();
 		
+		$where = '';
+		$bind = array();
+		if(!empty($userLogins))
+		{
+			$userLogins = explode(',', $userLogins);
+			$where = 'WHERE login IN (? '.str_repeat(',?', count($userLogins)-1).')';
+			$bind = $userLogins;
+		}
 		$db = Zend_Registry::get('db');
 		$users = $db->fetchAll("SELECT * 
-								FROM ".Piwik_Common::prefixTable("user")." 
-								ORDER BY login ASC");
+								FROM ".Piwik_Common::prefixTable("user")."
+								$where 
+								ORDER BY login ASC", $bind);
 		// Non Super user can only access login & alias 
 		if(!Piwik::isUserIsSuperUser())
 		{
@@ -174,7 +184,7 @@ class Piwik_UsersManager_API
 		return $return;
 		
 	}
-
+	
 	/**
 	 * For each website ID, returns the access level of the given $userLogin.
 	 * If the user doesn't have any access to a website ('noaccess'), 
