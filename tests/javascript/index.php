@@ -525,7 +525,7 @@ function PiwikTest() {
 		stopTime = new Date();
 		ok( (stopTime.getTime() - startTime.getTime()) < 500, 'beforeUnloadHandler()' );
 
-		tracker.setLinkTrackingTimer(2);
+		tracker.setLinkTrackingTimer(2000);
 		startTime = new Date();
 		tracker.trackPageView();
 		tracker.hook.test._beforeUnloadHandler();

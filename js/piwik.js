@@ -1651,12 +1651,12 @@ var
 				},
 
 				/**
-				 * Set delay for link tracking (in seconds)
+				 * Set delay for link tracking (in milliseconds)
 				 *
 				 * @param int delay
 				 */
 				setLinkTrackingTimer: function (delay) {
-					configTrackerPause = delay * 1000;
+					configTrackerPause = delay;
 				},
 
 				/**
