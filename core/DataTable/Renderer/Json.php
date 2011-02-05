@@ -61,9 +61,10 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 	
 	protected function jsonpWrap($str)
 	{		
+return 'XX '.$str.' XX';
 		if(($jsonCallback = Piwik_Common::getRequestVar('jsoncallback', false)) !== false)
 		{
-			if(preg_match('/^[0-9a-zA-Z]*$/', $jsonCallback) > 0)
+			if(preg_match('/^[0-9a-zA-Z_]*$/', $jsonCallback) > 0)
 			{
 				$str = $jsonCallback . "(" . $str . ")";
 			}
