@@ -210,11 +210,11 @@
 			{/foreach}
 		</td>
 	</tr>
-	{if isset($infos.general_infos.reverse_proxy)}
+	{if isset($infos.general_infos.secure_protocol)}
 	<tr>
-		<td class="label">{'Installation_SystemCheckReverseProxy'|translate}</td>
+		<td class="label">{'Installation_SystemCheckSecureProtocol'|translate}</td>
 		<td>
-			{$warning} {$infos.protocol}<br /><i>{'Installation_SystemCheckReverseProxyHelp'|translate}</i><br /><br /><code>[General]</code><br /><code>reverse_proxy = 1</code><br />
+			{$warning} {$infos.protocol}<br /><i>{'Installation_SystemCheckSecureProtocolHelp'|translate}</i><br /><br /><code>[General]</code><br /><code>assume_secure_protocol = 1</code><br />
 		</td>
 	</tr>
 	{/if}
