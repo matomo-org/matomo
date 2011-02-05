@@ -110,7 +110,7 @@ class Piwik
 	 */
 	static public function isHttps()
 	{
-		return Piwik_Url::getCurrentScheme() === 'https' || Zend_Registry::get('config')->General->reverse_proxy;
+		return Piwik_Url::getCurrentScheme() === 'https' || Zend_Registry::get('config')->General->assume_secure_protocol;
 	}
 
 	/**

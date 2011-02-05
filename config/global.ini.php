@@ -184,9 +184,10 @@ jquery_version = 1.5
 jqueryui_version = 1.8.9
 swfobject_version = 2.2
 
-; Set to 1 if using a reverse proxy (https to http)
-; or your web server doesn't set $_SERVER['HTTPS'] when using https
-reverse_proxy = 0
+; Set to 1 if you're using https on your Piwik server and Piwik can't detect it,
+; e.g., a reverse proxy using https-to-http, or a web server that doesn't
+; set the HTTPS environment variable.
+assume_secure_protocol = 0
 
 ; List of proxy headers for client IP addresses
 ;
