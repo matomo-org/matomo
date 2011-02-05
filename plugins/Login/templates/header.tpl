@@ -6,12 +6,12 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico" />
 	<link rel="stylesheet" type="text/css" href="plugins/Login/templates/login.css" />
-{if !$enableFramedLogins}
+{if isset($enableFramedLogins) && !$enableFramedLogins}
 {literal}
 	<style>body { display : none; }</style>
 {/literal}
 {/if}
-{if $forceSslLogin}
+{if isset($forceSslLogin) && $forceSslLogin}
 {literal}
 	<script>
 		if(window.location.protocol !== 'https:') {
@@ -37,7 +37,7 @@
 	<script type="text/javascript" src="libs/jquery/jquery.js"></script>
 </head>
 <body class="login">
-{if !$enableFramedLogins}
+{if isset($enableFramedLogins) && !$enableFramedLogins}
 {literal}
 	<script type="text/javascript">
 		if(self == top) {
