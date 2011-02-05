@@ -159,7 +159,7 @@ class Piwik_Cookie
 	public function delete()
 	{
 		$this->setP3PHeader();
-		$this->setCookie($this->name, false, time() - 86400, $this->path, $this->domain);
+		$this->setCookie($this->name, 'deleted', time() - 31536001, $this->path, $this->domain);
 	}
 	
 	/**
