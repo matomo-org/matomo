@@ -346,10 +346,10 @@ class Piwik_PluginsManager
 			$success = $this->dispatcher->removeObserver( array( $plugin, $methodToCall), $hookName );
 			if($success !== true)
 			{
-				throw new Exception("Error unloading plugin = ".$plugin->getClassName() . ", method = $methodToCall, hook = $hookName ");
+				throw new Exception("Error unloading plugin = ".$plugin->getPluginName() . ", method = $methodToCall, hook = $hookName ");
 			}
 		}
-		unset($this->loadedPlugins[$plugin->getClassName()]);
+		unset($this->loadedPlugins[$plugin->getPluginName()]);
 	}
 	
 	public function unloadPlugins()
@@ -374,7 +374,7 @@ class Piwik_PluginsManager
 		try{
 			$plugin->install();
 		} catch(Exception $e) {
-			throw new Piwik_PluginsManager_PluginException($plugin->getClassName(), $e->getMessage());		}	
+			throw new Piwik_PluginsManager_PluginException($plugin->getPluginName(), $e->getMessage());		}	
 	}
 	
 	
@@ -426,7 +426,7 @@ class Piwik_PluginsManager
 			return;
 		}
 	
-		$pluginName = $plugin->getClassName();
+		$pluginName = $plugin->getPluginName();
 		
 		$path = PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName .'/lang/%s.php';
 		
@@ -465,7 +465,7 @@ class Piwik_PluginsManager
 	
 	private function installPluginIfNecessary( Piwik_Plugin $plugin )
 	{
-		$pluginName = $plugin->getClassName();
+		$pluginName = $plugin->getPluginName();
 		
 		// is the plugin already installed or is it the first time we activate it?
 		$pluginsInstalled = $this->getInstalledPluginsName();

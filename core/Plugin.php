@@ -81,12 +81,12 @@ abstract class Piwik_Plugin
 	}
 	
 	/**
-	 * Returns the plugin's base name without the "Piwik_" prefix,
+	 * Returns the plugin's base class name without the "Piwik_" prefix,
 	 * e.g., "UserCountry" when the plugin class is "Piwik_UserCountry"
 	 *
 	 * @return string
 	 */
-	final public function getClassName()
+	final public function getPluginName()
 	{
 		return Piwik::unprefixClass(get_class($this));
 	}
