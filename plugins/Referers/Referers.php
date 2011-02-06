@@ -11,6 +11,11 @@
  */
 
 /**
+ * @see plugins/Referers/functions.php
+ */
+require_once PIWIK_INCLUDE_PATH . '/plugins/Referers/functions.php';
+
+/**
  * @package Piwik_Referers
  */
 class Piwik_Referers extends Piwik_Plugin
@@ -346,6 +351,9 @@ class Piwik_Referers extends Piwik_Plugin
 	protected function archiveDayAggregateGoals($archiveProcessing)
 	{
 		$query = $archiveProcessing->queryConversionsByDimension(array("referer_type","referer_name","referer_keyword"));
+		
+		if($query === false) return;
+		
 		while($row = $query->fetch() )
 		{
 			if(empty($row['referer_type']))

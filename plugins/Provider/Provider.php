@@ -198,7 +198,7 @@ class Piwik_Provider extends Piwik_Plugin
 	 */
 	private function getHost($ip)
 	{
-		return trim(strtolower(@gethostbyaddr(long2ip($ip))));
+		return trim(strtolower(@gethostbyaddr(Piwik_Common::long2ip($ip))));
 	}
 
 	static public function headerUserCountry($notification)

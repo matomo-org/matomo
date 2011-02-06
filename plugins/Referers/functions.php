@@ -147,3 +147,27 @@ function Piwik_getRefererTypeLabel($label)
 	}
 	return html_entity_decode(Piwik_Translate($indexTranslation), ENT_COMPAT, 'UTF-8');
 }
+
+/**
+ * Works in both directions
+ * @param mixed 
+ */
+function Piwik_getRefererTypeFromShortName($name)
+{
+	$map = array(
+		Piwik_Common::REFERER_TYPE_SEARCH_ENGINE => 'search',
+		Piwik_Common::REFERER_TYPE_WEBSITE => 'website',
+		Piwik_Common::REFERER_TYPE_DIRECT_ENTRY => 'direct',
+		Piwik_Common::REFERER_TYPE_CAMPAIGN => 'campaign',
+	);
+	if(isset($map[$name]))
+	{
+		return $map[$name];
+	}
+	if($found = array_search($name, $map))
+	{
+	    return $found;
+	}
+	throw new Exception("Referrer type '$name' is not valid.");
+}
+

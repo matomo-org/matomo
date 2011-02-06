@@ -94,7 +94,7 @@ class Piwik_Live_Visitor
 	{
 		if(isset($this->details['location_ip']))
 		{
-			return long2ip($this->details['location_ip']);
+			return Piwik_Common::long2ip($this->details['location_ip']);
 		}
 		return false;
 	}
@@ -156,17 +156,7 @@ class Piwik_Live_Visitor
 
 	function getRefererType()
 	{
-		$map = array(
-		Piwik_Common::REFERER_TYPE_SEARCH_ENGINE => 'searchEngine',
-		Piwik_Common::REFERER_TYPE_WEBSITE => 'website',
-		Piwik_Common::REFERER_TYPE_DIRECT_ENTRY => 'directEntry',
-		Piwik_Common::REFERER_TYPE_CAMPAIGN => 'campaign',
-		);
-		if(isset($map[$this->details['referer_type']]))
-		{
-			return $map[$this->details['referer_type']];
-		}
-		return $map[Piwik_Common::REFERER_TYPE_DIRECT_ENTRY];
+	    return Piwik_getRefererTypeFromShortName($this->details['referer_type']);
 	}
 
 	function getRefererTypeName()
@@ -191,8 +181,8 @@ class Piwik_Live_Visitor
 
 	function getSearchEngineUrl()
 	{
-		if($this->getRefererType() == 'searchEngine'
-		&& !empty($this->details['referer_name']))
+		if($this->getRefererType() == 'search'
+		    && !empty($this->details['referer_name']))
 		{
 			return Piwik_getSearchEngineUrlFromName($this->details['referer_name']);
 		}
