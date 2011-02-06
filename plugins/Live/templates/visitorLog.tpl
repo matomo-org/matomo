@@ -77,7 +77,7 @@
 					{$visitor.columns.refererName|escape:'html'}
 				</a>
 			{/if}
-			{if $visitor.columns.refererType == 'searchEngine'}
+			{if $visitor.columns.refererType == 'search'}
 				{if !empty($visitor.columns.searchEngineIcon)}
 					<img src="{$visitor.columns.searchEngineIcon}" alt="{$visitor.columns.refererName|escape:'html'}" /> 
 				{/if}
@@ -90,7 +90,7 @@
 					{/if}
 				</a>
 			{/if}
-			{if $visitor.columns.refererType == 'directEntry'}{'Referers_DirectEntry'|translate}{/if}
+			{if $visitor.columns.refererType == 'direct'}{'Referers_DirectEntry'|translate}{/if}
 		</div>
 	</td>
 	<td class="column {if $visitor.columns.isVisitorGoalConverted}highlightField{/if}" style="width:55%" width="55%">

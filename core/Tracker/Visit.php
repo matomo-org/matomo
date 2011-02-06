@@ -567,7 +567,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		 * As a result, these sophisticated bots exhibit characteristics of
 		 * browsers (cookies enabled, executing JavaScript, etc).
 		 */
-		$dotIp = long2ip($ip);
+		$dotIp = Piwik_Common::long2ip($ip);
 		if (strpos($dotIp, '65.55') === 0						// Live/Bing
 				|| strpos($dotIp, '207.46') === 0				// MSN
 				|| strpos($ua, 'bingbot') !== false				// Bingbot
@@ -654,7 +654,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 				if($ip >= $ipRange[0]
 					&& $ip <= $ipRange[1])
 				{
-					printDebug('Visitor IP '.long2ip($ip).' is excluded from being tracked');
+					printDebug('Visitor IP '.Piwik_Common::long2ip($ip).' is excluded from being tracked');
 					return true;
 				}
 			}
@@ -804,7 +804,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	
 	protected function getCustomVariables()
 	{
-	    $customVar = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar( 'cvar', '', 'string', $this->request));
+	    $customVar = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar( 'cvars', '', 'string', $this->request));
 	    $customVar = @json_decode($customVar, $assoc = true);
 	    
 	    if(!is_array($customVar))

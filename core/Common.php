@@ -28,7 +28,7 @@ class Piwik_Common
 	const REFERER_TYPE_SEARCH_ENGINE	= 2;
 	const REFERER_TYPE_WEBSITE			= 3;
 	const REFERER_TYPE_CAMPAIGN			= 6;
-
+	
 	/**
 	 * Flag used with htmlspecialchar
 	 * See php.net/htmlspecialchars
@@ -794,6 +794,14 @@ class Piwik_Common
  * IP addresses
  */
 
+	/**
+	 * Converts from a numeric representation to a string representation 
+	 */
+	static public function long2ip($long)
+	{
+	    return long2ip($long);
+	}
+	
 	/**
 	 * Convert dotted IP to a stringified integer representation
 	 *
