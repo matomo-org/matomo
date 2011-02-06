@@ -90,4 +90,9 @@ abstract class Piwik_Plugin
 	{
 		return Piwik::unprefixClass(get_class($this));
 	}
+	// Backward compatibility
+	final public function getClassName()
+	{
+		return $this->getPluginName();
+	}
 }
