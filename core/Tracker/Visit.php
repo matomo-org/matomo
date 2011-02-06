@@ -804,7 +804,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	
 	protected function getCustomVariables()
 	{
-	    $customVar = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar( 'cvars', '', 'string', $this->request));
+	    $customVar = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar( 'cvar', '', 'string', $this->request));
 	    $customVar = @json_decode($customVar, $assoc = true);
 	    
 	    if(!is_array($customVar))
