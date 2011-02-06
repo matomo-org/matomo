@@ -36,7 +36,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 		$loadedPlugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
 		foreach($loadedPlugins as $oPlugin)
 		{
-			$pluginName = $oPlugin->getClassName();
+			$pluginName = $oPlugin->getPluginName();
 			$plugins[$pluginName]['info'] = $oPlugin->getInformation();
 		}
 
