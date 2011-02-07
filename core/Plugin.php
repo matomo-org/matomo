@@ -90,7 +90,15 @@ abstract class Piwik_Plugin
 	{
 		return Piwik::unprefixClass(get_class($this));
 	}
-	// Backward compatibility
+
+	/**
+	 * Returns the plugin's base class name without the "Piwik_" prefix,
+	 * e.g., "UserCountry" when the plugin class is "Piwik_UserCountry"
+	 *
+	 * @deprecated since 1.2 - for backward compatibility
+	 *
+	 * @return string
+	 */
 	final public function getClassName()
 	{
 		return $this->getPluginName();
