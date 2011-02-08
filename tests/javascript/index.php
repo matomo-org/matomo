@@ -33,15 +33,17 @@ _paq.push(["trackPageView", "Asynchronous tracker"]);';
  <script src="assets/qunit.js" type="text/javascript"></script>
  <script src="jslint/fulljslint.js" type="text/javascript"></script>
  <script type="text/javascript">
-function loadJash() {
-	var jashDiv;
-
+function _e(id){ 
 	if (document.getElementById)
-		jashDiv = document.getElementById('jashDiv');
-	else if (document.layers)
-		jashDiv = document['jashDiv'];
-	else if (document.all)
-		jashDiv = document.all['jashDiv'];
+		return document.getElementById(id);
+	if (document.layers)
+		return document[id];
+	if (document.all)
+		return document.all[id];
+}
+
+function loadJash() {
+	var jashDiv = _e('jashDiv');
 
 	jashDiv.innerHTML = '';
 	document.body.appendChild(document.createElement('script')).src='jash/Jash.js';
@@ -135,14 +137,16 @@ function deleteCookies() {
   <iframe name="iframe6"></iframe>
   <iframe name="iframe7"></iframe>
   <ul>
-    <li><a id="click1" href="javascript:document.getElementById('div1').innerHTML='&lt;iframe src=&quot;http://example.com&quot;&gt;&lt;/iframe&gt;';void(0)" class="clicktest">ignore: implicit (JavaScript href)</a></li>
+    <li><a id="click1" href="javascript:_e('div1').innerHTML='&lt;iframe src=&quot;http://example.com&quot;&gt;&lt;/iframe&gt;';void(0)" class="clicktest">ignore: implicit (JavaScript href)</a></li>
     <li><a id="click2" href="http://example.org" target="iframe2" class="piwik_ignore clicktest">ignore: explicit</a></li>
     <li><a id="click3" href="example.php" target="iframe3" class="clicktest">ignore: implicit (localhost)</a></li>
     <li><a id="click4" href="http://example.net" target="iframe4" class="clicktest">outlink: implicit (outbound URL)</a></li>
     <li><a id="click5" href="example.html" target="iframe5" class="piwik_link clicktest">outlink: explicit (localhost)</a></li>
     <li><a id="click6" href="example.pdf" target="iframe6" class="clicktest">download: implicit (file extension)</a></li>
     <li><a id="click7" href="example.word" target="iframe7" class="piwik_download clicktest">download: explicit</a></li>
+    <li><a id="click8" href="example.exe" target="iframe8" class="clicktest">no click handler</a></li>
   </ul>
+  <div id="clickDiv"></div>
  </div>
 
  <ol id="qunit-tests"></ol>
@@ -215,13 +219,19 @@ function PiwikTest() {
 	});
 
 	test("API methods", function() {
-		expect(38);
+		expect(40);
 
 		equals( typeof Piwik.addPlugin, 'function', 'addPlugin' );
 		equals( typeof Piwik.getTracker, 'function', 'getTracker' );
 		equals( typeof Piwik.getAsyncTracker, 'function', 'getAsyncTracker' );
 
-		var tracker = Piwik.getTracker();
+		var tracker;
+
+		tracker = Piwik.getAsyncTracker();
+		ok(tracker instanceof Object, 'getAsyncTracker');
+
+		tracker = Piwik.getTracker();
+		ok(tracker instanceof Object, 'getTracker');
 
 		equals( typeof tracker.getVisitorId, 'function', 'getVisitorId' );
 		equals( typeof tracker.setTrackerUrl, 'function', 'setTrackerUrl' );
@@ -550,21 +560,26 @@ if ($sqlite) {
 	});
 
 	test("tracking and cookies", function() {
-		expect(17);
+		expect(22);
 
 		var tracker = Piwik.getTracker();
 
 		tracker.setTrackerUrl("piwik.php");
 		tracker.setSiteId(1);
+
 		tracker.setCustomData({ "token" : getToken() });
+		var data = tracker.getCustomData();
+		ok( getToken() != "" && data.token == data["token"] && data.token == getToken(), "setCustomdData() , getCustomData()" );
+
 		tracker.setDocumentTitle("PiwikTest");
 		tracker.setReferrerUrl("http://referrer.example.com");
-
-		tracker.enableLinkTracking();
 
 		tracker.trackPageView();
 
 		tracker.trackPageView("CustomTitleTest");
+
+		tracker.setCustomUrl("http://localhost.localdomain");
+		tracker.trackPageView();
 
 		tracker.trackLink("http://example.ca", "link", { "token" : getToken() });
 
@@ -579,15 +594,37 @@ if ($sqlite) {
 		tracker.setRequestMethod("POST");
 		tracker.trackGoal(42, 69, { "token" : getToken(), "boy" : "Michael", "girl" : "Mandy"});
 
+		QUnit.triggerEvent( _e("click8"), "click" );
+
+		tracker.enableLinkTracking();
+
 		tracker.setRequestMethod("GET");
 		var buttons = new Array("click1", "click2", "click3", "click4", "click5", "click6", "click7");
 		for (var i=0; i < buttons.length; i++) {
-			QUnit.triggerEvent( document.getElementById(buttons[i]), "click" );
+			QUnit.triggerEvent( _e(buttons[i]), "click" );
 		}
 
 		var xhr = window.XMLHttpRequest ? new window.XMLHttpRequest() :
 			window.ActiveXObject ? new ActiveXObject("Microsoft.XMLHTTP") :
 			null;
+
+		var clickDiv = _e("clickDiv"),
+			anchor = document.createElement("a");
+
+		anchor.id = "click9";
+		anchor.href = "http://example.us";
+		clickDiv.innerHTML = "";
+		clickDiv.appendChild(anchor);
+		tracker.addListener(anchor);
+		QUnit.triggerEvent( _e("click9"), "click" );
+
+		var visitorId1, visitorId2;
+
+		_paq.push([ function() {
+			visitorId1 = Piwik.getAsyncTracker().getVisitorId();
+		}]);
+		visitorId2 = tracker.getVisitorId();
+		ok( visitorId1 && visitorId1 != "" && visitorId2 && visitorId2 != "" && (visitorId1 == visitorId2), "getVisitorId()" );
 
 		stop();
 		setTimeout(function() {
@@ -595,19 +632,22 @@ if ($sqlite) {
 			xhr.send(null);
 			results = xhr.responseText;
 
-			ok( /\<span\>11\<\/span\>/.test( results ), "count tracking events" );
-			ok( /PiwikTest/.test( results ), "trackPageView()" );
+			ok( /\<span\>13\<\/span\>/.test( results ), "count tracking events" );
+			ok( /PiwikTest/.test( results ), "trackPageView(), setDocumentTitle()" );
 			ok( /Asynchronous/.test( results ), "async trackPageView()" );
 			ok( /CustomTitleTest/.test( results ), "trackPageView(customTitle)" );
 			ok( /example.ca/.test( results ), "trackLink()" );
 			ok( /example.fr/.test( results ), "async trackLink()" );
 			ok( /example.de/.test( results ), "push function" );
-			ok( /example.net/.test( results ), "click: implicit outlink (by outbound URL)" );
+			ok( /example.us/.test( results ), "addListener()" );
+			ok( /example.net/.test( results ), "setRequestMethod(GET), click: implicit outlink (by outbound URL)" );
 			ok( /example.html/.test( results ), "click: explicit outlink" );
 			ok( /example.pdf/.test( results ), "click: implicit download (by file extension)" );
 			ok( /example.word/.test( results ), "click: explicit download" );
+			ok( ! /example.exe/.test( results ), "enableLinkTracking()" );
 			ok( ! /example.(org|php)/.test( results ), "click: ignored" );
-			ok( /Michael.*?Mandy.*?idgoal=42.*?revenue=69/.test( results ), "trackGoal()" );
+			ok( /Michael.*?Mandy.*?idgoal=42.*?revenue=69/.test( results ), "setRequestMethod(POST), trackGoal()" );
+			ok( /localhost.localdomain/.test( results ), "setCustomUrl()" );
 			ok( /referrer.example.com/.test( results ), "setReferrerUrl()" );
 
 			start();
