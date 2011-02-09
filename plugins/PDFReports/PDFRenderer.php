@@ -96,6 +96,7 @@ class Piwik_PDFReports_PDFRenderer extends TCPDF
 		$this->setPrintHeader(false);
 		//    	$this->SetMargins($left = , $top, $right=-1, $keepmargins=true)
 		$this->AddPage('P');
+		$this->AddFont($this->reportFont, '', '', false);
 		$this->SetFont($this->reportFont,$this->reportFontBold,$this->reportSimpleFontSize);
 		//Image($file, $x='', $y='', $w=0, $h=0, $type='', $link='', $align='', $resize=false, $dpi=300, $palign='', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false) {
 		$this->Image(Piwik::getLogoPath(), $this->logoImagePosition[0], $this->logoImagePosition[1], 180/$factor=2, 0, $type='', $link='', $align='', $resize=false, $dpi=300);
