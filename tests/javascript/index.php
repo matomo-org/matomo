@@ -560,7 +560,7 @@ if ($sqlite) {
 	});
 
 	test("tracking and cookies", function() {
-		expect(22);
+		expect(23);
 
 		var tracker = Piwik.getTracker();
 
@@ -593,6 +593,8 @@ if ($sqlite) {
 
 		tracker.setRequestMethod("POST");
 		tracker.trackGoal(42, 69, { "token" : getToken(), "boy" : "Michael", "girl" : "Mandy"});
+
+		piwik_log("CompatibilityLayer", 1, "piwik.php", { "token" : getToken() });
 
 		QUnit.triggerEvent( _e("click8"), "click" );
 
@@ -632,7 +634,7 @@ if ($sqlite) {
 			xhr.send(null);
 			results = xhr.responseText;
 
-			ok( /\<span\>13\<\/span\>/.test( results ), "count tracking events" );
+			ok( /\<span\>14\<\/span\>/.test( results ), "count tracking events" );
 			ok( /PiwikTest/.test( results ), "trackPageView(), setDocumentTitle()" );
 			ok( /Asynchronous/.test( results ), "async trackPageView()" );
 			ok( /CustomTitleTest/.test( results ), "trackPageView(customTitle)" );
@@ -647,6 +649,7 @@ if ($sqlite) {
 			ok( ! /example.exe/.test( results ), "enableLinkTracking()" );
 			ok( ! /example.(org|php)/.test( results ), "click: ignored" );
 			ok( /Michael.*?Mandy.*?idgoal=42.*?revenue=69/.test( results ), "setRequestMethod(POST), trackGoal()" );
+			ok( /CompatibilityLayer/.test( results ), "piwik_log(): compatibility layer" );
 			ok( /localhost.localdomain/.test( results ), "setCustomUrl()" );
 			ok( /referrer.example.com/.test( results ), "setReferrerUrl()" );
 

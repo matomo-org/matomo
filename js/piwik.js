@@ -530,7 +530,7 @@ var
 					}
 				});
 
-				if (documentAlias.documentElement.doScroll && windowAlias === top) {
+				if (documentAlias.documentElement.doScroll && windowAlias === windowAlias.top) {
 					(function ready() {
 						if (!hasLoaded) {
 							try {
@@ -555,11 +555,11 @@ var
 			var referrer = '';
 
 			try {
-				referrer = top.document.referrer;
+				referrer = windowAlias.top.document.referrer;
 			} catch (e) {
-				if (parent) {
+				if (windowAlias.parent) {
 					try {
-						referrer = parent.document.referrer;
+						referrer = windowAlias.parent.document.referrer;
 					} catch (e2) {
 						referrer = '';
 					}
@@ -1886,8 +1886,8 @@ var
 				 * Frame buster
 				 */
 				killFrame: function () {
-					if (windowAlias !== top) {
-						top.location = windowAlias.location;
+					if (windowAlias !== windowAlias.top) {
+						windowAlias.top.location = windowAlias.location;
 					}
 				},
 
@@ -2000,4 +2000,82 @@ var
 				return asyncTracker;
 			}
 		};
-	}());
+	}()),
+
+	/************************************************************
+	 * Deprecated functionality below
+	 * - for legacy piwik.js compatibility
+	 ************************************************************/
+
+	/*
+	 * Piwik globals
+	 *
+	 *   var piwik_install_tracker, piwik_tracker_pause, piwik_download_extensions, piwik_hosts_alias, piwik_ignore_classes;
+	 */
+
+	piwik_track,
+
+	/**
+	 * Track page visit
+	 *
+	 * @param string documentTitle
+	 * @param int|string siteId
+	 * @param string piwikUrl
+	 * @param mixed customData
+	 */
+	piwik_log = function (documentTitle, siteId, piwikUrl, customData) {
+		"use strict";
+
+		function getOption(optionName) {
+			try {
+				return eval('piwik_' + optionName);
+			} catch (e) { }
+
+			return; /* undefined */
+		}
+
+		// instantiate the tracker
+		var option, piwikTracker = Piwik.getTracker(piwikUrl, siteId);
+
+		// initializer tracker
+		piwikTracker.setDocumentTitle(documentTitle);
+		piwikTracker.setCustomData(customData);
+
+		// handle Piwik globals
+		if (!!(option = getOption('tracker_pause'))) {
+			piwikTracker.setLinkTrackingTimer(option);
+		}
+		if (!!(option = getOption('download_extensions'))) {
+			piwikTracker.setDownloadExtensions(option);
+		}
+		if (!!(option = getOption('hosts_alias'))) {
+			piwikTracker.setDomains(option);
+		}
+		if (!!(option = getOption('ignore_classes'))) {
+			piwikTracker.setIgnoreClasses(option);
+		}
+
+		// track this page view
+		piwikTracker.trackPageView();
+
+		// default is to install the link tracker
+		if ((getOption('install_tracker'))) {
+
+			/**
+			 * Track click manually (function is defined below)
+			 *
+			 * @param string sourceUrl
+			 * @param int|string siteId
+			 * @param string piwikUrl
+			 * @param string linkType
+			 */
+			piwik_track = function (sourceUrl, siteId, piwikUrl, linkType) {
+				piwikTracker.setSiteId(siteId);
+				piwikTracker.setTrackerUrl(piwikUrl);
+				piwikTracker.trackLink(sourceUrl, linkType);
+			};
+
+			// set-up link tracking
+			piwikTracker.enableLinkTracking();
+		}
+	};
