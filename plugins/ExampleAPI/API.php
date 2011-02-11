@@ -17,7 +17,7 @@
  * 
  * Functions can be called internally using the PHP objects directly, or via the 
  * Piwik Web APIs, using HTTP requests. For more information, check out:
- * http://dev.piwik.org/trac/wiki/API/CallingTechniques
+ * http://piwik.org/docs/analytics-api/calling-techniques
  * 
  * Parameters are passed automatically from the GET request to the API functions.
  * 

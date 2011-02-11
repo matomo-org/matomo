@@ -118,7 +118,7 @@ $translations = array(
 	'CorePluginsAdmin_Deactivate' => '停用',
 	'CorePluginsAdmin_Activate' => '啟用',
 	'CorePluginsAdmin_MenuPlugins' => '外掛',
-	'API_QuickDocumentation' => '<h2>應用程式介面 API 快速文件</h2><p>假如您今天沒有資料，您可以先使用此造訪產生器腳本 <a href=\'misc/generateVisits.php\' target=_blank>產生一些資料</a> ！</p><p>您可以為每種方法嘗試任何不同可用的格式，從 Piwik 擷取任何資料是非常容易的。</p><p><b>欲取得更多的資訊請查看 <a href=\'http://dev.piwik.org/trac/wiki/API\'>官方 API 文件</a> 或 <a href=\'http://dev.piwik.org/trac/wiki/API/Reference\'>API 參考文件</a>！</b></P><h2>使用者驗證</h2><p>假如您想要 <b>使用一個 crontab 例行排程來以您的腳本請求資料等等... </b> 您必須增加參數 <code><u>&token_auth=%s</u></code> 至需要驗證的 API 呼叫 URL 位址中！</p><p>此 token_auth 使您的登入帳號及密碼更加安全，故 <b>請勿將之洩露給任何人！</p>',
+	'API_QuickDocumentation' => '<h2>應用程式介面 API 快速文件</h2><p>假如您今天沒有資料，您可以先使用此造訪產生器腳本 <a href=\'misc/generateVisits.php\' target=_blank>產生一些資料</a> ！</p><p>您可以為每種方法嘗試任何不同可用的格式，從 Piwik 擷取任何資料是非常容易的。</p><p><b>欲取得更多的資訊請查看 <a href=\'http://piwik.org/docs/analytics-api\'>官方 API 文件</a> 或 <a href=\'http://piwik.org/docs/analytics-api/reference\'>API 參考文件</a>！</b></P><h2>使用者驗證</h2><p>假如您想要 <b>使用一個 crontab 例行排程來以您的腳本請求資料等等... </b> 您必須增加參數 <code><u>&token_auth=%s</u></code> 至需要驗證的 API 呼叫 URL 位址中！</p><p>此 token_auth 使您的登入帳號及密碼更加安全，故 <b>請勿將之洩露給任何人！</p>',
 	'API_LoadedAPIs' => '已成功載入 %s 個 APIs',
 	'CoreHome_NoPrivileges' => '你已登入為 \'%s\' ，但看起來你在 Piwik 之中似乎沒有任何權限。<br />請要求你的 Piwik 管理員提供您\'檢視\'某一個網站的權限。',
 	'CoreHome_TableNoData' => '無資料提供此表格！',

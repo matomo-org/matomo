@@ -55,7 +55,7 @@ $translations = array(
 	'CorePluginsAdmin_Deactivate' => '無効化',
 	'CorePluginsAdmin_Activate' => '有効化',
 	'CorePluginsAdmin_MenuPlugins' => 'プラグイン',
-	'API_QuickDocumentation' => '<h2>API クイックドキュメント</h2><p>今日のデータがない場合、ビジット生成スクリプトを使用して、はじめに<a href=\'misc/generateVisits.php\' target=_blank>若干のデータを生成</a>することができます。</p><p>あらゆる方法に対して、利用可能な異なる形式を試すことができます。 あなたの望むあらゆるデータを Piwik から抽出するのはとても簡単です！</p><p><b>より詳細な情報については、<a href=\'http://dev.piwik.org/trac/wiki/API\'>公式 API ドキュメント</a>や<a href=\'http://dev.piwik.org/trac/wiki/API/Reference\'>API リファレンス</a>を参照してください。</b></P><h2>ユーザ認証</h2><p><b>あなたのスクリプトでデータを要求（crontab などで）したい場合、</b>認証を必要とする API コールの URL にパラメータ <code><u>&token_auth=%s</u></code> を付加する必要があります。</p><p>この token_auth はログインやパスワードと同じくらい機密です。 決して共有しないでください！</p>',
+	'API_QuickDocumentation' => '<h2>API クイックドキュメント</h2><p>今日のデータがない場合、ビジット生成スクリプトを使用して、はじめに<a href=\'misc/generateVisits.php\' target=_blank>若干のデータを生成</a>することができます。</p><p>あらゆる方法に対して、利用可能な異なる形式を試すことができます。 あなたの望むあらゆるデータを Piwik から抽出するのはとても簡単です！</p><p><b>より詳細な情報については、<a href=\'http://piwik.org/docs/analytics-api\'>公式 API ドキュメント</a>や<a href=\'http://piwik.org/docs/analytics-api/reference\'>API リファレンス</a>を参照してください。</b></P><h2>ユーザ認証</h2><p><b>あなたのスクリプトでデータを要求（crontab などで）したい場合、</b>認証を必要とする API コールの URL にパラメータ <code><u>&token_auth=%s</u></code> を付加する必要があります。</p><p>この token_auth はログインやパスワードと同じくらい機密です。 決して共有しないでください！</p>',
 	'API_LoadedAPIs' => '%s の API が正常に読み込まれました',
 	'CoreHome_NoPrivileges' => 'あなたは \'%s\' としてログインしていますが、Piwik でのいかなるパーミッションも持っていないようです。 <br />あなたにウェブサイトへの「表示」アクセス権を与えるよう、Piwik 管理者に依頼してください。',
 	'CoreHome_TableNoData' => 'このテーブルのデータはありません。',

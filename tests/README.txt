@@ -53,5 +53,5 @@ http://piwik.org/qa/
  PARTICIPATE
 ============
 You can help by improving existing tests, or identify some missing tests and implement them.
-See http://dev.piwik.org/trac/wiki/PiwikDevelopmentProcess#Howtosubmitapatch
+See http://piwik.org/participate/development-process
 Please contact us at hello@piwik.org

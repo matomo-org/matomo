@@ -118,7 +118,7 @@ $translations = array(
 	'CorePluginsAdmin_Deactivate' => '비활성화',
 	'CorePluginsAdmin_Activate' => '활성화',
 	'CorePluginsAdmin_MenuPlugins' => '플러그인',
-	'API_QuickDocumentation' => '<h2>API 간단 문서</h2><p>만약 오늘의 데이터가 없다면 먼저 방문자 생성 스크립트를 이용해 <a href=\'misc/generateVisits.php\' target=_blank>몇가지 데이터를 생성</a> 할 수 있습니다.</p><p>모든 방식에 다른 형식을 시도할 수 있습니다. Piwik에서 원하는 어느 데이터든지 매우 쉽게 추출할 수 있습니다!</p><p><b>더 많은 정보를 위해서 <a href=\'http://dev.piwik.org/trac/wiki/API\'>공식 API 문서</a> 나 <a href=\'http://dev.piwik.org/trac/wiki/API/Reference\'>API 레퍼런스</a>를 살펴보세요.</b></P><h2>사용자 인증</h2><p>만약 스크립트안의 데이터를 요청하길 원한다면. </b> 코드 <code><u>&token_auth=%s</u></code> 를 API에 넣어 인증 URL을 불러오게 하세요.</p><p>이 token_auth 는 당신의 아이디와 비밀번호와 같이 중요합니다. <b>공유하지 마세요!</p>',
+	'API_QuickDocumentation' => '<h2>API 간단 문서</h2><p>만약 오늘의 데이터가 없다면 먼저 방문자 생성 스크립트를 이용해 <a href=\'misc/generateVisits.php\' target=_blank>몇가지 데이터를 생성</a> 할 수 있습니다.</p><p>모든 방식에 다른 형식을 시도할 수 있습니다. Piwik에서 원하는 어느 데이터든지 매우 쉽게 추출할 수 있습니다!</p><p><b>더 많은 정보를 위해서 <a href=\'http://piwik.org/docs/analytics-api\'>공식 API 문서</a> 나 <a href=\'http://piwik.org/docs/analytics-api/reference\'>API 레퍼런스</a>를 살펴보세요.</b></P><h2>사용자 인증</h2><p>만약 스크립트안의 데이터를 요청하길 원한다면. </b> 코드 <code><u>&token_auth=%s</u></code> 를 API에 넣어 인증 URL을 불러오게 하세요.</p><p>이 token_auth 는 당신의 아이디와 비밀번호와 같이 중요합니다. <b>공유하지 마세요!</p>',
 	'API_LoadedAPIs' => '성공적으로 %s API를 불러옴',
 	'CoreHome_NoPrivileges' => '\'%s\' 님으로 로그인했으나 Piwik에 어떤 권한도 없는 것 같습니다.<br />Piwik 관리자에게 웹사이트의 \'view\' 접근을 요청해보세요.',
 	'CoreHome_TableNoData' => '이 테이블을 위한 데이터가 없습니다.',

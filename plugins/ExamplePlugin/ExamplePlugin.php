@@ -124,7 +124,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 	
 	/**
 	 * This method displays a text containing an help about "How to build plugins for Piwik".
-	 * This help is then used on http://dev.piwik.org/trac/wiki/Plugins/GlobalFunctions
+	 * This help is then used on http://piwik.org/docs/plugins/functions
 	 *
 	 */
 	function index()
@@ -174,7 +174,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 		$out .= '<code>Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess()</code> = <b><pre>' .var_export(Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess(),true) . '</pre></b><br />';
 
 		$out .= '<h2>Example API  Users information</h2>';
-		$out .= 'View the list of API methods you can call on <a href="http://dev.piwik.org/trac/wiki/API/Reference#Methods">API reference</a><br />';
+		$out .= 'View the list of API methods you can call on <a href="http://piwik.org/docs/analytics-api/reference">API reference</a><br />';
 		$out .= 'For example you can try <code>Piwik_UsersManager_API::getInstance()->getUsersSitesFromAccess("view");</code> or <code>Piwik_UsersManager_API::getInstance()->deleteUser("userToDelete");</code><br />';
 		
 		$out .= '<h2>Javascript in Piwik</h2>';
