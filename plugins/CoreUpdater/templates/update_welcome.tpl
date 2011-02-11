@@ -74,7 +74,7 @@
 {include file="Installation/templates/integrityDetails.tpl"}
 
 {literal}
-<style>
+<style type="text/css">
 code {
 	background-color:#F0F7FF;
 	border-color:#00008B;

@@ -26,7 +26,7 @@ $(document).ready(function(){
 	initFeedburner();
 });
 </script>
-<style>
+<style type="text/css">
 .metric { font-weight:bold;text-align:left; }
 .feedburner td { padding:0px 3px; } 
 </style>

@@ -5,7 +5,7 @@
 
 
 {literal}
-<style>
+<style type="text/css">
 .widgetize{ 
 	width:980px; 
 	padding:15px 15px 0 15px; 

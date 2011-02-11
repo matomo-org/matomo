@@ -32,7 +32,7 @@ $(document).ready( function() {
 	initManagePdf();
 });
 </script>
-<style>
+<style type="text/css">
 .reportCategory {
 	font-weight:bold;
 	margin-bottom:5px;

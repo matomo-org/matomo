@@ -14,7 +14,7 @@
 {'Installation_JsTagArchivingHelp'|translate}
 
 {literal}
-<style>
+<style type="text/css">
 code {
 	font-size:80%;
 }

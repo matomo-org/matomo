@@ -234,7 +234,7 @@
 
 {if !$showNextStep}
 {literal}
-<style>
+<style type="text/css">
 #legend {
 	border:1px solid #A5A5A5;
 	padding:5px;

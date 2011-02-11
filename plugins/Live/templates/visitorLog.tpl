@@ -143,7 +143,7 @@
 </div>
 
 {literal}
-<style>
+<style type="text/css">
  hr {
 	background:none repeat scroll 0 0 transparent;
 	border-color:-moz-use-text-color -moz-use-text-color #EEEEEE;

@@ -10,7 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="libs/jquery/themes/base/jquery-ui.css" />
 	<link rel="stylesheet" type="text/css" href="themes/default/styles.css" />
 {literal}
-<style>
+<style type="text/css">
 * {
 	margin: 0;
 	padding: 0;
