@@ -45,7 +45,7 @@ All the data is available via APIs for example to get todays keywords in XML
 or yesterday visits information in JSON
 ?module=API&method=VisitsSummary.get&idSite=1&period=month&date=yesterday&format=json
 
-Check the full documentation on http://dev.piwik.org/trac/wiki/API/Reference
+Check the full documentation on http://piwik.org/docs/analytics-api
 
 Generate fake data
 ==================

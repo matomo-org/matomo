@@ -17,7 +17,7 @@
  * You can use this object from anywhere in piwik (inside plugins for example).
  * You can even call it outside of piwik  using the REST API over http
  * or in a php script on the same server as piwik, by including piwik/index.php
- * (see examples in the documentation http://dev.piwik.org/trac/wiki/API)
+ * (see examples in the documentation http://piwik.org/docs/analytics-api)
  * 
  * Example: 
  * $request = new Piwik_API_Request('
@@ -32,7 +32,7 @@
  *	$result = $request->process();
  *  echo $result;
  * 
- * @see http://dev.piwik.org/trac/wiki/API
+ * @see http://piwik.org/docs/analytics-api
  * @package Piwik
  * @subpackage Piwik_API
  */

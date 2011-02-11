@@ -24,7 +24,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
  * This is the class hit in the first place.
  * It dispatches the request to the right controller.
  * 
- * For a detailed explanation, see the documentation on http://dev.piwik.org/trac/wiki/MainSequenceDiagram
+ * For a detailed explanation, see the documentation on http://piwik.org/docs/plugins/framework-overview
  * 
  * @package Piwik
  * @subpackage Piwik_FrontController

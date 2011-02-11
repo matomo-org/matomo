@@ -4,7 +4,7 @@ thead{
 font-weight: bold;
 }
 </style>
-<p>This report is automatically computed in PHP using the <a href='http://dev.piwik.org/trac/wiki/API/Reference'>Piwik APIs</a>. In <a href='http://dev.piwik.org/trac/browser/trunk/misc/api_example_marketing.php'>a few lines of simple PHP</a> (you could use any other language) you can get the data and generate this kind of report.
+<p>This report is automatically computed in PHP using the <a href='http://piwik.org/docs/analytics-api'>Piwik APIs</a>. In <a href='http://dev.piwik.org/trac/browser/trunk/misc/api_example_marketing.php'>a few lines of simple PHP</a> (you could use any other language) you can get the data and generate this kind of report.
 </p><p>This report is generated in order to see how <a href='http://piwik.org'>Piwik.org</a> visitors are interested in Piwik, which we determine by the ratio of visitors that download the software. We also report the number of visitors looking at the <a href='http://demo.piwik.org'>online demo</a>.</p>
 <?php
 $visitsDemo = unserialize(file_get_contents('http://demo.piwik.org/?module=API&method=Actions.getActions&idSite=1&period=day&date=previous8&format=php&filter_column=label&filter_pattern=demo'));

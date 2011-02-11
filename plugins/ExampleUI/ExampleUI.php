@@ -17,7 +17,7 @@
 - test datatable with low population disabled
 - without footer
 - without all columns icon
-+ update http://dev.piwik.org/trac/wiki/HowToTestUI
++ update http://piwik.org/participate/user-interface
 */
 
 /**
