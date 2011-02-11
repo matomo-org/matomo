@@ -44,7 +44,7 @@ $(document).ready( function() {
 });
 </script>
 
-<style>
+<style type="text/css">
 .entityTable tr td {
     vertical-align: top;
     padding-top:7px;

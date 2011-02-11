@@ -1,6 +1,6 @@
 
 {literal}
-<style>
+<style type="text/css">
 .trackingHelp ul { 
 	padding-left:40px;
 	list-style-type:square;

@@ -4,7 +4,7 @@
 {loadJavascriptTranslations plugins='UsersManager'}
 
 {literal}
-<style>
+<style type="text/css">
 .dialog {
 	display: none;
 	padding:20px 10px;
