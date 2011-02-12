@@ -287,15 +287,15 @@ class Piwik_Url
 	}
 
 	/**
-	 * Redirects the user to the Referer if found. 
-	 * If the user doesn't have a referer set, it redirects to the current URL without query string.
+	 * Redirects the user to the referrer if found. 
+	 * If the user doesn't have a referrer set, it redirects to the current URL without query string.
 	 */
 	static public function redirectToReferer()
 	{
-		$referer = self::getReferer();
-		if($referer !== false)
+		$referrer = self::getReferer();
+		if($referrer !== false)
 		{	
-			self::redirectToUrl($referer);
+			self::redirectToUrl($referrer);
 		}
 		self::redirectToUrl(self::getCurrentUrlWithoutQueryString());
 	}
@@ -352,16 +352,16 @@ class Piwik_Url
 	}
 
 	/**
-	 * Get local referer, i.e., on the same host and in the same script path.
+	 * Get local referrer, i.e., on the same host and in the same script path.
 	 *
 	 * @return string|false
 	 */
 	static public function getLocalReferer()
 	{
-		// verify that the referer contains the current URL (minus the filename & query parameters), http://example.org/dir1/dir2/
-		$referer = self::getReferer();
-		if($referer !== false && self::isLocalUrl($referer)) {
-			return $referer;
+		// verify that the referrer contains the current URL (minus the filename & query parameters), http://example.org/dir1/dir2/
+		$referrer = self::getReferer();
+		if($referrer !== false && self::isLocalUrl($referrer)) {
+			return $referrer;
 		}
 
 		return false;

@@ -12,10 +12,10 @@
 			</div>
 			<!--<div class="settings"></div>-->
 			<div class="referer">
-				{if $visitor.refererType != 'direct'}from <a href="{$visitor.refererUrl|escape:'html'}" target="_blank">{if !empty($visitor.searchEngineIcon)}<img src="{$visitor.searchEngineIcon}" /> {/if}{$visitor.refererName|escape:'html'}</a>
+				{if $visitor.referrerType != 'direct'}from <a href="{$visitor.referrerUrl|escape:'html'}" target="_blank">{if !empty($visitor.searchEngineIcon)}<img src="{$visitor.searchEngineIcon}" /> {/if}{$visitor.referrerName|escape:'html'}</a>
 					{if !empty($visitor.keywords)}"{$visitor.keywords|escape:'html'}"{/if}
 				{/if}
-				{if $visitor.refererType == 'direct'}{'Referers_DirectEntry'|translate}{/if}
+				{if $visitor.referrerType == 'direct'}{'Referers_DirectEntry'|translate}{/if}
 			</div>
 		<div id="{$visitor.idVisit}_actions" class="settings">
 			<span class="pagesTitle">{'Actions_SubmenuPages'|translate}:</span>&nbsp;

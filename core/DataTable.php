@@ -582,6 +582,22 @@ class Piwik_DataTable
 	}
 	
 	/**
+	 * Returns an array containing the rows Metadata values
+	 * 
+	 * @param string $name Metadata column to return
+	 * @return array
+	 */
+	public function getRowsMetadata( $name )
+	{
+		$metadataValues = array();
+		foreach($this->getRows() as $row)
+		{
+			$metadataValues[] = $row->getMetadata($name);
+		}
+		return $metadataValues;
+	}
+	
+	/**
 	 * Returns the number of rows in the table
 	 * 
 	 * @return int

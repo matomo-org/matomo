@@ -64,33 +64,33 @@
 
 	<td class="column" style="width:20%" width="20%">
 		<div class="referer">
-			{if $visitor.columns.refererType == 'website'}
+			{if $visitor.columns.referrerType == 'website'}
 				{'Referers_ColumnWebsite'|translate}:
-				<a href="{$visitor.columns.refererUrl|escape:'html'}" target="_blank" title="{$visitor.columns.refererUrl|escape:'html'}" style="text-decoration:underline;">
-					{$visitor.columns.refererName|escape:'html'}
+				<a href="{$visitor.columns.referrerUrl|escape:'html'}" target="_blank" title="{$visitor.columns.referrerUrl|escape:'html'}" style="text-decoration:underline;">
+					{$visitor.columns.referrerName|escape:'html'}
 				</a>
 			{/if}
-			{if $visitor.columns.refererType == 'campaign'}
+			{if $visitor.columns.referrerType == 'campaign'}
 				{'Referers_Campaigns'|translate}
 				<br />
-				<a href="{$visitor.columns.refererUrl|escape:'html'}" target="_blank" title="{$visitor.columns.refererUrl|escape:'html'}" style="text-decoration:underline;">
-					{$visitor.columns.refererName|escape:'html'}
+				<a href="{$visitor.columns.referrerUrl|escape:'html'}" target="_blank" title="{$visitor.columns.referrerUrl|escape:'html'}" style="text-decoration:underline;">
+					{$visitor.columns.referrerName|escape:'html'}
 				</a>
 			{/if}
-			{if $visitor.columns.refererType == 'search'}
+			{if $visitor.columns.referrerType == 'search'}
 				{if !empty($visitor.columns.searchEngineIcon)}
-					<img src="{$visitor.columns.searchEngineIcon}" alt="{$visitor.columns.refererName|escape:'html'}" /> 
+					<img src="{$visitor.columns.searchEngineIcon}" alt="{$visitor.columns.referrerName|escape:'html'}" /> 
 				{/if}
-				{$visitor.columns.refererName|escape:'html'}
+				{$visitor.columns.referrerName|escape:'html'}
 				<br />
 				{if !empty($visitor.columns.keywords)}{'Referers_Keywords'|translate}:{/if}
-				<a href="{$visitor.columns.refererUrl|escape:'html'}" target="_blank" style="text-decoration:underline;">
+				<a href="{$visitor.columns.referrerUrl|escape:'html'}" target="_blank" style="text-decoration:underline;">
 					{if !empty($visitor.columns.keywords)}
 						"{$visitor.columns.keywords|escape:'html'}"
 					{/if}
 				</a>
 			{/if}
-			{if $visitor.columns.refererType == 'direct'}{'Referers_DirectEntry'|translate}{/if}
+			{if $visitor.columns.referrerType == 'direct'}{'Referers_DirectEntry'|translate}{/if}
 		</div>
 	</td>
 	<td class="column {if $visitor.columns.isVisitorGoalConverted}highlightField{/if}" style="width:55%" width="55%">
