@@ -81,6 +81,10 @@ site_selector_max_sites = 10
 ; if set to 1, shows sparklines (evolution graph) in 'All Websites' report (MultiSites plugin)
 show_multisites_sparklines = 1
 
+; if set to 0, the anonymous user will not be able to use the 'segments' parameter in the API request
+; this is useful to prevent full DB access to the anonymous user, or to limit performance usage
+anonymous_user_enable_use_segments_API = 1
+
 ; this action name is used when the URL ends with a slash / 
 ; it is useful to have an actual string to write in the UI
 action_default_name = index
