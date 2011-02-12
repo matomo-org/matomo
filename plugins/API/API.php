@@ -112,7 +112,7 @@ class Piwik_API_API
 		$segments[] = array(
 		        'type' => 'metric',
 		        'category' => 'Visit',
-		        'name' => 'General_ColumnNbActions',
+		        'name' => 'General_NbActions',
 		        'segment' => 'actions',
 		        'sqlSegment' => 'visit_total_actions',
 	    );
@@ -150,9 +150,23 @@ class Piwik_API_API
 		    	unset($segment['sqlSegment']);
 		    }
 		}
+		
+		usort($segments, array($this, 'sortSegments'));
 		return $segments;
 	}
 	
+	private function sortSegments($row1, $row2)
+	{
+		$columns = array('type', 'category', 'name', 'segment');
+		foreach($columns as $column)
+		{
+			$compare = strcmp($row1[$column], $row2[$column]);
+			if($compare != 0){
+				return $compare;
+			}
+		}
+		return $compare;
+	}
     /*
      * Loads reports metadata, then return the requested one, 
      * matching optional API parameters.

@@ -24,7 +24,7 @@
     <td><input type="text" value="100" name="maxVisitors" /></td>
 </tr>
 <tr>
-    <td><label for="nbActions">{'VisitorGenerator_NbActions'|translate}</label></td>
+    <td><label for="nbActions">{'General_NbActions'|translate}</label></td>
     <td><input type="text" value="10" name="nbActions" /></td>
 </tr>
 <tr>

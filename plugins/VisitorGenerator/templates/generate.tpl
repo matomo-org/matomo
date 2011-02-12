@@ -23,7 +23,7 @@
 </tbody>
 </table>
 
-<p>{'VisitorGenerator_NbActions'|translate}: {$nbActionsTotal}<br />
+<p>{'General_NbActions'|translate}: {$nbActionsTotal}<br />
 {'VisitorGenerator_NbRequestsPerSec'|translate}: {$nbRequestsPerSec}<br />
 {$timer}</p>
 
