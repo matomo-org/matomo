@@ -110,6 +110,8 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 	{
 		$archiveProcessing = $notification->getNotificationObject();
 		
+		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
+		
 		$dataTableToSum = array( 
 				'VisitorInterest_timeGap',
 				'VisitorInterest_pageGap',
@@ -121,6 +123,8 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 	{
 		$this->archiveProcessing = $notification->getNotificationObject();
 
+		if(!$this->archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
+		
 		$recordName = 'VisitorInterest_timeGap';
 		$tableTimegap = $this->getTableTimeGap();
 		$this->archiveProcessing->insertBlobRecord($recordName, $tableTimegap->getSerialized());

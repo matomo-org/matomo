@@ -21,13 +21,13 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 	 * @param string $strPeriod eg. 'day' 'week' etc.
 	 * @param string $strDate A date range, eg. 'last10', 'previous5' or 'YYYY-MM-DD,YYYY-MM-DD'
 	 */
-	function __construct($sites, $strPeriod, $strDate)
+	function __construct($sites, $strPeriod, $strDate, Piwik_Segment $segment)
 	{
 		foreach($sites as $idSite)
 		{
-			$archive = Piwik_Archive::build($idSite, $strPeriod, $strDate );
+			$archive = Piwik_Archive::build($idSite, $strPeriod, $strDate, $segment->getString() );
 			$archive->setSite(new Piwik_Site($idSite));
-			$archive->prepareArchive();
+			$archive->setSegment($segment);
 			$this->archives[$idSite] = $archive;
 		}
 		ksort( $this->archives );
@@ -79,6 +79,12 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 
 	private function getValues($fields)
 	{
+		foreach($this->archives as $archive)
+		{
+			$archive->setRequestedReport( is_string($fields) ? $fields : current($fields) );
+			$archive->prepareArchive();
+		}
+		
 		$arrayValues = array();
 		foreach($this->loadValuesFromDB($fields) as $value)
  		{
@@ -90,9 +96,14 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 	private function loadValuesFromDB($fields)
 	{
 		$inNames = $this->getSqlStringFieldsArray($fields);
+		$archiveIds = $this->getArchiveIds();
+		if(empty($archiveIds))
+		{
+			return array();
+		}
  		$sql = "SELECT value, name, idarchive, idsite
 								FROM {$this->getNumericTableName()}
-								WHERE idarchive IN ( {$this->getArchiveIds()} )
+								WHERE idarchive IN ( $archiveIds )
 									AND name IN ( $inNames )";
 		return Piwik_FetchAll($sql, $fields);
 	}
@@ -105,13 +116,20 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 
 	private function getArchiveIds()
 	{
+		$archiveIds = array();
 		foreach($this->archives as $archive)
  		{
+ 			if( !$archive->isThereSomeVisits )
+ 			{
+ 				continue;
+ 			}
+ 			
+			$archiveIds[] = $archive->getIdArchive();
+			
  			if( $this->getNumericTableName() != $archive->archiveProcessing->getTableArchiveNumericName())
 			{
 				throw new Exception("Piwik_Archive_Array_IndexedBySite::getDataTableFromNumeric() algorithm won't work if data is stored in different tables");
 			}
-			$archiveIds[] = $archive->getIdArchive();
  		}
 		return implode(', ', array_filter($archiveIds));
 	}

@@ -26,10 +26,10 @@ class Piwik_VisitsSummary_API
 		return self::$instance;
 	}
 	
-	public function get( $idSite, $period, $date, $columns = false)
+	public function get( $idSite, $period, $date, $segment = false, $columns = false)
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $period, $date );
+		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
 	
 		// array values are comma separated
 		$columns = Piwik::getArrayFromApiParameter($columns);
@@ -92,52 +92,52 @@ class Piwik_VisitsSummary_API
 		return $dataTable;
 	}
 	
-	protected function getNumeric( $idSite, $period, $date, $toFetch )
+	protected function getNumeric( $idSite, $period, $date, $segment, $toFetch )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $period, $date );
+		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
 		$dataTable = $archive->getNumeric($toFetch);
 		return $dataTable;		
 	}
 
-	public function getVisits( $idSite, $period, $date )
+	public function getVisits( $idSite, $period, $date, $segment = false )
 	{
-		return $this->getNumeric( $idSite, $period, $date, 'nb_visits');
+		return $this->getNumeric( $idSite, $period, $date, $segment, 'nb_visits');
 	}
 	
-	public function getUniqueVisitors( $idSite, $period, $date )
+	public function getUniqueVisitors( $idSite, $period, $date, $segment = false )
 	{
-		return $this->getNumeric( $idSite, $period, $date, 'nb_uniq_visitors');
+		return $this->getNumeric( $idSite, $period, $date, $segment, 'nb_uniq_visitors');
 	}
 	
-	public function getActions( $idSite, $period, $date )
+	public function getActions( $idSite, $period, $date, $segment = false )
 	{
-		return $this->getNumeric( $idSite, $period, $date, 'nb_actions');
+		return $this->getNumeric( $idSite, $period, $date, $segment, 'nb_actions');
 	}
 	
-	public function getMaxActions( $idSite, $period, $date )
+	public function getMaxActions( $idSite, $period, $date, $segment = false )
 	{
-		return $this->getNumeric( $idSite, $period, $date, 'max_actions');
+		return $this->getNumeric( $idSite, $period, $date, $segment, 'max_actions');
 	}
 	
-	public function getBounceCount( $idSite, $period, $date )
+	public function getBounceCount( $idSite, $period, $date, $segment = false )
 	{
-		return $this->getNumeric( $idSite, $period, $date, 'bounce_count');
+		return $this->getNumeric( $idSite, $period, $date, $segment, 'bounce_count');
 	}
 	
-	public function getVisitsConverted( $idSite, $period, $date )
+	public function getVisitsConverted( $idSite, $period, $date, $segment = false )
 	{
-		return $this->getNumeric( $idSite, $period, $date, 'nb_visits_converted');
+		return $this->getNumeric( $idSite, $period, $date, $segment, 'nb_visits_converted');
 	}
 	
-	public function getSumVisitsLength( $idSite, $period, $date )
+	public function getSumVisitsLength( $idSite, $period, $date, $segment = false )
 	{
-		return $this->getNumeric( $idSite, $period, $date, 'sum_visit_length');
+		return $this->getNumeric( $idSite, $period, $date, $segment, 'sum_visit_length');
 	}
 	
-	public function getSumVisitsLengthPretty( $idSite, $period, $date )
+	public function getSumVisitsLengthPretty( $idSite, $period, $date, $segment = false )
 	{
-		$table = $this->getSumVisitsLength( $idSite, $period, $date );
+		$table = $this->getSumVisitsLength( $idSite, $period, $date, $segment );
 		if($table instanceof Piwik_DataTable_Array) {
 			$table->filter('ColumnCallbackReplace', array(0, array('Piwik', 'getPrettyTimeFromSeconds')));
 		} else {

@@ -175,10 +175,10 @@ class Piwik_Goals_API
 	 * @param $columns Comma separated list of metrics to fetch: nb_conversions, conversion_rate, revenue
 	 * @return Piwik_DataTable
 	 */
-	public function get( $idSite, $period, $date, $idGoal = false, $columns = array() )
+	public function get( $idSite, $period, $date, $segment = false, $idGoal = false, $columns = array() )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $period, $date );
+		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
 		$columns = Piwik::getArrayFromApiParameter($columns);
 		
 		if(empty($columns))
@@ -204,26 +204,26 @@ class Piwik_Goals_API
 		return $dataTable;
 	}
 	
-	protected function getNumeric( $idSite, $period, $date, $toFetch )
+	protected function getNumeric( $idSite, $period, $date, $segment, $toFetch )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $period, $date );
+		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
 		$dataTable = $archive->getNumeric($toFetch);
 		return $dataTable;		
 	}
 
-	public function getConversions( $idSite, $period, $date, $idGoal = false )
+	public function getConversions( $idSite, $period, $date, $segment = false, $idGoal = false )
 	{
-		return $this->getNumeric( $idSite, $period, $date, Piwik_Goals::getRecordName('nb_conversions', $idGoal));
+		return $this->getNumeric( $idSite, $period, $date, $segment, Piwik_Goals::getRecordName('nb_conversions', $idGoal));
 	}
 	
-	public function getConversionRate( $idSite, $period, $date, $idGoal = false )
+	public function getConversionRate( $idSite, $period, $date, $segment = false, $idGoal = false )
 	{
-		return $this->getNumeric( $idSite, $period, $date, Piwik_Goals::getRecordName('conversion_rate', $idGoal));
+		return $this->getNumeric( $idSite, $period, $date, $segment, Piwik_Goals::getRecordName('conversion_rate', $idGoal));
 	}
 	
-	public function getRevenue( $idSite, $period, $date, $idGoal = false )
+	public function getRevenue( $idSite, $period, $date, $segment = false, $idGoal = false )
 	{
-		return $this->getNumeric( $idSite, $period, $date, Piwik_Goals::getRecordName('revenue', $idGoal));
+		return $this->getNumeric( $idSite, $period, $date, $segment, Piwik_Goals::getRecordName('revenue', $idGoal));
 	}
 }

@@ -23,18 +23,16 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 	 * @param string $strPeriod eg. 'day' 'week' etc.
 	 * @param string $strDate A date range, eg. 'last10', 'previous5' or 'YYYY-MM-DD,YYYY-MM-DD'
 	 */
-	function __construct(Piwik_Site $oSite, $strPeriod, $strDate)
+	function __construct(Piwik_Site $oSite, $strPeriod, $strDate, Piwik_Segment $segment)
 	{
 		$rangePeriod = new Piwik_Period_Range($strPeriod, $strDate, $oSite->getTimezone());
 		foreach($rangePeriod->getSubperiods() as $subPeriod)
 		{
 			$startDate = $subPeriod->getDateStart();
-			$archive = Piwik_Archive::build($oSite->getId(), $strPeriod, $startDate );
-			$archive->prepareArchive();
-			$timestamp = $archive->getTimestampStartDate();
-			$this->archives[$timestamp] = $archive;
+			$archive = Piwik_Archive::build($oSite->getId(), $strPeriod, $startDate, $segment->getString() );
+			$archive->setSegment($segment);
+			$this->archives[] = $archive;
 		}
-		ksort( $this->archives );
 	}
 	
 	protected function getIndexName()
@@ -79,6 +77,8 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 		$queries = array();
 		foreach($this->archives as $archive) 
 		{
+			$archive->setRequestedReport( is_string($fields) ? $fields : current($fields) );
+			$archive->prepareArchive();
 			if(!$archive->isThereSomeVisits)
 			{
 				continue;
@@ -120,11 +120,13 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 		$contentArray = array();
 		// we add empty tables so that every requested date has an entry, even if there is nothing
 		// example: <result date="2007-01-01" />
-		foreach($this->archives as $timestamp => $archive)
+		$archiveByTimestamp = array();
+		foreach($this->archives as $archive)
 		{
-			$strDate = $this->archives[$timestamp]->getPrettyDate();
+			$timestamp = $archive->getTimestampStartDate();
+			$archiveByTimestamp[$timestamp] = $archive;
 			$contentArray[$timestamp]['table'] = new Piwik_DataTable_Simple();
-			$contentArray[$timestamp]['prettyDate'] = $strDate;
+			$contentArray[$timestamp]['prettyDate'] = $archive->getPrettyDate();
 		}
 
 		foreach($arrayValues as $timestamp => $aNameValues)
@@ -137,7 +139,7 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 		foreach($contentArray as $timestamp => $aData)
 		{
 			$tableArray->addTable($aData['table'], $aData['prettyDate']);
-			$this->loadMetadata($tableArray, $this->archives[$timestamp]);
+			$this->loadMetadata($tableArray, $archiveByTimestamp[$timestamp]);
 		}
 		return $tableArray;
 	}

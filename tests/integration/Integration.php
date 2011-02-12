@@ -337,7 +337,10 @@ abstract class Test_Integration extends Test_Database
 			'date'		=> date('Y-m-d', strtotime($dateTime)),
 			'expanded'  => '1',
 			'piwikUrl'  => 'http://example.org/piwik/',
-		
+
+			// Used in getKeywordsForPageUrl
+			'url'		=> 'http://example.org/store/purchase.htm',
+			
 			// Used in Actions.getPageUrl, .getDownload, etc.
 			// tied to Main.test.php doTest_oneVisitorTwoVisits
 			// will need refactoring when these same API functions are tested in a new function

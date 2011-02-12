@@ -95,6 +95,64 @@ class Piwik_API_API
 		return array_map('Piwik_Translate', $translations);
 	}
 	
+	public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true)
+	{
+		$segments = array();
+		Piwik_PostEvent('API.getSegmentsMetadata', $segments, $idSites);
+		
+		$segments[] = array(
+		        'type' => 'dimension',
+		        'category' => 'Visit',
+		        'name' => 'General_VisitorIP',
+		        'segment' => 'visitIp',
+		        'sqlSegment' => 'location_ip',
+		        'sqlFilter' => array('Piwik_Common', 'long2ip'),
+		        'permission' => Piwik::isUserHasAdminAccess($idSites),
+	    );
+		$segments[] = array(
+		        'type' => 'metric',
+		        'category' => 'Visit',
+		        'name' => 'General_ColumnNbActions',
+		        'segment' => 'actions',
+		        'sqlSegment' => 'visit_total_actions',
+	    );
+		$segments[] = array(
+		        'type' => 'metric',
+		        'category' => 'Visit',
+		        'name' => 'General_ColumnVisitDuration',
+		        'segment' => 'visitDuration',
+		        'sqlSegment' => 'visit_total_time',
+	    );
+		$segments[] = array(
+		        'type' => 'dimension',
+		        'category' => 'Visit',
+		        'name' => 'General_VisitType',
+		        'segment' => 'visitorType',
+		        'acceptedValues' => 'new, returning',
+		        'sqlSegment' => 'visitor_returning',
+		        'sqlFilter' => create_function('$type', 'return $type == "new" ? 0 : 1;'),
+	    );
+//@TODO with 1st party cookies
+// visitCount
+// daysSinceLastVisit
+// visitsToTransaction
+// daysToTransaction
+//  visit_goal_converted
+
+		foreach ($segments as &$segment) 
+		{
+		    $segment['name'] = Piwik_Translate($segment['name']);
+		    $segment['category'] = Piwik_Translate($segment['category']);
+		    
+		    if($_hideImplementationData)
+		    {
+		    	unset($segment['sqlFilter']);
+		    	unset($segment['sqlSegment']);
+		    }
+		}
+		return $segments;
+	}
+	
     /*
      * Loads reports metadata, then return the requested one, 
      * matching optional API parameters.
@@ -139,13 +197,8 @@ class Piwik_API_API
 	 * @param string $idSites Comma separated list of website Ids
 	 * @return array
 	 */
-	public function getReportMetadata($idSites = array()) 
+	public function getReportMetadata($idSites = '') 
 	{
-		if (!is_array($idSites)) 
-		{ 
-            $idSites = array($idSites); 
-		}
-		 
 		$idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
 		
 		$availableReports = array();
@@ -208,7 +261,7 @@ class Piwik_API_API
 		return $availableReports;
 	}
 
-	public function getProcessedReport($idSite, $date, $period, $apiModule, $apiAction, $apiParameters = false, $language = false)
+	public function getProcessedReport($idSite, $period, $date, $segment = false, $apiModule, $apiAction, $apiParameters = false, $language = false)
     {
     	if($apiParameters === false)
     	{
@@ -228,6 +281,7 @@ class Piwik_API_API
 			'idSite' => $idSite,
 			'period' => $period,
 			'date' => $date,
+			'segment' => $segment,
 			'format' => 'original',
 			'serialize' => '0',
 			'language' => $language,
@@ -256,9 +310,11 @@ class Piwik_API_API
     		$name = ucfirst($name);
     	}
     	$website = new Piwik_Site($idSite);
+//    	$segment = new Piwik_Segment($segment, $idSite);
     	return array(
 				'website' => $website->getName(),
 				'prettyDate' => Piwik_Period::factory($period, Piwik_Date::factory($date))->getLocalizedLongString(),
+//    			'prettySegment' => $segment->getPrettyString(),
 				'metadata' => $reportMetadata, 
 				'columns' => $columns, 
 				'reportData' =>	$newReport, 

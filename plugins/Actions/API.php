@@ -33,70 +33,70 @@ class Piwik_Actions_API
 	 * Backward compatibility. Fallsback to getPageTitles() instead.
 	 * @deprecated Deprecated since Piwik 0.5
 	 */
-	public function getActions( $idSite, $period, $date, $expanded = false, $idSubtable = false )
+	public function getActions( $idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false )
 	{
-	    return $this->getPageTitles( $idSite, $period, $date, $expanded, $idSubtable );
+	    return $this->getPageTitles( $idSite, $period, $date, $segment, $expanded, $idSubtable );
 	}
 	
-	public function getPageUrls( $idSite, $period, $date, $expanded = false, $idSubtable = false )
+	public function getPageUrls( $idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false )
 	{
-		$dataTable = Piwik_Archive::getDataTableFromArchive('Actions_actions_url', $idSite, $period, $date, $expanded, $idSubtable );
+		$dataTable = Piwik_Archive::getDataTableFromArchive('Actions_actions_url', $idSite, $period, $date, $segment, $expanded, $idSubtable );
 		$this->filterPageDatatable($dataTable);
 		$this->filterActionsDataTable($dataTable, $expanded);
 		return $dataTable;
 	}
 	
-	public function getPageUrl( $idSite, $period, $date, $pageUrl)
+	public function getPageUrl( $idSite, $period, $date, $segment = false, $pageUrl)
 	{
-		$callBackParameters = array('Actions_actions_url', $idSite, $period, $date, $expanded = false, $idSubtable = false );
+		$callBackParameters = array('Actions_actions_url', $idSite, $period, $date, $segment, $expanded = false, $idSubtable = false );
 		$dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageUrl, Piwik_Tracker_Action::TYPE_ACTION_URL);
 		$this->filterPageDatatable($dataTable);
 		$this->filterActionsDataTable($dataTable);
 		return $dataTable;
 	}
 	
-	public function getPageTitles( $idSite, $period, $date, $expanded = false, $idSubtable = false)
+	public function getPageTitles( $idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false)
 	{
-		$dataTable = Piwik_Archive::getDataTableFromArchive('Actions_actions', $idSite, $period, $date, $expanded, $idSubtable);
+		$dataTable = Piwik_Archive::getDataTableFromArchive('Actions_actions', $idSite, $period, $date, $segment, $expanded, $idSubtable);
 		$this->filterPageDatatable($dataTable);
 		$this->filterActionsDataTable($dataTable, $expanded);
 		return $dataTable;
 	}
 	
-	public function getPageTitle( $idSite, $period, $date, $pageName)
+	public function getPageTitle( $idSite, $period, $date, $segment = false, $pageName)
 	{
-		$callBackParameters = array('Actions_actions', $idSite, $period, $date, $expanded = false, $idSubtable = false );
+		$callBackParameters = array('Actions_actions', $idSite, $period, $date, $segment, $expanded = false, $idSubtable = false );
 		$dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageName, Piwik_Tracker_Action::TYPE_ACTION_NAME);
 		$this->filterActionsDataTable($dataTable);
 		$this->filterPageDatatable($dataTable);
 		return $dataTable;
 	}
 	
-	public function getDownloads( $idSite, $period, $date, $expanded = false, $idSubtable = false )
+	public function getDownloads( $idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false )
 	{
-		$dataTable = Piwik_Archive::getDataTableFromArchive('Actions_downloads', $idSite, $period, $date, $expanded, $idSubtable );
+		$dataTable = Piwik_Archive::getDataTableFromArchive('Actions_downloads', $idSite, $period, $date, $segment, $expanded, $idSubtable );
 		$this->filterActionsDataTable($dataTable, $expanded);
 		return $dataTable;
 	}
 
-	public function getDownload( $idSite, $period, $date, $downloadUrl)
+	public function getDownload( $idSite, $period, $date, $segment = false, $downloadUrl)
 	{
-		$callBackParameters = array('Actions_downloads', $idSite, $period, $date, $expanded = false, $idSubtable = false );
+		$callBackParameters = array('Actions_downloads', $idSite, $period, $date, $segment, $expanded = false, $idSubtable = false );
 		$dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $downloadUrl, Piwik_Tracker_Action::TYPE_DOWNLOAD);
 		$this->filterActionsDataTable($dataTable);
 		return $dataTable;
 	}
 	
-	public function getOutlinks( $idSite, $period, $date, $expanded = false, $idSubtable = false )
+	public function getOutlinks( $idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false )
 	{
-		$dataTable = Piwik_Archive::getDataTableFromArchive('Actions_outlink', $idSite, $period, $date, $expanded, $idSubtable );
+		$dataTable = Piwik_Archive::getDataTableFromArchive('Actions_outlink', $idSite, $period, $date, $segment, $expanded, $idSubtable );
 		$this->filterActionsDataTable($dataTable, $expanded);
 		return $dataTable;
 	}
 
-	public function getOutlink( $idSite, $period, $date, $outlinkUrl)
+	public function getOutlink( $idSite, $period, $date, $segment = false, $outlinkUrl)
 	{
-		$callBackParameters = array('Actions_outlink', $idSite, $period, $date, $expanded = false, $idSubtable = false );
+		$callBackParameters = array('Actions_outlink', $idSite, $period, $date, $segment, $expanded = false, $idSubtable = false );
 		$dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $outlinkUrl, Piwik_Tracker_Action::TYPE_OUTLINK);
 		$this->filterActionsDataTable($dataTable);
 		return $dataTable;
@@ -146,7 +146,7 @@ class Piwik_Actions_API
 				// If we still need to search deeper, call search 
 				$idSubTable = $row->getIdSubDataTable();
 				// Update the idSubtable in the callback parameter list, to fetch this subtable from the archive
-				$callBackParameters[5] = $idSubTable;
+				$callBackParameters[6] = $idSubTable;
 				$subTable = call_user_func_array(array('Piwik_Archive', 'getDataTableFromArchive'), $callBackParameters);
 				$found = $this->getFilterPageDatatableSearch($callBackParameters, $search, $actionType, $subTable, $searchTree, $searchCurrentLevel+1);
 				if($found)
@@ -179,7 +179,7 @@ class Piwik_Actions_API
 		$dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('bounce_rate', 'entry_bounce_count', 'entry_nb_visits', 0));
 		
 		// % Exit = Number of visits that finished on this page / visits on this page
-		$dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('exit_rate', 'exit_nb_visits', 'nb_hits', 0));
+		$dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('exit_rate', 'exit_nb_visits', 'nb_visits', 0));
 	}
 	
 	/**

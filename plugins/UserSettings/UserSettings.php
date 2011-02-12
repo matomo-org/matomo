@@ -41,16 +41,72 @@ class Piwik_UserSettings extends Piwik_Plugin
 	 * Defines API reports. 
 	 * Also used to define Widgets.
 	 * 
-	 * @array Category, Report Name, API Module, API action, Translated column name
+	 * @array Category, Report Name, API Module, API action, Translated column name, 
+	 * 			$segment, $sqlSegment, $acceptedValues, $sqlFilter
 	 */
 	protected $reportMetadata = array(
-		array( 'UserSettings_VisitorSettings', 'UserSettings_WidgetResolutions', 'UserSettings', 'getResolution', 'UserSettings_ColumnResolution' ),
-		array( 'UserSettings_VisitorSettings', 'UserSettings_WidgetBrowsers', 'UserSettings', 'getBrowser', 'UserSettings_ColumnBrowser'),
-		array( 'UserSettings_VisitorSettings', 'UserSettings_WidgetPlugins', 'UserSettings', 'getPlugin', 'UserSettings_ColumnPlugin'),
-		array( 'UserSettings_VisitorSettings', 'UserSettings_WidgetWidescreen', 'UserSettings', 'getWideScreen', 'UserSettings_ColumnTypeOfScreen'),
-		array( 'UserSettings_VisitorSettings', 'UserSettings_WidgetBrowserFamilies', 'UserSettings', 'getBrowserType', 'UserSettings_ColumnBrowserFamily'),
-		array( 'UserSettings_VisitorSettings', 'UserSettings_WidgetOperatingSystems', 'UserSettings', 'getOS', 'UserSettings_ColumnOperatingSystem'),
-		array( 'UserSettings_VisitorSettings', 'UserSettings_WidgetGlobalVisitors', 'UserSettings', 'getConfiguration', 'UserSettings_ColumnConfiguration'),
+		array( 	'UserSettings_VisitorSettings', 
+				'UserSettings_WidgetResolutions', 
+				'UserSettings', 
+				'getResolution', 
+				'UserSettings_ColumnResolution',
+				'resolution',
+				'config_resolution',
+				'1280x1024, 800x600, etc.',
+				),
+		
+		array( 	'UserSettings_VisitorSettings', 
+				'UserSettings_WidgetBrowsers', 
+				'UserSettings', 
+				'getBrowser', 
+				'UserSettings_ColumnBrowser',
+				'browserName',
+				'config_browser_name',
+				'FF, IE, CH, SF, OP, etc.',),
+		
+		// Only used as a Segment, not as a widget
+		array( 	false, 
+				false, 
+				'UserSettings', 
+				'getBrowser', 
+				'UserSettings_ColumnBrowserVersion',
+				'browserVersion',
+				'config_browser_version',
+				'1.0, 8.0, etc.',),
+		
+		
+		array( 	'UserSettings_VisitorSettings', 
+    			'UserSettings_WidgetPlugins', 
+    			'UserSettings', 
+    			'getPlugin', 
+    			'UserSettings_ColumnPlugin'),
+		
+		array( 	'UserSettings_VisitorSettings', 
+				'UserSettings_WidgetWidescreen', 
+				'UserSettings', 
+				'getWideScreen', 
+				'UserSettings_ColumnTypeOfScreen'),
+		
+		array( 'UserSettings_VisitorSettings', 
+				'UserSettings_WidgetBrowserFamilies', 
+				'UserSettings', 
+				'getBrowserType', 
+				'UserSettings_ColumnBrowserFamily'),
+		
+		array( 'UserSettings_VisitorSettings', 
+				'UserSettings_WidgetOperatingSystems', 
+				'UserSettings', 
+				'getOS', 
+				'UserSettings_ColumnOperatingSystem',
+				'operatingSystem',
+				'config_os',
+				'WXP, WI7, MAC, LIN, AND, IPD, etc.'),
+		
+		array( 	'UserSettings_VisitorSettings', 
+				'UserSettings_WidgetGlobalVisitors', 
+				'UserSettings', 
+				'getConfiguration', 
+				'UserSettings_ColumnConfiguration'),
 	);
 	
 	/*
@@ -64,6 +120,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenu',
 			'API.getReportMetadata' => 'getReportMetadata',
+		    'API.getSegmentsMetadata' => 'getSegmentsMetadata',
 		);
 		return $hooks;
 	}
@@ -78,6 +135,8 @@ class Piwik_UserSettings extends Piwik_Plugin
 		foreach($this->reportMetadata as $report)
 		{
 			list( $category, $name, $apiModule, $apiAction, $columnName ) = $report;
+			if($category == false) continue;
+			
     		$report = array(
     			'category' => Piwik_Translate($category),
     			'name' => Piwik_Translate($name),
@@ -99,6 +158,25 @@ class Piwik_UserSettings extends Piwik_Plugin
     		$reports[] = $report;
 		}
 	}
+
+	public function getSegmentsMetadata($notification)
+	{
+		$segments =& $notification->getNotificationObject();
+	    foreach($this->reportMetadata as $report)
+	    {
+			@list( $category, $name, $apiModule, $apiAction, $columnName, $segment, $sqlSegment, $acceptedValues, $sqlFilter ) = $report;
+	    	if(empty($segment)) continue;
+	    	$segments[] = array(
+		        'type' => 'dimension',
+		        'category' => 'Visit',
+		        'name' => $columnName,
+		        'segment' => $segment,
+		        'acceptedValues' => $acceptedValues,
+		        'sqlSegment' => $sqlSegment,
+	            'sqlFilter' => isset($sqlFilter) ? $sqlFilter : false,
+	    	);
+	    }
+	}
 	
 	/**
 	 * Adds the various User Settings widgets
@@ -109,6 +187,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 		foreach($this->reportMetadata as $report)
 		{
 			list( $category, $name, $controllerName, $controllerAction ) = $report;
+			if($category == false) continue;
 			Piwik_AddWidget( $category, $name, $controllerName, $controllerAction );
 		}
 	}
@@ -136,6 +215,9 @@ class Piwik_UserSettings extends Piwik_Plugin
 		$columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
 		
 		$archiveProcessing = $notification->getNotificationObject();
+		
+		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
+		
 		$this->archiveProcessing = $archiveProcessing;
 			
 		$recordName = 'UserSettings_configuration';
@@ -191,6 +273,9 @@ class Piwik_UserSettings extends Piwik_Plugin
 	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
+		
+		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
+		
 		$maximumRowsInDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_standard;
 		
 		$dataTableToSum = array( 

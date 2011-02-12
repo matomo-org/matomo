@@ -38,6 +38,7 @@ class Piwik_Provider extends Piwik_Plugin
 			'WidgetsList.add' => 'addWidget',
 			'Menu.add' => 'addMenu',
 			'API.getReportMetadata' => 'getReportMetadata',
+		    'API.getSegmentsMetadata' => 'getSegmentsMetadata',
 		);
 		return $hooks;
 	}
@@ -52,6 +53,18 @@ class Piwik_Provider extends Piwik_Plugin
 			'action' => 'getProvider',
 			'dimension' => Piwik_Translate('Provider_ColumnProvider'),
 		);
+	}
+
+	public function getSegmentsMetadata($notification)
+	{
+		$segments =& $notification->getNotificationObject();
+		$segments[] = array(
+		        'type' => 'dimension',
+		        'category' => 'Visit',
+		        'name' => Piwik_Translate('Provider_ColumnProvider'),
+		        'segment' => 'provider',
+		        'sqlSegment' => 'location_provider'
+       );
 	}
 	
 	function install()
@@ -100,6 +113,9 @@ class Piwik_Provider extends Piwik_Plugin
 	{
 		$maximumRowsInDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_standard;
 		$archiveProcessing = $notification->getNotificationObject();
+		
+		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
+		
 		$dataTableToSum = array( 'Provider_hostnameExt' );
 		$archiveProcessing->archiveDataTable($dataTableToSum, null, $maximumRowsInDataTable);
 	}
@@ -110,6 +126,8 @@ class Piwik_Provider extends Piwik_Plugin
 	function archiveDay($notification)
 	{
 		$archiveProcessing = $notification->getNotificationObject();
+		
+		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 		
 		$recordName = 'Provider_hostnameExt';
 		$labelSQL = "location_provider";

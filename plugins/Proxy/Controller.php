@@ -109,15 +109,15 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 
 	/**
 	 * Output redirection page instead of linking directly to avoid
-	 * exposing the referer on the Piwik demo.
+	 * exposing the referrer on the Piwik demo.
 	 *
 	 * @param string $url (via $_GET)
 	 */
 	public function redirect()
 	{
-		// validate referer
-		$referer = Piwik_Url::getReferer();
-		if(!empty($referer) && (Piwik_Url::getLocalReferer() === false))
+		// validate referrer
+		$referrer = Piwik_Url::getReferer();
+		if(!empty($referrer) && (Piwik_Url::getLocalReferer() === false))
 		{
 			exit;
 		}

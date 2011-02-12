@@ -184,6 +184,14 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		$this->setActionUrl($info['url']);
 	}
 	
+	static public function getSqlSelectActionId()
+	{
+		$sql = "SELECT idaction, type 
+							FROM ".Piwik_Common::prefixTable('log_action')
+						."  WHERE "
+						."		( hash = CRC32(?) AND name = ? AND type = ? ) ";
+		return $sql;
+	}
 	/**
 	 * Loads the idaction of the current action name and the current action url.
 	 * These idactions are used in the visitor logging table to link the visit information
@@ -201,10 +209,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			return;
 		}
 		$idAction = Piwik_Tracker::getDatabase()->fetchAll(
-							"SELECT idaction, type 
-							FROM ".Piwik_Common::prefixTable('log_action')
-						."  WHERE "
-						."		( hash = CRC32(?) AND name = ? AND type = ? ) "
+						$this->getSqlSelectActionId()
 						."	OR "
 						."		( hash = CRC32(?) AND name = ? AND type = ? ) ",
 						array($this->getActionName(), $this->getActionName(), $this->getActionNameType(),

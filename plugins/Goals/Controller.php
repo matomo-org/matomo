@@ -275,7 +275,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		// visits converted for returning = nb conversion for this goal
 		else
 		{
-			$nbVisitsConvertedReturningVisitors = Piwik_Goals_API::getInstance()->getConversions($idSite, $period, $date, $idGoal);
+			$nbVisitsConvertedReturningVisitors = Piwik_Goals_API::getInstance()->getConversions($idSite, $period, $date, $segment=false,$idGoal);
 		}
 		// all returning visits
 		$request = new Piwik_API_Request("method=VisitFrequency.getVisitsReturning&idSite=$idSite&period=$period&date=$date&format=original");
@@ -300,7 +300,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		// new visits converted for a given goal = nb conversion for this goal for new visits
 		else
 		{
-			$convertedNewVisits = Piwik_Goals_API::getInstance()->getConversions($idSite, $period, $date, $idGoal);
+			$convertedNewVisits = Piwik_Goals_API::getInstance()->getConversions($idSite, $period, $date, $segment=false, $idGoal);
 		}
 		// all new visits = all visits - all returning visits 
 		$request = new Piwik_API_Request("method=VisitFrequency.getVisitsReturning&idSite=$idSite&period=$period&date=$date&format=original");

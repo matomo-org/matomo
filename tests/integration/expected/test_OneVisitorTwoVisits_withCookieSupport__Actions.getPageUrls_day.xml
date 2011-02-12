@@ -60,7 +60,7 @@
 		<exit_nb_visits>1</exit_nb_visits>
 		<avg_time_on_page>180</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
-		<exit_rate>50%</exit_rate>
+		<exit_rate>100%</exit_rate>
 		<url>http://example.org/index.htm</url>
 	</row>
 </result>
