@@ -157,8 +157,14 @@ abstract class Piwik_Archive
 			$sites = Piwik_Site::getIdSitesFromIdSitesString($idSite);
 		}
 		
-		// @TODO read setting enable segmentation
 		$segment = Piwik_Common::unsanitizeInputValue($segment);
+		if(!Zend_Registry::get('config')->General->anonymous_user_enable_use_segments_API
+			&& !empty($segment))
+		{
+			throw new Exception("The Super User has disabled the use of 'segments' for the anonymous user. 
+									Please log in to use Segmentation in the API.");
+		}
+		
 		$segment = new Piwik_Segment($segment, $idSite);
 		
 		// idSite=1,3 or idSite=all
