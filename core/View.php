@@ -12,7 +12,6 @@
 
 /**
  * Transition for pre-Piwik 0.4.4
- * @todo Remove this post-1.0
  */
 if(!defined('PIWIK_USER_PATH'))
 {
@@ -303,7 +302,7 @@ class Piwik_View implements Piwik_iView
 		$expression = str_replace(' ', '', strtr($expression, $consts));
 
 		// bitwise operators in order of precedence (highest to lowest)
-		// @todo: boolean ! (NOT) and parentheses aren't handled
+		// note: boolean ! (NOT) and parentheses aren't handled
 		$expression = preg_replace_callback('/~(-?[0-9]+)/', @create_function('$matches', 'return (string)((~(int)$matches[1]));'), $expression);
 		$expression = preg_replace_callback('/(-?[0-9]+)&(-?[0-9]+)/', @create_function('$matches', 'return (string)((int)$matches[1]&(int)$matches[2]);'), $expression);
 		$expression = preg_replace_callback('/(-?[0-9]+)\^(-?[0-9]+)/', @create_function('$matches', 'return (string)((int)$matches[1]^(int)$matches[2]);'), $expression);

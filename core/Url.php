@@ -188,7 +188,7 @@ class Piwik_Url
 			$default = Piwik_Common::sanitizeInputValue($_SERVER['HTTP_HOST']);
 		}
 
-		// @todo temporary workaround for #1331
+		// temporary workaround for #1331
 		if(!method_exists('Piwik_Common', 'getProxyFromHeader'))
 		{
 			return $default;

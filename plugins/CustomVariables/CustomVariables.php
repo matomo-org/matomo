@@ -109,7 +109,6 @@ class Piwik_CustomVariables extends Piwik_Plugin
 	
 	function __construct()
 	{
-	    //@todo
 		$this->maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_referers;
 		$this->maximumRowsInSubDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_subtable_referers;
 	}

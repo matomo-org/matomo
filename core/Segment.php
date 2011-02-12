@@ -32,7 +32,7 @@ class Piwik_Segment
     
     public function getPrettyString()
     {
-    	//@TODO
+    	//@TODO segment.getPrettyString
     }
     
     public function isEmpty()

@@ -300,12 +300,11 @@ table thead div {
 	cursor: pointer;
 }
 
-/* @todo are these supposed to be together? */
+/* are the following two supposed to be together? */
 .subDataTable.dataTableFeatures {
 	padding-top: 0px;
 	padding-bottom: 5px;
 }
-
 .dataTableFeatures {
 	padding-top: 10px;
 	text-align: center;

@@ -19,7 +19,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/integration/Integration.php';
  * the output changes as expected (eg. More accurate browser detection, adding a new metric in the 
  * API results, etc.
  * 
- * @see TODO list http://dev.piwik.org/trac/ticket/1465
+ * @see Ideas for improvements http://dev.piwik.org/trac/ticket/1465
  */
 class Test_Piwik_Integration_Main extends Test_Integration
 {
