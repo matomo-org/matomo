@@ -40,6 +40,6 @@ class Piwik_CoreAdminHome_API
 	{
 		Piwik::checkUserIsSuperUser();
 		$segments = Zend_Registry::get('config')->Segments->toArray();
-		return $segments['Segments'];
+		return isset($segments['Segments']) ? $segments['Segments'] : array();
 	}
 }
