@@ -315,8 +315,8 @@ class Piwik_Referers_Controller extends Piwik_Controller
 
 	function getKeywordsForPage()
 	{
-		// load as IFRAME or direct include
-		//i18n+widget
+		Piwik::checkUserHasViewAccess($this->idSite);
+		
 		$requestUrl = '&date=previous1'
 						.'&period=week'
 						.'&idSite='.$this->idSite
@@ -343,7 +343,8 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$api = Piwik_Url::getCurrentUrlWithoutFileName() 
 						.'?module=API&method=Referers.getKeywordsForPageUrl'
 						.'&format=php'
-						.'&filter_limit=10';
+						.'&filter_limit=10'
+						.'&token_auth='.Piwik::getCurrentUserTokenAuth();
 						
 		$api .= $requestUrl;
 		$code = '
@@ -355,7 +356,7 @@ function DisplayTopKeywords($url = "")
 	$url = empty($url) ? "http://". $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] : $url;
 	$api = "'.$api.'&url=" . urlencode($url);
 	$keywords = @unserialize(file_get_contents($api));
-	if($keywords === false) { 
+	if($keywords === false || isset($keywords["result"])) { 
 		echo "Error while fetching the <a href=\'$api\'>Top Keywords from Piwik</a>"; return; 
 	}
 
