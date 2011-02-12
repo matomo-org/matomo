@@ -54,11 +54,11 @@ class Piwik_Live_Visitor
 			'firstActionTimestamp' => $this->getTimestampFirstAction(),
 			'lastActionTimestamp' => $this->getTimestampLastAction(),
 
-			'refererType' => $this->getRefererType(),
-			'refererName' => $this->getRefererTypeName(),
+			'referrerType' => $this->getRefererType(),
+			'referrerTypeName' => $this->getRefererTypeName(),
 			'keywords' => $this->getKeywords(),
-			'refererUrl' => $this->getRefererUrl(),
-			'refererName' => $this->getRefererName(),
+			'referrerUrl' => $this->getRefererUrl(),
+			'referrerName' => $this->getRefererName(),
 			'searchEngineUrl' => $this->getSearchEngineUrl(),
 			'searchEngineIcon' => $this->getSearchEngineIcon(),
 

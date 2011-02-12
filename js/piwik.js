@@ -1136,7 +1136,7 @@ var
 
 			/*
 			 * Returns the URL to call piwik.php, 
-			 * with the standard parameters (plugins, resolution, url, referer, etc.).
+			 * with the standard parameters (plugins, resolution, url, referrer, etc.).
 			 * Sends the pageview and browser settings with every request in case of race conditions.
 			 */
 			function getRequest(customData, pluginMethod) {
@@ -1228,9 +1228,9 @@ var
 					// the referral URL depends on the first or last referrer attribution
 					currentReferrerHostName = getHostName(configReferrerUrl);
 					originalReferrerHostName = ref ? getHostName(ref) : '';
-					if (currentReferrerHostName.length && // there is a referer
+					if (currentReferrerHostName.length && // there is a referrer
 							!isSiteHostName(currentReferrerHostName) && // domain is not the current domain
-							(!configConversionAttributionFirstReferrer || // attribute to last known referer
+							(!configConversionAttributionFirstReferrer || // attribute to last known referrer
 							!originalReferrerHostName.length || // previously empty
 							isSiteHostName(originalReferrerHostName))) { // previously set but in current domain
 						// record this referral
@@ -1818,9 +1818,9 @@ var
 				},
 
 				/**
-				 * Set conversion attribution to first referer
+				 * Set conversion attribution to first referrer
 				 *
-				 * @param bool enable If true, use first referer; if false, use the last referer
+				 * @param bool enable If true, use first referrer; if false, use the last referrer
 				 */
 				setConversionAttributionFirstReferrer: function (enable) {
 					configConversionAttributionFirstReferrer = enable;

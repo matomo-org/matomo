@@ -38,6 +38,10 @@ abstract class Piwik_Controller
 	 */
 	protected $date;
 	protected $idSite;
+	
+	/**
+	 * @var Piwik_Site
+	 */
 	protected $site = null;
 	
 	/**

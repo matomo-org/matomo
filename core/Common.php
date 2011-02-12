@@ -1179,9 +1179,9 @@ class Piwik_Common
 	 * 							'name' => 'Google',
 	 * 							'keywords' => 'my searched keywords')
 	 */
-	static public function extractSearchEngineInformationFromUrl($refererUrl)
+	static public function extractSearchEngineInformationFromUrl($referrerUrl)
 	{
-		$refererParsed = @parse_url($refererUrl);
+		$refererParsed = @parse_url($referrerUrl);
 		$refererHost = '';
 		if(isset($refererParsed['host']))
 		{
@@ -1255,7 +1255,7 @@ class Piwik_Common
 		}
 
 		if($searchEngineName === 'Google Images'
-			|| ($searchEngineName === 'Google' && strpos($refererUrl, '/imgres') !== false) )
+			|| ($searchEngineName === 'Google' && strpos($referrerUrl, '/imgres') !== false) )
 		{
 			$query = urldecode(trim(self::getParameterFromQueryString($query, 'prev')));
 			$query = str_replace('&', '&amp;', strstr($query, '?'));
@@ -1294,7 +1294,7 @@ class Piwik_Common
 				if($variableName[0] == '/')
 				{
 					// regular expression match
-					if(preg_match($variableName, $refererUrl, $matches))
+					if(preg_match($variableName, $referrerUrl, $matches))
 					{
 						$key = trim(urldecode($matches[1]));
 						break;

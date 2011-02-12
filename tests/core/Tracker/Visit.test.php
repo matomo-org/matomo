@@ -51,7 +51,7 @@ class Test_Piwik_TrackerVisit extends Test_Database
         		$testIpIsExcluded = ip2long($testIpIsExcluded);
         		$this->assertTrue($testIpIsExcluded !== false);
         		$testIpIsExcluded = sprintf("%u", $testIpIsExcluded);
-    			$this->assertTrue($visit->public_isVisitorIpExcluded($testIpIsExcluded), long2ip($testIpIsExcluded) . " is not excluded");
+    			$this->assertTrue($visit->public_isVisitorIpExcluded($testIpIsExcluded), Piwik_Common::long2ip($testIpIsExcluded) . " is not excluded");
     		}
     		
     		// test that all other IPs (set as being exclusively out of any other IP ranges)
@@ -68,7 +68,7 @@ class Test_Piwik_TrackerVisit extends Test_Database
             		$testIpIsIncluded = ip2long($testIpIsIncluded);
             		$this->assertTrue($testIpIsIncluded !== false);
             		$testIpIsIncluded = sprintf("%u", $testIpIsIncluded);
-        			$this->assertFalse($visit->public_isVisitorIpExcluded($testIpIsIncluded), long2ip($testIpIsIncluded) . " is excluded by the rule ". $excludedIp);
+        			$this->assertFalse($visit->public_isVisitorIpExcluded($testIpIsIncluded), Piwik_Common::long2ip($testIpIsIncluded) . " is excluded by the rule ". $excludedIp);
         		}
     		}
 		}

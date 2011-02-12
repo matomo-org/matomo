@@ -204,6 +204,12 @@ class Piwik_API_DocumentationGenerator
 		$asParameters = array();
 		foreach($aParameters as $nameVariable=> $defaultValue)
 		{
+			// Do not show API parameters starting with _ 
+			// They are supposed to be used only in internal API calls
+			if(strpos($nameVariable, '_') === 0)
+			{
+				continue;
+			}
 			$str = $nameVariable;
 			if(!($defaultValue instanceof Piwik_API_Proxy_NoDefaultValue))
 			{

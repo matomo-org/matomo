@@ -759,13 +759,13 @@ class Test_Piwik_Common extends UnitTestCase
 				=> array('name' => 'Baidu', 'keywords' => 'test3'),
 		);
 		
-		foreach($urls as $refererUrl => $expectedReturnedValue) {
-			$returnedValue = Piwik_Common::extractSearchEngineInformationFromUrl($refererUrl);
+		foreach($urls as $referrerUrl => $expectedReturnedValue) {
+			$returnedValue = Piwik_Common::extractSearchEngineInformationFromUrl($referrerUrl);
 			$exported = var_export($returnedValue,true);
 			$result = $expectedReturnedValue === $returnedValue;
 			$this->assertTrue($result);
 			if(!$result) {
-				$this->fail("error in extracting from $refererUrl got ".$exported."<br>");
+				$this->fail("error in extracting from $referrerUrl got ".$exported."<br>");
 			}
 		}
 	}
