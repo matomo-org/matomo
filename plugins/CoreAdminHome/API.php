@@ -35,4 +35,11 @@ class Piwik_CoreAdminHome_API
 		Piwik::checkUserIsSuperUser();
 		return Piwik_TaskScheduler::runTasks();
 	}
+	
+	public function getKnownSegmentsToArchive()
+	{
+		Piwik::checkUserIsSuperUser();
+		$segments = Zend_Registry::get('config')->Segments->toArray();
+		return $segments['Segments'];
+	}
 }

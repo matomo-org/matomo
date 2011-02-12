@@ -61,6 +61,10 @@ TOKEN_AUTH=`$CMD_TOKEN_AUTH`
 
 CMD_GET_ID_SITES="$PHP_BIN -q $PIWIK_PATH -- module=API&method=SitesManager.getAllSitesId&token_auth=$TOKEN_AUTH&format=csv&convertToUnicode=0"
 ID_SITES=`$CMD_GET_ID_SITES`
+
+CMD_GET_SEGMENTS_TO_ARCHIVE="$PHP_BIN -q $PIWIK_PATH -- module=API&method=CoreAdminHome.getKnownSegmentsToArchive&token_auth=$TOKEN_AUTH&format=csv&convertToUnicode=0"
+SEGMENTS_TO_ARCHIVE=`$CMD_GET_SEGMENTS_TO_ARCHIVE`
+
 echo "Starting Piwik reports archiving..."
 echo ""
 for idsite in $ID_SITES; do
@@ -71,6 +75,12 @@ for idsite in $ID_SITES; do
       echo "Archiving period = $period for idsite = $idsite..."
       CMD="$PHP_BIN -q $PIWIK_PATH -- module=API&method=VisitsSummary.getVisits&idSite=$idsite&period=$period&date=last52&format=xml&token_auth=$TOKEN_AUTH"
       $CMD
+      
+      for segment in $SEGMENTS_TO_ARCHIVE; do
+      	echo " - Archiving for visitor segment $segment ..." 
+      	CMD_ARCHIVE_SEGMENT="${CMD}&segment=$segment"
+      	$CMD_ARCHIVE_SEGMENT
+      done
     done
 
     echo ""
