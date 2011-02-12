@@ -158,7 +158,7 @@ abstract class Piwik_Archive
 		}
 		
 		$segment = Piwik_Common::unsanitizeInputValue($segment);
-		if(!Zend_Registry::get('config')->General->anonymous_user_enable_use_segments_API
+		if( !Piwik_Archive::isSegmentationEnabled()
 			&& !empty($segment))
 		{
 			throw new Exception("The Super User has disabled the use of 'segments' for the anonymous user. 
@@ -338,5 +338,18 @@ abstract class Piwik_Archive
 	{
 		return $this->site->getId();
 	}
+	
+	/**
+	 * Returns true if Segmentation is allowed for this user
+	 * 
+	 * @return bool
+	 */
+	static public function isSegmentationEnabled()
+	{
+		return !Piwik::isUserIsAnonymous()
+				|| Zend_Registry::get('config')->General->anonymous_user_enable_use_segments_API
+				;
+	}
+	
 	
 }
