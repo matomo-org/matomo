@@ -280,6 +280,18 @@ page_maximum_length = 1024;
 ; for IPv4 addresses, valid values are 0..4
 ip_address_mask_length = 1
 
+; Reports with segmentation in API requests are processed in real time. 
+; On high traffic websites it is recommended to pre-process the data 
+; so that the analytics reports are always fast to load.
+; You can define below the list of Segments strings 
+; for which all reports should be Archived during the cron execution
+[Segments]
+; Pre-process the visitor types segment
+;Segments[]="visitorType==new"
+;Segments[]="visitorType==returning"
+; If you define Custom Variables for your visitor, for example set the visit type
+;Segments[]="customVariableName1==VisitType;customVariableValue1==Customer"
+
 [mail]
 transport =							; smtp (using the configuration below) or empty (using built-in mail() function)
 port =								; optional; defaults to 25 when security is none or tls; 465 for ssl
