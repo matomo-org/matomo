@@ -33,9 +33,9 @@ class Piwik_UserCountry_API
 		return self::$instance;
 	}
 	
-	public function getCountry( $idSite, $period, $date )
+	public function getCountry( $idSite, $period, $date, $segment = false )
 	{
-		$dataTable = $this->getDataTable('UserCountry_country', $idSite, $period, $date);
+		$dataTable = $this->getDataTable('UserCountry_country', $idSite, $period, $date, $segment);
 		// apply filter on the whole datatable in order the inline search to work (searches are done on "beautiful" label)
 		$dataTable->filter('ColumnCallbackAddMetadata', array('label', 'code', create_function('$label', 'return $label;')));
 		$dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getFlagFromCode'));
@@ -45,28 +45,28 @@ class Piwik_UserCountry_API
 		return $dataTable;
 	}
 	
-	public function getContinent( $idSite, $period, $date )
+	public function getContinent( $idSite, $period, $date, $segment = false )
 	{
-		$dataTable = $this->getDataTable('UserCountry_continent', $idSite, $period, $date);
+		$dataTable = $this->getDataTable('UserCountry_continent', $idSite, $period, $date, $segment);
 		$dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_ContinentTranslate'));
 		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'code', create_function('$label', 'return $label;')));
 		return $dataTable;
 	}
 	
-	protected function getDataTable($name, $idSite, $period, $date)
+	protected function getDataTable($name, $idSite, $period, $date, $segment)
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $period, $date );
+		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
 		$dataTable = $archive->getDataTable($name);
 		$dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS));
 		$dataTable->queueFilter('ReplaceColumnNames');
 		return $dataTable;
 	}
 	
-	public function getNumberOfDistinctCountries($idSite, $period, $date)
+	public function getNumberOfDistinctCountries($idSite, $period, $date, $segment = false)
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $period, $date );
+		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
 		return $archive->getDataTableFromNumeric('UserCountry_distinctCountries');
 	}
 }

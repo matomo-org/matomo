@@ -31,10 +31,10 @@ class Piwik_UserSettings_API
 		return self::$instance;
 	}
 	
-	protected function getDataTable($name, $idSite, $period, $date)
+	protected function getDataTable($name, $idSite, $period, $date, $segment)
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $period, $date );
+		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
 		$dataTable = $archive->getDataTable($name);
 		$dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS));
 		$dataTable->queueFilter('ReplaceColumnNames');
@@ -42,62 +42,62 @@ class Piwik_UserSettings_API
 		return $dataTable;
 	}
 
-	public function getResolution( $idSite, $period, $date )
+	public function getResolution( $idSite, $period, $date, $segment = false )
 	{
-		$dataTable = $this->getDataTable('UserSettings_resolution', $idSite, $period, $date);
+		$dataTable = $this->getDataTable('UserSettings_resolution', $idSite, $period, $date, $segment);
 		return $dataTable;
 	}
 
-	public function getConfiguration( $idSite, $period, $date )
+	public function getConfiguration( $idSite, $period, $date, $segment = false )
 	{
-		$dataTable = $this->getDataTable('UserSettings_configuration', $idSite, $period, $date);
+		$dataTable = $this->getDataTable('UserSettings_configuration', $idSite, $period, $date, $segment);
 		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getConfigurationLabel'));
 		return $dataTable;
 	}
 
-	public function getOS( $idSite, $period, $date )
+	public function getOS( $idSite, $period, $date, $segment = false )
 	{
-		$dataTable = $this->getDataTable('UserSettings_os', $idSite, $period, $date);
+		$dataTable = $this->getDataTable('UserSettings_os', $idSite, $period, $date, $segment);
 		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getOSLogo'));
 		$dataTable->queueFilter('ColumnCallbackAddMetadata', array( 'label', 'shortLabel', 'Piwik_getOSShortLabel') );
 		$dataTable->queueFilter('ColumnCallbackReplace', array( 'label', 'Piwik_getOSLabel') );
 		return $dataTable;
 	}
 		
-	public function getBrowser( $idSite, $period, $date )
+	public function getBrowser( $idSite, $period, $date, $segment = false )
 	{
-		$dataTable = $this->getDataTable('UserSettings_browser', $idSite, $period, $date);
+		$dataTable = $this->getDataTable('UserSettings_browser', $idSite, $period, $date, $segment);
 		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getBrowsersLogo'));
 		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'shortLabel', 'Piwik_getBrowserShortLabel'));
 		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getBrowserLabel'));
 		return $dataTable;
 	}
 	
-	public function getBrowserType( $idSite, $period, $date )
+	public function getBrowserType( $idSite, $period, $date, $segment = false )
 	{
-		$dataTable = $this->getDataTable('UserSettings_browserType', $idSite, $period, $date);
+		$dataTable = $this->getDataTable('UserSettings_browserType', $idSite, $period, $date, $segment);
 		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'shortLabel', 'ucfirst'));
 		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getBrowserTypeLabel'));
 		return $dataTable;
 	}
 	
-	public function getWideScreen( $idSite, $period, $date )
+	public function getWideScreen( $idSite, $period, $date, $segment = false )
 	{
-		$dataTable = $this->getDataTable('UserSettings_wideScreen', $idSite, $period, $date);
+		$dataTable = $this->getDataTable('UserSettings_wideScreen', $idSite, $period, $date, $segment);
 		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getScreensLogo'));
 		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'ucfirst'));
 		return $dataTable;
 	}
 	
-	public function getPlugin( $idSite, $period, $date )
+	public function getPlugin( $idSite, $period, $date, $segment = false )
 	{
 		// fetch all archive data required
-		$dataTable = $this->getDataTable('UserSettings_plugin', $idSite, $period, $date);
-		$browserTypes	= $this->getDataTable('UserSettings_browserType', $idSite, $period, $date);
-		$archive		= Piwik_Archive::build($idSite, $period, $date);
+		$dataTable = $this->getDataTable('UserSettings_plugin', $idSite, $period, $date, $segment);
+		$browserTypes	= $this->getDataTable('UserSettings_browserType', $idSite, $period, $date, $segment);
+		$archive		= Piwik_Archive::build($idSite, $period, $date, $segment);
 		$visitsSums		= $archive->getNumeric('nb_visits');
 
-		// check wether given tables are arrays
+		// check whether given tables are arrays
 		if($dataTable instanceof Piwik_DataTable_Array) {
 			$tableArray			= $dataTable->getArray();
 			$browserTypesArray	= $browserTypes->getArray();

@@ -51,7 +51,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		
 		echo $view->render();
 	}
-	
+
 	function getSearchEnginesAndKeywords()
 	{
 		$view = Piwik_View::factory('searchEngines_Keywords');
@@ -225,7 +225,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		return $return;
 	}
 
-	protected $refererTypeToLabel = array(
+	protected $referrerTypeToLabel = array(
 		Piwik_Common::REFERER_TYPE_DIRECT_ENTRY => 'Referers_DirectEntry',
 		Piwik_Common::REFERER_TYPE_SEARCH_ENGINE => 'Referers_SearchEngines',
 		Piwik_Common::REFERER_TYPE_WEBSITE => 'Referers_Websites',
@@ -250,12 +250,12 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		foreach($columns as $columnName)
 		{
 			$columnTranslation = $view->getColumnTranslation($columnName);
-			$refererTypeTranslation = $this->refererTypeToLabel[$typeReferer];
+			$referrerTypeTranslation = $this->referrerTypeToLabel[$typeReferer];
 			$view->setColumnTranslation(
 				$columnName, 
 				Piwik_Translate('Referers_MetricsFromRefererTypeGraphLegend', 
 					array(	Piwik_Translate($columnTranslation), 
-							Piwik_Translate($refererTypeTranslation)
+							Piwik_Translate($referrerTypeTranslation)
 						)
 					)
 				);
@@ -312,4 +312,83 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	{
 		return $this->getNumericValue('Referers.' . __FUNCTION__);
 	}
+
+	function getKeywordsForPage()
+	{
+		// load as IFRAME or direct include
+		//i18n+widget
+		$requestUrl = '&date=previous1'
+						.'&period=week'
+						.'&idSite='.$this->idSite
+						;
+						
+		$topPageUrlRequest = $requestUrl 
+							.'&method=Actions.getPageUrls'
+							.'&filter_limit=50'
+							.'&format=original';
+		$request = new Piwik_API_Request($topPageUrlRequest);
+		$request = $request->process();
+		$tables = $request->getArray();
+		$topPageUrls = $tables[key($tables)];
+		$topPageUrls = $topPageUrls->getRowsMetadata('url');
+		$topPageUrl = current(array_values($topPageUrls));
+		
+		if(empty($topPageUrl))
+		{
+			$topPageUrl = $this->site->getMainUrl();
+		}
+		$url = $topPageUrl;
+						
+		// HTML
+		$api = Piwik_Url::getCurrentUrlWithoutFileName() 
+						.'?module=API&method=Referers.getKeywordsForPageUrl'
+						.'&format=php'
+						.'&filter_limit=10';
+						
+		$api .= $requestUrl;
+		$code = '
+// This function will call the API to get best keyword for current URL. 
+// Then it writes the list of best keywords in a HTML list
+function DisplayTopKeywords($url = "")
+{
+	// Get the Keywords data
+	$url = empty($url) ? "http://". $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] : $url;
+	$api = "'.$api.'&url=" . urlencode($url);
+	$keywords = @unserialize(file_get_contents($api));
+	if($keywords === false) { 
+		echo "Error while fetching the <a href=\'$api\'>Top Keywords from Piwik</a>"; return; 
+	}
+
+	// Display the list in HTML
+	$output = "<h2>Top Keywords for <a href=\'$url\'>$url</a></h2><ul>";
+	foreach($keywords as $keyword) {
+		$output .= "<li>". $keyword[0]. "</li>";
+	}
+	if(empty($keywords)) { $output .= "Nothing yet..."; }
+	$output .= "</ul>";
+	echo $output;
+}
+';
+
+		$jsonRequest = str_replace('format=php', 'format=json', $api);
+		echo "<p>This widget is designed to work in your website directly. 
+		This widget makes it easy to use Piwik to <i>automatically display the list of Top Keywords</i>, for each of your website Page URLs.</p>
+		<p>
+		<b>Example API URL</b> - For example if you would like to get the top 10 keywords, used last week, to land on the page <a target='_blank' href='$topPageUrl'>$topPageUrl</a>,
+		in format JSON: you would dynamically fetch the data <a target='_blank' href='$jsonRequest&url=".urlencode($topPageUrl)."'>this API request Url</a>. Make sure you encode the 'url' parameter in the URL.</p> 
+		
+		<p><b>PHP Function ready to use!</b> - If you use PHP on your website, we have prepared a small code snippet that you can copy paste in your Website PHP files. You can then simply call the function <code>DisplayTopKeywords();</code> anywhere in your template, at the bottom of the content or in your blog sidebar. 
+		If you run this code in your page $topPageUrl, it would output the following:";
+		
+		echo "<div style='width:400px;margin-left:20px;padding:10px;border:1px solid black;'>";
+		eval($code);
+		DisplayTopKeywords($topPageUrl);
+		echo "</div>
+		";
+		
+		echo "<br/><p>Here is the PHP function that you can paste in your pages:</P>
+		<textarea cols=60 rows=8>&lt;?php\n" . htmlspecialchars($code) . "\n DisplayTopKeywords();</textarea>";
+				
+	}
+	
 }

@@ -79,6 +79,8 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 	{
 		$archiveProcessing = $notification->getNotificationObject();
 		
+		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
+		
 		$numericToSum = array( 
 				'nb_visits_returning',
 				'nb_actions_returning',
@@ -95,6 +97,9 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 		/* @var $archiveProcessing Piwik_ArchiveProcessing */
 		$archiveProcessing = $notification->getNotificationObject();
 		
+		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
+		
+		//@TODO Segments
 		$query = "SELECT 	count(distinct idvisitor) as nb_uniq_visitors_returning,
 							count(*) as nb_visits_returning, 
 							sum(visit_total_actions) as nb_actions_returning,

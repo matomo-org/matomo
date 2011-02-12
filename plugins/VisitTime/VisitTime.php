@@ -36,6 +36,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 			'Menu.add' => 'addMenu',
 			'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
 			'API.getReportMetadata' => 'getReportMetadata',
+		    'API.getSegmentsMetadata' => 'getSegmentsMetadata',
 		);
 		return $hooks;
 	}
@@ -81,9 +82,33 @@ class Piwik_VisitTime extends Piwik_Plugin
     	);
 	}
 	
+	public function getSegmentsMetadata($notification)
+	{
+		$segments =& $notification->getNotificationObject();
+		$segments[] = array(
+		        'type' => 'dimension',
+		        'category' => 'Visit',
+		        'name' => Piwik_Translate('VisitTime_ColumnServerTime'),
+		        'segment' => 'visitServerHour',
+		        'sqlSegment' => 'HOUR(visit_last_action_time)',
+				'acceptedValues' => implode(',', range(0, 23, 1))
+       );
+       $segments[] = array(
+		        'type' => 'dimension',
+		        'category' => 'Visit',
+		        'name' => Piwik_Translate('VisitTime_ColumnLocalTime'),
+		        'segment' => 'visitLocalHour',
+		        'sqlSegment' => 'HOUR(visitor_localtime)',
+       			'acceptedValues' => implode(',', range(0, 23, 1))
+       );
+	}
+	
 	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
+		
+		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
+		
 		$dataTableToSum = array( 
 				'VisitTime_localTime',
 				'VisitTime_serverTime',
@@ -94,6 +119,9 @@ class Piwik_VisitTime extends Piwik_Plugin
 	public function archiveDay( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
+		
+		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
+		
 		$this->archiveDayAggregateVisits($archiveProcessing);
 		$this->archiveDayAggregateGoals($archiveProcessing);
 		$this->archiveDayRecordInDatabase($archiveProcessing);
@@ -126,6 +154,9 @@ class Piwik_VisitTime extends Piwik_Plugin
 	protected function archiveDayAggregateGoals($archiveProcessing)
 	{
 		$query = $archiveProcessing->queryConversionsByDimension("HOUR(server_time)");
+		
+		if($query === false) return;
+		
 		$goalByServerTime = array();
 		while($row = $query->fetch())
 		{

@@ -26,10 +26,10 @@ class Piwik_VisitTime_API
 		return self::$instance;
 	}
 	
-	protected function getDataTable($name, $idSite, $period, $date )
+	protected function getDataTable($name, $idSite, $period, $date, $segment )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $period, $date );
+		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
 		$dataTable = $archive->getDataTable($name);
 		$dataTable->filter('Sort', array('label', 'asc', true));
 		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getTimeLabel'));
@@ -37,14 +37,14 @@ class Piwik_VisitTime_API
 		return $dataTable;
 	}
 	
-	public function getVisitInformationPerLocalTime( $idSite, $period, $date )
+	public function getVisitInformationPerLocalTime( $idSite, $period, $date, $segment = false )
 	{
-		return $this->getDataTable('VisitTime_localTime', $idSite, $period, $date );
+		return $this->getDataTable('VisitTime_localTime', $idSite, $period, $date, $segment );
 	}
 	
-	public function getVisitInformationPerServerTime( $idSite, $period, $date )
+	public function getVisitInformationPerServerTime( $idSite, $period, $date, $segment = false )
 	{
-		return $this->getDataTable('VisitTime_serverTime', $idSite, $period, $date );
+		return $this->getDataTable('VisitTime_serverTime', $idSite, $period, $date, $segment );
 	}
 }
 

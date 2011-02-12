@@ -177,6 +177,8 @@ class Piwik_Archive_Single extends Piwik_Archive
 			$archiveProcessing = Piwik_ArchiveProcessing::factory($periodLabel);
 			$archiveProcessing->setSite($this->site);
 			$archiveProcessing->setPeriod($this->period);
+			$archiveProcessing->setSegment($this->segment);
+			$archiveProcessing->setRequestedReport( $this->getRequestedReport() );
 			$idArchive = $archiveProcessing->loadArchive();
 			if(empty($idArchive))
 			{
@@ -196,12 +198,15 @@ class Piwik_Archive_Single extends Piwik_Archive
 			{
 				Piwik::log("$logMessage archive already processed [id = $idArchive]...");
 			}
+			$this->archiveProcessing = $archiveProcessing;
 			$this->isThereSomeVisits = $archiveProcessing->isThereSomeVisits;
 			$this->idArchive = $idArchive;
-			$this->archiveProcessing = $archiveProcessing;
 		}
 		return $archiveJustProcessed;
 	}
+	
+	
+	protected $isArchivePrepared = false;
 	
 	/**
 	 * Returns a value from the current archive with the name = $name 
@@ -213,6 +218,14 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 */
 	protected function get( $name, $typeValue = 'numeric' )
 	{
+    	$this->setRequestedReport($name);
+    	
+	    if(!$this->isArchivePrepared)
+	    {
+	        $archiveJustProcessed = $this->prepareArchive();
+    		$this->isArchivePrepared = true;
+	    }
+	    
 		// values previously "get" and now cached
 		if($typeValue == 'numeric'
 			&& $this->cacheEnabledForNumeric
@@ -447,6 +460,8 @@ class Piwik_Archive_Single extends Piwik_Archive
 			$name .= "_$idSubTable";
 		}
 		
+		$this->setRequestedReport($name);
+		
 		$data = $this->get($name, 'blob');
 		
 		$table = new Piwik_DataTable();
@@ -465,6 +480,17 @@ class Piwik_Archive_Single extends Piwik_Archive
 		}
 	
 		return $table;
+	}
+	
+	public function setRequestedReport($requestedReport )
+	{
+		$this->requestedReport = $requestedReport;
+	}
+	
+	protected function getRequestedReport()
+	{
+		if(!isset($this->requestedReport)) { debug_print_backtrace();exit; }
+   		return $this->requestedReport;
 	}
 	
 	/**

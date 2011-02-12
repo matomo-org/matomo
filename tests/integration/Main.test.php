@@ -145,7 +145,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * Same as before, but with cookie support, which incurs some slight changes 
 	 * in the reporting data (more accurate unique visitor count, better referer tracking for goals, etc.)
 	 */
-	function test_OneVisitorTwoVisits_withCookieSupport() 
+	function  test_OneVisitorTwoVisits_withCookieSupport() 
 	{
 		// Tests run in UTC, the Tracker in UTC
     	$dateTime = '2010-03-06 11:22:33';
@@ -297,10 +297,13 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // -
     	// Test Referer.get* methods in XML
     	$periods = array('day', 'week', 'month', 'year');
-    	// Request data for both websites at once
-    	$idSite = 'all';
     	// Request data for the last 6 periods
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite = 'all', $dateTime, $periods, $setDateLastN = true);
+        
+        // We also test a single period to check that this use case (Reports per idSite in the response) works
+    	$this->setApiToCall(array('VisitsSummary.get', 'Goals.get'));
+    	$this->callGetApiCompareOutput(__FUNCTION__ . '_NotLastNPeriods', 'xml', $idSite = 'all', $dateTime, array('day', 'month'), $setDateLastN = false);
+         
 	}
 	
 	function test_twoVisitsWithCustomVariables()

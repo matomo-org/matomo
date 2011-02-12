@@ -32,10 +32,10 @@ class Piwik_Provider_API
 		return self::$instance;
 	}
 
-	public function getProvider( $idSite, $period, $date )
+	public function getProvider( $idSite, $period, $date, $segment = false )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $period, $date );
+		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
 		$dataTable = $archive->getDataTable('Provider_hostnameExt');
 		$dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS));
 		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', 'Piwik_getHostnameUrl'));

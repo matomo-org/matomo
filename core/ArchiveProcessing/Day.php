@@ -36,6 +36,12 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 */
 	protected function compute()
 	{
+		// Handling Custom Segment
+		$segmentSql = $this->getSegment()->getSql();
+		$sqlSegmentBind = $segmentSql['bind'];
+		$sqlSegment = $segmentSql['sql'];
+		if(!empty($sqlSegment)) $sqlSegment = ' AND '.$sqlSegment;
+		
 		$query = "SELECT 	count(distinct idvisitor) as nb_uniq_visitors, 
 							count(*) as nb_visits,
 							sum(visit_total_actions) as nb_actions, 
@@ -47,8 +53,11 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 					WHERE visit_last_action_time >= ?
 						AND visit_last_action_time <= ?
 						AND idsite = ?
+						$sqlSegment
 					ORDER BY NULL";
-		$row = $this->db->fetchRow($query, array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite ) );
+		$bind = array_merge(array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite )
+							, $sqlSegmentBind);
+		$row = $this->db->fetchRow($query, $bind );
 		if($row === false || $row === null || $row['nb_visits'] == 0)
 		{
 			return;
@@ -85,12 +94,21 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 */
 	public function getSimpleDataTableFromSelect($select, $labelCount)
 	{
+		// Handling Custom Segment
+		$segmentSql = $this->getSegment()->getSql();
+		$sqlSegmentBind = $segmentSql['bind'];
+		$sqlSegment = $segmentSql['sql'];
+		if(!empty($sqlSegment)) $sqlSegment = ' AND '.$sqlSegment;
+		
 		$query = "SELECT $select 
 			 	FROM ".Piwik_Common::prefixTable('log_visit')." 
 			 	WHERE visit_last_action_time >= ?
 						AND visit_last_action_time <= ?
-			 			AND idsite = ?";
-		$data = $this->db->fetchRow($query, array( $this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite ));
+			 			AND idsite = ?
+			 			$sqlSegment";
+		$bind = array_merge(array( $this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite ),
+							$sqlSegmentBind);
+		$data = $this->db->fetchRow($query, $bind);
 		
 		foreach($data as $label => &$count)
 		{
@@ -100,6 +118,147 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		$table->addRowsFromArrayWithIndexLabel($data);
 		return $table;
 	}
+
+	/**
+	 * @param $label mixed Can be a string, eg. "referer_name", will be aliased as 'label' in the returned rows
+	 * 				Can also be an array of strings, when the dimension spans multiple fields, eg. array("referer_name", "referer_keyword") 
+	 */
+	public function queryVisitsByDimension($label, $where = '')
+	{
+	    if(is_array($label))
+	    {
+	        $select = implode(", ", $label);
+	        $groupBy = $select;
+	    }
+	    else
+	    {
+	        $select = $label . " AS label ";
+	        $groupBy = 'label';
+	    }
+	    
+	    if(!empty($where)) 
+	    {
+	        $where = ' AND '.$where;
+	    }
+	    
+	    $segmentSql = $this->getSegmentSql();
+	    $segment = '';
+	    if(!empty($segmentSql['sql']))
+	    {
+	        $segment = ' AND '.$segmentSql['sql'];
+	    } 
+	    
+		$query = "SELECT 	$select,
+							count(distinct idvisitor) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`, 
+							count(*) as `". Piwik_Archive::INDEX_NB_VISITS ."`,
+							sum(visit_total_actions) as `". Piwik_Archive::INDEX_NB_ACTIONS ."`, 
+							max(visit_total_actions) as `". Piwik_Archive::INDEX_MAX_ACTIONS ."`, 
+							sum(visit_total_time) as `". Piwik_Archive::INDEX_SUM_VISIT_LENGTH ."`,
+							sum(case visit_total_actions when 1 then 1 else 0 end) as `". Piwik_Archive::INDEX_BOUNCE_COUNT ."`,
+							sum(case visit_goal_converted when 1 then 1 else 0 end) as `". Piwik_Archive::INDEX_NB_VISITS_CONVERTED ."`
+				FROM ".Piwik_Common::prefixTable('log_visit')."
+				WHERE visit_last_action_time >= ?
+						AND visit_last_action_time <= ?
+						AND idsite = ?
+						$where
+						$segment
+				GROUP BY $groupBy
+				ORDER BY NULL";
+		$bind = array_merge( array( $this->getStartDatetimeUTC(), 
+                                    $this->getEndDatetimeUTC(), 
+                                    $this->idsite ),
+                             $segmentSql['bind']);
+		$query = $this->db->query($query, $bind );
+	    return $query;
+	}
+
+	protected function getSegmentSql()
+	{
+        return $this->segment->getSql();
+	}
+	
+	protected function isSegmentAvailableForConversions()
+	{
+	    $allowedSegmentsOnConversions = array(
+                'referer_type',
+                'referer_name',
+                'referer_keyword',
+                'visitor_returning',
+                'location_country',
+                'location_continent',
+                'revenue',
+                'custom_var_k1',
+                'custom_var_v1',
+                'custom_var_k2',
+                'custom_var_v2',
+                'custom_var_k3',
+                'custom_var_v3',
+                'custom_var_k4',
+                'custom_var_v4',
+                'custom_var_k5',
+                'custom_var_v5',
+	    );
+	    $segments = $this->segment->getUniqueSqlFields();
+	    foreach($segments as $segment)
+	    {
+	        if(array_search($segment, $allowedSegmentsOnConversions) === false)
+	        {
+	            return false;
+	        }
+	    }
+	    return true;
+	}
+	
+	/**
+	 * @see queryVisitsByDimension() Similar to this function, but queries metrics for the requested dimensions, for each Goal conversion 
+	 */
+	public function queryConversionsByDimension($label, $where = '')
+	{
+	    if(is_array($label))
+	    {
+	        $select = implode(", ", $label);
+	        $groupBy = $select;
+	    }
+	    else
+	    {
+	        $select = $label . " AS label ";
+	        $groupBy = 'label';
+	    }
+	    if(!empty($where)) 
+	    {
+	        $where = ' AND '.$where;
+	    }
+	    if(!$this->isSegmentAvailableForConversions())
+	    {
+	        return false;	    
+	    }
+	    $segmentSql = $this->getSegmentSql();
+	    $segment = '';
+	    if(!empty($segmentSql['sql']))
+	    {
+	        $segment = ' AND '.$segmentSql['sql'];
+	    }
+		$query = "SELECT idgoal,
+						count(*) as `". Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS ."`,
+						sum(revenue) as `". Piwik_Archive::INDEX_GOAL_REVENUE ."`,
+						$select
+			 	FROM ".Piwik_Common::prefixTable('log_conversion')."
+			 	WHERE server_time >= ?
+						AND server_time <= ?
+			 			AND idsite = ?
+			 			$where
+						$segment
+			 	GROUP BY idgoal, $groupBy
+				ORDER BY NULL";
+						
+		$bind = array_merge( array( $this->getStartDatetimeUTC(), 
+                                    $this->getEndDatetimeUTC(), 
+                                    $this->idsite ),
+                             $segmentSql['bind']);
+		$query = $this->db->query($query, $bind);
+		return $query;
+	}
+	
 	
 	public function getDataTableFromArray( $array )
 	{
@@ -316,82 +475,6 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS_CONVERTED] 	+= $newRowToAdd[Piwik_Archive::INDEX_NB_VISITS_CONVERTED];
 	} 
 	
-	/**
-	 * @param $label mixed Can be a string, eg. "referer_name", will be aliased as 'label' in the returned rows
-	 * 				Can also be an array of strings, when the dimension spans multiple fields, eg. array("referer_name", "referer_keyword") 
-	 */
-	public function queryVisitsByDimension($label, $where = '')
-	{
-	    if(is_array($label))
-	    {
-	        $select = implode(", ", $label);
-	        $groupBy = $select;
-	    }
-	    else
-	    {
-	        $select = $label . " AS label ";
-	        $groupBy = 'label';
-	    }
-	    if(!empty($where)) 
-	    {
-	        $where = ' AND '.$where;
-	    }
-		
-		$query = "SELECT 	$select,
-							count(distinct idvisitor) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`, 
-							count(*) as `". Piwik_Archive::INDEX_NB_VISITS ."`,
-							sum(visit_total_actions) as `". Piwik_Archive::INDEX_NB_ACTIONS ."`, 
-							max(visit_total_actions) as `". Piwik_Archive::INDEX_MAX_ACTIONS ."`, 
-							sum(visit_total_time) as `". Piwik_Archive::INDEX_SUM_VISIT_LENGTH ."`,
-							sum(case visit_total_actions when 1 then 1 else 0 end) as `". Piwik_Archive::INDEX_BOUNCE_COUNT ."`,
-							sum(case visit_goal_converted when 1 then 1 else 0 end) as `". Piwik_Archive::INDEX_NB_VISITS_CONVERTED ."`
-				FROM ".Piwik_Common::prefixTable('log_visit')."
-				WHERE visit_last_action_time >= ?
-						AND visit_last_action_time <= ?
-						AND idsite = ?
-						$where
-				GROUP BY $groupBy
-				ORDER BY NULL";
-		$query = $this->db->query($query, array(     
-		                                    $this->getStartDatetimeUTC(), 
-		                                    $this->getEndDatetimeUTC(), 
-		                                    $this->idsite ) );
-	    return $query;
-	}
-	
-	/**
-	 * @see queryVisitsByDimension() Similar to this function, but queries metrics for the requested dimensions, for each Goal conversion 
-	 */
-	public function queryConversionsByDimension($label, $where = '')
-	{
-	    if(is_array($label))
-	    {
-	        $select = implode(", ", $label);
-	        $groupBy = $select;
-	    }
-	    else
-	    {
-	        $select = $label . " AS label ";
-	        $groupBy = 'label';
-	    }
-	    if(!empty($where)) 
-	    {
-	        $where = ' AND '.$where;
-	    }
-		$query = "SELECT idgoal,
-						count(*) as `". Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS ."`,
-						sum(revenue) as `". Piwik_Archive::INDEX_GOAL_REVENUE ."`,
-						$select
-			 	FROM ".Piwik_Common::prefixTable('log_conversion')."
-			 	WHERE server_time >= ?
-						AND server_time <= ?
-			 			AND idsite = ?
-			 			$where
-			 	GROUP BY idgoal, $groupBy
-				ORDER BY NULL";
-		$query = $this->db->query($query, array( $this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite ));
-		return $query;
-	}
 	
 	/**
 	 * Given an array of stats, it will process the sum of goal conversions 

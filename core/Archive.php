@@ -131,12 +131,10 @@ abstract class Piwik_Archive
 	protected $site = null;
 	
 	/**
-	 * Stores the already built archives.
-	 * Act as a big caching array
-	 *
-	 * @var array of Piwik_Archive
+	 * Segment applied to the visits set
+	 * @var Piwik_Segment
 	 */
-	static protected $alreadyBuilt = array();
+	protected $segment = false;
 	
 	/**
 	 * Builds an Archive object or returns the same archive if previously built.
@@ -144,10 +142,11 @@ abstract class Piwik_Archive
 	 * @param string|int idSite integer, or comma separated list of integer
 	 * @param string|Piwik_Date $date 'YYYY-MM-DD' or magic keywords 'today' @see Piwik_Date::factory()
 	 * @param string $period 'week' 'day' etc.
+	 * @param string Segment definition - defaults to false for Backward Compatibility
 	 * 
 	 * @return Piwik_Archive
 	 */
-	static public function build($idSite, $period, $strDate )
+	static public function build($idSite, $period, $strDate, $segment = false )
 	{
 		if($idSite === 'all')
 		{
@@ -158,11 +157,15 @@ abstract class Piwik_Archive
 			$sites = Piwik_Site::getIdSitesFromIdSitesString($idSite);
 		}
 		
+		// @TODO read setting enable segmentation
+		$segment = Piwik_Common::unsanitizeInputValue($segment);
+		$segment = new Piwik_Segment($segment, $idSite);
+		
 		// idSite=1,3 or idSite=all
 		if( count($sites) > 1 
 			|| $idSite === 'all' )
 		{
-			$archive = new Piwik_Archive_Array_IndexedBySite($sites, $period, $strDate);
+			$archive = new Piwik_Archive_Array_IndexedBySite($sites, $period, $strDate, $segment);
 		}
 		// if a period date string is detected: either 'last30', 'previous10' or 'YYYY-MM-DD,YYYY-MM-DD'
 		elseif(is_string($strDate) 
@@ -173,7 +176,7 @@ abstract class Piwik_Archive
 			)
 		{
 			$oSite = new Piwik_Site($idSite);
-			$archive = new Piwik_Archive_Array_IndexedByDate($oSite, $period, $strDate);
+			$archive = new Piwik_Archive_Array_IndexedByDate($oSite, $period, $strDate, $segment);
 		}
 		// case we request a single archive
 		else
@@ -198,25 +201,13 @@ abstract class Piwik_Archive
 			}
 			$date = $oDate->toString();
 			
-			if(isset(self::$alreadyBuilt[$idSite][$date][$period]))
-			{
-				return self::$alreadyBuilt[$idSite][$date][$period];
-			}
-			
 			$oPeriod = Piwik_Period::factory($period, $oDate);
 			
 			$archive = new Piwik_Archive_Single();
 			$archive->setPeriod($oPeriod);
 			$archive->setSite($oSite);
-			$archiveJustProcessed = $archive->prepareArchive();
-			
-			//we don't cache the archives just processed, the datatable were freed from memory 
-			if(!$archiveJustProcessed)
-			{
-				self::$alreadyBuilt[$idSite][$date][$period] = $archive;
-			}
+			$archive->setSegment($segment);
 		}
-		
 		return $archive;
 	}
 	
@@ -279,10 +270,10 @@ abstract class Piwik_Archive
 	 * Optionally loads the table recursively,
 	 * or optionally fetches a given subtable with $idSubtable
 	 */
-	static public function getDataTableFromArchive($name, $idSite, $period, $date, $expanded, $idSubtable = null )
+	static public function getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable = null )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $period, $date );
+		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
 		if($idSubtable === false)
 		{
 			$idSubtable = null;
@@ -300,6 +291,16 @@ abstract class Piwik_Archive
 		$dataTable->queueFilter('ReplaceSummaryRowLabel');
 		
 		return $dataTable;
+	}
+	
+	protected function getSegment()
+	{
+	    return $this->segment;
+	}
+	
+	public function setSegment(Piwik_Segment $segment)
+	{
+	    $this->segment = $segment;
 	}
 	
 	/**
@@ -332,8 +333,4 @@ abstract class Piwik_Archive
 		return $this->site->getId();
 	}
 	
-	static public function clearCache()
-	{
-		self::$alreadyBuilt = array();
-	}
 }

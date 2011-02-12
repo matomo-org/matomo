@@ -27,23 +27,23 @@ class Piwik_CustomVariables_API
 		return self::$instance;
 	}
 
-	protected function getDataTable($idSite, $period, $date, $expanded, $idSubtable)
+	protected function getDataTable($idSite, $period, $date, $segment, $expanded, $idSubtable)
 	{
-	    $dataTable = Piwik_Archive::getDataTableFromArchive('CustomVariables_valueByName', $idSite, $period, $date, $expanded, $idSubtable);
+	    $dataTable = Piwik_Archive::getDataTableFromArchive('CustomVariables_valueByName', $idSite, $period, $date, $segment, $expanded, $idSubtable);
 		$dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS, 'desc', $naturalSort = false, $expanded));
 		$dataTable->queueFilter('ReplaceColumnNames', array($expanded));
 	    return $dataTable;
 	}
 
-	public function getCustomVariables($idSite, $period, $date, $expanded = false)
+	public function getCustomVariables($idSite, $period, $date, $segment = false, $expanded = false)
 	{
-	    $dataTable = $this->getDataTable($idSite, $period, $date, $expanded, $idSubtable = null);
+	    $dataTable = $this->getDataTable($idSite, $period, $date, $segment, $expanded, $idSubtable = null);
 		return $dataTable;
 	}
 
-	public function getCustomVariablesValuesFromNameId($idSite, $period, $date, $idSubtable)
+	public function getCustomVariablesValuesFromNameId($idSite, $period, $date, $segment = false, $idSubtable)
 	{
-	    $dataTable = $this->getDataTable($idSite, $period, $date, $expanded = false, $idSubtable);
+	    $dataTable = $this->getDataTable($idSite, $period, $date, $segment, $expanded = false, $idSubtable);
 		return $dataTable;
 	}
 }

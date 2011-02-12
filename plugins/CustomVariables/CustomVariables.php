@@ -41,6 +41,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
 			'Menu.add' => 'addMenus',
 			'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
 			'API.getReportMetadata' => 'getReportMetadata',
+		    'API.getSegmentsMetadata' => 'getSegmentsMetadata',
 		);
 		return $hooks;
 	}	
@@ -68,6 +69,29 @@ class Piwik_CustomVariables extends Piwik_Plugin
         		),
     	));
 	}
+
+	public function getSegmentsMetadata($notification)
+	{
+		$segments =& $notification->getNotificationObject();
+	    for($i=1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++)
+	    {
+	        $segments[] = array(
+		        'type' => 'dimension',
+		        'category' => 'CustomVariables_CustomVariables',
+		        'name' => Piwik_Translate('CustomVariables_ColumnCustomVariableName').' '.$i,
+		        'segment' => 'customVariableName'.$i,
+		        'sqlSegment' => 'custom_var_k'.$i,
+	        );
+	        $segments[] = array(
+		        'type' => 'dimension',
+		        'category' => 'CustomVariables_CustomVariables',
+		        'name' => Piwik_Translate('CustomVariables_ColumnCustomVariableValue').' '.$i,
+		        'segment' => 'customVariableValue'.$i,
+		        'sqlSegment' => 'custom_var_v'.$i,
+	        );
+	    }
+	}
+	
 	/**
 	 * Adds Goal dimensions, so that the dimensions are displayed in the UI Goal Overview page
 	 */
@@ -90,14 +114,6 @@ class Piwik_CustomVariables extends Piwik_Plugin
 		$this->maximumRowsInSubDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_subtable_referers;
 	}
 	
-	function archivePeriod( $notification )
-	{
-		$archiveProcessing = $notification->getNotificationObject();
-		
-		$dataTableToSum = 'CustomVariables_valueByName';
-		$nameToCount = $archiveProcessing->archiveDataTable($dataTableToSum, null, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable);
-	}
-	
 	protected $interestByCustomVariables = array();
 	protected $interestByCustomVariablesAndValue = array();
 	
@@ -113,6 +129,9 @@ class Piwik_CustomVariables extends Piwik_Plugin
 		 * @var Piwik_ArchiveProcessing_Day 
 		 */
 		$this->archiveProcessing = $notification->getNotificationObject();
+		
+		if(!$this->archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
+		
 		$this->archiveDayAggregate($this->archiveProcessing);
 		$this->archiveDayRecordInDatabase($this->archiveProcessing);
 		destroy($this->interestByCustomVariables);
@@ -144,6 +163,9 @@ class Piwik_CustomVariables extends Piwik_Plugin
         	
         	// Custom Vars names and values metrics for Goals
         	$query = $archiveProcessing->queryConversionsByDimension($dimensions, $where);
+
+        	if($query === false) continue;
+		
     		while($row = $query->fetch() )
     		{
 				if(!isset($this->interestByCustomVariables[$row[$keyField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByCustomVariables[$row[$keyField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow();
@@ -167,5 +189,15 @@ class Piwik_CustomVariables extends Piwik_Plugin
 		$blob = $table->getSerialized($this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable);
 		$archiveProcessing->insertBlobRecord($recordName, $blob);
 		destroy($table);
+	}
+
+	function archivePeriod( $notification )
+	{
+		$archiveProcessing = $notification->getNotificationObject();
+		
+		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
+		
+		$dataTableToSum = 'CustomVariables_valueByName';
+		$nameToCount = $archiveProcessing->archiveDataTable($dataTableToSum, null, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable);
 	}
 }

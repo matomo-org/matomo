@@ -252,7 +252,8 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 			$archivePeriod = new Piwik_Archive_Single();
 			$archivePeriod->setSite( $this->site );
 			$archivePeriod->setPeriod( $period );
-			$archivePeriod->prepareArchive();
+			$archivePeriod->setSegment( $this->getSegment() );
+			$archivePeriod->setRequestedReport($this->getRequestedReport());
 			
 			$periods[] = $archivePeriod;
 		}
@@ -301,14 +302,24 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 */
 	protected function computeNbUniqVisitors()
 	{
+		// Handling Custom Segment
+		$segmentSql = $this->getSegment()->getSql();
+		$sqlSegmentBind = $segmentSql['bind'];
+		$sqlSegment = $segmentSql['sql'];
+		if(!empty($sqlSegment)) $sqlSegment = ' AND '.$sqlSegment;
+		
 		$query = "
 			SELECT count(distinct idvisitor) as nb_uniq_visitors 
 			FROM ".Piwik_Common::prefixTable('log_visit')."
 			WHERE visit_last_action_time >= ?
     				AND visit_last_action_time <= ? 
-    				AND idsite = ?";
+    				AND idsite = ?
+    				$sqlSegment
+    				";
 
-		return Zend_Registry::get('db')->fetchOne($query, array( $this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite ));
+    	$bind = array_merge(array( $this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite ),
+    						$sqlSegmentBind);
+		return Zend_Registry::get('db')->fetchOne($query, $bind);
 	}
 	
 	/**
@@ -341,7 +352,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 			$result = Piwik_FetchAll("
 							SELECT idarchive
 							FROM $numericTable
-							WHERE name='done'
+							WHERE name LIKE 'done%'
 								AND value = ". Piwik_ArchiveProcessing::DONE_OK_TEMPORARY ."
 								AND ts_archived < ?", array($yesterday));
 			
