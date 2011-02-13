@@ -76,13 +76,18 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 */
 	protected $alreadyChecked = false;
 
-	public function __destruct()
+	protected function clearCache()
 	{
 		foreach($this->blobCached as $name => $blob)
 		{
 			$this->freeBlob($name);
 		}
 		$this->blobCached = array();
+	}
+	
+	public function __destruct()
+	{
+		$this->clearCache();
 	}
 	
 	/**
@@ -172,42 +177,55 @@ class Piwik_Archive_Single extends Piwik_Archive
 				return;
 			}
 			
-			// we make sure the archive is available for the given date
-			$periodLabel = $this->period->getLabel();
-			$archiveProcessing = Piwik_ArchiveProcessing::factory($periodLabel);
-			$archiveProcessing->setSite($this->site);
-			$archiveProcessing->setPeriod($this->period);
-			$archiveProcessing->setSegment($this->segment);
-			$archiveProcessing->setRequestedReport( $this->getRequestedReport() );
-			$idArchive = $archiveProcessing->loadArchive();
+    		// we make sure the archive is available for the given date
+    		$periodLabel = $this->period->getLabel();
+    		$this->archiveProcessing = Piwik_ArchiveProcessing::factory($periodLabel);
+    		$this->archiveProcessing->setSite($this->site);
+    		$this->archiveProcessing->setPeriod($this->period);
+    		$this->archiveProcessing->setSegment($this->segment);
+    		
+    		$this->archiveProcessing->init();
+    		
+			$this->archiveProcessing->setRequestedReport( $this->getRequestedReport() );
+		
+			$idArchive = $this->archiveProcessing->loadArchive();
 			if(empty($idArchive))
 			{
-				if($archiveProcessing->isArchivingDisabled())
+				if($this->archiveProcessing->isArchivingDisabled())
 				{
-					$archiveProcessing->isThereSomeVisits = false;
+					$this->archiveProcessing->isThereSomeVisits = false;
 				}
 				else
 				{
     				Piwik::log("$logMessage not archived yet, starting processing...");
     				$archiveJustProcessed = true;
-    				$archiveProcessing->launchArchiving();
-    				$idArchive = $archiveProcessing->getIdArchive();
+    				
+    				// Process the reports
+    				$this->archiveProcessing->launchArchiving();
+    				
+    				$idArchive = $this->archiveProcessing->getIdArchive();
 				}
 			}
 			else
 			{
 				Piwik::log("$logMessage archive already processed [id = $idArchive]...");
 			}
-			$this->archiveProcessing = $archiveProcessing;
-			$this->isThereSomeVisits = $archiveProcessing->isThereSomeVisits;
+			$this->isThereSomeVisits = $this->archiveProcessing->isThereSomeVisits;
 			$this->idArchive = $idArchive;
 		}
 		return $archiveJustProcessed;
 	}
 	
-	
 	protected $isArchivePrepared = false;
 	
+	protected function triggerProcessing()
+	{
+	    if(!$this->isArchivePrepared)
+	    {
+	        $archiveJustProcessed = $this->prepareArchive();
+    		$this->isArchivePrepared = true;
+	    }
+	}
 	/**
 	 * Returns a value from the current archive with the name = $name 
 	 * Method used by getNumeric or getBlob
@@ -219,12 +237,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 	protected function get( $name, $typeValue = 'numeric' )
 	{
     	$this->setRequestedReport($name);
-    	
-	    if(!$this->isArchivePrepared)
-	    {
-	        $archiveJustProcessed = $this->prepareArchive();
-    		$this->isArchivePrepared = true;
-	    }
+    	$this->triggerProcessing();
 	    
 		// values previously "get" and now cached
 		if($typeValue == 'numeric'
@@ -353,11 +366,10 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 */
 	public function preFetchBlob( $name )
 	{
-		if(!$this->isThereSomeVisits)
-		{
-			return false;
-		}
-
+    	$this->setRequestedReport($name);
+    	$this->triggerProcessing();
+    	if(!$this->isThereSomeVisits) { return; } 
+    	
 		$tableBlob = $this->archiveProcessing->getTableArchiveBlobName();
 
 		$db = Zend_Registry::get('db');
@@ -465,17 +477,17 @@ class Piwik_Archive_Single extends Piwik_Archive
 		$data = $this->get($name, 'blob');
 		
 		$table = new Piwik_DataTable();
-		
+	
 		if($data !== false)
 		{
 			$table->addRowsFromSerializedArray($data);
 		}
-		
 		if($data === false 
 			&& $idSubTable !== null)
 		{
 			// This is not expected, but somehow happens in some unknown cases and very rarely.
 			// Do not throw error in this case
+			// throw new Exception("not expected");
 			return new Piwik_DataTable();
 		}
 	

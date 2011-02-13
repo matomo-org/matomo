@@ -296,11 +296,12 @@ class Piwik_API_API
 			'idSite' => $idSite,
 			'period' => $period,
 			'date' => $date,
-			'segment' => $segment,
 			'format' => 'original',
 			'serialize' => '0',
 			'language' => $language,
 		));
+		if(!empty($segment)) $parameters['segment'] = $segment;
+		
 		$url = Piwik_Url::getQueryStringFromParameters($parameters);
         $request = new Piwik_API_Request($url);
         try {

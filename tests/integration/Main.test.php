@@ -145,7 +145,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * Same as before, but with cookie support, which incurs some slight changes 
 	 * in the reporting data (more accurate unique visitor count, better referer tracking for goals, etc.)
 	 */
-	function  test_OneVisitorTwoVisits_withCookieSupport() 
+	function test_OneVisitorTwoVisits_withCookieSupport() 
 	{
 		// Tests run in UTC, the Tracker in UTC
     	$dateTime = '2010-03-06 11:22:33';
@@ -306,19 +306,19 @@ class Test_Piwik_Integration_Main extends Test_Integration
          
 	}
 	
-	function test_twoVisitsWithCustomVariables()
-	{
+	private function doTest_twoVisitsWithCustomVariables($dateTime, $width=1111, $height=222)
+	{        
 	    // Tests run in UTC, the Tracker in UTC
-    	$dateTime = '2010-01-03 11:22:33';
     	$idSite = $this->createWebsite($dateTime);
     	$this->setApiToCall(array(	'VisitsSummary.get',
     	                            'CustomVariables.getCustomVariables'
     	));
     	ob_start();
-        $idGoal = Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');
-    	// -
+		$idGoal = Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');
+		
         $visitorA = $this->getTracker($idSite, $dateTime, $defaultInit = true);
-
+        $visitorA->setResolution($width, $height);
+        
         // At first, visitor custom var is set to LoggedOut
         $visitorA->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
     	$visitorA->setUrl('http://example.org/homepage');
@@ -327,7 +327,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         
         // After login, set to LoggedIn, should overwrite previous value
         $visitorA->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.2)->getDatetime());
-    	$visitorA->setUrl('http://example.org/profile');
+    	$visitorA->setUrl('http://example.org/user/profile');
     	$visitorA->setVisitorCustomVar($id = 1, $name = 'VisitorType', $value = 'LoggedIn');
         $this->checkResponse($visitorA->doTrackPageView('Profile page'));
         
@@ -339,6 +339,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // - 
     	// Second new visitor on Idsite 1: one page view 
         $visitorB = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+        $visitorB->setResolution($width, $height);
     	$visitorB->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.6) Gecko/2009011913 Firefox/3.0.6');
     	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1)->getDatetime());
     	$visitorB->setVisitorCustomVar($id = 1, $name = 'VisitorType', $value = 'LoggedOut');
@@ -348,13 +349,81 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	$visitorB->setVisitorCustomVar($id = 6, $name = array('not tracked'), $value = 'not tracked');
     	$visitorB->setUrl('http://example.org/homepage');
     	$this->checkResponse($visitorB->doTrackGoal($idGoal, 1000));
-
-    	// Test Referer.get* methods in XML
-    	$periods = array('day', 'week');
-    	// Request data for both websites at once
-    	$idSite = 'all';
-    	// Request data for the last 6 periods
-        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite = 'all', $dateTime, $periods, $setDateLastN = true);
+		return $idSite;
 	}
 	
+	function test_twoVisitsWithCustomVariables()
+	{
+		$dateTime = '2010-01-03 11:22:33';
+        $this->doTest_twoVisitsWithCustomVariables($dateTime);
+        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', 
+        								$idSite = 'all', 
+        								$dateTime, 
+        								$periods = array('day', 'week'), 
+        								$setDateLastN = true);
+	}
+
+	function test_twoVisitsWithCustomVariables_segmentMatchVisitorType()
+	{
+		$dateTime = '2010-01-03 11:22:33';
+        $this->doTest_twoVisitsWithCustomVariables($dateTime);
+        
+        // Segment matching some
+        $segment = 'customVariableName1==VisitorType;customVariableValue1==LoggedIn';
+        $this->setApiToCall(array(	
+    	                            'CustomVariables.getCustomVariables',
+//        							'VisitsSummary.get',
+    	));
+        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', 
+        								$idSite = 'all', 
+        								$dateTime, 
+        								$periods = array('day', 'week'), 
+        								$setDateLastN = true,
+        								$language=false, 
+        								$segment
+        );
+	}
+	function test_twoVisitsWithCustomVariables_segmentMatchALL_noGoalData()
+	{
+		$dateTime = '2010-01-03 11:22:33';
+        $width=1111; $height=222; $resolution = $width.'x'.$height;
+        $this->doTest_twoVisitsWithCustomVariables($dateTime, $width, $height);
+        
+        // Segment matching ALL
+        $segment = 'resolution=='.$resolution;
+    	
+        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', 
+        								$idSite = 'all', 
+        								$dateTime, 
+        								$periods = array('day', 'week'), 
+        								$setDateLastN = true,
+        								$language=false, 
+        								$segment
+        );
+	}
+	
+	/* Testing a segment containing all supported fields */
+	function test_twoVisitsWithCustomVariables_segmentMatchNONE()
+	{
+		$dateTime = '2010-01-03 11:22:33';
+        $idSite = $this->doTest_twoVisitsWithCustomVariables($dateTime);
+        
+        // Segment matching NONE
+        $segments = Piwik_API_API::getInstance()->getSegmentsMetadata($idSite);
+        $segmentExpression = array();
+		foreach($segments as $segment) { 
+			$segmentExpression[] = $segment['segment'] .'!=campaign';
+		}
+        $segment = implode(";", $segmentExpression);
+        $this->assertTrue(strlen($segment) > 100);
+//        echo $segment;
+        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', 
+        								$idSite = 'all', 
+        								$dateTime, 
+        								$periods = array('day', 'week'), 
+        								$setDateLastN = true,
+        								$language=false, 
+        								$segment
+        );
+	}
 }
