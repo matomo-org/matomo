@@ -154,7 +154,7 @@ class Piwik_Config
 					{
 						foreach($value as $currentValue)
 						{
-							$configFile .= $name."[] = $currentValue\n";
+							$configFile .= $name."[] = \"$currentValue\"\n";
 						}
 					}
 					else
