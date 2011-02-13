@@ -33,7 +33,10 @@
 					<verifyXPath description="check for result" xpath="//span[@class='failed']" />
 				</retry>
 
-				<verifyXPath description="check for success" xpath="//span[@class='failed']" text="0" />
+				<verifyXPath description="check for not failed" xpath="//span[@class='failed']" text="0" />
+				<not description="check for at least 1 pass">
+					<verifyXPath description="check for success" xpath="//span[@class='passed']" text="0" />
+				</not>
 
 			</steps>
 		</webtest>
