@@ -85,13 +85,14 @@ class Piwik_VisitTime extends Piwik_Plugin
 	public function getSegmentsMetadata($notification)
 	{
 		$segments =& $notification->getNotificationObject();
+		$acceptedValues = "0, 1, 2, 3, ..., 20, 21, 22, 23";
 		$segments[] = array(
 		        'type' => 'dimension',
 		        'category' => 'Visit',
 		        'name' => Piwik_Translate('VisitTime_ColumnServerTime'),
 		        'segment' => 'visitServerHour',
 		        'sqlSegment' => 'HOUR(visit_last_action_time)',
-				'acceptedValues' => implode(',', range(0, 23, 1))
+				'acceptedValues' => $acceptedValues
        );
        $segments[] = array(
 		        'type' => 'dimension',
@@ -99,7 +100,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 		        'name' => Piwik_Translate('VisitTime_ColumnLocalTime'),
 		        'segment' => 'visitLocalHour',
 		        'sqlSegment' => 'HOUR(visitor_localtime)',
-       			'acceptedValues' => implode(',', range(0, 23, 1))
+       			'acceptedValues' => $acceptedValues
        );
 	}
 	

@@ -1,161 +1,38 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<type>dimension</type>
-		<category>Actions</category>
-		<name>Entry Page URL</name>
-		<segment>entryPageUrl</segment>
+		<type>metric</type>
+		<category>Visit</category>
+		<name>Visit Duration (in seconds)</name>
+		<segment>visitDuration</segment>
 	</row>
 	<row>
-		<type>dimension</type>
-		<category>Actions</category>
-		<name>Entry Page title</name>
-		<segment>entryPageTitle</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Actions</category>
-		<name>Exit Page Title</name>
-		<segment>exitPageTitle</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Actions</category>
-		<name>Exit Page URL</name>
-		<segment>exitPageUrl</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Custom Variables</category>
-		<name>Custom Variable name 1</name>
-		<segment>customVariableName1</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Custom Variables</category>
-		<name>Custom Variable name 2</name>
-		<segment>customVariableName2</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Custom Variables</category>
-		<name>Custom Variable name 3</name>
-		<segment>customVariableName3</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Custom Variables</category>
-		<name>Custom Variable name 4</name>
-		<segment>customVariableName4</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Custom Variables</category>
-		<name>Custom Variable name 5</name>
-		<segment>customVariableName5</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Custom Variables</category>
-		<name>Custom Variable value 1</name>
-		<segment>customVariableValue1</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Custom Variables</category>
-		<name>Custom Variable value 2</name>
-		<segment>customVariableValue2</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Custom Variables</category>
-		<name>Custom Variable value 3</name>
-		<segment>customVariableValue3</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Custom Variables</category>
-		<name>Custom Variable value 4</name>
-		<segment>customVariableValue4</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Custom Variables</category>
-		<name>Custom Variable value 5</name>
-		<segment>customVariableValue5</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Referrers</category>
-		<name>Keyword</name>
-		<segment>referrerKeyword</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Referrers</category>
-		<name>Referrer Name</name>
-		<segment>referrerName</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Referrers</category>
-		<name>Referrer Type</name>
-		<segment>referrerType</segment>
-		<acceptedValues>direct, search, website, campaign</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Referrers</category>
-		<name>Referrer URL</name>
-		<segment>referrerUrl</segment>
+		<type>metric</type>
+		<category>Visit</category>
+		<name>Number of Actions</name>
+		<segment>actions</segment>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
-		<name>Browser</name>
-		<segment>browserName</segment>
-		<acceptedValues>FF, IE, CH, SF, OP, etc.</acceptedValues>
+		<name>Visitor type</name>
+		<segment>visitorType</segment>
+		<acceptedValues>new, returning</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
-		<name>Browser version</name>
-		<segment>browserVersion</segment>
-		<acceptedValues>1.0, 8.0, etc.</acceptedValues>
+		<name>Visitor IP</name>
+		<segment>visitIp</segment>
+		<acceptedValues>13.54.122.1, etc.</acceptedValues>
+		<permission>1</permission>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
-		<name>Continent</name>
-		<segment>continent</segment>
-		<acceptedValues>eur, asi, amc, amn, ams, afr, ant, oce</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Country</name>
-		<segment>country</segment>
-		<acceptedValues>de, us, fr, in, es, etc.</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Local time</name>
-		<segment>visitLocalHour</segment>
-		<acceptedValues>0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Operating system</name>
-		<segment>operatingSystem</segment>
-		<acceptedValues>WXP, WI7, MAC, LIN, AND, IPD, etc.</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Provider</name>
-		<segment>provider</segment>
+		<name>Server time</name>
+		<segment>visitServerHour</segment>
+		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -167,34 +44,162 @@
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
-		<name>Server time</name>
-		<segment>visitServerHour</segment>
-		<acceptedValues>0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23</acceptedValues>
+		<name>Provider</name>
+		<segment>provider</segment>
+		<acceptedValues>comcast.net, proxad.net, etc.</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
-		<name>Visitor IP</name>
-		<segment>visitIp</segment>
-		<permission>1</permission>
+		<name>Operating system</name>
+		<segment>operatingSystem</segment>
+		<acceptedValues>WXP, WI7, MAC, LIN, AND, IPD, etc.</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
-		<name>Visitor type</name>
-		<segment>visitorType</segment>
-		<acceptedValues>new, returning</acceptedValues>
+		<name>Local time</name>
+		<segment>visitLocalHour</segment>
+		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
 	</row>
 	<row>
-		<type>metric</type>
+		<type>dimension</type>
 		<category>Visit</category>
-		<name>Number of Actions</name>
-		<segment>actions</segment>
+		<name>Country</name>
+		<segment>country</segment>
+		<acceptedValues>de, us, fr, in, es, etc.</acceptedValues>
 	</row>
 	<row>
-		<type>metric</type>
+		<type>dimension</type>
 		<category>Visit</category>
-		<name>Visit Duration (in seconds)</name>
-		<segment>visitDuration</segment>
+		<name>Continent</name>
+		<segment>continent</segment>
+		<acceptedValues>eur, asi, amc, amn, ams, afr, ant, oce</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit</category>
+		<name>Browser version</name>
+		<segment>browserVersion</segment>
+		<acceptedValues>1.0, 8.0, etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit</category>
+		<name>Browser</name>
+		<segment>browserName</segment>
+		<acceptedValues>FF, IE, CH, SF, OP, etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Referrers</category>
+		<name>Referrer URL</name>
+		<acceptedValues>http%3A%2F%2Fwww.example.org%2Freferer-page.htm</acceptedValues>
+		<segment>referrerUrl</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Referrers</category>
+		<name>Referrer Type</name>
+		<segment>referrerType</segment>
+		<acceptedValues>direct, search, website, campaign</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Referrers</category>
+		<name>Referrer Name</name>
+		<segment>referrerName</segment>
+		<acceptedValues>twitter.com, www.facebook.com, Bing, Google, Yahoo, CampaignName</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Referrers</category>
+		<name>Keyword</name>
+		<segment>referrerKeyword</segment>
+		<acceptedValues>Encoded%20Keyword, keyword</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable value 5</name>
+		<segment>customVariableValue5</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable value 4</name>
+		<segment>customVariableValue4</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable value 3</name>
+		<segment>customVariableValue3</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable value 2</name>
+		<segment>customVariableValue2</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable value 1</name>
+		<segment>customVariableValue1</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable name 5</name>
+		<segment>customVariableName5</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable name 4</name>
+		<segment>customVariableName4</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable name 3</name>
+		<segment>customVariableName3</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable name 2</name>
+		<segment>customVariableName2</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable name 1</name>
+		<segment>customVariableName1</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Exit Page URL</name>
+		<segment>exitPageUrl</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Exit Page Title</name>
+		<segment>exitPageTitle</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Entry Page title</name>
+		<segment>entryPageTitle</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Entry Page URL</name>
+		<segment>entryPageUrl</segment>
 	</row>
 </result>
