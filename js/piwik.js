@@ -1140,6 +1140,7 @@ var
 				var i,
 					now = new Date(),
 					nowTs = Math.round(now.getTime() / 1000),
+					referralUrlMaxLength = 1024,
 					tmpContainer,
 					tmpPos,
 					newVisitor,
@@ -1222,7 +1223,8 @@ var
 
 					lastVisitTs = currentVisitTs;
 
-					// the referral URL depends on the first or last referrer attribution
+					// Store the referrer URL and time in the cookie
+					// referral URL depends on the first or last referrer attribution
 					currentReferrerHostName = getHostName(configReferrerUrl);
 					originalReferrerHostName = ref ? getHostName(ref) : '';
 					if (currentReferrerHostName.length && // there is a referrer
@@ -1235,7 +1237,7 @@ var
 						referralUrl = configReferrerUrl;
 
 						// set the referral cookie
-						setCookie(refname, referralTs + '.' + referralUrl, configReferralCookieTimeout, configCookiePath, configCookieDomain, secure);
+						setCookie(refname, referralTs + '.' + referralUrl.substr(0, referralUrlMaxLength), configReferralCookieTimeout, configCookiePath, configCookieDomain, secure);
 					}
 				}
 
@@ -1250,16 +1252,17 @@ var
 					'&url=' + encodeWrapper(purify(configCustomUrl || locationHrefAlias)) +
 					'&urlref=' + encodeWrapper(purify(configReferrerUrl)) +
 					'&_id=' + uuid + '&_idts=' + createTs + '&_idvc=' + visitCount + '&_idn=' + newVisitor +
-					'&_ref=' + encodeWrapper(purify(referralUrl)) +
+					'&_ref=' + encodeWrapper(purify(referralUrl.substr(0, referralUrlMaxLength))) +
 					'&_refts=' + referralTs +
 					'&_viewts=' + lastVisitTs +
 					request;
-				if(customVariablesString.length > 5) { 
+				// Don't send if empty
+				if(customVariablesString.length > 10) { 
 					request +='&_cvar=' + customVariablesString;
 				}
 				
-				
-				// Don't save in the cookie, the deleted custom variables 
+				// Custom Variable cookie
+				// Don't save in the cookie the deleted custom variables 
 				for(cvarId in customVariables) {
 					if(customVariables[cvarId][0] == ""
 						|| customVariables[cvarId][1] == "") {
@@ -1267,16 +1270,16 @@ var
 					}
 				}
 				customVariablesString = JSON.stringify(customVariables);
+				setCookie(cvarname, customVariablesString, configSessionCookieTimeout, configCookiePath, configCookieDomain, secure);
 				
 				// Update other cookies
 				currentVisitTs = nowTs;
 				setCookie(idname, uuid + '.' + createTs + '.' + visitCount + '.' + currentVisitTs + '.' + lastVisitTs, configVisitorCookieTimeout, configCookiePath, configCookieDomain, secure);
 				setCookie(sesname, '*', configSessionCookieTimeout, configCookiePath, configCookieDomain, secure);
-				setCookie(cvarname, customVariablesString, configSessionCookieTimeout, configCookiePath, configCookieDomain, secure);
 				
 				// tracker plugin hook
 				request += executePluginMethod(pluginMethod);
-
+				
 				return request;
 			}
 
