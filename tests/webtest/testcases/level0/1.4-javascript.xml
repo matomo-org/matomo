@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project [
+	<!ENTITY time  SYSTEM "../modules/time.xml">
+	<!ENTITY checkForErrors SYSTEM "../modules/errors.xml">
+	<!ENTITY verifyLinksAndImages SYSTEM "../modules/common_pages.xml">
+	<!ENTITY loadMacros SYSTEM "../modules/macros.xml">
+	<!ENTITY raquo "&#187;">
+	<!ENTITY rsaquo "&#8250;" >
+]>
+
+<project name="Smoke test level0 - deploy test" basedir="." default="webtest">
+	&time;
+	<target name="webtest">
+		<webtest name="piwik.js">
+			<steps>
+				<echo>Piwik JavaScript Test</echo>
+
+				&loadMacros;
+
+				<!--
+					tracking tests are disabled because after WebTest handles
+					the triggered click event, it then loads the href and
+					changes the "current" response
+				-->
+				<!-- touch file="../javascript/enable_sqlite" / -->
+
+				<invoke description="get unit test" url="/tests/javascript/" />
+				<verifyTitle description="check the title is parsed correctly" text="piwik.js: Unit Tests" />
+
+				<retry description="wait for test to complete" maxcount="30">
+					<sleep description="pause" seconds="1" />
+					<verifyXPath description="check for result" xpath="//span[@class='failed']" />
+				</retry>
+
+				<verifyXPath description="check for success" xpath="//span[@class='failed']" text="0" />
+
+			</steps>
+		</webtest>
+	</target>
+</project>
