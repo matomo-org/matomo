@@ -46,7 +46,7 @@ class Piwik_Actions_API
 		return $dataTable;
 	}
 	
-	public function getPageUrl( $idSite, $period, $date, $segment = false, $pageUrl)
+	public function getPageUrl( $pageUrl, $idSite, $period, $date, $segment = false)
 	{
 		$callBackParameters = array('Actions_actions_url', $idSite, $period, $date, $segment, $expanded = false, $idSubtable = false );
 		$dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageUrl, Piwik_Tracker_Action::TYPE_ACTION_URL);
@@ -63,7 +63,7 @@ class Piwik_Actions_API
 		return $dataTable;
 	}
 	
-	public function getPageTitle( $idSite, $period, $date, $segment = false, $pageName)
+	public function getPageTitle( $pageName, $idSite, $period, $date, $segment = false)
 	{
 		$callBackParameters = array('Actions_actions', $idSite, $period, $date, $segment, $expanded = false, $idSubtable = false );
 		$dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageName, Piwik_Tracker_Action::TYPE_ACTION_NAME);
@@ -79,7 +79,7 @@ class Piwik_Actions_API
 		return $dataTable;
 	}
 
-	public function getDownload( $idSite, $period, $date, $segment = false, $downloadUrl)
+	public function getDownload( $downloadUrl, $idSite, $period, $date, $segment = false)
 	{
 		$callBackParameters = array('Actions_downloads', $idSite, $period, $date, $segment, $expanded = false, $idSubtable = false );
 		$dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $downloadUrl, Piwik_Tracker_Action::TYPE_DOWNLOAD);
@@ -94,7 +94,7 @@ class Piwik_Actions_API
 		return $dataTable;
 	}
 
-	public function getOutlink( $idSite, $period, $date, $segment = false, $outlinkUrl)
+	public function getOutlink( $outlinkUrl, $idSite, $period, $date, $segment = false)
 	{
 		$callBackParameters = array('Actions_outlink', $idSite, $period, $date, $segment, $expanded = false, $idSubtable = false );
 		$dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $outlinkUrl, Piwik_Tracker_Action::TYPE_OUTLINK);
