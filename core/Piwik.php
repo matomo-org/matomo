@@ -1344,17 +1344,15 @@ class Piwik
 	{
 		static $titles = array(
 			'Web analytics',
+			'Real Time Web Analytics',
 			'Analytics',
-			'Real time web analytics',
-			'Real time analytics',
-			'Open source analytics',
-			'Open source web analytics',
+			'Real Time Analytics',
+			'Open Source Analytics',
+			'Open Source Web Analytics',
 			'Google Analytics alternative',
 			'Open source Google Analytics',
-			'Free analytics',
-			'Analytics software',
-			'Free web analytics',
-			'Free web statistics',
+			'Free Website Analytics',
+			'Free Web Analytics',
 		);
 		$id = abs(intval(md5(Piwik_Url::getCurrentHost())));
 		$title = $titles[ $id % count($titles)];
