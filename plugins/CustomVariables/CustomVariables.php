@@ -150,7 +150,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
 	        $keyField = "custom_var_k".$i; 
 	        $valueField = "custom_var_v".$i;
 	        $dimensions = array($keyField, $valueField);
-	        $where = "$keyField IS NOT NULL AND $valueField IS NOT NULL";
+	        $where = "$keyField != '' AND $valueField != ''";
 	        
 	        // Custom Vars names and values metrics for visits
 	        $query = $archiveProcessing->queryVisitsByDimension($dimensions, $where);
