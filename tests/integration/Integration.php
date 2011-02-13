@@ -110,7 +110,6 @@ abstract class Test_Integration extends Test_Database
             $t->setLocalTime( '12:34:06' );
             $t->setResolution( 1024, 768 );
             $t->setBrowserHasCookies(true);
-            $t->setCustomData( array('id' => 10, 'name' => 'test') );
             $t->setPlugins($flash = true, $java = true, $director = false);
         }
         return $t;

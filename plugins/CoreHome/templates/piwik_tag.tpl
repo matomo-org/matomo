@@ -6,7 +6,8 @@
 <script type="text/javascript">
 try {
  var piwikTracker = Piwik.getTracker("piwik.php", 1);
- piwikTracker.setCustomData({ 'video_play':1, 'video_finished':0 });
+ piwikTracker.setCustomVariable(1, "Piwik username", piwik.userLogin);
+ piwikTracker.setCustomVariable(2, "Variable name ", "Value");
  piwikTracker.setDocumentTitle(document.domain + "/" + document.title);
  piwikTracker.trackPageView();
  piwikTracker.enableLinkTracking();

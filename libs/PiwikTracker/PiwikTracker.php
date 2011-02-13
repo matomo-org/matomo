@@ -88,20 +88,9 @@ class PiwikTracker
      * @param string Custom variable name
      * @param string Custom variable value
      */
-    public function setVisitorCustomVar($id, $name, $value)
+    public function setCustomVariable($id, $name, $value)
     {
         $this->visitorCustomVar[$id] = array($name, $value);
-    }
-    
-    /**
-     * Sets custom data to be passed to the piwik.php script, 
-     * with the variable name 'data'. Data will be JSON encoded.
-     * 
-     * @param mixed $data An array, strings, ints, etc.
-     */
-    public function setCustomData( $data )
-    {
-    	$this->customData = json_encode($data);
     }
     
     /**

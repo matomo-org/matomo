@@ -15,10 +15,6 @@
  */
 class Piwik_ExampleUI_Controller extends Piwik_Controller
 {
-	protected function getCustomData()
-	{
-	}
-	
 	function dataTables()
 	{
 		$view = Piwik_ViewDataTable::factory('table');
