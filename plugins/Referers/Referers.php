@@ -110,6 +110,7 @@ class Piwik_Referers extends Piwik_Plugin
 		        'category' => 'Referers_Referers',
 		        'name' => 'Referers_ColumnKeyword',
 		        'segment' => 'referrerKeyword',
+		        'acceptedValues' => 'Encoded%20Keyword, keyword',
 		        'sqlSegment' => 'referer_keyword',
 	    );
 		$segments[] = array(
@@ -117,12 +118,14 @@ class Piwik_Referers extends Piwik_Plugin
 		        'category' => 'Referers_Referers',
 		        'name' => 'Referers_RefererName',
 		        'segment' => 'referrerName',
+		        'acceptedValues' => 'twitter.com, www.facebook.com, Bing, Google, Yahoo, CampaignName',
 		        'sqlSegment' => 'referer_name',
 	    );
 	    $segments[] = array(
 		        'type' => 'dimension',
 		        'category' => 'Referers_Referers',
 		        'name' => 'Live_Referrer_URL',
+	    		'acceptedValues' => 'http%3A%2F%2Fwww.example.org%2Freferer-page.htm',
 		        'segment' => 'referrerUrl',
 		        'sqlSegment' => 'referer_url',
 	    );

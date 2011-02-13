@@ -105,8 +105,9 @@ class Piwik_API_API
 		        'category' => 'Visit',
 		        'name' => 'General_VisitorIP',
 		        'segment' => 'visitIp',
+				'acceptedValues' => '13.54.122.1, etc.',
 		        'sqlSegment' => 'location_ip',
-		        'sqlFilter' => array('Piwik_Common', 'long2ip'),
+		        'sqlFilter' => array('Piwik_Common', 'getIp'),
 		        'permission' => Piwik::isUserHasAdminAccess($idSites),
 	    );
 		$segments[] = array(
@@ -160,7 +161,7 @@ class Piwik_API_API
 		$columns = array('type', 'category', 'name', 'segment');
 		foreach($columns as $column)
 		{
-			$compare = strcmp($row1[$column], $row2[$column]);
+			$compare = -1 * strcmp($row1[$column], $row2[$column]);
 			if($compare != 0){
 				return $compare;
 			}

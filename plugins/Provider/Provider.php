@@ -63,6 +63,7 @@ class Piwik_Provider extends Piwik_Plugin
 		        'category' => 'Visit',
 		        'name' => Piwik_Translate('Provider_ColumnProvider'),
 		        'segment' => 'provider',
+				'acceptedValues' => 'comcast.net, proxad.net, etc.',
 		        'sqlSegment' => 'location_provider'
        );
 	}

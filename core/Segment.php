@@ -5,9 +5,18 @@ class Piwik_Segment
      * @var Piwik_SegmentExpression
      */
     protected $segment = null;
+    
+    /**
+     * Truncate the Segments to 4k  
+     */
+    const SEGMENT_TRUNCATE_LIMIT = 4096;
+    
     public function __construct($string, $idSites)
     {
         $string = trim($string);
+        // As a preventive measure, we restrict the filter size to a safe limit
+        $string = substr($string, 0, self::SEGMENT_TRUNCATE_LIMIT);
+        
         $this->string = $string;
         $this->idSites = $idSites;
         $segment = new Piwik_SegmentExpression($string);
@@ -46,7 +55,8 @@ class Piwik_Segment
     {
         $expressions = $this->segment->parsedSubExpressions;
         $uniqueFields = array();
-        foreach($expressions as $expression) {
+        foreach($expressions as $expression) 
+        {
             $uniqueFields[] = $expression[Piwik_SegmentExpression::INDEX_OPERAND][0];
         }
         return $uniqueFields;
