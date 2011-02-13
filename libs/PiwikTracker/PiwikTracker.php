@@ -404,7 +404,7 @@ class PiwikTracker
 	        (!empty($this->width) && !empty($this->height) ? '&res=' . $this->width . 'x' . $this->height : '') .
 	        (!empty($this->hasCookies) ? '&cookie=' . $this->hasCookies : '') .
 	        (!empty($this->customData) ? '&data=' . $this->customData : '') . 
-	        (!empty($this->visitorCustomVar) ? '&cvar=' . urlencode(json_encode($this->visitorCustomVar)) : '')
+	        (!empty($this->visitorCustomVar) ? '&_cvar=' . urlencode(json_encode($this->visitorCustomVar)) : '')
         ;
     	return $url;
     }
