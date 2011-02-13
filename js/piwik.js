@@ -1239,13 +1239,8 @@ var
 					}
 				}
 
-				currentVisitTs = nowTs;
+
 				customVariablesString = JSON.stringify(customVariables);
-				
-				// update other cookies
-				setCookie(idname, uuid + '.' + createTs + '.' + visitCount + '.' + currentVisitTs + '.' + lastVisitTs, configVisitorCookieTimeout, configCookiePath, configCookieDomain, secure);
-				setCookie(sesname, '*', configSessionCookieTimeout, configCookiePath, configCookieDomain, secure);
-				setCookie(cvarname, customVariablesString, configSessionCookieTimeout, configCookiePath, configCookieDomain, secure);
 				
 				// build out the rest of the request
 				request = 'idsite=' + configTrackerSiteId +
@@ -1260,7 +1255,22 @@ var
 					'&_viewts=' + lastVisitTs +
 					'&_cvar=' + customVariablesString +
 					request;
-
+				
+				// Don't save in the cookie, the deleted custom variables 
+				for(cvarId in customVariables) {
+					if(customVariables[cvarId][0] == ""
+						|| customVariables[cvarId][1] == "") {
+						delete customVariables[cvarId];
+					}
+				}
+				customVariablesString = JSON.stringify(customVariables);
+				
+				// Update other cookies
+				currentVisitTs = nowTs;
+				setCookie(idname, uuid + '.' + createTs + '.' + visitCount + '.' + currentVisitTs + '.' + lastVisitTs, configVisitorCookieTimeout, configCookiePath, configCookieDomain, secure);
+				setCookie(sesname, '*', configSessionCookieTimeout, configCookiePath, configCookieDomain, secure);
+				setCookie(cvarname, customVariablesString, configSessionCookieTimeout, configCookiePath, configCookieDomain, secure);
+				
 				// tracker plugin hook
 				request += executePluginMethod(pluginMethod);
 
@@ -1607,7 +1617,11 @@ var
 				 * @param int index
 				 */
 				deleteCustomVariable: function (index) {
-					this.setCustomVariable(index, "", "");
+					var current = this.getCustomVariable(index);
+					// Only delete if it was there already
+					if(isDefined(current)) {
+						this.setCustomVariable(index, "", "");
+					}
 				},
 
 				/**

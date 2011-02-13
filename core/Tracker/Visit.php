@@ -818,8 +818,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	        if($id < 1 
 	            || $id > Piwik_Tracker::MAX_CUSTOM_VARIABLES
 	            || count($keyValue) != 2
-	            || empty($keyValue[0])
-	            || empty($keyValue[1])
 	            || !is_string($keyValue[0])
 	            || !is_string($keyValue[1])
 	            )
@@ -828,6 +826,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	            continue;
 	        }
 	        
+	        // We keep in the URL when Custom Variable have empty names 
+			// and values, as it means they can be deleted server side
+
 	        $key = $this->truncateCustomVariable($keyValue[0]);
 	        $value = $this->truncateCustomVariable($keyValue[1]);
             $visitorCustomVar['custom_var_k'.$id] = $key; 
