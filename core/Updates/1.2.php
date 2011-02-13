@@ -50,6 +50,7 @@ class Piwik_Updates_1_2 extends Piwik_Updates
 			   ' => false,
 
 		    'ALTER TABLE `'. Piwik_Common::prefixTable('log_conversion') .'` 
+			    DROP `referer_idvisit`,
 			    ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`,
 			    ADD custom_var_k1 VARCHAR(50) DEFAULT NULL,
     			ADD custom_var_v1 VARCHAR(50) DEFAULT NULL,

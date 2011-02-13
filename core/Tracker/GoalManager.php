@@ -17,19 +17,10 @@
 class Piwik_Tracker_GoalManager 
 {
 	/**
-	 * @var Piwik_Cookie
-	 */
-	protected $cookie = null;
-	/**
 	 * @var Piwik_Tracker_Action
 	 */
 	protected $action = null;
 	protected $convertedGoals = array();
-
-	function setCookie($cookie)
-	{
-		$this->cookie = $cookie;
-	}
 
 	static public function getGoalDefinitions( $idSite )
 	{
@@ -181,29 +172,28 @@ class Piwik_Tracker_GoalManager
 			'server_time' 		=> Piwik_Tracker::getDatetimeFromTimestamp($visitorInformation['visit_last_action_time']),
 			'location_country'  => $location_country,
 			'location_continent'=> $location_continent,
-			'visitor_returning' => $this->cookie->get( Piwik_Tracker::COOKIE_INDEX_VISITOR_RETURNING ),
+			'visitor_returning' => $visitorInformation['visitor_returning'],
 		);
 
-		$referer_idvisit = $this->cookie->get(  Piwik_Tracker::COOKIE_INDEX_REFERER_ID_VISIT );
-		if($referer_idvisit !== false)
+		$refererTimestamp = Piwik_Common::getRequestVar('_refts', 0, 'int', $action->getRequest());
+		$refererUrl = Piwik_Common::getRequestVar('_ref', '', 'string', $action->getRequest());
+		$referrer = new Piwik_Tracker_Visit_Referer(); 
+		$referrer = $referrer->getRefererInformation($refererUrl, $currentUrl = '', $idSite);
+		$goalData = array(
+			'referer_visit_server_date' => date("Y-m-d", $refererTimestamp),
+			'referer_type' 				=> $referrer['referer_type'],
+			'referer_name' 				=> $referrer['referer_name'],
+			'referer_keyword' 			=> $referrer['referer_keyword'],
+		);
+		
+		// Basic health check on the referer data
+		if($goalData['referer_type'] > 0
+			&& strlen($goalData['referer_name']) > 1
+			// Cookie only lasts 6 months by default, so we shouldn't see anything older than 1 year
+			&& $refererTimestamp > Piwik_Tracker::getCurrentTimestamp() - 365 * 86400 * 2
+			&& $refererTimestamp <=  Piwik_Tracker::getCurrentTimestamp())
 		{
-			$refererTimestamp = (int)$this->cookie->get( Piwik_Tracker::COOKIE_INDEX_REFERER_TIMESTAMP );
-			$goalData = array(
-				'referer_idvisit' 			=> (int)$referer_idvisit,
-				'referer_visit_server_date' => date("Y-m-d", $refererTimestamp),
-				'referer_type' 				=> htmlspecialchars_decode($this->cookie->get( Piwik_Tracker::COOKIE_INDEX_REFERER_TYPE )),
-				'referer_name' 				=> htmlspecialchars_decode($this->cookie->get(  Piwik_Tracker::COOKIE_INDEX_REFERER_NAME )),
-				'referer_keyword' 			=> htmlspecialchars_decode($this->cookie->get(  Piwik_Tracker::COOKIE_INDEX_REFERER_KEYWORD )),
-			);
-			
-			// Basic health check on the referer data
-			if($goalData['referer_idvisit'] > 0
-				&& $goalData['referer_type'] > 0
-				&& strlen($goalData['referer_name']) > 1
-				&& $refererTimestamp > Piwik_Tracker::getCurrentTimestamp() - 365.25 * 86400 * 2)
-			{
-				$goal += $goalData;
-			}
+			$goal += $goalData;
 		}
 
 		$goal += $visitCustomVariables;

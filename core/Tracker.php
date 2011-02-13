@@ -33,14 +33,6 @@ class Piwik_Tracker
 	const STATE_EMPTY_REQUEST = 11;
 	const STATE_NOSCRIPT_REQUEST = 13;
 		
-	const COOKIE_INDEX_IDVISITOR 				= 1;
-	const COOKIE_INDEX_REFERER_ID_VISIT			= 6;
-	const COOKIE_INDEX_REFERER_TIMESTAMP		= 7;
-	const COOKIE_INDEX_REFERER_TYPE				= 8;
-	const COOKIE_INDEX_REFERER_NAME				= 9;
-	const COOKIE_INDEX_REFERER_KEYWORD			= 10;
-	const COOKIE_INDEX_VISITOR_RETURNING		= 11;
-	
 	// We use hex ID that are 16 chars in length, ie. 64 bits IDs 
 	const LENGTH_HEX_ID_STRING = 16;
 	const LENGTH_BINARY_ID = 8;

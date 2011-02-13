@@ -228,7 +228,6 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 									  server_time datetime NOT NULL,
 									  idaction_url int(11) default NULL,
 									  idlink_va int(11) default NULL,
-									  referer_idvisit int(10) unsigned default NULL,
 									  referer_visit_server_date date default NULL,
 									  referer_type int(10) unsigned default NULL,
 									  referer_name varchar(70) default NULL,
