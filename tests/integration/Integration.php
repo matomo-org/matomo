@@ -215,7 +215,7 @@ abstract class Test_Integration extends Test_Database
 	 * @param $language 2 letter language code, defaults to default piwik language
 	 * @return array of API URLs query strings
 	 */ 
-	protected function generateUrlsApi( $parametersToSet, $formats, $periods, $setDateLastN = false, $language = false )
+	protected function generateUrlsApi( $parametersToSet, $formats, $periods, $setDateLastN = false, $language = false, $segment = false )
 	{
 		// Get the URLs to query against the API for all functions starting with get*
 		$skipped = $requestUrls = array();
@@ -318,7 +318,7 @@ abstract class Test_Integration extends Test_Database
 	 * 
 	 * @return void
 	 */
-	function callGetApiCompareOutput($testName, $formats = 'xml', $idSite = false, $dateTime = false, $periods = false, $setDateLastN = false, $language = false)
+	function callGetApiCompareOutput($testName, $formats = 'xml', $idSite = false, $dateTime = false, $periods = false, $setDateLastN = false, $language = false, $segment = false)
 	{
 		$path = $this->getPathToTestDirectory();
 		$pathProcessed = $path . "/processed/";
@@ -337,7 +337,6 @@ abstract class Test_Integration extends Test_Database
 			'date'		=> date('Y-m-d', strtotime($dateTime)),
 			'expanded'  => '1',
 			'piwikUrl'  => 'http://example.org/piwik/',
-
 			// Used in getKeywordsForPageUrl
 			'url'		=> 'http://example.org/store/purchase.htm',
 			
@@ -349,7 +348,10 @@ abstract class Test_Integration extends Test_Database
 			'pageUrl' 		=> 'http://example.org/index.htm?sessionid=this is also ignored by default',
 			'pageName' 		=> ' Checkout / Purchasing... ',
 		);
-		
+		if(!empty($segment))
+		{
+			$parametersToSet['segment'] = $segment;
+		}
 		// Give it enough time for the current API test to finish (call all get* APIs)
 		Zend_Registry::get('config')->General->time_before_today_archive_considered_outdated = 10;
 		
@@ -361,13 +363,13 @@ abstract class Test_Integration extends Test_Database
 		{
 			$periods = array($periods);
 		}
-		$requestUrls = $this->generateUrlsApi($parametersToSet, $formats, $periods, $setDateLastN, $language);
+		$requestUrls = $this->generateUrlsApi($parametersToSet, $formats, $periods, $setDateLastN, $language, $segment);
     	
     	foreach($requestUrls as $apiId => $requestUrl)
     	{
     		$request = new Piwik_API_Request($requestUrl);
-    		
-        	// $TEST_NAME - $API_METHOD
+
+    		// $TEST_NAME - $API_METHOD
     		$filename = $testName . '__' . $apiId;
     		
     		// Cast as string is important. For example when calling 
@@ -398,6 +400,7 @@ abstract class Test_Integration extends Test_Database
     			echo "\n";
     		}
     	}
+    	
     	$this->pass();
 	}
 	

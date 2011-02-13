@@ -395,6 +395,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 */
 	public function getDataTableWithSubtablesFromArraysIndexedByLabel( $arrayLevel0, $subArrayLevel1ByKey )
 	{
+		$parentTableLevel0 = new Piwik_DataTable();
+		
 		$tablesByLabel = array();
 		foreach($arrayLevel0 as $label => $aAllRowsForThisLabel)
 		{
@@ -402,7 +404,6 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 			$table->addRowsFromArrayWithIndexLabel($aAllRowsForThisLabel);
 			$tablesByLabel[$label] = $table;
 		}
-		$parentTableLevel0 = new Piwik_DataTable();
 		$parentTableLevel0->addRowsFromArrayWithIndexLabel($subArrayLevel1ByKey, $tablesByLabel);
 
 		return $parentTableLevel0;
