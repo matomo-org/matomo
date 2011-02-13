@@ -2,6 +2,7 @@
 	var piwik = {literal}{}{/literal};
 	piwik.token_auth = "{$token_auth}";
 	piwik.piwik_url = "{$piwikUrl}";
+	{if isset($userLogin)}piwik.userLogin = "{$userLogin|escape:'javascript'}";{/if}
 	{if isset($idSite)}piwik.idSite = "{$idSite}";{/if}
 	{if isset($siteName)}piwik.siteName = "{$siteName|escape:'javascript'}";{/if}
 	{if isset($siteMainUrl)}piwik.siteMainUrl = "{$siteMainUrl|escape:'javascript'}";{/if}

@@ -21,7 +21,6 @@ if ($sqlite) {
 var _paq = _paq || [];
 _paq.push(["setSiteId", 1]);
 _paq.push(["setTrackerUrl", "piwik.php"]);
-_paq.push(["setCustomData", { "token" : getToken() }]);
 _paq.push(["trackPageView", "Asynchronous tracker"]);';
 }
 ?>
@@ -219,7 +218,7 @@ function PiwikTest() {
 	});
 
 	test("API methods", function() {
-		expect(40);
+		expect(38);
 
 		equals( typeof Piwik.addPlugin, 'function', 'addPlugin' );
 		equals( typeof Piwik.getTracker, 'function', 'getTracker' );
@@ -236,8 +235,6 @@ function PiwikTest() {
 		equals( typeof tracker.getVisitorId, 'function', 'getVisitorId' );
 		equals( typeof tracker.setTrackerUrl, 'function', 'setTrackerUrl' );
 		equals( typeof tracker.setSiteId, 'function', 'setSiteId' );
-		equals( typeof tracker.setCustomData, 'function', 'setCustomData' );
-		equals( typeof tracker.getCustomData, 'function', 'getCustomData' );
 		equals( typeof tracker.setCustomVariable, 'function', 'setCustomVariable' );
 		equals( typeof tracker.getCustomVariable, 'function', 'getCustomVariable' );
 		equals( typeof tracker.deleteCustomVariable, 'function', 'deleteCustomVariable' );
@@ -560,16 +557,12 @@ if ($sqlite) {
 	});
 
 	test("tracking and cookies", function() {
-		expect(23);
+		expect(21);
 
 		var tracker = Piwik.getTracker();
 
 		tracker.setTrackerUrl("piwik.php");
 		tracker.setSiteId(1);
-
-		tracker.setCustomData({ "token" : getToken() });
-		var data = tracker.getCustomData();
-		ok( getToken() != "" && data.token == data["token"] && data.token == getToken(), "setCustomdData() , getCustomData()" );
 
 		tracker.setDocumentTitle("PiwikTest");
 		tracker.setReferrerUrl("http://referrer.example.com");
