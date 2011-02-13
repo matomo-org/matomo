@@ -874,9 +874,6 @@ var
 				// Disallow hash tags in URL
 				configDiscardHashTag,
 
-				// Custom data
-				configCustomData,
-
 				// First-party cookie name prefix
 				configCookieNamePrefix = '_pk_',
 
@@ -1139,7 +1136,7 @@ var
 			 * with the standard parameters (plugins, resolution, url, referrer, etc.).
 			 * Sends the pageview and browser settings with every request in case of race conditions.
 			 */
-			function getRequest(customData, pluginMethod) {
+			function getRequest(pluginMethod) {
 				var i,
 					now = new Date(),
 					nowTs = Math.round(now.getTime() / 1000),
@@ -1264,13 +1261,6 @@ var
 					'&_cvar=' + customVariablesString +
 					request;
 
-				// custom data
-				if (customData) {
-					request += '&data=' + encodeWrapper(JSON.stringify(customData));
-				} else if (configCustomData) {
-					request += '&data=' + encodeWrapper(JSON.stringify(configCustomData));
-				}
-
 				// tracker plugin hook
 				request += executePluginMethod(pluginMethod);
 
@@ -1280,9 +1270,9 @@ var
 			/*
 			 * Log the page view / visit
 			 */
-			function logPageView(customTitle, customData) {
+			function logPageView(customTitle) {
 				var now = new Date(),
-					request = getRequest(customData, 'log') + '&action_name=' + encodeWrapper(customTitle || configTitle);
+					request = getRequest('log') + '&action_name=' + encodeWrapper(customTitle || configTitle);
 
 				sendRequest(request, configTrackerPause);
 
@@ -1317,7 +1307,7 @@ var
 						if ((lastActivityTime + configHeartBeatTimer) > now.getTime()) {
 							// send ping if minimum visit time has elapsed
 							if (configMinimumVisitTime < now.getTime()) {
-								request = getRequest(customData, 'ping') + '&ping=1';
+								request = getRequest('ping') + '&ping=1';
 
 								sendRequest(request, configTrackerPause);
 							}
@@ -1333,8 +1323,8 @@ var
 			/*
 			 * Log the goal with the server
 			 */
-			function logGoal(idGoal, customRevenue, customData) {
-				var request = getRequest(customData, 'goal') +
+			function logGoal(idGoal, customRevenue) {
+				var request = getRequest('goal') +
 					'&idgoal=' + idGoal;
 
 				// custom revenue
@@ -1348,8 +1338,8 @@ var
 			/*
 			 * Log the link or click  with the server
 			 */
-			function logLink(url, linkType, customData) {
-				var request = getRequest(customData, 'click') +
+			function logLink(url, linkType) {
+				var request = getRequest('click') +
 					'&' + linkType + '=' + encodeWrapper(purify(url));
 
 				sendRequest(request, configTrackerPause);
@@ -1588,46 +1578,16 @@ var
 				},
 
 				/**
-				 * Pass custom data to the server
-				 *
-				 * Examples:
-				 *   tracker.setCustomData(object);
-				 *   tracker.setCustomData(key, value);
-				 *
-				 * @param mixed key_or_obj
-				 * @param mixed opt_value
-				 */
-				setCustomData: function (key_or_obj, opt_value) {
-					if (isObject(key_or_obj)) {
-						configCustomData = key_or_obj;
-					} else {
-						if (!configCustomData) {
-							configCustomData = [];
-						}
-						configCustomData[key_or_obj] = opt_value;
-					}
-				},
-
-				/**
-				 * Get custom data
-				 *
-				 * @return mixed
-				 */
-				getCustomData: function () {
-					return configCustomData;
-				},
-
-				/**
 				 * Set custom variable to this visit
 				 *
 				 * @param int index
 				 * @param string varName
 				 * @param string value
 				 */
-				setCustomVariable: function (index, varName, value) {
+				setCustomVariable: function (index, name, value) {
 					loadCustomVariables();
 					if (index > 0 && index <= 5) {
-						customVariables[index] = [varName.slice(0, customVariableMaximumLength), value.slice(0, customVariableMaximumLength)];
+						customVariables[index] = [name.slice(0, customVariableMaximumLength), value.slice(0, customVariableMaximumLength)];
 					}
 				},
 
@@ -1907,10 +1867,9 @@ var
 				 *
 				 * @param int|string idGoal
 				 * @param int|float customRevenue
-				 * @param mixed customData
 				 */
-				trackGoal: function (idGoal, customRevenue, customData) {
-					logGoal(idGoal, customRevenue, customData);
+				trackGoal: function (idGoal, customRevenue) {
+					logGoal(idGoal, customRevenue);
 				},
 
 				/**
@@ -1918,20 +1877,18 @@ var
 				 *
 				 * @param string sourceUrl
 				 * @param string linkType
-				 * @param mixed customData
 				 */
-				trackLink: function (sourceUrl, linkType, customData) {
-					logLink(sourceUrl, linkType, customData);
+				trackLink: function (sourceUrl, linkType) {
+					logLink(sourceUrl, linkType);
 				},
 
 				/**
 				 * Log visit to this page
 				 *
 				 * @param string customTitle
-				 * @param mixed customData
 				 */
-				trackPageView: function (customTitle, customData) {
-					logPageView(customTitle, customData);
+				trackPageView: function (customTitle) {
+					logPageView(customTitle);
 				}
 			};
 		}
@@ -2021,7 +1978,7 @@ var
 	 * @param string documentTitle
 	 * @param int|string siteId
 	 * @param string piwikUrl
-	 * @param mixed customData
+	 * @param mixed customData unused
 	 */
 	piwik_log = function (documentTitle, siteId, piwikUrl, customData) {
 		"use strict";
@@ -2039,7 +1996,6 @@ var
 
 		// initializer tracker
 		piwikTracker.setDocumentTitle(documentTitle);
-		piwikTracker.setCustomData(customData);
 
 		// handle Piwik globals
 		if (!!(option = getOption('tracker_pause'))) {

@@ -41,7 +41,7 @@ class Piwik_CustomVariables_API
 		return $dataTable;
 	}
 
-	public function getCustomVariablesValuesFromNameId($idSite, $period, $date, $segment = false, $idSubtable)
+	public function getCustomVariablesValuesFromNameId($idSite, $period, $date, $idSubtable, $segment = false)
 	{
 	    $dataTable = $this->getDataTable($idSite, $period, $date, $segment, $expanded = false, $idSubtable);
 		return $dataTable;

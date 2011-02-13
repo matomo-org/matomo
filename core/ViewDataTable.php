@@ -395,6 +395,10 @@ abstract class Piwik_ViewDataTable
 	 */
 	protected function postDataTableLoadedFromAPI()
 	{
+		if(empty($this->dataTable))
+		{
+			return;
+		}
 		// First, filters that delete rows 
 		foreach($this->queuedFiltersPriority as $filter)
 		{
@@ -439,7 +443,7 @@ abstract class Piwik_ViewDataTable
 			'filter_excludelowpop_value',
 			'filter_column', 
 			'filter_pattern',
-			'disable_queued_filters'
+			'disable_queued_filters',
 		);
 
 		foreach($toSetEventually as $varToSet)

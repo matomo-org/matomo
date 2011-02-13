@@ -91,7 +91,7 @@ class Piwik_Referers_API
 		return $keywords;
 	}
 
-	public function getSearchEnginesFromKeywordId($idSite, $period, $date, $segment = false, $idSubtable)
+	public function getSearchEnginesFromKeywordId($idSite, $period, $date, $idSubtable, $segment = false)
 	{
 		$dataTable = $this->getDataTable('Referers_searchEngineByKeyword',$idSite, $period, $date, $segment, $expanded = false, $idSubtable);
 		$dataTable->queueFilter('ColumnCallbackAddMetadata', array( 'label', 'url', 'Piwik_getSearchEngineUrlFromName') );
@@ -116,7 +116,7 @@ class Piwik_Referers_API
 		return $dataTable;
 	}
 
-	public function getKeywordsFromSearchEngineId($idSite, $period, $date, $segment = false, $idSubtable)
+	public function getKeywordsFromSearchEngineId($idSite, $period, $date, $idSubtable, $segment = false)
 	{
 		$dataTable = $this->getDataTable('Referers_keywordBySearchEngine',$idSite, $period, $date, $segment, $expanded = false, $idSubtable);
 		
@@ -138,7 +138,7 @@ class Piwik_Referers_API
 		return $dataTable;
 	}
 
-	public function getKeywordsFromCampaignId($idSite, $period, $date, $segment = false, $idSubtable)
+	public function getKeywordsFromCampaignId($idSite, $period, $date, $idSubtable, $segment = false)
 	{
 		$dataTable = $this->getDataTable('Referers_keywordByCampaign',$idSite, $period, $date, $segment, $expanded = false, $idSubtable);
 		return $dataTable;
@@ -150,7 +150,7 @@ class Piwik_Referers_API
 		return $dataTable;
 	}
 	
-	public function getUrlsFromWebsiteId($idSite, $period, $date, $segment = false, $idSubtable)
+	public function getUrlsFromWebsiteId($idSite, $period, $date, $idSubtable, $segment = false)
 	{
 		$dataTable = $this->getDataTable('Referers_urlByWebsite',$idSite, $period, $date, $segment, $expanded = false, $idSubtable);
 		// the htmlspecialchars_decode call is for BC for before 1.1 
