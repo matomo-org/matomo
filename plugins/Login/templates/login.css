@@ -135,6 +135,11 @@ a {
 	margin-top: 100px;
 }
 
+#logo img {
+	border:0;
+	vertical-align: bottom; 
+}
+
 #logo .h1 {
 	font-family: Georgia, "Times New Roman", Times, serif;
 	font-weight: normal;
@@ -146,6 +151,8 @@ a {
 #logo .description {
 	font-family: Georgia, "Times New Roman", Times, serif;
 	font-weight: normal;
-	color: #879dbd;
-	font-size: 19pt;
+	color: #6B320B;
+	font-size: 18pt;
+	margin-left:50px;
+	margin-bottom:30px;
 }

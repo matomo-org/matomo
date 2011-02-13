@@ -6,6 +6,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico" />
 	<link rel="stylesheet" type="text/css" href="plugins/Login/templates/login.css" />
+	<meta name="description" content="{'General_OpenSourceWebAnalytics'|translate|escape}" />
+	
 {if isset($enableFramedLogins) && !$enableFramedLogins}
 {literal}
 	<style>body { display : none; }</style>
@@ -50,5 +52,8 @@
 {/literal}
 {/if}
 	<div id="logo">
-		<a href="http://piwik.org" title="{$linkTitle}"><span class="h1"><span style="color: rgb(245, 223, 114);">P</span><span style="color: rgb(241, 175, 108);">i</span><span style="color: rgb(241, 117, 117);">w</span><span style="color: rgb(155, 106, 58);">i</span><span style="color: rgb(107, 50, 11);">k</span> <span class="description"># {'General_OpenSourceWebAnalytics'|translate}</span></span></a>
+	<a href="http://piwik.org" title="{$linkTitle}">
+		<img src='themes/default/images/logo.png' width='200' style='margin-right:20px'>
+		<div class="description"># {$linkTitle}</div>
+	</a>
 	</div>
