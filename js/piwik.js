@@ -1253,8 +1253,11 @@ var
 					'&_ref=' + encodeWrapper(purify(referralUrl)) +
 					'&_refts=' + referralTs +
 					'&_viewts=' + lastVisitTs +
-					'&_cvar=' + customVariablesString +
 					request;
+				if(customVariablesString.length > 5) { 
+					request +='&_cvar=' + customVariablesString;
+				}
+				
 				
 				// Don't save in the cookie, the deleted custom variables 
 				for(cvarId in customVariables) {

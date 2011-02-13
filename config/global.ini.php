@@ -220,6 +220,11 @@ latest_version_url = http://piwik.org/latest.zip
 api_service_url = http://api.piwik.org
 
 [Tracker]
+; Piwik uses first party cookies by default. If set to 1, 
+; the visit ID cookie will be set on the Piwik server domain as well
+; this is useful when you want to do cross websites analysis 
+use_third_party_cookies = 0
+
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
 record_statistics			= 1
 
@@ -228,10 +233,6 @@ visit_standard_length       = 1800
 
 ; visitors that stay on the website and view only one page will be considered as time on site of 0 second
 default_time_one_page_visit = 0
-
-; if set to 0, any goal conversion will be credited to the last more recent non empty referer. 
-; when set to 1, the first ever referer used to reach the website will be used
-use_first_referer_to_determine_goal_referer = 0
 
 ; By default, Piwik does not trust the idcookie as accurate and will always check that if the visitor visited
 ; the website earlier by looking for a visitor with the same IP and user configuration (to avoid abuse or misbehaviour)
