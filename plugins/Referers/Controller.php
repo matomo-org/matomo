@@ -376,7 +376,7 @@ function DisplayTopKeywords($url = "")
 		This widget makes it easy to use Piwik to <i>automatically display the list of Top Keywords</i>, for each of your website Page URLs.</p>
 		<p>
 		<b>Example API URL</b> - For example if you would like to get the top 10 keywords, used last week, to land on the page <a target='_blank' href='$topPageUrl'>$topPageUrl</a>,
-		in format JSON: you would dynamically fetch the data <a target='_blank' href='$jsonRequest&url=".urlencode($topPageUrl)."'>this API request Url</a>. Make sure you encode the 'url' parameter in the URL.</p> 
+		in format JSON: you would dynamically fetch the data using <a target='_blank' href='$jsonRequest&url=".urlencode($topPageUrl)."'>this API request URL</a>. Make sure you encode the 'url' parameter in the URL.</p> 
 		
 		<p><b>PHP Function ready to use!</b> - If you use PHP on your website, we have prepared a small code snippet that you can copy paste in your Website PHP files. You can then simply call the function <code>DisplayTopKeywords();</code> anywhere in your template, at the bottom of the content or in your blog sidebar. 
 		If you run this code in your page $topPageUrl, it would output the following:";
@@ -384,11 +384,17 @@ function DisplayTopKeywords($url = "")
 		echo "<div style='width:400px;margin-left:20px;padding:10px;border:1px solid black;'>";
 		eval($code);
 		DisplayTopKeywords($topPageUrl);
-		echo "</div>
+		
+		echo "</div><br/>
+		<p>Here is the PHP function that you can paste in your pages:</P>
+		<textarea cols=60 rows=8>&lt;?php\n" . htmlspecialchars($code) . "\n DisplayTopKeywords();</textarea>
 		";
 		
-		echo "<br/><p>Here is the PHP function that you can paste in your pages:</P>
-		<textarea cols=60 rows=8>&lt;?php\n" . htmlspecialchars($code) . "\n DisplayTopKeywords();</textarea>";
+		echo "
+		<p><b>Notes</b>: You can for example edit the code to to make the Top search keywords link to your Website search result pages. 
+		<br/>On medium to large traffic websites, we recommend to cache this data, as to minimize the performance impact of calling the Piwik API on each page view.
+		</p> 
+		";
 				
 	}
 	
