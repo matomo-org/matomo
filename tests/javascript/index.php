@@ -218,7 +218,7 @@ function PiwikTest() {
 	});
 
 	test("API methods", function() {
-		expect(38);
+		expect(37);
 
 		equals( typeof Piwik.addPlugin, 'function', 'addPlugin' );
 		equals( typeof Piwik.getTracker, 'function', 'getTracker' );
@@ -232,7 +232,7 @@ function PiwikTest() {
 		tracker = Piwik.getTracker();
 		ok(tracker instanceof Object, 'getTracker');
 
-		equals( typeof tracker.getVisitorId, 'function', 'getVisitorId' );
+//		equals( typeof tracker.getVisitorId, 'function', 'getVisitorId' );
 		equals( typeof tracker.setTrackerUrl, 'function', 'setTrackerUrl' );
 		equals( typeof tracker.setSiteId, 'function', 'setSiteId' );
 		equals( typeof tracker.setCustomVariable, 'function', 'setCustomVariable' );
@@ -557,7 +557,7 @@ if ($sqlite) {
 	});
 
 	test("tracking and cookies", function() {
-		expect(21);
+		expect(20);
 
 		var tracker = Piwik.getTracker();
 
@@ -613,13 +613,13 @@ if ($sqlite) {
 		tracker.addListener(anchor);
 		QUnit.triggerEvent( _e("click9"), "click" );
 
-		var visitorId1, visitorId2;
-
-		_paq.push([ function() {
-			visitorId1 = Piwik.getAsyncTracker().getVisitorId();
-		}]);
-		visitorId2 = tracker.getVisitorId();
-		ok( visitorId1 && visitorId1 != "" && visitorId2 && visitorId2 != "" && (visitorId1 == visitorId2), "getVisitorId()" );
+//		var visitorId1, visitorId2;
+//
+//		_paq.push([ function() {
+//			visitorId1 = Piwik.getAsyncTracker().getVisitorId();
+//		}]);
+//		visitorId2 = tracker.getVisitorId();
+//		ok( visitorId1 && visitorId1 != "" && visitorId2 && visitorId2 != "" && (visitorId1 == visitorId2), "getVisitorId()" );
 
 		stop();
 		setTimeout(function() {
