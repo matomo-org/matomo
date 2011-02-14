@@ -11,8 +11,8 @@
 		<idgoal>2</idgoal>
 		<name>matching purchase.htm</name>
 		<match_attribute>url</match_attribute>
-		<pattern>purchase.htm</pattern>
-		<pattern_type>contains</pattern_type>
+		<pattern>(.*)store\/purchase\.(.*)</pattern>
+		<pattern_type>regex</pattern_type>
 		<case_sensitive>0</case_sensitive>
 		<revenue>1</revenue>
 		<deleted>0</deleted>

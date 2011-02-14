@@ -89,7 +89,7 @@ class Piwik_Tracker_GoalManager
 			switch($pattern_type)
 			{
 				case 'regex':
-					$pattern = '/' . str_replace('/', '\\/', $goal['pattern']) . '/';
+					$pattern = '/' . $goal['pattern'] . '/'; 
 					if(!$goal['case_sensitive'])
 					{
 						$pattern .= 'i';

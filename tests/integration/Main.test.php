@@ -205,7 +205,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // End of first visit: 24min
         
         // Create Goal 2: Matching on URL
-        Piwik_Goals_API::getInstance()->addGoal($idSite, 'matching purchase.htm', 'url', 'purchase.htm', 'contains', false, $revenue = 1);
+        Piwik_Goals_API::getInstance()->addGoal($idSite, 'matching purchase.htm', 'url', '(.*)store\/purchase\.(.*)', 'regex', false, $revenue = 1);
 
         // -
         // Start of returning visit, 1 hour after first page view
