@@ -1571,9 +1571,14 @@ var
 				 *
 				 * @return string Visitor ID in hexits (or null, if not yet known)
 				 */
+				
+				/*
+				Not working for now when called before trackPageView 
+				(since visitorId is loaded during getRequest)
 				getVisitorId: function () {
 					return visitorId;
 				},
+				*/
 
 				/**
 				 * Specify the Piwik server URL
