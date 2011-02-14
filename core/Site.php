@@ -59,8 +59,6 @@ class Piwik_Site
 	{
 		if(!isset(self::$infoSites[$this->id][$name]))
 		{
-			var_dump(self::$infoSites);
-			debug_print_backtrace();
 			throw new Exception('Requested field '.$name .' was not loaded in website '.(int)$this->id.'. ');
 		}
 		return self::$infoSites[$this->id][$name];
