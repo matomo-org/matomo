@@ -321,8 +321,7 @@ class Piwik_PDFReports_API
 		$emails = self::getEmailsFromString($report['additional_emails']);
 		if($report['email_me'] == 1)
 		{	
-			if(Piwik::getCurrentUserLogin() == $report['login']
-				|| Piwik::isUserIsSuperUser())
+			if(Piwik::getCurrentUserLogin() == $report['login'])
 			{
 				$emails[] = Piwik::getCurrentUserEmail();
 			}
