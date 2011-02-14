@@ -152,7 +152,7 @@ class Piwik_Tracker_GoalManager
 		return true;
 	}
 
-	function recordGoals($idSite, $visitorInformation, $visitCustomVariables, $action)
+	function recordGoals($idSite, $visitorInformation, $visitCustomVariables, $action, $refererTimestamp, $refererUrl)
 	{
 		$location_country = isset($visitorInformation['location_country']) 
 							? $visitorInformation['location_country'] 
@@ -165,6 +165,9 @@ class Piwik_Tracker_GoalManager
 								? $visitorInformation['location_continent'] 
 								: Piwik_Common::getContinent($location_country);
 
+		$referrer = new Piwik_Tracker_Visit_Referer(); 
+		$referrer = $referrer->getRefererInformation($refererUrl, $currentUrl = '', $idSite);
+		
 		$goal = array(
 			'idvisit' 			=> $visitorInformation['idvisit'],
 			'idsite' 			=> $idSite,
@@ -173,24 +176,21 @@ class Piwik_Tracker_GoalManager
 			'location_country'  => $location_country,
 			'location_continent'=> $location_continent,
 			'visitor_returning' => $visitorInformation['visitor_returning'],
-		);
-
-		$refererTimestamp = Piwik_Common::getRequestVar('_refts', 0, 'int', $action->getRequest());
-		$refererUrl = Piwik_Common::getRequestVar('_ref', '', 'string', $action->getRequest());
-		$referrer = new Piwik_Tracker_Visit_Referer(); 
-		$referrer = $referrer->getRefererInformation($refererUrl, $currentUrl = '', $idSite);
-		$goalData = array(
+			'visitor_days_since_first' => $visitorInformation['visitor_days_since_first'],
+			'visitor_count_visits' => $visitorInformation['visitor_count_visits'],
+		
 			'referer_visit_server_date' => date("Y-m-d", $refererTimestamp),
 			'referer_type' 				=> $referrer['referer_type'],
+		);
+
+		$goalData = array(
 			'referer_name' 				=> $referrer['referer_name'],
 			'referer_keyword' 			=> $referrer['referer_keyword'],
 		);
 		
-		// Basic health check on the referer data
-		if($goalData['referer_type'] > 0
-			&& strlen($goalData['referer_name']) > 1
-			// Cookie only lasts 6 months by default, so we shouldn't see anything older than 1 year
-			&& $refererTimestamp > Piwik_Tracker::getCurrentTimestamp() - 365 * 86400 * 2
+		// Ref Cookie only lasts 6 months by default, 
+		// so we shouldn't see anything older than 1 year
+		if($refererTimestamp > Piwik_Tracker::getCurrentTimestamp() - 365 * 86400 * 2
 			&& $refererTimestamp <=  Piwik_Tracker::getCurrentTimestamp())
 		{
 			$goal += $goalData;

@@ -29,6 +29,9 @@ class Piwik_Updates_1_2 extends Piwik_Updates
 			    CHANGE `visit_entry_idaction_url` `visit_entry_idaction_url` INT UNSIGNED NOT NULL,
 			    CHANGE `referer_type` `referer_type` TINYINT UNSIGNED NULL DEFAULT NULL,
 			    ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`, 
+			    ADD visitor_count_visits SMALLINT(5) UNSIGNED NOT NULL AFTER `visitor_returning`,
+			    ADD visitor_days_since_last SMALLINT(5) UNSIGNED NOT NULL,
+			    ADD visitor_days_since_first SMALLINT(5) UNSIGNED NOT NULL,
 			    ADD `config_id` BINARY(8) NOT NULL AFTER `config_md5config`,
 			    ADD custom_var_k1 VARCHAR(50) DEFAULT NULL,
     			ADD custom_var_v1 VARCHAR(50) DEFAULT NULL,
@@ -52,6 +55,8 @@ class Piwik_Updates_1_2 extends Piwik_Updates
 		    'ALTER TABLE `'. Piwik_Common::prefixTable('log_conversion') .'` 
 			    DROP `referer_idvisit`,
 			    ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`,
+			    ADD visitor_count_visits SMALLINT(5) UNSIGNED NOT NULL,
+			    ADD visitor_days_since_first SMALLINT(5) UNSIGNED NOT NULL,
 			    ADD custom_var_k1 VARCHAR(50) DEFAULT NULL,
     			ADD custom_var_v1 VARCHAR(50) DEFAULT NULL,
     			ADD custom_var_k2 VARCHAR(50) DEFAULT NULL,

@@ -27,6 +27,11 @@ Piwik_Tracker_Config::getInstance()->setTestEnvironment();
 // Do not run scheduled tasks during tests
 Piwik_Tracker_Config::getInstance()->setTestValue('Tracker', 'scheduled_tasks_min_interval', 0);
 
+// Tests can force the use of 3rd party cookie for ID visitor
+if(Piwik_Common::getRequestVar('forceUseThirdPartyCookie', false) == 1)
+{
+	Piwik_Tracker_Config::getInstance()->setTestValue('Tracker', 'use_third_party_cookies', 1);
+}
 // Custom IP to use for this visitor
 $customIp = Piwik_Common::getRequestVar('cip', false);
 if(!empty($customIp)) 
