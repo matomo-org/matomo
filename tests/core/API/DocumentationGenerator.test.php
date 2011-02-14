@@ -16,11 +16,13 @@ class Test_Piwik_API_DocumentationGenerator extends UnitTestCase
 		Piwik::createAccessObject();
 		Piwik::createDatabaseObject();
 		Piwik::setUserIsSuperUser();
-		Piwik_SitesManager_API::getInstance()->addSite("name","http://example.org");
 		
     	Piwik_Translate::getInstance()->loadEnglishTranslation();
 		$pluginsManager = Piwik_PluginsManager::getInstance();
 		$pluginsManager->loadPlugins( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
+		
+		Piwik_SitesManager_API::getInstance()->addSite("name","http://example.org");
+		
 		$apiGenerator = new Piwik_API_DocumentationGenerator_CallAllMethods();
 		
 		$requestUrls = $apiGenerator->getAllRequestsWithParameters();
