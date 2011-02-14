@@ -66,7 +66,7 @@ class Piwik_API_Controller extends Piwik_Controller
 			if(empty($lastCategory[$segment['type']]) 
 				|| $lastCategory[$segment['type']] != $thisCategory)
 			{
-				$output .= '<tr><td colspan="2"><b>'.$thisCategory.'</b></td></tr>';
+				$output .= '<tr><td class="segmentCategory" colspan="2"><b>'.$thisCategory.'</b></td></tr>';
 			}
 			
 			$lastCategory[$segment['type']] = $thisCategory;
@@ -75,8 +75,8 @@ class Piwik_API_Controller extends Piwik_Controller
 								? 'Example values: <code>'.$segment['acceptedValues'].'</code>' 
 								: '';
 			$output .= '<tr>
-							<td>'.$segment['segment'].'</td>
-							<td>'.$segment['name'] .'<br/>'.$exampleValues.' </td>
+							<td class="segmentString">'.$segment['segment'].'</td>
+							<td class="segmentName">'.$segment['name'] .'<br/>'.$exampleValues.' </td>
 						</tr>';
 			
 			// Show only 2 custom variables and display message for rest
@@ -85,7 +85,7 @@ class Piwik_API_Controller extends Piwik_Controller
 				$customVariables++;
     			if($customVariables == 4)
     			{
-    				$output .= '<tr><td> There are 5 custom variables available, so you can segment across any segment name and value range.
+    				$output .= '<tr><td colspan="2"> There are 5 custom variables available, so you can segment across any segment name and value range.
     						<br/>For example, <code>customVariableName1==Type;customVariableValue1==Customer</code>
     						<br/>Returns all visitors that have the Custom Variable "Type" set to "Customer".
     						</td></tr>';
