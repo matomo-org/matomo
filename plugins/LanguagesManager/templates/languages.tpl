@@ -12,7 +12,9 @@
 		</form>
 	</span>
 	
-	{literal}<script type="text/javascript">
+	<script type="text/javascript">
+	piwik.languageName = "{$currentLanguageName}";
+	{literal}
 	$(document).ready(function() {
 		$("#languageSelection").fdd2div({CssClassName:"formDiv"});
 		$("#languageSelection").show();
