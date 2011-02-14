@@ -133,13 +133,36 @@ class Piwik_API_API
 		        'sqlSegment' => 'visitor_returning',
 		        'sqlFilter' => create_function('$type', 'return $type == "new" ? 0 : 1;'),
 	    );
-//@TODO with 1st party cookies
-// visitCount
-// daysSinceLastVisit
-// visitsToTransaction
-// daysToTransaction
-//  visit_goal_converted
-
+		$segments[] = array(
+		        'type' => 'metric',
+		        'category' => 'Visit',
+		        'name' => 'General_DaysSinceLastVisit',
+		        'segment' => 'daysSinceLastVisit',
+		        'sqlSegment' => 'visitor_days_since_last',
+	    );
+		$segments[] = array(
+		        'type' => 'metric',
+		        'category' => 'Visit',
+		        'name' => 'General_DaysSinceFirstVisit',
+		        'segment' => 'daysSinceFirstVisit',
+		        'sqlSegment' => 'visitor_days_since_first',
+	    );
+		$segments[] = array(
+		        'type' => 'metric',
+		        'category' => 'Visit',
+		        'name' => 'General_NumberOfVisits',
+		        'segment' => 'visitCount',
+		        'sqlSegment' => 'visitor_count_visits',
+	    );
+	    
+		$segments[] = array(
+		        'type' => 'metric',
+		        'category' => 'Visit',
+		        'name' => 'General_VisitConvertedGoal',
+		        'segment' => 'visitConverted',
+				'acceptedValues' => '0, 1',
+		        'sqlSegment' => 'visit_goal_converted',
+	    );
 		foreach ($segments as &$segment) 
 		{
 		    $segment['name'] = Piwik_Translate($segment['name']);
@@ -276,7 +299,7 @@ class Piwik_API_API
 		return $availableReports;
 	}
 
-	public function getProcessedReport($idSite, $period, $date, $segment = false, $apiModule, $apiAction, $apiParameters = false, $language = false)
+	public function getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false, $apiParameters = false, $language = false)
     {
     	if($apiParameters === false)
     	{

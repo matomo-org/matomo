@@ -29,6 +29,9 @@ class PiwikTracker
 	 */
 	const VERSION = 1;
 	
+	/* Debug only */
+	public $DEBUG_APPEND_URL = '';
+	
 	/**
 	 * Builds a PiwikTracker object, used to track visits, pages and Goal conversions 
 	 * for a specific website, by using the Piwik Tracking API.
@@ -61,6 +64,7 @@ class PiwikTracker
     	if(!empty($apiUrl)) {
     		self::$URL = $apiUrl;
     	}
+    	$this->visitorId = substr(md5(uniqid(rand(), true)), 0, 16);
     }
     
     /**
@@ -317,7 +321,6 @@ class PiwikTracker
 			ob_start();
 			$response = @curl_exec($ch);
 			ob_end_clean();
-			
     		list($header,$content) = explode("\r\n\r\n", $response, $limitCount = 2);
 		}
 		else if(function_exists('stream_context_create'))
@@ -378,10 +381,17 @@ class PiwikTracker
 	        '&url=' . urlencode($this->pageUrl) .
 			'&urlref=' . urlencode($this->urlReferer) .
 	        '&rand=' . mt_rand() .
+
+			// Temporary, until we implement 1st party cookies in this class
+    		'&_id=' . $this->visitorId . 
+    		'&_ref=' . urlencode($this->urlReferer) .
+    		'&_refts=' . (!empty($this->forcedDatetime) 
+    							? strtotime($this->forcedDatetime) 
+    							: time()) .
     	
     		// Optional since debugger can be triggered remotely
-    		'&XDEBUG_SESSION_START=' . @$_GET['XDEBUG_SESSION_START'] . 
-	        '&KEY=' . @$_GET['KEY'] .
+    		(!empty($_GET['XDEBUG_SESSION_START']) ? '&XDEBUG_SESSION_START=' . @$_GET['XDEBUG_SESSION_START'] : '') . 
+	        (!empty($_GET['KEY']) ? '&KEY=' . @$_GET['KEY'] : '') .
     	 
     		// only allowed in tests (see tests/integration/piwik.php)
 			(!empty($this->ip) ? '&cip=' . $this->ip : '') .
@@ -393,7 +403,8 @@ class PiwikTracker
 	        (!empty($this->width) && !empty($this->height) ? '&res=' . $this->width . 'x' . $this->height : '') .
 	        (!empty($this->hasCookies) ? '&cookie=' . $this->hasCookies : '') .
 	        (!empty($this->customData) ? '&data=' . $this->customData : '') . 
-	        (!empty($this->visitorCustomVar) ? '&_cvar=' . urlencode(json_encode($this->visitorCustomVar)) : '')
+	        (!empty($this->visitorCustomVar) ? '&_cvar=' . urlencode(json_encode($this->visitorCustomVar)) : '') .
+	        $this->DEBUG_APPEND_URL
         ;
     	return $url;
     }

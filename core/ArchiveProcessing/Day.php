@@ -184,6 +184,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
                 'referer_name',
                 'referer_keyword',
                 'visitor_returning',
+	    		'visitor_days_since_first',
+	    		'visitor_count_visits',
                 'location_country',
                 'location_continent',
                 'revenue',

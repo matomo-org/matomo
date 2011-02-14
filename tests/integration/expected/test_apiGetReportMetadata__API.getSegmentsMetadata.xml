@@ -3,14 +3,39 @@
 	<row>
 		<type>metric</type>
 		<category>Visit</category>
+		<name>Visit converted at least one Goal</name>
+		<segment>visitConverted</segment>
+		<acceptedValues>0, 1</acceptedValues>
+	</row>
+	<row>
+		<type>metric</type>
+		<category>Visit</category>
 		<name>Visit Duration (in seconds)</name>
 		<segment>visitDuration</segment>
 	</row>
 	<row>
 		<type>metric</type>
 		<category>Visit</category>
+		<name>Number of visits</name>
+		<segment>visitCount</segment>
+	</row>
+	<row>
+		<type>metric</type>
+		<category>Visit</category>
 		<name>Number of Actions</name>
 		<segment>actions</segment>
+	</row>
+	<row>
+		<type>metric</type>
+		<category>Visit</category>
+		<name>Days since last visit</name>
+		<segment>daysSinceLastVisit</segment>
+	</row>
+	<row>
+		<type>metric</type>
+		<category>Visit</category>
+		<name>Days since first visit</name>
+		<segment>daysSinceFirstVisit</segment>
 	</row>
 	<row>
 		<type>dimension</type>

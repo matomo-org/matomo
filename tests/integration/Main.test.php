@@ -150,8 +150,8 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		// Tests run in UTC, the Tracker in UTC
     	$dateTime = '2010-03-06 11:22:33';
     	$idSite = $this->createWebsite($dateTime);
-        $t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
-        
+        $t = $this->getTracker($idSite, $dateTime, $defaultInit = true, $useThirdPartyCookie = 1);
+        $t->DEBUG_APPEND_URL = '&forceUseThirdPartyCookie=1';
         $this->doTest_oneVisitorTwoVisits($t, $dateTime, $idSite );
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime);
 	}
@@ -175,10 +175,10 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.05)->getDatetime());
         $urlPage2 = 'http://example.org/' ;
         $t->setUrl( $urlPage2 );
-        $t->setUrlReferer($urlPage1);
+//        $t->setUrlReferer($urlPage1);
         $this->checkResponse($t->doTrackPageView( 'Second page view - should be registered as URL /'));
         
-        $t->setUrlReferer($urlPage2);
+//        $t->setUrlReferer($urlPage2);
         // Click on external link after 6 minutes (3rd action)
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
         $this->checkResponse($t->doTrackAction( 'http://dev.piwik.org/svn', 'link' ));
@@ -266,7 +266,11 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	// -
     	// Second visitor again on Idsite 1: 2 page views 2 days later, 2010-01-05
     	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->getDatetime());
-        $visitorB->setUrlReferer( 'http://referer.com/Other_Page.htm' );
+		// visitor_returning is set to 1 only when visit count more than 1
+		// Temporary, until we implement 1st party cookies in PiwikTracker
+        $visitorB->DEBUG_APPEND_URL = '&_idvc=2';
+
+    	$visitorB->setUrlReferer( 'http://referer.com/Other_Page.htm' );
     	$visitorB->setUrl('http://example.org/homepage');
     	$this->checkResponse($visitorB->doTrackPageView('second visitor/two days later/a new visit'));
     	// Second page view 6 minutes later
