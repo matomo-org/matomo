@@ -1262,10 +1262,11 @@ var
 				}
 				
 				// Custom Variable cookie
-				// Don't save in the cookie the deleted custom variables 
-				for(cvarId in customVariables) {
-					if(customVariables[cvarId][0] == ""
-						|| customVariables[cvarId][1] == "") {
+				// Don't save in the cookie the deleted custom variables
+				var cvarId, customVariablesCopy = customVariables;
+				for(cvarId in customVariablesCopy) {
+					if(customVariables[cvarId][0] === ""
+						|| customVariables[cvarId][1] === "") {
 						delete customVariables[cvarId];
 					}
 				}
