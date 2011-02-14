@@ -1104,7 +1104,8 @@ var
 					cookie = getCookie(cookieName);
 
 				if (cookie.length) {
-					cookie = JSON.parse(cookie);
+					//JSON.parse doesn't work in IE and Opera for an unknown reason - see comment in #2072
+					cookie = eval('('+cookie+')');
 					if (isObject(cookie)) {
 						return cookie;
 					}
