@@ -31,8 +31,7 @@ class Piwik_Referers_API
 	 */
 	protected function getDataTable($name, $idSite, $period, $date, $segment, $expanded, $idSubtable = null)
 	{
-	    $dataTable = Piwik_Archive::getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable = null);
-
+	    $dataTable = Piwik_Archive::getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable);
 	    $dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS, 'desc', $naturalSort = false, $expanded));
 		$dataTable->queueFilter('ReplaceColumnNames', array($expanded));
 		return $dataTable;
