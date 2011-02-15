@@ -1349,8 +1349,6 @@ class Piwik
 			'Real Time Analytics',
 			'Open Source Analytics',
 			'Open Source Web Analytics',
-			'Google Analytics alternative',
-			'Open source Google Analytics',
 			'Free Website Analytics',
 			'Free Web Analytics',
 		);

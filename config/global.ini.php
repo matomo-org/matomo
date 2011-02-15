@@ -281,15 +281,12 @@ page_maximum_length = 1024;
 ; for IPv4 addresses, valid values are 0..4
 ip_address_mask_length = 1
 
+[Segments]
 ; Reports with segmentation in API requests are processed in real time. 
 ; On high traffic websites it is recommended to pre-process the data 
 ; so that the analytics reports are always fast to load.
 ; You can define below the list of Segments strings 
 ; for which all reports should be Archived during the cron execution
-
-[Segments]
-; Segments can be listed in this array, so that they are automatically pre-processed
-; during the Archiving process.
 ; All segment values MUST be URL encoded.
 ;Segments[]="visitorType==new"
 ;Segments[]="visitorType==returning"
