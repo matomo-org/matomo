@@ -7,15 +7,17 @@
  * @version $Id$
  *
  * @category Piwik
- * @package Piwik
+ * @package Updates
  */
 
 /**
- * Piwik version information.
- *
- * @package Piwik
+ * @package Updates
  */
-final class Piwik_Version
+class Piwik_Updates_1_2_rc2 extends Piwik_Updates
 {
-	const VERSION = '1.2-rc2';
+	static function update()
+	{
+		Piwik_PluginsManager::getInstance()->activatePlugin('CustomVariables');
+	}
 }
+
