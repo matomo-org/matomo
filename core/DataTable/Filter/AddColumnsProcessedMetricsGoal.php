@@ -30,8 +30,6 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 	 */
 	const GOALS_FULL_TABLE = 0;
 	
-	protected $mappingIdToNameGoal;
-	
 	/**
 	 * Adds processed goal metrics to a table: 
 	 * - global conversion rate, 
@@ -51,7 +49,6 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 	 */
 	public function __construct( $table, $enable = true, $processOnlyIdGoal )
 	{
-		$this->mappingIdToNameGoal = Piwik_Archive::$mappingFromIdToNameGoal;
 		$this->processOnlyIdGoal = $processOnlyIdGoal;
 		parent::__construct($table);
 	}
@@ -60,7 +57,6 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 	{
 		// Add standard processed metrics
 		parent::filter($table);
-		
 		$roundingPrecision = 2;
 		$expectedColumns = array();
 		foreach($table->getRows() as $key => $row)
@@ -97,12 +93,13 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 				
 				foreach($goals as $goalId => $columnValue)
 				{
+					$goalId = str_replace("idgoal=", "", $goalId);
 					if($this->processOnlyIdGoal > self::GOALS_FULL_TABLE
 						&& $this->processOnlyIdGoal != $goalId)
 					{
 						continue;
 					}
-    				$conversions = (int)$this->getColumn($columnValue, Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS);
+    				$conversions = (int)$this->getColumn($columnValue, Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS, Piwik_Archive::$mappingFromIdToNameGoal);
 					
 					// Goal Conversion rate
 					$name = 'goal_' . $goalId . '_conversion_rate';
@@ -137,7 +134,7 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 					}
 					else
 					{
-						$revenuePerVisit = round( (float)$this->getColumn($columnValue, Piwik_Archive::INDEX_GOAL_REVENUE) / $nbVisits, $roundingPrecision );
+						$revenuePerVisit = round( (float)$this->getColumn($columnValue, Piwik_Archive::INDEX_GOAL_REVENUE, Piwik_Archive::$mappingFromIdToNameGoal) / $nbVisits, $roundingPrecision );
 					}
 					$newColumns[$name] = $revenuePerVisit;
 					$expectedColumns[$name] = true;

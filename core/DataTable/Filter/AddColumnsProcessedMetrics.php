@@ -36,7 +36,7 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 		$bounceRateColumnWasSet = false;	
 		foreach($table->getRows() as $key => $row)
 		{
-			$nbVisits = $this->getColumn($row, Piwik_Archive::INDEX_NB_VISITS, 'nb_visits');
+			$nbVisits = $this->getColumn($row, Piwik_Archive::INDEX_NB_VISITS);
 			if($nbVisits == 0)
 			{
 				// case of keyword/website/campaign with a conversion for this day, 
@@ -84,9 +84,13 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 	 * @param $columnIdRaw see consts in Piwik_Archive::
 	 * @return Value of column, false if not found
 	 */
-	protected function getColumn($row, $columnIdRaw)
+	protected function getColumn($row, $columnIdRaw, $mappingIdToName = false)
 	{
-		$columnIdReadable = Piwik_Archive::$mappingFromIdToName[$columnIdRaw];
+		if(empty($mappingIdToName))
+		{
+			$mappingIdToName = Piwik_Archive::$mappingFromIdToName;
+		}
+		$columnIdReadable = $mappingIdToName[$columnIdRaw];
 		if($row instanceof Piwik_DataTable_Row)
 		{
     		$raw = $row->getColumn($columnIdRaw);
