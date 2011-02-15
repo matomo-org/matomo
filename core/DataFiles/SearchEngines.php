@@ -126,6 +126,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// AOL
 		'search.aol.com'			=> array('AOL', array('query', 'q'), 'aol/search?q={k}'),
+		'search.aol.it'				=> array('AOL'),
 		'aolsearch.aol.com'			=> array('AOL'),
 		'www.aolrecherche.aol.fr'	=> array('AOL'),
 		'www.aolrecherches.aol.fr'	=> array('AOL'),
@@ -166,6 +167,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Ask (IAC Search & Media)
 		'ask.com'					=> array('Ask', array('ask', 'q'), 'web?q={k}'),
 		'web.ask.com'				=> array('Ask'),
+		'int.ask.com'				=> array('Ask'),
 		'images.ask.com'			=> array('Ask'),
 		'ask.reference.com'			=> array('Ask'),
 		'www.askkids.com'			=> array('Ask'),
@@ -392,15 +394,16 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Powered by Google
 		'verden.abcsok.no'			=> array('Google'),
+		'search.avg.com'			=> array('Google'),
+		'darkoogle.com'				=> array('Google'),
+		'search.darkoogle.com'		=> array('Google'),
+		'search.hiyo.com'			=> array('Google'),
 		'search.incredimail.com'	=> array('Google'),
 		'search1.incredimail.com'	=> array('Google'),
 		'search2.incredimail.com'	=> array('Google'),
 		'search3.incredimail.com'	=> array('Google'),
 		'search4.incredimail.com'	=> array('Google'),
 		'search.sweetim.com'		=> array('Google'),
-		'darkoogle.com'				=> array('Google'),
-		'search.darkoogle.com'		=> array('Google'),
-		'search.hiyo.com'			=> array('Google'),
 
 		// Google Earth
 		// - 2010-09-13: are these redirects now?
@@ -437,6 +440,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Google syndicated search
 		'googlesyndicatedsearch.com'=> array('Google syndicated search', 'q'),
+
+		// Google Wireless Transcoder
+		// - does not appear to execute JavaScript
+//		'google.com/gwt/n'			=> array('Google Wireless Transcoder'),
 
 		// Goyellow.de
 		'www.goyellow.de'			=> array('GoYellow.de', 'MDN'),
@@ -493,6 +500,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Interia
 		'www.google.interia.pl'		=> array('Interia', 'q', 'szukaj?q={k}'),
+
+		// I-play
+		'start.iplay.com'			=> array('I-play', 'q', 'searchresults.aspx?q={k}'),
 
 		// Ixquick
 		'ixquick.com'				=> array('Ixquick', 'query'),
@@ -737,7 +747,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'buscador.terra.com.br'		=> array('Terra'),
 
 		// Tiscali
-		'search.tiscali.it'			=> array('Tiscali', 'q', '?q={k}'),
+		'search.tiscali.it'			=> array('Tiscali', array('q', 'key'), '?q={k}'),
 		'search-dyn.tiscali.it'		=> array('Tiscali'),
 		'hledani.tiscali.cz'		=> array('Tiscali', 'query'),
 
@@ -800,7 +810,13 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.websearch.com'			=> array('WebSearch', array('qkw', 'q'), 'search/results2.aspx?q={k}'), 
 
 		// Wedoo
+		// 2011-02-15 - keyword no longer appears to be in Referer URL; candidate for removal?
 		'fr.wedoo.com'				=> array('Wedoo', 'keyword'),
+		'en.wedoo.com'				=> array('Wedoo'),
+		'es.wedoo.com'				=> array('Wedoo'),
+
+		// Winamp (Enhanced by Google)
+		'search.winamp.com'			=> array('Winamp', 'q', 'search/search?q={k}'),
 
 		// Witch
 		'www.witch.de'				=> array('Witch', 'search', 'search-result.php?cn=0&search={k}'),
