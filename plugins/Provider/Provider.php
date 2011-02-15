@@ -47,7 +47,7 @@ class Piwik_Provider extends Piwik_Plugin
 	{
 		$reports = &$notification->getNotificationObject();
 		$reports[] = array(
-			'category' => Piwik_Translate('Provider_WidgetProviders'),
+			'category' => Piwik_Translate('General_Visitors'),
 			'name' => Piwik_Translate('Provider_ColumnProvider'),
 			'module' => 'Provider',
 			'action' => 'getProvider',

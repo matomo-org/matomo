@@ -81,28 +81,6 @@
 
 	</row>
 	<row>
-		<category>Providers</category>
-		<name>Provider</name>
-		<module>Provider</module>
-		<action>getProvider</action>
-		<dimension>Provider</dimension>
-		<metrics>
-			<nb_visits>Visits</nb_visits>
-			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
-			<nb_actions>Actions</nb_actions>
-
-		</metrics>
-		<processedMetrics>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
-			<bounce_rate>Bounce Rate</bounce_rate>
-			<conversion_rate>Conversion Rate</conversion_rate>
-
-		</processedMetrics>
-		<uniqueId>Provider_getProvider</uniqueId>
-
-	</row>
-	<row>
 		<category>Referrers</category>
 		<name>Campaigns</name>
 		<module>Referers</module>
@@ -544,6 +522,28 @@
 
 		</metrics>
 		<uniqueId>VisitorInterest_getNumberOfVisitsPerVisitDuration</uniqueId>
+
+	</row>
+	<row>
+		<category>Visitors</category>
+		<name>Provider</name>
+		<module>Provider</module>
+		<action>getProvider</action>
+		<dimension>Provider</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_actions>Actions</nb_actions>
+
+		</metrics>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
+
+		</processedMetrics>
+		<uniqueId>Provider_getProvider</uniqueId>
 
 	</row>
 	<row>

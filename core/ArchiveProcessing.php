@@ -798,7 +798,9 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	public function isArchivingDisabled()
 	{
-		if(!$this->segment->isEmpty())
+		$segment = $this->getSegment();
+		if(!empty($segment)
+			&& !$segment->isEmpty())
 		{
 			return false;
 		}
