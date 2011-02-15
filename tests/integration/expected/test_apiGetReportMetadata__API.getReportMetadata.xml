@@ -490,35 +490,9 @@
 	</row>
 	<row>
 		<category>Visitors</category>
-		<name>Pages per visit</name>
-		<module>VisitorInterest</module>
-		<action>getNumberOfVisitsPerPage</action>
-		<dimension>Pages per visit</dimension>
-		<metrics>
-			<nb_visits>Visits</nb_visits>
-
-		</metrics>
-		<uniqueId>VisitorInterest_getNumberOfVisitsPerPage</uniqueId>
-
-	</row>
-	<row>
-		<category>Visitors</category>
-		<name>Length of Visits</name>
-		<module>VisitorInterest</module>
-		<action>getNumberOfVisitsPerVisitDuration</action>
-		<dimension>Visit duration</dimension>
-		<metrics>
-			<nb_visits>Visits</nb_visits>
-
-		</metrics>
-		<uniqueId>VisitorInterest_getNumberOfVisitsPerVisitDuration</uniqueId>
-
-	</row>
-	<row>
-		<category>Visitors</category>
 		<name>Custom Variables</name>
 		<module>CustomVariables</module>
-		<action>getVisitCustomVariables</action>
+		<action>getCustomVariables</action>
 		<dimension>Custom Variable name</dimension>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
@@ -543,7 +517,33 @@
 			<revenue_per_visit>Value per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
-		<uniqueId>CustomVariables_getVisitCustomVariables</uniqueId>
+		<uniqueId>CustomVariables_getCustomVariables</uniqueId>
+
+	</row>
+	<row>
+		<category>Visitors</category>
+		<name>Pages per visit</name>
+		<module>VisitorInterest</module>
+		<action>getNumberOfVisitsPerPage</action>
+		<dimension>Pages per visit</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+
+		</metrics>
+		<uniqueId>VisitorInterest_getNumberOfVisitsPerPage</uniqueId>
+
+	</row>
+	<row>
+		<category>Visitors</category>
+		<name>Length of Visits</name>
+		<module>VisitorInterest</module>
+		<action>getNumberOfVisitsPerVisitDuration</action>
+		<dimension>Visit duration</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+
+		</metrics>
+		<uniqueId>VisitorInterest_getNumberOfVisitsPerVisitDuration</uniqueId>
 
 	</row>
 	<row>

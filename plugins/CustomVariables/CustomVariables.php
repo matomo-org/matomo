@@ -48,12 +48,12 @@ class Piwik_CustomVariables extends Piwik_Plugin
 
 	function addWidgets()
 	{
-		Piwik_AddWidget( 'General_Visitors', 'CustomVariables_CustomVariables', 'CustomVariables', 'getVisitCustomVariables');
+		Piwik_AddWidget( 'General_Visitors', 'CustomVariables_CustomVariables', 'CustomVariables', 'getCustomVariables');
 	}
 	
 	function addMenus()
 	{
-	    Piwik_AddMenu('General_Visitors', 'CustomVariables_CustomVariables', array('module' => 'CustomVariables', 'action' => 'getVisitCustomVariables'), $display = true, $order = 50);
+	    Piwik_AddMenu('General_Visitors', 'CustomVariables_CustomVariables', array('module' => 'CustomVariables', 'action' => 'getCustomVariables'), $display = true, $order = 50);
 	}
 	
 	public function getReportMetadata($notification) 
@@ -64,7 +64,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
         			'category'  => Piwik_Translate('General_Visitors'),
         			'name'   => Piwik_Translate('CustomVariables_CustomVariables'),
         			'module' => 'CustomVariables',
-        			'action' => 'getVisitCustomVariables',
+        			'action' => 'getCustomVariables',
         			'dimension' => Piwik_Translate('CustomVariables_ColumnCustomVariableName'),
         		),
     	));
@@ -102,7 +102,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
         		array(	'category'  => Piwik_Translate('General_Visit'),
             			'name'   => Piwik_Translate('CustomVariables_CustomVariables'),
             			'module' => 'CustomVariables',
-            			'action' => 'getVisitCustomVariables',
+            			'action' => 'getCustomVariables',
         		),
     	));
 	}

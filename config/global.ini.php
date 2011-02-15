@@ -286,10 +286,14 @@ ip_address_mask_length = 1
 ; so that the analytics reports are always fast to load.
 ; You can define below the list of Segments strings 
 ; for which all reports should be Archived during the cron execution
+
 [Segments]
-; Pre-process the visitor types segment
+; Segments can be listed in this array, so that they are automatically pre-processed
+; during the Archiving process.
+; All segment values MUST be URL encoded.
 ;Segments[]="visitorType==new"
 ;Segments[]="visitorType==returning"
+
 ; If you define Custom Variables for your visitor, for example set the visit type
 ;Segments[]="customVariableName1==VisitType;customVariableValue1==Customer"
 
