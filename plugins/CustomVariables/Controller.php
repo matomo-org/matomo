@@ -19,7 +19,7 @@ class Piwik_CustomVariables_Controller extends Piwik_Controller
 	/**
 	 * CustomVariables
 	 */
-	function getVisitCustomVariables($fetch = false)
+	function getCustomVariables($fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
 		$view->init( $this->pluginName,  __FUNCTION__, "CustomVariables.getCustomVariables", "getCustomVariablesValuesFromNameId" );
