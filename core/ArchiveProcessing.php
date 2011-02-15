@@ -791,11 +791,17 @@ abstract class Piwik_ArchiveProcessing
 
 	/**
 	 * Returns true if, for some reasons, triggering the archiving is disabled.
+	 * Note that when a segment is passed to the function, archiving will always occur 
+	 * (since segments are by default not pre-processed)
 	 *
 	 * @return bool
 	 */
 	public function isArchivingDisabled()
 	{
+		if(!$this->segment->isEmpty())
+		{
+			return false;
+		}
 		if(!self::isBrowserTriggerArchivingEnabled()
 			&& !Piwik_Common::isPhpCliMode())
 		{
