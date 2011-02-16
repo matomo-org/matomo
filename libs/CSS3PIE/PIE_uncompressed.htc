@@ -1,70 +1,58 @@
 <!--
 PIE: CSS3 rendering for IE
-Version 1.0beta2
+Version 1.0beta3
 http://css3pie.com
 Dual-licensed for use under the Apache License Version 2.0 or the General Public License (GPL) Version 2.
 -->
 <PUBLIC:COMPONENT lightWeight="true">
-    <PUBLIC:ATTACH EVENT="onresize" FOR="element" ONEVENT="update()" />
-    <PUBLIC:ATTACH EVENT="onresize" FOR="window" ONEVENT="update()" />
-    <PUBLIC:ATTACH EVENT="onmove" FOR="element" ONEVENT="update()" />
-    <PUBLIC:ATTACH EVENT="onpropertychange" FOR="element" ONEVENT="propChanged()" />
-    <PUBLIC:ATTACH EVENT="onmouseenter" FOR="element" ONEVENT="mouseEntered()" />
-    <PUBLIC:ATTACH EVENT="onmouseleave" FOR="element" ONEVENT="mouseLeft()" />
-    <PUBLIC:ATTACH EVENT="oncontentready" FOR="element" ONEVENT="update()" />
-    <PUBLIC:ATTACH EVENT="ondocumentready" FOR="element" ONEVENT="update()" />
-    <PUBLIC:ATTACH EVENT="ondetach" FOR="element" ONEVENT="cleanup()" />
+<PUBLIC:ATTACH EVENT="oncontentready" FOR="element" ONEVENT="init()" />
+<PUBLIC:ATTACH EVENT="ondocumentready" FOR="element" ONEVENT="init()" />
+<PUBLIC:ATTACH EVENT="ondetach" FOR="element" ONEVENT="cleanup()" />
 
-    <script type="text/javascript">
-var PIE = window['PIE'];
+<script type="text/javascript">
+var doc = element.document;var PIE = window['PIE'];
 
 if( !PIE ) {
     PIE = window['PIE'] = {
         CSS_PREFIX: '-pie-',
         STYLE_PREFIX: 'Pie',
-        CLASS_PREFIX: 'pie_'
+        CLASS_PREFIX: 'pie_',
+        tableCellTags: {
+            'TD': 1,
+            'TH': 1
+        }
     };
 
-    // Detect IE6
-    if( !window.XMLHttpRequest ) {
-        PIE.isIE6 = true;
+    // Force the background cache to be used. No reason it shouldn't be.
+    try {
+        doc.execCommand( 'BackgroundImageCache', false, true );
+    } catch(e) {}
 
+    /*
+     * IE version detection approach by James Padolsey, with modifications -- from
+     * http://james.padolsey.com/javascript/detect-ie-in-js-using-conditional-comments/
+     */
+    PIE.ieVersion = function(){
+        var v = 4,
+            div = doc.createElement('div'),
+            all = div.getElementsByTagName('i');
+
+        while (
+            div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
+            all[0]
+        ) {}
+
+        return v;
+    }();
+
+    // Detect IE6
+    if( PIE.ieVersion === 6 ) {
         // IE6 can't access properties with leading dash, but can without it.
         PIE.CSS_PREFIX = PIE.CSS_PREFIX.replace( /^-/, '' );
     }
 
     // Detect IE8
-    PIE.ie8DocMode = element.document.documentMode;
-    PIE.isIE8 = !!PIE.ie8DocMode;
-
-    // Set up polling - this is a brute-force workaround for issues in IE8 caused by it not
-    // always firing the onmove and onresize events when elements are moved or resized.
-    if( PIE.ie8DocMode === 8 ) {
-        PIE.ie8Poller = {
-            fns: {},
-
-            add: function( fn ) {
-                var id = fn.id || ( fn.id = '' + new Date().getTime() + Math.random() );
-                this.fns[ id ] = fn;
-            },
-
-            remove: function( fn ) {
-                delete this.fns[ fn.id ];
-            },
-
-            fire: function() {
-                var fns = this.fns, id;
-                for( id in fns ) {
-                    if( fns.hasOwnProperty( id ) ) {
-                        fns[ id ]();
-                    }
-                }
-            }
-        };
-        setInterval( function() { PIE.ie8Poller.fire() }, 250 )
-    }
-
-
+    PIE.ie8DocMode = PIE.ieVersion === 8 && doc.documentMode;
 /**
  * Utility functions
  */
@@ -85,10 +73,20 @@ PIE.Util = {
         var vmlPrefix = 'css3vml',
             vmlDoc = PIE._vmlCreatorDoc;
         if( !vmlDoc ) {
-            vmlDoc = PIE._vmlCreatorDoc = element.document.createDocumentFragment();
+            vmlDoc = PIE._vmlCreatorDoc = doc.createDocumentFragment();
             vmlDoc.namespaces.add( vmlPrefix, 'urn:schemas-microsoft-com:vml' );
         }
         return vmlDoc.createElement( vmlPrefix + ':' + tag );
+    },
+
+
+    /**
+     * Generate and return a unique ID for a given object. The generated ID is stored
+     * as a property of the object for future reuse.
+     * @param {Object} obj
+     */
+    getUID: function( obj ) {
+        return obj && obj[ '_pieId' ] || ( obj[ '_pieId' ] = +new Date() + Math.random() );
     },
 
 
@@ -134,12 +132,139 @@ PIE.Util = {
         }
     }
 };/**
+ * 
+ */
+PIE.Observable = function() {
+    /**
+     * List of registered observer functions
+     */
+    this.observers = [];
+
+    /**
+     * Hash of function ids to their position in the observers list, for fast lookup
+     */
+    this.indexes = {};
+};
+PIE.Observable.prototype = {
+
+    observe: function( fn ) {
+        var id = PIE.Util.getUID( fn ),
+            indexes = this.indexes,
+            observers = this.observers;
+        if( !( id in indexes ) ) {
+            indexes[ id ] = observers.length;
+            observers.push( fn );
+        }
+    },
+
+    unobserve: function( fn ) {
+        var id = PIE.Util.getUID( fn ),
+            indexes = this.indexes;
+        if( id && id in indexes ) {
+            delete this.observers[ indexes[ id ] ];
+            delete indexes[ id ];
+        }
+    },
+
+    fire: function() {
+        var o = this.observers,
+            i = o.length;
+        while( i-- ) {
+            o[ i ] && o[ i ]();
+        }
+    }
+
+};/*
+ * Set up polling for IE8 - this is a brute-force workaround for syncing issues caused by IE8 not
+ * always firing the onmove and onresize events when elements are moved or resized. We check a few
+ * times every second to make sure the elements have the correct position and size.
+ */
+
+if( PIE.ie8DocMode === 8 ) {
+    PIE.Heartbeat = new PIE.Observable();
+    setInterval( function() { PIE.Heartbeat.fire() }, 250 );
+}
+/**
+ * Create an observable listener for the onbeforeunload event
+ */
+PIE.OnBeforeUnload = new PIE.Observable();
+window.attachEvent( 'onbeforeunload', function() { PIE.OnBeforeUnload.fire(); } );
+
+/**
+ * Attach an event which automatically gets detached onbeforeunload
+ */
+PIE.OnBeforeUnload.attachManagedEvent = function( target, name, handler ) {
+    target.attachEvent( name, handler );
+    this.observe( function() {
+        target.detachEvent( name, handler );
+    } );
+};/**
+ * Create a single observable listener for window resize events.
+ */
+(function() {
+    PIE.OnResize = new PIE.Observable();
+
+    function resized() {
+        PIE.OnResize.fire();
+    }
+
+    PIE.OnBeforeUnload.attachManagedEvent( window, 'onresize', resized );
+})();
+/**
+ * Create a single observable listener for scroll events. Used for lazy loading based
+ * on the viewport, and for fixed position backgrounds.
+ */
+(function() {
+    PIE.OnScroll = new PIE.Observable();
+
+    function scrolled() {
+        PIE.OnScroll.fire();
+    }
+
+    PIE.OnBeforeUnload.attachManagedEvent( window, 'onscroll', scrolled );
+
+    PIE.OnResize.observe( scrolled );
+})();
+/**
+ * Listen for printing events, destroy all active PIE instances when printing, and
+ * restore them afterward.
+ */
+(function() {
+
+    var elements;
+
+    function beforePrint() {
+        elements = PIE.Element.destroyAll();
+    }
+
+    function afterPrint() {
+        if( elements ) {
+            for( var i = 0, len = elements.length; i < len; i++ ) {
+                PIE[ 'attach' ]( elements[i] );
+            }
+            elements = 0;
+        }
+    }
+
+    PIE.OnBeforeUnload.attachManagedEvent( window, 'onbeforeprint', beforePrint );
+    PIE.OnBeforeUnload.attachManagedEvent( window, 'onafterprint', afterPrint );
+
+})();/**
  * Wrapper for length and percentage style values
  * @constructor
  * @param {string} val The CSS string representing the length. It is assumed that this will already have
  *                 been validated as a valid length or percentage syntax.
  */
 PIE.Length = (function() {
+
+    var lengthCalcEl = doc.createElement( 'length-calc' ),
+        s = lengthCalcEl.style,
+        numCache = {},
+        unitCache = {};
+    s.position = 'absolute';
+    s.top = s.left = -9999;
+
+
     function Length( val ) {
         this.val = val;
     }
@@ -156,9 +281,10 @@ PIE.Length = (function() {
          * @return {number} The value
          */
         getNumber: function() {
-            var num = this._number;
-            if( num === undefined ) {
-                num = this._number = parseFloat( this.val );
+            var num = numCache[ this.val ],
+                UNDEF;
+            if( num === UNDEF ) {
+                num = numCache[ this.val ] = parseFloat( this.val );
             }
             return num;
         },
@@ -168,10 +294,10 @@ PIE.Length = (function() {
          * @return {string} The unit
          */
         getUnit: function() {
-            var unit = this._unit, m;
+            var unit = unitCache[ this.val ], m;
             if( !unit ) {
                 m = this.val.match( this.unitRE );
-                unit = this._unit = ( m && m[0] ) || 'px';
+                unit = unitCache[ this.val ] = ( m && m[0] ) || 'px';
             }
             return unit;
         },
@@ -218,22 +344,17 @@ PIE.Length = (function() {
          */
         getEmPixels: function( el ) {
             var fs = el.currentStyle.fontSize,
-                tester, s, px;
+                px;
 
             if( fs.indexOf( 'px' ) > 0 ) {
                 return parseFloat( fs );
             } else {
-                tester = this._tester;
-                if( !tester ) {
-                    tester = this._tester = el.document.createElement( 'length-calc' );
-                    s = tester.style;
-                    s.width = '1em';
-                    s.position = 'absolute';
-                    s.top = s.left = -9999;
+                lengthCalcEl.style.width = '1em';
+                el.appendChild( lengthCalcEl );
+                px = lengthCalcEl.offsetWidth;
+                if( lengthCalcEl.parentNode !== el ) { //not sure how this happens but it does
+                    el.removeChild( lengthCalcEl );
                 }
-                el.appendChild( tester );
-                px = tester.offsetWidth;
-                el.removeChild( tester );
                 return px;
             }
         }
@@ -242,19 +363,16 @@ PIE.Length = (function() {
     Length.conversions = (function() {
         var units = [ 'mm', 'cm', 'in', 'pt', 'pc' ],
             vals = {},
-            parent = element.parentNode,
-            i = 0, len = units.length, unit, el, s;
-        for( ; i < len; i++ ) {
+            parent = doc.documentElement,
+            i = units.length, unit;
+
+        parent.appendChild( lengthCalcEl );
+        while( i-- ) {
             unit = units[i];
-            el = element.document.createElement( 'length-calc' );
-            s = el.style;
-            s.position = 'absolute';
-            s.top = s.left = -9999;
-            s.width = '100' + unit;
-            parent.appendChild( el );
-            vals[ unit ] = el.offsetWidth / 100;
-            parent.removeChild( el );
+            lengthCalcEl.style.width = '100' + unit;
+            vals[ unit ] = lengthCalcEl.offsetWidth / 100;
         }
+        parent.removeChild( lengthCalcEl );
         return vals;
     })();
 
@@ -268,6 +386,12 @@ PIE.Length = (function() {
  * @param {Array.<PIE.Tokenizer.Token>} tokens The tokens making up the background position value.
  */
 PIE.BgPosition = (function() {
+
+    var length_fifty = new PIE.Length( '50%' ),
+        vert_idents = { 'top': 1, 'center': 1, 'bottom': 1 },
+        horiz_idents = { 'left': 1, 'center': 1, 'right': 1 };
+
+
     function BgPosition( tokens ) {
         this.tokens = tokens;
     }
@@ -284,14 +408,12 @@ PIE.BgPosition = (function() {
             if( !this._values ) {
                 var tokens = this.tokens,
                     len = tokens.length,
+                    identType = PIE.Tokenizer.Type,
                     length_zero = PIE.Length.ZERO,
-                    length_fifty = new PIE.Length( '50%' ),
-                    type_ident = PIE.Tokenizer.Type.IDENT,
-                    type_length = PIE.Tokenizer.Type.LENGTH,
-                    type_percent = PIE.Tokenizer.Type.PERCENT,
+                    type_ident = identType.IDENT,
+                    type_length = identType.LENGTH,
+                    type_percent = identType.PERCENT,
                     type, value,
-                    vert_idents = { 'top': 1, 'center': 1, 'bottom': 1 },
-                    horiz_idents = { 'left': 1, 'center': 1, 'right': 1 },
                     vals = [ 'left', length_zero, 'top', length_zero ];
 
                 // If only one value, the second is assumed to be 'center'
@@ -340,7 +462,8 @@ PIE.BgPosition = (function() {
         },
 
         /**
-         * Find the coordinates of the background image from the upper-left corner of the background area
+         * Find the coordinates of the background image from the upper-left corner of the background area.
+         * Note that these coordinate values are not rounded.
          * @param {Element} el
          * @param {number} width - the width for percentages (background area width minus image width)
          * @param {number} height - the height for percentages (background area height minus image height)
@@ -352,14 +475,15 @@ PIE.BgPosition = (function() {
                 pxY = vals[3].pixels( el, height );
 
             return {
-                x: Math.round( vals[0] === 'right' ? width - pxX : pxX ),
-                y: Math.round( vals[2] === 'bottom' ? height - pxY : pxY )
+                x: vals[0] === 'right' ? width - pxX : pxX,
+                y: vals[2] === 'bottom' ? height - pxY : pxY
             };
         }
     };
 
     return BgPosition;
-})();/**
+})();
+/**
  * Wrapper for angle values; handles conversion to degrees from all allowed angle units
  * @constructor
  * @param {string} val The raw CSS value for the angle. It is assumed it has been pre-validated.
@@ -423,7 +547,7 @@ PIE.Color = (function() {
                     this._alpha = parseFloat( m[4] );
                 } else {
                     this._color = v;
-                    this._alpha = 1;
+                    this._alpha = ( v === 'transparent' ? 0 : 1 );
                 }
             }
         },
@@ -724,7 +848,80 @@ PIE.Tokenizer = (function() {
     };
 
     return Tokenizer;
-})();PIE.StyleInfoBase = {
+})();/**
+ * Handles calculating, caching, and detecting changes to size and position of the element.
+ * @constructor
+ * @param {Element} el the target element
+ */
+PIE.BoundsInfo = function( el ) {
+    this.targetElement = el;
+};
+PIE.BoundsInfo.prototype = {
+
+    _locked: 0,
+
+    positionChanged: function() {
+        var last = this._lastBounds,
+            bounds;
+        return !last || ( ( bounds = this.getBounds() ) && ( last.x !== bounds.x || last.y !== bounds.y ) );
+    },
+
+    sizeChanged: function() {
+        var last = this._lastBounds,
+            bounds;
+        return !last || ( ( bounds = this.getBounds() ) && ( last.w !== bounds.w || last.h !== bounds.h ) );
+    },
+
+    getLiveBounds: function() {
+        var rect = this.targetElement.getBoundingClientRect();
+        return {
+            x: rect.left,
+            y: rect.top,
+            w: rect.right - rect.left,
+            h: rect.bottom - rect.top
+        };
+    },
+
+    getBounds: function() {
+        return this._locked ? 
+                ( this._lockedBounds || ( this._lockedBounds = this.getLiveBounds() ) ) :
+                this.getLiveBounds();
+    },
+
+    hasBeenQueried: function() {
+        return !!this._lastBounds;
+    },
+
+    lock: function() {
+        ++this._locked;
+    },
+
+    unlock: function() {
+        if( !--this._locked ) {
+            if( this._lockedBounds ) this._lastBounds = this._lockedBounds;
+            this._lockedBounds = null;
+        }
+    }
+
+};
+(function() {
+
+function cacheWhenLocked( fn ) {
+    var uid = PIE.Util.getUID( fn );
+    return function() {
+        if( this._locked ) {
+            var cache = this._lockedValues || ( this._lockedValues = {} );
+            return ( uid in cache ) ? cache[ uid ] : ( cache[ uid ] = fn.call( this ) );
+        } else {
+            return fn.call( this );
+        }
+    }
+}
+
+
+PIE.StyleInfoBase = {
+
+    _locked: 0,
 
     /**
      * Create a new StyleInfo class, with the standard constructor, and augmented by
@@ -733,56 +930,73 @@ PIE.Tokenizer = (function() {
      */
     newStyleInfo: function( proto ) {
         function StyleInfo( el ) {
-            this.element = el;
+            this.targetElement = el;
         }
         PIE.Util.merge( StyleInfo.prototype, PIE.StyleInfoBase, proto );
+        StyleInfo._propsCache = {};
         return StyleInfo;
     },
 
     /**
-     * Get an object representation of the target CSS style, caching it as long as the
-     * underlying CSS value hasn't changed.
+     * Get an object representation of the target CSS style, caching it for each unique
+     * CSS value string.
      * @return {Object}
      */
     getProps: function() {
-        if( this.changed() ) {
-            this._props = this.parseCss( this._css = this.getCss() );
-        }
-        return this._props;
+        var css = this.getCss(),
+            cache = this.constructor._propsCache;
+        return css ? ( css in cache ? cache[ css ] : ( cache[ css ] = this.parseCss( css ) ) ) : null;
     },
 
     /**
      * Get the raw CSS value for the target style
      * @return {string}
      */
-    getCss: function() {
-        var el = this.element,
+    getCss: cacheWhenLocked( function() {
+        var el = this.targetElement,
+            ctor = this.constructor,
             s = el.style,
             cs = el.currentStyle,
             cssProp = this.cssProperty,
             styleProp = this.styleProperty,
-            prefixedCssProp = this._prefixedCssProp || ( this._prefixedCssProp = PIE.CSS_PREFIX + cssProp ),
-            prefixedStyleProp = this._prefixedStyleProp || ( this._prefixedStyleProp = PIE.STYLE_PREFIX + styleProp.charAt(0).toUpperCase() + styleProp.substring(1) );
+            prefixedCssProp = ctor._prefixedCssProp || ( ctor._prefixedCssProp = PIE.CSS_PREFIX + cssProp ),
+            prefixedStyleProp = ctor._prefixedStyleProp || ( ctor._prefixedStyleProp = PIE.STYLE_PREFIX + styleProp.charAt(0).toUpperCase() + styleProp.substring(1) );
         return s[ prefixedStyleProp ] || cs.getAttribute( prefixedCssProp ) || s[ styleProp ] || cs.getAttribute( cssProp );
-    },
+    } ),
 
     /**
      * Determine whether the target CSS style is active.
      * @return {boolean}
      */
-    isActive: function() {
+    isActive: cacheWhenLocked( function() {
         return !!this.getProps();
-    },
+    } ),
 
     /**
-     * Determine whether the target CSS style has changed since the last time it was parsed.
+     * Determine whether the target CSS style has changed since the last time it was used.
      * @return {boolean}
      */
-    changed: function() {
-        return this._css !== this.getCss();
+    changed: cacheWhenLocked( function() {
+        var currentCss = this.getCss(),
+            changed = currentCss !== this._lastCss;
+        this._lastCss = currentCss;
+        return changed;
+    } ),
+
+    cacheWhenLocked: cacheWhenLocked,
+
+    lock: function() {
+        ++this._locked;
+    },
+
+    unlock: function() {
+        if( !--this._locked ) {
+            delete this._lockedValues;
+        }
     }
 };
-/**
+
+})();/**
  * Handles parsing, caching, and detecting changes to background (and -pie-background) CSS
  * @constructor
  * @param {Element} el the target element
@@ -835,9 +1049,8 @@ PIE.BackgroundStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
      * @override
      */
     parseCss: function( css ) {
-        var el = this.element,
+        var el = this.targetElement,
             cs = el.currentStyle,
-            rs = el.runtimeStyle,
             tokenizer, token, image,
             tok_type = PIE.Tokenizer.Type,
             type_operator = tok_type.OPERATOR,
@@ -1016,7 +1229,7 @@ PIE.BackgroundStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
             } );
         }
 
-        return props;
+        return ( props && ( props.color || ( props.images && props.images[0] ) ) ) ? props : null;
     },
 
     /**
@@ -1025,44 +1238,57 @@ PIE.BackgroundStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
      * @param fn
      */
     withActualBg: function( fn ) {
-        var rs = this.element.runtimeStyle,
+        var rs = this.targetElement.runtimeStyle,
             rsImage = rs.backgroundImage,
             rsColor = rs.backgroundColor,
             ret;
 
-        rs.backgroundImage = rs.backgroundColor = '';
+        if( rsImage ) rs.backgroundImage = '';
+        if( rsColor ) rs.backgroundColor = '';
 
         ret = fn.call( this );
 
-        rs.backgroundImage = rsImage;
-        rs.backgroundColor = rsColor;
+        if( rsImage ) rs.backgroundImage = rsImage;
+        if( rsColor ) rs.backgroundColor = rsColor;
 
         return ret;
     },
 
-    getCss: function() {
-        var cs = this.element.currentStyle;
+    getCss: PIE.StyleInfoBase.cacheWhenLocked( function() {
         return this.getCss3() ||
                this.withActualBg( function() {
+                   var cs = this.targetElement.currentStyle;
                    return cs.backgroundColor + ' ' + cs.backgroundImage + ' ' + cs.backgroundRepeat + ' ' +
                    cs.backgroundPositionX + ' ' + cs.backgroundPositionY;
                } );
-    },
+    } ),
 
-    getCss3: function() {
-        var el = this.element;
+    getCss3: PIE.StyleInfoBase.cacheWhenLocked( function() {
+        var el = this.targetElement;
         return el.style[ this.styleProperty ] || el.currentStyle.getAttribute( this.cssProperty );
-    },
+    } ),
 
+    /**
+     * Tests if style.PiePngFix or the -pie-png-fix property is set to true in IE6.
+     */
+    isPngFix: function() {
+        var val = 0, el;
+        if( PIE.ieVersion < 7 ) {
+            el = this.targetElement;
+            val = ( '' + ( el.style[ PIE.STYLE_PREFIX + 'PngFix' ] || el.currentStyle.getAttribute( PIE.CSS_PREFIX + 'png-fix' ) ) === 'true' );
+        }
+        return val;
+    },
+    
     /**
      * The isActive logic is slightly different, because getProps() always returns an object
      * even if it is just falling back to the native background properties.  But we only want
-     * to report is as being "active" if the -pie-background override property is present and
-     * parses successfully.
+     * to report is as being "active" if either the -pie-background override property is present
+     * and parses successfully or '-pie-png-fix' is set to true in IE6.
      */
-    isActive: function() {
-        return this.getCss3() && !!this.getProps();
-    }
+    isActive: PIE.StyleInfoBase.cacheWhenLocked( function() {
+        return (this.getCss3() || this.isPngFix()) && !!this.getProps();
+    } )
 
 } );/**
  * Handles parsing, caching, and detecting changes to border CSS
@@ -1088,7 +1314,7 @@ PIE.BorderStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
             widthsSame = true;
 
         this.withActualBorder( function() {
-            var el = this.element,
+            var el = this.targetElement,
                 cs = el.currentStyle,
                 i = 0,
                 style, color, width, lastStyle, lastColor, lastWidth, side, ltr;
@@ -1112,7 +1338,7 @@ PIE.BorderStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
                 c[ ltr ] = new PIE.Color( color );
 
                 width = w[ ltr ] = new PIE.Length( s[ ltr ] === 'none' ? '0' : ( this.namedWidths[ width ] || width ) );
-                if( width.pixels( this.element ) > 0 ) {
+                if( width.pixels( this.targetElement ) > 0 ) {
                     active = true;
                 }
             }
@@ -1128,16 +1354,19 @@ PIE.BorderStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
         } : null;
     },
 
-    getCss: function() {
-        var el = this.element,
+    getCss: PIE.StyleInfoBase.cacheWhenLocked( function() {
+        var el = this.targetElement,
             cs = el.currentStyle,
             css;
 
-        this.withActualBorder( function() {
-            css = cs.borderWidth + '|' + cs.borderStyle + '|' + cs.borderColor;
-        } );
+        // Don't redraw or hide borders for cells in border-collapse:collapse tables
+        if( !( el.tagName in PIE.tableCellTags && el.offsetParent.currentStyle.borderCollapse === 'collapse' ) ) {
+            this.withActualBorder( function() {
+                css = cs.borderWidth + '|' + cs.borderStyle + '|' + cs.borderColor;
+            } );
+        }
         return css;
-    },
+    } ),
 
     /**
      * Execute a function with the actual border styles (not overridden with runtimeStyle
@@ -1145,19 +1374,18 @@ PIE.BorderStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
      * @param fn
      */
     withActualBorder: function( fn ) {
-        var rs = this.element.runtimeStyle,
+        var rs = this.targetElement.runtimeStyle,
             rsWidth = rs.borderWidth,
-            rsStyle = rs.borderStyle,
             rsColor = rs.borderColor,
             ret;
 
-        rs.borderWidth = rs.borderStyle = rs.borderColor = '';
+        if( rsWidth ) rs.borderWidth = '';
+        if( rsColor ) rs.borderColor = '';
 
         ret = fn.call( this );
 
-        rs.borderWidth = rsWidth;
-        rs.borderStyle = rsStyle;
-        rs.borderColor = rsColor;
+        if( rsWidth ) rs.borderWidth = rsWidth;
+        if( rsColor ) rs.borderColor = rsColor;
 
         return ret;
     }
@@ -1365,7 +1593,7 @@ PIE.BorderImageStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
                     distributeSides( widths, function( tok ) {
                         return tok.type & ( LENGTH | PERCENT ) ? new PIE.Length( tok.value ) : tok.value;
                     } ) :
-                    ( cs = this.element.currentStyle ) && {
+                    ( cs = this.targetElement.currentStyle ) && {
                         t: new PIE.Length( cs.borderTopWidth ),
                         r: new PIE.Length( cs.borderRightWidth ),
                         b: new PIE.Length( cs.borderBottomWidth ),
@@ -1453,13 +1681,13 @@ PIE.BoxShadowStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
  */
 PIE.VisibilityStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
 
-    getCss: function() {
-        var cs = this.element.currentStyle;
+    getCss: PIE.StyleInfoBase.cacheWhenLocked( function() {
+        var cs = this.targetElement.currentStyle;
         return cs.visibility + '|' + cs.display;
-    },
+    } ),
 
     parseCss: function() {
-        var el = this.element,
+        var el = this.targetElement,
             rs = el.runtimeStyle,
             cs = el.currentStyle,
             rsVis = rs.visibility,
@@ -1492,14 +1720,21 @@ PIE.RendererBase = {
      * @param proto
      */
     newRenderer: function( proto ) {
-        function Renderer( el, styleInfos, parent ) {
-            this.element = el;
+        function Renderer( el, boundsInfo, styleInfos, parent ) {
+            this.targetElement = el;
+            this.boundsInfo = boundsInfo;
             this.styleInfos = styleInfos;
             this.parent = parent;
         }
         PIE.Util.merge( Renderer.prototype, PIE.RendererBase, proto );
         return Renderer;
     },
+
+    /**
+     * Flag indicating the element has already been positioned at least once.
+     * @type {boolean}
+     */
+    isPositioned: false,
 
     /**
      * Determine if the renderer needs to be updated
@@ -1513,18 +1748,28 @@ PIE.RendererBase = {
      * Tell the renderer to update based on modified properties
      */
     updateProps: function() {
+        this.destroy();
+        if( this.isActive() ) {
+            this.draw();
+        }
     },
 
     /**
      * Tell the renderer to update based on modified element position
      */
     updatePos: function() {
+        this.isPositioned = true;
     },
 
     /**
      * Tell the renderer to update based on modified element dimensions
      */
     updateSize: function() {
+        if( this.isActive() ) {
+            this.draw();
+        } else {
+            this.destroy();
+        }
     },
 
 
@@ -1593,7 +1838,7 @@ PIE.RendererBase = {
             if( group ) {
                 parent = this.getLayer( group );
                 if( !parent ) {
-                    this.addLayer( group, this.element.document.createElement( 'group' + group ) );
+                    this.addLayer( group, doc.createElement( 'group' + group ) );
                     parent = this.getLayer( group );
                 }
             }
@@ -1632,9 +1877,10 @@ PIE.RendererBase = {
      * @return {Object}
      */
     getRadiiPixels: function( radii ) {
-        var el = this.element,
-            w = el.offsetWidth,
-            h = el.offsetHeight,
+        var el = this.targetElement,
+            bounds = this.boundsInfo.getBounds(),
+            w = bounds.w,
+            h = bounds.h,
             tlX, tlY, trX, trY, brX, brY, blX, blY, f;
 
         tlX = radii.x['tl'].pixels( el, w );
@@ -1694,9 +1940,9 @@ PIE.RendererBase = {
         mult = mult || 1;
 
         var r, str,
-            el = this.element,
-            w = el.offsetWidth * mult,
-            h = el.offsetHeight * mult,
+            bounds = this.boundsInfo.getBounds(),
+            w = bounds.w * mult,
+            h = bounds.h * mult,
             radInfo = this.styleInfos.borderRadiusInfo,
             floor = Math.floor, ceil = Math.ceil,
             shrinkT = shrink ? shrink.t * mult : 0,
@@ -1741,14 +1987,14 @@ PIE.RendererBase = {
      * Get the container element for the shapes, creating it if necessary.
      */
     getBox: function() {
-        var box = this.parent.getLayer( this.zIndex ), s;
+        var box = this.parent.getLayer( this.boxZIndex ), s;
 
         if( !box ) {
-            box = this.element.document.createElement( this.boxName );
+            box = doc.createElement( this.boxName );
             s = box.style;
             s.position = 'absolute';
             s.top = s.left = 0;
-            this.parent.addLayer( this.zIndex, box );
+            this.parent.addLayer( this.boxZIndex, box );
         }
 
         return box;
@@ -1760,7 +2006,7 @@ PIE.RendererBase = {
      * structures, but individual renderers may override as necessary.
      */
     destroy: function() {
-        this.parent.removeLayer( this.zIndex );
+        this.parent.removeLayer( this.boxZIndex );
         delete this._shapes;
         delete this._layers;
     }
@@ -1774,9 +2020,9 @@ PIE.RendererBase = {
 PIE.RootRenderer = PIE.RendererBase.newRenderer( {
 
     isActive: function() {
-        var infos = this.styleInfos;
-        for( var i in infos ) {
-            if( infos.hasOwnProperty( i ) && infos[ i ].isActive() ) {
+        var children = this.childRenderers;
+        for( var i in children ) {
+            if( children.hasOwnProperty( i ) && children[ i ].isActive() ) {
                 return true;
             }
         }
@@ -1789,33 +2035,45 @@ PIE.RootRenderer = PIE.RendererBase.newRenderer( {
 
     updatePos: function() {
         if( this.isActive() ) {
-            var el = this.element,
+            var el = this.getPositioningElement(),
                 par = el,
                 docEl,
-                elRect, parRect,
+                parRect,
+                tgtCS = el.currentStyle,
+                tgtPos = tgtCS.position,
+                boxPos,
                 s = this.getBox().style, cs,
-                x = 0, y = 0;
+                x = 0, y = 0,
+                elBounds = this.boundsInfo.getBounds();
 
-            // Get the element's offsets from its nearest positioned ancestor. Uses
-            // getBoundingClientRect for accuracy and speed.
-            do {
-                par = par.offsetParent;
-            } while( par && par.currentStyle.position === 'static' );
-            elRect = el.getBoundingClientRect();
-            if( par ) {
-                parRect = par.getBoundingClientRect();
-                cs = par.currentStyle;
-                x = elRect.left - parRect.left - ( parseFloat(cs.borderLeftWidth) || 0 );
-                y = elRect.top - parRect.top - ( parseFloat(cs.borderTopWidth) || 0 );
+            if( tgtPos === 'fixed' && PIE.ieVersion > 6 ) {
+                x = elBounds.x;
+                y = elBounds.y;
+                boxPos = tgtPos;
             } else {
-                docEl = el.document.documentElement;
-                x = elRect.left + docEl.scrollLeft - docEl.clientLeft;
-                y = elRect.top + docEl.scrollTop - docEl.clientTop;
+                // Get the element's offsets from its nearest positioned ancestor. Uses
+                // getBoundingClientRect for accuracy and speed.
+                do {
+                    par = par.offsetParent;
+                } while( par && ( par.currentStyle.position === 'static' ) );
+                if( par ) {
+                    parRect = par.getBoundingClientRect();
+                    cs = par.currentStyle;
+                    x = elBounds.x - parRect.left - ( parseFloat(cs.borderLeftWidth) || 0 );
+                    y = elBounds.y - parRect.top - ( parseFloat(cs.borderTopWidth) || 0 );
+                } else {
+                    docEl = doc.documentElement;
+                    x = elBounds.x + docEl.scrollLeft - docEl.clientLeft;
+                    y = elBounds.y + docEl.scrollTop - docEl.clientTop;
+                }
+                boxPos = 'absolute';
             }
 
+            s.position = boxPos;
             s.left = x;
             s.top = y;
-            s.zIndex = el.currentStyle.position === 'static' ? -1 : el.currentStyle.zIndex;
+            s.zIndex = tgtPos === 'static' ? -1 : tgtCS.zIndex;
+            this.isPositioned = true;
         }
     },
 
@@ -1836,14 +2094,17 @@ PIE.RootRenderer = PIE.RendererBase.newRenderer( {
         }
     },
 
-    getBox: function() {
-        var box = this._box, el, s;
-        if( !box ) {
-            el = this.element;
-            box = this._box = el.document.createElement( 'css3-container' );
-            s = box.style;
+    getPositioningElement: function() {
+        var el = this.targetElement;
+        return el.tagName in PIE.tableCellTags ? el.offsetParent : el;
+    },
 
-            s.position = el.currentStyle.position === 'fixed' ? 'fixed' : 'absolute';
+    getBox: function() {
+        var box = this._box, el;
+        if( !box ) {
+            el = this.getPositioningElement();
+            box = this._box = doc.createElement( 'css3-container' );
+
             this.updateVisibility();
 
             el.parentNode.insertBefore( box, el );
@@ -1852,9 +2113,9 @@ PIE.RootRenderer = PIE.RendererBase.newRenderer( {
     },
 
     destroy: function() {
-        var box = this._box;
-        if( box && box.parentNode ) {
-            box.parentNode.removeChild( box );
+        var box = this._box, par;
+        if( box && ( par = box.parentNode ) ) {
+            par.removeChild( box );
         }
         delete this._box;
         delete this._layers;
@@ -1870,7 +2131,7 @@ PIE.RootRenderer = PIE.RendererBase.newRenderer( {
  */
 PIE.BackgroundRenderer = PIE.RendererBase.newRenderer( {
 
-    zIndex: 2,
+    boxZIndex: 2,
     boxName: 'background',
 
     needsUpdate: function() {
@@ -1879,34 +2140,22 @@ PIE.BackgroundRenderer = PIE.RendererBase.newRenderer( {
     },
 
     isActive: function() {
-        var si = this.styleInfos,
-            el = this.element;
-        return el.offsetWidth && el.offsetHeight && (
-               si.borderImageInfo.isActive() ||
+        var si = this.styleInfos;
+        return si.borderImageInfo.isActive() ||
                si.borderRadiusInfo.isActive() ||
                si.backgroundInfo.isActive() ||
-               ( si.boxShadowInfo.isActive() && si.boxShadowInfo.getProps().inset ) );
-    },
-
-    updateSize: function() {
-        if( this.isActive() ) {
-            this.draw();
-        }
-    },
-
-    updateProps: function() {
-        this.destroy();
-        if( this.isActive() ) {
-            this.draw();
-        }
+               ( si.boxShadowInfo.isActive() && si.boxShadowInfo.getProps().inset );
     },
 
     /**
      * Draw the shapes
      */
     draw: function() {
-        this.drawBgColor();
-        this.drawBgImages();
+        var bounds = this.boundsInfo.getBounds();
+        if( bounds.w && bounds.h ) {
+            this.drawBgColor();
+            this.drawBgImages();
+        }
     },
 
     /**
@@ -1914,16 +2163,17 @@ PIE.BackgroundRenderer = PIE.RendererBase.newRenderer( {
      */
     drawBgColor: function() {
         var props = this.styleInfos.backgroundInfo.getProps(),
-            el = this.element,
-            color = props && props.color && props.color.value( el ),
+            bounds = this.boundsInfo.getBounds(),
+            el = this.targetElement,
+            color = props && props.color,
             shape, w, h, s, alpha;
 
-        if( color && color !== 'transparent' ) {
+        if( color && color.alpha() > 0 ) {
             this.hideBackground();
 
             shape = this.getShape( 'bgColor', 'fill', this.getBox(), 1 );
-            w = el.offsetWidth;
-            h = el.offsetHeight;
+            w = bounds.w;
+            h = bounds.h;
             shape.stroked = false;
             shape.coordsize = w * 2 + ',' + h * 2;
             shape.coordorigin = '1,1';
@@ -1931,9 +2181,9 @@ PIE.BackgroundRenderer = PIE.RendererBase.newRenderer( {
             s = shape.style;
             s.width = w;
             s.height = h;
-            shape.fill.color = color;
+            shape.fill.color = color.value( el );
 
-            alpha = props.color.alpha();
+            alpha = color.alpha();
             if( alpha < 1 ) {
                 shape.fill.opacity = alpha;
             }
@@ -1947,15 +2197,15 @@ PIE.BackgroundRenderer = PIE.RendererBase.newRenderer( {
      */
     drawBgImages: function() {
         var props = this.styleInfos.backgroundInfo.getProps(),
+            bounds = this.boundsInfo.getBounds(),
             images = props && props.images,
-            img, el, shape, w, h, s, i;
+            img, shape, w, h, s, i;
 
         if( images ) {
             this.hideBackground();
 
-            el = this.element;
-            w = el.offsetWidth,
-            h = el.offsetHeight,
+            w = bounds.w;
+            h = bounds.h;
 
             i = images.length;
             while( i-- ) {
@@ -1996,10 +2246,10 @@ PIE.BackgroundRenderer = PIE.RendererBase.newRenderer( {
     positionBgImage: function( shape, index ) {
         PIE.Util.withImageSize( shape.fill.src, function( size ) {
             var fill = shape.fill,
-                el = this.element,
-                elW = el.offsetWidth,
-                elH = el.offsetHeight,
-                cs = el.currentStyle,
+                el = this.targetElement,
+                bounds = this.boundsInfo.getBounds(),
+                elW = bounds.w,
+                elH = bounds.h,
                 si = this.styleInfos,
                 border = si.borderInfo.getProps(),
                 bw = border && border.widths,
@@ -2013,13 +2263,13 @@ PIE.BackgroundRenderer = PIE.RendererBase.newRenderer( {
                 pxX, pxY,
                 clipT = 0, clipL = 0,
                 clipR = elW + 1, clipB = elH + 1, //make sure the default clip region is not inside the box (by a subpixel)
-                clipAdjust = PIE.isIE8 ? 0 : 1; //prior to IE8 requires 1 extra pixel in the image clip region
+                clipAdjust = PIE.ieVersion === 8 ? 0 : 1; //prior to IE8 requires 1 extra pixel in the image clip region
 
             // Positioning - find the pixel offset from the top/left and convert to a ratio
             // The position is shifted by half a pixel, to adjust for the half-pixel coordorigin shift which is
             // needed to fix antialiasing but makes the bg image fuzzy.
-            pxX = bgPos.x + bwL + 0.5;
-            pxY = bgPos.y + bwT + 0.5;
+            pxX = Math.round( bgPos.x ) + bwL + 0.5;
+            pxY = Math.round( bgPos.y ) + bwT + 0.5;
             fill.position = ( pxX / elW ) + ',' + ( pxY / elH );
 
             // Repeating - clip the image shape
@@ -2044,15 +2294,17 @@ PIE.BackgroundRenderer = PIE.RendererBase.newRenderer( {
      * @param {Object} info The object holding the information about the gradient
      */
     addLinearGradient: function( shape, info ) {
-        var el = this.element,
-            w = el.offsetWidth,
-            h = el.offsetHeight,
+        var el = this.targetElement,
+            bounds = this.boundsInfo.getBounds(),
+            w = bounds.w,
+            h = bounds.h,
             fill = shape.fill,
             angle = info.angle,
             startPos = info.gradientStart,
             stops = info.stops,
             stopCount = stops.length,
             PI = Math.PI,
+            UNDEF,
             startX, startY,
             endX, endY,
             startCornerX, startCornerY,
@@ -2108,7 +2360,7 @@ PIE.BackgroundRenderer = PIE.RendererBase.newRenderer( {
 
         // Normalize the angle to a value between [0, 360)
         function normalizeAngle() {
-            if( angle < 0 ) {
+            while( angle < 0 ) {
                 angle += 360;
             }
             angle = angle % 360;
@@ -2162,8 +2414,14 @@ PIE.BackgroundRenderer = PIE.RendererBase.newRenderer( {
         deltaX = endX - startX;
         deltaY = endY - startY;
 
-        if( angle === undefined ) {
-            angle = -Math.atan2( deltaY, deltaX ) / PI * 180;
+        if( angle === UNDEF ) {
+            // Get the angle based on the change in x/y from start to end point. Checks first for horizontal
+            // or vertical angles so they get exact whole numbers rather than what atan2 gives.
+            angle = ( !deltaX ? ( deltaY < 0 ? 90 : 270 ) :
+                        ( !deltaY ? ( deltaX < 0 ? 180 : 0 ) :
+                            -Math.atan2( deltaY, deltaX ) / PI * 180
+                        )
+                    );
             normalizeAngle();
             findCorners();
         }
@@ -2174,8 +2432,9 @@ PIE.BackgroundRenderer = PIE.RendererBase.newRenderer( {
         // drawn diagonally from one corner to its opposite corner, which will only appear to the
         // viewer as 45 degrees if the shape is equilateral.  We adjust for this by taking the x/y deltas
         // between the start and end points, multiply one of them by the shape's aspect ratio,
-        // and get their arctangent, resulting in an appropriate VML angle.
-        vmlAngle = Math.atan2( deltaX * w / h, deltaY ) / PI * 180;
+        // and get their arctangent, resulting in an appropriate VML angle. If the angle is perfectly
+        // horizontal or vertical then we don't need to do this conversion.
+        vmlAngle = ( angle % 90 ) ? Math.atan2( deltaX * w / h, deltaY ) / PI * 180 : ( angle + 90 );
 
         // VML angles are 180 degrees offset from CSS angles
         vmlAngle += 180;
@@ -2232,14 +2491,14 @@ PIE.BackgroundRenderer = PIE.RendererBase.newRenderer( {
      * Hide the actual background image and color of the element.
      */
     hideBackground: function() {
-        var rs = this.element.runtimeStyle;
+        var rs = this.targetElement.runtimeStyle;
         rs.backgroundImage = 'url(about:blank)'; //ensures the background area reacts to mouse events
         rs.backgroundColor = 'transparent';
     },
 
     destroy: function() {
         PIE.RendererBase.destroy.call( this );
-        var rs = this.element.runtimeStyle;
+        var rs = this.targetElement.runtimeStyle;
         rs.backgroundImage = rs.backgroundColor = '';
     }
 
@@ -2253,8 +2512,31 @@ PIE.BackgroundRenderer = PIE.RendererBase.newRenderer( {
  */
 PIE.BorderRenderer = PIE.RendererBase.newRenderer( {
 
-    zIndex: 4,
+    boxZIndex: 4,
     boxName: 'border',
+
+    /**
+     * Lookup table of elements which cannot take custom children.
+     */
+    childlessElements: {
+        'TABLE':1, //can obviously have children but not custom ones
+        'INPUT':1,
+        'TEXTAREA':1,
+        'SELECT':1,
+        'OPTION':1,
+        'IMG':1,
+        'HR':1,
+        'FIELDSET':1 //can take children but wrapping its children messes up its <legend>
+    },
+
+    /**
+     * Values of the type attribute for input elements displayed as buttons
+     */
+    inputButtonTypes: {
+        'submit':1,
+        'button':1,
+        'reset':1
+    },
 
     needsUpdate: function() {
         var si = this.styleInfos;
@@ -2263,35 +2545,23 @@ PIE.BorderRenderer = PIE.RendererBase.newRenderer( {
 
     isActive: function() {
         var si = this.styleInfos;
-        return si.borderImageInfo.isActive() ||
-               si.borderRadiusInfo.isActive() ||
-               si.backgroundInfo.isActive();
+        return ( si.borderImageInfo.isActive() ||
+                 si.borderRadiusInfo.isActive() ||
+                 si.backgroundInfo.isActive() ) &&
+               si.borderInfo.isActive(); //check BorderStyleInfo last because it's the most expensive
     },
-
-    updateSize: function() {
-        if( this.isActive() ) {
-            this.drawBorder();
-        }
-    },
-
-    updateProps: function() {
-        this.destroy();
-        if( this.isActive() ) {
-            this.drawBorder();
-        }
-    },
-
 
     /**
      * Draw the border shape(s)
      */
-    drawBorder: function() {
-        var el = this.element,
+    draw: function() {
+        var el = this.targetElement,
             cs = el.currentStyle,
-            w = el.offsetWidth,
-            h = el.offsetHeight,
             props = this.styleInfos.borderInfo.getProps(),
-            side, shape, stroke, bColor, bWidth, bStyle, s,
+            bounds = this.boundsInfo.getBounds(),
+            w = bounds.w,
+            h = bounds.h,
+            side, shape, stroke, s,
             segments, seg, i, len;
 
         if( props ) {
@@ -2333,25 +2603,27 @@ PIE.BorderRenderer = PIE.RendererBase.newRenderer( {
      * by the border size.
      */
     hideBorder: function() {
-        var el = this.element,
+        var el = this.targetElement,
             cs = el.currentStyle,
             rs = el.runtimeStyle,
             tag = el.tagName,
+            isIE6 = PIE.ieVersion === 6,
             sides, side, i;
 
-        if( tag === 'BUTTON' || ( tag === 'INPUT' && el.type in { 'submit':1, 'button':1, 'reset':1 } ) ) {
+        if( ( isIE6 && tag in this.childlessElements ) || tag === 'BUTTON' ||
+                ( tag === 'INPUT' && el.type in this.inputButtonTypes ) ) {
             rs.borderWidth = '';
             sides = this.styleInfos.borderInfo.sides;
             for( i = sides.length; i--; ) {
                 side = sides[ i ];
                 rs[ 'padding' + side ] = '';
-                rs[ 'padding' + side ] = parseInt( cs[ 'padding' + side ] ) +
-                                         parseInt( cs[ 'border' + side + 'Width' ] ) +
-                                         ( !PIE.isIE8 && i % 2 ? 1 : 0 ); //needs an extra horizontal pixel to counteract the extra "inner border" going away
+                rs[ 'padding' + side ] = ( new PIE.Length( cs[ 'padding' + side ] ) ).pixels( el ) +
+                                         ( new PIE.Length( cs[ 'border' + side + 'Width' ] ) ).pixels( el ) +
+                                         ( !PIE.ieVersion === 8 && i % 2 ? 1 : 0 ); //needs an extra horizontal pixel to counteract the extra "inner border" going away
             }
             rs.borderWidth = 0;
         }
-        else if( PIE.isIE6 ) {
+        else if( isIE6 ) {
             // Wrap all the element's children in a custom element, set the element to visiblity:hidden,
             // and set the wrapper element to visiblity:visible. This hides the outer element's decorations
             // (background and border) but displays all the contents.
@@ -2360,7 +2632,7 @@ PIE.BorderRenderer = PIE.RendererBase.newRenderer( {
             // won't work for elements which cannot take children, e.g. input/button/textarea/img/etc. Look into
             // using a compositor filter or some other filter which masks the border.
             if( el.childNodes.length !== 1 || el.firstChild.tagName !== 'ie6-mask' ) {
-                var cont = el.document.createElement( 'ie6-mask' ),
+                var cont = doc.createElement( 'ie6-mask' ),
                     s = cont.style, child;
                 s.visibility = 'visible';
                 s.zoom = 1;
@@ -2383,11 +2655,12 @@ PIE.BorderRenderer = PIE.RendererBase.newRenderer( {
      * @return {Array.<string>}
      */
     getBorderSegments: function( mult ) {
-        var el = this.element,
-            elW, elH,
+        var el = this.targetElement,
+            bounds, elW, elH,
             borderInfo = this.styleInfos.borderInfo,
             segments = [],
             floor, ceil, wT, wR, wB, wL,
+            round = Math.round,
             borderProps, radiusInfo, radii, widths, styles, colors;
 
         if( borderInfo.isActive() ) {
@@ -2398,25 +2671,28 @@ PIE.BorderRenderer = PIE.RendererBase.newRenderer( {
             colors = borderProps.colors;
 
             if( borderProps.widthsSame && borderProps.stylesSame && borderProps.colorsSame ) {
-                // shortcut for identical border on all sides - only need 1 stroked shape
-                wT = widths['t'].pixels( el ); //thickness
-                wR = wT / 2; //shrink
-                segments.push( {
-                    path: this.getBoxPath( { t: wR, r: wR, b: wR, l: wR }, mult ),
-                    stroke: styles['t'],
-                    color: colors['t'],
-                    weight: wT
-                } );
+                if( colors['t'].alpha() > 0 ) {
+                    // shortcut for identical border on all sides - only need 1 stroked shape
+                    wT = widths['t'].pixels( el ); //thickness
+                    wR = wT / 2; //shrink
+                    segments.push( {
+                        path: this.getBoxPath( { t: wR, r: wR, b: wR, l: wR }, mult ),
+                        stroke: styles['t'],
+                        color: colors['t'],
+                        weight: wT
+                    } );
+                }
             }
             else {
                 mult = mult || 1;
-                elW = el.offsetWidth;
-                elH = el.offsetHeight;
+                bounds = this.boundsInfo.getBounds();
+                elW = bounds.w;
+                elH = bounds.h;
 
-                wT = widths['t'].pixels( el );
-                wR = widths['r'].pixels( el );
-                wB = widths['b'].pixels( el );
-                wL = widths['l'].pixels( el );
+                wT = round( widths['t'].pixels( el ) );
+                wR = round( widths['r'].pixels( el ) );
+                wB = round( widths['b'].pixels( el ) );
+                wL = round( widths['l'].pixels( el ) );
                 var pxWidths = {
                     't': wT,
                     'r': wR,
@@ -2489,7 +2765,7 @@ PIE.BorderRenderer = PIE.RendererBase.newRenderer( {
                         sideW = pxWidths[ side ],
                         beforeX, beforeY, afterX, afterY;
 
-                    if( sideW > 0 && styles[ side ] !== 'none' ) {
+                    if( sideW > 0 && styles[ side ] !== 'none' && colors[ side ].alpha() > 0 ) {
                         beforeX = pxWidths[ vert ? side : sideBefore ];
                         beforeY = pxWidths[ vert ? sideBefore : side ];
                         afterX = pxWidths[ vert ? side : sideAfter ];
@@ -2550,7 +2826,7 @@ PIE.BorderRenderer = PIE.RendererBase.newRenderer( {
 
     destroy: function() {
         PIE.RendererBase.destroy.call( this );
-        this.element.runtimeStyle.borderColor = '';
+        this.targetElement.runtimeStyle.borderColor = '';
     }
 
 
@@ -2564,104 +2840,94 @@ PIE.BorderRenderer = PIE.RendererBase.newRenderer( {
  */
 PIE.BorderImageRenderer = PIE.RendererBase.newRenderer( {
 
-    zIndex: 5,
+    boxZIndex: 5,
     pieceNames: [ 't', 'tr', 'r', 'br', 'b', 'bl', 'l', 'tl', 'c' ],
 
     needsUpdate: function() {
-        var si = this.styleInfos;
-        return si.borderImageInfo.changed() || si.borderImageInfo.changed();
+        return this.styleInfos.borderImageInfo.changed();
     },
 
     isActive: function() {
         return this.styleInfos.borderImageInfo.isActive();
     },
 
-    updateSize: function() {
-        if( this.isActive() ) {
-            var props = this.styleInfos.borderImageInfo.getProps(),
-                box = this.getBox(), //make sure pieces are created
-                el = this.element,
-                pieces = this.pieces;
+    draw: function() {
+        var props = this.styleInfos.borderImageInfo.getProps(),
+            bounds = this.boundsInfo.getBounds(),
+            box = this.getBox(), //make sure pieces are created
+            el = this.targetElement,
+            pieces = this.pieces;
 
-            PIE.Util.withImageSize( props.src, function( imgSize ) {
-                var elW = el.offsetWidth,
-                    elH = el.offsetHeight,
+        PIE.Util.withImageSize( props.src, function( imgSize ) {
+            var elW = bounds.w,
+                elH = bounds.h,
 
-                    widths = props.width,
-                    widthT = widths.t.pixels( el ),
-                    widthR = widths.r.pixels( el ),
-                    widthB = widths.b.pixels( el ),
-                    widthL = widths.l.pixels( el ),
-                    slices = props.slice,
-                    sliceT = slices.t.pixels( el ),
-                    sliceR = slices.r.pixels( el ),
-                    sliceB = slices.b.pixels( el ),
-                    sliceL = slices.l.pixels( el );
+                widths = props.width,
+                widthT = widths.t.pixels( el ),
+                widthR = widths.r.pixels( el ),
+                widthB = widths.b.pixels( el ),
+                widthL = widths.l.pixels( el ),
+                slices = props.slice,
+                sliceT = slices.t.pixels( el ),
+                sliceR = slices.r.pixels( el ),
+                sliceB = slices.b.pixels( el ),
+                sliceL = slices.l.pixels( el );
 
-                // Piece positions and sizes
-                function setSizeAndPos( piece, w, h, x, y ) {
-                    var s = pieces[piece].style;
-                    s.width = w;
-                    s.height = h;
-                    s.left = x;
-                    s.top = y;
+            // Piece positions and sizes
+            function setSizeAndPos( piece, w, h, x, y ) {
+                var s = pieces[piece].style;
+                s.width = w;
+                s.height = h;
+                s.left = x;
+                s.top = y;
+            }
+            setSizeAndPos( 'tl', widthL, widthT, 0, 0 );
+            setSizeAndPos( 't', elW - widthL - widthR, widthT, widthL, 0 );
+            setSizeAndPos( 'tr', widthR, widthT, elW - widthR, 0 );
+            setSizeAndPos( 'r', widthR, elH - widthT - widthB, elW - widthR, widthT );
+            setSizeAndPos( 'br', widthR, widthB, elW - widthR, elH - widthB );
+            setSizeAndPos( 'b', elW - widthL - widthR, widthB, widthL, elH - widthB );
+            setSizeAndPos( 'bl', widthL, widthB, 0, elH - widthB );
+            setSizeAndPos( 'l', widthL, elH - widthT - widthB, 0, widthT );
+            setSizeAndPos( 'c', elW - widthL - widthR, elH - widthT - widthB, widthL, widthT );
+
+
+            // image croppings
+            function setCrops( sides, crop, val ) {
+                for( var i=0, len=sides.length; i < len; i++ ) {
+                    pieces[ sides[i] ]['imagedata'][ crop ] = val;
                 }
-                setSizeAndPos( 'tl', widthL, widthT, 0, 0 );
-                setSizeAndPos( 't', elW - widthL - widthR, widthT, widthL, 0 );
-                setSizeAndPos( 'tr', widthR, widthT, elW - widthR, 0 );
-                setSizeAndPos( 'r', widthR, elH - widthT - widthB, elW - widthR, widthT );
-                setSizeAndPos( 'br', widthR, widthB, elW - widthR, elH - widthB );
-                setSizeAndPos( 'b', elW - widthL - widthR, widthB, widthL, elH - widthB );
-                setSizeAndPos( 'bl', widthL, widthB, 0, elH - widthB );
-                setSizeAndPos( 'l', widthL, elH - widthT - widthB, 0, widthT );
-                setSizeAndPos( 'c', elW - widthL - widthR, elH - widthT - widthB, widthL, widthT );
+            }
 
+            // corners
+            setCrops( [ 'tl', 't', 'tr' ], 'cropBottom', ( imgSize.h - sliceT ) / imgSize.h );
+            setCrops( [ 'tl', 'l', 'bl' ], 'cropRight', ( imgSize.w - sliceL ) / imgSize.w );
+            setCrops( [ 'bl', 'b', 'br' ], 'cropTop', ( imgSize.h - sliceB ) / imgSize.h );
+            setCrops( [ 'tr', 'r', 'br' ], 'cropLeft', ( imgSize.w - sliceR ) / imgSize.w );
 
-                // image croppings
-                function setCrops( sides, crop, val ) {
-                    for( var i=0, len=sides.length; i < len; i++ ) {
-                        pieces[ sides[i] ]['imagedata'][ crop ] = val;
-                    }
-                }
+            // edges and center
+            if( props.repeat.v === 'stretch' ) {
+                setCrops( [ 'l', 'r', 'c' ], 'cropTop', sliceT / imgSize.h );
+                setCrops( [ 'l', 'r', 'c' ], 'cropBottom', sliceB / imgSize.h );
+            }
+            if( props.repeat.h === 'stretch' ) {
+                setCrops( [ 't', 'b', 'c' ], 'cropLeft', sliceL / imgSize.w );
+                setCrops( [ 't', 'b', 'c' ], 'cropRight', sliceR / imgSize.w );
+            }
 
-                // corners
-                setCrops( [ 'tl', 't', 'tr' ], 'cropBottom', ( imgSize.h - sliceT ) / imgSize.h );
-                setCrops( [ 'tl', 'l', 'bl' ], 'cropRight', ( imgSize.w - sliceL ) / imgSize.w );
-                setCrops( [ 'bl', 'b', 'br' ], 'cropTop', ( imgSize.h - sliceB ) / imgSize.h );
-                setCrops( [ 'tr', 'r', 'br' ], 'cropLeft', ( imgSize.w - sliceR ) / imgSize.w );
-
-                // edges and center
-                if( props.repeat.v === 'stretch' ) {
-                    setCrops( [ 'l', 'r', 'c' ], 'cropTop', sliceT / imgSize.h );
-                    setCrops( [ 'l', 'r', 'c' ], 'cropBottom', sliceB / imgSize.h );
-                }
-                if( props.repeat.h === 'stretch' ) {
-                    setCrops( [ 't', 'b', 'c' ], 'cropLeft', sliceL / imgSize.w );
-                    setCrops( [ 't', 'b', 'c' ], 'cropRight', sliceR / imgSize.w );
-                }
-
-                // center fill
-                pieces['c'].style.display = props.fill ? '' : 'none';
-            }, this );
-        } else {
-            this.destroy();
-        }
-    },
-
-    updateProps: function() {
-        this.destroy();
-        if( this.isActive() ) {
-            this.updateSize();
-        }
+            // center fill
+            pieces['c'].style.display = props.fill ? '' : 'none';
+        }, this );
     },
 
     getBox: function() {
-        var box = this._box, s, piece, i,
+        var box = this.parent.getLayer( this.boxZIndex ),
+            s, piece, i,
             pieceNames = this.pieceNames,
             len = pieceNames.length;
 
         if( !box ) {
-            box = this._box = this.element.document.createElement( 'border-image' );
+            box = doc.createElement( 'border-image' );
             s = box.style;
             s.position = 'absolute';
 
@@ -2680,7 +2946,7 @@ PIE.BorderImageRenderer = PIE.RendererBase.newRenderer( {
                 box.appendChild( piece );
             }
 
-            this.parent.addLayer( this.zIndex, box )
+            this.parent.addLayer( this.boxZIndex, box );
         }
 
         return box;
@@ -2696,7 +2962,7 @@ PIE.BorderImageRenderer = PIE.RendererBase.newRenderer( {
  */
 PIE.BoxShadowOutsetRenderer = PIE.RendererBase.newRenderer( {
 
-    zIndex: 1,
+    boxZIndex: 1,
     boxName: 'outset-box-shadow',
 
     needsUpdate: function() {
@@ -2709,356 +2975,633 @@ PIE.BoxShadowOutsetRenderer = PIE.RendererBase.newRenderer( {
         return boxShadowInfo.isActive() && boxShadowInfo.getProps().outset[0];
     },
 
-    updateSize: function() {
-        if( this.isActive() ) {
-            var me = this,
-                el = this.element,
-                box = this.getBox(),
-                styleInfos = this.styleInfos,
-                shadowInfos = styleInfos.boxShadowInfo.getProps().outset,
-                radii = styleInfos.borderRadiusInfo.getProps(),
-                len = shadowInfos.length,
-                i = len, j,
-                w = el.offsetWidth,
-                h = el.offsetHeight,
-                clipAdjust = PIE.isIE8 ? 1 : 0, //workaround for IE8 bug where VML leaks out top/left of clip region by 1px
-                corners = [ 'tl', 'tr', 'br', 'bl' ], corner,
-                shadowInfo, shape, fill, ss, xOff, yOff, spread, blur, shrink, color, alpha, path,
-                totalW, totalH, focusX, focusY, isBottom, isRight;
+    draw: function() {
+        var me = this,
+            el = this.targetElement,
+            box = this.getBox(),
+            styleInfos = this.styleInfos,
+            shadowInfos = styleInfos.boxShadowInfo.getProps().outset,
+            radii = styleInfos.borderRadiusInfo.getProps(),
+            len = shadowInfos.length,
+            i = len, j,
+            bounds = this.boundsInfo.getBounds(),
+            w = bounds.w,
+            h = bounds.h,
+            clipAdjust = PIE.ieVersion === 8 ? 1 : 0, //workaround for IE8 bug where VML leaks out top/left of clip region by 1px
+            corners = [ 'tl', 'tr', 'br', 'bl' ], corner,
+            shadowInfo, shape, fill, ss, xOff, yOff, spread, blur, shrink, color, alpha, path,
+            totalW, totalH, focusX, focusY, isBottom, isRight;
 
 
-            function getShadowShape( index, corner, xOff, yOff, color, blur, path ) {
-                var shape = me.getShape( 'shadow' + index + corner, 'fill', box, len - index ),
-                    ss = shape.style,
-                    fill = shape.fill;
+        function getShadowShape( index, corner, xOff, yOff, color, blur, path ) {
+            var shape = me.getShape( 'shadow' + index + corner, 'fill', box, len - index ),
+                fill = shape.fill;
 
-                // Position and size
-                ss.left = xOff;
-                ss.top = yOff;
-                shape['coordsize'] = w * 2 + ',' + h * 2;
-                shape['coordorigin'] = '1,1';
+            // Position and size
+            shape['coordsize'] = w * 2 + ',' + h * 2;
+            shape['coordorigin'] = '1,1';
 
-                // Color and opacity
-                shape['stroked'] = false;
-                shape['filled'] = true;
-                fill.color = color.value( el );
-                if( blur ) {
-                    fill['type'] = 'gradienttitle'; //makes the VML gradient follow the shape's outline - hooray for undocumented features?!?!
-                    fill['color2'] = fill.color;
-                    fill['opacity'] = 0;
-                }
-
-                // Path
-                shape.path = path;
-
-                // This needs to go last for some reason, to prevent rendering at incorrect size
-                ss.width = w;
-                ss.height = h;
-
-                return shape;
+            // Color and opacity
+            shape['stroked'] = false;
+            shape['filled'] = true;
+            fill.color = color.value( el );
+            if( blur ) {
+                fill['type'] = 'gradienttitle'; //makes the VML gradient follow the shape's outline - hooray for undocumented features?!?!
+                fill['color2'] = fill.color;
+                fill['opacity'] = 0;
             }
 
+            // Path
+            shape.path = path;
 
-            while( i-- ) {
-                shadowInfo = shadowInfos[ i ];
-                xOff = shadowInfo.xOffset.pixels( el );
-                yOff = shadowInfo.yOffset.pixels( el );
-                spread = shadowInfo.spread.pixels( el ),
-                blur = shadowInfo.blur.pixels( el );
-                color = shadowInfo.color;
-                // Shape path
-                shrink = -spread - blur;
-                if( !radii && blur ) {
-                    // If blurring, use a non-null border radius info object so that getBoxPath will
-                    // round the corners of the expanded shadow shape rather than squaring them off.
-                    radii = PIE.BorderRadiusStyleInfo.ALL_ZERO;
-                }
-                path = this.getBoxPath( { t: shrink, r: shrink, b: shrink, l: shrink }, 2, radii );
+            // This needs to go last for some reason, to prevent rendering at incorrect size
+            ss = shape.style;
+            ss.left = xOff;
+            ss.top = yOff;
+            ss.width = w;
+            ss.height = h;
 
-                if( blur ) {
-                    totalW = ( spread + blur ) * 2 + w;
-                    totalH = ( spread + blur ) * 2 + h;
-                    focusX = blur * 2 / totalW;
-                    focusY = blur * 2 / totalH;
-                    if( blur - spread > w / 2 || blur - spread > h / 2 ) {
-                        // If the blur is larger than half the element's narrowest dimension, we cannot do
-                        // this with a single shape gradient, because its focussize would have to be less than
-                        // zero which results in ugly artifacts. Instead we create four shapes, each with its
-                        // gradient focus past center, and then clip them so each only shows the quadrant
-                        // opposite the focus.
-                        for( j = 4; j--; ) {
-                            corner = corners[j];
-                            isBottom = corner.charAt( 0 ) === 'b';
-                            isRight = corner.charAt( 1 ) === 'r';
-                            shape = getShadowShape( i, corner, xOff, yOff, color, blur, path );
-                            fill = shape.fill;
-                            fill['focusposition'] = ( isRight ? 1 - focusX : focusX ) + ',' +
-                                                    ( isBottom ? 1 - focusY : focusY );
-                            fill['focussize'] = '0,0';
+            return shape;
+        }
 
-                            // Clip to show only the appropriate quadrant. Add 1px to the top/left clip values
-                            // in IE8 to prevent a bug where IE8 displays one pixel outside the clip region.
-                            shape.style.clip = 'rect(' + ( ( isBottom ? totalH / 2 : 0 ) + clipAdjust ) + 'px,' +
-                                                         ( isRight ? totalW : totalW / 2 ) + 'px,' +
-                                                         ( isBottom ? totalH : totalH / 2 ) + 'px,' +
-                                                         ( ( isRight ? totalW / 2 : 0 ) + clipAdjust ) + 'px)';
-                        }
-                    } else {
-                        // TODO delete old quadrant shapes if resizing expands past the barrier
-                        shape = getShadowShape( i, '', xOff, yOff, color, blur, path );
+
+        while( i-- ) {
+            shadowInfo = shadowInfos[ i ];
+            xOff = shadowInfo.xOffset.pixels( el );
+            yOff = shadowInfo.yOffset.pixels( el );
+            spread = shadowInfo.spread.pixels( el ),
+            blur = shadowInfo.blur.pixels( el );
+            color = shadowInfo.color;
+            // Shape path
+            shrink = -spread - blur;
+            if( !radii && blur ) {
+                // If blurring, use a non-null border radius info object so that getBoxPath will
+                // round the corners of the expanded shadow shape rather than squaring them off.
+                radii = PIE.BorderRadiusStyleInfo.ALL_ZERO;
+            }
+            path = this.getBoxPath( { t: shrink, r: shrink, b: shrink, l: shrink }, 2, radii );
+
+            if( blur ) {
+                totalW = ( spread + blur ) * 2 + w;
+                totalH = ( spread + blur ) * 2 + h;
+                focusX = blur * 2 / totalW;
+                focusY = blur * 2 / totalH;
+                if( blur - spread > w / 2 || blur - spread > h / 2 ) {
+                    // If the blur is larger than half the element's narrowest dimension, we cannot do
+                    // this with a single shape gradient, because its focussize would have to be less than
+                    // zero which results in ugly artifacts. Instead we create four shapes, each with its
+                    // gradient focus past center, and then clip them so each only shows the quadrant
+                    // opposite the focus.
+                    for( j = 4; j--; ) {
+                        corner = corners[j];
+                        isBottom = corner.charAt( 0 ) === 'b';
+                        isRight = corner.charAt( 1 ) === 'r';
+                        shape = getShadowShape( i, corner, xOff, yOff, color, blur, path );
                         fill = shape.fill;
-                        fill['focusposition'] = focusX + ',' + focusY;
-                        fill['focussize'] = ( 1 - focusX * 2 ) + ',' + ( 1 - focusY * 2 );
+                        fill['focusposition'] = ( isRight ? 1 - focusX : focusX ) + ',' +
+                                                ( isBottom ? 1 - focusY : focusY );
+                        fill['focussize'] = '0,0';
+
+                        // Clip to show only the appropriate quadrant. Add 1px to the top/left clip values
+                        // in IE8 to prevent a bug where IE8 displays one pixel outside the clip region.
+                        shape.style.clip = 'rect(' + ( ( isBottom ? totalH / 2 : 0 ) + clipAdjust ) + 'px,' +
+                                                     ( isRight ? totalW : totalW / 2 ) + 'px,' +
+                                                     ( isBottom ? totalH : totalH / 2 ) + 'px,' +
+                                                     ( ( isRight ? totalW / 2 : 0 ) + clipAdjust ) + 'px)';
                     }
                 } else {
+                    // TODO delete old quadrant shapes if resizing expands past the barrier
                     shape = getShadowShape( i, '', xOff, yOff, color, blur, path );
-                    alpha = color.alpha();
-                    if( alpha < 1 ) {
-                        // shape.style.filter = 'alpha(opacity=' + ( alpha * 100 ) + ')';
-                        // ss.filter = 'progid:DXImageTransform.Microsoft.BasicImage(opacity=' + ( alpha  ) + ')';
-                        shape.fill.opacity = alpha;
-                    }
+                    fill = shape.fill;
+                    fill['focusposition'] = focusX + ',' + focusY;
+                    fill['focussize'] = ( 1 - focusX * 2 ) + ',' + ( 1 - focusY * 2 );
+                }
+            } else {
+                shape = getShadowShape( i, '', xOff, yOff, color, blur, path );
+                alpha = color.alpha();
+                if( alpha < 1 ) {
+                    // shape.style.filter = 'alpha(opacity=' + ( alpha * 100 ) + ')';
+                    // ss.filter = 'progid:DXImageTransform.Microsoft.BasicImage(opacity=' + ( alpha  ) + ')';
+                    shape.fill.opacity = alpha;
                 }
             }
-        } else {
-            this.destroy();
         }
-    },
-
-    updateProps: function() {
-        this.destroy();
-        this.updateSize();
     }
 
 } );
 /**
- * Renderer for inset box-shadows
+ * Renderer for re-rendering img elements using VML. Kicks in if the img has
+ * a border-radius applied, or if the -pie-png-fix flag is set.
  * @constructor
  * @param {Element} el The target element
  * @param {Object} styleInfos The StyleInfo objects
  * @param {PIE.RootRenderer} parent
  */
-PIE.BoxShadowInsetRenderer = PIE.RendererBase.newRenderer( {
+PIE.ImgRenderer = PIE.RendererBase.newRenderer( {
 
-    zIndex: 3,
-    boxName: 'inset-box-shadow',
+    boxZIndex: 6,
+    boxName: 'imgEl',
 
     needsUpdate: function() {
         var si = this.styleInfos;
-        return si.boxShadowInfo.changed() || si.borderRadiusInfo.changed();
+        return this.targetElement.src !== this._lastSrc || si.borderRadiusInfo.changed();
     },
 
     isActive: function() {
-        var boxShadowInfo = this.styleInfos.boxShadowInfo;
-        return boxShadowInfo.isActive() && boxShadowInfo.getProps().inset[0];
+        var si = this.styleInfos;
+        return si.borderRadiusInfo.isActive() || si.backgroundInfo.isPngFix();
     },
 
-    updateSize: function() {
-        // TODO
+    draw: function() {
+        this.hideActualImg();
+
+        var shape = this.getShape( 'img', 'fill', this.getBox() ),
+            fill = shape.fill,
+            bounds = this.boundsInfo.getBounds(),
+            w = bounds.w,
+            h = bounds.h,
+            borderProps = this.styleInfos.borderInfo.getProps(),
+            borderWidths = borderProps && borderProps.widths,
+            el = this.targetElement,
+            src = el.src,
+            round = Math.round,
+            s;
+
+        shape.stroked = false;
+        fill.type = 'frame';
+        fill.src = src;
+        fill.position = (0.5 / w) + ',' + (0.5 / h);
+        shape.coordsize = w * 2 + ',' + h * 2;
+        shape.coordorigin = '1,1';
+        shape.path = this.getBoxPath( borderWidths ? {
+            t: round( borderWidths['t'].pixels( el ) ),
+            r: round( borderWidths['r'].pixels( el ) ),
+            b: round( borderWidths['b'].pixels( el ) ),
+            l: round( borderWidths['l'].pixels( el ) )
+        } : 0, 2 );
+        s = shape.style;
+        s.width = w;
+        s.height = h;
+
+        this._lastSrc = src;
     },
 
-    updateProps: function() {
-        // TODO
+    hideActualImg: function() {
+        this.targetElement.runtimeStyle.filter = 'alpha(opacity=0)';
+    },
+
+    destroy: function() {
+        PIE.RendererBase.destroy.call( this );
+        this.targetElement.runtimeStyle.filter = '';
     }
-    
+
 } );
+
+PIE.Element = (function() {
+
+    var wrappers = {},
+        lazyInitCssProp = PIE.CSS_PREFIX + 'lazy-init',
+        hoverClass = ' ' + PIE.CLASS_PREFIX + 'hover',
+        hoverClassRE = new RegExp( '\\b' + PIE.CLASS_PREFIX + 'hover\\b', 'g' ),
+        ignorePropertyNames = { 'background':1, 'bgColor':1, 'display': 1 };
+
+
+    function addListener( el, type, handler ) {
+        el.attachEvent( type, handler );
+    }
+
+    function removeListener( el, type, handler ) {
+        el.detachEvent( type, handler );
+    }
+
+
+    function Element( el ) {
+        var renderers,
+            boundsInfo = new PIE.BoundsInfo( el ),
+            styleInfos,
+            styleInfosArr,
+            ancestors,
+            initializing,
+            initialized,
+            eventsAttached,
+            delayed,
+            destroyed;
+
+        /**
+         * Initialize PIE for this element.
+         */
+        function init() {
+            if( !initialized ) {
+                var docEl,
+                    bounds,
+                    lazy = el.currentStyle.getAttribute( lazyInitCssProp ) === 'true',
+                    rootRenderer;
+
+                // Force layout so move/resize events will fire. Set this as soon as possible to avoid layout changes
+                // after load, but make sure it only gets called the first time through to avoid recursive calls to init().
+                if( !initializing ) {
+                    initializing = 1;
+                    el.runtimeStyle.zoom = 1;
+                    initFirstChildPseudoClass();
+                }
+
+                boundsInfo.lock();
+
+                // If the -pie-lazy-init:true flag is set, check if the element is outside the viewport and if so, delay initialization
+                if( lazy && ( bounds = boundsInfo.getBounds() ) && ( docEl = doc.documentElement || doc.body ) &&
+                        ( bounds.y > docEl.clientHeight || bounds.x > docEl.clientWidth || bounds.y + bounds.h < 0 || bounds.x + bounds.w < 0 ) ) {
+                    if( !delayed ) {
+                        delayed = 1;
+                        PIE.OnScroll.observe( init );
+                    }
+                } else {
+                    initialized = 1;
+                    delayed = initializing = 0;
+                    PIE.OnScroll.unobserve( init );
+
+                    // Create the style infos and renderers
+                    styleInfos = {
+                        backgroundInfo: new PIE.BackgroundStyleInfo( el ),
+                        borderInfo: new PIE.BorderStyleInfo( el ),
+                        borderImageInfo: new PIE.BorderImageStyleInfo( el ),
+                        borderRadiusInfo: new PIE.BorderRadiusStyleInfo( el ),
+                        boxShadowInfo: new PIE.BoxShadowStyleInfo( el ),
+                        visibilityInfo: new PIE.VisibilityStyleInfo( el )
+                    };
+                    styleInfosArr = [
+                        styleInfos.backgroundInfo,
+                        styleInfos.borderInfo,
+                        styleInfos.borderImageInfo,
+                        styleInfos.borderRadiusInfo,
+                        styleInfos.boxShadowInfo,
+                        styleInfos.visibilityInfo
+                    ];
+
+                    rootRenderer = new PIE.RootRenderer( el, boundsInfo, styleInfos );
+                    var childRenderers = [
+                        new PIE.BoxShadowOutsetRenderer( el, boundsInfo, styleInfos, rootRenderer ),
+                        new PIE.BackgroundRenderer( el, boundsInfo, styleInfos, rootRenderer ),
+                        //new PIE.BoxShadowInsetRenderer( el, boundsInfo, styleInfos, rootRenderer ),
+                        new PIE.BorderRenderer( el, boundsInfo, styleInfos, rootRenderer ),
+                        new PIE.BorderImageRenderer( el, boundsInfo, styleInfos, rootRenderer )
+                    ];
+                    if( el.tagName === 'IMG' ) {
+                        childRenderers.push( new PIE.ImgRenderer( el, boundsInfo, styleInfos, rootRenderer ) );
+                    }
+                    rootRenderer.childRenderers = childRenderers; // circular reference, can't pass in constructor; TODO is there a cleaner way?
+                    renderers = [ rootRenderer ].concat( childRenderers );
+
+                    // Add property change listeners to ancestors if requested
+                    initAncestorPropChangeListeners();
+
+                    // Add to list of polled elements in IE8
+                    if( PIE.ie8DocMode === 8 ) {
+                        PIE.Heartbeat.observe( update );
+                    }
+
+                    // Trigger rendering
+                    update( 1 );
+                }
+
+                if( !eventsAttached ) {
+                    eventsAttached = 1;
+                    addListener( el, 'onmove', handleMoveOrResize );
+                    addListener( el, 'onresize', handleMoveOrResize );
+                    addListener( el, 'onpropertychange', propChanged );
+                    addListener( el, 'onmouseenter', mouseEntered );
+                    addListener( el, 'onmouseleave', mouseLeft );
+                    PIE.OnResize.observe( handleMoveOrResize );
+
+                    PIE.OnBeforeUnload.observe( removeEventListeners );
+                }
+
+                boundsInfo.unlock();
+            }
+        }
+
+
+
+
+        /**
+         * Event handler for onmove and onresize events. Invokes update() only if the element's
+         * bounds have previously been calculated, to prevent multiple runs during page load when
+         * the element has no initial CSS3 properties.
+         */
+        function handleMoveOrResize() {
+            if( boundsInfo && boundsInfo.hasBeenQueried() ) {
+                update();
+            }
+        }
+
+
+        /**
+         * Update position and/or size as necessary. Both move and resize events call
+         * this rather than the updatePos/Size functions because sometimes, particularly
+         * during page load, one will fire but the other won't.
+         */
+        function update( force ) {
+            if( !destroyed ) {
+                if( initialized ) {
+                    var i, len;
+
+                    lockAll();
+                    if( force || boundsInfo.positionChanged() ) {
+                        /* TODO just using getBoundingClientRect (used internally by BoundsInfo) for detecting
+                           position changes may not always be accurate; it's possible that
+                           an element will actually move relative to its positioning parent, but its position
+                           relative to the viewport will stay the same. Need to come up with a better way to
+                           track movement. The most accurate would be the same logic used in RootRenderer.updatePos()
+                           but that is a more expensive operation since it does some DOM walking, and we want this
+                           check to be as fast as possible. */
+                        for( i = 0, len = renderers.length; i < len; i++ ) {
+                            renderers[i].updatePos();
+                        }
+                    }
+                    if( force || boundsInfo.sizeChanged() ) {
+                        for( i = 0, len = renderers.length; i < len; i++ ) {
+                            renderers[i].updateSize();
+                        }
+                    }
+                    unlockAll();
+                }
+                else if( !initializing ) {
+                    init();
+                }
+            }
+        }
+
+        /**
+         * Handle property changes to trigger update when appropriate.
+         */
+        function propChanged() {
+            var i, len, renderer,
+                e = event;
+
+            // Some elements like <table> fire onpropertychange events for old-school background properties
+            // ('background', 'bgColor') when runtimeStyle background properties are changed, which
+            // results in an infinite loop; therefore we filter out those property names. Also, 'display'
+            // is ignored because size calculations don't work correctly immediately when its onpropertychange
+            // event fires, and because it will trigger an onresize event anyway.
+            if( !destroyed && !( e && e.propertyName in ignorePropertyNames ) ) {
+                if( initialized ) {
+                    lockAll();
+                    for( i = 0, len = renderers.length; i < len; i++ ) {
+                        renderer = renderers[i];
+                        // Make sure position is synced if the element hasn't already been rendered.
+                        // TODO this feels sloppy - look into merging propChanged and update functions
+                        if( !renderer.isPositioned ) {
+                            renderer.updatePos();
+                        }
+                        if( renderer.needsUpdate() ) {
+                            renderer.updateProps();
+                        }
+                    }
+                    unlockAll();
+                }
+                else if( !initializing ) {
+                    init();
+                }
+            }
+        }
+
+
+        function addHoverClass() {
+            el.className += hoverClass;
+        }
+
+        function removeHoverClass() {
+            el.className = el.className.replace( hoverClassRE, '' );
+        }
+
+        /**
+         * Handle mouseenter events. Adds a custom class to the element to allow IE6 to add
+         * hover styles to non-link elements, and to trigger a propertychange update.
+         */
+        function mouseEntered() {
+            //must delay this because the mouseenter event fires before the :hover styles are added.
+            setTimeout( addHoverClass, 0 );
+        }
+
+        /**
+         * Handle mouseleave events
+         */
+        function mouseLeft() {
+            //must delay this because the mouseleave event fires before the :hover styles are removed.
+            setTimeout( removeHoverClass, 0 );
+        }
+
+
+        /**
+         * Handle property changes on ancestors of the element; see initAncestorPropChangeListeners()
+         * which adds these listeners as requested with the -pie-watch-ancestors CSS property.
+         */
+        function ancestorPropChanged() {
+            var name = event.propertyName;
+            if( name === 'className' || name === 'id' ) {
+                propChanged();
+            }
+        }
+
+        function lockAll() {
+            boundsInfo.lock();
+            for( var i = styleInfosArr.length; i--; ) {
+                styleInfosArr[i].lock();
+            }
+        }
+
+        function unlockAll() {
+            for( var i = styleInfosArr.length; i--; ) {
+                styleInfosArr[i].unlock();
+            }
+            boundsInfo.unlock();
+        }
+
+
+        /**
+         * Remove all event listeners from the element and any monitoried ancestors.
+         */
+        function removeEventListeners() {
+            if (eventsAttached) {
+                if( ancestors ) {
+                    for( var i = 0, len = ancestors.length, a; i < len; i++ ) {
+                        a = ancestors[i];
+                        removeListener( a, 'onpropertychange', ancestorPropChanged );
+                        removeListener( a, 'onmouseenter', mouseEntered );
+                        removeListener( a, 'onmouseleave', mouseLeft );
+                    }
+                }
+
+                // Remove event listeners
+                removeListener( el, 'onmove', update );
+                removeListener( el, 'onresize', update );
+                removeListener( el, 'onpropertychange', propChanged );
+                removeListener( el, 'onmouseenter', mouseEntered );
+                removeListener( el, 'onmouseleave', mouseLeft );
+
+                PIE.OnBeforeUnload.unobserve( removeEventListeners );
+                eventsAttached = 0;
+            }
+        }
+
+
+        /**
+         * Clean everything up when the behavior is removed from the element, or the element
+         * is manually destroyed.
+         */
+        function destroy() {
+            if( !destroyed ) {
+                var i, len;
+
+                removeEventListeners();
+
+                destroyed = 1;
+
+                // destroy any active renderers
+                if( renderers ) {
+                    for( i = 0, len = renderers.length; i < len; i++ ) {
+                        renderers[i].destroy();
+                    }
+                }
+
+                // Remove from list of polled elements in IE8
+                if( PIE.ie8DocMode === 8 ) {
+                    PIE.Heartbeat.unobserve( update );
+                }
+                // Stop onresize listening
+                PIE.OnResize.unobserve( update );
+
+                // Kill references
+                renderers = boundsInfo = styleInfos = styleInfosArr = ancestors = el = null;
+            }
+        }
+
+
+        /**
+         * If requested via the custom -pie-watch-ancestors CSS property, add onpropertychange listeners
+         * to ancestor(s) of the element so we can pick up style changes based on CSS rules using
+         * descendant selectors.
+         */
+        function initAncestorPropChangeListeners() {
+            var watch = el.currentStyle.getAttribute( PIE.CSS_PREFIX + 'watch-ancestors' ),
+                i, a;
+            if( watch ) {
+                ancestors = [];
+                watch = parseInt( watch, 10 );
+                i = 0;
+                a = el.parentNode;
+                while( a && ( watch === 'NaN' || i++ < watch ) ) {
+                    ancestors.push( a );
+                    addListener( a, 'onpropertychange', ancestorPropChanged );
+                    addListener( a, 'onmouseenter', mouseEntered );
+                    addListener( a, 'onmouseleave', mouseLeft );
+                    a = a.parentNode;
+                }
+            }
+        }
+
+
+        /**
+         * If the target element is a first child, add a pie_first-child class to it. This allows using
+         * the added class as a workaround for the fact that PIE's rendering element breaks the :first-child
+         * pseudo-class selector.
+         */
+        function initFirstChildPseudoClass() {
+            var tmpEl = el,
+                isFirst = 1;
+            while( tmpEl = tmpEl.previousSibling ) {
+                if( tmpEl.nodeType === 1 ) {
+                    isFirst = 0;
+                    break;
+                }
+            }
+            if( isFirst ) {
+                el.className += ' ' + PIE.CLASS_PREFIX + 'first-child';
+            }
+        }
+
+
+        // These methods are all already bound to this instance so there's no need to wrap them
+        // in a closure to maintain the 'this' scope object when calling them.
+        this.init = init;
+        this.update = update;
+        this.destroy = destroy;
+        this.el = el;
+    }
+
+    Element.getInstance = function( el ) {
+        var id = PIE.Util.getUID( el );
+        return wrappers[ id ] || ( wrappers[ id ] = new Element( el ) );
+    };
+
+    Element.destroy = function( el ) {
+        var id = PIE.Util.getUID( el ),
+            wrapper = wrappers[ id ];
+        if( wrapper ) {
+            wrapper.destroy();
+            delete wrappers[ id ];
+        }
+    };
+
+    Element.destroyAll = function() {
+        var els = [], wrapper;
+        if( wrappers ) {
+            for( var w in wrappers ) {
+                if( wrappers.hasOwnProperty( w ) ) {
+                    wrapper = wrappers[ w ];
+                    els.push( wrapper.el );
+                    wrapper.destroy();
+                }
+            }
+            wrappers = {};
+        }
+        return els;
+    };
+
+    return Element;
+})();
+
+/*
+ * This file exposes the public API for invoking PIE.
+ */
+
+
+/**
+ * Programatically attach PIE to a single element.
+ * @param {Element} el
+ */
+PIE[ 'attach' ] = function( el ) {
+    if (PIE.ieVersion < 9) {
+        PIE.Element.getInstance( el ).init();
+    }
+};
+
+
+/**
+ * Programatically detach PIE from a single element.
+ * @param {Element} el
+ */
+PIE[ 'detach' ] = function( el ) {
+    PIE.Element.destroy( el );
+};
+
+
 } // if( !PIE )
-var lastW, lastH, lastX, lastY,
-    renderers,
-    styleInfos,
-    ancestors;
+var p = window['PIE'],
+    el = element;
 
-/**
- * Update position and/or size as necessary. Both move and resize events call
- * this rather than the updatePos/Size functions because sometimes, particularly
- * during page load, one will fire but the other won't.
- */
-function update() {
-    init();
-
-    /* TODO just using getBoundingClientRect may not always be accurate; it's possible that
-       an element will actually move relative to its positioning parent, but its position
-       relative to the viewport will stay the same. Need to come up with a better way to
-       track movement. The most accurate would be the same logic used in RootRenderer.updatePos()
-       but that is a more expensive operation since it does some DOM walking, and we want this
-       check to be as fast as possible. */
-    var rect = element.getBoundingClientRect(),
-        x = rect.left,
-        y = rect.top,
-        w = rect.right - x,
-        h = rect.bottom - y,
-        i, len;
-
-    if( x !== lastX || y !== lastY ) {
-        for( i = 0, len = renderers.length; i < len; i++ ) {
-            renderers[i].updatePos();
-        }
-        lastX = x;
-        lastY = y;
-    }
-    if( w !== lastW || h !== lastH ) {
-        for( i = 0, len = renderers.length; i < len; i++ ) {
-            renderers[i].updateSize();
-        }
-        lastW = w;
-        lastH = h;
-    }
-}
-
-/**
- * Handle property changes to trigger update when appropriate.
- */
-function propChanged() {
-    init();
-    var i, len,
-        toUpdate = [];
-    for( i = 0, len = renderers.length; i < len; i++ ) {
-        if( renderers[i].needsUpdate() ) {
-            toUpdate.push( renderers[i] );
-        }
-    }
-    for( i = 0, len = toUpdate.length; i < len; i++ ) {
-        toUpdate[i].updateProps();
-    }
-}
-
-
-/**
- * Handle mouseenter events. Adds a custom class to the element to allow IE6 to add
- * hover styles to non-link elements.
- */
-function mouseEntered() {
-    var el = event.srcElement;
-    el.className += ' ' + PIE.CLASS_PREFIX + 'hover';
-    //must delay this because the mouseleave event fires before the :hover styles are added.
-    setTimeout( propChanged, 0 );
-}
-/**
- * Handle mouseleave events
- */
-function mouseLeft() {
-    var el = event.srcElement;
-    el.className = el.className.replace( new RegExp( '\\b' + PIE.CLASS_PREFIX + 'hover\\b', 'g' ), '' );
-    //must delay this because the mouseleave event fires before the :hover styles are removed.
-    setTimeout( propChanged, 0 );
-}
-
-
-/**
- * Handle property changes on ancestors of the element; see initAncestorPropChangeListeners()
- * which adds these listeners as requested with the -pie-watch-ancestors CSS property.
- */
-function ancestorPropChanged() {
-    var name = event.propertyName;
-    if( name === 'className' || name === 'id' ) {
-        propChanged();
-    }
-}
-
-
-/**
- * Clean everything up when the behavior is removed from the element, or the element
- * is destroyed.
- */
-function cleanup() {
-    var i, len;
-
-    // destroy any active renderers
-    if( renderers ) {
-        for( i = 0, len = renderers.length; i < len; i++ ) {
-            renderers[i].destroy();
-        }
-        renderers = null;
-    }
-    
-    styleInfos = null;
-
-    // remove any ancestor propertychange listeners
-    if( ancestors ) {
-        for( i = 0, len = ancestors.length; i < len; i++ ) {
-            ancestors[i].detachEvent( 'onpropertychange', ancestorPropChanged );
-            ancestors[i].detachEvent( 'onmouseenter', mouseEntered );
-            ancestors[i].detachEvent( 'onmouseleave', mouseLeft );
-        }
-        ancestors = null;
-    }
-
-    // Add to list of polled elements in IE8
-    if( PIE.ie8DocMode === 8 ) {
-        PIE.ie8Poller.remove( update );
-    }
-}
-
-
-/**
- * If requested via the custom -pie-watch-ancestors CSS property, add onpropertychange listeners
- * to ancestor(s) of the element so we can pick up style changes based on CSS rules using
- * descendant selectors.
- */
-function initAncestorPropChangeListeners() {
-    var el = element,
-        watch = el.currentStyle.getAttribute( PIE.CSS_PREFIX + 'watch-ancestors' ),
-        i, a;
-    if( watch ) {
-        ancestors = [];
-        watch = parseInt( watch, 10 );
-        i = 0;
-        a = el.parentNode;
-        while( a && ( watch === 'NaN' || i++ < watch ) ) {
-            ancestors.push( a );
-            a.attachEvent( 'onpropertychange', ancestorPropChanged );
-            a.attachEvent( 'onmouseenter', mouseEntered );
-            a.attachEvent( 'onmouseleave', mouseLeft );
-            a = a.parentNode;
-        }
-    }
-}
-
-
-/**
- * Initialize PIE for this element.
- */
 function init() {
-    if( !renderers ) {
-        var el = element;
-
-        // force layout so move/resize events will fire
-        el.runtimeStyle.zoom = 1;
-
-        // Create the style infos and renderers
-        styleInfos = {
-            backgroundInfo: new PIE.BackgroundStyleInfo( el ),
-            borderInfo: new PIE.BorderStyleInfo( el ),
-            borderImageInfo: new PIE.BorderImageStyleInfo( el ),
-            borderRadiusInfo: new PIE.BorderRadiusStyleInfo( el ),
-            boxShadowInfo: new PIE.BoxShadowStyleInfo( el ),
-            visibilityInfo: new PIE.VisibilityStyleInfo( el )
-        };
-
-        var rootRenderer = new PIE.RootRenderer( el, styleInfos );
-        renderers = [
-            rootRenderer,
-            new PIE.BoxShadowOutsetRenderer( el, styleInfos, rootRenderer ),
-            new PIE.BackgroundRenderer( el, styleInfos, rootRenderer ),
-            new PIE.BoxShadowInsetRenderer( el, styleInfos, rootRenderer ),
-            new PIE.BorderRenderer( el, styleInfos, rootRenderer ),
-            new PIE.BorderImageRenderer( el, styleInfos, rootRenderer )
-        ];
-
-        // Add property change listeners to ancestors if requested
-        initAncestorPropChangeListeners();
-
-        // Add to list of polled elements in IE8
-        if( PIE.ie8DocMode === 8 ) {
-            PIE.ie8Poller.add( update );
-        }
+    if( doc.media !== 'print' ) { // IE strangely attaches a second copy of the behavior to elements when printing
+        p['attach']( el );
     }
 }
 
-
-if( element.readyState === 'complete' ) {
-    update();
+function cleanup() {
+    p['detach']( el );
+    p = el = 0;
 }
-    </script>
 
+if( el.readyState === 'complete' ) {
+    init();
+}
+</script>
 </PUBLIC:COMPONENT>
