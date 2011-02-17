@@ -4,7 +4,6 @@
 	<div class='datatableFooterMessage'>{$properties.show_footer_message}</div>
 {/if}
 
-
 {if $properties.show_offset_information}
 <span>
 	<span class="dataTablePages"></span>
@@ -24,6 +23,8 @@
 	<input type="submit" value="{'General_Search'|translate}" />
 </span>
 {/if}
+
+<span class="loadingPiwik" style='display:none'><img src="themes/default/images/loading-blue.gif" /> {'General_LoadingData'|translate}</span>
 
 {if $properties.show_footer_icons}
 	<div class="dataTableFooterIcons">
@@ -88,7 +89,6 @@
 	</div>
 {/if}
 
-<span class="loadingPiwik" style='display:none'><img src="themes/default/images/loading-blue.gif" /> {'General_LoadingData'|translate}</span>
 </div>
 
 <div class="dataTableSpacer"></div>
