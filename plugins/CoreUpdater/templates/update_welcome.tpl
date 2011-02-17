@@ -55,7 +55,7 @@
 
 	{if $coreToUpdate || count($pluginNamesToUpdate) > 0}
 		<br />
-		<form action="index.php">
+		<form action="index.php" id="upgradeCorePluginsForm">
 		<input type="hidden" name="updateCorePlugins" value="1" />
 		<input type="submit" class="submit" value="{'CoreUpdater_UpgradePiwik'|translate}" />
 		</form>
@@ -75,6 +75,7 @@
 
 {literal}
 <style type="text/css">
+submit 
 code {
 	background-color:#F0F7FF;
 	border-color:#00008B;
@@ -91,6 +92,9 @@ code {
 $(document).ready(function() {
  	$('#showSql').click( function () {
  		$('#sqlQueries').toggle(); 
+ 	});
+ 	$('#upgradeCorePluginsForm').submit(function(){
+ 	    $('input[type=submit]', this).attr('disabled', 'disabled');
  	});
 });
 </script>
