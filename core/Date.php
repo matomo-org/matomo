@@ -388,7 +388,7 @@ class Piwik_Date
 						date('i', $ts),
 						date('s', $ts),
 						date('n', $ts),
-						1,
+						$day,
 						date('Y', $ts)
 					);
 		return new Piwik_Date( $result, $this->timezone );
