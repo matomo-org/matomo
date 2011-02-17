@@ -29,6 +29,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 		$view->pisHalfhour = $this->getPageImpressionsInLastXMin(30);
 		$view->pisToday = $this->getPageImpressionsInLastXDays(1);
 		$view->visitors = $this->getLastVisitsStart($fetch = true);
+		$view->liveTokenAuth = Piwik::getCurrentUserTokenAuth();
 
 		echo $view->render();
 	}
