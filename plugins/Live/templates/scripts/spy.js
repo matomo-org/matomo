@@ -72,15 +72,14 @@ $.fn.spy = function(settings) {
 	spy.parseItem = function(e) {
 		if (o.method == 'html') {
 			// note: pre jq-1.0 doesn't return the object
-			var i = $('div#_spyTmp').find('div:first');//.remove();
+			var i = $('div#_spyTmp').find('div:first').remove();
 			if (i.size() > 0) {
-//				i.hide();
+				i.hide();
 				spy.addItem(e, i);
 			}
 			return ($('div#_spyTmp').find('div').size() != 0);
 		} else {
 			if (spy.json.length) {
-				alert(1);
 				var i = spy.json.shift();
 				spy.addItem(e, i);
 			}
@@ -92,7 +91,7 @@ $.fn.spy = function(settings) {
 	spy.addItem = function(e, i) {
 		if (! o.isDupe.call(this, i, spy.last)) {
 			spy.last = i; // note i is a pointer - so when it gets modified, so does spy.last
-//			$('#' + e.id + ' > div:gt(' + (o.limit) + ')').remove();
+			$('#' + e.id + ' > div:gt(' + (o.limit - 2) + ')').remove();
 			$('#' + e.id + ' > div:gt(' + (o.limit - o.fadeLast - 2) + ')').fadeEachDown();
 			o.push.call(e, i);
 			$('#' + e.id + ' > div:first').fadeIn(o.fadeInSpeed);
