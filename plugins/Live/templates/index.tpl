@@ -8,15 +8,15 @@ $(document).ready(function() {
 function initSpy()
 {
 	if($('#_spyTmp').size() == 0) {
-		$('#visitsLive > div:gt(2)').fadeEachDown(); // initial fade
+		//$('#visitsLive > div:gt(2)').fadeEachDown(); // initial fade
 		$('#visitsLive').spy({
 			limit: 10,
 			ajax: 'index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=getLastVisitsStart',
 			fadeLast: 2,
 			isDupe: check_for_dupe,
 			timeout: 8000,
-			customParameterName: 'minIdVisit',
-			customParameterValueCallback: lastIdVisit,
+			customParameterName: 'minTimestamp',
+			customParameterValueCallback: lastMinTimestamp,
 			fadeInSpeed: 600,
 			appendTo: 'div#content'
 		});

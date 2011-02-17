@@ -9,6 +9,9 @@
 // if I have a different entry.
 function check_for_dupe(prev, last)
 {
+	// delete existing rows for this updated visit
+	idVisit = $(last).attr('id');
+	if($('#'+idVisit)){ $('#'+idVisit).remove(); }
 	if (last.constructor == Object)	
 	{
 		return (prev.html() == last.html());
@@ -19,16 +22,18 @@ function check_for_dupe(prev, last)
 	}
 }
 
-
-function lastIdVisit()
+// Pass the most recent timestamp known to the API
+var liveMinTimestamp = 0;
+function lastMinTimestamp()
 {
 	updateTotalVisits();
 	updateVisitBox();
-
-	minIdVisit = $('#visitsLive > div:lt(2) .idvisit').html();
-	if(!isNaN(minIdVisit)&&parseInt(minIdVisit)==minIdVisit)
+	minTimestamp = $('#visitsLive > div:lt(1) .serverTimestamp').html();
+	if(!isNaN(minTimestamp)
+			&& parseInt(minTimestamp)==minTimestamp) 
 	{
-		return minIdVisit;
+		liveMinTimestamp = minTimestamp;
+		return liveMinTimestamp;
 	}
 	return false;
 }

@@ -15,12 +15,6 @@
  */
 class Piwik_Live_Controller extends Piwik_Controller
 {
-	function __construct()
-	{
-		parent::__construct();
-		$this->minIdVisit = Piwik_Common::getRequestVar('minIdVisit', 0, 'int');
-	}
-
 	function index()
 	{
 		$this->widget(true);
@@ -41,8 +35,6 @@ class Piwik_Live_Controller extends Piwik_Controller
 
 	public function getVisitorLog($fetch = false)
 	{
-		$limit = 20;
-		$_GET['limit'] = $limit;
 		$view = Piwik_ViewDataTable::factory();
 		$view->init( $this->pluginName,
 							__FUNCTION__,
@@ -57,10 +49,10 @@ class Piwik_Live_Controller extends Piwik_Controller
 		//'serverDatePretty', 'serverTimePretty', 'actionDetails'
 		$view->disableGenericFilters();
 		$view->disableSort();
-		$view->setLimit($limit);
 		$view->setTemplate("Live/templates/visitorLog.tpl");
 		$view->setSortedColumn('idVisit', 'ASC');
 		$view->disableSearchBox();
+		$view->setLimit(20);
 		$view->disableOffsetInformation();
 		// "Include low population" link won't be displayed under this table
 		$view->disableExcludeLowPopulation();
@@ -68,6 +60,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 		$view->disableShowAllViewsIcons();
 		// disable the button "show more datas"
 		$view->disableShowAllColumns();
+		
 		// disable the RSS feed
 		$view->disableShowExportAsRssFeed();
 		return $this->renderView($view, $fetch);
@@ -78,7 +71,9 @@ class Piwik_Live_Controller extends Piwik_Controller
 		$view = Piwik_View::factory('lastVisits');
 		$view->idSite = $this->idSite;
 
-		$view->visitors = $this->getLastVisits(10);
+		$api = new Piwik_API_Request("method=Live.getLastVisits&idSite=$this->idSite&limit=10&format=php&serialize=0&disable_generic_filters=1");
+		$visitors = $api->process();
+		$view->visitors = $visitors;
 
 		$rendered = $view->render($fetch);
 
@@ -87,14 +82,6 @@ class Piwik_Live_Controller extends Piwik_Controller
 			return $rendered;
 		}
 		echo $rendered;
-	}
-
-	public function getLastVisits($limit = 10)
-	{
-		$api = new Piwik_API_Request("method=Live.getLastVisits&idSite=$this->idSite&limit=$limit&format=php&serialize=0&disable_generic_filters=1");
-		$visitors = $api->process();
-
-		return $visitors;
 	}
 
 	public function getUsersInLastXMin($minutes = 30) {

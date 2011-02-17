@@ -395,7 +395,8 @@ dataTable.prototype =
 					$(this).unbind('click');
 					var offset = Number(self.param.filter_offset) - Number(self.param.filter_limit);
 					if(offset < 0) { offset = 0; }
-					self.param.filter_offset = offset; 
+					self.param.filter_offset = offset;
+					self.param.previous = 1;
 					self.reloadAjaxDataTable();
 				}
 			);

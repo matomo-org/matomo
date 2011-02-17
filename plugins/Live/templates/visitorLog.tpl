@@ -3,6 +3,7 @@
 <h2>{'Live_VisitorLog'|translate}</h2>
 <div id="{$properties.uniqueId}" class="visitorLog">
 
+{assign var=minIdVisit value=0}
 {if isset($arrayDataTable.result) and $arrayDataTable.result == 'error'}
 		{$arrayDataTable.message}
 	{else}
@@ -29,12 +30,17 @@
 	<tbody>
 
 {foreach from=$arrayDataTable item=visitor}
+{if $minIdVisit == 0 || $visitor.columns.idVisit < $minIdVisit}
+{assign var=minIdVisit value=$visitor.columns.idVisit}
+{/if}
+
 	<tr class="label{cycle values='odd,even'}">
 	<td style="display:none;"></td>
 	<td class="label" style="width:12%" width="12%">
 
 				<strong>{$visitor.columns.serverDatePretty} - {$visitor.columns.serverTimePretty}</strong>
 				{if !empty($visitor.columns.ip)} <br/>IP: {$visitor.columns.ip}{/if}
+				
 				{if (isset($visitor.columns.provider)&&$visitor.columns.provider!='IP')} 
 					<br />
 					{'Provider_ColumnProvider'|translate}: 
@@ -132,20 +138,22 @@
 	</tbody>
 	</table>
 
-		{/if}
-		
-		{if count($arrayDataTable) == 20}
-		{* We set a fake large rows count so that 'Next' paginate link is forced to display
-		   This is hard coded because the Visitor Log datatable is not fully loaded in memory, 
-		   but needs to fetch only the N rows in the logs
-		   *}
-		{php}$this->_tpl_vars['javascriptVariablesToSet']['totalRows'] = 100000; {/php}
-		{/if}
-		{if $properties.show_footer}
-			{include file="CoreHome/templates/datatable_footer.tpl"}
-		{/if}
-		{include file="CoreHome/templates/datatable_js.tpl"}
 	{/if}
+	{if count($arrayDataTable) == 20}
+	{* We set a fake large rows count so that 'Next' paginate link is forced to display
+	   This is hard coded because the Visitor Log datatable is not fully loaded in memory, 
+	   but needs to fetch only the N rows in the logs
+	   *}
+	{php}$this->_tpl_vars['javascriptVariablesToSet']['totalRows'] = 100000; {/php}
+	{/if}
+	{if $properties.show_footer}
+		{include file="CoreHome/templates/datatable_footer.tpl"}
+	{/if}
+	{include file="CoreHome/templates/datatable_js.tpl"}
+	<script type="text/javascript" defer="defer">
+		dataTables['{$properties.uniqueId}'].param.minIdVisit = {$minIdVisit};
+	</script>
+{/if}
 </div>
 
 {literal}
