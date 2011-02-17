@@ -42,6 +42,12 @@
 						{$visitor.columns.provider}
 					</a>
 				{/if}
+				{if !empty($visitor.columns.customVariables)}
+					<br/>
+					{foreach from=$visitor.columns.customVariables item=customVariable key=id}
+						<br/><acronym title="{'CustomVariables_CustomVariables'|translate} (index {$id})">{$customVariable.name}</acronym>: {$customVariable.value}
+					{/foreach}
+				{/if}
 				
 	</td>
 	<td class="label" style="width:13%" width="13%">

@@ -42,6 +42,7 @@ class Piwik_Live_Visitor
 			'idVisit' => $this->getIdVisit(),
 			'countActions' => $this->getNumberOfActions(),
 			'isVisitorReturning' => $this->isVisitorReturning(),
+			'customVariables' => $this->getCustomVariables(),
 			'country' => $this->getCountryName(),
 			'countryFlag' => $this->getCountryFlag(),
 			'continent' => $this->getContinent(),
@@ -154,6 +155,23 @@ class Piwik_Live_Visitor
 		return Piwik_ContinentTranslate($this->details['location_continent']);
 	}
 
+	function getCustomVariables()
+	{
+		$customVariables = array();
+		for($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++)
+		{
+			if(!empty($this->details['custom_var_k'.$i])
+				&& !empty($this->details['custom_var_v'.$i]))
+			{
+				$customVariables[$i] = array(
+					'name' => $this->details['custom_var_k'.$i],
+					'value' => $this->details['custom_var_v'.$i],
+				);
+			} 
+		}
+		return $customVariables;
+	}
+	
 	function getRefererType()
 	{
 	    return Piwik_getRefererTypeFromShortName($this->details['referer_type']);
