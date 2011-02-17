@@ -9,18 +9,22 @@
 // if I have a different entry.
 function check_for_dupe(prev, last)
 {
-	// delete existing rows for this updated visit
-	idVisit = $(last).attr('id');
-	if($('#'+idVisit)){ $('#'+idVisit).remove(); }
-	if (last.constructor == Object)	
-	{
-		return (prev.html() == last.html());
-	}
-	else 
-	{
-		return 0;
-	}
+//console.log(prev, last);//  idVisit = $(prev).attr('id');//
+
+//  if(idVisit && $('#'+idVisit)){ $('#'+idVisit).last().remove(); }
+idVisit = $(prev).attr('id');
+//console.log($('#'+idVisit));
+
+  if(idVisit && $('#'+idVisit)){
+    $('#'+idVisit).last().remove();
+  }
+  if(idVisit) {
+      return last.length >= 1 && (prev.html() == last.html());
+  }
+
+  return 0;
 }
+
 
 // Pass the most recent timestamp known to the API
 var liveMinTimestamp = 0;
