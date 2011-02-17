@@ -353,7 +353,16 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	$visitorB->setCustomVariable($id = 6, $name = array('not tracked'), $value = 'not tracked');
     	$visitorB->setUrl('http://example.org/homepage');
     	$this->checkResponse($visitorB->doTrackGoal($idGoal, 1000));
-		return $idSite;
+    	
+    	
+    	// DIFFERENT TEST -
+    	// Testing that starting the visit with an outlink works (doesn't trigger errors)
+        $visitorB = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+    	$visitorB->setUserAgent('Opera/9.30 (Nintendo Wii; U; ; 2047-7; en)');
+    	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(2)->getDatetime());
+    	$this->checkResponse($visitorB->doTrackAction('http://test.com', 'link'));
+
+    	return $idSite;
 	}
 	
 	function test_twoVisitsWithCustomVariables()
