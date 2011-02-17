@@ -111,7 +111,33 @@ class Piwik_Updates_1_2_rc1 extends Piwik_Updates
 
 	static function update()
 	{
+		// first we disable the plugins and keep an array of warnings messages 
+		$pluginsToDisableMessage = array(
+			'GeoIP' => "GeoIP plugin was disabled, because it is not compatible with the new Piwik 1.2. \nYou can download the latest version of the plugin, compatible with Piwik 1.2.\n<a target='_blank' href='?module=Proxy&action=redirect&url=http://dev.piwik.org/trac/ticket/45'>Click here.</a>",
+			'EntryPage' => "EntryPage plugin is not compatible with this version of Piwik, it was disabled.",
+		);
+		$disabledPlugins = array();
+		foreach($pluginsToDisableMessage as $pluginToDisable => $warningMessage) 
+		{
+			if(Piwik_PluginsManager::getInstance()->isPluginActivated($pluginToDisable))
+			{
+				Piwik_PluginsManager::getInstance()->deactivatePlugin($pluginToDisable);
+				$disabledPlugins[] = $warningMessage;
+			}
+		}
+		
+		// Run the SQL
 		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+		
+		// Outputs warning message, pointing users to the plugin download page
+		if(!empty($disabledPlugins))
+		{
+			throw new Exception("The following plugins were disabled during the upgrade:"
+							."<ul><li>" . 
+								implode('</li><li>', $disabledPlugins) . 
+							"</li></ul>");
+		}
+		
 	}
 }
 
