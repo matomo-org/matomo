@@ -212,18 +212,28 @@ class Piwik_Live_API
 			$where[] = Piwik_Common::prefixTable('log_visit') . ".idvisit > ? ";
 			$whereBind[] = $minIdVisit;
 		}
+		
+		// If no other filter, only look at the last 24 hours of stats
+		if(empty($visitorId)
+			&& empty($minIdVisit)
+			&& empty($offset)
+			&& empty($period) 
+			&& empty($date))
+		{
+			$period = 'day';
+			// This means the period starts 24 hours, so we lookup only 1 day
+			$date = 'yesterdaySameTime';
+		}
 
 		// SQL Filter with provided period
 		if (!empty($period) && !empty($date))
 		{
-
 			$currentSite = new Piwik_Site($idSite);
 			$currentTimezone = $currentSite->getTimezone();
 
-			$processedDate = Piwik_Date::factory($date)->setTimezone($currentTimezone);
+			$processedDate = Piwik_Date::factory($date, $currentTimezone);//->setTimezone($currentTimezone);
 			$processedPeriod = Piwik_Period::factory($period, $processedDate);
-
-			array_push(     $where, Piwik_Common::prefixTable('log_visit') . ".visit_first_action_time BETWEEN ? AND ?");
+			array_push(     $where, Piwik_Common::prefixTable('log_visit') . ".visit_last_action_time BETWEEN ? AND ?");
 			array_push(     $whereBind,
 				$processedPeriod->getDateStart()->toString('Y-m-d H:i:s'),
 				$processedPeriod->getDateEnd()->addDay(1)->toString('Y-m-d H:i:s')
@@ -233,7 +243,9 @@ class Piwik_Live_API
 		$sqlWhere = "";
 		if(count($where) > 0)
 		{
-			$sqlWhere = " WHERE " . join(' AND ', $where);
+			$sqlWhere = "
+			WHERE " . join(" 
+				AND ", $where);
 		}
 
 		// Group by idvisit so that a visitor converting 2 goals only appears twice
@@ -254,7 +266,8 @@ class Piwik_Live_API
 					$sqlWhere
 				GROUP BY idvisit
 				ORDER BY visit_last_action_time DESC";
-
+//var_dump($sql);
+//var_dump($whereBind);
 		if(!empty($limit))
 		{
 			$offsetSql = '';
@@ -267,7 +280,7 @@ class Piwik_Live_API
 		}
 		$data = Piwik_FetchAll($sql, $whereBind);
 		
-//		var_dump($whereBind); echo($sql);var_dump($data);
+//		echo($sql);var_dump($data);
 		return $data;
 	}
 
