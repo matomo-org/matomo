@@ -16,6 +16,7 @@ $translations = array(
 	'General_Settings' => 'Settings',
 	'General_GiveUsYourFeedback' => 'Give us Feedback!',
 	'General_Unknown' => 'Unknown',
+	'General_Never' => 'Never',
 	'General_Required' => '%s required',
 	'General_NotValid' => '%s is not valid',
 	'General_Id' => 'Id',
