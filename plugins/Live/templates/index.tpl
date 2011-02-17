@@ -11,7 +11,7 @@ function initSpy()
 		//$('#visitsLive > div:gt(2)').fadeEachDown(); // initial fade
 		$('#visitsLive').spy({
 			limit: 10,
-			ajax: 'index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=getLastVisitsStart',
+			ajax: 'index.php?module=Live&idSite={/literal}{$idSite}{if !empty($liveTokenAuth)}&token_auth={$liveTokenAuth}{/if}{literal}&action=getLastVisitsStart',
 			fadeLast: 2,
 			isDupe: check_for_dupe,
 			timeout: 8000,
@@ -26,12 +26,12 @@ function initSpy()
 //updates the numbers of total visits in startbox
 function updateTotalVisits()
 {
-	$("#visitsTotal").load("index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=ajaxTotalVisitors");
+	$("#visitsTotal").load("index.php?module=Live&idSite={/literal}{$idSite}{if !empty($liveTokenAuth)}&token_auth={$liveTokenAuth}{/if}{literal}&action=ajaxTotalVisitors");
 }
 //updates the visit table, to refresh the already presented visitors pages
 function updateVisitBox()
 {
-	$("#visitsLive").load("index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=getLastVisitsStart");
+	$("#visitsLive").load("index.php?module=Live&idSite={/literal}{$idSite}{if !empty($liveTokenAuth)}&token_auth={$liveTokenAuth}{/if}{literal}&action=getLastVisitsStart");
 }
 </script>
 {/literal}
