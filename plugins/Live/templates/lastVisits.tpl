@@ -2,6 +2,7 @@
 	<div id="{$visitor.idVisit}" class="visit{if $visitor.idVisit % 2} alt{/if}">
 		<div style="display:none" class="idvisit">{$visitor.idVisit}</div>
 			<div class="datetime">
+				<span style='display:none' class='serverTimestamp'>{$visitor.serverTimestamp}</span>
 				{$visitor.serverDatePretty} - {$visitor.serverTimePretty} ({$visitor.visitLengthPretty})
 				&nbsp;<img src="{$visitor.countryFlag}" title="{$visitor.country}, {'Provider_ColumnProvider'|translate} {$visitor.provider}" />
 				&nbsp;<img src="{$visitor.browserIcon}" title="{$visitor.browser}, {'UserSettings_Plugins'|translate}: {$visitor.plugins}" />
