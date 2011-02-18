@@ -35,7 +35,8 @@ Piwik.addPlugin('testPlugin', {
 				'_domainFixup : domainFixup,' +
 				'_sha1 : sha1,' +
 				'_utf8_encode : utf8_encode,' +
-				'_purify : purify' +
+				'_purify : purify,' +
+				'_addEventListener : addEventListener' +
 			'}'
 		);
 	},
@@ -50,15 +51,15 @@ Piwik.addPlugin('testPlugin', {
 	 * - returns URL components to be appended to tracker URL
 	 */
 	log: function () {
-		return '';
+		return '&testlog=' + encodeURIComponent('{"token":"' + getToken() + '"}');
 	},
 
 	/*
 	 * function called on trackLink() or click event
 	 * - returns URL components to be appended to tracker URL
 	 */
-	click: function () {
-		return '&testdata=' + encodeURIComponent('{"token":"' + getToken() + '"}');
+	link: function () {
+		return '&testlink=' + encodeURIComponent('{"token":"' + getToken() + '"}');
 	},
 
 	/*
@@ -66,7 +67,7 @@ Piwik.addPlugin('testPlugin', {
 	 * - returns URL components to be appended to tracker URL
 	 */
 	goal: function () {
-		return '&testdata=' + encodeURIComponent('{"token":"' + getToken() + '"}');
+		return '&testgoal=' + encodeURIComponent('{"token":"' + getToken() + '"}');
 	},
 
 	/*

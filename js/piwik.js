@@ -22,14 +22,11 @@
 /************************************************************
  * JSON - public domain reference implementation by Douglas Crockford
  * @link http://www.JSON.org/json2.js
- *
- * Modifications against json2.js 2011-01-18:
- * - handle case JSON already defined (e.g., ECMAScript 5)
- * - use new RegExp(pattern) instead of /pattern/ for greater portability
  ************************************************************/
 /*jslint evil: true, strict: true, regexp: false */
-if (!this.JSON) {
-    this.JSON = {};
+/*global JSON2 */
+if (!this.JSON2) {
+	this.JSON2 = {};
 }
 
 (function () {
@@ -60,8 +57,8 @@ if (!this.JSON) {
             };
     }
 
-    var cx = new RegExp("[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]", 'g'),
-        escapable = new RegExp("[\\\\\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]", 'g'),
+    var cx = new RegExp('[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]', 'g'),
+        escapable = new RegExp('[\\\\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]', 'g'),
         gap,
         indent,
         meta = {    // table of character substitutions
@@ -218,8 +215,8 @@ if (!this.JSON) {
 
 // If the JSON object does not yet have a stringify method, give it one.
 
-    if (typeof JSON.stringify !== 'function') {
-        JSON.stringify = function (value, replacer, space) {
+    if (typeof JSON2.stringify !== 'function') {
+        JSON2.stringify = function (value, replacer, space) {
 
 // The stringify method takes a value and an optional replacer, and an optional
 // space parameter, and returns a JSON text. The replacer can be a function
@@ -265,8 +262,8 @@ if (!this.JSON) {
 
 // If the JSON object does not yet have a parse method, give it one.
 
-    if (typeof JSON.parse !== 'function') {
-        JSON.parse = function (text, reviver) {
+    if (typeof JSON2.parse !== 'function') {
+        JSON2.parse = function (text, reviver) {
 
 // The parse method takes a text and an optional reviver function, and returns
 // a JavaScript value if the text is a valid JSON text.
@@ -323,7 +320,7 @@ if (!this.JSON) {
 
             if ((new RegExp('^[\\],:{}\\s]*$'))
                     .test(text.replace(new RegExp('\\\\(?:["\\\\/bfnrt]|u[0-9a-fA-F]{4})', 'g'), '@')
-                        .replace(new RegExp('"[^"\\\\n\\r]*"|true|false|null|-?\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d+)?', 'g'), ']')
+                        .replace(new RegExp('"[^"\\\\\n\r]*"|true|false|null|-?\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d+)?', 'g'), ']')
                         .replace(new RegExp('(?:^|:|,)(?:\\s*\\[)+', 'g'), ''))) {
 
 // In the third stage we use the eval function to compile the text into a
@@ -379,14 +376,10 @@ var
 			hasLoaded = false,
 			registeredOnLoadHandlers = [],
 
-			/*
-			 * encode
-			 */
+			/* encode */
 			encodeWrapper = windowAlias.encodeURIComponent,
 
-			/*
-			 * decode
-			 */
+			/* decode */
 			decodeWrapper = windowAlias.decodeURIComponent,
 
 			/* asynchronous tracker */
@@ -435,7 +428,7 @@ var
 		 * @param array parameterArray An array comprising either:
 		 *      [ 'methodName', optional_parameters ]
 		 * or:
-		 *      [ functionObject, optional_parameters ] 
+		 *      [ functionObject, optional_parameters ]
 		 */
 		function apply(parameterArray) {
 			var f = parameterArray.shift();
@@ -465,7 +458,9 @@ var
 		 * Call plugin hook methods
 		 */
 		function executePluginMethod(methodName, callback) {
-			var result = '', i, pluginMethod;
+			var result = '',
+				i,
+				pluginMethod;
 
 			for (i in plugins) {
 				pluginMethod = plugins[i][methodName];
@@ -479,8 +474,14 @@ var
 
 		/*
 		 * Handle beforeunload event
+		 *
+		 * Subject to Safari's "Runaway JavaScript Timer" and
+		 * Chrome V8 extension that terminates JS that exhibits
+		 * "slow unload", i.e., calling getTime() > 1000 times
 		 */
 		function beforeUnloadHandler() {
+			var now;
+
 			executePluginMethod('unload');
 
 			/*
@@ -488,9 +489,8 @@ var
 			 */
 			if (expireDateTime) {
 				// the things we do for backwards compatibility...
-				// in ECMA-262 5th ed., we could simply use:  while (Date.now() < expireDateTime) { }
-				var now;
-
+				// in ECMA-262 5th ed., we could simply use:
+				//     while (Date.now() < expireDateTime) { }
 				do {
 					now = new Date();
 				} while (now.getTime() < expireDateTime);
@@ -544,6 +544,17 @@ var
 					}());
 				}
 			}
+
+			// sniff for older WebKit versions
+			if ((new RegExp('WebKit')).test(navigatorAlias.userAgent)) {
+				var _timer = setInterval(function() {
+					if (hasLoaded || /loaded|complete/.test(documentAlias.readyState)) {
+						clearInterval(_timer);
+						loadHandler();
+					}
+				}, 10);
+			}
+
 			// fallback
 			addEventListener(windowAlias, 'load', loadHandler, false);
 		}
@@ -586,11 +597,11 @@ var
 		/*
 		 * Extract parameter from URL
 		 */
-		function getParameter(url, varName) {
+		function getParameter(url, name) {
 			// scheme : // [username [: password] @] hostame [: port] [/ [path] [? query] [# fragment]]
 			var e = new RegExp('^(?:https?|ftp)(?::/*(?:[^?]+)[?])([^#]+)'),
 				matches = e.exec(url),
-				f = new RegExp('(?:^|&)' + varName + '=([^&]*)'),
+				f = new RegExp('(?:^|&)' + name + '=([^&]*)'),
 				result = matches ? f.exec(matches[1]) : 0;
 
 			return result ? decodeWrapper(result[1]) : '';
@@ -625,7 +636,7 @@ var
 
 			return cookieMatch ? decodeWrapper(cookieMatch[2]) : 0;
 		}
-		
+
 		/*
 		 * UTF-8 encoding
 		 */
@@ -650,7 +661,7 @@ var
 				},
 
 				cvt_hex = function (val) {
-					var str = "",
+					var str = '',
 						i,
 						v;
 
@@ -781,16 +792,16 @@ var
 		 * Fix-up URL when page rendered from search engine cache or translated page
 		 */
 		function urlFixup(hostName, href, referrer) {
-			if (hostName === 'webcache.googleusercontent.com' ||			// Google
-					hostName === 'cc.bingj.com' ||							// Bing
-					hostName.slice(0, 5) === '74.6.') {					// Yahoo (via Inktomi 74.6.0.0/16)
-				href = documentAlias.links[0].href;
-				hostName = getHostName(href);
-			} else if (hostName === 'translate.googleusercontent.com') {	// Google
+			if (hostName === 'translate.googleusercontent.com') {		// Google
 				if (referrer === '') {
 					referrer = href;
 				}
 				href = getParameter(href, 'u');
+				hostName = getHostName(href);
+			} else if (hostName === 'cc.bingj.com' ||					// Bing
+					hostName === 'webcache.googleusercontent.com' ||	// Google
+					hostName.slice(0, 5) === '74.6.') {					// Yahoo (via Inktomi 74.6.0.0/16)
+				href = documentAlias.links[0].href;
 				hostName = getHostName(href);
 			}
 			return [hostName, href, referrer];
@@ -874,6 +885,9 @@ var
 				// Disallow hash tags in URL
 				configDiscardHashTag,
 
+				// Custom data
+				configCustomData,
+
 				// First-party cookie name prefix
 				configCookieNamePrefix = '_pk_',
 
@@ -905,26 +919,9 @@ var
 
 				// Custom Variables names and values are each truncated before being sent in the request or recorded in the cookie
 				customVariableMaximumLength = 100,
-			
-				// Client-side data collection
-				browserHasCookies = '0',
 
-				// Plugin, Parameter name, MIME type, detected
-				pluginMap = {
-					// document types
-					pdf:         ['pdf',   'application/pdf',               '0'],
-					// media players
-					quicktime:   ['qt',    'video/quicktime',               '0'],
-					realplayer:  ['realp', 'audio/x-pn-realaudio-plugin',   '0'],
-					wma:         ['wma',   'application/x-mplayer2',        '0'],
-					// interactive multimedia 
-					director:    ['dir',   'application/x-director',        '0'],
-					flash:       ['fla',   'application/x-shockwave-flash', '0'],
-					// RIA
-					java:        ['java',  'application/x-java-vm',         '0'],
-					gears:       ['gears', 'application/x-googlegears',     '0'],
-					silverlight: ['ag',    'application/x-silverlight',     '0']
-				},
+				// Browser features  via client-side data collection
+				browserFeatures = {},
 
 				// Guard against installing the link tracker more than once per Tracker instance
 				linkTrackingInstalled = false,
@@ -938,9 +935,6 @@ var
 				// Internal state of the pseudo click handler
 				lastButton,
 				lastTarget,
-
-				// Visitor ID
-				visitorId,
 
 				// Hash function
 				hash = sha1,
@@ -965,7 +959,11 @@ var
 			 * Is the host local?  (i.e., not an outlink)
 			 */
 			function isSiteHostName(hostName) {
-				var i, alias, offset;
+				var i,
+					j,
+					alias,
+					offset,
+					wildcards = [ '.', '*.' ];
 
 				for (i = 0; i < configHostsAlias.length; i++) {
 					alias = configHostsAlias[i].toLowerCase();
@@ -974,14 +972,16 @@ var
 						return true;
 					}
 
-					if (alias.slice(0, 2) === '*.') {
-						if (hostName === alias.slice(2)) {
-							return true;
-						}
+					for (j = 0; j < 2; j++) {
+						if (alias.slice(0, j + 1) === wildcards[j]) {
+							if (hostName === alias.slice(j + 1)) {
+								return true;
+							}
 
-						offset = hostName.length - alias.length + 1;
-						if ((offset > 0) && (hostName.slice(offset) === alias.slice(1))) {
-							return true;
+							offset = hostName.length - alias.length + j;
+							if ((offset > 0) && (hostName.slice(offset) === alias.slice(j))) {
+								return true;
+							}
 						}
 					}
 				}
@@ -990,7 +990,7 @@ var
 
 			/*
 			 * Send image request to Piwik server using GET.
-			 * The infamous web bug is a transparent, single pixel (1x1) image
+			 * The infamous web bug (or beacon) is a transparent, single pixel (1x1) image
 			 */
 			function getImage(request) {
 				var image = new Image(1, 1);
@@ -1013,8 +1013,9 @@ var
 
 					xhr.open('POST', configTrackerUrl, true);
 					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-					xhr.setRequestHeader('Content-Length', request.length);
-					xhr.setRequestHeader('Connection', 'close');
+					// Safari: unsafe headers
+//					xhr.setRequestHeader('Content-Length', request.length);
+//					xhr.setRequestHeader('Connection', 'close');
 					xhr.send(request);
 				} catch (e) {
 					// fallback
@@ -1036,35 +1037,6 @@ var
 					}
 
 					expireDateTime = now.getTime() + delay;
-				}
-			}
-
-			/*
-			 * Browser plugin tests
-			 */
-			function detectBrowserPlugins() {
-				var i, mimeType;
-
-				// Safari and Opera
-				// IE6/IE7 navigator.javaEnabled can't be aliased, so test directly
-				if (typeof navigator.javaEnabled !== 'unknown' &&
-						isDefined(navigatorAlias.javaEnabled) &&
-						navigatorAlias.javaEnabled()) {
-					pluginMap.java[2] = '1';
-				}
-
-				// Firefox
-				if (isFunction(windowAlias.GearsFactory)) {
-					pluginMap.gears[2] = '1';
-				}
-
-				if (navigatorAlias.mimeTypes && navigatorAlias.mimeTypes.length) {
-					for (i in pluginMap) {
-						mimeType = navigatorAlias.mimeTypes[pluginMap[i][1]];
-						if (mimeType && mimeType.enabledPlugin) {
-							pluginMap[i][2] = '1';
-						}
-					}
 				}
 			}
 
@@ -1104,8 +1076,7 @@ var
 					cookie = getCookie(cookieName);
 
 				if (cookie.length) {
-					//JSON.parse doesn't work in IE and Opera for an unknown reason - see comment in #2072
-					cookie = eval('('+cookie+')');
+					cookie = JSON2.parse(cookie);
 					if (isObject(cookie)) {
 						return cookie;
 					}
@@ -1133,16 +1104,58 @@ var
 			}
 
 			/*
-			 * Returns the URL to call piwik.php, 
+			 * Load visitor ID cookie
+			 */
+			function loadVisitorId() {
+				var now = new Date(),
+					nowTs = Math.round(now.getTime() / 1000),
+					id = getCookie(getCookieName('id')),
+					tmpContainer;
+
+				if (id) {
+					tmpContainer = id.split('.');
+
+					// returning visitor
+					tmpContainer.unshift('0');
+				} else {
+					tmpContainer = [
+						// new visitor
+						'1',
+
+						// uuid - generate a pseudo-unique ID to fingerprint this user;
+						// note: this isn't a RFC4122-compliant UUID
+						hash(
+							(navigatorAlias.userAgent || '') +
+								(navigatorAlias.platform || '') +
+								JSON2.stringify(browserFeatures) + nowTs
+						).slice(0, 16), // 16 hexits = 64 bits
+
+						// creation timestamp - seconds since Unix epoch
+						nowTs,
+
+						// visitCount - 0 = no previous visit
+						0,
+
+						// current visit timestamp
+						nowTs,
+
+						// last visit timestamp - blank = no previous visit
+						''
+					];
+				}
+
+				return tmpContainer;
+			}
+
+			/*
+			 * Returns the URL to call piwik.php,
 			 * with the standard parameters (plugins, resolution, url, referrer, etc.).
 			 * Sends the pageview and browser settings with every request in case of race conditions.
 			 */
-			function getRequest(pluginMethod) {
+			function getRequest(request, customData, pluginMethod) {
 				var i,
 					now = new Date(),
 					nowTs = Math.round(now.getTime() / 1000),
-					referralUrlMaxLength = 1024,
-					tmpContainer,
 					tmpPos,
 					newVisitor,
 					uuid,
@@ -1152,18 +1165,18 @@ var
 					lastVisitTs,
 					referralTs,
 					referralUrl,
+					referralUrlMaxLength = 1024,
 					currentReferrerHostName,
 					originalReferrerHostName,
-					customVariablesString,
+					customVariablesCopy = customVariables,
 					idname = getCookieName('id'),
 					sesname = getCookieName('ses'),
 					refname = getCookieName('ref'),
 					cvarname = getCookieName('cvar'),
-					id = getCookie(idname),
+					id = loadVisitorId(),
 					ses = getCookie(sesname),
 					ref = getCookie(refname),
-					secure = documentAlias.location.protocol === 'https',
-					request = '&res=' + screenAlias.width + 'x' + screenAlias.height + '&cookie=' + browserHasCookies;
+					secure = documentAlias.location.protocol === 'https';
 
 				if (configDoNotTrack) {
 					setCookie(idname, '', -1, configCookiePath, configCookieDomain);
@@ -1173,41 +1186,12 @@ var
 					return '';
 				}
 
-				for (i in pluginMap) {
-					request += '&' + pluginMap[i][0] + '=' + pluginMap[i][2];
-				}
-
-				if (id) {
-					// returning visitor
-					newVisitor = '0';
-					tmpContainer = id.split('.');
-					uuid = tmpContainer[0];
-					createTs = tmpContainer[1];
-					visitCount = tmpContainer[2];
-					currentVisitTs = tmpContainer[3];
-					lastVisitTs = tmpContainer[4];
-				} else {
-					// new visitor
-					newVisitor = '1';
-
-					// seconds since Unix epoch
-					createTs = nowTs;
-					currentVisitTs = nowTs;
-
-					// no previous visit
-					lastVisitTs = '';
-
-					// generate a pseudo-unique ID to fingerprint this user;
-					// note: this isn't a RFC4122-compliant UUID
-					uuid = hash(
-						(navigatorAlias.userAgent || '') +
-							(navigatorAlias.platform || '') +
-							request + Math.round(now.getTime / 1000)
-					).slice(0, 16); // 16 hexits = 64 bits
-
-					visitCount = 0;
-				}
-				visitorId = uuid;
+				newVisitor = id[0];
+				uuid = id[1];
+				createTs = id[2];
+				visitCount = id[3];
+				currentVisitTs = id[4];
+				lastVisitTs = id[5];
 
 				if (ref) {
 					tmpPos = ref.indexOf('.');
@@ -1224,7 +1208,7 @@ var
 
 					lastVisitTs = currentVisitTs;
 
-					// Store the referrer URL and time in the cookie
+					// Store the referrer URL and time in the cookie;
 					// referral URL depends on the first or last referrer attribution
 					currentReferrerHostName = getHostName(configReferrerUrl);
 					originalReferrerHostName = ref ? getHostName(ref) : '';
@@ -1238,59 +1222,64 @@ var
 						referralUrl = configReferrerUrl;
 
 						// set the referral cookie
-						setCookie(refname, referralTs + '.' + referralUrl.substr(0, referralUrlMaxLength), configReferralCookieTimeout, configCookiePath, configCookieDomain, secure);
+						setCookie(refname, referralTs + '.' + referralUrl.slice(0, referralUrlMaxLength), configReferralCookieTimeout, configCookiePath, configCookieDomain, secure);
 					}
 				}
 
-
-				customVariablesString = JSON.stringify(customVariables);
-				
 				// build out the rest of the request
-				request = 'idsite=' + configTrackerSiteId +
-					'&rec=1' + 
+				request += '&idsite=' + configTrackerSiteId +
+					'&rec=1' +
 					'&rand=' + Math.random() +
 					'&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
 					'&url=' + encodeWrapper(purify(configCustomUrl || locationHrefAlias)) +
 					'&urlref=' + encodeWrapper(purify(configReferrerUrl)) +
 					'&_id=' + uuid + '&_idts=' + createTs + '&_idvc=' + visitCount + '&_idn=' + newVisitor +
-					'&_ref=' + encodeWrapper(purify(referralUrl.substr(0, referralUrlMaxLength))) +
+					'&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength))) +
 					'&_refts=' + referralTs +
-					'&_viewts=' + lastVisitTs +
-					request;
-				// Don't send if empty
-				if(customVariablesString.length > 10) { 
-					request +='&_cvar=' + customVariablesString;
+					'&_viewts=' + lastVisitTs;
+
+				// browser features
+				for (i in browserFeatures) {
+					request += '&' + i + '=' + browserFeatures[i];
 				}
-				
-				// Custom Variable cookie
-				// Don't save in the cookie the deleted custom variables
-				var cvarId, customVariablesCopy = customVariables;
-				for(cvarId in customVariablesCopy) {
-					if(customVariables[cvarId][0] === ""
-						|| customVariables[cvarId][1] === "") {
-						delete customVariables[cvarId];
+
+				// custom data
+				if (customData) {
+					request += '&data=' + encodeWrapper(JSON2.stringify(customData));
+				} else if (configCustomData) {
+					request += '&data=' + encodeWrapper(JSON2.stringify(configCustomData));
+				}
+
+				// Don't send custom variables if empty
+				if (customVariables) {
+					request += '&_cvar=' + encodeWrapper(JSON2.stringify(customVariables));
+
+					// Don't save deleted custom variables in the cookie
+					for (i in customVariablesCopy) {
+						if (customVariables[i][0] === '' || customVariables[i][1] === '') {
+							delete customVariables[i];
+						}
 					}
+
+					setCookie(cvarname, JSON2.stringify(customVariables), configSessionCookieTimeout, configCookiePath, configCookieDomain, secure);
 				}
-				customVariablesString = JSON.stringify(customVariables);
-				setCookie(cvarname, customVariablesString, configSessionCookieTimeout, configCookiePath, configCookieDomain, secure);
-				
-				// Update other cookies
-				currentVisitTs = nowTs;
-				setCookie(idname, uuid + '.' + createTs + '.' + visitCount + '.' + currentVisitTs + '.' + lastVisitTs, configVisitorCookieTimeout, configCookiePath, configCookieDomain, secure);
+
+				// update cookies
+				setCookie(idname, uuid + '.' + createTs + '.' + visitCount + '.' + nowTs + '.' + lastVisitTs, configVisitorCookieTimeout, configCookiePath, configCookieDomain, secure);
 				setCookie(sesname, '*', configSessionCookieTimeout, configCookiePath, configCookieDomain, secure);
-				
+
 				// tracker plugin hook
 				request += executePluginMethod(pluginMethod);
-				
+
 				return request;
 			}
 
 			/*
 			 * Log the page view / visit
 			 */
-			function logPageView(customTitle) {
+			function logPageView(customTitle, customData) {
 				var now = new Date(),
-					request = getRequest('log') + '&action_name=' + encodeWrapper(customTitle || configTitle);
+					request = getRequest('action_name=' + encodeWrapper(customTitle || configTitle), customData, 'log');
 
 				sendRequest(request, configTrackerPause);
 
@@ -1325,7 +1314,7 @@ var
 						if ((lastActivityTime + configHeartBeatTimer) > now.getTime()) {
 							// send ping if minimum visit time has elapsed
 							if (configMinimumVisitTime < now.getTime()) {
-								request = getRequest('ping') + '&ping=1';
+								request = getRequest('ping=1', customData, 'ping');
 
 								sendRequest(request, configTrackerPause);
 							}
@@ -1341,9 +1330,8 @@ var
 			/*
 			 * Log the goal with the server
 			 */
-			function logGoal(idGoal, customRevenue) {
-				var request = getRequest('goal') +
-					'&idgoal=' + idGoal;
+			function logGoal(idGoal, customRevenue, customData) {
+				var request = getRequest('idgoal=' + idGoal, customData, 'goal');
 
 				// custom revenue
 				if (customRevenue) {
@@ -1352,13 +1340,12 @@ var
 
 				sendRequest(request, configTrackerPause);
 			}
-			
+
 			/*
 			 * Log the link or click  with the server
 			 */
-			function logLink(url, linkType) {
-				var request = getRequest('click') +
-					'&' + linkType + '=' + encodeWrapper(purify(url));
+			function logLink(url, linkType, customData) {
+				var request = getRequest(linkType + '=' + encodeWrapper(purify(url)), customData, 'link');
 
 				sendRequest(request, configTrackerPause);
 			}
@@ -1367,7 +1354,8 @@ var
 			 * Construct regular expression of classes
 			 */
 			function getClassesRegExp(configClasses, defaultClass) {
-				var i, classesRegExp = '(^| )(piwik[_-]' + defaultClass;
+				var i,
+					classesRegExp = '(^| )(piwik[_-]' + defaultClass;
 
 				if (configClasses) {
 					for (i = 0; i < configClasses.length; i++) {
@@ -1423,7 +1411,9 @@ var
 			 * Process clicks
 			 */
 			function processClick(sourceElement) {
-				var parentElement, tag, linkType;
+				var parentElement,
+					tag,
+					linkType;
 
 				while (!!(parentElement = sourceElement.parentNode) &&
 						((tag = sourceElement.tagName) !== 'A' && tag !== 'AREA')) {
@@ -1435,13 +1425,20 @@ var
 					var originalSourceHostName = sourceElement.hostname || getHostName(sourceElement.href),
 						sourceHostName = originalSourceHostName.toLowerCase(),
 						sourceHref = sourceElement.href.replace(originalSourceHostName, sourceHostName),
-						scriptProtocol = new RegExp('^(javascript|vbscript|jscript|mocha|livescript|ecmascript): *', 'i');
+						scriptProtocol = new RegExp('^(javascript|vbscript|jscript|mocha|livescript|ecmascript):', 'i');
 
 					// ignore script pseudo-protocol links
 					if (!scriptProtocol.test(sourceHref)) {
 						// track outlinks and all downloads
 						linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostName(sourceHostName));
 						if (linkType) {
+							// WebKit/Chrome/Safari:
+							// - "Failed to load resource" for onclick tracking requests where target opens in current window/tab
+/*
+							if ((new RegExp('WebKit')).test(navigatorAlias.userAgent) && (!sourceElement.target.length || sourceElement.target === '_self') && linkType === 'link') {
+								sourceElement.target = '_blank';
+							}
+ */
 							logLink(sourceHref, linkType);
 						}
 					}
@@ -1452,7 +1449,8 @@ var
 			 * Handle click event
 			 */
 			function clickHandler(evt) {
-				var button, target;
+				var button,
+					target;
 
 				evt = evt || windowAlias.event;
 				button = evt.which || evt.button;
@@ -1500,7 +1498,9 @@ var
 
 					// iterate through anchor elements with href and AREA elements
 
-					var i, ignorePattern = getClassesRegExp(configIgnoreClasses, 'ignore'), linkElements = documentAlias.links;
+					var i,
+						ignorePattern = getClassesRegExp(configIgnoreClasses, 'ignore'),
+						linkElements = documentAlias.links;
 
 					if (linkElements) {
 						for (i = 0; i < linkElements.length; i++) {
@@ -1510,6 +1510,57 @@ var
 						}
 					}
 				}
+			}
+
+			/*
+			 * Browser features (plugins, resolution, cookies)
+			 */
+			function detectBrowserFeatures() {
+				var i,
+					mimeType,
+					pluginMap = {
+						// document types
+						pdf: 'application/pdf',
+
+						// media players
+						qt: 'video/quicktime',
+						realp: 'audio/x-pn-realaudio-plugin',
+						wma: 'application/x-mplayer2',
+
+						// interactive multimedia
+						dir: 'application/x-director',
+						fla: 'application/x-shockwave-flash',
+
+						// RIA
+						java: 'application/x-java-vm',
+						gears: 'application/x-googlegears',
+						ag: 'application/x-silverlight'
+					};
+
+				// general plugin detection
+				if (navigatorAlias.mimeTypes && navigatorAlias.mimeTypes.length) {
+					for (i in pluginMap) {
+						mimeType = navigatorAlias.mimeTypes[pluginMap[i]];
+						browserFeatures[i] = (mimeType && mimeType.enabledPlugin) ? '1' : '0';
+					}
+				}
+
+				// Safari and Opera
+				// IE6/IE7 navigator.javaEnabled can't be aliased, so test directly
+				if (typeof navigator.javaEnabled !== 'unknown' &&
+						isDefined(navigatorAlias.javaEnabled) &&
+						navigatorAlias.javaEnabled()) {
+					browserFeatures.java = '1';
+				}
+
+				// Firefox
+				if (isFunction(windowAlias.GearsFactory)) {
+					browserFeatures.gears = '1';
+				}
+
+				// other browser features
+				browserFeatures.res = screenAlias.width + 'x' + screenAlias.height;
+				browserFeatures.cookie = hasCookies();
 			}
 
 /*<DEBUG>*/
@@ -1542,8 +1593,7 @@ var
 			/*
 			 * initialize tracker
 			 */
-			browserHasCookies = hasCookies();
-			detectBrowserPlugins();
+			detectBrowserFeatures();
 			updateDomainHash();
 
 /*<DEBUG>*/
@@ -1573,14 +1623,9 @@ var
 				 *
 				 * @return string Visitor ID in hexits (or null, if not yet known)
 				 */
-				
-				/*
-				Not working for now when called before trackPageView 
-				(since visitorId is loaded during getRequest)
 				getVisitorId: function () {
-					return visitorId;
+					return (loadVisitorId())[1];
 				},
-				*/
 
 				/**
 				 * Specify the Piwik server URL
@@ -1601,10 +1646,40 @@ var
 				},
 
 				/**
+				 * Pass custom data to the server
+				 *
+				 * Examples:
+				 *   tracker.setCustomData(object);
+				 *   tracker.setCustomData(key, value);
+				 *
+				 * @param mixed key_or_obj
+				 * @param mixed opt_value
+				 */
+				setCustomData: function (key_or_obj, opt_value) {
+					if (isObject(key_or_obj)) {
+						configCustomData = key_or_obj;
+					} else {
+						if (!configCustomData) {
+							configCustomData = [];
+						}
+						configCustomData[key_or_obj] = opt_value;
+					}
+				},
+
+				/**
+				 * Get custom data
+				 *
+				 * @return mixed
+				 */
+				getCustomData: function () {
+					return configCustomData;
+				},
+
+				/**
 				 * Set custom variable to this visit
 				 *
 				 * @param int index
-				 * @param string varName
+				 * @param string name
 				 * @param string value
 				 */
 				setCustomVariable: function (index, name, value) {
@@ -1620,20 +1695,25 @@ var
 				 * @param int index
 				 */
 				getCustomVariable: function (index) {
+					var cvar;
+
 					loadCustomVariables();
+					cvar = customVariables[index];
+					if (cvar && cvar[0] === '') {
+						return;
+					}
 					return customVariables[index];
 				},
-				
+
 				/**
 				 * Delete custom variable
 				 *
 				 * @param int index
 				 */
 				deleteCustomVariable: function (index) {
-					var current = this.getCustomVariable(index);
 					// Only delete if it was there already
-					if(isDefined(current)) {
-						this.setCustomVariable(index, "", "");
+					if (this.getCustomVariable(index)) {
+						this.setCustomVariable(index, '', '');
 					}
 				},
 
@@ -1850,9 +1930,9 @@ var
 						addClickListeners(enable);
 					} else {
 						// defer until page has loaded
-						registeredOnLoadHandlers[registeredOnLoadHandlers.length] = function () {
+						registeredOnLoadHandlers.push(function () {
 							addClickListeners(enable);
-						};
+						});
 					}
 				},
 
@@ -1894,9 +1974,10 @@ var
 				 *
 				 * @param int|string idGoal
 				 * @param int|float customRevenue
+				 * @param mixed customData
 				 */
-				trackGoal: function (idGoal, customRevenue) {
-					logGoal(idGoal, customRevenue);
+				trackGoal: function (idGoal, customRevenue, customData) {
+					logGoal(idGoal, customRevenue, customData);
 				},
 
 				/**
@@ -1904,22 +1985,24 @@ var
 				 *
 				 * @param string sourceUrl
 				 * @param string linkType
+				 * @param mixed customData
 				 */
-				trackLink: function (sourceUrl, linkType) {
-					logLink(sourceUrl, linkType);
+				trackLink: function (sourceUrl, linkType, customData) {
+					logLink(sourceUrl, linkType, customData);
 				},
 
 				/**
 				 * Log visit to this page
 				 *
 				 * @param string customTitle
+				 * @param mixed customData
 				 */
-				trackPageView: function (customTitle) {
-					logPageView(customTitle);
+				trackPageView: function (customTitle, customData) {
+					logPageView(customTitle, customData);
 				}
 			};
 		}
-		
+
 		/************************************************************
 		 * Proxy object
 		 * - this allows the caller to continue push()'ing to _paq
@@ -2005,7 +2088,7 @@ var
 	 * @param string documentTitle
 	 * @param int|string siteId
 	 * @param string piwikUrl
-	 * @param mixed customData unused
+	 * @param mixed customData
 	 */
 	piwik_log = function (documentTitle, siteId, piwikUrl, customData) {
 		"use strict";
@@ -2019,10 +2102,12 @@ var
 		}
 
 		// instantiate the tracker
-		var option, piwikTracker = Piwik.getTracker(piwikUrl, siteId);
+		var option,
+			piwikTracker = Piwik.getTracker(piwikUrl, siteId);
 
 		// initializer tracker
 		piwikTracker.setDocumentTitle(documentTitle);
+		piwikTracker.setCustomData(customData);
 
 		// handle Piwik globals
 		if (!!(option = getOption('tracker_pause'))) {
