@@ -24,7 +24,7 @@ if ($dbhandle) {
 	$result = @sqlite_array_query($dbhandle, "SELECT COUNT(*) FROM requests");
 	if ($result === false) {
 		try {
-			$query = sqlite_exec( $dbhandle, 'CREATE TABLE requests (token TEXT, ip TEXT, ts TEXT, uri TEXT, referer TEXT, ua TEXT);' );
+			$query = @sqlite_exec( $dbhandle, 'CREATE TABLE requests (token TEXT, ip TEXT, ts TEXT, uri TEXT, referer TEXT, ua TEXT);' );
 		} catch (Exception $e) { }
 	}
 }
@@ -34,8 +34,8 @@ else
 	exit;
 }
 
-if (isset($_GET['results'])) {
-	$token = get_magic_quotes_gpc() ? stripslashes($_GET['results']) : $_GET['results'];
+if (isset($_GET['requests'])) {
+	$token = get_magic_quotes_gpc() ? stripslashes($_GET['requests']) : $_GET['requests'];
 	$ua = $_SERVER['HTTP_USER_AGENT'];
 
 	echo "<html><head><title>$token</title></head><body>\n";
