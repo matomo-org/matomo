@@ -789,7 +789,7 @@ if ($sqlite) {
 			ok( /referrer.example.com/.test( results ), "setReferrerUrl()" );
 			ok( /cookiename/.test( results ) && /cookievalue/.test( results ), "tracking request contains custom variable" );
 			ok( /DeleteCustomVariableCookie/.test( results ), "tracking request deleting custom variable" );
-			ok( /DoTrack/.test( results ), "setDoNotTrack(true)" );
+			ok( /DoTrack/.test( results ), "setDoNotTrack(false)" );
 			ok( ! /DoNotTrack/.test( results ), "setDoNotTrack(true)" );
 
 			// parameters inserted by plugin hooks
