@@ -1432,10 +1432,11 @@ var
 						// track outlinks and all downloads
 						linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostName(sourceHostName));
 						if (linkType) {
+							// This block commented out to preserve the user experience.
+/*
 							// WebKit/Chrome/Safari:
 							// - "Failed to load resource" for onclick tracking requests where target opens in current window/tab
-/*
-							if ((new RegExp('WebKit')).test(navigatorAlias.userAgent) && (!sourceElement.target.length || sourceElement.target === '_self') && linkType === 'link') {
+							if ((new RegExp('WebKit')).test(navigatorAlias.userAgent) && (new RegExp('^(_self|_top|_parent|_main|_media|_search|)$')).test(sourceElement.target) && linkType === 'link') {
 								sourceElement.target = '_blank';
 							}
  */
