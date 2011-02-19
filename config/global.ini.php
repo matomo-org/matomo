@@ -295,7 +295,7 @@ ip_address_mask_length = 1
 ;Segments[]="customVariableName1==VisitType;customVariableValue1==Customer"
 
 [mail]
-defaultHostnameIfEmpty = defaultHostnameIfEmpty.example.org  ; if hostname can't be read, defaults to @piwik.org when sending emails 
+defaultHostnameIfEmpty = defaultHostnameIfEmpty.example.org  ; default Email @hostname, if current host can't be read from system variables 
 transport =							; smtp (using the configuration below) or empty (using built-in mail() function)
 port =								; optional; defaults to 25 when security is none or tls; 465 for ssl
 host =								; SMTP server address 
