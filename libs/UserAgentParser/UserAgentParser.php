@@ -182,6 +182,7 @@ class UserAgentParser
 
 	// OmniWeb build numbers to OmniWeb version numbers (if Version/X.Y.Z not present)
 	static protected $omniWebVersions = array(
+			'622.15'	=> array('5', '11'),
 			'622.10'	=> array('5', '10'),
 			'622.8'		=> array('5', '9'),
 			'622.3'		=> array('5', '8'),
