@@ -53,6 +53,7 @@ class PiwikTracker
     	$this->visitorCustomVar = false;
     	$this->customData = false;
     	$this->forcedDatetime = false;
+    	$this->token_auth = false;
 
     	$this->requestCookie = '';
     	$this->idSite = $idSite;
@@ -275,8 +276,7 @@ class PiwikTracker
     }
 
     /**
-     * Do not use - this will only work when used in Piwik unit tests
-     * @ignore
+     * Overrides server date, allowed only for Super User (must be used along with setTokenAuth)
      */
     public function setForceVisitDateTime($dateTime)
     {
@@ -284,13 +284,22 @@ class PiwikTracker
     }
     
     /**
-     * Do not use - this will only work when used in Piwik unit tests
-     * @ignore
+     * Overrides IP address, allowed only for Super User (must be used along with setTokenAuth)
      */
     public function setIp($ip)
     {
     	$this->ip = $ip;
     }
+
+	/**
+	 *  Sets token_auth used for authorization.
+	 *
+	 *  @param string token_auth
+	 */
+	public function setTokenAuth($token_auth)
+	{
+		$this->token_auth = $token_auth;
+	}
     
     /**
      * @ignore
@@ -393,9 +402,10 @@ class PiwikTracker
     		(!empty($_GET['XDEBUG_SESSION_START']) ? '&XDEBUG_SESSION_START=' . @$_GET['XDEBUG_SESSION_START'] : '') . 
 	        (!empty($_GET['KEY']) ? '&KEY=' . @$_GET['KEY'] : '') .
     	 
-    		// only allowed in tests (see tests/integration/piwik.php)
+    		// only allowed for Super User, token_auth required
 			(!empty($this->ip) ? '&cip=' . $this->ip : '') .
 			(!empty($this->forcedDatetime) ? '&cdt=' . urlencode($this->forcedDatetime) : '') .
+			(!empty($this->token_auth) ? '&token_auth=' . urlencode($this->token_auth) : '') .
 	        
 			// These parameters are set by the JS, but optional when using API
 	        (!empty($this->plugins) ? $this->plugins : '') . 
