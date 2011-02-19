@@ -813,7 +813,15 @@ var
 		function domainFixup(domain) {
 			var dl = domain.length;
 
-			return (domain.charAt(--dl) === '.') ? domain.slice(0, dl) : domain;
+			// remove trailing '.'
+			if (domain.charAt(--dl) === '.') {
+				domain = domain.slice(0, dl);
+			}
+			// remove leading '*'
+			if (domain.slice(0, 2) === '*.') {
+				domain = domain.slice(1);
+			}
+			return domain;
 		}
 
 		/*
