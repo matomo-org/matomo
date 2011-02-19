@@ -122,6 +122,7 @@ class Piwik_Tracker
 		$this->loadTrackerPlugins();
 		$this->handleDisabledTracker();
 		$this->handleEmptyRequest();
+		$this->handleTrackingApi();
 		
 		printDebug("Current datetime: ".date("Y-m-d H:i:s", $this->getCurrentTimestamp()));
 	}
@@ -322,6 +323,52 @@ class Piwik_Tracker
 		if($saveStats == 0)
 		{
 			$this->setState(self::STATE_LOGGING_DISABLE);
+		}
+	}
+
+	protected function authenticateSuperUser()
+	{
+		$tokenAuth = Piwik_Common::getRequestVar('token_auth', false);
+
+		if( $tokenAuth )
+		{
+			$superUserLogin =  Piwik_Tracker_Config::getInstance()->superuser['login'];
+			$superUserPassword = Piwik_Tracker_Config::getInstance()->superuser['password'];
+
+			if( md5($superUserLogin . $superUserPassword ) == $tokenAuth )
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * This method allows to set custom IP + server time when using Tracking API.
+	 * These two attributes can be only set by the Super User (passing token_auth).
+	 */
+	protected function handleTrackingApi()
+	{
+		if(!$this->authenticateSuperUser())
+		{
+			return;
+		}
+
+		// Custom IP to use for this visitor
+		$customIp = Piwik_Common::getRequestVar('cip', false);
+
+		if(!empty($customIp))
+		{
+			$this->setForceIp($customIp);
+		}
+
+		// Custom server date time to use
+		$customDatetime = Piwik_Common::getRequestVar('cdt', false);
+
+		if(!empty($customDatetime))
+		{
+			$this->setForceDateTime($customDatetime);
 		}
 	}
 }

@@ -968,28 +968,24 @@ var
 			 */
 			function isSiteHostName(hostName) {
 				var i,
-					j,
 					alias,
-					offset,
-					wildcards = [ '.', '*.' ];
+					offset;
 
 				for (i = 0; i < configHostsAlias.length; i++) {
-					alias = configHostsAlias[i].toLowerCase();
+					alias = domainFixup(configHostsAlias[i].toLowerCase());
 
 					if (hostName === alias) {
 						return true;
 					}
 
-					for (j = 0; j < 2; j++) {
-						if (alias.slice(0, j + 1) === wildcards[j]) {
-							if (hostName === alias.slice(j + 1)) {
-								return true;
-							}
+					if (alias.slice(0, 1) === '.') {
+						if (hostName === alias.slice(1)) {
+							return true;
+						}
 
-							offset = hostName.length - alias.length + j;
-							if ((offset > 0) && (hostName.slice(offset) === alias.slice(j))) {
-								return true;
-							}
+						offset = hostName.length - alias.length;
+						if ((offset > 0) && (hostName.slice(offset) === alias)) {
+							return true;
 						}
 					}
 				}
