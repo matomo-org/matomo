@@ -389,7 +389,7 @@ function PiwikTest() {
 	});
 
 	test("Tracker getHostName(), getParameter(), urlFixup(), domainFixup(), and purify()", function() {
-		expect(40);
+		expect(44);
 
 		var tracker = Piwik.getTracker();
 
@@ -441,6 +441,10 @@ function PiwikTest() {
 		equal( tracker.hook.test._domainFixup( '127.0.0.1' ), '127.0.0.1', 'domainFixup: 127.0.0.1' );
 		equal( tracker.hook.test._domainFixup( 'www.example.com' ), 'www.example.com', 'domainFixup: www.example.com' );
 		equal( tracker.hook.test._domainFixup( 'www.example.com.' ), 'www.example.com', 'domainFixup: www.example.com.' );
+		equal( tracker.hook.test._domainFixup( '.example.com' ), '.example.com', 'domainFixup: .example.com' );
+		equal( tracker.hook.test._domainFixup( '.example.com.' ), '.example.com', 'domainFixup: .example.com.' );
+		equal( tracker.hook.test._domainFixup( '*.example.com' ), '.example.com', 'domainFixup: *.example.com' );
+		equal( tracker.hook.test._domainFixup( '*.example.com.' ), '.example.com', 'domainFixup: *.example.com.' );
 
 		equal( typeof tracker.hook.test._purify, 'function', 'purify' );
 
@@ -646,15 +650,15 @@ if ($sqlite) {
 		var stopEvent = function (evt) {
 				evt = evt || window.event;
 
-				evt.cancelBubble = true;
+//				evt.cancelBubble = true;
 				evt.returnValue = false;
 
 				if (evt.preventDefault)
 					evt.preventDefault();
-				if (evt.stopPropagation)
-					evt.stopPropagation();
+//				if (evt.stopPropagation)
+//					evt.stopPropagation();
 
-				return false;
+//				return false;
 			};
 
 		var tracker = Piwik.getTracker();
