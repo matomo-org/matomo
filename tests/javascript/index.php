@@ -540,7 +540,7 @@ function PiwikTest() {
 		ok( tracker.hook.test._hasCookies() == '1', 'hasCookies()' );
 
 		var cookieName = '_pk_test_harness' + Math.random(),
-			expectedValue = Math.random();
+			expectedValue = String(Math.random());
 		tracker.hook.test._setCookie( cookieName, expectedValue );
 		equal( tracker.hook.test._getCookie( cookieName ), expectedValue, 'getCookie(), setCookie()' );
 	});
