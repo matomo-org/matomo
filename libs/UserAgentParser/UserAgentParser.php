@@ -149,6 +149,7 @@ class UserAgentParser
 
 			// Safari
 			'safari'						=> 'SF',
+			'applewebkit'					=> 'SF',
 
 			'webos'							=> 'WO',
 			'webpro'						=> 'WP',
@@ -353,6 +354,7 @@ class UserAgentParser
 		unset($browsers['firefox']);
 		unset($browsers['mozilla']);
 		unset($browsers['safari']);
+		unset($browsers['applewebkit']);
 
 		$browsersPattern = str_replace(')', '\)', implode('|', array_keys($browsers)));
 
@@ -362,7 +364,8 @@ class UserAgentParser
 		$userAgent = preg_replace('/[; ]Mozilla\/[0-9.]+ \([^)]+\)/', '', $userAgent);
 
 		if (preg_match_all("/($browsersPattern)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
-			|| preg_match_all("/(firefox|safari)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
+			|| (strpos($userAgent, 'Shiira') === false && preg_match_all("/(firefox|safari)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results))
+			|| preg_match_all("/(applewebkit)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
 			|| preg_match_all("/^(mozilla)\/([0-9]+)([\.0-9a-z-]+)?(?: \[[a-z]{2}\])? (?:\([^)]*\))$/i", $userAgent, $results)
 			|| preg_match_all("/^(mozilla)\/[0-9]+(?:[\.0-9a-z-]+)?\s\(.* rv:([0-9]+)([.0-9a-z]+)\) gecko(\/[0-9]{8}|$)(?:.*)/i", $userAgent, $results)
 			)

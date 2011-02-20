@@ -740,6 +740,9 @@ class Test_Piwik_UserSettings extends UnitTestCase
 		'Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A293 Safari/6531.22.7' => array(
 			array('SF', 'Safari', 'Safari', '4.0', '4', '0', 'webkit'),
 			array('IPH', 'iPhone', 'iPhone')),
+		'Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/533.19.4 (KHTML, like Gecko) ' => array(
+			array('SF', 'Safari', 'Safari', '5.0', '5', '0', 'webkit'),
+			array('WVI', 'Windows Vista', 'Win Vista')),
 
 		// SeaMonkey (formerly Mozilla Suite and rebranded versions)
 		'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.8) Gecko/20071008 Iceape/1.1.5 (Ubuntu-1.1.5-1ubuntu0.7.10)' => array(
@@ -775,6 +778,19 @@ class Test_Piwik_UserSettings extends UnitTestCase
 		'Mozilla/4.76 [en] (PalmOS; U; WebPro/3.0; Palm-Arz1)' => array(
 			array('WP', 'WebPro', 'WebPro', '3.0', '3', '0', 'unknown'),
 			array('POS', 'Palm OS', 'Palm OS')),
+
+		// Shiira 1.x - treat as Safari since it uses the installed version of Safari's WebKit
+		'Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/417.9 (KHTML, like Gecko, Safari) Shiira/1.1' => array(
+			array('SF', 'Safari', 'Safari', '2.0', '2', '0', 'webkit'),
+			array('MAC', 'Mac OS', 'Mac OS')),
+		'Mozilla/5.0 (Macintosh; U; PPC Mac OS X; pl-pl) AppleWebKit/312.8 (KHTML, like Gecko) Shiira/1.2.1 Safari/125' => array(
+			array('SF', 'Safari', 'Safari', '1.3', '1', '3', 'webkit'),
+			array('MAC', 'Mac OS', 'Mac OS')),
+
+		// Shiira 2.x - ditto
+		'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_7; en-us) AppleWebKit/525.28.3 (KHTML, like Gecko) Shiira Safari/125' => array(
+			array('SF', 'Safari', 'Safari', '3.2', '3', '2', 'webkit'),
+			array('MAC', 'Mac OS', 'Mac OS')),
 
 		// SymbianOS
 		'Nokia3650/1.0 SymbianOS/6.1 Series60/1.2 Profile/MIDP-1.0 Configuration/CLDC-1.0' => array(
