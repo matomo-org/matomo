@@ -177,7 +177,6 @@ Test.prototype = {
 
 			var li = id(this.id);
 			li.className = bad ? "fail" : "pass";
-			li.style.display = resultDisplayStyle(!bad);
 			li.removeChild( li.firstChild );
 			li.appendChild( b );
 			li.appendChild( ol );
@@ -486,9 +485,9 @@ extend(QUnit, {
 			semaphore: 0
 		});
 
-		var tests = id("qunit-tests"),
-			banner = id("qunit-banner"),
-			result = id("qunit-testresult");
+		var tests = id( "qunit-tests" ),
+			banner = id( "qunit-banner" ),
+			result = id( "qunit-testresult" );
 
 		if ( tests ) {
 			tests.innerHTML = "";
@@ -500,6 +499,14 @@ extend(QUnit, {
 
 		if ( result ) {
 			result.parentNode.removeChild( result );
+		}
+		
+		if ( tests ) {
+			result = document.createElement( "p" );
+			result.id = "qunit-testresult";
+			result.className = "result";
+			tests.parentNode.insertBefore( result, tests );
+			result.innerHTML = 'Running...<br/>&nbsp;';
 		}
 	},
 	
@@ -667,11 +674,12 @@ addEvent(window, "load", function() {
 		filter.type = "checkbox";
 		filter.id = "qunit-filter-pass";
 		addEvent( filter, "click", function() {
-			var li = document.getElementsByTagName("li");
-			for ( var i = 0; i < li.length; i++ ) {
-				if ( li[i].className.indexOf("pass") > -1 ) {
-					li[i].style.display = filter.checked ? "none" : "";
-				}
+			var ol = document.getElementById("qunit-tests");
+			if ( filter.checked ) {
+				ol.className = ol.className + " hidepass";
+			} else {
+				var tmp = " " + ol.className.replace( /[\n\t\r]/g, " " ) + " ";
+				ol.className = tmp.replace(/ hidepass /, " ");
 			}
 			if ( defined.sessionStorage ) {
 				sessionStorage.setItem("qunit-filter-passed-tests", filter.checked ? "true" : "");
@@ -679,6 +687,8 @@ addEvent(window, "load", function() {
 		});
 		if ( defined.sessionStorage && sessionStorage.getItem("qunit-filter-passed-tests") ) {
 			filter.checked = true;
+			var ol = document.getElementById("qunit-tests");
+			ol.className = ol.className + " hidepass";
 		}
 		toolbar.appendChild( filter );
 
@@ -733,16 +743,7 @@ function done() {
 	}
 
 	if ( tests ) {	
-		var result = id("qunit-testresult");
-
-		if ( !result ) {
-			result = document.createElement("p");
-			result.id = "qunit-testresult";
-			result.className = "result";
-			tests.parentNode.insertBefore( result, tests.nextSibling );
-		}
-
-		result.innerHTML = html;
+		id( "qunit-testresult" ).innerHTML = html;
 	}
 
 	QUnit.done( {
@@ -795,10 +796,6 @@ function sourceFromStacktrace() {
 			return e.stack.split("\n")[4];
 		}
 	}
-}
-
-function resultDisplayStyle(passed) {
-	return passed && id("qunit-filter-pass") && id("qunit-filter-pass").checked ? 'none' : '';
 }
 
 function escapeHtml(s) {
