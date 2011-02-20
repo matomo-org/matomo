@@ -14,9 +14,14 @@
  * Browser [In]Compatibility
  * - minimum required ECMAScript: ECMA-262, edition 3
  *
- * This version of piwik.js is known to not work with:
+ * Incompatible with these (and earlier) versions of:
  * - IE4 - try..catch and for..in introduced in IE5
  * - IE5 - named anonymous functions, array.push, encodeURIComponent, and decodeURIComponent introduced in IE5.5
+ * - Firefox 1.0 and Netscape 8.x - FF1.5 adds array.indexOf, among other things
+ * - Mozilla 1.7 and Netscape 6.x-7.x
+ * - Netscape 4.8
+ * - Opera 6 - Error object (and Presto) introduced in Opera 7
+ * - Opera 7
  */
 
 /************************************************************
@@ -547,7 +552,7 @@ var
 
 			// sniff for older WebKit versions
 			if ((new RegExp('WebKit')).test(navigatorAlias.userAgent)) {
-				var _timer = setInterval(function() {
+				var _timer = setInterval(function () {
 					if (hasLoaded || /loaded|complete/.test(documentAlias.readyState)) {
 						clearInterval(_timer);
 						loadHandler();
