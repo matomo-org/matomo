@@ -1958,7 +1958,7 @@ var
 				 * Frame buster
 				 */
 				killFrame: function () {
-					if (windowAlias !== windowAlias.top) {
+					if (windowAlias.location !== windowAlias.top.location) {
 						windowAlias.top.location = windowAlias.location;
 					}
 				},
