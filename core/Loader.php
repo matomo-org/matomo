@@ -106,7 +106,7 @@ class Piwik_Loader
 	public static function autoload($class)
 	{
 		try {
-			@self::loadClass($class);
+			self::loadClass($class);
 		} catch (Exception $e) {
 		}
 	}
