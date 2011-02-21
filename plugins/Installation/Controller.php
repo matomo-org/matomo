@@ -193,7 +193,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 			try{
 				try {
-					Piwik::createDatabaseObject($dbInfos);
+					@Piwik::createDatabaseObject($dbInfos);
 					$this->session->databaseCreated = true;
 				} catch (Zend_Db_Adapter_Exception $e) {
 					$db = Piwik_Db_Adapter::factory($adapter, $dbInfos, $connect = false);
@@ -203,8 +203,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 					{
 						$dbInfosConnectOnly = $dbInfos;
 						$dbInfosConnectOnly['dbname'] = null;
-						Piwik::createDatabaseObject($dbInfosConnectOnly);
-						Piwik::createDatabase($dbInfos['dbname']);
+						@Piwik::createDatabaseObject($dbInfosConnectOnly);
+						@Piwik::createDatabase($dbInfos['dbname']);
 						$this->session->databaseCreated = true;
 					}
 					else
