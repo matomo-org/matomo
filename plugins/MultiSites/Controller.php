@@ -21,11 +21,17 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 	protected $evolutionBy = 'visits';
 	protected $mySites = array();
 	protected $page = 1;
-	protected $limit = 20;
+	protected $limit = 0;
 	protected $period;
 	protected $date;
 	protected $dateToStr;
 
+	function __construct()
+	{
+		parent::__construct();
+		
+		$this->limit = Zend_Registry::get('config')->General->all_websites_website_per_page;
+	}
 
 	function index()
 	{
