@@ -6,6 +6,7 @@
 <script type="text/javascript">
 try {
  var piwikTracker = Piwik.getTracker("piwik.php", 1);
+ piwikTracker.setCookieDomain('*.piwik.org');
  //Set the domain the visitor landed on, in the Custom Variable
  if(!piwikTracker.getCustomVariable(1)) { 
    piwikTracker.setCustomVariable(1, "Domain landed", document.domain );
