@@ -1053,7 +1053,7 @@ var
 			 * Get cookie name with prefix and domain hash
 			 */
 			function getCookieName(baseName) {
-				return configCookieNamePrefix + baseName + '.' + domainHash;
+				return configCookieNamePrefix + baseName + '.' + configTrackerSiteId + '.' + domainHash;
 			}
 
 			/*
@@ -1074,7 +1074,7 @@ var
 			 * Update domain hash
 			 */
 			function updateDomainHash() {
-				domainHash = hash((configCookieDomain || domainAlias) + (configCookiePath || '/')).slice(0, 8); // 8 hexits = 32 bits
+				domainHash = hash((configCookieDomain || domainAlias) + (configCookiePath || '/')).slice(0, 4); // 4 hexits = 16 bits
 			}
 
 			/*
