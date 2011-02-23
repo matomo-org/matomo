@@ -77,9 +77,12 @@ for idsite in $ID_SITES; do
       $CMD
       
       for segment in $SEGMENTS_TO_ARCHIVE; do
-      	echo " - Archiving for visitor segment $segment ..." 
-      	CMD_ARCHIVE_SEGMENT="${CMD}&segment=$segment"
-      	$CMD_ARCHIVE_SEGMENT
+	    if test $segment != "value"; then
+      	  echo ""
+      	  echo " - Archiving for visitor segment $segment ..." 
+      	  CMD_ARCHIVE_SEGMENT="${CMD}&segment=$segment"
+      	  $CMD_ARCHIVE_SEGMENT
+      	fi
       done
     done
 
@@ -89,10 +92,11 @@ for idsite in $ID_SITES; do
 done
 
 echo "Reports archiving finished."
-
+echo "---------------------------"
 echo "Starting Scheduled tasks..."
 echo ""
 CMD="$PHP_BIN -q $PIWIK_PATH -- module=API&method=CoreAdminHome.runScheduledTasks&format=csv&convertToUnicode=0&token_auth=$TOKEN_AUTH"
 $CMD
+echo ""
 echo "Finished Scheduled tasks."
 echo ""
