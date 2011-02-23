@@ -727,7 +727,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	
 	protected function shouldUseThirdPartyCookie()
 	{
-		return (bool)Piwik_Tracker_Config::getInstance()->Tracker['use_third_party_cookies'];
+		return (bool)Piwik_Tracker_Config::getInstance()->Tracker['use_third_party_id_cookie'];
 	}
 
 	/**
