@@ -363,6 +363,11 @@ class Piwik_SitesManager_API
 		{
 		    $bind['group'] = trim($group);
 		}
+		else
+		{
+			$bind['group'] = "";
+		}
+		
 		$db->insert(Piwik_Common::prefixTable("site"), $bind);
 									
 		$idSite = $db->lastInsertId();
