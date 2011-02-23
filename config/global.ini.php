@@ -226,7 +226,7 @@ api_service_url = http://api.piwik.org
 ; Piwik uses first party cookies by default. If set to 1, 
 ; the visit ID cookie will be set on the Piwik server domain as well
 ; this is useful when you want to do cross websites analysis 
-use_third_party_cookies = 0
+use_third_party_id_cookie = 0
 
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
 record_statistics			= 1
