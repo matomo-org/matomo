@@ -99,7 +99,15 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 			}
 			else
 			{
-				$out = "<result>".self::formatValueXml($out)."</result>";
+				$value = self::formatValueXml($out);
+				if($value === '') 
+				{
+					$out = "<result />";
+				} 
+				else 
+				{
+					$out = "<result>".$value."</result>";
+				}
 			}
 			return $out;
 		}
