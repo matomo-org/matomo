@@ -1,5 +1,5 @@
 // jslint.js
-// 2011-02-15
+// 2011-02-22
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -241,7 +241,7 @@ SOFTWARE.
     infobackground, infotext, init, input, ins, insecure_a, isAlpha,
     isApplicationRunning, isArray, isDigit, isFinite, isNaN, ivory, join,
     jslint, json, kbd, keygen, keys, khaki, konfabulatorVersion, label,
-    label_a_b, lang, lavender, lavenderblush, lawngreen, lbp,
+    label_a_b, labeled, lang, lavender, lavenderblush, lawngreen, lbp,
     leading_decimal_a, led, left, legend, lemonchiffon, length,
     "letter-spacing", li, lib, lightblue, lightcoral, lightcyan,
     lightgoldenrodyellow, lightgreen, lightpink, lightsalmon, lightseagreen,
@@ -368,7 +368,7 @@ var JSLINT = (function () {
             devel      : true, // if logging should be allowed (console, alert, etc.)
             es5        : true, // if ES5 syntax should be allowed
             evil       : true, // if eval should be allowed
-            forin      : true, // if for in statements must filter
+            forin      : true, // if for in statements need not filter
             fragment   : true, // if HTML fragments should be allowed
             newcap     : true, // if constructor names must be capitalized
             nomen      : true, // if names should be checked
@@ -932,12 +932,6 @@ var JSLINT = (function () {
         in_block,
         indent,
         json_mode,
-        labelled = {
-            'do':     true,
-            'for':    true,
-            'switch': true,
-            'while':  true
-        },
         lines,
         lookahead,
         member,
@@ -1196,14 +1190,6 @@ var JSLINT = (function () {
 
     function F() {}     // Used by Object.create
 
-    function is_own(object, name) {
-
-// The object.hasOwnProperty method fails when the property under consideration
-// is named 'hasOwnProperty'. So we have to use this more convoluted form.
-
-        return Object.prototype.hasOwnProperty.call(object, name);
-    }
-
 // Provide critical ES5 functions to ES3.
 
     if (typeof Array.isArray !== 'function') {
@@ -1223,7 +1209,7 @@ var JSLINT = (function () {
         Object.keys = function (o) {
             var a = [], k;
             for (k in o) {
-                if (is_own(o, k)) {
+                if (Object.prototype.hasOwnProperty.call(o, k)) {
                     a.push(k);
                 }
             }
@@ -1293,7 +1279,7 @@ var JSLINT = (function () {
     function combine(t, o) {
         var n;
         for (n in o) {
-            if (is_own(o, n)) {
+            if (Object.prototype.hasOwnProperty.call(o, n)) {
                 t[n] = o[n];
             }
         }
@@ -1447,7 +1433,7 @@ var JSLINT = (function () {
             }
             the_token = Object.create(syntax[(
                 type === '(punctuator)' ||
-                    (type === '(identifier)' && is_own(syntax, value)) ?
+                    (type === '(identifier)' && Object.prototype.hasOwnProperty.call(syntax, value)) ?
                 value :
                 type
             )] || syntax['(error)']);
@@ -2196,7 +2182,7 @@ klass:                                  do {
 
 // Define t in the current function in the current scope.
 
-        if (is_own(funct, t) && !funct['(global)']) {
+        if (Object.prototype.hasOwnProperty.call(funct, t) && !funct['(global)']) {
             warn(funct[t] === true ?
                 bundle.used_before_a :
                 bundle.already_defined,
@@ -2205,7 +2191,7 @@ klass:                                  do {
         funct[t] = type;
         if (funct['(global)']) {
             global[t] = funct;
-            if (is_own(implied, t)) {
+            if (Object.prototype.hasOwnProperty.call(implied, t)) {
                 warn(bundle.used_before_a, nexttoken, t);
                 delete implied[t];
             }
@@ -2240,24 +2226,26 @@ klass:                                  do {
     }
 
 
-// We need a peek function. If it has an argument, it peeks that much farther
-// ahead.
-
     function peek(distance) {
-        var i = distance || 0, j = 0, t;
 
-        while (j <= i) {
-            t = lookahead[j];
-            if (!t) {
-                t = lookahead[j] = lex.token();
+// Peek ahead to a future token. The distance is how far ahead to look. The
+// default is the next token.
+
+        var found, slot = 0;
+
+        distance = distance || 0;
+        while (slot <= distance) {
+            found = lookahead[slot];
+            if (!found) {
+                found = lookahead[slot] = lex.token();
             }
-            j += 1;
+            slot += 1;
         }
-        return t;
+        return found;
     }
 
 
-    function advance(id, t) {
+    function advance(id, match) {
 
 // Produce the next token, also looking for programming errors.
 
@@ -2300,8 +2288,8 @@ klass:                                  do {
 // If the token is not an edge, but is the first token on the line.
 
                 } else if (nexttoken.line !== token.line &&
-                        nexttoken.from < indent.at +
-                        (indent.mode === 'expression' ? 0 : option.indent)) {
+                        nexttoken.from < indent.at + (indent.mode ===
+                        'expression' ? 0 : option.indent)) {
                     expected_at(indent.at + option.indent);
                 }
             } else if (nexttoken.line !== token.line) {
@@ -2311,8 +2299,8 @@ klass:                                  do {
                     indent.wrap = true;
                     if (indent.mode === 'statement' || indent.mode === 'var') {
                         expected_at(indent.at + option.indent);
-                    } else if (nexttoken.from < indent.at +
-                            (indent.mode === 'expression' ? 0 : option.indent)) {
+                    } else if (nexttoken.from < indent.at + (indent.mode ===
+                            'expression' ? 0 : option.indent)) {
                         expected_at(indent.at + option.indent);
                     }
                 }
@@ -2341,18 +2329,18 @@ klass:                                  do {
         }
 
         if (id && nexttoken.id !== id) {
-            if (t) {
-                warn(bundle.expected_a_b_from_c_d, nexttoken,
-                    id, t.id, t.line, nexttoken.value);
+            if (match) {
+                warn(bundle.expected_a_b_from_c_d, nexttoken, id,
+                    match.id, match.line, nexttoken.value);
             } else if (!nexttoken.identifier || nexttoken.value !== id) {
-                warn(bundle.expected_a_b,
-                    nexttoken, id, nexttoken.value);
+                warn(bundle.expected_a_b, nexttoken, id, nexttoken.value);
             }
         }
         prevtoken = token;
         token = nexttoken;
         nexttoken = lookahead.shift() || lex.token();
     }
+
 
     function do_option() {
         var command = this.id,
@@ -2477,34 +2465,32 @@ loop:   for (;;) {
 
     function step_in(mode) {
         var open, was;
-        if (option.indent) {
-            if (typeof mode === 'number') {
-                indent = {
-                    at: mode,
-                    open: true,
-                    was: was
-                };
-            } else if (!indent) {
-                indent = {
-                    at: 1,
-                    mode: 'statement',
-                    open: true
-                };
-            } else {
-                was = indent;
-                open = mode === 'var' ||
-                    (nexttoken.line !== token.line && mode !== 'statement');
-                indent = {
-                    at: (open || mode === 'control' ?
-                        was.at + option.indent : was.at) +
-                        (was.wrap ? option.indent : 0),
-                    mode: mode,
-                    open: open,
-                    was: was
-                };
-                if (mode === 'var' && open) {
-                    var_mode = indent;
-                }
+        if (typeof mode === 'number') {
+            indent = {
+                at: mode,
+                open: true,
+                was: was
+            };
+        } else if (!indent) {
+            indent = {
+                at: 1,
+                mode: 'statement',
+                open: true
+            };
+        } else {
+            was = indent;
+            open = mode === 'var' ||
+                (nexttoken.line !== token.line && mode !== 'statement');
+            indent = {
+                at: (open || mode === 'control' ?
+                    was.at + option.indent : was.at) +
+                    (was.wrap ? option.indent : 0),
+                mode: mode,
+                open: open,
+                was: was
+            };
+            if (mode === 'var' && open) {
+                var_mode = indent;
             }
         }
     }
@@ -2766,6 +2752,11 @@ loop:   for (;;) {
         return x;
     }
 
+    function labeled_stmt(s, f) {
+        var x = stmt(s, f);
+        x.labeled = true;
+    }
+
     function disrupt_stmt(s, f) {
         var x = stmt(s, f);
         x.disrupt = true;
@@ -2819,7 +2810,9 @@ loop:   for (;;) {
     function reserve(s, f) {
         var x = delim(s);
         x.identifier = x.reserved = true;
-        x.nud = return_this;
+        if (typeof f === 'function') {
+            x.nud = f;
+        }
         return x;
     }
 
@@ -3057,7 +3050,7 @@ loop:   for (;;) {
             return;
         }
 
-// Is this a labelled statement?
+// Is this a labeled statement?
 
         if (nexttoken.identifier && !nexttoken.reserved && peek().id === ':') {
             edge('label');
@@ -3066,7 +3059,7 @@ loop:   for (;;) {
             advance(':');
             scope = Object.create(old_scope);
             add_label(label.value, 'label');
-            if (labelled[nexttoken.id] !== true) {
+            if (nexttoken.labeled !== true) {
                 warn(bundle.label_a_b, nexttoken, label.value, nexttoken.value);
             }
             if (jx.test(label.value + ':')) {
@@ -3760,10 +3753,10 @@ loop:   for (;;) {
     });
 
     infix('(', 160, function (left, that) {
-        if (indent && indent.statement) {
-            no_space_only(prevtoken, token);
-        } else {
+        if (indent && indent.mode === 'expression') {
             no_space(prevtoken, token);
+        } else {
+            no_space_only(prevtoken, token);
         }
         if (!left.immed && left.id === 'function') {
             warn(bundle.wrap_immediate);
@@ -3803,7 +3796,7 @@ loop:   for (;;) {
             }
         }
         no_space();
-        step_out(')', this);
+        step_out(')', that);
         if (typeof left === 'object') {
             if (left.value === 'parseInt' && p.length === 1) {
                 warn(bundle.radix, left);
@@ -4346,7 +4339,7 @@ loop:   for (;;) {
     });
 
 
-    stmt('while', function () {
+    labeled_stmt('while', function () {
         one_space();
         var t = nexttoken;
         funct['(breakage)'] += 1;
@@ -4376,7 +4369,7 @@ loop:   for (;;) {
 
     reserve('with');
 
-    stmt('switch', function () {
+    labeled_stmt('switch', function () {
 
 // switch.first             the switch expression
 // switch.second            the array of cases. A case is 'case' or 'default' token:
@@ -4478,7 +4471,7 @@ loop:   for (;;) {
         return this;
     });
 
-    stmt('do', function () {
+    labeled_stmt('do', function () {
         funct['(breakage)'] += 1;
         funct['(loopage)'] += 1;
         one_space();
@@ -4506,43 +4499,81 @@ loop:   for (;;) {
         return this;
     });
 
-    stmt('for', function () {
-        var f = option.forin, i, s, t = nexttoken, v;
+    labeled_stmt('for', function () {
+        var blok, filter, ok = false, paren = nexttoken, the_in, value;
         this.arity = 'statement';
         funct['(breakage)'] += 1;
         funct['(loopage)'] += 1;
         advance('(');
         step_in('control');
         discard();
-        spaces(this, t);
+        spaces(this, paren);
         no_space();
         if (nexttoken.id === 'var') {
             fail(bundle.move_var);
         }
         edge();
         if (peek(0).id === 'in') {
-            v = nexttoken;
-            switch (funct[v.value]) {
+            value = nexttoken;
+            switch (funct[value.value]) {
             case 'unused':
-                funct[v.value] = 'var';
+                funct[value.value] = 'var';
                 break;
             case 'var':
                 break;
             default:
-                warn(bundle.bad_in_a, v);
+                warn(bundle.bad_in_a, value);
             }
             advance();
-            i = nexttoken;
+            the_in = nexttoken;
             advance('in');
-            i.first = v;
-            i.second = expression(20);
-            step_out(')', t);
+            the_in.first = value;
+            the_in.second = expression(20);
+            step_out(')', paren);
             discard();
-            this.first = i;
-            s = block(true);
-            if (!f && (s.length > 1 || typeof s[0] !== 'object' ||
-                    s[0].value !== 'if')) {
-                warn(bundle.for_if, this);
+            this.first = the_in;
+            blok = block(true);
+            if (!option.forin) {
+                if (blok.length === 1 && typeof blok[0] === 'object' &&
+                        blok[0].value === 'if' && !blok[0]['else']) {
+                    filter = blok[0].first;
+                    while (filter.id === '&&') {
+                        filter = filter.first;
+                    }
+                    switch (filter.id) {
+                    case '===':
+                    case '!==':
+                        ok = filter.first.id === '[' ? (
+                            filter.first.first.value === the_in.second.value &&
+                            filter.first.second.value === the_in.first.value
+                        ) : (
+                            filter.first.id === 'typeof' &&
+                            filter.first.first.id === '[' &&
+                            filter.first.first.first.value === the_in.second.value &&
+                            filter.first.first.second.value === the_in.first.value
+                        );
+                        break;
+                    case '(':
+                        ok = filter.first.id === '.' && ((
+                            filter.first.first.value === the_in.second.value &&
+                            filter.first.second.value === 'hasOwnProperty' &&
+                            filter.second[0].value === the_in.first.value
+                        ) || (
+                            filter.first.first.id === '.' &&
+                            filter.first.first.first.id === '.' &&
+                            filter.first.first.first.first.value === 'Object' &&
+                            filter.first.first.first.second.value === 'prototype' &&
+                            filter.first.first.second.value === 'hasOwnProperty' &&
+                            filter.first.second.value === 'call' &&
+                            filter.second[0].value === the_in.second.value &&
+                            filter.second[1].value === the_in.first.value
+                        ));
+                        break;
+                    }
+                }
+                if (!ok) {
+                    warn(bundle.for_if, this);
+                }
             }
         } else {
             if (nexttoken.id !== ';') {
@@ -4580,15 +4611,15 @@ loop:   for (;;) {
                 }
             }
             no_space();
-            step_out(')', t);
+            step_out(')', paren);
             discard();
             one_space();
-            s = block(true);
+            blok = block(true);
         }
-        if (s.disrupt) {
+        if (blok.disrupt) {
             warn(bundle.strange_loop, prevtoken);
         }
-        this.block = s;
+        this.block = blok;
         funct['(breakage)'] -= 1;
         funct['(loopage)'] -= 1;
         return this;
@@ -5282,7 +5313,7 @@ loop:   for (;;) {
             if (!nexttoken.identifier) {
                 warn(bundle.expected_style_attribute);
             } else {
-                if (is_own(css_attribute_data, nexttoken.value)) {
+                if (Object.prototype.hasOwnProperty.call(css_attribute_data, nexttoken.value)) {
                     v = css_attribute_data[nexttoken.value];
                 } else {
                     v = css_any;
@@ -5428,7 +5459,7 @@ loop:   for (;;) {
 
     function style_selector() {
         if (nexttoken.identifier) {
-            if (!is_own(html_tag, option.cap ?
+            if (!Object.prototype.hasOwnProperty.call(html_tag, option.cap ?
                     nexttoken.value.toLowerCase() : nexttoken.value)) {
                 warn(bundle.expected_tagname_a);
             }
@@ -5881,7 +5912,7 @@ loop:   for (;;) {
                     }
                     a = a.toLowerCase();
                     xquote = '';
-                    if (is_own(attributes, a)) {
+                    if (Object.prototype.hasOwnProperty.call(attributes, a)) {
                         warn(bundle.duplicate_a, token, a);
                     }
                     if (a.slice(0, 2) === 'on') {
@@ -6049,6 +6080,7 @@ loop:   for (;;) {
             }
             if (option.safe) {
                 option.browser     =
+                    option['continue'] =
                     option.css     =
                     option.debug   =
                     option.devel   =
@@ -6075,9 +6107,7 @@ loop:   for (;;) {
         } else {
             option = {};
         }
-        if (option.indent) {
-            option.indent = +option.indent;
-        }
+        option.indent = +option.indent || 0;
         option.maxerr = option.maxerr || 50;
         adsafe_id = '';
         adsafe_may = false;
@@ -6227,7 +6257,7 @@ loop:   for (;;) {
         }
 
         for (name in implied) {
-            if (is_own(implied, name)) {
+            if (Object.prototype.hasOwnProperty.call(implied, name)) {
                 implieds.push({
                     name: name,
                     line: implied[name]
@@ -6254,19 +6284,21 @@ loop:   for (;;) {
                 function_data[functionicity[j]] = [];
             }
             for (name in the_function) {
-                if (is_own(the_function, name) && name.charAt(0) !== '(') {
-                    variable = the_function[name];
-                    if (variable === 'unction') {
-                        variable = 'unused';
-                    }
-                    if (Array.isArray(function_data[variable])) {
-                        function_data[variable].push(name);
-                        if (variable === 'unused') {
-                            unused.push({
-                                name: name,
-                                line: the_function['(line)'],
-                                'function': the_function['(name)']
-                            });
+                if (Object.prototype.hasOwnProperty.call(the_function, name)) {
+                    if (name.charAt(0) !== '(') {
+                        variable = the_function[name];
+                        if (variable === 'unction') {
+                            variable = 'unused';
+                        }
+                        if (Array.isArray(function_data[variable])) {
+                            function_data[variable].push(name);
+                            if (variable === 'unused') {
+                                unused.push({
+                                    name: name,
+                                    line: the_function['(line)'],
+                                    'function': the_function['(name)']
+                                });
+                            }
                         }
                     }
                 }
@@ -6431,7 +6463,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2011-02-15';
+    itself.edition = '2011-02-22';
 
     return itself;
 
