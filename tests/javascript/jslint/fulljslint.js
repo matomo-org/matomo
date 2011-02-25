@@ -1,5 +1,5 @@
 // jslint.js
-// 2011-02-22
+// 2011-02-24
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -237,7 +237,7 @@ SOFTWARE.
     honeydew, hotpink, hr, "hta:application", html, html_confusion_a,
     html_handlers, i, iTunes, id, identifier, identifier_function, iframe,
     img, immed, implied_evil, implieds, in, inactiveborder, inactivecaption,
-    inactivecaptiontext, include, indent, indexOf, indianred, indigo,
+    inactivecaptiontext, include, indent, indexOf, indianred, indigo, infix_in,
     infobackground, infotext, init, input, ins, insecure_a, isAlpha,
     isApplicationRunning, isArray, isDigit, isFinite, isNaN, ivory, join,
     jslint, json, kbd, keygen, keys, khaki, konfabulatorVersion, label,
@@ -513,6 +513,7 @@ var JSLINT = (function () {
             html_handlers: "Avoid HTML event handlers.",
             identifier_function: "Expected an identifier in an assignment and instead saw a function invocation.",
             implied_evil: "Implied eval is evil. Pass a function instead of a string.",
+            infix_in: "Unexpected 'in'. Compare with undefined, or use the hasOwnProperty method instead.",
             insecure_a: "Insecure '{a}'.",
             isNaN: "Use the isNaN function to compare with NaN.",
             label_a_b: "Label '{a}' on '{b}' statement.",
@@ -2559,7 +2560,7 @@ loop:   for (;;) {
 
     function comma() {
         if (nexttoken.id !== ',') {
-            warn(bundle.expected_a_b, nexttoken, ',', nexttoken.value);
+            warn_at(bundle.expected_a_b, token.line, token.thru, ',', nexttoken.value);
         } else {
             if (option.white) {
                 no_space_only();
@@ -2573,7 +2574,7 @@ loop:   for (;;) {
 
     function semicolon() {
         if (nexttoken.id !== ';') {
-            warn(bundle.expected_a_b, nexttoken, ';', nexttoken.value);
+            warn_at(bundle.expected_a_b, token.line, token.thru, ';', nexttoken.value);
         } else {
             if (option.white) {
                 no_space_only();
@@ -3517,7 +3518,12 @@ loop:   for (;;) {
     bitwise('<<', 120);
     bitwise('>>', 120);
     bitwise('>>>', 120);
-    infix('in', 120);
+    infix('in', 120, function (left, that) {
+        warn(bundle.infix_in, that);
+        that.left = left;
+        that.right = expression(130);
+        return that;
+    });
     infix('instanceof', 120);
     infix('+', 130, function (left, that) {
         if (!left.value) {
@@ -6463,7 +6469,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2011-02-22';
+    itself.edition = '2011-02-24';
 
     return itself;
 
