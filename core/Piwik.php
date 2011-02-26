@@ -595,6 +595,33 @@ class Piwik
 	}
 
 	/**
+	 * Test if php output is compressed
+	 *
+	 * @return bool True if php output is (or suspected/likely) to be compressed
+	 */
+	static public function isPhpOutputCompressed()
+	{
+		// Off = ''; On = '1'; otherwise, it's a buffer size
+		$zlibOutputCompression = ini_get('zlib.output_compression');
+
+		// could be ob_gzhandler, ob_deflatehandler, etc
+		$outputHandler = ini_get('output_handler');
+
+		// output handlers can be stacked
+		$obHandlers = array_filter( ob_list_handlers(), create_function('$var', 'return $var !== "default output handler";') );
+
+		// user defined handler via wrapper
+		$autoPrependFile = ini_get('auto_prepend_file');
+		$autoAppendFile = ini_get('auto_append_file');
+
+		return !empty($zlibOutputCompression) ||
+			!empty($outputHandler) ||
+			!empty($obHandlers) ||
+			!empty($autoPrependFile) ||
+			!empty($autoAppendFile);
+	}
+
+	/**
 	 * Serve static files through php proxy.
 	 *
 	 * It performs the following actions:
@@ -657,26 +684,7 @@ class Piwik
 				$encoding = '';
 				$compressedFileLocation = PIWIK_USER_PATH . self::COMPRESSED_FILE_LOCATION . basename($file);
 
-				// Off = ''; On = '1'; otherwise, it's a buffer size
-				$zlibOutputCompression = ini_get('zlib.output_compression');
-
-				// could be ob_gzhandler, ob_deflatehandler, etc
-				$outputHandler = ini_get('output_handler');
-
-				// output handlers can be stacked
-				$obHandlers = ob_list_handlers();
-
-				// user defined handler via wrapper
-				$autoPrependFile = ini_get('auto_prepend_file');
-				$autoAppendFile = ini_get('auto_append_file');
-
-				$phpOutputCompressionEnabled = !empty($zlibOutputCompression) ||
-					!empty($outputHandler) ||
-					(isset($obHandlers[0]) && $obHandlers[0] !== 'default output handler') ||
-					count($obHandlers) > 1 ||
-					!empty($autoPrependFile) ||
-					!empty($autoAppendFile);
-
+				$phpOutputCompressionEnabled = self::isPhpOutputCompressed();
 				if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && !$phpOutputCompressionEnabled)
 				{
 					$acceptEncoding = $_SERVER['HTTP_ACCEPT_ENCODING'];
@@ -733,7 +741,7 @@ class Piwik
 
 				@header('Last-Modified: ' . $lastModified);
 
-				if (!$phpOutputCompressionEnabled)
+				if(!$phpOutputCompressionEnabled)
 				{
 					@header('Content-Length: ' . filesize($file));
 				}
@@ -743,12 +751,12 @@ class Piwik
 					@header('Content-Type: '.$contentType);
 				}
 
-				if ($compressed)
+				if($compressed)
 				{
 					@header('Content-Encoding: ' . $encoding);
 				}
 
-				if (!@readfile($file))
+				if(!@readfile($file))
 				{
 					self::setHttpStatus('505 Internal server error');
 				}
