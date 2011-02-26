@@ -100,6 +100,14 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 class Test_Piwik_serveStaticFile extends UnitTestCase
 {
 	/**
+	 * Test that php compression isn't enabled ... otherwise, lots of tests will fail
+	 */
+	public function test_phpOutputCompression()
+	{
+		$this->assertFalse(Piwik::isPhpOutputCompressed());
+	}
+
+	/**
 	 * Checks that "HTTP/1.0 404 Not Found" is returned when Piwik::serveStaticFile is called with a null file
 	 */
 	public function test_nullFile()
