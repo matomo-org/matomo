@@ -188,7 +188,7 @@ datatable_archiving_maximum_rows_standard = 500
 use_ajax_cdn = 0
 
 ; required AJAX library versions
-jquery_version = 1.5
+jquery_version = 1.5.1
 jqueryui_version = 1.8.9
 swfobject_version = 2.2
 
