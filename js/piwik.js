@@ -933,7 +933,7 @@ var
 				// Custom Variables names and values are each truncated before being sent in the request or recorded in the cookie
 				customVariableMaximumLength = 100,
 
-				// Browser features  via client-side data collection
+				// Browser features via client-side data collection
 				browserFeatures = {},
 
 				// Guard against installing the link tracker more than once per Tracker instance
@@ -969,7 +969,7 @@ var
 			}
 
 			/*
-			 * Is the host local?  (i.e., not an outlink)
+			 * Is the host local? (i.e., not an outlink)
 			 */
 			function isSiteHostName(hostName) {
 				var i,
@@ -1005,7 +1005,7 @@ var
 				var image = new Image(1, 1);
 
 				image.onLoad = function () { };
-				image.src = configTrackerUrl + '?' + request;
+				image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
 			}
 
 			/*
@@ -1351,7 +1351,7 @@ var
 			}
 
 			/*
-			 * Log the link or click  with the server
+			 * Log the link or click with the server
 			 */
 			function logLink(url, linkType, customData) {
 				var request = getRequest(linkType + '=' + encodeWrapper(purify(url)), customData, 'link');
@@ -1575,8 +1575,8 @@ var
 
 /*<DEBUG>*/
 			/*
-			 * Register a test hook.  Using eval() permits access to otherwise
-			 * privileged membmers.
+			 * Register a test hook. Using eval() permits access to otherwise
+			 * privileged members.
 			 */
 			function registerHook(hookName, userHook) {
 				var hookObj = null;
@@ -1686,7 +1686,7 @@ var
 				},
 
 				/**
-				 * Set custom variable to this visit
+				 * Set custom variable within this visit
 				 *
 				 * @param int index
 				 * @param string name
@@ -1926,7 +1926,7 @@ var
 				/**
 				 * Install link tracker
 				 *
-				 * The default behaviour is to use actual click events.  However, some browsers
+				 * The default behaviour is to use actual click events. However, some browsers
 				 * (e.g., Firefox, Opera, and Konqueror) don't generate click events for the middle mouse button.
 				 *
 				 * To capture more "clicks", the pseudo click-handler uses mousedown + mouseup events.
@@ -2115,7 +2115,7 @@ var
 		var option,
 			piwikTracker = Piwik.getTracker(piwikUrl, siteId);
 
-		// initializer tracker
+		// initialize tracker
 		piwikTracker.setDocumentTitle(documentTitle);
 		piwikTracker.setCustomData(customData);
 
