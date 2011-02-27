@@ -28,8 +28,12 @@
  * JSON - public domain reference implementation by Douglas Crockford
  * @link http://www.JSON.org/json2.js
  ************************************************************/
-/*jslint evil:true, strict:true, regexp:false, forin:true */
+/*jslint evil: true, strict: true, regexp: false */
 /*global JSON2 */
+
+// Create a JSON object only if one does not already exist. We create the
+// methods in a closure to avoid creating global variables.
+
 if (!this.JSON2) {
 	this.JSON2 = {};
 }
@@ -185,8 +189,8 @@ if (!this.JSON2) {
             if (rep && typeof rep === 'object') {
                 length = rep.length;
                 for (i = 0; i < length; i += 1) {
-                    k = rep[i];
-                    if (typeof k === 'string') {
+                    if (typeof rep[i] === 'string') {
+                        k = rep[i];
                         v = str(k, value);
                         if (v) {
                             partial.push(quote(k) + (gap ? ': ' : ':') + v);
@@ -198,7 +202,7 @@ if (!this.JSON2) {
 // Otherwise, iterate through all of the keys in the object.
 
                 for (k in value) {
-                    if (Object.hasOwnProperty.call(value, k)) {
+                    if (Object.prototype.hasOwnProperty.call(value, k)) {
                         v = str(k, value);
                         if (v) {
                             partial.push(quote(k) + (gap ? ': ' : ':') + v);
@@ -283,7 +287,7 @@ if (!this.JSON2) {
                 var k, v, value = holder[key];
                 if (value && typeof value === 'object') {
                     for (k in value) {
-                        if (Object.hasOwnProperty.call(value, k)) {
+                        if (Object.prototype.hasOwnProperty.call(value, k)) {
                             v = walk(value, k);
                             if (v !== undefined) {
                                 value[k] = v;
@@ -352,7 +356,7 @@ if (!this.JSON2) {
  * end JSON
  ************************************************************/
 
-/*jslint browser:true, plusplus:false, onevar:false, strict:true, evil:true */
+/*jslint browser:true, forin:true, plusplus:false, onevar:false, strict:true, evil:true */
 /*global window unescape ActiveXObject _paq:true */
 var
 	// asynchronous tracker (or proxy)
