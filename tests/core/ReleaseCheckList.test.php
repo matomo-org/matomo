@@ -172,7 +172,7 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 		}
 
 		/*
-		 * Piwik's .js files don't have $Id: ReleaseCheckList.test.php 3985 2011-02-28 05:48:20Z vipsoft $
+		 * Piwik's .js files don't have $Id$
 		 */
 		$contents = file_get_contents($file = PIWIK_DOCUMENT_ROOT . '/piwik.js');
 		$this->assertTrue(strpos($contents, '$Id') === false, $file);
