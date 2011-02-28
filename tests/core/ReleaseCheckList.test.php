@@ -148,15 +148,15 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 		 * Piwik's .php files have $Id$
 		 */
 		$contents = file_get_contents($file = PIWIK_DOCUMENT_ROOT . '/index.php');
-		$this->assertTrue(strpos($contents, '$Id$file);
+		$this->assertTrue(strpos($contents, '$Id: '.basename($file).' ') !== false, $file);
 
 		$contents = file_get_contents($file = PIWIK_DOCUMENT_ROOT . '/piwik.php');
-		$this->assertTrue(strpos($contents, '$Id$file);
+		$this->assertTrue(strpos($contents, '$Id: '.basename($file).' ') !== false, $file);
 
 		foreach(Piwik::globr(PIWIK_DOCUMENT_ROOT . '/core', '*.php') as $file)
 		{
 			$contents = file_get_contents($file);
-			$this->assertTrue(strpos($contents, '$Id$file);
+			$this->assertTrue(strpos($contents, '$Id: '.basename($file).' ') !== false, $file);
 		}
 
 		foreach(Piwik::globr(PIWIK_DOCUMENT_ROOT . '/plugins', '*.php') as $file)
@@ -168,11 +168,11 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 			}
 			
 			$contents = file_get_contents($file);
-			$this->assertTrue(strpos($contents, '$Id$file);
+			$this->assertTrue(strpos($contents, '$Id: '.basename($file).' ') !== false, $file);
 		}
 
 		/*
-		 * Piwik's .js files don't have $Id$
+		 * Piwik's .js files don't have $Id: ReleaseCheckList.test.php 3985 2011-02-28 05:48:20Z vipsoft $
 		 */
 		$contents = file_get_contents($file = PIWIK_DOCUMENT_ROOT . '/piwik.js');
 		$this->assertTrue(strpos($contents, '$Id') === false, $file);
