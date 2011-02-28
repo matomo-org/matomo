@@ -107,5 +107,89 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 		$this->assertTrue( preg_match('/SWFObject v([0-9.]+)/', $swfobjectJs, $matches) );
 		$this->assertEqual( $matches[1], Zend_Registry::get('config')->General->swfobject_version );
 	}
-}
 
+	function test_svnEolStyle()
+	{
+		foreach(Piwik::globr(PIWIK_DOCUMENT_ROOT, '*') as $file)
+		{
+			// skip files in these folders
+			if(strpos($file, '/.svn/') !== false ||
+				strpos($file, '/documentation/') !== false ||
+				strpos($file, '/tests/') !== false)
+			{
+				continue;
+			}
+
+			// skip files with these file extensions
+			if(preg_match('/\.(bmp|fdf|gif|deflate|gz|ico|jar|jpg|p12|pdf|png|rar|swf|vsd|z|zip)$/', $file))
+			{
+				continue;
+			}
+
+			$contents = file_get_contents($file);
+
+			// expect CRLF
+			if(preg_match('/\.(bat|ps1)$/', $file))
+			{
+				$contents = str_replace("\r\n", '', $contents);
+				$this->assertTrue(strpos($contents, "\n") === false, $file);
+			}
+			else
+			{
+			// expect native
+				$this->assertTrue(strpos($contents, "\r\n") === false, $file);
+			}
+		}
+	}
+
+	function test_svnKeywords()
+	{
+		/*
+		 * Piwik's .php files have $Id$
+		 */
+		$contents = file_get_contents($file = PIWIK_DOCUMENT_ROOT . '/index.php');
+		$this->assertTrue(strpos($contents, '$Id$file);
+
+		$contents = file_get_contents($file = PIWIK_DOCUMENT_ROOT . '/piwik.php');
+		$this->assertTrue(strpos($contents, '$Id$file);
+
+		foreach(Piwik::globr(PIWIK_DOCUMENT_ROOT . '/core', '*.php') as $file)
+		{
+			$contents = file_get_contents($file);
+			$this->assertTrue(strpos($contents, '$Id$file);
+		}
+
+		foreach(Piwik::globr(PIWIK_DOCUMENT_ROOT . '/plugins', '*.php') as $file)
+		{
+			if(strpos($file, '/tests/') !== false ||
+				strpos($file, '/PhpSecInfo/') !== false)
+			{
+				continue;
+			}
+			
+			$contents = file_get_contents($file);
+			$this->assertTrue(strpos($contents, '$Id$file);
+		}
+
+		/*
+		 * Piwik's .js files don't have $Id$
+		 */
+		$contents = file_get_contents($file = PIWIK_DOCUMENT_ROOT . '/piwik.js');
+		$this->assertTrue(strpos($contents, '$Id') === false, $file);
+
+		$contents = file_get_contents($file = PIWIK_DOCUMENT_ROOT . '/js/piwik.js');
+		$this->assertTrue(strpos($contents, '$Id') === false, $file);
+
+		foreach(Piwik::globr(PIWIK_DOCUMENT_ROOT . '/plugins', '*.js') as $file)
+		{
+			$contents = file_get_contents($file);
+			$this->assertTrue(strpos($contents, '$Id') === false, $file);
+		}
+
+		foreach(Piwik::globr(PIWIK_DOCUMENT_ROOT . '/themes', '*.js') as $file)
+		{
+			$contents = file_get_contents($file);
+			$this->assertTrue(strpos($contents, '$Id') === false, $file);
+		}
+	}
+}
