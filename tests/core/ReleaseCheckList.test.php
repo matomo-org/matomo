@@ -115,7 +115,8 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 			// skip files in these folders
 			if(strpos($file, '/.svn/') !== false ||
 				strpos($file, '/documentation/') !== false ||
-				strpos($file, '/tests/') !== false)
+				strpos($file, '/tests/') !== false ||
+				strpos($file, '/tmp/') !== false)
 			{
 				continue;
 			}
