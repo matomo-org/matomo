@@ -10,6 +10,10 @@
  * @package Piwik_PDFReports
  */
 
+/**
+ *
+ * @package Piwik_PDFReports
+ */
 class Piwik_PDFReports_Controller extends Piwik_Controller
 {	
     public function index()

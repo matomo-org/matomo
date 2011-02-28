@@ -10,6 +10,10 @@
  * @package Piwik_PDFReports
  */
 
+/**
+ *
+ * @package Piwik_PDFReports
+ */
 class Piwik_PDFReports_API
 {
 	protected $reportsMetadata = array();

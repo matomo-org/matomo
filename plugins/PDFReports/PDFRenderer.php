@@ -10,9 +10,16 @@
  * @package Piwik_PDFReports
  */
 
+/**
+ * @see libs/tcpdf
+ */
 require_once PIWIK_INCLUDE_PATH . '/libs/tcpdf/config/lang/eng.php';
 require_once PIWIK_INCLUDE_PATH . '/libs/tcpdf/tcpdf.php';
 
+/**
+ *
+ * @package Piwik_PDFReports
+ */
 class Piwik_PDFReports_PDFRenderer extends TCPDF
 {
 	private $reportFontBold 	   = 'B';

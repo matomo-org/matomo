@@ -1113,6 +1113,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	}
 }
 
+/**
+ * @package Piwik
+ * @subpackage Piwik_Tracker
+ */
 class Piwik_Tracker_Visit_Referer
 {
 	

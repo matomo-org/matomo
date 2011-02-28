@@ -10,6 +10,10 @@
  * @package Piwik
  */
 
+/**
+ *
+ * @package Piwik
+ */
 class Piwik_Segment
 {
     /**
