@@ -11,6 +11,10 @@
  * @package Piwik_PDFReports
  */
 
+/**
+ *
+ * @package Piwik_PDFReports
+ */
 class Piwik_PDFReports extends Piwik_Plugin
 {
 	public function getInformation()

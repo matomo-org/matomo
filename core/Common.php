@@ -234,7 +234,6 @@ class Piwik_Common
 	 * but still want daily/weekly/monthly PDF reports emailed automatically.
 	 * 
 	 * This is similar to calling the API CoreAdminHome.runScheduledTasks (see misc/cron/archive.sh)
-	 * @return 
 	 */
 	public static function runScheduledTasks($now)
 	{

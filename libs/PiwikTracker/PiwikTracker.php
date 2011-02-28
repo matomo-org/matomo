@@ -12,6 +12,11 @@
  * @category Piwik
  * @package PiwikTracker
  */
+
+/**
+ *
+ * @package PiwikTracker
+ */
 class PiwikTracker
 {
 	/**

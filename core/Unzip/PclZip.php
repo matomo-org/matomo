@@ -9,6 +9,10 @@
  * @category Piwik
  * @package Piwik
  */
+
+/**
+ * @see libs/PclZip
+ */
 require_once PIWIK_INCLUDE_PATH . '/libs/PclZip/pclzip.lib.php';
 
 /**
