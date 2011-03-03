@@ -1,7 +1,7 @@
 <?php 
 $translations = array(
 	'General_Locale' => 'is_IS.UTF-8',
-	'General_TranslatorName' => 'Anna Jonna Ármannsdóttir, Ívar Björn Hilmarsson, Jóhann B. Guðmundsson',
+	'General_TranslatorName' => 'Anna Jonna Ármannsdóttir <annaj@hi.is>Ívar Björn Hilmarsson <ivarbj@hi.is>Jóhann B. Guðmundsson <johannbg@gmail.com>',
 	'General_TranslatorEmail' => ' annaj@hi.is, ivarbj@hi.is, johannbg@gmail.com',
 	'General_EnglishLanguageName' => 'Icelandic',
 	'General_OriginalLanguageName' => 'Íslenska',
