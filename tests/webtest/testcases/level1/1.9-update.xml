@@ -32,10 +32,13 @@
 					</filterchain>
 				</loadfile>
 
+				<echo>${trunkVersion}</echo>
+				<echo>${latestVersion}</echo>
+
 				<ifStep description="compare version numbers">
 					<condition>
 						<not>
-							<verifyProperty property="trunkVersion" value="${latestVersion}" />
+							<verifyProperty name="trunkVersion" value="${latestVersion}" propertyType="dynamic" />
 						</not>
 					</condition>
 					<then>
