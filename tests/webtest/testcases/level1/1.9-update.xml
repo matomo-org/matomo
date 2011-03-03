@@ -20,9 +20,6 @@
 
 				<piwikGetVersion propertyName="latestVersion" />
 
-				<property environment="env" />
-				<echo message="${env.SVN_REVISION}"/>
-
 				<get src="http://dev.piwik.org/svn/trunk/core/Version.php" dest="trunkVersion.php" />
 				<loadfile srcFile="trunkVersion.php" property="trunkVersion">
 					<filterchain>
