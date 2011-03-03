@@ -85,7 +85,7 @@
 				<setInputField description="set database name" name="dbname" value="${db.name}" />
 				<setInputField description="set database port" name="tables_prefix" value="canoo_" />
 
-				<clickButton description="click 'Next »' button" label="Next »" />
+				<clickButton description="click 'Go!' button" label="Go!" />
 
 				<!-- 4. databaseCheck -->
 <!--
@@ -123,7 +123,7 @@
 
 				<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 				<verifyText description="check page text" text="Piwik" />
-				<verifyText description="check page text" text="Super User" />
+				<verifyText description="check page text" text="General Setup" />
 
 				&checkForErrors;
 				&verifyLinksAndImages;
@@ -133,7 +133,7 @@
 				<setInputField description="set repeated Piwik password" name="password_bis" value="piwik_password" />
 				<setInputField description="set Piwik email" name="email" value="nobody@piwik.org" />
 
-				<clickButton description="click 'Next »' button" label="Next »" />
+				<clickButton description="click 'Go!' button" label="Go!" />
 
 				<!-- 7. firstWebsiteSetup -->
 
@@ -156,7 +156,7 @@
 				<setInputField description="set Piwik URL" name="url" value="${wt.config.protocol}://${wt.config.host}:${wt.config.port}${wt.config.basepath}" />
 				<setSelectField description="set Piwik timezone" name="timezone" value="UTC" />
 
-				<clickButton description="click 'Next »' button" label="Next »" />
+				<clickButton description="click 'Go!' button" label="Go!" />
 
 				<!-- 8. displayJavascriptCode -->
 
@@ -170,7 +170,7 @@
 
 				<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 				<verifyText description="check page text" text="Piwik" />
-				<verifyText description="check page text" text="JavaScript Tracking code" />
+				<verifyText description="check page text" text="JavaScript Tracking tag" />
 
 				&checkForErrors;
 				&verifyLinksAndImages;
