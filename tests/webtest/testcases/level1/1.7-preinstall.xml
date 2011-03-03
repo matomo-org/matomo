@@ -22,11 +22,11 @@
 				&loadMacros;
 
 				<get src="http://api.piwik.org/1.0/getLatestVersion/" dest="latestVersion.txt" />
-				<loadFile srcFile="latestVersion.txt" property="latestVersion">
+				<loadfile srcFile="latestVersion.txt" property="latestVersion">
 					<filterchain>
 						<striplinebreaks/>
 					</filterchain>
-				</loadFile>
+				</loadfile>
 
 				<piwikPreInstall version="${latestVersion}" />
 			</steps>
