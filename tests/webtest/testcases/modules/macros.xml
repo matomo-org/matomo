@@ -12,6 +12,18 @@
 	</sequential>
 </macrodef>
 
+<macrodef name="piwikGetVersion" description="get Piwik version">
+	<attribute name="propertyName" default="latestVersion" />
+	<sequential>
+		<get src="http://api.piwik.org/1.0/getLatestVersion/" dest="latestVersion.txt" />
+		<loadfile srcFile="latestVersion.txt" property="@{propertyName}">
+			<filterchain>
+				<striplinebreaks/>
+			</filterchain>
+		</loadfile>
+	</sequential>
+</macrodef>
+
 <macrodef name="piwikPreInstall" description="pre-install Piwik">
 	<attribute name="version" default="1.0" />
 	<sequential>
