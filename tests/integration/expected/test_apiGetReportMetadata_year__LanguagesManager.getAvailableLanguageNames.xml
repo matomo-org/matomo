@@ -43,7 +43,7 @@
 	<row>
 		<code>el</code>
 		<name>Ελληνικά</name>
-		<english_name>Greek</english_name>
+		<english_name>Hellenic</english_name>
 	</row>
 	<row>
 		<code>en</code>
@@ -109,6 +109,11 @@
 		<code>ja</code>
 		<name>日本語</name>
 		<english_name>Japanese</english_name>
+	</row>
+	<row>
+		<code>ka</code>
+		<name>ქართული</name>
+		<english_name>Georgian</english_name>
 	</row>
 	<row>
 		<code>ko</code>
