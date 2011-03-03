@@ -9,7 +9,7 @@
 	<!ENTITY rsaquo "&#8250;" >
 ]>
 
-<project name="Level 1 - pre-install" basedir="." default="webtest">
+<project name="Level 1 - pre-install 1.0" basedir="." default="webtest">
 	&time;
 	<target name="webtest">
 		<webtest name="pre-install">
@@ -17,54 +17,11 @@
 				<option name="ThrowExceptionOnScriptError" value="false" />
 			</config>
 			<steps>
-				<echo>Pre-install</echo>
+				<echo>Pre-install 1.0</echo>
 
 				&loadMacros;
 
-				<!-- download Piwik 1.0 and unzip -->
-
-				<property environment="env" />
-
-				<get src="http://builds.piwik.org/piwik-1.0.zip" dest="piwik-1.0.zip" />
-
-				<unzip src="piwik-1.0.zip" dest="${env.WORKSPACE}" />
-
-				<delete includeemptydirs="true">
-					<fileset dir="${basedir}/../.." includes="config/**" />
-					<fileset dir="${basedir}/../.." includes="core/**" />
-					<fileset dir="${basedir}/../.." includes="js/**" />
-					<fileset dir="${basedir}/../.." includes="lang/**" />
-					<fileset dir="${basedir}/../.." includes="libs/**" />
-					<fileset dir="${basedir}/../.." includes="misc/**" />
-					<fileset dir="${basedir}/../.." includes="plugins/**" />
-					<fileset dir="${basedir}/../.." includes="themes/**" />
-					<fileset dir="${basedir}/../.." includes="tmp/**" />
-					<fileset dir="${basedir}/../..">
-						<include name="*" />
-						<exclude name="tests" />
-					</fileset>
-				</delete>
-
-				<move todir="${env.WORKSPACE}/build/">
-					<fileset dir="${env.WORKSPACE}/piwik/" />
-				</move>
-
-				<replace file="${env.WORKSPACE}/build/config/global.ini.php">
-					<replacefilter 
-						token="latest_version_url = http://piwik.org/latest.zip" 
-						value="latest_version_url = http://${env.HTTP_HOST}/jenkins.private/jobs/Piwik/workspace/latest.zip" />
-					<replacefilter 
-						token="api_service_url = http://api.piwik.org" 
-						value="api_service_url = http://${env.HTTP_HOST}/jenkins.private/jobs/Piwik/workspace" />
-				</replace>
-				<length file="${env.WORKSPACE}/build/config/global.ini.php" property="configLEN" />
-				<checksum file="${env.WORKSPACE}/build/config/global.ini.php" property="configMD5" />
-				<replaceregexp
-					file="${env.WORKSPACE}/build/config/manifest.inc.php"
-					match='"(config/global.ini.php)".*'
-					replace='"\1" => array("${configLEN}", "${configMD5}"),'
-					byline="true" />
-
+				<piwikPreInstall version="1.0" />
 			</steps>
 		</webtest>
 	</target>

@@ -9,16 +9,19 @@
 	<!ENTITY rsaquo "&#8250;" >
 ]>
 
-<project name="Level 1 - auto update" basedir="." default="webtest">
+<project name="Level 1 - pre-install 1.1.1" basedir="." default="webtest">
 	&time;
 	<target name="webtest">
-		<webtest name="auto update">
+		<webtest name="pre-install">
+			<config>
+				<option name="ThrowExceptionOnScriptError" value="false" />
+			</config>
 			<steps>
-				<echo>Auto-Update</echo>
+				<echo>Pre-install 1.1.1</echo>
 
 				&loadMacros;
 
-				<piwikAutoUpdate />
+				<piwikPreInstall version="1.1.1" />
 			</steps>
 		</webtest>
 	</target>

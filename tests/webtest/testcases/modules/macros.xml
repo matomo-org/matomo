@@ -11,3 +11,156 @@
 		</retry>
 	</sequential>
 </macrodef>
+
+<macrodef name="piwikPreInstall" description="pre-install Piwik">
+	<attribute name="version" default="1.0" />
+	<sequential>
+		<!-- download Piwik and unzip -->
+
+		<property environment="env" />
+
+		<get src="http://builds.piwik.org/piwik-@{version}.zip" dest="piwik-@{version}.zip" />
+
+		<unzip src="piwik-@{version}.zip" dest="${env.WORKSPACE}" />
+
+		<delete includeemptydirs="true">
+			<fileset dir="${basedir}/../.." includes="config/**" />
+			<fileset dir="${basedir}/../.." includes="core/**" />
+			<fileset dir="${basedir}/../.." includes="js/**" />
+			<fileset dir="${basedir}/../.." includes="lang/**" />
+			<fileset dir="${basedir}/../.." includes="libs/**" />
+			<fileset dir="${basedir}/../.." includes="misc/**" />
+			<fileset dir="${basedir}/../.." includes="plugins/**" />
+			<fileset dir="${basedir}/../.." includes="themes/**" />
+			<fileset dir="${basedir}/../.." includes="tmp/**" />
+			<fileset dir="${basedir}/../..">
+				<include name="*" />
+				<exclude name="tests" />
+			</fileset>
+		</delete>
+
+		<move todir="${env.WORKSPACE}/build/">
+			<fileset dir="${env.WORKSPACE}/piwik/" />
+		</move>
+
+		<replace file="${env.WORKSPACE}/build/config/global.ini.php">
+			<replacefilter 
+				token="latest_version_url = http://piwik.org/latest.zip" 
+						value="latest_version_url = http://${env.HTTP_HOST}/jenkins.private/jobs/Piwik/workspace/latest.zip" />
+			<replacefilter 
+				token="api_service_url = http://api.piwik.org" 
+				value="api_service_url = http://${env.HTTP_HOST}/jenkins.private/jobs/Piwik/workspace" />
+		</replace>
+		<length file="${env.WORKSPACE}/build/config/global.ini.php" property="configLEN" />
+		<checksum file="${env.WORKSPACE}/build/config/global.ini.php" property="configMD5" />
+		<replaceregexp
+			file="${env.WORKSPACE}/build/config/manifest.inc.php"
+			match='"(config/global.ini.php)".*'
+			replace='"\1" => array("${configLEN}", "${configMD5}"),'
+			byline="true" />
+	</sequential>
+</macrodef>
+
+<macrodef name="piwikAutoUpdate" description="auto-update Piwik">
+	<sequential>
+		<!-- logging in -->
+
+		<invoke description="get index" url="/" />
+		<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Sign in" />
+		<verifyText description="check page text" text="Piwik" />
+		<verifyText description="check page text" text="Lost your password?" />
+
+		&checkForErrors;
+		&verifyLinksAndImages;
+					
+		<setInputField description="set Piwik login" htmlId="form_login" value="piwik_login" />
+		<setInputField description="set Piwik password" htmlId="form_password" value="piwik_password" />
+
+		<clickButton description="click 'Sign in' button" label="Sign in" />
+
+		<!-- logged in -->
+
+		<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Web Analytics Reports" />
+		<verifyText description="check page text" text="Piwik" />
+		<verifyText description="check page text" text="Dashboard" />
+		<verifyText description="check page text" text="Hello" />
+
+		<!-- update notice -->
+
+		<verifyText description="check page text" text="New Update:" />
+		<mouseOver description="expand header message" htmlId="header_message" />
+		<verifyText description="check page text" text="Please update now!" />
+
+		<enableJavaScript enable="false" />
+		<clickLink description="click 'Please update now'" href="action=newVersionAvailable" />
+
+		<!-- one click update -->
+
+		<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Update" />
+		<verifyText description="check page text" text="Piwik" />
+		<verifyText description="check page text" text="Update Automatically" />
+		<verifyText description="check page text" text="Download" />
+
+		<clickButton description="click 'Update Automatically' Button" label="Update Automatically" />
+		<!-- invoke description="one click update" url="/index.php?module=CoreUpdater&amp;action=oneClickUpdate" /-->
+
+		<!-- download, unzip -->
+
+		<not description="check for errors">
+			<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']" />
+		</not>
+
+		<not description="check if zip archive passed">
+			<verifyText description="check page text" text="Incompatible archive" />
+		</not>
+
+		<verifyText description="check page text" text="Piwik updated successfully!" />
+		<clickButton description="click 'Continue to Piwik' button" label="Continue to Piwik" />
+
+		<!-- db update? -->
+
+		<ifStep description="check if db update required">
+			<condition>
+				<verifyText description="check page text" text="Database Upgrade Required" />
+			</condition>
+			<then>
+				<clickButton description="click 'Upgrade Piwik' button" label="Upgrade Piwik" />
+
+				<!-- db update done -->
+
+				<not description="check for errors">
+					<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']" />
+				</not>
+
+				<verifyText description="check page text" text="Piwik has been successfully updated!" />
+				<clickButton description="click 'Continue to Piwik' button" label="Continue to Piwik" />
+			</then>
+		</ifStep>
+
+		<!-- logged out? -->
+		<ifStep description="check if re-login required">
+			<condition>
+				<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Sign in" />
+			</condition>
+			<then>
+				<setInputField description="set Piwik login" htmlId="form_login" value="piwik_login" />
+				<setInputField description="set Piwik password" htmlId="form_password" value="piwik_password" />
+
+				<!-- sign in -->
+
+				<clickButton description="click 'Sign in' button" label="Sign in" />
+			</then>
+		</ifStep>
+
+		<!-- logged in -->
+
+		<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Web Analytics Reports" />
+		<verifyText description="check page text" text="Piwik" />
+		<verifyText description="check page text" text="Dashboard" />
+		<verifyText description="check page text" text="Hello" />
+
+		<not description="up to date">
+			<verifyText description="check page text" text="New Update:" />
+		</not>
+	</sequential>
+</macrodef>
