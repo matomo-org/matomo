@@ -53,7 +53,7 @@ if(!isset($GLOBALS['Piwik_LanguageList']))
 		'dv' => array('Divehi', 'Dhivehi', 'Maldivian'),
 		'dz' => 'Dzongkha',
 		'ee' => 'Ewe',
-		'el' => array('Greek', 'Modern Greek'), // Greek, Modern (1453-)
+		'el' => array('Greek', 'Modern Greek', 'Hellenic'), // Greek, Modern (1453-)
 		'en' => 'English',
 		'eo' => 'Esperanto',
 		'es' => array('Spanish', 'Castilian'),
