@@ -23,8 +23,8 @@
 				<get src="http://dev.piwik.org/svn/trunk/core/Version.php" dest="trunkVersion.php" />
 				<loadfile srcFile="trunkVersion.php" property="trunkVersion">
 					<filterchain>
-						<contains value="const VERSION"/>
 						<tokenfilter>
+							<containsstring contains="const VERSION" />
 							<replaceregex pattern="const VERSION = '" replace="" />
 							<replaceregex pattern="';" replace="" />
 							<trim />
