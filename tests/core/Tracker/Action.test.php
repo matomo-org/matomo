@@ -58,6 +58,7 @@ class Test_Piwik_TrackerAction extends  Test_Database
 
 			// testing with missing value
 			'http://a.com/index?p1=v1&p2=&p3=v3&p4',
+			'http://a.com/index?p1&p2=v2&p3=v3&p4',
 
 			// testing with extra &&
 			'http://a.com/index?p1=v1&&p2=v2&p3=v3&p4=v4&&',
@@ -80,7 +81,10 @@ class Test_Piwik_TrackerAction extends  Test_Database
 			'http://a.com/index?p1=v1&p2[]=v2a&p2[]=v2b&p2[]=v2c&p3=v3&p4=v4',
 
 			// normalize orphaned p4
-			'http://a.com/index?p1=v1&p2=&p3=v3&p4=',
+			'http://a.com/index?p1=v1&p2=&p3=v3&p4',
+
+			// normalize orphaned p1
+			'http://a.com/index?p1&p2=v2&p3=v3&p4',
 
 			// the extra & are automatically cleaned up
 			'http://a.com/index?p1=v1&p2=v2&p3=v3&p4=v4',
@@ -108,6 +112,7 @@ class Test_Piwik_TrackerAction extends  Test_Database
 			'http://a.com/index?p1=v1&p3=v3',
 			'http://a.com/index?p1=v1&p3=v3',
 			'http://a.com/index?p1=v1&p3=v3',
+			'http://a.com/index?p1&p3=v3',
 			'http://a.com/index?p1=v1&p3=v3',
 		);
 		$this->setUpRootAccess();
@@ -136,6 +141,7 @@ class Test_Piwik_TrackerAction extends  Test_Database
 			'http://a.com/index?p1=v1&p3=v3',
 			'http://a.com/index?p1=v1&p3=v3',
 			'http://a.com/index?p1=v1&p3=v3',
+			'http://a.com/index?p1&p3=v3',
 			'http://a.com/index?p1=v1&p3=v3',
 		);
 		$this->setUpRootAccess();
@@ -233,6 +239,12 @@ class Test_Piwik_TrackerAction extends  Test_Database
 				'request' => array( 'url' => 'http://example.org/CATEGORY/TEST', 'action_name' => 'Example.org / Category / test /'),
 				'expected' => array(	'name' => 'Example.org/Category/test',
 										'url' => 'http://example.org/CATEGORY/TEST',
+										'type' => Piwik_Tracker_Action::TYPE_ACTION_URL),
+			),
+			array(
+				'request' => array( 'url' => 'http://example.org/?2,123'),
+				'expected' => array(	'name' => null,
+										'url' => 'http://example.org/?2,123',
 										'type' => Piwik_Tracker_Action::TYPE_ACTION_URL),
 			),
 

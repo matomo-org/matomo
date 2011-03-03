@@ -310,7 +310,7 @@ class Piwik_Common
 	 * @param string $urlQuery result of parse_url()['query'] and htmlentitied (& is &amp;) eg. module=test&amp;action=toto or ?page=test
 	 * @param string $param
 	 *
-	 * @return string|bool Parameter value if found (can be the empty string!), false if not found
+	 * @return string|bool Parameter value if found (can be the empty string!), null if not found
 	 */
 	static public function getParameterFromQueryString( $urlQuery, $parameter)
 	{
@@ -319,7 +319,7 @@ class Piwik_Common
 		{
 			return $nameToValue[$parameter];
 		}
-		return false;
+		return null;
 	}
 
 	/**
@@ -360,7 +360,7 @@ class Piwik_Common
 			else
 			{
 				$name = $value;
-				$value = '';
+				$value = false;
 			}
 
 			// if array without indexes
