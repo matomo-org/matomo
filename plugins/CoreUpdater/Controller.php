@@ -297,6 +297,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 			$this->warningMessages = array_merge($this->warningMessages, array_slice($integrityInfo, 1));
 		}
 
+		Piwik_AssetManager::removeMergedAssets();
 		Piwik_View::clearCompiledTemplates();
 
 		$view->coreError = $this->coreError;
@@ -312,6 +313,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	{
 		$this->loadAndExecuteUpdateFiles($updater, $componentsWithUpdateFile);
 
+		Piwik_AssetManager::removeMergedAssets();
 		Piwik_View::clearCompiledTemplates();
 
 		$view->coreError = $this->coreError;
