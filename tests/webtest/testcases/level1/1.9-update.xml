@@ -18,7 +18,33 @@
 
 				&loadMacros;
 
-				<piwikAutoUpdate />
+				<piwikGetVersion propertyName="latestVersion" />
+
+				<property environment="env" />
+				<echo message="${env.SVN_REVISION}"/>
+
+				<get src="http://dev.piwik.org/svn/trunk/core/Version.php" dest="latestVersion.php" />
+				<loadfile srcFile="trunkVersion.php" property="trunkVersion">
+					<filterchain>
+						<contains value="const VERSION"/>
+						<tokenfilter>
+							<replaceregex pattern="const VERSION = '" replace="" />
+							<replaceregex pattern="';" replace="" />
+							<trim />
+						</tokenfilter>
+					</filterchain>
+				</loadfile>
+
+				<ifStep description="compare version numbers">
+					<condition>
+						<not>
+							<verifyProperty property="trunkVersion" value="${latestVersion}" />
+						</not>
+					</condition>
+					<then>
+						<piwikAutoUpdate />
+					</then>
+				</ifStep>
 			</steps>
 		</webtest>
 	</target>
