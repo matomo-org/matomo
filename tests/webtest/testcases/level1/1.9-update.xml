@@ -38,7 +38,7 @@
 				<ifStep description="compare version numbers">
 					<condition>
 						<not>
-							<verifyProperty name="trunkVersion" value="${latestVersion}" propertyType="dynamic" />
+							<verifyProperty name="trunkVersion" value="${latestVersion}" propertyType="ant" />
 						</not>
 					</condition>
 					<then>
