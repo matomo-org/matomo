@@ -18,7 +18,7 @@
 		<get src="http://api.piwik.org/1.0/getLatestVersion/" dest="latestVersion.txt" />
 		<loadfile srcFile="latestVersion.txt" property="@{propertyName}">
 			<filterchain>
-				<striplinebreaks/>
+				<striplinebreaks />
 			</filterchain>
 		</loadfile>
 	</sequential>
