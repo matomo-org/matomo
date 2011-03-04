@@ -29,6 +29,7 @@
 							<replaceregex pattern="';" replace="" />
 							<trim />
 						</tokenfilter>
+						<striplinebreaks />
 					</filterchain>
 				</loadfile>
 
