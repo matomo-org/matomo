@@ -92,8 +92,22 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 	
-	const DEFAULT_DATE = 'today';
-	
+	/**
+	 * Returns default date for Piwik reports
+	 *
+	 * @param string $user
+	 * @return string today, yesterday, week, month, year
+	 */
+	protected function getDefaultDateForUser($user)
+	{
+		$userSettingsDate = Piwik_UsersManager_API::getInstance()->getUserPreference($user, Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT_DATE);
+		if($userSettingsDate === false)
+		{
+			return Zend_Registry::get('config')->General->default_day;
+		}
+		return $userSettingsDate;
+	}
+
 	/**
 	 * The "User Settings" admin UI screen view
 	 */
@@ -125,12 +139,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		}
 		$view->defaultReport = $defaultReport;
 
-		$defaultDate = Piwik_UsersManager_API::getInstance()->getUserPreference($userLogin, Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT_DATE);
-		if($defaultDate === false)
-		{
-			$defaultDate = self::DEFAULT_DATE;
-		}
-		$view->defaultDate = $defaultDate;
+		$view->defaultDate = $this->getDefaultDateForUser($userLogin);
 		$view->availableDefaultDates = array(
 			'today' => Piwik_Translate('General_Today'),
 			'yesterday' => Piwik_Translate('General_Yesterday'),
@@ -196,13 +205,8 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 			} 
 		}
 		$view->anonymousDefaultReport = $anonymousDefaultReport;
-		
-		$anonymousDefaultDate = Piwik_UsersManager_API::getInstance()->getUserPreference($userLogin, Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT_DATE);
-		if($anonymousDefaultDate === false)
-		{
-			$anonymousDefaultDate = self::DEFAULT_DATE;
-		}
-		$view->anonymousDefaultDate = $anonymousDefaultDate;
+
+		$view->anonymousDefaultDate = $this->getDefaultDateForUser($userLogin);
 	}
 
 	/**
