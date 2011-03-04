@@ -352,6 +352,8 @@ class Piwik_Referers_Controller extends Piwik_Controller
 // Then it writes the list of best keywords in a HTML list
 function DisplayTopKeywords($url = "")
 {
+	// Do not spend more than 1 second fetching the data
+	@ini_set("default_socket_timeout", $timeout = 1);
 	// Get the Keywords data
 	$url = empty($url) ? "http://". $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] : $url;
 	$api = "'.$api.'&url=" . urlencode($url);
