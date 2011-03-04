@@ -57,14 +57,17 @@ class Test_Piwik_Date extends UnitTestCase
 		$dateExpected = Piwik_Date::factory('now', 'Africa/Brazzaville')->subHour(24);
 		$this->assertEqual($date->getDatetime(), $dateExpected->getDatetime());
 
-		// convert to/from local time
-		$now = time();
-		$date = Piwik_Date::factory($now, 'America/New_York');
-		$time = $date->getTimestamp();
+		if(Piwik::isTimezoneSupportEnabled())
+		{
+			// convert to/from local time
+			$now = time();
+			$date = Piwik_Date::factory($now, 'America/New_York');
+			$time = $date->getTimestamp();
 
-		$date = Piwik_Date::factory($time)->setTimezone('America/New_York');
-		$time = $date->getTimestamp();
-		$this->assertEqual($now, $time);
+			$date = Piwik_Date::factory($time)->setTimezone('America/New_York');
+			$time = $date->getTimestamp();
+			$this->assertEqual($now, $time);
+		}
 	}
 	
 	function test_setTimezone_dayInUTC()
@@ -79,12 +82,15 @@ class Test_Piwik_Date extends UnitTestCase
 		$date = $date->setTimezone('UTC');
 		$this->assertEqual($date->getDateStartUTC(), $dayStart);
 		$this->assertEqual($date->getDateEndUTC(), $dayEnd);
-		
-		$date = $date->setTimezone('Europe/Paris');
-		$utcDayStart = '2009-12-31 23:00:00';
-		$utcDayEnd = '2010-01-01 22:59:59';
-		$this->assertEqual($date->getDateStartUTC(), $utcDayStart);
-		$this->assertEqual($date->getDateEndUTC(), $utcDayEnd);
+
+		if(Piwik::isTimezoneSupportEnabled())
+		{
+			$date = $date->setTimezone('Europe/Paris');
+			$utcDayStart = '2009-12-31 23:00:00';
+			$utcDayEnd = '2010-01-01 22:59:59';
+			$this->assertEqual($date->getDateStartUTC(), $utcDayStart);
+			$this->assertEqual($date->getDateEndUTC(), $utcDayEnd);
+		}
 		
 		$date = $date->setTimezone('UTC+1');
 		$utcDayStart = '2009-12-31 23:00:00';
@@ -98,11 +104,14 @@ class Test_Piwik_Date extends UnitTestCase
 		$this->assertEqual($date->getDateStartUTC(), $utcDayStart);
 		$this->assertEqual($date->getDateEndUTC(), $utcDayEnd);
 
-		$date = $date->setTimezone('America/Vancouver');
-		$utcDayStart = '2010-01-01 08:00:00';
-		$utcDayEnd = '2010-01-02 07:59:59';
-		$this->assertEqual($date->getDateStartUTC(), $utcDayStart);
-		$this->assertEqual($date->getDateEndUTC(), $utcDayEnd);
+		if(Piwik::isTimezoneSupportEnabled())
+		{
+			$date = $date->setTimezone('America/Vancouver');
+			$utcDayStart = '2010-01-01 08:00:00';
+			$utcDayEnd = '2010-01-02 07:59:59';
+			$this->assertEqual($date->getDateStartUTC(), $utcDayStart);
+			$this->assertEqual($date->getDateEndUTC(), $utcDayEnd);
+		}
 	}
 	
 	function test_modifyDate_withTimezone()
@@ -114,26 +123,30 @@ class Test_Piwik_Date extends UnitTestCase
 		$date = $date->addHour(0)->addHour(0)->addHour(0);
 		$this->assertEqual($timestamp, $date->getTimestamp());
 		
-		
-		$date = Piwik_Date::factory('2010-01-01')->setTimezone('Europe/Paris');
-		$dateExpected = clone $date;
-		$date = $date->addHour(2);
-		$dateExpected = $dateExpected->addHour(1.1)->addHour(0.9)->addHour(1)->subHour(1);
-		$this->assertEqual($date->getTimestamp(), $dateExpected->getTimestamp());
+
+		if(Piwik::isTimezoneSupportEnabled())
+		{
+			$date = Piwik_Date::factory('2010-01-01')->setTimezone('Europe/Paris');
+			$dateExpected = clone $date;
+			$date = $date->addHour(2);
+			$dateExpected = $dateExpected->addHour(1.1)->addHour(0.9)->addHour(1)->subHour(1);
+			$this->assertEqual($date->getTimestamp(), $dateExpected->getTimestamp());
+		}
 	}
 	
 	function test_getDateStartUTCEnd_DuringDstTimezone()
 	{
-		$date = Piwik_Date::factory('2010-03-28');
-		$parisDayStart = '2010-03-28 00:00:00';
-		$parisDayEnd = '2010-03-28 23:59:59';
-		
-		$date = $date->setTimezone('Europe/Paris');
-		$utcDayStart = '2010-03-27 23:00:00'; 
-		$utcDayEnd = '2010-03-28 21:59:59';
+		if(Piwik::isTimezoneSupportEnabled())
+		{
+			$date = Piwik_Date::factory('2010-03-28');
 
-		$this->assertEqual($date->getDateStartUTC(), $utcDayStart);
-		$this->assertEqual($date->getDateEndUTC(), $utcDayEnd);
+			$date = $date->setTimezone('Europe/Paris');
+			$utcDayStart = '2010-03-27 23:00:00';
+			$utcDayEnd = '2010-03-28 21:59:59';
+
+			$this->assertEqual($date->getDateStartUTC(), $utcDayStart);
+			$this->assertEqual($date->getDateEndUTC(), $utcDayEnd);
+		}
 	}
 	
 	function test_addHour()
