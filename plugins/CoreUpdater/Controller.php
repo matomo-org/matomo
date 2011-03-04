@@ -96,6 +96,9 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	
 	private function oneClick_Unpack()
 	{
+		$pathExtracted = PIWIK_USER_PATH . self::PATH_TO_EXTRACT_LATEST_VERSION;
+		$this->pathRootExtractedPiwik = $pathExtracted . 'piwik';
+
 		if(file_exists($this->pathRootExtractedPiwik))
 		{
 			Piwik::unlinkRecursive($this->pathRootExtractedPiwik, true);
@@ -103,7 +106,6 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
 		$archive = Piwik_Unzip::factory('PclZip', $this->pathPiwikZip);
 
-		$pathExtracted = PIWIK_USER_PATH . self::PATH_TO_EXTRACT_LATEST_VERSION;
 		if ( 0 == ($archive_files = $archive->extract($pathExtracted) ) )
 		{
 			throw new Exception(Piwik_TranslateException('CoreUpdater_ExceptionArchiveIncompatible', $archive->errorInfo()));
@@ -114,7 +116,6 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 			throw new Exception(Piwik_TranslateException('CoreUpdater_ExceptionArchiveEmpty'));
 		}
 		unlink($this->pathPiwikZip);
-		$this->pathRootExtractedPiwik = $pathExtracted . 'piwik';
 	}
 	
 	private function oneClick_Verify()
@@ -297,6 +298,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 			$this->warningMessages = array_merge($this->warningMessages, array_slice($integrityInfo, 1));
 		}
 
+		Piwik_AssetManager::removeMergedAssets();
 		Piwik_View::clearCompiledTemplates();
 
 		$view->coreError = $this->coreError;
@@ -312,6 +314,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	{
 		$this->loadAndExecuteUpdateFiles($updater, $componentsWithUpdateFile);
 
+		Piwik_AssetManager::removeMergedAssets();
 		Piwik_View::clearCompiledTemplates();
 
 		$view->coreError = $this->coreError;

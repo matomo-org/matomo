@@ -356,19 +356,19 @@ class Test_Piwik_Common extends UnitTestCase
     }
     
     /**
-     * no query string => false
+     * no query string => null
      */
     function test_getParameterFromQueryString_noQuerystring()
     {
     	$urlQuery = "";
     	$parameter = "test''";
     	$result = Piwik_Common::getParameterFromQueryString( $urlQuery, $parameter);
-    	$expectedResult = false;
-    	$this->assertEqual($result, $expectedResult);
+    	$expectedResult = null;
+    	$this->assertTrue($result === $expectedResult);
     }
     
     /**
-     * param not found => false
+     * param not found => null
      */
     function test_getParameterFromQueryString_parameternotfound()
     {
@@ -376,8 +376,21 @@ class Test_Piwik_Common extends UnitTestCase
     	$urlQuery = "toto=mama&mama=titi";
     	$parameter = "tot";
     	$result = Piwik_Common::getParameterFromQueryString( $urlQuery, $parameter);
+    	$expectedResult = null;
+    	$this->assertTrue($result === $expectedResult);
+    }
+    
+    /**
+     * missing parameter value => returns false
+     */
+    function test_getParameterFromQueryString_missingParamValue()
+    {
+    	
+    	$urlQuery = "toto=mama&mama&tuytyt=teaoi";
+    	$parameter = "mama";
+    	$result = Piwik_Common::getParameterFromQueryString( $urlQuery, $parameter);
     	$expectedResult = false;
-    	$this->assertEqual($result, $expectedResult);
+    	$this->assertTrue($result === $expectedResult);
     }
     
     /**
@@ -434,6 +447,7 @@ class Test_Piwik_Common extends UnitTestCase
 	function test_getParameterFromQueryString()
 	{
 		$tests = array(
+			'x' => false,
 			'x=1' => '1',
 			'?x=1' => '1',
 			'x[]=' => array(''),
@@ -446,7 +460,7 @@ class Test_Piwik_Common extends UnitTestCase
 			//   ?x[]=A&y=1
 			'?x%5B%5D=A%26y%3D1' => array('A%26y%3D1'),
 			//   ?z=y&x[]=1
-			'?z=y%26x%5b%5d%3d1' => false,
+			'?z=y%26x%5b%5d%3d1' => null,
 		);
 
 		// use $i as the test index because simpletest uses sprintf() internally and the percent encoding causes an error
@@ -454,9 +468,23 @@ class Test_Piwik_Common extends UnitTestCase
 		foreach($tests as $test => $expected)
 		{
 			$i++;
-			$this->assertFalse(Piwik_Common::getParameterFromQueryString($test, 'y'), $i);
+			$this->assertTrue(Piwik_Common::getParameterFromQueryString($test, 'y') === null, $i);
 			$this->assertTrue(Piwik_Common::getParameterFromQueryString($test, 'x') === $expected, $i);
 		}
+	}
+
+	function test_getArrayFromQueryString()
+	{
+		$expected = array(
+			'a' => false,
+			'b' => '',
+			'c' => '1',
+			'd' => array( false ),
+			'e' => array(''),
+			'f' => array('a'),
+			'g' => array('b', 'c'),
+		);
+		$this->assertEqual(serialize(Piwik_Common::getArrayFromQueryString('a&b=&c=1&d[]&e[]=&f[]=a&g[]=b&g[]=c')), serialize($expected));
 	}
 
     public function test_isValidFilenameValidValues()
