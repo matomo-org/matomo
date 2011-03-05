@@ -127,18 +127,21 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 				continue;
 			}
 
-			$contents = file_get_contents($file);
+			if(!is_dir($file))
+			{
+				$contents = file_get_contents($file);
 
-			// expect CRLF
-			if(preg_match('/\.(bat|ps1)$/', $file))
-			{
-				$contents = str_replace("\r\n", '', $contents);
-				$this->assertTrue(strpos($contents, "\n") === false, $file);
-			}
-			else
-			{
-			// expect native
-				$this->assertTrue(strpos($contents, "\r\n") === false, $file);
+				// expect CRLF
+				if(preg_match('/\.(bat|ps1)$/', $file))
+				{
+					$contents = str_replace("\r\n", '', $contents);
+					$this->assertTrue(strpos($contents, "\n") === false, $file);
+				}
+				else
+				{
+				// expect native
+					$this->assertTrue(strpos($contents, "\r\n") === false, $file);
+				}
 			}
 		}
 	}
