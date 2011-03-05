@@ -21,9 +21,13 @@
 class Piwik_Option
 {
 	private $all = array();
+	private $loaded = false;
 
 	static private $instance = null;
+
 	/**
+	 * Singleton
+	 *
 	 * @return Piwik_Option
 	 */
 	static public function getInstance()
@@ -37,6 +41,12 @@ class Piwik_Option
 	
 	private function __construct() {}
 
+	/**
+	 * Returns the option value for the requested option $name, fetching from database, if not in cache.
+	 *
+	 * @param string $name Key
+ 	* @return string|false Value or false, if not found
+	 */
 	public function get($name)
 	{
 		$this->autoload();
@@ -55,6 +65,13 @@ class Piwik_Option
 		return $value;
 	}
 	
+	/**
+	 * Sets the option value in the database and cache
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param int $autoload if set to 1, this option value will be automatically loaded; should be set to 1 for options that will always be used in the Piwik request.
+	 */
 	public function set($name, $value, $autoload = 0)
 	{
 		$autoload = (int)$autoload;
@@ -64,14 +81,64 @@ class Piwik_Option
 					array($name, $value, $autoload, $value));
 		$this->all[$name] = $value;
 	}
-	
+
+	/**
+	 * Delete key-value pair from database and reload cache.
+	 *
+	 * @param string $name Key to match exactly
+	 * @param string $value Optional value
+	 */
+	public function delete($name, $value = null)
+	{
+		$sql = 'DELETE FROM '. Piwik_Common::prefixTable('option') . ' WHERE option_name = ?';
+		$bind[] = $name;
+
+		if(isset($value))
+		{
+			$sql .= ' AND option_value = ?';
+			$bind[] = $value;
+		}
+
+		Piwik_Query($sql, $bind);
+
+		$this->clearCache();
+	}
+
+	/**
+	 * Delete key-value pair(s) from database and reload cache.
+	 * The supplied pattern should use '%' as wildcards, and literal '_' should be escaped.
+	 *
+	 * @param string $name Pattern of key to match.
+	 * @param string $value Optional value
+	 */
+	public function deleteLike($name, $value = null)
+	{
+		$sql = 'DELETE FROM `'. Piwik_Common::prefixTable('option') . '` WHERE option_name LIKE ?';
+		$bind[] = $name;
+
+		if(isset($value))
+		{
+			$sql .= ' AND option_value = ?';
+			$bind[] = $value;
+		}
+
+		Piwik_Query($sql, $bind);
+
+		$this->clearCache();
+	}
+
+	/**
+	 * Initialize cache with autoload settings.
+	 *
+	 * @param bool $forceReload Forces a reload if true; default is false
+	 */
 	private function autoload()
 	{
-		static $loaded = false;
-		if($loaded)
+		if($this->loaded)
 		{
 			return;
 		}
+
 		$all = Piwik_FetchAll('SELECT option_value, option_name
 								FROM `'. Piwik_Common::prefixTable('option') . '` 
 								WHERE autoload = 1');
@@ -79,7 +146,8 @@ class Piwik_Option
 		{
 			$this->all[$option['option_name']] = $option['option_value'];
 		}
-		$loaded = true;
+
+		$this->loaded = true;
 	}
 	
 	/**
@@ -90,6 +158,7 @@ class Piwik_Option
 	 */
 	public function clearCache()
 	{
+		$this->loaded = false;
 		$this->all = array();
 	}
 }
@@ -97,8 +166,8 @@ class Piwik_Option
 /**
  * Returns the option value for the requested option $name
  *
- * @param string $name 
- * @return string|false if not found
+ * @param string $name Key
+ * @return string|false Value or false, if not found
  */
 function Piwik_GetOption($name)
 {
