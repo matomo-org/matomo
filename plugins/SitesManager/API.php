@@ -418,8 +418,10 @@ class Piwik_SitesManager_API
 		
 		$db->query("DELETE FROM ".Piwik_Common::prefixTable("access")." 
 					WHERE idsite = ?", $idSite);
-		
+
 		Piwik_Common::deleteCacheWebsiteAttributes($idSite);
+
+		Piwik_PostEvent('SitesManager.deleteSite', $idSite);
 	}
 	
 	
