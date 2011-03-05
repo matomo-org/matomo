@@ -16,8 +16,6 @@
  * 
  * This is useful to save Piwik-wide preferences, configuration values.
  * 
- * This should not be used to store user preferences nor website preferences. 
- *
  * @package Piwik
  */
 class Piwik_Option
