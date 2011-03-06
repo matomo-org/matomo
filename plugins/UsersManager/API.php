@@ -143,7 +143,8 @@ class Piwik_UsersManager_API
 		$db = Zend_Registry::get('db');
 		$users = $db->fetchAll("SELECT login,idsite 
 								FROM ".Piwik_Common::prefixTable("access")
-								." WHERE access = ?", $access);
+								." WHERE access = ?
+								ORDER BY login, idsite", $access);
 		$return = array();
 		foreach($users as $user)
 		{
