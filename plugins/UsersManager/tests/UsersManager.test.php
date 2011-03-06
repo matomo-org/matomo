@@ -770,7 +770,7 @@ class Test_Piwik_UsersManager extends Test_Database
     	
     	$access1 = Piwik_UsersManager_API::getInstance()->getUsersSitesFromAccess('view');
     	$access2 = Piwik_UsersManager_API::getInstance()->getUsersSitesFromAccess('admin');
-    	$wanted1 = array( 'user1' => array($id1,$id2), 'user2' => array($id3, $id2) );
+    	$wanted1 = array( 'user1' => array($id1,$id2), 'user2' => array($id2, $id3) );
     	$wanted2 = array( 'user2' => array($id1) );
     	
     	$this->assertEqual($access1, $wanted1);
