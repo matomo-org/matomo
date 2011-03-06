@@ -719,7 +719,6 @@ class Piwik
 								}
 
 								file_put_contents($filegz, $data);
-								$file = $filegz;
 							}
 
 							$compressed = true;
