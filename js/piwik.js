@@ -30,6 +30,12 @@
  ************************************************************/
 /*jslint evil: true, strict: true, regexp: false */
 /*global JSON2 */
+/*members "", "\b", "\t", "\n", "\f", "\r", "\"", JSON2, "\\", apply,
+    call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
+    getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join,
+    lastIndex, length, parse, prototype, push, replace, slice, stringify,
+    test, toJSON, toString, valueOf
+*/
 
 // Create a JSON object only if one does not already exist. We create the
 // methods in a closure to avoid creating global variables.
@@ -358,6 +364,39 @@ if (!this.JSON2) {
 
 /*jslint browser:true, forin:true, plusplus:false, onevar:false, strict:true, evil:true */
 /*global window unescape ActiveXObject _paq:true */
+/*members encodeURIComponent, decodeURIComponent,
+	shift, unshift,
+	addEventListener, attachEvent, removeEventListener, detachEvent,
+	cookie, domain, readyState, documentElement, doScroll, title,
+	location, top, document, referrer, parent, links, href, protocol, GearsFactory,
+	event, which, button, srcElement, type, target,
+	parentNode, tagName, hostname, className,
+	userAgent, cookieEnabled, platform, mimeTypes, enabledPlugin, javaEnabled,
+	XMLHttpRequest, ActiveXObject, open, setRequestHeader, send,
+	getTime, setTime, toGMTString, getHours, getMinutes, getSeconds,
+	toLowerCase, charAt, indexOf, split,
+	onLoad, src,
+	round, random,
+	exec,
+	res, width, height,
+	pdf, qt, realp, wma, dir, fla, java, gears, ag,
+	hook, getHook, getVisitorId, setTrackerUrl, setSiteId,
+	setCustomData, getCustomData,
+	setCustomVariable, getCustomVariable, deleteCustomVariable,
+	setDownloadExtensions, addDownloadExtensions,
+	setDomains, setIgnoreClasses, setRequestMethod,
+	setReferrerUrl, setCustomUrl, setDocumentTitle,
+	setDownloadClasses, setLinkClasses,
+	discardHashTag,
+	setCookieNamePrefix, setCookieDomain, setCookiePath,
+	setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout
+	setConversionAttributionFirstReferrer,
+	doNotTrack, setDoNotTrack,
+	addListener, enableLinkTracking, setLinkTrackingTimer,
+	setHeartBeatTimer, killFrame, redirectFile,
+	trackGoal, trackLink, trackPageView,
+	addPlugin, getTracker, getAsyncTracker
+*/
 var
 	// asynchronous tracker (or proxy)
 	_paq = _paq || [],
@@ -526,6 +565,8 @@ var
 		 * Add onload or DOM ready handler
 		 */
 		function addReadyListener() {
+			var _timer;
+
 			if (documentAlias.addEventListener) {
 				addEventListener(documentAlias, 'DOMContentLoaded', function ready() {
 					documentAlias.removeEventListener('DOMContentLoaded', ready, false);
@@ -556,7 +597,7 @@ var
 
 			// sniff for older WebKit versions
 			if ((new RegExp('WebKit')).test(navigatorAlias.userAgent)) {
-				var _timer = setInterval(function () {
+				_timer = setInterval(function () {
 					if (hasLoaded || /loaded|complete/.test(documentAlias.readyState)) {
 						clearInterval(_timer);
 						loadHandler();
