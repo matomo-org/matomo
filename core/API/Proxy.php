@@ -223,7 +223,16 @@ class Piwik_API_Proxy
 					try{
 						$requestValue = Piwik_Common::getRequestVar($name, $defaultValue, null, $parametersRequest);
 					} catch(Exception $e) {
-						$requestValue = $defaultValue;
+						// Special case: empty parameter in the URL, should return the empty string
+						if(isset($parametersRequest[$name]) 
+							&& $parametersRequest[$name] === '')
+						{
+							$requestValue = '';
+						}
+						else
+						{
+							$requestValue = $defaultValue;
+						}
 					}
 				}
 			} catch(Exception $e) {

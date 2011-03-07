@@ -650,10 +650,22 @@ class Test_Piwik_SitesManager extends Test_Database
     	$websites = Piwik_SitesManager_API::getInstance()->getSitesFromGroup('');
     	$this->assertEqual(count($websites), 1);
     	
-    	Piwik_SitesManager_API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl );
     	
     	// the Update doesn't change the group field
+    	Piwik_SitesManager_API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl );
     	$websites = Piwik_SitesManager_API::getInstance()->getSitesFromGroup('');
+    	$this->assertEqual(count($websites), 1);
+    	
+    	// Updating the group to something
+    	$group = 'something';
+    	Piwik_SitesManager_API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl, $ips=null, $parametersExclude=null, $timezone=null, $currency=null, $group );
+    	$websites = Piwik_SitesManager_API::getInstance()->getSitesFromGroup($group);
+    	$this->assertEqual(count($websites), 1);
+    	
+    	// Updating the group to nothing
+    	$group = '';
+    	Piwik_SitesManager_API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl, $ips=null, $parametersExclude=null, $timezone=null, $currency=null, $group );
+    	$websites = Piwik_SitesManager_API::getInstance()->getSitesFromGroup($group);
     	$this->assertEqual(count($websites), 1);
     	
     	$allUrls = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idsite);
