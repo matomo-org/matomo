@@ -557,11 +557,13 @@ if(function_exists('parse_ini_file')) {
 			}
 		}
 
-		for($j = 0; $j < $i; $j++) {
-			if ($process_sections === true) {
-				$result[$sections[$j]] = $values[$j];
-			} else {
-				$result[] = $values[$j];
+		for ($j = 0; $j < $i; $j++) {
+			if (isset($values[$j])) {
+				if ($process_sections === true) {
+					$result[$sections[$j]] = $values[$j];
+				} else {
+					$result[] = $values[$j];
+				}
 			}
 		}
 
