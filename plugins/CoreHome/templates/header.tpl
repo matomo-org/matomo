@@ -4,7 +4,7 @@
 <head>
 <title>Piwik &rsaquo; {'CoreHome_WebAnalyticsReports'|translate}</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Piwik {$piwik_version}" />
+<meta name="generator" content="Piwik - Open Source Web Analytics" />
 <meta name="description" content="Web Analytics report for '{$siteName|escape}' - Piwik" />
 <link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico" /> 
 {loadJavascriptTranslations plugins='CoreHome'}
