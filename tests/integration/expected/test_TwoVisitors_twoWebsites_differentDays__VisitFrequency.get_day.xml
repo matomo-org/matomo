@@ -4,10 +4,10 @@
 		<result date="2010-01-03" />
 		<result date="2010-01-04" />
 		<result date="2010-01-05">
+			<max_actions_returning>4</max_actions_returning>
+			<nb_actions_returning>4</nb_actions_returning>
 			<nb_uniq_visitors_returning>1</nb_uniq_visitors_returning>
 			<nb_visits_returning>1</nb_visits_returning>
-			<nb_actions_returning>4</nb_actions_returning>
-			<max_actions_returning>4</max_actions_returning>
 			<sum_visit_length_returning>900</sum_visit_length_returning>
 			<bounce_rate_returning>0%</bounce_rate_returning>
 			<nb_actions_per_visit_returning>4</nb_actions_per_visit_returning>
