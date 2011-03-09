@@ -434,7 +434,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'idsite' 					=> $this->idsite,
 			'visitor_localtime' 		=> $localTime,
 			'idvisitor' 				=> $idcookie,
-			'visitor_returning' 		=> $visitCount > 1 || $this->isVisitorKnown(),
+			'visitor_returning' 		=> $visitCount > 1 || $this->isVisitorKnown() ? 1 : 0,
 			'visitor_count_visits'		=> $visitCount,
 			'visitor_days_since_last'	=> $daysSinceLastVisit,
 			'visitor_days_since_first' 	=> $daysSinceFirstVisit,
