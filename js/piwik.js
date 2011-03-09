@@ -34,7 +34,8 @@
     call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join,
     lastIndex, length, parse, prototype, push, replace, slice, stringify,
-    test, toJSON, toString, valueOf
+    test, toJSON, toString, valueOf,
+    objectToJSON
 */
 
 // Create a JSON object only if one does not already exist. We create the
@@ -52,24 +53,31 @@ if (!this.JSON2) {
         return n < 10 ? '0' + n : n;
     }
 
-    if (typeof Date.prototype.toJSON !== 'function') {
+    function objectToJSON(value, key) {
+        var objectType = Object.prototype.toString.apply(value);
 
-        Date.prototype.toJSON = function (key) {
+        if (objectType === '[object Date]') {
+            return isFinite(value.valueOf()) ?
+                value.getUTCFullYear()     + '-' +
+                f(value.getUTCMonth() + 1) + '-' +
+                f(value.getUTCDate())      + 'T' +
+                f(value.getUTCHours())     + ':' +
+                f(value.getUTCMinutes())   + ':' +
+                f(value.getUTCSeconds())   + 'Z' : null;
+        }
 
-            return isFinite(this.valueOf()) ?
-                this.getUTCFullYear()     + '-' +
-                f(this.getUTCMonth() + 1) + '-' +
-                f(this.getUTCDate())      + 'T' +
-                f(this.getUTCHours())     + ':' +
-                f(this.getUTCMinutes())   + ':' +
-                f(this.getUTCSeconds())   + 'Z' : null;
-        };
+        if (objectType === '[object String]' ||
+                objectType === '[object Number]' ||
+                objectType === '[object Boolean]') {
+            return value.valueOf();
+        }
 
-        String.prototype.toJSON      =
-            Number.prototype.toJSON  =
-            Boolean.prototype.toJSON = function (key) {
-                return this.valueOf();
-            };
+        if (objectType !== '[object Array]' &&
+                typeof value.toJSON === 'function') {
+            return value.toJSON(key);
+        }
+
+        return value;
     }
 
     var cx = new RegExp('[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]', 'g'),
@@ -118,9 +126,8 @@ if (!this.JSON2) {
 
 // If the value has a toJSON method, call it to obtain a replacement value.
 
-        if (value && typeof value === 'object' &&
-                typeof value.toJSON === 'function') {
-            value = value.toJSON(key);
+        if (value && typeof value === 'object') {
+            value = objectToJSON(value, key);
         }
 
 // If we were called with a replacer function, then call the replacer to
@@ -1486,14 +1493,6 @@ var
 						// track outlinks and all downloads
 						linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostName(sourceHostName));
 						if (linkType) {
-							// This block commented out to preserve the user experience.
-/*
-							// WebKit/Chrome/Safari:
-							// - "Failed to load resource" for onclick tracking requests where target opens in current window/tab
-							if ((new RegExp('WebKit')).test(navigatorAlias.userAgent) && (new RegExp('^(_self|_top|_parent|_main|_media|_search|)$')).test(sourceElement.target) && linkType === 'link') {
-								sourceElement.target = '_blank';
-							}
- */
 							logLink(sourceHref, linkType);
 						}
 					}
@@ -1976,6 +1975,12 @@ var
 				 *
 				 * To capture more "clicks", the pseudo click-handler uses mousedown + mouseup events.
 				 * This is not industry standard and is vulnerable to false positives (e.g., drag events).
+				 *
+				 * There is a Safari/Chrome/Webkit bug that prevents tracking requests from being sent
+				 * by either click handler.  The workaround is to set a target attribute (which can't
+				 * be "_self", "_top", or "_parent").
+				 *
+				 * @see https://bugs.webkit.org/show_bug.cgi?id=54783
 				 *
 				 * @param bool enable If true, use pseudo click-handler (mousedown+mouseup)
 				 */
