@@ -74,12 +74,22 @@
 	list-style-position: inside;
 }
 
-#qunit-tests.hidepass li.pass {
+#qunit-tests.hidepass li.pass, #qunit-tests.hidepass li.running  {
 	display: none;
 }
 
 #qunit-tests li strong {
 	cursor: pointer;
+}
+
+#qunit-tests li a {
+	padding: 0.5em;
+	color: #c2ccd1;
+	text-decoration: none;
+}
+#qunit-tests li a:hover,
+#qunit-tests li a:focus {
+	color: #000;
 }
 
 #qunit-tests ol {
