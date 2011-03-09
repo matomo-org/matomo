@@ -19,7 +19,7 @@ var defined = {
 			return false;
 		}
   })()
-}
+};
 
 var testId = 0;
 
@@ -40,6 +40,7 @@ Test.prototype = {
 				b.innerHTML = "Running " + this.name;
 			var li = document.createElement("li");
 				li.appendChild( b );
+				li.className = "running";
 				li.id = this.id = "test-output" + testId++;
 			tests.appendChild( li );
 		}
@@ -151,7 +152,7 @@ Test.prototype = {
 			}
 
 			// store result when possible
-			defined.sessionStorage && sessionStorage.setItem("qunit-" + this.testName, bad);
+			QUnit.config.reorder && defined.sessionStorage && sessionStorage.setItem("qunit-" + this.testName, bad);
 
 			if (bad == 0) {
 				ol.style.display = "none";
@@ -160,8 +161,13 @@ Test.prototype = {
 			var b = document.createElement("strong");
 			b.innerHTML = this.name + " <b class='counts'>(<b class='failed'>" + bad + "</b>, <b class='passed'>" + good + "</b>, " + this.assertions.length + ")</b>";
 			
+			var a = document.createElement("a");
+			a.innerHTML = "Rerun";
+			a.href = QUnit.url({ filter: getText([b]).replace(/\([^)]+\)$/, "").replace(/(^\s*|\s*$)/g, "") });
+			
 			addEvent(b, "click", function() {
-				var next = b.nextSibling, display = next.style.display;
+				var next = b.nextSibling.nextSibling,
+					display = next.style.display;
 				next.style.display = display === "none" ? "block" : "none";
 			});
 			
@@ -171,7 +177,7 @@ Test.prototype = {
 					target = target.parentNode;
 				}
 				if ( window.location && target.nodeName.toLowerCase() === "strong" ) {
-					window.location.search = "?" + encodeURIComponent(getText([target]).replace(/\(.+\)$/, "").replace(/(^\s*|\s*$)/g, ""));
+					window.location = QUnit.url({ filter: getText([target]).replace(/\([^)]+\)$/, "").replace(/(^\s*|\s*$)/g, "") });
 				}
 			});
 
@@ -179,6 +185,7 @@ Test.prototype = {
 			li.className = bad ? "fail" : "pass";
 			li.removeChild( li.firstChild );
 			li.appendChild( b );
+			li.appendChild( a );
 			li.appendChild( ol );
 
 		} else {
@@ -226,7 +233,7 @@ Test.prototype = {
 			});
 		}
 		// defer when previous test run passed, if storage is available
-		var bad = defined.sessionStorage && +sessionStorage.getItem("qunit-" + this.testName);
+		var bad = QUnit.config.reorder && defined.sessionStorage && +sessionStorage.getItem("qunit-" + this.testName);
 		if (bad) {
 			run();
 		} else {
@@ -234,7 +241,7 @@ Test.prototype = {
 		};
 	}
 	
-}
+};
 
 var QUnit = {
 
@@ -411,8 +418,18 @@ var QUnit = {
 				QUnit.start();
 			}, timeout);
 		}
-	}
+	},
 
+	url: function( params ) {
+		params = extend( extend( {}, QUnit.urlParams ), params );
+		var querystring = "?",
+			key;
+		for ( key in params ) {
+			querystring += encodeURIComponent( key ) + "=" +
+				encodeURIComponent( params[ key ] ) + "&";
+		}
+		return window.location.pathname + querystring.slice( 0, -1 );
+	}
 };
 
 // Backwards compatibility, deprecated
@@ -425,33 +442,40 @@ var config = {
 	queue: [],
 
 	// block until document ready
-	blocking: true
+	blocking: true,
+	
+	// by default, run previously failed tests first
+	// very useful in combination with "Hide passed tests" checked
+	reorder: true,
+
+	noglobals: false,
+	notrycatch: false
 };
 
 // Load paramaters
 (function() {
 	var location = window.location || { search: "", protocol: "file:" },
-		GETParams = location.search.slice(1).split('&');
+		params = location.search.slice( 1 ).split( "&" ),
+		length = params.length,
+		urlParams = {},
+		current;
 
-	for ( var i = 0; i < GETParams.length; i++ ) {
-		GETParams[i] = decodeURIComponent( GETParams[i] );
-		if ( GETParams[i] === "noglobals" ) {
-			GETParams.splice( i, 1 );
-			i--;
-			config.noglobals = true;
-		} else if ( GETParams[i] === "notrycatch" ) {
-			GETParams.splice( i, 1 );
-			i--;
-			config.notrycatch = true;
-		} else if ( GETParams[i].search('=') > -1 ) {
-			GETParams.splice( i, 1 );
-			i--;
+	if ( params[ 0 ] ) {
+		for ( var i = 0; i < length; i++ ) {
+			current = params[ i ].split( "=" );
+			current[ 0 ] = decodeURIComponent( current[ 0 ] );
+			// allow just a key to turn on a flag, e.g., test.html?noglobals
+			current[ 1 ] = current[ 1 ] ? decodeURIComponent( current[ 1 ] ) : true;
+			urlParams[ current[ 0 ] ] = current[ 1 ];
+			if ( current[ 0 ] in config ) {
+				config[ current[ 0 ] ] = current[ 1 ];
+			}
 		}
 	}
-	
-	// restrict modules/tests by get parameters
-	config.filters = GETParams;
-	
+
+	QUnit.urlParams = urlParams;
+	config.filter = urlParams.filter;
+
 	// Figure out if we're running the tests from a server or not
 	QUnit.isLocal = !!(location.protocol === 'file:');
 })();
@@ -480,7 +504,7 @@ extend(QUnit, {
 			blocking: false,
 			autostart: true,
 			autorun: false,
-			filters: [],
+			filter: "",
 			queue: [],
 			semaphore: 0
 		});
@@ -656,16 +680,14 @@ addEvent(window, "load", function() {
 	}
 	var banner = id("qunit-header");
 	if ( banner ) {
-		var paramsIndex = location.href.lastIndexOf(location.search);
-		if ( paramsIndex > -1 ) {
-			var mainPageLocation = location.href.slice(0, paramsIndex);
-			if ( mainPageLocation == location.href ) {
-				banner.innerHTML = '<a href=""> ' + banner.innerHTML + '</a> ';
-			} else {
-				var testName = decodeURIComponent(location.search.slice(1));
-				banner.innerHTML = '<a href="' + mainPageLocation + '">' + banner.innerHTML + '</a> &#8250; <a href="">' + testName + '</a>';
-			}
-		}
+		banner.innerHTML = '<a href="' + QUnit.url({ filter: undefined }) + '"> ' + banner.innerHTML + '</a> ' +
+			'<label><input name="noglobals" type="checkbox"' + ( config.noglobals ? ' checked="checked"' : '' ) + '>noglobals</label>' +
+			'<label><input name="notrycatch" type="checkbox"' + ( config.notrycatch ? ' checked="checked"' : '' ) + '>notrycatch</label>';
+		addEvent( banner, "change", function( event ) {
+			var params = {};
+			params[ event.target.name ] = event.target.checked ? true : undefined;
+			window.location = QUnit.url( params );
+		});
 	}
 	
 	var toolbar = id("qunit-testrunner-toolbar");
@@ -755,28 +777,24 @@ function done() {
 }
 
 function validTest( name ) {
-	var i = config.filters.length,
+	var filter = config.filter,
 		run = false;
 
-	if ( !i ) {
+	if ( !filter ) {
 		return true;
 	}
-	
-	while ( i-- ) {
-		var filter = config.filters[i],
-			not = filter.charAt(0) == '!';
 
-		if ( not ) {
-			filter = filter.slice(1);
-		}
+	not = filter.charAt( 0 ) === "!";
+	if ( not ) {
+		filter = filter.slice( 1 );
+	}
 
-		if ( name.indexOf(filter) !== -1 ) {
-			return !not;
-		}
+	if ( name.indexOf( filter ) !== -1 ) {
+		return !not;
+	}
 
-		if ( not ) {
-			run = true;
-		}
+	if ( not ) {
+		run = true;
 	}
 
 	return run;
@@ -894,7 +912,11 @@ function fail(message, exception, callback) {
 
 function extend(a, b) {
 	for ( var prop in b ) {
-		a[prop] = b[prop];
+		if ( b[prop] === undefined ) {
+			delete a[prop];
+		} else {
+			a[prop] = b[prop];
+		}
 	}
 
 	return a;
@@ -1185,7 +1207,7 @@ QUnit.jsDump = (function() {
 			error:'[ERROR]', //when no parser is found, shouldn't happen
 			unknown: '[Unknown]',
 			'null':'null',
-			undefined:'undefined',
+			'undefined':'undefined',
 			'function':function( fn ) {
 				var ret = 'function',
 					name = 'name' in fn ? fn.name : (reName.exec(fn)||[])[1];//functions never have name in IE
