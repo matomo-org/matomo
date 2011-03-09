@@ -106,9 +106,10 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 			}
 
 			$sql = "SELECT value, name, date1 as startDate
-									FROM $table
-									WHERE idarchive IN ( $inIds )
-										AND name IN ( $inNames )";
+					FROM $table
+					WHERE idarchive IN ( $inIds )
+					AND name IN ( $inNames )
+					ORDER BY date1, name";
 			$values = $db->fetchAll($sql, $fields);
 			foreach($values as $value)
 			{
@@ -133,7 +134,7 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 		{
 			$contentArray[$timestamp]['table']->addRowsFromArray($aNameValues);
 		}
-		ksort( $contentArray );
+		$contentArray;
 				
 		$tableArray = $this->getNewDataTableArray();
 		foreach($contentArray as $timestamp => $aData)
