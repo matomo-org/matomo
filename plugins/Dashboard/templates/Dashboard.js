@@ -232,8 +232,14 @@ dashboard.prototype =
 				mydialog.dialog("destroy");
 				$('#placeholder').replaceWith(mydialog);
 				mydialog.removeAttr('style');
+				self.saveLayout();
 			}
 		});
+        $('body').click(function(ev) {
+            if(ev.target.className == "ui-widget-overlay") {
+                mydialog.dialog("close");
+            }
+        });
 	},
 	
 	
@@ -259,7 +265,12 @@ dashboard.prototype =
 	setDataTableViewChanged: function(uniqueId, newViewDataTable)
 	{
 		this.viewDataTableToSave[uniqueId] = newViewDataTable;
-		this.saveLayout();
+		if(newViewDataTable == 'tableAllColumns' || newViewDataTable == 'tableGoals') {
+		    $('#maximise', $('#'+uniqueId)).click();
+		}
+		if(!this.isMaximised) {
+		    this.saveLayout();
+		}
 	},
 	
 	saveLayout: function()
