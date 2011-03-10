@@ -387,7 +387,7 @@ if (!this.JSON2) {
 	exec,
 	res, width, height,
 	pdf, qt, realp, wma, dir, fla, java, gears, ag,
-	hook, getHook, getVisitorId, setTrackerUrl, setSiteId,
+	hook, getHook, getVisitorId, getVisitorInfo, setTrackerUrl, setSiteId,
 	setCustomData, getCustomData,
 	setCustomVariable, getCustomVariable, deleteCustomVariable,
 	setDownloadExtensions, addDownloadExtensions,
@@ -1679,6 +1679,15 @@ var
 				 */
 				getVisitorId: function () {
 					return (loadVisitorId())[1];
+				},
+
+				/**
+				 * Get the visitor information (from first party cookie)
+				 *
+				 * @return array
+				 */
+				getVisitorInfo: function() {
+					return loadVisitorId();
 				},
 
 				/**

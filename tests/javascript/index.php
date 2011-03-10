@@ -291,7 +291,7 @@ function PiwikTest() {
 	});
 
 	test("API methods", function() {
-		expect(40);
+		expect(41);
 
 		equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
 		equal( typeof Piwik.getTracker, 'function', 'getTracker' );
@@ -306,6 +306,7 @@ function PiwikTest() {
 		ok(tracker instanceof Object, 'getTracker');
 
 		equal( typeof tracker.getVisitorId, 'function', 'getVisitorId' );
+		equal( typeof tracker.getVisitorInfo, 'function', 'getVisitorInfo' );
 		equal( typeof tracker.setTrackerUrl, 'function', 'setTrackerUrl' );
 		equal( typeof tracker.setSiteId, 'function', 'setSiteId' );
 		equal( typeof tracker.setCustomData, 'function', 'setCustomData' );
@@ -642,7 +643,7 @@ if ($sqlite) {
 	});
 
 	test("tracking", function() {
-		expect(37);
+		expect(44);
 
 		/*
 		 * Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
@@ -729,6 +730,17 @@ if ($sqlite) {
 		}]);
 		visitorId2 = tracker.getVisitorId();
 		ok( visitorId1 && visitorId1 != "" && visitorId2 && visitorId2 != "" && (visitorId1 == visitorId2), "getVisitorId()" );
+
+		var visitorInfo1, visitorInfo2;
+
+		_paq.push([ function() {
+			visitorInfo1 = Piwik.getAsyncTracker().getVisitorInfo();
+		}]);
+		visitorInfo2 = tracker.getVisitorInfo();
+		ok( visitorInfo1 && visitorInfo2 && visitorInfo1.length == visitorInfo2.length, "getVisitorInfo()" );
+		for (var i = 0; i < 6; i++) {
+			ok( visitorInfo1[i] == visitorInfo2[i], "(loadVisitorId())["+i+"]" );
+		}
 
 		// custom variables
 		tracker.setCookieNamePrefix("PREFIX");
