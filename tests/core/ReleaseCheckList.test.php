@@ -10,7 +10,7 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 {
     public function test_checkThatConfigurationValuesAreProductionValues()
     {
-    	$this->globalConfig = parse_ini_file(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php', true);
+    	$this->globalConfig = _parse_ini_file(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php', true);
 //    	var_dump($globalConfig);
     	$this->checkEqual(array('Debug' => 'always_archive_data_day'), '0');
     	$this->checkEqual(array('Debug' => 'always_archive_data_period'), '0');
