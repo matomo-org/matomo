@@ -1,9 +1,14 @@
 README
 
-Notes from Piwik developpers
+Notes from Piwik developers
 ---
-This library has been added to port some functions that appeared after the php 5.1 release.
-We removeed most of the function definitions to only leave the ones that are used in piwik.
+This library has been added to port some functions that appeared after the
+php 5.1 release.
 
+We removed most of the function definitions to only leave the ones that are
+used in Piwik.
 
 Find the full library on http://upgradephp.berlios.de/
+---
+Additional functions provided to emulate built-in functions that are
+disabled or unsafe.
