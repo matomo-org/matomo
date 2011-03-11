@@ -7,7 +7,7 @@
   />
   <dbmysql
     path="install.sql"
-    commandDelimeter="//"
-    removeCommandDelimeter="true"
+    commandDelimiter="//"
+    removeCommandDelimiter="true"
   />
 </MSDeploy.iisApp>
