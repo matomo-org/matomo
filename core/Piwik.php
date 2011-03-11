@@ -649,7 +649,7 @@ class Piwik
 	 */
 	static public function serveStaticFile($file, $contentType)
 	{
-		if (file_exists($file) && function_exists('readfile'))
+		if (file_exists($file))
 		{
 			// conditional GET
 			$modifiedSince = '';
@@ -755,7 +755,7 @@ class Piwik
 					@header('Content-Encoding: ' . $encoding);
 				}
 
-				if(!@readfile($file))
+				if(!_readfile($file))
 				{
 					self::setHttpStatus('505 Internal server error');
 				}
