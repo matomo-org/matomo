@@ -956,7 +956,7 @@ function safe_unserialize( $str )
  * @param resource $context
  * @return int the number of bytes read from the file, or false if an error occurs
  */
-function _readfile($filename, $useIncludePath, $context)
+function _readfile($filename, $useIncludePath = false, $context = null)
 {
 	$count = @filesize($filename);
 
