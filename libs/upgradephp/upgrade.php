@@ -564,6 +564,10 @@ if(function_exists('parse_ini_file')) {
 				} else {
 					$result[] = $values[$j];
 				}
+			} else {
+				if ($process_sections === true) {
+					$result[$sections[$j]] = array();
+				}
 			}
 		}
 
