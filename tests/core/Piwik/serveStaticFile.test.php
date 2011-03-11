@@ -16,8 +16,15 @@
 if(!defined("PIWIK_PATH_TEST_TO_ROOT")) {
 	define('PIWIK_PATH_TEST_TO_ROOT', realpath(dirname(__FILE__) . '/../../..'));
 }
-
-require_once PIWIK_PATH_TEST_TO_ROOT . '/core/testMinimumPhpVersion.php';
+if(!defined('PIWIK_USER_PATH'))
+{
+	define('PIWIK_USER_PATH', PIWIK_PATH_TEST_TO_ROOT);
+}
+if(!defined('PIWIK_INCLUDE_PATH'))
+{
+	define('PIWIK_INCLUDE_PATH', PIWIK_PATH_TEST_TO_ROOT);
+}
+require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
 
 // This is Piwik logo, the static file used in this test suit
 define("TEST_FILE_LOCATION", PIWIK_PATH_TEST_TO_ROOT . "/tests/core/Piwik/lipsum.txt");
