@@ -32,7 +32,7 @@
     tags="MySQL,dbServer">
     <parameterEntry
       type="TextFile"
-      scope="install.sql$"
+      scope="install.sql"
       match="PlaceholderForServer"
     />
   </parameter>
@@ -42,7 +42,7 @@
     tags="Hidden, MySQL">
     <parameterEntry
       type="TextFile"
-      scope="config\\config.ini.php$"
+      scope="config\\config.ini.php"
       match="host\s*=\s*[^\r\n]*" 
     />
   </parameter>
@@ -58,7 +58,7 @@
     />
     <parameterEntry
       type="TextFile"
-      scope="install.sql$"
+      scope="install.sql"
       match="PlaceholderForDbName"
     />
   </parameter>
@@ -68,7 +68,7 @@
     tags="Hidden, MySQL">
     <parameterEntry
       type="TextFile"
-      scope="config\\config.ini.php$"
+      scope="config\\config.ini.php"
       match="dbname\s*=\s*[^\r\n]*" 
     />
   </parameter>
@@ -84,7 +84,7 @@
     />
     <parameterEntry
       type="TextFile"
-      scope="install.sql$"
+      scope="install.sql"
       match="PlaceholderForDbUsername"
     />
   </parameter>
@@ -94,7 +94,7 @@
     tags="Hidden,MySQL">
     <parameterEntry
       type="TextFile"
-      scope="config\\config.ini.php$"
+      scope="config\\config.ini.php"
       match="username\s*=\s*[^\r\n]*" 
     />
   </parameter>
@@ -110,7 +110,7 @@
     />
     <parameterEntry
       type="TextFile"
-      scope="install.sql$"
+      scope="install.sql"
       match="PlaceholderForDbPassword"
     />
   </parameter>
@@ -120,7 +120,7 @@
     tags="Hidden, MySQL">
     <parameterEntry
       type="TextFile"
-      scope="config\\config.ini.php$"
+      scope="config\\config.ini.php"
       match="password\s*=(.{6,20})&quot;"
     />
   </parameter>
@@ -158,7 +158,7 @@
     tags="Hidden, MySQL">
     <parameterEntry
       type="TextFile"
-      scope="config\\config.ini.php$"
+      scope="config\\config.ini.php"
       match="adapter\s*=\s*[^\r\n]*" 
     />
   </parameter>
