@@ -944,3 +944,37 @@ function safe_unserialize( $str )
 	}
 	return $out;
 }
+
+/**
+ * readfile() replacement.
+ * Behaves similar to readfile($filename);
+ *
+ * @author anthon (dot) pang (at) gmail (dot) com
+ *
+ * @param string $filename
+ * @param bool $useIncludePath
+ * @param resource $context
+ * @return int the number of bytes read from the file, or false if an error occurs
+ */
+function _readfile($filename, $useIncludePath, $context)
+{
+	$count = @filesize($filename);
+
+	// built-in function has a 2 MB limit when using mmap
+	if (function_exists('readfile') && $count <= (2 * 1024 * 1024)) {
+		return @readfile($filename, $useIncludePath, $context);
+	}
+
+	// when in doubt (or when readfile() function is disabled)
+	$handle = @fopen($filename, Piwik_Common::isWindows() ? "rb" : "r");
+	if ($handle) {
+		while(!feof($handle)) {
+			echo fread($handle, 8192);
+			ob_flush();
+			flush();
+		}
+
+		fclose($handle);
+		return $count;
+	}
+}
