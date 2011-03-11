@@ -333,8 +333,7 @@ class Piwik_Config
 		{
 			$this->cacheConfigArray();
 		}
-		return isset($this->cachedConfigArray[$name]) ?
-			$this->cachedConfigArray[$name] : array();
+		return $this->cachedConfigArray[$name];
 	}
 }
 
