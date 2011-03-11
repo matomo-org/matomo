@@ -977,4 +977,5 @@ function _readfile($filename, $useIncludePath, $context)
 		fclose($handle);
 		return $count;
 	}
+	return false;
 }
