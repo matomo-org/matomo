@@ -37,7 +37,7 @@ if($piwik_zend_compatibility_mode == 1)
 				If you want to use Piwik you need to set <pre>zend.ze1_compatibility_mode = Off</pre> in your php.ini configuration file. You may have to ask your system administrator.</p>";
 }
 
-if(!class_exists('ArrayObject', false))
+if(!class_exists('ArrayObject'))
 {
 	$piwik_errorMessage .= "<p><b>Piwik and Zend Framework require the SPL extension</p> 
 				<p>It appears your PHP was compiled with --disable-spl.
