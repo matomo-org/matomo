@@ -51,6 +51,7 @@
 	</script>
 {/literal}
 {/if}
+<!--[if lt IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative; text-align:center;'> <a href="http://www.microsoft.com/windows/internet-explorer/default.aspx?ocid=ie6_countdown_bannercode"><img src="http://www.theie6countdown.com/images/upgrade.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div> <![endif]--> 
 	<div id="logo">
 	<a href="http://piwik.org" title="{$linkTitle}">
 		<img src='themes/default/images/logo.png' width='200' style='margin-right:20px'>
