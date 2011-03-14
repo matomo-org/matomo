@@ -19,5 +19,5 @@
 {/if}
 
 {if isset($form_data)}
-	{include file=default/genericForm.tpl}
+	{include file="default/genericForm.tpl"}
 {/if}

@@ -30,6 +30,6 @@
 	{include file="Goals/templates/table_by_dimension.tpl"}
 	
 	{if $userCanEditGoals}
-		{include file=Goals/templates/add_edit_goal.tpl}
+		{include file="Goals/templates/add_edit_goal.tpl"}
 	{/if}
 {/if}

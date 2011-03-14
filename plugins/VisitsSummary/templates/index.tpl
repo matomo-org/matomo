@@ -4,7 +4,7 @@
 {$graphEvolutionVisitsSummary}
 
 <h2>{'General_Report'|translate}</h2>
-{include file=VisitsSummary/templates/sparklines.tpl}
+{include file="VisitsSummary/templates/sparklines.tpl"}
 {*
 Time page generation
 	<p style='color:lightgrey; size:0.8em;'>

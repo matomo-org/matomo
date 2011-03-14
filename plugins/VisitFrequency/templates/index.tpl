@@ -5,6 +5,6 @@
 {$graphEvolutionVisitFrequency}
 <br />
 
-{include file=VisitFrequency/templates/sparklines.tpl}
+{include file="VisitFrequency/templates/sparklines.tpl"}
 	
 {postEvent name="template_footerVisitsFrequency"}

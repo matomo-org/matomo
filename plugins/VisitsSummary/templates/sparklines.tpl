@@ -13,5 +13,5 @@
 </div>
 <div style="clear:both;"></div>
 
-{include file=CoreHome/templates/sparkline_footer.tpl}
+{include file="CoreHome/templates/sparkline_footer.tpl"}
 
