@@ -112,6 +112,7 @@ class Test_Piwik_Common extends UnitTestCase
 		$this->assertEqual($stringOK, Piwik_Common::sanitizeInputValues($string));
 
 	}
+
 	// sanitize an integer
 	function test_sanitizeInputValues_badInteger()
 	{
@@ -158,8 +159,7 @@ class Test_Piwik_Common extends UnitTestCase
 		$b = "";
 		$this->assertEqual($b, Piwik_Common::sanitizeInputValues($a));
 	}
-	
-	
+
 	// sanitize with magic quotes runtime on => shouldnt affect the result
 	function test_sanitizeInputValues_magicquotesON()
 	{
@@ -239,8 +239,7 @@ class Test_Piwik_Common extends UnitTestCase
         }
     	
     }
-	
-	
+
     /**
      * nodefault Withtype WithValue => exception cos type not matching
      */
@@ -315,7 +314,6 @@ class Test_Piwik_Common extends UnitTestCase
     	$this->assertEqual( Piwik_Common::getRequestVar('test', 45, 'string'), '45');
     	$this->assertEqual( Piwik_Common::getRequestVar('test', "geaga", 'string'), "geaga");
     	$this->assertEqual( Piwik_Common::getRequestVar('test', "&#039;}{}}{}{}&#039;", 'string'), "&#039;}{}}{}{}&#039;");
-    	
     }
 	
     /**
@@ -354,7 +352,18 @@ class Test_Piwik_Common extends UnitTestCase
     	$this->assertEqual( Piwik_Common::getRequestVar('test', array(), 'array'), array());
     	
     }
-    
+
+	/**
+	 * test non-utf8 string, e.g., an ISO-8859-1 action name
+	 */
+	function test_getRequestVar_stringNotUtf8()
+	{
+		$test = "\xe8\x2c\xe9";
+		$_GET['test'] = $test;
+
+		$this->assertEqual( Piwik_Common::getRequestVar('test'), "è,é" );
+	}
+
     /**
      * no query string => null
      */
