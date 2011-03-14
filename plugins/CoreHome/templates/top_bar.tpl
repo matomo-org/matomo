@@ -23,4 +23,4 @@
 
 </div>
 
-{if $showSitesSelection}{include file=CoreHome/templates/sites_selection.tpl}{/if}
+{if $showSitesSelection}{include file="CoreHome/templates/sites_selection.tpl"}{/if}

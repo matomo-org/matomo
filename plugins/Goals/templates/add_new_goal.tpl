@@ -1,6 +1,6 @@
 
 {if $userCanEditGoals}
-	{include file=Goals/templates/add_edit_goal.tpl}
+	{include file="Goals/templates/add_edit_goal.tpl"}
 {else}
 <h2>{'Goals_CreateNewGOal'|translate}</h2>
 <p>
