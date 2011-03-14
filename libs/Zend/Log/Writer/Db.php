@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Writer
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Db.php 23601 2011-01-01 15:43:07Z ramon $
+ * @version    $Id: Db.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /** Zend_Log_Writer_Abstract */
@@ -27,9 +27,9 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Writer
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Db.php 23601 2011-01-01 15:43:07Z ramon $
+ * @version    $Id: Db.php 23775 2011-03-01 17:25:24Z ralph $
  */
 class Zend_Log_Writer_Db extends Zend_Log_Writer_Abstract
 {

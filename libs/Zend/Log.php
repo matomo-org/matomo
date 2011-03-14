@@ -14,17 +14,17 @@
  *
  * @category   Zend
  * @package    Zend_Log
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Log.php 23651 2011-01-21 21:51:00Z mikaelkael $
+ * @version    $Id: Log.php 23783 2011-03-01 21:47:35Z intiilapa $
  */
 
 /**
  * @category   Zend
  * @package    Zend_Log
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Log.php 23651 2011-01-21 21:51:00Z mikaelkael $
+ * @version    $Id: Log.php 23783 2011-03-01 21:47:35Z intiilapa $
  */
 class Zend_Log
 {
@@ -137,6 +137,13 @@ class Zend_Log
         }
 
         $log = new self;
+
+        if (array_key_exists('timestampFormat', $config)) {
+            if (null != $config['timestampFormat'] && '' != $config['timestampFormat']) {
+                $log->setTimestampFormat($config['timestampFormat']);
+            }
+            unset($config['timestampFormat']);
+        }
 
         if (!is_array(current($config))) {
             $log->addWriter(current($config));
