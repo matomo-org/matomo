@@ -590,6 +590,10 @@ class Piwik_Common
 	static public function sanitizeInputValue($value)
 	{
 		// $_GET and $_REQUEST already urldecode()'d
+		if(function_exists('mb_check_encoding') && !mb_check_encoding($value, 'UTF-8'))
+		{
+			$value = utf8_encode($value);
+		}
 		$value = html_entity_decode($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
 		$value = str_replace(array("\n","\r","\0"), "", $value);
 		return htmlspecialchars( $value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8' );
