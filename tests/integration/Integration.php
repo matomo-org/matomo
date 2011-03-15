@@ -315,10 +315,12 @@ abstract class Test_Integration extends Test_Database
 	 * @param $setDateLastN When set to true, 'date' parameter passed to API request will be rewritten to query a range of dates rather than 1 date only
 	 * @param $language 2 letter language code to request data in
 	 * 
-	 * @return void
+	 * @return bool Passed or failed
 	 */
 	function callGetApiCompareOutput($testName, $formats = 'xml', $idSite = false, $dateTime = false, $periods = false, $setDateLastN = false, $language = false, $segment = false)
 	{
+		$pass = true;
+		
 		$path = $this->getPathToTestDirectory();
 		$pathProcessed = $path . "/processed/";
 		$pathExpected = $path . "/expected/";
@@ -388,7 +390,7 @@ abstract class Test_Integration extends Test_Database
 			// When tests run on Windows EOL delimiters are not the same as UNIX default EOL used in the renderers
     		$expected = str_replace("\r\n", "\n", $expected); 
     		$response = str_replace("\r\n", "\n", $response); 
-    		$this->assertEqual(trim($response), trim($expected), "<br/>\nDifferences with expected in: $processedFilePath ");
+    		$pass = $pass && $this->assertEqual(trim($response), trim($expected), "<br/>\nDifferences with expected in: $processedFilePath ");
     		if($response != $expected)
     		{
     			var_dump('ERROR FOR ' . $apiId . ' -- FETCHED RESPONSE, then EXPECTED RESPONSE');
@@ -401,6 +403,7 @@ abstract class Test_Integration extends Test_Database
     	}
     	
     	$this->pass();
+    	return $pass;
 	}
 	
 }
