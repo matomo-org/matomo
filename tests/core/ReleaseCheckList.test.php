@@ -110,6 +110,10 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 
 	function test_svnEolStyle()
 	{
+		if(Piwik_Common::isWindows()) {
+			// SVN native does not make this work on windows
+			return;
+		}
 		foreach(Piwik::globr(PIWIK_DOCUMENT_ROOT, '*') as $file)
 		{
 			// skip files in these folders
