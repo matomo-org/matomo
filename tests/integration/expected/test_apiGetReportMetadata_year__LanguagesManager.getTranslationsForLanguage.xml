@@ -6,7 +6,7 @@
 	</row>
 	<row>
 		<label>General_TranslatorName</label>
-		<value>Vincent BIRET</value>
+		<value>&lt;a href=&quot;http://danstoncloud.com/blogs/vincent/&quot;&gt;Vincent BIRET&lt;/a&gt;</value>
 	</row>
 	<row>
 		<label>General_TranslatorEmail</label>
@@ -4514,19 +4514,7 @@
 	</row>
 	<row>
 		<label>Login_MailPasswordRecoveryBody</label>
-		<value>Bonjour %1$s, Une requête de remise à zéro du mot de passe a été reçue depuis %2$s. Pour remettre à zéro le mot de passe: 1) Rendez vous au formulaire de remise à zéro du mot de passe à l'adresse : %3$s 
-
-
-
-2) Entrez la clef suivante: %4$s 
-
-
-
-3) Remplissez le formulaire (en entrant deux fois votre nouveaux mot de passe) et soumettez le.
-
-
-
-Note: cette clef expirera dans 24h.</value>
+		<value>Bonjour %1$s, Une requête de remise à zéro du mot de passe a été reçue depuis %2$s. Pour remettre à zéro le mot de passe: 1) Rendez vous au formulaire de remise à zéro du mot de passe à l'adresse : %3$s 2) Entrez la clef suivante: %4$s 3) Remplissez le formulaire (en entrant deux fois votre nouveaux mot de passe) et soumettez le.Note: cette clef expirera dans 24h.</value>
 	</row>
 	<row>
 		<label>Login_ExceptionPasswordMD5HashExpected</label>
@@ -4887,5 +4875,313 @@ Note: cette clef expirera dans 24h.</value>
 	<row>
 		<label>PDFReports_YouMustBeLoggedIn</label>
 		<value>Vous devez être connecté afin de pouvoir créer et planifier des rapports PDF personnalisés.</value>
+	</row>
+	<row>
+		<label>General_Never</label>
+		<value>Jamais</value>
+	</row>
+	<row>
+		<label>General_Visit</label>
+		<value>Visite</value>
+	</row>
+	<row>
+		<label>General_VisitorIP</label>
+		<value>IP du visiteur</value>
+	</row>
+	<row>
+		<label>General_VisitType</label>
+		<value>Type du visiteur</value>
+	</row>
+	<row>
+		<label>General_DaysSinceLastVisit</label>
+		<value>Jours depuis la dernière visite</value>
+	</row>
+	<row>
+		<label>General_DaysSinceFirstVisit</label>
+		<value>Jours depuis la première visite</value>
+	</row>
+	<row>
+		<label>General_NumberOfVisits</label>
+		<value>Nombre de visites</value>
+	</row>
+	<row>
+		<label>General_VisitConvertedGoal</label>
+		<value>Visite convertie en au moins un objectif</value>
+	</row>
+	<row>
+		<label>General_NewVisitor</label>
+		<value>Nouveau visiteur</value>
+	</row>
+	<row>
+		<label>General_ReturningVisitor</label>
+		<value>Visiteur de retour</value>
+	</row>
+	<row>
+		<label>General_ChooseDate</label>
+		<value>Sélectionnez une date</value>
+	</row>
+	<row>
+		<label>General_OpenInNewWindow_js</label>
+		<value>Ouvrir dans une nouvelle fenêtre</value>
+	</row>
+	<row>
+		<label>General_NbActions</label>
+		<value>Nombre d'actions</value>
+	</row>
+	<row>
+		<label>General_ColumnVisitDuration</label>
+		<value>Durée de la visite (en secondes)</value>
+	</row>
+	<row>
+		<label>General_SmtpEncryption</label>
+		<value>Chiffrement SMTP</value>
+	</row>
+	<row>
+		<label>General_OptionalSmtpPort</label>
+		<value>Optionnel. Par défaut à 25 pour non chiffré et TLS SMTP, et 465 pour du SMTP SSL.</value>
+	</row>
+	<row>
+		<label>General_EncryptedSmtpTransport</label>
+		<value>Entrez la couche de chiffrement requise par votre serveur SMTP.</value>
+	</row>
+	<row>
+		<label>Actions_ColumnEntryPageURL</label>
+		<value>Url de la page d'entrée</value>
+	</row>
+	<row>
+		<label>Actions_ColumnEntryPageTitle</label>
+		<value>Titre de la page d'entrée</value>
+	</row>
+	<row>
+		<label>Actions_ColumnExitPageURL</label>
+		<value>Url de la page de sortie</value>
+	</row>
+	<row>
+		<label>Actions_ColumnExitPageTitle</label>
+		<value>Titre de la page de sortie</value>
+	</row>
+	<row>
+		<label>CoreAdminHome_EmailServerSettings</label>
+		<value>Paramètres du serveur mail</value>
+	</row>
+	<row>
+		<label>CoreAdminHome_OptOutForYourVisitors</label>
+		<value>Exclusion de Piwik pour vos visiteurs</value>
+	</row>
+	<row>
+		<label>CoreAdminHome_OptOutExplanation</label>
+		<value>Piwik met un point d'honneur à respecter la vie privée sur Internet. Pour fournir à vos visiteurs le choix de ne pas apparaitre dans les analyses de Piwik, vous pouvez ajouter le code HTML suivant sur une des pages de votre site web, par exemple dans la page &quot;Politique de confidentialité&quot;.</value>
+	</row>
+	<row>
+		<label>CoreAdminHome_OptOutExplanationBis</label>
+		<value>Ce code va afficher un Iframe contenant un lien pour vos visiteurs pour ne pas être suivis dans Piwik en installant un cookie de neutralisation dans leur navigateur. %s Cliquez ici %s pour visualiser le contenu qui sera affiché par l'Iframe.</value>
+	</row>
+	<row>
+		<label>CoreAdminHome_OptOutComplete</label>
+		<value>Exclusion terminée; vos visites sur ce site web ne seront pas enregistrées par l'outil d'analyse web.</value>
+	</row>
+	<row>
+		<label>CoreAdminHome_OptOutCompleteBis</label>
+		<value>Notez que si vous nettoyez vos cookies, supprimez le cookie d'exclusion, ou si vous changez d'ordinateur ou ne navigateur, vous aurez besoin de procéder à la procédure d'exclusion encore une fois.</value>
+	</row>
+	<row>
+		<label>CoreAdminHome_YouMayOptOut</label>
+		<value>Vous pouvez choisir de ne pas avoir un cookie de numéro d'identification unique d'analyse web attribué à votre ordinateur pour éviter l'agrégation et l'analyse des données collectées sur ce site</value>
+	</row>
+	<row>
+		<label>CoreAdminHome_YouMayOptOutBis</label>
+		<value>Pour faire ce choix, merci de cliquer en dessous pour recevoir un cookie d'exclusion.</value>
+	</row>
+	<row>
+		<label>CoreAdminHome_YouAreOptedIn</label>
+		<value>Vous êtes actuellement suivit.</value>
+	</row>
+	<row>
+		<label>CoreAdminHome_YouAreOptedOut</label>
+		<value>Vous n'êtes actuellement pas suivit.</value>
+	</row>
+	<row>
+		<label>CorePluginsAdmin_AuthorHomepage</label>
+		<value>Page de l'auteur</value>
+	</row>
+	<row>
+		<label>CorePluginsAdmin_LicenseHomepage</label>
+		<value>Page de la licence</value>
+	</row>
+	<row>
+		<label>CustomVariables_PluginDescription</label>
+		<value>Les variables personnalisées sont des paires de nom/valeur que vous pouvez définir pour une visite en utilisant la fonction de l'API Javascript setVisitCustomVariables(). Piwik vous rapportera alors combien de visites, pages, conversions il y a pour chacun de ces noms et valeurs personnalisés</value>
+	</row>
+	<row>
+		<label>CustomVariables_CustomVariables</label>
+		<value>Variables personnalisées</value>
+	</row>
+	<row>
+		<label>CustomVariables_ColumnCustomVariableName</label>
+		<value>Nom de la variable personnalisée</value>
+	</row>
+	<row>
+		<label>CustomVariables_ColumnCustomVariableValue</label>
+		<value>Valeur de la variable personnalisée</value>
+	</row>
+	<row>
+		<label>Dashboard_Maximise_js</label>
+		<value>Maximiser</value>
+	</row>
+	<row>
+		<label>ExamplePlugin_piwikDownloads</label>
+		<value>Téléchargements de Piwik</value>
+	</row>
+	<row>
+		<label>ExamplePlugin_PiwikHasBeenDownloaded</label>
+		<value>En %s, Piwik a été téléchargé %s fois.</value>
+	</row>
+	<row>
+		<label>Goals_ConversionsOverviewBy</label>
+		<value>Vue d'ensemble des conversions par type de visite</value>
+	</row>
+	<row>
+		<label>Goals_GoalConversionsBy</label>
+		<value>Conversions de l'objectif %s par type de visite</value>
+	</row>
+	<row>
+		<label>Goals_ViewGoalsBy</label>
+		<value>Afficher les objectifs par %s</value>
+	</row>
+	<row>
+		<label>Goals_GoalConversion</label>
+		<value>Conversion de l'objectif</value>
+	</row>
+	<row>
+		<label>Installation_SuperUser</label>
+		<value>Super Utilisateur</value>
+	</row>
+	<row>
+		<label>Installation_SuperUserSetupSuccess</label>
+		<value>Super Utilisateur créé avec succès!</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckOtherExtensions</label>
+		<value>Autres extensions</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckWarnLibXmlHelp</label>
+		<value>Vous devriez activer l'extension &quot;libxml&quot; (ex installez le paquet &quot;php-libxml&quot;) qui est de plus requis par d'autres extensions internes de PHP.</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckWarnJsonHelp</label>
+		<value>Vous devriez activer l'extension &quot;json&quot; (ex installez le paquet &quot;php-json&quot;) pour de meilleurs performances.</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckWarnDomHelp</label>
+		<value>Vous devriez activer l'extension &quot;dom&quot; (ex installez le paquet &quot;php-dom&quot; et/ou &quot;php-xml&quot;).</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckWarnSimpleXMLHelp</label>
+		<value>Vous devriez activer l'extension &quot;SimpleXML&quot; (ex installez le paquet &quot;php-simplexml&quot; et/ou &quot;php-xml&quot;).</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckOtherFunctions</label>
+		<value>Autres fonctions</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckGzcompressHelp</label>
+		<value>Vous devez activer l'extension zlib et la fonction gzcompress</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckGzuncompressHelp</label>
+		<value>Vous devez activer l'extension zlib et la fonction gzuncompress</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckSecureProtocol</label>
+		<value>Protocole de sécurité</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckSecureProtocolHelp</label>
+		<value>Il apparait que vous utilisez du https sur votre serveur web. Ces lignes seront ajoutées à config/config.ini.php:</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckTracker</label>
+		<value>Statut du traqueur</value>
+	</row>
+	<row>
+		<label>Installation_SystemCheckTrackerHelp</label>
+		<value>La requête GET vers piwik.php a échoué. Essayez d'ajouter cette URL en liste blanche de mod_security et de l'authentification HTTP.</value>
+	</row>
+	<row>
+		<label>Live_VisitorsInRealTime</label>
+		<value>Visiteurs en temps réel</value>
+	</row>
+	<row>
+		<label>Live_LastMinutes</label>
+		<value>Dernières %s minutes</value>
+	</row>
+	<row>
+		<label>Live_LastHours</label>
+		<value>Dernières %s heures</value>
+	</row>
+	<row>
+		<label>Login_RememberMe</label>
+		<value>Se souvenir de moi</value>
+	</row>
+	<row>
+		<label>Login_InvalidNonceOrHeaders</label>
+		<value>La vérification de sécurité du formulaire a échoué. Veuillez recharger le formulaire et vérifier que les cookies sont activés. Si vous utilisez un serveur proxy, vous devez configurer Piwik pour accepter les en-têtes de proxy qui redirigent les en-têtes de l'hôte.</value>
+	</row>
+	<row>
+		<label>PDFReports_ManageEmailReports</label>
+		<value>Gérer les rapports par e-mail</value>
+	</row>
+	<row>
+		<label>Referers_RefererName</label>
+		<value>Nom du référant</value>
+	</row>
+	<row>
+		<label>Referers_SubmenuOverview</label>
+		<value>Vue d'ensemble</value>
+	</row>
+	<row>
+		<label>SitesManager_YouCurrentlyHaveAccessToNWebsites</label>
+		<value>Vous avez actuellement accès à %s sites web.</value>
+	</row>
+	<row>
+		<label>SitesManager_OnlyOneSiteAtTime_js</label>
+		<value>Vous pouvez éditer un site web à la fois. Veuillez Enregistrer ou Annuler vos modifications courantes sur le site web %s.</value>
+	</row>
+	<row>
+		<label>TranslationsAdmin_ShowOnlyEmpty</label>
+		<value>Afficher uniquement les traductions manquantes</value>
+	</row>
+	<row>
+		<label>UserCountry_country_a1</label>
+		<value>Proxy anonyme</value>
+	</row>
+	<row>
+		<label>UserCountry_country_a2</label>
+		<value>Fournisseur satellite</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ap</label>
+		<value>Région Asie/Pacifique</value>
+	</row>
+	<row>
+		<label>UserCountry_country_o1</label>
+		<value>Autre pays</value>
+	</row>
+	<row>
+		<label>UserCountry_continent_ant</label>
+		<value>Antarctique</value>
+	</row>
+	<row>
+		<label>UserCountry_continent_amc</label>
+		<value>Amérique Centrale</value>
+	</row>
+	<row>
+		<label>UserSettings_ColumnBrowserVersion</label>
+		<value>Version du navigateur</value>
+	</row>
+	<row>
+		<label>UsersManager_ThereAreCurrentlyNRegisteredUsers</label>
+		<value>Il y a actuellement %s utilisateurs enregistrés.</value>
 	</row>
 </result>
