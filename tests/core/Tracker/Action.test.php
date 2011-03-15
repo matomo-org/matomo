@@ -287,7 +287,7 @@ class Test_Piwik_TrackerAction extends  Test_Database
 										'url' => 'http://example.org/category/1/0/t/test',
 										'type' => Piwik_Tracker_Action::TYPE_ACTION_URL),
 			),
-			// testing: action name ("Test &hellip;") - expect decpdomg of some html entities
+			// testing: action name ("Test &hellip;") - expect decoding of some html entities
 			array(
 				'request' => array( 'url' => 'http://example.org/ACTION/URL',
 									'action_name' => "Test &hellip;"),
@@ -303,7 +303,7 @@ class Test_Piwik_TrackerAction extends  Test_Database
 										'url' => 'http://example.org/ACTION/URL',
 										'type' => Piwik_Tracker_Action::TYPE_ACTION_URL),
 			),
-			// testing: action name ("Tést")
+			// testing: action name ("Tést") - handle wide character
 			array(
 				'request' => array( 'url' => 'http://example.org/ACTION/URL',
 									'action_name' => "Tést"),
@@ -311,7 +311,7 @@ class Test_Piwik_TrackerAction extends  Test_Database
 										'url' => 'http://example.org/ACTION/URL',
 										'type' => Piwik_Tracker_Action::TYPE_ACTION_URL),
 			),
-			// testing: action name ("Tést")
+			// testing: action name ("Tést") - handle UTF-8 byte sequence
 			array(
 				'request' => array( 'url' => 'http://example.org/ACTION/URL',
 									'action_name' => "T\xc3\xa9st"),
@@ -319,7 +319,14 @@ class Test_Piwik_TrackerAction extends  Test_Database
 										'url' => 'http://example.org/ACTION/URL',
 										'type' => Piwik_Tracker_Action::TYPE_ACTION_URL),
 			),
-		);
+			// testing: action name ("Tést") - handle invalid UTF-8 (e.g., ISO-8859-1)
+			array(
+				'request' => array( 'url' => 'http://example.org/ACTION/URL',
+									'action_name' => "T\xe9st"),
+				'expected' => array(	'name' => 'Tést',
+										'url' => 'http://example.org/ACTION/URL',
+										'type' => Piwik_Tracker_Action::TYPE_ACTION_URL),
+			),		);
 		foreach($tests as $test) {
 			$request = $test['request'];
 			$expected = $test['expected'];
