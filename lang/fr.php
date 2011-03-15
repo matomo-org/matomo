@@ -1,7 +1,4 @@
 <?php 
-
-setlocale(LC_TIME, 'fr_FR.UTF-8');
-
 $translations = array(
 	'General_Locale' => 'fr_FR.UTF-8',
 	'General_TranslatorName' => '<a href="http://danstoncloud.com/blogs/vincent/">Vincent BIRET</a>',
