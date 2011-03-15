@@ -313,7 +313,10 @@ class Test_Piwik_Common extends UnitTestCase
     	$_GET['test'] = '';
     	$this->assertEqual( Piwik_Common::getRequestVar('test', 45, 'string'), '45');
     	$this->assertEqual( Piwik_Common::getRequestVar('test', "geaga", 'string'), "geaga");
-    	$this->assertEqual( Piwik_Common::getRequestVar('test', "&#039;}{}}{}{}&#039;", 'string'), "&#039;}{}}{}{}&#039;");
+    	$this->assertEqual( Piwik_Common::getRequestVar('test', "&#039;}{}}{}{}&#039;", 'string'), "&amp;#039;}{}}{}{}&amp;#039;");
+    	$this->assertEqual( Piwik_Common::getRequestVar('test', "http://url?arg1=val1&arg2=val2", 'string'), "http://url?arg1=val1&amp;arg2=val2");
+		$_GET['test'] = 'http://url?arg1=val1&arg2=val2';
+    	$this->assertEqual( Piwik_Common::getRequestVar('test', "http://url?arg1=val3&arg2=val4", 'string'), "http://url?arg1=val1&amp;arg2=val2");
     }
 	
     /**
@@ -352,17 +355,6 @@ class Test_Piwik_Common extends UnitTestCase
     	$this->assertEqual( Piwik_Common::getRequestVar('test', array(), 'array'), array());
     	
     }
-
-	/**
-	 * test non-utf8 string, e.g., an ISO-8859-1 action name
-	 */
-	function test_getRequestVar_stringNotUtf8()
-	{
-		$test = "\xe8\x2c\xe9";
-		$_GET['test'] = $test;
-
-		$this->assertEqual( Piwik_Common::getRequestVar('test'), "è,é" );
-	}
 
     /**
      * no query string => null

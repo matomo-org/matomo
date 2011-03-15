@@ -1340,7 +1340,7 @@ var
 			 */
 			function logPageView(customTitle, customData) {
 				var now = new Date(),
-					request = getRequest('action_name=' + encodeWrapper(utf8_encode(customTitle || configTitle)), customData, 'log');
+					request = getRequest('action_name=' + encodeWrapper(customTitle || configTitle), customData, 'log');
 
 				sendRequest(request, configTrackerPause);
 

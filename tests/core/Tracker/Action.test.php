@@ -287,6 +287,38 @@ class Test_Piwik_TrackerAction extends  Test_Database
 										'url' => 'http://example.org/category/1/0/t/test',
 										'type' => Piwik_Tracker_Action::TYPE_ACTION_URL),
 			),
+			// testing: action name ("Test &hellip;") - expect decpdomg of some html entities
+			array(
+				'request' => array( 'url' => 'http://example.org/ACTION/URL',
+									'action_name' => "Test &hellip;"),
+				'expected' => array(	'name' => 'Test …',
+										'url' => 'http://example.org/ACTION/URL',
+										'type' => Piwik_Tracker_Action::TYPE_ACTION_URL),
+			),
+			// testing: action name ("Special &amp; chars") - expect no conversion of html special chars
+			array(
+				'request' => array( 'url' => 'http://example.org/ACTION/URL',
+									'action_name' => "Special &amp; chars"),
+				'expected' => array(	'name' => 'Special &amp; chars',
+										'url' => 'http://example.org/ACTION/URL',
+										'type' => Piwik_Tracker_Action::TYPE_ACTION_URL),
+			),
+			// testing: action name ("Tést")
+			array(
+				'request' => array( 'url' => 'http://example.org/ACTION/URL',
+									'action_name' => "Tést"),
+				'expected' => array(	'name' => 'Tést',
+										'url' => 'http://example.org/ACTION/URL',
+										'type' => Piwik_Tracker_Action::TYPE_ACTION_URL),
+			),
+			// testing: action name ("Tést")
+			array(
+				'request' => array( 'url' => 'http://example.org/ACTION/URL',
+									'action_name' => "T\xc3\xa9st"),
+				'expected' => array(	'name' => 'Tést',
+										'url' => 'http://example.org/ACTION/URL',
+										'type' => Piwik_Tracker_Action::TYPE_ACTION_URL),
+			),
 		);
 		foreach($tests as $test) {
 			$request = $test['request'];
