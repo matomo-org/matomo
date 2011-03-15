@@ -21,6 +21,12 @@ class Piwik_SegmentExpression
     
     const MATCH_EQUAL = '==';
     const MATCH_NOT_EQUAL = '!=';
+    const MATCH_GREATER_OR_EQUAL = '>=';
+    const MATCH_LESS_OR_EQUAL = '<=';
+    const MATCH_GREATER = '>';
+    const MATCH_LESS = '<';
+    const MATCH_CONTAINS = '=@';
+    const MATCH_DOES_NOT_CONTAIN = '!@';
     
     const INDEX_BOOL_OPERATOR = 0;
     const INDEX_OPERAND = 1;
@@ -46,7 +52,15 @@ class Piwik_SegmentExpression
         {
             $operand = $leaf[self::INDEX_OPERAND];
             $operator = $leaf[self::INDEX_BOOL_OPERATOR];
-            $pattern = '/^(.+?)('.self::MATCH_EQUAL.'|'.self::MATCH_NOT_EQUAL.'){1}(.+)/';
+            $pattern = '/^(.+?)('	.self::MATCH_EQUAL.'|'
+            						.self::MATCH_NOT_EQUAL.'|'
+            						.self::MATCH_GREATER_OR_EQUAL.'|'
+            						.self::MATCH_GREATER.'|'
+            						.self::MATCH_LESS_OR_EQUAL.'|'
+            						.self::MATCH_LESS.'|'
+            						.self::MATCH_CONTAINS.'|'
+            						.self::MATCH_DOES_NOT_CONTAIN
+            						.'){1}(.+)/';
             $match = preg_match( $pattern, $operand, $matches );
             if($match == 0)
             {
@@ -114,17 +128,37 @@ class Piwik_SegmentExpression
         $value = $def[2];
         
         $sqlMatch = '';
-        if($matchType == self::MATCH_EQUAL)
+        switch($matchType)
         {
-            $sqlMatch = '=';
-        }
-        elseif($matchType == self::MATCH_NOT_EQUAL)
-        {
-            $sqlMatch = '<>';
-        } 
-        else
-        {
-            throw new Exception("Filter contains the match type '".$matchType."' which is not supported");
+        	case self::MATCH_EQUAL:
+        		$sqlMatch = '=';
+        		break;
+        	case self::MATCH_NOT_EQUAL:
+        		$sqlMatch = '<>';
+        		break;
+        	case self::MATCH_GREATER:
+        		$sqlMatch = '>';
+        		break;
+        	case self::MATCH_LESS:
+        		$sqlMatch = '<';
+        		break;
+        	case self::MATCH_GREATER_OR_EQUAL:
+        		$sqlMatch = '>=';
+        		break;
+        	case self::MATCH_LESS_OR_EQUAL:
+        		$sqlMatch = '<=';
+        		break;
+        	case self::MATCH_CONTAINS:
+        		$sqlMatch = 'LIKE';
+        		$value = '%'.$value.'%';
+        		break;
+        	case self::MATCH_DOES_NOT_CONTAIN:
+        		$sqlMatch = 'NOT LIKE';
+        		$value = '%'.$value.'%';
+        		break;
+        	default:
+        		throw new Exception("Filter contains the match type '".$matchType."' which is not supported");
+        		break;
         }
         return array("$field $sqlMatch ?", $value); 
     }

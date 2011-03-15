@@ -382,20 +382,27 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $this->doTest_twoVisitsWithCustomVariables($dateTime);
         
         // Segment matching some
-        $segment = 'customVariableName1==VisitorType;customVariableValue1==LoggedIn';
-        $this->setApiToCall(array(	
-    	                            'CustomVariables.getCustomVariables',
-//        							'VisitsSummary.get',
-    	));
-        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', 
-        								$idSite = 'all', 
-        								$dateTime, 
-        								$periods = array('day', 'week'), 
-        								$setDateLastN = true,
-        								$language=false, 
-        								$segment
-        );
+        $segments = array(
+        	'customVariableName1==VisitorType;customVariableValue1==LoggedIn',
+        	'customVariableName1==VisitorType;customVariableValue1=@LoggedI',
+		);
+		foreach($segments as $segment)
+		{
+	        $this->setApiToCall(array(	
+	    	                            'CustomVariables.getCustomVariables',
+	//        							'VisitsSummary.get',
+	    	));
+	        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', 
+	        								$idSite = 'all', 
+	        								$dateTime, 
+	        								$periods = array('day', 'week'), 
+	        								$setDateLastN = true,
+	        								$language=false, 
+	        								$segment
+	        );
+		}        
 	}
+	
 	function test_twoVisitsWithCustomVariables_segmentMatchALL_noGoalData()
 	{
 		$dateTime = '2010-01-03 11:22:33';
@@ -403,7 +410,8 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $this->doTest_twoVisitsWithCustomVariables($dateTime, $width, $height);
         
         // Segment matching ALL
-        $segment = 'resolution=='.$resolution;
+        // + adding DOES NOT CONTAIN segment always matched, to test this particular operator
+        $segment = 'resolution=='.$resolution.';customVariableName1!@randomvalue%20does%20not%20exist';
     	
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', 
         								$idSite = 'all', 
