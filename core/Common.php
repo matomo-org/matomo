@@ -590,8 +590,21 @@ class Piwik_Common
 	static public function sanitizeInputValue($value)
 	{
 		// $_GET and $_REQUEST already urldecode()'d
+
+		// filter
 		$value = str_replace(array("\n","\r","\0"), "", $value);
-		return htmlspecialchars( $value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8' );
+
+		// escape
+		$tmp = htmlspecialchars( $value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8' );
+
+		// htmlspecialchars is destructive if input is not UTF-8
+		if($value != '' && $tmp == '' && function_exists('iconv'))
+		{
+			// convert and escape
+			$value = @iconv('ISO-8859-1', 'UTF-8', $value);
+			$tmp = htmlspecialchars( $value, self::HTML_ENCODING_QUOTE_STYLE, 'ISO-8859-1' );
+		}
+		return $tmp;
 	}
 
 	/**
@@ -662,7 +675,6 @@ class Piwik_Common
 
 		// Normal case, there is a value available in REQUEST for the requested varName
 		$value = self::sanitizeInputValues( $requestArrayToUse[$varName] );
-
 		if( !is_null($varType))
 		{
 			$ok = false;
