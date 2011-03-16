@@ -1164,6 +1164,11 @@ $translations = array(
 	'PDFReports_AreYouSureYouWantToDeleteReport' => '您確定要刪除這個 PDF 報表郵寄排程嗎？',
 	'PDFReports_ThereIsNoPDFReportToManage' => '網站 %s 沒有 PDF 報表可供管理',
 	'PDFReports_YouMustBeLoggedIn' => '您必須登入以建立與排程自訂 PDF 報表！',
+	'ExamplePlugin_PluginDescription' => '範例外掛：這個外掛告訴你如何建立一個非常簡單的外掛，在控制台裡匯出兩個模組。',
+	'ExamplePlugin_exampleWidgets' => '模組範例',
+	'ExamplePlugin_exampleWidget' => '模組範例',
+	'ExamplePlugin_blogPiwikRss' => '網誌 Piwik RSS',
+	'ExamplePlugin_photostreamMatt' => 'Matt 的照片',
 
 	// FOR REVIEW
 	'General_YourDashboard' => '您的儀表板',
@@ -1231,11 +1236,6 @@ $translations = array(
 	'VisitorGenerator_Date' => '日期',
 	'SitesManager_Save_js' => '儲存',
 	'SitesManager_Cancel_js' => '取消',
-	'ExamplePlugin_PluginDescription' => '範例外掛：這個外掛告訴你如何建立一個非常簡單的外掛，在控制台裡匯出兩個模組。',
-	'ExamplePlugin_exampleWidgets' => '模組範例',
-	'ExamplePlugin_exampleWidget' => '模組範例',
-	'ExamplePlugin_blogPiwikRss' => '網誌 Piwik RSS',
-	'ExamplePlugin_photostreamMatt' => 'Matt 的照片',
 	'Goals_ConversionsOverviewBySegment' => '轉換的部分總覽',
 	'Goals_GoalConversionsBySegment' => '目標 %s 轉換的部分',
 	'Goals_ViewGoalsBySegment' => '檢視目標從 %s',

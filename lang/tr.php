@@ -828,6 +828,10 @@ $translations = array(
 	'VisitTime_ColumnLocalTime' => 'Yerel saat',
 	'VisitTime_NHour' => '%sh',
 	'Widgetize_PluginDescription' => 'Eklenti, istediğiniz Piwik Widget\'ı blogunuzda, sitenizde ya da igoogle ve Netvibes\'da kullanmanızı sağlar.',
+	'ExamplePlugin_exampleWidgets' => 'Örnek Widget',
+	'ExamplePlugin_exampleWidget' => 'Örnek widget',
+	'ExamplePlugin_blogPiwikRss' => 'Piwik Blog RSS',
+	'ExamplePlugin_photostreamMatt' => 'Matt\'in Fotoğrafları',
 
 	// FOR REVIEW
 	'General_Export' => 'Dışa aktar',
@@ -837,10 +841,6 @@ $translations = array(
 	'CoreHome_Loading_js' => 'Yükleniyor...',
 	'CorePluginsAdmin_Description' => 'Açıklama',
 	'CorePluginsAdmin_ActivatedHelp' => 'Bu eklenti devre dışı bırakılamaz',
-	'ExamplePlugin_exampleWidgets' => 'Örnek Widget',
-	'ExamplePlugin_exampleWidget' => 'Örnek widget',
-	'ExamplePlugin_blogPiwikRss' => 'Piwik Blog RSS',
-	'ExamplePlugin_photostreamMatt' => 'Matt\'in Fotoğrafları',
 	'Installation_DatabaseClientCharset' => 'İstemci karakter seti',
 	'Installation_DatabaseTimezone' => 'Veritabanı saat dilimi',
 	'Installation_JsTagHelp' => '<p>Tüm ziyaretçilerinizi sayabilmek için, JavaScript kodunu tüm sayfalarınıza yerleştirmeniz gerekmektedir.</p><p>Sayfalarınızın PHP ile hazırlanmış olma zorunluluğu yoktur, Piwik her türlü sayfa ile çalışacaktır (HTML, ASP, Perl ya da diğer tüm diller).</p><p>Sayfalarınıza yerleştirmeniz gereken kod: (Kodun tümünü kopyalayarak sayfalarınıza yapıştırınız) </p>',

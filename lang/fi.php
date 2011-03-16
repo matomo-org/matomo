@@ -1185,6 +1185,11 @@ $translations = array(
 	'PDFReports_AreYouSureYouWantToDeleteReport' => 'Haluatko varmasti poistaa tämän PDF-raportin ja sen aikataulun?',
 	'PDFReports_ThereIsNoPDFReportToManage' => 'Sivulle %s ei ole PDF-raportteja',
 	'PDFReports_YouMustBeLoggedIn' => 'Sinun täytyy kirjautua sisään ennen PDF-raporttien luomista tai muokkaamista.',
+	'ExamplePlugin_PluginDescription' => 'Esimerkkilisäosa: tämä lisäosa näyttää kuinka luoda yksinkertainen lisäosa joka näyttää kaksi raporttia työpöydällä',
+	'ExamplePlugin_exampleWidgets' => 'Esimerkkiraportit',
+	'ExamplePlugin_exampleWidget' => 'Esimerkkiraportti',
+	'ExamplePlugin_blogPiwikRss' => 'Piwikin blogin RSS',
+	'ExamplePlugin_photostreamMatt' => 'Mattin kuvat',
 
 	// FOR REVIEW
 	'General_YourDashboard' => 'Työpöytä',
@@ -1241,11 +1246,6 @@ $translations = array(
 	'Login_InvalidNonceOrReferer' => 'Lomakkeen turvallisuusavain on virheellinen tai vanhentunut. Ole hyvä ja lataa lomake uudelleen. Varmista myös että cookiet on sallittu.',
 	'SitesManager_Save_js' => 'Tallenna',
 	'SitesManager_Cancel_js' => 'Peruuta',
-	'ExamplePlugin_PluginDescription' => 'Esimerkkilisäosa: tämä lisäosa näyttää kuinka luoda yksinkertainen lisäosa joka näyttää kaksi raporttia työpöydällä',
-	'ExamplePlugin_exampleWidgets' => 'Esimerkkiraportit',
-	'ExamplePlugin_exampleWidget' => 'Esimerkkiraportti',
-	'ExamplePlugin_blogPiwikRss' => 'Piwikin blogin RSS',
-	'ExamplePlugin_photostreamMatt' => 'Mattin kuvat',
 	'VisitorGenerator_Visitors' => 'Kävijät',
 	'VisitorGenerator_NbActions' => 'Toimintojen määrä',
 	'VisitorGenerator_ActionsPerVisit' => 'Toimintoa / käynti',

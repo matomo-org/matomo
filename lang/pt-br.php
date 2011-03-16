@@ -1119,6 +1119,11 @@ $translations = array(
 	'VisitTime_SubmenuTimes' => 'Horários',
 	'VisitTime_NHour' => '%sh',
 	'Widgetize_PluginDescription' => 'O plugin faz ficar muito fácil exportar qualquer widget Piwik para seu blog, website ou em Igoogle e Netvibes!',
+	'ExamplePlugin_PluginDescription' => 'Plugin Exemplo: Esse plugin mostra como criar um plugin muito simples que exporta dois widgets no painel de ferramentas',
+	'ExamplePlugin_exampleWidgets' => 'Widgets Exemplo',
+	'ExamplePlugin_exampleWidget' => 'Widget exemplo',
+	'ExamplePlugin_blogPiwikRss' => 'Blog Piwik RSS',
+	'ExamplePlugin_photostreamMatt' => 'Fotos de Matt',
 
 	// FOR REVIEW
 	'General_GraphData' => 'Dados do Gráfico',
@@ -1195,11 +1200,6 @@ $translations = array(
 	'VisitsSummary_Evolution' => 'Evolução nos últimos 30 %s',
 	'VisitsSummary_Report' => 'Relatório',
 	'General_DisplayGoals' => 'Mostrar metas',
-	'ExamplePlugin_PluginDescription' => 'Plugin Exemplo: Esse plugin mostra como criar um plugin muito simples que exporta dois widgets no painel de ferramentas',
-	'ExamplePlugin_exampleWidgets' => 'Widgets Exemplo',
-	'ExamplePlugin_exampleWidget' => 'Widget exemplo',
-	'ExamplePlugin_blogPiwikRss' => 'Blog Piwik RSS',
-	'ExamplePlugin_photostreamMatt' => 'Fotos de Matt',
 	'Installation_JsTagHelpTitle' => 'Como inserir a tag em seus websites?',
 	'Installation_SystemCheckDomHelp' => 'DOM é parte no núcleo do PHP. Você provavelmente precisa instalar o módulo dom, ex: php-5-dom.',
 	'Installation_SystemCheckMbstringHelp' => 'Você deveria setar mbstring.func_overload para "O".',

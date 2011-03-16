@@ -1154,6 +1154,11 @@ $translations = array(
 	'PDFReports_AreYouSureYouWantToDeleteReport' => 'คุณแน่ใจหรือไม่ว่า คุณต้องการลบรายงานด้วย PDF นี้ และตารางการทำงาน',
 	'PDFReports_ThereIsNoPDFReportToManage' => 'มีรายงานด้วย PDF ไม่มีการจัดการสำหรับเว็บไซต์ %s',
 	'PDFReports_YouMustBeLoggedIn' => 'คุณต้องเข้าระบบเพื่อทำการสร้างและจัดตารางเวลาการรายงาน PDF แบบที่คุณกำหนดเอง',
+	'ExamplePlugin_PluginDescription' => 'ปลั๊กอินตัวอย่าง: ปลั๊กอินนี้แสดงวิธีการสร้างแบบอย่างง่ายมากปลั๊ก ที่ส่งออกเป็น widgets ในแผงบอกเครื่องวัด',
+	'ExamplePlugin_exampleWidgets' => 'ตัวอย่าง Widgets',
+	'ExamplePlugin_exampleWidget' => 'ตัวอย่าง Widgets',
+	'ExamplePlugin_blogPiwikRss' => 'บล๊อก Piwik RSS',
+	'ExamplePlugin_photostreamMatt' => 'Matt\'s Photos',
 
 	// FOR REVIEW
 	'General_YourDashboard' => 'แผงควบคุมของคุณ',
@@ -1176,11 +1181,6 @@ $translations = array(
 	'Dashboard_WidgetPreview' => 'ตัวอย่างของ Wedget',
 	'Dashboard_LoadingPreview_js' => 'กำลังโหลดตัวอย่าง กรุณารอ...',
 	'DBStats_RowNumber' => 'หมายเลขระเบียน',
-	'ExamplePlugin_PluginDescription' => 'ปลั๊กอินตัวอย่าง: ปลั๊กอินนี้แสดงวิธีการสร้างแบบอย่างง่ายมากปลั๊ก ที่ส่งออกเป็น widgets ในแผงบอกเครื่องวัด',
-	'ExamplePlugin_exampleWidgets' => 'ตัวอย่าง Widgets',
-	'ExamplePlugin_exampleWidget' => 'ตัวอย่าง Widgets',
-	'ExamplePlugin_blogPiwikRss' => 'บล๊อก Piwik RSS',
-	'ExamplePlugin_photostreamMatt' => 'Matt\'s Photos',
 	'Goals_ColumnConversionRate' => 'อัตราการแปลงข้อมูล',
 	'Goals_ConversionsOverviewBySegment' => 'ภาพรวมการแปลงเป็นส่วน',
 	'Goals_GoalConversionsBySegment' => '%s เป้าหมายของการแปลงส่วน',

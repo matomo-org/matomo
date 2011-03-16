@@ -907,6 +907,9 @@ $translations = array(
 	'VisitTime_WidgetServerTime' => 'Vitjingar etter tenartid',
 	'VisitTime_SubmenuTimes' => 'Tid',
 	'VisitTime_NHour' => '%st',
+	'ExamplePlugin_exampleWidget' => 'Dømedings',
+	'ExamplePlugin_blogPiwikRss' => 'Blogg Piwik RSS',
+	'ExamplePlugin_photostreamMatt' => 'Matt sine bilete',
 
 	// FOR REVIEW
 	'General_YourDashboard' => 'Ditt Dashbord',
@@ -953,9 +956,6 @@ $translations = array(
 	'Installation_SystemCheckMail' => 'mail() tillat',
 	'Goals_ColumnConversionRate' => 'Overgangsrate',
 	'DBStats_RowNumber' => 'Rad nr',
-	'ExamplePlugin_exampleWidget' => 'Dømedings',
-	'ExamplePlugin_blogPiwikRss' => 'Blogg Piwik RSS',
-	'ExamplePlugin_photostreamMatt' => 'Matt sine bilete',
 	'General_DisplayGoals' => 'Vis mål',
 	'General_ExceptionVariableNotFound' => 'Den nødvendige variabelen \'%s\' stemmer ikkje, eller har ikkje blitt funnet i API-førespurnaden.',
 	'General_ExceptionSubtableNotFoundInArchive' => 'Du ber om ein presis undertabell, men det er ikkje noko slik data i arkivet.',

@@ -1176,6 +1176,11 @@ $translations = array(
 	'PDFReports_AreYouSureYouWantToDeleteReport' => 'Biztosan törölni szeretnéd ezt a PDF jelentést és ütemezési beállításait?',
 	'PDFReports_ThereIsNoPDFReportToManage' => 'Nincs még PDF jelentés beállítva a %s weboldalhoz.',
 	'PDFReports_YouMustBeLoggedIn' => 'PDF jelentések létrehozásához és ütemezéséhez be kell lépjél.',
+	'ExamplePlugin_PluginDescription' => 'Példakiegészítő: Ez a kiegészítő bemutatja, hogyan lehet létrehozni egy egyszerű kiegészítőt, mely két modult exportál a vezérlőpultra.',
+	'ExamplePlugin_exampleWidgets' => 'Példamodulok',
+	'ExamplePlugin_exampleWidget' => 'Példamodul',
+	'ExamplePlugin_blogPiwikRss' => 'Piwik Blog RSS',
+	'ExamplePlugin_photostreamMatt' => 'Matt fotói',
 
 	// FOR REVIEW
 	'General_YourDashboard' => 'A TE vezérlőpultod',
@@ -1236,11 +1241,6 @@ $translations = array(
 	'Installation_SystemCheckProtocol' => 'Protokoll',
 	'Installation_SystemCheckProtocolHelp' => 'Ha reverse proxy működik a szerveren, akkor ezeket a sorokat kell hozzáadni a config/config.ini.php [General] szekciójához:',
 	'Login_InvalidNonceOrReferer' => 'Az űrlap biztonsági kódja érvénytelen vagy lejárt. Kérjük, töltse újra az oldalt vagy ellenőrizze, hogy böngészőjében engedélyezve vannak-e a sütik.',
-	'ExamplePlugin_PluginDescription' => 'Példakiegészítő: Ez a kiegészítő bemutatja, hogyan lehet létrehozni egy egyszerű kiegészítőt, mely két modult exportál a vezérlőpultra.',
-	'ExamplePlugin_exampleWidgets' => 'Példamodulok',
-	'ExamplePlugin_exampleWidget' => 'Példamodul',
-	'ExamplePlugin_blogPiwikRss' => 'Piwik Blog RSS',
-	'ExamplePlugin_photostreamMatt' => 'Matt fotói',
 	'Goals_ConversionsOverviewBySegment' => 'Célok áttekintése szegmensek szerint',
 	'Goals_GoalConversionsBySegment' => '%s nevű cél konverziói szegmensenként',
 	'Goals_ViewGoalsBySegment' => 'Célok megtekintése a következők szerint: %s',

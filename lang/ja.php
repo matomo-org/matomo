@@ -1205,6 +1205,13 @@ $translations = array(
 	'PDFReports_AreYouSureYouWantToDeleteReport' => '本当にこの PDF リポートとそのスケジュールを削除しますか？',
 	'PDFReports_ThereIsNoPDFReportToManage' => 'ウェブサイト %s 用の管理できる PDF リポートはありません',
 	'PDFReports_YouMustBeLoggedIn' => 'カスタム PDF リポートの作成とスケジュールを行うにはログインする必要があります。',
+	'ExamplePlugin_PluginDescription' => '例題プラグイン： このプラグインは、ダッシュボードに2つのウィジェットをエクスポートする、ごく単純なプラグインの作成方法を示します。',
+	'ExamplePlugin_exampleWidgets' => '例題ウィジェット',
+	'ExamplePlugin_exampleWidget' => '例題ウィジェット',
+	'ExamplePlugin_blogPiwikRss' => 'ブログ Piwik RSS',
+	'ExamplePlugin_photostreamMatt' => 'Matt 氏の写真',
+	'ExamplePlugin_piwikDownloads' => 'Piwik ダウンロード',
+	'ExamplePlugin_PiwikHasBeenDownloaded' => '%s で Piwik は %s 回ダウンロードされました。',
 
 	// FOR REVIEW
 	'General_Export' => 'エクスポート',
@@ -1251,11 +1258,4 @@ $translations = array(
 	'SitesManager_Cancel_js' => 'キャンセル',
 	'VisitorGenerator_NbActions' => 'アクション数',
 	'PDFReports_ManagePdfReports' => 'PDF リポートの管理',
-	'ExamplePlugin_PluginDescription' => '例題プラグイン： このプラグインは、ダッシュボードに2つのウィジェットをエクスポートする、ごく単純なプラグインの作成方法を示します。',
-	'ExamplePlugin_exampleWidgets' => '例題ウィジェット',
-	'ExamplePlugin_exampleWidget' => '例題ウィジェット',
-	'ExamplePlugin_blogPiwikRss' => 'ブログ Piwik RSS',
-	'ExamplePlugin_photostreamMatt' => 'Matt 氏の写真',
-	'ExamplePlugin_piwikDownloads' => 'Piwik ダウンロード',
-	'ExamplePlugin_PiwikHasBeenDownloaded' => '%s で Piwik は %s 回ダウンロードされました。',
 );
