@@ -109,7 +109,7 @@ class Test_Languages_Manager extends UnitTestCase
 	{
 		$pathFixedTranslations = PIWIK_INCLUDE_PATH . '/tmp/';
 		$filename = $language . '.php';
-		$tstr = '<?php '.PHP_EOL;
+		$tstr = '<?php'.PHP_EOL;
 		$tstr .= '$translations = array('.PHP_EOL;
 		foreach($translations as $key => $value)
 		{
