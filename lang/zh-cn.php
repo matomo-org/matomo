@@ -1147,6 +1147,11 @@ $translations = array(
 	'PDFReports_AreYouSureYouWantToDeleteReport' => '您确定要刪除这个 PDF 报表排程吗？',
 	'PDFReports_ThereIsNoPDFReportToManage' => '网站 %s 沒有 PDF 报表可以管理',
 	'PDFReports_YouMustBeLoggedIn' => '您必须登录才能建立及排程自定义 PDF 报表。',
+	'ExamplePlugin_PluginDescription' => '范例插件：这个插件告诉您如何建立一個非常简单的插件，在控制台里导出两个模组。',
+	'ExamplePlugin_exampleWidgets' => '模組范例',
+	'ExamplePlugin_exampleWidget' => '模組范例',
+	'ExamplePlugin_blogPiwikRss' => '博客 Piwik RSS',
+	'ExamplePlugin_photostreamMatt' => 'Matt 的照片',
 
 	// FOR REVIEW
 	'General_YourDashboard' => '您的仪表盘',
@@ -1235,11 +1240,6 @@ $translations = array(
 	'VisitorGenerator_Date' => '日期',
 	'SitesManager_Save_js' => '保存',
 	'SitesManager_Cancel_js' => '取消',
-	'ExamplePlugin_PluginDescription' => '范例插件：这个插件告诉您如何建立一個非常简单的插件，在控制台里导出两个模组。',
-	'ExamplePlugin_exampleWidgets' => '模組范例',
-	'ExamplePlugin_exampleWidget' => '模組范例',
-	'ExamplePlugin_blogPiwikRss' => '博客 Piwik RSS',
-	'ExamplePlugin_photostreamMatt' => 'Matt 的照片',
 	'Goals_ConversionsOverviewBySegment' => '转换的部分概述',
 	'Goals_GoalConversionsBySegment' => '目标 %s 转换的部分',
 	'Goals_ViewGoalsBySegment' => '查看目标从 %s',

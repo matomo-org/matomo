@@ -1168,6 +1168,11 @@ $translations = array(
 	'PDFReports_AreYouSureYouWantToDeleteReport' => 'Сигурни ли сте, че желаете да изтриете този PDF доклад и график?',
 	'PDFReports_ThereIsNoPDFReportToManage' => 'Няма PDF доклад за управление за уеб сайт %s',
 	'PDFReports_YouMustBeLoggedIn' => 'Вие трябва да сте влезли, за да създадете и персонализирате PDF отчети.',
+	'ExamplePlugin_PluginDescription' => 'Примерен плъгин: Как да създадете прост плъгин, който да изнесе две джаджи на Вашето Табло.',
+	'ExamplePlugin_exampleWidgets' => 'Примерни Джаджи',
+	'ExamplePlugin_exampleWidget' => 'Примерна джаджа',
+	'ExamplePlugin_blogPiwikRss' => 'RSS от блога на Piwik',
+	'ExamplePlugin_photostreamMatt' => 'Снимките на Мат',
 
 	// FOR REVIEW
 	'General_YourDashboard' => 'Вашето табло',
@@ -1213,11 +1218,6 @@ $translations = array(
 	'General_DisplayGoals' => 'Покажи Целите',
 	'Live_Date' => 'Дата',
 	'Live_Last30Minutes' => 'Последни 30 минути',
-	'ExamplePlugin_PluginDescription' => 'Примерен плъгин: Как да създадете прост плъгин, който да изнесе две джаджи на Вашето Табло.',
-	'ExamplePlugin_exampleWidgets' => 'Примерни Джаджи',
-	'ExamplePlugin_exampleWidget' => 'Примерна джаджа',
-	'ExamplePlugin_blogPiwikRss' => 'RSS от блога на Piwik',
-	'ExamplePlugin_photostreamMatt' => 'Снимките на Мат',
 	'Goals_ConversionsOverviewBySegment' => 'Общ преглед на конверсиите по сегмент',
 	'Goals_GoalConversionsBySegment' => 'Цел %s конверсиите по сегмент',
 	'Goals_ViewGoalsBySegment' => 'Виж целите по %s',

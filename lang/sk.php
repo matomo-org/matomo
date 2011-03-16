@@ -966,6 +966,9 @@ $translations = array(
 	'PDFReports_AreYouSureYouWantToDeleteReport' => 'Ste si istí, že chcete zmazať túto správu vo formáte PDF a jeho plán?',
 	'PDFReports_ThereIsNoPDFReportToManage' => 'Nemáte žiadny report vo formáte PDF pre webové stránky %s',
 	'PDFReports_YouMustBeLoggedIn' => 'Musíte byť prihlásený vytvoriť a naplánovať vlastné zostávy vo formáte PDF.',
+	'ExamplePlugin_exampleWidget' => 'Príklad miniaplikácie',
+	'ExamplePlugin_blogPiwikRss' => 'Blog Piwik RSS',
+	'ExamplePlugin_photostreamMatt' => 'Mattove fotky',
 
 	// FOR REVIEW
 	'General_YourDashboard' => 'Riadiaci panel',
@@ -1026,9 +1029,6 @@ $translations = array(
 	'DBStats_RowNumber' => 'Počet riadkov',
 	'General_ExportAsImage' => 'Exportovať ako obrázok',
 	'General_SaveImageOnYourComputer' => 'Pre uloženie obrázku na vašom počítači kliknite pravým tlačidlom na obrázok a vyberte „Uložiť obrázok ako…“',
-	'ExamplePlugin_exampleWidget' => 'Príklad miniaplikácie',
-	'ExamplePlugin_blogPiwikRss' => 'Blog Piwik RSS',
-	'ExamplePlugin_photostreamMatt' => 'Mattove fotky',
 	'Goals_ColumnConversionRate' => 'Miera konverzie',
 	'UserSettings_ColumnOperatinsSystem' => 'Operačný systém',
 	'VisitFrequency_ColumnMaximumActionsByAReturningVisit' => 'Maximum akcií vracajúcich sa návštev',

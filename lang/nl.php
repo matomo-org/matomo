@@ -1190,6 +1190,11 @@ $translations = array(
 	'PDFReports_AreYouSureYouWantToDeleteReport' => 'Ben je zeker dat je dit PDF rapport en de regeling wil verwijderen?',
 	'PDFReports_ThereIsNoPDFReportToManage' => 'Er is geen PDF rapport om website %s te beheren',
 	'PDFReports_YouMustBeLoggedIn' => 'Je moet ingelogd zijn om eigen PDF rapporten te versturen en aan te maken',
+	'ExamplePlugin_PluginDescription' => 'Voorbeeld plugin: Deze plugin toont hoe een simpele plugin te maken, dat twee widgets exporteert in het Dashboard.',
+	'ExamplePlugin_exampleWidgets' => 'Voorbeeld Widgets.',
+	'ExamplePlugin_exampleWidget' => 'Voorbeeld Widget',
+	'ExamplePlugin_blogPiwikRss' => 'Blog Piwik RSS',
+	'ExamplePlugin_photostreamMatt' => 'Matt\'s foto\'s',
 
 	// FOR REVIEW
 	'General_Export' => 'Exporteren',
@@ -1214,11 +1219,6 @@ $translations = array(
 	'Dashboard_WidgetPreview' => 'Widget voorvertoning',
 	'Dashboard_LoadingPreview_js' => 'Bezig voorvertoning te laden, even geduld a.u.b&hellip;',
 	'DBStats_RowNumber' => 'Rij nummer',
-	'ExamplePlugin_PluginDescription' => 'Voorbeeld plugin: Deze plugin toont hoe een simpele plugin te maken, dat twee widgets exporteert in het Dashboard.',
-	'ExamplePlugin_exampleWidgets' => 'Voorbeeld Widgets.',
-	'ExamplePlugin_exampleWidget' => 'Voorbeeld Widget',
-	'ExamplePlugin_blogPiwikRss' => 'Blog Piwik RSS',
-	'ExamplePlugin_photostreamMatt' => 'Matt\'s foto\'s',
 	'Goals_ColumnConversionRate' => 'Conversie omzet',
 	'Installation_MysqlSetup' => 'Mysql database instellingen',
 	'Installation_MysqlErrorConnect' => 'Fout tijdens het verbinden met de Mysql database',

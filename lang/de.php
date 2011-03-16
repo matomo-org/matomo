@@ -1218,6 +1218,11 @@ $translations = array(
 	'PDFReports_AreYouSureYouWantToDeleteReport' => 'Sind Sie sicher dass sie diesen PDF-Bericht und dessen Zeitplan löschen möchten?',
 	'PDFReports_ThereIsNoPDFReportToManage' => 'Es existiert kein PDF-Bericht für die Website %s',
 	'PDFReports_YouMustBeLoggedIn' => 'Du musst eingeloggt sein um PDF-Berichte erstellen und planen zu können.',
+	'ExamplePlugin_PluginDescription' => 'Beispiel Plugin: Dieses Plugin zeigt, wie Sie ein einfaches Plugin erstellen welches zwei Widgets im Dashboard erzeugt.',
+	'ExamplePlugin_exampleWidgets' => 'Beispielwidgets',
+	'ExamplePlugin_exampleWidget' => 'Beispielwidget',
+	'ExamplePlugin_blogPiwikRss' => 'Piwik Blog RSS',
+	'ExamplePlugin_photostreamMatt' => 'Matt\'s Fotos',
 
 	// FOR REVIEW
 	'General_YourDashboard' => 'Ihr Dashboard',
@@ -1235,11 +1240,6 @@ $translations = array(
 	'DBStats_RowNumber' => 'Zeilenanzahl',
 	'EntryPage_Bounces' => 'Absprünge',
 	'EntryPage_Referrers' => 'Verweis',
-	'ExamplePlugin_PluginDescription' => 'Beispiel Plugin: Dieses Plugin zeigt, wie Sie ein einfaches Plugin erstellen welches zwei Widgets im Dashboard erzeugt.',
-	'ExamplePlugin_exampleWidgets' => 'Beispielwidgets',
-	'ExamplePlugin_exampleWidget' => 'Beispielwidget',
-	'ExamplePlugin_blogPiwikRss' => 'Piwik Blog RSS',
-	'ExamplePlugin_photostreamMatt' => 'Matt\'s Fotos',
 	'Forecast_Widget' => 'Vorhersage für Heute',
 	'Forecast_Column' => 'Erwartung',
 	'Forecast_Actions' => 'Seitenbesuche',

@@ -1132,6 +1132,11 @@ $translations = array(
 	'PDFReports_AreYouSureYouWantToDeleteReport' => 'Ar tikrai norite ištrinti šią PDF ataskaitą ir jos nustatymą?',
 	'PDFReports_ThereIsNoPDFReportToManage' => 'Nėra %s svetainei PDF ataskaitų skirtų administruoti.',
 	'PDFReports_YouMustBeLoggedIn' => 'Turite prisijungti, jei norite kurti ir nustatyti PDF ataskaitas.',
+	'ExamplePlugin_PluginDescription' => 'Pavyzdinis papildinys: Šis papildinys parodys kaip sukurti labai paprastą papildinį, kuris eksportuos du valdiklius į skydelį.',
+	'ExamplePlugin_exampleWidgets' => 'Pavyzdiniai valdikliai',
+	'ExamplePlugin_exampleWidget' => 'Pavyzdinis valdiklis',
+	'ExamplePlugin_blogPiwikRss' => 'Piwik Blogas RSS',
+	'ExamplePlugin_photostreamMatt' => 'Mato nuotraukos',
 
 	// FOR REVIEW
 	'General_YourDashboard' => 'Jūsų skydelis',
@@ -1148,11 +1153,6 @@ $translations = array(
 	'CorePluginsAdmin_ActivatedHelp' => 'Šio papildinio negalima pasyvinti',
 	'CoreUpdater_TheUpgradeProcessMayFail' => 'Jei Jūsų Piwik duombazė didelė, atnaujinimas naršyklėje gali užtrukti per ilgai. Tokiu atveju galite paleisti atnaujinimus iš komandinės eilutės: <code>$ php kelias/iki/piwik/index.php</code>',
 	'DBStats_RowNumber' => 'Eilučių skaičius',
-	'ExamplePlugin_exampleWidget' => 'Pavyzdinis valdiklis',
-	'ExamplePlugin_blogPiwikRss' => 'Piwik Blogas RSS',
-	'ExamplePlugin_photostreamMatt' => 'Mato nuotraukos',
-	'ExamplePlugin_exampleWidgets' => 'Pavyzdiniai valdikliai',
-	'ExamplePlugin_PluginDescription' => 'Pavyzdinis papildinys: Šis papildinys parodys kaip sukurti labai paprastą papildinį, kuris eksportuos du valdiklius į skydelį.',
 	'Goals_ColumnConversionRate' => 'Konversijos tarifas',
 	'Installation_MysqlSetup' => 'MySQL duombazės nustatymai',
 	'Installation_MysqlErrorConnect' => 'Nepavyksta prisijungti prie MySQL duombazės',

@@ -1185,6 +1185,11 @@ $translations = array(
 	'PDFReports_AreYouSureYouWantToDeleteReport' => 'Esta seguro que desea borrar este Reporte PDF y su programación de envío?',
 	'PDFReports_ThereIsNoPDFReportToManage' => 'No hay Reportes PDF que administrar para este sitio web %s',
 	'PDFReports_YouMustBeLoggedIn' => 'Debe autenticarse para crear y programar envíos de Reportes PDF.',
+	'ExamplePlugin_PluginDescription' => 'Plugin de Ejemplo: Este plugin te muestra como crear un plugin muy simple, que exporta dos widgets en tu Panel.',
+	'ExamplePlugin_exampleWidgets' => 'Widgets de Ejemplo',
+	'ExamplePlugin_exampleWidget' => 'Widget de ejemplo',
+	'ExamplePlugin_blogPiwikRss' => 'Blog Piwik RSS',
+	'ExamplePlugin_photostreamMatt' => 'Fotos de Matt',
 
 	// FOR REVIEW
 	'General_Export' => 'Exportar',
@@ -1231,11 +1236,6 @@ $translations = array(
 	'Installation_SystemCheckProtocolHelp' => 'Si está detrás de un proxy, añada estas líneas a config/config.ini.php debajo de la sección [General]:',
 	'Goals_ColumnConversionRate' => 'Porcentaje de conversiones',
 	'Live_Date' => 'Fecha',
-	'ExamplePlugin_PluginDescription' => 'Plugin de Ejemplo: Este plugin te muestra como crear un plugin muy simple, que exporta dos widgets en tu Panel.',
-	'ExamplePlugin_exampleWidgets' => 'Widgets de Ejemplo',
-	'ExamplePlugin_exampleWidget' => 'Widget de ejemplo',
-	'ExamplePlugin_blogPiwikRss' => 'Blog Piwik RSS',
-	'ExamplePlugin_photostreamMatt' => 'Fotos de Matt',
 	'Installation_SystemCheckMbstringHelp' => 'Deberia colocar mbstring.func_overload en "0".',
 	'General_ExceptionSubtableNotFoundInArchive' => 'Usted está solicitando una subtabla precisa, pero no hay datos en el Archivo.',
 	'Goals_ConversionsOverviewBySegment' => 'Vista de conversiones por segmento',

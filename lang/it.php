@@ -1082,6 +1082,11 @@ $translations = array(
 	'PDFReports_SentToMe' => 'Invia a me',
 	'PDFReports_CreatePDFReport' => 'Crea un resoconto in PDF',
 	'PDFReports_EmailHello' => 'Ciao,',
+	'ExamplePlugin_PluginDescription' => 'Plugin di esempio: Questo plugin mostra come crearne uno molto semplice, che espone due widget nella Dashboar.',
+	'ExamplePlugin_exampleWidgets' => 'Widget di esempio',
+	'ExamplePlugin_exampleWidget' => 'Widget di esempio',
+	'ExamplePlugin_blogPiwikRss' => 'RSS del Blog Piwik',
+	'ExamplePlugin_photostreamMatt' => 'Le foto di Matt',
 
 	// FOR REVIEW
 	'General_YourDashboard' => 'La tua Dashboard',
@@ -1097,11 +1102,6 @@ $translations = array(
 	'CorePluginsAdmin_Description' => 'Descrizione',
 	'CorePluginsAdmin_ActivatedHelp' => 'Questo plugin non può essere disattivato',
 	'DBStats_RowNumber' => 'Numero di righe',
-	'ExamplePlugin_PluginDescription' => 'Plugin di esempio: Questo plugin mostra come crearne uno molto semplice, che espone due widget nella Dashboar.',
-	'ExamplePlugin_exampleWidgets' => 'Widget di esempio',
-	'ExamplePlugin_exampleWidget' => 'Widget di esempio',
-	'ExamplePlugin_blogPiwikRss' => 'RSS del Blog Piwik',
-	'ExamplePlugin_photostreamMatt' => 'Le foto di Matt',
 	'Goals_ColumnConversionRate' => 'Tasso di conversioni',
 	'Installation_MysqlSetup' => 'Configurazione Database MySQL',
 	'Installation_MysqlErrorConnect' => 'Si è verificato un errore durante la connessione al Database MySQL',

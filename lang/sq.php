@@ -1194,6 +1194,10 @@ $translations = array(
 	'PDFReports_AreYouSureYouWantToDeleteReport' => 'Jeni i sigurt se doni të fshihet ky Raport PDF dhe planifikimi për të?',
 	'PDFReports_ThereIsNoPDFReportToManage' => 'Nuk ka Raport PDF për site-in web %s',
 	'PDFReports_YouMustBeLoggedIn' => 'Duhet të jeni i futur që të krijoni dhe planifikoni dërgim Raportesh PDF të personalizuar.',
+	'ExamplePlugin_exampleWidgets' => '"Widget"-e shembuj',
+	'ExamplePlugin_exampleWidget' => 'Widget" shembull',
+	'ExamplePlugin_blogPiwikRss' => 'RSS Blogu Piwik',
+	'ExamplePlugin_photostreamMatt' => 'Foto të Matt-it',
 
 	// FOR REVIEW
 	'General_YourDashboard' => 'Pulti Juaj',
@@ -1211,10 +1215,6 @@ $translations = array(
 	'CorePluginsAdmin_ActivatedHelp' => 'Kjo shtojcë nuk mund të çaktivizohet',
 	'CoreUpdater_TheUpgradeProcessMayFail' => 'Po qe se keni një bazë të dhënash Piwik të madhe, përditësimet mund të duan shumë për të xhiruar në shfletues. Në një rast të tillë, përditësime mund t\'i kryeni përmes rreshti urdhrash: <code>$ php shtegu/për_te/piwik/index.php</code>',
 	'DBStats_RowNumber' => 'Numër rreshtash',
-	'ExamplePlugin_exampleWidgets' => '"Widget"-e shembuj',
-	'ExamplePlugin_exampleWidget' => 'Widget" shembull',
-	'ExamplePlugin_blogPiwikRss' => 'RSS Blogu Piwik',
-	'ExamplePlugin_photostreamMatt' => 'Foto të Matt-it',
 	'Goals_ConversionsOverviewBySegment' => 'Përmbledhje shndërrimesh sipas segmentesh',
 	'Goals_GoalConversionsBySegment' => 'Shndërrime objektivash %s sipas segmentesh',
 	'Goals_ViewGoalsBySegment' => 'Shihni objektiva sipas %s',

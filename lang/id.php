@@ -473,6 +473,11 @@ $translations = array(
 	'Goals_Pattern' => 'Pola',
 	'Goals_ExceptionInvalidMatchingString' => 'Jika Anda pilih \'cocok persis\', kata kunci haruslah sebuah URL yang dimulai dengan %s. Contoh, \'%s\'',
 	'Goals_LearnMoreAboutGoalTrackingDocumentation' => 'Belajar lebih lanjut tentang %s Pelacakan Tujuan Piwik%s dalam dokumentasi pengguna.',
+	'ExamplePlugin_PluginDescription' => 'Contoh Plugin: Plugin ini menampilkan bagaimana cara untuk membuat plugin sangat sederhana, yang dapat mengekspor dua widget ke dalam Dasbor.',
+	'ExamplePlugin_exampleWidgets' => 'Contoh Widget-widget',
+	'ExamplePlugin_exampleWidget' => 'Contoh widget',
+	'ExamplePlugin_blogPiwikRss' => 'RSS Blog Piwik',
+	'ExamplePlugin_photostreamMatt' => 'Foto Matt',
 
 	// FOR REVIEW
 	'General_Export' => 'Ekspor',
@@ -481,11 +486,6 @@ $translations = array(
 	'General_DisplayGoals' => 'Tampilkan Gol',
 	'General_ExceptionSubtableNotFoundInArchive' => 'Anda meminta subTable yang akurat tapi tidak ada data yang ditemukan pada Arsip.',
 	'CorePluginsAdmin_ActivatedHelp' => 'Plugin ini tidak dapat dinon-aktifkan',
-	'ExamplePlugin_PluginDescription' => 'Contoh Plugin: Plugin ini menampilkan bagaimana cara untuk membuat plugin sangat sederhana, yang dapat mengekspor dua widget ke dalam Dasbor.',
-	'ExamplePlugin_exampleWidgets' => 'Contoh Widget-widget',
-	'ExamplePlugin_exampleWidget' => 'Contoh widget',
-	'ExamplePlugin_blogPiwikRss' => 'RSS Blog Piwik',
-	'ExamplePlugin_photostreamMatt' => 'Foto Matt',
 	'Goals_ConversionsOverviewBySegment' => 'Ikhtisar konversi berdasarkan segmen',
 	'Goals_GoalConversionsBySegment' => 'Tujuan %s konversi berdasarkan segmen',
 	'Goals_ViewGoalsBySegment' => 'Tampilkan tujuan dengan %s',

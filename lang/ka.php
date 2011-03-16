@@ -1192,16 +1192,16 @@ $translations = array(
 	'PDFReports_AreYouSureYouWantToDeleteReport' => 'დარწმუნებული ხართ, რომ გსურთ ამ PDF რეპორტის და მისი განრიგის წაშლა?',
 	'PDFReports_ThereIsNoPDFReportToManage' => '%s ვებ საიტისთვის PDF რეპორტი არ არის, რომ მართოთ',
 	'PDFReports_YouMustBeLoggedIn' => 'სისტემაში უნდა შეხვიდეთ, რომ შექმნათ თქვენი სურვილისამებრ მოწყობილი PDF რეპორტი და დანიშნოთ მისი გამოგზავნის განრიგი.',
-
-	// FOR REVIEW
-	'General_ExceptionSubtableNotFoundInArchive' => 'თქვენ მოითხოვთ ზუსტ subTable–ს, მაგრამ არქივში ასეთი მონაცემები არ არის.',
-	'CorePluginsAdmin_ActivatedHelp' => 'ამ პლაგინის გამორთვა შეუძლებელია',
 	'ExamplePlugin_PluginDescription' => 'სანიმუშო პლაგინი: ეს პლაგინი აჩვენებს როგორ შექმნათ ძალიან მარტივი პლაგინი, რომელიც გააკეთებს ორი ვიჯეტის ექსპორტს ინსტრუმენტთა პანელზე.',
 	'ExamplePlugin_exampleWidgets' => 'სანიმუშო ვიჯეტები',
 	'ExamplePlugin_exampleWidget' => 'სანიმუშო ვიჯეტი',
 	'ExamplePlugin_blogPiwikRss' => 'Piwik ბლოგის RSS',
 	'ExamplePlugin_photostreamMatt' => 'მეთის ფოტოები',
 	'ExamplePlugin_piwikDownloads' => 'Piwik–ის ჩამოტვირთვები',
+
+	// FOR REVIEW
+	'General_ExceptionSubtableNotFoundInArchive' => 'თქვენ მოითხოვთ ზუსტ subTable–ს, მაგრამ არქივში ასეთი მონაცემები არ არის.',
+	'CorePluginsAdmin_ActivatedHelp' => 'ამ პლაგინის გამორთვა შეუძლებელია',
 	'Goals_ConversionsOverviewBySegment' => 'კონვერსიების მიმოხილვა სეგმენტის მიხედვით',
 	'Goals_GoalConversionsBySegment' => 'მიზანი %s კონვერსია სეგმენტის მიხედვით',
 	'Goals_ViewGoalsBySegment' => 'მიზნების დათვალიერება %s–ის მიხედვით',

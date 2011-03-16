@@ -1163,6 +1163,11 @@ $translations = array(
 	'PDFReports_AreYouSureYouWantToDeleteReport' => 'Tem a certeza que deseja eliminar este Relatório PDF e a agenda correspondente?',
 	'PDFReports_ThereIsNoPDFReportToManage' => 'Não existe um Relatório PDF para gerir o website %s',
 	'PDFReports_YouMustBeLoggedIn' => 'Tem qne entrar para criar e agendar Relatórios PDF personalizados.',
+	'ExamplePlugin_PluginDescription' => 'Plugin Exemplo: Este plugin mostra como criar um plugin muito simples, que exporta dois widgets para o Painel de Controlo.',
+	'ExamplePlugin_exampleWidgets' => 'Widgets Exemplo',
+	'ExamplePlugin_exampleWidget' => 'Widget exemplo',
+	'ExamplePlugin_blogPiwikRss' => 'Blog Piwik RSS',
+	'ExamplePlugin_photostreamMatt' => 'Fotos de Matt',
 
 	// FOR REVIEW
 	'General_GraphData' => 'Dados do Gráfico',
@@ -1227,11 +1232,6 @@ $translations = array(
 	'General_ExceptionSubtableNotFoundInArchive' => 'Está a pedir uma subTabela precisa mas esses dados não estão disponíveis no Arquivo.',
 	'CorePluginsAdmin_Description' => 'Descrição',
 	'CorePluginsAdmin_ActivatedHelp' => 'Este plugin não pode ser desactivado',
-	'ExamplePlugin_PluginDescription' => 'Plugin Exemplo: Este plugin mostra como criar um plugin muito simples, que exporta dois widgets para o Painel de Controlo.',
-	'ExamplePlugin_exampleWidgets' => 'Widgets Exemplo',
-	'ExamplePlugin_exampleWidget' => 'Widget exemplo',
-	'ExamplePlugin_blogPiwikRss' => 'Blog Piwik RSS',
-	'ExamplePlugin_photostreamMatt' => 'Fotos de Matt',
 	'Goals_ConversionsOverviewBySegment' => 'Vista geral das conversões por segmentos',
 	'Goals_ViewGoalsBySegment' => 'Ver objectivos por %s',
 	'Installation_SubmitGo' => 'Começar!',

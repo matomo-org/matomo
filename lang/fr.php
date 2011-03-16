@@ -1234,6 +1234,13 @@ $translations = array(
 	'PDFReports_AreYouSureYouWantToDeleteReport' => 'Etes vous sûr de vouloir supprimer ce rapport PDF ainsi que sa planification?',
 	'PDFReports_ThereIsNoPDFReportToManage' => 'Il n\'y a aucun rapport PDF à gérer pour le site %s',
 	'PDFReports_YouMustBeLoggedIn' => 'Vous devez être connecté afin de pouvoir créer et planifier des rapports PDF personnalisés.',
+	'ExamplePlugin_PluginDescription' => 'Plugin d\'exemple: ce plugin décrit comment créer un plugin très simple qui exporte 2 widgets du tableau de bord',
+	'ExamplePlugin_exampleWidgets' => 'Widgets d\'exemple',
+	'ExamplePlugin_exampleWidget' => 'Widget d\'exemple',
+	'ExamplePlugin_blogPiwikRss' => 'Flux RSS du blog Piwik',
+	'ExamplePlugin_photostreamMatt' => 'Photos de Matt',
+	'ExamplePlugin_piwikDownloads' => 'Téléchargements de Piwik',
+	'ExamplePlugin_PiwikHasBeenDownloaded' => 'En %s, Piwik a été téléchargé %s fois.',
 
 	// FOR REVIEW
 	'General_Export' => 'Exporter',
@@ -1277,11 +1284,6 @@ $translations = array(
 	'VisitorInterest_SubmenuFrequencyLoyalty' => 'Fréquence et Fidélité',
 	'VisitsSummary_TotalTime' => '%s temps total passé par les visiteurs',
 	'VisitsSummary_Report' => 'Rapport',
-	'ExamplePlugin_PluginDescription' => 'Plugin d\'exemple: ce plugin décrit comment créer un plugin très simple qui exporte 2 widgets du tableau de bord',
-	'ExamplePlugin_exampleWidgets' => 'Widgets d\'exemple',
-	'ExamplePlugin_exampleWidget' => 'Widget d\'exemple',
-	'ExamplePlugin_blogPiwikRss' => 'Flux RSS du blog Piwik',
-	'ExamplePlugin_photostreamMatt' => 'Photos de Matt',
 	'General_DisplayGoals' => 'Afficher les objectifs',
 	'Live_Last30Minutes' => 'Les dernières 30 minutes',
 	'General_ExceptionVariableNotFound' => 'La variable \'%s\' requise est incorrecte ou n\'a pas été trouvée lors de l\'appel à l\'API',
@@ -1296,6 +1298,4 @@ $translations = array(
 	'VisitorGenerator_ActionsPerVisit' => 'Actions par visite',
 	'VisitorGenerator_Date' => 'Date',
 	'PDFReports_ManagePdfReports' => 'Gérer les rapports PDF',
-	'ExamplePlugin_piwikDownloads' => 'Téléchargements de Piwik',
-	'ExamplePlugin_PiwikHasBeenDownloaded' => 'En %s, Piwik a été téléchargé %s fois.',
 );
