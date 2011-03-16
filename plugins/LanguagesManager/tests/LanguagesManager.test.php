@@ -115,7 +115,14 @@ class Test_Languages_Manager extends UnitTestCase
 		{
 			if(!empty($value))
 			{
-				$tstr .= "\t'".$key."' => '".addcslashes($value,"'")."',".PHP_EOL;
+				if(strpos($value, "\n") === false && strpos($value, '$') === false)
+				{
+					$tstr .= "\t'".$key."' => '".addcslashes($value,"'")."',".PHP_EOL;
+				}
+				else
+				{
+					$tstr .= "\t'".$key."' => \"".addclashes($value,'"$').'",'.PHP_EOL;
+				}
 			}
 		}
 		$tstr .= ');'.PHP_EOL;

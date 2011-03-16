@@ -4937,6 +4937,34 @@
 		<value>Vous devez être connecté afin de pouvoir créer et planifier des rapports PDF personnalisés.</value>
 	</row>
 	<row>
+		<label>ExamplePlugin_PluginDescription</label>
+		<value>Plugin d'exemple: ce plugin décrit comment créer un plugin très simple qui exporte 2 widgets du tableau de bord</value>
+	</row>
+	<row>
+		<label>ExamplePlugin_exampleWidgets</label>
+		<value>Widgets d'exemple</value>
+	</row>
+	<row>
+		<label>ExamplePlugin_exampleWidget</label>
+		<value>Widget d'exemple</value>
+	</row>
+	<row>
+		<label>ExamplePlugin_blogPiwikRss</label>
+		<value>Flux RSS du blog Piwik</value>
+	</row>
+	<row>
+		<label>ExamplePlugin_photostreamMatt</label>
+		<value>Photos de Matt</value>
+	</row>
+	<row>
+		<label>ExamplePlugin_piwikDownloads</label>
+		<value>Téléchargements de Piwik</value>
+	</row>
+	<row>
+		<label>ExamplePlugin_PiwikHasBeenDownloaded</label>
+		<value>En %s, Piwik a été téléchargé %s fois.</value>
+	</row>
+	<row>
 		<label>General_Export</label>
 		<value>Exporter</value>
 	</row>
@@ -5101,26 +5129,6 @@
 		<value>Rapport</value>
 	</row>
 	<row>
-		<label>ExamplePlugin_PluginDescription</label>
-		<value>Plugin d'exemple: ce plugin décrit comment créer un plugin très simple qui exporte 2 widgets du tableau de bord</value>
-	</row>
-	<row>
-		<label>ExamplePlugin_exampleWidgets</label>
-		<value>Widgets d'exemple</value>
-	</row>
-	<row>
-		<label>ExamplePlugin_exampleWidget</label>
-		<value>Widget d'exemple</value>
-	</row>
-	<row>
-		<label>ExamplePlugin_blogPiwikRss</label>
-		<value>Flux RSS du blog Piwik</value>
-	</row>
-	<row>
-		<label>ExamplePlugin_photostreamMatt</label>
-		<value>Photos de Matt</value>
-	</row>
-	<row>
 		<label>General_DisplayGoals</label>
 		<value>Afficher les objectifs</value>
 	</row>
@@ -5175,13 +5183,5 @@
 	<row>
 		<label>PDFReports_ManagePdfReports</label>
 		<value>Gérer les rapports PDF</value>
-	</row>
-	<row>
-		<label>ExamplePlugin_piwikDownloads</label>
-		<value>Téléchargements de Piwik</value>
-	</row>
-	<row>
-		<label>ExamplePlugin_PiwikHasBeenDownloaded</label>
-		<value>En %s, Piwik a été téléchargé %s fois.</value>
 	</row>
 </result>
