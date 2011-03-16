@@ -111,6 +111,15 @@ class Test_Piwik_Common extends UnitTestCase
 		$stringOK = '&amp; &quot; &lt; &gt; 123abc&#039;';
 		$this->assertEqual($stringOK, Piwik_Common::sanitizeInputValues($string));
 
+		// test filter - expect new line and null byte to be filtered out
+		$string = "New\nLine\rNull\0Byte";
+		$stringOK = 'NewLineNullByte';
+		$this->assertEqual($stringOK, Piwik_Common::sanitizeInputValues($string));
+
+		// double encoded - no change (document as user error)
+		$string = '%48%45%4C%00%4C%4F+%57%4F%52%4C%44';
+		$stringOK = '%48%45%4C%00%4C%4F+%57%4F%52%4C%44';
+		$this->assertEqual($stringOK, Piwik_Common::sanitizeInputValues($string));
 	}
 
 	// sanitize an integer
@@ -313,7 +322,7 @@ class Test_Piwik_Common extends UnitTestCase
     	$_GET['test'] = '';
     	$this->assertEqual( Piwik_Common::getRequestVar('test', 45, 'string'), '45');
     	$this->assertEqual( Piwik_Common::getRequestVar('test', "geaga", 'string'), "geaga");
-    	$this->assertEqual( Piwik_Common::getRequestVar('test', "&#039;}{}}{}{}&#039;", 'string'), "&amp;#039;}{}}{}{}&amp;#039;");
+    	$this->assertEqual( Piwik_Common::getRequestVar('test', "&#039;}{}}{}{}&#039;", 'string'), "&#039;}{}}{}{}&#039;");
     	$this->assertEqual( Piwik_Common::getRequestVar('test', "http://url?arg1=val1&arg2=val2", 'string'), "http://url?arg1=val1&amp;arg2=val2");
 		$_GET['test'] = 'http://url?arg1=val1&arg2=val2';
     	$this->assertEqual( Piwik_Common::getRequestVar('test', "http://url?arg1=val3&arg2=val4", 'string'), "http://url?arg1=val1&amp;arg2=val2");

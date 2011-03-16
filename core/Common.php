@@ -591,18 +591,22 @@ class Piwik_Common
 	{
 		// $_GET and $_REQUEST already urldecode()'d
 
+		// decode
+		// note: before php 5.2.7, htmlspecialchars() double encodes &#x hex items
+		$value = html_entity_decode($value, Piwik_Common::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
+
 		// filter
-		$value = str_replace(array("\n","\r","\0"), "", $value);
+		$value = str_replace(array("\n", "\r", "\0"), "", $value);
 
 		// escape
 		$tmp = htmlspecialchars( $value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8' );
 
-		// htmlspecialchars is destructive if input is not UTF-8
+		// note: php 5.2.5 and above, htmlspecialchars is destructive if input is not UTF-8
 		if($value != '' && $tmp == '' && function_exists('iconv'))
 		{
 			// convert and escape
 			$value = @iconv('ISO-8859-1', 'UTF-8', $value);
-			$tmp = htmlspecialchars( $value, self::HTML_ENCODING_QUOTE_STYLE, 'ISO-8859-1' );
+			$tmp = htmlspecialchars( $value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8' );
 		}
 		return $tmp;
 	}

@@ -366,9 +366,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		}
 
 		// handle encoding
-		$actionName = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar( 'action_name', '', 'string', $this->request));
-		$actionName = html_entity_decode($actionName, Piwik_Common::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
-		$actionName = Piwik_Common::sanitizeInputValue($actionName);
+		$actionName = Piwik_Common::getRequestVar( 'action_name', '', 'string', $this->request);
 
 		// defaults to page view 
 		if(empty($actionType))

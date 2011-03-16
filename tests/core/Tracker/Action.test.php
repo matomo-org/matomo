@@ -319,14 +319,15 @@ class Test_Piwik_TrackerAction extends  Test_Database
 										'url' => 'http://example.org/ACTION/URL',
 										'type' => Piwik_Tracker_Action::TYPE_ACTION_URL),
 			),
-			// testing: action name ("Tést") - handle invalid UTF-8 (e.g., ISO-8859-1)
+			// testing: action name ("Tést") - invalid UTF-8 (e.g., ISO-8859-1) is not handled
 			array(
 				'request' => array( 'url' => 'http://example.org/ACTION/URL',
 									'action_name' => "T\xe9st"),
-				'expected' => array(	'name' => 'Tést',
+				'expected' => array(	'name' => version_compare(PHP_VERSION, '5.2.5') === -1 ? 'T\xe9st' : 'Tést',
 										'url' => 'http://example.org/ACTION/URL',
 										'type' => Piwik_Tracker_Action::TYPE_ACTION_URL),
-			),		);
+			),
+		);
 		foreach($tests as $test) {
 			$request = $test['request'];
 			$expected = $test['expected'];
