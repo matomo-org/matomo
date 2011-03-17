@@ -43,7 +43,7 @@ class Test_Piwik_SegmentExpression extends UnitTestCase
     {
         // Filter expression => SQL string + Bind values
         $expressionToSql = array(
-            'A==B' => array('sql' => " A = ? ", 'bind' => array('B')),
+            'A==B%' => array('sql' => " A = ? ", 'bind' => array('B%')),
             'ABCDEF====B===' => array('sql' => " ABCDEF = ? ", 'bind' => array('==B===')),
             'A===B;CDEF!=C!=' => array('sql' => " A = ? AND CDEF <> ? ", 'bind' => array('=B', 'C!=' )),
             'A==B,C==D' => array('sql' => " (A = ? OR C = ? )", 'bind' => array('B', 'D')),
@@ -56,10 +56,10 @@ class Test_Piwik_SegmentExpression extends UnitTestCase
             'A>=B' => array('sql' => " A >= ? ", 'bind' => array('B')),
             'ABCDEF>=>=>=B===' => array('sql' => " ABCDEF >= ? ", 'bind' => array('>=>=B===')),
             'A>=<=B;CDEF>G;H>=I;J<K;L<=M' => array('sql' => " A >= ? AND CDEF > ? AND H >= ? AND J < ? AND L <= ? ", 'bind' => array('<=B', 'G','I','K','M' )),
-            'A>=B;C>=D,E<wow great!' => array('sql' => " A >= ? AND (C >= ? OR E < ? )", 'bind' => array('B', 'D', 'wow great!')),
+            'A>=B;C>=D,E<w_ow great!' => array('sql' => " A >= ? AND (C >= ? OR E < ? )", 'bind' => array('B', 'D', 'w_ow great!')),
 
-        	'A=@B' => array('sql' => " A LIKE ? ", 'bind' => array('%B%')),
-        	'A!@B' => array('sql' => " A NOT LIKE ? ", 'bind' => array('%B%')),
+        	'A=@B_' => array('sql' => " A LIKE ? ", 'bind' => array('%B\_%')),
+        	'A!@B%' => array('sql' => " A NOT LIKE ? ", 'bind' => array('%B\%%')),
         );
         foreach($expressionToSql as $expression => $expectedSql)
         {
