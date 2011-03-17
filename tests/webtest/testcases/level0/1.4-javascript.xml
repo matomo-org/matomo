@@ -9,28 +9,6 @@
 	<!ENTITY rsaquo "&#8250;" >
 ]>
 
-<macrodef name="qunit" description="run qunit tests">
-	<attribute name="expectedFail" default="0" />
-	<sequential>
-		<groovy>
-			step.context.webClient.cache.clear()
-		</groovy>
-
-		<invoke description="get unit test" url="/tests/javascript/" />
-		<verifyTitle description="check the title is parsed correctly" text="piwik.js: Unit Tests" />
-
-		<retry description="wait for test to complete" maxcount="30">
-			<sleep description="pause" seconds="1" />
-			<verifyXPath description="check for result" xpath="//span[@class='failed']" />
-		</retry>
-
-		<verifyXPath description="check for not failed" xpath="//span[@class='failed']" text="@{expectedFail}" />
-		<not description="check for at least 1 pass">
-			<verifyXPath description="check for success" xpath="//span[@class='passed']" text="0" />
-		</not>
-	</sequential>
-</macrodef>
-
 <project name="Smoke test level0 - deploy test" basedir="." default="webtest">
 	&time;
 	<target name="webtest">
@@ -40,6 +18,28 @@
 
 				&loadMacros;
 
+				<macrodef name="qunit" description="run qunit tests">
+					<attribute name="expectedFail" default="0" />
+					<sequential>
+						<groovy>
+							step.context.webClient.cache.clear()
+						</groovy>
+
+						<invoke description="get unit test" url="/tests/javascript/" />
+						<verifyTitle description="check the title is parsed correctly" text="piwik.js: Unit Tests" />
+
+						<retry description="wait for test to complete" maxcount="30">
+							<sleep description="pause" seconds="1" />
+							<verifyXPath description="check for result" xpath="//span[@class='failed']" />
+						</retry>
+
+						<verifyXPath description="check for not failed" xpath="//span[@class='failed']" text="@{expectedFail}" />
+						<not description="check for at least 1 pass">
+							<verifyXPath description="check for success" xpath="//span[@class='passed']" text="0" />
+						</not>
+					</sequential>
+				</macrodef>
+
 				<!--
 					tracking tests are disabled because after WebTest handles
 					the triggered click event, it then loads the href and
@@ -48,67 +48,67 @@
 				<!-- touch file="../javascript/enable_sqlite" / -->
 
 				<delete file="../javascript/test_compatibility.js" quiet="true" />
-				<qunit />
+				<qunit description="piwik.js standalone" />
 
 				<copy file="../javascript/frameworks/dojo/dojo-1.0.3.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
-				<qunit />
+				<qunit description="piwik.js + dojo 1.0.3" />
 
 				<copy file="../javascript/frameworks/dojo/dojo-1.1.2.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
-				<qunit />
+				<qunit description="piwik.js + dojo 1.1.2" />
 
 				<copy file="../javascript/frameworks/dojo/dojo-1.2.4.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
-				<qunit />
+				<qunit description="piwik.js + dojo 1.2.4" />
 
 				<copy file="../javascript/frameworks/dojo/dojo-1.3.3.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
-				<qunit />
+				<qunit description="piwik.js + dojo 1.3.3" />
 
 				<copy file="../javascript/frameworks/dojo/dojo-1.4.3.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
-				<qunit />
+				<qunit description="piwik.js + dojo 1.4.3" />
 
 				<copy file="../javascript/frameworks/dojo/dojo-1.5.0.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
-				<qunit />
+				<qunit description="piwik.js + dojo 1.5.0" />
 
 				<copy file="../javascript/frameworks/dojo/dojo-1.6.0.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
-				<qunit />
+				<qunit description="piwik.js + dojo 1.6.0" />
 
 				<copy file="../javascript/frameworks/ext/ext-2.3.0.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
-				<qunit />
+				<qunit description="piwik.js + extjs 2.3.0" />
 
 				<copy file="../javascript/frameworks/ext/ext-3.3.1.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
-				<qunit />
+				<qunit description="piwik.js + extjs 3.3.1" />
 
 				<copy file="../javascript/frameworks/jquery/jquery-1.0.4.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
-				<qunit />
+				<qunit description="piwik.js + jquery 1.0.4" />
 
 				<copy file="../javascript/frameworks/jquery/jquery-1.1.4.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
-				<qunit />
+				<qunit description="piwik.js + jquery 1.1.4" />
 
 				<copy file="../javascript/frameworks/jquery/jquery-1.2.6.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
-				<qunit />
+				<qunit description="piwik.js + jquery 1.2.6" />
 
 				<copy file="../javascript/frameworks/jquery/jquery-1.3.2.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
-				<qunit />
+				<qunit description="piwik.js + jquery 1.3.2" />
 
 				<copy file="../javascript/frameworks/jquery/jquery-1.4.4.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
-				<qunit />
+				<qunit description="piwik.js + jquery 1.4.4" />
 
 				<copy file="../javascript/frameworks/jquery/jquery-1.5.1.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
-				<qunit />
+				<qunit description="piwik.js + jquery 1.5.1" />
 
 				<copy file="../javascript/frameworks/mootools/mootools-1.2.5.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
-				<qunit expectedFail="1" />
+				<qunit expectedFail="1" description="piwik.js + mootools 1.2.5" />
 
 				<copy file="../javascript/frameworks/mootools/mootools-1.3.1.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
-				<qunit />
+				<qunit description="piwik.js + mootools 1.3.1" />
 
 				<copy file="../javascript/frameworks/prototype/prototype-1.5.0.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
-				<qunit />
+				<qunit description="piwik.js + prototype 1.5.0" />
 
 				<copy file="../javascript/frameworks/prototype/prototype-1.6.0.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
-				<qunit />
+				<qunit description="piwik.js + prototype 1.6.0" />
 
 				<copy file="../javascript/frameworks/prototype/prototype-1.7.0.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
-				<qunit />
+				<qunit description="piwik.js + prototype 1.7.0" />
 			</steps>
 		</webtest>
 	</target>
