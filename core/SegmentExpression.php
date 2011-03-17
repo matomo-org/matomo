@@ -150,17 +150,24 @@ class Piwik_SegmentExpression
         		break;
         	case self::MATCH_CONTAINS:
         		$sqlMatch = 'LIKE';
-        		$value = '%'.$value.'%';
+        		$value = '%'.$this->escapeLikeString($value).'%';
         		break;
         	case self::MATCH_DOES_NOT_CONTAIN:
         		$sqlMatch = 'NOT LIKE';
-        		$value = '%'.$value.'%';
+        		$value = '%'.$this->escapeLikeString($value).'%';
         		break;
         	default:
         		throw new Exception("Filter contains the match type '".$matchType."' which is not supported");
         		break;
         }
         return array("$field $sqlMatch ?", $value); 
+    }
+    
+    private function escapeLikeString($str)
+    {
+    	$str = str_replace("%", "\%", $str);
+    	$str = str_replace("_", "\_", $str);
+    	return $str;
     }
     
     /**
