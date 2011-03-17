@@ -9,6 +9,28 @@
 	<!ENTITY rsaquo "&#8250;" >
 ]>
 
+<macrodef name="qunit" description="run qunit tests">
+	<attribute name="expectedFail" default="0" />
+	<sequential>
+		<groovy>
+			step.context.webClient.cache.clear()
+		</groovy>
+
+		<invoke description="get unit test" url="/tests/javascript/" />
+		<verifyTitle description="check the title is parsed correctly" text="piwik.js: Unit Tests" />
+
+		<retry description="wait for test to complete" maxcount="30">
+			<sleep description="pause" seconds="1" />
+			<verifyXPath description="check for result" xpath="//span[@class='failed']" />
+		</retry>
+
+		<verifyXPath description="check for not failed" xpath="//span[@class='failed']" text="@{expectedFail}" />
+		<not description="check for at least 1 pass">
+			<verifyXPath description="check for success" xpath="//span[@class='passed']" text="0" />
+		</not>
+	</sequential>
+</macrodef>
+
 <project name="Smoke test level0 - deploy test" basedir="." default="webtest">
 	&time;
 	<target name="webtest">
@@ -25,19 +47,68 @@
 				-->
 				<!-- touch file="../javascript/enable_sqlite" / -->
 
-				<invoke description="get unit test" url="/tests/javascript/" />
-				<verifyTitle description="check the title is parsed correctly" text="piwik.js: Unit Tests" />
+				<delete file="../javascript/test_compatibility.js" quiet="true" />
+				<qunit />
 
-				<retry description="wait for test to complete" maxcount="30">
-					<sleep description="pause" seconds="1" />
-					<verifyXPath description="check for result" xpath="//span[@class='failed']" />
-				</retry>
+				<copy file="../javascript/frameworks/dojo/dojo-1.0.3.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<qunit />
 
-				<verifyXPath description="check for not failed" xpath="//span[@class='failed']" text="0" />
-				<not description="check for at least 1 pass">
-					<verifyXPath description="check for success" xpath="//span[@class='passed']" text="0" />
-				</not>
+				<copy file="../javascript/frameworks/dojo/dojo-1.1.2.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<qunit />
 
+				<copy file="../javascript/frameworks/dojo/dojo-1.2.4.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<qunit />
+
+				<copy file="../javascript/frameworks/dojo/dojo-1.3.3.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<qunit />
+
+				<copy file="../javascript/frameworks/dojo/dojo-1.4.3.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<qunit />
+
+				<copy file="../javascript/frameworks/dojo/dojo-1.5.0.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<qunit />
+
+				<copy file="../javascript/frameworks/dojo/dojo-1.6.0.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<qunit />
+
+				<copy file="../javascript/frameworks/ext/ext-2.3.0.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<qunit />
+
+				<copy file="../javascript/frameworks/ext/ext-3.3.1.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<qunit />
+
+				<copy file="../javascript/frameworks/jquery/jquery-1.0.4.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<qunit />
+
+				<copy file="../javascript/frameworks/jquery/jquery-1.1.4.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<qunit />
+
+				<copy file="../javascript/frameworks/jquery/jquery-1.2.6.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<qunit />
+
+				<copy file="../javascript/frameworks/jquery/jquery-1.3.2.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<qunit />
+
+				<copy file="../javascript/frameworks/jquery/jquery-1.4.4.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<qunit />
+
+				<copy file="../javascript/frameworks/jquery/jquery-1.5.1.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<qunit />
+
+				<copy file="../javascript/frameworks/mootools/mootools-1.2.5.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<qunit expectedFail="1" />
+
+				<copy file="../javascript/frameworks/mootools/mootools-1.3.1.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<qunit />
+
+				<copy file="../javascript/frameworks/prototype/prototype-1.5.0.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<qunit />
+
+				<copy file="../javascript/frameworks/prototype/prototype-1.6.0.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<qunit />
+
+				<copy file="../javascript/frameworks/prototype/prototype-1.7.0.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<qunit />
 			</steps>
 		</webtest>
 	</target>
