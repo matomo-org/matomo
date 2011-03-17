@@ -4,6 +4,11 @@
 <head>
  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
  <title>piwik.js: Unit Tests</title>
+<?php
+if(file_exists("test_compatibility.js")) {
+	echo "<script src=\"test_compatibility.js\" type=\"text/javascript\"></script>\n";
+}
+?>
  <script type="text/javascript">
 function getToken() {
 	return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
@@ -56,6 +61,9 @@ function dropCookie(cookieName, path, domain) {
 	document.cookie = cookieName + '=;expires=' + expiryDate.toGMTString() +
 		';path=' + (path ? path : '') +
 		(domain ? ';domain=' + domain : '');
+	document.cookie = cookieName + ';expires=' + expiryDate.toGMTString() +
+		';path=' + (path ? path : '') +
+		(domain ? ';domain=' + domain : '');
 }
 
 function deleteCookies() {
@@ -72,6 +80,8 @@ function deleteCookies() {
 		domains = [],
 		path,
 		paths = [];
+
+	cookies.push( '=' );
 
 	// 2. construct list of domains
 	domain = document.domain;
