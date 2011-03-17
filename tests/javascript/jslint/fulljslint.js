@@ -1224,7 +1224,8 @@ var JSLINT = (function () {
         };
     }
 
-    if (typeof Object.create !== 'function') {
+    if (typeof Object.create !== 'function' ||
+	typeof Function.create === 'function') {
         Object.create = function (o) {
             F.prototype = o;
             return new F();
