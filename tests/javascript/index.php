@@ -109,20 +109,22 @@ function deleteCookies() {
 
 	// 4. iterate through cookies
 	for (aCookie in cookies) {
+		if (Object.prototype.hasOwnProperty.call(cookies, aCookie)) {
 
-		// 5. extract cookie name
-		cookieMatch = cookiePattern.exec(cookies[aCookie]);
-		if (cookieMatch) {
-			cookieName = cookieMatch[1];
+			// 5. extract cookie name
+			cookieMatch = cookiePattern.exec(cookies[aCookie]);
+			if (cookieMatch) {
+				cookieName = cookieMatch[1];
 
-			// 6. iterate through domains
-			for (i = 0; i < domains.length; i++) {
+				// 6. iterate through domains
+				for (i = 0; i < domains.length; i++) {
 
-				// 7. iterate through paths
-				for (j = 0; j < paths.length; j++) {
+					// 7. iterate through paths
+					for (j = 0; j < paths.length; j++) {
 
-					// 8. drop cookie
-					dropCookie(cookieName, paths[j], domains[i]);
+						// 8. drop cookie
+						dropCookie(cookieName, paths[j], domains[i]);
+					}
 				}
 			}
 		}
@@ -175,8 +177,9 @@ function PiwikTest() {
 		var src = '<?php
 			$src = file_get_contents('../../js/piwik.js');
 			$src = strtr($src, array('\\'=>'\\\\',"'"=>"\\'",'"'=>'\\"',"\r"=>'\\r',"\n"=>'\\n','</'=>'<\/'));
-			echo $src; ?>';
+			echo "$src"; ?>';
 		ok( JSLINT(src), "JSLint" );
+//		alert(JSLINT.report(true));
 	});
 
 	test("JSON", function() {
