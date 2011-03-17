@@ -95,7 +95,6 @@ if (!this.JSON2) {
         },
         rep;
 
-
     function quote(string) {
 
 // If the string contains no control characters, no quote characters, and no
@@ -110,7 +109,6 @@ if (!this.JSON2) {
                 '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
         }) + '"' : '"' + string + '"';
     }
-
 
     function str(key, holder) {
 
@@ -281,7 +279,6 @@ if (!this.JSON2) {
         };
     }
 
-
 // If the JSON object does not yet have a parse method, give it one.
 
     if (typeof JSON2.parse !== 'function') {
@@ -312,7 +309,6 @@ if (!this.JSON2) {
                 }
                 return reviver.call(holder, key, value);
             }
-
 
 // Parsing happens in four stages. In the first stage, we replace certain
 // Unicode characters with escape sequences. JavaScript handles many characters
@@ -369,7 +365,7 @@ if (!this.JSON2) {
  * end JSON
  ************************************************************/
 
-/*jslint browser:true, forin:true, plusplus:false, onevar:false, strict:true, evil:true */
+/*jslint browser:true, plusplus:false, onevar:false, strict:true, evil:true */
 /*global window unescape ActiveXObject _paq:true */
 /*members encodeURIComponent, decodeURIComponent,
 	shift, unshift,
@@ -518,9 +514,11 @@ var
 				pluginMethod;
 
 			for (i in plugins) {
-				pluginMethod = plugins[i][methodName];
-				if (isFunction(pluginMethod)) {
-					result += pluginMethod(callback);
+				if (Object.prototype.hasOwnProperty.call(plugins, i)) {
+					pluginMethod = plugins[i][methodName];
+					if (isFunction(pluginMethod)) {
+						result += pluginMethod(callback);
+					}
 				}
 			}
 
@@ -1301,7 +1299,9 @@ var
 
 				// browser features
 				for (i in browserFeatures) {
-					request += '&' + i + '=' + browserFeatures[i];
+					if (Object.prototype.hasOwnProperty.call(browserFeatures, i)) {
+						request += '&' + i + '=' + browserFeatures[i];
+					}
 				}
 
 				// custom data
@@ -1317,8 +1317,10 @@ var
 
 					// Don't save deleted custom variables in the cookie
 					for (i in customVariablesCopy) {
-						if (customVariables[i][0] === '' || customVariables[i][1] === '') {
-							delete customVariables[i];
+						if (Object.prototype.hasOwnProperty.call(customVariablesCopy, i)) {
+							if (customVariables[i][0] === '' || customVariables[i][1] === '') {
+								delete customVariables[i];
+							}
 						}
 					}
 
@@ -1594,8 +1596,10 @@ var
 				// general plugin detection
 				if (navigatorAlias.mimeTypes && navigatorAlias.mimeTypes.length) {
 					for (i in pluginMap) {
-						mimeType = navigatorAlias.mimeTypes[pluginMap[i]];
-						browserFeatures[i] = (mimeType && mimeType.enabledPlugin) ? '1' : '0';
+						if (Object.prototype.hasOwnProperty.call(pluginMap, i)) {
+							mimeType = navigatorAlias.mimeTypes[pluginMap[i]];
+							browserFeatures[i] = (mimeType && mimeType.enabledPlugin) ? '1' : '0';
+						}
 					}
 				}
 

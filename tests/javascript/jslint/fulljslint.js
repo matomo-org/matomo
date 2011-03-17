@@ -1,215 +1,206 @@
 // jslint.js
-// 2011-03-05
+// 2011-03-13
 
-/*
-Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
+// Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-of the Software, and to permit persons to whom the Software is furnished to do
-so, subject to the following conditions:
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+// The Software shall be used for Good, not Evil.
 
-The Software shall be used for Good, not Evil.
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
 
-/*
-    JSLINT is a global function. It takes two parameters.
+// JSLINT is a global function. It takes two parameters.
 
-        var myResult = JSLINT(source, option);
+//     var myResult = JSLINT(source, option);
 
-    The first parameter is either a string or an array of strings. If it is a
-    string, it will be split on '\n' or '\r'. If it is an array of strings, it
-    is assumed that each string represents one line. The source can be a
-    JavaScript text, or HTML text, or a JSON text, or a CSS text.
+// The first parameter is either a string or an array of strings. If it is a
+// string, it will be split on '\n' or '\r'. If it is an array of strings, it
+// is assumed that each string represents one line. The source can be a
+// JavaScript text, or HTML text, or a JSON text, or a CSS text.
 
-    The second parameter is an optional object of options which control the
-    operation of JSLINT. Most of the options are booleans: They are all
-    optional and have a default value of false. One of the options, predef,
-    can be an array of names, which will be used to declare global variables,
-    or an object whose keys are used as global names, with a boolean value
-    that determines if they are assignable.
+// The second parameter is an optional object of options that control the
+// operation of JSLINT. Most of the options are booleans: They are all
+// optional and have a default value of false. One of the options, predef,
+// can be an array of names, which will be used to declare global variables,
+// or an object whose keys are used as global names, with a boolean value
+// that determines if they are assignable.
 
-    If it checks out, JSLINT returns true. Otherwise, it returns false.
+// If it checks out, JSLINT returns true. Otherwise, it returns false.
 
-    If false, you can inspect JSLINT.errors to find out the problems.
-    JSLINT.errors is an array of objects containing these properties:
+// If false, you can inspect JSLINT.errors to find out the problems.
+// JSLINT.errors is an array of objects containing these properties:
 
-    {
-        line      : The line (relative to 0) at which the lint was found
-        character : The character (relative to 0) at which the lint was found
-        reason    : The problem
-        evidence  : The text line in which the problem occurred
-        raw       : The raw message before the details were inserted
-        a         : The first detail
-        b         : The second detail
-        c         : The third detail
-        d         : The fourth detail
-    }
+//  {
+//      line      : The line (relative to 0) at which the lint was found
+//      character : The character (relative to 0) at which the lint was found
+//      reason    : The problem
+//      evidence  : The text line in which the problem occurred
+//      raw       : The raw message before the details were inserted
+//      a         : The first detail
+//      b         : The second detail
+//      c         : The third detail
+//      d         : The fourth detail
+//  }
 
-    If a fatal error was found, a null will be the last element of the
-    JSLINT.errors array.
+// If a stopping error was found, a null will be the last element of the
+// JSLINT.errors array. A stopping error means that JSLint was not confident
+// enough to continue. It does not necessarily mean that the error was
+// especailly heinous.
 
-    You can request a Function Report, which shows all of the functions
-    and the parameters and vars that they use. This can be used to find
-    implied global variables and other problems. The report is in HTML and
-    can be inserted in an HTML <body>.
+// You can request a Function Report, which shows all of the functions
+// and the parameters and vars that they use. This can be used to find
+// implied global variables and other problems. The report is in HTML and
+// can be inserted in an HTML <body>.
 
-        var myReport = JSLINT.report(errors_only);
+//     var myReport = JSLINT.report(errors_only);
 
-    If errors_only is true, then the report will be limited to only errors.
+// If errors_only is true, then the report will be limited to only errors.
 
-    You can request a data structure which contains JSLint's results.
+// You can request a data structure that contains JSLint's results.
 
-        var myData = JSLINT.data();
+//     var myData = JSLINT.data();
 
-    It returns a structure with this form:
+// It returns a structure with this form:
 
-    {
-        errors: [
-            {
-                line: NUMBER,
-                character: NUMBER,
-                reason: STRING,
-                evidence: STRING
-            }
-        ],
-        functions: [
-            name: STRING,
-            line: NUMBER,
-            last: NUMBER,
-            param: [
-                TOKEN
-            ],
-            closure: [
-                STRING
-            ],
-            var: [
-                STRING
-            ],
-            exception: [
-                STRING
-            ],
-            outer: [
-                STRING
-            ],
-            unused: [
-                STRING
-            ],
-            global: [
-                STRING
-            ],
-            label: [
-                STRING
-            ]
-        ],
-        globals: [
-            STRING
-        ],
-        member: {
-            STRING: NUMBER
-        },
-        unuseds: [
-            {
-                name: STRING,
-                line: NUMBER
-            }
-        ],
-        implieds: [
-            {
-                name: STRING,
-                line: NUMBER
-            }
-        ],
-        urls: [
-            STRING
-        ],
-        json: BOOLEAN
-    }
+//     {
+//         errors: [
+//             {
+//                 line: NUMBER,
+//                 character: NUMBER,
+//                 reason: STRING,
+//                 evidence: STRING
+//             }
+//         ],
+//         functions: [
+//             name: STRING,
+//             line: NUMBER,
+//             last: NUMBER,
+//             param: [
+//                 TOKEN
+//             ],
+//             closure: [
+//                 STRING
+//             ],
+//             var: [
+//                 STRING
+//             ],
+//             exception: [
+//                 STRING
+//             ],
+//             outer: [
+//                 STRING
+//             ],
+//             unused: [
+//                 STRING
+//             ],
+//             global: [
+//                 STRING
+//             ],
+//             label: [
+//                 STRING
+//             ]
+//         ],
+//         globals: [
+//             STRING
+//         ],
+//         member: {
+//             STRING: NUMBER
+//         },
+//         unuseds: [
+//             {
+//                 name: STRING,
+//                 line: NUMBER
+//             }
+//         ],
+//         implieds: [
+//             {
+//                 name: STRING,
+//                 line: NUMBER
+//             }
+//         ],
+//         urls: [
+//             STRING
+//         ],
+//         json: BOOLEAN
+//     }
 
-    Empty arrays will not be included.
+// Empty arrays will not be included.
 
-    You can obtain the parse tree that JSLint constructed while parsing. The
-    latest tree is kept in JSLINT.tree. A nice stringication can be produced
-    with
+// You can obtain the parse tree that JSLint constructed while parsing. The
+// latest tree is kept in JSLINT.tree. A nice stringication can be produced
+// with
 
-        JSON.stringify(JSLINT.tree, [
-            'value',  'arity', 'name',  'first',
-            'second', 'third', 'block', 'else'
-        ], 4));
+//     JSON.stringify(JSLINT.tree, [
+//         'value',  'arity', 'name',  'first',
+//         'second', 'third', 'block', 'else'
+//     ], 4));
 
-*/
+// JSLint provides three directives. They look like slashstar comments, and
+// allow for setting options, declaring global variables, and establishing a
+// set of allowed property names.
 
-/*
-    JSLint provides three directives. They look like slashstar comments, and
-    allow for setting options, declaring global variables, and establishing a
-    set of allowed property names.
+// These directives respect function scope.
 
-    These directives respect function scope.
-*/
+// The jslint directive is a special comment that can set one or more options.
+// The current option set is
 
-/*
-    The jslint directive is a special comment that can set one or more options.
-    The current option set is
+//     adsafe     true, if ADsafe rules should be enforced
+//     bitwise    true, if bitwise operators should not be allowed
+//     browser    true, if the standard browser globals should be predefined
+//     cap        true, if upper case HTML should be allowed
+//     'continue' true, if the continuation statement should be tolerated
+//     css        true, if CSS workarounds should be tolerated
+//     debug      true, if debugger statements should be allowed
+//     devel      true, if logging should be allowed (console, alert, etc.)
+//     es5        true, if ES5 syntax should be allowed
+//     evil       true, if eval should be allowed
+//     forin      true, if for in statements need not filter
+//     fragment   true, if HTML fragments should be allowed
+//     indent     the indentation factor
+//     maxerr     the maximum number of errors to allow
+//     maxlen     the maximum length of a source line
+//     newcap     true, if constructor names must be capitalized
+//     nomen      true, if names should be checked
+//     on         true, if HTML event handlers should be allowed
+//     onevar     true, if only one var statement per function should be allowed
+//     passfail   true, if the scan should stop on first error
+//     plusplus   true, if increment/decrement should not be allowed
+//     regexp     true, if the . should not be allowed in regexp literals
+//     rhino      true, if the Rhino environment globals should be predefined
+//     undef      true, if variables should be declared before used
+//     safe       true, if use of some browser features should be restricted
+//     windows    true, if MS Windows-specific globals should be predefined
+//     strict     true, require the "use strict"; pragma
+//     sub        true, if all forms of subscript notation are tolerated
+//     white      true, if strict whitespace rules apply
+//     widget     true  if the Yahoo Widgets globals should be predefined
 
-    adsafe     true, if ADsafe rules should be enforced
-    bitwise    true, if bitwise operators should not be allowed
-    browser    true, if the standard browser globals should be predefined
-    cap        true, if upper case HTML should be allowed
-    'continue' true, if the continuation statement should be tolerated
-    css        true, if CSS workarounds should be tolerated
-    debug      true, if debugger statements should be allowed
-    devel      true, if logging should be allowed (console, alert, etc.)
-    es5        true, if ES5 syntax should be allowed
-    evil       true, if eval should be allowed
-    forin      true, if for in statements need not filter
-    fragment   true, if HTML fragments should be allowed
-    indent     the indentation factor
-    maxerr     the maximum number of errors to allow
-    maxlen     the maximum length of a source line
-    newcap     true, if constructor names must be capitalized
-    nomen      true, if names should be checked
-    on         true, if HTML event handlers should be allowed
-    onevar     true, if only one var statement per function should be allowed
-    passfail   true, if the scan should stop on first error
-    plusplus   true, if increment/decrement should not be allowed
-    regexp     true, if the . should not be allowed in regexp literals
-    rhino      true, if the Rhino environment globals should be predefined
-    undef      true, if variables should be declared before used
-    safe       true, if use of some browser features should be restricted
-    windows    true, if MS Windows-specigic globals should be predefined
-    strict     true, require the "use strict"; pragma
-    sub        true, if all forms of subscript notation are tolerated
-    white      true, if strict whitespace rules apply
-    widget     true  if the Yahoo Widgets globals should be predefined
-
-    For example:
-*/
-
+// For example:
 
 /*jslint
     evil: true, nomen: false, onevar: false, regexp: false, strict: true
 */
 
-/*
-    The properties directive declares an exclusive list of property names.
-    Any properties named in the program that are not in the list will
-    produce a warning.
+// The properties directive declares an exclusive list of property names.
+// Any properties named in the program that are not in the list will
+// produce a warning.
 
-    For example:
-*/
+// For example:
 
 /*properties "\b", "\t", "\n", "\f", "\r", "!=", "!==", "\"", "%", "'",
     "(begin)", "(breakage)", "(context)", "(error)", "(global)",
@@ -254,17 +245,17 @@ SOFTWARE.
     charAt, charCodeAt, character, chartreuse, chocolate, chooseColor,
     chooseFile, chooseFolder, cite, clear, clearInterval, clearTimeout,
     clip, closeWidget, closure, cm, code, col, colgroup, color, combine_var,
-    command, comments, concat, conditional_assignment, confirm, confusing_a,
-    confusing_regexp, console, constructor, constructor_name_a, content,
-    continue, control_a, convertPathToHFS, convertPathToPlatform, coral,
-    cornflowerblue, cornsilk, "counter-increment", "counter-reset", create,
-    crimson, css, cursor, cyan, d, dangerous_comment, dangling_a, darkblue,
-    darkcyan, darkgoldenrod, darkgray, darkgreen, darkkhaki, darkmagenta,
-    darkolivegreen, darkorange, darkorchid, darkred, darksalmon,
-    darkseagreen, darkslateblue, darkslategray, darkturquoise, darkviolet,
-    data, datalist, dd, debug, decodeURI, decodeURIComponent, deeppink,
-    deepskyblue, defineClass, del, deleted, deserialize, details, devel,
-    dfn, dialog, dimgray, dir, direction, display, disrupt, div, dl,
+    command, comment, comments, concat, conditional_assignment, confirm,
+    confusing_a, confusing_regexp, console, constructor, constructor_name_a,
+    content, continue, control_a, convertPathToHFS, convertPathToPlatform,
+    coral, cornflowerblue, cornsilk, "counter-increment", "counter-reset",
+    create, crimson, css, cursor, cyan, d, dangerous_comment, dangling_a,
+    darkblue, darkcyan, darkgoldenrod, darkgray, darkgreen, darkkhaki,
+    darkmagenta, darkolivegreen, darkorange, darkorchid, darkred,
+    darksalmon, darkseagreen, darkslateblue, darkslategray, darkturquoise,
+    darkviolet, data, datalist, dd, debug, decodeURI, decodeURIComponent,
+    deeppink, deepskyblue, defineClass, del, deleted, deserialize, details,
+    devel, dfn, dialog, dimgray, dir, direction, display, disrupt, div, dl,
     document, dodgerblue, dt, duplicate_a, edge, edition, else, em, embed,
     embossed, empty, "empty-cells", empty_block, empty_case, empty_class,
     encodeURI, encodeURIComponent, entityify, errors, es5, escape, eval,
@@ -313,17 +304,17 @@ SOFTWARE.
     missing_url, missing_use_strict, mistyrose, mixed, mm, moccasin, mode,
     move_invocation, move_var, name, name_function, nav, navajowhite,
     navigator, navy, nested_comment, newcap, next, noframes, nomen,
-    noscript, not, not_a_constructor, not_a_function, not_a_label,
-    not_a_scope, not_greater, nud, object, ol, oldlace, olive, olivedrab,
-    on, onevar, opacity, open, openURL, opera, optgroup, option, orange,
-    orangered, orchid, outer, outline, "outline-color", "outline-style",
-    "outline-width", output, overflow, "overflow-x", "overflow-y", p,
-    padding, "padding-bottom", "padding-left", "padding-right",
-    "padding-top", "page-break-after", "page-break-before", palegoldenrod,
-    palegreen, paleturquoise, palevioletred, papayawhip, param,
-    parameter_a_get_b, parameter_set_a, paren, parent, parseFloat, parseInt,
-    passfail, pc, peachpuff, peru, pink, play, plum, plusplus, pop,
-    popupMenu, position, postcomments, postscript, powderblue, pre, predef,
+    noscript, not, not_a_constructor, not_a_defined, not_a_function,
+    not_a_label, not_a_scope, not_greater, nud, object, ol, oldlace, olive,
+    olivedrab, on, onevar, opacity, open, openURL, opera, optgroup, option,
+    orange, orangered, orchid, outer, outline, "outline-color",
+    "outline-style", "outline-width", output, overflow, "overflow-x",
+    "overflow-y", p, padding, "padding-bottom", "padding-left",
+    "padding-right", "padding-top", "page-break-after", "page-break-before",
+    palegoldenrod, palegreen, paleturquoise, palevioletred, papayawhip,
+    param, parameter_a_get_b, parameter_set_a, paren, parent, parseFloat,
+    parseInt, passfail, pc, peachpuff, peru, pink, play, plum, plusplus,
+    pop, popupMenu, position, postscript, powderblue, pre, predef,
     preferenceGroups, preferences, prev, print, progress, projection,
     prompt, prototype, pt, purple, push, px, q, quit, quote, quotes, radix,
     random, range, raw, readFile, readUrl, read_only, reason, red,
@@ -360,11 +351,9 @@ SOFTWARE.
     "z-index"
 */
 
-/*
-    The global directive is used to declare global variables that can
-    be accessed by the program. If a declaration is true, then the variable
-    is writeable. Otherwise, it is read-only.
-*/
+// The global directive is used to declare global variables that can
+// be accessed by the program. If a declaration is true, then the variable
+// is writeable. Otherwise, it is read-only.
 
 // We build the application inside a function so that we produce only a single
 // global variable. That function will be invoked immediately, and its return
@@ -413,6 +402,7 @@ var JSLINT = (function () {
             valueOf         : true,
             watch           : true
         },
+        begin,          // The root token
 
 // browser contains a set of global names that are commonly provided by a
 // web browser environment. self and window are intentially excluded because
@@ -564,6 +554,7 @@ var JSLINT = (function () {
             nested_comment: "Nested comment.",
             not: "Nested not.",
             not_a_constructor: "Do not use {a} as a constructor.",
+            not_a_defined: "'{a}' has not been fully defined yet.",
             not_a_function: "'{a}' is not a function.",
             not_a_label: "'{a}' is not a label.",
             not_a_scope: "'{a}' is out of scope.",
@@ -967,11 +958,12 @@ var JSLINT = (function () {
         lookahead,
         member,
         properties,
-        nexttoken,
+        next_token,
+        older_token,
         option,
         predefined,     // Global variables defined by option
         prereg,
-        prevtoken,
+        prev_token,
         regexp_flag = {
             g: true,
             i: true,
@@ -1040,7 +1032,7 @@ var JSLINT = (function () {
             URIError            : false
         },
 
-        standard_member = {
+        standard_property = {
             E                   : true,
             LN2                 : true,
             LN10                : true,
@@ -1173,7 +1165,7 @@ var JSLINT = (function () {
 // unsafe characters that are silently deleted by one or more browsers
         cx = /[\u0000-\u001f\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/,
 // token
-        tx = /^\s*([(){}\[.,:;'"~\?\]#@]|==?=?|\/(\*(jslint|properties|members?|global)?|=|\/)?|\*[\/=]?|\+(?:=|\++)?|-(?:=|-+)?|%=?|&[&=]?|\|[|=]?|>>?>?=?|<([\/=!]|\!(\[|--)?|<=?)?|\^=?|\!=?=?|[a-zA-Z_$][a-zA-Z0-9_$]*|[0-9]+([xX][0-9a-fA-F]+|\.[0-9]*)?([eE][+\-]?[0-9]+)?)/,
+        tx = /^\s*([(){}\[.,:;'"~\?\]#@]|==?=?|\/(\*(jslint|properties|members|global)?|=|\/)?|\*[\/=]?|\+(?:=|\++)?|-(?:=|-+)?|%=?|&[&=]?|\|[|=]?|>>?>?=?|<([\/=!]|\!(\[|--)?|<=?)?|\^=?|\!=?=?|[a-zA-Z_$][a-zA-Z0-9_$]*|[0-9]+([xX][0-9a-fA-F]+|\.[0-9]*)?([eE][+\-]?[0-9]+)?)/,
 // html token
         hx = /^\s*(['"=>\/&#]|<(?:\/|\!(?:--)?)?|[a-zA-Z][a-zA-Z0-9_\-:]*|[0-9]+|--)/,
 // characters in strings that need escapement
@@ -1356,7 +1348,7 @@ var JSLINT = (function () {
 
     function warn(message, offender, a, b, c, d) {
         var character, line, warning;
-        offender = offender || nexttoken;  // `~
+        offender = offender || next_token;  // `~
         line = offender.line || 0;
         character = offender.from || 0;
         warning = {
@@ -1402,9 +1394,9 @@ var JSLINT = (function () {
     }
 
     function expected_at(at) {
-        if (option.white && nexttoken.from !== at) {
-            warn(bundle.expected_a_at_b_c, nexttoken, nexttoken.value, at,
-                nexttoken.from);
+        if (option.white && next_token.from !== at) {
+            warn(bundle.expected_a_at_b_c, next_token, next_token.value, at,
+                next_token.from);
         }
     }
 
@@ -1419,28 +1411,33 @@ var JSLINT = (function () {
     }
 
 
-
 // lexical analysis and token construction
 
     var lex = (function lex() {
-        var character, comments, from, line, source_row, older_token = {};
+        var character, from, line, source_row;
 
 // Private lex methods
 
-        function collect_comment(comment, quote,  at) {
-            if (older_token.line !== line) {
-                if (comments) {
-                    comments.push(comment);
-                } else {
-                    comments = [comment];
-                }
-            } else {
-                if (older_token.postcomments) {
-                    older_token.postcomments.push(comment);
-                } else {
-                    older_token.postcomments = [comment];
-                }
+        function collect_comment(comment, quote, line, at) {
+            var comment_object = {
+                comment: comment,
+                quote: quote,
+                at: at,
+                line: line
+            };
+            if (comments_off || src || (xmode && xmode !== 'script' && xmode !== 'style' && xmode !== 'styleproperty')) {
+                warn_at(bundle.unexpected_comment, line, character);
+            } else if (xmode === 'script' && /<\//i.test(source_row)) {
+                warn_at(bundle.unexpected_a, line, character, '<\/');
+            } else if (option.safe && ax.test(comment)) {
+                warn_at(bundle.dangerous_comment, line, at);
             }
+            if (older_token.comments) {
+                older_token.comments.push(comment_object);
+            } else {
+                older_token.comments = [comment_object];
+            }
+            JSLINT.comments.push(comment_object);
         }
 
         function next_line() {
@@ -1496,10 +1493,6 @@ var JSLINT = (function () {
             }
             if (quote) {
                 the_token.quote = quote;
-            }
-            if (comments) {
-                the_token.comments = comments;
-                comments = null;
             }
             the_token.line = line;
             the_token.from = from;
@@ -1787,45 +1780,30 @@ var JSLINT = (function () {
     //      // comment
 
                         case '//':
-                            if (comments_off || src || (xmode && xmode !== 'script')) {
-                                warn_at(bundle.unexpected_comment, line, character);
-                            } else if (xmode === 'script' && /<\source_row*\//i.test(source_row)) {
-                                warn_at(bundle.unexpected_a, line, character, '<\/');
-                            } else if ((option.safe || xmode === 'script') && ax.test(source_row)) {
-                                warn_at(bundle.dangerous_comment, line, character);
-                            }
-                            collect_comment(source_row);
+                            collect_comment(source_row, '//', line, character);
                             source_row = '';
                             break;
 
     //      /* comment
 
                         case '/*':
-                            if (comments_off || src || (xmode && xmode !== 'script' && xmode !== 'style' && xmode !== 'styleproperty')) {
-                                warn_at(bundle.unexpected_comment, line, character);
-                            }
-                            if (option.safe && ax.test(source_row)) {
-                                warn_at(bundle.dangerous_comment, line, character);
-                            }
+                            quote = '/*';
                             for (;;) {
                                 i = source_row.search(lx);
                                 if (i >= 0) {
                                     break;
                                 }
-                                collect_comment(source_row);
+                                collect_comment(source_row, quote, line, character);
+                                quote = '';
                                 if (!next_line()) {
                                     fail_at(bundle.unclosed_comment, line, character);
-                                } else {
-                                    if (option.safe && ax.test(source_row)) {
-                                        warn_at(bundle.dangerous_comment, line, character);
-                                    }
                                 }
                             }
+                            collect_comment(source_row.slice(0, i), quote, character, line);
                             character += i + 2;
                             if (source_row.substr(i, 1) === '/') {
                                 fail_at(bundle.nested_comment, line, character);
                             }
-                            collect_comment(source_row.substr(0, i));
                             source_row = source_row.substr(i + 2);
                             break;
 
@@ -2231,7 +2209,7 @@ klass:                                  do {
             warn(funct[t] === true ?
                 bundle.used_before_a :
                 bundle.already_defined,
-                nexttoken, t);
+                next_token, t);
         }
         funct[t] = type;
         if (funct['(global)']) {
@@ -2240,7 +2218,7 @@ klass:                                  do {
             }
             global[t] = true;
             if (Object.prototype.hasOwnProperty.call(implied, t)) {
-                warn(bundle.used_before_a, nexttoken, t);
+                warn(bundle.used_before_a, next_token, t);
                 delete implied[t];
             }
         } else {
@@ -2273,27 +2251,19 @@ klass:                                  do {
 // The token will not be included in the parse tree, so move the comments
 // that are attached to the token to tokens that are in the tree.
 
-        var next, prev;
         it = it || token;
-        if (it.postcomments) {
-            next = it.next || peek();
-            next.comments = next.comments ?
-                next.comments.concat(it.postcomments) :
-                it.postcomments;
-        }
         if (it.comments) {
-            prev = it.prev;
-            while (prev.postcomments === null) {
+            var prev = it.prev;
+            while (prev.comments === null) {
                 prev = prev.prev;
             }
-            if (prev.postcomments) {
-                prev.postcomments = prev.postcomments.concat(it.comments);
+            if (prev.comments) {
+                prev.comments = prev.comments.concat(it.comments);
             } else {
-                prev.postcomments = it.comments;
+                prev.comments = it.comments;
             }
         }
         it.comments = null;
-        it.postcomments = null;
     }
 
 
@@ -2308,10 +2278,10 @@ klass:                                  do {
 // look at the first line break after the var to determine the programmer's
 // intention.
 
-            if (var_mode && nexttoken.line !== token.line) {
-                if ((var_mode !== indent || !nexttoken.edge) &&
-                        nexttoken.from === indent.at -
-                        (nexttoken.edge ? option.indent : 0)) {
+            if (var_mode && next_token.line !== token.line) {
+                if ((var_mode !== indent || !next_token.edge) &&
+                        next_token.from === indent.at -
+                        (next_token.edge ? option.indent : 0)) {
                     var dent = indent;
                     for (;;) {
                         dent.at -= option.indent;
@@ -2328,30 +2298,30 @@ klass:                                  do {
 
 // If the token is an edge.
 
-                if (nexttoken.edge) {
-                    if (nexttoken.edge === 'label') {
+                if (next_token.edge) {
+                    if (next_token.edge === 'label') {
                         expected_at(1);
-                    } else if (nexttoken.edge === 'case') {
+                    } else if (next_token.edge === 'case') {
                         expected_at(indent.at - option.indent);
-                    } else if (indent.mode !== 'array' || nexttoken.line !== token.line) {
+                    } else if (indent.mode !== 'array' || next_token.line !== token.line) {
                         expected_at(indent.at);
                     }
 
 // If the token is not an edge, but is the first token on the line.
 
-                } else if (nexttoken.line !== token.line &&
-                        nexttoken.from < indent.at + (indent.mode ===
+                } else if (next_token.line !== token.line &&
+                        next_token.from < indent.at + (indent.mode ===
                         'expression' ? 0 : option.indent)) {
                     expected_at(indent.at + option.indent);
                 }
-            } else if (nexttoken.line !== token.line) {
-                if (nexttoken.edge) {
+            } else if (next_token.line !== token.line) {
+                if (next_token.edge) {
                     expected_at(indent.at);
                 } else {
                     indent.wrap = true;
                     if (indent.mode === 'statement' || indent.mode === 'var') {
                         expected_at(indent.at + option.indent);
-                    } else if (nexttoken.from < indent.at + (indent.mode ===
+                    } else if (next_token.from < indent.at + (indent.mode ===
                             'expression' ? 0 : option.indent)) {
                         expected_at(indent.at + option.indent);
                     }
@@ -2361,17 +2331,17 @@ klass:                                  do {
 
         switch (token.id) {
         case '(number)':
-            if (nexttoken.id === '.') {
+            if (next_token.id === '.') {
                 warn(bundle.trailing_decimal_a);
             }
             break;
         case '-':
-            if (nexttoken.id === '-' || nexttoken.id === '--') {
+            if (next_token.id === '-' || next_token.id === '--') {
                 warn(bundle.confusing_a);
             }
             break;
         case '+':
-            if (nexttoken.id === '+' || nexttoken.id === '++') {
+            if (next_token.id === '+' || next_token.id === '++') {
                 warn(bundle.confusing_a);
             }
             break;
@@ -2380,17 +2350,17 @@ klass:                                  do {
             anonname = token.value;
         }
 
-        if (id && nexttoken.id !== id) {
+        if (id && next_token.id !== id) {
             if (match) {
-                warn(bundle.expected_a_b_from_c_d, nexttoken, id,
-                    match.id, match.line, nexttoken.value);
-            } else if (!nexttoken.identifier || nexttoken.value !== id) {
-                warn(bundle.expected_a_b, nexttoken, id, nexttoken.value);
+                warn(bundle.expected_a_b_from_c_d, next_token, id,
+                    match.id, match.line, next_token.value);
+            } else if (!next_token.identifier || next_token.value !== id) {
+                warn(bundle.expected_a_b, next_token, id, next_token.value);
             }
         }
-        prevtoken = token;
-        token = nexttoken;
-        nexttoken = lookahead.shift() || lex.token();
+        prev_token = token;
+        token = next_token;
+        next_token = lookahead.shift() || lex.token();
         if (token.id === '(end)') {
             discard();
         }
@@ -2405,13 +2375,12 @@ klass:                                  do {
             value;
         comments_off = true;
         option.white = false;
-        if (lookahead.length > 0 || this.postcomments || nexttoken.comments) {
+        if (lookahead.length > 0 || next_token.comments) {
             warn(bundle.unexpected_a, this);
         }
         switch (command) {
         case '/*properties':
         case '/*members':
-        case '/*member':
             command = '/*properties';
             if (!properties) {
                 properties = {};
@@ -2432,24 +2401,24 @@ klass:                                  do {
         }
 loop:   for (;;) {
             for (;;) {
-                if (nexttoken.id === '*/') {
+                if (next_token.id === '*/') {
                     break loop;
                 }
-                if (nexttoken.id !== ',') {
+                if (next_token.id !== ',') {
                     break;
                 }
                 advance();
             }
-            if (nexttoken.arity !== 'string' && !nexttoken.identifier) {
-                fail(bundle.unexpected_a, nexttoken);
+            if (next_token.arity !== 'string' && !next_token.identifier) {
+                fail(bundle.unexpected_a, next_token);
             }
-            name = nexttoken.value;
+            name = next_token.value;
             advance();
             switch (command) {
             case '/*global':
-                if (nexttoken.id === ':') {
+                if (next_token.id === ':') {
                     advance(':');
-                    switch (nexttoken.id) {
+                    switch (next_token.id) {
                     case 'true':
                         if (typeof scope[name] === 'object' ||
                                 global[name] === false) {
@@ -2476,13 +2445,13 @@ loop:   for (;;) {
                 }
                 break;
             case '/*jslint':
-                if (nexttoken.id !== ':') {
-                    fail(bundle.expected_a_b, nexttoken, ':', nexttoken.value);
+                if (next_token.id !== ':') {
+                    fail(bundle.expected_a_b, next_token, ':', next_token.value);
                 }
                 advance(':');
                 switch (name) {
                 case 'indent':
-                    value = +nexttoken.value;
+                    value = +next_token.value;
                     if (typeof value !== 'number' ||
                             !isFinite(value) || value < 0 ||
                             Math.floor(value) !== value) {
@@ -2494,17 +2463,17 @@ loop:   for (;;) {
                     option.indent = value;
                     break;
                 case 'maxerr':
-                    value = +nexttoken.value;
+                    value = +next_token.value;
                     if (typeof value !== 'number' ||
                             !isFinite(value) ||
                             value <= 0 ||
                             Math.floor(value) !== value) {
-                        fail(bundle.expected_small_a, nexttoken);
+                        fail(bundle.expected_small_a, next_token);
                     }
                     option.maxerr = value;
                     break;
                 case 'maxlen':
-                    value = +nexttoken.value;
+                    value = +next_token.value;
                     if (typeof value !== 'number' || !isFinite(value) || value < 0 ||
                             Math.floor(value) !== value) {
                         fail(bundle.expected_small_a);
@@ -2512,18 +2481,18 @@ loop:   for (;;) {
                     option.maxlen = value;
                     break;
                 case 'white':
-                    if (nexttoken.id === 'true') {
+                    if (next_token.id === 'true') {
                         old_option_white = true;
-                    } else if (nexttoken.id === 'false') {
+                    } else if (next_token.id === 'false') {
                         old_option_white = false;
                     } else {
                         fail(bundle.unexpected_a);
                     }
                     break;
                 default:
-                    if (nexttoken.id === 'true') {
+                    if (next_token.id === 'true') {
                         option[name] = true;
-                    } else if (nexttoken.id === 'false') {
+                    } else if (next_token.id === 'false') {
                         option[name] = false;
                     } else {
                         fail(bundle.unexpected_a);
@@ -2550,7 +2519,7 @@ loop:   for (;;) {
 // Indentation intention
 
     function edge(mode) {
-        nexttoken.edge = !indent || (indent.open && (mode || true));
+        next_token.edge = !indent || (indent.open && (mode || true));
     }
 
 
@@ -2571,7 +2540,7 @@ loop:   for (;;) {
         } else {
             was = indent;
             open = mode === 'var' ||
-                (nexttoken.line !== token.line && mode !== 'statement');
+                (next_token.line !== token.line && mode !== 'statement');
             indent = {
                 at: (open || mode === 'control' ?
                     was.at + option.indent : was.at) +
@@ -2603,7 +2572,7 @@ loop:   for (;;) {
 
     function one_space(left, right) {
         left = left || token;
-        right = right || nexttoken;
+        right = right || next_token;
         if (right.id !== '(end)' && option.white &&
                 (token.line !== right.line ||
                 token.thru + 1 !== right.from)) {
@@ -2613,7 +2582,7 @@ loop:   for (;;) {
 
     function one_space_only(left, right) {
         left = left || token;
-        right = right || nexttoken;
+        right = right || next_token;
         if (right.id !== '(end)' && (left.line !== right.line ||
                 (option.white && left.thru + 1 !== right.from))) {
             warn(bundle.expected_space_a_b, right, left.value, right.value);
@@ -2622,7 +2591,7 @@ loop:   for (;;) {
 
     function no_space(left, right) {
         left = left || token;
-        right = right || nexttoken;
+        right = right || next_token;
         if ((option.white || xmode === 'styleproperty' || xmode === 'style') &&
                 left.thru !== right.from && left.line === right.line) {
             warn(bundle.unexpected_space_a_b, right, left.value, right.value);
@@ -2631,7 +2600,7 @@ loop:   for (;;) {
 
     function no_space_only(left, right) {
         left = left || token;
-        right = right || nexttoken;
+        right = right || next_token;
         if (right.id !== '(end)' && (left.line !== right.line ||
                 (option.white && left.thru !== right.from))) {
             warn(bundle.unexpected_space_a_b, right, left.value, right.value);
@@ -2641,7 +2610,7 @@ loop:   for (;;) {
     function spaces(left, right) {
         if (option.white) {
             left = left || token;
-            right = right || nexttoken;
+            right = right || next_token;
             if (left.thru === right.from && left.line === right.line) {
                 warn(bundle.missing_space_a_b, right, left.value, right.value);
             }
@@ -2649,8 +2618,8 @@ loop:   for (;;) {
     }
 
     function comma() {
-        if (nexttoken.id !== ',') {
-            warn_at(bundle.expected_a_b, token.line, token.thru, ',', nexttoken.value);
+        if (next_token.id !== ',') {
+            warn_at(bundle.expected_a_b, token.line, token.thru, ',', next_token.value);
         } else {
             if (option.white) {
                 no_space_only();
@@ -2663,22 +2632,22 @@ loop:   for (;;) {
 
 
     function semicolon() {
-        if (nexttoken.id !== ';') {
-            warn_at(bundle.expected_a_b, token.line, token.thru, ';', nexttoken.value);
+        if (next_token.id !== ';') {
+            warn_at(bundle.expected_a_b, token.line, token.thru, ';', next_token.value);
         } else {
             if (option.white) {
                 no_space_only();
             }
             advance(';');
             discard();
-            if (semicolon_coda[nexttoken.id] !== true) {
+            if (semicolon_coda[next_token.id] !== true) {
                 spaces();
             }
         }
     }
 
     function use_strict() {
-        if (nexttoken.value === 'use strict') {
+        if (next_token.value === 'use strict') {
             if (strict_mode) {
                 warn(bundle.unnecessary_use);
             }
@@ -2764,12 +2733,12 @@ loop:   for (;;) {
 // initial indicates that this is the first expression of a statement.
 
         var left;
-        if (nexttoken.id === '(end)') {
-            fail(bundle.unexpected_a, token, nexttoken.id);
+        if (next_token.id === '(end)') {
+            fail(bundle.unexpected_a, token, next_token.id);
         }
         advance();
         if (option.safe && typeof predefined[token.value] === 'boolean' &&
-                (nexttoken.id !== '(' && nexttoken.id !== '.')) {
+                (next_token.id !== '(' && next_token.id !== '.')) {
             warn(bundle.adsafe, token);
         }
         if (initial) {
@@ -2782,16 +2751,16 @@ loop:   for (;;) {
             if (token.nud) {
                 left = token.nud();
             } else {
-                if (nexttoken.arity === 'number' && token.id === '.') {
+                if (next_token.arity === 'number' && token.id === '.') {
                     warn(bundle.leading_decimal_a, token,
-                        nexttoken.value);
+                        next_token.value);
                     advance();
                     return token;
                 } else {
                     fail(bundle.expected_identifier_a, token, token.id);
                 }
             }
-            while (rbp < nexttoken.lbp) {
+            while (rbp < next_token.lbp) {
                 advance();
                 if (token.led) {
                     left = token.led(left);
@@ -2929,7 +2898,7 @@ loop:   for (;;) {
         x.led = function (left) {
             this.arity = 'infix';
             if (!w) {
-                spaces(prevtoken, token);
+                spaces(prev_token, token);
                 spaces();
             }
             if (typeof f === 'function') {
@@ -3089,7 +3058,7 @@ loop:   for (;;) {
     function suffix(s, f) {
         var x = symbol(s, 150);
         x.led = function (left) {
-            no_space_only(prevtoken, token);
+            no_space_only(prev_token, token);
             if (option.plusplus) {
                 warn(bundle.unexpected_a, this);
             } else if ((!left.identifier || left.reserved) &&
@@ -3105,7 +3074,7 @@ loop:   for (;;) {
 
 
     function optional_identifier() {
-        if (nexttoken.identifier) {
+        if (next_token.identifier) {
             advance();
             if (option.safe && banned[token.value]) {
                 warn(bundle.adsafe_a, token);
@@ -3122,7 +3091,7 @@ loop:   for (;;) {
         if (i) {
             return i;
         }
-        if (token.id === 'function' && nexttoken.id === '(') {
+        if (token.id === 'function' && next_token.id === '(') {
             warn(bundle.name_function);
         } else {
             fail(bundle.expected_identifier_a);
@@ -3139,7 +3108,7 @@ loop:   for (;;) {
 
 // We don't like the empty statement.
 
-        if (nexttoken.id === ';') {
+        if (next_token.id === ';') {
             warn(bundle.unexpected_a);
             semicolon();
             return;
@@ -3147,22 +3116,22 @@ loop:   for (;;) {
 
 // Is this a labeled statement?
 
-        if (nexttoken.identifier && !nexttoken.reserved && peek().id === ':') {
+        if (next_token.identifier && !next_token.reserved && peek().id === ':') {
             edge('label');
-            label = nexttoken;
+            label = next_token;
             advance();
             discard();
             advance(':');
             discard();
             scope = Object.create(old_scope);
             add_label(label.value, 'label');
-            if (nexttoken.labeled !== true) {
-                warn(bundle.label_a_b, nexttoken, label.value, nexttoken.value);
+            if (next_token.labeled !== true) {
+                warn(bundle.label_a_b, next_token, label.value, next_token.value);
             }
             if (jx.test(label.value + ':')) {
                 warn(bundle.url, label);
             }
-            nexttoken.label = label;
+            next_token.label = label;
         }
 
 // Parse the statement.
@@ -3215,13 +3184,13 @@ loop:   for (;;) {
 // A disrupt statement may not be followed by any other statement.
 // If the last statement is disrupt, then the sequence is disrupt.
 
-        while (nexttoken.postscript !== true) {
-            if (nexttoken.id === ';') {
-                warn(bundle.unexpected_a, nexttoken);
+        while (next_token.postscript !== true) {
+            if (next_token.id === ';') {
+                warn(bundle.unexpected_a, next_token);
                 semicolon();
             } else {
                 if (disruptor) {
-                    warn(bundle.unreachable_a_b, nexttoken, nexttoken.value,
+                    warn(bundle.unreachable_a_b, next_token, next_token.value,
                         disruptor.value);
                     disruptor = null;
                 }
@@ -3246,7 +3215,7 @@ loop:   for (;;) {
 // ordinary is true for if statements, while, etc.
 
         var array,
-            curly = nexttoken,
+            curly = next_token,
             old_inblock = in_block,
             old_scope = scope,
             old_strict_mode = strict_mode;
@@ -3254,7 +3223,7 @@ loop:   for (;;) {
         in_block = ordinary;
         scope = Object.create(scope);
         spaces();
-        if (nexttoken.id === '{') {
+        if (next_token.id === '{') {
             advance('{');
             step_in();
             if (!ordinary && !use_strict() && !old_strict_mode &&
@@ -3266,9 +3235,9 @@ loop:   for (;;) {
             step_out('}', curly);
             discard();
         } else if (!ordinary) {
-            fail(bundle.expected_a_b, nexttoken, '{', nexttoken.value);
+            fail(bundle.expected_a_b, next_token, '{', next_token.value);
         } else {
-            warn(bundle.expected_a_b, nexttoken, '{', nexttoken.value);
+            warn(bundle.expected_a_b, next_token, '{', next_token.value);
             array = [statement()];
             array.disrupt = array[0].disrupt;
         }
@@ -3282,7 +3251,7 @@ loop:   for (;;) {
     }
 
 
-    function tally_member(name) {
+    function tally_property(name) {
         if (properties && typeof properties[name] !== 'boolean') {
             warn(bundle.unexpected_member_a, token, name);
         }
@@ -3355,7 +3324,7 @@ loop:   for (;;) {
                     funct[variable] = global[variable];
                 } else {
                     if (option.undef) {
-                        warn(bundle.a_not_defined, token, variable);
+                        warn(bundle.not_a_defined, token, variable);
                     } else {
                         note_implied(token);
                     }
@@ -3414,6 +3383,9 @@ loop:   for (;;) {
                         case 'parameter':
                             funct[variable] = site['(global)'] ? true : 'outer';
                             break;
+                        case 'error':
+                            warn(bundle.not_a_defined, token);
+                            break;
                         case 'label':
                             warn(bundle.a_label, token, variable);
                             break;
@@ -3428,13 +3400,13 @@ loop:   for (;;) {
         }
     };
 
-// Build the syntax table by declaring the syntactic elements of the language.
+// Build the syntax table by declaring the syntactic elements.
 
+    type('(color)', 'color');
     type('(number)', 'number', return_this);
     type('(string)', 'string', return_this);
-    type('(regexp)', 'regexp', return_this);
-    type('(color)', 'color');
     type('(range)', 'range');
+    type('(regexp)', 'regexp', return_this);
 
     ultimate('(begin)');
     ultimate('(end)');
@@ -3454,11 +3426,12 @@ loop:   for (;;) {
     delim('#');
     delim('@');
     delim('*/');
-    reserve('else');
     postscript(reserve('case'));
     reserve('catch');
     postscript(reserve('default'));
+    reserve('else');
     reserve('finally');
+
     reservevar('arguments', function (x) {
         if (strict_mode && funct['(global)']) {
             warn(bundle.strict, x);
@@ -3485,6 +3458,7 @@ loop:   for (;;) {
     });
     reservevar('true');
     reservevar('undefined');
+
     assignop('=');
     assignop('+=');
     assignop('-=');
@@ -3499,6 +3473,7 @@ loop:   for (;;) {
     assignop('<<=', true);
     assignop('>>=', true);
     assignop('>>>=', true);
+
     infix('?', 30, function (left, that) {
         that.first = expected_condition(expected_relation(left));
         that.second = expression(0);
@@ -3529,6 +3504,7 @@ loop:   for (;;) {
         }
         return that;
     });
+
     infix('&&', 50, function (left, that) {
         that.first = expected_condition(expected_relation(left));
         that.second = expected_relation(expression(50));
@@ -3537,6 +3513,7 @@ loop:   for (;;) {
         }
         return that;
     });
+
     prefix('void', function () {
         this.first = expression(0);
         if (this.first.arity !== 'number' || this.first.value) {
@@ -3545,9 +3522,11 @@ loop:   for (;;) {
         }
         return this;
     });
+
     bitwise('|', 70);
     bitwise('^', 80);
     bitwise('&', 90);
+
     relation('==', '===');
     relation('===');
     relation('!=', '!==');
@@ -3556,9 +3535,11 @@ loop:   for (;;) {
     relation('>');
     relation('<=');
     relation('>=');
+
     bitwise('<<', 120);
     bitwise('>>', 120);
     bitwise('>>>', 120);
+
     infix('in', 120, function (left, that) {
         warn(bundle.infix_in, that);
         that.left = left;
@@ -3745,11 +3726,11 @@ loop:   for (;;) {
                     warn(bundle.use_object, token);
                     break;
                 case 'Array':
-                    if (nexttoken.id === '(') {
-                        p = nexttoken;
+                    if (next_token.id === '(') {
+                        p = next_token;
                         p.first = this;
                         advance('(');
-                        if (nexttoken.id !== ')') {
+                        if (next_token.id !== ')') {
                             p.second = expression(0);
                             if (p.second.arity !== 'number' || !p.second.value) {
                                 expected_condition(p.second,  bundle.use_array);
@@ -3757,7 +3738,7 @@ loop:   for (;;) {
                             } else {
                                 i = true;
                             }
-                            while (nexttoken.id !== ')' && nexttoken.id !== '(end)') {
+                            while (next_token.id !== ')' && next_token.id !== '(end)') {
                                 if (i) {
                                     warn(bundle.use_array, p);
                                     i = false;
@@ -3804,17 +3785,17 @@ loop:   for (;;) {
         } else {
             warn(bundle.weird_new, this);
         }
-        if (nexttoken.id !== '(') {
-            warn(bundle.missing_a, nexttoken, '()');
+        if (next_token.id !== '(') {
+            warn(bundle.missing_a, next_token, '()');
         }
         return this;
     });
 
     infix('(', 160, function (left, that) {
         if (indent && indent.mode === 'expression') {
-            no_space(prevtoken, token);
+            no_space(prev_token, token);
         } else {
-            no_space_only(prevtoken, token);
+            no_space_only(prev_token, token);
         }
         if (!left.immed && left.id === 'function') {
             warn(bundle.wrap_immediate);
@@ -3842,12 +3823,12 @@ loop:   for (;;) {
             }
         }
         step_in();
-        if (nexttoken.id !== ')') {
+        if (next_token.id !== ')') {
             no_space();
             for (;;) {
                 edge();
                 p.push(expression(10));
-                if (nexttoken.id !== ',') {
+                if (next_token.id !== ',') {
                     break;
                 }
                 comma();
@@ -3885,8 +3866,8 @@ loop:   for (;;) {
         discard();
         no_space();
         edge();
-        if (nexttoken.id === 'function') {
-            nexttoken.immed = true;
+        if (next_token.id === 'function') {
+            next_token.immed = true;
         }
         var value = expression(0);
         value.paren = true;
@@ -3894,7 +3875,7 @@ loop:   for (;;) {
         step_out(')', this);
         discard();
         if (value.id === 'function') {
-            if (nexttoken.id === '(') {
+            if (next_token.id === '(') {
                 warn(bundle.move_invocation);
             } else {
                 warn(bundle.bad_wrap, this);
@@ -3904,11 +3885,11 @@ loop:   for (;;) {
     });
 
     infix('.', 170, function (left, that) {
-        no_space(prevtoken, token);
+        no_space(prev_token, token);
         no_space();
         var m = identifier();
         if (typeof m === 'string') {
-            tally_member(m);
+            tally_property(m);
         }
         that.first = left;
         that.second = token;
@@ -3925,7 +3906,7 @@ loop:   for (;;) {
                 } else if (m === 'go') {
                     if (xmode !== 'script') {
                         warn(bundle.adsafe, that);
-                    } else if (adsafe_went || nexttoken.id !== '(' ||
+                    } else if (adsafe_went || next_token.id !== '(' ||
                             peek(0).arity !== 'string' ||
                             peek(0).value !== adsafe_id ||
                             peek(1).id !== ',') {
@@ -3945,16 +3926,16 @@ loop:   for (;;) {
                     warn(bundle.adsafe_a, token, m);
                 }
                 if (typeof predefined[left.value] !== 'boolean' ||
-                        nexttoken.id === '(') {
+                        next_token.id === '(') {
                     break;
                 }
-                if (standard_member[m] === true) {
-                    if (nexttoken.id === '.') {
+                if (standard_property[m] === true) {
+                    if (next_token.id === '.') {
                         warn(bundle.adsafe, that);
                     }
                     break;
                 }
-                if (nexttoken.id !== '.') {
+                if (next_token.id !== '.') {
                     warn(bundle.adsafe, that);
                     break;
                 }
@@ -3964,7 +3945,7 @@ loop:   for (;;) {
                 that = token;
                 m = identifier();
                 if (typeof m === 'string') {
-                    tally_member(m);
+                    tally_property(m);
                 }
             }
         }
@@ -3972,7 +3953,7 @@ loop:   for (;;) {
     }, true);
 
     infix('[', 170, function (left, that) {
-        no_space_only(prevtoken, token);
+        no_space_only(prev_token, token);
         no_space();
         step_in();
         edge();
@@ -3987,7 +3968,7 @@ loop:   for (;;) {
                     (e.value.charAt(0) === '_' || e.value.charAt(0) === '-')) {
                 warn(bundle.adsafe_subscript_a, e);
             }
-            tally_member(e.value);
+            tally_property(e.value);
             if (!option.sub && ix.test(e.value)) {
                 s = syntax[e.value];
                 if (!s || !s.reserved) {
@@ -4001,7 +3982,7 @@ loop:   for (;;) {
         }
         step_out(']', that);
         discard();
-        no_space(prevtoken, token);
+        no_space(prev_token, token);
         that.first = left;
         that.second = e;
         return that;
@@ -4011,20 +3992,20 @@ loop:   for (;;) {
         this.arity = 'prefix';
         this.first = [];
         step_in('array');
-        while (nexttoken.id !== '(end)') {
-            while (nexttoken.id === ',') {
-                warn(bundle.unexpected_a, nexttoken);
+        while (next_token.id !== '(end)') {
+            while (next_token.id === ',') {
+                warn(bundle.unexpected_a, next_token);
                 advance(',');
                 discard();
             }
-            if (nexttoken.id === ']') {
+            if (next_token.id === ']') {
                 break;
             }
             edge();
             this.first.push(expression(10));
-            if (nexttoken.id === ',') {
+            if (next_token.id === ',') {
                 comma();
-                if (nexttoken.id === ']' && !option.es5) {
+                if (next_token.id === ']' && !option.es5) {
                     warn(bundle.unexpected_a, token);
                     break;
                 }
@@ -4041,8 +4022,8 @@ loop:   for (;;) {
     function property_name() {
         var id = optional_identifier(true);
         if (!id) {
-            if (nexttoken.arity === 'string') {
-                id = nexttoken.value;
+            if (next_token.arity === 'string') {
+                id = next_token.value;
                 if (option.safe) {
                     if (banned[id]) {
                         warn(bundle.adsafe_a);
@@ -4052,8 +4033,8 @@ loop:   for (;;) {
                     }
                 }
                 advance();
-            } else if (nexttoken.arity === 'number') {
-                id = nexttoken.value.toString();
+            } else if (next_token.arity === 'number') {
+                id = next_token.value.toString();
                 advance();
             }
         }
@@ -4062,12 +4043,12 @@ loop:   for (;;) {
 
 
     function function_params() {
-        var id, paren = nexttoken, params = [];
+        var id, paren = next_token, params = [];
         advance('(');
         step_in();
         discard();
         no_space();
-        if (nexttoken.id === ')') {
+        if (next_token.id === ')') {
             no_space();
             step_out(')', paren);
             discard();
@@ -4078,7 +4059,7 @@ loop:   for (;;) {
             id = identifier();
             params.push(token);
             add_label(id, 'parameter');
-            if (nexttoken.id === ',') {
+            if (next_token.id === ',') {
                 comma();
             } else {
                 no_space();
@@ -4097,14 +4078,14 @@ loop:   for (;;) {
             old_scope      = scope;
         funct = {
             '(name)'     : name || '"' + anonname + '"',
-            '(line)'     : nexttoken.line,
+            '(line)'     : next_token.line,
             '(context)'  : funct,
             '(breakage)' : 0,
             '(loopage)'  : 0,
             '(scope)'    : scope,
             '(token)'    : func
         };
-        properties  = Object.create(old_properties);
+        properties  = old_properties && Object.create(old_properties);
         option      = Object.create(old_option);
         global      = Object.create(old_global);
         scope       = Object.create(old_scope);
@@ -4130,20 +4111,20 @@ loop:   for (;;) {
         this.arity = 'prefix';
         this.first = [];
         step_in();
-        while (nexttoken.id !== '}') {
+        while (next_token.id !== '}') {
 
 // JSLint recognizes the ES5 extension for get/set in object literals,
 // but requires that they be used in pairs.
 
             edge();
-            if (nexttoken.value === 'get' && peek().id !== ':') {
+            if (next_token.value === 'get' && peek().id !== ':') {
                 if (!option.es5) {
                     warn(bundle.get_set);
                 }
-                get = nexttoken;
+                get = next_token;
                 one_space_only();
                 advance('get');
-                name = nexttoken;
+                name = next_token;
                 i = property_name();
                 if (!i) {
                     fail(bundle.missing_property);
@@ -4157,7 +4138,7 @@ loop:   for (;;) {
                     warn(bundle.parameter_a_get_b, t, p[0], i);
                 }
                 comma();
-                set = nexttoken;
+                set = next_token;
                 spaces();
                 edge();
                 advance('set');
@@ -4173,7 +4154,7 @@ loop:   for (;;) {
                 }
                 name.first = [get, set];
             } else {
-                name = nexttoken;
+                name = next_token;
                 i = property_name();
                 if (typeof i !== 'string') {
                     fail(bundle.missing_property);
@@ -4185,21 +4166,21 @@ loop:   for (;;) {
             }
             this.first.push(name);
             if (seen[i] === true) {
-                warn(bundle.duplicate_a, nexttoken, i);
+                warn(bundle.duplicate_a, next_token, i);
             }
             seen[i] = true;
-            tally_member(i);
-            if (nexttoken.id !== ',') {
+            tally_property(i);
+            if (next_token.id !== ',') {
                 break;
             }
             for (;;) {
                 comma();
-                if (nexttoken.id !== ',') {
+                if (next_token.id !== ',') {
                     break;
                 }
-                warn(bundle.unexpected_a, nexttoken);
+                warn(bundle.unexpected_a, next_token);
             }
-            if (nexttoken.id === '}' && !option.es5) {
+            if (next_token.id === '}' && !option.es5) {
                 warn(bundle.unexpected_a, token);
             }
         }
@@ -4219,13 +4200,10 @@ loop:   for (;;) {
         return this;
     });
 
-    stmt('/*properties', directive);
-    stmt('/*members', directive);
-    stmt('/*member', directive);
-    stmt('/*jslint', directive);
     stmt('/*global', directive);
-
-
+    stmt('/*jslint', directive);
+    stmt('/*members', directive);
+    stmt('/*properties', directive);
 
     stmt('var', function () {
 
@@ -4246,23 +4224,23 @@ loop:   for (;;) {
         this.first = [];
         step_in('var');
         for (;;) {
-            name = nexttoken;
+            name = next_token;
             id = identifier();
             if (funct['(global)'] && predefined[id] === false) {
                 warn(bundle.redefinition_a, token, id);
             }
             add_label(id, 'error');
 
-            if (nexttoken.id === '=') {
-                assign = nexttoken;
+            if (next_token.id === '=') {
+                assign = next_token;
                 assign.first = name;
                 spaces();
                 advance('=');
                 spaces();
-                if (nexttoken.id === 'undefined') {
+                if (next_token.id === 'undefined') {
                     warn(bundle.unnecessary_initialize, token, id);
                 }
-                if (peek(0).id === '=' && nexttoken.identifier) {
+                if (peek(0).id === '=' && next_token.identifier) {
                     fail(bundle.var_a_not);
                 }
                 assign.second = expression(0);
@@ -4272,11 +4250,11 @@ loop:   for (;;) {
                 this.first.push(name);
             }
             funct[id] = 'unused';
-            if (nexttoken.id !== ',') {
+            if (next_token.id !== ',') {
                 break;
             }
             comma();
-            if (var_mode && nexttoken.line === token.line &&
+            if (var_mode && next_token.line === token.line &&
                     this.first.length === 1) {
                 var_mode = false;
                 indent.open = false;
@@ -4301,7 +4279,7 @@ loop:   for (;;) {
             no_space();
         }
         do_function(this, i, true);
-        if (nexttoken.id === '(' && nexttoken.line === token.line) {
+        if (next_token.id === '(' && next_token.line === token.line) {
             fail(bundle.function_statement);
         }
         this.arity = 'statement';
@@ -4323,7 +4301,7 @@ loop:   for (;;) {
     });
 
     stmt('if', function () {
-        var t = nexttoken;
+        var t = next_token;
         one_space();
         advance('(');
         step_in('control');
@@ -4337,12 +4315,12 @@ loop:   for (;;) {
         discard();
         one_space();
         this.block = block(true);
-        if (nexttoken.id === 'else') {
+        if (next_token.id === 'else') {
             one_space();
             advance('else');
             discard();
             one_space();
-            this['else'] = nexttoken.id === 'if' || nexttoken.id === 'switch' ?
+            this['else'] = next_token.id === 'if' || next_token.id === 'switch' ?
                 statement(true) : block(true);
             if (this['else'].disrupt && this.block.disrupt) {
                 this.disrupt = true;
@@ -4358,60 +4336,57 @@ loop:   for (;;) {
 // try.third    The finally clause
 // try.block    The try block
 
-        var b, e, s, t;
+        var exception_variable, old_scope, paren;
         if (option.adsafe) {
             warn(bundle.adsafe_a, this);
         }
         one_space();
         this.arity = 'statement';
         this.block = block(false);
-        if (nexttoken.id === 'catch') {
+        if (next_token.id === 'catch') {
             one_space();
             advance('catch');
             discard();
             one_space();
-            t = nexttoken;
+            paren = next_token;
             advance('(');
             step_in('control');
             discard();
             no_space();
             edge();
-            s = scope;
-            scope = Object.create(s);
-            e = nexttoken.value;
-            this.first = e;
-            if (!nexttoken.identifier) {
-                warn(bundle.expected_identifier_a, nexttoken);
+            old_scope = scope;
+            scope = Object.create(old_scope);
+            exception_variable = next_token.value;
+            this.first = exception_variable;
+            if (!next_token.identifier) {
+                warn(bundle.expected_identifier_a, next_token);
             } else {
-                add_label(e, 'exception');
+                add_label(exception_variable, 'exception');
             }
             advance();
             no_space();
-            step_out(')', t);
+            step_out(')', paren);
             discard();
             one_space();
             this.second = block(false);
-            b = true;
-            scope = s;
+            scope = old_scope;
         }
-        if (nexttoken.id === 'finally') {
+        if (next_token.id === 'finally') {
             discard();
             one_space();
-            t = nexttoken;
             advance('finally');
             discard();
             one_space();
             this.third = block(false);
-        } else if (!b) {
-            fail(bundle.expected_a_b, nexttoken, 'catch', nexttoken.value);
+        } else if (!this.second) {
+            fail(bundle.expected_a_b, next_token, 'catch', next_token.value);
         }
         return this;
     });
 
-
     labeled_stmt('while', function () {
         one_space();
-        var t = nexttoken;
+        var paren = next_token;
         funct['(breakage)'] += 1;
         funct['(loopage)'] += 1;
         advance('(');
@@ -4425,12 +4400,12 @@ loop:   for (;;) {
             expected_condition(this.first, bundle.unexpected_a);
         }
         no_space();
-        step_out(')', t);
+        step_out(')', paren);
         discard();
         one_space();
         this.block = block(true);
         if (this.block.disrupt) {
-            warn(bundle.strange_loop, prevtoken);
+            warn(bundle.strange_loop, prev_token);
         }
         funct['(breakage)'] -= 1;
         funct['(loopage)'] -= 1;
@@ -4448,7 +4423,7 @@ loop:   for (;;) {
 // If all of the arrays of statements are disrupt, then the switch is disrupt.
 
         var particular,
-            the_case = nexttoken,
+            the_case = next_token,
             unbroken = true;
         funct['(breakage)'] += 1;
         one_space();
@@ -4465,8 +4440,8 @@ loop:   for (;;) {
         advance('{');
         step_in();
         this.second = [];
-        while (nexttoken.id === 'case') {
-            the_case = nexttoken;
+        while (next_token.id === 'case') {
+            the_case = next_token;
             the_case.first = [];
             spaces();
             edge('case');
@@ -4481,7 +4456,7 @@ loop:   for (;;) {
                 no_space_only();
                 advance(':');
                 discard();
-                if (nexttoken.id !== 'case') {
+                if (next_token.id !== 'case') {
                     break;
                 }
                 spaces();
@@ -4498,7 +4473,7 @@ loop:   for (;;) {
                         unbroken = false;
                     }
                 } else {
-                    warn(bundle.missing_a_after_b, nexttoken, 'break', 'case');
+                    warn(bundle.missing_a_after_b, next_token, 'break', 'case');
                 }
             } else {
                 warn(bundle.empty_case);
@@ -4506,11 +4481,11 @@ loop:   for (;;) {
             this.second.push(the_case);
         }
         if (this.second.length === 0) {
-            warn(bundle.missing_a, nexttoken, 'case');
+            warn(bundle.missing_a, next_token, 'case');
         }
-        if (nexttoken.id === 'default') {
+        if (next_token.id === 'default') {
             spaces();
-            the_case = nexttoken;
+            the_case = next_token;
             edge('case');
             advance('default');
             discard();
@@ -4548,12 +4523,12 @@ loop:   for (;;) {
         this.arity = 'statement';
         this.block = block(true);
         if (this.block.disrupt) {
-            warn(bundle.strange_loop, prevtoken);
+            warn(bundle.strange_loop, prev_token);
         }
         one_space();
         advance('while');
         discard();
-        var t = nexttoken;
+        var t = next_token;
         one_space();
         advance('(');
         step_in();
@@ -4570,7 +4545,7 @@ loop:   for (;;) {
     });
 
     labeled_stmt('for', function () {
-        var blok, filter, ok = false, paren = nexttoken, the_in, value;
+        var blok, filter, ok = false, paren = next_token, the_in, value;
         this.arity = 'statement';
         funct['(breakage)'] += 1;
         funct['(loopage)'] += 1;
@@ -4579,12 +4554,12 @@ loop:   for (;;) {
         discard();
         spaces(this, paren);
         no_space();
-        if (nexttoken.id === 'var') {
+        if (next_token.id === 'var') {
             fail(bundle.move_var);
         }
         edge();
         if (peek(0).id === 'in') {
-            value = nexttoken;
+            value = next_token;
             switch (funct[value.value]) {
             case 'unused':
                 funct[value.value] = 'var';
@@ -4595,7 +4570,7 @@ loop:   for (;;) {
                 warn(bundle.bad_in_a, value);
             }
             advance();
-            the_in = nexttoken;
+            the_in = next_token;
             advance('in');
             the_in.first = value;
             the_in.second = expression(20);
@@ -4651,19 +4626,19 @@ loop:   for (;;) {
                 }
             }
         } else {
-            if (nexttoken.id !== ';') {
+            if (next_token.id !== ';') {
                 edge();
                 this.first = [];
                 for (;;) {
                     this.first.push(expression(0, 'for'));
-                    if (nexttoken.id !== ',') {
+                    if (next_token.id !== ',') {
                         break;
                     }
                     comma();
                 }
             }
             semicolon();
-            if (nexttoken.id !== ';') {
+            if (next_token.id !== ';') {
                 edge();
                 this.second = expected_relation(expression(0));
                 if (this.second.id !== 'true') {
@@ -4671,15 +4646,15 @@ loop:   for (;;) {
                 }
             }
             semicolon(token);
-            if (nexttoken.id === ';') {
-                fail(bundle.expected_a_b, nexttoken, ')', ';');
+            if (next_token.id === ';') {
+                fail(bundle.expected_a_b, next_token, ')', ';');
             }
-            if (nexttoken.id !== ')') {
+            if (next_token.id !== ')') {
                 this.third = [];
                 edge();
                 for (;;) {
                     this.third.push(expression(0, 'for'));
-                    if (nexttoken.id !== ',') {
+                    if (next_token.id !== ',') {
                         break;
                     }
                     comma();
@@ -4692,7 +4667,7 @@ loop:   for (;;) {
             blok = block(true);
         }
         if (blok.disrupt) {
-            warn(bundle.strange_loop, prevtoken);
+            warn(bundle.strange_loop, prev_token);
         }
         this.block = blok;
         funct['(breakage)'] -= 1;
@@ -4700,62 +4675,58 @@ loop:   for (;;) {
         return this;
     });
 
-
     disrupt_stmt('break', function () {
-        var v = nexttoken.value;
+        var label = next_token.value;
         this.arity = 'statement';
         if (funct['(breakage)'] === 0) {
             warn(bundle.unexpected_a, this);
         }
-        if (nexttoken.identifier && token.line === nexttoken.line) {
+        if (next_token.identifier && token.line === next_token.line) {
             one_space_only();
-            if (funct[v] !== 'label') {
-                warn(bundle.not_a_label, nexttoken);
-            } else if (scope[v] !== funct) {
-                warn(bundle.not_a_scope, nexttoken);
+            if (funct[label] !== 'label') {
+                warn(bundle.not_a_label, next_token);
+            } else if (scope[label] !== funct) {
+                warn(bundle.not_a_scope, next_token);
             }
-            this.first = nexttoken;
+            this.first = next_token;
             advance();
         }
         return this;
     });
-
 
     disrupt_stmt('continue', function () {
         if (!option['continue']) {
             warn(bundle.unexpected_a, this);
         }
-        var v = nexttoken.value;
+        var label = next_token.value;
         this.arity = 'statement';
         if (funct['(breakage)'] === 0) {
             warn(bundle.unexpected_a, this);
         }
-        if (nexttoken.identifier && token.line === nexttoken.line) {
+        if (next_token.identifier && token.line === next_token.line) {
             one_space_only();
-            if (funct[v] !== 'label') {
-                warn(bundle.not_a_label, nexttoken);
-            } else if (scope[v] !== funct) {
-                warn(bundle.not_a_scope, nexttoken);
+            if (funct[label] !== 'label') {
+                warn(bundle.not_a_label, next_token);
+            } else if (scope[label] !== funct) {
+                warn(bundle.not_a_scope, next_token);
             }
-            this.first = nexttoken;
+            this.first = next_token;
             advance();
         }
         return this;
     });
 
-
     disrupt_stmt('return', function () {
         this.arity = 'statement';
-        if (nexttoken.id !== ';' && nexttoken.line === token.line) {
+        if (next_token.id !== ';' && next_token.line === token.line) {
             one_space_only();
-            if (nexttoken.id === '/' || nexttoken.id === '(regexp)') {
+            if (next_token.id === '/' || next_token.id === '(regexp)') {
                 warn(bundle.wrap_regexp);
             }
             this.first = expression(20);
         }
         return this;
     });
-
 
     disrupt_stmt('throw', function () {
         this.arity = 'statement';
@@ -4793,64 +4764,64 @@ loop:   for (;;) {
     function json_value() {
 
         function json_object() {
-            var o = {}, t = nexttoken;
+            var brace = next_token, object = {};
             advance('{');
-            if (nexttoken.id !== '}') {
-                while (nexttoken.id !== '(end)') {
-                    while (nexttoken.id === ',') {
-                        warn(bundle.unexpected_a, nexttoken);
+            if (next_token.id !== '}') {
+                while (next_token.id !== '(end)') {
+                    while (next_token.id === ',') {
+                        warn(bundle.unexpected_a, next_token);
                         comma();
                     }
-                    if (nexttoken.arity !== 'string') {
+                    if (next_token.arity !== 'string') {
                         warn(bundle.expected_string_a);
                     }
-                    if (o[nexttoken.value] === true) {
+                    if (object[next_token.value] === true) {
                         warn(bundle.duplicate_a);
-                    } else if (nexttoken.value === '__proto__') {
+                    } else if (next_token.value === '__proto__') {
                         warn(bundle.dangling_a);
                     } else {
-                        o[nexttoken.value] = true;
+                        object[next_token.value] = true;
                     }
                     advance();
                     advance(':');
                     json_value();
-                    if (nexttoken.id !== ',') {
+                    if (next_token.id !== ',') {
                         break;
                     }
                     comma();
-                    if (nexttoken.id === '}') {
+                    if (next_token.id === '}') {
                         warn(bundle.unexpected_a, token);
                         break;
                     }
                 }
             }
-            advance('}', t);
+            advance('}', brace);
         }
 
         function json_array() {
-            var t = nexttoken;
+            var bracket = next_token;
             advance('[');
-            if (nexttoken.id !== ']') {
-                while (nexttoken.id !== '(end)') {
-                    while (nexttoken.id === ',') {
-                        warn(bundle.unexpected_a, nexttoken);
+            if (next_token.id !== ']') {
+                while (next_token.id !== '(end)') {
+                    while (next_token.id === ',') {
+                        warn(bundle.unexpected_a, next_token);
                         comma();
                     }
                     json_value();
-                    if (nexttoken.id !== ',') {
+                    if (next_token.id !== ',') {
                         break;
                     }
                     comma();
-                    if (nexttoken.id === ']') {
+                    if (next_token.id === ']') {
                         warn(bundle.unexpected_a, token);
                         break;
                     }
                 }
             }
-            advance(']', t);
+            advance(']', bracket);
         }
 
-        switch (nexttoken.id) {
+        switch (next_token.id) {
         case '{':
             json_object();
             break;
@@ -4878,7 +4849,7 @@ loop:   for (;;) {
 // CSS parsing.
 
     function css_name() {
-        if (nexttoken.identifier) {
+        if (next_token.identifier) {
             advance();
             return true;
         }
@@ -4886,11 +4857,11 @@ loop:   for (;;) {
 
 
     function css_number() {
-        if (nexttoken.id === '-') {
+        if (next_token.id === '-') {
             advance('-');
             no_space_only();
         }
-        if (nexttoken.arity === 'number') {
+        if (next_token.arity === 'number') {
             advance('(number)');
             return true;
         }
@@ -4898,7 +4869,7 @@ loop:   for (;;) {
 
 
     function css_string() {
-        if (nexttoken.arity === 'string') {
+        if (next_token.arity === 'string') {
             advance();
             return true;
         }
@@ -4906,23 +4877,23 @@ loop:   for (;;) {
 
     function css_color() {
         var i, number, t, value;
-        if (nexttoken.identifier) {
-            value = nexttoken.value;
+        if (next_token.identifier) {
+            value = next_token.value;
             if (value === 'rgb' || value === 'rgba') {
                 advance();
-                t = nexttoken;
+                t = next_token;
                 advance('(');
                 for (i = 0; i < 3; i += 1) {
                     if (i) {
                         comma();
                     }
-                    number = nexttoken.value;
-                    if (nexttoken.arity !== 'number' || number < 0) {
-                        warn(bundle.expected_positive_a, nexttoken);
+                    number = next_token.value;
+                    if (next_token.arity !== 'number' || number < 0) {
+                        warn(bundle.expected_positive_a, next_token);
                         advance();
                     } else {
                         advance();
-                        if (nexttoken.id === '%') {
+                        if (next_token.id === '%') {
                             advance('%');
                             if (number > 100) {
                                 warn(bundle.expected_percent_a, token, number);
@@ -4936,23 +4907,23 @@ loop:   for (;;) {
                 }
                 if (value === 'rgba') {
                     comma();
-                    number = +nexttoken.value;
-                    if (nexttoken.arity !== 'number' || number < 0 || number > 1) {
-                        warn(bundle.expected_fraction_a, nexttoken);
+                    number = +next_token.value;
+                    if (next_token.arity !== 'number' || number < 0 || number > 1) {
+                        warn(bundle.expected_fraction_a, next_token);
                     }
                     advance();
-                    if (nexttoken.id === '%') {
+                    if (next_token.id === '%') {
                         warn(bundle.unexpected_a);
                         advance('%');
                     }
                 }
                 advance(')', t);
                 return true;
-            } else if (css_colorData[nexttoken.value] === true) {
+            } else if (css_colorData[next_token.value] === true) {
                 advance();
                 return true;
             }
-        } else if (nexttoken.id === '(color)') {
+        } else if (next_token.id === '(color)') {
             advance();
             return true;
         }
@@ -4961,14 +4932,14 @@ loop:   for (;;) {
 
 
     function css_length() {
-        if (nexttoken.id === '-') {
+        if (next_token.id === '-') {
             advance('-');
             no_space_only();
         }
-        if (nexttoken.arity === 'number') {
+        if (next_token.arity === 'number') {
             advance();
-            if (nexttoken.arity !== 'string' &&
-                    css_lengthData[nexttoken.value] === true) {
+            if (next_token.arity !== 'string' &&
+                    css_lengthData[next_token.value] === true) {
                 no_space_only();
                 advance();
             } else if (+token.value !== 0) {
@@ -4981,14 +4952,14 @@ loop:   for (;;) {
 
 
     function css_line_height() {
-        if (nexttoken.id === '-') {
+        if (next_token.id === '-') {
             advance('-');
             no_space_only();
         }
-        if (nexttoken.arity === 'number') {
+        if (next_token.arity === 'number') {
             advance();
-            if (nexttoken.arity !== 'string' &&
-                    css_lengthData[nexttoken.value] === true) {
+            if (next_token.arity !== 'string' &&
+                    css_lengthData[next_token.value] === true) {
                 no_space_only();
                 advance();
             }
@@ -4999,8 +4970,8 @@ loop:   for (;;) {
 
 
     function css_width() {
-        if (nexttoken.identifier) {
-            switch (nexttoken.value) {
+        if (next_token.identifier) {
+            switch (next_token.value) {
             case 'thin':
             case 'medium':
             case 'thick':
@@ -5014,8 +4985,8 @@ loop:   for (;;) {
 
 
     function css_margin() {
-        if (nexttoken.identifier) {
-            if (nexttoken.value === 'auto') {
+        if (next_token.identifier) {
+            if (next_token.value === 'auto') {
                 advance();
                 return true;
             }
@@ -5025,10 +4996,10 @@ loop:   for (;;) {
     }
 
     function css_attr() {
-        if (nexttoken.identifier && nexttoken.value === 'attr') {
+        if (next_token.identifier && next_token.value === 'attr') {
             advance();
             advance('(');
-            if (!nexttoken.identifier) {
+            if (!next_token.identifier) {
                 warn(bundle.expected_name_a);
             }
             advance();
@@ -5040,11 +5011,11 @@ loop:   for (;;) {
 
 
     function css_comma_list() {
-        while (nexttoken.id !== ';') {
+        while (next_token.id !== ';') {
             if (!css_name() && !css_string()) {
                 warn(bundle.expected_name_a);
             }
-            if (nexttoken.id !== ',') {
+            if (next_token.id !== ',') {
                 return true;
             }
             comma();
@@ -5053,13 +5024,13 @@ loop:   for (;;) {
 
 
     function css_counter() {
-        if (nexttoken.identifier && nexttoken.value === 'counter') {
+        if (next_token.identifier && next_token.value === 'counter') {
             advance();
             advance('(');
             advance();
-            if (nexttoken.id === ',') {
+            if (next_token.id === ',') {
                 comma();
-                if (nexttoken.arity !== 'string') {
+                if (next_token.arity !== 'string') {
                     warn(bundle.expected_string_a);
                 }
                 advance();
@@ -5067,23 +5038,23 @@ loop:   for (;;) {
             advance(')');
             return true;
         }
-        if (nexttoken.identifier && nexttoken.value === 'counters') {
+        if (next_token.identifier && next_token.value === 'counters') {
             advance();
             advance('(');
-            if (!nexttoken.identifier) {
+            if (!next_token.identifier) {
                 warn(bundle.expected_name_a);
             }
             advance();
-            if (nexttoken.id === ',') {
+            if (next_token.id === ',') {
                 comma();
-                if (nexttoken.arity !== 'string') {
+                if (next_token.arity !== 'string') {
                     warn(bundle.expected_string_a);
                 }
                 advance();
             }
-            if (nexttoken.id === ',') {
+            if (next_token.id === ',') {
                 comma();
-                if (nexttoken.arity !== 'string') {
+                if (next_token.arity !== 'string') {
                     warn(bundle.expected_string_a);
                 }
                 advance();
@@ -5097,7 +5068,7 @@ loop:   for (;;) {
 
     function css_shape() {
         var i;
-        if (nexttoken.identifier && nexttoken.value === 'rect') {
+        if (next_token.identifier && next_token.value === 'rect') {
             advance();
             advance('(');
             for (i = 0; i < 4; i += 1) {
@@ -5115,9 +5086,9 @@ loop:   for (;;) {
 
     function css_url() {
         var c, url;
-        if (nexttoken.identifier && nexttoken.value === 'url') {
-            nexttoken = lex.range('(', ')');
-            url = nexttoken.value;
+        if (next_token.identifier && next_token.value === 'url') {
+            next_token = lex.range('(', ')');
+            url = next_token.value;
             c = url.charAt(0);
             if (c === '"' || c === '\'') {
                 if (url.slice(-1) !== c) {
@@ -5133,7 +5104,7 @@ loop:   for (;;) {
                 warn(bundle.missing_url);
             }
             if (option.safe && ux.test(url)) {
-                fail(bundle.adsafe_a, nexttoken, url);
+                fail(bundle.adsafe_a, next_token, url);
             }
             urls.push(url);
             advance();
@@ -5145,8 +5116,8 @@ loop:   for (;;) {
 
     css_any = [css_url, function () {
         for (;;) {
-            if (nexttoken.identifier) {
-                switch (nexttoken.value.toLowerCase()) {
+            if (next_token.identifier) {
+                switch (next_token.value.toLowerCase()) {
                 case 'url':
                     css_url();
                     break;
@@ -5158,8 +5129,8 @@ loop:   for (;;) {
                     advance();
                 }
             } else {
-                if (nexttoken.id === ';' || nexttoken.id === '!'  ||
-                        nexttoken.id === '(end)' || nexttoken.id === '}') {
+                if (next_token.id === ';' || next_token.id === '!'  ||
+                        next_token.id === '(end)' || next_token.id === '}') {
                     return true;
                 }
                 advance();
@@ -5367,29 +5338,29 @@ loop:   for (;;) {
 
     function style_attribute() {
         var v;
-        while (nexttoken.id === '*' || nexttoken.id === '#' ||
-                nexttoken.value === '_') {
+        while (next_token.id === '*' || next_token.id === '#' ||
+                next_token.value === '_') {
             if (!option.css) {
                 warn(bundle.unexpected_a);
             }
             advance();
         }
-        if (nexttoken.id === '-') {
+        if (next_token.id === '-') {
             if (!option.css) {
                 warn(bundle.unexpected_a);
             }
             advance('-');
-            if (!nexttoken.identifier) {
+            if (!next_token.identifier) {
                 warn(bundle.expected_nonstandard_style_attribute);
             }
             advance();
             return css_any;
         } else {
-            if (!nexttoken.identifier) {
+            if (!next_token.identifier) {
                 warn(bundle.expected_style_attribute);
             } else {
-                if (Object.prototype.hasOwnProperty.call(css_attribute_data, nexttoken.value)) {
-                    v = css_attribute_data[nexttoken.value];
+                if (Object.prototype.hasOwnProperty.call(css_attribute_data, next_token.value)) {
+                    v = css_attribute_data[next_token.value];
                 } else {
                     v = css_any;
                     if (!option.css) {
@@ -5415,7 +5386,7 @@ loop:   for (;;) {
         case 'function':
             return v();
         case 'string':
-            if (nexttoken.identifier && nexttoken.value === v) {
+            if (next_token.identifier && next_token.value === v) {
                 advance();
                 return true;
             }
@@ -5470,12 +5441,12 @@ loop:   for (;;) {
     }
 
     function style_child() {
-        if (nexttoken.arity === 'number') {
+        if (next_token.arity === 'number') {
             advance();
-            if (nexttoken.value === 'n' && nexttoken.identifier) {
+            if (next_token.value === 'n' && next_token.identifier) {
                 no_space_only();
                 advance();
-                if (nexttoken.id === '+') {
+                if (next_token.id === '+') {
                     no_space_only();
                     advance('+');
                     no_space_only();
@@ -5484,8 +5455,8 @@ loop:   for (;;) {
             }
             return;
         } else {
-            if (nexttoken.identifier &&
-                    (nexttoken.value === 'odd' || nexttoken.value === 'even')) {
+            if (next_token.identifier &&
+                    (next_token.value === 'odd' || next_token.value === 'even')) {
                 advance();
                 return;
             }
@@ -5496,17 +5467,17 @@ loop:   for (;;) {
     function substyle() {
         var v;
         for (;;) {
-            if (nexttoken.id === '}' || nexttoken.id === '(end)' ||
-                    (xquote && nexttoken.id === xquote)) {
+            if (next_token.id === '}' || next_token.id === '(end)' ||
+                    (xquote && next_token.id === xquote)) {
                 return;
             }
-            while (nexttoken.id === ';') {
+            while (next_token.id === ';') {
                 warn(bundle.unexpected_a);
                 semicolon();
             }
             v = style_attribute();
             advance(':');
-            if (nexttoken.identifier && nexttoken.value === 'inherit') {
+            if (next_token.identifier && next_token.value === 'inherit') {
                 advance();
             } else {
                 if (!style_value(v)) {
@@ -5514,18 +5485,18 @@ loop:   for (;;) {
                     advance();
                 }
             }
-            if (nexttoken.id === '!') {
+            if (next_token.id === '!') {
                 advance('!');
                 no_space_only();
-                if (nexttoken.identifier && nexttoken.value === 'important') {
+                if (next_token.identifier && next_token.value === 'important') {
                     advance();
                 } else {
                     warn(bundle.expected_a_b,
-                        nexttoken, 'important', nexttoken.value);
+                        next_token, 'important', next_token.value);
                 }
             }
-            if (nexttoken.id === '}' || nexttoken.id === xquote) {
-                warn(bundle.expected_a_b, nexttoken, ';', nexttoken.value);
+            if (next_token.id === '}' || next_token.id === xquote) {
+                warn(bundle.expected_a_b, next_token, ';', next_token.value);
             } else {
                 semicolon();
             }
@@ -5533,14 +5504,14 @@ loop:   for (;;) {
     }
 
     function style_selector() {
-        if (nexttoken.identifier) {
+        if (next_token.identifier) {
             if (!Object.prototype.hasOwnProperty.call(html_tag, option.cap ?
-                    nexttoken.value.toLowerCase() : nexttoken.value)) {
+                    next_token.value.toLowerCase() : next_token.value)) {
                 warn(bundle.expected_tagname_a);
             }
             advance();
         } else {
-            switch (nexttoken.id) {
+            switch (next_token.id) {
             case '>':
             case '+':
                 advance();
@@ -5548,7 +5519,7 @@ loop:   for (;;) {
                 break;
             case ':':
                 advance(':');
-                switch (nexttoken.value) {
+                switch (next_token.value) {
                 case 'active':
                 case 'after':
                 case 'before':
@@ -5574,7 +5545,7 @@ loop:   for (;;) {
                 case 'lang':
                     advance();
                     advance('(');
-                    if (!nexttoken.identifier) {
+                    if (!next_token.identifier) {
                         warn(bundle.expected_lang_a);
                     }
                     advance(')');
@@ -5591,7 +5562,7 @@ loop:   for (;;) {
                 case 'not':
                     advance();
                     advance('(');
-                    if (nexttoken.id === ':' && peek(0).value === 'not') {
+                    if (next_token.id === ':' && peek(0).value === 'not') {
                         warn(bundle.not);
                     }
                     style_selector();
@@ -5603,7 +5574,7 @@ loop:   for (;;) {
                 break;
             case '#':
                 advance('#');
-                if (!nexttoken.identifier) {
+                if (!next_token.identifier) {
                     warn(bundle.expected_id_a);
                 }
                 advance();
@@ -5613,24 +5584,24 @@ loop:   for (;;) {
                 break;
             case '.':
                 advance('.');
-                if (!nexttoken.identifier) {
+                if (!next_token.identifier) {
                     warn(bundle.expected_class_a);
                 }
                 advance();
                 break;
             case '[':
                 advance('[');
-                if (!nexttoken.identifier) {
+                if (!next_token.identifier) {
                     warn(bundle.expected_attribute_a);
                 }
                 advance();
-                if (nexttoken.id === '=' || nexttoken.value === '~=' ||
-                        nexttoken.value === '$=' ||
-                        nexttoken.value === '|=' ||
-                        nexttoken.id === '*=' ||
-                        nexttoken.id === '^=') {
+                if (next_token.id === '=' || next_token.value === '~=' ||
+                        next_token.value === '$=' ||
+                        next_token.value === '|=' ||
+                        next_token.id === '*=' ||
+                        next_token.id === '^=') {
                     advance();
-                    if (nexttoken.arity !== 'string') {
+                    if (next_token.arity !== 'string') {
                         warn(bundle.expected_string_a);
                     }
                     advance();
@@ -5644,26 +5615,26 @@ loop:   for (;;) {
     }
 
     function style_pattern() {
-        if (nexttoken.id === '{') {
+        if (next_token.id === '{') {
             warn(bundle.expected_style_pattern);
         }
         for (;;) {
             style_selector();
-            if (nexttoken.id === '</' || nexttoken.id === '{' ||
-                    nexttoken.id === '(end)') {
+            if (next_token.id === '</' || next_token.id === '{' ||
+                    next_token.id === '(end)') {
                 return '';
             }
-            if (nexttoken.id === ',') {
+            if (next_token.id === ',') {
                 comma();
             }
         }
     }
 
     function style_list() {
-        while (nexttoken.id !== '</' && nexttoken.id !== '(end)') {
+        while (next_token.id !== '</' && next_token.id !== '(end)') {
             style_pattern();
             xmode = 'styleproperty';
-            if (nexttoken.id === ';') {
+            if (next_token.id === ';') {
                 semicolon();
             } else {
                 advance('{');
@@ -5676,16 +5647,16 @@ loop:   for (;;) {
 
     function styles() {
         var i;
-        while (nexttoken.id === '@') {
+        while (next_token.id === '@') {
             i = peek();
             advance('@');
-            if (nexttoken.identifier) {
-                switch (nexttoken.value) {
+            if (next_token.identifier) {
+                switch (next_token.value) {
                 case 'import':
                     advance();
                     if (!css_url()) {
                         warn(bundle.expected_a_b,
-                            nexttoken, 'url', nexttoken.value);
+                            next_token, 'url', next_token.value);
                         advance();
                     }
                     semicolon();
@@ -5693,11 +5664,11 @@ loop:   for (;;) {
                 case 'media':
                     advance();
                     for (;;) {
-                        if (!nexttoken.identifier || css_media[nexttoken.value] === true) {
+                        if (!next_token.identifier || css_media[next_token.value] === true) {
                             fail(bundle.expected_media_a);
                         }
                         advance();
-                        if (nexttoken.id !== ',') {
+                        if (next_token.id !== ',') {
                             break;
                         }
                         comma();
@@ -5748,14 +5719,14 @@ loop:   for (;;) {
         if (a === 'id') {
             u = typeof v === 'string' ? v.toUpperCase() : '';
             if (ids[u] === true) {
-                warn(bundle.duplicate_a, nexttoken, v);
+                warn(bundle.duplicate_a, next_token, v);
             }
             if (!/^[A-Za-z][A-Za-z0-9._:\-]*$/.test(v)) {
-                warn(bundle.bad_id_a, nexttoken, v);
+                warn(bundle.bad_id_a, next_token, v);
             } else if (option.adsafe) {
                 if (adsafe_id) {
                     if (v.slice(0, adsafe_id.length) !== adsafe_id) {
-                        warn(bundle.adsafe_prefix_a, nexttoken, adsafe_id);
+                        warn(bundle.adsafe_prefix_a, next_token, adsafe_id);
                     } else if (!/^[A-Z]+_[A-Z]+$/.test(v)) {
                         warn(bundle.adsafe_bad_id);
                     }
@@ -5781,14 +5752,14 @@ loop:   for (;;) {
                 a === 'content' || a === 'data' ||
                 a.indexOf('src') >= 0 || a.indexOf('url') >= 0) {
             if (option.safe && ux.test(v)) {
-                fail(bundle.bad_url, nexttoken, v);
+                fail(bundle.bad_url, next_token, v);
             }
             urls.push(v);
         } else if (a === 'for') {
             if (option.adsafe) {
                 if (adsafe_id) {
                     if (v.slice(0, adsafe_id.length) !== adsafe_id) {
-                        warn(bundle.adsafe_prefix_a, nexttoken, adsafe_id);
+                        warn(bundle.adsafe_prefix_a, next_token, adsafe_id);
                     } else if (!/^[A-Z]+_[A-Z]+$/.test(v)) {
                         warn(bundle.adsafe_bad_id);
                     }
@@ -5798,7 +5769,7 @@ loop:   for (;;) {
             }
         } else if (a === 'name') {
             if (option.adsafe && v.indexOf('_') >= 0) {
-                warn(bundle.adsafe_name_a, nexttoken, v);
+                warn(bundle.adsafe_name_a, next_token, v);
             }
         }
     }
@@ -5809,7 +5780,7 @@ loop:   for (;;) {
         if (!t) {
             fail(
                 bundle.unrecognized_tag_a,
-                nexttoken,
+                next_token,
                 n === n.toLowerCase() ? n : n + ' (capitalization error)'
             );
         }
@@ -5855,7 +5826,7 @@ loop:   for (;;) {
                     warn(bundle.type, token);
                 }
             } else {
-                step_in(nexttoken.from);
+                step_in(next_token.from);
                 edge();
                 use_strict();
                 adsafe_top = true;
@@ -5877,7 +5848,7 @@ loop:   for (;;) {
                     switch (script[0].first.second.value) {
                     case 'id':
                         if (adsafe_may || script[0].second.length !== 1) {
-                            fail(bundle.adsafe_id, nexttoken);
+                            fail(bundle.adsafe_id, next_token);
                         }
                         adsafe_may = true;
                         break;
@@ -5890,7 +5861,7 @@ loop:   for (;;) {
                                 script[0].second[1].first.length !== 2 ||
                                 aint(script[0].second[1].first[0], 'value', 'dom') ||
                                 aint(script[0].second[1].first[1], 'value', 'lib')) {
-                            fail(bundle.adsafe_go, nexttoken);
+                            fail(bundle.adsafe_go, next_token);
                         }
                         adsafe_went = true;
                         break;
@@ -5902,8 +5873,8 @@ loop:   for (;;) {
             }
             xmode = 'html';
             advance('</');
-            if (!nexttoken.identifier && nexttoken.value !== 'script') {
-                warn(bundle.expected_a_b, nexttoken, 'script', nexttoken.value);
+            if (!next_token.identifier && next_token.value !== 'script') {
+                warn(bundle.expected_a_b, next_token, 'script', next_token.value);
             }
             advance();
             xmode = 'outer';
@@ -5914,8 +5885,8 @@ loop:   for (;;) {
             styles();
             xmode = 'html';
             advance('</');
-            if (!nexttoken.identifier && nexttoken.value !== 'style') {
-                warn(bundle.expected_a_b, nexttoken, 'style', nexttoken.value);
+            if (!next_token.identifier && next_token.value !== 'style') {
+                warn(bundle.expected_a_b, next_token, 'style', next_token.value);
             }
             advance();
             xmode = 'outer';
@@ -5954,7 +5925,7 @@ loop:   for (;;) {
         case 'object':
         case 'param':
             if (option.adsafe) {
-                warn(bundle.adsafe_tag, nexttoken, n);
+                warn(bundle.adsafe_tag, next_token, n);
             }
             break;
         }
@@ -5971,12 +5942,12 @@ loop:   for (;;) {
         xquote = '';
         stack = null;
         for (;;) {
-            switch (nexttoken.value) {
+            switch (next_token.value) {
             case '<':
                 xmode = 'html';
                 advance('<');
                 attributes = {};
-                t = nexttoken;
+                t = next_token;
                 if (!t.identifier) {
                     warn(bundle.bad_name_a, t);
                 }
@@ -5997,25 +5968,25 @@ loop:   for (;;) {
                 e = v.empty;
                 t.type = n;
                 for (;;) {
-                    if (nexttoken.id === '/') {
+                    if (next_token.id === '/') {
                         advance('/');
-                        if (nexttoken.id !== '>') {
-                            warn(bundle.expected_a_b, nexttoken, '>', nexttoken.value);
+                        if (next_token.id !== '>') {
+                            warn(bundle.expected_a_b, next_token, '>', next_token.value);
                         }
                         break;
                     }
-                    if (nexttoken.id && nexttoken.id.substr(0, 1) === '>') {
+                    if (next_token.id && next_token.id.substr(0, 1) === '>') {
                         break;
                     }
-                    if (!nexttoken.identifier) {
-                        if (nexttoken.id === '(end)' || nexttoken.id === '(error)') {
-                            warn(bundle.expected_a_b, nexttoken, '>', nexttoken.value);
+                    if (!next_token.identifier) {
+                        if (next_token.id === '(end)' || next_token.id === '(error)') {
+                            warn(bundle.expected_a_b, next_token, '>', next_token.value);
                         }
                         warn(bundle.bad_name_a);
                     }
                     option.white = true;
                     spaces();
-                    a = nexttoken.value;
+                    a = next_token.value;
                     option.white = w;
                     advance();
                     if (!option.cap && a !== a.toLowerCase()) {
@@ -6032,9 +6003,9 @@ loop:   for (;;) {
                         }
                         xmode = 'scriptstring';
                         advance('=');
-                        q = nexttoken.id;
+                        q = next_token.id;
                         if (q !== '"' && q !== '\'') {
-                            fail(bundle.expected_a_b, nexttoken, '"', nexttoken.value);
+                            fail(bundle.expected_a_b, next_token, '"', next_token.value);
                         }
                         xquote = q;
                         wmode = option.white;
@@ -6043,8 +6014,8 @@ loop:   for (;;) {
                         use_strict();
                         statements();
                         option.white = wmode;
-                        if (nexttoken.id !== q) {
-                            fail(bundle.expected_a_b, nexttoken, q, nexttoken.value);
+                        if (next_token.id !== q) {
+                            fail(bundle.expected_a_b, next_token, q, next_token.value);
                         }
                         xmode = 'html';
                         xquote = '';
@@ -6053,9 +6024,9 @@ loop:   for (;;) {
                     } else if (a === 'style') {
                         xmode = 'scriptstring';
                         advance('=');
-                        q = nexttoken.id;
+                        q = next_token.id;
                         if (q !== '"' && q !== '\'') {
-                            fail(bundle.expected_a_b, nexttoken, '"', nexttoken.value);
+                            fail(bundle.expected_a_b, next_token, '"', next_token.value);
                         }
                         xmode = 'styleproperty';
                         xquote = q;
@@ -6066,15 +6037,15 @@ loop:   for (;;) {
                         advance(q);
                         v = false;
                     } else {
-                        if (nexttoken.id === '=') {
+                        if (next_token.id === '=') {
                             advance('=');
-                            v = nexttoken.value;
-                            if (!nexttoken.identifier &&
-                                    nexttoken.id !== '"' &&
-                                    nexttoken.id !== '\'' &&
-                                    nexttoken.arity !== 'string' &&
-                                    nexttoken.arity !== 'number' &&
-                                    nexttoken.id !== '(color)') {
+                            v = next_token.value;
+                            if (!next_token.identifier &&
+                                    next_token.id !== '"' &&
+                                    next_token.id !== '\'' &&
+                                    next_token.arity !== 'string' &&
+                                    next_token.arity !== 'number' &&
+                                    next_token.id !== '(color)') {
                                 warn(bundle.expected_attribute_value_a, token, a);
                             }
                             advance();
@@ -6095,27 +6066,27 @@ loop:   for (;;) {
             case '</':
                 xmode = 'html';
                 advance('</');
-                if (!nexttoken.identifier) {
+                if (!next_token.identifier) {
                     warn(bundle.bad_name_a);
                 }
-                n = nexttoken.value;
+                n = next_token.value;
                 if (option.cap) {
                     n = n.toLowerCase();
                 }
                 advance();
                 if (!stack) {
-                    fail(bundle.unexpected_a, nexttoken, closetag(n));
+                    fail(bundle.unexpected_a, next_token, closetag(n));
                 }
                 t = stack.pop();
                 if (!t) {
-                    fail(bundle.unexpected_a, nexttoken, closetag(n));
+                    fail(bundle.unexpected_a, next_token, closetag(n));
                 }
                 if (t.name !== n) {
                     fail(bundle.expected_a_b,
-                        nexttoken, closetag(t.name), closetag(n));
+                        next_token, closetag(t.name), closetag(n));
                 }
-                if (nexttoken.id !== '>') {
-                    fail(bundle.expected_a_b, nexttoken, '>', nexttoken.value);
+                if (next_token.id !== '>') {
+                    fail(bundle.expected_a_b, next_token, '>', next_token.value);
                 }
                 xmode = 'outer';
                 advance('>');
@@ -6127,17 +6098,17 @@ loop:   for (;;) {
                 xmode = 'html';
                 for (;;) {
                     advance();
-                    if (nexttoken.id === '>' || nexttoken.id === '(end)') {
+                    if (next_token.id === '>' || next_token.id === '(end)') {
                         break;
                     }
-                    if (nexttoken.value.indexOf('--') >= 0) {
-                        fail(bundle.unexpected_a, nexttoken, '--');
+                    if (next_token.value.indexOf('--') >= 0) {
+                        fail(bundle.unexpected_a, next_token, '--');
                     }
-                    if (nexttoken.value.indexOf('<') >= 0) {
-                        fail(bundle.unexpected_a, nexttoken, '<');
+                    if (next_token.value.indexOf('<') >= 0) {
+                        fail(bundle.unexpected_a, next_token, '<');
                     }
-                    if (nexttoken.value.indexOf('>') >= 0) {
-                        fail(bundle.unexpected_a, nexttoken, '>');
+                    if (next_token.value.indexOf('>') >= 0) {
+                        fail(bundle.unexpected_a, next_token, '>');
                     }
                 }
                 xmode = 'outer';
@@ -6146,19 +6117,19 @@ loop:   for (;;) {
             case '(end)':
                 return;
             default:
-                if (nexttoken.id === '(end)') {
-                    fail(bundle.missing_a, nexttoken,
+                if (next_token.id === '(end)') {
+                    fail(bundle.missing_a, next_token,
                         '</' + stack[stack.length - 1].value + '>');
                 } else {
                     advance();
                 }
             }
             if (stack && stack.length === 0 && (option.adsafe ||
-                    !option.fragment || nexttoken.id === '(end)')) {
+                    !option.fragment || next_token.id === '(end)')) {
                 break;
             }
         }
-        if (nexttoken.id !== '(end)') {
+        if (next_token.id !== '(end)') {
             fail(bundle.unexpected_a);
         }
     }
@@ -6168,8 +6139,11 @@ loop:   for (;;) {
 
     var itself = function (the_source, the_option) {
         var i, keys, predef;
+        JSLINT.comments = [];
         JSLINT.errors = [];
         JSLINT.tree = '';
+        begin = older_token = prev_token = token = next_token =
+            Object.create(syntax['(begin)']);
         predefined = Object.create(standard);
         if (the_option) {
             option = Object.create(the_option);
@@ -6264,20 +6238,19 @@ loop:   for (;;) {
         xmode = false;
         lex.init(the_source);
 
-        prevtoken = token = nexttoken = syntax['(begin)'];
         assume();
 
         try {
             advance();
-            if (nexttoken.arity === 'number') {
+            if (next_token.arity === 'number') {
                 fail(bundle.unexpected_a);
-            } else if (nexttoken.value.charAt(0) === '<') {
+            } else if (next_token.value.charAt(0) === '<') {
                 html();
                 if (option.adsafe && !adsafe_went) {
                     warn(bundle.adsafe_go, this);
                 }
             } else {
-                switch (nexttoken.id) {
+                switch (next_token.id) {
                 case '{':
                 case '[':
                     json_mode = true;
@@ -6290,14 +6263,14 @@ loop:   for (;;) {
                 case ':':
                     xmode = 'style';
                     advance();
-                    if (token.id !== '@' || !nexttoken.identifier ||
-                            nexttoken.value !== 'charset' || token.line !== 1 ||
+                    if (token.id !== '@' || !next_token.identifier ||
+                            next_token.value !== 'charset' || token.line !== 1 ||
                             token.from !== 1) {
                         fail(bundle.css);
                     }
                     advance();
-                    if (nexttoken.arity !== 'string' &&
-                            nexttoken.value !== 'UTF-8') {
+                    if (next_token.arity !== 'string' &&
+                            next_token.value !== 'UTF-8') {
                         fail(bundle.css);
                     }
                     advance();
@@ -6308,7 +6281,7 @@ loop:   for (;;) {
                 default:
                     if (option.adsafe && option.fragment) {
                         fail(bundle.expected_a_b,
-                            nexttoken, '<div>', nexttoken.value);
+                            next_token, '<div>', next_token.value);
                     }
 
 // If the first token is predef semicolon, ignore it. This is sometimes used when
@@ -6316,15 +6289,16 @@ loop:   for (;;) {
 // file may be depending on semicolon insertion on its last line.
 
                     step_in(1);
-                    if (nexttoken.id === ';') {
+                    if (next_token.id === ';') {
                         semicolon();
                     }
-                    if (nexttoken.value === 'use strict') {
+                    if (next_token.value === 'use strict') {
                         warn(bundle.function_strict);
                         use_strict();
                     }
                     adsafe_top = true;
-                    JSLINT.tree = statements();
+                    begin.first = statements();
+                    JSLINT.tree = begin;
                     if (option.adsafe && (JSLINT.tree.length !== 1 ||
                             aint(JSLINT.tree[0], 'id', '(') ||
                             aint(JSLINT.tree[0].first, 'id', '.') ||
@@ -6336,7 +6310,7 @@ loop:   for (;;) {
                         fail(bundle.adsafe_lib);
                     }
                     if (JSLINT.tree.disrupt) {
-                        warn(bundle.weird_program, prevtoken);
+                        warn(bundle.weird_program, prev_token);
                     }
                 }
             }
@@ -6346,8 +6320,8 @@ loop:   for (;;) {
             if (e) {        // `~
                 JSLINT.errors.push({
                     reason    : e.message,
-                    line      : e.line || nexttoken.line,
-                    character : e.character || nexttoken.from
+                    line      : e.line || next_token.line,
+                    character : e.character || next_token.from
                 }, null);
             }
         }
@@ -6589,7 +6563,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2011-03-05';
+    itself.edition = '2011-03-13';
 
     return itself;
 
