@@ -71,10 +71,10 @@
 				<copy file="../javascript/frameworks/dojo/dojo-1.6.0.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
 				<qunit description="piwik.js + dojo 1.6.0" />
 
-				<copy file="../javascript/frameworks/ext/ext-2.3.0.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<copy file="../javascript/frameworks/extjs/ext-2.3.0.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
 				<qunit description="piwik.js + extjs 2.3.0" />
 
-				<copy file="../javascript/frameworks/ext/ext-3.3.1.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<copy file="../javascript/frameworks/extjs/ext-3.3.1.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
 				<qunit description="piwik.js + extjs 3.3.1" />
 
 				<copy file="../javascript/frameworks/jquery/jquery-1.0.4.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
