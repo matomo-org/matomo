@@ -33,7 +33,7 @@
 							<verifyXPath description="check for result" xpath="//span[@class='failed']" />
 						</retry>
 
-						<ifStep description="are we in a frame?" />
+						<ifStep description="are we in a frame?">
 							<condition>
 								<not>
 									<verifyTitle description="check the title is parsed correctly" text="piwik.js: Unit Tests" />
