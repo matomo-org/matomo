@@ -40,7 +40,7 @@
 								</not>
 							</condition>
 							<then>
-								<previousResponse />
+								<selectWindow index="0" />
 							</then>
 						</ifStep>
 
