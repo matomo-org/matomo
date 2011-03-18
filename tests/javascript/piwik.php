@@ -59,7 +59,7 @@ if (isset($_GET['requests'])) {
 		$ip = $_SERVER['REMOTE_ADDR'];
 		$ts = $_SERVER['REQUEST_TIME'];
 
-		$uri = $_SERVER['REQUEST_URI'];
+		$uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
 		if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$uri .= '?' . file_get_contents('php://input');
 		}
