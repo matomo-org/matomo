@@ -14,11 +14,6 @@ function getToken() {
 	return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
 }
 <?php
-$webtest = false;
-if (file_exists("broken_webtest")) {
-	$webtest = true;
-}
-
 $sqlite = false;
 if (file_exists("enable_sqlite")) {
 	if (extension_loaded('sqlite')) {
@@ -661,7 +656,7 @@ if ($sqlite) {
 	});
 
 	test("tracking", function() {
-		expect(' . ($webtest ? '40' : '44') . ');
+		expect(44);
 
 		/*
 		 * Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
@@ -713,10 +708,7 @@ if ($sqlite) {
 		tracker.trackGoal(42, 69, { "token" : getToken(), "boy" : "Michael", "girl" : "Mandy"});
 
 		piwik_log("CompatibilityLayer", 1, "piwik.php", { "token" : getToken() });
-	';
 
-	if (!$webtest) {
-		echo '
 		tracker.hook.test._addEventListener(_e("click8"), "click", stopEvent);
 		QUnit.triggerEvent( _e("click8"), "click" );
 
@@ -728,10 +720,7 @@ if ($sqlite) {
 			tracker.hook.test._addEventListener(_e(buttons[i]), "click", stopEvent);
 			QUnit.triggerEvent( _e(buttons[i]), "click" );
 		}
-		';
-	}
 
-	echo '
 		var xhr = window.XMLHttpRequest ? new window.XMLHttpRequest() :
 			window.ActiveXObject ? new ActiveXObject("Microsoft.XMLHTTP") :
 			null;
@@ -805,7 +794,7 @@ if ($sqlite) {
 			xhr.send(null);
 			results = xhr.responseText;
 
-			equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "' . ($webtest ? '13' : '17') . '", "count tracking events" );
+			equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "17", "count tracking events" );
 
 			// tracking requests
 			ok( /PiwikTest/.test( results ), "trackPageView(), setDocumentTitle()" );
@@ -816,18 +805,12 @@ if ($sqlite) {
 			ok( /example.fr/.test( results ), "async trackLink()" );
 			ok( /example.de/.test( results ), "push function" );
 			ok( /example.us/.test( results ), "addListener()" );
-	';
 
-	if (!$webtest) {
-		echo '
 			ok( /example.net/.test( results ), "setRequestMethod(GET), click: implicit outlink (by outbound URL)" );
 			ok( /example.html/.test( results ), "click: explicit outlink" );
 			ok( /example.pdf/.test( results ), "click: implicit download (by file extension)" );
 			ok( /example.word/.test( results ), "click: explicit download" );
-		';
-	}
 
-	echo '
 			ok( ! /example.exe/.test( results ), "enableLinkTracking()" );
 			ok( ! /example.php/.test( results ), "click: ignored example.php" );
 			ok( ! /example.org/.test( results ), "click: ignored example.org" );
