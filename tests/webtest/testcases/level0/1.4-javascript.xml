@@ -88,14 +88,16 @@
 				</macrodef>
 
 				<!--
-					(subset of ) tracking tests are disabled because WebTest
-					loads the iframe and changes the current response
-					changes the "current" response
+					tracking tests are disabled in WebTest
 
-					@see http://webtest-community.canoo.com/jira/browse/WT-428
+					1) when loading the iframe (click handler), it changes
+						the "current" response to the iframe
+
+						@see http://webtest-community.canoo.com/jira/browse/WT-428
+
+					2) GET requests for the web bug/beacon/pixel are ignored
 				-->
-				<touch file="../javascript/enable_sqlite" />
-				<touch file="../javascript/broken_webtest" />
+				<!-- touch file="../javascript/enable_sqlite" / -->
 
 				<delete file="../javascript/stub.tpl" quiet="true" />
 				<qunit description="piwik.js standalone" />
