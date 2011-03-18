@@ -25,6 +25,7 @@
 							step.context.webClient.cache.clear()
 						</groovy>
 
+						<followFrame description="stay in this frame" name="_top" />
 						<invoke description="get unit test" url="/tests/javascript/" />
 						<verifyTitle description="check the title is parsed correctly" text="piwik.js: Unit Tests" />
 

@@ -682,7 +682,7 @@ if ($sqlite) {
 
 		tracker.setCustomData({ "token" : getToken() });
 		var data = tracker.getCustomData();
-		ok( getToken() != "" && data.token == data["token"] && data.token == getToken(), "setCustomdData() , getCustomData()" );
+		ok( getToken() != "" && data.token == data["token"] && data.token == getToken(), "setCustomData() , getCustomData()" );
 
 		tracker.setDocumentTitle("PiwikTest");
 		tracker.setReferrerUrl("http://referrer.example.com");
