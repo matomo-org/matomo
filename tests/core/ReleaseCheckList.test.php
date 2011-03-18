@@ -200,4 +200,18 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 			$this->assertTrue(strpos($contents, '$Id') === false, $file);
 		}
 	}
+
+	function test_piwikJavaScript()
+	{
+		// check source against Snort rule 8443
+		// @see http://dev.piwik.org/trac/ticket/2203
+		$pattern = '/\x5b\x5c{2}.*\x5c{2}[\x22\x27]/';
+		$contents = file_get_contents( PIWIK_DOCUMENT_ROOT . '/js/piwik.js' );
+
+		$this->assertTrue( preg_match($pattern, $contents) == 0 );
+
+		$contents = file_get_contents( PIWIK_DOCUMENT_ROOT . '/piwik.js' );
+		$this->assertTrue( preg_match($pattern, $contents) == 0 );
+
+	}
 }
