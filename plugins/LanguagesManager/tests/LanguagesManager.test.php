@@ -121,7 +121,7 @@ class Test_Languages_Manager extends UnitTestCase
 				}
 				else
 				{
-					$tstr .= "\t'".$key."' => \"".addclashes($value,'"$').'",'.PHP_EOL;
+					$tstr .= "\t'".$key."' => \"".addcslashes($value,'"$').'",'.PHP_EOL;
 				}
 			}
 		}
