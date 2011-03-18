@@ -33,18 +33,6 @@
 							<verifyXPath description="check for result" xpath="//span[@class='failed']" />
 						</retry>
 
-						<ifStep description="are we in a frame?">
-							<condition>
-								<not>
-									<verifyTitle description="check the title is parsed correctly" text="piwik.js: Unit Tests" />
-								</not>
-							</condition>
-							<then>
-								<sleep description="pause" seconds="3" />
-								<selectWindow index="0" />
-							</then>
-						</ifStep>
-
 						<verifyXPath description="check for not failed" xpath="//span[@class='failed']" text="@{expectedFail}" />
 						<not description="check for at least 1 pass">
 							<verifyXPath description="check for success" xpath="//span[@class='passed']" text="0" />
@@ -100,11 +88,14 @@
 				</macrodef>
 
 				<!--
-					tracking tests are disabled because after WebTest handles
-					the triggered click event, it then loads the href and
+					(subset of ) tracking tests are disabled because WebTest
+					loads the iframe and changes the current response
 					changes the "current" response
+
+					@see http://webtest-community.canoo.com/jira/browse/WT-428
 				-->
 				<touch file="../javascript/enable_sqlite" />
+				<touch file="../javascript/broken_webtest" />
 
 				<delete file="../javascript/stub.tpl" quiet="true" />
 				<qunit description="piwik.js standalone" />
