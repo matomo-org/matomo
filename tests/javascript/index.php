@@ -5,8 +5,8 @@
  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
  <title>piwik.js: Unit Tests</title>
 <?php
-if(file_exists("test_compatibility.js")) {
-	echo "<script src=\"test_compatibility.js\" type=\"text/javascript\"></script>\n";
+if(file_exists("stub.tpl")) {
+	echo file_get_contents("stub.tpl");
 }
 ?>
  <script type="text/javascript">

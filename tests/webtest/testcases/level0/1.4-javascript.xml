@@ -33,10 +33,68 @@
 							<verifyXPath description="check for result" xpath="//span[@class='failed']" />
 						</retry>
 
+						<ifStep description="are we in a frame?" />
+							<condition>
+								<not>
+									<verifyTitle description="check the title is parsed correctly" text="piwik.js: Unit Tests" />
+								</not>
+							</condition>
+							<then>
+								<previousResponse />
+							</then>
+						</ifStep>
+
 						<verifyXPath description="check for not failed" xpath="//span[@class='failed']" text="@{expectedFail}" />
 						<not description="check for at least 1 pass">
 							<verifyXPath description="check for success" xpath="//span[@class='passed']" text="0" />
 						</not>
+					</sequential>
+				</macrodef>
+
+				<macrodef name="genstub" description="generate stub.tpl">
+					<attribute name="path" />
+					<sequential>
+						<echo file="../javascript/stub.tpl">
+&lt;script src="frameworks/@{path}" type="text/javascript"&gt;&lt;/script&gt;
+						</echo>
+					</sequential>
+				</macrodef>
+
+				<macrodef name="genstub2" description="generate stub.tpl">
+					<attribute name="path" />
+					<attribute name="path2" />
+					<sequential>
+						<echo file="../javascript/stub.tpl">
+&lt;script src="frameworks/@{path}" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script src="frameworks/@{path2}" type="text/javascript"&gt;&lt;/script&gt;
+						</echo>
+					</sequential>
+				</macrodef>
+
+				<macrodef name="googlestub" description="generate stub.tpl">
+					<attribute name="lib" />
+					<attribute name="version" default="1" />
+					<sequential>
+						<ifStep description="is google api key defined?">
+							<condition>
+								<not>
+									<verifyProperty name="${google.apikey}" value="" propertyType="ant" />
+								</not>
+							</condition>
+							<then>
+								<echo file="../javascript/stub.tpl">
+&lt;script src="https://www.google.com/jsapi?key=${google.apikey}" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+	google.load("@{lib}", "@{version}");
+&lt;/script&gt;
+								</echo>
+							</then>
+							<else>
+								<echo>Google API key not defined; unable to load @{lib}, version @{version}</echo>
+								<delete file="../javascript/stub.tpl" quiet="true" />
+							</else>
+						</ifStep>
+
 					</sequential>
 				</macrodef>
 
@@ -45,72 +103,98 @@
 					the triggered click event, it then loads the href and
 					changes the "current" response
 				-->
-				<!-- touch file="../javascript/enable_sqlite" / -->
+				<touch file="../javascript/enable_sqlite" />
 
-				<delete file="../javascript/test_compatibility.js" quiet="true" />
+				<delete file="../javascript/stub.tpl" quiet="true" />
 				<qunit description="piwik.js standalone" />
 
-				<copy file="../javascript/frameworks/dojo/dojo-1.0.3.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<genstub path="dojo/dojo-1.0.3.js" />
 				<qunit description="piwik.js + dojo 1.0.3" />
 
-				<copy file="../javascript/frameworks/dojo/dojo-1.1.2.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<genstub path="dojo/dojo-1.1.2.js" />
 				<qunit description="piwik.js + dojo 1.1.2" />
 
-				<copy file="../javascript/frameworks/dojo/dojo-1.2.4.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<genstub path="dojo/dojo-1.2.4.js" />
 				<qunit description="piwik.js + dojo 1.2.4" />
 
-				<copy file="../javascript/frameworks/dojo/dojo-1.3.3.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<genstub path="dojo/dojo-1.3.3.js" />
 				<qunit description="piwik.js + dojo 1.3.3" />
 
-				<copy file="../javascript/frameworks/dojo/dojo-1.4.3.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<genstub path="dojo/dojo-1.4.3.js" />
 				<qunit description="piwik.js + dojo 1.4.3" />
 
-				<copy file="../javascript/frameworks/dojo/dojo-1.5.0.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<genstub path="dojo/dojo-1.5.0.js" />
 				<qunit description="piwik.js + dojo 1.5.0" />
 
-				<copy file="../javascript/frameworks/dojo/dojo-1.6.0.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<genstub path="dojo/dojo-1.6.0.js" />
 				<qunit description="piwik.js + dojo 1.6.0" />
 
+				<googlestub lib="dojo" version="1" />
+				<qunit description="piwik.js + dojo 1.x" />
+
 				<!--
-				<copy file="../javascript/frameworks/extjs/ext-2.3.0.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<genstub2 path="ext/ext-base-2.3.0.js" path2="ext/extjs-2.3.0.js" />
 				<qunit description="piwik.js + extjs 2.3.0" />
 
-				<copy file="../javascript/frameworks/extjs/ext-3.3.1.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<genstub2 path="ext/ext-base-3.3.1.js" path2="ext/extjs-3.3.1.js" />
 				<qunit description="piwik.js + extjs 3.3.1" />
 				-->
 
-				<copy file="../javascript/frameworks/jquery/jquery-1.0.4.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<!--
+				<genstub path="ext/ext-core-3.0.0.js" />
+				<qunit description="piwik.js + ext-core 3.0.0" />
+
+				<genstub path="ext/ext-core-3.1.0.js" />
+				<qunit description="piwik.js + ext-core 3.1.0" />
+
+				<googlestub lib="ext-core" version="3" />
+				<qunit description="piwik.js + ext-core 3.x" />
+				-->
+
+				<genstub2 path="jquery/jquery-1.0.4.js" path2="jquery/jquery.json-2.2.js" />
 				<qunit description="piwik.js + jquery 1.0.4" />
 
-				<copy file="../javascript/frameworks/jquery/jquery-1.1.4.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<genstub2 path="jquery/jquery-1.1.4.js" path2="jquery/jquery.json-2.2.js" />
 				<qunit description="piwik.js + jquery 1.1.4" />
 
-				<copy file="../javascript/frameworks/jquery/jquery-1.2.6.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<genstub2 path="jquery/jquery-1.2.6.js" path2="jquery/jquery.json-2.2.js" />
 				<qunit description="piwik.js + jquery 1.2.6" />
 
-				<copy file="../javascript/frameworks/jquery/jquery-1.3.2.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<genstub2 path="jquery/jquery-1.3.2.js" path2="jquery/jquery.json-2.2.js" />
 				<qunit description="piwik.js + jquery 1.3.2" />
 
-				<copy file="../javascript/frameworks/jquery/jquery-1.4.4.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<genstub2 path="jquery/jquery-1.4.4.js" path2="jquery/jquery.json-2.2.js" />
 				<qunit description="piwik.js + jquery 1.4.4" />
 
-				<copy file="../javascript/frameworks/jquery/jquery-1.5.1.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<genstub2 path="jquery/jquery-1.5.1.js" path2="jquery/jquery.json-2.2.js" />
 				<qunit description="piwik.js + jquery 1.5.1" />
 
-				<copy file="../javascript/frameworks/mootools/mootools-1.2.5.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<genstub path="mootools/mootools-1.1.2.js" />
+				<qunit description="piwik.js + mootools 1.1.2" />
+
+				<genstub path="mootools/mootools-1.2.5.js" />
 				<qunit description="piwik.js + mootools 1.2.5" />
 
-				<copy file="../javascript/frameworks/mootools/mootools-1.3.1.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<genstub path="mootools/mootools-1.3.1.js" />
 				<qunit description="piwik.js + mootools 1.3.1" />
 
-				<copy file="../javascript/frameworks/prototype/prototype-1.5.0.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<googlestub lib="mootools" version="1.3" />
+				<qunit description="piwik.js + mootools 1.3.x" />
+
+				<genstub path="prototype/prototype-1.5.0.js" />
 				<qunit description="piwik.js + prototype 1.5.0" />
 
-				<copy file="../javascript/frameworks/prototype/prototype-1.6.0.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<genstub path="prototype/prototype-1.6.0.js" />
 				<qunit description="piwik.js + prototype 1.6.0" />
 
-				<copy file="../javascript/frameworks/prototype/prototype-1.7.0.js" tofile="../javascript/test_compatibility.js" overwrite="true" />
+				<genstub path="prototype/prototype-1.7.0.js" />
 				<qunit description="piwik.js + prototype 1.7.0" />
+
+				<googlestub lib="prototype" version="1" />
+				<qunit description="piwik.js + prototype 1.x" />
+
+				<genstub path="yui/yui-3.3.0.js" />
+				<qunit description="piwik.js + yui 3.x" />
 			</steps>
 		</webtest>
 	</target>

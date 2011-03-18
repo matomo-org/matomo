@@ -1,5 +1,5 @@
 // jslint.js
-// 2011-03-13
+// 2011-03-17
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 //
@@ -1224,8 +1224,7 @@ var JSLINT = (function () {
         };
     }
 
-    if (typeof Object.create !== 'function' ||
-	typeof Function.create === 'function') {
+    if (!Object.hasOwnProperty('create')) {
         Object.create = function (o) {
             F.prototype = o;
             return new F();
@@ -1234,13 +1233,13 @@ var JSLINT = (function () {
 
     if (typeof Object.keys !== 'function') {
         Object.keys = function (o) {
-            var a = [], k;
-            for (k in o) {
-                if (Object.prototype.hasOwnProperty.call(o, k)) {
-                    a.push(k);
+            var array = [], key;
+            for (key in o) {
+                if (Object.prototype.hasOwnProperty.call(o, key)) {
+                    array.push(key);
                 }
             }
-            return a;
+            return array;
         };
     }
 
@@ -1271,8 +1270,9 @@ var JSLINT = (function () {
     if (typeof String.prototype.supplant !== 'function') {
         String.prototype.supplant = function (o) {
             return this.replace(/\{([^{}]*)\}/g, function (a, b) {
-                var r = o[b];
-                return typeof r === 'string' || typeof r === 'number' ? r : a;
+                var replacement = o[b];
+                return typeof replacement === 'string' ||
+                    typeof replacement === 'number' ? replacement : a;
             });
         };
     }
@@ -1291,9 +1291,8 @@ var JSLINT = (function () {
             }
             if (nx.test(this)) {
                 return '"' + this.replace(nxg, function (a) {
-                    var c = escapes[a];
-                    if (c) {
-                        return c;
+                    if (escapes[a]) {
+                        return escapes[a];
                     }
                     return '\\u' + ('0000' + a.charCodeAt().toString(16)).slice(-4);
                 }) + '"';
@@ -1303,11 +1302,11 @@ var JSLINT = (function () {
     }
 
 
-    function combine(t, o) {
-        var n;
-        for (n in o) {
-            if (Object.prototype.hasOwnProperty.call(o, n)) {
-                t[n] = o[n];
+    function combine(a, b) {
+        var name;
+        for (name in b) {
+            if (Object.prototype.hasOwnProperty.call(b, name)) {
+                a[name] = b[name];
             }
         }
     }
@@ -1475,7 +1474,8 @@ var JSLINT = (function () {
             }
             the_token = Object.create(syntax[(
                 type === '(punctuator)' ||
-                    (type === '(identifier)' && Object.prototype.hasOwnProperty.call(syntax, value)) ?
+                    (type === '(identifier)' &&
+                    Object.prototype.hasOwnProperty.call(syntax, value)) ?
                 value :
                 type
             )] || syntax['(error)']);
@@ -3888,23 +3888,23 @@ loop:   for (;;) {
     infix('.', 170, function (left, that) {
         no_space(prev_token, token);
         no_space();
-        var m = identifier();
-        if (typeof m === 'string') {
-            tally_property(m);
+        var name = identifier();
+        if (typeof name === 'string') {
+            tally_property(name);
         }
         that.first = left;
         that.second = token;
         if (left && left.value === 'arguments' &&
-                (m === 'callee' || m === 'caller')) {
-            warn(bundle.avoid_a, left, 'arguments.' + m);
+                (name === 'callee' || name === 'caller')) {
+            warn(bundle.avoid_a, left, 'arguments.' + name);
         } else if (!option.evil && left && left.value === 'document' &&
-                (m === 'write' || m === 'writeln')) {
+                (name === 'write' || name === 'writeln')) {
             warn(bundle.write_is_wrong, left);
         } else if (option.adsafe) {
             if (!adsafe_top && left.value === 'ADSAFE') {
-                if (m === 'id' || m === 'lib') {
+                if (name === 'id' || name === 'lib') {
                     warn(bundle.adsafe, that);
-                } else if (m === 'go') {
+                } else if (name === 'go') {
                     if (xmode !== 'script') {
                         warn(bundle.adsafe, that);
                     } else if (adsafe_went || next_token.id !== '(' ||
@@ -3919,18 +3919,18 @@ loop:   for (;;) {
             }
             adsafe_top = false;
         }
-        if (!option.evil && (m === 'eval' || m === 'execScript')) {
+        if (!option.evil && (name === 'eval' || name === 'execScript')) {
             warn(bundle.evil);
         } else if (option.safe) {
             for (;;) {
-                if (banned[m] === true) {
-                    warn(bundle.adsafe_a, token, m);
+                if (banned[name] === true) {
+                    warn(bundle.adsafe_a, token, name);
                 }
                 if (typeof predefined[left.value] !== 'boolean' ||
                         next_token.id === '(') {
                     break;
                 }
-                if (standard_property[m] === true) {
+                if (standard_property[name] === true) {
                     if (next_token.id === '.') {
                         warn(bundle.adsafe, that);
                     }
@@ -3942,11 +3942,11 @@ loop:   for (;;) {
                 }
                 advance('.');
                 token.first = that;
-                token.second = m;
+                token.second = name;
                 that = token;
-                m = identifier();
-                if (typeof m === 'string') {
-                    tally_property(m);
+                name = identifier();
+                if (typeof name === 'string') {
+                    tally_property(name);
                 }
             }
         }
@@ -6564,7 +6564,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2011-03-13';
+    itself.edition = '2011-03-17';
 
     return itself;
 
