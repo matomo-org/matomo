@@ -17,7 +17,7 @@ class Test_Piwik_jsProxy extends UnitTestCase
 
 		$this->assertEqual($responseInfo["http_code"], 200);
 
-		$piwik_js = file_get_contents(PIWIK_DOCUMENT_ROOT . '/piwik.js');
+		$piwik_js = file_get_contents(PIWIK_PATH_TEST_TO_ROOT . '/piwik.js');
 		$this->assertEqual($fullResponse, $piwik_js);
 	}
 
