@@ -473,6 +473,61 @@ function PiwikTest() {
 		equal( tracker.hook.test._purify('http://example.com/?q=xyz#hash'), 'http://example.com/?q=xyz', 'http://example.com/?q=xyz#hash');
 	});
 
+	// support for setCustomUrl( relativeURI )
+	test("getProtocolScheme and resolveRelativeReference", function() {
+		expect(27);
+
+		var tracker = Piwik.getTracker();
+
+		equal( typeof tracker.hook.test._getProtocolScheme, 'function', "getProtocolScheme" );
+
+		ok( tracker.hook.test._getProtocolScheme('http://example.com') === 'http', 'http://' );
+		ok( tracker.hook.test._getProtocolScheme('https://example.com') === 'https', 'https://' );
+		ok( tracker.hook.test._getProtocolScheme('file://somefile.txt') === 'file', 'file://' );
+		ok( tracker.hook.test._getProtocolScheme('mailto:somebody@example.com') === 'mailto', 'mailto:' );
+		ok( tracker.hook.test._getProtocolScheme('javascript:alert(document.cookie)') === 'javascript', 'javascript:' );
+		ok( tracker.hook.test._getProtocolScheme('') === null, 'empty string' );	
+		ok( tracker.hook.test._getProtocolScheme(':') === null, 'unspecified scheme' );	
+		ok( tracker.hook.test._getProtocolScheme('scheme') === null, 'missing colon' );	
+
+
+		equal( typeof tracker.hook.test._resolveRelativeReference, 'function', 'resolveRelativeReference' );
+
+		var i, j, data = [
+			// unsupported
+//			['http://example.com/index.php/pathinfo?query', 'test.php', 'http://example.com/test.php'],
+//			['http://example.com/subdir/index.php', '../test.php', 'http://example.com/test.php'],
+
+			// already absolute
+			['http://example.com/', 'http://example.com', 'http://example.com'],
+			['http://example.com/', 'https://example.com/', 'https://example.com/'],
+			['http://example.com/', 'http://example.com/index', 'http://example.com/index'],
+
+			// relative to root
+			['http://example.com/', '', 'http://example.com/'],
+			['http://example.com/', '/', 'http://example.com/'],
+			['http://example.com/', '/test.php', 'http://example.com/test.php'],
+			['http://example.com/index', '/test.php', 'http://example.com/test.php'],
+			['http://example.com/index?query=x', '/test.php', 'http://example.com/test.php'],
+			['http://example.com/index?query=x#hash', '/test.php', 'http://example.com/test.php'],
+			['http://example.com/?query', '/test.php', 'http://example.com/test.php'],
+			['http://example.com/#hash', '/test.php', 'http://example.com/test.php'],
+
+			// relative to current document
+			['http://example.com/subdir/', 'test.php', 'http://example.com/subdir/test.php'],
+			['http://example.com/subdir/index', 'test.php', 'http://example.com/subdir/test.php'],
+			['http://example.com/subdir/index?query=x', 'test.php', 'http://example.com/subdir/test.php'],
+			['http://example.com/subdir/index?query=x#hash', 'test.php', 'http://example.com/subdir/test.php'],
+			['http://example.com/subdir/?query', 'test.php', 'http://example.com/subdir/test.php'],
+			['http://example.com/subdir/#hash', 'test.php', 'http://example.com/subdir/test.php']
+		];
+
+		for (i = 0; i < data.length; i++) {
+			j = data[i];
+			equal( tracker.hook.test._resolveRelativeReference(j[0], j[1]), j[2], j[2] );
+		}
+	});
+
 	test("Tracker setDomains() and isSiteHostName()", function() {
 		expect(13);
 

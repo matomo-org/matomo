@@ -29,6 +29,7 @@ Piwik.addPlugin('testPlugin', {
 				'_decode : decodeWrapper,' +
 				'_getLinkType : getLinkType,' +
 				'_beforeUnloadHandler : beforeUnloadHandler,' +
+				'_getProtocolScheme : getProtocolScheme,' +
 				'_getHostName : getHostName,' +
 				'_getParameter : getParameter,' +
 				'_urlFixup : urlFixup,' +
@@ -36,6 +37,7 @@ Piwik.addPlugin('testPlugin', {
 				'_sha1 : sha1,' +
 				'_utf8_encode : utf8_encode,' +
 				'_purify : purify,' +
+				'_resolveRelativeReference : resolveRelativeReference,' +
 				'_addEventListener : addEventListener' +
 			'}'
 		);
