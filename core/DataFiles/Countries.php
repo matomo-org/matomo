@@ -24,7 +24,9 @@ if(!isset($GLOBALS['Piwik_CountryList']))
 {
 	// Primary reference: ISO 3166-1 alpha-2
 	$GLOBALS['Piwik_CountryList'] = array(
+			// unknown
 			'xx' => 'unk',
+
 			'ad' => 'eur',
 			'ae' => 'asi',
 			'af' => 'asi',

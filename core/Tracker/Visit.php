@@ -492,7 +492,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	{
 		Piwik_PostEvent('Tracker.saveVisitorInformation', $this->visitorInfo);
 
-
+		if(empty($this->visitorInfo['location_country']))
+		{
+			$this->visitorInfo['location_country'] = 'xx';
+		}
 		$this->visitorInfo['location_continent'] = Piwik_Common::getContinent( $this->visitorInfo['location_country'] );
 		$this->visitorInfo['location_browser_lang'] = substr($this->visitorInfo['location_browser_lang'], 0, 20);
 		$this->visitorInfo['referer_name'] = substr($this->visitorInfo['referer_name'], 0, 70);
