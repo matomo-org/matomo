@@ -379,7 +379,7 @@ if (!this.JSON2) {
 	userAgent, cookieEnabled, platform, mimeTypes, enabledPlugin, javaEnabled,
 	XMLHttpRequest, ActiveXObject, open, setRequestHeader, send,
 	getTime, setTime, toGMTString, getHours, getMinutes, getSeconds,
-	toLowerCase, charAt, indexOf, split,
+	toLowerCase, charAt, indexOf, lastIndexOf, split, slice,
 	onLoad, src,
 	round, random,
 	exec,
@@ -638,6 +638,16 @@ var
 			}
 
 			return referrer;
+		}
+
+		/*
+		 * Extract scheme/protocol from URL
+		 */
+		function getProtocolScheme(url) {
+			var e = new RegExp('^([a-z]+):'),
+				matches = e.exec(url);
+
+			return matches ? matches[1] : null;
 		}
 
 		/*
@@ -1010,14 +1020,42 @@ var
 			/*
 			 * Purify URL.
 			 */
-			function purify(str) {
+			function purify(url) {
 				var targetPattern;
 
 				if (configDiscardHashTag) {
 					targetPattern = new RegExp('#.*');
-					return str.replace(targetPattern, '');
+					return url.replace(targetPattern, '');
 				}
-				return str;
+				return url;
+			}
+
+			/*
+			 * Resolve relative reference
+			 *
+			 * Note: not as described in rfc3986 section 5.2
+			 */
+			function resolveRelativeReference(baseUrl, url) {
+				var protocol = getProtocolScheme(url),
+					i;
+
+				if (protocol) {
+					return url;
+				}
+
+				if (url.slice(0, 1) === '/') {
+					return getProtocolScheme(baseUrl) + '://' + getHostName(baseUrl) + url;
+				}
+
+				baseUrl = purify(baseUrl);
+				if ((i = baseUrl.indexOf('?')) >= 0) {
+					baseUrl = baseUrl.slice(0, i);
+				}
+				if ((i = baseUrl.lastIndexOf('/')) !== baseUrl.length - 1) {
+					baseUrl = baseUrl.slice(0, i + 1);
+				}
+
+				return baseUrl + url;
 			}
 
 			/*
@@ -1856,7 +1894,7 @@ var
 				 * @param string url
 				 */
 				setCustomUrl: function (url) {
-					configCustomUrl = url;
+					configCustomUrl = resolveRelativeReference(locationHrefAlias, url);
 				},
 
 				/**
