@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_Locale' => 'ru_RU.UTF-8',
 	'General_TranslatorName' => 'Nelde Maxim, Andrey (http://cajax.net), Vadim Nekhai (http://onix.name/)',
@@ -64,7 +64,7 @@ $translations = array(
 	'General_ExportThisReport' => 'Экспортировать данные в другие форматы',
 	'General_ExportAsImage_js' => 'Экспортировать как изображение',
 	'General_YourChangesHaveBeenSaved' => 'Ваши изменения сохранены.',
-	'General_ErrorRequest' => 'Упс&hellip; проблема выполнения запроса, пожалуйста, попробуйте снова.',
+	'General_ErrorRequest' => 'Упс… проблема выполнения запроса, пожалуйста, попробуйте снова.',
 	'General_ColumnNbUniqVisitors' => 'Уникальные посетители',
 	'General_ColumnNbVisits' => 'Посещений',
 	'General_ColumnPercentageVisits' => '% Визитов',
@@ -323,7 +323,7 @@ $translations = array(
 	'CorePluginsAdmin_Activate' => 'Активировать',
 	'CorePluginsAdmin_MenuPlugins' => 'Плагины',
 	'CoreUpdater_PluginDescription' => 'Механизм обновления Piwik',
-	'CoreUpdater_UpdateTitle' => 'Piwik &rsaquo; - обновление',
+	'CoreUpdater_UpdateTitle' => 'Piwik › - обновление',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'Требуется обновление базы данных',
 	'CoreUpdater_YourDatabaseIsOutOfDate' => 'Срок действия вашей базы Piwik истек, вам нужно ее обновить для продолжения. ',
 	'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY' => 'Piwik база будет обновлена с версии %s до версии %s.',
@@ -477,7 +477,7 @@ $translations = array(
 	'Installation_Installation' => 'Установка',
 	'Installation_InstallationStatus' => 'Статус установки',
 	'Installation_PercentDone' => '%s %% Завершено',
-	'Installation_NoConfigFound' => 'Конфигурационный файл Piwik не может быть найден, однако вы пытаетесь зайти в систему.<br /><b>&nbsp;&nbsp;&raquo; Вы можете <a href=\'index.php\'>установить Piwik сейчас</a></b><br /><small>. Если Piwik уже был установлен и вы имеете данные в БД, вы можете использовать их.</small>',
+	'Installation_NoConfigFound' => 'Конфигурационный файл Piwik не может быть найден, однако вы пытаетесь зайти в систему.<br /><b>  » Вы можете <a href=\'index.php\'>установить Piwik сейчас</a></b><br /><small>. Если Piwik уже был установлен и вы имеете данные в БД, вы можете использовать их.</small>',
 	'Installation_DatabaseSetup' => 'Настройка базы данных',
 	'Installation_DatabaseSetupServer' => 'сервер базы данных',
 	'Installation_DatabaseSetupLogin' => 'имя',
@@ -540,7 +540,7 @@ $translations = array(
 	'Installation_SystemCheckMemoryLimitHelp' => 'На сайте с большим объемом трафика, процесс архивирования может занять больше памяти, чем разрешено.<br />Проверьте опцию memory_limit в вашем php.ini, если необходимо.',
 	'Installation_SystemCheckOpenURL' => 'Открыть URL',
 	'Installation_SystemCheckOpenURLHelp' => 'Получение новостей, уведомление об обновлении, и обновление в один клик работает только при наличии "curl" расширения(allow_url_fopen=On) или наличия fsockopen().',
-	'Installation_SystemCheckGD' => 'GD &gt; 2.x (графика)',
+	'Installation_SystemCheckGD' => 'GD > 2.x (графика)',
 	'Installation_SystemCheckGDHelp' => 'Отображение тонких (маленьких) графиков не будет работать.',
 	'Installation_SystemCheckFunctions' => 'Требуемые функции',
 	'Installation_SystemCheckTimeLimitHelp' => 'На сайте с большим объемом трафика, процесс выполнения архивирования может занять больше времени, чем разрешено.<br />Проверьте опцию max_execution_time в вашем php.ini, если необходимо.',

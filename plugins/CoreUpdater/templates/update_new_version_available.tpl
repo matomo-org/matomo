@@ -1,5 +1,6 @@
 {include file="CoreUpdater/templates/header.tpl"}
 
+<br/>
 <p><b>{'CoreUpdater_ThereIsNewVersionAvailableForUpdate'|translate}</b></p>
 <p>
 {if $can_auto_update}

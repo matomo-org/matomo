@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_Locale' => 'eu_ES.UTF-8',
 	'General_TranslatorName' => 'Librezale.org',
@@ -28,7 +28,7 @@ $translations = array(
 	'General_Done' => 'Eginda',
 	'General_LoadingData' => 'Datuak kargatzen...',
 	'General_Loading_js' => 'Kargatzen...',
-	'General_ErrorRequest' => 'Kontxo&hellip; arazoa egon da eskaeran, saiatu berriro mesedez.',
+	'General_ErrorRequest' => 'Kontxo… arazoa egon da eskaeran, saiatu berriro mesedez.',
 	'General_Next' => 'Hurrengoa',
 	'General_Previous' => 'Aurrekoa',
 	'General_Search' => 'Bilatu',
@@ -733,7 +733,7 @@ Oharra: tokena 24 ordutan iraungiko da.
 	'Installation_Installation' => 'Instalazioa',
 	'Installation_InstallationStatus' => 'Instalazioaren egoera',
 	'Installation_PercentDone' => '%% %s eginda',
-	'Installation_NoConfigFound' => 'Piwik konfigurazio-fitxategia ezin izan da aurkitu eta Piwik orri bat atzitzen saiatzen ari zara.<br /><b>&nbsp;&nbsp;&raquo; <a href=\'index.php\'>Piwik orain instalatu</a> dezakezu</b><br /><small>Aurretik Piwik instalatu eta datu-basean taulak badituzu, ez kezkatu, taula berdinak berrerabil ditzakezu eta dauden datuak mantendu!</small>',
+	'Installation_NoConfigFound' => 'Piwik konfigurazio-fitxategia ezin izan da aurkitu eta Piwik orri bat atzitzen saiatzen ari zara.<br /><b>  » <a href=\'index.php\'>Piwik orain instalatu</a> dezakezu</b><br /><small>Aurretik Piwik instalatu eta datu-basean taulak badituzu, ez kezkatu, taula berdinak berrerabil ditzakezu eta dauden datuak mantendu!</small>',
 	'Installation_DatabaseSetup' => 'Datu-basearen konfigurazioa',
 	'Installation_DatabaseSetupServer' => 'datu-basearen zerbitzaria',
 	'Installation_DatabaseSetupLogin' => 'erabiltzaile-izena',
@@ -799,7 +799,7 @@ Oharra: tokena 24 ordutan iraungiko da.
 	'Installation_SystemCheckMemoryLimitHelp' => 'Trafiko handiko webgune batean, artxibatzeko prozesuak onartutako memoria baino gehiago har lezake. Beharrezkoa bada, aldatu memory_limit direktiba zure php.ini fitxategian.',
 	'Installation_SystemCheckOpenURL' => 'Ireki URLa',
 	'Installation_SystemCheckOpenURLHelp' => 'Buletinen harpidetzek, eguneraketen jakinarazpenek eta klik bakarreko eguneraketek "curl" hedapena, allow_url_fopen=On edo fsockopen() gaituta egotea behar dute.',
-	'Installation_SystemCheckGD' => 'GD &gt; 2.x (grafikak)',
+	'Installation_SystemCheckGD' => 'GD > 2.x (grafikak)',
 	'Installation_SystemCheckGDHelp' => 'Grafika txikiek ez dute funtzionatuko.',
 	'Installation_SystemCheckFunctions' => 'Beharrezko funtzioak',
 	'Installation_SystemCheckTimeLimitHelp' => 'Trafiko handiko webgune batean, artxibatzeko prozesuak onartutako denbora baino gehiago har lezake. Beharrezkoa bada, aldatu max_execution_time direktiba zure php.ini fitxategian.',

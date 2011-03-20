@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_Locale' => 'fi_FI.UTF-8',
 	'General_TranslatorName' => '<a href="http://olli.jarva.fi/">Olli Jarva</a>',
@@ -27,7 +27,7 @@ $translations = array(
 	'General_Done' => 'Valmis',
 	'General_LoadingData' => 'Ladataan tietoja...',
 	'General_Loading_js' => 'Ladataan...',
-	'General_ErrorRequest' => 'Oops&hellip; virhe pyynnön käsittelyssä, yritä uudelleen.',
+	'General_ErrorRequest' => 'Oops… virhe pyynnön käsittelyssä, yritä uudelleen.',
 	'General_Next' => 'Seuraava',
 	'General_Previous' => 'Edellinen',
 	'General_Search' => 'Hae',
@@ -157,7 +157,7 @@ $translations = array(
 	'CoreHome_MonthOctober_js' => 'Lokakuu',
 	'CoreHome_MonthNovember_js' => 'Marraskuu',
 	'CoreHome_MonthDecember_js' => 'Joulukuu',
-	'CoreUpdater_UpdateTitle' => 'Piwik &rsaquo; Päivitys',
+	'CoreUpdater_UpdateTitle' => 'Piwik › Päivitys',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'Tietokannan päivitys tarvitaan',
 	'CoreUpdater_YourDatabaseIsOutOfDate' => 'Piwikin tietokanta on vanhentunut ja se tulee päivittää ennen jatkamista.',
 	'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY' => 'Piwikin tietokanta päivitetään versiosta %1$s versioon %2$s.',
@@ -668,7 +668,7 @@ $translations = array(
 	'Installation_Installation' => 'Asennus',
 	'Installation_InstallationStatus' => 'Asennuksen tila',
 	'Installation_PercentDone' => '%s %% valmiina',
-	'Installation_NoConfigFound' => 'Piwikin asetustiedostoa ei löydy ja yrität siirtyä Piwikin sivuille.<br /><b>&nbsp;&nbsp;&raquo; Voit <a href=\'index.php\'>asentaa Piwikin nyt</a></b><br /><small>Jos asensit Piwikin aikaisemmin ja tietokannassa on jo tietoja, älä murehdi, tietoja ei hävitetä.</small>',
+	'Installation_NoConfigFound' => 'Piwikin asetustiedostoa ei löydy ja yrität siirtyä Piwikin sivuille.<br /><b>  » Voit <a href=\'index.php\'>asentaa Piwikin nyt</a></b><br /><small>Jos asensit Piwikin aikaisemmin ja tietokannassa on jo tietoja, älä murehdi, tietoja ei hävitetä.</small>',
 	'Installation_DatabaseSetup' => 'Tietokannan asetukset',
 	'Installation_DatabaseErrorConnect' => 'Virhe tietokantayhteyden avaamisessa',
 	'Installation_ConnectionCharacterSetNotUtf8' => 'Tietokantayhteys ei ole UTF8-muodossa',
@@ -717,7 +717,7 @@ $translations = array(
 	'Installation_SystemCheckMemoryLimitHelp' => 'Jos verkkosivuilla on paljon liikennettä, arkistointiprosessi saattaa vaatia enemmän muistia.<br />Muokkaa asetusta memory_limit php.ini-tiedostossa tarvittaessa.',
 	'Installation_SystemCheckOpenURL' => 'Avaa osoite',
 	'Installation_SystemCheckOpenURLHelp' => 'Uutiskirje, päivitysilmoitukset ja yhden klikkauksen päivitykset vaativat "curl"-lisäosan ja asetuksen allow_url_fopen=On tai funktion fsockopen().',
-	'Installation_SystemCheckGD' => 'GD &gt; 2.x (grafiikat)',
+	'Installation_SystemCheckGD' => 'GD > 2.x (grafiikat)',
 	'Installation_SystemCheckGDHelp' => 'Pienet graafit eivät toimi.',
 	'Installation_SystemCheckFunctions' => 'Vaaditut funktiot',
 	'Installation_SystemCheckTimeLimitHelp' => 'Jos verkkosivuilla on paljon liikennettä, arkistointiprosessi saattaa vaatia enemmän aikaa.<br />Muokkaa asetusta max_execution_time php.ini-tiedostossa tarvittaessa.',

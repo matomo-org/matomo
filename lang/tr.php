@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_Locale' => 'tr_TR.UTF-8',
 	'General_TranslatorName' => 'Fabian Becker, Emre Yazici, Emre Saraçoğlu',
@@ -29,7 +29,7 @@ $translations = array(
 	'General_Details' => 'Detaylar',
 	'General_LoadingData' => 'Veri yükleniyor...',
 	'General_Loading_js' => 'Yükleniyor...',
-	'General_ErrorRequest' => 'Oops&hellip; istek sırasında problem meydana geldi, lütfen tekrar deneyin.',
+	'General_ErrorRequest' => 'Oops… istek sırasında problem meydana geldi, lütfen tekrar deneyin.',
 	'General_Next' => 'İleri',
 	'General_Previous' => 'Geri',
 	'General_Search' => 'Arama',
@@ -361,7 +361,7 @@ $translations = array(
 	'Live_Time' => 'Zaman',
 	'Live_Referrer_URL' => 'Yönlendirme Siteleri',
 	'Live_Last30Minutes' => 'Son 30 dakika',
-	'Login_LoginPasswordNotCorrect' => 'Kullanıcı adı &amp; Şifre yanlış',
+	'Login_LoginPasswordNotCorrect' => 'Kullanıcı adı & Şifre yanlış',
 	'Login_Login' => 'Kullanıcı adı',
 	'Login_Password' => 'Şifre',
 	'Login_PasswordRepeat' => 'Şifre (Tekrar)',

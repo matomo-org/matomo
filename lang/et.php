@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_Locale' => 'et_ET.UTF-8',
 	'General_TranslatorName' => 'Kaido Toomingas',
@@ -24,7 +24,7 @@ $translations = array(
 	'General_Logout' => 'Logi välja',
 	'General_Done' => 'Tehtud',
 	'General_LoadingData' => 'Laen infot...',
-	'General_ErrorRequest' => 'Oops&hellip; nõude esitamisel tekkis viga, palun proovi uuesi.',
+	'General_ErrorRequest' => 'Oops… nõude esitamisel tekkis viga, palun proovi uuesi.',
 	'General_Next' => 'Järgmine',
 	'General_Previous' => 'Eelmine',
 	'General_Search' => 'Otsi',
@@ -120,7 +120,7 @@ $translations = array(
 	'CoreHome_MonthOctober_js' => 'Oktoober',
 	'CoreHome_MonthNovember_js' => 'November',
 	'CoreHome_MonthDecember_js' => 'Detsember',
-	'CoreUpdater_UpdateTitle' => 'Piwik &rsaquo; Uuendus',
+	'CoreUpdater_UpdateTitle' => 'Piwik › Uuendus',
 	'CoreUpdater_UpdateRequired' => 'Uuuendamine nõutav',
 	'CoreUpdater_YourDatabaseIsOutOfDate' => 'Sinu piwik-i andmebaas on vananenud, enne jätkamist pead uuendama.',
 	'CoreUpdater_PiwikWillBeUpgradedToVersionX' => 'Piwik uuendatatakse %s versioonile.',
@@ -563,7 +563,7 @@ $translations = array(
 	'Installation_Installation' => 'Installatsioon',
 	'Installation_InstallationStatus' => 'Installatiooni olek',
 	'Installation_PercentDone' => '%s %% Tehtud',
-	'Installation_NoConfigFound' => 'Piwiki konfguratsioonifaili ei leitud, kuid sa üritasid minna Piwiki lehele.<br /><b>&nbsp;&nbsp;&raquo; Võid <a href=\'index.php\'>installeerida Piwiko</a></b><br /><small>Kui Piwik on varem installeeritud ja sul on andmebaasis tabeleid, siis ei ole põhjust muretsemiseks saad taaskasutada ja säilitada olemasolevad andmed!</small>',
+	'Installation_NoConfigFound' => 'Piwiki konfguratsioonifaili ei leitud, kuid sa üritasid minna Piwiki lehele.<br /><b>  » Võid <a href=\'index.php\'>installeerida Piwiko</a></b><br /><small>Kui Piwik on varem installeeritud ja sul on andmebaasis tabeleid, siis ei ole põhjust muretsemiseks saad taaskasutada ja säilitada olemasolevad andmed!</small>',
 	'Installation_MysqlSetup' => 'Mysql andmebaasi seadistamine',
 	'Installation_MysqlErrorConnect' => 'Mysql andmebaasiga ühendamisel tekkis viga.',
 	'Installation_JsTag' => 'Javascript tag',
@@ -585,7 +585,7 @@ $translations = array(
 	'Installation_SystemCheckWriteDirsHelp' => 'Parandamaks seda viga linux süsteemis, trüki sisse käsk/käsud.',
 	'Installation_SystemCheckMemoryLimit' => 'Mälu limiit',
 	'Installation_SystemCheckMemoryLimitHelp' => 'Suure liiklusega veebileht võib vajada arhiveerimiseks rohkem mälu, kui hetkel lubatud.<br />Vaata üle oma memory_limit oma php.ini failis, kui see osutub vajalikuks.',
-	'Installation_SystemCheckGD' => 'GD &gt; 2.x (graphics)',
+	'Installation_SystemCheckGD' => 'GD > 2.x (graphics)',
 	'Installation_SystemCheckGDHelp' => 'The sparklines (small graphs) will not work.',
 	'Installation_SystemCheckTimeLimit' => 'set_time_limit() lubatud',
 	'Installation_SystemCheckTimeLimitHelp' => 'Suure liiklusega veebilehe puhul, või arhiveerimisprotssess võtta rohkem aega, kui hetkel lubatud.<br />Vaata direktiiv max_execution_time  oma php.ini failis, kui see on vajalik',

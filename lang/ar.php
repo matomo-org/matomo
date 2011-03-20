@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_OriginalLanguageName' => 'العربية',
 	'General_Locale' => 'ar_EG.UTF-8',
@@ -493,7 +493,7 @@ $translations = array(
 	'UsersManager_PrivNone' => 'بدون وصول',
 	'UsersManager_PrivView' => 'مشاهدة',
 	'UsersManager_PrivAdmin' => 'إشراف',
-	'UsersManager_ChangeAllConfirm' => 'هل ترغب حقاً في تعديل صلاحيات &#039;%s&#039; في كافة المواقع؟',
+	'UsersManager_ChangeAllConfirm' => 'هل ترغب حقاً في تعديل صلاحيات \'%s\' في كافة المواقع؟',
 	'UsersManager_Password' => 'كلمة المرور',
 	'UsersManager_Email' => 'البريد الإلكتروني',
 	'UsersManager_Alias' => 'اللقب',

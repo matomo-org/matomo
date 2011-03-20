@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_Locale' => 'id_ID.UTF-8',
 	'General_TranslatorName' => 'Hendry Lee, Djaka PM',
@@ -60,7 +60,7 @@ $translations = array(
 	'General_Export' => 'Ekspor',
 	'General_ExportAsImage_js' => 'Ekspor sebagai Gambar',
 	'General_YourChangesHaveBeenSaved' => 'Perubahan Anda telah tersimpan.',
-	'General_ErrorRequest' => 'Oh&hellip; masalah dalam permintaan, mohon diulang kembali.',
+	'General_ErrorRequest' => 'Oh… masalah dalam permintaan, mohon diulang kembali.',
 	'General_ColumnNbUniqVisitors' => 'Pengunjung unik',
 	'General_ColumnNbVisits' => 'Kunjungan',
 	'General_ColumnPercentageVisits' => '% Kunjungan',

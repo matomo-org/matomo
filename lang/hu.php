@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_Locale' => 'hu_HU.UTF-8',
 	'General_TranslatorName' => '<a href="http://www.oldalgazda.hu/">József Jároli</a>, Viktor Horvath & Mr. Balu ',
@@ -660,7 +660,7 @@ $translations = array(
 	'Installation_Installation' => 'Telepítés',
 	'Installation_InstallationStatus' => 'Telepítés állása',
 	'Installation_PercentDone' => '%s %% kész',
-	'Installation_NoConfigFound' => 'Megpróbáltál belépni a Piwik oldalra, de a konfigurációs fájl nem található.<br /><b>&nbsp;&nbsp;&raquo;  <a href=\'index.php\'>(Újra)telepítheted a Piwik-et most.</a></b><br /><small>Ha már telepítetted a Piwik-et korábban és voltak már táblák az adatbázisodban, ne aggódj, tudod használni azokat a táblákat és így megmaradnak a meglévő adataid !</small>',
+	'Installation_NoConfigFound' => 'Megpróbáltál belépni a Piwik oldalra, de a konfigurációs fájl nem található.<br /><b>  »  <a href=\'index.php\'>(Újra)telepítheted a Piwik-et most.</a></b><br /><small>Ha már telepítetted a Piwik-et korábban és voltak már táblák az adatbázisodban, ne aggódj, tudod használni azokat a táblákat és így megmaradnak a meglévő adataid !</small>',
 	'Installation_MysqlSetup' => 'Mysql adatbázis beállítás',
 	'Installation_MysqlErrorConnect' => 'Hiba a MySQL adatbázishoz való csatlakozásnál!!!',
 	'Installation_JsTag' => 'JavaScript Tag',
@@ -690,7 +690,7 @@ $translations = array(
 	'Installation_SystemCheckWriteDirsHelp' => 'Hogy kijavítsd a hibát Linux rendszereden, próbáld ki a következő parancso(ka)t',
 	'Installation_SystemCheckMemoryLimit' => 'Memória limit',
 	'Installation_SystemCheckMemoryLimitHelp' => 'Egy nagy forgalmú weboldalon az archiválási folyamathoz több memória kell, mint a jelenleg engedélyezett. Ha szükséges, változtasd meg a memory_limit direktívát a php.ini fájlodban.',
-	'Installation_SystemCheckGD' => 'GD &gt; 2.x (grafika)',
+	'Installation_SystemCheckGD' => 'GD > 2.x (grafika)',
 	'Installation_SystemCheckGDHelp' => 'A szikravonalak (mini grafikonok) nem fognak működni.',
 	'Installation_SystemCheckTimeLimit' => 'set_time_limit() engedélyezett',
 	'Installation_SystemCheckTimeLimitHelp' => 'Egy nagy forgalmú weboldalon az archiválási folyamat végrehajtásához több idő kell, mint a jelenleg engedélyezett. Ha szükséges, változtasd meg a max_execution_time direktívát a php.ini fájlodban.',

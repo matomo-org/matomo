@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_Locale' => 'is_IS.UTF-8',
 	'General_TranslatorName' => 'Anna Jonna Ármannsdóttir <annaj@hi.is>Ívar Björn Hilmarsson <ivarbj@hi.is>Jóhann B. Guðmundsson <johannbg@gmail.com>',
@@ -212,7 +212,7 @@ $translations = array(
 	'AnonymizeIP_PluginDescription' => 'Hylja síðusta bæti gesta IP-tölu til samræðis við persónuverndarlaga þíns lands.',
 	'API_PluginDescription' => 'Öll gögn í Piwik eru til boði í gegnum einfalt API. Þessi íbót er vefþjónustu inngangur sem þú getur kallað í til fá þín vefgögn í xml JSON, PHP, csv, o.fl.',
 	'API_QuickDocumentationTitle' => 'API hraðskjöl.',
-	'API_GenerateVisits' => 'Ef þú hefur ekki gögn dagsins í dag verður þú fyrst að búa til gögn með að nota %s íbótina. Virkjaðu %s íbótina og smelltu síðan á valmyndinni &#039;Gesta framleiðni&#039; í Piwik umsjónarmanns svæðinu.',
+	'API_GenerateVisits' => 'Ef þú hefur ekki gögn dagsins í dag verður þú fyrst að búa til gögn með að nota %s íbótina. Virkjaðu %s íbótina og smelltu síðan á valmyndinni \'Gesta framleiðni\' í Piwik umsjónarmanns svæðinu.',
 	'API_MoreInformation' => 'Fyrir frekari upplýsingar um Piwik API, Vinsamlegast skoðið %s Inngangur að Piwik API %s og %s Piwik API Tilvísunir %s.',
 	'API_UserAuthentication' => 'Notenda auðkenning',
 	'API_UsingTokenAuth' => 'Ef þú vilt að %s biðji um gögn inn í skriftu eða crontab færslu osfv. %s verður þú að bæta við færibreytu %s til API kalls vefslóðir sem krefst auðkenningar.',
@@ -399,7 +399,7 @@ $translations = array(
 	'Login_PasswordSent' => 'Upplýsingar til að endurnýja lykilorðið hava verið sendar. Skoðaðu tölvupóstinn þinn.',
 	'Login_ContactAdmin' => 'Möguleg ástæða: þjónninn þinn gæti hafa slökkt á mail() fallinu. <br/>Vinsamlegast hafðu samband við umsjónarmann Piwik þjónsins.',
 	'Login_ExceptionPasswordMD5HashExpected' => 'Búist er við að lykilorðs færibreytan sé MD5 dulmál af lykilorðinu.',
-	'Login_ExceptionInvalidSuperUserAuthenticationMethod' => 'Ekki er hægt að auðkenna yfirnotandan með &#039;%s&#039; aðferðinni.',
+	'Login_ExceptionInvalidSuperUserAuthenticationMethod' => 'Ekki er hægt að auðkenna yfirnotandan með \'%s\' aðferðinni.',
 	'PDFReports_PluginDescription' => 'Búa til og sækja sérsniðnar PDF skýrslur, og láta senda þær, daglega, vikulega eða mánaðarlega. ',
 	'PDFReports_ManagePdfReports' => 'Umsjón með PDF skýrslum',
 	'PDFReports_EmailReports' => 'Senda skýrslur með tölvupósti',

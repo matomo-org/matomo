@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_Locale' => 'th_TH.UTF-8',
 	'General_TranslatorName' => 'coyoty, อนุศักดิ์ แสงอุบล(Anusuk Sangubon)',
@@ -26,7 +26,7 @@ $translations = array(
 	'General_Logout' => 'ออกจากระบบ',
 	'General_Done' => 'เรียบร้อย',
 	'General_LoadingData' => 'กำลังโหลดข้อมูล...',
-	'General_ErrorRequest' => 'อุ๊ปส์&hellip; เกิดปัญหาระหว่างดึงข้อมูล กรุณาลองใหม่อีกครั้ง',
+	'General_ErrorRequest' => 'อุ๊ปส์… เกิดปัญหาระหว่างดึงข้อมูล กรุณาลองใหม่อีกครั้ง',
 	'General_Next' => 'ถัดไป',
 	'General_Previous' => 'ก่อนหน้า',
 	'General_Search' => 'ค้นหา',
@@ -500,7 +500,7 @@ $translations = array(
 	'Installation_Installation' => 'การติดตั้ง',
 	'Installation_InstallationStatus' => 'สถานะการติดตั้ง',
 	'Installation_PercentDone' => 'ติดตั้งเสร็จไปแล้ว %s %% ',
-	'Installation_NoConfigFound' => 'ไม่พบแฟ้มการกำหนดค่า Piwik และคุณกำลังพยายามเข้าถึง Piwik<br /><b>&nbsp;&nbsp;&raquo; คุณสามารถ<a href=\'index.php\'>ติดตั้ง Piwik ได้ที่นี่</a></b><br /><small>ถ้าคุณติดตั้ง Piwik ก่อน และมีตารางบางตารางในฐานข้อมูลของคุณ ไม่ต้องกังวลใจไปครับ คุณสามารถนำมาใช้ใหม่ในตารางเดียวกันได้ และสามารถเก็บข้อมูลตัวเก่าที่มีอยู่ของคุณได้เช่นกัน!</small>',
+	'Installation_NoConfigFound' => 'ไม่พบแฟ้มการกำหนดค่า Piwik และคุณกำลังพยายามเข้าถึง Piwik<br /><b>  » คุณสามารถ<a href=\'index.php\'>ติดตั้ง Piwik ได้ที่นี่</a></b><br /><small>ถ้าคุณติดตั้ง Piwik ก่อน และมีตารางบางตารางในฐานข้อมูลของคุณ ไม่ต้องกังวลใจไปครับ คุณสามารถนำมาใช้ใหม่ในตารางเดียวกันได้ และสามารถเก็บข้อมูลตัวเก่าที่มีอยู่ของคุณได้เช่นกัน!</small>',
 	'Installation_MysqlSetup' => 'ตั้งค่าฐานข้อมูล Mysql',
 	'Installation_MysqlErrorConnect' => 'เกิดข้อผิดพลาดในการเชื่อมต่อฐานข้อมูล Mysql',
 	'Installation_JsTag' => 'แท็กจาวาสคริปต์',
@@ -530,7 +530,7 @@ $translations = array(
 	'Installation_SystemCheckWriteDirsHelp' => 'เพื่อแก้ปัญหานี้สำหรับระบบ Linux ลองพิมพ์คำสั่งต่อไปนี้ (s)',
 	'Installation_SystemCheckMemoryLimit' => 'ขีดจำกัดของหน่วยความจำ',
 	'Installation_SystemCheckMemoryLimitHelp' => 'บนเว็บไซต์การรับส่งข้อมูลสูง กระบวนการเก็บถาวรอาจต้องใช้หน่วยความจำเพิ่มเติมมากกว่าที่ได้รับอนุญาตในขณะนี้ ถ้าจำเป็น เปลี่ยนคำสั่ง memory_limit ในไฟล์ php.ini ของคุณ',
-	'Installation_SystemCheckGD' => 'GD &gt; 2.x (กราฟิก)',
+	'Installation_SystemCheckGD' => 'GD > 2.x (กราฟิก)',
 	'Installation_SystemCheckGDHelp' => 'sparklines (กราฟเล็กๆ)จะไม่ทำงาน',
 	'Installation_SystemCheckTimeLimit' => 'Set_time_limit() ที่อนุญาต',
 	'Installation_SystemCheckTimeLimitHelp' => 'บนเว็บไซต์การรับส่งข้อมูลสูง การดำเนินกระบวนการเก็บถาวรอาจต้องใช้เวลามากขึ้นกว่าในปัจจุบันได้รับอนุญาต ถ้าจำเป็น เปลี่ยนคำสั่ง max_execution_time ในแฟ้ม php.ini ของคุณ',

@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_Locale' => 'es_ES.UTF-8',
 	'General_TranslatorName' => 'Marcos Alberto Sanmartín Pereira,                        David Ernesto Soto Vásquez,                        Fernando SFEIR',
@@ -28,7 +28,7 @@ $translations = array(
 	'General_Done' => 'Hecho',
 	'General_LoadingData' => 'Cargando datos...',
 	'General_Loading_js' => 'Cargando...',
-	'General_ErrorRequest' => 'Oops&hellip; problema durante la petición, por favor inténtalo de nuevo.',
+	'General_ErrorRequest' => 'Oops… problema durante la petición, por favor inténtalo de nuevo.',
 	'General_Next' => 'Siguiente',
 	'General_Previous' => 'Anterior',
 	'General_Search' => 'Buscar',
@@ -702,7 +702,7 @@ $translations = array(
 	'Installation_Installation' => 'Instalación',
 	'Installation_InstallationStatus' => 'Estado de la instalación',
 	'Installation_PercentDone' => '%s %% Hecho',
-	'Installation_NoConfigFound' => 'El archivo de configuración de Piwik no se ha encontrado y está intentando acceder a una página de Piwik.<br /><b>&nbsp;&nbsp;&raquo; Puede <a href=\'index.php\'>instalar Piwik ahora</a></b><br /><small>¡Si ha instalado Piwik antes y tiene algunas tablas en su BD, no se preocupe, usted puede reutilizar las mismas tablas y mantener sus datos existentes!</small>',
+	'Installation_NoConfigFound' => 'El archivo de configuración de Piwik no se ha encontrado y está intentando acceder a una página de Piwik.<br /><b>  » Puede <a href=\'index.php\'>instalar Piwik ahora</a></b><br /><small>¡Si ha instalado Piwik antes y tiene algunas tablas en su BD, no se preocupe, usted puede reutilizar las mismas tablas y mantener sus datos existentes!</small>',
 	'Installation_DatabaseSetup' => 'Configuración de la base de datos',
 	'Installation_DatabaseSetupServer' => 'servidor de la base de datos',
 	'Installation_DatabaseSetupLogin' => 'usuario',
@@ -768,7 +768,7 @@ $translations = array(
 	'Installation_SystemCheckMemoryLimitHelp' => 'En un sitio web de alto tráfico, el proceso de archivo puede requerir más memoria de la que se permite actualmente.<br />Véase la Directiva memory_limit en su archivo php.ini si es necesario.',
 	'Installation_SystemCheckOpenURL' => 'Abrir URL',
 	'Installation_SystemCheckOpenURLHelp' => 'Suscripciones a boletines, notificaciones de actualización, y actualizaciones con un clic necesitan la extensión "curl", allow_url_fopen=On, o fsockopen() habilitado.',
-	'Installation_SystemCheckGD' => 'GD &gt; 2.x (gráficas)',
+	'Installation_SystemCheckGD' => 'GD > 2.x (gráficas)',
 	'Installation_SystemCheckGDHelp' => 'Las "sparklines" (gráficas pequeñas) no funcionarán.',
 	'Installation_SystemCheckFunctions' => 'Funciones requeridas',
 	'Installation_SystemCheckTimeLimitHelp' => 'En un sitio web con un tráfico elevado, la ejecución del proceso de archivado puede requerir más tiempo del permitido.<br />Mire la directiva max_execution_time en su archivo php.ini si es necesario',

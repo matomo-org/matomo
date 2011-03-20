@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_Locale' => 'am_ET.UTF-8',
 	'General_TranslatorName' => '<a href="http://www.addismap.com/bandira/">Alazar Tekle</a>',
@@ -27,7 +27,7 @@ $translations = array(
 	'General_Done' => 'አልቋል',
 	'General_LoadingData' => 'ውሂብ በማስገባት ላይ...',
 	'General_Loading_js' => 'በማስገባት ላይ...',
-	'General_ErrorRequest' => 'Oops&hellip; problem during the request, please try again.',
+	'General_ErrorRequest' => 'Oops… problem during the request, please try again.',
 	'General_Next' => 'ቀጥል',
 	'General_Previous' => 'ቀደም ያለ',
 	'General_Search' => 'ፈልግ',
@@ -156,7 +156,7 @@ $translations = array(
 	'CoreHome_MonthOctober_js' => 'ጥቅምት',
 	'CoreHome_MonthNovember_js' => 'ህዳር',
 	'CoreHome_MonthDecember_js' => 'ታህሳስ',
-	'CoreUpdater_UpdateTitle' => 'ፒዊክ &rsaquo; አልቅ',
+	'CoreUpdater_UpdateTitle' => 'ፒዊክ › አልቅ',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'የውሂብ ጎታ ማላቅ ያስፈልጋል',
 	'CoreUpdater_YourDatabaseIsOutOfDate' => 'የፒዊክ የውሂብ ጎታዎ ቀኑ ሰላለፈበት ከመቀጠልዎ በፊት ማላቅ ያስፈልገዋል',
 	'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY' => 'የፒዊክ የውሂብ ጎታዎ ከ %1$sስሪት ወደ  %2$sስሪት ይልቃል.',
@@ -646,7 +646,7 @@ $translations = array(
 	'Installation_Installation' => 'መጫኛ',
 	'Installation_InstallationStatus' => 'የመጫኛ ሁኔታ',
 	'Installation_PercentDone' => '%s %% አልቋል',
-	'Installation_NoConfigFound' => 'የፒዊክ ውቅረት ፋይል ሊገኝ አልቻለም እና እርስዎ የፒዊክ ገፅ ለመድረስ እየሞከሩ ነው። <br /><b>&nbsp;&nbsp;&raquo; እርስዎ <a href=\'index.php\'>ፒዊክን አሁን መጫን ይችላሉ</a></b><br /><small>ፒዊክን ከዚህ ቀደም ጭነው ከነበረ እና በዲቢዎ ላይ የተወሰኑ ሰንጠረዦች ካለዎ የነበሩትን ሰንጠረዦች ደግመው መጠቀምና የነበረዎትን ውሂብ ማስቀመጥ ይችላሉ!</small>',
+	'Installation_NoConfigFound' => 'የፒዊክ ውቅረት ፋይል ሊገኝ አልቻለም እና እርስዎ የፒዊክ ገፅ ለመድረስ እየሞከሩ ነው። <br /><b>  » እርስዎ <a href=\'index.php\'>ፒዊክን አሁን መጫን ይችላሉ</a></b><br /><small>ፒዊክን ከዚህ ቀደም ጭነው ከነበረ እና በዲቢዎ ላይ የተወሰኑ ሰንጠረዦች ካለዎ የነበሩትን ሰንጠረዦች ደግመው መጠቀምና የነበረዎትን ውሂብ ማስቀመጥ ይችላሉ!</small>',
 	'Installation_MysqlSetup' => 'ማይ ኤስ ኪው ኤል የውሂብ ጎታ መዋቅር',
 	'Installation_MysqlErrorConnect' => 'ከማይ ኤስ ኪው ኤል የውሂብ ጎታ ጋር በመገናኘት ጊዜ የተፈጠረ ስህተት',
 	'Installation_JsTag' => 'የጃቫ ስክሪፕት መለያ',
@@ -676,7 +676,7 @@ $translations = array(
 	'Installation_SystemCheckWriteDirsHelp' => 'ይህንን ስህተት በሊኑክስ ስርዓት ላይ ለማስተካከል የሚከተሉትን ትእዛዝ(ዞች) ይተይቡ',
 	'Installation_SystemCheckMemoryLimit' => 'የማህደረ ትውስታ ገደብ',
 	'Installation_SystemCheckMemoryLimitHelp' => 'ከፍተኛ የጎብኚ መጨናነቅ ባለባችው ድር ጣቢያዎች ላይ የምዝገባ ሂድት በወቅቱ ከተፈቀደው ብላይ ብዙ ማህደረ ትውስታ ሊያስፈልገው ይችላል።<br />የማህደረ ትውስታውን ገደብ መመሪያ በ php.ini ፋይል ውስጥ አስፈላጊ ከሆነ መመልከት ትችላለህ።',
-	'Installation_SystemCheckGD' => 'ጂዲ &gt; 2.x (ንድፋንድፍ)',
+	'Installation_SystemCheckGD' => 'ጂዲ > 2.x (ንድፋንድፍ)',
 	'Installation_SystemCheckGDHelp' => 'የብልጭታ መስመሮቹ (ትናንሽ ግራፎች)አይሰሩም',
 	'Installation_SystemCheckTimeLimit' => 'set_time_limit() ይቻላል',
 	'Installation_SystemCheckTimeLimitHelp' => 'ከፍተኛ የትራፊክ መጨናነቅ ያለባቸው የድር ጣቢያዎች ላይ የምዝገባ ሂደቱን ማስፈፀም ከተፈቀደው ሰዓት በላይ ሊፈልግ ይችላል።<br />ከፍተኛ_የማስፈፀሚያ_ጊዜ መመሪያውን በ php.ini ፋይል ውስጥ አስፈላጊ ከሆነ መመልከት ትችላለህ።',
