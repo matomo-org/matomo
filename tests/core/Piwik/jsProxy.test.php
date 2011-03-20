@@ -15,10 +15,10 @@ class Test_Piwik_jsProxy extends UnitTestCase
 		$responseInfo = curl_getinfo($curlHandle);
 		curl_close($curlHandle);
 
-		$this->assertEqual($responseInfo["http_code"], 200);
+		$this->assertEqual($responseInfo["http_code"], 200, 'Ok response');
 
 		$piwik_js = file_get_contents(PIWIK_PATH_TEST_TO_ROOT . '/piwik.js');
-		$this->assertEqual($fullResponse, $piwik_js);
+		$this->assertEqual($fullResponse, $piwik_js, 'script content');
 	}
 
 	function test_piwik_php()
@@ -30,8 +30,12 @@ class Test_Piwik_jsProxy extends UnitTestCase
 		$responseInfo = curl_getinfo($curlHandle);
 		curl_close($curlHandle);
 
-		$this->assertEqual($responseInfo["http_code"], 200);
-		$this->assertEqual($fullResponse, base64_decode("R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="));
+		$this->assertEqual($responseInfo["http_code"], 200, 'Ok response');
+		$ok = $fullResponse == base64_decode("R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==");
+		$this->assert($ok, 'image content');
+		if(!$ok) {
+			var_dump( $fullResponse );
+		}
 	}
 
 	/**
