@@ -185,6 +185,7 @@ broadcast.updateParamValue = function(newParamValue,urlStr)
  */
 broadcast.loadAjaxContent = function(urlAjax)
 {
+	piwikHelper.hideAjaxError('loadingError');
     urlAjax = urlAjax.match(/^\?/) ? urlAjax : "?" + urlAjax;
 
 	piwikHelper.showAjaxLoading();
