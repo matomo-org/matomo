@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_Locale' => 'el_GR.UTF-8',
 	'General_TranslatorName' => 'Jim Black www.jblack.info, Γεώργιος Τέλλος OnSite.Net VoIP & IT Solutions, Παναγιώτης Παπάζογλου Δρ. Δασολόγος-Περιβαλλοντολόγος',
@@ -515,7 +515,7 @@ $translations = array(
 	'Installation_Installation' => 'Εγκατάσταση',
 	'Installation_InstallationStatus' => 'Κατάσταση εγκατάστασης',
 	'Installation_PercentDone' => '%s %% Ολοκληρώθηκε',
-	'Installation_NoConfigFound' => 'Το αρχείο ρυθμίσεων του Piwik δεν βρέθηκε και προσπαθείτε να ανοίξετε μια σελίδα Piwik.<br /><b>  » Μπορείτε να <a href=&#039;index.php&#039;>εγκαταστήσετε το Piwik τώρα</a></b><br /><small>αν έχετε εγκαταστήσει το Piwik προηγούμενα και έχετε κάποιους πίνακες στη βάση δεδομένων σας, μην ανησυχείτε, μπορείτε να χρησιμοποιήσετε ξανά τους ίδους πίνακες και να διατηρείσετε τα υπάρχοντα δεδομένα σας!</small>',
+	'Installation_NoConfigFound' => 'Το αρχείο ρυθμίσεων του Piwik δεν βρέθηκε και προσπαθείτε να ανοίξετε μια σελίδα Piwik.<br /><b>  » Μπορείτε να <a href=\'index.php\'>εγκαταστήσετε το Piwik τώρα</a></b><br /><small>αν έχετε εγκαταστήσει το Piwik προηγούμενα και έχετε κάποιους πίνακες στη βάση δεδομένων σας, μην ανησυχείτε, μπορείτε να χρησιμοποιήσετε ξανά τους ίδους πίνακες και να διατηρείσετε τα υπάρχοντα δεδομένα σας!</small>',
 	'Installation_DatabaseSetup' => 'Εγκατάσταση βάσης δεδομένων',
 	'Installation_DatabaseSetupServer' => 'Διακομιστής βάσης δεδομένων',
 	'Installation_DatabaseSetupLogin' => 'Όνομα χρήστη',

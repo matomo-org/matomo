@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_Locale' => 'pl_PL.UTF-8',
 	'General_TranslatorName' => 'Marcin Kowol, Maciej Zawadziński, Artur Warchoł',
@@ -29,7 +29,7 @@ $translations = array(
 	'General_Details' => 'Szczegóły',
 	'General_LoadingData' => 'Wczytywanie danych...',
 	'General_Loading_js' => 'Wczytywanie...',
-	'General_ErrorRequest' => 'Oops&hellip; problem podczas żądania, spróbuj ponownie.',
+	'General_ErrorRequest' => 'Oops… problem podczas żądania, spróbuj ponownie.',
 	'General_Next' => 'Dalej',
 	'General_Previous' => 'Wstecz',
 	'General_Search' => 'Szukaj',
@@ -195,7 +195,7 @@ $translations = array(
 	'General_PleaseUpdatePiwik' => 'Zaktualizuj swój Piwik',
 	'General_PleaseSpecifyValue' => 'Określ wartość dla \'%s\'',
 	'API_PluginDescription' => 'Wszystkie dane z Piwik są dostępne przez proste API. Ten plugin jest punktem usług internetowych który możesz wywołać do pobrania Twoich statystyk w postaci xml, json, php, csv, etc.',
-	'API_QuickDocumentation' => '<h2>API quick documentation</h2><p>If you don\'t have data for today you can first <a href=\'misc/generateVisits.php\' target=_blank>generate some data</a> using the Visits Generator script.</p><p>You can try the different formats available for every method. It is very easy to extract any data you want from Piwik!</p><p><b>For more information have a look at the <a href=\'http://piwik.org/docs/analytics-api\'>official API Documentation</a> or the <a href=\'http://piwik.org/docs/analytics-api/reference\'>API Reference</a>.</b></P><h2>User authentication</h2><p>If you want to <b>request the data in your scripts, in a crontab, etc. </b> you need to add the parameter <code><u>&amp;token_auth=%s</u></code> to the API calls URLs that require authentication.</p><p>This token_auth is as secret as your login and password, <b>do not share it!</p>',
+	'API_QuickDocumentation' => '<h2>API quick documentation</h2><p>If you don\'t have data for today you can first <a href=\'misc/generateVisits.php\' target=_blank>generate some data</a> using the Visits Generator script.</p><p>You can try the different formats available for every method. It is very easy to extract any data you want from Piwik!</p><p><b>For more information have a look at the <a href=\'http://piwik.org/docs/analytics-api\'>official API Documentation</a> or the <a href=\'http://piwik.org/docs/analytics-api/reference\'>API Reference</a>.</b></P><h2>User authentication</h2><p>If you want to <b>request the data in your scripts, in a crontab, etc. </b> you need to add the parameter <code><u>&token_auth=%s</u></code> to the API calls URLs that require authentication.</p><p>This token_auth is as secret as your login and password, <b>do not share it!</p>',
 	'API_LoadedAPIs' => 'Załadowano pomyślnie %s APIs',
 	'ExampleAPI_PluginDescription' => 'Przykładowy plugin:  Jak stworzyć API do Twojego, żeby móc eksportować dane w różnych formatach bez żadnego specjalnego kodowania?',
 	'API_QuickDocumentationTitle' => 'Szybka dokumentacja API',
@@ -470,7 +470,7 @@ $translations = array(
 	'Installation_SystemCheckWriteDirs' => 'Katalogi z prawem zapisu',
 	'Installation_SystemCheckWriteDirsHelp' => 'Aby naprawić ten błąd w systemie Linux, spróbuj wpisać w poniższe polecenie(a)',
 	'Installation_SystemCheckMemoryLimit' => 'Limit pamięci',
-	'Installation_SystemCheckGD' => 'GD &gt; 2.x (grafika)',
+	'Installation_SystemCheckGD' => 'GD > 2.x (grafika)',
 	'Installation_SystemCheckFunctions' => 'Wymagane funkcje',
 	'Installation_SystemCheckMbstring' => 'mbstring',
 	'Installation_SystemCheckMbstringHelp' => 'You should set mbstring.func_overload to "0".',
@@ -501,7 +501,7 @@ $translations = array(
 	'Live_Actions' => 'Akcje',
 	'Live_Action' => 'Akcja',
 	'Login_PluginDescription' => 'Login Authentication plugin, reading the credentials from the config/config.inc.php file for the Super User, and from the Database for the other users. Can be easily replaced to introduce a new Authentication mechanism (OpenID, htaccess, custom Auth, etc.).',
-	'Login_LoginPasswordNotCorrect' => 'Username &amp; Password not correct',
+	'Login_LoginPasswordNotCorrect' => 'Username & Password not correct',
 	'Login_Login' => 'Nazwa użytkownika',
 	'Login_Password' => 'Hasło',
 	'Login_PasswordRepeat' => 'Password (repeat)',

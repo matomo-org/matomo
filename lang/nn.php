@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_Locale' => 'nn_NO.UTF-8',
 	'General_TranslatorName' => 'Kristoffer Egil Bonarjee,Simon Hansen',
@@ -26,7 +26,7 @@ $translations = array(
 	'General_Done' => 'Ferdig',
 	'General_LoadingData' => 'Lastar data...',
 	'General_Loading' => 'Lastar...',
-	'General_ErrorRequest' => 'Oops&hellip; det skjedde eit problem under spørjinga, prøv att.',
+	'General_ErrorRequest' => 'Oops… det skjedde eit problem under spørjinga, prøv att.',
 	'General_Next' => 'Neste',
 	'General_Previous' => 'Førre',
 	'General_Search' => 'Søk',
@@ -155,7 +155,7 @@ $translations = array(
 	'CoreHome_MonthOctober_js' => 'Oktober',
 	'CoreHome_MonthNovember_js' => 'November',
 	'CoreHome_MonthDecember_js' => 'Desember',
-	'CoreUpdater_UpdateTitle' => 'Piwik &rsaquo; Oppdatering',
+	'CoreUpdater_UpdateTitle' => 'Piwik › Oppdatering',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'Databaseoppdatering krevjast',
 	'CoreUpdater_YourDatabaseIsOutOfDate' => 'Piwik databasa di er gamal, og må bli oppgradert før du kan fortsetja.',
 	'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY' => 'Piwik databasa vil bli oppgradert frå versjon %1$s til den nye versjonen %2$s.',
@@ -645,7 +645,7 @@ $translations = array(
 	'Installation_Installation' => 'Installasjon    ',
 	'Installation_InstallationStatus' => 'Installasjonstatus    ',
 	'Installation_PercentDone' => '%s %% Ferdig',
-	'Installation_NoConfigFound' => 'Du prøvar å nå ein Piwikside, men konfigurasjonen vart ikkje funnen.<br /><b>&nbsp;&nbsp;&raquo; Du kan <a href=\'index.php\'>installera Piwik nå</a></b><br /><small>    Om du allereie har hatt Piwik installert og hev nokre tabellar i databasen treng du ikkje bekymra deg. Du kan nytta dei same tabellane og data.    </small>',
+	'Installation_NoConfigFound' => 'Du prøvar å nå ein Piwikside, men konfigurasjonen vart ikkje funnen.<br /><b>  » Du kan <a href=\'index.php\'>installera Piwik nå</a></b><br /><small>    Om du allereie har hatt Piwik installert og hev nokre tabellar i databasen treng du ikkje bekymra deg. Du kan nytta dei same tabellane og data.    </small>',
 	'Installation_MysqlSetup' => 'MySQL database installasjon',
 	'Installation_MysqlErrorConnect' => 'Det skjedde ein feil ved tilknyting til MySQL databasen',
 	'Installation_JsTag' => 'JavaScript tagg',
@@ -675,7 +675,7 @@ $translations = array(
 	'Installation_SystemCheckWriteDirsHelp' => 'To fix this error on your Linux system, try typing in the following command(s)    For å fiksa denne feilen på din Linux tenar, prøv den/dei føljande kommandoen(e)',
 	'Installation_SystemCheckMemoryLimit' => 'Minnegrense',
 	'Installation_SystemCheckMemoryLimitHelp' => 'På eit nettsted me høg trafikk, kan arkiveringsprosessen nytta meir minne enn den hev lov til.<br />Sjå innstillinga memory_limit i din php.ini fil om nødvendig.',
-	'Installation_SystemCheckGD' => 'GD &gt; 2.x (biletebehandling)',
+	'Installation_SystemCheckGD' => 'GD > 2.x (biletebehandling)',
 	'Installation_SystemCheckGDHelp' => 'Gnistlinjene (små bilete) vil ikkje virka.',
 	'Installation_SystemCheckTimeLimit' => 'set_time_limit() tillat',
 	'Installation_SystemCheckTimeLimitHelp' => 'På eit nettsted me høg trafikk, kan arkiveringsprosessen nytta meir tid enn den hev lov til.<br />Sjå innstillinga max_execution_time i din php.ini fil om nødvendig.',

@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_Locale' => 'ro_EN.UTF-8',
 	'General_TranslatorName' => 'astonsoftware',
@@ -26,7 +26,7 @@ $translations = array(
 	'General_Logout' => 'Iesire',
 	'General_Done' => 'Gata',
 	'General_LoadingData' => 'Se incarca datele...',
-	'General_ErrorRequest' => 'Oops&hellip; problem during the request, please try again.',
+	'General_ErrorRequest' => 'Oops… problem during the request, please try again.',
 	'General_Next' => 'Urmatorul',
 	'General_Previous' => 'Anteriorul',
 	'General_Search' => 'Cauta',
@@ -132,7 +132,7 @@ $translations = array(
 	'CoreHome_MonthOctober_js' => 'Octombrie',
 	'CoreHome_MonthNovember_js' => 'Noiembrie',
 	'CoreHome_MonthDecember_js' => 'Decembrie',
-	'CoreUpdater_UpdateTitle' => 'Piwik &rsaquo; Actualizare',
+	'CoreUpdater_UpdateTitle' => 'Piwik › Actualizare',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'Actualizare necesara a bazei de date',
 	'CoreUpdater_YourDatabaseIsOutOfDate' => 'Baza ta de date este expirata, si trebuie actualizata inainte de a continua.',
 	'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY' => 'Baza de date Piwik va fi upgradata pentru versiunea %1$s la noua versiune %2$s.',
@@ -594,7 +594,7 @@ $translations = array(
 	'Installation_Installation' => 'Installation',
 	'Installation_InstallationStatus' => 'Installation status',
 	'Installation_PercentDone' => '%s %% Done',
-	'Installation_NoConfigFound' => 'The Piwik configuration file couldn\'t be found and you are trying to access a Piwik page.<br /><b>&nbsp;&nbsp;&raquo; You can <a href=\'index.php\'>install Piwik now</a></b><br /><small>If you installed Piwik before and have some tables in your DB, don\'t worry, you can reuse the same tables and keep your existing data!</small>',
+	'Installation_NoConfigFound' => 'The Piwik configuration file couldn\'t be found and you are trying to access a Piwik page.<br /><b>  » You can <a href=\'index.php\'>install Piwik now</a></b><br /><small>If you installed Piwik before and have some tables in your DB, don\'t worry, you can reuse the same tables and keep your existing data!</small>',
 	'Installation_MysqlSetup' => 'Mysql database setup',
 	'Installation_MysqlErrorConnect' => 'Error while trying to connect to the Mysql database',
 	'Installation_JsTag' => 'Javascript tag',
@@ -624,7 +624,7 @@ $translations = array(
 	'Installation_SystemCheckWriteDirsHelp' => 'To fix this error on your Linux system, try typing in the following command(s)',
 	'Installation_SystemCheckMemoryLimit' => 'Memory limit',
 	'Installation_SystemCheckMemoryLimitHelp' => 'On a high traffic website, the archiving process may require more memory than currently allowed.<br />See the directive memory_limit in your php.ini file if necessary.',
-	'Installation_SystemCheckGD' => 'GD &gt; 2.x (graphics)',
+	'Installation_SystemCheckGD' => 'GD > 2.x (graphics)',
 	'Installation_SystemCheckGDHelp' => 'The sparklines (small graphs) will not work.',
 	'Installation_SystemCheckTimeLimit' => 'set_time_limit() allowed',
 	'Installation_SystemCheckTimeLimitHelp' => 'On a high traffic website, executing the archiving process may require more time than currently allowed.<br />See the directive max_execution_time  in your php.ini file if necessary',

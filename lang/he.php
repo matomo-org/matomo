@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_OriginalLanguageName' => 'עברית',
 	'General_Locale' => 'he.UTF-8',
@@ -64,7 +64,7 @@ $translations = array(
 	'General_ExportThisReport' => 'לייצא מידע בפורמטים אחרים',
 	'General_ExportAsImage_js' => 'לייצא כתמונה',
 	'General_YourChangesHaveBeenSaved' => 'השינויים נשמרו.',
-	'General_ErrorRequest' => 'אוופס&hellip; נוצרה בעיה בזמן הבקשה, נא לנסות שוב.',
+	'General_ErrorRequest' => 'אוופס… נוצרה בעיה בזמן הבקשה, נא לנסות שוב.',
 	'General_ColumnNbUniqVisitors' => 'מבקרים יחודיים',
 	'General_ColumnNbVisits' => 'ביקורים',
 	'General_ColumnPercentageVisits' => '% ביקורים',

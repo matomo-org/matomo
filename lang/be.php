@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_Locale' => 'be_BY.UTF-8',
 	'General_TranslatorName' => '<a href="http://www.fatcow.com">Fat Cow</a>',
@@ -27,7 +27,7 @@ $translations = array(
 	'General_Done' => 'Завершана',
 	'General_LoadingData' => 'Загрузка дадзеных...',
 	'General_Loading_js' => 'Загрузка...',
-	'General_ErrorRequest' => 'Oops&hellip; праблема выканання запыту, калі ласка, паспрабуйце зноў.',
+	'General_ErrorRequest' => 'Oops… праблема выканання запыту, калі ласка, паспрабуйце зноў.',
 	'General_Next' => 'Далей',
 	'General_Previous' => 'Папярэдняе',
 	'General_Search' => 'Пошук',
@@ -182,7 +182,7 @@ $translations = array(
 	'CoreHome_MonthOctober_js' => 'Кастрычнік',
 	'CoreHome_MonthNovember_js' => 'Лістапад',
 	'CoreHome_MonthDecember_js' => 'Снежань',
-	'CoreUpdater_UpdateTitle' => 'Piwik &rsaquo; - абнаўленне',
+	'CoreUpdater_UpdateTitle' => 'Piwik › - абнаўленне',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'Патрабуецца абнаўленне базы дадзеных',
 	'CoreUpdater_YourDatabaseIsOutOfDate' => 'Тэрмін дзеяння Вашай Piwik базы мінуў, Вам трэба яе абнавіць для працягу. ',
 	'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY' => 'Piwik база будзе абноўлена з версіі %1$s да версіі %2$s.',
@@ -669,7 +669,7 @@ $translations = array(
 	'Installation_Installation' => 'Усталёўка',
 	'Installation_InstallationStatus' => 'Статут усталёўкі',
 	'Installation_PercentDone' => '%s %% Завершана',
-	'Installation_NoConfigFound' => 'Канфігурацыйны файл Piwik не можа быць знойдзены, аднак вы спрабуеце зайсці ў сістэму.<br /><b>&nbsp;&nbsp;&raquo; Вы можаце <a href=\'index.php\'>усталяваць Piwik цяпер</a></b><br /><small>. Калі Piwik ужо быў усталяваны і вы маеце дадзеныя ў БД, вы можаце выкарыстоўваць іх.</small>',
+	'Installation_NoConfigFound' => 'Канфігурацыйны файл Piwik не можа быць знойдзены, аднак вы спрабуеце зайсці ў сістэму.<br /><b>  » Вы можаце <a href=\'index.php\'>усталяваць Piwik цяпер</a></b><br /><small>. Калі Piwik ужо быў усталяваны і вы маеце дадзеныя ў БД, вы можаце выкарыстоўваць іх.</small>',
 	'Installation_MysqlSetup' => 'Налады БД Mysql',
 	'Installation_MysqlErrorConnect' => 'Памылка злучэння з базай дадзеных MySQL.',
 	'Installation_JsTag' => 'JavaScript тэг',
@@ -702,7 +702,7 @@ $translations = array(
 	'Installation_SystemCheckWriteDirs' => 'Тэчкі з правамі запісу',
 	'Installation_SystemCheckWriteDirsHelp' => 'Для выпраўлення гэтай памылкі ў АС Linux, паспрабуйце ўвесці следущіе каманды',
 	'Installation_SystemCheckMemoryLimit' => 'Абмежаванне памяці',
-	'Installation_SystemCheckGD' => 'GD &gt; 2.x (графіка)',
+	'Installation_SystemCheckGD' => 'GD > 2.x (графіка)',
 	'Installation_SystemCheckGDHelp' => 'Адлюстраванне тонкіх (маленькіх) графікаў не будзе працаваць.',
 	'Installation_SystemCheckFunctions' => 'Патрабаваныя функцыі',
 	'Installation_SystemCheckMailHelp' => 'Функцыі водгукаў о Piwik і аднаўленне пароляў не будуць працаваць без mail().',

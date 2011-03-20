@@ -96,6 +96,14 @@ class Test_Languages_Manager extends UnitTestCase
 						$cleanedStrings[$stringLabel] = $stringNoLineBreak;
 					}
 				}
+				$currentString = $cleanedStrings[$stringLabel];
+				$decoded = html_entity_decode($currentString, ENT_QUOTES, 'UTF-8');
+				if($currentString != $decoded )
+				{
+					echo "$language: found encoded entities in $stringLabel, converting entities to characters <br/>\n";
+					$writeCleanedFile = true;
+					$cleanedStrings[$stringLabel] = $decoded;
+				}
 			}
 			if($writeCleanedFile)
 			{
@@ -112,18 +120,11 @@ class Test_Languages_Manager extends UnitTestCase
 		$tstr = '<?php'.PHP_EOL;
 		$tstr .= '$translations = array('.PHP_EOL;
 		foreach($translations as $key => $value)
-		{
+		{ 	
 			if(!empty($value))
 			{
-				if(strpos($value, "\n") === false && strpos($value, '$') === false)
-				{
-					$tstr .= "\t'".$key."' => '".addcslashes($value,"'")."',".PHP_EOL;
-				}
-				else
-				{
-					$tstr .= "\t'".$key."' => \"".addcslashes($value,'"$').'",'.PHP_EOL;
-				}
-			}
+				$tstr .= "\t'".$key."' => '".addcslashes($value,"'")."',".PHP_EOL;
+			} 
 		}
 		$tstr .= ');'.PHP_EOL;
 		$path = $pathFixedTranslations . $filename;

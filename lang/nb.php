@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_Locale' => 'nb_NO.UTF-8',
 	'General_TranslatorName' => 'Hans Fredrik Nordhaug',
@@ -409,7 +409,7 @@ $translations = array(
 	'Installation_Installation' => 'Installasjon',
 	'Installation_InstallationStatus' => 'Installasjonsstatus',
 	'Installation_PercentDone' => '%s %% ferdig',
-	'Installation_NoConfigFound' => 'Klarte ikke finne konfigurasjonsfilen for Piwik, og du prøver å få tilgang til en Piwik-side. <br /><b>&nbsp;&nbsp;&raquo;Du kan <a href=\'index.php\'>installere Piwik nå</a></b><br /><small>Hvis du prøvde å installere Piwik tidligere og har noen tabeller i databasen, kan du ta det med ro. Du kan bruke de gamle tabellene og beholde dine eksisterende data!</small>',
+	'Installation_NoConfigFound' => 'Klarte ikke finne konfigurasjonsfilen for Piwik, og du prøver å få tilgang til en Piwik-side. <br /><b>  »Du kan <a href=\'index.php\'>installere Piwik nå</a></b><br /><small>Hvis du prøvde å installere Piwik tidligere og har noen tabeller i databasen, kan du ta det med ro. Du kan bruke de gamle tabellene og beholde dine eksisterende data!</small>',
 	'Installation_MysqlSetup' => 'MySQL database oppsett',
 	'Installation_MysqlErrorConnect' => 'Feil ved tilkobling til databasen ',
 	'Installation_JsTag' => 'JavaScript-kode',
@@ -431,7 +431,7 @@ $translations = array(
 	'Installation_SystemCheckWriteDirsHelp' => 'For å fikse denne feilen på ditt Linux-system, prøv å skriv inn følgende kommando(er)',
 	'Installation_SystemCheckMemoryLimit' => 'Minnegrense',
 	'Installation_SystemCheckMemoryLimitHelp' => 'På et høyt trafikkert nettsted, kan arkiveringsprossessen kreve mer minne enn det som nå er tillatt.<br />Se på memory_limit i din php.ini fil hvis nødvendig.',
-	'Installation_SystemCheckGD' => 'GD &gt; 2.x (grafikk)',
+	'Installation_SystemCheckGD' => 'GD > 2.x (grafikk)',
 	'Installation_SystemCheckGDHelp' => 'Mindre grafiske elementer vil ikke fungere som ønsket.',
 	'Installation_SystemCheckTimeLimit' => 'set_time_limit() tilgjengelig',
 	'Installation_SystemCheckTimeLimitHelp' => 'På en høyt trafikkert webside, kan arkiveringsprossessen kreve mer tid enn det som nå er tillatt.<br />Se på max_execution_time i din php.ini fil hvis nødvendig. ',

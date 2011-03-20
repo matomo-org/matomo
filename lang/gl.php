@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_Locale' => 'gl_ES.UTF-8',
 	'General_TranslatorName' => 'OUSLI - Ourense Software Libre, Antonio Andina',
@@ -479,7 +479,7 @@ $translations = array(
 	'Installation_Installation' => 'Instalación',
 	'Installation_InstallationStatus' => 'Estado da instalación',
 	'Installation_PercentDone' => '%s %%Hecho',
-	'Installation_NoConfigFound' => 'O ficheiro de configuración de Piwik non se atopou e vostede está tentando acceder a unha páxina de Piwik.<br><b>&nbsp;&nbsp;&raquo; Pode <a href=\'index.php\'>instalar Piwik agora</a></b><br><small>Se instalou Piwik con anterioridade e ten táboas na súa base de datos, non se preocupe, pode reutilizar ditas táboas e manter os datos que se atopan nelas!</small>',
+	'Installation_NoConfigFound' => 'O ficheiro de configuración de Piwik non se atopou e vostede está tentando acceder a unha páxina de Piwik.<br><b>  » Pode <a href=\'index.php\'>instalar Piwik agora</a></b><br><small>Se instalou Piwik con anterioridade e ten táboas na súa base de datos, non se preocupe, pode reutilizar ditas táboas e manter os datos que se atopan nelas!</small>',
 	'Installation_MysqlSetup' => 'Instalación da base de datos Mysql',
 	'Installation_MysqlErrorConnect' => 'Erro ao tentar conectar coa base de datos',
 	'Installation_JsTag' => 'Etiqueta Javascript',
@@ -501,7 +501,7 @@ $translations = array(
 	'Installation_SystemCheckWriteDirsHelp' => 'Para arranxar este erro no seu sistema GNU/Linux, tente inserindo os seguintes comandos',
 	'Installation_SystemCheckMemoryLimit' => 'Límite de memoria',
 	'Installation_SystemCheckMemoryLimitHelp' => 'Nun sitio web cun tráfico elevado, o proceso de arquivado pode requirir máis memoria da que está dispoñible.<br>Mire o apartado memory_limit no seu ficheiro php.ini se é necesario.',
-	'Installation_SystemCheckGD' => 'GD &gt; 2.x (gráficos)',
+	'Installation_SystemCheckGD' => 'GD > 2.x (gráficos)',
 	'Installation_SystemCheckGDHelp' => 'Os sparklines (gráficos pequenos) non funcionarán.',
 	'Installation_SystemCheckTimeLimit' => 'set_time_limit() permitido',
 	'Installation_SystemCheckTimeLimitHelp' => 'Nun sitio web cun tráfico elevado, o proceso de arquivado pode requirir máis memoria da que está dispoñible.<br>Mire a directiva max_execution_time no seu ficheiro php.ini se fose necesario',

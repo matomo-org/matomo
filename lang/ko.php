@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_Locale' => 'ko_KR.UTF-8',
 	'General_TranslatorName' => 'Jong-In Kim',
@@ -182,7 +182,7 @@ $translations = array(
 	'CoreHome_MonthOctober_js' => '10월',
 	'CoreHome_MonthNovember_js' => '11월',
 	'CoreHome_MonthDecember_js' => '12월',
-	'CoreUpdater_UpdateTitle' => 'Piwik &rsaquo; 업데이트',
+	'CoreUpdater_UpdateTitle' => 'Piwik › 업데이트',
 	'CoreUpdater_DatabaseUpgradeRequired' => '데이터베이스 업그레이드 필요함',
 	'CoreUpdater_YourDatabaseIsOutOfDate' => 'Piwik 데이터베이스가 오래되었으니 계속하기 이전에 먼저 업그레이드가 되어야 합니다.',
 	'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY' => 'Piwik 데이터베이스가 %1$s 버전에서 %2$s 새 버전으로 업그레이드됩니다.',
@@ -675,7 +675,7 @@ $translations = array(
 	'Installation_Installation' => '설치',
 	'Installation_InstallationStatus' => '설치 상태',
 	'Installation_PercentDone' => '%s %% 완료',
-	'Installation_NoConfigFound' => 'Piwik 설정 파일을 찾을 수 없으며 당신은 Piwik 페이지로 접근을 계속 시도하고 있습니다.<br /><b>&nbsp;&nbsp;&raquo; <a href=\'index.php\'>지금 Piwik을 설치하세요.</a></b><br /><small>만약 Piwik을 이전에 설치한 적이 있고 DB에 테이블이 좀 있다면 걱정하지마세요, 같은 테이블을 재사용할 수 있고 현재 데이터를 보존할 수 있습니다!</small>',
+	'Installation_NoConfigFound' => 'Piwik 설정 파일을 찾을 수 없으며 당신은 Piwik 페이지로 접근을 계속 시도하고 있습니다.<br /><b>  » <a href=\'index.php\'>지금 Piwik을 설치하세요.</a></b><br /><small>만약 Piwik을 이전에 설치한 적이 있고 DB에 테이블이 좀 있다면 걱정하지마세요, 같은 테이블을 재사용할 수 있고 현재 데이터를 보존할 수 있습니다!</small>',
 	'Installation_MysqlSetup' => 'MySQL 데이터베이스 설정',
 	'Installation_MysqlErrorConnect' => 'MySQL 데이터베이스에 연결을 시도하는 도중에 에러 발생',
 	'Installation_JsTag' => '자바스크립트 태그',
@@ -709,7 +709,7 @@ $translations = array(
 	'Installation_SystemCheckWriteDirsHelp' => '리눅스 시스템에서 이 에러를 고치기 위해서, 다음 명령어를 입력해보세요.',
 	'Installation_SystemCheckMemoryLimit' => '메모리 제한',
 	'Installation_SystemCheckMemoryLimitHelp' => '높은 트래픽의 웹사이트에서는 압축 진행중에 현재 허용된 것보다 더 높은 메모리를 필요로 할 수 있습니다. 만약 필요하다면 php.ini 파일에서 memory_limit을 변경하세요.',
-	'Installation_SystemCheckGD' => 'GD &gt; 2.x (그래픽)',
+	'Installation_SystemCheckGD' => 'GD > 2.x (그래픽)',
 	'Installation_SystemCheckGDHelp' => '스파크라인(소규모 그래프)은 작동하지 않습니다.',
 	'Installation_SystemCheckFunctions' => '필수 기능',
 	'Installation_SystemCheckTimeLimitHelp' => '높은 트래픽의 웹사이트에서는 압축 진행중에 현재 허용된 것보다 더 많은 시간을 필요로 할 수 있습니다. 만약 필요하다면 php.ini 파일에서 max_execution_time을 변경하세요..',

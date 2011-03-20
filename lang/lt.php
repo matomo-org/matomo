@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_Locale' => 'lt_LT.UTF-8',
 	'General_TranslatorName' => 'Donatas Stonys (www.TeraxIT.com)',
@@ -27,7 +27,7 @@ $translations = array(
 	'General_Done' => 'Atlikta',
 	'General_LoadingData' => 'Įkeliami duomenys...',
 	'General_Loading_js' => 'Įkeliama...',
-	'General_ErrorRequest' => 'Oops&hellip; atsirado nesklandumų vykdant užklausą. Prašome pabandyti dar kartą.',
+	'General_ErrorRequest' => 'Oops… atsirado nesklandumų vykdant užklausą. Prašome pabandyti dar kartą.',
 	'General_Next' => 'Pirmyn',
 	'General_Previous' => 'Atgal',
 	'General_Search' => 'Ieškoti',
@@ -338,7 +338,7 @@ $translations = array(
 	'Installation_Installation' => 'Įdiegimas',
 	'Installation_InstallationStatus' => 'Įdiegimo būklė',
 	'Installation_PercentDone' => '%s %% Atlikta',
-	'Installation_NoConfigFound' => 'Jūs bandote pasiekti Piwik puslapį, tačiau negalima rasti Piwik konfigūracinio failo.<br /><b>&nbsp;&nbsp;&raquo; Galite <a href=\'index.php\'>įdiegti Piwik dabar</a></b><br /><small>Jei Piwik duombazėje liko lentelių iš ankstesnių diegimų, nesijaudinkite, nes galite naudoti tas pačias lenteles ir išsaugoti turimus duomenis!</small>',
+	'Installation_NoConfigFound' => 'Jūs bandote pasiekti Piwik puslapį, tačiau negalima rasti Piwik konfigūracinio failo.<br /><b>  » Galite <a href=\'index.php\'>įdiegti Piwik dabar</a></b><br /><small>Jei Piwik duombazėje liko lentelių iš ankstesnių diegimų, nesijaudinkite, nes galite naudoti tas pačias lenteles ir išsaugoti turimus duomenis!</small>',
 	'Installation_MysqlSetup' => 'MySQL duombazės nustatymai',
 	'Installation_MysqlErrorConnect' => 'Nepavyksta prisijungti prie MySQL duombazės',
 	'Installation_JsTag' => 'JavaScript gairė (tag)',
@@ -368,7 +368,7 @@ $translations = array(
 	'Installation_SystemCheckWriteDirsHelp' => 'Šios klaidos pataisymui Linux sistemoje, išbandykite šią komandą (-as)',
 	'Installation_SystemCheckMemoryLimit' => 'Atminties limitas',
 	'Installation_SystemCheckMemoryLimitHelp' => 'Didelio lankytojų srauto svetainėse archyvavimas gali reikalauti daugiau atminties nei šiuo metu yra.<br />Pasitikrinkite reikšmę memory_limit savo php.ini faile, jeigu būtina.',
-	'Installation_SystemCheckGD' => 'GD &gt; 2.x (grafika)',
+	'Installation_SystemCheckGD' => 'GD > 2.x (grafika)',
 	'Installation_SystemCheckGDHelp' => 'Mažos diagramos neveiks.',
 	'Installation_SystemCheckTimeLimit' => 'set_time_limit() leidžiama',
 	'Installation_SystemCheckTimeLimitHelp' => 'Didelio lankytojų srauto svetainėse archyvavimo proceso aktyvavimas gali reikalauti daugiau laiko nei šiuo metu leidžiama.<br />Pasitikrinkite reikšmę max_execution_time savo php.ini faile, jeigu būtina.',

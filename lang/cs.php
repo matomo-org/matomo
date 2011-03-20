@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_Locale' => 'cs_CZ.UTF-8',
 	'General_TranslatorName' => 'Filip Bartmann',
@@ -27,7 +27,7 @@ $translations = array(
 	'General_Done' => 'Hotovo',
 	'General_LoadingData' => 'Načítám data...',
 	'General_Loading_js' => 'Načítám...',
-	'General_ErrorRequest' => 'Oops&hellip; behěm požadavku se vyskytla chyba, prosím vyzkoušejte jej znovu',
+	'General_ErrorRequest' => 'Oops… behěm požadavku se vyskytla chyba, prosím vyzkoušejte jej znovu',
 	'General_Next' => 'Další',
 	'General_Previous' => 'Předchozí',
 	'General_Search' => 'Hledat',
@@ -182,7 +182,7 @@ $translations = array(
 	'CoreHome_MonthOctober_js' => 'říjen',
 	'CoreHome_MonthNovember_js' => 'listopad',
 	'CoreHome_MonthDecember_js' => 'prosinec',
-	'CoreUpdater_UpdateTitle' => 'Piwik &rsaquo; Update',
+	'CoreUpdater_UpdateTitle' => 'Piwik › Update',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'Vyžadováno povýšení databáze',
 	'CoreUpdater_YourDatabaseIsOutOfDate' => 'Vaše databáze Piwiku je zastaralá a musí být aktualizována než budete pokračovat.',
 	'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY' => 'Databáze Piwiku bude aktualizována z verze %s na novou verzi %s.',
@@ -675,7 +675,7 @@ $translations = array(
 	'Installation_Installation' => 'Instalace',
 	'Installation_InstallationStatus' => 'Stav instalace',
 	'Installation_PercentDone' => '%s %% hotovo',
-	'Installation_NoConfigFound' => 'Konfigurační soubor Piwiku nebyl nalezen a snažíte se vstoupit na stránku Piwiku.<br /><b>&nbsp;&nbsp;&raquo; Můžete <a href=\'index.php\'>teď nainstalovat</a></b><br /><small>Pokud jste Piwik již instalovali a máte v DB nějaké tabulky, nemějte obavy. Můžete je použít a zachovat jejich data.!</small>',
+	'Installation_NoConfigFound' => 'Konfigurační soubor Piwiku nebyl nalezen a snažíte se vstoupit na stránku Piwiku.<br /><b>  » Můžete <a href=\'index.php\'>teď nainstalovat</a></b><br /><small>Pokud jste Piwik již instalovali a máte v DB nějaké tabulky, nemějte obavy. Můžete je použít a zachovat jejich data.!</small>',
 	'Installation_MysqlSetup' => 'Nastavení databáze MySQL',
 	'Installation_MysqlErrorConnect' => 'Chyba při pokusu a připojení k databázi MySQL',
 	'Installation_JsTag' => 'JavaScript tag',
@@ -705,7 +705,7 @@ $translations = array(
 	'Installation_SystemCheckWriteDirsHelp' => 'Pro opravu této chyby v Linuxu zkuste napsat následující příkaz(y)',
 	'Installation_SystemCheckMemoryLimit' => 'Limit paměti',
 	'Installation_SystemCheckMemoryLimitHelp' => 'Na Web sídlech s vysokým provozem, může archivace vyžadovat více paměti něž je nyní povoleno.<br />Pokud je potřeba podívejte se na direktivu memory_limit ve vašem souboru php.ini.',
-	'Installation_SystemCheckGD' => 'GD &gt; 2.x (graphics)',
+	'Installation_SystemCheckGD' => 'GD > 2.x (graphics)',
 	'Installation_SystemCheckGDHelp' => 'Sparkliny (malé grafy) nebudou fungovat.',
 	'Installation_SystemCheckTimeLimit' => 'set_time_limit() povolen',
 	'Installation_SystemCheckTimeLimitHelp' => 'na Web sídlech s vysokým přenosem, může archivace vyžadovat více času, než je nyní povoleno.<br />Pokud je potřeba podívejte se na direktivu max_execution_time ve vašem souboru php.ini ',
