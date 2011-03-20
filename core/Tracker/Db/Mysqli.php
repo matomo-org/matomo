@@ -120,6 +120,11 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 			$rows = array();
 			$query = $this->prepare( $query, $parameters );
 			$rs = mysqli_query($this->connection, $query);
+			if(is_bool($rs))
+			{
+				throw new Piwik_Tracker_Db_Exception('Query failed: ' . mysqli_error($this->connection) . ' : ' . $query);
+			}
+
 			while($row = mysqli_fetch_array($rs, MYSQLI_ASSOC)) 
 			{
 				$rows[] = $row;
