@@ -57,7 +57,7 @@
 				<verifyText description="check page text" text="Piwik" />
 				<verifyText description="check page text" text="Lost your password?" />
 
-				<verifyText description="check page text" text="&lt;strong&gt;Error&lt;/strong&gt;: Username &amp;amp; Password not correct" />
+				<verifyText description="check page text" text="&lt;strong&gt;Error&lt;/strong&gt;: Username &amp; Password not correct" />
 
 				&checkForErrors;
 				&verifyLinksAndImages;
