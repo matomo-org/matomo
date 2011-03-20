@@ -228,6 +228,19 @@ api_service_url = http://api.piwik.org
 ; this is useful when you want to do cross websites analysis 
 use_third_party_id_cookie = 0
 
+; name of the cookie used to store the visitor information
+; This is used only if use_third_party_id_cookie = 1
+cookie_name	= piwik_visitor
+
+; by default, the Piwik tracking cookie expires in 2 years
+; This is used only if use_third_party_id_cookie = 1
+cookie_expire = 63072000
+
+; The path on the server in which the cookie will be available on. 
+; Defaults to empty. See spec in http://curl.haxx.se/rfc/cookie_spec.html
+; This is used for the Ignore cookie, and the third party cookie if use_third_party_id_cookie = 1
+cookie_path = 
+
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
 record_statistics			= 1
 
@@ -254,16 +267,6 @@ enable_language_to_country_guess = 1
 ; Tasks run once every hour maximum, they might not run every hour if traffic is low.
 ; Set to 0 to disable Scheduled tasks completely.
 scheduled_tasks_min_interval = 3600
-
-; name of the cookie used to store the visitor information
-cookie_name	= piwik_visitor
-
-; by default, the Piwik tracking cookie expires in 2 years
-cookie_expire = 63072000
-
-; The path on the server in which the cookie will be available on. 
-; Defaults to empty. See spec in http://curl.haxx.se/rfc/cookie_spec.html
-cookie_path = 
 
 ; name of the cookie to ignore visits
 ignore_visits_cookie_name = piwik_ignore 
