@@ -32,7 +32,7 @@ class Test_Piwik_jsProxy extends UnitTestCase
 
 		$this->assertEqual($responseInfo["http_code"], 200, 'Ok response');
 		$ok = $fullResponse == base64_decode("R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==");
-		$this->assert($ok, 'image content');
+		$this->assertTrue($ok, 'image content');
 		if(!$ok) {
 			var_dump( $fullResponse );
 		}
