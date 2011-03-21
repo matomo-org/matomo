@@ -38,12 +38,11 @@
 					</transaction>
 				</sql>	            
 
-				<concat destfile="${basedir}/../../config/config.ini.php">
-					<fileset file="${basedir}/../../config/config.ini.php" />
+				<concat destfile="${basedir}/../../config/config.ini.php" append="true" fixlastline="true">
 					<fileset file="${basedir}/../config/wt.template.ini" />
-					<filterset>
-						<filtersfile file="${basedir}/config/webtest.properties" />
-					</filterset>
+					<filterchain>
+						<expandproperties />
+					</filterchain>
 				</concat>
 
 				<invoke description="get all_tests" url="/tests/all_tests.php" />
