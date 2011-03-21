@@ -979,3 +979,33 @@ function _readfile($filename, $useIncludePath = false, $context = null)
 	}
 	return false;
 }
+
+/**
+ * utf8_encode replacement
+ *
+ * @param string $data
+ * @return string
+ */
+if (!function_exists('utf8_encode')) {
+	function utf8_encode($data) {
+		if (function_exists('iconv')) {
+			return @iconv('ISO-8859-1', 'UTF-8', $data);
+		}
+		return $data;
+	}
+}
+
+/**
+ * utf8_decode replacement
+ *
+ * @param string $data
+ * @return string
+ */
+if (!function_exists('utf8_decode')) {
+	function utf8_decode($data) {
+		if (function_exists('iconv')) {
+			return @iconv('UTF-8', 'ISO-8859-1', $data);
+		}
+		return $data;
+	}
+}

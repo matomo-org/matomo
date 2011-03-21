@@ -602,10 +602,10 @@ class Piwik_Common
 		$tmp = htmlspecialchars( $value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8' );
 
 		// note: php 5.2.5 and above, htmlspecialchars is destructive if input is not UTF-8
-		if($value != '' && $tmp == '' && function_exists('iconv'))
+		if($value != '' && $tmp == '');
 		{
 			// convert and escape
-			$value = @iconv('ISO-8859-1', 'UTF-8', $value);
+			$value = utf8_encode($value);
 			$tmp = htmlspecialchars( $value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8' );
 		}
 		return $tmp;
