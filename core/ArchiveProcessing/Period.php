@@ -31,12 +31,6 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		Piwik_Archive::INDEX_NB_UNIQ_VISITORS => Piwik_Archive::INDEX_SUM_DAILY_NB_UNIQ_VISITORS 
 	);
 	
-	public function __construct()
-	{
-		parent::__construct();
-		$this->debugAlwaysArchive = Zend_Registry::get('config')->Debug->always_archive_data_period;
-	}
-	
 	/**
 	 * Sums all values for the given field names $aNames over the period
 	 * See @archiveNumericValuesGeneral for more information
@@ -270,14 +264,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	protected function compute()
 	{		
 		$this->archiveNumericValuesMax( 'max_actions' ); 
-		$toSum = array(
-			'nb_uniq_visitors', 
-			'nb_visits',
-			'nb_actions', 
-			'sum_visit_length',
-			'bounce_count',
-			'nb_visits_converted',
-		);
+		$toSum = self::getCoreMetrics();
 		$record = $this->archiveNumericValuesSum($toSum);
 		
 		$nbVisits = $record['nb_visits']->value;

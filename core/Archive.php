@@ -179,6 +179,7 @@ abstract class Piwik_Archive
 				preg_match('/^(last|previous){1}([0-9]*)$/', $strDate, $regs)
 				|| preg_match('/^([0-9]{4}-[0-9]{1,2}-[0-9]{1,2}),([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})$/', $strDate, $regs)
 				)
+			&& $period != 'range'
 			)
 		{
 			$oSite = new Piwik_Site($idSite);
@@ -189,26 +190,31 @@ abstract class Piwik_Archive
 		{
 			$oSite = new Piwik_Site($idSite);
 
-			if(is_string($strDate))
+			if($period == 'range')
 			{
-				if($strDate == 'now' || $strDate == 'today')
-				{
-					$strDate = date('Y-m-d', Piwik_Date::factory('now', $oSite->getTimezone())->getTimestamp());
-				}
-				elseif($strDate == 'yesterday' || $strDate == 'yesterdaySameTime')
-				{
-					$strDate = date('Y-m-d', Piwik_Date::factory('now', $oSite->getTimezone())->subDay(1)->getTimestamp());
-				}
-				$oDate = Piwik_Date::factory($strDate);
+				$oPeriod = new Piwik_Period_Range('range', $strDate, $oSite->getTimezone(), Piwik_Date::factory('today', $oSite->getTimezone()));
 			}
 			else
 			{
-				$oDate = $strDate;
+				if(is_string($strDate))
+				{
+					if($strDate == 'now' || $strDate == 'today')
+					{
+						$strDate = date('Y-m-d', Piwik_Date::factory('now', $oSite->getTimezone())->getTimestamp());
+					}
+					elseif($strDate == 'yesterday' || $strDate == 'yesterdaySameTime')
+					{
+						$strDate = date('Y-m-d', Piwik_Date::factory('now', $oSite->getTimezone())->subDay(1)->getTimestamp());
+					}
+					$oDate = Piwik_Date::factory($strDate);
+				}
+				else
+				{
+					$oDate = $strDate;
+				}
+				$date = $oDate->toString();
+				$oPeriod = Piwik_Period::factory($period, $oDate);
 			}
-			$date = $oDate->toString();
-			
-			$oPeriod = Piwik_Period::factory($period, $oDate);
-			
 			$archive = new Piwik_Archive_Single();
 			$archive->setPeriod($oPeriod);
 			$archive->setSite($oSite);

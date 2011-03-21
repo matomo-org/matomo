@@ -30,7 +30,7 @@ abstract class Piwik_Period
 	protected $subperiodsProcessed = false;
 	protected $label = null;
 	protected $date = null;
-	static protected $errorAvailablePeriods = 'day, week, month, year';
+	static protected $errorAvailablePeriods = 'day, week, month, year, range';
 	
 	public function __construct( $date )
 	{	

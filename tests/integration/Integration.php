@@ -314,6 +314,7 @@ abstract class Test_Integration extends Test_Database
 	 * @param $periods String or array of strings of periods (day, week, month, year)
 	 * @param $setDateLastN When set to true, 'date' parameter passed to API request will be rewritten to query a range of dates rather than 1 date only
 	 * @param $language 2 letter language code to request data in
+	 * @param $segment Custom Segment to query the data  for
 	 * 
 	 * @return bool Passed or failed
 	 */
@@ -329,13 +330,21 @@ abstract class Test_Integration extends Test_Database
 		{
 			$periods = 'day';
 		}
+		if(!is_array($periods))
+		{
+			$periods = array($periods);
+		}
+		if(!is_array($formats))
+		{
+			$formats = array($formats);
+		}
 		if(!is_writable($pathProcessed))
 		{
 			$this->fail('To run the tests, you need to give write permissions to the following directory (create it if it doesn\'t exist).<code><br/>mkdir '. $pathProcessed.'<br/>chmod 777 '.$pathProcessed.'</code><br/>');
 		}
 		$parametersToSet = array(
 			'idSite' 	=> $idSite,
-			'date'		=> date('Y-m-d', strtotime($dateTime)),
+			'date'		=> $periods == array('range') ? $dateTime : date('Y-m-d', strtotime($dateTime)),
 			'expanded'  => '1',
 			'piwikUrl'  => 'http://example.org/piwik/',
 			// Used in getKeywordsForPageUrl
@@ -356,14 +365,6 @@ abstract class Test_Integration extends Test_Database
 		// Give it enough time for the current API test to finish (call all get* APIs)
 		Zend_Registry::get('config')->General->time_before_today_archive_considered_outdated = 10;
 		
-		if(!is_array($formats))
-		{
-			$formats = array($formats);
-		}
-		if(!is_array($periods))
-		{
-			$periods = array($periods);
-		}
 		$requestUrls = $this->generateUrlsApi($parametersToSet, $formats, $periods, $setDateLastN, $language, $segment);
     	
     	foreach($requestUrls as $apiId => $requestUrl)

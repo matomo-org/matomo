@@ -136,7 +136,7 @@ abstract class Piwik_ArchiveProcessing
 	 * Period of the current archive
 	 * Can be accessed by plugins (that is why it's public)
 	 * 
-	 * @var $period Piwik_Period
+	 * @var Piwik_Period
 	 */
 	public $period 	= null;
 	
@@ -188,7 +188,7 @@ abstract class Piwik_ArchiveProcessing
 	 *
 	 * @var bool
 	 */
-	protected $debugAlwaysArchive = false;
+	public $debugAlwaysArchive = false;
 	
 	/**
 	 * If the archive has at least 1 visit, this is set to true.
@@ -220,17 +220,24 @@ abstract class Piwik_ArchiveProcessing
 		switch($name)
 		{
 			case 'day':
-				$process = new Piwik_ArchiveProcessing_Day();
+				$process = new Piwik_ArchiveProcessing_Day();		
+				$process->debugAlwaysArchive = Zend_Registry::get('config')->Debug->always_archive_data_day;
 			break;
 			
 			case 'week':
 			case 'month':
 			case 'year':
 				$process = new Piwik_ArchiveProcessing_Period();
+				$process->debugAlwaysArchive = Zend_Registry::get('config')->Debug->always_archive_data_period;
+			break;
+
+			case 'range':
+				$process = new Piwik_ArchiveProcessing_Period();
+				$process->debugAlwaysArchive = Zend_Registry::get('config')->Debug->always_archive_data_range;
 			break;
 			
 			default:
-				throw new Exception("Unknown period specified $name");
+				throw new Exception("Unknown Archiving period specified '$name'");
 			break;
 		}
 		return $process;
@@ -238,6 +245,18 @@ abstract class Piwik_ArchiveProcessing
 	
 	const OPTION_TODAY_ARCHIVE_TTL = 'todayArchiveTimeToLive';
 	const OPTION_BROWSER_TRIGGER_ARCHIVING = 'enableBrowserTriggerArchiving';
+
+	static public function getCoreMetrics()
+	{
+		return array(
+			'nb_uniq_visitors', 
+			'nb_visits',
+			'nb_actions', 
+			'sum_visit_length',
+			'bounce_count',
+			'nb_visits_converted',
+		);
+	}
 	
 	static public function setTodayArchiveTimeToLive($timeToLiveSeconds)
 	{
@@ -441,11 +460,28 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	public function shouldProcessReportsForPlugin($pluginName)
 	{
-		// No segment: process reports for all plugins
-		if($this->getSegment()->isEmpty())
+		// No segment and Not a custom date range: process reports for all plugins
+		if($this->getSegment()->isEmpty()
+			&& $this->period->getLabel() != 'range')
 		{
 			return true;
 		}
+		
+		// If a core metrics was requested, we do not need to process any report since 
+		// core metrics (visits, actions, total time on site, etc.) are always processed before 
+		// any plugin archiving is called
+		if(in_array($this->requestedReport, Piwik_ArchiveProcessing::getCoreMetrics())
+			|| $this->requestedReport == 'max_actions')
+		{
+			return false;
+		}
+		
+		// Goal_* metrics are processed by the Goals plugin. (HACK)
+		if(strpos($this->requestedReport, 'Goal_') === 0)
+		{
+			return $pluginName == 'Goal';
+		}
+		
 		// If segment, only process if the requested report belong to this plugin
 		// or process all plugins if the requested report plugin couldn't be guessed
 		$pluginBeingProcessed = $this->getPluginBeingProcessed();
