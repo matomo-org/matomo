@@ -65,11 +65,13 @@ abstract class Piwik_Menu_Abstract {
 				if (!isset($this->menu[$menuName]) || empty($subMenuName)) {
 					$this->menu[$menuName]['_url'] = $menuEntry[2];
 					$this->menu[$menuName]['_order'] = $menuEntry[4];
+					$this->menu[$menuName]['_name'] = $menuName;
 					$this->menu[$menuName]['_hasSubmenu'] = false;
 				}
 				if (!empty($subMenuName)) {
 					$this->menu[$menuName][$subMenuName]['_url'] = $menuEntry[2];
 					$this->menu[$menuName][$subMenuName]['_order'] = $menuEntry[4];
+					$this->menu[$menuName][$subMenuName]['_name'] = $subMenuName;
 					$this->menu[$menuName]['_hasSubmenu'] = true;
 				}
 			}
@@ -124,6 +126,7 @@ abstract class Piwik_Menu_Abstract {
 			if (!empty($subMenuOriginal)) {
 				if (isset($this->menu[$mainMenuOriginal][$subMenuOriginal])) {
 					$save = $this->menu[$mainMenuOriginal][$subMenuOriginal];
+					$save['_name'] = $subMenuRenamed;
 					unset($this->menu[$mainMenuOriginal][$subMenuOriginal]);
 					$this->menu[$mainMenuRenamed][$subMenuRenamed] = $save;
 				}
@@ -132,6 +135,7 @@ abstract class Piwik_Menu_Abstract {
 			else {
 				if (isset($this->menu[$mainMenuOriginal])) {
 					$save = $this->menu[$mainMenuOriginal];
+					$save['_name'] = $mainMenuRenamed;
 					unset($this->menu[$mainMenuOriginal]);
 					$this->menu[$mainMenuRenamed] = $save;
 				}
@@ -170,9 +174,8 @@ abstract class Piwik_Menu_Abstract {
 		}
 
 		if ($itemOne['_order'] == $itemTwo['_order']) {
-			return 0;
+			return strcmp($itemOne['_name'], $itemTwo['_name']);
 		}
 		return ($itemOne['_order'] < $itemTwo['_order']) ? -1 : 1;
 	}
-
 }
