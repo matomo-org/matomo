@@ -447,4 +447,45 @@ class Test_Piwik_Integration_Main extends Test_Integration
         								$segment
         );
 	}
+	
+	/*
+	 * Testing period=range use case. Recording data before and after, checking that the requested range is processed correctly 
+	 */
+	public function test_oneVisitor_oneWebsite_severalDays_DateRange()
+	{        
+    	$dateTimes = array(
+    		'2010-12-14 01:00:00',
+    		'2010-12-15 01:00:00',
+    		'2010-12-25 01:00:00',
+    		'2011-01-15 01:00:00',
+    		'2011-01-16 01:00:00',
+    	);
+    	$idSite = $this->createWebsite($dateTimes[0]);
+    	foreach($dateTimes as $dateTime)
+    	{
+	        $visitor = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+	        
+	        $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
+	    	$visitor->setUrl('http://example.org/homepage');
+	        $this->checkResponse($visitor->doTrackPageView('ou pas'));
+	
+	        $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.2)->getDatetime());
+	    	$visitor->setUrl('http://example.org/news');
+	        $this->checkResponse($visitor->doTrackPageView('ou pas'));
+	
+	        $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.3)->getDatetime());
+	    	$visitor->setUrl('http://example.org/news');
+	        $this->checkResponse($visitor->doTrackPageView('ou pas'));
+    	}
+    	
+		$this->setApiToCall(array(	'VisitsSummary.get',
+    	                            'Actions.getPageUrls'
+    	));
+		$this->callGetApiCompareOutput(__FUNCTION__, 'xml', 
+        								$idSite, 
+        								$date = '2010-12-15,2011-01-15', 
+        								$periods = array('range')
+        );
+	}
+	
 }

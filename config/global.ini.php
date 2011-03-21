@@ -1,7 +1,7 @@
 ; <?php exit; ?> DO NOT REMOVE THIS LINE
 ; If you want to change some of these default values, the best practise is to override 
 ; them in your configuration file in config/config.ini.php. If you directly edit this file,
-; you risk losing your changes when you upgrade Piwik. 
+; you will lose your changes when you upgrade Piwik. 
 ; For example if you want to override action_title_category_delimiter, 
 ; edit config/config.ini.php and add the following:
 ; [General]
@@ -42,6 +42,8 @@ adapter 		= PDO_MYSQL
 ; this is useful when making changes to the archiving code so we can force the archiving process
 always_archive_data_period = 0;
 always_archive_data_day = 0;
+; Force archiving Custom date range (without re-archiving sub-periods used to process this date range)
+always_archive_data_range = 0;
 
 ; if set to 1, all the SQL queries will be recorded by the profiler 
 ; and a profiling summary will be printed at the end of the request
