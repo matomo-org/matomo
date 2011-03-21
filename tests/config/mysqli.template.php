@@ -19,6 +19,7 @@ dbname=		@database.main.name@
 adapter=	MYSQLI
 tables_prefix=	piwik_
 schema=		Myisam
+charset = "utf8"
 
 [database_tests]
 host=		@database.test.host@
@@ -29,6 +30,7 @@ dbname=		@database.test.name@
 adapter=	MYSQLI
 tables_prefix=	piwiktests_
 schema=		Myisam
+charset = "utf8"
 
 [General]
 proxy_client_headers[] = HTTP_X_FORWARDED_FOR
