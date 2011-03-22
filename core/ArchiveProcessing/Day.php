@@ -55,6 +55,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	{
 		if(!is_null($this->isThereSomeVisits))
 		{
+			if($this->isThereSomeVisits && is_null($this->nb_visits)) { debug_print_backtrace(); exit; }
 			return $this->isThereSomeVisits;
 		}
 		// Handling Custom Segment
@@ -68,7 +69,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		//  Or if a segment is passed and we specifically process VisitsSummary
 		//   Then we check the logs. This is to ensure that this query is ran only once for this day/site/segment (rather than running it for every plugin)  
 		if(empty($sqlSegment) 
-			|| $this->getPluginBeingProcessed() == 'VisitsSummary')
+			|| self::getPluginBeingProcessed($this->getRequestedReport()) == 'VisitsSummary')
 		{
 			$query = "SELECT 	count(distinct idvisitor) as nb_uniq_visitors, 
 								count(*) as nb_visits,
