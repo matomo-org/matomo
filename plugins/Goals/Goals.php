@@ -332,7 +332,8 @@ class Piwik_Goals extends Piwik_Plugin
 	
 	function getConversionRate($count, $archiveProcessing)
 	{
-		return round(100 * $count / $archiveProcessing->getNumberOfVisits(), self::ROUNDING_PRECISION);
+		$visits = $archiveProcessing->getNumberOfVisits();
+		return round(100 * $count / $visits, self::ROUNDING_PRECISION);
 	}
 
 }

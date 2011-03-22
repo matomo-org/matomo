@@ -438,7 +438,7 @@ abstract class Piwik_ArchiveProcessing
 		$segment = $this->getSegment()->getHash();
 		if(!empty($segment))
 		{
-			$pluginProcessed = $this->getPluginBeingProcessed();
+			$pluginProcessed = self::getPluginBeingProcessed($this->getRequestedReport());
 			if(!Piwik_PluginsManager::getInstance()->isPluginLoaded($pluginProcessed)
 				|| $flagArchiveAsAllPlugins 
 				)
@@ -477,7 +477,7 @@ abstract class Piwik_ArchiveProcessing
 		
 		// If segment, only process if the requested report belong to this plugin
 		// or process all plugins if the requested report plugin couldn't be guessed
-		$pluginBeingProcessed = $this->getPluginBeingProcessed();
+		$pluginBeingProcessed = self::getPluginBeingProcessed($this->getRequestedReport());
 		return $pluginBeingProcessed == $pluginName
 				|| !Piwik_PluginsManager::getInstance()->isPluginLoaded($pluginBeingProcessed)
 				; 
@@ -590,9 +590,8 @@ abstract class Piwik_ArchiveProcessing
 		return $this->requestedReport;
 	}
 
-	protected function getPluginBeingProcessed()
+	static public function getPluginBeingProcessed( $requestedReport )
 	{
-		$requestedReport = $this->getRequestedReport();
 		return substr($requestedReport, 0, strpos($requestedReport, '_'));
 	}
 	
@@ -813,7 +812,8 @@ abstract class Piwik_ArchiveProcessing
 			if($result['name'] == 'nb_visits' 
 				&& $result['idarchive'] == $idarchive)
 			{
-				$this->isThereSomeVisits = ($result['value'] != 0);
+				$this->isThereSomeVisits = ($result['value'] > 0);
+				$this->setNumberOfVisits($result['value']);
 				break;
 			}
 		}

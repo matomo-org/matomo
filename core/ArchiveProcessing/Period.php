@@ -70,6 +70,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 */
 	private function archiveNumericValuesGeneral($aNames, $operationToApply)
 	{
+		$this->loadSubPeriods();
 		if(!is_array($aNames))
 		{
 			$aNames = array($aNames);
@@ -269,6 +270,14 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		Piwik_PostEvent('ArchiveProcessing_Period.compute', $this);		
 	}
 
+	protected function loadSubPeriods()
+	{
+		if(empty($this->archives))
+		{
+			$this->archives = $this->loadSubperiodsArchive();
+		}
+	}
+	
 	// Similar logic to Piwik_ArchiveProcessing_Day::isThereSomeVisits()
 	public function isThereSomeVisits()
 	{
@@ -276,9 +285,9 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		{
 			return $this->isThereSomeVisits;
 		}
-		$this->archives = $this->loadSubperiodsArchive();
 		
-		if($this->getPluginBeingProcessed() == 'VisitsSummary'
+		$this->loadSubPeriods();
+		if(self::getPluginBeingProcessed($this->getRequestedReport()) == 'VisitsSummary'
 			|| $this->getSegment()->isEmpty())
 		{
 			$toSum = self::getCoreMetrics();
@@ -303,7 +312,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 			}
 		}
 		
-		$this->isThereSomeVisits = ( $nbVisits > 0);
+		$this->isThereSomeVisits = ($nbVisits > 0);
 		if($this->isThereSomeVisits === false)
 		{
 			return false;
@@ -352,12 +361,6 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	{
 		parent::postCompute();
 		
-		foreach($this->archives as $archive)
-		{
-			destroy($archive);
-		}
-		$this->archives = array();
-		
 		$blobTable = $this->tableArchiveBlob->getTableName();
 		$numericTable = $this->tableArchiveNumeric->getTableName();
 		
@@ -398,6 +401,17 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		{
 			Piwik::log("Purging temporary archives: skipped.");
 		}
+		
+		
+		if(!isset($this->archives))
+		{
+			return;
+		}
+		foreach($this->archives as $archive)
+		{
+			destroy($archive);
+		}
+		$this->archives = array();
 		
 	}	
 }

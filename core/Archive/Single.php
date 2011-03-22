@@ -157,10 +157,11 @@ class Piwik_Archive_Single extends Piwik_Archive
 	{
 		$archiveJustProcessed = false;
 
-		if(!isset($this->alreadyChecked[$this->getRequestedReport()]))
+		$plugin = Piwik_ArchiveProcessing::getPluginBeingProcessed($this->getRequestedReport());
+		if(!isset($this->alreadyChecked[$plugin]))
 		{
 			$this->isThereSomeVisits = false;
-			$this->alreadyChecked[$this->getRequestedReport()] = true;
+			$this->alreadyChecked[$plugin] = true;
 			
 			$dayString = $this->period->getPrettyString();
 			$periodString = $this->period->getLabel();
