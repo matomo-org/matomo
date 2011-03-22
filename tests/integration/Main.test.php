@@ -37,7 +37,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * as well as the data itself, pre-processed and ready to be displayed
 	 * @return 
 	 */
-	function test_apiGetReportMetadata()
+	 function test_apiGetReportMetadata()
 	{
 		$this->setApiNotToCall(array());
 		$this->setApiToCall( 'API' );
@@ -59,7 +59,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * Test the Yearly metadata API response, 
 	 * with no visits, with custom response language 
 	 */
-	function test_apiGetReportMetadata_year()
+	 function test_apiGetReportMetadata_year()
 	{
 		$this->setApiNotToCall(array());
 		$this->setApiToCall( array('API.getProcessedReport', 
@@ -80,7 +80,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * API will archive and output empty stats.
 	 * 
 	 */
-	function test_noVisit()
+	 function test_noVisit()
 	{
 		$dateTime = '2009-01-04 00:11:42';
 		$idSite = $this->createWebsite($dateTime);
@@ -129,7 +129,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 *   
 	 *   NO cookie support
 	 */
-	function test_OneVisitorTwoVisits() 
+	 function test_OneVisitorTwoVisits() 
 	{
 		// Tests run in UTC, the Tracker in UTC
     	$dateTime = '2010-03-06 11:22:33';
@@ -145,7 +145,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * Same as before, but with cookie support, which incurs some slight changes 
 	 * in the reporting data (more accurate unique visitor count, better referer tracking for goals, etc.)
 	 */
-	function test_OneVisitorTwoVisits_withCookieSupport() 
+	 function test_OneVisitorTwoVisits_withCookieSupport() 
 	{
 		// Tests run in UTC, the Tracker in UTC
     	$dateTime = '2010-03-06 11:22:33';
@@ -227,7 +227,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * And testing empty URL and empty Page name request
 	 * Also testing a click on a mailto counted as outlink
 	 */
-	function test_TwoVisitors_twoWebsites_differentDays()
+	 function test_TwoVisitors_twoWebsites_differentDays()
 	{
 		// Tests run in UTC, the Tracker in UTC
     	$dateTime = '2010-01-03 11:22:33';
@@ -365,7 +365,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	return $idSite;
 	}
 	
-	function test_twoVisitsWithCustomVariables()
+	 function test_twoVisitsWithCustomVariables()
 	{
 		$dateTime = '2010-01-03 11:22:33';
         $this->doTest_twoVisitsWithCustomVariables($dateTime);
@@ -376,7 +376,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         								$setDateLastN = true);
 	}
 
-	function test_twoVisitsWithCustomVariables_segmentMatchVisitorType()
+	 function test_twoVisitsWithCustomVariables_segmentMatchVisitorType()
 	{
 		$dateTime = '2010-01-03 11:22:33';
         $this->doTest_twoVisitsWithCustomVariables($dateTime);
@@ -386,24 +386,56 @@ class Test_Piwik_Integration_Main extends Test_Integration
         	'customVariableName1==VisitorType;customVariableValue1==LoggedIn',
         	'customVariableName1==VisitorType;customVariableValue1=@LoggedI',
 		);
-		foreach($segments as $segment)
+		
+		// We run it twice just to check that running archiving twice for same input parameters doesn't create more records/overhead
+		for($i = 1; $i <= 2; $i++)
 		{
-	        $this->setApiToCall(array(	
-	    	                            'CustomVariables.getCustomVariables',
-	//        							'VisitsSummary.get',
-	    	));
-	        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', 
-	        								$idSite = 'all', 
-	        								$dateTime, 
-	        								$periods = array('day', 'week'), 
-	        								$setDateLastN = true,
-	        								$language=false, 
-	        								$segment
-	        );
-		}        
+			foreach($segments as $segment)
+			{
+		        $this->setApiToCall(array(	
+		        							'Referers.getKeywords',
+		    	                            'CustomVariables.getCustomVariables',
+		        							'VisitsSummary.get',
+		    	));
+		        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', 
+		        								$idSite = 'all', 
+		        								$dateTime, 
+		        								$periods = array('day', 'week'), 
+		        								$setDateLastN = true,
+		        								$language=false, 
+		        								$segment
+		        );
+			}
+		}
+		
+		// ----------------------------------------------
+        // Implementation Checks
+        // ---------------------------------------------- 
+        // Verify that, when a segment is specified, only the requested report is processed
+        // In this case, check that only the Custom Variables blobs have been processed
+        
+		$tests = array(
+	        // 1) CHECK 'day' archive stored in January
+	        // We expect 2 segments * (1 custom variable name + 1 subtable for the values of the name + 5 Referers blob) = 14
+			'archive_blob_2010_01' => 14,
+			// This contains all 'last N' weeks & days, (6 metrics + 1 done flag ) * 2 segments + 1 Done flag per Plugin, for each "Last N" date
+			'archive_numeric_2010_01' => 134,
+		
+	        // 2) CHECK 'week' archive stored in December (week starts the month before)
+	        // We expect 2 segments * (1 custom variable name + 1 subtable for the values of the name + 5 referers blob) = 14
+			'archive_blob_2009_12' => 14,
+	        // 6 metrics, 3 done flag (referers, CustomVar, VisitsSummary), 2 segments
+			'archive_numeric_2009_12' => (6 + 3) * 2,
+		);
+		foreach($tests as $table => $expectedRows)
+		{
+	        $sql = "SELECT count(*) FROM " . Piwik_Common::prefixTable($table) ;
+	        $countBlobs = Zend_Registry::get('db')->fetchOne($sql);
+	        $this->assertEqual( $expectedRows, $countBlobs);
+		}
 	}
 	
-	function test_twoVisitsWithCustomVariables_segmentMatchALL_noGoalData()
+	 function test_twoVisitsWithCustomVariables_segmentMatchALL_noGoalData()
 	{
 		$dateTime = '2010-01-03 11:22:33';
         $width=1111; $height=222; $resolution = $width.'x'.$height;
@@ -424,7 +456,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	}
 	
 	/* Testing a segment containing all supported fields */
-	function test_twoVisitsWithCustomVariables_segmentMatchNONE()
+	 function test_twoVisitsWithCustomVariables_segmentMatchNONE()
 	{
 		$dateTime = '2010-01-03 11:22:33';
         $idSite = $this->doTest_twoVisitsWithCustomVariables($dateTime);
@@ -478,14 +510,32 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	        $this->checkResponse($visitor->doTrackPageView('ou pas'));
     	}
     	
-		$this->setApiToCall(array(	'VisitsSummary.get',
-    	                            'Actions.getPageUrls'
+		$this->setApiToCall(array(	
+    	                            'Actions.getPageUrls',
+    	                            'VisitsSummary.get',
     	));
 		$this->callGetApiCompareOutput(__FUNCTION__, 'xml', 
         								$idSite, 
         								$date = '2010-12-15,2011-01-15', 
         								$periods = array('range')
         );
+	
+        
+        // Check that requesting period "Range" means only processing the requested Plugin blob (Actions in this case), not all Plugins blobs
+		$tests = array(
+			'archive_blob_2010_12' => 4, // 4 blobs for the Actions plugin
+			'archive_numeric_2010_12' => 6, // 5 metrics + 1 flag
+		
+			// all "Range" records are in December
+			'archive_blob_2011_01' => 0,
+			'archive_numeric_2011_01' => 0,
+		);
+		foreach($tests as $table => $expectedRows)
+		{
+	        $sql = "SELECT count(*) FROM " . Piwik_Common::prefixTable($table) . " WHERE period = ".Piwik::$idPeriods['range'];
+	        $countBlobs = Zend_Registry::get('db')->fetchOne($sql);
+	        $this->assertEqual( $expectedRows, $countBlobs);
+		}
 	}
 	
 }

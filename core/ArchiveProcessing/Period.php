@@ -77,7 +77,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		
 		// fetch the numeric values and apply the operation on them
 		$results = array();
-		foreach($this->archives as $archive)
+		foreach($this->archives as $id => $archive)
 		{
 			foreach($aNames as $name)
 			{
@@ -228,7 +228,6 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	protected function initCompute()
 	{
 		parent::initCompute();
-		$this->archives = $this->loadSubperiodsArchive();
 	}
 
 	/**
@@ -262,23 +261,59 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 * See some of the plugins for an example.
 	 */
 	protected function compute()
-	{		
-		$this->archiveNumericValuesMax( 'max_actions' ); 
-		$toSum = self::getCoreMetrics();
-		$record = $this->archiveNumericValuesSum($toSum);
-		
-		$nbVisits = $record['nb_visits']->value;
-		$nbVisitsConverted = $record['nb_visits_converted']->value;
-		$this->isThereSomeVisits = ( $nbVisits > 0);
-		if($this->isThereSomeVisits === false)
+	{
+		if(!$this->isThereSomeVisits())
 		{
 			return;
 		}
-		$this->setNumberOfVisits($nbVisits);
-		$this->setNumberOfVisitsConverted($nbVisitsConverted);
 		Piwik_PostEvent('ArchiveProcessing_Period.compute', $this);		
 	}
 
+	// Similar logic to Piwik_ArchiveProcessing_Day::isThereSomeVisits()
+	public function isThereSomeVisits()
+	{
+		if(!is_null($this->isThereSomeVisits))
+		{
+			return $this->isThereSomeVisits;
+		}
+		$this->archives = $this->loadSubperiodsArchive();
+		
+		if($this->getPluginBeingProcessed() == 'VisitsSummary'
+			|| $this->getSegment()->isEmpty())
+		{
+			$toSum = self::getCoreMetrics();
+			$record = $this->archiveNumericValuesSum($toSum);
+			$this->archiveNumericValuesMax( 'max_actions' ); 
+	
+			$nbVisitsConverted = $record['nb_visits_converted']->value;
+			$nbVisits = $record['nb_visits']->value;
+		}
+		else
+		{
+			$archive = new Piwik_Archive_Single();
+			$archive->setSite( $this->site );
+			$archive->setPeriod( $this->period );
+			$archive->setSegment( $this->getSegment() );
+			$archive->setRequestedReport( 'VisitsSummary' );
+			
+			$nbVisits = $archive->getNumeric('nb_visits');
+			if($nbVisits > 0)
+			{
+				$nbVisitsConverted = $archive->getNumeric('nb_visits_converted');
+			}
+		}
+		
+		$this->isThereSomeVisits = ( $nbVisits > 0);
+		if($this->isThereSomeVisits === false)
+		{
+			return false;
+		}
+		
+		$this->setNumberOfVisits($nbVisits);
+		$this->setNumberOfVisitsConverted($nbVisitsConverted);
+		return true;
+	}
+	
 	/**
 	 * Processes number of unique visitors for the given period
 	 * 
