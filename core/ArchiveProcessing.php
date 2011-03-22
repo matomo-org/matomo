@@ -527,8 +527,7 @@ abstract class Piwik_ArchiveProcessing
 			$flag = Piwik_ArchiveProcessing::DONE_OK_TEMPORARY;
 		}
 		$this->insertNumericRecord($done, $flag);
-		
-//		Piwik_DataTable_Manager::getInstance()->deleteAll();
+		//Piwik_DataTable_Manager::getInstance()->deleteAll();
 	}
 	
 	/**
@@ -724,6 +723,7 @@ abstract class Piwik_ArchiveProcessing
 							$record->name,
 							$record->value,
 		);
+//		var_dump($bindSql);
 		Piwik_Query($query, $bindSql);
 	}
 	
@@ -805,6 +805,8 @@ abstract class Piwik_ArchiveProcessing
 		{
 			return false;
 		}
+		
+		$this->isThereSomeVisits = false;
 		
 		// we look for the nb_visits result for this most recent archive
 		foreach($results as $result)
