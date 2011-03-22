@@ -806,7 +806,10 @@ abstract class Piwik_ArchiveProcessing
 			return false;
 		}
 		
-		$this->isThereSomeVisits = false;
+		if($this->getPluginBeingProcessed($this->getRequestedReport()) == 'VisitsSummary')
+		{
+			$this->isThereSomeVisits = false;
+		}
 		
 		// we look for the nb_visits result for this most recent archive
 		foreach($results as $result)
