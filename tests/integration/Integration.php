@@ -369,6 +369,7 @@ abstract class Test_Integration extends Test_Database
     	
     	foreach($requestUrls as $apiId => $requestUrl)
     	{
+//    		echo "$requestUrl <br>";
     		$request = new Piwik_API_Request($requestUrl);
 
     		// $TEST_NAME - $API_METHOD

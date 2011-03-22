@@ -195,7 +195,7 @@ abstract class Piwik_ArchiveProcessing
 	 *
 	 * @var bool
 	 */
-	public $isThereSomeVisits = false;
+	public $isThereSomeVisits = null;
 	
 	protected $startTimestampUTC;
 	protected $endTimestampUTC;
@@ -431,6 +431,8 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	abstract protected function compute();
 	
+	abstract public function isThereSomeVisits();
+	
 	protected function getDoneStringFlag($flagArchiveAsAllPlugins = false)
 	{
 		$segment = $this->getSegment()->getHash();
@@ -466,18 +468,9 @@ abstract class Piwik_ArchiveProcessing
 		{
 			return true;
 		}
-		
-		// If a core metrics was requested, we do not need to process any report since 
-		// core metrics (visits, actions, total time on site, etc.) are always processed before 
-		// any plugin archiving is called
-		if(in_array($this->requestedReport, Piwik_ArchiveProcessing::getCoreMetrics())
-			|| $this->requestedReport == 'max_actions')
-		{
-			return false;
-		}
-		
+	
 		// Goal_* metrics are processed by the Goals plugin. (HACK)
-		if(strpos($this->requestedReport, 'Goal_') === 0)
+		if(strpos($this->getRequestedReport(), 'Goal_') === 0)
 		{
 			return $pluginName == 'Goal';
 		}
@@ -599,7 +592,8 @@ abstract class Piwik_ArchiveProcessing
 
 	protected function getPluginBeingProcessed()
 	{
-		return substr($this->requestedReport, 0, strpos($this->requestedReport, '_'));
+		$requestedReport = $this->getRequestedReport();
+		return substr($requestedReport, 0, strpos($requestedReport, '_'));
 	}
 	
 	/**
@@ -769,6 +763,7 @@ abstract class Piwik_ArchiveProcessing
 		$doneAllPluginsProcessed = $this->getDoneStringFlag($flagArchiveAsAllPlugins = true);
 		
 		$sqlSegmentsFindArchiveAllPlugins = '';
+		
 		if($done != $doneAllPluginsProcessed)
 		{
 			$sqlSegmentsFindArchiveAllPlugins = "OR (name = '".$doneAllPluginsProcessed."' AND value = ".Piwik_ArchiveProcessing::DONE_OK.")

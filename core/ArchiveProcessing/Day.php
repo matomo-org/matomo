@@ -35,43 +35,94 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 */
 	protected function compute()
 	{
+		if(!$this->isThereSomeVisits())
+		{
+			return;
+		}
+		Piwik_PostEvent('ArchiveProcessing_Day.compute', $this);
+	}
+	
+	/**
+	 * Returns true if there are logs for the current archive.
+	 * 
+	 * If the current archive is for a specific plugin (for example, Referers), 
+	 *   (for example when a Segment is defined and the Keywords report is requested)
+	 * Then the function will create the Archive for the Core metrics 'VisitsSummary' which will in turn process the number of visits
+	 * 
+	 *  If there is no specified segment, the SQL query will always run. 
+	 */
+	public function isThereSomeVisits()
+	{
+		if(!is_null($this->isThereSomeVisits))
+		{
+			return $this->isThereSomeVisits;
+		}
 		// Handling Custom Segment
 		$segmentSql = $this->getSegment()->getSql();
 		$sqlSegmentBind = $segmentSql['bind'];
 		$sqlSegment = $segmentSql['sql'];
 		if(!empty($sqlSegment)) $sqlSegment = ' AND '.$sqlSegment;
-		
-		$query = "SELECT 	count(distinct idvisitor) as nb_uniq_visitors, 
-							count(*) as nb_visits,
-							sum(visit_total_actions) as nb_actions, 
-							max(visit_total_actions) as max_actions, 
-							sum(visit_total_time) as sum_visit_length,
-							sum(case visit_total_actions when 1 then 1 else 0 end) as bounce_count,
-							sum(case visit_goal_converted when 1 then 1 else 0 end) as nb_visits_converted
-					FROM ".Piwik_Common::prefixTable('log_visit')."
-					WHERE visit_last_action_time >= ?
-						AND visit_last_action_time <= ?
-						AND idsite = ?
-						$sqlSegment
-					ORDER BY NULL";
-		$bind = array_merge(array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite )
-							, $sqlSegmentBind);
-		$row = $this->db->fetchRow($query, $bind );
-		if($row === false || $row === null || $row['nb_visits'] == 0)
-		{
-			return;
-		}
 
-		$this->isThereSomeVisits = true;
+		// We check if there is visits for the requested date / site / segment
+		//  If no specified Segment 
+		//  Or if a segment is passed and we specifically process VisitsSummary
+		//   Then we check the logs. This is to ensure that this query is ran only once for this day/site/segment (rather than running it for every plugin)  
+		if(empty($sqlSegment) 
+			|| $this->getPluginBeingProcessed() == 'VisitsSummary')
+		{
+			$query = "SELECT 	count(distinct idvisitor) as nb_uniq_visitors, 
+								count(*) as nb_visits,
+								sum(visit_total_actions) as nb_actions, 
+								max(visit_total_actions) as max_actions, 
+								sum(visit_total_time) as sum_visit_length,
+								sum(case visit_total_actions when 1 then 1 else 0 end) as bounce_count,
+								sum(case visit_goal_converted when 1 then 1 else 0 end) as nb_visits_converted
+						FROM ".Piwik_Common::prefixTable('log_visit')."
+						WHERE visit_last_action_time >= ?
+							AND visit_last_action_time <= ?
+							AND idsite = ?
+							$sqlSegment
+						ORDER BY NULL";
+			$bind = array_merge(array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite )
+								, $sqlSegmentBind);
+//			echo "Querying logs...";
+//			var_dump($bind);
+			
+			$row = $this->db->fetchRow($query, $bind );
+			if($row === false || $row === null || $row['nb_visits'] == 0)
+			{
+				$this->isThereSomeVisits = false;
+				return $this->isThereSomeVisits;
+			}
 	
-		foreach($row as $name => $value)
-		{
-			$this->insertNumericRecord($name, $value);
+			foreach($row as $name => $value)
+			{
+				$this->insertNumericRecord($name, $value);
+			}
+			$this->setNumberOfVisits($row['nb_visits']);
+			$this->setNumberOfVisitsConverted($row['nb_visits_converted']);
+			$this->isThereSomeVisits = true;
+			return $this->isThereSomeVisits;
 		}
-
-		$this->setNumberOfVisits($row['nb_visits']);
-		$this->setNumberOfVisitsConverted($row['nb_visits_converted']);
-		Piwik_PostEvent('ArchiveProcessing_Day.compute', $this);
+		
+		// If a segment is specified but a plugin other than 'VisitsSummary' is being requested
+		// Then we create an archive for processing VisitsSummary Core Metrics, which will in turn execute the $query above
+		$archive = new Piwik_Archive_Single();
+		$archive->setSite( $this->site );
+		$archive->setPeriod( $this->period );
+		$archive->setSegment( $this->getSegment() );
+		$archive->setRequestedReport( 'VisitsSummary' );
+		
+		$nbVisits = $archive->getNumeric('nb_visits');
+		$isThereSomeVisits = $nbVisits > 0;
+		if($isThereSomeVisits)
+		{
+			$nbVisitsConverted = $archive->getNumeric('nb_visits_converted');
+			$this->setNumberOfVisits($nbVisits);
+			$this->setNumberOfVisitsConverted($nbVisitsConverted);
+		}
+		$this->isThereSomeVisits = $isThereSomeVisits;
+		return $this->isThereSomeVisits;
 	}
 	
 	/**

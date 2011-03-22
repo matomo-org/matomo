@@ -74,7 +74,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 *
 	 * @var bool
 	 */
-	protected $alreadyChecked = false;
+	protected $alreadyChecked = array();
 
 	protected function clearCache()
 	{
@@ -156,11 +156,16 @@ class Piwik_Archive_Single extends Piwik_Archive
 	public function prepareArchive()
 	{
 		$archiveJustProcessed = false;
-		if(!$this->alreadyChecked)
+
+		if(!isset($this->alreadyChecked[$this->getRequestedReport()]))
 		{
 			$this->isThereSomeVisits = false;
-			$this->alreadyChecked = true;
-			$logMessage = "Preparing archive: " . $this->period->getLabel() . "(" . $this->period->getPrettyString() . ")";
+			$this->alreadyChecked[$this->getRequestedReport()] = true;
+			
+			$dayString = $this->period->getPrettyString();
+			$periodString = $this->period->getLabel();
+			$logMessage = "Preparing archive: " . $periodString . "(" . $dayString . ")";
+			
 			// if the END of the period is BEFORE the website creation date
 			// we already know there are no stats for this period
 			// we add one day to make sure we don't miss the day of the website creation
@@ -188,12 +193,13 @@ class Piwik_Archive_Single extends Piwik_Archive
     		
 			$this->archiveProcessing->setRequestedReport( $this->getRequestedReport() );
 		
+			$archivingDisabledArchiveNotProcessed = false;
 			$idArchive = $this->archiveProcessing->loadArchive();
 			if(empty($idArchive))
 			{
 				if($this->archiveProcessing->isArchivingDisabled())
 				{
-					$this->archiveProcessing->isThereSomeVisits = false;
+					$archivingDisabledArchiveNotProcessed = true;
 				}
 				else
 				{
@@ -210,22 +216,14 @@ class Piwik_Archive_Single extends Piwik_Archive
 			{
 				Piwik::log("$logMessage archive already processed [id = $idArchive]...");
 			}
-			$this->isThereSomeVisits = $this->archiveProcessing->isThereSomeVisits;
+			$this->isThereSomeVisits = !$archivingDisabledArchiveNotProcessed
+										&& $this->archiveProcessing->isThereSomeVisits();
+										
 			$this->idArchive = $idArchive;
 		}
 		return $archiveJustProcessed;
 	}
 	
-	protected $isArchivePrepared = false;
-	
-	protected function triggerProcessing()
-	{
-	    if(!$this->isArchivePrepared)
-	    {
-	        $archiveJustProcessed = $this->prepareArchive();
-    		$this->isArchivePrepared = true;
-	    }
-	}
 	/**
 	 * Returns a value from the current archive with the name = $name 
 	 * Method used by getNumeric or getBlob
@@ -237,7 +235,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 	protected function get( $name, $typeValue = 'numeric' )
 	{
     	$this->setRequestedReport($name);
-    	$this->triggerProcessing();
+    	$this->prepareArchive();
 	    
 		// values previously "get" and now cached
 		if($typeValue == 'numeric'
@@ -367,7 +365,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 	public function preFetchBlob( $name )
 	{
     	$this->setRequestedReport($name);
-    	$this->triggerProcessing();
+    	$this->prepareArchive();
     	if(!$this->isThereSomeVisits) { return; } 
     	
 		$tableBlob = $this->archiveProcessing->getTableArchiveBlobName();
@@ -501,7 +499,12 @@ class Piwik_Archive_Single extends Piwik_Archive
 	
 	protected function getRequestedReport()
 	{
-		if(!isset($this->requestedReport)) { debug_print_backtrace();exit; }
+		// Core metrics are always processed in Core, for the requested date/period/segment
+		if(in_array($this->requestedReport, Piwik_ArchiveProcessing::getCoreMetrics())
+			|| $this->requestedReport == 'max_actions')
+		{
+			return 'VisitsSummary_CoreMetrics';
+		}
    		return $this->requestedReport;
 	}
 	
