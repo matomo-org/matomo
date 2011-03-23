@@ -166,7 +166,20 @@ class Piwik_Period_Range extends Piwik_Period
 		}
 		
 		$this->processOptimalSubperiods($startDate, $endDate);
-		
+		// When period=range, we want End Date to be the actual specified end date, 
+		// rather than the end of the month / week / whatever is used for processing this range
+		$this->endDate = $endDate;
+	}
+	
+	protected $endDate = null;
+	
+	public function getDateEnd()
+	{
+		if(!is_null($this->endDate))
+		{
+			return $this->endDate;
+		}
+		return parent::getDateEnd();
 	}
 	
 	protected function processOptimalSubperiods($startDate, $endDate)

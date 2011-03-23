@@ -31,7 +31,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 	/**
 	 * @var bool Set to true if the archive has at least 1 visit
 	 */
-	public $isThereSomeVisits = false;
+	public $isThereSomeVisits = null;
 
 	/**
 	 * Period of this Archive
