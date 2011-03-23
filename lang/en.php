@@ -429,6 +429,7 @@ $translations = array(
 	'DBStats_TotalSize' => 'Total size',
 	'ExampleAPI_PluginDescription' => 'Example Plugin: How to create an API for your plugin, to export your data in multiple formats without any special coding?',
 	'ExampleFeedburner_PluginDescription' => 'Example Plugin: How to display your Feedburner subscriber in a Widget in the Dashboard?',
+	'ExampleFeedburner_Help' => 'Help about Feed Analytics',
 	'ExampleRssWidget_PluginDescription' => 'Example Plugin: How to create a new widget that reads a RSS feed?',
 	'ExampleUI_PluginDescription' => 'Example Plugin: This plugin shows how to work with the Piwik UI: create tables, graphs, etc.',
 	'Feedback_PluginDescription' => 'Send your Feedback to the Piwik Team. Share your ideas and suggestions with us!',
