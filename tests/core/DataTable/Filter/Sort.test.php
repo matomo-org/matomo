@@ -18,6 +18,7 @@ class Test_Piwik_DataTable_Filter_Sort extends UnitTestCase
 				)
 			);
 		$filter = new Piwik_DataTable_Filter_Sort($table, 'count', 'desc');
+		$filter->filter($table);
 		$expectedOrder = array('ask', 'yahoo', 'nintendo');
 		$this->assertEqual($table->getColumn('label'), $expectedOrder);
 	}
@@ -33,6 +34,7 @@ class Test_Piwik_DataTable_Filter_Sort extends UnitTestCase
 				)
 			);
 		$filter = new Piwik_DataTable_Filter_Sort($table, 'count', 'asc');
+		$filter->filter($table);
 		$expectedOrder = array('nintendo', 'yahoo', 'ask');
 		$this->assertEqual($table->getColumn('label'), $expectedOrder);
 	}
@@ -53,6 +55,7 @@ class Test_Piwik_DataTable_Filter_Sort extends UnitTestCase
 //		echo $table;
 //		echo "<hr>";
 		$filter = new Piwik_DataTable_Filter_Sort($table, 'count', 'asc');
+		$filter->filter($table);
 //		echo $table;
 //		echo "<hr>";
 		$expectedOrder = array('nintendo', 'ask', 'amazing', 'nocolumnbis', 'nocolumn', 'summary');
@@ -71,6 +74,7 @@ class Test_Piwik_DataTable_Filter_Sort extends UnitTestCase
 				)
 			);
 		$filter = new Piwik_DataTable_Filter_Sort($table, 'count', 'desc');
+		$filter->filter($table);
 		$expectedOrder = array('ask', 'nintendo', 'amazing', 'summary');
 		$this->assertEqual($table->getColumn('label'), $expectedOrder);
 	}
@@ -112,9 +116,11 @@ class Test_Piwik_DataTable_Filter_Sort extends UnitTestCase
 	  	$expectedtableReverse->addRowsFromArray(array_reverse($rows));
 	  		  	
 	 	$filter = new Piwik_DataTable_Filter_Sort($table, 'label', 'asc');
+		$filter->filter($table);
 	 	$this->assertTrue(Piwik_DataTable::isEqual($expectedtable,$table));
 	  	
 	  	$filter = new Piwik_DataTable_Filter_Sort($table, 'label', 'desc');
+		$filter->filter($table);
 	  	$this->assertTrue(Piwik_DataTable::isEqual($table, $expectedtableReverse));
 	 
 	 }
@@ -156,9 +162,11 @@ class Test_Piwik_DataTable_Filter_Sort extends UnitTestCase
 	  	$expectedtableReverse->addRowsFromArray(array_reverse($rows));
 	  		  	
 	 	$filter = new Piwik_DataTable_Filter_Sort($table, 'nb_visits', 'asc');
+		$filter->filter($table);
 	  	$this->assertTrue(Piwik_DataTable::isEqual($table, $expectedtable));
 	  	
 	  	$filter = new Piwik_DataTable_Filter_Sort($table, 'nb_visits', 'desc');
+		$filter->filter($table);
 	  	$this->assertTrue(Piwik_DataTable::isEqual($table, $expectedtableReverse));
 	 }
 }

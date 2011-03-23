@@ -205,6 +205,13 @@ class Piwik_DataTable
 	 */
 	protected $enableRecursiveSort = false;
 
+	/**
+	 * When the table and all subtables are loaded, this flag will be set to true to ensure filters are applied to all subtables
+	 * 
+	 * @var bool
+	 */
+	protected $enableRecursiveFilters = false;
+	
 	/*
 	 * @var Piwik_DataTable_Row
 	 */
@@ -288,6 +295,11 @@ class Piwik_DataTable
 	{
 		$this->enableRecursiveSort = true;
 	}
+	
+	public function enableRecursiveFilters()
+	{
+		$this->enableRecursiveFilters = true;
+	}
 
 	/**
 	 * Returns the number of rows before we applied the limit filter
@@ -331,6 +343,10 @@ class Piwik_DataTable
 		$parameters = array_merge(array($this), $parameters);
 		
 		$filter = $reflectionObj->newInstanceArgs($parameters); 
+		
+		$filter->enableRecursive( $this->enableRecursiveFilters );
+		
+		$filter->filter($this);
 	}
 	
 	/**
@@ -816,7 +832,7 @@ class Piwik_DataTable
 	 */
 	public function __toString()
 	{
-		$renderer = new Piwik_DataTable_Renderer_Console();
+		$renderer = new Piwik_DataTable_Renderer_Html();
 		$renderer->setTable($this);
 		return (string)$renderer;
 	}

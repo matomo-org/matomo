@@ -26,6 +26,7 @@ class Test_Piwik_DataTable_Filter_ExcludeLowPopulation extends UnitTestCase
 	{
 		$table = $this->getTestDataTable();	
 		$filter = new Piwik_DataTable_Filter_ExcludeLowPopulation($table, 'count', 1.1);
+		$filter->filter($table);
 		$this->assertEqual($table->getRowsCount(), 4);
 		$this->assertEqual($table->getColumn('count'), array(1.5, 10, 90, 100));
 	}
@@ -33,12 +34,14 @@ class Test_Piwik_DataTable_Filter_ExcludeLowPopulation extends UnitTestCase
 	{
 		$table = $this->getTestDataTable();	
 		$filter = new Piwik_DataTable_Filter_ExcludeLowPopulation($table, 'count', 1);
+		$filter->filter($table);
 		$this->assertEqual($table->getRowsCount(), 5);
 	}
 	public function test_filterEqualZero_doesFilter()
 	{
 		$table = $this->getTestDataTable();	
 		$filter = new Piwik_DataTable_Filter_ExcludeLowPopulation($table, 'count', 0);
+		$filter->filter($table);
 		$this->assertEqual($table->getRowsCount(), 3);
 		$this->assertEqual($table->getColumn('count'), array(10, 90, 100));
 	}
@@ -46,6 +49,7 @@ class Test_Piwik_DataTable_Filter_ExcludeLowPopulation extends UnitTestCase
 	{
 		$table = $this->getTestDataTable();	
 		$filter = new Piwik_DataTable_Filter_ExcludeLowPopulation($table, 'count', 0, 0.4); //40%
+		$filter->filter($table);
 		$this->assertEqual($table->getRowsCount(), 2);
 		$this->assertEqual($table->getColumn('count'), array(90, 100));
 	}
@@ -85,6 +89,7 @@ class Test_Piwik_DataTable_Filter_ExcludeLowPopulation extends UnitTestCase
 	  	$expectedtable->addRowsFromArray( $rows );
 	  	
 	 	$filter = new Piwik_DataTable_Filter_ExcludeLowPopulation($table, 'nb_visits', 1.4);
+		$filter->filter($table);
 
 	  	$this->assertTrue(Piwik_DataTable::isEqual($table, $expectedtable));
 	 }

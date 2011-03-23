@@ -18,15 +18,14 @@ class Piwik_DataTable_Filter_SafeDecodeLabel extends Piwik_DataTable_Filter
 {
 	private $columnToDecode;
 	private $outputHtml;
-	public function __construct( $table, $outputHTML = true )
+	public function __construct( $table )
 	{
 		parent::__construct($table);
 		$this->columnToDecode = 'label';
-		$this->outputHtml = (bool)$outputHTML;
-		$this->filter($table);
+		$this->outputHtml = true;
 	}
 	
-	protected function filter($table)
+	public function filter($table)
 	{
 		foreach($table->getRows() as $row)
 		{

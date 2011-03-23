@@ -32,7 +32,6 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 		$this->patternToSearchQuoted = self::getPatternQuoted($patternToSearch);
 		$this->columnToFilter = $columnToFilter;
         $this->invertedMatch = $invertedMatch;
-		$this->filter($table);
 	}
 	
 	static public function getPatternQuoted( $pattern )
@@ -48,7 +47,7 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 		return @preg_match($patternQuoted . "i",  $string) == 1 ^ $invertedMatch;
 	}
 	
-	protected function filter($table)
+	public function filter($table)
 	{
 		foreach($table->getRows() as $key => $row)
 		{

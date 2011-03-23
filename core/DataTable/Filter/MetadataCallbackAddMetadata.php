@@ -33,10 +33,9 @@ class Piwik_DataTable_Filter_MetadataCallbackAddMetadata extends Piwik_DataTable
 		$this->functionToApply = $functionToApply;
 		$this->metadataToRead = $metadataToRead;
 		$this->metadataToAdd = $metadataToAdd;
-		$this->filter($table);
 	}
 	
-	protected function filter($table)
+	public function filter($table)
 	{
 		foreach($table->getRows() as $key => $row)
 		{

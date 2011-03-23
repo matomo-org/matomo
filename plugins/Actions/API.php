@@ -189,7 +189,7 @@ class Piwik_Actions_API
 	{
 		// Must be applied before Sort in this case, since the DataTable can contain both int and strings indexes 
 		// (in the transition period between pre 1.2 and post 1.2 datatable structure)
-		$dataTable->filter('ReplaceColumnNames', array($recursive = true));
+		$dataTable->filter('ReplaceColumnNames');
 		$dataTable->filter('Sort', array('nb_visits', 'desc', $naturalSort = false, $expanded));
 		
 		$dataTable->queueFilter('ReplaceSummaryRowLabel');

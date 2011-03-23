@@ -40,7 +40,6 @@ class Piwik_DataTable_Filter_ExcludeLowPopulation extends Piwik_DataTable_Filter
 			$minimumValue = $sumValues * $minimumPercentageThreshold;
 		}
 		self::$minimumValue = $minimumValue;
-		$this->filter($table);
 	}
 	
 	function filter($table)

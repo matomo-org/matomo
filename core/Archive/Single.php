@@ -158,7 +158,8 @@ class Piwik_Archive_Single extends Piwik_Archive
 		$archiveJustProcessed = false;
 
 		$plugin = Piwik_ArchiveProcessing::getPluginBeingProcessed($this->getRequestedReport());
-		if(!isset($this->alreadyChecked[$plugin]))
+		if(!isset($this->alreadyChecked[$plugin])
+			)
 		{
 			$this->isThereSomeVisits = false;
 			$this->alreadyChecked[$plugin] = true;
@@ -166,7 +167,6 @@ class Piwik_Archive_Single extends Piwik_Archive
 			$dayString = $this->period->getPrettyString();
 			$periodString = $this->period->getLabel();
 			$logMessage = "Preparing archive: " . $periodString . "(" . $dayString . ")";
-			
 			// if the END of the period is BEFORE the website creation date
 			// we already know there are no stats for this period
 			// we add one day to make sure we don't miss the day of the website creation
@@ -219,7 +219,6 @@ class Piwik_Archive_Single extends Piwik_Archive
 			}
 			$this->isThereSomeVisits = !$archivingDisabledArchiveNotProcessed
 										&& $this->archiveProcessing->isThereSomeVisits();
-										
 			$this->idArchive = $idArchive;
 		}
 		return $archiveJustProcessed;
@@ -530,6 +529,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 		$this->preFetchBlob($name);
 		$dataTableToLoad = $this->getDataTable($name, $idSubTable);
 		$this->loadSubDataTables($name, $dataTableToLoad, $addMetadataSubtableId = true);
+		$dataTableToLoad->enableRecursiveFilters();
 		$this->freeBlob($name);
 		return $dataTableToLoad;		
 	}
