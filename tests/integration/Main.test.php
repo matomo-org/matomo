@@ -493,6 +493,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
     		'2011-01-16 01:00:00',
     	);
     	$idSite = $this->createWebsite($dateTimes[0]);
+    	
     	foreach($dateTimes as $dateTime)
     	{
 	        $visitor = $this->getTracker($idSite, $dateTime, $defaultInit = true);
@@ -510,21 +511,34 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	        $this->checkResponse($visitor->doTrackPageView('ou pas'));
     	}
     	
-		$this->setApiToCall(array(
-    	                            'Actions.getPageUrls',
-    	                            'VisitsSummary.get',
-    	));
-		$this->callGetApiCompareOutput(__FUNCTION__, 'xml', 
-        								$idSite, 
-        								$date = '2010-12-15,2011-01-15', 
-        								$periods = array('range')
-        );
-	
-        
+    	// 2 segments: ALL and another way of expressing ALL but triggering the Segment code path 
+    	$segments = array(
+    		false,
+    		'country!=aa',
+    	);
+    	for($i = 0; $i <=1; $i++)
+    	{
+    		foreach($segments as $segment)
+    		{
+				$this->setApiToCall(array(
+		    	                            'Actions.getPageUrls',
+		    	                            'VisitsSummary.get',
+		    	));
+				$this->callGetApiCompareOutput(__FUNCTION__, 'xml', 
+		        								$idSite, 
+		        								$date = '2010-12-15,2011-01-15', 
+		        								$periods = array('range'),
+		        								$setDateLastN = false,
+		        								$language = false,
+		        								$segment
+		        );
+    		}
+    	}
+	        
         // Check that requesting period "Range" means only processing the requested Plugin blob (Actions in this case), not all Plugins blobs
 		$tests = array(
-			'archive_blob_2010_12' => 4, // 4 blobs for the Actions plugin
-			'archive_numeric_2010_12' => 6, // 5 metrics + 1 flag
+			'archive_blob_2010_12' => 4 * 2, // 4 blobs for the Actions plugin
+			'archive_numeric_2010_12' => 6 * 2 + 1, // (5 metrics + 1 flag) * 2 segments + Flag archive Actions for segment
 		
 			// all "Range" records are in December
 			'archive_blob_2011_01' => 0,
