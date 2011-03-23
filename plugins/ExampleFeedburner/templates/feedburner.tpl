@@ -49,16 +49,16 @@ $(document).ready(function(){
 		<td>{$fbStats[0][2]}</td>
 	</tr>
 	<tr>
-		<td class='metric'>Hits</td>
-		<td>{$fbStats[1][0]}</td>
-		<td>{$fbStats[1][1]}</td>
-		<td>{$fbStats[1][2]}</td>
-	</tr>
-	<tr>
 		<td class='metric'>Reach</td>
 		<td>{$fbStats[2][0]}</td>
 		<td>{$fbStats[2][1]}</td>
 		<td>{$fbStats[2][2]}</td>
+	</tr>
+	<tr>
+		<td class='metric'>Hits</td>
+		<td>{$fbStats[1][0]}</td>
+		<td>{$fbStats[1][1]}</td>
+		<td>{$fbStats[1][2]}</td>
 	</tr>
 </table>
 {/if}
@@ -66,4 +66,5 @@ $(document).ready(function(){
 <div class='center entityContainer'>
 	<input id="feedburnerName" type="text" value="{$feedburnerFeedName}" />
 	<input id="feedburnerSubmit" type="submit" value="{'General_Ok'|translate}" />
+	<a style='margin-left:10px' class='entityInlineHelp' href='?module=Proxy&action=redirect&url={"http://piwik.org/faq/how-to/#faq_99"|escape:"url"}' target='_blank'>{'ExampleFeedburner_Help'|translate}</a>
 </div>
