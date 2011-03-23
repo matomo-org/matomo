@@ -27,10 +27,9 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 	public function __construct( $table, $enable = true )
 	{
 		parent::__construct($table);
-		$this->filter($table);
 	}
 	
-	protected function filter($table)
+	public function filter($table)
 	{
 		$rowsIdToDelete = array();	
 		$bounceRateColumnWasSet = false;	

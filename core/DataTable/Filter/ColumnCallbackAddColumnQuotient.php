@@ -48,10 +48,9 @@ class Piwik_DataTable_Filter_ColumnCallbackAddColumnQuotient extends Piwik_DataT
 			$this->columnNameUsedAsDivisor = $divisorValueOrDivisorColumnName;
 		}
 		$this->quotientPrecision = $quotientPrecision;
-		$this->filter($table);
 	}
 	
-	protected function filter($table)
+	public function filter($table)
 	{
 		foreach($table->getRows() as $key => $row)
 		{

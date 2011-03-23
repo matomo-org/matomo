@@ -34,10 +34,9 @@ class Piwik_DataTable_Filter_ColumnCallbackAddMetadata extends Piwik_DataTable_F
 		$this->functionParameters = $functionParameters;
 		$this->columnToRead = $columnToRead;
 		$this->metadataToAdd = $metadataToAdd;
-		$this->filter($table);
 	}
 	
-	protected function filter($table)
+	public function filter($table)
 	{
 		foreach($table->getRows() as $key => $row)
 		{

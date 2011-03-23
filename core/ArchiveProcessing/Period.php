@@ -86,6 +86,8 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 				{
 					$results[$name] = 0;
 				}
+				if($name == 'nb_uniq_visitors') continue;
+				
 				$valueToSum = $archive->getNumeric($name);
 				
 				if($valueToSum !== false)
@@ -303,24 +305,20 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 			$archive->setSite( $this->site );
 			$archive->setPeriod( $this->period );
 			$archive->setSegment( $this->getSegment() );
-			$archive->setRequestedReport( 'VisitsSummary' );
+			$archive->setRequestedReport( 'nb_visits' );
 			
 			$nbVisits = $archive->getNumeric('nb_visits');
+			$nbVisitsConverted = 0;
 			if($nbVisits > 0)
 			{
 				$nbVisitsConverted = $archive->getNumeric('nb_visits_converted');
 			}
 		}
 		
-		$this->isThereSomeVisits = ($nbVisits > 0);
-		if($this->isThereSomeVisits === false)
-		{
-			return false;
-		}
-		
 		$this->setNumberOfVisits($nbVisits);
 		$this->setNumberOfVisitsConverted($nbVisitsConverted);
-		return true;
+		$this->isThereSomeVisits = ($nbVisits > 0);
+		return $this->isThereSomeVisits;
 	}
 	
 	/**

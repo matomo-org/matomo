@@ -28,10 +28,9 @@ class Piwik_DataTable_Filter_ColumnCallbackReplace extends Piwik_DataTable_Filte
 		$this->functionToApply = $functionToApply;
 		$this->functionParameters = $functionParameters;
 		$this->columnToFilter = $columnToFilter;
-		$this->filter($table);
 	}
 	
-	protected function filter($table)
+	public function filter($table)
 	{
 		foreach($table->getRows() as $key => $row)
 		{

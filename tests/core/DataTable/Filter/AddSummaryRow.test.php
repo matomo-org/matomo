@@ -11,6 +11,7 @@ class Test_Piwik_DataTable_Filter_AddSummaryRow extends UnitTestCase
 	{
 		$table = $this->getDataTableCount5();
 		$filter = new Piwik_DataTable_Filter_AddSummaryRow($table, 5);
+		$filter->filter($table);
 		$this->assertEqual($table->getRowsCount(), 5);
 		$this->assertTrue(Piwik_DataTable_Row::isEqual($table->getLastRow(), $this->getRow4()));
 	}
@@ -19,6 +20,7 @@ class Test_Piwik_DataTable_Filter_AddSummaryRow extends UnitTestCase
 	{
 		$table = $this->getDataTableCount5();
 		$filter = new Piwik_DataTable_Filter_AddSummaryRow($table, 2);
+		$filter->filter($table);
 		$this->assertEqual($table->getRowsCount(), 3);
 		$expectedRow = new Piwik_DataTable_Row(array( Piwik_DataTable_Row::COLUMNS => array('label'=>Piwik_DataTable::LABEL_SUMMARY_ROW, 'nb' => 111)));
 		$this->assertTrue(Piwik_DataTable_Row::isEqual($table->getLastRow(), $expectedRow));
@@ -30,6 +32,7 @@ class Test_Piwik_DataTable_Filter_AddSummaryRow extends UnitTestCase
 	{
 		$table = $this->getDataTableCount5();
 		$filter = new Piwik_DataTable_Filter_AddSummaryRow($table, 6);
+		$filter->filter($table);
 		$this->assertEqual($table->getRowsCount(), 5);
 		$this->assertTrue(Piwik_DataTable_Row::isEqual($table->getLastRow(), $this->getRow4()));
 	}
@@ -38,7 +41,9 @@ class Test_Piwik_DataTable_Filter_AddSummaryRow extends UnitTestCase
 	{
 		$table = $this->getDataTableCount5();
 		$filter1 = new Piwik_DataTable_Filter_AddSummaryRow($table, 3);
+		$filter1->filter($table);
 		$filter2 = new Piwik_DataTable_Filter_AddSummaryRow($table, 2);
+		$filter2->filter($table);
 		$this->assertEqual($table->getRowsCount(), 3);
 		$expectedRow = new Piwik_DataTable_Row(array( Piwik_DataTable_Row::COLUMNS => array('label'=>Piwik_DataTable::LABEL_SUMMARY_ROW, 'nb' => 111)));
 		$this->assertTrue(Piwik_DataTable_Row::isEqual($table->getLastRow(), $expectedRow));
@@ -49,10 +54,12 @@ class Test_Piwik_DataTable_Filter_AddSummaryRow extends UnitTestCase
 		// row0, row1, row2, rowSummary1
 		$table1 = $this->getDataTableCount5();
 		$filter = new Piwik_DataTable_Filter_AddSummaryRow($table1, 3);
+		$filter->filter($table1);
 		
 		// row0, row1, rowSummary2
 		$table2 = $this->getDataTableCount5();
 		$filter = new Piwik_DataTable_Filter_AddSummaryRow($table2, 2);
+		$filter->filter($table2);
 		
 		// we expect row0+row0, row1+row1, row2, rowSummary1+rowSummary2
 		$expectedTable = new Piwik_DataTable;
@@ -70,6 +77,7 @@ class Test_Piwik_DataTable_Filter_AddSummaryRow extends UnitTestCase
 		// row0, row1, row2, rowSummary1
 		$table1 = $this->getDataTableCount5();
 		$filter = new Piwik_DataTable_Filter_AddSummaryRow($table1, 3);
+		$filter->filter($table1);
 		
 		// row0, row1, row2, row3, row4
 		$table2 = $this->getDataTableCount5();
@@ -98,6 +106,7 @@ class Test_Piwik_DataTable_Filter_AddSummaryRow extends UnitTestCase
 		$table->addRow( $this->getRow0() );
 		
 		$filter = new Piwik_DataTable_Filter_AddSummaryRow($table, 2, Piwik_DataTable::LABEL_SUMMARY_ROW, $columnToSortBy = 'nb');
+		$filter->filter($table);
 		$this->assertEqual($table->getRowsCount(), 3);
 		$expectedRow = new Piwik_DataTable_Row(array( Piwik_DataTable_Row::COLUMNS => array('label'=>Piwik_DataTable::LABEL_SUMMARY_ROW, 'nb' => 111)));
 		$this->assertTrue(Piwik_DataTable_Row::isEqual($table->getLastRow(), $expectedRow));

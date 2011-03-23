@@ -527,7 +527,6 @@ abstract class Piwik_ArchiveProcessing
 			$flag = Piwik_ArchiveProcessing::DONE_OK_TEMPORARY;
 		}
 		$this->insertNumericRecord($done, $flag);
-		//Piwik_DataTable_Manager::getInstance()->deleteAll();
 	}
 	
 	/**

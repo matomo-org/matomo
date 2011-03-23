@@ -38,6 +38,7 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 		$limit = 3;
 		$table = $this->getDataTableCount10();
 		$filter = new Piwik_DataTable_Filter_Limit($table, $offset, $limit);
+		$filter->filter($table);
 		$this->assertEqual($table->getRowsCount(), 3);
 		$this->assertEqual($table->getFirstRow()->getColumn('idRow'), 2);
 		$this->assertEqual($table->getLastRow()->getColumn('idRow'), 4);
@@ -50,6 +51,7 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 		$limit = 7;
 		$table = $this->getDataTableCount10();
 		$filter = new Piwik_DataTable_Filter_Limit($table, $offset, $limit);
+		$filter->filter($table);
 		$this->assertEqual($table->getRowsCount(), 7);
 		$this->assertEqual($table->getFirstRow()->getColumn('idRow'), 2);
 		$this->assertEqual($table->getLastRow()->getColumn('idRow'), 8);
@@ -63,6 +65,7 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 		$table = $this->getDataTableCount10();
 		$this->assertEqual($table->getRowsCountBeforeLimitFilter(), 10);
 		$filter = new Piwik_DataTable_Filter_Limit($table, $offset, $limit);
+		$filter->filter($table);
 		$this->assertEqual($table->getRowsCount(), 10);
 		$this->assertEqual($table->getFirstRow()->getColumn('idRow'), 0);
 		$this->assertEqual($table->getLastRow()->getColumn('idRow'), 9);
@@ -76,6 +79,7 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 		$table = $this->getDataTableCount10();
 		$this->assertEqual($table->getRowsCountBeforeLimitFilter(), 10);
 		$filter = new Piwik_DataTable_Filter_Limit($table, $offset, $limit);
+		$filter->filter($table);
 		$this->assertEqual($table->getRowsCount(), 5);
 		$this->assertEqual($table->getFirstRow()->getColumn('idRow'), 5);
 		$this->assertEqual($table->getLastRow()->getColumn('idRow'), 9);
@@ -87,6 +91,7 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 		$offset = 1;
 		$table = $this->getDataTableCount10();
 		$filter = new Piwik_DataTable_Filter_Limit($table, $offset);
+		$filter->filter($table);
 		$this->assertEqual($table->getRowsCount(), 9);
 		$this->assertEqual($table->getFirstRow()->getColumn('idRow'), 1);
 		$this->assertEqual($table->getLastRow()->getColumn('idRow'), 9);
@@ -99,6 +104,7 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 		$limit = 1;
 		$table = $this->getDataTableCount10();
 		$filter = new Piwik_DataTable_Filter_Limit($table, $offset, $limit);
+		$filter->filter($table);
 		$this->assertEqual($table->getRowsCount(), 1);
 		$this->assertEqual($table->getFirstRow()->getColumn('idRow'), 9);
 		$this->assertEqual($table->getLastRow()->getColumn('idRow'), 9);
@@ -111,6 +117,7 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 		$limit = 100;
 		$table = $this->getDataTableCount10();
 		$filter = new Piwik_DataTable_Filter_Limit($table, $offset, $limit);
+		$filter->filter($table);
 		$this->assertEqual($table->getRowsCount(), 1);
 		$this->assertEqual($table->getFirstRow()->getColumn('idRow'), 9);
 		$this->assertEqual($table->getLastRow()->getColumn('idRow'), 9);
@@ -123,6 +130,7 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 		$limit = 3;
 		$table = $this->getDataTableCount10();
 		$filter = new Piwik_DataTable_Filter_Limit($table, $offset, $limit);
+		$filter->filter($table);
 		$this->assertEqual($table->getRowsCount(), 2);
 		$this->assertEqual($table->getFirstRow()->getColumn('idRow'), 8);
 		$this->assertEqual($table->getLastRow()->getColumn('idRow'), 9);
@@ -135,6 +143,7 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 		$limit = 10;
 		$table = $this->getDataTableCount10();
 		$filter = new Piwik_DataTable_Filter_Limit($table, $offset, $limit);
+		$filter->filter($table);
 		$this->assertEqual($table->getRowsCount(), 0);
 		$this->assertEqual($table->getRowsCountBeforeLimitFilter(), 10);
 	}
@@ -145,6 +154,7 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 		$limit = 0;
 		$table = $this->getDataTableCount10();
 		$filter = new Piwik_DataTable_Filter_Limit($table, $offset, $limit);
+		$filter->filter($table);
 		$this->assertEqual($table->getRowsCount(), 0);
 		$this->assertEqual($table->getRowsCountBeforeLimitFilter(), 10);
 	}
@@ -174,6 +184,7 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 	 	$expectedtable->deleteRows(array(0,1,6));
 	  	
 	  	$filter = new Piwik_DataTable_Filter_Limit($table, 2, 4);
+		$filter->filter($table);
 	  	
 	  	$colAfter=$colExpected=array();
 	  	foreach($table->getRows() as $row) $colAfter[] = $row->getColumn('label');
@@ -207,6 +218,7 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 	 	$expectedtable->deleteRows(array(0,1,3,4,5,6));
 	  	
 	  	$filter = new Piwik_DataTable_Filter_Limit($table, 2, 1);
+		$filter->filter($table);
 	  	
 	  	$colAfter=$colExpected=array();
 	  	foreach($table->getRows() as $row) $colAfter[] = $row->getColumn('label');
@@ -238,6 +250,7 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 	 	$expectedtable = clone $table;
 	  	
 	  	$filter = new Piwik_DataTable_Filter_Limit($table, 0, 15);
+		$filter->filter($table);
 	  	
 	  	$colAfter=$colExpected=array();
 	  	foreach($table->getRows() as $row) $colAfter[] = $row->getColumn('label');
@@ -270,6 +283,7 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 	 	$expectedtable = new Piwik_DataTable;
 	  	
 	  	$filter = new Piwik_DataTable_Filter_Limit($table, 8, 15);
+		$filter->filter($table);
 	  	
 	  	$colAfter=$colExpected=array();
 	  	foreach($table->getRows() as $row) $colAfter[] = $row->getColumn('label');

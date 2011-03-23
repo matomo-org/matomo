@@ -36,29 +36,24 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
 	 * 						OLD_COLUMN_NAME2 => NEW_COLUMN NAME2,
 	 * 					)
 	 */
-	public function __construct( $table, $recursive = false, $mappingToApply = null )
+	public function __construct( $table, $mappingToApply = null )
 	{
 		parent::__construct($table);
 		$this->mappingToApply = Piwik_Archive::$mappingFromIdToName;
-		$this->applyFilterRecursively = $recursive;
 		if(!is_null($mappingToApply))
 		{
 			$this->mappingToApply = $mappingToApply;
 		}
-		$this->filter($table);
 	}
 	
-	protected function filter($table)
+	public function filter($table)
 	{
 		foreach($table->getRows() as $key => $row)
 		{
 			$oldColumns = $row->getColumns();
 			$newColumns = $this->getRenamedColumns($oldColumns);
 			$row->setColumns( $newColumns );
-			if($this->applyFilterRecursively)
-			{
-				$this->filterSubTable($row);
-			}
+			$this->filterSubTable($row);
 		}
 	}
 	

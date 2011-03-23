@@ -31,7 +31,7 @@ class Piwik_CustomVariables_API
 	{
 	    $dataTable = Piwik_Archive::getDataTableFromArchive('CustomVariables_valueByName', $idSite, $period, $date, $segment, $expanded, $idSubtable);
 		$dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS, 'desc', $naturalSort = false, $expanded));
-		$dataTable->queueFilter('ReplaceColumnNames', array($expanded));
+		$dataTable->queueFilter('ReplaceColumnNames');
 	    return $dataTable;
 	}
 

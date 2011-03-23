@@ -53,7 +53,7 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 		parent::__construct($table);
 	}
 	
-	protected function filter($table)
+	public function filter($table)
 	{
 		// Add standard processed metrics
 		parent::filter($table);

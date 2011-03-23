@@ -37,15 +37,14 @@ class Piwik_DataTable_Filter_AddSummaryRow extends Piwik_DataTable_Filter
 		$this->startRowToSummarize = $startRowToSummarize;
 		$this->labelSummaryRow = $labelSummaryRow;
 		$this->columnToSortByBeforeTruncating = $columnToSortByBeforeTruncating;
-
-		if($table->getRowsCount() > $startRowToSummarize + 1)
-		{
-			$this->filter($table);
-		}
 	}
 
-	protected function filter($table)
+	public function filter($table)
 	{
+		if($table->getRowsCount() <= $this->startRowToSummarize + 1)
+		{
+			return;
+		}
 		$table->filter('Sort', 
 							array( $this->columnToSortByBeforeTruncating, 'desc'));
 		

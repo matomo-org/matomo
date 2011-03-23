@@ -25,10 +25,9 @@ class Piwik_DataTable_Filter_ReplaceSummaryRowLabel extends Piwik_DataTable_Filt
 			$newLabel = Piwik_Translate('General_Others');
 		}
 		$this->newLabel = $newLabel;
-		$this->filter($table);
 	}
 	
-	protected function filter($table)
+	public function filter($table)
 	{
 		$rows = $table->getRows();
 		foreach($rows as $row)
