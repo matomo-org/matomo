@@ -115,9 +115,7 @@ function Piwik_getSearchEngineUrlFromUrlAndKeyword($url, $keyword)
 		return false;
 	}
 	$path = str_replace("{k}", $keyword, $path);
-	$tmp = $url . (substr($url, -1) != '/' ? '/' : '') . $path;
-	var_dump($tmp);
-	return $tmp;
+	return $url . (substr($url, -1) != '/' ? '/' : '') . $path;
 }
 
 /**
