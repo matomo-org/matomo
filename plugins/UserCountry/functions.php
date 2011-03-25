@@ -36,7 +36,7 @@ function Piwik_getFlagFromCode($code)
  */
 function Piwik_ContinentTranslate($label)
 {
-	if($label == 'unk')
+	if($label == 'unk' || $label == '')
 	{
 		return html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
 	}
@@ -51,7 +51,7 @@ function Piwik_ContinentTranslate($label)
  */
 function Piwik_CountryTranslate($label)
 {
-	if($label == 'xx')
+	if($label == 'xx' || $label == '')
 	{
 		return html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
 	}
