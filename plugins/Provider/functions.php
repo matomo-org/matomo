@@ -20,7 +20,7 @@ function Piwik_getHostnameName($in)
 {
 	if(empty($in))
 	{
-		return html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
+		return Piwik_Translate('General_Unknown');
 	}
 	if(strtolower($in) === 'ip')
 	{

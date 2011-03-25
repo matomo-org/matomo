@@ -29,7 +29,7 @@ function Piwik_getOSLabel($osId)
 	}
 	if( $osId == 'UNK')
 	{
-		return html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
+		return Piwik_Translate('General_Unknown');
 	}
 	return $osId;
 }
@@ -43,7 +43,7 @@ function Piwik_getOSShortLabel($osId)
 	}
 	if( $osId == 'UNK')
 	{
-		return html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
+		return Piwik_Translate('General_Unknown');
 	}
 	return $osId;
 }
@@ -56,7 +56,7 @@ function Piwik_getBrowserTypeLabel($oldLabel)
 	}
 	if($oldLabel == 'unknown')
 	{
-		return html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
+		return Piwik_Translate('General_Unknown');
 	}
 	return $oldLabel;
 }
@@ -75,7 +75,7 @@ function Piwik_getConfigurationLabel($str)
 	$browser = UserAgentParser::getBrowserNameFromId($name);
 	if($browser === false)
 	{
-		$browser = html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
+		$browser = Piwik_Translate('General_Unknown');
 	}
 	$resolution = $values[2];
 	return $os . " / " . $browser . " / " . $resolution;
@@ -92,7 +92,7 @@ function Piwik_getBrowserLabel($oldLabel)
 	}
 	if( $browserId == 'UNK')
 	{
-		return html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
+		return Piwik_Translate('General_Unknown');
 	}
 	return $oldLabel;
 }
@@ -108,7 +108,7 @@ function Piwik_getBrowserShortLabel($oldLabel)
 	}
 	if( $browserId == 'UNK')
 	{
-		return html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
+		return Piwik_Translate('General_Unknown');
 	}
 	return $oldLabel;
 }

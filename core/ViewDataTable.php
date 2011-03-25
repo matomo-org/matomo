@@ -913,7 +913,7 @@ abstract class Piwik_ViewDataTable
 	{
 		if( isset($this->columnsTranslations[$columnName]) )
 		{
-			return html_entity_decode($this->columnsTranslations[$columnName], ENT_COMPAT, 'UTF-8');
+			return $this->columnsTranslations[$columnName];
 		}
 		return $columnName;
 	}
@@ -926,7 +926,7 @@ abstract class Piwik_ViewDataTable
 	{
 		if( !empty($this->columnsDescriptions[$columnName]) )
 		{
-			return html_entity_decode($this->columnsDescriptions[$columnName], ENT_COMPAT, 'UTF-8');
+			return $this->columnsDescriptions[$columnName];
 		}
 		return false;
 	}
