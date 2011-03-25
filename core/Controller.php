@@ -342,7 +342,7 @@ abstract class Piwik_Controller
 	 * 
 	 * @param $view
 	 */
-	public function setBasicVariablesView($view)
+	protected function setBasicVariablesView($view)
 	{
 		$view->topMenu = Piwik_GetTopMenu();
 		$view->currentAdminMenuName = Piwik_GetCurrentAdminMenuName();
