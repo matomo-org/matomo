@@ -685,12 +685,11 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$infos['directories'] = Piwik::checkDirectoriesWritable();
 		$infos['can_auto_update'] = Piwik::canAutoUpdate();
 		
-		$serverSoftware = isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : '';
-		if(preg_match('/^Microsoft-IIS\/(.+)/', $serverSoftware, $matches) && version_compare($matches[1], '7') >= 0)
+		if(Piwik_Common::isIIS())
 		{
 			Piwik::createWebConfigFiles();
 		}
-		else if(!strncmp($serverSoftware, 'Apache', 6))
+		else
 		{
 			Piwik::createHtAccessFiles();
 		}
@@ -810,6 +809,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$infos['isIpv4'] = false;
 		}
 
+		$serverSoftware = isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : '';
 		$infos['serverVersion'] = addslashes($serverSoftware);
 		$infos['serverOs'] = @php_uname();
 		$infos['serverTime'] = date('H:i:s');
