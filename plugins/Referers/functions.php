@@ -49,6 +49,22 @@ function Piwik_getSearchEngineUrlFromName($name)
 }
 
 /**
+ * Return search engine host in URL
+ *
+ * @param string $url
+ * @return string host
+ */
+function Piwik_getSearchEngineHostFromUrl($url)
+{
+	$url = substr($url, strpos($url,'//') + 2);
+	if(($p = strpos($url, '/')) !== false)
+	{
+		$url = substr($url, 0, $p);
+	}
+	return $url;
+}
+
+/**
  * Return search engine logo path by URL
  *
  * @param string $url
@@ -68,18 +84,14 @@ function Piwik_getSearchEngineLogoFromUrl($url)
 }
 
 /**
- * Return search engine host in URL
+ * Return search engine host and path in URL
  *
  * @param string $url
  * @return string host
  */
-function Piwik_getSearchEngineHostFromUrl($url)
+function Piwik_getSearchEngineHostPathFromUrl($url)
 {
 	$url = substr($url, strpos($url,'//') + 2);
-	if(($p = strpos($url, '/')) !== false)
-	{
-		$url = substr($url, 0, $p);
-	}
 	return $url;
 }
 
@@ -97,13 +109,15 @@ function Piwik_getSearchEngineUrlFromUrlAndKeyword($url, $keyword)
 	$searchEngineUrls = Piwik_Common::getSearchEngineUrls();
 	$keyword = urlencode($keyword);
 	$keyword = str_replace(urlencode('+'), urlencode(' '), $keyword);
-	$path = @$searchEngineUrls[Piwik_getSearchEngineHostFromUrl($url)][2];
+	$path = @$searchEngineUrls[Piwik_getSearchEngineHostPathFromUrl($url)][2];
 	if(empty($path))
 	{
 		return false;
 	}
 	$path = str_replace("{k}", $keyword, $path);
-	return $url . '/' . $path;
+	$tmp = $url . (substr($url, -1) != '/' ? '/' : '') . $path;
+	var_dump($tmp);
+	return $tmp;
 }
 
 /**

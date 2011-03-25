@@ -70,30 +70,32 @@ class Test_Referers extends UnitTestCase
 	function test_getSearchEngineHostFromUrl()
 	{
 		$data = array(
-			'http://www.google.com/cse' => 'www.google.com',
-			'http://www.google.com' => 'www.google.com',
+			'http://www.google.com/cse' => array('www.google.com', 'www.google.com/cse'),
+			'http://www.google.com' => array('www.google.com', 'www.google.com'),
 		);
 
 		foreach($data as $url => $expected)
 		{
-			$this->assertEqual(Piwik_getSearchEngineHostFromUrl($url), $expected, $url);
+			$this->assertEqual(Piwik_getSearchEngineHostFromUrl($url), $expected[0], $url);
+			$this->assertEqual(Piwik_getSearchEngineHostPathFromUrl($url), $expected[1], $url);
 		}
 	}
 
-/*
 	// get search engine url from name and keyword
-	function test_getSearchEngineUrlFromNameAndKeyword()
+	function test_getSearchEngineUrlFromUrlAndKeyword()
 	{
 		$data = array(
+			array('http://apollo.lv/portal/search/', 'piwik', 'http://apollo.lv/portal/search/?cof=FORID%3A11&q=piwik&search_where=www'),
+			array('http://bing.com/images/search', 'piwik', 'http://bing.com/images/search/?q=piwik'),
+			array('http://google.com', 'piwik', 'http://google.com/search?q=piwik'),
 		);
 
 		foreach($data as $item)
 		{
-			$name = array_shift($item);
+			$url = array_shift($item);
 			$keyword = array_shift($item);
 			$expected = array_shift($item);
-			$this->assertEqual(Piwik_getSearchEngineUrlFromNameAndKeyword($name, $keyword), $expected, "$name $keyword");
+			$this->assertEqual(Piwik_getSearchEngineUrlFromUrlAndKeyword($url, $keyword), $expected, "$url $keyword");
 		}
 	}
-*/
 }
