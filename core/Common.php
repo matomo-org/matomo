@@ -1483,7 +1483,7 @@ class Piwik_Common
 	 */
 	static public function isApache()
 	{
-		$apache = isset($_SERVER['SOFTWARE']) &&
+		$apache = isset($_SERVER['SERVER_SOFTWARE']) &&
 			!strncmp($_SERVER['SERVER_SOFTWARE'], 'Apache', 6);
 
 		return $apache;
@@ -1496,7 +1496,7 @@ class Piwik_Common
 	 */
 	static public function isIIS()
 	{
-		$iis = isset($_SERVER['SOFTWARE']) &&
+		$iis = isset($_SERVER['SERVER_SOFTWARE']) &&
 			preg_match('/^Microsoft-IIS\/(.+)/', $_SERVER['SERVER_SOFTWARE'], $matches) &&
 			version_compare($matches[1], '7') >= 0;
 
