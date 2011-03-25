@@ -185,11 +185,11 @@ class Test_Languages_Manager extends UnitTestCase
 			{
 				if(is_array($names))
 				{
-					$this->fail("There are \"official\" language names to choose from for $languageCode, e.g., ". implode(', ', $names));
+					$this->assertTrue(strpos($name, $names[0]) !== false);
 				}
 				else
 				{
-					$this->assertTrue(strpos($name, $names) !== false);
+					$this->fail("$language: expected an array of language names");
 				}
 			}
 		}
