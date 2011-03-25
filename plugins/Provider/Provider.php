@@ -156,7 +156,7 @@ class Piwik_Provider extends Piwik_Plugin
 
 		// improve the country using the provider extension if valid
 		$hostnameDomain = substr($hostnameExtension, 1 + strrpos($hostnameExtension, '.'));
-		if(in_array($hostnameDomain, Piwik_Common::getCountriesList()))
+		if(array_key_exists($hostnameDomain, Piwik_Common::getCountriesList()))
 		{
 			$visitorInfo['location_country'] = $hostnameDomain;
 		}

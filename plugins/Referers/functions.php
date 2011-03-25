@@ -29,16 +29,17 @@ function Piwik_getPathFromUrl($url)
 /**
  * Return search engine URL by name
  *
+ * @see core/DataFiles/SearchEnginges.php
+ *
  * @param string $name
  * @return string URL
- * @see core/DataFiles/SearchEnginges.php
  */
 function Piwik_getSearchEngineUrlFromName($name)
 {
-	require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
-	if(isset($GLOBALS['Piwik_SearchEngines_NameToUrl'][$name]))
+	$searchEngineNames = Piwik_Common::getSearchEngineNames();
+	if(isset($searchEngineNames[$name]))
 	{
-		$url = 'http://'.$GLOBALS['Piwik_SearchEngines_NameToUrl'][$name];
+		$url = 'http://'.$searchEngineNames[$name];
 	}
 	else
 	{
@@ -85,17 +86,18 @@ function Piwik_getSearchEngineHostFromUrl($url)
 /**
  * Return search engine URL for URL and keyword
  *
+ * @see core/DataFiles/SearchEnginges.php
+ *
  * @param string $url Domain name, e.g., search.piwik.org
  * @param string $keyword Keyword, e.g., web+analytics
  * @return string URL, e.g., http://search.piwik.org/q=web+analytics
- * @see core/DataFiles/SearchEnginges.php
  */
 function Piwik_getSearchEngineUrlFromUrlAndKeyword($url, $keyword)
 {
-	require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
+	$searchEngineUrls = Piwik_Common::getSearchEngineUrls();
 	$keyword = urlencode($keyword);
 	$keyword = str_replace(urlencode('+'), urlencode(' '), $keyword);
-	$path = @$GLOBALS['Piwik_SearchEngines'][Piwik_getSearchEngineHostFromUrl($url)][2];
+	$path = @$searchEngineUrls[Piwik_getSearchEngineHostFromUrl($url)][2];
 	if(empty($path))
 	{
 		return false;
@@ -107,10 +109,11 @@ function Piwik_getSearchEngineUrlFromUrlAndKeyword($url, $keyword)
 /**
  * Return search engine URL for keyword and URL
  *
+ * @see Piwik_getSearchEngineUrlFromUrlAndKeyword()
+ *
  * @param string $keyword Keyword, e.g., web+analytics
  * @param string $url Domain name, e.g., search.piwik.org
  * @return string URL, e.g., http://search.piwik.org/q=web+analytics
- * @see Piwik_getSearchEngineUrlFromUrlAndKeyword()
  */
 function Piwik_getSearchEngineUrlFromKeywordAndUrl($keyword, $url)
 {
@@ -170,4 +173,3 @@ function Piwik_getRefererTypeFromShortName($name)
 	}
 	throw new Exception("Referrer type '$name' is not valid.");
 }
-

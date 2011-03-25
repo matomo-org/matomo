@@ -578,7 +578,7 @@ class Test_Piwik_Common extends UnitTestCase
 				array( "fr-fr,fr-ca",             array("us", "ca"),       "ca" ),
 				array( "fr-fr;q=1.0,fr-ca;q=0.9", array("us", "ca"),       "ca" ),
 				array( "fr-ca,fr;q=0.1",          array("us", "ca"),       "ca" ),
-				array( "en-us,en;q=0.5", Piwik_Common::getCountriesList(), "us" ),
+				array( "en-us,en;q=0.5", array_keys(Piwik_Common::getCountriesList()), "us" ),
 				array( "fr-ca,fr;q=0.1",          array("fr", "us", "ca"), "ca" ),
 				array( "fr-fr,fr-ca",             array("fr", "us", "ca"), "fr" )
 			);
