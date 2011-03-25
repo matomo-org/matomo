@@ -1230,7 +1230,7 @@ class Piwik_Common
 		static $countries;
 		if(!isset($countries))
 		{
-			$countries = implode('|', array_keys(self::getCountriesList()));
+			$countries = implode('|', array_keys(self::getCountriesList(true)));
 		}
 
 		return preg_replace(
