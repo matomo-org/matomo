@@ -147,10 +147,10 @@ class Piwik_Period_Range extends Piwik_Period
 			
 			$startDate = $this->removePeriod($this->strPeriod, $endDate, $lastN);
 		}
-		elseif(preg_match('/([0-9]{4}-[0-9]{1,2}-[0-9]{1,2}),([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})/', $this->strDate, $regs))
+		elseif( $dateRange = Piwik_Period_Range::parseDateRange($this->strDate) )
 		{
-			$strDateStart = $regs[1];
-			$strDateEnd = $regs[2];
+			$strDateStart = $dateRange[1];
+			$strDateEnd = $dateRange[2];
 
 			$startDate = Piwik_Date::factory($strDateStart);
 			$endDate   = Piwik_Date::factory($strDateEnd);
@@ -169,6 +169,23 @@ class Piwik_Period_Range extends Piwik_Period
 		// When period=range, we want End Date to be the actual specified end date, 
 		// rather than the end of the month / week / whatever is used for processing this range
 		$this->endDate = $endDate;
+	}
+	
+	/**
+	 * Given a date string, returns false if not a date range,
+	 * or returns the array containing date start, date end
+	 * 
+	 * @param string $dateString
+	 * @return mixed array(1 => dateStartString, 2 => dateEndString ) or false if the input was not a date range
+	 */
+	static public function parseDateRange($dateString)
+	{
+		$matched = preg_match('/^([0-9]{4}-[0-9]{1,2}-[0-9]{1,2}),([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})$/', trim($dateString), $regs);
+		if(empty($matched))
+		{
+			return false;
+		}
+		return $regs;
 	}
 	
 	protected $endDate = null;

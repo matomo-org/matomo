@@ -174,6 +174,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 										$maximumRowsInSubDataTable = null,
 										$columnToSortByBeforeTruncation = null )
 	{
+		$this->loadSubPeriods();
 		if(!is_array($aRecordName))
 		{
 			$aRecordName = array($aRecordName);
@@ -290,7 +291,8 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		
 		$this->loadSubPeriods();
 		if(self::getPluginBeingProcessed($this->getRequestedReport()) == 'VisitsSummary'
-			|| $this->getSegment()->isEmpty())
+			|| $this->shouldProcessReportsAllPlugins($this->getSegment(), $this->period)
+		)
 		{
 			$toSum = self::getCoreMetrics();
 			$record = $this->archiveNumericValuesSum($toSum);
@@ -305,7 +307,6 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 			$archive->setSite( $this->site );
 			$archive->setPeriod( $this->period );
 			$archive->setSegment( $this->getSegment() );
-			$archive->setRequestedReport( 'nb_visits' );
 			
 			$nbVisits = $archive->getNumeric('nb_visits');
 			$nbVisitsConverted = 0;
