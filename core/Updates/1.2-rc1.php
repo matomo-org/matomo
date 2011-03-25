@@ -46,7 +46,7 @@ class Piwik_Updates_1_2_rc1 extends Piwik_Updates
 			   ' => false,
 		    'ALTER TABLE `'. Piwik_Common::prefixTable('log_link_visit_action') .'` 
 				ADD `idsite` INT( 10 ) UNSIGNED NOT NULL AFTER `idlink_va` , 
-				ADD `server_time` DATETIME NOT NULL AFTER `idsite`,
+				ADD `server_time` DATETIME AFTER `idsite`,
 				ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`,
 				ADD `idaction_name_ref` INT UNSIGNED NOT NULL AFTER `idaction_name`,
 				ADD INDEX `index_idsite_servertime` ( `idsite` , `server_time` )
@@ -101,6 +101,10 @@ class Piwik_Updates_1_2_rc1 extends Piwik_Updates
                 WHERE action.idvisit=visit.idvisit
                 ' => false, 
 		
+		    'ALTER TABLE `'. Piwik_Common::prefixTable('log_link_visit_action') .'` 
+				CHANGE `server_time` `server_time` DATETIME NOT NULL,
+			   ' => false,
+
 			// New index used max once per request, in case this table grows significantly in the future
 			'ALTER TABLE `'. Piwik_Common::prefixTable('option') .'` ADD INDEX ( `autoload` ) ' => false,
 		
