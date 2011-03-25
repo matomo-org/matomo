@@ -24,13 +24,14 @@ class Test_Piwik_UserCountry extends UnitTestCase
 	{
 		require_once PIWIK_PATH_TEST_TO_ROOT . '/core/DataFiles/Countries.php';
 
-		$continents = array('unk', 'afr', 'amn', 'amc', 'ams', 'ant', 'asi', 'eur', 'oce');
+		$continents = $GLOBALS['Piwik_ContinentList'];
+		$countries = array_merge($GLOBALS['Piwik_CountryList'], $GLOBALS['Piwik_CountryList_Extras']);
 
 		// Get list of existing flag icons
 		$flags = scandir(PIWIK_PATH_TEST_TO_ROOT . '/plugins/UserCountry/flags/');
 
 		// Get list of countries
-		foreach($GLOBALS['Piwik_CountryList'] as $country => $continent)
+		foreach($countries as $country => $continent)
 		{
 			// test continent
 			$this->assertTrue(in_array($continent, $continents), "$country => $continent");
@@ -49,7 +50,7 @@ class Test_Piwik_UserCountry extends UnitTestCase
 			$country = substr($filename, 0, strpos($filename, '.png'));
 
 			// test country
-			$this->assertTrue(array_key_exists($country, $GLOBALS['Piwik_CountryList']), $filename);
+			$this->assertTrue(array_key_exists($country, $countries), $filename);
 		}
 	}
 }

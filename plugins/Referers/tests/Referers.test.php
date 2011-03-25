@@ -79,4 +79,21 @@ class Test_Referers extends UnitTestCase
 			$this->assertEqual(Piwik_getSearchEngineHostFromUrl($url), $expected, $url);
 		}
 	}
+
+/*
+	// get search engine url from name and keyword
+	function test_getSearchEngineUrlFromNameAndKeyword()
+	{
+		$data = array(
+		);
+
+		foreach($data as $item)
+		{
+			$name = array_shift($item);
+			$keyword = array_shift($item);
+			$expected = array_shift($item);
+			$this->assertEqual(Piwik_getSearchEngineUrlFromNameAndKeyword($name, $keyword), $expected, "$name $keyword");
+		}
+	}
+*/
 }

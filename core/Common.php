@@ -28,7 +28,7 @@ class Piwik_Common
 	const REFERER_TYPE_SEARCH_ENGINE	= 2;
 	const REFERER_TYPE_WEBSITE			= 3;
 	const REFERER_TYPE_CAMPAIGN			= 6;
-	
+
 	/**
 	 * Flag used with htmlspecialchar
 	 * See php.net/htmlspecialchars
@@ -103,7 +103,6 @@ class Piwik_Common
 			$pluginsToLoad = array_diff($pluginsToLoad, $pluginsForcedNotToLoad);
 			$pluginsManager->loadPlugins( $pluginsToLoad );
 		}
-		
 	}
 
 /*
@@ -136,17 +135,17 @@ class Piwik_Common
 		{
 			return $cacheContent;
 		}
-		
+
 		self::initCorePiwikInTrackerMode();
-		
+
 		$isSuperUser = Piwik::isUserIsSuperUser();
 		Piwik::setUserIsSuperUser();
 		$content = array();
 		Piwik_PostEvent('Common.fetchWebsiteAttributes', $content, $idSite);
-		
+
 		// we remove the temporary Super user privilege
 		Piwik::setUserIsSuperUser($isSuperUser);
-		
+
 		// if nothing is returned from the plugins, we don't save the content
 		// this is not expected: all websites are expected to have at least one URL
 		if(!empty($content))
@@ -155,12 +154,12 @@ class Piwik_Common
 		}
 		return $content;
 	}
-	
+
 	static public function clearCacheGeneral()
 	{
 		self::getTrackerCache()->delete('general');
 	}
-	
+
 	/**
 	 * Returns array containing Piwik global data
 	 * @return array
@@ -176,9 +175,9 @@ class Piwik_Common
 			return $cacheContent;
 		}
 		self::initCorePiwikInTrackerMode();
-		$cacheContent = array ( 
+		$cacheContent = array (
 			'isBrowserTriggerArchivingEnabled' => Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled(),
-			'lastTrackerCronRun' => Piwik_GetOption('lastTrackerCronRun') 
+			'lastTrackerCronRun' => Piwik_GetOption('lastTrackerCronRun')
 		);
 		return $cacheContent;
 	}
@@ -227,23 +226,23 @@ class Piwik_Common
 		$cache = new Piwik_CacheFile('tracker');
 		$cache->deleteAll();
 	}
-	
+
 	/**
 	 * Tracker requests will automatically trigger the Scheduled tasks.
-	 * This is useful for users who don't setup the cron, 
+	 * This is useful for users who don't setup the cron,
 	 * but still want daily/weekly/monthly PDF reports emailed automatically.
-	 * 
+	 *
 	 * This is similar to calling the API CoreAdminHome.runScheduledTasks (see misc/cron/archive.sh)
 	 */
 	public static function runScheduledTasks($now)
 	{
-		// Currently, there is no hourly tasks. When there are some, 
+		// Currently, there is no hourly tasks. When there are some,
 		// this could be too agressive minimum interval (some hours would be skipped in case of low traffic)
 		$minimumInterval = Piwik_Tracker_Config::getInstance()->Tracker['scheduled_tasks_min_interval'];
-		
+
 		// If the user disabled browser archiving, he has already setup a cron
-		// To avoid parallel requests triggering the Scheduled Tasks, 
-		// Get last time tasks started executing 
+		// To avoid parallel requests triggering the Scheduled Tasks,
+		// Get last time tasks started executing
 		$cache = Piwik_Common::getCacheGeneral();
 		if($minimumInterval <= 0
 			|| empty($cache['isBrowserTriggerArchivingEnabled']))
@@ -263,9 +262,9 @@ class Piwik_Common
 			// Scheduled tasks assume Super User is running
 			Piwik::setUserIsSuperUser();
 			// While each plugins should ensure that necessary languages are loaded,
-			// we ensure English translations at least are loaded 
+			// we ensure English translations at least are loaded
 			Piwik_Translate::getInstance()->loadEnglishTranslation();
-			
+
 			$resultTasks = Piwik_TaskScheduler::runTasks();
 			Piwik::setUserIsSuperUser(false);
 			printDebug($resultTasks);
@@ -388,25 +387,25 @@ class Piwik_Common
 	 * Copied from the PHP comments at http://php.net/parse_url
 	 * @param array
 	 */
-    static public function getParseUrlReverse($parsed) 
+    static public function getParseUrlReverse($parsed)
     {
-        if (!is_array($parsed)) 
+        if (!is_array($parsed))
         {
-        	return false;
+			return false;
         }
-        
+
         $uri = !empty($parsed['scheme']) ? $parsed['scheme'].':'.(!strcasecmp($parsed['scheme'], 'mailto') ? '' : '//') : '';
         $uri .= !empty($parsed['user']) ? $parsed['user'].(!empty($parsed['pass']) ? ':'.$parsed['pass'] : '').'@' : '';
         $uri .= !empty($parsed['host']) ? $parsed['host'] : '';
         $uri .= !empty($parsed['port']) ? ':'.$parsed['port'] : '';
-        
-        if (!empty($parsed['path'])) 
+
+        if (!empty($parsed['path']))
         {
             $uri .= (!strncmp($parsed['path'], '/', 1))
-            			? $parsed['path'] 
-            			: ((!empty($uri) ? '/' : '' ) . $parsed['path']);
+				? $parsed['path']
+				: ((!empty($uri) ? '/' : '' ) . $parsed['path']);
         }
-        
+
         $uri .= !empty($parsed['query']) ? '?'.$parsed['query'] : '';
         $uri .= !empty($parsed['fragment']) ? '#'.$parsed['fragment'] : '';
         return $uri;
@@ -429,7 +428,7 @@ class Piwik_Common
 /*
  * File operations
  */
-    
+
 	/**
 	 * ending WITHOUT slash
 	 * @return string
@@ -812,13 +811,13 @@ class Piwik_Common
  */
 
 	/**
-	 * Converts from a numeric representation to a string representation 
+	 * Converts from a numeric representation to a string representation
 	 */
 	static public function long2ip($long)
 	{
 	    return long2ip($long);
 	}
-	
+
 	/**
 	 * Convert dotted IP to a stringified integer representation
 	 *
@@ -827,7 +826,7 @@ class Piwik_Common
 	 */
 	static public function getIp( $ipStringFrom = false )
 	{
-		if($ipStringFrom === false) 
+		if($ipStringFrom === false)
 		{
 			$ipStringFrom = self::getIpString();
 		}
@@ -837,7 +836,7 @@ class Piwik_Common
 		{
 			$ipStringFrom = substr($ipStringFrom, 7);
 		}
-		// Ip is A.B.C.D:54287 
+		// Ip is A.B.C.D:54287
 		if(($posColon = strpos($ipStringFrom, ':')) != false
 			&& $posColon > 6)
 		{
@@ -940,40 +939,104 @@ class Piwik_Common
  */
 
 	/**
-	 * Returns the continent of a given country
-	 *
-	 * @param string Country 2 letters isocode
-	 *
-	 * @return string Continent (3 letters code : afr, asi, eur, amn, ams, oce)
-	 */
-	static public function getContinent($country)
-	{
-		require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
-		$countryList = $GLOBALS['Piwik_CountryList'];
-		if(isset($countryList[$country]))
-		{
-			return $countryList[$country];
-		}
-		return 'unk';
-	}
-	/**
 	 * Returns list of valid country codes
+	 *
+	 * @see core/DataFiles/Countries.php
 	 *
 	 * @return array of 2 letter ISO codes
 	 */
-	static public function getCountriesList()
+	static public function getContinentsList()
 	{
-		static $countriesList = null;
-		if(is_null($countriesList))
+		require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
+
+		$continentsList = $GLOBALS['Piwik_ContinentList'];
+		return $continentsList;
+	}
+
+	/**
+	 * Returns list of valid country codes
+	 *
+	 * @see core/DataFiles/Countries.php
+	 *
+	 * @param bool $includeInternalCodes
+	 * @return array of (2 letter ISO codes => 3 letter continent code)
+	 */
+	static public function getCountriesList($includeInternalCodes = false)
+	{
+		require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
+
+		$countriesList = $GLOBALS['Piwik_CountryList'];
+		$extras = $GLOBALS['Piwik_CountryList_Extras'];
+
+		if($includeInternalCodes)
 		{
-			require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
-			$countriesList = array_keys($GLOBALS['Piwik_CountryList']);
+			return array_merge($countriesList, $extras);
 		}
 		return $countriesList;
 	}
 
+	/**
+	 * Returns list of valid language codes
+	 *
+	 * @see core/DataFiles/Languages.php
+	 *
+	 * @return array of 2 letter ISO codes => Language name (in English)
+	 */
+	static public function getLanguagesList()
+	{
+		require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Languages.php';
+
+		$languagesList = $GLOBALS['Piwik_LanguageList'];
+		return $languagesList;
+	}
+
+	/**
+	 * Returns list of language to country mappings
+	 *
+	 * @see core/DataFiles/LanguageToCountry.php
+	 *
+	 * @return array of ( 2 letter ISO language codes => 2 letter ISO country codes )
+	 */
+	static public function getLanguageToCountryList()
+	{
+		require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/LanguageToCountry.php';
+
+		$languagesList = $GLOBALS['Piwik_LanguageToCountry'];
+		return $languagesList;
+	}
+
+	/**
+	 * Returns list of search engines by URL
+	 *
+	 * @see core/DataFiles/SearchEngines.php
+	 *
+	 * @return array of ( URL => array( searchEngineName, keywordParameter, path, charset ) )
+	 */
+	static public function getSearchEngineUrls()
+	{
+		require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
+
+		$searchEngines = $GLOBALS['Piwik_SearchEngines'];
+		return $searchEngines;
+	}
+
+	/**
+	 * Returns list of search engines by name
+	 *
+	 * @see core/DataFiles/SearchEngines.php
+	 *
+	 * @return array of ( searchEngineName => URL )
+	 */
+	static public function getSearchEngineNames()
+	{
+		require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
+
+		$searchEngines = $GLOBALS['Piwik_SearchEngines_NameToUrl'];
+		return $searchEngines;
+	}
+
 /*
- * Browser Language
+ * Language, country, continent
  */
 
 	/**
@@ -987,7 +1050,7 @@ class Piwik_Common
 		static $replacementPatterns = array(
 				// extraneous bits of RFC 3282 that we ignore
 				'/(\\\\.)/',		// quoted-pairs
-				'/(\s+)/',			// CFWS white space
+				'/(\s+)/',			// CFWcS white space
 				'/(\([^)]*\))/',	// CFWS comments
 				'/(;q=[0-9.]+)/',	// quality
 
@@ -1065,41 +1128,36 @@ class Piwik_Common
 	 * @return array of 2 letter ISO codes
 	 */
 	static public function extractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, $enableLanguageToCountryGuess)
- 	{
-		static $langToCountry = null;
-		if(is_null($langToCountry))
- 		{
-			require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/LanguageToCountry.php';
-			$langToCountry = array_keys($GLOBALS['Piwik_LanguageToCountry']);
- 		}
+	{
+		$langToCountry = self::getLanguageToCountryList();
 
- 		if($enableLanguageToCountryGuess)
- 		{
+		if($enableLanguageToCountryGuess)
+		{
 			if(preg_match('/^([a-z]{2,3})(?:,|;|$)/', $browserLanguage, $matches))
- 			{
+			{
 				// match language (without region) to infer the country of origin
-				if(in_array($matches[1], $langToCountry))
+				if(array_key_exists($matches[1], $langToCountry))
 				{
-					return $GLOBALS['Piwik_LanguageToCountry'][$matches[1]];
+					return $langToCountry[$matches[1]];
 				}
- 			}
- 		}
+			}
+		}
 
 		if(!empty($validCountries) && preg_match_all('/[-]([a-z]{2})/', $browserLanguage, $matches, PREG_SET_ORDER))
- 		{
+		{
 			foreach($matches as $parts)
- 			{
+			{
 				// match location; we don't make any inferences from the language
 				if(in_array($parts[1], $validCountries))
 				{
 					return $parts[1];
 				}
- 			}
- 		}
+			}
+		}
 		return 'xx';
 	}
 
- 	/**
+	/**
 	 * Returns the visitor language based only on the Browser 'accepted language' information
 	 *
 	 * @param string $lang browser lang
@@ -1110,9 +1168,9 @@ class Piwik_Common
 		// assumes language preference is sorted;
 		// does not handle language-script-region tags or language range (*)
 		if(!empty($validLanguages) && preg_match_all('/(?:^|,)([a-z]{2,3})([-][a-z]{2})?/', $browserLanguage, $matches, PREG_SET_ORDER))
- 		{
+		{
 			foreach($matches as $parts)
- 			{
+			{
 				if(count($parts) == 3)
 				{
 					// match locale (langauge and location)
@@ -1126,10 +1184,27 @@ class Piwik_Common
 				{
 					return $parts[1];
 				}
- 			}
- 		}
+			}
+		}
 		return 'xx';
- 	}
+	}
+
+	/**
+	 * Returns the continent of a given country
+	 *
+	 * @param string Country 2 letters isocode
+	 *
+	 * @return string Continent (3 letters code : afr, asi, eur, amn, ams, oce)
+	 */
+	static public function getContinent($country)
+	{
+		$countryList = self::getCountriesList();
+		if(isset($countryList[$country]))
+		{
+			return $countryList[$country];
+		}
+		return 'unk';
+	}
 
 /*
  * Referrer
@@ -1152,14 +1227,12 @@ class Piwik_Common
 	 */
 	static public function getLossyUrl($url)
 	{
-		require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
-
 		static $countries;
 		if(!isset($countries))
 		{
-			$countries = implode('|', array_keys($GLOBALS['Piwik_CountryList']));
+			$countries = implode('|', array_keys(self::getCountriesList()));
 		}
-	
+
 		return preg_replace(
 			array(
 				'/^(w+[0-9]*|search)\./',
@@ -1208,8 +1281,8 @@ class Piwik_Common
 		{
 			return false;
 		}
-		// some search engines (eg. Bing Images) use the same domain 
-		// as an existing search engine (eg. Bing), we must also use the url path 
+		// some search engines (eg. Bing Images) use the same domain
+		// as an existing search engine (eg. Bing), we must also use the url path
 		$refererPath = '';
 		if(isset($refererParsed['path']))
 		{
@@ -1223,22 +1296,22 @@ class Piwik_Common
 		}
 		$query = $refererParsed['query'];
 
-		require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
+		$searchEngines = self::getSearchEngineUrls();
 
 		$hostPattern = self::getLossyUrl($refererHost);
-		if(array_key_exists($refererHost . $refererPath, $GLOBALS['Piwik_SearchEngines']))
+		if(array_key_exists($refererHost . $refererPath, $searchEngines))
 		{
 			$refererHost = $refererHost . $refererPath;
 		}
-		elseif(array_key_exists($hostPattern . $refererPath, $GLOBALS['Piwik_SearchEngines']))
+		elseif(array_key_exists($hostPattern . $refererPath, $searchEngines))
 		{
 			$refererHost = $hostPattern . $refererPath;
 		}
-		elseif(array_key_exists($hostPattern, $GLOBALS['Piwik_SearchEngines']))
+		elseif(array_key_exists($hostPattern, $searchEngines))
 		{
 			$refererHost = $hostPattern;
 		}
-		elseif(!array_key_exists($refererHost, $GLOBALS['Piwik_SearchEngines']))
+		elseif(!array_key_exists($refererHost, $searchEngines))
 		{
 			if(!strncmp($query, 'cx=partner-pub-', 15))
 			{
@@ -1255,16 +1328,17 @@ class Piwik_Common
 				return false;
 			}
 		}
-		$searchEngineName = $GLOBALS['Piwik_SearchEngines'][$refererHost][0];
+		$searchEngineName = $searchEngines[$refererHost][0];
 		$variableNames = null;
-		if(isset($GLOBALS['Piwik_SearchEngines'][$refererHost][1]))
+		if(isset($searchEngines[$refererHost][1]))
 		{
-			$variableNames = $GLOBALS['Piwik_SearchEngines'][$refererHost][1];
+			$variableNames = $searchEngines[$refererHost][1];
 		}
 		if(!$variableNames)
 		{
-			$url = $GLOBALS['Piwik_SearchEngines_NameToUrl'][$searchEngineName];
-			$variableNames = $GLOBALS['Piwik_SearchEngines'][$url][1];
+			$searchEngineNames = self::getSearchEngineNames();
+			$url = $searchEngineNames[$searchEngineName];
+			$variableNames = $searchEngines[$url][1];
 		}
 		if(!is_array($variableNames))
 		{
@@ -1335,9 +1409,9 @@ class Piwik_Common
 		}
 
 		if(function_exists('iconv')
-			&& isset($GLOBALS['Piwik_SearchEngines'][$refererHost][3]))
+			&& isset($searchEngines[$refererHost][3]))
 		{
-			$charset = trim($GLOBALS['Piwik_SearchEngines'][$refererHost][3]);
+			$charset = trim($searchEngines[$refererHost][3]);
 			if(!empty($charset))
 			{
 				$newkey = @iconv($charset, 'UTF-8//IGNORE', $key);
@@ -1369,8 +1443,8 @@ class Piwik_Common
 	static public function isPhpCliMode()
 	{
 		$remoteAddr = @$_SERVER['REMOTE_ADDR'];
-		return	PHP_SAPI == 'cli' ||
-				(!strncmp(PHP_SAPI, 'cgi', 3) && empty($remoteAddr));
+		return PHP_SAPI == 'cli' ||
+			(!strncmp(PHP_SAPI, 'cgi', 3) && empty($remoteAddr));
 	}
 
 	/**
@@ -1388,9 +1462,9 @@ class Piwik_Common
 				parse_str($_SERVER['argv'][$i],$tmp);
 				$_GET = array_merge($_GET, $tmp);
 			}
-		}				
+		}
 	}
-	
+
 	/**
 	 * Returns true if running on a Windows operating system
 	 *
@@ -1435,7 +1509,7 @@ class Piwik_Common
  *
  * For more information: @link http://dev.piwik.org/trac/ticket/374
  */
-function destroy(&$var) 
+function destroy(&$var)
 {
 	if (is_object($var)) $var->__destruct();
 	unset($var);
