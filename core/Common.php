@@ -481,7 +481,10 @@ class Piwik_Common
 	 */
 	static public function createHtAccess( $path, $content = "<Files \"*\">\nDeny from all\n</Files>\n" )
 	{
-		@file_put_contents($path . '/.htaccess', $content);
+		if(self::isApache())
+		{
+			@file_put_contents($path . '/.htaccess', $content);
+		}
 	}
 
 	/**
@@ -1397,6 +1400,33 @@ class Piwik_Common
 	static public function isWindows()
 	{
 		return DIRECTORY_SEPARATOR == '\\';
+	}
+
+	/**
+	 * Returns true if running on an Apache web server
+	 *
+	 * @return bool
+	 */
+	static public function isApache()
+	{
+		$apache = isset($_SERVER['SOFTWARE']) &&
+			!strncmp($_SERVER['SERVER_SOFTWARE'], 6);
+
+		return $apache;
+	}
+
+	/**
+	 * Returns true if running on Microsoft IIS 7 (or above)
+	 *
+	 * @return bool
+	 */
+	static public function isIIS()
+	{
+		$iis = isset($_SERVER['SOFTWARE']) &&
+			preg_match('/^Microsoft-IIS\/(.+)/', $_SERVER['SERVER_SOFTWARE'], $matches) &&
+			version_compare($matches[1], '7') >= 0;
+
+		return $iis;
 	}
 }
 
