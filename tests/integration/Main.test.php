@@ -506,7 +506,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	    	$visitor->setUrl('http://example.org/news');
 	        $this->checkResponse($visitor->doTrackPageView('ou pas'));
 	
-	        $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.3)->getDatetime());
+	        $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1)->getDatetime());
 	    	$visitor->setUrl('http://example.org/news');
 	        $this->checkResponse($visitor->doTrackPageView('ou pas'));
     	}
@@ -516,6 +516,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
     		false,
     		'country!=aa',
     	);
+    	// Running twice just as health check that second call also works
     	for($i = 0; $i <=1; $i++)
     	{
     		foreach($segments as $segment)
@@ -523,6 +524,8 @@ class Test_Piwik_Integration_Main extends Test_Integration
 				$this->setApiToCall(array(
 		    	                            'Actions.getPageUrls',
 		    	                            'VisitsSummary.get',
+		    	                            'UserSettings.getResolution',
+		    	                            'VisitFrequency.get',
 		    	));
 				$this->callGetApiCompareOutput(__FUNCTION__, 'xml', 
 		        								$idSite, 
@@ -535,10 +538,14 @@ class Test_Piwik_Integration_Main extends Test_Integration
     		}
     	}
 	        
-        // Check that requesting period "Range" means only processing the requested Plugin blob (Actions in this case), not all Plugins blobs
+        // Check that requesting period "Range" means 
+        // only processing the requested Plugin blob (Actions in this case), not all Plugins blobs
 		$tests = array(
-			'archive_blob_2010_12' => 4 * 2, // 4 blobs for the Actions plugin
-			'archive_numeric_2010_12' => 6 * 2 + 1, // (5 metrics + 1 flag) * 2 segments + Flag archive Actions for segment
+			// 4 blobs for the Actions plugin, 7 blogs for UserSettings
+			'archive_blob_2010_12' => (4 + 7) * 2, 
+			// (VisitsSummary 5 metrics + 1 flag) + 2 Flags archive Actions/UserSettings + (Frequency 5 metrics + 1 flag) * 2 segments
+			// But VisitFrequency is not currently compatible with Segmentation, so it doesn't have a specific archive, we remove -5 metrics -1 flag 
+			'archive_numeric_2010_12' => (7 + 2 + 6) * 2 - 6,   
 		
 			// all "Range" records are in December
 			'archive_blob_2011_01' => 0,

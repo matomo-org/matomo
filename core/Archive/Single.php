@@ -166,7 +166,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 			
 			$dayString = $this->period->getPrettyString();
 			$periodString = $this->period->getLabel();
-			$logMessage = "Preparing archive: " . $periodString . "(" . $dayString . ")";
+			$logMessage = "Preparing archive: " . $periodString . "(" . $dayString . "), plugin $plugin, ";
 			// if the END of the period is BEFORE the website creation date
 			// we already know there are no stats for this period
 			// we add one day to make sure we don't miss the day of the website creation
@@ -215,7 +215,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 			}
 			else
 			{
-				Piwik::log("$logMessage archive already processed [id = $idArchive]...");
+				Piwik::log("* Archive already processed [idArchive = $idArchive], for $logMessage.");
 			}
 			$this->isThereSomeVisits = !$archivingDisabledArchiveNotProcessed
 										&& $this->archiveProcessing->isThereSomeVisits();
@@ -504,6 +504,10 @@ class Piwik_Archive_Single extends Piwik_Archive
 			|| $this->requestedReport == 'max_actions')
 		{
 			return 'VisitsSummary_CoreMetrics';
+		}
+		if(strpos($this->requestedReport, '_returning') > 0)
+		{
+			return 'VisitFrequency_Metrics';
 		}
    		return $this->requestedReport;
 	}

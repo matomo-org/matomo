@@ -436,7 +436,7 @@ abstract class Piwik_ArchiveProcessing
 	protected function getDoneStringFlag($flagArchiveAsAllPlugins = false)
 	{
 		$segment = $this->getSegment()->getHash();
-		if(!empty($segment))
+		if(!$this->shouldProcessReportsAllPlugins($this->getSegment(), $this->period))
 		{
 			$pluginProcessed = self::getPluginBeingProcessed($this->getRequestedReport());
 			if(!Piwik_PluginsManager::getInstance()->isPluginLoaded($pluginProcessed)
@@ -450,21 +450,22 @@ abstract class Piwik_ArchiveProcessing
 	    return 'done' . $segment;
 	}
 	
+	protected function shouldProcessReportsAllPlugins($segment, $period)
+	{
+		return $segment->isEmpty() && $period->getLabel() != 'range';
+	}
+	
 	/**
-	 * When a segment is set, we shall only process the requested report (no more)
-	 * 
-	 * The reasonning is that at the current time, Segmentation being only available via API,
-	 * users will only request one or few reports, not all of them. The requested data sets
-	 * will return a lot faster if we only process these reports rather than all plugins.
+	 * When a segment is set, we shall only process the requested report (no more).
+	 * The requested data set will return a lot faster if we only process these reports rather than all plugins.
+	 * Similarly, when a period=range is requested, we shall only process the requested report for the range itself.
 	 * 
 	 * @param string $pluginName
 	 * @return bool
 	 */
 	public function shouldProcessReportsForPlugin($pluginName)
 	{
-		// No segment and Not a custom date range: process reports for all plugins
-		if($this->getSegment()->isEmpty()
-			&& $this->period->getLabel() != 'range')
+		if($this->shouldProcessReportsAllPlugins($this->getSegment(), $this->period))
 		{
 			return true;
 		}
@@ -473,6 +474,12 @@ abstract class Piwik_ArchiveProcessing
 		if(strpos($this->getRequestedReport(), 'Goal_') === 0)
 		{
 			return $pluginName == 'Goal';
+		}
+	
+		// Returning visitors metrics are nb_visits_returning rather than VisitorInterest_nb_visits_returning (HACK)
+		if(strpos($this->getRequestedReport(), '_returning') > 0)
+		{
+			return $pluginName == 'VisitFrequency';
 		}
 		
 		// If segment, only process if the requested report belong to this plugin
@@ -501,9 +508,9 @@ abstract class Piwik_ArchiveProcessing
 			$temporary = 'temporary archive';
 		}
 		Piwik::log("Processing archive '" . $this->period->getLabel() . "', " 
-								."idsite = ". $this->idsite." ($temporary) - " 
-								."segment = ". $this->getSegment()->getString()
-								."UTC datetime [".$this->startDatetimeUTC." -> ".$this->endDatetimeUTC." ]...");
+								."idSite = ". $this->idsite." ($temporary) - " 
+								."segment = '". $this->getSegment()->getString()
+								."', UTC datetime [".$this->startDatetimeUTC." -> ".$this->endDatetimeUTC." ]...");
 	}
 	
 	/**
@@ -527,6 +534,7 @@ abstract class Piwik_ArchiveProcessing
 			$flag = Piwik_ArchiveProcessing::DONE_OK_TEMPORARY;
 		}
 		$this->insertNumericRecord($done, $flag);
+		Piwik::log("* Done processing: idArchive = ".$this->getIdArchive());
 	}
 	
 	/**
@@ -582,10 +590,10 @@ abstract class Piwik_ArchiveProcessing
 	{
 		$this->requestedReport = $requestedReport;
 	}
-	
+
 	protected function getRequestedReport()
 	{
-		return $this->requestedReport;
+   		return $this->requestedReport;
 	}
 
 	static public function getPluginBeingProcessed( $requestedReport )
