@@ -1484,7 +1484,7 @@ class Piwik_Common
 	static public function isApache()
 	{
 		$apache = isset($_SERVER['SOFTWARE']) &&
-			!strncmp($_SERVER['SERVER_SOFTWARE'], 6);
+			!strncmp($_SERVER['SERVER_SOFTWARE'], 'Apache', 6);
 
 		return $apache;
 	}
