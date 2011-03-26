@@ -64,7 +64,10 @@ class Piwik_CoreUpdater extends Piwik_Plugin
 			Piwik_AssetManager::removeMergedAssets();
 			Piwik_View::clearCompiledTemplates();
 		}
-		if(self::getComponentUpdates($updater) !== null && $module != 'CoreUpdater')
+		if(self::getComponentUpdates($updater) !== null 
+			&& $module != 'CoreUpdater'
+			// Proxy module is used to redirect users to piwik.org, should still work when Piwik must be updated
+			&& $module != 'Proxy')
 		{
 			Piwik::redirectToModule('CoreUpdater');
 		}

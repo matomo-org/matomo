@@ -66,6 +66,10 @@ disable_merged_requests = 0
 tracker_always_new_visitor = 0
 
 [General]
+; when set to 1, all requests to Piwik will return a maintenance message without connecting to the DB
+; this is useful when upgrading using the shell command, to prevent other users from accessing the UI while Upgrade is in progress
+maintenance_mode = 0
+
 ; character used to automatically create categories in the Actions > Pages, Outlinks and Downloads reports
 ; for example a URL like "example.com/blog/development/first-post" will create 
 ; the page first-post in the subcategory development which belongs to the blog category
