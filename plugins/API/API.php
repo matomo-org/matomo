@@ -299,8 +299,9 @@ class Piwik_API_API
 		return $availableReports;
 	}
 
-	public function getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false, $apiParameters = false, $language = false)
+	public function getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false, $apiParameters = false, $language = false, $showTimer = true)
     {
+    	$timer = new Piwik_Timer();
     	if($apiParameters === false)
     	{
     		$apiParameters = array();
@@ -359,7 +360,7 @@ class Piwik_API_API
 	    	$period = Piwik_Period::factory($period, Piwik_Date::factory($date));
     	}
     	
-    	return array(
+    	$return = array(
 				'website' => $website->getName(),
 				'prettyDate' => $period->getLocalizedLongString(),
 //    			'prettySegment' => $segment->getPrettyString(),
@@ -368,6 +369,11 @@ class Piwik_API_API
 				'reportData' =>	$newReport, 
 				'reportMetadata' => $rowsMetadata,
 		);
+		if($showTimer)
+		{
+			$return['timerMillis'] = $timer->getTimeMs(0);
+		}
+		return $return;
     }
     
     private function handleTableSimple($idSite, $period, $dataTable, $reportMetadata)
