@@ -170,6 +170,7 @@ class Test_Piwik_SitesManager extends Test_Database
     	
     	$siteInfo = Piwik_SitesManager_API::getInstance()->getSiteFromId($idsite);
     	$this->assertEqual($siteInfo['main_url'], $urlOK);
+    	$this->assertEqual(date('Y-m-d', strtotime($siteInfo['ts_created'])), date('Y-m-d'));
     	
     	$siteUrls = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idsite);
     	$this->assertTrue(count($siteUrls)===1);
@@ -661,12 +662,14 @@ class Test_Piwik_SitesManager extends Test_Database
     	Piwik_SitesManager_API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl, $ips=null, $parametersExclude=null, $timezone=null, $currency=null, $group );
     	$websites = Piwik_SitesManager_API::getInstance()->getSitesFromGroup($group);
     	$this->assertEqual(count($websites), 1);
-    	
+    	$this->assertEqual(date('Y-m-d', strtotime($websites[0]['ts_created'])), date('Y-m-d'));
+
     	// Updating the group to nothing
     	$group = '';
-    	Piwik_SitesManager_API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl, $ips=null, $parametersExclude=null, $timezone=null, $currency=null, $group );
+    	Piwik_SitesManager_API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl, $ips=null, $parametersExclude=null, $timezone=null, $currency=null, $group, $startDate = '2010-01-01' );
     	$websites = Piwik_SitesManager_API::getInstance()->getSitesFromGroup($group);
     	$this->assertEqual(count($websites), 1);
+    	$this->assertEqual(date('Y-m-d', strtotime($websites[0]['ts_created'])), '2010-01-01');
     	
     	$allUrls = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idsite);
     	
@@ -707,7 +710,7 @@ class Test_Piwik_SitesManager extends Test_Database
 						"http://piwiknew.fr");
     	
     	$group = 'GROUP Before';
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",$urls, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group);
+    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",$urls, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group, $startDate = '2011-01-01');
     	
     	$websites = Piwik_SitesManager_API::getInstance()->getSitesFromGroup($group);
     	$this->assertEqual(count($websites), 1);
@@ -727,6 +730,7 @@ class Test_Piwik_SitesManager extends Test_Database
     	// Testing that the group was updated properly (and testing that the group value is trimmed before inserted/searched)
     	$websites = Piwik_SitesManager_API::getInstance()->getSitesFromGroup($groupAfter . ' ');
     	$this->assertEqual(count($websites), 1);
+    	$this->assertEqual(date('Y-m-d', strtotime($websites[0]['ts_created'])), '2011-01-01');
     	
     	// Test fetch website groups
     	$expectedGroups = array(trim($groupAfter));

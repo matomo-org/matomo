@@ -318,10 +318,14 @@ class Piwik_SitesManager_API
 	 * 						as Alias URLs for this website.
 	 * @param string Comma separated list of IPs to exclude from the reports (allows wildcards)
 	 * @param string Timezone string, eg. 'Europe/London'
+	 * @param string Currency, eg. 'EUR'
+	 * @param string Website group identifier
+	 * @param string Date at which the statistics for this website will start. Defaults to today's date in YYYY-MM-DD format
+	 * 
 	 * 
 	 * @return int the website ID created
 	 */
-	public function addSite( $siteName, $urls, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null )
+	public function addSite( $siteName, $urls, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null )
 	{
 		Piwik::checkUserIsSuperUser();
 		
@@ -350,13 +354,16 @@ class Piwik_SitesManager_API
 		
 		$bind = array(	'name' => $siteName,
 						'main_url' => $url,
-						'ts_created' => Piwik_Date::now()->getDatetime()
+						
 		);
 	
 		$bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
 		$bind['excluded_parameters'] = $this->checkAndReturnExcludedQueryParameters($excludedQueryParameters);
 		$bind['timezone'] = $timezone;
 		$bind['currency'] = $currency;
+		$bind['ts_created'] = !is_null($startDate) 
+									? Piwik_Date::factory($startDate)->getDatetime()
+									: Piwik_Date::now()->getDatetime();
 		
 		if(!empty($group)
 		    && Piwik::isUserIsSuperUser())
@@ -638,12 +645,13 @@ class Piwik_SitesManager_API
 	 * @param string Timezone
 	 * @param string Currency code
 	 * @param string Group name where this website belongs
+	 * @param string Date at which the statistics for this website will start. Defaults to today's date in YYYY-MM-DD format
 	 * 
 	 * @exception if any of the parameter is not correct
 	 * 
 	 * @return bool true on success
 	 */
-	public function updateSite( $idSite, $siteName, $urls = null, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null)
+	public function updateSite( $idSite, $siteName, $urls = null, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null)
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
 
@@ -685,7 +693,10 @@ class Piwik_SitesManager_API
 		{
 		    $bind['group'] = trim($group);
 		}
-		
+		if(!is_null($startDate))
+		{
+			$bind['ts_created'] = Piwik_Date::factory($startDate)->getDatetime();
+		}
 		$bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
 		$bind['excluded_parameters'] = $this->checkAndReturnExcludedQueryParameters($excludedQueryParameters);
 		$bind['name'] = $siteName;
