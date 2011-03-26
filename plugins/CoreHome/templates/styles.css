@@ -89,7 +89,6 @@ div.ui-datepicker {
 	border: 1px solid #2E85FF;
 	color: #2E85FF;
 }
-
 #otherPeriods a {
 	text-decoration: none;
 }
@@ -106,6 +105,21 @@ div.ui-datepicker {
 	cursor: pointer;
 	font-weight: bold;
 	border-bottom: 1px solid #520202;
+}
+
+#calendarRangeTo { float:right;     margin-left: 20px;}
+#calendarRangeFrom { float:left; }
+#inputCalendarFrom, #inputCalendarTo {
+	margin-left: 10px;
+    width: 90px;
+}
+#calendarRangeApply {
+display:none;
+margin-top:10px;
+margin-left:10px; 
+}
+#invalidDateRange {
+	display:none;
 }
 
 div .sparkline {
