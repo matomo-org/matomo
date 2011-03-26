@@ -357,6 +357,9 @@ abstract class Test_Integration extends Test_Database
 			'outlinkUrl' 	=> 'http://dev.piwik.org/svn',
 			'pageUrl' 		=> 'http://example.org/index.htm?sessionid=this is also ignored by default',
 			'pageName' 		=> ' Checkout / Purchasing... ',
+		
+			// do not show the millisec timer in response or tests would always fail as value is changing
+			'showTimer'     => 0,
 		);
 		if(!empty($segment))
 		{
