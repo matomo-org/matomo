@@ -1422,7 +1422,7 @@ class Piwik_Common
 			}
 		}
 
-		$key = function_exists('mb_strtolower') ? mb_strtolower($key, 'UTF-8') : strtolower($key);
+		$key = mb_strtolower($key, 'UTF-8');
 
 		return array(
 			'name' => $searchEngineName,

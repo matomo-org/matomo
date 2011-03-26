@@ -1104,9 +1104,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		{
 			$canonicalHosts = array();
 			foreach($websiteData['hosts'] as $host) {
-				$canonicalHosts[] = str_replace('www.', '' , $host);
+				$canonicalHosts[] = str_replace('www.', '' , mb_strtolower($host, 'UTF-8'));
 			}
-			$canonicalHost = str_replace('www.', '', $urlHost);
+			$canonicalHost = str_replace('www.', '', mb_strtolower($urlHost, 'UTF-8'));
 			if(in_array($canonicalHost, $canonicalHosts))
 			{
 				return true;
@@ -1198,7 +1198,7 @@ class Piwik_Tracker_Visit_Referer
 			&& !$refererDetected)
 		{
 			$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_WEBSITE;
-			$this->nameRefererAnalyzed = $this->refererHost;
+			$this->nameRefererAnalyzed = mb_strtolower($this->refererHost, 'UTF-8');
 		}
 
 		$refererInformation = array(
@@ -1223,7 +1223,7 @@ class Piwik_Tracker_Visit_Referer
 			return false;
 		}
 		$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_SEARCH_ENGINE;
-		$this->nameRefererAnalyzed = $searchEngineInformation['name'];
+		$this->nameRefererAnalyzed = mb_strtolower($searchEngineInformation['name'], 'UTF-8');
 		$this->keywordRefererAnalyzed = $searchEngineInformation['keywords'];
 		return true;
 	}
@@ -1271,8 +1271,8 @@ class Piwik_Tracker_Visit_Referer
 			// is the referer host the current host?
 			if(isset($this->currentUrlParse['host']))
 			{
-				$currentHost = $this->currentUrlParse['host'];
-				if($currentHost == $this->refererHost)
+				$currentHost = mb_strtolower($this->currentUrlParse['host'], 'UTF-8');
+				if($currentHost == mb_strtolower($this->refererHost, 'UTF-8'))
 				{
 					$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_DIRECT_ENTRY;
 					return true;
