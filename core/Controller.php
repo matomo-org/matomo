@@ -199,7 +199,10 @@ abstract class Piwik_Controller
 		{
 			$period = $paramsToSet['period'];
 		}
-		
+		if($period == 'range')
+		{
+			return $paramsToSet;
+		}
 		if(!isset($paramsToSet['range']))
 		{
 			$range = 'last30';

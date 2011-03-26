@@ -181,5 +181,98 @@ function displayCalendar()
 		});
 	}
 }
-
-displayCalendar();
+$(document).ready(function() {
+	
+	displayCalendar();
+	
+	
+	// this will trigger to change only the period value on search query and hash string.
+	$("#otherPeriods input").bind('click',function(e) {
+	    var request_URL = $(e.target).attr("value");
+	    var period = broadcast.getValueFromUrl('period',request_URL);
+	    if(period == 'range') return true;
+	    broadcast.propagateNewPage('period='+period+'&date='+piwik.currentDateString);
+	    piwikHelper.showAjaxLoading('ajaxLoadingCalendar');
+		return true;
+	});
+	
+	function onDateRangeSelect(dateText, inst)
+	{
+		var toOrFrom = inst.id == 'calendarFrom' ? 'From' : 'To';
+		//alert(dateText + toOrFrom);
+		$('#inputCalendar'+toOrFrom).val(dateText);
+	}
+	 
+	// this will trigger to change only the period value on search query and hash string.
+	$("#period_id_range").bind('click', function(e) {
+		$('.period-date').html('<div id="calendarRangeFrom"><h6>'+_pk_translate('General_DateRangeFrom_js')+'<input tabindex="1" type="text" id="inputCalendarFrom" name="inputCalendarFrom"/></h6><div id="calendarFrom"></div></div>'+
+		 			 				'<div id="calendarRangeTo"><h6>'+_pk_translate('General_DateRangeTo_js')+'<input tabindex="2" type="text" id="inputCalendarTo" name="inputCalendarTo"/></h6><div id="calendarTo"></div></div>');
+		var options = getDatePickerOptions();
+			 
+		// Custom Date range callback
+		options.onSelect = onDateRangeSelect;
+		// Do not highlight the period
+		options.beforeShowDay = '';
+		// Create both calendars
+		options.defaultDate = piwik.startDateString;
+		$('#calendarFrom').datepicker(options).datepicker("setDate", new Date(piwik.startDateString));
+		
+		// Technically we should trigger the onSelect event on the calendar, but I couldn't find how to do that
+		// So calling the onSelect bind function manually...
+		//$('#calendarFrom').trigger('dateSelected'); // or onSelect
+		onDateRangeSelect(piwik.startDateString, { "id": "calendarFrom" } );
+		
+		// Same code for the other calendar
+		options.defaultDate = piwik.endDateString;
+		$('#calendarTo').datepicker(options).datepicker("setDate", new Date(piwik.endDateString));
+		onDateRangeSelect(piwik.endDateString, { "id": "calendarTo" });
+		
+	
+		// If not called, the first date appears light brown instead of dark brown
+		$('.ui-state-hover').removeClass('ui-state-hover');
+		
+		// Apply date range button will reload the page with the selected range
+		 	$('#calendarRangeApply')
+		 		.bind('click', function() {
+		 	        var request_URL = $(e.target).attr("value");
+		 	        var dateFrom = $('#inputCalendarFrom').val(), 
+		 	        	dateTo = $('#inputCalendarTo').val(),
+		 	        	oDateFrom = new Date(dateFrom),
+		 	        	oDateTo = new Date(dateTo);
+		 	        
+		 	        if( !isValidDate(oDateFrom )
+		 	        	|| !isValidDate(oDateTo )
+		 	        	|| oDateFrom > oDateTo )
+		 	        {
+		 	        	alert(_pk_translate('General_InvalidDateRange_js'));
+		 	        	return false;
+		 	        }
+		         	piwikHelper.showAjaxLoading('ajaxLoadingCalendar');
+		 	        broadcast.propagateNewPage('period=range&date='+dateFrom+','+dateTo);
+		 		})
+		 		.show();
+		
+	
+		// Bind the input fields to update the calendar's date when date is manually changed
+		$('#inputCalendarFrom, #inputCalendarTo')
+			.keyup( function (e) {
+				var fromOrTo = this.id == 'inputCalendarFrom' ? 'From' : 'To';
+				var dateInput = $(this).val();
+				$("#calendar"+fromOrTo).datepicker("setDate", new Date(dateInput));
+				if(e.keyCode == 13) {
+					$('#calendarRangeApply').click();
+				}
+		});
+		return true;
+	});
+	 function isValidDate(d) {
+		  if ( Object.prototype.toString.call(d) !== "[object Date]" )
+		    return false;
+		  return !isNaN(d.getTime());
+		}
+	
+	 var period = broadcast.getValueFromHash('period');
+	 if(period == 'range') { 
+	 	 $("#period_id_range").click();
+	 }
+});
