@@ -102,7 +102,7 @@ class Piwik_Updates_1_2_rc1 extends Piwik_Updates
                 ' => false, 
 		
 		    'ALTER TABLE `'. Piwik_Common::prefixTable('log_link_visit_action') .'` 
-				CHANGE `server_time` `server_time` DATETIME NOT NULL,
+				CHANGE `server_time` `server_time` DATETIME NOT NULL
 			   ' => false,
 
 			// New index used max once per request, in case this table grows significantly in the future
