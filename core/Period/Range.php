@@ -157,7 +157,12 @@ class Piwik_Period_Range extends Piwik_Period
 			
 			$lastN = $this->getMaxN($lastN);
 			
-			$startDate = $this->removePeriod($this->strPeriod, $endDate, $lastN);
+			$period = $this->strPeriod;
+			if($period == 'range')
+			{
+				$period = 'day';
+			}
+			$startDate = $this->removePeriod($period, $endDate, $lastN);
 		}
 		elseif( $dateRange = Piwik_Period_Range::parseDateRange($this->strDate) )
 		{

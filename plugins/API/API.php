@@ -350,9 +350,18 @@ class Piwik_API_API
     	}
     	$website = new Piwik_Site($idSite);
 //    	$segment = new Piwik_Segment($segment, $idSite);
+    	if($period == 'range')
+    	{
+	    	$period = new Piwik_Period_Range($period, $date);
+    	}
+    	else
+    	{
+	    	$period = Piwik_Period::factory($period, Piwik_Date::factory($date));
+    	}
+    	
     	return array(
 				'website' => $website->getName(),
-				'prettyDate' => Piwik_Period::factory($period, Piwik_Date::factory($date))->getLocalizedLongString(),
+				'prettyDate' => $period->getLocalizedLongString(),
 //    			'prettySegment' => $segment->getPrettyString(),
 				'metadata' => $reportMetadata, 
 				'columns' => $columns, 
