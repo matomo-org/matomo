@@ -124,6 +124,10 @@ class Piwik_Actions_API
     		}
 			$searchTree = Piwik_Actions::getActionExplodedNames($searchedString, $actionType);
 		}
+		if(!($table instanceof Piwik_DataTable))
+		{
+			throw new Exception("For this API function, date=lastN or date=previousM is not supported");
+		}
 		$rows = $table->getRows();
 		$labelSearch = $searchTree[$searchCurrentLevel];
 		$isEndSearch = ((count($searchTree)-1) == $searchCurrentLevel);
