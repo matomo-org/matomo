@@ -339,7 +339,7 @@ class Test_Piwik_SitesManager extends Test_Database
     public function test_addSiteUrls_wrongUrlsFormat3()
     {
     	$idsite = $this->test_addSite();
-    	$toAdd = array("htt{}p://pigeq.com/test");
+    	$toAdd = array("http:mpigeq");
     	try {
     		$insertedUrls = Piwik_SitesManager_API::getInstance()->addSiteAliasUrls($idsite, $toAdd);
     	}
