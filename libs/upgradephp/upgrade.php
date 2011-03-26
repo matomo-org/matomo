@@ -1009,3 +1009,9 @@ if (!function_exists('utf8_decode')) {
 		return $data;
 	}
 }
+
+if(!function_exists('mb_strtolower')) {
+	function mb_strtolower($input, $charset) {
+		return strtolower($input);
+	}
+}
