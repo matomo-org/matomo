@@ -33,9 +33,16 @@ class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
 			return;
 		}
 		$this->mainAlreadyExecuted = true;
-
-		// throws exception if no view access
+		
+		// If period=range, we force the sparkline to draw daily data points
+		$period = Piwik_Common::getRequestVar('period');
+		if($period == 'range')
+		{
+			$_GET['period'] = 'day';
+		}
 		$this->loadDataTableFromAPI();
+		// then revert the hack for potentially subsequent getRequestVar
+		$_GET['period'] = $period;
 		
 		$this->isDataAvailable = $this->dataTable->getRowsCount() != 0;
 		if(!$this->isDataAvailable)

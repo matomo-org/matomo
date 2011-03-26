@@ -42,8 +42,8 @@ class Piwik_Live_API
 	public function getLastVisitForVisitor( $visitorId, $idSite )
 	{
 		Piwik::checkUserHasViewAccess($idSite);
-		$limit = 1;
-		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $limit, $minIdVisit = false, $visitorId);
+		$filter_limit = 1;
+		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $filter_limit, $minIdVisit = false, $visitorId);
 		$table = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
 		return $table;
 	}
@@ -51,10 +51,10 @@ class Piwik_Live_API
 	/*
 	 * @return Piwik_DataTable
 	 */
-	public function getLastVisitsForVisitor( $visitorId, $idSite, $limit = 10 )
+	public function getLastVisitsForVisitor( $visitorId, $idSite, $filter_limit = 10 )
 	{
 		Piwik::checkUserHasViewAccess($idSite);
-		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $limit, $minIdVisit = false, $visitorId);
+		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $filter_limit, $minIdVisit = false, $visitorId);
 		$table = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
 		return $table;
 	}
@@ -62,10 +62,10 @@ class Piwik_Live_API
 	/*
 	 * @return Piwik_DataTable
 	 */
-	public function getLastVisits( $idSite, $limit = 10, $minTimestamp = false )
+	public function getLastVisits( $idSite, $filter_limit = 10, $minTimestamp = false )
 	{
 		Piwik::checkUserHasViewAccess($idSite);
-		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $limit, $minIdVisit = false, $visitorId = false, $previous = false, $minTimestamp);
+		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $filter_limit, $minIdVisit = false, $visitorId = false, $previous = false, $minTimestamp);
 		$table = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
 //		echo $table;
 		return $table;
@@ -74,14 +74,14 @@ class Piwik_Live_API
 	/*
 	 * @return Piwik_DataTable
 	 */
-	public function getLastVisitsDetails( $idSite, $period = false, $date = false, $limit = false, $minIdVisit = false, $previous = false )
+	public function getLastVisitsDetails( $idSite, $period = false, $date = false, $filter_limit = false, $minIdVisit = false, $previous = false )
 	{
-		if(empty($limit)) 
+		if(empty($filter_limit)) 
 		{
-			$limit = 20;
+			$filter_limit = 20;
 		}
 		Piwik::checkUserHasViewAccess($idSite);
-		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $limit, $minIdVisit, $visitorId = false, $previous); 
+		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $filter_limit, $minIdVisit, $visitorId = false, $previous); 
 		$dataTable = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
 		return $dataTable;
 	}
@@ -191,9 +191,9 @@ class Piwik_Live_API
 	/*
 	 * @return array
 	 */
-	private function loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $limit = false, $minIdVisit = false, $visitorId = false, $previous = false, $minTimestamp = false)
+	private function loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $filter_limit = false, $minIdVisit = false, $visitorId = false, $previous = false, $minTimestamp = false)
 	{
-//		var_dump($period); var_dump($date); var_dump($limit); var_dump($minIdVisit); var_dump($visitorId);
+//		var_dump($period); var_dump($date); var_dump($filter_limit); var_dump($minIdVisit); var_dump($visitorId);
 		$where = $whereBind = array();
 
 		$where[] = Piwik_Common::prefixTable('log_visit') . ".idsite = ? ";
@@ -236,9 +236,16 @@ class Piwik_Live_API
 		{
 			$currentSite = new Piwik_Site($idSite);
 			$currentTimezone = $currentSite->getTimezone();
-
-			$processedDate = Piwik_Date::factory($date, $currentTimezone);// if not commented, the Period below fails ->setTimezone($currentTimezone);
-			$processedPeriod = Piwik_Period::factory($period, $processedDate);
+		
+			if($period == 'range') 
+			{ 
+				$processedPeriod = new Piwik_Period_Range('range', $date);
+			}
+			else
+			{
+				$processedDate = Piwik_Date::factory($date, $currentTimezone);// if not commented, the Period below fails ->setTimezone($currentTimezone);
+				$processedPeriod = Piwik_Period::factory($period, $processedDate);
+			}
 			array_push(     $where, Piwik_Common::prefixTable('log_visit') . ".visit_last_action_time BETWEEN ? AND ?");
 			array_push(     $whereBind,
 				$processedPeriod->getDateStart()->toString('Y-m-d H:i:s'),
@@ -272,10 +279,10 @@ class Piwik_Live_API
 			$sqlWhere
 			GROUP BY idvisit
 			ORDER BY visit_last_action_time DESC"; 
-		if(!empty($limit))
+		if(!empty($filter_limit))
 		{
 			$sql .= " 
-			LIMIT ".(int)$limit;
+			LIMIT ".(int)$filter_limit;
 
 		}
 		$data = Piwik_FetchAll($sql, $whereBind);

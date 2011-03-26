@@ -65,6 +65,7 @@ $(document).ready( function() {
 		};
 		$('#tableGoalsByDimension').hide();
 		$('#tableGoalsLoading').show();
+
 		ajaxRequest = widgetsHelper.getLoadWidgetAjaxRequest(widgetUniqueId, widgetParameters, onWidgetLoadedCallback);
 		$.ajax(ajaxRequest);
 	});

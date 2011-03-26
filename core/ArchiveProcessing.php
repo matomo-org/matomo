@@ -439,6 +439,7 @@ abstract class Piwik_ArchiveProcessing
 		if(!$this->shouldProcessReportsAllPlugins($this->getSegment(), $this->period))
 		{
 			$pluginProcessed = self::getPluginBeingProcessed($this->getRequestedReport());
+//			Piwik::log("Plugin processed: $pluginProcessed");
 			if(!Piwik_PluginsManager::getInstance()->isPluginLoaded($pluginProcessed)
 				|| $flagArchiveAsAllPlugins 
 				)
@@ -470,18 +471,7 @@ abstract class Piwik_ArchiveProcessing
 			return true;
 		}
 	
-		// Goal_* metrics are processed by the Goals plugin. (HACK)
-		if(strpos($this->getRequestedReport(), 'Goal_') === 0)
-		{
-			return $pluginName == 'Goal';
-		}
 	
-		// Returning visitors metrics are nb_visits_returning rather than VisitorInterest_nb_visits_returning (HACK)
-		if(strpos($this->getRequestedReport(), '_returning') > 0)
-		{
-			return $pluginName == 'VisitFrequency';
-		}
-		
 		// If segment, only process if the requested report belong to this plugin
 		// or process all plugins if the requested report plugin couldn't be guessed
 		$pluginBeingProcessed = self::getPluginBeingProcessed($this->getRequestedReport());
@@ -507,10 +497,11 @@ abstract class Piwik_ArchiveProcessing
 		{
 			$temporary = 'temporary archive';
 		}
-		Piwik::log("Processing archive '" . $this->period->getLabel() . "', " 
-								."idSite = ". $this->idsite." ($temporary) - " 
-								."segment = '". $this->getSegment()->getString()
-								."', UTC datetime [".$this->startDatetimeUTC." -> ".$this->endDatetimeUTC." ]...");
+		Piwik::log("Processing archive '" . $this->period->getLabel() . "'" 
+								.", idSite = ". $this->idsite." ($temporary)" 
+								.", segment = '". $this->getSegment()->getString()."'"
+								.", report = '". $this->getRequestedReport()."'" 
+								.", UTC datetime [".$this->startDatetimeUTC." -> ".$this->endDatetimeUTC." ]...");
 	}
 	
 	/**

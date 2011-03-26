@@ -376,6 +376,21 @@ class Test_Piwik_Period_Range extends UnitTestCase
 	 	//var_dump($correct);
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), count($correct));
 	 	$this->assertEqual( $range->toString(), $correct);
-	 }
+	}
+	
+	function test_CustomRange_beforeIsAfter_yeahRight()
+	{
+	 	$range = new Piwik_Period_Range( 'range', '2007-02-09,2007-02-01' );
+	 	$this->assertEqual( $range->getNumberOfSubperiods(), 0);
+	 	$this->assertEqual( $range->toString(), array());
+	 	
+	 	try {
+	 		$range->getPrettyString();
+	 		$this->fail();
+	 	} catch(Exception $e) {
+	 		$this->pass();
+	 		
+	 	}
+	} 	
 	 
 }

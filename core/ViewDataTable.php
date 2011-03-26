@@ -397,7 +397,7 @@ abstract class Piwik_ViewDataTable
 	{
 		if(empty($this->dataTable))
 		{
-			return;
+			return false;
 		}
 		// First, filters that delete rows 
 		foreach($this->queuedFiltersPriority as $filter)

@@ -137,7 +137,9 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 	
 	protected function postDataTableLoadedFromAPI()
 	{
-		parent::postDataTableLoadedFromAPI();
+		$valid = parent::postDataTableLoadedFromAPI();
+		if($valid === false) return false;
+		
 		foreach($this->getColumnsToDisplay() as $columnName)
 		{
 			if(strpos($columnName, 'conversion_rate'))
