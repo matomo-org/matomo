@@ -205,6 +205,11 @@ class Piwik_FrontController
 				$exceptionToThrow = $e;
 			}
 
+			if(Zend_Registry::get('config')->General->maintenance_mode == 1)
+			{
+				throw new Exception("Piwik is in scheduled maintenance. Please come back later.");
+			}
+			
 			$pluginsManager = Piwik_PluginsManager::getInstance();
 			$pluginsManager->loadPlugins( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
 
@@ -212,7 +217,6 @@ class Piwik_FrontController
 			{
 				throw $exceptionToThrow;
 			}
-
 
 			try {
 				Piwik::createDatabaseObject();
