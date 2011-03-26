@@ -1223,7 +1223,7 @@ class Piwik_Tracker_Visit_Referer
 			return false;
 		}
 		$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_SEARCH_ENGINE;
-		$this->nameRefererAnalyzed = mb_strtolower($searchEngineInformation['name'], 'UTF-8');
+		$this->nameRefererAnalyzed = $searchEngineInformation['name'];
 		$this->keywordRefererAnalyzed = $searchEngineInformation['keywords'];
 		return true;
 	}
