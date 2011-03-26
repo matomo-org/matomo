@@ -37,7 +37,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * as well as the data itself, pre-processed and ready to be displayed
 	 * @return 
 	 */
-	function _test_apiGetReportMetadata()
+	function test_apiGetReportMetadata()
 	{
 		$this->setApiNotToCall(array());
 		$this->setApiToCall( 'API' );
@@ -59,7 +59,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * Test the Yearly metadata API response, 
 	 * with no visits, with custom response language 
 	 */
-	function _test_apiGetReportMetadata_year()
+	function test_apiGetReportMetadata_year()
 	{
 		$this->setApiNotToCall(array());
 		$this->setApiToCall( array('API.getProcessedReport', 
@@ -80,7 +80,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * API will archive and output empty stats.
 	 * 
 	 */
-	function _test_noVisit()
+	function test_noVisit()
 	{
 		$dateTime = '2009-01-04 00:11:42';
 		$idSite = $this->createWebsite($dateTime);
@@ -129,7 +129,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 *   
 	 *   NO cookie support
 	 */
-	function _test_OneVisitorTwoVisits() 
+	function test_OneVisitorTwoVisits() 
 	{
 		// Tests run in UTC, the Tracker in UTC
     	$dateTime = '2010-03-06 11:22:33';
@@ -145,7 +145,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * Same as before, but with cookie support, which incurs some slight changes 
 	 * in the reporting data (more accurate unique visitor count, better referer tracking for goals, etc.)
 	 */
-	function _test_OneVisitorTwoVisits_withCookieSupport() 
+	function test_OneVisitorTwoVisits_withCookieSupport() 
 	{
 		// Tests run in UTC, the Tracker in UTC
     	$dateTime = '2010-03-06 11:22:33';
@@ -227,7 +227,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * And testing empty URL and empty Page name request
 	 * Also testing a click on a mailto counted as outlink
 	 */
-	function _test_TwoVisitors_twoWebsites_differentDays()
+	function test_TwoVisitors_twoWebsites_differentDays()
 	{
 		// Tests run in UTC, the Tracker in UTC
     	$dateTime = '2010-01-03 11:22:33';
@@ -365,7 +365,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	return $idSite;
 	}
 	
-	function _test_twoVisitsWithCustomVariables()
+	function test_twoVisitsWithCustomVariables()
 	{
 		$dateTime = '2010-01-03 11:22:33';
         $this->doTest_twoVisitsWithCustomVariables($dateTime);
@@ -376,7 +376,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         								$setDateLastN = true);
 	}
 
-	function _test_twoVisitsWithCustomVariables_segmentMatchVisitorType()
+	function test_twoVisitsWithCustomVariables_segmentMatchVisitorType()
 	{
 		$dateTime = '2010-01-03 11:22:33';
         $this->doTest_twoVisitsWithCustomVariables($dateTime);
@@ -435,7 +435,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		}
 	}
 	
-	function _test_twoVisitsWithCustomVariables_segmentMatchALL_noGoalData()
+	function test_twoVisitsWithCustomVariables_segmentMatchALL_noGoalData()
 	{
 		$dateTime = '2010-01-03 11:22:33';
         $width=1111; $height=222; $resolution = $width.'x'.$height;
@@ -456,7 +456,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	}
 	
 	/* Testing a segment containing all supported fields */
-	function _test_twoVisitsWithCustomVariables_segmentMatchNONE()
+	function test_twoVisitsWithCustomVariables_segmentMatchNONE()
 	{
 		$dateTime = '2010-01-03 11:22:33';
         $idSite = $this->doTest_twoVisitsWithCustomVariables($dateTime);
@@ -483,7 +483,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	/*
 	 * Testing period=range use case. Recording data before and after, checking that the requested range is processed correctly 
 	 */
-	public function _test_oneVisitor_oneWebsite_severalDays_DateRange()
+	public function test_oneVisitor_oneWebsite_severalDays_DateRange()
 	{        
     	$dateTimes = array(
     		'2010-12-14 01:00:00',
