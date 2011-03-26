@@ -958,6 +958,10 @@ class Piwik_SitesManager_API
 		foreach($urls as &$url)
 		{
 			$url = $this->removeTrailingSlash($url);
+			if(strpos($url, 'http') !== 0)
+			{
+				$url = 'http://'.$url;
+			}
 		}
 		$urls = array_unique($urls);
 		
