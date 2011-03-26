@@ -78,13 +78,17 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		$lastVisitsArray = $lastVisits->getArray();
 		$lastActionsArray = $lastActions->getArray();
 		$lastUniqueUsersArray = $lastUniqueUsers->getArray();
+		
+		$totalVisits = $totalActions = 0;
 		foreach($mySites as &$site)
 		{
 			$idSite = $site['idsite'];
 			$tmp = $visitsArray[$idSite]->getColumn(0);
 			$site['visits'] = $tmp[0];
+			$totalVisits += $tmp[0];
 			$tmp = $actionsArray[$idSite]->getColumn(0);
 			$site['actions'] = $tmp[0];
+			$totalActions += $tmp[0];
 			$tmp = $uniqueUsersArray[$idSite]->getColumn(0);
 			$site['unique'] = $tmp[0];
 			$tmp = $lastVisitsArray[$idSite]->getColumn(0);
@@ -96,7 +100,6 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 			$site['visitsSummaryValue'] = $visitsSummary[$idSite];
 			$site['actionsSummaryValue'] = $actionsSummary[$idSite];
 			$site['uniqueSummaryValue'] = $uniqueSummary[$idSite];
-		
 		}
 		
 		$view = new Piwik_View("MultiSites/templates/index.tpl");
@@ -109,6 +112,8 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		$view->orderBy = $this->orderBy;
 		$view->order = $this->order;
 		$view->dateToStr = $this->dateToStr;
+		$view->totalVisits = $totalVisits;
+		$view->totalActions = $totalActions;
 	
 		$view->autoRefreshTodayReport = false;
 		// if the current date is today, or yesterday, 

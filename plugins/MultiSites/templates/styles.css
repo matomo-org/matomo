@@ -7,7 +7,9 @@
 #multisites .top_controls_inner  {
 	height:10px;
 }
-
+.smallTitle {
+	font-size:15px;
+}
 .indicator {
 	background-image: url("../images/loading-blue.gif");
 	background-position:	center;
