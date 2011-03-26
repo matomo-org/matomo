@@ -36,6 +36,21 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
 		return 'generateDataChartEvolution';
 	}
 	
+	protected function getFlashData()
+	{
+		$period = Piwik_Common::getRequestVar('period');
+	
+		// period will be overriden when 'range' is requested in the UI
+		// but the graph will display for each day of the range. 
+		// Default 'range' behavior is to return the 'sum' for the range
+		if($period == 'range')
+		{
+			$graphRangePeriod = 'day';
+			$this->setParametersToModify(array('period' => $graphRangePeriod));
+		}
+		return parent::getFlashData();
+	}
+	
 	function init($currentControllerName,
 						$currentControllerAction, 
 						$apiMethodToRequestDataTable,

@@ -191,6 +191,15 @@ abstract class Piwik_Controller
 	 */
 	protected function getGraphParamsModified($paramsToSet = array())
 	{
+		if(!isset($paramsToSet['period']))
+		{
+			$period = Piwik_Common::getRequestVar('period');
+		}
+		else
+		{
+			$period = $paramsToSet['period'];
+		}
+		
 		if(!isset($paramsToSet['range']))
 		{
 			$range = 'last30';
@@ -209,14 +218,6 @@ abstract class Piwik_Controller
 			$endDate = $paramsToSet['date'];
 		}
 		
-		if(!isset($paramsToSet['period']))
-		{
-			$period = Piwik_Common::getRequestVar('period');
-		}
-		else
-		{
-			$period = $paramsToSet['period'];
-		}
 		if(is_null($this->site))
 		{
 			throw new Piwik_Access_NoAccessException("Website not initialized, check that you are logged in and/or using the correct token_auth.");
@@ -314,8 +315,18 @@ abstract class Piwik_Controller
 		try {
 			$this->setPeriodVariablesView($view);
 			
-			$date = Piwik_Date::factory($this->strDate); 
-			$view->prettyDate = Piwik_Period::factory(Piwik_Common::getRequestVar('period'), $date)->getPrettyString();
+			$periodStr = Piwik_Common::getRequestVar('period');
+
+			if($periodStr!='range')
+			{
+				$date = Piwik_Date::factory($this->strDate);
+				$period = Piwik_Period::factory($periodStr, $date);
+			}
+			else
+			{
+				$period = new Piwik_Period_Range($periodStr, Piwik_Common::getRequestVar('date'));
+			}
+			$view->prettyDate = $period->getPrettyString();
 			$view->idSite = $this->idSite;
 			if(is_null($this->site))
 			{
@@ -330,8 +341,18 @@ abstract class Piwik_Controller
 
 			$maxDate = Piwik_Date::factory('now', $this->site->getTimezone());
 			$this->setMaxDateView($maxDate, $view);
+			
+			// Setting current period start & end dates, for pre-setting the calendar when "Date Range" is selected 
+			$dateStart = $period->getDateStart();
+			if($dateStart->isEarlier($minDate)) { $dateStart = $minDate; } 
+			$dateEnd = $period->getDateEnd();
+			if($dateEnd->isLater($maxDate)) { $dateEnd = $maxDate; }
+			
+			$view->startDate = $dateStart;
+			$view->endDate = $dateEnd;
 			$this->setBasicVariablesView($view);
 		} catch(Exception $e) {
+			//TODO here display std error message rather than redirect
 			self::redirectToIndex( Piwik::getLoginPluginName(), $action = 'index' );
 		}
 	}
@@ -363,7 +384,7 @@ abstract class Piwik_Controller
 			return;
 		}
 		$currentPeriod = Piwik_Common::getRequestVar('period');
-		$availablePeriods = array('day', 'week', 'month', 'year');
+		$availablePeriods = array('day', 'week', 'month', 'year', 'range');
 		if(!in_array($currentPeriod,$availablePeriods))
 		{
 			throw new Exception("Period must be one of: ".implode(",",$availablePeriods));
@@ -373,6 +394,8 @@ abstract class Piwik_Controller
 			'week' => array('singular' => Piwik_Translate('CoreHome_PeriodWeek'), 'plural' => Piwik_Translate('CoreHome_PeriodWeeks')),
 			'month' => array('singular' => Piwik_Translate('CoreHome_PeriodMonth'), 'plural' => Piwik_Translate('CoreHome_PeriodMonths')),
 			'year' => array('singular' => Piwik_Translate('CoreHome_PeriodYear'), 'plural' => Piwik_Translate('CoreHome_PeriodYears')),
+			// Note: plural is not used for date range
+			'range' => array('singular' => Piwik_Translate('General_DateRange'), 'plural' => Piwik_Translate('General_DateRange') ),
 		);
 		
 		$found = array_search($currentPeriod,$availablePeriods);

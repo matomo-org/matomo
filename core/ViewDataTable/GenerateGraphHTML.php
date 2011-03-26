@@ -109,8 +109,8 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		if(!Piwik::isUserHasViewAccess($idSite))
 		{
 			throw new Exception(Piwik_TranslateException('General_ExceptionPrivilegeAccessWebsite', array("'view'", $idSite)));
-
 		}
+		
 		if($this->includeData)
 		{
 			$this->chartData = $this->getFlashData();

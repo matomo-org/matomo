@@ -1,6 +1,9 @@
 
 <a name="evolutionGraph" graphId="VisitsSummarygetEvolutionGraph"></a>
-<h2>{'VisitsSummary_EvolutionOverLastPeriods'|translate:$periodsNames.$period.plural}</h2>
+
+<h2>{if $period=='range'}{'Referers_Evolution'|translate}
+	{else}{'VisitsSummary_EvolutionOverLastPeriods'|translate:$periodsNames.$period.plural}{/if}
+</h2>
 {$graphEvolutionVisitsSummary}
 
 <h2>{'General_Report'|translate}</h2>

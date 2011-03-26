@@ -223,8 +223,7 @@ class Piwik_Goals extends Piwik_Plugin
 	{
 		$archiveProcessing = $notification->getNotificationObject();
 		
-		if(!$archiveProcessing->shouldProcessReportsForPlugin($thisPluginPrefix = 'Goal')) return;
-		
+		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 		$metricsToSum = array( 'nb_conversions', 'revenue');
 		$goalIdsToSum = Piwik_Tracker_GoalManager::getGoalIds($archiveProcessing->idsite);
 		
@@ -269,7 +268,7 @@ class Piwik_Goals extends Piwik_Plugin
 		 */
 		$archiveProcessing = $notification->getNotificationObject();
 		
-		if(!$archiveProcessing->shouldProcessReportsForPlugin($thisPluginPrefix = 'Goal')) return;
+		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 		
 		// by processing visitor_returning segment, we can also simply sum and get stats for all goals.
 		$query = $archiveProcessing->queryConversionsByDimension('visitor_returning');

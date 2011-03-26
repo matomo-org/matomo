@@ -7,7 +7,9 @@
 	{if isset($siteName)}piwik.siteName = "{$siteName|escape:'javascript'}";{/if}
 	{if isset($siteMainUrl)}piwik.siteMainUrl = "{$siteMainUrl|escape:'javascript'}";{/if}
 	{if isset($period)}piwik.period = "{$period}";{/if}
-	{if isset($date)}piwik.currentDateString = "{$date}";{/if}
+	piwik.currentDateString = "{if isset($date)}{$date}{else}{$endDate}{/if}";
+	{if isset($startDate)}piwik.startDateString = "{$startDate}";{/if}
+	{if isset($endDate)}piwik.endDateString = "{$endDate}";{/if}
 	{if isset($minDateYear)}piwik.minDateYear = {$minDateYear};{/if}
 	{if isset($minDateMonth)}piwik.minDateMonth = parseInt("{$minDateMonth}", 10);{/if}
 	{if isset($minDateDay)}piwik.minDateDay = parseInt("{$minDateDay}", 10);{/if}

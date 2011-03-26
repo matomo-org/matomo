@@ -549,7 +549,7 @@ div.ui-state-highlight {
 	padding:0 !important;
 }
 
-.ui-datepicker td .ui-state-default{ 
+.ui-state-default{ 
 	border:1px solid #f2f6f9!important;
 	border-right:0!important;
 	background:#fff!important;

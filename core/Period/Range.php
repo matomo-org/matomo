@@ -19,6 +19,7 @@
 class Piwik_Period_Range extends Piwik_Period
 {
 	protected $label = 'range';
+	
 	public function __construct( $strPeriod, $strDate, $timezone = 'UTC', $today = false )
 	{
 		$this->strPeriod = $strPeriod;
@@ -47,9 +48,20 @@ class Piwik_Period_Range extends Piwik_Period
 	{
 		return $this->getLocalizedShortString();
 	}
+	
+	public function getDateStart()
+	{
+		$dateStart = parent::getDateStart();
+		if(empty($dateStart))
+		{
+			throw new Exception("Specified date range is invalid.");
+		}
+		return $dateStart;
+	}
+	
 	public function getPrettyString()
 	{
-		$out = "From ".$this->getDateStart()->toString() . " to " . $this->getDateEnd()->toString();
+		$out = "From ". $this->getDateStart()->toString() . " to " . $this->getDateEnd()->toString();
 		return $out;
 	}
 
@@ -199,6 +211,7 @@ class Piwik_Period_Range extends Piwik_Period
 		return parent::getDateEnd();
 	}
 	
+	// See Range.test.php 
 	protected function processOptimalSubperiods($startDate, $endDate)
 	{
 		while($startDate->isEarlier($endDate)

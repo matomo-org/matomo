@@ -505,9 +505,17 @@ class Piwik_Archive_Single extends Piwik_Archive
 		{
 			return 'VisitsSummary_CoreMetrics';
 		}
-		if(strpos($this->requestedReport, '_returning') > 0)
+		// VisitFrequency metrics don't follow the same naming convention (HACK) 
+		if(strpos($this->requestedReport, '_returning') > 0
+			// ignore Goal_visitor_returning_1_1_nb_conversions 
+			&& strpos($this->requestedReport, 'Goal_') === false)
 		{
 			return 'VisitFrequency_Metrics';
+		}
+		// Goal_* metrics are processed by the Goals plugin (HACK)
+		if(strpos($this->requestedReport, 'Goal_') === 0)
+		{
+			return 'Goals_Metrics';
 		}
    		return $this->requestedReport;
 	}
