@@ -33,6 +33,7 @@ class Piwik_PDFReports extends Piwik_Plugin
 				'TopMenu.add' => 'addTopMenu',
 				'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
 				'AssetManager.getJsFiles' => 'getJsFiles',
+				'UsersManager.deleteUser' => 'deleteUserReport',
 		);
 	}
 
@@ -113,6 +114,12 @@ class Piwik_PDFReports extends Piwik_Plugin
     	Piwik_AddTopMenu( 'PDFReports_EmailReports', array('module' => 'PDFReports', 'action' => 'index'), true, 13);
     }
 	
+    function deleteUserReport($notification)
+	{
+		$userLogin = $notification->getNotificationObject();
+		Piwik_Query('DELETE FROM ' . Piwik_Common::prefixTable('pdf') . ' WHERE login = ?', $userLogin);
+    }
+    
     function install()
 	{
 		$queries[] = "
