@@ -12,7 +12,6 @@
 	{/foreach}
 	params['period'] = '{$period}';
 	params['date'] = '{$date}';
-	params['dateToStr'] = '{$dateToStr}';
 	params['evolutionBy'] = '{$evolutionBy}';
 	params['mOrderBy'] = '{$orderBy}';
 	params['order'] = '{$order}';

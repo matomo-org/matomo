@@ -24,7 +24,6 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 	protected $limit = 0;
 	protected $period;
 	protected $date;
-	protected $dateToStr;
 
 	function __construct()
 	{
@@ -47,37 +46,39 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		// we set "today" or "yesterday" based on the default Piwik timezone
 		$piwikDefaultTimezone = Piwik_SitesManager_API::getInstance()->getDefaultTimezone();
 		$date = Piwik_Common::getRequestVar('date', 'today');
-		$date = $this->getDateParameterInTimezone($date, $piwikDefaultTimezone);
-		$this->setDate($date);
+		$period = Piwik_Common::getRequestVar('period', 'day');	
+		if($period != 'range')
+		{
+			$date = $this->getDateParameterInTimezone($date, $piwikDefaultTimezone);
+			$date = $date->toString();
+		}
 		
 		$mySites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess();
 		$params = $this->getGraphParamsModified();
-		$this->dateToStr = $params['date'];
 
 		$ids = 'all';
-		$this->period = Piwik_Common::getRequestVar('period', 'day');		
+		$lastDate =  date('Y-m-d',strtotime("-1 ".$period, strtotime($date)));
 
-		$lastDate =  date('Y-m-d',strtotime("-1 ".$this->period, strtotime($this->strDate)));
-
-		$visits = Piwik_VisitsSummary_API::getInstance()->getVisits($ids, $this->period, $this->strDate);
-		$lastVisits = Piwik_VisitsSummary_API::getInstance()->getVisits($ids, $this->period, $lastDate);
-
-		$actions = Piwik_VisitsSummary_API::getInstance()->getActions($ids, $this->period, $this->strDate);
-		$lastActions = Piwik_VisitsSummary_API::getInstance()->getActions($ids, $this->period, $lastDate);
-
-		$uniqueUsers = Piwik_VisitsSummary_API::getInstance()->getUniqueVisitors($ids, $this->period, $this->strDate);
-		$lastUniqueUsers = Piwik_VisitsSummary_API::getInstance()->getUniqueVisitors($ids, $this->period, $lastDate);
-
-		$visitsSummary = $this->getSummary($lastVisits, $visits, $mySites, "visits");
-		$actionsSummary = $this->getSummary($lastActions, $actions, $mySites, "actions");
-		$uniqueSummary = $this->getSummary($lastUniqueUsers, $uniqueUsers, $mySites, "unique");
+		$visits = Piwik_VisitsSummary_API::getInstance()->getVisits($ids, $period, $date);
+		$actions = Piwik_VisitsSummary_API::getInstance()->getActions($ids, $period, $date);
+		$uniqueUsers = Piwik_VisitsSummary_API::getInstance()->getUniqueVisitors($ids, $period, $date);
+		
+		if($period != 'range')
+		{
+			$lastVisits = Piwik_VisitsSummary_API::getInstance()->getVisits($ids, $period, $lastDate);
+			$lastActions = Piwik_VisitsSummary_API::getInstance()->getActions($ids, $period, $lastDate);
+			$lastUniqueUsers = Piwik_VisitsSummary_API::getInstance()->getUniqueVisitors($ids, $period, $lastDate);
+			$visitsSummary = $this->getSummary($lastVisits, $visits, $mySites, "visits");
+			$actionsSummary = $this->getSummary($lastActions, $actions, $mySites, "actions");
+			$uniqueSummary = $this->getSummary($lastUniqueUsers, $uniqueUsers, $mySites, "unique");
+			$lastVisitsArray = $lastVisits->getArray();
+			$lastActionsArray = $lastActions->getArray();
+			$lastUniqueUsersArray = $lastUniqueUsers->getArray();
+		}
 
 		$visitsArray = $visits->getArray();
 		$actionsArray = $actions->getArray();
 		$uniqueUsersArray = $uniqueUsers->getArray();
-		$lastVisitsArray = $lastVisits->getArray();
-		$lastActionsArray = $lastActions->getArray();
-		$lastUniqueUsersArray = $lastUniqueUsers->getArray();
 		
 		$totalVisits = $totalActions = 0;
 		foreach($mySites as &$site)
@@ -91,34 +92,39 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 			$totalActions += $tmp[0];
 			$tmp = $uniqueUsersArray[$idSite]->getColumn(0);
 			$site['unique'] = $tmp[0];
-			$tmp = $lastVisitsArray[$idSite]->getColumn(0);
-			$site['lastVisits'] = $tmp[0];
-			$tmp = $lastActionsArray[$idSite]->getColumn(0);
-			$site['lastActions'] = $tmp[0];
-			$tmp = $lastUniqueUsersArray[$idSite]->getColumn(0);
-			$site['lastUnique'] = $tmp[0];
-			$site['visitsSummaryValue'] = $visitsSummary[$idSite];
-			$site['actionsSummaryValue'] = $actionsSummary[$idSite];
-			$site['uniqueSummaryValue'] = $uniqueSummary[$idSite];
+			
+			
+			if($period != 'range')
+			{
+				$tmp = $lastVisitsArray[$idSite]->getColumn(0);
+				$site['lastVisits'] = $tmp[0];
+				$tmp = $lastActionsArray[$idSite]->getColumn(0);
+				$site['lastActions'] = $tmp[0];
+				$tmp = $lastUniqueUsersArray[$idSite]->getColumn(0);
+				$site['lastUnique'] = $tmp[0];
+			}
+			$site['visitsSummaryValue'] = isset($visitsSummary[$idSite]) ? $visitsSummary[$idSite] : 0;
+			$site['actionsSummaryValue'] = isset($actionsSummary[$idSite]) ? $actionsSummary[$idSite] : 0;
+			$site['uniqueSummaryValue'] = isset($uniqueSummary[$idSite]) ? $uniqueSummary[$idSite] : 0;
+			
 		}
 		
 		$view = new Piwik_View("MultiSites/templates/index.tpl");
 		$view->mySites = $mySites;
 		$view->evolutionBy = $this->evolutionBy;
-		$view->period = $this->period;
-		$view->date = $this->strDate;
+		$view->period = $period;
+		$view->date = $date;
 		$view->page = $this->page;
 		$view->limit = $this->limit;
 		$view->orderBy = $this->orderBy;
 		$view->order = $this->order;
-		$view->dateToStr = $this->dateToStr;
 		$view->totalVisits = $totalVisits;
 		$view->totalActions = $totalActions;
 	
 		$view->autoRefreshTodayReport = false;
 		// if the current date is today, or yesterday, 
 		// in case the website is set to UTC-12), or today in UTC+14, we refresh the page every 5min
-		if(in_array($this->strDate, array(	'today', date('Y-m-d'), 
+		if(in_array($date, array(	'today', date('Y-m-d'), 
 											'yesterday', Piwik_Date::factory('yesterday')->toString('Y-m-d'),
 											Piwik_Date::factory('now', 'UTC+14')->toString('Y-m-d'))))
 		{
@@ -177,12 +183,12 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 			$current = $tmp[0];
 			$tmp = $lastVisitsArray[$idSite]->getColumn(0);
 			$last = $tmp[0];
-			$summaryArray[$idSite] = $this->fillSummary($current, $last, $this->evolutionBy);
+			$summaryArray[$idSite] = $this->fillSummary($current, $last);
 		}
 		return $summaryArray;
 	}
 
-	private function fillSummary($current, $last, $type)
+	private function fillSummary($current, $last)
 	{
 		if($current == 0 && $last == 0)
 		{
