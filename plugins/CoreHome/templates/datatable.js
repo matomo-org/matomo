@@ -931,7 +931,10 @@ actionDataTable.prototype =
 
 			// reset all the filters from the Parent table
 			var filtersToRestore = self.resetAllFilters();
-
+			
+			// Do not reset the sorting filters that must be applied to sub tables 
+			this.param['filter_sort_column'] = filtersToRestore['filter_sort_column'];
+			this.param['filter_sort_order'] = filtersToRestore['filter_sort_order'];
 			
 			self.param.idSubtable = idSubTable;
 			self.param.action = self.param.controllerActionCalledWhenRequestSubTable;
