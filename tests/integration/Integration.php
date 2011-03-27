@@ -395,6 +395,14 @@ abstract class Test_Integration extends Test_Database
 			// When tests run on Windows EOL delimiters are not the same as UNIX default EOL used in the renderers
     		$expected = str_replace("\r\n", "\n", $expected); 
     		$response = str_replace("\r\n", "\n", $response); 
+    		
+    		// If date=lastN the <prettyDate> element will change each day, we remove XML element before comparison
+    		if(strpos($dateTime, 'last') !== false)
+    		{
+    			$expected = $this->removePrettyDateFromXml($expected);
+    			$response = $this->removePrettyDateFromXml($response);
+    		}
+    		
     		$pass = $pass && $this->assertEqual(trim($response), trim($expected), "<br/>\nDifferences with expected in: $processedFilePath ");
     		if($response != $expected)
     		{
@@ -411,4 +419,11 @@ abstract class Test_Integration extends Test_Database
     	return $pass;
 	}
 	
+	protected function removePrettyDateFromXml($input)
+	{
+		$input = preg_replace('/(<prettyDate>.+?<\/prettyDate>)/', '', $input);
+    	// check we didn't delete the whole string 
+    	$this->assertTrue(strlen($input) > 100);
+    	return $input;
+	}
 }
