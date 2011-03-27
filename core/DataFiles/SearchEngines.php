@@ -398,6 +398,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.cnn.com'				=> array('Google', 'query'),
 		'darkoogle.com'				=> array('Google'),
 		'search.darkoogle.com'		=> array('Google'),
+		'search.foxtab.com'			=> array('Google'),
 		'search.hiyo.com'			=> array('Google'),
 		'search.incredimail.com'	=> array('Google'),
 		'search1.incredimail.com'	=> array('Google'),
