@@ -131,8 +131,9 @@ a {
 }
 
 #logo {
-	margin-left: 38%;
+	margin-left: 40%;
 	margin-top: 100px;
+	width: 400px;
 }
 
 #logo img {
