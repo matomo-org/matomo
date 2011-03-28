@@ -31,7 +31,7 @@ function widgetize()
 						"&"+piwikHelper.getQueryStringFromParameters(copyParameters)+
 						"&idSite="+piwik.idSite+
 						"&period="+piwik.period+
-						"&date="+piwik.currentDateString+
+						"&date="+broadcast.getValueFromUrl('date')+
 						"&disableLink=1";
 		return sourceUrl;
 	}

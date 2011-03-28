@@ -7,6 +7,10 @@
 	{if isset($siteName)}piwik.siteName = "{$siteName|escape:'javascript'}";{/if}
 	{if isset($siteMainUrl)}piwik.siteMainUrl = "{$siteMainUrl|escape:'javascript'}";{/if}
 	{if isset($period)}piwik.period = "{$period}";{/if}
+	{* piwik.currentDateString should not be used other than by the calendar Javascript 
+			(it is not set to the expected value when period=range) 
+		Use broadcast.getValueFromUrl('date') instead
+	*}
 	piwik.currentDateString = "{if isset($date)}{$date}{elseif isset($endDate)}{$endDate}{/if}";
 	{if isset($startDate)}piwik.startDateString = "{$startDate}";{/if}
 	{if isset($endDate)}piwik.endDateString = "{$endDate}";{/if}

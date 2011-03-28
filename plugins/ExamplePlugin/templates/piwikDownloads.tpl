@@ -8,7 +8,7 @@
 {literal}
 	$.ajax({
 		url: "http://demo.piwik.org/?module=API&method=Goals.getConversions"
-				+"&idSite=1&idGoal=1&period="+piwik.period+"&date="+piwik.currentDateString
+				+"&idSite=1&idGoal=1&period="+piwik.period+"&date="+broadcast.getValueFromUrl('date')
 				+"&token_auth=anonymous&format=json",
 		dataType: 'jsonp', 
 		jsonp: 'jsoncallback',
