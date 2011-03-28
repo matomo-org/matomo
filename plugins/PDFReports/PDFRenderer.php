@@ -13,6 +13,7 @@
 /**
  * @see libs/tcpdf
  */
+require_once PIWIK_INCLUDE_PATH . '/plugins/PDFReports/config/tcpdf_config.php';
 require_once PIWIK_INCLUDE_PATH . '/libs/tcpdf/config/lang/eng.php';
 require_once PIWIK_INCLUDE_PATH . '/libs/tcpdf/tcpdf.php';
 

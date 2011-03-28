@@ -1,3 +1,96 @@
+5.9.062 (2011-03-23)
+	- Bug item #3232650 "Using Write if there are pageRegions active creates error" was fixed.
+	- Bug item #3221891 "text input borders" was fixed.
+	- Bug item #3228958 "Adobe Reader 9.4.2 crash" was fixed.
+
+5.9.061 (2011-03-15)
+	- Bug item #3213488 "wrong function call in function Write" was fixed.
+	- Bug item #3203007 "list element with black background" was fixed.
+
+5.9.060 (2011-03-08)
+	- addTOC() method was fixed for text alignment problems.
+
+5.9.059 (2011-02-27)
+	- Default Header() method was improved to reduce document size.
+
+5.9.058 (2011-02-25)
+	- Image() method was improved to cache images with transparency layers (thanks to Korneliusz Jarzębski for reporting this problem).
+
+5.9.057 (2011-02-24)
+	- A problem with image caching system was fixed (thanks to Korneliusz Jarzębski for reporting this problem).
+
+5.9.056 (2011-02-22)
+	- A bug on fixHTMLCode() method was fixed.
+	- Automatic line break for HTML was fixed.
+
+5.9.055 (2011-02-17)
+	- Another bug related to HTML table page break was fixed.
+
+5.9.054 (2011-02-16)
+	- A bug related to HTML table page break was fixed.
+
+5.9.053 (2011-02-16)
+	- Support for HTML attribute display="none" was added.
+
+5.9.052 (2011-02-15)
+	- A bug related to HTML automatic newlines was fixed.
+
+5.9.051 (2011-02-12)
+	- "Commas at beginning of new lines" problem was fixed.
+
+5.9.050 (2011-02-11)
+	- Bug #3177606 "SVG Bar chart error" was fixed.
+
+5.9.049 (2011-02-03)
+	- Bug #3170777 "TCPDF creates a new page after a single line in writeHTML" was fixed.
+
+5.9.048 (2011-02-02)
+	- No changes. Just released to override previous release that was not uploaded correctly.
+
+5.9.047 (2011-01-28)
+	- Bug #3167115 "PDF error in <table> (example 48)" was fixed (was introduced in 5.8.046).
+
+5.9.046 (2011-01-18)
+	- PDF view/print layers are now automatically turned off if not used (see setVisibility() method).
+
+5.9.045 (2011-01-17)
+	- HTML list support were improved.
+
+5.9.044 (2011-01-15)
+	- Bug #3158422 "writeHTMLCell Loop" was fixed.
+	- Some HTML image alignment problems were fixed.
+
+5.9.043 (2011-01-14)
+	- Bug #3158178 "PHP Notice" was fixed.
+	- Bug #3158193 "Endless loop in writeHTML" was fixed.
+	- Bug #3157764 "SVG Pie chart incorrectly rendered2".
+
+5.9.042 (2011-01-14)
+	- Some problems of the PHP4 version were fixed.
+
+5.9.041 (2011-01-13)
+	- A problem with SVG elliptical arc path was fixed (ref. bug #3156574).
+	- A problem related to font weight on HTML table headers was fixed.
+
+5.9.040 (2011-01-12)
+	- A bug related to empty pages after table was fixed.
+
+5.9.039 (2011-01-12)
+	- Bug item #3155759 "openssl_random_pseudo_bytes() slow under Windows" was fixed.
+
+5.9.038 (2011-01-11)
+	- Minor bugs were fixed.
+
+5.9.037 (2011-01-09)
+	- An alignment problem for HTML texts was fixed.
+
+5.9.036 (2011-01-07)
+	- A bug related to HTML tables on header was fixed.
+
+5.9.035 (2011-01-03)
+	- A problem related to HTML table border alignment was fixed.
+	- Bug #2996366 "FastCGI and Header Problems" was fixed.
+
 5.9.034 (2010-12-19)
 	- DejaVu and GNU Free fonts were updated.
 
