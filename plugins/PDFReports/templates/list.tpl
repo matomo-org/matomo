@@ -39,7 +39,7 @@
 					{$report.additional_emails|replace:",":" "}
 					<br/><a href='#' idreport='{$report.idreport}' name='linkEmailNow' class="link_but" style='margin-top:3px'><img border=0 src='themes/default/images/email.png'> {'PDFReports_SendReportNow'|translate}</a>
 					</td>
-				<td><a href="{url module=API token_auth=$token_auth method='PDFReports.generateReport' idSite=$idSite date=$rawDate idReport=$report.idreport outputType=$pdfDownloadOutputType}" target="_blank" name="linkDownloadReport" id="{$report.idreport}" class="link_but"><img src='plugins/UserSettings/images/plugins/pdf.gif' border="0" /> {'General_Download'|translate}</a></td>
+				<td><a href="{url module=API token_auth=$token_auth method='PDFReports.generateReport' idSite=$idSite date=$rawDate idReport=$report.idreport outputType=$pdfDownloadOutputType language=$language}" target="_blank" name="linkDownloadReport" id="{$report.idreport}" class="link_but"><img src='plugins/UserSettings/images/plugins/pdf.gif' border="0" /> {'General_Download'|translate}</a></td>
 				<td><a href='#' name="linkEditReport" id="{$report.idreport}" class="link_but"><img src='themes/default/images/ico_edit.png' border="0" /> {'General_Edit'|translate}</a></td>
 				<td><a href='#' name="linkDeleteReport" id="{$report.idreport}" class="link_but"><img src='themes/default/images/ico_delete.png' border="0" /> {'General_Delete'|translate}</a></td>
 			</tr>
@@ -51,4 +51,3 @@
 		{/if}
 	{/if}
 </div>
-

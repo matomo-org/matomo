@@ -127,6 +127,7 @@ class Piwik_Translate
 	{
 		return Zend_Registry::get('config')->General->default_language;
 	}
+	
 	/**
 	 * Generate javascript translations array
 	 * 
