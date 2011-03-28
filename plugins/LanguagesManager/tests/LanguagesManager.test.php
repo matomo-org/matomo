@@ -6,7 +6,7 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 
 require_once 'LanguagesManager/API.php';
 
-class Test_Languages_Manager extends UnitTestCase
+class Test_LanguagesManager extends UnitTestCase
 {
 	function __construct( $title = '')
 	{
@@ -16,6 +16,8 @@ class Test_Languages_Manager extends UnitTestCase
 	// test all languages
 	function test_getTranslationsForLanguages()
 	{
+		$allLanguages = Piwik_Common::getLanguagesList();
+		$allCountries = Piwik_Common::getCountriesList();
 		$englishStrings = Piwik_LanguagesManager_API::getInstance()->getTranslationsForLanguage('en');
 		$englishStringsWithParameters = array();
 		foreach($englishStrings as $englishString)
@@ -43,7 +45,7 @@ class Test_Languages_Manager extends UnitTestCase
 			{
 				$this->assertTrue(stripos($serializedStrings, $invalid) === false, "$language: language file containing javascript");
 			}
-			$this->assertTrue(count($strings) > 100); // at least 100 translations in the language file
+			$this->assertTrue(count($strings) > 100, "$language: expecting at least 100 translations in the language file");
 			$this->assertTrue(strlen($content) == 0, "$language: buffer was ".strlen($content)." long but should be zero. Translation file for '$language' must be buggy.");
 			
 			$cleanedStrings = array();
@@ -51,9 +53,9 @@ class Test_Languages_Manager extends UnitTestCase
 			{
 				$stringLabel = $string['label'];
 				$stringValue = $string['value'];
-				
+
 				// Testing that the translated string is not empty => '',
-				if(empty($stringValue))
+				if(empty($stringValue) || trim($stringValue) === '')
 				{
 					$writeCleanedFile = true;
             		echo "$language: The string $stringLabel is empty in the translation file, removing the line. <br/>\n";
@@ -84,20 +86,40 @@ class Test_Languages_Manager extends UnitTestCase
     					$cleanedStrings[$stringLabel] = $stringValue;
     				}
 				}
-				// remove excessive line breaks from translations
-				if($stringLabel != 'Login_MailPasswordRecoveryBody'
-					&& !empty($cleanedStrings[$stringLabel]))
+				// remove excessive line breaks (and leading/trailing whitespace) from translations
+				if(!empty($cleanedStrings[$stringLabel]))
 				{
-					$stringNoLineBreak = str_replace(array("\n", "\r"), " ", $cleanedStrings[$stringLabel]);
+					$stringNoLineBreak = trim($cleanedStrings[$stringLabel]);
+					if($stringLabel != 'Login_MailPasswordRecoveryBody')
+					{
+						$stringNoLineBreak = str_replace(array("\n", "\r"), " ", $stringNoLineBreak);
+					}
 					if($cleanedStrings[$stringLabel] !== $stringNoLineBreak)
 					{
-						echo "$language: found line breaks in some strings in $stringLabel <br/>\n";
+						echo "$language: found unnecessary whitespace in some strings in $stringLabel <br/>\n";
 						$writeCleanedFile = true;
 						$cleanedStrings[$stringLabel] = $stringNoLineBreak;
 					}
 				}
+				// Test locale
+				if($stringLabel == 'General_Locale'
+					&& !empty($cleanedStrings[$stringLabel]))
+				{
+					if(!preg_match('/^([a-z]{2})_([A-Z]{2})\.UTF-8$/', $cleanedStrings[$stringLabel], $matches))
+					{
+						$this->fail("$language: invalid locale in $stringLabel");
+					}
+					else if(!array_key_exists($matches[1], $allLanguages))
+					{
+						$this->fail("$language: invalid language code in $stringLabel");
+					}
+					else if(!array_key_exists(strtolower($matches[2]), $allCountries))
+					{
+						$this->fail("$language: invalid region (country code) in $stringLabel");
+					}
+				}
 				$currentString = $cleanedStrings[$stringLabel];
-				$decoded = html_entity_decode($currentString, ENT_QUOTES, 'UTF-8');
+				$decoded = Piwik_TranslationWriter::clean($currentString);
 				if($currentString != $decoded )
 				{
 					echo "$language: found encoded entities in $stringLabel, converting entities to characters <br/>\n";
@@ -115,23 +137,11 @@ class Test_Languages_Manager extends UnitTestCase
 	
 	private function writeCleanedTranslationFile($translations, $language)
 	{
-		$pathFixedTranslations = PIWIK_INCLUDE_PATH . '/tmp/';
-		$filename = $language . '.php';
-		$tstr = '<?php'.PHP_EOL;
-		$tstr .= '$translations = array('.PHP_EOL;
-		foreach($translations as $key => $value)
-		{ 	
-			if(!empty($value))
-			{
-				$tstr .= "\t'".$key."' => '".addcslashes($value,"'")."',".PHP_EOL;
-			} 
-		}
-		$tstr .= ');'.PHP_EOL;
-		$path = $pathFixedTranslations . $filename;
-		file_put_contents($path, $tstr);
-		$this->fail('Translation file errors detected in '.$filename.'... 
+		$path = Piwik_TranslationWriter::getTranslationPath($language, 'tmp');
+		Piwik_TranslationWriter::saveTranslation($translations, $path);
+		$this->fail('Translation file errors detected in '.$language.'... 
 					Wrote cleaned translation file in: '.$path .".
-					You can copy the cleaned files to /langs/<br/>\n");
+					You can copy the cleaned files to /lang/<br/>\n");
 	}
 	
 	private function getCountParametersToReplace($string)
@@ -144,6 +154,7 @@ class Test_Languages_Manager extends UnitTestCase
 		}
 		return $count;
 	}
+
 	//test language when it's not defined
 	function test_getTranslationsForLanguages_not()
 	{
@@ -192,6 +203,17 @@ class Test_Languages_Manager extends UnitTestCase
 					$this->fail("$language: expected an array of language names");
 				}
 			}
+		}
+	}
+
+	// test format of DataFile/Languages.php
+	function test_getLanguagesList()
+	{
+		$languages = Piwik_Common::getLanguagesList();
+		$this->assertTrue( count($languages) > 0 );
+		foreach($languages as $langCode => $langs) {
+			$this->assertTrue(strlen($langCode) == 2, "$langCode length = 2");
+			$this->assertTrue(is_array($langs) && count($langs) >= 1, "$langCode array(names) >= 1");
 		}
 	}
 }
