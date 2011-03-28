@@ -513,6 +513,11 @@ abstract class Piwik_Controller
 		{
 			return $userSettingsDate;
 		}
+		// if last7, last30, etc.
+		if(strpos($userSettingsDate, 'last') === 0)
+		{
+			return $userSettingsDate;
+		}
 		return 'today';
 	}
 	
@@ -530,6 +535,10 @@ abstract class Piwik_Controller
 		if(in_array($userSettingsDate, array('today','yesterday')))
 		{
 			return 'day';
+		}
+		if(strpos($userSettingsDate, 'last') === 0)
+		{
+			return 'range';
 		}
 		return $userSettingsDate;
 	}

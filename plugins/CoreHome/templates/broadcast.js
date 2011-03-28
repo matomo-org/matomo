@@ -302,10 +302,7 @@ broadcast.getValueFromUrl = function (param, url)
 };
 
 /*
- * help to get value from hash parameter for any given url string with provided param name
- * if no url is provided, it will get param from current address.
- * return:
- *   Empty String if param is not found.
+ * NOTE: you should probably be using broadcast.getValueFromUrl instead!
  */
 broadcast.getValueFromHash = function(param, url)
 {
