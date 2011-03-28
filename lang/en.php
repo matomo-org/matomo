@@ -1,6 +1,6 @@
 <?php
 $translations = array(
-	'General_Locale' => 'en_EN.UTF-8',
+	'General_Locale' => 'en_US.UTF-8',
 	'General_TranslatorName' => '-',
 	'General_TranslatorEmail' => 'hello@piwik.org',
 	'General_EnglishLanguageName' => 'English',

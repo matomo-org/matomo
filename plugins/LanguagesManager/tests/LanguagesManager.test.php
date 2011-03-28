@@ -127,6 +127,8 @@ class Test_LanguagesManager extends UnitTestCase
 					$cleanedStrings[$stringLabel] = $decoded;
 				}
 			}
+			$this->assertTrue( !empty($cleanedStrings['General_TranslatorName'] ), "$language: translator info not specified");
+			$this->assertTrue( !empty($cleanedStrings['General_TranslatorEmail'] ), "$language: translator info not specified");
 			if($writeCleanedFile)
 			{
 				$this->writeCleanedTranslationFile($cleanedStrings, $language);

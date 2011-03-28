@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_Locale' => 'da_DK.UTF-8',
 	'General_TranslatorName' => 'jan madsen',
@@ -68,7 +68,7 @@ $translations = array(
 	'General_Piechart' => 'Cirkeldiagram',
 	'General_TagCloud' => 'Emne sky',
 	'General_VBarGraph' => 'Søjlediagram',
-	'General_OpenInNewWindow_js' => 'Åben i et nyt vindue ',
+	'General_OpenInNewWindow_js' => 'Åben i et nyt vindue',
 	'General_SaveImageOnYourComputer_js' => 'Gem billedet på computer, højreklik på billede og vælg "Gem billede som…"',
 	'General_Refresh' => 'Opdater siden',
 	'General_Visitors' => 'Besøgende',
@@ -214,7 +214,7 @@ $translations = array(
 	'General_AuthenticationMethodSmtp' => 'Godkenselsesmetode til SMTP',
 	'General_SmtpUsername' => 'SMTP brugernavn',
 	'General_SmtpPassword' => 'SMTP-adgangskode',
-	'General_SmtpEncryption' => 'SMTP-kryptering ',
+	'General_SmtpEncryption' => 'SMTP-kryptering',
 	'General_SelectYesIfYouWantToSendEmailsViaServer' => 'Vælg "Ja", hvis du ønsker eller er nødt til at sende e-mail via en bestemt server i stedet for den lokale mail-funktionen',
 	'General_OptionalSmtpPort' => 'Valgfri: Standard 25 for ukrypteret og TLS SMTP og 465 for SSL SMTP.',
 	'General_OnlyUsedIfUserPwdIsSet' => 'Anvendes kun, hvis brugernavn/adgangskode er sat, spørg din udbyder hvis du ikke ved hvilken metode der skal bruges.',
@@ -261,7 +261,7 @@ $translations = array(
 	'CoreAdminHome_PluginDescription' => 'Piwik  administration.',
 	'CoreAdminHome_MenuGeneralSettings' => 'Generelle indstillinger',
 	'CoreAdminHome_Administration' => 'Administration',
-	'CoreAdminHome_EmailServerSettings' => 'E-mail-server indstillinger ',
+	'CoreAdminHome_EmailServerSettings' => 'E-mail-server indstillinger',
 	'CoreAdminHome_OptOutForYourVisitors' => 'Piwik opt-out for dine besøgende',
 	'CoreAdminHome_OptOutExplanation' => 'Piwik er dedikeret til at værne om personlige oplysninger på internettet. For at give dine besøgende valgmulighed for at framelde Piwik Web Analyse, kan du tilføje den følgende HTML-kode på en af dine hjemmesider, for eksempel på en fortrolighedspolitik side.',
 	'CoreAdminHome_OptOutExplanationBis' => 'Koden vil vise en Iframe, der indeholder et link til dine besøgende til at framelde Piwik ved at sætte en opt out-cookie i browseren. %sKlik her%s for at få vist indholdet af iFramen.',
@@ -768,15 +768,14 @@ $translations = array(
 	'TranslationsAdmin_PluginDescription' => ' Hjælpe med at oversætte Piwik.',
 	'TranslationsAdmin_MenuTranslations' => 'Oversættelser',
 	'TranslationsAdmin_MenuLanguages' => 'Sprog',
+	'TranslationsAdmin_LanguageCode' => 'Sprogkode',
 	'TranslationsAdmin_Plugin' => 'Udvidelsesmodul',
 	'TranslationsAdmin_Definition' => 'Definition',
 	'TranslationsAdmin_DefaultString' => 'Standard (English)',
 	'TranslationsAdmin_TranslationString' => 'Oversættelse (nuværende sprog: %s)',
 	'TranslationsAdmin_Translations' => 'Oversættelser',
 	'TranslationsAdmin_FixPermissions' => 'Ret filsystem-rettighederne',
-	'TranslationsAdmin_AvailableLanguages' => 'Tilgængelige sprog',
 	'TranslationsAdmin_AddLanguage' => 'Tilføj sprog',
-	'TranslationsAdmin_LanguageCode' => 'Sprogkode',
 	'TranslationsAdmin_Export' => 'Eksporter sprog',
 	'TranslationsAdmin_Import' => 'Importer sprog',
 	'TranslationsAdmin_ShowOnlyEmpty' => 'Vis kun manglende oversættelser',
@@ -1057,7 +1056,7 @@ $translations = array(
 	'UserCountry_country_o1' => 'Andet land',
 	'UserCountry_continent_eur' => 'Europa',
 	'UserCountry_continent_afr' => 'Afrika',
-	'UserCountry_continent_ant' => 'Antarktis ',
+	'UserCountry_continent_ant' => 'Antarktis',
 	'UserCountry_continent_asi' => 'Asien',
 	'UserCountry_continent_amn' => 'Nordamerika',
 	'UserCountry_continent_amc' => 'Centralamerika',
@@ -1232,4 +1231,7 @@ $translations = array(
 	'PDFReports_AreYouSureYouWantToDeleteReport' => 'Er du sikker på du vil slette PDF-rapporten og tidsplanen?',
 	'PDFReports_ThereIsNoPDFReportToManage' => 'Ingen PDF-rapport til at administrere for hjemmesiden %s',
 	'PDFReports_YouMustBeLoggedIn' => 'Du skal være logget på for at oprette og planlægge brugerdefinerede PDF-rapporter.',
+
+	// FOR REVIEW
+	'TranslationsAdmin_AvailableLanguages' => 'Tilgængelige sprog',
 );
