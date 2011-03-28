@@ -200,7 +200,7 @@ class Piwik_PDFReports_API
 	 * 
 	 * @param int $idSite 
 	 * @param string $period 
-	 * @param string $date
+	 * @param string $date YYYY-MM-DD
 	 * @param string|false $language
 	 * @param int $idReport If not passed, will generate a PDF containing all reports.
 	 * @param bool $outputType 
@@ -260,8 +260,6 @@ class Piwik_PDFReports_API
     	$filterTruncateGET = Piwik_Common::getRequestVar('filter_truncate', false);
     	$_GET['filter_truncate'] = 30;
     	
-    	$date = Piwik_Date::factory($date)->toString('Y-m-d');
-        
     	$websiteName = $prettyDate = false;
         $processedReports = array();
         foreach ($reports as $action)
