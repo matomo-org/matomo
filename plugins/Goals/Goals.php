@@ -186,7 +186,7 @@ class Piwik_Goals extends Piwik_Plugin
 			Piwik_AddMenu('Goals_Goals', 'Goals_Overview', array('module' => 'Goals', 'action' => 'index'), true, 1);
 			foreach($goals as $goal) 
 			{
-				Piwik_AddMenu('Goals_Goals', str_replace('%', '%%', $goal['name']), array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']));
+				Piwik_AddMenu('Goals_Goals', str_replace('%', '%%', Piwik_TranslationWriter::clean($goal['name'])), array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']));
 			}
 		}
 	}
