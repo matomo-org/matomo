@@ -81,7 +81,9 @@ if (!defined('K_TCPDF_EXTERNAL_CONFIG')) {
 	/**
 	 * cache directory for temporary files (full path)
 	 */
-	define ('K_PATH_CACHE', K_PATH_MAIN.'cache/');
+	if (!defined('K_PATH_CACHE')) {
+		define ('K_PATH_CACHE', K_PATH_MAIN.'cache/');
+	}
 
 	/**
 	 * cache directory for temporary files (url path)
@@ -91,7 +93,9 @@ if (!defined('K_TCPDF_EXTERNAL_CONFIG')) {
 	/**
 	 *images directory
 	 */
-	define ('K_PATH_IMAGES', K_PATH_MAIN.'images/');
+	if (!defined('K_PATH_IMAGES')) {
+		define ('K_PATH_IMAGES', K_PATH_MAIN.'images/');
+	}
 
 	/**
 	 * blank image

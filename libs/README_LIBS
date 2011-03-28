@@ -20,8 +20,6 @@ Here is a list of bug fixes and hacks made to some of the libraries used in Piwi
  * sparkline/
    - in r1296, remove require_once
    - empty sparklines with floats, off-by-one errors, and locale conflict
- * tcpdf/
-   - in r3587, fix upstream bug https://sourceforge.net/tracker/index.php?func=detail&aid=2996366&group_id=128076&atid=710532
  * Zend/
    - strip require_once
    - in r3694, fix ZF-10888 and ZF-10835
