@@ -98,7 +98,7 @@ class Piwik_TranslationWriter
 
 		/* write all the translations that exist in en.php */
 		foreach($en as $key => $en_translation) {
-			if(isset($translations[$key]) && $translations[$key] !== '') {
+			if(isset($translations[$key]) && !empty($translations[$key])) {
 				$tmp = self::quote($translations[$key]);
 				$output[] = "\t'$key' => $tmp,";
 			}
@@ -106,7 +106,7 @@ class Piwik_TranslationWriter
 
 		/* write the remaining translations (that don't exist in en.php) */
 		foreach($translations as $key => $translation) {
-			if(!isset($en[$key]) && $translation !== '') {
+			if(!isset($en[$key]) && !empty($translation)) {
 				$tmp = self::quote($translation);
 				$deferoutput[] = "\t'$key' => $tmp,";
 			}
