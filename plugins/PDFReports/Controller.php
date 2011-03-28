@@ -46,6 +46,7 @@ class Piwik_PDFReports_Controller extends Piwik_Controller
 		$view->periods = array_merge(array('never' => Piwik_Translate('General_Never')),
 							Piwik_PDFReports_API::getPeriodToFrequency());
 		$view->reports = $reports;
+		$view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
 		echo $view->render();
 	}
 }
