@@ -634,6 +634,7 @@ $translations = array(
 	'Live_Referrer_URL' => 'Referrer URL',
 	'Live_LastMinutes' => 'Last %s minutes',
 	'Live_LastHours' => 'Last %s hours',
+	'Live_LastDays' => 'Last %s days',
 	'Live_GoalType' => 'Type',
 	'Live_GoalTime' => '1st Conversion time',
 	'Live_GoalRevenue' => 'Revenue',

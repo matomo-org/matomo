@@ -271,8 +271,8 @@ $(document).ready(function() {
 		  return !isNaN(d.getTime());
 		}
 	
-	 var period = broadcast.getValueFromHash('period');
+	 var period = broadcast.getValueFromUrl('period');
 	 if(period == 'range') { 
-	 	 $("#period_id_range").click();
+		 $("#period_id_range").click();
 	 }
 });
