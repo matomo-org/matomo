@@ -5,7 +5,7 @@
 	<ul>
 	{foreach from=$level2 key=name item=urlParameters name=level2}
 		{if strpos($name, '_') !== 0}
-		<li><a name='{$urlParameters._url|@urlRewriteWithParameters}' href='index.php{$urlParameters._url|@urlRewriteBasicView}'>{$name|translate|htmlspecialchars_decode|escape:'html'}</a></li>
+		<li><a name='{$urlParameters._url|@urlRewriteWithParameters}' href='index.php{$urlParameters._url|@urlRewriteBasicView}'>{$name|translate|escape:'html'}</a></li>
 		{/if}
  	{/foreach}
  	</ul>
