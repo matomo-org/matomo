@@ -1,35 +1,24 @@
 <?php
-//============================================================+
-// File name   : tcpdf_config.php
-// Begin       : 2004-06-11
-// Last Update : 2010-12-16
-//
-// Description : Configuration file for TCPDF.
-//
-// Author: Nicola Asuni
-//
-// (c) Copyright:
-//               Nicola Asuni
-//               Tecnick.com s.r.l.
-//               Via Della Pace, 11
-//               09044 Quartucciu (CA)
-//               ITALY
-//               www.tecnick.com
-//               info@tecnick.com
-//============================================================+
-
 /**
- * Configuration file for TCPDF.
- * @author Nicola Asuni
- * @package com.tecnick.tcpdf
- * @version 4.9.005
- * @since 2004-10-27
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @version $Id$
+ * 
+ * @category Piwik_Plugins
+ * @package Piwik_PDFReports
  */
 
-define ('K_PATH_CACHE', PIWIK_USER_PATH.'/tmp/tcpdf/');
-define ('K_PATH_IMAGES', PIWIK_USER_PATH.'/tmp/tcpdf/');
+/**
+ * Override settings in libs/tcpdf_config.php
+ *
+ * @package Piwik_PDFReports
+ */
 
-// If you define the constant K_TCPDF_EXTERNAL_CONFIG, the following settings will be ignored.
+define('K_PATH_MAIN', PIWIK_INCLUDE_PATH.'/libs/tcpdf/');
+define('K_PATH_CACHE', PIWIK_USER_PATH.'/tmp/tcpdf/');
+define('K_PATH_IMAGES', PIWIK_USER_PATH.'/tmp/tcpdf/');
 
 if (!defined('K_TCPDF_EXTERNAL_CONFIG')) {
 
@@ -45,35 +34,39 @@ if (!defined('K_TCPDF_EXTERNAL_CONFIG')) {
 		}
 	}
 
-	// Automatic calculation for the following K_PATH_MAIN constant
-	$k_path_main = str_replace( '\\', '/', realpath(substr(dirname(__FILE__), 0, 0-strlen('config'))));
-	if (substr($k_path_main, -1) != '/') {
-		$k_path_main .= '/';
-	}
-
-	/**
-	 * Installation path (/var/www/tcpdf/).
-	 * By default it is automatically calculated but you can also set it as a fixed string to improve performances.
-	 */
-	define ('K_PATH_MAIN', $k_path_main);
-
-	// Automatic calculation for the following K_PATH_URL constant
-	$k_path_url = $k_path_main; // default value for console mode
-	if (isset($_SERVER['HTTP_HOST']) AND (!empty($_SERVER['HTTP_HOST']))) {
-		if(isset($_SERVER['HTTPS']) AND (!empty($_SERVER['HTTPS'])) AND strtolower($_SERVER['HTTPS'])!='off') {
-			$k_path_url = 'https://';
-		} else {
-			$k_path_url = 'http://';
+	if (!defined('K_PATH_MAIN')) {
+		// Automatic calculation for the following K_PATH_MAIN constant
+		$k_path_main = str_replace( '\\', '/', realpath(substr(dirname(__FILE__), 0, 0-strlen('config'))));
+		if (substr($k_path_main, -1) != '/') {
+			$k_path_main .= '/';
 		}
-		$k_path_url .= $_SERVER['HTTP_HOST'];
-		$k_path_url .= str_replace( '\\', '/', substr(K_PATH_MAIN, (strlen($_SERVER['DOCUMENT_ROOT']) - 1)));
+
+		/**
+		 * Installation path (/var/www/tcpdf/).
+		 * By default it is automatically calculated but you can also set it as a fixed string to improve performances.
+		 */
+		define ('K_PATH_MAIN', $k_path_main);
 	}
 
-	/**
-	 * URL path to tcpdf installation folder (http://localhost/tcpdf/).
-	 * By default it is automatically calculated but you can also set it as a fixed string to improve performances.
-	 */
-	define ('K_PATH_URL', $k_path_url);
+	if (!defined('K_PATH_URL')) {
+		// Automatic calculation for the following K_PATH_URL constant
+		$k_path_url = K_PATH_MAIN; // default value for console mode
+		if (isset($_SERVER['HTTP_HOST']) AND (!empty($_SERVER['HTTP_HOST']))) {
+			if(isset($_SERVER['HTTPS']) AND (!empty($_SERVER['HTTPS'])) AND strtolower($_SERVER['HTTPS'])!='off') {
+				$k_path_url = 'https://';
+			} else {
+				$k_path_url = 'http://';
+			}
+			$k_path_url .= $_SERVER['HTTP_HOST'];
+			$k_path_url .= str_replace( '\\', '/', substr(K_PATH_MAIN, (strlen($_SERVER['DOCUMENT_ROOT']) - 1)));
+		}
+
+		/**
+		 * URL path to tcpdf installation folder (http://localhost/tcpdf/).
+		 * By default it is automatically calculated but you can also set it as a fixed string to improve performances.
+		 */
+		define ('K_PATH_URL', $k_path_url);
+	}
 
 	/**
 	 * path for PDF fonts
@@ -242,6 +235,7 @@ if (!defined('K_TCPDF_EXTERNAL_CONFIG')) {
 	define('K_TCPDF_CALLS_IN_HTML', true);
 }
 
+// define the constant K_TCPDF_EXTERNAL_CONFIG to ignore tcpdf's default settings
 define('K_TCPDF_EXTERNAL_CONFIG', true);
 
 //============================================================+
