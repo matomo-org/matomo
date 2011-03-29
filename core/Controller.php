@@ -319,6 +319,8 @@ abstract class Piwik_Controller
 			$this->setPeriodVariablesView($view);
 			
 			$periodStr = Piwik_Common::getRequestVar('period');
+			$view->displayUniqueVisitors = Piwik::isUniqueVisitorsEnabled($periodStr);
+			
 			$rawDate = Piwik_Common::getRequestVar('date');
 			if($periodStr!='range')
 			{
@@ -354,6 +356,7 @@ abstract class Piwik_Controller
 			
 			$view->startDate = $dateStart;
 			$view->endDate = $dateEnd;
+			
 			$this->setBasicVariablesView($view);
 		} catch(Exception $e) {
 			//TODO here display std error message rather than redirect

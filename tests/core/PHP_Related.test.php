@@ -38,7 +38,7 @@ class Test_PHP_Related extends UnitTestCase
 		// test array[0] array[100] array[200] 
 		// same memory  usage? hash
 		echo "start ". __FUNCTION__ . "<br>";
-		Piwik::printMemoryUsage();
+		echo Piwik::getMemoryUsage();
 		$timer = new Piwik_Timer();
 		$testId = 2;
 		if($testId == 1)
@@ -66,7 +66,7 @@ class Test_PHP_Related extends UnitTestCase
 		}
 		echo $timer . "<br>";
 		echo "size serialized:". Piwik::getPrettySizeFromBytes(strlen(serialize($array))). "<br>";
-		Piwik::printMemoryUsage();
+		echo Piwik::getMemoryUsage();
 		echo "end ". __FUNCTION__ . "<br>";
 	}
 	
