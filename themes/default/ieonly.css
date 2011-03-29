@@ -2,7 +2,7 @@
  * Implementation of CSS3PIE for Internet Explorer
  */
 
-input, textarea, select, .submit,
+select,
 .ui-datepicker, .ui-datepicker-header,
 .ajaxError, .ajaxSuccess,
 .sites_autocomplete .custom_select,
