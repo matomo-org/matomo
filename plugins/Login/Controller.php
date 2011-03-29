@@ -57,7 +57,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 			}
 			else
 			{
-				$messageNoAccess = Piwik_Translate('Login_InvalidNonceOrHeaders');
+				$messageNoAccess = $this->getMessageExceptionNoAccess();
 			}
 		}
 
@@ -159,7 +159,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 			}
 			else
 			{
-				$messageNoAccess = Piwik_Translate('Login_InvalidNonceOrHeaders');
+				$messageNoAccess = $this->getMessageExceptionNoAccess();
 			}
 		}
 
@@ -170,6 +170,11 @@ class Piwik_Login_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 
+	protected function getMessageExceptionNoAccess()
+	{
+		return Piwik_Translate('Login_InvalidNonceOrHeadersOrReferer', array('<a href="?module=Proxy&action=redirect&url='.urlencode('http://piwik.org/faq/how-to-install/#faq_98').'" target="_blank">', '</a>'));
+	}
+	
 	/**
 	 * Validate user (by username or email address).
 	 *
@@ -249,7 +254,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 			}
 			else
 			{
-				$messageNoAccess = Piwik_Translate('Login_InvalidNonceOrHeaders');
+				$messageNoAccess = $this->getMessageExceptionNoAccess();
 			}
 		}
 
