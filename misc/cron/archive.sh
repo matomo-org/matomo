@@ -37,7 +37,7 @@ for TEST_PHP_BIN in php5 php php-cli php-cgi; do
   fi
 done
 if test -z $PHP_BIN; then
-  echo "php binary not found. Make sure php5 or php exists in PATH."
+  echo "php binary not found. Make sure php5 or php exists in PATH." >&2
   exit 1
 fi
 
