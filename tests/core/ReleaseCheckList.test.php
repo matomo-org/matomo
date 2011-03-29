@@ -169,14 +169,15 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 
 		foreach(Piwik::globr(PIWIK_DOCUMENT_ROOT . '/plugins', '*.php') as $file)
 		{
-			if(strpos($file, '/tests/') !== false ||
-				strpos($file, '/PhpSecInfo/') !== false)
+			if(strpos($file, '/tests/') !== false 
+				|| strpos($file, '/PhpSecInfo/') !== false
+				|| strpos($file, 'tcpdf_config.php') !== false)
 			{
 				continue;
 			}
 			
 			$contents = file_get_contents($file);
-			$this->assertTrue(strpos($contents, '$Id: '.basename($file).' ') !== false, $file);
+			$this->assertTrue(strpos($contents, '$Id: '.basename($file).' ') !== false, $file ." no Id: keyword");
 		}
 
 		/*
