@@ -1095,7 +1095,6 @@ $translations = array(
 	'UsersManager_ExceptionLoginExists' => 'Ka tashmë një hyrje për \'%s\'.',
 	'UsersManager_ExceptionEmailExists' => 'Ka tashmë një përdorues me email-in \'%s\'.',
 	'UsersManager_ExceptionInvalidLoginFormat' => 'Hyrja duhet të jetë ndërmjet %1$s dhe %2$s shenjash e gjatë, dhe duhet të përmbajë vetëm shkronja, numra, ose shenjat \'_\' ose \'-\' ose \'.\'',
-	'UsersManager_ExceptionInvalidPassword' => 'Fjalëkalimi duhet të jetë nga 6 deri 26 shenja i gjatë.',
 	'UsersManager_ExceptionInvalidEmail' => 'Email-i s\'është në format të vlefshëm.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Përdoruesi \'%s\' s\'ekziston, ndaj s\'mund të fshihet.',
 	'UsersManager_ExceptionAdminAnonymous' => 'S\'mund t\'i jepni hyrje \'administratori\' përdoruesit \'anonim\'.',

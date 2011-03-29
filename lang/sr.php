@@ -1095,7 +1095,6 @@ $translations = array(
 	'UsersManager_ExceptionLoginExists' => 'Korisničko ime \'%s\' već postoji.',
 	'UsersManager_ExceptionEmailExists' => 'Korisnik sa elektronskom adresom \'%s\' već postoji.',
 	'UsersManager_ExceptionInvalidLoginFormat' => 'Korisničko ime mora biti dugačko između %1$s i %2$s znakova i mora da sadrži samo slova, brojeve ili znkove \'_\' ili \'-\' ili \'.\' ili \'@\'',
-	'UsersManager_ExceptionInvalidPassword' => 'Dužina lozinke mora biti između 6 i 26 znakova.',
 	'UsersManager_ExceptionInvalidEmail' => 'Elektronska adresa nije validna.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Korisnik \'%s\' ne postoji pa stoga ni ne može biti obrisan.',
 	'UsersManager_ExceptionAdminAnonymous' => 'Ne možete dozvoliti \'admin\' privilegije anonimnom korisniku.',

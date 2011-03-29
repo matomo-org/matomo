@@ -1095,7 +1095,6 @@ $translations = array(
 	'UsersManager_ExceptionLoginExists' => 'მომხმარებელი \'%s\' უკვე არსებობს.',
 	'UsersManager_ExceptionEmailExists' => 'მომხმარებელი \'%s\' ელ.ფოსტის მისამართით უკვე არსებობს.',
 	'UsersManager_ExceptionInvalidLoginFormat' => 'მომხმარებლის სახელის სიმბოლოთა რაოდენობა უნდა იყოს %1$s–დან %2$s–მდე და შეიცავდეს მხოლოდ ასოებს, ციფრებს ან სიმბოლოებს \'_\' ან \'-\' ან \'.\' ან \'@\'',
-	'UsersManager_ExceptionInvalidPassword' => 'პაროლის სიმბოლოთა რაოდენობა უნდა იყოს 6–დან 26–მდე.',
 	'UsersManager_ExceptionInvalidEmail' => 'ელ.ფოსტის მისამართი არის არამართებული ფორმატის.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'მომხმარებელი \'%s\' არ არსებობს, ამიტომ ის ვერ წაიშლება.',
 	'UsersManager_ExceptionAdminAnonymous' => '\'ადმინისტრატორის\' წვდომას ვერ მიანიჭებთ \'ანონიმურ\' მომხმარებელს.',

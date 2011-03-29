@@ -527,7 +527,6 @@ $translations = array(
 	'UsersManager_DeleteConfirm_js' => 'Kas oled kindel, et soovid %s kustutada?',
 	'UsersManager_ExceptionLoginExists' => 'Kasutajanimi \'%s\' on kasutusel.',
 	'UsersManager_ExceptionEmailExists' => 'Sellise e-mailiga \'%s\' kasutaja on olemas.',
-	'UsersManager_ExceptionInvalidPassword' => 'Salasõna pikkus peab olema 6 kuni 26 tähemärki.',
 	'UsersManager_ExceptionInvalidEmail' => 'Emaili aadress ei ole õiges formaadis.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Kasutajat nimega \'%s\' ei eksisteeri seepärast ei saa teda ka kustutada.',
 	'UsersManager_ExceptionAdminAnonymous' => 'Sa ei saa anda \'admin\' õiguseid \'anonymous\' kasutajale.',

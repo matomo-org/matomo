@@ -297,7 +297,7 @@ class Piwik_UsersManager_API
 	{
 		if(!$this->isValidPasswordString($password))
 		{
-			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidPassword'), self::PASSWORD_MIN_LENGTH, self::PASSWORD_MAX_LENGTH);
+			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidPassword', self::PASSWORD_MIN_LENGTH, self::PASSWORD_MAX_LENGTH));
 		}
 	}
 	const PASSWORD_MIN_LENGTH = 6;

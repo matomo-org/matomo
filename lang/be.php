@@ -665,7 +665,6 @@ $translations = array(
 	'UsersManager_ExceptionLoginExists' => 'Лагін \'%s\' ужо існуе.',
 	'UsersManager_ExceptionEmailExists' => 'Карыстач з Email \'%s\' ужо існуе.',
 	'UsersManager_ExceptionInvalidLoginFormat' => 'Лагін павінен быць даўжынёй ад %1$s да %2$s знакаў, а таксама ўтрымоўваць толькі літары, лічбы ці знакі \'_\', \'-\', \'.\'',
-	'UsersManager_ExceptionInvalidPassword' => 'Даўжыня пароля павінна быць ад 6 да 26 знакаў.',
 	'UsersManager_ExceptionInvalidEmail' => 'Email няправільнага фармату',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Карыстача \'%s\' не існуе, таму ён не можа быць выдалены.',
 	'UsersManager_ExceptionAdminAnonymous' => 'Вы не можаце даваць правы \'Адмін\' ананімнаму карыстачу.',

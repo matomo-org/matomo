@@ -1085,7 +1085,6 @@ $translations = array(
 	'UsersManager_ExceptionLoginExists' => 'Tunnus \'%s\' on jo olemassa.',
 	'UsersManager_ExceptionEmailExists' => 'Käyttäjä sähköpostilla \'%s\' on jo olemassa.',
 	'UsersManager_ExceptionInvalidLoginFormat' => 'Tunnus täytyy olla %1$s-%2$s merkkiä pitkä ja saa siältää vain kirjaimia, numeroita ja merkkejä \'_\', \'-\' ja \'.\'',
-	'UsersManager_ExceptionInvalidPassword' => 'Salasanan pitää olla 6-26 merkkiä pitkä.',
 	'UsersManager_ExceptionInvalidEmail' => 'Sähköposti ei ole kelvollinen.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Käyttäjää \'%s\' ei ole eikä sitä siksi voida poistaa.',
 	'UsersManager_ExceptionAdminAnonymous' => 'Et voi sallia  ylläpito-oikeuksia anonyymikäyttäjälle.',

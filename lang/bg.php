@@ -1136,7 +1136,6 @@ $translations = array(
 	'UsersManager_ExceptionLoginExists' => 'Потребител с име \'%s\' вече съществува.',
 	'UsersManager_ExceptionEmailExists' => 'Потребител с имейл \'%s\' вече съществува.',
 	'UsersManager_ExceptionInvalidLoginFormat' => 'Потребителското име трябва да бъде между %1$s и %2$s символа дълго и може да съдържа само букви, цифри и/или символите \'_\' и/или \'-\' и/или \'.\'',
-	'UsersManager_ExceptionInvalidPassword' => 'Дължината на паролата трябва да бъде между 6 и 26 символа.',
 	'UsersManager_ExceptionInvalidEmail' => 'Имейла, който сте въвели не е валиден.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Потребителя \'%s\' не съществува, по тази причина не може да бъде изтрит.',
 	'UsersManager_ExceptionAdminAnonymous' => 'Не може да зададете \'админ\' права на \'anonymous\' потребител.',

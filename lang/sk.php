@@ -867,7 +867,6 @@ $translations = array(
 	'UsersManager_ExceptionLoginExists' => 'Používateľ (login) \'%s\' už existuje.',
 	'UsersManager_ExceptionEmailExists' => 'Používateľ s e-mailom \'%s\' už existuje.',
 	'UsersManager_ExceptionInvalidLoginFormat' => 'Počet znakov pre Používateľ (login) musí byť medzi %1$s a %2$s a obsahovať iba písmená, číslice alebo znaky \'_\', \'-\', a \'.\'',
-	'UsersManager_ExceptionInvalidPassword' => 'Dĺžka hesla musí byť od 6 do 26 znakov.',
 	'UsersManager_ExceptionInvalidEmail' => 'E-mailová adresa nemá platný formát.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Používateľ \'%s\' neexistuje a preto nemôže byť odstránený.',
 	'UsersManager_ExceptionAdminAnonymous' => 'Nemôžete priradiť prístup \'admin\' pre používateľa \'anonymous\'.',

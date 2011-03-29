@@ -586,7 +586,6 @@ $translations = array(
 	'UsersManager_MenuUsers' => 'Usuario',
 	'UsersManager_DeleteConfirm_js' => 'Está seguro de que desexa eliminar ao usuario %s?',
 	'UsersManager_ExceptionLoginExists' => 'O nome de usuario \'%s\' xa existe.',
-	'UsersManager_ExceptionInvalidPassword' => 'A lonxitude do contrasinal debe ter entre 6 e 26 caracteres',
 	'UsersManager_ExceptionInvalidEmail' => 'O enderezo electrónico non ten un formato correcto.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'O usuario \'%s\' non existe, polo que non pode ser eliminado.',
 	'UsersManager_ExceptionAdminAnonymous' => 'Non pode concederlle o acceso de \'administrador\' a un usuario \'anónimo\'.',

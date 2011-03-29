@@ -850,7 +850,6 @@ $translations = array(
 	'UsersManager_YourUsernameCannotBeChanged' => 'Brukarnamnet ditt kan ikkje endrast.',
 	'UsersManager_ExceptionLoginExists' => 'Brukar \'%s\' finst allereie.',
 	'UsersManager_ExceptionEmailExists' => 'Ein bukar med eposten \'%s\' finst allereie.',
-	'UsersManager_ExceptionInvalidPassword' => 'Passordet må vera mellom 6 og 26 teikn langt.',
 	'UsersManager_ExceptionInvalidEmail' => 'Eposten hev eit ugyldig format.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Brukaren \'%s\' kan ikkje slettast av di han ikkje finst.',
 	'UsersManager_ExceptionAdminAnonymous' => 'Du kan ikkje gjeva administrasjonstilgang til den anonyme brukaren.',

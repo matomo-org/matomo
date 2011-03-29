@@ -1126,7 +1126,6 @@ $translations = array(
 	'UsersManager_ExceptionLoginExists' => 'Inloggningen \'%s\' finns redan.',
 	'UsersManager_ExceptionEmailExists' => 'Användaren med e-postadressen \'%s\' finns redan.',
 	'UsersManager_ExceptionInvalidLoginFormat' => 'Inloggningen måste vara mellan %1$s och %2$s tecken långt och får endast innehålla bokstäver, siffror eller tecknen \'_\', \'-\', \'.\' eller "@"',
-	'UsersManager_ExceptionInvalidPassword' => 'Lösenordets längd måste vara mellan 6 och 26 tecken.',
 	'UsersManager_ExceptionInvalidEmail' => 'E-postadressen har inte ett giltigt format.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Användaren \'%s\' finns inte och kan därför inte tas bort.',
 	'UsersManager_ExceptionAdminAnonymous' => 'Du kan inte bevilja \'admin\' tillgång för "anonyma" användare.',

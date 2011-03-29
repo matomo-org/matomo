@@ -1064,7 +1064,6 @@ $translations = array(
 	'UsersManager_ExceptionLoginExists' => '登入帳號 \'%s\' 已經存在。',
 	'UsersManager_ExceptionEmailExists' => '使用 \'%s\' E-mail 的使用者已經存在。',
 	'UsersManager_ExceptionInvalidLoginFormat' => '登入帳號的長度必須介於 %1$s 至 %2$s 字元之間，並且只能包含字母、數字或字元 \'_\' 或 \'-\' 或 \'.\' 。',
-	'UsersManager_ExceptionInvalidPassword' => '密碼長度必須介於 6 至 26 個字元。',
 	'UsersManager_ExceptionInvalidEmail' => '此 E-mail 地址格式無效。',
 	'UsersManager_ExceptionDeleteDoesNotExist' => '使用者 \'%s\' 並不存在，所以無法刪除它。',
 	'UsersManager_ExceptionAdminAnonymous' => '你不能把\'管理員\'存取權限給匿名用戶。',
