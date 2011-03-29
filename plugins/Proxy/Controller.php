@@ -115,14 +115,15 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 	 */
 	public function redirect()
 	{
+		$url = Piwik_Common::getRequestVar('url', '', 'string', $_GET);
+
 		// validate referrer
 		$referrer = Piwik_Url::getReferer();
 		if(!empty($referrer) && (Piwik_Url::getLocalReferer() === false))
 		{
+			die('Invalid Referer detected - check that your browser sends the Referer header. <br/>The link you would have been redirected to is: '.$url);
 			exit;
 		}
-
-		$url = Piwik_Common::getRequestVar('url', '', 'string', $_GET);
 
 		// mask visits to *.piwik.org
 		if(self::isPiwikUrl($url))
