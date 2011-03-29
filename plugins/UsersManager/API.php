@@ -292,14 +292,16 @@ class Piwik_UsersManager_API
 		
 		Piwik::checkValidLoginString($userLogin);
 	}
-		
+	
 	private function checkPassword($password)
 	{
 		if(!$this->isValidPasswordString($password))
 		{
-			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidPassword'));
+			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidPassword'), self::PASSWORD_MIN_LENGTH, self::PASSWORD_MAX_LENGTH);
 		}
 	}
+	const PASSWORD_MIN_LENGTH = 6;
+	const PASSWORD_MAX_LENGTH = 26;
 	
 	private function checkEmail($email)
 	{
@@ -587,6 +589,7 @@ class Piwik_UsersManager_API
 			throw new Exception(Piwik_TranslateException("UsersManager_ExceptionEditAnonymous"));
 		}
 	}
+	
 	private function checkUserIsNotSuperUser( $userLogin )
 	{
 		if($userLogin == Zend_Registry::get('config')->superuser->login)
@@ -677,8 +680,13 @@ class Piwik_UsersManager_API
 	 * @return bool
 	 */
 	private function isValidPasswordString( $input )
-	{		
+	{
+		if(!Piwik::isChecksEnabled()
+			&& !empty($input))
+		{
+			return true;
+		}
 		$l = strlen($input);
-		return $l >= 6 && $l <= 26;
+		return $l >= self::PASSWORD_MIN_LENGTH && $l <= self::PASSWORD_MAX_LENGTH;
 	}
 }
