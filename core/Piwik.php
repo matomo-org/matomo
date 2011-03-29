@@ -1849,6 +1849,11 @@ class Piwik
 	 */
 	static public function checkValidLoginString( $userLogin )
 	{
+		if(!self::isChecksEnabled()
+			&& !empty($userLogin))
+		{
+			return;
+		}
 		$loginMinimumLength = 3;
 		$loginMaximumLength = 100;
 		$l = strlen($userLogin);
@@ -1860,7 +1865,16 @@ class Piwik
 			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidLoginFormat', array($loginMinimumLength, $loginMaximumLength)));
 		}
 	}
-
+	
+	/**
+	 * Should Piwik check that the login & password have minimum length and valid characters?
+	 * 
+	 * @return bool
+	 */
+	static public function isChecksEnabled()
+	{
+		return Zend_Registry::get('config')->General->disable_checks_usernames_attributes == 0;
+	}
 /*
  * Date / Timezone
  */
