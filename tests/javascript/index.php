@@ -869,7 +869,7 @@ if ($sqlite) {
 			ok( ! /example.exe/.test( results ), "enableLinkTracking()" );
 			ok( ! /example.php/.test( results ), "click: ignored example.php" );
 			ok( ! /example.org/.test( results ), "click: ignored example.org" );
-			ok( /idgoal=42.*?Michael.*?Mandy.*?revenue=69/.test( results ), "setRequestMethod(POST), trackGoal()" );
+			ok( /idgoal=42.*?revenue=69.*?Michael.*?Mandy/.test( results ), "setRequestMethod(POST), trackGoal()" );
 			ok( /CompatibilityLayer/.test( results ), "piwik_log(): compatibility layer" );
 			ok( /localhost.localdomain/.test( results ), "setCustomUrl()" );
 			ok( /referrer.example.com/.test( results ), "setReferrerUrl()" );

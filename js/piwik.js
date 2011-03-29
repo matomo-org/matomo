@@ -1434,12 +1434,7 @@ var
 			 * Log the goal with the server
 			 */
 			function logGoal(idGoal, customRevenue, customData) {
-				var request = getRequest('idgoal=' + idGoal, customData, 'goal');
-
-				// custom revenue
-				if (customRevenue) {
-					request += '&revenue=' + customRevenue;
-				}
+				var request = getRequest('idgoal=' + idGoal + (customRevenue ? '&revenue=' + customRevenue : ''), customData, 'goal');
 
 				sendRequest(request, configTrackerPause);
 			}
