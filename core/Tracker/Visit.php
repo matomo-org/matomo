@@ -831,6 +831,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 							visit_exit_idaction_name,
 							visitor_returning,
 							visitor_days_since_first,
+							referer_name,
+							referer_keyword,
+							referer_type,
 							visitor_count_visits
 				FROM ".Piwik_Common::prefixTable('log_visit').
 				" WHERE ".$where."
@@ -852,7 +855,11 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			$this->visitorInfo['visitor_returning'] = $visitRow['visitor_returning'];
 			$this->visitorInfo['visitor_days_since_first'] = $visitRow['visitor_days_since_first'];
 			$this->visitorInfo['visitor_count_visits'] = $visitRow['visitor_count_visits'];
-
+			
+			// Referer information will be potentially used for Goal Conversion attribution
+			$this->visitorInfo['referer_name'] = $visitRow['referer_name'];
+			$this->visitorInfo['referer_keyword'] = $visitRow['referer_keyword'];
+			$this->visitorInfo['referer_type'] = $visitRow['referer_type'];
 			$this->visitorKnown = true;
 
 			printDebug("The visitor is known (idvisitor = ".bin2hex($this->visitorInfo['idvisitor']).",

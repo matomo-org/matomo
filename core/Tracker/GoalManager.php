@@ -171,9 +171,6 @@ class Piwik_Tracker_GoalManager
 								? $visitorInformation['location_continent'] 
 								: Piwik_Common::getContinent($location_country);
 
-		$referrer = new Piwik_Tracker_Visit_Referer(); 
-		$referrer = $referrer->getRefererInformation($refererUrl, $currentUrl = '', $idSite);
-		
 		$goal = array(
 			'idvisit' 			=> $visitorInformation['idvisit'],
 			'idsite' 			=> $idSite,
@@ -186,12 +183,12 @@ class Piwik_Tracker_GoalManager
 			'visitor_count_visits' => $visitorInformation['visitor_count_visits'],
 		
 			'referer_visit_server_date' => date("Y-m-d", $refererTimestamp),
-			'referer_type' 				=> $referrer['referer_type'],
+			'referer_type' 				=> $visitorInformation['referer_type'],
 		);
 
 		$goalData = array(
-			'referer_name' 				=> $referrer['referer_name'],
-			'referer_keyword' 			=> $referrer['referer_keyword'],
+			'referer_name' 				=> $visitorInformation['referer_name'],
+			'referer_keyword' 			=> $visitorInformation['referer_keyword'],
 		);
 		
 		// Ref Cookie only lasts 6 months by default, 
