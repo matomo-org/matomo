@@ -48,7 +48,11 @@ class Test_TranslationWriter extends UnitTestCase
 
 		foreach($tests as $data => $expected)
 		{
-			$this->assertEqual(Piwik_TranslationWriter::quote($data), $expected, "not $expected");
+			if(Piwik_Common::isWindows() && $data == "\n")
+			{
+				continue;
+			} 
+			$this->assertEqual(Piwik_TranslationWriter::quote($data), $expected, "$data => not '$expected'");
 		}
 	}
 
@@ -115,7 +119,7 @@ class Test_TranslationWriter extends UnitTestCase
 		$this->assertTrue($rc !== false);
 
 		$contents = file_get_contents($path);
-		$this->assertEqual($contents, "<?php
+		$expected = "<?php
 \$translations = array(
 \t'General_Locale' => 'en_CA.UTF-8',
 \t'General_Id' => 'Id',
@@ -125,6 +129,8 @@ class Test_TranslationWriter extends UnitTestCase
 \t'Plugin_Body' => 'Message
 Body',
 );
-");
+";
+		if(Piwik_Common::isWindows()) $expected = str_replace("\r\n", "\n", $expected);
+		$this->assertEqual($contents, $expected);
 	}
 }
