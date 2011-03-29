@@ -1138,7 +1138,6 @@ $translations = array(
 	'UsersManager_ExceptionLoginExists' => 'Der Benutzername \'%s\' existiert bereits.',
 	'UsersManager_ExceptionEmailExists' => 'Ein Benutzer mit der E-Mail-Adresse \'%s\' existiert bereits.',
 	'UsersManager_ExceptionInvalidLoginFormat' => 'Das Login muss zwischen %1$s und %2$s Zeichen lang sein und darf nur Buchstaben, Zahlen oder die Zeichen \'_\' oder \'-\' oder \'.\' enthalten.',
-	'UsersManager_ExceptionInvalidPassword' => 'Das Passwort muss zwischen 6 und 26 Zeichen lang sein.',
 	'UsersManager_ExceptionInvalidEmail' => 'Die E-Mail-Adresse hat ein ungültiges Format.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Der Benutzer \'%s\' existiert nicht und kann daher auch nicht gelöscht werden.',
 	'UsersManager_ExceptionAdminAnonymous' => 'Das \'admin\'-Recht kann nicht an \'anonymous\' Benutzer vergeben werden.',

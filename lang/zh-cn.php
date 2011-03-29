@@ -1049,7 +1049,6 @@ $translations = array(
 	'UsersManager_ExceptionLoginExists' => '登录账号 \'%s\' 已经存在！',
 	'UsersManager_ExceptionEmailExists' => '使用 \'%s\' E-mail 的使用者已经存在！',
 	'UsersManager_ExceptionInvalidLoginFormat' => '登录帐号的长度必须介于 %1$s 至 %2$s 字符之间，并且只能包含字母、数字或字符 \'_\' 或 \'-\' 或 \'.\' 。',
-	'UsersManager_ExceptionInvalidPassword' => '密码长度必须在 6 至 26 个字符之间！',
 	'UsersManager_ExceptionInvalidEmail' => '此 E-mail 并非一个正确格式！',
 	'UsersManager_ExceptionDeleteDoesNotExist' => '用户 \'%s\' 并不存在，所以它不能被删除！',
 	'UsersManager_ExceptionAdminAnonymous' => '您不能授予 \'管理员\' 权限给 \'anonymous\' 用户！',

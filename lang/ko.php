@@ -671,7 +671,6 @@ $translations = array(
 	'UsersManager_ExceptionLoginExists' => '\'%s\' 님은 이미 존재합니다.',
 	'UsersManager_ExceptionEmailExists' => '\'%s\' 의 이메일을 가진 사용자는 이미 존재합니다.',
 	'UsersManager_ExceptionInvalidLoginFormat' => '아이디는 %1$s 에서 %2$s 사이의 글자 수여야 하고 오직 문자,숫자, 또는 \'_\' 나 \'-\' 또는 \'.\'만 포함해야 합니다.',
-	'UsersManager_ExceptionInvalidPassword' => '비밀번호는 6 에서 26 글자 수 사이여야만 합니다.',
 	'UsersManager_ExceptionInvalidEmail' => '이메일이 유효한 형식이 아닙니다.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => '사용자 \'%s\' 님은 존재하지 않아서 삭제가 불가능합니다.',
 	'UsersManager_ExceptionAdminAnonymous' => '\'관리자\' 권한을 \'익명\' 사용자에게 줄 수 없습니다.',

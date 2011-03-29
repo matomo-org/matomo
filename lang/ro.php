@@ -571,7 +571,6 @@ $translations = array(
 	'UsersManager_ExceptionLoginExists' => 'Login \'%s\' exista deja.',
 	'UsersManager_ExceptionEmailExists' => 'Userul \'%s\' exista deja.',
 	'UsersManager_ExceptionInvalidLoginFormat' => 'The login must be between %1$s and %2$s characters long and contain only letters, numbers, or the characters \'_\' or \'-\' or \'.\'',
-	'UsersManager_ExceptionInvalidPassword' => 'Lungimea parolei trebuie sa fie intre 6 si 26 caractere.',
 	'UsersManager_ExceptionInvalidEmail' => 'Emailul nu are un format valid.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Userul \'%s\' nu exista pentru ca a fost sters.',
 	'UsersManager_ExceptionAdminAnonymous' => 'Nu poti autoriza \'admin\' accesul la \'anonymous\' user.',

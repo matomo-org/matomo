@@ -1076,7 +1076,6 @@ $translations = array(
 	'UsersManager_ExceptionLoginExists' => '\'%s\' nevű felhasználó már létezik.',
 	'UsersManager_ExceptionEmailExists' => '\'%s\' e-mail címmel már létezik felhasználó.',
 	'UsersManager_ExceptionInvalidLoginFormat' => 'A felhasználói név csak %1$s-%2$s karakter hosszúságú lehet, és csak betűket, számokat, aláhúzás, kötőjel és pont karaktereket tartalmazhat.',
-	'UsersManager_ExceptionInvalidPassword' => 'A jelszó hossza minimum 6, maximum 26 karakter lehet.',
 	'UsersManager_ExceptionInvalidEmail' => 'Az e-mail cím nem megfelelő formátumú',
 	'UsersManager_ExceptionDeleteDoesNotExist' => '\'%s\' felhasználó nem létezik, ezért nem törölhető!',
 	'UsersManager_ExceptionAdminAnonymous' => 'Nem adhatsz \'adminisztrációs\' jogosultságot \'névtelen\' felhasználónak.',

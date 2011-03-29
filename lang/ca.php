@@ -676,7 +676,6 @@ $translations = array(
 	'UsersManager_ExceptionLoginExists' => 'L\'usuari \'%s\' ja existeix.',
 	'UsersManager_ExceptionEmailExists' => 'La direcció de correu-e \'%s\' ja està en un altre compte.',
 	'UsersManager_ExceptionInvalidLoginFormat' => 'El nom d\'usuari ha de tenir una longitud d\'entre %1$s i %2$s caràcters i estar format únicament per lletres, xifres o els caràcters \'_\', \'-\' o \'.\'',
-	'UsersManager_ExceptionInvalidPassword' => 'La contrasenya ha de tenir entre 6 i 26 caràcters.',
 	'UsersManager_ExceptionInvalidEmail' => 'La direcció de correu-e no té un format vàlid.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'L\'usuari \'%s\' no existeix i, per tant, no es pot esborrar.',
 	'UsersManager_ExceptionAdminAnonymous' => 'No podeu donar permisos d\'administració a l\'usuari \'anonymous\' (anònim).',

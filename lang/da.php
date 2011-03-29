@@ -1133,7 +1133,6 @@ $translations = array(
 	'UsersManager_ExceptionLoginExists' => 'Brugernavn \'%s\' eksisterer allerede.',
 	'UsersManager_ExceptionEmailExists' => 'Bruger med e-mail \'%s\' findes allerede.',
 	'UsersManager_ExceptionInvalidLoginFormat' => 'Brugernavn skal være mellem %1$s og %2$s tegn og kan kun indeholde bogstaver, tal og tegnene \'_\' eller \'-\' eller \'.\' eller \'@\'',
-	'UsersManager_ExceptionInvalidPassword' => 'Længden på adgangskoden skal være mellem 6 og 26 tegn.',
 	'UsersManager_ExceptionInvalidEmail' => 'E-mailadressen er ikke i gyldigt format.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Bruger \'%s\' eksisterer ikke, og kan derfor ikke slettes.',
 	'UsersManager_ExceptionAdminAnonymous' => 'Administrator-adgang kan ikke gives til \'anonyme\'-bruger.',

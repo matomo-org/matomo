@@ -1079,7 +1079,6 @@ Um pedido para repor a sua palavra-passe foi recebido de %2$s. Para repor a sua 
 	'UsersManager_ExceptionLoginExists' => 'O nome de utilizador \'%s\' já existe.',
 	'UsersManager_ExceptionEmailExists' => 'Um utilizador com o e-mail \'%s\' já existe.',
 	'UsersManager_ExceptionInvalidLoginFormat' => 'O nome de utilizador deve conter entre %1$s e %2$s caracteres e conter apenas letras, números ou os caracteres \'_\' ou \'-\' ou \'.\'',
-	'UsersManager_ExceptionInvalidPassword' => 'A palavra-passe deve conter entre 6 e 26 caracteres.',
 	'UsersManager_ExceptionInvalidEmail' => 'O e-mail não tem um formato válido.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'O utilizador \'%s\' não existe de forma que não pode ser eliminado.',
 	'UsersManager_ExceptionAdminAnonymous' => 'Não pode conceder acesso \'admin\' ao utilizador \'anónimo\'.',

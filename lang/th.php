@@ -1054,7 +1054,6 @@ $translations = array(
 	'UsersManager_ExceptionLoginExists' => 'ชื่อผู้ใช้ \'%s\' มีอยู่แล้ว',
 	'UsersManager_ExceptionEmailExists' => 'ผู้ใช้มีอีเมล์ \'%s\' อยู่แล้ว',
 	'UsersManager_ExceptionInvalidLoginFormat' => 'ชือเข้าระบบจะต้องยาว %1$s และ %2$s ซึ่งจะประกอบไปด้วยตัวอักษร, ตัวเลขหรือเครื่องหมาย \'_\' หรือ \'-\' หรือ \'.\' เป็นต้น',
-	'UsersManager_ExceptionInvalidPassword' => 'รหัสผ่านจะต้องตั้งแต่ 6-26 ตัวอักษร',
 	'UsersManager_ExceptionInvalidEmail' => 'รูปแบบของอีเมล์ไม่ถูกต้อง',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'ผู้ใช้ \'%s\' ไม่มีในระบบ ดังนั้นจึงไม่สามารถลบได้',
 	'UsersManager_ExceptionAdminAnonymous' => 'คุณไม่สามารถให้สิทธิ์ \'admin\' การเข้าถึงแก่ผู้ใช้ \'anonymous\' ได้',

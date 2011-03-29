@@ -1105,7 +1105,6 @@ $translations = array(
 	'UsersManager_ExceptionLoginExists' => 'ユーザー名 \'%s\' はすでに存在します。',
 	'UsersManager_ExceptionEmailExists' => 'メールアドレスが \'%s\' のユーザーはすでに存在します。',
 	'UsersManager_ExceptionInvalidLoginFormat' => 'ユーザー名は、英数字、\'_\'（アンダーバー）、\'-\'（ハイフン）、\'@\'（アットマーク）のみを含む、%1$s～%2$s 文字である必要があります。',
-	'UsersManager_ExceptionInvalidPassword' => 'パスワード長は 6～26 文字である必要があります。',
 	'UsersManager_ExceptionInvalidEmail' => 'メールアドレスが有効な形式ではありません。',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'ユーザー \'%s\' は存在しないため、削除することができません。',
 	'UsersManager_ExceptionAdminAnonymous' => '\'anonymous\' ユーザーに \'管理\' 権限を与えることはできません。',

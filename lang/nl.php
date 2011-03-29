@@ -1098,7 +1098,6 @@ $translations = array(
 	'UsersManager_ExceptionLoginExists' => 'Login \'%s\' bestaat reeds.',
 	'UsersManager_ExceptionEmailExists' => 'Er is reeds een gebruiker met \'%s\' als email adres.',
 	'UsersManager_ExceptionInvalidLoginFormat' => 'De gebruikersnaam moet tussen de %1$s en %2$s karakters lang zijn en mag alleen letters, cijfers of de karaketers _ , - , . bevatten',
-	'UsersManager_ExceptionInvalidPassword' => 'Het wachtwoord moet een lengte hebben tussen 6 en 26 karakters.',
 	'UsersManager_ExceptionInvalidEmail' => 'Het email adres is ongeldig.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Gebruiker \'%s\' bestaat niet en kan dus niet verwijderd worden.',
 	'UsersManager_ExceptionAdminAnonymous' => 'U kunt geen admin rechten toekennen aan de anonieme gebruiker.',

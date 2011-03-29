@@ -1096,7 +1096,6 @@ $translations = array(
 	'UsersManager_ExceptionLoginExists' => 'Ім\'я користувача "%s" вже існує.',
 	'UsersManager_ExceptionEmailExists' => 'Користувач з адресою e-mail "%s" вже існує.',
 	'UsersManager_ExceptionInvalidLoginFormat' => 'Ім’я користувача повинно бути довжиною від %1$s до %2$s символів та містити тільки букви, цифри, символи "_", "-" та "."',
-	'UsersManager_ExceptionInvalidPassword' => 'Пароль має бути довжиною від 6 до 26 символів.',
 	'UsersManager_ExceptionInvalidEmail' => 'Невірний e-mail.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Користувач "%s" не існує і тому не може бути видалений.',
 	'UsersManager_ExceptionAdminAnonymous' => 'Не можна надати права адміністратора анонімним користувачам.',

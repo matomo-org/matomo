@@ -1044,7 +1044,6 @@ $translations = array(
 	'UsersManager_ExceptionLoginExists' => 'Registracijos vardas \'%s\' jau yra.',
 	'UsersManager_ExceptionEmailExists' => 'Naudotojas su tokiu el. paštu \'%s\' jau yra.',
 	'UsersManager_ExceptionInvalidLoginFormat' => 'Registracijos vardas turi būti sudarytas iš %1$s - %2$s simbolių ir gali turėti raides, skaičius, arba simbolius \'_\', \'-\', \'.\'',
-	'UsersManager_ExceptionInvalidPassword' => 'Slaptažodį turi sudaryti 6-26 simboliai.',
 	'UsersManager_ExceptionInvalidEmail' => 'Netinkamas el. pašto formatas.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Naudotojas \'%s\' neegzistuoja, todėl negali būti ištrintas.',
 	'UsersManager_ExceptionAdminAnonymous' => 'Negalite priskirti \'administratorius\' teisių \'anonimas\' naudotojui.',

@@ -633,7 +633,6 @@ $translations = array(
 	'UsersManager_ExceptionLoginExists' => 'ግባ \'%s\' አስቀድሞ ማለት.',
 	'UsersManager_ExceptionEmailExists' => 'በዚህ ኢ-ሜይል ተጠቃሚ \'%s\'አለ.',
 	'UsersManager_ExceptionInvalidLoginFormat' => 'ገባ በ %1$s እና %2$s በ ቁምፊ መካከል መሆን አለበት እንዲሁም ፊደላት፣ቁጥሮች ወይም ቁምፊ ብቻ መያዝ አለበት \'_\' ወይም \'-\' ወይም \'.\'',
-	'UsersManager_ExceptionInvalidPassword' => 'የይለፍ ቃሉ ርዝመት በ6 እና በ26 ቁምፊ መካከል መሆን አለበት.',
 	'UsersManager_ExceptionInvalidEmail' => 'ኢ-ሜይሉ ትክክለኛ ቅርፀት የለውም',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'ተጠቃሚው \'%s\' የለም ስለዚህ ሊሰረዝ አይችልም',
 	'UsersManager_ExceptionAdminAnonymous' => 'የአስተዳዳሪን ፈቃድ ላልታወቀ ሰው መስጠት አይቻልም',

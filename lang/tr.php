@@ -795,7 +795,6 @@ $translations = array(
 	'UsersManager_TheLoginScreen' => 'Giriş ekranı',
 	'UsersManager_DeleteConfirm_js' => '%s kullanıcısını silmekten emin misiniz?',
 	'UsersManager_YourUsernameCannotBeChanged' => 'Kullanıcı adınız değiştirilemez.',
-	'UsersManager_ExceptionInvalidPassword' => 'Şifre uzunluğu 6 ile 26 karakter arasında olmalıdır.',
 	'UsersManager_ExceptionInvalidEmail' => 'Girilen E-posta geçerli bir formatı yoktur.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => '\'%s\' kullanıcısı bazı nedenlerle silinemez.',
 	'UsersManager_ExceptionAdminAnonymous' => '\'Misafir\' kullanıcıya \'yönetici\' ünvani verilemez.',

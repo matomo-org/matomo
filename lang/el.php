@@ -1138,7 +1138,6 @@ $translations = array(
 	'UsersManager_ExceptionLoginExists' => 'Ο χρήστης «%s» υπάρχει ήδη.',
 	'UsersManager_ExceptionEmailExists' => 'Χρήστης με την ηλεκτρονική διεύθυνση «%s» υπάρχει ήδη.',
 	'UsersManager_ExceptionInvalidLoginFormat' => 'Η σύνδεση πρέπει να είναι μεταξύ %1$s και %2$s χαρακτήρες και να περιέχει μόνο γράμματα, αριθμούς ή τους χαρακτήρες «_» ή «-» ή «.»',
-	'UsersManager_ExceptionInvalidPassword' => 'Το μήκος του κωδικού πρέπει να είναι από 6 χαρακτήρες ως 26.',
 	'UsersManager_ExceptionInvalidEmail' => 'Η ηλεκτρονική διεύθυνση δεν φαίνεται να είναι σωστή.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Ο χρήστης «%s» δεν υπάρχει και άρα δεν μπορεί να διαγραφεί.',
 	'UsersManager_ExceptionAdminAnonymous' => 'Δεν μπορείτε να δώσετε διακαιώματα διαχειριστή στον «ανώνυμο» χρήστη.',
