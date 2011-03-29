@@ -34,6 +34,19 @@ class Piwik
 			'range' => 5,
 		);
 
+	/**
+	 * Should we process and display Unique Visitors? 
+	 * -> Always process for day/week/month periods
+	 * For Year and Range, only process if it was enabled in the config file, 
+	 * 
+	 * @return bool
+	 */
+	static public function isUniqueVisitorsEnabled($periodLabel)
+	{
+		return in_array($periodLabel, array('day', 'week', 'month'))
+			|| Zend_Registry::get('config')->General->enable_processing_unique_visitors_year_and_range ;
+	}
+	
 /*
  * Prefix/unprefix class name
  */
@@ -997,8 +1010,7 @@ class Piwik
 		}
 		uasort( $infoIndexedByQuery, 'sortTimeDesc');
 
-		Piwik::log('<hr /><b>SQL Profiler</b>');
-		Piwik::log('<hr /><b>Summary</b>');
+		$str = '<hr /><b>SQL Profiler</b><hr /><b>Summary</b><br/>';
 		$totalTime	= $profiler->getTotalElapsedSecs();
 		$queryCount   = $profiler->getTotalNumQueries();
 		$longestTime  = 0;
@@ -1009,7 +1021,7 @@ class Piwik
 				$longestQuery = $query->getQuery();
 			}
 		}
-		$str = 'Executed ' . $queryCount . ' queries in ' . round($totalTime,3) . ' seconds' . "\n";
+		$str .= 'Executed ' . $queryCount . ' queries in ' . round($totalTime,3) . ' seconds' . "\n";
 		$str .= '(Average query length: ' . round($totalTime / $queryCount,3) . ' seconds)' . "\n";
 		$str .= '<br />Queries per second: ' . round($queryCount / $totalTime,1) . "\n";
 		$str .= '<br />Longest query length: ' . round($longestTime,3) . " seconds (<code>$longestQuery</code>) \n";
@@ -1024,8 +1036,7 @@ class Piwik
 	 */
 	static private function getSqlProfilingQueryBreakdownOutput( $infoIndexedByQuery )
 	{
-		Piwik::log('<hr /><b>Breakdown by query</b>');
-		$output = '';
+		$output = '<hr /><b>Breakdown by query</b><br/>';
 		foreach($infoIndexedByQuery as $query => $queryInfo)
 		{
 			$timeMs = round($queryInfo['sumTimeMs'],1);
@@ -1068,7 +1079,7 @@ class Piwik
 	 *
 	 * @param string $prefixString
 	 */
-	static public function printMemoryUsage( $prefixString = null )
+	static public function getMemoryUsage()
 	{
 		$memory = false;
 		if(function_exists('xdebug_memory_usage'))
@@ -1079,20 +1090,12 @@ class Piwik
 		{
 			$memory = memory_get_usage();
 		}
-
-		if($memory !== false)
+		if($memory === false)
 		{
-			$usage = round( $memory / 1024 / 1024, 2);
-			if(!is_null($prefixString))
-			{
-				Piwik::log($prefixString);
-			}
-			Piwik::log("Memory usage = $usage Mb");
+			return "Memory usage function not found.";
 		}
-		else
-		{
-			Piwik::log("Memory usage function not found.");
-		}
+		$usage = number_format( round($memory / 1024 / 1024, 2), 2);
+		return "$usage Mb";
 	}
 
 /*

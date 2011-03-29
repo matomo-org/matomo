@@ -420,7 +420,7 @@ class Piwik_API_API
     	);
     	
 		// See ArchiveProcessing/Period.php - unique visitors are not processed for year period
-    	if($period == 'year')
+    	if(!Piwik::isUniqueVisitorsEnabled($period))
     	{
     		unset($columns['nb_uniq_visitors']);
     		unset($reportMetadata['metrics']['nb_uniq_visitors']);

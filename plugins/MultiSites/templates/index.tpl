@@ -48,7 +48,7 @@
 			<span>{'General_ColumnPageviews'|translate}</span>
 			<span class="arrow"></span>
 		</th>
-		{if $period!='year'}
+		{if $displayUniqueVisitors}
 		<th id="unique" class="multisites-column" style="width: 120px" onClick="params = setOrderBy(this,allSites, params, 'unique');">
 			<span>{'General_ColumnNbUniqVisitors'|translate}</span>
 			<span class="arrow"></span>
@@ -60,7 +60,7 @@
 			<select class="selector" id="evolution_selector" onchange="params['evolutionBy'] = $('#evolution_selector').val(); switchEvolution(params);">
 				<option value="visits" {if $evolutionBy eq 'visits'} selected {/if}>{'General_ColumnNbVisits'|translate}</option>
 				<option value="actions" {if $evolutionBy eq 'actions'} selected {/if}>{'General_ColumnPageviews'|translate}</option>
-		{if $period!='year'}<option value="unique"{if $evolutionBy eq 'unique'} selected {/if}>{'General_ColumnNbUniqVisitors'|translate}</option> {/if}
+		{if $displayUniqueVisitors}<option value="unique"{if $evolutionBy eq 'unique'} selected {/if}>{'General_ColumnNbUniqVisitors'|translate}</option> {/if}
 			</select>
 		</th>
 	</thead>

@@ -47,6 +47,7 @@ always_archive_data_range = 0;
 
 ; if set to 1, all the SQL queries will be recorded by the profiler 
 ; and a profiling summary will be printed at the end of the request
+; NOTE: you must also set  [log]logger_message[] = "screen" to enable the profiler to print on screen 
 enable_sql_profiler = 0
 
 ; if set to 1, a Piwik tracking code will be included in the Piwik UI footer and will track visits, pages, etc. to idsite = 1
@@ -66,6 +67,11 @@ disable_merged_requests = 0
 tracker_always_new_visitor = 0
 
 [General]
+; if set to 1, Unique Visitors will be processed for Years and Date Ranges
+; disabled by default, to ensure optimal performance for high traffic Piwik instances
+; if you set it to 1 and want the Unique Visitors to be re-processed in for reports in the past, drop all piwik_archive_* tables
+enable_processing_unique_visitors_year_and_range = 0
+
 ; when set to 1, all requests to Piwik will return a maintenance message without connecting to the DB
 ; this is useful when upgrading using the shell command, to prevent other users from accessing the UI while Upgrade is in progress
 maintenance_mode = 0
@@ -118,9 +124,10 @@ default_day = yesterday
 ; Possible values: day, week, month, year.
 default_period = day
 
-; This setting is overriden in the UI, under "General Settings". This is the default value used if the setting hasn't been overriden via the UI.
 ; Time in seconds after which an archive will be computed again. This setting is used only for today's statistics.
 ; Defaults to 10 seconds so that by default, Piwik provides real time reporting.
+; This setting is overriden in the UI, under "General Settings". 
+; This is the default value used if the setting hasn't been overriden via the UI.
 time_before_today_archive_considered_outdated = 10
 
 ; This setting is overriden in the UI, under "General Settings". The default value is to allow browsers
@@ -254,7 +261,8 @@ cookie_path =
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
 record_statistics			= 1
 
-; length of a visit in seconds. If a visitor comes back on the website visit_standard_length seconds after his last page view, it will be recorded as a new visit  
+; length of a visit in seconds. If a visitor comes back on the website visit_standard_length seconds 
+; after his last page view, it will be recorded as a new visit  
 visit_standard_length       = 1800
 
 ; visitors that stay on the website and view only one page will be considered as time on site of 0 second
@@ -286,7 +294,8 @@ ignore_visits_cookie_name = piwik_ignore
 campaign_var_name			= piwik_campaign
 
 ; variable name to track any campaign keyword
-; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC&piwik_kwd=My killer keyword' then it will be counted as a campaign referer named 'Adwords-CPC' with the keyword 'My killer keyword'
+; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC&piwik_kwd=My killer keyword' ;
+; then it will be counted as a campaign referer named 'Adwords-CPC' with the keyword 'My killer keyword'
 campaign_keyword_var_name	= piwik_kwd
 
 ; maximum length of a Page Title or a Page URL recorded in the log_action.name table

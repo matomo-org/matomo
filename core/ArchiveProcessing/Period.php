@@ -112,12 +112,13 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		
 		// build the Record Numeric objects
 		$records = array();
+
+		$shouldProcessUniqueVisitors = Piwik::isUniqueVisitorsEnabled($this->period->getLabel());
 		foreach($results as $name => $value)
 		{
 			if($name == 'nb_uniq_visitors')
 			{
-				// we do not process Unique Visitors for year
-				if($this->periodId == Piwik::$idPeriods['year'])
+				if(!$shouldProcessUniqueVisitors)
 				{
 					continue;
 				}
@@ -139,7 +140,6 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		// returns the array of records once summed
 		return $records;
 	}
-	
 	
 	/**
 	 * This method will compute the sum of DataTables over the period for the given fields $aRecordName.
