@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<nb_visits>3</nb_visits>
-	<nb_uniq_visitors>3</nb_uniq_visitors>
 	<nb_actions>5</nb_actions>
 	<nb_visits_converted>2</nb_visits_converted>
 	<bounce_count>2</bounce_count>
