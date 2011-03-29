@@ -4533,10 +4533,6 @@
 		<value>Le login doit contenir entre %1$s et %2$s caractères et être composé uniquement de lettres, chiffres, ou les caractères '_' ou '-' ou '.'</value>
 	</row>
 	<row>
-		<label>UsersManager_ExceptionInvalidPassword</label>
-		<value>Le mot de passe doit faire entre 6 et 26 caractères.</value>
-	</row>
-	<row>
 		<label>UsersManager_ExceptionInvalidEmail</label>
 		<value>L'adresse courriel est invalide.</value>
 	</row>
