@@ -63,6 +63,10 @@ class Piwik_VisitsSummary_API
 								'sum_visit_length',
 								'max_actions',
 							);
+			if(!Piwik::isUniqueVisitorsEnabled($period))
+			{
+				unset($columns[array_search('nb_uniq_visitors', $columns)]);
+			}
 		}
 
 		$dataTable = $archive->getDataTableFromNumeric($columns);

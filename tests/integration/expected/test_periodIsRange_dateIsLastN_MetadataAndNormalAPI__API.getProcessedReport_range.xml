@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>Piwik test</website>
-	<prettyDate>20 Mar 11 - 26 Mar 11</prettyDate>
+	<prettyDate>23 Mar 11 - 29 Mar 11</prettyDate>
 	<metadata>
 		<category>Visitors</category>
 		<name>Country</name>
@@ -10,7 +10,6 @@
 		<dimension>Country</dimension>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
-			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
 
 		</metrics>
@@ -37,7 +36,6 @@
 	<columns>
 		<label>Country</label>
 		<nb_visits>Visits</nb_visits>
-		<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 		<nb_actions>Actions</nb_actions>
 		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
@@ -56,7 +54,6 @@
 			<nb_actions_per_visit>1.67</nb_actions_per_visit>
 			<avg_time_on_site>00:04:00</avg_time_on_site>
 			<bounce_rate>66.67%</bounce_rate>
-			<nb_uniq_visitors>0</nb_uniq_visitors>
 
 		</row>
 
