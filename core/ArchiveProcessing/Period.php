@@ -381,6 +381,17 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
     			Piwik_Query(sprintf($query, $numericTable));
 			}
 			Piwik::log("Purging temporary archives: done [ purged archives older than $yesterday from $blobTable and $numericTable ] [Deleted IDs: ". implode(',',$idArchivesToDelete)."]");
+			
+			// Deleting "Custom Date Range" reports after 1 day, since they can be re-processed 
+			// and would take up unecessary space
+    		$query = "DELETE 
+    					FROM %s
+    					WHERE period = ?
+    						AND ts_archived < ?";
+			$bind = array(Piwik::$idPeriods['range'], $yesterday);
+			
+    		Piwik_Query(sprintf($query, $blobTable), $bind);
+    		Piwik_Query(sprintf($query, $numericTable), $bind);
 		}
 		else
 		{
