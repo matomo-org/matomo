@@ -197,14 +197,13 @@ class Piwik_PDFReports_API
 	
     /**
 	 * Generates a PDF file in the browser output.
-	 * 
-	 * @param int $idSite 
-	 * @param string $period 
-	 * @param string $date YYYY-MM-DD
-	 * @param string|false $language
-	 * @param int $idReport If not passed, will generate a PDF containing all reports.
-	 * @param bool $outputType 
-	 * @param string $periodUsedFullReport If idReport == 0, will generate the report for the specified period
+	 *
+     * @param int $idReport If not passed, will generate a PDF containing all reports.
+     * @param string $date YYYY-MM-DD
+     * @param int|false $idSite
+     * @param string|false $language If not passed, will use default language.
+     * @param int|false $outputType 0 = inline PDF, 1 = download PDF, 2 = save to disk PDF, defaults to inline PDF
+     * @param string|false $period defaults to 'day'
 	 */
 	public function generateReport($idReport, $date, $idSite = false, $language = false, $outputType = false, $period = false)
 	{
