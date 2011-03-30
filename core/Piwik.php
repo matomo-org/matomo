@@ -2076,7 +2076,7 @@ class Piwik
 	        // we put the LOCAL keyword only when the server is actually remote
 	        // otherwise, it is not necessary and it might actually trigger a known PHP BUG
 	        // http://bugs.php.net/bug.php?id=54158
-	        // If the bug below is triggered, then the code will fallback to the Plain insert
+	        // If this php bug is triggered, then the code will fallback to the Plain insert
 	        $dbHost = Zend_Registry::get('config')->database->host;
 	        if(!in_array($dbHost, array('127.0.0.1', 'localhost')))
 	        {
@@ -2098,8 +2098,8 @@ class Piwik
 	                \"".$eol."\"
 	        	$fieldList
 	        ";
-	        $result = Piwik_Query($query);
-	        
+	        $result = @Piwik_Query($query);
+	        var_dump($result);
 	        @unlink($filePath);
 	        
 	        if(empty($result)) {
