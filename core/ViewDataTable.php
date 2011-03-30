@@ -363,7 +363,7 @@ abstract class Piwik_ViewDataTable
 	 * The requested Piwik_DataTable object is stored in $this->dataTable.
 	 */
 	protected function loadDataTableFromAPI()
-	{		
+	{
 		// we build the request string (URL) to call the API
 		$requestString = $this->getRequestString();
 		

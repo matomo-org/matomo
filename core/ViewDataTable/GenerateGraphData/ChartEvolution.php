@@ -56,6 +56,24 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		return false;
 	}
 	
+	protected function loadDataTableFromAPI()
+	{
+		$period = Piwik_Common::getRequestVar('period');
+		// period will be overriden when 'range' is requested in the UI
+		// but the graph will display for each day of the range. 
+		// Default 'range' behavior is to return the 'sum' for the range
+		if($period == 'range')
+		{
+			$_GET['period'] = 'day';
+		}
+		// throws exception if no view access
+		parent::loadDataTableFromAPI();
+		if($period == 'range')
+		{
+			$_GET['period'] = $period;
+		}
+	}
+	
 	protected function initChartObjectData()
 	{
 		// if the loaded datatable is a simple DataTable, it is most likely a plugin plotting some custom data
@@ -141,6 +159,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		$this->view->setAxisYLabels($yAxisLabels);
 		$this->view->setAxisYUnit($unit);
 		
+		$countGraphElements = $this->dataTable->getRowsCount();
 		$firstDatatable = reset($this->dataTable->metadata);
 		$period = $firstDatatable['period'];
 		switch($period->getLabel()) {
@@ -150,6 +169,12 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 			case 'year': $steps = 2; break;
 			default: $steps = 10; break;
 		}
+		// For Custom Date Range, when the number of elements plotted can be small, make sure the X legend is useful
+		if($countGraphElements <= 20 ) 
+		{
+			$steps = 2;
+		}
+		
 		$this->view->setXSteps($steps);
 		
 		if($this->isLinkEnabled())
@@ -217,7 +242,11 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		static $linkEnabled;
 		if(!isset($linkEnabled)) 
 		{
-			$linkEnabled = !Piwik_Common::getRequestVar('disableLink', 0, 'int');
+			// 1) Custom Date Range always have link disabled, otherwise 
+			// the graph data set is way to big and fails to display
+			// 2) disableLink parameter is set in the Widgetize "embed" code
+			$linkEnabled = !Piwik_Common::getRequestVar('disableLink', 0, 'int')
+							&& Piwik_Common::getRequestVar('period', 'day') != 'range';
 		}
 		return $linkEnabled;
 	}

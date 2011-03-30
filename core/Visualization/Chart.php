@@ -160,7 +160,7 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 			}
 		}
 		$this->x_labels->set_labels($xLabelsStepped);
-		$this->x_labels->set_steps(2);
+		$this->x_labels->set_steps(1);
 		$this->x->set_labels($this->x_labels);
 		
 		// Y Axis
