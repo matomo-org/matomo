@@ -21,7 +21,7 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 	// TESTING BATCH INSERT
 	public function test_databaseBatchInsert()
 	{
-		$table = 'site_url';
+		$table = Piwik_Common::prefixTable('site_url');
 	
 		$data = $this->getDataInsert();
 		$didWeUseBulk = Piwik::databaseInsertBatch($table, array('idsite', 'url'), $data);
@@ -36,7 +36,7 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 	// TESTING PLAIN INSERTS
 	public function test_databaseBatchIterate()
 	{
-		$table = 'site_url';
+		$table = Piwik_Common::prefixTable('site_url');
 		$data = $this->getDataInsert();
 		Piwik::databaseInsertIterate($table, array('idsite', 'url'), $data);
 		$this->checkTableIsExpected($table, $data);

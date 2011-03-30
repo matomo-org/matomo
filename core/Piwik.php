@@ -2012,7 +2012,7 @@ class Piwik
      * falling back to plain INSERTs on failure. On MySQL LOAD DATA
      * INFILE is 20x faster than plain single inserts.
      *
-     * @param string unprefixed table name
+     * @param string PREFIXED table name! you must call Piwik_Common::prefixTable() before passing the table name
      * @param array array of unquoted field names
      * @param array array of data to be inserted
      *
@@ -2071,11 +2071,23 @@ class Piwik
 	            }
 	        }
 	        fclose($fp);
-	        $query = "
-	            LOAD DATA LOCAL INFILE
+	        
+	        $local = '';
+	        // we put the LOCAL keyword only when the server is actually remote
+	        // otherwise, it is not necessary and it might actually trigger a known PHP BUG
+	        // http://bugs.php.net/bug.php?id=54158
+	        // If the bug below is triggered, then the code will fallback to the Plain insert
+	        $dbHost = Zend_Registry::get('config')->database->host;
+	        if(!in_array($dbHost, array('127.0.0.1', 'localhost')))
+	        {
+	        	$local = 'LOCAL';
+	        }
+	        
+			$query = "
+	            LOAD DATA $local INFILE
 	                '$filePath'
 	            INTO TABLE
-	                ".Piwik_Common::prefixTable($tableName)."
+	                ".$tableName."
 	            FIELDS TERMINATED BY
 	                '".$delim."'
 	            ENCLOSED BY
@@ -2089,6 +2101,10 @@ class Piwik
 	        $result = Piwik_Query($query);
 	        
 	        @unlink($filePath);
+	        
+	        if(empty($result)) {
+	        	throw new Exception("LOAD DATA INFILE failed!");
+	        }
 	        return true;
         } catch(Exception $e) {
         	Piwik::log("'LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was:" . $e->getMessage(), Piwik_Log::WARN);
@@ -2111,7 +2127,7 @@ class Piwik
         foreach($values as $row) {
             $toRecord = implode(', ', $row);
             $query = "INSERT $ignore 
-            			INTO ".Piwik_Common::prefixTable($tableName)." 
+            			INTO ".$tableName." 
             			$fieldList 
             			VALUES (".Piwik_Archive_Array::getSqlStringFieldsArray($row).")";
             Piwik_Query($query, $row);
