@@ -96,7 +96,7 @@ abstract class Piwik_Log extends Zend_Log
 			throw new Zend_Log_Exception('No writers were added');
 		}
 
-		$event['timestamp'] = date('c');
+		$event['timestamp'] = date('Y-m-d H:i:s');
 
 		// pack into event required by filters and writers
 		$event = array_merge( $event, $this->_extras);

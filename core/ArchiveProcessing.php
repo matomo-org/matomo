@@ -497,7 +497,7 @@ abstract class Piwik_ArchiveProcessing
 		{
 			$temporary = 'temporary archive';
 		}
-		Piwik::log("Processing archive '" . $this->period->getLabel() . "'" 
+		Piwik::log("'" . $this->period->getLabel() . "'" 
 								.", idSite = ". $this->idsite." ($temporary)" 
 								.", segment = '". $this->getSegment()->getString()."'"
 								.", report = '". $this->getRequestedReport()."'" 
@@ -525,7 +525,6 @@ abstract class Piwik_ArchiveProcessing
 			$flag = Piwik_ArchiveProcessing::DONE_OK_TEMPORARY;
 		}
 		$this->insertNumericRecord($done, $flag);
-		Piwik::log("* Done processing: idArchive = ".$this->getIdArchive());
 	}
 	
 	/**
@@ -644,13 +643,10 @@ abstract class Piwik_ArchiveProcessing
 	/**
 	 * @param string $name
 	 * @param int|float $value
-	 * @return Piwik_ArchiveProcessing_Record_Numeric
 	 */
 	public function insertNumericRecord($name, $value)
 	{
-		$record = new Piwik_ArchiveProcessing_Record_Numeric($name, $value);
-		$this->insertRecord($record);
-		return $record;
+		return $this->insertRecord($name, $value);
 	}
 	
 	/**
@@ -658,45 +654,59 @@ abstract class Piwik_ArchiveProcessing
 	 * @param string|array of string $aValues
 	 * @return true
 	 */
-	public function insertBlobRecord($name, $value)
+	public function insertBlobRecord($name, $values)
 	{
-		if(is_array($value))
+		if(is_array($values))
 		{
-			$records = new Piwik_ArchiveProcessing_RecordArray($name, $value);
-			foreach($records->get() as $record)
+			$clean = array();
+			foreach($values as $id => $value)
 			{
-				$this->insertRecord($record);
+				// for the parent Table we keep the name
+				// for example for the Table of searchEngines we keep the name 'referer_search_engine'
+				// but for the child table of 'Google' which has the ID = 9 the name would be 'referer_search_engine_9'
+				$newName = $name;
+				if($id != 0)
+				{
+					$newName = $name . '_' . $id;
+				}
+				
+				if($this->compressBlob)
+				{
+					$value = gzcompress($value);
+				}
+				$clean[] = array($newName, $value);
 			}
-			destroy($records);
-			return true;
+			return $this->insertBulkRecords($clean);
 		}
-
+		
 		if($this->compressBlob)
 		{
-			$record = new Piwik_ArchiveProcessing_Record_Blob($name, $value);
-		}
-		else
-		{
-			$record = new Piwik_ArchiveProcessing_Record($name, $value);
+			$values = gzcompress($values);
 		}
 
-		$this->insertRecord($record);
-		destroy($record);
-		return true;
+		$this->insertRecord($name, $values);
+		return array($name => $values);
 	}
 	
+	protected function insertBulkRecords($records)
+	{
+		foreach($records as $record)
+		{
+			$this->insertRecord($record[0], $record[1]);
+		}
+		return true;
+	}
 	/**
 	 * Inserts a record in the right table (either NUMERIC or BLOB)
 	 *
-	 * @param Piwik_ArchiveProcessing_Record $record
 	 */
-	protected function insertRecord($record)
+	protected function insertRecord($name, $value)
 	{
 		// table to use to save the data
-		if(is_numeric($record->value))
+		if(is_numeric($value))
 		{
     		// We choose not to record records with a value of 0 
-    		if($record->value == 0)
+    		if($value == 0)
     		{
     			return;
     		}
@@ -707,8 +717,8 @@ abstract class Piwik_ArchiveProcessing
 			$table = $this->tableArchiveBlob;
 		}
 		
-		// ignore duplicate idarchive
-		// @see http://dev.piwik.org/trac/ticket/987
+		// duplicate idarchives are Ignored, see http://dev.piwik.org/trac/ticket/987
+		
 		$query = "INSERT IGNORE INTO ".$table->getTableName()." 
 					(idarchive, idsite, date1, date2, period, ts_archived, name, value)
 					VALUES (?,?,?,?,?,?,?,?)";
@@ -718,8 +728,8 @@ abstract class Piwik_ArchiveProcessing
 							$this->period->getDateEnd()->toString('Y-m-d'), 
 							$this->periodId, 
 							date("Y-m-d H:i:s"),
-							$record->name,
-							$record->value,
+							$name,
+							$value,
 		);
 //		var_dump($bindSql);
 		Piwik_Query($query, $bindSql);

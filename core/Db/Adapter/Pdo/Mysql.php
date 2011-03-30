@@ -27,6 +27,8 @@ class Piwik_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Pi
 		{
 			return $this->_connection;
 		}
+		// Enable LOAD DATA INFILE must be set at object creation time, no setter/getter
+        $this->_config['driver_options'][PDO::MYSQL_ATTR_LOCAL_INFILE] = true; 
 
 		$this->_connect();
 

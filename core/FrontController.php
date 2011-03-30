@@ -72,6 +72,7 @@ class Piwik_FrontController
 			return;
 		}
 
+		
 		if(is_null($module))
 		{
 			$defaultModule = 'CoreHome';
@@ -117,6 +118,7 @@ class Piwik_FrontController
 			$action = $controller->getDefaultAction();
 		}
 		
+		Piwik::log("Dispatching $module / $action, parameters: ".var_export($parameters, $return = true));
 		if( !is_callable(array($controller, $action)))
 		{
 			throw new Exception("Action $action not found in the controller $controllerClassName.");				
@@ -161,13 +163,6 @@ class Piwik_FrontController
 		try {
 			Piwik::printSqlProfilingReportZend();
 			Piwik::printQueryCount();
-/*		
-			if(Piwik::getModule() !== 'API')
-			{
-				Piwik::printMemoryUsage();
-				Piwik::printTimer();
-			}
- */
 		} catch(Exception $e) {}
 	}
 	
