@@ -43,6 +43,7 @@ class HtmlTimerReporter extends HtmlReporter
         print Piwik_Date::factory('now')->getDatetime();
         print " - ";
         print $this->timer->getMemoryLeak();
+        print " - PHP Version: " . PHP_VERSION;
         print "</div>\n";
         print "</body>\n</html>\n";
 
