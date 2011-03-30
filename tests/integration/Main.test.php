@@ -543,9 +543,9 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		$tests = array(
 			// 4 blobs for the Actions plugin, 7 blogs for UserSettings
 			'archive_blob_2010_12' => (4 + 7) * 2, 
-			// (VisitsSummary 5 metrics + 1 flag) + 2 Flags archive Actions/UserSettings + (Frequency 5 metrics + 1 flag) * 2 segments
+			// (VisitsSummary 5 metrics + 1 flag - no Unique visitors for range) + 2 Flags archive Actions/UserSettings + (Frequency 5 metrics + 1 flag) * 2 segments
 			// But VisitFrequency is not currently compatible with Segmentation, so it doesn't have a specific archive, we remove -5 metrics -1 flag 
-			'archive_numeric_2010_12' => (7 + 2 + 6) * 2 - 6,   
+			'archive_numeric_2010_12' => (6 + 2 + 6) * 2 - 6,   
 		
 			// all "Range" records are in December
 			'archive_blob_2011_01' => 0,
@@ -555,7 +555,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		{
 	        $sql = "SELECT count(*) FROM " . Piwik_Common::prefixTable($table) . " WHERE period = ".Piwik::$idPeriods['range'];
 	        $countBlobs = Zend_Registry::get('db')->fetchOne($sql);
-	        $this->assertEqual( $expectedRows, $countBlobs);
+	        $this->assertEqual( $expectedRows, $countBlobs, $table);
 		}
 	}
 
