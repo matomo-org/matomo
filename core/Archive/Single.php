@@ -306,7 +306,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 		// uncompress when selecting from the BLOB table
 		if($typeValue == 'blob' && $db->hasBlobDataType())
 		{
-			$value = @gzuncompress($value);
+			$value = $this->uncompress($value);
 		}
 		
 		if($typeValue == 'numeric' 
@@ -365,6 +365,18 @@ class Piwik_Archive_Single extends Piwik_Archive
 		unset($this->blobCached[$name]);
 	}
 	
+	protected function uncompress($data)
+	{
+		// From 1.3, the data is firstly "bin2hex" 
+		if(($dataUnpacked = @gzuncompress(Piwik_Common::hex2bin($data))) !== false)
+		{
+			return $dataUnpacked;
+		}
+		
+		// Before Piwik 1.3, Data is simply compressed and stored as is in the DB
+		return @gzuncompress($data);
+	}
+	
 	/**
 	 * Fetches all blob fields name_* at once for the current archive for performance reasons.
 	 * 
@@ -394,7 +406,11 @@ class Piwik_Archive_Single extends Piwik_Archive
 
 			if($hasBlobs)
 			{
-				$this->blobCached[$name] = @gzuncompress($value);
+				$this->blobCached[$name] = $this->uncompress($value);
+				if($this->blobCached[$name] === false)
+				{
+					//throw new Exception("Error gzuncompress $name ");
+				}
 			}
 			else
 			{
