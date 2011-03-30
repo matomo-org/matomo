@@ -2024,7 +2024,7 @@ class Piwik
 
         try {
 //        	throw new Exception('');
-	        $filePath = PIWIK_USER_PATH . '/' . Piwik_AssetManager::MERGED_FILE_DIR . $tableName . '.csv';
+	        $filePath = PIWIK_USER_PATH . '/' . Piwik_AssetManager::MERGED_FILE_DIR . $tableName . '-'.Piwik_Common::generateUniqId().'.csv';
 
 	        if (Piwik_Common::isWindows()) {
 	            // On windows, MySQL expects slashes as directory separators
@@ -2067,7 +2067,7 @@ class Piwik
 	            if (!$ret) {
 	                fclose($fp);
 	                unlink($filePath);
-	                return MAX::raiseError('Error writing to the tmp file '.$filePath.' containing the batch INSERTs.', PEAR_ERROR_RETURN);
+	                throw new Exception('Error writing to the tmp file '.$filePath.' containing the batch INSERTs.');
 	            }
 	        }
 	        fclose($fp);
@@ -2084,8 +2084,9 @@ class Piwik
 	        }
 	        
 			$query = "
-	            LOAD DATA $local INFILE
+	            LOAD DATA $local INFILE 
 	                '$filePath'
+	            REPLACE
 	            INTO TABLE
 	                ".$tableName."
 	            FIELDS TERMINATED BY
@@ -2099,7 +2100,7 @@ class Piwik
 	        	$fieldList
 	        ";
 	        $result = @Piwik_Query($query);
-	        @unlink($filePath);
+	        unlink($filePath);
 	        
 	        if(empty($result)) {
 	        	throw new Exception("LOAD DATA INFILE failed!");

@@ -652,7 +652,7 @@ abstract class Piwik_ArchiveProcessing
 	/**
 	 * @param string $name
 	 * @param string|array of string $aValues
-	 * @return true
+	 * @return true 
 	 */
 	public function insertBlobRecord($name, $values)
 	{
@@ -672,7 +672,7 @@ abstract class Piwik_ArchiveProcessing
 				
 				if($this->compressBlob)
 				{
-					$value = gzcompress($value);
+					$value = $this->compress($value);
 				}
 				$clean[] = array($newName, $value);
 			}
@@ -681,21 +681,75 @@ abstract class Piwik_ArchiveProcessing
 		
 		if($this->compressBlob)
 		{
-			$values = gzcompress($values);
+			$values = $this->compress($values);
 		}
 
 		$this->insertRecord($name, $values);
 		return array($name => $values);
 	}
 	
+	protected function compress($data)
+	{
+		return bin2hex(gzcompress($data));
+	}
+	
 	protected function insertBulkRecords($records)
 	{
+		// Using standard plain INSERT if there is only one record to insert
+		if($DEBUG_DO_NOT_USE_BULK_INSERT = false
+			|| count($records) == 1)
+		{
+			foreach($records as $record)
+			{
+				$this->insertRecord($record[0], $record[1]);
+			}
+			return ;
+		}
+		$bindSql = $this->getBindArray();
+		$count = count($bindSql);
+		$values = array();
+		$table = null;
 		foreach($records as $record)
 		{
-			$this->insertRecord($record[0], $record[1]);
+			if(empty($record[1])) continue;
+			$bind = $bindSql;
+			$bind[] = $record[0];
+			$bind[] = $record[1];
+			$values[] = $bind;
+			
 		}
+		if(empty($values)) return ;
+		
+		if(is_null($table))
+		{
+			if(is_numeric($record[1]))
+			{
+				$table = $this->tableArchiveNumeric;
+			}
+			else
+			{
+				$table = $this->tableArchiveBlob;
+			}
+		}
+		Piwik::databaseInsertBatch($table->getTableName(), $this->getInsertFields(), $values);
 		return true;
 	}
+	
+	protected function getBindArray()
+	{
+		return array(	$this->idArchive,
+						$this->idsite, 
+						$this->period->getDateStart()->toString('Y-m-d'), 
+						$this->period->getDateEnd()->toString('Y-m-d'), 
+						$this->periodId, 
+						date("Y-m-d H:i:s"));
+	}
+	
+	protected function getInsertFields()
+	{
+		return array('idarchive', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'name', 'value');
+	}
+	
 	/**
 	 * Inserts a record in the right table (either NUMERIC or BLOB)
 	 *
@@ -720,17 +774,11 @@ abstract class Piwik_ArchiveProcessing
 		// duplicate idarchives are Ignored, see http://dev.piwik.org/trac/ticket/987
 		
 		$query = "INSERT IGNORE INTO ".$table->getTableName()." 
-					(idarchive, idsite, date1, date2, period, ts_archived, name, value)
+					(". implode(", ", $this->getInsertFields()).")
 					VALUES (?,?,?,?,?,?,?,?)";
-		$bindSql = array(	$this->idArchive,
-							$this->idsite, 
-							$this->period->getDateStart()->toString('Y-m-d'), 
-							$this->period->getDateEnd()->toString('Y-m-d'), 
-							$this->periodId, 
-							date("Y-m-d H:i:s"),
-							$name,
-							$value,
-		);
+		$bindSql = $this->getBindArray();
+		$bindSql[] = $name;
+		$bindSql[] = $value;
 //		var_dump($bindSql);
 		Piwik_Query($query, $bindSql);
 	}
