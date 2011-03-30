@@ -67,6 +67,8 @@ class Piwik_VisitsSummary_API
 			{
 				unset($columns[array_search('nb_uniq_visitors', $columns)]);
 			}
+			// Force reindex from 0 to N otherwise the SQL bind will fail
+			$columns = array_values($columns);
 		}
 
 		$dataTable = $archive->getDataTableFromNumeric($columns);
