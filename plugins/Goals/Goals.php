@@ -243,13 +243,13 @@ class Piwik_Goals extends Piwik_Plugin
 		// also recording conversion_rate for each goal
 		foreach($goalIdsToSum as $goalId)
 		{
-			$nb_conversions = $records[self::getRecordName('nb_conversions', $goalId)]->value;
+			$nb_conversions = $records[self::getRecordName('nb_conversions', $goalId)];
 			$conversion_rate = $this->getConversionRate($nb_conversions, $archiveProcessing);
 			$archiveProcessing->insertNumericRecord(self::getRecordName('conversion_rate', $goalId), $conversion_rate);
 		}
 		
 		// global conversion rate
-		$nb_conversions = $records[self::getRecordName('nb_conversions')]->value;
+		$nb_conversions = $records[self::getRecordName('nb_conversions')];
 		$conversion_rate = $this->getConversionRate($nb_conversions, $archiveProcessing);
 		$archiveProcessing->insertNumericRecord(self::getRecordName('conversion_rate'), $conversion_rate);
 	}

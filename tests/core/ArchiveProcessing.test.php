@@ -18,10 +18,67 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 	}
     
 	
-	public function tearDown()
+	// TESTING BATCH INSERT
+	public function test_databaseBatchInsert()
 	{
+		$table = 'site_url';
+	
+		$data = $this->getDataInsert();
+		$didWeUseBulk = Piwik::databaseInsertBatch($table, array('idsite', 'url'), $data);
+		$this->assertTrue($didWeUseBulk, " The test didn't LOAD DATA INFILE but fallbacked to plain INSERT, but we must unit test this function!");
+		$this->checkTableIsExpected($table, $data);
+		
+		// INSERT again the bulk. Because we use keyword LOCAL the data will be REPLACED automatically (see mysql doc) 
+		Piwik::databaseInsertBatch($table, array('idsite', 'url'), $data);
+		$this->checkTableIsExpected($table, $data);
+	}
+
+	// TESTING PLAIN INSERTS
+	public function test_databaseBatchIterate()
+	{
+		$table = 'site_url';
+		$data = $this->getDataInsert();
+		Piwik::databaseInsertIterate($table, array('idsite', 'url'), $data);
+		$this->checkTableIsExpected($table, $data);
+
+		// If we insert AGAIN, expect to throw an error because the primary key already exists
+		try {
+			Piwik::databaseInsertIterate($table, array('idsite', 'url'), $data, $ignoreWhenDuplicate = false);	
+			$this->fail();
+		} catch (Exception $e) {
+			$this->pass();
+		}
+		
+		// However if we insert with keyword REPLACE, then the new data should be saved
+		Piwik::databaseInsertIterate($table, array('idsite', 'url'), $data, $ignoreWhenDuplicate = true );
+		$this->checkTableIsExpected($table, $data);
 	}
 	
+	protected function checkTableIsExpected($table, $data)
+	{
+		$fetched = Piwik_FetchAll('SELECT * FROM '.Piwik_Common::prefixTable($table));
+		foreach($data as $id => $row) {
+			$this->assertEqual($fetched[$id]['idsite'], $data[$id][0]);
+			$this->assertEqual($fetched[$id]['url'], $data[$id][1]);
+		}
+	}
+	/*
+	 * site_url (
+		  idsite INTEGER(10) UNSIGNED NOT NULL,
+		  url VARCHAR(255) NOT NULL,
+		  PRIMARY KEY(idsite, url)
+	)
+	 */
+	protected function getDataInsert()
+	{
+		return array(
+			array(1, 'test'),
+			array(2, 'te" \n st2'),
+			array(3, " \n \r \t test"),
+			array(4, 'test4'),
+			array(5, 'test5'),
+		);
+	}
 	private function createWebsite($timezone = 'UTC')
 	{
 		$idsite = Piwik_SitesManager_API::getInstance()->addSite(

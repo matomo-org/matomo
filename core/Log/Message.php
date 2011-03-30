@@ -69,6 +69,7 @@ class Piwik_Log_Message_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Sc
     	}
     	$message .= "<br/>\n";
     	
+    	$message = '['. $event['timestamp'] . '] ['.Piwik::getMemoryUsage(). '] ' .$message;
     	return parent::format($message);
     }
 }

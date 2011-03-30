@@ -36,8 +36,6 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 * See @archiveNumericValuesGeneral for more information
 	 * 
 	 * @param string|array 
-	 * @return Piwik_ArchiveProcessing_Record_Numeric
-	 * 
 	 */
 	public function archiveNumericValuesSum( $aNames )
 	{
@@ -49,8 +47,6 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 * See @archiveNumericValuesGeneral for more information
 	 * 
 	 * @param string|array 
-	 * @return Piwik_ArchiveProcessing_Record_Numeric
-	 * 
 	 */
 	public function archiveNumericValuesMax( $aNames )
 	{
@@ -65,8 +61,6 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 * 
 	 * @param array|string $aNames Array of strings or string containg the field names to select
 	 * @param string $operationToApply Available operations = sum, max, min 
-	 * @return Piwik_ArchiveProcessing_Record_Numeric Returns the record if $aNames is a string, 
-	 *  an array of Piwik_ArchiveProcessing_Record_Numeric indexed by their field names if aNames is an array of strings
 	 */
 	private function archiveNumericValuesGeneral($aNames, $operationToApply)
 	{
@@ -110,35 +104,28 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 			}
 		}
 		
-		// build the Record Numeric objects
-		$records = array();
-
-		$shouldProcessUniqueVisitors = Piwik::isUniqueVisitorsEnabled($this->period->getLabel());
+		if(!Piwik::isUniqueVisitorsEnabled($this->period->getLabel()))
+		{
+			unset($results['nb_uniq_visitors']);
+		}
+		
 		foreach($results as $name => $value)
 		{
 			if($name == 'nb_uniq_visitors')
 			{
-				if(!$shouldProcessUniqueVisitors)
-				{
-					continue;
-				}
 			    $value = (float) $this->computeNbUniqVisitors();
 			}
-			$records[$name] = new Piwik_ArchiveProcessing_Record_Numeric(
-													$name, 
-													$value
-												);
-			$this->insertRecord($records[$name]);
+			$this->insertRecord($name, $value);
 		}
 		
 		// if asked for only one field to sum
-		if(count($records) == 1)
+		if(count($results) == 1)
 		{
-			return $records[$name];
+			return $results[$name];
 		}
 		
 		// returns the array of records once summed
-		return $records;
+		return $results;
 	}
 	
 	/**
@@ -147,8 +134,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 * It will usually be called in a plugin that listens to the hook 'ArchiveProcessing_Period.compute'
 	 * 
 	 * For example if $aRecordName = 'UserCountry_country' the method will select all UserCountry_country DataTable for the period
-	 * (eg. the 31 dataTable of the last month), sum them, and create the Piwik_ArchiveProcessing_RecordArray so that
-	 * the resulting dataTable is AUTOMATICALLY recorded in the database.
+	 * (eg. the 31 dataTable of the last month), sum them, then record it in the DB
 	 * 
 	 * 
 	 * This method works on recursive dataTable. For example for the 'Actions' it will select all subtables of all dataTable of all the sub periods
@@ -298,8 +284,8 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 			$record = $this->archiveNumericValuesSum($toSum);
 			$this->archiveNumericValuesMax( 'max_actions' ); 
 	
-			$nbVisitsConverted = $record['nb_visits_converted']->value;
-			$nbVisits = $record['nb_visits']->value;
+			$nbVisitsConverted = $record['nb_visits_converted'];
+			$nbVisits = $record['nb_visits'];
 		}
 		else
 		{
