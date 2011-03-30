@@ -25,7 +25,7 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 	
 		$data = $this->getDataInsert();
 		$didWeUseBulk = Piwik::databaseInsertBatch($table, array('idsite', 'url'), $data);
-		if(PHP_VERSION != '5.2.6') {
+		if(PHP_VERSION != '5.3.6') {
 			$this->assertTrue($didWeUseBulk, " The test didn't LOAD DATA INFILE but fallbacked to plain INSERT, but we must unit test this function!");
 		}
 		$this->checkTableIsExpected($table, $data);

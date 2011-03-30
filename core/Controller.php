@@ -318,10 +318,8 @@ abstract class Piwik_Controller
 		try {
 			$this->setPeriodVariablesView($view);
 			
-			$periodStr = Piwik_Common::getRequestVar('period');
-			$view->displayUniqueVisitors = Piwik::isUniqueVisitorsEnabled($periodStr);
-			
 			$rawDate = Piwik_Common::getRequestVar('date');
+			$periodStr = Piwik_Common::getRequestVar('period');
 			if($periodStr!='range')
 			{
 				$date = Piwik_Date::factory($this->strDate);
@@ -392,6 +390,7 @@ abstract class Piwik_Controller
 		}
 		
 		$currentPeriod = Piwik_Common::getRequestVar('period');
+		$view->displayUniqueVisitors = Piwik::isUniqueVisitorsEnabled($currentPeriod);
 		$availablePeriods = array('day', 'week', 'month', 'year', 'range');
 		if(!in_array($currentPeriod,$availablePeriods))
 		{

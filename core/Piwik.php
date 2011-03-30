@@ -2099,7 +2099,6 @@ class Piwik
 	        	$fieldList
 	        ";
 	        $result = @Piwik_Query($query);
-	        var_dump($result);
 	        @unlink($filePath);
 	        
 	        if(empty($result)) {
