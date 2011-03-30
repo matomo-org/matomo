@@ -890,9 +890,8 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	public function isArchivingDisabled()
 	{
-		$segment = $this->getSegment();
-		if(!empty($segment)
-			&& !$segment->isEmpty())
+		// If segment or range is requested, we allow archiving since it will only archive the minimum data
+		if(!$this->shouldProcessReportsAllPlugins($this->getSegment(), $this->period))
 		{
 			return false;
 		}
