@@ -59,7 +59,7 @@ class Piwik_Site
 	{
 		if(!isset(self::$infoSites[$this->id][$name]))
 		{
-			throw new Exception('Requested field '.$name .' was not loaded in website '.(int)$this->id.'. ');
+			throw new Exception('The requested website id = '.(int)$this->id.' couldn\'t be found');
 		}
 		return self::$infoSites[$this->id][$name];
 	}
