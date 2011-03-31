@@ -403,10 +403,13 @@ abstract class Piwik_ArchiveProcessing
 	public function loadArchive()
 	{
 		$this->init();
+		if($this->debugAlwaysArchive)
+		{
+			return false;
+		}
 		$this->idArchive = $this->isArchived();
 	
-		if($this->idArchive === false
-			||	$this->debugAlwaysArchive)
+		if($this->idArchive === false)
 		{
 			return false;
 		}
