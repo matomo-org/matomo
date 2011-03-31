@@ -39,7 +39,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
     		$view->showWarningCron = $showWarningCron;
     		$view->todayArchiveTimeToLive = $todayArchiveTimeToLive;
     		$view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
-    		
+    		$view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
     	
     		if(!Zend_Registry::get('config')->isFileWritable())
     		{
