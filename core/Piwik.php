@@ -2007,131 +2007,144 @@ class Piwik
 		return Piwik_Db_Schema::getInstance()->getTablesInstalled($forceReload);
 	}
 
-    /**
-     * Performs a batch insert using either LOAD DATA INFILE, eventually 
-     * falling back to plain INSERTs on failure. On MySQL LOAD DATA
-     * INFILE is 20x faster than plain single inserts.
-     *
-     * @param string PREFIXED table name! you must call Piwik_Common::prefixTable() before passing the table name
-     * @param array array of unquoted field names
-     * @param array array of data to be inserted
-     *
-     * @return bool True if the bulk LOAD was used, false if we fallback to plain INSERTs
-     */
+	/**
+	 * Escape special characters in string
+	 *
+	 * MySQL: NUL (ASCII 0), \n, \r, \, ', ", and Control-Z
+	 *
+	 * @param string $str
+	 * @return string
+	 */
+	static private function escapeString($str)
+	{
+		$str = str_replace(array('\\', '"'), array('\\\\', '\\"'), $str);
+		return $str;
+	}
+
+	/**
+	 * Performs a batch insert using either LOAD DATA INFILE, eventually 
+	 * falling back to plain INSERTs on failure. On MySQL LOAD DATA
+	 * INFILE is 20x faster than plain single inserts.
+	 *
+	 * @param string PREFIXED table name! you must call Piwik_Common::prefixTable() before passing the table name
+	 * @param array array of unquoted field names
+	 * @param array array of data to be inserted
+	 *
+	 * @return bool True if the bulk LOAD was used, false if we fallback to plain INSERTs
+	 */
 	static public function databaseInsertBatch($tableName, $fields, $values)
-    {
-        $fieldList = '('.join(',', $fields).')';
+	{
+		$fieldList = '('.join(',', $fields).')';
 
-        try {
-//        	throw new Exception('');
-	        $filePath = PIWIK_USER_PATH . '/' . Piwik_AssetManager::MERGED_FILE_DIR . $tableName . '-'.Piwik_Common::generateUniqId().'.csv';
+		try {
+//			throw new Exception('');
+			$filePath = PIWIK_USER_PATH . '/' . Piwik_AssetManager::MERGED_FILE_DIR . $tableName . '-'.Piwik_Common::generateUniqId().'.csv';
 
-	        if (Piwik_Common::isWindows()) {
-	            // On windows, MySQL expects slashes as directory separators
-	            $filePath = str_replace('\\', '/', $filePath);
-	        }
-	        
-	        // Set up CSV delimiters, quotes, etc
-	        $delim = "\t";
-	        $quote = '"';
-	        $eol   = "\r\n";
-	        $null  = 'NULL';
+			if (Piwik_Common::isWindows()) {
+				// On windows, MySQL expects slashes as directory separators
+				$filePath = str_replace('\\', '/', $filePath);
+			}
+			
+			// Set up CSV delimiters, quotes, etc
+			$delim = "\t";
+			$quote = '"';
+			$eol   = "\r\n";
+			$null  = 'NULL';
 	
-	        $fp = fopen($filePath, 'wb');
-	        if (!$fp) 
-	        {
-	            throw new Exception('Error creating the tmp file '.$filePath.', please check that the webserver has write permission to write this file.');
-	        }
-	        
-	        @chmod($filePath, 0777);
-	        
-	        foreach ($values as $row) 
-	        {
-	            $output = '';
-	            foreach($row as $value) 
-	            {
-	                if(!isset($value) || is_null($value) || $value === false) 
-	                {
-	                    $output .= $null.$delim;
-	                } 
-	                else 
-	                {
-	                    $output .= $quote.$value.$quote.$delim;
-	                }
-	            }
-	            // Replace delim with eol
-	            unset($row[strlen($output)-strlen($delim)]);
-	            $output .= $eol;
-	            
-	            $ret = fwrite($fp, $output);
-	            if (!$ret) {
-	                fclose($fp);
-	                unlink($filePath);
-	                throw new Exception('Error writing to the tmp file '.$filePath.' containing the batch INSERTs.');
-	            }
-	        }
-	        fclose($fp);
-	        
-	        $local = '';
-	        // we put the LOCAL keyword only when the server is actually remote
-	        // otherwise, it is not necessary and it might actually trigger a known PHP BUG
-	        // http://bugs.php.net/bug.php?id=54158
-	        // If this php bug is triggered, then the code will fallback to the Plain insert
-	        $dbHost = Zend_Registry::get('config')->database->host;
-	        if(!in_array($dbHost, array('127.0.0.1', 'localhost')))
-	        {
-	        	$local = 'LOCAL';
-	        }
-	        
-			$query = "
-	            LOAD DATA $local INFILE 
-	                '$filePath'
-	            REPLACE
-	            INTO TABLE
-	                ".$tableName."
-	            FIELDS TERMINATED BY
-	                '".$delim."'
-	            ENCLOSED BY
-	                '".$quote."'
-	            ESCAPED BY
-	                ''
-	            LINES TERMINATED BY
-	                \"".$eol."\"
-	        	$fieldList
-	        ";
-	        $result = @Piwik_Query($query);
-	        unlink($filePath);
-	        
-	        if(empty($result)) {
-	        	throw new Exception("LOAD DATA INFILE failed!");
-	        }
-	        return true;
-        } catch(Exception $e) {
-        	Piwik::log("'LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was:" . $e->getMessage(), Piwik_Log::WARN);
-        	self::databaseInsertIterate($tableName, $fields, $values);
-        }
-        return false;
-    }
-    
-    /**
-     * NOTE: you should use databaseInsertBatch() which will fallback to this function is LOAD DATA INFILE not available
-     */
-    static public function databaseInsertIterate($tableName, $fields, $values, $ignoreWhenDuplicate = true)
-    {
-    	$fieldList = '('.join(',', $fields).')';
+			$fp = fopen($filePath, 'wb');
+			if (!$fp) 
+			{
+				throw new Exception('Error creating the tmp file '.$filePath.', please check that the webserver has write permission to write this file.');
+			}
+			
+			@chmod($filePath, 0777);
 
-    	$ignore = '';
-    	if($ignoreWhenDuplicate) {
-    		$ignore = ' IGNORE ';
-    	}
-        foreach($values as $row) {
-            $toRecord = implode(', ', $row);
-            $query = "INSERT $ignore 
-            			INTO ".$tableName." 
-            			$fieldList 
-            			VALUES (".Piwik_Archive_Array::getSqlStringFieldsArray($row).")";
-            Piwik_Query($query, $row);
-        }
-    }
-    
+			foreach ($values as $row) 
+			{
+				$output = '';
+				foreach($row as $value) 
+				{
+					if(!isset($value) || is_null($value) || $value === false) 
+					{
+						$output .= $null.$delim;
+					} 
+					else 
+					{
+						$output .= $quote.self::escapeString($value).$quote.$delim;
+					}
+				}
+				// Replace delim with eol
+				unset($row[strlen($output)-strlen($delim)]);
+				$output .= $eol;
+
+				$ret = fwrite($fp, $output);
+				if (!$ret) {
+					fclose($fp);
+					unlink($filePath);
+					throw new Exception('Error writing to the tmp file '.$filePath.' containing the batch INSERTs.');
+				}
+			}
+			fclose($fp);
+
+			$local = '';
+			// we put the LOCAL keyword only when the server is actually remote
+			// otherwise, it is not necessary and it might actually trigger a known PHP BUG
+			// http://bugs.php.net/bug.php?id=54158
+			// If this php bug is triggered, then the code will fallback to the Plain insert
+			$dbHost = Zend_Registry::get('config')->database->host;
+			if(!in_array($dbHost, array('127.0.0.1', 'localhost')))
+			{
+				$local = 'LOCAL';
+			}
+			
+			$query = "
+				LOAD DATA $local INFILE 
+					'$filePath'
+				REPLACE
+				INTO TABLE
+					".$tableName."
+				FIELDS TERMINATED BY
+					'".$delim."'
+				ENCLOSED BY
+					'".$quote."'
+				ESCAPED BY
+					'\\\\'
+				LINES TERMINATED BY
+					\"".$eol."\"
+				$fieldList
+			";
+			$result = @Piwik_Exec($query);
+			unlink($filePath);
+	
+			if(empty($result)) {
+				throw new Exception("LOAD DATA INFILE failed!");
+			}
+			return true;
+		} catch(Exception $e) {
+			Piwik::log("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was:" . $e->getMessage(), Piwik_Log::WARN);
+			self::databaseInsertIterate($tableName, $fields, $values);
+		}
+		return false;
+	}
+	
+	/**
+	 * NOTE: you should use databaseInsertBatch() which will fallback to this function is LOAD DATA INFILE not available
+	 */
+	static public function databaseInsertIterate($tableName, $fields, $values, $ignoreWhenDuplicate = true)
+	{
+		$fieldList = '('.join(',', $fields).')';
+
+		$ignore = '';
+		if($ignoreWhenDuplicate) {
+			$ignore = ' IGNORE ';
+		}
+		foreach($values as $row) {
+			$toRecord = implode(', ', $row);
+			$query = "INSERT $ignore 
+					INTO ".$tableName." 
+					$fieldList 
+					VALUES (".Piwik_Archive_Array::getSqlStringFieldsArray($row).")";
+			Piwik_Query($query, $row);
+		}
+	}   
 }

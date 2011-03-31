@@ -25,7 +25,7 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 	
 		$data = $this->getDataInsert();
 		$didWeUseBulk = Piwik::databaseInsertBatch($table, array('idsite', 'url'), $data);
-		if(version_compare(PHP_VERSION, '5.2.9') < 0 ||
+		if(version_compare(PHP_VERSION, '5.3') < 0 ||
 			version_compare(PHP_VERSION, '5.3.7') >= 0)
 		{
 			$this->assertTrue($didWeUseBulk, " The test didn't LOAD DATA INFILE but fallbacked to plain INSERT, but we must unit test this function!");
@@ -82,6 +82,15 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 //			array(4, gzcompress( " \n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942")),
 //			array(5, gzcompress('test4')),
 			array(6, 'test5'),
+			array(7, '简体中文'),
+			array(8, '"'),
+			array(9, "'"),
+			array(10, '\\'),
+			array(11, "\t"),
+			array(12, "test \x00 null"),
+
+//x 234   +   I   -   .   1 001  \0 006   R 001 365
+array(13, 'x'),
 		);
 	}
 	private function createWebsite($timezone = 'UTC')
