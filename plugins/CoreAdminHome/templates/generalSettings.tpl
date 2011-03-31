@@ -130,7 +130,7 @@
 <h2>{'CoreAdminHome_OptOutForYourVisitors'|translate}</h2>
 
 <p>{'CoreAdminHome_OptOutExplanation'|translate}
-{capture name=optOutUrl}{$piwikUrl}index.php?module=CoreAdminHome&action=optOut{/capture}
+{capture name=optOutUrl}{$piwikUrl}index.php?module=CoreAdminHome&action=optOut&language={$language}{/capture}
 {assign var=optOutUrl value=$smarty.capture.optOutUrl}
 {capture name=iframeOptOut}<iframe frameborder="no" width="600px" height="200px" src="{$smarty.capture.optOutUrl}"></iframe>{/capture}
 <code>{$smarty.capture.iframeOptOut|escape:'html'}</code>
