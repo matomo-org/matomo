@@ -423,7 +423,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 		{
 			$dbName = Zend_Registry::get('config')->database->dbname;
 		}
-		Piwik_Exec("CREATE DATABASE IF NOT EXISTS ".$dbName);
+		Piwik_Exec("CREATE DATABASE IF NOT EXISTS ".$dbName." DEFAULT CHARACTER SET utf8");
 	}
 
 	/**
