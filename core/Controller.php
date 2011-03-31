@@ -402,7 +402,7 @@ abstract class Piwik_Controller
 			'month' => array('singular' => Piwik_Translate('CoreHome_PeriodMonth'), 'plural' => Piwik_Translate('CoreHome_PeriodMonths')),
 			'year' => array('singular' => Piwik_Translate('CoreHome_PeriodYear'), 'plural' => Piwik_Translate('CoreHome_PeriodYears')),
 			// Note: plural is not used for date range
-			'range' => array('singular' => Piwik_Translate('General_DateRange'), 'plural' => Piwik_Translate('General_DateRange') ),
+			'range' => array('singular' => Piwik_Translate('General_DateRangeInPeriodList'), 'plural' => Piwik_Translate('General_DateRangeInPeriodList') ),
 		);
 		
 		$found = array_search($currentPeriod,$availablePeriods);
