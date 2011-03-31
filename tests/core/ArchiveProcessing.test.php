@@ -106,6 +106,7 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 		$archiveProcessing = Piwik_ArchiveProcessing::factory($periodLabel);
 		$archiveProcessing->setSite($site);
 		$archiveProcessing->setPeriod($period);
+		$archiveProcessing->setSegment(new Piwik_Segment('', $site->getId()));
 		$archiveProcessing->init();
 		return $archiveProcessing;
 	}
