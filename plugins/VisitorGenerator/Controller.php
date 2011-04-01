@@ -128,8 +128,8 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller {
 		
 		// Init view
 		$view = Piwik_View::factory('generate');
-		$view->menu = Piwik_GetAdminMenu();
 		$this->setBasicVariablesView($view);
+		$view->menu = Piwik_GetAdminMenu();
 		$view->assign('dates', $dates);
 		$view->assign('timer', $timer);
 		$view->assign('nbActionsTotal', $nbActionsTotal);

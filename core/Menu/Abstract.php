@@ -53,28 +53,32 @@ abstract class Piwik_Menu_Abstract {
 	}
 
 	/**
+	 * Builds a single menu item
+	 */
+	private function buildMenuItem($menuName, $subMenuName, $url, $displayForCurrentUser, $order = 50) {
+		if ($displayForCurrentUser) {
+			if (!isset($this->menu[$menuName]) || empty($subMenuName)) {
+				$this->menu[$menuName]['_url'] = $url;
+				$this->menu[$menuName]['_order'] = $order;
+				$this->menu[$menuName]['_name'] = $menuName;
+				$this->menu[$menuName]['_hasSubmenu'] = false;
+			}
+			if (!empty($subMenuName)) {
+				$this->menu[$menuName][$subMenuName]['_url'] = $url;
+				$this->menu[$menuName][$subMenuName]['_order'] = $order;
+				$this->menu[$menuName][$subMenuName]['_name'] = $subMenuName;
+				$this->menu[$menuName]['_hasSubmenu'] = true;
+			}
+		}
+	}
+
+	/**
 	 * Builds the menu from the $this->menuEntries variable.
 	 *
 	 */
 	private function buildMenu() {
 		foreach ($this->menuEntries as $menuEntry) {
-			$menuName = $menuEntry[0];
-			$subMenuName = $menuEntry[1];
-
-			if ($menuEntry[3]) {
-				if (!isset($this->menu[$menuName]) || empty($subMenuName)) {
-					$this->menu[$menuName]['_url'] = $menuEntry[2];
-					$this->menu[$menuName]['_order'] = $menuEntry[4];
-					$this->menu[$menuName]['_name'] = $menuName;
-					$this->menu[$menuName]['_hasSubmenu'] = false;
-				}
-				if (!empty($subMenuName)) {
-					$this->menu[$menuName][$subMenuName]['_url'] = $menuEntry[2];
-					$this->menu[$menuName][$subMenuName]['_order'] = $menuEntry[4];
-					$this->menu[$menuName][$subMenuName]['_name'] = $subMenuName;
-					$this->menu[$menuName]['_hasSubmenu'] = true;
-				}
-			}
+			$this->buildMenuItem($menuEntry[0], $menuEntry[1], $menuEntry[2], $menuEntry[3], $menuEntry[4]);
 		}
 	}
 
@@ -105,7 +109,7 @@ abstract class Piwik_Menu_Abstract {
 			$subMenuToEdit = $edit[1];
 			$newUrl = $edit[2];
 			if (!isset($this->menu[$mainMenuToEdit][$subMenuToEdit])) {
-				$this->add($mainMenuToEdit, $subMenuToEdit, $newUrl, true);
+				$this->buildMenuItem($mainMenuToEdit, $subMenuToEdit, $newUrl, true);
 			} else {
 				$this->menu[$mainMenuToEdit][$subMenuToEdit]['_url'] = $newUrl;
 			}
