@@ -7,11 +7,6 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 require_once "Database.test.php";
 class Test_Piwik_ArchiveProcessing extends Test_Database
 {
-	function __destruct()
-	{
-		Piwik::dropTables();
-	}
-
 	public function setUp()
 	{
 		parent::setUp();
@@ -375,5 +370,18 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 		$array[] = array(4, 'lorem ipsum compressed', 1, '2011-03-31', '2011-03-31', Piwik::$idPeriods['day'], $ts, gzcompress($str));
 
 		return $array;
+	}
+
+	public function test_case_cleanup()
+	{
+		$tablesInstalled = Piwik::getTablesInstalled(true);
+		foreach($tablesInstalled as $table)
+		{
+			if(preg_match('/archive_(blob|numeric)_/', $table)) {
+				@Piwik_Exec('DROP TABLE '.$table);
+			}
+		}
+		
+		$tablesInstalled = Piwik::getTablesInstalled(true);
 	}
 }
