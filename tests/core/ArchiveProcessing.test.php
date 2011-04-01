@@ -17,11 +17,6 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 		Zend_Registry::set('access', $pseudoMockAccess);
 	}
 
-	function tearDown()
-	{
-		Piwik::dropTables();
-	}
-
 	private function createWebsite($timezone = 'UTC')
 	{
 		$idsite = Piwik_SitesManager_API::getInstance()->addSite(
