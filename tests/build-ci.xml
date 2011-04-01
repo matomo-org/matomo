@@ -41,6 +41,12 @@
 		<move file="${basedir}/integration/processed" tofile="${basedir}/integration/processed-pdo-mysql" />
 
 		<echo>PDO_MYSQL unit tests finished</echo>
+
+		<fail>
+			<condition>
+				<isfailure code="${result-pdo-mysql}"/>
+			</condition>
+		</fail>
 	</target>
 
 	<target name="process-build-resources-mysqli" depends="prepare-build-filesystem">
@@ -61,6 +67,12 @@
 		<move file="${basedir}/integration/processed" tofile="${basedir}/integration/processed-mysqli" />
 
 		<echo>MYSQLI unit tests finished</echo>
+
+		<fail>
+			<condition>
+				<isfailure code="${result-mysqli}"/>
+			</condition>
+		</fail>
 	</target>
 
 	<target name="webtest" depends="prepare-build-filesystem">
@@ -99,18 +111,15 @@
 		</java>
 
 		<echo>SchemaSpy finished</echo>
+
+		<fail>
+			<condition>
+				<isfailure code="${result-schemaspy}"/>
+			</condition>
+		</fail>
 	</target>
 
 	<target name="all" depends="test-pdo-mysql,test-mysqli,webtest,schemaspy">
-		<fail>
-			<condition>
-				<or>
-					<isfailure code="${result-mysqli}"/>
-					<isfailure code="${result-pdo-mysql}"/>
-					<isfailure code="${result-schemaspy}"/>
-				</or>
-			</condition>
-		</fail>
 	</target>
 
 </project>
