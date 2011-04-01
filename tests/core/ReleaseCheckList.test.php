@@ -85,7 +85,8 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 		// hiding echoed out message on empty request
 		ob_start();
 		include PIWIK_PATH_TEST_TO_ROOT . "/piwik.php";
-		ob_clean();
+		ob_end_clean();
+
 		$this->assertTrue($GLOBALS['PIWIK_TRACKER_DEBUG'] === false);
 	}
 
