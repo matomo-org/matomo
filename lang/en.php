@@ -595,6 +595,7 @@ $translations = array(
 	'Installation_SystemCheckEvalHelp' => 'Required by HTML QuickForm and Smarty templating system.',
 	'Installation_SystemCheckGzcompressHelp' => 'You need to enable the zlib extension and gzcompress function.',
 	'Installation_SystemCheckGzuncompressHelp' => 'You need to enable the zlib extension and gzuncompress function.',
+	'Installation_SystemCheckPackHelp' => 'Required by AnonymizeIP plugin.',
 	'Installation_SystemCheckMbstring' => 'mbstring',
 	'Installation_SystemCheckMbstringExtensionHelp' => 'The mbstring extension is required for multibyte characters in API responses using comma-separated values (CSV) or tab-separated values (TSV).',
 	'Installation_SystemCheckMbstringFuncOverloadHelp' => 'You should set mbstring.func_overload to "0".',

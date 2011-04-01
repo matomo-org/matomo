@@ -123,6 +123,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			'eval'            => 'Installation_SystemCheckEvalHelp',
 			'gzcompress'      => 'Installation_SystemCheckGzcompressHelp',
 			'gzuncompress'    => 'Installation_SystemCheckGzuncompressHelp',
+			'pack'            => 'Installation_SystemCheckPackHelp',
 		);
 
 		$view->problemWithSomeDirectories = (false !== array_search(false, $view->infos['directories']));
@@ -731,6 +732,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			'eval',
 			'gzcompress',
 			'gzuncompress',
+			'pack',
 		);
 		$infos['needed_functions'] = $needed_functions;
 		$infos['missing_functions'] = array();
