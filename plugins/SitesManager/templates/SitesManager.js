@@ -132,25 +132,27 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 	this.init = function () {
 	$('.addRowSite').click( function() {
 		piwikHelper.hideAjaxError();
-		$(this).toggle();
+		$('.addRowSite').toggle();
 		
 		var numberOfRows = $('table#editSites')[0].rows.length;
 		var newRowId = 'row' + numberOfRows;
-	
+		var submitButtonHtml = '<input type="submit" class="addsite submit" value="' + _pk_translate('General_Save_js') +'" />';
 		$(' <tr id="'+newRowId+'">\
 				<td>&nbsp;</td>\
-				<td><input id="name" value="Name" size="15" /></td>\
+				<td><input id="name" value="Name" size="15" /><br/><br/><br/>'+submitButtonHtml+'</td>\
 				<td><textarea cols="25" rows="3" id="urls">http://siteUrl.com/\nhttp://siteUrl2.com/</textarea><br />'+aliasUrlsHelp+'</td>\
 				<td><textarea cols="20" rows="4" id="excludedIps"></textarea><br />'+excludedIpHelp+'</td>\
 				<td><textarea cols="20" rows="4" id="excludedQueryParameters"></textarea><br />'+excludedQueryParametersHelp+'</td>\
 				<td>'+getTimezoneSelector(defaultTimezone)+'<br />' + timezoneHelp + '</td>\
 				<td>'+getCurrencySelector(defaultCurrency)+'<br />' + currencyHelp + '</td>\
-				<td><input type="submit" class="addsite submit" value="' + _pk_translate('General_Save_js') +'" /></td>\
+				<td>'+submitButtonHtml+'</td>\
 	  			<td><span class="cancel link_but">'+sprintf(_pk_translate('General_OrCancel_js'),"","")+'</span></td>\
 	 		</tr>')
 	  			.appendTo('#editSites')
 		;
 		
+	  	piwikHelper.lazyScrollTo('#'+newRowId);
+	  	
 		$('.addsite').click( function(){ 
 			$.ajax( getAddSiteAJAX($('tr#'+newRowId)) ); 
 		});

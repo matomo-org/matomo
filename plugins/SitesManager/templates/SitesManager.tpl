@@ -87,11 +87,17 @@ vertical-align:middle;
 {ajaxErrorDiv}
 {ajaxLoadingDiv}
 
+{capture assign=createNewWebsite}
+	<div class="addRowSite"><img src='plugins/UsersManager/images/add.png' alt="" /> {'SitesManager_AddSite'|translate}</div>
+{/capture}
 
 {if $adminSites|@count == 0}
 	{'SitesManager_NoWebsites'|translate}
 {else}
 	<div class="entityContainer">
+	{if $isSuperUser} 
+		{$createNewWebsite}	
+	{/if}
 	<table class="entityTable dataTable" id="editSites">
 		<thead>
 			<tr>
@@ -125,7 +131,7 @@ vertical-align:middle;
 		</tbody>
 	</table>
 	{if $isSuperUser}	
-	<div class="addRowSite"><img src='plugins/UsersManager/images/add.png' alt="" /> {'SitesManager_AddSite'|translate}</div>
+		{$createNewWebsite}	
 	{/if}
 	</div>
 {/if}
