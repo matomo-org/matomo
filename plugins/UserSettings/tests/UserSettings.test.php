@@ -185,6 +185,12 @@ class Test_Piwik_UserSettings extends UnitTestCase
 		'Mozilla/5.0 (Linux; U; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.2.149.27 Safari/525.13' => array(
 			array('CH', 'Chrome', 'Chrome', '0.2', '0', '2', 'webkit'),
 			array('LIN', 'Linux', 'Linux')),
+		'Mozilla/5.0 (Windows NT 6.0; WOW64) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.16 Safari/534.24' => array(
+			array('CH', 'Chrome', 'Chrome', '11.0', '11', '0', 'webkit'),
+			array('WVI', 'Windows Vista', 'Win Vista')),
+		'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.16 Safari/534.24' => array(
+			array('CH', 'Chrome', 'Chrome', '11.0', '11', '0', 'webkit'),
+			array('LIN', 'Linux', 'Linux')),
 
 		// ChromePlus (treat as Chrome)
 		'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/532.2 (KHTML, like Gecko) ChromePlus/4.0.222.3 Chrome/4.0.222.3 Safari/532.2' => array(
