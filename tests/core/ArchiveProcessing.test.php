@@ -7,6 +7,11 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 require_once "Database.test.php";
 class Test_Piwik_ArchiveProcessing extends Test_Database
 {
+	function __destruct()
+	{
+		Piwik::dropTables();
+	}
+
 	public function setUp()
 	{
 		parent::setUp();
