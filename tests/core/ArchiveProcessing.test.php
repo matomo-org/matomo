@@ -371,17 +371,4 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 
 		return $array;
 	}
-
-	public function test_case_cleanup()
-	{
-		$tablesInstalled = Piwik::getTablesInstalled(true);
-		foreach($tablesInstalled as $table)
-		{
-			if(preg_match('/archive_(blob|numeric)_/', $table)) {
-				@Piwik_Exec('DROP TABLE '.$table);
-			}
-		}
-		
-		$tablesInstalled = Piwik::getTablesInstalled(true);
-	}
 }
