@@ -569,18 +569,18 @@ class Test_Piwik_Common extends UnitTestCase
 	public function test_extractCountryCodeFromBrowserLanguage()
 	{
 		$a1 = array( // browser language, valid countries, expected result
-				array( "",                        array(),                 "xx" ),
-				array( "",                        array("us"),             "xx" ),
-				array( "en",                      array("us"),             "xx" ),
-				array( "en-us",                   array("us"),             "us" ),
-				array( "en-ca",                   array("us"),             "xx" ),
-				array( "en-ca",                   array("us", "ca"),       "ca" ),
-				array( "fr-fr,fr-ca",             array("us", "ca"),       "ca" ),
-				array( "fr-fr;q=1.0,fr-ca;q=0.9", array("us", "ca"),       "ca" ),
-				array( "fr-ca,fr;q=0.1",          array("us", "ca"),       "ca" ),
-				array( "en-us,en;q=0.5", array_keys(Piwik_Common::getCountriesList()), "us" ),
-				array( "fr-ca,fr;q=0.1",          array("fr", "us", "ca"), "ca" ),
-				array( "fr-fr,fr-ca",             array("fr", "us", "ca"), "fr" )
+				array( "",                        array(),                                            "xx" ),
+				array( "",                        array("us" => 'amn'),                               "xx" ),
+				array( "en",                      array("us" => 'amn'),                               "xx" ),
+				array( "en-us",                   array("us" => 'amn'),                               "us" ),
+				array( "en-ca",                   array("us" => 'amn'),                               "xx" ),
+				array( "en-ca",                   array("us" => 'amn', "ca" => 'amn'),                "ca" ),
+				array( "fr-fr,fr-ca",             array("us" => 'amn', "ca" => 'amn'),                "ca" ),
+				array( "fr-fr;q=1.0,fr-ca;q=0.9", array("us" => 'amn', "ca" => 'amn'),                "ca" ),
+				array( "fr-ca,fr;q=0.1",          array("us" => 'amn', "ca" => 'amn'),                "ca" ),
+				array( "en-us,en;q=0.5",          Piwik_Common::getCountriesList(),                   "us" ),
+				array( "fr-ca,fr;q=0.1",          array("fr" => 'eur', "us" => 'amn', "ca" => 'amn'), "ca" ),
+				array( "fr-fr,fr-ca",             array("fr" => 'eur', "us" => 'amn', "ca" => 'amn'), "fr" )
 			);
 
 		foreach($a1 as $testdata)
@@ -596,10 +596,10 @@ class Test_Piwik_Common extends UnitTestCase
 	public function test_extractCountryCodeFromBrowserLanguage_Infer()
 	{
 		$a1 = array( // browser language, valid countries, expected result (non-guess vs guess)
-				array( "fr,en-us",       array("us", "ca"),       "us", "fr" ),
-				array( "fr,en-us",       array("fr", "us", "ca"), "us", "fr" ),
-				array( "fr,fr-fr,en-us", array("fr", "us", "ca"), "fr", "fr" ),
-				array( "fr-fr,fr,en-us", array("fr", "us", "ca"), "fr", "fr" )
+				array( "fr,en-us",       array("us" => 'amn', "ca" => 'amn'),                "us", "fr" ),
+				array( "fr,en-us",       array("fr" => 'eur', "us" => 'amn', "ca" => 'amn'), "us", "fr" ),
+				array( "fr,fr-fr,en-us", array("fr" => 'eur', "us" => 'amn', "ca" => 'amn'), "fr", "fr" ),
+				array( "fr-fr,fr,en-us", array("fr" => 'eur', "us" => 'amn', "ca" => 'amn'), "fr", "fr" )
 			);
 
 		// do not infer country from language

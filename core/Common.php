@@ -1148,7 +1148,7 @@ class Piwik_Common
 			foreach($matches as $parts)
 			{
 				// match location; we don't make any inferences from the language
-				if(in_array($parts[1], $validCountries))
+				if(array_key_exists($parts[1], $validCountries))
 				{
 					return $parts[1];
 				}
