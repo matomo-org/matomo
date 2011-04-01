@@ -2050,6 +2050,7 @@ class Piwik
 			$quote = '"';
 			$eol   = "\r\n";
 			$null  = 'NULL';
+			$escape = '\\\\';
 	
 			$fp = fopen($filePath, 'wb');
 			if (!$fp) 
@@ -2108,7 +2109,7 @@ class Piwik
 				ENCLOSED BY
 					'".$quote."'
 				ESCAPED BY
-					'\\\\'
+					'".$escape."'
 				LINES TERMINATED BY
 					\"".$eol."\"
 				$fieldList
