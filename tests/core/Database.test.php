@@ -31,6 +31,7 @@ class Test_Database extends UnitTestCase
     		Piwik::disconnectDatabase();
     		Piwik::createDatabaseObject();
     		Piwik::createTables();
+			Piwik::getTablesInstalled(true);
     		Piwik_PluginsManager::getInstance()->installLoadedPlugins();
 		} catch(Exception $e) {
 			echo $e->getMessage();
