@@ -21,7 +21,7 @@ class HtmlTimerReporter extends HtmlReporter
         print "</head>\n<body>\n";
         print "<h1>$test_name</h1>\n";
 
-	print $this->intro;
+		print $this->intro;
 
         ob_flush();
         flush();
@@ -47,8 +47,20 @@ class HtmlTimerReporter extends HtmlReporter
         print "</div>\n";
         print "</body>\n</html>\n";
 
-	@header('Content-type: text/html; charset=' . $this->_character_set, true);
-	@header('Content-disposition: ', true);
+		@header('Content-type: text/html; charset=' . $this->_character_set, true);
+		@header('Content-disposition: ', true);
         ob_end_flush();
+    }
+
+    function paintMethodStart($test_name) {
+        parent::paintMethodStart($test_name);
+//        print "<p>$test_name</p>\n";
+   }
+
+    function paintCaseEnd($test_name) {
+		parent::paintCaseEnd($test_name);
+//        print_r($_GET);
+//        print_r($_POST);
+//        print_r($_REQUEST);
     }
 }

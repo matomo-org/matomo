@@ -100,6 +100,11 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 // If the static file server has not been requested, the standard unit test case class is defined
 class Test_Piwik_serveStaticFile extends UnitTestCase
 {
+	public function tearDown()
+	{
+		chmod(TEST_FILE_LOCATION, 0644);
+	}
+
 	/**
 	 * Test that php compression isn't enabled ... otherwise, lots of tests will fail
 	 */
