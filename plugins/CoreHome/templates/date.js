@@ -39,7 +39,7 @@ $(document).ready(function(){
 	
 	//close periodString onClickOutside
 	$('body').bind('mouseup',function(e){ 
-		if($('#periodString', e.target).length && periodWidget.isOpen) {
+		if(!$(e.target).parents('#periodString').length && !$(e.target).is('#periodString') && periodWidget.isOpen) {
 			periodWidget.hide();
 		}
 	});
