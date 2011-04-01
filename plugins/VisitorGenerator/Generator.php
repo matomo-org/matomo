@@ -383,8 +383,8 @@ class Piwik_VisitorGenerator_Generator
 		$this->setCurrentRequest( 'gears' ,$this->getRandom01());
 		$this->setCurrentRequest( 'ag' ,$this->getRandom01());
 		$this->setCurrentRequest( 'cookie',$this->getRandom01());
+		$this->setCurrentRequest( 'cip', mt_rand(0,255).".".mt_rand(0,255).".".mt_rand(0,255).".".mt_rand(0,255));
 
-		$_SERVER['HTTP_CLIENT_IP'] = mt_rand(0,255).".".mt_rand(0,255).".".mt_rand(0,255).".".mt_rand(0,255);
 		$_SERVER['HTTP_USER_AGENT'] = $this->userAgents[mt_rand(0,count($this->userAgents)-1)];
 		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = $this->acceptLanguage[mt_rand(0,count($this->acceptLanguage)-1)];
 	}

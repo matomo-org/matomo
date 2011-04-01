@@ -41,7 +41,8 @@ class Piwik_VisitorGenerator_Tracker extends Piwik_Tracker
 	 */
 	protected function getNewVisitObject()
 	{
-		$visit = new Piwik_VisitorGenerator_Visit();
+		$ip = Piwik_Common::getRequestVar('cip', false);
+		$visit = new Piwik_VisitorGenerator_Visit($ip);
 		$visit->generateTimestamp();
 		return $visit;
 	}	

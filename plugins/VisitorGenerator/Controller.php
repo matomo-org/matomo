@@ -33,7 +33,6 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller {
 	public function generate() {
 		// Only admin is allowed to do this!
 		Piwik::checkUserIsSuperUser();
-		$this->checkTokenInUrl();
 
 		$GET = $_GET;
 		$POST = $_POST;

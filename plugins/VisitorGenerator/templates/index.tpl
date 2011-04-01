@@ -5,7 +5,7 @@
 <h2>{'VisitorGenerator_VisitorGenerator'|translate}</h2>
 <p>{'VisitorGenerator_PluginDescription'|translate}</p>
 
-<form method="POST" action="{url module=VisitorGenerator action=generate token_auth=$token_auth}">
+<form method="POST" action="{url module=VisitorGenerator action=generate}">
 <table class="adminTable" style="width: 600px;">
 <tr>
     <td><label for="idSite">{'General_ChooseWebsite'|translate}</label></td>
