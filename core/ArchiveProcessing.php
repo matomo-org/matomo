@@ -693,7 +693,7 @@ abstract class Piwik_ArchiveProcessing
 	
 	protected function compress($data)
 	{
-		return bin2hex(gzcompress($data));
+		return gzcompress($data);
 	}
 	
 	protected function insertBulkRecords($records)

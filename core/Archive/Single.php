@@ -188,15 +188,15 @@ class Piwik_Archive_Single extends Piwik_Archive
 				return;
 			}
 			
-    		// we make sure the archive is available for the given date
-    		$periodLabel = $this->period->getLabel();
-    		$this->archiveProcessing = Piwik_ArchiveProcessing::factory($periodLabel);
-    		$this->archiveProcessing->setSite($this->site);
-    		$this->archiveProcessing->setPeriod($this->period);
-    		$this->archiveProcessing->setSegment($this->segment);
-    		
-    		$this->archiveProcessing->init();
-    		
+			// we make sure the archive is available for the given date
+			$periodLabel = $this->period->getLabel();
+			$this->archiveProcessing = Piwik_ArchiveProcessing::factory($periodLabel);
+			$this->archiveProcessing->setSite($this->site);
+			$this->archiveProcessing->setPeriod($this->period);
+			$this->archiveProcessing->setSegment($this->segment);
+
+			$this->archiveProcessing->init();
+
 			$this->archiveProcessing->setRequestedReport( $this->getRequestedReport() );
 		
 			$archivingDisabledArchiveNotProcessed = false;
@@ -210,13 +210,13 @@ class Piwik_Archive_Single extends Piwik_Archive
 				}
 				else
 				{
-    				Piwik::log("* PROCESSING $logMessage, not archived yet...");
-    				$archiveJustProcessed = true;
-    				
-    				// Process the reports
-    				$this->archiveProcessing->launchArchiving();
-    				
-    				$idArchive = $this->archiveProcessing->getIdArchive();
+					Piwik::log("* PROCESSING $logMessage, not archived yet...");
+					$archiveJustProcessed = true;
+
+					// Process the reports
+					$this->archiveProcessing->launchArchiving();
+
+					$idArchive = $this->archiveProcessing->getIdArchive();
 					$logMessage = "PROCESSED: idArchive = ".$idArchive.", for $logMessage";
 				}
 			}
@@ -242,9 +242,9 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 */
 	protected function get( $name, $typeValue = 'numeric' )
 	{
-    	$this->setRequestedReport($name);
-    	$this->prepareArchive();
-	    
+	   	$this->setRequestedReport($name);
+	   	$this->prepareArchive();
+
 		// values previously "get" and now cached
 		if($typeValue == 'numeric'
 			&& $this->cacheEnabledForNumeric
@@ -367,13 +367,6 @@ class Piwik_Archive_Single extends Piwik_Archive
 	
 	protected function uncompress($data)
 	{
-		// From 1.3, the data is firstly "bin2hex" 
-		if(($dataUnpacked = @gzuncompress(Piwik_Common::hex2bin($data))) !== false)
-		{
-			return $dataUnpacked;
-		}
-		
-		// Before Piwik 1.3, Data is simply compressed and stored as is in the DB
 		return @gzuncompress($data);
 	}
 	
@@ -384,10 +377,10 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 */
 	public function preFetchBlob( $name )
 	{
-    	$this->setRequestedReport($name);
-    	$this->prepareArchive();
-    	if(!$this->isThereSomeVisits) { return; } 
-    	
+		$this->setRequestedReport($name);
+		$this->prepareArchive();
+		if(!$this->isThereSomeVisits) { return; } 
+
 		$tableBlob = $this->archiveProcessing->getTableArchiveBlobName();
 
 		$db = Zend_Registry::get('db');
