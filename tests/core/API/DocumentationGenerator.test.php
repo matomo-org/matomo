@@ -8,6 +8,13 @@ require_once "API/DocumentationGenerator.php";
 
 class Test_Piwik_API_DocumentationGenerator extends UnitTestCase
 {
+	function tearDown()
+	{
+		$_GET = array();
+		$_POST = array();
+		$_REQUEST = array();
+	}
+
 	function test_callableApiMethods_doNotFail()
 	{
 		Piwik::createConfigObject();

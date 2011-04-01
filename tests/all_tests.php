@@ -22,7 +22,7 @@ $toInclude = array();
 
 foreach(Piwik::globr(PIWIK_INCLUDE_PATH . '/tests/core', '*.php') as $file)
 {
-	if(preg_match('/Database|ReleaseCheckList/', $file))
+	if(preg_match('/Database|DocumentationGenerator|ReleaseCheckList/', $file))
 	{
 		continue;
 	}
@@ -34,6 +34,7 @@ foreach(Piwik::globr(PIWIK_INCLUDE_PATH . '/plugins', '*/tests/*.php') as $file)
 	$toInclude[] = $file;
 }
 array_unshift($toInclude, PIWIK_INCLUDE_PATH . '/tests/core/Database.test.php');
+$toInclude[] = PIWIK_INCLUDE_PATH . '/tests/core/API/DocumentationGenerator.test.php';
 $toInclude[] = PIWIK_INCLUDE_PATH . '/tests/core/ReleaseCheckList.test.php';
 
 if((isset($_SERVER['PATH_INFO']) 	

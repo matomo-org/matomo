@@ -68,6 +68,8 @@ class Test_Piwik extends UnitTestCase
 
 	public function test_checkValidLoginString()
 	{
+		Piwik::createConfigObject();
+
 		$fail = array(
 			'',
 			'   ',
@@ -85,10 +87,10 @@ class Test_Piwik extends UnitTestCase
     	foreach($fail as $toTest)
     	{
 			try {
-	    		Piwik::checkValidLoginString($toTest);
+				Piwik::checkValidLoginString($toTest);
 				$this->fail('Exception raised, expected fail: '. $toTest);
 			} catch(Exception $e) {
-	    		$this->pass();
+				$this->pass();
 			}
     	}
 
@@ -100,10 +102,10 @@ class Test_Piwik extends UnitTestCase
     	foreach($pass as $toTest)
     	{
 			try {
-	    		Piwik::checkValidLoginString($toTest);
+				Piwik::checkValidLoginString($toTest);
 				$this->pass();
 			} catch(Exception $e) {
-	    		$this->fail('Exception raised, expected pass: '. $toTest);
+				$this->fail('Exception raised, expected pass: '. $toTest);
 			}
     	}
 	}
