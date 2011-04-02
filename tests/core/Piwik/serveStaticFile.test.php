@@ -102,6 +102,7 @@ class Test_Piwik_serveStaticFile extends UnitTestCase
 {
 	public function tearDown()
 	{
+		parent::tearDown();
 		chmod(TEST_FILE_LOCATION, 0644);
 	}
 

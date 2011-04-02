@@ -10,11 +10,13 @@ class Test_Piwik_Nonce extends UnitTestCase
 {
 	public function setUp()
 	{
+		parent::setUp();
 		$this->host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
 	}
 	
 	public function tearDown()
 	{
+		parent::tearDown();
 		$_SERVER['HTTP_HOST'] = $this->host;
 	}
 

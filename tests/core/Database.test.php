@@ -38,16 +38,20 @@ class Test_Database extends UnitTestCase
 			throw $e;
 		}
 	}
+
 	public function __destruct()
 	{
 	}
+
 	public function setUp()
 	{
+		parent::setUp();
 		Piwik_Common::deleteTrackerCache();
 	}
 	
 	public function tearDown()
 	{
+		parent::tearDown();
 		Piwik_DataTable_Manager::getInstance()->deleteAll();
 		Piwik_Option::getInstance()->clearCache();
 		Piwik_Common::deleteTrackerCache();
@@ -65,7 +69,6 @@ class Test_Database extends UnitTestCase
 	}
 	
 }
-
 
 class FakeAccess
 {
@@ -212,4 +215,3 @@ class FakeAccess
 		return  array_merge(self::$idSitesView,self::$idSitesAdmin);
 	}
 }
-

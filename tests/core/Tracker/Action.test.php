@@ -12,8 +12,8 @@ class Test_Piwik_TrackerAction extends  Test_Database
 {
 	function setUp()
 	{
-		$GLOBALS['PIWIK_TRACKER_MODE'] = true;
 		parent::setUp();
+		$GLOBALS['PIWIK_TRACKER_MODE'] = true;
 		$userFile = PIWIK_PATH_TEST_TO_ROOT . '/tests/resources/Tracker/Action.config.ini.php';
 		$config = Piwik_Tracker_Config::getInstance();
 		$config->init($userFile);
@@ -22,6 +22,7 @@ class Test_Piwik_TrackerAction extends  Test_Database
 
 	function tearDown()
 	{
+		parent::tearDown();
 		$GLOBALS['PIWIK_TRACKER_MODE'] = false;
 		Piwik_Tracker_Config::getInstance()->clear();
 	}

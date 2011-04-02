@@ -14,11 +14,13 @@ class Test_Piwik_Common extends UnitTestCase
 	
 	public function setUp()
 	{
+		parent::setUp();
 		$_GET = $_POST = array();
 	}
 	
 	public function tearDown()
 	{
+		parent::tearDown();
 	}
 
 	function test_isUrl()

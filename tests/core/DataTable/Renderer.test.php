@@ -16,12 +16,14 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 { //test
 	public function setUp()
 	{
+		parent::setUp();
 		Piwik::createConfigObject();
 		Piwik_DataTable_Manager::getInstance()->deleteAll();
 	}
 
 	public function tearDown()
 	{
+		parent::tearDown();
 	}
 
 	/**

@@ -13,12 +13,13 @@ class Test_Piwik_Blank extends UnitTestCase
 	
 	public function setUp()
 	{
+		parent::setUp();
 	}
 	
 	public function tearDown()
 	{
+		parent::tearDown();
 	}
-	
     
     /**
      * template function
@@ -35,4 +36,3 @@ class Test_Piwik_Blank extends UnitTestCase
         }
     }
 }
-
