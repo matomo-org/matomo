@@ -10,9 +10,11 @@ class Test_Piwik_API_DocumentationGenerator extends UnitTestCase
 {
 	function tearDown()
 	{
+		parent::tearDown();
 		$_GET = array();
 		$_POST = array();
 		$_REQUEST = array();
+		Piwik_TablePartitioning::$tablesAlreadyInstalled = null;
 	}
 
 	function test_callableApiMethods_doNotFail()

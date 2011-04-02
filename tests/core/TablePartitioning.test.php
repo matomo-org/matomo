@@ -86,7 +86,5 @@ class Test_Piwik_TablePartitioning extends Test_Database
     	$this->assertTrue( in_array($tablename, $allTablesInstalled));
     	$this->assertTrue( $tablename, $p->getTableName());
     	$this->assertEqual( $tablename, (string)$p->__toString());
-    }
-    
+    }   
 }
-

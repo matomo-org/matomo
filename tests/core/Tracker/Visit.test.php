@@ -12,8 +12,8 @@ class Test_Piwik_TrackerVisit extends Test_Database
 {
 	public function setUp()
 	{
-		$GLOBALS['PIWIK_TRACKER_MODE'] = true;
 		parent::setUp();
+		$GLOBALS['PIWIK_TRACKER_MODE'] = true;
 
 		// setup the access layer
 		$pseudoMockAccess = new FakeAccess;
@@ -23,6 +23,7 @@ class Test_Piwik_TrackerVisit extends Test_Database
 
 	public function tearDown()
 	{
+		parent::tearDown();
 		$GLOBALS['PIWIK_TRACKER_MODE'] = false;
 	}
 
@@ -94,8 +95,6 @@ class Test_Piwik_TrackerVisit extends Test_Database
 		return $ips;
 	}
 }
-
-
 
 class Test_Piwik_TrackerVisit_public extends Piwik_Tracker_Visit {
 	public function public_isVisitorIpExcluded( $ip )

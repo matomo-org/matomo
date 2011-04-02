@@ -75,4 +75,3 @@ class Test_Piwik_Segment extends UnitTestCase
         }
     }
 }
-

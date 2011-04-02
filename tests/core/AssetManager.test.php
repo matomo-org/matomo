@@ -13,10 +13,12 @@ class Test_Piwik_AssetManager extends UnitTestCase
 	
 	public function setUp()
 	{
+		parent::setUp();
 	}
 	
 	public function tearDown()
 	{
+		parent::tearDown();
 	}
     
     public function test_prioritySort()
@@ -54,4 +56,3 @@ class Test_Piwik_AssetManager extends UnitTestCase
 		$this->assertTrue(Piwik_AssetManager::prioritySort($buckets, $data) == $expected);
     }
 }
-

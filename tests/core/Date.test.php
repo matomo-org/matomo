@@ -15,10 +15,12 @@ class Test_Piwik_Date extends UnitTestCase
 	
 	public function setUp()
 	{
+		parent::setUp();
 	}
 	
 	public function tearDown()
 	{
+		parent::tearDown();
 	}
 	
 	//create today object check that timestamp is correct (midnight)

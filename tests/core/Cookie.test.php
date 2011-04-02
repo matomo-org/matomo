@@ -17,11 +17,13 @@ class Test_Piwik_Cookie extends UnitTestCase
 	
 	public function setUp()
 	{
+		parent::setUp();
 		$_GET = $_POST = array();
 	}
 	
 	public function tearDown()
 	{
+		parent::tearDown();
 	}
 
 	function test_jsonSerialize()
