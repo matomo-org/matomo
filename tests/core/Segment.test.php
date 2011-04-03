@@ -10,6 +10,8 @@ class Test_Piwik_Segment extends UnitTestCase
     {
         parent::setUp();
         Piwik::createConfigObject();
+		Zend_Registry::get('config')->setTestEnvironment();	
+
 		// Load and install plugins
     	$pluginsManager = Piwik_PluginsManager::getInstance();
     	$pluginsManager->loadPlugins( Zend_Registry::get('config')->Plugins->Plugins->toArray() );

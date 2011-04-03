@@ -69,6 +69,7 @@ class Test_Piwik extends UnitTestCase
 	public function test_checkValidLoginString()
 	{
 		Piwik::createConfigObject();
+		Zend_Registry::get('config')->setTestEnvironment();	
 
 		$fail = array(
 			'',

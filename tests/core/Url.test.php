@@ -13,7 +13,8 @@ class Test_Piwik_Url extends UnitTestCase
      */
     public function test_allMethods()
     {
-	Piwik::createConfigObject();
+		Piwik::createConfigObject();
+		Zend_Registry::get('config')->setTestEnvironment();	
 
     	$this->assertEqual(Piwik_Url::getCurrentQueryStringWithParametersModified(array()),Piwik_Url::getCurrentQueryString() );
     	$this->assertEqual(Piwik_Url::getCurrentUrl(), Piwik_Url::getCurrentUrlWithoutQueryString());
