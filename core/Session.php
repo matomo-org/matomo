@@ -14,6 +14,7 @@
  * Session initialization.
  * 
  * @package Piwik
+ * @subpackage Piwik_Session
  */
 class Piwik_Session extends Zend_Session
 {
