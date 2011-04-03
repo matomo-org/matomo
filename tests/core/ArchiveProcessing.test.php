@@ -206,46 +206,47 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 	}
 
 	// TESTING BATCH INSERT
-	public function test_databaseBatchInsert()
+	public function test_tableInsertBatch()
 	{
 		$table = Piwik_Common::prefixTable('site_url');
 		$data = $this->getDataInsert();
-		$didWeUseBulk = Piwik::databaseInsertBatch($table, array('idsite', 'url'), $data);
-		if(version_compare(PHP_VERSION, '5.3') < 0 ||
-			version_compare(PHP_VERSION, '5.3.7') >= 0)
+		$didWeUseBulk = Piwik::tableInsertBatch($table, array('idsite', 'url'), $data);
+		if(version_compare(PHP_VERSION, '5.2.9') < 0 ||
+			version_compare(PHP_VERSION, '5.3.7') >= 0 ||
+			Zend_Registry::get('config')->database->adapter != 'PDO_MYSQL')
 		{
 			$this->assertTrue($didWeUseBulk, "The test didn't LOAD DATA INFILE but fallbacked to plain INSERT, but we must unit test this function!");
 		}
 		$this->checkTableIsExpected($table, $data);
 		
 		// INSERT again the bulk. Because we use keyword LOCAL the data will be REPLACED automatically (see mysql doc) 
-		Piwik::databaseInsertBatch($table, array('idsite', 'url'), $data);
+		Piwik::tableInsertBatch($table, array('idsite', 'url'), $data);
 		$this->checkTableIsExpected($table, $data);
 	}
 
 	// TESTING PLAIN INSERTS
-	public function test_databaseBatchIterate()
+	public function test_tableInsertBatchIterate()
 	{
 		$table = Piwik_Common::prefixTable('site_url');
 		$data = $this->getDataInsert();
-		Piwik::databaseInsertIterate($table, array('idsite', 'url'), $data);
+		Piwik::tableInsertBatchIterate($table, array('idsite', 'url'), $data);
 		$this->checkTableIsExpected($table, $data);
 
 		// If we insert AGAIN, expect to throw an error because the primary key already exists
 		try {
-			Piwik::databaseInsertIterate($table, array('idsite', 'url'), $data, $ignoreWhenDuplicate = false);	
+			Piwik::tableInsertBatchIterate($table, array('idsite', 'url'), $data, $ignoreWhenDuplicate = false);	
 			$this->fail();
 		} catch (Exception $e) {
 			$this->pass();
 		}
 		
 		// However if we insert with keyword REPLACE, then the new data should be saved
-		Piwik::databaseInsertIterate($table, array('idsite', 'url'), $data, $ignoreWhenDuplicate = true );
+		Piwik::tableInsertBatchIterate($table, array('idsite', 'url'), $data, $ignoreWhenDuplicate = true );
 		$this->checkTableIsExpected($table, $data);
 	}
 	
 	// TESTING BATCH INSERT (BLOB)
-	public function test_databaseBatchInsertBlob()
+	public function test_tableInsertBatchBlob()
 	{
 		$siteTimezone = 'America/Toronto';
 		$timestamp = Piwik_Date::factory('now', $siteTimezone)->getTimestamp();
@@ -255,21 +256,22 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 		$table = $archiveProcessing->getTableArchiveBlobName();
 
 		$data = $this->getBlobDataInsert();
-		$didWeUseBulk = Piwik::databaseInsertBatch($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data);
-		if(version_compare(PHP_VERSION, '5.3') < 0 ||
-			version_compare(PHP_VERSION, '5.3.7') >= 0)
+		$didWeUseBulk = Piwik::tableInsertBatch($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data);
+		if(version_compare(PHP_VERSION, '5.2.9') < 0 ||
+			version_compare(PHP_VERSION, '5.3.7') >= 0 ||
+			Zend_Registry::get('config')->database->adapter != 'PDO_MYSQL')
 		{
 			$this->assertTrue($didWeUseBulk, "The test didn't LOAD DATA INFILE but fallbacked to plain INSERT, but we must unit test this function!");
 		}
 		$this->checkTableIsExpectedBlob($table, $data);
 		
 		// INSERT again the bulk. Because we use keyword LOCAL the data will be REPLACED automatically (see mysql doc) 
-		Piwik::databaseInsertBatch($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data);
+		Piwik::tableInsertBatch($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data);
 		$this->checkTableIsExpectedBlob($table, $data);
 	}
 
 	// TESTING PLAIN INSERTS (BLOB)
-	public function test_databaseBatchIterateBlob()
+	public function test_tableInsertBatchIterateBlob()
 	{
 		$siteTimezone = 'America/Toronto';
 		$timestamp = Piwik_Date::factory('now', $siteTimezone)->getTimestamp();
@@ -279,19 +281,19 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 		$table = $archiveProcessing->getTableArchiveBlobName();
 
 		$data = $this->getBlobDataInsert();
-		Piwik::databaseInsertIterate($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data);
+		Piwik::tableInsertBatchIterate($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data);
 		$this->checkTableIsExpectedBlob($table, $data);
 
 		// If we insert AGAIN, expect to throw an error because the primary key already exist
 		try {
-			Piwik::databaseInsertIterate($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data, $ignoreWhenDuplicate = false);	
+			Piwik::tableInsertBatchIterate($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data, $ignoreWhenDuplicate = false);	
 			$this->fail();
 		} catch (Exception $e) {
 			$this->pass();
 		}
 		
 		// However if we insert with keyword REPLACE, then the new data should be saved
-		Piwik::databaseInsertIterate($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data, $ignoreWhenDuplicate = true );
+		Piwik::tableInsertBatchIterate($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data, $ignoreWhenDuplicate = true );
 		$this->checkTableIsExpectedBlob($table, $data);
 	}
 	

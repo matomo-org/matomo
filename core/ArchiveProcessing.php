@@ -734,7 +734,7 @@ abstract class Piwik_ArchiveProcessing
 				$table = $this->tableArchiveBlob;
 			}
 		}
-		Piwik::databaseInsertBatch($table->getTableName(), $this->getInsertFields(), $values);
+		Piwik::tableInsertBatch($table->getTableName(), $this->getInsertFields(), $values);
 		return true;
 	}
 	
