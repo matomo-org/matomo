@@ -86,9 +86,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'abcsok.no'					=> array('ABCsøk', 'q', '?q={k}'),
 		'verden.abcsok.no'			=> array('ABCsøk'),
 
-		// about
-		'search.about.com'			=> array('About', 'terms', '?terms={k}'),
-
 		// Acoon
 		'www.acoon.de'				=> array('Acoon', 'begriff', 'cgi-bin/search.exe?begriff={k}'),
 
