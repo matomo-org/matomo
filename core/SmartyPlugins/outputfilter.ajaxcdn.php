@@ -21,7 +21,7 @@
  * Install:  Drop into the plugin directory, call
  *           <code>$smarty->load_filter('output','ajaxcdn');</code>
  *           from application.
- * @version  1.0
+ *
  * @param string
  * @param Smarty
  */
