@@ -14,6 +14,7 @@
  * Session namespace.
  * 
  * @package Piwik
+ * @subpackage Piwik_Session
  */
 class Piwik_Session_Namespace extends Zend_Session_Namespace
 {

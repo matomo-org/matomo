@@ -14,8 +14,9 @@
  * Unzip wrapper around ZipArchive
  *
  * @package Piwik
+ * @subpackage Piwik_Unzip
  */
-class Piwik_Unzip_ZipArchive  implements Piwik_iUnzip
+class Piwik_Unzip_ZipArchive  implements Piwik_Unzip_Interface
 {
 	private $ziparchive;
 	public $filename;

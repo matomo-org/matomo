@@ -11,6 +11,8 @@
  */
 
 /**
+ * Rendering interface for Piwik_View and Piwik_Visualization
+ *
  * @package Piwik
  */
 interface Piwik_iView

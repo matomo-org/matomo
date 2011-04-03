@@ -14,8 +14,9 @@
  * Unzip interface
  *
  * @package Piwik
+ * @subpackage Piwik_Unzip
  */
-interface Piwik_iUnzip
+interface Piwik_Unzip_Interface
 {
 	/**
 	 * Constructor
