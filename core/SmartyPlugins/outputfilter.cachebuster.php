@@ -24,7 +24,6 @@
  *           <code>$smarty->assign('tag', 'some_unique_tag');</code>
  *           <code>$smarty->load_filter('output','cachebuster');</code>
  *           from application.
- * @author   Anthon Pang <apang at softwaredevelopment dot ca>
  * @version  1.1
  * @param string
  * @param Smarty

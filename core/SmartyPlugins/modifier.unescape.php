@@ -16,7 +16,6 @@
  * Type:     modifier<br>
  * Name:     unescape<br>
  * Purpose:  Unescape the string
- * @author   Anthon Pang <anthon.pang at gmail dot com>
  * @param string
  * @return string
  */

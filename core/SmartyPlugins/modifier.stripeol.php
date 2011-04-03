@@ -18,7 +18,6 @@
  * Purpose:  Replace all end-of-line characters with platform specific string.<br>
  * Example:  {$var|stripeol}
  * Date:     March 10th, 2010
- * @author   anthon (at) piwik.org
  * @version  1.0
  * @param string
  * @param string
