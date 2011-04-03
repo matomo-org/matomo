@@ -2022,17 +2022,15 @@ class Piwik
 	}
 
 	/**
-	 * Performs a batch insert using either LOAD DATA INFILE, eventually 
-	 * falling back to plain INSERTs on failure. On MySQL LOAD DATA
-	 * INFILE is 20x faster than plain single inserts.
+	 * Performs a batch insert into a specific table using either LOAD DATA INFILE or plain INSERTs,
+	 * as a fallback. On MySQL, LOAD DATA INFILE is 20x faster than a series of plain INSERTs.
 	 *
-	 * @param string PREFIXED table name! you must call Piwik_Common::prefixTable() before passing the table name
-	 * @param array array of unquoted field names
-	 * @param array array of data to be inserted
-	 *
+	 * @param string $tableName PREFIXED table name! you must call Piwik_Common::prefixTable() before passing the table name
+	 * @param array $fields array of unquoted field names
+	 * @param array $values array of data to be inserted
 	 * @return bool True if the bulk LOAD was used, false if we fallback to plain INSERTs
 	 */
-	static public function databaseInsertBatch($tableName, $fields, $values)
+	static public function tableInsertBatch($tableName, $fields, $values)
 	{
 		$fieldList = '('.join(',', $fields).')';
 
@@ -2087,19 +2085,7 @@ class Piwik
 			}
 			fclose($fp);
 
-			$local = '';
-			// we put the LOCAL keyword only when the server is actually remote
-			// otherwise, it is not necessary and it might actually trigger a known PHP BUG
-			// http://bugs.php.net/bug.php?id=54158
-			// If this php bug is triggered, then the code will fallback to the Plain insert
-			$dbHost = Zend_Registry::get('config')->database->host;
-			if(!in_array($dbHost, array('127.0.0.1', 'localhost')))
-			{
-				$local = 'LOCAL';
-			}
-			
 			$query = "
-				LOAD DATA $local INFILE 
 					'$filePath'
 				REPLACE
 				INTO TABLE
@@ -2114,24 +2100,60 @@ class Piwik
 					\"".$eol."\"
 				$fieldList
 			";
-			$result = @Piwik_Exec($query);
-			unlink($filePath);
-	
+
+			$dbHost = Zend_Registry::get('config')->database->host;
+			$localHosts = array('127.0.0.1', 'localhost', 'localhost.local', 'localhost.localdomain', 'localhost.localhost', @php_uname('n'));
+
+			// initial attempt with LOCAL keyword
+			// note: may trigger a known PHP PDO_MYSQL bug when MySQL not built with --enable-local-infile
+			// @see http://bugs.php.net/bug.php?id=54158
+			try {
+				$result = @Piwik_Exec('LOAD DATA LOCAL INFILE'.$query);
+				if(empty($result)) {
+					throw new Exception("LOAD DATA LOCAL INFILE failed!");
+				}
+
+				unlink($filePath);
+				return true;
+			} catch(Exception $e) {
+			}
+
+			// second attempt without LOCAL keyword if MySQL server appears to be on the same box
+			// note: requires that the db user have the FILE privilege; however, since this is
+			// a global privilege, it may not be granted due to security concerns
+			if(!in_array($dbHost, $localHosts))
+			{
+				throw new Exception("MYSQL appears to be on a remote server");
+			}
+
+			$result = @Piwik_Exec('LOAD DATA INFILE'.$query);
 			if(empty($result)) {
 				throw new Exception("LOAD DATA INFILE failed!");
 			}
+
+			unlink($filePath);
 			return true;
 		} catch(Exception $e) {
 			Piwik::log("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was:" . $e->getMessage(), Piwik_Log::WARN);
-			self::databaseInsertIterate($tableName, $fields, $values);
+
+			// if all else fails, fallback to a series of INSERTs
+			unlink($filePath);
+			self::tableInsertBatchIterate($tableName, $fields, $values);
 		}
 		return false;
 	}
 	
 	/**
-	 * NOTE: you should use databaseInsertBatch() which will fallback to this function is LOAD DATA INFILE not available
+	 * Performs a batch insert into a specific table by iterating through the data
+	 *
+	 * NOTE: you should use tableInsertBatch() which will fallback to this function if LOAD DATA INFILE not available
+	 *
+	 * @param string $tableName PREFIXED table name! you must call Piwik_Common::prefixTable() before passing the table name
+	 * @param array $fields array of unquoted field names
+	 * @param array $values array of data to be inserted
+	 * @param bool $ignoreWhenDuplicate Ignore new rows that contain unique key values that duplicate old rows
 	 */
-	static public function databaseInsertIterate($tableName, $fields, $values, $ignoreWhenDuplicate = true)
+	static public function tableInsertBatchIterate($tableName, $fields, $values, $ignoreWhenDuplicate = true)
 	{
 		$fieldList = '('.join(',', $fields).')';
 

@@ -18,6 +18,8 @@ class Piwik_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db
 {
 	public function __construct($config)
 	{
+		// Enable LOAD DATA INFILE
+		$config['driver_options'][MYSQLI_OPT_LOCAL_INFILE] = true; 
 		parent::__construct($config);
 	}
 
