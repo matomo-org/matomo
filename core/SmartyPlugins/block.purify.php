@@ -21,7 +21,7 @@
  * Install:  Drop into the plugin directory, call
  *           <code>{purify}HTML fragment{/purify}</code>
  *           from template.
- * @version  1.0
+ *
  * @param array $params
  * <pre>
  * Params:   assign: string (null)
