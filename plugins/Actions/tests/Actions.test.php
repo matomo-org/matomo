@@ -15,11 +15,13 @@ class Test_Piwik_Actions extends UnitTestCase
 	{
 		$userFile = PIWIK_INCLUDE_PATH . '/tests/resources/plugins/Actions/Actions.config.ini.php';
 		Piwik::createConfigObject($userFile);
+		Zend_Registry::get('config')->setTestEnvironment();	
 	}
 	
 	function tearDown()
 	{
 		Piwik::createConfigObject();
+		Zend_Registry::get('config')->setTestEnvironment();	
 	}
 	
 	function test_getActionExplodedNames()
