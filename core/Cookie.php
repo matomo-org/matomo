@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik
  * @package Piwik
  */
@@ -15,7 +15,7 @@
  * - read a cookie values
  * - edit an existing cookie and save it
  * - create a new cookie, set values, expiration date, etc. and save it
- * 
+ *
  * @package Piwik
  */
 class Piwik_Cookie
@@ -24,12 +24,12 @@ class Piwik_Cookie
 	 * Don't create a cookie bigger than 1k
 	 */
 	const MAX_COOKIE_SIZE = 1024;
-	
+
 	/**
-	 * The name of the cookie 
+	 * The name of the cookie
 	 */
 	protected $name = null;
-	
+
 	/**
 	 * The expire time for the cookie (expressed in UNIX Timestamp)
 	 */
@@ -60,19 +60,19 @@ class Piwik_Cookie
 	 * The content of the cookie
 	 */
 	protected $value = array();
-	
+
 	/**
-	 * The character used to separate the tuple name=value in the cookie 
+	 * The character used to separate the tuple name=value in the cookie
 	 */
 	const VALUE_SEPARATOR = ':';
-	
+
 	/**
 	 * Instantiate a new Cookie object and tries to load the cookie content if the cookie
 	 * exists already.
-	 * 
+	 *
 	 * @param string $cookieName cookie Name
 	 * @param int $expire The timestamp after which the cookie will expire, eg time() + 86400; use 0 (int zero) to expire cookie at end of browser session
-	 * @param string $path The path on the server in which the cookie will be available on. 
+	 * @param string $path The path on the server in which the cookie will be available on.
 	 * @param string $keyStore Will be used to store several bits of data (eg. one array per website)
 	 */
 	public function __construct( $cookieName, $expire = null, $path = null, $keyStore = false)
@@ -86,24 +86,24 @@ class Piwik_Cookie
 		{
 			$this->expire = $this->getDefaultExpire();
 		}
-		
+
 		$this->keyStore = $keyStore;
 		if($this->isCookieFound())
 		{
 			$this->loadContentFromCookie();
 		}
 	}
-	
+
 	/**
 	 * Returns true if the visitor already has the cookie.
 	 *
-	 * @return bool 
+	 * @return bool
 	 */
 	public function isCookieFound()
 	{
 		return isset($_COOKIE[$this->name]);
 	}
-	
+
 	/**
 	 * Returns the default expiry time, 2 years
 	 *
@@ -112,39 +112,48 @@ class Piwik_Cookie
 	protected function getDefaultExpire()
 	{
 		return time() + 86400*365*2;
-	}	
-	
+	}
+
 	/**
-	 * We don't use the setcookie function because it is buggy for some PHP versions.
-	 * 
-	 * Taken from http://php.net/setcookie
+	 * setcookie() replacement -- we don't use the built-in function because
+	 * it is buggy for some PHP versions.
+	 *
+	 * @link http://php.net/setcookie
+	 *
+	 * @param string $Name Name of cookie
+	 * @param string $Value Value of cookie
+	 * @param int $Expires Time the cookie expires
+	 * @param string $Path
+	 * @param string $Domain
+	 * @param bool $Secure
+	 * @param bool $HTTPOnly
 	 */
 	protected function setCookie($Name, $Value, $Expires, $Path = '', $Domain = '', $Secure = false, $HTTPOnly = false)
 	{
 		if (!empty($Domain))
-		{	
+		{
 			// Fix the domain to accept domains with and without 'www.'.
 			if (!strncasecmp($Domain, 'www.', 4))
 			{
 				$Domain = substr($Domain, 4);
-			}			
+			}
 			$Domain = '.' . $Domain;
-			
+
 			// Remove port information.
 			$Port = strpos($Domain, ':');
 			if ($Port !== false)  $Domain = substr($Domain, 0, $Port);
 		}
-		
+
 		$header = 'Set-Cookie: ' . rawurlencode($Name) . '=' . rawurlencode($Value)
 					 . (empty($Expires) ? '' : '; expires=' . gmdate('D, d-M-Y H:i:s', $Expires) . ' GMT')
 					 . (empty($Path) ? '' : '; path=' . $Path)
 					 . (empty($Domain) ? '' : '; domain=' . $Domain)
 					 . (!$Secure ? '' : '; secure')
 					 . (!$HTTPOnly ? '' : '; HttpOnly');
-		 
+
 		 header($header, false);
 	}
-	
+
 	/**
 	 * We set the privacy policy header
 	 */
@@ -152,7 +161,7 @@ class Piwik_Cookie
 	{
 		header("P3P: CP='OTI DSP COR NID STP UNI OTPa OUR'");
 	}
-	
+
 	/**
 	 * Delete the cookie
 	 */
@@ -161,10 +170,10 @@ class Piwik_Cookie
 		$this->setP3PHeader();
 		$this->setCookie($this->name, 'deleted', time() - 31536001, $this->path, $this->domain);
 	}
-	
+
 	/**
 	 * Saves the cookie (set the Cookie header).
-	 * You have to call this method before sending any text to the browser or you would get the 
+	 * You have to call this method before sending any text to the browser or you would get the
 	 * "Header already sent" error.
 	 */
 	public function save()
@@ -173,13 +182,13 @@ class Piwik_Cookie
 		if(strlen($cookieString) > self::MAX_COOKIE_SIZE)
 		{
 			// If the cookie was going to be too large, instead, delete existing cookie and start afresh
-			// This will result in slightly less accuracy in the case 
+			// This will result in slightly less accuracy in the case
 			// where someone visits more than dozen websites tracked by the same Piwik
 			// This will usually be the Piwik super user itself checking all his websites regularly
 			$this->delete();
 			return;
 		}
-		
+
 		$this->setP3PHeader();
 		$this->setCookie($this->name, $cookieString, $this->expire, $this->path, $this->domain, $this->secure, $this->httponly);
 	}
@@ -222,7 +231,7 @@ class Piwik_Cookie
 			$equalPos = strpos($nameValue, '=');
 			$varName = substr($nameValue,0,$equalPos);
 			$varValue = substr($nameValue,$equalPos+1);
-			
+
 			// no numeric value are base64 encoded so we need to decode them
 			if(!is_numeric($varValue))
 			{
@@ -238,11 +247,11 @@ class Piwik_Cookie
 					break;
 				}
 			}
-			
+
 			$this->value[$varName] = $varValue;
 		}
 	}
-	
+
 	/**
 	 * Returns the string to save in the cookie from the $this->value array of values.
 	 * It goes through the array and generates the cookie content string.
@@ -258,7 +267,7 @@ class Piwik_Cookie
 			{
 				$value = base64_encode(safe_serialize($value));
 			}
-		
+
 			$cookieStr .= "$name=$value" . self::VALUE_SEPARATOR;
 		}
 
@@ -283,7 +292,7 @@ class Piwik_Cookie
 	{
 		$this->domain = $domain;
 	}
-	
+
 	/**
 	 * Set secure flag
 	 *
@@ -293,7 +302,7 @@ class Piwik_Cookie
 	{
 		$this->secure = $secure;
 	}
-	
+
 	/**
 	 * Set HTTP only
 	 *
@@ -303,24 +312,24 @@ class Piwik_Cookie
 	{
 		$this->httponly = $httponly;
 	}
-	
+
 	/**
 	 * Registers a new name => value association in the cookie.
-	 * 
+	 *
 	 * Registering new values is optimal if the value is a numeric value.
 	 * If the value is a string, it will be saved as a base64 encoded string.
-	 * If the value is an array, it will be saved as a serialized and base64 encoded 
-	 * string which is not very good in terms of bytes usage. 
+	 * If the value is an array, it will be saved as a serialized and base64 encoded
+	 * string which is not very good in terms of bytes usage.
 	 * You should save arrays only when you are sure about their maximum data size.
 	 * A cookie has to stay small and its size shouldn't increase over time!
-	 * 
+	 *
 	 * @param string Name of the value to save; the name will be used to retrieve this value
 	 * @param string|array|numeric Value to save. If null, entry will be deleted from cookie.
 	 */
 	public function set( $name, $value )
 	{
 		$name = self::escapeValue($name);
-		
+
 		// Delete value if $value === null
 		if(is_null($value))
 		{
@@ -332,7 +341,7 @@ class Piwik_Cookie
 			unset($this->value[$this->keyStore][$name]);
 			return;
 		}
-		
+
 		if($this->keyStore === false)
 		{
 			$this->value[$name] = $value;
@@ -340,10 +349,10 @@ class Piwik_Cookie
 		}
 		$this->value[$this->keyStore][$name] = $value;
 	}
-	
+
 	/**
 	 * Returns the value defined by $name from the cookie.
-	 * 
+	 *
 	 * @param string|integer Index name of the value to return
 	 * @return mixed The value if found, false if the value is not found
 	 */
@@ -352,18 +361,18 @@ class Piwik_Cookie
 		$name = self::escapeValue($name);
 		if($this->keyStore === false)
 		{
-    		return isset($this->value[$name]) 
-    					? self::escapeValue($this->value[$name]) 
-    					: false;
+			return isset($this->value[$name])
+				? self::escapeValue($this->value[$name])
+				: false;
 		}
 		return isset($this->value[$this->keyStore][$name])
-					? self::escapeValue($this->value[$this->keyStore][$name])
-					: false;
+			? self::escapeValue($this->value[$this->keyStore][$name])
+			: false;
 	}
-	
+
 	/**
 	 * Returns an easy to read cookie dump
-	 * 
+	 *
 	 * @return string The cookie dump
 	 */
 	public function __toString()
@@ -372,15 +381,16 @@ class Piwik_Cookie
 		$str .= var_export($this->value, $return = true);
 		return $str;
 	}
-	
+
 	/**
-	 * Escape values from the cookie before sending them back to the client 
+	 * Escape values from the cookie before sending them back to the client
 	 * (when using the get() method).
-	 * 
+	 *
+	 * @param string $value Value to be escaped
 	 * @return mixed The value once cleaned.
 	 */
 	static protected function escapeValue( $value )
 	{
 		return Piwik_Common::sanitizeInputValues($value);
-	}	
+	}
 }

@@ -23,7 +23,7 @@ require_once PIWIK_INCLUDE_PATH . '/libs/jsmin/jsmin.php';
 /**
  * Piwik_AssetManager is the class used to manage the inclusion of UI assets:
  * JavaScript and CSS files.
- * 
+ *
  * It performs the following actions:
  * 	- Identifies required assets
  *  - Includes assets in the rendered HTML page
@@ -50,7 +50,7 @@ class Piwik_AssetManager
 	const GET_CSS_MODULE_ACTION = "index.php?module=Proxy&action=getCss";
 	const GET_JS_MODULE_ACTION = "index.php?module=Proxy&action=getJs";
 	const MINIFIED_JS_RATIO = 100;
-	
+
 	/**
 	 * Returns CSS file inclusion directive(s) using the markup <link>
 	 *
@@ -63,10 +63,10 @@ class Piwik_AssetManager
 			// Individual includes mode
 			self::removeMergedAsset(self::MERGED_CSS_FILE);
 			return self::getIndividualCssIncludes();
-		} 
+		}
 		return sprintf ( self::CSS_IMPORT_DIRECTIVE, self::GET_CSS_MODULE_ACTION );
 	}
-	
+
 	/**
 	 * Returns JS file inclusion directive(s) using the markup <script>
 	 *
@@ -74,12 +74,12 @@ class Piwik_AssetManager
 	 */
 	public static function getJsAssets()
 	{
-		if ( self::getDisableMergedAssets() ) 
+		if ( self::getDisableMergedAssets() )
 		{
 			// Individual includes mode
 			self::removeMergedAsset(self::MERGED_JS_FILE);
 			return self::getIndividualJsIncludes();
-		} 
+		}
 		return sprintf ( self::JS_IMPORT_DIRECTIVE, self::GET_JS_MODULE_ACTION );
 	}
 
@@ -103,12 +103,12 @@ class Piwik_AssetManager
 		// Loop through each css file
 		$files = self::getCssFiles();
 		foreach ($files as $file) {
-			
+
 			self::validateCssFile ( $file );
-			
+
 			$fileLocation = self::getAbsoluteLocation($file);
 			$content = file_get_contents ($fileLocation);
-			
+
 			// Rewrite css url directives
 			// - assumes these are all relative paths
 			// - rewrite windows directory separator \\ to /
@@ -126,10 +126,10 @@ class Piwik_AssetManager
 
 		$mergedContent = cssmin::minify($mergedContent);
 		$mergedContent = str_replace("\n", "\r\n", $mergedContent);
-		
+
 		// Remove the previous file
 		self::removeMergedAsset(self::MERGED_CSS_FILE);
-		
+
 		// Tries to open the new file
 		$newFilePath = self::getAbsoluteMergedFileLocation(self::MERGED_CSS_FILE);
 		$newFile = fopen($newFilePath, "w");
@@ -137,38 +137,38 @@ class Piwik_AssetManager
 		if (!$newFile) {
 			throw new Exception ("The file : " . $newFile . " can not be opened in write mode.");
 		}
-	
+
 		// Write the content in the new file
 		fwrite($newFile, $mergedContent);
 		fclose($newFile);
 	}
-	
+
 	/**
 	 * Returns individual CSS file inclusion directive(s) using the markup <link>
 	 *
 	 * @return string
 	 */
-	private static function getIndividualCssIncludes()   
+	private static function getIndividualCssIncludes()
 	{
 		$cssIncludeString = '';
-		
+
 		$cssFiles = self::getCssFiles();
-		
+
 		foreach ($cssFiles as $cssFile) {
-			
-			self::validateCssFile ( $cssFile );	
-			$cssIncludeString = $cssIncludeString . sprintf ( self::CSS_IMPORT_DIRECTIVE, $cssFile ); 
+
+			self::validateCssFile ( $cssFile );
+			$cssIncludeString = $cssIncludeString . sprintf ( self::CSS_IMPORT_DIRECTIVE, $cssFile );
 		}
-		
+
 		return $cssIncludeString;
 	}
-	
+
 	/**
 	 * Returns required CSS files
 	 *
 	 * @return Array
 	 */
-	private static function getCssFiles()   
+	private static function getCssFiles()
 	{
 		$cssFiles = array();
 		Piwik_PostEvent(self::CSS_IMPORT_EVENT, $cssFiles);
@@ -181,7 +181,7 @@ class Piwik_AssetManager
 	 *
 	 * @param array $cssFiles Array of CSS stylesheet files
 	 * @return array
-	 */ 
+	 */
 	private static function sortCssFiles($cssFiles)
 	{
 		$priorityCssOrdered = array(
@@ -201,7 +201,7 @@ class Piwik_AssetManager
 	 * @return boolean
 	 * @throws Exception if a file can not be opened in write mode
 	 */
-	private static function validateCssFile ( $cssFile )   
+	private static function validateCssFile ( $cssFile )
 	{
 		if(!self::assetIsReadable($cssFile))
 		{
@@ -217,28 +217,28 @@ class Piwik_AssetManager
 	private static function generateMergedJsFile()
 	{
 		$mergedContent = "";
-		
+
 		// Loop through each js file
 		$files = self::getJsFiles();
 		foreach ($files as $file) {
-			
+
 			self::validateJsFile ( $file );
-			
+
 			$fileLocation = self::getAbsoluteLocation($file);
 			$content = file_get_contents ($fileLocation);
-			
+
 			if ( !self::isMinifiedJs($content) )
 			{
 				$content = JSMin::minify($content);
 			}
-			
+
 			$mergedContent = $mergedContent . PHP_EOL . $content;
 		}
 		$mergedContent = str_replace("\n", "\r\n", $mergedContent);
-		
+
 		// Remove the previous file
 		self::removeMergedAsset(self::MERGED_JS_FILE);
-		
+
 		// Tries to open the new file
 		$newFilePath = self::getAbsoluteMergedFileLocation(self::MERGED_JS_FILE);
 		$newFile = fopen($newFilePath, "w");
@@ -246,48 +246,48 @@ class Piwik_AssetManager
 		if (!$newFile) {
 			throw new Exception ("The file : " . $newFile . " can not be opened in write mode.");
 		}
-		
+
 		// Write the content in the new file
 		fwrite($newFile, $mergedContent);
 		fclose($newFile);
 	}
-	
+
 	/**
 	 * Returns individual JS file inclusion directive(s) using the markup <script>
 	 *
 	 * @return string
 	 */
-	private static function getIndividualJsIncludes()   
+	private static function getIndividualJsIncludes()
 	{
 		$jsFiles = self::getJsFiles();
 		$jsIncludeString = '';
-		foreach ($jsFiles as $jsFile) 
+		foreach ($jsFiles as $jsFile)
 		{
 			self::validateJsFile( $jsFile );
 			$jsIncludeString = $jsIncludeString . sprintf ( self::JS_IMPORT_DIRECTIVE, $jsFile );
 		}
-		return $jsIncludeString;	
+		return $jsIncludeString;
 	}
-	
+
 	/**
 	 * Returns required JS files
 	 *
 	 * @return Array
 	 */
-	private static function getJsFiles()   
+	private static function getJsFiles()
 	{
 		$jsFiles = array();
 		Piwik_PostEvent(self::JS_IMPORT_EVENT, $jsFiles);
 		$jsFiles = self::sortJsFiles($jsFiles);
 		return $jsFiles;
 	}
-	
+
 	/**
 	 * Ensure core JS (jQuery etc.) are loaded in a particular order regardless of the order that plugins are loaded.
 	 *
 	 * @param array $jsFiles Arry of JavaScript files
 	 * @return array
-	 */ 
+	 */
 	private static function sortJsFiles($jsFiles)
 	{
 		$priorityJsOrdered = array(
@@ -303,7 +303,7 @@ class Piwik_AssetManager
 
 		return self::prioritySort($priorityJsOrdered, $jsFiles);
 	}
-	
+
 	/**
 	 * Check the validity of the js file
 	 *
@@ -311,7 +311,7 @@ class Piwik_AssetManager
 	 * @return boolean
 	 * @throws Exception if js file is not valid
 	 */
-	private static function validateJsFile ( $jsFile )   
+	private static function validateJsFile ( $jsFile )
 	{
 		if(!self::assetIsReadable($jsFile))
 		{
@@ -338,15 +338,15 @@ class Piwik_AssetManager
 	public static function getMergedCssFileLocation()
 	{
 		$isGenerated = self::isGenerated(self::MERGED_CSS_FILE);
-		
+
 		if ( !$isGenerated )
 		{
 			self::generateMergedCssFile();
 		}
-		
+
 		return self::getAbsoluteMergedFileLocation(self::MERGED_CSS_FILE);
 	}
-	
+
 	/**
 	 * Returns the js merged file absolute location.
 	 * If there is none, the generation process will be triggered.
@@ -356,21 +356,21 @@ class Piwik_AssetManager
 	public static function getMergedJsFileLocation()
 	{
 		$isGenerated = self::isGenerated(self::MERGED_JS_FILE);
-		
+
 		if ( !$isGenerated )
 		{
 			self::generateMergedJsFile();
 		}
-		
+
 		return self::getAbsoluteMergedFileLocation(self::MERGED_JS_FILE);
-	}	
-	
+	}
+
 	/**
 	 * Check if the provided merged file is generated
 	 *
 	 * @param string $filename filename of the merged asset
 	 * @return boolean true is file exists and is readable, false otherwise
-	 */	
+	 */
 	private static function isGenerated($filename)
 	{
 		return is_readable (self::getAbsoluteMergedFileLocation($filename));
@@ -383,27 +383,27 @@ class Piwik_AssetManager
 	 * @param string $filename filename of the merged asset
 	 * @see Piwik::serveStaticFile()
 	 * @throws Exception if the file couldn't be deleted
-	 */	
+	 */
 	private static function removeMergedAsset($filename)
 	{
 		$isGenerated = self::isGenerated($filename);
-		
+
 		if ( $isGenerated )
 		{
 			if ( !unlink ( self::getAbsoluteMergedFileLocation($filename) ) )
 			{
 				throw Exception ("Unable to delete merged file : " . $filename . ". Please delete the file and refresh");
 			}
-			
+
 			// Tries to remove compressed version of the merged file.
 			// See Piwik::serveStaticFile() for more info on static file compression
 			$compressedFileLocation = PIWIK_USER_PATH . Piwik::COMPRESSED_FILE_LOCATION . $filename;
-			
+
 			@unlink ( $compressedFileLocation . ".deflate");
 			@unlink ( $compressedFileLocation . ".gz");
 		}
 	}
-	
+
 	/**
 	 * Remove previous merged assets
 	 */
@@ -412,13 +412,13 @@ class Piwik_AssetManager
 		self::removeMergedAsset(self::MERGED_CSS_FILE);
 		self::removeMergedAsset(self::MERGED_JS_FILE);
 	}
-	
+
 	/**
 	 * Check if asset is readable
 	 *
 	 * @param string $relativePath Relative path to file
 	 * @return boolean
-	 */  
+	 */
 	private static function assetIsReadable ($relativePath)
 	{
 		return is_readable(self::getAbsoluteLocation($relativePath));
@@ -450,7 +450,8 @@ class Piwik_AssetManager
 	/**
 	 * Builds the absolute location of the requested merged file
 	 *
-	 * @return absolute location of the merged file
+	 * @param string $mergedFile Name of the merge file
+	 * @return string absolute location of the merged file
 	 */
 	private static function getAbsoluteMergedFileLocation( $mergedFile )
 	{
@@ -462,17 +463,17 @@ class Piwik_AssetManager
 	 *
 	 * @param string $relativePath Relative path to file
 	 * @return string
-	 */  
+	 */
 	private static function getAbsoluteLocation ($relativePath)
 	{
 		// served by web server directly, so must be a public path
 		return PIWIK_DOCUMENT_ROOT . "/" . $relativePath;
 	}
-	
+
 	/**
 	 * Indicates if the provided JavaScript content has already been minified or not.
 	 * The heuristic is based on a custom ratio : (size of file) / (number of lines).
-	 * The threshold (100) has been found empirically on existing files : 
+	 * The threshold (100) has been found empirically on existing files :
 	 * - the ratio never exceeds 50 for non-minified content and
 	 * - it never goes under 150 for minified content.
 	 *
@@ -486,11 +487,11 @@ class Piwik_AssetManager
 		{
 			return true;
 		}
-		
+
 		$contentSize = strlen($content);
-		
+
 		$ratio = $contentSize / $lineCount;
-		
+
 		return $ratio > self::MINIFIED_JS_RATIO;
 	}
 

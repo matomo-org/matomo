@@ -35,10 +35,10 @@ class Piwik
 		);
 
 	/**
-	 * Should we process and display Unique Visitors? 
+	 * Should we process and display Unique Visitors?
 	 * -> Always process for day/week/month periods
-	 * For Year and Range, only process if it was enabled in the config file, 
-	 * 
+	 * For Year and Range, only process if it was enabled in the config file,
+	 *
 	 * @return bool
 	 */
 	static public function isUniqueVisitorsEnabled($periodLabel)
@@ -46,7 +46,7 @@ class Piwik
 		return in_array($periodLabel, array('day', 'week', 'month'))
 			|| Zend_Registry::get('config')->General->enable_processing_unique_visitors_year_and_range ;
 	}
-	
+
 /*
  * Prefix/unprefix class name
  */
@@ -130,6 +130,7 @@ class Piwik
 	/**
 	 * Set response header, e.g., HTTP/1.0 200 Ok
 	 *
+	 * @param string $status Status
 	 * @return bool
 	 */
 	static public function setHttpStatus($status)
@@ -872,11 +873,21 @@ class Piwik
  * Logging and error handling
  */
 
+	/**
+	 * Log a message
+	 *
+	 * @param string $message
+	 */
 	static public function log($message = '')
 	{
 		Zend_Registry::get('logger_message')->logEvent($message);
 	}
 
+	/**
+	 * Trigger E_USER_ERROR with optional message
+	 *
+	 * @param string $message
+	 */
 	static public function error($message = '')
 	{
 		trigger_error($message, E_USER_ERROR);
@@ -885,6 +896,8 @@ class Piwik
 	/**
 	 * Display the message in a nice red font with a nice icon
 	 * ... and dies
+	 *
+	 * @param string $message
 	 */
 	static public function exitWithErrorMessage( $message )
 	{
@@ -1319,9 +1332,9 @@ class Piwik
 	}
 
 	/**
-	 * Returns relative path to the App logo
+	 * Returns relative path to the application logo
 	 *
-	 * @return string
+	 * @return string Absolute path to application logo
 	 */
 	public function getLogoPath()
 	{
@@ -1368,10 +1381,10 @@ class Piwik
 		$title = $titles[ $id % count($titles)];
 		return $title;
 	}
-	
+
 	/**
 	 * Number of websites to show in the Website selector
-	 * 
+	 *
 	 * @return int
 	 */
 	static public function getWebsitesCountToDisplay()
@@ -1385,6 +1398,11 @@ class Piwik
  * Access
  */
 
+	/**
+	 * Get current user email address
+	 *
+	 * @return string
+	 */
 	static public function getCurrentUserEmail()
 	{
 		if(!Piwik::isUserIsSuperUser())
@@ -1395,10 +1413,11 @@ class Piwik
 		$superuser = Zend_Registry::get('config')->superuser;
 		return $superuser->email;
 	}
+
 	/**
 	 * Get current user login
 	 *
-	 * @return string
+	 * @return string login ID
 	 */
 	static public function getCurrentUserLogin()
 	{
@@ -1408,7 +1427,7 @@ class Piwik
 	/**
 	 * Get current user's token auth
 	 *
-	 * @return string
+	 * @return string Token auth
 	 */
 	static public function getCurrentUserTokenAuth()
 	{
@@ -1465,12 +1484,22 @@ class Piwik
 			return false;
 		}
 	}
-	
+
+	/**
+	 * Is user the anonymous user?
+	 *
+	 * @return bool True if anonymouse; false otherwise
+	 */
 	static public function isUserIsAnonymous()
 	{
 		return Piwik::getCurrentUserLogin() == 'anonymous';
 	}
 
+	/**
+	 * Checks if user is not the anonymous user.
+	 *
+	 * @throws Exception if user is anonymous.
+	 */
 	static public function checkUserIsNotAnonymous()
 	{
 		if(self::isUserIsAnonymous())
@@ -1482,6 +1511,8 @@ class Piwik
 	/**
 	 * Helper method user to set the current as Super User.
 	 * This should be used with great care as this gives the user all permissions.
+	 *
+	 * @param bool True to set current user as super user
 	 */
 	static public function setUserIsSuperUser( $bool = true )
 	{
@@ -1670,8 +1701,9 @@ class Piwik
 	/**
 	 * Redirect to module (and action)
 	 *
-	 * @param string $newModule
-	 * @param string $newAction
+	 * @param string $newModule Target module
+	 * @param string $newAction Target action
+	 * @param array $parameters Parameters to modify in the URL
 	 * @return bool false if the URL to redirect to is already this URL
 	 */
 	static public function redirectToModule( $newModule, $newAction = '', $parameters = array() )
@@ -1868,25 +1900,27 @@ class Piwik
 			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidLoginFormat', array($loginMinimumLength, $loginMaximumLength)));
 		}
 	}
-	
+
 	/**
 	 * Should Piwik check that the login & password have minimum length and valid characters?
-	 * 
-	 * @return bool
+	 *
+	 * @return bool True if checks enabled; false otherwise
 	 */
 	static public function isChecksEnabled()
 	{
 		return Zend_Registry::get('config')->General->disable_checks_usernames_attributes == 0;
 	}
+
 /*
  * Date / Timezone
  */
 
 	/**
-	 * Returns true if the current php version supports timezone manipulation
-	 * (most likely if php >= 5.2)
+	 * Determine if this php version/build supports timezone manipulation
+	 * (e.g., php >= 5.2, or compiled with EXPERIMENTAL_DATE_SUPPORT=1 for
+	 * php < 5.2).
 	 *
-	 * @return bool
+	 * @return bool True if timezones supported; false otherwise
 	 */
 	static public function isTimezoneSupportEnabled()
 	{
@@ -2008,9 +2042,7 @@ class Piwik
 	}
 
 	/**
-	 * Escape special characters in string
-	 *
-	 * MySQL: NUL (ASCII 0), \n, \r, \, ', ", and Control-Z
+	 * Escape special characters in string for LOAD DATA INFILE
 	 *
 	 * @param string $str
 	 * @return string
@@ -2042,32 +2074,32 @@ class Piwik
 				// On windows, MySQL expects slashes as directory separators
 				$filePath = str_replace('\\', '/', $filePath);
 			}
-			
+
 			// Set up CSV delimiters, quotes, etc
 			$delim = "\t";
 			$quote = '"';
 			$eol   = "\r\n";
 			$null  = 'NULL';
 			$escape = '\\\\';
-	
+
 			$fp = fopen($filePath, 'wb');
-			if (!$fp) 
+			if (!$fp)
 			{
 				throw new Exception('Error creating the tmp file '.$filePath.', please check that the webserver has write permission to write this file.');
 			}
-			
+
 			@chmod($filePath, 0777);
 
-			foreach ($values as $row) 
+			foreach ($values as $row)
 			{
 				$output = '';
-				foreach($row as $value) 
+				foreach($row as $value)
 				{
-					if(!isset($value) || is_null($value) || $value === false) 
+					if(!isset($value) || is_null($value) || $value === false)
 					{
 						$output .= $null.$delim;
-					} 
-					else 
+					}
+					else
 					{
 						$output .= $quote.self::escapeString($value).$quote.$delim;
 					}
@@ -2142,7 +2174,7 @@ class Piwik
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Performs a batch insert into a specific table by iterating through the data
 	 *
@@ -2163,11 +2195,11 @@ class Piwik
 		}
 		foreach($values as $row) {
 			$toRecord = implode(', ', $row);
-			$query = "INSERT $ignore 
-					INTO ".$tableName." 
-					$fieldList 
+			$query = "INSERT $ignore
+					INTO ".$tableName."
+					$fieldList
 					VALUES (".Piwik_Archive_Array::getSqlStringFieldsArray($row).")";
 			Piwik_Query($query, $row);
 		}
-	}   
+	}
 }
