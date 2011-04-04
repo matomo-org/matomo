@@ -4,6 +4,7 @@
 
 {foreach from=$goalMetrics item=goal}
 	{assign var=nb_conversions value=$goal.nb_conversions}
+	{assign var=nb_visits_converted value=$goal.nb_visits_converted}
 	{assign var=conversion_rate value=$goal.conversion_rate}
 	{assign var=name value=$goal.name}
 	
@@ -15,7 +16,11 @@
 	</h2>
 	<div id='leftcolumn'>
 		<div class="sparkline">{sparkline src=$goal.urlSparklineConversions}
-		{'Goals_Conversions'|translate:"<strong>$nb_conversions</strong>"}</div>
+		{'Goals_Conversions'|translate:"<strong>$nb_conversions</strong>"}
+		{if $goal.goalAllowMultipleConversionsPerVisit}	
+			({'VisitsSummary_NbVisits'|translate:"<strong>$nb_visits_converted</strong>"})
+		{/if}
+		</div>
 	</div>
 	<div id='rightcolumn'>
 		<div class="sparkline">{sparkline src=$goal.urlSparklineConversionRate}

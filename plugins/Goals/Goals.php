@@ -275,7 +275,7 @@ class Piwik_Goals extends Piwik_Plugin
 		
 		if($query === false) return;
 		
-		$nb_conversions = $revenue = 0;
+		$nb_conversions = $revenue = $nb_visits_converted = 0;
 		$goals = $goalsByVisitorReturning = array();
 		while($row = $query->fetch() )
 		{
@@ -286,6 +286,7 @@ class Piwik_Goals extends Piwik_Plugin
 
 			$revenue += $row[Piwik_Archive::INDEX_GOAL_REVENUE];
 			$nb_conversions += $row[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS];
+			$nb_visits_converted += $row[Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED];
 		}
 		
 		// Stats by goal, for all visitors
@@ -321,6 +322,7 @@ class Piwik_Goals extends Piwik_Plugin
 		$totalAllGoals = array(
 			self::getRecordName('conversion_rate')	=> $this->getConversionRate($archiveProcessing->getNumberOfVisitsConverted(), $archiveProcessing),
 			self::getRecordName('nb_conversions')	=> $nb_conversions,
+			self::getRecordName('nb_visits_converted')	=> $nb_visits_converted,
 			self::getRecordName('revenue') 			=> $revenue,
 		);
 		foreach($totalAllGoals as $recordName => $value)

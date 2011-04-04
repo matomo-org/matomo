@@ -77,6 +77,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		}
 		$view->idGoal = $idGoal;
 		$view->goalName = $goalDefinition['name'];
+		$view->goalAllowMultipleConversionsPerVisit = $goalDefinition['allow_multiple'];
 		$view->graphEvolution = $this->getEvolutionGraph(true, array('nb_conversions'), $idGoal);
 		$view->nameGraphEvolution = 'GoalsgetEvolutionGraph'.$idGoal;
 		$view->topDimensions = $this->getTopDimensions($idGoal);
@@ -123,6 +124,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$datatable = $request->process();
 		$dataRow = $datatable->getFirstRow();
 		$view->nb_conversions = $dataRow->getColumn('nb_conversions');
+		$view->nb_visits_converted = $dataRow->getColumn('nb_visits_converted');
 		$view->conversion_rate = $this->formatConversionRate($dataRow->getColumn('conversion_rate'));
 		$view->revenue = $dataRow->getColumn('revenue');
 		
@@ -131,6 +133,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		{
 			$goalMetrics[$idGoal] = $this->getMetricsForGoal($idGoal);
 			$goalMetrics[$idGoal]['name'] = $goal['name'];
+			$goalMetrics[$idGoal]['goalAllowMultipleConversionsPerVisit'] = $goal['allow_multiple'];
 		}
 		
 		$view->goalMetrics = $goalMetrics;
@@ -253,9 +256,17 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$request = new Piwik_API_Request("method=Goals.get&format=original&idGoal=$idGoal");
 		$datatable = $request->process();
 		$dataRow = $datatable->getFirstRow();
+		$nbConversions = $dataRow->getColumn('nb_conversions');
+		$nbVisitsConverted = $dataRow->getColumn('nb_visits_converted');
+		// Backward compatibilty before 1.3, this value was not processed
+		if(empty($nbVisitsConverted)) 
+		{
+			$nbVisitsConverted = $nbConversions;
+		}
 		return array (
 				'id'				=> $idGoal,
-				'nb_conversions' 	=> $dataRow->getColumn('nb_conversions'),
+				'nb_conversions' 	=> $nbConversions,
+				'nb_visits_converted' => $nbVisitsConverted,
 				'conversion_rate'	=> $this->formatConversionRate($dataRow->getColumn('conversion_rate')),
 				'revenue'			=> $dataRow->getColumn('revenue'),
 				'urlSparklineConversions' 		=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_conversions'), 'idGoal' => $idGoal)),
