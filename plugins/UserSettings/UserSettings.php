@@ -127,6 +127,8 @@ class Piwik_UserSettings extends Piwik_Plugin
 
 	/*
 	 * Registers reports metadata
+	 *
+	 * @param Piwik_Event_Notification $notification
 	 */
 	public function getReportMetadata($notification) 
 	{
@@ -159,6 +161,11 @@ class Piwik_UserSettings extends Piwik_Plugin
 		}
 	}
 
+	/**
+	 * Get segments meta data
+	 *
+	 * @param Piwik_Event_Notification $notification
+	 */
 	public function getSegmentsMetadata($notification)
 	{
 		$segments =& $notification->getNotificationObject();
@@ -205,7 +212,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 	 * by Browser, Browser family, etc. Some reports are built from the logs, some reports 
 	 * are superset of an existing report (eg. Browser family is built from the Browser report)
 	 * 
-	 * @param $notification
+	 * @param Piwik_Event_Notification $notification
 	 * @return void
 	 */
 	function archiveDay( $notification )
@@ -267,7 +274,8 @@ class Piwik_UserSettings extends Piwik_Plugin
 	
 	/**
 	 * Period archiving: simply sums up daily archives
-	 * @param $notification
+	 *
+	 * @param Piwik_Event_Notification $notification
 	 * @return void
 	 */
 	function archivePeriod( $notification )
@@ -294,7 +302,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 	/**
 	 * Returns the report Visits by Screen type given the Resolution table
 	 * 
-	 * @param $tableResolution 
+	 * @param Piwik_DataTable $tableResolution 
 	 * @return Piwik_DataTable
 	 */
 	protected function getTableWideScreen(Piwik_DataTable $tableResolution)
@@ -321,7 +329,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 	/**
 	 * Returns the report Visits by Browser family given the Browser report
 	 * 
-	 * @param $tableBrowser 
+	 * @param Piwik_DataTable $tableBrowser 
 	 * @return Piwik_DataTable
 	 */
 	protected function getTableBrowserByType(Piwik_DataTable $tableBrowser)
@@ -346,6 +354,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 	
 	/**
 	 * Returns SQL that processes stats for Plugins
+	 *
 	 * @return unknown_type
 	 */
 	protected function getDataTablePlugin()

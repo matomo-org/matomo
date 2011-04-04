@@ -34,7 +34,9 @@ class Piwik_SEO_API
 	}
 	
 	/**
-	 * @param $url URL to request Ranks for
+	 * Get rank
+	 *
+	 * @param string $url URL to request Ranks for
 	 * @return Piwik_DataTable
 	 */
 	public function getRank( $url )

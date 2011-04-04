@@ -169,7 +169,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 
 	/**
 	 * The Super User can modify Anonymous user settings
-	 * @param $view
+	 * @param Piwik_View $view
 	 */
 	protected function initViewAnonymousUserSettings($view)
 	{

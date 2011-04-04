@@ -145,8 +145,8 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 	/**
 	 * The Multisites reports displays the first calendar date as the earliest day available for all websites.
 	 * Also, today is the later "today" available across all timezones.
-	 * @param $mySites
-	 * @param $view
+	 * @param array $mySites
+	 * @param Piwik_View $view
 	 * @return void
 	 */
 	private function setMinMaxDateAcrossWebsites($mySites, $view)

@@ -362,7 +362,7 @@ class Piwik_PDFReports_PDFRenderer extends TCPDF
 	/**
 	 * Prints a message
 	 *
-	 * @param $message
+	 * @param string $message
 	 * @return void
 	 */
 	private function paintMessage($message)

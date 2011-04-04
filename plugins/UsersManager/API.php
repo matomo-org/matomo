@@ -35,9 +35,9 @@ class Piwik_UsersManager_API
 	
 	/**
 	 * Sets a user preference
-	 * @param $userLogin
-	 * @param $preferenceName
-	 * @param $preferenceValue
+	 * @param string $userLogin
+	 * @param string $preferenceName
+	 * @param string $preferenceValue
 	 * @return void
 	 */
 	public function setUserPreference($userLogin, $preferenceName, $preferenceValue)
@@ -48,9 +48,9 @@ class Piwik_UsersManager_API
 	
 	/**
 	 * Gets a user preference
-	 * @param $userLogin
-	 * @param $preferenceName
-	 * @param $preferenceValue
+	 * @param string $userLogin
+	 * @param string $preferenceName
+	 * @param string $preferenceValue
 	 * @return void
 	 */
 	public function getUserPreference($userLogin, $preferenceName)

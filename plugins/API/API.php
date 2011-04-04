@@ -510,8 +510,8 @@ class Piwik_API_API
 
 	/**
 	 * API metadata are sorted by category/name
-	 * @param $a
-	 * @param $b
+	 * @param string $a
+	 * @param string $b
 	 * @return int
 	 */
 	private function sort($a, $b)

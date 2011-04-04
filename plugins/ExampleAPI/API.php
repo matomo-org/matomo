@@ -88,8 +88,8 @@ class Piwik_ExampleAPI_API
 	 * when the API function is called. You can also use default values
 	 * as shown in this example.
 	 * 
-	 * @param $a
-	 * @param $b
+	 * @param float $a
+	 * @param float $b
 	 * @return float
 	 */
 	public function getSum($a = 0, $b = 0)

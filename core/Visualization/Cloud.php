@@ -92,7 +92,7 @@ class Piwik_Visualization_Cloud
 	/*
 	 * Get the class range using a percentage
 	 *
-	 * @returns int $class
+	 * @return int $class
 	 */	 
 	protected function getClassFromPercent($percent)
 	{

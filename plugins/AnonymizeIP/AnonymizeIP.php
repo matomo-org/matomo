@@ -44,8 +44,8 @@ class Piwik_AnonymizeIP extends Piwik_Plugin
 	/**
 	 * Internal function to mask portions of the visitor IP address
 	 *
-	 * @param $ip Unsigned long representation of IP address
-	 * @param $maskLength Number of octets to reset
+	 * @param string $ip Unsigned long representation of IP address
+	 * @param int $maskLength Number of octets to reset
 	 */
 	static public function applyIPMask($ip, $maskLength)
 	{
