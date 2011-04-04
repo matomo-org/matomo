@@ -44,14 +44,12 @@ class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
 		// then revert the hack for potentially subsequent getRequestVar
 		$_GET['period'] = $period;
 		
-		$this->isDataAvailable = !empty($this->dataTable) && $this->dataTable->getRowsCount() != 0;
-		if(!$this->isDataAvailable)
+		$values = $this->getValuesFromDataTable($this->dataTable);
+		$this->isDataAvailable = true;
+		if(empty($values))
 		{
 			$values = array_fill(0, 30, 0);
-		}
-		else
-		{
-			$values = $this->getValuesFromDataTable($this->dataTable);
+			$this->isDataAvailable = false;
 		}
 		$graph = new Piwik_Visualization_Sparkline();
 		$graph->setValues($values);
@@ -99,7 +97,7 @@ class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
 		{
 			$columnToPlot = $columns[0];
 		}
-		
+		$values = false;
 		// a Piwik_DataTable_Array is returned when using the normal code path to request data from Archives, in all core plugins
 		// however plugins can also return simple datatable, hence why the sparkline can accept both data types
 		if($this->dataTable instanceof Piwik_DataTable_Array)

@@ -21,6 +21,7 @@
 	params['prev'] = "{'General_Previous'|translate|escape:"javascript"}";
 	params['next'] = "{'General_Next'|translate|escape:"javascript"}";
 	params['row'] = '{$row|escape:"javascript"}';
+	params['dateSparkline'] = '{$dateSparkline}';
 </script>
 
 {postEvent name="template_headerMultiSites"}
