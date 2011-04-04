@@ -66,9 +66,11 @@ class Piwik_Goals_API
 	 * @param $patternType 'regex', 'contains', 'exact' 
 	 * @param $caseSensitive bool
 	 * @param $revenue If set, default revenue to assign to conversions
+	 * @param $allowMultipleConversionsPerVisit By default, multiple conversions in the same visit will only record the first conversion.
+	 * 						If set to true, multiple conversions will all be recorded within a visit (useful for Ecommerce goals)
 	 * @return int ID of the new goal
 	 */
-	public function addGoal( $idSite, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false)
+	public function addGoal( $idSite, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false)
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
 		$this->checkPatternIsValid($patternType, $pattern);
@@ -93,6 +95,7 @@ class Piwik_Goals_API
 						'pattern' => $pattern,
 						'pattern_type' => $patternType,
 						'case_sensitive' => (int)$caseSensitive,
+						'allow_multiple' => (int)$allowMultipleConversionsPerVisit,
 						'revenue' => (float)$revenue,
 						'deleted' => 0,
 					));
@@ -101,12 +104,13 @@ class Piwik_Goals_API
 	}
 	
 	/**
-	 * Updates a Goal
+	 * Updates a Goal description.
+	 * Will not update or re-process the conversions already recorded  
 	 * 
 	 * @see addGoal() for parameters description
 	 * @return void
 	 */
-	public function updateGoal( $idSite, $idGoal, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false)
+	public function updateGoal( $idSite, $idGoal, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false)
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
 		$name = $this->checkName($name);
@@ -118,8 +122,9 @@ class Piwik_Goals_API
 						'match_attribute' => $matchAttribute,
 						'pattern' => $pattern,
 						'pattern_type' => $patternType,
-						'case_sensitive' => $caseSensitive,
-						'revenue' => $revenue,
+						'case_sensitive' => (int)$caseSensitive,
+						'allow_multiple' => (int)$allowMultipleConversionsPerVisit,
+						'revenue' => (float)$revenue,
 						),
 					"idsite = '$idSite' AND idgoal = '$idGoal'"
 			);	
@@ -185,6 +190,7 @@ class Piwik_Goals_API
 		{
 			$columns = array(
 						'nb_conversions',
+						'nb_visits_converted',
 						'conversion_rate', 
 						'revenue',
 			);
@@ -215,6 +221,11 @@ class Piwik_Goals_API
 	public function getConversions( $idSite, $period, $date, $segment = false, $idGoal = false )
 	{
 		return $this->getNumeric( $idSite, $period, $date, $segment, Piwik_Goals::getRecordName('nb_conversions', $idGoal));
+	}
+	
+	public function getNbVisitsConverted( $idSite, $period, $date, $segment = false, $idGoal = false )
+	{
+		return $this->getNumeric( $idSite, $period, $date, $segment, Piwik_Goals::getRecordName('nb_visits_converted', $idGoal));
 	}
 	
 	public function getConversionRate( $idSite, $period, $date, $segment = false, $idGoal = false )

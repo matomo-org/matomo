@@ -31,6 +31,58 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		return PIWIK_INCLUDE_PATH . '/tests/integration';
 	}
 	
+	function test_trackGoals_allowMultipleConversionsPerVisit()
+	{
+		$this->setApiToCall(array('VisitTime.getVisitInformationPerServerTime', 'VisitsSummary.get') );
+		$dateTime = '2009-01-04 00:11:42';
+		$idSite = $this->createWebsite($dateTime);
+		
+		// First, a goal that is only recorded once per visit
+		$allowMultipleConversions = false;
+        $idGoal_OneConversionPerVisit = Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js ONCE', 'manually', '', '', $caseSensitive=false, $revenue=false, $allowMultipleConversions);
+        // Second, a goal allowing multiple conversions
+        $allowMultipleConversions = true;
+		$defaultRevenue = 10;
+        $idGoal_MultipleConversionPerVisit = Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js MULTIPLE ALLOWED', 'manually', '', '', $caseSensitive=false, $defaultRevenue, $allowMultipleConversions);
+		
+        $t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+
+        // Record 1st goal, should only have 1 conversion
+        $t->setUrl( 'http://example.org/index.htm' );
+        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.3)->getDatetime());
+        $this->checkResponse($t->doTrackGoal($idGoal_OneConversionPerVisit, $revenue = 10));
+        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.4)->getDatetime());
+        $this->checkResponse($t->doTrackGoal($idGoal_OneConversionPerVisit, $revenue = 10000000));
+
+        // Record 2nd goal, should record both conversions
+        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.5)->getDatetime());
+        $this->checkResponse($t->doTrackGoal($idGoal_MultipleConversionPerVisit, $revenue = 300));
+        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.6)->getDatetime());
+        $this->checkResponse($t->doTrackGoal($idGoal_MultipleConversionPerVisit, $revenue = 366));
+        
+        // Update & set to not allow multiple
+        $goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
+        $goal = $goals[$idGoal_OneConversionPerVisit];
+        $this->assertTrue($goal['allow_multiple'] == 0);
+        Piwik_Goals_API::getInstance()->updateGoal($idSite, $idGoal_OneConversionPerVisit, $goal['name'], @$goal['match_attribute'], @$goal['pattern'], @$goal['pattern_type'], @$goal['case_sensitive'], $goal['revenue'], $goal['allow_multiple'] = 1);
+        $this->assertTrue($goal['allow_multiple'] == 1);
+        
+        // 1st goal should Now be tracked
+        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.61)->getDatetime());
+        $this->checkResponse($t->doTrackGoal($idGoal_OneConversionPerVisit, $revenue = 656));
+
+        // Compare XML
+        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime);
+        
+        // Test delete is working as expected
+        $goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
+        $this->assertTrue( 2 == count($goals) );
+        Piwik_Goals_API::getInstance()->deleteGoal($idSite, $idGoal_OneConversionPerVisit);
+        Piwik_Goals_API::getInstance()->deleteGoal($idSite, $idGoal_MultipleConversionPerVisit);
+        $goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
+        $this->assertTrue( empty($goals) );
+	}
+	
 	/**
 	 * This tests the output of the API plugin API 
 	 * It will return metadata about all API reports from all plugins

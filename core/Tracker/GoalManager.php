@@ -182,11 +182,11 @@ class Piwik_Tracker_GoalManager
 			'visitor_days_since_first' => $visitorInformation['visitor_days_since_first'],
 			'visitor_count_visits' => $visitorInformation['visitor_count_visits'],
 		
-			'referer_visit_server_date' => date("Y-m-d", $refererTimestamp),
-			'referer_type' 				=> $visitorInformation['referer_type'],
 		);
 
 		$goalData = array(
+			'referer_visit_server_date' => date("Y-m-d", $refererTimestamp),
+			'referer_type' 				=> $visitorInformation['referer_type'],
 			'referer_name' 				=> $visitorInformation['referer_name'],
 			'referer_keyword' 			=> $visitorInformation['referer_keyword'],
 		);
@@ -214,6 +214,10 @@ class Piwik_Tracker_GoalManager
 				$newGoal['idlink_va'] = $action->getIdLinkVisitAction();
 			}
 
+			// If multiple Goal conversions per visit, set a cache buster 
+			$newGoal['buster'] = $convertedGoal['allow_multiple'] == 0 
+										? '0' 
+										: $visitorInformation['visit_last_action_time'];
 			$newGoalDebug = $newGoal;
 			$newGoalDebug['idvisitor'] = bin2hex($newGoalDebug['idvisitor']);
 			printDebug($newGoalDebug);
@@ -230,7 +234,7 @@ class Piwik_Tracker_GoalManager
 				if(Piwik_Tracker::getDatabase()->isErrNo($e, '1062'))
 				{
 					// integrity violation when same visit converts to the same goal twice
-					printDebug("--&gt; Goal already recorded for this (idvisit, idgoal)");
+					printDebug("--&gt; Goal already recorded for this (idvisit, idgoal, buster)");
 				}
 				else
 				{

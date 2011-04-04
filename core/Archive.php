@@ -71,6 +71,7 @@ abstract class Piwik_Archive
 	// Goal reports
 	const INDEX_GOAL_NB_CONVERSIONS = 1;
 	const INDEX_GOAL_REVENUE = 2;
+	const INDEX_GOAL_NB_VISITS_CONVERTED = 3;
 
 	public static $mappingFromIdToName = array(
 				Piwik_Archive::INDEX_NB_UNIQ_VISITORS 		=> 'nb_uniq_visitors',
@@ -103,6 +104,7 @@ abstract class Piwik_Archive
 
 	public static $mappingFromIdToNameGoal = array(
 				Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS 	=> 'nb_conversions',
+				Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED 	=> 'nb_visits_converted',
 				Piwik_Archive::INDEX_GOAL_REVENUE 			=> 'revenue',
 	);
 

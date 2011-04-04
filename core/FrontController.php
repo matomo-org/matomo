@@ -118,7 +118,7 @@ class Piwik_FrontController
 			$action = $controller->getDefaultAction();
 		}
 		
-		Piwik::log("Dispatching $module / $action, parameters: ".var_export($parameters, $return = true));
+//		Piwik::log("Dispatching $module / $action, parameters: ".var_export($parameters, $return = true));
 		if( !is_callable(array($controller, $action)))
 		{
 			throw new Exception("Action $action not found in the controller $controllerClassName.");				

@@ -65,6 +65,10 @@ abstract class Test_Integration extends Test_Database
 	 */
 	protected function setApiToCall( $apiToCall )
 	{
+		if(func_num_args() != 1) 
+		{
+			throw new Exception('setApiToCall expects an array');
+		}
 		if(!is_array($apiToCall))
 		{
 			$apiToCall = array($apiToCall);
@@ -386,7 +390,7 @@ abstract class Test_Integration extends Test_Database
     		file_put_contents( $processedFilePath, $response );
     		
     		$expectedFilePath = $pathExpected . $filename;
-    		$expected = file_get_contents($expectedFilePath  );
+    		$expected = @file_get_contents($expectedFilePath  );
     		if(empty($expected))
     		{
     			$this->fail(" ERROR: Could not find expected API output '$expectedFilePath'. For new tests, to pass the test, you can copy files from the processed/ directory into $pathExpected  after checking that the output is valid.");

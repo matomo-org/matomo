@@ -14,6 +14,7 @@
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
 						<revenue>0</revenue>
 					</row>
 				</goals>
@@ -30,6 +31,7 @@
 						<goals>
 							<row idgoal='1'>
 								<nb_conversions>1</nb_conversions>
+								<nb_visits_converted>1</nb_visits_converted>
 								<revenue>0</revenue>
 							</row>
 						</goals>

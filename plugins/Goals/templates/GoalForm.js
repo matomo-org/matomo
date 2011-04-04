@@ -39,7 +39,7 @@ function showCancel()
 }
 
 // init the goal form with existing goal value, if any
-function initGoalForm(goalMethodAPI, submitText, goalName, matchAttribute, pattern, patternType, caseSensitive, revenue, goalId)
+function initGoalForm(goalMethodAPI, submitText, goalName, matchAttribute, pattern, patternType, caseSensitive, revenue, allowMultiple, goalId)
 {
 	$('#goal_name').val(goalName);
 	if(matchAttribute == 'manually') {
@@ -52,6 +52,7 @@ function initGoalForm(goalMethodAPI, submitText, goalName, matchAttribute, patte
 		$('select[name=trigger_type] option[value=visitors]').attr('selected', true);
 	}
 	$('input[name=match_attribute][value='+matchAttribute+']').attr('checked', true);
+	$('input[name=allow_multiple][value='+allowMultiple+']').attr('checked', true);
 	$('#match_attribute_name').html(mappingMatchTypeName[matchAttribute]);
 	$('#examples_pattern').html(mappingMatchTypeExamples[matchAttribute]);
 	$('select[name=pattern_type] option[value='+patternType+']').attr('selected', true);
@@ -137,6 +138,7 @@ function getAjaxAddGoal()
 		parameters.caseSensitive = $('#case_sensitive').attr('checked') == true ? 1: 0;
 	}
 	parameters.revenue = $('input[name=revenue]').val();
+	parameters.allowMultipleConversionsPerVisit = $('input[name=allow_multiple]:checked').val() == true ? 1: 0;
 	
 	parameters.idGoal =  $('input[name=goalIdUpdate]').val();
 	parameters.method =  $('input[name=methodGoalAPI]').val();
@@ -153,7 +155,7 @@ function bindListGoalEdit()
 	$('a[name=linkEditGoal]').click( function() {
 		var goalId = $(this).attr('id');
 		var goal = piwik.goals[goalId];
-		initGoalForm("Goals.updateGoal", _pk_translate('Goals_UpdateGoal_js'), goal.name, goal.match_attribute, goal.pattern, goal.pattern_type, (goal.case_sensitive=='0' ? false : true), goal.revenue, goalId);
+		initGoalForm("Goals.updateGoal", _pk_translate('Goals_UpdateGoal_js'), goal.name, goal.match_attribute, goal.pattern, goal.pattern_type, (goal.case_sensitive=='0' ? false : true), goal.revenue, goal.allow_multiple, goalId);
 		showAddNewGoal();
 		return false;
 	});
@@ -175,6 +177,6 @@ function bindListGoalEdit()
 
 function initAndShowAddGoalForm()
 {
-	initGoalForm('Goals.addGoal', _pk_translate('Goals_AddGoal_js'), '', 'url', '', 'contains', false, '0');
+	initGoalForm('Goals.addGoal', _pk_translate('Goals_AddGoal_js'), '', 'url', '', 'contains', caseSensitive = false, allowMultiple = '0', '0');
 	return showAddNewGoal(); 
 }

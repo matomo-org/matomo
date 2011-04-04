@@ -58,6 +58,26 @@
 	</tbody>
 	<tbody>
 		<tr>
+            <td class="first"> {'Goals_AllowMultipleConversionsPerVisit'|translate} </td>
+			<td>
+				<input type="radio" id="allow_multiple_0" value="0" name="allow_multiple" />
+                <label for="allow_multiple_0">{'Goals_DefaultGoalConvertedOncePerVisit'|translate}</label>
+            	<div class="entityInlineHelp">  
+            		{'Goals_HelpOneConversionPerVisit'|translate}
+            	</div>
+                <br/>
+                
+                <input type="radio" id="allow_multiple_1" value="1" name="allow_multiple" />
+                <label for="allow_multiple_1">{'Goals_AllowGoalConvertedMoreThanOncePerVisit'|translate}</label>
+				<br />
+	            <div class="entityInlineHelp">  
+					{'Goals_HelpMultipleConversionsPerVisit'|translate}
+				</td>
+		</tr>
+		<tr>
+	</tbody>
+	<tbody>
+		<tr>
             <td class="first">(optional) {'Goals_DefaultRevenue'|translate}</td>
 			<td>{' <input type="text" name="revenue" size="2" value="0" class="inp" /> '|money:$idSite}
             <div class="entityInlineHelp"> {'Goals_DefaultRevenueHelp'|translate} </div>

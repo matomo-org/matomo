@@ -294,6 +294,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		$query = "SELECT idgoal,
 						count(*) as `". Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS ."`,
 						sum(revenue) as `". Piwik_Archive::INDEX_GOAL_REVENUE ."`,
+						count(distinct idvisit) as `". Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED."`,
 						$select
 			 	FROM ".Piwik_Common::prefixTable('log_conversion')."
 			 	WHERE server_time >= ?
@@ -569,11 +570,12 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		{
 			if(isset($values[Piwik_Archive::INDEX_GOALS]))
 			{
-				$revenue = $conversions = 0;
+				$revenue = $conversions = $nbVisitsConverted = 0;
 				foreach($values[Piwik_Archive::INDEX_GOALS] as $idgoal => $goalValues)
 				{
 					$revenue += $goalValues[Piwik_Archive::INDEX_GOAL_REVENUE];
 					$conversions += $goalValues[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS];
+					$nbVisitsConverted += $goalValues[Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED];
 				}
 				$values[Piwik_Archive::INDEX_NB_CONVERSIONS] = $conversions;
 				$values[Piwik_Archive::INDEX_REVENUE] = $revenue;
@@ -595,12 +597,14 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	function updateGoalStats($newRowToAdd, &$oldRowToUpdate)
 	{
 		$oldRowToUpdate[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS]	+= $newRowToAdd[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS];
+		$oldRowToUpdate[Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED]	+= $newRowToAdd[Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED];
 		$oldRowToUpdate[Piwik_Archive::INDEX_GOAL_REVENUE] 			+= $newRowToAdd[Piwik_Archive::INDEX_GOAL_REVENUE];
 	}
 	
 	function getNewGoalRow()
 	{
 		return array(	Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS 	=> 0, 
+						Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED => 0, 
 						Piwik_Archive::INDEX_GOAL_REVENUE 			=> 0, 
 					);
 	}
@@ -608,6 +612,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	function getGoalRowFromQueryRow($queryRow)
 	{
 		return array(	Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS 	=> $queryRow[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS], 
+						Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED => $queryRow[Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED], 
 						Piwik_Archive::INDEX_GOAL_REVENUE 			=> $queryRow[Piwik_Archive::INDEX_GOAL_REVENUE], 
 					);
 	}
