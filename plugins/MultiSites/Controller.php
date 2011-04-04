@@ -41,21 +41,23 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 	public function getSitesInfo()
 	{
 		Piwik::checkUserHasSomeViewAccess();
+		
+		
 		// overwrites the default Date set in the parent controller 
 		// Instead of the default current website's local date, 
 		// we set "today" or "yesterday" based on the default Piwik timezone
 		$piwikDefaultTimezone = Piwik_SitesManager_API::getInstance()->getDefaultTimezone();
-		$date = Piwik_Common::getRequestVar('date', 'today');
+		$dateRequest = Piwik_Common::getRequestVar('date', 'today');
 		$period = Piwik_Common::getRequestVar('period', 'day');	
+		$date = $dateRequest;
 		if($period != 'range')
 		{
-			$date = $this->getDateParameterInTimezone($date, $piwikDefaultTimezone);
+			$date = $this->getDateParameterInTimezone($dateRequest, $piwikDefaultTimezone);
 			$date = $date->toString();
 		}
 		
 		$mySites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess();
-		$params = $this->getGraphParamsModified();
-
+		
 		$ids = 'all';
 		$lastDate =  date('Y-m-d',strtotime("-1 ".$period, strtotime($date)));
 
@@ -121,6 +123,9 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		$view->totalVisits = $totalVisits;
 		$view->totalActions = $totalActions;
 	
+		$params = $this->getGraphParamsModified();
+		$view->dateSparkline = $period == 'range' ? $dateRequest : $params['date'];
+		
 		$view->autoRefreshTodayReport = false;
 		// if the current date is today, or yesterday, 
 		// in case the website is set to UTC-12), or today in UTC+14, we refresh the page every 5min
