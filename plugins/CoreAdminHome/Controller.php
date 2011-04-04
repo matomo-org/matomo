@@ -92,6 +92,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
 		$trackVisits = !Piwik_Tracker_IgnoreCookie::isIgnoreCookieFound();
 
 		$nonce = Piwik_Common::getRequestVar('nonce', false);
+		$language = Piwik_Common::getRequestVar('language', '');
 		if($nonce !== false && Piwik_Nonce::verifyNonce('Piwik_OptOut', $nonce))
 		{
 			Piwik_Tracker_IgnoreCookie::setIgnoreCookie();
@@ -101,6 +102,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
 		$view = Piwik_View::factory('optOut');
 		$view->trackVisits = $trackVisits;
 		$view->nonce = Piwik_Nonce::getNonce('Piwik_OptOut', 3600);
+		$view->language = $language;
 		echo $view->render();
 	}
 }
