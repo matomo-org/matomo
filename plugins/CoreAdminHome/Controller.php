@@ -102,7 +102,9 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
 		$view = Piwik_View::factory('optOut');
 		$view->trackVisits = $trackVisits;
 		$view->nonce = Piwik_Nonce::getNonce('Piwik_OptOut', 3600);
-		$view->language = $language;
+		$view->language = Piwik_LanguagesManager_API::getInstance()->isLanguageAvailable($language)
+			? $language
+			: Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
 		echo $view->render();
 	}
 }
