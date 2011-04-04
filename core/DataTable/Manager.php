@@ -109,7 +109,7 @@ class Piwik_DataTable_Manager
 	/**
 	 * Remove the table from the manager (table has already been unset)
 	 *
-	 * @param $id
+	 * @param int $id
 	 */
 	public function setTableDeleted($id)
 	{

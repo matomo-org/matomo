@@ -133,7 +133,7 @@ class Piwik_API_ResponseBuilder
 	/**
 	 * Returns true if the user requested to serialize the output data (&serialize=1 in the request)
 	 *
-	 * @param $defaultSerializeValue Default value in case the user hasn't specified a value
+	 * @param mixed $defaultSerializeValue Default value in case the user hasn't specified a value
 	 * @return bool
 	 */	
 	protected function caseRendererPHPSerialize($defaultSerializeValue = 1)

@@ -201,7 +201,7 @@ class Piwik_Common
 	/**
 	 * Regenerate Tracker cache files
 	 *
-	 * @param array $idSites array of idSites to clear cache for
+	 * @param array $idSites Array of idSites to clear cache for
 	 */
 	static public function regenerateCacheWebsiteAttributes($idSites = array())
 	{
@@ -1135,7 +1135,7 @@ class Piwik_Common
 	 * Returns list of valid country codes
 	 *
 	 * @param string $browserLanguage
-	 * @param array of string $validCountries
+	 * @param array $validCountries Arrayof valid countries
 	 * @param bool $enableLanguageToCountryGuess (if true, will guess country based on language that lacks region information)
 	 * @return array Array of 2 letter ISO codes
 	 */

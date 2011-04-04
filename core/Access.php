@@ -157,7 +157,7 @@ class Piwik_Access
 	/**
 	 * Returns the SQL query joining sites and access table for a given login
 	 * 
-	 * @param $select eg. "MIN(ts_created)"
+	 * @param string $select Columns or expression to SELECT FROM table, eg. "MIN(ts_created)"
 	 * @return string SQL query
 	 */
 	static public function getSqlAccessSite($select)

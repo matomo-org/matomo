@@ -327,8 +327,8 @@ class Piwik_DataTable
 	/**
 	 * Apply a filter to this datatable
 	 * 
-	 * @param $className eg. "Sort" or "Piwik_DataTable_Filter_Sort"
-	 * @param $parameters eg. array('nb_visits', 'asc')
+	 * @param string $className Class name, eg. "Sort" or "Piwik_DataTable_Filter_Sort"
+	 * @param array $parameters Array of parameters to the filter, eg. array('nb_visits', 'asc')
 	 */
 	public function filter( $className, $parameters = array() )
 	{
@@ -705,8 +705,8 @@ class Piwik_DataTable
 	/**
 	 * Rename a column in all rows
 	 *
-	 * @param $oldName
-	 * @param $newName
+	 * @param string $oldName Old column name
+	 * @param string $newName New column name
 	 */
 	public function renameColumn( $oldName, $newName )
 	{

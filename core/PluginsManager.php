@@ -88,12 +88,24 @@ class Piwik_PluginsManager
 		return in_array( $name, $this->pluginToAlwaysActivate);
 	}
 
+	/**
+	 * Returns true if plugin has been activated
+	 *
+	 * @param string $name Name of plugin
+	 * @return bool
+	 */
 	public function isPluginActivated( $name )
 	{
 		return in_array( $name, $this->pluginsToLoad)
 			|| $this->isPluginAlwaysActivated( $name );
 	}
 
+	/**
+	 * Returns true if plugin is loaded (in memory)
+	 *
+	 * @parm string $name Name of plugin
+	 * @return bool
+	 */
 	public function isPluginLoaded( $name )
 	{
 		return isset($this->loadedPlugins[$name]);
@@ -111,6 +123,11 @@ class Piwik_PluginsManager
 		return $pluginsName;
 	}
 
+	/**
+	 * Deactivate plugin
+	 *
+	 * @param string $pluginName Name of plugin
+	 */
 	public function deactivatePlugin($pluginName)
 	{
 		$plugins = $this->pluginsToLoad;
@@ -138,6 +155,9 @@ class Piwik_PluginsManager
 		Piwik_View::clearCompiledTemplates();
 	}
 
+	/**
+	 * Install loaded plugins
+	 */
 	public function installLoadedPlugins()
 	{
 		foreach($this->getLoadedPlugins() as $plugin)
@@ -150,6 +170,11 @@ class Piwik_PluginsManager
 		}
 	}
 
+	/**
+	 * Activate the specified plugin and install (if needed)
+	 *
+	 * @param string $pluginName Name of plugin
+	 */
 	public function activatePlugin($pluginName)
 	{
 		$plugins = Zend_Registry::get('config')->Plugins->Plugins->toArray();
@@ -179,6 +204,11 @@ class Piwik_PluginsManager
 		Piwik_View::clearCompiledTemplates();
 	}
 
+	/**
+	 * Load the specified plugins
+	 *
+	 * @param array $pluginsToLoad Array of plugins to load
+	 */
 	public function loadPlugins( array $pluginsToLoad )
 	{
 		// case no plugins to load
@@ -190,16 +220,27 @@ class Piwik_PluginsManager
 		$this->reloadPlugins();
 	}
 
+	/**
+	 * Disable plugin loading
+	 */
 	public function doNotLoadPlugins()
 	{
 		$this->doLoadPlugins = false;
 	}
 
+	/**
+	 * Disable loading of "always activated" plugins
+	 */
 	public function doNotLoadAlwaysActivatedPlugins()
 	{
 		$this->doLoadAlwaysActivatedPlugins = false;
 	}
 
+	/**
+	 * Load translations for loaded plugins
+	 *
+	 * @param string $language Optional language code
+	 */
 	public function loadPluginTranslations($language = false)
 	{
 		if(empty($language))
@@ -214,6 +255,11 @@ class Piwik_PluginsManager
 		}
 	}
 
+	/**
+	 * Execute postLoad() hook for loaded plugins
+	 *
+	 * @see Piwik_Plugin::postLoad()
+	 */
 	public function postLoadPlugins()
 	{
 		$plugins = $this->getLoadedPlugins();
@@ -264,7 +310,6 @@ class Piwik_PluginsManager
 	/**
 	 * Load the plugins classes installed.
 	 * Register the observers for every plugin.
-	 *
 	 */
 	private function reloadPlugins()
 	{
@@ -362,6 +407,9 @@ class Piwik_PluginsManager
 		unset($this->loadedPlugins[$plugin->getPluginName()]);
 	}
 
+	/**
+	 * Unload all loaded plugins
+	 */
 	public function unloadPlugins()
 	{
 		$pluginsLoaded = $this->getLoadedPlugins();
@@ -371,6 +419,9 @@ class Piwik_PluginsManager
 		}
 	}
 
+	/**
+	 * Install loaded plugins
+	 */
 	private function installPlugins()
 	{
 		foreach($this->getLoadedPlugins() as $plugin)
@@ -379,6 +430,12 @@ class Piwik_PluginsManager
 		}
 	}
 
+	/**
+	 * Install a specific plugin
+	 *
+	 * @param Piwik_Plugin $plugin
+	 * @throws Exception if installation fails
+	 */
 	private function installPlugin( Piwik_Plugin $plugin )
 	{
 		try{
@@ -465,6 +522,8 @@ class Piwik_PluginsManager
 	}
 
 	/**
+	 * Return names of installed plugins
+	 *
 	 * @return array
 	 */
 	public function getInstalledPluginsName()
@@ -477,6 +536,11 @@ class Piwik_PluginsManager
 		return $pluginNames;
 	}
 
+	/**
+	 * Install a plugin, if necessary
+	 *
+	 * @param Piwik_Plugin $plugin
+	 */
 	private function installPluginIfNecessary( Piwik_Plugin $plugin )
 	{
 		$pluginName = $plugin->getPluginName();

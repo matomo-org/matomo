@@ -315,8 +315,8 @@ class Piwik_View implements Piwik_iView
 	/**
 	 * View factory method
 	 *
-	 * @param $templateName Template name (e.g., 'index')
-	 * @param $viewType     View type (e.g., Piwik_View::CLI)
+	 * @param string $templateName Template name (e.g., 'index')
+	 * @param int $viewType     View type (e.g., Piwik_View::CLI)
 	 */
 	static public function factory( $templateName = null, $viewType = null)
 	{

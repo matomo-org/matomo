@@ -55,7 +55,7 @@ class Piwik_Translate
 	/**
 	 * Reads the specified code translation file in memory.
 	 * 
-	 * @param $language 2 letter language code. If not specified, will detect current user translation, or load default translation.
+	 * @param string $language 2 letter language code. If not specified, will detect current user translation, or load default translation.
 	 * @return void
 	 */
 	public function loadCoreTranslation($language = false)

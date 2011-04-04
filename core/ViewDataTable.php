@@ -858,7 +858,7 @@ abstract class Piwik_ViewDataTable
 	/**
 	 * Will display a message in the DataTable footer. 
 	 * 
-	 * @param $message String
+	 * @param string $message Message
 	 */
 	public function setFooterMessage( $message )
 	{
@@ -999,9 +999,9 @@ abstract class Piwik_ViewDataTable
 	 * Useful when the controller needs to add columns, or decorate existing columns, when these filters don't 
 	 * necessarily make sense directly in the API. 
 	 * 
-	 * @param $filterName
-	 * @param $parameters
-	 * @param $runBeforeGenericFilters Set to true if the filter will delete rows from the table, 
+	 * @param string $filterName
+	 * @param mixed $parameters
+	 * @param bool $runBeforeGenericFilters Set to true if the filter will delete rows from the table, 
 	 * 									and should therefore be ran before Sort, Limit, etc.
 	 * @return void
 	 */

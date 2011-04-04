@@ -171,8 +171,11 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	}
 
 	/**
-	 * @param $label mixed Can be a string, eg. "referer_name", will be aliased as 'label' in the returned rows
+	 * Query visits by dimension
+	 *
+	 * @param string $label mixed Can be a string, eg. "referer_name", will be aliased as 'label' in the returned rows
 	 * 				Can also be an array of strings, when the dimension spans multiple fields, eg. array("referer_name", "referer_keyword") 
+	 * @param string $where Additional condition for WHERE clause
 	 */
 	public function queryVisitsByDimension($label, $where = '')
 	{
@@ -443,8 +446,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * 				)
 	 * 
 	 * 
-	 * @param array $arrayLevel0 
-	 * @param array of Piwik_DataTable $subArrayLevel1ByKey 
+	 * @param array $arrayLevel0
+	 * @param array $subArrayLevel1ByKey Array of Piwik_DataTable
 	 * @return array Array with N elements: the strings of the datatable serialized 
 	 */
 	public function getDataTableWithSubtablesFromArraysIndexedByLabel( $arrayLevel0, $subArrayLevel1ByKey )
@@ -535,7 +538,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * Given an array of stats, it will process the sum of goal conversions 
 	 * and sum of revenue and add it in the stats array in two new fields.
 	 * 
-	 * @param $interestByLabel Passed by reference, it will be modified as follows:
+	 * @param array $interestByLabel Passed by reference, it will be modified as follows:
 	 * Input: 
 	 * 		array( 
 	 * 			LABEL  => array( Piwik_Archive::INDEX_NB_VISITS => X, 

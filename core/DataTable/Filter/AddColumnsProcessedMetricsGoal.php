@@ -39,9 +39,9 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 	 * - nb conversions
 	 * - revenue per visit
 	 * 
-	 * @param $table
-	 * @param $enable should be true (automatically set to true when filter_update_columns_when_show_all_goals is found in the API request)
-	 * @param $processOnlyIdGoal Defines what metrics to add (don't process metrics when you don't display them)
+	 * @param Piwik_DataTable $table
+	 * @param bool $enable should be true (automatically set to true when filter_update_columns_when_show_all_goals is found in the API request)
+	 * @param bool $processOnlyIdGoal Defines what metrics to add (don't process metrics when you don't display them)
 	 * 			If self::GOALS_FULL_TABLE, all Goal metrics (and per goal metrics) will be processed
 	 * 			If self::GOALS_OVERVIEW, only the main goal metrics will be added
 	 * 			If an int > 0, then will process only metrics for this specific Goal

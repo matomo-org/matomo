@@ -70,17 +70,26 @@ class Piwik_Tracker
 
 	/**
 	 * Do not load the specified plugins (used during testing, to disable Provider plugin)
-	 * @param $plugins
+	 * @param array $plugins
 	 */
 	static public function setPluginsNotToLoad($plugins)
 	{
 		self::$pluginsNotToLoad = $plugins;
 	}
+
+	/**
+	 * Get list of plugins to not load
+	 *
+	 * @return array
+	 */
 	static public function getPluginsNotToLoad()
 	{
 		return self::$pluginsNotToLoad;
 	}
-	
+
+	/**
+	 * Main
+	 */
 	public function main()
 	{
 		$this->init();
@@ -109,14 +118,18 @@ class Piwik_Tracker
 
 	/**
 	 * Returns the date in the "Y-m-d H:i:s" PHP format
+	 *
+	 * @param int $timstamp
 	 * @return string
 	 */
 	public static function getDatetimeFromTimestamp($timestamp)
 	{
 		return date("Y-m-d H:i:s", $timestamp);
 	}
-	
-	
+
+	/**
+	 * Initialization
+	 */
 	protected function init()
 	{
 		$this->loadTrackerPlugins();
@@ -127,6 +140,9 @@ class Piwik_Tracker
 		printDebug("Current datetime: ".date("Y-m-d H:i:s", $this->getCurrentTimestamp()));
 	}
 
+	/**
+	 * Cleanup
+	 */
 	protected function end()
 	{
 		switch($this->getState())

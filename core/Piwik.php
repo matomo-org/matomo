@@ -841,6 +841,7 @@ class Piwik
 	 */
 	static public function setMemoryLimit($minimumMemoryLimit)
 	{
+		// in Megabytes
 		$currentValue = self::getMemoryLimitValue();
 		if( ($currentValue === false
 			|| $currentValue < $minimumMemoryLimit )
@@ -1186,11 +1187,11 @@ class Piwik
 
 	/**
 	 * For the given value, based on the column name, will apply: pretty time, pretty money
-	 * @param $idSite
-	 * @param $columnName
-	 * @param $value
-	 * @param $htmlAllowed
-	 * @param $timeAsSentence
+	 * @param int $idSite
+	 * @param string $columnName
+	 * @param mixed $value
+	 * @param bool $htmlAllowed
+	 * @param string $timeAsSentence
 	 * @return string
 	 */
 	static public function getPrettyValue($idSite, $columnName, $value, $htmlAllowed, $timeAsSentence)
@@ -1685,7 +1686,7 @@ class Piwik
 	 * array[]=value1&array[]=value2 in the URL.
 	 * This function will handle both cases and return the array.
 	 *
-	 * @param $columns String or array
+	 * @param array|string $columns String or array
 	 * @return array
 	 */
 	static public function getArrayFromApiParameter($columns)

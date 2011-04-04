@@ -677,7 +677,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	/**
 	 * Checks if the visitor ip is in the excluded list
 	 * 
-	 * @param $ip Long IP
+	 * @param string $ip Long IP
 	 * @return bool
 	 */
 	protected function isVisitorIpExcluded($ip)
@@ -1056,7 +1056,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	}
 
 	/**
-	 * @param $action
+	 * Detect whether action is an outlink given host aliases
+	 *
+	 * @param Piwik_Tracker_Action_Interface $action
 	 * @return bool true if the outlink the visitor clicked on points to one of the known hosts for this website
 	 */
 	protected function detectActionIsOutlinkOnAliasHost(Piwik_Tracker_Action_Interface $action)
