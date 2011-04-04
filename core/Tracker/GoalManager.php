@@ -225,22 +225,10 @@ class Piwik_Tracker_GoalManager
 			$fields = implode(", ", array_keys($newGoal));
 			$bindFields = substr(str_repeat( "?,",count($newGoal)),0,-1);
 			
-			try {
-				$sql = "INSERT IGNORE INTO " . Piwik_Common::prefixTable('log_conversion') . "	
-						($fields) VALUES ($bindFields) ";
-				$bind = array_values($newGoal);
-				Piwik_Tracker::getDatabase()->query($sql, $bind);
-			} catch( Exception $e) {
-				if(Piwik_Tracker::getDatabase()->isErrNo($e, '1062'))
-				{
-					// integrity violation when same visit converts to the same goal twice
-					printDebug("--&gt; Goal already recorded for this (idvisit, idgoal, buster)");
-				}
-				else
-				{
-					throw $e;
-				}
-			}
+			$sql = "INSERT IGNORE INTO " . Piwik_Common::prefixTable('log_conversion') . "	
+					($fields) VALUES ($bindFields) ";
+			$bind = array_values($newGoal);
+			Piwik_Tracker::getDatabase()->query($sql, $bind);
 		}
 	}
 }
