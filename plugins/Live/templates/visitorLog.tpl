@@ -60,7 +60,7 @@
 		&nbsp;<img src="{$visitor.columns.countryFlag}" title="{$visitor.columns.country}, Provider {$visitor.columns.provider}" />
 		&nbsp;<img src="{$visitor.columns.browserIcon}" title="{$visitor.columns.browser} with plugins {$visitor.columns.plugins} enabled" />
 		&nbsp;<img src="{$visitor.columns.operatingSystemIcon}" title="{$visitor.columns.operatingSystem}, {$visitor.columns.resolution} ({$visitor.columns.screen})" />
-		&nbsp;{if $visitor.columns.isVisitorGoalConverted}<img src="{$visitor.columns.goalIcon}" title="{$visitor.columns.goalType}" />{/if}
+		&nbsp;{if $visitor.columns.isVisitorGoalConverted}<img src="{$visitor.columns.goalIcon}" title="{'General_VisitConvertedGoal'|translate} - {$visitor.columns.goalType}" />{/if}
 		{if $visitor.columns.isVisitorReturning}
 			&nbsp;<img src="plugins/Live/templates/images/returningVisitor.gif" title="Returning Visitor" />
 		{/if}
@@ -118,9 +118,17 @@
 			<br />
 			<ol style="list-style:decimal inside none;">
 			{foreach from=$visitor.columns.actionDetails item=action}
-				<li>
-					<a href="{$action.pageUrl|escape:'html'}" target="_blank" style="text-decoration:underline;" title="{$action.pageUrl|escape:'html'}">{$action.pageUrl|escape:'html'|truncate:80:"...":true}</a>
-					{if $visitor.columns.goalUrl eq $action.pageIdAction}
+				<li title="{$action.serverTime|escape:'html'} - {$action.pageUrl|escape:'html'}">
+					{if strlen(trim($action.pageTitle))>0}
+					 	{$action.pageTitle|escape:'html'|truncate:60:"...":true}
+						<br/>
+					{/if}
+					{if !empty($action.pageUrl)}
+					 	<a href="{$action.pageUrl|escape:'html'}" target="_blank" style="margin-left: 25px;text-decoration:underline;">{$action.pageUrl|escape:'html'|truncate:80:"...":true}</a>
+					{else}
+						{$javascriptVariablesToSet.pageUrlNotDefined}
+					{/if}
+					{if $visitor.columns.goalConvertedPageId eq $action.pageId}
 						<ul class="actionGoalDetails">
 							<li>
 								<img src="{$visitor.columns.goalIcon}" title="{$visitor.columns.goalType}" /> 

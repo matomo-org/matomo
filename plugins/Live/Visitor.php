@@ -81,7 +81,7 @@ class Piwik_Live_Visitor
    			'goalType' => $this->getGoalType(),
 			'goalName' => $this->getGoalName(),
    			'goalRevenue' => $this->getGoalRevenue(),
-			'goalUrl' => $this->getGoalUrl(),
+			'goalConvertedPageId' => $this->getGoalConvertedPageId(),
    			'goalTimePretty' => $this->getGoalTimePretty()
 		);
 	}
@@ -374,10 +374,10 @@ class Piwik_Live_Visitor
 		return false;
 	}
 
-	function getGoalUrl()
+	function getGoalConvertedPageId()
 	{
-		if(isset($this->details['goal_idaction_url'])){
-			return $this->details['goal_idaction_url'];
+		if(isset($this->details['idlink_va'])){
+			return $this->details['idlink_va'];
 		}
 		return false;
 	}
