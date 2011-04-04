@@ -70,8 +70,8 @@ abstract class Piwik_Controller
 	/**
 	 * Helper method to convert "today" or "yesterday" to the default timezone specified.
 	 * If the date is absolute, ie. YYYY-MM-DD, it will not be converted to the timezone
-	 * @param $date today, yesterday, YYYY-MM-DD
-	 * @param $defaultTimezone
+	 * @param string $date today, yesterday, YYYY-MM-DD
+	 * @param string $defaultTimezone
 	 * @return Piwik_Date
 	 */
 	protected function getDateParameterInTimezone($date, $defaultTimezone )
@@ -100,7 +100,7 @@ abstract class Piwik_Controller
 	/**
 	 * Sets the date to be used by all other methods in the controller.
 	 * If the date has to be modified, it should be called just after the controller construct
-	 * @param $date
+	 * @param Piwik_Date $date
 	 * @return void
 	 */
 	protected function setDate(Piwik_Date $date)
@@ -239,7 +239,7 @@ abstract class Piwik_Controller
 	 * Returns a numeric value from the API.
 	 * Works only for API methods that originally returns numeric values (there is no cast here)
 	 *
-	 * @param string $methodToCall, eg. Referers.getNumberOfDistinctSearchEngines
+	 * @param string $methodToCall Name of method to call, eg. Referers.getNumberOfDistinctSearchEngines
 	 * @return int|float
 	 */
 	protected function getNumericValue( $methodToCall )
@@ -255,9 +255,9 @@ abstract class Piwik_Controller
 	 * It will automatically build a sparkline by setting the viewDataTable=sparkline parameter in the URL.
 	 * It will also computes automatically the 'date' for the 'last30' days/weeks/etc. 
 	 *
-	 * @param string $action, eg. method name of the controller to call in the img src
-	 * @param array array of name => value of parameters to set in the generated GET url 
-	 * @return string the generated URL
+	 * @param string $action Method name of the controller to call in the img src
+	 * @param array Array of name => value of parameters to set in the generated GET url 
+	 * @return string The generated URL
 	 */
 	protected function getUrlSparkline( $action, $customParameters = array() )
 	{
@@ -281,8 +281,8 @@ abstract class Piwik_Controller
 	
 	/**
 	 * Sets the first date available in the calendar
-	 * @param $minDate
-	 * @param $view
+	 * @param Piwik_Date $minDate
+	 * @param Piwik_View $view
 	 * @return void
 	 */
 	protected function setMinDateView(Piwik_Date $minDate, $view)
@@ -294,8 +294,8 @@ abstract class Piwik_Controller
 	
 	/**
 	 * Sets "today" in the calendar. Today does not always mean "UTC" today, eg. for websites in UTC+12.
-	 * @param $maxDate
-	 * @param $view
+	 * @param Piwik_Date $maxDate
+	 * @param Piwik_View $view
 	 * @return void
 	 */
 	protected function setMaxDateView(Piwik_Date $maxDate, $view)
@@ -308,7 +308,7 @@ abstract class Piwik_Controller
 	/**
 	 * Sets general variables to the view that are used by various templates and Javascript.
 	 * If any error happens, displays the login screen
-	 * @param $view
+	 * @param Piwik_View $view
 	 * @return void
 	 */
 	protected function setGeneralVariablesView($view)
@@ -366,7 +366,7 @@ abstract class Piwik_Controller
 	 * Will only set the minimal variables in the view object
 	 * Used by Admin screens
 	 * 
-	 * @param $view
+	 * @param Piwik_View $view
 	 */
 	protected function setBasicVariablesView($view)
 	{
@@ -379,7 +379,7 @@ abstract class Piwik_Controller
 	
 	/**
 	 * Sets general period variables (available periods, current period, period labels) used by templates 
-	 * @param $view
+	 * @param Piwik_View $view
 	 * @return void
 	 */
 	public static function setPeriodVariablesView($view)
@@ -419,12 +419,11 @@ abstract class Piwik_Controller
 	 * Helper method used to redirect the current http request to another module/action
 	 * If specified, will also redirect to a given website, period and /or date
 	 * 
-	 * @param $moduleToRedirect eg. "MultiSites"
-	 * @param $actionToRedirect eg. "index"
-	 * @param $websiteId eg. 1
-	 * @param $defaultPeriod eg. "day"
-	 * @param $defaultDate eg. "today"
-	 * @return issues a http header redirect and exits
+	 * @param string $moduleToRedirect Module, eg. "MultiSites"
+	 * @param string $actionToRedirect Action, eg. "index"
+	 * @param string $websiteId Website ID, eg. 1
+	 * @param string $defaultPeriod Default period, eg. "day"
+	 * @param string $defaultDate Default date, eg. "today"
 	 */
 	function redirectToIndex($moduleToRedirect, $actionToRedirect, $websiteId = null, $defaultPeriod = null, $defaultDate = null)
 	{
@@ -546,8 +545,11 @@ abstract class Piwik_Controller
 	}
 	
 	/**
-	 * Checks that the specified token matches the current logged in user token
-	 * Protection against CSRF
+	 * Checks that the specified token matches the current logged in user token.
+	 * Note: this protection against CSRF should be limited to controller
+	 * actions that are either invoked via AJAX or redirect to a page
+	 * within the site.  The token should never appear in the browser's
+	 * address bar.
 	 * 
 	 * @return throws exception if token doesn't match
 	 */

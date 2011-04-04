@@ -155,13 +155,16 @@ class Piwik_Common
 		return $content;
 	}
 
+	/**
+	 * Clear general (global) cache
+	 */
 	static public function clearCacheGeneral()
 	{
 		self::getTrackerCache()->delete('general');
 	}
 
 	/**
-	 * Returns array containing Piwik global data
+	 * Returns contents of general (global) cache
 	 * @return array
 	 */
 	static protected function getCacheGeneral()
@@ -182,6 +185,11 @@ class Piwik_Common
 		return $cacheContent;
 	}
 
+	/**
+	 * Store data in general (global cache)
+	 *
+	 * @param mixed $value
+	 */
 	static protected function setCacheGeneral($value)
 	{
 		$cache = self::getTrackerCache();
@@ -233,6 +241,8 @@ class Piwik_Common
 	 * but still want daily/weekly/monthly PDF reports emailed automatically.
 	 *
 	 * This is similar to calling the API CoreAdminHome.runScheduledTasks (see misc/cron/archive.sh)
+	 *
+	 * @param int $now Current timestamp
 	 */
 	public static function runScheduledTasks($now)
 	{
@@ -307,8 +317,7 @@ class Piwik_Common
 	 * Returns the value of a GET parameter $parameter in an URL query $urlQuery
 	 *
 	 * @param string $urlQuery result of parse_url()['query'] and htmlentitied (& is &amp;) eg. module=test&amp;action=toto or ?page=test
-	 * @param string $param
-	 *
+	 * @param string $parameter
 	 * @return string|bool Parameter value if found (can be the empty string!), null if not found
 	 */
 	static public function getParameterFromQueryString( $urlQuery, $parameter)
@@ -387,29 +396,29 @@ class Piwik_Common
 	 * Copied from the PHP comments at http://php.net/parse_url
 	 * @param array
 	 */
-    static public function getParseUrlReverse($parsed)
-    {
-        if (!is_array($parsed))
-        {
+	static public function getParseUrlReverse($parsed)
+	{
+		if (!is_array($parsed))
+		{
 			return false;
-        }
+		}
 
-        $uri = !empty($parsed['scheme']) ? $parsed['scheme'].':'.(!strcasecmp($parsed['scheme'], 'mailto') ? '' : '//') : '';
-        $uri .= !empty($parsed['user']) ? $parsed['user'].(!empty($parsed['pass']) ? ':'.$parsed['pass'] : '').'@' : '';
-        $uri .= !empty($parsed['host']) ? $parsed['host'] : '';
-        $uri .= !empty($parsed['port']) ? ':'.$parsed['port'] : '';
+		$uri = !empty($parsed['scheme']) ? $parsed['scheme'].':'.(!strcasecmp($parsed['scheme'], 'mailto') ? '' : '//') : '';
+		$uri .= !empty($parsed['user']) ? $parsed['user'].(!empty($parsed['pass']) ? ':'.$parsed['pass'] : '').'@' : '';
+		$uri .= !empty($parsed['host']) ? $parsed['host'] : '';
+		$uri .= !empty($parsed['port']) ? ':'.$parsed['port'] : '';
 
-        if (!empty($parsed['path']))
-        {
-            $uri .= (!strncmp($parsed['path'], '/', 1))
+		if (!empty($parsed['path']))
+		{
+			$uri .= (!strncmp($parsed['path'], '/', 1))
 				? $parsed['path']
 				: ((!empty($uri) ? '/' : '' ) . $parsed['path']);
-        }
+		}
 
-        $uri .= !empty($parsed['query']) ? '?'.$parsed['query'] : '';
-        $uri .= !empty($parsed['fragment']) ? '#'.$parsed['fragment'] : '';
-        return $uri;
-    }
+		$uri .= !empty($parsed['query']) ? '?'.$parsed['query'] : '';
+		$uri .= !empty($parsed['fragment']) ? '#'.$parsed['fragment'] : '';
+		return $uri;
+	}
 
 	/**
 	 * Returns true if the string passed may be a URL.
@@ -812,10 +821,13 @@ class Piwik_Common
 
 	/**
 	 * Converts from a numeric representation to a string representation
+	 *
+	 * @param string Long (numeric) representation of IP address
+	 * @return string Dotted IP representation
 	 */
 	static public function long2ip($long)
 	{
-	    return long2ip($long);
+		return long2ip($long);
 	}
 
 	/**
@@ -943,7 +955,7 @@ class Piwik_Common
 	 *
 	 * @see core/DataFiles/Countries.php
 	 *
-	 * @return array of 2 letter ISO codes
+	 * @return array Array of 2 letter ISO codes
 	 */
 	static public function getContinentsList()
 	{
@@ -959,7 +971,7 @@ class Piwik_Common
 	 * @see core/DataFiles/Countries.php
 	 *
 	 * @param bool $includeInternalCodes
-	 * @return array of (2 letter ISO codes => 3 letter continent code)
+	 * @return array Array of (2 letter ISO codes => 3 letter continent code)
 	 */
 	static public function getCountriesList($includeInternalCodes = false)
 	{
@@ -980,7 +992,7 @@ class Piwik_Common
 	 *
 	 * @see core/DataFiles/Languages.php
 	 *
-	 * @return array of 2 letter ISO codes => Language name (in English)
+	 * @return array Array of 2 letter ISO codes => Language name (in English)
 	 */
 	static public function getLanguagesList()
 	{
@@ -995,7 +1007,7 @@ class Piwik_Common
 	 *
 	 * @see core/DataFiles/LanguageToCountry.php
 	 *
-	 * @return array of ( 2 letter ISO language codes => 2 letter ISO country codes )
+	 * @return array Array of ( 2 letter ISO language codes => 2 letter ISO country codes )
 	 */
 	static public function getLanguageToCountryList()
 	{
@@ -1010,7 +1022,7 @@ class Piwik_Common
 	 *
 	 * @see core/DataFiles/SearchEngines.php
 	 *
-	 * @return array of ( URL => array( searchEngineName, keywordParameter, path, charset ) )
+	 * @return array Array of ( URL => array( searchEngineName, keywordParameter, path, charset ) )
 	 */
 	static public function getSearchEngineUrls()
 	{
@@ -1025,7 +1037,7 @@ class Piwik_Common
 	 *
 	 * @see core/DataFiles/SearchEngines.php
 	 *
-	 * @return array of ( searchEngineName => URL )
+	 * @return array Array of ( searchEngineName => URL )
 	 */
 	static public function getSearchEngineNames()
 	{
@@ -1042,7 +1054,7 @@ class Piwik_Common
 	/**
 	 * Returns the browser language code, eg. "en-gb,en;q=0.5"
 	 *
-	 * @param string $browerLang (optional browser language)
+	 * @param string $browserLang Optional browser language, otherwise taken from the request header
 	 * @return string
 	 */
 	static public function getBrowserLanguage($browserLang = NULL)
@@ -1097,7 +1109,7 @@ class Piwik_Common
 	 * information, but provides a hook for geolocation via IP address.
 	 *
 	 * @param string $lang browser lang
-	 * @param bool If set to true, some assumption will be made and detection guessed more often, but accuracy could be affected
+	 * @param bool $enableLanguageToCountryGuess If set to true, some assumption will be made and detection guessed more often, but accuracy could be affected
 	 * @param string $ip
 	 * @return string 2 letter ISO code
 	 */
@@ -1125,7 +1137,7 @@ class Piwik_Common
 	 * @param string $browserLanguage
 	 * @param array of string $validCountries
 	 * @param bool $enableLanguageToCountryGuess (if true, will guess country based on language that lacks region information)
-	 * @return array of 2 letter ISO codes
+	 * @return array Array of 2 letter ISO codes
 	 */
 	static public function extractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, $enableLanguageToCountryGuess)
 	{
@@ -1160,7 +1172,8 @@ class Piwik_Common
 	/**
 	 * Returns the visitor language based only on the Browser 'accepted language' information
 	 *
-	 * @param string $lang browser lang
+	 * @param string $browserLang Browser's accepted langauge header
+	 * @param array Array of valid language codes
 	 * @return string 2 letter ISO 639 code
 	 */
 	static public function extractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages)
