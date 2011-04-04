@@ -158,7 +158,7 @@ class Piwik_Date
 	 * Helper function that returns the offset in the timezone string 'UTC+14'
 	 * Returns false if the timezone is not UTC+X or UTC-X
 	 *
-	 * @param $timezone
+	 * @param string $timezone
 	 * @return int or false
 	 */
 	static protected function extractUtcOffset($timezone)
@@ -462,7 +462,7 @@ class Piwik_Date
 	 * Returns a localized date string, given a template.
 	 * Allowed tags are: %day%, %shortDay%, %longDay%, etc.
 	 *
-	 * @param $template string eg. %shortMonth% %longYear%
+	 * @param string $template string eg. %shortMonth% %longYear%
 	 * @return string eg. "Aug 2009"
 	 */
 	public function getLocalized($template)

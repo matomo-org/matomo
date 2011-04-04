@@ -21,7 +21,9 @@
  * </pre>
  * 
  * @see Piwik_Url::getCurrentQueryStringWithParametersModified()
- * @param $name=$value of the parameters to modify in the generated URL
+ *
+ * @param array $params $name=>$value pairs of the parameters to modify in the generated URL
+ * @param Smarty &smarty Smarty object
  * @return	string Something like index.php?module=X&action=Y 
  */
 function smarty_function_url($params, &$smarty)

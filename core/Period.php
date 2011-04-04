@@ -39,8 +39,8 @@ abstract class Piwik_Period
 	}
 	
 	/**
-	 * @param $strPeriod "day", "week", "month", "year"
-	 * @param $date Piwik_Date object
+	 * @param string $strPeriod "day", "week", "month", "year"
+	 * @param Piwik_Date $date Piwik_Date object
 	 * @return Piwik_Period
 	 */
 	static public function factory($strPeriod, Piwik_Date $date)

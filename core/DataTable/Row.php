@@ -318,7 +318,8 @@ class Piwik_DataTable_Row
 	
 	/**
 	 * Add columns to the row
-	 * @param $columns array( name => value , ...)
+	 *
+	 * @param array $columns Name/Value pairs, e.g., array( name => value , ...)
 	 * @return void
 	 */
 	public function addColumns($columns)

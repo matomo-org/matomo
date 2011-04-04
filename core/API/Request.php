@@ -132,7 +132,7 @@ class Piwik_API_Request
 	 * the current session will be authenticated using this token_auth.
 	 * It will overwrite the previous Auth object.
 	 * 
-	 * @param $request If null, uses the default request ($_GET)
+	 * @param array $request If null, uses the default request ($_GET)
 	 * @return void
 	 */
 	static public function reloadAuthUsingTokenAuth($request = null)

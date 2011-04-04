@@ -257,7 +257,7 @@ class Piwik_Url
 	 * Given an array of parameters name->value, returns the query string.
 	 * Also works with array values using the php array syntax for GET parameters.
 	 *
-	 * @param $parameters eg. array( 'param1' => 10, 'param2' => array(1,2))
+	 * @param array $parameters eg. array( 'param1' => 10, 'param2' => array(1,2))
 	 * @return string eg. "param1=10&param2[]=1&param2[]=2"
 	 */
 	static public function getQueryStringFromParameters($parameters)

@@ -20,8 +20,8 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 	protected $roundPrecision = 2;
 	
 	/**
-	 * @param $table
-	 * @param $enable Automatically set to true when filter_add_columns_when_show_all_columns is found in the API request
+	 * @param Piwik_DataTable $table
+	 * @param bool $enable Automatically set to true when filter_add_columns_when_show_all_columns is found in the API request
 	 * @return void
 	 */
 	public function __construct( $table, $enable = true )
@@ -79,9 +79,9 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 	 * - raw datatables coming from the archive DB, which columns are int indexed
 	 * - datatables processed resulting of API calls, which columns have human readable english names
 	 * 
-	 * @param $row
-	 * @param $columnIdRaw see consts in Piwik_Archive::
-	 * @return Value of column, false if not found
+	 * @param Piwik_DataTable_Row $row
+	 * @param int $columnIdRaw see consts in Piwik_Archive::
+	 * @return mixed Value of column, false if not found
 	 */
 	protected function getColumn($row, $columnIdRaw, $mappingIdToName = false)
 	{

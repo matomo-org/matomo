@@ -104,8 +104,9 @@ class Piwik_DataTable_Array
 	
 	/**
 	 * Apply a filter to all tables in the array
-	 * @param $className
-	 * @param $parameters
+	 *
+	 * @param string $className Name of filter class
+	 * @param array $parameters Filter parameters
 	 */
 	public function filter($className, $parameters = array())
 	{
