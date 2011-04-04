@@ -216,7 +216,7 @@ class Piwik_Goals extends Piwik_Plugin
 	 * Hooks on Period archiving. 
 	 * Sums up Goal conversions stats, and processes overall conversion rate
 	 * 
-	 * @param $notification
+	 * @param Piwik_Event_Notification $notification
 	 * @return void
 	 */
 	function archivePeriod($notification )
@@ -258,7 +258,8 @@ class Piwik_Goals extends Piwik_Plugin
 	 * Hooks on the Daily archiving.
 	 * Will process Goal stats overall and for each Goal. 
 	 * Also processes the New VS Returning visitors conversion stats.
-	 * @param $notification
+	 *
+	 * @param Piwik_Event_Notification $notification
 	 * @return void
 	 */
 	function archiveDay( $notification )

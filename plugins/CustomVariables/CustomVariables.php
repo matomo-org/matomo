@@ -119,7 +119,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
 	/**
 	 * Hooks on daily archive to trigger various log processing
 	 * 
-	 * @param $notification
+	 * @param Piwik_Event_Notification $notification
 	 * @return void
 	 */
 	public function archiveDay( $notification )
@@ -140,7 +140,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
 	}
 	
 	/**
-	 * @param $archiveProcessing
+	 * @param Piwik_ArchiveProcessing $archiveProcessing
 	 * @return void
 	 */
 	protected function archiveDayAggregate(Piwik_ArchiveProcessing $archiveProcessing)
@@ -181,7 +181,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
 	}
 	
 	/**
-	 * @param $archiveProcessing
+	 * @param Piwik_ArchiveProcessing $archiveProcessing
 	 * @return void
 	 */
 	protected function archiveDayRecordInDatabase($archiveProcessing)

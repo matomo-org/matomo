@@ -604,8 +604,8 @@ class Piwik_Actions extends Piwik_Plugin
 	 * Given a page name and type, builds a recursive datatable where
 	 * each level of the tree is a category, based on the page name split by a delimiter (slash / by default)
 	 *  
-	 * @param $actionName
-	 * @param $actionType
+	 * @param string $actionName
+	 * @param int $actionType
 	 * @return Piwik_DataTable
 	 */
 	protected function parseActionNameCategoriesInDataTable($actionName, $actionType)

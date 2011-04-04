@@ -32,8 +32,8 @@ class Piwik_Goals_API
 	/**
 	 * Returns all Goals for a given website
 	 * 
-	 * @param $idSite
-	 * @return Array of Goal attributes
+	 * @param int $idSite
+	 * @return array Array of Goal attributes
 	 */
 	public function getGoals( $idSite )
 	{
@@ -59,14 +59,14 @@ class Piwik_Goals_API
 	/**
 	 * Creates a Goal for a given website.
 	 * 
-	 * @param $idSite
-	 * @param $name
-	 * @param $matchAttribute 'url', 'file', 'external_website' or 'manually'
-	 * @param $pattern eg. purchase-confirmation.htm
-	 * @param $patternType 'regex', 'contains', 'exact' 
-	 * @param $caseSensitive bool
-	 * @param $revenue If set, default revenue to assign to conversions
-	 * @param $allowMultipleConversionsPerVisit By default, multiple conversions in the same visit will only record the first conversion.
+	 * @param int $idSite
+	 * @param string $name
+	 * @param string $matchAttribute 'url', 'file', 'external_website' or 'manually'
+	 * @param string $pattern eg. purchase-confirmation.htm
+	 * @param string $patternType 'regex', 'contains', 'exact' 
+	 * @param bool $caseSensitive
+	 * @param float|string $revenue If set, default revenue to assign to conversions
+	 * @param bool $allowMultipleConversionsPerVisit By default, multiple conversions in the same visit will only record the first conversion.
 	 * 						If set to true, multiple conversions will all be recorded within a visit (useful for Ecommerce goals)
 	 * @return int ID of the new goal
 	 */
@@ -154,8 +154,8 @@ class Piwik_Goals_API
 	 * Soft deletes a given Goal.
 	 * Stats data in the archives will still be recorded, but not displayed.
 	 * 
-	 * @param $idSite
-	 * @param $idGoal
+	 * @param int $idSite
+	 * @param int $idGoal
 	 * @return void
 	 */
 	public function deleteGoal( $idSite, $idGoal )
@@ -173,11 +173,11 @@ class Piwik_Goals_API
 	/**
 	 * Returns Goals data
 	 * 
-	 * @param $idSite
-	 * @param $period
-	 * @param $date
-	 * @param $idGoal
-	 * @param $columns Comma separated list of metrics to fetch: nb_conversions, conversion_rate, revenue
+	 * @param int $idSite
+	 * @param string $period
+	 * @param string $date
+	 * @param int $idGoal
+	 * @param array $columns Array of metrics to fetch: nb_conversions, conversion_rate, revenue
 	 * @return Piwik_DataTable
 	 */
 	public function get( $idSite, $period, $date, $segment = false, $idGoal = false, $columns = array() )

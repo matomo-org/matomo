@@ -38,13 +38,13 @@ class Piwik_PDFReports_API
 	/**
 	 * Creates a new PDF report and schedules it. 
 	 * 
-	 * @param $idSite 
-	 * @param $description Report description
-	 * @param $period Schedule frequency: day, week or month 
-	 * @param $sendToMe bool
-	 * @param $additionalEmails Comma separated list of emails
-	 * @param $reports Comma separated list of reports
-	 * @return idReport generated
+	 * @param int $idSite 
+	 * @param string $description Report description
+	 * @param string $period Schedule frequency: day, week or month 
+	 * @param bool $sendToMe
+	 * @param string $additionalEmails Comma separated list of emails
+	 * @param string $reports Comma separated list of reports
+	 * @return int idReport generated
 	 */
 	public function addReport( $idSite, $description, $period, $reports, $emailMe = true, $additionalEmails = false)
 	{
@@ -112,7 +112,7 @@ class Piwik_PDFReports_API
 	/**
 	 * Deletes a specific report
 	 * 
-	 * @param $idReport
+	 * @param int $idReport
 	 */
 	public function deleteReport($idReport)
 	{
@@ -135,10 +135,9 @@ class Piwik_PDFReports_API
 	/**
 	 * Returns the list of PDF reports matching the passed parameters
 	 * 
-	 * @param $idSite If specified, will filter reports that belong to a specific idsite
-	 * @param $period If specified, will filter reports that are scheduled for this period (day,week,month)
-	 * @param $idReport If specified, will filter the report that has the given idReport 
-	 * 
+	 * @param int $idSite If specified, will filter reports that belong to a specific idsite
+	 * @param string $period If specified, will filter reports that are scheduled for this period (day,week,month)
+	 * @param int $idReport If specified, will filter the report that has the given idReport 
 	 * @throws Exception if $idReport was specified but the report wasn't found
 	 */
 	public function getReports($idSite = false, $period = false, $idReport = false, $ifSuperUserReturnOnlySuperUserReports = false)

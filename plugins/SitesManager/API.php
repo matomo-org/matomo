@@ -60,7 +60,7 @@ class Piwik_SitesManager_API
 	
 	/**
 	 * Returns all websites belonging to the specified group 
-	 * @param $group string Group name
+	 * @param string $group Group name
 	 */
 	public function getSitesFromGroup($group)
 	{
@@ -473,8 +473,8 @@ class Piwik_SitesManager_API
 	/**
 	 * Checks that the submitted IPs (comma separated list) are valid
 	 * Returns the cleaned up IPs
-	 * @param $excludedIps 
-	 * 
+	 *
+	 * @param string $excludedIps Comma separated list of IP addresses
 	 * @return array of IPs
 	 */
 	private function checkAndReturnExcludedIps($excludedIps)
@@ -592,7 +592,7 @@ class Piwik_SitesManager_API
 	/**
 	 * Sets the default currency that will be used when creating websites
 	 * 
-	 * @param $defaultCurrency string eg. 'USD'
+	 * @param string $defaultCurrency Currency code, eg. 'USD'
 	 * @return bool
 	 */
 	public function setDefaultCurrency($defaultCurrency)
@@ -622,7 +622,7 @@ class Piwik_SitesManager_API
 	/**
 	 * Sets the default timezone that will be used when creating websites
 	 * 
-	 * @param $defaultTimezone string eg. Europe/Paris or UTC+8
+	 * @param string $defaultTimezone Timezone string eg. Europe/Paris or UTC+8
 	 * @return bool
 	 */
 	public function setDefaultTimezone($defaultTimezone)
@@ -908,7 +908,7 @@ class Piwik_SitesManager_API
 	 * Tests if the IP is a valid IP, allowing wildcards, except in the first octet.
 	 * Wildcards can only be used from right to left, ie. 1.1.*.* is allowed, but 1.1.*.1 is not.
 	 * 
-	 * @param $ip
+	 * @param string $ip IP address
 	 * @return bool
 	 */
 	private function isValidIp( $ip )
