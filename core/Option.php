@@ -90,7 +90,7 @@ class Piwik_Option
 	 */
 	public function delete($name, $value = null)
 	{
-		$sql = 'DELETE FROM '. Piwik_Common::prefixTable('option') . ' WHERE option_name = ?';
+		$sql = 'DELETE FROM `'. Piwik_Common::prefixTable('option') . '` WHERE option_name = ?';
 		$bind[] = $name;
 
 		if(isset($value))
