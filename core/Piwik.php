@@ -664,117 +664,121 @@ class Piwik
 	 */
 	static public function serveStaticFile($file, $contentType)
 	{
-		if (!file_exists($file))
+		if (file_exists($file))
 		{
-			self::setHttpStatus('404 Not Found');
-			return;
-		}
-		// conditional GET
-		$modifiedSince = '';
-		if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))
-		{
-			$modifiedSince = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
-
-			// strip any trailing data appended to header
-			if (false !== ($semicolon = strpos($modifiedSince, ';')))
+			// conditional GET
+			$modifiedSince = '';
+			if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))
 			{
-				$modifiedSince = substr($modifiedSince, 0, $semicolon);
+				$modifiedSince = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
+
+				// strip any trailing data appended to header
+				if (false !== ($semicolon = strpos($modifiedSince, ';')))
+				{
+					$modifiedSince = substr($modifiedSince, 0, $semicolon);
+				}
 			}
-		}
 
-		$fileModifiedTime = @filemtime($file);
-		$lastModified = gmdate('D, d M Y H:i:s', $fileModifiedTime) . ' GMT';
+			$fileModifiedTime = @filemtime($file);
+			$lastModified = gmdate('D, d M Y H:i:s', $fileModifiedTime) . ' GMT';
 
-		// set HTTP response headers
-		self::overrideCacheControlHeaders('public');
-		@header('Vary: Accept-Encoding');
-		@header('Content-Disposition: inline; filename='.basename($file));
+			// set HTTP response headers
+			self::overrideCacheControlHeaders('public');
+			@header('Vary: Accept-Encoding');
+			@header('Content-Disposition: inline; filename='.basename($file));
 
-		// Returns 304 if not modified since
-		if ($modifiedSince === $lastModified)
-		{
-			self::setHttpStatus('304 Not Modified');
-			return;
-		}
-		// optional compression
-		$compressed = false;
-		$encoding = '';
-		$compressedFileLocation = PIWIK_USER_PATH . self::COMPRESSED_FILE_LOCATION . basename($file);
-
-		$phpOutputCompressionEnabled = self::isPhpOutputCompressed();
-		if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && !$phpOutputCompressionEnabled)
-		{
-			$acceptEncoding = $_SERVER['HTTP_ACCEPT_ENCODING'];
-
-			if (extension_loaded('zlib') && function_exists('file_get_contents') && function_exists('file_put_contents'))
+			// Returns 304 if not modified since
+			if ($modifiedSince === $lastModified)
 			{
-				if (preg_match('/(?:^|, ?)(deflate)(?:,|$)/', $acceptEncoding, $matches))
-				{
-					$encoding = 'deflate';
-					$filegz = $compressedFileLocation .'.deflate';
-				}
-				else if (preg_match('/(?:^|, ?)((x-)?gzip)(?:,|$)/', $acceptEncoding, $matches))
-				{
-					$encoding = $matches[1];
-					$filegz = $compressedFileLocation .'.gz';
-				}
-
-				if (!empty($encoding))
-				{
-					// compress-on-demand and use cache
-					if(!file_exists($filegz) || ($fileModifiedTime > @filemtime($filegz)))
-					{
-						$data = file_get_contents($file);
-
-						if ($encoding == 'deflate')
-						{
-							$data = gzdeflate($data, 9);
-						}
-						else if ($encoding == 'gzip' || $encoding == 'x-gzip')
-						{
-							$data = gzencode($data, 9);
-						}
-
-						file_put_contents($filegz, $data);
-					}
-
-					$compressed = true;
-					$file = $filegz;
-				}
+				self::setHttpStatus('304 Not Modified');
 			}
 			else
 			{
-				// manually compressed
-				$filegz = $compressedFileLocation .'.gz';
-				if (preg_match('/(?:^|, ?)((x-)?gzip)(?:,|$)/', $acceptEncoding, $matches) && file_exists($filegz) && ($fileModifiedTime < @filemtime($filegz)))
+				// optional compression
+				$compressed = false;
+				$encoding = '';
+				$compressedFileLocation = PIWIK_USER_PATH . self::COMPRESSED_FILE_LOCATION . basename($file);
+
+				$phpOutputCompressionEnabled = self::isPhpOutputCompressed();
+				if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && !$phpOutputCompressionEnabled)
 				{
-					$encoding = $matches[1];
-					$compressed = true;
-					$file = $filegz;
+					$acceptEncoding = $_SERVER['HTTP_ACCEPT_ENCODING'];
+
+					if (extension_loaded('zlib') && function_exists('file_get_contents') && function_exists('file_put_contents'))
+					{
+						if (preg_match('/(?:^|, ?)(deflate)(?:,|$)/', $acceptEncoding, $matches))
+						{
+							$encoding = 'deflate';
+							$filegz = $compressedFileLocation .'.deflate';
+						}
+						else if (preg_match('/(?:^|, ?)((x-)?gzip)(?:,|$)/', $acceptEncoding, $matches))
+						{
+							$encoding = $matches[1];
+							$filegz = $compressedFileLocation .'.gz';
+						}
+
+						if (!empty($encoding))
+						{
+							// compress-on-demand and use cache
+							if(!file_exists($filegz) || ($fileModifiedTime > @filemtime($filegz)))
+							{
+								$data = file_get_contents($file);
+
+								if ($encoding == 'deflate')
+								{
+									$data = gzdeflate($data, 9);
+								}
+								else if ($encoding == 'gzip' || $encoding == 'x-gzip')
+								{
+									$data = gzencode($data, 9);
+								}
+
+								file_put_contents($filegz, $data);
+							}
+
+							$compressed = true;
+							$file = $filegz;
+						}
+					}
+					else
+					{
+						// manually compressed
+						$filegz = $compressedFileLocation .'.gz';
+						if (preg_match('/(?:^|, ?)((x-)?gzip)(?:,|$)/', $acceptEncoding, $matches) && file_exists($filegz) && ($fileModifiedTime < @filemtime($filegz)))
+						{
+							$encoding = $matches[1];
+							$compressed = true;
+							$file = $filegz;
+						}
+					}
+				}
+
+				@header('Last-Modified: ' . $lastModified);
+
+				if(!$phpOutputCompressionEnabled)
+				{
+					@header('Content-Length: ' . filesize($file));
+				}
+
+				if(!empty($contentType))
+				{
+					@header('Content-Type: '.$contentType);
+				}
+
+				if($compressed)
+				{
+					@header('Content-Encoding: ' . $encoding);
+				}
+
+				if(!_readfile($file))
+				{
+					self::setHttpStatus('505 Internal server error');
 				}
 			}
 		}
-
-		@header('Last-Modified: ' . $lastModified);
-
-		if(!$phpOutputCompressionEnabled)
+		else
 		{
-			@header('Content-Length: ' . filesize($file));
-		}
-
-		if(!empty($contentType))
-		{
-			@header('Content-Type: '.$contentType);
-		}
-
-		if($compressed)
-		{
-			@header('Content-Encoding: ' . $encoding);
-		}
-
-		if(!_readfile($file))
-		{
-			self::setHttpStatus('505 Internal server error');
+			self::setHttpStatus('404 Not Found');
 		}
 	}
 
@@ -927,7 +931,6 @@ class Piwik
 		$totalTime = self::getDbElapsedSecs();
 		$queryCount = self::getQueryCount();
 		Piwik::log("Total queries = $queryCount (total sql time = ".round($totalTime,2)."s)");
-		Piwik::log("Total generation time = ".Zend_Registry::get('timer'));
 	}
 
 	/**
