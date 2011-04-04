@@ -60,7 +60,7 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
 	public function getUniqueIdViewDataTable()
 	{
 		$id = parent::getUniqueIdViewDataTable();
-		if(isset($this->parametersToModify['idGoal']))
+		if(!empty($this->parametersToModify['idGoal']))
 		{
 			$id .= $this->parametersToModify['idGoal'];
 		}
