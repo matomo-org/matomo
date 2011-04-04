@@ -64,6 +64,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 		
 		// disable the RSS feed
 		$view->disableShowExportAsRssFeed();
+		$view->setCustomParameter('pageUrlNotDefined', Zend_Registry::get('config')->General->action_default_url_when_not_defined);
 		return $this->renderView($view, $fetch);
 	}
 
@@ -85,28 +86,32 @@ class Piwik_Live_Controller extends Piwik_Controller
 		echo $rendered;
 	}
 
-	public function getUsersInLastXMin($minutes = 30) {
+	public function getUsersInLastXMin($minutes = 30) 
+	{
 		$api = new Piwik_API_Request("method=Live.getUsersInLastXMin&idSite=".$this->idSite."&minutes=".$minutes."&format=php&serialize=0&disable_generic_filters=1");
 		$visitors_halfhour = $api->process();
 
 		return count($visitors_halfhour);
 	}
 
-	public function getUsersInLastXDays($days = 1) {
+	public function getUsersInLastXDays($days = 1) 
+	{
 		$api = new Piwik_API_Request("method=Live.getUsersInLastXDays&idSite=$this->idSite&days=$days&format=php&serialize=0&disable_generic_filters=1");
 		$visitors_today = $api->process();
 
 		return count($visitors_today);
 	}
 
-	public function getPageImpressionsInLastXMin($minutes = 30) {
+	public function getPageImpressionsInLastXMin($minutes = 30) 
+	{
 		$api = new Piwik_API_Request("method=Live.getPageImpressionsInLastXMin&idSite=$this->idSite&minutes=$minutes&format=php&serialize=0&disable_generic_filters=1");
 		$pis_halfhour = $api->process();
 
 		return count($pis_halfhour);
 	}
 
-	public function getPageImpressionsInLastXDays($days = 1) {
+	public function getPageImpressionsInLastXDays($days = 1) 
+	{
 		$api = new Piwik_API_Request("method=Live.getPageImpressionsInLastXDays&idSite=$this->idSite&days=$days&format=php&serialize=0&disable_generic_filters=1");
 		$pis_today = $api->process();
 

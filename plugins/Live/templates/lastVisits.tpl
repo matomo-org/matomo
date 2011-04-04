@@ -7,7 +7,7 @@
 				&nbsp;<img src="{$visitor.countryFlag}" title="{$visitor.country}, {'Provider_ColumnProvider'|translate} {$visitor.provider}" />
 				&nbsp;<img src="{$visitor.browserIcon}" title="{$visitor.browser}, {'UserSettings_Plugins'|translate}: {$visitor.plugins}" />
 				&nbsp;<img src="{$visitor.operatingSystemIcon}" title="{$visitor.operatingSystem}, {$visitor.resolution}" />
-				&nbsp;{if $visitor.isVisitorGoalConverted}<img src="{$visitor.goalIcon}" title="{'Goals_GoalConversion'|translate} ({$visitor.goalType})" />{/if}
+				&nbsp;{if $visitor.isVisitorGoalConverted}<img src="{$visitor.goalIcon}" title="{'General_VisitConvertedGoal'|translate} - {'Goals_GoalConversion'|translate} ({$visitor.goalType})" />{/if}
 				{if $visitor.isVisitorReturning}&nbsp;<img src="plugins/Live/templates/images/returningVisitor.gif" title="Returning Visitor" />{/if}
 				{if $visitor.ip}IP: {$visitor.ip}{/if}
 			</div>
@@ -29,7 +29,7 @@
 				  $col=0;
 		  		}
 				{/php}
-				<a href="{$action.pageUrl|escape:'html'}" target="_blank"><img align="middle" src="plugins/Live/templates/images/file{php} echo $col; {/php}.png" title="{$action.pageUrl|escape:'html'}" /></a>
+				<a href="{$action.pageUrl|escape:'html'}" target="_blank"><img align="middle" src="plugins/Live/templates/images/file{php} echo $col; {/php}.png" title="{$action.serverTime|escape:'html'} - {$action.pageUrl|escape:'html'}" /></a>
 			{/foreach}
 		</div>
 	</div>

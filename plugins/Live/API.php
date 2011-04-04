@@ -161,28 +161,26 @@ class Piwik_Live_API
 
 			$sql = "
 				SELECT
-				" .Piwik_Common::prefixTable('log_action').".name AS pageUrl,
-				" .Piwik_Common::prefixTable('log_action').".idaction AS pageIdAction
-				FROM " .Piwik_Common::prefixTable('log_link_visit_action')."
-					INNER JOIN " .Piwik_Common::prefixTable('log_action')."
-					ON  " .Piwik_Common::prefixTable('log_link_visit_action').".idaction_url = " .Piwik_Common::prefixTable('log_action').".idaction
-				WHERE " .Piwik_Common::prefixTable('log_link_visit_action').".idvisit = $idvisit;
+				log_action.name AS pageUrl,
+				log_action_title.name AS pageTitle,
+				log_action.idaction AS pageIdAction,
+				log_link_visit_action.idlink_va AS pageId,
+				log_link_visit_action.server_time as serverTime
+				FROM " .Piwik_Common::prefixTable('log_link_visit_action')." AS log_link_visit_action
+					INNER JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action
+					ON  log_link_visit_action.idaction_url = log_action.idaction
+					INNER JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action_title
+					ON  log_link_visit_action.idaction_name = log_action_title.idaction
+				WHERE log_link_visit_action.idvisit = $idvisit;
 				 ";
 
 			$visitorDetailsArray['actionDetails'] = Piwik_FetchAll($sql);
-
-			$sql = "
-				SELECT
-				" .Piwik_Common::prefixTable('log_action').".name AS pageTitle,
-				" .Piwik_Common::prefixTable('log_action').".idaction AS pageIdAction
-				FROM " .Piwik_Common::prefixTable('log_link_visit_action')."
-					INNER JOIN " .Piwik_Common::prefixTable('log_action')."
-					ON  " .Piwik_Common::prefixTable('log_link_visit_action').".idaction_name = " .Piwik_Common::prefixTable('log_action').".idaction
-				WHERE " .Piwik_Common::prefixTable('log_link_visit_action').".idvisit = $idvisit;
-				 ";
-
-			$visitorDetailsArray['actionDetailsTitle'] = Piwik_FetchAll($sql);
-			
+			// Convert datetimes to the site timezone
+			foreach($visitorDetailsArray['actionDetails'] as &$details)
+			{
+				$dateTimeVisit = Piwik_Date::factory($details['serverTime'], $timezone);
+				$details['serverTime'] = $dateTimeVisit->getDatetime(); 
+			}
 			$table->addRowFromArray( array(Piwik_DataTable_Row::COLUMNS => $visitorDetailsArray));
 		}
 		return $table;
@@ -266,7 +264,7 @@ class Piwik_Live_API
 						" . Piwik_Common::prefixTable ( 'goal' ) . ".match_attribute as goal_match_attribute,
 						" . Piwik_Common::prefixTable ( 'goal' ) . ".name as goal_name,
 						" . Piwik_Common::prefixTable ( 'goal' ) . ".revenue as goal_revenue,
-						" . Piwik_Common::prefixTable ( 'log_conversion' ) . ".idaction_url as goal_idaction_url,
+						" . Piwik_Common::prefixTable ( 'log_conversion' ) . ".idlink_va as idlink_va,
 						" . Piwik_Common::prefixTable ( 'log_conversion' ) . ".server_time as goal_server_time,
 						count(*) as count_goal_conversions
 				FROM " . Piwik_Common::prefixTable('log_visit') . "
