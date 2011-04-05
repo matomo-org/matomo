@@ -145,10 +145,10 @@ class Piwik_Live_API
 			$visitorDetailsArray['siteCurrency'] = $site->getCurrency();
 			$visitorDetailsArray['serverTimestamp'] = $visitorDetailsArray['lastActionTimestamp'];
 			$dateTimeVisit = Piwik_Date::factory($visitorDetailsArray['lastActionTimestamp'], $timezone);
-			$visitorDetailsArray['serverDatePretty'] = $dateTimeVisit->getLocalized('%shortDay% %day% %shortMonth%');
 			$visitorDetailsArray['serverTimePretty'] = $dateTimeVisit->getLocalized('%time%');
 			
 			$dateTimeVisitFirstAction = Piwik_Date::factory($visitorDetailsArray['firstActionTimestamp'], $timezone);
+			$visitorDetailsArray['serverDatePretty'] = $dateTimeVisitFirstAction->getLocalized('%shortDay% %day% %shortMonth%');
 			$visitorDetailsArray['serverTimePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized('%time%');
 			$visitorDetailsArray['goalConversions'] = $visitorDetail['count_goal_conversions'];
 			if(!empty($visitorDetailsArray['goalTimePretty']))
@@ -171,10 +171,10 @@ class Piwik_Live_API
 					ON  log_link_visit_action.idaction_url = log_action.idaction
 					INNER JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action_title
 					ON  log_link_visit_action.idaction_name = log_action_title.idaction
-				WHERE log_link_visit_action.idvisit = $idvisit;
+				WHERE log_link_visit_action.idvisit = ?
 				 ";
 
-			$visitorDetailsArray['actionDetails'] = Piwik_FetchAll($sql);
+			$visitorDetailsArray['actionDetails'] = Piwik_FetchAll($sql, array($idvisit));
 			// Convert datetimes to the site timezone
 			foreach($visitorDetailsArray['actionDetails'] as &$details)
 			{
@@ -192,14 +192,17 @@ class Piwik_Live_API
 	private function loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $filter_limit = false, $minIdVisit = false, $visitorId = false, $previous = false, $minTimestamp = false)
 	{
 //		var_dump($period); var_dump($date); var_dump($filter_limit); var_dump($minIdVisit); var_dump($visitorId);
+		if(empty($filter_limit))
+		{
+			$filter_limit = 100;
+		}
 		$where = $whereBind = array();
-
-		$where[] = Piwik_Common::prefixTable('log_visit') . ".idsite = ? ";
+		$where[] = "log_visit.idsite = ? ";
 		$whereBind[] = $idSite;
 		
 		if(!empty($visitorId))
 		{
-			$where[] = Piwik_Common::prefixTable('log_visit') . ".idvisitor = ? ";
+			$where[] = "log_visit.idvisitor = ? ";
 			$whereBind[] = Piwik_Common::hex2bin($visitorId);
 		}
 
@@ -208,13 +211,13 @@ class Piwik_Live_API
 			// so we disallow: previous is the same as "Start of results"
 			&& !$previous)
 		{
-			$where[] = Piwik_Common::prefixTable('log_visit') . ".idvisit < ? ";
+			$where[] = "log_visit.idvisit < ? ";
 			$whereBind[] = $minIdVisit;
 		}
 		
 		if(!empty($minTimestamp))
 		{
-			$where[] = Piwik_Common::prefixTable('log_visit') . ".visit_last_action_time > ? ";
+			$where[] = "log_visit.visit_last_action_time > ? ";
 			$whereBind[] = date("Y-m-d H:i:s", $minTimestamp);
 		}
 		
@@ -225,7 +228,6 @@ class Piwik_Live_API
 			&& empty($date))
 		{
 			$period = 'day';
-			// This means the period starts 24 hours, so we lookup only 1 day
 			$date = 'yesterdaySameTime';
 		}
 
@@ -238,17 +240,29 @@ class Piwik_Live_API
 			if($period == 'range') 
 			{ 
 				$processedPeriod = new Piwik_Period_Range('range', $date);
+				if($parsedDate = Piwik_Period_Range::parseDateRange($date))
+				{
+					$dateString = $parsedDate[2];
+				}
 			}
 			else
 			{
-				$processedDate = Piwik_Date::factory($date, $currentTimezone);// if not commented, the Period below fails ->setTimezone($currentTimezone);
-				$processedPeriod = Piwik_Period::factory($period, $processedDate);
+				$dateString = $date;
+				$processedDate = Piwik_Date::factory($date);
+				$processedPeriod = Piwik_Period::factory($period, $processedDate); 
 			}
-			array_push(     $where, Piwik_Common::prefixTable('log_visit') . ".visit_last_action_time BETWEEN ? AND ?");
-			array_push(     $whereBind,
-				$processedPeriod->getDateStart()->toString('Y-m-d H:i:s'),
-				$processedPeriod->getDateEnd()->addDay(1)->toString('Y-m-d H:i:s')
-			);
+			$dateStart = $processedPeriod->getDateStart()->setTimezone($currentTimezone);
+			$where[] = "log_visit.visit_last_action_time >= ?";
+			$whereBind[] = $dateStart->toString('Y-m-d H:i:s');
+			
+			if(!in_array($date, array('now', 'today', 'yesterdaySameTime'))
+				&& strpos($date, 'last') === false
+				&& Piwik_Date::factory($dateString)->toString('Y-m-d') != date('Y-m-d'))
+			{
+				$dateEnd = $processedPeriod->getDateEnd()->setTimezone($currentTimezone);
+				$where[] = " log_visit.visit_last_action_time <= ?";
+				$whereBind[] = $dateEnd->addDay(1)->toString('Y-m-d H:i:s');
+			}
 		}
 
 		$sqlWhere = "";
@@ -259,33 +273,40 @@ class Piwik_Live_API
 				AND ", $where);
 		}
 
+		// Subquery to use the indexes for ORDER BY
 		// Group by idvisit so that a visitor converting 2 goals only appears twice
-		$sql = "SELECT 	" . Piwik_Common::prefixTable('log_visit') . ".* ,
-						" . Piwik_Common::prefixTable ( 'goal' ) . ".match_attribute as goal_match_attribute,
-						" . Piwik_Common::prefixTable ( 'goal' ) . ".name as goal_name,
-						" . Piwik_Common::prefixTable ( 'goal' ) . ".revenue as goal_revenue,
-						" . Piwik_Common::prefixTable ( 'log_conversion' ) . ".idlink_va as idlink_va,
-						" . Piwik_Common::prefixTable ( 'log_conversion' ) . ".server_time as goal_server_time,
-						count(*) as count_goal_conversions
-				FROM " . Piwik_Common::prefixTable('log_visit') . "
-					LEFT JOIN ".Piwik_Common::prefixTable('log_conversion')."
-					ON " . Piwik_Common::prefixTable('log_visit') . ".idvisit = " . Piwik_Common::prefixTable('log_conversion') . ".idvisit
-					LEFT JOIN ".Piwik_Common::prefixTable('goal')."
-					ON (" . Piwik_Common::prefixTable('goal') . ".idsite = " . Piwik_Common::prefixTable('log_visit') . ".idsite
-						AND  " . Piwik_Common::prefixTable('goal') . ".idgoal = " . Piwik_Common::prefixTable('log_conversion') . ".idgoal)
-					AND " . Piwik_Common::prefixTable('goal') . ".deleted = 0
-			$sqlWhere
-			GROUP BY idvisit
-			ORDER BY visit_last_action_time DESC"; 
-		if(!empty($filter_limit))
-		{
-			$sql .= " 
-			LIMIT ".(int)$filter_limit;
-
+		$sql = "
+			SELECT sub.* ,
+					goal.match_attribute as goal_match_attribute,
+					goal.name as goal_name,
+					goal.revenue as goal_revenue,
+					count(*) as count_goal_conversions,
+					log_conversion.idlink_va as idlink_va,
+					log_conversion.server_time as goal_server_time
+			FROM (
+					SELECT 	*
+					FROM " . Piwik_Common::prefixTable('log_visit') . " AS log_visit
+					$sqlWhere
+					GROUP BY idvisit
+					ORDER BY idsite, visit_last_action_time DESC
+					LIMIT ".(int)$filter_limit."
+				) AS sub
+				LEFT JOIN ".Piwik_Common::prefixTable('log_conversion')." AS log_conversion
+					ON sub.idvisit = log_conversion.idvisit
+				LEFT JOIN ".Piwik_Common::prefixTable('goal')." AS goal 
+					ON (goal.idsite = sub.idsite
+						AND  
+						goal.idgoal = log_conversion.idgoal)
+					AND goal.deleted = 0
+				GROUP BY sub.idvisit
+			"; 
+		try {
+			$data = Piwik_FetchAll($sql, $whereBind);
+		} catch(Exception $e) {
+			echo $e->getMessage();exit;
 		}
-		$data = Piwik_FetchAll($sql, $whereBind);
 		
-//var_dump($whereBind);	echo($sql);var_dump($data);
+//var_dump($whereBind);	echo($sql);//var_dump($data);
 		return $data;
 	}
 

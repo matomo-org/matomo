@@ -65,6 +65,7 @@ class Test_Piwik_Date extends UnitTestCase
 			$now = time();
 			$date = Piwik_Date::factory($now, 'America/New_York');
 			$time = $date->getTimestamp();
+			$this->assertTrue($time < $now);
 
 			$date = Piwik_Date::factory($time)->setTimezone('America/New_York');
 			$time = $date->getTimestamp();
