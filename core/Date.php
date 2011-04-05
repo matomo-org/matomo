@@ -148,6 +148,7 @@ class Piwik_Date
 	 * Doesn't modify $this
 	 *
 	 * @param string $timezone 'UTC', 'Europe/London', ...
+	 * @return Piwik_Date
 	 */
 	public function setTimezone($timezone)
 	{
