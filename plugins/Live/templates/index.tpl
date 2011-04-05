@@ -28,11 +28,6 @@ function updateTotalVisits()
 {
 	$("#visitsTotal").load("index.php?module=Live&idSite={/literal}{$idSite}{if !empty($liveTokenAuth)}&token_auth={$liveTokenAuth}{/if}{literal}&action=ajaxTotalVisitors");
 }
-//updates the visit table, to refresh the already presented visitors pages
-function updateVisitBox()
-{
-	$("#visitsLive").load("index.php?module=Live&idSite={/literal}{$idSite}{if !empty($liveTokenAuth)}&token_auth={$liveTokenAuth}{/if}{literal}&action=getLastVisitsStart");
-}
 </script>
 {/literal}
 

@@ -29,7 +29,7 @@
 				  $col=0;
 		  		}
 				{/php}
-				<a href="{$action.pageUrl|escape:'html'}" target="_blank"><img align="middle" src="plugins/Live/templates/images/file{php} echo $col; {/php}.png" title="{$action.serverTime|escape:'html'} - {$action.pageUrl|escape:'html'}" /></a>
+				<a href="{$action.pageUrl|escape:'html'}" target="_blank"><img align="middle" src="plugins/Live/templates/images/file{php} echo $col; {/php}.png" title="{$action.pageTitle|escape:'html'} - {$action.serverTime|escape:'html'}" /></a>
 			{/foreach}
 		</div>
 	</div>

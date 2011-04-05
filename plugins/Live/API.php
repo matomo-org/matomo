@@ -287,7 +287,6 @@ class Piwik_Live_API
 					SELECT 	*
 					FROM " . Piwik_Common::prefixTable('log_visit') . " AS log_visit
 					$sqlWhere
-					GROUP BY idvisit
 					ORDER BY idsite, visit_last_action_time DESC
 					LIMIT ".(int)$filter_limit."
 				) AS sub
@@ -299,6 +298,7 @@ class Piwik_Live_API
 						goal.idgoal = log_conversion.idgoal)
 					AND goal.deleted = 0
 				GROUP BY sub.idvisit
+				ORDER BY sub.visit_last_action_time DESC
 			"; 
 		try {
 			$data = Piwik_FetchAll($sql, $whereBind);
