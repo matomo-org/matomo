@@ -2122,7 +2122,15 @@ class Piwik
 					'$filePath'
 				REPLACE
 				INTO TABLE
-					".$tableName."
+					".$tableName;
+
+			// hack for charset mismatch
+			if(!self::isDatabaseConnectionUTF8() && !isset(Zend_Registry::get('config')->database->charset))
+			{
+				$query .= ' CHARACTER SET latin1';
+			}
+
+			$query .= "
 				FIELDS TERMINATED BY
 					'".$delim."'
 				ENCLOSED BY
@@ -2133,9 +2141,6 @@ class Piwik
 					\"".$eol."\"
 				$fieldList
 			";
-
-			$dbHost = Zend_Registry::get('config')->database->host;
-			$localHosts = array('127.0.0.1', 'localhost', 'localhost.local', 'localhost.localdomain', 'localhost.localhost', @php_uname('n'));
 
 			// initial attempt with LOCAL keyword
 			// note: may trigger a known PHP PDO_MYSQL bug when MySQL not built with --enable-local-infile
@@ -2154,7 +2159,15 @@ class Piwik
 			// second attempt without LOCAL keyword if MySQL server appears to be on the same box
 			// note: requires that the db user have the FILE privilege; however, since this is
 			// a global privilege, it may not be granted due to security concerns
-			if(!in_array($dbHost, $localHosts))
+			$dbHost = Zend_Registry::get('config')->database->host;
+			$localHosts = array('127.0.0.1', 'localhost', 'localhost.local', 'localhost.localdomain', 'localhost.localhost');
+			$hostName = @php_uname('n');
+			if(!empty($hostName))
+			{
+				$localHosts = array_merge($localHosts, array($hostName, $hostName.'.local', $hostName.'.localdomain', $hostName.'.localhost'));
+			}
+
+			if(!empty($dbHost) && !in_array($dbHost, $localHosts))
 			{
 				throw new Exception("MYSQL appears to be on a remote server");
 			}
