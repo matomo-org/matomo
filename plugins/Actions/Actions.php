@@ -119,7 +119,8 @@ class Piwik_Actions extends Piwik_Plugin
             'exit_rate' => Piwik_Translate('General_ColumnExitRate'), 
 			// 'entry_bounce_count' => Piwik_Translate('General_ColumnBounces'), 
     	);
-		// Page views URLs, Downloads and Outlinks have the full set of metrics
+
+		// Page views URLs and Page titles have the full set of metrics
 		$reports[] = array(
 			'category' => Piwik_Translate('Actions_Actions'),
 			'name' => Piwik_Translate('Actions_SubmenuPages'),
@@ -140,7 +141,7 @@ class Piwik_Actions extends Piwik_Plugin
 			'processedMetrics' => false,
 		);
 		
-		// Page titles, downloads and outlinks only report basic metrics
+		// Outlinks and downloads only report basic metrics
 		$metrics = array(	'nb_hits' => Piwik_Translate('General_ColumnPageviews'),
             				'nb_visits',
     	);
