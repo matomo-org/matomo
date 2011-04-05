@@ -137,16 +137,22 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		$dateTime = '2009-01-04 00:11:42';
 		$idSite = $this->createWebsite($dateTime);
 		
-        $t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
-		
+		// Trigger invalid website
+		$trackerInvalidWebsite = $this->getTracker($idSiteFake = 0, $dateTime, $defaultInit = true);
+		$response = Piwik_Http::fetchRemoteFile($trackerInvalidWebsite->getUrlTrackPageView());
+		$this->assertTrue(strpos($response, 'Invalid idSite') !== false, 'invalid website ID');
+
 		// Trigger wrong website
-        $trackerWrongWebsite = $this->getTracker($idSiteFake = 33, $dateTime, $defaultInit = true);
-        $this->checkResponse($trackerWrongWebsite->doTrackPageView('index page'));
-        
+		$trackerWrongWebsite = $this->getTracker($idSiteFake = 33, $dateTime, $defaultInit = true);
+		$response = Piwik_Http::fetchRemoteFile($trackerWrongWebsite->getUrlTrackPageView());
+		$this->assertTrue(strpos($response, 'The requested website id = 33 couldn\'t be found') !== false, 'non-existent website ID');
+
 		// Trigger empty request
 		$trackerUrl = $this->getTrackerUrl();
 		$response = Piwik_Http::fetchRemoteFile($trackerUrl);
 		$this->assertTrue(strpos($response, 'web analytics') !== false, 'Piwik empty request response not correct: ' . $response);
+		
+		$t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
 		
 		// test GoogleBot UA visitor
 		$t->setUserAgent('Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)');
