@@ -316,6 +316,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
 		Piwik_AssetManager::removeMergedAssets();
 		Piwik_View::clearCompiledTemplates();
+		Piwik_Common::deleteTrackerCache();
 
 		$view->coreError = $this->coreError;
 		$view->warningMessages = $this->warningMessages;
