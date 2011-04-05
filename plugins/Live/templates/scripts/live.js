@@ -30,12 +30,11 @@ idVisit = $(prev).attr('id');
 var liveMinTimestamp = 0;
 function lastMinTimestamp()
 {
-	updateTotalVisits();
-	updateVisitBox();
 	minTimestamp = $('#visitsLive > div:lt(1) .serverTimestamp').html();
 	if(!isNaN(minTimestamp)
 			&& parseInt(minTimestamp)==minTimestamp) 
 	{
+		updateTotalVisits();
 		liveMinTimestamp = minTimestamp;
 		return liveMinTimestamp;
 	}
