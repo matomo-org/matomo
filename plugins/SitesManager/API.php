@@ -136,9 +136,9 @@ class Piwik_SitesManager_API
 	public function getSiteUrlsFromId( $idSite )
 	{
 		Piwik::checkUserHasViewAccess($idSite);
-		$site = $this->getSiteFromId($idSite);
+		$site = new Piwik_Site($idSite);
 		$urls = $this->getAliasSiteUrlsFromId($idSite);
-		return array_merge(array($site['main_url']), $urls);
+		return array_merge(array($site->getMainUrl()), $urls);
 	}
 
 	/**
@@ -253,7 +253,7 @@ class Piwik_SitesManager_API
 		{
 			return array();
 		}
-
+		
 		if($limit)
 		{
 			$limit = "LIMIT " . (int)$limit;		
