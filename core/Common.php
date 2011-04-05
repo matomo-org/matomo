@@ -610,7 +610,7 @@ class Piwik_Common
 		$value = str_replace(array("\n", "\r", "\0"), "", $value);
 
 		// escape
-		$tmp = htmlspecialchars( $value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8' );
+		$tmp = @htmlspecialchars( $value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8' );
 
 		// note: php 5.2.5 and above, htmlspecialchars is destructive if input is not UTF-8
 		if($value != '' && $tmp == '')
