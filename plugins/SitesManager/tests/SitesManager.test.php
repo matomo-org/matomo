@@ -11,6 +11,7 @@ class Test_Piwik_SitesManager extends Test_Database
 	public function __construct()
 	{
 		Piwik_PluginsManager::getInstance()->unloadPlugin('ExampleFeedburner');
+		Piwik_Site::clearCache();
 		parent::__construct();
 	}
     public function setUp()
