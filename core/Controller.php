@@ -358,6 +358,7 @@ abstract class Piwik_Controller
 			$this->setBasicVariablesView($view);
 		} catch(Exception $e) {
 			//TODO here display std error message rather than redirect
+			//echo $e->getMessage();exit;
 			self::redirectToIndex( Piwik::getLoginPluginName(), $action = 'index' );
 		}
 	}

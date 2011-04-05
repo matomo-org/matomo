@@ -163,6 +163,7 @@ class Piwik_FrontController
 		try {
 			Piwik::printSqlProfilingReportZend();
 			Piwik::printQueryCount();
+			Piwik::printTimer();
 		} catch(Exception $e) {}
 	}
 	

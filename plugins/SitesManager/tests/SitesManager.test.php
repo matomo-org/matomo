@@ -26,6 +26,11 @@ class Test_Piwik_SitesManager extends Test_Database
 		Piwik_Site::clearCache();
     }
     
+    public function tearDown()
+    {
+		Piwik_Site::clearCache();
+    }
+    
     /**
      * empty name -> exception
      */

@@ -1072,7 +1072,7 @@ class Piwik
 	 */
 	static public function printTimer()
 	{
-		echo Zend_Registry::get('timer');
+		Piwik::log(Zend_Registry::get('timer'));
 	}
 
 	/**

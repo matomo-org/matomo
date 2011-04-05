@@ -30,7 +30,7 @@
 		<h4>{'CoreUpdater_NoteForLargePiwikInstances'|translate}</h4>
 		<ul>
 		<li>{'CoreUpdater_TheUpgradeProcessMayFailExecuteCommand'|translate:$commandUpgradePiwik}</li>
-		<li>It is also recommended, for high traffic Piwik servers, to <a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/faq/how-to/#faq_111'>momentarily disable visitor Tracking and put the Piwik User Interface in maintenance mode</a>.</li>
+		<li>It is also recommended for high traffic Piwik servers to <a target='_blank' href='?module=Proxy&action=redirect&url={"http://piwik.org/faq/how-to/#faq_111"|escape:"url"}'>momentarily disable visitor Tracking and put the Piwik User Interface in maintenance mode</a>.</li>
 		<li>{'CoreUpdater_YouCouldManuallyExecuteSqlQueries'|translate}<br />
 			<a href='#' id='showSql' style='margin-left:20px'>› {'CoreUpdater_ClickHereToViewSqlQueries'|translate}</a>
 		<div id='sqlQueries' style='display:none'>
