@@ -390,7 +390,8 @@ class Piwik_SitesManager_API
 	
 	private function postUpdateWebsite($idSite)
 	{
-		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);	
+		Piwik_Site::clearCache();
+		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);
 	}
 	
 	/**

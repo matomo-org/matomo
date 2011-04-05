@@ -10,28 +10,21 @@ class Test_Piwik_SitesManager extends Test_Database
 {
 	public function __construct()
 	{
+		// ExampleFeedburner modifies the 'site' table which would change the results of queries (vs expected)
 		Piwik_PluginsManager::getInstance()->unloadPlugin('ExampleFeedburner');
-		Piwik_Site::clearCache();
+
 		parent::__construct();
 	}
-    public function setUp()
-    {
-    	parent::setUp();
+
+	public function setUp()
+	{
+		parent::setUp();
 
 		// setup the access layer
-    	$pseudoMockAccess = new FakeAccess;
+		$pseudoMockAccess = new FakeAccess;
 		FakeAccess::$superUser = true;
 		Zend_Registry::set('access', $pseudoMockAccess);
-		
-		// clear static Site cache
-		Piwik_Site::clearCache();
-    }
-    
-    public function tearDown()
-    {
-		parent::tearDown();
-		Piwik_Site::clearCache();
-    }
+	}
     
     /**
      * empty name -> exception
@@ -650,20 +643,19 @@ class Test_Piwik_SitesManager extends Test_Database
 						"http://piwiknew.net",
 						"http://piwiknew.org",
 						"http://piwiknew.fr");
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",$urls);
-    	
+    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1", $urls);
+
     	$newMainUrl = "http://main.url";
     	
     	// Also test that the group was set to empty, and is searchable
     	$websites = Piwik_SitesManager_API::getInstance()->getSitesFromGroup('');
     	$this->assertEqual(count($websites), 1);
     	
-    	
     	// the Update doesn't change the group field
     	Piwik_SitesManager_API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl );
     	$websites = Piwik_SitesManager_API::getInstance()->getSitesFromGroup('');
     	$this->assertEqual(count($websites), 1);
-    	
+
     	// Updating the group to something
     	$group = 'something';
     	Piwik_SitesManager_API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl, $ips=null, $parametersExclude=null, $timezone=null, $currency=null, $group );
@@ -677,9 +669,8 @@ class Test_Piwik_SitesManager extends Test_Database
     	$websites = Piwik_SitesManager_API::getInstance()->getSitesFromGroup($group);
     	$this->assertEqual(count($websites), 1);
     	$this->assertEqual(date('Y-m-d', strtotime($websites[0]['ts_created'])), '2010-01-01');
-    	
+
     	$allUrls = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idsite);
-    	
     	$this->assertEqual($allUrls[0], $newMainUrl);
     	$aliasUrls = array_slice($allUrls,1);
     	$this->assertEqual($aliasUrls,array());
