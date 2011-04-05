@@ -38,7 +38,7 @@
 	<td style="display:none;"></td>
 	<td class="label" style="width:12%" width="12%">
 
-				<strong>{$visitor.columns.serverDatePretty} - {$visitor.columns.serverTimePrettyFirstAction}</strong>
+				<strong>{$visitor.columns.serverDatePrettyFirstAction} - {$visitor.columns.serverTimePrettyFirstAction}</strong>
 				{if !empty($visitor.columns.ip)} <br/>IP: {$visitor.columns.ip}{/if}
 				
 				{if (isset($visitor.columns.provider)&&$visitor.columns.provider!='IP')} 

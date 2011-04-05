@@ -146,9 +146,10 @@ class Piwik_Live_API
 			$visitorDetailsArray['serverTimestamp'] = $visitorDetailsArray['lastActionTimestamp'];
 			$dateTimeVisit = Piwik_Date::factory($visitorDetailsArray['lastActionTimestamp'], $timezone);
 			$visitorDetailsArray['serverTimePretty'] = $dateTimeVisit->getLocalized('%time%');
+			$visitorDetailsArray['serverDate'] = $dateTimeVisit->getLocalized('%shortDay% %day% %shortMonth%');
 			
 			$dateTimeVisitFirstAction = Piwik_Date::factory($visitorDetailsArray['firstActionTimestamp'], $timezone);
-			$visitorDetailsArray['serverDatePretty'] = $dateTimeVisitFirstAction->getLocalized('%shortDay% %day% %shortMonth%');
+			$visitorDetailsArray['serverDatePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized('%shortDay% %day% %shortMonth%');
 			$visitorDetailsArray['serverTimePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized('%time%');
 			$visitorDetailsArray['goalConversions'] = $visitorDetail['count_goal_conversions'];
 			if(!empty($visitorDetailsArray['goalTimePretty']))
