@@ -29,6 +29,11 @@ class Piwik_Site
 		}
 	}
 	
+	public static function setSites($sites)
+	{
+		self::$infoSites = $sites;
+	}
+	
 	function __toString()
 	{
 		return "site id=".$this->getId().",
