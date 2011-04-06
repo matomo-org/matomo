@@ -9,5 +9,4 @@
 </head>
 <body>
 <div id="content">
-	<div id="title"><span id="h1">Piwik </span><span id="subh1"> # open source web analytics</span></div>
-	
+	<div id="title"><img title='Piwik' src='themes/default/images/logo-header.png' style='margin-left:10px'><span id="subh1"> # <a href='http://piwik.org/'>web analytics</a></span></div>

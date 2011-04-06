@@ -29,4 +29,4 @@
 </head>
 <body>
 <div id="content">
-	<div id="title"><span id="h1">Piwik </span><span id="subh1"> # {'General_OpenSourceWebAnalytics'|translate}</span></div>
+	<div id="title"><img title='Piwik' src='themes/default/images/logo-header.png' style='margin-left:10px'><span id="subh1"> # {'General_OpenSourceWebAnalytics'|translate}</span></div>

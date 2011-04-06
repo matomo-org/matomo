@@ -41,6 +41,8 @@
 			{/foreach}
 			</code>
 		</div>
+		</li>
+		</ul>
 		<br /><br />
 		<h4>{'CoreUpdater_ReadyToGo'|translate}</h4>
 		<p>{'CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient'|translate}</p>
@@ -90,6 +92,7 @@ code {
 }
 li {
 	margin-top:10px; 
+	margin-left:30px;
 }
 </style>
 <script type="text/javascript">

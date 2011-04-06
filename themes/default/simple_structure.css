@@ -16,14 +16,22 @@ html { background: #eee; }
 	font-weight: lighter;
 }
 #subh1 {
-	color: #879DBD;
-	font-size: 25px;
-	font-weight: lighter;
+	color: #6B320B;
+    font-family: tahoma,Georgia;
+    font-size: 17pt;
+}
+#subh1 a {
+	color: #6B320B;
+    text-decoration:none;
+}
+
+#title img{
+	vertical-align:bottom; 
 }
 #title {
 	padding-bottom:5px;
 	border-bottom:1px solid #F0F0F0;
-	font:42px Georgia, "Times New Roman", Times, serif;
+	font:42px Georgia, serif;
 }
 p, dt {
 	line-height: 120%;
