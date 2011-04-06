@@ -35,7 +35,8 @@ class Piwik_Menu_Admin extends Piwik_Menu_Abstract
 	 */
 	public function get()
 	{
-		if(!$this->menu) {
+		if(!$this->menu)
+		{
 			Piwik_PostEvent('AdminMenu.add');
 		}
 		return parent::get();

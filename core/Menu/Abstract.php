@@ -13,7 +13,8 @@
 /**
  * @package Piwik_Menu
  */
-abstract class Piwik_Menu_Abstract {
+abstract class Piwik_Menu_Abstract
+{
 
 	protected $menu = null;
 	protected $menuEntries = array();
@@ -31,7 +32,8 @@ abstract class Piwik_Menu_Abstract {
 	 *
 	 * @return Array
 	 */
-	public function get() {
+	public function get()
+	{
 		$this->buildMenu();
 		$this->applyEdits();
 		$this->applyRenames();
@@ -42,33 +44,37 @@ abstract class Piwik_Menu_Abstract {
 	/**
 	 * Adds a new entry to the menu.
 	 */
-	public function add($menuName, $subMenuName, $url, $displayedForCurrentUser, $order = 50) {
-		$this->menuEntries[] = array(
-			$menuName,
-			$subMenuName,
-			$url,
-			$displayedForCurrentUser,
-			$order
-		);
+	public function add($menuName, $subMenuName, $url, $displayedForCurrentUser, $order = 50)
+	{
+		if($displayedForCurrentUser)
+		{
+			$this->menuEntries[] = array(
+				$menuName,
+				$subMenuName,
+				$url,
+				$order
+			);
+		}
 	}
 
 	/**
 	 * Builds a single menu item
 	 */
-	private function buildMenuItem($menuName, $subMenuName, $url, $displayForCurrentUser, $order = 50) {
-		if ($displayForCurrentUser) {
-			if (!isset($this->menu[$menuName]) || empty($subMenuName)) {
-				$this->menu[$menuName]['_url'] = $url;
-				$this->menu[$menuName]['_order'] = $order;
-				$this->menu[$menuName]['_name'] = $menuName;
-				$this->menu[$menuName]['_hasSubmenu'] = false;
-			}
-			if (!empty($subMenuName)) {
-				$this->menu[$menuName][$subMenuName]['_url'] = $url;
-				$this->menu[$menuName][$subMenuName]['_order'] = $order;
-				$this->menu[$menuName][$subMenuName]['_name'] = $subMenuName;
-				$this->menu[$menuName]['_hasSubmenu'] = true;
-			}
+	private function buildMenuItem($menuName, $subMenuName, $url, $order = 50)
+	{
+		if (!isset($this->menu[$menuName]) || empty($subMenuName))
+		{
+			$this->menu[$menuName]['_url'] = $url;
+			$this->menu[$menuName]['_order'] = $order;
+			$this->menu[$menuName]['_name'] = $menuName;
+			$this->menu[$menuName]['_hasSubmenu'] = false;
+		}
+		if (!empty($subMenuName))
+		{
+			$this->menu[$menuName][$subMenuName]['_url'] = $url;
+			$this->menu[$menuName][$subMenuName]['_order'] = $order;
+			$this->menu[$menuName][$subMenuName]['_name'] = $subMenuName;
+			$this->menu[$menuName]['_hasSubmenu'] = true;
 		}
 	}
 
@@ -76,9 +82,11 @@ abstract class Piwik_Menu_Abstract {
 	 * Builds the menu from the $this->menuEntries variable.
 	 *
 	 */
-	private function buildMenu() {
-		foreach ($this->menuEntries as $menuEntry) {
-			$this->buildMenuItem($menuEntry[0], $menuEntry[1], $menuEntry[2], $menuEntry[3], $menuEntry[4]);
+	private function buildMenu()
+	{
+		foreach ($this->menuEntries as $menuEntry)
+		{
+			$this->buildMenuItem($menuEntry[0], $menuEntry[1], $menuEntry[2], $menuEntry[3]);
 		}
 	}
 
@@ -86,7 +94,8 @@ abstract class Piwik_Menu_Abstract {
 	 * Renames a single menu entry.
 	 *
 	 */
-	public function rename($mainMenuOriginal, $subMenuOriginal, $mainMenuRenamed, $subMenuRenamed) {
+	public function rename($mainMenuOriginal, $subMenuOriginal, $mainMenuRenamed, $subMenuRenamed)
+	{
 		$this->renames[] = array($mainMenuOriginal, $subMenuOriginal,
 			$mainMenuRenamed, $subMenuRenamed);
 	}
@@ -95,7 +104,8 @@ abstract class Piwik_Menu_Abstract {
 	 * Edits a URL of an existing menu entry.
 	 *
 	 */
-	public function editUrl($mainMenuToEdit, $subMenuToEdit, $newUrl) {
+	public function editUrl($mainMenuToEdit, $subMenuToEdit, $newUrl)
+	{
 		$this->edits[] = array($mainMenuToEdit, $subMenuToEdit, $newUrl);
 	}
 
@@ -103,14 +113,19 @@ abstract class Piwik_Menu_Abstract {
 	 * Applies all edits to the menu.
 	 *
 	 */
-	private function applyEdits() {
-		foreach ($this->edits as $edit) {
+	private function applyEdits()
+	{
+		foreach ($this->edits as $edit)
+		{
 			$mainMenuToEdit = $edit[0];
 			$subMenuToEdit = $edit[1];
 			$newUrl = $edit[2];
-			if (!isset($this->menu[$mainMenuToEdit][$subMenuToEdit])) {
-				$this->buildMenuItem($mainMenuToEdit, $subMenuToEdit, $newUrl, true);
-			} else {
+			if (!isset($this->menu[$mainMenuToEdit][$subMenuToEdit]))
+			{
+				$this->buildMenuItem($mainMenuToEdit, $subMenuToEdit, $newUrl);
+			}
+			else
+			{
 				$this->menu[$mainMenuToEdit][$subMenuToEdit]['_url'] = $newUrl;
 			}
 		}
@@ -120,15 +135,19 @@ abstract class Piwik_Menu_Abstract {
 	 * Applies renames to the menu.
 	 *
 	 */
-	private function applyRenames() {
-		foreach ($this->renames as $rename) {
+	private function applyRenames()
+	{
+		foreach ($this->renames as $rename)
+		{
 			$mainMenuOriginal = $rename[0];
 			$subMenuOriginal = $rename[1];
 			$mainMenuRenamed = $rename[2];
 			$subMenuRenamed = $rename[3];
 			// Are we changing a submenu?
-			if (!empty($subMenuOriginal)) {
-				if (isset($this->menu[$mainMenuOriginal][$subMenuOriginal])) {
+			if (!empty($subMenuOriginal))
+			{
+				if (isset($this->menu[$mainMenuOriginal][$subMenuOriginal]))
+				{
 					$save = $this->menu[$mainMenuOriginal][$subMenuOriginal];
 					$save['_name'] = $subMenuRenamed;
 					unset($this->menu[$mainMenuOriginal][$subMenuOriginal]);
@@ -136,13 +155,12 @@ abstract class Piwik_Menu_Abstract {
 				}
 			}
 			// Changing a first-level element
-			else {
-				if (isset($this->menu[$mainMenuOriginal])) {
-					$save = $this->menu[$mainMenuOriginal];
-					$save['_name'] = $mainMenuRenamed;
-					unset($this->menu[$mainMenuOriginal]);
-					$this->menu[$mainMenuRenamed] = $save;
-				}
+			else if (isset($this->menu[$mainMenuOriginal]))
+			{
+				$save = $this->menu[$mainMenuOriginal];
+				$save['_name'] = $mainMenuRenamed;
+				unset($this->menu[$mainMenuOriginal]);
+				$this->menu[$mainMenuRenamed] = $save;
 			}
 		}
 	}
@@ -151,15 +169,18 @@ abstract class Piwik_Menu_Abstract {
 	 * Orders the menu according to their order.
 	 *
 	 */
-	private function applyOrdering() {
+	private function applyOrdering()
+	{
 		uasort($this->menu, array($this, 'menuCompare'));
-		foreach ($this->menu as $key => &$element) {
-			if (is_null($element)) {
+		foreach ($this->menu as $key => &$element)
+		{
+			if (is_null($element))
+			{
 				unset($this->menu[$key]);
-			} else {
-				if ($element['_hasSubmenu']) {
-					uasort($element, array($this, 'menuCompare'));
-				}
+			}
+			else if ($element['_hasSubmenu'])
+			{
+				uasort($element, array($this, 'menuCompare'));
 			}
 		}
 	}
@@ -171,13 +192,16 @@ abstract class Piwik_Menu_Abstract {
 	 * @param <array> $itemTwo
 	 * @return <boolean>
 	 */
-	protected function menuCompare($itemOne, $itemTwo) {
+	protected function menuCompare($itemOne, $itemTwo)
+	{
 		if (!is_array($itemOne) || !is_array($itemTwo)
-				|| !isset($itemOne['_order']) || !isset($itemTwo['_order'])) {
+			|| !isset($itemOne['_order']) || !isset($itemTwo['_order']))
+		{
 			return 0;
 		}
 
-		if ($itemOne['_order'] == $itemTwo['_order']) {
+		if ($itemOne['_order'] == $itemTwo['_order'])
+		{
 			return strcmp($itemOne['_name'], $itemTwo['_name']);
 		}
 		return ($itemOne['_order'] < $itemTwo['_order']) ? -1 : 1;

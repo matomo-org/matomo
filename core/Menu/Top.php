@@ -36,9 +36,12 @@ class Piwik_Menu_Top extends Piwik_Menu_Abstract
 	 * @param boolean $displayedForCurrentUser
 	 * @param int $order
 	 */
-	public function addHtml($menuName, $data, $displayedForCurrentUser, $order) {
-		if($displayedForCurrentUser) {
-			if(!isset($this->menu[$menuName])) {
+	public function addHtml($menuName, $data, $displayedForCurrentUser, $order)
+	{
+		if($displayedForCurrentUser)
+		{
+			if(!isset($this->menu[$menuName]))
+			{
 				$this->menu[$menuName]['_html'] = $data;
 				$this->menu[$menuName]['_order'] = $order;
 				$this->menu[$menuName]['_hasSubmenu'] = false;
@@ -53,7 +56,8 @@ class Piwik_Menu_Top extends Piwik_Menu_Abstract
 	 */
 	public function get()
 	{
-		if(!$this->menu) {
+		if(!$this->menu)
+		{
 			Piwik_PostEvent('TopMenu.add');
 		}
 		return parent::get();
