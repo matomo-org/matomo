@@ -33,7 +33,7 @@
 	</td>
 </tr>
 <tr>
-	<td><label for="todayArchiveTimeToLive">{'General_ReportsForTodayWillBeProcessedAtMostEvery'|translate}</label></td>
+	<td><label for="todayArchiveTimeToLive">{'General_ReportsContainingTodayWillBeProcessedAtMostEvery'|translate}</label></td>
 	<td>
 		{'General_NSeconds'|translate:"<input size='3' value='$todayArchiveTimeToLive' id='todayArchiveTimeToLive' />"} 
 	</td>

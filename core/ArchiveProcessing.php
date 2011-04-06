@@ -370,20 +370,24 @@ abstract class Piwik_ArchiveProcessing
 				return false;
 			}
 		}
-		// either
-		// - if the period we're looking for is finished, we look for a ts_archived that 
+		// - if the period we are looking for is finished, we look for a ts_archived that 
 		//   is greater than the last day of the archive 
+		elseif($this->endTimestampUTC <= $this->time)
+		{
+			$minDatetimeArchiveProcessedUTC = $this->endTimestampUTC+1;
+		}
 		// - if the period we're looking for is not finished, we look for a recent enough archive
-		//   recent enough means minDatetimeArchiveProcessedUTC = 00:00:01 this morning
 		else
 		{
-			if($this->endTimestampUTC <= $this->time)
+			$this->temporaryArchive = true;
+			
+			// We choose to only look at archives that are newer than the specified timeout
+			$minDatetimeArchiveProcessedUTC = $this->time - self::getTodayArchiveTimeToLive();
+			
+			// However, if archiving is disabled for this request, we shall 
+			// accept any archive that was processed today after 00:00:01 this morning
+			if($this->isArchivingDisabled())
 			{
-				$minDatetimeArchiveProcessedUTC = $this->endTimestampUTC+1;
-			}
-			else
-			{
-				$this->temporaryArchive = true;
 				$timezone = $this->site->getTimezone();
 				$minDatetimeArchiveProcessedUTC = Piwik_Date::factory(Piwik_Date::factory('now', $timezone)->getDateStartUTC())->setTimezone($timezone)->getTimestamp();
 			}

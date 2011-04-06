@@ -7,6 +7,14 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 require_once "Database.test.php";
 class Test_Piwik_ArchiveProcessing extends Test_Database
 {
+	function __construct()
+	{
+		parent::__construct();
+		if(!Piwik::isTimezoneSupportEnabled())
+		{
+			echo "ArchiveProcessing.test.php: Timezone support is not enabled on this server, so some unit tests were skipped.";
+		}
+	}
 	public function setUp()
 	{
 		parent::setUp();
@@ -48,13 +56,17 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 	public function test_init_currentMonth()
 	{
 		$siteTimezone = 'UTC+10';
-		$timestamp = Piwik_Date::factory('now', $siteTimezone)->getTimestamp();
-		$dateLabel = date('Y-m-d', $timestamp);
-
+		$now = time();
+		
+		$dateLabel = date('Y-m-d', $now);
 		$archiveProcessing = $this->createArchiveProcessing('month', $dateLabel, $siteTimezone);
+		$archiveProcessing->time = $now;
 		
 		// min finished timestamp considered when looking at archive timestamp 
-		$dateMinArchived = Piwik_Date::factory($dateLabel)->setTimezone($siteTimezone)->getTimestamp();
+		$timeout = Piwik_ArchiveProcessing::getTodayArchiveTimeToLive();
+		$this->assertTrue($timeout >= 10);
+		$dateMinArchived = $now - $timeout;
+
 		$minTimestamp = $archiveProcessing->getMinTimeArchivedProcessed();
 		$this->assertEqual($minTimestamp, $dateMinArchived, Piwik_Date::factory($minTimestamp)->getDatetime() . " != " . Piwik_Date::factory($dateMinArchived)->getDatetime());
 		$this->assertTrue($archiveProcessing->isArchiveTemporary());
@@ -78,13 +90,27 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 	public function test_init_dayInPast_NonUTCWebsite()
 	{
 		$timezone = 'UTC+5.5';
-		$archiveProcessing = $this->createArchiveProcessing('day', '2010-01-01', 'UTC+5.5');
+		$archiveProcessing = $this->createArchiveProcessing('day', '2010-01-01', $timezone);
 		// min finished timestamp considered when looking at archive timestamp 
 		$dateMinArchived = Piwik_Date::factory('2010-01-01 18:30:00');
 		$this->assertEqual($archiveProcessing->getMinTimeArchivedProcessed(), $dateMinArchived->getTimestamp());
 		
 		$this->assertEqual($archiveProcessing->getStartDatetimeUTC(), '2009-12-31 18:30:00');
 		$this->assertEqual($archiveProcessing->getEndDatetimeUTC(), '2010-01-01 18:29:59');
+		$this->assertFalse($archiveProcessing->isArchiveTemporary());
+	}
+
+	// test of validity of an archive, for a non UTC month in the past
+	public function test_init_monthInPast_NonUTCWebsite()
+	{
+		$timezone = 'UTC-5.5';
+		$archiveProcessing = $this->createArchiveProcessing('month', '2010-01-02', $timezone);
+		// min finished timestamp considered when looking at archive timestamp 
+		$dateMinArchived = Piwik_Date::factory('2010-02-01 05:30:00');
+		$this->assertEqual($archiveProcessing->getMinTimeArchivedProcessed(), $dateMinArchived->getTimestamp());
+		
+		$this->assertEqual($archiveProcessing->getStartDatetimeUTC(), '2010-01-01 05:30:00');
+		$this->assertEqual($archiveProcessing->getEndDatetimeUTC(), '2010-02-01 05:29:59');
 		$this->assertFalse($archiveProcessing->isArchiveTemporary());
 	}
 	
@@ -203,6 +229,7 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 
 			$this->assertTrue($archiveProcessing->isArchiveTemporary());
 		}
+		
 	}
 
 	// TESTING BATCH INSERT
