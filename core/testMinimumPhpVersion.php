@@ -78,7 +78,10 @@ function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks 
 	$headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_header.tpl');
 	$footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_footer.tpl');
 	$headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
-	$content = '<p>'.$message.'</p><p><a href="index.php">Go to Piwik</a></p>'.  $optionalTrace .' '. $optionalLinks;
+	$content = '<p>'.$message.'</p>
+				<p><a href="index.php">Go to Piwik</a><br/>
+				<a href="index.php?module='.Piwik::getLoginPluginName().'">Login</a></p>
+				'.  $optionalTrace .' '. $optionalLinks;
 	
 	echo $headerPage . $content . $footerPage;
 	exit;
