@@ -57,9 +57,9 @@ abstract class Piwik_Controller
 		$aPluginName = explode('_', get_class($this));
 		$this->pluginName = $aPluginName[1];
 		$date = Piwik_Common::getRequestVar('date', 'yesterday', 'string');
+		$this->idSite = Piwik_Common::getRequestVar('idSite', false, 'int');
+		$this->site = new Piwik_Site($this->idSite);
 		try {
-			$this->idSite = Piwik_Common::getRequestVar('idSite', false, 'int');
-			$this->site = new Piwik_Site($this->idSite);
 			$date = $this->getDateParameterInTimezone($date, $this->site->getTimezone());
 			$this->setDate($date);
 		} catch(Exception $e){
@@ -67,6 +67,7 @@ abstract class Piwik_Controller
 			$this->date = null;
 		}
 	}
+	
 	/**
 	 * Helper method to convert "today" or "yesterday" to the default timezone specified.
 	 * If the date is absolute, ie. YYYY-MM-DD, it will not be converted to the timezone
@@ -316,6 +317,11 @@ abstract class Piwik_Controller
 		$view->date = $this->strDate;
 		
 		try {
+			$view->idSite = $this->idSite;
+			if(empty($this->site) || empty($this->idSite))
+			{
+				throw new Exception("The requested website idSite is not found in the request, or is invalid");
+			}
 			$this->setPeriodVariablesView($view);
 			
 			$rawDate = Piwik_Common::getRequestVar('date');
@@ -331,11 +337,6 @@ abstract class Piwik_Controller
 			}
 			$view->rawDate = $rawDate;
 			$view->prettyDate = $period->getPrettyString();
-			$view->idSite = $this->idSite;
-			if(is_null($this->site))
-			{
-				throw new Exception("invalid website");
-			}
 			$view->siteName = $this->site->getName();
 			$view->siteMainUrl = $this->site->getMainUrl();
 			
