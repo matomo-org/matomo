@@ -64,7 +64,7 @@
 			<div class="tableIconsGroup">
 				<span class="exportToFormatIcons"><a class="tableIcon" var="export"><img width="16" height="16" src="themes/default/images/export.png" title="{'General_ExportThisReport'|translate}" /></a></span>
 				<span class="exportToFormatItems" style="display:none"> 
-					Export: 
+					{'General_Export'|translate}: 
 					<a target="_blank" methodToCall="{$properties.apiMethodToRequestDataTable}" format="CSV" filter_limit="100">CSV</a> | 
 					<a target="_blank" methodToCall="{$properties.apiMethodToRequestDataTable}" format="TSV" filter_limit="100">TSV (Excel)</a> | 
 					<a target="_blank" methodToCall="{$properties.apiMethodToRequestDataTable}" format="XML" filter_limit="100">XML</a> |

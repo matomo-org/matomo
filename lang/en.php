@@ -81,6 +81,7 @@ $translations = array(
 	'General_Visitors' => 'Visitors',
 	'General_ExportThisReport' => 'Export this dataset in other formats',
 	'General_ExportAsImage_js' => 'Export as Image',
+	'General_Export' => 'Export',
 	'General_YourChangesHaveBeenSaved' => 'Your changes have been saved.',
 	'General_ErrorRequest' => 'Oops… problem during the request, please try again.',
 	'General_ColumnNbUniqVisitors' => 'Unique visitors',
