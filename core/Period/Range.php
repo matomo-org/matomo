@@ -142,13 +142,20 @@ class Piwik_Period_Range extends Piwik_Period
 			{
 				$defaultEndDate = Piwik_Date::factory('now', $this->timezone);
 			}
+			
+			$period = $this->strPeriod;
+			if($period == 'range')
+			{
+				$period = 'day';
+			}
+			
 			if($lastOrPrevious == 'last')
 			{
 				$endDate = $defaultEndDate;
 			}
 			elseif($lastOrPrevious == 'previous')
 			{
-				$endDate = $this->removePeriod($this->strPeriod, $defaultEndDate, 1);
+				$endDate = $this->removePeriod($period, $defaultEndDate, 1);
 			}		
 			
 			// last1 means only one result ; last2 means 2 results so we remove only 1 to the days/weeks/etc
@@ -157,11 +164,6 @@ class Piwik_Period_Range extends Piwik_Period
 			
 			$lastN = $this->getMaxN($lastN);
 			
-			$period = $this->strPeriod;
-			if($period == 'range')
-			{
-				$period = 'day';
-			}
 			$startDate = $this->removePeriod($period, $endDate, $lastN);
 		}
 		elseif( $dateRange = Piwik_Period_Range::parseDateRange($this->strDate) )
@@ -181,7 +183,6 @@ class Piwik_Period_Range extends Piwik_Period
 			$this->fillArraySubPeriods($startDate, $endDate, $this->strPeriod);
 			return;
 		}
-		
 		$this->processOptimalSubperiods($startDate, $endDate);
 		// When period=range, we want End Date to be the actual specified end date, 
 		// rather than the end of the month / week / whatever is used for processing this range
@@ -230,7 +231,12 @@ class Piwik_Period_Range extends Piwik_Period
 			if($startDate == $startOfMonth
 				&& ($endOfMonth->isEarlier($endDate)
 					|| $endOfMonth == $endDate
-					|| $endOfMonth->isLater($this->today))
+					|| $endOfMonth->isLater($this->today)
+					)
+				// We don't use the month if 
+				// the end day is in this month, is before today, and month not finished
+				&& !($endDate->isEarlier($this->today)
+					&& $this->today->compareMonth($endOfMonth) == 0)
 			)
 			{
 				$this->addSubperiod($month);
@@ -253,13 +259,15 @@ class Piwik_Period_Range extends Piwik_Period
 				}
 				//   If end of this week is later than end date, we use days
 				elseif($endOfWeek->isLater($endDate)
-						&& !$endOfWeek->isLater($this->today))
+						&& ($endOfWeek->isEarlier($this->today)
+							|| $endDate->isEarlier($this->today))
+				)
 				{
 					$this->fillArraySubPeriods($startDate, $endDate, 'day');
 					break 1;
 				}
 				elseif($startOfWeek->isEarlier($startDate)
-					&& !$endOfWeek->isLater($this->today))
+					&& $endOfWeek->isEarlier($this->today))
 				{
 					$this->fillArraySubPeriods($startDate, $endOfWeek, 'day');
 					$endOfPeriod = $endOfWeek;
