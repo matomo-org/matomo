@@ -57,9 +57,9 @@ abstract class Piwik_Controller
 		$aPluginName = explode('_', get_class($this));
 		$this->pluginName = $aPluginName[1];
 		$date = Piwik_Common::getRequestVar('date', 'yesterday', 'string');
-		$this->idSite = Piwik_Common::getRequestVar('idSite', false, 'int');
-		$this->site = new Piwik_Site($this->idSite);
 		try {
+			$this->idSite = Piwik_Common::getRequestVar('idSite', false, 'int');
+			$this->site = new Piwik_Site($this->idSite);
 			$date = $this->getDateParameterInTimezone($date, $this->site->getTimezone());
 			$this->setDate($date);
 		} catch(Exception $e){
