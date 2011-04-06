@@ -60,7 +60,8 @@ class Piwik_Menu_Main extends Piwik_Menu_Abstract
 	public function get()
 	{
 		// We trigger the Event only once!
-		if(!$this->menu) {
+		if(!$this->menu)
+		{
 			Piwik_PostEvent('Menu.add');
 		}
 		return parent::get();
