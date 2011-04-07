@@ -132,6 +132,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 						'md5Password' => $md5Password,
 						'rememberMe' => $rememberMe,
 		);
+		Piwik_Nonce::discardNonce('Piwik_Login.login');
 		Piwik_PostEvent('Login.initSession', $info);
 		Piwik_Url::redirectToUrl($urlToRedirect);
 	}

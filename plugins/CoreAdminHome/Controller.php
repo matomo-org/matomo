@@ -95,6 +95,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
 		$language = Piwik_Common::getRequestVar('language', '');
 		if($nonce !== false && Piwik_Nonce::verifyNonce('Piwik_OptOut', $nonce))
 		{
+			Piwik_Nonce::discardNonce('Piwik_OptOut');
 			Piwik_Tracker_IgnoreCookie::setIgnoreCookie();
 			$trackVisits = !$trackVisits;
 		}

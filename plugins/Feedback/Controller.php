@@ -54,6 +54,7 @@ class Piwik_Feedback_Controller extends Piwik_Controller
 			{
 				throw new Exception(Piwik_TranslateException('General_ExceptionNonceMismatch'));
 			}
+			Piwik_Nonce::discardNonce('Piwik_Feedback.sendFeedback');
 
 			$mail = new Piwik_Mail();
 			$mail->setFrom(Piwik_Common::unsanitizeInputValue($email));

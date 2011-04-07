@@ -45,6 +45,7 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller {
 		{
 			Piwik::redirectToModule('VisitorGenerator', 'index');
 		}
+		Piwik_Nonce::discardNonce('Piwik_VisitorGenerator.generate');
 
 		$minVisitors = Piwik_Common::getRequestVar('minVisitors', 20, 'int');
 		$maxVisitors = Piwik_Common::getRequestVar('maxVisitors', 100, 'int');

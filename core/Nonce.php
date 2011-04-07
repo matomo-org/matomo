@@ -89,6 +89,17 @@ class Piwik_Nonce
 	}
 
 	/**
+	 * Discard nonce ("now" as opposed to waiting for garbage collection)
+	 *
+	 * @param string $id Unique id
+	 */
+	static public function discardNonce($id)
+	{
+		$ns = new Piwik_Session_Namespace($id);
+		$ns->unsetAll();
+	}
+
+	/**
 	 * Get ORIGIN header, false if not found
 	 *
 	 * @return string|false
