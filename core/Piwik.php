@@ -113,7 +113,18 @@ class Piwik
 	{
 		return Piwik_Db_Schema::getInstance()->hasTables();
 	}
-
+	
+	/**
+	 * Called on Core install, update, plugin enable/disable
+	 * Will clear all cache that could be affected by the change in configuration being made
+	 */
+	static public function deleteAllCacheOnUpdate()
+	{
+		Piwik_AssetManager::removeMergedAssets();
+		Piwik_View::clearCompiledTemplates();
+		Piwik_Common::deleteTrackerCache();
+	}
+	
 /*
  * HTTP headers
  */
