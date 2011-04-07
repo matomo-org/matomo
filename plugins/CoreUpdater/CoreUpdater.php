@@ -52,7 +52,7 @@ class Piwik_CoreUpdater extends Piwik_Plugin
 
 		return $componentsWithUpdateFile;
 	}
-
+	
 	function dispatch()
 	{
 		$module = Piwik_Common::getRequestVar('module', '', 'string');
@@ -61,8 +61,7 @@ class Piwik_CoreUpdater extends Piwik_Plugin
 		$updates = $updater->getComponentsWithNewVersion();
 		if(!empty($updates))
 		{
-			Piwik_AssetManager::removeMergedAssets();
-			Piwik_View::clearCompiledTemplates();
+			Piwik::deleteAllCacheOnUpdate();
 		}
 		if(self::getComponentUpdates($updater) !== null 
 			&& $module != 'CoreUpdater'

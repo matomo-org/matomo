@@ -151,8 +151,7 @@ class Piwik_PluginsManager
 		}
 
 		// Delete merged js/css files to force regenerations to exclude the deactivated plugin
-		Piwik_AssetManager::removeMergedAssets();
-		Piwik_View::clearCompiledTemplates();
+		Piwik::deleteAllCacheOnUpdate();
 	}
 
 	/**
@@ -200,8 +199,7 @@ class Piwik_PluginsManager
 		Zend_Registry::get('config')->Plugins = $plugins;
 
 		// Delete merged js/css files to force regenerations to include the activated plugin
-		Piwik_AssetManager::removeMergedAssets();
-		Piwik_View::clearCompiledTemplates();
+		Piwik::deleteAllCacheOnUpdate();
 	}
 
 	/**
