@@ -14,7 +14,7 @@ function initSpy()
 			ajax: 'index.php?module=Live&idSite={/literal}{$idSite}{if !empty($liveTokenAuth)}&token_auth={$liveTokenAuth}{/if}{literal}&action=getLastVisitsStart',
 			fadeLast: 2,
 			isDupe: check_for_dupe,
-			timeout: 8000,
+			timeout: 5000,
 			customParameterName: 'minTimestamp',
 			customParameterValueCallback: lastMinTimestamp,
 			fadeInSpeed: 600,

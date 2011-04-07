@@ -5,21 +5,21 @@
 			<row>
 				<label>VisitorType</label>
 				<nb_uniq_visitors>2</nb_uniq_visitors>
-				<nb_visits>2</nb_visits>
-				<nb_actions>4</nb_actions>
+				<nb_visits>3</nb_visits>
+				<nb_actions>5</nb_actions>
 				<max_actions>3</max_actions>
 				<sum_visit_length>720</sum_visit_length>
-				<bounce_count>1</bounce_count>
+				<bounce_count>2</bounce_count>
 				<nb_visits_converted>2</nb_visits_converted>
 				<subtable>
 					<row>
 						<label>LoggedOut</label>
 						<nb_uniq_visitors>1</nb_uniq_visitors>
-						<nb_visits>1</nb_visits>
-						<nb_actions>1</nb_actions>
+						<nb_visits>2</nb_visits>
+						<nb_actions>2</nb_actions>
 						<max_actions>1</max_actions>
 						<sum_visit_length>0</sum_visit_length>
-						<bounce_count>1</bounce_count>
+						<bounce_count>2</bounce_count>
 						<nb_visits_converted>1</nb_visits_converted>
 					</row>
 					<row>
@@ -37,21 +37,21 @@
 			<row>
 				<label>Othercustom value which should be truncated abcdef</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
+				<nb_visits>2</nb_visits>
+				<nb_actions>2</nb_actions>
 				<max_actions>1</max_actions>
 				<sum_visit_length>0</sum_visit_length>
-				<bounce_count>1</bounce_count>
+				<bounce_count>2</bounce_count>
 				<nb_visits_converted>1</nb_visits_converted>
 				<subtable>
 					<row>
 						<label>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwx</label>
 						<nb_uniq_visitors>1</nb_uniq_visitors>
-						<nb_visits>1</nb_visits>
-						<nb_actions>1</nb_actions>
+						<nb_visits>2</nb_visits>
+						<nb_actions>2</nb_actions>
 						<max_actions>1</max_actions>
 						<sum_visit_length>0</sum_visit_length>
-						<bounce_count>1</bounce_count>
+						<bounce_count>2</bounce_count>
 						<nb_visits_converted>1</nb_visits_converted>
 					</row>
 				</subtable>

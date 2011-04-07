@@ -33,102 +33,88 @@ class Piwik_Live_API
 		return self::$instance;
 	}
 
-	const TYPE_FETCH_VISITS = 1;
-	const TYPE_FETCH_PAGEVIEWS = 2;
-
-	/*
-	 * @return Piwik_DataTable
+	/**
+	 * This will return simple counters, for a given website ID, for visits over the last N minutes
+	 * 
+	 * @param int Id Site
+	 * @param int Number of minutes to look back at
+	 * 
+	 * @return array( visits => N, actions => M, visitsConverted => P )
 	 */
-	public function getLastVisitForVisitor( $visitorId, $idSite )
+	public function getCounters($idSite, $lastMinutes)
 	{
 		Piwik::checkUserHasViewAccess($idSite);
-		$filter_limit = 1;
-		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $filter_limit, $minIdVisit = false, $visitorId);
-		$table = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
-		return $table;
+		$lastMinutes = (int)$lastMinutes;
+		$sql = "SELECT 
+				count(*) as visits,
+				SUM(visit_total_actions) as actions,
+				SUM(visit_goal_converted) as visitsConverted
+		FROM ". Piwik_Common::prefixTable('log_visit') ." 
+		WHERE idsite = ?
+			AND visit_last_action_time >= ?
+		";
+		$bind = array(
+			$idSite,
+			Piwik_Date::factory(time() - $lastMinutes * 60)->toString('Y-m-d H:i:s')
+		);
+		$data = Piwik_FetchAll($sql, $bind);
+		return $data;
 	}
-
-	/*
+	
+	/**
+	 * Given a visitorId, will return the last $filter_limit visits for this visitor
+	 * 
+	 * @param string 16 characters Visitor ID. Typically, you would use the Tracking JS getVisitorId() 
+	 * 					(or the PHP tracking equivalent getVisitorId()) to get this value
+	 * @param int Site ID
+	 * @param int Number of visits to return 
+	 * 
 	 * @return Piwik_DataTable
 	 */
 	public function getLastVisitsForVisitor( $visitorId, $idSite, $filter_limit = 10 )
 	{
 		Piwik::checkUserHasViewAccess($idSite);
-		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $filter_limit, $minIdVisit = false, $visitorId);
+		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $filter_limit, $maxIdVisit = false, $visitorId);
 		$table = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
 		return $table;
 	}
 
-	/*
+	/**
+	 * Returns the last visits tracked in the specified website
+	 * You can define any number of filters: none, one, many or all parameters can be defined
+	 * 
+	 * @param int Site ID
+	 * @param string (optional) Period to restrict to when looking at the logs
+	 * @param string (optional) Date to restrict to
+	 * @param int (optional) Number of visits rows to return
+	 * @param int (optional) Maximum idvisit to restrict the query to (useful when paginating)
+	 * @param int (optional) Minimum timestamp to restrict the query to (useful when paginating or refreshing visits)
+	 * 
 	 * @return Piwik_DataTable
 	 */
-	public function getLastVisits( $idSite, $filter_limit = 10, $minTimestamp = false )
-	{
-		Piwik::checkUserHasViewAccess($idSite);
-		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $filter_limit, $minIdVisit = false, $visitorId = false, $previous = false, $minTimestamp);
-		$table = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
-//		echo $table;
-		return $table;
-	}
-
-	/*
-	 * @return Piwik_DataTable
-	 */
-	public function getLastVisitsDetails( $idSite, $period = false, $date = false, $filter_limit = false, $minIdVisit = false, $previous = false )
+	public function getLastVisitsDetails( $idSite, $period = false, $date = false, $filter_limit = false, $maxIdVisit = false, $minTimestamp = false )
 	{
 		if(empty($filter_limit)) 
 		{
-			$filter_limit = 20;
+			$filter_limit = 10;
 		}
 		Piwik::checkUserHasViewAccess($idSite);
-		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $filter_limit, $minIdVisit, $visitorId = false, $previous); 
+		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $filter_limit, $maxIdVisit, $visitorId = false, $minTimestamp); 
 		$dataTable = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
 		return $dataTable;
 	}
 
-
-	/*
-	 * @return Piwik_DataTable
+	/**
+	 * @deprecated
 	 */
-	public function getUsersInLastXMin( $idSite, $minutes = 30 )
+	public function getLastVisits( $idSite, $filter_limit = 10, $minTimestamp = false )
 	{
-		Piwik::checkUserHasViewAccess($idSite);
-		$visitorData = $this->loadLastVisitorInLastXTimeFromDatabase($idSite, $minutes, $days = 0, self::TYPE_FETCH_VISITS);
-		return $visitorData;
+		return $this->getLastVisitsDetails($idSite, $period = false, $date = false, $filter_limit, $maxIdVisit = false, $minTimestamp );
 	}
 
-	/*
-	 * @return Piwik_DataTable
-	 */
-	public function getUsersInLastXDays( $idSite, $days = 10 )
-	{
-		Piwik::checkUserHasViewAccess($idSite);
-		$visitorData = $this->loadLastVisitorInLastXTimeFromDatabase($idSite, $minutes = 0, $days, self::TYPE_FETCH_VISITS);
-		return $visitorData;
-	}
-
-	/*
-	 * @return array
-	 */
-	public function getPageImpressionsInLastXDays($idSite, $days = 10)
-	{
-		Piwik::checkUserHasViewAccess($idSite);
-		$visitorData = $this->loadLastVisitorInLastXTimeFromDatabase($idSite, $minutes = 0, $days, self::TYPE_FETCH_PAGEVIEWS);
-		return $visitorData;
-	}
-
-	/*
-	 * @return array
-	 */
-	public function getPageImpressionsInLastXMin($idSite, $minutes = 30)
-	{
-		Piwik::checkUserHasViewAccess($idSite);
-		$visitorData = $this->loadLastVisitorInLastXTimeFromDatabase($idSite, $minutes, $days = 0, self::TYPE_FETCH_PAGEVIEWS);
-		return $visitorData;
-	}
-
-	/*
-	 * @return Piwik_DataTable
+	/**
+	 * For an array of visits, query the list of pages for this visit 
+	 * as well as make the data human readable
 	 */
 	private function getCleanedVisitorsFromDetails($visitorDetails, $idSite)
 	{
@@ -187,12 +173,10 @@ class Piwik_Live_API
 		return $table;
 	}
 
-	/*
-	 * @return array
-	 */
-	private function loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $filter_limit = false, $minIdVisit = false, $visitorId = false, $previous = false, $minTimestamp = false)
+	private function loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $filter_limit = false, $maxIdVisit = false, $visitorId = false, $minTimestamp = false)
 	{
-//		var_dump($period); var_dump($date); var_dump($filter_limit); var_dump($minIdVisit); var_dump($visitorId);
+//		var_dump($period); var_dump($date); var_dump($filter_limit); var_dump($maxIdVisit); var_dump($visitorId);
+//var_dump($minTimestamp);
 		if(empty($filter_limit))
 		{
 			$filter_limit = 100;
@@ -207,13 +191,10 @@ class Piwik_Live_API
 			$whereBind[] = Piwik_Common::hex2bin($visitorId);
 		}
 
-		if(!empty($minIdVisit)
-			// we can't look back and return fast, 
-			// so we disallow: previous is the same as "Start of results"
-			&& !$previous)
+		if(!empty($maxIdVisit))
 		{
 			$where[] = "log_visit.idvisit < ? ";
-			$whereBind[] = $minIdVisit;
+			$whereBind[] = $maxIdVisit;
 		}
 		
 		if(!empty($minTimestamp))
@@ -224,7 +205,7 @@ class Piwik_Live_API
 		
 		// If no other filter, only look at the last 24 hours of stats
 		if(empty($visitorId)
-			&& empty($minIdVisit)
+			&& empty($maxIdVisit)
 			&& empty($period) 
 			&& empty($date))
 		{
@@ -310,71 +291,6 @@ class Piwik_Live_API
 //var_dump($whereBind);	echo($sql);//var_dump($data);
 		return $data;
 	}
-
-	/**
-	 * Load last Visitors PAGES or DETAILS in MINUTES or DAYS from database
-	 *
-	 * @param int $idSite
-	 * @param int $minutes
-	 * @param int $days
-	 * @param int $type self::TYPE_FETCH_VISITS or self::TYPE_FETCH_PAGEVIEWS
-	 *
-	 * @return mixed
-	 */
-	private function loadLastVisitorInLastXTimeFromDatabase($idSite, $minutes = 0, $days = 0, $type = false )
-	{
-		$where = $whereBind = array();
-
-		$where[] = " " . Piwik_Common::prefixTable('log_visit') . ".idsite = ? ";
-		$whereBind[] = $idSite;
-
-		if($minutes != 0)
-		{
-			$timeLimit = mktime(date('H'), date('i') - $minutes, 0, date('m'),  date('d'), date('Y'));
-			$where[] = " visit_last_action_time > ?";
-			$whereBind[] = date('Y-m-d H:i:s', $timeLimit);
-		}
-
-		if($days != 0)
-		{
-			$timeLimit = mktime(date('H'), date('i'), 0, date('m'), date('d') - $days, date('Y'));
-			$where[] = " visit_last_action_time > ?";
-			$whereBind[] = date('Y-m-d H:i:s', $timeLimit);
-		}
-
-		$sqlWhere = "";
-		if(count($where) > 0)
-		{
-			$sqlWhere = " WHERE " . join(' AND ', $where);
-		}
-
-		// Details
-		if($type == self::TYPE_FETCH_VISITS)
-		{
-			$sql = "SELECT 	" . Piwik_Common::prefixTable('log_visit') . ".idvisit
-				FROM " . Piwik_Common::prefixTable('log_visit') . "
-				$sqlWhere
-				ORDER BY idvisit DESC";
-		}
-		// Pages
-		elseif($type == self::TYPE_FETCH_PAGEVIEWS)
-		{
-			$sql = "SELECT " . Piwik_Common::prefixTable('log_link_visit_action') . ".idaction_url
-					FROM " . Piwik_Common::prefixTable('log_link_visit_action') . "
-    					INNER JOIN " . Piwik_Common::prefixTable('log_visit') . "
-    					ON " . Piwik_Common::prefixTable('log_visit') . ".idvisit = " . Piwik_Common::prefixTable('log_link_visit_action') . ".idvisit
-    					$sqlWhere";
-		}
-		else
-		{
-			// no $type is set --> ERROR
-			throw new Exception("type parameter is not properly set.");
-		}
-
-		// return $sql by fetching
-		return Piwik_FetchAll($sql, $whereBind);
-	}
-
 
 	/**
 	 * Removes fields that are not meant to be displayed (md5 config hash)
