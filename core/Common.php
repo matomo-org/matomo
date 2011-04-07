@@ -138,12 +138,14 @@ class Piwik_Common
 
 		self::initCorePiwikInTrackerMode();
 
+		// save current user privilege and temporarily assume super user privilege
 		$isSuperUser = Piwik::isUserIsSuperUser();
 		Piwik::setUserIsSuperUser();
+
 		$content = array();
 		Piwik_PostEvent('Common.fetchWebsiteAttributes', $content, $idSite);
 
-		// we remove the temporary Super user privilege
+		// restore original user privilege
 		Piwik::setUserIsSuperUser($isSuperUser);
 
 		// if nothing is returned from the plugins, we don't save the content
@@ -269,14 +271,22 @@ class Piwik_Common
 			Piwik_Common::setCacheGeneral( $cache );
 			Piwik_Common::initCorePiwikInTrackerMode();
 			printDebug('-> Scheduled Tasks: Starting...');
+
+			// save current user privilege and temporarily assume super user privilege
+			$isSuperUser = Piwik::isUserIsSuperUser();
+
 			// Scheduled tasks assume Super User is running
 			Piwik::setUserIsSuperUser();
+
 			// While each plugins should ensure that necessary languages are loaded,
 			// we ensure English translations at least are loaded
 			Piwik_Translate::getInstance()->loadEnglishTranslation();
 
 			$resultTasks = Piwik_TaskScheduler::runTasks();
-			Piwik::setUserIsSuperUser(false);
+
+			// restore original user privilege
+			Piwik::setUserIsSuperUser($isSuperUser);
+
 			printDebug($resultTasks);
 			printDebug('Finished Scheduled Tasks.');
 		}
