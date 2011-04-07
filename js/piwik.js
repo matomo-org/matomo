@@ -995,6 +995,9 @@ var
 				// Custom Variables names and values are each truncated before being sent in the request or recorded in the cookie
 				customVariableMaximumLength = 100,
 
+				// Maximum number of custom variables
+				maxCustomVariables = 5,
+
 				// Browser features via client-side data collection
 				browserFeatures = {},
 
@@ -1786,7 +1789,7 @@ var
 				 */
 				setCustomVariable: function (index, name, value) {
 					loadCustomVariables();
-					if (index > 0 && index <= 5) {
+					if (index > 0 && index <= maxCustomVariables) {
 						customVariables[index] = [name.slice(0, customVariableMaximumLength), value.slice(0, customVariableMaximumLength)];
 					}
 				},
