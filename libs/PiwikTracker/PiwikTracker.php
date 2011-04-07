@@ -3,6 +3,7 @@
  * Piwik - Open source web analytics
  * 
  * Client to record visits, page views, Goals, in a Piwik server.
+ * This is a PHP Version of the piwik.js standard Tracking API.
  * For more information, see http://piwik.org/docs/tracking-api/
  * 
  * @license released under BSD License http://www.opensource.org/licenses/bsd-license.php
@@ -30,6 +31,7 @@ class PiwikTracker
 	
 	/**
 	 * API Version
+	 * 
 	 * @var int
 	 */
 	const VERSION = 1;
@@ -75,7 +77,8 @@ class PiwikTracker
     
     /**
      * Sets the current URL being tracked
-     * @param string $url
+     * 
+     * @param string Raw URL (not URL encoded)
      */
 	public function setUrl( $url )
     {
@@ -84,15 +87,30 @@ class PiwikTracker
 
     /**
      * Sets the URL referer used to track Referers details for new visits.
-     * @param string $url
+     * 
+     * @param string Raw URL (not URL encoded)
      */
     public function setUrlReferer( $url )
     {
     	$this->urlReferer = $url;
     }
-    
+
     /**
-     * Sets Visitor Custom Variable
+     * Sets the original URL referer used to reach the website in the first place.
+     * This is used to attribute the Goal Conversion to the right referer
+     * With piwik.js, this URL would be stored in the first party cookie _pk_ref
+     * 
+     * @param string $url
+     */
+    public function setOriginalUrlReferer( $url )
+    {
+//TODO
+//    	$this->urlReferer = $url;
+    }
+
+    /**
+     * Sets Visit Custom Variable.
+     * See http://piwik.org/docs/custom-variables/
      * 
      * @param int Custom variable slot ID from 1-5
      * @param string Custom variable name
@@ -102,20 +120,21 @@ class PiwikTracker
     {
         $this->visitorCustomVar[$id] = array($name, $value);
     }
-    
+
     /**
-     * Sets the Browser language. Used to detect visitor Countries.
+     * Sets the Browser language. Used to guess visitor countries when GeoIP is not enabled
      * 
-     * @param string $acceptLanguage
+     * @param string For example "fr-fr"
      */
     public function setBrowserLanguage( $acceptLanguage )
     {
     	$this->acceptLanguage = $acceptLanguage;
     }
-    
+
     /**
      * Sets the user agent, used to detect OS and browser.
-     * 
+     * If this function is not called, the User Agent will default to the current user agent.
+     *  
      * @param string $userAgent
      */
     public function setUserAgent($userAgent)
@@ -123,73 +142,11 @@ class PiwikTracker
     	$this->userAgent = $userAgent;
     }
     
-    /**
-     * Sets local visitor time.
-     * 
-     * @param string $time HH:MM:SS format
-     */
-    public function setLocalTime($time)
-    {
-    	list($hour, $minute, $second) = explode(':', $time);
-    	$this->localHour = (int)$hour;
-    	$this->localMinute = (int)$minute;
-    	$this->localSecond = (int)$second;
-    }
-    
-    /**
-     * Sets user resolution width and height.
-     *
-     * @param int $width
-     * @param int $height
-     */
-    public function setResolution($width, $height)
-    {
-    	$this->width = $width;
-    	$this->height = $height;
-    }
-    
-    /**
-     * Sets cookie support (Cookie appears in the List of plugins report)
-     *
-     * @param bool $bool
-     */
-    public function setBrowserHasCookies( $bool )
-    {
-    	$this->hasCookies = $bool ;
-    }
-    
-    /**
-     * Sets visitor browser supported plugins 
-     *
-     * @param bool $flash
-     * @param bool $java
-     * @param bool $director
-     * @param bool $quickTime
-     * @param bool $realPlayer
-     * @param bool $pdf
-     * @param bool $windowsMedia
-     * @param bool $gears
-     * @param bool $silverlight
-     */
-    public function setPlugins($flash = false, $java = false, $director = false, $quickTime = false, $realPlayer = false, $pdf = false, $windowsMedia = false, $gears = false, $silverlight = false)
-    {
-    	$this->plugins = 
-    		'&fla='.(int)$flash.
-    		'&java='.(int)$java.
-    		'&dir='.(int)$director.
-    		'&qt='.(int)$quickTime.
-    		'&realp='.(int)$realPlayer.
-    		'&pdf='.(int)$pdf.
-    		'&wma='.(int)$windowsMedia.
-    		'&gears='.(int)$gears.
-    		'&ag='.(int)$silverlight
-    	;
-    }
 
     /**
      * Tracks a page view
      * 
-     * @param string $documentTitle Page view name as it will appear in Piwik reports
+     * @param string $documentTitle Page title as it will appear in the Actions > Page titles report
      * @return string Response
      */
     public function doTrackPageView( $documentTitle )
@@ -199,7 +156,7 @@ class PiwikTracker
     } 
     
     /**
-     * Tracks a Goal
+     * Records a Goal conversion
      * 
      * @param int $idGoal Id Goal to record a conversion
      * @param int $revenue Revenue for this conversion
@@ -225,16 +182,6 @@ class PiwikTracker
     	return $this->sendRequest($url); 
     }
     
-    /**
-     * By default, PiwikTracker will read cookies from the response and sets them in the next request.
-     * This can be disabled by calling this function.
-     * @return void
-     */
-    public function disableCookieSupport()
-    {
-    	$this->cookieSupport = false;
-    }
-
     /**
      * @see doTrackPageView()
      * @param string $documentTitle Page view name as it will appear in Piwik reports
@@ -281,7 +228,13 @@ class PiwikTracker
     }
 
     /**
-     * Overrides server date, allowed only for Super User (must be used along with setTokenAuth)
+     * Overrides server date and time for the tracking requests. 
+     * By default Piwik will track requests for the "current datetime" but this function allows you 
+     * to track visits in the past. All times are in UTC.
+     * 
+     * Allowed only for Super User, must be used along with setTokenAuth()
+     * @see setTokenAuth()
+     * @param string Date with the format 'Y-m-d H:i:s'
      */
     public function setForceVisitDateTime($dateTime)
     {
@@ -289,22 +242,137 @@ class PiwikTracker
     }
     
     /**
-     * Overrides IP address, allowed only for Super User (must be used along with setTokenAuth)
+     * Overrides IP address
+     * 
+     * Allowed only for Super User, must be used along with setTokenAuth()
+     * @see setTokenAuth()
+     * @param string IP string, eg. 130.54.2.1
      */
     public function setIp($ip)
     {
     	$this->ip = $ip;
     }
+    
+    /**
+     * Forces the requests to be recorded for the specified Visitor ID
+     * rather than using the heuristics based on IP and other attributes.
+     * This is typically used with the Javascript getVisitorId() function.
+     * 
+     * Allowed only for Super User, must be used along with setTokenAuth()
+     * @see setTokenAuth()
+     * @param string $visitorId 16 hexadecimal characters visitor ID. 
+     */
+    public function setVisitorId($visitorId)
+    {
+    	if(strlen($visitorId) != 16)
+    	{
+    		throw new Exception("setVisitorId() expects a 16 characters ID");
+    	}
+    	$this->visitorId = $visitorId;
+    }
+    
+    /**
+     * Returns the random Visitor ID that was assigned to this visit object
+     * 
+     * NOTE: This will not be able to read the first party cookie visitor ID. 
+     * It will simply return the newly generated ID, @see __construct()
+     * 
+     * This can be used if you wish to record more visits, actions or goals for this visitor ID later on.
+     */
+    public function getVisitorId()
+    {
+    	return $this->visitorId;
+    }
 
 	/**
-	 *  Sets token_auth used for authorization.
+	 * Some Tracking API functionnality requires express Super User authentication.
+	 * The following features require Super User access:
+	 * - force the visitor IP
+	 * - force the date & time of the tracking requests rather than track for the current datetime
+	 * - force Piwik to track the requests to a specific VisitorId rather than use the standard visitor matching heuristic
 	 *
-	 *  @param string token_auth
+	 * @param string token_auth 32 chars token_auth string
 	 */
 	public function setTokenAuth($token_auth)
 	{
 		$this->token_auth = $token_auth;
 	}
+
+    /**
+     * Sets local visitor time
+     * 
+     * @param string $time HH:MM:SS format
+     */
+    public function setLocalTime($time)
+    {
+    	list($hour, $minute, $second) = explode(':', $time);
+    	$this->localHour = (int)$hour;
+    	$this->localMinute = (int)$minute;
+    	$this->localSecond = (int)$second;
+    }
+    
+    /**
+     * Sets user resolution width and height.
+     *
+     * @param int $width
+     * @param int $height
+     */
+    public function setResolution($width, $height)
+    {
+    	$this->width = $width;
+    	$this->height = $height;
+    }
+    
+    /**
+     * Sets if the browser supports cookies 
+     * This is reported in "List of plugins" report in Piwik.
+     *
+     * @param bool $bool
+     */
+    public function setBrowserHasCookies( $bool )
+    {
+    	$this->hasCookies = $bool ;
+    }
+    
+    /**
+     * Sets visitor browser supported plugins 
+     *
+     * @param bool $flash
+     * @param bool $java
+     * @param bool $director
+     * @param bool $quickTime
+     * @param bool $realPlayer
+     * @param bool $pdf
+     * @param bool $windowsMedia
+     * @param bool $gears
+     * @param bool $silverlight
+     */
+    public function setPlugins($flash = false, $java = false, $director = false, $quickTime = false, $realPlayer = false, $pdf = false, $windowsMedia = false, $gears = false, $silverlight = false)
+    {
+    	$this->plugins = 
+    		'&fla='.(int)$flash.
+    		'&java='.(int)$java.
+    		'&dir='.(int)$director.
+    		'&qt='.(int)$quickTime.
+    		'&realp='.(int)$realPlayer.
+    		'&pdf='.(int)$pdf.
+    		'&wma='.(int)$windowsMedia.
+    		'&gears='.(int)$gears.
+    		'&ag='.(int)$silverlight
+    	;
+    }
+    
+    /**
+     * By default, PiwikTracker will read third party cookies 
+     * from the response and sets them in the next request.
+     * This can be disabled by calling this function.
+     * 
+     * @return void
+     */
+    public function disableCookieSupport()
+    {
+    	$this->cookieSupport = false;
+    }
     
     /**
      * @ignore
@@ -392,23 +460,15 @@ class PiwikTracker
 	 		'?idsite=' . $idSite .
 			'&rec=1' .
 			'&apiv=' . self::VERSION . 
-	        '&url=' . urlencode($this->pageUrl) .
-			'&urlref=' . urlencode($this->urlReferer) .
 	        '&rand=' . mt_rand() .
-
-			// Temporary, until we implement 1st party cookies in this class
-    		'&_id=' . $this->visitorId . 
-    		'&_ref=' . urlencode($this->urlReferer) .
-    		'&_refts=' . (!empty($this->forcedDatetime) 
-    							? strtotime($this->forcedDatetime) 
-    							: time()) .
     	
-    		// Optional since debugger can be triggered remotely
+    		// PHP DEBUGGING: Optional since debugger can be triggered remotely
     		(!empty($_GET['XDEBUG_SESSION_START']) ? '&XDEBUG_SESSION_START=' . @$_GET['XDEBUG_SESSION_START'] : '') . 
 	        (!empty($_GET['KEY']) ? '&KEY=' . @$_GET['KEY'] : '') .
     	 
-    		// only allowed for Super User, token_auth required
+    		// Only allowed for Super User, token_auth required
 			(!empty($this->ip) ? '&cip=' . $this->ip : '') .
+    		(!empty($this->forcedVisitorId) ? '&cid=' . $this->forcedVisitorId : '&_id=' . $this->visitorId) . 
 			(!empty($this->forcedDatetime) ? '&cdt=' . urlencode($this->forcedDatetime) : '') .
 			(!empty($this->token_auth) ? '&token_auth=' . urlencode($this->token_auth) : '') .
 	        
@@ -419,6 +479,16 @@ class PiwikTracker
 	        (!empty($this->hasCookies) ? '&cookie=' . $this->hasCookies : '') .
 	        (!empty($this->customData) ? '&data=' . $this->customData : '') . 
 	        (!empty($this->visitorCustomVar) ? '&_cvar=' . urlencode(json_encode($this->visitorCustomVar)) : '') .
+	        
+	        // URL parameters
+	        '&url=' . urlencode($this->pageUrl) .
+			'&urlref=' . urlencode($this->urlReferer) .
+    		'&_ref=' . urlencode($this->urlReferer) .
+    		'&_refts=' . (!empty($this->forcedDatetime) 
+    							? strtotime($this->forcedDatetime) 
+    							: time()) .
+    							
+	        // DEBUG 
 	        $this->DEBUG_APPEND_URL
         ;
     	return $url;
