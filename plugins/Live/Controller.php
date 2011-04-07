@@ -15,9 +15,9 @@
  */
 class Piwik_Live_Controller extends Piwik_Controller
 {
-	function index()
+	function index($fetch = false)
 	{
-		return $this->widget(true);
+		return $this->widget($fetch);
 	}
 
 	public function widget($fetch = false)
@@ -27,9 +27,8 @@ class Piwik_Live_Controller extends Piwik_Controller
 		
 		$view = $this->setCounters($view);
 
-		$view->visitors = $this->getLastVisitsStart($fetch = true);
+		$view->visitors = $this->getLastVisitsStart($fetchPlease = true);
 		$view->liveTokenAuth = Piwik::getCurrentUserTokenAuth();
-
 		return $this->render($view, $fetch);
 	}
 
