@@ -24,9 +24,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 	{
 		$view = Piwik_View::factory('index');
 		$view->idSite = $this->idSite;
-		
 		$view = $this->setCounters($view);
-
 		$view->visitors = $this->getLastVisitsStart($fetchPlease = true);
 		$view->liveTokenAuth = Piwik::getCurrentUserTokenAuth();
 		return $this->render($view, $fetch);
@@ -85,6 +83,8 @@ class Piwik_Live_Controller extends Piwik_Controller
 
 	public function getLastVisitsStart($fetch = false)
 	{
+		// hack, ensure we load today's visits by default
+		$_GET['date'] = 'today';
 		$view = Piwik_View::factory('lastVisits');
 		$view->idSite = $this->idSite;
 
