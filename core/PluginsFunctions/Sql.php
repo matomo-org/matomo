@@ -33,7 +33,11 @@ class Piwik_Sql
 
 	static public function exec($sql)
 	{
-		return self::getDb()->exec($sql);
+		$profiler = Zend_Registry::get('db')->getProfiler();
+		$q = $profiler->queryStart($sql, Zend_Db_Profiler::INSERT);
+		$return = self::getDb()->exec($sql);
+		$profiler->queryEnd($q);
+		return $return;
 	}
 
 	static public function query($sql, $parameters = array())
