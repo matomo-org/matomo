@@ -11,6 +11,8 @@ function getUserSettingsAJAX()
 	var defaultDate = $('input[name=defaultDate]:checked').val();
 	if(defaultDate == 'today' || defaultDate == 'yesterday') {
 		params = 'period=day&date='+defaultDate;
+	} else if(defaultDate.indexOf('last') >= 0 ) {
+		params = 'period=range&date='+defaultDate;
 	} else {
 		params = 'date=today&period='+defaultDate;
 	}
