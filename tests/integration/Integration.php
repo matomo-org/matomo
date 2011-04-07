@@ -417,7 +417,8 @@ abstract class Test_Integration extends Test_Database
     			$expected = $this->removeAllLiveDatesFromXml($expected);
     		}
     		// If date=lastN the <prettyDate> element will change each day, we remove XML element before comparison
-    		elseif(strpos($dateTime, 'last') !== false)
+    		elseif(strpos($dateTime, 'last') !== false
+    			&& strpos($requestUrl, 'API.getProcessedReport') !== false)
     		{
     			$expected = $this->removePrettyDateFromXml($expected);
     			$response = $this->removePrettyDateFromXml($response);
@@ -452,7 +453,8 @@ abstract class Test_Integration extends Test_Database
 			'serverDatePrettyFirstAction',
 			'serverTimePrettyFirstAction',
 			'goalTimePretty',
-			'serverTime'
+			'serverTimePretty',
+			'visitorId'
 		);
 		foreach($toRemove as $xml) {
 			$input = $this->removeXmlElement($input, $xml);
@@ -467,9 +469,14 @@ abstract class Test_Integration extends Test_Database
 	
 	protected function removeXmlElement($input, $xmlElement)
 	{
+		$before = strlen($input);
+		$beforeInput = $input;
 		$input = preg_replace('/(<'.$xmlElement.'>.+?<\/'.$xmlElement.'>)/', '', $input);
+		$after = strlen($input);
 		//check we didn't delete the whole string 
     	$this->assertTrue(strlen($input) > 100);
+    	// and ensure we indeed removed a field // 10 is some arbitrary threshold
+//    	$this->assertTrue( $before > $after, '%s found probleme in '.$beforeInput .' for '.$xmlElement);
     	return $input;
 	}
 }
