@@ -121,3 +121,11 @@ if(!empty($piwik_errorMessage))
  * @link http://upgradephp.berlios.de/
  */
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
+
+/**
+ * Usually used in Tracker code, but sometimes triggered from Core
+ */
+if(!function_exists('printDebug')) 
+{ 
+	function printDebug($i) {} 
+}
