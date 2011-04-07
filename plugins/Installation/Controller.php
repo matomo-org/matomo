@@ -528,6 +528,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 		$this->session->currentStepDone = __FUNCTION__;
 		echo $view->render();
+
+		$this->session->unsetAll();
 	}
 
 	/**
