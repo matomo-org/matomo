@@ -3,7 +3,7 @@
         font-size:90%;
         color:#444444;
 }
-#visitsLive .datetime, #visitsLive .country, #visitsLive .referer, #visitsLive .settings, #visitsLive .returning , #visitsLive .countActions{
+#visitsLive .datetime, #visitsLive .country, #visitsLive .referer, #visitsLive .settings, #visitsLive .returning {
         border-bottom: 1px solid #d3d1c5;
         border-right:1px solid #d3d1c5;
         padding:5px 5px 5px 12px;
@@ -30,10 +30,6 @@
  #visitsLive .pagesTitle {
          display:block;
          float:left;
-}
-
-#visitsLive .countActions {
-        background:#FFFFFF none repeat scroll 0 0;
 }
 
 #visitsLive .settings {

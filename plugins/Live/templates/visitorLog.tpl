@@ -39,7 +39,7 @@
 	<td class="label" style="width:12%" width="12%">
 
 				<strong>{$visitor.columns.serverDatePrettyFirstAction} - {$visitor.columns.serverTimePrettyFirstAction}</strong>
-				{if !empty($visitor.columns.ip)} <br/>IP: {$visitor.columns.ip}{/if}
+				{if !empty($visitor.columns.visitIp)} <br/>IP: {$visitor.columns.visitIp}{/if}
 				
 				{if (isset($visitor.columns.provider)&&$visitor.columns.provider!='IP')} 
 					<br />
@@ -51,24 +51,26 @@
 				{if !empty($visitor.columns.customVariables)}
 					<br/>
 					{foreach from=$visitor.columns.customVariables item=customVariable key=id}
-						<br/><acronym title="{'CustomVariables_CustomVariables'|translate} (index {$id})">{$customVariable.name}</acronym>: {$customVariable.value}
+						{capture assign=name}customVariableName{$id}{/capture}
+						{capture assign=value}customVariableValue{$id}{/capture}
+						<br/><acronym title="{'CustomVariables_CustomVariables'|translate} (index {$id})">{$customVariable.$name}</acronym>: {$customVariable.$value}
 					{/foreach}
 				{/if}
 				
 	</td>
 	<td class="label" style="width:13%" width="13%">
 		&nbsp;<img src="{$visitor.columns.countryFlag}" title="{$visitor.columns.country}, Provider {$visitor.columns.provider}" />
-		&nbsp;<img src="{$visitor.columns.browserIcon}" title="{$visitor.columns.browser} with plugins {$visitor.columns.plugins} enabled" />
-		&nbsp;<img src="{$visitor.columns.operatingSystemIcon}" title="{$visitor.columns.operatingSystem}, {$visitor.columns.resolution} ({$visitor.columns.screen})" />
-		&nbsp;{if $visitor.columns.isVisitorGoalConverted}<img src="{$visitor.columns.goalIcon}" title="{'General_VisitConvertedGoal'|translate} - {$visitor.columns.goalType}" />{/if}
-		{if $visitor.columns.isVisitorReturning}
-			&nbsp;<img src="plugins/Live/templates/images/returningVisitor.gif" title="Returning Visitor" />
+		&nbsp;<img src="{$visitor.columns.browserIcon}" title="{$visitor.columns.browserName} with plugins {$visitor.columns.plugins} enabled" />
+		&nbsp;<img src="{$visitor.columns.operatingSystemIcon}" title="{$visitor.columns.operatingSystem}, {$visitor.columns.resolution} ({$visitor.columns.screenType})" />
+		&nbsp;{if $visitor.columns.visitConverted}<img src="{$visitor.columns.goalIcon}" title="{'General_VisitConvertedGoal'|translate} - {$visitor.columns.goalType}" />{/if}
+		{if $visitor.columns.visitorType=='returning'}
+			&nbsp;<img src="plugins/Live/templates/images/returningVisitor.gif" title="{'General_ReturningVisitor'|translate}" />
 		{/if}
 		<br/>
-		{if count($visitor.columns.pluginIcons) > 0}
+		{if count($visitor.columns.pluginsIcons) > 0}
 			<hr />
 			{'UserSettings_Plugins'|translate}:
-				{foreach from=$visitor.columns.pluginIcons item=pluginIcon}
+				{foreach from=$visitor.columns.pluginsIcons item=pluginIcon}
 					<img src="{$pluginIcon.pluginIcon}" title="{$pluginIcon.pluginName|capitalize:true}" alt="{$pluginIcon.pluginName|capitalize:true}" />
 				{/foreach}
 		{/if}
@@ -95,17 +97,17 @@
 				{/if}
 				{$visitor.columns.referrerName|escape:'html'}
 				<br />
-				{if !empty($visitor.columns.keywords)}{'Referers_Keywords'|translate}:{/if}
+				{if !empty($visitor.columns.referrerKeyword)}{'Referers_Keywords'|translate}:{/if}
 				<a href="{$visitor.columns.referrerUrl|escape:'html'}" target="_blank" style="text-decoration:underline;">
-					{if !empty($visitor.columns.keywords)}
-						"{$visitor.columns.keywords|escape:'html'}"
+					{if !empty($visitor.columns.referrerKeyword)}
+						"{$visitor.columns.referrerKeyword|escape:'html'}"
 					{/if}
 				</a>
 			{/if}
 			{if $visitor.columns.referrerType == 'direct'}{'Referers_DirectEntry'|translate}{/if}
 		</div>
 	</td>
-	<td class="column {if $visitor.columns.isVisitorGoalConverted}highlightField{/if}" style="width:55%" width="55%">
+	<td class="column {if $visitor.columns.visitConverted}highlightField{/if}" style="width:55%" width="55%">
 			<strong>
 				{$visitor.columns.actionDetails|@count}
 				{if $visitor.columns.actionDetails|@count <= 1}
@@ -113,12 +115,12 @@
 				{else}
 					{'Live_Actions'|translate}
 				{/if}
-				- {$visitor.columns.visitLengthPretty}
+				- {$visitor.columns.visitDurationPretty}
 			</strong>
 			<br />
 			<ol style="list-style:decimal inside none;">
 			{foreach from=$visitor.columns.actionDetails item=action}
-				<li title="{$action.serverTime|escape:'html'} - {$action.pageUrl|escape:'html'}">
+				<li title="{$action.serverTimePretty|escape:'html'} - {$action.pageUrl|escape:'html'}">
 					{if strlen(trim($action.pageTitle))>0}
 					 	{$action.pageTitle|escape:'html'|truncate:60:"...":true}
 						<br/>

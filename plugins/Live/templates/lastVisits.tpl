@@ -3,18 +3,18 @@
 		<div style="display:none" class="idvisit">{$visitor.idVisit}</div>
 			<div class="datetime">
 				<span style='display:none' class='serverTimestamp'>{$visitor.serverTimestamp}</span>
-				{$visitor.serverDatePretty} - {$visitor.serverTimePretty} ({$visitor.visitLengthPretty})
+				{$visitor.serverDatePretty} - {$visitor.serverTimePretty} ({$visitor.visitDurationPretty})
 				&nbsp;<img src="{$visitor.countryFlag}" title="{$visitor.country}, {'Provider_ColumnProvider'|translate} {$visitor.provider}" />
-				&nbsp;<img src="{$visitor.browserIcon}" title="{$visitor.browser}, {'UserSettings_Plugins'|translate}: {$visitor.plugins}" />
+				&nbsp;<img src="{$visitor.browserIcon}" title="{$visitor.browserName}, {'UserSettings_Plugins'|translate}: {$visitor.plugins}" />
 				&nbsp;<img src="{$visitor.operatingSystemIcon}" title="{$visitor.operatingSystem}, {$visitor.resolution}" />
-				&nbsp;{if $visitor.isVisitorGoalConverted}<img src="{$visitor.goalIcon}" title="{'General_VisitConvertedGoal'|translate} - {'Goals_GoalConversion'|translate} ({$visitor.goalType})" />{/if}
-				{if $visitor.isVisitorReturning}&nbsp;<img src="plugins/Live/templates/images/returningVisitor.gif" title="Returning Visitor" />{/if}
-				{if $visitor.ip}IP: {$visitor.ip}{/if}
+				&nbsp;{if $visitor.visitConverted}<img src="{$visitor.goalIcon}" title="{'General_VisitConvertedGoal'|translate} - {'Goals_GoalConversion'|translate} ({$visitor.goalType})" />{/if}
+				{if $visitor.visitorType=='returning'}&nbsp;<img src="plugins/Live/templates/images/returningVisitor.gif" title="{'General_ReturningVisitor'|translate}" />{/if}
+				{if $visitor.visitIp}IP: {$visitor.visitIp}{/if}
 			</div>
 			<!--<div class="settings"></div>-->
 			<div class="referer">
 				{if $visitor.referrerType != 'direct'}from <a href="{$visitor.referrerUrl|escape:'html'}" target="_blank">{if !empty($visitor.searchEngineIcon)}<img src="{$visitor.searchEngineIcon}" /> {/if}{$visitor.referrerName|escape:'html'}</a>
-					{if !empty($visitor.keywords)}"{$visitor.keywords|escape:'html'}"{/if}
+					{if !empty($visitor.referrerKeyword)}"{$visitor.referrerKeyword|escape:'html'}"{/if}
 				{/if}
 				{if $visitor.referrerType == 'direct'}{'Referers_DirectEntry'|translate}{/if}
 			</div>
@@ -29,7 +29,7 @@
 				  $col=0;
 		  		}
 				{/php}
-				<a href="{$action.pageUrl|escape:'html'}" target="_blank"><img align="middle" src="plugins/Live/templates/images/file{php} echo $col; {/php}.png" title="{$action.pageTitle|escape:'html'} - {$action.serverTime|escape:'html'}" /></a>
+				<a href="{$action.pageUrl|escape:'html'}" target="_blank"><img align="middle" src="plugins/Live/templates/images/file{php} echo $col; {/php}.png" title="{$action.pageTitle|escape:'html'} - {$action.serverTimePretty|escape:'html'}" /></a>
 			{/foreach}
 		</div>
 	</div>
