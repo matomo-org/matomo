@@ -100,7 +100,11 @@ class Piwik_Live_Visitor
 
 	function getVisitorId()
 	{
-		return bin2hex($this->details['idvisitor']);
+		if(isset($this->details['idvisitor']))
+		{
+			return bin2hex($this->details['idvisitor']);
+		}
+		return false;
 	}
 	
 	function getVisitLocalTime()
