@@ -152,7 +152,7 @@ class Piwik_Live_API
 				log_action_title.name AS pageTitle,
 				log_action.idaction AS pageIdAction,
 				log_link_visit_action.idlink_va AS pageId,
-				log_link_visit_action.server_time as serverTime
+				log_link_visit_action.server_time as serverTimePretty
 				FROM " .Piwik_Common::prefixTable('log_link_visit_action')." AS log_link_visit_action
 					INNER JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action
 					ON  log_link_visit_action.idaction_url = log_action.idaction
@@ -165,8 +165,8 @@ class Piwik_Live_API
 			// Convert datetimes to the site timezone
 			foreach($visitorDetailsArray['actionDetails'] as &$details)
 			{
-				$dateTimeVisit = Piwik_Date::factory($details['serverTime'], $timezone);
-				$details['serverTime'] = $dateTimeVisit->getDatetime(); 
+				$dateTimeVisit = Piwik_Date::factory($details['serverTimePretty'], $timezone);
+				$details['serverTimePretty'] = $dateTimeVisit->getLocalized('%shortDay% %day% %shortMonth% %time%'); 
 			}
 			$table->addRowFromArray( array(Piwik_DataTable_Row::COLUMNS => $visitorDetailsArray));
 		}

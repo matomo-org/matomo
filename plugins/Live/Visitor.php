@@ -38,45 +38,57 @@ class Piwik_Live_Visitor
 	function getAllVisitorDetails()
 	{
 		return array(
-			'ip' => $this->getIp(),
+			'idSite' => $this->getIdSite(),
 			'idVisit' => $this->getIdVisit(),
-			'countActions' => $this->getNumberOfActions(),
-			'isVisitorReturning' => $this->isVisitorReturning(),
+			'visitIp' => $this->getIp(),
+			'visitorId' => $this->getVisitorId(),
+			'visitorType' => $this->isVisitorReturning() ? 'returning' : 'new',
+		
+			//placeholder to be filled in API
+			'actions' => $this->getNumberOfActions(),
+			'actionDetails' => false,
 			'customVariables' => $this->getCustomVariables(),
+
+			// all time entries
+			'serverDate' => $this->getServerDate(),
+			'visitLocalTime' => $this->getVisitLocalTime(),
+			'firstActionTimestamp' => $this->getTimestampFirstAction(),
+			'lastActionTimestamp' => $this->getTimestampLastAction(),
+			'lastActionDateTime' => $this->getDateTimeLastAction(),
+		
+			// standard attributes
+			'visitDuration' => $this->getVisitLength(),
+			'visitDurationPretty' => $this->getVisitLengthPretty(),
+			'visitCount' => $this->getVisitCount(),
+			'daysSinceLastVisit' => $this->getDaysSinceLastVisit(),
+			'daysSinceFirstVisit' => $this->getDaysSinceFirstVisit(),
 			'country' => $this->getCountryName(),
 			'countryFlag' => $this->getCountryFlag(),
 			'continent' => $this->getContinent(),
 			'provider' => $this->getProvider(),
 			'providerUrl' => $this->getProviderUrl(),
-			'idSite' => $this->getIdSite(),
-			'serverDate' => $this->getServerDate(),
-			'visitLength' => $this->getVisitLength(),
-			'visitLengthPretty' => $this->getVisitLengthPretty(),
-			'firstActionTimestamp' => $this->getTimestampFirstAction(),
-			'lastActionTimestamp' => $this->getTimestampLastAction(),
-
 			'referrerType' => $this->getRefererType(),
 			'referrerTypeName' => $this->getRefererTypeName(),
-			'keywords' => $this->getKeywords(),
+			'referrerKeyword' => $this->getKeyword(),
 			'referrerUrl' => $this->getRefererUrl(),
 			'referrerName' => $this->getRefererName(),
-			'searchEngineUrl' => $this->getSearchEngineUrl(),
-			'searchEngineIcon' => $this->getSearchEngineIcon(),
-
+			'referrerSearchEngineUrl' => $this->getSearchEngineUrl(),
+			'referrerSearchEngineIcon' => $this->getSearchEngineIcon(),
 			'operatingSystem' => $this->getOperatingSystem(),
 			'operatingSystemShortName' => $this->getOperatingSystemShortName(),
 			'operatingSystemIcon' => $this->getOperatingSystemIcon(),
 			'browserFamily' => $this->getBrowserFamily(),
 			'browserFamilyDescription' => $this->getBrowserFamilyDescription(),
-	 		'browser' => $this->getBrowser(),
+	 		'browserName' => $this->getBrowser(),
 			'browserIcon' => $this->getBrowserIcon(),
-			'screen' => $this->getScreenType(),
+			'screenType' => $this->getScreenType(),
 			'resolution' => $this->getResolution(),
-			'screenIcon' => $this->getScreenTypeIcon(),
+			'screenTypeIcon' => $this->getScreenTypeIcon(),
 			'plugins' => $this->getPlugins(),
-			'pluginIcons' => $this->getPluginIcons(),
-			'lastActionDateTime' => $this->getDateTimeLastAction(),
-			'isVisitorGoalConverted' => $this->isVisitorGoalConverted(),
+			'pluginsIcons' => $this->getPluginIcons(),
+		
+			// Goals
+			'visitConverted' => $this->isVisitorGoalConverted(),
 			'goalIcon' => $this->getGoalIcon(),
    			'goalType' => $this->getGoalType(),
 			'goalName' => $this->getGoalName(),
@@ -86,6 +98,31 @@ class Piwik_Live_Visitor
 		);
 	}
 
+	function getVisitorId()
+	{
+		return bin2hex($this->details['idvisitor']);
+	}
+	
+	function getVisitLocalTime()
+	{
+		return $this->details['visitor_localtime'];
+	}
+	
+	function getVisitCount()
+	{
+		return $this->details['visitor_count_visits'];
+	}
+	
+	function getDaysSinceLastVisit()
+	{
+		return $this->details['visitor_days_since_last'];
+	}
+	
+	function getDaysSinceFirstVisit()
+	{
+		return $this->details['visitor_days_since_first'];
+	}
+	
 	function getServerDate()
 	{
 		return date('Y-m-d', strtotime($this->details['visit_last_action_time']));
@@ -164,8 +201,8 @@ class Piwik_Live_Visitor
 				&& !empty($this->details['custom_var_v'.$i]))
 			{
 				$customVariables[$i] = array(
-					'name' => $this->details['custom_var_k'.$i],
-					'value' => $this->details['custom_var_v'.$i],
+					'customVariableName'.$i => $this->details['custom_var_k'.$i],
+					'customVariableValue'.$i => $this->details['custom_var_v'.$i],
 				);
 			} 
 		}
@@ -182,7 +219,7 @@ class Piwik_Live_Visitor
 		return Piwik_getRefererTypeLabel($this->details['referer_type']);
 	}
 
-	function getKeywords()
+	function getKeyword()
 	{
 		return $this->details['referer_keyword'];
 	}

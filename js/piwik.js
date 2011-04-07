@@ -1416,7 +1416,7 @@ var
 							request;
 
 						// there was activity during the heart beat period;
-						// on average, this is going to overstate the visitLength by configHeartBeatTimer/2
+						// on average, this is going to overstate the visitDuration by configHeartBeatTimer/2
 						if ((lastActivityTime + configHeartBeatTimer) > now.getTime()) {
 							// send ping if minimum visit time has elapsed
 							if (configMinimumVisitTime < now.getTime()) {

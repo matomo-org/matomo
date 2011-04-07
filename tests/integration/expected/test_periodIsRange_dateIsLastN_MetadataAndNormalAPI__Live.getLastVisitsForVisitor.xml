@@ -1,50 +1,58 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<ip>156.5.3.2</ip>
+		<idSite>1</idSite>
 		<idVisit>3</idVisit>
-		<countActions>1</countActions>
-		<isVisitorReturning>1</isVisitorReturning>
+		<visitIp>156.5.3.2</visitIp>
+		<visitorId>2676d13e38127ebb</visitorId>
+		<visitorType>returning</visitorType>
+		<actions>1</actions>
+		<actionDetails>
+		</actionDetails>
 		<customVariables>
 			<row>
-				<name>VisitorType</name>
-				<value>LoggedOut</value>
+				<customVariableName1>VisitorType</customVariableName1>
+				<customVariableValue1>LoggedOut</customVariableValue1>
 			</row>
 			<row>
-				<name>Othercustom value which should be truncated abcdef</name>
-				<value>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwx</value>
+				<customVariableName2>Othercustom value which should be truncated abcdef</customVariableName2>
+				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwx</customVariableValue2>
 			</row>
 		</customVariables>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		
+		
+		
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<visitCount>1</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<country>France</country>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
 		<continent>Europe</continent>
 		<provider>Unknown</provider>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
-		<idSite>1</idSite>
-		
-		<visitLength>0</visitLength>
-		<visitLengthPretty>0s</visitLengthPretty>
-		
-		
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
-		<keywords></keywords>
+		<referrerKeyword></referrerKeyword>
 		<referrerUrl></referrerUrl>
 		<referrerName></referrerName>
-		<searchEngineUrl></searchEngineUrl>
-		<searchEngineIcon></searchEngineIcon>
+		<referrerSearchEngineUrl></referrerSearchEngineUrl>
+		<referrerSearchEngineIcon></referrerSearchEngineIcon>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.0</browser>
+		<browserName>Firefox 3.0</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<screen>dual</screen>
+		<screenType>dual</screenType>
 		<resolution>1111x222</resolution>
-		<screenIcon>plugins/UserSettings/images/screens/dual.gif</screenIcon>
+		<screenTypeIcon>plugins/UserSettings/images/screens/dual.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
-		<pluginIcons>
+		<pluginsIcons>
 			<row>
 				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
 				<pluginName>flash</pluginName>
@@ -53,9 +61,8 @@
 				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
-		</pluginIcons>
-		
-		<isVisitorGoalConverted>0</isVisitorGoalConverted>
+		</pluginsIcons>
+		<visitConverted>0</visitConverted>
 		<goalIcon>0</goalIcon>
 		<goalType>0</goalType>
 		<goalName>0</goalName>
@@ -69,54 +76,60 @@
 		
 		
 		<goalConversions>1</goalConversions>
-		<actionDetails>
-		</actionDetails>
 	</row>
 	<row>
-		<ip>156.5.3.2</ip>
+		<idSite>1</idSite>
 		<idVisit>2</idVisit>
-		<countActions>1</countActions>
-		<isVisitorReturning>0</isVisitorReturning>
+		<visitIp>156.5.3.2</visitIp>
+		<visitorId>2676d13e38127ebb</visitorId>
+		<visitorType>new</visitorType>
+		<actions>1</actions>
+		<actionDetails>
+		</actionDetails>
 		<customVariables>
 			<row>
-				<name>VisitorType</name>
-				<value>LoggedOut</value>
+				<customVariableName1>VisitorType</customVariableName1>
+				<customVariableValue1>LoggedOut</customVariableValue1>
 			</row>
 			<row>
-				<name>Othercustom value which should be truncated abcdef</name>
-				<value>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwx</value>
+				<customVariableName2>Othercustom value which should be truncated abcdef</customVariableName2>
+				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwx</customVariableValue2>
 			</row>
 		</customVariables>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		
+		
+		
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<visitCount>1</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<country>France</country>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
 		<continent>Europe</continent>
 		<provider>Unknown</provider>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
-		<idSite>1</idSite>
-		
-		<visitLength>0</visitLength>
-		<visitLengthPretty>0s</visitLengthPretty>
-		
-		
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
-		<keywords></keywords>
+		<referrerKeyword></referrerKeyword>
 		<referrerUrl></referrerUrl>
 		<referrerName></referrerName>
-		<searchEngineUrl></searchEngineUrl>
-		<searchEngineIcon></searchEngineIcon>
+		<referrerSearchEngineUrl></referrerSearchEngineUrl>
+		<referrerSearchEngineIcon></referrerSearchEngineIcon>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.0</browser>
+		<browserName>Firefox 3.0</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<screen>dual</screen>
+		<screenType>dual</screenType>
 		<resolution>1111x222</resolution>
-		<screenIcon>plugins/UserSettings/images/screens/dual.gif</screenIcon>
+		<screenTypeIcon>plugins/UserSettings/images/screens/dual.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
-		<pluginIcons>
+		<pluginsIcons>
 			<row>
 				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
 				<pluginName>flash</pluginName>
@@ -125,9 +138,8 @@
 				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
-		</pluginIcons>
-		
-		<isVisitorGoalConverted>1</isVisitorGoalConverted>
+		</pluginsIcons>
+		<visitConverted>1</visitConverted>
 		<goalIcon>themes/default/images/goal.png</goalIcon>
 		<goalType>Manually</goalType>
 		<goalName>triggered js</goalName>
@@ -141,7 +153,5 @@
 		
 		
 		<goalConversions>1</goalConversions>
-		<actionDetails>
-		</actionDetails>
 	</row>
 </result>
