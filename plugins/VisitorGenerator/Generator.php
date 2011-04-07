@@ -586,12 +586,12 @@ class Piwik_VisitorGenerator_Generator
 	{		
 		if(!isset($this->allget[$name]))
 		{
-			throw new exception("You are asking for $name which doesnt exist");
+			throw new Exception("You are asking for $name which doesnt exist");
 		}
 		else
 		{
 			$index = mt_rand(0,count($this->allget[$name])-1);
-			$value =$this->allget[$name][$index];
+			$value = $this->allget[$name][$index];
 			return $value;
 		}
 	}
