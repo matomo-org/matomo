@@ -11,7 +11,7 @@
 		allSites[{$i}] = new setRowData({$site.idsite}, {$site.visits}, {$site.actions}, {$site.unique}, '{$site.name|escape:"javascript"}', '{$site.main_url|escape:"javascript"}', '{$site.visitsSummaryValue|replace:",":"."}', '{$site.actionsSummaryValue|replace:",":"."}', '{$site.uniqueSummaryValue|replace:",":"."}');
 	{/foreach}
 	params['period'] = '{$period}';
-	params['date'] = '{$date}';
+	params['date'] = '{$dateRequest}';
 	params['evolutionBy'] = '{$evolutionBy}';
 	params['mOrderBy'] = '{$orderBy}';
 	params['order'] = '{$order}';

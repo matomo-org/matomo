@@ -115,7 +115,7 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		$view->mySites = $mySites;
 		$view->evolutionBy = $this->evolutionBy;
 		$view->period = $period;
-		$view->date = $date;
+		$view->dateRequest = $dateRequest;
 		$view->page = $this->page;
 		$view->limit = $this->limit;
 		$view->orderBy = $this->orderBy;
