@@ -85,6 +85,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 	{
 		// hack, ensure we load today's visits by default
 		$_GET['date'] = 'today';
+		$_GET['period'] = 'day';
 		$view = Piwik_View::factory('lastVisits');
 		$view->idSite = $this->idSite;
 
