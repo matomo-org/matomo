@@ -3,7 +3,7 @@
 <h2>{'Live_VisitorLog'|translate}</h2>
 <div id="{$properties.uniqueId}" class="visitorLog">
 
-{assign var=minIdVisit value=0}
+{assign var=maxIdVisit value=0}
 {if isset($arrayDataTable.result) and $arrayDataTable.result == 'error'}
 		{$arrayDataTable.message}
 	{else}
@@ -30,8 +30,8 @@
 	<tbody>
 
 {foreach from=$arrayDataTable item=visitor}
-{if $minIdVisit == 0 || $visitor.columns.idVisit < $minIdVisit}
-{assign var=minIdVisit value=$visitor.columns.idVisit}
+{if $maxIdVisit == 0 || $visitor.columns.idVisit < $maxIdVisit}
+{assign var=maxIdVisit value=$visitor.columns.idVisit}
 {/if}
 
 	<tr class="label{cycle values='odd,even'}">
@@ -159,7 +159,7 @@
 	{/if}
 	{include file="CoreHome/templates/datatable_js.tpl"}
 	<script type="text/javascript" defer="defer">
-		dataTables['{$properties.uniqueId}'].param.minIdVisit = {$minIdVisit};
+		dataTables['{$properties.uniqueId}'].param.maxIdVisit = {$maxIdVisit};
 	</script>
 {/if}
 </div>

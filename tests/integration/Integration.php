@@ -319,10 +319,11 @@ abstract class Test_Integration extends Test_Database
 	 * @param $setDateLastN When set to true, 'date' parameter passed to API request will be rewritten to query a range of dates rather than 1 date only
 	 * @param $language 2 letter language code to request data in
 	 * @param $segment Custom Segment to query the data  for
+	 * @param $visitorId Only used for Live! API testing
 	 * 
 	 * @return bool Passed or failed
 	 */
-	function callGetApiCompareOutput($testName, $formats = 'xml', $idSite = false, $dateTime = false, $periods = false, $setDateLastN = false, $language = false, $segment = false)
+	function callGetApiCompareOutput($testName, $formats = 'xml', $idSite = false, $dateTime = false, $periods = false, $setDateLastN = false, $language = false, $segment = false, $visitorId = false)
 	{
 		$pass = true;
 		
@@ -365,6 +366,10 @@ abstract class Test_Integration extends Test_Database
 			// do not show the millisec timer in response or tests would always fail as value is changing
 			'showTimer'     => 0,
 		);
+		if(!empty($visitorId ))
+		{
+			$parametersToSet['visitorId'] = $visitorId; 
+		}
 		if(!empty($segment))
 		{
 			$parametersToSet['segment'] = $segment;
@@ -376,6 +381,7 @@ abstract class Test_Integration extends Test_Database
     	
     	foreach($requestUrls as $apiId => $requestUrl)
     	{
+			$isLiveMustDeleteDates = strpos($requestUrl, 'Live.getLastVisits') !== false;
 //    		echo "$requestUrl <br>";
     		$request = new Piwik_API_Request($requestUrl);
 
@@ -387,6 +393,12 @@ abstract class Test_Integration extends Test_Database
     		// we also hide errors to prevent the 'headers already sent' in the ResponseBuilder (which sends Excel headers multiple times eg.)
     		$response = (string)$request->process();
     		$processedFilePath = $pathProcessed . $filename;
+    		
+    		if($isLiveMustDeleteDates)
+    		{
+    			$response = $this->removeAllLiveDatesFromXml($response);
+    		}
+    		
     		file_put_contents( $processedFilePath, $response );
     		
     		$expectedFilePath = $pathExpected . $filename;
@@ -400,14 +412,18 @@ abstract class Test_Integration extends Test_Database
     		$expected = str_replace("\r\n", "\n", $expected); 
     		$response = str_replace("\r\n", "\n", $response); 
     		
+    		if($isLiveMustDeleteDates)
+    		{
+    			$expected = $this->removeAllLiveDatesFromXml($expected);
+    		}
     		// If date=lastN the <prettyDate> element will change each day, we remove XML element before comparison
-    		if(strpos($dateTime, 'last') !== false)
+    		elseif(strpos($dateTime, 'last') !== false)
     		{
     			$expected = $this->removePrettyDateFromXml($expected);
     			$response = $this->removePrettyDateFromXml($response);
     		}
     		
-    		$pass = $pass && $this->assertEqual(trim($response), trim($expected), "<br/>\nDifferences with expected in: $processedFilePath ");
+    		$pass = $pass && $this->assertEqual(trim($response), trim($expected), "<br/>\nDifferences with expected in: $processedFilePath %s");
     		if($response != $expected)
     		{
     			var_dump('ERROR FOR ' . $apiId . ' -- FETCHED RESPONSE, then EXPECTED RESPONSE');
@@ -423,10 +439,36 @@ abstract class Test_Integration extends Test_Database
     	return $pass;
 	}
 	
+	protected function removeAllLiveDatesFromXml($input)
+	{
+		$toRemove = array(
+			'serverDate',
+			'firstActionTimestamp',
+			'lastActionTimestamp',
+			'lastActionDateTime',
+			'serverTimestamp',
+			'serverTimePretty',
+			'serverDatePretty',
+			'serverDatePrettyFirstAction',
+			'serverTimePrettyFirstAction',
+			'goalTimePretty',
+			'serverTime'
+		);
+		foreach($toRemove as $xml) {
+			$input = $this->removeXmlElement($input, $xml);
+		}
+		return $input;
+	}
+	
 	protected function removePrettyDateFromXml($input)
 	{
-		$input = preg_replace('/(<prettyDate>.+?<\/prettyDate>)/', '', $input);
-    	// check we didn't delete the whole string 
+    	return $this->removeXmlElement($input, 'prettyDate');
+	}
+	
+	protected function removeXmlElement($input, $xmlElement)
+	{
+		$input = preg_replace('/(<'.$xmlElement.'>.+?<\/'.$xmlElement.'>)/', '', $input);
+		//check we didn't delete the whole string 
     	$this->assertTrue(strlen($input) > 100);
     	return $input;
 	}

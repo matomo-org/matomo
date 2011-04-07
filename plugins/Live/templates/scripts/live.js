@@ -4,25 +4,18 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-// first I'm ensuring that 'last' has been initialised (with last.constructor == Object),
-// then prev.html() == last.html() will return true if the HTML is the same, or false,
-// if I have a different entry.
+
 function check_for_dupe(prev, last)
 {
-//console.log(prev, last);//  idVisit = $(prev).attr('id');//
-
-//  if(idVisit && $('#'+idVisit)){ $('#'+idVisit).last().remove(); }
-idVisit = $(prev).attr('id');
-//console.log($('#'+idVisit));
-
-  if(idVisit && $('#'+idVisit)){
-    $('#'+idVisit).last().remove();
-  }
-  if(idVisit) {
-      return last.length >= 1 && (prev.html() == last.html());
-  }
-
-  return 0;
+	idVisit = $(prev).attr('id');
+	//console.log($('#'+idVisit));
+	if(idVisit && $('#'+idVisit)){
+	$('#'+idVisit).last().remove();
+	}
+	if(idVisit) {
+		return last.length >= 1 && (prev.html() == last.html());
+	}
+	return 0;
 }
 
 

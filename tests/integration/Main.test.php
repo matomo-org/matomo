@@ -412,14 +412,13 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	$visitorB->setUrl('http://example.org/homepage');
     	$this->checkResponse($visitorB->doTrackGoal($idGoal, 1000));
     	
-    	
     	// DIFFERENT TEST -
     	// Testing that starting the visit with an outlink works (doesn't trigger errors)
-        $visitorB = $this->getTracker($idSite, $dateTime, $defaultInit = true);
-    	$visitorB->setUserAgent('Opera/9.30 (Nintendo Wii; U; ; 2047-7; en)');
     	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(2)->getDatetime());
     	$this->checkResponse($visitorB->doTrackAction('http://test.com', 'link'));
 
+    	// hack
+    	$this->visitorId = $visitorB->getVisitorId();
     	return $idSite;
 	}
 	
@@ -627,14 +626,17 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $this->setApiToCall(array(	'API.getProcessedReport',
     	                            'CustomVariables.getCustomVariables',
         							'VisitsSummary.get',
+        							'Live',
     	));
-        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', 
+    	$this->callGetApiCompareOutput(__FUNCTION__, 'xml', 
         								$idSite, 
         								'last7', 
         								$periods = array('range'), 
         								$setDateLastN = false,
         								$language=false, 
-        								$segment=false
+        								$segment=false,
+        								// testing getLastVisitsForVisitor requires a visitor ID
+        								$this->visitorId
         );
 	}
 }

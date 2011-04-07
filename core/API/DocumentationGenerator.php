@@ -128,7 +128,8 @@ class Piwik_API_DocumentationGenerator
 			'languageCode' => 'fr',
 			'url' => 'http://forum.piwik.org/',
 			'apiModule' => 'UserCountry',
-			'apiAction' => 'getCountry'
+			'apiAction' => 'getCountry',
+			'lastMinutes' => '30'
 		);
 		
 		foreach($parametersToSet as $name => $value)
