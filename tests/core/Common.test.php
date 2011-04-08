@@ -750,6 +750,8 @@ class Test_Piwik_Common extends UnitTestCase
 			// Bing (subdomains)
 			'http://ca.bing.com/search?q=piwik+web+analytics&go=&form=QBLH&filt=all&qs=n&sk='
 				=> array('name' => 'Bing', 'keywords' => 'piwik web analytics'),
+			'http://ca.bing.com/images/search?q=anthon+pang&go=&form=QBIR&qs=n&sk=&sc=3-7'
+				=> array('name' => 'Bing Images', 'keywords' => 'anthon pang'),
 
 			// Bing cache
 			'http://cc.bingj.com/cache.aspx?q=web+analytics&d=5020318678516316&mkt=en-CA&setlang=en-CA&w=6ea8ea88,ff6c44df'
