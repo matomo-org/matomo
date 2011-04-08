@@ -737,6 +737,9 @@ class Test_Piwik_Common extends UnitTestCase
 			'http://www.google.ca/search?hl=en&as_q=web+analytics&as_epq=real+time&as_oq=gpl+open+source&as_eq=oracle&num=10&lr=&as_filetype=&ft=i&as_sitesearch=&as_qdr=all&as_rights=&as_occt=any&cr=&as_nlo=&as_nhi=&safe=images'
 				=> array('name' => 'Google', 'keywords' => 'web analytics gpl or open or source "real time" -oracle'),
 
+			'http://www.google.ca/search?as_q=web+analytics&as_epq=real+time&as_oq=gpl+open+source&as_eq=oracle&num=10&lr=&as_filetype=&ft=i&as_sitesearch=&as_qdr=all&as_rights=&as_occt=any&cr=&as_nlo=&as_nhi=&safe=images'
+			=> array('name' => 'Google', 'keywords' => 'web analytics gpl or open or source "real time" -oracle'),
+
 			'http://www.google.ca/url?sa=t&source=web&cd=1&ved=0CBQQFjAA&url=http%3A%2F%2Fwww.robocoder.ca%2F&rct=j&q=web%20analytics%20gpl%20OR%20open%20OR%20source%20%22real%20time%22%20-sco&ei=zv6KTILkGsG88gaxoqz9Cw&usg=AFQjCNEv2Mp3ruU8YCMI40Pqo9ijjXvsUA'
 				=> array('name' => 'Google', 'keywords' => 'web analytics gpl or open or source "real time" -sco'),
 
@@ -803,7 +806,7 @@ class Test_Piwik_Common extends UnitTestCase
 			$returnedValue = Piwik_Common::extractSearchEngineInformationFromUrl($referrerUrl);
 			$exported = var_export($returnedValue,true);
 			$result = $expectedReturnedValue === $returnedValue;
-			$this->assertTrue($result);
+			$this->assertTrue($result, $exported);
 			if(!$result) {
 				$this->fail("error in extracting from $referrerUrl got ".$exported."<br>");
 			}
