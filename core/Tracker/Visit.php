@@ -49,6 +49,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	// can be overwritten in constructor
 	protected $timestamp;
 	protected $ipString;
+	// via setForcedVisitorId()
+	protected $forcedVisitorId;
 	
 	const TIME_IN_PAST_TO_SEARCH_FOR_VISITOR = 86400;
 	
@@ -66,6 +68,11 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		}
 		
 		$this->ipString = Piwik_Common::getIp($ipString);
+	}
+	
+	function setForcedVisitorId($visitorId)
+	{
+		$this->forcedVisitorId = $visitorId;
 	}
 	
 	function setRequest($requestArray)
@@ -772,19 +779,35 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 		$this->printCookie();
 
-		// Read ID Visitor
-		$found = false;
-		// - If set to use 3rd party cookies for Visit ID, read the cookies
-		// - By default, reads the first party cookie ID
-		$useThirdPartyCookie = $this->shouldUseThirdPartyCookie();
-		if($useThirdPartyCookie)
+		$found = $forcedVisitorId = false;
+		
+		// Was a Visitor ID "forced" (@see Tracking API setVisitorId()) for this request?
+		$idVisitor = $this->forcedVisitorId;
+		if(!empty($idVisitor))
 		{
-			$idVisitor = $this->cookie->get(0);
-			if($idVisitor !== false
-				&& strlen($idVisitor) == Piwik_Tracker::LENGTH_HEX_ID_STRING)
+			if(strlen($idVisitor) != Piwik_Tracker::LENGTH_HEX_ID_STRING)
+			{
+				throw new Exception("Visitor ID (cid) must be ".Piwik_Tracker::LENGTH_HEX_ID_STRING." characters long");
+			}
+			printDebug("Request will be forced to record for this idvisitor = ".$idVisitor);
+			$forcedVisitorId = true;
+			$found = true;
+		}
+		
+		if(!$found)
+		{
+			// - If set to use 3rd party cookies for Visit ID, read the cookies
+			// - By default, reads the first party cookie ID
+			$useThirdPartyCookie = $this->shouldUseThirdPartyCookie();
+			if($useThirdPartyCookie)
+			{
+				$idVisitor = $this->cookie->get(0);
+				if($idVisitor !== false
+					&& strlen($idVisitor) == Piwik_Tracker::LENGTH_HEX_ID_STRING)
 				{
 					$found = true;
 				}
+			}
 		}
 		// If a third party cookie was not found, we default to the first party cookie 
 		if(!$found)
@@ -809,16 +832,25 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$timeLookBack = date('Y-m-d H:i:s', $this->getCurrentTimestamp() - self::TIME_IN_PAST_TO_SEARCH_FOR_VISITOR);
 
 		$where = "visit_last_action_time >= ?
-					AND idsite = ?
-					AND config_id = ?";
-		$bindSql = array( $timeLookBack, $this->idsite, $configId);
+					AND idsite = ?";
+		$bindSql = array( $timeLookBack, $this->idsite);
 		
-		if(Piwik_Tracker_Config::getInstance()->Tracker['trust_visitors_cookies']
-				&& !empty($this->visitorInfo['idvisitor']))
+		// we always match on the config_id, except if the current request forces the visitor id
+		if(!$forcedVisitorId)
+		{
+			$where .= ' AND config_id = ? ';
+			$bindSql[] = $configId;
+		}
+		
+		// We force to match a visitor ID
+		// 1) If the visitor cookies should be trusted (ie. intranet) - config file setting
+		// 2) or if the Visitor ID was forced via the Tracking API setVisitorId()
+		if(!empty($this->visitorInfo['idvisitor'])
+			&& (	Piwik_Tracker_Config::getInstance()->Tracker['trust_visitors_cookies']
+				|| 	$forcedVisitorId ))
 		{
 			printDebug("Matching the visitor based on his idcookie: ".bin2hex($this->visitorInfo['idvisitor']) ."...");
 			
-			// If the visitor cookies should be trusted (ie. intranet) we add this condition
 			$where .= ' AND idvisitor = ?';
 			$bindSql[] = $this->visitorInfo['idvisitor'];
 		}

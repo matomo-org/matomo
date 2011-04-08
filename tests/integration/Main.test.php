@@ -639,4 +639,39 @@ class Test_Piwik_Integration_Main extends Test_Integration
         								$this->visitorId
         );
 	}
+	
+	function test_PiwikTracker_trackForceUsingVisitId_insteadOfHeuristics()
+	{
+		$this->setApiToCall( 'VisitsSummary.get' );
+		$dateTime = '2009-01-04 00:11:42';
+		$idSite = $this->createWebsite($dateTime);
+        $idGoal = Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');
+		
+        $t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+
+        // Record 1st page view
+        $t->setUrl( 'http://example.org/index.htm' );
+        $this->checkResponse($t->doTrackPageView( 'incredible title!'));
+        
+        $visitorId = $t->getVisitorId();
+        $this->assertTrue(strlen($visitorId) == 16);
+        
+        // Create a new Tracker object, with different attributes
+        $t2 = $this->getTracker($idSite, $dateTime, $defaultInit = false);
+        
+        // Make sure the ID is different at first
+        $visitorId2 = $t2->getVisitorId();
+        $this->assertTrue($visitorId != $visitorId2);
+        
+        // Then force the visitor ID 
+        $t2->setVisitorId($visitorId);
+        
+        // And Record a Goal: The previous visit should be updated rather than a new visit Created 
+        $t2->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.3)->getDatetime());
+        $this->checkResponse($t2->doTrackGoal($idGoal, $revenue = 42.256));
+        
+        // TOTAL should be: 1 visit, 1 converted goal, 1 page view
+        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime);
+	}
+	
 }
