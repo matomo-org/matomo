@@ -1313,7 +1313,7 @@ var
 					// Store the referrer URL and time in the cookie;
 					// referral URL depends on the first or last referrer attribution
 					currentReferrerHostName = getHostName(configReferrerUrl);
-					originalReferrerHostName = ref ? getHostName(ref) : '';
+					originalReferrerHostName = ref ? getHostName(referralUrl) : '';
 					if (currentReferrerHostName.length && // there is a referrer
 							!isSiteHostName(currentReferrerHostName) && // domain is not the current domain
 							(!configConversionAttributionFirstReferrer || // attribute to last known referrer
