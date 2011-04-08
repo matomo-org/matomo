@@ -16,7 +16,7 @@
  * @package   Zend_Config
  * @copyright Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Yaml.php 23775 2011-03-01 17:25:24Z ralph $
+ * @version   $Id: Yaml.php 23808 2011-03-16 21:26:56Z matthew $
  */
 
 /**
@@ -284,7 +284,7 @@ class Zend_Config_Yaml extends Zend_Config
         $config   = array();
         $inIndent = false;
         while (list($n, $line) = each($lines)) {
-            $lineno = $n+1;
+            $lineno = $n + 1;
             if (strlen($line) == 0) {
                 continue;
             }
@@ -313,7 +313,7 @@ class Zend_Config_Yaml extends Zend_Config
 
             if (preg_match("/(\w+):\s*(.*)/", $line, $m)) {
                 // key: value
-                if ($m[2]) {
+                if (strlen($m[2])) {
                     // simple key: value
                     $value = $m[2];
                     // Check for booleans and constants

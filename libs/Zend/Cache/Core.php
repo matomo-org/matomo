@@ -16,7 +16,7 @@
  * @package    Zend_Cache
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Core.php 23775 2011-03-01 17:25:24Z ralph $
+ * @version    $Id: Core.php 23800 2011-03-10 20:52:08Z mabe $
  */
 
 
@@ -300,6 +300,8 @@ class Zend_Cache_Core
         $id = $this->_id($id); // cache id may need prefix
         $this->_lastId = $id;
         self::_validateIdOrTag($id);
+
+        $this->_log("Zend_Cache_Core: load item '{$id}'", 7);
         $data = $this->_backend->load($id, $doNotTestCacheValidity);
         if ($data===false) {
             // no cache available
@@ -326,6 +328,8 @@ class Zend_Cache_Core
         $id = $this->_id($id); // cache id may need prefix
         self::_validateIdOrTag($id);
         $this->_lastId = $id;
+
+        $this->_log("Zend_Cache_Core: test item '{$id}'", 7);
         return $this->_backend->test($id);
     }
 
@@ -360,27 +364,22 @@ class Zend_Cache_Core
                 Zend_Cache::throwException("Datas must be string or set automatic_serialization = true");
             }
         }
+
         // automatic cleaning
         if ($this->_options['automatic_cleaning_factor'] > 0) {
             $rand = rand(1, $this->_options['automatic_cleaning_factor']);
             if ($rand==1) {
-                if ($this->_extendedBackend) {
-                    // New way
-                    if ($this->_backendCapabilities['automatic_cleaning']) {
-                        $this->clean(Zend_Cache::CLEANING_MODE_OLD);
-                    } else {
-                        $this->_log('Zend_Cache_Core::save() / automatic cleaning is not available/necessary with this backend');
-                    }
+                //  new way                 || deprecated way
+                if ($this->_extendedBackend || method_exists($this->_backend, 'isAutomaticCleaningAvailable')) {
+                    $this->_log("Zend_Cache_Core::save(): automatic cleaning running", 7);
+                    $this->clean(Zend_Cache::CLEANING_MODE_OLD);
                 } else {
-                    // Deprecated way (will be removed in next major version)
-                    if (method_exists($this->_backend, 'isAutomaticCleaningAvailable') && ($this->_backend->isAutomaticCleaningAvailable())) {
-                        $this->clean(Zend_Cache::CLEANING_MODE_OLD);
-                    } else {
-                        $this->_log('Zend_Cache_Core::save() / automatic cleaning is not available/necessary with this backend');
-                    }
+                    $this->_log("Zend_Cache_Core::save(): automatic cleaning is not available/necessary with current backend", 4);
                 }
             }
         }
+
+        $this->_log("Zend_Cache_Core: save item '{$id}'", 7);
         if ($this->_options['ignore_user_abort']) {
             $abort = ignore_user_abort(true);
         }
@@ -392,22 +391,23 @@ class Zend_Cache_Core
         if ($this->_options['ignore_user_abort']) {
             ignore_user_abort($abort);
         }
+
         if (!$result) {
             // maybe the cache is corrupted, so we remove it !
-            if ($this->_options['logging']) {
-                $this->_log("Zend_Cache_Core::save() : impossible to save cache (id=$id)");
-            }
+            $this->_log("Zend_Cache_Core::save(): failed to save item '{$id}' -> removing it", 4);
             $this->_backend->remove($id);
             return false;
         }
+
         if ($this->_options['write_control']) {
             $data2 = $this->_backend->load($id, true);
             if ($data!=$data2) {
-                $this->_log('Zend_Cache_Core::save() / write_control : written and read data do not match');
+                $this->_log("Zend_Cache_Core::save(): write control of item '{$id}' failed -> removing it", 4);
                 $this->_backend->remove($id);
                 return false;
             }
         }
+
         return true;
     }
 
@@ -424,6 +424,8 @@ class Zend_Cache_Core
         }
         $id = $this->_id($id); // cache id may need prefix
         self::_validateIdOrTag($id);
+
+        $this->_log("Zend_Cache_Core: remove item '{$id}'", 7);
         return $this->_backend->remove($id);
     }
 
@@ -458,6 +460,7 @@ class Zend_Cache_Core
             Zend_Cache::throwException('Invalid cleaning mode');
         }
         self::_validateTagsArray($tags);
+
         return $this->_backend->clean($mode, $tags);
     }
 
@@ -649,6 +652,8 @@ class Zend_Cache_Core
             Zend_Cache::throwException(self::BACKEND_NOT_IMPLEMENTS_EXTENDED_IF);
         }
         $id = $this->_id($id); // cache id may need prefix
+
+        $this->_log("Zend_Cache_Core: touch item '{$id}'", 7);
         return $this->_backend->touch($id, $extraLifetime);
     }
 
@@ -713,9 +718,11 @@ class Zend_Cache_Core
         }
 
         // Create a default logger to the standard output stream
-        // require_once 'Zend/Log/Writer/Stream.php';
         // require_once 'Zend/Log.php';
+        // require_once 'Zend/Log/Writer/Stream.php';
+        // require_once 'Zend/Log/Filter/Priority.php';
         $logger = new Zend_Log(new Zend_Log_Writer_Stream('php://output'));
+        $logger->addFilter(new Zend_Log_Filter_Priority(Zend_Log::WARN, '<='));
         $this->_options['logger'] = $logger;
     }
 

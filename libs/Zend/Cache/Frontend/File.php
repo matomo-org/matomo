@@ -17,7 +17,7 @@
  * @subpackage Zend_Cache_Frontend
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: File.php 23775 2011-03-01 17:25:24Z ralph $
+ * @version    $Id: File.php 23793 2011-03-02 22:31:05Z mabe $
  */
 
 
@@ -110,7 +110,11 @@ class Zend_Cache_Frontend_File extends Zend_Cache_Core
         clearstatcache();
         $i = 0;
         foreach ($masterFiles as $masterFile) {
-            $mtime = @filemtime($masterFile);
+            if (file_exists($masterFile)) {
+                $mtime = filemtime($masterFile);
+            } else {
+                $mtime = false;
+            }
 
             if (!$this->_specificOptions['ignore_missing_master_files'] && !$mtime) {
                 Zend_Cache::throwException('Unable to read master_file : ' . $masterFile);

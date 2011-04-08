@@ -17,7 +17,7 @@
  * @subpackage Zend_Cache_Backend
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Backend.php 23775 2011-03-01 17:25:24Z ralph $
+ * @version    $Id: Backend.php 23800 2011-03-10 20:52:08Z mabe $
  */
 
 
@@ -237,7 +237,9 @@ class Zend_Cache_Backend
         // Create a default logger to the standard output stream
         // require_once 'Zend/Log.php';
         // require_once 'Zend/Log/Writer/Stream.php';
+        // require_once 'Zend/Log/Filter/Priority.php';
         $logger = new Zend_Log(new Zend_Log_Writer_Stream('php://output'));
+        $logger->addFilter(new Zend_Log_Filter_Priority(Zend_Log::WARN, '<='));
         $this->_directives['logger'] = $logger;
     }
 
