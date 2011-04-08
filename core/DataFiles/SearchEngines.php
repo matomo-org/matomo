@@ -210,6 +210,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Bing Images
 		'bing.com/images/search'	=> array('Bing Images', array('q', 'Q'), '?q={k}'),
+		'{}.bing.com/images/search'	=> array('Bing Images'),
 
 		// Blogdigger
 		'www.blogdigger.com'		=> array('Blogdigger', 'q'),
