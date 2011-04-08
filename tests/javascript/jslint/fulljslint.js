@@ -1,5 +1,5 @@
 // jslint.js
-// 2011-03-22
+// 2011-04-04
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -208,55 +208,56 @@
     "(identifier)", "(line)", "(loopage)", "(name)", "(onevar)", "(params)",
     "(scope)", "(statement)", "(token)", "(verb)", ")", "*", "+", "-", "\/",
     ";", "<", "<=", "==", "===", ">", ">=", ADSAFE, ActiveXObject,
-    Array, Boolean, COM, CScript, Canvas, CustomAnimation, Date, Debug, E,
-    Enumerator, Error, EvalError, FadeAnimation, Flash, FormField, Frame,
-    Function, HotKey, Image, JSON, LN10, LN2, LOG10E, LOG2E, MAX_VALUE,
-    MIN_VALUE, Math, MenuItem, MoveAnimation, NEGATIVE_INFINITY, Number,
-    Object, Option, PI, POSITIVE_INFINITY, Point, RangeError, Rectangle,
-    ReferenceError, RegExp, ResizeAnimation, RotateAnimation, SQRT1_2,
-    SQRT2, ScrollBar, String, Style, SyntaxError, System, Text, TextArea,
-    Timer, TypeError, URIError, URL, VBArray, WScript, Web, Window, XMLDOM,
-    XMLHttpRequest, "\\", __dirname, __filename, a, a_function, a_label,
-    a_not_allowed, a_not_defined, a_scope, abbr, acronym, activeborder,
-    activecaption, address, adsafe, adsafe_a, adsafe_autocomplete,
-    adsafe_bad_id, adsafe_div, adsafe_fragment, adsafe_go, adsafe_html,
-    adsafe_id, adsafe_id_go, adsafe_lib, adsafe_lib_second,
-    adsafe_missing_id, adsafe_name_a, adsafe_placement, adsafe_prefix_a,
-    adsafe_script, adsafe_source, adsafe_subscript_a, adsafe_tag, alert,
-    aliceblue, all, already_defined, and, animator, antiquewhite,
-    appleScript, applet, apply, approved, appworkspace, aqua, aquamarine,
-    area, arguments, arity, article, aside, assign, assign_exception,
-    assignment_function_expression, at, attribute_case_a, audio,
-    autocomplete, avoid_a, azure, b, background, "background-attachment",
-    "background-color", "background-image", "background-position",
-    "background-repeat", bad_assignment, bad_color_a, bad_constructor,
-    bad_entity, bad_html, bad_id_a, bad_in_a, bad_invocation, bad_name_a,
-    bad_new, bad_number, bad_operand, bad_type, bad_url, bad_wrap, base,
-    bdo, beep, beige, big, bisque, bitwise, black, blanchedalmond, block,
-    blockquote, blue, blueviolet, body, border, "border-bottom",
-    "border-bottom-color", "border-bottom-style", "border-bottom-width",
-    "border-collapse", "border-color", "border-left", "border-left-color",
-    "border-left-style", "border-left-width", "border-right",
-    "border-right-color", "border-right-style", "border-right-width",
-    "border-spacing", "border-style", "border-top", "border-top-color",
-    "border-top-style", "border-top-width", "border-width", bottom, br,
-    braille, brown, browser, burlywood, button, buttonface, buttonhighlight,
-    buttonshadow, buttontext, bytesToUIString, c, cadetblue, call, callee,
-    caller, canvas, cap, caption, "caption-side", captiontext, center,
-    charAt, charCodeAt, character, chartreuse, chocolate, chooseColor,
-    chooseFile, chooseFolder, cite, clear, clearInterval, clearTimeout,
-    clip, closeWidget, closure, cm, code, col, colgroup, color, combine_var,
-    command, comment, comments, concat, conditional_assignment, confirm,
-    confusing_a, confusing_regexp, console, constructor, constructor_name_a,
-    content, continue, control_a, convertPathToHFS, convertPathToPlatform,
-    coral, cornflowerblue, cornsilk, "counter-increment", "counter-reset",
-    create, crimson, css, cursor, cyan, d, dangerous_comment, dangling_a,
-    darkblue, darkcyan, darkgoldenrod, darkgray, darkgreen, darkkhaki,
-    darkmagenta, darkolivegreen, darkorange, darkorchid, darkred,
-    darksalmon, darkseagreen, darkslateblue, darkslategray, darkturquoise,
-    darkviolet, data, datalist, dd, debug, decodeURI, decodeURIComponent,
-    deeppink, deepskyblue, defineClass, del, deleted, deserialize, details,
-    devel, dfn, dialog, dimgray, dir, direction, display, disrupt, div, dl,
+    Array, Boolean, Buffer, COM, CScript, Canvas, CustomAnimation, Date,
+    Debug, E, Enumerator, Error, EvalError, FadeAnimation, Flash, FormField,
+    Frame, Function, HotKey, Image, JSON, LN10, LN2, LOG10E, LOG2E,
+    MAX_VALUE, MIN_VALUE, Math, MenuItem, MoveAnimation, NEGATIVE_INFINITY,
+    Number, Object, Option, PI, POSITIVE_INFINITY, Point, RangeError,
+    Rectangle, ReferenceError, RegExp, ResizeAnimation, RotateAnimation,
+    SQRT1_2, SQRT2, ScrollBar, String, Style, SyntaxError, System, Text,
+    TextArea, Timer, TypeError, URIError, URL, VBArray, WScript, Web,
+    Window, XMLDOM, XMLHttpRequest, "\\", __dirname, __filename, a,
+    a_function, a_label, a_not_allowed, a_not_defined, a_scope, abbr,
+    acronym, activeborder, activecaption, address, adsafe, adsafe_a,
+    adsafe_autocomplete, adsafe_bad_id, adsafe_div, adsafe_fragment,
+    adsafe_go, adsafe_html, adsafe_id, adsafe_id_go, adsafe_lib,
+    adsafe_lib_second, adsafe_missing_id, adsafe_name_a, adsafe_placement,
+    adsafe_prefix_a, adsafe_script, adsafe_source, adsafe_subscript_a,
+    adsafe_tag, alert, aliceblue, all, already_defined, and, animator,
+    antiquewhite, appleScript, applet, apply, approved, appworkspace, aqua,
+    aquamarine, area, arguments, arity, article, aside, assign,
+    assign_exception, assignment_function_expression, at, attribute_case_a,
+    audio, autocomplete, avoid_a, azure, b, background,
+    "background-attachment", "background-color", "background-image",
+    "background-position", "background-repeat", bad_assignment, bad_color_a,
+    bad_constructor, bad_entity, bad_html, bad_id_a, bad_in_a,
+    bad_invocation, bad_name_a, bad_new, bad_number, bad_operand, bad_type,
+    bad_url, bad_wrap, base, bdo, beep, beige, big, bisque, bitwise, black,
+    blanchedalmond, block, blockquote, blue, blueviolet, body, border,
+    "border-bottom", "border-bottom-color", "border-bottom-style",
+    "border-bottom-width", "border-collapse", "border-color", "border-left",
+    "border-left-color", "border-left-style", "border-left-width",
+    "border-right", "border-right-color", "border-right-style",
+    "border-right-width", "border-spacing", "border-style", "border-top",
+    "border-top-color", "border-top-style", "border-top-width",
+    "border-width", bottom, br, braille, brown, browser, burlywood, button,
+    buttonface, buttonhighlight, buttonshadow, buttontext, bytesToUIString,
+    c, cadetblue, call, callee, caller, canvas, cap, caption,
+    "caption-side", captiontext, center, charAt, charCodeAt, character,
+    chartreuse, chocolate, chooseColor, chooseFile, chooseFolder, cite,
+    clear, clearInterval, clearTimeout, clearTimout, clip, closeWidget,
+    closure, cm, code, col, colgroup, color, combine_var, command, comment,
+    comments, concat, conditional_assignment, confirm, confusing_a,
+    confusing_regexp, console, constructor, constructor_name_a, content,
+    continue, control_a, convertPathToHFS, convertPathToPlatform, coral,
+    cornflowerblue, cornsilk, "counter-increment", "counter-reset", create,
+    crimson, css, cursor, cyan, d, dangerous_comment, dangling_a, darkblue,
+    darkcyan, darkgoldenrod, darkgray, darkgreen, darkkhaki, darkmagenta,
+    darkolivegreen, darkorange, darkorchid, darkred, darksalmon,
+    darkseagreen, darkslateblue, darkslategray, darkturquoise, darkviolet,
+    data, datalist, dd, debug, decodeURI, decodeURIComponent, deeppink,
+    deepskyblue, defineClass, del, deleted, deserialize, details, devel,
+    dfn, dialog, dimgray, dir, direction, display, disrupt, div, dl,
     document, dodgerblue, dt, duplicate_a, edge, edition, else, em, embed,
     embossed, empty, "empty-cells", empty_block, empty_case, empty_class,
     encodeURI, encodeURIComponent, entityify, errors, es5, escape, eval,
@@ -318,34 +319,34 @@
     pink, play, plum, plusplus, pop, popupMenu, position, postscript,
     powderblue, pre, predef, preferenceGroups, preferences, prev, print,
     process, progress, projection, prompt, prototype, pt, purple, push, px,
-    q, quit, quote, quotes, radix, random, range, raw, readFile, readUrl,
-    read_only, reason, red, redefinition_a, regexp, reloadWidget, replace,
-    report, require, reserved, reserved_a, resolvePath, resumeUpdates,
-    rhino, right, rosybrown, royalblue, rp, rt, ruby, runCommand,
-    runCommandInBg, saddlebrown, safe, salmon, samp, sandybrown, saveAs,
-    savePreferences, scanned_a_b, screen, script, scrollbar, seagreen, seal,
-    search, seashell, second, section, select, serialize, setInterval,
-    setTimeout, shift, showWidgetPreferences, sienna, silver, skyblue,
-    slash_equal, slateblue, slategray, sleep, slice, small, snow, sort,
-    source, span, spawn, speak, speech, split, springgreen, src, stack,
-    statement_block, steelblue, stopping, strange_loop, strict, strong,
-    style, styleproperty, sub, subscript, substr, sup, supplant,
-    suppressUpdates, sync, system, table, "table-layout", tag_a_in_b, tan,
-    tbody, td, teal, tellWidget, test, "text-align", "text-decoration",
-    "text-indent", "text-shadow", "text-transform", textarea, tfoot, th,
-    thead, third, thistle, threeddarkshadow, threedface, threedhighlight,
-    threedlightshadow, threedshadow, thru, time, title, toLowerCase,
-    toString, toUpperCase, toint32, token, tomato, too_long, too_many, top,
-    tr, trailing_decimal_a, tree, tt, tty, turquoise, tv, type, u, ul,
-    unclosed, unclosed_comment, unclosed_regexp, undef, unescape,
-    unescaped_a, unexpected_a, unexpected_char_a_b, unexpected_comment,
-    unexpected_member_a, unexpected_space_a_b, "unicode-bidi",
-    unnecessary_initialize, unnecessary_use, unreachable_a_b,
-    unrecognized_style_attribute_a, unrecognized_tag_a, unsafe, unused,
-    unwatch, updateNow, url, urls, use_array, use_braces, use_object,
-    used_before_a, value, valueOf, var, var_a_not, version,
-    "vertical-align", video, violet, visibility, was, watch,
-    weird_assignment, weird_condition, weird_new, weird_program,
+    q, querystring, quit, quote, quotes, radix, random, range, raw,
+    readFile, readUrl, read_only, reason, red, redefinition_a, regexp,
+    reloadWidget, replace, report, require, reserved, reserved_a,
+    resolvePath, resumeUpdates, rhino, right, rosybrown, royalblue, rp, rt,
+    ruby, runCommand, runCommandInBg, saddlebrown, safe, salmon, samp,
+    sandybrown, saveAs, savePreferences, scanned_a_b, screen, script,
+    scrollbar, seagreen, seal, search, seashell, second, section, select,
+    serialize, setInterval, setTimeout, shift, showWidgetPreferences,
+    sienna, silver, skyblue, slash_equal, slateblue, slategray, sleep,
+    slice, small, snow, sort, source, span, spawn, speak, speech, split,
+    springgreen, src, stack, statement_block, steelblue, stopping,
+    strange_loop, strict, strong, style, styleproperty, sub, subscript,
+    substr, sup, supplant, suppressUpdates, sync, system, table,
+    "table-layout", tag_a_in_b, tan, tbody, td, teal, tellWidget, test,
+    "text-align", "text-decoration", "text-indent", "text-shadow",
+    "text-transform", textarea, tfoot, th, thead, third, thistle,
+    threeddarkshadow, threedface, threedhighlight, threedlightshadow,
+    threedshadow, thru, time, title, toLowerCase, toString, toUpperCase,
+    toint32, token, tomato, too_long, too_many, top, tr, trailing_decimal_a,
+    tree, tt, tty, turquoise, tv, type, u, ul, unclosed, unclosed_comment,
+    unclosed_regexp, undef, unescape, unescaped_a, unexpected_a,
+    unexpected_char_a_b, unexpected_comment, unexpected_member_a,
+    unexpected_space_a_b, "unicode-bidi", unnecessary_initialize,
+    unnecessary_use, unreachable_a_b, unrecognized_style_attribute_a,
+    unrecognized_tag_a, unsafe, unused, unwatch, updateNow, url, urls,
+    use_array, use_braces, use_object, used_before_a, util, value, valueOf,
+    var, var_a_not, version, "vertical-align", video, violet, visibility,
+    was, watch, weird_assignment, weird_condition, weird_new, weird_program,
     weird_relation, weird_ternary, wheat, white, "white-space", whitesmoke,
     widget, width, window, windowframe, windows, windowtext, "word-spacing",
     "word-wrap", wrap, wrap_immediate, wrap_regexp, write_is_wrong,
@@ -407,8 +408,7 @@ var JSLINT = (function () {
         begin,          // The root token
 
 // browser contains a set of global names that are commonly provided by a
-// web browser environment. self and window are intentially excluded because
-// of the high likelihood for misue.
+// web browser environment.
 
         browser = {
             clearInterval  : false,
@@ -426,6 +426,7 @@ var JSLINT = (function () {
             screen         : false,
             setInterval    : false,
             setTimeout     : false,
+            window         : false,
             XMLHttpRequest : false
         },
 
@@ -960,12 +961,20 @@ var JSLINT = (function () {
         lookahead,
         member,
         node = {
-            global     : true,
-            module     : true,
-            process    : true,
-            require    : true,
-            __filename : true,
-            __dirname  : true
+            Buffer       : false,
+            clearInterval: false,
+            clearTimout  : false,
+            console      : false,
+            global       : false,
+            module       : false,
+            process      : false,
+            querystring  : false,
+            require      : false,
+            setInterval  : false,
+            setTimeout   : false,
+            util         : false,
+            __filename   : false,
+            __dirname    : false
         },
         properties,
         next_token,
@@ -1437,7 +1446,8 @@ var JSLINT = (function () {
                 at: at,
                 line: line
             };
-            if (comments_off || src || (xmode && xmode !== 'script' && xmode !== 'style' && xmode !== 'styleproperty')) {
+            if (comments_off || src || (xmode && xmode !== 'script' &&
+                    xmode !== 'style' && xmode !== 'styleproperty')) {
                 warn_at('unexpected_comment', line, character);
             } else if (xmode === 'script' && /<\//i.test(source_row)) {
                 warn_at('unexpected_a', line, character, '<\/');
@@ -1542,7 +1552,8 @@ var JSLINT = (function () {
                 var c, value = '';
                 from = character;
                 if (source_row.charAt(0) !== begin) {
-                    fail_at('expected_a_b', line, character, begin, source_row.charAt(0));
+                    fail_at('expected_a_b', line, character, begin,
+                        source_row.charAt(0));
                 }
                 for (;;) {
                     source_row = source_row.slice(1);
@@ -2322,10 +2333,12 @@ klass:                                  do {
 
 // If the token is not an edge, but is the first token on the line.
 
-                } else if (next_token.line !== token.line &&
-                        next_token.from < indent.at + (indent.mode ===
-                        'expression' ? 0 : option.indent)) {
-                    expected_at(indent.at + option.indent);
+                } else if (next_token.line !== token.line) {
+                    if (next_token.from < indent.at + (indent.mode ===
+                            'expression' ? 0 : option.indent)) {
+                        expected_at(indent.at + option.indent);
+                    }
+                    indent.wrap = true;
                 }
             } else if (next_token.line !== token.line) {
                 if (next_token.edge) {
@@ -6579,7 +6592,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2011-03-22';
+    itself.edition = '2011-04-04';
 
     return itself;
 
