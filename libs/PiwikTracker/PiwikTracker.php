@@ -268,7 +268,7 @@ class PiwikTracker
     	{
     		throw new Exception("setVisitorId() expects a 16 characters ID");
     	}
-    	$this->visitorId = $visitorId;
+    	$this->forcedVisitorId = $visitorId;
     }
     
     /**
@@ -281,6 +281,10 @@ class PiwikTracker
      */
     public function getVisitorId()
     {
+    	if(!empty($this->forcedVisitorId))
+    	{
+    		return $this->forcedVisitorId;
+    	}
     	return $this->visitorId;
     }
 

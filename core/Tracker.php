@@ -43,6 +43,7 @@ class Piwik_Tracker
 	
 	static protected $forcedDateTime = null;
 	static protected $forcedIpString = null;
+	static protected $forcedVisitorId = null;
 	
 	static protected $pluginsNotToLoad = array();
 	
@@ -57,6 +58,11 @@ class Piwik_Tracker
 	public static function setForceDateTime( $dateTime )
 	{
 		self::$forcedDateTime = $dateTime;
+	}
+	
+	public static function setForceVisitorId($visitorId)
+	{
+		self::$forcedVisitorId = $visitorId;
 	}
 	
 	public function getCurrentTimestamp()
@@ -263,6 +269,7 @@ class Piwik_Tracker
 		if(is_null($visit))
 		{
 			$visit = new Piwik_Tracker_Visit( self::$forcedIpString, self::$forcedDateTime );
+			$visit->setForcedVisitorId(self::$forcedVisitorId);
 		}
 		elseif(!($visit instanceof Piwik_Tracker_Visit_Interface ))
 		{
@@ -373,18 +380,23 @@ class Piwik_Tracker
 
 		// Custom IP to use for this visitor
 		$customIp = Piwik_Common::getRequestVar('cip', false);
-
 		if(!empty($customIp))
 		{
 			$this->setForceIp($customIp);
 		}
-
+	
 		// Custom server date time to use
 		$customDatetime = Piwik_Common::getRequestVar('cdt', false);
-
 		if(!empty($customDatetime))
 		{
 			$this->setForceDateTime($customDatetime);
+		}
+		
+		// Forced Visitor ID to record the visit / action 
+		$customVisitorId = Piwik_Common::getRequestVar('cid', false);
+		if(!empty($customVisitorId))
+		{
+			$this->setForceVisitorId($customVisitorId);
 		}
 	}
 }

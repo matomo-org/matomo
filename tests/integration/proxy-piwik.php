@@ -46,6 +46,13 @@ if(!empty($customDatetime))
 	Piwik_Tracker::setForceDateTime($customDatetime);
 }
 
+// Custom server date time to use
+$customVisitorId = Piwik_Common::getRequestVar('cid', false);
+if(!empty($customVisitorId))
+{
+	Piwik_Tracker::setForceVisitorId($customVisitorId);
+}
+
 // Disable provider plugin, because it is so slow to do reverse ip lookup in dev environment somehow
 Piwik_Tracker::setPluginsNotToLoad(array('Provider'));
 include '../../piwik.php';

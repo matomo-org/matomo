@@ -245,6 +245,12 @@ api_service_url = http://api.piwik.org
 ; this is useful when you want to do cross websites analysis 
 use_third_party_id_cookie = 0
 
+; By default, Piwik does not trust the idcookie as accurate and will always check that if the visitor visited
+; the website earlier by looking for a visitor with the same IP and user configuration (to avoid abuse or misbehaviour)
+; This setting should only be set to 1 in an intranet setting, where most users have the same configuration (browsers, OS)
+; and the same IP. If left to 0 in this setting, all visitors will be counted as one single visitor. 
+trust_visitors_cookies = 0
+
 ; name of the cookie used to store the visitor information
 ; This is used only if use_third_party_id_cookie = 1
 cookie_name	= piwik_visitor
@@ -267,12 +273,6 @@ visit_standard_length       = 1800
 
 ; visitors that stay on the website and view only one page will be considered as time on site of 0 second
 default_time_one_page_visit = 0
-
-; By default, Piwik does not trust the idcookie as accurate and will always check that if the visitor visited
-; the website earlier by looking for a visitor with the same IP and user configuration (to avoid abuse or misbehaviour)
-; This setting should only be set to 1 in an intranet setting, where most users have the same configuration (browsers, OS)
-; and the same IP. If left to 0 in this setting, all visitors will be counted as one single visitor. 
-trust_visitors_cookies = 0
 
 ; if set to 1, Piwik attempts a "best guess" at the visitor's country of
 ; origin when the preferred language tag omits region information.
