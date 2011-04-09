@@ -90,6 +90,9 @@ class Piwik_Period_Range extends Piwik_Period
 			case 'year':
 				$startDate = $date->subMonth( 12 * $n );					
 			break;
+			default:
+				throw new Exception('The period parameter is invalid');
+			break;
 		}
 		return $startDate;
 	}
