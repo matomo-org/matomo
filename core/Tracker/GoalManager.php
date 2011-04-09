@@ -158,7 +158,7 @@ class Piwik_Tracker_GoalManager
 		return true;
 	}
 
-	function recordGoals($idSite, $visitorInformation, $visitCustomVariables, $action, $refererTimestamp, $refererUrl)
+	function recordGoals($idSite, $visitorInformation, $visitCustomVariables, $action, $referrerTimestamp, $referrerUrl, $referrerCampaignName, $referrerCampaignKeyword)
 	{
 		$location_country = isset($visitorInformation['location_country']) 
 							? $visitorInformation['location_country'] 
@@ -184,17 +184,53 @@ class Piwik_Tracker_GoalManager
 		
 		);
 
+		// Attributing the correct Referrer to this conversion. 
+		// Priority order is as follows:
+		// 1) Campaign name/kwd parsed in the JS
+		// 2) Referrer URL stored in the _ref cookie
+		// 3) If no info from the cookie, attribute to the current visit referrer
+		
+		// 3) Default values: current referrer
+        $type = $visitorInformation['referer_type'];
+        $name = $visitorInformation['referer_name'];
+        $keyword = $visitorInformation['referer_keyword'];
+        $time = $visitorInformation['visit_first_action_time'];
+        
+        // 1) Campaigns from 1st party cookie
+		if(!empty($referrerCampaignName))
+		{
+			$type = Piwik_Common::REFERER_TYPE_CAMPAIGN;
+			$name = $referrerCampaignName;
+			$keyword = $referrerCampaignKeyword;
+			$time = $referrerTimestamp;
+		}
+		// 2) Referrer URL parsing
+		elseif(!empty($referrerUrl))
+		{
+			$referrer = new Piwik_Tracker_Visit_Referer();  
+            $referrer = $referrer->getRefererInformation($referrerUrl, $currentUrl = '', $idSite);
+            
+            // if the parsed referer is interesting enough, ie. website or search engine 
+            if(in_array($referrer['referer_type'], array(Piwik_Common::REFERER_TYPE_SEARCH_ENGINE, Piwik_Common::REFERER_TYPE_WEBSITE)))
+            {
+            	$type = $referrer['referer_type'];
+            	$name = $referrer['referer_name'];
+            	$keyword = $referrer['referer_keyword'];
+				$time = $referrerTimestamp;
+            }
+		}
 		$goalData = array(
-			'referer_visit_server_date' => date("Y-m-d", $refererTimestamp),
-			'referer_type' 				=> $visitorInformation['referer_type'],
-			'referer_name' 				=> $visitorInformation['referer_name'],
-			'referer_keyword' 			=> $visitorInformation['referer_keyword'],
+			'referer_type' 				=> $type,
+			'referer_name' 				=> $name,
+			'referer_keyword' 			=> $keyword,
+			// this field is currently unused
+			'referer_visit_server_date' => date("Y-m-d", $time),
 		);
 		
 		// Ref Cookie only lasts 6 months by default, 
 		// so we shouldn't see anything older than 1 year
-		if($refererTimestamp > Piwik_Tracker::getCurrentTimestamp() - 365 * 86400 * 2
-			&& $refererTimestamp <=  Piwik_Tracker::getCurrentTimestamp())
+		// NB: we do not test that date is not in the future, otherwise might dismiss when user clock is faster
+		if($time > Piwik_Tracker::getCurrentTimestamp() - 365 * 86400 * 2)
 		{
 			$goal += $goalData;
 		}
@@ -208,6 +244,7 @@ class Piwik_Tracker_GoalManager
 			$newGoal['idgoal'] = $convertedGoal['idgoal'];
 			$newGoal['url'] = $convertedGoal['url'];
 			$newGoal['revenue'] = $convertedGoal['revenue'];
+			
 			if(!is_null($action))
 			{
 				$newGoal['idaction_url'] = $action->getIdActionUrl();

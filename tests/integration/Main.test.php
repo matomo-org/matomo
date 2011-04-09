@@ -171,6 +171,18 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		$t->setIp($excludedIpBis);
 		$this->checkResponse($t->doTrackPageView('visit from IP globally excluded'));
 		
+		try {
+			@$t->setAttributionInfo(array());
+			$this->fail();
+		} catch(Exception $e) {}
+		
+		try {
+			$t->setAttributionInfo(json_encode('test'));
+			$this->fail();
+		} catch(Exception $e) {}
+		
+		$t->setAttributionInfo(json_encode(array()));
+		
 		// this will output empty XML result sets as no visit was tracked
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime);
 	}
@@ -217,7 +229,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 
 	private function doTest_oneVisitorTwoVisits($t, $dateTime, $idSite )
 	{
-        $t->setUrlReferer( 'http://referer.com/page.htm?param=valuewith some spaces');
+        $t->setUrlReferrer( 'http://referer.com/page.htm?param=valuewith some spaces');
     	
     	// Testing URL excluded parameters
     	$parameterToExclude = 'excluded_parameter';
@@ -233,10 +245,10 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.05)->getDatetime());
         $urlPage2 = 'http://example.org/' ;
         $t->setUrl( $urlPage2 );
-//        $t->setUrlReferer($urlPage1);
+//        $t->setUrlReferrer($urlPage1);
         $this->checkResponse($t->doTrackPageView( 'Second page view - should be registered as URL /'));
         
-//        $t->setUrlReferer($urlPage2);
+//        $t->setUrlReferrer($urlPage2);
         // Click on external link after 6 minutes (3rd action)
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
         $this->checkResponse($t->doTrackAction( 'http://dev.piwik.org/svn', 'link' ));
@@ -269,7 +281,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // Start of returning visit, 1 hour after first page view
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1)->getDatetime());
         $t->setUrl( 'http://example.org/store/purchase.htm' );
-        $t->setUrlReferer( 'http://search.yahoo.com/search?p=purchase');
+        $t->setUrlReferrer( 'http://search.yahoo.com/search?p=purchase');
         
         // Goal Tracking URL matching, testing custom referer including keyword
         $this->checkResponse($t->doTrackPageView( 'Checkout/Purchasing...'));
@@ -303,7 +315,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	// First visitor on Idsite 1: two page views
     	$datetimeSpanOverTwoDays = '2010-01-03 23:55:00'; 
         $visitorA = $this->getTracker($idSite, $datetimeSpanOverTwoDays, $defaultInit = true);
-        $visitorA->setUrlReferer( 'http://referer.com/page.htm?param=valuewith some spaces');
+        $visitorA->setUrlReferrer( 'http://referer.com/page.htm?param=valuewith some spaces');
         $visitorA->setUrl('http://example.org/homepage');
         $this->checkResponse($visitorA->doTrackPageView('first page view'));
     	$visitorA->setForceVisitDateTime(Piwik_Date::factory($datetimeSpanOverTwoDays)->addHour(0.1)->getDatetime());
@@ -316,7 +328,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	$visitorB->setIp('100.52.656.83');
     	$visitorB->setResolution(800, 300);
     	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1)->getDatetime());
-        $visitorB->setUrlReferer( '' );
+        $visitorB->setUrlReferrer( '' );
     	$visitorB->setUserAgent('Opera/9.63 (Windows NT 5.1; U; en) Presto/2.1.1');
     	$visitorB->setUrl('http://example.org/products');
     	$this->checkResponse($visitorB->doTrackPageView('first page view'));
@@ -328,7 +340,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		// Temporary, until we implement 1st party cookies in PiwikTracker
         $visitorB->DEBUG_APPEND_URL = '&_idvc=2';
 
-    	$visitorB->setUrlReferer( 'http://referer.com/Other_Page.htm' );
+    	$visitorB->setUrlReferrer( 'http://referer.com/Other_Page.htm' );
     	$visitorB->setUrl('http://example.org/homepage');
     	$this->checkResponse($visitorB->doTrackPageView('second visitor/two days later/a new visit'));
     	// Second page view 6 minutes later
@@ -346,13 +358,13 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	// First visitor on Idsite 2: one page view, with Website referer
         $visitorAsite2 = $this->getTracker($idSite2, Piwik_Date::factory($dateTime)->addHour(24)->getDatetime(), $defaultInit = true);
         $visitorAsite2->setUserAgent('Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0;)');
-        $visitorAsite2->setUrlReferer('http://only-homepage-referer.com/');
+        $visitorAsite2->setUrlReferrer('http://only-homepage-referer.com/');
         $visitorAsite2->setUrl('http://example2.com/home');
         $this->checkResponse($visitorAsite2->doTrackPageView('Website 2 page view'));
         
         // Returning visitor on Idsite 2 1 day later, one page view, with chinese referer
 //    	$t2->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48 + 10)->getDatetime());
-//        $t2->setUrlReferer('http://www.baidu.com/s?wd=%D0%C2+%CE%C5&n=2');
+//        $t2->setUrlReferrer('http://www.baidu.com/s?wd=%D0%C2+%CE%C5&n=2');
 //        $t2->setUrl('http://example2.com/home');
 //        $this->checkResponse($t2->doTrackPageView('I\'m a returning visitor...'));
         
@@ -379,6 +391,17 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		$idGoal = Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');
 		
         $visitorA = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+        $visitorA->setUrlReferrer('');
+        
+        // no campaign, but a search engine
+        $attribution = array(
+        	'',
+        	'',
+        	1302306504,
+        	'http://www.google.com/search?q=piwik&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-GB:official&client=firefox-a'
+        );
+        $visitorA->setAttributionInfo(json_encode($attribution));
+        
         $visitorA->setResolution($width, $height);
         
         // At first, visitor custom var is set to LoggedOut
@@ -401,6 +424,15 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // - 
     	// Second new visitor on Idsite 1: one page view 
         $visitorB = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+        $visitorB->setUrlReferrer('');
+        
+        $attribution = array(
+        	'CAMPAIGN NAME - YEAH!',
+        	'CAMPAIGN KEYWORD - RIGHT...',
+        	1302306504,
+        	'http://www.example.org/test/really?q=yes'
+        );
+        $visitorB->setAttributionInfo(json_encode($attribution));
         $visitorB->setResolution($width, $height);
     	$visitorB->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.6) Gecko/2009011913 Firefox/3.0.6');
     	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1)->getDatetime());
@@ -625,6 +657,8 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		$this->setApiNotToCall(array());
         $this->setApiToCall(array(	'API.getProcessedReport',
     	                            'CustomVariables.getCustomVariables',
+        							'Referers.getCampaigns',
+        							'Referers.getKeywords',
         							'VisitsSummary.get',
         							'Live',
     	));

@@ -386,6 +386,8 @@ if (!this.JSON2) {
 	res, width, height,
 	pdf, qt, realp, wma, dir, fla, java, gears, ag,
 	hook, getHook, getVisitorId, getVisitorInfo, setTrackerUrl, setSiteId,
+	getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword, 
+	getAttributionReferrerTimestamp, getAttributionReferrerUrl
 	setCustomData, getCustomData,
 	setCustomVariable, getCustomVariable, deleteCustomVariable,
 	setDownloadExtensions, addDownloadExtensions,
@@ -1021,7 +1023,10 @@ var
 				domainHash;
 
 			/*
-			 * Purify URL.
+			 * Removes hash tag from the URL
+			 * 
+			 * URLs are purified before being recorded in the cookie,
+			 * or before being sent as GET parameters
 			 */
 			function purify(url) {
 				var targetPattern;
@@ -1208,7 +1213,7 @@ var
 			/*
 			 * Load visitor ID cookie
 			 */
-			function loadVisitorId() {
+			function loadVisitorIdCookie() {
 				var now = new Date(),
 					nowTs = Math.round(now.getTime() / 1000),
 					id = getCookie(getCookieName('id')),
@@ -1249,6 +1254,39 @@ var
 				return tmpContainer;
 			}
 
+			/**
+			 * Loads the referrer attribution information
+			 * 
+			 * @returns array
+			 *  0: campaign name
+			 *  1: campaign keyword
+			 *  2: timestamp
+			 *  3: raw URL
+			 */
+			function loadReferrerAttributionCookie() {
+				// NOTE: if the format of the cookie changes,
+				// we must also update JS tests, PHP tracker, Integration tests, 
+				// and notify other tracking clients (eg. Java) of the changes
+				var cookie = getCookie(getCookieName('ref'));
+
+				if (cookie.length) {
+					try {
+						cookie = JSON2.parse(cookie);
+						if (isObject(cookie)) {
+							return cookie;
+						}
+					} catch (err) {
+						// Pre 1.3, this cookie was not JSON encoded
+					}
+				}
+				return [
+					    '',
+					    '',
+					    0,
+					    ''
+				];
+			}
+			
 			/*
 			 * Returns the URL to call piwik.php,
 			 * with the standard parameters (plugins, resolution, url, referrer, etc.).
@@ -1258,7 +1296,6 @@ var
 				var i,
 					now = new Date(),
 					nowTs = Math.round(now.getTime() / 1000),
-					tmpPos,
 					newVisitor,
 					uuid,
 					visitCount,
@@ -1275,10 +1312,15 @@ var
 					sesname = getCookieName('ses'),
 					refname = getCookieName('ref'),
 					cvarname = getCookieName('cvar'),
-					id = loadVisitorId(),
+					id = loadVisitorIdCookie(),
 					ses = getCookie(sesname),
-					ref = getCookie(refname),
-					secure = documentAlias.location.protocol === 'https';
+					attributionCookie = loadReferrerAttributionCookie(),
+					secure = documentAlias.location.protocol === 'https',
+					currentUrl = configCustomUrl || locationHrefAlias,
+					campaignNameParameters = [ 'piwik_campaign', 'utm_campaign' ],
+					campaignKeywordParameters = [ 'piwik_kwd', 'utm_term' ],
+					campaignNameDetected,
+					campaignKeywordDetected;
 
 				if (configDoNotTrack) {
 					setCookie(idname, '', -1, configCookiePath, configCookieDomain);
@@ -1295,25 +1337,45 @@ var
 				currentVisitTs = id[4];
 				lastVisitTs = id[5];
 
-				if (ref) {
-					tmpPos = ref.indexOf('.');
-					referralTs = ref.slice(0, tmpPos);
-					referralUrl = ref.slice(tmpPos + 1);
-				} else {
-					referralTs = 0;
-					referralUrl = '';
-				}
-
+				campaignNameDetected = attributionCookie[0];
+				campaignKeywordDetected = attributionCookie[1];
+				referralTs = attributionCookie[2];
+				referralUrl = attributionCookie[3];
+				
 				if (!ses) {
 					// new session (aka new visit)
 					visitCount++;
 
 					lastVisitTs = currentVisitTs;
 
+					// Detect the campaign information from the current URL
+					// Only if campaign wasn't previously set
+					// Or if it was set but we must attribute to the most recent one
+					// Note: we are working on the currentUrl before purify() since we can parse the campaign parameters in the hash tag
+					if(!configConversionAttributionFirstReferrer
+							|| !campaignNameDetected.length) {
+						for( i in campaignNameParameters) {
+							if (Object.prototype.hasOwnProperty.call(campaignNameParameters, i)) {
+								campaignNameDetected = getParameter(currentUrl, campaignNameParameters[i]);
+								if(campaignNameDetected.length) {
+									break;
+								}
+							}
+						}
+						for( i in campaignKeywordParameters) {
+							if (Object.prototype.hasOwnProperty.call(campaignKeywordParameters, i)) {
+								campaignKeywordDetected = getParameter(currentUrl, campaignKeywordParameters[i]);
+								if(campaignKeywordDetected.length) {
+									break;
+								}
+							}
+						}
+					}
+					
 					// Store the referrer URL and time in the cookie;
 					// referral URL depends on the first or last referrer attribution
 					currentReferrerHostName = getHostName(configReferrerUrl);
-					originalReferrerHostName = ref ? getHostName(referralUrl) : '';
+					originalReferrerHostName = referralUrl.length ? getHostName(referralUrl) : '';
 					if (currentReferrerHostName.length && // there is a referrer
 							!isSiteHostName(currentReferrerHostName) && // domain is not the current domain
 							(!configConversionAttributionFirstReferrer || // attribute to last known referrer
@@ -1322,9 +1384,19 @@ var
 						// record this referral
 						referralTs = nowTs;
 						referralUrl = configReferrerUrl;
-
-						// set the referral cookie
-						setCookie(refname, referralTs + '.' + referralUrl.slice(0, referralUrlMaxLength), configReferralCookieTimeout, configCookiePath, configCookieDomain, secure);
+					}
+					
+					// Set the referral cookie if we have either a Referrer URL, or detected a Campaign (or both)
+					if(referralTs > 0
+							|| campaignNameDetected.length) {
+						attributionCookie = [
+							campaignNameDetected,
+							campaignKeywordDetected,
+							referralTs,
+							purify(referralUrl.slice(0, referralUrlMaxLength))
+						];
+						
+						setCookie(refname, JSON2.stringify(attributionCookie), configReferralCookieTimeout, configCookiePath, configCookieDomain, secure);
 					}
 				}
 
@@ -1333,12 +1405,15 @@ var
 					'&rec=1' +
 					'&rand=' + Math.random() +
 					'&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
-					'&url=' + encodeWrapper(purify(configCustomUrl || locationHrefAlias)) +
+					'&url=' + encodeWrapper(purify(currentUrl)) +
 					'&urlref=' + encodeWrapper(purify(configReferrerUrl)) +
 					'&_id=' + uuid + '&_idts=' + createTs + '&_idvc=' + visitCount + '&_idn=' + newVisitor +
-					'&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength))) +
+					'&_rcn=' + encodeWrapper(campaignNameDetected) +
+					'&_rck=' + encodeWrapper(campaignKeywordDetected) +
 					'&_refts=' + referralTs +
-					'&_viewts=' + lastVisitTs;
+					'&_viewts=' + lastVisitTs +
+					'&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength)))
+				;
 
 				// browser features
 				for (i in browserFeatures) {
@@ -1720,7 +1795,7 @@ var
 				 * @return string Visitor ID in hexits (or null, if not yet known)
 				 */
 				getVisitorId: function () {
-					return (loadVisitorId())[1];
+					return (loadVisitorIdCookie())[1];
 				},
 
 				/**
@@ -1729,9 +1804,61 @@ var
 				 * @return array
 				 */
 				getVisitorInfo: function() {
-					return loadVisitorId();
+					return loadVisitorIdCookie();
 				},
 
+				/**
+				 * Get the Attribution information, which is an array that contains 
+				 * the Referrer used to reach the site as well as the campaign name and keyword
+				 * It is useful only when used in conjunction with Tracker API function setAttributionInfo() 
+				 * To access specific data point, you should use the other functions getAttributionReferrer* and getAttributionCampaign*
+				 * 
+				 * @return array Attribution array, Example use:
+				 *               1) Call JSON2.stringify(piwikTracker.getAttributionInfo()) 
+				 *               2) Pass this json encoded string to the Tracking API (php or java client): setAttributionInfo()
+				 */
+				getAttributionInfo: function() {
+					return loadReferrerAttributionCookie();
+				},
+				
+				/**
+				 * Get the Campaign name that was parsed from the landing page URL when the visitor 
+				 * landed on the site originally
+				 * 
+				 * @return string
+				 */
+				getAttributionCampaignName: function() {
+					return loadReferrerAttributionCookie()[0];
+				},
+				
+				/**
+				 * Get the Campaign keyword that was parsed from the landing page URL when the visitor 
+				 * landed on the site originally
+				 * 
+				 * @return string
+				 */
+				getAttributionCampaignKeyword: function() {
+					return loadReferrerAttributionCookie()[1];
+				},
+
+				/**
+				 * Get the time at which the referrer (used for Goal Attribution) was detected
+				 * 
+				 * @return int Timestamp or 0 if no referrer currently set
+				 */
+				getAttributionReferrerTimestamp: function() {
+					return loadReferrerAttributionCookie()[2];
+				},
+				
+				/**
+				 * Get the full referrer URL that will be used for Goal Attribution
+				 * 
+				 * @return string Raw URL, or empty string '' if no referrer currently set
+				 */
+				getAttributionReferrerUrl: function() {
+					return loadReferrerAttributionCookie()[3];
+				},
+				
 				/**
 				 * Specify the Piwik server URL
 				 *
@@ -1990,9 +2117,10 @@ var
 				},
 
 				/**
-				 * Set conversion attribution to first referrer
+				 * Set conversion attribution to first referrer and campaign
 				 *
-				 * @param bool enable If true, use first referrer; if false, use the last referrer
+				 * @param bool if true, use first referrer (and first campaign)
+				 *             if false, use the last referrer (or campaign)
 				 */
 				setConversionAttributionFirstReferrer: function (enable) {
 					configConversionAttributionFirstReferrer = enable;

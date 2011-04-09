@@ -18,9 +18,12 @@ $sqlite = false;
 if (file_exists("enable_sqlite")) {
 	if (extension_loaded('sqlite')) {
 		$sqlite = true;
-	}
+	} 
 }
 
+if(!$sqlite) {
+	echo 'alert("WARNING: some tests require sqlite, ensure this PHP extension is enabled to make sure you run all tests!");';
+}
 if ($sqlite) {
   echo '
 var _paq = _paq || [];
@@ -304,7 +307,7 @@ function PiwikTest() {
 	});
 
 	test("API methods", function() {
-		expect(41);
+		expect(46);
 
 		equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
 		equal( typeof Piwik.getTracker, 'function', 'getTracker' );
@@ -320,6 +323,11 @@ function PiwikTest() {
 
 		equal( typeof tracker.getVisitorId, 'function', 'getVisitorId' );
 		equal( typeof tracker.getVisitorInfo, 'function', 'getVisitorInfo' );
+		equal( typeof tracker.getVisitorId, 'function', 'getAttributionInfo' );
+		equal( typeof tracker.getVisitorId, 'function', 'getAttributionReferrerTimestamp' );
+		equal( typeof tracker.getVisitorId, 'function', 'getAttributionReferrerUrl' );
+		equal( typeof tracker.getVisitorId, 'function', 'getAttributionCampaignName' );
+		equal( typeof tracker.getVisitorId, 'function', 'getAttributionCampaignKeyword' );
 		equal( typeof tracker.setTrackerUrl, 'function', 'setTrackerUrl' );
 		equal( typeof tracker.setSiteId, 'function', 'setSiteId' );
 		equal( typeof tracker.setCustomData, 'function', 'setCustomData' );
@@ -711,7 +719,7 @@ if ($sqlite) {
 	});
 
 	test("tracking", function() {
-		expect(44);
+		expect(50);
 
 		/*
 		 * Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
@@ -734,19 +742,26 @@ if ($sqlite) {
 
 		tracker.setTrackerUrl("piwik.php");
 		tracker.setSiteId(1);
+		var customUrl = "http://localhost.localdomain/?utm_campaign=YEAH&utm_term=RIGHT!";
+		tracker.setCustomUrl(customUrl);
 
 		tracker.setCustomData({ "token" : getToken() });
 		var data = tracker.getCustomData();
 		ok( getToken() != "" && data.token == data["token"] && data.token == getToken(), "setCustomData() , getCustomData()" );
 
 		tracker.setDocumentTitle("PiwikTest");
-		tracker.setReferrerUrl("http://referrer.example.com");
+		
+		var referrerUrl = "http://referrer.example.org/page/sub?query=test&test2=test3";
+		tracker.setReferrerUrl(referrerUrl);
 
+		referrerTimestamp = Math.round(new Date().getTime() / 1000);
 		tracker.trackPageView();
 
 		tracker.trackPageView("CustomTitleTest");
 
-		tracker.setCustomUrl("http://localhost.localdomain");
+		var customUrlShouldNotChangeCampaign = "http://localhost.localdomain/?utm_campaign=NONONONONONONO&utm_term=PLEASE NO!";
+		tracker.setCustomUrl(customUrl);
+
 		tracker.trackPageView();
 
 		tracker.trackLink("http://example.ca", "link", { "token" : getToken() });
@@ -801,15 +816,30 @@ if ($sqlite) {
 
 		var visitorInfo1, visitorInfo2;
 
+		// Visitor INFO + Attribution INFO tests
+		tracker.setReferrerUrl(referrerUrl);
 		_paq.push([ function() {
 			visitorInfo1 = Piwik.getAsyncTracker().getVisitorInfo();
+			attributionInfo1 = Piwik.getAsyncTracker().getAttributionInfo();
+			referrer1 = Piwik.getAsyncTracker().getAttributionReferrerUrl();
 		}]);
 		visitorInfo2 = tracker.getVisitorInfo();
 		ok( visitorInfo1 && visitorInfo2 && visitorInfo1.length == visitorInfo2.length, "getVisitorInfo()" );
 		for (var i = 0; i < 6; i++) {
 			ok( visitorInfo1[i] == visitorInfo2[i], "(loadVisitorId())["+i+"]" );
 		}
-
+		attributionInfo2 = tracker.getAttributionInfo();
+		ok( attributionInfo1 && attributionInfo2 && attributionInfo1.length == attributionInfo2.length, "getAttributionInfo()" );
+		referrer2 = tracker.getAttributionReferrerUrl();
+		ok( referrer2 == referrerUrl, "getAttributionReferrerUrl()" );
+		ok( referrer1 == referrerUrl, "async getAttributionReferrerUrl()" );
+		referrerTimestamp2 = tracker.getAttributionReferrerTimestamp();
+		ok( referrerTimestamp2 == referrerTimestamp, "tracker.getAttributionReferrerTimestamp()" );
+		campaignName2 = tracker.getAttributionCampaignName();
+		campaignKeyword2 = tracker.getAttributionCampaignKeyword();
+		ok( campaignName2 == "YEAH", "getAttributionCampaignName()");
+		ok( campaignKeyword2 == "RIGHT!", "getAttributionCampaignKeyword()");
+		
 		// custom variables
 		tracker.setCookieNamePrefix("PREFIX");
 		tracker.setCustomVariable(1, "cookiename", "cookievalue");
@@ -872,7 +902,7 @@ if ($sqlite) {
 			ok( /idgoal=42.*?revenue=69.*?Michael.*?Mandy/.test( results ), "setRequestMethod(POST), trackGoal()" );
 			ok( /CompatibilityLayer/.test( results ), "piwik_log(): compatibility layer" );
 			ok( /localhost.localdomain/.test( results ), "setCustomUrl()" );
-			ok( /referrer.example.com/.test( results ), "setReferrerUrl()" );
+			ok( /referrer.example.org/.test( results ), "setReferrerUrl()" );
 			ok( /cookiename/.test( results ) && /cookievalue/.test( results ), "tracking request contains custom variable" );
 			ok( /DeleteCustomVariableCookie/.test( results ), "tracking request deleting custom variable" );
 			ok( /DoTrack/.test( results ), "setDoNotTrack(false)" );
