@@ -90,7 +90,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 	
 	/**
 	 * Form-less login
-	 *
+	 * @see how to use it on http://piwik.org/faq/how-to/#faq_30
 	 * @param none
 	 * @return void
 	 */
@@ -111,6 +111,12 @@ class Piwik_Login_Controller extends Piwik_Controller
 		}
 
 		$currentUrl = 'index.php';
+		
+		if(($idSite = Piwik_Common::getRequestVar('idSite', false, 'int')) !== false)
+		{			
+			$currentUrl .= '?idSite='.$idSite;
+		}
+		
 		$urlToRedirect = Piwik_Common::getRequestVar('url', $currentUrl, 'string');
 		$urlToRedirect = Piwik_Common::unsanitizeInputValue($urlToRedirect);
 
