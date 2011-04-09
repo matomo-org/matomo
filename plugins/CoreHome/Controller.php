@@ -37,8 +37,9 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 		{
 			$module = Piwik::getLoginPluginName();
 		}
+		$idSite = Piwik_Common::getRequestVar('idSite', false, 'int');
 		
-		parent::redirectToIndex($module, $action);
+		parent::redirectToIndex($module, $action, !empty($idSite) ? $idSite : null );
 	}
 	
 	public function showInContext()
