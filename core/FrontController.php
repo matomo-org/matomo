@@ -177,6 +177,13 @@ class Piwik_FrontController
 	 */
 	function init()
 	{
+		static $initialized = false;
+		if($initialized)
+		{
+			return;
+		}
+		$initialized = true;
+
 		try {
 			Zend_Registry::set('timer', new Piwik_Timer);
 			
