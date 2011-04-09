@@ -765,6 +765,10 @@ class Test_Piwik_Common extends UnitTestCase
 			'http://www.bing.com/images/search?q=piwik&go=&form=QBIL'
 				=> array('name' => 'Bing Images', 'keywords' => 'piwik'),
 
+			// Yahoo! Directory
+			'http://search.yahoo.com/search/dir?ei=UTF-8&p=analytics&h=c'
+				=> array('name' => 'Yahoo! Directory', 'keywords' => 'analytics'),
+
 /*
 			// Bing mobile image search has a special URL
 			'http://m.bing.com/search/search.aspx?A=imageresults&Q=piwik&D=Image&MID=8015&SI=0&PN=0&SCO=0'

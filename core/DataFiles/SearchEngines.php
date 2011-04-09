@@ -286,9 +286,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Eniro
 		'www.eniro.se'				=> array('Eniro', array('q', 'search_word'), 'query?q={k}'),
 
-		// Eudip
-		'www.eudip.com'				=> array('Eudip', ''),
-
 		// Eurip
 		'www.eurip.com'				=> array('Eurip', 'q', 'search/?q={k}'),
 
@@ -678,9 +675,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Sapo
 		'pesquisa.sapo.pt'			=> array('Sapo', 'q', '?q={k}'),
 
-		// scroogle.org
-		'www.scroogle.org'			=> array('Scroogle', ''),
-	
 		// Search.com
 		'www.search.com'			=> array('Search.com', 'q', 'search?q={k}'),
 
@@ -692,9 +686,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// SearchCanvas
 		'www.searchcanvas.com'		=> array('SearchCanvas', 'q', 'web?q={k}'),
-
-		// Seek
-		'www.seek.fr'				=> array('Seek.fr', ''),
 
 		// Searchy
 		'www.searchy.co.uk'			=> array('Searchy', 'q', 'index.html?q={k}'),
@@ -743,7 +734,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.teoma.com'				=> array('Teoma', 'q', 'web?q={k}'),
 
 		// Terra -- referer does not contain search phrase (keywords)
-		'buscador.terra.es'			=> array('Terra'),
+		'buscador.terra.es'			=> array('Terra', 'query', 'Default.aspx?source=Search&query={k}'),
 		'buscador.terra.cl'			=> array('Terra'),
 		'buscador.terra.com.br'		=> array('Terra'),
 
@@ -847,9 +838,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'one.cn.yahoo.com'			=> array('Yahoo!'),
 		'siteexplorer.search.yahoo.com'	=> array('Yahoo!'),
 
-		'de.dir.yahoo.com'			=> array('Yahoo! Webverzeichnis', ''),
-		'cf.dir.yahoo.com'			=> array('Yahoo! Directory', ''),
-		'fr.dir.yahoo.com'			=> array('Yahoo! Directory', ''),
+		// Yahoo! Directory
+		'search.yahoo.com/search/dir' => array('Yahoo! Directory', 'p', '?p={k}'),
+//		'{}.dir.yahoo.com'			=> array('Yahoo! Directory'),
 
 		// Yahoo! Images
 		'images.search.yahoo.com'	=> array('Yahoo! Images', 'p', 'search/images?p={k}'),
