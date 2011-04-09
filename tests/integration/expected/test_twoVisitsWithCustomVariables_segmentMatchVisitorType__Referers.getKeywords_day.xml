@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <results>
 	<result idSite="1">
-		<result date="2010-01-03" />
+		<result date="2010-01-03">
+			<row>
+				<label>piwik</label>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>0</revenue>
+					</row>
+				</goals>
+				<nb_conversions>1</nb_conversions>
+				<revenue>0</revenue>
+			</row>
+		</result>
 		<result date="2010-01-04" />
 		<result date="2010-01-05" />
 		<result date="2010-01-06" />

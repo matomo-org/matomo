@@ -229,8 +229,18 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		{
     		$refererTimestamp = Piwik_Common::getRequestVar('_refts', 0, 'int', $this->request);
     		$refererUrl = Piwik_Common::getRequestVar('_ref', '', 'string', $this->request);
+    		$refererCampaignName = Piwik_Common::getRequestVar('_rcn', '', 'string', $this->request);
+    		$refererCampaignKeyword = Piwik_Common::getRequestVar('_rck', '', 'string', $this->request);
     		
-			$goalManager->recordGoals( $this->idsite, $this->visitorInfo, $this->visitorCustomVariables, $action, $refererTimestamp, $refererUrl);
+			$goalManager->recordGoals( 	$this->idsite, 
+										$this->visitorInfo, 
+										$this->visitorCustomVariables, 
+										$action, 
+										$refererTimestamp, 
+										$refererUrl, 
+										$refererCampaignName,
+										$refererCampaignKeyword
+			);
 		}
 		unset($goalManager);
 		unset($action);

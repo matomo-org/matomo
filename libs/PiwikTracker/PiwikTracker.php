@@ -6,6 +6,10 @@
  * This is a PHP Version of the piwik.js standard Tracking API.
  * For more information, see http://piwik.org/docs/tracking-api/
  * 
+ * This class requires: 
+ *  - json extension (json_decode, json_encode) 
+ *  - CURL or STREAM extensions (to issue the request to Piwik)
+ *  
  * @license released under BSD License http://www.opensource.org/licenses/bsd-license.php
  * @version $Id$
  * @link http://piwik.org/docs/tracking-api/
@@ -15,7 +19,6 @@
  */
 
 /**
- *
  * @package PiwikTracker
  */
 class PiwikTracker
@@ -61,10 +64,11 @@ class PiwikTracker
     	$this->customData = false;
     	$this->forcedDatetime = false;
     	$this->token_auth = false;
+    	$this->attributionInfo = false;
 
     	$this->requestCookie = '';
     	$this->idSite = $idSite;
-    	$this->urlReferer = @$_SERVER['HTTP_REFERER'];
+    	$this->urlReferrer = @$_SERVER['HTTP_REFERER'];
     	$this->pageUrl = self::getCurrentUrl();
     	$this->ip = @$_SERVER['REMOTE_ADDR'];
     	$this->acceptLanguage = @$_SERVER['HTTP_ACCEPT_LANGUAGE'];
@@ -86,26 +90,42 @@ class PiwikTracker
     }
 
     /**
-     * Sets the URL referer used to track Referers details for new visits.
+     * Sets the URL referrer used to track Referrers details for new visits.
      * 
      * @param string Raw URL (not URL encoded)
      */
+    public function setUrlReferrer( $url )
+    {
+    	$this->urlReferrer = $url;
+    }
+    
+    /**
+     * @deprecated 
+     * @ignore
+     */
     public function setUrlReferer( $url )
     {
-    	$this->urlReferer = $url;
+    	$this->setUrlReferrer($url);
     }
-
+    
     /**
-     * Sets the original URL referer used to reach the website in the first place.
-     * This is used to attribute the Goal Conversion to the right referer
-     * With piwik.js, this URL would be stored in the first party cookie _pk_ref
+     * Sets the attribution information to the visit, so that subsequent Goal conversions are 
+     * properly attributed to the right Referrer URL, timestamp, Campaign Name & Keyword.
      * 
-     * @param string $url
+     * This must be a JSON encoded string that would typically be fetched from the JS API: 
+     * piwikTracker.getAttributionInfo() and that you have JSON encoded via JSON2.stringify() 
+     * 
+     * @param string $jsonEncoded JSON encoded array containing Attribution info
+     * @see function getAttributionInfo() in http://dev.piwik.org/trac/browser/trunk/js/piwik.js 
      */
-    public function setOriginalUrlReferer( $url )
+    public function setAttributionInfo( $jsonEncoded )
     {
-//TODO
-//    	$this->urlReferer = $url;
+    	$decoded = json_decode($jsonEncoded, $assoc = true);
+    	if(!is_array($decoded)) 
+    	{
+    		throw new Exception("setAttributionInfo() is expecting a JSON encoded string, $jsonEncoded given");
+    	}
+    	$this->attributionInfo = $decoded;
     }
 
     /**
@@ -177,7 +197,7 @@ class PiwikTracker
      */
     public function doTrackAction($actionUrl, $actionType)
     {
-        // Referer could be udpated to be the current URL temporarily (to mimic JS behavior)
+        // Referrer could be udpated to be the current URL temporarily (to mimic JS behavior)
     	$url = $this->getUrlTrackAction($actionUrl, $actionType);
     	return $this->sendRequest($url); 
     }
@@ -486,13 +506,19 @@ class PiwikTracker
 	        
 	        // URL parameters
 	        '&url=' . urlencode($this->pageUrl) .
-			'&urlref=' . urlencode($this->urlReferer) .
-    		'&_ref=' . urlencode($this->urlReferer) .
-    		'&_refts=' . (!empty($this->forcedDatetime) 
-    							? strtotime($this->forcedDatetime) 
-    							: time()) .
-    							
-	        // DEBUG 
+			'&urlref=' . urlencode($this->urlReferrer) .
+	        
+	        // Attribution information, so that Goal conversions are attributed to the right referrer or campaign
+	        // Campaign name
+    		(!empty($this->attributionInfo[0]) ? '&_rcn=' . urlencode($this->attributionInfo[0]) : '') .
+    		// Campaign keyword
+    		(!empty($this->attributionInfo[1]) ? '&_rck=' . urlencode($this->attributionInfo[1]) : '') .
+    		// Timestamp at which the referrer was set
+    		(!empty($this->attributionInfo[2]) ? '&_refts=' . $this->attributionInfo[2] : '') .
+    		// Referrer URL
+    		(!empty($this->attributionInfo[3]) ? '&_ref=' . urlencode($this->attributionInfo[3]) : '') .
+
+    		// DEBUG 
 	        $this->DEBUG_APPEND_URL
         ;
     	return $url;
