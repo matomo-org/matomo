@@ -513,8 +513,11 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	        // 2) CHECK 'week' archive stored in December (week starts the month before)
 	        // We expect 2 segments * (1 custom variable name + 1 subtable for the values of the name + 5 referers blob) = 14
 			'archive_blob_2009_12' => 14,
-	        // 6 metrics, 3 done flag (referers, CustomVar, VisitsSummary), 2 segments
-			'archive_numeric_2009_12' => (6 + 3) * 2,
+	        // 6 metrics, 
+	        // 2 Referer metrics (Referers_distinctSearchEngines/Referers_distinctKeywords), 
+	        // 3 done flag (referers, CustomVar, VisitsSummary), 
+	        // X * 2 segments
+			'archive_numeric_2009_12' => (6 + 2 + 3) * 2,
 		);
 		foreach($tests as $table => $expectedRows)
 		{
