@@ -14,6 +14,25 @@ class Test_Referers extends UnitTestCase
 		parent::__construct( $title );
 	}
 
+	// search engine has at least one keyword
+	function test_missingSearchEngineKeyword()
+	{
+		require_once PIWIK_PATH_TEST_TO_ROOT . '/core/DataFiles/SearchEngines.php';
+
+		// Get list of search engines and first appearing URL
+		$searchEngines = array();
+		foreach($GLOBALS['Piwik_SearchEngines'] as $url => $searchEngine)
+		{
+			$name = parse_url('http://'.$url);
+			if(!array_key_exists($searchEngine[0], $searchEngines))
+			{
+				$searchEngines[$searchEngine[0]] = $url;
+
+				$this->assertTrue(!empty($searchEngine[1]), $name['host']);
+			}
+		}
+	}
+
 	// search engine is defined in DataFiles/SearchEngines.php but there's no favicon
 	function test_missingSearchEngineIcons()
 	{
