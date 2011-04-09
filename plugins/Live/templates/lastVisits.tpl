@@ -15,8 +15,12 @@
 			<div class="referer">
 				{if $visitor.referrerType != 'direct'}from <a href="{$visitor.referrerUrl|escape:'html'}" target="_blank">{if !empty($visitor.searchEngineIcon)}<img src="{$visitor.searchEngineIcon}" /> {/if}{$visitor.referrerName|escape:'html'}</a>
 					{if !empty($visitor.referrerKeyword)}"{$visitor.referrerKeyword|escape:'html'}"{/if}
-				{/if}
-				{if $visitor.referrerType == 'direct'}{'Referers_DirectEntry'|translate}{/if}
+					{capture assign='keyword'}{$visitor.referrerKeyword|escape:'html'}{/capture}
+					{capture assign='searchName'}{$visitor.referrerName|escape:"html"}{/capture}
+					{capture assign='position'}#{$visitor.referrerKeywordPosition}{/capture}
+					{if !empty($visitor.referrerKeywordPosition)}<span title='{'Live_KeywordRankedOnSearchResultForThisVisitor'|translate:$keyword:$position:$searchName}' class='seoRank'><span class='hash'>#</span>{$visitor.referrerKeywordPosition}</span>{/if}
+			
+				{else}{'Referers_DirectEntry'|translate}{/if}
 			</div>
 		<div id="{$visitor.idVisit}_actions" class="settings">
 			<span class="pagesTitle">{'Actions_SubmenuPages'|translate}:</span>&nbsp;

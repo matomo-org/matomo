@@ -645,6 +645,7 @@ $translations = array(
 	'Live_LastDays' => 'Last %s days',
 	'Live_GoalType' => 'Type',
 	'Live_GoalTime' => '1st Conversion time',
+	'Live_KeywordRankedOnSearchResultForThisVisitor' => 'The keyword %1$s was ranked %2$s on the %3$s search result page for this visitor',
 	'Live_GoalRevenue' => 'Revenue',
 	'Live_GoalDetails' => 'Details',
 	'Login_PluginDescription' => 'Login Authentication plugin, reading the credentials from the config/config.inc.php file for the Super User, and from the Database for the other users. Can be easily replaced to introduce a new Authentication mechanism (OpenID, htaccess, custom Auth, etc.).',
