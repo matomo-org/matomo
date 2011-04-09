@@ -37,6 +37,7 @@
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerKeyword></referrerKeyword>
+		<referrerKeywordPosition></referrerKeywordPosition>
 		<referrerUrl></referrerUrl>
 		<referrerName></referrerName>
 		<referrerSearchEngineUrl></referrerSearchEngineUrl>
@@ -114,6 +115,7 @@
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerKeyword></referrerKeyword>
+		<referrerKeywordPosition></referrerKeywordPosition>
 		<referrerUrl></referrerUrl>
 		<referrerName></referrerName>
 		<referrerSearchEngineUrl></referrerSearchEngineUrl>
@@ -205,13 +207,14 @@
 		<continent>Europe</continent>
 		<provider>Unknown</provider>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerKeyword></referrerKeyword>
-		<referrerUrl></referrerUrl>
-		<referrerName></referrerName>
-		<referrerSearchEngineUrl></referrerSearchEngineUrl>
-		<referrerSearchEngineIcon></referrerSearchEngineIcon>
+		<referrerType>search</referrerType>
+		<referrerTypeName>Search Engines</referrerTypeName>
+		<referrerKeyword>this keyword should be ranked</referrerKeyword>
+		<referrerKeywordPosition>1</referrerKeywordPosition>
+		<referrerUrl>http://www.google.com/url?sa=t&amp;source=web&amp;cd=1&amp;ved=0CB4QFjAA&amp;url=http://piwik.org/&amp;rct=j&amp;q=this keyword should be ranked&amp;ei=V8WfTePkKKLfiALrpZWGAw&amp;usg=AFQjCNF_MGJRqKPvaKuUokHtZ3VvNG9ALw&amp;sig2=BvKAdCtNixsmfNWXjsNyMw</referrerUrl>
+		<referrerName>Google</referrerName>
+		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
+		<referrerSearchEngineIcon>plugins/Referers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>

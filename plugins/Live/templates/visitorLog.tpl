@@ -100,9 +100,11 @@
 				{if !empty($visitor.columns.referrerKeyword)}{'Referers_Keywords'|translate}:{/if}
 				<a href="{$visitor.columns.referrerUrl|escape:'html'}" target="_blank" style="text-decoration:underline;">
 					{if !empty($visitor.columns.referrerKeyword)}
-						"{$visitor.columns.referrerKeyword|escape:'html'}"
-					{/if}
-				</a>
+						"{$visitor.columns.referrerKeyword|escape:'html'}"{/if}</a>
+				{capture assign='keyword'}{$visitor.columns.referrerKeyword|escape:'html'}{/capture}
+				{capture assign='searchName'}{$visitor.columns.referrerName|escape:"html"}{/capture}
+				{capture assign='position'}#{$visitor.columns.referrerKeywordPosition}{/capture}
+				{if !empty($visitor.columns.referrerKeywordPosition)}<span title='{'Live_KeywordRankedOnSearchResultForThisVisitor'|translate:$keyword:$position:$searchName}' class='seoRank'><span class='hash'>#</span>{$visitor.columns.referrerKeywordPosition}</span>{/if}
 			{/if}
 			{if $visitor.columns.referrerType == 'direct'}{'Referers_DirectEntry'|translate}{/if}
 		</div>

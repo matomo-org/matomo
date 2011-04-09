@@ -70,6 +70,7 @@ class Piwik_Live_Visitor
 			'referrerType' => $this->getRefererType(),
 			'referrerTypeName' => $this->getRefererTypeName(),
 			'referrerKeyword' => $this->getKeyword(),
+			'referrerKeywordPosition' => $this->getKeywordPosition(),
 			'referrerUrl' => $this->getRefererUrl(),
 			'referrerName' => $this->getRefererName(),
 			'referrerSearchEngineUrl' => $this->getSearchEngineUrl(),
@@ -231,6 +232,26 @@ class Piwik_Live_Visitor
 	function getRefererUrl()
 	{
 		return $this->details['referer_url'];
+	}
+	
+	function getKeywordPosition()
+	{
+		if($this->getRefererType() == 'search'
+			&& strpos($this->getRefererName(), 'Google') !== false)
+		{
+			$url = $this->getRefererUrl();
+			$url = @parse_url($url);
+			if(empty($url['query']))
+			{
+				return null;
+			}
+			$position = Piwik_Common::getParameterFromQueryString($url['query'], 'cd');
+			if(!empty($position))
+			{
+				return $position;
+			}
+		}
+		return null;
 	}
 
 	function getRefererName()

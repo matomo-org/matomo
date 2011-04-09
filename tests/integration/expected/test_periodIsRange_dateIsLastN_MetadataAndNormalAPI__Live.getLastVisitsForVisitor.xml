@@ -37,6 +37,7 @@
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerKeyword></referrerKeyword>
+		<referrerKeywordPosition></referrerKeywordPosition>
 		<referrerUrl></referrerUrl>
 		<referrerName></referrerName>
 		<referrerSearchEngineUrl></referrerSearchEngineUrl>
@@ -114,6 +115,7 @@
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerKeyword></referrerKeyword>
+		<referrerKeywordPosition></referrerKeywordPosition>
 		<referrerUrl></referrerUrl>
 		<referrerName></referrerName>
 		<referrerSearchEngineUrl></referrerSearchEngineUrl>
