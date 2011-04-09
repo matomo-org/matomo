@@ -323,11 +323,11 @@ function PiwikTest() {
 
 		equal( typeof tracker.getVisitorId, 'function', 'getVisitorId' );
 		equal( typeof tracker.getVisitorInfo, 'function', 'getVisitorInfo' );
-		equal( typeof tracker.getVisitorId, 'function', 'getAttributionInfo' );
-		equal( typeof tracker.getVisitorId, 'function', 'getAttributionReferrerTimestamp' );
-		equal( typeof tracker.getVisitorId, 'function', 'getAttributionReferrerUrl' );
-		equal( typeof tracker.getVisitorId, 'function', 'getAttributionCampaignName' );
-		equal( typeof tracker.getVisitorId, 'function', 'getAttributionCampaignKeyword' );
+		equal( typeof tracker.getAttributionInfo, 'function', 'getAttributionInfo' );
+		equal( typeof tracker.getAttributionReferrerTimestamp, 'function', 'getAttributionReferrerTimestamp' );
+		equal( typeof tracker.getAttributionReferrerUrl, 'function', 'getAttributionReferrerUrl' );
+		equal( typeof tracker.getAttributionCampaignName, 'function', 'getAttributionCampaignName' );
+		equal( typeof tracker.getAttributionCampaignKeyword, 'function', 'getAttributionCampaignKeyword' );
 		equal( typeof tracker.setTrackerUrl, 'function', 'setTrackerUrl' );
 		equal( typeof tracker.setSiteId, 'function', 'setSiteId' );
 		equal( typeof tracker.setCustomData, 'function', 'setCustomData' );
@@ -751,7 +751,7 @@ if ($sqlite) {
 
 		tracker.setDocumentTitle("PiwikTest");
 		
-		var referrerUrl = "http://referrer.example.org/page/sub?query=test&test2=test3";
+		var referrerUrl = "http://referrer.example.com/page/sub?query=test&test2=test3";
 		tracker.setReferrerUrl(referrerUrl);
 
 		referrerTimestamp = Math.round(new Date().getTime() / 1000);
@@ -902,7 +902,7 @@ if ($sqlite) {
 			ok( /idgoal=42.*?revenue=69.*?Michael.*?Mandy/.test( results ), "setRequestMethod(POST), trackGoal()" );
 			ok( /CompatibilityLayer/.test( results ), "piwik_log(): compatibility layer" );
 			ok( /localhost.localdomain/.test( results ), "setCustomUrl()" );
-			ok( /referrer.example.org/.test( results ), "setReferrerUrl()" );
+			ok( /referrer.example.com/.test( results ), "setReferrerUrl()" );
 			ok( /cookiename/.test( results ) && /cookievalue/.test( results ), "tracking request contains custom variable" );
 			ok( /DeleteCustomVariableCookie/.test( results ), "tracking request deleting custom variable" );
 			ok( /DoTrack/.test( results ), "setDoNotTrack(false)" );
@@ -914,7 +914,7 @@ if ($sqlite) {
 			ok( /testgoal/.test( results ), "plugin hook goal" );
 
 			start();
-		}, 3000);
+		}, 4000);
 	});
 	';
 }
