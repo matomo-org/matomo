@@ -1286,22 +1286,33 @@ class Piwik_Tracker_Visit_Referer
 	{
 		if(isset($this->currentUrlParse['query']))
 		{
-			$campaignVariableName = Piwik_Tracker_Config::getInstance()->Tracker['campaign_var_name'];
-			$campaignName = Piwik_Common::getParameterFromQueryString($this->currentUrlParse['query'], $campaignVariableName);
-
-			if( !empty($campaignName))
+			$campaignParameters = Piwik_Common::getCampaignParameters();
+			
+			$campaignNames = $campaignParameters[0];
+			foreach($campaignNames as $campaignNameParameter)
 			{
-				$campaignKeywordVariableName = Piwik_Tracker_Config::getInstance()->Tracker['campaign_keyword_var_name'];
-				$campaignKeyword = Piwik_Common::getParameterFromQueryString($this->currentUrlParse['query'], $campaignKeywordVariableName);
-
+				$campaignName = Piwik_Common::getParameterFromQueryString($this->currentUrlParse['query'], $campaignNameParameter);
+				if( !empty($campaignName))
+				{
+					break;
+				}
+			}
+			
+			if(!empty($campaignName))
+			{
 				$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_CAMPAIGN;
 				$this->nameRefererAnalyzed = $campaignName;
 
-				if(!empty($campaignKeyword))
+				$campaignKeywords = $campaignParameters[1];
+				foreach($campaignKeywords as $campaignKeywordParameter)
 				{
-					$this->keywordRefererAnalyzed = $campaignKeyword;
+					$campaignKeyword = Piwik_Common::getParameterFromQueryString($this->currentUrlParse['query'], $campaignKeywordParameter);
+					if( !empty($campaignKeyword))
+					{
+						$this->keywordRefererAnalyzed = $campaignKeyword;
+						break;
+					}
 				}
-
 				return true;
 			}
 		}
