@@ -283,7 +283,7 @@ class Piwik_VisitorGenerator_Generator
 		
 		// we get the variables name for the campaign parameters
 		$campaigns = array(
-						Piwik_Tracker_Config::getInstance()->Tracker['campaign_var_name']
+						'piwik_campaign'
 		);
 		// we generate a campaign in the URL in 3/18 % of the generated URls
 		$this->addParam('piwik_vars_campaign', $campaigns);
@@ -424,11 +424,10 @@ class Piwik_VisitorGenerator_Generator
 			$url .= '?'. $urlVars . '=' . $urlValue;
 			
 			// for a campaign of the CPC kind, we sometimes generate a keyword 
-			if($urlVars == Piwik_Tracker_Config::getInstance()->Tracker['campaign_var_name']
+			if($urlVars == 'piwik_campaign'
 				&& mt_rand(0,1)==0)
 			{
-				$url .= '&'. Piwik_Tracker_Config::getInstance()->Tracker['campaign_keyword_var_name'] 
-							. '=' . $this->getRandomString(6,3,'ALL');;
+				$url .= '&piwik_campaign=' . $this->getRandomString(6,3,'ALL');;
 			}
 		}
 		else

@@ -134,9 +134,12 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		{
 			return $originalUrl;
 		}
-		$campaignTrackingParameters = array(
-				Piwik_Tracker_Config::getInstance()->Tracker['campaign_var_name'],
-				Piwik_Tracker_Config::getInstance()->Tracker['campaign_keyword_var_name']);
+		$campaignTrackingParameters = Piwik_Common::getCampaignParameters();
+		
+		$campaignTrackingParameters = array_merge(
+				$campaignTrackingParameters[0], // campaign name parameters
+				$campaignTrackingParameters[1] // campaign keyword parameters
+		);	
 				
 		$excludedParameters = isset($website['excluded_parameters']) 
 									? $website['excluded_parameters'] 

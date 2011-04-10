@@ -36,10 +36,8 @@ class Test_Piwik_TrackerAction extends  Test_Database
 	
 	protected function getTestUrls()
 	{
-		$campaignNameParam = Piwik_Tracker_Config::getInstance()->Tracker['campaign_var_name'];
-		$campaignKwdParam = Piwik_Tracker_Config::getInstance()->Tracker['campaign_keyword_var_name'];
-		$this->assertTrue(!empty($campaignNameParam));
-		$this->assertTrue(!empty($campaignKwdParam));
+		$campaignNameParam = 'piwik_campaign';
+		$campaignKwdParam = 'piwik_kwd';
 		
 		$urls = array(
 			// a wrongly formatted url (parse_url returns false)
@@ -50,6 +48,9 @@ class Test_Piwik_TrackerAction extends  Test_Database
 			
 			// a standard url with excluded campaign parameters
 			'http://a.com/index?p1=v1&'.$campaignNameParam.'=Adwords-CPC&'.$campaignKwdParam.'=My killer keyword',
+
+			// a standard url with excluded campaign parameters, GA style
+			'http://a.com/index?p1=v1&utm_campaign=Adwords-CPC&utm_term=My killer keyword',
 		
 			// testing with capital parameter
 			'http://a.com/index?p1=v1&P2=v2&p3=v3',
@@ -77,6 +78,7 @@ class Test_Piwik_TrackerAction extends  Test_Database
 		$expectedUrls = array(
 			'http:////wrongurl',
 			'http://username:password@hostname:80/path#anchor',
+			'http://a.com/index?p1=v1',
 			'http://a.com/index?p1=v1',
 			'http://a.com/index?p1=v1&P2=v2&p3=v3',
 			'http://a.com/index?p1=v1&p2[]=v2a&p2[]=v2b&p2[]=v2c&p3=v3&p4=v4',
@@ -110,6 +112,7 @@ class Test_Piwik_TrackerAction extends  Test_Database
 			'http:////wrongurl',
 			'http://username:password@hostname:80/path#anchor',
 			'http://a.com/index?p1=v1',
+			'http://a.com/index?p1=v1',
 			'http://a.com/index?p1=v1&p3=v3',
 			'http://a.com/index?p1=v1&p3=v3',
 			'http://a.com/index?p1=v1&p3=v3',
@@ -138,6 +141,7 @@ class Test_Piwik_TrackerAction extends  Test_Database
 		$expectedUrls = array(
 			'http:////wrongurl',
 			'http://username:password@hostname:80/path#anchor',
+			'http://a.com/index?p1=v1',
 			'http://a.com/index?p1=v1',
 			'http://a.com/index?p1=v1&p3=v3',
 			'http://a.com/index?p1=v1&p3=v3',

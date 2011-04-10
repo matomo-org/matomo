@@ -394,7 +394,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // Used to test actual referer + keyword position in Live!
         $visitorA->setUrlReferrer(urldecode('http://www.google.com/url?sa=t&source=web&cd=1&ved=0CB4QFjAA&url=http%3A%2F%2Fpiwik.org%2F&rct=j&q=this%20keyword%20should%20be%20ranked&ei=V8WfTePkKKLfiALrpZWGAw&usg=AFQjCNF_MGJRqKPvaKuUokHtZ3VvNG9ALw&sig2=BvKAdCtNixsmfNWXjsNyMw'));
         
-        // no campaign, but a search engine to attribute the goal conversion to
+        // no campaign, but a search engine to attribute the goal conversion _to
         $attribution = array(
         	'',
         	'',
@@ -678,9 +678,12 @@ class Test_Piwik_Integration_Main extends Test_Integration
         );
 	}
 	
-	function test_PiwikTracker_trackForceUsingVisitId_insteadOfHeuristics()
+	function test_PiwikTracker_trackForceUsingVisitId_insteadOfHeuristics_alsoTestsCampaignTracking()
 	{
-		$this->setApiToCall( 'VisitsSummary.get' );
+		$this->setApiToCall( array(
+				'VisitsSummary.get', 
+				'Referers.getCampaigns'
+		));
 		$dateTime = '2009-01-04 00:11:42';
 		$idSite = $this->createWebsite($dateTime);
         $idGoal = Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');
@@ -688,7 +691,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
 
         // Record 1st page view
-        $t->setUrl( 'http://example.org/index.htm' );
+        $t->setUrl( 'http://example.org/index.htm?utm_campaign=GA Campaign&piwik_kwd=Piwik kwd&utm_term=GA keyword SHOULD NOT DISPLAY' );
         $this->checkResponse($t->doTrackPageView( 'incredible title!'));
         
         $visitorId = $t->getVisitorId();
