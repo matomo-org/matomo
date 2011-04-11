@@ -365,6 +365,8 @@ abstract class Test_Integration extends Test_Database
 		
 			// do not show the millisec timer in response or tests would always fail as value is changing
 			'showTimer'     => 0,
+		
+			'language' => $language ? $language : 'en',
 		);
 		if(!empty($visitorId ))
 		{
