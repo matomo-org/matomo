@@ -74,7 +74,12 @@ class Piwik_UserSettings extends Piwik_Plugin
 				'config_browser_version',
 				'1.0, 8.0, etc.',),
 		
-		
+		array( 'UserSettings_VisitorSettings', 
+				'UserSettings_WidgetBrowserFamilies', 
+				'UserSettings', 
+				'getBrowserType', 
+				'UserSettings_ColumnBrowserFamily'),
+
 		array( 	'UserSettings_VisitorSettings', 
     			'UserSettings_WidgetPlugins', 
     			'UserSettings', 
@@ -86,12 +91,6 @@ class Piwik_UserSettings extends Piwik_Plugin
 				'UserSettings', 
 				'getWideScreen', 
 				'UserSettings_ColumnTypeOfScreen'),
-		
-		array( 'UserSettings_VisitorSettings', 
-				'UserSettings_WidgetBrowserFamilies', 
-				'UserSettings', 
-				'getBrowserType', 
-				'UserSettings_ColumnBrowserFamily'),
 		
 		array( 'UserSettings_VisitorSettings', 
 				'UserSettings_WidgetOperatingSystems', 
@@ -134,6 +133,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 	{
 		$reports = &$notification->getNotificationObject();
 		
+		$i = 0;
 		foreach($this->reportMetadata as $report)
 		{
 			list( $category, $name, $apiModule, $apiAction, $columnName ) = $report;
@@ -145,6 +145,7 @@ class Piwik_UserSettings extends Piwik_Plugin
     			'module' => $apiModule,
     			'action' => $apiAction,
     			'dimension' => Piwik_Translate($columnName),
+    			'order' => $i++,
     		);
     		
     		// getPlugin returns only a subset of metrics

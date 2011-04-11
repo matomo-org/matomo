@@ -66,6 +66,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
         			'module' => 'CustomVariables',
         			'action' => 'getCustomVariables',
         			'dimension' => Piwik_Translate('CustomVariables_ColumnCustomVariableName'),
+        			'order' => 10
         		),
     	));
 	}

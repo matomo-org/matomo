@@ -60,7 +60,8 @@ class Piwik_Referers extends Piwik_Plugin
         			'name'   => Piwik_Translate('Referers_Type'),
         			'module' => 'Referers',
         			'action' => 'getRefererType',
-        			'dimension' => Piwik_Translate('Referers_ColumnRefererType')
+        			'dimension' => Piwik_Translate('Referers_ColumnRefererType'),
+        			'order' => 1,
         		),
         		array(
         			'category' => Piwik_Translate('Referers_Referers'),
@@ -68,6 +69,7 @@ class Piwik_Referers extends Piwik_Plugin
         			'module' => 'Referers',
         			'action' => 'getKeywords',
         			'dimension' => Piwik_Translate('Referers_ColumnKeyword'),
+        			'order' => 3,
         		),
         		array(
         			'category'  => Piwik_Translate('Referers_Referers'),
@@ -75,6 +77,7 @@ class Piwik_Referers extends Piwik_Plugin
         			'module' => 'Referers',
         			'action' => 'getWebsites',
         			'dimension' => Piwik_Translate('Referers_ColumnWebsite'),
+        			'order' => 5,
         		),
         		array(
         			'category'  => Piwik_Translate('Referers_Referers'),
@@ -82,6 +85,7 @@ class Piwik_Referers extends Piwik_Plugin
         			'module' => 'Referers',
         			'action' => 'getSearchEngines',
         			'dimension' => Piwik_Translate('Referers_ColumnSearchEngine'),
+        			'order' => 7,
         		),
         		array(
         			'category'  => Piwik_Translate('Referers_Referers'),
@@ -89,6 +93,7 @@ class Piwik_Referers extends Piwik_Plugin
         			'module' => 'Referers',
         			'action' => 'getCampaigns',
         			'dimension' => Piwik_Translate('Referers_ColumnCampaign'),
+        			'order' => 9,
         		),
     	));
 	}

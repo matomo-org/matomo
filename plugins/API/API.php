@@ -253,6 +253,9 @@ class Piwik_API_API
 		// Some plugins need to add custom metrics after all plugins hooked in
 		Piwik_PostEvent('API.getReportMetadata.end', $availableReports, $idSites);
 		
+		// Sort results to ensure consistent order
+		usort($availableReports, array($this, 'sort'));
+
 		$knownMetrics = array_merge( $this->getDefaultMetrics(), $this->getDefaultProcessedMetrics() );
 		foreach($availableReports as &$availableReport)
 		{
@@ -293,9 +296,11 @@ class Piwik_API_API
 				}
 			}
 			$availableReport['uniqueId'] = $uniqueId;
+			
+			// Order is used to order reports internally, but not meant to be used outside
+			unset($availableReport['order']);
 		}
-		// Sort results to ensure consistent order
-		usort($availableReports, array($this, 'sort'));
+		
 		return $availableReports;
 	}
 
@@ -509,15 +514,25 @@ class Piwik_API_API
     }
 
 	/**
-	 * API metadata are sorted by category/name
+	 * API metadata are sorted by category/name, 
+	 * with a little tweak to replicate the standard Piwik category ordering
+	 * 
 	 * @param string $a
 	 * @param string $b
 	 * @return int
 	 */
 	private function sort($a, $b)
 	{
-		return ($category = strcmp($a['category'], $b['category'])) != 0 	
-				? $category
-				: strcmp($a['action'], $b['action']);
+		$order = array(
+			Piwik_Translate('VisitsSummary_VisitsSummary'),
+			Piwik_Translate('Actions_Actions'),
+			Piwik_Translate('Referers_Referers'),
+			Piwik_Translate('Goals_Goals'),
+			Piwik_Translate('General_Visitors'),
+			Piwik_Translate('UserSettings_VisitorSettings'),
+		);
+		return ($category = strcmp(array_search($a['category'], $order), array_search($b['category'], $order))) == 0 	
+				?  ($a['order'] < $b['order'] ? -1 : 1)
+				: $category;
 	}
 }

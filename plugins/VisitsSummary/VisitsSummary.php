@@ -61,6 +61,7 @@ class Piwik_VisitsSummary extends Piwik_Plugin
 //								'nb_visits_converted',
 			),
 			'processedMetrics' => false,
+			'order' => 1
 		);
 	}
 	

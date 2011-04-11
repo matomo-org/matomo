@@ -78,6 +78,7 @@ class Piwik_Goals extends Piwik_Plugin
 			'action' => 'get',
 			'metrics' => $goalMetrics,
 			'processedMetrics' => array(),
+        	'order' => 1 
 		);
 		
 		/* 
@@ -119,6 +120,7 @@ class Piwik_Goals extends Piwik_Plugin
 					'parameters' => array('idGoal' => $goal['idgoal']),
 					'metrics' => $goalMetrics,
 					'processedMetrics' => false,
+        			'order' => 10 + $goal['idgoal']
 				);
 			}
 		}

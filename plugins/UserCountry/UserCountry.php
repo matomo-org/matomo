@@ -83,7 +83,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 			'module' => 'UserCountry',
 			'action' => 'getCountry',
 			'dimension' => Piwik_Translate('UserCountry_Country'),
-		    ''
+        	'order' => 5,
 		);
 		
 		$reports[] = array(
@@ -92,6 +92,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 			'module' => 'UserCountry',
 			'action' => 'getContinent',
         	'dimension' => Piwik_Translate('UserCountry_Continent'),
+        	'order' => 6,
 		);
 	}
 	
