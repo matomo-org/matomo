@@ -1,6 +1,6 @@
 <!--
 PIE: CSS3 rendering for IE
-Version 1.0beta3
+Version 1.0beta4
 http://css3pie.com
 Dual-licensed for use under the Apache License Version 2.0 or the General Public License (GPL) Version 2.
 -->
@@ -52,86 +52,101 @@ if( !PIE ) {
     }
 
     // Detect IE8
-    PIE.ie8DocMode = PIE.ieVersion === 8 && doc.documentMode;
+    PIE.ieDocMode = doc.documentMode || PIE.ieVersion;
 /**
  * Utility functions
  */
-PIE.Util = {
-
-    /**
-     * To create a VML element, it must be created by a Document which has the VML
-     * namespace set. Unfortunately, if you try to add the namespace programatically
-     * into the main document, you will get an "Unspecified error" when trying to
-     * access document.namespaces before the document is finished loading. To get
-     * around this, we create a DocumentFragment, which in IE land is apparently a
-     * full-fledged Document. It allows adding namespaces immediately, so we add the
-     * namespace there and then have it create the VML element.
-     * @param {string} tag The tag name for the VML element
-     * @return {Element} The new VML element
-     */
-    createVmlElement: function( tag ) {
-        var vmlPrefix = 'css3vml',
-            vmlDoc = PIE._vmlCreatorDoc;
-        if( !vmlDoc ) {
-            vmlDoc = PIE._vmlCreatorDoc = doc.createDocumentFragment();
-            vmlDoc.namespaces.add( vmlPrefix, 'urn:schemas-microsoft-com:vml' );
-        }
-        return vmlDoc.createElement( vmlPrefix + ':' + tag );
-    },
+(function() {
+    var vmlCreatorDoc,
+        idNum = 0,
+        imageSizes = {};
 
 
-    /**
-     * Generate and return a unique ID for a given object. The generated ID is stored
-     * as a property of the object for future reuse.
-     * @param {Object} obj
-     */
-    getUID: function( obj ) {
-        return obj && obj[ '_pieId' ] || ( obj[ '_pieId' ] = +new Date() + Math.random() );
-    },
+    PIE.Util = {
+
+        /**
+         * To create a VML element, it must be created by a Document which has the VML
+         * namespace set. Unfortunately, if you try to add the namespace programatically
+         * into the main document, you will get an "Unspecified error" when trying to
+         * access document.namespaces before the document is finished loading. To get
+         * around this, we create a DocumentFragment, which in IE land is apparently a
+         * full-fledged Document. It allows adding namespaces immediately, so we add the
+         * namespace there and then have it create the VML element.
+         * @param {string} tag The tag name for the VML element
+         * @return {Element} The new VML element
+         */
+        createVmlElement: function( tag ) {
+            var vmlPrefix = 'css3vml';
+            if( !vmlCreatorDoc ) {
+                vmlCreatorDoc = doc.createDocumentFragment();
+                vmlCreatorDoc.namespaces.add( vmlPrefix, 'urn:schemas-microsoft-com:vml' );
+            }
+            return vmlCreatorDoc.createElement( vmlPrefix + ':' + tag );
+        },
 
 
-    /**
-     * Simple utility for merging objects
-     * @param {Object} obj1 The main object into which all others will be merged
-     * @param {...Object} var_args Other objects which will be merged into the first, in order
-     */
-    merge: function( obj1 ) {
-        var i, len, p, objN, args = arguments;
-        for( i = 1, len = args.length; i < len; i++ ) {
-            objN = args[i];
-            for( p in objN ) {
-                if( objN.hasOwnProperty( p ) ) {
-                    obj1[ p ] = objN[ p ];
+        /**
+         * Generate and return a unique ID for a given object. The generated ID is stored
+         * as a property of the object for future reuse.
+         * @param {Object} obj
+         */
+        getUID: function( obj ) {
+            return obj && obj[ '_pieId' ] || ( obj[ '_pieId' ] = ++idNum );
+        },
+
+
+        /**
+         * Simple utility for merging objects
+         * @param {Object} obj1 The main object into which all others will be merged
+         * @param {...Object} var_args Other objects which will be merged into the first, in order
+         */
+        merge: function( obj1 ) {
+            var i, len, p, objN, args = arguments;
+            for( i = 1, len = args.length; i < len; i++ ) {
+                objN = args[i];
+                for( p in objN ) {
+                    if( objN.hasOwnProperty( p ) ) {
+                        obj1[ p ] = objN[ p ];
+                    }
                 }
             }
-        }
-        return obj1;
-    },
+            return obj1;
+        },
 
 
-    /**
-     * Execute a callback function, passing it the dimensions of a given image once
-     * they are known.
-     * @param {string} src The source URL of the image
-     * @param {function({w:number, h:number})} func The callback function to be called once the image dimensions are known
-     * @param {Object} ctx A context object which will be used as the 'this' value within the executed callback function
-     */
-    withImageSize: function( src, func, ctx ) {
-        var sizes = PIE._imgSizes || ( PIE._imgSizes = {} ),
-            size = sizes[ src ], img;
-        if( size ) {
-            func.call( ctx, size );
-        } else {
-            img = new Image();
-            img.onload = function() {
-                size = sizes[ src ] = { w: img.width, h: img.height };
-                func.call( ctx, size );
-                img.onload = null;
-            };
-            img.src = src;
+        /**
+         * Execute a callback function, passing it the dimensions of a given image once
+         * they are known.
+         * @param {string} src The source URL of the image
+         * @param {function({w:number, h:number})} func The callback function to be called once the image dimensions are known
+         * @param {Object} ctx A context object which will be used as the 'this' value within the executed callback function
+         */
+        withImageSize: function( src, func, ctx ) {
+            var size = imageSizes[ src ], img, queue;
+            if( size ) {
+                // If we have a queue, add to it
+                if( Object.prototype.toString.call( size ) === '[object Array]' ) {
+                    size.push( [ func, ctx ] );
+                }
+                // Already have the size cached, call func right away
+                else {
+                    func.call( ctx, size );
+                }
+            } else {
+                queue = imageSizes[ src ] = [ [ func, ctx ] ]; //create queue
+                img = new Image();
+                img.onload = function() {
+                    size = imageSizes[ src ] = { w: img.width, h: img.height };
+                    for( var i = 0, len = queue.length; i < len; i++ ) {
+                        queue[ i ][ 0 ].call( queue[ i ][ 1 ], size );
+                    }
+                    img.onload = null;
+                };
+                img.src = src;
+            }
         }
-    }
-};/**
+    };
+})();/**
  * 
  */
 PIE.Observable = function() {
@@ -175,15 +190,21 @@ PIE.Observable.prototype = {
     }
 
 };/*
- * Set up polling for IE8 - this is a brute-force workaround for syncing issues caused by IE8 not
+ * Simple heartbeat timer - this is a brute-force workaround for syncing issues caused by IE not
  * always firing the onmove and onresize events when elements are moved or resized. We check a few
- * times every second to make sure the elements have the correct position and size.
+ * times every second to make sure the elements have the correct position and size. See Element.js
+ * which adds heartbeat listeners based on the custom -pie-poll flag, which defaults to true in IE8
+ * and false elsewhere.
  */
 
-if( PIE.ie8DocMode === 8 ) {
-    PIE.Heartbeat = new PIE.Observable();
-    setInterval( function() { PIE.Heartbeat.fire() }, 250 );
-}
+PIE.Heartbeat = new PIE.Observable();
+PIE.Heartbeat.run = function() {
+    var me = this;
+    if( !me.running ) {
+        setInterval( function() { me.fire() }, 250 );
+        me.running = 1;
+    }
+};
 /**
  * Create an observable listener for the onbeforeunload event
  */
@@ -250,25 +271,35 @@ PIE.OnBeforeUnload.attachManagedEvent = function( target, name, handler ) {
     PIE.OnBeforeUnload.attachManagedEvent( window, 'onafterprint', afterPrint );
 
 })();/**
- * Wrapper for length and percentage style values
+ * Wrapper for length and percentage style values. The value is immutable. A singleton instance per unique
+ * value is returned from PIE.getLength() - always use that instead of instantiating directly.
  * @constructor
  * @param {string} val The CSS string representing the length. It is assumed that this will already have
  *                 been validated as a valid length or percentage syntax.
  */
 PIE.Length = (function() {
-
     var lengthCalcEl = doc.createElement( 'length-calc' ),
+        parent = doc.documentElement,
         s = lengthCalcEl.style,
-        numCache = {},
-        unitCache = {};
+        conversions = {},
+        units = [ 'mm', 'cm', 'in', 'pt', 'pc' ],
+        i = units.length,
+        instances = {};
+
     s.position = 'absolute';
-    s.top = s.left = -9999;
+    s.top = s.left = '-9999px';
+
+    parent.appendChild( lengthCalcEl );
+    while( i-- ) {
+        lengthCalcEl.style.width = '100' + units[i];
+        conversions[ units[i] ] = lengthCalcEl.offsetWidth / 100;
+    }
+    parent.removeChild( lengthCalcEl );
 
 
     function Length( val ) {
         this.val = val;
     }
-
     Length.prototype = {
         /**
          * Regular expression for matching the length unit
@@ -281,10 +312,10 @@ PIE.Length = (function() {
          * @return {number} The value
          */
         getNumber: function() {
-            var num = numCache[ this.val ],
+            var num = this.num,
                 UNDEF;
             if( num === UNDEF ) {
-                num = numCache[ this.val ] = parseFloat( this.val );
+                num = this.num = parseFloat( this.val );
             }
             return num;
         },
@@ -294,10 +325,11 @@ PIE.Length = (function() {
          * @return {string} The unit
          */
         getUnit: function() {
-            var unit = unitCache[ this.val ], m;
+            var unit = this.unit,
+                m;
             if( !unit ) {
                 m = this.val.match( this.unitRE );
-                unit = unitCache[ this.val ] = ( m && m[0] ) || 'px';
+                unit = this.unit = ( m && m[0] ) || 'px';
             }
             return unit;
         },
@@ -329,7 +361,7 @@ PIE.Length = (function() {
                 case "ex":
                     return num * this.getEmPixels( el ) / 2;
                 default:
-                    return num * Length.conversions[ unit ];
+                    return num * conversions[ unit ];
             }
         },
 
@@ -352,7 +384,7 @@ PIE.Length = (function() {
                 lengthCalcEl.style.width = '1em';
                 el.appendChild( lengthCalcEl );
                 px = lengthCalcEl.offsetWidth;
-                if( lengthCalcEl.parentNode !== el ) { //not sure how this happens but it does
+                if( lengthCalcEl.parentNode === el ) { //not sure how this could be false but it sometimes is
                     el.removeChild( lengthCalcEl );
                 }
                 return px;
@@ -360,23 +392,15 @@ PIE.Length = (function() {
         }
     };
 
-    Length.conversions = (function() {
-        var units = [ 'mm', 'cm', 'in', 'pt', 'pc' ],
-            vals = {},
-            parent = doc.documentElement,
-            i = units.length, unit;
 
-        parent.appendChild( lengthCalcEl );
-        while( i-- ) {
-            unit = units[i];
-            lengthCalcEl.style.width = '100' + unit;
-            vals[ unit ] = lengthCalcEl.offsetWidth / 100;
-        }
-        parent.removeChild( lengthCalcEl );
-        return vals;
-    })();
-
-    Length.ZERO = new Length( '0' );
+    /**
+     * Retrieve a PIE.Length instance for the given value. A shared singleton instance is returned for each unique value.
+     * @param {string} val The CSS string representing the length. It is assumed that this will already have
+     *                 been validated as a valid length or percentage syntax.
+     */
+    PIE.getLength = function( val ) {
+        return instances[ val ] || ( instances[ val ] = new Length( val ) );
+    };
 
     return Length;
 })();
@@ -387,7 +411,7 @@ PIE.Length = (function() {
  */
 PIE.BgPosition = (function() {
 
-    var length_fifty = new PIE.Length( '50%' ),
+    var length_fifty = PIE.getLength( '50%' ),
         vert_idents = { 'top': 1, 'center': 1, 'bottom': 1 },
         horiz_idents = { 'left': 1, 'center': 1, 'right': 1 };
 
@@ -408,8 +432,9 @@ PIE.BgPosition = (function() {
             if( !this._values ) {
                 var tokens = this.tokens,
                     len = tokens.length,
-                    identType = PIE.Tokenizer.Type,
-                    length_zero = PIE.Length.ZERO,
+                    Tokenizer = PIE.Tokenizer,
+                    identType = Tokenizer.Type,
+                    length_zero = PIE.getLength( '0' ),
                     type_ident = identType.IDENT,
                     type_length = identType.LENGTH,
                     type_percent = identType.PERCENT,
@@ -418,36 +443,36 @@ PIE.BgPosition = (function() {
 
                 // If only one value, the second is assumed to be 'center'
                 if( len === 1 ) {
-                    tokens.push( { type: type_ident, value: 'center' } );
+                    tokens.push( new Tokenizer.Token( type_ident, 'center' ) );
                     len++;
                 }
 
                 // Two values - CSS2
                 if( len === 2 ) {
                     // If both idents, they can appear in either order, so switch them if needed
-                    if( type_ident & ( tokens[0].type | tokens[1].type ) &&
-                        tokens[0].value in vert_idents && tokens[1].value in horiz_idents ) {
+                    if( type_ident & ( tokens[0].tokenType | tokens[1].tokenType ) &&
+                        tokens[0].tokenValue in vert_idents && tokens[1].tokenValue in horiz_idents ) {
                         tokens.push( tokens.shift() );
                     }
-                    if( tokens[0].type & type_ident ) {
-                        if( tokens[0].value === 'center' ) {
+                    if( tokens[0].tokenType & type_ident ) {
+                        if( tokens[0].tokenValue === 'center' ) {
                             vals[1] = length_fifty;
                         } else {
-                            vals[0] = tokens[0].value;
+                            vals[0] = tokens[0].tokenValue;
                         }
                     }
                     else if( tokens[0].isLengthOrPercent() ) {
-                        vals[1] = new PIE.Length( tokens[0].value );
+                        vals[1] = PIE.getLength( tokens[0].tokenValue );
                     }
-                    if( tokens[1].type & type_ident ) {
-                        if( tokens[1].value === 'center' ) {
+                    if( tokens[1].tokenType & type_ident ) {
+                        if( tokens[1].tokenValue === 'center' ) {
                             vals[3] = length_fifty;
                         } else {
-                            vals[2] = tokens[1].value;
+                            vals[2] = tokens[1].tokenValue;
                         }
                     }
                     else if( tokens[1].isLengthOrPercent() ) {
-                        vals[3] = new PIE.Length( tokens[1].value );
+                        vals[3] = PIE.getLength( tokens[1].tokenValue );
                     }
                 }
 
@@ -519,11 +544,14 @@ PIE.Angle = (function() {
 
     return Angle;
 })();/**
- * Abstraction for colors values. Allows detection of rgba values.
+ * Abstraction for colors values. Allows detection of rgba values. A singleton instance per unique
+ * value is returned from PIE.getColor() - always use that instead of instantiating directly.
  * @constructor
  * @param {string} val The raw CSS string value for the color
  */
 PIE.Color = (function() {
+    var instances = {};
+
     function Color( val ) {
         this.val = val;
     }
@@ -534,20 +562,76 @@ PIE.Color = (function() {
      */
     Color.rgbaRE = /\s*rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d+|\d*\.\d+)\s*\)\s*/;
 
+    Color.names = {
+        "aliceblue":"F0F8FF", "antiquewhite":"FAEBD7", "aqua":"0FF",
+        "aquamarine":"7FFFD4", "azure":"F0FFFF", "beige":"F5F5DC",
+        "bisque":"FFE4C4", "black":"000", "blanchedalmond":"FFEBCD",
+        "blue":"00F", "blueviolet":"8A2BE2", "brown":"A52A2A",
+        "burlywood":"DEB887", "cadetblue":"5F9EA0", "chartreuse":"7FFF00",
+        "chocolate":"D2691E", "coral":"FF7F50", "cornflowerblue":"6495ED",
+        "cornsilk":"FFF8DC", "crimson":"DC143C", "cyan":"0FF",
+        "darkblue":"00008B", "darkcyan":"008B8B", "darkgoldenrod":"B8860B",
+        "darkgray":"A9A9A9", "darkgreen":"006400", "darkkhaki":"BDB76B",
+        "darkmagenta":"8B008B", "darkolivegreen":"556B2F", "darkorange":"FF8C00",
+        "darkorchid":"9932CC", "darkred":"8B0000", "darksalmon":"E9967A",
+        "darkseagreen":"8FBC8F", "darkslateblue":"483D8B", "darkslategray":"2F4F4F",
+        "darkturquoise":"00CED1", "darkviolet":"9400D3", "deeppink":"FF1493",
+        "deepskyblue":"00BFFF", "dimgray":"696969", "dodgerblue":"1E90FF",
+        "firebrick":"B22222", "floralwhite":"FFFAF0", "forestgreen":"228B22",
+        "fuchsia":"F0F", "gainsboro":"DCDCDC", "ghostwhite":"F8F8FF",
+        "gold":"FFD700", "goldenrod":"DAA520", "gray":"808080",
+        "green":"008000", "greenyellow":"ADFF2F", "honeydew":"F0FFF0",
+        "hotpink":"FF69B4", "indianred":"CD5C5C", "indigo":"4B0082",
+        "ivory":"FFFFF0", "khaki":"F0E68C", "lavender":"E6E6FA",
+        "lavenderblush":"FFF0F5", "lawngreen":"7CFC00", "lemonchiffon":"FFFACD",
+        "lightblue":"ADD8E6", "lightcoral":"F08080", "lightcyan":"E0FFFF",
+        "lightgoldenrodyellow":"FAFAD2", "lightgreen":"90EE90", "lightgrey":"D3D3D3",
+        "lightpink":"FFB6C1", "lightsalmon":"FFA07A", "lightseagreen":"20B2AA",
+        "lightskyblue":"87CEFA", "lightslategray":"789", "lightsteelblue":"B0C4DE",
+        "lightyellow":"FFFFE0", "lime":"0F0", "limegreen":"32CD32",
+        "linen":"FAF0E6", "magenta":"F0F", "maroon":"800000",
+        "mediumauqamarine":"66CDAA", "mediumblue":"0000CD", "mediumorchid":"BA55D3",
+        "mediumpurple":"9370D8", "mediumseagreen":"3CB371", "mediumslateblue":"7B68EE",
+        "mediumspringgreen":"00FA9A", "mediumturquoise":"48D1CC", "mediumvioletred":"C71585",
+        "midnightblue":"191970", "mintcream":"F5FFFA", "mistyrose":"FFE4E1",
+        "moccasin":"FFE4B5", "navajowhite":"FFDEAD", "navy":"000080",
+        "oldlace":"FDF5E6", "olive":"808000", "olivedrab":"688E23",
+        "orange":"FFA500", "orangered":"FF4500", "orchid":"DA70D6",
+        "palegoldenrod":"EEE8AA", "palegreen":"98FB98", "paleturquoise":"AFEEEE",
+        "palevioletred":"D87093", "papayawhip":"FFEFD5", "peachpuff":"FFDAB9",
+        "peru":"CD853F", "pink":"FFC0CB", "plum":"DDA0DD",
+        "powderblue":"B0E0E6", "purple":"800080", "red":"F00",
+        "rosybrown":"BC8F8F", "royalblue":"4169E1", "saddlebrown":"8B4513",
+        "salmon":"FA8072", "sandybrown":"F4A460", "seagreen":"2E8B57",
+        "seashell":"FFF5EE", "sienna":"A0522D", "silver":"C0C0C0",
+        "skyblue":"87CEEB", "slateblue":"6A5ACD", "slategray":"708090",
+        "snow":"FFFAFA", "springgreen":"00FF7F", "steelblue":"4682B4",
+        "tan":"D2B48C", "teal":"008080", "thistle":"D8BFD8",
+        "tomato":"FF6347", "turquoise":"40E0D0", "violet":"EE82EE",
+        "wheat":"F5DEB3", "white":"FFF", "whitesmoke":"F5F5F5",
+        "yellow":"FF0", "yellowgreen":"9ACD32"
+    };
+
     Color.prototype = {
         /**
          * @private
          */
         parse: function() {
             if( !this._color ) {
-                var v = this.val,
+                var me = this,
+                    v = me.val,
+                    vLower,
                     m = v.match( Color.rgbaRE );
                 if( m ) {
-                    this._color = 'rgb(' + m[1] + ',' + m[2] + ',' + m[3] + ')';
-                    this._alpha = parseFloat( m[4] );
-                } else {
-                    this._color = v;
-                    this._alpha = ( v === 'transparent' ? 0 : 1 );
+                    me._color = 'rgb(' + m[1] + ',' + m[2] + ',' + m[3] + ')';
+                    me._alpha = parseFloat( m[4] );
+                }
+                else {
+                    if( ( vLower = v.toLowerCase() ) in Color.names ) {
+                        v = '#' + Color.names[vLower];
+                    }
+                    me._color = v;
+                    me._alpha = ( v === 'transparent' ? 0 : 1 );
                 }
             }
         },
@@ -558,7 +642,7 @@ PIE.Color = (function() {
          * @param {Element} el The context element, used to get 'currentColor' keyword value.
          * @return {string} Color value
          */
-        value: function( el ) {
+        colorValue: function( el ) {
             this.parse();
             return this._color === 'currentColor' ? el.currentStyle.color : this._color;
         },
@@ -572,6 +656,16 @@ PIE.Color = (function() {
             this.parse();
             return this._alpha;
         }
+    };
+
+
+    /**
+     * Retrieve a PIE.Color instance for the given value. A shared singleton instance is returned for each unique value.
+     * @param {string} val The CSS string representing the color. It is assumed that this will already have
+     *                 been validated as a valid color syntax.
+     */
+    PIE.getColor = function(val) {
+        return instances[ val ] || ( instances[ val ] = new Color( val ) );
     };
 
     return Color;
@@ -614,15 +708,15 @@ PIE.Tokenizer = (function() {
      * @param {string} value The value of the token
      */
     Tokenizer.Token = function( type, value ) {
-        this.type = type;
-        this.value = value;
+        this.tokenType = type;
+        this.tokenValue = value;
     };
     Tokenizer.Token.prototype = {
         isLength: function() {
-            return this.type & Type.LENGTH || ( this.type & Type.NUMBER && this.value === '0' );
+            return this.tokenType & Type.LENGTH || ( this.tokenType & Type.NUMBER && this.tokenValue === '0' );
         },
         isLengthOrPercent: function() {
-            return this.isLength() || this.type & Type.PERCENT;
+            return this.isLength() || this.tokenType & Type.PERCENT;
         }
     };
 
@@ -661,7 +755,7 @@ PIE.Tokenizer = (function() {
          * @return {PIE.Tokenizer.Token}
          */
         next: function( forget ) {
-            var css, ch, firstChar, match, type, val,
+            var css, ch, firstChar, match, val,
                 me = this;
 
             function newToken( type, value ) {
@@ -747,7 +841,7 @@ PIE.Tokenizer = (function() {
                 this.ch += val.length;
 
                 // Named colors
-                if( val.toLowerCase() in this.colorNames ) {
+                if( val.toLowerCase() in PIE.Color.names || val === 'currentColor' ) {
                     return newToken( Type.COLOR, val );
                 }
 
@@ -758,13 +852,13 @@ PIE.Tokenizer = (function() {
                     // Color values in function format: rgb, rgba, hsl, hsla
                     if( val.toLowerCase() in this.colorFunctions ) {
                         function isNum( tok ) {
-                            return tok && tok.type & Type.NUMBER;
+                            return tok && tok.tokenType & Type.NUMBER;
                         }
                         function isNumOrPct( tok ) {
-                            return tok && ( tok.type & ( Type.NUMBER | Type.PERCENT ) );
+                            return tok && ( tok.tokenType & ( Type.NUMBER | Type.PERCENT ) );
                         }
                         function isValue( tok, val ) {
-                            return tok && tok.value === val;
+                            return tok && tok.tokenValue === val;
                         }
                         function next() {
                             return me.next( 1 );
@@ -785,7 +879,7 @@ PIE.Tokenizer = (function() {
                         return failure();
                     }
 
-                    return newToken( Type.FUNCTION, val + '(' );
+                    return newToken( Type.FUNCTION, val );
                 }
 
                 // Other identifier
@@ -1023,19 +1117,19 @@ PIE.BackgroundStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
      * Format of return object:
      * {
      *     color: <PIE.Color>,
-     *     images: [
+     *     bgImages: [
      *         {
-     *             type: 'image',
-     *             url: 'image.png',
-     *             repeat: <'no-repeat' | 'repeat-x' | 'repeat-y' | 'repeat'>,
-     *             position: <PIE.BgPosition>,
+     *             imgType: 'image',
+     *             imgUrl: 'image.png',
+     *             imgRepeat: <'no-repeat' | 'repeat-x' | 'repeat-y' | 'repeat'>,
+     *             bgPosition: <PIE.BgPosition>,
      *             attachment: <'scroll' | 'fixed' | 'local'>,
-     *             origin: <'border-box' | 'padding-box' | 'content-box'>,
+     *             bgOrigin: <'border-box' | 'padding-box' | 'content-box'>,
      *             clip: <'border-box' | 'padding-box'>,
      *             size: <'contain' | 'cover' | { w: <'auto' | PIE.Length>, h: <'auto' | PIE.Length> }>
      *         },
      *         {
-     *             type: 'linear-gradient',
+     *             imgType: 'linear-gradient',
      *             gradientStart: <PIE.BgPosition>,
      *             angle: <PIE.Angle>,
      *             stops: [
@@ -1062,29 +1156,29 @@ PIE.BackgroundStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
             props = null;
 
         function isBgPosToken( token ) {
-            return token.isLengthOrPercent() || ( token.type & type_ident && token.value in positionIdents );
+            return token.isLengthOrPercent() || ( token.tokenType & type_ident && token.tokenValue in positionIdents );
         }
 
         function sizeToken( token ) {
-            return ( token.isLengthOrPercent() && new PIE.Length( token.value ) ) || ( token.value === 'auto' && 'auto' );
+            return ( token.isLengthOrPercent() && PIE.getLength( token.tokenValue ) ) || ( token.tokenValue === 'auto' && 'auto' );
         }
 
         // If the CSS3-specific -pie-background property is present, parse it
         if( this.getCss3() ) {
             tokenizer = new PIE.Tokenizer( css );
-            props = { images: [] };
+            props = { bgImages: [] };
             image = {};
 
             while( token = tokenizer.next() ) {
-                tokType = token.type;
-                tokVal = token.value;
+                tokType = token.tokenType;
+                tokVal = token.tokenValue;
 
-                if( !image.type && tokType & tok_type.FUNCTION && tokVal === 'linear-gradient(' ) {
-                    gradient = { stops: [], type: 'linear-gradient' };
+                if( !image.imgType && tokType & tok_type.FUNCTION && tokVal === 'linear-gradient' ) {
+                    gradient = { stops: [], imgType: tokVal };
                     stop = {};
                     while( token = tokenizer.next() ) {
-                        tokType = token.type;
-                        tokVal = token.value;
+                        tokType = token.tokenType;
+                        tokVal = token.tokenValue;
 
                         // If we reached the end of the function and had at least 2 stops, flush the info
                         if( tokType & tok_type.CHARACTER && tokVal === ')' ) {
@@ -1102,26 +1196,26 @@ PIE.BackgroundStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
                             // if we already have an angle/position, make sure that the previous token was a comma
                             if( gradient.angle || gradient.gradientStart ) {
                                 token = tokenizer.prev();
-                                if( token.type !== type_operator ) {
+                                if( token.tokenType !== type_operator ) {
                                     break; //fail
                                 }
                                 tokenizer.next();
                             }
 
                             stop = {
-                                color: new PIE.Color( tokVal )
+                                color: PIE.getColor( tokVal )
                             };
                             // check for offset following color
                             token = tokenizer.next();
                             if( token.isLengthOrPercent() ) {
-                                stop.offset = new PIE.Length( token.value );
+                                stop.offset = PIE.getLength( token.tokenValue );
                             } else {
                                 tokenizer.prev();
                             }
                         }
                         // Angle - can only appear in first spot
                         else if( tokType & tok_type.ANGLE && !gradient.angle && !stop.color && !gradient.stops.length ) {
-                            gradient.angle = new PIE.Angle( token.value );
+                            gradient.angle = new PIE.Angle( token.tokenValue );
                         }
                         else if( isBgPosToken( token ) && !gradient.gradientStart && !stop.color && !gradient.stops.length ) {
                             tokenizer.prev();
@@ -1143,13 +1237,13 @@ PIE.BackgroundStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
                         }
                     }
                 }
-                else if( !image.type && tokType & tok_type.URL ) {
-                    image.url = tokVal;
-                    image.type = 'image';
+                else if( !image.imgType && tokType & tok_type.URL ) {
+                    image.imgUrl = tokVal;
+                    image.imgType = 'image';
                 }
                 else if( isBgPosToken( token ) && !image.size ) {
                     tokenizer.prev();
-                    image.position = new PIE.BgPosition(
+                    image.bgPosition = new PIE.BgPosition(
                         tokenizer.until( function( t ) {
                             return !isBgPosToken( t );
                         }, false )
@@ -1157,10 +1251,10 @@ PIE.BackgroundStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
                 }
                 else if( tokType & type_ident ) {
                     if( tokVal in this.repeatIdents ) {
-                        image.repeat = tokVal;
+                        image.imgRepeat = tokVal;
                     }
                     else if( tokVal in this.originIdents ) {
-                        image.origin = tokVal;
+                        image.bgOrigin = tokVal;
                         if( tokVal in this.clipIdents ) {
                             image.clip = tokVal;
                         }
@@ -1170,14 +1264,14 @@ PIE.BackgroundStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
                     }
                 }
                 else if( tokType & type_color && !props.color ) {
-                    props.color = new PIE.Color( tokVal );
+                    props.color = PIE.getColor( tokVal );
                 }
                 else if( tokType & type_operator ) {
                     // background size
                     if( tokVal === '/' ) {
                         token = tokenizer.next();
-                        tokType = token.type;
-                        tokVal = token.value;
+                        tokType = token.tokenType;
+                        tokVal = token.tokenValue;
                         if( tokType & type_ident && tokVal in this.sizeIdents ) {
                             image.size = tokVal;
                         }
@@ -1189,8 +1283,8 @@ PIE.BackgroundStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
                         }
                     }
                     // new layer
-                    else if( tokVal === ',' && image.type ) {
-                        props.images.push( image );
+                    else if( tokVal === ',' && image.imgType ) {
+                        props.bgImages.push( image );
                         image = {};
                     }
                 }
@@ -1201,8 +1295,8 @@ PIE.BackgroundStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
             }
 
             // leftovers
-            if( image.type ) {
-                props.images.push( image );
+            if( image.imgType ) {
+                props.bgImages.push( image );
             }
         }
 
@@ -1216,20 +1310,20 @@ PIE.BackgroundStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
 
                 props = {};
                 if( color !== 'transparent' ) {
-                    props.color = new PIE.Color( color )
+                    props.color = PIE.getColor( color )
                 }
                 if( img !== 'none' ) {
-                    props.images = [ {
-                        type: 'image',
-                        url: new PIE.Tokenizer( img ).next().value,
-                        repeat: cs.backgroundRepeat,
-                        position: new PIE.BgPosition( new PIE.Tokenizer( posX + ' ' + posY ).all() )
+                    props.bgImages = [ {
+                        imgType: 'image',
+                        imgUrl: new PIE.Tokenizer( img ).next().tokenValue,
+                        imgRepeat: cs.backgroundRepeat,
+                        bgPosition: new PIE.BgPosition( new PIE.Tokenizer( posX + ' ' + posY ).all() )
                     } ];
                 }
             } );
         }
 
-        return ( props && ( props.color || ( props.images && props.images[0] ) ) ) ? props : null;
+        return ( props && ( props.color || ( props.bgImages && props.bgImages[0] ) ) ) ? props : null;
     },
 
     /**
@@ -1299,9 +1393,9 @@ PIE.BorderStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
 
     sides: [ 'Top', 'Right', 'Bottom', 'Left' ],
     namedWidths: {
-        thin: '1px',
-        medium: '3px',
-        thick: '5px'
+        'thin': '1px',
+        'medium': '3px',
+        'thick': '5px'
     },
 
     parseCss: function( css ) {
@@ -1335,9 +1429,9 @@ PIE.BorderStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
                 lastColor = color;
                 lastWidth = width;
 
-                c[ ltr ] = new PIE.Color( color );
+                c[ ltr ] = PIE.getColor( color );
 
-                width = w[ ltr ] = new PIE.Length( s[ ltr ] === 'none' ? '0' : ( this.namedWidths[ width ] || width ) );
+                width = w[ ltr ] = PIE.getLength( s[ ltr ] === 'none' ? '0' : ( this.namedWidths[ width ] || width ) );
                 if( width.pixels( this.targetElement ) > 0 ) {
                     active = true;
                 }
@@ -1408,17 +1502,13 @@ PIE.BorderRadiusStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
             tokenizer, token, length,
             hasNonZero = false;
 
-        function newLength( v ) {
-            return new PIE.Length( v );
-        }
-
         if( css ) {
             tokenizer = new PIE.Tokenizer( css );
 
             function collectLengths() {
                 var arr = [], num;
                 while( ( token = tokenizer.next() ) && token.isLengthOrPercent() ) {
-                    length = newLength( token.value );
+                    length = PIE.getLength( token.tokenValue );
                     num = length.getNumber();
                     if( num < 0 ) {
                         return null;
@@ -1440,7 +1530,7 @@ PIE.BorderRadiusStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
             if( x = collectLengths() ) {
                 // See if there is a slash followed by more lengths, for the y-axis radii
                 if( token ) {
-                    if( token.type & PIE.Tokenizer.Type.OPERATOR && token.value === '/' ) {
+                    if( token.tokenType & PIE.Tokenizer.Type.OPERATOR && token.tokenValue === '/' ) {
                         y = collectLengths();
                     }
                 } else {
@@ -1458,8 +1548,8 @@ PIE.BorderRadiusStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
     }
 } );
 
-var ZERO = PIE.Length.ZERO,
-    zeros = { 'tl': ZERO, 'tr': ZERO, 'br': ZERO, 'bl': ZERO };
+var zero = PIE.getLength( '0' ),
+    zeros = { 'tl': zero, 'tr': zero, 'br': zero, 'bl': zero };
 PIE.BorderRadiusStyleInfo.ALL_ZERO = { x: zeros, y: zeros };
 
 })();/**
@@ -1489,16 +1579,16 @@ PIE.BorderImageStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
             p = {};
 
             function isSlash( token ) {
-                return token && ( token.type & Type.OPERATOR ) && ( token.value === '/' );
+                return token && ( token.tokenType & Type.OPERATOR ) && ( token.tokenValue === '/' );
             }
 
             function isFillIdent( token ) {
-                return token && ( token.type & IDENT ) && ( token.value === 'fill' );
+                return token && ( token.tokenType & IDENT ) && ( token.tokenValue === 'fill' );
             }
 
             function collectSlicesEtc() {
                 slices = tokenizer.until( function( tok ) {
-                    return !( tok.type & ( NUMBER | PERCENT ) );
+                    return !( tok.tokenType & ( NUMBER | PERCENT ) );
                 } );
 
                 if( isFillIdent( tokenizer.next() ) && !p.fill ) {
@@ -1510,13 +1600,13 @@ PIE.BorderImageStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
                 if( isSlash( tokenizer.next() ) ) {
                     slashCount++;
                     widths = tokenizer.until( function( tok ) {
-                        return !( token.type & ( NUMBER | PERCENT | LENGTH ) ) && !( ( token.type & IDENT ) && token.value === 'auto' );
+                        return !( token.tokenType & ( NUMBER | PERCENT | LENGTH ) ) && !( ( token.tokenType & IDENT ) && token.tokenValue === 'auto' );
                     } );
 
                     if( isSlash( tokenizer.next() ) ) {
                         slashCount++;
                         outsets = tokenizer.until( function( tok ) {
-                            return !( token.type & ( NUMBER | LENGTH ) );
+                            return !( token.tokenType & ( NUMBER | LENGTH ) );
                         } );
                     }
                 } else {
@@ -1525,8 +1615,8 @@ PIE.BorderImageStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
             }
 
             while( token = tokenizer.next() ) {
-                type = token.type;
-                value = token.value;
+                type = token.tokenType;
+                value = token.tokenValue;
 
                 // Numbers and/or 'fill' keyword: slice values. May be followed optionally by width values, followed optionally by outset values
                 if( type & ( NUMBER | PERCENT ) && !slices ) {
@@ -1542,8 +1632,8 @@ PIE.BorderImageStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
                 else if( ( type & IDENT ) && this.repeatIdents[value] && !p.repeat ) {
                     p.repeat = { h: value };
                     if( token = tokenizer.next() ) {
-                        if( ( token.type & IDENT ) && this.repeatIdents[token.value] ) {
-                            p.repeat.v = token.value;
+                        if( ( token.tokenType & IDENT ) && this.repeatIdents[token.tokenValue] ) {
+                            p.repeat.v = token.tokenValue;
                         } else {
                             tokenizer.prev();
                         }
@@ -1586,22 +1676,22 @@ PIE.BorderImageStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
             }
 
             p.slice = distributeSides( slices, function( tok ) {
-                return new PIE.Length( ( tok.type & NUMBER ) ? tok.value + 'px' : tok.value );
+                return PIE.getLength( ( tok.tokenType & NUMBER ) ? tok.tokenValue + 'px' : tok.tokenValue );
             } );
 
             p.width = widths && widths.length > 0 ?
                     distributeSides( widths, function( tok ) {
-                        return tok.type & ( LENGTH | PERCENT ) ? new PIE.Length( tok.value ) : tok.value;
+                        return tok.tokenType & ( LENGTH | PERCENT ) ? PIE.getLength( tok.tokenValue ) : tok.tokenValue;
                     } ) :
                     ( cs = this.targetElement.currentStyle ) && {
-                        t: new PIE.Length( cs.borderTopWidth ),
-                        r: new PIE.Length( cs.borderRightWidth ),
-                        b: new PIE.Length( cs.borderBottomWidth ),
-                        l: new PIE.Length( cs.borderLeftWidth )
+                        t: PIE.getLength( cs.borderTopWidth ),
+                        r: PIE.getLength( cs.borderRightWidth ),
+                        b: PIE.getLength( cs.borderBottomWidth ),
+                        l: PIE.getLength( cs.borderLeftWidth )
                     };
 
             p.outset = distributeSides( outsets || [ 0 ], function( tok ) {
-                return tok.type & LENGTH ? new PIE.Length( tok.value ) : tok.value;
+                return tok.tokenType & LENGTH ? PIE.getLength( tok.tokenValue ) : tok.tokenValue;
             } );
         }
 
@@ -1619,7 +1709,7 @@ PIE.BoxShadowStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
 
     parseCss: function( css ) {
         var props,
-            Length = PIE.Length,
+            getLength = PIE.getLength,
             Type = PIE.Tokenizer.Type,
             tokenizer;
 
@@ -1631,8 +1721,8 @@ PIE.BoxShadowStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
                 var token, type, value, color, lengths, inset, len;
 
                 while( token = tokenizer.next() ) {
-                    value = token.value;
-                    type = token.type;
+                    value = token.tokenValue;
+                    type = token.tokenType;
 
                     if( type & Type.OPERATOR && value === ',' ) {
                         break;
@@ -1657,11 +1747,11 @@ PIE.BoxShadowStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
                 len = lengths && lengths.length;
                 if( len > 1 && len < 5 ) {
                     ( inset ? props.inset : props.outset ).push( {
-                        xOffset: new Length( lengths[0].value ),
-                        yOffset: new Length( lengths[1].value ),
-                        blur: new Length( lengths[2] ? lengths[2].value : '0' ),
-                        spread: new Length( lengths[3] ? lengths[3].value : '0' ),
-                        color: new PIE.Color( color || 'currentColor' )
+                        xOffset: getLength( lengths[0].tokenValue ),
+                        yOffset: getLength( lengths[1].tokenValue ),
+                        blur: getLength( lengths[2] ? lengths[2].tokenValue : '0' ),
+                        spread: getLength( lengths[3] ? lengths[3].tokenValue : '0' ),
+                        color: PIE.getColor( color || 'currentColor' )
                     } );
                     return true;
                 }
@@ -2104,6 +2194,7 @@ PIE.RootRenderer = PIE.RendererBase.newRenderer( {
         if( !box ) {
             el = this.getPositioningElement();
             box = this._box = doc.createElement( 'css3-container' );
+            box.style['direction'] = 'ltr'; //fix positioning bug in rtl environments
 
             this.updateVisibility();
 
@@ -2181,7 +2272,7 @@ PIE.BackgroundRenderer = PIE.RendererBase.newRenderer( {
             s = shape.style;
             s.width = w;
             s.height = h;
-            shape.fill.color = color.value( el );
+            shape.fill.color = color.colorValue( el );
 
             alpha = color.alpha();
             if( alpha < 1 ) {
@@ -2198,7 +2289,7 @@ PIE.BackgroundRenderer = PIE.RendererBase.newRenderer( {
     drawBgImages: function() {
         var props = this.styleInfos.backgroundInfo.getProps(),
             bounds = this.boundsInfo.getBounds(),
-            images = props && props.images,
+            images = props && props.bgImages,
             img, shape, w, h, s, i;
 
         if( images ) {
@@ -2222,11 +2313,11 @@ PIE.BackgroundRenderer = PIE.RendererBase.newRenderer( {
                 s.width = w;
                 s.height = h;
 
-                if( img.type === 'linear-gradient' ) {
+                if( img.imgType === 'linear-gradient' ) {
                     this.addLinearGradient( shape, img );
                 }
                 else {
-                    shape.fill.src = img.url;
+                    shape.fill.src = img.imgUrl;
                     this.positionBgImage( shape, i );
                 }
             }
@@ -2257,9 +2348,9 @@ PIE.BackgroundRenderer = PIE.RendererBase.newRenderer( {
                 bwR = bw ? bw['r'].pixels( el ) : 0,
                 bwB = bw ? bw['b'].pixels( el ) : 0,
                 bwL = bw ? bw['l'].pixels( el ) : 0,
-                bg = si.backgroundInfo.getProps().images[ index ],
-                bgPos = bg.position ? bg.position.coords( el, elW - size.w - bwL - bwR, elH - size.h - bwT - bwB ) : { x:0, y:0 },
-                repeat = bg.repeat,
+                bg = si.backgroundInfo.getProps().bgImages[ index ],
+                bgPos = bg.bgPosition ? bg.bgPosition.coords( el, elW - size.w - bwL - bwR, elH - size.h - bwT - bwB ) : { x:0, y:0 },
+                repeat = bg.imgRepeat,
                 pxX, pxY,
                 clipT = 0, clipL = 0,
                 clipR = elW + 1, clipB = elH + 1, //make sure the default clip region is not inside the box (by a subpixel)
@@ -2472,7 +2563,7 @@ PIE.BackgroundRenderer = PIE.RendererBase.newRenderer( {
         // Convert to percentage along the VML gradient line and add to the VML 'colors' value
         for( i = 0; i < stopCount; i++ ) {
             vmlColors.push(
-                ( vmlOffsetPct + ( stopPx[ i ] / vmlGradientLength * 100 ) ) + '% ' + stops[i].color.value( el )
+                ( vmlOffsetPct + ( stopPx[ i ] / vmlGradientLength * 100 ) ) + '% ' + stops[i].color.colorValue( el )
             );
         }
 
@@ -2481,8 +2572,8 @@ PIE.BackgroundRenderer = PIE.RendererBase.newRenderer( {
         fill['angle'] = vmlAngle;
         fill['type'] = 'gradient';
         fill['method'] = 'sigma';
-        fill['color'] = stops[0].color.value( el );
-        fill['color2'] = stops[stopCount - 1].color.value( el );
+        fill['color'] = stops[0].color.colorValue( el );
+        fill['color2'] = stops[stopCount - 1].color.colorValue( el );
         fill['colors'].value = vmlColors.join( ',' );
     },
 
@@ -2583,11 +2674,11 @@ PIE.BorderRenderer = PIE.RendererBase.newRenderer( {
                 if( seg.stroke ) {
                     stroke = shape.stroke;
                     stroke['weight'] = seg.weight + 'px';
-                    stroke.color = seg.color.value( el );
+                    stroke.color = seg.color.colorValue( el );
                     stroke['dashstyle'] = seg.stroke === 'dashed' ? '2 2' : seg.stroke === 'dotted' ? '1 1' : 'solid';
                     stroke['linestyle'] = seg.stroke === 'double' && seg.weight > 2 ? 'ThinThin' : 'Single';
                 } else {
-                    shape.fill.color = seg.fill.value( el );
+                    shape.fill.color = seg.fill.colorValue( el );
                 }
             }
 
@@ -2617,8 +2708,8 @@ PIE.BorderRenderer = PIE.RendererBase.newRenderer( {
             for( i = sides.length; i--; ) {
                 side = sides[ i ];
                 rs[ 'padding' + side ] = '';
-                rs[ 'padding' + side ] = ( new PIE.Length( cs[ 'padding' + side ] ) ).pixels( el ) +
-                                         ( new PIE.Length( cs[ 'border' + side + 'Width' ] ) ).pixels( el ) +
+                rs[ 'padding' + side ] = ( PIE.getLength( cs[ 'padding' + side ] ) ).pixels( el ) +
+                                         ( PIE.getLength( cs[ 'border' + side + 'Width' ] ) ).pixels( el ) +
                                          ( !PIE.ieVersion === 8 && i % 2 ? 1 : 0 ); //needs an extra horizontal pixel to counteract the extra "inner border" going away
             }
             rs.borderWidth = 0;
@@ -2852,9 +2943,10 @@ PIE.BorderImageRenderer = PIE.RendererBase.newRenderer( {
     },
 
     draw: function() {
+        this.getBox(); //make sure pieces are created
+
         var props = this.styleInfos.borderImageInfo.getProps(),
             bounds = this.boundsInfo.getBounds(),
-            box = this.getBox(), //make sure pieces are created
             el = this.targetElement,
             pieces = this.pieces;
 
@@ -2875,9 +2967,10 @@ PIE.BorderImageRenderer = PIE.RendererBase.newRenderer( {
 
             // Piece positions and sizes
             function setSizeAndPos( piece, w, h, x, y ) {
-                var s = pieces[piece].style;
-                s.width = w;
-                s.height = h;
+                var s = pieces[piece].style,
+                    max = Math.max;
+                s.width = max(w, 0);
+                s.height = max(h, 0);
                 s.left = x;
                 s.top = y;
             }
@@ -3004,7 +3097,7 @@ PIE.BoxShadowOutsetRenderer = PIE.RendererBase.newRenderer( {
             // Color and opacity
             shape['stroked'] = false;
             shape['filled'] = true;
-            fill.color = color.value( el );
+            fill.color = color.colorValue( el );
             if( blur ) {
                 fill['type'] = 'gradienttitle'; //makes the VML gradient follow the shape's outline - hooray for undocumented features?!?!
                 fill['color2'] = fill.color;
@@ -3113,6 +3206,7 @@ PIE.ImgRenderer = PIE.RendererBase.newRenderer( {
     },
 
     draw: function() {
+        this._lastSrc = src;
         this.hideActualImg();
 
         var shape = this.getShape( 'img', 'fill', this.getBox() ),
@@ -3130,7 +3224,7 @@ PIE.ImgRenderer = PIE.RendererBase.newRenderer( {
         shape.stroked = false;
         fill.type = 'frame';
         fill.src = src;
-        fill.position = (0.5 / w) + ',' + (0.5 / h);
+        fill.position = (w ? 0.5 / w : 0) + ',' + (h ? 0.5 / h : 0);
         shape.coordsize = w * 2 + ',' + h * 2;
         shape.coordorigin = '1,1';
         shape.path = this.getBoxPath( borderWidths ? {
@@ -3142,8 +3236,6 @@ PIE.ImgRenderer = PIE.RendererBase.newRenderer( {
         s = shape.style;
         s.width = w;
         s.height = h;
-
-        this._lastSrc = src;
     },
 
     hideActualImg: function() {
@@ -3161,6 +3253,7 @@ PIE.Element = (function() {
 
     var wrappers = {},
         lazyInitCssProp = PIE.CSS_PREFIX + 'lazy-init',
+        pollCssProp = PIE.CSS_PREFIX + 'poll',
         hoverClass = ' ' + PIE.CLASS_PREFIX + 'hover',
         hoverClassRE = new RegExp( '\\b' + PIE.CLASS_PREFIX + 'hover\\b', 'g' ),
         ignorePropertyNames = { 'background':1, 'bgColor':1, 'display': 1 };
@@ -3185,7 +3278,8 @@ PIE.Element = (function() {
             initialized,
             eventsAttached,
             delayed,
-            destroyed;
+            destroyed,
+            poll;
 
         /**
          * Initialize PIE for this element.
@@ -3194,8 +3288,13 @@ PIE.Element = (function() {
             if( !initialized ) {
                 var docEl,
                     bounds,
-                    lazy = el.currentStyle.getAttribute( lazyInitCssProp ) === 'true',
+                    cs = el.currentStyle,
+                    lazy = cs.getAttribute( lazyInitCssProp ) === 'true',
                     rootRenderer;
+
+                // Polling for size/position changes: default to on in IE8, off otherwise, overridable by -pie-poll
+                poll = cs.getAttribute( pollCssProp );
+                poll = PIE.ieDocMode === 8 ? poll !== 'false' : poll === 'true';
 
                 // Force layout so move/resize events will fire. Set this as soon as possible to avoid layout changes
                 // after load, but make sure it only gets called the first time through to avoid recursive calls to init().
@@ -3255,8 +3354,9 @@ PIE.Element = (function() {
                     initAncestorPropChangeListeners();
 
                     // Add to list of polled elements in IE8
-                    if( PIE.ie8DocMode === 8 ) {
+                    if( poll ) {
                         PIE.Heartbeat.observe( update );
+                        PIE.Heartbeat.run();
                     }
 
                     // Trigger rendering
@@ -3366,11 +3466,15 @@ PIE.Element = (function() {
 
 
         function addHoverClass() {
-            el.className += hoverClass;
+            if( el ) {
+                el.className += hoverClass;
+            }
         }
 
         function removeHoverClass() {
-            el.className = el.className.replace( hoverClassRE, '' );
+            if( el ) {
+                el.className = el.className.replace( hoverClassRE, '' );
+            }
         }
 
         /**
@@ -3464,7 +3568,7 @@ PIE.Element = (function() {
                 }
 
                 // Remove from list of polled elements in IE8
-                if( PIE.ie8DocMode === 8 ) {
+                if( poll ) {
                     PIE.Heartbeat.unobserve( update );
                 }
                 // Stop onresize listening
@@ -3570,7 +3674,7 @@ PIE.Element = (function() {
  * @param {Element} el
  */
 PIE[ 'attach' ] = function( el ) {
-    if (PIE.ieVersion < 9) {
+    if (PIE.ieDocMode < 9) {
         PIE.Element.getInstance( el ).init();
     }
 };
@@ -3590,14 +3694,16 @@ var p = window['PIE'],
     el = element;
 
 function init() {
-    if( doc.media !== 'print' ) { // IE strangely attaches a second copy of the behavior to elements when printing
+    if( p && doc.media !== 'print' ) { // IE strangely attaches a second copy of the behavior to elements when printing
         p['attach']( el );
     }
 }
 
 function cleanup() {
-    p['detach']( el );
-    p = el = 0;
+    if (p) {
+        p['detach']( el );
+        p = el = 0;
+    }
 }
 
 if( el.readyState === 'complete' ) {
