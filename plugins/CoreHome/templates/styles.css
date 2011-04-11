@@ -107,7 +107,7 @@ div.ui-datepicker {
 	border-bottom: 1px solid #520202;
 }
 
-#calendarRangeTo { float:right;     margin-left: 20px;}
+#calendarRangeTo { float:left;     margin-left: 20px;}
 #calendarRangeFrom { float:left; }
 #inputCalendarFrom, #inputCalendarTo {
 	margin-left: 10px;
