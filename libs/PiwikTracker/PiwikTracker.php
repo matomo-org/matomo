@@ -39,7 +39,9 @@ class PiwikTracker
 	 */
 	const VERSION = 1;
 	
-	/* Debug only */
+	/**
+	 * @ignore
+	 */
 	public $DEBUG_APPEND_URL = '';
 	
 	/**
