@@ -30,6 +30,9 @@
 #visitsLive .settings {
    background:#FFFFFF none repeat scroll 0 0;
 }
+#visitsLive .settings a{  
+	 text-decoration:none;
+}
 #visitsLive .returning {
    background:#F9FAFA none repeat scroll 0 0;
 }
