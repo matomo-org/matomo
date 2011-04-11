@@ -136,6 +136,6 @@ class Piwik_Login extends Piwik_Plugin
 		$cookie->setHttpOnly(true);
 		$cookie->save();
 
-		Piwik_Session::regenerateId();
+		@Piwik_Session::regenerateId();
 	}
 }
