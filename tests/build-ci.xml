@@ -119,7 +119,7 @@
 		</fail>
 	</target>
 
-	<target name="all" depends="test-pdo-mysql,test-mysqli,webtest,schemaspy">
+	<target name="all" depends="test-pdo-mysql,webtest,schemaspy">
 	</target>
 
 </project>
