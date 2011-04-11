@@ -13,12 +13,12 @@
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
 				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>666</revenue>
+				<revenue>666.00</revenue>
 			</row>
 			<row idgoal='2'>
 				<nb_conversions>2</nb_conversions>
 				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>666</revenue>
+				<revenue>666.00</revenue>
 			</row>
 		</goals>
 		<nb_conversions>4</nb_conversions>
