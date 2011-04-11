@@ -191,11 +191,11 @@ class Piwik_API_API
 		}
 		return $compare;
 	}
-    /*
+    /**
      * Loads reports metadata, then return the requested one, 
      * matching optional API parameters.
      */
-	public function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $language = false)
+	public function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $language = false, $period = false)
     {
     	Piwik_Translate::getInstance()->reloadLanguage($language);
     	static $reportsMetadata = array();
@@ -207,6 +207,13 @@ class Piwik_API_API
     	
     	foreach($reportsMetadata[$cacheKey] as $report)
     	{
+    		// See ArchiveProcessing/Period.php - unique visitors are not processed for period != day
+	    	if($period != 'day'
+	    		&& !($apiModule == 'VisitsSummary' 
+	    			&& $apiAction == 'get'))
+	    	{
+	    		unset($report['metrics']['nb_uniq_visitors']);
+	    	}
     		if($report['module'] == $apiModule
     			&& $report['action'] == $apiAction)
 			{
@@ -312,7 +319,7 @@ class Piwik_API_API
     		$apiParameters = array();
     	}
         // Is this report found in the Metadata available reports?
-        $reportMetadata = $this->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language);
+        $reportMetadata = $this->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period);
         if(empty($reportMetadata))
         {
         	throw new Exception("Requested report $apiModule.$apiAction for Website id=$idSite not found in the list of available reports. \n");
@@ -423,13 +430,6 @@ class Piwik_API_API
     		array('label' => $reportMetadata['dimension'] ),
     		$reportMetadata['metrics']
     	);
-    	
-		// See ArchiveProcessing/Period.php - unique visitors are not processed for year period
-    	if(!Piwik::isUniqueVisitorsEnabled($period))
-    	{
-    		unset($columns['nb_uniq_visitors']);
-    		unset($reportMetadata['metrics']['nb_uniq_visitors']);
-    	}
     	
         if(isset($reportMetadata['processedMetrics']))
         {

@@ -31,7 +31,7 @@ class Piwik_PDFReports_PDFRenderer extends TCPDF
 	private $reportWidthPortrait = 180;
 	private $reportWidthLandscape = 270;
 	private $minWidthLabelCell = 100;
-	private $maxColumnCountPortraitOrientation = 7;
+	private $maxColumnCountPortraitOrientation = 6;
 	private $logoWidth = 16;
 	private $logoHeight = 16;
 	private $truncateAfter = 50;
