@@ -215,7 +215,7 @@ $(document).ready(function() {
 		options.beforeShowDay = '';
 		// Create both calendars
 		options.defaultDate = piwik.startDateString;
-		$('#calendarFrom').datepicker(options).datepicker("setDate", new Date(piwik.startDateString));
+		$('#calendarFrom').datepicker(options).datepicker("setDate", $.datepicker.parseDate('yy-mm-dd', piwik.startDateString));
 		
 		// Technically we should trigger the onSelect event on the calendar, but I couldn't find how to do that
 		// So calling the onSelect bind function manually...
@@ -224,7 +224,7 @@ $(document).ready(function() {
 		
 		// Same code for the other calendar
 		options.defaultDate = piwik.endDateString;
-		$('#calendarTo').datepicker(options).datepicker("setDate", new Date(piwik.endDateString));
+		$('#calendarTo').datepicker(options).datepicker("setDate", $.datepicker.parseDate('yy-mm-dd', piwik.endDateString));
 		onDateRangeSelect(piwik.endDateString, { "id": "calendarTo" });
 		
 	
@@ -237,8 +237,8 @@ $(document).ready(function() {
 		 	        var request_URL = $(e.target).attr("value");
 		 	        var dateFrom = $('#inputCalendarFrom').val(), 
 		 	        	dateTo = $('#inputCalendarTo').val(),
-		 	        	oDateFrom = new Date(dateFrom),
-		 	        	oDateTo = new Date(dateTo);
+		 	        	oDateFrom = $.datepicker.parseDate('yy-mm-dd', dateFrom),
+		 	        	oDateTo = $.datepicker.parseDate('yy-mm-dd', dateTo);
 		 	        
 		 	        if( !isValidDate(oDateFrom )
 		 	        	|| !isValidDate(oDateTo )
