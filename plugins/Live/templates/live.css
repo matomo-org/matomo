@@ -47,9 +47,6 @@
     float:right;
     padding-right:20px;
 }
-.visitorLog li.goal {
-	margin:5px;
-}
 table.dataTable td.highlightField {
 	background-color:#FFFFCB !important;
 }
@@ -57,7 +54,7 @@ ol.visitorLog {
 	list-style:decimal inside none;
 }
 ol.visitorLog li {
-	margin-bottom:2px;
+	margin-bottom:4px;
 }
 #visitsLive img {
 	vertical-align:middle;
