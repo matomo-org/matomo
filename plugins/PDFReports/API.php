@@ -202,7 +202,7 @@ class Piwik_PDFReports_API
      * @param int|false $idSite
      * @param string|false $language If not passed, will use default language.
      * @param int|false $outputType 0 = inline PDF, 1 = download PDF, 2 = save to disk PDF, defaults to inline PDF
-     * @param string|false $period Defaults to 'day', Will be used only if idReport==0 
+     * @param string|false $period Defaults to 'day'. If not specified, will default to the PDF Report's period set when creating the report
 	 */
 	public function generateReport($idReport, $date, $idSite = false, $language = false, $outputType = false, $period = false)
 	{
