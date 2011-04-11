@@ -28,6 +28,7 @@ var goalTypeToTranslation = {ldelim}
     "manually" : "{'Goals_ManuallyTriggeredUsingJavascriptFunction'|translate}",
     "file" : "{'Goals_Download'|translate}",
     "url" : "{'Goals_VisitUrl'|translate}",
+    "title" : "{'Goals_VisitPageTitle'|translate}",
     "external_website" : "{'Goals_ClickOutlink'|translate}"
 {rdelim}
 {literal}

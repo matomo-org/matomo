@@ -33,13 +33,16 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	
 	function test_trackGoals_allowMultipleConversionsPerVisit()
 	{
-		$this->setApiToCall(array('VisitTime.getVisitInformationPerServerTime', 'VisitsSummary.get') );
+		$this->setApiToCall(array(
+			'VisitTime.getVisitInformationPerServerTime', 
+			'VisitsSummary.get',
+		));
 		$dateTime = '2009-01-04 00:11:42';
 		$idSite = $this->createWebsite($dateTime);
 		
 		// First, a goal that is only recorded once per visit
 		$allowMultipleConversions = false;
-        $idGoal_OneConversionPerVisit = Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js ONCE', 'manually', '', '', $caseSensitive=false, $revenue=false, $allowMultipleConversions);
+        $idGoal_OneConversionPerVisit = Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js ONCE', 'title', 'Thank you', 'contains', $caseSensitive=false, $revenue=10, $allowMultipleConversions);
         // Second, a goal allowing multiple conversions
         $allowMultipleConversions = true;
 		$defaultRevenue = 10;
@@ -50,7 +53,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // Record 1st goal, should only have 1 conversion
         $t->setUrl( 'http://example.org/index.htm' );
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.3)->getDatetime());
-        $this->checkResponse($t->doTrackGoal($idGoal_OneConversionPerVisit, $revenue = 10));
+        $this->checkResponse($t->doTrackPageView('Thank you mate'));
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.4)->getDatetime());
         $this->checkResponse($t->doTrackGoal($idGoal_OneConversionPerVisit, $revenue = 10000000));
 

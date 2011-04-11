@@ -61,6 +61,10 @@ class Piwik_Tracker_GoalManager
 		return Piwik_PluginsManager::getInstance()->isPluginActivated('Goals');
 	}
 
+	/**
+	 * @param int $idSite
+	 * @param Piwik_Tracker_Action $action
+	 */
 	function detectGoalsMatchingUrl($idSite, $action)
 	{
 		if(!$this->isGoalPluginEnabled())
@@ -68,14 +72,15 @@ class Piwik_Tracker_GoalManager
 			return false;
 		}
 		$sanitizedUrl = $action->getActionUrl();
-		$url = htmlspecialchars_decode($sanitizedUrl);
+		$decodedUrl = htmlspecialchars_decode($sanitizedUrl);
+		
 		$actionType = $action->getActionType();
 		$goals = $this->getGoalDefinitions($idSite);
 		foreach($goals as $goal)
 		{
 			$attribute = $goal['match_attribute'];
 			// if the attribute to match is not the type of the current action
-			if(		($actionType == Piwik_Tracker_Action::TYPE_ACTION_URL && $attribute != 'url')
+			if(		($actionType == Piwik_Tracker_Action::TYPE_ACTION_URL && $attribute != 'url' && $attribute != 'title')
 				||	($actionType == Piwik_Tracker_Action::TYPE_DOWNLOAD && $attribute != 'file')
 				||	($actionType == Piwik_Tracker_Action::TYPE_OUTLINK && $attribute != 'external_website')
 				||	($attribute == 'manually')
@@ -83,7 +88,13 @@ class Piwik_Tracker_GoalManager
 			{
 				continue;
 			}
-
+			
+			$url = $decodedUrl;
+			// Matching on Page Title
+			if($attribute == 'title')
+			{
+				$url = $action->getActionName();
+			}
 			$pattern_type = $goal['pattern_type'];
 
 			switch($pattern_type)

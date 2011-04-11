@@ -61,7 +61,7 @@ class Piwik_Goals_API
 	 * 
 	 * @param int $idSite
 	 * @param string $name
-	 * @param string $matchAttribute 'url', 'file', 'external_website' or 'manually'
+	 * @param string $matchAttribute 'url', 'title', 'file', 'external_website' or 'manually'
 	 * @param string $pattern eg. purchase-confirmation.htm
 	 * @param string $patternType 'regex', 'contains', 'exact' 
 	 * @param bool $caseSensitive
