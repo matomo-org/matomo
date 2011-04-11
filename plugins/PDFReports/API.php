@@ -197,12 +197,12 @@ class Piwik_PDFReports_API
     /**
 	 * Generates a PDF file in the browser output.
 	 *
-     * @param int $idReport If not passed, will generate a PDF containing all reports.
+     * @param int $idReport ID of the report to generate. If idReport=0 it will generate a PDF containing all reports for the specified period & date
      * @param string $date YYYY-MM-DD
      * @param int|false $idSite
      * @param string|false $language If not passed, will use default language.
      * @param int|false $outputType 0 = inline PDF, 1 = download PDF, 2 = save to disk PDF, defaults to inline PDF
-     * @param string|false $period defaults to 'day'
+     * @param string|false $period Defaults to 'day', Will be used only if idReport==0 
 	 */
 	public function generateReport($idReport, $date, $idSite = false, $language = false, $outputType = false, $period = false)
 	{
@@ -219,14 +219,14 @@ class Piwik_PDFReports_API
 		{
 			$reportMetadata = Piwik_API_API::getInstance()->getReportMetadata($idSite);
 		}
-		
-		if(empty($period))
-		{
-			$period = 'day';
-		}
+
 		// Test template: include all reports
 		if($idReport == 0)
 		{
+			if(empty($period))
+			{
+				$period = 'day';
+			}
 			$reports = $reportMetadata;
 			$description = Piwik_Translate('PDFReports_DefaultPDFContainingAllReports');
 		}
@@ -238,10 +238,16 @@ class Piwik_PDFReports_API
 			$reportUniqueIds = explode(',', $pdfReport['reports']);
 			
     		$description = $pdfReport['description'];
-			if($pdfReport['period'] != 'never')
-			{
-				$period = $pdfReport['period'];
-			}
+			
+    		// If period wasn't specified, we shall default to the PDF Report's period
+    		if(empty($period))
+    		{
+    			$period = 'day';
+    			if($pdfReport['period'] != 'never')
+				{
+					$period = $pdfReport['period'];
+				}
+    		}
     		
     		// We need to lookup which reports metadata are registered in this PDF
     		$reports = array();

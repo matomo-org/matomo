@@ -66,7 +66,7 @@
 					{/if}
 					<div class='reportCategory'>{$category}</div><ul class='listReports'>
 					{foreach from=$reports item=report}
-						<li><input type="checkbox" id="{$report.uniqueId}" /><label for="{$report.uniqueId}">{$report.name}</label></li>
+						<li><input type="checkbox" id="{$report.uniqueId}" /><label for="{$report.uniqueId}">{$report.name|escape:"html"}</label></li>
 						{assign var=countReports value=$countReports+1}
 					{/foreach}
 					</ul>
