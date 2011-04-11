@@ -258,7 +258,12 @@ $(document).ready(function() {
 			.keyup( function (e) {
 				var fromOrTo = this.id == 'inputCalendarFrom' ? 'From' : 'To';
 				var dateInput = $(this).val();
-				$("#calendar"+fromOrTo).datepicker("setDate", new Date(dateInput));
+				try {
+				    var newDate = $.datepicker.parseDate('yy-mm-dd', dateInput);
+				} catch (e) {
+				    return;
+				}
+				$("#calendar"+fromOrTo).datepicker("setDate", newDate);
 				if(e.keyCode == 13) {
 					$('#calendarRangeApply').click();
 				}
