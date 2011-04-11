@@ -43,11 +43,14 @@ class Piwik_Live_Visitor
 			'visitIp' => $this->getIp(),
 			'visitorId' => $this->getVisitorId(),
 			'visitorType' => $this->isVisitorReturning() ? 'returning' : 'new',
+			'visitConverted' => $this->isVisitorGoalConverted(),
 		
-			//placeholder to be filled in API
 			'actions' => $this->getNumberOfActions(),
+			// => false are placeholders to be filled in API later
 			'actionDetails' => false,
 			'customVariables' => $this->getCustomVariables(),
+			'goalConversions' => false,
+			'siteCurrency' => false,
 
 			// all time entries
 			'serverDate' => $this->getServerDate(),
@@ -87,15 +90,6 @@ class Piwik_Live_Visitor
 			'screenTypeIcon' => $this->getScreenTypeIcon(),
 			'plugins' => $this->getPlugins(),
 			'pluginsIcons' => $this->getPluginIcons(),
-		
-			// Goals
-			'visitConverted' => $this->isVisitorGoalConverted(),
-			'goalIcon' => $this->getGoalIcon(),
-   			'goalType' => $this->getGoalType(),
-			'goalName' => $this->getGoalName(),
-   			'goalRevenue' => $this->getGoalRevenue(),
-			'goalConvertedPageId' => $this->getGoalConvertedPageId(),
-   			'goalTimePretty' => $this->getGoalTimePretty()
 		);
 	}
 
@@ -209,7 +203,7 @@ class Piwik_Live_Visitor
 					'customVariableName'.$i => $this->details['custom_var_k'.$i],
 					'customVariableValue'.$i => $this->details['custom_var_v'.$i],
 				);
-			} 
+			}
 		}
 		return $customVariables;
 	}
@@ -388,67 +382,5 @@ class Piwik_Live_Visitor
 	function isVisitorGoalConverted()
 	{
 		return $this->details['visit_goal_converted'];
-	}
-
-	function getGoalType()
-	{
-		if(isset($this->details['goal_match_attribute'])){
-			return ucfirst($this->details['goal_match_attribute']);
-		}
-		return false;
-	}
-
-	function getGoalIcon()
-	{
-		if(isset($this->details['goal_match_attribute'])){
-			$goalicon = '';
-			switch ($this->details['goal_match_attribute']) {
-				case "file":
-					$goalicon = 'plugins/Live/templates/images/download.png';
-					break;
-				case 'external_website':
-					$goalicon = 'plugins/Live/templates/images/outboundlink.png';
-					break;
-				case 'url':
-				case 'manually':
-				default:
-					$goalicon = 'themes/default/images/goal.png';
-					break;
-			}
-			return $goalicon;
-		}
-		return false;
-	}
-	
-	function getGoalName()
-	{
-		if(isset($this->details['goal_name'])){
-			return $this->details['goal_name'];
-		}
-		return false;
-	}
-	
-	function getGoalRevenue()
-	{
-		if(isset($this->details['goal_revenue'])){
-			return $this->details['goal_revenue'];
-		}
-		return false;
-	}
-
-	function getGoalConvertedPageId()
-	{
-		if(isset($this->details['idlink_va'])){
-			return $this->details['idlink_va'];
-		}
-		return false;
-	}
-
-	function getGoalTimePretty()
-	{
-		if(isset($this->details['goal_server_time'])){
-			return $this->details['goal_server_time'];
-		}
-		return false;
 	}
 }

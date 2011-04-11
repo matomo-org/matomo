@@ -6,8 +6,17 @@
 		<visitIp>156.5.3.2</visitIp>
 		
 		<visitorType>returning</visitorType>
+		<visitConverted>0</visitConverted>
 		<actions>1</actions>
 		<actionDetails>
+			<row>
+				<type>outlink</type>
+				<url>http://test.com</url>
+				<pageTitle></pageTitle>
+				<pageIdAction>5</pageIdAction>
+				<pageId>4</pageId>
+				
+			</row>
 		</actionDetails>
 		<customVariables>
 			<row>
@@ -19,6 +28,8 @@
 				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwx</customVariableValue2>
 			</row>
 		</customVariables>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
 		
 		<visitLocalTime>12:34:06</visitLocalTime>
 		
@@ -63,20 +74,11 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<visitConverted>0</visitConverted>
-		<goalIcon>0</goalIcon>
-		<goalType>0</goalType>
-		<goalName>0</goalName>
-		<goalRevenue>0</goalRevenue>
-		<goalConvertedPageId>0</goalConvertedPageId>
-		
-		<siteCurrency>USD</siteCurrency>
 		
 		
 		
 		
 		
-		<goalConversions>1</goalConversions>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -84,8 +86,17 @@
 		<visitIp>156.5.3.2</visitIp>
 		
 		<visitorType>new</visitorType>
+		<visitConverted>1</visitConverted>
 		<actions>1</actions>
 		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>triggered js</goalName>
+				<revenue>0</revenue>
+				<goalPageId></goalPageId>
+				
+				<url>http://example.org/homepage</url>
+			</row>
 		</actionDetails>
 		<customVariables>
 			<row>
@@ -97,6 +108,8 @@
 				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwx</customVariableValue2>
 			</row>
 		</customVariables>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
 		
 		<visitLocalTime>12:34:06</visitLocalTime>
 		
@@ -141,20 +154,11 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<visitConverted>1</visitConverted>
-		<goalIcon>themes/default/images/goal.png</goalIcon>
-		<goalType>Manually</goalType>
-		<goalName>triggered js</goalName>
-		<goalRevenue>0</goalRevenue>
-		<goalConvertedPageId>0</goalConvertedPageId>
-		
-		<siteCurrency>USD</siteCurrency>
 		
 		
 		
 		
 		
-		<goalConversions>1</goalConversions>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -162,24 +166,36 @@
 		<visitIp>156.5.3.2</visitIp>
 		
 		<visitorType>new</visitorType>
+		<visitConverted>1</visitConverted>
 		<actions>3</actions>
 		<actionDetails>
 			<row>
-				<pageUrl>http://example.org/homepage</pageUrl>
+				<type>action</type>
+				<url>http://example.org/homepage</url>
 				<pageTitle>Homepage</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				<pageId>1</pageId>
 				
 			</row>
 			<row>
-				<pageUrl>http://example.org/user/profile</pageUrl>
+				<type>action</type>
+				<url>http://example.org/user/profile</url>
 				<pageTitle>Profile page</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				<pageId>2</pageId>
 				
 			</row>
 			<row>
-				<pageUrl>http://example.org/user/profile</pageUrl>
+				<type>goal</type>
+				<goalName>triggered js</goalName>
+				<revenue>0</revenue>
+				<goalPageId></goalPageId>
+				
+				<url>http://example.org/user/profile</url>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/user/profile</url>
 				<pageTitle>Profile page</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				<pageId>3</pageId>
@@ -192,6 +208,8 @@
 				<customVariableValue1>LoggedIn</customVariableValue1>
 			</row>
 		</customVariables>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
 		
 		<visitLocalTime>12:34:06</visitLocalTime>
 		
@@ -236,19 +254,10 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<visitConverted>1</visitConverted>
-		<goalIcon>themes/default/images/goal.png</goalIcon>
-		<goalType>Manually</goalType>
-		<goalName>triggered js</goalName>
-		<goalRevenue>0</goalRevenue>
-		<goalConvertedPageId>0</goalConvertedPageId>
-		
-		<siteCurrency>USD</siteCurrency>
 		
 		
 		
 		
 		
-		<goalConversions>1</goalConversions>
 	</row>
 </result>

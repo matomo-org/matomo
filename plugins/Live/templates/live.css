@@ -1,43 +1,37 @@
 #visitsLive {
-        text-align:left;
-        font-size:90%;
-        color:#444444;
+   text-align:left;
+   font-size:90%;
+   color:#444444;
 }
 #visitsLive .datetime, #visitsLive .country, #visitsLive .referer, #visitsLive .settings, #visitsLive .returning {
-        border-bottom: 1px solid #d3d1c5;
-        border-right:1px solid #d3d1c5;
-        padding:5px 5px 5px 12px;
+   border-bottom: 1px solid #d3d1c5;
+   border-right:1px solid #d3d1c5;
+   padding:5px 5px 5px 12px;
 }
 #visitsLive .datetime {
-        background:#E4E2D7;
-        border-top:1px solid #d3d1c5;
-        margin:0;
-        text-align:left;
+   background:#E4E2D7;
+   border-top:1px solid #d3d1c5;
+   margin:0;
+   text-align:left;
 }
-
 #visitsLive .country {
-        background:#FFFFFF url(../../../plugins/CoreHome/templates/images/bullet1.gif) no-repeat scroll 0 0;
+   background:#FFFFFF url(../../../plugins/CoreHome/templates/images/bullet1.gif) no-repeat scroll 0 0;
 }
-
 #visitsLive .referer {
-        background:#F9FAFA none repeat scroll 0 0;
+   background:#F9FAFA none repeat scroll 0 0;
 }
-
 #visitsLive .referer:hover {
-        background:#FFFFF7;
+   background:#FFFFF7;
 }
-
- #visitsLive .pagesTitle {
-         display:block;
-         float:left;
+#visitsLive .pagesTitle {
+    display:block;
+    float:left;
 }
-
 #visitsLive .settings {
-        background:#FFFFFF none repeat scroll 0 0;
+   background:#FFFFFF none repeat scroll 0 0;
 }
-
 #visitsLive .returning {
-        background:#F9FAFA none repeat scroll 0 0;
+   background:#F9FAFA none repeat scroll 0 0;
 }
 .visitsLiveFooter img {
 	vertical-align:middle;	
@@ -45,33 +39,47 @@
 .visitsLiveFooter {
 	line-height:2.5em;
 }
-
 .visitorLog table img {
 	margin:0;
 	margin-right:3px;
 }
 .visitsLiveFooter a.rightLink{
-         float:right;
-         padding-right:20px;
+    float:right;
+    padding-right:20px;
 }
-.actionGoalDetails {
-	margin-left:20px;
-	padding-bottom:10px;
-	font-size:90%;
+.visitorLog li.goal {
+	margin:5px;
 }
 table.dataTable td.highlightField {
 	background-color:#FFFFCB !important;
 }
-.seoRank {
+ol.visitorLog {
+	list-style:decimal inside none;
+}
+ol.visitorLog li {
+	margin-bottom:2px;
+}
+#visitsLive img {
+	vertical-align:middle;
+}
+.visitorRank img {
+	vertical-align:text-bottom;
+}
+.iconPadding {
+	margin-left:4px;
+	margin-right:4px;
+}
+.visitorRank {
 	margin-left:15px;
 	border:1px solid #D8D8D8;
 	color:#474747;
 	border-radius:3px;
     padding: 3px 5px;
 }
-#visitsLive .seoRank {
+#visitsLive .visitorRank {
     padding:2px;
     border:none;
+	margin-left:5px;
 }
 .hash {
     color: #BBBBBB;

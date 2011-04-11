@@ -48,6 +48,7 @@ $translations = array(
 	'General_DaysSinceFirstVisit' => 'Days since first visit',
 	'General_NumberOfVisits' => 'Number of visits',
 	'General_VisitConvertedGoal' => 'Visit converted at least one Goal',
+	'General_VisitConvertedNGoals' => 'Visit converted %s Goals',
 	'General_NewVisitor' => 'New Visitor',
 	'General_ReturningVisitor' => 'Returning Visitor',
 	'General_Date' => 'Date',

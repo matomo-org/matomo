@@ -1,4 +1,4 @@
-<div class="home" id="content" style="display: block;">
+ <div class="home" id="content" style="display: block;">
 <a graphid="VisitsSummarygetEvolutionGraph" name="evolutionGraph"></a>
 <h2>{'Live_VisitorLog'|translate}</h2>
 <div id="{$properties.uniqueId}" class="visitorLog">
@@ -62,7 +62,12 @@
 		&nbsp;<img src="{$visitor.columns.countryFlag}" title="{$visitor.columns.country}, Provider {$visitor.columns.provider}" />
 		&nbsp;<img src="{$visitor.columns.browserIcon}" title="{$visitor.columns.browserName} with plugins {$visitor.columns.plugins} enabled" />
 		&nbsp;<img src="{$visitor.columns.operatingSystemIcon}" title="{$visitor.columns.operatingSystem}, {$visitor.columns.resolution} ({$visitor.columns.screenType})" />
-		&nbsp;{if $visitor.columns.visitConverted}<img src="{$visitor.columns.goalIcon}" title="{'General_VisitConvertedGoal'|translate} - {$visitor.columns.goalType}" />{/if}
+		&nbsp;{if $visitor.columns.visitConverted}
+		<span title="{'General_VisitConvertedNGoals'|translate:$visitor.columns.goalConversions}" class='visitorRank'>
+		<img src="themes/default/images/goal.png" />
+		<span class='hash'>#</span>{$visitor.columns.goalConversions}
+		</span>{/if}
+		
 		{if $visitor.columns.visitorType=='returning'}
 			&nbsp;<img src="plugins/Live/templates/images/returningVisitor.gif" title="{'General_ReturningVisitor'|translate}" />
 		{/if}
@@ -104,7 +109,7 @@
 				{capture assign='keyword'}{$visitor.columns.referrerKeyword|escape:'html'}{/capture}
 				{capture assign='searchName'}{$visitor.columns.referrerName|escape:"html"}{/capture}
 				{capture assign='position'}#{$visitor.columns.referrerKeywordPosition}{/capture}
-				{if !empty($visitor.columns.referrerKeywordPosition)}<span title='{'Live_KeywordRankedOnSearchResultForThisVisitor'|translate:$keyword:$position:$searchName}' class='seoRank'><span class='hash'>#</span>{$visitor.columns.referrerKeywordPosition}</span>{/if}
+				{if !empty($visitor.columns.referrerKeywordPosition)}<span title='{'Live_KeywordRankedOnSearchResultForThisVisitor'|translate:$keyword:$position:$searchName}' class='visitorRank'><span class='hash'>#</span>{$visitor.columns.referrerKeywordPosition}</span>{/if}
 			{/if}
 			{if $visitor.columns.referrerType == 'direct'}{'Referers_DirectEntry'|translate}{/if}
 		</div>
@@ -120,27 +125,31 @@
 				- {$visitor.columns.visitDurationPretty}
 			</strong>
 			<br />
-			<ol style="list-style:decimal inside none;">
+			<ol class='visitorLog'>
 			{foreach from=$visitor.columns.actionDetails item=action}
-				<li title="{$action.serverTimePretty|escape:'html'} - {$action.pageUrl|escape:'html'}">
-					{if strlen(trim($action.pageTitle))>0}
-					 	{$action.pageTitle|escape:'html'|truncate:60:"...":true}
-						<br/>
-					{/if}
-					{if !empty($action.pageUrl)}
-					 	<a href="{$action.pageUrl|escape:'html'}" target="_blank" style="margin-left: 25px;text-decoration:underline;">{$action.pageUrl|escape:'html'|truncate:80:"...":true}</a>
-					{else}
-						{$javascriptVariablesToSet.pageUrlNotDefined}
-					{/if}
-					{if $visitor.columns.goalConvertedPageId eq $action.pageId}
-						<ul class="actionGoalDetails">
-							<li>
-								<img src="{$visitor.columns.goalIcon}" title="{$visitor.columns.goalType}" /> 
-								<strong>{$visitor.columns.goalName}</strong>, 
-								{if $visitor.columns.goalRevenue > 0}{'Live_GoalRevenue'|translate}: <strong>{$visitor.columns.goalRevenue} {$visitor.columns.siteCurrency}</strong>{/if}
-							</li>
-						</ul>
-					{/if}
+				<li class="{if !empty($action.goalName)}goal{else}action{/if}" title="{$action.serverTimePretty|escape:'html'} - {$action.url|escape:'html'}">
+				{if empty($action.goalName)}
+				{* Page view / Download / Outlink *}
+						{if strlen(trim($action.pageTitle))>0}
+						 	{$action.pageTitle|escape:'html'|truncate:60:"...":true}
+							<br/>
+						{/if}
+						{if $action.type == 'download'}
+							<img src='themes/default/images/download.png'>
+						{elseif $action.type == 'outlink'}
+							<img src='themes/default/images/link.gif'>
+						{/if}
+						{if !empty($action.url)}
+						 	<a href="{$action.url|escape:'html'}" target="_blank" style="{if $action.type=='action' && !empty($action.pageTitle)}margin-left: 25px;{/if}text-decoration:underline;">{$action.url|escape:'html'|truncate:80:"...":true}</a>
+						{else}
+							{$javascriptVariablesToSet.pageUrlNotDefined}
+						{/if}
+				{else}
+				{* Goal conversion *}
+					<img src="themes/default/images/goal.png" /> 
+					<strong>{$action.goalName}</strong>, 
+					{if $action.revenue > 0}{'Live_GoalRevenue'|translate}: <strong>{$action.revenue} {$visitor.columns.siteCurrency}</strong>{/if}
+				{/if}
 				</li>
 			{/foreach}
 			</ol>
