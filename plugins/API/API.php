@@ -532,7 +532,7 @@ class Piwik_API_API
 			Piwik_Translate('UserSettings_VisitorSettings'),
 		);
 		return ($category = strcmp(array_search($a['category'], $order), array_search($b['category'], $order))) == 0 	
-				?  ($a['order'] < $b['order'] ? -1 : 1)
+				?  (@$a['order'] < @$b['order'] ? -1 : 1)
 				: $category;
 	}
 }
