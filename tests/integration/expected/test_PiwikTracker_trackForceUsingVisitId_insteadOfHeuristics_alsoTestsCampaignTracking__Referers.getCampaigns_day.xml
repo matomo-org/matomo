@@ -13,11 +13,11 @@
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
 				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>42.2560005188</revenue>
+				<revenue>42.26</revenue>
 			</row>
 		</goals>
 		<nb_conversions>1</nb_conversions>
-		<revenue>42.2560005188</revenue>
+		<revenue>42.26</revenue>
 		<subtable>
 			<row>
 				<label>Piwik kwd</label>
@@ -32,11 +32,11 @@
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
 						<nb_visits_converted>1</nb_visits_converted>
-						<revenue>42.2560005188</revenue>
+						<revenue>42.26</revenue>
 					</row>
 				</goals>
 				<nb_conversions>1</nb_conversions>
-				<revenue>42.2560005188</revenue>
+				<revenue>42.26</revenue>
 			</row>
 		</subtable>
 	</row>
