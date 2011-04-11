@@ -50,6 +50,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 			'module' => 'VisitTime',
 			'action' => 'getVisitInformationPerLocalTime',
 			'dimension' => Piwik_Translate('VisitTime_ColumnLocalTime'),
+			'order' => 20
 		);
 		
 		$reports[] = array(
@@ -58,6 +59,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 			'module' => 'VisitTime',
 			'action' => 'getVisitInformationPerServerTime',
 			'dimension' => Piwik_Translate('VisitTime_ColumnServerTime'),
+			'order' => 15,
 		);
 	}
 	

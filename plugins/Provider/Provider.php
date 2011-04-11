@@ -52,6 +52,7 @@ class Piwik_Provider extends Piwik_Plugin
 			'module' => 'Provider',
 			'action' => 'getProvider',
 			'dimension' => Piwik_Translate('Provider_ColumnProvider'),
+			'order' => 50
 		);
 	}
 

@@ -129,6 +129,7 @@ class Piwik_Actions extends Piwik_Plugin
     		'dimension' => Piwik_Translate('Actions_ColumnPageURL'),
 			'metrics' => $metrics,
 			'processedMetrics' => false,
+			'order' => 1,
 		);
 
 		$reports[] = array(
@@ -139,6 +140,7 @@ class Piwik_Actions extends Piwik_Plugin
 			'dimension' => Piwik_Translate('Actions_ColumnPageName'),
 			'metrics' => $metrics,
 			'processedMetrics' => false,
+			'order' => 3,
 		);
 		
 		// Outlinks and downloads only report basic metrics
@@ -153,6 +155,7 @@ class Piwik_Actions extends Piwik_Plugin
 			'dimension' => Piwik_Translate('Actions_ColumnClickedURL'),
 			'metrics' => $metrics,
 			'processedMetrics' => false,
+			'order' => 5,
 		);
 		$reports[] = array(
 			'category' => Piwik_Translate('Actions_Actions'),
@@ -162,6 +165,7 @@ class Piwik_Actions extends Piwik_Plugin
 			'dimension' => Piwik_Translate('Actions_ColumnDownloadURL'),
 			'metrics' => $metrics,
 			'processedMetrics' => false,
+			'order' => 7,
 		);
 	}
 	

@@ -61,6 +61,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 //    			'bounce_count_returning',
 			),
 			'processedMetrics' => false,
+			'order' => 40
 		);
 	}
 
