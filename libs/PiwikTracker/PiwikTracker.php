@@ -254,7 +254,7 @@ class PiwikTracker
      * 
      * Allowed only for Super User, must be used along with setTokenAuth()
      * @see setTokenAuth()
-     * @param string Date with the format 'Y-m-d H:i:s'
+     * @param string Date with the format 'Y-m-d H:i:s', or a UNIX timestamp
      */
     public function setForceVisitDateTime($dateTime)
     {
