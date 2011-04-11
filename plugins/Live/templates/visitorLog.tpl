@@ -62,15 +62,15 @@
 		&nbsp;<img src="{$visitor.columns.countryFlag}" title="{$visitor.columns.country}, Provider {$visitor.columns.provider}" />
 		&nbsp;<img src="{$visitor.columns.browserIcon}" title="{$visitor.columns.browserName} with plugins {$visitor.columns.plugins} enabled" />
 		&nbsp;<img src="{$visitor.columns.operatingSystemIcon}" title="{$visitor.columns.operatingSystem}, {$visitor.columns.resolution} ({$visitor.columns.screenType})" />
+		{if $visitor.columns.visitorType=='returning'}
+			&nbsp;<img src="plugins/Live/templates/images/returningVisitor.gif" title="{'General_ReturningVisitor'|translate}" />
+		{/if}
 		&nbsp;{if $visitor.columns.visitConverted}
 		<span title="{'General_VisitConvertedNGoals'|translate:$visitor.columns.goalConversions}" class='visitorRank'>
 		<img src="themes/default/images/goal.png" />
 		<span class='hash'>#</span>{$visitor.columns.goalConversions}
 		</span>{/if}
 		
-		{if $visitor.columns.visitorType=='returning'}
-			&nbsp;<img src="plugins/Live/templates/images/returningVisitor.gif" title="{'General_ReturningVisitor'|translate}" />
-		{/if}
 		<br/>
 		{if count($visitor.columns.pluginsIcons) > 0}
 			<hr />
@@ -147,8 +147,8 @@
 				{else}
 				{* Goal conversion *}
 					<img src="themes/default/images/goal.png" /> 
-					<strong>{$action.goalName}</strong>, 
-					{if $action.revenue > 0}{'Live_GoalRevenue'|translate}: <strong>{$action.revenue} {$visitor.columns.siteCurrency}</strong>{/if}
+					<strong>{$action.goalName}</strong>
+					{if $action.revenue > 0}, {'Live_GoalRevenue'|translate}: <strong>{$action.revenue} {$visitor.columns.siteCurrency}</strong>{/if}
 				{/if}
 				</li>
 			{/foreach}
