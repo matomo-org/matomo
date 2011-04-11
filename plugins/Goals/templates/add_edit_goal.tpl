@@ -37,6 +37,7 @@
 
 var mappingMatchTypeName = {ldelim} 
 	"url": "{'Goals_URL'|translate|escape}", 
+	"url": "{'Goals_PageTitle'|translate|escape}", 
 	"file": "{'Goals_Filename'|translate|escape}", 
 	"external_website": "{'Goals_ExternalWebsiteUrl'|translate|escape}" 
 {rdelim};
@@ -44,6 +45,7 @@ var mappingMatchTypeExamples = {ldelim}
 	"url": "{'General_ForExampleShort'|translate} {'Goals_Contains'|translate:"'checkout/confirmation'"|escape} \
 		<br />{'General_ForExampleShort'|translate|escape} {'Goals_IsExactly'|translate:"'http://example.com/thank-you.html'"|escape} \
 		<br />{'General_ForExampleShort'|translate|escape} {'Goals_MatchesExpression'|translate:"'(.*)\\\/demo\\\/(.*)'"|escape}", 
+	"title": "{'General_ForExampleShort'|translate} {'Goals_Contains'|translate:"'Order confirmation'"|escape}",
 	"file": "{'General_ForExampleShort'|translate|escape} {'Goals_Contains'|translate:"'files/brochure.pdf'"|escape} \
 		<br />{'General_ForExampleShort'|translate|escape} {'Goals_IsExactly'|translate:"'http://example.com/files/brochure.pdf'"|escape} \
 		<br />{'General_ForExampleShort'|translate|escape} {'Goals_MatchesExpression'|translate:"'(.*)\\\.zip'"|escape}", 

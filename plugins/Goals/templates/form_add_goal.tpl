@@ -22,6 +22,9 @@
 				<input type="radio" id="match_attribute_url" value="url" name="match_attribute" />
                 <label for="match_attribute_url">{'Goals_VisitUrl'|translate}</label>
 				<br />
+				<input type="radio" id="match_attribute_title" value="title" name="match_attribute" />
+                <label for="match_attribute_title">{'Goals_VisitPageTitle'|translate}</label>
+				<br />
 				<input type="radio" id="match_attribute_file" value="file" name="match_attribute" />
 				<label for="match_attribute_file">{'Goals_Download'|translate}</label>
 				<br />
@@ -53,7 +56,7 @@
 	</tbody>
 	<tbody id="manual_trigger_section" style="display:none">
 		<tr><td colspan="2" class="first">
-				{'Goals_WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore'|translate:"<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/javascript-tracking/'>":"</a>"}
+				{'Goals_WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore'|translate:"<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/javascript-tracking/%23toc-manually-trigger-a-conversion-for-a-goal'>":"</a>"}
 		</td></tr>
 	</tbody>
 	<tbody>
