@@ -296,7 +296,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	    }
 		$query = "SELECT idgoal,
 						count(*) as `". Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS ."`,
-						round(sum(revenue),2) as `". Piwik_Archive::INDEX_GOAL_REVENUE ."`,
+						truncate(sum(revenue),2) as `". Piwik_Archive::INDEX_GOAL_REVENUE ."`,
 						count(distinct idvisit) as `". Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED."`,
 						$select
 			 	FROM ".Piwik_Common::prefixTable('log_conversion')."
