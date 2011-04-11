@@ -20,7 +20,7 @@
 		{foreach from=$section key=j item=test}
 		<tr>
 			<td>{$j}</td>
-			<td style="{if $test.result==-1}background-color:green;color:white;{elseif $test.result==-2}background-color:yellow;color:black;{else if $test.result=--4}background-color:red;color:white;{/if}">{$test.message}</td>
+			<td style="{if $test.result==-1}background-color:green;color:white;{elseif $test.result==-2}background-color:yellow;color:black;{elseif $test.result=--4}background-color:red;color:white;{/if}">{$test.message}</td>
 		</tr>
 		{/foreach}
 	</tbody>

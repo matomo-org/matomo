@@ -58,6 +58,10 @@ class Piwik_Live_API
 			Piwik_Date::factory(time() - $lastMinutes * 60)->toString('Y-m-d H:i:s')
 		);
 		$data = Piwik_FetchAll($sql, $bind);
+		
+		// These could be unset for some reasons, ensure they are set to 0
+		empty($data[0]['actions']) ? $data[0]['actions'] = 0 : '';
+		empty($data[0]['visitsConverted']) ? $data[0]['visitsConverted'] = 0 : '';
 		return $data;
 	}
 	
@@ -137,42 +141,90 @@ class Piwik_Live_API
 			$dateTimeVisitFirstAction = Piwik_Date::factory($visitorDetailsArray['firstActionTimestamp'], $timezone);
 			$visitorDetailsArray['serverDatePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized('%shortDay% %day% %shortMonth%');
 			$visitorDetailsArray['serverTimePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized('%time%');
-			$visitorDetailsArray['goalConversions'] = $visitorDetail['count_goal_conversions'];
-			if(!empty($visitorDetailsArray['goalTimePretty']))
-			{
-				$dateTimeConversion = Piwik_Date::factory($visitorDetailsArray['goalTimePretty'], $timezone);
-				$visitorDetailsArray['goalTimePretty'] = $dateTimeConversion->getLocalized('%shortDay% %day% %shortMonth% %time%');
-			}
 			
 			$idvisit = $visitorDetailsArray['idVisit'];
 
+			// The second join is a LEFT join to allow returning records that don't have a matching page title
+			// eg. Downloads, Outlinks. For these, idaction_name is set to 0
 			$sql = "
 				SELECT
-				log_action.name AS pageUrl,
-				log_action_title.name AS pageTitle,
-				log_action.idaction AS pageIdAction,
-				log_link_visit_action.idlink_va AS pageId,
-				log_link_visit_action.server_time as serverTimePretty
+					log_action.type as type,
+					log_action.name AS url,
+					log_action_title.name AS pageTitle,
+					log_action.idaction AS pageIdAction,
+					log_link_visit_action.idlink_va AS pageId,
+					log_link_visit_action.server_time as serverTimePretty
 				FROM " .Piwik_Common::prefixTable('log_link_visit_action')." AS log_link_visit_action
 					INNER JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action
 					ON  log_link_visit_action.idaction_url = log_action.idaction
-					INNER JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action_title
+					LEFT JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action_title
 					ON  log_link_visit_action.idaction_name = log_action_title.idaction
 				WHERE log_link_visit_action.idvisit = ?
 				 ";
+			$actionDetails = Piwik_FetchAll($sql, array($idvisit));
+			
+			// If the visitor converted a goal, we shall select all Goals
+			$sql = "
+				SELECT 
+						'goal' as type,
+						goal.name as goalName,
+						goal.revenue as revenue,
+						log_conversion.idlink_va as goalPageId,
+						log_conversion.server_time as serverTimePretty,
+						log_conversion.url as url
+				FROM ".Piwik_Common::prefixTable('log_conversion')." AS log_conversion
+				LEFT JOIN ".Piwik_Common::prefixTable('goal')." AS goal 
+					ON (goal.idsite = log_conversion.idsite
+						AND  
+						goal.idgoal = log_conversion.idgoal)
+					AND goal.deleted = 0
+				WHERE log_conversion.idvisit = ?
+			";
+			$goalDetails = Piwik_FetchAll($sql, array($idvisit));
 
-			$visitorDetailsArray['actionDetails'] = Piwik_FetchAll($sql, array($idvisit));
+			$actions = array_merge($actionDetails, $goalDetails);
+			
+			usort($actions, array($this, 'sortByServerTime'));
+			
+			$visitorDetailsArray['actionDetails'] = $actions;   
 			// Convert datetimes to the site timezone
 			foreach($visitorDetailsArray['actionDetails'] as &$details)
 			{
+				switch($details['type'])
+				{
+					case 'goal':
+					break;
+					case Piwik_Tracker_Action_Interface::TYPE_DOWNLOAD:
+						$details['type'] = 'download';
+					break;
+					case Piwik_Tracker_Action_Interface::TYPE_OUTLINK:
+						$details['type'] = 'outlink';
+					break;
+					default:
+						$details['type'] = 'action';
+					break;
+				}
 				$dateTimeVisit = Piwik_Date::factory($details['serverTimePretty'], $timezone);
 				$details['serverTimePretty'] = $dateTimeVisit->getLocalized('%shortDay% %day% %shortMonth% %time%'); 
 			}
+			$visitorDetailsArray['goalConversions'] = count($goalDetails);
+			
 			$table->addRowFromArray( array(Piwik_DataTable_Row::COLUMNS => $visitorDetailsArray));
 		}
 		return $table;
 	}
 
+	private function sortByServerTime($a, $b)
+	{
+		$ta = strtotime($a['serverTimePretty']);
+		$tb = strtotime($b['serverTimePretty']);
+		return $ta < $tb 
+					? -1 
+					: ($ta == $tb 
+						? 0 
+						: 1 ); 
+	}
+	
 	private function loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $filter_limit = false, $maxIdVisit = false, $visitorId = false, $minTimestamp = false)
 	{
 //		var_dump($period); var_dump($date); var_dump($filter_limit); var_dump($maxIdVisit); var_dump($visitorId);
@@ -258,27 +310,14 @@ class Piwik_Live_API
 		// Subquery to use the indexes for ORDER BY
 		// Group by idvisit so that a visitor converting 2 goals only appears twice
 		$sql = "
-			SELECT sub.* ,
-					goal.match_attribute as goal_match_attribute,
-					goal.name as goal_name,
-					goal.revenue as goal_revenue,
-					count(*) as count_goal_conversions,
-					log_conversion.idlink_va as idlink_va,
-					log_conversion.server_time as goal_server_time
-			FROM (
+				SELECT sub.* 
+				FROM ( 
 					SELECT 	*
 					FROM " . Piwik_Common::prefixTable('log_visit') . " AS log_visit
 					$sqlWhere
 					ORDER BY idsite, visit_last_action_time DESC
 					LIMIT ".(int)$filter_limit."
 				) AS sub
-				LEFT JOIN ".Piwik_Common::prefixTable('log_conversion')." AS log_conversion
-					ON sub.idvisit = log_conversion.idvisit
-				LEFT JOIN ".Piwik_Common::prefixTable('goal')." AS goal 
-					ON (goal.idsite = sub.idsite
-						AND  
-						goal.idgoal = log_conversion.idgoal)
-					AND goal.deleted = 0
 				GROUP BY sub.idvisit
 				ORDER BY sub.visit_last_action_time DESC
 			"; 
@@ -288,9 +327,11 @@ class Piwik_Live_API
 			echo $e->getMessage();exit;
 		}
 		
-//var_dump($whereBind);	echo($sql);//var_dump($data);
+//var_dump($whereBind);	echo($sql);
+//var_dump($data);
 		return $data;
 	}
+	
 
 	/**
 	 * Removes fields that are not meant to be displayed (md5 config hash)
