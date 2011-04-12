@@ -349,7 +349,7 @@ class Piwik_Tracker
 		}
 	}
 
-	protected function authenticateSuperUser()
+	protected function authenticateSuperUserOrAdmin()
 	{
 		$tokenAuth = Piwik_Common::getRequestVar('token_auth', false);
 
@@ -357,13 +357,25 @@ class Piwik_Tracker
 		{
 			$superUserLogin =  Piwik_Tracker_Config::getInstance()->superuser['login'];
 			$superUserPassword = Piwik_Tracker_Config::getInstance()->superuser['password'];
-
 			if( md5($superUserLogin . $superUserPassword ) == $tokenAuth )
 			{
 				return true;
 			}
+			
+			// Now checking the list of admin token_auth cached in the Tracker config file
+			$idSite = Piwik_Common::getRequestVar('idsite', false, 'int', $this->request);
+			if(!empty($idSite) 
+				&& $idSite > 0)
+			{
+				$website = Piwik_Common::getCacheWebsiteAttributes( $idSite );
+				$adminTokenAuth = $website['admin_token_auth'];
+				if(in_array($tokenAuth, $adminTokenAuth))
+				{
+					return true;
+				}
+			}
+			printDebug("token_auth = $tokenAuth - Warning: Super User / Admin was NOT authenticated");
 		}
-
 		return false;
 	}
 
@@ -373,27 +385,28 @@ class Piwik_Tracker
 	 */
 	protected function handleTrackingApi()
 	{
-		if(!$this->authenticateSuperUser())
+		if(!$this->authenticateSuperUserOrAdmin())
 		{
 			return;
 		}
-
+		printDebug("token_auth is authenticated!");
+	
 		// Custom IP to use for this visitor
-		$customIp = Piwik_Common::getRequestVar('cip', false);
+		$customIp = Piwik_Common::getRequestVar('cip', false, 'string', $this->request);
 		if(!empty($customIp))
 		{
 			$this->setForceIp($customIp);
 		}
 	
 		// Custom server date time to use
-		$customDatetime = Piwik_Common::getRequestVar('cdt', false);
+		$customDatetime = Piwik_Common::getRequestVar('cdt', false, 'string', $this->request);
 		if(!empty($customDatetime))
 		{
 			$this->setForceDateTime($customDatetime);
 		}
 		
 		// Forced Visitor ID to record the visit / action 
-		$customVisitorId = Piwik_Common::getRequestVar('cid', false);
+		$customVisitorId = Piwik_Common::getRequestVar('cid', false, 'string', $this->request);
 		if(!empty($customVisitorId))
 		{
 			$this->setForceVisitorId($customVisitorId);
