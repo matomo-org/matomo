@@ -1151,6 +1151,8 @@ var
 			 * Get cookie name with prefix and domain hash
 			 */
 			function getCookieName(baseName) {
+				// NOTE: If the cookie name is changed, we must also update the PiwikTracker.php which 
+				// will attempt to discover first party cookies. eg. See the PHP Client method getVisitorId() 
 				return configCookieNamePrefix + baseName + '.' + configTrackerSiteId + '.' + domainHash;
 			}
 
