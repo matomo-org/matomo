@@ -35,6 +35,7 @@ class PiwikTracker
 	/**
 	 * API Version
 	 * 
+	 * @ignore
 	 * @var int
 	 */
 	const VERSION = 1;
@@ -43,6 +44,13 @@ class PiwikTracker
 	 * @ignore
 	 */
 	public $DEBUG_APPEND_URL = '';
+	
+	/**
+	 * Visitor ID length
+	 * 
+	 * @ignore
+	 */
+	const LENGTH_VISITOR_ID = 16;
 	
 	/**
 	 * Builds a PiwikTracker object, used to track visits, pages and Goal conversions 
@@ -78,7 +86,7 @@ class PiwikTracker
     	if(!empty($apiUrl)) {
     		self::$URL = $apiUrl;
     	}
-    	$this->visitorId = substr(md5(uniqid(rand(), true)), 0, 16);
+    	$this->visitorId = substr(md5(uniqid(rand(), true)), 0, self::LENGTH_VISITOR_ID);
     }
     
     /**
@@ -286,23 +294,38 @@ class PiwikTracker
      */
     public function setVisitorId($visitorId)
     {
-    	if(strlen($visitorId) != 16)
+    	if(strlen($visitorId) != self::LENGTH_VISITOR_ID)
     	{
-    		throw new Exception("setVisitorId() expects a 16 characters ID");
+    		throw new Exception("setVisitorId() expects a ".self::LENGTH_VISITOR_ID." characters ID");
     	}
     	$this->forcedVisitorId = $visitorId;
     }
     
     /**
-     * Returns the random Visitor ID that was assigned to this visit object
+     * If the user initiating the request has the Piwik first party cookie, 
+     * this function will try and return the ID parsed from this first party cookie (found in $_COOKIE).
      * 
-     * NOTE: This will not be able to read the first party cookie visitor ID. 
-     * It will simply return the newly generated ID, @see __construct()
+     * If you call this function from a server, where the call is triggered by a cron or script
+     * not initiated by the actual visitor being tracked, then it will return 
+     * the random Visitor ID that was assigned to this visit object.
      * 
      * This can be used if you wish to record more visits, actions or goals for this visitor ID later on.
+     * 
+     * @return string 16 hex chars visitor ID string
      */
     public function getVisitorId()
     {
+    	$idCookieName = 'id.'.$this->idSite.'.';
+    	$idCookie = $this->getCookieMatchingName($idCookieName);
+    	if($idCookie !== false)
+    	{
+    		$visitorId = substr($idCookie, 0, strpos($idCookie, '.'));
+    		if(strlen($visitorId) == self::LENGTH_VISITOR_ID)
+    		{
+    			return $visitorId;
+    		}
+    	}
+    	
     	if(!empty($this->forcedVisitorId))
     	{
     		return $this->forcedVisitorId;
@@ -310,6 +333,22 @@ class PiwikTracker
     	return $this->visitorId;
     }
 
+    /**
+     * Returns the currently assigned Attribution Information stored in a first party cookie.
+     * 
+     * This function will only work if the user is initiating the current request, and his cookies
+     * can be read by PHP from the $_COOKIE array.
+     * 
+     * @return string JSON Encoded string containing the Referer information for Goal conversion attribution.
+     *                Will return false if the cookie could not be found
+     * @see Piwik.js getAttributionInfo()
+     */
+    public function getAttributionInfo()
+    {
+    	$attributionCookieName = 'ref.'.$this->idSite.'.';
+    	return $this->getCookieMatchingName($attributionCookieName);
+    }
+    
 	/**
 	 * Some Tracking API functionnality requires express Super User authentication.
 	 * The following features require Super User access:
@@ -525,6 +564,30 @@ class PiwikTracker
         ;
     	return $url;
     }
+    
+    
+    /**
+     * Returns a first party cookie which name contains $name
+     * 
+     * @param string $name
+     * @return string String value of cookie, or false if not found
+     * @ignore
+     */
+    protected function getCookieMatchingName($name)
+    {
+    	// Piwik cookie names use dots separators in piwik.js, 
+    	// but PHP Replaces . with _ http://www.php.net/manual/en/language.variables.predefined.php#72571
+    	$name = str_replace('.', '_', $name);
+    	foreach($_COOKIE as $cookieName => $cookieValue)
+    	{
+    		if(strpos($cookieName, $name) !== false)
+    		{
+    			return $cookieValue;
+    		}
+    	}
+    	return false;
+    }
+    
 
 	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
