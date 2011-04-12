@@ -350,8 +350,10 @@ class PiwikTracker
     }
     
 	/**
-	 * Some Tracking API functionnality requires express Super User authentication.
-	 * The following features require Super User access:
+	 * Some Tracking API functionnality requires express authentication, using either the 
+	 * Super User token_auth, or a user with 'admin' access to the website.
+	 * 
+	 * The following features require access:
 	 * - force the visitor IP
 	 * - force the date & time of the tracking requests rather than track for the current datetime
 	 * - force Piwik to track the requests to a specific VisitorId rather than use the standard visitor matching heuristic
