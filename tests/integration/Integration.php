@@ -429,7 +429,17 @@ abstract class Test_Integration extends Test_Database
 	    		// avoid build failure when running just before midnight, generating visits in the future
     			$expected = $this->removeXmlElement($expected, 'sum_daily_nb_uniq_visitors');
     			$response = $this->removeXmlElement($response, 'sum_daily_nb_uniq_visitors');
-    		}    		
+    		}
+    		
+    		// is there a better way to test for the current DB type in use?
+    		if(Zend_Registry::get('db') instanceof Piwik_Db_Adapter_Mysqli)
+    		{
+    			// Do not test for TRUNCATE(SUM()) returning .00 on mysqli since this is not working 
+    			// http://bugs.php.net/bug.php?id=54508
+    			$expected = str_replace('.00</revenue>', '</revenue>', $expected);
+    			$response = str_replace('.00</revenue>', '</revenue>', $response);
+    		}
+    		
     		$pass = $pass && $this->assertEqual(trim($response), trim($expected), "<br/>\nDifferences with expected in: $processedFilePath %s");
     		if($response != $expected)
     		{
