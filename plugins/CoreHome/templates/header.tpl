@@ -10,7 +10,7 @@
 {loadJavascriptTranslations plugins='CoreHome'}
 {include file="CoreHome/templates/js_global_variables.tpl"}
 {include file="CoreHome/templates/js_css_includes.tpl"}
-<!--[if IE]>
+<!--[if lt IE 9]>
 <link rel="stylesheet" type="text/css" href="themes/default/ieonly.css" />
 <![endif]-->
 </head>
