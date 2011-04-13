@@ -4,6 +4,7 @@ $translations = array(
 	'General_TranslatorName' => '<a href="http://www.nirlah.com">Nirlah</a>',
 	'General_TranslatorEmail' => 'nirlah@gmail.com',
 	'General_EnglishLanguageName' => 'Hebrew',
+	'General_LayoutDirection' => 'rtl',
 	'General_OriginalLanguageName' => 'עברית',
 	'General_HelloUser' => 'שלום, %s!',
 	'General_OpenSourceWebAnalytics' => 'סטטיסטיקת אתרים בקוד פתוח',
