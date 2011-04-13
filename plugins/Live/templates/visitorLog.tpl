@@ -131,7 +131,7 @@
 				{if empty($action.goalName)}
 				{* Page view / Download / Outlink *}
 						{if strlen(trim($action.pageTitle))>0}
-						 	{$action.pageTitle|escape:'html'|truncate:60:"...":true}
+						 	{$action.pageTitle|truncate:80:"...":true}
 							<br/>
 						{/if}
 						{if $action.type == 'download'}
