@@ -19,17 +19,30 @@ class Piwik_UsersManager_API
 	static private $instance = null;
 	
 	/**
+	 * You can create your own Users Plugin to override this class. 
+	 * Example of how you would overwrite the UsersManager_API with your own class:
+	 * Call the following in your plugin __construct() for example:
+	 * 
+	 * Zend_Registry::set('UsersManager_API',Piwik_MyCustomUsersManager_API::getInstance());
+	 * 
 	 * @return Piwik_UsersManager_API
 	 */
 	static public function getInstance()
 	{
-		if (self::$instance == null)
-		{
+		try {
+			$instance = Zend_Registry::get('UsersManager_API');
+			if( !($instance instanceof Piwik_UsersManager_API) ) {
+				// Exception is caught below and corrected
+				throw new Exception('UsersManager_API must inherit Piwik_UsersManager_API');
+			}
+			self::$instance = $instance;
+		}
+		catch (Exception $e) {
 			self::$instance = new self;
+			Zend_Registry::set('UsersManager_API', self::$instance);
 		}
 		return self::$instance;
 	}
-	
 	const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
 	const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
 	
