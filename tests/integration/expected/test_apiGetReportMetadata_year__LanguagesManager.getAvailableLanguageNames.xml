@@ -171,6 +171,11 @@
 		<english_name>Slovak</english_name>
 	</row>
 	<row>
+		<code>sl</code>
+		<name>Slovenščina</name>
+		<english_name>Slovenian</english_name>
+	</row>
+	<row>
 		<code>sq</code>
 		<name>Shqip</name>
 		<english_name>Albanian</english_name>
