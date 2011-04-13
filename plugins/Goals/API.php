@@ -30,22 +30,25 @@ class Piwik_Goals_API
 	}
 	
 	/**
-	 * Returns all Goals for a given website
+	 * Returns all Goals for a given website, or list of websites
 	 * 
-	 * @param int $idSite
+	 * @param string|array $idSite Array or Comma separated list of website IDs to request the goals for
 	 * @return array Array of Goal attributes
 	 */
 	public function getGoals( $idSite )
 	{
+		if(!is_array($idSite))
+		{
+			$idSite = Piwik_Site::getIdSitesFromIdSitesString($idSite);
+		}
 		Piwik::checkUserHasViewAccess($idSite);
 		$goals = Piwik_FetchAll("SELECT * 
 								FROM ".Piwik_Common::prefixTable('goal')." 
-								WHERE idsite = ?
-									AND deleted = 0", $idSite);
+								WHERE idsite IN (".implode(", ", $idSite).")
+									AND deleted = 0");
 		$cleanedGoals = array();
 		foreach($goals as &$goal)
 		{
-			unset($goal['idsite']);
 			if($goal['match_attribute'] == 'manually') {
 			    unset($goal['pattern']);
 			    unset($goal['pattern_type']);
