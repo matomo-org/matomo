@@ -230,21 +230,13 @@ class Piwik_Tracker_GoalManager
 				$time = $referrerTimestamp;
             }
 		}
-		$goalData = array(
+		$goal += array(
 			'referer_type' 				=> $type,
 			'referer_name' 				=> $name,
 			'referer_keyword' 			=> $keyword,
 			// this field is currently unused
 			'referer_visit_server_date' => date("Y-m-d", $time),
 		);
-		
-		// Ref Cookie only lasts 6 months by default, 
-		// so we shouldn't see anything older than 1 year
-		// NB: we do not test that date is not in the future, otherwise might dismiss when user clock is faster
-		if($time > Piwik_Tracker::getCurrentTimestamp() - 365 * 86400 * 2)
-		{
-			$goal += $goalData;
-		}
 
 		$goal += $visitCustomVariables;
 		

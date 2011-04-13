@@ -1383,14 +1383,13 @@ var
 							(!configConversionAttributionFirstReferrer || // attribute to last known referrer
 							!originalReferrerHostName.length || // previously empty
 							isSiteHostName(originalReferrerHostName))) { // previously set but in current domain
-						// record this referral
-						referralTs = nowTs;
 						referralUrl = configReferrerUrl;
 					}
 					
 					// Set the referral cookie if we have either a Referrer URL, or detected a Campaign (or both)
-					if(referralTs > 0
+					if(referralUrl.length
 							|| campaignNameDetected.length) {
+						referralTs = nowTs;
 						attributionCookie = [
 							campaignNameDetected,
 							campaignKeywordDetected,
