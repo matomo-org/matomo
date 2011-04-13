@@ -201,7 +201,7 @@ class Piwik_Period_Range extends Piwik_Period
 	 */
 	static public function parseDateRange($dateString)
 	{
-		$matched = preg_match('/^([0-9]{4}-[0-9]{1,2}-[0-9]{1,2}),([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})$/', trim($dateString), $regs);
+		$matched = preg_match('/^([0-9]{4}-[0-9]{1,2}-[0-9]{1,2}),(([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})|today|now|yesterday)$/', trim($dateString), $regs);
 		if(empty($matched))
 		{
 			return false;
