@@ -27,6 +27,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 			throw new Exception("Unexpected data type to render.");
 		}
 	}
+	
 	protected function getViewDataTableId()
 	{
 		return 'generateDataChartEvolution';

@@ -107,7 +107,8 @@ abstract class Piwik_Controller
 	protected function setDate(Piwik_Date $date)
 	{
 		$this->date = $date;
-		$this->strDate = $this->date->toString();
+		$strDate = $this->date->toString();
+		$this->strDate = $strDate;
 	}
 	
 	/**
@@ -326,14 +327,14 @@ abstract class Piwik_Controller
 			
 			$rawDate = Piwik_Common::getRequestVar('date');
 			$periodStr = Piwik_Common::getRequestVar('period');
-			if($periodStr!='range')
+			if($periodStr != 'range')
 			{
 				$date = Piwik_Date::factory($this->strDate);
 				$period = Piwik_Period::factory($periodStr, $date);
 			}
 			else
 			{
-				$period = new Piwik_Period_Range($periodStr, $rawDate);
+				$period = new Piwik_Period_Range($periodStr, $rawDate, $this->site->getTimezone());
 			}
 			$view->rawDate = $rawDate;
 			$view->prettyDate = $period->getPrettyString();

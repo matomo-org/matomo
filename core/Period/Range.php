@@ -173,9 +173,23 @@ class Piwik_Period_Range extends Piwik_Period
 		{
 			$strDateStart = $dateRange[1];
 			$strDateEnd = $dateRange[2];
-
 			$startDate = Piwik_Date::factory($strDateStart);
-			$endDate   = Piwik_Date::factory($strDateEnd);
+		
+			if($strDateEnd == 'today')
+			{
+				$strDateEnd = 'now';
+			}
+			elseif($strDateEnd == 'yesterday')
+			{
+				$strDateEnd = 'yesterdaySameTime';
+			}
+			// we set the timezone in the Date object only if the date is relative eg. 'today', 'yesterday', 'now'
+			$timezone = null;
+			if(strpos($strDateEnd, '-') === false)
+			{
+				$timezone = $this->timezone;
+			}
+			$endDate   = Piwik_Date::factory($strDateEnd, $timezone);
 		}
 		else
 		{

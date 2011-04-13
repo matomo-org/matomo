@@ -65,7 +65,13 @@ class Piwik_Date
 			$date = self::yesterdaySameTime();
 		}
 		elseif (!is_int($dateString)
-			&& ($dateString = strtotime($dateString)) === false)
+			&& (
+				// strtotime returns the timestamp for April 1st for a date like 2011-04-01,today 
+				// but we don't want this, as this is a date range and supposed to throw the exception
+				strpos($dateString, ',') !== false
+				|| 
+				($dateString = strtotime($dateString)) === false
+				))
 		{
 			throw new Exception(Piwik_TranslateException('General_ExceptionInvalidDateFormat', array("YYYY-MM-DD, or 'today' or 'yesterday'", "strtotime", "http://php.net/strtotime")));
 		}
