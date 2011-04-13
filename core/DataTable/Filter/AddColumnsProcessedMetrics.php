@@ -18,6 +18,7 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 {
 	protected $invalidDivision = 0;
 	protected $roundPrecision = 2;
+	protected $deleteRowsWithNoVisit = true;
 	
 	/**
 	 * @param Piwik_DataTable $table
@@ -36,7 +37,8 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 		foreach($table->getRows() as $key => $row)
 		{
 			$nbVisits = $this->getColumn($row, Piwik_Archive::INDEX_NB_VISITS);
-			if($nbVisits == 0)
+			if($nbVisits == 0
+				&& $this->deleteRowsWithNoVisit)
 			{
 				// case of keyword/website/campaign with a conversion for this day, 
 				// but no visit, we don't show it  
@@ -54,13 +56,21 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 				$conversionRate = round(100 * $nbVisitsConverted / $nbVisits, $this->roundPrecision);
 			}
 			$row->addColumn('conversion_rate', $conversionRate."%");
-		
-			// nb_actions / nb_visits => Actions/visit
-			// sum_visit_length / nb_visits => Avg. Time on Site 
-			// bounce_count / nb_visits => Bounce Rate
-			$actionsPerVisit = round($this->getColumn($row, Piwik_Archive::INDEX_NB_ACTIONS) / $nbVisits, $this->roundPrecision);
-			$averageTimeOnSite = round($this->getColumn($row, Piwik_Archive::INDEX_SUM_VISIT_LENGTH) / $nbVisits, $rounding = 0);
-			$bounceRate = round(100 * $this->getColumn($row, Piwik_Archive::INDEX_BOUNCE_COUNT) / $nbVisits, $this->roundPrecision);
+			
+			if($nbVisits == 0)
+			{
+				$actionsPerVisit = $averageTimeOnSite = $bounceRate = $this->invalidDivision;
+			}
+			else
+			{
+				// nb_actions / nb_visits => Actions/visit
+				// sum_visit_length / nb_visits => Avg. Time on Site 
+				// bounce_count / nb_visits => Bounce Rate
+				$actionsPerVisit = round($this->getColumn($row, Piwik_Archive::INDEX_NB_ACTIONS) / $nbVisits, $this->roundPrecision);
+				$averageTimeOnSite = round($this->getColumn($row, Piwik_Archive::INDEX_SUM_VISIT_LENGTH) / $nbVisits, $rounding = 0);
+				$bounceRate = round(100 * $this->getColumn($row, Piwik_Archive::INDEX_BOUNCE_COUNT) / $nbVisits, $this->roundPrecision);
+			}
+			
 			$row->addColumn('nb_actions_per_visit', $actionsPerVisit);
 			$row->addColumn('avg_time_on_site', $averageTimeOnSite);
 			try {
