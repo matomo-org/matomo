@@ -37,6 +37,9 @@
 	</script>
 {/literal}
 	<script type="text/javascript" src="libs/jquery/jquery.js"></script>
+{if 'General_LayoutDirection'|translate =='rtl'}
+<link rel="stylesheet" type="text/css" href="themes/default/rtl.css" />
+{/if}
 </head>
 <body class="login">
 {if isset($enableFramedLogins) && !$enableFramedLogins}

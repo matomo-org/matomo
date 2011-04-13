@@ -4,6 +4,7 @@ $translations = array(
 	'General_TranslatorName' => 'Mustafa Mahmood Abdel Rahman',
 	'General_TranslatorEmail' => 'thetruefact@gmail.com',
 	'General_EnglishLanguageName' => 'Arabic',
+	'General_LayoutDirection' => 'rtl',
 	'General_OriginalLanguageName' => 'العربية',
 	'General_HelloUser' => 'مرحباً بك %s',
 	'General_OpenSourceWebAnalytics' => 'تحليلات ويب مفتوحة المصدر',

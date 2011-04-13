@@ -10,10 +10,7 @@
 {loadJavascriptTranslations plugins='CoreAdminHome'}
 
 {include file="CoreHome/templates/js_global_variables.tpl"}
-
-{includeAssets type="css"}
-{includeAssets type="js"}
-
+{include file="CoreHome/templates/js_css_includes.tpl"}
 <!--[if IE]>
 <link rel="stylesheet" type="text/css" href="themes/default/ieonly.css" />
 <![endif]-->

@@ -5,6 +5,7 @@ $translations = array(
 	'General_TranslatorEmail' => 'hello@piwik.org',
 	'General_EnglishLanguageName' => 'English',
 	'General_OriginalLanguageName' => 'English',
+	'General_LayoutDirection' => 'ltr',
 	'General_HelloUser' => 'Hello, %s!',
 	'General_OpenSourceWebAnalytics' => 'Open Source Web Analytics',
 	'General_Dashboard' => 'Dashboard',
