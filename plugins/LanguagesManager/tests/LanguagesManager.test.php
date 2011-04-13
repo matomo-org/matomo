@@ -118,13 +118,16 @@ class Test_LanguagesManager extends UnitTestCase
 						$this->fail("$language: invalid region (country code) in $stringLabel");
 					}
 				}
-				$currentString = $cleanedStrings[$stringLabel];
-				$decoded = Piwik_TranslationWriter::clean($currentString);
-				if($currentString != $decoded )
+				if(isset($cleanedStrings[$stringLabel]))
 				{
-					echo "$language: found encoded entities in $stringLabel, converting entities to characters <br/>\n";
-					$writeCleanedFile = true;
-					$cleanedStrings[$stringLabel] = $decoded;
+					$currentString = $cleanedStrings[$stringLabel];
+					$decoded = Piwik_TranslationWriter::clean($currentString);
+					if($currentString != $decoded )
+					{
+						echo "$language: found encoded entities in $stringLabel, converting entities to characters <br/>\n";
+						$writeCleanedFile = true;
+						$cleanedStrings[$stringLabel] = $decoded;
+					}
 				}
 			}
 			$this->assertTrue( !empty($cleanedStrings['General_TranslatorName'] ), "$language: translator info not specified");
