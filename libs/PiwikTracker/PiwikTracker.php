@@ -315,6 +315,11 @@ class PiwikTracker
      */
     public function getVisitorId()
     {
+    	if(!empty($this->forcedVisitorId))
+    	{
+    		return $this->forcedVisitorId;
+    	}
+    	
     	$idCookieName = 'id.'.$this->idSite.'.';
     	$idCookie = $this->getCookieMatchingName($idCookieName);
     	if($idCookie !== false)
@@ -324,11 +329,6 @@ class PiwikTracker
     		{
     			return $visitorId;
     		}
-    	}
-    	
-    	if(!empty($this->forcedVisitorId))
-    	{
-    		return $this->forcedVisitorId;
     	}
     	return $this->visitorId;
     }
