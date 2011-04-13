@@ -419,7 +419,10 @@ abstract class Test_Integration extends Test_Database
     			$expected = $this->removeAllLiveDatesFromXml($expected);
     		}
     		// If date=lastN the <prettyDate> element will change each day, we remove XML element before comparison
-    		elseif(strpos($dateTime, 'last') !== false)
+    		elseif(strpos($dateTime, 'last') !== false
+    			|| strpos($dateTime, ',today') !== false
+    			|| strpos($dateTime, ',now') !== false
+    			)
     		{
     			if(strpos($requestUrl, 'API.getProcessedReport') !== false)
 	    		{

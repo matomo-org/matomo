@@ -669,16 +669,24 @@ class Test_Piwik_Integration_Main extends Test_Integration
         							'VisitsSummary.get',
         							'Live',
     	));
-    	$this->callGetApiCompareOutput(__FUNCTION__, 'xml', 
+    	$dates = array(
+    		'last7',
+    		Piwik_Date::factory('now')->subDay(6)->toString() . ',today',
+    		Piwik_Date::factory('now')->subDay(6)->toString() . ',now',
+    	);
+    	foreach($dates as $date)
+    	{
+    		$this->callGetApiCompareOutput(__FUNCTION__, 'xml', 
         								$idSite, 
-        								'last7', 
+        								$date, 
         								$periods = array('range'), 
         								$setDateLastN = false,
         								$language=false, 
         								$segment=false,
         								// testing getLastVisitsForVisitor requires a visitor ID
         								$this->visitorId
-        );
+        	);
+    	}
 	}
 	
 	function test_PiwikTracker_trackForceUsingVisitId_insteadOfHeuristics_alsoTestsCampaignTracking()
