@@ -54,6 +54,7 @@ class Piwik_PluginsManager
 		'UsersManager',
 		'API',
 		'Proxy',
+		'LanguagesManager',
 	);
 
 	static private $instance = null;
