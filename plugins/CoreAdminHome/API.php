@@ -11,7 +11,6 @@
  */
 
 /**
- *
  * @package Piwik_CoreAdminHome
  */
 class Piwik_CoreAdminHome_API 

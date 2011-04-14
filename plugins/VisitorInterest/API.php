@@ -11,7 +11,9 @@
  */
 
 /**
- *
+ * VisitorInterest API lets you access two Visitor Engagement reports: number of visits per number of pages,
+ * and number of visits per visit duration.
+ * 
  * @package Piwik_VisitorInterest
  */
 class Piwik_VisitorInterest_API 

@@ -11,7 +11,7 @@
  */
 
 /**
- *
+ * VisitFrequency API lets you access a list of metrics related to Returning Visitors.
  * @package Piwik_VisitFrequency
  */
 class Piwik_VisitFrequency_API 

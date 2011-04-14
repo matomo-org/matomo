@@ -16,6 +16,9 @@
 require_once PIWIK_INCLUDE_PATH . '/plugins/Referers/functions.php';
 
 /**
+ * The SEO API lets you access a list of SEO metrics for the specified URL: Google Pagerank, Yahoo back links, Yahoo Indexed pages,
+ * Alexa Rank, and the age of the Domain name.
+ * 
  * @package Piwik_SEO
  */
 class Piwik_SEO_API 

@@ -11,7 +11,8 @@
  */
 
 /**
- *
+ * VisitTime API lets you access reports by Hour (Server time), and by Hour Local Time of your visitors.
+ * 
  * @package Piwik_VisitTime
  */
 class Piwik_VisitTime_API

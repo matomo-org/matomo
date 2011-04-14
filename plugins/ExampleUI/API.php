@@ -11,6 +11,11 @@
  */
 
 /**
+ * ExampleUI API is also an example API useful if you are developing a Piwik plugin.
+ * 
+ * The functions listed in this API are returning the data used in the Controller to draw graphs and 
+ * display tables. See also the ExampleAPI plugin for an introduction to Piwik APIs.
+ * 
  * @package Piwik_ExampleUI
  */
 class Piwik_ExampleUI_API 

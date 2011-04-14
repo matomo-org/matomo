@@ -66,6 +66,9 @@ class Piwik_API_DocumentationGenerator_CallAllMethods extends Piwik_API_Document
 			$moduleName = Piwik_API_Proxy::getInstance()->getModuleNameFromClassName($class);
 			foreach($info as $methodName => $infoMethod)
 			{
+				if($methodName == '__documentation') {
+					continue;
+				}
 				$params = $this->getParametersString($class, $methodName);
 				$exampleUrl = $this->getExampleUrl($class, $methodName, $parametersToSet);
 				if($exampleUrl !== false)

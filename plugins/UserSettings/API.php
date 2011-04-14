@@ -16,7 +16,9 @@
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
 
 /**
- *
+ * The UserSettings API lets you access reports about your Visitors technical settings: browsers, browser types (rendering engine), 
+ * operating systems, plugins supported in their browser, Screen resolution and Screen types (normal, widescreen, dual screen or mobile).
+ *  
  * @package Piwik_UserSettings
  */
 class Piwik_UserSettings_API 

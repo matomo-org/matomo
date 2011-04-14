@@ -11,7 +11,10 @@
  */
 
 /**
- *
+ * Goals API lets you Manage existing goals, via "updateGoal" and "deleteGoal", create new Goals via "addGoal", 
+ * or list existing Goals for one or several websites via "getGoals" 
+ * 
+ * It also lets you request overall Goal metrics via the method "get" and the additional helpers "getConversions", "getRevenue", etc.
  * @package Piwik_Goals
  */
 class Piwik_Goals_API 
