@@ -33,9 +33,28 @@ class Piwik_PDFReports extends Piwik_Plugin
 				'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
 				'AssetManager.getJsFiles' => 'getJsFiles',
 				'UsersManager.deleteUser' => 'deleteUserReport',
+				'SitesManager.deleteSite' => 'deleteSiteReport',
 		);
 	}
 
+	/**
+	 * Delete reports for the website
+	 *
+	 * @param Event_Notification $notification
+	 */
+	function deleteSiteReport( $notification )
+	{
+		$idSite = &$notification->getNotificationObject();
+
+		$idReports = Piwik_PDFReports_API::getInstance()->getReports($idSite);
+		
+		foreach($idReports as $report)
+		{
+			$idReport = $report['idreport'];
+			Piwik_PDFReports_API::getInstance()->deleteReport($idReport);
+		}
+	}
+	
 	function getJsFiles( $notification )
 	{
 		$jsFiles = &$notification->getNotificationObject();
