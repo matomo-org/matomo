@@ -29,6 +29,7 @@ if(!defined('PIWIK_INCLUDE_PATH'))
 	define('PIWIK_INCLUDE_PATH', PIWIK_DOCUMENT_ROOT);
 }
 
+require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
 
 // NOTE: the code above this comment must be PHP4 compatible
