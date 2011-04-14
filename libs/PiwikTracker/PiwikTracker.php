@@ -286,11 +286,12 @@ class PiwikTracker
     /**
      * Forces the requests to be recorded for the specified Visitor ID
      * rather than using the heuristics based on IP and other attributes.
+     * 
      * This is typically used with the Javascript getVisitorId() function.
      * 
      * Allowed only for Super User, must be used along with setTokenAuth()
      * @see setTokenAuth()
-     * @param string $visitorId 16 hexadecimal characters visitor ID. 
+     * @param string $visitorId 16 hexadecimal characters visitor ID, eg. "33c31e01394bdc63"
      */
     public function setVisitorId($visitorId)
     {
@@ -470,7 +471,11 @@ class PiwikTracker
 			ob_start();
 			$response = @curl_exec($ch);
 			ob_end_clean();
-    		list($header,$content) = explode("\r\n\r\n", $response, $limitCount = 2);
+			$header = $content = '';
+			if(!empty($response))
+			{
+				list($header,$content) = explode("\r\n\r\n", $response, $limitCount = 2);
+			}
 		}
 		else if(function_exists('stream_context_create'))
 		{
