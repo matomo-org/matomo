@@ -565,7 +565,7 @@ abstract class Piwik_Controller
  * 
  * @package Piwik
  */
-abstract class Piwik_Controller_Admin
+abstract class Piwik_Controller_Admin extends Piwik_Controller
 {
 	/**
 	 * Used by Admin screens
