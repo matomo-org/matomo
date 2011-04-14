@@ -13,7 +13,7 @@
 /**
  * @package Piwik_SecurityInfo
  */
-class Piwik_SecurityInfo_Controller extends Piwik_Controller
+class Piwik_SecurityInfo_Controller extends Piwik_Controller_Admin
 {
 	function index()
 	{

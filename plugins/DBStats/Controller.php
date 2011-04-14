@@ -14,7 +14,7 @@
  *
  * @package Piwik_DBStats
  */
-class Piwik_DBStats_Controller extends Piwik_Controller
+class Piwik_DBStats_Controller extends Piwik_Controller_Admin
 {
 	function index()
 	{

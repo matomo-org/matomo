@@ -14,8 +14,25 @@
 <!--[if IE]>
 <link rel="stylesheet" type="text/css" href="themes/default/ieonly.css" />
 <![endif]-->
+{if isset($enableFrames) && !$enableFrames}
+{literal}
+	<style>body { display : none; }</style>
+{/literal}
+{/if}
 </head>
 <body>
+{if isset($enableFrames) && !$enableFrames}
+{literal}
+	<script type="text/javascript">
+		if(self == top) {
+			var theBody = document.getElementsByTagName('body')[0];
+			theBody.style.display = 'block';
+		} else {
+			top.location = self.location;
+		}
+	</script>
+{/literal}
+{/if}
 <div id="root">
 {if !isset($showTopMenu) || $showTopMenu}
 {include file="CoreHome/templates/top_bar.tpl"}

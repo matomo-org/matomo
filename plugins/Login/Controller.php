@@ -77,13 +77,14 @@ class Piwik_Login_Controller extends Piwik_Controller
 	{
 		$view->linkTitle = Piwik::getRandomTitle();
 
-		$enableFramedLogins = Zend_Registry::get('config')->General->enable_framed_logins;
-		$view->enableFramedLogins = $enableFramedLogins;
-		if(!$enableFramedLogins)
+		$view->enableFrames = Zend_Registry::get('config')->General->enable_framed_logins;
+		if(!$view->enableFrames)
 		{
 			$view->setXFrameOptions('sameorigin');
 		}
+
 		$view->forceSslLogin = Zend_Registry::get('config')->General->force_ssl_login;
+
 		// crsf token: don't trust the submitted value; generate/fetch it from session data
 		$view->nonce = Piwik_Nonce::getNonce('Piwik_Login.login');
 	}
@@ -232,7 +233,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 		}
 		$this->configureView($view);
 		echo $view->render();
-
 		exit;
 	}
 
@@ -317,9 +317,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		}
 
 		$this->configureView($view);
-		
 		echo $view->render();
-
 		exit;
 	}
 
