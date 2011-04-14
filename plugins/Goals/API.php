@@ -15,6 +15,7 @@
  * or list existing Goals for one or several websites via "getGoals" 
  * 
  * It also lets you request overall Goal metrics via the method "get" and the additional helpers "getConversions", "getRevenue", etc.
+ * See also the documentation about <a href='http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>Tracking Goals</a> in Piwik.
  * @package Piwik_Goals
  */
 class Piwik_Goals_API 

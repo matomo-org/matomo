@@ -31,7 +31,9 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Live/Visitor.php';
  * With the parameter <a href='http://piwik.org/docs/analytics-api/segmentation/' target='_blank'>'&segment='</a> you can filter the
  * returned visits by any criteria (visitor IP, visitor ID, country, keyword used, time of day, etc.).
  * 
- * The method "getCounters" is used to return a simple counter: visits, number of actions, number of converted visits, in the last N minutes. 
+ * The method "getCounters" is used to return a simple counter: visits, number of actions, number of converted visits, in the last N minutes.
+ * 
+ * See also the documentation about <a href='http://piwik.org/docs/real-time/' target='_blank'>Real time widget and visitor level reports</a> in Piwik.
  * @package Piwik_Live
  */
 class Piwik_Live_API

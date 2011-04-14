@@ -18,6 +18,8 @@
  * 
  * You can also get the list of all existing reports via "getReports", create new reports via "addReport", 
  * or manage existing reports with "updateReport" and "deleteReport".
+ * See also the documentation about <a href='http://piwik.org/docs/email-reports/' target='_blank'>Scheduled Email reports</a> in Piwik.
+ * 
  * @package Piwik_PDFReports
  */
 class Piwik_PDFReports_API
