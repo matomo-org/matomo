@@ -154,7 +154,13 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		else
 		{
 			$action = $this->newAction();
-			$this->handleAction($action);
+			$isActionValid = $this->handleAction($action);
+			
+			if(!$isActionValid)
+			{
+				printDebug('Not tracking this action as it is flagged as invalid.');
+				return;
+			}
 			$someGoalsConverted = $goalManager->detectGoalsMatchingUrl($this->idsite, $action);
 
 			$action->loadIdActionNameAndUrl();
@@ -257,6 +263,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		printDebug($this->cookie);
 	}
 
+	/**
+	 * 
+	 * @return bool Should the action be tracked at all
+	 */
 	protected function handleAction($action)
 	{
 		$action->setIdSite($this->idsite);
@@ -266,7 +276,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		if($this->detectActionIsOutlinkOnAliasHost($action))
 		{
 			printDebug("The outlink's URL host is one  of the known host for this website. We don't record this click.");
-			return;
+			return false;
 		}
 		if(isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG'])
 		{
@@ -285,6 +295,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 						"\n  Action name: ". $action->getActionName() . ",".
 						"\n  Action URL = ". $action->getActionUrl() );
 		}
+		return true;
 	}
 	/**
 	 * In the case of a known visit, we have to do the following actions:
