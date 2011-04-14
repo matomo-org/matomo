@@ -118,7 +118,7 @@ vertical-align:middle;
 			<tr id="row{$i}">
 				<td id="idSite">{$site.idsite}</td>
 				<td id="siteName" class="editableSite">{$site.name}</td>
-				<td id="urls" class="editableSite">{foreach from=$site.alias_urls item=url}{$url}<br />{/foreach}</td>       
+				<td id="urls" class="editableSite">{foreach from=$site.alias_urls item=url}{$url|replace:"http://":""}<br />{/foreach}</td>       
 				<td id="excludedIps" class="editableSite">{foreach from=$site.excluded_ips item=ip}{$ip}<br />{/foreach}</td>       
 				<td id="excludedQueryParameters" class="editableSite">{foreach from=$site.excluded_parameters item=parameter}{$parameter}<br />{/foreach}</td>       
 				<td id="timezone" class="editableSite">{$site.timezone}</td>
