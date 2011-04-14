@@ -28,7 +28,14 @@ class Piwik_Segment
     
     public function __construct($string, $idSites)
     {
+    	$string = Piwik_Common::unsanitizeInputValue($string);
         $string = trim($string);
+		if( !Piwik_Archive::isSegmentationEnabled() 
+			&& !empty($string))
+		{
+			throw new Exception("The Super User has disabled the use of 'segments' for the anonymous user. 
+									Please log in to use Segmentation in the API.");
+		}
         // As a preventive measure, we restrict the filter size to a safe limit
         $string = substr($string, 0, self::SEGMENT_TRUNCATE_LIMIT);
         
@@ -137,6 +144,7 @@ class Piwik_Segment
         }
         return md5(serialize($this->getSql()));
     }
+    
     
     public function getSql()
     {

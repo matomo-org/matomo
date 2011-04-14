@@ -4,6 +4,7 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 	require_once dirname(__FILE__)."/../../tests/config_test.php";
 }
 
+require_once "Database.test.php";
 class Test_Piwik_Segment extends UnitTestCase
 {
     public function setUp()
@@ -12,10 +13,14 @@ class Test_Piwik_Segment extends UnitTestCase
         Piwik::createConfigObject();
 		Zend_Registry::get('config')->setTestEnvironment();	
 
+		// setup the access layer (required in Segment contrustor testing if anonymous is allowed to use segments)
+		$pseudoMockAccess = new FakeAccess;
+		FakeAccess::$superUser = true;
+		Zend_Registry::set('access', $pseudoMockAccess);
+		
 		// Load and install plugins
     	$pluginsManager = Piwik_PluginsManager::getInstance();
     	$pluginsManager->loadPlugins( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
-    	
     }
     
     public function test_()

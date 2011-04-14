@@ -234,6 +234,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	protected function isSegmentAvailableForConversions()
 	{
 	    $allowedSegmentsOnConversions = array(
+	    		'idvisitor',
                 'referer_type',
                 'referer_name',
                 'referer_keyword',

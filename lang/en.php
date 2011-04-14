@@ -44,6 +44,7 @@ $translations = array(
 	'General_Default' => 'Default',
 	'General_Visit' => 'Visit',
 	'General_VisitorIP' => 'Visitor IP',
+	'General_VisitorID' => 'Visitor ID',
 	'General_VisitType' => 'Visitor type',
 	'General_DaysSinceLastVisit' => 'Days since last visit',
 	'General_DaysSinceFirstVisit' => 'Days since first visit',

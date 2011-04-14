@@ -6,7 +6,6 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 
 require_once 'Tracker/Visit.php';
 
-
 require_once "Database.test.php";
 class Test_Piwik_TrackerVisit extends Test_Database
 {

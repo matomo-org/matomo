@@ -560,9 +560,20 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // Segment matching NONE
         $segments = Piwik_API_API::getInstance()->getSegmentsMetadata($idSite);
         $segmentExpression = array();
+        
+        $seenVisitorId = false;
 		foreach($segments as $segment) { 
-			$segmentExpression[] = $segment['segment'] .'!=campaign';
+			$value = 'campaign';
+			if($segment['segment'] == 'visitorId')
+			{
+				$seenVisitorId = true;
+				$value = '34c31e04394bdc63';
+			}
+			$segmentExpression[] = $segment['segment'] .'!='.$value;
 		}
+		// just checking that this segment was tested (as it has the only visible to admin flag)
+		$this->assertTrue($seenVisitorId);
+		
         $segment = implode(";", $segmentExpression);
         $this->assertTrue(strlen($segment) > 100);
 //        echo $segment;
@@ -669,23 +680,31 @@ class Test_Piwik_Integration_Main extends Test_Integration
         							'VisitsSummary.get',
         							'Live',
     	));
+    	$segments = array(
+    		false,
+    		'visitorId!=33c31e01394bdc63',
+    		'daysSinceFirstVisit!=50'
+    	);
     	$dates = array(
     		'last7',
     		Piwik_Date::factory('now')->subDay(6)->toString() . ',today',
     		Piwik_Date::factory('now')->subDay(6)->toString() . ',now',
     	);
-    	foreach($dates as $date)
+    	foreach($segments as $segment)
     	{
-    		$this->callGetApiCompareOutput(__FUNCTION__, 'xml', 
-        								$idSite, 
-        								$date, 
-        								$periods = array('range'), 
-        								$setDateLastN = false,
-        								$language=false, 
-        								$segment=false,
-        								// testing getLastVisitsForVisitor requires a visitor ID
-        								$this->visitorId
-        	);
+	    	foreach($dates as $date)
+	    	{
+	    		$this->callGetApiCompareOutput(__FUNCTION__, 'xml', 
+	        								$idSite, 
+	        								$date, 
+	        								$periods = array('range'), 
+	        								$setDateLastN = false,
+	        								$language=false, 
+	        								$segment,
+	        								// testing getLastVisitsForVisitor requires a visitor ID
+	        								$this->visitorId
+	        	);
+	    	}
     	}
 	}
 	
