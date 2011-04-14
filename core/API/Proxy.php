@@ -119,7 +119,7 @@ class Piwik_API_Proxy
 			$doc = "<div class='apiFirstLine'>".substr($doc, 0, $firstLineBreak)."</div>".substr($doc,$firstLineBreak+strlen("<br>"));
 		}
 		$doc = preg_replace("/(@package)[a-z _A-Z]*/", "", $doc);
-		$doc = str_replace(array("\t","\n", "/**", "*/", " * "," *","  ", "\t*", "  *  @package"), "", $doc);
+		$doc = str_replace(array("\t","\n", "/**", "*/", " * "," *","  ", "\t*", "  *  @package"), " ", $doc);
 		$this->metadataArray[$className]['__documentation'] = $doc;
 	}
 	
