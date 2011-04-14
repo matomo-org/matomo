@@ -95,40 +95,10 @@ function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks 
 	exit;
 }
 
-if (!function_exists('file_get_contents'))
-{
-	/**
-	 * Reads entire file into a string.
-	 * This function is not 100% compatible with the native function.
-	 *
-	 * @see http://php.net/file_get_contents
-	 * @since PHP 4.3.0
-	 *
-	 * @param string $filename Name of the file to read.
-	 * @return string The read data or false on failure.
-	 */
-	function file_get_contents($filename)
-	{
-		$fhandle = fopen($filename, "r");
-		$fcontents = fread($fhandle, filesize($filename));
-		fclose($fhandle);
-		return $fcontents;
-	}
-}
-
 if(!empty($piwik_errorMessage))
 {
 	Piwik_ExitWithMessage($piwik_errorMessage, false, true);
 }
-
-/**
- * We now include the upgradephp package to define some functions used in Piwik
- * that may not be defined in the current PHP version.
- *
- * @see libs/upgradephp/upgrade.php
- * @link http://upgradephp.berlios.de/
- */
-require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 
 /**
  * Usually used in Tracker code, but sometimes triggered from Core

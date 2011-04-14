@@ -1,5 +1,6 @@
 <?php
 // if you don't include 'index.php', you must also define PIWIK_DOCUMENT_ROOT
+// and include "libs/upgradephp/upgrade.php" amd "core/Loader.php"
 define('PIWIK_INCLUDE_PATH', realpath('..'));
 define('PIWIK_USER_PATH', realpath('..'));
 define('PIWIK_ENABLE_DISPATCH', false);
