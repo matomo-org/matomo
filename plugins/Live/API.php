@@ -16,6 +16,22 @@
 require_once PIWIK_INCLUDE_PATH . '/plugins/Live/Visitor.php';
 
 /**
+ * The Live! API lets you access complete visit level information about your visitors. Combined with the power of <a href='http://piwik.org/docs/analytics-api/segmentation/' target='_blank'>Segmentation</a>, 
+ * you will be able to requests visits filtered by any criteria. 
+ * 
+ * The method "getLastVisitsDetails" will return extensive data for each visit, which includes: server time, visitId, visitorId, 
+ * visitorType (new or returning), number of pages, list of all pages (and events, file downloaded and outlinks clicked), 
+ * custom variables names and values set to this visit, number of goal conversions (and list of all Goal conversions for this visit, 
+ * with time of conversion, revenue, URL, etc.), but also other attributes such as: days since last visit, days since first visit, 
+ * country, continent, visitor IP,
+ * provider, referrer used (referrer name, keyword if it was a search engine, full URL), campaign name and keyword, operating system, 
+ * browser, type of screen, resolution, supported browser plugins (flash, java, silverlight, pdf, etc.), various dates & times format to make
+ * it easier for API users... and more!
+ * 
+ * With the parameter <a href='http://piwik.org/docs/analytics-api/segmentation/' target='_blank'>'&segment='</a> you can filter the
+ * returned visits by any criteria (visitor IP, visitor ID, country, keyword used, time of day, etc.).
+ * 
+ * The method "getCounters" is used to return a simple counter: visits, number of actions, number of converted visits, in the last N minutes. 
  * @package Piwik_Live
  */
 class Piwik_Live_API
@@ -75,14 +91,10 @@ class Piwik_Live_API
 	}
 	
 	/**
-	 * Given a visitorId, will return the last $filter_limit visits for this visitor
+	 * The same functionnality can be obtained using segment=visitorId==$visitorId with getLastVisitsDetails
 	 * 
-	 * @param string 16 characters Visitor ID. Typically, you would use the Tracking JS getVisitorId() 
-	 * 					(or the PHP tracking equivalent getVisitorId()) to get this value
-	 * @param int Site ID
-	 * @param int Number of visits to return 
-	 * 
-	 * @return Piwik_DataTable
+	 * @deprecated
+	 * @ignore
 	 */
 	public function getLastVisitsForVisitor( $visitorId, $idSite, $filter_limit = 10 )
 	{

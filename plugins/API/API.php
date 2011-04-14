@@ -12,7 +12,6 @@
  */
 
 /**
- * 
  * @package Piwik_API
  */
 class Piwik_API extends Piwik_Plugin {
@@ -46,6 +45,19 @@ class Piwik_API extends Piwik_Plugin {
 
 
 /**
+ * This API is the <a href='http://piwik.org/docs/analytics-api/metadata/' target='_blank'>Metadata API</a>: it gives information about all other available APIs methods, as well as providing
+ * human readable and more complete outputs than normal API methods. 
+ * 
+ * Some of the information that is returned by the Metadata API: 
+ * <ul>
+ * <li>the dynamically generated list of all API methods via "getReportMetadata"</li> 
+ * <li>the list of metrics that will be returned by each method, along with their human readable name, via "getDefaultMetrics" and "getDefaultProcessedMetrics"</li>
+ * <li>the list of segments metadata supported by all functions that have a 'segment' parameter</li>
+ * <li>the (truly magic) method "getProcessedReport" will return a human readable version of any other report, and include the processed metrics such as 
+ * conversion rate, time on site, etc. which are not directly available in other methods.  
+ * </ul>
+ * The Metadata API is for example used by the Piwik Mobile App to automatically display all Piwik reports, with translated report & columns names and nicely formatted values.
+ * More information on the <a href='http://piwik.org/docs/analytics-api/metadata/' target='_blank'>Metadata API documentation page</a>
  * 
  * @package Piwik_API
  */

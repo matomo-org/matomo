@@ -11,7 +11,13 @@
  */
 
 /**
- *
+ * The PDFReports API lets you manage Scheduled Email reports, as well generate, download or email any existing report.
+ * 
+ * "generateReport" will generate the requested report (for a specific date range, website and in the requested language).
+ * "sendEmailReport" will send the report by email to the recipients specified for this report. 
+ * 
+ * You can also get the list of all existing reports via "getReports", create new reports via "addReport", 
+ * or manage existing reports with "updateReport" and "deleteReport".
  * @package Piwik_PDFReports
  */
 class Piwik_PDFReports_API
@@ -494,6 +500,9 @@ class Piwik_PDFReports_API
 		}
 	}
 
+	/**
+	 * @ignore
+	 */
 	static public function getPeriodToFrequency()
 	{
 		$periods = array(

@@ -11,7 +11,8 @@
  */
 
 /**
- *
+ * DBStats API is used to request the overall status of the Mysql tables in use by Piwik.
+ * 
  * @package Piwik_DBStats
  */
 class Piwik_DBStats_API
@@ -44,6 +45,7 @@ class Piwik_DBStats_API
 			$link   = mysql_connect($configDb['host'], $configDb['username'], $configDb['password']);
 			$status = mysql_stat($link);
 			mysql_close($link);
+			$status = explode("  ", $status);
 		}
 		else
 		{
@@ -55,14 +57,14 @@ class Piwik_DBStats_API
 			}
 
 			$status = array(
-				'Uptime: ' . $fullStatus['Uptime']['Value'],
-				'Threads: ' . $fullStatus['Threads_running']['Value'],
-				'Questions: ' . $fullStatus['Questions']['Value'],
-				'Slow queries: ' . $fullStatus['Slow_queries']['Value'],
-				'Opens: ', // not available via SHOW STATUS
-				'Flush tables: ' . $fullStatus['Flush_commands']['Value'],
-				'Open tables: ' . $fullStatus['Open_tables']['Value'],
-				'Queries per second avg: ', // not available via SHOW STATUS
+				'Uptime' => $fullStatus['Uptime']['Value'],
+				'Threads' => $fullStatus['Threads_running']['Value'],
+				'Questions' => $fullStatus['Questions']['Value'],
+				'Slow queries' => $fullStatus['Slow_queries']['Value'],
+				'Flush tables' => $fullStatus['Flush_commands']['Value'],
+				'Open tables' => $fullStatus['Open_tables']['Value'],
+//				'Opens: ', // not available via SHOW STATUS
+//				'Queries per second avg' =/ // not available via SHOW STATUS
 			);
 		}
 

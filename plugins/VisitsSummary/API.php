@@ -11,7 +11,9 @@
  */
 
 /**
- *
+ * VisitsSummary API lets you access the core web analytics metrics (visits, unique visitors, 
+ * count of actions (page views & downloads & clicks on outlinks), time on site, bounces and converted visits.
+ * 
  * @package Piwik_VisitsSummary
  */
 class Piwik_VisitsSummary_API 

@@ -11,8 +11,17 @@
  */
 
 /**
- * Actions API
- *
+ * The Actions API lets you request reports for all your Visitor Actions: Page URLs, Page titles (Piwik Events),
+ * File Downloads and Clicks on external websites.
+ * 
+ * For example, "getPageTitles" will return all your page titles along with standard <a href='http://piwik.org/docs/analytics-api/reference/#toc-metric-definitions' target='_blank'>Actions metrics</a> for each row.
+ * 
+ * It is also possible to request data for a specific Page Title with "getPageTitle" 
+ * and setting the parameter pageName to the page title you wish to request. 
+ * Similarly, you can request metrics for a given Page URL via "getPageUrl", a Download file via "getDownload" 
+ * and an outlink via "getOutlink".
+ * 
+ * Note: pageName, pageUrl, outlinkUrl, downloadUrl parameters must be URL encoded before you call the API.
  * @package Piwik_Actions
  */
 class Piwik_Actions_API
@@ -32,6 +41,7 @@ class Piwik_Actions_API
 	/**
 	 * Backward compatibility. Fallsback to getPageTitles() instead.
 	 * @deprecated Deprecated since Piwik 0.5
+	 * @ignore
 	 */
 	public function getActions( $idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false )
 	{

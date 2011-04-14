@@ -19,10 +19,10 @@
     
     <h2>{'API_UserAuthentication'|translate}</h2>
     <p>
-    {'API_UsingTokenAuth'|translate:'<b>':'</b>':"<u><code>&amp;token_auth=$token_auth</code></u>"}<br />
-    <span id='token_auth'>token_auth = <b>{$token_auth}</b></span><br />
+    {'API_UsingTokenAuth'|translate:'<b>':'</b>':""}<br />
+    <span id='token_auth'>&amp;token_auth=<b>{$token_auth}</b></span><br />
     {'API_KeepTokenSecret'|translate:'<b>':'</b>'}
-    <p><i>{'API_LoadedAPIs'|translate:$countLoadedAPI}</i></p>
+    <!-- {'API_LoadedAPIs'|translate:$countLoadedAPI} -->
     {$list_api_methods_with_links}
     <br />
 </div>

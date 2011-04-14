@@ -11,30 +11,33 @@
  */
 
 /**
- * This is an example of a basic API file. Each plugin can have one public API.
- * Each public function in this class will be available to be called via the API.
- * Protected and private members will not be callable.
+ * The ExampleAPI is useful to developers building a custom Piwik plugin. 
  * 
- * Functions can be called internally using the PHP objects directly, or via the 
- * Piwik Web APIs, using HTTP requests. For more information, check out:
- * http://piwik.org/docs/analytics-api/calling-techniques
- * 
- * Parameters are passed automatically from the GET request to the API functions.
- * 
- * Common API uses include: 
- * - requesting stats for a given date and period, for one or several websites
- * - creating, editing, deleting entities (Goals, Websites, Users)
- * - any logic that could be useful to a larger scope than the Controller (make a setting editable for example)
- * 
- * It is highly recommended that all the plugin logic is done inside API implementations, and the 
- * Controller and other objects would all call the API internally using, eg.
- *  Piwik_ExampleAPI_API::getInstance()->getSum(1, 2);
- * 
- * 
+ * Please see the <a href='http://dev.piwik.org/trac/browser/trunk/plugins/ExampleAPI/API.php#L1' target='_blank'>source code in in the file plugins/ExampleAPI/API.php</a> for more documentation.
  * @package Piwik_ExampleAPI
  */
 class Piwik_ExampleAPI_API
 {
+	/**
+	 *  * This is an example of a basic API file. Each plugin can have one public API.
+	 * Each public function in this class will be available to be called via the API.
+	 * Protected and private members will not be callable.
+	 * Functions can be called internally using the PHP objects directly, or via the 
+	 * Piwik Web APIs, using HTTP requests. For more information, check out:
+	 * http://piwik.org/docs/analytics-api/calling-techniques
+	 * 
+	 * Parameters are passed automatically from the GET request to the API functions.
+	 * 
+	 * Common API uses include: 
+	 * - requesting stats for a given date and period, for one or several websites
+	 * - creating, editing, deleting entities (Goals, Websites, Users)
+	 * - any logic that could be useful to a larger scope than the Controller (make a setting editable for example)
+	 * 
+	 * It is highly recommended that all the plugin logic is done inside API implementations, and the 
+	 * Controller and other objects would all call the API internally using, eg.
+	 *  Piwik_ExampleAPI_API::getInstance()->getSum(1, 2);
+	 * 
+	 */
 	static private $instance = null;
 
 	/**

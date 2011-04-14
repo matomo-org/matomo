@@ -98,7 +98,29 @@ class Piwik_API_Proxy
 			$this->loadMethodMetadata($className, $method);
 		}
 		
+		$this->setDocumentation($rClass, $className);
 		$this->alreadyRegistered[$className] = true;
+	}
+	
+	/**
+	 * Will be displayed in the API page
+	 * 
+	 */
+	private function setDocumentation($rClass, $className)
+	{
+		// Doc comment
+		$doc = $rClass->getDocComment();
+		$doc = str_replace(" * ".PHP_EOL, "<br>", $doc);
+		
+		// boldify the first line only if there is more than one line, otherwise too much bold 
+		if(substr_count($doc, '<br>') > 1)
+		{
+			$firstLineBreak = strpos($doc, "<br>");
+			$doc = "<div class='apiFirstLine'>".substr($doc, 0, $firstLineBreak)."</div>".substr($doc,$firstLineBreak+strlen("<br>"));
+		}
+		$doc = preg_replace("/(@package)[a-z _A-Z]*/", "", $doc);
+		$doc = str_replace(array("\t","\n", "/**", "*/", " * "," *","  ", "\t*", "  *  @package"), "", $doc);
+		$this->metadataArray[$className]['__documentation'] = $doc;
 	}
 	
 	/**
@@ -269,6 +291,7 @@ class Piwik_API_Proxy
 			&& !$method->isConstructor()
 			&& $method->getName() != 'getInstance'
 			&& false === strstr($method->getDocComment(), '@deprecated')
+			&& false === strstr($method->getDocComment(), '@ignore')
 			 )
 		{
 			$name = $method->getName();
