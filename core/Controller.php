@@ -364,17 +364,14 @@ abstract class Piwik_Controller
 	}
 	
 	/**
-	 * Will only set the minimal variables in the view object
-	 * Used by Admin screens
+	 * Set the minimal variables in the view object
 	 * 
 	 * @param Piwik_View $view
 	 */
 	protected function setBasicVariablesView($view)
 	{
 		$view->topMenu = Piwik_GetTopMenu();
-		$view->currentAdminMenuName = Piwik_GetCurrentAdminMenuName();
 		$view->debugTrackVisitsInsidePiwikUI = Zend_Registry::get('config')->Debug->track_visits_inside_piwik_ui;
-
 		$view->isSuperUser = Zend_Registry::get('access')->isSuperUser();
 	}
 	
@@ -559,6 +556,32 @@ abstract class Piwik_Controller
 	{
 		if(Piwik_Common::getRequestVar('token_auth', false) != Piwik::getCurrentUserTokenAuth()) {
 			throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionInvalidToken'));
+		}
+	}
+}
+
+/**
+ * Parent class of all plugins Controllers with admin functions
+ * 
+ * @package Piwik
+ */
+abstract class Piwik_Controller_Admin
+{
+	/**
+	 * Used by Admin screens
+	 * 
+	 * @param Piwik_View $view
+	 */
+	protected function setBasicVariablesView($view)
+	{
+		parent::setBasicVariablesView($view);
+
+		$view->currentAdminMenuName = Piwik_GetCurrentAdminMenuName();
+
+		$view->enableFrames = Zend_Registry::get('config')->General->enable_framed_settings;
+		if(!$view->enableFrames)
+		{
+			$view->setXFrameOptions('sameorigin');
 		}
 	}
 }

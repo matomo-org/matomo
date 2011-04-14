@@ -173,6 +173,10 @@ login_password_recovery_email_name = Piwik
 ; Default is 0 (i.e., bust frames on the Login forms).
 enable_framed_logins = 0
 
+; Set to 1 to disable the framebuster (a click-jacking countermeasure).
+; Default is 0 (i.e., bust frames on the Settings forms).
+enable_framed_settings = 0
+
 ; language cookie name for session
 language_cookie_name = piwik_lang
 

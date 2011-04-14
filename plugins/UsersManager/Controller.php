@@ -10,12 +10,11 @@
  * @package Piwik_UsersManager
  */
 
-
 /**
  * 
  * @package Piwik_UsersManager
  */
-class Piwik_UsersManager_Controller extends Piwik_Controller
+class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 {
 	/**
 	 * The "Manage Users and Permissions" Admin UI screen

@@ -14,7 +14,7 @@
  *
  * @package Piwik_CorePluginsAdmin
  */
-class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
+class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
 {	
 	function index()
 	{

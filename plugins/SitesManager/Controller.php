@@ -14,7 +14,7 @@
  *
  * @package Piwik_SitesManager
  */
-class Piwik_SitesManager_Controller extends Piwik_Controller
+class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
 {
 	/*
 	 * Main view showing listing of websites and settings

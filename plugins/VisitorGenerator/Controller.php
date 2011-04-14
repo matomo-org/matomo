@@ -14,7 +14,8 @@
  *
  * @package Piwik_VisitorGenerator
  */
-class Piwik_VisitorGenerator_Controller extends Piwik_Controller {
+class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
+{
 
 	public function index() {
 		Piwik::checkUserIsSuperUser();
