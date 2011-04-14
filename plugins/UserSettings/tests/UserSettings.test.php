@@ -262,6 +262,9 @@ class Test_Piwik_UserSettings extends UnitTestCase
 			array('LIN', 'Linux', 'Linux')),
 
 		// Firefox (formerly Firebird, formerly Phoenix; and rebranded versions)
+		'Mozilla/5.0 (X11; Linux i686; rv:5.0a2) Gecko/20110413 Firefox/5.0a2' => array(
+			array('FF', 'Firefox', 'Firefox', '5.0', '5', '0', 'gecko'),
+			array('LIN', 'Linux', 'Linux')),
 		'Mozilla/5.0 (Windows NT 6.1; rv:2.0.1) Gecko/20100101 Firefox/4.0.1' => array(
 			array('FF', 'Firefox', 'Firefox', '4.0', '4', '0', 'gecko'),
 			array('WI7', 'Windows 7', 'Win 7')),
