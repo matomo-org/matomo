@@ -865,6 +865,27 @@ class Piwik_Common
 		return pack("H*" , $str);
 	}
 
+	/**
+	 * This function will convert the input string to the binary representation of the ID
+	 * but it will throw an Exception if the specified input ID is not correct
+	 * 
+	 * This is used when building segments containing visitorId which could be an invalid string
+	 * therefore throwing Unexpected PHP error [pack(): Type H: illegal hex digit i] severity [E_WARNING]
+	 * 
+	 * It would be simply to silent fail the pack() call above but in all other cases, we don't expect an error, 
+	 * so better be safe and get the php error when something unexpected is happening
+	 * @param string $id
+	 * @return binary string
+	 */
+	static public function convertVisitorIdToBin($id)
+	{
+		if(strlen($id) !== Piwik_Tracker::LENGTH_HEX_ID_STRING
+			|| @bin2hex(self::hex2bin($id)) != $id)
+		{
+			throw new Exception("visitorId is expected to be a ".Piwik_Tracker::LENGTH_HEX_ID_STRING." hex char string");
+		}
+		return self::hex2bin($id);
+	}
 /*
  * IP addresses
  */

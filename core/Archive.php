@@ -159,14 +159,6 @@ abstract class Piwik_Archive
 			$sites = Piwik_Site::getIdSitesFromIdSitesString($idSite);
 		}
 		
-		$segment = Piwik_Common::unsanitizeInputValue($segment);
-		if( !Piwik_Archive::isSegmentationEnabled()
-			&& !empty($segment))
-		{
-			throw new Exception("The Super User has disabled the use of 'segments' for the anonymous user. 
-									Please log in to use Segmentation in the API.");
-		}
-		
 		$segment = new Piwik_Segment($segment, $idSite);
 		
 		// idSite=1,3 or idSite=all
