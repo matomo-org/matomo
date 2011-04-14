@@ -16,7 +16,7 @@
  */
 class Piwik_API_DocumentationGenerator
 {
-	protected $modulesToHide = array('CoreAdminHome');
+	protected $modulesToHide = array('CoreAdminHome', 'DBStats');
 	protected $countPluginsLoaded = 0;
 
 	/**
@@ -45,13 +45,14 @@ class Piwik_API_DocumentationGenerator
 	 */
 	public function getAllInterfaceString( $outputExampleUrls = true, $prefixUrls = '' )
 	{
-		$str = '';
+		$str = $toc = '';
 		$token_auth = "&token_auth=" . Piwik::getCurrentUserTokenAuth();
 		$parametersToSet = array(
 								'idSite' 	=> Piwik_Common::getRequestVar('idSite', 1, 'int'),
 								'period' 	=> Piwik_Common::getRequestVar('period', 'day', 'string'),
 								'date'		=> Piwik_Common::getRequestVar('date', 'today', 'string')
 							);
+		
 		
 		foreach(Piwik_API_Proxy::getInstance()->getMetadata() as $class => $info)
 		{
@@ -60,12 +61,17 @@ class Piwik_API_DocumentationGenerator
 			{
 				continue;
 			}
-			$str .= "\n<h2 id='$moduleName'>Module ".$moduleName."</h2>";
-			
+			$toc .= "<a href='#$moduleName'>$moduleName</a><br/>";
+			$str .= "\n<h2 name='$moduleName' id='$moduleName'>Module ".$moduleName."</h2>";
+			$str .= "<div class='apiDescription'> ".$info['__documentation'] . " </div>";
 			foreach($info as $methodName => $infoMethod)
 			{
+				if($methodName=='__documentation')
+				{
+					continue;
+				}
 				$params = $this->getParametersString($class, $methodName);
-				$str .= "\n" . "- <b>$moduleName.$methodName " . $params . "</b>";
+				$str .= "\n <div class='apiMethod'>- <b>$moduleName.$methodName </b>" . $params . "";
 				$str .= '<small>';
 				
 				if($outputExampleUrls)
@@ -79,19 +85,15 @@ class Piwik_API_DocumentationGenerator
 						$lastNUrls = '';
 						if( preg_match('/(&period)|(&date)/',$exampleUrl))
 						{
-							$exampleUrlRss1 = $prefixUrls . $this->getExampleUrl($class, $methodName, array('date' => 'last10') + $parametersToSet) ;
+							$exampleUrlRss1 = $prefixUrls . $this->getExampleUrl($class, $methodName, array('date' => 'last10', 'period' => 'day') + $parametersToSet) ;
 							$exampleUrlRss2 = $prefixUrls . $this->getExampleUrl($class, $methodName, array('date' => 'last5','period' => 'week',) + $parametersToSet );
-							$lastNUrls = ",	RSS of the last <a target=_blank href='$exampleUrlRss1&format=rss$token_auth'>10 days</a>, <a target=_blank href='$exampleUrlRss2&format=Rss'>5 weeks</a>,
-									XML of the <a target=_blank href='$exampleUrlRss1&format=xml$token_auth'>last 10 days</a>";
+							$lastNUrls = ",	RSS of the last <a target=_blank href='$exampleUrlRss1&format=rss$token_auth'>10 days</a>";
 						}
 						$exampleUrl = $prefixUrls . $exampleUrl ;
 						$str .= " [ Example in  
 									<a target=_blank href='$exampleUrl&format=xml$token_auth'>XML</a>, 
-									<a target=_blank href='$exampleUrl&format=PHP&prettyDisplay=true$token_auth'>PHP</a>, 
 									<a target=_blank href='$exampleUrl&format=JSON$token_auth'>Json</a>, 
-									<a target=_blank href='$exampleUrl&format=Csv$token_auth'>Csv</a>, 
-									<a target=_blank href='$exampleUrl&format=Tsv$token_auth'>Tsv (Excel)</a>, 
-									<a target=_blank href='$exampleUrl&format=Html$token_auth'>Basic html</a> 
+									<a target=_blank href='$exampleUrl&format=Tsv$token_auth'>Tsv (Excel)</a> 
 									$lastNUrls
 									]";
 					}
@@ -102,9 +104,13 @@ class Piwik_API_DocumentationGenerator
 					$str .= "</span>";
 				}
 				$str .= '</small>';
-				$str .= "\n<br />";
+				$str .= "</div>\n";
 			}
 		}
+		
+		$str = "<h2>Quick access to APIs</h2> 
+				$toc 
+				$str";
 		return $str;
 	}
 	
