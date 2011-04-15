@@ -54,7 +54,7 @@ $(function() {
         <input type="text" name="email" size="59" />
         <input type="hidden" name="nonce" value="{$nonce}" /><br />
       	<label>{'Feedback_MyMessage'|translate}<br /><i>{'Feedback_DetailsPlease'|translate}</i></label>
-        <textarea name="body" cols="57" rows="10"></textarea><br />
+        <textarea name="body" cols="57" rows="10">Please write your message in English</textarea><br />
       	<label><a href="#" id="feedback-home"><img src="plugins/Feedback/images/go-previous.png" border="0" title="{'General_Previous'|translate}" alt="[{'General_Previous'|translate}]" /></a></label>
       <input id="feedback-form-submit" type="submit" class='submit' value="{'Feedback_SendFeedback'|translate}" />
     </form>
