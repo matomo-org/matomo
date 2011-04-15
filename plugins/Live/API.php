@@ -294,6 +294,7 @@ class Piwik_Live_API
 			$currentSite = new Piwik_Site($idSite);
 			$currentTimezone = $currentSite->getTimezone();
 		
+			$dateString = $date;
 			if($period == 'range') 
 			{ 
 				$processedPeriod = new Piwik_Period_Range('range', $date);
@@ -304,7 +305,6 @@ class Piwik_Live_API
 			}
 			else
 			{
-				$dateString = $date;
 				$processedDate = Piwik_Date::factory($date);
 				$processedPeriod = Piwik_Period::factory($period, $processedDate); 
 			}
@@ -314,11 +314,13 @@ class Piwik_Live_API
 			
 			if(!in_array($date, array('now', 'today', 'yesterdaySameTime'))
 				&& strpos($date, 'last') === false
+				&& strpos($date, 'previous') === false
 				&& Piwik_Date::factory($dateString)->toString('Y-m-d') != date('Y-m-d'))
 			{
 				$dateEnd = $processedPeriod->getDateEnd()->setTimezone($currentTimezone);
 				$where[] = " log_visit.visit_last_action_time <= ?";
-				$whereBind[] = $dateEnd->addDay(1)->toString('Y-m-d H:i:s');
+				$dateEndString = $dateEnd->addDay(1)->toString('Y-m-d H:i:s');
+				$whereBind[] = $dateEndString;
 			}
 		}
 

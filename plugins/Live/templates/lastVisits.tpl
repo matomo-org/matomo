@@ -14,7 +14,7 @@
 				<span class='hash'>#</span>{$visitor.goalConversions}
 				</span>{/if}
 				{if $visitor.visitorType=='returning'}&nbsp;<img src="plugins/Live/templates/images/returningVisitor.gif" title="{'General_ReturningVisitor'|translate}" />{/if}
-				{if $visitor.visitIp}- IP: {$visitor.visitIp}{/if}
+				{if $visitor.visitIp}- <span title="{if !empty($visitor.visitorId)}{'General_VisitorID'|translate}: {$visitor.visitorId}{/if}">IP: {$visitor.visitIp}</span>{/if}
 			</div>
 			<!--<div class="settings"></div>-->
 			<div class="referer">

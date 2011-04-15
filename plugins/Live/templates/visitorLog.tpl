@@ -39,7 +39,7 @@
 	<td class="label" style="width:12%" width="12%">
 
 				<strong>{$visitor.columns.serverDatePrettyFirstAction} - {$visitor.columns.serverTimePrettyFirstAction}</strong>
-				{if !empty($visitor.columns.visitIp)} <br/>IP: {$visitor.columns.visitIp}{/if}
+				{if !empty($visitor.columns.visitIp)} <br/><span title="{if !empty($visitor.columns.visitorId)}{'General_VisitorID'|translate}: {$visitor.columns.visitorId}{/if}">IP: {$visitor.columns.visitIp}</span>{/if}
 				
 				{if (isset($visitor.columns.provider)&&$visitor.columns.provider!='IP')} 
 					<br />
