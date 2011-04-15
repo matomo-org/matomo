@@ -12,20 +12,25 @@ require_once PIWIK_PATH_TEST_TO_ROOT . '/plugins/PDFReports/PDFReports.php';
 
 class Test_Piwik_PDFReports extends Test_Database
 {
-	protected $idSiteAccess = 1;
+	protected $idSiteAccess;
     function setUp()
     {
     	parent::setUp();
     	
 		// setup the access layer
     	$pseudoMockAccess = new FakeAccess;
-		FakeAccess::setIdSitesView( array($this->idSiteAccess,2));
-		
+		FakeAccess::$superUser = true;
 		//finally we set the user as a super user by default
 		Zend_Registry::set('access', $pseudoMockAccess);
 		Piwik_PluginsManager::getInstance()->loadPlugins( array('API', 'UserCountry', 'PDFReports') );
 		Piwik_PluginsManager::getInstance()->installLoadedPlugins();
     	Piwik_PDFReports_API::$cache = array();
+    	
+    	$this->idSiteAccess = Piwik_SitesManager_API::getInstance()->addSite("Test",array("http://piwik.net"));
+    	
+    	$idSite = Piwik_SitesManager_API::getInstance()->addSite("Test",array("http://piwik.net"));
+		FakeAccess::setIdSitesView( array($this->idSiteAccess,2));
+		
     }
 
     function tearDown()
@@ -203,7 +208,7 @@ class Test_Piwik_PDFReports extends Test_Database
     	{
     		if($key == 'additional_emails') $value = str_replace(' ','', $value);
     		if($key == 'description') $value = substr($value,0,250);
-    		$this->assertEqual($value, $report[$key], "Error for $key %s");
+    		$this->assertEqual($value, $report[$key], "Error for $key for report $report and data ".var_export($data,true)." ---> %s ");
     	}
     }
        
