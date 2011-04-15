@@ -74,9 +74,10 @@ class Piwik_API_Controller extends Piwik_Controller
 			$exampleValues = isset($segment['acceptedValues']) 
 								? 'Example values: <code>'.$segment['acceptedValues'].'</code>' 
 								: '';
+			$restrictedToAdmin = isset($segment['permission']) ? '<br/>Note: This segment can only be used by an Admin user' : '';
 			$output .= '<tr>
 							<td class="segmentString">'.$segment['segment'].'</td>
-							<td class="segmentName">'.$segment['name'] .'<br/>'.$exampleValues.' </td>
+							<td class="segmentName">'.$segment['name'] .$restrictedToAdmin.'<br/>'.$exampleValues.' </td>
 						</tr>';
 			
 			// Show only 2 custom variables and display message for rest

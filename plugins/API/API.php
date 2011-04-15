@@ -130,7 +130,6 @@ class Piwik_API_API
 				'acceptedValues' => '34c31e04394bdc63 - any 16 chars ID requested via the Tracking API function getVisitorId()',
 		        'sqlSegment' => 'idvisitor',
 		        'sqlFilter' => array('Piwik_Common', 'convertVisitorIdToBin'),
-		        'permission' => Piwik::isUserHasAdminAccess($idSites),
 	    );
 		$segments[] = array(
 		        'type' => 'metric',
