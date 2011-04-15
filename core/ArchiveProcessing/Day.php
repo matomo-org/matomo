@@ -87,7 +87,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 			$bind = array_merge(array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite )
 								, $sqlSegmentBind);
 //			echo "Querying logs...";
-//			var_dump($bind);
+//			var_dump($query);var_dump($bind);
 			
 			$row = $this->db->fetchRow($query, $bind );
 			if($row === false || $row === null || $row['nb_visits'] == 0)
