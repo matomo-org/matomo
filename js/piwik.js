@@ -395,7 +395,7 @@ if (!this.JSON2) {
 	setReferrerUrl, setCustomUrl, setDocumentTitle,
 	setDownloadClasses, setLinkClasses,
 	discardHashTag,
-	setCookieNamePrefix, setCookieDomain, setCookiePath,
+	setCookieNamePrefix, setCookieDomain, setCookiePath, setVisitorIdCookie,
 	setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout
 	setConversionAttributionFirstReferrer,
 	doNotTrack, setDoNotTrack,
@@ -990,6 +990,9 @@ var
 
 				// Life of the referral cookie (in milliseconds)
 				configReferralCookieTimeout = 15768000000, // 6 months
+				
+				// Should cookies have the secure flag set
+				cookieSecure = documentAlias.location.protocol === 'https',
 
 				// Custom Variables read from cookie
 				customVariables = false,
@@ -1213,6 +1216,14 @@ var
 			}
 
 			/*
+			 * Sets the Visitor ID cookie: either the first time loadVisitorIdCookie is called
+			 * or when there is a new visit or a new page view 
+			 */
+			function setVisitorIdCookie(uuid, createTs, visitCount, nowTs, lastVisitTs) {
+				  setCookie(getCookieName('id'), uuid + '.' + createTs + '.' + visitCount + '.' + nowTs + '.' + lastVisitTs, configVisitorCookieTimeout, configCookiePath, configCookieDomain, cookieSecure);
+			}
+			
+			/*
 			 * Load visitor ID cookie
 			 */
 			function loadVisitorIdCookie() {
@@ -1224,7 +1235,7 @@ var
 				if (id) {
 					tmpContainer = id.split('.');
 
-					// returning visitor
+					// returning visitor flag
 					tmpContainer.unshift('0');
 				} else {
 					tmpContainer = [
@@ -1251,12 +1262,12 @@ var
 						// last visit timestamp - blank = no previous visit
 						''
 					];
+					setVisitorIdCookie(tmpContainer[1], tmpContainer[2], tmpContainer[3], tmpContainer[4], tmpContainer[5]);
 				}
-
 				return tmpContainer;
 			}
-
-			/**
+			
+			/*
 			 * Loads the referrer attribution information
 			 * 
 			 * @returns array
@@ -1317,7 +1328,6 @@ var
 					id = loadVisitorIdCookie(),
 					ses = getCookie(sesname),
 					attributionCookie = loadReferrerAttributionCookie(),
-					secure = documentAlias.location.protocol === 'https',
 					currentUrl = configCustomUrl || locationHrefAlias,
 					campaignNameParameters = [ 'piwik_campaign', 'utm_campaign' ],
 					campaignKeywordParameters = [ 'piwik_kwd', 'utm_term' ],
@@ -1397,7 +1407,7 @@ var
 							purify(referralUrl.slice(0, referralUrlMaxLength))
 						];
 						
-						setCookie(refname, JSON2.stringify(attributionCookie), configReferralCookieTimeout, configCookiePath, configCookieDomain, secure);
+						setCookie(refname, JSON2.stringify(attributionCookie), configReferralCookieTimeout, configCookiePath, configCookieDomain, cookieSecure);
 					}
 				}
 
@@ -1408,7 +1418,8 @@ var
 					'&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
 					'&url=' + encodeWrapper(purify(currentUrl)) +
 					'&urlref=' + encodeWrapper(purify(configReferrerUrl)) +
-					'&_id=' + uuid + '&_idts=' + createTs + '&_idvc=' + visitCount + '&_idn=' + newVisitor +
+					'&_id=' + uuid + '&_idts=' + createTs + '&_idvc=' + visitCount + 
+					'&_idn=' + newVisitor + // currently unused
 					'&_rcn=' + encodeWrapper(campaignNameDetected) +
 					'&_rck=' + encodeWrapper(campaignKeywordDetected) +
 					'&_refts=' + referralTs +
@@ -1443,12 +1454,12 @@ var
 						}
 					}
 
-					setCookie(cvarname, JSON2.stringify(customVariables), configSessionCookieTimeout, configCookiePath, configCookieDomain, secure);
+					setCookie(cvarname, JSON2.stringify(customVariables), configSessionCookieTimeout, configCookiePath, configCookieDomain, cookieSecure);
 				}
 
 				// update cookies
-				setCookie(idname, uuid + '.' + createTs + '.' + visitCount + '.' + nowTs + '.' + lastVisitTs, configVisitorCookieTimeout, configCookiePath, configCookieDomain, secure);
-				setCookie(sesname, '*', configSessionCookieTimeout, configCookiePath, configCookieDomain, secure);
+				setVisitorIdCookie(uuid, createTs, visitCount, nowTs, lastVisitTs);
+				setCookie(sesname, '*', configSessionCookieTimeout, configCookiePath, configCookieDomain, cookieSecure);
 
 				// tracker plugin hook
 				request += executePluginMethod(pluginMethod);

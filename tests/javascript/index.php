@@ -22,7 +22,7 @@ if (file_exists("enable_sqlite")) {
 }
 
 if(!$sqlite) {
-	echo 'alert("WARNING: some tests require sqlite, ensure this PHP extension is enabled to make sure you run all tests!");';
+	echo 'alert("WARNING: some tests require sqlite, \n1) ensure this PHP extension is enabled to make sure you run all tests \n2) create an empty file enable_sqlite in tests/javascript/ ");';
 }
 if ($sqlite) {
   echo '
@@ -719,7 +719,7 @@ if ($sqlite) {
 	});
 
 	test("tracking", function() {
-		expect(50);
+		expect(52);
 
 		/*
 		 * Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
@@ -739,9 +739,24 @@ if ($sqlite) {
 			};
 
 		var tracker = Piwik.getTracker();
-
 		tracker.setTrackerUrl("piwik.php");
 		tracker.setSiteId(1);
+
+		function wait(msecs)
+		{
+			var start = new Date().getTime();
+			var cur = start
+			while(cur - start < msecs)
+			{
+				cur = new Date().getTime();
+			}
+		}
+				
+		var visitorIdStart = tracker.getVisitorId();
+		// need to wait at least 1 second so that the cookie would be different, if it wasnt persisted
+		wait(2000);
+		var visitorIdStart2 = tracker.getVisitorId();
+		ok( visitorIdStart == visitorIdStart2, "getVisitorId() same when called twice with more than 1 second delay");
 		var customUrl = "http://localhost.localdomain/?utm_campaign=YEAH&utm_term=RIGHT!";
 		tracker.setCustomUrl(customUrl);
 
@@ -840,12 +855,17 @@ if ($sqlite) {
 		ok( campaignName2 == "YEAH", "getAttributionCampaignName()");
 		ok( campaignKeyword2 == "RIGHT!", "getAttributionCampaignKeyword()");
 		
+
+		// Test visitor ID at the start is the same at the end
+		var visitorIdEnd = tracker.getVisitorId();
+		ok( visitorIdStart == visitorIdEnd, "tracker.getVisitorId() same at the start and end of process");
+		
 		// custom variables
 		tracker.setCookieNamePrefix("PREFIX");
 		tracker.setCustomVariable(1, "cookiename", "cookievalue");
 		deepEqual( tracker.getCustomVariable(1), ["cookiename", "cookievalue"], "setCustomVariable(cvarExists), getCustomVariable()" );
 		tracker.trackPageView("SaveCustomVariableCookie");
-
+		
 		var tracker2 = Piwik.getTracker();
 		tracker2.setTrackerUrl("piwik.php");
 		tracker2.setSiteId(1);
