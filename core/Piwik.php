@@ -1046,10 +1046,10 @@ class Piwik
 				$longestQuery = $query->getQuery();
 			}
 		}
-		$str .= 'Executed ' . $queryCount . ' queries in ' . round($totalTime,3) . ' seconds' . "\n";
-		$str .= '(Average query length: ' . round($totalTime / $queryCount,3) . ' seconds)' . "\n";
-		$str .= '<br />Queries per second: ' . round($queryCount / $totalTime,1) . "\n";
-		$str .= '<br />Longest query length: ' . round($longestTime,3) . " seconds (<code>$longestQuery</code>) \n";
+		$str .= 'Executed ' . $queryCount . ' queries in ' . round($totalTime,3) . ' seconds';
+		$str .= '(Average query length: ' . round($totalTime / $queryCount,3) . ' seconds)';
+		$str .= '<br />Queries per second: ' . round($queryCount / $totalTime,1) ;
+		$str .= '<br />Longest query length: ' . round($longestTime,3) . " seconds (<code>$longestQuery</code>)";
 		Piwik::log($str);
 		Piwik::getSqlProfilingQueryBreakdownOutput($infoIndexedByQuery);
 	}

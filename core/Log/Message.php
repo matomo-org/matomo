@@ -18,7 +18,7 @@
  */
 class Piwik_Log_Message extends Piwik_Log
 {
-	const ID = 'logger_message';
+	const ID = 'logger_message.htm';
 	function __construct()
 	{
 		$logToFileFilename = self::ID;
@@ -69,7 +69,7 @@ class Piwik_Log_Message_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Sc
     	}
     	$message .= "<br/>\n";
     	
-    	$message = '['. $event['timestamp'] . '] ['.Piwik::getMemoryUsage(). '] ' .$message;
+    	$message = '['. $event['timestamp'] . '] ['.$event['requestKey'].'] ['.Piwik::getMemoryUsage(). '] ' .$message;
     	return parent::format($message);
     }
 }

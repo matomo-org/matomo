@@ -253,12 +253,13 @@ class Piwik_FrontController
 
 			Piwik::raiseMemoryLimitIfNecessary();
 			$pluginsManager->postLoadPlugins();
-
 			
 			Piwik_PostEvent('FrontController.checkForUpdates');
 		} catch(Exception $e) {
 			Piwik_ExitWithMessage($e->getMessage(), false, true);
 		}
+		
+		Piwik::log('End FrontController->init() - Request: '. var_export($_REQUEST, true));
 	}
 }
 
