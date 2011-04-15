@@ -339,6 +339,14 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$valuesToUpdate['visit_last_action_time'] = $datetimeServer;
 		$valuesToUpdate['visit_total_time'] = $visitTotalTime;
 
+		// Update the idvisitor to the latest known value, in case the cookie value changed for some reasons, 
+		// safer to always rely on the most recent values
+		$idVisitor = Piwik_Common::getRequestVar('_id', '', 'string', $this->request);
+		if(strlen($idVisitor) == Piwik_Tracker::LENGTH_HEX_ID_STRING)
+		{
+			$valuesToUpdate['idvisitor'] = Piwik_Common::hex2bin($idVisitor);
+		}
+		
 		// Custom Variables overwrite previous values on each page view
 		$valuesToUpdate = array_merge($valuesToUpdate, $this->visitorCustomVariables);
 		
@@ -371,12 +379,12 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$sqlQuery = "UPDATE ". Piwik_Common::prefixTable('log_visit')."
 						SET $sqlActionUpdate ".implode($updateParts, ', ')."
 						WHERE idsite = ?
-							AND idvisit = ?
-							AND idvisitor = ?";
-		array_push($sqlBind, $this->idsite, $this->visitorInfo['idvisit'], $this->visitorInfo['idvisitor'] );
+							AND idvisit = ?";
+		array_push($sqlBind, $this->idsite, $this->visitorInfo['idvisit']  );
 		$result = Piwik_Tracker::getDatabase()->query($sqlQuery, $sqlBind);
 
-		printDebug('Updating visitor with idvisit='.$this->visitorInfo['idvisit'].', setting visit_last_action_time='.$datetimeServer.' and visit_total_time='.$visitTotalTime);
+		$valuesToUpdate['idvisitor'] = bin2hex($valuesToUpdate['idvisitor']);
+		printDebug('Updating existing visit: '. var_export($valuesToUpdate, true) ); 
 		
 		$this->visitorInfo['visit_last_action_time'] = $this->getCurrentTimestamp();
 		if(Piwik_Tracker::getDatabase()->rowCount($result) == 0)
