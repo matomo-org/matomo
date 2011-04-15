@@ -383,13 +383,18 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		array_push($sqlBind, $this->idsite, $this->visitorInfo['idvisit']  );
 		$result = Piwik_Tracker::getDatabase()->query($sqlQuery, $sqlBind);
 
-		$valuesToUpdate['idvisitor'] = bin2hex($valuesToUpdate['idvisitor']);
+		$this->visitorInfo['visit_last_action_time'] = $this->getCurrentTimestamp();
+
+		// Debug output
+		if(isset($valuesToUpdate['idvisitor']))
+		{
+			$valuesToUpdate['idvisitor'] = bin2hex($valuesToUpdate['idvisitor']);
+		}
 		printDebug('Updating existing visit: '. var_export($valuesToUpdate, true) ); 
 		
-		$this->visitorInfo['visit_last_action_time'] = $this->getCurrentTimestamp();
 		if(Piwik_Tracker::getDatabase()->rowCount($result) == 0)
 		{
-			printDebug("Visitor with this idcookie and idvisit wasn't found in the DB.");
+			printDebug("Visitor with this idvisit wasn't found in the DB.");
 			throw new Piwik_Tracker_Visit_VisitorNotFoundInDatabase(
 						"The visitor with idvisitor=".bin2hex($this->visitorInfo['idvisitor'])." and idvisit=".$this->visitorInfo['idvisit']
 						." wasn't found in the DB, we fallback to a new visitor");
