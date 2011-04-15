@@ -58,7 +58,6 @@
 		<name>Visitor ID</name>
 		<segment>visitorId</segment>
 		<acceptedValues>34c31e04394bdc63 - any 16 chars ID requested via the Tracking API function getVisitorId()</acceptedValues>
-		<permission>1</permission>
 	</row>
 	<row>
 		<type>dimension</type>
