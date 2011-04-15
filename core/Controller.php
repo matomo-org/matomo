@@ -514,7 +514,8 @@ abstract class Piwik_Controller
 			return $userSettingsDate;
 		}
 		// if last7, last30, etc.
-		if(strpos($userSettingsDate, 'last') === 0)
+		if(strpos($userSettingsDate, 'last') === 0
+			|| strpos($userSettingsDate, 'previous') === 0)
 		{
 			return $userSettingsDate;
 		}
@@ -536,7 +537,8 @@ abstract class Piwik_Controller
 		{
 			return 'day';
 		}
-		if(strpos($userSettingsDate, 'last') === 0)
+		if(strpos($userSettingsDate, 'last') === 0
+			|| strpos($userSettingsDate, 'previous') === 0)
 		{
 			return 'range';
 		}

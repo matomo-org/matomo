@@ -142,8 +142,10 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 		$view->availableDefaultDates = array(
 			'today' => Piwik_Translate('General_Today'),
 			'yesterday' => Piwik_Translate('General_Yesterday'),
-			'last7' => Piwik_Translate('Live_LastDays', 7),
-			'last30' => Piwik_Translate('Live_LastDays', 30),
+			'previous7' => Piwik_Translate('General_PreviousDays', 7),
+			'previous30' => Piwik_Translate('General_PreviousDays', 30),
+			'last7' => Piwik_Translate('General_LastDays', 7),
+			'last30' => Piwik_Translate('General_LastDays', 30),
 			'week' => Piwik_Translate('General_CurrentWeek'),
 			'month' => Piwik_Translate('General_CurrentMonth'),
 			'year' => Piwik_Translate('General_CurrentYear'),
