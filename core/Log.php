@@ -24,6 +24,7 @@ abstract class Piwik_Log extends Zend_Log
 	protected $logToFileFilename = null;
 	protected $fileFormatter = null;
 	protected $screenFormatter = null;
+	protected $currentRequestKey;
 	
 	function __construct( 	$logToFileFilename, 
 							$fileFormatter,
@@ -32,6 +33,8 @@ abstract class Piwik_Log extends Zend_Log
 							$logToDatabaseColumnMapping )
 	{
 		parent::__construct();
+		
+		$this->currentRequestKey = substr( Piwik_Common::generateUniqId(), 0, 8);
 
 		$log_dir = Zend_Registry::get('config')->log->logger_file_path;
 		if($log_dir[0] != '/' && $log_dir[0] != DIRECTORY_SEPARATOR)
@@ -55,7 +58,7 @@ abstract class Piwik_Log extends Zend_Log
 	{
 		Piwik_Common::mkdir(dirname($this->logToFileFilename));
 		$writerFile = new Zend_Log_Writer_Stream($this->logToFileFilename);
-		$writerFile->setFormatter( $this->fileFormatter );
+		$writerFile->setFormatter( $this->screenFormatter );
 		$this->addWriter($writerFile);
 	}
 	
@@ -97,10 +100,16 @@ abstract class Piwik_Log extends Zend_Log
 		}
 
 		$event['timestamp'] = date('Y-m-d H:i:s');
-
+		$event['requestKey'] = $this->currentRequestKey;
 		// pack into event required by filters and writers
 		$event = array_merge( $event, $this->_extras);
 
+		// one message must stay on one line
+		if(isset($event['message']))
+		{
+			$event['message'] = str_replace(array(PHP_EOL, "\n"), " ", $event['message']);
+		}
+		
 		// Truncate the backtrace which can be too long to display in the browser
 		if(!empty($event['backtrace']))
 		{
