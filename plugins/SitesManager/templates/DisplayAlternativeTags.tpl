@@ -17,6 +17,8 @@ The Simple Image Tracker code can be used when Javascript is disallowed.
 <br/>
 The following parameters can also be passed to the image URL:
 <ul> 
+	<li><i>rec</i> - (required) The parameter &rec=1 is required to force the request to be recorded</li>
+	<li><i>idsite</i> - (required) Defines the Website ID being tracked</li>
 	<li><i>action_name</i> - Defines the custom Page Title for this page view</li>
 	<li><i>idgoal</i> - The request will trigger the given Goal</li>
 	<li><i>revenue</i> - Used with idgoal, defines the custom revenue for this conversion</li>
