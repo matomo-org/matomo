@@ -47,10 +47,10 @@
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName></referrerName>
 		<referrerKeyword></referrerKeyword>
 		<referrerKeywordPosition></referrerKeywordPosition>
 		<referrerUrl></referrerUrl>
-		<referrerName></referrerName>
 		<referrerSearchEngineUrl></referrerSearchEngineUrl>
 		<referrerSearchEngineIcon></referrerSearchEngineIcon>
 		<operatingSystem>Windows XP</operatingSystem>
@@ -127,10 +127,10 @@
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName></referrerName>
 		<referrerKeyword></referrerKeyword>
 		<referrerKeywordPosition></referrerKeywordPosition>
 		<referrerUrl></referrerUrl>
-		<referrerName></referrerName>
 		<referrerSearchEngineUrl></referrerSearchEngineUrl>
 		<referrerSearchEngineIcon></referrerSearchEngineIcon>
 		<operatingSystem>Windows XP</operatingSystem>
@@ -227,10 +227,10 @@
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>search</referrerType>
 		<referrerTypeName>Search Engines</referrerTypeName>
+		<referrerName>Google</referrerName>
 		<referrerKeyword>this keyword should be ranked</referrerKeyword>
 		<referrerKeywordPosition>1</referrerKeywordPosition>
 		<referrerUrl>http://www.google.com/url?sa=t&amp;source=web&amp;cd=1&amp;ved=0CB4QFjAA&amp;url=http://piwik.org/&amp;rct=j&amp;q=this keyword should be ranked&amp;ei=V8WfTePkKKLfiALrpZWGAw&amp;usg=AFQjCNF_MGJRqKPvaKuUokHtZ3VvNG9ALw&amp;sig2=BvKAdCtNixsmfNWXjsNyMw</referrerUrl>
-		<referrerName>Google</referrerName>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<operatingSystem>Windows XP</operatingSystem>
