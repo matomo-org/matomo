@@ -892,7 +892,20 @@ class Piwik
 	 */
 	static public function log($message = '')
 	{
-		Zend_Registry::get('logger_message')->logEvent($message);
+		static $shouldLog = null;
+		if(is_null($shouldLog))
+		{
+			$shouldLog = (Piwik_Common::isPhpCliMode()
+							|| Zend_Registry::get('config')->log->log_only_when_cli == 0)
+						&& 
+						  ( Zend_Registry::get('config')->log->log_only_when_debug_parameter == 0
+						  	|| isset($_REQUEST['debug']))
+						;
+		}
+		if($shouldLog)
+		{
+			Zend_Registry::get('logger_message')->logEvent($message);
+		}
 	}
 
 	/**
