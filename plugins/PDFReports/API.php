@@ -185,11 +185,13 @@ class Piwik_PDFReports_API
 			$bind[] = $idReport;
 		}
 		
+		// Joining with the site table to work around pre-1.3 where reports could still be linked to a deleted site
 		$reports = Piwik_FetchAll("SELECT * 
     							FROM ".Piwik_Common::prefixTable('pdf')." 
+    								JOIN ".Piwik_Common::prefixTable('site')."
+    								USING (idsite)
     							WHERE deleted = 0
     								$sqlWhere", $bind);
-    								
     	// When a specific report was requested and not found, throw an error
     	if($idReport !== false
     		&& empty($reports))
