@@ -90,11 +90,10 @@
 				</a>
 			{/if}
 			{if $visitor.columns.referrerType == 'campaign'}
-				{'Referers_Campaigns'|translate}
+				{'Referers_ColumnCampaign'|translate}
 				<br />
-				<a href="{$visitor.columns.referrerUrl|escape:'html'}" target="_blank" title="{$visitor.columns.referrerUrl|escape:'html'}" style="text-decoration:underline;">
-					{$visitor.columns.referrerName|escape:'html'}
-				</a>
+				{$visitor.columns.referrerName|escape:'html'}
+				{if !empty($visitor.columns.referrerKeyword)} - {$visitor.columns.referrerKeyword|escape:'html'}{/if}
 			{/if}
 			{if $visitor.columns.referrerType == 'search'}
 				{if !empty($visitor.columns.searchEngineIcon)}

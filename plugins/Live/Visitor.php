@@ -72,10 +72,10 @@ class Piwik_Live_Visitor
 			'providerUrl' => $this->getProviderUrl(),
 			'referrerType' => $this->getRefererType(),
 			'referrerTypeName' => $this->getRefererTypeName(),
+			'referrerName' => $this->getRefererName(),
 			'referrerKeyword' => $this->getKeyword(),
 			'referrerKeywordPosition' => $this->getKeywordPosition(),
 			'referrerUrl' => $this->getRefererUrl(),
-			'referrerName' => $this->getRefererName(),
 			'referrerSearchEngineUrl' => $this->getSearchEngineUrl(),
 			'referrerSearchEngineIcon' => $this->getSearchEngineIcon(),
 			'operatingSystem' => $this->getOperatingSystem(),
@@ -220,7 +220,7 @@ class Piwik_Live_Visitor
 
 	function getKeyword()
 	{
-		return $this->details['referer_keyword'];
+		return urldecode($this->details['referer_keyword']);
 	}
 
 	function getRefererUrl()
@@ -250,7 +250,7 @@ class Piwik_Live_Visitor
 
 	function getRefererName()
 	{
-		return $this->details['referer_name'];
+		return urldecode($this->details['referer_name']);
 	}
 
 	function getSearchEngineUrl()

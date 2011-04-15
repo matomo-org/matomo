@@ -16,7 +16,7 @@ function initSpy()
 			isDupe: check_for_dupe,
 			timeout: 5000,
 			customParameterName: 'minTimestamp',
-			customParameterValueCallback: lastMinTimestamp,
+			customParameterValueCallback: lastMaxTimestamp,
 			fadeInSpeed: 600,
 			appendTo: 'div#content'
 		});

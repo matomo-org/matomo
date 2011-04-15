@@ -169,7 +169,7 @@ class Piwik_Goals extends Piwik_Plugin
 		{
 			foreach($goals as $goal) 
 			{
-        		Piwik_AddWidget('Goals_Goals', $goal['name'], 'Goals', 'widgetGoalReport', array('idGoal' => $goal['idgoal']));
+        		Piwik_AddWidget('Goals_Goals', Piwik_Common::sanitizeInputValue($goal['name']), 'Goals', 'widgetGoalReport', array('idGoal' => $goal['idgoal']));
 			}
 		}
 	}

@@ -20,16 +20,20 @@ function check_for_dupe(prev, last)
 
 
 // Pass the most recent timestamp known to the API
-var liveMinTimestamp = 0;
-function lastMinTimestamp()
+var maxTimestamp = 0; 
+function lastMaxTimestamp()
 {
-	minTimestamp = $('#visitsLive > div:lt(1) .serverTimestamp').html();
-	if(!isNaN(minTimestamp)
-			&& parseInt(minTimestamp)==minTimestamp) 
+	$('#visitsLive .serverTimestamp').each( function() {
+		var ts = $(this).text(); 
+		if( ts > maxTimestamp || maxTimestamp == 0) {
+			maxTimestamp = ts;
+		}
+	});
+	if(!isNaN(maxTimestamp)
+			&& parseInt(maxTimestamp)==maxTimestamp) 
 	{
 		updateTotalVisits();
-		liveMinTimestamp = minTimestamp;
-		return liveMinTimestamp;
+		return maxTimestamp;
 	}
 	return false;
 }

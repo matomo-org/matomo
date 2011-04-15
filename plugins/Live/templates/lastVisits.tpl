@@ -18,8 +18,8 @@
 			</div>
 			<!--<div class="settings"></div>-->
 			<div class="referer">
-				{if $visitor.referrerType != 'direct'}from <a href="{$visitor.referrerUrl|escape:'html'}" target="_blank">{if !empty($visitor.searchEngineIcon)}<img src="{$visitor.searchEngineIcon}" /> {/if}{$visitor.referrerName|escape:'html'}</a>
-					{if !empty($visitor.referrerKeyword)}"{$visitor.referrerKeyword|escape:'html'}"{/if}
+				{if $visitor.referrerType != 'direct'}from {if !empty($visitor.referrerUrl)}<a href="{$visitor.referrerUrl|escape:'html'}" target="_blank">{/if}{if !empty($visitor.searchEngineIcon)}<img src="{$visitor.searchEngineIcon}" /> {/if}{$visitor.referrerName|escape:'html'}{if !empty($visitor.referrerUrl)}</a>{/if}
+					{if !empty($visitor.referrerKeyword)} - "{$visitor.referrerKeyword|escape:'html'}"{/if}
 					{capture assign='keyword'}{$visitor.referrerKeyword|escape:'html'}{/capture}
 					{capture assign='searchName'}{$visitor.referrerName|escape:"html"}{/capture}
 					{capture assign='position'}#{$visitor.referrerKeywordPosition}{/capture}
