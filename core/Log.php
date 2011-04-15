@@ -187,22 +187,7 @@ class Piwik_Log_Formatter_ScreenFormatter implements Zend_Log_Formatter_Interfac
 	
 	static public function getFormattedString($string)
 	{
-		if(Piwik_Common::isPhpCliMode())
-		{
-			$string = str_replace(array('<br>','<br />','<br/>'), "\n", $string);
-			if(is_array($string))
-			{
-				for($i=0, $count = count($string); $i < $count; $i++)
-				{
-					$string[$i] = strip_tags($string[$i]);
-				}
-			}
-			else
-			{
-				$string = strip_tags($string);
-			}
-		}
-		else
+		if(!Piwik_Common::isPhpCliMode())
 		{
 			@header('Content-Type: text/html; charset=utf-8');
 		}
