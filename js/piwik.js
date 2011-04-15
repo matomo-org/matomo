@@ -1023,7 +1023,10 @@ var
 				hash = sha1,
 
 				// Domain hash value
-				domainHash;
+				domainHash,
+
+				// Visitor UUID
+				visitorUUID;
 
 			/*
 			 * Removes hash tag from the URL
@@ -1238,17 +1241,22 @@ var
 					// returning visitor flag
 					tmpContainer.unshift('0');
 				} else {
+					// uuid - generate a pseudo-unique ID to fingerprint this user;
+					// note: this isn't a RFC4122-compliant UUID
+					if (!visitorUUID) {
+						visitorUUID = hash(
+								(navigatorAlias.userAgent || '') +
+								(navigatorAlias.platform || '') +
+								JSON2.stringify(browserFeatures) + nowTs
+							).slice(0, 16); // 16 hexits = 64 bits
+					}
+
 					tmpContainer = [
 						// new visitor
 						'1',
 
-						// uuid - generate a pseudo-unique ID to fingerprint this user;
-						// note: this isn't a RFC4122-compliant UUID
-						hash(
-							(navigatorAlias.userAgent || '') +
-								(navigatorAlias.platform || '') +
-								JSON2.stringify(browserFeatures) + nowTs
-						).slice(0, 16), // 16 hexits = 64 bits
+						// uuid
+						visitorUUID,
 
 						// creation timestamp - seconds since Unix epoch
 						nowTs,
@@ -1262,7 +1270,6 @@ var
 						// last visit timestamp - blank = no previous visit
 						''
 					];
-					setVisitorIdCookie(tmpContainer[1], tmpContainer[2], tmpContainer[3], tmpContainer[4], tmpContainer[5]);
 				}
 				return tmpContainer;
 			}
