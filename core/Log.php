@@ -49,11 +49,6 @@ abstract class Piwik_Log extends Zend_Log
 		$this->logToDatabaseColumnMapping = $logToDatabaseColumnMapping;
 	}
 	
-	static public function dump($var)
-	{
-		Zend_Registry::get('logger_message')->logEvent(var_export($var, true));
-	}
-	
 	function addWriteToFile()
 	{
 		Piwik_Common::mkdir(dirname($this->logToFileFilename));

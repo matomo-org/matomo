@@ -47,7 +47,7 @@ always_archive_data_range = 0;
 
 ; if set to 1, all the SQL queries will be recorded by the profiler 
 ; and a profiling summary will be printed at the end of the request
-; NOTE: you must also set  [log]logger_message[] = "screen" to enable the profiler to print on screen 
+; NOTE: you must also set  [log] logger_message[] = "screen" to enable the profiler to print on screen 
 enable_sql_profiler = 0
 
 ; if set to 1, a Piwik tracking code will be included in the Piwik UI footer and will track visits, pages, etc. to idsite = 1
@@ -341,6 +341,14 @@ encryption =						; SMTP transport-layer encryption, either 'ssl', 'tls', or emp
 ;logger_message[]		= screen
 logger_error[]			= screen
 logger_exception[]		= screen
+
+; if set to 1, only requests done in CLI mode (eg. the archive.sh cron run) will be logged
+; NOTE: log_only_when_debug_parameter will also be checked for
+log_only_when_cli = 0
+
+; if set to 1, only requests with "&debug" parameter will be logged
+; NOTE: log_only_when_cli will also be checked for
+log_only_when_debug_parameter = 0
 
 ; if configured to log in files, log files will be created in this path
 ; eg. if the value is tmp/logs files will be created in /path/to/piwik/tmp/logs/
