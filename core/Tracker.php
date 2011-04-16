@@ -283,7 +283,8 @@ class Piwik_Tracker
 		if( !isset($GLOBALS['PIWIK_TRACKER_DEBUG']) || !$GLOBALS['PIWIK_TRACKER_DEBUG'] ) 
 		{
 			$trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
-			header("Content-Type: image/gif");
+			header('Content-Type: image/gif');
+			header('Access-Control-Allow-Origin: *');
 			print(base64_decode($trans_gif_64));
 		}
 	}

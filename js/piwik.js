@@ -1120,7 +1120,8 @@ var
 					// we use the progid Microsoft.XMLHTTP because
 					// IE5.5 included MSXML 2.5; the progid MSXML2.XMLHTTP
 					// is pinned to MSXML2.XMLHTTP.3.0
-					var xhr = windowAlias.XMLHttpRequest ? new windowAlias.XMLHttpRequest() :
+					var xhr = windowAlias.XDomainRequest ? new windowAlias.XDomainRequest() :
+						windowAlias.XMLHttpRequest ? new windowAlias.XMLHttpRequest() :
 						windowAlias.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') :
 						null;
 
