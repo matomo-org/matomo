@@ -204,6 +204,8 @@ class UserAgentParser
 			'Maemo'					=> 'MAE',
 			'Linux'					=> 'LIN',
 
+			'WP7'					=> 'WP7',
+
 			'CYGWIN_NT-6.1'			=> 'WI7',
 			'Windows NT 6.1'		=> 'WI7',
 			'Windows 7'				=> 'WI7',

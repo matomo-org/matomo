@@ -497,6 +497,9 @@ class Test_Piwik_UserSettings extends UnitTestCase
 			array('WS3', 'Windows Server 2003 / XP x64', 'Win S2003')),
 
 		// IE Mobile
+		'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1; XBLWP7; ZuneWP7)' => array(
+			array('IE', 'Internet Explorer', 'IE', '7.0', '7', '0', 'ie'),
+			array('WP7', 'Windows Phone OS 7.0', 'WinPhone 7')),
 		'Mozilla/4.0 (compatible; MSIE 7.0; Windows Phone OS 7.0; Trident/3.1; IEMobile/7.0; DeviceManufacturer; DeviceModel)' => array(
 			array('IE', 'Internet Explorer', 'IE', '7.0', '7', '0', 'ie'),
 			array('WP7', 'Windows Phone OS 7.0', 'WinPhone 7')),
