@@ -163,9 +163,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'arianna.libero.it'			=> array('Arianna', 'query', 'search/abin/integrata.cgi?query={k}'),
 
 		// Ask (IAC Search & Media)
-		'ask.com'					=> array('Ask', array('ask', 'q'), 'web?q={k}'),
+		'ask.com'					=> array('Ask', array('ask', 'q', 'searchfor'), 'web?q={k}'),
 		'web.ask.com'				=> array('Ask'),
 		'int.ask.com'				=> array('Ask'),
+		'mws.ask.com'				=> array('Ask'),
 		'images.ask.com'			=> array('Ask'),
 		'ask.reference.com'			=> array('Ask'),
 		'www.askkids.com'			=> array('Ask'),
@@ -315,6 +316,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Facebook
 		'www.facebook.com'			=> array('Facebook', 'q', 'search/?q={k}'),
 
+		// Facemoods
+		'start.facemoods.com'		=> array('Facemoods', 's', 'results.php?s={k}'),
+
 		// Fast Browser Search
 		'www.fastbrowsersearch.com'	=> array('Fast Browser Search', 'q', 'results/results.aspx?q={k}'),
 
@@ -395,6 +399,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'darkoogle.com'				=> array('Google'),
 		'search.darkoogle.com'		=> array('Google'),
 		'search.foxtab.com'			=> array('Google'),
+		'www.gooofullsearch.com'	=> array('Google', 'Keywords'),
 		'search.hiyo.com'			=> array('Google'),
 		'search.incredimail.com'	=> array('Google'),
 		'search1.incredimail.com'	=> array('Google'),
@@ -487,8 +492,14 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'webcrawler.com'			=> array('InfoSpace'),
 		'search.dogreatgood.com'	=> array('InfoSpace'),
 	
+		// Powered by InfoSpace
+		'isearch.babylon.com'		=> array('InfoSpace', 'q'),
+		'start.facemoods.com'		=> array('InfoSpace', 's'),
+		'search.magentic.com'		=> array('InfoSpace', 'q'),
+		'search.searchcompletion.com'=> array('InfoSpace', 'q'),
+
 		/*
-		 * InfoSpace powered metasearches are handled in Piwik_Common::extractSearchEngineInformationFromUrl()
+		 * Other InfoSpace powered metasearches are handled in Piwik_Common::extractSearchEngineInformationFromUrl()
 		 *
 		 * This includes sites such as:
 		 * - search.kiwee.com
@@ -593,7 +604,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'searchservice.myspace.com'	=> array('MySpace', 'qry', 'index.cfm?fuseaction=sitesearch.results&type=Web&qry={k}'),
 
 		// MySearch / MyWay / MyWebSearch (default: powered by Ask.com)
-		'www.mysearch.com'			=> array('MyWebSearch', 'searchfor', 'search/Ajmain.jhtml?searchfor={k}'),
+		'www.mysearch.com'			=> array('MyWebSearch', array('searchfor', 'searchFor'), 'search/Ajmain.jhtml?searchfor={k}'),
 		'ms114.mysearch.com'		=> array('MyWebSearch'),
 		'ms146.mysearch.com'		=> array('MyWebSearch'),
 		'kf.mysearch.myway.com'		=> array('MyWebSearch'),
@@ -775,6 +786,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'ricercaimmagini.virgilio.it'=> array('Virgilio'),
 		'ricercavideo.virgilio.it'	=> array('Virgilio'),
 		'ricercanews.virgilio.it'	=> array('Virgilio'),
+		'mobile.virgilio.it'		=> array('Virgilio', 'qrs'),
 
 		// Voila
 		'search.ke.voila.fr'		=> array('Voila', 'rdata', 'S/voila?rdata={k}'),
@@ -837,6 +849,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'{}.yhs.search.yahoo.com'	=> array('Yahoo!'),
 		'one.cn.yahoo.com'			=> array('Yahoo!'),
 		'siteexplorer.search.yahoo.com'	=> array('Yahoo!'),
+
+		// Powered by Yahoo APIs
+		'www.cercato.it'			=> array('Yahoo!', 'q'),
+		'search.offerbox.com'		=> array('Yahoo!', 'q'),
 
 		// Yahoo! Directory
 		'search.yahoo.com/search/dir' => array('Yahoo! Directory', 'p', '?p={k}'),
