@@ -28,7 +28,7 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
 	{
 		$view = Piwik_ViewDataTable::factory( 'graphVerticalBar');
 		$view->init( $this->pluginName,  __FUNCTION__, "VisitTime.getVisitInformationPerServerTime" );
-		
+		$view->setCustomParameter('hideFutureHoursWhenToday', 1);
 		$view->setColumnsToDisplay( array('label','nb_visits') );
 		$view->setSortedColumn( 'label', 'asc' );		
 		$view->setColumnTranslation('label', Piwik_Translate('VisitTime_ColumnServerTime'));
