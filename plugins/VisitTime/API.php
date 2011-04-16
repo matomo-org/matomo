@@ -43,9 +43,37 @@ class Piwik_VisitTime_API
 		return $this->getDataTable('VisitTime_localTime', $idSite, $period, $date, $segment );
 	}
 	
-	public function getVisitInformationPerServerTime( $idSite, $period, $date, $segment = false )
+	public function getVisitInformationPerServerTime( $idSite, $period, $date, $segment = false, $hideFutureHoursWhenToday = false )
 	{
-		return $this->getDataTable('VisitTime_serverTime', $idSite, $period, $date, $segment );
+		$table = $this->getDataTable('VisitTime_serverTime', $idSite, $period, $date, $segment );
+		
+		if($hideFutureHoursWhenToday)
+		{
+			$table = $this->removeHoursInFuture($table, $idSite, $period, $date);
+		}
+		return $table;
+	}
+	
+	protected function removeHoursInFuture($table, $idSite, $period, $date)
+	{
+		$site = new Piwik_Site($idSite);
+		if(	$period == 'day'
+			&& ($date == 'today'
+				||  $date == Piwik_Date::factory('now', $site->getTimezone())->toString()))
+		{
+			$currentHour = Piwik_Date::factory('now', $site->getTimezone())->toString('G');
+			$idsToDelete = array();
+			foreach($table->getRows() as $id => $row)
+			{
+				$hour = $row->getColumn('label');
+				if($hour > $currentHour)
+				{
+					$idsToDelete[] = $id;
+				}
+			}
+			$table->deleteRows($idsToDelete);
+		}
+		return $table;
 	}
 }
 
