@@ -316,9 +316,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Facebook
 		'www.facebook.com'			=> array('Facebook', 'q', 'search/?q={k}'),
 
-		// Facemoods
-		'start.facemoods.com'		=> array('Facemoods', 's', 'results.php?s={k}'),
-
 		// Fast Browser Search
 		'www.fastbrowsersearch.com'	=> array('Fast Browser Search', 'q', 'results/results.aspx?q={k}'),
 
