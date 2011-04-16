@@ -1436,7 +1436,7 @@ class Piwik_Common
 			$query = str_replace('&', '&amp;', strstr($query, '?'));
 			$searchEngineName = 'Google Images';
 		}
-		else if($searchEngineName === 'Google' && (strpos($query, '&as_q=') !== false || strpos($query, 'as_q=') === 0))
+		else if($searchEngineName === 'Google' && (strpos($query, '&as_') !== false || strpos($query, 'as_') === 0))
 		{
 			$keys = array();
 			$key = self::getParameterFromQueryString($query, 'as_q');
