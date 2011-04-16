@@ -725,6 +725,9 @@ class Test_Piwik_Common extends UnitTestCase
 			'http://www.google.com/imgres?imgurl=http://www.imagedomain.com/zoom/34782_ZOOM.jpg&imgrefurl=http://www.mydomain.com/product/Omala-Govindra-Tank-XS-Brown-and-Chile.html&usg=__BD6z_JrJRAFjScDRhj4Tp8Vm_Zo=&h=610&w=465&sz=248&hl=en&start=3&itbs=1&tbnid=aiNVNce9-ZYAPM:&tbnh=136&tbnw=104&prev=/images%3Fq%3DFull%2BSupport%2BTummy%26hl%3Den%26safe%3Doff%26sa%3DG%26gbv%3D2%26tbs%3Disch:1'
 				=> array('name' => 'Google Images', 'keywords' => 'full support tummy'),
 
+			'http://www.google.com/imgres?imgurl=http://www.piwik-connector.com/en/wp-content/themes/analytics/images/piwik-connector.png&imgrefurl=http://www.piwik-connector.com/en/&usg=__ASwTaKUfneQEPcSMyGHp6PslPRo=&h=700&w=900&sz=40&hl=en&start=0&zoom=1&tbnid=K7nGMPzsg3iTHM:&tbnh=131&tbnw=168&ei=r9OpTc1lh96BB4bAgOsI&prev=/images%3Fq%3Dpiwik%26hl%3Den%26safe%3Doff%26biw%3D1280%26bih%3D828%26gbv%3D2%26tbm%3Disch&itbs=1&iact=rc&dur=1400&oei=r9OpTc1lh96BB4bAgOsI&page=1&ndsp=23&ved=1t:429,r:0,s:0&tx=125&ty=88'
+				=> array('name' => 'Google Images', 'keywords' => 'piwik'),
+
 			// Google CSE is not standard google
 			'http://www.google.com/cse?cx=006944612449134755049%3Ahq5up-97k4u&cof=FORID%3A10&q=piwik&ad=w9&num=10&rurl=http%3A%2F%2Fwww.homepagle.com%2Fsearch.php%3Fcx%3D006944612449134755049%253Ahq5up-97k4u%26cof%3DFORID%253A10%26q%3D89'
 				=> array('name' => 'Google Custom Search', 'keywords' => 'piwik'),
@@ -738,10 +741,14 @@ class Test_Piwik_Common extends UnitTestCase
 				=> array('name' => 'Google', 'keywords' => 'web analytics gpl or open or source "real time" -oracle'),
 
 			'http://www.google.ca/search?as_q=web+analytics&as_epq=real+time&as_oq=gpl+open+source&as_eq=oracle&num=10&lr=&as_filetype=&ft=i&as_sitesearch=&as_qdr=all&as_rights=&as_occt=any&cr=&as_nlo=&as_nhi=&safe=images'
-			=> array('name' => 'Google', 'keywords' => 'web analytics gpl or open or source "real time" -oracle'),
+				=> array('name' => 'Google', 'keywords' => 'web analytics gpl or open or source "real time" -oracle'),
 
 			'http://www.google.ca/url?sa=t&source=web&cd=1&ved=0CBQQFjAA&url=http%3A%2F%2Fwww.robocoder.ca%2F&rct=j&q=web%20analytics%20gpl%20OR%20open%20OR%20source%20%22real%20time%22%20-sco&ei=zv6KTILkGsG88gaxoqz9Cw&usg=AFQjCNEv2Mp3ruU8YCMI40Pqo9ijjXvsUA'
 				=> array('name' => 'Google', 'keywords' => 'web analytics gpl or open or source "real time" -sco'),
+
+			// Google Images (advanced search)
+			'http://www.google.com/imgres?imgurl=http://www.softwaredevelopment.ca/software/wxtest-red.png&imgrefurl=http://www.softwaredevelopment.ca/wxtestrunner.shtml&usg=__feDWUbLINOfWzPieVKX1iN9uj3A=&h=432&w=615&sz=18&hl=en&start=0&zoom=1&tbnid=V8LgKlxE4zAJnM:&tbnh=143&tbnw=204&ei=w9apTdWzKoLEgQff27X9CA&prev=/images%3Fq%3Dbook%2Bsite:softwaredevelopment.ca%26um%3D1%26hl%3Den%26safe%3Doff%26client%3Dubuntu%26channel%3Dfs%26biw%3D1280%26bih%3D828%26as_st%3Dy%26tbm%3Disch&um=1&itbs=1&iact=hc&vpx=136&vpy=141&dur=19894&hovh=188&hovw=268&tx=124&ty=103&oei=w9apTdWzKoLEgQff27X9CA&page=1&ndsp=3&ved=1t:429,r:0,s:0'
+				=> array('name' => 'Google Images', 'keywords' => 'book site:softwaredevelopment.ca'),
 
 			// Google cache
 			'http://webcache.googleusercontent.com/search?q=cache:CD2SncROLs4J:piwik.org/blog/2010/04/piwik-0-6-security-advisory/+piwik+security&cd=1&hl=en&ct=clnk'
@@ -802,6 +809,9 @@ class Test_Piwik_Common extends UnitTestCase
 			// msxml.excite.com (using regex)
 			'http://msxml.excite.com/excite/ws/results/Images/test/1/408/TopNavigation/Relevance/iq=true/zoom=off/_iceUrlFlag=7?_IceUrl=true&padv=qall%3dpiwik%26qphrase%3d%26qany%3d%26qnot%3d'
 				=> array('name' => 'Excite', 'keywords' => 'test'),
+
+			'http://search.mywebsearch.com/mywebsearch/GGmain.jhtml?searchFor=piwik&tpr=sbt&st=site&ptnrS=ZZ&ss=sub&gcht='
+				=> array('name' => 'MyWebSearch', 'keywords' => 'piwik'),
 
 			// test that master record is used to backfill subsequent rows
 			'http://www.baidu.com/?wd=test1'
