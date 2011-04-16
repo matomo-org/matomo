@@ -1143,7 +1143,7 @@ var
 				var now = new Date();
 
 				if (!configDoNotTrack) {
-					if (configRequestMethod === 'POST' || request.length > 2048) {
+					if (configRequestMethod === 'POST') {
 						sendXmlHttpRequest(request);
 					} else {
 						getImage(request);
