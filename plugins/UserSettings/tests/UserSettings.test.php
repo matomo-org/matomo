@@ -221,6 +221,14 @@ class Test_Piwik_UserSettings extends UnitTestCase
 			array('DI', 'Dillo', 'Dillo', '0.6', '0', '6', 'unknown'),
 			false),
 
+		// Dolfin (or Dolphin, depending on which Samsung documentation you read); and yes, it's "bada" (lower-case)
+		'Mozilla/5.0 (SAMSUNG; SAMSUNG-GT-S5250/S5250AIJI3; U; Bada/1.0; it-it) AppleWebKit/533.1 (KHTML, like Gecko) Dolfin/2.0 Mobile WQVGA SMM-MMS/1.2.0 NexPlayer/3.0 profile/MIDP-2.1 configuration/CLDC-1.1 OPN-B' => array(
+			array('DF', 'Dolfin', 'Dolfin', '2.0', '2', '0', 'webkit'),
+			array('SBA', 'bada', 'bada')),
+		'Mozilla/5.0 (SAMSUNG; SAMSUNG-GT-S8530/S8530XXJKA; U; Bada/1.2; en-us) AppleWebKit/533.1 (KHTML, like Gecko) Dolfin/2.2 Mobile WVGA SMM-MMS/1.2.0 OPN-B' => array(
+			array('DF', 'Dolfin', 'Dolfin', '2.2', '2', '2', 'webkit'),
+			array('SBA', 'bada', 'bada')),
+
 		// ELinks
 		'ELinks/0.12~pre2.dfsg0-1ubuntu1-lite (textmode; Debian; Linux 2.6.32-4-jolicloud i686; 143x37-2)' => array(
 			array('EL', 'ELinks', 'ELinks', '0.12', '0', '12', 'unknown'),

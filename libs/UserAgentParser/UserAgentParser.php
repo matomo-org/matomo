@@ -90,6 +90,9 @@ class UserAgentParser
 			'epiphany'						=> 'EP',
 			'fennec'						=> 'FE',
 
+			// Dolfin (or Dolphin)
+			'dolfin'						=> 'DF',
+
 			// Firefox (in its many incarnations and rebranded versions)
 			'phoenix'						=> 'PX',
 			'mozilla firebird'				=> 'FB',
@@ -160,7 +163,7 @@ class UserAgentParser
 			'ie'	 => array('IE'),
 			'gecko'  => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'KP', 'KZ'),
 			'khtml'  => array('KO'),
-			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AN', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE'),
+			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AN', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF'),
 			'opera'  => array('OP'),
 		);
 
@@ -259,6 +262,9 @@ class UserAgentParser
 			'SymbOS'				=> 'SYM',
 			'Symbian OS'			=> 'SYM',
 			'SymbianOS'				=> 'SYM',
+
+			'Bada'					=> 'SBA',
+			'bada'					=> 'SBA',
 
 			'SunOS'					=> 'SOS',
 			'AIX'					=> 'AIX',
