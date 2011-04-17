@@ -16,7 +16,7 @@
  */
 class Piwik_MultiSites_Controller extends Piwik_Controller
 {
-	protected $orderBy = 'names';
+	protected $orderBy = 'visits';
 	protected $order = 'desc';
 	protected $evolutionBy = 'visits';
 	protected $mySites = array();

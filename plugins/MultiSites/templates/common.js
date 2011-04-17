@@ -23,8 +23,7 @@ function setOrderBy(self, allSites, params, mOrderBy)
 	if(params['mOrderBy'] == mOrderBy) {
 		if(params['order'] == 'desc') {
 			params['order'] = 'asc';
-		} 
-		else {
+		} else {
 			params['order'] = 'desc';
 		}
 	}
@@ -56,8 +55,7 @@ function prepareRows(allUnsortedSites, params)
 		allSites = limitBy(allSites, params);
 	}
 
-
-		displayRows(allSites, params);
+	displayRows(allSites, params);
 
 	showPagination(allUnsortedSites, params);
 	params['sitesVisible'] = allSites;
@@ -130,7 +128,7 @@ function orderBy(allSites, params)
 		});
 	}
 
-	if(params['order'] == 'asc')
+	if(params['order'] == 'desc')
 	{
 		allSites.reverse();
 	}
