@@ -377,7 +377,7 @@ if (!this.JSON2) {
 	event, which, button, srcElement, type, target,
 	parentNode, tagName, hostname, className,
 	userAgent, cookieEnabled, platform, mimeTypes, enabledPlugin, javaEnabled,
-	XMLHttpRequest, ActiveXObject, open, setRequestHeader, send,
+	XDomainRequest, XMLHttpRequest, ActiveXObject, open, setRequestHeader, send,
 	getTime, setTime, toGMTString, getHours, getMinutes, getSeconds,
 	toLowerCase, charAt, indexOf, lastIndexOf, split, slice,
 	onLoad, src,
