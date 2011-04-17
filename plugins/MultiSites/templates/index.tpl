@@ -39,20 +39,20 @@
 	<thead>
 		<th id="names" class="label" onClick="params = setOrderBy(this,allSites, params, 'names');">
 			<span>{'General_Website'|translate}</span>
-			<span class="arrow multisites_desc"></span>
+			<span class="arrow {if $evolutionBy=='names'}multisites_{$order}{/if}"></span>
 		</th>
 		<th id="visits" class="multisites-column" style="width: 100px" onClick="params = setOrderBy(this,allSites, params, 'visits');">
 			<span>{'General_ColumnNbVisits'|translate}</span>
-			<span class="arrow"></span>
+			<span class="arrow {if $evolutionBy=='visits'}multisites_{$order}{/if}"></span>
 		</th>
 		<th id="actions" class="multisites-column" style="width: 110px" onClick="params = setOrderBy(this,allSites, params, 'actions');">
 			<span>{'General_ColumnPageviews'|translate}</span>
-			<span class="arrow"></span>
+			<span class="arrow {if $evolutionBy=='actions'}multisites_{$order}{/if}"></span>
 		</th>
 		{if $displayUniqueVisitors}
 		<th id="unique" class="multisites-column" style="width: 120px" onClick="params = setOrderBy(this,allSites, params, 'unique');">
 			<span>{'General_ColumnNbUniqVisitors'|translate}</span>
-			<span class="arrow"></span>
+			<span class="arrow {if $evolutionBy=='unique'}multisites_{$order}{/if}"></span>
 		</th>
 		{/if}
 		<th id="evolution" style=" width:350px" colspan="{if $show_sparklines}2{else}1{/if}">

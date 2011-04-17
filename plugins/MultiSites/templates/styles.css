@@ -46,14 +46,14 @@
 #multisites td.multisites-column-evolution, #multisites th.multisites-column-evolution  {
 	width:70px;
 }
-.multisites_asc
+.multisites_desc
 {
 	width: 16px;
 	height: 13px;
 	display: inline-block;
 	background-image: url(../../../themes/default/images/sortdesc.png);
 }
-.multisites_desc
+.multisites_asc
 {
 	width: 16px;
 	height: 13px;
