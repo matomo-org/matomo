@@ -204,6 +204,10 @@ datatable_archiving_maximum_rows_subtable_actions = 100
 ; maximum number of rows for other tables (Providers, User settings configurations)
 datatable_archiving_maximum_rows_standard = 500
 
+; by default, the real time Live! widget will update every 5 seconds and refresh with new visits/actions/etc.
+; you can change the timeout so the widget refreshes more often, or not as frequently 
+live_widget_refresh_after_seconds = 5
+
 ; by default, Piwik uses self-hosted AJAX libraries.
 ; If set to 1, Piwik uses a Content Distribution Network
 use_ajax_cdn = 0
