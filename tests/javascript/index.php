@@ -934,7 +934,7 @@ if ($sqlite) {
 			ok( /testgoal/.test( results ), "plugin hook goal" );
 
 			start();
-		}, 4000);
+		}, 4500);
 	});
 	';
 }
