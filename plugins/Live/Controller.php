@@ -25,6 +25,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 		$view = Piwik_View::factory('index');
 		$view->idSite = $this->idSite;
 		$view = $this->setCounters($view);
+		$view->liveRefreshAfterMs = (int)Zend_Registry::get('config')->General->live_widget_refresh_after_seconds * 1000;
 		$view->visitors = $this->getLastVisitsStart($fetchPlease = true);
 		$view->liveTokenAuth = Piwik::getCurrentUserTokenAuth();
 		return $this->render($view, $fetch);
