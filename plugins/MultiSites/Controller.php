@@ -59,7 +59,6 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		$mySites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess();
 		
 		$ids = 'all';
-		$lastDate =  date('Y-m-d',strtotime("-1 ".$period, strtotime($date)));
 
 		$visits = Piwik_VisitsSummary_API::getInstance()->getVisits($ids, $period, $date);
 		$actions = Piwik_VisitsSummary_API::getInstance()->getActions($ids, $period, $date);
@@ -67,6 +66,8 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		
 		if($period != 'range')
 		{
+			$lastDate = Piwik_Period_Range::removePeriod($period, Piwik_Date::factory($date), $n = 1 );
+			
 			$lastVisits = Piwik_VisitsSummary_API::getInstance()->getVisits($ids, $period, $lastDate);
 			$lastActions = Piwik_VisitsSummary_API::getInstance()->getActions($ids, $period, $lastDate);
 			$lastUniqueUsers = Piwik_VisitsSummary_API::getInstance()->getUniqueVisitors($ids, $period, $lastDate);
