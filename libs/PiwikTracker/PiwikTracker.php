@@ -150,7 +150,36 @@ class PiwikTracker
     {
         $this->visitorCustomVar[$id] = array($name, $value);
     }
-
+    
+    /**
+     * Returns the currently assigned Custom Variable stored in a first party cookie.
+     * 
+     * This function will only work if the user is initiating the current request, and his cookies
+     * can be read by PHP from the $_COOKIE array.
+     * 
+     * @return array An array with this format: array( 0 => CustomVariableName, 1 => CustomVariableValue )
+     * @see Piwik.js getCustomVariable()
+     */
+    public function getCustomVariable($id)
+    {
+    	$customVariablesCookie = 'cvar.'.$this->idSite.'.';
+    	$cookie = $this->getCookieMatchingName($customVariablesCookie);
+    	if(!$cookie)
+    	{
+    		return false;
+    	}
+    	$id = (int)$id;
+    	$cookieDecoded = json_decode($cookie, $assoc = true);
+    	if(!is_array($cookieDecoded)
+    		|| !isset($cookieDecoded[$id])
+    		|| !is_array($cookieDecoded[$id])
+    		|| count($cookieDecoded[$id]) != 2)
+    	{
+    		return false;
+    	}
+    	return $cookieDecoded[$id];
+    }
+    
     /**
      * Sets the Browser language. Used to guess visitor countries when GeoIP is not enabled
      * 

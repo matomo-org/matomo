@@ -727,13 +727,22 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $visitorId = $t->getVisitorId();
         $this->assertTrue(strlen($visitorId) == 16);
         
-        // Test setting the first party cookie 
+        // Test setting/getting the first party cookie via the PHP Tracking Client 
         $_COOKIE['_pk_id_1_1fff'] = 'ca0afe7b6b692ff5.1302307497.1.1302307497.1302307497';
         $_COOKIE['_pk_ref_1_1fff'] = '["YEAH","RIGHT!",1302307497,"http://referrer.example.org/page/sub?query=test&test2=test3"]';
+        $_COOKIE['_pk_cvar_1_1fff'] = '{"1":["VAR 1 set, var 2 not set","yes"],"3":["var 3 set","yes!!!!"]}';
         $this->assertTrue($t->getVisitorId() == 'ca0afe7b6b692ff5');
         $this->assertTrue($t->getAttributionInfo() == $_COOKIE['_pk_ref_1_1fff']);
+        $this->assertTrue($t->getCustomVariable(1) == array("VAR 1 set, var 2 not set", "yes"));
+        $this->assertTrue($t->getCustomVariable(2) == false);
+        $this->assertTrue($t->getCustomVariable(3) == array("var 3 set", "yes!!!!"));
+        $this->assertTrue($t->getCustomVariable(4) == false);
+        $this->assertTrue($t->getCustomVariable(5) == false);
+        $this->assertTrue($t->getCustomVariable(6) == false);
+        $this->assertTrue($t->getCustomVariable(-1) == false);
         unset($_COOKIE['_pk_id_1_1fff']);
         unset($_COOKIE['_pk_ref_1_1fff']);
+        unset($_COOKIE['_pk_cvar_1_1fff']);
         
         // Create a new Tracker object, with different attributes
         $t2 = $this->getTracker($idSite, $dateTime, $defaultInit = false);
