@@ -79,7 +79,7 @@ class Piwik_Date
 		{
 			$date = new Piwik_Date($dateString);
 		}
-		if(is_null($timezone))
+		if(empty($timezone))
 		{
 			return $date;
 		}
@@ -205,6 +205,10 @@ class Piwik_Date
 	 */
 	public function getTimestamp()
 	{
+		if(empty($this->timezone))
+		{
+			$this->timezone = 'UTC';
+		}
 		$utcOffset = self::extractUtcOffset($this->timezone);
 		if($utcOffset !== false) {
 			return (int)($this->timestamp - $utcOffset * 3600);

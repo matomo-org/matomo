@@ -82,6 +82,11 @@ class Test_Piwik_Date extends UnitTestCase
 		$this->assertEqual($date->getDateStartUTC(), $dayStart);
 		$this->assertEqual($date->getDateEndUTC(), $dayEnd);
 		
+		// try with empty timezone
+		$date = $date->setTimezone('');
+		$this->assertEqual($date->getDateStartUTC(), $dayStart);
+		$this->assertEqual($date->getDateEndUTC(), $dayEnd);
+		
 		$date = $date->setTimezone('UTC');
 		$this->assertEqual($date->getDateStartUTC(), $dayStart);
 		$this->assertEqual($date->getDateEndUTC(), $dayEnd);
