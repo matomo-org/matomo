@@ -435,7 +435,7 @@ class Piwik_PDFReports_API
 		// If running from piwik.php with debug, do not delete the PDF after sending the email  
 		if(!isset($GLOBALS['PIWIK_TRACKER_DEBUG']) || !$GLOBALS['PIWIK_TRACKER_DEBUG'])
 		{
-			unlink($outputFilename);
+			@unlink($outputFilename);
 		}
 	}
 	
