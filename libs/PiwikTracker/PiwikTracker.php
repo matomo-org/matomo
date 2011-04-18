@@ -150,7 +150,7 @@ class PiwikTracker
     {
     	if(!is_int($id))
     	{
-    		throw new Exception("Parameter to getCustomVariable should be an integer");
+    		throw new Exception("Parameter id to setCustomVariable should be an integer");
     	}
         $this->visitorCustomVar[$id] = array($name, $value);
     }
