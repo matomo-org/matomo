@@ -394,6 +394,7 @@ if (!this.JSON2) {
 	setDomains, setIgnoreClasses, setRequestMethod,
 	setReferrerUrl, setCustomUrl, setDocumentTitle,
 	setDownloadClasses, setLinkClasses,
+	setCampaignNameKey, setCampaignKeywordKey,
 	discardHashTag,
 	setCookieNamePrefix, setCookieDomain, setCookiePath, setVisitorIdCookie,
 	setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout
@@ -965,6 +966,12 @@ var
 				// Custom data
 				configCustomData,
 
+				// Campaign names
+				configCampaignNameParameters = [ 'piwik_campaign', 'utm_campaign' ],
+
+				// Campaign keywords
+				configCampaignKeywordParameters = [ 'piwik_kwd', 'utm_term' ],
+
 				// First-party cookie name prefix
 				configCookieNamePrefix = '_pk_',
 
@@ -1346,8 +1353,6 @@ var
 					ses = getCookie(sesname),
 					attributionCookie = loadReferrerAttributionCookie(),
 					currentUrl = configCustomUrl || locationHrefAlias,
-					campaignNameParameters = [ 'piwik_campaign', 'utm_campaign' ],
-					campaignKeywordParameters = [ 'piwik_kwd', 'utm_term' ],
 					campaignNameDetected,
 					campaignKeywordDetected;
 
@@ -1383,17 +1388,17 @@ var
 					// Note: we are working on the currentUrl before purify() since we can parse the campaign parameters in the hash tag
 					if(!configConversionAttributionFirstReferrer
 							|| !campaignNameDetected.length) {
-						for( i in campaignNameParameters) {
-							if (Object.prototype.hasOwnProperty.call(campaignNameParameters, i)) {
-								campaignNameDetected = getParameter(currentUrl, campaignNameParameters[i]);
+						for( i in configCampaignNameParameters) {
+							if (Object.prototype.hasOwnProperty.call(configCampaignNameParameters, i)) {
+								campaignNameDetected = getParameter(currentUrl, configCampaignNameParameters[i]);
 								if(campaignNameDetected.length) {
 									break;
 								}
 							}
 						}
-						for( i in campaignKeywordParameters) {
-							if (Object.prototype.hasOwnProperty.call(campaignKeywordParameters, i)) {
-								campaignKeywordDetected = getParameter(currentUrl, campaignKeywordParameters[i]);
+						for( i in configCampaignKeywordParameters) {
+							if (Object.prototype.hasOwnProperty.call(configCampaignKeywordParameters, i)) {
+								campaignKeywordDetected = getParameter(currentUrl, configCampaignKeywordParameters[i]);
 								if(campaignKeywordDetected.length) {
 									break;
 								}
@@ -2076,6 +2081,24 @@ var
 				 */
 				setLinkClasses: function (linkClasses) {
 					configLinkClasses = isString(linkClasses) ? [linkClasses] : linkClasses;
+				},
+
+				/**
+				 * Set array of campaign name parameters
+				 *
+				 * @param string|array campaignNames
+				 */
+				setCampaignNameKey: function (campaignNames) {
+					configCampaignNameParameters = isString(campaignNames) ? [campaignNames] : campaignNames;
+				},
+
+				/**
+				 * Set array of campaign keyword parameters
+				 *
+				 * @param string|array campaignKeywords
+				 */
+				setCampaignKeywordKey: function (campaignKeywords) {
+					configCampaignKeywordParameters = isString(campaignKeywords) ? [campaignKeywords] : campaignKeywords;
 				},
 
 				/**

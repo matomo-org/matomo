@@ -307,7 +307,7 @@ function PiwikTest() {
 	});
 
 	test("API methods", function() {
-		expect(46);
+		expect(48);
 
 		equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
 		equal( typeof Piwik.getTracker, 'function', 'getTracker' );
@@ -346,6 +346,8 @@ function PiwikTest() {
 		equal( typeof tracker.setDocumentTitle, 'function', 'setDocumentTitle' );
 		equal( typeof tracker.setDownloadClasses, 'function', 'setDownloadClasses' );
 		equal( typeof tracker.setLinkClasses, 'function', 'setLinkClasses' );
+		equal( typeof tracker.setCampaignNameKey, 'function', 'setCampaignNameKey' );
+		equal( typeof tracker.setCampaignKeywordKey, 'function', 'setCampaignKeywordKey' );
 		equal( typeof tracker.discardHashTag, 'function', 'discardHashTag' );
 		equal( typeof tracker.setCookieNamePrefix, 'function', 'setCookieNamePrefix' );
 		equal( typeof tracker.setCookieDomain, 'function', 'setCookieDomain' );
