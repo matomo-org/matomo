@@ -157,6 +157,7 @@ class PiwikTracker
      * This function will only work if the user is initiating the current request, and his cookies
      * can be read by PHP from the $_COOKIE array.
      * 
+     * @param int Custom Variable integer index to fetch from cookie. Should be a value from 1 to 5
      * @return array An array with this format: array( 0 => CustomVariableName, 1 => CustomVariableValue )
      * @see Piwik.js getCustomVariable()
      */
