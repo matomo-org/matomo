@@ -312,6 +312,7 @@ class Piwik_PDFReports_API
         	case self::OUTPUT_PDF_SAVE_ON_DISK:
         		$flagOutput = 'F';
         		$outputFilename = PIWIK_INCLUDE_PATH . '/tmp/' . $outputFilename;
+				@chmod($outputFilename, 0600);
         		@unlink($outputFilename);
     		break;
         	case self::OUTPUT_PDF_DOWNLOAD:
@@ -435,6 +436,7 @@ class Piwik_PDFReports_API
 		// If running from piwik.php with debug, do not delete the PDF after sending the email  
 		if(!isset($GLOBALS['PIWIK_TRACKER_DEBUG']) || !$GLOBALS['PIWIK_TRACKER_DEBUG'])
 		{
+			@chmod($outputFilename, 0600);
 			@unlink($outputFilename);
 		}
 	}
