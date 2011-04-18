@@ -377,7 +377,7 @@ if (!this.JSON2) {
 	event, which, button, srcElement, type, target,
 	parentNode, tagName, hostname, className,
 	userAgent, cookieEnabled, platform, mimeTypes, enabledPlugin, javaEnabled,
-	XDomainRequest, XMLHttpRequest, ActiveXObject, open, setRequestHeader, send,
+	XDomainRequest, XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, setRequestHeader, send, readyState, status,
 	getTime, setTime, toGMTString, getHours, getMinutes, getSeconds,
 	toLowerCase, charAt, indexOf, lastIndexOf, split, slice,
 	onLoad, src,
@@ -1126,7 +1126,16 @@ var
 						null;
 
 					xhr.open('POST', configTrackerUrl, true);
+
+					// fallback on error
+					xhr.onreadystatechange = function () { 
+						if (this.readyState === 4 && this.status !== 200) { 
+							getImage(request); 
+						} 
+					}; 
+
 					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+
 					// Safari: unsafe headers
 //					xhr.setRequestHeader('Content-Length', request.length);
 //					xhr.setRequestHeader('Connection', 'close');
