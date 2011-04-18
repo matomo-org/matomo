@@ -148,6 +148,10 @@ class PiwikTracker
      */
     public function setCustomVariable($id, $name, $value)
     {
+    	if(!is_int($id))
+    	{
+    		throw new Exception("Parameter to getCustomVariable should be an integer");
+    	}
         $this->visitorCustomVar[$id] = array($name, $value);
     }
     
@@ -169,7 +173,10 @@ class PiwikTracker
     	{
     		return false;
     	}
-    	$id = (int)$id;
+    	if(!is_int($id))
+    	{
+    		throw new Exception("Parameter to getCustomVariable should be an integer");
+    	}
     	$cookieDecoded = json_decode($cookie, $assoc = true);
     	if(!is_array($cookieDecoded)
     		|| !isset($cookieDecoded[$id])
