@@ -305,7 +305,7 @@ class Piwik_Live_API
 			}
 			else
 			{
-				$processedDate = Piwik_Date::factory($date);
+				$processedDate = Piwik_Date::factory($date)->subDay(1);
 				$processedPeriod = Piwik_Period::factory($period, $processedDate); 
 			}
 			$dateStart = $processedPeriod->getDateStart()->setTimezone($currentTimezone);
