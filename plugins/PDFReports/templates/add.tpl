@@ -1,13 +1,13 @@
 <div class='entityAddContainer' style='display:none'>
 <div class='entityCancel'>
-	{'PDFReports_CancelAndReturnToPDF'|translate:"<a class='entityCancelLink'>":"</a>"}
+	{'PDFReports_CancelAndReturnToReports'|translate:"<a class='entityCancelLink'>":"</a>"}
 </div>
 <div class='clear'></div>
 <form id='addEditReport'>
 <table class="dataTable entityTable">
 	<thead>
 		<tr class="first">
-			<th colspan="2">{'PDFReports_CreateAndSchedulePDFReport'|translate}</th>
+			<th colspan="2">{'PDFReports_CreateAndScheduleReport'|translate}</th>
 		<tr>
 	</thead>
 	<tbody>
@@ -22,7 +22,7 @@
 			<td>
 			<textarea cols="30" rows="3" id="report_description" class="inp"></textarea>
 			<div class="entityInlineHelp">
-				{'PDFReports_DescriptionWillBeFirstPage'|translate}
+				{'PDFReports_DescriptionOnFirstPage'|translate}
 			</div>
 			</td>
 		</tr>
@@ -31,7 +31,7 @@
 			<td>
 				<select id="report_period" class="inp">
 				{foreach from=$periods item=period key=periodId}
-                    <option value="{$periodId}">{$period}</option>
+					<option value="{$periodId}">{$period}</option>
 				{/foreach}
 				</select>
 				
@@ -54,7 +54,18 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="first">{'PDFReports_ReportsIncludedInPDF'|translate}</td>
+			<td class="first">{'PDFReports_ReportFormat'|translate}
+			</td>
+			<td>
+				<select id="report_format">
+				{foreach from=$formats key=format item=icon}
+					<option value="{$format}">{$format|upper}</option>
+				{/foreach}
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td class="first">{'PDFReports_ReportsIncluded'|translate}</td>
 			<td>
 			<div id='reportsList'>
 				{assign var=countReports value=0}
@@ -80,7 +91,7 @@
 	</tbody>
 </table>
 <input type="hidden" id="report_idreport" value="">
-<input type="submit" value="{'PDFReports_CreatePDFReport'|translate}" name="submit" id="report_submit" class="submit" />
+<input type="submit" value="{'PDFReports_CreateReport'|translate}" name="submit" id="report_submit" class="submit" />
 </form>
 <div class='entityCancel'>
 	{'General_OrCancel'|translate:"<a class='entityCancelLink'>":"</a>"}

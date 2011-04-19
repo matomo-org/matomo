@@ -39,48 +39,7 @@ class Piwik_View implements Piwik_iView
 	public function __construct( $templateFile, $smConf = array(), $filter = true )
 	{
 		$this->template = $templateFile;
-		$this->smarty = new Piwik_Smarty();
-
-		if(count($smConf) == 0)
-		{
-			$smConf = Zend_Registry::get('config')->smarty;
-		}
-		foreach($smConf as $key => $value)
-		{
-			$this->smarty->$key = $value;
-		}
-
-		$this->smarty->template_dir = $smConf->template_dir->toArray();
-		array_walk($this->smarty->template_dir, array("Piwik_View","addPiwikPath"), PIWIK_INCLUDE_PATH);
-
-		$this->smarty->plugins_dir = $smConf->plugins_dir->toArray();
-		array_walk($this->smarty->plugins_dir, array("Piwik_View","addPiwikPath"), PIWIK_INCLUDE_PATH);
-
-		$this->smarty->compile_dir = $smConf->compile_dir;
-		Piwik_View::addPiwikPath($this->smarty->compile_dir, null, PIWIK_USER_PATH);
-
-		$this->smarty->cache_dir = $smConf->cache_dir;
-		Piwik_View::addPiwikPath($this->smarty->cache_dir, null, PIWIK_USER_PATH);
-
-		$error_reporting = $smConf->error_reporting;
-		if($error_reporting != (string)(int)$error_reporting)
-		{
-			$error_reporting = self::bitwise_eval($error_reporting);
-		}
-		$this->smarty->error_reporting = $error_reporting;
-
-		if($filter)
-		{
-			$this->smarty->load_filter('output', 'cachebuster');
-
-			$use_ajax_cdn = Zend_Registry::get('config')->General->use_ajax_cdn;
-			if($use_ajax_cdn)
-			{
-				$this->smarty->load_filter('output', 'ajaxcdn');
-			}
-
-			$this->smarty->load_filter('output', 'trimwhitespace');
-		}
+		$this->smarty = new Piwik_Smarty($smConf, $filter);
 
 		// global value accessible to all templates: the piwik base URL for the current request
 		$this->piwikUrl = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
@@ -269,48 +228,6 @@ class Piwik_View implements Piwik_iView
 		$this->smarty->caching = $caching;
 	}
 */
-
-	/**
-	 * Prepend relative paths with absolute Piwik path
-	 *
-	 * @param string $value relative path (pass by reference)
-	 * @param int $key (don't care)
-	 * @param string $path Piwik root
-	 */
-	static public function addPiwikPath(&$value, $key, $path)
-	{
-		if($value[0] != '/' && $value[0] != DIRECTORY_SEPARATOR)
-		{
-			$value = $path ."/$value";
-		}
-	}
-
-	/**
-	 * Evaluate expression containing only bitwise operators.
-	 * Replaces defined constants with corresponding values.
-	 * Does not use eval().
-	 *
-	 * @param string $expression Expression.
-	 * @return string
-	 */
-	static public function bitwise_eval($expression)
-	{
-		// replace defined constants
-		$buf = get_defined_constants(true);
-
-		// use only the 'Core' PHP constants, e.g., E_ALL, E_STRICT, ...
-		$consts = isset($buf['Core']) ? $buf['Core'] : (isset($buf['mhash']) ? $buf['mhash'] : $buf['internal']);
-		$expression = str_replace(' ', '', strtr($expression, $consts));
-
-		// bitwise operators in order of precedence (highest to lowest)
-		// note: boolean ! (NOT) and parentheses aren't handled
-		$expression = preg_replace_callback('/~(-?[0-9]+)/', @create_function('$matches', 'return (string)((~(int)$matches[1]));'), $expression);
-		$expression = preg_replace_callback('/(-?[0-9]+)&(-?[0-9]+)/', @create_function('$matches', 'return (string)((int)$matches[1]&(int)$matches[2]);'), $expression);
-		$expression = preg_replace_callback('/(-?[0-9]+)\^(-?[0-9]+)/', @create_function('$matches', 'return (string)((int)$matches[1]^(int)$matches[2]);'), $expression);
-		$expression = preg_replace_callback('/(-?[0-9]+)\|(-?[0-9]+)/', @create_function('$matches', 'return (string)((int)$matches[1]|(int)$matches[2]);'), $expression);
-
-		return (string)((int)$expression & PHP_INT_MAX);
-	}
 
 	/**
 	 * View factory method
