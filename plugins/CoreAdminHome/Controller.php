@@ -39,7 +39,6 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
     		$view->showWarningCron = $showWarningCron;
     		$view->todayArchiveTimeToLive = $todayArchiveTimeToLive;
     		$view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
-    		$view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
     	
     		if(!Zend_Registry::get('config')->isFileWritable())
     		{
@@ -48,6 +47,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
     		$view->mail = Zend_Registry::get('config')->mail->toArray();
 		}
 		
+    	$view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
 		$this->setBasicVariablesView($view);
 		$view->topMenu = Piwik_GetTopMenu();
 		$view->menu = Piwik_GetAdminMenu();
