@@ -78,13 +78,13 @@ function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks 
 	}
 	$headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_header.tpl');
 	$footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_footer.tpl');
-	
-	try {
-		// This can fail
-		$loginName = Piwik::getLoginPluginName();
-	} catch(Exception $e) {
+
+	// This can fail
+	$loginName = @call_user_func(array('Piwik', 'getLoginPluginName'));
+	if(empty($loginName)){
 		$loginName = 'Login';
 	}
+
 	$headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
 	$content = '<p>'.$message.'</p>
 				<p><a href="index.php">Go to Piwik</a><br/>
