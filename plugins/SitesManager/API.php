@@ -278,6 +278,19 @@ class Piwik_SitesManager_API
 								ORDER BY idsite ASC $limit");
 		return $sites;
 	}
+	
+	protected function getNormalizedUrls($url)
+	{
+		if(strpos($url, 'www.') !== false) 
+		{
+			$urlBis = str_replace('www.', '', $url);
+		}
+		else
+		{
+			$urlBis = str_replace('://', '://www.', $url);
+		}
+		return array($url, $urlBis);
+	}
 
 	/**
 	 * Returns the list of websites ID associated with a URL.
@@ -288,17 +301,17 @@ class Piwik_SitesManager_API
 	public function getSitesIdFromSiteUrl( $url )
 	{
 		$url = $this->removeTrailingSlash($url);
-
+		list($url, $urlBis) = $this->getNormalizedUrls($url);
 		if(Piwik::isUserIsSuperUser())
 		{
 			$ids = Zend_Registry::get('db')->fetchAll(
 					'SELECT idsite 
 					FROM ' . Piwik_Common::prefixTable('site') . ' 
-					WHERE main_url = ? ' .
+					WHERE (main_url = ? OR main_url = ?) ' .
 					'UNION 
 					SELECT idsite 
 					FROM ' . Piwik_Common::prefixTable('site_url') . ' 
-					WHERE url = ?', array($url, $url));
+					WHERE (url = ? OR url = ?) ', array($url, $urlBis, $url, $urlBis));
 		}
 		else
 		{
@@ -306,14 +319,14 @@ class Piwik_SitesManager_API
 			$ids = Zend_Registry::get('db')->fetchAll(
 					'SELECT idsite 
 					FROM ' . Piwik_Common::prefixTable('site') . ' 
-					WHERE main_url = ? ' .
+					WHERE (main_url = ? OR main_url = ?)' .
 						'AND idsite IN (' . Piwik_Access::getSqlAccessSite('idsite') . ') ' .
 					'UNION 
 					SELECT idsite 
 					FROM ' . Piwik_Common::prefixTable('site_url') . ' 
-					WHERE url = ? ' .
+					WHERE (url = ? OR url = ?)' .
 						'AND idsite IN (' . Piwik_Access::getSqlAccessSite('idsite') . ')', 
-					array($url, $login, $url, $login));
+					array($url, $urlBis, $login, $url, $urlBis, $login));
 		}
 
 		return $ids;

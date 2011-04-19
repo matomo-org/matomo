@@ -846,6 +846,9 @@ class Test_Piwik_SitesManager extends Test_Database
 
 		$idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.org');
 		$this->assertTrue(count($idsites) == 1);
+		
+		$idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://www.piwik.org');
+		$this->assertTrue(count($idsites) == 1);
 
 		$idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.net');
 		$this->assertTrue(count($idsites) == 2);
@@ -856,7 +859,7 @@ class Test_Piwik_SitesManager extends Test_Database
 
 	function test_getSitesIdFromSiteUrl_User()
 	{
-		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array("http://piwik.net","http://piwik.com"));
+		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array("http://www.piwik.net","http://piwik.com"));
 		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site2",array("http://piwik.com","http://piwik.net"));
 		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.com","http://piwik.org"));
 
@@ -880,6 +883,12 @@ class Test_Piwik_SitesManager extends Test_Database
 		FakeAccess::setIdSitesAdmin (array());
 		Zend_Registry::set('access', $pseudoMockAccess);
 		$idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
+		$this->assertTrue(count($idsites) == 1);
+		
+		// testing URL normalization
+		$idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://www.piwik.com');
+		$this->assertTrue(count($idsites) == 1);
+		$idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.net');
 		$this->assertTrue(count($idsites) == 1);
 
     	$pseudoMockAccess = new FakeAccess;
