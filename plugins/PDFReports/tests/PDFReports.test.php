@@ -45,6 +45,7 @@ class Test_Piwik_PDFReports extends Test_Database
     		'idsite' => $this->idSiteAccess,
     		'description' => 'test description"',
     		'period' => 'day',
+    		'format' => 'pdf',
     		'reports' => 'UserCountry_getCountry',
     		'email_me' => 1,
     		'additional_emails' => 'test@test.com, t2@test.com',
@@ -160,6 +161,7 @@ class Test_Piwik_PDFReports extends Test_Database
     		'idsite' => $this->idSiteAccess,
     		'description' => 'test description"',
     		'period' => 'day',
+    		'format' => 'pdf',
     		'reports' => 'UserCountry_getCountry',
     		'email_me' => 1,
     		'additional_emails' => 'test@test.com, t2@test.com',
@@ -172,6 +174,7 @@ class Test_Piwik_PDFReports extends Test_Database
     		'idsite' => $this->idSiteAccess,
     		'description' => 'very very long and possibly truncated description. very very long and possibly truncated description. very very long and possibly truncated description. very very long and possibly truncated description. very very long and possibly truncated description. ',
     		'period' => 'month',
+    		'format' => 'pdf',
     		'reports' => 'UserCountry_getContinent',
     		'email_me' => 0,
     		'additional_emails' => 'blabla@ec.fr',
@@ -183,7 +186,8 @@ class Test_Piwik_PDFReports extends Test_Database
     										$data['idsite'], 
     										$data['description'], 
     										$data['period'], 
-    										$data['reports'], 
+    										$data['format'],
+    										$data['reports'],
     										$data['email_me'], 
     										$data['additional_emails']);
     	return $idReport;
@@ -197,7 +201,8 @@ class Test_Piwik_PDFReports extends Test_Database
     										$data['idsite'], 
     										$data['description'], 
     										$data['period'], 
-    										$data['reports'], 
+    										$data['format'],
+    										$data['reports'],
     										$data['email_me'], 
     										$data['additional_emails']);
     	return $idReport;

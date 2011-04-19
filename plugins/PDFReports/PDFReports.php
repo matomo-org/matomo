@@ -16,11 +16,13 @@
  */
 class Piwik_PDFReports extends Piwik_Plugin
 {
+	const DEFAULT_FORMAT = 'pdf';
+
 	public function getInformation()
 	{
 		return array(
-			'name' => 'Pdf Export Plugin',
-			'description' => Piwik_Translate('PDFReports_PluginDescription'),
+			'name' => 'Email Reports Plugin',
+			'description' => Piwik_Translate('PDFReports_PluginDescriptionReports'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,
@@ -147,6 +149,7 @@ class Piwik_PDFReports extends Piwik_Plugin
 					login VARCHAR(100) NOT NULL,
 					description VARCHAR(255) NOT NULL,
 					period VARCHAR(10) NULL,
+					format VARCHAR(10),
 					email_me TINYINT NULL,
 					additional_emails TEXT NULL,
 					reports TEXT NOT NULL,

@@ -21,14 +21,14 @@ class Piwik_PDFReports_Controller extends Piwik_Controller
 		$view = Piwik_View::factory('index');
         $this->setGeneralVariablesView($view);
 		$view->currentUserEmail = Piwik::getCurrentUserEmail();
-		
+
 		$availableReports = Piwik_API_API::getInstance()->getReportMetadata($this->idSite);
 		$reportsByCategory = array();
 		foreach($availableReports as $report)
 		{
 			$reportsByCategory[$report['category']][] = $report;
 		}
-		
+
 		$reports = Piwik_PDFReports_API::getInstance()->getReports($this->idSite, $period = false, $idReport = false, $ifSuperUserReturnOnlySuperUserReports = true);
 		$reportsById = array();
 		foreach($reports as &$report)
@@ -38,13 +38,15 @@ class Piwik_PDFReports_Controller extends Piwik_Controller
 			$reportsById[$report['idreport']] = $report;
 		}
 
-		$view->pdfDownloadOutputType = Piwik_PDFReports_API::OUTPUT_PDF_DOWNLOAD;
+		$view->downloadOutputType = Piwik_PDFReports_API::OUTPUT_DOWNLOAD;
 		$columnsCount = 2;
 		$view->newColumnAfter = round(count($availableReports) / $columnsCount);
 		$view->reportsByCategory = $reportsByCategory;
 		$view->reportsJSON = json_encode($reportsById);
 		$view->periods = array_merge(array('never' => Piwik_Translate('General_Never')),
 							Piwik_PDFReports_API::getPeriodToFrequency());
+		$view->defaultFormat = Piwik_PDFReports::DEFAULT_FORMAT;
+		$view->formats = Piwik_ReportRenderer::$availableReportRenderers;
 		$view->reports = $reports;
 		$view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
 		echo $view->render();

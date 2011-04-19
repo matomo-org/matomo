@@ -20,6 +20,7 @@ function formSetEditReport(idReport)
 	}
 	$('#report_description').html(report.description);
 	$('#report_period option[value='+report.period+']').attr('selected', 'selected');
+	$('#report_format option[value='+report.format+']').attr('selected', 'selected');
 	if(report.email_me == 1)
 	{
 		$('#report_email_me').attr('checked','checked');
@@ -62,6 +63,7 @@ function initManagePdf()
 		parameters.idReport = idReport;
 		parameters.description = $('#report_description').val();
 		parameters.period = $('#report_period option:selected').attr('value');
+		parameters.reportFormat = $('#report_format option:selected').attr('value');
 		parameters.emailMe = $('#report_email_me').attr('checked') == true ? 1: 0;
 		additionalEmails = $('#report_additional_emails').val();
 		parameters.additionalEmails = piwikHelper.getApiFormatTextarea(additionalEmails);
