@@ -722,16 +722,9 @@ function _safe_serialize( $value )
 		
 		return 'a:'.count($value).':{'.$out.'}';
 	}
-	if(is_resource($value))
-	{
-		// built-in returns 'i:0;'
-		throw new Exception('safe_serialize: resources not supported');
-	}
-	if(is_object($value) || gettype($value) == 'object')
-	{
-		throw new Exception('safe_serialize: objects not supported');
-	}
-	throw new Exception('safe_serialize cannot serialize: '.gettype($value));
+
+	// safe_serialize cannot serialize resources or objects
+	return false;
 }
 
 /**
@@ -750,11 +743,7 @@ function safe_serialize( $value )
 		mb_internal_encoding('ASCII');
 	}
 
-	try {
-		$out = _safe_serialize($value);
-	} catch(Exception $e) {
-		$out = false;
-	}
+	$out = _safe_serialize($value);
 
 	if (isset($mbIntEnc))
 	{
@@ -776,7 +765,8 @@ function _safe_unserialize($str)
 {
 	if(strlen($str) > MAX_SERIALIZED_INPUT_LENGTH)
 	{
-		throw new Exception('safe_unserialize: input exceeds ' . MAX_SERIALIZED_INPUT_LENGTH);
+		// input exceeds MAX_SERIALIZED_INPUT_LENGTH
+		return false;
 	}
 
 	if(empty($str) || !is_string($str))
@@ -833,13 +823,10 @@ function _safe_unserialize($str)
 			$expectedLength = (int)$matches[1];
 			$str = $matches[2];
 		}
-		else if($type == 'O')
-		{
-			throw new Exception('safe_unserialize: objects not supported');
-		}
 		else
 		{
-			throw new Exception('safe_unserialize: unknown/malformed type: '.$type);
+			// object or unknown/malformed type
+			return false;
 		}
 
 		switch($state)
@@ -849,7 +836,8 @@ function _safe_unserialize($str)
 				{
 					if(count($stack) >= MAX_SERIALIZED_ARRAY_DEPTH)
 					{
-						throw new Exception('safe_unserialize: array nesting exceeds ' . MAX_SERIALIZED_ARRAY_DEPTH);
+						// array nesting exceeds MAX_SERIALIZED_ARRAY_DEPTH
+						return false;
 					}
 
 					$stack[] = &$list;
@@ -866,14 +854,16 @@ function _safe_unserialize($str)
 					break;
 				}
 
-				throw new Exception('safe_unserialize: missing array value');
+				// missing array value
+				return false;
 
 			case 2: // in array, expecting end of array or a key
 				if($type == '}')
 				{
 					if(count($list) < end($expected))
 					{
-						throw new Exception('safe_unserialize: array size less than expected ' . $expected[0]);
+						// array size less than expected
+						return false;
 					}
 
 					unset($list);
@@ -891,11 +881,13 @@ function _safe_unserialize($str)
 				{
 					if(count($list) >= MAX_SERIALIZED_ARRAY_LENGTH)
 					{
-						throw new Exception('safe_unserialize: array size exceeds ' . MAX_SERIALIZED_ARRAY_LENGTH);
+						// array size exceeds MAX_SERIALIZED_ARRAY_LENGTH
+						return false;
 					}
 					if(count($list) >= end($expected))
 					{
-						throw new Exception('safe_unserialize: array size exceeds expected length');
+						// array size exceeds expected length
+						return false;
 					}
 
 					$key = $value;
@@ -903,14 +895,16 @@ function _safe_unserialize($str)
 					break;
 				}
 
-				throw new Exception('safe_unserialize: illegal array index type');
+				// illegal array index type
+				return false;
 
 			case 0: // expecting array or value
 				if($type == 'a')
 				{
 					if(count($stack) >= MAX_SERIALIZED_ARRAY_DEPTH)
 					{
-						throw new Exception('safe_unserialize: array nesting exceeds ' . MAX_SERIALIZED_ARRAY_DEPTH);
+						// array nesting exceeds MAX_SERIALIZED_ARRAY_DEPTH
+						return false;
 					}
 
 					$data = array();
@@ -926,13 +920,15 @@ function _safe_unserialize($str)
 					break;
 				}
 
-				throw new Exception('safe_unserialize: not in array');
+				// not in array
+				return false;
 		}
 	}
 
 	if(!empty($str))
 	{
-		throw new Exception('safe_unserialize: trailing data in input');
+		// trailing data in input
+		return false;
 	}
 	return $data;
 }
@@ -953,11 +949,7 @@ function safe_unserialize( $str )
 		mb_internal_encoding('ASCII');
 	}
 
-	try {
-		$out = _safe_unserialize($str);
-	} catch(Exception $e) {
-		$out = false;
-	}
+	$out = _safe_unserialize($str);
 
 	if (isset($mbIntEnc))
 	{
