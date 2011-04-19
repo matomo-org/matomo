@@ -544,14 +544,18 @@ class Piwik_API_API
 	 */
 	private function sort($a, $b)
 	{
-		$order = array(
-			Piwik_Translate('VisitsSummary_VisitsSummary'),
-			Piwik_Translate('Actions_Actions'),
-			Piwik_Translate('Referers_Referers'),
-			Piwik_Translate('Goals_Goals'),
-			Piwik_Translate('General_Visitors'),
-			Piwik_Translate('UserSettings_VisitorSettings'),
-		);
+		static $order = null;
+		if(is_null($order))
+		{
+			$order = array(
+				Piwik_Translate('VisitsSummary_VisitsSummary'),
+				Piwik_Translate('Actions_Actions'),
+				Piwik_Translate('Referers_Referers'),
+				Piwik_Translate('Goals_Goals'),
+				Piwik_Translate('General_Visitors'),
+				Piwik_Translate('UserSettings_VisitorSettings'),
+			);
+		}
 		return ($category = strcmp(array_search($a['category'], $order), array_search($b['category'], $order))) == 0 	
 				?  (@$a['order'] < @$b['order'] ? -1 : 1)
 				: $category;
