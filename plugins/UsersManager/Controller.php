@@ -118,7 +118,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 		if(Piwik::isUserIsSuperUser())
 		{
 			$view->userAlias = $userLogin;
-			$view->userEmail = Zend_Registry::get('config')->superuser->email;
+			$view->userEmail = Piwik::getSuperUserEmail();
 			if(!Zend_Registry::get('config')->isFileWritable())
 			{
 				$view->configFileNotWritable = true;
