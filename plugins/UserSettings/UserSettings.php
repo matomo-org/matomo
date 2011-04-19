@@ -84,7 +84,8 @@ class Piwik_UserSettings extends Piwik_Plugin
     			'UserSettings_WidgetPlugins', 
     			'UserSettings', 
     			'getPlugin', 
-    			'UserSettings_ColumnPlugin'),
+    			'UserSettings_ColumnPlugin',
+		),
 		
 		array( 	'UserSettings_VisitorSettings', 
 				'UserSettings_WidgetWidescreen', 
@@ -157,6 +158,8 @@ class Piwik_UserSettings extends Piwik_Plugin
     			);
     			// There is no processedMetrics for this report
 				$report['processedMetrics'] = array();
+				// Always has same number of rows, 1 per plugin
+    			$report['constantRowsCount'] = true;
     		}
     		$reports[] = $report;
 		}

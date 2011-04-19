@@ -418,6 +418,7 @@
 			<nb_visits>Visits</nb_visits>
 
 		</metrics>
+		<constantRowsCount>1</constantRowsCount>
 		<uniqueId>VisitorInterest_getNumberOfVisitsPerVisitDuration</uniqueId>
 
 	</row>
@@ -431,6 +432,7 @@
 			<nb_visits>Visits</nb_visits>
 
 		</metrics>
+		<constantRowsCount>1</constantRowsCount>
 		<uniqueId>VisitorInterest_getNumberOfVisitsPerPage</uniqueId>
 
 	</row>
@@ -549,6 +551,7 @@
 			<nb_visits_percentage>% Visits</nb_visits_percentage>
 
 		</metrics>
+		<constantRowsCount>1</constantRowsCount>
 		<uniqueId>UserSettings_getPlugin</uniqueId>
 
 	</row>
