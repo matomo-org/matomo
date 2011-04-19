@@ -167,6 +167,10 @@ class PiwikTracker
      */
     public function getCustomVariable($id)
     {
+    	if(!empty($this->visitorCustomVar[$id]))
+    	{
+    		return $this->visitorCustomVar[$id];
+    	}
     	$customVariablesCookie = 'cvar.'.$this->idSite.'.';
     	$cookie = $this->getCookieMatchingName($customVariablesCookie);
     	if(!$cookie)
