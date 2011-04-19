@@ -297,7 +297,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$view = Piwik_View::factory('passwordchanged');
 		try
 		{
-			if( $user['email'] == Zend_Registry::get('config')->superuser->email )
+			if( $user['email'] == Piwik::getSuperUserEmail() )
 			{
     			if(!Zend_Registry::get('config')->isFileWritable())
     			{
@@ -332,12 +332,12 @@ class Piwik_Login_Controller extends Piwik_Controller
 		Piwik::setUserIsSuperUser();
 
 		$user = null;
-		if( $loginMail == Zend_Registry::get('config')->superuser->email
+		if( $loginMail == Piwik::getSuperUserEmail()
 			|| $loginMail == Zend_Registry::get('config')->superuser->login )
 		{
 			$user = array(
 					'login' => Zend_Registry::get('config')->superuser->login,
-					'email' => Zend_Registry::get('config')->superuser->email,
+					'email' => Piwik::getSuperUserEmail(),
 					'password' => Zend_Registry::get('config')->superuser->password,
 			);
 		}
