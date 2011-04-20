@@ -367,7 +367,7 @@ class Piwik_PDFReports_API
 			}
 			elseif($report['login'] == Zend_Registry::get('config')->superuser->login)
 			{
-				$emails[] = Zend_Registry::get('config')->superuser->email;
+				$emails[] = Piwik::getSuperUserEmail();
 			}
 			else
 			{
