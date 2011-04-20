@@ -1,6 +1,6 @@
 <a name ="{$reportId}"/>
 <h2 style="color: rgb({$reportTitleTextColor}); font-size: {$reportTitleTextSize}px;">
-	{$reportName}
+	{$reportName|escape:"html"}
 </h2>
 
 {if empty($reportRows)}
@@ -22,10 +22,10 @@
 					{if $columnId eq 'label'}
 						{if isset($row[$columnId])}
 							{if isset($reportRowsMetadata[$rowId].logo)}
-							<img src='{$currentHost}/{$reportRowsMetadata[$rowId].logo}'>&nbsp;
+							<img src='{$currentPath}{$reportRowsMetadata[$rowId].logo}'>&nbsp;
 							{/if}
 							{if isset($reportRowsMetadata[$rowId].url)}
-								<a style="color: rgb({$reportTextColor});" href='{$reportRowsMetadata[$rowId].url}'>
+								<a style="color: rgb({$reportTextColor});" href='{$reportRowsMetadata[$rowId].url|escape:"url"}'>
 							{/if}
 									{$row[$columnId]}
 							{if isset($reportRowsMetadata[$rowId].url)}

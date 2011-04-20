@@ -92,7 +92,7 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 		$smarty->assign("tableBgColor", Piwik_ReportRenderer::TABLE_BG_COLOR);
 		$smarty->assign("reportTableHeaderTextSize", self::REPORT_TABLE_HEADER_TEXT_SIZE);
 		$smarty->assign("reportTableRowTextSize", self::REPORT_TABLE_ROW_TEXT_SIZE);
-		$smarty->assign("currentHost", "http://".Piwik_Url::getCurrentHost());
+		$smarty->assign("currentPath", Piwik_Url::getCurrentUrlWithoutFileName());
 	}
 
 	public function renderReport($processedReport)
