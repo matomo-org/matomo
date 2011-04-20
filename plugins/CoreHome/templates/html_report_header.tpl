@@ -5,7 +5,7 @@
 	<body style="font-family: {$reportFont}; color: rgb({$reportTextColor});">
 
 	<a name="reportTop"/>
-	<img src='{$currentHost}/themes/default/images/logo-header.png'/>
+	<img src='{$currentPath}themes/default/images/logo-header.png'/>
 
 	<h1 style="color: rgb({$reportTitleTextColor}); font-size: {$reportTitleTextSize}px;">
 		{'General_Website'|translate} {$websiteName}
@@ -25,7 +25,7 @@
 			{foreach from=$reportMetadata item=metadata}
 				<li>
 					<a href="#{$metadata.uniqueId}" style="text-decoration:none; color: rgb({$reportTextColor});">
-						{$metadata.name}
+						{$metadata.name|escape:"html"}
 					</a>
 				</li>
 			{/foreach}
