@@ -214,6 +214,9 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 		$posY = $posX = 0;
 		$leftSpacesBeforeLogo = str_repeat(' ', $this->leftSpacesBeforeLogo);
 
+		$logoWidth = $this->logoWidth;
+		$logoHeight = $this->logoHeight;
+		
 		// Draw a body of report table
 		foreach($this->report as $rowId => $row)
 		{
@@ -246,11 +249,11 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 					{
 						if(isset($this->reportRowsMetadata[$rowId]['logoWidth']))
 						{
-							$this->logoWidth = $this->reportRowsMetadata[$rowId]['logoWidth'];
+							$logoWidth = $this->reportRowsMetadata[$rowId]['logoWidth'];
 						}
 						if(isset($this->reportRowsMetadata[$rowId]['logoHeight']))
 						{
-							$this->logoHeight = $this->reportRowsMetadata[$rowId]['logoHeight'];
+							$logoHeight = $this->reportRowsMetadata[$rowId]['logoHeight'];
 						}
 						$restoreY = $this->TCPDF->getY();
 						$restoreX = $this->TCPDF->getX();
@@ -258,11 +261,11 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 						$this->TCPDF->SetX($posX );
 						$topMargin = 1.3;
 						// Country flags are not very high, force a bigger top margin
-						if($this->logoHeight < 16)
+						if($logoHeight < 16)
 						{
 							$topMargin = 2;
 						}
-						$this->TCPDF->Image(Piwik_Common::getPathToPiwikRoot()."/".$this->reportRowsMetadata[$rowId]['logo'], $posX + ($leftMargin = 2), $posY + $topMargin, $this->logoWidth/4);
+						$this->TCPDF->Image(Piwik_Common::getPathToPiwikRoot()."/".$this->reportRowsMetadata[$rowId]['logo'], $posX + ($leftMargin = 2), $posY + $topMargin, $logoWidth/4);
 						$this->TCPDF->SetXY($restoreX, $restoreY);
 					}
 				}
