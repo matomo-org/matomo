@@ -17,12 +17,10 @@
 			<nb_actions_per_visit>Actions par visite</nb_actions_per_visit>
 			<avg_time_on_site>Temps moyen sur le site</avg_time_on_site>
 			<bounce_rate>Taux de rebond</bounce_rate>
-			<conversion_rate>Taux de conversion</conversion_rate>
 
 		</processedMetrics>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
-			<conversion_rate>Taux de conversion</conversion_rate>
 			<revenue>Revenu</revenue>
 
 		</metricsGoal>
@@ -40,7 +38,6 @@
 		<nb_actions_per_visit>Actions par visite</nb_actions_per_visit>
 		<avg_time_on_site>Temps moyen sur le site</avg_time_on_site>
 		<bounce_rate>Taux de rebond</bounce_rate>
-		<conversion_rate>Taux de conversion</conversion_rate>
 		<revenue>Revenu</revenue>
 
 	</columns>

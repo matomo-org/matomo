@@ -46,7 +46,6 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 			'goal_%s_conversion_rate',
 			'goal_%s_revenue_per_visit',
 		
-			'conversion_rate',
 			'revenue_per_visit',
 		));
 		

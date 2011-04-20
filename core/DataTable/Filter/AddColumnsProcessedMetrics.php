@@ -45,17 +45,13 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 				$rowsIdToDelete[] = $key;
 				continue;
 			}
-				
+			
 			$nbVisitsConverted = (int)$this->getColumn($row, Piwik_Archive::INDEX_NB_VISITS_CONVERTED);
-			if($nbVisitsConverted == 0)
-			{
-				$conversionRate = $this->invalidDivision;
-			}
-			else
+			if($nbVisitsConverted != 0)
 			{
 				$conversionRate = round(100 * $nbVisitsConverted / $nbVisits, $this->roundPrecision);
+				$row->addColumn('conversion_rate', $conversionRate."%");
 			}
-			$row->addColumn('conversion_rate', $conversionRate."%");
 			
 			if($nbVisits == 0)
 			{

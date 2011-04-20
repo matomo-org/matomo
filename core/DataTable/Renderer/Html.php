@@ -151,7 +151,14 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 					$value = "-";
 					if(isset($row[$name]))
 					{
-						$value = self::formatValueXml($row[$name]);
+						if(is_array($row[$name]))
+						{
+							$value = "<pre>".self::formatValueXml(var_export($row[$name], true)) . "</pre>";
+						}
+						else
+						{
+							$value = self::formatValueXml($row[$name]);
+						}
 					}
 					
 					$html .= "\t\t<td>$value</td>\n";

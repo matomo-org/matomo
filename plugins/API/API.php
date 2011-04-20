@@ -312,6 +312,12 @@ class Piwik_API_API
 					unset($availableReport[$attributeName]);
 				}
 			}
+        	// when there are per goal metrics, don't display conversion_rate since it can differ from per goal sum
+	        if(isset($availableReport['metricsGoal']))
+	        {
+	        	unset($availableReport['processedMetrics']['conversion_rate']);
+	        	unset($availableReport['metricsGoal']['conversion_rate']);
+	        }
 			
 			// Processing a uniqueId for each report, 
 			// can be used by UIs as a key to match a given report
@@ -467,8 +473,7 @@ class Piwik_API_API
     	// Display the global Goal metrics 
         if(isset($reportMetadata['metricsGoal']))
         {
-        	$metricsGoalDisplay = array('conversion_rate', 'revenue');
-        	
+        	$metricsGoalDisplay = array('revenue');
     		// Add processed metrics to be displayed for this report
         	foreach($metricsGoalDisplay as $goalMetricId)
         	{
@@ -477,13 +482,6 @@ class Piwik_API_API
         			$columns[$goalMetricId] = $reportMetadata['metricsGoal'][$goalMetricId];
         		}
         	}
-        }
-        if(isset($reportMetadata['metricsGoal']))
-        {
-        	// To process conversion_rate, we need to apply the Goal processed filter
-        	// only requesting to process the basic metrics
-        	// This adds goal metrics as well as standard metrics
-        	$dataTable->filter('AddColumnsProcessedMetricsGoal', array($enable=true, Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_MINIMAL_REPORT));
         }
         elseif(isset($reportMetadata['processedMetrics']))
         {
