@@ -123,7 +123,7 @@ abstract class Piwik_ReportRenderer
 	 */
 	protected static function getOutputPath($filename)
 	{
-		$outputFilename = PIWIK_INCLUDE_PATH . '/tmp/assets/' . $filename;
+		$outputFilename = PIWIK_USER_PATH . '/tmp/assets/' . $filename;
 		@chmod($outputFilename, 0600);
 		@unlink($outputFilename);
 		return $outputFilename;
