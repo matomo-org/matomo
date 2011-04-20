@@ -341,7 +341,14 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 		// Update the idvisitor to the latest known value, in case the cookie value changed for some reasons, 
 		// safer to always rely on the most recent values
-		$idVisitor = Piwik_Common::getRequestVar('_id', '', 'string', $this->request);
+		if($this->shouldUseThirdPartyCookie())
+		{
+			$idVisitor = $this->cookie->get(0);
+		}
+		else
+		{
+			$idVisitor = Piwik_Common::getRequestVar('_id', '', 'string', $this->request);
+		}
 		if(strlen($idVisitor) == Piwik_Tracker::LENGTH_HEX_ID_STRING)
 		{
 			$valuesToUpdate['idvisitor'] = Piwik_Common::hex2bin($idVisitor);
