@@ -531,6 +531,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Jungle Spider
 		'www.jungle-spider.de'		=> array('Jungle Spider', 'q'),
 
+		// Jungle key
+		'junglekey.com'				=> array('Jungle Key', 'query', 'search.php?query={k}&type=web&lang=en'),
+		'junglekey.fr'				=> array('Jungle Key', 'query'),
+
 		// Kataweb
 		'www.kataweb.it'			=> array('Kataweb', 'q'),
 
