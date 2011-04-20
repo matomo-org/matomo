@@ -21,7 +21,8 @@ $piwik_errorMessage = '';
 // Minimum requirement: ->newInstanceArgs in 5.1.3
 $piwik_minimumPHPVersion = '5.1.3RC';
 $piwik_currentPHPVersion = PHP_VERSION;
-if( version_compare($piwik_minimumPHPVersion , $piwik_currentPHPVersion ) > 0 )
+$minimumPhpInvalid = version_compare($piwik_minimumPHPVersion , $piwik_currentPHPVersion ) > 0;
+if( $minimumPhpInvalid )
 {
 	$piwik_errorMessage .= "<p><b>To run Piwik you need at least PHP version $piwik_minimumPHPVersion</b></p> 
 				<p>Unfortunately it seems your webserver is using PHP version $piwik_currentPHPVersion. </p>
@@ -61,6 +62,7 @@ if(!function_exists('session_cache_limiter'))
  */
 function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks = false)
 {
+	global $minimumPhpInvalid;
 	@header('Content-Type: text/html; charset=utf-8');
 	if($optionalTrace)
 	{
@@ -79,8 +81,19 @@ function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks 
 	$headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_header.tpl');
 	$footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_footer.tpl');
 
-	// This can fail
-	$loginName = @call_user_func(array('Piwik', 'getLoginPluginName'));
+	// PHP4, no exception
+	if($minimumPhpInvalid)
+	{
+		$loginName = @call_user_func(array('Piwik', 'getLoginPluginName'));
+	}
+	// PHP5, this can be triggered during normal execution and we want to catch the exception
+	else
+	{
+		try {
+			$loginName = @call_user_func(array('Piwik', 'getLoginPluginName'));
+		} catch(Exception $e) {
+		}
+	}
 	if(empty($loginName)){
 		$loginName = 'Login';
 	}
