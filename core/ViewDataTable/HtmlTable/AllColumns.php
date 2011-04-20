@@ -42,13 +42,22 @@ class Piwik_ViewDataTable_HtmlTable_AllColumns extends Piwik_ViewDataTable_HtmlT
 		{
 			$columnUniqueVisitors = 'nb_uniq_visitors';
 		}
+		
+		// only display conversion rate for the plugins that do not provide "per goal" metrics
+		// otherwise, conversion rate is meaningless as a whole (since we don't process 'cross goals' conversions)
+		$columnConversionRate = false;
+		if(empty($this->viewProperties['show_goals']))
+		{
+			$columnConversionRate = 'conversion_rate';
+		}
 		$this->setColumnsToDisplay(array('label', 
 										'nb_visits', 
 										$columnUniqueVisitors, 
 										'nb_actions_per_visit', 
 										'avg_time_on_site', 
 										'bounce_rate',
-										'conversion_rate'));
+										$columnConversionRate
+										));
 		$this->dataTable->filter('ColumnCallbackReplace', array('avg_time_on_site', create_function('$averageTimeOnSite', 'return Piwik::getPrettyTimeFromSeconds($averageTimeOnSite);')));
 	}
 }

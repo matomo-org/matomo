@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>Piwik test</website>
-	<prettyDate>29 Mar 11 - 4 Apr 11</prettyDate>
+	<prettyDate>14 Apr 11 - 20 Apr 11</prettyDate>
 	<metadata>
 		<category>Visitors</category>
 		<name>Country</name>
@@ -17,12 +17,10 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
-			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
-			<conversion_rate>Conversion Rate</conversion_rate>
 			<revenue>Revenue</revenue>
 
 		</metricsGoal>
@@ -40,7 +38,6 @@
 		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 		<bounce_rate>Bounce Rate</bounce_rate>
-		<conversion_rate>Conversion Rate</conversion_rate>
 		<revenue>Revenue</revenue>
 
 	</columns>
@@ -50,10 +47,9 @@
 			<nb_visits>3</nb_visits>
 			<nb_actions>5</nb_actions>
 			<revenue>$ 1000</revenue>
-			<conversion_rate>66.67%</conversion_rate>
-			<nb_actions_per_visit>1.67</nb_actions_per_visit>
-			<avg_time_on_site>00:04:00</avg_time_on_site>
-			<bounce_rate>66.67%</bounce_rate>
+			<nb_actions_per_visit>0</nb_actions_per_visit>
+			<avg_time_on_site>00:00:00</avg_time_on_site>
+			<bounce_rate>0</bounce_rate>
 
 		</row>
 
