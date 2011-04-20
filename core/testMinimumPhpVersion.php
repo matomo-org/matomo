@@ -81,27 +81,10 @@ function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks 
 	$headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_header.tpl');
 	$footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_footer.tpl');
 
-	// PHP4, no exception
-	if($minimumPhpInvalid)
-	{
-		$loginName = @call_user_func(array('Piwik', 'getLoginPluginName'));
-	}
-	// PHP5, this can be triggered during normal execution and we want to catch the exception
-	else
-	{
-		try {
-			$loginName = @call_user_func(array('Piwik', 'getLoginPluginName'));
-		} catch(Exception $e) {
-		}
-	}
-	if(empty($loginName)){
-		$loginName = 'Login';
-	}
-
 	$headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
 	$content = '<p>'.$message.'</p>
 				<p><a href="index.php">Go to Piwik</a><br/>
-				<a href="index.php?module='.$loginName.'">Login</a></p>
+				<a href="index.php?module=Login">Login</a></p>
 				'.  $optionalTrace .' '. $optionalLinks;
 	
 	echo $headerPage . $content . $footerPage;
