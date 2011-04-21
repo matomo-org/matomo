@@ -376,6 +376,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Google
 		'google.com'				=> array('Google', 'q', 'search?q={k}'),
 		'google.{}'					=> array('Google'),
+		'google.co.{}'				=> array('Google'),
+		'google.com.{}'				=> array('Google'),
 		'www2.google.com'			=> array('Google'),
 		'ipv6.google.com'			=> array('Google'),
 		'go.google.com'				=> array('Google'),
