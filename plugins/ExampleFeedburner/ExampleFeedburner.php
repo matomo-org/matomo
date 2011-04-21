@@ -99,7 +99,7 @@ class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 		$beforeYesterday = Piwik_Date::factory('-2 day', 'America/Los_Angeles');
 		
 		//create url to gather XML feed from
-		$url = 'https://feedburner.google.com/api/awareness/1.0/GetFeedData?uri='.$uri.'&dates='.$beforeYesterday->toString().','.$yesterday->toString();
+		$url = 'https://feedburner.google.com/api/awareness/1.0/GetFeedData?uri='.urlencode($uri).'&dates='.$beforeYesterday->toString().','.$yesterday->toString();
 		$data = '';
 		try {
 			$data = Piwik_Http::sendHttpRequest($url, 5);
@@ -111,7 +111,7 @@ class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 			}
 			$xml = new SimpleXMLElement($data);
 		} catch(Exception $e) {
-			return "Error parsing the data for feed <a href='http://feeds.feedburner.com/$uri' target='_blank'>$uri</a>. Fetched data was: \n'". $data."'";
+			return "Error parsing the data for feed <a href='http://feeds.feedburner.com/".urlencode($uri)."' target='_blank'>$uri</a>. Fetched data was: \n'". $data."'";
 		}
 		
 		if(count($xml->feed->entry) != 2) {
