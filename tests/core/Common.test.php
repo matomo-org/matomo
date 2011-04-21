@@ -843,6 +843,8 @@ class Test_Piwik_Common extends UnitTestCase
 			'example.ca' => 'example.{}',
 			'us.example.com' => '{}.example.com',
 			'www.m.example.ca' => 'example.{}',
+			'www.google.com.af' => 'google.{}',
+			'www.google.co.uk' => 'google.{}',
 		);
 		foreach($urls as $input => $expected)
 		{
