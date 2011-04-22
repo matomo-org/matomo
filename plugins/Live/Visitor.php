@@ -131,7 +131,7 @@ class Piwik_Live_Visitor
 	{
 		if(isset($this->details['location_ip']))
 		{
-			return Piwik_Common::long2ip($this->details['location_ip']);
+			return Piwik_IP::N2P($this->details['location_ip']);
 		}
 		return false;
 	}

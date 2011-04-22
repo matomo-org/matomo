@@ -803,15 +803,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			}
 		}
 
-		/**
-		 * @see http://php.net/ip2long
-		 */
-		$infos['isIpv4'] = true;
-		if(strpos($_SERVER['REMOTE_ADDR'], ':') !== false)
-		{
-			$infos['isIpv4'] = false;
-		}
-
 		$serverSoftware = isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : '';
 		$infos['serverVersion'] = addslashes($serverSoftware);
 		$infos['serverOs'] = @php_uname();

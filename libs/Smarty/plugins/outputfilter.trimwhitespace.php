@@ -62,25 +62,17 @@ function smarty_outputfilter_trimwhitespace($source, &$smarty)
 }
 
 function smarty_outputfilter_trimwhitespace_replace($search_str, $replace, &$subject) {
-    // If mbstring overloads substr and strlen functions, we have to
-    // override it's internal encoding
-    if (function_exists('mb_internal_encoding') &&
-        	(((int) ini_get('mbstring.func_overload')) & 2)) {
-        $mbIntEnc = mb_internal_encoding();
-        mb_internal_encoding('ASCII');
-    }
+    // Handle case where mbstring overloads substr and strlen functions
+    $strlen = function_exists('mb_orig_strlen') ? 'mb_orig_strlen' : 'strlen';
+    $strpos = function_exists('mb_orig_strpos') ? 'mb_orig_strpos' : 'strpos';
 
-    $_len = strlen($search_str);
+    $_len = $strlen($search_str);
     $_pos = 0;
     for ($_i=0, $_count=count($replace); $_i<$_count; $_i++)
-        if (($_pos=strpos($subject, $search_str, $_pos))!==false)
+        if (($_pos=$strpos($subject, $search_str, $_pos))!==false)
             $subject = substr_replace($subject, $replace[$_i], $_pos, $_len);
         else
             break;
-
-    if (isset($mbIntEnc)) {
-        mb_internal_encoding($mbIntEnc);
-    }
 }
 
 ?>

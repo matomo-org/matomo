@@ -34,7 +34,7 @@ class Piwik_Log_APICall extends Piwik_Log
 							$logToDatabaseTableName, 
 							$logToDatabaseColumnMapping );
 		
-		$this->setEventItem('caller_ip', Piwik_Common::getIp() );
+		$this->setEventItem('caller_ip', Piwik_IP::P2N(Piwik_IP::getIpFromHeader()) );
 	}
 
 	public function logEvent($className, $methodName, $parameterNames, $parameterValues, $executionTime, $returnedValue)

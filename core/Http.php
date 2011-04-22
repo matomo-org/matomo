@@ -130,7 +130,7 @@ class Piwik_Http
 				"GET $path HTTP/1.0\r\n"
 				."Host: $host".($port != 80 ? ':'.$port : '')."\r\n"
 				."User-Agent: Piwik/".Piwik_Version::VERSION.($userAgent ? " $userAgent" : '')."\r\n"
-				.'Referer: http://'.Piwik_Common::getIpString()."/\r\n"
+				.'Referer: http://'.Piwik_IP::getIpFromHeader()."/\r\n"
 				."Connection: close\r\n"
 				."\r\n"
 			);
@@ -257,7 +257,7 @@ class Piwik_Http
 				$stream_options = array(
 					'http' => array(
 						'header' => 'User-Agent: Piwik/'.Piwik_Version::VERSION.($userAgent ? " $userAgent" : '')."\r\n"
-						           .'Referer: http://'.Piwik_Common::getIpString()."/\r\n",
+						           .'Referer: http://'.Piwik_IP::getIpFromHeader()."/\r\n",
 						'max_redirects' => 5, // PHP 5.1.0
 						'timeout' => $timeout, // PHP 5.2.1
 					)
@@ -290,7 +290,7 @@ class Piwik_Http
 
 				// curl options (sorted oldest to newest)
 				CURLOPT_URL => $aUrl,
-				CURLOPT_REFERER => 'http://'.Piwik_Common::getIpString(),
+				CURLOPT_REFERER => 'http://'.Piwik_IP::getIpFromHeader(),
 				CURLOPT_USERAGENT => 'Piwik/'.Piwik_Version::VERSION.($userAgent ? " $userAgent" : ''),
 				CURLOPT_HEADER => false,
 				CURLOPT_CONNECTTIMEOUT => $timeout,

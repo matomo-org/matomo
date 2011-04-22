@@ -62,7 +62,7 @@ class Piwik_Feedback_Controller extends Piwik_Controller
 			$mail->setSubject('[ Feedback form - Piwik ] ' . $category);
 			$mail->setBodyText(Piwik_Common::unsanitizeInputValue($body) . "\n"
 				. 'Piwik ' . Piwik_Version::VERSION . "\n"
-				. 'IP: ' . Piwik_Common::getIpString() . "\n"
+				. 'IP: ' . Piwik_IP::getIpFromHeader() . "\n"
 				. 'URL: ' . Piwik_Url::getReferer() . "\n");
 			@$mail->send();
 		}

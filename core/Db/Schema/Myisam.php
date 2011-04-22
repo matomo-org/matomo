@@ -127,7 +127,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 									  parameter_names_default_values TEXT NULL,
 									  parameter_values TEXT NULL,
 									  execution_time FLOAT NULL,
-									  caller_ip INT UNSIGNED NULL,
+									  caller_ip VARBINARY(16) NOT NULL,
 									  timestamp TIMESTAMP NULL,
 									  returned_value TEXT NULL,
 									  PRIMARY KEY(idlogger_api_call)
@@ -205,7 +205,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 							  config_gears TINYINT(1) NOT NULL,
 							  config_silverlight TINYINT(1) NOT NULL,
 							  config_cookie TINYINT(1) NOT NULL,
-							  location_ip INT UNSIGNED NOT NULL,
+							  location_ip VARBINARY(16) NOT NULL,
 							  location_browser_lang VARCHAR(20) NOT NULL,
 							  location_country CHAR(3) NOT NULL,
 							  location_continent CHAR(3) NOT NULL,

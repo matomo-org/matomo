@@ -218,12 +218,6 @@
 		</td>
 	</tr>
 	{/if}
-	<tr>
-		<td class="label">{'Installation_SystemCheckIpv4'|translate}</td>
-		<td>
-			{if $infos.isIpv4}{$ok}{else}{$warning}<br /><i>{'Installation_SystemCheckIpv4Help'|translate}</i>{/if}
-		</td>
-	</tr>
 </table>
 
 {include file="Installation/templates/integrityDetails.tpl"}
