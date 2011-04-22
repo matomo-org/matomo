@@ -23,6 +23,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
 	{
 		$view = Piwik_View::factory('SitesManager');
 		$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
+		$sitesIndexedById = array();
 		foreach($sites as $site)
 		{
 			$sitesIndexedById[$site['idsite']] = $site;
