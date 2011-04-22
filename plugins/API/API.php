@@ -119,7 +119,7 @@ class Piwik_API_API
 		        'segment' => 'visitIp',
 				'acceptedValues' => '13.54.122.1, etc.',
 		        'sqlSegment' => 'location_ip',
-		        'sqlFilter' => array('Piwik_Common', 'getIp'),
+		        'sqlFilter' => array('Piwik_IP', 'P2N'),
 		        'permission' => Piwik::isUserHasAdminAccess($idSites),
 	    );
 		$segments[] = array(

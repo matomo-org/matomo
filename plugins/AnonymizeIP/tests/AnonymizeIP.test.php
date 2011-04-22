@@ -11,34 +11,48 @@ if(!class_exists('Piwik_AnonymizeIP', false))
 
 class Test_Piwik_AnonymizeIP extends UnitTestCase
 {
-	// IP addresses and expected results
-	protected $ipAddresses = array(
-		// long => array( expected0, expected1, expected2, expected3, expected4 ),
-		'0'   => array( 0, 0, 0, 0, 0 ),													// 00 00 00 00
-		'1'   => array( 1, 0, 0, 0, 0 ),													// 00 00 00 01
-		'255' => array( 255, 0, 0, 0, 0 ),													// 00 00 00 FF
-		'256' => array( 256, 256, 0, 0, 0 ),												// 00 00 01 00
-		'257' => array( 257, 256, 0, 0, 0 ),												// 00 00 01 01
-		'65535' => array( 65535, 65280, 0, 0, 0),											// 00 00 FF FF
-		'65536' => array( 65536, 65536, 65536, 0, 0),										// 00 01 00 00
-		'65793' => array( 65793, 65792, 65536, 0, 0),										// 00 01 01 01
-		'16777215' => array( 16777215, 16776960, 16711680, 0, 0),							// 00 FF FF FF
-		'16777216' => array( 16777216, 16777216, 16777216, 16777216, 0),					// 01 00 00 00
-		'2147483647' => array( 2147483647, 2147483392, 2147418112, 2130706432, 0),			// 7F FF FF FF
-		'2147483648' => array( '2147483648', '2147483648', '2147483648', '2147483648', 0),	// 80 00 00 00
-		'4294967295' => array( '4294967295', '4294967040', '4294901760', '4278190080', 0),	// FF FF FF FF
+	// IPv4 addresses and expected results
+	protected $ipv4Addresses = array(
+		// ip => array( expected0, expected1, expected2, expected3, expected4 ),
+		'0.0.0.0'         => array( "\x00\x00\x00\x00", "\x00\x00\x00\x00", "\x00\x00\x00\x00", "\x00\x00\x00\x00", "\x00\x00\x00\x00" ),
+		'0.0.0.1'         => array( "\x00\x00\x00\x01", "\x00\x00\x00\x00", "\x00\x00\x00\x00", "\x00\x00\x00\x00", "\x00\x00\x00\x00" ),
+		'0.0.0.255'       => array( "\x00\x00\x00\xff", "\x00\x00\x00\x00", "\x00\x00\x00\x00", "\x00\x00\x00\x00", "\x00\x00\x00\x00" ),
+		'0.0.1.0'         => array( "\x00\x00\x01\x00", "\x00\x00\x01\x00", "\x00\x00\x00\x00", "\x00\x00\x00\x00", "\x00\x00\x00\x00" ),
+		'0.0.1.1'         => array( "\x00\x00\x01\x01", "\x00\x00\x01\x00", "\x00\x00\x00\x00", "\x00\x00\x00\x00", "\x00\x00\x00\x00" ),
+		'0.0.255.255'     => array( "\x00\x00\xff\xff", "\x00\x00\xff\x00", "\x00\x00\x00\x00", "\x00\x00\x00\x00", "\x00\x00\x00\x00" ),
+		'0.1.0.0'         => array( "\x00\x01\x00\x00", "\x00\x01\x00\x00", "\x00\x01\x00\x00", "\x00\x00\x00\x00", "\x00\x00\x00\x00" ),
+		'0.1.1.1'         => array( "\x00\x01\x01\x01", "\x00\x01\x01\x00", "\x00\x01\x00\x00", "\x00\x00\x00\x00", "\x00\x00\x00\x00" ),
+		'0.255.255.255'   => array( "\x00\xff\xff\xff", "\x00\xff\xff\x00", "\x00\xff\x00\x00", "\x00\x00\x00\x00", "\x00\x00\x00\x00" ),
+		'1.0.0.0'         => array( "\x01\x00\x00\x00", "\x01\x00\x00\x00", "\x01\x00\x00\x00", "\x01\x00\x00\x00", "\x00\x00\x00\x00" ),
+		'127.255.255.255' => array( "\x7f\xff\xff\xff", "\x7f\xff\xff\x00", "\x7f\xff\x00\x00", "\x7f\x00\x00\x00", "\x00\x00\x00\x00" ),
+		'128.0.0.0'       => array( "\x80\x00\x00\x00", "\x80\x00\x00\x00", "\x80\x00\x00\x00", "\x80\x00\x00\x00", "\x00\x00\x00\x00" ),
+		'255.255.255.255' => array( "\xff\xff\xff\xff", "\xff\xff\xff\x00", "\xff\xff\x00\x00", "\xff\x00\x00\x00", "\x00\x00\x00\x00" ),
 	);
 
 	public function test_applyIPMask()
 	{
-		foreach($this->ipAddresses as $ip => $expected)
+		foreach($this->ipv4Addresses as $ip => $expected)
 		{
 			// each IP is tested with 0 to 4 octets masked
 			for($maskLength = 0; $maskLength <= 4; $maskLength++)
 			{
-				$res = Piwik_AnonymizeIP::applyIPMask($ip, $maskLength);
-				$this->assertEqual( $res, $expected[$maskLength], "Got $res, Expected " . $expected[$maskLength] );
+				$res = Piwik_AnonymizeIP::applyIPMask(Piwik_IP::P2N($ip), $maskLength);
+				$this->assertEqual( $res, $expected[$maskLength], "Got ".bin2hex($res).", Expected " . bin2hex($expected[$maskLength]) );
 			}
+
+			// edge case (bounds check)
+			$this->assertEqual( Piwik_AnonymizeIP::applyIPMask(Piwik_IP::P2N($ip), 5), "\x00\x00\x00\x00", $ip );
+
+			// mask IPv4 mapped addresses
+			for($maskLength = 0; $maskLength <= 4; $maskLength++)
+			{
+				$res = Piwik_AnonymizeIP::applyIPMask(Piwik_IP::P2N('::ffff:'.$ip), $maskLength);
+				$this->assertEqual( $res, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff".$expected[$maskLength], "Got ".bin2hex($res).", Expected " . bin2hex($expected[$maskLength]) );
+			}
+			$this->assertEqual( Piwik_AnonymizeIP::applyIPMask(Piwik_IP::P2N('::ffff:'.$ip), 5), "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\x00\x00\x00\x00\x00", $ip );
+
+			// edge case (bounds check)
+			$this->assertEqual( Piwik_AnonymizeIP::applyIPMask(Piwik_IP::P2N('2001::ffff:'.$ip), 17), "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", $ip );
 		}
 	}
 }

@@ -77,8 +77,8 @@ class Piwik_SitesManager_API
 	public function getSitesFromGroup($group)
 	{
 		Piwik::checkUserIsSuperUser();
-	    $group = trim($group);
-	    
+		$group = trim($group);
+
 		$sites = Zend_Registry::get('db')->fetchAll("SELECT * 
 													FROM ".Piwik_Common::prefixTable("site")." 
 													WHERE `group` = ?", $group);
@@ -100,7 +100,7 @@ class Piwik_SitesManager_API
 		{
 			$cleanedGroups[] = $group['group'];
 		}
-	    $cleanedGroups = array_map('trim', $cleanedGroups);
+		$cleanedGroups = array_map('trim', $cleanedGroups);
 		return $cleanedGroups;
 	}
 	
@@ -339,7 +339,7 @@ class Piwik_SitesManager_API
 	 * The website is defined by a name and an array of URLs.
 	 * @param string Site name
 	 * @param array|string The URLs array must contain at least one URL called the 'main_url' ; 
-	 * 					    if several URLs are provided in the array, they will be recorded 
+	 * 						if several URLs are provided in the array, they will be recorded 
 	 * 						as Alias URLs for this website.
 	 * @param string Comma separated list of IPs to exclude from the reports (allows wildcards)
 	 * @param string Timezone string, eg. 'Europe/London'
@@ -391,9 +391,9 @@ class Piwik_SitesManager_API
 									: Piwik_Date::now()->getDatetime();
 		
 		if(!empty($group)
-		    && Piwik::isUserIsSuperUser())
+			&& Piwik::isUserIsSuperUser())
 		{
-		    $bind['group'] = trim($group);
+			$bind['group'] = trim($group);
 		}
 		else
 		{
@@ -516,7 +516,7 @@ class Piwik_SitesManager_API
 		{
 			if(!$this->isValidIp($ip))
 			{
-				throw new Exception(Piwik_TranslateException('SitesManager_ExceptionInvalidIPFormat', array($ip, "1.2.3.4 or 1.2.3.*")));
+				throw new Exception(Piwik_TranslateException('SitesManager_ExceptionInvalidIPFormat', array($ip, "1.2.3.4, 1.2.3.*, or 1.2.3.4/5")));
 			}
 		}
 		$ips = implode(',', $ips);
@@ -544,7 +544,24 @@ class Piwik_SitesManager_API
 		
 		return count($toInsert);
 	}
-	
+
+	/**
+	 * Get the start and end IP addresses for an IP address range
+	 *
+	 * @param string $ipRange IP address range in presentation format
+	 * @return array|false Array( low, high ) IP addresses in presentation format; or false if error
+	 */
+	public function getIpsForRange($ipRange)
+	{
+		$range = Piwik_IP::getIpsForRange($ipRange);
+		if($range === false)
+		{
+			return false;
+		}
+
+		return array( Piwik_IP::N2P($range[0]), Piwik_IP::N2P($range[1]) );
+	}
+
 	/**
 	 * Sets IPs to be excluded from all websites. IPs can contain wildcards.
 	 * Will also apply to websites created in the future.
@@ -715,9 +732,9 @@ class Piwik_SitesManager_API
 			$bind['timezone'] = $timezone;
 		}
 		if(!is_null($group)
-		    && Piwik::isUserIsSuperUser())
+			&& Piwik::isUserIsSuperUser())
 		{
-		    $bind['group'] = trim($group);
+			$bind['group'] = trim($group);
 		}
 		if(!is_null($startDate))
 		{
@@ -939,11 +956,7 @@ class Piwik_SitesManager_API
 	 */
 	private function isValidIp( $ip )
 	{
-		return preg_match('~^(\d+)\.(\d+)\.(\d+)\.(\d+)$~', $ip, $matches) !== 0
-			|| preg_match('~^(\d+)\.(\d+)\.(\d+)\.\*$~', $ip, $matches) !== 0
-			|| preg_match('~^(\d+)\.(\d+)\.\*.\*$~', $ip, $matches) !== 0
-			|| preg_match('~^(\d+)\.\*\.\*\.\*$~', $ip, $matches) !== 0
-			;
+		return Piwik_IP::getIpsForRange($ip) !== false;
 	}
 	
 	/**
@@ -1005,13 +1018,13 @@ class Piwik_SitesManager_API
 		return $urls;
 	}
 
-        public function getPatternMatchSites($pattern)
+	public function getPatternMatchSites($pattern)
 	{
 		$ids = $this->getSitesIdWithAtLeastViewAccess();
 		$ids_str = '';
 		foreach($ids as $id_num => $id_val)
 		{
-		    $ids_str .= $id_val.' , ';
+			$ids_str .= $id_val.' , ';
 		}
 		$ids_str .= $id_val;
 

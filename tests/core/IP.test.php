@@ -1,0 +1,502 @@
+<?php
+if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
+{
+	require_once dirname(__FILE__)."/../../tests/config_test.php";
+}
+
+require_once 'IP.php';
+class Test_Piwik_IP extends UnitTestCase
+{
+	function __construct( $title = '')
+	{
+		parent::__construct( $title );
+	}
+	
+	public function setUp()
+	{
+		parent::setUp();
+		$_GET = $_POST = array();
+	}
+	
+	public function tearDown()
+	{
+		parent::tearDown();
+	}
+
+	function test_sanitizeIp()
+	{
+		$tests = array(
+			// single IPv4 address
+			'127.0.0.1' => '127.0.0.1',
+
+			// single IPv6 address (ambiguous)
+			'::1' => '::1',
+			'::ffff:127.0.0.1' => '::ffff:127.0.0.1',
+			'2001:5c0:1000:b::90f8' => '2001:5c0:1000:b::90f8',
+
+			// single IPv6 address
+			'[::1]' => '::1',
+			'[2001:5c0:1000:b::90f8]' => '2001:5c0:1000:b::90f8',
+			'[::ffff:127.0.0.1]' => '::ffff:127.0.0.1',
+
+			// single IPv4 address (CIDR notation)
+			'192.168.1.1/32' => '192.168.1.1',
+
+			// single IPv6 address (CIDR notation)
+			'::1/128' => '::1',
+			'::ffff:127.0.0.1/128' => '::ffff:127.0.0.1',
+			'2001:5c0:1000:b::90f8/128' => '2001:5c0:1000:b::90f8',
+
+			// IPv4 address with port
+			'192.168.1.2:80' => '192.168.1.2',
+
+			// IPv6 address with port
+			'[::1]:80' => '::1',
+			'[::ffff:127.0.0.1]:80' => '::ffff:127.0.0.1',
+			'[2001:5c0:1000:b::90f8]:80' => '2001:5c0:1000:b::90f8',
+		);
+
+		foreach($tests as $ip => $expected)
+		{
+			$this->assertEqual( Piwik_IP::sanitizeIp($ip), $expected, "$ip" );
+		}
+	}
+
+	function test_sanitizeIpRange()
+	{
+		$tests = array(
+			'' => false,
+			' 127.0.0.1 ' => '127.0.0.1/32',
+			'192.168.1.0' => '192.168.1.0/32',
+			'192.168.1.1/24' => '192.168.1.1/24',
+			'192.168.1.2/16' => '192.168.1.2/16',
+			'192.168.1.3/8' => '192.168.1.3/8',
+			'192.168.2.*' => '192.168.2.0/24',
+			'192.169.*.*' => '192.169.0.0/16',
+			'193.*.*.*' => '193.0.0.0/8',
+			'*.*.*.*' => '0.0.0.0/0',
+			'*.*.*.1' => false,
+			'*.*.1.1' => false,
+			'*.1.1.1' => false,
+			'1.*.1.1' => false,
+			'1.1.*.1' => false,
+			'1.*.*.1' => false,
+			'::1' => '::1/128',
+			'::ffff:127.0.0.1' => '::ffff:127.0.0.1/128',
+			'2001:5c0:1000:b::90f8' => '2001:5c0:1000:b::90f8/128',
+			'::1/64' => '::1/64',
+			'::ffff:127.0.0.1/64' => '::ffff:127.0.0.1/64',
+			'2001:5c0:1000:b::90f8/64' => '2001:5c0:1000:b::90f8/64',
+		);
+
+		foreach($tests as $ip => $expected)
+		{
+			$this->assertEqual( Piwik_IP::sanitizeIpRange($ip), $expected, "$ip" );
+		}
+	}
+
+	private function getP2NTestData()
+	{
+		return array(
+			// IPv4
+			'0.0.0.0' => "\x00\x00\x00\x00",
+			'127.0.0.1' => "\x7F\x00\x00\x01",
+			'192.168.1.12' => "\xc0\xa8\x01\x0c",
+			'255.255.255.255' => "\xff\xff\xff\xff",
+
+			// IPv6
+			'::' => "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00",
+			'::1' => "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01",
+			'::fffe:7f00:1' => "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xfe\x7f\x00\x00\x01",
+			'::ffff:127.0.0.1' =>      "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff\x7f\x00\x00\x01",
+			'2001:5c0:1000:b::90f8' => "\x20\x01\x05\xc0\x10\x00\x00\x0b\x00\x00\x00\x00\x00\x00\x90\xf8",
+		);
+	}
+
+	function test_P2N()
+	{
+		foreach($this->getP2NTestData() as $P => $N)
+		{
+			$this->assertEqual( Piwik_IP::P2N($P), $N, "$P" );
+		}
+	}
+
+	function test_P2N_invalidInput()
+	{
+		$tests = array(
+			// not a series of dotted numbers
+			null,
+			'',
+			'alpha',
+			'...',
+
+			// missing an octet
+			'.0.0.0',
+			'0..0.0',
+			'0.0..0',
+			'0.0.0.',
+
+			// octets must be 0-255
+			'-1.0.0.0',
+			'1.1.1.256',
+
+			// leading zeros not supported (i.e., can be ambiguous, e.g., octal)
+			'07.07.07.07',
+		);
+		foreach($tests as $P)
+		{
+			$this->assertEqual( Piwik_IP::P2N($P), "\x00\x00\x00\x00", "$P" );
+		}
+	}
+
+	private function getN2PTestData()
+	{
+		// a valid network address is either 4 or 16 bytes; those lines are intentionally left blank ;)
+		return array(
+			null,
+			'',
+			"\x01",
+			"\x01\x00",
+			"\x01\x00\x00",
+
+			"\x01\x00\x00\x00\x00",
+			"\x01\x00\x00\x00\x00\x00",
+			"\x01\x00\x00\x00\x00\x00\x00",
+			"\x01\x00\x00\x00\x00\x00\x00\x00",
+			"\x01\x00\x00\x00\x00\x00\x00\x00\x00",
+			"\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00",
+			"\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00",
+			"\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00",
+			"\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00",
+			"\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00",
+			"\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00",
+
+			"\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00",
+		);
+	}
+
+	function test_N2P()
+	{
+		foreach($this->getP2NTestData() as $P => $N)
+		{
+			$this->assertEqual( Piwik_IP::N2P($N), $P, "$P vs" . Piwik_IP::N2P($N) );
+		}
+	}
+
+	function test_N2P_invalidInput()
+	{
+		foreach($this->getN2PTestData() as $N)
+		{
+			$this->assertEqual( Piwik_IP::N2P($N), "0.0.0.0", bin2hex($N) );
+		}
+	}
+
+	function test_prettyPrint()
+	{
+		foreach($this->getP2NTestData() as $P => $N)
+		{
+			$this->assertEqual( Piwik_IP::prettyPrint($N), $P, "$P vs" . Piwik_IP::N2P($N) );
+		}
+	}
+
+	function test_prettyPrint_invalidInput()
+	{
+		foreach($this->getN2PTestData() as $N)
+		{
+			$this->assertEqual( Piwik_IP::prettyPrint($N), "0.0.0.0", bin2hex($N) );
+		}
+	}
+
+	function test_getIpsForRange()
+	{
+		$tests = array(
+
+			// invalid ranges
+			null => false,
+			'' => false,
+			'0' => false,
+
+			// single IPv4
+			'127.0.0.1' => array( "\x7f\x00\x00\x01", "\x7f\x00\x00\x01" ),
+
+			// IPv4 with wildcards
+			'192.168.1.*' => array( "\xc0\xa8\x01\x00", "\xc0\xa8\x01\xff" ),
+			'192.168.*.*' => array( "\xc0\xa8\x00\x00", "\xc0\xa8\xff\xff" ),
+			'192.*.*.*' => array( "\xc0\x00\x00\x00", "\xc0\xff\xff\xff" ),
+			'*.*.*.*' => array( "\x00\x00\x00\x00", "\xff\xff\xff\xff" ),
+
+			// single IPv4 in expected CIDR notation
+			'192.168.1.1/24' => array( "\xc0\xa8\x01\x00", "\xc0\xa8\x01\xff" ),
+
+			'192.168.1.127/32' => array( "\xc0\xa8\x01\x7f", "\xc0\xa8\x01\x7f" ),
+			'192.168.1.127/31' => array( "\xc0\xa8\x01\x7e", "\xc0\xa8\x01\x7f" ),
+			'192.168.1.127/30' => array( "\xc0\xa8\x01\x7c", "\xc0\xa8\x01\x7f" ),
+			'192.168.1.127/29' => array( "\xc0\xa8\x01\x78", "\xc0\xa8\x01\x7f" ),
+			'192.168.1.127/28' => array( "\xc0\xa8\x01\x70", "\xc0\xa8\x01\x7f" ),
+			'192.168.1.127/27' => array( "\xc0\xa8\x01\x60", "\xc0\xa8\x01\x7f" ),
+			'192.168.1.127/26' => array( "\xc0\xa8\x01\x40", "\xc0\xa8\x01\x7f" ),
+			'192.168.1.127/25' => array( "\xc0\xa8\x01\x00", "\xc0\xa8\x01\x7f" ),
+
+			'192.168.1.255/32' => array( "\xc0\xa8\x01\xff", "\xc0\xa8\x01\xff" ),
+			'192.168.1.255/31' => array( "\xc0\xa8\x01\xfe", "\xc0\xa8\x01\xff" ),
+			'192.168.1.255/30' => array( "\xc0\xa8\x01\xfc", "\xc0\xa8\x01\xff" ),
+			'192.168.1.255/29' => array( "\xc0\xa8\x01\xf8", "\xc0\xa8\x01\xff" ),
+			'192.168.1.255/28' => array( "\xc0\xa8\x01\xf0", "\xc0\xa8\x01\xff" ),
+			'192.168.1.255/27' => array( "\xc0\xa8\x01\xe0", "\xc0\xa8\x01\xff" ),
+			'192.168.1.255/26' => array( "\xc0\xa8\x01\xc0", "\xc0\xa8\x01\xff" ),
+			'192.168.1.255/25' => array( "\xc0\xa8\x01\x80", "\xc0\xa8\x01\xff" ),
+
+			'192.168.255.255/24' => array( "\xc0\xa8\xff\x00", "\xc0\xa8\xff\xff" ),
+			'192.168.255.255/23' => array( "\xc0\xa8\xfe\x00", "\xc0\xa8\xff\xff" ),
+			'192.168.255.255/22' => array( "\xc0\xa8\xfc\x00", "\xc0\xa8\xff\xff" ),
+			'192.168.255.255/21' => array( "\xc0\xa8\xf8\x00", "\xc0\xa8\xff\xff" ),
+			'192.168.255.255/20' => array( "\xc0\xa8\xf0\x00", "\xc0\xa8\xff\xff" ),
+			'192.168.255.255/19' => array( "\xc0\xa8\xe0\x00", "\xc0\xa8\xff\xff" ),
+			'192.168.255.255/18' => array( "\xc0\xa8\xc0\x00", "\xc0\xa8\xff\xff" ),
+			'192.168.255.255/17' => array( "\xc0\xa8\x80\x00", "\xc0\xa8\xff\xff" ),
+
+			// single IPv6
+			'::1' => array( "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01", "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" ),
+
+			// single IPv6 in expected CIDR notation
+			'::1/128' => array( "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01", "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" ),
+			'::1/127' => array( "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" ),
+			'::fffe:7f00:1/120' => array( "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xfe\x7f\x00\x00\x00", "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xfe\x7f\x00\x00\xff" ),
+			'::ffff:127.0.0.1/120' => array( "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff\x7f\x00\x00\x00", "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff\x7f\x00\x00\xff" ),
+
+			'2001:ca11:911::b0b:15:dead/128' => array( "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xde\xad", "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xde\xad" ),
+			'2001:ca11:911::b0b:15:dead/127' => array( "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xde\xac", "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xde\xad" ),
+			'2001:ca11:911::b0b:15:dead/126' => array( "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xde\xac", "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xde\xaf" ),
+			'2001:ca11:911::b0b:15:dead/125' => array( "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xde\xa8", "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xde\xaf" ),
+			'2001:ca11:911::b0b:15:dead/124' => array( "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xde\xa0", "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xde\xaf" ),
+			'2001:ca11:911::b0b:15:dead/123' => array( "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xde\xa0", "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xde\xbf" ),
+			'2001:ca11:911::b0b:15:dead/122' => array( "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xde\x80", "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xde\xbf" ),
+			'2001:ca11:911::b0b:15:dead/121' => array( "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xde\x80", "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xde\xff" ),
+			'2001:ca11:911::b0b:15:dead/120' => array( "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xde\x00", "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xde\xff" ),
+			'2001:ca11:911::b0b:15:dead/119' => array( "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xde\x00", "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xdf\xff" ),
+			'2001:ca11:911::b0b:15:dead/118' => array( "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xdc\x00", "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xdf\xff" ),
+			'2001:ca11:911::b0b:15:dead/117' => array( "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xd8\x00", "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xdf\xff" ),
+			'2001:ca11:911::b0b:15:dead/116' => array( "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xd0\x00", "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xdf\xff" ),
+			'2001:ca11:911::b0b:15:dead/115' => array( "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xc0\x00", "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xdf\xff" ),
+			'2001:ca11:911::b0b:15:dead/114' => array( "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xc0\x00", "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xff\xff" ),
+			'2001:ca11:911::b0b:15:dead/113' => array( "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\x80\x00", "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xff\xff" ),
+			'2001:ca11:911::b0b:15:dead/112' => array( "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\x00\x00", "\x20\x01\xca\x11\x09\x11\x00\x00\x00\x00\x0b\x0b\x00\x15\xff\xff" ),
+		);
+
+		foreach($tests as $range => $expected)
+		{
+			$this->assertEqual( Piwik_IP::getIpsForRange($range), $expected, $range );
+		}
+	}
+
+	function test_isIpInRange()
+	{
+		$tests = array(
+			'192.168.1.10' => array(
+				'192.168.1.9' => false,
+				'192.168.1.10' => true,
+				'192.168.1.11' => false,
+
+				// IPv6 addresses (including IPv4 mapped) have to be compared against IPv6 address ranges
+				'::ffff:192.168.1.10' => false,
+			),
+
+			'::ffff:192.168.1.10' => array(
+				'::ffff:192.168.1.9' => false,
+				'::ffff:192.168.1.10' => true,
+				'::ffff:c0a8:010a' => true,
+				'0000:0000:0000:0000:0000:ffff:c0a8:010a' => true,
+				'::ffff:192.168.1.11' => false,
+
+				// conversely, IPv4 addresses have to be compared against IPv4 address ranges
+				'192.168.1.10' => false,
+			),
+
+			'192.168.1.10/32' => array(
+				'192.168.1.9' => false,
+				'192.168.1.10' => true,
+				'192.168.1.11' => false,
+			),
+
+			'192.168.1.10/31' => array(
+				'192.168.1.9' => false,
+				'192.168.1.10' => true,
+				'192.168.1.11' => true,
+				'192.168.1.12' => false,
+			),
+
+			'192.168.1.128/25' => array(
+				'192.168.1.127' => false,
+				'192.168.1.128' => true,
+				'192.168.1.255' => true,
+				'192.168.2.0' => false,
+			),
+
+			'192.168.1.10/24' => array(
+				'192.168.0.255' => false,
+				'192.168.1.0' => true,
+				'192.168.1.1' => true,
+				'192.168.1.2' => true,
+				'192.168.1.3' => true,
+				'192.168.1.4' => true,
+				'192.168.1.7' => true,
+				'192.168.1.8' => true,
+				'192.168.1.15' => true,
+				'192.168.1.16' => true,
+				'192.168.1.31' => true,
+				'192.168.1.32' => true,
+				'192.168.1.63' => true,
+				'192.168.1.64' => true,
+				'192.168.1.127' => true,
+				'192.168.1.128' => true,
+				'192.168.1.255' => true,
+				'192.168.2.0' => false,
+			),
+
+			'192.168.1.*' => array(
+				'192.168.0.255' => false,
+				'192.168.1.0' => true,
+				'192.168.1.1' => true,
+				'192.168.1.2' => true,
+				'192.168.1.3' => true,
+				'192.168.1.4' => true,
+				'192.168.1.7' => true,
+				'192.168.1.8' => true,
+				'192.168.1.15' => true,
+				'192.168.1.16' => true,
+				'192.168.1.31' => true,
+				'192.168.1.32' => true,
+				'192.168.1.63' => true,
+				'192.168.1.64' => true,
+				'192.168.1.127' => true,
+				'192.168.1.128' => true,
+				'192.168.1.255' => true,
+				'192.168.2.0' => false,
+			),
+		);
+
+		// testing with a single range
+		foreach($tests as $range => $test)
+		{
+			foreach($test as $ip => $expected)
+			{
+				// range as a string
+				$this->assertEqual( Piwik_IP::isIpInRange(Piwik_IP::P2N($ip), array($range)), $expected, "$ip in $range" );
+
+				// range as an array(low, high)
+				$aRange = Piwik_IP::getIpsForRange($range);
+				$aRange[0] = Piwik_IP::N2P($aRange[0]);
+				$aRange[1] = Piwik_IP::N2P($aRange[1]);
+				$this->assertEqual( Piwik_IP::isIpInRange(Piwik_IP::P2N($ip), array($aRange)), $expected, "$ip in $range" );
+			}
+		}
+	}
+
+	function test_getIpFromHeader()
+	{
+	}
+
+	function test_getNonProxyIpFromHeader()
+	{
+		Piwik::createConfigObject();
+		Zend_Registry::get('config')->setTestEnvironment();
+
+		$ips = array(
+			'0.0.0.0',
+			'72.14.204.99',
+			'127.0.0.1',
+			'169.254.0.1',
+			'208.80.152.2',
+			'224.0.0.1',
+		);
+
+		// no proxies
+		foreach($ips as $ip)
+		{
+			$this->assertEqual( Piwik_IP::getNonProxyIpFromHeader($ip, array()), $ip, $ip );
+		}
+
+		// 1.1.1.1 is not a trusted proxy
+		$_SERVER['REMOTE_ADDR'] = '1.1.1.1';
+		foreach($ips as $ip)
+		{
+			$_SERVER['HTTP_X_FORWARDED_FOR'] = '';
+			$this->assertEqual( Piwik_IP::getNonProxyIpFromHeader('1.1.1.1', array('HTTP_X_FORWARDED_FOR')), '1.1.1.1', $ip);
+		}
+
+		// 1.1.1.1 is a trusted proxy
+		$_SERVER['REMOTE_ADDR'] = '1.1.1.1';
+		foreach($ips as $ip)
+		{
+			$_SERVER['HTTP_X_FORWARDED_FOR'] = $ip;
+			$this->assertEqual( Piwik_IP::getNonProxyIpFromHeader('1.1.1.1', array('HTTP_X_FORWARDED_FOR')), $ip, $ip);
+
+			$_SERVER['HTTP_X_FORWARDED_FOR'] = '1.2.3.4, ' . $ip;
+			$this->assertEqual( Piwik_IP::getNonProxyIpFromHeader('1.1.1.1', array('HTTP_X_FORWARDED_FOR')), $ip, $ip);
+
+			// misconfiguration
+			$_SERVER['HTTP_X_FORWARDED_FOR'] = $ip . ', 1.1.1.1';
+			$this->assertEqual( Piwik_IP::getNonProxyIpFromHeader('1.1.1.1', array('HTTP_X_FORWARDED_FOR')), $ip, $ip);
+		}
+
+		/*
+		 * let's test some specific scenarios
+		 */
+
+		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+		$_SERVER['HTTP_X_FORWARDED_FOR'] = '';
+		$this->assertEqual( Piwik_IP::getNonProxyIpFromHeader('127.0.0.1', array('HTTP_X_FORWARDED_FOR')), '127.0.0.1', 'localhost inside LAN');
+
+		$_SERVER['REMOTE_ADDR'] = '128.252.135.4';
+		$_SERVER['HTTP_X_FORWARDED_FOR'] = '';
+		$this->assertEqual( Piwik_IP::getNonProxyIpFromHeader('128.252.135.4', array()), '128.252.135.4', 'outside LAN, no proxy');
+
+		$_SERVER['REMOTE_ADDR'] = '128.252.135.4';
+		$_SERVER['HTTP_X_FORWARDED_FOR'] = '137.18.2.13, 128.252.135.4';
+		$this->assertEqual( Piwik_IP::getNonProxyIpFromHeader('128.252.135.4', array()), '128.252.135.4', 'outside LAN, no (trusted) proxy');
+
+		$_SERVER['REMOTE_ADDR'] = '192.168.1.10';
+		$_SERVER['HTTP_X_FORWARDED_FOR'] = '137.18.2.13, 128.252.135.4, 192.168.1.10';
+		$this->assertEqual( Piwik_IP::getNonProxyIpFromHeader('192.168.1.10', array('HTTP_X_FORWARDED_FOR')), '128.252.135.4', 'outside LAN, one trusted proxy');
+
+		$_SERVER['REMOTE_ADDR'] = '192.168.1.10';
+		$_SERVER['HTTP_X_FORWARDED_FOR'] = '128.252.135.4, 192.168.1.10';
+		$this->assertEqual( Piwik_IP::getNonProxyIpFromHeader('192.168.1.10', array('HTTP_X_FORWARDED_FOR')), '128.252.135.4', 'outside LAN, proxy');
+
+		$_SERVER['REMOTE_ADDR'] = '192.168.1.10';
+		$_SERVER['HTTP_X_FORWARDED_FOR'] = '128.252.135.4, 192.168.1.10, 192.168.1.10';
+		$this->assertEqual( Piwik_IP::getNonProxyIpFromHeader('192.168.1.10', array('HTTP_X_FORWARDED_FOR')), '128.252.135.4', 'outside LAN, misconfigured proxy');
+
+		Zend_Registry::get('config')->General->proxy_ips = array('192.168.1.*');
+		$_SERVER['REMOTE_ADDR'] = '192.168.1.10';
+		$_SERVER['HTTP_X_FORWARDED_FOR'] = '128.252.135.4, 192.168.1.20, 192.168.1.10';
+		$this->assertEqual( Piwik_IP::getNonProxyIpFromHeader('192.168.1.10', array('HTTP_X_FORWARDED_FOR')), '128.252.135.4', 'outside LAN, multiple proxies');
+	}
+
+	function test_getLastIpFromList()
+	{
+		$tests = array(
+			'' => '',
+			'127.0.0.1' => '127.0.0.1',
+			' 127.0.0.1 ' => '127.0.0.1',
+			' 192.168.1.1, 127.0.0.1' => '127.0.0.1',
+			'192.168.1.1 ,127.0.0.1 ' => '127.0.0.1',
+			'192.168.1.1,' => '',
+		);
+
+		foreach($tests as $csv => $expected)
+		{
+			// without excluded IPs
+			$this->assertEqual( Piwik_IP::getLastIpFromList($csv), $expected);
+
+			// with excluded Ips
+			$this->assertEqual( Piwik_IP::getLastIpFromList($csv . ', 10.10.10.10', array('10.10.10.10')), $expected);
+		}
+	}
+
+	function test_getHostByAddr()
+	{
+		$this->assertEqual( Piwik_IP::getHostByAddr('127.0.0.1'), 'localhost', '127.0.0.1 -> localhost' );
+		$this->assertEqual( Piwik_IP::getHostByAddr('::1'), 'ip6-localhost', '::1 -> ip6-localhost' );
+	}
+}

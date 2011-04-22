@@ -139,7 +139,6 @@ class Test_Piwik_SitesManager extends Test_Database
     		'*.1.1.1',
     		'*.*.1.1',
     		'*.*.*.1',
-    		'*.*.*.*',
     		'1.1.1.1.1',
     	); 
     	foreach($invalidIps as $ip)

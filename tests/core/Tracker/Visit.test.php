@@ -29,69 +29,53 @@ class Test_Piwik_TrackerVisit extends Test_Database
 	function test_isVisitorIpExcluded()
 	{
 		$excludedIps = array(
-			'12.12.12.12',
-			'13.13.13.*',
-			'14.14.*.*',
-			'15.*.*.*',
-			'255.1.1.1',
-			'255.150.150.150',
-			'155.*.*.*',
-			'255.255.100.*'
+			'12.12.12.12' => array(
+				'12.12.12.12' => true,
+				'12.12.12.11' => false,
+				'12.12.12.13' => false,
+				'0.0.0.0' => false,
+				'255.255.255.255' => false
+			),
+			'12.12.12.12/32' => array(
+				'12.12.12.12' => true,
+				'12.12.12.11' => false,
+				'12.12.12.13' => false,
+				'0.0.0.0' => false,
+				'255.255.255.255' => false
+			),
+			'12.12.12.*' => array(
+				'12.12.12.0' => true,
+				'12.12.12.255' => true,
+				'12.12.12.12' => true,
+				'12.12.11.255' => false,
+				'12.12.13.0' => false,
+				'0.0.0.0' => false,
+				'255.255.255.255' => false,
+			),
+			'12.12.12.0/24' => array(
+				'12.12.12.0' => true,
+				'12.12.12.255' => true,
+				'12.12.12.12' => true,
+				'12.12.11.255' => false,
+				'12.12.13.0' => false,
+				'0.0.0.0' => false,
+				'255.255.255.255' => false,
+			),
+// add some ipv6 addresses!
 		);
 		$visit = new Test_Piwik_TrackerVisit_public();
-		foreach($excludedIps as $idExcludedId => $excludedIp) 
+		foreach($excludedIps as $excludedIp => $tests)
 		{
-    		$idsite = Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/", $excludedIp);
-    		$visit->setRequest(array('idsite' => $idsite));
-    		
-    		// test that IPs within the range, or the given IP, are excluded
-    		$ips = $this->getIpsFromWildcardIp($excludedIp);
-    		foreach($ips as $testIpIsExcluded)
-    		{
-        		$testIpIsExcluded = ip2long($testIpIsExcluded);
-        		$this->assertTrue($testIpIsExcluded !== false);
-        		$testIpIsExcluded = sprintf("%u", $testIpIsExcluded);
-    			$this->assertTrue($visit->public_isVisitorIpExcluded($testIpIsExcluded), Piwik_Common::long2ip($testIpIsExcluded) . " is not excluded");
-    		}
-    		
-    		// test that all other IPs (set as being exclusively out of any other IP ranges)
-    		// are included in the tracking
-    		foreach($excludedIps as $idIncludedIp => $includedIp)
-    		{
-    			if($idIncludedIp == $idExcludedId)
-    			{
-    				continue;
-    			}
-        		$ips = $this->getIpsFromWildcardIp($includedIp);
-        		foreach($ips as $testIpIsIncluded)
-        		{
-            		$testIpIsIncluded = ip2long($testIpIsIncluded);
-            		$this->assertTrue($testIpIsIncluded !== false);
-            		$testIpIsIncluded = sprintf("%u", $testIpIsIncluded);
-        			$this->assertFalse($visit->public_isVisitorIpExcluded($testIpIsIncluded), Piwik_Common::long2ip($testIpIsIncluded) . " is excluded by the rule ". $excludedIp);
-        		}
-    		}
+			$idsite = Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/", $excludedIp);
+			$visit->setRequest(array('idsite' => $idsite));
+
+			// test that IPs within the range, or the given IP, are excluded
+			foreach($tests as $ip => $expected)
+			{
+				$testIpIsExcluded = Piwik_IP::P2N($ip);
+				$this->assertTrue($visit->public_isVisitorIpExcluded($testIpIsExcluded) === $expected, $ip . " is not excluded in " . $excludedIp);
+			}
 		}
-	}
-	
-	/**
-	 * Given an IP (containing wildcards or not), returns IP within the range (replacing wildcards with proper values)
-	 * @param $wildcardIp 145.65.*.*
-	 * @return array (145.65.1.1, 145.65.255.255, etc.)
-	 */
-	private function getIpsFromWildcardIp($wildcardIp)
-	{
-		if(substr_count($wildcardIp, '*') === 0 )
-		{
-			return array($wildcardIp);
-		}
-		
-		$ips = array();
-		foreach(array(1,50,100,255) as $byte)
-		{
-			$ips[] = str_replace('*', $byte, $wildcardIp); 
-		}
-		return $ips;
 	}
 }
 

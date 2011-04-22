@@ -51,7 +51,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
 		$view->globalExcludedIps = str_replace(',',"\n", $excludedIpsGlobal);
 		$excludedQueryParametersGlobal = Piwik_SitesManager_API::getInstance()->getExcludedQueryParametersGlobal();
 		$view->globalExcludedQueryParameters = str_replace(',',"\n", $excludedQueryParametersGlobal);
-		$view->currentIpAddress = Piwik_Common::getIpString();
+		$view->currentIpAddress = Piwik_IP::getIpFromHeader();
 
 		$this->setBasicVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();

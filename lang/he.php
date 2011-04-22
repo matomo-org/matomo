@@ -305,7 +305,6 @@ $translations = array(
 	'Installation_Extension' => 'הרחבה',
 	'Installation_SystemCheck' => 'בדיקת מערכת',
 	'Installation_SystemCheckPhp' => 'גרסת PHP',
-	'Installation_SystemCheckIpv4' => 'IPv4',
 	'Installation_Welcome' => 'ברוכים הבאים!',
 	'VisitTime_SubmenuTimes' => 'זמנים',
 	'PDFReports_PDF' => 'PDF',

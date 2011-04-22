@@ -434,7 +434,6 @@ $translations = array(
 	'Installation_SystemCheckFileIntegrity' => 'Dosya bütünlüğü',
 	'Installation_SystemCheckError' => 'Bir hata oluştu. Devam edebilmek için hatayı gidermelisiniz.',
 	'Installation_SystemCheckWarning' => 'Piwik normal olarak çalışacaktır ancak bazı özellikler eksik olacak.',
-	'Installation_SystemCheckIpv4' => 'IPv4',
 	'Installation_Tables' => 'Tablolar oluşturuluyor',
 	'Installation_Welcome' => 'Hoşgeldiniz!',
 	'Live_PluginDescription' => 'Ziyaretçilerinizi gözleyin, canlı, gerçek zamanlı!',

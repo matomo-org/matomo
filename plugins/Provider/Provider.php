@@ -213,16 +213,15 @@ class Piwik_Provider extends Piwik_Plugin
 	}
 	
 	/**
-	 * Returns the hostname given the string IP in the format ip2long
-	 * php.net/ip2long
+	 * Returns the hostname given the internal representation of the
+	 * IP address
 	 * 
-	 * @param string $ip
-	 * 
-	 * @return string hostname
+	 * @param string $ip Internal representation of IP address in binary-safe string
+	 * @return string hostname (or human-readable IP address)
 	 */
 	private function getHost($ip)
 	{
-		return trim(strtolower(@gethostbyaddr(Piwik_Common::long2ip($ip))));
+		return trim(strtolower(@Piwik_IP::getHostByAddr(Piwik_IP::N2P($ip))));
 	}
 
 	static public function headerUserCountry($notification)

@@ -8,7 +8,7 @@
  *
  * @package Piwik
  */
-$GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
+$GLOBALS['PIWIK_TRACKER_DEBUG'] = true;
 $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'] = false;
 define('PIWIK_ENABLE_TRACKING', true);
 
@@ -38,6 +38,7 @@ require_once PIWIK_INCLUDE_PATH .'/libs/Event/Notification.php';
 require_once PIWIK_INCLUDE_PATH .'/core/PluginsManager.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Plugin.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Common.php';
+require_once PIWIK_INCLUDE_PATH .'/core/IP.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Config.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Db.php';

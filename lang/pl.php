@@ -452,7 +452,6 @@ $translations = array(
 	'Installation_SystemCheckMbstring' => 'mbstring',
 	'Installation_SystemCheckFileIntegrity' => 'Integralność plików',
 	'Installation_SystemCheckError' => 'Wystąpił błąd - musi być naprawiony aby kontynułować',
-	'Installation_SystemCheckIpv4' => 'IPv4',
 	'Installation_Tables' => 'Utworzenie tabel',
 	'Installation_TablesWithSameNamesFound' => 'Niektóre %1$s tabele w Twojej bazie danych %2$s mają takie same nazwy jak te które próbuje utworzyć Piwik',
 	'Installation_TablesFound' => 'Następujące tabele zostały znalezione w bazie danych',

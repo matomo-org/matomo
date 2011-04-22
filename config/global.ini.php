@@ -238,6 +238,15 @@ assume_secure_protocol = 0
 ; de facto standard (X-Forwarded-Host)
 ;proxy_host_headers[] = HTTP_X_FORWARDED_HOST
 
+; List of proxy IP addresses (or IP address ranges) to skip (if present in the above headers).
+; Generally, only required if there's more than one proxy between the visitor and the backend web server.
+;
+; Examples:
+;proxy_ips[] = 204.93.240.*
+;proxy_ips[] = 204.93.177.0/24
+;proxy_ips[] = 199.27.128.0/21
+;proxy_ips[] = 173.245.48.0/20
+
 ; The release server is an essential part of the Piwik infrastructure/ecosystem
 ; to provide the latest software version.
 latest_version_url = http://piwik.org/latest.zip
@@ -311,9 +320,14 @@ campaign_keyword_var_name	= "piwik_kwd,utm_term"
 ; maximum length of a Page Title or a Page URL recorded in the log_action.name table
 page_maximum_length = 1024;
 
-; number of octets in IP address to mask, in order to anonymize a visitor's IP address
-; if the AnonymizeIP plugin is deactivated, this value is ignored
-; for IPv4 addresses, valid values are 0..4
+; Anonymize a visitor's IP address before any tracking heuristics or any plugins can access the visitor's IP address;
+; This value is the number of octets in IP address to mask; if the AnonymizeIP plugin is deactivated, this value is ignored.
+; For IPv4 addresses, valid values are 0..4; for IPv6 addresses, valid values are 0..16
+ip_address_pre_mask_length = 0
+
+; Anonymize a visitor's IP address after tracking heuristics but before storing to DB;
+; This value is the number of octets in IP address to mask; if the AnonymizeIP plugin is deactivated, this value is ignored.
+; For IPv4 addresses, valid values are 0..4; for IPv6 addresses, valid values are 0..16
 ip_address_mask_length = 1
 
 [Segments]

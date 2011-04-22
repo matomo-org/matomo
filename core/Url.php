@@ -189,12 +189,12 @@ class Piwik_Url
 		}
 
 		// temporary workaround for #1331
-		if(!method_exists('Piwik_Common', 'getProxyFromHeader'))
+		if(!method_exists('Piwik_IP', 'getNonProxyIpFromHeader'))
 		{
 			return $default;
 		}
 
-		return Piwik_Common::getProxyFromHeader($default, $hostHeaders);
+		return Piwik_IP::getNonProxyIpFromHeader($default, $hostHeaders);
 	}
 
 	/**

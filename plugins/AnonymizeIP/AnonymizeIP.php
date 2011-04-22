@@ -37,6 +37,7 @@ class Piwik_AnonymizeIP extends Piwik_Plugin
 	public function getListHooksRegistered()
 	{
 		return array(
+			'Tracker.Visit.setVisitorIp' => 'setVisitorIpAddress',
 			'Tracker.saveVisitorInformation' => 'anonymizeVisitorIpAddress',
 		);
 	}
@@ -44,29 +45,34 @@ class Piwik_AnonymizeIP extends Piwik_Plugin
 	/**
 	 * Internal function to mask portions of the visitor IP address
 	 *
-	 * @param string $ip Unsigned long representation of IP address
+	 * @param string $ip IP address in network address format
 	 * @param int $maskLength Number of octets to reset
 	 */
 	static public function applyIPMask($ip, $maskLength)
 	{
-		$maskedIP = pack('V', (float)$ip);
-
-		switch($maskLength) {
-			case 4:
-				$maskedIP[3] = "\0";
-			case 3:
-				$maskedIP[2] = "\0";
-			case 2:
-				$maskedIP[1] = "\0";
-			case 1:
-				$maskedIP[0] = "\0";
-			case 0:
-			default:
+		// in case mbstring overloads strlen and substr functions
+		$strlen = function_exists('mb_orig_strlen') ? 'mb_orig_strlen' : 'strlen';
+		$i = $strlen($ip);
+		if($maskLength > $i)
+		{
+			$maskLength = $i;
 		}
 
-		// unpack byte array and mask to 32-bits
-		$res = unpack('V', $maskedIP);
-		return sprintf("%u", $res[1] & 0xffffffff);
+		while($maskLength-- > 0)
+		{
+			$ip[--$i] = chr(0);
+		}
+
+		return $ip;
+	}
+
+	/**
+	 * Hook on Tracker.Visit.setVisitorIp to anonymize visitor IP addresses
+	 */
+	function setVisitorIpAddress($notification)
+	{
+		$ip =& $notification->getNotificationObject();
+		$ip = self::applyIPMask($ip, Piwik_Tracker_Config::getInstance()->Tracker['ip_address_pre_mask_length']);
 	}
 
 	/**
