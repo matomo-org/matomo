@@ -316,10 +316,17 @@ class Piwik_IP
 	static public function getNonProxyIpFromHeader($default, $proxyHeaders)
 	{
 		$proxyIps = null;
-		$config = Zend_Registry::get('config');
-		if($config !== false && isset($config->General->proxy_ips))
+		if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
 		{
-			$proxyIps = $config->General->proxy_ips->toArray();
+			$proxyIps = @Piwik_Tracker_Config::getInstance()->General['proxy_ips'];
+		}
+		else
+		{
+			$config = Zend_Registry::get('config');
+			if($config !== false && isset($config->General->proxy_ips))
+			{
+				$proxyIps = $config->General->proxy_ips->toArray();
+			}
 		}
 		if(!is_array($proxyIps))
 		{
