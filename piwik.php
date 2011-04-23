@@ -51,6 +51,11 @@ require_once PIWIK_INCLUDE_PATH .'/core/Cookie.php';
 
 session_cache_limiter('nocache');
 @date_default_timezone_set('UTC');
+
+if(!defined('PIWIK_ENABLE_TRACKING') || PIWIK_ENABLE_TRACKING)
+{
+	ob_start();
+}
 if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 {	
 	require_once PIWIK_INCLUDE_PATH .'/core/Loader.php';
@@ -72,7 +77,6 @@ if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 
 if(!defined('PIWIK_ENABLE_TRACKING') || PIWIK_ENABLE_TRACKING)
 {
-	ob_start();
 	$process = new Piwik_Tracker();
 	$process->main();
 	ob_end_flush();
