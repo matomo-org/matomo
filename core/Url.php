@@ -167,18 +167,15 @@ class Piwik_Url
 	 */
 	static public function getCurrentHost($default = 'unknown')
 	{
-		static $hostHeaders = null;
-		if(is_null($hostHeaders))
+		$hostHeaders = null;
+		$config = Zend_Registry::get('config');
+		if($config !== false && $config->General->proxy_host_headers)
 		{
-			$config = Zend_Registry::get('config');
-			if($config !== false && isset($config->General->proxy_host_headers))
-			{
-				$hostHeaders = $config->General->proxy_host_headers->toArray();
-			}
-			if(!is_array($hostHeaders))
-			{
-				$hostHeaders = array();
-			}
+			$hostHeaders = $config->General->proxy_host_headers->toArray();
+		}
+		if(!is_array($hostHeaders))
+		{
+			$hostHeaders = array();
 		}
 
 		$default = Piwik_Common::sanitizeInputValue($default);
