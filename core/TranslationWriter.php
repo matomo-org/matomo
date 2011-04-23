@@ -79,13 +79,12 @@ class Piwik_TranslationWriter
 	}
 
 	/**
-	 * Save translations to file; translations should already be cleansed.
+	 * Output translations to string
 	 *
 	 * @param array $translations Array of translations ( key => translated string )
-	 * @param string $destinationPath Path of file to save translations to
-	 * @return bool|int False if failure, or number of bytes written
+	 * @return string
 	 */
-	static public function saveTranslation($translations, $destinationPath)
+	static public function outputTranslation($translations)
 	{
 		if(!self::$baseTranslation)
 		{
@@ -119,6 +118,18 @@ class Piwik_TranslationWriter
 
 		$output[] = ');';
 
-		return file_put_contents($destinationPath, implode($output, "\n") . "\n");
+		return implode($output, "\n") . "\n";
+	}
+
+	/**
+	 * Save translations to file; translations should already be cleansed.
+	 *
+	 * @param array $translations Array of translations ( key => translated string )
+	 * @param string $destinationPath Path of file to save translations to
+	 * @return bool|int False if failure, or number of bytes written
+	 */
+	static public function saveTranslation($translations, $destinationPath)
+	{
+		return file_put_contents($destinationPath, self::outputTranslation($translations));
 	}
 }
