@@ -15,7 +15,7 @@ Piwik_FrontController::getInstance()->init();
 // This inits the API Request with the specified parameters
 $request = new Piwik_API_Request('
 			method=UserSettings.getResolution
-			&idSite=1
+			&idSite=7
 			&date=yesterday
 			&period=week
 			&format=XML
