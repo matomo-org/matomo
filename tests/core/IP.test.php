@@ -394,6 +394,36 @@ class Test_Piwik_IP extends UnitTestCase
 
 	function test_getIpFromHeader()
 	{
+		Piwik::createConfigObject();
+		Zend_Registry::get('config')->setTestEnvironment();
+		$saveRemoteAddr = $_SERVER['REMOTE_ADDR'];
+		$saveXFwdFor = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : null;
+
+		$tests = array(
+			'localhost inside LAN' => array('127.0.0.1', '', null, null, '127.0.0.1'),
+			'outside LAN, no proxy' => array('128.252.135.4', '', null, null, '128.252.135.4'),
+			'outside LAN, no (trusted) proxy' => array('128.252.135.4', '137.18.2.13, 128.252.135.4', '', null, '128.252.135.4'),
+			'outside LAN, one trusted proxy' => array('192.168.1.10', '137.18.2.13, 128.252.135.4, 192.168.1.10', 'HTTP_X_FORWARDED_FOR', null, '128.252.135.4'),
+			'outside LAN, proxy' => array('192.168.1.10', '128.252.135.4, 192.168.1.10', 'HTTP_X_FORWARDED_FOR', null, '128.252.135.4'),
+			'outside LAN, misconfigured proxy' => array('192.168.1.10', '128.252.135.4, 192.168.1.10, 192.168.1.10', 'HTTP_X_FORWARDED_FOR', null, '128.252.135.4'),
+			'outside LAN, multiple proxies' => array('192.168.1.10', '128.252.135.4, 192.168.1.20, 192.168.1.10', 'HTTP_X_FORWARDED_FOR', '192.168.1.*', '128.252.135.4'),
+			'outside LAN, multiple proxies' => array('[::ffff:7f00:10]', '128.252.135.4, [::ffff:7f00:20], [::ffff:7f00:10]', 'HTTP_X_FORWARDED_FOR', '::ffff:7f00:0/120', '128.252.135.4'),
+		);
+
+		foreach($tests as $description => $test)
+		{
+			$_SERVER['REMOTE_ADDR'] = $test[0];
+			$_SERVER['HTTP_X_FORWARDED_FOR'] = $test[1];
+			Zend_Registry::get('config')->General->proxy_client_headers = array($test[2]);
+			Zend_Registry::get('config')->General->proxy_ips = array($test[3]);
+			$this->assertEqual( Piwik_IP::getIpFromHeader(), $test[4], $description );
+		}
+
+		$_SERVER['REMOTE_ADDR'] = $saveRemoteAddr;
+		if($saveXFwdFor)
+		{
+			$_SERVER['HTTP_X_FORWARDED_FOR'] = $saveXFwdFor;
+		}
 	}
 
 	function test_getNonProxyIpFromHeader()
@@ -438,39 +468,6 @@ class Test_Piwik_IP extends UnitTestCase
 			$_SERVER['HTTP_X_FORWARDED_FOR'] = $ip . ', 1.1.1.1';
 			$this->assertEqual( Piwik_IP::getNonProxyIpFromHeader('1.1.1.1', array('HTTP_X_FORWARDED_FOR')), $ip, $ip);
 		}
-
-		/*
-		 * let's test some specific scenarios
-		 */
-
-		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-		$_SERVER['HTTP_X_FORWARDED_FOR'] = '';
-		$this->assertEqual( Piwik_IP::getNonProxyIpFromHeader('127.0.0.1', array('HTTP_X_FORWARDED_FOR')), '127.0.0.1', 'localhost inside LAN');
-
-		$_SERVER['REMOTE_ADDR'] = '128.252.135.4';
-		$_SERVER['HTTP_X_FORWARDED_FOR'] = '';
-		$this->assertEqual( Piwik_IP::getNonProxyIpFromHeader('128.252.135.4', array()), '128.252.135.4', 'outside LAN, no proxy');
-
-		$_SERVER['REMOTE_ADDR'] = '128.252.135.4';
-		$_SERVER['HTTP_X_FORWARDED_FOR'] = '137.18.2.13, 128.252.135.4';
-		$this->assertEqual( Piwik_IP::getNonProxyIpFromHeader('128.252.135.4', array()), '128.252.135.4', 'outside LAN, no (trusted) proxy');
-
-		$_SERVER['REMOTE_ADDR'] = '192.168.1.10';
-		$_SERVER['HTTP_X_FORWARDED_FOR'] = '137.18.2.13, 128.252.135.4, 192.168.1.10';
-		$this->assertEqual( Piwik_IP::getNonProxyIpFromHeader('192.168.1.10', array('HTTP_X_FORWARDED_FOR')), '128.252.135.4', 'outside LAN, one trusted proxy');
-
-		$_SERVER['REMOTE_ADDR'] = '192.168.1.10';
-		$_SERVER['HTTP_X_FORWARDED_FOR'] = '128.252.135.4, 192.168.1.10';
-		$this->assertEqual( Piwik_IP::getNonProxyIpFromHeader('192.168.1.10', array('HTTP_X_FORWARDED_FOR')), '128.252.135.4', 'outside LAN, proxy');
-
-		$_SERVER['REMOTE_ADDR'] = '192.168.1.10';
-		$_SERVER['HTTP_X_FORWARDED_FOR'] = '128.252.135.4, 192.168.1.10, 192.168.1.10';
-		$this->assertEqual( Piwik_IP::getNonProxyIpFromHeader('192.168.1.10', array('HTTP_X_FORWARDED_FOR')), '128.252.135.4', 'outside LAN, misconfigured proxy');
-
-		Zend_Registry::get('config')->General->proxy_ips = array('192.168.1.*');
-		$_SERVER['REMOTE_ADDR'] = '192.168.1.10';
-		$_SERVER['HTTP_X_FORWARDED_FOR'] = '128.252.135.4, 192.168.1.20, 192.168.1.10';
-		$this->assertEqual( Piwik_IP::getNonProxyIpFromHeader('192.168.1.10', array('HTTP_X_FORWARDED_FOR')), '128.252.135.4', 'outside LAN, multiple proxies');
 	}
 
 	function test_getLastIpFromList()

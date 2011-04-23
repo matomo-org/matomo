@@ -275,25 +275,22 @@ class Piwik_IP
 	 */
 	static public function getIpFromHeader()
 	{
-		static $clientHeaders = null;
-		if(is_null($clientHeaders))
+		$clientHeaders = null;
+		if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
 		{
-			if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
+			$clientHeaders = @Piwik_Tracker_Config::getInstance()->General['proxy_client_headers'];
+		}
+		else
+		{
+			$config = Zend_Registry::get('config');
+			if($config !== false && isset($config->General->proxy_client_headers))
 			{
-				$clientHeaders = @Piwik_Tracker_Config::getInstance()->General['proxy_client_headers'];
+				$clientHeaders = $config->General->proxy_client_headers->toArray();
 			}
-			else
-			{
-				$config = Zend_Registry::get('config');
-				if($config !== false && isset($config->General->proxy_client_headers))
-				{
-					$clientHeaders = $config->General->proxy_client_headers->toArray();
-				}
-			}
-			if(!is_array($clientHeaders))
-			{
-				$clientHeaders = array();
-			}
+		}
+		if(!is_array($clientHeaders))
+		{
+			$clientHeaders = array();
 		}
 
 		$default = '0.0.0.0';
@@ -366,7 +363,7 @@ class Piwik_IP
 			for($i = count($elements); $i--; )
 			{
 				$element = trim(Piwik_Common::sanitizeInputValue($elements[$i]));
-				if(empty($excludedIps) || !self::isIpInRange(self::P2N($element), $excludedIps))
+				if(empty($excludedIps) || (!in_array($element, $excludedIps) && !self::isIpInRange(self::P2N(self::sanitizeIp($element)), $excludedIps)))
 				{
 					return $element;
 				}
