@@ -2236,13 +2236,9 @@ class Piwik
 	static public function tableInsertBatchIterate($tableName, $fields, $values, $ignoreWhenDuplicate = true)
 	{
 		$fieldList = '('.join(',', $fields).')';
+		$ignore = $ignoreWhenDuplicate ? ' IGNORE' : '';
 
-		$ignore = '';
-		if($ignoreWhenDuplicate) {
-			$ignore = ' IGNORE ';
-		}
 		foreach($values as $row) {
-			$toRecord = implode(', ', $row);
 			$query = "INSERT $ignore
 					INTO ".$tableName."
 					$fieldList
