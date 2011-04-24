@@ -19,6 +19,7 @@ if(file_exists('bootstrap.php'))
 $GLOBALS['PIWIK_TRACKER_MODE'] = true;
 error_reporting(E_ALL|E_NOTICE);
 @ini_set('xdebug.show_exception_trace', 0);
+@ini_set('magic_quotes_runtime', 0);
 
 define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__)=='/'?'':dirname(__FILE__));
 if(!defined('PIWIK_USER_PATH'))
