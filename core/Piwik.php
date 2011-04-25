@@ -2106,7 +2106,7 @@ class Piwik
 			$filePath = PIWIK_USER_PATH . '/' . Piwik_AssetManager::MERGED_FILE_DIR . $tableName . '-'.Piwik_Common::generateUniqId().'.csv';
 
 			if (Piwik_Common::isWindows()) {
-				// On windows, MySQL expects slashes as directory separators
+				// On Windows, MySQL expects forward slashes as directory separators
 				$filePath = str_replace('\\', '/', $filePath);
 			}
 
@@ -2181,10 +2181,9 @@ class Piwik
 			// @see http://bugs.php.net/bug.php?id=54158
 			try {
 				$result = @Piwik_Exec('LOAD DATA LOCAL INFILE'.$query);
-				if(empty($result)) {
+				if(empty($result) || $result < 0) {
 					throw new Exception("LOAD DATA LOCAL INFILE failed!");
 				}
-
 				unlink($filePath);
 				return true;
 			} catch(Exception $e) {
@@ -2207,7 +2206,7 @@ class Piwik
 			}
 
 			$result = @Piwik_Exec('LOAD DATA INFILE'.$query);
-			if(empty($result)) {
+			if(empty($result) || $result < 0) {
 				throw new Exception("LOAD DATA INFILE failed!");
 			}
 
