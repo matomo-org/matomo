@@ -327,7 +327,7 @@ class Test_PHP_Related extends UnitTestCase
 	}
 	
 
-	function isThisForReal()
+	function test_isThisForReal()
 	{
 		// no error here??
 		$bla = false;
