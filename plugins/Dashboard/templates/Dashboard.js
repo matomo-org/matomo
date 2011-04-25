@@ -16,6 +16,7 @@ function dashboard()
 dashboard.prototype =
 {
 	isMaximised: false,
+	widgetDialog: null,
 	
 	//function called on dashboard initialisation
 	init: function(layout)
@@ -212,14 +213,20 @@ dashboard.prototype =
 					});
 	},
 
+	closeWidgetDialog: function() {
+	    if(piwik.dashboardObject.widgetDialog) {
+	        piwik.dashboardObject.widgetDialog.dialog('close');
+	    }
+	},
+	
 	onMaximiseItem: function(target, ev) {
 		var self = this;
 		self.isMaximised = true;
-		var mydialog = $(target).parents('.sortable');
-		$(mydialog).css({'minWidth': '500px', 'maxWidth': '1000px'});
-		$('.button#close, .button#maximise', mydialog).hide();
-		mydialog.before('<div id="placeholder"> </div>');
-		mydialog.dialog({
+		self.widgetDialog = $(target).parents('.sortable');
+		$(self.widgetDialog).css({'minWidth': '500px', 'maxWidth': '1000px'});
+		$('.button#close, .button#maximise', self.widgetDialog).hide();
+		self.widgetDialog.before('<div id="placeholder"> </div>');
+		self.widgetDialog.dialog({
 			title: '',
 			bgiframe: true,
 			modal: true,
@@ -229,15 +236,15 @@ dashboard.prototype =
 			autoOpen: true,
 			close: function(event, ui) {
 				self.isMaximised = false;
-				mydialog.dialog("destroy");
-				$('#placeholder').replaceWith(mydialog);
-				mydialog.removeAttr('style');
+				self.widgetDialog.dialog("destroy");
+				$('#placeholder').replaceWith(self.widgetDialog);
+				self.widgetDialog.removeAttr('style');
 				self.saveLayout();
 			}
 		});
         $('body').click(function(ev) {
             if(ev.target.className == "ui-widget-overlay") {
-                mydialog.dialog("close");
+                self.widgetDialog.dialog("close");
             }
         });
 	},
