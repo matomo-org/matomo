@@ -339,6 +339,12 @@ class Test_PHP_Related extends UnitTestCase
 		$blablabis = $blabis['test'];
 		$this->pass();
 	}
+	
+	function test_string2boolCasting()
+	{
+		$this->assertEqual((bool)"false", true);
+		$this->assertEqual((bool)"0", false);
+	}
 }
 
 
