@@ -521,6 +521,10 @@ class Test_Piwik_IP extends UnitTestCase
 			'fe80::200:4cff:fe43:172f' => 'fe8000000000000002004cfffe43172f',
 			'::ffff:127.0.0.1'         => '00000000000000000000ffff7f000001',
 
+			// relaxed rules
+			'00000::'                  => '00000000000000000000000000000000',
+			'1:2:3:4:5:ffff:127.0.0.1' => '00010002000300040005ffff7f000001',
+
 			// invalid input
 			null => false,
 			false => false,
@@ -543,9 +547,7 @@ class Test_Piwik_IP extends UnitTestCase
 			':1:2:3:4:5:6' => false,
 			'1:2:3:4:5:6:7:' => false,
 			':1:2:3:4:5:6:7' => false,
-			'00000::' => false,
 			'::11111:0' => false,
-			'1:2:3:4:5:ffff:127.0.0.1' => false,
 			'::ffff:127.00.0.1' => false,
 			'::ffff:127.0.0.01' => false,
 			'::ffff:256.0.0.1' => false,
@@ -554,6 +556,8 @@ class Test_Piwik_IP extends UnitTestCase
 
 		foreach ($adds as $k => $v) {
 			$this->assertEqual( bin2hex(php_compat_inet_pton($k)), $v, $k );
+			if(!Piwik_Common::isWindows())
+				$this->assertEqual( bin2hex(@inet_pton($k)), $v, $k );
 		}
 	}
 
@@ -575,6 +579,8 @@ class Test_Piwik_IP extends UnitTestCase
 
 		foreach ($adds as $k => $v) {
 			$this->assertEqual( php_compat_inet_ntop(pack('H*', $v)), $k, $k );
+			if(!Piwik_Common::isWindows())
+				$this->assertEqual( @inet_ntop(pack('H*', $v)), $k, $k );
 		}
 	}
 }

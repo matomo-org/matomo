@@ -528,8 +528,7 @@ function php_compat_inet_pton($address)
 		return false;
 	}
 
-	$looksLikeIpv4Mapped = false;
-	if(preg_match('/:ffff:([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)$/i', $address, $matches))
+	if(preg_match('/:([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)$/i', $address, $matches))
 	{
 		for($i = count($matches); $i-- > 1; )
 		{
@@ -540,8 +539,7 @@ function php_compat_inet_pton($address)
 			}
 		}
 
-		$looksLikeIpv4Mapped = true;
-		$address = substr_replace($address, ':ffff:' . dechex($matches[1]) . sprintf("%02x", $matches[2]) . ':' . dechex($matches[3]) . sprintf("%02x", $matches[4]), strrpos($address, $matches[0]));
+		$address = substr_replace($address, ':' . dechex($matches[1]) . sprintf("%02x", $matches[2]) . ':' . dechex($matches[3]) . sprintf("%02x", $matches[4]), strrpos($address, $matches[0]));
 	}
 	if(strpos($address, '.') !== false)
 	{
@@ -569,6 +567,7 @@ function php_compat_inet_pton($address)
 	// leading zeros
 	foreach($r as $k => $v)
 	{
+		$v = ltrim($v, '0');
 		if(strlen($v) > 4)
 		{
 			return false;
@@ -577,11 +576,6 @@ function php_compat_inet_pton($address)
 	}
 
 	$r = implode(array_map(create_function('$v', 'return pack("H*", $v);'), $r));
-
-	if($looksLikeIpv4Mapped && @substr_compare($r, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", 0, 10) !== 0)
-	{
-		return false;
-	}
 
 	return $r;
 }
