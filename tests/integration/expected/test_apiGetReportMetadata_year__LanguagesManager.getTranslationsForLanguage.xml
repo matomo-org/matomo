@@ -117,6 +117,10 @@
 		<value>Télécharger</value>
 	</row>
 	<row>
+		<label>General_Upload</label>
+		<value>Téléchargement</value>
+	</row>
+	<row>
 		<label>General_Ok</label>
 		<value>Ok</value>
 	</row>
@@ -169,6 +173,10 @@
 		<value>IP du visiteur</value>
 	</row>
 	<row>
+		<label>General_VisitorID</label>
+		<value>ID du visiteur</value>
+	</row>
+	<row>
 		<label>General_VisitType</label>
 		<value>Type du visiteur</value>
 	</row>
@@ -187,6 +195,10 @@
 	<row>
 		<label>General_VisitConvertedGoal</label>
 		<value>Visite convertie en au moins un objectif</value>
+	</row>
+	<row>
+		<label>General_VisitConvertedNGoals</label>
+		<value>La visite a converti %s objectifs</value>
 	</row>
 	<row>
 		<label>General_NewVisitor</label>
@@ -231,6 +243,34 @@
 	<row>
 		<label>General_DateRange</label>
 		<value>Période :</value>
+	</row>
+	<row>
+		<label>General_DateRangeInPeriodList</label>
+		<value>Plage de dates</value>
+	</row>
+	<row>
+		<label>General_ApplyDateRange</label>
+		<value>Appliquer la plage de dates</value>
+	</row>
+	<row>
+		<label>General_InvalidDateRange_js</label>
+		<value>Plage de dates invalide, veuillez recommencer.</value>
+	</row>
+	<row>
+		<label>General_DateRangeFrom_js</label>
+		<value>Du</value>
+	</row>
+	<row>
+		<label>General_DateRangeTo_js</label>
+		<value>Au</value>
+	</row>
+	<row>
+		<label>General_PreviousDays</label>
+		<value>%s précédents jours (aujourd'hui non-inclus)</value>
+	</row>
+	<row>
+		<label>General_LastDays</label>
+		<value>%s derniers jours (aujourd'hui inclus)</value>
 	</row>
 	<row>
 		<label>General_LoadingData</label>
@@ -299,6 +339,10 @@
 	<row>
 		<label>General_ExportAsImage_js</label>
 		<value>Exporter au format Image</value>
+	</row>
+	<row>
+		<label>General_Export</label>
+		<value>Exporter</value>
 	</row>
 	<row>
 		<label>General_YourChangesHaveBeenSaved</label>
@@ -481,8 +525,8 @@
 		<value>Consultez la %s documentation officielle %s pour plus d'information.</value>
 	</row>
 	<row>
-		<label>General_ReportsForTodayWillBeProcessedAtMostEvery</label>
-		<value>Les rapports d'aujourd'hui seront traités au plus tous (toutes) les</value>
+		<label>General_ReportsContainingTodayWillBeProcessedAtMostEvery</label>
+		<value>Rapports du jour (ou n'importe quelle autre plage de dates incluant aujourd'hui) seront calculés tout au plus chaque</value>
 	</row>
 	<row>
 		<label>General_NSeconds</label>
@@ -1101,10 +1145,6 @@
 		<value>Rapports des statistiques web.</value>
 	</row>
 	<row>
-		<label>CoreHome_NoPrivileges</label>
-		<value>Vous êtes connecté en tant que '%s' mais vous n'avez apparemment aucune permission de définie dans Piwik.&lt;br /&gt;Demandez à votre administrateur Piwik de vous donner l'accès 'voir' à un site web.</value>
-	</row>
-	<row>
 		<label>CoreHome_JavascriptDisabled</label>
 		<value>JavaScript doit être activé pour que vous puissiez utiliser Piwik de manière basique.&lt;br /&gt;Cependant, il semble que JasvaScript ne soit pas supporté ou soit désactivé sur votre navigateur.&lt;br /&gt;Pour utiliser l'interface basique, activez JavaScript en modifiant les options de votre navigateur, ensuite %1$sessayez encore%2$s.&lt;br /&gt;</value>
 	</row>
@@ -1717,6 +1757,10 @@
 		<value>Plugin d'exemple: Comment afficher votre abonnement Feedburner dans un Widget dans le tableau de bord?</value>
 	</row>
 	<row>
+		<label>ExampleFeedburner_Help</label>
+		<value>Aide à propos des analyses RSS</value>
+	</row>
+	<row>
 		<label>ExampleRssWidget_PluginDescription</label>
 		<value>Plugin d'exemple: Comment créer un nouveau widget qui lit un flux RSS?</value>
 	</row>
@@ -1961,6 +2005,10 @@
 		<value>URL</value>
 	</row>
 	<row>
+		<label>Goals_PageTitle</label>
+		<value>Titre de la page</value>
+	</row>
+	<row>
 		<label>Goals_Filename</label>
 		<value>nom de fichier</value>
 	</row>
@@ -1983,6 +2031,26 @@
 	<row>
 		<label>Goals_WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore</label>
 		<value>où la page visitée contient un appel à la méthode JavaScript piwikTracker.trackGoal() (%sapprenez-en plus%s)</value>
+	</row>
+	<row>
+		<label>Goals_AllowMultipleConversionsPerVisit</label>
+		<value>Autoriser les conversions multiples par visite</value>
+	</row>
+	<row>
+		<label>Goals_DefaultGoalConvertedOncePerVisit</label>
+		<value>(par défaut) Un objectif peut être convertit une seule fois par visite</value>
+	</row>
+	<row>
+		<label>Goals_HelpOneConversionPerVisit</label>
+		<value>Si une page correspondant à cet objectif est actualisée ou vue plus d'une fois lors d'une visite, l'objectif ne pourra être suivi que la première fois la page a été chargée au cours de cette visite.</value>
+	</row>
+	<row>
+		<label>Goals_AllowGoalConvertedMoreThanOncePerVisit</label>
+		<value>Autoriser un objectif à être convertit plus d'une fois par visite.</value>
+	</row>
+	<row>
+		<label>Goals_HelpMultipleConversionsPerVisit</label>
+		<value>Nous recommandons de sélectionner cette option pour les objectifs de sites d'E-commerce par exemple, où un visiteur pourrait effectuer plusieurs commandes lors de la même visite, et que vous vouliez suivre ces commandes comme des conversions d'objectifs.</value>
 	</row>
 	<row>
 		<label>Goals_DefaultRevenue</label>
@@ -2353,6 +2421,10 @@
 		<value>Vous devez activer l'extension zlib et la fonction gzuncompress</value>
 	</row>
 	<row>
+		<label>Installation_SystemCheckPackHelp</label>
+		<value>La fonction pack() est requise pour suivre les visiteurs dans Piwik.</value>
+	</row>
+	<row>
 		<label>Installation_SystemCheckMbstring</label>
 		<value>mbstring</value>
 	</row>
@@ -2513,6 +2585,10 @@
 		<value>Temps de première conversion</value>
 	</row>
 	<row>
+		<label>Live_KeywordRankedOnSearchResultForThisVisitor</label>
+		<value>Le mot clef %1$s a été a été noté %2$s dans la page de résultats de recherche %3$s pour ce visiteur</value>
+	</row>
+	<row>
 		<label>Live_GoalRevenue</label>
 		<value>Revenu</value>
 	</row>
@@ -2585,8 +2661,8 @@
 		<value>Nom d'utilisateur et/ou courriel invalide.</value>
 	</row>
 	<row>
-		<label>Login_InvalidNonceOrHeaders</label>
-		<value>La vérification de sécurité du formulaire a échoué. Veuillez recharger le formulaire et vérifier que les cookies sont activés. Si vous utilisez un serveur proxy, vous devez configurer Piwik pour accepter les en-têtes de proxy qui redirigent les en-têtes de l'hôte.</value>
+		<label>Login_InvalidNonceOrHeadersOrReferer</label>
+		<value>La sécurité du formulaire a échoué. Veuillez recharger le formulaire et vérifier que vos cookies sont activés. Si vous utilisez un serveur proxy, vous devez %s configurer Piwik pour accepter les en-têtes du proxy %s qui relaient les en-têtes de l'hôte. Vérifiez aussi que l'en-tête de votre référant est correctement transmis.</value>
 	</row>
 	<row>
 		<label>Login_InvalidOrExpiredToken</label>
@@ -3085,6 +3161,10 @@
 		<value>Traduction (Langue actuelle : %s)</value>
 	</row>
 	<row>
+		<label>TranslationsAdmin_StatusOfStringsTranslated</label>
+		<value>Statut: %1$s sur %2$s chaines traduites.</value>
+	</row>
+	<row>
 		<label>TranslationsAdmin_Translations</label>
 		<value>Traductions</value>
 	</row>
@@ -3107,6 +3187,26 @@
 	<row>
 		<label>TranslationsAdmin_ShowOnlyEmpty</label>
 		<value>Afficher uniquement les traductions manquantes</value>
+	</row>
+	<row>
+		<label>TranslationsAdmin_OptionalCountry</label>
+		<value>Pays optionnel</value>
+	</row>
+	<row>
+		<label>TranslationsAdmin_TranslationAlreadyExists</label>
+		<value>La traduction existe déjà</value>
+	</row>
+	<row>
+		<label>TranslationsAdmin_CannotOpenForWriting</label>
+		<value>Impossible d'ouvrir %s en écriture</value>
+	</row>
+	<row>
+		<label>TranslationsAdmin_InvalidCountry</label>
+		<value>Pays invalide</value>
+	</row>
+	<row>
+		<label>TranslationsAdmin_InvalidLanguage</label>
+		<value>Langage invalide</value>
 	</row>
 	<row>
 		<label>UserCountry_PluginDescription</label>
@@ -4209,6 +4309,10 @@
 		<value>Autre pays</value>
 	</row>
 	<row>
+		<label>UserCountry_country_cat</label>
+		<value>Communautés de langue Catalane</value>
+	</row>
+	<row>
 		<label>UserCountry_continent_eur</label>
 		<value>Europe</value>
 	</row>
@@ -4525,6 +4629,10 @@
 		<value>Le login doit contenir entre %1$s et %2$s caractères et être composé uniquement de lettres, chiffres, ou les caractères '_' ou '-' ou '.'</value>
 	</row>
 	<row>
+		<label>UsersManager_ExceptionInvalidPassword</label>
+		<value>La longueur du mot de passe doit être entre %1$s et %2$s caractères.</value>
+	</row>
+	<row>
 		<label>UsersManager_ExceptionInvalidEmail</label>
 		<value>L'adresse courriel est invalide.</value>
 	</row>
@@ -4733,6 +4841,10 @@
 		<value>%s visiteurs uniques</value>
 	</row>
 	<row>
+		<label>VisitsSummary_NbActions</label>
+		<value>%s actions</value>
+	</row>
+	<row>
 		<label>VisitsSummary_NbActionsDescription</label>
 		<value>%s actions (pages vues, téléchargements et liens de sortie)</value>
 	</row>
@@ -4825,10 +4937,6 @@
 		<value>Le plugin rend l'export de n'importe quel Widget Piwik dans votre blog, site web ou sur Igoogle et Netvibes!</value>
 	</row>
 	<row>
-		<label>PDFReports_PluginDescription</label>
-		<value>Créez et téléchargez vos rapports PDF personnalisés et recevez les par e-mail quotidiennement, hebdomadairement ou mensuellement.</value>
-	</row>
-	<row>
 		<label>PDFReports_ManageEmailReports</label>
 		<value>Gérer les rapports par e-mail</value>
 	</row>
@@ -4857,18 +4965,6 @@
 		<value>Envoyer à moi</value>
 	</row>
 	<row>
-		<label>PDFReports_CreateAndSchedulePDFReport</label>
-		<value>Créer et planifier un rapport PDF</value>
-	</row>
-	<row>
-		<label>PDFReports_CancelAndReturnToPDF</label>
-		<value>Annuler et %sretourner à la liste des rapports PDF%s</value>
-	</row>
-	<row>
-		<label>PDFReports_DescriptionWillBeFirstPage</label>
-		<value>La description du rapport sera affichée sur la première page du rapport PDF</value>
-	</row>
-	<row>
 		<label>PDFReports_WeeklyScheduleHelp</label>
 		<value>Planification hebdomadaire : le rapport sera envoyé le Lundi de chaque semaine.</value>
 	</row>
@@ -4881,24 +4977,8 @@
 		<value>Envoyer le rapport aussi à ces adresses e-mail (une par ligne) :</value>
 	</row>
 	<row>
-		<label>PDFReports_ReportsIncludedInPDF</label>
-		<value>Rapports inclus en PDF</value>
-	</row>
-	<row>
-		<label>PDFReports_CreatePDFReport</label>
-		<value>Créer un rapport PDF</value>
-	</row>
-	<row>
-		<label>PDFReports_UpdatePDFReport</label>
-		<value>Mettre à jour un rapport PDF</value>
-	</row>
-	<row>
 		<label>PDFReports_PiwikReports</label>
 		<value>Rapports Piwik</value>
-	</row>
-	<row>
-		<label>PDFReports_DefaultPDFContainingAllReports</label>
-		<value>Rapport PDF par défaut contenant tous les rapports disponibles</value>
 	</row>
 	<row>
 		<label>PDFReports_EmailHello</label>
@@ -4907,269 +4987,5 @@
 	<row>
 		<label>PDFReports_PleaseFindAttachedFile</label>
 		<value>Veuillez trouver en pièce jointe votre rapport %1$s pour %2$s.</value>
-	</row>
-	<row>
-		<label>PDFReports_AreYouSureYouWantToDeleteReport</label>
-		<value>Etes vous sûr de vouloir supprimer ce rapport PDF ainsi que sa planification?</value>
-	</row>
-	<row>
-		<label>PDFReports_ThereIsNoPDFReportToManage</label>
-		<value>Il n'y a aucun rapport PDF à gérer pour le site %s</value>
-	</row>
-	<row>
-		<label>PDFReports_YouMustBeLoggedIn</label>
-		<value>Vous devez être connecté afin de pouvoir créer et planifier des rapports PDF personnalisés.</value>
-	</row>
-	<row>
-		<label>General_Export</label>
-		<value>Exporter</value>
-	</row>
-	<row>
-		<label>General_SaveImageOnYourComputer</label>
-		<value>Pour enregistrer l'image sur votre ordinateur, faites un clic droit sur l'image et sélectionnez &quot;Enregistrer l'image sous...&quot;</value>
-	</row>
-	<row>
-		<label>General_DisplayNormalTable</label>
-		<value>Voir tableau normal</value>
-	</row>
-	<row>
-		<label>General_DisplayMoreData</label>
-		<value>Voir plus de données</value>
-	</row>
-	<row>
-		<label>General_YouAreCurrentlyViewingDemoOfPiwik</label>
-		<value>Vous êtes dans la démo de %s; %stéléchargez%s la version complète ! Visitez %s.</value>
-	</row>
-	<row>
-		<label>API_QuickDocumentation</label>
-		<value>&lt;h2&gt;Documentation rapide de l'API&lt;/h2&gt;&lt;p&gt;Si vous n'avez pas de données pour ajourd'hui, vous pouvez d'abord  &lt;a href='misc/generateVisits.php' target=_blank&gt;générer des données&lt;/a&gt; en utilisant le Générateur de Visites.&lt;/p&gt;&lt;p&gt;Vous pouvez essayer les différents formats disponibles pour chaque méthode. Il est très facile d'extraire n'importe quelle donnée que vous voulez de Piwik!&lt;/p&gt;&lt;p&gt;&lt;b&gt;Pour plus d'informations visitez la &lt;a href='http://piwik.org/docs/analytics-api'&gt;Documentation officielle de l'API&lt;/a&gt; ou la &lt;a href='http://piwik.org/docs/analytics-api/reference'&gt;Référence API&lt;/a&gt;.&lt;/b&gt;&lt;/P&gt;&lt;h2&gt;Identification&lt;/h2&gt;&lt;p&gt;Si vous voulez &lt;b&gt;utiliser les données dans vos scripts, dans une crontab, etc. &lt;/b&gt; vous devez ajouter le paramètre &lt;code&gt;&lt;u&gt;&amp;token_auth=%s&lt;/u&gt;&lt;/code&gt; to the API calls URLs that require authentication.&lt;/p&gt;&lt;p&gt;Cette token_auth est aussi secrètes que votre nom d'utilisateur ou votre mot de passe, &lt;b&gt;ne la partagez pas!&lt;/p&gt;</value>
-	</row>
-	<row>
-		<label>CoreHome_TableNoData</label>
-		<value>Aucune donnée pour cette table.</value>
-	</row>
-	<row>
-		<label>CoreHome_Loading_js</label>
-		<value>Chargement en cours...</value>
-	</row>
-	<row>
-		<label>CorePluginsAdmin_Description</label>
-		<value>Description</value>
-	</row>
-	<row>
-		<label>CorePluginsAdmin_ActivatedHelp</label>
-		<value>Ce plugin ne peut être désactivé</value>
-	</row>
-	<row>
-		<label>CoreUpdater_UpdateHasBeenCancelled</label>
-		<value>La mise à jour a été annulée.</value>
-	</row>
-	<row>
-		<label>Goals_ColumnConversionRate</label>
-		<value>Taux de Conversion</value>
-	</row>
-	<row>
-		<label>Installation_JsTagHelp</label>
-		<value>&lt;p&gt;Pour comptabiliser tous les visiteurs vous devez copier le tag sur toutes vos pages.&lt;/p&gt;&lt;p&gt;Vos pages n'ont pas besoin d'être en PHP, Piwik fonctionne avec tout type de pages (HTML, ASP, Perl ou n'importe quel autre langage).&lt;/p&gt;&lt;p&gt;Ici se trouve le code à insérer : (copiez/collez dans toutes vos pages) &lt;/p&gt;</value>
-	</row>
-	<row>
-		<label>Installation_JsTagHelpTitle</label>
-		<value>Comment insérer le tag dans vos sites web?</value>
-	</row>
-	<row>
-		<label>Installation_GeneralSetup</label>
-		<value>Paramètres généraux</value>
-	</row>
-	<row>
-		<label>Installation_GeneralSetupSuccess</label>
-		<value>Paramètres généraux configurés avec succès</value>
-	</row>
-	<row>
-		<label>Installation_SubmitGo</label>
-		<value>Go!</value>
-	</row>
-	<row>
-		<label>Installation_SystemCheckDomHelp</label>
-		<value>DOM est une partie du coeur de PHP. Vous avez probablement besoin d'installer le module dom ex, php-5-dom.</value>
-	</row>
-	<row>
-		<label>Installation_SystemCheckJson</label>
-		<value>JSON</value>
-	</row>
-	<row>
-		<label>Installation_SystemCheckJsonHelp</label>
-		<value>Vous devez recompiler PHP avec l'extension &quot;json&quot; ou &quot;xml&quot; activée.</value>
-	</row>
-	<row>
-		<label>Installation_SystemCheckJsonSite</label>
-		<value>Plus d'informations sur : &lt;a style=&quot;color:red&quot; href=&quot;http://php.net/json&quot;&gt;PHP JSON&lt;/a&gt;.</value>
-	</row>
-	<row>
-		<label>Installation_SystemCheckXml</label>
-		<value>XML</value>
-	</row>
-	<row>
-		<label>Installation_SystemCheckXmlHelp</label>
-		<value>Des plugins et librairies tierces pourront avoir besoin de l'extension XML.</value>
-	</row>
-	<row>
-		<label>Installation_SystemCheckXmlSite</label>
-		<value>Plus d'informations sur: &lt;a style=&quot;color:red&quot; href=&quot;http://php.net/xml&quot;&gt;PHP XML&lt;/a&gt;.</value>
-	</row>
-	<row>
-		<label>Installation_SystemCheckMbstringHelp</label>
-		<value>Vous devriez paramètrer mbstring.func_overload à &quot;0&quot;.</value>
-	</row>
-	<row>
-		<label>Installation_SystemCheckProtocol</label>
-		<value>Protocole</value>
-	</row>
-	<row>
-		<label>Installation_SystemCheckProtocolHelp</label>
-		<value>Si Piwik se situe derrière un proxy inversé ajoutez ces lignes dans config/config.ini.php sous la section [General]:</value>
-	</row>
-	<row>
-		<label>Live_Date</label>
-		<value>Date</value>
-	</row>
-	<row>
-		<label>Login_InvalidNonceOrReferer</label>
-		<value>La clef de sécurité du formulaire est invalide ou a expiré. Merci de recharger le formulaire et de vérifier que vous avez activé les cookies.</value>
-	</row>
-	<row>
-		<label>Referers_SubmenuEvolution</label>
-		<value>Évolution</value>
-	</row>
-	<row>
-		<label>SitesManager_Id</label>
-		<value>Id</value>
-	</row>
-	<row>
-		<label>SitesManager_Name</label>
-		<value>Nom</value>
-	</row>
-	<row>
-		<label>TranslationsAdmin_AvailableLanguages</label>
-		<value>Langues disponibles</value>
-	</row>
-	<row>
-		<label>UsersManager_YourVisitsAreIgnored</label>
-		<value>%sVos visites sont ignorées par Piwik%s (le cookie d'exclusion de Piwik a été trouvé sur votre navigateur).</value>
-	</row>
-	<row>
-		<label>UsersManager_ClickHereToSetTheCookie</label>
-		<value>Cliquez ici pour mettre en place un cookie qui permettra à Piwik d'ignorer vos visites sur vos sites</value>
-	</row>
-	<row>
-		<label>VisitFrequency_ColumnMaximumActionsByAReturningVisit</label>
-		<value>Nombre maximum d'actions par une visite retour</value>
-	</row>
-	<row>
-		<label>VisitFrequency_ColumnTotalTimeSpentByReturningVisits</label>
-		<value>Temps total passé par les visites retour (en secondes)</value>
-	</row>
-	<row>
-		<label>VisitFrequency_ReturnMaxActions</label>
-		<value>%s actions maximums par visite de visiteur connus</value>
-	</row>
-	<row>
-		<label>VisitFrequency_ReturnTotalTime</label>
-		<value>%s temps total passé par des visiteurs connus</value>
-	</row>
-	<row>
-		<label>VisitorInterest_SubmenuFrequencyLoyalty</label>
-		<value>Fréquence et Fidélité</value>
-	</row>
-	<row>
-		<label>VisitsSummary_TotalTime</label>
-		<value>%s temps total passé par les visiteurs</value>
-	</row>
-	<row>
-		<label>VisitsSummary_Report</label>
-		<value>Rapport</value>
-	</row>
-	<row>
-		<label>ExamplePlugin_PluginDescription</label>
-		<value>Plugin d'exemple: ce plugin décrit comment créer un plugin très simple qui exporte 2 widgets du tableau de bord</value>
-	</row>
-	<row>
-		<label>ExamplePlugin_exampleWidgets</label>
-		<value>Widgets d'exemple</value>
-	</row>
-	<row>
-		<label>ExamplePlugin_exampleWidget</label>
-		<value>Widget d'exemple</value>
-	</row>
-	<row>
-		<label>ExamplePlugin_blogPiwikRss</label>
-		<value>Flux RSS du blog Piwik</value>
-	</row>
-	<row>
-		<label>ExamplePlugin_photostreamMatt</label>
-		<value>Photos de Matt</value>
-	</row>
-	<row>
-		<label>General_DisplayGoals</label>
-		<value>Afficher les objectifs</value>
-	</row>
-	<row>
-		<label>Live_Last30Minutes</label>
-		<value>Les dernières 30 minutes</value>
-	</row>
-	<row>
-		<label>General_ExceptionVariableNotFound</label>
-		<value>La variable '%s' requise est incorrecte ou n'a pas été trouvée lors de l'appel à l'API</value>
-	</row>
-	<row>
-		<label>General_ExceptionSubtableNotFoundInArchive</label>
-		<value>Vous demandez une sous-table précise, mais il n'y a pas de telles données dans les archives.</value>
-	</row>
-	<row>
-		<label>Goals_ConversionsOverviewBySegment</label>
-		<value>Vue d'ensemble des conversions par segments</value>
-	</row>
-	<row>
-		<label>Goals_GoalConversionsBySegment</label>
-		<value>Conversions de l'objectif %s par segment</value>
-	</row>
-	<row>
-		<label>Goals_ViewGoalsBySegment</label>
-		<value>Visualiser les Objectifs par %s</value>
-	</row>
-	<row>
-		<label>SitesManager_Save_js</label>
-		<value>Enregistrer</value>
-	</row>
-	<row>
-		<label>SitesManager_Cancel_js</label>
-		<value>Annuler</value>
-	</row>
-	<row>
-		<label>VisitorGenerator_Visitors</label>
-		<value>Visiteurs</value>
-	</row>
-	<row>
-		<label>VisitorGenerator_NbActions</label>
-		<value>Nombre d'actions</value>
-	</row>
-	<row>
-		<label>VisitorGenerator_ActionsPerVisit</label>
-		<value>Actions par visite</value>
-	</row>
-	<row>
-		<label>VisitorGenerator_Date</label>
-		<value>Date</value>
-	</row>
-	<row>
-		<label>PDFReports_ManagePdfReports</label>
-		<value>Gérer les rapports PDF</value>
-	</row>
-	<row>
-		<label>ExamplePlugin_piwikDownloads</label>
-		<value>Téléchargements de Piwik</value>
-	</row>
-	<row>
-		<label>ExamplePlugin_PiwikHasBeenDownloaded</label>
-		<value>En %s, Piwik a été téléchargé %s fois.</value>
 	</row>
 </result>
