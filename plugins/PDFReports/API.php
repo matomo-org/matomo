@@ -60,7 +60,7 @@ class Piwik_PDFReports_API
 		$this->checkPeriod($period);
 		$this->checkFormat($reportFormat);
 		$description = $this->checkDescription($description);
-		$emailMe = (bool)$emailMe;
+		$emailMe = (int)$emailMe;
 		$additionalEmails = $this->checkAdditionalEmails($additionalEmails);
 		$reports = $this->checkAvailableReports($idSite, $reports);
 		
@@ -89,7 +89,8 @@ class Piwik_PDFReports_API
 	} 
 	
 	/**
-	 * Updates an existing report
+	 * Updates an existing report.
+	 * 
 	 * @see addReport()
 	 */
 	public function updateReport( $idReport, $idSite, $description, $period, $reportFormat, $reports, $emailMe = true, $additionalEmails = false)
@@ -102,8 +103,9 @@ class Piwik_PDFReports_API
 		$this->checkPeriod($period);
 		$this->checkFormat($reportFormat);
 		$description = $this->checkDescription($description);
-		$emailMe = (bool)$emailMe;
+		$emailMe = (int)$emailMe;
 		$additionalEmails = $this->checkAdditionalEmails($additionalEmails);
+		
 		$reports = $this->checkAvailableReports($idSite, $reports);
 		
 		Zend_Registry::get('db')->update( Piwik_Common::prefixTable('pdf'), 
