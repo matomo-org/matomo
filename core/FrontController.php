@@ -238,7 +238,10 @@ class Piwik_FrontController
 			Piwik::install();
 			
 			// ensure the current Piwik URL is known for later use
-			$host = Piwik::getPiwikUrl();
+			if(method_exists('Piwik', 'getPiwikUrl'))
+			{
+				$host = Piwik::getPiwikUrl();
+			}
 			
 			Piwik_PostEvent('FrontController.initAuthenticationObject');
 			try {
