@@ -426,7 +426,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function handleNewVisit($idActionUrl, $idActionName, $someGoalsConverted)
 	{
-		printDebug("New Visit (IP = ".long2ip($this->getVisitorIp()).")");
+		printDebug("New Visit (IP = ".Piwik_IP::N2P($this->getVisitorIp()).")");
 
 		$localTimes = array(
 			'h' => (string) Piwik_Common::getRequestVar( 'h', $this->getCurrentDate("H"), 'int', $this->request),
