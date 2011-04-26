@@ -11,13 +11,13 @@ class Test_Piwik_IP extends UnitTestCase
 	{
 		parent::__construct( $title );
 	}
-	
+
 	public function setUp()
 	{
 		parent::setUp();
 		$_GET = $_POST = array();
 	}
-	
+
 	public function tearDown()
 	{
 		parent::tearDown();
@@ -108,7 +108,7 @@ class Test_Piwik_IP extends UnitTestCase
 			'::' => "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00",
 			'::1' => "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01",
 			'::fffe:7f00:1' => "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xfe\x7f\x00\x00\x01",
-			'::ffff:127.0.0.1' =>      "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff\x7f\x00\x00\x01",
+			'::ffff:127.0.0.1' => "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff\x7f\x00\x00\x01",
 			'2001:5c0:1000:b::90f8' => "\x20\x01\x05\xc0\x10\x00\x00\x0b\x00\x00\x00\x00\x00\x00\x90\xf8",
 		);
 	}
@@ -493,7 +493,54 @@ class Test_Piwik_IP extends UnitTestCase
 
 	function test_getHostByAddr()
 	{
-		$this->assertEqual( Piwik_IP::getHostByAddr('127.0.0.1'), 'localhost', '127.0.0.1 -> localhost' );
-		$this->assertEqual( Piwik_IP::getHostByAddr('::1'), 'ip6-localhost', '::1 -> ip6-localhost' );
+		$hosts = array( 'localhost', @php_uname('n') );
+		$this->assertTrue( in_array(Piwik_IP::getHostByAddr('127.0.0.1'), $hosts), '127.0.0.1 -> localhost' );
+
+		if (!Piwik_Common::isWindows() || PHP_VERSION >= '5.3')
+		{
+			$hosts = array( 'ip6-localhost', @php_uname('n') );
+			$this->assertTrue( in_array(Piwik_IP::getHostByAddr('::1'), $hosts), '::1 -> ip6-localhost' );
+		}
+	}
+
+
+	function test_php_compat_inet_pton()
+	{
+		$adds = array(
+			'127.0.0.1'                => '7f000001',
+			'192.232.131.222'          => 'c0e883de',
+			'255.0.0.0'                => 'ff000000',
+			'255.255.255.255'          => 'ffffffff',
+			'::1'                      => '00000000000000000000000000000001',
+			'2001:260:0:10::1'         => '20010260000000100000000000000001',
+			'2001:5c0:1000:b::90f8'    => '200105c01000000b00000000000090f8',
+			'fe80::200:4cff:fe43:172f' => 'fe8000000000000002004cfffe43172f',
+			'::ffff:127.0.0.1'         => '00000000000000000000ffff7f000001',
+		);
+
+		foreach ($adds as $k => $v) {
+			$this->assertEqual( bin2hex(php_compat_inet_pton($k)), $v, $k );
+		}
+	}
+
+	function test_php_compat_inet_ntop()
+	{
+		$adds = array(
+			'127.0.0.1'                => '7f000001',
+			'192.232.131.222'          => 'c0e883de',
+			'255.0.0.0'                => 'ff000000',
+			'255.255.255.255'          => 'ffffffff',
+			'::1'                      => '00000000000000000000000000000001',
+			'2001:260:0:10::1'         => '20010260000000100000000000000001',
+			'2001:0:0:260::1'          => '20010000000002600000000000000001',
+			'2001::260:0:0:10:1'       => '20010000000002600000000000100001',
+			'2001:5c0:1000:b::90f8'    => '200105c01000000b00000000000090f8',
+			'fe80::200:4cff:fe43:172f' => 'fe8000000000000002004cfffe43172f',
+			'::ffff:127.0.0.1'         => '00000000000000000000ffff7f000001',
+		);
+
+		foreach ($adds as $k => $v) {
+			$this->assertEqual( php_compat_inet_ntop(pack('H*', $v)), $k, $k );
+		}
 	}
 }

@@ -200,10 +200,6 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link:  http://pear.php.net/package/PEAR
 	License:  New BSD
 
-	Name:  PHP_Compat (inet_pton() and inet_ntop() functions)
-	Link:  http://pear.php.net/package/PHP_Compat/
-	License:  LGPL
-
 	Name:  PhpSecInfo
 	Link:  http://phpsec.org/projects/phpsecinfo/
 	License:  New BSD
