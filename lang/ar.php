@@ -4,8 +4,8 @@ $translations = array(
 	'General_TranslatorName' => 'Mustafa Mahmood Abdel Rahman',
 	'General_TranslatorEmail' => 'thetruefact@gmail.com',
 	'General_EnglishLanguageName' => 'Arabic',
-	'General_LayoutDirection' => 'rtl',
 	'General_OriginalLanguageName' => 'العربية',
+	'General_LayoutDirection' => 'rtl',
 	'General_HelloUser' => 'مرحباً بك %s',
 	'General_OpenSourceWebAnalytics' => 'تحليلات ويب مفتوحة المصدر',
 	'General_Dashboard' => 'اللوحة الرئيسية',
@@ -121,7 +121,6 @@ $translations = array(
 	'General_ArchivingInlineHelp' => 'للمواقع المتوسطة وعالية الزيارات، من المفضل تعطيل إطلاق الأرشفة من المتصفح. بدلاً من ذلك، فنحن نفضل ضبط Cron job لمعالجة Piwik كل ساعة.',
 	'General_ArchivingTriggerDescription' => 'مفضل في حالة مواقع Piwik الكبيرة أن تقوم %sبضبط وظيفة %s لمعالجة التقارير آلياً.',
 	'General_SeeTheOfficialDocumentationForMoreInformation' => 'انظر %sمستندات المساعدة الرسمية%s لمزيد من المعلومات.',
-	'General_ReportsForTodayWillBeProcessedAtMostEvery' => 'سيتم معالجة تقارير اليوم كل',
 	'General_NSeconds' => '%s ثانية',
 	'General_SmallTrafficYouCanLeaveDefault' => 'للمواقع قليلة الزيارات، يمكنك ترك القيمة الافتراضية %s ثانية، ومراجعة التقارير في الوقت الحقيقي.',
 	'General_MediumToHighTrafficItIsRecommendedTo' => 'للمواقع متوسطة وعالية الزيارات، نفضل معالجة تقارير اليوم الحالي على الأكثر كل نصف ساعة (%s ثانية) أو كل ساعة (%s ثانية).',
@@ -264,7 +263,6 @@ $translations = array(
 	'CoreAdminHome_Administration' => 'الإدارة',
 	'CoreHome_PluginDescription' => 'بنية تقارير تحليلات ويب.',
 	'CoreHome_WebAnalyticsReports' => 'تقارير تحليلات ويب',
-	'CoreHome_NoPrivileges' => 'لقد سجلت الدخول بصفتك "%s" ولكن يبدو أنه لا توجد لديك أي صلاحيات في Piwik.<br/> إسأل مدير Piwik ليعطيك صلاحيات "المشاهدة" لموقع ما.',
 	'CoreHome_JavascriptDisabled' => 'يجب تفعيل برمجيات جافا في سبيل استخدام Piwik في الوضع القياسي.<br/> ومع ذلك، يبدو أن برمجيات جافا إما معطلة أو غير مدعمة في متصفح ويب الخاص بك.<br/>لاستخدام العرض القياسي، قم بتفعيل JavaScript من خلال تغيير إعدادات متصفحك، ثم %1$sحاول مرة أخرى%2$s.<br/>',
 	'CoreHome_ThereIsNoDataForThisReport' => 'لا توجد بيانات لهذا التقرير.',
 	'CoreHome_ShowJSCode' => 'عرض كود JaveScript الذي سيتم إدخاله.',
@@ -588,10 +586,4 @@ $translations = array(
 	'VisitTime_SubmenuTimes' => 'التوقيت',
 	'VisitTime_NHour' => '%s س',
 	'Widgetize_PluginDescription' => 'الإضافات تجعل من السهل جداً تصدير أي لوحة إعدادات في Piwik إلى مدونتك، موقعك أو صفحتك الخاصة على iGoogle أو Netvibes.',
-
-	// FOR REVIEW
-	'General_ExceptionSubtableNotFoundInArchive' => 'لقد طلبت جدولاً فرعياً محدداً، ولكن لا يوجد مثل هذه البيانات في الأرشيف.',
-	'CorePluginsAdmin_ActivatedHelp' => 'لا يمكن تعطيل هذا التطبيق.',
-	'Login_InvalidNonceOrReferer' => 'مفتاح نموذج الأمان غير صالح أو انتهت صلاحيته. الرجاء تحديث النموذج وفحص ما إذا كانت الكوكيز مفعلة.',
-	'TranslationsAdmin_AvailableLanguages' => 'اللغات المتوفر',
 );
