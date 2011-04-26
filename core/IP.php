@@ -502,13 +502,30 @@ function php_compat_inet_pton($address)
 
 
 	// IPv6
-	if($address[0] == ':')
+	$colonCount = substr_count($address, ':');
+	if($colonCount < 2 || $colonCount > 7 ||
+		strpos($address, ':::') !== false ||
+		substr_count($address, '::') > 1)
+	{
+		return false;
+	}
+
+	if(substr($address, 0, 2) == '::')
 	{
 		$address = '0'.$address;
 	}
-	if($address[strlen($address) - 1] == ':')
+	else if($address[0] == ':')
+	{
+		return false;
+	}
+
+	if(substr($address, -2)  == '::')
 	{
 		$address .= '0';
+	}
+	else if(substr($address, -1) == ':')
+	{
+		return false;
 	}
 
 	$looksLikeIpv4Mapped = false;
@@ -525,6 +542,10 @@ function php_compat_inet_pton($address)
 
 		$looksLikeIpv4Mapped = true;
 		$address = substr_replace($address, ':ffff:' . dechex($matches[1]) . sprintf("%02x", $matches[2]) . ':' . dechex($matches[3]) . sprintf("%02x", $matches[4]), strrpos($address, $matches[0]));
+	}
+	if(strpos($address, '.') !== false)
+	{
+		return false;
 	}
 
 	$r = explode(':', $address);
