@@ -20,6 +20,7 @@ class Test_LanguagesManager extends UnitTestCase
 		$allCountries = Piwik_Common::getCountriesList();
 		$englishStrings = Piwik_LanguagesManager_API::getInstance()->getTranslationsForLanguage('en');
 		$englishStringsWithParameters = array();
+		$expectedLanguageKeys = array();
 		foreach($englishStrings as $englishString)
 		{
 			$stringLabel = $englishString['label'];
@@ -29,6 +30,7 @@ class Test_LanguagesManager extends UnitTestCase
 			{
 				$englishStringsWithParameters[$stringLabel] = $count;
 			}
+			$expectedLanguageKeys[] = $stringLabel;
 		}
 		
 		// we also test that none of the language php files outputs any character on the screen (eg. space before the <?php)
@@ -53,12 +55,24 @@ class Test_LanguagesManager extends UnitTestCase
 			{
 				$stringLabel = $string['label'];
 				$stringValue = $string['value'];
-
+				
+				$plugin = substr($stringLabel, 0, strpos($stringLabel, '_'));
+				$plugins[$plugin] = true;
 				// Testing that the translated string is not empty => '',
 				if(empty($stringValue) || trim($stringValue) === '')
 				{
 					$writeCleanedFile = true;
             		echo "$language: The string $stringLabel is empty in the translation file, removing the line. <br/>\n";
+            		$cleanedStrings[$stringLabel] = false;
+				}
+				elseif(!in_array($stringLabel, $expectedLanguageKeys)
+					// translation files should not contain 3rd plugin translations, but if they are there, we shall not delete them
+					// since translators have spent time working on it... at least for now we shall leave them in (until V2 and plugin repository is done)
+					&& !in_array($plugin, array('GeoIP', 'Forecast', 'EntryPage', 'UserLanguage'))
+					)
+				{
+					$writeCleanedFile = true;
+            		echo "$language: The string $stringLabel was not found in the English language file, removing the line. <br/>\n";
             		$cleanedStrings[$stringLabel] = false;
 				}
     			// checking that translated strings have the same number of %s as the english source strings
@@ -137,6 +151,7 @@ class Test_LanguagesManager extends UnitTestCase
 				$this->writeCleanedTranslationFile($cleanedStrings, $language);
 			}
 		}
+//		var_dump('Unique plugins found: ' . var_export($plugins, 1));
 		$this->pass();
 	}
 	

@@ -4,8 +4,8 @@ $translations = array(
 	'General_TranslatorName' => '<a href="http://www.nirlah.com">Nirlah</a>',
 	'General_TranslatorEmail' => 'nirlah@gmail.com',
 	'General_EnglishLanguageName' => 'Hebrew',
-	'General_LayoutDirection' => 'rtl',
 	'General_OriginalLanguageName' => 'עברית',
+	'General_LayoutDirection' => 'rtl',
 	'General_HelloUser' => 'שלום, %s!',
 	'General_OpenSourceWebAnalytics' => 'סטטיסטיקת אתרים בקוד פתוח',
 	'General_Dashboard' => 'סקירה כללית',
@@ -105,7 +105,6 @@ $translations = array(
 	'General_GeneralSettings' => 'הגדרות כלליות',
 	'General_ArchivingTriggerDescription' => 'מומלץ להתקנות גדולות יותר של Piwik, צריך %sלהגדיר עבודה כרונית%s שתעבד את הדוחות אוטומטית.',
 	'General_SeeTheOfficialDocumentationForMoreInformation' => 'ראו %sתיעוד רשמי%s למידע נוסף.',
-	'General_ReportsForTodayWillBeProcessedAtMostEvery' => 'דוחות להיום יעובדו לכל היותר בכל',
 	'General_NSeconds' => '%s שניות',
 	'General_SmallTrafficYouCanLeaveDefault' => 'לאתרים בעלי תעבורה נמוכה, ניתן להשאיר את ברירת המחדל של %s שניות ולגשת לדוחות בזמן אמת.',
 	'General_MediumToHighTrafficItIsRecommendedTo' => 'לאתרים בעלי תעבודה בינונית עד גבוהה, אנו ממליצים לעבד דוחות להיום לכל היותר בכל חצי שעה (%s שניות) או בכל שעה (%s שניות)',
@@ -310,10 +309,4 @@ $translations = array(
 	'PDFReports_PDF' => 'PDF',
 	'PDFReports_SendReportTo' => 'שלח דוח אל',
 	'PDFReports_SentToMe' => 'שלח אלי',
-
-	// FOR REVIEW
-	'Installation_GeneralSetup' => 'הגדרה כללית',
-	'Installation_GeneralSetupSuccess' => 'הגדרה כללית בוצעה בהצלחה',
-	'Installation_SubmitGo' => 'קדימה!',
-	'Installation_SystemCheckProtocol' => 'פרוטוקול',
 );
