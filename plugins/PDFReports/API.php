@@ -181,7 +181,7 @@ class Piwik_PDFReports_API
 		if(!empty($idSite))
 		{
 			Piwik::checkUserHasViewAccess($idSite);
-			$sqlWhere .= " AND idsite = ?";
+			$sqlWhere .= " AND ".Piwik_Common::prefixTable('site').".idsite = ?";
 			$bind[] = $idSite;
 		}
 		if(!empty($idReport))
