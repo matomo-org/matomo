@@ -50,7 +50,7 @@ class Piwik
 /*
  * Prefix/unprefix class name
  */
-
+	
 	/**
 	 * Prefix class name (if needed)
 	 *
@@ -124,6 +124,28 @@ class Piwik
 		Piwik_View::clearCompiledTemplates();
 		Piwik_Common::deleteTrackerCache();
 	}
+	
+	/**
+	 * Returns the cached the Piwik URL, eg. http://demo.piwik.org/ or http://example.org/piwik/ 
+	 * If not found, then tries to cache it and returns the value.
+	 * @return string
+	 */
+	static public function getPiwikUrl()
+	{
+		$key = 'piwikUrl';
+		$url = Piwik_GetOption($key);
+		if(empty($url)
+			&& !Piwik_Common::isPhpCliMode())
+		{
+			$url = Piwik_Url::getCurrentUrlWithoutFileName();
+			if(strlen($url) >= strlen('http://a/'))
+			{
+				Piwik_SetOption($key, $url, $autoload = true);
+			}
+		}
+		return $url;
+	}
+	
 	
 /*
  * HTTP headers
