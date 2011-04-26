@@ -43,11 +43,13 @@ $translations = array(
 	'General_Default' => 'По подразбиране',
 	'General_Visit' => 'Посещение',
 	'General_VisitorIP' => 'IP на посетител',
+	'General_VisitorID' => 'ID на посетител',
 	'General_VisitType' => 'Тип на посетител',
 	'General_DaysSinceLastVisit' => 'Дни след последното посещение',
 	'General_DaysSinceFirstVisit' => 'Дни след първото посещение',
 	'General_NumberOfVisits' => 'Брой посетители',
 	'General_VisitConvertedGoal' => 'Посещението се превръща в най-малко една цел',
+	'General_VisitConvertedNGoals' => 'Посещението преобразува %s цели',
 	'General_NewVisitor' => 'Нов посетител',
 	'General_ReturningVisitor' => 'Завърнал се посетител',
 	'General_Date' => 'Дата',
@@ -59,10 +61,13 @@ $translations = array(
 	'General_CurrentMonth' => 'Този Месец',
 	'General_CurrentYear' => 'Тази Година',
 	'General_DateRange' => 'Период от време:',
+	'General_DateRangeInPeriodList' => 'Период от време',
 	'General_ApplyDateRange' => 'Прилагане на периода от време',
 	'General_InvalidDateRange_js' => 'Невалиден период от време. Моля, опитайте отново.',
 	'General_DateRangeFrom_js' => 'От',
 	'General_DateRangeTo_js' => 'До',
+	'General_PreviousDays' => 'Предишните %s дни (без днес)',
+	'General_LastDays' => 'Последните %s дни (с днес)',
 	'General_LoadingData' => 'Зарежда данни...',
 	'General_Loading_js' => 'Зарежда...',
 	'General_GoTo' => 'Към %s',
@@ -120,12 +125,13 @@ $translations = array(
 	'General_Save' => 'Запиши',
 	'General_ForExampleShort' => 'например',
 	'General_YouMustBeLoggedIn' => 'Вие трябва да сте влязъл, за да имате достъп до тази функционалност.',
-	'General_Website' => 'Уеб сайт',
+	'General_Website' => 'Уебсайт',
 	'General_GeneralSettings' => 'Основни настройки',
 	'General_AllowPiwikArchivingToTriggerBrowser' => 'Разреши Piwik архивиране, веднага след като докладите бъдат гледани от браузър',
 	'General_ArchivingInlineHelp' => 'За сайтовете със среден или висок трафик, препоръчваме да изключите Piwik архивиране след гледане от браузър. Съветваме ви в този случай да използвате cron job за Вашите доклади на всеки час.',
 	'General_ArchivingTriggerDescription' => 'За по-големи Piwik инсталации, се препоръчва %scron job%s за автоматични доклади.',
 	'General_SeeTheOfficialDocumentationForMoreInformation' => 'Прегледайте %sofficial documentation%s за повече информация',
+	'General_ReportsContainingTodayWillBeProcessedAtMostEvery' => 'Доклади за днес (или друг период от време, включително днес) ще бъдат обработени най-много на всеки',
 	'General_NSeconds' => '%s секунди',
 	'General_SmallTrafficYouCanLeaveDefault' => 'За сайтове с малък трафик, може да оставите по подразбиране %s секунди, както и достъп до всички доклади в реално време.',
 	'General_MediumToHighTrafficItIsRecommendedTo' => 'За среден до висок трафик на сайтове, ние препоръчваме да обработвате докладите за днес на всеки половин час (%s секунди) или всеки час (%s секунди).',
@@ -252,6 +258,10 @@ $translations = array(
 	'Actions_ColumnPageURL' => 'Страница URL',
 	'Actions_ColumnClickedURL' => 'Щракнат URL',
 	'Actions_ColumnDownloadURL' => 'Свален URL',
+	'Actions_ColumnEntryPageURL' => 'Входна страница',
+	'Actions_ColumnEntryPageTitle' => 'Входно заглавие',
+	'Actions_ColumnExitPageURL' => 'Изходна страница',
+	'Actions_ColumnExitPageTitle' => 'Изходно заглавие',
 	'AnonymizeIP_PluginDescription' => 'Скрива последните цифри на IP адреса на посетителя, за да бъде спазен закона за поверителност.',
 	'API_PluginDescription' => 'Цялата информация от Piwik е достъпна чрез просто API. Тази добавка ви дава възможност да получите данни от Вашият Уеб Анализатор под формата на xml,json,php,cvs и др.',
 	'API_QuickDocumentationTitle' => 'API бърза документация',
@@ -264,6 +274,9 @@ $translations = array(
 	'CoreAdminHome_PluginDescription' => 'Администраторски панел на Piwik',
 	'CoreAdminHome_MenuGeneralSettings' => 'Основни настройки',
 	'CoreAdminHome_Administration' => 'Администрация',
+	'CoreAdminHome_EmailServerSettings' => 'Настройки сървър на е-поща',
+	'CoreAdminHome_YouAreOptedIn' => 'В момента сте избрали',
+	'CoreAdminHome_YouAreOptedOut' => 'В момента сте отказали',
 	'CoreHome_PluginDescription' => 'Уеб Анализи Доклади структура.',
 	'CoreHome_WebAnalyticsReports' => 'Уеб Анализи Доклади',
 	'CoreHome_JavascriptDisabled' => 'JavaScript трябва да бъде разрешен за да използвате Piwik в стандартен изглед.<br />Същото е ако JavaScript не е разрешен или браузъра не го поддържа.<br />За да използвате стандартен изглед разрешете JavaScript от настройките на Вашия браузър и %1$sопитайте отново%2$s.<br />',
@@ -335,6 +348,8 @@ $translations = array(
 	'CorePluginsAdmin_Version' => 'Версия',
 	'CorePluginsAdmin_Status' => 'Състояние',
 	'CorePluginsAdmin_Action' => 'Действие',
+	'CorePluginsAdmin_AuthorHomepage' => 'Начало на автор',
+	'CorePluginsAdmin_LicenseHomepage' => 'Начало на лиценз',
 	'CorePluginsAdmin_PluginHomepage' => 'Сайт на плъгина',
 	'CorePluginsAdmin_Activated' => 'Активиран',
 	'CorePluginsAdmin_Active' => 'Активен',
@@ -389,6 +404,9 @@ $translations = array(
 	'CoreUpdater_ExceptionArchiveIncompatible' => 'Несъвместим архив: %s',
 	'CoreUpdater_ExceptionArchiveEmpty' => 'Празен архив.',
 	'CoreUpdater_ExceptionArchiveIncomplete' => 'Несъвместим архив: някои файлове липсват (например %s).',
+	'CustomVariables_CustomVariables' => 'Променливи',
+	'CustomVariables_ColumnCustomVariableName' => 'Име на променлива',
+	'CustomVariables_ColumnCustomVariableValue' => 'Съдържание на променлива',
 	'Dashboard_PluginDescription' => 'Табло на Вашият Уеб Анализатор. Можете да персонализирате Вашето Табло: да добавяте нови джаджи, да променяте подредбата им. Всеки потребител има достъп до своето собствено Табло.',
 	'Dashboard_Dashboard' => 'Табло',
 	'Dashboard_AddWidget' => 'Добави джаджа...',
@@ -397,6 +415,7 @@ $translations = array(
 	'Dashboard_AddPreviewedWidget_js' => 'Добави джаджата на таблото',
 	'Dashboard_WidgetPreview_js' => 'Преглед на джаджата',
 	'Dashboard_Close_js' => 'Затвори',
+	'Dashboard_Maximise_js' => 'Максимизиране',
 	'Dashboard_TitleWidgetInDashboard_js' => 'Джаджата в момента е на таблото',
 	'Dashboard_TitleClickToAdd_js' => 'Щракнете за да добавите на таблото',
 	'Dashboard_LoadingWidget_js' => 'Зарежда джаджата, почакайте...',
@@ -412,6 +431,7 @@ $translations = array(
 	'DBStats_TotalSize' => 'Общ размер',
 	'ExampleAPI_PluginDescription' => 'Примерен плъгин: Как да създадете API за Вашият плъгин, за да извличате данни под всякакъв формат, без да е нужно специално кодиране?',
 	'ExampleFeedburner_PluginDescription' => 'Примерен плъгин: Как да се показват Вашите Feedburner абонати в джаджа на Таблото?',
+	'ExampleFeedburner_Help' => 'Помощ за Feed анализите',
 	'ExampleRssWidget_PluginDescription' => 'Примерен плъгин: Как да създадем нова джаджа, която да разчита RSS емисиите?',
 	'ExampleUI_PluginDescription' => 'Примерен плъгин: Този плъгин показва как се работи с Piwik UI: създаване на таблици, графики, друго.',
 	'Feedback_PluginDescription' => 'Изпратете обратна връзка към Piwik Team. Споделете Вашите идеи и предложения с нас!',
@@ -444,10 +464,12 @@ $translations = array(
 	'Goals_Overview' => 'Общ преглед',
 	'Goals_GoalsOverview' => 'Общ преглед на целите',
 	'Goals_GoalsManagement' => 'Управление на целите',
+	'Goals_ViewGoalsBy' => 'Преглед на цели по %s',
 	'Goals_PluginDescription' => 'Създай цел и виж докладите на отчетите за Вашата цел по: развитие с течение на времето, приходите на посещение, реализации на референтите, ключови думи и др.',
 	'Goals_ColumnConversions' => 'Конверсия',
 	'Goals_ColumnRevenue' => 'Приход',
 	'Goals_GoalX' => 'Цел %s',
+	'Goals_GoalConversion' => 'Конверсия на цел',
 	'Goals_OverallRevenue' => '%s общи приходи',
 	'Goals_OverallConversionRate' => '%s цялостно обменния курс (посещения със завършена цел)',
 	'Goals_Conversions' => '%s конверсия',
@@ -469,9 +491,11 @@ $translations = array(
 	'Goals_ManuallyTriggeredUsingJavascriptFunction' => 'Целта е ръчно задействана с помощта на JavaScript API trackGoal()',
 	'Goals_VisitUrl' => 'посетят определен URL (страница или група от страници)',
 	'Goals_URL' => 'URL',
+	'Goals_PageTitle' => 'Заглавие на страница',
 	'Goals_Filename' => 'име на файла',
 	'Goals_ExternalWebsiteUrl' => 'външен URL',
 	'Goals_Download' => 'изтеглят файл',
+	'Goals_VisitPageTitle' => 'Посещения по заглавие на страница',
 	'Goals_ClickOutlink' => 'натиснат върху връзката, водеща към външен сайт',
 	'Goals_Optional' => '(по избор)',
 	'Goals_WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore' => 'когато посетена страница съдържа призив към JavaScript piwikTracker.trackGoal() метод (%sнаучете повече%s)',
@@ -585,9 +609,12 @@ $translations = array(
 	'Live_LinkVisitorLog' => 'Виж детайли на лога с посетителите',
 	'Live_Actions' => 'Действия',
 	'Live_Action' => 'Действие',
+	'Live_VisitorsInRealTime' => 'Посетители в реално време',
 	'Live_VisitorLog' => 'Лог на посетителя',
 	'Live_Time' => 'Време',
 	'Live_Referrer_URL' => 'URL Референции',
+	'Live_LastMinutes' => 'Последните %s минути',
+	'Live_LastHours' => 'Последните %s часа',
 	'Live_GoalType' => 'Тип',
 	'Live_GoalTime' => '1-ви реализации време',
 	'Live_GoalRevenue' => 'Приходи',
@@ -598,6 +625,7 @@ $translations = array(
 	'Login_PasswordRepeat' => 'Парола (повторно)',
 	'Login_ChangePassword' => 'Смяна на парола',
 	'Login_LoginOrEmail' => 'потребителско име или имейл',
+	'Login_RememberMe' => 'Запомни ме',
 	'Login_LogIn' => 'Вход',
 	'Login_Logout' => 'Изход',
 	'Login_LostYourPassword' => 'Забравена парола?',
@@ -609,63 +637,7 @@ $translations = array(
 	'Login_InvalidUsernameEmail' => 'Грешно потребителско име и/или имейл адрес',
 	'Login_InvalidOrExpiredToken' => 'Token е грешен или изтекъл',
 	'Login_MailTopicPasswordRecovery' => 'Възстановяване на парола',
-	'Login_MailPasswordRecoveryBody' => 'Здравей %1$s,
-
-
-
-
-
-
-
-Искането за възстановяване на парола генерира формуляр, който трябва да попълните %2$s.
-
-
-
-
-
-
-
-За да възстановите паролата си:
-
-
-
-
-
-
-
-1) Отидете на Възстановяване на парола от тук:
-
-
-
-	%3$s
-
-
-
-
-
-
-
-2) Въведете следния token:
-
-
-
-	%4$s
-
-
-
-
-
-
-
-3) Попълнете формуляра (въведете паролата си) и изпратете.
-
-
-
-
-
-
-
-Забележка: този token ще изтече след 24 часа.',
+	'Login_MailPasswordRecoveryBody' => 'Здравей %1$s,Искането за възстановяване на парола генерира формуляр, който трябва да попълните %2$s.За да възстановите паролата си:1) Отидете на Възстановяване на парола от тук:	%3$s2) Въведете следния token:	%4$s3) Попълнете формуляра (въведете паролата си) и изпратете.Забележка: този token ще изтече след 24 часа.',
 	'Login_PasswordSent' => 'Информацията относно възстановяването на паролата в изпратена. Проверете електронната си поща.',
 	'Login_ContactAdmin' => 'Възможни причини: функцията mail() е липсваща или забранена на сървъра. <br />Свържете се с вашия Piwik администратор.',
 	'Login_ExceptionPasswordMD5HashExpected' => 'Параметърът на паролата се очаква да бъде MD5 хеш на парола.',
@@ -700,6 +672,7 @@ $translations = array(
 	'Referers_ColumnWebsitePage' => 'Интернет страница',
 	'Referers_ColumnKeyword' => 'Ключови думи',
 	'Referers_ColumnCampaign' => 'Кампании',
+	'Referers_RefererName' => 'Име на референт',
 	'Referers_DetailsByRefererType' => 'Детайли за типовете референции',
 	'Referers_TypeDirectEntries' => '%s директни посещения',
 	'Referers_TypeSearchEngines' => '%s от търсещите машини',
@@ -711,6 +684,7 @@ $translations = array(
 	'Referers_DistinctCampaigns' => 'отделни кампании',
 	'Referers_DistinctWebsites' => 'отделни сайтове',
 	'Referers_UsingNDistinctUrls' => '(използват се %s различни адреса)',
+	'Referers_SubmenuOverview' => 'Общ преглед',
 	'Referers_SubmenuSearchEngines' => 'Търсачки & Ключови думи',
 	'Referers_SubmenuWebsites' => 'Сайтове',
 	'Referers_SubmenuCampaigns' => 'Кампании',
@@ -718,7 +692,7 @@ $translations = array(
 	'Referers_WidgetCampaigns' => 'Популярни кампании',
 	'Referers_WidgetExternalWebsites' => 'Външни сайтове',
 	'Referers_WidgetSearchEngines' => 'Популярни търсещи машини',
-	'Referers_WidgetOverview' => 'Резюме',
+	'Referers_WidgetOverview' => 'Общ преглед',
 	'SecurityInfo_PluginDescription' => 'Въз основа на PhpSecInfo от PHP за сигурност на Консорциума, този плъгин информира за сигурността на Вашата PHP среда и препоръчва начини за подобрението й. Това е инструмент в един многослоен подход за сигурност. Той не замества настоящите защитени практики за развитие, нито за одит на код/приложение.',
 	'SecurityInfo_Security' => 'Сигурност',
 	'SecurityInfo_SecurityInformation' => 'PHP информация за сигурност',
@@ -738,6 +712,7 @@ $translations = array(
 	'SitesManager_TrackingTags' => 'Проследяване на тагове за %s',
 	'SitesManager_WebsitesManagement' => 'Управление на сайтове',
 	'SitesManager_MainDescription' => 'За да работи брояча е необходимо да добавите САЙТОВЕ! Добавете, редактирайте, изтрийте Сайт и вземете кода за вмъкване.',
+	'SitesManager_YouCurrentlyHaveAccessToNWebsites' => 'В момента имате достъп до %s уебсайта.',
 	'SitesManager_JsTrackingTag' => 'JavaScript код',
 	'SitesManager_JsTrackingTagHelp' => 'JavaScript кода, който трябва да вмъкнете във всички страници',
 	'SitesManager_ShowTrackingTag' => 'покажи кода за вмъкване',
@@ -787,11 +762,18 @@ $translations = array(
 	'TranslationsAdmin_Definition' => 'Дефиниция',
 	'TranslationsAdmin_DefaultString' => 'По подразбиране (Английски)',
 	'TranslationsAdmin_TranslationString' => 'Превод (текущ език: %s)',
+	'TranslationsAdmin_StatusOfStringsTranslated' => 'Статус: %1$s от %2$s преведени низове.',
 	'TranslationsAdmin_Translations' => 'Преводи',
 	'TranslationsAdmin_FixPermissions' => 'Моля поправете правата над файловата система',
 	'TranslationsAdmin_AddLanguage' => 'Добави език',
 	'TranslationsAdmin_Export' => 'Експортирай език',
 	'TranslationsAdmin_Import' => 'Импортирай език',
+	'TranslationsAdmin_ShowOnlyEmpty' => 'Показване само на липсващи преводи',
+	'TranslationsAdmin_OptionalCountry' => 'Страна',
+	'TranslationsAdmin_TranslationAlreadyExists' => 'Превода вече съществува',
+	'TranslationsAdmin_CannotOpenForWriting' => 'Не може да се отвори файла %s, за да се редактира',
+	'TranslationsAdmin_InvalidCountry' => 'Невалидна страна',
+	'TranslationsAdmin_InvalidLanguage' => 'Невалиден език',
 	'UserCountry_PluginDescription' => 'Доклад за Държавите на Вашите посетители.',
 	'UserCountry_Country' => 'Държава',
 	'UserCountry_Continent' => 'Континент',
@@ -1063,10 +1045,17 @@ $translations = array(
 	'UserCountry_country_zm' => 'Замбия',
 	'UserCountry_country_zr' => 'Зайре',
 	'UserCountry_country_zw' => 'Зимбабве',
+	'UserCountry_country_a1' => 'Анонимно прокси',
+	'UserCountry_country_a2' => 'Сателитен доставчик',
+	'UserCountry_country_ap' => 'Азия/Тихоокеанския регион',
+	'UserCountry_country_o1' => 'Друга държава',
+	'UserCountry_country_cat' => 'Каталонски-говорящите общности',
 	'UserCountry_continent_eur' => 'Европа',
 	'UserCountry_continent_afr' => 'Африка',
+	'UserCountry_continent_ant' => 'Антарктида',
 	'UserCountry_continent_asi' => 'Азия',
 	'UserCountry_continent_amn' => 'Северна Америка',
+	'UserCountry_continent_amc' => 'Централна Америка',
 	'UserCountry_continent_ams' => 'Южна и Централна Америка',
 	'UserCountry_continent_oce' => 'Океания',
 	'UserCountryMap_map' => 'карта',
@@ -1083,6 +1072,7 @@ $translations = array(
 	'UserSettings_WideScreen' => 'Екран',
 	'UserSettings_ColumnBrowserFamily' => 'Фамилия браузъри',
 	'UserSettings_ColumnBrowser' => 'Браузър и версия',
+	'UserSettings_ColumnBrowserVersion' => 'Версия на браузъра',
 	'UserSettings_ColumnPlugin' => 'Плъгин',
 	'UserSettings_ColumnConfiguration' => 'Обобщена конфигурация',
 	'UserSettings_ColumnOperatingSystem' => 'Операционна система и версия',
@@ -1100,6 +1090,7 @@ $translations = array(
 	'UsersManager_PluginDescription' => 'Управлението на потребители в Piwik: добавяне на нов потребител, редактиране на съществуващ, актуализиране на разрешения. Всички действия са достъпни чрез API.',
 	'UsersManager_UsersManagement' => 'Управление на потребители',
 	'UsersManager_UsersManagementMainDescription' => 'Създайте нови потребители или управлявайте вече съществуващи. Също така и можете да задавате правата за достъп.',
+	'UsersManager_ThereAreCurrentlyNRegisteredUsers' => 'Има %s регистрирани потребители.',
 	'UsersManager_ManageAccess' => 'Управление на правата',
 	'UsersManager_MainDescription' => 'Можете да управлявате правата на потребителите в Piwik, които да имат достъп до статистиките на вашия сайт. Също така можете да зададете права над всички сайтове.',
 	'UsersManager_Sites' => 'Сайтове',
@@ -1138,10 +1129,11 @@ $translations = array(
 	'UsersManager_ExceptionLoginExists' => 'Потребител с име \'%s\' вече съществува.',
 	'UsersManager_ExceptionEmailExists' => 'Потребител с имейл \'%s\' вече съществува.',
 	'UsersManager_ExceptionInvalidLoginFormat' => 'Потребителското име трябва да бъде между %1$s и %2$s символа дълго и може да съдържа само букви, цифри и/или символите \'_\' и/или \'-\' и/или \'.\'',
-	'UsersManager_ExceptionInvalidEmail' => 'Имейла, който сте въвели не е валиден.',
+	'UsersManager_ExceptionInvalidPassword' => 'Дължината на паролата трябва да бъде между %1$s и %2$s символа.',
+	'UsersManager_ExceptionInvalidEmail' => 'Е-пощата, който сте въвели не е валиден.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Потребителя \'%s\' не съществува, по тази причина не може да бъде изтрит.',
-	'UsersManager_ExceptionAdminAnonymous' => 'Не може да зададете \'админ\' права на \'anonymous\' потребител.',
-	'UsersManager_ExceptionEditAnonymous' => 'Анонимният потребител не може да бъде редактиран или изтрит. Piwik по този начин дефинира в система потребители, които не са влезли. Например можете да направите данните на брояча ви публични, като зададете \'view\' права на \'anonymous\' потребител.',
+	'UsersManager_ExceptionAdminAnonymous' => 'Не може да зададете \'админ\' права на \'анонимен\' потребител.',
+	'UsersManager_ExceptionEditAnonymous' => 'Анонимният потребител не може да бъде редактиран или изтрит. Piwik по този начин дефинира в система потребители, които не са влезли. Например можете да направите данните на брояча ви публични, като зададете \'преглед\' права на \'анонимен\' потребител.',
 	'UsersManager_ExceptionSuperUser' => 'Този потребител е СУПЕР ПОТРЕБИТЕЛ - не може да бъде редактиран и изтрит през API. Можете ръчно да редактирате СУПЕР ПОТРЕБИТЕЛ от конфигурационния файл на Piwik.',
 	'UsersManager_ExceptionUserDoesNotExist' => 'Потребителя \'%s\' не съществува.',
 	'UsersManager_ExceptionAccessValues' => 'Този параметър може да има само един от следните параметри : [ %s ]',
@@ -1213,11 +1205,12 @@ $translations = array(
 	'VisitTime_WidgetServerTime' => 'Посещения по сървърно време',
 	'VisitTime_SubmenuTimes' => 'Време',
 	'VisitTime_NHour' => '%sч',
-	'Widgetize_PluginDescription' => 'Този плъгин прави много лесен за износ на всяка Piwik джаджа във вашия блог, уеб сайт или по Igoogle и Netvibes!',
+	'Widgetize_PluginDescription' => 'Този плъгин прави много лесен за износ на всяка Piwik джаджа във вашия блог, уебсайт или по Igoogle и Netvibes!',
+	'PDFReports_ManageEmailReports' => 'Управление на Email докладите',
 	'PDFReports_EmailReports' => 'Email доклади',
 	'PDFReports_PDF' => 'PDF',
 	'PDFReports_SendReportNow' => 'Изпрати доклад сега',
-	'PDFReports_EmailSchedule' => 'Имейл списък',
+	'PDFReports_EmailSchedule' => 'Списък с е-пощи',
 	'PDFReports_SendReportTo' => 'Изпрати доклад до',
 	'PDFReports_SentToMe' => 'Изпрати до мен',
 	'PDFReports_WeeklyScheduleHelp' => 'Седмичен график: докладът ще бъде изпратен на първия понеделник на всяка седмица.',
