@@ -236,7 +236,10 @@ class Piwik_FrontController
 
 			Piwik_PluginsManager::getInstance()->installLoadedPlugins();
 			Piwik::install();
-
+			
+			// ensure the current Piwik URL is known for later use
+			$host = Piwik::getPiwikUrl();
+			
 			Piwik_PostEvent('FrontController.initAuthenticationObject');
 			try {
 				$authAdapter = Zend_Registry::get('auth');
