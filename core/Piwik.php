@@ -137,7 +137,7 @@ class Piwik
 		if(empty($url)
 			&& !Piwik_Common::isPhpCliMode())
 		{
-			$url = Piwik_Url::getCurrentUrlWithoutFileName();
+			$url = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
 			if(strlen($url) >= strlen('http://a/'))
 			{
 				Piwik_SetOption($key, $url, $autoload = true);
