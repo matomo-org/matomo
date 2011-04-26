@@ -10,6 +10,22 @@
  * @package Piwik
  */
 
+if(Piwik_Common::isWindows()) {
+	function _inet_ntop($in_addr) {
+		return php_compat_inet_ntop($in_addr);
+	}
+	function _inet_pton($address) {
+		return php_compat_inet_pton($address);
+	}
+} else {
+	function _inet_ntop($in_addr) {
+		return inet_ntop($in_addr);
+	}
+	function _inet_pton($address) {
+		return inet_pton($address);
+	}
+}
+
 /**
  * Handling IP addresses (both IPv4 and IPv6).
  *
@@ -20,6 +36,10 @@
  *
  * As a matter of naming convention, we use $ip for the network address format
  * and $ipString for the presentation format (i.e., human-readable form).
+ *
+ * We're not using the network address format (in_addr) for socket functions,
+ * so we don't have to worry about incompatibility with Windows UNICODE
+ * and inetPtonW().
  *
  * @package Piwik
  */
@@ -113,7 +133,7 @@ class Piwik_IP
 		}
 
 		// single IP
-		if(($ip = @inet_pton($ipRangeString)) === false)
+		if(($ip = @_inet_pton($ipRangeString)) === false)
 			return false;
 
 		$maxbits = $strlen($ip) * 8;
@@ -137,7 +157,7 @@ class Piwik_IP
 	static public function P2N($ipString)
 	{
 		// use @inet_pton() because it throws an exception and E_WARNING on invalid input
-		$ip = @inet_pton($ipString);
+		$ip = @_inet_pton($ipString);
 		return $ip === false ? "\x00\x00\x00\x00" : $ip;
 	}
 
@@ -152,7 +172,7 @@ class Piwik_IP
 	static public function N2P($ip)
 	{
 		// use @inet_ntop() because it throws an exception and E_WARNING on invalid input
-		$ipStr = @inet_ntop($ip);
+		$ipStr = @_inet_ntop($ip);
 		return $ipStr === false ? '0.0.0.0' : $ipStr;
 	}
 
@@ -186,7 +206,7 @@ class Piwik_IP
 
 		$bits = substr($ipRange, $pos + 1);
 		$range = substr($ipRange, 0, $pos);
-		$high = $low = @inet_pton($range);
+		$high = $low = @_inet_pton($range);
 		if($low === false)
 		{
 			return false;
@@ -381,95 +401,166 @@ class Piwik_IP
 	static public function getHostByAddr($ipStr)
 	{
 		// PHP's reverse lookup supports ipv4 and ipv6
-		return gethostbyaddr($ipStr);
+		// except on Windows before PHP 5.3
+		return @gethostbyaddr($ipStr);
 	}
 }
 
 /**
- * Replace inet_ntop()
+ * Converts a packed internet address to a human readable representation
  *
- * @category    PHP
- * @package     PHP_Compat
- * @license     LGPL - http://www.gnu.org/licenses/lgpl.html
- * @copyright   2004-2007 Aidan Lister <aidan@php.net>, Arpad Ray <arpad@php.net>
- * @link        http://php.net/inet_ntop
- * @author      Arpad Ray <arpad@php.net>
- * @version     $Revision: 269597 $
- * @since       PHP 5.1.0
- * @require     PHP 4.0.0 (long2ip)
+ * @link http://php.net/inet_ntop
+ *
+ * @param string $in_addr 32-bit IPv4 or 128-bit IPv6 address
+ * @return string|false string representation of address or false on failure
  */
 function php_compat_inet_ntop($in_addr)
 {
-    switch (strlen($in_addr)) {
-        case 4:
-            list(,$r) = unpack('N', $in_addr);
-            return long2ip($r);
+	switch (strlen($in_addr)) {
+		case 4:
+			$r = str_split(bin2hex($in_addr), 2);
+			$r = array_map('hexdec', $r);
+			$r = implode('.', $r);
+			return $r;
 
-        case 16:
-            $r = substr(chunk_split(bin2hex($in_addr), 4, ':'), 0, -1);
-            $r = preg_replace(
-                array('/(?::?\b0+\b:?){2,}/', '/\b0+([^0])/e'),
-                array('::', '(int)"$1"?"$1":"0$1"'),
-                $r);
-            return $r;
-    }
+		case 16:
+			$r = bin2hex($in_addr);
 
-    return false;
-}
+			// IPv4-mapped address
+			if(substr_compare($r, '00000000000000000000ffff', 0, 24) === 0)
+			{
+				$r = str_split(substr($r, 24), 2);
+				$r = array_map('hexdec', $r);
+				$r = implode('.', $r);
+				return '::ffff:' . $r;
+			}
 
+			$r = str_split($r, 4);
+			$r = implode(':', $r);
 
-// Define
-if (!function_exists('inet_ntop')) {
-    function inet_ntop($in_addr)
-    {
-        return php_compat_inet_ntop($in_addr);
-    }
+			// compress leading zeros
+			$r = preg_replace(
+				'/(^|:)0{1,3}/',
+				'$1',
+				$r
+			);
+
+			// compress groups of zeros
+			if(preg_match_all('/(?:^|:)(0(:|$))+/', $r, $matches))
+			{
+				$longestMatch = 0;
+				foreach($matches[0] as $aMatch)
+				{
+					if(strlen($aMatch) > strlen($longestMatch))
+					{
+						$longestMatch = $aMatch;
+					}
+				}
+				$r = substr_replace($r, '::', strpos($r, $longestMatch), strlen($longestMatch));
+			}
+
+			return $r;
+	}
+
+	return false;
 }
 
 /**
- * Replace inet_pton()
+ * Converts a human readable IP address to its packed in_addr representation
  *
- * @category    PHP
- * @package     PHP_Compat
- * @license     LGPL - http://www.gnu.org/licenses/lgpl.html
- * @copyright   2004-2007 Aidan Lister <aidan@php.net>, Arpad Ray <arpad@php.net>
- * @link        http://php.net/inet_pton
- * @author      Arpad Ray <arpad@php.net>
- * @version     $Revision: 269597 $
- * @since       PHP 5.1.0
- * @require     PHP 4.2.0 (array_fill)
+ * @link http://php.net/inet_pton
+ *
+ * @param string $address a human readable IPv4 or IPv6 address
+ * @return string in_addr representation or false on failure
  */
 function php_compat_inet_pton($address)
 {
-    $r = ip2long($address);
-    if ($r !== false && $r != -1) {
-        return pack('N', $r);
-    }
+	if(empty($address) || strspn($address, '01234567890abcdefABCDEF:.') !== strlen($address))
+	{
+		return false;
+	}
 
-    $delim_count = substr_count($address, ':');
-    if ($delim_count < 1 || $delim_count > 7) {
-        return false;
-    }
+	// IPv4
+	if(preg_match('/^([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)$/i', $address, $matches))
+	{
+		for($i = count($matches); $i-- > 1; )
+		{
+			if($matches[$i] > 255 ||
+				($matches[$i][0] == '0' && strlen($matches[$i]) > 1))
+			{
+				return false;
+			}
+		}
 
-    $r = explode(':', $address);
-    $rcount = count($r);
-    if (($doub = array_search('', $r, 1)) !== false) {
-        $length = (!$doub || $doub == $rcount - 1 ? 2 : 1);
-        array_splice($r, $doub, $length, array_fill(0, 8 + $length - $rcount, 0));
-    }
-
-    $r = array_map('hexdec', $r);
-    array_unshift($r, 'n*');
-    $r = call_user_func_array('pack', $r);
-
-    return $r;
-}
+		$r = ip2long($address);
+		if ($r === false)
+		{
+			return false;
+		}
+		return pack('N', $r);
+	}
 
 
-// Define
-if (!function_exists('inet_pton')) {  
-    function inet_pton($address)
-    {
-        return php_compat_inet_pton($address);
-    }
+	// IPv6
+	if($address[0] == ':')
+	{
+		$address = '0'.$address;
+	}
+	if($address[strlen($address) - 1] == ':')
+	{
+		$address .= '0';
+	}
+
+	$looksLikeIpv4Mapped = false;
+	if(preg_match('/:ffff:([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)$/i', $address, $matches))
+	{
+		for($i = count($matches); $i-- > 1; )
+		{
+			if($matches[$i] > 255 ||
+				($matches[$i][0] == '0' && strlen($matches[$i]) > 1))
+			{
+				return false;
+			}
+		}
+
+		$looksLikeIpv4Mapped = true;
+		$address = substr_replace($address, ':ffff:' . dechex($matches[1]) . sprintf("%02x", $matches[2]) . ':' . dechex($matches[3]) . sprintf("%02x", $matches[4]), strrpos($address, $matches[0]));
+	}
+
+	$r = explode(':', $address);
+	$count = count($r);
+	if($count > 8)
+	{
+		return false;
+	}
+	if($count < 8)
+	{
+		// grouped zeros
+		$zeroGroup = array_search('', $r, 1);
+		if($zeroGroup === false)
+		{
+			return false;
+		}
+
+		array_splice($r, $zeroGroup, 1, array_fill(0, 8 - $count + 1, '0'));
+	}
+
+	// leading zeros
+	foreach($r as $k => $v)
+	{
+		if(strlen($v) > 4)
+		{
+			return false;
+		}
+		$r[$k] = str_pad($v, 4, '0', STR_PAD_LEFT);
+	}
+
+	$r = implode(array_map(create_function('$v', 'return pack("H*", $v);'), $r));
+
+	if($looksLikeIpv4Mapped && @substr_compare($r, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", 0, 10) !== 0)
+	{
+		return false;
+	}
+
+	return $r;
 }
