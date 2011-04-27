@@ -207,6 +207,58 @@ class Test_Piwik_IP extends UnitTestCase
 		}
 	}
 
+	function test_long2ip()
+	{
+		// a valid network address is either 4 or 16 bytes; those lines are intentionally left blank ;)
+		$tests = array(
+			// invalid
+			null => '0.0.0.0',
+			"" => '0.0.0.0',
+
+			// IPv4
+			"\x7f\x00\x00\x01" => '127.0.0.1',
+
+			// IPv4-compatible (this transitional format is deprecated in RFC 4291, section 2.5.5.1)
+			"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc0\xa8\x01\x01" => '192.168.1.1',
+
+			// IPv4-mapped (RFC 4291, 2.5.5.2)
+			"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff\xc0\xa8\x01\x02" => '192.168.1.2',
+
+			// other IPv6 address
+			"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\x00\xc0\xa8\x01\x03" => '0.0.0.0',
+			"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\xc0\xa8\x01\x04" => '0.0.0.0',
+			"\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc0\xa8\x01\x05" => '0.0.0.0',
+
+			/*
+			 * We assume all stored IP addresses (pre-Piwik 1.4) were converted from UNSIGNED INT to VARBINARY.
+			 * The following is just for informational purposes to see how the function handles
+			 * the numeric representation for IP addresses (returned by the native ip2long function)
+			 */
+
+			// 192.168.1.0
+			'-1062731520' => '192.168.1.0',
+			'3232235776' => '192.168.1.0',
+
+			// 10.10.10.10
+			'168430090' => '10.10.10.10',
+
+			// 0.0.39.15 - this is the ambiguous case (i.e., 4 char string)
+			'9999' => '57.57.57.57',
+			"\x39\x39\x39\x39" => '57.57.57.57',
+
+			// 0.0.3.231
+			'999' => '0.0.3.231',
+			"\x39\x39\x39" => '0.0.3.231',
+		);
+
+		foreach($tests as $N => $P)
+		{
+			$this->assertEqual( Piwik_IP::long2ip($N), $P, bin2hex($N) );
+			// this is our compatibility function
+			$this->assertEqual( Piwik_Common::long2ip($N), $P, bin2hex($N) );
+		}
+	}
+
 	function test_getIpsForRange()
 	{
 		$tests = array(
@@ -396,7 +448,7 @@ class Test_Piwik_IP extends UnitTestCase
 	{
 		Piwik::createConfigObject();
 		Zend_Registry::get('config')->setTestEnvironment();
-		$saveRemoteAddr = $_SERVER['REMOTE_ADDR'];
+		$saveRemoteAddr = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null;
 		$saveXFwdFor = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : null;
 
 		$tests = array(
@@ -419,7 +471,10 @@ class Test_Piwik_IP extends UnitTestCase
 			$this->assertEqual( Piwik_IP::getIpFromHeader(), $test[4], $description );
 		}
 
-		$_SERVER['REMOTE_ADDR'] = $saveRemoteAddr;
+		if($saveRemoteAddr)
+		{
+			$_SERVER['REMOTE_ADDR'] = $saveRemoteAddr;
+		}
 		if($saveXFwdFor)
 		{
 			$_SERVER['HTTP_X_FORWARDED_FOR'] = $saveXFwdFor;
@@ -430,6 +485,7 @@ class Test_Piwik_IP extends UnitTestCase
 	{
 		Piwik::createConfigObject();
 		Zend_Registry::get('config')->setTestEnvironment();
+		$saveRemoteAddr = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null;
 
 		$ips = array(
 			'0.0.0.0',
@@ -467,6 +523,11 @@ class Test_Piwik_IP extends UnitTestCase
 			// misconfiguration
 			$_SERVER['HTTP_X_FORWARDED_FOR'] = $ip . ', 1.1.1.1';
 			$this->assertEqual( Piwik_IP::getNonProxyIpFromHeader('1.1.1.1', array('HTTP_X_FORWARDED_FOR')), $ip, $ip);
+		}
+
+		if($saveRemoteAddr)
+		{
+			$_SERVER['REMOTE_ADDR'] = $saveRemoteAddr;
 		}
 	}
 

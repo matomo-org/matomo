@@ -886,6 +886,20 @@ class Piwik_Common
 		}
 		return self::hex2bin($id);
 	}
+
+	/**
+	 * Convert IP address (in network address format) to presentation format
+	 *
+	 * @deprecated 1.4
+	 *
+	 * @param mixed $ip
+	 * @return string
+	 */
+	static public function long2ip($ip)
+	{
+		return Piwik_IP::long2ip($ip);
+	}
+
 /*
  * DataFiles
  */

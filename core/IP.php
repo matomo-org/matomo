@@ -188,6 +188,40 @@ class Piwik_IP
 	}
 
 	/**
+	 * long2ip() pseudo-compatibility function for code that doesn't support IPv6.
+	 *
+	 * @param string $ip IPv4 address in network address format
+	 * @return string IP address in presentation format
+	 */
+	static public function long2ip($ip)
+	{
+		// in case mbstring overloads strlen and substr functions
+		$strlen = function_exists('mb_orig_strlen') ? 'mb_orig_strlen' : 'strlen';
+		$substr = function_exists('mb_orig_substr') ? 'mb_orig_substr' : 'substr';
+
+		// IPv4
+		if($strlen($ip) == 4)
+		{
+			return self::N2P($ip);
+		}
+
+		// IPv6 - transitional address?
+		if($strlen($ip) == 16)
+		{
+			if(substr_compare($ip, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff", 0, 12) === 0
+				|| substr_compare($ip, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", 0, 12) === 0)
+			{
+				// remap 128-bit IPv4-mapped and IPv4-compat addresses
+				return self::N2P($substr($ip, 12));
+			}
+			return '0.0.0.0';
+		}
+
+		$r = long2ip($ip);
+		return $r === false ? '0.0.0.0' : $r;
+	}
+
+	/**
 	 * Get low and high IP addresses for a specified range.
 	 *
 	 * @param array $ipRange An IP address range in presentation format
@@ -195,7 +229,7 @@ class Piwik_IP
 	 */
 	static public function getIpsForRange($ipRange)
 	{
-		// in case mbstring overloads strlen and substr functions
+		// in case mbstring overloads strlen function
 		$strlen = function_exists('mb_orig_strlen') ? 'mb_orig_strlen' : 'strlen';
 
 		if(strpos($ipRange, '/') === false)
@@ -243,7 +277,7 @@ class Piwik_IP
 	 */
 	static public function isIpInRange($ip, $ipRanges)
 	{
-		// in case mbstring overloads strlen and substr functions
+		// in case mbstring overloads strlen function
 		$strlen = function_exists('mb_orig_strlen') ? 'mb_orig_strlen' : 'strlen';
 
 		$ipLen = $strlen($ip);
