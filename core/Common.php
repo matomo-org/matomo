@@ -888,11 +888,18 @@ class Piwik_Common
 	}
 
 	/**
-	 * Convert IP address (in network address format) to presentation format
+	 * Convert IP address (in network address format) to presentation format.
+	 * This is a backward compatibility function for code that only expects
+	 * IPv4 addresses (i.e., doesn't support IPv6).
+	 *
+	 * @see Piwik_IP::N2P()
+	 *
+	 * This function does not support the long (or its string representation)
+	 * returned by the built-in ip2long() function, from Piwik 1.3 and earlier.
 	 *
 	 * @deprecated 1.4
 	 *
-	 * @param mixed $ip
+	 * @param string $ip IP address in network address format
 	 * @return string
 	 */
 	static public function long2ip($ip)

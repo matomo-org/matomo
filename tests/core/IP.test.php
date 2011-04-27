@@ -231,24 +231,23 @@ class Test_Piwik_IP extends UnitTestCase
 
 			/*
 			 * We assume all stored IP addresses (pre-Piwik 1.4) were converted from UNSIGNED INT to VARBINARY.
-			 * The following is just for informational purposes to see how the function handles
-			 * the numeric representation for IP addresses (returned by the native ip2long function)
+			 * The following is just for informational purposes.
 			 */
 
 			// 192.168.1.0
-			'-1062731520' => '192.168.1.0',
-			'3232235776' => '192.168.1.0',
+			'-1062731520' => '0.0.0.0',
+			'3232235776' => '0.0.0.0',
 
 			// 10.10.10.10
-			'168430090' => '10.10.10.10',
+			'168430090' => '0.0.0.0',
 
 			// 0.0.39.15 - this is the ambiguous case (i.e., 4 char string)
 			'9999' => '57.57.57.57',
 			"\x39\x39\x39\x39" => '57.57.57.57',
 
 			// 0.0.3.231
-			'999' => '0.0.3.231',
-			"\x39\x39\x39" => '0.0.3.231',
+			'999' => '0.0.0.0',
+			"\x39\x39\x39" => '0.0.0.0',
 		);
 
 		foreach($tests as $N => $P)
