@@ -1,7 +1,7 @@
 <?php
 $translations = array(
 	'General_Locale' => 'sv_SE.UTF-8',
-	'General_TranslatorName' => 'Tony Lygnersjö, Fredrik Astrom',
+	'General_TranslatorName' => '<a href="http://www.dumsnal.se/">Tony Lygnersjö</a>, Fredrik Astrom',
 	'General_TranslatorEmail' => 'tony@d0h.us, fredrik@lagun.se',
 	'General_EnglishLanguageName' => 'Swedish',
 	'General_OriginalLanguageName' => 'Svenska',

@@ -146,6 +146,13 @@ class Test_LanguagesManager extends UnitTestCase
 			}
 			$this->assertTrue( !empty($cleanedStrings['General_TranslatorName'] ), "$language: translator info not specified");
 			$this->assertTrue( !empty($cleanedStrings['General_TranslatorEmail'] ), "$language: translator info not specified");
+			if(!empty($cleanedStrings['General_LayoutDirection'])
+				&& !in_array($cleanedStrings['General_LayoutDirection'], array('rtl','ltr')))
+			{
+				$writeCleanedFile = true;
+				$cleanedStrings['General_LayoutDirection'] = false;
+				echo "$language: General_LayoutDirection must be rtl or ltr";
+			}
 			if($writeCleanedFile)
 			{
 				$this->writeCleanedTranslationFile($cleanedStrings, $language);
@@ -205,7 +212,7 @@ class Test_LanguagesManager extends UnitTestCase
 			{
 				if(is_array($names))
 				{
-					$this->assertTrue(in_array($name, $names));
+					$this->assertTrue(in_array($name, $names), "$language: failed because $name not a known language name <br/>");
 				}
 				else
 				{
