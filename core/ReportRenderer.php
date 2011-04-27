@@ -19,7 +19,7 @@
  */
 abstract class Piwik_ReportRenderer
 {
-	const DEFAULT_REPORT_FONT = 'Helvetica';
+	const DEFAULT_REPORT_FONT = 'dejavusans';
 	const REPORT_TEXT_COLOR = "68,68,68";
 	const REPORT_TITLE_TEXT_COLOR = "126,115,99";
 	const TABLE_HEADER_BG_COLOR = "228,226,215";
