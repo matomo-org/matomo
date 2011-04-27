@@ -89,6 +89,7 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 				break;
 
 			case 'en':
+			default:
 				$reportFont = Piwik_ReportRenderer::DEFAULT_REPORT_FONT;
 				break;
 		}
