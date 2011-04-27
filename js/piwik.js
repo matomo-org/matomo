@@ -967,10 +967,10 @@ var
 				configCustomData,
 
 				// Campaign names
-				configCampaignNameParameters = [ 'piwik_campaign', 'utm_campaign' ],
+				configCampaignNameParameters = [ 'pk_campaign', 'piwik_campaign', 'utm_campaign', 'utm_source', 'utm_medium' ],
 
 				// Campaign keywords
-				configCampaignKeywordParameters = [ 'piwik_kwd', 'utm_term' ],
+				configCampaignKeywordParameters = [ 'pk_kwd', 'piwik_kwd', 'utm_term' ],
 
 				// First-party cookie name prefix
 				configCookieNamePrefix = '_pk_',
@@ -2085,7 +2085,8 @@ var
 
 				/**
 				 * Set array of campaign name parameters
-				 *
+				 * 
+				 * @see http://piwik.org/faq/how-to/#faq_120
 				 * @param string|array campaignNames
 				 */
 				setCampaignNameKey: function (campaignNames) {
@@ -2094,7 +2095,8 @@ var
 
 				/**
 				 * Set array of campaign keyword parameters
-				 *
+				 * 
+				 * @see http://piwik.org/faq/how-to/#faq_120
 				 * @param string|array campaignKeywords
 				 */
 				setCampaignKeywordKey: function (campaignKeywords) {

@@ -1,9 +1,5 @@
 <div class="dataTableFeatures">
 
-{if !empty($properties.show_footer_message)}
-	<div class='datatableFooterMessage'>{$properties.show_footer_message}</div>
-{/if}
-
 {if $properties.show_offset_information}
 <span>
 	<span class="dataTablePages"></span>
@@ -87,6 +83,10 @@
 			<span class="dataTableExcludeLowPopulation"></span>
 		{/if}
 	</div>
+{/if}
+
+{if !empty($properties.show_footer_message)}
+	<div class='datatableFooterMessage'>{$properties.show_footer_message}</div>
 {/if}
 
 </div>
