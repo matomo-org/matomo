@@ -416,23 +416,30 @@ class Piwik_IP
  */
 function php_compat_inet_ntop($in_addr)
 {
+	$r = bin2hex($in_addr);
+
 	switch (strlen($in_addr)) {
 		case 4:
-			$r = str_split(bin2hex($in_addr), 2);
-			$r = array_map('hexdec', $r);
-			$r = implode('.', $r);
-			return $r;
+			// IPv4 address
+			$prefix = '';
+			break;
 
 		case 16:
-			$r = bin2hex($in_addr);
-
 			// IPv4-mapped address
 			if(substr_compare($r, '00000000000000000000ffff', 0, 24) === 0)
 			{
-				$r = str_split(substr($r, 24), 2);
-				$r = array_map('hexdec', $r);
-				$r = implode('.', $r);
-				return '::ffff:' . $r;
+				$prefix = '::ffff:';
+				$r = substr($r, 24);
+				break;
+			}
+
+			// IPv4-compat address
+			if(substr_compare($r, '000000000000000000000000', 0, 24) === 0 &&
+				substr_compare($r, '0000', 24, 4) !== 0)
+			{
+				$prefix = '::';
+				$r = substr($r, 24);
+				break;
 			}
 
 			$r = str_split($r, 4);
@@ -445,7 +452,7 @@ function php_compat_inet_ntop($in_addr)
 				$r
 			);
 
-			// compress groups of zeros
+			// compress longest (and leftmost) consecutive groups of zeros
 			if(preg_match_all('/(?:^|:)(0(:|$))+/', $r, $matches))
 			{
 				$longestMatch = 0;
@@ -460,9 +467,15 @@ function php_compat_inet_ntop($in_addr)
 			}
 
 			return $r;
+
+		default:
+			return false;
 	}
 
-	return false;
+	$r = str_split($r, 2);
+	$r = array_map('hexdec', $r);
+	$r = implode('.', $r);
+	return $prefix . $r;
 }
 
 /**
@@ -497,9 +510,9 @@ function php_compat_inet_pton($address)
 		{
 			return false;
 		}
-		return pack('N', $r);
+		$suffix = pack('N', $r);
+		return $suffix;
 	}
-
 
 	// IPv6
 	$colonCount = substr_count($address, ':');
