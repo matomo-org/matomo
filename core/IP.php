@@ -418,7 +418,8 @@ function php_compat_inet_ntop($in_addr)
 {
 	$r = bin2hex($in_addr);
 
-	switch (strlen($in_addr)) {
+	switch (strlen($in_addr))
+	{
 		case 4:
 			// IPv4 address
 			$prefix = '';
@@ -488,15 +489,10 @@ function php_compat_inet_ntop($in_addr)
  */
 function php_compat_inet_pton($address)
 {
-	if(empty($address) || strspn($address, '01234567890abcdefABCDEF:.') !== strlen($address))
+	// IPv4 (or IPv4-compat, or IPv4-mapped)
+	if(preg_match('/(^|:)([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)$/i', $address, $matches))
 	{
-		return false;
-	}
-
-	// IPv4
-	if(preg_match('/^([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)$/i', $address, $matches))
-	{
-		for($i = count($matches); $i-- > 1; )
+		for($i = count($matches); $i-- > 2; )
 		{
 			if($matches[$i] > 255 ||
 				($matches[$i][0] == '0' && strlen($matches[$i]) > 1))
@@ -505,20 +501,24 @@ function php_compat_inet_pton($address)
 			}
 		}
 
-		$r = ip2long($address);
-		if ($r === false)
+		if(empty($matches[1]))
 		{
-			return false;
+			$r = ip2long($address);
+			if($r === false)
+			{
+				return false;
+			}
+
+			return pack('N', $r);
 		}
-		$suffix = pack('N', $r);
-		return $suffix;
+
+		$suffix = sprintf("%02x%02x:%02x%02x", $matches[2], $matches[3], $matches[4], $matches[5]);
+		$address = substr_replace($address, $matches[1] . $suffix, strrpos($address, $matches[0]));
 	}
 
 	// IPv6
-	$colonCount = substr_count($address, ':');
-	if($colonCount < 2 || $colonCount > 7 ||
-		strpos($address, ':::') !== false ||
-		substr_count($address, '::') > 1)
+	if(strpos($address, ':') === false ||
+		strspn($address, '01234567890abcdefABCDEF:') !== strlen($address))
 	{
 		return false;
 	}
@@ -527,68 +527,44 @@ function php_compat_inet_pton($address)
 	{
 		$address = '0'.$address;
 	}
-	else if($address[0] == ':')
-	{
-		return false;
-	}
 
 	if(substr($address, -2)  == '::')
 	{
 		$address .= '0';
 	}
-	else if(substr($address, -1) == ':')
-	{
-		return false;
-	}
-
-	if(preg_match('/:([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)$/i', $address, $matches))
-	{
-		for($i = count($matches); $i-- > 1; )
-		{
-			if($matches[$i] > 255 ||
-				($matches[$i][0] == '0' && strlen($matches[$i]) > 1))
-			{
-				return false;
-			}
-		}
-
-		$address = substr_replace($address, ':' . dechex($matches[1]) . sprintf("%02x", $matches[2]) . ':' . dechex($matches[3]) . sprintf("%02x", $matches[4]), strrpos($address, $matches[0]));
-	}
-	if(strpos($address, '.') !== false)
-	{
-		return false;
-	}
 
 	$r = explode(':', $address);
 	$count = count($r);
-	if($count > 8)
+
+	// grouped zeros
+	if(strpos($address, '::') !== false
+		&& $count < 8)
+	{
+		$zeroGroup = array_search('', $r, 1);
+
+		// we're replacing this cell, so we splice (8 - $count + 1) cells containing '0'
+		array_splice($r, $zeroGroup, 1, array_fill(0, 9 - $count, '0'));
+	}
+
+	// guard against excessive ':' or '::'
+	if($count > 8 ||
+		array_search('', $r, 1) !== false)
 	{
 		return false;
 	}
-	if($count < 8)
-	{
-		// grouped zeros
-		$zeroGroup = array_search('', $r, 1);
-		if($zeroGroup === false)
-		{
-			return false;
-		}
-
-		array_splice($r, $zeroGroup, 1, array_fill(0, 8 - $count + 1, '0'));
-	}
 
 	// leading zeros
-	foreach($r as $k => $v)
+	foreach($r as $v)
 	{
-		$v = ltrim($v, '0');
-		if(strlen($v) > 4)
+		if(strlen(ltrim($v, '0')) > 4)
 		{
 			return false;
 		}
-		$r[$k] = str_pad($v, 4, '0', STR_PAD_LEFT);
 	}
 
-	$r = implode(array_map(create_function('$v', 'return pack("H*", $v);'), $r));
+	$r = array_map('hexdec', $r);
+	array_unshift($r, 'n*');
+	$r = call_user_func_array('pack', $r);
 
 	return $r;
 }
