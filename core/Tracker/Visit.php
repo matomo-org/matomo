@@ -881,17 +881,20 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			$where .= ' AND config_id = ? ';
 			$bindSql[] = $configId;
 		}
-
 		// We force to match a visitor ID
 		// 1) If the visitor cookies should be trusted (ie. intranet) - config file setting
 		// 2) or if the Visitor ID was forced via the Tracking API setVisitorId()
-		if(!empty($this->visitorInfo['idvisitor'])
-			&& $forcedVisitorId )
+		else if(!empty($this->visitorInfo['idvisitor']))
 		{
 			printDebug("Matching the visitor based on his idcookie: ".bin2hex($this->visitorInfo['idvisitor']) ."...");
 
 			$where .= ' AND idvisitor = ?';
 			$bindSql[] = $this->visitorInfo['idvisitor'];
+		}
+		else
+		{
+			// Forced idvisitor, but empty idvisitor  
+			return;
 		}
 
 		$sql = " SELECT  	idvisitor,
