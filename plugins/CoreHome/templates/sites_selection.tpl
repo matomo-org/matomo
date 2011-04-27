@@ -1,11 +1,11 @@
 {if !$show_autocompleter}
 <div class="sites_selection">
-	<label>{'General_Website'|translate}</label><span id="selectedSiteName" style="display:none">{$siteName}</span>
+	<label>{'General_Website'|translate}</label><span id="selectedSiteName" style="display:none">{$siteName|escape:"html"}</span>
 	<span id="sitesSelection">
 		<form action="{url idSite=null}" method="get">
 		<select name="idSite">
 		   {foreach from=$sites item=info}
-		   		<option value="{$info.idsite}" {if $idSite==$info.idsite} selected="selected"{/if}>{$info.name}</option>
+		   		<option value="{$info.idsite}" {if $idSite==$info.idsite} selected="selected"{/if}>{$info.name|escape:"html"}</option>
 		   {/foreach}
 		</select>
 		{hiddenurl idSite=null}
@@ -43,13 +43,13 @@
     <label>{'General_Website'|translate}</label>
     <div id="sitesSelectionSearch" class="custom_select">
     
-        <a href="javascript:broadcast.propagateNewPage( 'idSite={$idSite}' );" class="custom_select_main_link custom_select_collapsed">{$siteName}</a>
+        <a href="javascript:broadcast.propagateNewPage( 'idSite={$idSite}' );" class="custom_select_main_link custom_select_collapsed">{$siteName|escape:"html"}</a>
         
         <div class="custom_select_block">
             <div id="custom_select_container">
             <ul class="custom_select_ul_list" >
                 {foreach from=$sites item=info}
-                    <li><a {if $idSite==$info.idsite} style="display: none"{/if} href="javascript:broadcast.propagateNewPage( 'idSite={$info.idsite}');">{$info.name}</a></li>
+                    <li><a {if $idSite==$info.idsite} style="display: none"{/if} href="javascript:broadcast.propagateNewPage( 'idSite={$info.idsite}');">{$info.name|escape:"html"}</a></li>
 				{/foreach}
             </ul>
             </div>
@@ -68,9 +68,8 @@
 	</div>
     
 	{literal}<script type="text/javascript">
-$("#sitesSelectionSearch .custom_select_main_link").click(function(){
-	$("#sitesSelectionSearch .custom_select_block").toggleClass("custom_select_block_show");
-	
+		$("#sitesSelectionSearch .custom_select_main_link").click(function(){
+		$("#sitesSelectionSearch .custom_select_block").toggleClass("custom_select_block_show");
 		$('#websiteSearch').focus();
 	return false;
 });

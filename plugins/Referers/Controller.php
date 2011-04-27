@@ -162,6 +162,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->setLimit( 10 );
 		$view->setColumnsToDisplay( array('label','nb_visits') );
 		$view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnCampaign'));
+		$view->setFooterMessage( 'Help: <a target="_blank" href="http://piwik.org/docs/tracking-campaigns/">Tracking Campaigns in Piwik</a> - <a target="_blank" href="http://piwik.org/docs/tracking-campaigns/url-builder/">URL Builder tool</a>');
 		return $this->renderView($view, $fetch);
 	}
 	
