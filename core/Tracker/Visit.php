@@ -873,6 +873,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 					AND idsite = ?";
 		$bindSql = array( $timeLookBack, $this->idsite);
 
+		$forcedVisitorId = $forcedVisitorId || Piwik_Tracker_Config::getInstance()->Tracker['trust_visitors_cookies'];
+		
 		// we always match on the config_id, except if the current request forces the visitor id
 		if(!$forcedVisitorId)
 		{
@@ -884,8 +886,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		// 1) If the visitor cookies should be trusted (ie. intranet) - config file setting
 		// 2) or if the Visitor ID was forced via the Tracking API setVisitorId()
 		if(!empty($this->visitorInfo['idvisitor'])
-			&& (	Piwik_Tracker_Config::getInstance()->Tracker['trust_visitors_cookies']
-				|| 	$forcedVisitorId ))
+			&& $forcedVisitorId )
 		{
 			printDebug("Matching the visitor based on his idcookie: ".bin2hex($this->visitorInfo['idvisitor']) ."...");
 
