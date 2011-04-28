@@ -17,7 +17,11 @@
 		<form method="post" action="?module=CoreAdminHome&amp;action=optOut{if $language}&amp;language={$language}{/if}">
 			<input type="hidden" name="nonce" value="{$nonce}"></input>
 			<input type="hidden" name="fuzz" value="{$smarty.now}"></input>
-			<input onclick="this.form.submit()" type="checkbox" id="trackVisits" name="trackVisits" {if $trackVisits}checked="checked"{/if}><label for="trackVisits"><strong>{if $trackVisits}{'CoreAdminHome_YouAreOptedIn'|translate}{else}{'CoreAdminHome_YouAreOptedOut'|translate} {/if}</strong></a></input>
+			<input onclick="this.form.submit()" type="checkbox" id="trackVisits" name="trackVisits" {if $trackVisits}checked="checked"{/if}>
+			<label for="trackVisits"><strong>
+			{if $trackVisits}{'CoreAdminHome_YouAreOptedIn'|translate}. {'CoreAdminHome_ClickHereToOptOut'|translate}
+			{else}{'CoreAdminHome_YouAreOptedOut'|translate}. {'CoreAdminHome_ClickHereToOptIn'|translate}{/if}
+			</strong></a></input>
 		</form>
 	</body>
 </html>
