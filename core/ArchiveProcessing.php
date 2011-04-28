@@ -901,11 +901,12 @@ abstract class Piwik_ArchiveProcessing
 		{
 			return false;
 		}
-		if(!self::isBrowserTriggerArchivingEnabled()
-			&& !Piwik_Common::isPhpCliMode())
-		{
-			return true;
-		}
-		return false;
+		return !$this->isRequestAuthorizedToArchive();
+	}
+	
+	protected function isRequestAuthorizedToArchive()
+	{
+		return self::isBrowserTriggerArchivingEnabled()
+				|| Piwik_Common::isPhpCliMode();
 	}
 }
