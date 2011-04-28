@@ -41,10 +41,20 @@ class Piwik_Goals extends Piwik_Plugin
 			'API.getReportMetadata.end' => 'getReportMetadata',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenus',
+			'SitesManager.deleteSite' => 'deleteSiteGoals',
 		);
 		return $hooks;
 	}
 
+	/**
+	 * Delete goals recorded for this site
+	 */
+	function deleteSiteGoals($notification )
+	{
+		$idSite = &$notification->getNotificationObject();
+		Piwik_Query("DELETE FROM ".Piwik_Common::prefixTable('goal') . " WHERE idsite = ? ", array($idSite));
+	}
+	
 	/**
 	 * Returns the Metadata for the Goals plugin API.
 	 * The API returns general Goal metrics: conv, conv rate and revenue globally 
