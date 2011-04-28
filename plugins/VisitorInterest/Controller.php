@@ -45,7 +45,7 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
 		$view = Piwik_ViewDataTable::factory( 'cloud' );
 		$view->init( $this->pluginName,  __FUNCTION__, "VisitorInterest.getNumberOfVisitsPerPage" );
 		$view->setColumnsToDisplay( array('label','nb_visits') );
-		$view->setSortedColumn( 'nb_visits', 'asc' );
+		$view->setSortedColumn( 'label', 'asc' );
 		$view->setColumnTranslation('label', Piwik_Translate('VisitorInterest_ColumnPagesPerVisit'));
 		$view->disableExcludeLowPopulation();
 		$view->disableOffsetInformationAndPaginationControls();

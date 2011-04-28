@@ -163,13 +163,6 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	}
 
 	/**
-	 */
-	public function disableSort()
-	{
-		$this->variablesDefault['enable_sort'] = 'false';
-	}
-
-	/**
 	 * Sets the search on a table to be recursive (also searches in subtables)
 	 * Works only on Actions/Downloads/Outlinks tables.
 	 *
