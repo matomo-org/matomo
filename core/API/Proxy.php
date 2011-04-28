@@ -181,7 +181,8 @@ class Piwik_API_Proxy
 			$_GET = $saveGET;
 			
 			// log the API Call
-			Zend_Registry::get('logger_api_call')->logEvent(
+			try {
+				Zend_Registry::get('logger_api_call')->logEvent(
 								$className,
 								$methodName,
 								$parameterNamesDefaultValues,
@@ -189,6 +190,9 @@ class Piwik_API_Proxy
 								$timer->getTimeMs(),
 								$returnedValue
 							);
+			} catch (Exception $e) {
+				// logger can fail (eg. Tracker request)
+			}
 		} catch(Piwik_Access_NoAccessException $e) {
 			throw $e;
 		}
