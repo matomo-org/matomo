@@ -923,6 +923,14 @@ class Piwik
 						  ( Zend_Registry::get('config')->log->log_only_when_debug_parameter == 0
 						  	|| isset($_REQUEST['debug']))
 						;
+			// It is possible that the logger is not setup:
+			// - Tracker request, and debug disabled, 
+			// - and some scheduled tasks call code that tries and log something  
+			try {
+				Zend_Registry::get('logger_message');
+			} catch(Exception $e) {
+				$shouldLog = false;
+			}
 		}
 		if($shouldLog)
 		{
