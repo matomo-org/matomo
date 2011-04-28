@@ -57,11 +57,23 @@ class Piwik_VisitTime_API
 	protected function removeHoursInFuture($table, $idSite, $period, $date)
 	{
 		$site = new Piwik_Site($idSite);
+		
 		if(	$period == 'day'
 			&& ($date == 'today'
 				||  $date == Piwik_Date::factory('now', $site->getTimezone())->toString()))
 		{
 			$currentHour = Piwik_Date::factory('now', $site->getTimezone())->toString('G');
+			// If no data for today, this is an exception to the API output rule, as we normally return nothing:
+			// we shall return all hours of the day, with nb_visits = 0
+			if($table->getRowsCount() == 0)
+			{
+				for($hour = 0; $hour <= $currentHour; $hour++)
+				{
+					$table->addRowFromSimpleArray( array('label' => $hour, 'nb_visits' => 0));
+				}
+				return $table;
+			}
+			
 			$idsToDelete = array();
 			foreach($table->getRows() as $id => $row)
 			{
