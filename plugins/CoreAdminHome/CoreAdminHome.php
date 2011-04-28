@@ -41,7 +41,7 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 		$tasks = &$notification->getNotificationObject();
 		$optimizeArchiveTableTask = new Piwik_ScheduledTask ( $this, 
 															'optimizeArchiveTable',
-															new Piwik_ScheduledTime_Monthly() );
+															new Piwik_ScheduledTime_Daily() );
 		$tasks[] = $optimizeArchiveTableTask;
 	}
 	

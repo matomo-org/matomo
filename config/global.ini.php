@@ -297,7 +297,7 @@ default_time_one_page_visit = 0
 enable_language_to_country_guess = 1
 
 ; When the misc/cron/archive.sh cron hasn't been setup, we still need to regularly run some maintenance tasks.
-; Visits to the Tracker will try to trigger Scheduled Tasks (eg. scheduled PDF reports by email).
+; Visits to the Tracker will try to trigger Scheduled Tasks (eg. scheduled PDF/HTML reports by email).
 ; Scheduled tasks will only run if 'Enable Piwik Archiving from Browser' is enabled in the General Settings.
 ; Tasks run once every hour maximum, they might not run every hour if traffic is low.
 ; Set to 0 to disable Scheduled tasks completely.
