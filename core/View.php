@@ -80,7 +80,8 @@ class Piwik_View implements Piwik_iView
 	{
 		try {
 			$this->currentModule = Piwik::getModule();
-			$this->userLogin = Piwik::getCurrentUserLogin();
+			$userLogin = Piwik::getCurrentUserLogin();
+			$this->userLogin = $userLogin;
 			
 			// workaround for #1331
 			$count = method_exists('Piwik', 'getWebsitesCountToDisplay') ? Piwik::getWebsitesCountToDisplay() : 1;
@@ -105,6 +106,10 @@ class Piwik_View implements Piwik_iView
 
 			// workaround for #1331
 			$this->loginModule = method_exists('Piwik', 'getLoginPluginName') ? Piwik::getLoginPluginName() : 'Login';
+			
+			$user = Piwik_UsersManager_API::getInstance()->getUser($userLogin);
+			$this->userAlias = $user['alias'];
+			
 		} catch(Exception $e) {
 			// can fail, for example at installation (no plugin loaded yet)		
 		}
