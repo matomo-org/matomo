@@ -63,7 +63,8 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 	protected function setDateTodayIfWebsiteCreatedToday()
 	{
 		$date = Piwik_Common::getRequestVar('date', false);
-		if($date == 'today') 
+		if($date == 'today'
+			|| Piwik_Common::getRequestVar('period', false) == 'range') 
 		{
 			return;
 		} 
