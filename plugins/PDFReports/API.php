@@ -500,7 +500,7 @@ class Piwik_PDFReports_API
 	
 	private function checkDescription($description)
 	{
-		return substr($description, 0, 250);
+		return substr(urldecode($description), 0, 250);
 	}
 	
 	private function checkAvailableReports($idSite, $reports)

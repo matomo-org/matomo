@@ -61,7 +61,7 @@ function initManagePdf()
 		idReport = $('#report_idreport').attr('value');
 		parameters = getPDFAjaxRequest(idReport, 'PDFReports.updateReport');
 		parameters.idReport = idReport;
-		parameters.description = $('#report_description').val();
+		parameters.description = encodeURIComponent($('#report_description').val());
 		parameters.period = $('#report_period option:selected').attr('value');
 		parameters.reportFormat = $('#report_format option:selected').attr('value');
 		parameters.emailMe = $('#report_email_me').attr('checked') == true ? 1: 0;
