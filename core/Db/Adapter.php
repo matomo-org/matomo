@@ -42,6 +42,7 @@ class Piwik_Db_Adapter
 		}
 
 		$className = self::getAdapterClassName($adapterName);
+		Piwik_Loader::loadClass($className);
 		$adapter = new $className($dbInfos);
 
 		if($connect)
