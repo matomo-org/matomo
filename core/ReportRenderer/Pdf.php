@@ -130,7 +130,7 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 		$this->TCPDF->Cell(40, 210, $websiteTitle );
 		$this->TCPDF->Ln(8*4);
 
-		$dateRange = $this->formatText(Piwik_Translate('General_DateRange').": " . $prettyDate);
+		$dateRange = $this->formatText(Piwik_Translate('General_DateRange')." " . $prettyDate);
 		$this->TCPDF->SetFont($this->reportFont,'',$this->reportHeaderFontSize);
 		$this->TCPDF->SetTextColor($this->reportTextColor[0],$this->reportTextColor[1],$this->reportTextColor[2]);
 		$this->TCPDF->Cell(40, 210, $dateRange);
