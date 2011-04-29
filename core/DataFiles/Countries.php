@@ -31,7 +31,6 @@ if(!isset($GLOBALS['Piwik_CountryList']))
 		'ai' => 'amc',
 		'al' => 'eur',
 		'am' => 'asi',
-		'an' => 'amc',
 		'ao' => 'afr',
 		'aq' => 'ant',
 		'ar' => 'ams',
@@ -54,6 +53,7 @@ if(!isset($GLOBALS['Piwik_CountryList']))
 		'bm' => 'amc',
 		'bn' => 'asi',
 		'bo' => 'ams',
+		'bq' => 'amc',
 		'br' => 'ams',
 		'bs' => 'amc',
 		'bt' => 'asi',
@@ -76,6 +76,7 @@ if(!isset($GLOBALS['Piwik_CountryList']))
 		'cr' => 'amc',
 		'cu' => 'amc',
 		'cv' => 'afr',
+		'cw' => 'amc',
 		'cx' => 'asi',
 		'cy' => 'eur',
 		'cz' => 'eur',
@@ -232,6 +233,7 @@ if(!isset($GLOBALS['Piwik_CountryList']))
 		'sr' => 'ams',
 		'st' => 'afr',
 		'sv' => 'amc',
+		'sx' => 'amc',
 		'sy' => 'asi',
 		'sz' => 'afr',
 		'tc' => 'amc',
@@ -290,6 +292,7 @@ if(!isset($GLOBALS['Piwik_CountryList']))
 		'uk' => 'eur', // .uk TLD
 
 		// transitionally reserved
+		'an' => 'amc', // former Netherlands Antilles
 		'bu' => 'asi',
 		'cs' => 'eur', // former Serbia and Montenegro
 		'nt' => 'asi',

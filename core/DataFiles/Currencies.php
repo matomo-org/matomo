@@ -68,6 +68,7 @@ if(!isset($GLOBALS['Piwik_CurrencyList']))
 			'XPF' => array('F', 'CFP franc'),
 			'CUC' => array('$', 'Cuban convertible peso'),
 			'CUP' => array('$', 'Cuban peso'),
+			'CMG' => array('ƒ', 'Curaçao and Sint Maarten guilder'),
 			'CZK' => array('Kč', 'Czech koruna'),
 			'DKK' => array('kr', 'Danish krone'),
 			'DJF' => array('Fr', 'Djiboutian franc'),
