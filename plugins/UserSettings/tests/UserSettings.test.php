@@ -724,6 +724,11 @@ class Test_Piwik_UserSettings extends UnitTestCase
 			array('OP', 'Opera', 'Opera', '9.50', '9', '50', 'opera'),
 			array('DSI', 'Nintendo DSi', 'DSi')),
 
+		// PlayStation
+		'Mozilla/5.0 (PLAYSTATION 3; 1.00)' => array(
+			false,
+			array('PS3', 'PlayStation 3', 'PS3')),
+
 		// PSP
 		'PSP (PlayStation Portable); 2.00' => array(
 			false,
