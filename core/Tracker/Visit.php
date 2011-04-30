@@ -155,13 +155,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		else
 		{
 			$action = $this->newAction();
-			$isActionValid = $this->handleAction($action);
-
-			if(!$isActionValid)
-			{
-				printDebug('Not tracking this action as it is flagged as invalid.');
-				return;
-			}
+			$this->handleAction($action);
 			$someGoalsConverted = $goalManager->detectGoalsMatchingUrl($this->idsite, $action);
 
 			$action->loadIdActionNameAndUrl();
@@ -263,20 +257,16 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		printDebug($this->cookie);
 	}
 
-	/**
-	 *
-	 * @return bool Should the action be tracked at all
-	 */
 	protected function handleAction($action)
 	{
 		$action->setIdSite($this->idsite);
 		$action->setRequest($this->request);
 		$action->setTimestamp($this->getCurrentTimestamp());
 		$action->init();
+		
 		if($this->detectActionIsOutlinkOnAliasHost($action))
 		{
-			printDebug("The outlink's URL host is one  of the known host for this website. We don't record this click.");
-			return false;
+			printDebug("Info: The outlink URL host is one of the known host for this website. ");
 		}
 		if(isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG'])
 		{
@@ -295,7 +285,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 						"\n  Action name: ". $action->getActionName() . ",".
 						"\n  Action URL = ". $action->getActionUrl() );
 		}
-		return true;
 	}
 
 	/**
