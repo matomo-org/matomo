@@ -62,7 +62,11 @@ class Piwik_Visualization_Chart_VerticalBar extends Piwik_Visualization_Chart
 			$displayPercentage = '';
 			if($this->displayPercentageInTooltip)
 			{
-				$percentage = round(100 * $value / $sum);
+				$percentage = 0;
+				if($sum > 0) 
+				{
+					$percentage = round(100 * $value / $sum);
+				}
 				$displayPercentage = "($percentage%)";
 			}
 			$barValue = new bar_value($value);
