@@ -50,9 +50,9 @@
 			<nb_visits>1</nb_visits>
 			<nb_actions>1</nb_actions>
 			<revenue>$ 42.25</revenue>
-			<nb_actions_per_visit>0</nb_actions_per_visit>
-			<avg_time_on_site>00:00:00</avg_time_on_site>
-			<bounce_rate>0</bounce_rate>
+			<nb_actions_per_visit>1</nb_actions_per_visit>
+			<avg_time_on_site>00:18:00</avg_time_on_site>
+			<bounce_rate>100%</bounce_rate>
 
 		</row>
 

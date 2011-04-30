@@ -483,7 +483,7 @@ class Piwik_API_API
         		}
         	}
         }
-        elseif(isset($reportMetadata['processedMetrics']))
+        if(isset($reportMetadata['processedMetrics']))
         {
         	// Add processed metrics
         	$dataTable->filter('AddColumnsProcessedMetrics');
