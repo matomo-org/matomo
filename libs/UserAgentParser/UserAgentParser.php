@@ -265,7 +265,6 @@ class UserAgentParser
 			'Symbian OS'			=> 'SYM',
 			'SymbianOS'				=> 'SYM',
 
-			'Bada'					=> 'SBA',
 			'bada'					=> 'SBA',
 
 			'SunOS'					=> 'SOS',
@@ -316,7 +315,7 @@ class UserAgentParser
 			'short_name' => '',
 		);
 		foreach(self::$operatingSystems as $key => $value) {
-			if (strstr($userAgent, $key) !== false) {
+			if (stristr($userAgent, $key) !== false) {
 				$info['id'] = $value;
 				break;
 			}
@@ -390,7 +389,9 @@ class UserAgentParser
 
 			// Netscape fix
 			if($info['id'] == 'MO' && $count == 0) {
-				if(strpos($userAgent, 'PlayStation Portable') !== false)  return false;
+				if(stripos($userAgent, 'PlayStation') !== false) {
+					return false;
+				}
 				if(count($results) == 4) {
 				 	$info['id'] = 'NS';
 				}
