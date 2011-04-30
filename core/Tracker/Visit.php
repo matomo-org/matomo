@@ -647,6 +647,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		if ( strpos($ua, 'Googlebot') !== false					// Googlebot
 				|| strpos($ua, 'Google Web Preview') !== false	// Google Instant
 				|| strpos($ua, 'bingbot') !== false				// Bingbot
+				|| strpos($ua, 'YottaaMonitor') !== false		// Yottaa
 				|| Piwik_IP::isIpInRange($ip, array('65.55.0.0/16', '207.46.0.0/16'))) // Live/Bing/MSN
 		{
 			printDebug('Search bot detected, visit excluded');
