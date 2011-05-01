@@ -553,12 +553,12 @@ class Test_Piwik_IP extends UnitTestCase
 
 	function test_getHostByAddr()
 	{
-		$hosts = array( 'localhost', @php_uname('n') );
+		$hosts = array( 'localhost', strtolower(@php_uname('n')) );
 		$this->assertTrue( in_array(Piwik_IP::getHostByAddr('127.0.0.1'), $hosts), '127.0.0.1 -> localhost' );
 
 		if (!Piwik_Common::isWindows() || PHP_VERSION >= '5.3')
 		{
-			$hosts = array( 'ip6-localhost', @php_uname('n') );
+			$hosts = array( 'ip6-localhost', strtolower(@php_uname('n')) );
 			$this->assertTrue( in_array(Piwik_IP::getHostByAddr('::1'), $hosts), '::1 -> ip6-localhost' );
 		}
 	}
