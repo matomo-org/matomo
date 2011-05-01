@@ -1229,7 +1229,7 @@ var
 			 * Process all "activity" events.
 			 * For performance, this function must have low overhead.
 			 */
-			function activityHandler(evt) {
+			function activityHandler() {
 				var now = new Date();
 
 				lastActivityTime = now.getTime();
