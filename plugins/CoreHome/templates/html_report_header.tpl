@@ -7,7 +7,7 @@
 	<a name="reportTop"/>
 	<a target="_blank" href="{$currentPath}"><img title="{'General_GoTo'|translate:"Piwik"}" border="0" src='{$currentPath}themes/default/images/logo-header.png'/></a>
 
-	<h1 style="color: rgb({$reportTitleTextColor}); font-size: {$reportTitleTextSize}px;">
+	<h1 style="color: rgb({$reportTitleTextColor}); font-size: {$reportTitleTextSize}pt;">
 		{'General_Website'|translate} {$websiteName}
 	</h1>
 
@@ -17,7 +17,7 @@
 
 	{if sizeof($reportMetadata) > 1}
 
-		<h2 style="color: rgb({$reportTitleTextColor}); font-size: {$reportTitleTextSize}px;">
+		<h2 style="color: rgb({$reportTitleTextColor}); font-size: {$reportTitleTextSize}pt;">
 			{'PDFReports_TableOfContent'|translate}
 		</h2>
 
