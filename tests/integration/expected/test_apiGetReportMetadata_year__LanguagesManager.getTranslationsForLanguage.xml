@@ -774,7 +774,7 @@
 	</row>
 	<row>
 		<label>General_Monthly</label>
-		<value>Mensuellement</value>
+		<value>Mensuel</value>
 	</row>
 	<row>
 		<label>General_ConfigFileIsNotWritable</label>
