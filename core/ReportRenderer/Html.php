@@ -17,9 +17,9 @@
  */
 class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 {
-	const REPORT_TITLE_TEXT_SIZE = 24;
-	const REPORT_TABLE_HEADER_TEXT_SIZE = 12;
-	const REPORT_TABLE_ROW_TEXT_SIZE = 14;
+	const REPORT_TITLE_TEXT_SIZE = 14;
+	const REPORT_TABLE_HEADER_TEXT_SIZE = 9;
+	const REPORT_TABLE_ROW_TEXT_SIZE = 8;
 
 	private $rendering = "";
 
