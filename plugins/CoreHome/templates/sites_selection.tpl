@@ -43,13 +43,13 @@
     <label>{'General_Website'|translate}</label>
     <div id="sitesSelectionSearch" class="custom_select">
     
-        <a href="javascript:broadcast.propagateNewPage( 'idSite={$idSite}' );" class="custom_select_main_link custom_select_collapsed">{$siteName|escape:"html"}</a>
+        <a href="javascript:broadcast.propagateNewPage( 'idSite={$idSite}' );" class="custom_select_main_link custom_select_collapsed">{$siteName}</a>
         
         <div class="custom_select_block">
             <div id="custom_select_container">
             <ul class="custom_select_ul_list" >
                 {foreach from=$sites item=info}
-                    <li><a {if $idSite==$info.idsite} style="display: none"{/if} href="javascript:broadcast.propagateNewPage( 'idSite={$info.idsite}');">{$info.name|escape:"html"}</a></li>
+                    <li><a {if $idSite==$info.idsite} style="display: none"{/if} href="javascript:broadcast.propagateNewPage( 'idSite={$info.idsite}');">{$info.name}</a></li>
 				{/foreach}
             </ul>
             </div>
@@ -69,10 +69,10 @@
     
 	{literal}<script type="text/javascript">
 		$("#sitesSelectionSearch .custom_select_main_link").click(function(){
-		$("#sitesSelectionSearch .custom_select_block").toggleClass("custom_select_block_show");
-		$('#websiteSearch').focus();
-	return false;
-});
+			$("#sitesSelectionSearch .custom_select_block").toggleClass("custom_select_block_show");
+			$('#websiteSearch').focus();
+		return false;
+	});
     </script>{/literal}
 </div>
 {/if}
