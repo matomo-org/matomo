@@ -10,17 +10,20 @@
  * @package Piwik
  */
 
-if(Piwik_Common::isWindows()) {
+if(Piwik_Common::isWindows() || !function_exists('inet_ntop')) {
 	function _inet_ntop($in_addr) {
 		return php_compat_inet_ntop($in_addr);
-	}
-	function _inet_pton($address) {
-		return php_compat_inet_pton($address);
 	}
 } else {
 	function _inet_ntop($in_addr) {
 		return inet_ntop($in_addr);
 	}
+}
+if(Piwik_Common::isWindows() || !function_exists('inet_pton')) {
+	function _inet_pton($address) {
+		return php_compat_inet_pton($address);
+	}
+} else {
 	function _inet_pton($address) {
 		return inet_pton($address);
 	}
