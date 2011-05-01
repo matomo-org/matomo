@@ -812,10 +812,10 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$infos['memoryMinimum'] = $minimumMemoryLimit;
 
 		$infos['memory_ok'] = true;
-		$infos['memoryCurrent'] = '-1';
+		$infos['memoryCurrent'] = '';
 
 		$raised = Piwik::raiseMemoryLimitIfNecessary();
-		if( $memoryValue = Piwik::getMemoryLimitValue() )
+		if(($memoryValue = Piwik::getMemoryLimitValue()) > 0)
 		{
 			$infos['memoryCurrent'] = $memoryValue.'M';
 			$infos['memory_ok'] = $memoryValue >= $minimumMemoryLimit;
