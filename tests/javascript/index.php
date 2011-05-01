@@ -39,7 +39,7 @@ _paq.push(["trackPageView", "Asynchronous tracker"]);';
  <link rel="stylesheet" href="assets/qunit.css" type="text/css" media="screen" />
  <link rel="stylesheet" href="jash/Jash.css" type="text/css" media="screen" />
  <script src="assets/qunit.js" type="text/javascript"></script>
- <script src="jslint/fulljslint.js" type="text/javascript"></script>
+ <script src="jslint/jslint.js" type="text/javascript"></script>
  <script type="text/javascript">
 function _e(id){ 
 	if (document.getElementById)
