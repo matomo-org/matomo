@@ -839,11 +839,11 @@ class Piwik
 	 * compile-time default, so ini_get('memory_limit') may return false.
 	 *
 	 * @see http://www.php.net/manual/en/faq.using.php#faq.using.shorthandbytes
-	 * @return int memory limit in megabytes
+	 * @return int|false memory limit in megabytes, or false if there is no limit
 	 */
 	static public function getMemoryLimitValue()
 	{
-		if($memory = ini_get('memory_limit'))
+		if(($memory = ini_get('memory_limit')) > 0)
 		{
 			// handle shorthand byte options (case-insensitive)
 			$shorthandByteOption = substr($memory, -1);
@@ -861,6 +861,8 @@ class Piwik
 			}
 			return $memory / 1048576;
 		}
+
+		// no memory limit
 		return false;
 	}
 
@@ -876,9 +878,8 @@ class Piwik
 	{
 		// in Megabytes
 		$currentValue = self::getMemoryLimitValue();
-		if( ($currentValue === false
-			|| $currentValue < $minimumMemoryLimit )
-			&& @ini_set('memory_limit', $minimumMemoryLimit.'M'))
+		if( $currentValue === false
+			|| ($currentValue < $minimumMemoryLimit	&& @ini_set('memory_limit', $minimumMemoryLimit.'M')))
 		{
 			return true;
 		}
@@ -894,8 +895,8 @@ class Piwik
 	{
 		$minimumMemoryLimit = Zend_Registry::get('config')->General->minimum_memory_limit;
 		$memoryLimit = self::getMemoryLimitValue();
-		if($memoryLimit === false
-			|| $memoryLimit < $minimumMemoryLimit)
+		if($memoryLimit !== false
+			&& $memoryLimit < $minimumMemoryLimit)
 		{
 			return self::setMemoryLimit($minimumMemoryLimit);
 		}
