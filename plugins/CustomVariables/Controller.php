@@ -30,7 +30,8 @@ class Piwik_CustomVariables_Controller extends Piwik_Controller
 		$view->setColumnsToDisplay( array('label','nb_visits') );
 		$view->setColumnTranslation('label', Piwik_Translate('CustomVariables_ColumnCustomVariableName'));
 		$view->setSortedColumn( 'nb_visits'	 );
-		$view->setLimit( 10 );
+		$view->setLimit( 10 );		
+		$view->setFooterMessage( 'Help: <a target="_blank" href="http://piwik.org/docs/custom-variables/">Tracking Custom Variables in Piwik</a>');
 		return $this->renderView($view, $fetch);
 	}
 
