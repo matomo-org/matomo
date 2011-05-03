@@ -456,9 +456,12 @@ class Piwik_IP
  */
 function php_compat_inet_ntop($in_addr)
 {
+	// in case mbstring overloads strlen function
+	$strlen = function_exists('mb_orig_strlen') ? 'mb_orig_strlen' : 'strlen';
+
 	$r = bin2hex($in_addr);
 
-	switch (strlen($in_addr))
+	switch ($strlen($in_addr))
 	{
 		case 4:
 			// IPv4 address
