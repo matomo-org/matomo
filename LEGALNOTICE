@@ -220,11 +220,22 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link:  http://www.zendframework.com/
 	License:  New BSD
 
-	Name: FamFamFam icons - Mark James
-	Link: http://www.famfamfam.com/lab/icons/
-	License: CC BY 3.0
+THIRD-PARTY CONTENT
+
+	Name:  FamFamFam icons - Mark James
+	Link:  http://www.famfamfam.com/lab/icons/
+	License:  CC BY 3.0
+
+	Name:  Solar System icons - Dan Wiersema
+       	Link:  http://www.iconspedia.com/icon/neptune-4672.html
+	License:  Free for non-commercial use
+	Notes:
+	- used in Piwik's ExampleUI plugin
 
 Notes:
 - the "New BSD" license refers to either the "Modified BSD" and "Simplified BSD"
   licenses (2- or 3-clause), which are GPL compatible.
 - the "MIT" license is also referred to as the "X11" license
+- icons for browsers, operating systems, browser plugins, search engines, and
+  and flags of countries are nominative use of third-paty trademarks when
+  referring to the corresponding product or entity
