@@ -74,6 +74,7 @@ function initManagePdf()
 		parameters.reports = reports;
 
 		var ajaxRequest = piwikHelper.getStandardAjaxConf();
+		ajaxRequest.type = 'POST';
 		ajaxRequest.data = parameters;
 		$.ajax( ajaxRequest );
 		return false;
@@ -83,6 +84,7 @@ function initManagePdf()
 	$('a[name=linkEmailNow]').click(function(){
 		var idReport = $(this).attr('idreport');
 		var ajaxRequest = piwikHelper.getStandardAjaxConf();
+		ajaxRequest.type = 'POST';
 		parameters = getPDFAjaxRequest(idReport, 'PDFReports.sendEmailReport');
 		parameters.idReport = idReport;
 		ajaxRequest.data = parameters;
@@ -95,6 +97,7 @@ function initManagePdf()
 		function onDelete()
 		{
 			var ajaxRequest = piwikHelper.getStandardAjaxConf();
+			ajaxRequest.type = 'POST';
 			parameters = getPDFAjaxRequest(idReport, 'PDFReports.deleteReport');
 			parameters.idReport = idReport;
 			ajaxRequest.data = parameters;
