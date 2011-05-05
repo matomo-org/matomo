@@ -235,7 +235,7 @@ class Piwik_View implements Piwik_iView
 */
 	
 	/**
-	 * Render the singe report template
+	 * Render the single report template
 	 */
 	static public function singleReport($title, $reportHtml, $fetch = false)
 	{
@@ -243,7 +243,8 @@ class Piwik_View implements Piwik_iView
 		$view->title = $title;
 		$view->report = $reportHtml;
 		
-		if ($fetch) {
+		if ($fetch)
+		{
 			return $view->render();
 		}
 		echo $view->render();
