@@ -78,7 +78,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 		// disable the RSS feed
 		$view->disableShowExportAsRssFeed();
 		
-		$view->setReportDocumentation(Piwik_Translate('Live_VisitorLogDocumentation', '<br />'));
+		$view->setReportDocumentation(Piwik_Translate('Live_VisitorLogDocumentation', array('<br />', '<br />')));
 		
 		$view->setCustomParameter('pageUrlNotDefined', Zend_Registry::get('config')->General->action_default_url_when_not_defined);
 		return $this->renderView($view, $fetch);

@@ -86,8 +86,9 @@ table.dataTable th {
 	padding: 6px 6px 6px 12px;
 	background: #e4e2d7;
 	font-size:12px;
-	font-weight:normal; 
-	border-left:1px solid #d4d0c4;
+	font-weight: normal; 
+	border-left: 1px solid #d4d0c4;
+	vertical-align: top;
 }
 table.dataTable th.sortable{
 	cursor:pointer; 
