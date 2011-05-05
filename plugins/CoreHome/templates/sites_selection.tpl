@@ -1,6 +1,6 @@
 {if !$show_autocompleter}
 <div class="sites_selection">
-	<label>{'General_Website'|translate}</label><span id="selectedSiteName" style="display:none">{$siteName|escape:"html"}</span>
+	<label>{'General_Website'|translate}</label><span id="selectedSiteName" style="display:none">{$siteName}</span>
 	<span id="sitesSelection">
 		<form action="{url idSite=null}" method="get">
 		<select name="idSite">
