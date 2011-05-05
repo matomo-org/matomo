@@ -1476,6 +1476,27 @@ class Piwik_Common
 
 		return $iis;
 	}
+
+	/**
+	 * Takes a list of fields defining numeric values and returns the corresponding
+	 * unnamed parameters to be bound to the field names in the where clause of a SQL query
+	 *
+	 * @param array|string $fields array( fieldName1, fieldName2, fieldName3)  Names of the mysql table fields to load
+	 * @return string "?, ?, ?"
+	 */
+	public static function getSqlStringFieldsArray( $fields )
+	{
+		if(is_string($fields))
+		{
+			$fields = array($fields);
+		}
+		$count = count($fields);
+		if($count == 0)
+		{
+			return "''";
+		}
+		return '?'.str_repeat(',?', $count-1);
+	}
 }
 
 /**

@@ -101,7 +101,7 @@ class Piwik_UsersManager_API
 		if(!empty($userLogins))
 		{
 			$userLogins = explode(',', $userLogins);
-			$where = 'WHERE login IN (? '.str_repeat(',?', count($userLogins)-1).')';
+			$where = 'WHERE login IN ('. Piwik_Common::getSqlStringFieldsArray($userLogins).')';
 			$bind = $userLogins;
 		}
 		$db = Zend_Registry::get('db');

@@ -70,7 +70,7 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 	 */
 	public function getDataTableFromNumeric( $fields )
 	{
-		$inNames = $this->getSqlStringFieldsArray($fields);
+		$inNames = Piwik_Common::getSqlStringFieldsArray($fields);
 		
 		// we select in different shots
 		// one per distinct table (case we select last 300 days, maybe we will  select from 10 different tables)
