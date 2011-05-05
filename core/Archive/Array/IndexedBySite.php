@@ -95,7 +95,7 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 	
 	private function loadValuesFromDB($fields)
 	{
-		$inNames = $this->getSqlStringFieldsArray($fields);
+		$inNames = Piwik_Common::getSqlStringFieldsArray($fields);
 		$archiveIds = $this->getArchiveIds();
 		if(empty($archiveIds))
 		{

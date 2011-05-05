@@ -2280,7 +2280,7 @@ class Piwik
 			$query = "INSERT $ignore
 					INTO ".$tableName."
 					$fieldList
-					VALUES (".Piwik_Archive_Array::getSqlStringFieldsArray($row).")";
+					VALUES (".Piwik_Common::getSqlStringFieldsArray($row).")";
 			Piwik_Query($query, $row);
 		}
 	}
