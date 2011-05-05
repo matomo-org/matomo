@@ -29,6 +29,8 @@ require_once PIWIK_INCLUDE_PATH . '/core/Piwik.php';
 
 $file = '../piwik.js';
 
-Piwik::serveStaticFile($file, "application/javascript; charset=UTF-8");
+// There is no cache buster parameter so we don't set Expires: header 
+$expireFarFuture = false;
+Piwik::serveStaticFile($file, "application/javascript; charset=UTF-8", $expireFarFuture);
 
 exit;
