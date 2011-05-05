@@ -53,12 +53,3 @@ function onClickPlay()
 	$('#pauseImage').attr('src', pauseDisabledImage);
 	return playSpy();
 }
-
-/* TOOLTIP */
-$('#visitsLive label').tooltip({
-    track: true,
-    delay: 0,
-    showURL: false,
-    showBody: " - ",
-    fade: 250
-});
