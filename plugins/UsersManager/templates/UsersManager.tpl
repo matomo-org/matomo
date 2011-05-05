@@ -83,13 +83,19 @@
 	</table>
 </div>
 
-<div class="dialog" id="confirm"> 
-	<p>{'UsersManager_ChangeAllConfirm'|translate:"<span id='login'></span>"}</p>
-	<input id="yes" type="button" value="{'General_Yes'|translate}" />
-	<input id="no" type="button" value="{'General_No'|translate}" />
+<div class="ui-confirm" id="confirm">
+	<h2>{'UsersManager_ChangeAllConfirm'|translate:"<span id='login'></span>"}</h2>
+    <input id="yes" type="button" value="{'General_Yes'|translate}" />
+    <input id="no" type="button" value="{'General_No'|translate}" />
 </div> 
 
 {if $userIsSuperUser}
+    <div class="ui-confirm" id="confirmUserRemove">
+        <h2></h2>
+        <input id="yes" type="button" value="{'General_Yes'|translate}" />
+        <input id="no" type="button" value="{'General_No'|translate}" />
+    </div> 
+
 	<br />
 	<h2>{'UsersManager_UsersManagement'|translate}</h2>
 	<p>{'UsersManager_UsersManagementMainDescription'|translate} 

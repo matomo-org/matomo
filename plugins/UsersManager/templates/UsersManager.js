@@ -157,17 +157,17 @@ function bindUpdateAccess()
 	var idSite = getIdSites();
 	if(idSite == 'all')
 	{
-		var target = this;       
+		var target = this;
 		
 		//ask confirmation
-		var userLogin = $(this).parent().parent().find('#login').html();
-		$('.dialog#confirm #login').text( userLogin ); // if changed here change also the launchAjaxRequest
+		var userLogin = $(this).parent().parent().find('#login').text();
+		$('#confirm').find('#login').text( userLogin ); // if changed here change also the launchAjaxRequest
 
 		function onValidate()
 		{			
 			launchAjaxRequest(target, successCallback);	
 		}
-		piwikHelper.windowModal( '.dialog#confirm', onValidate)
+		piwikHelper.windowModal( '#confirm', onValidate)
 	}
 	else
 	{
@@ -218,10 +218,8 @@ $(document).ready( function() {
 			piwikHelper.hideAjaxError();
 			var idRow = $(this).attr('id');
 			var loginToDelete = $(this).parent().parent().find('#userLogin').html();
-			if( confirm(sprintf(_pk_translate('UsersManager_DeleteConfirm_js'),'"'+loginToDelete+'"')) )
-			{
-				$.ajax( getDeleteUserAJAX( loginToDelete ) );
-			}
+			$('#confirmUserRemove h2').text(sprintf(_pk_translate('UsersManager_DeleteConfirm_js'),'"'+loginToDelete+'"'));
+			piwikHelper.windowModal( '#confirmUserRemove', function(){ $.ajax( getDeleteUserAJAX( loginToDelete ) ); });
 		}
 	);
 	

@@ -228,7 +228,6 @@ dashboard.prototype =
 		self.widgetDialog.before('<div id="placeholder"> </div>');
 		self.widgetDialog.dialog({
 			title: '',
-			bgiframe: true,
 			modal: true,
 			width: 'auto',
 			position: ['center', 'center'],
@@ -264,7 +263,7 @@ dashboard.prototype =
 				self.makeSortable();
 			});
 		}
-		piwikHelper.windowModal( '.dialog#confirm', onDelete)
+		piwikHelper.windowModal('#confirm', onDelete)
 	},
 	
 	// Called by DataTables when the View type changes.

@@ -10,29 +10,34 @@ function piwikHelper()
 }
 
 /*
- * Displays a Modal window popover. Text will be taken from the DOM node domSelector.
+ * Displays a Modal dialog. Text will be taken from the DOM node domSelector.
  * When user clicks Yes in Modal,onValidate() will be executed.
  * 
- * On clicking No, or esc key, the modal will fade out.
+ * On clicking No, or esc key, the dialog will fade out.
  */
 piwikHelper.windowModal = function( domSelector, onValidate )
 {
-	var question = $(domSelector);
-	$(document).keydown( function( e ) { 
-		if( e.which == 27)  $.unblockUI(); }
-	);
-	$('#no', question).unbind('click').click($.unblockUI);
-	$('#yes', question).unbind('click').click(function() {
-		onValidate();
-		$.unblockUI();
-	});
-	$.blockUI({
-		message: question, 
-		css: { width: 650, border:0, background:"none", top:90 }
-	});
-	
-	$.unblockUI
+    var question = $(domSelector);
+    var buttons = {};
+    var textYes = $('#yes', question).attr('value');
+    if(textYes) {
+        buttons[textYes] = function(){$(this).dialog("close"); onValidate()};
+        $('#yes', question).hide();
+    }
+    var textNo = $('#no', question).attr('value');
+    if(textNo) {
+        buttons[textNo] = function(){$(this).dialog("close");};
+        $('#no', question).hide();
+    }
+    question.dialog({
+        resizable: false,
+        modal: true,
+        buttons: buttons,
+        width: 650,
+        position: ['center', 90]
+    });
 }
+
 var globalAjaxQueue = [];
 piwikHelper.queueAjaxRequest = function( request )
 {

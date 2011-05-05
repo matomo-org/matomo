@@ -33,10 +33,10 @@ $(document).ready( function() {
 {/literal}
 <div id="dashboard">
  
-	<div class="dialog" id="confirm">
-	        <h2>{'Dashboard_DeleteWidgetConfirm'|translate}</h2>
-			<input id="yes" type="button" value="{'General_Yes'|translate}" />
-			<input id="no" type="button" value="{'General_No'|translate}" />
+	<div class="ui-confirm" id="confirm">
+	    <h2>{'Dashboard_DeleteWidgetConfirm'|translate}</h2>
+		<input id="yes" type="button" value="{'General_Yes'|translate}" />
+		<input id="no" type="button" value="{'General_No'|translate}" />
 	</div> 
 	
 	<div id="addWidget">
