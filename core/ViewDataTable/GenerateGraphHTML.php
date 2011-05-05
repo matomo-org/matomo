@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik
  * @package Piwik
  */
@@ -13,13 +13,13 @@
 /**
  * This class generates the HTML code to embed to flash graphs in the page.
  * It doesn't call the API but simply prints the html snippet.
- * 
+ *
  * @package Piwik
  * @subpackage Piwik_ViewDataTable
  */
 abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
-{	
-	protected $width = '100%'; 
+{
+	protected $width = '100%';
 	protected $height = 250;
 	protected $graphType = 'standard';
 	
@@ -27,12 +27,12 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	 * @see Piwik_ViewDataTable::init()
 	 */
 	function init($currentControllerName,
-						$currentControllerAction, 
+						$currentControllerAction,
 						$apiMethodToRequestDataTable,
 						$controllerActionCalledWhenRequestSubTable = null)
 	{
 		parent::init($currentControllerName,
-						$currentControllerAction, 
+						$currentControllerAction,
 						$apiMethodToRequestDataTable,
 						$controllerActionCalledWhenRequestSubTable);
 		$this->dataTableTemplate = 'CoreHome/templates/graph.tpl';
@@ -42,12 +42,12 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		$this->disableSearchBox();
 		$this->enableShowExportAsImageIcon();
 		
-		$this->parametersToModify = array( 
+		$this->parametersToModify = array(
 						'viewDataTable' => $this->getViewDataTableIdToLoad(),
 						// in the case this controller is being executed by another controller
 						// eg. when being widgetized in an IFRAME
 						// we need to put in the URL of the graph data the real module and action
-						'module' => $currentControllerName, 
+						'module' => $currentControllerName,
 						'action' => $currentControllerAction,
 		);
 	}
@@ -68,7 +68,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	
 	/**
 	 * We persist the parametersToModify values in the javascript footer.
-	 * This is used by the "export links" that use the "date" attribute 
+	 * This is used by the "export links" that use the "date" attribute
 	 * from the json properties array in the datatable footer.
 	 */
 	protected function getJavascriptVariablesToSet()
@@ -125,6 +125,8 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		$view->formEmbedId = "formEmbed".$this->uniqueIdViewDataTable;
 		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
 		$view->properties = $this->getViewProperties();
+		$view->reportDocumentation = $this->getReportDocumentation();
+		
 		return $view;
 	}
 
@@ -135,16 +137,16 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		foreach($this->parametersToModify as $key => $val)
 		{
 			// We do not forward filter data to the graph controller.
-			// This would cause the graph to have filter_limit=5 set by default, 
+			// This would cause the graph to have filter_limit=5 set by default,
 			// which would break them (graphs need the full dataset to build the "Others" aggregate value)
 			if(strpos($key, 'filter_') !== false)
 			{
 				continue;
 			}
-			if (is_array($val)) 
+			if (is_array($val))
 			{
 				$val = implode(',', $val);
-			} 
+			}
 			$_GET[$key] = $val;
 		}
 		$content = Piwik_FrontController::getInstance()->fetchDispatch( $this->currentControllerName, $this->currentControllerAction, array());

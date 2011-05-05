@@ -1,22 +1,22 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik_Plugins
  * @package Piwik_VisitsSummary
  */
 
 /**
- * VisitsSummary API lets you access the core web analytics metrics (visits, unique visitors, 
+ * VisitsSummary API lets you access the core web analytics metrics (visits, unique visitors,
  * count of actions (page views & downloads & clicks on outlinks), time on site, bounces and converted visits.
- * 
+ *
  * @package Piwik_VisitsSummary
  */
-class Piwik_VisitsSummary_API 
+class Piwik_VisitsSummary_API
 {
 	static private $instance = null;
 	static public function getInstance()
@@ -56,10 +56,10 @@ class Piwik_VisitsSummary_API
 		else
 		{
     		$bounceRateRequested = $actionsPerVisitRequested = $averageVisitDurationRequested = true;
-			$columns = array(	
+			$columns = array(
 								'nb_visits',
-								'nb_uniq_visitors', 
-								'nb_actions', 
+								'nb_uniq_visitors',
+								'nb_actions',
 								'nb_visits_converted',
 								'bounce_count',
 								'sum_visit_length',
@@ -89,11 +89,11 @@ class Piwik_VisitsSummary_API
 			$dataTable->filter('ColumnCallbackAddColumnQuotient', array('avg_time_on_site', 'sum_visit_length', 'nb_visits', 0));
 		}
 		
-		// If only a computed metrics was requested, we delete other metrics 
-		// that we selected only to process this one metric 
+		// If only a computed metrics was requested, we delete other metrics
+		// that we selected only to process this one metric
 		if($countColumnsRequested == 1
 			&& ($bounceRateRequested || $actionsPerVisitRequested || $averageVisitDurationRequested)
-			) 
+			)
 		{
 			$dataTable->deleteColumns($columns);
 		}
@@ -105,7 +105,7 @@ class Piwik_VisitsSummary_API
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
 		$dataTable = $archive->getNumeric($toFetch);
-		return $dataTable;		
+		return $dataTable;
 	}
 
 	public function getVisits( $idSite, $period, $date, $segment = false )

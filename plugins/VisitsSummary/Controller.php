@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik_Plugins
  * @package Piwik_VisitsSummary
  */
@@ -14,14 +14,14 @@
  *
  * @package Piwik_VisitsSummary
  */
-class Piwik_VisitsSummary_Controller extends Piwik_Controller 
+class Piwik_VisitsSummary_Controller extends Piwik_Controller
 {
 	public function index()
 	{
 		$view = Piwik_View::factory('index');
 		$this->setPeriodVariablesView($view);
 		$view->graphEvolutionVisitsSummary = $this->getEvolutionGraph( true, array('nb_visits') );
-		$this->setSparklinesAndNumbers($view);		
+		$this->setSparklinesAndNumbers($view);
 		echo $view->render();
 	}
 	
@@ -29,7 +29,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 	{
 		$view = Piwik_View::factory('sparklines');
 		$this->setPeriodVariablesView($view);
-		$this->setSparklinesAndNumbers($view);		
+		$this->setSparklinesAndNumbers($view);
 		echo $view->render();
 	}
 
@@ -42,6 +42,24 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		}
 		$columns = !is_array($columns) ? array($columns) : $columns;
 		$view->setColumnsToDisplay($columns);
+		
+		$doc = Piwik_Translate('VisitsSummary_VisitsSummaryDocumentation').'<br />'
+		     . Piwik_Translate('General_BrokenDownReportDocumentation').'<br /><br />'
+		     
+		     . '<b>'.Piwik_Translate('General_ColumnNbVisits').':</b> '
+		     . Piwik_Translate('General_ColumnNbVisitsDocumentation').'<br />'
+		     
+		     . '<b>'.Piwik_Translate('General_ColumnNbUniqVisitors').':</b> '
+		     . Piwik_Translate('General_ColumnNbUniqVisitorsDocumentation').'<br />'
+		     
+		     . '<b>'.Piwik_Translate('General_ColumnNbActions').':</b> '
+		     . Piwik_Translate('General_ColumnNbActionsDocumentation').'<br />'
+		     
+		     . '<b>'.Piwik_Translate('General_ColumnActionsPerVisit').':</b> '
+		     . Piwik_Translate('General_ColumnActionsPerVisitDocumentation');
+		
+		$view->setReportDocumentation($doc);
+		
 		return $this->renderView($view, $fetch);
 	}
 
@@ -49,9 +67,9 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 	{
 		$requestString =	"method=VisitsSummary.get".
 							"&format=original".
-							// we disable filters for example "search for pattern", in the case this method is called 
-							// by a method that already calls the API with some generic filters applied 
-							"&disable_generic_filters=1"; 
+							// we disable filters for example "search for pattern", in the case this method is called
+							// by a method that already calls the API with some generic filters applied
+							"&disable_generic_filters=1";
 		$request = new Piwik_API_Request($requestString);
 		return $request->process();
 	}
@@ -60,7 +78,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 	{
 		$requestString = 	"method=VisitsSummary.getVisits".
 							"&format=original".
-							"&disable_generic_filters=1"; 
+							"&disable_generic_filters=1";
 		$request = new Piwik_API_Request($requestString);
 		return $request->process();
 	}

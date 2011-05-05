@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik_Plugins
  * @package Piwik_VisitorInterest
  */
@@ -15,7 +15,7 @@
  * @package Piwik_VisitorInterest
  */
 class Piwik_VisitorInterest extends Piwik_Plugin
-{	
+{
 	public function getInformation()
 	{
 		$info = array(
@@ -40,7 +40,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		return $hooks;
 	}
 
-	public function getReportMetadata($notification) 
+	public function getReportMetadata($notification)
 	{
 		$reports = &$notification->getNotificationObject();
 		$reports[] = array(
@@ -52,6 +52,8 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 			'metrics' => array( 'nb_visits' ),
 			'processedMetrics' => false,
 			'constantRowsCount' => true,
+			'documentation' => Piwik_Translate('VisitorInterest_WidgetLengthsDocumentation')
+					.'<br />'.Piwik_Translate('General_ChangeTagCloudView'),
 			'order' => 15
 		);
 		
@@ -64,6 +66,8 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 			'metrics' => array( 'nb_visits' ),
 			'processedMetrics' => false,
 			'constantRowsCount' => true,
+			'documentation' => Piwik_Translate('VisitorInterest_WidgetPagesDocumentation')
+					.'<br />'.Piwik_Translate('General_ChangeTagCloudView'),
 			'order' => 20
 		);
 	}
@@ -76,7 +80,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 	
 	function addMenu()
 	{
-		Piwik_RenameMenuEntry('General_Visitors', 'VisitFrequency_SubmenuFrequency', 
+		Piwik_RenameMenuEntry('General_Visitors', 'VisitFrequency_SubmenuFrequency',
 							  'General_Visitors', 'VisitorInterest_Engagement' );
 	}
 
@@ -116,7 +120,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		
 		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 		
-		$dataTableToSum = array( 
+		$dataTableToSum = array(
 				'VisitorInterest_timeGap',
 				'VisitorInterest_pageGap',
 		);
@@ -159,7 +163,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 				$gapName = "'".$minGap.$plusEncoded."'";
 				$select[] = "sum(case when visit_total_actions > $minGap then 1 else 0 end) as $gapName ";
 			}
-		}		
+		}
 		$toSelect = implode(" , ", $select);
 		
 		return $this->archiveProcessing->getSimpleDataTableFromSelect($toSelect, Piwik_Archive::INDEX_NB_VISITS);
@@ -184,7 +188,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 				$gapName = "'$minGap'";
 				$select[] = "sum(case when visit_total_time > $minGap then 1 else 0 end) as $gapName ";
 			}
-		}		
+		}
 		$toSelect = implode(" , ", $select);
 		
 		$table = $this->archiveProcessing->getSimpleDataTableFromSelect($toSelect, Piwik_Archive::INDEX_NB_VISITS);

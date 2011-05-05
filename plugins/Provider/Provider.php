@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik_Plugins
  * @package Piwik_Provider
  */
@@ -52,6 +52,7 @@ class Piwik_Provider extends Piwik_Plugin
 			'module' => 'Provider',
 			'action' => 'getProvider',
 			'dimension' => Piwik_Translate('Provider_ColumnProvider'),
+			'documentation' => Piwik_Translate('Provider_ProviderReportDocumentation', '<br />'),
 			'order' => 50
 		);
 	}
@@ -101,7 +102,7 @@ class Piwik_Provider extends Piwik_Plugin
 	
 	function addMenu()
 	{
-		Piwik_RenameMenuEntry(	'General_Visitors', 'UserCountry_SubmenuLocations', 
+		Piwik_RenameMenuEntry(	'General_Visitors', 'UserCountry_SubmenuLocations',
 								'General_Visitors', 'Provider_SubmenuLocationsProvider');
 	}
 	
@@ -170,9 +171,9 @@ class Piwik_Provider extends Piwik_Plugin
 	/**
 	 * Returns the hostname extension (site.co.jp in fvae.VARG.ceaga.site.co.jp)
 	 * given the full hostname looked up from the IP
-	 * 
+	 *
 	 * @param string $hostname
-	 * 
+	 *
 	 * @return string
 	 */
 	private function getCleanHostname($hostname)
@@ -215,7 +216,7 @@ class Piwik_Provider extends Piwik_Plugin
 	/**
 	 * Returns the hostname given the internal representation of the
 	 * IP address
-	 * 
+	 *
 	 * @param string $ip Internal representation of IP address in binary-safe string
 	 * @return string hostname (or human-readable IP address)
 	 */

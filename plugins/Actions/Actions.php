@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik_Plugins
  * @package Piwik_Actions
  */
@@ -94,8 +94,8 @@ class Piwik_Actions extends Piwik_Plugin
 	function getIdActionFromString($string, $sqlField)
 	{
 		// Field is visit_*_idaction_url or visit_*_idaction_name
-		$actionType = strpos($sqlField, '_name') === false 
-							? Piwik_Tracker_Action::TYPE_ACTION_URL 
+		$actionType = strpos($sqlField, '_name') === false
+							? Piwik_Tracker_Action::TYPE_ACTION_URL
 							: Piwik_Tracker_Action::TYPE_ACTION_NAME;
 							 
 		$sql = Piwik_Tracker_Action::getSqlSelectActionId();
@@ -112,13 +112,22 @@ class Piwik_Actions extends Piwik_Plugin
 		$metrics = array(
             'nb_visits' => Piwik_Translate('General_ColumnUniquePageviews'),
             'nb_hits' => Piwik_Translate('General_ColumnPageviews'),
-            'entry_nb_visits' => Piwik_Translate('General_ColumnEntrances'), 
+            'entry_nb_visits' => Piwik_Translate('General_ColumnEntrances'),
             'avg_time_on_page' => Piwik_Translate('General_ColumnAverageTimeOnPage'),
             'bounce_rate' => Piwik_Translate('General_ColumnBounceRate'),
-            'exit_nb_visits' => Piwik_Translate('General_ColumnExits'), 
-            'exit_rate' => Piwik_Translate('General_ColumnExitRate'), 
-			// 'entry_bounce_count' => Piwik_Translate('General_ColumnBounces'), 
+            'exit_nb_visits' => Piwik_Translate('General_ColumnExits'),
+            'exit_rate' => Piwik_Translate('General_ColumnExitRate'),
+			// 'entry_bounce_count' => Piwik_Translate('General_ColumnBounces'),
     	);
+    	
+		$documentation = array(
+			'nb_hits' => 'General_ColumnPageviewsDocumentation',
+			'nb_visits' => 'General_ColumnUniquePageviewsDocumentation',
+    		'bounce_rate' => 'General_ColumnPageBounceRateDocumentation',
+    		'avg_time_on_page' => 'General_ColumnAverageTimeOnPageDocumentation',
+			'exit_rate' => 'General_ColumnExitRateDocumentation'
+		);
+		$documentation = array_map('Piwik_Translate', $documentation);
 
 		// Page views URLs and Page titles have the full set of metrics
 		$reports[] = array(
@@ -128,6 +137,9 @@ class Piwik_Actions extends Piwik_Plugin
 			'action' => 'getPageUrls',
     		'dimension' => Piwik_Translate('Actions_ColumnPageURL'),
 			'metrics' => $metrics,
+			'metricsDocumentation' => $documentation,
+			'documentation' => Piwik_Translate('Actions_PagesReportDocumentation', '<br />')
+					.'<br />'.Piwik_Translate('General_UsePlusMinusIconsDocumentation'),
 			'processedMetrics' => false,
 			'order' => 1,
 		);
@@ -139,6 +151,8 @@ class Piwik_Actions extends Piwik_Plugin
 			'action' => 'getPageTitles',
 			'dimension' => Piwik_Translate('Actions_ColumnPageName'),
 			'metrics' => $metrics,
+			'metricsDocumentation' => $documentation,
+			'documentation' => Piwik_Translate('Actions_PageTitlesReportDocumentation', array('<br />', htmlentities('<title>'))),
 			'processedMetrics' => false,
 			'order' => 3,
 		);
@@ -147,6 +161,12 @@ class Piwik_Actions extends Piwik_Plugin
 		$metrics = array(	'nb_hits' => Piwik_Translate('General_ColumnPageviews'),
             				'nb_visits',
     	);
+    	
+    	$documentation = array(
+			'nb_hits' => Piwik_Translate('Actions_ColumnClicksDocumentation'),
+			'nb_visits' => Piwik_Translate('Actions_ColumnUniqueClicksDocumentation')
+		);
+    	
 		$reports[] = array(
 			'category' => Piwik_Translate('Actions_Actions'),
 			'name' => Piwik_Translate('Actions_SubmenuOutlinks'),
@@ -154,6 +174,10 @@ class Piwik_Actions extends Piwik_Plugin
 			'action' => 'getOutlinks',
 			'dimension' => Piwik_Translate('Actions_ColumnClickedURL'),
 			'metrics' => $metrics,
+			'metricsDocumentation' => $documentation,
+			'documentation' => Piwik_Translate('Actions_OutlinksReportDocumentation').' '
+					.Piwik_Translate('Actions_OutlinkDocumentation').'<br />'
+					.Piwik_Translate('General_UsePlusMinusIconsDocumentation'),
 			'processedMetrics' => false,
 			'order' => 5,
 		);
@@ -164,6 +188,8 @@ class Piwik_Actions extends Piwik_Plugin
 			'action' => 'getDownloads',
 			'dimension' => Piwik_Translate('Actions_ColumnDownloadURL'),
 			'metrics' => $metrics,
+			'metricsDocumentation' => $documentation,
+			'documentation' => Piwik_Translate('Actions_DownloadsReportDocumentation', '<br />'),
 			'processedMetrics' => false,
 			'order' => 7,
 		);
@@ -181,24 +207,24 @@ class Piwik_Actions extends Piwik_Plugin
 	
 	function addMenus()
 	{
-		Piwik_AddMenu('Actions_Actions', '', array('module' => 'Actions', 'action' => 'getPageUrls'), true, 15);
-		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPages', array('module' => 'Actions', 'action' => 'getPageUrls'), true, 1);
-		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPagesEntry', array('module' => 'Actions', 'action' => 'getEntryPageUrls'), true, 2);
-		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPagesExit', array('module' => 'Actions', 'action' => 'getExitPageUrls'), true, 3);
-		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPageTitles', array('module' => 'Actions', 'action' => 'getPageTitles'), true, 4);
-		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuOutlinks', array('module' => 'Actions', 'action' => 'getOutlinks'), true, 5);
-		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuDownloads', array('module' => 'Actions', 'action' => 'getDownloads'), true, 6);
+		Piwik_AddMenu('Actions_Actions', '', array('module' => 'Actions', 'action' => 'indexPageUrls'), true, 15);
+		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPages', array('module' => 'Actions', 'action' => 'indexPageUrls'), true, 1);
+		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPagesEntry', array('module' => 'Actions', 'action' => 'indexEntryPageUrls'), true, 2);
+		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPagesExit', array('module' => 'Actions', 'action' => 'indexExitPageUrls'), true, 3);
+		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPageTitles', array('module' => 'Actions', 'action' => 'indexPageTitles'), true, 4);
+		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuOutlinks', array('module' => 'Actions', 'action' => 'indexOutlinks'), true, 5);
+		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuDownloads', array('module' => 'Actions', 'action' => 'indexDownloads'), true, 6);
 	}
 	
 	static protected $invalidSummedColumnNameToRenamedNameForPeriodArchive = array(
-		Piwik_Archive::INDEX_NB_UNIQ_VISITORS => Piwik_Archive::INDEX_SUM_DAILY_NB_UNIQ_VISITORS, 
-		Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS => Piwik_Archive::INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS, 
+		Piwik_Archive::INDEX_NB_UNIQ_VISITORS => Piwik_Archive::INDEX_SUM_DAILY_NB_UNIQ_VISITORS,
+		Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS => Piwik_Archive::INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS,
 		Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS => Piwik_Archive::INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS,
 	);
 	
 	protected static $invalidSummedColumnNameToDeleteFromDayArchive = array(
 		Piwik_Archive::INDEX_NB_UNIQ_VISITORS,
-		Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS, 
+		Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS,
 		Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS,
 	);
 	
@@ -206,7 +232,7 @@ class Piwik_Actions extends Piwik_Plugin
 	{
 		// for BC, we read the old style delimiter first (see #1067)
 		$actionDelimiter = Zend_Registry::get('config')->General->action_category_delimiter;
-		if(empty($actionDelimiter)) 
+		if(empty($actionDelimiter))
 		{
     		self::$actionUrlCategoryDelimiter =  Zend_Registry::get('config')->General->action_url_category_delimiter;
     		self::$actionTitleCategoryDelimiter =  Zend_Registry::get('config')->General->action_title_category_delimiter;
@@ -241,11 +267,11 @@ class Piwik_Actions extends Piwik_Plugin
 	
 	/**
 	 * Compute all the actions along with their hierarchies.
-	 * 
-	 * For each action we process the "interest statistics" : 
+	 *
+	 * For each action we process the "interest statistics" :
 	 * visits, unique visitors, bouce count, sum visit length.
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public function archiveDay( $notification )
 	{
@@ -264,11 +290,11 @@ class Piwik_Actions extends Piwik_Plugin
 		// This row is used in the case where an action is know as an exit_action
 		// but this action was not properly recorded when it was hit in the first place
 		// so we add this fake row information to make sure there is a nb_hits, etc. column for every action
-		$this->defaultRow = new Piwik_DataTable_Row(array( 
-							Piwik_DataTable_Row::COLUMNS => array( 
+		$this->defaultRow = new Piwik_DataTable_Row(array(
+							Piwik_DataTable_Row::COLUMNS => array(
 											Piwik_Archive::INDEX_NB_VISITS => 1,
 											Piwik_Archive::INDEX_NB_UNIQ_VISITORS => 1,
-											Piwik_Archive::INDEX_PAGE_NB_HITS => 1,	
+											Piwik_Archive::INDEX_PAGE_NB_HITS => 1,
 										)));
 										
 		/*
@@ -279,10 +305,10 @@ class Piwik_Actions extends Piwik_Plugin
 		$sqlJoinVisitTable = $sqlSegmentWhere = '';
 		if(!$segment->isEmpty())
 		{
-			$sqlJoinVisitTable = "LEFT JOIN ".Piwik_Common::prefixTable('log_visit')." as log_visit ON (log_visit.idvisit = log_link_visit_action.idvisit)"; 
+			$sqlJoinVisitTable = "LEFT JOIN ".Piwik_Common::prefixTable('log_visit')." as log_visit ON (log_visit.idvisit = log_link_visit_action.idvisit)";
 			$sqlSegmentWhere = ' AND '.$segmentSql['sql'];
 		}
-		$sqlBind = $segmentSql['bind']; 
+		$sqlBind = $segmentSql['bind'];
 
 		/*
 		 * Page URLs and Page names, general stats
@@ -290,9 +316,9 @@ class Piwik_Actions extends Piwik_Plugin
 		$queryString = "SELECT name,
 							type,
 							idaction,
-							count(distinct log_link_visit_action.idvisit) as `". Piwik_Archive::INDEX_NB_VISITS ."`, 
+							count(distinct log_link_visit_action.idvisit) as `". Piwik_Archive::INDEX_NB_VISITS ."`,
 							count(distinct log_link_visit_action.idvisitor) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`,
-							count(*) as `". Piwik_Archive::INDEX_PAGE_NB_HITS ."`							
+							count(*) as `". Piwik_Archive::INDEX_PAGE_NB_HITS ."`
 					FROM ".Piwik_Common::prefixTable('log_link_visit_action')." as log_link_visit_action
 							LEFT JOIN ".Piwik_Common::prefixTable('log_action')." as log_action ON (log_link_visit_action.%s = idaction)
 							$sqlJoinVisitTable
@@ -311,12 +337,12 @@ class Piwik_Actions extends Piwik_Plugin
 		 * Entry actions for Page URLs and Page names
 		 */
 		$queryString = "SELECT %s as idaction,
-							count(distinct idvisitor) as `". Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS ."`, 
+							count(distinct idvisitor) as `". Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS ."`,
 							count(*) as `". Piwik_Archive::INDEX_PAGE_ENTRY_NB_VISITS ."`,
 							sum(visit_total_actions) as `". Piwik_Archive::INDEX_PAGE_ENTRY_NB_ACTIONS ."`,
-							sum(visit_total_time) as `". Piwik_Archive::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH ."`,							
+							sum(visit_total_time) as `". Piwik_Archive::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH ."`,
 							sum(case visit_total_actions when 1 then 1 else 0 end) as `". Piwik_Archive::INDEX_PAGE_ENTRY_BOUNCE_COUNT ."`
-					FROM ".Piwik_Common::prefixTable('log_visit')." 
+					FROM ".Piwik_Common::prefixTable('log_visit')."
 					WHERE visit_last_action_time >= ?
 						AND visit_last_action_time <= ?
 						AND idsite = ?
@@ -332,7 +358,7 @@ class Piwik_Actions extends Piwik_Plugin
 		$queryString = "SELECT %s as idaction,
 							count(distinct idvisitor) as `". Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS ."`,
 							count(*) as `". Piwik_Archive::INDEX_PAGE_EXIT_NB_VISITS ."`
-				 	FROM ".Piwik_Common::prefixTable('log_visit')." 
+				 	FROM ".Piwik_Common::prefixTable('log_visit')."
 				 	WHERE visit_last_action_time >= ?
 						AND visit_last_action_time <= ?
 				 		AND idsite = ?
@@ -471,11 +497,11 @@ class Piwik_Actions extends Piwik_Plugin
 			}
 		}
 		
-	    if($type == Piwik_Tracker_Action::TYPE_ACTION_NAME) 
+	    if($type == Piwik_Tracker_Action::TYPE_ACTION_NAME)
 	    {
 	    	$categoryDelimiter = self::$actionTitleCategoryDelimiter;
-	    } 
-	    else 
+	    }
+	    else
 	    {
 	    	$categoryDelimiter = self::$actionUrlCategoryDelimiter;
 	    }
@@ -506,13 +532,13 @@ class Piwik_Actions extends Piwik_Plugin
 
 		$lastPageName = end($split);
 		// we are careful to prefix the page URL / name with some value
-		// so that if a page has the same name as a category 
-		// we don't merge both entries 
+		// so that if a page has the same name as a category
+		// we don't merge both entries
 		if($type != Piwik_Tracker_Action::TYPE_ACTION_NAME )
 		{
 			$lastPageName = '/' . $lastPageName;
 		}
-		else 
+		else
 		{
 			$lastPageName = ' ' . $lastPageName;
 		}
@@ -530,13 +556,13 @@ class Piwik_Actions extends Piwik_Plugin
 		while( $row = $query->fetch() )
 		{
 			// Only the first query will contain the name and type of actions, for performance reasons
-			if(isset($row['name']) 
+			if(isset($row['name'])
 				&& isset($row['type']))
 			{
 				$actionName = $row['name'];
 				$actionType = $row['type'];
     			// in some unknown case, the type field is NULL, as reported in #1082 - we ignore this page view
-    			if(empty($actionType)) 
+    			if(empty($actionType))
     			{
     				self::$cacheParsedAction[$row['idaction']] = false;
     				continue;
@@ -572,8 +598,8 @@ class Piwik_Actions extends Piwik_Plugin
 			foreach($row as $name => $value)
 			{
 				// in some edge cases, we have twice the same action name with 2 different idaction
-				// this happens when 2 visitors visit the same new page at the same time, there is a SELECT and an INSERT for each new page, 
-				// and in between the two the other visitor comes. 
+				// this happens when 2 visitors visit the same new page at the same time, there is a SELECT and an INSERT for each new page,
+				// and in between the two the other visitor comes.
 				// here we handle the case where there is already a row for this action name, if this is the case we add the value
 				if(($alreadyValue = $currentTable->getColumn($name)) !== false)
 				{
@@ -608,7 +634,7 @@ class Piwik_Actions extends Piwik_Plugin
 	/**
 	 * Given a page name and type, builds a recursive datatable where
 	 * each level of the tree is a category, based on the page name split by a delimiter (slash / by default)
-	 *  
+	 *
 	 * @param string $actionName
 	 * @param int $actionType
 	 * @return Piwik_DataTable
@@ -646,7 +672,7 @@ class Piwik_Actions extends Piwik_Plugin
 			{
 				$currentTable = new Piwik_DataTable_Row(array(
 						Piwik_DataTable_Row::COLUMNS => $defaultColumnsNewRow,
-					));	
+					));
 			}
 			else
 			{

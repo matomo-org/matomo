@@ -1,20 +1,20 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik
  * @package Piwik
  */
 
 /**
  * Outputs an AJAX Table for a given DataTable.
- * 
+ *
  * Reads the requested DataTable from the API.
- * 
+ *
  * @package Piwik
  * @subpackage Piwik_ViewDataTable
  */
@@ -23,13 +23,13 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	/**
 	 * Set to true when the DataTable must be loaded along with all its children subtables
 	 * Useful when searching for a pattern in the DataTable Actions (we display the full hierarchy)
-	 * 
+	 *
 	 * @var bool
 	 */
 	protected $recursiveDataTableLoad   = false;
 	
 	/**
-	 * PHP array conversion of the Piwik_DataTable 
+	 * PHP array conversion of the Piwik_DataTable
 	 *
 	 * @var array
 	 */
@@ -39,13 +39,13 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	 * @see Piwik_ViewDataTable::init()
 	 */
 	function init($currentControllerName,
-						$currentControllerAction, 
-						$apiMethodToRequestDataTable,						
+						$currentControllerAction,
+						$apiMethodToRequestDataTable,
 						$controllerActionCalledWhenRequestSubTable = null)
 	{
 		parent::init($currentControllerName,
-						$currentControllerAction, 
-						$apiMethodToRequestDataTable,						
+						$currentControllerAction,
+						$apiMethodToRequestDataTable,
 						$controllerActionCalledWhenRequestSubTable);
 		$this->dataTableTemplate = 'CoreHome/templates/datatable.tpl';
 		$this->variablesDefault['enable_sort'] = '1';
@@ -97,14 +97,14 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 		else
 		{
 			$columns = $this->getColumnsToDisplay();
-			$columnTranslations = $columnDescriptions = array();
+			$columnTranslations = $columnDocumentation = array();
 			foreach($columns as $columnName)
 			{
 				$columnTranslations[$columnName] = $this->getColumnTranslation($columnName);
-				$columnDescriptions[$columnName] = $this->getColumnDescription($columnName);
+				$columnDocumentation[$columnName] = $this->getMetricDocumentation($columnName);
 			}
 			$nbColumns = count($columns);
-			// case no data in the array we use the number of columns set to be displayed 
+			// case no data in the array we use the number of columns set to be displayed
 			if($nbColumns == 0)
 			{
 				$nbColumns = count($this->columnsToDisplay);
@@ -112,8 +112,9 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 
 			$view->arrayDataTable 	= $this->getPHPArrayFromDataTable();
 			$view->dataTableColumns = $columns;
+			$view->reportDocumentation = $this->getReportDocumentation();
 			$view->columnTranslations = $columnTranslations;
-			$view->columnDescriptions = $columnDescriptions;
+			$view->columnDocumentation = $columnDocumentation;
 			$view->nbColumns = $nbColumns;
 			$view->defaultWhenColumnValueNotDefined = '-';
 		}
@@ -141,15 +142,15 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	 * @return array
 	 */
 	protected function getPHPArrayFromDataTable()
-	{		
+	{
 		$renderer = Piwik_DataTable_Renderer::factory('php');
 		$renderer->setTable($this->dataTable);
 		$renderer->setSerialize( false );
-		// we get the php array from the datatable but conserving the original datatable format, 
+		// we get the php array from the datatable but conserving the original datatable format,
 		// ie. rows 'columns', 'metadata' and 'idsubdatatable'
 		$phpArray = $renderer->originalRender();
 		return $phpArray;
-	}	
+	}
 
 	
 	/**

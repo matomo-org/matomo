@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik
  * @package Piwik
  */
@@ -14,7 +14,7 @@
  * @package Piwik
  * @subpackage Piwik_ViewDataTable
  */
-class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable 
+class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 {
 	protected function getViewDataTableId()
 	{
@@ -28,20 +28,28 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 		$this->viewProperties['show_exclude_low_population'] = true;
 		$this->viewProperties['show_goals'] = true;
 		
+		if (Piwik_Common::getRequestVar('documentationForGoalsPage', 0, 'int') == 1) {
+			$this->setReportDocumentation(Piwik_Translate('Goals_ConversionByTypeReportDocumentation',
+					array('<br />', '<br />', '<a href="http://piwik.org/docs/tracking-goals-web-analytics/" target="_blank">', '</a>')));
+		}
+		
 		$this->setColumnsTranslations( array(
 			'goal_%s_conversion_rate' => '%s conversion rate',
 			'goal_%s_nb_conversions' => '%s conversions',
 			'goal_%s_revenue_per_visit' => '%s revenue per visit',
 		
-			'nb_conversions' => Piwik_Translate('Goals_ColumnConversions'), 
-			'conversion_rate' => Piwik_Translate('General_ColumnConversionRate'), 
+			'nb_conversions' => Piwik_Translate('Goals_ColumnConversions'),
+			'conversion_rate' => Piwik_Translate('General_ColumnConversionRate'),
 			'revenue' => Piwik_Translate('Goals_ColumnRevenue'),
     		'revenue_per_visit' => Piwik_Translate('General_ColumnValuePerVisit'),
 		));
 		
-		$this->setColumnsToDisplay( array(	
-			'label', 
-			'nb_visits', 
+		$this->setMetricDocumentation('nb_visits', Piwik_Translate('Goals_ColumnVisits'));
+		$this->setMetricDocumentation('revenue_per_visit', Piwik_Translate('Goals_ColumnRevenuePerVisitDocumentation'));
+		
+		$this->setColumnsToDisplay( array(
+			'label',
+			'nb_visits',
 			'goal_%s_nb_conversions',
 			'goal_%s_conversion_rate',
 			'goal_%s_revenue_per_visit',
@@ -89,6 +97,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 					$name = Piwik_Translate($this->getColumnTranslation($columnName), $goal['name']);
 					$columnNameGoal = str_replace('%s', $idgoal, $columnName);
 					$this->setColumnTranslation($columnNameGoal, $name);
+					$this->setDynamicMetricDocumentation($columnName, $columnNameGoal, $goal['name']);
 					if(strstr($columnNameGoal, '_rate') === false
 						// For the goal table (when the flag icon is clicked), we only display the per Goal Conversion rate
 						&& $this->processOnlyIdGoal == Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW)
@@ -115,6 +124,30 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 		parent::setColumnsToDisplay($newColumnsNames);
 	}
 	
+	/** Find the appropriate metric documentation for a goal column */
+	private function setDynamicMetricDocumentation($genericMetricName, $metricName, $goalName)
+	{
+		$langString = false;
+		switch ($genericMetricName)
+		{
+			case 'goal_%s_nb_conversions':
+				$langString = 'Goals_ColumnConversionsDocumentation';
+				break;
+			case 'goal_%s_conversion_rate':
+				$langString = 'Goals_ColumnConversionRateDocumentation';
+				break;
+			case 'goal_%s_revenue_per_visit':
+				$langString = 'Goals_ColumnRevenueDocumentation';
+				break;
+		}
+		
+		if ($langString)
+		{
+			$doc = Piwik_Translate($langString, '"'.$goalName.'"');
+			$this->setMetricDocumentation($metricName, $doc);
+		}
+	}
+	
 	protected function getRequestString()
 	{
 		$requestString = parent::getRequestString();
@@ -123,7 +156,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 			$requestString .= "&filter_only_display_idgoal=".$this->processOnlyIdGoal;
 		}
 		return $requestString . '&filter_update_columns_when_show_all_goals=1';
-	}	
+	}
 	
 	protected $columnsToRevenueFilter = array();
 	protected $columnsToConversionFilter = array();

@@ -15,6 +15,19 @@
 			<max_actions>Maximum actions in one visit</max_actions>
 
 		</metrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+
+		</metricsDocumentation>
 		<uniqueId>VisitsSummary_get</uniqueId>
 
 	</row>
@@ -24,6 +37,7 @@
 		<module>VisitTime</module>
 		<action>getVisitInformationPerServerTime</action>
 		<dimension>Server time</dimension>
+		<documentation>This graph shows what time it was in the &lt;b&gt; server's time zone &lt;/b&gt; during the visits.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -36,13 +50,26 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 
 		</processedMetrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+
+		</metricsDocumentation>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 
 		</metricsGoal>
 		<processedMetricsGoal>
-			<revenue_per_visit>Value per Visit</revenue_per_visit>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
 		<uniqueId>VisitTime_getVisitInformationPerServerTime</uniqueId>
@@ -54,6 +81,7 @@
 		<module>VisitTime</module>
 		<action>getVisitInformationPerLocalTime</action>
 		<dimension>Local time</dimension>
+		<documentation>This graph shows what time it was in the &lt;b&gt; visitors' time zones &lt;/b&gt; during their visits.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -67,6 +95,19 @@
 			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+
+		</metricsDocumentation>
 		<uniqueId>VisitTime_getVisitInformationPerLocalTime</uniqueId>
 
 	</row>
@@ -86,6 +127,15 @@
 			<exit_rate>Exit rate</exit_rate>
 
 		</metrics>
+		<metricsDocumentation>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<nb_visits>The number of visits that included this page. If a page was viewed multiple times during one visit, it is only counted once.</nb_visits>
+			<bounce_rate>The percentage of visits that started on this page and left the website straight away.</bounce_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+
+		</metricsDocumentation>
+		<documentation>This report contains information about the page URLs that have been visited. &lt;br /&gt; The table is organized hierarchically, the URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<uniqueId>Actions_getPageUrls</uniqueId>
 
 	</row>
@@ -105,6 +155,15 @@
 			<exit_rate>Exit rate</exit_rate>
 
 		</metrics>
+		<metricsDocumentation>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<nb_visits>The number of visits that included this page. If a page was viewed multiple times during one visit, it is only counted once.</nb_visits>
+			<bounce_rate>The percentage of visits that started on this page and left the website straight away.</bounce_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+
+		</metricsDocumentation>
+		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
 		<uniqueId>Actions_getPageTitles</uniqueId>
 
 	</row>
@@ -119,6 +178,12 @@
 			<nb_visits>Visits</nb_visits>
 
 		</metrics>
+		<metricsDocumentation>
+			<nb_hits>The number of times this link was clicked.</nb_hits>
+			<nb_visits>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</nb_visits>
+
+		</metricsDocumentation>
+		<documentation>This report shows a hierarchical list of outlink URLs that were clicked by your visitors. An outlink is a link that leads the visitor away from your website (to another domain).&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<uniqueId>Actions_getOutlinks</uniqueId>
 
 	</row>
@@ -133,6 +198,12 @@
 			<nb_visits>Visits</nb_visits>
 
 		</metrics>
+		<metricsDocumentation>
+			<nb_hits>The number of times this link was clicked.</nb_hits>
+			<nb_visits>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</nb_visits>
+
+		</metricsDocumentation>
+		<documentation>In this report, you can see which files your visitors have downloaded. &lt;br /&gt; What Piwik counts as a download is the click on a download link. Whether the download was completed or not isn't known to Piwik.</documentation>
 		<uniqueId>Actions_getDownloads</uniqueId>
 
 	</row>
@@ -142,6 +213,7 @@
 		<module>Referers</module>
 		<action>getRefererType</action>
 		<dimension>Referrer Type</dimension>
+		<documentation>This table contains information about the distribution of the referrer types.&lt;br /&gt;&lt;b&gt;Direct Entry:&lt;/b&gt; A visitor has entered the URL in his browser and started browsing on your website - he entered the website directly.&lt;br /&gt;&lt;b&gt;Search Engines:&lt;/b&gt; A visitor was referred to your website by a search engine. &lt;br /&gt; See the &quot;Search Engines &amp; Keywords&quot; report for more datils.&lt;br /&gt;&lt;b&gt;Websites:&lt;/b&gt; The visitor followed a link on antoher website that led to your site. &lt;br /&gt; See the &quot;Websites&quot; report for more details.&lt;br /&gt;&lt;b&gt;Campaigns:&lt;/b&gt; Visitors that came to your website as the result of a campaign. &lt;br /&gt; See the &quot;Campaigns&quot; report for more details.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -154,13 +226,26 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 
 		</processedMetrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+
+		</metricsDocumentation>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 
 		</metricsGoal>
 		<processedMetricsGoal>
-			<revenue_per_visit>Value per Visit</revenue_per_visit>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
 		<uniqueId>Referers_getRefererType</uniqueId>
@@ -172,6 +257,7 @@
 		<module>Referers</module>
 		<action>getKeywords</action>
 		<dimension>Keyword</dimension>
+		<documentation>This report shows which keywords users were searching for before they were referred to your website. &lt;br /&gt; By clicking on a row in the table, you can see the distribution of search engines that were queried for the keyword.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -184,13 +270,26 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 
 		</processedMetrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+
+		</metricsDocumentation>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 
 		</metricsGoal>
 		<processedMetricsGoal>
-			<revenue_per_visit>Value per Visit</revenue_per_visit>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
 		<uniqueId>Referers_getKeywords</uniqueId>
@@ -202,6 +301,7 @@
 		<module>Referers</module>
 		<action>getWebsites</action>
 		<dimension>Website</dimension>
+		<documentation>In this table, you can see which websites referred visitors to your site. &lt;br /&gt; By clicking on a row in the table, you can see which URLs the links to your website were on.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -214,13 +314,26 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 
 		</processedMetrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+
+		</metricsDocumentation>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 
 		</metricsGoal>
 		<processedMetricsGoal>
-			<revenue_per_visit>Value per Visit</revenue_per_visit>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
 		<uniqueId>Referers_getWebsites</uniqueId>
@@ -232,6 +345,7 @@
 		<module>Referers</module>
 		<action>getSearchEngines</action>
 		<dimension>Search Engine</dimension>
+		<documentation>This report shows which search engines referred users to your website. &lt;br /&gt; By clicking on a row in the table, you can see what users were searching for using a specific search engine.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -244,13 +358,26 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 
 		</processedMetrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+
+		</metricsDocumentation>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 
 		</metricsGoal>
 		<processedMetricsGoal>
-			<revenue_per_visit>Value per Visit</revenue_per_visit>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
 		<uniqueId>Referers_getSearchEngines</uniqueId>
@@ -262,6 +389,7 @@
 		<module>Referers</module>
 		<action>getCampaigns</action>
 		<dimension>Campaign</dimension>
+		<documentation>This report shows which campaigns led visitors to your website. &lt;br /&gt; For more information about tracking campaigns, read the &lt;a href=&quot;http://piwik.org/docs/tracking-campaigns/&quot; target=&quot;_blank&quot;&gt;campaigns documentation on piwik.org&lt;/a&gt;</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -274,13 +402,26 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 
 		</processedMetrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+
+		</metricsDocumentation>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 
 		</metricsGoal>
 		<processedMetricsGoal>
-			<revenue_per_visit>Value per Visit</revenue_per_visit>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
 		<uniqueId>Referers_getCampaigns</uniqueId>
@@ -318,13 +459,26 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 
 		</processedMetrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+
+		</metricsDocumentation>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 
 		</metricsGoal>
 		<processedMetricsGoal>
-			<revenue_per_visit>Value per Visit</revenue_per_visit>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
 		<uniqueId>UserCountry_getCountry</uniqueId>
@@ -348,13 +502,26 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 
 		</processedMetrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+
+		</metricsDocumentation>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 
 		</metricsGoal>
 		<processedMetricsGoal>
-			<revenue_per_visit>Value per Visit</revenue_per_visit>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
 		<uniqueId>UserCountry_getContinent</uniqueId>
@@ -366,6 +533,7 @@
 		<module>CustomVariables</module>
 		<action>getCustomVariables</action>
 		<dimension>Custom Variable name</dimension>
+		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;http://piwik.org/docs/custom-variables/&quot; target=&quot;_blank&quot;&gt;Custom Variables documentation on piwik.org&lt;/a&gt;</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -378,13 +546,26 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 
 		</processedMetrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+
+		</metricsDocumentation>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 
 		</metricsGoal>
 		<processedMetricsGoal>
-			<revenue_per_visit>Value per Visit</revenue_per_visit>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
 		<uniqueId>CustomVariables_getCustomVariables</uniqueId>
@@ -401,6 +582,20 @@
 
 		</metrics>
 		<constantRowsCount>1</constantRowsCount>
+		<documentation>In this report, you can see how many visits had a certain total duration. Initially, the report is shown as a tag cloud, more common durations are displayed in a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+
+		</metricsDocumentation>
 		<uniqueId>VisitorInterest_getNumberOfVisitsPerVisitDuration</uniqueId>
 
 	</row>
@@ -415,6 +610,20 @@
 
 		</metrics>
 		<constantRowsCount>1</constantRowsCount>
+		<documentation>In this report, you can see how many visits involved a certain number of pageviews. Initially, the report is shown as a tag cloud, more common numbers of pages are displayed in a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+
+		</metricsDocumentation>
 		<uniqueId>VisitorInterest_getNumberOfVisitsPerPage</uniqueId>
 
 	</row>
@@ -431,6 +640,19 @@
 			<nb_actions_per_visit_returning>Avg. Actions per Returning visit</nb_actions_per_visit_returning>
 
 		</metrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+
+		</metricsDocumentation>
 		<uniqueId>VisitFrequency_get</uniqueId>
 
 	</row>
@@ -440,6 +662,7 @@
 		<module>Provider</module>
 		<action>getProvider</action>
 		<dimension>Provider</dimension>
+		<documentation>This report shows which Internet Service Providers your visitors used to access the website. You can click on a provider name for more details. &lt;br /&gt; If Piwik can't determine a visitor's provider, it is listed as IP.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -453,6 +676,19 @@
 			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+
+		</metricsDocumentation>
 		<uniqueId>Provider_getProvider</uniqueId>
 
 	</row>
@@ -475,6 +711,19 @@
 			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+
+		</metricsDocumentation>
 		<uniqueId>UserSettings_getResolution</uniqueId>
 
 	</row>
@@ -484,6 +733,7 @@
 		<module>UserSettings</module>
 		<action>getBrowser</action>
 		<dimension>Browser</dimension>
+		<documentation>This report contains information about what kind of browser your visitors were using. Each browser version is listed separately.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -497,6 +747,19 @@
 			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+
+		</metricsDocumentation>
 		<uniqueId>UserSettings_getBrowser</uniqueId>
 
 	</row>
@@ -506,6 +769,7 @@
 		<module>UserSettings</module>
 		<action>getBrowserType</action>
 		<dimension>Browser family</dimension>
+		<documentation>This chart shows your visitors' browsers broken down into browser families. &lt;br /&gt; The most important information for web developers is what kind of rendering engine their visitors are using. The labels contain the names of the engines followed by the most common browser using that engine in brackets.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -519,6 +783,19 @@
 			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+
+		</metricsDocumentation>
 		<uniqueId>UserSettings_getBrowserType</uniqueId>
 
 	</row>
@@ -528,12 +805,26 @@
 		<module>UserSettings</module>
 		<action>getPlugin</action>
 		<dimension>Plugin</dimension>
+		<documentation>This report shows which browser plugins your visitors had enabled. This information might be important for choosing the right way to deliver your content.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_visits_percentage>% Visits</nb_visits_percentage>
 
 		</metrics>
 		<constantRowsCount>1</constantRowsCount>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+
+		</metricsDocumentation>
 		<uniqueId>UserSettings_getPlugin</uniqueId>
 
 	</row>
@@ -556,6 +847,19 @@
 			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+
+		</metricsDocumentation>
 		<uniqueId>UserSettings_getWideScreen</uniqueId>
 
 	</row>
@@ -578,6 +882,19 @@
 			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+
+		</metricsDocumentation>
 		<uniqueId>UserSettings_getOS</uniqueId>
 
 	</row>
@@ -587,6 +904,7 @@
 		<module>UserSettings</module>
 		<action>getConfiguration</action>
 		<dimension>Configuration</dimension>
+		<documentation>This report shows the most common overall configurations that your visitors had. A configuration is the combination of an operating system, a browser type and a screen resolution.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -600,6 +918,19 @@
 			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+
+		</metricsDocumentation>
 		<uniqueId>UserSettings_getConfiguration</uniqueId>
 
 	</row>

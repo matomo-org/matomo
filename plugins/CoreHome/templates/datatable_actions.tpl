@@ -1,4 +1,7 @@
 <div id="{$properties.uniqueId}">
+	{if !empty($reportDocumentation)}
+		<div class="reportDocumentation"><p>{$reportDocumentation}</p></div>
+	{/if}
 	<div class="dataTableActionsWrapper">
 	{if isset($arrayDataTable.result) and $arrayDataTable.result == 'error'}
 		{$arrayDataTable.message} 
@@ -10,7 +13,17 @@
 			<thead>
 			<tr>
 			{foreach from=$dataTableColumns item=column name=head}
-				<th class="sortable {if $smarty.foreach.head.first}first{elseif $smarty.foreach.head.last}last{/if}" id="{$column}"><div id="thDIV">{if !empty($columnDescriptions[$column])}<label title='{$columnDescriptions[$column]|escape:'html'}'>{/if}{$columnTranslations[$column]|escape:'html'}{if !empty($columnDescriptions[$column])}</label>{/if}</div></td>
+				<th class="sortable {if $smarty.foreach.head.first}first{elseif $smarty.foreach.head.last}last{/if}" id="{$column}">
+					{if !empty($columnDocumentation[$column])}
+						<div class="columnDocumentation">
+							<div class="columnDocumentationTitle">
+								{$columnTranslations[$column]|escape:'html'|replace:"&amp;nbsp;":"&nbsp;"}
+							</div>
+							{$columnDocumentation[$column]|escape:'html'}
+						</div>
+					{/if}
+					<div id="thDIV">{$columnTranslations[$column]|escape:'html'}</div>
+				</td>
 			{/foreach}
 			</tr>
 			</thead>

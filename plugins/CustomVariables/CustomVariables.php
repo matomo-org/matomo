@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik_Plugins
  * @package Piwik_CustomVariables
  */
@@ -14,7 +14,7 @@
  * @package Piwik_CustomVariables
  */
 class Piwik_CustomVariables extends Piwik_Plugin
-{	
+{
 	public $archiveProcessing;
 	protected $columnToSortByBeforeTruncation;
 	protected $maximumRowsInDataTableLevelZero;
@@ -44,7 +44,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
 		    'API.getSegmentsMetadata' => 'getSegmentsMetadata',
 		);
 		return $hooks;
-	}	
+	}
 
 	function addWidgets()
 	{
@@ -53,10 +53,10 @@ class Piwik_CustomVariables extends Piwik_Plugin
 	
 	function addMenus()
 	{
-	    Piwik_AddMenu('General_Visitors', 'CustomVariables_CustomVariables', array('module' => 'CustomVariables', 'action' => 'getCustomVariables'), $display = true, $order = 50);
+	    Piwik_AddMenu('General_Visitors', 'CustomVariables_CustomVariables', array('module' => 'CustomVariables', 'action' => 'index'), $display = true, $order = 50);
 	}
 	
-	public function getReportMetadata($notification) 
+	public function getReportMetadata($notification)
 	{
 		$reports = &$notification->getNotificationObject();
 		$reports = array_merge($reports, array(
@@ -66,6 +66,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
         			'module' => 'CustomVariables',
         			'action' => 'getCustomVariables',
         			'dimension' => Piwik_Translate('CustomVariables_ColumnCustomVariableName'),
+        			'documentation' => Piwik_Translate('CustomVariables_CustomVariablesReportDocumentation', array('<br />', '<a href="http://piwik.org/docs/custom-variables/" target="_blank">', '</a>')),
         			'order' => 10
         		),
     	));
@@ -119,7 +120,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
 	
 	/**
 	 * Hooks on daily archive to trigger various log processing
-	 * 
+	 *
 	 * @param Piwik_Event_Notification $notification
 	 * @return void
 	 */
@@ -128,7 +129,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
 		$this->interestByCustomVariables = $this->interestByCustomVariablesAndValue = array();
 		
 		/**
-		 * @var Piwik_ArchiveProcessing_Day 
+		 * @var Piwik_ArchiveProcessing_Day
 		 */
 		$this->archiveProcessing = $notification->getNotificationObject();
 		
@@ -148,7 +149,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
 	{
 	    for($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++ )
 	    {
-	        $keyField = "custom_var_k".$i; 
+	        $keyField = "custom_var_k".$i;
 	        $valueField = "custom_var_v".$i;
 	        $dimensions = array($keyField, $valueField);
 	        $where = "$keyField != '' AND $valueField != ''";
@@ -159,14 +160,14 @@ class Piwik_CustomVariables extends Piwik_Plugin
         	{
         	   if(!isset($this->interestByCustomVariables[$row[$keyField]])) $this->interestByCustomVariables[$row[$keyField]]= $archiveProcessing->getNewInterestRow();
         	   if(!isset($this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]])) $this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]] = $archiveProcessing->getNewInterestRow();
-        	   $archiveProcessing->updateInterestStats( $row, $this->interestByCustomVariables[$row[$keyField]]);  
-        	   $archiveProcessing->updateInterestStats( $row, $this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]]);  
+        	   $archiveProcessing->updateInterestStats( $row, $this->interestByCustomVariables[$row[$keyField]]);
+        	   $archiveProcessing->updateInterestStats( $row, $this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]]);
         	}
         	
         	// Custom Vars names and values metrics for Goals
         	$query = $archiveProcessing->queryConversionsByDimension($dimensions, $where);
 
-        	if($query !== false) 
+        	if($query !== false)
         	{
         		while($row = $query->fetch() )
         		{

@@ -219,6 +219,8 @@ dataTable.prototype =
 		self.handleExportBox(domElem);
 		self.applyCosmetics(domElem);
 		self.handleSubDataTable(domElem);
+		self.handleColumnDocumentation(domElem);
+		self.handleReportDocumentation(domElem);
 	},
 		
 	// if sorting the columns is enabled, when clicking on a column, 
@@ -749,7 +751,139 @@ dataTable.prototype =
 				$(this).next().toggle();
 			} 
 		);
+	},
+	
+	// tooltip for column documentation
+ 	handleColumnDocumentation: function(domElem)
+	{
+		if ($('#dashboard').size() > 0) {
+			// don't display column documentation in dashboard
+			// it causes trouble in full screen view
+			return;
+		}
+		
+		var self = this;
+		
+		$('th:has(.columnDocumentation)', domElem).each(function()
+		{
+			var th = $(this);
+			var tooltip = th.find('.columnDocumentation');
+			
+			tooltip.next().hover(function()
+			{
+				var left = (-1 * tooltip.outerWidth() / 2) + th.width() / 2;
+				var top = -1 * (tooltip.outerHeight() + 10);
+				
+				if (th.next().size() == 0) 
+				{
+					left = (-1 * tooltip.outerWidth()) + th.width() +
+					parseInt(th.css('padding-right'), 10);
+				}
+				
+				tooltip.css({
+					marginLeft: left,
+					marginTop: top
+				});
+				
+				tooltip.stop(true, true).fadeIn(250);
+			},
+			function()
+			{
+				$(this).prev().stop(true, true).fadeOut(400);
+			});
+		});
+	},
+	
+	// documentation for report
+	handleReportDocumentation: function(domElem)
+	{
+		if ($('#dashboard').size() > 0) {
+			// don't display report documentation in dashboard
+			return;
+		}
+		
+		domElem = $(domElem);
+		var doc = domElem.find('.reportDocumentation');
+		
+		var h2 = false;
+		if (domElem.prev().is('h2'))
+		{
+			h2 = domElem.prev();
+		}
+		else if (this.param.viewDataTable == 'tableGoals')
+		{
+			h2 = $('#titleGoalsByDimension');
+		}
+		
+		if (doc.size() == 0)
+		{
+			if (h2 && h2.size() > 0)
+			{
+				h2.find('a.reportDocumentationIcon').addClass('hidden');
+			}
+			return;
+		}
+		
+		var icon = $('<a href="#"></a>');
+		var docShown = false;
+		
+		icon.click(function()
+		{
+			if (docShown)
+			{
+				doc.stop(true, true).fadeOut(250);
+			}
+			else
+			{
+				var widthOrientation = domElem.find('table, object').eq(0);
+				if (widthOrientation.size() > 0)
+				{
+					var width = Math.min(widthOrientation.width(), doc.parent().innerWidth());
+					doc.css('width', (width - 2) + 'px');
+				}
+				doc.stop(true, true).fadeIn(250);
+			}
+			docShown = !docShown;
+			return false;
+		});
+		
+		icon.addClass('reportDocumentationIcon');
+		if (h2 && h2.size() > 0)
+		{
+			// handle previously added icon
+			var existingIcon = h2.find('a.reportDocumentationIcon');
+			if (existingIcon.size() > 0)
+			{
+				existingIcon.replaceWith(icon);
+			}
+			else
+			{
+				// add icon
+				h2.append('&nbsp;&nbsp;&nbsp;');
+				h2.append(icon);
+				
+				h2.hover(function()
+				{
+					$(this).find('a.reportDocumentationIcon').show();
+				},
+				function()
+				{
+					$(this).find('a.reportDocumentationIcon').hide();
+				})
+				.click(
+				function()
+				{
+					$(this).find('a.reportDocumentationIcon').click();
+				})
+				.css('cursor', 'pointer');
+			}
+		}
+		else
+		{
+			domElem.prepend(icon);
+		}
 	}
+	
 };
 
 
@@ -786,6 +920,8 @@ actionDataTable.prototype =
 	handleSearchBox: dataTable.prototype.handleSearchBox,
 	handleExportBox: dataTable.prototype.handleExportBox,
 	handleSort: dataTable.prototype.handleSort,
+	handleColumnDocumentation: dataTable.prototype.handleColumnDocumentation,
+	handleReportDocumentation: dataTable.prototype.handleReportDocumentation,
 	onClickSort: dataTable.prototype.onClickSort,
 	truncate: dataTable.prototype.truncate,
 	handleOffsetInformation: dataTable.prototype.handleOffsetInformation,
@@ -834,6 +970,9 @@ actionDataTable.prototype =
 			self.handleSearchBox(domElem, self.dataTableLoaded );
 			self.handleLowPopulationLink(domElem, self.dataTableLoaded );
 		}
+		
+		self.handleColumnDocumentation(domElem);
+		self.handleReportDocumentation(domElem);
 	},
 	
 	//see dataTable::applyCosmetics

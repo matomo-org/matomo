@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik
  * @package Piwik
  */
@@ -14,7 +14,7 @@
  * This class is used to load (from the API) and customize the output of a given DataTable.
  * The main() method will create an object Piwik_iView
  * You can customize the dataTable using the disable* methods.
- * 
+ *
  * Example:
  * In the Controller of the plugin VisitorInterest
  * <pre>
@@ -26,11 +26,11 @@
  * 		$view->disableSort();
  * 		$view->disableExcludeLowPopulation();
  * 		$view->disableOffsetInformation();
- * 
+ *
  *		return $this->renderView($view, $fetch);
- * 	} 
+ * 	}
  * </pre>
- * 
+ *
  * @see factory() for all the available output (cloud tags, html table, pie chart, vertical bar chart)
  * @package Piwik
  * @subpackage Piwik_ViewDataTable
@@ -80,18 +80,18 @@ abstract class Piwik_ViewDataTable
 	 *
 	 * @var Piwik_DataTable
 	 */
-	protected $dataTable = null; 
+	protected $dataTable = null;
 		
 	
 	/**
 	 * List of filters to apply after the data has been loaded from the API
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $queuedFilters = array();
 	
 	/**
-	 * List of filter to apply just before the 'Generic' filters 
+	 * List of filter to apply just before the 'Generic' filters
 	 * These filters should delete rows from the table
 	 * @var array
 	 */
@@ -124,7 +124,7 @@ abstract class Piwik_ViewDataTable
 	/**
 	 * This view should be an implementation of the Interface Piwik_iView
 	 * The $view object should be created in the main() method.
-	 * 
+	 *
 	 * @var Piwik_iView
 	 */
 	protected $view = null;
@@ -137,8 +137,24 @@ abstract class Piwik_ViewDataTable
 	protected $columnsTranslations = array();
 	
 	/**
+	 * Documentation for the metrics used in the current report.
+	 * Received from the Plugin API, used for inline help.
+	 *
+	 * @var array
+	 */
+	protected $metricsDocumentation = false;
+	
+	/**
+	 * Documentation for the report.
+	 * Received from the Plugin API, used for inline help.
+	 *
+	 * @var array
+	 */
+	protected $documentation = false;
+	
+	/**
 	 * Array of columns set to display
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $columnsToDisplay = array();
@@ -171,16 +187,16 @@ abstract class Piwik_ViewDataTable
 	 * If there is a viewDataTable parameter in the URL, a ViewDataTable of this 'viewDataTable' type will be returned.
 	 * If defaultType is specified and if there is no 'viewDataTable' in the URL, a ViewDataTable of this $defaultType will be returned.
 	 * If force is set to true, a ViewDataTable of the $defaultType will be returned in all cases.
-	 * 
-	 * @param string defaultType Any of these: table, cloud, graphPie, graphVerticalBar, graphEvolution, sparkline, generateDataChart* 
+	 *
+	 * @param string defaultType Any of these: table, cloud, graphPie, graphVerticalBar, graphEvolution, sparkline, generateDataChart*
 	 * @param bool force If set to true, returns a ViewDataTable of the $defaultType
-	 * @return Piwik_ViewDataTable 
+	 * @return Piwik_ViewDataTable
 	 */
 	static public function factory( $defaultType = null, $force = false)
 	{
 		if(is_null($defaultType))
 		{
-			$defaultType = 'table';	
+			$defaultType = 'table';
 		}
 		
 		if($force === true)
@@ -199,19 +215,19 @@ abstract class Piwik_ViewDataTable
 			
 			case 'graphPie':
 				return new Piwik_ViewDataTable_GenerateGraphHTML_ChartPie();
-			break;			
+			break;
 			
 			case 'graphVerticalBar':
 				return new Piwik_ViewDataTable_GenerateGraphHTML_ChartVerticalBar();
-			break;	
+			break;
 			
 			case 'graphEvolution':
 				return new Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution();
-			break;	
+			break;
 			
 			case 'sparkline':
 				return new Piwik_ViewDataTable_Sparkline();
-			break;	
+			break;
 			
 			case 'generateDataChartVerticalBar':
 				return new Piwik_ViewDataTable_GenerateGraphData_ChartVerticalBar();
@@ -241,14 +257,14 @@ abstract class Piwik_ViewDataTable
 	}
 	
 	/**
-	 * Inits the object given the $currentControllerName, $currentControllerAction of 
+	 * Inits the object given the $currentControllerName, $currentControllerAction of
 	 * the calling controller action, eg. 'Referers' 'getLongListOfKeywords'.
-	 * The initialization also requires the $apiMethodToRequestDataTable of the API method 
+	 * The initialization also requires the $apiMethodToRequestDataTable of the API method
 	 * to call in order to get the DataTable, eg. 'Referers.getKeywords'.
 	 * The optional $controllerActionCalledWhenRequestSubTable defines the method name of the API to call when there is a idSubtable.
 	 * This value would be used by the javascript code building the GET request to the API.
-	 * 
-	 * Example: 
+	 *
+	 * Example:
 	 * 	For the keywords listing, a click on the row loads the subTable of the Search Engines for this row.
 	 *  In this case $controllerActionCalledWhenRequestSubTable = 'getSearchEnginesFromKeywordId'.
 	 *  The GET request will hit 'Referers.getSearchEnginesFromKeywordId'.
@@ -259,8 +275,8 @@ abstract class Piwik_ViewDataTable
 	 * @param string $controllerActionCalledWhenRequestSubTable eg. 'getSearchEnginesFromKeywordId'
 	 */
 	public function init( $currentControllerName,
-						$currentControllerAction, 
-						$apiMethodToRequestDataTable, 
+						$currentControllerAction,
+						$apiMethodToRequestDataTable,
 						$controllerActionCalledWhenRequestSubTable = null)
 	{
 		$this->currentControllerName = $currentControllerName;
@@ -293,10 +309,10 @@ abstract class Piwik_ViewDataTable
 
 	/**
 	 * Forces the View to use a given template.
-	 * Usually the template to use is set in the specific ViewDataTable_* 
+	 * Usually the template to use is set in the specific ViewDataTable_*
 	 * eg. 'CoreHome/templates/cloud.tpl'
 	 * But some users may want to force this template to some other value
-	 * 
+	 *
 	 * @param string $tpl eg .'MyPlugin/templates/templateToUse.tpl'
 	 */
 	public function setTemplate( $tpl )
@@ -315,7 +331,7 @@ abstract class Piwik_ViewDataTable
 	{
 		if(is_null($this->view))
 		{
-			throw new Exception('The $this->view object has not been created. 
+			throw new Exception('The $this->view object has not been created.
 					It should be created in the main() method of the Piwik_ViewDataTable_* subclass you are using.');
 		}
 		return $this->view;
@@ -399,7 +415,7 @@ abstract class Piwik_ViewDataTable
 		{
 			return false;
 		}
-		// First, filters that delete rows 
+		// First, filters that delete rows
 		foreach($this->queuedFiltersPriority as $filter)
 		{
 			$filterName = $filter[0];
@@ -413,10 +429,10 @@ abstract class Piwik_ViewDataTable
 			$requestString = $this->getRequestString();
 			$request = Piwik_API_Request::getRequestArrayFromString($requestString);
 			
-			if(!empty($this->variablesDefault['enable_sort']) 
+			if(!empty($this->variablesDefault['enable_sort'])
 				&& $this->variablesDefault['enable_sort'] === 'false')
 			{
-				$request['filter_sort_column'] = $request['filter_sort_order'] = ''; 
+				$request['filter_sort_column'] = $request['filter_sort_order'] = '';
 			}
 			$genericFilter = new Piwik_API_DataTableGenericFilter($request);
 			$genericFilter->filter($this->dataTable);
@@ -450,7 +466,7 @@ abstract class Piwik_ViewDataTable
 			'filter_sort_order',
 			'filter_excludelowpop',
 			'filter_excludelowpop_value',
-			'filter_column', 
+			'filter_column',
 			'filter_pattern',
 			'disable_queued_filters',
 		);
@@ -479,13 +495,13 @@ abstract class Piwik_ViewDataTable
 	/**
 	 * For convenience, the client code can call methods that are defined in a specific children class
 	 * without testing the children class type, which would trigger an error with a different children class.
-	 * 
+	 *
 	 * Example:
 	 *  ViewDataTable/Html.php defines a setColumnsToDisplay(). The client code calls this methods even if
-	 *  the ViewDataTable object is a ViewDataTable_Cloud instance (he doesn't know because of the factory()). 
-	 *  But ViewDataTable_Cloud doesn't define the setColumnsToDisplay() method. 
+	 *  the ViewDataTable object is a ViewDataTable_Cloud instance (he doesn't know because of the factory()).
+	 *  But ViewDataTable_Cloud doesn't define the setColumnsToDisplay() method.
 	 *  Because we don't want to force users to test for the object type we simply catch these
-	 *  calls when they are not defined in the child and do nothing.  
+	 *  calls when they are not defined in the child and do nothing.
 	 *
 	 * @param string $function
 	 * @param array $args
@@ -496,10 +512,10 @@ abstract class Piwik_ViewDataTable
 	
 	/**
 	 * Returns a unique ID for this ViewDataTable.
-	 * This unique ID is used in the Javascript code: 
-	 *  Any ajax loaded data is loaded within a DIV that has id=$unique_id 
+	 * This unique ID is used in the Javascript code:
+	 *  Any ajax loaded data is loaded within a DIV that has id=$unique_id
 	 *  The jquery code then replaces the existing html div id=$unique_id in the code with this data.
-	 * 
+	 *
 	 * @see datatable.js
 	 * @return string
 	 */
@@ -508,7 +524,7 @@ abstract class Piwik_ViewDataTable
 		// if we request a subDataTable the $this->currentControllerAction DIV ID is already there in the page
 		// we make the DIV ID really unique by appending the ID of the subtable requested
 		if( $this->idSubtable != 0 // parent DIV has a idSubtable = 0 but the html DIV must have the name of the module.action
-			&&  $this->idSubtable !== false // case there is no idSubtable 
+			&&  $this->idSubtable !== false // case there is no idSubtable
 			)
 		{
 			// see also datatable.js (the ID has to match with the html ID created to be replaced by the result of the ajax call)
@@ -565,7 +581,7 @@ abstract class Piwik_ViewDataTable
 	 * - from the generic filters that are applied by default @see Piwik_API_DataTableGenericFilter.php::getGenericFiltersInformation()
 	 * - from the values already available in the GET array
 	 * - from the values set using methods from this class (eg. setSearchPattern(), setLimit(), etc.)
-	 * 
+	 *
 	 * @return array eg. array('show_offset_information' => 0, 'show_...
 	 */
 	protected function getJavascriptVariablesToSet()
@@ -578,7 +594,7 @@ abstract class Piwik_ViewDataTable
 		{
 			foreach($filter as $filterVariableName => $filterInfo)
 			{
-				// if there is a default value for this filter variable we set it 
+				// if there is a default value for this filter variable we set it
 				// so that it is propagated to the javascript
 				if(isset($filterInfo[1]))
 				{
@@ -607,7 +623,7 @@ abstract class Piwik_ViewDataTable
 			$javascriptVariablesToSet[$name] = $requestValue;
 		}
 		
-		// at this point there are some filters values we  may have not set, 
+		// at this point there are some filters values we  may have not set,
 		// case of the filter without default values and parameters set directly in this class
 		// for example setExcludeLowPopulation
 		// we go through all the $this->variablesDefault array and set the variables not set yet
@@ -621,7 +637,7 @@ abstract class Piwik_ViewDataTable
 
 		if($this->dataTable instanceof Piwik_DataTable)
 		{
-			// we override the filter_sort_column with the column used for sorting, 
+			// we override the filter_sort_column with the column used for sorting,
 			// which can be different from the one specified (eg. if the column doesn't exist)
 			$javascriptVariablesToSet['filter_sort_column'] = $this->dataTable->getSortedByColumnName();
 			// datatable can return "2" but we want to write "nb_visits" in the js
@@ -656,8 +672,8 @@ abstract class Piwik_ViewDataTable
 			}
 		}
 		
-		$deleteFromJavascriptVariables = array( 
-						'filter_excludelowpop', 
+		$deleteFromJavascriptVariables = array(
+						'filter_excludelowpop',
 						'filter_excludelowpop_value',
 				);
 		foreach($deleteFromJavascriptVariables as $name)
@@ -690,7 +706,7 @@ abstract class Piwik_ViewDataTable
 	/**
 	 * Returns the default value for a given parameter.
 	 * For example, these default values can be set using the disable* methods.
-	 * 
+	 *
 	 * @param string $nameVar
 	 * @return mixed
 	 */
@@ -712,7 +728,7 @@ abstract class Piwik_ViewDataTable
 	}
 	
 	/**
-	 * The queued filters (replace column names, enhance column with percentage signs, add logo metadata information, etc.) 
+	 * The queued filters (replace column names, enhance column with percentage signs, add logo metadata information, etc.)
 	 * will not be applied to this datatable. They can be manually applied by calling applyQueuedFilters on the datatable.
 	 */
 	public function disableQueuedFilters()
@@ -723,7 +739,7 @@ abstract class Piwik_ViewDataTable
 	/**
 	 * The "X-Y of Z" and the "< Previous / Next >"-Buttons won't be displayed under this table
 	 */
-	public function disableOffsetInformationAndPaginationControls() 
+	public function disableOffsetInformationAndPaginationControls()
 	{
 		$this->viewProperties['show_offset_information'] = false;
 		$this->viewProperties['show_pagination_control'] = false;
@@ -830,7 +846,7 @@ abstract class Piwik_ViewDataTable
 	
 	/**
 	 * Sets the value to use for the Exclude low population filter.
-	 * 
+	 *
 	 * @param int|float If a row value is less than this value, it will be removed from the dataTable
 	 * @param string The name of the column for which we compare the value to $minValue
 	 */
@@ -870,8 +886,8 @@ abstract class Piwik_ViewDataTable
 	}
 	
 	/**
-	 * Will display a message in the DataTable footer. 
-	 * 
+	 * Will display a message in the DataTable footer.
+	 *
 	 * @param string $message Message
 	 */
 	public function setFooterMessage( $message )
@@ -880,7 +896,7 @@ abstract class Piwik_ViewDataTable
 	}
 	
 	/**
-	 * Sets the dataTable column to sort by. This sorting will be applied before applying the (offset, limit) filter. 
+	 * Sets the dataTable column to sort by. This sorting will be applied before applying the (offset, limit) filter.
 	 *
 	 * @param int|string $columnId eg. 'nb_visits' for some tables, or Piwik_Archive::INDEX_NB_VISITS for others
 	 * @param string $order desc or asc
@@ -893,7 +909,7 @@ abstract class Piwik_ViewDataTable
 	
 	/**
 	 * Returns the column name on which the table will be sorted
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getSortedColumn()
@@ -907,7 +923,7 @@ abstract class Piwik_ViewDataTable
 	 * @param string $columnName column name
 	 * @param string $columnTranslation column name translation
 	 */
-	public function setColumnTranslation( $columnName, $columnTranslation, $columnDescription = false )
+	public function setColumnTranslation( $columnName, $columnTranslation )
 	{
 		if(empty($columnTranslation))
 		{
@@ -915,7 +931,6 @@ abstract class Piwik_ViewDataTable
 		}
 
 		$this->columnsTranslations[$columnName] = $columnTranslation;
-		$this->columnsDescriptions[$columnName] = $columnDescription;
 	}
 	
 	/**
@@ -933,22 +948,85 @@ abstract class Piwik_ViewDataTable
 	}
 	
 	/**
-	 * Returns column description, or false
+	 * Set the documentation of a metric used in the report.
+	 * Please note, that the default way of doing this is by using
+	 * getReportMetadata. Only use this method, if you have a good
+	 * reason to do so.
+	 *
+	 * @param string $metricIdentifier The idenentifier string of
+	 * 					the metric
+	 * @param string $documentation The metric documentation as a
+	 * 					translated string
+	 */
+	public function setMetricDocumentation($metricIdentifier, $documentation) {
+		$this->metricsDocumentation[$metricIdentifier] = $documentation;
+	}
+	
+	/**
+	 * Returns metric documentation, or false
 	 * @param string $columnName column name
 	 */
-	public function getColumnDescription( $columnName )
+	public function getMetricDocumentation($columnName)
 	{
-		if( !empty($this->columnsDescriptions[$columnName]) )
+		if ($this->metricsDocumentation === false)
 		{
-			return $this->columnsDescriptions[$columnName];
+			$this->loadDocumentation();
 		}
+		
+		if (!empty($this->metricsDocumentation[$columnName]))
+		{
+			return $this->metricsDocumentation[$columnName];
+		}
+		
 		return false;
+	}
+	
+	/**
+	 * Set the documentation of the report.
+	 * Please note, that the default way of doing this is by using
+	 * getReportMetadata. Only use this method, if you have a good
+	 * reason to do so.
+	 *
+	 * @param string $documentation The report documentation as a
+	 * 					translated string
+	 */
+	public function setReportDocumentation($documentation) {
+		$this->documentation = $documentation;
+	}
+	
+	/** Returns report documentation, or false */
+	public function getReportDocumentation()
+	{
+		if ($this->metricsDocumentation === false)
+		{
+			$this->loadDocumentation();
+		}
+		
+		return $this->documentation;
+	}
+	
+	/** Load documentation from the API */
+	private function loadDocumentation() {
+		$this->metricsDocumentation = array();
+		
+		$report = Piwik_API_API::getInstance()->getMetadata(0, $this->currentControllerName, $this->currentControllerAction);
+		$report = $report[0];
+		
+		if (isset($report['metricsDocumentation']))
+		{
+			$this->metricsDocumentation = $report['metricsDocumentation'];
+		}
+		
+		if (isset($report['documentation']))
+		{
+			$this->documentation = $report['documentation'];
+		}
 	}
 
 	/**
 	 * Sets the columns that will be displayed in the HTML output
 	 * By default all columns are displayed ($columnsNames = array() will display all columns)
-	 * 
+	 *
 	 * @param array $columnsNames Array of column names eg. array('nb_visits','nb_hits')
 	 */
 	public function setColumnsToDisplay( $columnsNames )
@@ -1010,12 +1088,12 @@ abstract class Piwik_ViewDataTable
 	
 	/**
 	 * Queues a Datatable filter, that will be applied once the datatable is loaded from the API.
-	 * Useful when the controller needs to add columns, or decorate existing columns, when these filters don't 
-	 * necessarily make sense directly in the API. 
-	 * 
+	 * Useful when the controller needs to add columns, or decorate existing columns, when these filters don't
+	 * necessarily make sense directly in the API.
+	 *
 	 * @param string $filterName
 	 * @param mixed $parameters
-	 * @param bool $runBeforeGenericFilters Set to true if the filter will delete rows from the table, 
+	 * @param bool $runBeforeGenericFilters Set to true if the filter will delete rows from the table,
 	 * 									and should therefore be ran before Sort, Limit, etc.
 	 * @return void
 	 */

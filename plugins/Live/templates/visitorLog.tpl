@@ -2,7 +2,9 @@
 <a graphid="VisitsSummarygetEvolutionGraph" name="evolutionGraph"></a>
 <h2>{'Live_VisitorLog'|translate}</h2>
 <div id="{$properties.uniqueId}" class="visitorLog">
-
+{if !empty($reportDocumentation)}
+	<div class="reportDocumentation"><p>{$reportDocumentation}</p></div>
+{/if}
 {assign var=maxIdVisit value=0}
 {if isset($arrayDataTable.result) and $arrayDataTable.result == 'error'}
 		{$arrayDataTable.message}

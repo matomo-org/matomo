@@ -1,4 +1,7 @@
 <div id="{$properties.uniqueId}">
+	{if !empty($reportDocumentation)}
+		<div class="reportDocumentation"><p>{$reportDocumentation}</p></div>
+	{/if}
 	<div class="{if $graphType=='evolution'}dataTableGraphEvolutionWrapper{else}dataTableGraphWrapper{/if}">
 
 	{if $flashParameters.isDataAvailable || !$flashParameters.includeData}
