@@ -19,7 +19,7 @@ ol#menuList li, ul#widgetList li .button,
 }
 
 .widget, 
-.widgetTop {
+.widgetTop{
 	position: relative;
 	behavior: url("index.php?module=Proxy&action=getPieHtc");
 }
@@ -27,9 +27,20 @@ ol#menuList li, ul#widgetList li .button,
 	z-index: 1003!important;
 }
 
+.ui-widget-overlay {
+    z-index: 1002!important;
+}
+
 .widgetContent {
 	width: 99.8%;
 	overflow: hidden;
+}
+
+/**
+ * disable CSS3PIE for rounded corners in dialogs, as IE fails to display them correct
+ */
+.ui-dialog input, .ui-dialog button{
+    behavior: none;
 }
 
 /**
@@ -44,3 +55,6 @@ ol#menuList li, ul#widgetList li .button,
 	margin-top: 0!important;
 }
 
+*+html .ui-confirm.ui-widget-content {
+    padding-top: 0px;
+}

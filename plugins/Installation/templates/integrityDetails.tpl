@@ -12,7 +12,6 @@
 {literal}<!--
 $(function() {
 	$("#integrity-results").dialog({
-		bgiframe: true,
 		modal: true,
 		autoOpen: false,
 		width: 600,

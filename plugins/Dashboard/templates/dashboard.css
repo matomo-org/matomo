@@ -81,35 +81,56 @@
 	margin: 6px 6px 0 0;
 }
 
-.dialog {
+.ui-confirm {
 	display: none;
 	width:630px;
 	background:#fff;
-	padding: 20px 10px;
 	color: #7A0101;
 	cursor: wait;
-	font-size: 12px;
-	font-weight: bold;
-	text-align: center;
+	font-size: 12px!important;
+	font-family:Arial,Verdana,Arial,Helvetica,sans-serif;
 	border-radius:4px;
+	padding:20px 10px;
 	-moz-border-radius:4px;
 	-webkit-border-radius:4px;
+	min-height:0!important;
 }
-.dialog h2{
-	font-weight:bold; 
+.ui-confirm h2{
+    text-align: center;
+	font-weight:bold;
+	padding:0;
 }
 
-.dialog input{
-	background: #B5B0A7 url("../../../themes/default/images/dashboard_h_bg_hover.png") repeat-x 0 0;
-	color:#fff;
-	border:0;
-	padding:5px 20px;
+.ui-dialog .ui-dialog-buttonpane{
+    text-align: center;
+    border: none;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset{
+    float: none;
+}
+
+.ui-dialog input, .ui-dialog button{
+	background: #B5B0A7 url("../../../themes/default/images/dashboard_h_bg_hover.png") repeat-x 0 0!important;
+	color:#fff!important;
+	border:0!important;
+	font-size: 12px!important;
+	padding:5px 20px!important;
 	border-radius:3px;
 	-moz-border-radius:3px;
 	-webkit-border-radius:3px;
-	cursor:pointer; 
-	display:inline-block; 
-	margin:12px 8px 3px 8px;
+	cursor:pointer;
+	display:inline-block;
+	margin:0 8px 3px 8px!important;
+}
+
+.ui-dialog .ui-button-text{
+    padding: 0!important;
+}
+
+.ui-widget-overlay {
+    opacity: 0.6;
+    background: none #000;
 }
 
 .dummyHandle {

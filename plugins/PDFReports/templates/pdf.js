@@ -103,7 +103,7 @@ function initManagePdf()
 			ajaxRequest.data = parameters;
 			$.ajax( ajaxRequest );
 		}
-		piwikHelper.windowModal( '.dialog#confirm', onDelete);
+		piwikHelper.windowModal( '#confirm', onDelete);
 	});
 
 	// Edit Report click

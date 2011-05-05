@@ -21,7 +21,6 @@ $(function() {
 
 				fbDiv.dialog({
 					title: feedback.html(),
-					bgiframe: true,
 					modal: true,
 					width: 650,
 					position: ['center', 90],

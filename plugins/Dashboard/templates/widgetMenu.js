@@ -273,7 +273,6 @@ widgetMenu.prototype =
 	
 	hideMenu: function()
 	{
-		$.unblockUI();
 	},
 	
 	filterOutAlreadyLoadedWidget: function()

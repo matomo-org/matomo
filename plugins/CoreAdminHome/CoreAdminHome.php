@@ -61,8 +61,6 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 		
 		$jsFiles[] = "libs/jquery/jquery.js";
 		$jsFiles[] = "libs/jquery/jquery-ui.js";
-		$jsFiles[] = "libs/jquery/jquery.bgiframe.js";
-		$jsFiles[] = "libs/jquery/jquery.blockUI.js";
 		$jsFiles[] = "libs/jquery/fdd2div-modified.js";
 		$jsFiles[] = "libs/javascript/sprintf.js";
 		$jsFiles[] = "themes/default/common.js";
