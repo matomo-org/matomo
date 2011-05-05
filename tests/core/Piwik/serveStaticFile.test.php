@@ -216,7 +216,7 @@ class Test_Piwik_serveStaticFile extends UnitTestCase
 		$pragma = $this->getPragma($fullResponse);
 		$this->assertTrue($pragma == null || $pragma == 'Pragma:');
 		$expires = $this->getExpires($fullResponse);
-		$this->assertTrue($expires == null || $expires == 'Expires:');
+		$this->assertTrue(strtotime($expires) > time() + 99*86400);
 	}
 
 	/**
@@ -512,7 +512,7 @@ class Test_Piwik_serveStaticFile extends UnitTestCase
 
 	private function getExpires($fullResponse)
 	{
-		preg_match_all('/(Expires:[[:print:]]*)/', $fullResponse, $matches);
+		preg_match_all('/Expires: ([[:print:]]*)/', $fullResponse, $matches);
 
 		if (isset($matches[1][0]))
 		{
