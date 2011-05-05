@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik_Plugins
  * @package Piwik_UserCountry
  */
@@ -15,7 +15,7 @@
  * @package Piwik_UserCountry
  */
 class Piwik_UserCountry extends Piwik_Plugin
-{	
+{
 	public function getInformation()
 	{
 		$info = array(
@@ -39,7 +39,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 		    'API.getSegmentsMetadata' => 'getSegmentsMetadata',
 		);
 		return $hooks;
-	}	
+	}
 
 	function addWidgets()
 	{
@@ -74,7 +74,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 		);
 	}
 	
-	public function getReportMetadata($notification) 
+	public function getReportMetadata($notification)
 	{
 		$reports = &$notification->getNotificationObject();
 		$reports[] = array(
@@ -119,13 +119,13 @@ class Piwik_UserCountry extends Piwik_Plugin
 		
 		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 		
-		$dataTableToSum = array( 
+		$dataTableToSum = array(
 				'UserCountry_country',
 				'UserCountry_continent',
 		);
 		
 		$nameToCount = $archiveProcessing->archiveDataTable($dataTableToSum);
-		$archiveProcessing->insertNumericRecord('UserCountry_distinctCountries', 
+		$archiveProcessing->insertNumericRecord('UserCountry_distinctCountries',
 												$nameToCount['UserCountry_country']['level0']);
 	}
 	

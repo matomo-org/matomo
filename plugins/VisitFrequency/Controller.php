@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik_Plugins
  * @package Piwik_VisitFrequency
  */
@@ -14,7 +14,7 @@
  *
  * @package Piwik_VisitFrequency
  */
-class Piwik_VisitFrequency_Controller extends Piwik_Controller 
+class Piwik_VisitFrequency_Controller extends Piwik_Controller
 {
 	function index()
 	{
@@ -27,7 +27,7 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
 	public function getSparklines()
 	{
 		$view = Piwik_View::factory('sparklines');
-		$this->setSparklinesAndNumbers($view);		
+		$this->setSparklinesAndNumbers($view);
 		echo $view->render();
 	}
 	
@@ -40,14 +40,20 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
 		}
 		$columns = !is_array($columns) ? array($columns) : $columns;
 		$view->setColumnsToDisplay($columns);
-		$view->setColumnsTranslations(array(	
+		$view->setColumnsTranslations(array(
 			'nb_visits_returning' => Piwik_Translate('VisitFrequency_ColumnReturningVisits'),
-			'nb_actions_returning' => Piwik_Translate('VisitFrequency_ColumnActionsByReturningVisits'), 
+			'nb_actions_returning' => Piwik_Translate('VisitFrequency_ColumnActionsByReturningVisits'),
 			'avg_time_on_site_returning' => Piwik_Translate('VisitFrequency_ColumnAverageVisitDurationForReturningVisitors'),
 			'bounce_rate_returning' => Piwik_Translate('VisitFrequency_ColumnBounceRateForReturningVisits'),
 			'nb_actions_per_visit_returning' => Piwik_Translate('VisitFrequency_ColumnAvgActionsPerReturningVisit'),
 		));
-	
+		
+		$doc = Piwik_Translate('VisitFrequency_ReturningVisitsDocumentation').'<br />'
+		     . Piwik_Translate('General_BrokenDownReportDocumentation').'<br />'
+		     . Piwik_Translate('VisitFrequency_ReturningVisitDocumentation');
+		
+		$view->setReportDocumentation($doc);
+		
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -72,7 +78,7 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
 	}
 
 	protected function getSummary()
-	{		
+	{
 		$requestString = "method=VisitFrequency.get&format=original";
 		$request = new Piwik_API_Request($requestString);
 		return $request->process();

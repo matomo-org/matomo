@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik_Plugins
  * @package Piwik_UserSettings
  */
@@ -15,7 +15,7 @@
  * @package Piwik_UserSettings
  */
 class Piwik_UserSettings extends Piwik_Plugin
-{	
+{
 	public function getInformation()
 	{
 		return array(
@@ -38,79 +38,79 @@ class Piwik_UserSettings extends Piwik_Plugin
 	);
 
 	/*
-	 * Defines API reports. 
+	 * Defines API reports.
 	 * Also used to define Widgets.
-	 * 
-	 * @array Category, Report Name, API Module, API action, Translated column name, 
+	 *
+	 * @array Category, Report Name, API Module, API action, Translated column name,
 	 * 			$segment, $sqlSegment, $acceptedValues, $sqlFilter
 	 */
 	protected $reportMetadata = array(
-		array( 	'UserSettings_VisitorSettings', 
-				'UserSettings_WidgetResolutions', 
-				'UserSettings', 
-				'getResolution', 
+		array( 	'UserSettings_VisitorSettings',
+				'UserSettings_WidgetResolutions',
+				'UserSettings',
+				'getResolution',
 				'UserSettings_ColumnResolution',
 				'resolution',
 				'config_resolution',
 				'1280x1024, 800x600, etc.',
 				),
 		
-		array( 	'UserSettings_VisitorSettings', 
-				'UserSettings_WidgetBrowsers', 
-				'UserSettings', 
-				'getBrowser', 
+		array( 	'UserSettings_VisitorSettings',
+				'UserSettings_WidgetBrowsers',
+				'UserSettings',
+				'getBrowser',
 				'UserSettings_ColumnBrowser',
 				'browserName',
 				'config_browser_name',
 				'FF, IE, CH, SF, OP, etc.',),
 		
 		// Only used as a Segment, not as a widget
-		array( 	false, 
-				false, 
-				'UserSettings', 
-				'getBrowser', 
+		array( 	false,
+				false,
+				'UserSettings',
+				'getBrowser',
 				'UserSettings_ColumnBrowserVersion',
 				'browserVersion',
 				'config_browser_version',
 				'1.0, 8.0, etc.',),
 		
-		array( 'UserSettings_VisitorSettings', 
-				'UserSettings_WidgetBrowserFamilies', 
-				'UserSettings', 
-				'getBrowserType', 
+		array( 'UserSettings_VisitorSettings',
+				'UserSettings_WidgetBrowserFamilies',
+				'UserSettings',
+				'getBrowserType',
 				'UserSettings_ColumnBrowserFamily'),
 
-		array( 	'UserSettings_VisitorSettings', 
-    			'UserSettings_WidgetPlugins', 
-    			'UserSettings', 
-    			'getPlugin', 
+		array( 	'UserSettings_VisitorSettings',
+    			'UserSettings_WidgetPlugins',
+    			'UserSettings',
+    			'getPlugin',
     			'UserSettings_ColumnPlugin',
 		),
 		
-		array( 	'UserSettings_VisitorSettings', 
-				'UserSettings_WidgetWidescreen', 
-				'UserSettings', 
-				'getWideScreen', 
+		array( 	'UserSettings_VisitorSettings',
+				'UserSettings_WidgetWidescreen',
+				'UserSettings',
+				'getWideScreen',
 				'UserSettings_ColumnTypeOfScreen'),
 		
-		array( 'UserSettings_VisitorSettings', 
-				'UserSettings_WidgetOperatingSystems', 
-				'UserSettings', 
-				'getOS', 
+		array( 'UserSettings_VisitorSettings',
+				'UserSettings_WidgetOperatingSystems',
+				'UserSettings',
+				'getOS',
 				'UserSettings_ColumnOperatingSystem',
 				'operatingSystem',
 				'config_os',
 				'WXP, WI7, MAC, LIN, AND, IPD, etc.'),
 		
-		array( 	'UserSettings_VisitorSettings', 
-				'UserSettings_WidgetGlobalVisitors', 
-				'UserSettings', 
-				'getConfiguration', 
+		array( 	'UserSettings_VisitorSettings',
+				'UserSettings_WidgetGlobalVisitors',
+				'UserSettings',
+				'getConfiguration',
 				'UserSettings_ColumnConfiguration'),
 	);
 	
 	/*
-	 * List of hooks 
+	 * List of hooks
 	 */
 	function getListHooksRegistered()
 	{
@@ -130,7 +130,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 	 *
 	 * @param Piwik_Event_Notification $notification
 	 */
-	public function getReportMetadata($notification) 
+	public function getReportMetadata($notification)
 	{
 		$reports = &$notification->getNotificationObject();
 		
@@ -146,8 +146,14 @@ class Piwik_UserSettings extends Piwik_Plugin
     			'module' => $apiModule,
     			'action' => $apiAction,
     			'dimension' => Piwik_Translate($columnName),
-    			'order' => $i++,
+    			'order' => $i++
     		);
+    		
+    		$translation = $name.'Documentation';
+    		$translated = Piwik_Translate($translation, '<br />');
+    		if ($translated != $translation) {
+    			$report['documentation'] = $translated;
+    		}
     		
     		// getPlugin returns only a subset of metrics
     		if($apiAction == 'getPlugin')
@@ -194,7 +200,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 	 */
 	function addWidgets()
 	{
-		// in this case, Widgets have same names as API reports 
+		// in this case, Widgets have same names as API reports
 		foreach($this->reportMetadata as $report)
 		{
 			list( $category, $name, $controllerName, $controllerAction ) = $report;
@@ -213,9 +219,9 @@ class Piwik_UserSettings extends Piwik_Plugin
 	
 	/**
 	 * Daily archive of User Settings report. Processes reports for Visits by Resolution,
-	 * by Browser, Browser family, etc. Some reports are built from the logs, some reports 
+	 * by Browser, Browser family, etc. Some reports are built from the logs, some reports
 	 * are superset of an existing report (eg. Browser family is built from the Browser report)
-	 * 
+	 *
 	 * @param Piwik_Event_Notification $notification
 	 * @return void
 	 */
@@ -290,7 +296,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 		
 		$maximumRowsInDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_standard;
 		
-		$dataTableToSum = array( 
+		$dataTableToSum = array(
 				'UserSettings_configuration',
 				'UserSettings_os',
 				'UserSettings_browser',
@@ -305,8 +311,8 @@ class Piwik_UserSettings extends Piwik_Plugin
 	
 	/**
 	 * Returns the report Visits by Screen type given the Resolution table
-	 * 
-	 * @param Piwik_DataTable $tableResolution 
+	 *
+	 * @param Piwik_DataTable $tableResolution
 	 * @return Piwik_DataTable
 	 */
 	protected function getTableWideScreen(Piwik_DataTable $tableResolution)
@@ -332,12 +338,12 @@ class Piwik_UserSettings extends Piwik_Plugin
 	
 	/**
 	 * Returns the report Visits by Browser family given the Browser report
-	 * 
-	 * @param Piwik_DataTable $tableBrowser 
+	 *
+	 * @param Piwik_DataTable $tableBrowser
 	 * @return Piwik_DataTable
 	 */
 	protected function getTableBrowserByType(Piwik_DataTable $tableBrowser)
-	{		
+	{
 		$nameToRow = array();
 		foreach($tableBrowser->getRows() as $row)
 		{
@@ -363,9 +369,9 @@ class Piwik_UserSettings extends Piwik_Plugin
 	 */
 	protected function getDataTablePlugin()
 	{
-		$toSelect = "sum(case config_pdf when 1 then 1 else 0 end) as pdf, 
-							sum(case config_flash when 1 then 1 else 0 end) as flash, 
-							sum(case config_java when 1 then 1 else 0 end) as java, 
+		$toSelect = "sum(case config_pdf when 1 then 1 else 0 end) as pdf,
+							sum(case config_flash when 1 then 1 else 0 end) as flash,
+							sum(case config_java when 1 then 1 else 0 end) as java,
 							sum(case config_director when 1 then 1 else 0 end) as director,
 							sum(case config_quicktime when 1 then 1 else 0 end) as quicktime,
 							sum(case config_realplayer when 1 then 1 else 0 end) as realplayer,

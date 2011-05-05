@@ -1,19 +1,19 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik
  * @package Piwik
  */
 
-/** 
- * Reads the requested DataTable from the API, and prepares the data to give 
+/**
+ * Reads the requested DataTable from the API, and prepares the data to give
  * to Piwik_Visualization_Cloud that will display the tag cloud (via the template cloud.tpl).
- * 
+ *
  * @package Piwik
  * @subpackage Piwik_ViewDataTable
  */
@@ -35,12 +35,12 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 	 * @see Piwik_ViewDataTable::init()
 	 */
 	function init($currentControllerName,
-						$currentControllerAction, 
+						$currentControllerAction,
 						$apiMethodToRequestDataTable,
 						$controllerActionCalledWhenRequestSubTable = null)
 	{
 		parent::init($currentControllerName,
-						$currentControllerAction, 
+						$currentControllerAction,
 						$apiMethodToRequestDataTable,
 						$controllerActionCalledWhenRequestSubTable);
 		$this->dataTableTemplate = 'CoreHome/templates/cloud.tpl';
@@ -99,7 +99,7 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 				{
 					$logo =  $row->getMetadata('logo');
 				}
-				$labelMetadata[$row->getColumn('label')] = array( 
+				$labelMetadata[$row->getColumn('label')] = array(
 					'logo' => $logo,
 					'url' => $row->getMetadata('url'),
 				);
@@ -108,7 +108,7 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 			foreach($labels as $i => $label)
 			{
 				$cloud->addWord($label, $values[$i]);
-			}		
+			}
 			$cloudValues  = $cloud->render('array');
 			foreach($cloudValues as &$value)
 			{
@@ -120,6 +120,7 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 		}
 		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
 		$view->properties = $this->getViewProperties();
+		$view->reportDocumentation = $this->getReportDocumentation();
 		return $view;
 	}
 }

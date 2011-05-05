@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik_Plugins
  * @package Piwik_Referers
  */
@@ -19,7 +19,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Referers/functions.php';
  * @package Piwik_Referers
  */
 class Piwik_Referers extends Piwik_Plugin
-{	
+{
 	public $archiveProcessing;
 	protected $columnToSortByBeforeTruncation;
 	protected $maximumRowsInDataTableLevelZero;
@@ -49,9 +49,9 @@ class Piwik_Referers extends Piwik_Plugin
 		    'API.getSegmentsMetadata' => 'getSegmentsMetadata',
 		);
 		return $hooks;
-	}	
+	}
 
-	public function getReportMetadata($notification) 
+	public function getReportMetadata($notification)
 	{
 		$reports = &$notification->getNotificationObject();
 		$reports = array_merge($reports, array(
@@ -61,6 +61,14 @@ class Piwik_Referers extends Piwik_Plugin
         			'module' => 'Referers',
         			'action' => 'getRefererType',
         			'dimension' => Piwik_Translate('Referers_ColumnRefererType'),
+        			'documentation' => Piwik_Translate('Referers_TypeReportDocumentation').'<br />'
+        					.'<b>'.Piwik_Translate('Referers_DirectEntry').':</b> '.Piwik_Translate('Referers_DirectEntryDocumentation').'<br />'
+        					.'<b>'.Piwik_Translate('Referers_SearchEngines').':</b> '.Piwik_Translate('Referers_SearchEnginesDocumentation',
+        							array('<br />', '&quot;'.Piwik_Translate('Referers_SubmenuSearchEngines').'&quot;')).'<br />'
+        					.'<b>'.Piwik_Translate('Referers_Websites').':</b> '.Piwik_Translate('Referers_WebsitesDocumentation',
+        							array('<br />', '&quot;'.Piwik_Translate('Referers_SubmenuWebsites').'&quot;')).'<br />'
+        					.'<b>'.Piwik_Translate('Referers_Campaigns').':</b> '.Piwik_Translate('Referers_CampaignsDocumentation',
+        							array('<br />', '&quot;'.Piwik_Translate('Referers_SubmenuCampaigns').'&quot;')),
         			'order' => 1,
         		),
         		array(
@@ -69,6 +77,7 @@ class Piwik_Referers extends Piwik_Plugin
         			'module' => 'Referers',
         			'action' => 'getKeywords',
         			'dimension' => Piwik_Translate('Referers_ColumnKeyword'),
+        			'documentation' => Piwik_Translate('Referers_KeywordsReportDocumentation', '<br />'),
         			'order' => 3,
         		),
         		array(
@@ -77,7 +86,8 @@ class Piwik_Referers extends Piwik_Plugin
         			'module' => 'Referers',
         			'action' => 'getWebsites',
         			'dimension' => Piwik_Translate('Referers_ColumnWebsite'),
-        			'order' => 5,
+        			'documentation' => Piwik_Translate('Referers_WebsitesReportDocumentation', '<br />'),
+        			'order' => 5
         		),
         		array(
         			'category'  => Piwik_Translate('Referers_Referers'),
@@ -85,6 +95,7 @@ class Piwik_Referers extends Piwik_Plugin
         			'module' => 'Referers',
         			'action' => 'getSearchEngines',
         			'dimension' => Piwik_Translate('Referers_ColumnSearchEngine'),
+        			'documentation' => Piwik_Translate('Referers_SearchEnginesReportDocumentation', '<br />'),
         			'order' => 7,
         		),
         		array(
@@ -93,6 +104,8 @@ class Piwik_Referers extends Piwik_Plugin
         			'module' => 'Referers',
         			'action' => 'getCampaigns',
         			'dimension' => Piwik_Translate('Referers_ColumnCampaign'),
+        			'documentation' => Piwik_Translate('Referers_CampaignsReportDocumentation',
+        					array('<br />', '<a href="http://piwik.org/docs/tracking-campaigns/" target="_blank">', '</a>')),
         			'order' => 9,
         		),
     	));
@@ -160,13 +173,13 @@ class Piwik_Referers extends Piwik_Plugin
 		Piwik_AddMenu('Referers_Referers', '', array('module' => 'Referers', 'action' => 'index'), true, 20);
 		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuOverview', array('module' => 'Referers', 'action' => 'index'), true, 1);
 		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuSearchEngines', array('module' => 'Referers', 'action' => 'getSearchEnginesAndKeywords'), true, 2);
-		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuWebsites', array('module' => 'Referers', 'action' => 'getWebsites'), true, 3);
-		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuCampaigns', array('module' => 'Referers', 'action' => 'getCampaigns'), true, 4);
+		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuWebsites', array('module' => 'Referers', 'action' => 'indexWebsites'), true, 3);
+		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuCampaigns', array('module' => 'Referers', 'action' => 'indexCampaigns'), true, 4);
 	}
 	
 	/**
 	 * Adds Goal dimensions, so that the dimensions are displayed in the UI Goal Overview page
-	 * 
+	 *
 	 * @param Piwik_Event_Notification $notification
 	 * @return void
 	 */
@@ -210,9 +223,9 @@ class Piwik_Referers extends Piwik_Plugin
 	}
 	
 	/**
-	 * Period archiving: sums up daily stats and sums report tables, 
+	 * Period archiving: sums up daily stats and sums report tables,
 	 * making sure that tables are still truncated.
-	 * 
+	 *
 	 * @param Piwik_Event_Notification $notification
 	 * @return void
 	 */
@@ -222,7 +235,7 @@ class Piwik_Referers extends Piwik_Plugin
 		
 		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 		
-		$dataTableToSum = array( 
+		$dataTableToSum = array(
 			'Referers_type',
 			'Referers_keywordBySearchEngine',
 			'Referers_searchEngineByKeyword',
@@ -232,23 +245,23 @@ class Piwik_Referers extends Piwik_Plugin
 		$nameToCount = $archiveProcessing->archiveDataTable($dataTableToSum, null, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
 		
 		$mappingFromArchiveName = array(
-			'Referers_distinctSearchEngines' => 
+			'Referers_distinctSearchEngines' =>
 						array( 	'typeCountToUse' => 'level0',
 								'nameTableToUse' => 'Referers_keywordBySearchEngine',
 							),
-			'Referers_distinctKeywords' => 
+			'Referers_distinctKeywords' =>
 						array( 	'typeCountToUse' => 'level0',
 								'nameTableToUse' => 'Referers_searchEngineByKeyword',
 							),
-			'Referers_distinctCampaigns' => 
+			'Referers_distinctCampaigns' =>
 						array( 	'typeCountToUse' => 'level0',
 								'nameTableToUse' => 'Referers_keywordByCampaign',
 							),
-			'Referers_distinctWebsites' => 
+			'Referers_distinctWebsites' =>
 						array( 	'typeCountToUse' => 'level0',
 								'nameTableToUse' => 'Referers_urlByWebsite',
 							),
-			'Referers_distinctWebsitesUrls' => 
+			'Referers_distinctWebsitesUrls' =>
 						array( 	'typeCountToUse' => 'recursive',
 								'nameTableToUse' => 'Referers_urlByWebsite',
 							),
@@ -275,14 +288,14 @@ class Piwik_Referers extends Piwik_Plugin
 	
 	/**
 	 * Hooks on daily archive to trigger various log processing
-	 * 
+	 *
 	 * @param Piwik_Event_Notification $notification
 	 * @return void
 	 */
 	public function archiveDay( $notification )
 	{
 		/**
-		 * @var Piwik_ArchiveProcessing_Day 
+		 * @var Piwik_ArchiveProcessing_Day
 		 */
 		$this->archiveProcessing = $notification->getNotificationObject();
 		if(!$this->archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
@@ -309,9 +322,9 @@ class Piwik_Referers extends Piwik_Plugin
 	}
 	
 	/**
-	 * Daily archive: processes all Referers reports, eg. Visits by Keyword, 
+	 * Daily archive: processes all Referers reports, eg. Visits by Keyword,
 	 * Visits by websites, etc.
-	 * 
+	 *
 	 * @param Piwik_ArchiveProcessing $archiveProcessing
 	 * @return void
 	 */
@@ -328,7 +341,7 @@ class Piwik_Referers extends Piwik_Plugin
 			$this->interestByWebsiteAndUrl =
 			$this->interestByCampaignAndKeyword =
 			$this->interestByCampaign =
-			$this->interestByType = 
+			$this->interestByType =
 			$this->distinctUrls = array();
 		while($row = $query->fetch() )
 		{
@@ -395,7 +408,7 @@ class Piwik_Referers extends Piwik_Plugin
 	/**
 	 * Daily Goal archiving:  processes reports of Goal conversions by Keyword,
 	 * Goal conversions by Referer Websites, etc.
-	 * 
+	 *
 	 * @param Piwik_ArchiveProcessing $archiveProcessing
 	 * @return void
 	 */
@@ -458,7 +471,7 @@ class Piwik_Referers extends Piwik_Plugin
 	
 	/**
 	 * Records the daily stats (numeric or datatable blob) into the archive tables.
-	 *  
+	 *
 	 * @param Piwik_ArchiveProcessing $archiveProcessing
 	 * @return void
 	 */

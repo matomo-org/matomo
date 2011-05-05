@@ -2,11 +2,11 @@
 
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik_Plugins
  * @package Piwik_API
  */
@@ -46,22 +46,22 @@ class Piwik_API extends Piwik_Plugin {
 
 /**
  * This API is the <a href='http://piwik.org/docs/analytics-api/metadata/' target='_blank'>Metadata API</a>: it gives information about all other available APIs methods, as well as providing
- * human readable and more complete outputs than normal API methods. 
- * 
- * Some of the information that is returned by the Metadata API: 
+ * human readable and more complete outputs than normal API methods.
+ *
+ * Some of the information that is returned by the Metadata API:
  * <ul>
- * <li>the dynamically generated list of all API methods via "getReportMetadata"</li> 
+ * <li>the dynamically generated list of all API methods via "getReportMetadata"</li>
  * <li>the list of metrics that will be returned by each method, along with their human readable name, via "getDefaultMetrics" and "getDefaultProcessedMetrics"</li>
  * <li>the list of segments metadata supported by all functions that have a 'segment' parameter</li>
- * <li>the (truly magic) method "getProcessedReport" will return a human readable version of any other report, and include the processed metrics such as 
- * conversion rate, time on site, etc. which are not directly available in other methods.  
+ * <li>the (truly magic) method "getProcessedReport" will return a human readable version of any other report, and include the processed metrics such as
+ * conversion rate, time on site, etc. which are not directly available in other methods.
  * </ul>
  * The Metadata API is for example used by the Piwik Mobile App to automatically display all Piwik reports, with translated report & columns names and nicely formatted values.
  * More information on the <a href='http://piwik.org/docs/analytics-api/metadata/' target='_blank'>Metadata API documentation page</a>
- * 
+ *
  * @package Piwik_API
  */
-class Piwik_API_API 
+class Piwik_API_API
 {
 	static private $instance = null;
 
@@ -77,7 +77,7 @@ class Piwik_API_API
 		return self::$instance;
 	}
 
-	public function getDefaultMetrics() 
+	public function getDefaultMetrics()
 	{
 		$translations = array(
 			// Standard metrics
@@ -105,6 +105,23 @@ class Piwik_API_API
     		'conversion_rate' => 'General_ColumnConversionRate',
 		);
 		return array_map('Piwik_Translate', $translations);
+	}
+	
+	public function getDefaultMetricsDocumentation()
+	{
+		$documentation = array(
+			'nb_visits' => 'General_ColumnNbVisitsDocumentation',
+    		'nb_uniq_visitors' => 'General_ColumnNbUniqVisitorsDocumentation',
+    		'nb_actions' => 'General_ColumnNbActionsDocumentation',
+			'nb_actions_per_visit' => 'General_ColumnActionsPerVisitDocumentation',
+    		'avg_time_on_site' => 'General_ColumnAvgTimeOnSiteDocumentation',
+    		'bounce_rate' => 'General_ColumnBounceRateDocumentation',
+    		'conversion_rate' => 'General_ColumnConversionRateDocumentation',
+			'avg_time_on_page' => 'General_ColumnAverageTimeOnPageDocumentation',
+			'nb_hits' => 'General_ColumnPageviewsDocumentation',
+			'exit_rate' => 'General_ColumnExitRateDocumentation'
+		);
+		return array_map('Piwik_Translate', $documentation);
 	}
 	
 	public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true)
@@ -184,7 +201,7 @@ class Piwik_API_API
 				'acceptedValues' => '0, 1',
 		        'sqlSegment' => 'visit_goal_converted',
 	    );
-		foreach ($segments as &$segment) 
+		foreach ($segments as &$segment)
 		{
 		    $segment['name'] = Piwik_Translate($segment['name']);
 		    $segment['category'] = Piwik_Translate($segment['category']);
@@ -213,7 +230,7 @@ class Piwik_API_API
 		return $compare;
 	}
     /**
-     * Loads reports metadata, then return the requested one, 
+     * Loads reports metadata, then return the requested one,
      * matching optional API parameters.
      */
 	public function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $language = false, $period = false)
@@ -230,7 +247,7 @@ class Piwik_API_API
     	{
     		// See ArchiveProcessing/Period.php - unique visitors are not processed for period != day
 	    	if($period != 'day'
-	    		&& !($apiModule == 'VisitsSummary' 
+	    		&& !($apiModule == 'VisitsSummary'
 	    			&& $apiAction == 'get'))
 	    	{
 	    		unset($report['metrics']['nb_uniq_visitors']);
@@ -258,12 +275,12 @@ class Piwik_API_API
     
 	/**
 	 * Triggers a hook to ask plugins for available Reports.
-	 * Returns metadata information about each report (category, name, dimension, metrics, etc.) 
+	 * Returns metadata information about each report (category, name, dimension, metrics, etc.)
 	 *
 	 * @param string $idSites Comma separated list of website Ids
 	 * @return array
 	 */
-	public function getReportMetadata($idSites = '') 
+	public function getReportMetadata($idSites = '')
 	{
 		$idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
 		
@@ -275,6 +292,9 @@ class Piwik_API_API
 			}
 			if (!isset($availableReport['processedMetrics'])) {
 				$availableReport['processedMetrics'] = $this->getDefaultProcessedMetrics();
+			}
+			if (!isset($availableReport['metricsDocumentation'])) {
+				$availableReport['metricsDocumentation'] = $this->getDefaultMetricsDocumentation();
 			}
 		}
 		
@@ -319,7 +339,7 @@ class Piwik_API_API
 	        	unset($availableReport['metricsGoal']['conversion_rate']);
 	        }
 			
-			// Processing a uniqueId for each report, 
+			// Processing a uniqueId for each report,
 			// can be used by UIs as a key to match a given report
 			$uniqueId = $availableReport['module'] . '_' . $availableReport['action'];
 			if(!empty($availableReport['parameters']))
@@ -403,9 +423,9 @@ class Piwik_API_API
 				'website' => $website->getName(),
 				'prettyDate' => $period->getLocalizedLongString(),
 //    			'prettySegment' => $segment->getPrettyString(),
-				'metadata' => $reportMetadata, 
-				'columns' => $columns, 
-				'reportData' =>	$newReport, 
+				'metadata' => $reportMetadata,
+				'columns' => $columns,
+				'reportData' =>	$newReport,
 				'reportMetadata' => $rowsMetadata,
 		);
 		if($showTimer)
@@ -444,7 +464,7 @@ class Piwik_API_API
         	'value' => Piwik_Translate('General_Value'),
         );
     	return array(
-    		$newReport, 
+    		$newReport,
     		$columns,
     		$rowsMetadata = array()
     	);
@@ -470,7 +490,7 @@ class Piwik_API_API
         		}
         	}
         }
-    	// Display the global Goal metrics 
+    	// Display the global Goal metrics
         if(isset($reportMetadata['metricsGoal']))
         {
         	$metricsGoalDisplay = array('revenue');
@@ -513,7 +533,7 @@ class Piwik_API_API
     			{
         			$newRow[$columnId] = Piwik::getPrettyValue($idSite, $columnId, $value, $htmlAllowed = false, $timeAsSentence = false);
     			}
-        		// We try and only keep metadata 
+        		// We try and only keep metadata
         		// - if the column value is not an array (eg. metrics per goal)
         		// - if the column name doesn't contain _ (which is by standard, a metric column)
     			elseif(!is_array($value)
@@ -526,16 +546,16 @@ class Piwik_API_API
     		$newReport[] = $newRow;
     	}
     	return array(
-    		$newReport, 
-    		$columns, 
+    		$newReport,
+    		$columns,
     		$rowsMetadata
     	);
     }
 
 	/**
-	 * API metadata are sorted by category/name, 
+	 * API metadata are sorted by category/name,
 	 * with a little tweak to replicate the standard Piwik category ordering
-	 * 
+	 *
 	 * @param string $a
 	 * @param string $b
 	 * @return int
@@ -554,7 +574,7 @@ class Piwik_API_API
 				Piwik_Translate('UserSettings_VisitorSettings'),
 			);
 		}
-		return ($category = strcmp(array_search($a['category'], $order), array_search($b['category'], $order))) == 0 	
+		return ($category = strcmp(array_search($a['category'], $order), array_search($b['category'], $order))) == 0
 				?  (@$a['order'] < @$b['order'] ? -1 : 1)
 				: $category;
 	}

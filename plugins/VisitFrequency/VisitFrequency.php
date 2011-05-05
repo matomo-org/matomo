@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik_Plugins
  * @package Piwik_VisitFrequency
  */
@@ -15,7 +15,7 @@
  * @package Piwik_VisitFrequency
  */
 class Piwik_VisitFrequency extends Piwik_Plugin
-{	
+{
 	public function getInformation()
 	{
 		$info = array(
@@ -39,7 +39,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 		return $hooks;
 	}
 
-	public function getReportMetadata($notification) 
+	public function getReportMetadata($notification)
 	{
 		$reports = &$notification->getNotificationObject();
 		$reports[] = array(
@@ -49,7 +49,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 			'action' => 'get',
 			'metrics' => array(
     			'nb_visits_returning' => Piwik_Translate('VisitFrequency_ColumnReturningVisits'),
-    			'nb_actions_returning' => Piwik_Translate('VisitFrequency_ColumnActionsByReturningVisits'), 
+    			'nb_actions_returning' => Piwik_Translate('VisitFrequency_ColumnActionsByReturningVisits'),
     			'avg_time_on_site_returning' => Piwik_Translate('VisitFrequency_ColumnAverageVisitDurationForReturningVisitors'),
     			'bounce_rate_returning' => Piwik_Translate('VisitFrequency_ColumnBounceRateForReturningVisits'),
     			'nb_actions_per_visit_returning' => Piwik_Translate('VisitFrequency_ColumnAvgActionsPerReturningVisit'),
@@ -82,7 +82,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 		
 		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 		
-		$numericToSum = array( 
+		$numericToSum = array(
 				'nb_visits_returning',
 				'nb_actions_returning',
 				'sum_visit_length_returning',
@@ -101,10 +101,10 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 		
 		$query = "SELECT 	count(distinct idvisitor) as nb_uniq_visitors_returning,
-							count(*) as nb_visits_returning, 
+							count(*) as nb_visits_returning,
 							sum(visit_total_actions) as nb_actions_returning,
-							max(visit_total_actions) as max_actions_returning, 
-							sum(visit_total_time) as sum_visit_length_returning,							
+							max(visit_total_actions) as max_actions_returning,
+							sum(visit_total_time) as sum_visit_length_returning,
 							sum(case visit_total_actions when 1 then 1 else 0 end) as bounce_count_returning,
 							sum(case visit_goal_converted when 1 then 1 else 0 end) as nb_visits_converted_returning
 				 	FROM ".Piwik_Common::prefixTable('log_visit')."

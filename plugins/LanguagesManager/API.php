@@ -1,34 +1,34 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik_Plugins
  * @package Piwik_LanguagesManager
- * 
+ *
  */
 
 /**
  * The LanguagesManager API lets you access existing Piwik translations, and change Users languages preferences.
- * 
- * "getTranslationsForLanguage" will return all translation strings for a given language, 
- * so you can leverage Piwik translations in your application (and automatically benefit from the <a href='http://piwik.org/translations/' target='_blank'>40+ translations</a>!). 
- * This is mostly useful to developers who integrate Piwik API results in their own application. 
- * 
- * You can also request the default language to load for a user via "getLanguageForUser", 
- * or update it via "setLanguageForUser". 
- * 
+ *
+ * "getTranslationsForLanguage" will return all translation strings for a given language,
+ * so you can leverage Piwik translations in your application (and automatically benefit from the <a href='http://piwik.org/translations/' target='_blank'>40+ translations</a>!).
+ * This is mostly useful to developers who integrate Piwik API results in their own application.
+ *
+ * You can also request the default language to load for a user via "getLanguageForUser",
+ * or update it via "setLanguageForUser".
+ *
  * @package Piwik_LanguagesManager
  */
-class Piwik_LanguagesManager_API 
+class Piwik_LanguagesManager_API
 {
 	static private $instance = null;
 	
 	/**
-	 * @return Piwik_LanguagesManager_API 
+	 * @return Piwik_LanguagesManager_API
 	 */
 	static public function getInstance()
 	{
@@ -72,7 +72,7 @@ class Piwik_LanguagesManager_API
 		$languageNames = array();
 		if($languages)
 		{
-			foreach($languages as $language) 
+			foreach($languages as $language)
 			{
 				$languageNames[] = substr($language, $pathLength, -strlen('.php'));
 			}
@@ -92,13 +92,13 @@ class Piwik_LanguagesManager_API
 		$englishTranslation = $translations;
 		$filenames = $this->getAvailableLanguages();
 		$languagesInfo = array();
-		foreach($filenames as $filename) 
+		foreach($filenames as $filename)
 		{
 			require PIWIK_INCLUDE_PATH . "/lang/$filename.php";
 			$translationStringsDone = array_intersect_key($englishTranslation, array_filter($translations, 'strlen'));
 			$percentageComplete = count($translationStringsDone) / count($englishTranslation);
-			$percentageComplete = round(100 * $percentageComplete, 0);  
-			$languageInfo = array( 	'code' => $filename, 
+			$percentageComplete = round(100 * $percentageComplete, 0);
+			$languageInfo = array( 	'code' => $filename,
 										'name' => $translations['General_OriginalLanguageName'],
 										'english_name' => $translations['General_EnglishLanguageName'],
 										'translators' => $translations['General_TranslatorName'],
@@ -114,7 +114,7 @@ class Piwik_LanguagesManager_API
 	 * Return array of available languages
 	 *
 	 * @return array Arry of array, each containing its ISO language code and name of the language
-	 */ 
+	 */
 	public function getAvailableLanguageNames()
 	{
 		if(!is_null($this->availableLanguageNames))
@@ -124,11 +124,11 @@ class Piwik_LanguagesManager_API
 		
 		$filenames = $this->getAvailableLanguages();
 		$languagesInfo = array();
-		foreach($filenames as $filename) 
+		foreach($filenames as $filename)
 		{
 			require PIWIK_INCLUDE_PATH . "/lang/$filename.php";
-			$languagesInfo[] = array( 
-				'code' => $filename, 
+			$languagesInfo[] = array(
+				'code' => $filename,
 				'name' => $translations['General_OriginalLanguageName'],
 				'english_name' => $translations['General_EnglishLanguageName']
 			);

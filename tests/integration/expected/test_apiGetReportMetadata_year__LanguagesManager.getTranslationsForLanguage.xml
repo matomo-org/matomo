@@ -409,16 +409,8 @@
 		<value>Taux de rebond</value>
 	</row>
 	<row>
-		<label>General_PageBounceRateDefinition</label>
-		<value>Pourcentage de visites qui ont commencé sur cette page et se sont terminées juste après.</value>
-	</row>
-	<row>
 		<label>General_ColumnExitRate</label>
 		<value>Taux de sortie</value>
-	</row>
-	<row>
-		<label>General_PageExitRateDefinition</label>
-		<value>Pourcentage de visites sur cette page qui ont quitté le site juste après.</value>
 	</row>
 	<row>
 		<label>General_ColumnPageviews</label>
@@ -433,32 +425,16 @@
 		<value>Rebonds</value>
 	</row>
 	<row>
-		<label>General_BouncesDefinition</label>
-		<value>Nombre de visites qui ont commencé sur cette page et se sont terminées juste après.</value>
-	</row>
-	<row>
 		<label>General_ColumnEntrances</label>
 		<value>Entrées</value>
-	</row>
-	<row>
-		<label>General_EntrancesDefinition</label>
-		<value>Nombre de visites qui ont commencé sur cette page</value>
 	</row>
 	<row>
 		<label>General_ColumnExits</label>
 		<value>Sorties</value>
 	</row>
 	<row>
-		<label>General_ExitsDefinition</label>
-		<value>Nombre de visites qui ont terminé sur cette page</value>
-	</row>
-	<row>
 		<label>General_ColumnAverageTimeOnPage</label>
 		<value>Temps moyen sur la page</value>
-	</row>
-	<row>
-		<label>General_AverageTimeOnPageDefinition</label>
-		<value>Le temps moyen passé par les visiteurs sur cette page</value>
 	</row>
 	<row>
 		<label>General_ColumnValuePerVisit</label>

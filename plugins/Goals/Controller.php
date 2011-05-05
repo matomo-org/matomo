@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik_Plugins
  * @package Piwik_Goals
  */
@@ -14,7 +14,7 @@
  *
  * @package Piwik_Goals
  */
-class Piwik_Goals_Controller extends Piwik_Controller 
+class Piwik_Goals_Controller extends Piwik_Controller
 {
 	const CONVERSION_RATE_PRECISION = 1;
 	
@@ -113,7 +113,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$this->setGeneralVariablesView($view);
 		
 		$view->graphEvolution = $this->getEvolutionGraph(true, array('nb_conversions'));
-		$view->nameGraphEvolution = 'GoalsgetEvolutionGraph'; 
+		$view->nameGraphEvolution = 'GoalsgetEvolutionGraph';
 
 		// sparkline for the historical data of the above values
 		$view->urlSparklineConversions		= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_conversions')));
@@ -150,7 +150,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	public function getLastConversionRateGraph( $fetch = false )
 	{
 		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.getConversionRate');
-		return $this->renderView($view, $fetch); 
+		return $this->renderView($view, $fetch);
 	}
 
 	public function getLastRevenueGraph( $fetch = false )
@@ -206,12 +206,16 @@ class Piwik_Goals_Controller extends Piwik_Controller
 			$view->setColumnTranslation($columnName, $columnTranslation);
 		}
 		$view->setColumnsToDisplay($columns);
+		
+		$langString = $idGoal ? 'Goals_SingleGoalOverviewDocumentation' : 'Goals_GoalsOverviewDocumentation';
+		$view->setReportDocumentation(Piwik_Translate($langString, '<br />'));
+		
 		return $this->renderView($view, $fetch);
 	}
 	
 	
 	protected function getTopDimensions($idGoal)
-	{ 
+	{
 		$columnNbConversions = 'goal_'.$idGoal.'_nb_conversions';
 		$columnConversionRate = 'goal_'.$idGoal.'_conversion_rate';
 		
@@ -259,7 +263,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$nbConversions = $dataRow->getColumn('nb_conversions');
 		$nbVisitsConverted = $dataRow->getColumn('nb_visits_converted');
 		// Backward compatibilty before 1.3, this value was not processed
-		if(empty($nbVisitsConverted)) 
+		if(empty($nbVisitsConverted))
 		{
 			$nbVisitsConverted = $nbConversions;
 		}
@@ -313,7 +317,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		{
 			$convertedNewVisits = Piwik_Goals_API::getInstance()->getConversions($idSite, $period, $date, $segment=false, $idGoal);
 		}
-		// all new visits = all visits - all returning visits 
+		// all new visits = all visits - all returning visits
 		$request = new Piwik_API_Request("method=VisitFrequency.getVisitsReturning&idSite=$idSite&period=$period&date=$date&format=original");
 		$nbVisitsReturning = $request->process();
 		$request = new Piwik_API_Request("method=VisitsSummary.getVisits&idSite=$idSite&period=$period&date=$date&format=original");

@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik_Plugins
  * @package Piwik_Referers
  */
@@ -14,7 +14,7 @@
  *
  * @package Piwik_Referers
  */
-class Piwik_Referers_Controller extends Piwik_Controller 
+class Piwik_Referers_Controller extends Piwik_Controller
 {
 	function index()
 	{
@@ -29,12 +29,12 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->numberDistinctWebsitesUrls 	= $this->getNumberOfDistinctWebsitesUrls(true);
 		$view->numberDistinctCampaigns 		= $this->getNumberOfDistinctCampaigns(true);
 		
-		// building the referers summary report 
+		// building the referers summary report
 		$view->dataTableRefererType = $this->getRefererType(true);
 				
 		$nameValues = $this->getReferersVisitorsByType();
 		foreach($nameValues as $name => $value)
-		{	
+		{
 			$view->$name = $value;
 		}
 		// sparkline for the historical data of the above values
@@ -63,8 +63,8 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	function getRefererType( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory('tableAllColumns');
-		$view->init( $this->pluginName,  	
-									__FUNCTION__, 
+		$view->init( $this->pluginName,
+									__FUNCTION__,
 									'Referers.getRefererType'
 								);
 		$view->disableSearchBox();
@@ -79,8 +79,8 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	function getKeywords( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init( $this->pluginName, 	__FUNCTION__, 
-											'Referers.getKeywords', 
+		$view->init( $this->pluginName, 	__FUNCTION__,
+											'Referers.getKeywords',
 											'getSearchEnginesFromKeywordId'
 								);
 		$view->disableExcludeLowPopulation();
@@ -94,7 +94,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	function getSearchEnginesFromKeywordId( $fetch = false )
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init( $this->pluginName, 	__FUNCTION__, 
+		$view->init( $this->pluginName, 	__FUNCTION__,
 											'Referers.getSearchEnginesFromKeywordId'
 								);
 		$view->disableSearchBox();
@@ -108,8 +108,8 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	function getSearchEngines( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init( $this->pluginName,  	__FUNCTION__, 
-											'Referers.getSearchEngines', 
+		$view->init( $this->pluginName,  	__FUNCTION__,
+											'Referers.getSearchEngines',
 											'getKeywordsFromSearchEngineId'
 								);
 		$view->disableSearchBox();
@@ -124,7 +124,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	function getKeywordsFromSearchEngineId( $fetch = false )
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init( $this->pluginName, 	__FUNCTION__, 
+		$view->init( $this->pluginName, 	__FUNCTION__,
 											'Referers.getKeywordsFromSearchEngineId'
 								);
 		$view->disableSearchBox();
@@ -134,10 +134,17 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		return $this->renderView($view, $fetch);
 	}
 	
+	function indexWebsites($fetch = false)
+	{
+		return Piwik_View::singleReport(
+				Piwik_Translate('Referers_Websites'),
+				$this->getWebsites(true), $fetch);
+	}
+	
 	function getWebsites( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init( $this->pluginName,  	__FUNCTION__, 
+		$view->init( $this->pluginName,  	__FUNCTION__,
 											'Referers.getWebsites',
 											'getUrlsFromWebsiteId'
 								);
@@ -150,10 +157,17 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		return $this->renderView($view, $fetch);
 	}
 	
+	function indexCampaigns($fetch = false)
+	{
+		return Piwik_View::singleReport(
+				Piwik_Translate('Referers_Campaigns'),
+				$this->getCampaigns(true), $fetch);
+	}
+	
 	function getCampaigns( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init( $this->pluginName,  	__FUNCTION__, 
+		$view->init( $this->pluginName,  	__FUNCTION__,
 											'Referers.getCampaigns',
 											'getKeywordsFromCampaignId'
 								);
@@ -169,7 +183,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	function getKeywordsFromCampaignId( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init( $this->pluginName, 	__FUNCTION__, 
+		$view->init( $this->pluginName, 	__FUNCTION__,
 											'Referers.getKeywordsFromCampaignId'
 								);
 
@@ -184,7 +198,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	function getUrlsFromWebsiteId( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init( $this->pluginName, 	__FUNCTION__, 
+		$view->init( $this->pluginName, 	__FUNCTION__,
 											'Referers.getUrlsFromWebsiteId'
 								);
 		$view->disableSearchBox();
@@ -197,7 +211,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	protected function getReferersVisitorsByType()
 	{
 		// we disable the queued filters because here we want to get the visits coming from search engines
-		// if the filters were applied we would have to look up for a label looking like "Search Engines" 
+		// if the filters were applied we would have to look up for a label looking like "Search Engines"
 		// which is not good when we have translations
 		$requestString = "method=Referers.getRefererType
 						&format=original
@@ -252,14 +266,17 @@ class Piwik_Referers_Controller extends Piwik_Controller
 			$columnTranslation = $view->getColumnTranslation($columnName);
 			$referrerTypeTranslation = $this->referrerTypeToLabel[$typeReferer];
 			$view->setColumnTranslation(
-				$columnName, 
-				Piwik_Translate('Referers_MetricsFromRefererTypeGraphLegend', 
-					array(	Piwik_Translate($columnTranslation), 
+				$columnName,
+				Piwik_Translate('Referers_MetricsFromRefererTypeGraphLegend',
+					array(	Piwik_Translate($columnTranslation),
 							Piwik_Translate($referrerTypeTranslation)
 						)
 					)
 				);
 		}
+		$view->setReportDocumentation(Piwik_Translate('Referers_EvolutionDocumentation').'<br />'
+				.Piwik_Translate('General_BrokenDownReportDocumentation').'<br />'
+				.Piwik_Translate('Referers_EvolutionDocumentationMoreInfo', '&quot;'.Piwik_Translate('Referers_DetailsByRefererType').'&quot;'));
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -322,7 +339,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 						.'&idSite='.$this->idSite
 						;
 						
-		$topPageUrlRequest = $requestUrl 
+		$topPageUrlRequest = $requestUrl
 							.'&method=Actions.getPageUrls'
 							.'&filter_limit=50'
 							.'&format=original';
@@ -340,7 +357,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$url = $topPageUrl;
 						
 		// HTML
-		$api = Piwik_Url::getCurrentUrlWithoutFileName() 
+		$api = Piwik_Url::getCurrentUrlWithoutFileName()
 						.'?module=API&method=Referers.getKeywordsForPageUrl'
 						.'&format=php'
 						.'&filter_limit=10'
@@ -348,7 +365,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 						
 		$api .= $requestUrl;
 		$code = '
-// This function will call the API to get best keyword for current URL. 
+// This function will call the API to get best keyword for current URL.
 // Then it writes the list of best keywords in a HTML list
 function DisplayTopKeywords($url = "")
 {
@@ -359,9 +376,9 @@ function DisplayTopKeywords($url = "")
 	$api = "'.$api.'&url=" . urlencode($url);
 	$keywords = @unserialize(file_get_contents($api));
 	if($keywords === false || isset($keywords["result"])) {
-		// DEBUG ONLY: uncomment for troubleshooting an empty output (the URL output reveals the token_auth) 
-		// echo "Error while fetching the <a href=\'$api\'>Top Keywords from Piwik</a>"; 
-		return; 
+		// DEBUG ONLY: uncomment for troubleshooting an empty output (the URL output reveals the token_auth)
+		// echo "Error while fetching the <a href=\'$api\'>Top Keywords from Piwik</a>";
+		return;
 	}
 
 	// Display the list in HTML
@@ -376,13 +393,13 @@ function DisplayTopKeywords($url = "")
 ';
 
 		$jsonRequest = str_replace('format=php', 'format=json', $api);
-		echo "<p>This widget is designed to work in your website directly. 
+		echo "<p>This widget is designed to work in your website directly.
 		This widget makes it easy to use Piwik to <i>automatically display the list of Top Keywords</i>, for each of your website Page URLs.</p>
 		<p>
 		<b>Example API URL</b> - For example if you would like to get the top 10 keywords, used last week, to land on the page <a target='_blank' href='$topPageUrl'>$topPageUrl</a>,
-		in format JSON: you would dynamically fetch the data using <a target='_blank' href='$jsonRequest&url=".urlencode($topPageUrl)."'>this API request URL</a>. Make sure you encode the 'url' parameter in the URL.</p> 
+		in format JSON: you would dynamically fetch the data using <a target='_blank' href='$jsonRequest&url=".urlencode($topPageUrl)."'>this API request URL</a>. Make sure you encode the 'url' parameter in the URL.</p>
 		
-		<p><b>PHP Function ready to use!</b> - If you use PHP on your website, we have prepared a small code snippet that you can copy paste in your Website PHP files. You can then simply call the function <code>DisplayTopKeywords();</code> anywhere in your template, at the bottom of the content or in your blog sidebar. 
+		<p><b>PHP Function ready to use!</b> - If you use PHP on your website, we have prepared a small code snippet that you can copy paste in your Website PHP files. You can then simply call the function <code>DisplayTopKeywords();</code> anywhere in your template, at the bottom of the content or in your blog sidebar.
 		If you run this code in your page $topPageUrl, it would output the following:";
 		
 		echo "<div style='width:400px;margin-left:20px;padding:10px;border:1px solid black;'>";
@@ -395,9 +412,9 @@ function DisplayTopKeywords($url = "")
 		";
 		
 		echo "
-		<p><b>Notes</b>: You can for example edit the code to to make the Top search keywords link to your Website search result pages. 
+		<p><b>Notes</b>: You can for example edit the code to to make the Top search keywords link to your Website search result pages.
 		<br/>On medium to large traffic websites, we recommend to cache this data, as to minimize the performance impact of calling the Piwik API on each page view.
-		</p> 
+		</p>
 		";
 				
 	}
