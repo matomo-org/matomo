@@ -244,7 +244,8 @@ $(document).ready(function() {
 		 	        	|| !isValidDate(oDateTo )
 		 	        	|| oDateFrom > oDateTo )
 		 	        {
-		 	        	alert(_pk_translate('General_InvalidDateRange_js'));
+		 	        	$('#alert h2').text(_pk_translate('General_InvalidDateRange_js'));
+		 	        	piwikHelper.windowModal('#alert', function(){});
 		 	        	return false;
 		 	        }
 		         	piwikHelper.showAjaxLoading('ajaxLoadingCalendar');
