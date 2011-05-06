@@ -25,11 +25,28 @@ function Piwik_ErrorHandler($errno, $errstr, $errfile, $errline)
 	{
 		return;
 	}
-	
-	ob_start();
-	debug_print_backtrace();
-	$backtrace = ob_get_contents();
-	ob_end_clean();
+
+	$backtrace = '';
+	$bt = @debug_backtrace();
+	if($bt !== null && isset($bt[0]))
+	{
+		//array_shift($bt);
+		foreach($bt as $i => $debug)
+		{
+			$args = isset($debug['args']) ? var_export($debug['args'], true) : '';
+			$args = preg_replace(
+				array("/\n/", "/\r/", '/ +/', '/, *\)/', '/\( +/', '/^array \(0 => /', '/\)$/'),
+				array('', '', ' ', ')', '(', '', ''),
+				$args
+			);
+			$backtrace .= "#$i  "
+				.(isset($debug['class']) ? $debug['class'] : '')
+				.(isset($debug['type']) ? $debug['type'] : '')
+				.$debug['function']
+				.'('.$args.') called at ['.$debug['file']
+				.':'.$debug['line'].']'."\n";
+		}
+	}
 
 	try {
 		Zend_Registry::get('logger_error')->logEvent($errno, $errstr, $errfile, $errline, $backtrace);
