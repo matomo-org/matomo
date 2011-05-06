@@ -25,6 +25,6 @@ class Piwik_DataTable_Filter_Truncate extends Piwik_DataTable_Filter
 	public function filter($table)
 	{
 		$table->filter('AddSummaryRow', array($this->truncateAfter));
-		$table->filter('ReplaceSummaryRowLabel');
+		$table->queuefilter('ReplaceSummaryRowLabel');
 	}
 }
