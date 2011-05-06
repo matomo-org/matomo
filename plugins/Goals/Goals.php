@@ -129,9 +129,6 @@ class Piwik_Goals extends Piwik_Plugin
 					'action' => 'get',
 					'parameters' => array('idGoal' => $goal['idgoal']),
 					'metrics' => $goalMetrics,
-					'metricsDocumentation' => array(
-						'nb_conversions' => 'blub'
-					),
 					'processedMetrics' => false,
         			'order' => 10 + $goal['idgoal']
 				);
