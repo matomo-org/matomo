@@ -187,7 +187,8 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 			if(alreadyEdited[idRow]==1) return;
 			if(siteBeingEdited)
 			{
-				alert(sprintf(_pk_translate('SitesManager_OnlyOneSiteAtTime_js'), '"'+$("<div/>").html(siteBeingEditedName).text()+'"'));
+				$('#alert h2').text(sprintf(_pk_translate('SitesManager_OnlyOneSiteAtTime_js'), '"'+$("<div/>").html(siteBeingEditedName).text()+'"'));
+				piwikHelper.windowModal('#alert', function(){});
 				return;
 			}
 			siteBeingEdited = true;

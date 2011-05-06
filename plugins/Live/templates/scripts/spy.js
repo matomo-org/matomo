@@ -13,7 +13,8 @@ $.fn.spy = function(settings) {
 	spy.json = null;
 
 	if (!settings.ajax) {
-		alert("An AJAX/AJAH URL must be set for the spy to work.");
+		$('#alert h2').text("An AJAX/AJAH URL must be set for the spy to work.");
+		piwikHelper.windowModal('#alert', function(){});
 		return;
 	}
 
