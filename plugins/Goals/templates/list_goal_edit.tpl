@@ -23,6 +23,12 @@
 	</table>
 </div>
 
+<div class="ui-confirm" id="confirm">
+    <h2></h2>
+    <input id="yes" type="button" value="{'General_Yes'|translate}" />
+    <input id="no" type="button" value="{'General_No'|translate}" />
+</div> 
+
 <script type="text/javascript">
 var goalTypeToTranslation = {ldelim}
     "manually" : "{'Goals_ManuallyTriggeredUsingJavascriptFunction'|translate}",
