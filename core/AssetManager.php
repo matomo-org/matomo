@@ -292,8 +292,6 @@ class Piwik_AssetManager
 	{
 		$priorityJsOrdered = array(
 			'libs/jquery/jquery.js',
-			'libs/jquery/jquery.bgiframe.js',
-			'libs/jquery/jquery.blockUI.js',
 			'libs/jquery/jquery-ui.js',
 			'libs/',
 			'themes/default/common.js',
