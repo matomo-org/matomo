@@ -59,45 +59,21 @@ class Piwik_Session extends Zend_Session
 			@ini_set('session.save_path', '');
 		}
 
-		// for "files", we want a writeable folder;
-		// for shared hosting, we assume the web server has been securely configured to prevent local session file hijacking
+		// garbage collection may disabled by default (e.g., Debian)
+		if(ini_get('session.gc_probability') == 0)
+		{
+			@ini_set('session.gc_probability', 1);
+		}
+
+		// for "files", use our own folder to prevent local session file hijacking
 		if(ini_get('session.save_handler') == 'files')
 		{
-			$sessionPath = ini_get('session.save_path');
-			if(preg_match('/^[0-9]+;(.*)/', $sessionPath, $matches))
+			$sessionPath = PIWIK_USER_PATH . '/tmp/sessions';
+			@ini_set('session.save_path', $sessionPath);
+
+			if(!is_dir($sessionPath))
 			{
-				$sessionPath = $matches[1];
-			}
-			if(ini_get('safe_mode') || ini_get('open_basedir') || empty($sessionPath) || !@is_readable($sessionPath) || !@is_writable($sessionPath))
-			{
-				$sessionPath = PIWIK_USER_PATH . '/tmp/sessions';
-				$ok = true;
-
-				if(!is_dir($sessionPath))
-				{
-					Piwik_Common::mkdir($sessionPath);
-					if(!is_dir($sessionPath))
-					{
-						// Unable to mkdir $sessionPath
-						$ok = false;
-					}
-				}
-				else if(!@is_writable($sessionPath))
-				{
-					// $sessionPath is not writable
-					$ok = false;
-				}
-
-				if($ok)
-				{
-					@ini_set('session.save_path', $sessionPath);
-
-					// garbage collection may disabled by default (e.g., Debian)
-					if(ini_get('session.gc_probability') == 0) {
-						@ini_set('session.gc_probability', 1);
-					}
-				}
-				// else rely on default setting (assuming it is configured to a writeable folder)
+				Piwik_Common::mkdir($sessionPath);
 			}
 		}
 
