@@ -163,10 +163,11 @@ function bindListGoalEdit()
 	$('a[name=linkDeleteGoal]').click( function() {
 		var goalId = $(this).attr('id');
 		var goal = piwik.goals[goalId];
-        if(confirm(sprintf(_pk_translate('Goals_DeleteGoalConfirm_js'), '"'+goal.name+'"')))
-		{
-			$.ajax( getAjaxDeleteGoal( goalId ) );
-		}
+		
+		$('#confirm h2').text(sprintf(_pk_translate('Goals_DeleteGoalConfirm_js'), '"'+goal.name+'"'));
+		piwikHelper.windowModal('#confirm', function(){
+		    $.ajax( getAjaxDeleteGoal( goalId ) );
+		});
 		return false;
 	});
 
