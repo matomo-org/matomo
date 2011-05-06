@@ -582,7 +582,7 @@ class Piwik_Actions extends Piwik_Plugin
 					continue;
 					var_dump($row);
 					debug_print_backtrace();
-					throw new Exception("id action ". $row['idaction'] . " was not cached, but we expected it. Pleas report this issue in Piwik forums.");
+					throw new Exception("id action ". $row['idaction'] . " was not cached, but we expected it. Please report this issue in Piwik forums.");
 				}
 				$currentTable = self::$cacheParsedAction[$row['idaction']];
 				// Action processed as "to skip" for some reasons
