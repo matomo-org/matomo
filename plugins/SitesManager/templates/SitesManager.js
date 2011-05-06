@@ -171,9 +171,11 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 			var idRow = $(this).attr('id');
 			var nameToDelete = $(this).parent().parent().find('input#siteName').val() || $(this).parent().parent().find('td#siteName').html();
 			var idsiteToDelete = $(this).parent().parent().find('#idSite').html();
-			if(confirm(sprintf(_pk_translate('SitesManager_DeleteConfirm_js'),'"'+nameToDelete+'" (idSite = '+idsiteToDelete+')')) ) {
-				$.ajax( getDeleteSiteAJAX( idsiteToDelete ) );
-			}
+			
+			$('#confirm h2').text(sprintf(_pk_translate('SitesManager_DeleteConfirm_js'),'"'+nameToDelete+'" (idSite = '+idsiteToDelete+')'));
+			piwikHelper.windowModal('#confirm', function(){
+			    $.ajax( getDeleteSiteAJAX( idsiteToDelete ) );
+			});
 		}
 	);
 	
