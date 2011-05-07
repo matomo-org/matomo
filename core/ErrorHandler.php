@@ -42,9 +42,10 @@ function Piwik_ErrorHandler($errno, $errstr, $errfile, $errline)
 			$backtrace .= "#$i  "
 				.(isset($debug['class']) ? $debug['class'] : '')
 				.(isset($debug['type']) ? $debug['type'] : '')
-				.$debug['function']
-				.'('.$args.') called at ['.$debug['file']
-				.':'.$debug['line'].']'."\n";
+				.(isset($debug['function']) ? $debug['function'] : '')
+				.'('.$args.') called at ['
+				.(isset($debug['file']) ? $debug['file'] : '').':'
+				.(isset($debug['line']) ? $debug['line'] : '').']'."\n";
 		}
 	}
 
