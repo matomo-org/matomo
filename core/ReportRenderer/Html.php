@@ -17,9 +17,10 @@
  */
 class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 {
-	const REPORT_TITLE_TEXT_SIZE = 14;
-	const REPORT_TABLE_HEADER_TEXT_SIZE = 9;
-	const REPORT_TABLE_ROW_TEXT_SIZE = 8;
+	const REPORT_TITLE_TEXT_SIZE = 11;
+	const REPORT_TABLE_HEADER_TEXT_SIZE = 11;
+	const REPORT_TABLE_ROW_TEXT_SIZE = 11;
+	const REPORT_BACK_TO_TOP_TEXT_SIZE = 9;
 
 	private $rendering = "";
 
@@ -82,7 +83,6 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 
 	private function assignCommonParameters($smarty)
 	{
-		$smarty->assign("reportFont", Piwik_ReportRenderer::DEFAULT_REPORT_FONT);
 		$smarty->assign("reportTitleTextColor", Piwik_ReportRenderer::REPORT_TITLE_TEXT_COLOR);
 		$smarty->assign("reportTitleTextSize", self::REPORT_TITLE_TEXT_SIZE);
 		$smarty->assign("reportTextColor", Piwik_ReportRenderer::REPORT_TEXT_COLOR);
@@ -92,6 +92,7 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 		$smarty->assign("tableBgColor", Piwik_ReportRenderer::TABLE_BG_COLOR);
 		$smarty->assign("reportTableHeaderTextSize", self::REPORT_TABLE_HEADER_TEXT_SIZE);
 		$smarty->assign("reportTableRowTextSize", self::REPORT_TABLE_ROW_TEXT_SIZE);
+		$smarty->assign("reportBackToTopTextSize", self::REPORT_BACK_TO_TOP_TEXT_SIZE);
 		$smarty->assign("currentPath", Piwik::getPiwikUrl());
 	}
 

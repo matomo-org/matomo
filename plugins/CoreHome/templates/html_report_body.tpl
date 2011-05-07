@@ -47,6 +47,6 @@
 	</table>
 {/if}
 <br/>
-<a style="text-decoration:none; color: rgb({$reportTitleTextColor}); font-size: {$reportTableHeaderTextSize}pt" href="#reportTop">
+<a style="text-decoration:none; color: rgb({$reportTitleTextColor}); font-size: {$reportBackToTopTextSize}pt" href="#reportTop">
 	{'PDFReports_TopOfReport'|translate}
 </a>
