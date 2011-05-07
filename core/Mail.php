@@ -53,15 +53,15 @@ class Piwik_Mail extends Zend_Mail
 		)
 		{
 			$smtpConfig = array(
-    						'auth' => $config->type,
-            				'username' => $config->username,
-            				'password' => $config->password,
-            				'ssl' => $config->encryption,
+				'auth' => strtolower($config->type),
+				'username' => $config->username,
+				'password' => $config->password,
+				'ssl' => $config->encryption,
 			);
 		}
 		
-		$tr = new Zend_Mail_Transport_Smtp($config->host,$smtpConfig);
+		$tr = new Zend_Mail_Transport_Smtp($config->host, $smtpConfig);
 		Piwik_Mail::setDefaultTransport($tr);
-		ini_set("smtp_port",$config->port);
+		ini_set("smtp_port", $config->port);
 	}
 }
