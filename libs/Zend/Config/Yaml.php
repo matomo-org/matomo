@@ -16,7 +16,7 @@
  * @package   Zend_Config
  * @copyright Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Yaml.php 23808 2011-03-16 21:26:56Z matthew $
+ * @version   $Id: Yaml.php 23952 2011-05-03 05:45:06Z ralph $
  */
 
 /**
@@ -315,7 +315,7 @@ class Zend_Config_Yaml extends Zend_Config
                 // key: value
                 if (strlen($m[2])) {
                     // simple key: value
-                    $value = $m[2];
+                    $value = rtrim(preg_replace("/#.*$/", "", $m[2]));
                     // Check for booleans and constants
                     if (preg_match('/^(t(rue)?|on|y(es)?)$/i', $value)) {
                         $value = true;

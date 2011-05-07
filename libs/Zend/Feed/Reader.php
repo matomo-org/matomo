@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Reader
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Reader.php 23775 2011-03-01 17:25:24Z ralph $
+ * @version    $Id: Reader.php 23975 2011-05-03 16:43:46Z ralph $
  */
 
 /**
@@ -266,6 +266,10 @@ class Zend_Feed_Reader
                     $cache->save($response->getHeader('Last-Modified'), $cacheId.'_lastmodified');
                 }
             }
+            if (empty($responseXml)) {
+                // require_once 'Zend/Feed/Exception.php';
+                throw new Zend_Feed_Exception('Feed failed to load, got empty response body');
+            }
             return self::importString($responseXml);
         } elseif ($cache) {
             $data = $cache->load($cacheId);
@@ -279,6 +283,10 @@ class Zend_Feed_Reader
             }
             $responseXml = $response->getBody();
             $cache->save($responseXml, $cacheId);
+            if (empty($responseXml)) {
+                // require_once 'Zend/Feed/Exception.php';
+                throw new Zend_Feed_Exception('Feed failed to load, got empty response body');
+            }
             return self::importString($responseXml);
         } else {
             $response = $client->request('GET');
@@ -286,7 +294,12 @@ class Zend_Feed_Reader
                 // require_once 'Zend/Feed/Exception.php';
                 throw new Zend_Feed_Exception('Feed failed to load, got response code ' . $response->getStatus());
             }
-            $reader = self::importString($response->getBody());
+            $responseXml = $response->getBody();
+            if (empty($responseXml)) {
+                // require_once 'Zend/Feed/Exception.php';
+                throw new Zend_Feed_Exception('Feed failed to load, got empty response body');
+            }
+            $reader = self::importString($responseXml);
             $reader->setOriginalSourceUri($uri);
             return $reader;
         }
@@ -320,6 +333,7 @@ class Zend_Feed_Reader
      */
     public static function importString($string)
     {
+        
         $libxml_errflag = libxml_use_internal_errors(true);
         $dom = new DOMDocument;
         $status = $dom->loadXML($string);

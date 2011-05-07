@@ -17,7 +17,7 @@
  * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Mysql.php 23775 2011-03-01 17:25:24Z ralph $
+ * @version    $Id: Mysql.php 23986 2011-05-03 20:10:42Z ralph $
  */
 
 
@@ -76,6 +76,19 @@ class Zend_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Abstract
         'FLOAT'              => Zend_Db::FLOAT_TYPE
     );
 
+    /**
+     * Override _dsn() and ensure that charset is incorporated in mysql
+     * @see Zend_Db_Adapter_Pdo_Abstract::_dsn()
+     */
+    protected function _dsn()
+    {
+        $dsn = parent::_dsn();
+        if (isset($this->_config['charset'])) {
+            $dsn .= ';charset=' . $this->_config['charset'];
+        }
+        return $dsn;
+    }
+    
     /**
      * Creates a PDO object and connects to the database.
      *

@@ -17,7 +17,7 @@
  * @subpackage Formatter
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Xml.php 23775 2011-03-01 17:25:24Z ralph $
+ * @version    $Id: Xml.php 23981 2011-05-03 19:01:03Z ralph $
  */
 
 /** Zend_Log_Formatter_Abstract */
@@ -29,7 +29,7 @@
  * @subpackage Formatter
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Xml.php 23775 2011-03-01 17:25:24Z ralph $
+ * @version    $Id: Xml.php 23981 2011-05-03 19:01:03Z ralph $
  */
 class Zend_Log_Formatter_Xml extends Zend_Log_Formatter_Abstract
 {
@@ -63,7 +63,7 @@ class Zend_Log_Formatter_Xml extends Zend_Log_Formatter_Abstract
             $args = func_get_args();
 
             $options = array(
-            	'rootElement' => array_shift($args)
+                'rootElement' => array_shift($args)
             );
 
             if (count($args)) {
@@ -92,10 +92,10 @@ class Zend_Log_Formatter_Xml extends Zend_Log_Formatter_Abstract
     }
 
     /**
-	 * Factory for Zend_Log_Formatter_Xml classe
-	 *
-	 * @param array|Zend_Config $options
-	 * @return Zend_Log_Formatter_Xml
+     * Factory for Zend_Log_Formatter_Xml classe
+     *
+     * @param array|Zend_Config $options
+     * @return Zend_Log_Formatter_Xml
      */
     public static function factory($options)
     {

@@ -76,7 +76,6 @@ class Zend_Http_UserAgent_Mobile extends Zend_Http_UserAgent_AbstractDevice
         'htc-',
         'htc_',
         'iemobile',
-        'ipad',
         'iris',
         'j-phone',
         'kddi',

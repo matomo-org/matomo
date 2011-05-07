@@ -648,7 +648,9 @@ abstract class Zend_Http_UserAgent_AbstractDevice
                     if (isset($comment[4])) {
                         $result['browser_build'] = trim($comment[4]);
                     }
-                    $result['browser_language'] = trim($comment[3]);
+                    if (isset($comment[3])) {
+                        $result['browser_language'] = trim($comment[3]);
+                    }
 
                     // Netscape
                     if ($result['browser_name'] == 'Navigator' || $result['browser_name'] == 'Netscape6') {

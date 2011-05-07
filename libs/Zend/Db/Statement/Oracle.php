@@ -17,7 +17,7 @@
  * @subpackage Statement
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Oracle.php 23775 2011-03-01 17:25:24Z ralph $
+ * @version    $Id: Oracle.php 23959 2011-05-03 10:45:47Z yoshida@zend.co.jp $
  */
 
 /**
@@ -87,7 +87,7 @@ class Zend_Db_Statement_Oracle extends Zend_Db_Statement
     protected function _prepare($sql)
     {
         $connection = $this->_adapter->getConnection();
-        $this->_stmt = oci_parse($connection, $sql);
+        $this->_stmt = @oci_parse($connection, $sql);
         if (!$this->_stmt) {
             /**
              * @see Zend_Db_Statement_Oracle_Exception

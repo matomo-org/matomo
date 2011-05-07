@@ -16,7 +16,7 @@
  * @package   Zend_Uri
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Http.php 23775 2011-03-01 17:25:24Z ralph $
+ * @version   $Id: Http.php 23970 2011-05-03 15:46:57Z ralph $
  */
 
 /**
@@ -217,24 +217,20 @@ class Zend_Uri_Http extends Zend_Uri
 
         // Additional decomposition to get username, password, host, and port
         $combo   = isset($matches[3]) === true ? $matches[3] : '';
-        $pattern = '~^(([^:@]*)(:([^@]*))?@)?([^:]+)(:(.*))?$~';
+        $pattern = '~^(([^:@]*)(:([^@]*))?@)?((?(?=[[])[[][^]]+[]]|[^:]+))(:(.*))?$~';        
         $status  = @preg_match($pattern, $combo, $matches);
         if ($status === false) {
             // require_once 'Zend/Uri/Exception.php';
             throw new Zend_Uri_Exception('Internal error: authority decomposition failed');
         }
-
-        // Failed decomposition; no further processing needed
-        if ($status === false) {
-            return;
-        }
-
+        
         // Save remaining URI components
         $this->_username = isset($matches[2]) === true ? $matches[2] : '';
         $this->_password = isset($matches[4]) === true ? $matches[4] : '';
-        $this->_host     = isset($matches[5]) === true ? $matches[5] : '';
+        $this->_host     = isset($matches[5]) === true 
+                         ? preg_replace('~^\[([^]]+)\]$~', '\1', $matches[5])  // Strip wrapper [] from IPv6 literal
+                         : '';
         $this->_port     = isset($matches[7]) === true ? $matches[7] : '';
-
     }
 
     /**
