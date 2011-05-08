@@ -31,6 +31,7 @@ $(function() {
 	$('#websiteSearch').autocomplete({
 		minLength: 1,
 		source: '?module=SitesManager&action=getSitesForAutocompleter',
+		appendTo: '#custom_select_container',
 		select: function(event, ui) {
 			if(piwik.idSite == ui.item.id)
 			{
@@ -63,27 +64,34 @@ $(function() {
 				widthSitesSelection = $('#max_sitename_width').val();
 			}
 
-			$('#custom_select_container').append($('.ui-autocomplete'));
 			$('.custom_select_ul_list').hide();
-			$(".ui-autocomplete").show();
-			$(".ui-autocomplete").css('top', '0px');
-			$(".ui-autocomplete").css('left', '-6px');
-			$(".ui-autocomplete").width(parseInt(widthSitesSelection));
+			$("#siteSelect.ui-autocomplete").show();
+			$("#siteSelect.ui-autocomplete").css('top', '0px');
+			$("#siteSelect.ui-autocomplete").css('left', '-6px');
+			$("#siteSelect.ui-autocomplete").width(parseInt(widthSitesSelection));
 			$(".custom_select_block_show").width(parseInt(widthSitesSelection));
 
 		}
 	}).data("autocomplete")._renderItem = function( ul, item ) {
+	    $(ul).attr('id', 'siteSelect');
 		return $( "<li></li>" )
 		.data( "item.autocomplete", item )
 		.append( $( "<a></a>" ).html( item.label ) )
 		.appendTo( ul );
 	};
 
-	function reset()
+    $('body').bind('mouseup',function(e){ 
+        if(!$(e.target).parents('#sitesSelectionSearch').length && !$(e.target).is('#sitesSelectionSearch') && !$(e.target).parents('#siteSelect.ui-autocomplete').length) {
+            reset();
+            $('#sitesSelectionSearch .custom_select_block').removeClass('custom_select_block_show');
+        }
+    });
+
+    function reset()
 	{
 		$('#websiteSearch').val('');
 		$('.custom_select_ul_list').show();
-		$(".ui-autocomplete").hide();
+		$("#siteSelect.ui-autocomplete").hide();
 		$("#reset").hide();
 	}
 	$("#reset").click(function(e)

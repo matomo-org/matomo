@@ -1,54 +1,32 @@
-.formDiv{
-	position:relative;
-	color:#0066FF;
-	text-align:left;
-	z-index:100;
+#languageSelect {
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0!important;
+    background:#FFF;
+    border: 1px solid #1F447F!important;
 }
-.formDiv_main_link{
-	color:#000;
-	outline:none;
-	text-decoration:none;
-	padding:2px 4px 2px 4px;
+
+#languageSelection .ui-autocomplete-input {
+    background:#FFF url('images/sortdesc.png') no-repeat right center!important;
+    padding: 2px 18px 2px 4px;
+    color:#255792!important;
+    text-decoration: none;
+    font-size: 13px!important;
 }
-.formDiv ul li a{
-	color:#1F447F;
-	text-decoration:none;
-	padding:2px 4px 2px 4px;
+
+#languageSelect .ui-autocomplete-input:hover {
+    text-decoration: underline;
 }
-.formDiv a.collapsed{
-	background:#FFF url('images/sortdesc.png') no-repeat right center;
-	padding-right:18px;
-	color:#255792;
-	text-decoration:none;
+
+#languageSelect a{
+    text-decoration:none!important;
+    padding: 1px 25px 1px 3px!important;
 }
-.formDiv a.expanded{
-	background: url('images/sortasc.png') no-repeat right center;
-	padding-right:18px;
-	color:#255792;
-	text-decoration:none;
-}
-.formDiv a:hover{
-	text-decoration:underline;
-}
-.formDiv_ul_list{
-	list-style:none;
-	background:#FFF;
-	border: 1px solid #1F447F;
-	overflow:auto;
-	width:190px;
-	height:400px;
-}
-.formDiv_ul_list li {
-	padding:0px;
-}
-.formDiv_ul_list li a{
-	height:auto;
-	display:block;
-}
-.formDiv_ul_list li a:hover{
-	background:#176999;
-	color:#FFF;
-	text-decoration:none;
+
+#languageSelect a:hover{
+    background:#176999!important;
+    color:#FFF!important;
 }
 
 code {
