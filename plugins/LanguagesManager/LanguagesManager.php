@@ -31,6 +31,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	{
 		return array( 
 			'AssetManager.getCssFiles' => 'getCssFiles',
+			'AssetManager.getJsFiles' => 'getJsFiles',
 			'TopMenu.add' => 'showLanguagesSelector',
 			'Translate.getLanguageToLoad' => 'getLanguageToLoad',
 			'UsersManager.deleteUser' => 'deleteUserLanguage',
@@ -42,6 +43,13 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 		$cssFiles = &$notification->getNotificationObject();
 		
 		$cssFiles[] = "themes/default/styles.css";
+	}	
+
+	function getJsFiles( $notification )
+	{
+		$jsFiles = &$notification->getNotificationObject();
+		
+		$jsFiles[] = "plugins/LanguagesManager/templates/languageSelector.js";
 	}	
 
 	/**

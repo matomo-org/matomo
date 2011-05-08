@@ -11,7 +11,6 @@
 
 <script type="text/javascript" src="libs/jquery/jquery.js"></script>
 <script type="text/javascript" src="libs/jquery/jquery-ui.js"></script>
-<script type="text/javascript" src="libs/jquery/fdd2div-modified.js"></script>
 
 {literal}
 <script type="text/javascript">
