@@ -211,17 +211,17 @@
 
 				<!-- change language -->
 				<sleep description="pause" seconds="5" />
-				<clickElement description="click 'Deutsch'" xpath="//select[@id=language]/option[@value='de']" />
+				<clickElement description="click 'Deutsch'" xpath="//select[@id='language']/option[@value='de']" />
 
 				<verifyText description="check page text" text="Hallo" />
 
 				<sleep description="pause" seconds="5" />
-				<clickElement description="click 'Français'" xpath="//select[@id=language]/option[@value='fr']" />
+				<clickElement description="click 'Français'" xpath="//select[@id='language']/option[@value='fr']" />
 
 				<verifyText description="check page text" text="Bonjour" />
 
 				<sleep description="pause" seconds="5" />
-				<clickElement description="click 'English'" xpath="//select[@id=language]/option[@value='en']" />
+				<clickElement description="click 'English'" xpath="//select[@id='language']/option[@value='en']" />
 
 				<verifyText description="check page text" text="Hello" />
 			</steps>
