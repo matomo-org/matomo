@@ -48,7 +48,7 @@ function smarty_outputfilter_cachebuster($source, &$smarty)
 		'<script type="text/javascript" src="$1?'. $tag .'">',
 		'<script type="text/javascript" src="$1?'. $tag .'">',
 		'<link rel="stylesheet" type="text/css" href="$1?'. $tag .'" />',
-		'$1="index.php?module=$2&action=$3&cb=',
+		'$1="index.php?module=$2&amp;action=$3&amp;cb=',
 	);
 
 	return preg_replace($pattern, $replace, $source);

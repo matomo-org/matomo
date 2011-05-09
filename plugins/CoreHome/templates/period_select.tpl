@@ -15,7 +15,7 @@
 				<label for="period_id_{$label}" >{$thisPeriod.singular}</label><br />
 			{/foreach}
 			</span>
-			<input tabindex="3" type="submit" value="{'General_ApplyDateRange'|translate}" id="calendarRangeApply">
+			<input tabindex="3" type="submit" value="{'General_ApplyDateRange'|translate}" id="calendarRangeApply" />
 			{ajaxLoadingDiv id=ajaxLoadingCalendar}
 		</div>
 	</div>
