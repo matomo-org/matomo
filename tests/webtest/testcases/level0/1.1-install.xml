@@ -210,15 +210,18 @@
 				<verifyText description="check page text" text="Hello" />
 
 				<!-- change language -->
-				<retryClickLink description="click 'Deutsch'" href="index.php?module=LanguagesManager&amp;action=saveLanguage&amp;language=de" seconds="5" />
+				<sleep description="pause" seconds="5" />
+				<clickElement description="click 'Deutsch'" xpath="//select[@id=language]/option[@value=de]" />
 
 				<verifyText description="check page text" text="Hallo" />
 
-				<retryClickLink description="click 'Français'" href="index.php?module=LanguagesManager&amp;action=saveLanguage&amp;language=fr" seconds="5" />
+				<sleep description="pause" seconds="5" />
+				<clickElement description="click 'Français'" xpath="//select[@id=language]/option[@value=fr]" />
 
 				<verifyText description="check page text" text="Bonjour" />
 
-				<retryClickLink description="click 'English'" href="index.php?module=LanguagesManager&amp;action=saveLanguage&amp;language=en" seconds="5" />
+				<sleep description="pause" seconds="5" />
+				<clickElement description="click 'English'" xpath="//select[@id=language]/option[@value=en]" />
 
 				<verifyText description="check page text" text="Hello" />
 			</steps>
