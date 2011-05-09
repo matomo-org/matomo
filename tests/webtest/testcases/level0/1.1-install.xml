@@ -210,7 +210,7 @@
 				<verifyText description="check page text" text="Hello" />
 
 				<!-- change language -->
-				<retryClickLink description="click 'Deutsch'" href="index.php?module=LanguagesManager&amp;action=saveLanguage&amp;language=de" label="Deutsch" seconds="10" />
+				<retryClickLink description="click 'Deutsch'" href="index.php?module=LanguagesManager&amp;action=saveLanguage&amp;language=de" seconds="5" />
 
 				<verifyText description="check page text" text="Hallo" />
 
