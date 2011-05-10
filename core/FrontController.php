@@ -208,7 +208,8 @@ class Piwik_FrontController
 				$exceptionToThrow = $e;
 			}
 
-			if(Zend_Registry::get('config')->General->maintenance_mode == 1)
+			if(Zend_Registry::get('config')->General->maintenance_mode == 1
+				&& !Piwik_Common::isPhpCliMode())
 			{
 				throw new Exception("Piwik is in scheduled maintenance. Please come back later.");
 			}
