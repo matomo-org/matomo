@@ -252,6 +252,13 @@ a {
 	background: url(images/sort_subtable_desc.png) no-repeat right 0;
 }
 
+.sites_autocomplete .custom_select_main_link.noselect{
+    padding:0 8px;
+    display:block; 
+    text-decoration:none; 
+    background: none;
+}
+
 .sites_autocomplete .custom_select_loading{
 	background: url(images/loading-blue.gif) no-repeat right 0;
 }
@@ -268,7 +275,6 @@ a {
 	height:auto;
 	display:block;
 	text-decoration:none; 
-	/*white-space:nowrap; */
 }
 .sites_autocomplete .custom_select_ul_list li a:hover{
 	background:#ebeae6;
@@ -315,6 +321,12 @@ a {
 
 .custom_select_block{ height:0; overflow:hidden; }
 .custom_select_block_show{ height:auto; overflow:visible;  }
+
+
+#siteSelect a {
+    white-space:normal;
+    text-align:left;
+}
 
 /*------------------------*/
 

@@ -27,22 +27,27 @@
 	</div>
     
 	<script type="text/javascript">
-	{literal}$("#sitesSelectionSearch .custom_select_main_link").click(function(){
-		$("#sitesSelectionSearch .custom_select_block").toggleClass("custom_select_block_show");
-		$('#websiteSearch').focus();
-		return false;
-	});
-    var inlinePaddingWidth=22;
-    var staticPaddingWidth=34;
-    if($(".custom_select_block ul")[0]){
-        var widthSitesSelection = Math.max($(".custom_select_block ul").width()+inlinePaddingWidth, $(".custom_select_main_link").width()+staticPaddingWidth);
-        $(".custom_select_block").css('width', widthSitesSelection);
-    }
-    {/literal}
-	{if !$show_autocompleter}{literal}
+    {if !$show_autocompleter}{literal}
     $('.custom_select_search').hide();
     $('.custom_select_all').hide();
     {/literal}{/if}
+	{literal}
+    if($('.custom_select_ul_list li').length > 1) {
+        $("#sitesSelectionSearch .custom_select_main_link").click(function(){
+    		$("#sitesSelectionSearch .custom_select_block").toggleClass("custom_select_block_show");
+    		$('#websiteSearch').focus();
+    		return false;
+    	});
+        var inlinePaddingWidth=22;
+        var staticPaddingWidth=34;
+        if($(".custom_select_block ul")[0]){
+            var widthSitesSelection = Math.max($(".custom_select_block ul").width()+inlinePaddingWidth, $(".custom_select_main_link").width()+staticPaddingWidth);
+            $(".custom_select_block").css('width', widthSitesSelection);
+        }
+    } else {
+        $('.custom_select_main_link').addClass('noselect');
+    }
+    {/literal}
     </script>
 </div>
 
