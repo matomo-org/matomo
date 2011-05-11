@@ -1346,4 +1346,5 @@ Note: this token will expire in 24 hrs.",
 	'PDFReports_FrontPage' => 'Front Page',
 	'PDFReports_TableOfContent' => 'Report list',
 	'PDFReports_TopOfReport' => 'Back to top',
+    'PDFReports_Pagination' => 'Page %s of %s',
 );

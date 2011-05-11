@@ -29,6 +29,11 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 		//Nothing to do
 	}
 
+    public function setReportBasics($websiteName, $prettyDate, $description, $reportMetadata)
+    {
+        //Nothing to do
+    }
+
 	public function sendToDisk($filename)
 	{
 		$this->epilogue();
