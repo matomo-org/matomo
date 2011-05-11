@@ -14,7 +14,7 @@
             </div>
             <div class="custom_select_all" style="clear: both">
 				<br />
-				<a href="index.php?module=MultiSites&amp;action=index&amp;period={$period}&amp;date={$date}&amp;idSite={$idSite}">{'General_MultiSitesSummary'|translate}</a>
+				<a href="index.php?module=MultiSites&amp;action=index&amp;period={$period}&amp;date={$rawDate}&amp;idSite={$idSite}">{'General_MultiSitesSummary'|translate}</a>
 			</div>
             
             <div class="custom_select_search">
