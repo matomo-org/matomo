@@ -1246,6 +1246,7 @@ $translations = array(
 	'PDFReports_PiwikReports' => 'Piwik-Berichte',
 	'PDFReports_EmailHello' => 'Hallo,',
 	'PDFReports_PleaseFindAttachedFile' => 'Sie finden in der angehängten Datei Ihren %1$s Bericht für %2$s.',
+    'PDFReports_Pagination' => 'Seite %s von %s',
 
 	// FOR REVIEW
 	'EntryPage_Bounces' => 'Absprünge',
