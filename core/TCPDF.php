@@ -11,7 +11,7 @@
 
 require_once PIWIK_INCLUDE_PATH . '/libs/tcpdf/tcpdf.php';
 
-class PI_TCPDF extends TCPDF
+class Piwik_TCPDF extends TCPDF
 {
     protected $footerContent = null;
     protected $currentPageNo = null;
@@ -47,4 +47,3 @@ class PI_TCPDF extends TCPDF
     }
 
 }
- 

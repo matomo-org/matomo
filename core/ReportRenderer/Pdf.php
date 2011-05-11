@@ -15,7 +15,7 @@
  */
 require_once PIWIK_INCLUDE_PATH . '/plugins/PDFReports/config/tcpdf_config.php';
 require_once PIWIK_INCLUDE_PATH . '/libs/tcpdf/config/lang/eng.php';
-require_once PIWIK_INCLUDE_PATH . '/libs/tcpdf/pi_tcpdf.php';
+require_once PIWIK_INCLUDE_PATH . '/core/TCPDF.php';
 
 /**
  *
@@ -58,7 +58,7 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 
     public function __construct()
     {
-        $this->TCPDF = new PI_TCPDF();
+        $this->TCPDF = new Piwik_TCPDF();
         $this->headerTextColor = preg_split("/,/", Piwik_ReportRenderer::REPORT_TITLE_TEXT_COLOR);
         $this->reportTextColor = preg_split("/,/", Piwik_ReportRenderer::REPORT_TEXT_COLOR);
         $this->tableHeaderBackgroundColor = preg_split("/,/", Piwik_ReportRenderer::TABLE_HEADER_BG_COLOR);
