@@ -19,7 +19,10 @@ class Piwik_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Pi
 	public function __construct($config)
 	{
 		// Enable LOAD DATA INFILE
-		$config['driver_options'][PDO::MYSQL_ATTR_LOCAL_INFILE] = true; 
+		if(defined('PDO::MYSQL_ATTR_LOCAL_INFILE'))
+		{
+			$config['driver_options'][PDO::MYSQL_ATTR_LOCAL_INFILE] = true;
+		} 
 		parent::__construct($config);
 	}
 
