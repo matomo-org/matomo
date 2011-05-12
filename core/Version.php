@@ -17,5 +17,5 @@
  */
 final class Piwik_Version
 {
-	const VERSION = '1.4.0.4665';
+	const VERSION = '1.4';
 }
