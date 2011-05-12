@@ -197,11 +197,6 @@ broadcast.loadAjaxContent = function(urlAjax)
 
     function sectionLoaded(content)
     {
-		if(content.substring(0, 14) == '<!DOCTYPE html') {
-			window.location.reload();
-			return;
-		}
-
         if(urlAjax == broadcast.lastUrlRequested) {
 		    $('#content').html( content ).show();
 			piwikHelper.hideAjaxLoading();
