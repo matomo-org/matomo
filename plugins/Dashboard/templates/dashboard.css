@@ -110,7 +110,7 @@
     float: none;
 }
 
-.ui-dialog input, .ui-dialog button{
+.ui-dialog input[type=button], .ui-dialog button{
 	background: #B5B0A7 url("../../../themes/default/images/dashboard_h_bg_hover.png") repeat-x 0 0!important;
 	color:#fff!important;
 	border:0!important;
