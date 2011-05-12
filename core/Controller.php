@@ -321,7 +321,8 @@ abstract class Piwik_Controller
 			$view->idSite = $this->idSite;
 			if(empty($this->site) || empty($this->idSite))
 			{
-				throw new Exception("The requested website idSite is not found in the request, or is invalid");
+				throw new Exception("The requested website idSite is not found in the request, or is invalid.
+				Please check that you are logged in Piwik and have permission to access the specified website.");
 			}
 			$this->setPeriodVariablesView($view);
 			
