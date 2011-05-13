@@ -2215,30 +2215,42 @@ class Piwik
 				$fieldList
 			";
 
-			// determine the "best" order to attempt the queries
-			$dbHost = Zend_Registry::get('config')->database->host;
-			$localHosts = array('127.0.0.1', 'localhost', 'localhost.local', 'localhost.localdomain', 'localhost.localhost');
-			$hostName = @php_uname('n');
-			if(!empty($hostName))
+			/*
+			 * determine the "best" order to attempt the queries
+			 */
+			$openBaseDir = ini_get('open_basedir');
+			$safeMode = ini_get('safe_mode');
+			if(!empty($openBaseDir) || !empty($safeMode))
 			{
-				$localHosts = array_merge($localHosts, array($hostName, $hostName.'.local', $hostName.'.localdomain', $hostName.'.localhost'));
-			}
-
-			if(!empty($dbHost) && !in_array($dbHost, $localHosts))
-			{
-				// appears to be a remote server, so we'll try that first
-
-				// note: requires that the db user have the FILE privilege; however, since this is
-				// a global privilege, it may not be granted due to security concerns
-				$keywords = array('', 'LOCAL');
+				// php 5.x - LOAD DATA LOCAL INFILE is disabled if open_basedir restrictions or safe_mode enabled
+				$keywords = array('');
 			}
 			else
 			{
-				// otherwise, it appears to be the local server
+				$dbHost = Zend_Registry::get('config')->database->host;
+				$localHosts = array('127.0.0.1', 'localhost', 'localhost.local', 'localhost.localdomain', 'localhost.localhost');
+				$hostName = @php_uname('n');
+				if(!empty($hostName))
+				{
+					$localHosts = array_merge($localHosts, array($hostName, $hostName.'.local', $hostName.'.localdomain', $hostName.'.localhost'));
+				}
 
-				// note: the LOCAL keyword may trigger a known PHP PDO_MYSQL bug when MySQL not built with --enable-local-infile
-				// @see http://bugs.php.net/bug.php?id=54158
-				$keywords = array('LOCAL', '');
+				if(!empty($dbHost) && !in_array($dbHost, $localHosts))
+				{
+					// appears to be a remote server, so we'll try that first
+	
+					// note: requires that the db user have the FILE privilege; however, since this is
+					// a global privilege, it may not be granted due to security concerns
+					$keywords = array('', 'LOCAL');
+				}
+				else
+				{
+					// otherwise, it appears to be the local server
+
+					// note: the LOCAL keyword may trigger a known PHP PDO_MYSQL bug when MySQL not built with --enable-local-infile
+					// @see http://bugs.php.net/bug.php?id=54158
+					$keywords = array('LOCAL', '');
+				}
 			}
 
 			$lastMessage = '';
