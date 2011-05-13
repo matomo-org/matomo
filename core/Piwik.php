@@ -2140,14 +2140,15 @@ class Piwik
 	{
 		$fieldList = '('.join(',', $fields).')';
 
+		$filePath = PIWIK_USER_PATH . '/' . Piwik_AssetManager::MERGED_FILE_DIR . $tableName . '-'.Piwik_Common::generateUniqId().'.csv';
+
+		if (Piwik_Common::isWindows()) {
+			// On Windows, MySQL expects forward slashes as directory separators
+			$filePath = str_replace('\\', '/', $filePath);
+		}
+
 		try {
 //			throw new Exception('');
-			$filePath = PIWIK_USER_PATH . '/' . Piwik_AssetManager::MERGED_FILE_DIR . $tableName . '-'.Piwik_Common::generateUniqId().'.csv';
-
-			if (Piwik_Common::isWindows()) {
-				// On Windows, MySQL expects forward slashes as directory separators
-				$filePath = str_replace('\\', '/', $filePath);
-			}
 
 			// Set up CSV delimiters, quotes, etc
 			$delim = "\t";
@@ -2185,7 +2186,6 @@ class Piwik
 				$ret = fwrite($fp, $output);
 				if (!$ret) {
 					fclose($fp);
-					unlink($filePath);
 					throw new Exception('Error writing to the tmp file '.$filePath.' containing the batch INSERTs.');
 				}
 			}
@@ -2264,7 +2264,7 @@ class Piwik
 			Piwik::log("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was:" . $e->getMessage(), Piwik_Log::WARN);
 
 			// if all else fails, fallback to a series of INSERTs
-			unlink($filePath);
+			@unlink($filePath);
 			self::tableInsertBatchIterate($tableName, $fields, $values);
 		}
 		return false;
