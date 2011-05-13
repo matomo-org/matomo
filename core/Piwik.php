@@ -2215,22 +2215,7 @@ class Piwik
 				$fieldList
 			";
 
-			// initial attempt with LOCAL keyword
-			// note: may trigger a known PHP PDO_MYSQL bug when MySQL not built with --enable-local-infile
-			// @see http://bugs.php.net/bug.php?id=54158
-			try {
-				$result = @Piwik_Exec('LOAD DATA LOCAL INFILE'.$query);
-				if(empty($result) || $result < 0) {
-					throw new Exception("LOAD DATA LOCAL INFILE failed!");
-				}
-				unlink($filePath);
-				return true;
-			} catch(Exception $e) {
-			}
-
-			// second attempt without LOCAL keyword if MySQL server appears to be on the same box
-			// note: requires that the db user have the FILE privilege; however, since this is
-			// a global privilege, it may not be granted due to security concerns
+			// determine the "best" order to attempt the queries
 			$dbHost = Zend_Registry::get('config')->database->host;
 			$localHosts = array('127.0.0.1', 'localhost', 'localhost.local', 'localhost.localdomain', 'localhost.localhost');
 			$hostName = @php_uname('n');
@@ -2241,16 +2226,40 @@ class Piwik
 
 			if(!empty($dbHost) && !in_array($dbHost, $localHosts))
 			{
-				throw new Exception("MYSQL appears to be on a remote server");
+				// appears to be a remote server, so we'll try that first
+
+				// note: requires that the db user have the FILE privilege; however, since this is
+				// a global privilege, it may not be granted due to security concerns
+				$keywords = array('', 'LOCAL');
+			}
+			else
+			{
+				// otherwise, it appears to be the local server
+
+				// note: the LOCAL keyword may trigger a known PHP PDO_MYSQL bug when MySQL not built with --enable-local-infile
+				// @see http://bugs.php.net/bug.php?id=54158
+				$keywords = array('LOCAL', '');
 			}
 
-			$result = @Piwik_Exec('LOAD DATA INFILE'.$query);
-			if(empty($result) || $result < 0) {
-				throw new Exception("LOAD DATA INFILE failed!");
+			$lastMessage = '';
+			foreach($keywords as $keyword)
+			{
+				try {
+					$result = @Piwik_Exec('LOAD DATA '.$keyword.' INFILE'.$query);
+					if(empty($result) || $result < 0)
+					{
+						continue;
+					}
+
+					unlink($filePath);
+					return true;
+				} catch(Exception $e) {
+					$lastMessage = $e->getMessage();
+				}
 			}
 
-			unlink($filePath);
-			return true;
+			throw new Exception('LOAD DATA INFILE failed! '.$lastMessage);
+
 		} catch(Exception $e) {
 			Piwik::log("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was:" . $e->getMessage(), Piwik_Log::WARN);
 
