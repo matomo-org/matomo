@@ -30,12 +30,7 @@
  */
 function smarty_outputfilter_cachebuster($source, &$smarty)
 {
-	static $cachebuster = null;
-	if(is_null($cachebuster))
-	{
-		$cachebuster = md5(Piwik_Common::getSalt() . PHP_VERSION . Piwik_Version::VERSION);
-	}
-	$tag = 'cb=' . $cachebuster;
+	$tag = 'cb=' . $smarty->get_template_vars('cacheBuster');
 
 	$pattern = array(
 		'~<script type=[\'"]text/javascript[\'"] src=[\'"]([^\'"]+)[\'"]>~',

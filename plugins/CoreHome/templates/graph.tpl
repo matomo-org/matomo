@@ -14,7 +14,7 @@
 			piwikHelper.OFC.set("{$chartDivId}", '{$flashParameters.data}');
 			{/if}
 			swfobject.embedSWF(
-				"{$flashParameters.ofcLibraryPath}open-flash-chart.swf?piwik={$piwik_version}",
+				"{$flashParameters.ofcLibraryPath}open-flash-chart.swf?cb={$cacheBuster}",
 				"{$chartDivId}",
 				"{$flashParameters.width}", "{$flashParameters.height}",
 				"{$flashParameters.requiredFlashVersion}",

@@ -48,7 +48,7 @@
 	
 	var attr = { id:"UserCountryMap" };
 {/literal}	
-	swfobject.embedSWF("plugins/UserCountryMap/PiwikMap.swf?piwik={$piwik_version}", "UserCountryMap_map", 
+	swfobject.embedSWF("plugins/UserCountryMap/PiwikMap.swf?cb={$cacheBuster}", "UserCountryMap_map", 
 		"100%", Math.round($('#UserCountryMap_content').width() *.55), "10.0.0", 
 		"libs/swfobject/expressInstall.swf", fv, params, attr
 	);
