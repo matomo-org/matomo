@@ -265,7 +265,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 									  location_country char(3) NOT NULL,
 									  location_continent char(3) NOT NULL,
 									  url text NOT NULL,
-									  idgoal int(10) unsigned NOT NULL,
+									  idgoal int(10) NOT NULL,
 									  buster int unsigned NOT NULL,
 									  
 									  idorder varchar(100) default NULL,
