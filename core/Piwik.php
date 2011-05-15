@@ -26,6 +26,10 @@ class Piwik
 	const CLASSES_PREFIX = 'Piwik_';
 	const COMPRESSED_FILE_LOCATION = '/tmp/assets/';
 
+/*
+ * Piwik periods
+ */
+
 	public static $idPeriods =  array(
 			'day'	=> 1,
 			'week'	=> 2,
@@ -39,6 +43,7 @@ class Piwik
 	 * -> Always process for day/week/month periods
 	 * For Year and Range, only process if it was enabled in the config file,
 	 *
+	 * @param string $periodLabel Period label (e.g., 'day')
 	 * @return bool
 	 */
 	static public function isUniqueVisitorsEnabled($periodLabel)
