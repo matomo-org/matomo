@@ -2252,7 +2252,7 @@ class Piwik
 			} catch(Exception $e) {
 				if(!Zend_Registry::get('db')->isErrNo($e, '1148'))
 				{
-					Piwik::log("LOAD DATA INFILE failed... Error was:" . $e->getMessage(), Piwik_Log::WARN);
+					Piwik::log("LOAD DATA INFILE failed... Error was:" . $e->getMessage());
 				}
 			}
 		}
@@ -2304,7 +2304,7 @@ class Piwik
 				throw new Exception('unknown cause');
 
 			} catch(Exception $e) {
-				Piwik::log("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was:" . $e->getMessage(), Piwik_Log::WARN);
+				Piwik::log("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was:" . $e->getMessage());
 			}
 		}
 
