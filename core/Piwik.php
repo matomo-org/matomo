@@ -829,6 +829,58 @@ class Piwik
 		}
 	}
 
+	/**
+	 * Create CSV (or other delimited) files
+	 *
+	 * @param string $filePath
+	 * @param array $fileSpec File specifications (delimeter, line terminator, etc)
+	 * @param array $rows Array of array corresponding to rows of values
+	 * @throw Exception if unable to create or write to file
+	 */
+	static public function createCSVFile($filePath, $fileSpec, $rows)
+	{
+		// Set up CSV delimiters, quotes, etc
+		$delim = $fileSpec['delim'];
+		$quote = $fileSpec['quote'];
+		$eol   = $fileSpec['eol'];
+		$null  = $fileSpec['null'];
+		$escapespecial_cb = $fileSpec['escapespecial_cb'];
+
+		$fp = fopen($filePath, 'wb');
+		if (!$fp)
+		{
+			throw new Exception('Error creating the tmp file '.$filePath.', please check that the webserver has write permission to write this file.');
+		}
+
+		foreach ($rows as $row)
+		{
+			$output = '';
+			foreach($row as $value)
+			{
+				if(!isset($value) || is_null($value) || $value === false)
+				{
+					$output .= $null.$delim;
+				}
+				else
+				{
+					$output .= $quote.$escapespecial_cb($value).$quote.$delim;
+				}
+			}
+
+			// Replace delim with eol
+			$output = substr_replace($output, $eol, -1);
+
+			$ret = fwrite($fp, $output);
+			if (!$ret) {
+				fclose($fp);
+				throw new Exception('Error writing to the tmp file '.$filePath);
+			}
+		}
+		fclose($fp);
+
+		@chmod($filePath, 0777);
+	}
+
 /*
  * PHP environment settings
  */
@@ -2121,15 +2173,85 @@ class Piwik
 	}
 
 	/**
-	 * Escape special characters in string for LOAD DATA INFILE
+	 * Batch insert into table from CSV (or other delimeted) file.
 	 *
-	 * @param string $str
-	 * @return string
+	 * @param string $tableName Name of table
+	 * @param array $fields Field names
+	 * @param string $filePath Path name of a file.
+	 * @param array $fileSpec File specifications (delimeter, line terminator, etc)
+	 * @return bool True if successful; false otherwise
 	 */
-	static private function escapeString($str)
+	static public function createTableFromCSVFile($tableName, $fields, $filePath, $fileSpec)
 	{
-		$str = str_replace(array('\\', '"'), array('\\\\', '\\"'), $str);
-		return $str;
+		// On Windows, MySQL expects forward slashes as directory separators
+		if (Piwik_Common::isWindows()) {
+			$filePath = str_replace('\\', '/', $filePath);
+		}
+
+		$query = "
+				'$filePath'
+			REPLACE
+			INTO TABLE
+				".$tableName;
+
+		if(isset($fileSpec['charset']))
+		{
+			$query .= ' CHARACTER SET '.$fileSpec['charset'];
+		}
+
+		$fieldList = '('.join(',', $fields).')';
+
+		$query .= "
+			FIELDS TERMINATED BY
+				'".$fileSpec['delim']."'
+			ENCLOSED BY
+				'".$fileSpec['quote']."'
+			ESCAPED BY
+				'".$fileSpec['escape']."'
+			LINES TERMINATED BY
+				'".$fileSpec['eol']."'
+			$fieldList
+		";
+
+		/*
+		 * First attempt: assume web server and MySQL server are on the same machine;
+		 * this requires that the db user have the FILE privilege; however, since this is
+		 * a global privilege, it may not be granted due to security concerns
+		 */
+		$keywords = array('');
+
+		/*
+		 * Second attempt: using the LOCAL keyword means the client reads the file and sends it to the server;
+		 * the LOCAL keyword may trigger a known PHP PDO_MYSQL bug when MySQL not built with --enable-local-infile
+		 * @see http://bugs.php.net/bug.php?id=54158
+		 */
+		$openBaseDir = ini_get('open_basedir');
+		$safeMode = ini_get('safe_mode');
+		if(empty($openBaseDir) && empty($safeMode))
+		{
+			// php 5.x - LOAD DATA LOCAL INFILE is disabled if open_basedir restrictions or safe_mode enabled
+			$keywords[] = 'LOCAL';
+		}
+
+		foreach($keywords as $keyword)
+		{
+			try {
+				$sql = 'LOAD DATA '.$keyword.' INFILE '.$query;
+				$result = @Piwik_Exec($sql);
+				if(empty($result) || $result < 0)
+				{
+					continue;
+				}
+
+				return true;
+			} catch(Exception $e) {
+				if(!Zend_Registry::get('db')->isErrNo($e, '1148'))
+				{
+					Piwik::log("LOAD DATA INFILE failed... Error was:" . $e->getMessage(), Piwik_Log::WARN);
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -2143,147 +2265,47 @@ class Piwik
 	 */
 	static public function tableInsertBatch($tableName, $fields, $values)
 	{
-		$fieldList = '('.join(',', $fields).')';
-
 		$filePath = PIWIK_USER_PATH . '/' . Piwik_AssetManager::MERGED_FILE_DIR . $tableName . '-'.Piwik_Common::generateUniqId().'.csv';
 
-		if (Piwik_Common::isWindows()) {
-			// On Windows, MySQL expects forward slashes as directory separators
-			$filePath = str_replace('\\', '/', $filePath);
-		}
+		if(Zend_Registry::get('db')->hasBulkLoader())
+		{
+			try {
+//				throw new Exception('');
 
-		try {
-//			throw new Exception('');
+				$fileSpec = array(
+					'delim' => "\t",
+					'quote' => '"', // chr(34)
+					'escape' => '\\\\', // chr(92)
+					'escapespecial_cb' => create_function('$str', 'return str_replace(array(chr(92), chr(34)), array(chr(92).chr(92), chr(92).chr(34)), $str);'),
+					'eol' => "\r\n",
+					'null' => 'NULL',
+				);
 
-			// Set up CSV delimiters, quotes, etc
-			$delim = "\t";
-			$quote = '"';
-			$eol   = "\r\n";
-			$null  = 'NULL';
-			$escape = '\\\\';
-
-			$fp = fopen($filePath, 'wb');
-			if (!$fp)
-			{
-				throw new Exception('Error creating the tmp file '.$filePath.', please check that the webserver has write permission to write this file.');
-			}
-
-			@chmod($filePath, 0777);
-
-			foreach ($values as $row)
-			{
-				$output = '';
-				foreach($row as $value)
+				// hack for charset mismatch
+				if(!self::isDatabaseConnectionUTF8() && !isset(Zend_Registry::get('config')->database->charset))
 				{
-					if(!isset($value) || is_null($value) || $value === false)
-					{
-						$output .= $null.$delim;
-					}
-					else
-					{
-						$output .= $quote.self::escapeString($value).$quote.$delim;
-					}
+					$fileSpec['charset'] = 'latin1';
 				}
-				// Replace delim with eol
-				unset($row[strlen($output)-strlen($delim)]);
-				$output .= $eol;
 
-				$ret = fwrite($fp, $output);
-				if (!$ret) {
-					fclose($fp);
-					throw new Exception('Error writing to the tmp file '.$filePath.' containing the batch INSERTs.');
-				}
-			}
-			fclose($fp);
+				self::createCSVFile($filePath, $fileSpec, $values);
 
-			$query = "
-					'$filePath'
-				REPLACE
-				INTO TABLE
-					".$tableName;
-
-			// hack for charset mismatch
-			if(!self::isDatabaseConnectionUTF8() && !isset(Zend_Registry::get('config')->database->charset))
-			{
-				$query .= ' CHARACTER SET latin1';
-			}
-
-			$query .= "
-				FIELDS TERMINATED BY
-					'".$delim."'
-				ENCLOSED BY
-					'".$quote."'
-				ESCAPED BY
-					'".$escape."'
-				LINES TERMINATED BY
-					\"".$eol."\"
-				$fieldList
-			";
-
-			/*
-			 * determine the "best" order to attempt the queries
-			 */
-			$openBaseDir = ini_get('open_basedir');
-			$safeMode = ini_get('safe_mode');
-			if(!empty($openBaseDir) || !empty($safeMode))
-			{
-				// php 5.x - LOAD DATA LOCAL INFILE is disabled if open_basedir restrictions or safe_mode enabled
-				$keywords = array('');
-			}
-			else
-			{
-				$dbHost = Zend_Registry::get('config')->database->host;
-				$localHosts = array('127.0.0.1', 'localhost', 'localhost.local', 'localhost.localdomain', 'localhost.localhost');
-				$hostName = @php_uname('n');
-				if(!empty($hostName))
+				$rc = self::createTableFromCSVFile($tableName, $fields, $filePath, $fileSpec);
+				if($rc)
 				{
-					$localHosts = array_merge($localHosts, array($hostName, $hostName.'.local', $hostName.'.localdomain', $hostName.'.localhost'));
-				}
-
-				if(!empty($dbHost) && !in_array($dbHost, $localHosts))
-				{
-					// appears to be a remote server, so we'll try that first
-	
-					// note: requires that the db user have the FILE privilege; however, since this is
-					// a global privilege, it may not be granted due to security concerns
-					$keywords = array('', 'LOCAL');
-				}
-				else
-				{
-					// otherwise, it appears to be the local server
-
-					// note: the LOCAL keyword may trigger a known PHP PDO_MYSQL bug when MySQL not built with --enable-local-infile
-					// @see http://bugs.php.net/bug.php?id=54158
-					$keywords = array('LOCAL', '');
-				}
-			}
-
-			$lastMessage = '';
-			foreach($keywords as $keyword)
-			{
-				try {
-					$result = @Piwik_Exec('LOAD DATA '.$keyword.' INFILE'.$query);
-					if(empty($result) || $result < 0)
-					{
-						continue;
-					}
-
 					unlink($filePath);
 					return true;
-				} catch(Exception $e) {
-					$lastMessage = $e->getMessage();
 				}
+
+				throw new Exception('unknown cause');
+
+			} catch(Exception $e) {
+				Piwik::log("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was:" . $e->getMessage(), Piwik_Log::WARN);
 			}
-
-			throw new Exception('LOAD DATA INFILE failed! '.$lastMessage);
-
-		} catch(Exception $e) {
-			Piwik::log("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was:" . $e->getMessage(), Piwik_Log::WARN);
-
-			// if all else fails, fallback to a series of INSERTs
-			@unlink($filePath);
-			self::tableInsertBatchIterate($tableName, $fields, $values);
 		}
+
+		// if all else fails, fallback to a series of INSERTs
+		@unlink($filePath);
+		self::tableInsertBatchIterate($tableName, $fields, $values);
 		return false;
 	}
 

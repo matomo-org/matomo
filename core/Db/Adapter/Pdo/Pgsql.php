@@ -80,6 +80,21 @@ class Piwik_Db_Adapter_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements Pi
 	}
 
 	/**
+	 * Returns true if this adapter supports bulk loading
+	 *
+	 * @return bool
+	 */
+	public function hasBulkLoader()
+	{
+		/**
+		 * COPY ?
+		 *
+		 * @linkhttp://www.postgresql.org/docs/current/interactive/sql-copy.html
+		 */
+		return false;
+	}
+
+	/**
 	 * Test error number
 	 *
 	 * @param Exception $e

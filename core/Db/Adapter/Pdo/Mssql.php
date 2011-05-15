@@ -196,6 +196,21 @@ class Piwik_Db_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql implements Piwik_Db_A
 	}
 
 	/**
+	 * Returns true if this adapter supports bulk loading
+	 *
+	 * @return bool
+	 */
+	public function hasBulkLoader()
+	{
+		/**
+		 * BULK INSERT doesn't have a way to escape a terminator that appears in a value
+		 *
+		 * @link http://msdn.microsoft.com/en-us/library/ms188365.aspx
+		 */
+		return false;
+	}
+
+	/**
 	 * Test error number
 	 *
 	 * @param Exception $e

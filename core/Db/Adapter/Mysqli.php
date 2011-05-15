@@ -91,6 +91,16 @@ class Piwik_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db
 	}
 
 	/**
+	 * Returns true if this adapter supports bulk loading
+	 *
+	 * @return bool
+	 */
+	public function hasBulkLoader()
+	{
+		return true;
+	}
+
+	/**
 	 * Test error number
 	 *
 	 * @param Exception $e
