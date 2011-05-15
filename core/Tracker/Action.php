@@ -22,6 +22,9 @@ interface Piwik_Tracker_Action_Interface {
 	const TYPE_OUTLINK  = 2;
 	const TYPE_DOWNLOAD = 3;
 	const TYPE_ACTION_NAME = 4;
+	const TYPE_ECOMMERCE_ITEM_SKU = 5;
+	const TYPE_ECOMMERCE_ITEM_NAME = 6;
+	const TYPE_ECOMMERCE_ITEM_CATEGORY = 7;
 	
 	public function setRequest($requestArray);
 	public function setIdSite( $idSite );
@@ -48,8 +51,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	private $idSite;
 	private $timestamp;
 	private $idLinkVisitAction;
-	private $idActionName = null;
-	private $idActionUrl = null;
+	private $idActionName = false;
+	private $idActionUrl = false;
 
 	private $actionName;
 	private $actionType;
@@ -184,9 +187,12 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		}
 		$parsedUrl['query'] = substr($validQuery,0,-strlen($separator));
 		$url = Piwik_Common::getParseUrlReverse($parsedUrl);
-		printDebug('Excluded parameters "'.implode(',',$excludedParameters).'" from URL');
-		printDebug(' Before was "'.$originalUrl.'"');
-		printDebug(' After is "'.$url.'"');
+		printDebug('Excluding parameters "'.implode(',',$excludedParameters).'" from URL');
+		if($originalUrl != $url)
+		{
+			printDebug(' Before was "'.$originalUrl.'"');
+			printDebug(' After is "'.$url.'"');
+		}
 		return $url;
 	}
 	
@@ -200,12 +206,108 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	
 	static public function getSqlSelectActionId()
 	{
-		$sql = "SELECT idaction, type 
+		$sql = "SELECT idaction, type, name
 							FROM ".Piwik_Common::prefixTable('log_action')
 						."  WHERE "
 						."		( hash = CRC32(?) AND name = ? AND type = ? ) ";
 		return $sql;
 	}
+	
+	/**
+	 * This function will find the idaction from the lookup table piwik_log_action,
+	 * given an Action name and type.
+	 * 
+	 * This is used to record Page URLs, Page Titles, Ecommerce items SKUs, item names, item categories
+	 * 
+	 * If the action name does not exist in the lookup table, it will INSERT it
+	 * @param array $actionNamesAndTypes Array of one or many (name,type)
+	 * @return array Returns the input array, with the idaction appended ie. Array of one or many (name,type,idaction)
+	 */
+	static public function loadActionId( $actionNamesAndTypes )
+	{
+		// First, we try and select the actions that are already recorded
+		$sql = self::getSqlSelectActionId();
+		$bind = array();
+		$i = 0;
+		foreach($actionNamesAndTypes as &$actionNameType)
+		{
+			list($name,$type) = $actionNameType;
+			if(empty($name))
+			{
+				$actionNameType[] = false;
+				continue;
+			}
+			if($i > 0)
+			{
+				$sql .= " OR ( hash = CRC32(?) AND name = ? AND type = ? ) ";
+			}
+			$bind[] = $name;
+			$bind[] = $name;
+			$bind[] = $type;
+			$i++;
+		}
+		// Case URL & Title are empty
+		if(empty($bind))
+		{
+			return $actionNamesAndTypes;
+		}
+		$actionIds = Piwik_Tracker::getDatabase()->fetchAll($sql, $bind);
+		
+		// For the Actions found in the lookup table, add the idaction in the array, 
+		// If not found in lookup table, queue for INSERT
+		$actionsToInsert = array();
+		foreach($actionNamesAndTypes as $index => &$actionNameType)
+		{
+			list($name,$type) = $actionNameType;
+			if(empty($name)) { continue; }
+			$found = false;
+			foreach($actionIds as $row)
+			{
+				if($name == $row['name']
+					&& $type == $row['type'])
+				{
+					$found = true;
+					$actionNameType[] = $row['idaction'];
+					continue;
+				}
+			}
+			if(!$found)
+			{
+				$actionsToInsert[] = $index;
+			}
+		}
+		
+		$sql = "INSERT INTO ". Piwik_Common::prefixTable('log_action'). 
+				"( name, hash, type ) VALUES (?,CRC32(?),?)";
+		// Then, we insert all new actions in the lookup table
+		foreach($actionsToInsert as $actionToInsert)
+		{
+			list($name,$type) = $actionNamesAndTypes[$actionToInsert];
+	
+			Piwik_Tracker::getDatabase()->query($sql, array($name, $name, $type));
+			$actionId = Piwik_Tracker::getDatabase()->lastInsertId();
+			printDebug("Recorded a new action (".self::getActionTypeName($type).") in the lookup table: ". $name . " (idaction = ".$actionId.")");
+			
+			$actionNamesAndTypes[$actionToInsert][] = $actionId;
+		}
+		return $actionNamesAndTypes;
+	}
+	
+	static public function getActionTypeName($type)
+	{
+		switch($type)
+		{
+			case self::TYPE_ACTION_URL: return 'Page URL'; break;
+			case self::TYPE_OUTLINK: return 'Outlink URL'; break;
+			case self::TYPE_DOWNLOAD: return 'Download URL'; break;
+			case self::TYPE_ACTION_NAME: return 'Page Title'; break;
+			case self::TYPE_ECOMMERCE_ITEM_SKU: return 'Ecommerce Item SKU'; break;
+			case self::TYPE_ECOMMERCE_ITEM_NAME: return 'Ecommerce Item Name'; break;
+			case self::TYPE_ECOMMERCE_ITEM_CATEGORY: return 'Ecommerce Item Category'; break;
+			default: throw new Exception("Unexpected action type ".$type); break;
+		}
+	}
+	
 	/**
 	 * Loads the idaction of the current action name and the current action url.
 	 * These idactions are used in the visitor logging table to link the visit information
@@ -214,55 +316,38 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	 * 
 	 * The methods takes care of creating a new record(s) in the action table if the existing
 	 * action name and action url doesn't exist yet.
-	 * 
 	 */
 	function loadIdActionNameAndUrl()
 	{
-		if( !is_null($this->idActionUrl) && !is_null($this->idActionName) )
+		if( $this->idActionUrl !== false 
+			&& $this->idActionName !== false )
 		{
 			return;
 		}
-		$idAction = Piwik_Tracker::getDatabase()->fetchAll(
-						$this->getSqlSelectActionId()
-						."	OR "
-						."		( hash = CRC32(?) AND name = ? AND type = ? ) ",
-						array($this->getActionName(), $this->getActionName(), $this->getActionNameType(),
-							$this->getActionUrl(), $this->getActionUrl(), $this->getActionType())
-					);
-
-		if( $idAction !== false )
+		$actions = array();
+		$action = array($this->getActionName(), $this->getActionNameType());
+		if(!is_null($action[1]))
 		{
-			foreach($idAction as $row)
+			$actions[] = $action;
+		}
+		$action = array($this->getActionUrl(), $this->getActionType());
+		if(!is_null($action[1]))
+		{
+			$actions[] = $action;
+		}
+		$loadedActionIds = self::loadActionId($actions);
+		
+		foreach($loadedActionIds as $loadedActionId)
+		{
+			list($name, $type, $actionId) = $loadedActionId;
+			if($type == $this->getActionType())
 			{
-				if( $row['type'] == Piwik_Tracker_Action_Interface::TYPE_ACTION_NAME )
-				{
-					$this->idActionName = $row['idaction'];
-				}
-				else
-				{
-					$this->idActionUrl = $row['idaction'];
-				}
+				$this->idActionUrl = $actionId;
 			}
-		}
-
-		$sql = "INSERT INTO ". Piwik_Common::prefixTable('log_action'). 
-				"( name, hash, type ) VALUES (?,CRC32(?),?)";
-
-		if( is_null($this->idActionName) 
-		    && !is_null($this->getActionNameType()) )
-		{
-			Piwik_Tracker::getDatabase()->query($sql,
-				array($this->getActionName(), $this->getActionName(), $this->getActionNameType()));
-			$this->idActionName = Piwik_Tracker::getDatabase()->lastInsertId();
-			printDebug("Recording a new page name in the lookup table: ". $this->idActionName);
-		}
-
-		if( is_null($this->idActionUrl) )
-		{
-			Piwik_Tracker::getDatabase()->query($sql,
-				array($this->getActionUrl(), $this->getActionUrl(), $this->getActionType()));
-			$this->idActionUrl = Piwik_Tracker::getDatabase()->lastInsertId();
-			printDebug("Recording a new page URL in the lookup table: ". $this->idActionUrl);
+			elseif($type == $this->getActionNameType())
+			{
+				$this->idActionName = $actionId;
+			}
 		}
 	}
 	
@@ -291,11 +376,10 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	 public function record( $idVisit, $visitorIdCookie, $idRefererActionUrl, $idRefererActionName, $timeSpentRefererAction)
 	 {
 		$this->loadIdActionNameAndUrl();
-		$idActionName = $this->getIdActionName();
-		if(is_null($idActionName))
-		{
-			$idActionName = 0;
-		}
+		
+		$idActionName = in_array($this->getActionType(), array(Piwik_Tracker_Action::TYPE_ACTION_NAME, Piwik_Tracker_Action::TYPE_ACTION_URL))
+							? $this->getIdActionName()
+							: null;
 		Piwik_Tracker::getDatabase()->query( 
 						"INSERT INTO ".Piwik_Common::prefixTable('log_link_visit_action')
 						." (idvisit, idsite, idvisitor, server_time, idaction_url, idaction_name, idaction_url_ref, idaction_name_ref, time_spent_ref_action) 
@@ -304,8 +388,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 							$this->idSite, 
 							$visitorIdCookie,
 							Piwik_Tracker::getDatetimeFromTimestamp($this->timestamp),
-							$this->getIdActionUrl(), 
-							$idActionName , 
+							(int)$this->getIdActionUrl(), 
+							$idActionName, 
 							$idRefererActionUrl, 
 							$idRefererActionName, 
 							$timeSpentRefererAction

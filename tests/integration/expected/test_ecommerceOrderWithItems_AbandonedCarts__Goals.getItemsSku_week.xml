@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>SKU IN ABANDONED CART TWO</label>
+		<revenue>6000</revenue>
+		<quantity>6</quantity>
+		<abandoned_carts>3</abandoned_carts>
+		<avg_price>1000</avg_price>
+		<avg_quantity>2</avg_quantity>
+	</row>
+	<row>
+		<label>SKU IN ABANDONED CART ONE</label>
+		<revenue>1500.33</revenue>
+		<quantity>3</quantity>
+		<abandoned_carts>3</abandoned_carts>
+		<avg_price>500.11</avg_price>
+		<avg_quantity>1</avg_quantity>
+	</row>
+</result>

@@ -10,6 +10,13 @@
 	<row>
 		<type>metric</type>
 		<category>Visit</category>
+		<name>Visit Ecommerce status at the end of the visit. For example, to select all visits that have made an Ecommerce order, the API request would contain &quot;&amp;segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart&quot;</name>
+		<segment>visitEcommerceStatus</segment>
+		<acceptedValues>none, ordered, abandonedCart, orderedThenAbandonedCart</acceptedValues>
+	</row>
+	<row>
+		<type>metric</type>
+		<category>Visit</category>
 		<name>Visit Duration (in seconds)</name>
 		<segment>visitDuration</segment>
 	</row>
@@ -30,6 +37,12 @@
 		<category>Visit</category>
 		<name>Days since last visit</name>
 		<segment>daysSinceLastVisit</segment>
+	</row>
+	<row>
+		<type>metric</type>
+		<category>Visit</category>
+		<name>Days since last Ecommerce order</name>
+		<segment>daysSinceLastEcommerceOrder</segment>
 	</row>
 	<row>
 		<type>metric</type>

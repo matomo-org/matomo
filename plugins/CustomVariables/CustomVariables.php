@@ -171,8 +171,8 @@ class Piwik_CustomVariables extends Piwik_Plugin
         	{
         		while($row = $query->fetch() )
         		{
-    				if(!isset($this->interestByCustomVariables[$row[$keyField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByCustomVariables[$row[$keyField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow();
-    				if(!isset($this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow();
+    				if(!isset($this->interestByCustomVariables[$row[$keyField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByCustomVariables[$row[$keyField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
+    				if(!isset($this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
     				
     				$archiveProcessing->updateGoalStats( $row, $this->interestByCustomVariables[$row[$keyField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
     				$archiveProcessing->updateGoalStats( $row, $this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);

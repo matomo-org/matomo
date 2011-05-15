@@ -52,6 +52,11 @@ class Piwik
 			|| Zend_Registry::get('config')->General->enable_processing_unique_visitors_year_and_range ;
 	}
 
+	static public function isEcommerceEnabled($idSite)
+	{
+		//TODO ECOMMERCE
+		return true;
+	}
 /*
  * Prefix/unprefix class name
  */
@@ -1366,7 +1371,7 @@ class Piwik
 			}
 			else
 			{
-				$precision = 2;
+				$precision = Piwik_Tracker_GoalManager::REVENUE_PRECISION;
 				$value = sprintf( "%01.".$precision."f", $value);
 			}
 		}

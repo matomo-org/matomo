@@ -44,6 +44,7 @@ class Piwik_Live_Visitor
 			'visitorId' => $this->getVisitorId(),
 			'visitorType' => $this->isVisitorReturning() ? 'returning' : 'new',
 			'visitConverted' => $this->isVisitorGoalConverted(),
+			'visitEcommerceStatus' => $this->getVisitEcommerceStatus(),
 		
 			'actions' => $this->getNumberOfActions(),
 			// => false are placeholders to be filled in API later
@@ -65,6 +66,7 @@ class Piwik_Live_Visitor
 			'visitCount' => $this->getVisitCount(),
 			'daysSinceLastVisit' => $this->getDaysSinceLastVisit(),
 			'daysSinceFirstVisit' => $this->getDaysSinceFirstVisit(),
+			'daysSinceLastEcommerceOrder' => $this->getDaysSinceLastEcommerceOrder(),
 			'country' => $this->getCountryName(),
 			'countryFlag' => $this->getCountryFlag(),
 			'continent' => $this->getContinent(),
@@ -117,6 +119,10 @@ class Piwik_Live_Visitor
 		return $this->details['visitor_days_since_last'];
 	}
 	
+	function getDaysSinceLastEcommerceOrder()
+	{
+		return $this->details['visitor_days_since_order'];
+	}
 	function getDaysSinceFirstVisit()
 	{
 		return $this->details['visitor_days_since_first'];
@@ -379,6 +385,11 @@ class Piwik_Live_Visitor
 		return date('Y-m-d H:i:s', strtotime($this->details['visit_last_action_time']));
 	}
 
+	function getVisitEcommerceStatus()
+	{
+		return Piwik_API_API::getVisitEcommerceStatusFromId($this->details['visit_goal_buyer']);
+	}
+	
 	function isVisitorGoalConverted()
 	{
 		return $this->details['visit_goal_converted'];

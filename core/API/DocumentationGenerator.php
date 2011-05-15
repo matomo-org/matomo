@@ -135,7 +135,8 @@ class Piwik_API_DocumentationGenerator
 			'url' => 'http://forum.piwik.org/',
 			'apiModule' => 'UserCountry',
 			'apiAction' => 'getCountry',
-			'lastMinutes' => '30'
+			'lastMinutes' => '30',
+			'abandonedCarts' => '0',
 		);
 		
 		foreach($parametersToSet as $name => $value)

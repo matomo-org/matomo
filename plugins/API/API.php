@@ -201,6 +201,25 @@ class Piwik_API_API
 				'acceptedValues' => '0, 1',
 		        'sqlSegment' => 'visit_goal_converted',
 	    );
+	    
+		$segments[] = array(
+		        'type' => 'metric',
+		        'category' => 'Visit',
+		        'name' => Piwik_Translate('General_EcommerceVisitStatus', '"&segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart"'),
+		        'segment' => 'visitEcommerceStatus',
+				'acceptedValues' => implode(", ", self::$visitEcommerceStatus),
+		        'sqlSegment' => 'visit_goal_buyer',
+		        'sqlFilter' => array('Piwik_API_API', 'getVisitEcommerceStatus'),
+	    );
+	    
+	    $segments[] = array(
+		        'type' => 'metric',
+		        'category' => 'Visit',
+		        'name' => 'General_DaysSinceLastEcommerceOrder',
+		        'segment' => 'daysSinceLastEcommerceOrder',
+		        'sqlSegment' => 'visitor_days_since_order',
+	    );
+	    
 		foreach ($segments as &$segment)
 		{
 		    $segment['name'] = Piwik_Translate($segment['name']);
@@ -215,6 +234,32 @@ class Piwik_API_API
 		
 		usort($segments, array($this, 'sortSegments'));
 		return $segments;
+	}
+	
+	static protected $visitEcommerceStatus = array(
+		Piwik_Tracker_GoalManager::TYPE_BUYER_NONE => 'none',
+		Piwik_Tracker_GoalManager::TYPE_BUYER_ORDERED => 'ordered',
+		Piwik_Tracker_GoalManager::TYPE_BUYER_OPEN_CART => 'abandonedCart',
+		Piwik_Tracker_GoalManager::TYPE_BUYER_ORDERED_AND_OPEN_CART => 'orderedThenAbandonedCart',
+	);
+	
+	static public function getVisitEcommerceStatusFromId($id)
+	{
+		if(!isset(self::$visitEcommerceStatus[$id]))
+		{
+			throw new Exception("Unexpected ECommerce status value ");
+		}
+		return self::$visitEcommerceStatus[$id];
+	}
+	
+	static public function getVisitEcommerceStatus($status)
+	{
+		$id = array_search($status, self::$visitEcommerceStatus);
+		if($id === false)
+		{
+			throw new Exception("Invalid 'visitEcommerceStatus' segment value");
+		}
+		return $id;
 	}
 	
 	private function sortSegments($row1, $row2)

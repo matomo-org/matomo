@@ -68,11 +68,23 @@ abstract class Piwik_Archive
 	const INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH = 21;
 	const INDEX_PAGE_ENTRY_BOUNCE_COUNT = 22;
 	
+	// Ecommerce Items reports
+	const INDEX_ECOMMERCE_ITEM_REVENUE = 23;
+	const INDEX_ECOMMERCE_ITEM_QUANTITY = 24;
+	const INDEX_ECOMMERCE_ITEM_PRICE = 25;
+	const INDEX_ECOMMERCE_ORDERS = 26;
+
 	// Goal reports
 	const INDEX_GOAL_NB_CONVERSIONS = 1;
 	const INDEX_GOAL_REVENUE = 2;
 	const INDEX_GOAL_NB_VISITS_CONVERTED = 3;
-
+	
+	const INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL = 4;
+	const INDEX_GOAL_ECOMMERCE_REVENUE_TAX = 5;
+	const INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING = 6;
+	const INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT = 7;
+	const INDEX_GOAL_ECOMMERCE_ITEMS = 8;
+	
 	public static $mappingFromIdToName = array(
 				Piwik_Archive::INDEX_NB_UNIQ_VISITORS 		=> 'nb_uniq_visitors',
 				Piwik_Archive::INDEX_NB_VISITS				=> 'nb_visits',
@@ -100,12 +112,23 @@ abstract class Piwik_Archive
 				Piwik_Archive::INDEX_PAGE_ENTRY_NB_ACTIONS => 'entry_nb_actions',
 				Piwik_Archive::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH => 'entry_sum_visit_length',
 				Piwik_Archive::INDEX_PAGE_ENTRY_BOUNCE_COUNT => 'entry_bounce_count',
+				
+				// Items reports metrics
+				Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE => 'revenue',
+				Piwik_Archive::INDEX_ECOMMERCE_ITEM_QUANTITY => 'quantity',
+				Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE => 'price',
+				Piwik_Archive::INDEX_ECOMMERCE_ORDERS => 'orders',
 			);
 
 	public static $mappingFromIdToNameGoal = array(
 				Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS 	=> 'nb_conversions',
 				Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED 	=> 'nb_visits_converted',
 				Piwik_Archive::INDEX_GOAL_REVENUE 			=> 'revenue',
+				Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL => 'revenue_subtotal',
+				Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_TAX  => 'revenue_tax',
+				Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING  => 'revenue_shipping',
+				Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT  => 'revenue_discount',
+				Piwik_Archive::INDEX_GOAL_ECOMMERCE_ITEMS  => 'items',
 	);
 
 	/*
@@ -124,6 +147,9 @@ abstract class Piwik_Archive
 				'goals'						=> Piwik_Archive::INDEX_GOALS,
 				'sum_daily_nb_uniq_visitors' => Piwik_Archive::INDEX_SUM_DAILY_NB_UNIQ_VISITORS,
 	);
+	
+	const LABEL_ECOMMERCE_CART = 'ecommerceAbandonedCart';
+	const LABEL_ECOMMERCE_ORDER = 'ecommerceOrder';
 	
 	/**
 	 * Website Piwik_Site

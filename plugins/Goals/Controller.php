@@ -83,9 +83,11 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$view->topDimensions = $this->getTopDimensions($idGoal);
 		
 		// conversion rate for new and returning visitors
-		$conversionRateReturning = $this->getConversionRateReturningVisitors($this->idSite, Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'), $idGoal);
+		$segment = 'visitorType==returning';
+		$conversionRateReturning = Piwik_Goals_API::getInstance()->getConversionRate($this->idSite, Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'), $segment, $idGoal);
 		$view->conversion_rate_returning = $this->formatConversionRate($conversionRateReturning);
-		$conversionRateNew = $this->getConversionRateNewVisitors($this->idSite, Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'), $idGoal);
+		$segment = 'visitorType==new';
+		$conversionRateNew = Piwik_Goals_API::getInstance()->getConversionRate($this->idSite, Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'), $segment, $idGoal);
 		$view->conversion_rate_new = $this->formatConversionRate($conversionRateNew);
 		return $view;
 	}
@@ -278,52 +280,4 @@ class Piwik_Goals_Controller extends Piwik_Controller
 				'urlSparklineRevenue' 			=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('revenue'), 'idGoal' => $idGoal)),
 		);
 	}
-	
-	private function getConversionRateReturningVisitors( $idSite, $period, $date, $idGoal = false )
-	{
-		// visits converted for returning for all goals = call Frequency API
-		if($idGoal === false)
-		{
-			$request = new Piwik_API_Request("method=VisitFrequency.getConvertedVisitsReturning&idSite=$idSite&period=$period&date=$date&format=original");
-			$nbVisitsConvertedReturningVisitors = $request->process();
-		}
-		// visits converted for returning = nb conversion for this goal
-		else
-		{
-			$nbVisitsConvertedReturningVisitors = Piwik_Goals_API::getInstance()->getConversions($idSite, $period, $date, $segment=false,$idGoal);
-		}
-		// all returning visits
-		$request = new Piwik_API_Request("method=VisitFrequency.getVisitsReturning&idSite=$idSite&period=$period&date=$date&format=original");
-		$nbVisitsReturning = $request->process();
-//		echo $nbVisitsConvertedReturningVisitors;
-//		echo "<br />". $nbVisitsReturning;exit;
-
-		return Piwik::getPercentageSafe($nbVisitsConvertedReturningVisitors, $nbVisitsReturning, Piwik_Goals::ROUNDING_PRECISION);
-	}
-
-	private function getConversionRateNewVisitors( $idSite, $period, $date, $idGoal = false )
-	{
-		// new visits converted for all goals = nb visits converted - nb visits converted for returning
-		if($idGoal == false)
-		{
-			$request = new Piwik_API_Request("method=VisitsSummary.getVisitsConverted&idSite=$idSite&period=$period&date=$date&format=original");
-			$convertedVisits = $request->process();
-			$request = new Piwik_API_Request("method=VisitFrequency.getConvertedVisitsReturning&idSite=$idSite&period=$period&date=$date&format=original");
-			$convertedReturningVisits = $request->process();
-			$convertedNewVisits = $convertedVisits - $convertedReturningVisits;
-		}
-		// new visits converted for a given goal = nb conversion for this goal for new visits
-		else
-		{
-			$convertedNewVisits = Piwik_Goals_API::getInstance()->getConversions($idSite, $period, $date, $segment=false, $idGoal);
-		}
-		// all new visits = all visits - all returning visits
-		$request = new Piwik_API_Request("method=VisitFrequency.getVisitsReturning&idSite=$idSite&period=$period&date=$date&format=original");
-		$nbVisitsReturning = $request->process();
-		$request = new Piwik_API_Request("method=VisitsSummary.getVisits&idSite=$idSite&period=$period&date=$date&format=original");
-		$nbVisits = $request->process();
-		$newVisits = $nbVisits - $nbVisitsReturning;
-		return Piwik::getPercentageSafe($convertedNewVisits, $newVisits, Piwik_Goals::ROUNDING_PRECISION);
-	}
-	
 }

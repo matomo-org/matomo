@@ -240,7 +240,9 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
                 'referer_keyword',
                 'visitor_returning',
 	    		'visitor_days_since_first',
+	    		'visitor_days_since_order',
 	    		'visitor_count_visits',
+	    		'visit_goal_buyer',
                 'location_country',
                 'location_continent',
                 'revenue',
@@ -267,18 +269,25 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	}
 	
 	/**
-	 * @see queryVisitsByDimension() Similar to this function, but queries metrics for the requested dimensions, for each Goal conversion 
+	 * @see queryVisitsByDimension() Similar to this function, 
+	 * but queries metrics for the requested dimensions, 
+	 * for each Goal conversion 
 	 */
 	public function queryConversionsByDimension($label, $where = '')
 	{
-	    if(is_array($label))
+		if(empty($label))
+		{
+			$select = "";
+			$groupBy = "";
+		}
+	    elseif(is_array($label))
 	    {
-	        $select = implode(", ", $label);
-	        $groupBy = $select;
+	        $groupBy = implode(", ", $label);
+	        $select =  $groupBy . ", ";
 	    }
 	    else
 	    {
-	        $select = $label . " AS label ";
+	        $select = $label . " AS label, ";
 	        $groupBy = 'label';
 	    }
 	    if(!empty($where)) 
@@ -295,20 +304,32 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	    {
 	        $segment = ' AND '.$segmentSql['sql'];
 	    }
-		$query = "SELECT idgoal,
-						count(*) as `". Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS ."`,
-						truncate(sum(revenue),2) as `". Piwik_Archive::INDEX_GOAL_REVENUE ."`,
-						count(distinct idvisit) as `". Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED."`,
+	    
+	    $isEcommerceEnabled = Piwik::isEcommerceEnabled($this->idsite);
+	    
+	    if($isEcommerceEnabled)
+	    {
+	    	$select .= 	$this->getSqlRevenue('SUM(revenue_subtotal)')." as `". Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL ."`,".
+			    		$this->getSqlRevenue('SUM(revenue_tax)')." as `". Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_TAX ."`,".
+			    		$this->getSqlRevenue('SUM(revenue_shipping)')." as `". Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING ."`,".
+			    		$this->getSqlRevenue('SUM(revenue_discount)')." as `". Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT ."`,".
+			    		"SUM(items) as `". Piwik_Archive::INDEX_GOAL_ECOMMERCE_ITEMS ."`, ";
+	    }
+	    $groupBy = !empty($groupBy) ? ", $groupBy" : '';
+		$query = "SELECT 
 						$select
+						idgoal,
+						count(*) as `". Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS ."`,
+						".$this->getSqlRevenue('SUM(revenue)')." as `". Piwik_Archive::INDEX_GOAL_REVENUE ."`,
+						count(distinct idvisit) as `". Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED."`
 			 	FROM ".Piwik_Common::prefixTable('log_conversion')."
 			 	WHERE server_time >= ?
 						AND server_time <= ?
 			 			AND idsite = ?
 			 			$where
 						$segment
-			 	GROUP BY idgoal, $groupBy
+			 	GROUP BY idgoal $groupBy
 				ORDER BY NULL";
-						
 		$bind = array_merge( array( $this->getStartDatetimeUTC(), 
                                     $this->getEndDatetimeUTC(), 
                                     $this->idsite ),
@@ -317,6 +338,38 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		return $query;
 	}
 	
+	public function queryEcommerceItems($field)
+	{
+		$query = "SELECT 
+						name as label,
+						".$this->getSqlRevenue('SUM(quantity * price)')." as `". Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE ."`,
+						".$this->getSqlRevenue('SUM(quantity)')." as `". Piwik_Archive::INDEX_ECOMMERCE_ITEM_QUANTITY ."`,
+						".$this->getSqlRevenue('SUM(price)')." as `". Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE ."`,
+						count(distinct idorder) as `". Piwik_Archive::INDEX_ECOMMERCE_ORDERS."`,
+						count(idvisit) as `". Piwik_Archive::INDEX_NB_VISITS."`,
+						case idorder when 0 then ".Piwik_Tracker_GoalManager::IDGOAL_CART." else ".Piwik_Tracker_GoalManager::IDGOAL_ORDER." end as type
+			 	FROM ".Piwik_Common::prefixTable('log_conversion_item')."
+			 		LEFT JOIN ".Piwik_Common::prefixTable('log_action')." 
+			 		ON $field = idaction
+			 	WHERE server_time >= ?
+						AND server_time <= ?
+			 			AND idsite = ?
+			 			AND deleted = 0
+			 	GROUP BY $field, type
+				ORDER BY NULL";
+						
+		$bind = array( $this->getStartDatetimeUTC(), 
+                       $this->getEndDatetimeUTC(), 
+                       $this->idsite
+        );
+		$query = $this->db->query($query, $bind);
+		return $query;
+	}
+	
+	protected function getSqlRevenue($field)
+	{
+		return "ROUND(".$field.",".Piwik_Tracker_GoalManager::REVENUE_PRECISION.")";
+	}
 	
 	public function getDataTableFromArray( $array )
 	{
@@ -580,8 +633,12 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 				$revenue = $conversions = 0;
 				foreach($values[Piwik_Archive::INDEX_GOALS] as $idgoal => $goalValues)
 				{
-					$revenue += $goalValues[Piwik_Archive::INDEX_GOAL_REVENUE];
-					$conversions += $goalValues[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS];
+					// Do not sum Cart revenue since it is a lost revenue
+					if($idgoal >= Piwik_Tracker_GoalManager::IDGOAL_ORDER)
+					{
+						$revenue += $goalValues[Piwik_Archive::INDEX_GOAL_REVENUE];
+						$conversions += $goalValues[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS];
+					}
 				}
 				$values[Piwik_Archive::INDEX_NB_CONVERSIONS] = $conversions;
 				$values[Piwik_Archive::INDEX_REVENUE] = $revenue;
@@ -605,14 +662,50 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		$oldRowToUpdate[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS]	+= $newRowToAdd[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS];
 		$oldRowToUpdate[Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED]	+= $newRowToAdd[Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED];
 		$oldRowToUpdate[Piwik_Archive::INDEX_GOAL_REVENUE] 			+= $newRowToAdd[Piwik_Archive::INDEX_GOAL_REVENUE];
+		
+		// Cart & Order
+		if(isset($oldRowToUpdate[Piwik_Archive::INDEX_GOAL_ECOMMERCE_ITEMS]))
+		{
+			$oldRowToUpdate[Piwik_Archive::INDEX_GOAL_ECOMMERCE_ITEMS] += $newRowToAdd[Piwik_Archive::INDEX_GOAL_ECOMMERCE_ITEMS];
+			
+			// Order only
+			if(isset($oldRowToUpdate[Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL]))
+			{
+				$oldRowToUpdate[Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL] += $newRowToAdd[Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL];
+				$oldRowToUpdate[Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_TAX] += $newRowToAdd[Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_TAX];
+				$oldRowToUpdate[Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING] += $newRowToAdd[Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING];
+				$oldRowToUpdate[Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT] += $newRowToAdd[Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT];
+			}
+		}
 	}
 	
-	function getNewGoalRow()
+	function getNewGoalRow($idGoal)
 	{
+		if($idGoal > Piwik_Tracker_GoalManager::IDGOAL_ORDER)
+		{
+			return array(	Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS 	=> 0, 
+							Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED => 0, 
+							Piwik_Archive::INDEX_GOAL_REVENUE 			=> 0, 
+						);
+		}
+		if($idGoal == Piwik_Tracker_GoalManager::IDGOAL_ORDER)
+		{
+			return array(	Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS 	=> 0, 
+							Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED => 0, 
+							Piwik_Archive::INDEX_GOAL_REVENUE 			=> 0, 
+							Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL => 0,
+							Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_TAX => 0,
+							Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING => 0,
+							Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT => 0,
+							Piwik_Archive::INDEX_GOAL_ECOMMERCE_ITEMS => 0,
+			);
+		}
+		// $row['idgoal'] == Piwik_Tracker_GoalManager::IDGOAL_CART
 		return array(	Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS 	=> 0, 
 						Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED => 0, 
 						Piwik_Archive::INDEX_GOAL_REVENUE 			=> 0, 
-					);
+						Piwik_Archive::INDEX_GOAL_ECOMMERCE_ITEMS => 0,
+		);
 	}
 	
 	function getGoalRowFromQueryRow($queryRow)
