@@ -2,31 +2,145 @@
 <result>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>3</idVisit>
+		<idVisit>4</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
 		<visitorType>returning</visitorType>
-		<visitConverted>0</visitConverted>
+		<visitConverted>1</visitConverted>
+		<visitEcommerceStatus>ordered</visitEcommerceStatus>
 		<actions>1</actions>
 		<actionDetails>
 			<row>
-				<type>outlink</type>
-				<url>http://test.com</url>
-				<pageTitle></pageTitle>
-				<pageIdAction>5</pageIdAction>
-				<pageId>4</pageId>
+				<type>ecommerceOrder</type>
+				<orderId>666</orderId>
+				<revenue>240</revenue>
+				<revenueSubTotal>200</revenueSubTotal>
+				<revenueTax>20</revenueTax>
+				<revenueShipping>20</revenueShipping>
+				<revenueDiscount>20</revenueDiscount>
+				<items>2</items>
+				
+			</row>
+			<row>
+				<type>ecommerceOrder</type>
+				<orderId>777</orderId>
+				<revenue>10000</revenue>
+				<revenueSubTotal>0</revenueSubTotal>
+				<revenueTax>0</revenueTax>
+				<revenueShipping>0</revenueShipping>
+				<revenueDiscount>0</revenueDiscount>
+				<items>0</items>
 				
 			</row>
 		</actionDetails>
 		<customVariables>
+		</customVariables>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		
+		
+		
+		<visitDuration>360</visitDuration>
+		<visitDurationPretty>6 min 0s</visitDurationPretty>
+		<visitCount>1</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<country>France</country>
+		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
+		<continent>Europe</continent>
+		<provider>Unknown</provider>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName></referrerName>
+		<referrerKeyword></referrerKeyword>
+		<referrerKeywordPosition></referrerKeywordPosition>
+		<referrerUrl></referrerUrl>
+		<referrerSearchEngineUrl></referrerSearchEngineUrl>
+		<referrerSearchEngineIcon></referrerSearchEngineIcon>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<screenType>normal</screenType>
+		<resolution>1024x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
 			<row>
-				<customVariableName1>VisitorType</customVariableName1>
-				<customVariableValue1>LoggedOut</customVariableValue1>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<customVariableName2>Othercustom value which should be truncated abcdef</customVariableName2>
-				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwx</customVariableValue2>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
 			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+		<ecommerce>
+			<row>
+				<type>ecommerceOrder</type>
+				<orderId>666</orderId>
+				<revenue>240</revenue>
+				<revenueSubTotal>200</revenueSubTotal>
+				<revenueTax>20</revenueTax>
+				<revenueShipping>20</revenueShipping>
+				<revenueDiscount>20</revenueDiscount>
+				<items>2</items>
+				
+				<itemDetails>
+					<row>
+						<itemSKU>TRIPOD SKU</itemSKU>
+						<itemName>TRIPOD - bought day after</itemName>
+						<itemCategory>Tools</itemCategory>
+						<price>100</price>
+						<quantity>2</quantity>
+					</row>
+				</itemDetails>
+			</row>
+			<row>
+				<type>ecommerceOrder</type>
+				<orderId>777</orderId>
+				<revenue>10000</revenue>
+				<revenueSubTotal>0</revenueSubTotal>
+				<revenueTax>0</revenueTax>
+				<revenueShipping>0</revenueShipping>
+				<revenueDiscount>0</revenueDiscount>
+				<items>0</items>
+				
+				<itemDetails>
+				</itemDetails>
+			</row>
+		</ecommerce>
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>3</idVisit>
+		<visitIp>156.5.3.2</visitIp>
+		
+		<visitorType>returning</visitorType>
+		<visitConverted>1</visitConverted>
+		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
+		<actions>1</actions>
+		<actionDetails>
+			<row>
+				<type>ecommerceAbandonedCart</type>
+				<revenue>2500.11</revenue>
+				<items>3</items>
+				
+			</row>
+		</actionDetails>
+		<customVariables>
 		</customVariables>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
@@ -40,6 +154,7 @@
 		<visitCount>1</visitCount>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<country>France</country>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
 		<continent>Europe</continent>
@@ -47,10 +162,10 @@
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName></referrerName>
 		<referrerKeyword></referrerKeyword>
 		<referrerKeywordPosition></referrerKeywordPosition>
 		<referrerUrl></referrerUrl>
-		<referrerName></referrerName>
 		<referrerSearchEngineUrl></referrerSearchEngineUrl>
 		<referrerSearchEngineIcon></referrerSearchEngineIcon>
 		<operatingSystem>Windows XP</operatingSystem>
@@ -58,11 +173,11 @@
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.0</browserName>
+		<browserName>Firefox 3.6</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<screenType>dual</screenType>
-		<resolution>1111x222</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/dual.gif</screenTypeIcon>
+		<screenType>normal</screenType>
+		<resolution>1024x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
@@ -79,85 +194,29 @@
 		
 		
 		
-	</row>
-	<row>
-		<idSite>1</idSite>
-		<idVisit>2</idVisit>
-		<visitIp>156.5.3.2</visitIp>
-		
-		<visitorType>new</visitorType>
-		<visitConverted>1</visitConverted>
-		<actions>1</actions>
-		<actionDetails>
+		<ecommerce>
 			<row>
-				<type>goal</type>
-				<goalName>triggered js</goalName>
-				<revenue>0</revenue>
-				<goalPageId></goalPageId>
+				<type>ecommerceAbandonedCart</type>
+				<revenue>2500.11</revenue>
+				<items>3</items>
 				
-				<url>http://example.org/homepage</url>
+				<itemDetails>
+					<row>
+						<itemSKU>SKU IN ABANDONED CART ONE</itemSKU>
+						<itemName>PRODUCT ONE LEFT in cart</itemName>
+						<itemCategory></itemCategory>
+						<price>500.11</price>
+						<quantity>1</quantity>
+					</row>
+					<row>
+						<itemSKU>SKU IN ABANDONED CART TWO</itemSKU>
+						<itemName>PRODUCT TWO LEFT in cart</itemName>
+						<itemCategory>Category TWO LEFT in cart</itemCategory>
+						<price>1000</price>
+						<quantity>2</quantity>
+					</row>
+				</itemDetails>
 			</row>
-		</actionDetails>
-		<customVariables>
-			<row>
-				<customVariableName1>VisitorType</customVariableName1>
-				<customVariableValue1>LoggedOut</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName2>Othercustom value which should be truncated abcdef</customVariableName2>
-				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwx</customVariableValue2>
-			</row>
-		</customVariables>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		
-		<visitLocalTime>12:34:06</visitLocalTime>
-		
-		
-		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<visitCount>1</visitCount>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<country>France</country>
-		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
-		<continent>Europe</continent>
-		<provider>Unknown</provider>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerKeyword></referrerKeyword>
-		<referrerKeywordPosition></referrerKeywordPosition>
-		<referrerUrl></referrerUrl>
-		<referrerName></referrerName>
-		<referrerSearchEngineUrl></referrerSearchEngineUrl>
-		<referrerSearchEngineIcon></referrerSearchEngineIcon>
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemShortName>Win XP</operatingSystemShortName>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-		<browserFamily>gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browserName>Firefox 3.0</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-		<screenType>dual</screenType>
-		<resolution>1111x222</resolution>
-		<screenTypeIcon>plugins/UserSettings/images/screens/dual.gif</screenTypeIcon>
-		<plugins>flash, java</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-		</pluginsIcons>
-		
-		
-		
-		
-		
+		</ecommerce>
 	</row>
 </result>

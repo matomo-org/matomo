@@ -59,7 +59,7 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 	{
 		// Add standard processed metrics
 		parent::filter($table);
-		$roundingPrecision = 2;
+		$roundingPrecision = Piwik_Tracker_GoalManager::REVENUE_PRECISION;
 		$expectedColumns = array();
 
 		foreach($table->getRows() as $key => $row)
@@ -76,7 +76,10 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 				$revenue = 0;
 				foreach($goals as $goalId => $columnValue)
 				{
-					$revenue += (int)$this->getColumn($columnValue, Piwik_Archive::INDEX_GOAL_REVENUE, Piwik_Archive::$mappingFromIdToNameGoal);
+					if($goalId >= Piwik_Tracker_GoalManager::IDGOAL_ORDER)
+					{
+						$revenue += (int)$this->getColumn($columnValue, Piwik_Archive::INDEX_GOAL_REVENUE, Piwik_Archive::$mappingFromIdToNameGoal);
+					}
 				}
 
 				if($revenue == 0)

@@ -35,6 +35,7 @@ class Piwik_API_Proxy
 	protected $alreadyRegistered = array();
 	
 	private $metadataArray = array();
+	public $hideIgnoredFunctions = true;
 	
 	// when a parameter doesn't have a default value we use this
 	private $noDefaultValue;
@@ -295,7 +296,7 @@ class Piwik_API_Proxy
 			&& !$method->isConstructor()
 			&& $method->getName() != 'getInstance'
 			&& false === strstr($method->getDocComment(), '@deprecated')
-			&& false === strstr($method->getDocComment(), '@ignore')
+			&& (!$this->hideIgnoredFunctions || false === strstr($method->getDocComment(), '@ignore'))
 			 )
 		{
 			$name = $method->getName();

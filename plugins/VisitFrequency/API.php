@@ -97,26 +97,41 @@ class Piwik_VisitFrequency_API
 		return $dataTable;		
 	}
 
+	/**
+	 * @ignore
+	 */
 	public function getVisitsReturning( $idSite, $period, $date )
 	{
 		return $this->getNumeric( $idSite, $period, $date, 'nb_visits_returning');
 	}
 	
+	/**
+	 * @ignore
+	 */
 	public function getActionsReturning( $idSite, $period, $date )
 	{
 		return $this->getNumeric( $idSite, $period, $date, 'nb_actions_returning');
 	}
 	
+	/**
+	 * @ignore
+	 */
 	public function getSumVisitsLengthReturning( $idSite, $period, $date )
 	{
 		return $this->getNumeric( $idSite, $period, $date, 'sum_visit_length_returning');
 	}
 	
+	/**
+	 * @ignore
+	 */
 	public function getBounceCountReturning( $idSite, $period, $date )
 	{
 		return $this->getNumeric( $idSite, $period, $date, 'bounce_count_returning');
 	}
 	
+	/**
+	 * @ignore
+	 */
 	public function getConvertedVisitsReturning( $idSite, $period, $date )
 	{
 		return $this->getNumeric( $idSite, $period, $date, 'nb_visits_converted_returning');

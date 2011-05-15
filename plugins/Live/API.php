@@ -202,10 +202,39 @@ class Piwik_Live_API
 						goal.idgoal = log_conversion.idgoal)
 					AND goal.deleted = 0
 				WHERE log_conversion.idvisit = ?
+					AND log_conversion.idgoal > 0
 			";
 			$goalDetails = Piwik_FetchAll($sql, array($idvisit));
 
-			$actions = array_merge($actionDetails, $goalDetails);
+			$sql = "SELECT 
+						case idgoal when ".Piwik_Tracker_GoalManager::IDGOAL_CART." then '".Piwik_Archive::LABEL_ECOMMERCE_CART."' else '".Piwik_Archive::LABEL_ECOMMERCE_ORDER."' end as type,
+						idorder as orderId,
+						revenue as revenue,
+						revenue_subtotal as revenueSubTotal,
+						revenue_tax as revenueTax,
+						revenue_shipping as revenueShipping,
+						revenue_discount as revenueDiscount,
+						items as items,
+						
+						log_conversion.server_time as serverTimePretty
+					FROM ".Piwik_Common::prefixTable('log_conversion')." AS log_conversion
+					WHERE idvisit = ?
+						AND idgoal <= ".Piwik_Tracker_GoalManager::IDGOAL_ORDER;
+			$ecommerceDetails = Piwik_FetchAll($sql, array($idvisit));
+
+			foreach($ecommerceDetails as &$ecommerceDetail)
+			{
+				if($ecommerceDetail['type'] == Piwik_Archive::LABEL_ECOMMERCE_CART)
+				{
+					unset($ecommerceDetail['orderId']);
+					unset($ecommerceDetail['revenueSubTotal']);
+					unset($ecommerceDetail['revenueTax']);
+					unset($ecommerceDetail['revenueShipping']);
+					unset($ecommerceDetail['revenueDiscount']);
+				}
+			}
+			
+			$actions = array_merge($actionDetails, $goalDetails, $ecommerceDetails);
 			
 			usort($actions, array($this, 'sortByServerTime'));
 			
@@ -216,6 +245,8 @@ class Piwik_Live_API
 				switch($details['type'])
 				{
 					case 'goal':
+					case Piwik_Archive::LABEL_ECOMMERCE_ORDER:
+					case Piwik_Archive::LABEL_ECOMMERCE_CART:
 					break;
 					case Piwik_Tracker_Action_Interface::TYPE_DOWNLOAD:
 						$details['type'] = 'download';
@@ -232,6 +263,39 @@ class Piwik_Live_API
 			}
 			$visitorDetailsArray['goalConversions'] = count($goalDetails);
 			
+			// Enrich ecommerce carts/orders with the list of products 
+			usort($ecommerceDetails, array($this, 'sortByServerTime'));
+			foreach($ecommerceDetails as $key => $ecommerceConversion)
+			{
+				$sql = "SELECT 
+							log_action_sku.name as itemSKU,
+							log_action_name.name as itemName,
+							log_action_category.name as itemCategory,
+							price as price,
+							quantity as quantity
+						FROM ".Piwik_Common::prefixTable('log_conversion_item')."
+							INNER JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action_sku
+							ON  idaction_sku = log_action_sku.idaction
+							LEFT JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action_name
+							ON  idaction_name = log_action_name.idaction
+							LEFT JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action_category
+							ON idaction_category = log_action_category.idaction
+						WHERE idvisit = ? 
+							AND idorder = ?
+							AND deleted = 0
+				";
+				$bind = array($idvisit, isset($ecommerceConversion['orderId']) ? $ecommerceConversion['orderId'] : Piwik_Tracker_GoalManager::ITEM_IDORDER_ABANDONED_CART);
+				
+				$itemsDetails = Piwik_FetchAll($sql, $bind);
+				
+				// unreference the array or items added to the reference will show up in the 'actionDetails'
+				$value = $ecommerceDetails[$key];
+				unset($ecommerceDetails[$key]);
+				$value['itemDetails'] = $itemsDetails;
+				$ecommerceDetails[$key] = $value;
+			}
+			
+			$visitorDetailsArray['ecommerce'] = $ecommerceDetails;
 			$table->addRowFromArray( array(Piwik_DataTable_Row::COLUMNS => $visitorDetailsArray));
 		}
 		return $table;
@@ -305,7 +369,14 @@ class Piwik_Live_API
 			}
 			else
 			{
-				$processedDate = Piwik_Date::factory($date)->subDay(1);
+				$processedDate = Piwik_Date::factory($date);
+				
+				if($date == 'today'
+					|| $date == 'now'
+					|| $processedDate == Piwik_Date::factory('today'))
+				{
+					$processedDate = $processedDate->subDay(1);
+				}
 				$processedPeriod = Piwik_Period::factory($period, $processedDate); 
 			}
 			$dateStart = $processedPeriod->getDateStart()->setTimezone($currentTimezone);

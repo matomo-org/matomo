@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Electronics &amp; Cameras</label>
+		<revenue>2500</revenue>
+		<quantity>3.00</quantity>
+		<orders>2</orders>
+		<avg_price>1000</avg_price>
+		<avg_quantity>1.5</avg_quantity>
+	</row>
+</result>

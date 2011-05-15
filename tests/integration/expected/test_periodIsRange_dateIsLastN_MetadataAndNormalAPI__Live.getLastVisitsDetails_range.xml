@@ -7,6 +7,7 @@
 		
 		<visitorType>returning</visitorType>
 		<visitConverted>0</visitConverted>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<actions>1</actions>
 		<actionDetails>
 			<row>
@@ -40,6 +41,7 @@
 		<visitCount>1</visitCount>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<country>France</country>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
 		<continent>Europe</continent>
@@ -79,6 +81,8 @@
 		
 		
 		
+		<ecommerce>
+		</ecommerce>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -87,6 +91,7 @@
 		
 		<visitorType>new</visitorType>
 		<visitConverted>1</visitConverted>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<actions>1</actions>
 		<actionDetails>
 			<row>
@@ -120,6 +125,7 @@
 		<visitCount>1</visitCount>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<country>France</country>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
 		<continent>Europe</continent>
@@ -159,6 +165,8 @@
 		
 		
 		
+		<ecommerce>
+		</ecommerce>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -167,6 +175,7 @@
 		
 		<visitorType>new</visitorType>
 		<visitConverted>1</visitConverted>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<actions>3</actions>
 		<actionDetails>
 			<row>
@@ -220,6 +229,7 @@
 		<visitCount>1</visitCount>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<country>France</country>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
 		<continent>Europe</continent>
@@ -259,5 +269,7 @@
 		
 		
 		
+		<ecommerce>
+		</ecommerce>
 	</row>
 </result>

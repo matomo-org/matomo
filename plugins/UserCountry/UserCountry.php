@@ -115,6 +115,9 @@ class Piwik_UserCountry extends Piwik_Plugin
 	
 	function archivePeriod( $notification )
 	{
+		/**
+		 * @param Piwik_ArchiveProcessing_Period  $archiveProcessing
+		 */
 		$archiveProcessing = $notification->getNotificationObject();
 		
 		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
@@ -131,6 +134,9 @@ class Piwik_UserCountry extends Piwik_Plugin
 	
 	function archiveDay($notification)
 	{
+		/**
+		 * @var Piwik_ArchiveProcessing
+		 */
 		$archiveProcessing = $notification->getNotificationObject();
 		
 		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
@@ -140,6 +146,9 @@ class Piwik_UserCountry extends Piwik_Plugin
 		$this->archiveDayRecordInDatabase($archiveProcessing);
 	}
 	
+	/**
+	 * @param Piwik_ArchiveProcessing_Day $archiveProcessing
+	 */
 	protected function archiveDayAggregateVisits($archiveProcessing)
 	{
 		$labelSQL = "location_country";
@@ -149,6 +158,9 @@ class Piwik_UserCountry extends Piwik_Plugin
 		$this->interestByContinent = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 	}
 	
+	/**
+	 * @param Piwik_ArchiveProcessing_Day $archiveProcessing
+	 */
 	protected function archiveDayAggregateGoals($archiveProcessing)
 	{
 		$query = $archiveProcessing->queryConversionsByDimension(array("location_continent","location_country"));
@@ -157,8 +169,8 @@ class Piwik_UserCountry extends Piwik_Plugin
 		
 		while($row = $query->fetch() )
 		{
-			if(!isset($this->interestByCountry[$row['location_country']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByCountry[$row['location_country']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow();
-			if(!isset($this->interestByContinent[$row['location_continent']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByContinent[$row['location_continent']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow();
+			if(!isset($this->interestByCountry[$row['location_country']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByCountry[$row['location_country']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
+			if(!isset($this->interestByContinent[$row['location_continent']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByContinent[$row['location_continent']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
 			$archiveProcessing->updateGoalStats($row, $this->interestByCountry[$row['location_country']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
 			$archiveProcessing->updateGoalStats($row, $this->interestByContinent[$row['location_continent']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
 		}
@@ -166,6 +178,9 @@ class Piwik_UserCountry extends Piwik_Plugin
 		$archiveProcessing->enrichConversionsByLabelArray($this->interestByContinent);
 	}
 	
+	/**
+	 * @param Piwik_ArchiveProcessing_Day $archiveProcessing
+	 */
 	protected function archiveDayRecordInDatabase($archiveProcessing)
 	{
 		$tableCountry = $archiveProcessing->getDataTableFromArray($this->interestByCountry);

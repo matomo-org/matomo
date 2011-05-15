@@ -320,12 +320,13 @@ class Piwik_Actions extends Piwik_Plugin
 							count(distinct log_link_visit_action.idvisitor) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`,
 							count(*) as `". Piwik_Archive::INDEX_PAGE_NB_HITS ."`
 					FROM ".Piwik_Common::prefixTable('log_link_visit_action')." as log_link_visit_action
-							LEFT JOIN ".Piwik_Common::prefixTable('log_action')." as log_action ON (log_link_visit_action.%s = idaction)
+							LEFT JOIN ".Piwik_Common::prefixTable('log_action')." as log_action 
+							ON (log_link_visit_action.%s = idaction)
 							$sqlJoinVisitTable
 					WHERE server_time >= ?
 						AND server_time <= ?
 						AND log_link_visit_action.idsite = ?
-				 		AND %s > 0
+						AND %s IS NOT NULL
 				 		$sqlSegmentWhere
 					GROUP BY idaction
 					ORDER BY `". Piwik_Archive::INDEX_PAGE_NB_HITS ."` DESC";
@@ -397,7 +398,7 @@ class Piwik_Actions extends Piwik_Plugin
 		$queryString = str_replace("%s", $sprintfParameter, $queryString);
 		$bind = array_merge(array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ), $bind);
 		$resultSet = $archiveProcessing->db->query($queryString, $bind);
-		$modified = $this->updateActionsTableWithRowQuery($resultSet);
+		$modified = $this->updateActionsTableWithRowQuery($resultSet, $sprintfParameter);
 		return $modified;
 	}
 	protected function archiveDayRecordInDatabase($archiveProcessing)
@@ -522,11 +523,7 @@ class Piwik_Actions extends Piwik_Plugin
 		
 		if( empty($split) )
 		{
-		    if($type == Piwik_Tracker_Action::TYPE_ACTION_NAME) {
-		        $defaultName = self::$defaultActionNameWhenNotDefined;
-		    } else {
-		        $defaultName = self::$defaultActionUrlWhenNotDefined;
-		    }
+			$defaultName = self::getUnknownActionName($type);
 			return array( trim($defaultName) );
 		}
 
@@ -546,15 +543,31 @@ class Piwik_Actions extends Piwik_Plugin
 		return array_values( $split );
 	}
 	
+	static protected function getUnknownActionName($type)
+	{
+	    if($type == Piwik_Tracker_Action::TYPE_ACTION_NAME) {
+	        return self::$defaultActionNameWhenNotDefined;
+	    } 
+	    return self::$defaultActionUrlWhenNotDefined;
+	}
+	
 	const CACHE_PARSED_INDEX_NAME = 0;
 	const CACHE_PARSED_INDEX_TYPE = 1;
 	static $cacheParsedAction = array();
 	
-	protected function updateActionsTableWithRowQuery($query)
+	protected function updateActionsTableWithRowQuery($query, $fieldQueried = false)
 	{
 		$rowsProcessed = 0;
 		while( $row = $query->fetch() )
 		{
+			if(empty($row['idaction']))
+			{
+				$row['type'] = ($fieldQueried == 'idaction_url' ? Piwik_Tracker_Action::TYPE_ACTION_URL : Piwik_Tracker_Action::TYPE_ACTION_NAME);
+				// This will be replaced with 'X not defined' later 
+				$row['name'] = '';
+				// Yes, this is kind of a hack, so we don't mix 'page url not defined' with 'page title not defined' etc.
+				$row['idaction'] = -$row['type'];
+			}
 			// Only the first query will contain the name and type of actions, for performance reasons
 			if(isset($row['name'])
 				&& isset($row['type']))
@@ -580,9 +593,6 @@ class Piwik_Actions extends Piwik_Plugin
 					// - We select an entry page ID that was only seen yesterday, so wasn't selected in the first query
 					// - We count time spent on a page, when this page was only seen yesterday
 					continue;
-					var_dump($row);
-					debug_print_backtrace();
-					throw new Exception("id action ". $row['idaction'] . " was not cached, but we expected it. Please report this issue in Piwik forums.");
 				}
 				$currentTable = self::$cacheParsedAction[$row['idaction']];
 				// Action processed as "to skip" for some reasons

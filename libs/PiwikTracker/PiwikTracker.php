@@ -75,6 +75,7 @@ class PiwikTracker
     	$this->forcedDatetime = false;
     	$this->token_auth = false;
     	$this->attributionInfo = false;
+    	$this->ecommerceItems = array();
 
     	$this->requestCookie = '';
     	$this->idSite = $idSite;
@@ -192,6 +193,9 @@ class PiwikTracker
     	return $cookieDecoded[$id];
     }
     
+    
+    
+    
     /**
      * Sets the Browser language. Used to guess visitor countries when GeoIP is not enabled
      * 
@@ -251,6 +255,139 @@ class PiwikTracker
         // Referrer could be udpated to be the current URL temporarily (to mimic JS behavior)
     	$url = $this->getUrlTrackAction($actionUrl, $actionType);
     	return $this->sendRequest($url); 
+    }
+
+    /**
+     * Adds an item in the Ecommerce order.
+     * This can be called before doTrackEcommerceOrder to define individual items in the order.
+     * SKU parameter is mandatory. Other parameters are optional, you can set all or only some to false or empty string.
+     * Ecommerce items added via this function are automatically cleared when doTrackEcommerceOrder or getUrlTrackEcommerceOrder is called.
+     * 
+     * @param string $sku (required) SKU, Product identifier 
+     * @param string $name (optional) Product name
+     * @param string $category (optional) Product category
+     * @param float|int $price (optional) Individual product price (supports integer and decimal prices)
+     * @param int $quantity (optional) Product quantity. If not specified, will default to 1 in the Reports 
+     */
+    public function addEcommerceItem($sku, $name = false, $category = false, $price = false, $quantity = false)
+    {
+    	if(empty($sku))
+    	{
+    		throw new Exception("You must specify a SKU for the Ecommerce item");
+    	}
+    	$this->ecommerceItems[$sku] = array( $sku, $name, $category, $price, $quantity );
+    }
+    
+    /**
+	 * Tracks a Cart Update (add item, remove item, update item).
+	 * On every Cart update, you must call addEcommerceItem() for each item (product) in the cart, including the items that haven't been updated since the last cart update.
+	 * 
+	 * @param float $grandTotal Cart grandTotal (typically the sum of all items' prices)
+	 */ 
+    public function doTrackEcommerceCartUpdate($grandTotal)
+    {
+    	$url = $this->getUrlTrackEcommerceCartUpdate($grandTotal);
+    	return $this->sendRequest($url); 
+    }
+    
+    /**
+	 * Tracks an Ecommerce order.
+	 * If the Ecommerce order contains items (products), you must call first the addEcommerceItem() for each item in the order.
+	 * All revenues (grandTotal, subTotal, tax, shipping, discount) will be individually summed and reported in Piwik reports.
+	 * Only parameters $orderId and $grandTotal are required. 
+	 * 
+	 * @param string|int $orderId (required) Unique Order ID. 
+	 * 				This will be used to count this order only once in the event the order page is reloaded several times.
+	 * 				orderId must be unique for each transaction, even on different days, or the transaction will not be recorded by Piwik.
+	 * @param float $grandTotal (required) Grand Total revenue of the transaction (including tax, shipping, etc.)
+	 * @param float $subTotal (optional) Sub total amount, typically the sum of items prices for all items in this order (before Tax and Shipping costs are applied) 
+	 * @param float $tax (optional) Tax amount for this order
+	 * @param float $shipping (optional) Shipping amount for this order
+	 * @param float $discount (optional) Discounted amount in this order
+     */
+    public function doTrackEcommerceOrder($orderId, $grandTotal, $subTotal = false, $tax = false, $shipping = false, $discount = false)
+    {
+    	$url = $this->getUrlTrackEcommerceOrder($orderId, $grandTotal, $subTotal, $tax, $shipping, $discount);
+    	return $this->sendRequest($url); 
+    }
+    
+    /**
+     * Returns URL used to track Ecommerce Cart updates
+     * Calling this function will reinitializes the property ecommerceItems to empty array 
+     * so items will have to be added again via addEcommerceItem()  
+     * @ignore
+     */
+    public function getUrlTrackEcommerceCartUpdate($grandTotal)
+    {
+    	$url = $this->getUrlTrackEcommerce($grandTotal);
+    	return $url;
+    }
+    
+    /**
+     * Returns URL used to track Ecommerce Orders
+     * Calling this function will reinitializes the property ecommerceItems to empty array 
+     * so items will have to be added again via addEcommerceItem()  
+     * @ignore
+     */
+    public function getUrlTrackEcommerceOrder($orderId, $grandTotal, $subTotal = false, $tax = false, $shipping = false, $discount = false)
+    {
+    	if(empty($orderId))
+    	{
+    		throw new Exception("You must specifiy an orderId for the Ecommerce order");
+    	}
+    	$url = $this->getUrlTrackEcommerce($grandTotal, $subTotal, $tax, $shipping, $discount);
+    	$url .= '&ec_id=' . urlencode($orderId);
+    	
+    	return $url;
+    }
+    
+    /**
+     * Returns URL used to track Ecommerce orders
+     * Calling this function will reinitializes the property ecommerceItems to empty array 
+     * so items will have to be added again via addEcommerceItem()  
+     * @ignore
+     */
+    protected function getUrlTrackEcommerce($grandTotal, $subTotal = false, $tax = false, $shipping = false, $discount = false)
+    {
+    	if(!is_numeric($grandTotal))
+    	{
+    		throw new Exception("You must specifiy a grandTotal for the Ecommerce order (or Cart update)");
+    	}
+    	
+    	$url = $this->getRequest( $this->idSite );
+    	$url .= '&idgoal=0';
+    	if(!empty($grandTotal))
+    	{
+    		$url .= '&revenue='.$grandTotal;
+    	}
+    	if(!empty($subTotal))
+    	{
+    		$url .= '&ec_st='.$subTotal;
+    	}
+    	if(!empty($tax))
+    	{
+    		$url .= '&ec_tx='.$tax;
+    	}
+    	if(!empty($shipping))
+    	{
+    		$url .= '&ec_sh='.$shipping;
+    	}
+    	if(!empty($discount))
+    	{
+    		$url .= '&ec_dt='.$discount;
+    	}
+    	if(!empty($this->ecommerceItems))
+    	{
+    		// Removing the SKU index in the array before JSON encoding
+    		$items = array();
+    		foreach($this->ecommerceItems as $item)
+    		{
+    			$items[] = $item;
+    		}
+    		$this->ecommerceItems = array();
+    		$url .= '&ec_items='. urlencode(json_encode($items));
+    	}
+    	return $url;
     }
     
     /**
@@ -441,6 +578,15 @@ class PiwikTracker
     public function setBrowserHasCookies( $bool )
     {
     	$this->hasCookies = $bool ;
+    }
+    
+    /**
+     * Will append a custom string at the end of the Tracking request. 
+     * @param string $string
+     */
+    public function setDebugStringAppend( $string )
+    {
+    	$this->DEBUG_APPEND_URL = $string;
     }
     
     /**

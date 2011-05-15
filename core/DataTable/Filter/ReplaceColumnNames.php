@@ -71,9 +71,18 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
 					$newSubColumns = array();
 					foreach($columnValue as $idGoal => $goalValues)
 					{
+						$mapping = Piwik_Archive::$mappingFromIdToNameGoal;
+						if($idGoal == Piwik_Tracker_GoalManager::IDGOAL_CART)
+						{
+							$idGoal = Piwik_Archive::LABEL_ECOMMERCE_CART;
+						}
+						elseif($idGoal == Piwik_Tracker_GoalManager::IDGOAL_ORDER)
+						{
+							$idGoal = Piwik_Archive::LABEL_ECOMMERCE_ORDER;
+						}
 						foreach($goalValues as $id => $goalValue)
 						{
-							$subColumnName = Piwik_Archive::$mappingFromIdToNameGoal[$id];
+							$subColumnName = $mapping[$id];
 							$newSubColumns['idgoal='.$idGoal][$subColumnName] = $goalValue;
 						}
 					}

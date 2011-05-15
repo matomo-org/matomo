@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>SKU2</label>
+		<revenue>1500</revenue>
+		<quantity>1.00</quantity>
+		<orders>1</orders>
+		<avg_price>1500</avg_price>
+		<avg_quantity>1</avg_quantity>
+	</row>
+	<row>
+		<label>SKU VERY nice indeed</label>
+		<revenue>1000</revenue>
+		<quantity>2.00</quantity>
+		<orders>1</orders>
+		<avg_price>500</avg_price>
+		<avg_quantity>2</avg_quantity>
+	</row>
+	<row>
+		<label>TRIPOD SKU</label>
+		<revenue>200</revenue>
+		<quantity>2.00</quantity>
+		<orders>1</orders>
+		<avg_price>100</avg_price>
+		<avg_quantity>2</avg_quantity>
+	</row>
+</result>

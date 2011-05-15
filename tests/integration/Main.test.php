@@ -31,6 +31,116 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		return PIWIK_INCLUDE_PATH . '/tests/integration';
 	}
 	
+	function test_ecommerceOrderWithItems()
+	{
+		$this->setApiNotToCall(array());
+		$dateTime = '2011-04-05 00:11:42';
+		$idSite = $this->createWebsite($dateTime);
+		
+		$idGoal = Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js ONCE', 'title', 'incredible', 'contains', $caseSensitive=false, $revenue=10, $allowMultipleConversions = true);
+        
+        $t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+    	// Record 1st page view
+        $t->setUrl( 'http://example.org/index.htm' );
+        $this->checkResponse($t->doTrackPageView( 'incredible title!'));
+        
+        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.3)->getDatetime());
+        
+        //Add to cart
+        $t->addEcommerceItem($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name' , $category = 'Electronics & Cameras', $price = 500, $quantity = 1);
+        $t->addEcommerceItem($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name' , $category = 'Electronics & Cameras', $price = 500, $quantity = 2);
+        $this->checkResponse($t->doTrackEcommerceCartUpdate($grandTotal = 1000));
+
+        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.4)->getDatetime());
+        //Order
+        $t->addEcommerceItem($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name' , $category = 'Electronics & Cameras', $price = 500, $quantity = 2);
+        $this->checkResponse($t->doTrackEcommerceOrder($orderId = '937nsjusu 3894', $grandTotal = 1111.11, $subTotal = 1000, $tax = 111, $shipping = 0.11, $discount = 666));
+        
+        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.5)->getDatetime());
+        //Another Order
+        $t->addEcommerceItem($sku = 'SKU2', $name = 'Canon SLR' , $category = 'Electronics & Cameras', $price = 1500, $quantity = 1);
+        $this->checkResponse($t->doTrackEcommerceOrder($orderId = '1037nsjusu4s3894', $grandTotal = 2000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
+        
+        // Refresh the page with the receipt for the second order, should be ignored
+        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.55)->getDatetime());
+        
+        // Recording the same ecommerce order, this time with some crazy amount and quantity
+        // we test that both the order, and the products, are not updated on subsequent "Receipt" views
+        $t->addEcommerceItem($sku = 'SKU2', $name = 'Canon SLR' , $category = 'Electronics & Cameras', $price = 15000000000, $quantity = 10000); 
+        $this->checkResponse($t->doTrackEcommerceOrder($orderId = '1037nsjusu4s3894', $grandTotal = 20000000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
+        
+        // Leave with an opened cart
+        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.6)->getDatetime());
+        // No category
+        $t->addEcommerceItem($sku = 'SKU IN ABANDONED CART ONE', $name = 'PRODUCT ONE LEFT in cart' , $category = '', $price = 500.11111112, $quantity = 2);
+        $this->checkResponse($t->doTrackEcommerceCartUpdate($grandTotal = 1000));
+
+        // Record the same visit leaving twice an abandoned cart
+        foreach(array(0, 5, 24) as $offsetHour)
+        {   
+	        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour($offsetHour + 0.65)->getDatetime());
+        	// Also recording an order the day after
+        	if($offsetHour >= 24)
+        	{
+	        	$t->addEcommerceItem($sku = 'SKU2', $name = 'Canon SLR' , $category = 'Electronics & Cameras', $price = 1500, $quantity = 1);
+	        	$this->checkResponse($t->doTrackEcommerceOrder($orderId = '1037nsjusu4s3894', $grandTotal = 20000000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
+        	}        
+	        $t->addEcommerceItem($sku = 'SKU IN ABANDONED CART ONE', $name = 'PRODUCT ONE LEFT in cart' , $category = '', $price = 500.11111112, $quantity = 1);
+	        $t->addEcommerceItem($sku = 'SKU IN ABANDONED CART TWO', $name = 'PRODUCT TWO LEFT in cart' , $category = 'Category TWO LEFT in cart', $price = 1000, $quantity = 2);
+	        $this->checkResponse($t->doTrackEcommerceCartUpdate($grandTotal = 2500.11111112));
+        }
+        
+        // One more Ecommerce order to check weekly archiving works fine on orders
+        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour( 30.65 )->getDatetime());
+        $t->addEcommerceItem($sku = 'TRIPOD SKU', $name = 'TRIPOD - bought day after' , $category = 'Tools', $price = 100, $quantity = 2);
+        $this->checkResponse($t->doTrackEcommerceOrder($orderId = '666', $grandTotal = 240, $subTotal = 200, $tax = 20, $shipping = 20, $discount = 20));
+        
+        // One more Ecommerce order, without any product in it, because we still track orders without products
+        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour( 30.75 )->getDatetime());
+        $this->checkResponse($t->doTrackEcommerceOrder($orderId = '777', $grandTotal = 10000));
+        
+        //------------------------------------- End tracking
+        
+		// From Piwik 1.5, we hide Goals.getConversions and other get* methods via @ignore, but we ensure that they still work
+		// This hack allows the API proxy to let us generate example URLs for the ignored functions
+		Piwik_API_Proxy::getInstance()->hideIgnoredFunctions = false;
+        
+		$this->setApiToCall( array('Live.getLastVisitsDetails', 'UserCountry', 'API.getProcessedReport', 'Goals.get', 'Goals.getConversions', 'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory'	) );
+        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime, $periods = array('day'));
+        
+		$this->setApiToCall( array('Goals.get', 'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory'	) );
+        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime, $periods = array('week'));
+        
+        $abandonedCarts = 1;
+		$this->setApiToCall( array('Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory') );
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_AbandonedCarts', 'xml', $idSite, $dateTime, $periods = array('day', 'week'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts);
+		
+        // Test Goals.get with idGoal=ecommerceOrder and ecommerceAbandonedCart
+        $this->setApiToCall( array('Goals.get') );
+        $idGoal = Piwik_Archive::LABEL_ECOMMERCE_CART;
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_GoalAbandonedCart', 'xml', $idSite, $dateTime, $periods = array('day', 'week'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal);
+        
+        $idGoal = Piwik_Archive::LABEL_ECOMMERCE_ORDER;
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_GoalOrder', 'xml', $idSite, $dateTime, $periods = array('day', 'week'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal);
+        $idGoal = 1;
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_GoalMatchTitle', 'xml', $idSite, $dateTime, $periods = array('day', 'week'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal);
+        $idGoal = '';
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_GoalOverall', 'xml', $idSite, $dateTime, $periods = array('day', 'week'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal);
+        
+        $this->setApiToCall( array('VisitsSummary.get') );
+        $segment = 'visitEcommerceStatus==none';
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentNoEcommerce', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment);
+        $segment = 'visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart';
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentOrderedSomething', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment);
+        $segment = 'visitEcommerceStatus==abandonedCart,visitEcommerceStatus==orderedThenAbandonedCart';
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentAbandonedCart', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment);
+        
+        // test Live! output is OK also for the visit that just bought something (other visits leave an abandoned cart)
+        $this->setApiToCall(array('Live.getLastVisitsDetails'));
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_LiveEcommerceStatusOrdered', 'xml', $idSite, Piwik_Date::factory($dateTime)->addHour( 30.65 )->getDatetime(), $periods = array('day'));
+//        exit;
+	}
+	
 	function test_trackGoals_allowMultipleConversionsPerVisit()
 	{
 		$this->setApiToCall(array(
@@ -312,8 +422,6 @@ class Test_Piwik_Integration_Main extends Test_Integration
     								'Actions.getPageUrls', 
     								'Actions.getPageTitles',
     	                            'Actions.getOutlinks'));
-    	ob_start();
-    	
     	// -
     	// First visitor on Idsite 1: two page views
     	$datetimeSpanOverTwoDays = '2010-01-03 23:55:00'; 
@@ -322,6 +430,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $visitorA->setUrl('http://example.org/homepage');
         $this->checkResponse($visitorA->doTrackPageView('first page view'));
     	$visitorA->setForceVisitDateTime(Piwik_Date::factory($datetimeSpanOverTwoDays)->addHour(0.1)->getDatetime());
+    	// Testing with empty URL and empty page title
     	$visitorA->setUrl('  ');
         $this->checkResponse($visitorA->doTrackPageView('  '));
         
@@ -380,7 +489,6 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // We also test a single period to check that this use case (Reports per idSite in the response) works
     	$this->setApiToCall(array('VisitsSummary.get', 'Goals.get'));
     	$this->callGetApiCompareOutput(__FUNCTION__ . '_NotLastNPeriods', 'xml', $idSite = 'all', $dateTime, array('day', 'month'), $setDateLastN = false);
-         
 	}
 	
 	private function doTest_twoVisitsWithCustomVariables($dateTime, $width=1111, $height=222)
@@ -568,6 +676,10 @@ class Test_Piwik_Integration_Main extends Test_Integration
 			{
 				$seenVisitorId = true;
 				$value = '34c31e04394bdc63';
+			}
+			if($segment['segment'] == 'visitEcommerceStatus')
+			{
+				$value = 'none';
 			}
 			$segmentExpression[] = $segment['segment'] .'!='.$value;
 		}

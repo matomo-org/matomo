@@ -277,6 +277,7 @@ abstract class Test_Integration extends Test_Database
         				$parametersToSet['format'] = $format;
         				$parametersToSet['hideIdSubDatable'] = 1;
         				$parametersToSet['serialize'] = 1;
+        				
             			$exampleUrl = $apiMetadata->getExampleUrl($class, $methodName, $parametersToSet);
             			if($exampleUrl === false) 
             			{
@@ -320,10 +321,11 @@ abstract class Test_Integration extends Test_Database
 	 * @param $language 2 letter language code to request data in
 	 * @param $segment Custom Segment to query the data  for
 	 * @param $visitorId Only used for Live! API testing
+	 * @param $abandonedCarts Only used in Goals API testing
 	 * 
 	 * @return bool Passed or failed
 	 */
-	function callGetApiCompareOutput($testName, $formats = 'xml', $idSite = false, $dateTime = false, $periods = false, $setDateLastN = false, $language = false, $segment = false, $visitorId = false)
+	function callGetApiCompareOutput($testName, $formats = 'xml', $idSite = false, $dateTime = false, $periods = false, $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal = false)
 	{
 		$pass = true;
 		
@@ -367,6 +369,7 @@ abstract class Test_Integration extends Test_Database
 			'showTimer'     => 0,
 		
 			'language' => $language ? $language : 'en',
+			'abandonedCarts' => $abandonedCarts ? 1 : 0,
 		);
 		if(!empty($visitorId ))
 		{
@@ -376,6 +379,10 @@ abstract class Test_Integration extends Test_Database
 		{
 			$parametersToSet['segment'] = $segment;
 		}
+		if($idGoal !== false)
+		{
+			$parametersToSet['idGoal'] = $idGoal;
+		}
 		// Give it enough time for the current API test to finish (call all get* APIs)
 		Zend_Registry::get('config')->General->time_before_today_archive_considered_outdated = 10;
 		
@@ -383,8 +390,8 @@ abstract class Test_Integration extends Test_Database
     	
     	foreach($requestUrls as $apiId => $requestUrl)
     	{
-			$isLiveMustDeleteDates = strpos($requestUrl, 'Live.getLastVisits') !== false;
 //    		echo "$requestUrl <br>";
+			$isLiveMustDeleteDates = strpos($requestUrl, 'Live.getLastVisits') !== false;
     		$request = new Piwik_API_Request($requestUrl);
 
     		// $TEST_NAME - $API_METHOD

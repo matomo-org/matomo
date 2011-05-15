@@ -721,7 +721,7 @@ if ($sqlite) {
 	});
 
 	test("tracking", function() {
-		expect(52);
+		expect(59);
 
 		/*
 		 * Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
@@ -887,6 +887,16 @@ if ($sqlite) {
 		tracker3.setCookieNamePrefix("PREFIX");
 		ok( typeof tracker3.getCustomVariable(1) == "undefined", "getCustomVariable(cvarDeleted) from cookie  === undefined" );
 
+		//Ecommerce tests
+		tracker3.addEcommerceItem("SKU PRODUCT", "PRODUCT NAME", "PRODUCT CATEGORY", 11.1111, 2); 
+		tracker3.addEcommerceItem("SKU PRODUCT", "random", "random PRODUCT CATEGORY", 11.1111, 2); 
+		tracker3.addEcommerceItem("SKU ONLY SKU", "", "", "", ""); 
+		tracker3.addEcommerceItem("SKU ONLY NAME", "PRODUCT NAME 2", "", ""); 
+		tracker3.addEcommerceItem("SKU NO PRICE NO QUANTITY", "PRODUCT NAME 3", "CATEGORY", "", "" ); 
+		tracker3.addEcommerceItem("SKU ONLY" ); 
+		tracker3.trackEcommerceCartUpdate( 555.55 );
+		tracker3.trackEcommerceOrder( "ORDER ID YES", 666.66, 333, 222, 111, 1 );
+		
 		// do not track
 		tracker3.setDoNotTrack(false);
 		tracker3.trackPageView("DoTrack");
@@ -900,8 +910,7 @@ if ($sqlite) {
 			xhr.open("GET", "piwik.php?requests=" + getToken(), false);
 			xhr.send(null);
 			results = xhr.responseText;
-
-			equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "17", "count tracking events" );
+			equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "19", "count tracking events" );
 
 			// tracking requests
 			ok( /PiwikTest/.test( results ), "trackPageView(), setDocumentTitle()" );
@@ -930,6 +939,25 @@ if ($sqlite) {
 			ok( /DoTrack/.test( results ), "setDoNotTrack(false)" );
 			ok( ! /DoNotTrack/.test( results ), "setDoNotTrack(true)" );
 
+			// Test Custom vars
+			ok( /_cvar=/, "test custom vars are set");
+			
+			// Test campaign parameters set
+			ok( /&_rcn=YEAH&_rck=RIGHT!/.test( results), "Test campaign parameters found"); 
+			ok( /&_ref=http%3A%2F%2Freferrer.example.com%2Fpage%2Fsub%3Fquery%3Dtest%26test2%3Dtest3/.test( results), "Test cookie Ref URL found "); 
+			
+			// Ecommerce order
+			ok( /idgoal=0&ec_id=ORDER%20ID%20YES&revenue=666.66&ec_st=333&ec_tx=222&ec_sh=111&ec_dt=1&ec_items=%5B%5B%22SKU%20PRODUCT%22%2C%22random%22%2C%22random%20PRODUCT%20CATEGORY%22%2C11.1111%2C2%5D%2C%5B%22SKU%20ONLY%20SKU%22%2C%22%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%20NAME%22%2C%22PRODUCT%20NAME%202%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20NO%20PRICE%20NO%20QUANTITY%22%2C%22PRODUCT%20NAME%203%22%2C%22CATEGORY%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%22%2C%22%22%2C%22%22%2C0%2C1%5D%5D/.test( results ), "logEcommerceOrder() with items" );
+
+			// Not set for the first ecommerce order
+			ok( ! /idgoal=0&ec_id=ORDER%20ID.*_ects=1/.test(results), "Ecommerce last timestamp set");
+			
+			// Ecommerce last timestamp set properly for subsequent page view
+			ok( /DoTrack.*_ects=1/.test(results), "Ecommerce last timestamp set");
+
+			// Cart update
+			ok( /idgoal=0&revenue=555.55&ec_items=%5B%5B%22SKU%20PRODUCT%22%2C%22random%22%2C%22random%20PRODUCT%20CATEGORY%22%2C11.1111%2C2%5D%2C%5B%22SKU%20ONLY%20SKU%22%2C%22%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%20NAME%22%2C%22PRODUCT%20NAME%202%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20NO%20PRICE%20NO%20QUANTITY%22%2C%22PRODUCT%20NAME%203%22%2C%22CATEGORY%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%22%2C%22%22%2C%22%22%2C0%2C1%5D%5D/.test( results ), "logEcommerceCartUpdate() with items" );
+			
 			// parameters inserted by plugin hooks
 			ok( /testlog/.test( results ), "plugin hook log" );
 			ok( /testlink/.test( results ), "plugin hook link" );

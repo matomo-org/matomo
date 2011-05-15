@@ -355,7 +355,6 @@ class Piwik_PDFReports_API
 	{
 		$reports = $this->getReports($idSite, $period = false, $idReport);
 		$report = reset($reports);
-		
 		if($report['period'] == 'never')
 		{
 			$report['period'] = 'day';

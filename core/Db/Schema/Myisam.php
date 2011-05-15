@@ -176,6 +176,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 							  visitor_returning TINYINT(1) NOT NULL,
 							  visitor_count_visits SMALLINT(5) UNSIGNED NOT NULL,
 							  visitor_days_since_last SMALLINT(5) UNSIGNED NOT NULL,
+							  visitor_days_since_order SMALLINT(5) UNSIGNED NOT NULL,
 							  visitor_days_since_first SMALLINT(5) UNSIGNED NOT NULL,
 							  visit_first_action_time DATETIME NOT NULL,
 							  visit_last_action_time DATETIME NOT NULL,
@@ -186,6 +187,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 							  visit_total_actions SMALLINT(5) UNSIGNED NOT NULL,
 							  visit_total_time SMALLINT(5) UNSIGNED NOT NULL,
 							  visit_goal_converted TINYINT(1) NOT NULL,
+							  visit_goal_buyer TINYINT(1) NOT NULL, 
 							  referer_type TINYINT(1) UNSIGNED NULL,
 							  referer_name VARCHAR(70) NULL,
 							  referer_url TEXT NOT NULL,
@@ -225,6 +227,25 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 							  INDEX index_idsite_idvisitor (idsite, idvisitor)
 							)  DEFAULT CHARSET=utf8
 			",
+		
+			'log_conversion_item' => "CREATE TABLE `{$prefixTables}log_conversion_item` (
+												  idsite int(10) UNSIGNED NOT NULL,
+										  		  idvisitor BINARY(8) NOT NULL,
+										          server_time DATETIME NOT NULL,
+												  idvisit INTEGER(10) UNSIGNED NOT NULL,
+												  idorder varchar(100) NOT NULL,
+												  
+												  idaction_sku INTEGER(10) UNSIGNED NOT NULL,
+												  idaction_name INTEGER(10) UNSIGNED NOT NULL,
+												  idaction_category INTEGER(10) UNSIGNED NOT NULL,
+												  price FLOAT NOT NULL,
+												  quantity INTEGER(10) UNSIGNED NOT NULL,
+												  deleted TINYINT(1) UNSIGNED NOT NULL,
+												  
+												  PRIMARY KEY(idvisit, idorder, idaction_sku),
+										          INDEX index_idsite_servertime ( idsite, server_time )
+												)  DEFAULT CHARSET=utf8
+			",
 
 			'log_conversion' => "CREATE TABLE `{$prefixTables}log_conversion` (
 									  idvisit int(10) unsigned NOT NULL,
@@ -240,13 +261,22 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 									  visitor_returning tinyint(1) NOT NULL,
         							  visitor_count_visits SMALLINT(5) UNSIGNED NOT NULL,
         							  visitor_days_since_first SMALLINT(5) UNSIGNED NOT NULL,
+							  		  visitor_days_since_order SMALLINT(5) UNSIGNED NOT NULL,
 									  location_country char(3) NOT NULL,
 									  location_continent char(3) NOT NULL,
 									  url text NOT NULL,
 									  idgoal int(10) unsigned NOT NULL,
-									  revenue float default NULL,
 									  buster int unsigned NOT NULL,
-        							  custom_var_k1 VARCHAR(50) DEFAULT NULL,
+									  
+									  idorder varchar(100) default NULL,
+									  items SMALLINT UNSIGNED DEFAULT NULL,
+									  revenue float default NULL,
+									  revenue_subtotal float default NULL,
+									  revenue_tax float default NULL,
+									  revenue_shipping float default NULL,
+									  revenue_discount float default NULL,
+        							  
+									  custom_var_k1 VARCHAR(50) DEFAULT NULL,
         							  custom_var_v1 VARCHAR(50) DEFAULT NULL,
         							  custom_var_k2 VARCHAR(50) DEFAULT NULL,
         							  custom_var_v2 VARCHAR(50) DEFAULT NULL,
@@ -257,6 +287,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
         							  custom_var_k5 VARCHAR(50) DEFAULT NULL,
         							  custom_var_v5 VARCHAR(50) DEFAULT NULL,
 									  PRIMARY KEY (idvisit, idgoal, buster),
+									  UNIQUE KEY unique_idorder (idorder),
 									  INDEX index_idsite_datetime ( idsite, server_time )
 									) DEFAULT CHARSET=utf8
 			",

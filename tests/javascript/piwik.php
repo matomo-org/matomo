@@ -63,7 +63,7 @@ if (isset($_GET['requests'])) {
 		if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$uri .= '?' . file_get_contents('php://input');
 		}
-		$uri = htmlspecialchars($uri);
+//		$uri = htmlspecialchars($uri);
 
 		$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 		$ua = $_SERVER['HTTP_USER_AGENT'];

@@ -429,25 +429,25 @@ class Piwik_Referers extends Piwik_Plugin
 				switch($row['referer_type'])
 				{
 					case Piwik_Common::REFERER_TYPE_SEARCH_ENGINE:
-						if(!isset($this->interestBySearchEngine[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestBySearchEngine[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow();
-						if(!isset($this->interestByKeyword[$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByKeyword[$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow();
+						if(!isset($this->interestBySearchEngine[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestBySearchEngine[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
+						if(!isset($this->interestByKeyword[$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByKeyword[$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
 						
 						$archiveProcessing->updateGoalStats( $row, $this->interestBySearchEngine[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
 						$archiveProcessing->updateGoalStats( $row, $this->interestByKeyword[$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
 					break;
 
 					case Piwik_Common::REFERER_TYPE_WEBSITE:
-						if(!isset($this->interestByWebsite[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByWebsite[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow();
+						if(!isset($this->interestByWebsite[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByWebsite[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
 						$archiveProcessing->updateGoalStats( $row, $this->interestByWebsite[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
 					break;
 
 					case Piwik_Common::REFERER_TYPE_CAMPAIGN:
 						if(!empty($row['referer_keyword']))
 						{
-							if(!isset($this->interestByCampaignAndKeyword[$row['referer_name']][$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByCampaignAndKeyword[$row['referer_name']][$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow();
+							if(!isset($this->interestByCampaignAndKeyword[$row['referer_name']][$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByCampaignAndKeyword[$row['referer_name']][$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
 							$archiveProcessing->updateGoalStats( $row, $this->interestByCampaignAndKeyword[$row['referer_name']][$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
 						}
-						if(!isset($this->interestByCampaign[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByCampaign[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow();
+						if(!isset($this->interestByCampaign[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByCampaign[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
 						$archiveProcessing->updateGoalStats( $row, $this->interestByCampaign[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
 					break;
 
@@ -457,7 +457,7 @@ class Piwik_Referers extends Piwik_Plugin
 					break;
 				}
 			}
-			if(!isset($this->interestByType[$row['referer_type']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] )) $this->interestByType[$row['referer_type']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow();
+			if(!isset($this->interestByType[$row['referer_type']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] )) $this->interestByType[$row['referer_type']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
 			$archiveProcessing->updateGoalStats($row, $this->interestByType[$row['referer_type']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
 		}
 	
