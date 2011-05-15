@@ -158,6 +158,13 @@ interface Piwik_Db_Adapter_Interface
 	public function hasBlobDataType();
 
 	/**
+	 * Returns true if this adapter supports bulk loading
+	 *
+	 * @return bool
+	 */
+	public function hasBulkLoader();
+
+	/**
 	 * Test error number
 	 *
 	 * @param Exception $e

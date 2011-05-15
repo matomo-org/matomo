@@ -123,6 +123,16 @@ class Piwik_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Pi
 	}
 
 	/**
+	 * Returns true if this adapter supports bulk loading
+	 *
+	 * @return bool
+	 */
+	public function hasBulkLoader()
+	{
+		return true;
+	}
+
+	/**
 	 * Test error number
 	 *
 	 * @param Exception $e
