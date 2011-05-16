@@ -136,7 +136,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		{
 			return;
 		}
-		$this->visitorCustomVariables = $this->getCustomVariables();
+		$this->visitorCustomVariables = self::getCustomVariables($scope = 'visit', $this->request);
 		$this->goalManager = new Piwik_Tracker_GoalManager();
 		
 		$someGoalsConverted = $visitIsConverted = false;
@@ -468,11 +468,16 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		}
 		
 		$daysSinceLastOrder = 0;
+		$isReturningCustomer = false;
 		$lastOrderTimestamp = Piwik_Common::getRequestVar('_ects', 0, 'int', $this->request);
 		if($this->isTimestampValid($lastOrderTimestamp))
 		{
 			$daysSinceLastOrder = round(($this->getCurrentTimestamp() - $lastOrderTimestamp)/86400, $precision = 0);
-			if($daysSinceLastOrder < 0) $daysSinceLastOrder = 0;
+			if($daysSinceLastOrder < 0)
+			{
+				$daysSinceLastOrder = 0;
+			} 
+			$isReturningCustomer = true;
 		}
 
 		// User settings
@@ -494,7 +499,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'idsite' 					=> $this->idsite,
 			'visitor_localtime' 		=> $localTime,
 			'idvisitor' 				=> $idcookie,
-			'visitor_returning' 		=> $visitCount > 1 || $this->isVisitorKnown() ? 1 : 0,
+			'visitor_returning' 		=> $isReturningCustomer ? 2 : ($visitCount > 1 || $this->isVisitorKnown() ? 1 : 0),
 			'visitor_count_visits'		=> $visitCount,
 			'visitor_days_since_last'	=> $daysSinceLastVisit,
 			'visitor_days_since_order'	=> $daysSinceLastOrder,
@@ -963,16 +968,26 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		}
 	}
 
-	protected function getCustomVariables()
+	static public function getCustomVariables($scope, $request)
 	{
-		$customVar = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar( '_cvar', '', 'string', $this->request));
+		if($scope == 'visit')
+		{
+			$parameter = '_cvar';
+			$debug = 'Visit level';
+		}
+		else
+		{
+			$parameter = 'cvar';
+			$debug = 'Page level';
+		}
+		$customVar = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar( $parameter, '', 'string', $request));
 		$customVar = @json_decode($customVar, $assoc = true);
 
 		if(!is_array($customVar))
 		{
 			return array();
 		}
-		$visitorCustomVar = array();
+		$customVariables = array();
 		foreach($customVar as $id => $keyValue)
 		{
 			$id = (int)$id;
@@ -990,20 +1005,20 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			// We keep in the URL when Custom Variable have empty names
 			// and values, as it means they can be deleted server side
 
-			$key = $this->truncateCustomVariable($keyValue[0]);
-			$value = $this->truncateCustomVariable($keyValue[1]);
-			$visitorCustomVar['custom_var_k'.$id] = $key;
-			$visitorCustomVar['custom_var_v'.$id] = $value;
+			$key = self::truncateCustomVariable($keyValue[0]);
+			$value = self::truncateCustomVariable($keyValue[1]);
+			$customVariables['custom_var_k'.$id] = $key;
+			$customVariables['custom_var_v'.$id] = $value;
 		}
-		if(!empty($visitorCustomVar))
+		if(!empty($customVariables))
 		{
-			printDebug("Visitor Custom Variables: ");
-			printDebug($visitorCustomVar);
+			printDebug("$debug Custom Variables: ");
+			printDebug($customVariables);
 		}
-		return $visitorCustomVar;
+		return $customVariables;
 	}
 
-	protected function truncateCustomVariable($input)
+	static public function truncateCustomVariable($input)
 	{
 		return substr($input, 0, Piwik_Tracker::MAX_LENGTH_CUSTOM_VARIABLE);
 	}

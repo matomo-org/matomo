@@ -53,9 +53,9 @@
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
-		<name>Visitor type</name>
+		<name>Visitor type. For example, to select all visitors who have returned to the website, including those who have bought something in their previous visits, the API request would contain &quot;&amp;segment=visitorType==returning,visitorType==returningCustomer&quot;</name>
 		<segment>visitorType</segment>
-		<acceptedValues>new, returning</acceptedValues>
+		<acceptedValues>new, returning, returningCustomer</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>

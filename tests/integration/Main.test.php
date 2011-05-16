@@ -43,27 +43,32 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
     	// Record 1st page view
         $t->setUrl( 'http://example.org/index.htm' );
+        $t->setCustomVariable(3, 'ec_p', 'PRODUCT name', 'page');
+        $t->setCustomVariable(4, 'ec_s', 'SKU2', 'page');
+        $category = 'Electronics & Cameras';
+        $t->setCustomVariable(5, 'ec_c', $category, 'page');
+        $this->assertTrue($t->getCustomVariable(5, 'page') == $category);
         $this->checkResponse($t->doTrackPageView( 'incredible title!'));
         
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.3)->getDatetime());
+        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1.3)->getDatetime());
         
         //Add to cart
         $t->addEcommerceItem($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name' , $category = 'Electronics & Cameras', $price = 500, $quantity = 1);
         $t->addEcommerceItem($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name' , $category = 'Electronics & Cameras', $price = 500, $quantity = 2);
         $this->checkResponse($t->doTrackEcommerceCartUpdate($grandTotal = 1000));
 
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.4)->getDatetime());
+        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1.4)->getDatetime());
         //Order
         $t->addEcommerceItem($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name' , $category = 'Electronics & Cameras', $price = 500, $quantity = 2);
         $this->checkResponse($t->doTrackEcommerceOrder($orderId = '937nsjusu 3894', $grandTotal = 1111.11, $subTotal = 1000, $tax = 111, $shipping = 0.11, $discount = 666));
         
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.5)->getDatetime());
+        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1.5)->getDatetime());
         //Another Order
         $t->addEcommerceItem($sku = 'SKU2', $name = 'Canon SLR' , $category = 'Electronics & Cameras', $price = 1500, $quantity = 1);
         $this->checkResponse($t->doTrackEcommerceOrder($orderId = '1037nsjusu4s3894', $grandTotal = 2000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
         
         // Refresh the page with the receipt for the second order, should be ignored
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.55)->getDatetime());
+        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1.55)->getDatetime());
         
         // Recording the same ecommerce order, this time with some crazy amount and quantity
         // we test that both the order, and the products, are not updated on subsequent "Receipt" views
@@ -71,7 +76,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $this->checkResponse($t->doTrackEcommerceOrder($orderId = '1037nsjusu4s3894', $grandTotal = 20000000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
         
         // Leave with an opened cart
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.6)->getDatetime());
+        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1.6)->getDatetime());
         // No category
         $t->addEcommerceItem($sku = 'SKU IN ABANDONED CART ONE', $name = 'PRODUCT ONE LEFT in cart' , $category = '', $price = 500.11111112, $quantity = 2);
         $this->checkResponse($t->doTrackEcommerceCartUpdate($grandTotal = 1000));
@@ -79,7 +84,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // Record the same visit leaving twice an abandoned cart
         foreach(array(0, 5, 24) as $offsetHour)
         {   
-	        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour($offsetHour + 0.65)->getDatetime());
+	        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour($offsetHour + 1.65)->getDatetime());
         	// Also recording an order the day after
         	if($offsetHour >= 24)
         	{
@@ -146,10 +151,16 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $segment = 'visitEcommerceStatus==abandonedCart,visitEcommerceStatus==orderedThenAbandonedCart';
         $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentAbandonedCart', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment);
         
+        $segment = 'visitorType==new';
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentNewVisitors', 'xml', $idSite, $dateTime, $periods = array('week'), $setDateLastN = false, $language = false, $segment);
+        $segment = 'visitorType==returning';
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentReturningVisitors', 'xml', $idSite, $dateTime, $periods = array('week'), $setDateLastN = false, $language = false, $segment);
+        $segment = 'visitorType==returningCustomer';
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentReturningCustomers', 'xml', $idSite, $dateTime, $periods = array('week'), $setDateLastN = false, $language = false, $segment);
+        
         // test Live! output is OK also for the visit that just bought something (other visits leave an abandoned cart)
         $this->setApiToCall(array('Live.getLastVisitsDetails'));
         $this->callGetApiCompareOutput(__FUNCTION__ . '_LiveEcommerceStatusOrdered', 'xml', $idSite, Piwik_Date::factory($dateTime)->addHour( 30.65 )->getDatetime(), $periods = array('day'));
-//        exit;
 	}
 	
 	function test_trackGoals_allowMultipleConversionsPerVisit()

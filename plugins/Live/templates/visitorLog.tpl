@@ -64,7 +64,7 @@
 		&nbsp;<img src="{$visitor.columns.countryFlag}" title="{$visitor.columns.country}, Provider {$visitor.columns.provider}" />
 		&nbsp;<img src="{$visitor.columns.browserIcon}" title="{$visitor.columns.browserName} with plugins {$visitor.columns.plugins} enabled" />
 		&nbsp;<img src="{$visitor.columns.operatingSystemIcon}" title="{$visitor.columns.operatingSystem}, {$visitor.columns.resolution} ({$visitor.columns.screenType})" />
-		{if $visitor.columns.visitorType=='returning'}
+		{if $visitor.columns.visitorType=='returning' || $visitor.columns.visitorType=='returningCustomer'}
 			&nbsp;<img src="plugins/Live/templates/images/returningVisitor.gif" title="{'General_ReturningVisitor'|translate}" />
 		{/if}
 		&nbsp;{if $visitor.columns.visitConverted}

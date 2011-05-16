@@ -2,10 +2,10 @@
 <result>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>2</idVisit>
+		<idVisit>3</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
-		<visitorType>returning</visitorType>
+		<visitorType>returningCustomer</visitorType>
 		<visitConverted>0</visitConverted>
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
 		<actions>1</actions>
@@ -98,30 +98,14 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>1</idVisit>
+		<idVisit>2</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
-		<visitorType>new</visitorType>
+		<visitorType>returning</visitorType>
 		<visitConverted>1</visitConverted>
 		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
 		<actions>1</actions>
 		<actionDetails>
-			<row>
-				<type>action</type>
-				<url>http://example.org/index.htm</url>
-				<pageTitle>incredible title!</pageTitle>
-				<pageIdAction>2</pageIdAction>
-				<pageId>1</pageId>
-				
-			</row>
-			<row>
-				<type>goal</type>
-				<goalName>triggered js ONCE</goalName>
-				<revenue>10</revenue>
-				<goalPageId>1</goalPageId>
-				
-				<url>http://example.org/index.htm</url>
-			</row>
 			<row>
 				<type>ecommerceOrder</type>
 				<orderId>937nsjusu 3894</orderId>
@@ -153,15 +137,15 @@
 		</actionDetails>
 		<customVariables>
 		</customVariables>
-		<goalConversions>1</goalConversions>
+		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		
 		<visitLocalTime>12:34:06</visitLocalTime>
 		
 		
 		
-		<visitDuration>2340</visitDuration>
-		<visitDurationPretty>39 min 0s</visitDurationPretty>
+		<visitDuration>1260</visitDuration>
+		<visitDurationPretty>21 min 0s</visitDurationPretty>
 		<visitCount>1</visitCount>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -268,6 +252,90 @@
 					</row>
 				</itemDetails>
 			</row>
+		</ecommerce>
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>1</idVisit>
+		<visitIp>156.5.3.2</visitIp>
+		
+		<visitorType>new</visitorType>
+		<visitConverted>1</visitConverted>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<actions>1</actions>
+		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>triggered js ONCE</goalName>
+				<revenue>10</revenue>
+				<goalPageId>1</goalPageId>
+				
+				<url>http://example.org/index.htm</url>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>incredible title!</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>1</pageId>
+				
+			</row>
+		</actionDetails>
+		<customVariables>
+		</customVariables>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		
+		
+		
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<visitCount>1</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<country>France</country>
+		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
+		<continent>Europe</continent>
+		<provider>Unknown</provider>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName></referrerName>
+		<referrerKeyword></referrerKeyword>
+		<referrerKeywordPosition></referrerKeywordPosition>
+		<referrerUrl></referrerUrl>
+		<referrerSearchEngineUrl></referrerSearchEngineUrl>
+		<referrerSearchEngineIcon></referrerSearchEngineIcon>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<screenType>normal</screenType>
+		<resolution>1024x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+		<ecommerce>
 		</ecommerce>
 	</row>
 </result>

@@ -63,7 +63,6 @@ class PiwikTracker
     function __construct( $idSite, $apiUrl = false )
     {
     	$this->cookieSupport = true;
-    	
     	$this->userAgent = false;
     	$this->localHour = false;
     	$this->localMinute = false;
@@ -71,10 +70,12 @@ class PiwikTracker
     	$this->hasCookies = false;
     	$this->plugins = false;
     	$this->visitorCustomVar = false;
+    	$this->pageCustomVar = false;
     	$this->customData = false;
     	$this->forcedDatetime = false;
     	$this->token_auth = false;
     	$this->attributionInfo = false;
+    	$this->ecommerceLastOrderTimestamp = false;
     	$this->ecommerceItems = array();
 
     	$this->requestCookie = '';
@@ -146,14 +147,26 @@ class PiwikTracker
      * @param int Custom variable slot ID from 1-5
      * @param string Custom variable name
      * @param string Custom variable value
+     * @param string Custom variable scope. Possible values: visit, page
      */
-    public function setCustomVariable($id, $name, $value)
+    public function setCustomVariable($id, $name, $value, $scope = 'visit')
     {
     	if(!is_int($id))
     	{
     		throw new Exception("Parameter id to setCustomVariable should be an integer");
     	}
-        $this->visitorCustomVar[$id] = array($name, $value);
+    	if($scope == 'page')
+    	{
+    		$this->pageCustomVar[$id] = array($name, $value);
+    	}
+    	elseif($scope == 'visit')
+    	{
+    		$this->visitorCustomVar[$id] = array($name, $value);
+    	}
+    	else
+    	{
+    		throw new Exception("Invalid 'scope' parameter value");
+    	}
     }
     
     /**
@@ -163,11 +176,21 @@ class PiwikTracker
      * can be read by PHP from the $_COOKIE array.
      * 
      * @param int Custom Variable integer index to fetch from cookie. Should be a value from 1 to 5
-     * @return array An array with this format: array( 0 => CustomVariableName, 1 => CustomVariableValue )
+     * @param string Custom variable scope. Possible values: visit, page
+     * 
+     * @return array|false An array with this format: array( 0 => CustomVariableName, 1 => CustomVariableValue )
      * @see Piwik.js getCustomVariable()
      */
-    public function getCustomVariable($id)
+    public function getCustomVariable($id, $scope = 'visit')
     {
+    	if($scope == 'page')
+    	{
+    		return isset($this->pageCustomVar[$id]) ? $this->pageCustomVar[$id] : false;
+    	}
+    	else if($scope != 'visit')
+    	{
+    		throw new Exception("Invalid 'scope' parameter value");
+    	}
     	if(!empty($this->visitorCustomVar[$id]))
     	{
     		return $this->visitorCustomVar[$id];
@@ -337,7 +360,7 @@ class PiwikTracker
     	}
     	$url = $this->getUrlTrackEcommerce($grandTotal, $subTotal, $tax, $shipping, $discount);
     	$url .= '&ec_id=' . urlencode($orderId);
-    	
+    	$this->ecommerceLastOrderTimestamp = $this->getTimestamp();
     	return $url;
     }
     
@@ -702,6 +725,17 @@ class PiwikTracker
     }
     
     /**
+     * Returns current timestamp, or forced timestamp/datetime if it was set
+     * @return string|int
+     */
+    protected function getTimestamp()
+    {
+    	return !empty($this->forcedDatetime) 
+    		? strtotime($this->forcedDatetime) 
+    		: time();
+    }
+    
+    /**
      * @ignore
      */
     protected function getRequest( $idSite )
@@ -736,8 +770,12 @@ class PiwikTracker
 			(($this->localHour !== false && $this->localMinute !== false && $this->localSecond !== false) ? '&h=' . $this->localHour . '&m=' . $this->localMinute  . '&s=' . $this->localSecond : '' ).
 	        (!empty($this->width) && !empty($this->height) ? '&res=' . $this->width . 'x' . $this->height : '') .
 	        (!empty($this->hasCookies) ? '&cookie=' . $this->hasCookies : '') .
+	        (!empty($this->ecommerceLastOrderTimestamp) ? '&_ects=' . urlencode($this->ecommerceLastOrderTimestamp) : '') .
+	        
+	        // Various important attributes
 	        (!empty($this->customData) ? '&data=' . $this->customData : '') . 
 	        (!empty($this->visitorCustomVar) ? '&_cvar=' . urlencode(json_encode($this->visitorCustomVar)) : '') .
+	        (!empty($this->pageCustomVar) ? '&cvar=' . urlencode(json_encode($this->pageCustomVar)) : '') .
 	        
 	        // URL parameters
 	        '&url=' . urlencode($this->pageUrl) .

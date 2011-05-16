@@ -378,7 +378,6 @@ class Piwik_Referers extends Piwik_Plugin
 						{
 							$this->distinctUrls[$row['referer_url']] = true;
 						}
-						
 					break;
 	
 					case Piwik_Common::REFERER_TYPE_CAMPAIGN:

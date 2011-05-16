@@ -83,7 +83,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$view->topDimensions = $this->getTopDimensions($idGoal);
 		
 		// conversion rate for new and returning visitors
-		$segment = 'visitorType==returning';
+		$segment = 'visitorType==returning,visitorType==returningCustomer';
 		$conversionRateReturning = Piwik_Goals_API::getInstance()->getConversionRate($this->idSite, Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'), $segment, $idGoal);
 		$view->conversion_rate_returning = $this->formatConversionRate($conversionRateReturning);
 		$segment = 'visitorType==new';
