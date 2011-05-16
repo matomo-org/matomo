@@ -2211,8 +2211,12 @@ class Piwik
 				'".$fileSpec['delim']."'
 			ENCLOSED BY
 				'".$fileSpec['quote']."'
-			ESCAPED BY
-				'".$fileSpec['escape']."'
+		";
+		if(isset($fileSpec['escape']))
+		{
+			$query .= " ESCAPED BY '".$fileSpec['escape']."'";
+		}
+		$query .= "
 			LINES TERMINATED BY
 				'".$fileSpec['eol']."'
 			$fieldList
