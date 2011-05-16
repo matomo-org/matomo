@@ -80,7 +80,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 		
 		$view->setReportDocumentation(Piwik_Translate('Live_VisitorLogDocumentation', array('<br />', '<br />')));
 		
-		$view->setCustomParameter('pageUrlNotDefined', Zend_Registry::get('config')->General->action_default_url_when_not_defined);
+		$view->setCustomParameter('pageUrlNotDefined', Piwik_Translate('General_NotDefined', Piwik_Translate('Actions_ColumnPageURL')));
 		return $this->renderView($view, $fetch);
 	}
 

@@ -243,8 +243,6 @@ class Piwik_Actions extends Piwik_Plugin
 		}
 		
 		self::$defaultActionName = Zend_Registry::get('config')->General->action_default_name;
-		self::$defaultActionNameWhenNotDefined = Zend_Registry::get('config')->General->action_default_name_when_not_defined;
-		self::$defaultActionUrlWhenNotDefined = Zend_Registry::get('config')->General->action_default_url_when_not_defined;
 		$this->columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
 		$this->maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_actions;
 		$this->maximumRowsInSubDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_subtable_actions;
@@ -275,6 +273,9 @@ class Piwik_Actions extends Piwik_Plugin
 	 */
 	public function archiveDay( $notification )
 	{
+		self::$defaultActionNameWhenNotDefined = Piwik_Translate('General_NotDefined', Piwik_Translate('Actions_ColumnPageName'));
+		self::$defaultActionUrlWhenNotDefined = Piwik_Translate('General_NotDefined', Piwik_Translate('Actions_ColumnPageURL'));
+		
 		/* @var $archiveProcessing Piwik_ArchiveProcessing */
 		$archiveProcessing = $notification->getNotificationObject();
 		
