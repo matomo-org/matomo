@@ -232,6 +232,18 @@ class Piwik_Live_API
 					unset($ecommerceDetail['revenueShipping']);
 					unset($ecommerceDetail['revenueDiscount']);
 				}
+			
+				// 25.00 => 25
+				foreach($ecommerceDetail as $column => $value)
+				{
+					if(strpos($column, 'revenue') !== false)
+					{
+						if($value == round($value))
+						{
+							$ecommerceDetail[$column] = round($value);
+						}
+					}
+				}
 			}
 			
 			$actions = array_merge($actionDetails, $goalDetails, $ecommerceDetails);
@@ -287,7 +299,14 @@ class Piwik_Live_API
 				$bind = array($idvisit, isset($ecommerceConversion['orderId']) ? $ecommerceConversion['orderId'] : Piwik_Tracker_GoalManager::ITEM_IDORDER_ABANDONED_CART);
 				
 				$itemsDetails = Piwik_FetchAll($sql, $bind);
-				
+			
+				foreach($itemsDetails as &$detail)
+				{
+					if($detail['price'] == round($detail['price']))
+					{
+						$detail['price'] = round($detail['price']);
+					}
+				}
 				// unreference the array or items added to the reference will show up in the 'actionDetails'
 				$value = $ecommerceDetails[$key];
 				unset($ecommerceDetails[$key]);
