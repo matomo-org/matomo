@@ -287,7 +287,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
         							  custom_var_k5 VARCHAR(50) DEFAULT NULL,
         							  custom_var_v5 VARCHAR(50) DEFAULT NULL,
 									  PRIMARY KEY (idvisit, idgoal, buster),
-									  UNIQUE KEY unique_idorder (idorder),
+									  UNIQUE KEY unique_idsite_idorder (idsite, idorder),
 									  INDEX index_idsite_datetime ( idsite, server_time )
 									) DEFAULT CHARSET=utf8
 			",
