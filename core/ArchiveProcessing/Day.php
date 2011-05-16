@@ -368,7 +368,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	
 	static public function getSqlRevenue($field)
 	{
-		return "TRUNCATE(ROUND(".$field.",".Piwik_Tracker_GoalManager::REVENUE_PRECISION."),2)";
+		return "ROUND(".$field.",".Piwik_Tracker_GoalManager::REVENUE_PRECISION.")";
 	}
 	
 	public function getDataTableFromArray( $array )
