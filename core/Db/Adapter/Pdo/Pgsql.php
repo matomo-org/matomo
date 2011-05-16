@@ -89,7 +89,7 @@ class Piwik_Db_Adapter_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements Pi
 		/**
 		 * COPY ?
 		 *
-		 * @linkhttp://www.postgresql.org/docs/current/interactive/sql-copy.html
+		 * @link http://www.postgresql.org/docs/current/interactive/sql-copy.html
 		 */
 		return false;
 	}
