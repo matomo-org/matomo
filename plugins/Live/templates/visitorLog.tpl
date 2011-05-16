@@ -128,10 +128,10 @@
 			<br />
 			<ol class='visitorLog'>
 			{foreach from=$visitor.columns.actionDetails item=action}
-				<li class="{if !empty($action.goalName)}goal{else}action{/if}" title="{$action.serverTimePretty|escape:'html'} - {$action.url|escape:'html'}">
+				<li class="{if !empty($action.goalName)}goal{else}action{/if}" title="{$action.serverTimePretty|escape:'html'} - {if !empty($action.url)}{$action.url|escape:'html'}{/if}">
 				{if empty($action.goalName)}
 				{* Page view / Download / Outlink *}
-						{if strlen(trim($action.pageTitle))>0}
+						{if !empty($action.pageTitle)>0}
 						 	{$action.pageTitle|truncate:80:"...":true}
 							<br/>
 						{/if}
