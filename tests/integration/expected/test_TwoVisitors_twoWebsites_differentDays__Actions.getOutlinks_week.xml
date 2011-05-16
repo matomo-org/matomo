@@ -4,6 +4,14 @@
 		<result date="2009-12-28 to 2010-01-03" />
 		<result date="2010-01-04 to 2010-01-10">
 			<row>
+				<label>/mailto:test@example.org</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>180</sum_time_spent>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<url>mailto:test@example.org</url>
+			</row>
+			<row>
 				<label>mailto:test@example.org</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
@@ -21,14 +29,6 @@
 						<url>mailto:test@example.org/strangelink</url>
 					</row>
 				</subtable>
-			</row>
-			<row>
-				<label>/mailto:test@example.org</label>
-				<nb_visits>1</nb_visits>
-				<nb_hits>1</nb_hits>
-				<sum_time_spent>180</sum_time_spent>
-				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-				<url>mailto:test@example.org</url>
 			</row>
 		</result>
 		<result date="2010-01-11 to 2010-01-17" />

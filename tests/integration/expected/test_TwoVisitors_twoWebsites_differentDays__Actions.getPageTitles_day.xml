@@ -60,16 +60,6 @@
 						<exit_rate>0%</exit_rate>
 						<subtable>
 							<row>
-								<label> second page view</label>
-								<nb_visits>1</nb_visits>
-								<nb_uniq_visitors>1</nb_uniq_visitors>
-								<nb_hits>1</nb_hits>
-								<sum_time_spent>360</sum_time_spent>
-								<avg_time_on_page>360</avg_time_on_page>
-								<bounce_rate>0%</bounce_rate>
-								<exit_rate>0%</exit_rate>
-							</row>
-							<row>
 								<label> a new visit</label>
 								<nb_visits>1</nb_visits>
 								<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -80,6 +70,16 @@
 								<entry_nb_actions>4</entry_nb_actions>
 								<entry_sum_visit_length>900</entry_sum_visit_length>
 								<entry_bounce_count>0</entry_bounce_count>
+								<avg_time_on_page>360</avg_time_on_page>
+								<bounce_rate>0%</bounce_rate>
+								<exit_rate>0%</exit_rate>
+							</row>
+							<row>
+								<label> second page view</label>
+								<nb_visits>1</nb_visits>
+								<nb_uniq_visitors>1</nb_uniq_visitors>
+								<nb_hits>1</nb_hits>
+								<sum_time_spent>360</sum_time_spent>
 								<avg_time_on_page>360</avg_time_on_page>
 								<bounce_rate>0%</bounce_rate>
 								<exit_rate>0%</exit_rate>

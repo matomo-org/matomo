@@ -34,6 +34,21 @@
 		</subtable>
 	</row>
 	<row>
+		<label> incredible title!</label>
+		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>180</sum_time_spent>
+		<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
+		<entry_nb_visits>1</entry_nb_visits>
+		<entry_nb_actions>5</entry_nb_actions>
+		<entry_sum_visit_length>1620</entry_sum_visit_length>
+		<entry_bounce_count>0</entry_bounce_count>
+		<avg_time_on_page>180</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>0%</exit_rate>
+	</row>
+	<row>
 		<label> Looking at homepage (again)...</label>
 		<nb_visits>1</nb_visits>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -51,21 +66,6 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>180</sum_time_spent>
-		<avg_time_on_page>180</avg_time_on_page>
-		<bounce_rate>0%</bounce_rate>
-		<exit_rate>0%</exit_rate>
-	</row>
-	<row>
-		<label> incredible title!</label>
-		<nb_visits>1</nb_visits>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
-		<nb_hits>1</nb_hits>
-		<sum_time_spent>180</sum_time_spent>
-		<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
-		<entry_nb_visits>1</entry_nb_visits>
-		<entry_nb_actions>5</entry_nb_actions>
-		<entry_sum_visit_length>1620</entry_sum_visit_length>
-		<entry_bounce_count>0</entry_bounce_count>
 		<avg_time_on_page>180</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
