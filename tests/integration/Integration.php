@@ -448,6 +448,8 @@ abstract class Test_Integration extends Test_Database
     			// http://bugs.php.net/bug.php?id=54508
     			$expected = str_replace('.00</revenue>', '</revenue>', $expected);
     			$response = str_replace('.00</revenue>', '</revenue>', $response);
+    			$expected = str_replace('.1</revenue>', '</revenue>', $expected);
+    			$response = str_replace('.11</revenue>', '</revenue>', $response);
     		}
     		
     		$pass = $pass && $this->assertEqual(trim($response), trim($expected), "<br/>\nDifferences with expected in: $processedFilePath %s");
