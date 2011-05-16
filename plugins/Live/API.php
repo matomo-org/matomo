@@ -389,10 +389,9 @@ class Piwik_Live_API
 			else
 			{
 				$processedDate = Piwik_Date::factory($date);
-				
 				if($date == 'today'
 					|| $date == 'now'
-					|| $processedDate == Piwik_Date::factory('today'))
+					|| $processedDate->toString() == Piwik_Date::factory('now', $currentTimezone)->toString())
 				{
 					$processedDate = $processedDate->subDay(1);
 				}
@@ -405,7 +404,7 @@ class Piwik_Live_API
 			if(!in_array($date, array('now', 'today', 'yesterdaySameTime'))
 				&& strpos($date, 'last') === false
 				&& strpos($date, 'previous') === false
-				&& Piwik_Date::factory($dateString)->toString('Y-m-d') != date('Y-m-d'))
+				&& Piwik_Date::factory($dateString)->toString('Y-m-d') != Piwik_Date::factory('now', $currentTimezone)->toString())
 			{
 				$dateEnd = $processedPeriod->getDateEnd()->setTimezone($currentTimezone);
 				$where[] = " log_visit.visit_last_action_time <= ?";
