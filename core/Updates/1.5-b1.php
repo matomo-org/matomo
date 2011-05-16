@@ -58,24 +58,5 @@ class Piwik_Updates_1_5_b1 extends Piwik_Updates
 	static function update()
 	{
 		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
-
-		$obsoleteFile = '/plugins/ExamplePlugin/API.php';
-		if(file_exists(PIWIK_INCLUDE_PATH . $obsoleteFile))
-		{
-			@unlink(PIWIK_INCLUDE_PATH . $obsoleteFile);
-		}
-
-		$obsoleteDirectories = array(
-			'/plugins/AdminHome',
-			'/plugins/Home',
-			'/plugins/PluginsAdmin',
-		);
-		foreach($obsoleteDirectories as $dir)
-		{
-			if(file_exists(PIWIK_INCLUDE_PATH . $dir))
-			{
-				Piwik::unlinkRecursive(PIWIK_INCLUDE_PATH . $dir, true);
-			}
-		}
 	}
 }
