@@ -165,11 +165,11 @@ class Piwik_API_API
 		$segments[] = array(
 		        'type' => 'dimension',
 		        'category' => 'Visit',
-		        'name' => 'General_VisitType',
+		        'name' => Piwik_Translate('General_VisitType') . ". ".Piwik_Translate('General_VisitTypeExample', '"&segment=visitorType==returning,visitorType==returningCustomer"'),
 		        'segment' => 'visitorType',
-		        'acceptedValues' => 'new, returning',
+		        'acceptedValues' => 'new, returning, returningCustomer',
 		        'sqlSegment' => 'visitor_returning',
-		        'sqlFilter' => create_function('$type', 'return $type == "new" ? 0 : 1;'),
+		        'sqlFilter' => create_function('$type', 'return $type == "new" ? 0 : ($type == "returning" ? 1 : 2);'),
 	    );
 		$segments[] = array(
 		        'type' => 'metric',

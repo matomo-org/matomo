@@ -380,20 +380,36 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		$idActionName = in_array($this->getActionType(), array(Piwik_Tracker_Action::TYPE_ACTION_NAME, Piwik_Tracker_Action::TYPE_ACTION_URL))
 							? $this->getIdActionName()
 							: null;
-		Piwik_Tracker::getDatabase()->query( 
-						"INSERT INTO ".Piwik_Common::prefixTable('log_link_visit_action')
-						." (idvisit, idsite, idvisitor, server_time, idaction_url, idaction_name, idaction_url_ref, idaction_name_ref, time_spent_ref_action) 
-							VALUES (?,?,?,?,?,?,?,?,?)",
-					array(	$idVisit, 
-							$this->idSite, 
-							$visitorIdCookie,
-							Piwik_Tracker::getDatetimeFromTimestamp($this->timestamp),
-							(int)$this->getIdActionUrl(), 
-							$idActionName, 
-							$idRefererActionUrl, 
-							$idRefererActionName, 
-							$timeSpentRefererAction
-		));
+		$insert = array(
+			'idvisit' => $idVisit, 
+			'idsite' => $this->idSite, 
+			'idvisitor' => $visitorIdCookie, 
+			'server_time' => Piwik_Tracker::getDatetimeFromTimestamp($this->timestamp), 
+			'idaction_url' => (int)$this->getIdActionUrl(), 
+			'idaction_name' => $idActionName, 
+			'idaction_url_ref' => $idRefererActionUrl, 
+			'idaction_name_ref' => $idRefererActionName, 
+			'time_spent_ref_action' => $timeSpentRefererAction
+		);
+		$customVariables = Piwik_Tracker_Visit::getCustomVariables($scope = 'page', $this->request);
+		$insert = array_merge($insert, $customVariables);
+
+		// Mysqli apparently does not like NULL inserts?
+		$insertWithoutNulls = array();
+		foreach($insert as $column => $value)
+		{
+			if(!is_null($value))
+			{
+				$insertWithoutNulls[$column] = $value;
+			}
+		}
+		
+		$fields = implode(", ", array_keys($insertWithoutNulls));
+		$bind = array_values($insertWithoutNulls);
+		$values = Piwik_Common::getSqlStringFieldsArray($insertWithoutNulls);
+
+		$sql = "INSERT INTO ".Piwik_Common::prefixTable('log_link_visit_action'). " ($fields) VALUES ($values)";
+		Piwik_Tracker::getDatabase()->query( $sql, $bind ); 
 		
 		$this->idLinkVisitAction = Piwik_Tracker::getDatabase()->lastInsertId(); 
 		
@@ -405,7 +421,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			'idRefererActionName' => $idRefererActionName, 
 			'timeSpentRefererAction' => $timeSpentRefererAction, 
 		); 
-		printDebug($info);
+		printDebug($insertWithoutNulls);
 
 		/* 
 		* send the Action object ($this)  and the list of ids ($info) as arguments to the event 

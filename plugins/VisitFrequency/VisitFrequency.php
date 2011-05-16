@@ -111,7 +111,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 				 	WHERE visit_last_action_time >= ?
 						AND visit_last_action_time <= ?
 				 		AND idsite = ?
-				 		AND visitor_returning = 1";
+				 		AND visitor_returning >= 1";
 		$row = $archiveProcessing->db->fetchRow($query, array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ) );
 		
 		if($row === false || $row === null)

@@ -42,7 +42,7 @@ class Piwik_Live_Visitor
 			'idVisit' => $this->getIdVisit(),
 			'visitIp' => $this->getIp(),
 			'visitorId' => $this->getVisitorId(),
-			'visitorType' => $this->isVisitorReturning() ? 'returning' : 'new',
+			'visitorType' => $this->getVisitorReturning() == 2 ? 'returningCustomer' : ($this->getVisitorReturning() == 1 ? 'returning' : 'new'),
 			'visitConverted' => $this->isVisitorGoalConverted(),
 			'visitEcommerceStatus' => $this->getVisitEcommerceStatus(),
 		
@@ -167,7 +167,7 @@ class Piwik_Live_Visitor
 		return Piwik::getPrettyTimeFromSeconds($this->details['visit_total_time']);
 	}
 
-	function isVisitorReturning()
+	function getVisitorReturning()
 	{
 		return $this->details['visitor_returning'];
 	}

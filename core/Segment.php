@@ -128,7 +128,7 @@ class Piwik_Segment
         {
             throw new Exception("Segment '$name' is not a supported segment.");
         }
-        return array( $sqlName, $expression[1], $value );
+        return array( $sqlName, $matchType, $value );
     }
     
     public function getString()

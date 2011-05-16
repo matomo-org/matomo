@@ -421,7 +421,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 	public function getNumeric( $name )
 	{
 		// we cast the result as float because returns false when no visitors
-		return (float)$this->get($name, 'numeric');
+		return round((float)$this->get($name, 'numeric'), 2);
 	}
 
 	

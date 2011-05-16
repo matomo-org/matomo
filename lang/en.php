@@ -47,6 +47,7 @@ $translations = array(
 	'General_VisitorIP' => 'Visitor IP',
 	'General_VisitorID' => 'Visitor ID',
 	'General_VisitType' => 'Visitor type',
+	'General_VisitTypeExample' => 'For example, to select all visitors who have returned to the website, including those who have bought something in their previous visits, the API request would contain %s',
 	'General_DaysSinceLastVisit' => 'Days since last visit',
 	'General_DaysSinceFirstVisit' => 'Days since first visit',
 	'General_DaysSinceLastEcommerceOrder' => 'Days since last Ecommerce order',
