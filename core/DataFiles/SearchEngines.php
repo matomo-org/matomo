@@ -186,7 +186,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www1.austronaut.at'		=> array('Austronaut'),
 	
 		// Babylon (Enhanced by Google)
-		'search.babylon.com'		=> array('Babylon', 'q', '?q={k}'),
+		'search.babylon.com'		=> array('Babylon', array('q', '/\/web\/(.*)/'), '?q={k}'),
 
 		// Baidu
 		'www.baidu.com'				=> array('Baidu', array('wd', 'word', 'kw'), 's?wd={k}', 'gb2312'),
@@ -836,20 +836,15 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.x-recherche.com'		=> array('X-Recherche', 'MOTS', 'cgi-bin/websearch?MOTS={k}'),
 
 		// Yahoo
-		'search.yahoo.com'			=> array('Yahoo!', 'p', 'search?p={k}'),
+		'search.yahoo.com'			=> array('Yahoo!', array('p', 'q'), 'search?p={k}'),
+//		'*.search.yahoo.com'		=> array('Yahoo!'), // see built-in helper in Common.php
 		'yahoo.com'					=> array('Yahoo!'),
 		'yahoo.{}'					=> array('Yahoo!'),
-		'{}.search.yahoo.com'		=> array('Yahoo!'),
-		'cade.search.yahoo.com'		=> array('Yahoo!'),
-		'espanol.search.yahoo.com'	=> array('Yahoo!'),
-		'qc.search.yahoo.com'		=> array('Yahoo!'),
 		'{}.yahoo.com'				=> array('Yahoo!'),
 		'cade.yahoo.com'			=> array('Yahoo!'),
 		'espanol.yahoo.com'			=> array('Yahoo!'),
 		'qc.yahoo.com'				=> array('Yahoo!'),
-		'{}.yhs.search.yahoo.com'	=> array('Yahoo!'),
 		'one.cn.yahoo.com'			=> array('Yahoo!'),
-		'siteexplorer.search.yahoo.com'	=> array('Yahoo!'),
 
 		// Powered by Yahoo APIs
 		'www.cercato.it'			=> array('Yahoo!', 'q'),
@@ -861,11 +856,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Yahoo! Images
 		'images.search.yahoo.com'	=> array('Yahoo! Images', 'p', 'search/images?p={k}'),
-		'{}.images.search.yahoo.com'=> array('Yahoo! Images'),
-		'cade.images.search.yahoo.com'=> array('Yahoo! Images'),
-		'espanol.images.search.yahoo.com'=> array('Yahoo! Images'),
-		'qc.images.search.yahoo.com'=> array('Yahoo! Images'),
-		'images.yahoo.com'			=> array('Yahoo! Images'),
+//		'*.images.search.yahoo.com'=> array('Yahoo! Images'), // see built-in helper in Common.php
 		'{}.images.yahoo.com'		=> array('Yahoo! Images'),
 		'cade.images.yahoo.com'		=> array('Yahoo! Images'),
 		'espanol.images.yahoo.com'	=> array('Yahoo! Images'),
