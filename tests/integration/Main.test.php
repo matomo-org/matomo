@@ -36,6 +36,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		$this->setApiNotToCall(array());
 		$dateTime = '2011-04-05 00:11:42';
 		$idSite = $this->createWebsite($dateTime);
+		$idSite2 = $this->createWebsite($dateTime);
 		
 		$idGoal = Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js ONCE', 'title', 'incredible', 'contains', $caseSensitive=false, $revenue=10, $allowMultipleConversions = true);
         
@@ -99,6 +100,12 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour( 30.75 )->getDatetime());
         $this->checkResponse($t->doTrackEcommerceOrder($orderId = '777', $grandTotal = 10000));
         
+        // Testing the same order in a different website should record
+        $t = $this->getTracker($idSite2, $dateTime, $defaultInit = true);
+    	$t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour( 30.75 )->getDatetime());
+        $t->addEcommerceItem($sku = 'TRIPOD SKU', $name = 'TRIPOD - bought day after' , $category = 'Tools', $price = 100, $quantity = 2);
+        $this->checkResponse($t->doTrackEcommerceOrder($orderId = '777', $grandTotal = 250));
+        
         //------------------------------------- End tracking
         
 		// From Piwik 1.5, we hide Goals.getConversions and other get* methods via @ignore, but we ensure that they still work
@@ -110,6 +117,10 @@ class Test_Piwik_Integration_Main extends Test_Integration
         
 		$this->setApiToCall( array('Goals.get', 'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory'	) );
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime, $periods = array('week'));
+        
+        // Website2
+		$this->setApiToCall( array('Goals.get', 'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory'	) );
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_Website2', 'xml', $idSite2, $dateTime, $periods = array('week'));
         
         $abandonedCarts = 1;
 		$this->setApiToCall( array('Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory') );
@@ -505,7 +516,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // Used to test actual referer + keyword position in Live!
         $visitorA->setUrlReferrer(urldecode('http://www.google.com/url?sa=t&source=web&cd=1&ved=0CB4QFjAA&url=http%3A%2F%2Fpiwik.org%2F&rct=j&q=this%20keyword%20should%20be%20ranked&ei=V8WfTePkKKLfiALrpZWGAw&usg=AFQjCNF_MGJRqKPvaKuUokHtZ3VvNG9ALw&sig2=BvKAdCtNixsmfNWXjsNyMw'));
         
-        // no campaign, but a search engine to attribute the goal conversion _to
+        // no campaign, but a search engine to attribute the goal conversion to
         $attribution = array(
         	'',
         	'',

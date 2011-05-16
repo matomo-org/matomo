@@ -50,7 +50,7 @@ class Piwik_Updates_1_5_b1 extends Piwik_Updates
 				 ADD revenue_tax float default NULL,
 				 ADD  revenue_shipping float default NULL,
 				 ADD revenue_discount float default NULL,
-				 ADD UNIQUE KEY unique_idorder (idorder),
+				 ADD UNIQUE KEY unique_idsite_idorder (idsite, idorder),
 				 MODIFY  idgoal int(10) NOT NULL' => false,
 		);
 	}
