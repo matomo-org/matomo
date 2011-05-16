@@ -39,7 +39,7 @@
 				{/php}
 				<a href="{$action.url|escape:'html'}" target="_blank">
 				{if $action.type == 'action'}
-					<img src="plugins/Live/templates/images/file{php} echo $col; {/php}.png" title="{$action.pageTitle} - {$action.serverTimePretty|escape:'html'}" />
+					<img src="plugins/Live/templates/images/file{php} echo $col; {/php}.png" title="{if !empty($action.pageTitle)}{$action.pageTitle}{/if} - {$action.serverTimePretty|escape:'html'}" />
 				{elseif $action.type == 'outlink'}
 					<img class='iconPadding' src="themes/default/images/link.gif" title="{$action.url|escape:'html'} - {$action.serverTimePretty|escape:'html'}" />
 				{elseif $action.type == 'download'}

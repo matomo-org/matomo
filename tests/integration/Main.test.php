@@ -47,7 +47,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $t->setCustomVariable(4, 'ec_s', 'SKU2', 'page');
         $category = 'Electronics & Cameras';
         $t->setCustomVariable(5, 'ec_c', $category, 'page');
-        $this->assertTrue($t->getCustomVariable(5, 'page') == $category);
+        $this->assertTrue($t->getCustomVariable(5, 'page') == array('ec_c',$category));
         $this->checkResponse($t->doTrackPageView( 'incredible title!'));
         
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1.3)->getDatetime());
