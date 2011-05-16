@@ -377,6 +377,7 @@ class Piwik_Goals extends Piwik_Plugin
 		);
 		foreach($totalAllGoals as $recordName => $value)
 		{
+			$value = round($value, 2);
 			$archiveProcessing->insertNumericRecord($recordName, $value);
 		}
 	}

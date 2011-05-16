@@ -309,10 +309,10 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	    
 	    if($isEcommerceEnabled)
 	    {
-	    	$select .= 	$this->getSqlRevenue('SUM(revenue_subtotal)')." as `". Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL ."`,".
-			    		$this->getSqlRevenue('SUM(revenue_tax)')." as `". Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_TAX ."`,".
-			    		$this->getSqlRevenue('SUM(revenue_shipping)')." as `". Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING ."`,".
-			    		$this->getSqlRevenue('SUM(revenue_discount)')." as `". Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT ."`,".
+	    	$select .= 	self::getSqlRevenue('SUM(revenue_subtotal)')." as `". Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL ."`,".
+			    		self::getSqlRevenue('SUM(revenue_tax)')." as `". Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_TAX ."`,".
+			    		self::getSqlRevenue('SUM(revenue_shipping)')." as `". Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING ."`,".
+			    		self::getSqlRevenue('SUM(revenue_discount)')." as `". Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT ."`,".
 			    		"SUM(items) as `". Piwik_Archive::INDEX_GOAL_ECOMMERCE_ITEMS ."`, ";
 	    }
 	    $groupBy = !empty($groupBy) ? ", $groupBy" : '';
@@ -320,7 +320,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 						$select
 						idgoal,
 						count(*) as `". Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS ."`,
-						".$this->getSqlRevenue('SUM(revenue)')." as `". Piwik_Archive::INDEX_GOAL_REVENUE ."`,
+						".self::getSqlRevenue('SUM(revenue)')." as `". Piwik_Archive::INDEX_GOAL_REVENUE ."`,
 						count(distinct idvisit) as `". Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED."`
 			 	FROM ".Piwik_Common::prefixTable('log_conversion')."
 			 	WHERE server_time >= ?
@@ -342,9 +342,9 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	{
 		$query = "SELECT 
 						name as label,
-						".$this->getSqlRevenue('SUM(quantity * price)')." as `". Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE ."`,
-						".$this->getSqlRevenue('SUM(quantity)')." as `". Piwik_Archive::INDEX_ECOMMERCE_ITEM_QUANTITY ."`,
-						".$this->getSqlRevenue('SUM(price)')." as `". Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE ."`,
+						".self::getSqlRevenue('SUM(quantity * price)')." as `". Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE ."`,
+						".self::getSqlRevenue('SUM(quantity)')." as `". Piwik_Archive::INDEX_ECOMMERCE_ITEM_QUANTITY ."`,
+						".self::getSqlRevenue('SUM(price)')." as `". Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE ."`,
 						count(distinct idorder) as `". Piwik_Archive::INDEX_ECOMMERCE_ORDERS."`,
 						count(idvisit) as `". Piwik_Archive::INDEX_NB_VISITS."`,
 						case idorder when 0 then ".Piwik_Tracker_GoalManager::IDGOAL_CART." else ".Piwik_Tracker_GoalManager::IDGOAL_ORDER." end as type
@@ -366,7 +366,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		return $query;
 	}
 	
-	protected function getSqlRevenue($field)
+	static public function getSqlRevenue($field)
 	{
 		return "TRUNCATE(ROUND(".$field.",".Piwik_Tracker_GoalManager::REVENUE_PRECISION."),2)";
 	}
