@@ -273,9 +273,6 @@ class Piwik_Actions extends Piwik_Plugin
 	 */
 	public function archiveDay( $notification )
 	{
-		self::$defaultActionNameWhenNotDefined = Piwik_Translate('General_NotDefined', Piwik_Translate('Actions_ColumnPageName'));
-		self::$defaultActionUrlWhenNotDefined = Piwik_Translate('General_NotDefined', Piwik_Translate('Actions_ColumnPageURL'));
-		
 		/* @var $archiveProcessing Piwik_ArchiveProcessing */
 		$archiveProcessing = $notification->getNotificationObject();
 		
@@ -546,6 +543,11 @@ class Piwik_Actions extends Piwik_Plugin
 	
 	static protected function getUnknownActionName($type)
 	{
+		if(empty(self::$defaultActionNameWhenNotDefined))
+		{
+			self::$defaultActionNameWhenNotDefined = Piwik_Translate('General_NotDefined', Piwik_Translate('Actions_ColumnPageName'));
+			self::$defaultActionUrlWhenNotDefined = Piwik_Translate('General_NotDefined', Piwik_Translate('Actions_ColumnPageURL'));
+		}
 	    if($type == Piwik_Tracker_Action::TYPE_ACTION_NAME) {
 	        return self::$defaultActionNameWhenNotDefined;
 	    } 

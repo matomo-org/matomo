@@ -15,6 +15,7 @@ class Test_Piwik_Actions extends UnitTestCase
 	{
 		$userFile = PIWIK_INCLUDE_PATH . '/tests/resources/plugins/Actions/Actions.config.ini.php';
 		Piwik::createConfigObject($userFile);
+    	Piwik_Translate::getInstance()->loadEnglishTranslation();
 		Zend_Registry::get('config')->setTestEnvironment();	
 	}
 	
