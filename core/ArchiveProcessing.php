@@ -653,6 +653,7 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	public function insertNumericRecord($name, $value)
 	{
+		$value = round($value, 2);
 		return $this->insertRecord($name, $value);
 	}
 	
