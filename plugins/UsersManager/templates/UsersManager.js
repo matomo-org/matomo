@@ -23,13 +23,13 @@ function getUpdateUserAJAX( row )
 	var parameters = {};
 	parameters.module = 'API';
 	parameters.format = 'json';
- 	parameters.method =  'UsersManager.updateUser';
- 	parameters.userLogin = $(row).children('#userLogin').html();
- 	var password =  $(row).find('input#password').val();
- 	if(password != '-') parameters.password = password;
- 	parameters.email = $(row).find('input#email').val();
- 	parameters.alias = $(row).find('input#alias').val();
- 	parameters.token_auth = piwik.token_auth;
+	parameters.method =  'UsersManager.updateUser';
+	parameters.userLogin = $(row).children('#userLogin').html();
+	var password =  $(row).find('input#password').val();
+	if(password != '-') parameters.password = password;
+	parameters.email = $(row).find('input#email').val();
+	parameters.alias = $(row).find('input#alias').val();
+	parameters.token_auth = piwik.token_auth;
 	
 	ajaxRequest.data = parameters;
 	
@@ -203,7 +203,16 @@ $(document).ready( function() {
 				.toggle()
 				.parent()
 				.prepend( $('<input type="submit" class="submit updateuser"  value="'+_pk_translate('General_Save_js')+'" />')
-				.click( function(){ $.ajax( getUpdateUserAJAX( $('tr#'+idRow) ) ); } ) 
+				.click( function(){ 
+					var onValidate = function() {
+						$.ajax( getUpdateUserAJAX( $('tr#'+idRow) ) ); 
+					};
+					if($('tr#'+idRow).find('input#password').val() != '-') {
+						piwikHelper.windowModal( '#confirmPasswordChange', onValidate);
+					} else {
+						onValidate();
+					}
+				} ) 
 			);
 		});
 		
@@ -249,4 +258,4 @@ $(document).ready( function() {
 
 	$('.updateAccess')
 		.click( bindUpdateAccess );
-});	
+});

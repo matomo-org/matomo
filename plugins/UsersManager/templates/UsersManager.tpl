@@ -95,6 +95,11 @@
         <input id="yes" type="button" value="{'General_Yes'|translate}" />
         <input id="no" type="button" value="{'General_No'|translate}" />
     </div> 
+    <div class="ui-confirm" id="confirmPasswordChange">
+        <h2>{'UsersManager_ChangePasswordConfirm'|translate}</h2>
+        <input id="yes" type="button" value="{'General_Yes'|translate}" />
+        <input id="no" type="button" value="{'General_No'|translate}" />
+    </div> 
 
 	<br />
 	<h2>{'UsersManager_UsersManagement'|translate}</h2>
