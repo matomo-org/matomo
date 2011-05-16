@@ -104,10 +104,6 @@ anonymous_user_enable_use_segments_API = 1
 ; it is useful to have an actual string to write in the UI
 action_default_name = index
 
-; this action name is used when the URL has no page title or page URL defined
-action_default_name_when_not_defined = "page title not defined"
-action_default_url_when_not_defined = "page url not defined"
-
 ; if you want all your users to use Piwik in only one language, disable the LanguagesManager
 ; plugin, and set this default_language (users won't see the language drop down) 
 default_language = en
