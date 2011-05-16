@@ -57,21 +57,18 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 					: (
 						!isset($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
 						? 1
-						:(
-						 	!isset($b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
-							? -1
-							: $this->sign * ( 
-								$a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort] 
-									< $b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort] 
-								? -1 
-								:( isset($a->c[Piwik_DataTable_Row::COLUMNS]['label'])
-									? strnatcasecmp( 
-										$a->c[Piwik_DataTable_Row::COLUMNS]['label'], 
-										$b->c[Piwik_DataTable_Row::COLUMNS]['label']
-										)
+						:( ($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort] != $b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort]
+							|| !isset($a->c[Piwik_DataTable_Row::COLUMNS]['label']))
+							? ( $this->sign * ( 
+									$a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort] 
+										< $b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort]
+									? -1
 									: 1
-								)
+									)
 							)
+							: -1 * $this->sign * strnatcasecmp( 
+										$a->c[Piwik_DataTable_Row::COLUMNS]['label'], 
+										$b->c[Piwik_DataTable_Row::COLUMNS]['label'])
 						)
 					)
 			;

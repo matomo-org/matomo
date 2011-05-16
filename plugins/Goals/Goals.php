@@ -442,6 +442,10 @@ class Piwik_Goals extends Piwik_Plugin
 				{
 					$row[Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE] = round($row[Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE]);
 				}
+				if($row[Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE] == round($row[Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE]))
+				{
+					$row[Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE] = round($row[Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE]);
+				}
 				$items[$dimension][$ecommerceType][$label] = $row;
 			}
 		}

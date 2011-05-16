@@ -19,17 +19,6 @@
 				<url>http://example.org/homepage</url>
 			</row>
 			<row>
-				<label>/thankyou</label>
-				<nb_visits>1</nb_visits>
-				<nb_hits>1</nb_hits>
-				<sum_time_spent>360</sum_time_spent>
-				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-				<avg_time_on_page>360</avg_time_on_page>
-				<bounce_rate>0%</bounce_rate>
-				<exit_rate>0%</exit_rate>
-				<url>http://example.org/thankyou</url>
-			</row>
-			<row>
 				<label>/products</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
@@ -46,6 +35,17 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://example.org/products</url>
+			</row>
+			<row>
+				<label>/thankyou</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>360</sum_time_spent>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<avg_time_on_page>360</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
+				<url>http://example.org/thankyou</url>
 			</row>
 			<row>
 				<label>page url not defined</label>
