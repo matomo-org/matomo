@@ -368,7 +368,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	
 	protected function getSqlRevenue($field)
 	{
-		return "ROUND(".$field.",".Piwik_Tracker_GoalManager::REVENUE_PRECISION.")";
+		return "TRUNCATE(ROUND(".$field.",".Piwik_Tracker_GoalManager::REVENUE_PRECISION."),2)";
 	}
 	
 	public function getDataTableFromArray( $array )
@@ -641,6 +641,12 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 					}
 				}
 				$values[Piwik_Archive::INDEX_NB_CONVERSIONS] = $conversions;
+				
+				// 25.00 recorded as 25 
+				if(round($revenue) == $revenue)
+				{
+					$revenue = round($revenue);
+				}
 				$values[Piwik_Archive::INDEX_REVENUE] = $revenue;
 			}
 		}
