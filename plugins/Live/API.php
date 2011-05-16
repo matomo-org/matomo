@@ -209,11 +209,11 @@ class Piwik_Live_API
 			$sql = "SELECT 
 						case idgoal when ".Piwik_Tracker_GoalManager::IDGOAL_CART." then '".Piwik_Archive::LABEL_ECOMMERCE_CART."' else '".Piwik_Archive::LABEL_ECOMMERCE_ORDER."' end as type,
 						idorder as orderId,
-						revenue as revenue,
-						revenue_subtotal as revenueSubTotal,
-						revenue_tax as revenueTax,
-						revenue_shipping as revenueShipping,
-						revenue_discount as revenueDiscount,
+						".Piwik_ArchiveProcessing_Day('revenue')." as revenue,
+						".Piwik_ArchiveProcessing_Day('revenue_subtotal')." as revenueSubTotal,
+						".Piwik_ArchiveProcessing_Day('revenue_tax')." as revenueTax,
+						".Piwik_ArchiveProcessing_Day('revenue_shipping')." as revenueShipping,
+						".Piwik_ArchiveProcessing_Day('revenue_discount')." as revenueDiscount,
 						items as items,
 						
 						log_conversion.server_time as serverTimePretty
@@ -271,7 +271,7 @@ class Piwik_Live_API
 							log_action_sku.name as itemSKU,
 							log_action_name.name as itemName,
 							log_action_category.name as itemCategory,
-							price as price,
+							".Piwik_ArchiveProcessing_Day('price')." as price,
 							quantity as quantity
 						FROM ".Piwik_Common::prefixTable('log_conversion_item')."
 							INNER JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action_sku
