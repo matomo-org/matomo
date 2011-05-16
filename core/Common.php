@@ -1297,6 +1297,16 @@ class Piwik_Common
 				// private-label search powered by InfoSpace Metasearch
 				$refererHost = 'infospace.com';
 			}
+			elseif(strpos($refererHost, '.images.search.yahoo.com') != false)
+			{
+				// Yahoo! Images
+				$refererHost = 'images.search.yahoo.com';
+			}
+			elseif(strpos($refererHost, '.search.yahoo.com') != false)
+			{
+				// Yahoo!
+				$refererHost = 'search.yahoo.com';
+			}
 			else
 			{
 				return false;

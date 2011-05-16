@@ -813,6 +813,20 @@ class Test_Piwik_Common extends UnitTestCase
 			'http://search.mywebsearch.com/mywebsearch/GGmain.jhtml?searchFor=piwik&tpr=sbt&st=site&ptnrS=ZZ&ss=sub&gcht='
 				=> array('name' => 'MyWebSearch', 'keywords' => 'piwik'),
 
+			// Yahoo!
+			'http://us.yhs4.search.yahoo.com/yhs/search;_ylt=A0oG7qCW9ZhNdFQAuTQPxQt.?q=piwik'
+				=> array('name' => 'Yahoo!', 'keywords' => 'piwik'),
+
+			'http://us.nc.yhs.search.yahoo.com/if?p=piwik&partnerid=yhs-if-timewarner&fr=yhs-if-timewarner&ei=UTF-8&YST_b=7&vm=p'
+				=> array('name' => 'Yahoo!', 'keywords' => 'piwik'),
+
+			// Babylon
+			'http://search.babylon.com/?q=piwik'
+				=> array('name' => 'Babylon', 'keywords' => 'piwik'),
+
+			'http://search.babylon.com/web/piwik'
+				=> array('name' => 'Babylon', 'keywords' => 'piwik'),
+
 			// test that master record is used to backfill subsequent rows
 			'http://www.baidu.com/?wd=test1'
 				=> array('name' => 'Baidu', 'keywords' => 'test1'),
