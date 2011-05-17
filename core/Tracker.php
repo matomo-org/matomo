@@ -111,7 +111,12 @@ class Piwik_Tracker
 				unset($visit);
 			}
 
-			Piwik_Common::runScheduledTasks($now = $this->getCurrentTimestamp());
+			// don't run scheduled tasks in CLI mode from Tracker, this is the case 
+			// where we bulk load logs & don't want to lose time with tasks
+			if(!Piwik_Common::isPhpCliMode())
+			{
+				Piwik_Common::runScheduledTasks($now = $this->getCurrentTimestamp());
+			}
 		} catch (Piwik_Tracker_Db_Exception $e) {
 			printDebug("<b>".$e->getMessage()."</b>");
 		} catch(Piwik_Tracker_Visit_Excluded $e) {
