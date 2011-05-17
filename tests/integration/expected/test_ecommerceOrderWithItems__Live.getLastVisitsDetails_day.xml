@@ -18,6 +18,14 @@
 			</row>
 		</actionDetails>
 		<customVariables>
+			<row>
+				<customVariableName3>VisitorName</customVariableName3>
+				<customVariableValue3>Great name!</customVariableValue3>
+			</row>
+			<row>
+				<customVariableName5>VisitorType</customVariableName5>
+				<customVariableValue5>NewLoggedOut</customVariableValue5>
+			</row>
 		</customVariables>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
@@ -104,8 +112,36 @@
 		<visitorType>returning</visitorType>
 		<visitConverted>1</visitConverted>
 		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
-		<actions>1</actions>
+		<actions>2</actions>
 		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>Looking at Electronics &amp; Cameras page with a page level custom variable</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>2</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName5>ec_c</customVariableName5>
+						<customVariableValue5>Electronics &amp; Cameras</customVariableValue5>
+					</row>
+				</customVariables>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>Looking at Electronics &amp; Cameras page again</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>3</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName5>ec_c</customVariableName5>
+						<customVariableValue5>Electronics &amp; Cameras</customVariableValue5>
+					</row>
+				</customVariables>
+			</row>
 			<row>
 				<type>ecommerceOrder</type>
 				<orderId>937nsjusu 3894</orderId>
@@ -136,6 +172,14 @@
 			</row>
 		</actionDetails>
 		<customVariables>
+			<row>
+				<customVariableName3>VisitorName</customVariableName3>
+				<customVariableValue3>Great name!</customVariableValue3>
+			</row>
+			<row>
+				<customVariableName5>VisitorType</customVariableName5>
+				<customVariableValue5>NewLoggedOut</customVariableValue5>
+			</row>
 		</customVariables>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
@@ -279,9 +323,27 @@
 				<pageIdAction>2</pageIdAction>
 				<pageId>1</pageId>
 				
+				<customVariables>
+					<row>
+						<customVariableName3>ec_p</customVariableName3>
+						<customVariableValue3>PRODUCT name</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>ec_s</customVariableName4>
+						<customVariableValue4>SKU2</customVariableValue4>
+					</row>
+					<row>
+						<customVariableName5>ec_c</customVariableName5>
+						<customVariableValue5>Electronics &amp; Cameras</customVariableValue5>
+					</row>
+				</customVariables>
 			</row>
 		</actionDetails>
 		<customVariables>
+			<row>
+				<customVariableName5>VisitorType</customVariableName5>
+				<customVariableValue5>NewLoggedOut</customVariableValue5>
+			</row>
 		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>

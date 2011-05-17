@@ -7,7 +7,6 @@
 		<max_actions>3</max_actions>
 		<sum_visit_length>720</sum_visit_length>
 		<bounce_count>2</bounce_count>
-		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
@@ -15,6 +14,8 @@
 				<revenue>1000</revenue>
 			</row>
 		</goals>
+		<nb_conversions>2</nb_conversions>
+		<revenue>1000</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<subtable>
 			<row>
@@ -62,7 +63,6 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
-		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -70,6 +70,8 @@
 				<revenue>1000</revenue>
 			</row>
 		</goals>
+		<nb_conversions>1</nb_conversions>
+		<revenue>1000</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<subtable>
 			<row>

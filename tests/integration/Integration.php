@@ -427,8 +427,8 @@ abstract class Test_Integration extends Test_Database
     		}
     		// If date=lastN the <prettyDate> element will change each day, we remove XML element before comparison
     		elseif(strpos($dateTime, 'last') !== false
-    			|| strpos($dateTime, ',today') !== false
-    			|| strpos($dateTime, ',now') !== false
+    			|| strpos($dateTime, 'today') !== false
+    			|| strpos($dateTime, 'now') !== false
     			)
     		{
     			if(strpos($requestUrl, 'API.getProcessedReport') !== false)
@@ -439,6 +439,8 @@ abstract class Test_Integration extends Test_Database
 	    		// avoid build failure when running just before midnight, generating visits in the future
     			$expected = $this->removeXmlElement($expected, 'sum_daily_nb_uniq_visitors');
     			$response = $this->removeXmlElement($response, 'sum_daily_nb_uniq_visitors');
+    			$expected = $this->removeXmlElement($expected, 'nb_visits_converted');
+    			$response = $this->removeXmlElement($response, 'nb_visits_converted');
     		}
     		
     		// is there a better way to test for the current DB type in use?
@@ -457,12 +459,16 @@ abstract class Test_Integration extends Test_Database
     		$pass = $pass && $this->assertEqual(trim($response), trim($expected), "<br/>\nDifferences with expected in: $processedFilePath %s");
     		if($response != $expected)
     		{
-    			var_dump('ERROR FOR ' . $apiId . ' -- FETCHED RESPONSE, then EXPECTED RESPONSE');
+    			var_dump('ERROR FOR ' . $apiId . ' -- FETCHED RESPONSE, then EXPECTED RESPONSE - '.$requestUrl);
     			echo "\n";
     			var_dump($response);
     			echo "\n";
     			var_dump($expected);
     			echo "\n";
+    		}
+    		else
+    		{
+    			file_put_contents( $processedFilePath, $response );
     		}
     	}
     	
