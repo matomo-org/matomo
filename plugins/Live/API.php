@@ -73,7 +73,7 @@ class Piwik_Live_API
 				count(*) as visits,
 				SUM(visit_total_actions) as actions,
 				SUM(visit_goal_converted) as visitsConverted
-		FROM ". Piwik_Common::prefixTable('log_visit') ." 
+		FROM ". Piwik_Common::prefixTable('log_visit') ."  AS log_visit
 		WHERE idsite = ?
 			AND visit_last_action_time >= ?
 			$sqlSegment
@@ -167,6 +167,11 @@ class Piwik_Live_API
 			
 			$idvisit = $visitorDetailsArray['idVisit'];
 
+			$sqlCustomVariables = '';
+			for($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++)
+			{
+				$sqlCustomVariables .= ', custom_var_k' . $i . ', custom_var_v' . $i;
+			}
 			// The second join is a LEFT join to allow returning records that don't have a matching page title
 			// eg. Downloads, Outlinks. For these, idaction_name is set to 0
 			$sql = "
@@ -177,6 +182,7 @@ class Piwik_Live_API
 					log_action.idaction AS pageIdAction,
 					log_link_visit_action.idlink_va AS pageId,
 					log_link_visit_action.server_time as serverTimePretty
+					$sqlCustomVariables
 				FROM " .Piwik_Common::prefixTable('log_link_visit_action')." AS log_link_visit_action
 					INNER JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action
 					ON  log_link_visit_action.idaction_url = log_action.idaction
@@ -185,6 +191,28 @@ class Piwik_Live_API
 				WHERE log_link_visit_action.idvisit = ?
 				 ";
 			$actionDetails = Piwik_FetchAll($sql, array($idvisit));
+			
+			foreach($actionDetails as &$actionDetail)
+			{
+				$customVariablesPage = array();
+				for($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++)
+				{
+					if(!empty($actionDetail['custom_var_k'.$i])
+						&& !empty($actionDetail['custom_var_v'.$i]))
+					{
+						$customVariablesPage[$i] = array(
+							'customVariableName'.$i => $actionDetail['custom_var_k'.$i],
+							'customVariableValue'.$i => $actionDetail['custom_var_v'.$i],
+						);
+					}
+					unset($actionDetail['custom_var_k'.$i]);
+					unset($actionDetail['custom_var_v'.$i]);
+				}
+				if(!empty($customVariablesPage))
+				{
+					$actionDetail['customVariables'] = $customVariablesPage;
+				}
+			}
 			
 			// If the visitor converted a goal, we shall select all Goals
 			$sql = "

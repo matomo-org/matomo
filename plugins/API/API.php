@@ -267,7 +267,11 @@ class Piwik_API_API
 		$columns = array('type', 'category', 'name', 'segment');
 		foreach($columns as $column)
 		{
-			$compare = -1 * strcmp($row1[$column], $row2[$column]);
+			// Keep segments ordered alphabetically inside categories..
+			$type = -1;
+			if($column == 'name') $type = 1;
+			
+			$compare = $type * strcmp($row1[$column], $row2[$column]);
 			if($compare != 0){
 				return $compare;
 			}

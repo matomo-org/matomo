@@ -23,20 +23,21 @@ class Test_Piwik_Segment extends UnitTestCase
     	$pluginsManager->loadPlugins( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
     }
     
-    public function test_()
+    public function test_common()
     {
         $tests = array(
             // Normal segment
-        	'country==France' => array('sql' => ' location_country = ? ', 'bind' => array('France')),
+        	'country==France' => array('sql' => ' location_country = ? ', 'bind' => array('France'), 'sql_join_visits' => ''),
         
             // unescape the comma please
-            'country==a\,==' => array('sql' => ' location_country = ? ', 'bind' => array('a,==')), 
+            'country==a\,==' => array('sql' => ' location_country = ? ', 'bind' => array('a,=='), 'sql_join_visits' => ''), 
 
             // AND, with 2 values rewrites
             'country==a;visitorType!=returning;visitorType==new' => 
                         array(
                         	'sql' => ' location_country = ? AND visitor_returning <> ? AND visitor_returning = ? ', 
-                        	'bind' => array('a', '1', '0')), 
+                        	'bind' => array('a', '1', '0'),
+                        	'sql_join_visits' => ''), 
             
             // OR, with 2 value rewrites
             'referrerType==search,referrerType==direct' => 
@@ -44,7 +45,8 @@ class Test_Piwik_Segment extends UnitTestCase
                         'sql'=>' (referer_type = ? OR referer_type = ? )', 
                         'bind' => array(    Piwik_Common::REFERER_TYPE_SEARCH_ENGINE, 
                                   			Piwik_Common::REFERER_TYPE_DIRECT_ENTRY
-            )),
+            ), 
+            			'sql_join_visits' => ''),
         );
         
         foreach($tests as $segment => $expected)
@@ -59,6 +61,21 @@ class Test_Piwik_Segment extends UnitTestCase
             
             $this->assertEqual(strlen($segment->getHash()), 32);
         }
+    }
+    
+    public function test_withJoin()
+    {
+        $segment = 'country==France;visitorType==new';
+        $expected = array(
+        		'sql' => ' log_test.location_country = ? AND visitor_returning = ? ', 
+        		'bind' => array('France', 0), 
+        		'sql_join_visits' => 'LEFT JOIN piwiktests_log_visit AS log_visit USING(idvisit)'); 
+        
+        $segment = new Piwik_Segment($segment, $idSites = array());
+        $sql = $segment->getSql(array('location_country'), 'log_test');
+//        var_dump($sql);
+//        var_dump($expected);
+        $this->assertEqual($sql, $expected, var_export($sql, true));
     }
     
     public function test_bogusSegment_ThrowsException()

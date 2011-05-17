@@ -34,6 +34,14 @@
 			</row>
 		</actionDetails>
 		<customVariables>
+			<row>
+				<customVariableName3>VisitorName</customVariableName3>
+				<customVariableValue3>Great name!</customVariableValue3>
+			</row>
+			<row>
+				<customVariableName5>VisitorType</customVariableName5>
+				<customVariableValue5>NewLoggedOut</customVariableValue5>
+			</row>
 		</customVariables>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
@@ -141,6 +149,14 @@
 			</row>
 		</actionDetails>
 		<customVariables>
+			<row>
+				<customVariableName3>VisitorName</customVariableName3>
+				<customVariableValue3>Great name!</customVariableValue3>
+			</row>
+			<row>
+				<customVariableName5>VisitorType</customVariableName5>
+				<customVariableValue5>NewLoggedOut</customVariableValue5>
+			</row>
 		</customVariables>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>

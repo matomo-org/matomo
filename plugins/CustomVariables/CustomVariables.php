@@ -142,26 +142,38 @@ class Piwik_CustomVariables extends Piwik_Plugin
 	}
 	
 	/**
-	 * @param Piwik_ArchiveProcessing $archiveProcessing
+	 * @param Piwik_ArchiveProcessing_Day $archiveProcessing
 	 * @return void
 	 */
-	protected function archiveDayAggregate(Piwik_ArchiveProcessing $archiveProcessing)
+	protected function archiveDayAggregate(Piwik_ArchiveProcessing_Day $archiveProcessing)
 	{
 	    for($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++ )
 	    {
 	        $keyField = "custom_var_k".$i;
 	        $valueField = "custom_var_v".$i;
 	        $dimensions = array($keyField, $valueField);
-	        $where = "$keyField != '' AND $valueField != ''";
+	        $where = "%s.$keyField != '' AND %s.$valueField != ''";
 	        
 	        // Custom Vars names and values metrics for visits
 	        $query = $archiveProcessing->queryVisitsByDimension($dimensions, $where);
+	        
         	while($row = $query->fetch() )
         	{
         	   if(!isset($this->interestByCustomVariables[$row[$keyField]])) $this->interestByCustomVariables[$row[$keyField]]= $archiveProcessing->getNewInterestRow();
         	   if(!isset($this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]])) $this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]] = $archiveProcessing->getNewInterestRow();
         	   $archiveProcessing->updateInterestStats( $row, $this->interestByCustomVariables[$row[$keyField]]);
         	   $archiveProcessing->updateInterestStats( $row, $this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]]);
+        	}
+        	
+	        // Custom Vars names and values metrics for page views
+	        $query = $archiveProcessing->queryActionsByDimension($dimensions, $where);
+	        $onlyMetricsAvailableInActionsTable = true;
+        	while($row = $query->fetch() )
+        	{
+        	   if(!isset($this->interestByCustomVariables[$row[$keyField]])) $this->interestByCustomVariables[$row[$keyField]]= $archiveProcessing->getNewInterestRow($onlyMetricsAvailableInActionsTable);
+        	   if(!isset($this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]])) $this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]] = $archiveProcessing->getNewInterestRow($onlyMetricsAvailableInActionsTable);
+        	   $archiveProcessing->updateInterestStats( $row, $this->interestByCustomVariables[$row[$keyField]], $onlyMetricsAvailableInActionsTable);
+        	   $archiveProcessing->updateInterestStats( $row, $this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]], $onlyMetricsAvailableInActionsTable);
         	}
         	
         	// Custom Vars names and values metrics for Goals
@@ -178,8 +190,12 @@ class Piwik_CustomVariables extends Piwik_Plugin
     				$archiveProcessing->updateGoalStats( $row, $this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
         		}
         	}
-    		$archiveProcessing->enrichConversionsByLabelArrayHasTwoLevels($this->interestByCustomVariablesAndValue);
 	    }
+		$archiveProcessing->enrichConversionsByLabelArray($this->interestByCustomVariables);
+    	$archiveProcessing->enrichConversionsByLabelArrayHasTwoLevels($this->interestByCustomVariablesAndValue);
+    	
+//    	var_dump($this->interestByCustomVariables);
+//    	var_dump($this->interestByCustomVariablesAndValue);
 	}
 	
 	/**

@@ -12,7 +12,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/integration/Integration.php';
  * Runs integration / acceptance tests
  * 
  * The test calls the Piwik tracker with known sets of data, expected errors, 
- * and can test the output of the tracker beacon, as well as calling 
+ * and can _test the output of the tracker beacon, as well as calling 
  * all API functions and compare their HTML output with the 'expected output'.
  * 
  * If an algorithm changes in the Tracker or in the Archiving, tests can easily be run to check that 
@@ -47,12 +47,19 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $t->setCustomVariable(4, 'ec_s', 'SKU2', 'page');
         $category = 'Electronics & Cameras';
         $t->setCustomVariable(5, 'ec_c', $category, 'page');
+        $t->setCustomVariable(5, 'VisitorType', 'NewLoggedOut', 'visit');
         $this->assertTrue($t->getCustomVariable(5, 'page') == array('ec_c',$category));
+        $this->assertTrue($t->getCustomVariable(5, 'visit') == array('VisitorType','NewLoggedOut' ));
         $this->checkResponse($t->doTrackPageView( 'incredible title!'));
         
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1.3)->getDatetime());
+        $t->setCustomVariable(5, 'ec_c', $category, 'page');
+        $this->checkResponse($t->doTrackPageView( 'Looking at '.$category.' page with a page level custom variable'));
+        $t->setCustomVariable(5, 'ec_c', $category, 'page');
+        $this->checkResponse($t->doTrackPageView( 'Looking at '.$category.' page again'));
         
         //Add to cart
+        $t->setCustomVariable(3, 'VisitorName', 'Great name!', 'visit');
         $t->addEcommerceItem($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name' , $category = 'Electronics & Cameras', $price = 500, $quantity = 1);
         $t->addEcommerceItem($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name' , $category = 'Electronics & Cameras', $price = 500, $quantity = 2);
         $this->checkResponse($t->doTrackEcommerceCartUpdate($grandTotal = 1000));
@@ -117,9 +124,8 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		// This hack allows the API proxy to let us generate example URLs for the ignored functions
 		Piwik_API_Proxy::getInstance()->hideIgnoredFunctions = false;
         
-		$this->setApiToCall( array('Live.getLastVisitsDetails', 'UserCountry', 'API.getProcessedReport', 'Goals.get', 'Goals.getConversions', 'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory'	) );
+		$this->setApiToCall( array('CustomVariables.getCustomVariables', 'Live.getLastVisitsDetails', 'UserCountry', 'API.getProcessedReport', 'Goals.get', 'Goals.getConversions', 'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory'	) );
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime, $periods = array('day'));
-        
 		$this->setApiToCall( array('Goals.get', 'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory'	) );
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime, $periods = array('week'));
         
@@ -161,6 +167,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // test Live! output is OK also for the visit that just bought something (other visits leave an abandoned cart)
         $this->setApiToCall(array('Live.getLastVisitsDetails'));
         $this->callGetApiCompareOutput(__FUNCTION__ . '_LiveEcommerceStatusOrdered', 'xml', $idSite, Piwik_Date::factory($dateTime)->addHour( 30.65 )->getDatetime(), $periods = array('day'));
+//        exit;
 	}
 	
 	function test_trackGoals_allowMultipleConversionsPerVisit()
@@ -808,6 +815,8 @@ class Test_Piwik_Integration_Main extends Test_Integration
         
 		$this->setApiNotToCall(array());
         $this->setApiToCall(array(	'API.getProcessedReport',
+        							'Actions.getPageUrls',
+        							'Goals.get',
     	                            'CustomVariables.getCustomVariables',
         							'Referers.getCampaigns',
         							'Referers.getKeywords',
@@ -816,8 +825,10 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	));
     	$segments = array(
     		false,
+    		'daysSinceFirstVisit!=50',
     		'visitorId!=33c31e01394bdc63',
-    		'daysSinceFirstVisit!=50'
+    		// testing both filter on Actions table and visit table
+    		'visitorId!=33c31e01394bdc63;daysSinceFirstVisit!=50',
     	);
     	$dates = array(
     		'last7',

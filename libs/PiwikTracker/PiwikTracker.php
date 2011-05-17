@@ -749,6 +749,7 @@ class PiwikTracker
     	{
     		self::$URL .= '/piwik.php';
     	}
+    	
     	$url = self::$URL .
 	 		'?idsite=' . $idSite .
 			'&rec=1' .
@@ -794,6 +795,9 @@ class PiwikTracker
     		// DEBUG 
 	        $this->DEBUG_APPEND_URL
         ;
+    	// Reset page level custom variables after this page view
+    	$this->pageCustomVar = false;
+    	
     	return $url;
     }
     

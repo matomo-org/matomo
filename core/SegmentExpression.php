@@ -93,7 +93,7 @@ class Piwik_SegmentExpression
         return $this->parsedSubExpressions;
     }
     
-    public function parseSubExpressionsIntoSqlExpressions()
+    public function parseSubExpressionsIntoSqlExpressions($fieldsAvailableInTable = array(), $joinedTableName = false)
     {
         $sqlSubExpressions = array();
         $this->valuesBind = array();
@@ -102,7 +102,7 @@ class Piwik_SegmentExpression
             $operator = $leaf[self::INDEX_BOOL_OPERATOR];
             $operandDefinition = $leaf[self::INDEX_OPERAND];
             
-            $operand = $this->getSqlMatchFromDefinition($operandDefinition);
+            $operand = $this->getSqlMatchFromDefinition($operandDefinition, $fieldsAvailableInTable, $joinedTableName);
             
             $this->valuesBind[] = $operand[1];
             $operand = $operand[0];
@@ -119,14 +119,16 @@ class Piwik_SegmentExpression
      * Will return an array containing 
      * - the SQL substring, 
      * - the values to bind to this substring
+     * 
      */
     // @todo case insensitive?
-    protected function getSqlMatchFromDefinition($def)
+    protected function getSqlMatchFromDefinition($def, $fieldsAvailableInTable, $joinedTableName)
     {
         $field = $def[0];
         $matchType = $def[1];
         $value = $def[2];
         
+        $prefix = !empty($joinedTableName) && in_array($field, $fieldsAvailableInTable) ? $joinedTableName .'.' : '';
         $sqlMatch = '';
         switch($matchType)
         {
@@ -160,7 +162,7 @@ class Piwik_SegmentExpression
         		throw new Exception("Filter contains the match type '".$matchType."' which is not supported");
         		break;
         }
-        return array("$field $sqlMatch ?", $value); 
+        return array("$prefix$field $sqlMatch ?", $value); 
     }
     
     private function escapeLikeString($str)
