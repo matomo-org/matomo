@@ -73,6 +73,7 @@ class Test_Piwik_Segment extends UnitTestCase
         
         $segment = new Piwik_Segment($segment, $idSites = array());
         $sql = $segment->getSql(array('location_country'), 'log_test');
+        $sql['sql_join_visits'] = str_replace('canoo_', 'piwiktests_', $sql['sql_join_visits']);
 //        var_dump($sql);
 //        var_dump($expected);
         $this->assertEqual($sql, $expected, var_export($sql, true));
