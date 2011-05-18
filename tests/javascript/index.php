@@ -721,7 +721,7 @@ if ($sqlite) {
 	});
 
 	test("tracking", function() {
-		expect(59);
+		expect(65);
 
 		/*
 		 * Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
@@ -866,6 +866,14 @@ if ($sqlite) {
 		tracker.setCookieNamePrefix("PREFIX");
 		tracker.setCustomVariable(1, "cookiename", "cookievalue");
 		deepEqual( tracker.getCustomVariable(1), ["cookiename", "cookievalue"], "setCustomVariable(cvarExists), getCustomVariable()" );
+		tracker.setCustomVariable(2, "cookiename2", "cookievalue2", "visit");
+		deepEqual( tracker.getCustomVariable(2), ["cookiename2", "cookievalue2"], "setCustomVariable(cvarExists), getCustomVariable()" );
+		deepEqual( tracker.getCustomVariable(2, "visit"), ["cookiename2", "cookievalue2"], "setCustomVariable(cvarExists), getCustomVariable()" );
+		deepEqual( tracker.getCustomVariable(2, 2), ["cookiename2", "cookievalue2"], "GA compability - setCustomVariable(cvarExists), getCustomVariable()" );
+		tracker.setCustomVariable(2, "cookiename2PAGE", "cookievalue2PAGE", "page");
+		deepEqual( tracker.getCustomVariable(2, "page"), ["cookiename2PAGE", "cookievalue2PAGE"], "setCustomVariable(cvarExists), getCustomVariable()" );
+		deepEqual( tracker.getCustomVariable(2, 3), ["cookiename2PAGE", "cookievalue2PAGE"], "GA compability - setCustomVariable(cvarExists), getCustomVariable()" );
+		
 		tracker.trackPageView("SaveCustomVariableCookie");
 		
 		var tracker2 = Piwik.getTracker();
@@ -877,7 +885,11 @@ if ($sqlite) {
 		ok( /PREFIX/.test( document.cookie ), "setCookieNamePrefix()" );
 
 		tracker2.deleteCustomVariable(1);
-		ok( typeof tracker2.getCustomVariable(1) == "undefined", "deleteCustomVariable(), getCustomVariable() === undefined" );
+		console.log(tracker2.getCustomVariable(1));
+		ok( tracker2.getCustomVariable(1) === false, "VISIT deleteCustomVariable(), getCustomVariable() === false" );
+		tracker2.deleteCustomVariable(2, "page");
+		console.log(tracker2.getCustomVariable(2, "page"));
+		ok( tracker2.getCustomVariable(2, "page") === false, "PAGE deleteCustomVariable(), getCustomVariable() === false" );
 		tracker2.trackPageView("DeleteCustomVariableCookie");
 
 		var tracker3 = Piwik.getTracker();
@@ -885,7 +897,7 @@ if ($sqlite) {
 		tracker3.setSiteId(1);
 		tracker3.setCustomData({ "token" : getToken() });
 		tracker3.setCookieNamePrefix("PREFIX");
-		ok( typeof tracker3.getCustomVariable(1) == "undefined", "getCustomVariable(cvarDeleted) from cookie  === undefined" );
+		ok( tracker3.getCustomVariable(1) === false, "getCustomVariable(cvarDeleted) from cookie  === false" );
 
 		//Ecommerce tests
 		tracker3.addEcommerceItem("SKU PRODUCT", "PRODUCT NAME", "PRODUCT CATEGORY", 11.1111, 2); 
@@ -939,8 +951,8 @@ if ($sqlite) {
 			ok( /DoTrack/.test( results ), "setDoNotTrack(false)" );
 			ok( ! /DoNotTrack/.test( results ), "setDoNotTrack(true)" );
 
-			// Test Custom vars
-			ok( /_cvar=/, "test custom vars are set");
+			// Test Custom variables
+			ok( /SaveCustomVariableCookie.*?&cvar=%7B%222%22%3A%5B%22cookienamePAGE2%22%2C%22cookievalue2PAGE%22%5D%7D.*?&_cvar=%7B%221%22%3A%5B%22cookiename%22%2C%22cookievalue%22%5D%2C%222%22%3A%5B%22cookiename2%22%2C%22cookievalue2%22%5D%7D/, "test custom vars are set");
 			
 			// Test campaign parameters set
 			ok( /&_rcn=YEAH&_rck=RIGHT!/.test( results), "Test campaign parameters found"); 

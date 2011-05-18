@@ -1001,9 +1001,12 @@ var
 				// Should cookies have the secure flag set
 				cookieSecure = documentAlias.location.protocol === 'https',
 
-				// Custom Variables read from cookie
+				// Custom Variables read from cookie, scope "visit" 
 				customVariables = false,
-
+				
+				// Custom Variables, scope "page"
+				customVariablesPage = {},
+				
 				// Custom Variables names and values are each truncated before being sent in the request or recorded in the cookie
 				customVariableMaximumLength = 100,
 
@@ -1465,6 +1468,12 @@ var
 					(String(referralUrl).length ? '&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength))) : '')
 				;
 
+				// Custom Variables, scope "page"
+				var customVariablesPageStringified = JSON2.stringify(customVariablesPage);
+				if(customVariablesPageStringified.length > 2) {
+					request += '&cvar=' + encodeWrapper(customVariablesPageStringified);
+				}
+
 				// browser features
 				for (i in browserFeatures) {
 					if (Object.prototype.hasOwnProperty.call(browserFeatures, i)) {
@@ -1479,6 +1488,7 @@ var
 					request += '&data=' + encodeWrapper(JSON2.stringify(configCustomData));
 				}
 
+				// Custom Variables, scope "visit"
 				if (customVariables) {
 					var customVariablesStringified = JSON2.stringify(customVariables);
 					// Don't sent empty custom variables {}
@@ -2035,11 +2045,24 @@ var
 				 * @param int index
 				 * @param string name
 				 * @param string value
+				 * @param string scope Scope of Custom Variable: 
+				 *                     - "visit" will store the name/value in the visit and will persist it in the cookie for the duration of the visit,
+				 *                     - "page" will store the name/value in the page view.
 				 */
-				setCustomVariable: function (index, name, value) {
-					loadCustomVariables();
+				setCustomVariable: function (index, name, value, scope) {
+					var toRecord;
+					if(!isDefined(scope)) {
+						scope = 'visit';
+					}
 					if (index > 0 && index <= maxCustomVariables) {
-						customVariables[index] = [name.slice(0, customVariableMaximumLength), value.slice(0, customVariableMaximumLength)];
+						toRecord = [name.slice(0, customVariableMaximumLength), value.slice(0, customVariableMaximumLength)];
+						if(scope === 'visit' || scope === 2 /* GA compatibility/misuse */) {
+							loadCustomVariables();
+							customVariables[index] = toRecord;
+						}
+						else if(scope === 'page' || scope === 3 /* GA compatibility/misuse */ ) {
+							customVariablesPage[index] = toRecord;
+						}
 					}
 				},
 
@@ -2047,16 +2070,25 @@ var
 				 * Get custom variable
 				 *
 				 * @param int index
+				 * @param string scope Scope of Custom Variable: "visit" or "page" 
 				 */
-				getCustomVariable: function (index) {
+				getCustomVariable: function (index, scope) {
 					var cvar;
-
-					loadCustomVariables();
-					cvar = customVariables[index];
-					if (cvar && cvar[0] === '') {
-						return;
+					if(!isDefined(scope)) {
+						scope = "visit";
 					}
-					return customVariables[index];
+					if(scope === "page" || scope === 3) {
+						cvar = customVariablesPage[index];
+					}
+					else if(scope === "visit" || scope === 2) {
+						loadCustomVariables();
+						cvar = customVariables[index];
+					}
+					if (!isDefined(cvar) 
+							|| (cvar && cvar[0] === '')) {
+						return false;
+					}
+					return cvar;
 				},
 
 				/**
@@ -2064,10 +2096,10 @@ var
 				 *
 				 * @param int index
 				 */
-				deleteCustomVariable: function (index) {
+				deleteCustomVariable: function (index, scope) {
 					// Only delete if it was there already
-					if (this.getCustomVariable(index)) {
-						this.setCustomVariable(index, '', '');
+					if (this.getCustomVariable(index, scope)) {
+						this.setCustomVariable(index, '', '', scope);
 					}
 				},
 
