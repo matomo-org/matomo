@@ -41,6 +41,7 @@ class Piwik_Tracker
 	const MAX_CUSTOM_VARIABLES = 5;
 	const MAX_LENGTH_CUSTOM_VARIABLE = 50;
 	
+	protected $authenticated = false;
 	static protected $forcedDateTime = null;
 	static protected $forcedIpString = null;
 	static protected $forcedVisitorId = null;
@@ -113,7 +114,8 @@ class Piwik_Tracker
 
 			// don't run scheduled tasks in CLI mode from Tracker, this is the case 
 			// where we bulk load logs & don't want to lose time with tasks
-			if(!Piwik_Common::isPhpCliMode())
+			if(!Piwik_Common::isPhpCliMode()
+				&& !$this->authenticated)
 			{
 				Piwik_Common::runScheduledTasks($now = $this->getCurrentTimestamp());
 			}
@@ -365,6 +367,7 @@ class Piwik_Tracker
 			$superUserPassword = Piwik_Tracker_Config::getInstance()->superuser['password'];
 			if( md5($superUserLogin . $superUserPassword ) == $tokenAuth )
 			{
+				$this->authenticated = true;
 				return true;
 			}
 			
@@ -377,6 +380,7 @@ class Piwik_Tracker
 				$adminTokenAuth = $website['admin_token_auth'];
 				if(in_array($tokenAuth, $adminTokenAuth))
 				{
+					$this->authenticated = true;
 					return true;
 				}
 			}
