@@ -270,6 +270,7 @@ class Piwik_Common
 			$cache['lastTrackerCronRun'] = $now;
 			Piwik_Common::setCacheGeneral( $cache );
 			Piwik_Common::initCorePiwikInTrackerMode();
+			Piwik_SetOption('lastTrackerCronRun', $cache['lastTrackerCronRun']);
 			printDebug('-> Scheduled Tasks: Starting...');
 
 			// save current user privilege and temporarily assume super user privilege
