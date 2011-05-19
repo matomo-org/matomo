@@ -25,6 +25,52 @@ class Test_PHP_Related extends UnitTestCase
 		}
 	}
 	
+	function _test_hashStringToInt()
+	{
+		$tests = array(
+			1=>10000,
+			200000=>300000,
+			100000001 => 100100001,
+			200000001 => 200211111,
+			'inv' => 10000,
+			'INV-' => 10000
+		);
+		$alreadyHashed = array();
+		$c = 0;
+		$collisions = 0;
+		foreach($tests as $start => $finish)
+		{
+			$prefix = false;
+			if(is_string($start)) {
+				$prefix = $start;
+				$start = 0;
+			}
+			for($i = $start; $i < $finish; $i++) 
+			{
+				$value = $i;
+				if(!empty($prefix)) {
+					$value = $prefix . $value;
+				}
+				$hash = Piwik_Common::hashStringToInt($value);
+				if(isset($alreadyHashed[$hash])) {
+					$collisions++;
+					$diff = ($value-$alreadyHashed[$hash]);
+					$this->fail("Hash of $value is the same as hash of ".$alreadyHashed[$hash] . " DIFF WAS ".$diff);
+				}
+				$alreadyHashed[$hash] = $value;
+				$c++;
+			}
+		}
+		
+//		$interval = PHP_INT_MAX  / 50;
+//		foreach($alreadyHashed as $hash => $value)
+//		{
+//			$hash % 
+//		}
+		echo "Collision = $collisions - Total hashed = $c - Collision rate = ". round(100*$collisions/$c,5) ."%";
+		$this->pass();
+	}
+	
 	// conclusion: 
 	// - it's ok to have big holes in your array index values
 	// - obvious: it's not ok to index array by strings when you can do magic and index with int

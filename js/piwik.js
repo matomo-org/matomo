@@ -402,7 +402,7 @@ if (!this.JSON2) {
 	doNotTrack, setDoNotTrack,
 	addListener, enableLinkTracking, setLinkTrackingTimer,
 	setHeartBeatTimer, killFrame, redirectFile,
-	trackGoal, trackLink, trackPageView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
+	trackGoal, trackLink, trackPageView, setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
 	addPlugin, getTracker, getAsyncTracker
 */
 var
@@ -2412,6 +2412,34 @@ var
 				 */
 				trackPageView: function (customTitle, customData) {
 					logPageView(customTitle, customData);
+				},
+				
+
+			    /**
+			     * Used to record that the current page view is an item (product) page view, or a Ecommerce Category page view.
+			     * This must be called before trackPageView() on the product/category page. 
+			     * It will set 3 custom variables of scope "page" with the SKU, Name and Category for this page view.
+			     * Note: Custom Variables of scope "page" slots 3, 4 and 5 will be used.
+			     *  
+			     * On a category page, you can set the parameter category, and set the other parameters to empty string or false
+			     * 
+			     * Tracking Product/Category page views will allow Piwik to report on Product & Categories 
+			     * conversion rates (Conversion rate = Ecommerce orders containing this product or category / Visits to the product or category)
+			     * 
+			     * @param string sku Item's SKU code being viewed
+			     * @param string name Item's Name being viewed
+			     * @param string category Category page being viewed. On an Item's page, this is the item's category
+			     */
+				setEcommerceView: function(sku, name, category) {
+					if(isDefined(sku) && sku.length) {
+						customVariablesPage[3] = ['_pks', sku];
+					}
+					if(isDefined(name) && name.length) {
+						customVariablesPage[4] = ['_pkn', name];
+					}
+					if(isDefined(category) && category.length) {
+						customVariablesPage[5] = ['_pkc', category];
+					}
 				},
 				
 				/**

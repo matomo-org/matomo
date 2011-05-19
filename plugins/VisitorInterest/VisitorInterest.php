@@ -142,6 +142,8 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		$tablePagegap = $this->getTablePageGap();
 		$this->archiveProcessing->insertBlobRecord($recordName, $tablePagegap->getSerialized());
 		destroy($tablePagegap);
+		
+		
 	}
 
 	protected function getTablePageGap()

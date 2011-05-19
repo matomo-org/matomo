@@ -8,12 +8,52 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitConverted>0</visitConverted>
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
-		<actions>1</actions>
+		<actions>2</actions>
 		<actionDetails>
 			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>View product left in cart</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>9</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU VERY nice indeed</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT THREE LEFT in cart</customVariableValue4>
+					</row>
+				</customVariables>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>View product left in cart</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>10</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU IN ABANDONED CART TWO</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT TWO LEFT in cart</customVariableValue4>
+					</row>
+					<row>
+						<customVariableName5>_pkc</customVariableName5>
+						<customVariableValue5>Category TWO LEFT in cart</customVariableValue5>
+					</row>
+				</customVariables>
+			</row>
+			<row>
 				<type>ecommerceAbandonedCart</type>
-				<revenue>2500.11</revenue>
-				<items>3</items>
+				<revenue>2510.11</revenue>
+				<items>4</items>
 				
 			</row>
 		</actionDetails>
@@ -34,8 +74,8 @@
 		
 		
 		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<visitDuration>720</visitDuration>
+		<visitDurationPretty>12 min 0s</visitDurationPretty>
 		<visitCount>1</visitCount>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -82,10 +122,17 @@
 		<ecommerce>
 			<row>
 				<type>ecommerceAbandonedCart</type>
-				<revenue>2500.11</revenue>
-				<items>3</items>
+				<revenue>2510.11</revenue>
+				<items>4</items>
 				
 				<itemDetails>
+					<row>
+						<itemSKU>SKU VERY nice indeed</itemSKU>
+						<itemName>PRODUCT THREE LEFT in cart</itemName>
+						<itemCategory>Electronics &amp; Cameras</itemCategory>
+						<price>10</price>
+						<quantity>1</quantity>
+					</row>
 					<row>
 						<itemSKU>SKU IN ABANDONED CART ONE</itemSKU>
 						<itemName>PRODUCT ONE LEFT in cart</itemName>
@@ -112,18 +159,18 @@
 		<visitorType>returning</visitorType>
 		<visitConverted>1</visitConverted>
 		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
-		<actions>2</actions>
+		<actions>5</actions>
 		<actionDetails>
 			<row>
 				<type>action</type>
 				<url>http://example.org/index.htm</url>
 				<pageTitle>Looking at Electronics &amp; Cameras page with a page level custom variable</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>2</pageId>
+				<pageId>4</pageId>
 				
 				<customVariables>
 					<row>
-						<customVariableName5>ec_c</customVariableName5>
+						<customVariableName5>_pkc</customVariableName5>
 						<customVariableValue5>Electronics &amp; Cameras</customVariableValue5>
 					</row>
 				</customVariables>
@@ -133,11 +180,33 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>Looking at Electronics &amp; Cameras page again</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>3</pageId>
+				<pageId>5</pageId>
 				
 				<customVariables>
 					<row>
-						<customVariableName5>ec_c</customVariableName5>
+						<customVariableName5>_pkc</customVariableName5>
+						<customVariableValue5>Electronics &amp; Cameras</customVariableValue5>
+					</row>
+				</customVariables>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>Looking at product page</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>6</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU VERY nice indeed</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT name</customVariableValue4>
+					</row>
+					<row>
+						<customVariableName5>_pkc</customVariableName5>
 						<customVariableValue5>Electronics &amp; Cameras</customVariableValue5>
 					</row>
 				</customVariables>
@@ -165,9 +234,49 @@
 				
 			</row>
 			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>View product left in cart</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>7</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU VERY nice indeed</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT THREE LEFT in cart</customVariableValue4>
+					</row>
+				</customVariables>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>View product left in cart</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>8</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU IN ABANDONED CART TWO</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT TWO LEFT in cart</customVariableValue4>
+					</row>
+					<row>
+						<customVariableName5>_pkc</customVariableName5>
+						<customVariableValue5>Category TWO LEFT in cart</customVariableValue5>
+					</row>
+				</customVariables>
+			</row>
+			<row>
 				<type>ecommerceAbandonedCart</type>
-				<revenue>2500.11</revenue>
-				<items>3</items>
+				<revenue>2510.11</revenue>
+				<items>4</items>
 				
 			</row>
 		</actionDetails>
@@ -188,8 +297,8 @@
 		
 		
 		
-		<visitDuration>1260</visitDuration>
-		<visitDurationPretty>21 min 0s</visitDurationPretty>
+		<visitDuration>3960</visitDuration>
+		<visitDurationPretty>1 hours 6 min</visitDurationPretty>
 		<visitCount>1</visitCount>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -276,10 +385,17 @@
 			</row>
 			<row>
 				<type>ecommerceAbandonedCart</type>
-				<revenue>2500.11</revenue>
-				<items>3</items>
+				<revenue>2510.11</revenue>
+				<items>4</items>
 				
 				<itemDetails>
+					<row>
+						<itemSKU>SKU VERY nice indeed</itemSKU>
+						<itemName>PRODUCT THREE LEFT in cart</itemName>
+						<itemCategory>Electronics &amp; Cameras</itemCategory>
+						<price>10</price>
+						<quantity>1</quantity>
+					</row>
 					<row>
 						<itemSKU>SKU IN ABANDONED CART ONE</itemSKU>
 						<itemName>PRODUCT ONE LEFT in cart</itemName>
@@ -306,8 +422,30 @@
 		<visitorType>new</visitorType>
 		<visitConverted>1</visitConverted>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<actions>1</actions>
+		<actions>3</actions>
 		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>incredible title!</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>1</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU2</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT name</customVariableValue4>
+					</row>
+					<row>
+						<customVariableName5>_pkc</customVariableName5>
+						<customVariableValue5>Electronics &amp; Cameras</customVariableValue5>
+					</row>
+				</customVariables>
+			</row>
 			<row>
 				<type>goal</type>
 				<goalName>triggered js ONCE</goalName>
@@ -319,22 +457,40 @@
 			<row>
 				<type>action</type>
 				<url>http://example.org/index.htm</url>
-				<pageTitle>incredible title!</pageTitle>
+				<pageTitle>Another Product page</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>1</pageId>
+				<pageId>2</pageId>
 				
 				<customVariables>
 					<row>
-						<customVariableName3>ec_p</customVariableName3>
-						<customVariableValue3>PRODUCT name</customVariableValue3>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU VERY nice indeed</customVariableValue3>
 					</row>
 					<row>
-						<customVariableName4>ec_s</customVariableName4>
-						<customVariableValue4>SKU2</customVariableValue4>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT name</customVariableValue4>
 					</row>
 					<row>
-						<customVariableName5>ec_c</customVariableName5>
+						<customVariableName5>_pkc</customVariableName5>
 						<customVariableValue5>Electronics &amp; Cameras</customVariableValue5>
+					</row>
+				</customVariables>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>Another Product page with no category</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>3</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU VERY nice indeed</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT name</customVariableValue4>
 					</row>
 				</customVariables>
 			</row>
@@ -352,8 +508,8 @@
 		
 		
 		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<visitDuration>720</visitDuration>
+		<visitDurationPretty>12 min 0s</visitDurationPretty>
 		<visitCount>1</visitCount>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>

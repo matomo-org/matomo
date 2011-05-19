@@ -22,7 +22,6 @@ class Test_Piwik_Common extends UnitTestCase
 	{
 		parent::tearDown();
 	}
-
 	function test_isUrl()
 	{
 		$valid = array(

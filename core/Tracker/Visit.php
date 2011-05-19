@@ -402,6 +402,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		if(Piwik_Tracker::getDatabase()->rowCount($result) == 0)
 		{
 			printDebug("Visitor with this idvisit wasn't found in the DB.");
+			printDebug("$sqlQuery --- ");printDebug($sqlBind);
 			throw new Piwik_Tracker_Visit_VisitorNotFoundInDatabase(
 						"The visitor with idvisitor=".bin2hex($this->visitorInfo['idvisitor'])." and idvisit=".$this->visitorInfo['idvisit']
 						." wasn't found in the DB, we fallback to a new visitor");

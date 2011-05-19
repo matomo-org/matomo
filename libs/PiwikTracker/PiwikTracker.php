@@ -2,13 +2,13 @@
 /**
  * Piwik - Open source web analytics
  * 
- * Client to record visits, page views, Goals, in a Piwik server.
+ * Client to record visits, page views, Goals, Ecommerce activity (product views, add to carts, Ecommerce orders) in a Piwik server.
  * This is a PHP Version of the piwik.js standard Tracking API.
  * For more information, see http://piwik.org/docs/tracking-api/
  * 
  * This class requires: 
  *  - json extension (json_decode, json_encode) 
- *  - CURL or STREAM extensions (to issue the request to Piwik)
+ *  - CURL or STREAM extensions (to issue the http request to Piwik)
  *  
  * @license released under BSD License http://www.opensource.org/licenses/bsd-license.php
  * @version $Id$
@@ -335,6 +335,34 @@ class PiwikTracker
     }
     
     /**
+     * Used to record that the current page view is an item (product) page view, or a Ecommerce Category page view.
+     * This must be called before doTrackPageView() on this product/category page. 
+     * It will set 3 custom variables of scope "page" with the SKU, Name and Category for this page view.
+     * Note: Custom Variables of scope "page" slots 3, 4 and 5 will be used.
+     *  
+     * On a category page, you can set the parameter $category only, and set the other parameters to empty string or false
+     * 
+     * Tracking Product/Category page views will allow Piwik to report on Product & Categories 
+     * conversion rates (Conversion rate = Visits to the product or category / Ecommerce orders containing this product or category)
+     * 
+     * @param string $sku Product SKU being viewed
+     * @param string $name Product Name being viewed
+     * @param string $category Category being viewed. On a Product page, this is the product's category
+     */
+    public function setEcommerceView($sku = false, $name = false, $category = false)
+    {
+    	if(!empty($sku)) {
+    		$this->pageCustomVar[3] = array('_pks', $sku);
+    	}
+    	if(!empty($name)) {
+    		$this->pageCustomVar[4] = array('_pkn', $name);
+    	}
+    	if(!empty($category)) {
+    		$this->pageCustomVar[5] = array('_pkc', $category);
+    	}
+    }
+    
+    /**
      * Returns URL used to track Ecommerce Cart updates
      * Calling this function will reinitializes the property ecommerceItems to empty array 
      * so items will have to be added again via addEcommerceItem()  
@@ -407,9 +435,9 @@ class PiwikTracker
     		{
     			$items[] = $item;
     		}
-    		$this->ecommerceItems = array();
     		$url .= '&ec_items='. urlencode(json_encode($items));
     	}
+    	$this->ecommerceItems = array();
     	return $url;
     }
     
@@ -823,7 +851,6 @@ class PiwikTracker
     	}
     	return false;
     }
-    
 
 	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
@@ -854,7 +881,6 @@ class PiwikTracker
 		}
 		return $url;
 	}
-
 
 	/**
 	 * If the current URL is 'http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
@@ -920,7 +946,6 @@ class PiwikTracker
 			. self::getCurrentQueryString();
 	}
 }
-
 
 function Piwik_getUrlTrackPageView( $idSite, $documentTitle = false )
 {
