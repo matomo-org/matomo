@@ -239,8 +239,10 @@ dashboard.prototype =
 				$('#placeholder').replaceWith(self.widgetDialog);
 				self.widgetDialog.removeAttr('style');
 				self.saveLayout();
+				self.widgetDialog.find('div.piwik-graph').trigger('piwikResizeGraph');
 			}
 		});
+		self.widgetDialog.find('div.piwik-graph').trigger('piwikResizeGraph');
         $('body').click(function(ev) {
             if(ev.target.className == "ui-widget-overlay") {
                 self.widgetDialog.dialog("close");

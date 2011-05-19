@@ -72,7 +72,11 @@
 				</span>
 				{if $properties.show_export_as_image_icon}
 					<span id="dataTableFooterExportAsImageIcon">
-						<a class="tableIcon" href="javascript:piwikHelper.OFC.jquery.popup('{$chartDivId}');"><img title="{'General_ExportAsImage_js'|translate}" src="themes/default/images/image.png" /></a>
+						{if isset($jqPlotType)}
+							<a class="tableIcon" href="#" onclick="$('#{$chartDivId}').trigger('piwikExportAsImage'); return false;"><img title="{'General_ExportAsImage_js'|translate}" src="themes/default/images/image.png" /></a>
+						{else}
+							<a class="tableIcon" href="javascript:piwikHelper.OFC.jquery.popup('{$chartDivId}');"><img title="{'General_ExportAsImage_js'|translate}" src="themes/default/images/image.png" /></a>
+						{/if}
 					</span>
 				{/if}
 			</div>

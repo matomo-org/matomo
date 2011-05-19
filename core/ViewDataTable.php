@@ -214,14 +214,26 @@ abstract class Piwik_ViewDataTable
 			break;
 			
 			case 'graphPie':
+				if (Zend_Registry::get('config')->General->use_js_charts)
+				{
+					return new Piwik_ViewDataTable_GenerateGraphHTML_JsChartPie();
+				}
 				return new Piwik_ViewDataTable_GenerateGraphHTML_ChartPie();
 			break;
 			
 			case 'graphVerticalBar':
+				if (Zend_Registry::get('config')->General->use_js_charts)
+				{
+					return new Piwik_ViewDataTable_GenerateGraphHTML_JsChartVerticalBar();
+				}
 				return new Piwik_ViewDataTable_GenerateGraphHTML_ChartVerticalBar();
 			break;
 			
 			case 'graphEvolution':
+				if (Zend_Registry::get('config')->General->use_js_charts)
+				{
+					return new Piwik_ViewDataTable_GenerateGraphHTML_JsChartEvolution();
+				}
 				return new Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution();
 			break;
 			
