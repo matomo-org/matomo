@@ -835,7 +835,7 @@ dataTable.prototype =
 			}
 			else
 			{
-				var widthOrientation = domElem.find('table, object').eq(0);
+				var widthOrientation = domElem.find('table, canvas, object').eq(0);
 				if (widthOrientation.size() > 0)
 				{
 					var width = Math.min(widthOrientation.width(), doc.parent().innerWidth());

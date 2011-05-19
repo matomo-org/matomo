@@ -25,7 +25,13 @@ function initializeSparklines () {
 					$(this).click( function() {
 						var idDataTable = graph.attr('graphId');
 						//get the main page graph and reload with new data
-						piwikHelper.findSWFGraph(idDataTable+"Chart_swf").reload(url);
+						if (typeof $.jqplot == 'undefined') {
+							piwikHelper.findSWFGraph(idDataTable + "Chart_swf").reload(url);
+						} else {
+							$.get(url, {}, function(data) {
+								$('#'+idDataTable+"Chart_swf").trigger('replot', data).size();
+							}, 'json');
+						}
 						piwikHelper.lazyScrollTo(graph[0], 400);
 						// Set the new clicked column in the datatable object
 						var sparklineColumn = broadcast.getValueFromUrl('columns', sparklineUrl);
