@@ -721,7 +721,7 @@ if ($sqlite) {
 	});
 
 	test("tracking", function() {
-		expect(65);
+		expect(72);
 
 		/*
 		 * Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
@@ -845,6 +845,7 @@ if ($sqlite) {
 		for (var i = 0; i < 6; i++) {
 			ok( visitorInfo1[i] == visitorInfo2[i], "(loadVisitorId())["+i+"]" );
 		}
+		
 		attributionInfo2 = tracker.getAttributionInfo();
 		ok( attributionInfo1 && attributionInfo2 && attributionInfo1.length == attributionInfo2.length, "getAttributionInfo()" );
 		referrer2 = tracker.getAttributionReferrerUrl();
@@ -862,7 +863,7 @@ if ($sqlite) {
 		var visitorIdEnd = tracker.getVisitorId();
 		ok( visitorIdStart == visitorIdEnd, "tracker.getVisitorId() same at the start and end of process");
 		
-		// custom variables
+		// Custom variables
 		tracker.setCookieNamePrefix("PREFIX");
 		tracker.setCustomVariable(1, "cookiename", "cookievalue");
 		deepEqual( tracker.getCustomVariable(1), ["cookiename", "cookievalue"], "setCustomVariable(cvarExists), getCustomVariable()" );
@@ -875,6 +876,12 @@ if ($sqlite) {
 		deepEqual( tracker.getCustomVariable(2, 3), ["cookiename2PAGE", "cookievalue2PAGE"], "GA compability - setCustomVariable(cvarExists), getCustomVariable()" );
 		
 		tracker.trackPageView("SaveCustomVariableCookie");
+		
+		//Ecommerce views
+		tracker.setEcommerceView( "", false, "CATEGORY HERE" );
+		deepEqual( tracker.getCustomVariable(3, "page"), false, "Ecommerce view SKU");
+		deepEqual( tracker.getCustomVariable(4, "page"), false, "Ecommerce view Name");
+		deepEqual( tracker.getCustomVariable(5, "page"), ["_pkc","CATEGORY HERE"], "Ecommerce view Category");
 		
 		var tracker2 = Piwik.getTracker();
 		tracker2.setTrackerUrl("piwik.php");
@@ -898,6 +905,13 @@ if ($sqlite) {
 		tracker3.setCustomData({ "token" : getToken() });
 		tracker3.setCookieNamePrefix("PREFIX");
 		ok( tracker3.getCustomVariable(1) === false, "getCustomVariable(cvarDeleted) from cookie  === false" );
+		
+		// Ecommerce Views
+		tracker3.setEcommerceView( "SKU", "NAME HERE", "CATEGORY HERE" );
+		deepEqual( tracker3.getCustomVariable(3, "page"), ["_pks","SKU"], "Ecommerce view SKU");
+		deepEqual( tracker3.getCustomVariable(4, "page"), ["_pkn","NAME HERE"], "Ecommerce view Name");
+		deepEqual( tracker3.getCustomVariable(5, "page"), ["_pkc","CATEGORY HERE"], "Ecommerce view Category");
+		tracker3.trackPageView("EcommerceView");
 
 		//Ecommerce tests
 		tracker3.addEcommerceItem("SKU PRODUCT", "PRODUCT NAME", "PRODUCT CATEGORY", 11.1111, 2); 
@@ -922,7 +936,7 @@ if ($sqlite) {
 			xhr.open("GET", "piwik.php?requests=" + getToken(), false);
 			xhr.send(null);
 			results = xhr.responseText;
-			equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "19", "count tracking events" );
+			equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "20", "count tracking events" );
 
 			// tracking requests
 			ok( /PiwikTest/.test( results ), "trackPageView(), setDocumentTitle()" );
@@ -952,11 +966,14 @@ if ($sqlite) {
 			ok( ! /DoNotTrack/.test( results ), "setDoNotTrack(true)" );
 
 			// Test Custom variables
-			ok( /SaveCustomVariableCookie.*?&cvar=%7B%222%22%3A%5B%22cookienamePAGE2%22%2C%22cookievalue2PAGE%22%5D%7D.*?&_cvar=%7B%221%22%3A%5B%22cookiename%22%2C%22cookievalue%22%5D%2C%222%22%3A%5B%22cookiename2%22%2C%22cookievalue2%22%5D%7D/, "test custom vars are set");
+			ok( /SaveCustomVariableCookie.*&cvar=%7B%222%22%3A%5B%22cookiename2PAGE%22%2C%22cookievalue2PAGE%22%5D%7D.*&_cvar=%7B%221%22%3A%5B%22cookiename%22%2C%22cookievalue%22%5D%2C%222%22%3A%5B%22cookiename2%22%2C%22cookievalue2%22%5D%7D/.test(results), "test custom vars are set");
 			
 			// Test campaign parameters set
 			ok( /&_rcn=YEAH&_rck=RIGHT!/.test( results), "Test campaign parameters found"); 
 			ok( /&_ref=http%3A%2F%2Freferrer.example.com%2Fpage%2Fsub%3Fquery%3Dtest%26test2%3Dtest3/.test( results), "Test cookie Ref URL found "); 
+			
+			// Ecommerce view
+			ok( /(EcommerceView).*(&cvar=%7B%223%22%3A%5B%22_pks%22%2C%22SKU%22%5D%2C%224%22%3A%5B%22_pkn%22%2C%22NAME%20HERE%22%5D%2C%225%22%3A%5B%22_pkc%22%2C%22CATEGORY%20HERE%22%5D%7D)/.test(results), "ecommerce view");
 			
 			// Ecommerce order
 			ok( /idgoal=0&ec_id=ORDER%20ID%20YES&revenue=666.66&ec_st=333&ec_tx=222&ec_sh=111&ec_dt=1&ec_items=%5B%5B%22SKU%20PRODUCT%22%2C%22random%22%2C%22random%20PRODUCT%20CATEGORY%22%2C11.1111%2C2%5D%2C%5B%22SKU%20ONLY%20SKU%22%2C%22%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%20NAME%22%2C%22PRODUCT%20NAME%202%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20NO%20PRICE%20NO%20QUANTITY%22%2C%22PRODUCT%20NAME%203%22%2C%22CATEGORY%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%22%2C%22%22%2C%22%22%2C0%2C1%5D%5D/.test( results ), "logEcommerceOrder() with items" );

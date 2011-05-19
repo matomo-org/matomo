@@ -383,7 +383,7 @@ class Piwik_DataTable
 	 * Go through all the rows of the new DataTable and applies the algorithm:
 	 * - if a row in $table doesnt exist in $this we add the new row to $this
 	 * - if a row exists in both $table and $this we sum the columns values into $this
-	 * - if a row in $this doesnt exist in $table we keep the row of $this without modification
+	 * - if a row in $this doesnt exist in $table we add in $this the row of $table without modification
 	 * 
 	 * A common row to 2 DataTable is defined by the same label
 	 * 	
@@ -426,7 +426,7 @@ class Piwik_DataTable
 	 * Returns the Piwik_DataTable_Row that has a column 'label' with the value $label
 	 *
 	 * @param string $label Value of the column 'label' of the row to return
-	 * @return Piwik_DataTable_Row|false The row if found, false otherwise
+	 * @return Piwik_DataTable_Row |false The row if found, false otherwise
 	 */
 	public function getRowFromLabel( $label )
 	{

@@ -419,12 +419,12 @@ class Piwik_Goals extends Piwik_Plugin
 		foreach($this->dimensions as $dimension => $recordName)
 		{
 			$query = $archiveProcessing->queryEcommerceItems($dimension);
-			if($query == false) { return; }
+			if($query == false) { continue; }
 			
 			while($row = $query->fetch())
 			{
 				$label = $row['label'];
-				$ecommerceType = $row['type'];
+				$ecommerceType = $row['ecommerceType'];
 				
 				if(empty($label))
 				{
@@ -437,7 +437,7 @@ class Piwik_Goals extends Piwik_Plugin
 				}
 				unset($row[Piwik_Archive::INDEX_NB_VISITS]);
 				unset($row['label']);
-				unset($row['type']);
+				unset($row['ecommerceType']);
 				if($row[Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE] == round($row[Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE]))
 				{
 					$row[Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE] = round($row[Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE]);

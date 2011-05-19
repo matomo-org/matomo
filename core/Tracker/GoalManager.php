@@ -350,9 +350,7 @@ class Piwik_Tracker_GoalManager
 		}
 		if($this->isGoalAnOrder)
 		{
-			// If Order, make sure that we don't record the same order twice by using the order ID as a buster
-			$orderIdHash = substr(md5($this->orderId), 0, 8);
-			$orderIdNumeric = base_convert($orderIdHash, 16, 10);
+			$orderIdNumeric = Piwik_Common::hashStringToInt($this->orderId);
 			$goal['idgoal'] = self::IDGOAL_ORDER;
 			$goal['idorder'] = $this->orderId; 
 			$goal['buster'] = $orderIdNumeric;
@@ -430,19 +428,18 @@ class Piwik_Tracker_GoalManager
 	 */
 	protected function recordEcommerceItems($goal, $items)
 	{
-		$itemBySku = array();
+		$itemInCartBySku = array();
 		foreach($items as $item)
 		{
-			$itemBySku[$item[0]] = $item;
+			$itemInCartBySku[$item[0]] = $item;
 		}
-//		var_dump($items); echo "Items by SKU:";var_dump($itemBySku);
+//		var_dump($items); echo "Items by SKU:";var_dump($itemInCartBySku);
 
 		// Select all items currently in the Cart if any
-		$sql = "SELECT idaction_sku, idaction_name, idaction_category, price, quantity
+		$sql = "SELECT idaction_sku, idaction_name, idaction_category, price, quantity, deleted
 				FROM ". Piwik_Common::prefixTable('log_conversion_item') . "
 				WHERE idvisit = ?
-					AND idorder = ?
-					AND deleted = 0";
+					AND idorder = ?";
 		$bind = array($goal['idvisit'], isset($goal['idorder']) ? $goal['idorder'] : self::ITEM_IDORDER_ABANDONED_CART);
 		$itemsInDb = Piwik_Tracker::getDatabase()->fetchAll($sql, $bind);
 		
@@ -460,13 +457,13 @@ class Piwik_Tracker_GoalManager
 			$itemInDb = $this->getItemRowCast($itemInDb);
 		
 			//Item in the cart in the DB, but not anymore in the cart
-			if(!isset($itemBySku[$itemInDb[0]]))
+			if(!isset($itemInCartBySku[$itemInDb[0]]))
 			{
 				$itemsToUpdate[] = $itemInDb + array('deleted' => 1);
 				continue;
 			}
 			
-			$newItem = $itemBySku[$itemInDb[0]];
+			$newItem = $itemInCartBySku[$itemInDb[0]];
 			$newItem = $this->getItemRowCast($newItem);
 			
 			if(count($itemInDb) != count($newItem))

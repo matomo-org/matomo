@@ -420,7 +420,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 						".self::getSqlRevenue('SUM(price)')." as `". Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE ."`,
 						count(distinct idorder) as `". Piwik_Archive::INDEX_ECOMMERCE_ORDERS."`,
 						count(idvisit) as `". Piwik_Archive::INDEX_NB_VISITS."`,
-						case idorder when 0 then ".Piwik_Tracker_GoalManager::IDGOAL_CART." else ".Piwik_Tracker_GoalManager::IDGOAL_ORDER." end as type
+						case idorder when 0 then ".Piwik_Tracker_GoalManager::IDGOAL_CART." else ".Piwik_Tracker_GoalManager::IDGOAL_ORDER." end as ecommerceType
 			 	FROM ".Piwik_Common::prefixTable('log_conversion_item')."
 			 		LEFT JOIN ".Piwik_Common::prefixTable('log_action')." 
 			 		ON $field = idaction
@@ -428,7 +428,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 						AND server_time <= ?
 			 			AND idsite = ?
 			 			AND deleted = 0
-			 	GROUP BY $field, type
+			 	GROUP BY $field, ecommerceType
 				ORDER BY NULL";
 						
 		$bind = array( $this->getStartDatetimeUTC(), 

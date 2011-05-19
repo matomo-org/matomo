@@ -139,12 +139,52 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitConverted>1</visitConverted>
 		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
-		<actions>1</actions>
+		<actions>3</actions>
 		<actionDetails>
 			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>View product left in cart</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>11</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU VERY nice indeed</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT THREE LEFT in cart</customVariableValue4>
+					</row>
+				</customVariables>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>View product left in cart</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>12</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU IN ABANDONED CART TWO</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT TWO LEFT in cart</customVariableValue4>
+					</row>
+					<row>
+						<customVariableName5>_pkc</customVariableName5>
+						<customVariableValue5>Category TWO LEFT in cart</customVariableValue5>
+					</row>
+				</customVariables>
+			</row>
+			<row>
 				<type>ecommerceAbandonedCart</type>
-				<revenue>2500.11</revenue>
-				<items>3</items>
+				<revenue>2510.11</revenue>
+				<items>4</items>
 				
 			</row>
 		</actionDetails>
@@ -165,8 +205,8 @@
 		
 		
 		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<visitDuration>1080</visitDuration>
+		<visitDurationPretty>18 min 0s</visitDurationPretty>
 		<visitCount>1</visitCount>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -213,10 +253,17 @@
 		<ecommerce>
 			<row>
 				<type>ecommerceAbandonedCart</type>
-				<revenue>2500.11</revenue>
-				<items>3</items>
+				<revenue>2510.11</revenue>
+				<items>4</items>
 				
 				<itemDetails>
+					<row>
+						<itemSKU>SKU VERY nice indeed</itemSKU>
+						<itemName>PRODUCT THREE LEFT in cart</itemName>
+						<itemCategory>Electronics &amp; Cameras</itemCategory>
+						<price>10</price>
+						<quantity>1</quantity>
+					</row>
 					<row>
 						<itemSKU>SKU IN ABANDONED CART ONE</itemSKU>
 						<itemName>PRODUCT ONE LEFT in cart</itemName>

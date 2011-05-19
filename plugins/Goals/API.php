@@ -195,12 +195,13 @@ class Piwik_Goals_API
 	protected function getItems($recordName, $idSite, $period, $date, $abandonedCarts )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
+		$recordNameFinal = $recordName;
 		if($abandonedCarts)
 		{
-			$recordName = Piwik_Goals::getItemRecordNameAbandonedCart($recordName);
+			$recordNameFinal = Piwik_Goals::getItemRecordNameAbandonedCart($recordName);
 		}
 		$archive = Piwik_Archive::build($idSite, $period, $date );
-		$dataTable = $archive->getDataTable($recordName);
+		$dataTable = $archive->getDataTable($recordNameFinal);
 		$dataTable->filter('Sort', array(Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE));
 		$dataTable->queueFilter('ReplaceColumnNames');
 		
@@ -216,6 +217,25 @@ class Piwik_Goals_API
 		// Average quantity = sum product quantity / abandoned carts 
 		$dataTable->queueFilter('ColumnCallbackAddColumnQuotient', array('avg_quantity', 'quantity', $ordersColumn, $precision = 1));
 		$dataTable->queueFilter('ColumnDelete', array('price'));
+		
+		// Enrich the datatable with Product/Categories views, and conversion rates
+		$mapping = array(
+			'Goals_ItemsSku' => '_pks',
+			'Goals_ItemsName' => '_pkn',
+			'Goals_ItemsCategory' => '_pkc',
+		);
+		$customVariables = Piwik_CustomVariables_API::getInstance()->getCustomVariables($idSite, $period, $date, $segment = false, $expanded = false, $_leavePiwikCoreVariables = true);
+		if($customVariables instanceof Piwik_DataTable
+			&& $row = $customVariables->getRowFromLabel($mapping[$recordName]))
+		{
+			// Request views for all products/categories
+			$idSubtable = $row->getIdSubDataTable();
+			$ecommerceViews = Piwik_CustomVariables_API::getInstance()->getCustomVariablesValuesFromNameId($idSite, $period, $date, $idSubtable);
+			
+			$dataTable->addDataTable($ecommerceViews);
+			// Product conversion rate = orders / visits 
+			$dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('conversion_rate', $ordersColumn, 'nb_visits', Piwik_Tracker_GoalManager::REVENUE_PRECISION));
+		}
 		
 		return $dataTable;
 	}

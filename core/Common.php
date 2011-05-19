@@ -40,6 +40,17 @@ class Piwik_Common
  */
 
 	/**
+	 * Hashes a string into an integer which should be very low collision risks
+	 * @param string $string String to hash
+	 * @return int Resulting int hash
+	 */
+	static public function hashStringToInt($string)
+	{
+		$stringHash = substr(md5($string), 0, 8);
+		return base_convert($stringHash, 16, 10);
+	}
+	
+	/**
 	 * Returns the table name prefixed by the table prefix.
 	 * Works in both Tracker and UI mode.
 	 *
