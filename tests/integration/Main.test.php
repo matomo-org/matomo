@@ -596,6 +596,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         
         $visitorA->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.3)->getDatetime());
     	$visitorA->setCustomVariable($id = 2, $name = 'NOTSETBECAUSE EMPTY VALUE', $value = '');
+    	$visitorA->setCustomVariable($id = 3, $name = 'Value will be VERY long and truncated', $value = 'abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----');
         $this->checkResponse($visitorA->doTrackPageView('Profile page'));
     	$this->checkResponse($visitorA->doTrackGoal($idGoal));
         
@@ -683,14 +684,14 @@ class Test_Piwik_Integration_Main extends Test_Integration
         
 		$tests = array(
 	        // 1) CHECK 'day' archive stored in January
-	        // We expect 2 segments * (1 custom variable name + 2 ref metrics + 1 subtable for the values of the name + 5 Referers blob) = 14
-			'archive_blob_2010_01' => 18,
+	        // We expect 2 segments * (2 custom variable name + 2 ref metrics + 1 subtable for the values of the name + 5 Referers blob) = 14
+			'archive_blob_2010_01' => 20,
 			// This contains all 'last N' weeks & days, (6 metrics + 2 referer metrics + 1 done flag ) * 2 segments + 1 Done flag per Plugin, for each "Last N" date
 			'archive_numeric_2010_01' => 138,
 		
 	        // 2) CHECK 'week' archive stored in December (week starts the month before)
-	        // We expect 2 segments * (1 custom variable name + 2 ref metrics + 1 subtable for the values of the name + 5 referers blob) = 14
-			'archive_blob_2009_12' => 18,
+	        // We expect 2 segments * (2 custom variable name + 2 ref metrics + 1 subtable for the values of the name + 5 referers blob) = 14
+			'archive_blob_2009_12' => 20,
 	        // 6 metrics, 
 	        // 2 Referer metrics (Referers_distinctSearchEngines/Referers_distinctKeywords), 
 	        // 3 done flag (referers, CustomVar, VisitsSummary), 
