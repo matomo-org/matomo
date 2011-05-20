@@ -80,7 +80,6 @@ class Piwik_CoreHome extends Piwik_Plugin
 			$jsFiles[] = "plugins/CoreHome/templates/jqplot.js";
 			$jsFiles[] = $jqplot."excanvas.js";
 			$jsFiles[] = $jqplot."jqplot.core.js";
-			$jsFiles[] = $jqplot."jqplot.linearTickGenerator.js";
 			$jsFiles[] = $jqplot."jqplot.linearAxisRenderer.js";
 			$jsFiles[] = $jqplot."jqplot.axisTickRenderer.js";
 			$jsFiles[] = $jqplot."jqplot.axisLabelRenderer.js";
@@ -92,7 +91,6 @@ class Piwik_CoreHome extends Piwik_Plugin
 			$jsFiles[] = $jqplot."jqplot.shadowRenderer.js";
 			$jsFiles[] = $jqplot."jqplot.shapeRenderer.js";
 			$jsFiles[] = $jqplot."jqplot.sprintf.js";
-			$jsFiles[] = $jqplot."jsdate.js";
 			$jsFiles[] = $jqplot."jqplot.themeEngine.js";
 			$jsFiles[] = $jqplot."plugins/jqplot.pieRenderer.js";
 			$jsFiles[] = $jqplot."plugins/jqplot.barRenderer.js";

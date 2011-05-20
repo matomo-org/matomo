@@ -55,7 +55,7 @@ JQPlot.prototype = {
 	},
 	
 	/** Generic render function */
-	render: function(type, targetDivId, replotting, noDataString) {
+	render: function(type, targetDivId, replotting, lang) {
 		// preapare the appropriate chart type
 		switch (type) {
 			case 'graphEvolution':
@@ -75,7 +75,7 @@ JQPlot.prototype = {
 		// TODO: this should already be noticed by php and the chart should
 		// not even be generated
 		if (this.data.length == 0) {
-			$('#' + targetDivId).addClass('pk-emptyGraph').css('height', 'auto').html(noDataString);
+			$('#' + targetDivId).addClass('pk-emptyGraph').css('height', 'auto').html(lang.noData);
 			return;
 		}
 		
@@ -106,7 +106,7 @@ JQPlot.prototype = {
 				plot.replot();
 			})
 			.bind('piwikExportAsImage', function(e) {
-				self.exportAsImage(target);
+				self.exportAsImage(target, lang);
 			});
 			
 			var plotWidth = target.innerWidth();
@@ -122,7 +122,7 @@ JQPlot.prototype = {
 	},
 	
 	/** Export the chart as an image */
-	exportAsImage: function(container) {
+	exportAsImage: function(container, lang) {
 		var exportCanvas = document.createElement('canvas');
 		exportCanvas.width = container.width();
 		exportCanvas.height = container.height();
@@ -154,9 +154,10 @@ JQPlot.prototype = {
 		});
 		
 		$(document.createElement('div'))
-		.append('Right click, save image as (translate!)<br />').append($(img))
+		.append('<div style="font-size: 13px; margin-bottom: 3px;">'
+				+ lang.exportText + '</div>').append($(img))
 		.dialog({
-			title: 'Export (translate!)',
+			title: lang.exportTitle,
 			modal: true,
 			width: 'auto',
 			position: ['center', 'center'],

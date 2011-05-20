@@ -87,6 +87,10 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	The following components/libraries are redistributed in this package,
 	and subject to their respective licenses.
 
+	Name:  jqPlot
+	Link:  http://www.jqplot.com/
+	License:  Dual-licensed: MIT or GPL v2
+	
 	Name:  CSS3PIE
 	Link:  http://github.com/lojjic/PIE
 	License:  Dual-licensed: Apache v2 or GPL v2
