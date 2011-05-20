@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: ChartVerticalBar.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id$
  *
  * @category Piwik
  * @package Piwik
