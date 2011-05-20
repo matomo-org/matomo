@@ -470,7 +470,7 @@ abstract class Test_Integration extends Test_Database
     		}
     		else
     		{
-    			file_put_contents( $processedFilePath, $response );
+    			//file_put_contents( $processedFilePath, $response );
     		}
     	}
     	

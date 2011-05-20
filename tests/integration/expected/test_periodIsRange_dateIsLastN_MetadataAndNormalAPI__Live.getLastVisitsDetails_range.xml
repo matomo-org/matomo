@@ -25,8 +25,8 @@
 				<customVariableValue1>LoggedOut</customVariableValue1>
 			</row>
 			<row>
-				<customVariableName2>Othercustom value which should be truncated abcdef</customVariableName2>
-				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwx</customVariableValue2>
+				<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
+				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuv</customVariableValue2>
 			</row>
 		</customVariables>
 		<goalConversions>0</goalConversions>
@@ -109,8 +109,8 @@
 				<customVariableValue1>LoggedOut</customVariableValue1>
 			</row>
 			<row>
-				<customVariableName2>Othercustom value which should be truncated abcdef</customVariableName2>
-				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwx</customVariableValue2>
+				<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
+				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuv</customVariableValue2>
 			</row>
 		</customVariables>
 		<goalConversions>1</goalConversions>
@@ -215,6 +215,10 @@
 			<row>
 				<customVariableName1>VisitorType</customVariableName1>
 				<customVariableValue1>LoggedIn</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName3>Value will be VERY long and truncated</customVariableName3>
+				<customVariableValue3>abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghij</customVariableValue3>
 			</row>
 		</customVariables>
 		<goalConversions>1</goalConversions>
