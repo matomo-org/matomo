@@ -421,6 +421,7 @@ abstract class Test_Integration extends Test_Database
     		$expected = str_replace("\r\n", "\n", $expected); 
     		$response = str_replace("\r\n", "\n", $response); 
     		
+    		$removeEndOfLines = false;
     		if($isLiveMustDeleteDates)
     		{
     			$expected = $this->removeAllLiveDatesFromXml($expected);
@@ -441,8 +442,7 @@ abstract class Test_Integration extends Test_Database
     			$response = $this->removeXmlElement($response, 'sum_daily_nb_uniq_visitors');
     			$expected = $this->removeXmlElement($expected, 'nb_visits_converted');
     			$response = $this->removeXmlElement($response, 'nb_visits_converted');
-    			$response = str_replace("\n", "", $response);
-    			$expected = str_replace("\n", "", $expected);
+    			$removeEndOfLines =true;
     		}
     		
     		// is there a better way to test for the current DB type in use?
@@ -458,7 +458,15 @@ abstract class Test_Integration extends Test_Database
     			$response = str_replace('.1</revenue>', '</revenue>', $response);
     		}
     		
-    		$pass = $pass && $this->assertEqual(trim($response), trim($expected), "<br/>\nDifferences with expected in: $processedFilePath %s");
+    		// Hack so we dont file_put_contents (see below) the files with the end of lines removed (not readable)
+    		$responseToTest = $response;
+    		$expectedToTest = $expected;
+    		if($removeEndOfLines)
+    		{
+    			$responseToTest = str_replace("\n", "", $response);
+    			$expectedToTest = str_replace("\n", "", $expected);
+    		}
+    		$pass = $pass && $this->assertEqual(trim($responseToTest), trim($expectedToTest), "<br/>\nDifferences with expected in: $processedFilePath %s");
     		if($response != $expected)
     		{
     			var_dump('ERROR FOR ' . $apiId . ' -- FETCHED RESPONSE, then EXPECTED RESPONSE - '.$requestUrl);
@@ -470,7 +478,7 @@ abstract class Test_Integration extends Test_Database
     		}
     		else
     		{
-    			//file_put_contents( $processedFilePath, $response );
+    			file_put_contents( $processedFilePath, $response );
     		}
     	}
     	
