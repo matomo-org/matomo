@@ -1,4 +1,4 @@
- <div class="home" id="content" style="display: block;">
+<div class="home" id="content" style="display: block;">
 <a graphid="VisitsSummarygetEvolutionGraph" name="evolutionGraph"></a>
 <h2>{'Live_VisitorLog'|translate}</h2>
 <div id="{$properties.uniqueId}" class="visitorLog">
@@ -128,7 +128,18 @@
 			<br />
 			<ol class='visitorLog'>
 			{foreach from=$visitor.columns.actionDetails item=action}
-				<li class="{if !empty($action.goalName)}goal{else}action{/if}" title="{$action.serverTimePretty|escape:'html'} - {if !empty($action.url)}{$action.url|escape:'html'}{/if}">
+				{capture assign='customVariablesTooltip'}
+				{if !empty($action.customVariables)}
+					{'CustomVariables_CustomVariables'|translate} 
+					{foreach from=$action.customVariables item=customVariable key=id}
+						{capture assign=name}customVariableName{$id}{/capture}
+						{capture assign=value}customVariableValue{$id}{/capture}
+						 - {$customVariable.$name} = {$customVariable.$value}
+					{/foreach}
+				{/if}
+				{/capture}
+				
+				<li class="{if !empty($action.goalName)}goal{else}action{/if}" title="{$action.serverTimePretty|escape:'html'} - {if !empty($action.url)}{$action.url|escape:'html'}{/if} {if !empty($customVariablesTooltip)}{$customVariablesTooltip}{/if}">
 				{if empty($action.goalName)}
 				{* Page view / Download / Outlink *}
 						{if !empty($action.pageTitle)>0}
