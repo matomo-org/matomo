@@ -441,6 +441,8 @@ abstract class Test_Integration extends Test_Database
     			$response = $this->removeXmlElement($response, 'sum_daily_nb_uniq_visitors');
     			$expected = $this->removeXmlElement($expected, 'nb_visits_converted');
     			$response = $this->removeXmlElement($response, 'nb_visits_converted');
+    			$response = str_replace("\n", "", $response);
+    			$expected = str_replace("\n", "", $expected);
     		}
     		
     		// is there a better way to test for the current DB type in use?
