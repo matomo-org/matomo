@@ -30,24 +30,28 @@
 			<span class="pagesTitle">{'Actions_SubmenuPages'|translate}:</span>&nbsp;
 			{php} $col = 0;	{/php}
 			{foreach from=$visitor.actionDetails item=action}
-			  {php}
-			  	$col++;
-		  		if ($col>=9)
-		  		{
-				  $col=0;
-		  		}
-				{/php}
-				<a href="{$action.url|escape:'html'}" target="_blank">
-				{if $action.type == 'action'}
-					<img src="plugins/Live/templates/images/file{php} echo $col; {/php}.png" title="{if !empty($action.pageTitle)}{$action.pageTitle}{/if} - {$action.serverTimePretty|escape:'html'}" />
-				{elseif $action.type == 'outlink'}
-					<img class='iconPadding' src="themes/default/images/link.gif" title="{$action.url|escape:'html'} - {$action.serverTimePretty|escape:'html'}" />
-				{elseif $action.type == 'download'}
-					<img class='iconPadding' src="themes/default/images/download.png" title="{$action.url|escape:'html'} - {$action.serverTimePretty|escape:'html'}" />
+				{if $action.type == 'ecommerceOrder' || $action.type == 'ecommerceAbandonedCart'}
+					<img class='iconPadding' src="themes/default/images/{$action.type}.gif" title="
+						{if $action.type == 'ecommerceOrder'}{'Goals_EcommerceOrder'|translate}{else}{'Goals_AbandonedCart'|translate}{/if} 
+ - {if $action.type == 'ecommerceOrder'}{'Live_GoalRevenue'|translate}: {else}{capture assign='revenueLeft'}{'Live_GoalRevenue'|translate}{/capture}{'Goals_LeftInCart'|translate:$revenueLeft}: {/if}{$action.revenue} {$visitor.siteCurrencySymbol} 
+ - {$action.serverTimePretty|escape:'html'}  
+ {if !empty($action.itemDetails)}{foreach from=$action.itemDetails item=product}
+  # {$product.itemSKU}{if !empty($product.itemName)}: {$product.itemName}{/if}{if !empty($product.itemCategory)} ({$product.itemCategory}){/if}, {'General_Quantity'|translate}: {$product.quantity}, {'General_Price'|translate}: {$product.price} {$visitor.siteCurrencySymbol} 
+{/foreach}{/if}" />
 				{else}
-					<img class='iconPadding' src="themes/default/images/goal.png" title="{$action.goalName|escape:'html'} - {if $action.revenue > 0}{'Live_GoalRevenue'|translate}: {$action.revenue} {$visitor.siteCurrencySymbol} - {/if} {$action.serverTimePretty|escape:'html'}" />
+				    {php}$col++; if ($col>=9) { $col=0; }{/php}
+					<a href="{$action.url|escape:'html'}" target="_blank">
+					{if $action.type == 'action'}
+						<img src="plugins/Live/templates/images/file{php} echo $col; {/php}.png" title="{if !empty($action.pageTitle)}{$action.pageTitle}{/if} - {$action.serverTimePretty|escape:'html'}" />
+					{elseif $action.type == 'outlink'}
+						<img class='iconPadding' src="themes/default/images/link.gif" title="{$action.url|escape:'html'} - {$action.serverTimePretty|escape:'html'}" />
+					{elseif $action.type == 'download'}
+						<img class='iconPadding' src="themes/default/images/download.png" title="{$action.url|escape:'html'} - {$action.serverTimePretty|escape:'html'}" />
+					{else}
+						<img class='iconPadding' src="themes/default/images/goal.png" title="{$action.goalName|escape:'html'} - {if $action.revenue > 0}{'Live_GoalRevenue'|translate}: {$action.revenue} {$visitor.siteCurrencySymbol} - {/if} {$action.serverTimePretty|escape:'html'}" />
+					{/if}
+					</a>
 				{/if}
-				</a>
 			{/foreach}
 		</div>
 	</div>
