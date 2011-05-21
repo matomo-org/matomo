@@ -138,24 +138,59 @@
 					{/foreach}
 				{/if}
 				{/capture}
-				
-				<li class="{if !empty($action.goalName)}goal{else}action{/if}" title="{$action.serverTimePretty|escape:'html'} - {if !empty($action.url)}{$action.url|escape:'html'}{/if} {if !empty($customVariablesTooltip)}{$customVariablesTooltip}{/if}">
-				{if empty($action.goalName)}
+				{if !$javascriptVariablesToSet.filterEcommerce || $action.type == 'ecommerceOrder'}
+				<li class="{if !empty($action.goalName)}goal{else}action{/if}" title="{$action.serverTimePretty|escape:'html'}{if !empty($action.url) && strlen(trim($action.url))} - {$action.url|escape:'html'}{/if} {if strlen(trim($customVariablesTooltip))} - {$customVariablesTooltip}{/if}">
+				{if $action.type == 'ecommerceOrder' || $action.type == 'ecommerceAbandonedCart'}
+ 					{* Ecommerce Abandoned Cart / Ecommerce Order *}
+ 					
+					<img src="themes/default/images/{$action.type}.gif" /> 
+					{if $action.type == 'ecommerceOrder'}<strong>{'Goals_EcommerceOrder'|translate}</strong> <span style='color:#666666'>({$action.orderId})</span>
+					{else}<strong>{'Goals_AbandonedCart'|translate}</strong>
+					{/if} <br/>
+					<span style='margin-left:20px'>
+					{if $action.type == 'ecommerceOrder'}
+						<abbr title="
+						{'Live_GoalRevenue'|translate}: {$action.revenue} {$visitor.columns.siteCurrencySymbol} 
+						{if !empty($action.revenueSubTotal)} - {'General_Subtotal'|translate}: {$action.revenueSubTotal} {$visitor.columns.siteCurrencySymbol}{/if} 
+						{if !empty($action.revenueTax)} - {'General_Tax'|translate}: {$action.revenueTax} {$visitor.columns.siteCurrencySymbol}{/if} 
+						{if !empty($action.revenueShipping)} - {'General_Shipping'|translate}: {$action.revenueShipping} {$visitor.columns.siteCurrencySymbol}{/if} 
+						{if !empty($action.revenueDiscount)} - {'General_Discount'|translate}: {$action.revenueDiscount} {$visitor.columns.siteCurrencySymbol}{/if} 
+						">{'Live_GoalRevenue'|translate}:
+					{else}
+						{capture assign='revenueLeft'}{'Live_GoalRevenue'|translate}{/capture}{'Goals_LeftInCart'|translate:$revenueLeft}:
+					{/if}
+					<strong>{$action.revenue} {$visitor.columns.siteCurrencySymbol}</strong>{if $action.type == 'ecommerceOrder'}</abbr>{/if}, 
+					{'General_Quantity'|translate}: {$action.items}
+ 					
+ 					{* Ecommerce items in Cart/Order *}
+ 					{if !empty($action.itemDetails)}
+ 					<ul style='list-style:square;margin-left:50px'>
+ 					{foreach from=$action.itemDetails item=product}
+						<li>{$product.itemSKU}{if !empty($product.itemName)}: {$product.itemName}{/if}{if !empty($product.itemCategory)} ({$product.itemCategory}){/if}, 
+						{'General_Quantity'|translate}: {$product.quantity},
+						{'General_Price'|translate}: {$product.price} {$visitor.columns.siteCurrencySymbol}
+						</li> 					
+ 					{/foreach}
+ 					</ul>
+ 					{/if}
+					</span>
+					
+				{elseif empty($action.goalName)}
 				{* Page view / Download / Outlink *}
-						{if !empty($action.pageTitle)>0}
-						 	{$action.pageTitle|truncate:80:"...":true}
-							<br/>
-						{/if}
-						{if $action.type == 'download'}
-							<img src='themes/default/images/download.png'>
-						{elseif $action.type == 'outlink'}
-							<img src='themes/default/images/link.gif'>
-						{/if}
-						{if !empty($action.url)}
-						 	<a href="{$action.url|escape:'html'}" target="_blank" style="{if $action.type=='action' && !empty($action.pageTitle)}margin-left: 25px;{/if}text-decoration:underline;">{$action.url|escape:'html'|truncate:80:"...":true}</a>
-						{else}
-							{$javascriptVariablesToSet.pageUrlNotDefined}
-						{/if}
+					{if !empty($action.pageTitle)>0}
+					 	{$action.pageTitle|truncate:80:"...":true}
+						<br/>
+					{/if}
+					{if $action.type == 'download'}
+						<img src='themes/default/images/download.png'>
+					{elseif $action.type == 'outlink'}
+						<img src='themes/default/images/link.gif'>
+					{/if}
+					{if !empty($action.url)}
+					 	<a href="{$action.url|escape:'html'}" target="_blank" style="{if $action.type=='action' && !empty($action.pageTitle)}margin-left: 25px;{/if}text-decoration:underline;">{$action.url|escape:'html'|truncate:80:"...":true}</a>
+					{else}
+						{$javascriptVariablesToSet.pageUrlNotDefined}
+					{/if}
 				{else}
 				{* Goal conversion *}
 					<img src="themes/default/images/goal.png" /> 
@@ -163,6 +198,7 @@
 					{if $action.revenue > 0}, {'Live_GoalRevenue'|translate}: <strong>{$action.revenue} {$visitor.columns.siteCurrency}</strong>{/if}
 				{/if}
 				</li>
+				{/if}
 			{/foreach}
 			</ol>
 	</td>
@@ -170,7 +206,6 @@
 {/foreach}
 	</tbody>
 	</table>
-
 	{/if}
 	{if count($arrayDataTable) == 20}
 	{* We set a fake large rows count so that 'Next' paginate link is forced to display

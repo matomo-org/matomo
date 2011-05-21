@@ -52,6 +52,7 @@ class Piwik_Live_Visitor
 			'customVariables' => $this->getCustomVariables(),
 			'goalConversions' => false,
 			'siteCurrency' => false,
+			'siteCurrencySymbol' => false,
 
 			// all time entries
 			'serverDate' => $this->getServerDate(),

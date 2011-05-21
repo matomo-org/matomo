@@ -20,6 +20,15 @@
 				<revenueDiscount>20</revenueDiscount>
 				<items>2</items>
 				
+				<itemDetails>
+					<row>
+						<itemSKU>TRIPOD SKU</itemSKU>
+						<itemName>TRIPOD - bought day after</itemName>
+						<itemCategory>Tools</itemCategory>
+						<price>100</price>
+						<quantity>2</quantity>
+					</row>
+				</itemDetails>
 			</row>
 			<row>
 				<type>ecommerceOrder</type>
@@ -45,6 +54,7 @@
 		</customVariables>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
 		<visitLocalTime>12:34:06</visitLocalTime>
 		
@@ -186,6 +196,29 @@
 				<revenue>2510.11</revenue>
 				<items>4</items>
 				
+				<itemDetails>
+					<row>
+						<itemSKU>SKU VERY nice indeed</itemSKU>
+						<itemName>PRODUCT THREE LEFT in cart</itemName>
+						<itemCategory>Electronics &amp; Cameras</itemCategory>
+						<price>10</price>
+						<quantity>1</quantity>
+					</row>
+					<row>
+						<itemSKU>SKU IN ABANDONED CART ONE</itemSKU>
+						<itemName>PRODUCT ONE LEFT in cart</itemName>
+						<itemCategory></itemCategory>
+						<price>500.11</price>
+						<quantity>1</quantity>
+					</row>
+					<row>
+						<itemSKU>SKU IN ABANDONED CART TWO</itemSKU>
+						<itemName>PRODUCT TWO LEFT in cart</itemName>
+						<itemCategory>Category TWO LEFT in cart</itemCategory>
+						<price>1000</price>
+						<quantity>2</quantity>
+					</row>
+				</itemDetails>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -200,6 +233,7 @@
 		</customVariables>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
 		<visitLocalTime>12:34:06</visitLocalTime>
 		

@@ -61,7 +61,6 @@ class Piwik_Live_Controller extends Piwik_Controller
 							__FUNCTION__,
 						'Live.getLastVisitsDetails'
 						);
-
 		$view->disableGenericFilters();
 		$view->disableSort();
 		$view->setTemplate("Live/templates/visitorLog.tpl");
@@ -80,6 +79,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 		
 		$view->setReportDocumentation(Piwik_Translate('Live_VisitorLogDocumentation', array('<br />', '<br />')));
 		
+		$view->setCustomParameter('filterEcommerce', Piwik_Common::getRequestVar('filterEcommerce', 0, 'int'));
 		$view->setCustomParameter('pageUrlNotDefined', Piwik_Translate('General_NotDefined', Piwik_Translate('Actions_ColumnPageURL')));
 		return $this->renderView($view, $fetch);
 	}

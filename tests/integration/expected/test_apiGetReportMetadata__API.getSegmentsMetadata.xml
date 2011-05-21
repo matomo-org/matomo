@@ -39,13 +39,6 @@
 	<row>
 		<type>metric</type>
 		<category>Visit</category>
-		<name>Visit Ecommerce status at the end of the visit. For example, to select all visits that have made an Ecommerce order, the API request would contain &quot;&amp;segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart&quot;</name>
-		<segment>visitEcommerceStatus</segment>
-		<acceptedValues>none, ordered, abandonedCart, orderedThenAbandonedCart</acceptedValues>
-	</row>
-	<row>
-		<type>metric</type>
-		<category>Visit</category>
 		<name>Visit converted at least one Goal</name>
 		<segment>visitConverted</segment>
 		<acceptedValues>0, 1</acceptedValues>
@@ -112,6 +105,13 @@
 		<name>Server time</name>
 		<segment>visitServerHour</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit</category>
+		<name>Visit Ecommerce status at the end of the visit. For example, to select all visits that have made an Ecommerce order, the API request would contain &quot;&amp;segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart&quot;</name>
+		<segment>visitEcommerceStatus</segment>
+		<acceptedValues>none, ordered, abandonedCart, orderedThenAbandonedCart</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>

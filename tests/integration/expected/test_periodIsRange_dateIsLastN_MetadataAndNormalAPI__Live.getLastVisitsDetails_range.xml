@@ -31,6 +31,7 @@
 		</customVariables>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
 		<visitLocalTime>12:34:06</visitLocalTime>
 		
@@ -115,6 +116,7 @@
 		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
 		<visitLocalTime>12:34:06</visitLocalTime>
 		
@@ -223,6 +225,7 @@
 		</customVariables>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
 		<visitLocalTime>12:34:06</visitLocalTime>
 		

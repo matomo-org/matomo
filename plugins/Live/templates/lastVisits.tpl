@@ -45,7 +45,7 @@
 				{elseif $action.type == 'download'}
 					<img class='iconPadding' src="themes/default/images/download.png" title="{$action.url|escape:'html'} - {$action.serverTimePretty|escape:'html'}" />
 				{else}
-					<img class='iconPadding' src="themes/default/images/goal.png" title="{$action.goalName|escape:'html'} - {if $action.revenue > 0}{'Live_GoalRevenue'|translate}: {$action.revenue} {$visitor.siteCurrency} - {/if} {$action.serverTimePretty|escape:'html'}" />
+					<img class='iconPadding' src="themes/default/images/goal.png" title="{$action.goalName|escape:'html'} - {if $action.revenue > 0}{'Live_GoalRevenue'|translate}: {$action.revenue} {$visitor.siteCurrencySymbol} - {/if} {$action.serverTimePretty|escape:'html'}" />
 				{/if}
 				</a>
 			{/foreach}
