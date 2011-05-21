@@ -93,7 +93,7 @@ class Test_Piwik_TrackerAction extends  Test_Database
 			'http://a.com/index?p1=v1&p2=v2&p3=v3&p4=v4',
 		);
 		$this->setUpRootAccess();
-		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), $excludedIps = '', $excludedQueryParameters);
+		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0, $excludedIps = '', $excludedQueryParameters);
 		$urls = $this->getTestUrls();
 		foreach($urls as $url)
 		{
@@ -120,7 +120,7 @@ class Test_Piwik_TrackerAction extends  Test_Database
 			'http://a.com/index?p1=v1&p3=v3',
 		);
 		$this->setUpRootAccess();
-		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), $excludedIps = '', $excludedQueryParameters);
+		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0, $excludedIps = '', $excludedQueryParameters);
 		$urls = $this->getTestUrls();
 		$filteredUrls = array();
 		foreach($urls as $url)
@@ -150,7 +150,7 @@ class Test_Piwik_TrackerAction extends  Test_Database
 			'http://a.com/index?p1=v1&p3=v3',
 		);
 		$this->setUpRootAccess();
-		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), $excludedIps = '', $excludedQueryParameters);
+		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0, $excludedIps = '', $excludedQueryParameters);
 		Piwik_SitesManager_API::getInstance()->setGlobalExcludedQueryParameters($excludedGlobalParameters);
 		$urls = $this->getTestUrls();
 		$filteredUrls = array();

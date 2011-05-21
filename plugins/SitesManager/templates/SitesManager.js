@@ -44,6 +44,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		var timezone = encodeURIComponent($(row).find('#timezones option:selected').val());
 		var currency = encodeURIComponent($(row).find('#currencies option:selected').val());
 		var excludedQueryParameters = $(row).find('textarea#excludedQueryParameters').val();
+		var ecommerce = encodeURIComponent($(row).find('#ecommerce option:selected').val());
 		excludedQueryParameters = piwikHelper.getApiFormatTextarea(excludedQueryParameters);
 		
 		var request = '';
@@ -54,6 +55,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		request += '&siteName='+siteName;
 		request += '&timezone='+timezone;
 		request += '&currency='+currency;
+		request += '&ecommerce='+ecommerce;
 		request += '&excludedIps='+excludedIps;
 		request += '&excludedQueryParameters='+excludedQueryParameters;
 		$.each(urls, function (key,value){ request+= '&urls[]='+escape(value);} );
@@ -88,6 +90,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		excludedQueryParameters = piwikHelper.getApiFormatTextarea(excludedQueryParameters);
 		var timezone = encodeURIComponent($(row).find('#timezones option:selected').val());
 		var currency = encodeURIComponent($(row).find('#currencies option:selected').val());
+		var ecommerce = encodeURIComponent($(row).find('#ecommerce option:selected').val());
 		var request = '';
 		request += '&module=API';
 		request += '&format=json';
@@ -97,6 +100,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		request += '&idSite='+idSite;
 		request += '&timezone='+timezone;
 		request += '&currency='+currency;
+		request += '&ecommerce='+ecommerce;
 		request += '&excludedIps='+excludedIps;
 		request += '&excludedQueryParameters='+excludedQueryParameters;
 		$.each(urls, function (key,value){ if(value.length>1) request+= '&urls[]='+value;} );
@@ -145,6 +149,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 				<td><textarea cols="20" rows="4" id="excludedQueryParameters"></textarea><br />'+excludedQueryParametersHelp+'</td>\
 				<td>'+getTimezoneSelector(defaultTimezone)+'<br />' + timezoneHelp + '</td>\
 				<td>'+getCurrencySelector(defaultCurrency)+'<br />' + currencyHelp + '</td>\
+				<td>'+getEcommerceSelector(0) + '<br />' + ecommerceHelp+ '</td>\
 				<td>'+submitButtonHtml+'</td>\
 	  			<td><span class="cancel link_but">'+sprintf(_pk_translate('General_OrCancel_js'),"","")+'</span></td>\
 	 		</tr>')
@@ -246,6 +251,12 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 						contentAfter += '<br />' + currencyHelp;
 						$(n).html(contentAfter);
 					}
+					if(idName == 'ecommerce')
+					{
+						ecommerceActive = contentBefore.indexOf("ecommerceActive") > 0 ? 1 : 0;
+						contentAfter = getEcommerceSelector(ecommerceActive) + '<br />' + ecommerceHelp; 
+						$(n).html(contentAfter);
+					}
 				}
 			);
 			$(this)
@@ -264,6 +275,16 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		$('#defaultCurrency').html( getCurrencySelector(defaultCurrency));
 		
 		$('td.editableSite').click( function(){ $(this).parent().find('.editSite').click(); } );
+	}
+	
+	function getEcommerceSelector(enabled)
+	{
+		var html = '<select id="ecommerce">';
+		selected = ' selected="selected" ';
+		html += '<option ' + (enabled ? '' : selected) + ' value="0">' + ecommerceDisabled + '</option>';
+		html += '<option ' + (enabled ? selected : '') + ' value="1">' + ecommerceEnabled + '</option>';
+		html += '</select>';
+		return html;
 	}
 	
 	function getTimezoneSelector(selectedTimezone)

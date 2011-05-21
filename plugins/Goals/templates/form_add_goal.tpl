@@ -72,10 +72,7 @@
                 
                 <input type="radio" id="allow_multiple_1" value="1" name="allow_multiple" />
                 <label for="allow_multiple_1">{'Goals_AllowGoalConvertedMoreThanOncePerVisit'|translate}</label>
-				<br />
-	            <div class="entityInlineHelp">  
-					{'Goals_HelpMultipleConversionsPerVisit'|translate}
-				</td>
+				<br /><br />
 		</tr>
 		<tr>
 	</tbody>

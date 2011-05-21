@@ -89,10 +89,14 @@ class Piwik_Site
 	{
 		return $this->get('excluded_ips');
 	}
-	
+
 	function getExcludedQueryParameters()
 	{
 		return $this->get('excluded_parameters');
+	}
+	function isEcommerceEnabled()
+	{
+		return $this->get('ecommerce') == 1;
 	}
 	
 	/**

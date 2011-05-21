@@ -98,6 +98,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$view->goalsJSON = json_encode($this->goals);
         $view->goalDimensions = Piwik_Goals::getReportsWithGoalMetrics();
 		$view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
+		$view->ecommerceEnabled = $this->site->isEcommerceEnabled();
 		$view->displayFullReport = true;
 		echo $view->render();
 	}

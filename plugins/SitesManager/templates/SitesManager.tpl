@@ -25,6 +25,12 @@ var aliasUrlsHelp = '{'SitesManager_AliasUrlHelp'|translate|inlineHelp|escape:ja
 	{'SitesManager_CurrencySymbolWillBeUsedForGoals'|translate|inlineHelp}
 {/capture}
 
+{capture assign=ecommerceHelpPlain}
+	{'SitesManager_EcommerceHelp'|translate}
+	<br />
+	{'SitesManager_PiwikOffersEcommerceAnalytics'|translate:"<a href='http://piwik.org/docs/ecommerce-analytics/' target='_blank'>":"</a>"}
+{/capture}
+
 {capture assign=excludedQueryParametersHelp}
 	{'SitesManager_ListOfQueryParametersToExclude'|translate}
 	<br /><br />
@@ -34,6 +40,9 @@ var aliasUrlsHelp = '{'SitesManager_AliasUrlHelp'|translate|inlineHelp|escape:ja
 var excludedQueryParametersHelp = '{$excludedQueryParametersHelp|escape:javascript}';
 var timezoneHelp = '{$timezoneHelpPlain|inlineHelp|escape:javascript}';
 var currencyHelp = '{$currencyHelpPlain|escape:javascript}';
+var ecommerceHelp = '{$ecommerceHelpPlain|inlineHelp|escape:javascript}';
+var ecommerceEnabled = '{'SitesManager_EnableEcommerce'|translate|escape:javascript}';
+var ecommerceDisabled = '{'SitesManager_NotAnEcommerceSite'|translate|escape:javascript}';
 {assign var=defaultTimezoneHelp value=$defaultTimezoneHelpPlain|inlineHelp};
 
 var sitesManager = new SitesManager ( {$timezones}, {$currencies}, '{$defaultTimezone}', '{$defaultCurrency}');
@@ -73,6 +82,9 @@ font-size:9pt;
 }
 .admin thead th {
 vertical-align:middle;
+}
+.ecommerceInactive {
+ color: #666666;
 }
 </style>
 {/literal}
@@ -114,6 +126,7 @@ vertical-align:middle;
 			<th>{'SitesManager_ExcludedParameters'|translate|replace:" ":"<br />"}</th>
 			<th>{'SitesManager_Timezone'|translate}</th>
 			<th>{'SitesManager_Currency'|translate}</th>
+			<th>{'Goals_Ecommerce'|translate}</th>
 			<th> </th>
 			<th> </th>
 			<th> {'SitesManager_JsTrackingTag'|translate} </th>
@@ -129,6 +142,7 @@ vertical-align:middle;
 				<td id="excludedQueryParameters" class="editableSite">{foreach from=$site.excluded_parameters item=parameter}{$parameter}<br />{/foreach}</td>       
 				<td id="timezone" class="editableSite">{$site.timezone}</td>
 				<td id="currency" class="editableSite">{$site.currency}</td>
+				<td id="ecommerce" class="editableSite">{if $site.ecommerce}<span class='ecommerceActive'>{'General_Yes'|translate}</span>{else}<span class='ecommerceInactive'>-</span>{/if}</td>
 				<td><span id="row{$i}" class='editSite link_but'><img src='themes/default/images/ico_edit.png' title="{'General_Edit'|translate}" border="0"/> {'General_Edit'|translate}</span></td>
 				<td><span id="row{$i}" class="deleteSite link_but"><img src='themes/default/images/ico_delete.png' title="{'General_Delete'|translate}" border="0" /> {'General_Delete'|translate}</span></td>
 				<td><a href='{url action=displayJavascriptCode idSite=$site.idsite updated=false}'>{'SitesManager_ShowTrackingTag'|translate}</a></td>

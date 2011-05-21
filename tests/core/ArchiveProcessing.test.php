@@ -30,6 +30,7 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 		$idsite = Piwik_SitesManager_API::getInstance()->addSite(
 												"site1",
 												array("http://piwik.net"), 
+												$ecommerce=0,
 												$excludedIps = "",
 												$excludedQueryParameters = "",
 												$timezone);
