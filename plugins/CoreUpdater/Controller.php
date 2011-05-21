@@ -228,7 +228,8 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 			$this->doWelcomeUpdates($view, $componentsWithUpdateFile);
 			echo $view->render();
 
-			if(!$this->coreError)
+			if(!$this->coreError
+				&& Piwik::getModule() == 'CoreUpdater')
 			{
 				$view = Piwik_View::factory('update_database_done');
 				$this->doExecuteUpdates($view, $updater, $componentsWithUpdateFile);
