@@ -92,6 +92,7 @@ class Piwik_Http
 			throw new Exception('Too many redirects ('.$followDepth.')');
 		}
 
+		$strlen = function_exists('mb_orig_strlen') ? 'mb_orig_strlen' : 'strlen';
 		$contentLength = 0;
 		$fileLength = 0;
 
@@ -274,7 +275,7 @@ class Piwik_Http
 					throw new Exception('Timed out waiting for server response');
 				}
 
-				$fileLength += strlen($line);
+				$fileLength += $strlen($line);
 
 				if(is_resource($file))
 				{
@@ -326,13 +327,22 @@ class Piwik_Http
 				$ctx = stream_context_create($stream_options);
 			}
 
-			$response = @file_get_contents($aUrl, 0, $ctx);
-			$fileLength = strlen($response);
-
+			// save to file
 			if(is_resource($file))
 			{
-				// save to file
-				fwrite($file, $response);
+				$handle = fopen($aUrl, 'rb', false, $ctx);
+				while(!feof($handle))
+				{
+					$response = fread($handle, 8192);
+					$fileLength += $strlen($response);
+					fwrite($file, $response);
+				}
+				fclose($handle);
+			}
+			else
+			{
+				$response = @file_get_contents($aUrl, 0, $ctx);
+				$fileLength = $strlen($response);
 			}
 
 			// restore the socket_timeout value
@@ -423,7 +433,7 @@ class Piwik_Http
 			}
 
 			$contentLength = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
-			$fileLength = is_resource($file) ? curl_getinfo($ch, CURLINFO_SIZE_DOWNLOAD) : strlen($response);
+			$fileLength = is_resource($file) ? curl_getinfo($ch, CURLINFO_SIZE_DOWNLOAD) : $strlen($response);
 
 			@curl_close($ch);
 			unset($ch);
