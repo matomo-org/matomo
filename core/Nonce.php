@@ -71,7 +71,7 @@ class Piwik_Nonce
 
 		// validate referer
 		$referer = Piwik_Url::getReferer();
-		if(!empty($referer) && (Piwik_Url::getLocalReferer() === false))
+		if(!empty($referer) && !Piwik_Url::isLocalUrl($referer))
 		{
 			return false;
 		}

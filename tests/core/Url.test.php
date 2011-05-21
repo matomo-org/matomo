@@ -51,12 +51,32 @@ class Test_Piwik_Url extends UnitTestCase
     	$this->assertEqual(Piwik_Url::getCurrentQueryStringWithParametersModified($parametersNameToValue), '');
     }
 
+	private function saveGlobals($names)
+	{
+		$saved = array();
+		foreach($names as $name)
+		{
+			$saved[$name] = isset($_SERVER[$name]) ? $_SERVER[$name] : null;
+		}
+		return $saved;
+	}
+
+	private function restoreGlobals($saved)
+	{
+		foreach($saved as $name => $value)
+		{
+			if($value)
+			{
+				$_SERVER[$name] = $value;
+			}
+		}
+	}
+
 	public function test_getCurrentHost()
 	{
 		Piwik::createConfigObject();
 		Zend_Registry::get('config')->setTestEnvironment();
-		$saveHttpHost = $_SERVER['HTTP_HOST'];
-		$saveXFwdHost = isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : null;
+		$saved = $this->saveGlobals(array('HTTP_HOST', 'HTTP_X_FORWARDED_HOST'));
 
 		$tests = array(
 			'localhost IPv4' => array('127.0.0.1', null, null, null, '127.0.0.1'),
@@ -87,10 +107,50 @@ class Test_Piwik_Url extends UnitTestCase
 			$this->assertEqual( Piwik_Url::getCurrentHost(), $test[4], $description );
 		}
 
-		$_SERVER['HTTP_HOST'] = $saveHttpHost;
-		if($saveXFwdHost)
+		$this->restoreGlobals($saved);
+	}
+
+	public function test_isLocalUrl()
+	{
+		$saved = $this->saveGlobals(array('HTTP_HOST', 'SCRIPT_URI', 'REQUEST_URI'));
+
+		$tests = array(
+			// simple cases
+			array('www.example.com', 'http://www.example.com/path/index.php', '/path/index.php', 'http://www.example.com/path/index.php', true),
+			array('www.example.com', 'http://www.example.com/path/index.php?module=X', '/path/index.php', 'http://www.example.com/path/', true),
+			array('www.example.com', 'http://www.example.com/path/', '/path/index.php', 'http://www.example.com/path/index.php?module=Y', true),
+			array('www.example.com', 'http://www.example.com/path/#anchor', '/path/index.php', 'http://www.example.com/path/?query', true),
+
+			// ignore port
+			array('www.example.com', 'http://www.example.com:80/path/index.php', '/path/index.php', 'http://www.example.com/path/index.php', true),
+			array('www.example.com', 'http://www.example.com/path/index.php', '/path/index.php', 'http://www.example.com:80/path/index.php', true),
+
+			// Apache+Rails anomaly in SCRIPT_URI
+			array('www.example.com', 'http://www.example.com/path/#anchor', 'http://www.example.com/path/index.php', 'http://www.example.com/path/?query', true),
+
+			// mangled HTTP_HOST
+			array('www.example.com', 'http://example.com/path/#anchor', '/path/index.php', 'http://example.com/path/referrer', true),
+
+			// suppressed Referer
+			array('www.example.com', 'http://www.example.com/path/#anchor', '/path/index.php', null, true),
+			array('www.example.com', 'http://www.example.com/path/#anchor', '/path/index.php', '', true),
+
+			// mismatched scheme, host, or path
+			array('www.example.com', 'http://www.example.com/path/?module=X', '/path/index.php', 'ftp://www.example.com/path/index.php', false),
+			array('www.example.com', 'http://www.example.com/path/?module=X', '/path/index.php', 'http://example.com/path/index.php', false),
+			array('www.example.com', 'http://www.example.com/path/', '/path/', 'http://crsf.example.com/path/', false),
+			array('www.example.com', 'http://www.example.com/path/', '/path/', 'http://www.example.com/path2/', false),
+		);
+
+		foreach($tests as $description => $test)
 		{
-			$_SERVER['HTTP_X_FORWARDED_HOST'] = $saveXFwdHost;
+			$_SERVER['HTTP_HOST'] = $test[0];
+			$_SERVER['SCRIPT_URI'] = $test[1];
+			$_SERVER['REQUEST_URI'] = $test[2];
+			$urlToTest = $test[3];
+			$this->assertEqual( Piwik_Url::isLocalUrl($urlToTest), $test[4], $description );
 		}
+
+		$this->restoreGlobals($saved);
 	}
 }

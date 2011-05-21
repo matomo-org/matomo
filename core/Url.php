@@ -330,37 +330,50 @@ class Piwik_Url
 	 */
 	static public function isLocalUrl($url)
 	{
-		// handle case-sensitivity differences
-		$pathContains = Piwik_Common::isWindows() ? 'stripos' : 'strpos';
-
-		// test the scheme/protocol portion of the reconstructed "current" URL
-		if(!strncasecmp($url, 'http://', 7) || !strncasecmp($url, 'https://', 8))
+		if(empty($url))
 		{
-			// determine the offset to begin the comparison
-			$offset = strpos($url, '://');
-			$current = strstr(self::getCurrentUrlWithoutFileName(), '://');
-			if($pathContains($url, $current, $offset) === $offset)
+			return true;
+		}
+
+		// handle case-sensitivity differences
+		$strcmp = Piwik_Common::isWindows() ? 'strcasecmp' : 'strcmp';
+
+		$parsedUrl = @parse_url($url);
+
+		$requestUri = isset($_SERVER['SCRIPT_URI']) ? $_SERVER['SCRIPT_URI'] : '';
+		$parseRequest = @parse_url($requestUri);
+
+		// handle host name mangling
+		$hosts = array(
+			$_SERVER['HTTP_HOST'],
+			self::getCurrentHost(),
+		);
+		if(isset($parseRequest['host']))
+		{
+			$hosts[] = $parseRequest['host'];
+		}
+
+		// compare scheme/protocol portion of the URL
+		$scheme = $parsedUrl['scheme'];
+		if(in_array($scheme, array('http', 'https')))
+		{
+			// compare host
+			$host = $parsedUrl['host'];
+			if(in_array($parsedUrl['host'], $hosts))
 			{
-				return true;
+				// compare path (without file name)
+				$path = isset($parsedUrl['path']) ? str_replace('\\', '/', dirname($parsedUrl['path'].'x')) : '/';
+				if(strlen($path) > 1)
+				{
+					$path .= '/';
+				}
+
+				if(!$strcmp($path, self::getCurrentScriptPath()))
+				{
+					return true;
+				}
 			}
 		}
-
-		return false;
-	}
-
-	/**
-	 * Get local referrer, i.e., on the same host and in the same script path.
-	 *
-	 * @return string|false
-	 */
-	static public function getLocalReferer()
-	{
-		// verify that the referrer contains the current URL (minus the filename & query parameters), http://example.org/dir1/dir2/
-		$referrer = self::getReferer();
-		if($referrer !== false && self::isLocalUrl($referrer)) {
-			return $referrer;
-		}
-
 		return false;
 	}
 }
