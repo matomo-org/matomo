@@ -49,7 +49,7 @@
 		{'General_SmallTrafficYouCanLeaveDefault'|translate:10}<br /> 
 		{'General_MediumToHighTrafficItIsRecommendedTo'|translate:1800:3600}
 	{/capture}
-	{$archiveTodayTTLHelp|inlineHelp}	</td>
+	{$archiveTodayTTLHelp|inlineHelp}
 	</td>
 </tr>
 </table>
@@ -58,7 +58,7 @@
 <div id='emailSettings'>
 <table class="adminTable" style='width:600px;'>
 	<tr>
-		<td>{'General_UseSMTPServerForEmail'|translate}</label><br>
+		<td>{'General_UseSMTPServerForEmail'|translate}<br>
 			<span class="form-description">{'General_SelectYesIfYouWantToSendEmailsViaServer'|translate}</span>
 		</td>
 		<td style='width:200px'>
@@ -77,7 +77,7 @@
 		</tr>
 		<tr>
 			<td><label for="mailPort">{'General_SmtpPort'|translate}</label><br>
-				<span class="form-description">{'General_OptionalSmtpPort'|translate}</i></td>
+				<span class="form-description">{'General_OptionalSmtpPort'|translate}</span></td>
 			<td><input type="text" id="mailPort" value="{$mail.port}"></td>
 		</tr>
 		<tr>
@@ -95,7 +95,7 @@
 		</tr>
 		<tr>
 			<td><label for="mailUsername">{'General_SmtpUsername'|translate}</label><br>
-				<span class="form-description">{'General_OnlyEnterIfRequired'|translate}</i></td>
+				<span class="form-description">{'General_OnlyEnterIfRequired'|translate}</span></td>
 			<td>
 				<input type="text" id="mailUsername" value = "{$mail.username}" >
 			</td>
@@ -111,7 +111,7 @@
 		</tr>
 		<tr>
 			<td><label for="mailEncryption">{'General_SmtpEncryption'|translate}</label><br>
-				<span class="form-description">{'General_EncryptedSmtpTransport'|translate}</i></td>
+				<span class="form-description">{'General_EncryptedSmtpTransport'|translate}</span></td>
 			<td>
 				<select id="mailEncryption">
 					<option value="" {if $mail.encryption eq ''} selected="selected" {/if}></option>
