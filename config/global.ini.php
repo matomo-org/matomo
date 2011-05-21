@@ -351,10 +351,10 @@ encryption =						; SMTP transport-layer encryption, either 'ssl', 'tls', or emp
 
 [proxy]
 type = BASIC						; proxy type for outbound/outgoing connections; currently, only BASIC is supported
-host =								; check your proxy configuration
-port =								; there is no standard default, but 80, 1080, 3128, and 8080 are popular
-username =							; if specified, password is mandatory
-password =							; if specified, username is mandatory
+host = 								; Proxy host: the host name of your proxy server (mandatory)
+port = 								; Proxy port: the port that the proxy server listens to. There is no standard default, but 80, 1080, 3128, and 8080 are popular
+username = 							; Proxy username: optional; if specified, password is mandatory
+password = 							; Proxy password: optional; if specified, username is mandatory
 
 [log]
 ;possible values for log: screen, database, file
