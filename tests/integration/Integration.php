@@ -131,6 +131,7 @@ abstract class Test_Integration extends Test_Database
     	$idSite = Piwik_SitesManager_API::getInstance()->addSite(
     					"Piwik test",
     					"http://piwik.net/", 
+    					$ecommerce=0,
                     	$ips = null, 
                     	$excludedQueryParameters = null,
                     	$timezone = null, 

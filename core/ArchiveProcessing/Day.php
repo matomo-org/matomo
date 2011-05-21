@@ -377,16 +377,12 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	        $segment = ' AND '.$segmentSql['sql'];
 	    }
 		
-	    $isEcommerceEnabled = Piwik::isEcommerceEnabled($this->idsite);
-	    
-	    if($isEcommerceEnabled)
-	    {
-	    	$select .= 	self::getSqlRevenue('SUM(revenue_subtotal)')." as `". Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL ."`,".
-			    		self::getSqlRevenue('SUM(revenue_tax)')." as `". Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_TAX ."`,".
-			    		self::getSqlRevenue('SUM(revenue_shipping)')." as `". Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING ."`,".
-			    		self::getSqlRevenue('SUM(revenue_discount)')." as `". Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT ."`,".
-			    		"SUM(items) as `". Piwik_Archive::INDEX_GOAL_ECOMMERCE_ITEMS ."`, ";
-	    }
+    	$select .= 	self::getSqlRevenue('SUM(revenue_subtotal)')." as `". Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL ."`,".
+		    		self::getSqlRevenue('SUM(revenue_tax)')." as `". Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_TAX ."`,".
+		    		self::getSqlRevenue('SUM(revenue_shipping)')." as `". Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING ."`,".
+		    		self::getSqlRevenue('SUM(revenue_discount)')." as `". Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT ."`,".
+		    		"SUM(items) as `". Piwik_Archive::INDEX_GOAL_ECOMMERCE_ITEMS ."`, ";
+		    		
 	    $groupBy = !empty($groupBy) ? ", $groupBy" : '';
 		$query = "SELECT 
 						$select

@@ -3,7 +3,6 @@
     <p>{'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate:"<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>":"</a>"}
     </p>
 {else}
-	
     <div class="clear"></div>
 	<h2>{'Goals_GoalsManagement'|translate}</h2>
 	<div class="entityList">
@@ -11,6 +10,14 @@
 			<li><a onclick='' name='linkAddNewGoal'><u>{'Goals_CreateNewGOal'|translate}</u></a></li>
 			<li><a onclick='' name='linkEditGoals'>{'Goals_ViewAndEditGoals'|translate}</a></li>
 			<li>{'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate:"<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>":"</a>"}</li>
+
+			<li>{if !$ecommerceEnabled}
+					{capture assign='websiteManageText'}<a href='{url module=SitesManager action=index}'>{'SitesManager_WebsitesManagement'|translate}</a>{/capture}
+					{'Goals_Optional'|translate} {'Goals_Ecommerce'|translate}: {'Goals_YouCanEnableEcommerceReports'|translate:'<a href="http://piwik.org/docs/ecommerce-analytics/" target="_blank">':"</a>":$websiteManageText}
+				{else}
+					{'SitesManager_PiwikOffersEcommerceAnalytics'|translate:'<a href="http://piwik.org/docs/ecommerce-analytics/" target="_blank">':"</a>"}
+				{/if}
+			</li>
 		</ul>
 	</div>
 	<br/>

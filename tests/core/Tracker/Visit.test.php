@@ -66,7 +66,7 @@ class Test_Piwik_TrackerVisit extends Test_Database
 		$visit = new Test_Piwik_TrackerVisit_public();
 		foreach($excludedIps as $excludedIp => $tests)
 		{
-			$idsite = Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/", $excludedIp);
+			$idsite = Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/",$ecommerce=0, $excludedIp);
 			$visit->setRequest(array('idsite' => $idsite));
 
 			// test that IPs within the range, or the given IP, are excluded

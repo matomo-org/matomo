@@ -52,11 +52,6 @@ class Piwik
 			|| Zend_Registry::get('config')->General->enable_processing_unique_visitors_year_and_range ;
 	}
 
-	static public function isEcommerceEnabled($idSite)
-	{
-		//TODO ECOMMERCE
-		return true;
-	}
 /*
  * Prefix/unprefix class name
  */

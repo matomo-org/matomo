@@ -341,6 +341,7 @@ class Piwik_SitesManager_API
 	 * @param array|string The URLs array must contain at least one URL called the 'main_url' ; 
 	 * 						if several URLs are provided in the array, they will be recorded 
 	 * 						as Alias URLs for this website.
+	 * @param int Is Ecommerce Reporting enabled for this website? 
 	 * @param string Comma separated list of IPs to exclude from the reports (allows wildcards)
 	 * @param string Timezone string, eg. 'Europe/London'
 	 * @param string Currency, eg. 'EUR'
@@ -350,7 +351,7 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return int the website ID created
 	 */
-	public function addSite( $siteName, $urls, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null )
+	public function addSite( $siteName, $urls, $ecommerce = null, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null )
 	{
 		Piwik::checkUserIsSuperUser();
 		
@@ -386,6 +387,7 @@ class Piwik_SitesManager_API
 		$bind['excluded_parameters'] = $this->checkAndReturnExcludedQueryParameters($excludedQueryParameters);
 		$bind['timezone'] = $timezone;
 		$bind['currency'] = $currency;
+		$bind['ecommerce'] = (int)$ecommerce;
 		$bind['ts_created'] = !is_null($startDate) 
 									? Piwik_Date::factory($startDate)->getDatetime()
 									: Piwik_Date::now()->getDatetime();
@@ -694,7 +696,7 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return bool true on success
 	 */
-	public function updateSite( $idSite, $siteName, $urls = null, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null)
+	public function updateSite( $idSite, $siteName, $urls = null, $ecommerce = null, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null)
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
 
@@ -735,6 +737,10 @@ class Piwik_SitesManager_API
 			&& Piwik::isUserIsSuperUser())
 		{
 			$bind['group'] = trim($group);
+		}
+		if(!is_null($ecommerce))
+		{
+			$bind['ecommerce'] = (int)(bool)$ecommerce;
 		}
 		if(!is_null($startDate))
 		{

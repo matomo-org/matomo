@@ -19,7 +19,7 @@ class Piwik_Goals extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'description' => Piwik_Translate('Goals_PluginDescription'),
+			'description' => Piwik_Translate('Goals_PluginDescription') . ' '. Piwik_Translate('SitesManager_PiwikOffersEcommerceAnalytics', array('<a href="http://piwik.org/docs/ecommerce-analytics/" target="_blank">','</a>')),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,
@@ -114,7 +114,8 @@ class Piwik_Goals extends Piwik_Plugin
 		// If only one website is selected, we add the Goal metrics
 		if(count($idSites) == 1)
 		{
-			$goals = Piwik_Goals_API::getInstance()->getGoals(reset($idSites));
+			$idSite = reset($idSites);
+			$goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
 			foreach($goals as $goal)
 			{
 				// Add the general Goal metrics: ie. total Goal conversions,
@@ -169,34 +170,44 @@ class Piwik_Goals extends Piwik_Plugin
 		$array['goals'] = Piwik_Goals_API::getInstance()->getGoals($idsite);
 	}
 	
+	protected function getGoalCategoryName($idSite)
+	{
+		$site = new Piwik_Site($idSite);
+		return $site->isEcommerceEnabled() ? 'Goals_EcommerceAndGoalsMenu' : 'Goals_Goals';
+	}
+	
 	function addWidgets()
 	{
-		Piwik_AddWidget('Goals_Goals', 'Goals_GoalsOverview', 'Goals', 'widgetGoalsOverview');
-		$goals = Piwik_Tracker_GoalManager::getGoalDefinitions(Piwik_Common::getRequestVar('idSite', null, 'int'));
+		$idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
+		$category = $this->getGoalCategoryName($idSite);
+		Piwik_AddWidget($category, 'Goals_GoalsOverview', 'Goals', 'widgetGoalsOverview');
+		$goals = Piwik_Tracker_GoalManager::getGoalDefinitions($idSite);
 		if(count($goals) > 0)
 		{
 			foreach($goals as $goal)
 			{
-        		Piwik_AddWidget('Goals_Goals', Piwik_Common::sanitizeInputValue($goal['name']), 'Goals', 'widgetGoalReport', array('idGoal' => $goal['idgoal']));
+        		Piwik_AddWidget($category, Piwik_Common::sanitizeInputValue($goal['name']), 'Goals', 'widgetGoalReport', array('idGoal' => $goal['idgoal']));
 			}
 		}
 	}
 	
 	function addMenus()
 	{
-		$goals = Piwik_Tracker_GoalManager::getGoalDefinitions(Piwik_Common::getRequestVar('idSite', null, 'int'));
+		$idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
+		$goals = Piwik_Tracker_GoalManager::getGoalDefinitions($idSite);
+		$mainGoalMenu = $this->getGoalCategoryName($idSite);
 		if(count($goals)==0)
 		{
-			Piwik_AddMenu('Goals_Goals', '', array('module' => 'Goals', 'action' => 'addNewGoal'), true, 25);
-			Piwik_AddMenu('Goals_Goals', 'Goals_AddNewGoal', array('module' => 'Goals', 'action' => 'addNewGoal'));
+			Piwik_AddMenu($mainGoalMenu, '', array('module' => 'Goals', 'action' => 'addNewGoal'), true, 25);
+			Piwik_AddMenu($mainGoalMenu, 'Goals_AddNewGoal', array('module' => 'Goals', 'action' => 'addNewGoal'));
 		}
 		else
 		{
-			Piwik_AddMenu('Goals_Goals', '', array('module' => 'Goals', 'action' => 'index'), true, 25);
-			Piwik_AddMenu('Goals_Goals', 'Goals_Overview', array('module' => 'Goals', 'action' => 'index'), true, 1);
+			Piwik_AddMenu($mainGoalMenu, '', array('module' => 'Goals', 'action' => 'index'), true, 25);
+			Piwik_AddMenu($mainGoalMenu, 'Goals_Overview', array('module' => 'Goals', 'action' => 'index'), true, 1);
 			foreach($goals as $goal)
 			{
-				Piwik_AddMenu('Goals_Goals', str_replace('%', '%%', Piwik_TranslationWriter::clean($goal['name'])), array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']));
+				Piwik_AddMenu($mainGoalMenu, str_replace('%', '%%', Piwik_TranslationWriter::clean($goal['name'])), array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']));
 			}
 		}
 	}
@@ -249,13 +260,13 @@ class Piwik_Goals extends Piwik_Plugin
 		 *  Archive General Goal metrics
 		 */
 		$goalIdsToSum = Piwik_Tracker_GoalManager::getGoalIds($archiveProcessing->idsite);
-		if(Piwik::isEcommerceEnabled($archiveProcessing->idsite))
-		{
-			$goalIdsToSum[] = Piwik_Tracker_GoalManager::IDGOAL_ORDER;
-			$goalIdsToSum[] = Piwik_Tracker_GoalManager::IDGOAL_CART;
-			// Overall goal metrics
-			$goalIdsToSum[] = false;
-		}
+		
+		//Ecommerce
+		$goalIdsToSum[] = Piwik_Tracker_GoalManager::IDGOAL_ORDER;
+		$goalIdsToSum[] = Piwik_Tracker_GoalManager::IDGOAL_CART;
+		// Overall goal metrics
+		$goalIdsToSum[] = false;
+		
 		$fieldsToSum = array();
 		foreach($goalIdsToSum as $goalId)
 		{
@@ -389,12 +400,11 @@ class Piwik_Goals extends Piwik_Plugin
 	
 	protected function shouldArchiveEcommerceItems($archiveProcessing)
 	{
-	    if(!Piwik::isEcommerceEnabled($archiveProcessing->idsite)
-	    	// Per item doesn't support segment
-	    	// Also, when querying Goal metrics for visitorType==returning, we wouldnt want to trigger an extra request 
-	    	// event if it did support segment 
-	    	// (if this is implented, we should have shouldProcessReportsForPlugin() support partial archiving based on which metric is requested) 
-	    	|| !$archiveProcessing->getSegment()->isEmpty())
+    	// Per item doesn't support segment
+    	// Also, when querying Goal metrics for visitorType==returning, we wouldnt want to trigger an extra request 
+    	// event if it did support segment 
+    	// (if this is implented, we should have shouldProcessReportsForPlugin() support partial archiving based on which metric is requested) 
+	    if(!$archiveProcessing->getSegment()->isEmpty())
 	    {
 	    	return false;
 	    }

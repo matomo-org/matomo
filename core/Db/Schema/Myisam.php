@@ -81,6 +81,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 						  name VARCHAR(90) NOT NULL,
 						  main_url VARCHAR(255) NOT NULL,
   						  ts_created TIMESTAMP NULL,
+  						  ecommerce TINYINT DEFAULT 0,
   						  timezone VARCHAR( 50 ) NOT NULL,
   						  currency CHAR( 3 ) NOT NULL,
   						  excluded_ips TEXT NOT NULL,
