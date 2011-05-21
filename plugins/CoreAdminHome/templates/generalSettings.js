@@ -29,14 +29,7 @@ function getGeneralSettingsAJAX()
 }
 function showSmtpSettings(value)
 {
-	if(value == 1)
-	{
-		$('#smtpSettings').show();
-	}
-	else
-	{
-		$('#smtpSettings').hide();
-	}
+	$('#smtpSettings').toggle(value);
 }
 function isSmtpEnabled()
 {
