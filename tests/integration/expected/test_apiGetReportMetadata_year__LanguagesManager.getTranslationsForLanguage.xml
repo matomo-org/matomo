@@ -2025,10 +2025,6 @@
 		<value>Autoriser un objectif à être convertit plus d'une fois par visite.</value>
 	</row>
 	<row>
-		<label>Goals_HelpMultipleConversionsPerVisit</label>
-		<value>Nous recommandons de sélectionner cette option pour les objectifs de sites d'E-commerce par exemple, où un visiteur pourrait effectuer plusieurs commandes lors de la même visite, et que vous vouliez suivre ces commandes comme des conversions d'objectifs.</value>
-	</row>
-	<row>
 		<label>Goals_DefaultRevenue</label>
 		<value>Le revenue par défaut de l'objectif est</value>
 	</row>
