@@ -203,7 +203,7 @@ class Piwik_API_API
 	    );
 	    
 		$segments[] = array(
-		        'type' => 'metric',
+		        'type' => 'dimension',
 		        'category' => 'Visit',
 		        'name' => Piwik_Translate('General_EcommerceVisitStatus', '"&segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart"'),
 		        'segment' => 'visitEcommerceStatus',

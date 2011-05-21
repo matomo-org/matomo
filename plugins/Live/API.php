@@ -149,6 +149,7 @@ class Piwik_Live_API
 
 		$site = new Piwik_Site($idSite);
 		$timezone = $site->getTimezone();
+		$currencies = Piwik_SitesManager_API::getInstance()->getCurrencySymbols();
 		foreach($visitorDetails as $visitorDetail)
 		{
 			$this->cleanVisitorDetails($visitorDetail, $idSite);
@@ -156,6 +157,7 @@ class Piwik_Live_API
 			$visitorDetailsArray = $visitor->getAllVisitorDetails();
 
 			$visitorDetailsArray['siteCurrency'] = $site->getCurrency();
+			$visitorDetailsArray['siteCurrencySymbol'] = $currencies[$site->getCurrency()];
 			$visitorDetailsArray['serverTimestamp'] = $visitorDetailsArray['lastActionTimestamp'];
 			$dateTimeVisit = Piwik_Date::factory($visitorDetailsArray['lastActionTimestamp'], $timezone);
 			$visitorDetailsArray['serverTimePretty'] = $dateTimeVisit->getLocalized('%time%');
@@ -305,7 +307,7 @@ class Piwik_Live_API
 			
 			// Enrich ecommerce carts/orders with the list of products 
 			usort($ecommerceDetails, array($this, 'sortByServerTime'));
-			foreach($ecommerceDetails as $key => $ecommerceConversion)
+			foreach($ecommerceDetails as $key => &$ecommerceConversion)
 			{
 				$sql = "SELECT 
 							log_action_sku.name as itemSKU,
@@ -335,11 +337,7 @@ class Piwik_Live_API
 						$detail['price'] = round($detail['price']);
 					}
 				}
-				// unreference the array or items added to the reference will show up in the 'actionDetails'
-				$value = $ecommerceDetails[$key];
-				unset($ecommerceDetails[$key]);
-				$value['itemDetails'] = $itemsDetails;
-				$ecommerceDetails[$key] = $value;
+				$ecommerceConversion['itemDetails'] = $itemsDetails;
 			}
 			
 			$visitorDetailsArray['ecommerce'] = $ecommerceDetails;
