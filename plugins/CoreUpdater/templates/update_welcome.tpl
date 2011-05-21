@@ -60,7 +60,11 @@
 		<br />
 		<form action="index.php" id="upgradeCorePluginsForm">
 		<input type="hidden" name="updateCorePlugins" value="1" />
-		<input type="submit" class="submit" value="{'CoreUpdater_UpgradePiwik'|translate}" />
+		{if count($queries) == 1}
+			<input type="submit" class="submit" value="{'CoreUpdater_ContinueToPiwik'|translate}" />
+		{else}
+			<input type="submit" class="submit" value="{'CoreUpdater_UpgradePiwik'|translate}" />
+		{/if}
 		</form>
 	{else}
 		{if count($warningMessages) == 0}
