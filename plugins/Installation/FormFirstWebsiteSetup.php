@@ -47,6 +47,12 @@ class Piwik_Installation_FormFirstWebsiteSetup extends Piwik_QuickForm2
 		           ->loadOptions($timezones);
 		$tz->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_Timezone')));
 		$tz->addRule('checkTimezone', Piwik_Translate('General_NotValid', Piwik_Translate('Installation_Timezone')));
+		$tz = $this->addElement('select', 'ecommerce')
+		           ->setLabel(Piwik_Translate('Goals_Ecommerce'))
+		           ->loadOptions(array(
+		           					0 => Piwik_Translate('SitesManager_NotAnEcommerceSite'),
+		           					1 => Piwik_Translate('SitesManager_EnableEcommerce'),
+		           					));
 
 		$this->addElement('submit', 'submit', array('value' => Piwik_Translate('General_Next').' »', 'class' => 'submit'));
 

@@ -37,7 +37,7 @@ Copy and paste the following code in all the pages you want to track with Piwik.
 <br />
 If you want to do more than tracking a page view,  
 please check out the <a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/docs/javascript-tracking/">
-Piwik Javascript Tracking documentation</a> for the list of available functions.
+Piwik Javascript Tracking documentation</a> for the list of available functions (for example: Tracking Goals, Custom Variables, Ecommerce orders, products and abandoned carts, etc.).
 
 {include file='SitesManager/templates/DisplayAlternativeTags.tpl'}
 

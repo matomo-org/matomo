@@ -442,12 +442,13 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		{
 			$name = urlencode($form->getSubmitValue('siteName'));
 			$url = urlencode($form->getSubmitValue('url'));
-
+			$ecommerce = (int)$form->getSubmitValue('ecommerce');
 
 			$request = new Piwik_API_Request("
 							method=SitesManager.addSite
 							&siteName=$name
 							&urls=$url
+							&ecommerce=$ecommerce
 							&format=original
 						");
 
