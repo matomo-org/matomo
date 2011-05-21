@@ -506,7 +506,6 @@ $translations = array(
 	'Goals_DefaultGoalConvertedOncePerVisit' => '(par défaut) Un objectif peut être convertit une seule fois par visite',
 	'Goals_HelpOneConversionPerVisit' => 'Si une page correspondant à cet objectif est actualisée ou vue plus d\'une fois lors d\'une visite, l\'objectif ne pourra être suivi que la première fois la page a été chargée au cours de cette visite.',
 	'Goals_AllowGoalConvertedMoreThanOncePerVisit' => 'Autoriser un objectif à être convertit plus d\'une fois par visite.',
-	'Goals_HelpMultipleConversionsPerVisit' => 'Nous recommandons de sélectionner cette option pour les objectifs de sites d\'E-commerce par exemple, où un visiteur pourrait effectuer plusieurs commandes lors de la même visite, et que vous vouliez suivre ces commandes comme des conversions d\'objectifs.',
 	'Goals_DefaultRevenue' => 'Le revenue par défaut de l\'objectif est',
 	'Goals_DefaultRevenueHelp' => 'Par exemple, un formulaire de contact soumis par un visiteur peut avoir une valeur de 10 € en moyenne. Piwik vous aidera à comprendre comment se comportent vos visiteurs.',
 	'Goals_ConversionsOverview' => 'Vue globale des conversions',

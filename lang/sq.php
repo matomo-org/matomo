@@ -507,7 +507,6 @@ $translations = array(
 	'Goals_DefaultGoalConvertedOncePerVisit' => '(parazgjedhje) Objektivi mund të shndërrohet një herë për vizitë',
 	'Goals_HelpOneConversionPerVisit' => 'Nëse një faqe që përputhet me këtë Objektiv rifreskohet ose shihet më shumë se një herë gjatë një Vizite, Objektivi do të ndiqet vetëm herën e parë që faqja u ngarkua gjatë kësaj vizite.',
 	'Goals_AllowGoalConvertedMoreThanOncePerVisit' => 'Lejoje Objektivin të shndërrohet më shumë se një herë për vizitë',
-	'Goals_HelpMultipleConversionsPerVisit' => 'Këshillojmë ta përzgjidhni këtë mundësi, për shembull, për Objektiva ECommerce, ku një vizitor mund të bëjë disa porosi gjatë të njëjtës vizitë, dhe ju dëshironi të ndiqen krejt këto porosi si shndërrime Objektivi.',
 	'Goals_DefaultRevenue' => 'E ardhura parazgjedhje e objektivit është',
 	'Goals_DefaultRevenueHelp' => 'Për shembull, një Formular Kontakti parashtruar nga një vizitor mund të vlejë mesatarisht 10 euro. Piwik-u do t\'ju ndihmojë të kuptoni se si shtresëzohen segmentet e vizitorëve tuaj.',
 	'Goals_ConversionsOverview' => 'Përmbledhje Shndërrimesh',
