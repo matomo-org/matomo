@@ -29,7 +29,7 @@ class Test_Piwik_Http extends UnitTestCase
 				var_dump($e->getMessage());
 			}
 
-			$this->assertTrue( preg_match('/^([0-9.]+)$/', $version) );
+			$this->assertTrue( preg_match('/^([0-9.]+)$/', $version), $method );
 		}
 
 		$destinationPath = PIWIK_USER_PATH . '/tmp/latest/LATEST';

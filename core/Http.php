@@ -95,6 +95,36 @@ class Piwik_Http
 		$contentLength = 0;
 		$fileLength = 0;
 
+		// Piwik services behave like a proxy, so we should act like one.
+		$xff = 'X-Forwarded-For: '
+			. (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] . ',' : '')
+			. Piwik_IP::getIpFromHeader();
+		$via = 'Via: '
+			. (isset($_SERVER['HTTP_VIA']) && !empty($_SERVER['HTTP_VIA']) ? $_SERVER['HTTP_VIA'] . ', ' : '')
+			. Piwik_Version::VERSION . ' Piwik'
+			. ($userAgent ? " ($userAgent)" : '');
+		$userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'Piwik/'.Piwik_Version::VERSION;
+
+		// proxy configuration
+		if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
+		{
+			$proxyHost = Piwik_Tracker_Config::getInstance()->proxy['host'];
+			$proxyPort = Piwik_Tracker_Config::getInstance()->proxy['port'];
+			$proxyUser = Piwik_Tracker_Config::getInstance()->proxy['username'];
+			$proxyPassword = Piwik_Tracker_Config::getInstance()->proxy['password'];
+		}
+		else
+		{
+			$config = Zend_Registry::get('config');
+			if($config !== false)
+			{
+				$proxyHost = $config->proxy->host;
+				$proxyPort = $config->proxy->port;
+				$proxyUser = $config->proxy->username;
+				$proxyPassword = $config->proxy->password;
+			}
+		}
+
 		if($method == 'socket')
 		{
 			// initialization
@@ -118,22 +148,41 @@ class Piwik_Http
 			$errno = null;
 			$errstr = null;
 
+			$proxyAuth = null;
+			if(!empty($proxyHost) && !empty($proxyPort))
+			{
+				$connectHost = $proxyHost;
+				$connectPort = $proxyPort;
+				if(!empty($proxyUser) && !empty($proxyPassword))
+				{
+					$proxyAuth = 'Proxy-Authorization: Basic '.base64_encode("$proxyUser:$proxyPassword") ."\r\n";
+				}
+				$requestHeader = "GET $aUrl HTTP/1.1\r\n";
+			}
+			else
+			{
+				$connectHost = $host;
+				$connectPort = $port;
+				$requestHeader = "GET $path HTTP/1.0\r\n";
+			}
+
 			// connection attempt
-			if (($fsock = @fsockopen($host, $port, $errno, $errstr, $timeout)) === false || !is_resource($fsock))
+			if (($fsock = @fsockopen($connectHost, $connectPort, $errno, $errstr, $timeout)) === false || !is_resource($fsock))
 			{
 				if(is_resource($file)) { @fclose($file); }
 				throw new Exception("Error while connecting to: $host. Please try again later. $errstr");
 			}
 
 			// send HTTP request header
-			fwrite($fsock,
-				"GET $path HTTP/1.0\r\n"
-				."Host: $host".($port != 80 ? ':'.$port : '')."\r\n"
-				."User-Agent: Piwik/".Piwik_Version::VERSION.($userAgent ? " $userAgent" : '')."\r\n"
-				.'Referer: http://'.Piwik_IP::getIpFromHeader()."/\r\n"
+			$requestHeader .=
+				"Host: $host".($port != 80 ? ':'.$port : '')."\r\n"
+				.($proxyAuth ? $proxyAuth : '')
+				.'User-Agent: '.$userAgent."\r\n"
+				.$xff."\r\n"
+				.$via."\r\n"
 				."Connection: close\r\n"
-				."\r\n"
-			);
+				."\r\n";
+			fwrite($fsock, $requestHeader);
 
 			$streamMetaData = array('timed_out' => false);
 			@stream_set_blocking($fsock, true);
@@ -256,12 +305,24 @@ class Piwik_Http
 			if(function_exists('stream_context_create')) {
 				$stream_options = array(
 					'http' => array(
-						'header' => 'User-Agent: Piwik/'.Piwik_Version::VERSION.($userAgent ? " $userAgent" : '')."\r\n"
-						           .'Referer: http://'.Piwik_IP::getIpFromHeader()."/\r\n",
+						'header' => 'User-Agent: '.$userAgent."\r\n"
+									.$xff."\r\n"
+									.$via."\r\n",
 						'max_redirects' => 5, // PHP 5.1.0
 						'timeout' => $timeout, // PHP 5.2.1
 					)
 				);
+
+				if(!empty($proxyHost) && !empty($proxyPort))
+				{
+					$stream_options['http']['proxy'] = 'tcp://'.$proxyHost.':'.$proxyPort;
+					$stream_options['http']['request_fulluri'] = true; // required by squid proxy
+					if(!empty($proxyUser) && !empty($proxyPassword))
+					{
+						$stream_options['http']['header'] .= 'Proxy-Authorization: Basic '.base64_encode("$proxyUser:$proxyPassword")."\r\n";
+					}
+				}
+
 				$ctx = stream_context_create($stream_options);
 			}
 
@@ -284,14 +345,27 @@ class Piwik_Http
 		{
 			$ch = @curl_init();
 
+			if(!empty($proxyHost) && !empty($proxyPort))
+			{
+				@curl_setopt($ch, CURLOPT_PROXY, $proxyHost.':'.$proxyPort);
+				if(!empty($proxyUser) && !empty($proxyPassword))
+				{
+					// PROXYAUTH defaults to BASIC
+					@curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyUser.':'.$proxyPassword);
+				}
+			}
+
 			$curl_options = array(
 				// internal to ext/curl
 				CURLOPT_BINARYTRANSFER => is_resource($file),
 
 				// curl options (sorted oldest to newest)
 				CURLOPT_URL => $aUrl,
-				CURLOPT_REFERER => 'http://'.Piwik_IP::getIpFromHeader(),
-				CURLOPT_USERAGENT => 'Piwik/'.Piwik_Version::VERSION.($userAgent ? " $userAgent" : ''),
+				CURLOPT_USERAGENT => $userAgent,
+				CURLOPT_HTTPHEADER => array(
+					$xff,
+					$via,
+				),
 				CURLOPT_HEADER => false,
 				CURLOPT_CONNECTTIMEOUT => $timeout,
 			);

@@ -349,6 +349,13 @@ username =							; SMTP username
 password =							; SMTP password 
 encryption =						; SMTP transport-layer encryption, either 'ssl', 'tls', or empty (i.e., none).
 
+[proxy]
+type = BASIC						; proxy type for outbound/outgoing connections; currently, only BASIC is supported
+host =								; check your proxy configuration
+port =								; there is no standard default, but 80, 1080, 3128, and 8080 are popular
+username =							; if specified, password is mandatory
+password =							; if specified, username is mandatory
+
 [log]
 ;possible values for log: screen, database, file
 ; by default, standard logging/debug messages are hidden from screen
