@@ -508,7 +508,6 @@ $translations = array(
 	'Goals_DefaultGoalConvertedOncePerVisit' => '(standard) Mål kan endast konverteras en gång per besök',
 	'Goals_HelpOneConversionPerVisit' => 'Om en sida som matchar det här målet uppdateras eller ses mer än en gång under ett besök, kommer detta mål endast spåras första gången sidan laddas under detta besök.',
 	'Goals_AllowGoalConvertedMoreThanOncePerVisit' => 'Tillåt att Mål konverteras mer än en gång per besök',
-	'Goals_HelpMultipleConversionsPerVisit' => 'Vi rekommenderar att välja det här alternativet till exempel för e-handelsmål, där en besökare kan göra flera beställningar i samma besök, och du vill spåra alla dessa ordrar som målkonverteringar.',
 	'Goals_DefaultRevenue' => 'Mål standardintäkt är',
 	'Goals_DefaultRevenueHelp' => 'Till exempel, kan ett fullständigt ifyllt kontaktformulär av en besökare vara värt 100kr i genomsnitt. Piwik hjälper dig att förstå hur väl dina besökarsegment lever upp till dina mål.',
 	'Goals_ConversionsOverview' => 'Konverteringsöversikt',
