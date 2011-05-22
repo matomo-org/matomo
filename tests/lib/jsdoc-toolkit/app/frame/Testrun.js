@@ -2,7 +2,7 @@
  * @fileOverview
  * @name JsTestrun
  * @author Michael Mathews micmath@gmail.com
- * @url $HeadURL: https://jsdoc-toolkit.googlecode.com/svn/tags/jsdoc_toolkit-2.3.2/jsdoc-toolkit/app/frame/Testrun.js $
+ * @url $HeadURL: https://jsdoc-toolkit.googlecode.com/svn/tags/jsdoc_toolkit-2.4.0/jsdoc-toolkit/app/frame/Testrun.js $
  * @revision $Id: Testrun.js 418 2008-01-15 21:40:33Z micmath $
  * @license <a href="http://en.wikipedia.org/wiki/MIT_License">X11/MIT License</a>
  *          (See the accompanying README file for full details.)

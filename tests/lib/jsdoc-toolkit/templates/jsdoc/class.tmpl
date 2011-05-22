@@ -354,7 +354,7 @@
 						<dl class="detailList">
 						<dt class="heading">Requires:</dt>
 						<for each="item" in="data.requires">
-							<dd>{+ resolveLinks(item) +}</dd>
+							<dd>{+ new Link().toSymbol(item) +}</dd>
 						</for>
 						</dl>
 					</if>
@@ -543,7 +543,7 @@
 					Event Detail
 				</div>
 				<for each="member" in="ownEvents">
-					<a name="event:{+Link.symbolNameToLinkName(member)+}"> </a>
+					<a name="{+Link.symbolNameToLinkName(member)+}"> </a>
 					<div class="fixedFont">{!
 						if (member.isPrivate) output += "&lt;private&gt; ";
 						if (member.isInner) output += "&lt;inner&gt; ";
