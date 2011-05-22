@@ -65,7 +65,11 @@ class Test_Piwik_Url extends UnitTestCase
 	{
 		foreach($saved as $name => $value)
 		{
-			if($value)
+			if(is_null($value))
+			{
+				unset($_SERVER[$name]);
+			}
+			else
 			{
 				$_SERVER[$name] = $value;
 			}

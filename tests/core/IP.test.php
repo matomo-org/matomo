@@ -449,12 +449,36 @@ class Test_Piwik_IP extends UnitTestCase
 		}
 	}
 
+	private function saveGlobals($names)
+	{
+		$saved = array();
+		foreach($names as $name)
+		{
+			$saved[$name] = isset($_SERVER[$name]) ? $_SERVER[$name] : null;
+		}
+		return $saved;
+	}
+
+	private function restoreGlobals($saved)
+	{
+		foreach($saved as $name => $value)
+		{
+			if(is_null($value))
+			{
+				unset($_SERVER[$name]);
+			}
+			else
+			{
+				$_SERVER[$name] = $value;
+			}
+		}
+	}
+
 	function test_getIpFromHeader()
 	{
 		Piwik::createConfigObject();
 		Zend_Registry::get('config')->setTestEnvironment();
-		$saveRemoteAddr = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null;
-		$saveXFwdFor = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : null;
+		$saved = $this->saveGlobals(array('REMOTE_ADDR', 'HTTP_X_FORWARDED_FOR'));
 
 		$tests = array(
 			'localhost inside LAN' => array('127.0.0.1', '', null, null, '127.0.0.1'),
@@ -476,21 +500,14 @@ class Test_Piwik_IP extends UnitTestCase
 			$this->assertEqual( Piwik_IP::getIpFromHeader(), $test[4], $description );
 		}
 
-		if($saveRemoteAddr)
-		{
-			$_SERVER['REMOTE_ADDR'] = $saveRemoteAddr;
-		}
-		if($saveXFwdFor)
-		{
-			$_SERVER['HTTP_X_FORWARDED_FOR'] = $saveXFwdFor;
-		}
+		$this->restoreGlobals($saved);
 	}
 
 	function test_getNonProxyIpFromHeader()
 	{
 		Piwik::createConfigObject();
 		Zend_Registry::get('config')->setTestEnvironment();
-		$saveRemoteAddr = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null;
+		$saved = $this->saveGlobals(array('REMOTE_ADDR', 'HTTP_X_FORWARDED_FOR'));
 
 		$ips = array(
 			'0.0.0.0',
@@ -530,10 +547,7 @@ class Test_Piwik_IP extends UnitTestCase
 			$this->assertEqual( Piwik_IP::getNonProxyIpFromHeader('1.1.1.1', array('HTTP_X_FORWARDED_FOR')), $ip, $ip);
 		}
 
-		if($saveRemoteAddr)
-		{
-			$_SERVER['REMOTE_ADDR'] = $saveRemoteAddr;
-		}
+		$this->restoreGlobals($saved);
 	}
 
 	function test_getLastIpFromList()

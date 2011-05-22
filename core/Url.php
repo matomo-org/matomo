@@ -351,18 +351,6 @@ class Piwik_Url
 		$parsedUrl = @parse_url($url);
 		$scheme = $parsedUrl['scheme'];
 		$host = Piwik_IP::sanitizeIp($parsedUrl['host']);
-		$rc = (in_array($scheme, array('http', 'https')) && in_array($host, $hosts));
-//debug
-		if(!$rc)
-		{
-			var_dump(
-				$url,
-				$_SERVER['HTTP_HOST'],
-				self::getCurrentHost(),
-				$requestUri
-			);
-		}
-//end debug
-		return $rc;
+		return (in_array($scheme, array('http', 'https')) && in_array($host, $hosts));
 	}
 }
