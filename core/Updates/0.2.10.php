@@ -17,10 +17,13 @@ class Piwik_Updates_0_2_10 extends Piwik_Updates
 {
 	static function getSql($schema = 'Myisam')
 	{
-		$tables = Piwik::getTablesCreateSql();
-
 		return array(
-			$tables['option'] => false,
+			'CREATE TABLE `'. Piwik_Common::prefixTable('option') .'` (
+				idoption BIGINT NOT NULL AUTO_INCREMENT ,
+				option_name VARCHAR( 64 ) NOT NULL ,
+				option_value LONGTEXT NOT NULL ,
+				PRIMARY KEY ( idoption , option_name )
+			)' => false,
 
 			// 0.1.7 [463]
 			'ALTER IGNORE TABLE `'. Piwik_Common::prefixTable('log_visit') .'`
