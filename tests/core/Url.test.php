@@ -110,7 +110,7 @@ class Test_Piwik_Url extends UnitTestCase
 		$this->restoreGlobals($saved);
 	}
 
-	public function test_isLocalUrl()
+	public function xtest_isLocalUrl()
 	{
 		$saved = $this->saveGlobals(array('HTTP_HOST', 'SCRIPT_URI', 'REQUEST_URI'));
 
