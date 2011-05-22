@@ -76,6 +76,12 @@ class Piwik_Session extends Zend_Session
 		try {
 			Zend_Session::start();
 		} catch(Exception $e) {
+			if(Zend_Registry::get('db')->isErrNo($e, '1146')
+				&& version_compare(Piwik_GetOption('version_core'), '1.5-b5') < 0)
+			{
+				return;
+			}
+
 			Piwik::log('Unable to start session: ' . $e->getMessage());
 			Piwik_ExitWithMessage(Piwik_Translate('General_ExceptionUnableToStartSession'));
 		}
