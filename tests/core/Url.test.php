@@ -144,6 +144,7 @@ class Test_Piwik_Url extends UnitTestCase
 			// undefined SCRIPT URI
 			array('www.example.com', null, '/path/index.php', 'http://www.example.com/path/index.php', true),
 			array('localhost:8080', null, '/path/index.php', 'http://localhost:8080/path/index.php', true),
+			array('127.0.0.1:8080', null, '/path/index.php', 'http://127.0.0.1:8080/path/index.php', true),
 			array('[::1]', null, '/path/index.php', 'http://[::1]/path/index.php', true),
 			array('[::1]:8080', null, '/path/index.php', 'http://[::1]:8080/path/index.php', true),
 
