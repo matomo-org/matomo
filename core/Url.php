@@ -323,7 +323,7 @@ class Piwik_Url
 	}
 
 	/**
-	 * Is the URL on the same host and in the same script path?
+	 * Is the URL on the same host?
 	 *
 	 * @param string $url
 	 * @return bool True if local; false otherwise.
@@ -335,45 +335,22 @@ class Piwik_Url
 			return true;
 		}
 
-		// handle case-sensitivity differences
-		$strcmp = Piwik_Common::isWindows() ? 'strcasecmp' : 'strcmp';
-
-		$parsedUrl = @parse_url($url);
-
 		$requestUri = isset($_SERVER['SCRIPT_URI']) ? $_SERVER['SCRIPT_URI'] : '';
 		$parseRequest = @parse_url($requestUri);
+		$parsedUrl = @parse_url($url);
 
 		// handle host name mangling
-		$hosts = array(
-			$_SERVER['HTTP_HOST'],
-			self::getCurrentHost(),
-		);
+		$hosts = array(	$_SERVER['HTTP_HOST'], self::getCurrentHost() );
 		if(isset($parseRequest['host']))
 		{
 			$hosts[] = $parseRequest['host'];
 		}
+		// drop port numbers from hostnames and IP addresses
+		$hosts = array_map(array('Piwik_IP', 'sanitizeIp'), $hosts);
 
-		// compare scheme/protocol portion of the URL
 		$scheme = $parsedUrl['scheme'];
-		if(in_array($scheme, array('http', 'https')))
-		{
-			// compare host
-			$host = $parsedUrl['host'];
-			if(in_array($parsedUrl['host'], $hosts))
-			{
-				// compare path (without file name)
-				$path = isset($parsedUrl['path']) ? str_replace('\\', '/', dirname($parsedUrl['path'].'x')) : '/';
-				if(strlen($path) > 1)
-				{
-					$path .= '/';
-				}
+		$host = Piwik_IP::sanitizeIp($parsedUrl['host']);
 
-				if(!$strcmp($path, self::getCurrentScriptPath()))
-				{
-					return true;
-				}
-			}
-		}
-		return false;
+		return (in_array($scheme, array('http', 'https')) && in_array($host, $hosts));
 	}
 }

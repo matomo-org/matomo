@@ -54,6 +54,12 @@ class Test_Piwik_IP extends UnitTestCase
 			'[::1]:80' => '::1',
 			'[::ffff:127.0.0.1]:80' => '::ffff:127.0.0.1',
 			'[2001:5c0:1000:b::90f8]:80' => '2001:5c0:1000:b::90f8',
+
+			// hostnames with port?
+			'localhost' => 'localhost',
+			'localhost:80' => 'localhost',
+			'www.example.com' => 'www.example.com',
+			'example.com:80' => 'example.com',
 		);
 
 		foreach($tests as $ip => $expected)
