@@ -110,42 +110,6 @@
 		
 		
 		
-		<ecommerce>
-			<row>
-				<type>ecommerceOrder</type>
-				<orderId>666</orderId>
-				<revenue>240</revenue>
-				<revenueSubTotal>200</revenueSubTotal>
-				<revenueTax>20</revenueTax>
-				<revenueShipping>20</revenueShipping>
-				<revenueDiscount>20</revenueDiscount>
-				<items>2</items>
-				
-				<icon>themes/default/images/ecommerceOrder.gif</icon>
-				<itemDetails>
-					<row>
-						<itemSKU>TRIPOD SKU</itemSKU>
-						<itemName>TRIPOD - bought day after</itemName>
-						<itemCategory>Tools</itemCategory>
-						<price>100</price>
-						<quantity>2</quantity>
-					</row>
-				</itemDetails>
-			</row>
-			<row>
-				<type>ecommerceOrder</type>
-				<orderId>777</orderId>
-				<revenue>10000</revenue>
-				<revenueSubTotal>0</revenueSubTotal>
-				<revenueTax>0</revenueTax>
-				<revenueShipping>0</revenueShipping>
-				<revenueDiscount>0</revenueDiscount>
-				<items>0</items>
-				
-				<itemDetails>
-				</itemDetails>
-			</row>
-		</ecommerce>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -296,37 +260,5 @@
 		
 		
 		
-		<ecommerce>
-			<row>
-				<type>ecommerceAbandonedCart</type>
-				<revenue>2510.11</revenue>
-				<items>4</items>
-				
-				<icon>themes/default/images/ecommerceAbandonedCart.gif</icon>
-				<itemDetails>
-					<row>
-						<itemSKU>SKU VERY nice indeed</itemSKU>
-						<itemName>PRODUCT THREE LEFT in cart</itemName>
-						<itemCategory>Electronics &amp; Cameras</itemCategory>
-						<price>10</price>
-						<quantity>1</quantity>
-					</row>
-					<row>
-						<itemSKU>SKU IN ABANDONED CART ONE</itemSKU>
-						<itemName>PRODUCT ONE LEFT in cart</itemName>
-						<itemCategory></itemCategory>
-						<price>500.11</price>
-						<quantity>1</quantity>
-					</row>
-					<row>
-						<itemSKU>SKU IN ABANDONED CART TWO</itemSKU>
-						<itemName>PRODUCT TWO LEFT in cart</itemName>
-						<itemCategory>Category TWO LEFT in cart</itemCategory>
-						<price>1000</price>
-						<quantity>2</quantity>
-					</row>
-				</itemDetails>
-			</row>
-		</ecommerce>
 	</row>
 </result>
