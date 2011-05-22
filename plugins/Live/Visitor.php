@@ -42,9 +42,12 @@ class Piwik_Live_Visitor
 			'idVisit' => $this->getIdVisit(),
 			'visitIp' => $this->getIp(),
 			'visitorId' => $this->getVisitorId(),
-			'visitorType' => $this->getVisitorReturning() == 2 ? 'returningCustomer' : ($this->getVisitorReturning() == 1 ? 'returning' : 'new'),
+			'visitorType' => $this->getVisitorReturning(),
+			'visitorTypeIcon' => $this->getVisitorReturningIcon(),
 			'visitConverted' => $this->isVisitorGoalConverted(),
+			'visitConvertedIcon' => $this->getVisitorGoalConvertedIcon(),
 			'visitEcommerceStatus' => $this->getVisitEcommerceStatus(),
+			'visitEcommerceStatusIcon' => $this->getVisitEcommerceStatusIcon(),
 		
 			'actions' => $this->getNumberOfActions(),
 			// => false are placeholders to be filled in API later
@@ -170,9 +173,25 @@ class Piwik_Live_Visitor
 
 	function getVisitorReturning()
 	{
-		return $this->details['visitor_returning'];
+		$type = $this->details['visitor_returning'];
+		 return $type == 2 
+		 		? 'returningCustomer' 
+		 		: ($type == 1 
+		 			? 'returning' 
+		 			: 'new');
 	}
 
+	function getVisitorReturningIcon()
+	{
+		$type = $this->getVisitorReturning();
+		if($type == 'returning' 
+			|| $type =='returningCustomer')
+		{
+			return "plugins/Live/templates/images/returningVisitor.gif";
+		}
+		return null;
+	}
+	
 	function getTimestampFirstAction()
 	{
 		return strtotime($this->details['visit_first_action_time']);
@@ -386,9 +405,31 @@ class Piwik_Live_Visitor
 		return date('Y-m-d H:i:s', strtotime($this->details['visit_last_action_time']));
 	}
 
+	function getVisitEcommerceStatusIcon()
+	{
+		$status = $this->getVisitEcommerceStatus();
+		
+		if(in_array($status, array('ordered', 'orderedThenAbandonedCart')))
+		{
+			return "themes/default/images/ecommerceOrder.gif";
+		}
+		elseif($status == 'abandonedCart')
+		{
+			return "themes/default/images/ecommerceAbandonedCart.gif";
+		}
+		return null;
+	}
+	
 	function getVisitEcommerceStatus()
 	{
 		return Piwik_API_API::getVisitEcommerceStatusFromId($this->details['visit_goal_buyer']);
+	}
+	
+	function getVisitorGoalConvertedIcon()
+	{
+		return $this->isVisitorGoalConverted()
+			? "themes/default/images/goal.png"
+			: null;
 	}
 	
 	function isVisitorGoalConverted()
