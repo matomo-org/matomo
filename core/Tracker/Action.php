@@ -378,7 +378,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		$this->loadIdActionNameAndUrl();
 		
 		$idActionName = in_array($this->getActionType(), array(Piwik_Tracker_Action::TYPE_ACTION_NAME, Piwik_Tracker_Action::TYPE_ACTION_URL))
-							? $this->getIdActionName()
+							? (int)$this->getIdActionName()
 							: null;
 		$insert = array(
 			'idvisit' => $idVisit, 
