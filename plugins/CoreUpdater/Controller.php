@@ -242,7 +242,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 			$view = Piwik_View::factory('update_database_done');
 			$this->doExecuteUpdates($view, $updater, $componentsWithUpdateFile);
 
-			if(count($sqlQueries == 1) && !$this->coreError)
+			if(count($sqlQueries)== 1 && !$this->coreError)
 			{
 				Piwik::redirectToModule('CoreHome');
 			}
