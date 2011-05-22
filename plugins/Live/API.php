@@ -287,17 +287,23 @@ class Piwik_Live_API
 				switch($details['type'])
 				{
 					case 'goal':
+						$details['icon'] = 'themes/default/images/goal.png';
+					break;
 					case Piwik_Archive::LABEL_ECOMMERCE_ORDER:
 					case Piwik_Archive::LABEL_ECOMMERCE_CART:
+						$details['icon'] = 'themes/default/images/'.$details['type'].'.gif';
 					break;
 					case Piwik_Tracker_Action_Interface::TYPE_DOWNLOAD:
 						$details['type'] = 'download';
+						$details['icon'] = 'themes/default/images/download.png';
 					break;
 					case Piwik_Tracker_Action_Interface::TYPE_OUTLINK:
 						$details['type'] = 'outlink';
+						$details['icon'] = 'themes/default/images/link.gif';
 					break;
 					default:
 						$details['type'] = 'action';
+						$details['icon'] = null;
 					break;
 				}
 				$dateTimeVisit = Piwik_Date::factory($details['serverTimePretty'], $timezone);

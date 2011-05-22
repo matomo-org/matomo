@@ -55,7 +55,7 @@
 					{foreach from=$visitor.columns.customVariables item=customVariable key=id}
 						{capture assign=name}customVariableName{$id}{/capture}
 						{capture assign=value}customVariableValue{$id}{/capture}
-						<br/><acronym title="{'CustomVariables_CustomVariables'|translate} (index {$id})">{$customVariable.$name}</acronym>: {$customVariable.$value}
+						<br/><acronym title="{'CustomVariables_CustomVariables'|translate} (index {$id})">{$customVariable.$name|truncate:30:"...":true}</acronym>: {$customVariable.$value|truncate:50:"...":true}
 					{/foreach}
 				{/if}
 				
@@ -64,15 +64,17 @@
 		&nbsp;<img src="{$visitor.columns.countryFlag}" title="{$visitor.columns.country}, Provider {$visitor.columns.provider}" />
 		&nbsp;<img src="{$visitor.columns.browserIcon}" title="{$visitor.columns.browserName} with plugins {$visitor.columns.plugins} enabled" />
 		&nbsp;<img src="{$visitor.columns.operatingSystemIcon}" title="{$visitor.columns.operatingSystem}, {$visitor.columns.resolution} ({$visitor.columns.screenType})" />
-		{if $visitor.columns.visitorType=='returning' || $visitor.columns.visitorType=='returningCustomer'}
-			&nbsp;<img src="plugins/Live/templates/images/returningVisitor.gif" title="{'General_ReturningVisitor'|translate}" />
+		{if $visitor.columns.visitorTypeIcon}
+			&nbsp;- <img src="{$visitor.columns.visitorTypeIcon}" title="{'General_ReturningVisitor'|translate}" />
 		{/if}
 		&nbsp;{if $visitor.columns.visitConverted}
 		<span title="{'General_VisitConvertedNGoals'|translate:$visitor.columns.goalConversions}" class='visitorRank'>
-		<img src="themes/default/images/goal.png" />
+		<img src="{$visitor.columns.visitConvertedIcon}" />
 		<span class='hash'>#</span>{$visitor.columns.goalConversions}
+		{if $visitor.columns.visitEcommerceStatusIcon}
+			&nbsp;- <img src="{$visitor.columns.visitEcommerceStatusIcon}" title="{$visitor.columns.visitEcommerceStatus}"/>
+		{/if}
 		</span>{/if}
-		
 		<br/>
 		{if count($visitor.columns.pluginsIcons) > 0}
 			<hr />
@@ -143,7 +145,7 @@
 				{if $action.type == 'ecommerceOrder' || $action.type == 'ecommerceAbandonedCart'}
  					{* Ecommerce Abandoned Cart / Ecommerce Order *}
  					
-					<img src="themes/default/images/{$action.type}.gif" /> 
+					<img src="{$action.icon}" /> 
 					{if $action.type == 'ecommerceOrder'}<strong>{'Goals_EcommerceOrder'|translate}</strong> <span style='color:#666666'>({$action.orderId})</span>
 					{else}<strong>{'Goals_AbandonedCart'|translate}</strong>
 					{/if} <br/>
@@ -181,10 +183,9 @@
 					 	{$action.pageTitle|truncate:80:"...":true}
 						<br/>
 					{/if}
-					{if $action.type == 'download'}
-						<img src='themes/default/images/download.png'>
-					{elseif $action.type == 'outlink'}
-						<img src='themes/default/images/link.gif'>
+					{if $action.type == 'download'
+						|| $action.type == 'outlink'}
+						<img src='{$action.icon}'>
 					{/if}
 					{if !empty($action.url)}
 					 	<a href="{$action.url|escape:'html'}" target="_blank" style="{if $action.type=='action' && !empty($action.pageTitle)}margin-left: 25px;{/if}text-decoration:underline;">{$action.url|escape:'html'|truncate:80:"...":true}</a>
@@ -193,7 +194,7 @@
 					{/if}
 				{else}
 				{* Goal conversion *}
-					<img src="themes/default/images/goal.png" /> 
+					<img src="{$action.icon}" /> 
 					<strong>{$action.goalName}</strong>
 					{if $action.revenue > 0}, {'Live_GoalRevenue'|translate}: <strong>{$action.revenue} {$visitor.columns.siteCurrency}</strong>{/if}
 				{/if}

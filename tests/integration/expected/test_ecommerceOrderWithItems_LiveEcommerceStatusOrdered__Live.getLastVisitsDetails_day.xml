@@ -6,8 +6,11 @@
 		<visitIp>156.5.3.2</visitIp>
 		
 		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/templates/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>ordered</visitEcommerceStatus>
+		<visitEcommerceStatusIcon>themes/default/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
 		<actions>1</actions>
 		<actionDetails>
 			<row>
@@ -20,6 +23,7 @@
 				<revenueDiscount>20</revenueDiscount>
 				<items>2</items>
 				
+				<icon>themes/default/images/ecommerceOrder.gif</icon>
 				<itemDetails>
 					<row>
 						<itemSKU>TRIPOD SKU</itemSKU>
@@ -40,6 +44,7 @@
 				<revenueDiscount>0</revenueDiscount>
 				<items>0</items>
 				
+				<icon>themes/default/images/ecommerceOrder.gif</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -116,6 +121,7 @@
 				<revenueDiscount>20</revenueDiscount>
 				<items>2</items>
 				
+				<icon>themes/default/images/ecommerceOrder.gif</icon>
 				<itemDetails>
 					<row>
 						<itemSKU>TRIPOD SKU</itemSKU>
@@ -147,8 +153,11 @@
 		<visitIp>156.5.3.2</visitIp>
 		
 		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/templates/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
+		<visitEcommerceStatusIcon>themes/default/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
 		<actions>3</actions>
 		<actionDetails>
 			<row>
@@ -168,6 +177,7 @@
 						<customVariableValue4>PRODUCT THREE LEFT in cart</customVariableValue4>
 					</row>
 				</customVariables>
+				<icon></icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -190,12 +200,14 @@
 						<customVariableValue5>Category TWO LEFT in cart</customVariableValue5>
 					</row>
 				</customVariables>
+				<icon></icon>
 			</row>
 			<row>
 				<type>ecommerceAbandonedCart</type>
 				<revenue>2510.11</revenue>
 				<items>4</items>
 				
+				<icon>themes/default/images/ecommerceAbandonedCart.gif</icon>
 				<itemDetails>
 					<row>
 						<itemSKU>SKU VERY nice indeed</itemSKU>
@@ -290,6 +302,7 @@
 				<revenue>2510.11</revenue>
 				<items>4</items>
 				
+				<icon>themes/default/images/ecommerceAbandonedCart.gif</icon>
 				<itemDetails>
 					<row>
 						<itemSKU>SKU VERY nice indeed</itemSKU>

@@ -6,8 +6,11 @@
 		<visitIp>156.5.3.2</visitIp>
 		
 		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/templates/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
+		<visitConvertedIcon></visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon></visitEcommerceStatusIcon>
 		<actions>1</actions>
 		<actionDetails>
 			<row>
@@ -17,6 +20,7 @@
 				<pageIdAction>5</pageIdAction>
 				<pageId>4</pageId>
 				
+				<icon>themes/default/images/link.gif</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -91,8 +95,11 @@
 		<visitIp>156.5.3.2</visitIp>
 		
 		<visitorType>new</visitorType>
+		<visitorTypeIcon></visitorTypeIcon>
 		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon></visitEcommerceStatusIcon>
 		<actions>1</actions>
 		<actionDetails>
 			<row>
@@ -102,6 +109,7 @@
 				<goalPageId></goalPageId>
 				
 				<url>http://example.org/homepage</url>
+				<icon>themes/default/images/goal.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -176,8 +184,11 @@
 		<visitIp>156.5.3.2</visitIp>
 		
 		<visitorType>new</visitorType>
+		<visitorTypeIcon></visitorTypeIcon>
 		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon></visitEcommerceStatusIcon>
 		<actions>3</actions>
 		<actionDetails>
 			<row>
@@ -187,6 +198,7 @@
 				<pageIdAction>2</pageIdAction>
 				<pageId>1</pageId>
 				
+				<icon></icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -195,6 +207,7 @@
 				<pageIdAction>4</pageIdAction>
 				<pageId>2</pageId>
 				
+				<icon></icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -203,6 +216,7 @@
 				<goalPageId></goalPageId>
 				
 				<url>http://example.org/user/profile</url>
+				<icon>themes/default/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -211,6 +225,7 @@
 				<pageIdAction>4</pageIdAction>
 				<pageId>3</pageId>
 				
+				<icon></icon>
 			</row>
 		</actionDetails>
 		<customVariables>
