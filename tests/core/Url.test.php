@@ -120,10 +120,32 @@ class Test_Piwik_Url extends UnitTestCase
 			array('www.example.com', 'http://www.example.com/path/index.php?module=X', '/path/index.php', 'http://www.example.com/path/', true),
 			array('www.example.com', 'http://www.example.com/path/', '/path/index.php', 'http://www.example.com/path/index.php?module=Y', true),
 			array('www.example.com', 'http://www.example.com/path/#anchor', '/path/index.php', 'http://www.example.com/path/?query', true),
+			array('localhost:8080', 'http://localhost:8080/path/index.php', '/path/index.php', 'http://localhost:8080/path/index.php', true),
+			array('www.example.com', 'http://www.example.com/path/', '/path/', 'http://www.example.com/path2/', true),
 
 			// ignore port
 			array('www.example.com', 'http://www.example.com:80/path/index.php', '/path/index.php', 'http://www.example.com/path/index.php', true),
 			array('www.example.com', 'http://www.example.com/path/index.php', '/path/index.php', 'http://www.example.com:80/path/index.php', true),
+
+			array('localhost', 'http://localhost:8080/path/index.php', '/path/index.php', 'http://localhost:8080/path/index.php', true),
+			array('localhost', 'http://localhost/path/index.php', '/path/index.php', 'http://localhost:8080/path/index.php', true),
+			array('localhost', 'http://localhost:8080/path/index.php', '/path/index.php', 'http://localhost/path/index.php', true),
+
+			array('localhost:8080', 'http://localhost/path/index.php', '/path/index.php', 'http://localhost:8080/path/index.php', true),
+			array('localhost:8080', 'http://localhost:8080/path/index.php', '/path/index.php', 'http://localhost/path/index.php', true),
+			array('localhost:8080', 'http://localhost/path/index.php', '/path/index.php', 'http://localhost/path/index.php', true),
+			array('localhost:8080', 'http://localhost:8080/path/index.php', '/path/index.php', 'http://localhost:8080/path/index.php', true),
+
+			// IPv6
+			array('[::1]', 'http://[::1]/path/index.php', '/path/index.php', 'http://[::1]/path/index.php', true),
+			array('[::1]:8080', 'http://[::1]:8080/path/index.php', '/path/index.php', 'http://[::1]/path/index.php', true),
+			array('[::1]:8080', 'http://[::1]/path/index.php', '/path/index.php', 'http://[::1]:8080/path/index.php', true),
+
+			// undefined SCRIPT URI
+			array('www.example.com', null, '/path/index.php', 'http://www.example.com/path/index.php', true),
+			array('localhost:8080', null, '/path/index.php', 'http://localhost:8080/path/index.php', true),
+			array('[::1]', null, '/path/index.php', 'http://[::1]/path/index.php', true),
+			array('[::1]:8080', null, '/path/index.php', 'http://[::1]:8080/path/index.php', true),
 
 			// Apache+Rails anomaly in SCRIPT_URI
 			array('www.example.com', 'http://www.example.com/path/#anchor', 'http://www.example.com/path/index.php', 'http://www.example.com/path/?query', true),
@@ -135,20 +157,19 @@ class Test_Piwik_Url extends UnitTestCase
 			array('www.example.com', 'http://www.example.com/path/#anchor', '/path/index.php', null, true),
 			array('www.example.com', 'http://www.example.com/path/#anchor', '/path/index.php', '', true),
 
-			// mismatched scheme, host, or path
+			// mismatched scheme or host
 			array('www.example.com', 'http://www.example.com/path/?module=X', '/path/index.php', 'ftp://www.example.com/path/index.php', false),
 			array('www.example.com', 'http://www.example.com/path/?module=X', '/path/index.php', 'http://example.com/path/index.php', false),
 			array('www.example.com', 'http://www.example.com/path/', '/path/', 'http://crsf.example.com/path/', false),
-			array('www.example.com', 'http://www.example.com/path/', '/path/', 'http://www.example.com/path2/', false),
 		);
 
-		foreach($tests as $description => $test)
+		foreach($tests as $i => $test)
 		{
 			$_SERVER['HTTP_HOST'] = $test[0];
 			$_SERVER['SCRIPT_URI'] = $test[1];
 			$_SERVER['REQUEST_URI'] = $test[2];
 			$urlToTest = $test[3];
-			$this->assertEqual( Piwik_Url::isLocalUrl($urlToTest), $test[4], $description );
+			$this->assertEqual( Piwik_Url::isLocalUrl($urlToTest), $test[4], $i );
 		}
 
 		$this->restoreGlobals($saved);
