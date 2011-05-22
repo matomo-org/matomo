@@ -17,8 +17,6 @@ class Piwik_Updates_1_5_b4 extends Piwik_Updates
 {
 	static function getSql($schema = 'Myisam')
 	{
-		$tables = Piwik::getTablesCreateSql();
-
 		return array(
 			'ALTER TABLE `'. Piwik_Common::prefixTable('site') .'`
 				 ADD ecommerce TINYINT DEFAULT 0' => false,
