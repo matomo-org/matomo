@@ -259,8 +259,14 @@ class Piwik_FrontController
 			Piwik_Translate::getInstance()->reloadLanguage();
 
 			Piwik::raiseMemoryLimitIfNecessary();
+
 			$pluginsManager->postLoadPlugins();
 			
+			if(!defined('PIWIK_ENABLE_SESSION_START') || PIWIK_ENABLE_SESSION_START)
+			{
+				Piwik_Session::start();
+			}
+
 			Piwik_PostEvent('FrontController.checkForUpdates');
 		} catch(Exception $e) {
 			Piwik_ExitWithMessage($e->getMessage(), false, true);

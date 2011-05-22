@@ -49,14 +49,22 @@ class Piwik_Session extends Zend_Session
 		@ini_set('session.referer_check', '');
 
 		// we consider these to be misconfigurations, in that
-		//  - user - Piwik doesn't implement user-defined session handler functions
-		// -  mm - is not recommended, not supported, not available for Windows, and has a potential concurrency issue
+		// - user  - we can't verify that user-defined session handler functions have been set via session_set_save_handler()
+		// - mm    - this handler is not recommended, unsupported, not available for Windows, and has a potential concurrency issue
+		// - files - this handler doesn't work well in load-balance environments and may have a concurrency issue with locked session files
 		$currentSaveHandler = ini_get('session.save_handler');
-		if($currentSaveHandler == 'user'
-			|| $currentSaveHandler == 'mm')
+		if(in_array($currentSaveHandler, array('user', 'mm', 'files')))
 		{
-			@ini_set('session.save_handler', 'files');
-			@ini_set('session.save_path', '');
+			$db = Zend_Registry::get('db');
+			$config = array(
+				'name' => Piwik_Common::prefixTable('session'),
+				'primary' => 'id',
+				'modifiedColumn' => 'modified',
+				'dataColumn' => 'data',
+				'lifetimeColumn' => 'lifetime',
+				'db' => Zend_Registry::get('db'),
+			);
+			self::setSaveHandler( new Zend_Session_SaveHandler_DbTable($config));
 		}
 
 		// garbage collection may disabled by default (e.g., Debian)
@@ -65,23 +73,11 @@ class Piwik_Session extends Zend_Session
 			@ini_set('session.gc_probability', 1);
 		}
 
-		// for "files", use our own folder to prevent local session file hijacking
-		if(ini_get('session.save_handler') == 'files')
-		{
-			$sessionPath = PIWIK_USER_PATH . '/tmp/sessions';
-			@ini_set('session.save_path', $sessionPath);
-
-			if(!is_dir($sessionPath))
-			{
-				Piwik_Common::mkdir($sessionPath);
-			}
-		}
-
 		try {
 			Zend_Session::start();
 		} catch(Exception $e) {
-			// This message is not translateable because translations haven't been loaded yet.
-			Piwik_ExitWithMessage('Unable to start session.  Check that session.save_path or tmp/sessions is writeable, and session.auto_start = 0.');
+			Piwik::log('Unable to start session: ' . $e->getMessage());
+			Piwik_ExitWithMessage(Piwik_Translate('General_ExceptionUnableToStartSession'));
 		}
 	}
 }
