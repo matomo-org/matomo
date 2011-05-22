@@ -17,8 +17,6 @@ class Piwik_Updates_1_5_b2 extends Piwik_Updates
 {
 	static function getSql($schema = 'Myisam')
 	{
-		$tables = Piwik::getTablesCreateSql();
-
 		return array(
 			'ALTER TABLE `'. Piwik_Common::prefixTable('log_link_visit_action') .'`
 				 ADD  custom_var_k1 VARCHAR(100) DEFAULT NULL AFTER time_spent_ref_action,

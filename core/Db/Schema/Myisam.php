@@ -337,6 +337,15 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 								)  DEFAULT CHARSET=utf8
 			",
 
+			'session' => "CREATE TABLE {$prefixTables}session (
+								id CHAR(32),
+								modified INTEGER,
+								lifetime INTEGER
+								data TEXT,
+								PRIMARY KEY ( id )
+								)  DEFAULT CHARSET=utf8
+			",
+
 			'archive_numeric'	=> "CREATE TABLE {$prefixTables}archive_numeric (
 									  idarchive INTEGER UNSIGNED NOT NULL,
 									  name VARCHAR(255) NOT NULL,
