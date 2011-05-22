@@ -24,7 +24,7 @@ class Piwik_Updates_0_2_27 extends Piwik_Updates
 			'ALTER IGNORE TABLE `'. Piwik_Common::prefixTable('log_visit') .'`
 				CHANGE `visit_goal_converted` `visit_goal_converted` TINYINT(1) NOT NULL' => false,
 
-			'CREATE TABLE `'. Piwik_Common::prefixTable('goal') .'` (
+			'CREATE TABLE `'. Piwik_Common::prefixTable('goal') ."` (
 				`idsite` int(11) NOT NULL,
 				`idgoal` int(11) NOT NULL,
 				`name` varchar(50) NOT NULL,
@@ -35,7 +35,7 @@ class Piwik_Updates_0_2_27 extends Piwik_Updates
 				`revenue` float NOT NULL,
 				`deleted` tinyint(4) NOT NULL default '0',
 				PRIMARY KEY  (`idsite`,`idgoal`)
-			)' => false,
+			)" => false,
 
 			'CREATE TABLE `'. Piwik_Common::prefixTable('log_conversion') .'` (
 				`idvisit` int(10) unsigned NOT NULL,
