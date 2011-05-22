@@ -624,7 +624,6 @@ class Piwik_Tracker_GoalManager
 		foreach($itemsToInsert as $item)
 		{
 			if($i > 0) { $sql .= ','; }
-			
 			$newRow = array_values($this->getItemRowEnriched($goal, $item));
 			$sql .= " ( ". Piwik_Common::getSqlStringFieldsArray($newRow) . " ) ";
 			$i++;
@@ -637,9 +636,9 @@ class Piwik_Tracker_GoalManager
 	protected function getItemRowEnriched($goal, $item)
 	{
 		$newRow = array(
-			'idaction_sku' => $item[0],
-			'idaction_name' => $item[1],
-			'idaction_category' => $item[2],
+			'idaction_sku' => (int)$item[0],
+			'idaction_name' => (int)$item[1],
+			'idaction_category' => (int)$item[2],
 			'price' => $item[3],
 			'quantity' => $item[4],
 			'deleted' => isset($item['deleted']) ? $item['deleted'] : 0, //deleted
