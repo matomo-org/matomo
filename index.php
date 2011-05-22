@@ -38,11 +38,6 @@ session_cache_limiter('nocache');
 @date_default_timezone_set('UTC');
 require_once PIWIK_INCLUDE_PATH .'/core/Loader.php';
 
-if(!defined('PIWIK_ENABLE_SESSION_START') || PIWIK_ENABLE_SESSION_START)
-{
-	Piwik_Session::start();
-}
-
 if(!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER)
 {
 	require_once PIWIK_INCLUDE_PATH .'/core/ErrorHandler.php';

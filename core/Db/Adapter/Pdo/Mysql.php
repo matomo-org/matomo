@@ -192,6 +192,11 @@ class Piwik_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Pi
 	 */
 	public function query($sql, $bind = array())
 	{
+		if(!is_string($sql))
+		{
+			return parent::query($sql, $bind);
+		}
+
 		if(isset($this->cachePreparedStatement[$sql]))
 		{
 			if (!is_array($bind)) {

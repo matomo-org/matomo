@@ -96,7 +96,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		{
 			$session = new Piwik_Session_Namespace("Piwik_Dashboard");
 			$session->dashboardLayout = $layout;
-			$session->setExpirationSeconds(7*86400);
+			$session->setExpirationSeconds(1800);
 		}
 		else
 		{

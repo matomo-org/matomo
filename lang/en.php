@@ -239,6 +239,7 @@ $translations = array(
 	'General_ExceptionInvalidToken' => 'Token is not valid.',
 	'General_ExceptionInvalidDateFormat' => 'Date format must be: %s or any keyword supported by the %s function (see %s for more information)',
 	'General_ExceptionLanguageFileNotFound' => 'Language file \'%s\' not found.',
+	'General_ExceptionUnableToStartSession' => 'Unable to start session.',
 	'General_WarningFileIntegritySkipped' => 'Development environment detected. File integrity check skipped.',
 	'General_WarningFileIntegrityNoManifest' => 'File integrity check could not be performed due to missing manifest.inc.php.',
 	'General_WarningFileIntegrityNoMd5file' => 'File integrity check could not be completed due to missing md5_file() function.',
