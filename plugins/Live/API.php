@@ -346,7 +346,6 @@ class Piwik_Live_API
 				$ecommerceConversion['itemDetails'] = $itemsDetails;
 			}
 			
-			$visitorDetailsArray['ecommerce'] = $ecommerceDetails;
 			$table->addRowFromArray( array(Piwik_DataTable_Row::COLUMNS => $visitorDetailsArray));
 		}
 		return $table;

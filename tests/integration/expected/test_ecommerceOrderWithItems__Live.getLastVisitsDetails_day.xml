@@ -149,38 +149,6 @@
 		
 		
 		
-		<ecommerce>
-			<row>
-				<type>ecommerceAbandonedCart</type>
-				<revenue>2510.11</revenue>
-				<items>4</items>
-				
-				<icon>themes/default/images/ecommerceAbandonedCart.gif</icon>
-				<itemDetails>
-					<row>
-						<itemSKU>SKU VERY nice indeed</itemSKU>
-						<itemName>PRODUCT THREE LEFT in cart</itemName>
-						<itemCategory>Electronics &amp; Cameras</itemCategory>
-						<price>10</price>
-						<quantity>1</quantity>
-					</row>
-					<row>
-						<itemSKU>SKU IN ABANDONED CART ONE</itemSKU>
-						<itemName>PRODUCT ONE LEFT in cart</itemName>
-						<itemCategory></itemCategory>
-						<price>500.11</price>
-						<quantity>1</quantity>
-					</row>
-					<row>
-						<itemSKU>SKU IN ABANDONED CART TWO</itemSKU>
-						<itemName>PRODUCT TWO LEFT in cart</itemName>
-						<itemCategory>Category TWO LEFT in cart</itemCategory>
-						<price>1000</price>
-						<quantity>2</quantity>
-					</row>
-				</itemDetails>
-			</row>
-		</ecommerce>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -394,78 +362,6 @@
 		
 		
 		
-		<ecommerce>
-			<row>
-				<type>ecommerceOrder</type>
-				<orderId>937nsjusu 3894</orderId>
-				<revenue>1111.11</revenue>
-				<revenueSubTotal>1000</revenueSubTotal>
-				<revenueTax>111</revenueTax>
-				<revenueShipping>0.11</revenueShipping>
-				<revenueDiscount>666</revenueDiscount>
-				<items>2</items>
-				
-				<icon>themes/default/images/ecommerceOrder.gif</icon>
-				<itemDetails>
-					<row>
-						<itemSKU>SKU VERY nice indeed</itemSKU>
-						<itemName>PRODUCT name</itemName>
-						<itemCategory>Electronics &amp; Cameras</itemCategory>
-						<price>500</price>
-						<quantity>2</quantity>
-					</row>
-				</itemDetails>
-			</row>
-			<row>
-				<type>ecommerceOrder</type>
-				<orderId>1037nsjusu4s3894</orderId>
-				<revenue>2000</revenue>
-				<revenueSubTotal>1500</revenueSubTotal>
-				<revenueTax>400</revenueTax>
-				<revenueShipping>100</revenueShipping>
-				<revenueDiscount>0</revenueDiscount>
-				<items>1</items>
-				
-				<itemDetails>
-					<row>
-						<itemSKU>SKU2</itemSKU>
-						<itemName>Canon SLR</itemName>
-						<itemCategory>Electronics &amp; Cameras</itemCategory>
-						<price>1500</price>
-						<quantity>1</quantity>
-					</row>
-				</itemDetails>
-			</row>
-			<row>
-				<type>ecommerceAbandonedCart</type>
-				<revenue>2510.11</revenue>
-				<items>4</items>
-				
-				<itemDetails>
-					<row>
-						<itemSKU>SKU VERY nice indeed</itemSKU>
-						<itemName>PRODUCT THREE LEFT in cart</itemName>
-						<itemCategory>Electronics &amp; Cameras</itemCategory>
-						<price>10</price>
-						<quantity>1</quantity>
-					</row>
-					<row>
-						<itemSKU>SKU IN ABANDONED CART ONE</itemSKU>
-						<itemName>PRODUCT ONE LEFT in cart</itemName>
-						<itemCategory></itemCategory>
-						<price>500.11</price>
-						<quantity>1</quantity>
-					</row>
-					<row>
-						<itemSKU>SKU IN ABANDONED CART TWO</itemSKU>
-						<itemName>PRODUCT TWO LEFT in cart</itemName>
-						<itemCategory>Category TWO LEFT in cart</itemCategory>
-						<price>1000</price>
-						<quantity>2</quantity>
-					</row>
-				</itemDetails>
-			</row>
-		</ecommerce>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -614,7 +510,5 @@
 		
 		
 		
-		<ecommerce>
-		</ecommerce>
 	</row>
 </result>
