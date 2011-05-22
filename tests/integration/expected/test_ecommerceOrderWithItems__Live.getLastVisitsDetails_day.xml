@@ -8,7 +8,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/templates/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
-		<visitConvertedIcon></visitConvertedIcon>
+		<visitConvertedIcon />
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
 		<visitEcommerceStatusIcon>themes/default/images/ecommerceAbandonedCart.gif</visitEcommerceStatusIcon>
 		<actions>2</actions>
@@ -30,7 +30,7 @@
 						<customVariableValue4>PRODUCT THREE LEFT in cart</customVariableValue4>
 					</row>
 				</customVariables>
-				<icon></icon>
+				<icon />
 			</row>
 			<row>
 				<type>action</type>
@@ -53,7 +53,7 @@
 						<customVariableValue5>Category TWO LEFT in cart</customVariableValue5>
 					</row>
 				</customVariables>
-				<icon></icon>
+				<icon />
 			</row>
 			<row>
 				<type>ecommerceAbandonedCart</type>
@@ -72,7 +72,7 @@
 					<row>
 						<itemSKU>SKU IN ABANDONED CART ONE</itemSKU>
 						<itemName>PRODUCT ONE LEFT in cart</itemName>
-						<itemCategory></itemCategory>
+						<itemCategory />
 						<price>500.11</price>
 						<quantity>1</quantity>
 					</row>
@@ -117,12 +117,12 @@
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName></referrerName>
-		<referrerKeyword></referrerKeyword>
-		<referrerKeywordPosition></referrerKeywordPosition>
-		<referrerUrl></referrerUrl>
-		<referrerSearchEngineUrl></referrerSearchEngineUrl>
-		<referrerSearchEngineIcon></referrerSearchEngineIcon>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
@@ -176,7 +176,7 @@
 						<customVariableValue5>Electronics &amp; Cameras</customVariableValue5>
 					</row>
 				</customVariables>
-				<icon></icon>
+				<icon />
 			</row>
 			<row>
 				<type>action</type>
@@ -191,7 +191,7 @@
 						<customVariableValue5>Electronics &amp; Cameras</customVariableValue5>
 					</row>
 				</customVariables>
-				<icon></icon>
+				<icon />
 			</row>
 			<row>
 				<type>action</type>
@@ -214,7 +214,7 @@
 						<customVariableValue5>Electronics &amp; Cameras</customVariableValue5>
 					</row>
 				</customVariables>
-				<icon></icon>
+				<icon />
 			</row>
 			<row>
 				<type>ecommerceOrder</type>
@@ -266,7 +266,7 @@
 						<customVariableValue4>PRODUCT THREE LEFT in cart</customVariableValue4>
 					</row>
 				</customVariables>
-				<icon></icon>
+				<icon />
 			</row>
 			<row>
 				<type>action</type>
@@ -289,7 +289,7 @@
 						<customVariableValue5>Category TWO LEFT in cart</customVariableValue5>
 					</row>
 				</customVariables>
-				<icon></icon>
+				<icon />
 			</row>
 			<row>
 				<type>ecommerceAbandonedCart</type>
@@ -330,12 +330,12 @@
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName></referrerName>
-		<referrerKeyword></referrerKeyword>
-		<referrerKeywordPosition></referrerKeywordPosition>
-		<referrerUrl></referrerUrl>
-		<referrerSearchEngineUrl></referrerSearchEngineUrl>
-		<referrerSearchEngineIcon></referrerSearchEngineIcon>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
@@ -369,11 +369,11 @@
 		<visitIp>156.5.3.2</visitIp>
 		
 		<visitorType>new</visitorType>
-		<visitorTypeIcon></visitorTypeIcon>
+		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon></visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon />
 		<actions>3</actions>
 		<actionDetails>
 			<row>
@@ -397,7 +397,7 @@
 						<customVariableValue5>Electronics &amp; Cameras</customVariableValue5>
 					</row>
 				</customVariables>
-				<icon></icon>
+				<icon />
 			</row>
 			<row>
 				<type>goal</type>
@@ -429,7 +429,7 @@
 						<customVariableValue5>Electronics &amp; Cameras</customVariableValue5>
 					</row>
 				</customVariables>
-				<icon></icon>
+				<icon />
 			</row>
 			<row>
 				<type>action</type>
@@ -448,7 +448,7 @@
 						<customVariableValue4>PRODUCT name</customVariableValue4>
 					</row>
 				</customVariables>
-				<icon></icon>
+				<icon />
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -478,12 +478,12 @@
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName></referrerName>
-		<referrerKeyword></referrerKeyword>
-		<referrerKeywordPosition></referrerKeywordPosition>
-		<referrerUrl></referrerUrl>
-		<referrerSearchEngineUrl></referrerSearchEngineUrl>
-		<referrerSearchEngineIcon></referrerSearchEngineIcon>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
