@@ -1,10 +1,27 @@
+== 2.4.0 ==
+
+  * Fixed bug that added mutiple symbols with the same name to docs.
+  * Added support for the -m option to suppress warnings for multiple docs.
+  * Added patch by brownsea42 to support quoted user variables on the command line. ( issue #281 )
+  * Fixed bug that sometimes caused links to events to be incorrect. ( issue #292 )
+  
+== 2.3.3 ==
+
+  * Fixed bug that made all fields declared with the @property tag static. ( issue #262 )
+  * Minor fix to better handle trailing slash on path to template (from jwmetrocat). ( issue #237 )
+  * Fix for @memberOf when applied to inner members. ( issue #264 )
+  * Fix for @memberOf when applied to symbols documented with @name. ( issue #260 )
+  * Applied patch from kunhualqk, fix for bug where @link to borrowed member did not resolve to parent class. ( issue #218 )
+  * Fix for @requires not linking back to the required class
+  * Added experimental support for @constructs to have an argument, the class name, when applied to a function assignment.
+  
 == 2.3.2 ==
 
  * Minor update to the usage notes and corrected the version number displayed in the output.
 
 == 2.3.1 ==
 
- * Fixed HTML typo in allfiles template. (issue #228)
+ * Fixed HTML typo in allfiles template. ( issue #228 )
  * Modified template to display version information for classes.
  * Modified template to better support multiple methods with the same name.
  * Fixed bug that caused template to error when backtick characters appeared around class names.

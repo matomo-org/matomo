@@ -77,6 +77,7 @@ function publish(symbolSet) {
 		symbol.events = symbol.getEvents();   // 1 order matters
 		symbol.methods = symbol.getMethods(); // 2
 		
+		Link.currentSymbol= symbol;
 		var output = "";
 		output = classTemplate.process(symbol);
 		

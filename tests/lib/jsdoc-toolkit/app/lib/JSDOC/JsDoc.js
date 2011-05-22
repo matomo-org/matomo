@@ -1,7 +1,7 @@
 /**
 	@constructor
 	@param [opt] Used to override the commandline options. Useful for testing.
-	@version $Id: JsDoc.js 773 2009-01-24 09:42:04Z micmath $
+	@version $Id: JsDoc.js 831 2010-03-09 14:24:56Z micmath $
 */
 JSDOC.JsDoc = function(/**object*/ opt) {
 	if (opt) {
@@ -40,8 +40,22 @@ JSDOC.JsDoc = function(/**object*/ opt) {
 	var D = {};
 	if (JSDOC.opt.D) {
 		for (var i = 0; i < JSDOC.opt.D.length; i++) {
-			var defineParts = JSDOC.opt.D[i].split(":", 2);
-			if (defineParts) D[defineParts[0]] = defineParts[1];
+			var param = JSDOC.opt.D[i];
+			// remove first and last character if both == "
+			if ( 
+				param.length > 1
+				&& param.charAt(0) == '"'
+				&& param.charAt(param.length-1) == '"'
+			) {
+				param = param.substr(1, param.length-2);
+			}
+			var defineParts = param.split(":");
+			if (defineParts && defineParts.length > 1) {
+				for ( var dpIdx = 2; dpIdx < defineParts.length; dpIdx++ ) {
+					defineParts[1] += ':' + defineParts[dpIdx];
+				}
+				D[defineParts[0]] = defineParts[1];
+			}
 		}
 	}
 	JSDOC.opt.D = D;

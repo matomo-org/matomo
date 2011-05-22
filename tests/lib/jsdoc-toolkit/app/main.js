@@ -1,5 +1,5 @@
 /**
- * @version $Id: main.js 795 2009-06-19 07:03:22Z micmath $
+ * @version $Id: main.js 818 2009-11-08 14:51:41Z micmath $
  */
 
 function main() {
@@ -47,7 +47,7 @@ function main() {
 		if (!JSDOC.opt.t && System.getProperty("jsdoc.template.dir")) {
 			JSDOC.opt.t = System.getProperty("jsdoc.template.dir");
 		}
-		if (JSDOC.opt.t && !JSDOC.opt.t.charAt(JSDOC.opt.t.length-1).match(/[\\\/]/)) {
+		if (JSDOC.opt.t && SYS.slash != JSDOC.opt.t.slice(-1)) {
 			JSDOC.opt.t += SYS.slash;
 		}
 		
