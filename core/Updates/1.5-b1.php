@@ -17,10 +17,24 @@ class Piwik_Updates_1_5_b1 extends Piwik_Updates
 {
 	static function getSql($schema = 'Myisam')
 	{
-		$tables = Piwik::getTablesCreateSql();
-
 		return array(
-			$tables['log_conversion_item'] => false,
+			'CREATE TABLE `'. Piwik_Common::prefixTable('log_conversion_item') .'` (
+												  idsite int(10) UNSIGNED NOT NULL,
+										  		  idvisitor BINARY(8) NOT NULL,
+										          server_time DATETIME NOT NULL,
+												  idvisit INTEGER(10) UNSIGNED NOT NULL,
+												  idorder varchar(100) NOT NULL,
+												  
+												  idaction_sku INTEGER(10) UNSIGNED NOT NULL,
+												  idaction_name INTEGER(10) UNSIGNED NOT NULL,
+												  idaction_category INTEGER(10) UNSIGNED NOT NULL,
+												  price FLOAT NOT NULL,
+												  quantity INTEGER(10) UNSIGNED NOT NULL,
+												  deleted TINYINT(1) UNSIGNED NOT NULL,
+												  
+												  PRIMARY KEY(idvisit, idorder, idaction_sku),
+										          INDEX index_idsite_servertime ( idsite, server_time )
+												)  DEFAULT CHARSET=utf8 '=> false,
 
 			'ALTER IGNORE TABLE `'. Piwik_Common::prefixTable('log_visit') .'`
 				 ADD  visitor_days_since_order SMALLINT(5) UNSIGNED NOT NULL AFTER visitor_days_since_last,
