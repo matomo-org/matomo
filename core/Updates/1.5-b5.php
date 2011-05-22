@@ -17,10 +17,14 @@ class Piwik_Updates_1_5_b5 extends Piwik_Updates
 {
 	static function getSql($schema = 'Myisam')
 	{
-		$tables = Piwik::getTablesCreateSql();
-
 		return array(
-			$tables['session'] => false,
+			'CREATE TABLE `'. Piwik_Common::prefixTable('session') .'` (
+								id CHAR(32) NOT NULL,
+								modified INTEGER,
+								lifetime INTEGER,
+								data TEXT,
+								PRIMARY KEY ( id )
+								)  DEFAULT CHARSET=utf8' => false,
 		);
 	}
 
