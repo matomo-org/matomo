@@ -8,15 +8,15 @@
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/templates/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
-		<visitConvertedIcon></visitConvertedIcon>
+		<visitConvertedIcon />
 		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon></visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon />
 		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>outlink</type>
 				<url>http://test.com</url>
-				<pageTitle></pageTitle>
+				<pageTitle />
 				<pageIdAction>5</pageIdAction>
 				<pageId>4</pageId>
 				
@@ -54,12 +54,12 @@
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName></referrerName>
-		<referrerKeyword></referrerKeyword>
-		<referrerKeywordPosition></referrerKeywordPosition>
-		<referrerUrl></referrerUrl>
-		<referrerSearchEngineUrl></referrerSearchEngineUrl>
-		<referrerSearchEngineIcon></referrerSearchEngineIcon>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
@@ -93,18 +93,18 @@
 		<visitIp>156.5.3.2</visitIp>
 		
 		<visitorType>new</visitorType>
-		<visitorTypeIcon></visitorTypeIcon>
+		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon></visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon />
 		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
 				<goalName>triggered js</goalName>
 				<revenue>0</revenue>
-				<goalPageId></goalPageId>
+				<goalPageId />
 				
 				<url>http://example.org/homepage</url>
 				<icon>themes/default/images/goal.png</icon>
@@ -141,12 +141,12 @@
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName></referrerName>
-		<referrerKeyword></referrerKeyword>
-		<referrerKeywordPosition></referrerKeywordPosition>
-		<referrerUrl></referrerUrl>
-		<referrerSearchEngineUrl></referrerSearchEngineUrl>
-		<referrerSearchEngineIcon></referrerSearchEngineIcon>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
@@ -180,11 +180,11 @@
 		<visitIp>156.5.3.2</visitIp>
 		
 		<visitorType>new</visitorType>
-		<visitorTypeIcon></visitorTypeIcon>
+		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon></visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon />
 		<actions>3</actions>
 		<actionDetails>
 			<row>
@@ -194,7 +194,7 @@
 				<pageIdAction>2</pageIdAction>
 				<pageId>1</pageId>
 				
-				<icon></icon>
+				<icon />
 			</row>
 			<row>
 				<type>action</type>
@@ -203,13 +203,13 @@
 				<pageIdAction>4</pageIdAction>
 				<pageId>2</pageId>
 				
-				<icon></icon>
+				<icon />
 			</row>
 			<row>
 				<type>goal</type>
 				<goalName>triggered js</goalName>
 				<revenue>0</revenue>
-				<goalPageId></goalPageId>
+				<goalPageId />
 				
 				<url>http://example.org/user/profile</url>
 				<icon>themes/default/images/goal.png</icon>
@@ -221,7 +221,7 @@
 				<pageIdAction>4</pageIdAction>
 				<pageId>3</pageId>
 				
-				<icon></icon>
+				<icon />
 			</row>
 		</actionDetails>
 		<customVariables>

@@ -56,7 +56,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
-				<url></url>
+				<url />
 			</row>
 		</result>
 		<result date="2011" />

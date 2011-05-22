@@ -260,7 +260,14 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 			if(!is_array($row))
 			{
 				$value = self::formatValueXml($row);
-				$out .= $prefixLine."\t\t<$rowId>".$value."</$rowId>\n";
+				if(strlen($value) == 0)
+				{
+					$out .= $prefixLine."\t\t<$rowId />\n";
+				}
+				else
+				{
+					$out .= $prefixLine."\t\t<$rowId>".$value."</$rowId>\n";
+				}
 				continue;
 			}
 
@@ -294,7 +301,14 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 					{
 						$value = self::formatValueXml($value);
 					}
-					$out .= $prefixLine."\t\t<$name>".$value."</$name>\n";
+					if(strlen($value) == 0)
+					{
+						$out .= $prefixLine."\t\t<$name />\n";
+					}
+					else
+					{
+						$out .= $prefixLine."\t\t<$name>".$value."</$name>\n";
+					}
 				} 
 				$out .= "\t";
 			}
@@ -308,7 +322,15 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 		$out = '';
 		foreach($array as $keyName => $value)
 		{
-			$out .= $prefixLine."\t<$keyName>".self::formatValueXml($value)."</$keyName>\n"; 
+			$xmlValue = self::formatValueXml($value);
+			if(strlen($xmlValue) == 0)
+			{
+				$out .= $prefixLine."\t<$keyName />\n";
+			}
+			else
+			{
+				$out .= $prefixLine."\t<$keyName>".$xmlValue."</$keyName>\n";
+			}
 		}
 		return $out;
 	}
