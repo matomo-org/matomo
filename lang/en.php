@@ -50,6 +50,7 @@ $translations = array(
 	'General_Details' => 'Details',
 	'General_Default' => 'Default',
 	'General_Visit' => 'Visit',
+	'General_FromReferrer' => 'from',
 	'General_VisitorIP' => 'Visitor IP',
 	'General_VisitorID' => 'Visitor ID',
 	'General_VisitType' => 'Visitor type',
