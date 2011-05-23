@@ -674,7 +674,17 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 				|| strpos($ua, 'Google Web Preview') !== false	// Google Instant
 				|| strpos($ua, 'bingbot') !== false				// Bingbot
 				|| strpos($ua, 'YottaaMonitor') !== false		// Yottaa
-				|| Piwik_IP::isIpInRange($ip, array('65.55.0.0/16', '207.46.0.0/16'))) // Live/Bing/MSN
+				|| Piwik_IP::isIpInRange($ip,
+					array(
+						'64.4.0.0/18',
+						'65.52.0.0/14',
+						'157.54.0.0/15',
+						'157.56.0.0/14',
+						'157.60.0.0/16',
+						'207.46.0.0/16',
+						'207.68.128.0/18',
+						'207.68.192.0/20',
+					))) // Live/Bing/MSN
 		{
 			printDebug('Search bot detected, visit excluded');
 			$excluded = true;
