@@ -17,7 +17,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Live/Visitor.php';
 
 /**
  * The Live! API lets you access complete visit level information about your visitors. Combined with the power of <a href='http://piwik.org/docs/analytics-api/segmentation/' target='_blank'>Segmentation</a>, 
- * you will be able to requests visits filtered by any criteria. 
+ * you will be able to request visits filtered by any criteria.
  * 
  * The method "getLastVisitsDetails" will return extensive data for each visit, which includes: server time, visitId, visitorId, 
  * visitorType (new or returning), number of pages, list of all pages (and events, file downloaded and outlinks clicked), 
