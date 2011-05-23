@@ -11,11 +11,11 @@
 	    {if count($topDimensions.website)>0}<li>{'Goals_BestReferers'|translate} {include file='Goals/templates/list_top_dimension.tpl' topDimension=$topDimensions.website}</li>{/if}
 	    <li>{'Goals_ReturningVisitorsConversionRateIs'|translate:"<b>$conversion_rate_returning</b>"}, {'Goals_NewVisitorsConversionRateIs'|translate:"<b>$conversion_rate_new</b>"}</li>
 {else}
-		<li>{'Live_GoalRevenue'|translate}: {$revenue|money:$idSite}
-			{if !empty($revenue_subtotal)}, {'General_Subtotal'|translate}: {$revenue_subtotal|money:$idSite}{/if} 
-			{if !empty($revenue_tax)}, {'General_Tax'|translate}: {$revenue_tax|money:$idSite} {/if} 
-			{if !empty($revenue_shipping)}, {'General_Shipping'|translate}: {$revenue_shipping|money:$idSite}{/if} 
-			{if !empty($revenue_discount)}, {'General_Discount'|translate}: {$revenue_discount|money:$idSite}{/if} 
+		<li>{'Live_GoalRevenue'|translate}: {$revenue|money:$idSite}{if !empty($revenue_subtotal)}, 
+			{'General_Subtotal'|translate}: {$revenue_subtotal|money:$idSite}{/if}{if !empty($revenue_tax)},
+			{'General_Tax'|translate}: {$revenue_tax|money:$idSite} {/if}{if !empty($revenue_shipping)}, 
+			{'General_Shipping'|translate}: {$revenue_shipping|money:$idSite}{/if}{if !empty($revenue_discount)}, 
+			{'General_Discount'|translate}: {$revenue_discount|money:$idSite}{/if} 
 		</li>
 {/if}
 		</ul>

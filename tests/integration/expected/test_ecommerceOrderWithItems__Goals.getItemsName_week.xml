@@ -22,6 +22,15 @@
 		<conversion_rate>50%</conversion_rate>
 	</row>
 	<row>
+		<label>PRODUCT name BIS</label>
+		<revenue>600</revenue>
+		<quantity>6.00</quantity>
+		<orders>1</orders>
+		<avg_price>100</avg_price>
+		<avg_quantity>6</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+	</row>
+	<row>
 		<label>TRIPOD - bought day after</label>
 		<revenue>200</revenue>
 		<quantity>2.00</quantity>

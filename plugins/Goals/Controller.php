@@ -19,11 +19,11 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	const CONVERSION_RATE_PRECISION = 1;
 	
 	protected $goalColumnNameToLabel = array(
-		'nb_conversions' => 'Goals_ColumnConversions',
-		'conversion_rate'=> 'General_ColumnConversionRate',
-		'revenue' => 'Goals_ColumnRevenue',
-		'items' => 'General_PurchasedProducts',
 		'avg_order_revenue' => 'General_AverageOrderValue',
+		'nb_conversions' => 'General_EcommerceOrders',
+		'conversion_rate'=> 'General_ColumnConversionRate',
+		'revenue' => 'General_TotalRevenue',
+		'items' => 'General_PurchasedProducts',
 	);
 	
 	private function formatConversionRate($conversionRate)

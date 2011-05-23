@@ -90,6 +90,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // ORDER NO 1
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(2)->getDatetime());
         $t->addEcommerceItem($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name' , $category = 'Electronics & Cameras', $price = 500, $quantity = 2);
+        $t->addEcommerceItem($sku = 'ANOTHER SKU HERE', $name = 'PRODUCT name BIS' , $category = '', $price = 100, $quantity = 6);
         $this->checkResponse($t->doTrackEcommerceOrder($orderId = '937nsjusu 3894', $grandTotal = 1111.11, $subTotal = 1000, $tax = 111, $shipping = 0.11, $discount = 666));
         
         // ORDER NO 2
@@ -396,6 +397,8 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 */
 	function test_OneVisitorTwoVisits_withCookieSupport() 
 	{
+		$this->setApiNotToCall(array());
+    	$this->setApiToCall(array('VisitTime', 'VisitsSummary', 'VisitorInterest', 'VisitFrequency', 'UserSettings', 'UserCountry', 'Referers', 'Provider', 'Goals', 'CustomVariables', 'CoreAdminHome', 'Actions', 'Live.getLastVisitsDetails'));
 		// Tests run in UTC, the Tracker in UTC
     	$dateTime = '2010-03-06 11:22:33';
     	$idSite = $this->createWebsite($dateTime);
