@@ -1,10 +1,9 @@
-<div class="home" id="content" style="display: block;">
-<a graphid="VisitsSummarygetEvolutionGraph" name="evolutionGraph"></a>
-<h2>{if $javascriptVariablesToSet.filterEcommerce}{'Goals_EcommerceOrdersLog'|translate}{else}{'Live_VisitorLog'|translate}{/if}</h2>
 <div id="{$properties.uniqueId}" class="visitorLog">
+<h2>{if $javascriptVariablesToSet.filterEcommerce}{'Goals_EcommerceOrdersLog'|translate}{else}{'Live_VisitorLog'|translate}{/if}</h2>
 {if !empty($reportDocumentation)}
 	<div class="reportDocumentation"><p>{$reportDocumentation}</p></div>
 {/if}
+<a graphid="VisitsSummarygetEvolutionGraph" name="evolutionGraph"></a>
 {assign var=maxIdVisit value=0}
 {if isset($arrayDataTable.result) and $arrayDataTable.result == 'error'}
 		{$arrayDataTable.message}
@@ -223,7 +222,6 @@
 		dataTables['{$properties.uniqueId}'].param.maxIdVisit = {$maxIdVisit};
 	</script>
 {/if}
-</div>
 
 {literal}
 <style type="text/css">
@@ -239,4 +237,5 @@
 
 </style>
 {/literal}
+
 </div>
