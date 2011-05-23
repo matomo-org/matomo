@@ -797,11 +797,12 @@ dataTable.prototype =
 	// documentation for report
 	handleReportDocumentation: function(domElem)
 	{
-		if ($('#dashboard').size() > 0) {
-			// don't display report documentation in dashboard
+		// don't display report documentation in dashboard
+		if ($('#dashboard').size() > 0
+				// or in Widgetize screen
+				|| $('.widgetContent').size() > 0) {
 			return;
 		}
-		
 		domElem = $(domElem);
 		var doc = domElem.find('.reportDocumentation');
 		
@@ -814,7 +815,10 @@ dataTable.prototype =
 		{
 			h2 = $('#titleGoalsByDimension');
 		}
-		
+		else if( $('h2', domElem))
+		{
+			h2 = $('h2', domElem);
+		}
 		if (doc.size() == 0)
 		{
 			if (h2 && h2.size() > 0)
