@@ -403,8 +403,30 @@ function DisplayTopKeywords($url = "")
 		If you run this code in your page $topPageUrl, it would output the following:";
 		
 		echo "<div style='width:400px;margin-left:20px;padding:10px;border:1px solid black;'>";
-		eval($code);
-		DisplayTopKeywords($topPageUrl);
+		function DisplayTopKeywords($url = "", $api)
+		{
+			// Do not spend more than 1 second fetching the data
+			@ini_set("default_socket_timeout", $timeout = 1);
+			// Get the Keywords data
+			$url = empty($url) ? "http://". $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] : $url;
+			$api = $api."&url=" . urlencode($url);
+			$keywords = @unserialize(file_get_contents($api));
+			if($keywords === false || isset($keywords["result"])) {
+				// DEBUG ONLY: uncomment for troubleshooting an empty output (the URL output reveals the token_auth)
+				//echo "Error while fetching the <a href=\'".$api."\'>Top Keywords from Piwik</a>";
+				return;
+			}
+		
+			// Display the list in HTML
+			$output = "<h2>Top Keywords for <a href=\'$url\'>$url</a></h2><ul>";
+			foreach($keywords as $keyword) {
+				$output .= "<li>". $keyword[0]. "</li>";
+			}
+			if(empty($keywords)) { $output .= "Nothing yet..."; }
+			$output .= "</ul>";
+			echo $output;
+		}
+		DisplayTopKeywords($topPageUrl, $api);
 		
 		echo "</div><br/>
 		<p>Here is the PHP function that you can paste in your pages:</P>

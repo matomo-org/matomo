@@ -1,6 +1,6 @@
 <div class="home" id="content" style="display: block;">
 <a graphid="VisitsSummarygetEvolutionGraph" name="evolutionGraph"></a>
-<h2>{'Live_VisitorLog'|translate}</h2>
+<h2>{if $javascriptVariablesToSet.filterEcommerce}{'Goals_EcommerceOrdersLog'|translate}{else}{'Live_VisitorLog'|translate}{/if}</h2>
 <div id="{$properties.uniqueId}" class="visitorLog">
 {if !empty($reportDocumentation)}
 	<div class="reportDocumentation"><p>{$reportDocumentation}</p></div>

@@ -13,7 +13,8 @@
 
 			<li>{if !$ecommerceEnabled}
 					{capture assign='websiteManageText'}<a href='{url module=SitesManager action=index}'>{'SitesManager_WebsitesManagement'|translate}</a>{/capture}
-					{'Goals_Optional'|translate} {'Goals_Ecommerce'|translate}: {'Goals_YouCanEnableEcommerceReports'|translate:'<a href="http://piwik.org/docs/ecommerce-analytics/" target="_blank">':"</a>":$websiteManageText}
+					{capture assign='ecommerceReportText'}<a href="http://piwik.org/docs/ecommerce-analytics/" target="_blank">{'Goals_EcommerceReports'|translate}</a>{/capture}
+					{'Goals_Optional'|translate} {'Goals_Ecommerce'|translate}: {'Goals_YouCanEnableEcommerceReports'|translate:$ecommerceReportText:$websiteManageText}
 				{else}
 					{'SitesManager_PiwikOffersEcommerceAnalytics'|translate:'<a href="http://piwik.org/docs/ecommerce-analytics/" target="_blank">':"</a>"}
 				{/if}
