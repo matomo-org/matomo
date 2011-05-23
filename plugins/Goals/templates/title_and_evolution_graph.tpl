@@ -7,7 +7,7 @@
 
 <div id='leftcolumn'>
 	<div class="sparkline">{sparkline src=$urlSparklineConversions}
-	{if $ecommerce} <strong>{$nb_conversions}</strong> {'General_EcommerceOrders'|translate}
+	{if isset($ecommerce)} <strong>{$nb_conversions}</strong> {'General_EcommerceOrders'|translate}
 	{else}{'Goals_Conversions'|translate:"<strong>$nb_conversions</strong>"}
 	{/if}
 		 {if isset($goalAllowMultipleConversionsPerVisit) && $goalAllowMultipleConversionsPerVisit}
@@ -17,7 +17,7 @@
 	{if $revenue != 0 }
 		<div class="sparkline">{sparkline src=$urlSparklineRevenue}
 		{assign var=revenue value=$revenue|money:$idSite}
-		{if $ecommerce}<strong>{$revenue}</strong> {'General_TotalRevenue'|translate}
+		{if isset($ecommerce)}<strong>{$revenue}</strong> {'General_TotalRevenue'|translate}
 		{else}{'Goals_OverallRevenue'|translate:"<strong>$revenue</strong>"}
 		{/if}
 		</div>
@@ -30,7 +30,7 @@
 </div>
 <div id='rightcolumn'>
 	<div class="sparkline">{sparkline src=$urlSparklineConversionRate}
-	{if $ecommerce}{capture assign='ecommerceOrdersText'}{'General_EcommerceOrders'|translate}{/capture}
+	{if isset($ecommerce)}{capture assign='ecommerceOrdersText'}{'General_EcommerceOrders'|translate}{/capture}
 		{'Goals_ConversionRate'|translate:"<strong>$conversion_rate</strong> $ecommerceOrdersText"}
 	{else}
 		{'Goals_OverallConversionRate'|translate:"<strong>$conversion_rate</strong>"}

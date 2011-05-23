@@ -65,10 +65,67 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	{
 		$view = $this->getGoalReportView($idGoal = 'ecommerceOrder');
 		$view->displayFullReport = true;
-        $view->goalDimensions = Piwik_Goals::getReportsWithGoalMetrics();
-        $view->ecommerce = true;
-        
+		$view->goalDimensions = Piwik_Goals::getReportsWithGoalMetrics();
+		$view->ecommerce = true;
 		echo $view->render();
+	}
+	protected function getItemsView($fetch, $type, $function, $api)
+	{
+		$label = Piwik_Translate($type);
+		$view = Piwik_ViewDataTable::factory();
+		$view->init( $this->pluginName, $function, $api );
+		$view->disableExcludeLowPopulation();
+		$view->disableShowAllColumns();
+		$this->setPeriodVariablesView($view);
+		$view->setLimit( 10 );
+		$view->setColumnsTranslations(array(
+			'label' => $label,
+			'revenue' => Piwik_Translate('General_ProductRevenue'),
+			'quantity' => Piwik_Translate('General_Quantity'),
+			'orders' => Piwik_Translate('General_UniquePurchases'),
+			'avg_price' => Piwik_Translate('General_AveragePrice'),
+			'avg_quantity' => Piwik_Translate('General_AverageQuantity'),
+			'conversion_rate' => Piwik_Translate('General_ProductConversionRate'),
+		));
+		$view->setColumnsToDisplay(array(
+			'label',
+			'revenue',
+			'quantity',
+			'orders',
+			'avg_price',
+			'avg_quantity',
+			'nb_visits',
+			'conversion_rate',
+		));
+		$view->setMetricDocumentation('revenue', Piwik_Translate('Goals_ColumnRevenueDocumentation', Piwik_Translate('Goals_DocumentationRevenueGeneratedByProductSales')));
+		$view->setMetricDocumentation('quantity', Piwik_Translate('Goals_ColumnQuantityDocumentation', $label));
+		$view->setMetricDocumentation('orders', Piwik_Translate('Goals_ColumnOrdersDocumentation', $label));
+		$view->setMetricDocumentation('avg_price', Piwik_Translate('Goals_ColumnAveragePriceDocumentation', $label));
+		$view->setMetricDocumentation('avg_quantity', Piwik_Translate('Goals_ColumnAverageQuantityDocumentation', $label));
+		$view->setMetricDocumentation('nb_visits', Piwik_Translate('Goals_ColumnVisitsProductDocumentation', $label));
+		$view->setMetricDocumentation('conversion_rate', Piwik_Translate('Goals_ColumnConversionRateProductDocumentation', $label));
+		
+		$view->setSortedColumn('revenue', 'desc');
+		foreach(array('revenue', 'avg_price') as $column)
+		{
+			$view->queueFilter('ColumnCallbackReplace', array($column, array("Piwik", "getPrettyMoney"), array($this->idSite)));
+		}		
+		return $this->renderView($view, $fetch);
+	}
+	
+	public function getItemsSku($fetch = false)
+	{
+		return $this->getItemsView($fetch, 'Goals_ProductSKU', __FUNCTION__, "Goals.getItemsSku");
+	}
+	
+	public function getItemsName($fetch = false)
+	{
+		return $this->getItemsView($fetch, 'Goals_ProductName', __FUNCTION__, "Goals.getItemsName");
+	}
+	
+	public function getItemsCategory($fetch = false)
+	{
+		return $this->getItemsView($fetch, 'Goals_ProductCategory', __FUNCTION__, "Goals.getItemsCategory");
 	}
 	
 	protected function getGoalReportView($idGoal = false)
@@ -306,6 +363,11 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		if($idGoal == 'ecommerceOrder')
 		{
 			$return = array_merge($return, array(
+				'revenue_subtotal' => $dataRow->getColumn('items'),
+				'revenue_tax' => $dataRow->getColumn('revenue_tax'),
+				'revenue_shipping' => $dataRow->getColumn('revenue_shipping'),
+				'revenue_discount' => $dataRow->getColumn('revenue_discount'),
+			
 				'items' => $dataRow->getColumn('items'),
 				'avg_order_revenue' => $dataRow->getColumn('avg_order_revenue'),
 				'urlSparklinePurchasedProducts' => $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('items'), 'idGoal' => $idGoal)),
