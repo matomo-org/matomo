@@ -450,7 +450,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'Il messaggio deve essere lungo almeno %s caratteri.',
 	'Feedback_ExceptionNoUrls' => 'Il messaggio non può contenere URL, per evitare messaggi di SPAM.',
 	'Goals_Goals' => 'Goal',
-	'Goals_Overview' => 'Panoramica',
 	'Goals_GoalsOverview' => 'Panoramica Goal',
 	'Goals_GoalsManagement' => 'Gestione Goal',
 	'Goals_ViewGoalsBy' => 'Vedi goal da %s',

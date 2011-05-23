@@ -337,7 +337,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'Sporočilo mora biti dolgo vsaj %s znakov.',
 	'Feedback_ExceptionNoUrls' => 'Sporočilo ne sme vsebovati URL-ja, da ne bo padlo pod vsiljeno pošto.',
 	'Goals_Goals' => 'Cilji',
-	'Goals_Overview' => 'Pregled',
 	'Goals_GoalsOverview' => 'Pregled ciljev',
 	'Goals_GoalsManagement' => 'Upravljanje ciljev',
 	'Goals_GoalX' => 'Cilj %s',

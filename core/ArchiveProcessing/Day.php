@@ -797,12 +797,4 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 						Piwik_Archive::INDEX_GOAL_ECOMMERCE_ITEMS => 0,
 		);
 	}
-	
-	function getGoalRowFromQueryRow($queryRow)
-	{
-		return array(	Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS 	=> $queryRow[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS], 
-						Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED => $queryRow[Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED], 
-						Piwik_Archive::INDEX_GOAL_REVENUE 			=> $queryRow[Piwik_Archive::INDEX_GOAL_REVENUE], 
-					);
-	}
 }

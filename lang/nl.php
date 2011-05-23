@@ -437,7 +437,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'Het bericht moet tenminste %s tekens bevatten.',
 	'Feedback_ExceptionNoUrls' => 'Het bericht mag geen URL bevatten, om spam berichten te vermijden',
 	'Goals_Goals' => 'Doelen',
-	'Goals_Overview' => 'Overzicht',
 	'Goals_GoalsOverview' => 'Overzicht van doelen',
 	'Goals_GoalsManagement' => 'Doel beheer',
 	'Goals_ViewGoalsBy' => 'Bekijk doelen volgens %s',

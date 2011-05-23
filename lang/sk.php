@@ -333,7 +333,6 @@ $translations = array(
 	'DBStats_IndexSize' => 'Veľkosť indexu',
 	'DBStats_TotalSize' => 'Celková veľkosť',
 	'Goals_Goals' => 'Ciele',
-	'Goals_Overview' => 'Prehľad',
 	'Goals_GoalsOverview' => 'Prehľad cieľov',
 	'Goals_GoalsManagement' => 'Správa cieľov',
 	'Goals_ColumnConversions' => 'Konverzie',

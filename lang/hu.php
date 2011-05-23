@@ -420,7 +420,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'Az üzenetnek legalább %s karakter hosszúnak kell lennie.',
 	'Feedback_ExceptionNoUrls' => 'Az üzenet nem tartalmazhat URL-t, hogy elkerüljük a spam üzenetek elküldését.',
 	'Goals_Goals' => 'Célok',
-	'Goals_Overview' => 'Áttekintés',
 	'Goals_GoalsOverview' => 'Célok áttekintése',
 	'Goals_GoalsManagement' => 'Célok kezelése',
 	'Goals_PluginDescription' => 'Hozz létre célokat és hogy részlete jelentésekkel rendelkezz a célkonverziókról: tendenciákat, az egy látogatásra jutó bevételt, a hivatkozó források vagy kulcsszavak szerinti konverziókat, stb.',

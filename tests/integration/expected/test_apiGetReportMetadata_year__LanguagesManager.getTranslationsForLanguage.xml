@@ -1853,10 +1853,6 @@
 		<value>Objectifs</value>
 	</row>
 	<row>
-		<label>Goals_Overview</label>
-		<value>Vue d'ensemble</value>
-	</row>
-	<row>
 		<label>Goals_GoalsOverview</label>
 		<value>Vue d'ensemble des Objectifs</value>
 	</row>

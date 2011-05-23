@@ -365,7 +365,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'Mesajınız en az %s karakter uzunluğunda olmalı',
 	'Feedback_ExceptionNoUrls' => 'Spam mesajlardan kaçınmak için mesajınız URL içeremez.',
 	'Goals_Goals' => 'Goals',
-	'Goals_Overview' => 'Genel bakış',
 	'Goals_GoalsOverview' => 'Goals Genel bakış',
 	'Goals_GoalsManagement' => 'Goals Yönetimi',
 	'Goals_GoalX' => 'Hedef \'%s\'',

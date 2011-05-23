@@ -403,7 +403,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'Zpráva musí být dlouhá alespon %s znaků',
 	'Feedback_ExceptionNoUrls' => 'Zpráva nemůže obsahovat URL, aby se zabránilo spamu',
 	'Goals_Goals' => 'Cíle',
-	'Goals_Overview' => 'Přehled',
 	'Goals_GoalsOverview' => 'Přehled cílů',
 	'Goals_GoalsManagement' => 'Správa cílů',
 	'Goals_PluginDescription' => 'Vytvořít cíle a zobrazit hlášení o konverzi cílů: vývoj v čase, příjem za návštěvu, konverze za refereru, klíčové slovo, atd.',

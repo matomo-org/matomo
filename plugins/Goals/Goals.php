@@ -196,15 +196,35 @@ class Piwik_Goals extends Piwik_Plugin
 		$idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
 		$goals = Piwik_Tracker_GoalManager::getGoalDefinitions($idSite);
 		$mainGoalMenu = $this->getGoalCategoryName($idSite);
+		$site = new Piwik_Site($idSite);
 		if(count($goals)==0)
 		{
-			Piwik_AddMenu($mainGoalMenu, '', array('module' => 'Goals', 'action' => 'addNewGoal'), true, 25);
+			Piwik_AddMenu($mainGoalMenu, '', array(	
+						'module' => 'Goals', 
+						'action' => ($site->isEcommerceEnabled() ? 'ecommerceReport' : 'addNewGoal'), 
+						'idGoal' => ($site->isEcommerceEnabled() ? 'ecommerceOrder' : null)), 
+						true, 
+						25);
+			if($site->isEcommerceEnabled())
+			{
+				Piwik_AddMenu($mainGoalMenu, 'Goals_Ecommerce', array('module' => 'Goals', 'action' => 'ecommerceReport', 'idGoal' => 'ecommerceOrder'), true, 1);
+			}
 			Piwik_AddMenu($mainGoalMenu, 'Goals_AddNewGoal', array('module' => 'Goals', 'action' => 'addNewGoal'));
 		}
 		else
 		{
-			Piwik_AddMenu($mainGoalMenu, '', array('module' => 'Goals', 'action' => 'index'), true, 25);
-			Piwik_AddMenu($mainGoalMenu, 'Goals_Overview', array('module' => 'Goals', 'action' => 'index'), true, 1);
+			Piwik_AddMenu($mainGoalMenu, '', array(
+				'module' => 'Goals', 
+				'action' => ($site->isEcommerceEnabled() ? 'ecommerceReport' : 'index'),
+				'idGoal' => ($site->isEcommerceEnabled() ? 'ecommerceOrder' : null)), 
+				true, 
+				25);
+		
+			if($site->isEcommerceEnabled())
+			{
+				Piwik_AddMenu($mainGoalMenu, 'Goals_Ecommerce', array('module' => 'Goals', 'action' => 'ecommerceReport', 'idGoal' => 'ecommerceOrder'), true, 1);
+			}
+			Piwik_AddMenu($mainGoalMenu, 'Goals_GoalsOverview', array('module' => 'Goals', 'action' => 'index'), true, 2);
 			foreach($goals as $goal)
 			{
 				Piwik_AddMenu($mainGoalMenu, str_replace('%', '%%', Piwik_TranslationWriter::clean($goal['name'])), array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']));
@@ -372,7 +392,6 @@ class Piwik_Goals extends Piwik_Plugin
 				$recordName = self::getRecordName($metricName, $idgoal);
 				$archiveProcessing->insertNumericRecord($recordName, $value);
 			}
-			
 			$conversion_rate = $this->getConversionRate($values[Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED], $archiveProcessing);
 			$recordName = self::getRecordName('conversion_rate', $idgoal);
 			$archiveProcessing->insertNumericRecord($recordName, $conversion_rate);

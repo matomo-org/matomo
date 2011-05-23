@@ -448,7 +448,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'Meddelelse skal være på mindst %s tegn.',
 	'Feedback_ExceptionNoUrls' => 'For at undgå spam, kan meddelelsen ikke indeholde en netadresse.',
 	'Goals_Goals' => 'Mål',
-	'Goals_Overview' => 'Oversigt',
 	'Goals_GoalsOverview' => 'Måloversigt',
 	'Goals_GoalsManagement' => 'Mål administration',
 	'Goals_ConversionsOverviewBy' => 'Konverteringsoversigt efter besøgstype',

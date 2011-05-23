@@ -325,7 +325,6 @@ $translations = array(
 	'DBStats_IndexSize' => 'Indizearen tamaina',
 	'DBStats_TotalSize' => 'Tamaina osoa',
 	'Goals_Goals' => 'Helburuak',
-	'Goals_Overview' => 'Orokorra',
 	'Goals_GoalsOverview' => 'Helburuen ikuspegi orokorra',
 	'Goals_GoalsManagement' => 'Helburuen kudeaketa',
 	'Goals_ColumnConversions' => 'Bihurketa',

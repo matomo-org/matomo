@@ -21,7 +21,6 @@
 {/if}
 
 <span class="loadingPiwik" style='display:none'><img src="themes/default/images/loading-blue.gif" /> {'General_LoadingData'|translate}</span>
-
 {if $properties.show_footer_icons}
 	<div class="dataTableFooterIcons">
 		<div class="dataTableFooterWrap" var="{$javascriptVariablesToSet.viewDataTable}">
@@ -35,7 +34,7 @@
                     <a class="tableIcon" format="tableAllColumns" var="tableAllColumns"><img title="{'General_DisplayTableWithMoreMetrics'|translate}" src="themes/default/images/table_more.png" /></a>
                     {/if}
                     {if $properties.show_goals}
-					<a class="tableIcon" format="tableGoals" var="tableGoals"><img title="{'General_DisplayTableWithGoalMetrics'|translate}" src="themes/default/images/goal.png" /></a>
+					<a class="tableIcon" format="tableGoals" var="tableGoals"><img title="{'General_DisplayTableWithGoalMetrics'|translate}" src="themes/default/images/{if $javascriptVariablesToSet.filter_only_display_idgoal=='ecommerceOrder'}ecommerceOrder.gif{else}goal.png{/if}" /></a>
                     {/if}
                 </span>
            </div>

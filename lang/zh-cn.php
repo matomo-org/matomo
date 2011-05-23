@@ -402,7 +402,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => '信息至少要有 %s 的字符以上。',
 	'Feedback_ExceptionNoUrls' => '信息不能包含一个网址，由此避免垃圾信息。',
 	'Goals_Goals' => '目标',
-	'Goals_Overview' => '概述',
 	'Goals_GoalsOverview' => '目标概述',
 	'Goals_GoalsManagement' => '目标管理',
 	'Goals_PluginDescription' => '建立目标然后查看关于您的目标转换率报表：时间的演变趋势、每次访问的收入、每个关键字等等。',

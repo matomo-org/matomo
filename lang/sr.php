@@ -451,7 +451,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'Poruka mora imati barem %s znakova.',
 	'Feedback_ExceptionNoUrls' => 'Poruka ne sme sadržati web adresu kako bismo izbegli neželjene reklamne poruke',
 	'Goals_Goals' => 'Ciljevi',
-	'Goals_Overview' => 'Pregled',
 	'Goals_GoalsOverview' => 'Pregled ciljeva',
 	'Goals_GoalsManagement' => 'Upravljanje ciljevima',
 	'Goals_ConversionsOverviewBy' => 'Pregled ispunjenja ciljeva po tipu posete',

@@ -281,6 +281,17 @@ class Piwik_Goals_API
 		if(empty($columns))
 		{
 			$columns = Piwik_Goals::getGoalColumns($idGoal);
+			if($idGoal == 'ecommerceOrder')
+			{
+				$columns[] = 'avg_order_revenue';
+			}
+		}
+		if(in_array('avg_order_revenue', $columns)
+			&& $idGoal == 'ecommerceOrder')
+		{
+			$columns[] = 'nb_conversions';
+			$columns[] = 'revenue';
+			$columns = array_unique($columns);
 		}
 		$columnsToSelect = array();
 		foreach($columns as &$columnName)
@@ -294,7 +305,39 @@ class Piwik_Goals_API
 		{
 			$dataTable->renameColumn($oldName, $columns[$id]);
 		}
+		if($idGoal == 'ecommerceOrder')
+		{
+			if($dataTable instanceof Piwik_DataTable_Array)
+			{
+				foreach($dataTable->getArray() as $row)
+				{
+					$this->enrichTable($row);
+				}
+			}
+			else
+			{
+				$this->enrichTable($dataTable);
+			}
+		}
 		return $dataTable;
+	}
+	
+	protected function enrichTable($table)
+	{
+		$row = $table->getFirstRow();
+		if(!$row)
+		{
+			return;
+		}
+		// AVG order per visit
+		if(false !== $table->getColumn('avg_order_revenue'))
+		{
+			$conversions = $row->getColumn('nb_conversions');
+			if($conversions)
+			{
+				$row->setColumn('avg_order_revenue', round($row->getColumn('revenue') / $conversions, 2));
+			}
+		}
 	}
 	
 	protected function getNumeric( $idSite, $period, $date, $segment, $toFetch )

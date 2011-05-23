@@ -165,13 +165,10 @@ class Piwik_VisitTime extends Piwik_Plugin
 		$goalByServerTime = array();
 		while($row = $query->fetch())
 		{
-			$goalByServerTime[$row['label']][$row['idgoal']] = $archiveProcessing->getGoalRowFromQueryRow($row);
+			if(!isset($this->interestByServerTime[$row['label']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByServerTime[$row['label']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
+			$archiveProcessing->updateGoalStats($row, $this->interestByServerTime[$row['label']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
 		}
-		$goalByServerTime = $this->convertServerTimeToLocalTimezone($goalByServerTime, $archiveProcessing);
-		foreach($goalByServerTime as $hour => $goals)
-		{
-			$this->interestByServerTime[$hour][Piwik_Archive::INDEX_GOALS] = $goals;
-		}
+		$goalByServerTime = $this->convertServerTimeToLocalTimezone($this->interestByServerTime, $archiveProcessing);
 		$archiveProcessing->enrichConversionsByLabelArray($this->interestByServerTime);
 	}
 	

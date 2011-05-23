@@ -159,7 +159,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		// This hack allows the API proxy to let us generate example URLs for the ignored functions
 		Piwik_API_Proxy::getInstance()->hideIgnoredFunctions = false;
         
-		$this->setApiToCall( array('CustomVariables.getCustomVariables', 'Live.getLastVisitsDetails', 'UserCountry', 'API.getProcessedReport', 'Goals.get', 'Goals.getConversions', 'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory'	) );
+		$this->setApiToCall( array('VisitTime', 'CustomVariables.getCustomVariables', 'Live.getLastVisitsDetails', 'UserCountry', 'API.getProcessedReport', 'Goals.get', 'Goals.getConversions', 'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory'	) );
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime, $periods = array('day'));
 		$this->setApiToCall( array('Goals.get', 'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory'	) );
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime, $periods = array('week'));

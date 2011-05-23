@@ -463,7 +463,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'Le message doit faire au moins %s caractères de longueur.',
 	'Feedback_ExceptionNoUrls' => 'Le message ne peut contenir d\'URL pour éviter les problèmes de spam.',
 	'Goals_Goals' => 'Objectifs',
-	'Goals_Overview' => 'Vue d\'ensemble',
 	'Goals_GoalsOverview' => 'Vue d\'ensemble des Objectifs',
 	'Goals_GoalsManagement' => 'Gestion des Objectifs',
 	'Goals_ConversionsOverviewBy' => 'Vue d\'ensemble des conversions par type de visite',

@@ -368,7 +368,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'Wiadomość musi zawierać przynajmniej %s znaków.',
 	'Feedback_ExceptionNoUrls' => 'Ta wiadomość nie może zawierać adresów URL, aby uniknąć spamu.',
 	'Goals_Goals' => 'Cele',
-	'Goals_Overview' => 'Przegląd',
 	'Goals_GoalsOverview' => 'Przegląd celów',
 	'Goals_GoalsManagement' => 'Zarządzanie celami',
 	'Goals_PluginDescription' => 'Twórz cele i przeglądaj raporty z konwersji: rozwój w czasie, przychód z wizyty, konwersja dla odnośnika, dla słowa kluczowego itp.',

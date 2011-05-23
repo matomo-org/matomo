@@ -414,7 +414,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => '訊息至少要有 %s 的字元以上。',
 	'Feedback_ExceptionNoUrls' => '訊息不能包含一個網址，藉此避免垃圾訊息。',
 	'Goals_Goals' => '目標',
-	'Goals_Overview' => '總覽',
 	'Goals_GoalsOverview' => '目標總覽',
 	'Goals_GoalsManagement' => '目標管理',
 	'Goals_PluginDescription' => '建立目標然後查看關於你的目標轉換率報表：時間的演變趨勢、每次訪問的收入、每個關鍵字等等。',

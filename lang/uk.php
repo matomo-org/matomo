@@ -431,7 +431,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'Повідомлення має містити як мінімум %s символів.',
 	'Feedback_ExceptionNoUrls' => 'Щоб уникнути спаму, повідомлення не може містити URL.',
 	'Goals_Goals' => 'Цілі',
-	'Goals_Overview' => 'Огляд',
 	'Goals_GoalsOverview' => 'Огляд цілей',
 	'Goals_GoalsManagement' => 'Керування цілями',
 	'Goals_PluginDescription' => 'Створюйте цілі та переглядайте звіти про конвертсію ваших цілей: зміну в часі, прибуток на відвідувача, конверсію на джерело трафіку, по ключових словах, тощо...',

@@ -463,7 +463,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'Mesazhi duhet të jetë e pakta %s shenja i gjatë.',
 	'Feedback_ExceptionNoUrls' => 'Mesazhet nuk duhet të përmbajnë URL, kjo bëhet për shmangie mesazhesh të padëshiruar.',
 	'Goals_Goals' => 'Objektiva',
-	'Goals_Overview' => 'Përmbledhje',
 	'Goals_GoalsOverview' => 'Përmbledhje objektivash',
 	'Goals_GoalsManagement' => 'Administrim objektivash',
 	'Goals_ConversionsOverviewBy' => 'Përmbledhje shndërrimesh sipas llojit të vizitave',
