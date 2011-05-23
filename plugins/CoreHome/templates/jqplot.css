@@ -1,4 +1,10 @@
 
+.jqplot-loading {
+	background: url(../../../themes/default/images/loading-blue.gif) no-repeat center center white;
+	position: absolute;
+	z-index: 10;
+}
+
 .jqplot-tooltip {
 	position: absolute;
 	z-index: 2000;
