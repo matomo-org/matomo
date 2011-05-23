@@ -463,7 +463,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'يجب أن يكون طول الرسالة %s رمزاً على الأقل.',
 	'Feedback_ExceptionNoUrls' => 'لا يمكن أن تتضمن الرسالة روابط ويب لتجنب الرسائل المزعجة.',
 	'Goals_Goals' => 'الأهداف',
-	'Goals_Overview' => 'نظرة عامة',
 	'Goals_GoalsOverview' => 'نظرة عامة على الأهداف',
 	'Goals_GoalsManagement' => 'إدارة الأهداف',
 	'Goals_ConversionsOverviewBy' => 'التحويل العام بواسطة نوع الزيارة',

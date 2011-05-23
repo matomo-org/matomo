@@ -334,7 +334,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'Meldinga må vera minst %s teikn lang.',
 	'Feedback_ExceptionNoUrls' => 'For å forhindra søppelpost, kan ikkje meldinga innehalda URLar.',
 	'Goals_Goals' => 'Mål',
-	'Goals_Overview' => 'Oversikt',
 	'Goals_GoalsOverview' => 'Måloversikt',
 	'Goals_ColumnConversions' => 'Overgangar',
 	'Goals_ColumnRevenue' => 'Forteneste',

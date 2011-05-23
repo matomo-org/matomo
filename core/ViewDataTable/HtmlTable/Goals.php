@@ -24,7 +24,8 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 	public function main()
 	{
 		$this->idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
-		$this->processOnlyIdGoal = Piwik_Common::getRequestVar('filter_only_display_idgoal', 0, 'int');
+		$this->processOnlyIdGoal = Piwik_Common::getRequestVar('filter_only_display_idgoal', 0, 'string');
+		$this->isEcommerce = $this->processOnlyIdGoal == 'ecommerceOrder';
 		$this->viewProperties['show_exclude_low_population'] = true;
 		$this->viewProperties['show_goals'] = true;
 		
@@ -33,29 +34,54 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 					array('<br />', '<br />', '<a href="http://piwik.org/docs/tracking-goals-web-analytics/" target="_blank">', '</a>')));
 		}
 		
-		$this->setColumnsTranslations( array(
-			'goal_%s_conversion_rate' => '%s conversion rate',
-			'goal_%s_nb_conversions' => '%s conversions',
-			'goal_%s_revenue_per_visit' => '%s revenue per visit',
-		
-			'nb_conversions' => Piwik_Translate('Goals_ColumnConversions'),
-			'conversion_rate' => Piwik_Translate('General_ColumnConversionRate'),
-			'revenue' => Piwik_Translate('Goals_ColumnRevenue'),
-    		'revenue_per_visit' => Piwik_Translate('General_ColumnValuePerVisit'),
-		));
 		
 		$this->setMetricDocumentation('nb_visits', Piwik_Translate('Goals_ColumnVisits'));
-		$this->setMetricDocumentation('revenue_per_visit', Piwik_Translate('Goals_ColumnRevenuePerVisitDocumentation'));
 		
-		$this->setColumnsToDisplay( array(
-			'label',
-			'nb_visits',
-			'goal_%s_nb_conversions',
-			'goal_%s_conversion_rate',
-			'goal_%s_revenue_per_visit',
-		
-			'revenue_per_visit',
-		));
+		if($this->isEcommerce)
+		{
+			$this->setMetricDocumentation('revenue_per_visit', Piwik_Translate('Goals_ColumnRevenuePerVisitDocumentation', Piwik_Translate('General_EcommerceOrders') ));
+			$this->setColumnsTranslations( array(
+				'goal_%s_conversion_rate' => Piwik_Translate('Goals_ConversionRate'),
+				'goal_%s_nb_conversions' => Piwik_Translate('General_EcommerceOrders'),
+				'goal_%s_revenue' => Piwik_Translate('General_TotalRevenue'),
+				'goal_%s_revenue_per_visit' => Piwik_Translate('General_ColumnValuePerVisit'),
+				'goal_%s_avg_order_revenue' => Piwik_Translate('General_AverageOrderValue'),
+				'goal_%s_items' => Piwik_Translate('General_PurchasedProducts'),
+			));
+			$this->setColumnsToDisplay( array(
+				'label',
+				'nb_visits',
+				'goal_%s_nb_conversions',
+				'goal_%s_revenue',
+				'goal_%s_conversion_rate',
+				'goal_%s_avg_order_revenue',
+				'goal_%s_items',
+				'goal_%s_revenue_per_visit',
+			));
+		}
+		else
+		{
+			$this->setMetricDocumentation('revenue_per_visit', Piwik_Translate('Goals_ColumnRevenuePerVisitDocumentation', Piwik_Translate('Goals_GoalConversions') ));
+			$this->setColumnsTranslations( array(
+				'goal_%s_conversion_rate' => Piwik_Translate('Goals_ConversionRate'),
+				'goal_%s_nb_conversions' => Piwik_Translate('Goals_Conversions'),
+				'goal_%s_revenue_per_visit' => '%s ' . Piwik_Translate('General_ColumnValuePerVisit'),
+			
+				'nb_conversions' => Piwik_Translate('Goals_ColumnConversions'),
+				'conversion_rate' => Piwik_Translate('General_ColumnConversionRate'),
+				'revenue' => Piwik_Translate('Goals_ColumnRevenue'),
+	    		'revenue_per_visit' => Piwik_Translate('General_ColumnValuePerVisit'),
+			));
+			$this->setColumnsToDisplay( array(
+				'label',
+				'nb_visits',
+				'goal_%s_nb_conversions',
+				'goal_%s_conversion_rate',
+				'goal_%s_revenue_per_visit',
+			
+				'revenue_per_visit',
+			));
+		}
 		
 		// We ensure that the 'Sort by' column is actually displayed in the table
 		// eg. most daily reports sort by nb_uniq_visitors but this column is not displayed in the Goals table
@@ -81,24 +107,41 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 		if($idSite)
 		{
 			$goals = Piwik_Goals_API::getInstance()->getGoals( $idSite );
+			if($this->isEcommerce)
+			{
+				$goals = array(
+					array(	'idgoal' => 'ecommerceOrder', 
+							'name' => Piwik_Translate('Goals_EcommerceOrder')
+					)
+				);
+			}
 		}
 		foreach($columnsNames as $columnName)
 		{
-			if(in_array($columnName, array('goal_%s_conversion_rate', 'goal_%s_nb_conversions', 'goal_%s_revenue_per_visit')))
+			if(in_array($columnName, array(
+				'goal_%s_conversion_rate', 
+				'goal_%s_nb_conversions', 
+				'goal_%s_revenue_per_visit', 
+				'goal_%s_revenue',
+				'goal_%s_avg_order_revenue',
+				'goal_%s_items',
+				
+			)))
 			{
 				foreach($goals as $goal)
 				{
 					$idgoal = $goal['idgoal'];
 					if($this->processOnlyIdGoal > Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE
-						&& $this->processOnlyIdGoal != $idgoal)
+						&& $this->processOnlyIdGoal != $idgoal
+						&& !$this->isEcommerce)
 					{
 						continue;
 					}
 					$name = Piwik_Translate($this->getColumnTranslation($columnName), $goal['name']);
 					$columnNameGoal = str_replace('%s', $idgoal, $columnName);
 					$this->setColumnTranslation($columnNameGoal, $name);
-					$this->setDynamicMetricDocumentation($columnName, $columnNameGoal, $goal['name']);
-					if(strstr($columnNameGoal, '_rate') === false
+					$this->setDynamicMetricDocumentation($columnName, $columnNameGoal, $goal['name'], $goal['idgoal']);
+					if(strpos($columnNameGoal, '_rate') === false
 						// For the goal table (when the flag icon is clicked), we only display the per Goal Conversion rate
 						&& $this->processOnlyIdGoal == Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW)
 					{
@@ -125,8 +168,17 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 	}
 	
 	/** Find the appropriate metric documentation for a goal column */
-	private function setDynamicMetricDocumentation($genericMetricName, $metricName, $goalName)
+	private function setDynamicMetricDocumentation($genericMetricName, $metricName, $goalName, $idGoal)
 	{
+		if($idGoal == 'ecommerceOrder')
+		{
+			$goalName = Piwik_Translate('General_EcommerceOrders');
+		}
+		else
+		{
+			$goalName = '"'.$goalName.'"';
+		}
+		
 		$langString = false;
 		switch ($genericMetricName)
 		{
@@ -137,13 +189,22 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 				$langString = 'Goals_ColumnConversionRateDocumentation';
 				break;
 			case 'goal_%s_revenue_per_visit':
+				$langString = 'Goals_ColumnRevenuePerVisitDocumentation';
+				break;
+			case 'goal_%s_revenue':
 				$langString = 'Goals_ColumnRevenueDocumentation';
+				break;
+			case 'goal_%s_avg_order_revenue':
+				$langString = 'Goals_ColumnAverageOrderRevenueDocumentation';
+				break;
+			case 'goal_%s_items':
+				$langString = 'Goals_ColumnPurchasedProductsDocumentation';
 				break;
 		}
 		
 		if ($langString)
 		{
-			$doc = Piwik_Translate($langString, '"'.$goalName.'"');
+			$doc = Piwik_Translate($langString, $goalName);
 			$this->setMetricDocumentation($metricName, $doc);
 		}
 	}
@@ -151,7 +212,9 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 	protected function getRequestString()
 	{
 		$requestString = parent::getRequestString();
-		if($this->processOnlyIdGoal > Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE)
+		if($this->processOnlyIdGoal > Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE
+			|| $this->isEcommerce
+			)
 		{
 			$requestString .= "&filter_only_display_idgoal=".$this->processOnlyIdGoal;
 		}

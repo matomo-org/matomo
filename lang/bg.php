@@ -455,7 +455,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'Съобщението трябва да бъде дълго поне %s символа.',
 	'Feedback_ExceptionNoUrls' => 'За да се избегнат спам съобщения, не може да добавяте URL адрес във Вашето съобщение.',
 	'Goals_Goals' => 'Цели',
-	'Goals_Overview' => 'Общ преглед',
 	'Goals_GoalsOverview' => 'Общ преглед на целите',
 	'Goals_GoalsManagement' => 'Управление на целите',
 	'Goals_ViewGoalsBy' => 'Преглед на цели по %s',

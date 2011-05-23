@@ -413,7 +413,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'A mensagem tem que ter no mínimo %s caracteres.',
 	'Feedback_ExceptionNoUrls' => 'A mensagem não pode conter um endereço para evitar mensagens spam.',
 	'Goals_Goals' => 'Objectivos',
-	'Goals_Overview' => 'Vista geral',
 	'Goals_GoalsOverview' => 'Vista geral dos Objectivos',
 	'Goals_GoalsManagement' => 'Gerir objectivos',
 	'Goals_PluginDescription' => 'Criar Objectivos e ver relatórios acerca das suas conversões de objectivos: evolução ao longo do tempo, rendimento por visita, conversões por referente, por palavra chave, etc.',

@@ -465,7 +465,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'Die Nachricht muss mindestens %s Zeichen lang sein.',
 	'Feedback_ExceptionNoUrls' => 'Um Spam zu vermeiden, darf die Nachricht keine URL enthalten.',
 	'Goals_Goals' => 'Ziele',
-	'Goals_Overview' => 'Übersicht',
 	'Goals_GoalsOverview' => 'Ziele-Übersicht',
 	'Goals_GoalsManagement' => 'Ziele-Management',
 	'Goals_ConversionsOverviewBy' => 'Überblick über Konversionen nach Besuchstyp',
@@ -1246,7 +1245,7 @@ $translations = array(
 	'PDFReports_PiwikReports' => 'Piwik-Berichte',
 	'PDFReports_EmailHello' => 'Hallo,',
 	'PDFReports_PleaseFindAttachedFile' => 'Sie finden in der angehängten Datei Ihren %1$s Bericht für %2$s.',
-    'PDFReports_Pagination' => 'Seite %s von %s',
+	'PDFReports_Pagination' => 'Seite %s von %s',
 
 	// FOR REVIEW
 	'EntryPage_Bounces' => 'Absprünge',

@@ -456,7 +456,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'ข้อความต้องมีความยาวน้อยกว่าความยาวอักขระ %s',
 	'Feedback_ExceptionNoUrls' => 'ข้อความไม่สามารถประกอบด้วย URL เพื่อหลีกเลี่ยงข้อความสแปม',
 	'Goals_Goals' => 'เป้าหมาย',
-	'Goals_Overview' => 'ภาพรวม',
 	'Goals_GoalsOverview' => 'ภาพรวมของเป้าหมาย',
 	'Goals_GoalsManagement' => 'จัดการเป้าหมาย',
 	'Goals_ConversionsOverviewBy' => 'ภาพรวมการแปลงตามประเภทของการเข้าชม',

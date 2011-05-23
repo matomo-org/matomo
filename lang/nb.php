@@ -407,7 +407,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'Meldingen må være minst %s tegn lang.',
 	'Feedback_ExceptionNoUrls' => 'Meldingen kan ikke inneholde en URL (for å unngå spam)',
 	'Goals_Goals' => 'Mål',
-	'Goals_Overview' => 'Oversikt',
 	'Goals_ColumnConversions' => 'Konvertering',
 	'Goals_ColumnRevenue' => 'Inntekter',
 	'Goals_AddNewGoal' => 'Legg til et nytt mål',

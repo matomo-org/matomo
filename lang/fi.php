@@ -420,7 +420,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'Viestin pitää olla vähintään %s merkkiä pitkä.',
 	'Feedback_ExceptionNoUrls' => 'Viesti ei voi sisältää URL-osoitteita. Tällä vältetään roskapostia.',
 	'Goals_Goals' => 'Tavoitteet',
-	'Goals_Overview' => 'Yleiskatsaus',
 	'Goals_GoalsOverview' => 'Tavoitteiden yleiskatsaus',
 	'Goals_GoalsManagement' => 'Tavoitteiden hallinta',
 	'Goals_PluginDescription' => 'Luo tavoitteita ja katso raportteja: muutokset, tulot per käynti, siirtymisiä per viittaaja, per hakusana jne.',

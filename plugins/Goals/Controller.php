@@ -22,6 +22,8 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		'nb_conversions' => 'Goals_ColumnConversions',
 		'conversion_rate'=> 'General_ColumnConversionRate',
 		'revenue' => 'Goals_ColumnRevenue',
+		'items' => 'General_PurchasedProducts',
+		'avg_order_revenue' => 'General_AverageOrderValue',
 	);
 	
 	private function formatConversionRate($conversionRate)
@@ -59,15 +61,35 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 	
-	protected function getGoalReportView()
+	public function ecommerceReport()
 	{
-		$idGoal = Piwik_Common::getRequestVar('idGoal', null, 'int');
-		if(!isset($this->goals[$idGoal]))
+		$view = $this->getGoalReportView($idGoal = 'ecommerceOrder');
+		$view->displayFullReport = true;
+        $view->goalDimensions = Piwik_Goals::getReportsWithGoalMetrics();
+        $view->ecommerce = true;
+        
+		echo $view->render();
+	}
+	
+	protected function getGoalReportView($idGoal = false)
+	{
+		if($idGoal === false)
 		{
-			Piwik::redirectToModule('Goals', 'index', array('idGoal' => null));
+			$idGoal = Piwik_Common::getRequestVar('idGoal', null, 'string');
+			if(!isset($this->goals[$idGoal]))
+			{
+				Piwik::redirectToModule('Goals', 'index', array('idGoal' => null));
+			}
 		}
-		$goalDefinition = $this->goals[$idGoal];
-		
+		if($idGoal == 'ecommerceOrder')
+		{
+			$goalDefinition['name'] = Piwik_Translate('Goals_Ecommerce');
+			$goalDefinition['allow_multiple'] = true;
+		}
+		else
+		{
+			$goalDefinition = $this->goals[$idGoal];
+		}
 		$view = Piwik_View::factory('single_goal');
 		$this->setGeneralVariablesView($view);
 		$goal = $this->getMetricsForGoal($idGoal);
@@ -109,7 +131,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$view->displayFullReport = false;
 		echo $view->render();
 	}
-	
+
 	protected function getOverviewView()
 	{
 		$view = Piwik_View::factory('overview');
@@ -182,7 +204,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 
 		if(empty($idGoal))
 		{
-			$idGoal = Piwik_Common::getRequestVar('idGoal', false, 'int');
+			$idGoal = Piwik_Common::getRequestVar('idGoal', false, 'string');
 		}
 		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.get');
 		$view->setParametersToModify(array('idGoal' => $idGoal));
@@ -248,7 +270,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
     				$topDimension[] = array (
     					'name' => $row->getColumn('label'),
     					'nb_conversions' => $conversions,
-					'conversion_rate' => $this->formatConversionRate($row->getColumn($columnConversionRate)),
+						'conversion_rate' => $this->formatConversionRate($row->getColumn($columnConversionRate)),
     					'metadata' => $row->getMetadata(),
     				);
 				}
@@ -270,7 +292,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		{
 			$nbVisitsConverted = $nbConversions;
 		}
-		return array (
+		$return = array (
 				'id'				=> $idGoal,
 				'nb_conversions' 	=> $nbConversions,
 				'nb_visits_converted' => $nbVisitsConverted,
@@ -280,5 +302,16 @@ class Piwik_Goals_Controller extends Piwik_Controller
 				'urlSparklineConversionRate' 	=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('conversion_rate'), 'idGoal' => $idGoal)),
 				'urlSparklineRevenue' 			=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('revenue'), 'idGoal' => $idGoal)),
 		);
+		
+		if($idGoal == 'ecommerceOrder')
+		{
+			$return = array_merge($return, array(
+				'items' => $dataRow->getColumn('items'),
+				'avg_order_revenue' => $dataRow->getColumn('avg_order_revenue'),
+				'urlSparklinePurchasedProducts' => $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('items'), 'idGoal' => $idGoal)),
+				'urlSparklineAverageOrderValue' => $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('avg_order_revenue'), 'idGoal' => $idGoal)),
+			));
+		}
+		return $return;
 	}
 }

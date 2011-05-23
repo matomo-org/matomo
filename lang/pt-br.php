@@ -409,7 +409,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'A mensagem deve ter pelo menos %s caracteres.',
 	'Feedback_ExceptionNoUrls' => 'A mensagem não pode conter uma URL para evitar mensagens spam.',
 	'Goals_Goals' => 'Metas',
-	'Goals_Overview' => 'Visão Geral',
 	'Goals_GoalsOverview' => 'Visão geral de metas',
 	'Goals_GoalsManagement' => 'Gerenciamento de metas',
 	'Goals_PluginDescription' => 'Crie metas e veja relatórios sobre suas metas de conversão: evolução sobre o tempo, lucro por visita, conversões por referencia, por palavra-chave, etc.',

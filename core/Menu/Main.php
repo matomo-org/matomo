@@ -18,7 +18,7 @@ class Piwik_Menu_Main extends Piwik_Menu_Abstract
 	static private $instance = null;
 	
 	/**
-	 * @return Piwik_Menu
+	 * @return Piwik_Menu_Abstract
 	 */
 	static public function getInstance()
 	{

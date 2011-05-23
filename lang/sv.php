@@ -464,7 +464,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'Meddelandet måste vara minst %s tecken långt.',
 	'Feedback_ExceptionNoUrls' => 'Meddelandet får inte innehålla länkar, detta för att undvika spam meddelanden.',
 	'Goals_Goals' => 'Mål',
-	'Goals_Overview' => 'Översikt',
 	'Goals_GoalsOverview' => 'Målöversikt',
 	'Goals_GoalsManagement' => 'Målhantering',
 	'Goals_ConversionsOverviewBy' => 'Konverteringar översikt per typ av besök',

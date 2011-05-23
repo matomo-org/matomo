@@ -431,7 +431,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'メッセージは少なくとも %s 文字以上が必要です。',
 	'Feedback_ExceptionNoUrls' => 'スパムメッセージを防止するため、メッセージに URL を含めることはできません。',
 	'Goals_Goals' => '目標',
-	'Goals_Overview' => '概観',
 	'Goals_GoalsOverview' => '目標の概観',
 	'Goals_GoalsManagement' => '目標の管理',
 	'Goals_PluginDescription' => '目標を作成し、目標コンバージョンに関するリポート（一定期間の推移、ビジット単位の収益、参照元やキーワード単位のコンバージョン等）を表示します。',

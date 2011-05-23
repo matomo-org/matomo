@@ -81,7 +81,6 @@ menu.prototype =
             var module = broadcast.getValueFromUrl("module",url);
             var action = broadcast.getValueFromUrl("action",url);
             var idGoal = broadcast.getValueFromUrl("idGoal",url);
-			
             var main_menu = ($(this).parent().attr("class").match(/nav/)) ? true : false;
             if(main_menu)
             {
@@ -103,11 +102,10 @@ menu.prototype =
 
     activateMenu : function(module,action,idGoal)
     {
-		
 		// getting the right li is a little tricky since goals uses idGoal, and overview is index.
 		var $li = '';
 		// So, if module is Goals, idGoal is present, and action is not Index, must be one of the goals
-		if(module == 'Goals' && idGoal != '' && action != 'index') {
+		if(module == 'Goals' && idGoal != '' && (action != 'index')) {
 			$li = $("#" + module + "_" + action + "_" + idGoal);
 		} else {
 			$li = $("#" + module + "_" + action);

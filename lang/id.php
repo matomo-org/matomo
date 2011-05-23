@@ -416,7 +416,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'Pesah harus mempunyai panjang setidaknya %s karakter.',
 	'Feedback_ExceptionNoUrls' => 'Pesan tidak dapat mengandung sebuah URL, untuk menghindari pesan span.',
 	'Goals_Goals' => 'Tujuan',
-	'Goals_Overview' => 'Ikhtisar',
 	'Goals_GoalsOverview' => 'Ikhtisar tujuan',
 	'Goals_GoalsManagement' => 'Manajemen Tujuan',
 	'Goals_PluginDescription' => 'Buat Tujuan dan lihat laporan tentang konversi tujuan Anda: perkembangan dari waktu ke waktu, pendapatan setiap kunjungan, konversi setiap referal, setiap kata kunci, dan lain-lain.',

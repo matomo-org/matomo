@@ -41,7 +41,7 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 	 * 
 	 * @param Piwik_DataTable $table
 	 * @param bool $enable should be true (automatically set to true when filter_update_columns_when_show_all_goals is found in the API request)
-	 * @param bool $processOnlyIdGoal Defines what metrics to add (don't process metrics when you don't display them)
+	 * @param string $processOnlyIdGoal Defines what metrics to add (don't process metrics when you don't display them)
 	 * 			If self::GOALS_FULL_TABLE, all Goal metrics (and per goal metrics) will be processed
 	 * 			If self::GOALS_OVERVIEW, only the main goal metrics will be added
 	 * 			If an int > 0, then will process only metrics for this specific Goal
@@ -50,6 +50,7 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 	public function __construct( $table, $enable = true, $processOnlyIdGoal )
 	{
 		$this->processOnlyIdGoal = $processOnlyIdGoal;
+		$this->isEcommerce = $this->processOnlyIdGoal == 'ecommerceOrder' || $this->processOnlyIdGoal == 'ecommerceAbandonedCart'; 
 		// Ensure that all rows with no visit but conversions will be displayed
 		$this->deleteRowsWithNoVisit = false;
 		parent::__construct($table);
@@ -76,7 +77,13 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 				$revenue = 0;
 				foreach($goals as $goalId => $columnValue)
 				{
-					if($goalId >= Piwik_Tracker_GoalManager::IDGOAL_ORDER)
+					if($goalId == 'ecommerceAbandonedCart')
+					{
+						continue;
+					}
+					if($goalId >= Piwik_Tracker_GoalManager::IDGOAL_ORDER
+						|| $goalId == 'ecommerceOrder'
+					)
 					{
 						$revenue += (int)$this->getColumn($columnValue, Piwik_Archive::INDEX_GOAL_REVENUE, Piwik_Archive::$mappingFromIdToNameGoal);
 					}
@@ -102,10 +109,15 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 					continue;
 				}
 				
+				// Display per goal metrics
+				// - conversion rate
+				// - conversions
+				// - revenue per visit
 				foreach($goals as $goalId => $columnValue)
 				{
 					$goalId = str_replace("idgoal=", "", $goalId);
-					if($this->processOnlyIdGoal > self::GOALS_FULL_TABLE
+					if( ($this->processOnlyIdGoal > self::GOALS_FULL_TABLE
+						|| $this->isEcommerce)
 						&& $this->processOnlyIdGoal != $goalId)
 					{
 						continue;
@@ -140,13 +152,30 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 					// Goal Revenue per visit
 					$name = 'goal_' . $goalId . '_revenue_per_visit';
 					// See comment above for $revenuePerVisit
-					$revenuePerVisit = round( (float)$this->getColumn($columnValue, Piwik_Archive::INDEX_GOAL_REVENUE, Piwik_Archive::$mappingFromIdToNameGoal) / ($nbVisits == 0 ? $conversions : $nbVisits), $roundingPrecision );
+					$goalRevenue = (float)$this->getColumn($columnValue, Piwik_Archive::INDEX_GOAL_REVENUE, Piwik_Archive::$mappingFromIdToNameGoal);
+					$revenuePerVisit = round( $goalRevenue / ($nbVisits == 0 ? $conversions : $nbVisits), $roundingPrecision );
 					$newColumns[$name] = $revenuePerVisit;
 					$expectedColumns[$name] = true;
 					
+					if($this->isEcommerce )
+					{
+						// Total revenue
+						$name = 'goal_' . $goalId . '_revenue';
+						$newColumns[$name] = $goalRevenue;
+						$expectedColumns[$name] = true;
+						
+						// AOV Average Order Value
+						$name = 'goal_' . $goalId . '_avg_order_revenue';
+						$newColumns[$name] = $goalRevenue / $conversions;
+						$expectedColumns[$name] = true;
+						
+						// Items qty
+						$name = 'goal_' . $goalId . '_items';
+						$newColumns[$name] = $this->getColumn($columnValue, Piwik_Archive::INDEX_GOAL_ECOMMERCE_ITEMS, Piwik_Archive::$mappingFromIdToNameGoal);
+						$expectedColumns[$name] = true;
+					}
 				}
 			}
-			
 			$row->addColumns($newColumns);
 		}
 		$expectedColumns['revenue_per_visit'] = true;

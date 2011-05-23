@@ -457,7 +457,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'Сообщение должно быть как минимум %s символов.',
 	'Feedback_ExceptionNoUrls' => 'Сообщение не может содержать URL, это мера предотвращения спама.',
 	'Goals_Goals' => 'Цели',
-	'Goals_Overview' => 'Обзор',
 	'Goals_GoalsOverview' => 'Обзор целей',
 	'Goals_GoalsManagement' => 'Управления целями',
 	'Goals_ConversionsOverviewBy' => 'Обзор конверсий по типам посещения',

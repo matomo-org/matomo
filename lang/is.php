@@ -317,7 +317,6 @@ $translations = array(
 	'DBStats_TotalSize' => 'Heildarstærð',
 	'ExampleAPI_PluginDescription' => 'Dæmi íbót: Hvernig á að búa til API fyrir þína íbót til að flytja gögn þín í mörgum sniðum án sérstakar kóðunar?',
 	'Goals_Goals' => 'Markmið',
-	'Goals_Overview' => 'Yfirlit',
 	'Goals_GoalsOverview' => 'Yfirlit Markmiða',
 	'Goals_GoalsManagement' => 'Markmiðastjórnun',
 	'Goals_ColumnConversions' => 'Umbreytingar',

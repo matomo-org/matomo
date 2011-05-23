@@ -413,7 +413,6 @@ $translations = array(
 	'Feedback_ExceptionBodyLength' => 'Žinutė privalo būti mažiausiai %s simbolių ilgio.',
 	'Feedback_ExceptionNoUrls' => 'Žinutės tekste negali būti interneto adresų (URL) siekiant išvengti brukalų.',
 	'Goals_Goals' => 'Uždaviniai',
-	'Goals_Overview' => 'Apžvalga',
 	'Goals_GoalsOverview' => 'Uždavinių apžvalga',
 	'Goals_GoalsManagement' => 'Uždavinių valdymas',
 	'Goals_PluginDescription' => 'Sukurkite uždavinius ir stebėkite ataskaitas apie uždavinių konversijas: raidą per laikotarpį, vizito pajamas, nuorodų, raktažodžių konversijas ir t.t.',
