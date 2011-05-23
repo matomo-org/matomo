@@ -28,8 +28,17 @@ function initializeSparklines () {
 						if (typeof $.jqplot == 'undefined') {
 							piwikHelper.findSWFGraph(idDataTable + "Chart_swf").reload(url);
 						} else {
+							var chart = $('#'+idDataTable+"Chart_swf");
+							var loading = $(document.createElement('div')).addClass('jqplot-loading');
+							loading.css({
+								width: chart.innerWidth()+'px',
+								height: chart.innerHeight()+'px',
+								opacity: 0
+							});
+							chart.prepend(loading);
+							loading.css({opacity: .7});
 							$.get(url, {}, function(data) {
-								$('#'+idDataTable+"Chart_swf").trigger('replot', data).size();
+								chart.trigger('replot', data).size();
 							}, 'json');
 						}
 						piwikHelper.lazyScrollTo(graph[0], 400);
