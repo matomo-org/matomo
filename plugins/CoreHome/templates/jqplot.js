@@ -154,7 +154,7 @@ JQPlot.prototype = {
 		});
 		
 		$(document.createElement('div'))
-		.append('<div style="font-size: 13px; margin-bottom: 3px;">'
+		.append('<div style="font-size: 13px; margin-bottom: 10px;">'
 				+ lang.exportText + '</div>').append($(img))
 		.dialog({
 			title: lang.exportTitle,
@@ -206,8 +206,9 @@ JQPlot.prototype = {
 		var labels = [];
 		this.params.series = [];
 		for (i = 0; i < this.elements.length; i++) {
+			var color = this.elements[i].colour.substring(2, 8);
 			this.params.series.push({
-				color: '#' + this.elements[i].colour.substring(2, 8)
+				color: this.manipulateColor(color) 
 			});
 			labels.push(this.elements[i].text);
 		}
@@ -238,16 +239,11 @@ JQPlot.prototype = {
 		});
 		
 		this.params.legend = {
-			renderer: $.jqplot.EnhancedLegendRenderer,
-			rendererOptions: {
-				numberColumns: 0,
-				numberRows: 1,
-				disableIEFading: true,
-			},
+			show: false
+		};
+		this.params.canvasLegend = {
 			show: true,
-			location: 'n',
-			labels: labels,
-			placement: 'outsideGrid'
+			labels: labels
 		};
 		
 		for (var s = 0; s < this.elements.length; s++) {
@@ -278,14 +274,16 @@ JQPlot.prototype = {
 	// ------------------------------------------------------------
 	
 	preparePieChart: function() {
-		this.params.seriesColors = this.element.colours;
+		this.params.seriesColors = [];
+		for (var i = 0; i < this.element.colours.length; i++) {
+			this.params.seriesColors.push(
+					this.manipulateColor(this.element.colours[i]));
+		}
 		
 		this.params.seriesDefaults = {
 			renderer: $.jqplot.PieRenderer,
 			rendererOptions: {
-				shadowOffset: 1,
-				shadowDepth: 4,
-				shadowAlpha: .06,
+				shadow: false,
 				showDataLabels: false,
 				sliceMargin: 1,
 				startAngle: this.element['start-angle']
@@ -299,8 +297,10 @@ JQPlot.prototype = {
 		};
 		
 		this.params.legend = {
-			show: true,
-			location: 'e'
+			show: false
+		};
+		this.params.pieLegend = {
+			show: true
 		};
 		
 		for (var i = 0; i < this.values.length; i++) {
@@ -317,8 +317,9 @@ JQPlot.prototype = {
 	
 	prepareBarChart: function() {
 		this.params.seriesColors = [];
-		for (var j = 0; j < this.values.length; j++) {
-			this.params.seriesColors.push(this.element.colour);
+		var color = this.manipulateColor(this.element.colour);
+		for (var i = 0; i < this.values.length; i++) {
+			this.params.seriesColors.push(color);
 		}
 		
 		this.params.seriesDefaults = {
@@ -359,6 +360,11 @@ JQPlot.prototype = {
 		for (var i = 0; i < this.values.length; i++) {
 			this.data.push(this.values[i].top);
 		}
+		
+		this.params.canvasLegend = {
+			show: true,
+			labels: [this.element.text]
+		};
 	},
 	
 	
@@ -391,6 +397,16 @@ JQPlot.prototype = {
 		}
 		
 		return config;
+	},
+	
+	/** Lighten colors */
+	manipulateColor: function(color) {
+		var rgb = $.jqplot.getColorComponents(color);
+		for (var i = 0; i <= 2; i++) {
+			rgb[i] += 0.15 * (255 - rgb[i]);
+			rgb[i] = parseInt(rgb[i], 10);
+		}
+		return 'rgb('+rgb[0]+','+rgb[1]+','+rgb[2]+')';
 	},
 	
 	/** Prepare tooltip html */
@@ -618,3 +634,218 @@ JQPlot.prototype = {
 	}
 	
 })(jQuery);
+
+
+
+// ------------------------------------------------------------
+//  LEGEND PLUGIN FOR JQPLOT
+//  Render legend on canvas
+// ------------------------------------------------------------
+
+(function($) {
+	
+	$.jqplot.CanvasLegendRenderer = function(options) {
+		// canvas for the legend
+		this.legendCanvas = null;
+		// render the legend?
+		this.show = false;
+		
+		$.extend(true, this, options);
+	};
+	
+	$.jqplot.CanvasLegendRenderer.init = function(target, data, opts) {
+		// add plugin as an attribute to the plot
+		var options = opts || {};
+		this.plugins.canvasLegend = new $.jqplot.CanvasLegendRenderer(options.canvasLegend);
+		
+		// add padding above the grid
+		// legend will be put there
+		if (this.plugins.canvasLegend.show) {
+			options.gridPadding = {
+				top: 16
+			};
+		}
+		
+	};
+	
+	// render the legend
+	$.jqplot.CanvasLegendRenderer.postDraw = function() {
+		var plot = this;
+		var legend = plot.plugins.canvasLegend;
+		
+		if (!legend.show) {
+			return;
+		}
+		
+		// initialize legend canvas
+		var padding = {top: 0, right: 0, bottom: 0, left: this._gridPadding.left};
+		var dimensions = {width: this._plotDimensions.width, height: this._gridPadding.top};
+		
+		legend.legendCanvas = new $.jqplot.GenericCanvas();
+		this.eventCanvas._elem.before(legend.legendCanvas.createElement(
+				padding, 'jqplot-legend-canvas', dimensions));
+		legend.legendCanvas.setContext();
+		
+		var ctx = legend.legendCanvas._ctx;
+		ctx.save();
+		ctx.font = '11px Arial';
+		
+		// render series names
+		var x = 0;
+		var series = plot.legend._series;
+		for (i = 0; i < series.length; i++) {
+			var s = series[i];
+			var label = legend.labels[i] || s.label.toString();
+			
+			ctx.fillStyle = s.color;
+			
+			ctx.fillRect(x, 5, 10, 2);
+			x += 15;
+			
+			ctx.fillText(label, x, 10);
+			x += ctx.measureText(label).width + 20;
+		}
+		
+		ctx.restore();
+	};
+	
+	$.jqplot.preInitHooks.push($.jqplot.CanvasLegendRenderer.init);
+	$.jqplot.postDrawHooks.push($.jqplot.CanvasLegendRenderer.postDraw);
+	
+})(jQuery);
+
+
+
+// ------------------------------------------------------------
+//  PIE CHART LEGEND PLUGIN FOR JQPLOT
+//  Render legend inside the pie graph
+// ------------------------------------------------------------
+
+(function($) {
+	
+	$.jqplot.PieLegend = function(options) {
+		// canvas for the legend
+		this.pieLegendCanvas = null;
+		// render the legend?
+		this.show = false;
+		
+		$.extend(true, this, options);
+	};
+	
+	$.jqplot.PieLegend.init = function(target, data, opts) {
+		// add plugin as an attribute to the plot
+		var options = opts || {};
+		this.plugins.pieLegend = new $.jqplot.PieLegend(options.pieLegend);
+	};
+	
+	// render the legend
+	$.jqplot.PieLegend.postDraw = function() {
+		var plot = this;
+		var legend = plot.plugins.pieLegend;
+		
+		if (!legend.show) {
+			return;
+		}
+		
+		var series = plot.series[0];
+		var angles = series._sliceAngles;
+		var radius = series._diameter / 2;
+		var center = series._center;
+		var colors = this.seriesColors;
+		
+		// concentric line angles
+		var lineAngles = [];
+		for (var i = 0; i < angles.length; i++) {
+			lineAngles.push((angles[i][0] + angles[i][1]) / 2 + Math.PI / 2);
+		}
+		
+		// labels
+		var labels = [];
+		var data = series._plotData;
+		for (i = 0; i < data.length; i++) {
+			labels.push(data[i][0]);
+		}
+		
+		// initialize legend canvas
+		legend.pieLegendCanvas = new $.jqplot.GenericCanvas();
+		plot.series[0].canvas._elem.before(legend.pieLegendCanvas.createElement(
+				plot._gridPadding, 'jqplot-pie-legend-canvas', plot._plotDimensions));
+		legend.pieLegendCanvas.setContext();
+		
+		var ctx = legend.pieLegendCanvas._ctx;
+		ctx.save();
+		
+		ctx.font = '11px Arial';
+		
+		// render labels
+		var x1, x2, y1, y2, lastY2 = false, right, lastRight = false;
+		for (i = 0; i < labels.length; i++) {
+			var label = labels[i];
+			
+			ctx.strokeStyle = colors[i];
+			ctx.lineCap = 'round';
+			ctx.lineWidth = 1;
+			
+			// concentric line
+			ctx.beginPath();
+			
+			x1 = center[0] + Math.sin(lineAngles[i]) * (radius);
+			y1 = center[1] - Math.cos(lineAngles[i]) * (radius);
+			ctx.moveTo(x1, y1);
+			
+			x2 = center[0] + Math.sin(lineAngles[i]) * (radius + 7);
+			y2 = center[1] - Math.cos(lineAngles[i]) * (radius + 7);
+			
+			right = x2 > center[0];
+			
+			// move close labels
+			if (lastY2 !== false && lastRight == right && (
+					(right && y2 - lastY2 < 15) ||
+					(!right && lastY2 - y2 < 15))) {
+				
+				if (y2 > center[1]) {
+					y2 = lastY2 + 15;
+				} else {
+					y2 = lastY2 - 15;
+				}
+			}
+			
+			ctx.lineTo(x2, y2);
+			
+			ctx.closePath();
+			ctx.stroke();
+			
+			// horizontal line
+			ctx.beginPath();
+			ctx.moveTo(x2, y2);
+			if (right) {
+				ctx.lineTo(x2 + 5, y2);
+			} else {
+				ctx.lineTo(x2 - 5, y2);
+			}
+			
+			ctx.closePath();
+			ctx.stroke();
+			
+			lastY2 = y2;
+			lastRight = right;
+			
+			// text
+			if (right) {
+				x = x2 + 9;
+			} else {
+				x = x2 - 9 - ctx.measureText(labels[i]).width;
+			}
+			
+			ctx.fillStyle = '#666666';
+			ctx.fillText(label, x, y2 + 3);
+		}
+		
+		ctx.restore();
+	};
+	
+	$.jqplot.preInitHooks.push($.jqplot.PieLegend.init);
+	$.jqplot.postDrawHooks.push($.jqplot.PieLegend.postDraw);
+	
+})(jQuery);
+
