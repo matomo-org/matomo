@@ -13,6 +13,15 @@
 		<conversion_rate>100%</conversion_rate>
 	</row>
 	<row>
+		<label>Product Category not defined</label>
+		<revenue>600</revenue>
+		<quantity>6.00</quantity>
+		<orders>1</orders>
+		<avg_price>100</avg_price>
+		<avg_quantity>6</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+	</row>
+	<row>
 		<label>Category TWO LEFT in cart</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>2</nb_visits>

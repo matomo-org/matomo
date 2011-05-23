@@ -224,7 +224,7 @@
 				<revenueTax>111</revenueTax>
 				<revenueShipping>0.11</revenueShipping>
 				<revenueDiscount>666</revenueDiscount>
-				<items>2</items>
+				<items>8</items>
 				
 				<icon>themes/default/images/ecommerceOrder.gif</icon>
 				<itemDetails>
@@ -234,6 +234,13 @@
 						<itemCategory>Electronics &amp; Cameras</itemCategory>
 						<price>500</price>
 						<quantity>2</quantity>
+					</row>
+					<row>
+						<itemSKU>ANOTHER SKU HERE</itemSKU>
+						<itemName>PRODUCT name BIS</itemName>
+						<itemCategory />
+						<price>100</price>
+						<quantity>6</quantity>
 					</row>
 				</itemDetails>
 			</row>

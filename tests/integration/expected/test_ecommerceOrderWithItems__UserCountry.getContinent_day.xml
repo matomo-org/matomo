@@ -23,7 +23,7 @@
 				<revenue_tax>511</revenue_tax>
 				<revenue_shipping>100.11</revenue_shipping>
 				<revenue_discount>666</revenue_discount>
-				<items>3</items>
+				<items>9</items>
 			</row>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>

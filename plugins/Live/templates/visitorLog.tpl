@@ -208,7 +208,7 @@
 	</tbody>
 	</table>
 	{/if}
-	{if count($arrayDataTable) == 20}
+	{if count($arrayDataTable) <= 20}
 	{* We set a fake large rows count so that 'Next' paginate link is forced to display
 	   This is hard coded because the Visitor Log datatable is not fully loaded in memory, 
 	   but needs to fetch only the N rows in the logs
