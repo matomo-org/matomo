@@ -78,7 +78,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 		$view->disableShowExportAsRssFeed();
 		
 		$view->setReportDocumentation(Piwik_Translate('Live_VisitorLogDocumentation', array('<br />', '<br />')));
-		
+		$view->setCustomParameter('dataTablePreviousIsFirst', 1);
 		$view->setCustomParameter('filterEcommerce', Piwik_Common::getRequestVar('filterEcommerce', 0, 'int'));
 		$view->setCustomParameter('pageUrlNotDefined', Piwik_Translate('General_NotDefined', Piwik_Translate('Actions_ColumnPageURL')));
 		return $this->renderView($view, $fetch);

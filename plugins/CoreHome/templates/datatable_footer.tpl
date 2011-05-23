@@ -8,7 +8,7 @@
 
 {if $properties.show_pagination_control}
 <span>
-	<span class="dataTablePrevious">&lsaquo; {'General_Previous'|translate}</span>
+	<span class="dataTablePrevious">&lsaquo; {if isset($javascriptVariablesToSet.dataTablePreviousIsFirst)}{'General_First'|translate}{else}{'General_Previous'|translate}{/if} </span> 
 	<span class="dataTableNext">{'General_Next'|translate} &rsaquo;</span>
 </span>
 {/if}

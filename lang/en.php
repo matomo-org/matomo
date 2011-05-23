@@ -94,6 +94,7 @@ $translations = array(
 	'General_GoTo' => 'Go to %s',
 	'General_Next' => 'Next',
 	'General_Previous' => 'Previous',
+	'General_First' => 'First',
 	'General_Search' => 'Search',
 	'General_Others' => 'Others',
 	'General_Table' => 'Table',

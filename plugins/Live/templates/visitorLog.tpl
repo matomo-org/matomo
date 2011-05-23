@@ -219,7 +219,14 @@
 	{/if}
 	{include file="CoreHome/templates/datatable_js.tpl"}
 	<script type="text/javascript" defer="defer">
-		dataTables['{$properties.uniqueId}'].param.maxIdVisit = {$maxIdVisit};
+		var dataTableVisitorLog = dataTables['{$properties.uniqueId}'];
+		dataTableVisitorLog.param.maxIdVisit = {$maxIdVisit};
+		{literal}
+		if(dataTableVisitorLog.param.previous == 1) {
+			$('.dataTablePrevious').hide();
+			dataTableVisitorLog.param.previous = 0;
+		}
+		{/literal}
 	</script>
 {/if}
 
