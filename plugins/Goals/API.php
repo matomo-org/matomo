@@ -18,7 +18,7 @@
  * will return the list of products purchased on your site, either grouped by Product SKU, Product Name or Product Category. For each name, SKU or category, the following
  * metrics are returned: Total revenue, quantity, average price, average quantity, number of orders with this product.
  * 
- * By default, these functions returns the 'Products purchased'. These functions also accept an optional parameter &abandonedCarts=1.
+ * By default, these functions return the 'Products purchased'. These functions also accept an optional parameter &abandonedCarts=1.
  * If the parameter is set, it will instead return the metrics for products that were left in an abandoned cart therefore not purchased. 
  * 
  * The API also lets you request overall Goal metrics via the method "get": Conversions, Visits with at least one conversion, Conversion rate and Revenue.
