@@ -53,7 +53,6 @@
 				<retryClickLink description="wait for piwik.php tracking test" label="Next &raquo;" maxcount="10" seconds="1" />
 
 				<!-- 2. systemCheck -->
-				<sleep description="pause" seconds="1" />
 
 				<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 				<verifyText description="check page text" text="Piwik" />
