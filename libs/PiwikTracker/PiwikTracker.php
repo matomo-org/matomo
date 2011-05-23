@@ -282,9 +282,11 @@ class PiwikTracker
 
     /**
      * Adds an item in the Ecommerce order.
-     * This can be called before doTrackEcommerceOrder to define individual items in the order.
-     * SKU parameter is mandatory. Other parameters are optional, you can set all or only some to false or empty string.
-     * Ecommerce items added via this function are automatically cleared when doTrackEcommerceOrder or getUrlTrackEcommerceOrder is called.
+     * 
+     * This should be called before doTrackEcommerceOrder(), or before doTrackEcommerceCartUpdate().
+     * This function can be called for all individual products in the cart (or order).
+     * SKU parameter is mandatory. Other parameters are optional (set to false if value not known).
+     * Ecommerce items added via this function are automatically cleared when doTrackEcommerceOrder() or getUrlTrackEcommerceOrder() is called.
      * 
      * @param string $sku (required) SKU, Product identifier 
      * @param string $name (optional) Product name
@@ -303,7 +305,10 @@ class PiwikTracker
     
     /**
 	 * Tracks a Cart Update (add item, remove item, update item).
-	 * On every Cart update, you must call addEcommerceItem() for each item (product) in the cart, including the items that haven't been updated since the last cart update.
+	 * 
+	 * On every Cart update, you must call addEcommerceItem() for each item (product) in the cart, 
+	 * including the items that haven't been updated since the last cart update.
+	 * Items which were in the previous cart and are not sent in later Cart updates will be deleted from the cart (in the database).
 	 * 
 	 * @param float $grandTotal Cart grandTotal (typically the sum of all items' prices)
 	 */ 
@@ -315,9 +320,10 @@ class PiwikTracker
     
     /**
 	 * Tracks an Ecommerce order.
+	 * 
 	 * If the Ecommerce order contains items (products), you must call first the addEcommerceItem() for each item in the order.
 	 * All revenues (grandTotal, subTotal, tax, shipping, discount) will be individually summed and reported in Piwik reports.
-	 * Only parameters $orderId and $grandTotal are required. 
+	 * Only the parameters $orderId and $grandTotal are required. 
 	 * 
 	 * @param string|int $orderId (required) Unique Order ID. 
 	 * 				This will be used to count this order only once in the event the order page is reloaded several times.
@@ -335,15 +341,16 @@ class PiwikTracker
     }
     
     /**
-     * Used to record that the current page view is an item (product) page view, or a Ecommerce Category page view.
+     * Sets the current page view as an item (product) page view, or an Ecommerce Category page view.
+     * 
      * This must be called before doTrackPageView() on this product/category page. 
      * It will set 3 custom variables of scope "page" with the SKU, Name and Category for this page view.
      * Note: Custom Variables of scope "page" slots 3, 4 and 5 will be used.
      *  
-     * On a category page, you can set the parameter $category only, and set the other parameters to empty string or false
+     * On a category page, you may set the parameter $category only and set the other parameters to false.
      * 
      * Tracking Product/Category page views will allow Piwik to report on Product & Categories 
-     * conversion rates (Conversion rate = Visits to the product or category / Ecommerce orders containing this product or category)
+     * conversion rates (Conversion rate = Ecommerce orders containing this product or category / Visits to the product or category)
      * 
      * @param string $sku Product SKU being viewed
      * @param string $name Product Name being viewed
