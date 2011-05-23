@@ -51,11 +51,10 @@ class Piwik_Session extends Zend_Session
 		// we consider these to be misconfigurations, in that
 		// - user  - we can't verify that user-defined session handler functions have been set via session_set_save_handler()
 		// - mm    - this handler is not recommended, unsupported, not available for Windows, and has a potential concurrency issue
-		// - files - this handler doesn't work well in load-balance environments and may have a concurrency issue with locked session files
+		// - files - this handler doesn't work well in load-balanced environments and may have a concurrency issue with locked session files
 		$currentSaveHandler = ini_get('session.save_handler');
 		if(in_array($currentSaveHandler, array('user', 'mm', 'files')))
 		{
-			$db = Zend_Registry::get('db');
 			$config = array(
 				'name' => Piwik_Common::prefixTable('session'),
 				'primary' => 'id',
@@ -64,7 +63,7 @@ class Piwik_Session extends Zend_Session
 				'lifetimeColumn' => 'lifetime',
 				'db' => Zend_Registry::get('db'),
 			);
-			self::setSaveHandler( new Zend_Session_SaveHandler_DbTable($config));
+			self::setSaveHandler(new Zend_Session_SaveHandler_DbTable($config));
 		}
 
 		// garbage collection may disabled by default (e.g., Debian)
