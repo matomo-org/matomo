@@ -36,13 +36,13 @@
 				{if $action.type == 'ecommerceOrder' || $action.type == 'ecommerceAbandonedCart'}
 					<span title="
 						{if $action.type == 'ecommerceOrder'}{'Goals_EcommerceOrder'|translate}{else}{'Goals_AbandonedCart'|translate}{/if} 
- - {if $action.type == 'ecommerceOrder'}{'Live_GoalRevenue'|translate}: {else}{capture assign='revenueLeft'}{'Live_GoalRevenue'|translate}{/capture}{'Goals_LeftInCart'|translate:$revenueLeft}: {/if}{$action.revenue} {$visitor.siteCurrencySymbol} 
+ - {if $action.type == 'ecommerceOrder'}{'Live_GoalRevenue'|translate}: {else}{capture assign='revenueLeft'}{'Live_GoalRevenue'|translate}{/capture}{'Goals_LeftInCart'|translate:$revenueLeft}: {/if}{$action.revenue|money:$idSite} 
  - {$action.serverTimePretty|escape:'html'}  
  {if !empty($action.itemDetails)}{foreach from=$action.itemDetails item=product}
-  # {$product.itemSKU}{if !empty($product.itemName)}: {$product.itemName}{/if}{if !empty($product.itemCategory)} ({$product.itemCategory}){/if}, {'General_Quantity'|translate}: {$product.quantity}, {'General_Price'|translate}: {$product.price} {$visitor.siteCurrencySymbol} 
+  # {$product.itemSKU}{if !empty($product.itemName)}: {$product.itemName}{/if}{if !empty($product.itemCategory)} ({$product.itemCategory}){/if}, {'General_Quantity'|translate}: {$product.quantity}, {'General_Price'|translate}: {$product.price|money:$idSite} 
 {/foreach}{/if}">
 						<img class='iconPadding' src="{$action.icon	}" /> 
-						{if $action.type == 'ecommerceOrder'}{'Live_GoalRevenue'|translate}: {$action.revenue} {$visitor.siteCurrencySymbol} {/if}
+						{if $action.type == 'ecommerceOrder'}{'Live_GoalRevenue'|translate}: {$action.revenue|money:$idSite} {/if}
 					</span>
 				{else}
 				    {php}$col++; if ($col>=9) { $col=0; }{/php}
@@ -52,7 +52,7 @@
 					{elseif $action.type == 'outlink' || $action.type == 'download'}
 						<img class='iconPadding' src="{$action.icon}" title="{$action.url|escape:'html'} - {$action.serverTimePretty|escape:'html'}" />
 					{else}
-						<img class='iconPadding' src="{$action.icon}" title="{$action.goalName|escape:'html'} - {if $action.revenue > 0}{'Live_GoalRevenue'|translate}: {$action.revenue} {$visitor.siteCurrencySymbol} - {/if} {$action.serverTimePretty|escape:'html'}" />
+						<img class='iconPadding' src="{$action.icon}" title="{$action.goalName|escape:'html'} - {if $action.revenue > 0}{'Live_GoalRevenue'|translate}: {$action.revenue|money:$idSite} - {/if} {$action.serverTimePretty|escape:'html'}" />
 					{/if}
 					</a>
 				{/if}
