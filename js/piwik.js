@@ -2463,7 +2463,7 @@ var
 				 * Tracks an Ecommerce order.
 				 * If the Ecommerce order contains items (products), you must call first the addEcommerceItem() for each item in the order.
 				 * All revenues (grandTotal, subTotal, tax, shipping, discount) will be individually summed and reported in Piwik reports.
-				 * Parameters orderId and grandTotal are required. For others, you can set empty string "" if you don't need specify them.
+				 * Parameters orderId and grandTotal are required. For others, you can set to false if you don't need to specify them.
 				 * 
 				 * @param string|int orderId (required) Unique Order ID. 
 				 *                   This will be used to count this order only once in the event the order page is reloaded several times.

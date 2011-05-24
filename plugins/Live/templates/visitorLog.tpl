@@ -151,16 +151,16 @@
 					<span style='margin-left:20px'>
 					{if $action.type == 'ecommerceOrder'}
 						<abbr title="
-						{'Live_GoalRevenue'|translate}: {$action.revenue} {$visitor.columns.siteCurrencySymbol} 
-						{if !empty($action.revenueSubTotal)} - {'General_Subtotal'|translate}: {$action.revenueSubTotal} {$visitor.columns.siteCurrencySymbol}{/if} 
-						{if !empty($action.revenueTax)} - {'General_Tax'|translate}: {$action.revenueTax} {$visitor.columns.siteCurrencySymbol}{/if} 
-						{if !empty($action.revenueShipping)} - {'General_Shipping'|translate}: {$action.revenueShipping} {$visitor.columns.siteCurrencySymbol}{/if} 
-						{if !empty($action.revenueDiscount)} - {'General_Discount'|translate}: {$action.revenueDiscount} {$visitor.columns.siteCurrencySymbol}{/if} 
+						{'Live_GoalRevenue'|translate}: {$action.revenue|money:$javascriptVariablesToSet.idSite} 
+						{if !empty($action.revenueSubTotal)} - {'General_Subtotal'|translate}: {$action.revenueSubTotal|money:$javascriptVariablesToSet.idSite}{/if} 
+						{if !empty($action.revenueTax)} - {'General_Tax'|translate}: {$action.revenueTax|money:$javascriptVariablesToSet.idSite}{/if} 
+						{if !empty($action.revenueShipping)} - {'General_Shipping'|translate}: {$action.revenueShipping|money:$javascriptVariablesToSet.idSite}{/if} 
+						{if !empty($action.revenueDiscount)} - {'General_Discount'|translate}: {$action.revenueDiscount|money:$javascriptVariablesToSet.idSite}{/if} 
 						">{'Live_GoalRevenue'|translate}:
 					{else}
 						{capture assign='revenueLeft'}{'Live_GoalRevenue'|translate}{/capture}{'Goals_LeftInCart'|translate:$revenueLeft}:
 					{/if}
-					<strong>{$action.revenue} {$visitor.columns.siteCurrencySymbol}</strong>{if $action.type == 'ecommerceOrder'}</abbr>{/if}, 
+					<strong>{$action.revenue|money:$javascriptVariablesToSet.idSite}</strong>{if $action.type == 'ecommerceOrder'}</abbr>{/if}, 
 					{'General_Quantity'|translate}: {$action.items}
  					
  					{* Ecommerce items in Cart/Order *}
@@ -169,7 +169,7 @@
  					{foreach from=$action.itemDetails item=product}
 						<li>{$product.itemSKU}{if !empty($product.itemName)}: {$product.itemName}{/if}{if !empty($product.itemCategory)} ({$product.itemCategory}){/if}, 
 						{'General_Quantity'|translate}: {$product.quantity},
-						{'General_Price'|translate}: {$product.price} {$visitor.columns.siteCurrencySymbol}
+						{'General_Price'|translate}: {$product.price|money:$javascriptVariablesToSet.idSite}
 						</li> 					
  					{/foreach}
  					</ul>
@@ -195,7 +195,7 @@
 				{* Goal conversion *}
 					<img src="{$action.icon}" /> 
 					<strong>{$action.goalName}</strong>
-					{if $action.revenue > 0}, {'Live_GoalRevenue'|translate}: <strong>{$action.revenue} {$visitor.columns.siteCurrency}</strong>{/if}
+					{if $action.revenue > 0}, {'Live_GoalRevenue'|translate}: <strong>{$action.revenue|money:$javascriptVariablesToSet.idSite}</strong>{/if}
 				{/if}
 				</li>
 				{/if}
