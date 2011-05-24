@@ -14,7 +14,8 @@
 		
 		<script type="text/javascript">
 			{literal}  window.setTimeout(function() {  {/literal}
-				(new JQPlot({$flashParameters.data})).render('{$jqPlotType}', '{$chartDivId}', false, {literal} { {/literal}
+				var plot = new JQPlot({$flashParameters.data});
+				plot.render('{$jqPlotType}', '{$chartDivId}', {literal} { {/literal}
 					noData: '{'General_NoDataForGraph'|translate}',
 					exportTitle: '{'General_ExportAsImage_js'|translate}',
 					exportText: '{'General_SaveImageOnYourComputer_js'|translate}'	

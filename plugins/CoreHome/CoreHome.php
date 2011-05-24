@@ -77,8 +77,8 @@ class Piwik_CoreHome extends Piwik_Plugin
 		if (Zend_Registry::get('config')->General->use_js_charts)
 		{
 			$jqplot = 'libs/jqplot/';
-			$jsFiles[] = "plugins/CoreHome/templates/jqplot.js";
 			$jsFiles[] = $jqplot."excanvas.js";
+			$jsFiles[] = "plugins/CoreHome/templates/jqplot.js";
 			$jsFiles[] = $jqplot."jqplot.core.js";
 			$jsFiles[] = $jqplot."jqplot.linearAxisRenderer.js";
 			$jsFiles[] = $jqplot."jqplot.axisTickRenderer.js";

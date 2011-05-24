@@ -163,7 +163,12 @@ dataTable.prototype =
 			$('#'+self.workingDivId+' .loadingPiwik').last().css('display','block');
 		}
 		
-		piwikHelper.queueAjaxRequest($.ajax(self.buildAjaxRequest(callbackSuccess)));
+		var container = $('#'+self.workingDivId+' .piwik-graph');
+		piwikHelper.queueAjaxRequest($.ajax(self.buildAjaxRequest(function(response) {
+			container.trigger('piwikDestroyPlot');
+			container.unbind('piwikDestroyPlot');
+			callbackSuccess(response);
+		})));
 	},
 			
 	

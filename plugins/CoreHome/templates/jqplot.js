@@ -55,7 +55,7 @@ JQPlot.prototype = {
 	},
 	
 	/** Generic render function */
-	render: function(type, targetDivId, replotting, lang) {
+	render: function(type, targetDivId, lang) {
 		// preapare the appropriate chart type
 		switch (type) {
 			case 'graphEvolution':
@@ -83,41 +83,86 @@ JQPlot.prototype = {
 		if (typeof this.data[0] != 'object') {
 			this.data = [this.data];
 		}
-		var plot = $.jqplot(targetDivId, this.data, this.params);
 		
-		if (!replotting) {
-			// bind tooltip
-			var self = this;
-			
-			var target = $('#' + targetDivId)
-			.bind('jqplotDataHighlight', function(e, s, i, d) {
-				var tip = self.prepareTooltip(self.values[i].tip);
-				self.showTooltip(tip);
-			})
-			.bind('jqplotDataUnhighlight', function(e, s, i, d){
-				self.hideTooltip();
-			})
-			.bind('replot', function(e, data){
-				$('#' + targetDivId).empty();
-				self.init(data);
-				self.render(type, targetDivId, true);
-			})
-			.bind('piwikResizeGraph', function(e) {
-				plot.replot();
-			})
-			.bind('piwikExportAsImage', function(e) {
-				self.exportAsImage(target, lang);
-			});
-			
-			var plotWidth = target.innerWidth();
-			// handle window resize
-			$(window).resize(function() {
-				var width = target.innerWidth();
-				if (Math.abs(plotWidth - width) >= 5) {
-					plotWidth = width;
-					plot.replot();
+		try {
+			var plot = $.jqplot(targetDivId, this.data, this.params);
+		} catch(e) {
+			// this is thrown when refreshing piwik in the browser
+			if (e != "No plot target specified") {
+				throw e;
+			}
+		}
+		
+		// bind tooltip
+		var self = this;
+		
+		var target = $('#' + targetDivId)
+		.bind('jqplotDataHighlight', function(e, s, i, d) {
+			var tip = self.prepareTooltip(self.values[i].tip);
+			self.showTooltip(tip);
+		})
+		.bind('jqplotDataUnhighlight', function(e, s, i, d){
+			self.hideTooltip();
+		});
+		
+		// handle replot
+		target.bind('replot', function(e, data) {
+			$(this).trigger('piwikDestroyPlot');
+			(new JQPlot(data)).render(type, targetDivId, lang);
+		});
+		
+		// handle window resize
+		var plotWidth = target.innerWidth();
+		var timeout = false;
+		var resize = function() {
+			var width = target.innerWidth();
+			if (width > 0 && Math.abs(plotWidth - width) >= 5) {
+				plotWidth = width;
+				target.trigger('piwikDestroyPlot');
+				(new JQPlot(self.originalData))
+						.render(type, targetDivId, lang);
+			}
+		};
+		var resizeListener = function() {
+			if (timeout) {
+				window.clearTimeout(timeout);
+			}
+			timeout = window.setTimeout(resize, 300);
+		};
+		$(window).bind('resize', resizeListener);
+		
+		// export as image
+		target.bind('piwikExportAsImage', function(e) {
+			self.exportAsImage(target, lang);
+		});
+		
+		// manage resources
+		target.bind('piwikDestroyPlot', function() {
+			$(window).unbind('resize', resizeListener);
+			plot.destroy();
+			for (var i = 0; i < $.jqplot.visiblePlots.length; i++) {
+				if ($.jqplot.visiblePlots[i] == plot) {
+					$.jqplot.visiblePlots[i] = null;
 				}
+			}
+			$(this).unbind();
+		});
+		
+		if (typeof $.jqplot.visiblePlots == 'undefined') {
+			$.jqplot.visiblePlots = [];
+			$('ul.nav').bind('piwikSwitchPage', function() {
+				for (var i = 0; i < $.jqplot.visiblePlots.length; i++) {
+					if ($.jqplot.visiblePlots[i] == null) {
+						continue;
+					} 
+					$.jqplot.visiblePlots[i].destroy();
+				}
+				$.jqplot.visiblePlots = [];
 			});
+		}
+		
+		if (typeof plot != 'undefined') {
+			$.jqplot.visiblePlots.push(plot);
 		}
 	},
 	
@@ -329,7 +374,7 @@ JQPlot.prototype = {
 				shadowDepth: 2,
 				shadowAlpha: .2,
 				fillToZero: true,
-				barMargin: this.values.length > 10 ? 2 : 10,
+				barMargin: this.values.length > 10 ? 2 : 10
 			}
 		};
 		
@@ -502,8 +547,11 @@ JQPlot.prototype = {
 		var options = opts || {};
 		this.plugins.piwikTicks = new $.jqplot.PiwikTicks(options.piwikTicks);
 		
-		$.jqplot.eventListenerHooks.push(['jqplotMouseMove', handleMouseMove]);
-		$.jqplot.eventListenerHooks.push(['jqplotMouseLeave', handleMouseLeave]);
+		if (typeof $.jqplot.PiwikTicks.init.eventsBound == 'undefined') {
+			$.jqplot.PiwikTicks.init.eventsBound = true;
+			$.jqplot.eventListenerHooks.push(['jqplotMouseMove', handleMouseMove]);
+			$.jqplot.eventListenerHooks.push(['jqplotMouseLeave', handleMouseLeave]);
+		}
 	};
 	
 	// draw the grid
@@ -515,7 +563,8 @@ JQPlot.prototype = {
 		if (c.showHighlight) {
 			c.piwikHighlightCanvas = new $.jqplot.GenericCanvas();
 			
-			this.eventCanvas._elem.before(c.piwikHighlightCanvas.createElement(this._gridPadding, 'jqplot-piwik-highlight-canvas', this._plotDimensions));
+			this.eventCanvas._elem.before(c.piwikHighlightCanvas.createElement(
+					this._gridPadding, 'jqplot-piwik-highlight-canvas', this._plotDimensions, this));
 			c.piwikHighlightCanvas.setContext();
 		}
 		
@@ -524,7 +573,8 @@ JQPlot.prototype = {
 			var dimensions = this._plotDimensions;
 			dimensions.height += 6;
 			c.piwikTicksCanvas = new $.jqplot.GenericCanvas();
-			this.series[0].shadowCanvas._elem.before(c.piwikTicksCanvas.createElement(this._gridPadding, 'jqplot-piwik-ticks-canvas', dimensions));
+			this.series[0].shadowCanvas._elem.before(c.piwikTicksCanvas.createElement(
+					this._gridPadding, 'jqplot-piwik-ticks-canvas', dimensions, this));
 			c.piwikTicksCanvas.setContext();
 			
 			var ctx = c.piwikTicksCanvas._ctx;
@@ -662,7 +712,7 @@ JQPlot.prototype = {
 		// legend will be put there
 		if (this.plugins.canvasLegend.show) {
 			options.gridPadding = {
-				top: 16
+				top: 21
 			};
 		}
 		
@@ -683,7 +733,7 @@ JQPlot.prototype = {
 		
 		legend.legendCanvas = new $.jqplot.GenericCanvas();
 		this.eventCanvas._elem.before(legend.legendCanvas.createElement(
-				padding, 'jqplot-legend-canvas', dimensions));
+				padding, 'jqplot-legend-canvas', dimensions, plot));
 		legend.legendCanvas.setContext();
 		
 		var ctx = legend.legendCanvas._ctx;
@@ -699,10 +749,10 @@ JQPlot.prototype = {
 			
 			ctx.fillStyle = s.color;
 			
-			ctx.fillRect(x, 5, 10, 2);
+			ctx.fillRect(x, 10, 10, 2);
 			x += 15;
 			
-			ctx.fillText(label, x, 10);
+			ctx.fillText(label, x, 15);
 			x += ctx.measureText(label).width + 20;
 		}
 		
@@ -769,7 +819,7 @@ JQPlot.prototype = {
 		// initialize legend canvas
 		legend.pieLegendCanvas = new $.jqplot.GenericCanvas();
 		plot.series[0].canvas._elem.before(legend.pieLegendCanvas.createElement(
-				plot._gridPadding, 'jqplot-pie-legend-canvas', plot._plotDimensions));
+				plot._gridPadding, 'jqplot-pie-legend-canvas', plot._plotDimensions, plot));
 		legend.pieLegendCanvas.setContext();
 		
 		var ctx = legend.pieLegendCanvas._ctx;
@@ -782,7 +832,7 @@ JQPlot.prototype = {
 		for (i = 0; i < labels.length; i++) {
 			var label = labels[i];
 			
-			ctx.strokeStyle = colors[i];
+			ctx.strokeStyle = colors[i % colors.length];
 			ctx.lineCap = 'round';
 			ctx.lineWidth = 1;
 			
@@ -800,13 +850,15 @@ JQPlot.prototype = {
 			
 			// move close labels
 			if (lastY2 !== false && lastRight == right && (
-					(right && y2 - lastY2 < 15) ||
-					(!right && lastY2 - y2 < 15))) {
+					(right && y2 - lastY2 < 13) ||
+					(!right && lastY2 - y2 < 13))) {
 				
-				if (y2 > center[1]) {
-					y2 = lastY2 + 15;
+				if (x1 > center[0]) {
+					// move down if the label is in the right half of the graph
+					y2 = lastY2 + 13;
 				} else {
-					y2 = lastY2 - 15;
+					// move up if in left halt
+					y2 = lastY2 - 13;
 				}
 			}
 			
