@@ -38,7 +38,7 @@ function initializeSparklines () {
 							chart.prepend(loading);
 							loading.css({opacity: .7});
 							$.get(url, {}, function(data) {
-								chart.trigger('replot', data).size();
+								chart.trigger('replot', data);
 							}, 'json');
 						}
 						piwikHelper.lazyScrollTo(graph[0], 400);

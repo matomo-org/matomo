@@ -41,8 +41,8 @@ menu.prototype =
 	{
 		var self = this;
 		var urlAjax = $(this).attr('name');
-		 broadcast.propagateAjax(urlAjax);
 		$('ul.nav').trigger('piwikSwitchPage');
+		broadcast.propagateAjax(urlAjax);
 		return false;
 		
 	},
