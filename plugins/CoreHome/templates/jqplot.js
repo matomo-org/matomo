@@ -172,6 +172,7 @@ JQPlot.prototype = {
 		exportCanvas.width = container.width();
 		exportCanvas.height = container.height();
 		
+		if(!exportCanvas.getContext) { alert("Sorry, not supported in your browser. Please upgrade your browser :)"); return; }
 		var exportCtx = exportCanvas.getContext('2d');
 		
 		var canvases = container.find('canvas');
