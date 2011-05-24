@@ -5,7 +5,7 @@
 	{if $nb_conversions > 0}
 	    <h2>{'Goals_ConversionsOverview'|translate}</h2>
 		<ul class="ulGoalTopElements">
-{if !$ecommerce}
+{if !isset($ecommerce)}
 	    <li>{'Goals_BestCountries'|translate} {include file='Goals/templates/list_top_dimension.tpl' topDimension=$topDimensions.country}</li>
 	    {if count($topDimensions.keyword)>0}<li>{'Goals_BestKeywords'|translate} {include file='Goals/templates/list_top_dimension.tpl' topDimension=$topDimensions.keyword}</li>{/if}
 	    {if count($topDimensions.website)>0}<li>{'Goals_BestReferers'|translate} {include file='Goals/templates/list_top_dimension.tpl' topDimension=$topDimensions.website}</li>{/if}
