@@ -12,6 +12,7 @@
 {include file="CoreHome/templates/js_css_includes.tpl"}
 <!--[if lt IE 9]>
 <link rel="stylesheet" type="text/css" href="themes/default/ieonly.css" />
+<script language="javascript" type="text/javascript" src="libs/jqplot/excanvas.min.js"></script>
 <![endif]-->
 </head>
 <body>
