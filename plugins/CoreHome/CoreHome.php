@@ -94,7 +94,6 @@ class Piwik_CoreHome extends Piwik_Plugin
 			$jsFiles[] = $jqplot."plugins/jqplot.pieRenderer.js";
 			$jsFiles[] = $jqplot."plugins/jqplot.barRenderer.js";
 			$jsFiles[] = $jqplot."plugins/jqplot.categoryAxisRenderer.js";
-			$jsFiles[] = $jqplot."plugins/jqplot.enhancedLegendRenderer.js";
 			$jsFiles[] = $jqplot."plugins/jqplot.canvasTextRenderer.js";
 			$jsFiles[] = $jqplot."plugins/jqplot.canvasAxisTickRenderer.js";
 		}

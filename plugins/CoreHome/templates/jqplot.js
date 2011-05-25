@@ -71,11 +71,29 @@ JQPlot.prototype = {
 				return;
 		}
 		
+		// handle replot
+		// this has be bound before the check for an empty graph.
+		// otherwise clicking on sparklines won't work anymore after an empty
+		// report has been displayed.
+		var target = $('#' + targetDivId)
+		.bind('replot', function(e, data) {
+			target.trigger('piwikDestroyPlot');
+			
+			if (target.data('oldHeight') > 0) {
+				// handle replot after empty report
+				target.height(target.data('oldHeight'));
+				target.data('oldHeight', 0);
+				this.innerHTML = '';
+			}
+			
+			(new JQPlot(data)).render(type, targetDivId, lang);
+		});
+		
 		// this case happens when there is no data for a line chart
-		// TODO: this should already be noticed by php and the chart should
-		// not even be generated
 		if (this.data.length == 0) {
-			$('#' + targetDivId).addClass('pk-emptyGraph').css('height', 'auto').html(lang.noData);
+			target.addClass('pk-emptyGraph');
+			target.data('oldHeight', target.height());
+			target.css('height', 'auto').html(lang.noData);
 			return;
 		}
 		
@@ -95,20 +113,12 @@ JQPlot.prototype = {
 		
 		// bind tooltip
 		var self = this;
-		
-		var target = $('#' + targetDivId)
-		.bind('jqplotDataHighlight', function(e, s, i, d) {
+		target.bind('jqplotDataHighlight', function(e, s, i, d) {
 			var tip = self.prepareTooltip(self.values[i].tip);
 			self.showTooltip(tip);
 		})
 		.bind('jqplotDataUnhighlight', function(e, s, i, d){
 			self.hideTooltip();
-		});
-		
-		// handle replot
-		target.bind('replot', function(e, data) {
-			$(this).trigger('piwikDestroyPlot');
-			(new JQPlot(data)).render(type, targetDivId, lang);
 		});
 		
 		// handle window resize
@@ -271,6 +281,7 @@ JQPlot.prototype = {
 		$('#' + targetDivId)
 		.bind('jqplotMouseLeave', function(e, s, i, d){
 			self.hideTooltip(true);
+			$(this).css('cursor', 'default');
 		})
 		.bind('jqplotClick', function(e, s, i, d){
 			if (lastTick !== false) {
@@ -282,6 +293,9 @@ JQPlot.prototype = {
 		.bind('jqplotPiwikTickOver', function(e, tick, yFormatter){
 			lastTick = tick;
 			self.showEvolutionChartTooltip(tick, yFormatter);
+			if (typeof self.values[lastTick]['on-click'] == 'string') {
+				$(this).css('cursor', 'pointer');
+			}
 		});
 		
 		this.params.legend = {
