@@ -20,7 +20,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	
 	protected $goalColumnNameToLabel = array(
 		'avg_order_revenue' => 'General_AverageOrderValue',
-		'nb_conversions' => 'General_EcommerceOrders',
+		'nb_conversions' => 'Goals_ColumnConversions',
 		'conversion_rate'=> 'General_ColumnConversionRate',
 		'revenue' => 'General_TotalRevenue',
 		'items' => 'General_PurchasedProducts',
@@ -270,8 +270,14 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		{
 			$columnTranslation = '';
 
+			$nameToLabel = $this->goalColumnNameToLabel;
+			if($idGoal == 'ecommerceOrder'
+				&& $columnName == 'nb_conversions')
+			{
+				$nameToLabel[$columnName] = 'General_EcommerceOrders';
+			}
 			// find the right translation for this column, eg. find 'revenue' if column is Goal_1_revenue
-			foreach($this->goalColumnNameToLabel as $metric => $metricTranslation)
+			foreach($nameToLabel as $metric => $metricTranslation)
 			{
 				if(strpos($columnName, $metric) !== false)
 				{
