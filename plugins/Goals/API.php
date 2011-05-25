@@ -14,9 +14,10 @@
  * Goals API lets you Manage existing goals, via "updateGoal" and "deleteGoal", create new Goals via "addGoal", 
  * or list existing Goals for one or several websites via "getGoals" 
  * 
- * If you are tracking Ecommerce orders and products on your site, the functions "getItemsSku", "getItemsName" and "getItemsCategory"
+ * If you are <a href='http://piwik.org/docs/ecommerce-analytics/' target='_blank'>tracking Ecommerce orders and products</a> on your site, the functions "getItemsSku", "getItemsName" and "getItemsCategory"
  * will return the list of products purchased on your site, either grouped by Product SKU, Product Name or Product Category. For each name, SKU or category, the following
- * metrics are returned: Total revenue, quantity, average price, average quantity, number of orders with this product.
+ * metrics are returned: Total revenue, Total quantity, average price, average quantity, number of orders (or abandoned carts) containing this product, number of visits on the Product page,
+ * Conversion rate.
  * 
  * By default, these functions return the 'Products purchased'. These functions also accept an optional parameter &abandonedCarts=1.
  * If the parameter is set, it will instead return the metrics for products that were left in an abandoned cart therefore not purchased. 
