@@ -1453,16 +1453,6 @@ class Piwik
 	}
 
 	/**
-	 * Returns relative path to the application logo
-	 *
-	 * @return string Absolute path to application logo
-	 */
-	public function getLogoPath()
-	{
-		return Piwik_Common::getPathToPiwikRoot() . '/themes/default/images/logo.png';
-	}
-
-	/**
 	 * Returns the Javascript code to be inserted on every page to track
 	 *
 	 * @param int $idSite

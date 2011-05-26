@@ -334,6 +334,11 @@ ip_address_mask_length = 1
 ; If you define Custom Variables for your visitor, for example set the visit type
 ;Segments[]="customVariableName1==VisitType;customVariableValue1==Customer"
 
+[branding]
+; custom logo
+; if 1, custom logo is being displayed instead of piwik logo
+use_custom_logo = 0
+
 [mail]
 defaultHostnameIfEmpty = defaultHostnameIfEmpty.example.org  ; default Email @hostname, if current host can't be read from system variables
 transport =							; smtp (using the configuration below) or empty (using built-in mail() function)
