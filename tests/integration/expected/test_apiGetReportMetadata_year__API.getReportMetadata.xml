@@ -434,6 +434,7 @@
 		<action>get</action>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
+			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 			<conversion_rate>Conversion Rate</conversion_rate>
 			<revenue>Revenue</revenue>
 

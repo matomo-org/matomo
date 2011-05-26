@@ -126,12 +126,12 @@ abstract class Test_Integration extends Test_Database
 	 * @param $dateTime eg '2010-01-01 12:34:56'
 	 * @return $idSite of website created
 	 */
-	protected function createWebsite( $dateTime )
+	protected function createWebsite( $dateTime, $ecommerce = 0 )
 	{
     	$idSite = Piwik_SitesManager_API::getInstance()->addSite(
     					"Piwik test",
     					"http://piwik.net/", 
-    					$ecommerce=0,
+    					$ecommerce,
                     	$ips = null, 
                     	$excludedQueryParameters = null,
                     	$timezone = null, 
@@ -371,6 +371,7 @@ abstract class Test_Integration extends Test_Database
 		
 			'language' => $language ? $language : 'en',
 			'abandonedCarts' => $abandonedCarts ? 1 : 0,
+			'idSites' => $idSite,
 		);
 		if(!empty($visitorId ))
 		{
