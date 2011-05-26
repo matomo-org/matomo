@@ -57,7 +57,7 @@
 {include file="default/ie6.tpl"}
 	<div id="logo">
 	<a href="http://piwik.org" title="{$linkTitle}">
-		<img src='themes/default/images/logo.png' width='200' style='margin-right:20px'>
+		<img src='{$logo}' width='200' style='margin-right:20px'>
 		<div class="description"># {$linkTitle}</div>
 	</a>
 	</div>

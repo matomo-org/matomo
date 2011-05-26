@@ -29,7 +29,7 @@
 		{'General_ArchivingInlineHelp'|translate}<br /> 
 		{'General_SeeTheOfficialDocumentationForMoreInformation'|translate:"<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>":"</a>"}
 	{/capture}
-	{$browserArchivingHelp|inlineHelp}	</td>
+	{$browserArchivingHelp|inlineHelp}
 	</td>
 </tr>
 <tr>
@@ -121,6 +121,41 @@
 			</td>
 		</tr>
 	</table>
+</div>
+
+<h2>{'CoreAdminHome_BrandingSettings'|translate}</h2>
+<div id='brandSettings'>
+<table class="adminTable" style='width:600px;'>
+    <tr>
+        <td>{'CoreAdminHome_UseCustomLogo'|translate}</td>
+        <td style='width:200px'>
+            <label><input type="radio" name="useCustomLogo" value="1" {if $branding.use_custom_logo == 1} checked {/if}> {'General_Yes'|translate}</label>
+            <label><input type="radio" name="useCustomLogo" value="0" style ="margin-left:20px;" {if $branding.use_custom_logo == 0} checked {/if}>  {'General_No'|translate}</label> 
+        </td>
+    </tr>
+</table>
+</div>
+<div id='logoSettings'>
+    {capture assign=customLogoHelp}
+        {'CoreAdminHome_CustomLogoHelpText'|translate}<br /><br />
+        {'CoreAdminHome_CustomLogoFeedbackInfo'|translate:"<a href='?module=CorePluginsAdmin&action=index' target='_blank'>":"</a>"}
+    {/capture}
+    {$customLogoHelp|inlineHelp}
+    <form id="logoUploadForm" method="post" enctype="multipart/form-data" action="index.php?module=CoreAdminHome&format=json&action=uploadCustomLogo">
+    <table class="adminTable" style='width:550px;'> 
+        <tr>
+            {if $logosWriteable}
+            <td><label for="customLogo">{'CoreAdminHome_LogoUpload'|translate}<br>
+                <span class="form-description">{'CoreAdminHome_LogoUploadDescription'|translate}</span></label></td>
+            <td style='width:200px'>
+            <input name="customLogo" type="file" id="customLogo" /><img src="themes/logo.png" id="currentLogo" />
+            </td>
+            {else}
+            <td><span class="ajaxSuccess">{'CoreAdminHome_LogoNotWriteable'|translate:"<ul style='list-style: disc inside;'><li>/themes/</li><li>/themes/logo.png</li><li>/themes/logo-header.png</li></ul>"}</span></td>
+            {/if}
+        </tr>
+    </table>
+    </form>
 </div>
 
 <input type="submit" value="{'General_Save'|translate}" id="generalSettingsSubmit" class="submit" />

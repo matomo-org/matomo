@@ -99,6 +99,7 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 		$smarty->assign("reportTableRowTextSize", self::REPORT_TABLE_ROW_TEXT_SIZE);
 		$smarty->assign("reportBackToTopTextSize", self::REPORT_BACK_TO_TOP_TEXT_SIZE);
 		$smarty->assign("currentPath", Piwik::getPiwikUrl());
+		$smarty->assign("logoHeader", Piwik_API_API::getInstance()->getHeaderLogoUrl());
 	}
 
 	public function renderReport($processedReport)

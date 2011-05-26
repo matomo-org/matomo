@@ -75,6 +75,8 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 */
 	private function configureView($view)
 	{
+	    $this->setBasicVariablesView($view);
+	    
 		$view->linkTitle = Piwik::getRandomTitle();
 
 		$view->enableFrames = Zend_Registry::get('config')->General->enable_framed_logins;

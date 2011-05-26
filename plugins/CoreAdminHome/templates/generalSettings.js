@@ -24,20 +24,38 @@ function getGeneralSettingsAJAX()
  	request += '&mailUsername=' + $('#mailUsername').val();
  	request += '&mailPassword=' + $('#mailPassword').val();
 	request += '&mailEncryption=' + $('#mailEncryption').val();
+	request += '&useCustomLogo=' + isCustomLogoEnabled();
 	ajaxRequest.data = request;
 	return ajaxRequest;
 }
 function showSmtpSettings(value)
 {
-	$('#smtpSettings').toggle(value);
+	$('#smtpSettings').toggle(value==1);
 }
 function isSmtpEnabled()
 {
 	return $('input[name="mailUseSmtp"]:checked').attr('value');
 }
+function showCustomLogoSettings(value)
+{
+	$('#logoSettings').toggle(value==1);
+}
+function isCustomLogoEnabled()
+{
+	return $('input[name="useCustomLogo"]:checked').attr('value');
+}
+
+function refreshCustomLogo() {
+	var imageDiv = $("#currentLogo");
+	if(imageDiv && imageDiv.attr("src")) {
+		var logoUrl = imageDiv.attr("src").split("?")[0];
+		imageDiv.attr("src", logoUrl+"?"+ (new Date()).getTime());
+	}
+}
 
 $(document).ready( function() {
 	showSmtpSettings(isSmtpEnabled());
+	showCustomLogoSettings(isCustomLogoEnabled());
 	$('#generalSettingsSubmit').click( function() {
 		$.ajax( getGeneralSettingsAJAX() );
 	});
@@ -45,11 +63,31 @@ $(document).ready( function() {
 	$('input[name=mailUseSmtp]').click(function(){
 		 showSmtpSettings($(this).attr('value'));
 	});
+	$('input[name=useCustomLogo]').click(function(){
+		refreshCustomLogo();
+		showCustomLogoSettings($(this).attr('value'));
+	});
 	$('input').keypress( function(e) {
 			var key=e.keyCode || e.which;
 			if (key==13) {
 				$('#generalSettingsSubmit').click();
 			}
 		}
-	)
+	);
+	
+	$("#logoUploadForm").submit( function(data) {
+		var submittingForm = $( this );
+		var frameName = "upload"+(new Date()).getTime();
+		var uploadFrame = $("<iframe name=\""+frameName+"\" />");
+		uploadFrame.css("display", "none");
+		uploadFrame.load(function(data){
+		setTimeout(function(){
+			refreshCustomLogo();
+			uploadFrame.remove();},1000);
+		});
+		$("body:first").append(uploadFrame);
+		submittingForm.attr("target", frameName);
+	});
+	
+	$('#customLogo').change(function(){$("#logoUploadForm").submit()});
 });

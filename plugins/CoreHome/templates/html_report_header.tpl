@@ -5,7 +5,7 @@
 	<body style="color: rgb({$reportTextColor});">
 
 	<a name="reportTop"/>
-	<a target="_blank" href="{$currentPath}"><img title="{'General_GoTo'|translate:"Piwik"}" border="0" alt="Piwik" src='{$currentPath}themes/default/images/logo-header.png' /></a>
+	<a target="_blank" href="{$currentPath}"><img title="{'General_GoTo'|translate:"Piwik"}" border="0" alt="Piwik" src='{$logoHeader}' /></a>
 
 	<h1 style="color: rgb({$reportTitleTextColor}); font-size: {$reportTitleTextSize}pt;">
 		{'General_Website'|translate} {$websiteName}
