@@ -1,73 +1,59 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik
  * @package Piwik
  */
 
 /**
- * Customize & set values for the Flash Pie chart 
- * 
+ * Customize & set values for the Flash Pie chart
+ *
  * @package Piwik
  * @subpackage Piwik_Visualization
  */
 class Piwik_Visualization_Chart_Pie extends Piwik_Visualization_Chart
 {
-	// return the first dataset id from the list
-	protected function getDataSetsToDisplay()
-	{
-		$dataSetsToDisplay = parent::getDataSetsToDisplay();
-		if($dataSetsToDisplay === false)
-		{
-			return false;
-		}
-		return array_slice($dataSetsToDisplay, 0, 1);
-	}
+	
+	protected $seriesColors = array('#59727F', '#7DAAC0', '#7F7259', '#C09E7D', '#9BB39B',
+			'#B1D8B3', '#B39BA7', '#D8B1C5', '#A5A5A5');
 	
 	function customizeChartProperties()
 	{
-		parent::customizeChartProperties();
-		$dataSetsToDisplay = $this->getDataSetsToDisplay();
-		if($dataSetsToDisplay === false)
+		if (count($this->data) == 0)
 		{
 			return;
 		}
-		$dataSetToDisplay = current($dataSetsToDisplay);
 		
-		// create the Pie
-		$pie = new pie();
-		$pie->set_alpha("0.6");
-		$pie->set_start_angle( 35 );
-		$pie->add_animation( new pie_fade() );
-		$pie->set_label_colour('#142448');
-		$pie->set_colours( array('#3C5A69','#679BB5','#695A3C','#B58E67','#8AA68A','#A4D2A6','#A68A98','#D2A4BB','#969696') );
-
-		// create the Pie values
-		$yValues = $this->yValues[$dataSetToDisplay];
-		$labelName = $this->yLabels[$dataSetToDisplay];
-		$unit = $this->yUnit;
-		$sum = array_sum($yValues);
-		$pieValues = array();
-		$i = 0;
-		foreach($this->xLabels as $label) {
-			$value = (float)$yValues[$i];
-			$i++;
-			// we never plot empty pie slices (eg. visits by server time pie chart)
-			if($value <= 0) {
-				continue;
+		// make sure we only have one series
+		$series = &$this->series[0];
+		$this->series = array(&$series);
+		
+		$data = &$this->data[0];
+		$this->data = array(&$data);
+		
+		// we never plot empty pie slices (eg. visits by server time pie chart)
+		foreach ($data as $i => $value)
+		{
+			if ($value <= 0)
+			{
+				unset($data[$i]);
+				unset($this->axes['xaxis']['ticks'][$i]);
 			}
-			$pieValue = new pie_value($value, $label);
-			$percentage = round(100 * $value / $sum);
-			$pieValue->set_tooltip("$label<br><b>$percentage%</b> ($value$unit $labelName)");
-			$pieValues[] = $pieValue;
 		}
-		$pie->set_values($pieValues);
+		$data = array_values($data);
+		$this->axes['xaxis']['ticks'] = array_values($this->axes['xaxis']['ticks']);
 		
-		$this->chart->add_element($pie);
+		// prepare percentages for tooltip
+		$sum = array_sum($data);
+		foreach ($data as $i => $value)
+		{
+			$value = (float) $value;
+			$this->tooltip['percentages'][0][$i] = round(100 * $value / $sum);
+		}
 	}
 }

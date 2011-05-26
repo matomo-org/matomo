@@ -1,8 +1,8 @@
 ; <?php exit; ?> DO NOT REMOVE THIS LINE
-; If you want to change some of these default values, the best practise is to override 
+; If you want to change some of these default values, the best practise is to override
 ; them in your configuration file in config/config.ini.php. If you directly edit this file,
-; you will lose your changes when you upgrade Piwik. 
-; For example if you want to override action_title_category_delimiter, 
+; you will lose your changes when you upgrade Piwik.
+; For example if you want to override action_title_category_delimiter,
 ; edit config/config.ini.php and add the following:
 ; [General]
 ; action_title_category_delimiter = "-"
@@ -13,25 +13,25 @@
 
 [superuser]
 login			= root
-password		= 
+password		=
 
 [database]
-host			= 
-username		= 
-password		= 
-dbname			= 
-tables_prefix	= 
+host			=
+username		=
+password		=
+dbname			=
+tables_prefix	=
 port			= 3306
 adapter			= PDO_MYSQL
 ; if charset is set to utf8, Piwik will ensure that it is storing its data using UTF8 charset.
 ; it will add a sql query SET at each page view.
-; Piwik should work correctly without this setting.  
+; Piwik should work correctly without this setting.
 ;charset		= utf8
 
 [database_tests]
 host 			= localhost
 username 		= root
-password 		= 
+password 		=
 dbname			= piwik_tests
 tables_prefix	= piwiktests_
 port			= 3306
@@ -45,9 +45,9 @@ always_archive_data_day = 0;
 ; Force archiving Custom date range (without re-archiving sub-periods used to process this date range)
 always_archive_data_range = 0;
 
-; if set to 1, all the SQL queries will be recorded by the profiler 
+; if set to 1, all the SQL queries will be recorded by the profiler
 ; and a profiling summary will be printed at the end of the request
-; NOTE: you must also set  [log] logger_message[] = "screen" to enable the profiler to print on screen 
+; NOTE: you must also set  [log] logger_message[] = "screen" to enable the profiler to print on screen
 enable_sql_profiler = 0
 
 ; if set to 1, a Piwik tracking code will be included in the Piwik UI footer and will track visits, pages, etc. to idsite = 1
@@ -57,11 +57,6 @@ track_visits_inside_piwik_ui = 0
 ; if set to 1, javascript and css files will be included individually
 ; this option must be set to 1 when adding, removing or modifying javascript and css files
 disable_merged_assets = 0
-
-; If set to 1, Flash widgets require separate HTTP requests
-; (i.e., one request to load the JavaScript which instantiates Open Flash Chart; the other request is made by OFC to download the JSON data for the chart)
-; If set to 0, Piwik uses a single HTTP request per Flash widget to serve both the widget and data
-disable_merged_requests = 0
 
 ; If set to 1, all requests to piwik.php will be forced to be 'new visitors'
 tracker_always_new_visitor = 0
@@ -77,7 +72,7 @@ enable_processing_unique_visitors_year_and_range = 0
 maintenance_mode = 0
 
 ; character used to automatically create categories in the Actions > Pages, Outlinks and Downloads reports
-; for example a URL like "example.com/blog/development/first-post" will create 
+; for example a URL like "example.com/blog/development/first-post" will create
 ; the page first-post in the subcategory development which belongs to the blog category
 action_url_category_delimiter = /
 
@@ -100,12 +95,12 @@ all_websites_website_per_page = 50
 ; this is useful to prevent full DB access to the anonymous user, or to limit performance usage
 anonymous_user_enable_use_segments_API = 1
 
-; this action name is used when the URL ends with a slash / 
+; this action name is used when the URL ends with a slash /
 ; it is useful to have an actual string to write in the UI
 action_default_name = index
 
 ; if you want all your users to use Piwik in only one language, disable the LanguagesManager
-; plugin, and set this default_language (users won't see the language drop down) 
+; plugin, and set this default_language (users won't see the language drop down)
 default_language = en
 
 ; default number of elements in the datatable
@@ -114,7 +109,7 @@ datatable_default_limit = 10
 ; default number of rows returned in API responses
 API_datatable_default_limit = 50
 
-; This setting is overriden in the UI, under "User Settings". 
+; This setting is overriden in the UI, under "User Settings".
 ; The date and period loaded by Piwik uses the defaults below. Possible values: yesterday, today.
 default_day = yesterday
 ; Possible values: day, week, month, year.
@@ -122,7 +117,7 @@ default_period = day
 
 ; Time in seconds after which an archive will be computed again. This setting is used only for today's statistics.
 ; Defaults to 10 seconds so that by default, Piwik provides real time reporting.
-; This setting is overriden in the UI, under "General Settings". 
+; This setting is overriden in the UI, under "General Settings".
 ; This is the default value used if the setting hasn't been overriden via the UI.
 time_before_today_archive_considered_outdated = 10
 
@@ -155,9 +150,9 @@ login_cookie_name = piwik_auth
 ; login cookie expiration (14 days)
 login_cookie_expire = 1209600
 
-; The path on the server in which the cookie will be available on. 
+; The path on the server in which the cookie will be available on.
 ; Defaults to empty. See spec in http://curl.haxx.se/rfc/cookie_spec.html
-login_cookie_path = 
+login_cookie_path =
 
 ; email address that appears as a Sender in the password recovery email
 ; if specified, {DOMAIN} will be replaced by the current Piwik domain
@@ -201,7 +196,7 @@ datatable_archiving_maximum_rows_subtable_actions = 100
 datatable_archiving_maximum_rows_standard = 500
 
 ; by default, the real time Live! widget will update every 5 seconds and refresh with new visits/actions/etc.
-; you can change the timeout so the widget refreshes more often, or not as frequently 
+; you can change the timeout so the widget refreshes more often, or not as frequently
 live_widget_refresh_after_seconds = 5
 
 ; by default, Piwik uses self-hosted AJAX libraries.
@@ -253,15 +248,15 @@ latest_version_url = http://piwik.org/latest.zip
 api_service_url = http://api.piwik.org
 
 [Tracker]
-; Piwik uses first party cookies by default. If set to 1, 
+; Piwik uses first party cookies by default. If set to 1,
 ; the visit ID cookie will be set on the Piwik server domain as well
-; this is useful when you want to do cross websites analysis 
+; this is useful when you want to do cross websites analysis
 use_third_party_id_cookie = 0
 
 ; By default, Piwik does not trust the idcookie as accurate and will always check that if the visitor visited
 ; the website earlier by looking for a visitor with the same IP and user configuration (to avoid abuse or misbehaviour)
 ; This setting should only be set to 1 in an intranet setting, where most users have the same configuration (browsers, OS)
-; and the same IP. If left to 0 in this setting, all visitors will be counted as one single visitor. 
+; and the same IP. If left to 0 in this setting, all visitors will be counted as one single visitor.
 trust_visitors_cookies = 0
 
 ; name of the cookie used to store the visitor information
@@ -272,16 +267,16 @@ cookie_name	= piwik_visitor
 ; This is used only if use_third_party_id_cookie = 1
 cookie_expire = 63072000
 
-; The path on the server in which the cookie will be available on. 
+; The path on the server in which the cookie will be available on.
 ; Defaults to empty. See spec in http://curl.haxx.se/rfc/cookie_spec.html
 ; This is used for the Ignore cookie, and the third party cookie if use_third_party_id_cookie = 1
-cookie_path = 
+cookie_path =
 
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
 record_statistics			= 1
 
-; length of a visit in seconds. If a visitor comes back on the website visit_standard_length seconds 
-; after his last page view, it will be recorded as a new visit  
+; length of a visit in seconds. If a visitor comes back on the website visit_standard_length seconds
+; after his last page view, it will be recorded as a new visit
 visit_standard_length       = 1800
 
 ; visitors that stay on the website and view only one page will be considered as time on site of 0 second
@@ -300,7 +295,7 @@ enable_language_to_country_guess = 1
 scheduled_tasks_min_interval = 3600
 
 ; name of the cookie to ignore visits
-ignore_visits_cookie_name = piwik_ignore 
+ignore_visits_cookie_name = piwik_ignore
 
 ; Comma separated list of variable names that will be read to define a Campaign name, for example CPC campaign
 ; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC' then it will be counted as a campaign referer named 'Adwords-CPC'
@@ -327,10 +322,10 @@ ip_address_pre_mask_length = 0
 ip_address_mask_length = 1
 
 [Segments]
-; Reports with segmentation in API requests are processed in real time. 
-; On high traffic websites it is recommended to pre-process the data 
+; Reports with segmentation in API requests are processed in real time.
+; On high traffic websites it is recommended to pre-process the data
 ; so that the analytics reports are always fast to load.
-; You can define below the list of Segments strings 
+; You can define below the list of Segments strings
 ; for which all reports should be Archived during the cron execution
 ; All segment values MUST be URL encoded.
 ;Segments[]="visitorType==new"
@@ -340,13 +335,13 @@ ip_address_mask_length = 1
 ;Segments[]="customVariableName1==VisitType;customVariableValue1==Customer"
 
 [mail]
-defaultHostnameIfEmpty = defaultHostnameIfEmpty.example.org  ; default Email @hostname, if current host can't be read from system variables 
+defaultHostnameIfEmpty = defaultHostnameIfEmpty.example.org  ; default Email @hostname, if current host can't be read from system variables
 transport =							; smtp (using the configuration below) or empty (using built-in mail() function)
 port =								; optional; defaults to 25 when security is none or tls; 465 for ssl
-host =								; SMTP server address 
-type =								; SMTP Auth type. By default: NONE. For example: LOGIN 
+host =								; SMTP server address
+type =								; SMTP Auth type. By default: NONE. For example: LOGIN
 username =							; SMTP username
-password =							; SMTP password 
+password =							; SMTP password
 encryption =						; SMTP transport-layer encryption, either 'ssl', 'tls', or empty (i.e., none).
 
 [proxy]

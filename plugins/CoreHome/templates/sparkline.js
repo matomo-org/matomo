@@ -25,22 +25,18 @@ function initializeSparklines () {
 					$(this).click( function() {
 						var idDataTable = graph.attr('graphId');
 						//get the main page graph and reload with new data
-						if (typeof $.jqplot == 'undefined') {
-							piwikHelper.findSWFGraph(idDataTable + "Chart_swf").reload(url);
-						} else {
-							var chart = $('#'+idDataTable+"Chart_swf");
-							var loading = $(document.createElement('div')).addClass('jqplot-loading');
-							loading.css({
-								width: chart.innerWidth()+'px',
-								height: chart.innerHeight()+'px',
-								opacity: 0
-							});
-							chart.prepend(loading);
-							loading.css({opacity: .7});
-							$.get(url, {}, function(data) {
-								chart.trigger('replot', data);
-							}, 'json');
-						}
+						var chart = $('#'+idDataTable+"Chart");
+						var loading = $(document.createElement('div')).addClass('jqplot-loading');
+						loading.css({
+							width: chart.innerWidth()+'px',
+							height: chart.innerHeight()+'px',
+							opacity: 0
+						});
+						chart.prepend(loading);
+						loading.css({opacity: .7});
+						$.get(url, {}, function(data) {
+							chart.trigger('replot', data);
+						}, 'json');
 						piwikHelper.lazyScrollTo(graph[0], 400);
 						// Set the new clicked column in the datatable object
 						var sparklineColumn = broadcast.getValueFromUrl('columns', sparklineUrl);

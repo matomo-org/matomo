@@ -1,199 +1,171 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik
  * @package Piwik
  */
 
 /**
- * @see libs/open-flash-chart/php-ofc-library/open-flash-chart.php
- * @link http://teethgrinder.co.uk/open-flash-chart-2/
- */
-require_once PIWIK_INCLUDE_PATH . '/libs/open-flash-chart/php-ofc-library/open-flash-chart.php';
-
-/**
  * Generates the data in the Open Flash Chart format, from the given data.
- * 
+ *
  * @package Piwik
  * @subpackage Piwik_Visualization
  */
 abstract class Piwik_Visualization_Chart implements Piwik_iView
 {
-	/**
-	 * @var Piwik_Visualization_OpenFlashChart
-	 */
-	protected $chart = null;
 	
-	protected $xLabels = array();
-	protected $xOnClick = array();
+	// the data kept here conforms to the jqplot data layout
+	// @see http://www.jqplot.com/docs/files/jqPlotOptions-txt.html
+	protected $series = array();
+	protected $data = array();
+	protected $axes = array();
+	protected $tooltip = array();
+	protected $seriesColors = array('#000000');
+	
+	// other attributes (not directly used for jqplot)
+	protected $maxValue;
+	protected $yUnit = '';
+	protected $displayPercentageInTooltip = true;
 	protected $xSteps = 2;
 	
-	protected $yLabels = array();
-	protected $yValues = array();
-	protected $yUnit = '';
-	
-	protected $maxValue;
-	protected $minValue;
-	protected $displayPercentageInTooltip = true;
-	
-	function __construct()
+	public function setAxisXLabels(&$xLabels)
 	{
-		$this->chart = new open_flash_chart();
-	}
-	
-	public function setAxisXLabels($xLabels)
-	{
-		$this->xLabels = $xLabels;
+		$this->axes['xaxis']['ticks'] = &$xLabels;
 	}
 
-	public function setAxisXOnClick($onClick)
+	public function setAxisXOnClick(&$onClick)
 	{
-		$this->xOnClick = $onClick;
+		$this->axes['xaxis']['onclick'] = &$onClick;
 	}
 	
-	public function setAxisYValues($values)
+	public function setAxisYValues(&$values)
 	{
-		$this->yValues = $values;
+		foreach ($values as $label => &$data)
+		{
+			$this->series[] = array(
+				'label' => $label,
+				'internalLabel' => $label
+			);
+			
+			$this->data[] = &$data;
+		}
+	}
+	
+	protected function addTooltipToValue($seriesIndex, $valueIndex, $tooltipTitle, $tooltipText)
+	{
+		$this->tooltip[$seriesIndex][$valueIndex] = array($tooltipTitle, $tooltipText);
 	}
 
-	function setAxisYUnit($yUnit)
+	public function setAxisYUnit($yUnit)
 	{
-		if(!empty($yUnit))
+		if (!empty($yUnit))
 		{
 			$this->yUnit = $yUnit;
+			$this->axes['yaxis']['tickOptions']['formatString'] = '%s'.$yUnit;
+			$this->tooltip['yUnit'] = $yUnit;
 		}
 	}
 	
 	public function setAxisYLabels($labels)
 	{
-		$this->yLabels = $labels;
+		foreach ($this->series as &$series)
+		{
+			$label = $series['internalLabel'];
+			if (isset($labels[$label]))
+			{
+				$series['label'] = $labels[$label];
+			}
+		}
 	}
 	
-	public function setDisplayPercentageInTooltip($bool)
+	public function setDisplayPercentageInTooltip($display)
 	{
-		$this->displayPercentageInTooltip = $bool;
+		$this->displayPercentageInTooltip = $display;
 	}
 	
 	public function setXSteps($steps)
 	{
 		$this->xSteps = $steps;
 	}
-	
-	protected function getDataSetsToDisplay()
-	{
-		if(empty($this->yValues)) {
-			return false;
-		}
-		return array_keys($this->yValues);
-	}
 
 	public function getMaxValue()
 	{
-		$datasetsIds = $this->getDataSetsToDisplay();
-		if($datasetsIds === false)
+		if (count($this->data) == 0)
 		{
 			return 0;
 		}
-		$maxCrossDataSets = false;
-		foreach($datasetsIds as $dataset)
+		
+		$maxCrossDataSets = 0;
+		foreach ($this->data as &$data)
 		{
-			$maxValue = max($this->yValues[$dataset]);
-			if($maxCrossDataSets === false 
-				|| $maxValue > $maxCrossDataSets)
+			$maxValue = max($data);
+			if($maxValue > $maxCrossDataSets)
 			{
 				$maxCrossDataSets = $maxValue;
 			}
 		}
-		if($maxCrossDataSets > 10)
+		
+		$maxCrossDataSets += round($maxCrossDataSets * .02);
+		
+		if ($maxCrossDataSets > 10)
 		{
 			$maxCrossDataSets = $maxCrossDataSets + 10 - $maxCrossDataSets % 10;
 		}
 		return $maxCrossDataSets;
 	}
 	
-	public function setTitle($text, $css)
-	{
-		$title = new title($text);
-		$title->set_style($css);
-		$this->chart->set_title($title);
-	}
-	
 	public function render()
 	{
 		Piwik::overrideCacheControlHeaders();
-		return $this->chart->toPrettyString();
+		
+		$data = array(
+			'params' => array(
+				'axes' => &$this->axes,
+				'series' => &$this->series,
+				'seriesColors' => &$this->seriesColors
+			),
+			'data' => &$this->data,
+			'tooltip' => $this->tooltip
+		);
+		
+		return json_encode($data);
 	}
 	
-	function customizeChartProperties()
+	public function customizeChartProperties()
 	{
-		$this->chart->set_number_format($num_decimals = 0, 
-							$is_fixed_num_decimals_forced = true, 
-							$is_decimal_separator_comma = false, 
-							$is_thousand_separator_disabled = false);
-							
-		$gridColour = '#E0E1E4';
-		$countValues = count($this->xLabels);
 		$this->maxValue = $this->getMaxValue();
-		$this->minValue = 0;
-		
-		// X Axis
-		$this->x = new x_axis();
-		$this->x->set_colour( '#596171' );
-		$this->x->set_grid_colour( $gridColour );
-		$this->x->set_steps($this->xSteps);
-		
-		// X Axis Labels
-		$this->x_labels = new x_axis_labels();
-		$this->x_labels->set_size(11);
-		//manually fix the x labels step as this doesn't work in this OFC release..
-		$xLabelsStepped = $this->xLabels;
-		foreach($xLabelsStepped as $i => &$xLabel)
-		{
-			if(($i % $this->xSteps) != 0)
-			{
-				$xLabel = '';
-			}
-		}
-		$this->x_labels->set_labels($xLabelsStepped);
-		$this->x_labels->set_steps(1);
-		$this->x->set_labels($this->x_labels);
-		
-		// Y Axis
-		$this->y = new y_axis();
-		$this->y->set_colour('#ffffff');
-		$this->y->set_grid_colour($gridColour);
-		$stepsCount = 2;
-		$stepsEveryNLabel = ceil(($this->maxValue - $this->minValue) / $stepsCount);
-		if($this->maxValue == 0)
+		if ($this->maxValue == 0)
 		{
 			$this->maxValue = 1;
 		}
-		$this->y->set_range( $this->minValue, (int) ceil($this->maxValue), (int) $stepsEveryNLabel);
-		$dataSetsToDisplay = $this->getDataSetsToDisplay();
-		if($dataSetsToDisplay != false)
+		
+		// x axis labels with steps
+		if (isset($this->axes['xaxis']['ticks']))
 		{
-			$dataSetToDisplay = current($dataSetsToDisplay);
-			$this->y->set_label_text("#val#".$this->yUnit);
+			foreach ($this->axes['xaxis']['ticks'] as $i => &$xLabel)
+			{
+				$this->axes['xaxis']['labels'][$i] = $xLabel;
+				if (($i % $this->xSteps) != 0)
+				{
+					$xLabel = ' ';
+				}
+			}
 		}
 		
-		// Tooltip
-		$this->tooltip = new tooltip();
-		$this->tooltip->set_shadow( true );
-		$this->tooltip->set_stroke( 1 );
-		$this->tooltip->set_colour( "#B4B09C" );
-		$this->tooltip->set_background_colour( "#F9FAFA" );
-		$this->tooltip->set_title_style( "{font-size: 14px; font-family:Arial; font-weight:bold; color: #7E735A;}" );
-		$this->tooltip->set_body_style( "{font-size: 14px; font-family:Arial; color: #000000;} " );
-				
-		// Attach elements to the graph
-		$this->chart->set_x_axis($this->x);
-		$this->chart->set_y_axis($this->y);
-		$this->chart->set_tooltip($this->tooltip);
-		$this->chart->set_bg_colour('#ffffff');
+		// y axis labels
+		$ticks = array();
+		$numberOfTicks = 2;
+		$tickDistance = ceil($this->maxValue / $numberOfTicks);
+		for ($i = 0; $i <= $numberOfTicks; $i++)
+		{
+			$ticks[] = $i * $tickDistance;
+		}
+		$this->axes['yaxis']['ticks'] = &$ticks;
 	}
+	
 }

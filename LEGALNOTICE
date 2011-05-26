@@ -186,14 +186,6 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link:  http://www.phcomp.co.uk/tmp/Smarty.phps
 	License:  New BSD
 
-	Name:  Open Flash Chart
-	Link:  http://teethgrinder.co.uk/open-flash-chart-2/
-	License:  LGPL
-	Notes:
-	- includes JSON.php (New BSD)
-	- depends on FlashDevelop (http://www.flashdevelop.org/); MIT
-	- depends on Flex SDK; MPL 1.1 and Adobe Flex SDK license
-
 	Name:  PclZip
 	Link:  http://www.phpconcept.net/pclzip/
 	License:  LGPL

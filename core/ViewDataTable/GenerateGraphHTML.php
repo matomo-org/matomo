@@ -19,9 +19,10 @@
  */
 abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 {
+	
 	protected $width = '100%';
 	protected $height = 250;
-	protected $graphType = 'standard';
+	protected $graphType = 'unknown';
 	
 	/**
 	 * @see Piwik_ViewDataTable::init()
@@ -35,6 +36,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 						$currentControllerAction,
 						$apiMethodToRequestDataTable,
 						$controllerActionCalledWhenRequestSubTable);
+		
 		$this->dataTableTemplate = 'CoreHome/templates/graph.tpl';
 		
 		$this->disableOffsetInformationAndPaginationControls();
@@ -92,45 +94,39 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	
 	protected function buildView()
 	{
-		$view = new Piwik_View($this->dataTableTemplate);
-		$this->uniqueIdViewDataTable = $this->getUniqueIdViewDataTable();
-		$view->graphType = $this->graphType;
-		$this->chartDivId = $this->uniqueIdViewDataTable . "Chart_swf";
-
-		$this->parametersToModify['action'] = $this->currentControllerAction;
-		$this->parametersToModify = array_merge($this->variablesDefault, $this->parametersToModify);
-		
-		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($this->parametersToModify);
-
-		$this->includeData = !Zend_Registry::get('config')->Debug->disable_merged_requests;
+		// access control
 		$idSite = Piwik_Common::getRequestVar('idSite', 1, 'int');
-		
 		Piwik_API_Request::reloadAuthUsingTokenAuth();
 		if(!Piwik::isUserHasViewAccess($idSite))
 		{
-			throw new Exception(Piwik_TranslateException('General_ExceptionPrivilegeAccessWebsite', array("'view'", $idSite)));
+			throw new Exception(Piwik_TranslateException('General_ExceptionPrivilegeAccessWebsite',array("'view'", $idSite)));
 		}
 		
-		if($this->includeData)
-		{
-			$this->chartData = $this->getFlashData();
-		}
-		else
-		{
-			$this->chartData = null;
-		}
-		$view->flashParameters = $this->getFlashParameters();
-		$view->urlGraphData = $url;
-		$view->chartDivId = $this->chartDivId;
-		$view->formEmbedId = "formEmbed".$this->uniqueIdViewDataTable;
+		// collect data
+		$this->parametersToModify['action'] = $this->currentControllerAction;
+		$this->parametersToModify = array_merge($this->variablesDefault, $this->parametersToModify);
+		$this->graphData = $this->getGraphData();
+		
+		// build view
+		$view = new Piwik_View($this->dataTableTemplate);
+		
+		$view->width = $this->width;
+		$view->height = $this->height;
+		$view->chartDivId = $this->getUniqueIdViewDataTable()."Chart";
+		$view->graphType = $this->graphType;
+		
+		$view->data = $this->graphData;
+		$view->isDataAvailable = strpos($this->graphData, '"series":[]') === false;
+		
 		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
 		$view->properties = $this->getViewProperties();
+		
 		$view->reportDocumentation = $this->getReportDocumentation();
 		
 		return $view;
 	}
 
-	protected function getFlashData()
+	protected function getGraphData()
 	{
 		$saveGet = $_GET;
 
@@ -149,27 +145,11 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 			}
 			$_GET[$key] = $val;
 		}
-		$content = Piwik_FrontController::getInstance()->fetchDispatch( $this->currentControllerName, $this->currentControllerAction, array());
+		$this->currentControllerName.', '.$this->currentControllerAction;
+		$content = Piwik_FrontController::getInstance()->fetchDispatch($this->currentControllerName, $this->currentControllerAction, array());
 
 		$_GET = $saveGet;
 
 		return str_replace(array("\r", "\n", "'", '\"'), array('', '', "\\'", '\\\"'), $content);
-	}
-
-	protected function getFlashParameters()
-	{
-		// chart title is only set when there's no data in the graph
-		$isDataAvailable = $this->chartData && !preg_match('/],\s+"title": {/', $this->chartData);
-
-		return array(
-			'width'                => $this->width,
-			'height'               => $this->height,
-			'ofcLibraryPath'       => 'libs/open-flash-chart/',
-			'swfLibraryPath'       => 'libs/swfobject/',
-			'requiredFlashVersion' => '10.0.0',
-			'isDataAvailable'      => $isDataAvailable,
-			'includeData'          => $this->includeData,
-			'data'                 => $this->chartData,
-		);
 	}
 }
