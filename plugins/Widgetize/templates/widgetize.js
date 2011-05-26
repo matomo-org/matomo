@@ -78,25 +78,6 @@ function widgetize()
 					+'</div>'
 		);
 		
-		// Add the Flash Export if a flash <embed> is found in the widget 
-		$(loadedWidgetElement)
-			.find('embed,object')
-			.each(function() {
-				var htmlEmbed = $(this).parent().html();
-
-				htmlEmbed = htmlEmbed.replace(/ (data=")/, ' $1' + piwik.piwik_url);
-				htmlEmbed = htmlEmbed.replace(/ (value=")x-(data-file=)/, ' $1$2' + escape(piwik.piwik_url) + 'index.php');
-
-				$(exportButtonsElement).append(
-					'<div id="embedThisWidgetFlash">'+
-						'<label for="embedThisWidgetFlashInput">&rsaquo; Embed Flash</label>'+
-						'<span id="embedThisWidgetFlashInput">'+
-							self.getInputFormWithHtml('flashEmbed', htmlEmbed) +
-						'</span>'+
-					'</div>'
-				);
-		});
-				
 		// We then replace the div iframeDivToExport with the actual Iframe html
 		$('#iframeDivToExport')
 			.html(widgetIframeHtml);
