@@ -11,7 +11,7 @@
  */
 
 /**
- * Customize the Evolution chart style for the flash graph
+ * Customize the Evolution chart style 
  *
  * @package Piwik
  * @subpackage Piwik_Visualization

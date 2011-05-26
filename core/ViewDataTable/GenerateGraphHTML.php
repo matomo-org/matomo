@@ -11,7 +11,7 @@
  */
 
 /**
- * This class generates the HTML code to embed to flash graphs in the page.
+ * This class generates the HTML code to embed graphs in the page.
  * It doesn't call the API but simply prints the html snippet.
  *
  * @package Piwik
@@ -145,7 +145,6 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 			}
 			$_GET[$key] = $val;
 		}
-		$this->currentControllerName.', '.$this->currentControllerAction;
 		$content = Piwik_FrontController::getInstance()->fetchDispatch($this->currentControllerName, $this->currentControllerAction, array());
 
 		$_GET = $saveGet;

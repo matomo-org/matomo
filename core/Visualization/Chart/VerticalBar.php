@@ -11,7 +11,7 @@
  */
 
 /**
- * Customize & set values for the flash Vertical bar chart
+ * Customize & set values for the Vertical bar chart
  *
  * @package Piwik
  * @subpackage Piwik_Visualization
