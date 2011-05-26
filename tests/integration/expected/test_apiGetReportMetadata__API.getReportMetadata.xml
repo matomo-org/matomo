@@ -1,6 +1,88 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<category>Ecommerce</category>
+		<name>Ecommerce order</name>
+		<module>Goals</module>
+		<action>get</action>
+		<parameters>
+			<idGoal>ecommerceOrder</idGoal>
+
+		</parameters>
+		<metrics>
+			<nb_conversions>Conversions</nb_conversions>
+			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
+			<conversion_rate>Conversion Rate</conversion_rate>
+			<revenue>Revenue</revenue>
+			<revenue_subtotal>Subtotal</revenue_subtotal>
+			<revenue_tax>Tax</revenue_tax>
+			<revenue_shipping>Shipping</revenue_shipping>
+			<revenue_discount>Discount</revenue_discount>
+			<items>Quantity</items>
+			<avg_order_revenue>Average Order Value</avg_order_revenue>
+
+		</metrics>
+		<uniqueId>Goals_get_idGoal--ecommerceOrder</uniqueId>
+
+	</row>
+	<row>
+		<category>Ecommerce</category>
+		<name>Product SKU</name>
+		<module>Goals</module>
+		<action>getItemsSku</action>
+		<dimension>Product SKU</dimension>
+		<metrics>
+			<revenue>Product Revenue</revenue>
+			<quantity>Quantity</quantity>
+			<orders>Unique Purchases</orders>
+			<avg_price>Average Price</avg_price>
+			<avg_quantity>Average Quantity</avg_quantity>
+			<nb_visits>Visits</nb_visits>
+			<conversion_rate>Product Conversion Rate</conversion_rate>
+
+		</metrics>
+		<uniqueId>Goals_getItemsSku</uniqueId>
+
+	</row>
+	<row>
+		<category>Ecommerce</category>
+		<name>Product Name</name>
+		<module>Goals</module>
+		<action>getItemsName</action>
+		<dimension>Product Name</dimension>
+		<metrics>
+			<revenue>Product Revenue</revenue>
+			<quantity>Quantity</quantity>
+			<orders>Unique Purchases</orders>
+			<avg_price>Average Price</avg_price>
+			<avg_quantity>Average Quantity</avg_quantity>
+			<nb_visits>Visits</nb_visits>
+			<conversion_rate>Product Conversion Rate</conversion_rate>
+
+		</metrics>
+		<uniqueId>Goals_getItemsName</uniqueId>
+
+	</row>
+	<row>
+		<category>Ecommerce</category>
+		<name>Product Category</name>
+		<module>Goals</module>
+		<action>getItemsCategory</action>
+		<dimension>Product Category</dimension>
+		<metrics>
+			<revenue>Product Revenue</revenue>
+			<quantity>Quantity</quantity>
+			<orders>Unique Purchases</orders>
+			<avg_price>Average Price</avg_price>
+			<avg_quantity>Average Quantity</avg_quantity>
+			<nb_visits>Visits</nb_visits>
+			<conversion_rate>Product Conversion Rate</conversion_rate>
+
+		</metrics>
+		<uniqueId>Goals_getItemsCategory</uniqueId>
+
+	</row>
+	<row>
 		<category>Visits Summary</category>
 		<name>Visits Summary</name>
 		<module>VisitsSummary</module>
@@ -434,11 +516,69 @@
 		<action>get</action>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
+			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 			<conversion_rate>Conversion Rate</conversion_rate>
 			<revenue>Revenue</revenue>
 
 		</metrics>
 		<uniqueId>Goals_get</uniqueId>
+
+	</row>
+	<row>
+		<category>Goals</category>
+		<name>Goal Goal 1 - Thank you</name>
+		<module>Goals</module>
+		<action>get</action>
+		<parameters>
+			<idGoal>1</idGoal>
+
+		</parameters>
+		<metrics>
+			<nb_conversions>Conversions</nb_conversions>
+			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
+			<conversion_rate>Conversion Rate</conversion_rate>
+			<revenue>Revenue</revenue>
+
+		</metrics>
+		<uniqueId>Goals_get_idGoal--1</uniqueId>
+
+	</row>
+	<row>
+		<category>Goals</category>
+		<name>Goal Goal 2 - Hello</name>
+		<module>Goals</module>
+		<action>get</action>
+		<parameters>
+			<idGoal>2</idGoal>
+
+		</parameters>
+		<metrics>
+			<nb_conversions>Conversions</nb_conversions>
+			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
+			<conversion_rate>Conversion Rate</conversion_rate>
+			<revenue>Revenue</revenue>
+
+		</metrics>
+		<uniqueId>Goals_get_idGoal--2</uniqueId>
+
+	</row>
+	<row>
+		<category>Goals</category>
+		<name>Goal triggered js</name>
+		<module>Goals</module>
+		<action>get</action>
+		<parameters>
+			<idGoal>3</idGoal>
+
+		</parameters>
+		<metrics>
+			<nb_conversions>Conversions</nb_conversions>
+			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
+			<conversion_rate>Conversion Rate</conversion_rate>
+			<revenue>Revenue</revenue>
+
+		</metrics>
+		<uniqueId>Goals_get_idGoal--3</uniqueId>
 
 	</row>
 	<row>

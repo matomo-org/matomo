@@ -77,14 +77,9 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$view->disableShowAllColumns();
 		$this->setPeriodVariablesView($view);
 		$view->setLimit( 10 );
-		$view->setColumnsTranslations(array(
-			'label' => $label,
-			'revenue' => Piwik_Translate('General_ProductRevenue'),
-			'quantity' => Piwik_Translate('General_Quantity'),
-			'orders' => Piwik_Translate('General_UniquePurchases'),
-			'avg_price' => Piwik_Translate('General_AveragePrice'),
-			'avg_quantity' => Piwik_Translate('General_AverageQuantity'),
-			'conversion_rate' => Piwik_Translate('General_ProductConversionRate'),
+		$view->setColumnsTranslations(array_merge(
+			array('label' => $label),
+			Piwik_Goals::getProductReportColumns()
 		));
 		$view->setColumnsToDisplay(array(
 			'label',

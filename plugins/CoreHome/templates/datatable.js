@@ -808,7 +808,10 @@ dataTable.prototype =
 		// don't display report documentation in dashboard
 		if ($('#dashboard').size() > 0
 				// or in Widgetize screen
-				|| $('.widgetContent').size() > 0) {
+				|| $('.widgetContent').size() > 0
+				// or in Widget export
+				|| $('.widget').size() > 0
+				) {
 			return;
 		}
 		domElem = $(domElem);

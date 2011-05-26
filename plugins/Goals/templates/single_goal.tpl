@@ -13,7 +13,7 @@
 {else}
 		<li>{'Live_GoalRevenue'|translate}: {$revenue|money:$idSite}{if !empty($revenue_subtotal)}, 
 			{'General_Subtotal'|translate}: {$revenue_subtotal|money:$idSite}{/if}{if !empty($revenue_tax)},
-			{'General_Tax'|translate}: {$revenue_tax|money:$idSite} {/if}{if !empty($revenue_shipping)}, 
+			{'General_Tax'|translate}: {$revenue_tax|money:$idSite}{/if}{if !empty($revenue_shipping)}, 
 			{'General_Shipping'|translate}: {$revenue_shipping|money:$idSite}{/if}{if !empty($revenue_discount)}, 
 			{'General_Discount'|translate}: {$revenue_discount|money:$idSite}{/if} 
 		</li>

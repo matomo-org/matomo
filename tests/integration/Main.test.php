@@ -273,7 +273,9 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		$this->setApiNotToCall(array());
 		$this->setApiToCall( 'API' );
 		$dateTime = '2009-01-04 00:11:42';
-		$idSite = $this->createWebsite($dateTime);
+		$idSite = $this->createWebsite($dateTime, $ecommerce = 1);
+        $idGoal = Piwik_Goals_API::getInstance()->addGoal($idSite, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive=false, $revenue=10, $allowMultipleConversions = 1);
+        $idGoal2 = Piwik_Goals_API::getInstance()->addGoal($idSite, 'Goal 2 - Hello', 'url', 'hellow', 'contains', $caseSensitive=false, $revenue=10, $allowMultipleConversions = 0);
 		
         $t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
     	// Record 1st page view
