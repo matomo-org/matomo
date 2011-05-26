@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik
  * @package Piwik
  */
@@ -26,12 +26,12 @@
  * 		return $this->renderView($view, $fetch);
  * 	}
  * </pre>
- *  
+ *
  * @package Piwik
  * @subpackage Piwik_ViewDataTable
  */
 abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
-{	
+{
 	/**
 	 * Number of elements to display in the graph.
 	 * @var int
@@ -70,7 +70,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 	/**
 	 * The percentage in tooltips is computed based on the sum of all values for the plotted column.
 	 * If the sum of the column in the data set is not the number of elements in the data set,
-	 * for example when plotting visits that have a given plugin enabled: 
+	 * for example when plotting visits that have a given plugin enabled:
 	 * one visit can have several plugins, hence the sum is much greater than the number of visits.
 	 * In this case displaying the percentage doesn't make sense.
 	 */
@@ -107,20 +107,16 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		if(!empty($graphLimit))
 		{
 			$offsetStartSummary = $this->getGraphLimit() - 1;
-			$this->dataTable->filter('AddSummaryRow', 
-										array($offsetStartSummary, 
-										Piwik_Translate('General_Others'), 
+			$this->dataTable->filter('AddSummaryRow',
+										array($offsetStartSummary,
+										Piwik_Translate('General_Others'),
 										Piwik_Archive::INDEX_NB_VISITS
 										)
 									);
 		}
 		$this->isDataAvailable = $this->dataTable->getRowsCount() != 0;
 
-		if(!$this->isDataAvailable)
-		{
-			$this->view->setTitle(Piwik_Translate('General_NoDataForGraph'), '{font-size: 25px;}');
-		}
-		else
+		if($this->isDataAvailable)
 		{
 			$this->initChartObjectData();
 		}

@@ -1,45 +1,34 @@
 <div id="{$properties.uniqueId}">
+	
 	{if !empty($reportDocumentation)}
 		<div class="reportDocumentation"><p>{$reportDocumentation}</p></div>
 	{/if}
+	
 	<div class="{if $graphType=='evolution'}dataTableGraphEvolutionWrapper{else}dataTableGraphWrapper{/if}">
 
-	{if $flashParameters.isDataAvailable || !$flashParameters.includeData}
-		<div><div id="{$chartDivId}">
-			{'General_RequiresFlash'|translate} >= {$flashParameters.requiredFlashVersion}. <a target="_blank" href="?module=Proxy&action=redirect&url={'http://piwik.org/faq/troubleshooting/#faq_53'|escape:"url"}">{'General_GraphHelp'|translate}</a>
-		</div></div>
+	{if $isDataAvailable}
+		
+		<div class="jqplot-{$graphType}" style="padding-left: 6px;">
+			<div id="{$chartDivId}" class="piwik-graph" style="position: relative; width: {$width}{if substr($width, -1) != '%'}px{/if}; height: {$height}{if substr($height, -1) != '%'}px{/if};"></div>
+		</div>
+		
 		<script type="text/javascript">
-<!--
-			{if $flashParameters.includeData}
-			piwikHelper.OFC.set("{$chartDivId}", '{$flashParameters.data}');
-			{/if}
-			swfobject.embedSWF(
-				"{$flashParameters.ofcLibraryPath}open-flash-chart.swf?cb={$cacheBuster}",
-				"{$chartDivId}",
-				"{$flashParameters.width}", "{$flashParameters.height}",
-				"{$flashParameters.requiredFlashVersion}",
-				"{$flashParameters.swfLibraryPath}expressInstall.swf",
-				{literal}{{/literal}
-					"{if $flashParameters.includeData}x-{/if}data-file":"{$urlGraphData|escape:"url"}",
-				{if $flashParameters.includeData}
-					"id":"{$chartDivId}",
-				{/if}
-					"loading":"{'General_Loading_js'|translate|escape:"html"}"
-				{literal}},
-				{{/literal}
-					"allowScriptAccess":"always",
-					"wmode":"transparent"
-				{literal}},
-				{{/literal}
-					"bgcolor":"#FFFFFF"
-				{literal}}{/literal}
-			);
-//-->
+			{literal}  window.setTimeout(function() {  {/literal}
+				var plot = new JQPlot({$data});
+				plot.render('{$graphType}', '{$chartDivId}', {literal} { {/literal}
+					noData: '{'General_NoDataForGraph'|translate}',
+					exportTitle: '{'General_ExportAsImage_js'|translate}',
+					exportText: '{'General_SaveImageOnYourComputer_js'|translate}'	
+				{literal} }); {/literal}
+			{literal}  }, 5);  {/literal}
 		</script>
+		
 	{else}
+		
 		<div><div id="{$chartDivId}" class="pk-emptyGraph">
 			{'General_NoDataForGraph'|translate}
 		</div></div>
+		
 	{/if}
 
 	{if $properties.show_footer}

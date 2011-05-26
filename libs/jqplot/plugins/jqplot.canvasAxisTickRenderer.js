@@ -131,7 +131,23 @@
             ropts.pt2px = this.pt2px;
         }
         
-        this._textRenderer = new $.jqplot.CanvasTextRenderer(ropts);
+        if (this.enableFontSupport) {
+            
+            function support_canvas_text() {
+                return !!(document.createElement('canvas').getContext && typeof document.createElement('canvas').getContext('2d').fillText == 'function');
+            }
+            
+            if (support_canvas_text()) {
+                this._textRenderer = new $.jqplot.CanvasFontRenderer(ropts);
+            }
+            
+            else {
+                this._textRenderer = new $.jqplot.CanvasTextRenderer(ropts); 
+            }
+        }
+        else {
+            this._textRenderer = new $.jqplot.CanvasTextRenderer(ropts); 
+        }
     };
     
     $.jqplot.CanvasAxisTickRenderer.prototype.init = function(options) {

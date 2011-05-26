@@ -23,48 +23,53 @@ JQPlot.prototype = {
 	/** Generic init function */
 	init: function(data) {
 		this.originalData = data;
-		this.elements = data.elements;
-		this.element = data.elements[0];
-		this.values = [];
-		if (typeof this.element != 'undefined') {
-			this.values = this.element.values;
-		}
+		this.params = data.params;
+		this.data = data.data;
+		this.tooltip = data.tooltip;
 		
-		this.data = [];
-		this.params = {
-			grid: {
-				drawGridLines: false,
-				background: '#ffffff',
-				borderColor: '#e7e7e7',
-				borderWidth: 0,
-				shadow: false
-			},
-			title: {
-				show: false
-			},
-			axesDefaults: {
-				pad: 1.0,
-				tickRenderer: $.jqplot.CanvasAxisTickRenderer,
-				tickOptions: {
-					showMark: false,
-					fontSize: '11px',
-					fontFamily: 'Arial'
-				}
+		this.params.grid = {
+			drawGridLines: false,
+			background: '#ffffff',
+			borderColor: '#e7e7e7',
+			borderWidth: 0,
+			shadow: false
+		};
+		
+		this.params.title = {
+			show: false
+		};
+		
+		this.params.axesDefaults = {
+			pad: 1.0,
+			tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+			tickOptions: {
+				showMark: false,
+				fontSize: '11px',
+				fontFamily: 'Arial'
 			}
 		};
+		
+		if (typeof this.params.axes.yaxis == 'undefined') {
+			this.params.axes.yaxis = {};
+		}
+		if (typeof this.params.axes.yaxis.tickOptions == 'undefined') {
+			this.params.axes.yaxis.tickOptions = {
+				formatString: '%d'
+			};
+		}
 	},
 	
 	/** Generic render function */
 	render: function(type, targetDivId, lang) {
 		// preapare the appropriate chart type
 		switch (type) {
-			case 'graphEvolution':
+			case 'evolution':
 				this.prepareEvolutionChart(targetDivId);
 				break;
-			case 'graphVerticalBar':
+			case 'bar':
 				this.prepareBarChart();
 				break;
-			case 'graphPie':
+			case 'pie':
 				this.preparePieChart();
 				break;
 			default:
@@ -78,7 +83,6 @@ JQPlot.prototype = {
 		var target = $('#' + targetDivId)
 		.bind('replot', function(e, data) {
 			target.trigger('piwikDestroyPlot');
-			
 			if (target.data('oldHeight') > 0) {
 				// handle replot after empty report
 				target.height(target.data('oldHeight'));
@@ -98,10 +102,6 @@ JQPlot.prototype = {
 		}
 		
 		// create jqplot chart
-		if (typeof this.data[0] != 'object') {
-			this.data = [this.data];
-		}
-		
 		try {
 			var plot = $.jqplot(targetDivId, this.data, this.params);
 		} catch(e) {
@@ -114,11 +114,16 @@ JQPlot.prototype = {
 		// bind tooltip
 		var self = this;
 		target.bind('jqplotDataHighlight', function(e, s, i, d) {
-			var tip = self.prepareTooltip(self.values[i].tip);
-			self.showTooltip(tip);
+			if (type == 'bar') {
+				self.showBarChartTooltip(i);
+			} else if (type == 'pie') {
+				self.showPieChartTooltip(i);
+			}
 		})
 		.bind('jqplotDataUnhighlight', function(e, s, i, d){
-			self.hideTooltip();
+			if (type != 'evolution') {
+				self.hideTooltip();
+			}
 		});
 		
 		// handle window resize
@@ -231,23 +236,10 @@ JQPlot.prototype = {
 	// ------------------------------------------------------------
 	
 	prepareEvolutionChart: function(targetDivId) {
-		var xticks = this.originalData['x_axis'].labels.labels;
-		for (var i = 0; i < xticks.length; i++) {
-			if (xticks[i] == '') {
-				xticks[i] = ' ';
-			}
-		}
-		
-		this.params.axes = {
-			yaxis: this.getYAxis(),
-			xaxis: {
-				pad: 1.0,
-				ticks: xticks,
-				renderer: $.jqplot.CategoryAxisRenderer,
-				tickOptions: {
-					showGridline: false
-				}
-			}
+		this.params.axes.xaxis.pad = 1.0;
+		this.params.axes.xaxis.renderer = $.jqplot.CategoryAxisRenderer;
+		this.params.axes.xaxis.tickOptions = {
+			showGridline: false
 		};
 		
 		this.params.seriesDefaults = {
@@ -258,16 +250,6 @@ JQPlot.prototype = {
 				shadow: false
 			}
 		};
-		
-		var labels = [];
-		this.params.series = [];
-		for (i = 0; i < this.elements.length; i++) {
-			var color = this.elements[i].colour.substring(2, 8);
-			this.params.series.push({
-				color: this.manipulateColor(color) 
-			});
-			labels.push(this.elements[i].text);
-		}
 		
 		this.params.piwikTicks = {
 			showTicks: true,
@@ -280,20 +262,21 @@ JQPlot.prototype = {
 		
 		$('#' + targetDivId)
 		.bind('jqplotMouseLeave', function(e, s, i, d){
-			self.hideTooltip(true);
+			self.hideTooltip();
 			$(this).css('cursor', 'default');
 		})
 		.bind('jqplotClick', function(e, s, i, d){
-			if (lastTick !== false) {
-				if (typeof self.values[lastTick]['on-click'] == 'string') {
-					eval(self.values[lastTick]['on-click']);
-				}
+			if (lastTick !== false && typeof self.params.axes.xaxis.onclick != 'undefined'
+					&& typeof self.params.axes.xaxis.onclick[lastTick] == 'string') {
+				var url = self.params.axes.xaxis.onclick[lastTick];
+				piwikHelper.redirectToUrl(url);
 			}
 		})
-		.bind('jqplotPiwikTickOver', function(e, tick, yFormatter){
+		.bind('jqplotPiwikTickOver', function(e, tick){
 			lastTick = tick;
-			self.showEvolutionChartTooltip(tick, yFormatter);
-			if (typeof self.values[lastTick]['on-click'] == 'string') {
+			self.showEvolutionChartTooltip(tick);
+			if (typeof self.params.axes.xaxis.onclick != 'undefined'
+					&& typeof self.params.axes.xaxis.onclick[lastTick] == 'string') {
 				$(this).css('cursor', 'pointer');
 			}
 		});
@@ -302,30 +285,26 @@ JQPlot.prototype = {
 			show: false
 		};
 		this.params.canvasLegend = {
-			show: true,
-			labels: labels
+			show: true
 		};
-		
-		for (var s = 0; s < this.elements.length; s++) {
-			this.data[s] = [];
-			for (var i = 0; i < this.values.length; i++) {
-				this.data[s].push(this.elements[s].values[i].value);
-			}
-		}
 	},
 	
-	showEvolutionChartTooltip: function(i, yFormatter) {
-		var head = this.prepareTooltip(this.values[i].tip);
-		head = head.substr(0, head.indexOf('<br>'));
-		
-		var values = [];
-		for (var s = 0; s < this.elements.length; s++) {
-			var element = this.elements[s];
-			values.push('<b>' + yFormatter(element.values[i].value) + '</b> ' + element.text);
+	showEvolutionChartTooltip: function(i) {
+		var label;
+		if (typeof this.params.axes.xaxis.labels != 'undefined') {
+			label = this.params.axes.xaxis.labels[i];
+		} else {
+			label = this.params.axes.xaxis.ticks[i];
 		}
 		
-		var html = head + '<br />' + values.join('<br />');
-		this.showTooltip(html, true);
+		var text = [];
+		for (var d = 0; d < this.data.length; d++) {
+			var value = this.formatY(this.data[d][i]);
+			var series = this.params.series[d].label;
+			text.push('<b>' + value + '</b> ' + series);
+		}
+		
+		this.showTooltip(label, text.join('<br />'));
 	},
 	
 	
@@ -334,19 +313,13 @@ JQPlot.prototype = {
 	// ------------------------------------------------------------
 	
 	preparePieChart: function() {
-		this.params.seriesColors = [];
-		for (var i = 0; i < this.element.colours.length; i++) {
-			this.params.seriesColors.push(
-					this.manipulateColor(this.element.colours[i]));
-		}
-		
 		this.params.seriesDefaults = {
 			renderer: $.jqplot.PieRenderer,
 			rendererOptions: {
 				shadow: false,
 				showDataLabels: false,
 				sliceMargin: 1,
-				startAngle: this.element['start-angle']
+				startAngle: 35
 			}
 		};
 		
@@ -363,11 +336,20 @@ JQPlot.prototype = {
 			show: true
 		};
 		
-		for (var i = 0; i < this.values.length; i++) {
-			var value = this.values[i];
-			this.data.push([value.label, value.value]);
+		// pie charts have a different data format
+		for (var i = 0; i < this.data[0].length; i++) {
+			this.data[0][i] = [this.params.axes.xaxis.ticks[i], this.data[0][i]];
 		}
-		this.data = [this.data];
+	},
+	
+	showPieChartTooltip: function(i) {
+		var value = this.formatY(this.data[0][i][1]);
+		var series = this.params.series[0].label;
+		var percentage = this.tooltip.percentages[0][i];
+		
+		var label = this.data[0][i][0];
+		var text = '<b>' + percentage + '%</b> (' + value + ' ' + series + ')';
+		this.showTooltip(label, text);
 	},
 	
 	
@@ -376,12 +358,6 @@ JQPlot.prototype = {
 	// ------------------------------------------------------------
 	
 	prepareBarChart: function() {
-		this.params.seriesColors = [];
-		var color = this.manipulateColor(this.element.colour);
-		for (var i = 0; i < this.values.length; i++) {
-			this.params.seriesColors.push(color);
-		}
-		
 		this.params.seriesDefaults = {
 			renderer: $.jqplot.BarRenderer,
 			rendererOptions: {
@@ -389,7 +365,7 @@ JQPlot.prototype = {
 				shadowDepth: 2,
 				shadowAlpha: .2,
 				fillToZero: true,
-				barMargin: this.values.length > 10 ? 2 : 10
+				barMargin: this.data[0].length > 10 ? 2 : 10
 			}
 		};
 		
@@ -399,32 +375,29 @@ JQPlot.prototype = {
 			showHighlight: false
 		};
 		
-		var ticks = this.originalData.x_axis.labels.labels;
-		for (var t = 0; t < ticks.length; t++) {
-			if (ticks[t] == '') {
-				ticks[t] = ' ';
-			}
-		}
-		
-		this.params.axes = {
-			xaxis: {
-				renderer: $.jqplot.CategoryAxisRenderer,
-				ticks: ticks,
-				tickOptions: {
-					showGridline: false
-				}
-			},
-			yaxis: this.getYAxis()
+		this.params.axes.xaxis.renderer = $.jqplot.CategoryAxisRenderer;
+		this.params.axes.xaxis.tickOptions = {
+			showGridline: false
 		};
-		
-		for (var i = 0; i < this.values.length; i++) {
-			this.data.push(this.values[i].top);
-		}
 		
 		this.params.canvasLegend = {
-			show: true,
-			labels: [this.element.text]
+			show: true
 		};
+	},
+	
+	showBarChartTooltip: function(i) {
+		var value = this.formatY(this.data[0][i]);
+		var series = this.params.series[0].label;
+		
+		var percentage = '';
+		if (typeof this.tooltip.percentages != 'undefined') {
+			var percentage = this.tooltip.percentages[0][i];
+			percentage = ' (' + percentage + '%)'; 
+		}
+		
+		var label = this.params.axes.xaxis.labels[i];
+		var text = '<b>' + value + '</b> ' + series + percentage;
+		this.showTooltip(label, text);
 	},
 	
 	
@@ -432,68 +405,38 @@ JQPlot.prototype = {
 	//  HELPER METHODS
 	// ------------------------------------------------------------
 	
-	/** Derive y axis and its ticks from configuration */
-	getYAxis: function() {
-		var config = {};
-		
-		var yaxis = this.originalData['y_axis'];
-		if (yaxis.steps > 0) {
-			var yticks = [];
-			for (var y = yaxis.min; y < yaxis.max + yaxis.steps; y += yaxis.steps) {
-				yticks.push(y);
-			}
-			config.ticks = yticks;
+	/** Get a formatted y values (with unit) */
+	formatY: function(value) {
+		var floatVal = parseFloat(value);
+		var intVal = parseInt(value, 10);
+		if (Math.abs(floatVal - intVal) >= 0.005) {
+			value = Math.round(floatVal * 100) / 100;
+		} else if (parseFloat(intVal) == floatVal) {
+			value = intVal;
+		} else {
+			value = floatVal;
+		}
+
+		if (typeof this.tooltip.yUnit != 'undefined') {
+			value += this.tooltip.yUnit;
 		}
 		
-		config.tickOptions = {
-			formatString: '%d'
-		};
-		
-		if (typeof this.originalData.y_axis.labels != 'undefined' &&
-				typeof this.originalData.y_axis.labels.text == 'string') {
-			var format = this.originalData['y_axis'].labels.text;
-			format = format.replace('#val#', '%s');
-			config.tickOptions.formatString = format;
-		}
-		
-		return config;
-	},
-	
-	/** Lighten colors */
-	manipulateColor: function(color) {
-		var rgb = $.jqplot.getColorComponents(color);
-		for (var i = 0; i <= 2; i++) {
-			rgb[i] += 0.15 * (255 - rgb[i]);
-			rgb[i] = parseInt(rgb[i], 10);
-		}
-		return 'rgb('+rgb[0]+','+rgb[1]+','+rgb[2]+')';
-	},
-	
-	/** Prepare tooltip html */
-	prepareTooltip: function(tip) {
-		return '<span class="tip-title">' + tip.replace('<br', '</span><br');
+		return value;
 	},
 	
 	/** Show the tppltip. The DOM element is created on the fly. */
-	showTooltip: function(html, force) {
+	showTooltip: function(head, text) {
 		if (jqPlotTooltip === false) {
 			this.initTooltip();
 		}
-		
-		jqPlotTooltip.forced = force;
-		jqPlotTooltip.html(html);
-		jqPlotTooltip.stop(true, true).fadeIn(250);
+		jqPlotTooltip.html('<span class="tip-title">' + head + '</span><br />' + text);
+		jqPlotTooltip.show();
 	},
 	
 	/** Hide the tooltip */
-	hideTooltip: function(force) {
-		if (jqPlotTooltip !== false && (!jqPlotTooltip.forced || force)) {
-			if (force) {
-				jqPlotTooltip.hide();
-			}
-			else {
-				jqPlotTooltip.stop(true, true).fadeOut(400);
-			}
+	hideTooltip: function() {
+		if (jqPlotTooltip !== false) {
+			jqPlotTooltip.hide();
 		}
 	},
 	
@@ -639,23 +582,8 @@ JQPlot.prototype = {
 		
 		var tick = Math.floor(datapos.xaxis + 0.5) - 1;
 		if (tick !== c.currentXTick) {
-			c.currentXTick = tick;
-			
-			if (typeof plot.axes.yaxis._ticks[0] == 'undefined') {
-				// needed for pie charts
-				var yFormatter = function(val){
-					return val;
-				};
-			}
-			else {
-				var yf = plot.axes.yaxis._ticks[0].formatter;
-				var yfstr = plot.axes.yaxis._ticks[0].formatString;
-				var yFormatter = function(val){
-					return yf(yfstr, val);
-				}
-			}
-			
-			plot.target.trigger('jqplotPiwikTickOver', [tick, yFormatter]);
+			c.currentXTick = tick;			
+			plot.target.trigger('jqplotPiwikTickOver', [tick]);
 			highlight(plot, tick);
 		}
 	}
@@ -760,7 +688,12 @@ JQPlot.prototype = {
 		var series = plot.legend._series;
 		for (i = 0; i < series.length; i++) {
 			var s = series[i];
-			var label = legend.labels[i] || s.label.toString();
+			var label;
+			if (legend.labels && legend.labels[i]) {
+				label = legend.labels[i];
+			} else {
+				label = s.label.toString(); 
+			} 
 			
 			ctx.fillStyle = s.color;
 			
@@ -901,7 +834,7 @@ JQPlot.prototype = {
 			if (right) {
 				x = x2 + 9;
 			} else {
-				x = x2 - 9 - ctx.measureText(labels[i]).width;
+				x = x2 - 9 - ctx.measureText(label).width;
 			}
 			
 			ctx.fillStyle = '#666666';

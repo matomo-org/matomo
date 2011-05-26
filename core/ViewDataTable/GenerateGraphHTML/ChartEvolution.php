@@ -1,30 +1,27 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik
  * @package Piwik
  */
 
 /**
  * Generates HTML embed for the Evolution graph
- *  
+ *
  * @package Piwik
  * @subpackage Piwik_ViewDataTable
  */
+
 class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDataTable_GenerateGraphHTML
 {
-	function __construct()
-	{
-		$this->width='100%';
-		$this->height=150;
-		// used for the CSS class to apply to the DIV containing the graph
-		$this->graphType = 'evolution';		
-	}
+	
+	protected $height = 170;
+	protected $graphType = 'evolution';
 
 	protected function getViewDataTableId()
 	{
@@ -37,12 +34,12 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
 	}
 	
 	function init($currentControllerName,
-						$currentControllerAction, 
+						$currentControllerAction,
 						$apiMethodToRequestDataTable,
 						$controllerActionCalledWhenRequestSubTable = null)
 	{
 		parent::init($currentControllerName,
-						$currentControllerAction, 
+						$currentControllerAction,
 						$apiMethodToRequestDataTable,
 						$controllerActionCalledWhenRequestSubTable);
 		
@@ -60,7 +57,7 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
 	public function getUniqueIdViewDataTable()
 	{
 		$id = parent::getUniqueIdViewDataTable();
-		if(!empty($this->parametersToModify['idGoal']))
+		if (!empty($this->parametersToModify['idGoal']))
 		{
 			$id .= $this->parametersToModify['idGoal'];
 		}
@@ -70,14 +67,14 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
 	/**
 	 * Sets the columns that will be displayed on output evolution chart
 	 * By default all columns are displayed ($columnsNames = array() will display all columns)
-	 * 
+	 *
 	 * @param array $columnsNames Array of column names eg. array('nb_visits','nb_hits')
 	 */
-	public function setColumnsToDisplay( $columnsNames)
+	public function setColumnsToDisplay($columnsNames)
 	{
-		if(!is_array($columnsNames)) 
+		if (!is_array($columnsNames))
 		{
-			if(strpos($columnsNames, ',') !== false)
+			if (strpos($columnsNames, ',') !== false)
 			{
         		// array values are comma separated
         		$columnsNames = explode(',', $columnsNames);
@@ -87,6 +84,7 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
 				$columnsNames = array($columnsNames);
 			}
 		}
-		$this->setParametersToModify( array('columns' => $columnsNames) );
+		$this->setParametersToModify(array('columns' => $columnsNames));
 	}
+	
 }
