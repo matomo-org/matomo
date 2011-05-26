@@ -32,7 +32,7 @@ function widgetize()
 						"&idSite="+piwik.idSite+
 						"&period="+piwik.period+
 						"&date="+broadcast.getValueFromUrl('date')+
-						"&disableLink=1";
+						"&disableLink=1&widget=1";
 		return sourceUrl;
 	}
 	

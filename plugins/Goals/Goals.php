@@ -170,26 +170,45 @@ class Piwik_Goals extends Piwik_Plugin
 		$array['goals'] = Piwik_Goals_API::getInstance()->getGoals($idsite);
 	}
 	
+	function addWidgets()
+	{
+		$idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
+		
+		// Ecommerce widgets
+		$site = new Piwik_Site($idSite);
+		if($site->isEcommerceEnabled())
+		{
+       		Piwik_AddWidget('Goals_Ecommerce', 'Goals_EcommerceOverview', 'Goals', 'widgetGoalReport', array('idGoal' => 'ecommerceOrder'));
+       		Piwik_AddWidget('Goals_Ecommerce', 'Goals_EcommerceOrdersLog', 'Goals', 'getOrdersLog');
+			$widgets = array(
+				array('Goals_ProductSKU', 'Goals', 'getItemsSku'), 
+				array('Goals_ProductName', 'Goals', 'getItemsName'), 
+				array('Goals_ProductCategory', 'Goals', 'getItemsCategory')
+			);
+			foreach($widgets as $widget)
+			{
+				Piwik_AddWidget('Goals_Ecommerce', $widget[0], $widget[1], $widget[2]);
+			}
+		}
+		
+		// Goals widgets
+		Piwik_AddWidget('Goals_Goals', 'Goals_GoalsOverview', 'Goals', 'widgetGoalsOverview');
+		$goals = Piwik_Tracker_GoalManager::getGoalDefinitions($idSite);
+		if(count($goals) > 0)
+		{
+			foreach($goals as $goal)
+			{
+        		Piwik_AddWidget('Goals_Goals', Piwik_Common::sanitizeInputValue($goal['name']), 'Goals', 'widgetGoalReport', array('idGoal' => $goal['idgoal']));
+			}
+		}
+	}
+	
 	protected function getGoalCategoryName($idSite)
 	{
 		$site = new Piwik_Site($idSite);
 		return $site->isEcommerceEnabled() ? 'Goals_EcommerceAndGoalsMenu' : 'Goals_Goals';
 	}
 	
-	function addWidgets()
-	{
-		$idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
-		$category = $this->getGoalCategoryName($idSite);
-		Piwik_AddWidget($category, 'Goals_GoalsOverview', 'Goals', 'widgetGoalsOverview');
-		$goals = Piwik_Tracker_GoalManager::getGoalDefinitions($idSite);
-		if(count($goals) > 0)
-		{
-			foreach($goals as $goal)
-			{
-        		Piwik_AddWidget($category, Piwik_Common::sanitizeInputValue($goal['name']), 'Goals', 'widgetGoalReport', array('idGoal' => $goal['idgoal']));
-			}
-		}
-	}
 	
 	function addMenus()
 	{

@@ -6,6 +6,9 @@
  */
 
 $(document).ready(function() {
+	// no Language sector on the page
+	if($("#languageSelection").size() == 0) return false;
+	
     $("#languageSelection input").hide();
     var select = $("#language").hide();
     var langSelect = $( "<a>" )

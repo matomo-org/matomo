@@ -57,7 +57,7 @@ widgetsHelper.getLoadWidgetAjaxRequest = function (widgetUniqueId, widgetParamet
 		async: true,
 		error: piwikHelper.ajaxHandleError,		
 		success: onWidgetLoadedCallback,
-		data: piwikHelper.getQueryStringFromParameters(widgetParameters) + "&idSite="+piwik.idSite+"&period="+piwik.period+"&date="+broadcast.getValueFromUrl('date')
+		data: piwikHelper.getQueryStringFromParameters(widgetParameters) + "&widget=1&idSite="+piwik.idSite+"&period="+piwik.period+"&date="+broadcast.getValueFromUrl('date')
 	};
 	return ajaxRequest;
 };
