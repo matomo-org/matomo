@@ -375,8 +375,8 @@ abstract class Piwik_Controller
 		$view->debugTrackVisitsInsidePiwikUI = Zend_Registry::get('config')->Debug->track_visits_inside_piwik_ui;
 		$view->isSuperUser = Zend_Registry::get('access')->isSuperUser();
 		$view->isCustomLogo = Zend_Registry::get('config')->branding->use_custom_logo;
-		$view->headerLogo = Piwik_API_API::getInstance()->getHeaderLogoUrl();
-		$view->logo = Piwik_API_API::getInstance()->getLogoUrl();
+		$view->logoHeader = Piwik_API_API::getInstance()->getHeaderLogoUrl();
+		$view->logoLarge = Piwik_API_API::getInstance()->getLogoUrl();
 	}
 	
 	/**

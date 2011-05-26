@@ -284,16 +284,16 @@ class Piwik_API_API
 	 */
 	public function getLogoUrl($pathOnly=false)
 	{
-	    if(Zend_Registry::get('config')->branding->use_custom_logo == 1 && file_exists(Piwik_Common::getPathToPiwikRoot() .'/themes/logo.png')) {
+        $logo = 'themes/default/images/logo.png';
+	    if(Zend_Registry::get('config')->branding->use_custom_logo == 1 
+	    	&& file_exists(Piwik_Common::getPathToPiwikRoot() .'/themes/logo.png')) 
+	    {
 	        $logo = 'themes/logo.png';
-	    } else {
-	        $logo = 'themes/default/images/logo.png';
-	    }
+	    } 
 	    if(!$pathOnly) {
 	        return Piwik::getPiwikUrl() . $logo;
-	    } else {
-	        return Piwik_Common::getPathToPiwikRoot() .'/'. $logo;
-	    }
+	    } 
+	    return Piwik_Common::getPathToPiwikRoot() .'/'. $logo;
 	}
 	
 	/**
@@ -301,16 +301,16 @@ class Piwik_API_API
 	 */
 	public function getHeaderLogoUrl($pathOnly=false)
 	{
-	    if(Zend_Registry::get('config')->branding->use_custom_logo == 1 && file_exists(Piwik_Common::getPathToPiwikRoot() .'/themes/logo-header.png')) {
+        $logo = 'themes/default/images/logo-header.png';
+	    if(Zend_Registry::get('config')->branding->use_custom_logo == 1 
+	    	&& file_exists(Piwik_Common::getPathToPiwikRoot() .'/themes/logo-header.png')) 
+	    {
 	        $logo = 'themes/logo-header.png';
-	    } else {
-	        $logo = 'themes/default/images/logo-header.png';
-	    }
+	    } 
 	    if(!$pathOnly) {
 	        return Piwik::getPiwikUrl() . $logo;
-	    } else {
-	        return Piwik_Common::getPathToPiwikRoot() .'/'. $logo;
 	    }
+	    return Piwik_Common::getPathToPiwikRoot() .'/'. $logo;
 	}
 	
     /**
