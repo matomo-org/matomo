@@ -87,11 +87,6 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		}
 		$this->mainAlreadyExecuted = true;
 
-		if (Zend_Registry::get('config')->Debug->disable_merged_requests)
-		{
-			@header( "Content-Type: application/json" );
-		}
-
 		// Graphs require the full dataset, setting limit to null (same as 'no limit')
 		$this->setLimit(null);
 		
