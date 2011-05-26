@@ -542,7 +542,7 @@ dataTable.prototype =
 				var format = $(this).attr('format');
 				var method = $(this).attr('methodToCall');
 				var filter_limit = $(this).attr('filter_limit');
-				
+				var segment = self.param.segment;
 				var param_date = self.param.date;
 				var date = $(this).attr('date');
 				if(typeof date != 'undefined') {
@@ -555,6 +555,9 @@ dataTable.prototype =
 						+'&period='+self.param.period
 						+'&date='+param_date
 						+'&token_auth='+piwik.token_auth;
+				if(typeof segment != 'undefined') {
+					str += '&segment='+segment;
+				}
 				if( filter_limit )
 				{
 					str += '&filter_limit=' + filter_limit;

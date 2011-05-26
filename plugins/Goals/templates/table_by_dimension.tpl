@@ -17,7 +17,7 @@
 		<li class='goalDimension' module='Goals' action='getItemsCategory'>
 			<span class='dimension'>{'Goals_ProductCategory'|translate}</span>
 		</li>
-		<li class='goalDimension' module='Live' action='getVisitorLog'>
+		<li class='goalDimension' module='Goals' action='getOrdersLog'>
 			<span class='dimension'>{'Goals_EcommerceOrdersLog'|translate}</span>
 		</li>
 		</ul>
@@ -66,17 +66,11 @@ $(document).ready( function() {
 			'action': action,
 		};
 		// Loading segment table means loading Goals view for Top Countries/etc.
-		if(module != 'Goals'
-					&& module != 'Live') {
+		if(module != 'Goals') {
 			widgetParameters['viewDataTable'] = 'tableGoals';
 			// 0 is Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE
 			widgetParameters['filter_only_display_idgoal'] = idGoal.length ? idGoal : 0;
 			widgetParameters['documentationForGoalsPage'] = 1;
-		}
-		if(action == 'getVisitorLog')
-		{
-			widgetParameters['filterEcommerce'] = 1;
-			widgetParameters['segment'] = 'visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart';
 		}
 		var onWidgetLoadedCallback = function (response) {
 			if(widgetUniqueId != self.expectedWidgetUniqueId) {

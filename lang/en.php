@@ -521,6 +521,7 @@ $translations = array(
 	'Goals_Goals' => 'Goals',
 	'Goals_EcommerceAndGoalsMenu' => 'Ecommerce & Goals',
 	'Goals_Ecommerce' => 'Ecommerce',
+	'Goals_EcommerceOverview' => 'Ecommerce Overview',
 	'Goals_EcommerceOrder' => 'Ecommerce order',
 	'Goals_EcommerceOrdersLog' => 'Ecommerce orders log',
 	'Goals_AbandonedCart' => 'Abandoned Cart',

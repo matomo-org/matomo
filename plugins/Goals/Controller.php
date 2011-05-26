@@ -48,14 +48,14 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	
 	public function widgetGoalReport()
 	{
-		$view = $this->getGoalReportView();
+		$view = $this->getGoalReportView($idGoal = Piwik_Common::getRequestVar('idGoal', null, 'string'));
 		$view->displayFullReport = false;
 		echo $view->render();
 	}
 	
 	public function goalReport()
 	{
-		$view = $this->getGoalReportView();
+		$view = $this->getGoalReportView($idGoal = Piwik_Common::getRequestVar('idGoal', null, 'string'));
 		$view->displayFullReport = true;
         $view->goalDimensions = Piwik_Goals::getReportsWithGoalMetrics();
 		echo $view->render();
@@ -66,7 +66,6 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$view = $this->getGoalReportView($idGoal = 'ecommerceOrder');
 		$view->displayFullReport = true;
 		$view->goalDimensions = Piwik_Goals::getReportsWithGoalMetrics();
-		$view->ecommerce = true;
 		echo $view->render();
 	}
 	protected function getItemsView($fetch, $type, $function, $api)
@@ -127,27 +126,34 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	{
 		return $this->getItemsView($fetch, 'Goals_ProductCategory', __FUNCTION__, "Goals.getItemsCategory");
 	}
+	public function getOrdersLog($fetch = false)
+	{
+		$saveGET = $_GET;
+		$_GET['filterEcommerce'] = 1;
+		$_GET['widget'] = 1;
+		$_GET['segment'] = 'visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart';
+		$output = Piwik_FrontController::getInstance()->dispatch('Live', 'getVisitorLog', array($fetch));
+		$_GET = $saveGET;
+		return $output;
+	}
 	
 	protected function getGoalReportView($idGoal = false)
 	{
-		if($idGoal === false)
-		{
-			$idGoal = Piwik_Common::getRequestVar('idGoal', null, 'string');
-			if(!isset($this->goals[$idGoal]))
-			{
-				Piwik::redirectToModule('Goals', 'index', array('idGoal' => null));
-			}
-		}
+		$view = Piwik_View::factory('single_goal');
 		if($idGoal == 'ecommerceOrder')
 		{
 			$goalDefinition['name'] = Piwik_Translate('Goals_Ecommerce');
 			$goalDefinition['allow_multiple'] = true;
+			$view->ecommerce = true;
 		}
 		else
 		{
+			if(!isset($this->goals[$idGoal]))
+			{
+				Piwik::redirectToModule('Goals', 'index', array('idGoal' => null));
+			}
 			$goalDefinition = $this->goals[$idGoal];
 		}
-		$view = Piwik_View::factory('single_goal');
 		$this->setGeneralVariablesView($view);
 		$goal = $this->getMetricsForGoal($idGoal);
 		foreach($goal as $name => $value)

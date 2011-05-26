@@ -1,8 +1,13 @@
 <div id="{$properties.uniqueId}" class="visitorLog">
-<h2>{if $javascriptVariablesToSet.filterEcommerce}{'Goals_EcommerceOrdersLog'|translate}{else}{'Live_VisitorLog'|translate}{/if}</h2>
-{if !empty($reportDocumentation)}
-	<div class="reportDocumentation"><p>{$reportDocumentation}</p></div>
+{if !$isWidget}
+	<h2>{if $javascriptVariablesToSet.filterEcommerce}{'Goals_EcommerceOrdersLog'|translate}{else}{'Live_VisitorLog'|translate}{/if}</h2>
+		
+	{if !empty($reportDocumentation)}
+		<div class="reportDocumentation"><p>{$reportDocumentation}</p></div>
+	{/if}
 {/if}
+{capture assign='displayVisitorsInOwnColumn'}{if $isWidget}0{else}1{/if}{/capture}
+
 <a graphid="VisitsSummarygetEvolutionGraph" name="evolutionGraph"></a>
 {assign var=maxIdVisit value=0}
 {if isset($arrayDataTable.result) and $arrayDataTable.result == 'error'}
@@ -20,8 +25,10 @@
 	<th style="display:none"></th>
 	<th id="label" class="sortable label" style="cursor: auto;width:12%" width="12%">
 	<div id="thDIV">{'General_Date'|translate}<div></th>
+	{if $displayVisitorsInOwnColumn}
 	<th id="label" class="sortable label" style="cursor: auto;width:13%" width="13%">
 	<div id="thDIV">{'General_Visitors'|translate}<div></th>
+	{/if}
 	<th id="label" class="sortable label" style="cursor: auto;width:15%" width="15%">
 	<div id="thDIV">{'Live_Referrer_URL'|translate}<div></th>
 	<th id="label" class="sortable label" style="cursor: auto;width:62%" width="62%">
@@ -35,11 +42,43 @@
 {assign var=maxIdVisit value=$visitor.columns.idVisit}
 {/if}
 
+	{capture assign='visitorColumnContent'}
+		&nbsp;<img src="{$visitor.columns.countryFlag}" title="{$visitor.columns.country}, Provider {$visitor.columns.provider}" />
+		&nbsp;<img src="{$visitor.columns.browserIcon}" title="{$visitor.columns.browserName} with plugins {$visitor.columns.plugins} enabled" />
+		&nbsp;<img src="{$visitor.columns.operatingSystemIcon}" title="{$visitor.columns.operatingSystem}, {$visitor.columns.resolution} ({$visitor.columns.screenType})" />
+		{if $visitor.columns.visitorTypeIcon}
+			&nbsp;- <img src="{$visitor.columns.visitorTypeIcon}" title="{'General_ReturningVisitor'|translate}" />
+		{/if}
+		
+		{if !$displayVisitorsInOwnColumn} <br/> <br/> {/if}
+		
+		&nbsp;{if $visitor.columns.visitConverted}
+		<span title="{'General_VisitConvertedNGoals'|translate:$visitor.columns.goalConversions}" class='visitorRank' {if !$displayVisitorsInOwnColumn}style='margin-left:0'{/if}>
+		<img src="{$visitor.columns.visitConvertedIcon}" />
+		<span class='hash'>#</span>{$visitor.columns.goalConversions}
+		{if $visitor.columns.visitEcommerceStatusIcon}
+			&nbsp;- <img src="{$visitor.columns.visitEcommerceStatusIcon}" title="{$visitor.columns.visitEcommerceStatus}"/>
+		{/if}
+		</span>{/if}
+		<br/>
+		{if $displayVisitorsInOwnColumn}
+			{if count($visitor.columns.pluginsIcons) > 0}
+				<hr/>
+				{'UserSettings_Plugins'|translate}:
+					{foreach from=$visitor.columns.pluginsIcons item=pluginIcon name=plugins}
+						<img src="{$pluginIcon.pluginIcon}" title="{$pluginIcon.pluginName|capitalize:true}" alt="{$pluginIcon.pluginName|capitalize:true}" />
+					{/foreach}
+			{/if}
+		{/if}
+	{/capture}
+	
+	
 	<tr class="label{cycle values='odd,even'}">
 	<td style="display:none;"></td>
 	<td class="label" style="width:12%" width="12%">
 
-				<strong>{$visitor.columns.serverDatePrettyFirstAction} - {$visitor.columns.serverTimePrettyFirstAction}</strong>
+				<strong>{$visitor.columns.serverDatePrettyFirstAction} 
+				{if $isWidget}<br/>{else}-{/if} {$visitor.columns.serverTimePrettyFirstAction}</strong>
 				{if !empty($visitor.columns.visitIp)} <br/><span title="{if !empty($visitor.columns.visitorId)}{'General_VisitorID'|translate}: {$visitor.columns.visitorId}{/if}">IP: {$visitor.columns.visitIp}</span>{/if}
 				
 				{if (isset($visitor.columns.provider)&&$visitor.columns.provider!='IP')} 
@@ -57,33 +96,18 @@
 						<br/><acronym title="{'CustomVariables_CustomVariables'|translate} (index {$id})">{$customVariable.$name|truncate:30:"...":true}</acronym>: {$customVariable.$value|truncate:50:"...":true}
 					{/foreach}
 				{/if}
-				
+				{if !$displayVisitorsInOwnColumn}
+					<br/>
+					{$visitorColumnContent}
+				{/if}
 	</td>
+	
+	{if $displayVisitorsInOwnColumn}
 	<td class="label" style="width:13%" width="13%">
-		&nbsp;<img src="{$visitor.columns.countryFlag}" title="{$visitor.columns.country}, Provider {$visitor.columns.provider}" />
-		&nbsp;<img src="{$visitor.columns.browserIcon}" title="{$visitor.columns.browserName} with plugins {$visitor.columns.plugins} enabled" />
-		&nbsp;<img src="{$visitor.columns.operatingSystemIcon}" title="{$visitor.columns.operatingSystem}, {$visitor.columns.resolution} ({$visitor.columns.screenType})" />
-		{if $visitor.columns.visitorTypeIcon}
-			&nbsp;- <img src="{$visitor.columns.visitorTypeIcon}" title="{'General_ReturningVisitor'|translate}" />
-		{/if}
-		&nbsp;{if $visitor.columns.visitConverted}
-		<span title="{'General_VisitConvertedNGoals'|translate:$visitor.columns.goalConversions}" class='visitorRank'>
-		<img src="{$visitor.columns.visitConvertedIcon}" />
-		<span class='hash'>#</span>{$visitor.columns.goalConversions}
-		{if $visitor.columns.visitEcommerceStatusIcon}
-			&nbsp;- <img src="{$visitor.columns.visitEcommerceStatusIcon}" title="{$visitor.columns.visitEcommerceStatus}"/>
-		{/if}
-		</span>{/if}
-		<br/>
-		{if count($visitor.columns.pluginsIcons) > 0}
-			<hr />
-			{'UserSettings_Plugins'|translate}:
-				{foreach from=$visitor.columns.pluginsIcons item=pluginIcon}
-					<img src="{$pluginIcon.pluginIcon}" title="{$pluginIcon.pluginName|capitalize:true}" alt="{$pluginIcon.pluginName|capitalize:true}" />
-				{/foreach}
-		{/if}
+		{$visitorColumnContent}
 	</td>
-
+	{/if}
+	
 	<td class="column" style="width:20%" width="20%">
 		<div class="referer">
 			{if $visitor.columns.referrerType == 'website'}
@@ -116,7 +140,7 @@
 			{if $visitor.columns.referrerType == 'direct'}{'Referers_DirectEntry'|translate}{/if}
 		</div>
 	</td>
-	<td class="column {if $visitor.columns.visitConverted}highlightField{/if}" style="width:55%" width="55%">
+	<td class="column {if $visitor.columns.visitConverted && !$isWidget}highlightField{/if}" style="width:55%" width="55%">
 			<strong>
 				{$visitor.columns.actionDetails|@count}
 				{if $visitor.columns.actionDetails|@count <= 1}
@@ -148,7 +172,7 @@
 					{if $action.type == 'ecommerceOrder'}<strong>{'Goals_EcommerceOrder'|translate}</strong> <span style='color:#666666'>({$action.orderId})</span>
 					{else}<strong>{'Goals_AbandonedCart'|translate}</strong>
 					{/if} <br/>
-					<span style='margin-left:20px'>
+					<span {if !$isWidget}style='margin-left:20px'{/if}>
 					{if $action.type == 'ecommerceOrder'}
 						<abbr title="
 						{'Live_GoalRevenue'|translate}: {$action.revenue|money:$javascriptVariablesToSet.idSite} 
@@ -165,7 +189,7 @@
  					
  					{* Ecommerce items in Cart/Order *}
  					{if !empty($action.itemDetails)}
- 					<ul style='list-style:square;margin-left:50px'>
+ 					<ul style='list-style:square;margin-left:{if $isWidget}15{else}50{/if}px'>
  					{foreach from=$action.itemDetails item=product}
 						<li>{$product.itemSKU}{if !empty($product.itemName)}: {$product.itemName}{/if}{if !empty($product.itemCategory)} ({$product.itemCategory}){/if}, 
 						{'General_Quantity'|translate}: {$product.quantity},
@@ -219,6 +243,7 @@
 	{/if}
 	{include file="CoreHome/templates/datatable_js.tpl"}
 	<script type="text/javascript" defer="defer">
+	$(document).ready(function(){ldelim} 
 		var dataTableVisitorLog = dataTables['{$properties.uniqueId}'];
 		dataTableVisitorLog.param.maxIdVisit = {$maxIdVisit};
 		{literal}
@@ -226,7 +251,8 @@
 			$('.dataTablePrevious').hide();
 			dataTableVisitorLog.param.previous = 0;
 		}
-		{/literal}
+	});
+	{/literal}
 	</script>
 {/if}
 
