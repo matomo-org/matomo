@@ -16,10 +16,8 @@
  */
 class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 {
-    const LOGO_HEIGHT = 110;
-    const LOGO_WIDTH = 280;
-    const LOGO_SMALL_HEIGHT = 50;
-    const LOGO_SMALL_WIDTH = 127;
+    const LOGO_HEIGHT = 300;
+    const LOGO_SMALL_HEIGHT = 100;
     
 	public function index()
 	{
@@ -129,35 +127,40 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 	
 	public function uploadCustomLogo()
 	{
-		if(!empty($_FILES['customLogo']) && empty($_FILES['customLogo']['error'])) {
-			$file = $_FILES['customLogo']['tmp_name'];
-			$error = false;
-			
-			list($width, $height) = getimagesize($file);
-
-
-			switch($_FILES['customLogo']['type']) {
-				case 'image/jpeg':
-					$image = imagecreatefromjpeg($file);
-					break;
-				case 'image/png':
-					$image = imagecreatefrompng($file);
-					break;
-				default:
-					echo '0';
-					return;
-			}
-
-			$logo = imagecreatetruecolor(self::LOGO_WIDTH, self::LOGO_HEIGHT);
-			$logoSmall = imagecreatetruecolor(self::LOGO_SMALL_WIDTH, self::LOGO_SMALL_HEIGHT);
-			imagecopyresized($logo, $image, 0, 0, 0, 0, self::LOGO_WIDTH, self::LOGO_HEIGHT, $width, $height);
-			imagecopyresized($logoSmall, $image, 0, 0, 0, 0, self::LOGO_SMALL_WIDTH, self::LOGO_SMALL_HEIGHT, $width, $height);
-
-			imagepng($logo, Piwik_Common::getPathToPiwikRoot().'/themes/logo.png', 3);
-			imagepng($logoSmall, Piwik_Common::getPathToPiwikRoot().'/themes/logo-header.png', 3);
-			echo '1';
+		if(empty($_FILES['customLogo']) 
+			|| !empty($_FILES['customLogo']['error'])) 
+		{
+			echo '0';
 			return;
 		}
-		echo '0';
+		
+		$file = $_FILES['customLogo']['tmp_name'];
+		$error = false;
+		
+		list($width, $height) = getimagesize($file);
+		switch($_FILES['customLogo']['type']) {
+			case 'image/jpeg':
+				$image = imagecreatefromjpeg($file);
+				break;
+			case 'image/png':
+				$image = imagecreatefrompng($file);
+				break;
+			default:
+				echo '0';
+				return;
+		}
+
+		$widthExpected = round($width * self::LOGO_HEIGHT / $height);
+		$smallWidthExpected = round($width * self::LOGO_SMALL_HEIGHT / $height); 
+		
+		$logo = imagecreatetruecolor($widthExpected, self::LOGO_HEIGHT);
+		$logoSmall = imagecreatetruecolor($smallWidthExpected, self::LOGO_SMALL_HEIGHT);
+		imagecopyresized($logo, $image, 0, 0, 0, 0, $widthExpected, self::LOGO_HEIGHT, $width, $height);
+		imagecopyresized($logoSmall, $image, 0, 0, 0, 0, $smallWidthExpected, self::LOGO_SMALL_HEIGHT, $width, $height);
+
+		imagepng($logo, Piwik_Common::getPathToPiwikRoot().'/themes/logo.png', 3);
+		imagepng($logoSmall, Piwik_Common::getPathToPiwikRoot().'/themes/logo-header.png', 3);
+		echo '1';
+		return;
 	}
 }
