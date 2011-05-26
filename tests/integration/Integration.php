@@ -243,7 +243,10 @@ abstract class Test_Integration extends Test_Database
     			elseif(
     				(strpos($methodName, 'get') !== 0
     				|| in_array($moduleName, $this->apiNotToCall) === true
-    				|| in_array($apiId, $this->apiNotToCall) === true)
+    				|| in_array($apiId, $this->apiNotToCall) === true
+    				|| $methodName == 'getLogoUrl'
+    				|| $methodName == 'getHeaderLogoUrl'
+    				)
     			)
     			{
     				$skipped[] = $apiId;

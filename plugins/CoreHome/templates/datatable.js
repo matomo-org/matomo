@@ -543,20 +543,32 @@ dataTable.prototype =
 				var method = $(this).attr('methodToCall');
 				var filter_limit = $(this).attr('filter_limit');
 				var segment = self.param.segment;
+				var idGoal = self.param.idGoal;
 				var param_date = self.param.date;
 				var date = $(this).attr('date');
 				if(typeof date != 'undefined') {
 					param_date = date; 
 				}
+				var period = self.param.period;
+				
+				// RSS does not work for period=range
+				if(format == 'RSS'
+						&& self.param.period == 'range') {
+					period = 'day';
+				}
 				var str = 'index.php?module=API'
 						+'&method='+method
 						+'&format='+format
 						+'&idSite='+self.param.idSite
-						+'&period='+self.param.period
+						+'&period='+period
 						+'&date='+param_date
 						+'&token_auth='+piwik.token_auth;
 				if(typeof segment != 'undefined') {
 					str += '&segment='+segment;
+				}
+				// Export Goals specific reports
+				if(typeof idGoal != 'undefined') {
+					str += '&idGoal='+idGoal;
 				}
 				if( filter_limit )
 				{
