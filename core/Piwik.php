@@ -1326,6 +1326,14 @@ class Piwik
 		{
 			return Piwik::getPrettyMoney($value, $idSite, $htmlAllowed);
 		}
+		// Add % symbol to rates
+		if(strpos($columnName, '_rate') !== false)
+		{
+			if(strpos($value, "%") === false)
+			{
+				return $value . "%";
+			}
+		}
 		return $value;
 	}
 

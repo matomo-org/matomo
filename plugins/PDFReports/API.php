@@ -307,7 +307,7 @@ class Piwik_PDFReports_API
         	{
         		$apiParameters = $action['parameters'];
         	}
-        	$report = Piwik_API_API::getInstance()->getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false, $apiParameters, $language);
+        	$report = Piwik_API_API::getInstance()->getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false, $apiParameters, $idGoal = false, $language);
         	$websiteName = $report['website'];
         	$prettyDate = $report['prettyDate'];
         	$processedReports[] = $report;

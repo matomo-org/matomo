@@ -329,7 +329,7 @@ abstract class Test_Integration extends Test_Database
 	 * 
 	 * @return bool Passed or failed
 	 */
-	function callGetApiCompareOutput($testName, $formats = 'xml', $idSite = false, $dateTime = false, $periods = false, $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal = false)
+	function callGetApiCompareOutput($testName, $formats = 'xml', $idSite = false, $dateTime = false, $periods = false, $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal = false, $apiModule = false, $apiAction = false)
 	{
 		$pass = true;
 		
@@ -380,6 +380,14 @@ abstract class Test_Integration extends Test_Database
 		{
 			$parametersToSet['visitorId'] = $visitorId; 
 		}
+		if(!empty($apiModule ))
+		{
+			$parametersToSet['apiModule'] = $apiModule; 
+		}
+		if(!empty($apiAction))
+		{
+			$parametersToSet['apiAction'] = $apiAction; 
+		}
 		if(!empty($segment))
 		{
 			$parametersToSet['segment'] = $segment;
@@ -419,7 +427,7 @@ abstract class Test_Integration extends Test_Database
     		$expected = @file_get_contents($expectedFilePath  );
     		if(empty($expected))
     		{
-    			$this->fail(" ERROR: Could not find expected API output '$expectedFilePath'. For new tests, to pass the test, you can copy files from the processed/ directory into $pathExpected  after checking that the output is valid.");
+    			$this->fail(" ERROR: Could not find expected API output '$expectedFilePath'. For new tests, to pass the test, you can copy files from the processed/ directory into $pathExpected  after checking that the output is valid. ----- URL was $requestUrl");
     			continue;
     		}
 			// When tests run on Windows EOL delimiters are not the same as UNIX default EOL used in the renderers
@@ -471,7 +479,7 @@ abstract class Test_Integration extends Test_Database
     			$responseToTest = str_replace("\n", "", $response);
     			$expectedToTest = str_replace("\n", "", $expected);
     		}
-    		$pass = $pass && $this->assertEqual(trim($responseToTest), trim($expectedToTest), "<br/>\nDifferences with expected in: $processedFilePath %s");
+    		$pass = $pass && $this->assertEqual(trim($responseToTest), trim($expectedToTest), "<br/>\nDifferences with expected in: $processedFilePath %s ----- URL was $requestUrl");
     		if($response != $expected)
     		{
     			var_dump('ERROR FOR ' . $apiId . ' -- FETCHED RESPONSE, then EXPECTED RESPONSE - '.$requestUrl);

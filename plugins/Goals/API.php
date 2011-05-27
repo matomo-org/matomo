@@ -282,13 +282,13 @@ class Piwik_Goals_API
 		if(empty($columns))
 		{
 			$columns = Piwik_Goals::getGoalColumns($idGoal);
-			if($idGoal == 'ecommerceOrder')
+			if($idGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER)
 			{
 				$columns[] = 'avg_order_revenue';
 			}
 		}
 		if(in_array('avg_order_revenue', $columns)
-			&& $idGoal == 'ecommerceOrder')
+			&& $idGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER)
 		{
 			$columns[] = 'nb_conversions';
 			$columns[] = 'revenue';
@@ -306,7 +306,7 @@ class Piwik_Goals_API
 		{
 			$dataTable->renameColumn($oldName, $columns[$id]);
 		}
-		if($idGoal == 'ecommerceOrder')
+		if($idGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER)
 		{
 			if($dataTable instanceof Piwik_DataTable_Array)
 			{

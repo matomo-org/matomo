@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<website>Piwik test</website>
+	<prettyDate>Tuesday 5 April 2011</prettyDate>
+	<metadata>
+		<category>Goals</category>
+		<name>Goal triggered js ONCE</name>
+		<module>Goals</module>
+		<action>get</action>
+		<parameters>
+			<idGoal>1</idGoal>
+
+		</parameters>
+		<metrics>
+			<nb_conversions>Conversions</nb_conversions>
+			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
+			<conversion_rate>Conversion Rate</conversion_rate>
+			<revenue>Revenue</revenue>
+
+		</metrics>
+		<uniqueId>Goals_get_idGoal--1</uniqueId>
+
+	</metadata>
+	<columns>
+		<label>Name</label>
+		<value>Value</value>
+
+	</columns>
+	<reportData>
+		<row>
+			<label>Conversions</label>
+			<value>1</value>
+
+		</row>
+		<row>
+			<label>Visits with Conversions</label>
+			<value>1</value>
+
+		</row>
+		<row>
+			<label>Conversion Rate</label>
+			<value>33.33%</value>
+
+		</row>
+		<row>
+			<label>Revenue</label>
+			<value>$ 10</value>
+
+		</row>
+
+	</reportData>
+	<reportMetadata/>
+
+</result>

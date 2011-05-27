@@ -2,7 +2,7 @@
 <result>
 	<row>
 		<category>Ecommerce</category>
-		<name>Ecommerce order</name>
+		<name>Ecommerce Orders</name>
 		<module>Goals</module>
 		<action>get</action>
 		<parameters>
@@ -10,7 +10,7 @@
 
 		</parameters>
 		<metrics>
-			<nb_conversions>Conversions</nb_conversions>
+			<nb_conversions>Ecommerce Orders</nb_conversions>
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 			<conversion_rate>Conversion Rate</conversion_rate>
 			<revenue>Revenue</revenue>
@@ -18,11 +18,30 @@
 			<revenue_tax>Tax</revenue_tax>
 			<revenue_shipping>Shipping</revenue_shipping>
 			<revenue_discount>Discount</revenue_discount>
-			<items>Quantity</items>
+			<items>Purchased Products</items>
 			<avg_order_revenue>Average Order Value</avg_order_revenue>
 
 		</metrics>
 		<uniqueId>Goals_get_idGoal--ecommerceOrder</uniqueId>
+
+	</row>
+	<row>
+		<category>Ecommerce</category>
+		<name>Abandoned Carts</name>
+		<module>Goals</module>
+		<action>get</action>
+		<parameters>
+			<idGoal>ecommerceAbandonedCart</idGoal>
+
+		</parameters>
+		<metrics>
+			<nb_conversions>Abandoned Carts</nb_conversions>
+			<conversion_rate>Conversion Rate</conversion_rate>
+			<revenue>Revenue left in cart</revenue>
+			<items>Products left in cart</items>
+
+		</metrics>
+		<uniqueId>Goals_get_idGoal--ecommerceAbandonedCart</uniqueId>
 
 	</row>
 	<row>
