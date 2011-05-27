@@ -151,15 +151,15 @@ class Piwik_API_Proxy
 	{
 		$returnedValue = null;
 		
+		// Temporarily sets the Request array to this API call context
+		$saveGET = $_GET;
+		foreach($parametersRequest as $param => $value) {
+			$_GET[$param] = $value;
+		}
+		
 		try {
 			$this->registerClass($className);
 
-			// Temporarily sets the Request array to this API call context
-			$saveGET = $_GET;
-			foreach($parametersRequest as $param => $value) {
-				$_GET[$param] = $value;
-			}
-			
 			// instanciate the object
 			$object = call_user_func(array($className, "getInstance"));
 			
@@ -194,7 +194,8 @@ class Piwik_API_Proxy
 			} catch (Exception $e) {
 				// logger can fail (eg. Tracker request)
 			}
-		} catch(Piwik_Access_NoAccessException $e) {
+		} catch (Exception $e) {
+			$_GET = $saveGET;
 			throw $e;
 		}
 

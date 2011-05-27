@@ -339,7 +339,9 @@ class Piwik_API_API
     		if($report['module'] == $apiModule
     			&& $report['action'] == $apiAction)
 			{
-				if(empty($apiParameters))
+				// No custom parameters 
+				if(empty($apiParameters)
+					&& empty($report['parameters']))
 				{
         			return array($report);
 				}
@@ -442,13 +444,18 @@ class Piwik_API_API
 		return $availableReports;
 	}
 
-	public function getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false, $apiParameters = false, $language = false, $showTimer = true)
+	public function getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false, $apiParameters = false, $idGoal = false, $language = false, $showTimer = true)
     {
     	$timer = new Piwik_Timer();
     	if($apiParameters === false)
     	{
     		$apiParameters = array();
     	}
+		if(!empty($idGoal)
+			&& empty($apiParameters['idGoal']))
+		{
+			$apiParameters['idGoal'] = $idGoal;
+		}
         // Is this report found in the Metadata available reports?
         $reportMetadata = $this->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period);
         if(empty($reportMetadata))

@@ -50,7 +50,7 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 	public function __construct( $table, $enable = true, $processOnlyIdGoal )
 	{
 		$this->processOnlyIdGoal = $processOnlyIdGoal;
-		$this->isEcommerce = $this->processOnlyIdGoal == 'ecommerceOrder' || $this->processOnlyIdGoal == 'ecommerceAbandonedCart'; 
+		$this->isEcommerce = $this->processOnlyIdGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER || $this->processOnlyIdGoal == Piwik_Archive::LABEL_ECOMMERCE_CART; 
 		// Ensure that all rows with no visit but conversions will be displayed
 		$this->deleteRowsWithNoVisit = false;
 		parent::__construct($table);
@@ -77,12 +77,12 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 				$revenue = 0;
 				foreach($goals as $goalId => $columnValue)
 				{
-					if($goalId == 'ecommerceAbandonedCart')
+					if($goalId == Piwik_Archive::LABEL_ECOMMERCE_CART)
 					{
 						continue;
 					}
 					if($goalId >= Piwik_Tracker_GoalManager::IDGOAL_ORDER
-						|| $goalId == 'ecommerceOrder'
+						|| $goalId == Piwik_Archive::LABEL_ECOMMERCE_ORDER
 					)
 					{
 						$revenue += (int)$this->getColumn($columnValue, Piwik_Archive::INDEX_GOAL_REVENUE, Piwik_Archive::$mappingFromIdToNameGoal);

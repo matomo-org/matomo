@@ -35,11 +35,11 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	{
 		$this->setApiNotToCall(array());
 		$dateTime = '2011-04-05 00:11:42';
-		$idSite = $this->createWebsite($dateTime);
+		$idSite = $this->createWebsite($dateTime, $ecommerce=1);
 		$idSite2 = $this->createWebsite($dateTime);
 		
 		$idGoal = Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js ONCE', 'title', 'incredible', 'contains', $caseSensitive=false, $revenue=10, $allowMultipleConversions = true);
-        
+        $idGoalStandard = $idGoal;
         $t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
     	// VISIT NO 1
         $t->setUrl( 'http://example.org/index.htm' );
@@ -170,12 +170,39 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $abandonedCarts = 1;
 		$this->setApiToCall( array('Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory') );
         $this->callGetApiCompareOutput(__FUNCTION__ . '_AbandonedCarts', 'xml', $idSite, $dateTime, $periods = array('day', 'week'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts);
-		
+
+        // Test metadata products
+		$this->setApiToCall( array('API.getProcessedReport'	) );
+        $apiModule = 'Goals';
+        $apiAction = 'getItemsSku';
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_Metadata_ItemsSku', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal = false, $apiModule, $apiAction);
+        $apiModule = 'Goals';
+        $apiAction = 'getItemsCategory';
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_Metadata_ItemsCategory', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal = false, $apiModule, $apiAction);
+
+        // Test metadata Goals.get for Ecommerce orders & Carts
+        $idGoal = Piwik_Archive::LABEL_ECOMMERCE_ORDER;
+        $apiModule = 'Goals';
+        $apiAction = 'get';
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_Metadata_Goals.Get_Order', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal, $apiModule, $apiAction);
+        $idGoal = Piwik_Archive::LABEL_ECOMMERCE_CART;
+        $apiModule = 'Goals';
+        $apiAction = 'get';
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_Metadata_Goals.Get_AbandonedCart', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal, $apiModule, $apiAction);
+        // Normal standard goal
+        $idGoal = $idGoalStandard;
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_Metadata_Goals.Get_NormalGoal', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal, $apiModule, $apiAction);
+        // Non existing goal id should return error
+        $idGoal = 'FAKE IDGOAL';
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_Metadata_Goals.Get_NotExistingGoal', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal, $apiModule, $apiAction);
+        
         // Test Goals.get with idGoal=ecommerceOrder and ecommerceAbandonedCart
         $this->setApiToCall( array('Goals.get') );
+        $idGoal = Piwik_Archive::LABEL_ECOMMERCE_ORDER;
         $idGoal = Piwik_Archive::LABEL_ECOMMERCE_CART;
         $this->callGetApiCompareOutput(__FUNCTION__ . '_GoalAbandonedCart', 'xml', $idSite, $dateTime, $periods = array('day', 'week'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal);
         
+        // Standard non metadata Goals.get
         $idGoal = Piwik_Archive::LABEL_ECOMMERCE_ORDER;
         $this->callGetApiCompareOutput(__FUNCTION__ . '_GoalOrder', 'xml', $idSite, $dateTime, $periods = array('day', 'week'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal);
         $idGoal = 1;

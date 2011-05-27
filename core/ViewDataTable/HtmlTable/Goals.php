@@ -25,7 +25,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 	{
 		$this->idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
 		$this->processOnlyIdGoal = Piwik_Common::getRequestVar('filter_only_display_idgoal', 0, 'string');
-		$this->isEcommerce = $this->processOnlyIdGoal == 'ecommerceOrder';
+		$this->isEcommerce = $this->processOnlyIdGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER;
 		$this->viewProperties['show_exclude_low_population'] = true;
 		$this->viewProperties['show_goals'] = true;
 		
@@ -110,7 +110,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 			if($this->isEcommerce)
 			{
 				$goals = array(
-					array(	'idgoal' => 'ecommerceOrder', 
+					array(	'idgoal' => Piwik_Archive::LABEL_ECOMMERCE_ORDER, 
 							'name' => Piwik_Translate('Goals_EcommerceOrder')
 					)
 				);
@@ -170,7 +170,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 	/** Find the appropriate metric documentation for a goal column */
 	private function setDynamicMetricDocumentation($genericMetricName, $metricName, $goalName, $idGoal)
 	{
-		if($idGoal == 'ecommerceOrder')
+		if($idGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER)
 		{
 			$goalName = Piwik_Translate('General_EcommerceOrders');
 		}
