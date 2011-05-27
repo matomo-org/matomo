@@ -127,8 +127,10 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 	
 	public function uploadCustomLogo()
 	{
+		Piwik::checkUserIsSuperUser();
 		if(empty($_FILES['customLogo']) 
-			|| !empty($_FILES['customLogo']['error'])) 
+			|| !empty($_FILES['customLogo']['error'])
+			) 
 		{
 			echo '0';
 			return;
