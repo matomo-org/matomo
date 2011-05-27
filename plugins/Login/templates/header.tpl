@@ -56,8 +56,12 @@
 {/if}
 {include file="default/ie6.tpl"}
 	<div id="logo">
-	<a href="http://piwik.org" title="{$linkTitle}">
-		<img src='{$logoLarge}' width='200' style='margin-right:20px'>
-		<div class="description"># {$linkTitle}</div>
-	</a>
+	{if !$isCustomLogo}<a href="http://piwik.org" title="{$linkTitle}">{/if}
+		<img src='{$logoLarge}' title="{$linkTitle}" width='200' style='margin-right:20px'>
+		{if !$isCustomLogo}<div class="description"># {$linkTitle}</div>
+		{else}{capture name='poweredByPiwik'}
+				<i><a href="http://piwik.org/" target="_blank">{$linkTitle}</a></i>
+				{/capture}
+		{/if}
+	{if !$isCustomLogo}</a>{/if}
 	</div>
