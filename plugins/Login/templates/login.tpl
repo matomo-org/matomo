@@ -36,8 +36,15 @@
 <p id="nav">
 <a href="index.php?module=Login&amp;action=lostPassword" title="{'Login_LostYourPassword'|translate}">{'Login_LostYourPassword'|translate}</a>
 </p>
+{if isset($smarty.capture.poweredByPiwik)}
+	<p id="piwik">
+	{$smarty.capture.poweredByPiwik}
+	</p>
+{/if}
+
 
 </div>
+
 
 </body>
 </html>

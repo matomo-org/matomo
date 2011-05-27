@@ -66,7 +66,7 @@ form p {
 	padding: 12px;
 }
 
-#nav {
+#nav, #piwik {
 	margin: 0 0 0 8px;
 	padding: 16px;
 }
@@ -116,6 +116,9 @@ form p {
 
 .login #nav a {
 	color: #777;
+}
+.login #piwik a {
+	color: #CDCDCD;
 }
 
 body.login {
