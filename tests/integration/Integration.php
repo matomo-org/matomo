@@ -427,7 +427,7 @@ abstract class Test_Integration extends Test_Database
     		$expected = @file_get_contents($expectedFilePath  );
     		if(empty($expected))
     		{
-    			$this->fail(" ERROR: Could not find expected API output '$expectedFilePath'. For new tests, to pass the test, you can copy files from the processed/ directory into $pathExpected  after checking that the output is valid. ----- URL was $requestUrl");
+    			$this->fail(" ERROR: Could not find expected API output '$expectedFilePath'. For new tests, to pass the test, you can copy files from the processed/ directory into $pathExpected  after checking that the output is valid. %s ");
     			continue;
     		}
 			// When tests run on Windows EOL delimiters are not the same as UNIX default EOL used in the renderers
@@ -479,7 +479,7 @@ abstract class Test_Integration extends Test_Database
     			$responseToTest = str_replace("\n", "", $response);
     			$expectedToTest = str_replace("\n", "", $expected);
     		}
-    		$pass = $pass && $this->assertEqual(trim($responseToTest), trim($expectedToTest), "<br/>\nDifferences with expected in: $processedFilePath %s ----- URL was $requestUrl");
+    		$pass = $pass && $this->assertEqual(trim($responseToTest), trim($expectedToTest), "<br/>\nDifferences with expected in: $processedFilePath %s ");
     		if($response != $expected)
     		{
     			var_dump('ERROR FOR ' . $apiId . ' -- FETCHED RESPONSE, then EXPECTED RESPONSE - '.$requestUrl);
