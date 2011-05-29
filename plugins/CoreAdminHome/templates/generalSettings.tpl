@@ -147,7 +147,7 @@
         <tr>
             {if $logosWriteable}
             <td><label for="customLogo">{'CoreAdminHome_LogoUpload'|translate}:<br>
-                <span class="form-description">{'CoreAdminHome_LogoUploadDescription'|translate:"JPG / PNG"}</span></label></td>
+                <span class="form-description">{'CoreAdminHome_LogoUploadDescription'|translate:"JPG / PNG / GIF"}</span></label></td>
             <td style='width:200px'>
             <input name="customLogo" type="file" id="customLogo" /><img src="themes/logo.png?r={math equation='rand(10,1000)'}" id="currentLogo" height="150"/>
             </td>

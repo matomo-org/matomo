@@ -51,11 +51,9 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 
 			$view->branding = Zend_Registry::get('config')->branding->toArray();
 			
-			$directoryWritable = is_writable(Piwik_Common::getPathToPiwikRoot().'/themes/');
-			$logoFilesExists = file_exists(Piwik_Common::getPathToPiwikRoot().'/themes/logo.png') && file_exists(Piwik_Common::getPathToPiwikRoot().'/themes/logo-header.png');
-			$logoFilesWriteable = is_writeable(Piwik_Common::getPathToPiwikRoot().'/themes/logo.png') && is_writeable(Piwik_Common::getPathToPiwikRoot().'/themes/logo-header.png');
-			
-			$view->logosWriteable = (($logoFilesExists && $logoFilesWriteable) || (!$logoFilesExists && $directoryWritable));
+			$directoryWritable = is_writable(PIWIK_DOCUMENT_ROOT.'/themes/');
+			$logoFilesWriteable = is_writeable(PIWIK_DOCUMENT_ROOT.'/themes/logo.png') && is_writeable(PIWIK_DOCUMENT_ROOT.'/themes/logo-header.png');
+			$view->logosWriteable = ($logoFilesWriteable || $directoryWritable) && ini_get('file_uploads') == 1;
 		}
 		
     	$view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
@@ -137,6 +135,11 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 		}
 		
 		$file = $_FILES['customLogo']['tmp_name'];
+		if(!file_exists($file))
+		{
+			echo '0';
+			return;
+		}
 		$error = false;
 		
 		list($width, $height) = getimagesize($file);
@@ -146,6 +149,9 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 				break;
 			case 'image/png':
 				$image = imagecreatefrompng($file);
+				break;
+			case 'image/gif':
+				$image = imagecreatefromgif($file);
 				break;
 			default:
 				echo '0';
@@ -160,8 +166,8 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 		imagecopyresized($logo, $image, 0, 0, 0, 0, $widthExpected, self::LOGO_HEIGHT, $width, $height);
 		imagecopyresized($logoSmall, $image, 0, 0, 0, 0, $smallWidthExpected, self::LOGO_SMALL_HEIGHT, $width, $height);
 
-		imagepng($logo, Piwik_Common::getPathToPiwikRoot().'/themes/logo.png', 3);
-		imagepng($logoSmall, Piwik_Common::getPathToPiwikRoot().'/themes/logo-header.png', 3);
+		imagepng($logo, PIWIK_DOCUMENT_ROOT.'/themes/logo.png', 3);
+		imagepng($logoSmall, PIWIK_DOCUMENT_ROOT.'/themes/logo-header.png', 3);
 		echo '1';
 		return;
 	}
