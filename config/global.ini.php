@@ -199,6 +199,10 @@ datatable_archiving_maximum_rows_standard = 500
 ; you can change the timeout so the widget refreshes more often, or not as frequently
 live_widget_refresh_after_seconds = 5
 
+; In "All Websites" dashboard, when looking at today's reports (or a date range including today),
+; the page will automatically refresh every 5 minutes. Set to 0 to disable automatic refresh
+multisites_refresh_after_seconds = 300
+
 ; by default, Piwik uses self-hosted AJAX libraries.
 ; If set to 1, Piwik uses a Content Distribution Network
 use_ajax_cdn = 0

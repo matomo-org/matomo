@@ -134,7 +134,8 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 											'yesterday', Piwik_Date::factory('yesterday')->toString('Y-m-d'),
 											Piwik_Date::factory('now', 'UTC+14')->toString('Y-m-d'))))
 		{
-			$view->autoRefreshTodayReport = true;
+			
+			$view->autoRefreshTodayReport = Zend_Registry::get('config')->General->multisites_refresh_after_seconds;
 		}
 		$this->setGeneralVariablesView($view);
 		$this->setMinMaxDateAcrossWebsites($mySites, $view);
