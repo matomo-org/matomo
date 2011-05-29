@@ -16,7 +16,8 @@
  */
 class Piwik_API extends Piwik_Plugin {
 
-	public function getInformation() {
+	public function getInformation() 
+	{
 		return array(
 			'description' => Piwik_Translate('API_PluginDescription'),
 			'author' => 'Piwik',
@@ -25,15 +26,28 @@ class Piwik_API extends Piwik_Plugin {
 		);
 	}
 	
-	public function getListHooksRegistered() {
+	public function getListHooksRegistered() 
+	{
 		return array(
 			'AssetManager.getCssFiles' => 'getCssFiles',
 			'TopMenu.add' => 'addTopMenu',
 		);
 	}
 	
-	public function addTopMenu() {
+	public function addTopMenu() 
+	{
 		Piwik_AddTopMenu('General_API', array('module' => 'API', 'action' => 'listAllAPI'), true, 7);
+		
+		if(empty($_SERVER['HTTP_USER_AGENT']))
+		{
+			return;
+		}
+		require_once PIWIK_INCLUDE_PATH . '/libs/UserAgentParser/UserAgentParser.php';
+		$os = UserAgentParser::getOperatingSystem($_SERVER['HTTP_USER_AGENT']);
+		if($os && in_array($os['id'], array('AND', 'IPD', 'IPA', 'IPH')))
+		{
+			Piwik_AddTopMenu('Piwik Mobile App', array('module' => 'Proxy', 'action' => 'redirect', 'url' => 'http://piwik.org/mobile/'), true, 4);
+		}
 	}
 
 	public function getCssFiles($notification) {
