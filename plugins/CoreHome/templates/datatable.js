@@ -283,6 +283,7 @@ dataTable.prototype =
 		{
 			currentPattern = '';
 		}
+		currentPattern = piwikHelper.htmlDecode(currentPattern);
 		
 		$('.dataTableSearchPattern', domElem)
 			.show()

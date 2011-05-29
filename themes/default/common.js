@@ -9,6 +9,12 @@ function piwikHelper()
 {
 }
 
+piwikHelper.htmlDecode = function(value)
+{
+	return $('<div/>').html(value).text();
+}
+
+
 /*
  * Displays a Modal dialog. Text will be taken from the DOM node domSelector.
  * When user clicks Yes in Modal,onValidate() will be executed.
