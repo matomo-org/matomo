@@ -25,8 +25,9 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 	 * @param bool $enable Automatically set to true when filter_add_columns_when_show_all_columns is found in the API request
 	 * @return void
 	 */
-	public function __construct( $table, $enable = true )
+	public function __construct( $table, $deleteRowsWithNoVisit = true )
 	{
+		$this->deleteRowsWithNoVisit = $deleteRowsWithNoVisit;
 		parent::__construct($table);
 	}
 	

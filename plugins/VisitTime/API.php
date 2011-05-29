@@ -46,7 +46,6 @@ class Piwik_VisitTime_API
 	public function getVisitInformationPerServerTime( $idSite, $period, $date, $segment = false, $hideFutureHoursWhenToday = false )
 	{
 		$table = $this->getDataTable('VisitTime_serverTime', $idSite, $period, $date, $segment );
-		
 		if($hideFutureHoursWhenToday)
 		{
 			$table = $this->removeHoursInFuture($table, $idSite, $period, $date);
