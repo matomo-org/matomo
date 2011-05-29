@@ -62,14 +62,9 @@ class Piwik_PDFReports_API
 		$description = $this->checkDescription($description);
 		$currentUser = Piwik::getCurrentUserLogin();
 		$emailMe = (int)$emailMe;
-		if($emailMe)
-		{
-			$lang = Piwik_LanguagesManager_API::getInstance()->getLanguageForUser( $currentUser );
-			if(empty($lang))
-			{
-				Piwik_LanguagesManager_API::getInstance()->setLanguageForUser( $currentUser, Piwik_LanguagesManager::getLanguageCodeForCurrentUser() );
-			}
-		}
+		
+		$this->ensureLanguageSetForUser($currentUser);
+
 		$additionalEmails = $this->checkAdditionalEmails($additionalEmails);
 		$reports = $this->checkAvailableReports($idSite, $reports);
 		
@@ -97,6 +92,15 @@ class Piwik_PDFReports_API
 		return $idReport;
 	} 
 	
+	private function ensureLanguageSetForUser($currentUser)
+	{
+		$lang = Piwik_LanguagesManager_API::getInstance()->getLanguageForUser( $currentUser );
+		if(empty($lang))
+		{
+			Piwik_LanguagesManager_API::getInstance()->setLanguageForUser( $currentUser, Piwik_LanguagesManager::getLanguageCodeForCurrentUser() );
+		}
+	}
+	
 	/**
 	 * Updates an existing report.
 	 * 
@@ -114,14 +118,9 @@ class Piwik_PDFReports_API
 		$description = $this->checkDescription($description);
 		$currentUser = Piwik::getCurrentUserLogin();
 		$emailMe = (int)$emailMe;
-		if($emailMe)
-		{
-			$lang = Piwik_LanguagesManager_API::getInstance()->getLanguageForUser( $currentUser );
-			if(empty($lang))
-			{
-				Piwik_LanguagesManager_API::getInstance()->setLanguageForUser( $currentUser, Piwik_LanguagesManager::getLanguageCodeForCurrentUser() );
-			}
-		}
+		
+		$this->ensureLanguageSetForUser($currentUser);
+		
 		$additionalEmails = $this->checkAdditionalEmails($additionalEmails);
 		
 		$reports = $this->checkAvailableReports($idSite, $reports);
