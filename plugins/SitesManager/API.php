@@ -1036,10 +1036,19 @@ class Piwik_SitesManager_API
 
 		$db = Zend_Registry::get('db');
 		$bind = array('%'.$pattern.'%', 'http%'.$pattern.'%');
+		
+		// Also match the idsite
+		$where = '';
+		if(is_numeric($pattern))
+		{
+			$bind[] = $pattern;
+			$where = 'OR  s.idsite = ?';
+		}
 		$sites = $db->fetchAll("SELECT idsite, name, main_url 
 								FROM ".Piwik_Common::prefixTable('site')." s	
 								WHERE (		s.name like ? 
-										OR 	s.main_url like ?) 
+										OR 	s.main_url like ?
+										 $where ) 
 									AND idsite in ($ids_str) 
 								LIMIT ".Piwik::getWebsitesCountToDisplay(), 
 							$bind) ;
