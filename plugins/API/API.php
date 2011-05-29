@@ -611,14 +611,13 @@ class Piwik_API_API
         if(isset($reportMetadata['processedMetrics']))
         {
         	// Add processed metrics
-        	$dataTable->filter('AddColumnsProcessedMetrics');
+        	$dataTable->filter('AddColumnsProcessedMetrics', array($deleteRowsWithNoVisit = false));
         }
         $renderer = new Piwik_DataTable_Renderer_Php();
         $renderer->setTable($dataTable);
         $renderer->setSerialize(false);
         $reportTable = $renderer->render();
     	$rowsMetadata = array();
-    	
     	$newReport = array();
     	foreach($reportTable as $rowId => $row)
     	{

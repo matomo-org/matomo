@@ -196,13 +196,16 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $idGoal = 'FAKE IDGOAL';
         $this->callGetApiCompareOutput(__FUNCTION__ . '_Metadata_Goals.Get_NotExistingGoal', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal, $apiModule, $apiAction);
         
-        // Test Goals.get with idGoal=ecommerceOrder and ecommerceAbandonedCart
-        $this->setApiToCall( array('Goals.get') );
-        $idGoal = Piwik_Archive::LABEL_ECOMMERCE_ORDER;
-        $idGoal = Piwik_Archive::LABEL_ECOMMERCE_CART;
-        $this->callGetApiCompareOutput(__FUNCTION__ . '_GoalAbandonedCart', 'xml', $idSite, $dateTime, $periods = array('day', 'week'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal);
+        // While we're at it, test for a standard Metadata report with zero entries 
+        $apiModule = 'VisitTime';
+        $apiAction = 'getVisitInformationPerServerTime';
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_Metadata_VisitTime.getVisitInformationPerServerTime', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal = false, $apiModule, $apiAction);
         
         // Standard non metadata Goals.get
+        // Test Goals.get with idGoal=ecommerceOrder and ecommerceAbandonedCart
+        $this->setApiToCall( array('Goals.get') );
+        $idGoal = Piwik_Archive::LABEL_ECOMMERCE_CART;
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_GoalAbandonedCart', 'xml', $idSite, $dateTime, $periods = array('day', 'week'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal);
         $idGoal = Piwik_Archive::LABEL_ECOMMERCE_ORDER;
         $this->callGetApiCompareOutput(__FUNCTION__ . '_GoalOrder', 'xml', $idSite, $dateTime, $periods = array('day', 'week'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal);
         $idGoal = 1;
