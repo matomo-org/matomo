@@ -87,7 +87,7 @@
 prepareRows(allSites, params, '{$orderBy}');
 
 {if $autoRefreshTodayReport}
-piwikHelper.refreshAfter(5*60*1000);
+piwikHelper.refreshAfter({$autoRefreshTodayReport} *1000);
 {/if}
 </script>
 </div>
