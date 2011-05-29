@@ -23,7 +23,6 @@
 			</span>
 		{/if}
 	</td>
-</td>
 </tr>
 <tr>
 	<td><label for="email">{'UsersManager_Email'|translate} </label></td>
