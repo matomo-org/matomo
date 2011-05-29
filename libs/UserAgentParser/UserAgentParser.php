@@ -300,7 +300,10 @@ class UserAgentParser
 	static private $init = false;
 	
 	/**
-	 * Returns a 3 letters ID for the operating system part, given a user agent string.
+	 * Returns an array of the OS for the submitted user agent 
+	 *		'id' => '',
+	 *		'name' => '',
+	 *		'short_name' => '',
 	 * 
 	 * @param string $userAgent
 	 * @return string false if OS couldn't be identified, or 3 letters ID (eg. WXP)
