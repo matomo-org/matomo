@@ -42,6 +42,7 @@ $translations = array(
 	'General_PoweredBy' => 'Powered by',
 	'General_Name' => 'Name',
 	'General_Value' => 'Value',
+	'General_VisitsActions' => '(%s visits, %s actions)',
 	'General_AverageOrderValue' => 'Average Order Value',
 	'General_PurchasedProducts' => 'Purchased Products',
 	'General_EcommerceOrders' => 'Ecommerce Orders',
