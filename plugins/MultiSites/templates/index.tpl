@@ -33,7 +33,9 @@
 
 <div class="centerLargeDiv">
 
-<h2>{'General_AllWebsitesDashboard'|translate} <span class='smallTitle'>({'VisitsSummary_NbVisits'|translate:"<strong>$totalVisits</strong>"}, {'VisitsSummary_NbActions'|translate:"<strong>$totalActions</strong>"})</span></h2>
+<h2>{'General_AllWebsitesDashboard'|translate} 
+	<span class='smallTitle'>{'General_VisitsActions'|translate:"<strong>$totalVisits</strong>":"<strong>$totalActions</strong>"}</span>
+</h2>
 
 <table id="mt" class="dataTable" cellspacing="0">
 	<thead>
