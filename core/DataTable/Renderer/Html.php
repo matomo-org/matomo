@@ -80,6 +80,10 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 		 * ROW1 = col1 | col2 | col3 | metadata | idSubTable
 		 * ROW2 = col1 | col2 (no value but appears) | col3 | metadata | idSubTable
 		 */
+		if(!($table instanceof Piwik_DataTable))
+		{
+			throw new Exception("HTML Renderer does not work with this combination of parameters");
+		}
 		foreach($table->getRows() as $row)
 		{
 			if(isset($columnToAdd) && isset($valueToAdd))
