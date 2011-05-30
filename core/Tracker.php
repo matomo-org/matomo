@@ -145,10 +145,10 @@ class Piwik_Tracker
 	 */
 	protected function init()
 	{
+		$this->handleTrackingApi();
 		$this->loadTrackerPlugins();
 		$this->handleDisabledTracker();
 		$this->handleEmptyRequest();
-		$this->handleTrackingApi();
 		
 		printDebug("Current datetime: ".date("Y-m-d H:i:s", $this->getCurrentTimestamp()));
 	}
@@ -319,6 +319,11 @@ class Piwik_Tracker
 
 	protected function loadTrackerPlugins()
 	{
+		if(isset($this->request['dp'])
+			&& $this->authenticated) 
+		{
+			Piwik_Tracker::setPluginsNotToLoad(array('Provider'));
+		}
 		try{
 			$pluginsTracker = Piwik_Tracker_Config::getInstance()->Plugins_Tracker;
 			if(is_array($pluginsTracker)

@@ -16,8 +16,8 @@
  */
 class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
 {
-
-	public function index() {
+	public function index() 
+	{
 		Piwik::checkUserIsSuperUser();
 
 		$sitesList = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
@@ -26,20 +26,24 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
 		$this->setBasicVariablesView($view);
 		$view->assign('sitesList', $sitesList);
 		$view->nonce = Piwik_Nonce::getNonce('Piwik_VisitorGenerator.generate');
-
+		$view->countActionsPerRun = count($this->getAccessLog());
+		$view->accessLogPath = $this->getAccessLogPath();
 		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();
 	}
-
-	public function generate() {
-		// Only admin is allowed to do this!
+	private function getAccessLogPath()
+	{
+		return PIWIK_INCLUDE_PATH . "/plugins/VisitorGenerator/data/access.log";
+	}
+	private function getAccessLog()
+	{
+		$log = file($this->getAccessLogPath());
+		return $log;
+	}
+	
+	public function generate() 
+	{
 		Piwik::checkUserIsSuperUser();
-
-		$GET = $_GET;
-		$POST = $_POST;
-		$COOKIE = $_COOKIE;
-		$REQUEST = $_REQUEST;
-
 		$nonce = Piwik_Common::getRequestVar('form_nonce', '', 'string', $_POST);
 		if(Piwik_Common::getRequestVar('choice', 'no') != 'yes' ||
 				!Piwik_Nonce::verifyNonce('Piwik_VisitorGenerator.generate', $nonce))
@@ -48,9 +52,6 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
 		}
 		Piwik_Nonce::discardNonce('Piwik_VisitorGenerator.generate');
 
-		$minVisitors = Piwik_Common::getRequestVar('minVisitors', 20, 'int');
-		$maxVisitors = Piwik_Common::getRequestVar('maxVisitors', 100, 'int');
-		$nbActions = Piwik_Common::getRequestVar('nbActions', 10, 'int');
 		$daysToCompute = Piwik_Common::getRequestVar('daysToCompute', 1, 'int');
 
 		// get idSite from POST with fallback to GET
@@ -59,82 +60,110 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
 
 		Piwik::setMaxExecutionTime(0);
 
-		$loadedPlugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
-		$loadedPlugins = array_keys($loadedPlugins);
-		// we have to unload the Provider plugin otherwise it tries to lookup the IP for a hostname, and there is no dns server here
-		if(Piwik_PluginsManager::getInstance()->isPluginActivated('Provider')) {
-			Piwik_PluginsManager::getInstance()->unloadPlugin('Provider');
-		}
-
-		// we set the DO NOT load plugins so that the Tracker generator doesn't load the plugins we've just disabled.
-		// if for some reasons you want to load the plugins, comment this line, and disable the plugin Provider in the plugins interface
-		Piwik_PluginsManager::getInstance()->doNotLoadPlugins();
-
-		$generator = new Piwik_VisitorGenerator_Generator();
-		$generator->setMaximumUrlDepth(3);
-
-		//$generator->disableProfiler();
-		$generator->setIdSite( $idSite );
-
-		$nbActionsTotal = 0;
-		//$generator->emptyAllLogTables();
-		$generator->init();
-
 		$timer = new Piwik_Timer;
-
-		$startTime = time() - ($daysToCompute-1)*86400;
-		
+		$time = time() - ($daysToCompute-1)*86400;
 		
 		// Update site.ts_created if we generate visits on days before the website was created
 		$site = new Piwik_Site($idSite);
-		$minGeneratedDate = Piwik_Date::factory($startTime);
+		$minGeneratedDate = Piwik_Date::factory($time);
 		if($minGeneratedDate->isEarlier($site->getCreationDate()))
 		{
 			// direct access to the website table (bad practise but this is a debug / dev plugin)
     		Zend_Registry::get('db')->update(Piwik_Common::prefixTable("site"), 
     							array('ts_created' =>  $minGeneratedDate->getDatetime()),
     							"idsite = $idSite");
-			
 		}
-		$dates = array();
-		while($startTime <= time()) {
-			$visitors = rand($minVisitors, $maxVisitors);
-			$actions = $nbActions;
-			$generator->setTimestampToUse($startTime);
-
-			$nbActionsTotalThisDay = $generator->generate($visitors, $actions);
-			$actionsPerVisit = round($nbActionsTotalThisDay / $visitors);
-
-			$date = array();
-			$date['visitors'] = $visitors;
-			$date['actionsPerVisit'] = $actionsPerVisit;
-			$date['startTime'] = $startTime;
-			$dates[] = $date;
-
-			$startTime += 86400;
+		
+		$nbActionsTotal = 0;
+		while($time <= time()) 
+		{
+			$nbActionsTotalThisDay = $this->generateVisits($time, $idSite);
+			$time += 86400;
 			$nbActionsTotal += $nbActionsTotalThisDay;
-			//sleep(1);
 		}
 
-		$generator->end();
-
-		// Recover all super globals
-		$_GET = $GET;
-		$_POST = $POST;
-		$_COOKIE = $COOKIE;
-		$_REQUEST = $REQUEST;
-		
-		// Reload plugins
-		Piwik_PluginsManager::getInstance()->loadPlugins($loadedPlugins);
-		
 		// Init view
 		$view = Piwik_View::factory('generate');
 		$this->setBasicVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
-		$view->assign('dates', $dates);
 		$view->assign('timer', $timer);
+		$view->assign('days', $daysToCompute);
 		$view->assign('nbActionsTotal', $nbActionsTotal);
 		$view->assign('nbRequestsPerSec', round($nbActionsTotal / $timer->getTime(),0));
 		echo $view->render();
+	}
+	
+	private function generateVisits($time = false, $idSite = 1)
+	{
+		$logs = $this->getAccessLog();
+		if(empty($time)) $time = time();
+		$date = date("Y-m-d", $time);
+		
+		$acceptLanguages = array(
+				"el,fi;q=0.5",
+				"de-de,de;q=0.8,en-us",
+				"pl,en-us;q=0.7,en;q=",
+				"zh-cn",
+				"fr-ca",
+				"en-us",
+				"en-gb",
+				"fr-be",
+				"fr,de-ch;q=0.5",
+				"fr",
+				"fr-ch",
+				"fr",
+		);
+		$prefix = Piwik_Url::getCurrentUrlWithoutFileName() . "piwik.php";
+		$count = 0;
+		foreach($logs as $log)
+		{
+			if (!preg_match('/^(\S+) \S+ \S+ \[(.*?)\] "GET (\S+.*?)" \d+ \d+ "(.*?)" "(.*?)"/', $log, $m)) {
+				continue;
+			}
+			$ip = $m[1];
+			$time = $m[2];
+			$url = $m[3];
+			$referrer = $m[4];
+			$ua = $m[5];
+			
+			$start = strpos($url, 'piwik.php?') + strlen('piwik.php?');
+			$url = substr($url, $start, strrpos($url, " ")-$start);
+			$datetime = $date . " " . Piwik_Date::factory($time)->toString("H:i:s");
+			$ip = strlen($ip) < 10 ? "13.5.111.3" : $ip;
+
+			// Force date/ip & authenticate
+			$url .= "&cdt=" . urlencode($datetime) . "&cip=" . $ip;
+			$url .= "&token_auth=" . Piwik::getCurrentUserTokenAuth();
+			$url = $prefix . "?" . $url;
+			
+			// Make order IDs unique per day
+			$url = str_replace("ec_id=", "ec_id=$date-", $url);
+			
+			// Disable provider plugin
+			$url .= "&dp=1";
+			
+			// Replace idsite
+			$url = preg_replace("/idsite=[0-9]+/", "idsite=$idSite", $url);
+			
+			$acceptLanguage = $acceptLanguages[$count % count($acceptLanguages)];
+			
+			if($output = Piwik_Http::sendHttpRequest($url, $timeout = 5, $ua, $path = null, $follow = 0, $acceptLanguage))
+			{
+//				var_dump($output);
+				$count++;
+			}
+			
+//			echo "IP=". $ip; echo "<br>";
+//			echo "Date=". $datetime; echo "<br>";
+//			echo "URL=". $url; echo "<br>";
+//			echo "Referrer=". $referrer; echo "<br>";
+//			echo "UserAgent=". $ua; echo "<br>";
+//			echo "<hr>";
+//			var_dump($url);
+			if($count==2) {
+//				return $count;
+			}
+		}
+		return $count;
 	}
 }

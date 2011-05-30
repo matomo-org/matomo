@@ -51,9 +51,9 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 	{
 		$this->processOnlyIdGoal = $processOnlyIdGoal;
 		$this->isEcommerce = $this->processOnlyIdGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER || $this->processOnlyIdGoal == Piwik_Archive::LABEL_ECOMMERCE_CART; 
+		parent::__construct($table);
 		// Ensure that all rows with no visit but conversions will be displayed
 		$this->deleteRowsWithNoVisit = false;
-		parent::__construct($table);
 	}
 	
 	public function filter($table)
@@ -62,7 +62,6 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 		parent::filter($table);
 		$roundingPrecision = Piwik_Tracker_GoalManager::REVENUE_PRECISION;
 		$expectedColumns = array();
-
 		foreach($table->getRows() as $key => $row)
 		{
 			$currentColumns = $row->getColumns();
