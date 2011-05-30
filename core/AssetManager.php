@@ -132,7 +132,7 @@ class Piwik_AssetManager
 
 		// Tries to open the new file
 		$newFilePath = self::getAbsoluteMergedFileLocation(self::MERGED_CSS_FILE);
-		$newFile = fopen($newFilePath, "w");
+		$newFile = @fopen($newFilePath, "w");
 
 		if (!$newFile) {
 			throw new Exception ("The file : " . $newFile . " can not be opened in write mode.");
@@ -241,7 +241,7 @@ class Piwik_AssetManager
 
 		// Tries to open the new file
 		$newFilePath = self::getAbsoluteMergedFileLocation(self::MERGED_JS_FILE);
-		$newFile = fopen($newFilePath, "w");
+		$newFile = @fopen($newFilePath, "w");
 
 		if (!$newFile) {
 			throw new Exception ("The file : " . $newFile . " can not be opened in write mode.");
