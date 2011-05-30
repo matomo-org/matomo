@@ -846,7 +846,7 @@ class Piwik
 		$null  = $fileSpec['null'];
 		$escapespecial_cb = $fileSpec['escapespecial_cb'];
 
-		$fp = fopen($filePath, 'wb');
+		$fp = @fopen($filePath, 'wb');
 		if (!$fp)
 		{
 			throw new Exception('Error creating the tmp file '.$filePath.', please check that the webserver has write permission to write this file.');
