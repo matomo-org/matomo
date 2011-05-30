@@ -41,7 +41,7 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 		$filename = Piwik_ReportRenderer::appendExtension($filename, "html");
 		$outputFilename = Piwik_ReportRenderer::getOutputPath($filename);
 
-		$emailReport = fopen($outputFilename, "w");
+		$emailReport = @fopen($outputFilename, "w");
 
 		if (!$emailReport) {
 			throw new Exception ("The file : " . $outputFilename . " can not be opened in write mode.");
