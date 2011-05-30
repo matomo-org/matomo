@@ -4,27 +4,10 @@
 
 <h2>{'VisitorGenerator_VisitorGenerator'|translate}</h2>
 
-<table class="entityTable dataTable" style="width: 600px;">
-<thead>
-    <tr>
-        <th>{'General_Visitors'|translate}</th>
-        <th>{'General_ColumnActionsPerVisit'|translate}</th>
-        <th>{'General_Date'|translate}</th>
-    </tr>
-</thead>
-<tbody>
-{foreach from=$dates item=date}
-    <tr>
-        <td>{$date.visitors}</td>
-        <td>{$date.actionsPerVisit}</td>
-        <td>{$date.startTime|date_format:"%Y-%m-%d"}</td>
-    </tr>
-{/foreach}
-</tbody>
-</table>
-
-<p>{'General_NbActions'|translate}: {$nbActionsTotal}<br />
+Generated for {'General_LastDays'|translate:$days}.<br />
+Generated {'General_NbActions'|translate}: {$nbActionsTotal}<br />
 {'VisitorGenerator_NbRequestsPerSec'|translate}: {$nbRequestsPerSec}<br />
 {$timer}</p>
-
+<p><strong> To have Piwik re-process reports for dates that maybe are already processed, you can TRUNCATE the tables piwik_archive_numeric_* for the months you wish to re-generate data. <a href='http://piwik.org/faq/how-to/#faq_59' target="_blank">See FAQ</a></strong>
+</p>
 {include file="CoreAdminHome/templates/footer.tpl"}

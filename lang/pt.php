@@ -1100,8 +1100,6 @@ Um pedido para repor a sua palavra-passe foi recebido de %2$s. Para repor a sua 
 	'VisitorGenerator_ChoiceYes' => 'Sim, tenho a certeza!',
 	'VisitorGenerator_Submit' => 'Submeter',
 	'VisitorGenerator_SelectWebsite' => 'Seleccionar Website',
-	'VisitorGenerator_MinVisitors' => 'Visitantes Mínimos',
-	'VisitorGenerator_MaxVisitors' => 'Visitantes Máximos',
 	'VisitorGenerator_NbRequestsPerSec' => 'Pedidos por segundo',
 	'VisitorGenerator_DaysToCompute' => 'Dias para computar',
 	'VisitorInterest_PluginDescription' => 'Relata os Interesses dos Visitantes: número de páginas vistas, tempo gasto no Website.',

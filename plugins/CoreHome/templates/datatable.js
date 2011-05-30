@@ -908,7 +908,7 @@ dataTable.prototype =
 		}
 		else
 		{
-			domElem.prepend(icon);
+			//domElem.prepend(icon);
 		}
 	}
 	

@@ -55,7 +55,7 @@ class Piwik_Http
 	 * @return bool true (or string) on success; false on HTTP response error code (1xx or 4xx)
 	 * @throws Exception for all other errors
 	 */
-	static public function sendHttpRequest($aUrl, $timeout, $userAgent = null, $destinationPath = null, $followDepth = 0)
+	static public function sendHttpRequest($aUrl, $timeout, $userAgent = null, $destinationPath = null, $followDepth = 0, $acceptLanguage = false)
 	{
 		// create output file
 		$file = null;
@@ -69,7 +69,7 @@ class Piwik_Http
 			}
 		}
 
-		return self::sendHttpRequestBy(self::getTransportMethod(), $aUrl, $timeout, $userAgent, $destinationPath, $file, $followDepth); 			
+		return self::sendHttpRequestBy(self::getTransportMethod(), $aUrl, $timeout, $userAgent, $destinationPath, $file, $followDepth, $acceptLanguage); 			
 	}
 
 	/**
@@ -85,7 +85,7 @@ class Piwik_Http
 	 * @return bool true (or string) on success; false on HTTP response error code (1xx or 4xx)
 	 * @throws Exception for all other errors
 	 */
-	static public function sendHttpRequestBy($method = 'socket', $aUrl, $timeout, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0)
+	static public function sendHttpRequestBy($method = 'socket', $aUrl, $timeout, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false)
 	{
 		if ($followDepth > 5)
 		{
@@ -104,6 +104,7 @@ class Piwik_Http
 			. (isset($_SERVER['HTTP_VIA']) && !empty($_SERVER['HTTP_VIA']) ? $_SERVER['HTTP_VIA'] . ', ' : '')
 			. Piwik_Version::VERSION . ' Piwik'
 			. ($userAgent ? " ($userAgent)" : '');
+		$acceptLanguage = $acceptLanguage ? 'Accept-Language:'.$acceptLanguage : '';
 		$userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'Piwik/'.Piwik_Version::VERSION;
 
 		// proxy configuration
@@ -179,6 +180,7 @@ class Piwik_Http
 				"Host: $host".($port != 80 ? ':'.$port : '')."\r\n"
 				.($proxyAuth ? $proxyAuth : '')
 				.'User-Agent: '.$userAgent."\r\n"
+				.$acceptLanguage ? $acceptLanguage ."\r\n" : '' 
 				.$xff."\r\n"
 				.$via."\r\n"
 				."Connection: close\r\n"
@@ -245,7 +247,7 @@ class Piwik_Http
 					{
 						throw new Exception('Unexpected redirect to Location: '.rtrim($line).' for status code '.$status);
 					}
-					return self::sendHttpRequestBy($method, trim($m[1]), $timeout, $userAgent, $destinationPath, $file, $followDepth+1);
+					return self::sendHttpRequestBy($method, trim($m[1]), $timeout, $userAgent, $destinationPath, $file, $followDepth+1, $acceptLanguage);
 				}
 
 				// save expected content length for later verification
@@ -307,6 +309,7 @@ class Piwik_Http
 				$stream_options = array(
 					'http' => array(
 						'header' => 'User-Agent: '.$userAgent."\r\n"
+									.$acceptLanguage ? $acceptLanguage."\r\n" : ''
 									.$xff."\r\n"
 									.$via."\r\n",
 						'max_redirects' => 5, // PHP 5.1.0
@@ -375,6 +378,7 @@ class Piwik_Http
 				CURLOPT_HTTPHEADER => array(
 					$xff,
 					$via,
+					$acceptLanguage
 				),
 				CURLOPT_HEADER => false,
 				CURLOPT_CONNECTTIMEOUT => $timeout,

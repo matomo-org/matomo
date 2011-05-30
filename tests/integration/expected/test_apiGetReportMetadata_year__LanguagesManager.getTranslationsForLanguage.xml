@@ -4725,14 +4725,6 @@
 		<value>Sélectionner le site Web</value>
 	</row>
 	<row>
-		<label>VisitorGenerator_MinVisitors</label>
-		<value>Visiteurs Minimum</value>
-	</row>
-	<row>
-		<label>VisitorGenerator_MaxVisitors</label>
-		<value>Visiteurs Maximum</value>
-	</row>
-	<row>
 		<label>VisitorGenerator_NbRequestsPerSec</label>
 		<value>Requêtes par seconde</value>
 	</row>

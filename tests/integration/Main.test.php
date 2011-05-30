@@ -153,7 +153,6 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	$t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour( 30.9 )->getDatetime());
         $t->addEcommerceItem($sku = 'TRIPOD SKU', $name = 'TRIPOD - bought day after' , $category = 'Tools', $price = 100, $quantity = 2);
         $this->checkResponse($t->doTrackEcommerceOrder($orderId = '777', $grandTotal = 250));
-        
         //------------------------------------- End tracking
         
 		// From Piwik 1.5, we hide Goals.getConversions and other get* methods via @ignore, but we ensure that they still work
