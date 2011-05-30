@@ -72,7 +72,7 @@
 		{/if}
 	{/capture}
 	
-	
+	{capture assign='visitorRow'}
 	<tr class="label{cycle values='odd,even'}">
 	<td style="display:none;"></td>
 	<td class="label" style="width:12%" width="12%">
@@ -152,6 +152,7 @@
 			</strong>
 			<br />
 			<ol class='visitorLog'>
+			{capture assign='visitorHasSomeEcommerceActivity'}0{/capture}
 			{foreach from=$visitor.columns.actionDetails item=action}
 				{capture assign='customVariablesTooltip'}
 				{if !empty($action.customVariables)}
@@ -169,7 +170,9 @@
  					{* Ecommerce Abandoned Cart / Ecommerce Order *}
  					
 					<img src="{$action.icon}" /> 
-					{if $action.type == 'ecommerceOrder'}<strong>{'Goals_EcommerceOrder'|translate}</strong> <span style='color:#666666'>({$action.orderId})</span>
+					{if $action.type == 'ecommerceOrder'}
+ 					{capture assign='visitorHasSomeEcommerceActivity'}1{/capture}
+ 					<strong>{'Goals_EcommerceOrder'|translate}</strong> <span style='color:#666666'>({$action.orderId})</span>
 					{else}<strong>{'Goals_AbandonedCart'|translate}</strong>
 					{/if} <br/>
 					<span {if !$isWidget}style='margin-left:20px'{/if}>
@@ -227,6 +230,12 @@
 			</ol>
 	</td>
 	</tr>
+	{/capture}
+	
+	{if !$javascriptVariablesToSet.filterEcommerce
+		|| (isset($visitorHasSomeEcommerceActivity) && $visitorHasSomeEcommerceActivity)}
+		{$visitorRow}
+	{/if}
 {/foreach}
 	</tbody>
 	</table>
