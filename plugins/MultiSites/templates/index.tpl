@@ -8,7 +8,7 @@
 	var allSites = new Array();
 	var params = new Array();
 	{foreach from=$mySites key=i item=site}
-		allSites[{$i}] = new setRowData({$site.idsite}, {$site.visits}, {$site.actions}, {$site.unique}, '{$site.name|escape:"javascript"}', '{$site.main_url|escape:"javascript"}', '{$site.visitsSummaryValue|replace:",":"."}', '{$site.actionsSummaryValue|replace:",":"."}', '{$site.uniqueSummaryValue|replace:",":"."}');
+		allSites[{$i}] = new setRowData({$site.idsite}, {$site.visits}, {$site.actions}, {$site.revenue}, '{$site.name|escape:"javascript"}', '{$site.main_url|escape:"javascript"}', '{$site.visitsSummaryValue|replace:",":"."}', '{$site.actionsSummaryValue|replace:",":"."}', '{$site.revenueSummaryValue|replace:",":"."}');
 	{/foreach}
 	params['period'] = '{$period}';
 	params['date'] = '{$dateRequest}';
@@ -34,7 +34,7 @@
 <div class="centerLargeDiv">
 
 <h2>{'General_AllWebsitesDashboard'|translate} 
-	<span class='smallTitle'>{'General_VisitsActions'|translate:"<strong>$totalVisits</strong>":"<strong>$totalActions</strong>"}</span>
+	<span class='smallTitle'>{'General_TotalVisitsActionsRevenue'|translate:"<strong>$totalVisits</strong>":"<strong>$totalActions</strong>":"<strong>$totalRevenue</strong>"}</span>
 </h2>
 
 <table id="mt" class="dataTable" cellspacing="0">
@@ -51,19 +51,17 @@
 			<span>{'General_ColumnPageviews'|translate}</span>
 			<span class="arrow {if $evolutionBy=='actions'}multisites_{$order}{/if}"></span>
 		</th>
-		{if $displayUniqueVisitors}
-		<th id="unique" class="multisites-column" style="width: 120px" onClick="params = setOrderBy(this,allSites, params, 'unique');">
-			<span>{'General_ColumnNbUniqVisitors'|translate}</span>
-			<span class="arrow {if $evolutionBy=='unique'}multisites_{$order}{/if}"></span>
+		<th id="revenue" class="multisites-column" style="width: 110px" onClick="params = setOrderBy(this,allSites, params, 'revenue');">
+			<span>{'Goals_ColumnRevenue'|translate}</span>
+			<span class="arrow {if $evolutionBy=='revenue'}multisites_{$order}{/if}"></span>
 		</th>
-		{/if}
 		<th id="evolution" style=" width:350px" colspan="{if $show_sparklines}2{else}1{/if}">
 		<span class="arrow "></span>
 			<span class="evolution" style="cursor:pointer;" onClick="params = setOrderBy(this,allSites, params, $('#evolution_selector').val() + 'Summary');"> {'MultiSites_Evolution'|translate}</span>
 			<select class="selector" id="evolution_selector" onchange="params['evolutionBy'] = $('#evolution_selector').val(); switchEvolution(params);">
 				<option value="visits" {if $evolutionBy eq 'visits'} selected {/if}>{'General_ColumnNbVisits'|translate}</option>
 				<option value="actions" {if $evolutionBy eq 'actions'} selected {/if}>{'General_ColumnPageviews'|translate}</option>
-		{if $displayUniqueVisitors}<option value="unique"{if $evolutionBy eq 'unique'} selected {/if}>{'General_ColumnNbUniqVisitors'|translate}</option> {/if}
+				<option value="revenue" {if $evolutionBy eq 'revenue'} selected {/if}>{'Goals_ColumnRevenue'|translate}</option>
 			</select>
 		</th>
 	</thead>

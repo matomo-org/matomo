@@ -5,17 +5,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-function setRowData (idsite, visits, actions, unique, name, url, visitsSummaryValue, actionsSummaryValue, uniqueSummaryValue)
+function setRowData (idsite, visits, actions, revenue, name, url, visitsSummaryValue, actionsSummaryValue, revenueSummaryValue)
 {
 	this.idsite = idsite;
 	this.visits = visits;
-	this.unique = unique;
+	this.revenue = revenue;
 	this.name = name;
 	this.url = url;
 	this.actions = actions;
 	this.visitsSummaryValue = parseFloat(visitsSummaryValue);
 	this.actionsSummaryValue = parseFloat(actionsSummaryValue);
-	this.uniqueSummaryValue = parseFloat(uniqueSummaryValue);
+	this.revenueSummaryValue = parseFloat(revenueSummaryValue);
 }
 
 function setOrderBy(self, allSites, params, mOrderBy)
@@ -91,22 +91,23 @@ function orderBy(allSites, params)
 			return (a['actions'] < b['actions']) ? -1 : 1;
 		});
 	}
-	else if(params['mOrderBy'] == 'unique')
+	else if(params['mOrderBy'] == 'revenue')
 	{
 		allSites.sort(function (a,b) {
-			if (a['unique'] == b['unique']) {
+			if (a['revenue'].replace(/[^0-9\.]+/g,"") == b['revenue'].replace(/[^0-9\.]+/g,"")) {
 				return 0;
 			}
-			return (a['unique'] < b['unique']) ? -1 : 1;
+			return (parseFloat(a['revenue'].replace(/[^0-9\.]+/g,"")) 
+						< parseFloat(b['revenue'].replace(/[^0-9\.]+/g,""))) ? -1 : 1;
 		});
 	}
-	else if(params['mOrderBy'] == 'uniqueSummary')
+	else if(params['mOrderBy'] == 'revenueSummary')
 	{
 		allSites.sort(function (a,b) {
-			if (a['uniqueSummaryValue'] == b['uniqueSummaryValue']) {
+			if (a['revenueSummaryValue'] == b['revenueSummaryValue']) {
 				return 0;
 			}
-			return (a['uniqueSummaryValue'] - b['uniqueSummaryValue'] <= 0.01) ? -1 : 1;
+			return (a['revenueSummaryValue'] - b['revenueSummaryValue'] <= 0.01) ? -1 : 1;
 		});
 	}
 	else if(params['mOrderBy'] == 'actionsSummary')
@@ -145,7 +146,7 @@ function limitBy(allSites, params)
 function switchEvolution(params)
 {
 	$('.actions').hide();
-	$('.unique').hide();
+	$('.revenue').hide();
 	$('.visits').hide();
 	$('.' + params['evolutionBy']).show();
 	sitesVisible = params['sitesVisible'];
@@ -160,7 +161,7 @@ function displayRows(allSites, params)
 	for(var i  = 0;  i < allSites.length; i++)
 	{
 		var str = params['row'];
-		str = str.replace(/%uniqueSummary%/g, getImageForSummary(allSites[i].uniqueSummaryValue));
+		str = str.replace(/%revenueSummary%/g, getImageForSummary(allSites[i].revenueSummaryValue));
 		str = str.replace(/%actionsSummary%/g, getImageForSummary(allSites[i].actionsSummaryValue));
 		str = str.replace(/%visitsSummary%/g, getImageForSummary(allSites[i].visitsSummaryValue));
 		str = str.replace(/%sparkline%/g, getSparklineImg(allSites[i].idsite, params['evolutionBy'], params));
@@ -168,7 +169,7 @@ function displayRows(allSites, params)
 		str = str.replace(/%idsite%/g, allSites[i].idsite);
 		str = str.replace(/%visits%/g, allSites[i].visits);
 		str = str.replace(/%name%/g, allSites[i].name);
-		str = str.replace(/%unique%/g, allSites[i].unique);
+		str = str.replace(/%revenue%/g, allSites[i].revenue);
 		str = str.replace(/%main_url%/g, allSites[i].url);
 		str = str.replace(/%date%/g, params['date']);
 		str = str.replace(/%period%/g, params['period']);
@@ -178,7 +179,7 @@ function displayRows(allSites, params)
 
 	$(".table_row").show();
 	$('.actions').hide();
-	$('.unique').hide();
+	$('.revenue').hide();
 	$('.visits').hide();
 	$('#main_indicator').hide();
 	$('.' + params['evolutionBy']).show();
@@ -187,14 +188,11 @@ function displayRows(allSites, params)
 
 function getSparklineImg(id, column, params)
 {
-	if(column == 'unique')
-	{
-		column = 'uniq_visitors';
+	if(column != 'revenue') {
+		column = 'nb_' + column;
 	}
-	return '<img class="sparkline" alt="" src="?module=MultiSites&action=getEvolutionGraph&period=' + params['period'] + '&date=' + params['dateSparkline']  + '&evolutionBy=' + params['evolutionBy'] + '&columns=nb_' + column  + '&idSite=' + id + '&idsite=' + id + '&viewDataTable=sparkline" width="100" height="25" />';
+	return '<img class="sparkline" alt="" src="?module=MultiSites&action=getEvolutionGraph&period=' + params['period'] + '&date=' + params['dateSparkline']  + '&evolutionBy=' + params['evolutionBy'] + '&columns=' + column  + '&idSite=' + id + '&idsite=' + id + '&viewDataTable=sparkline" width="100" height="25" />';
 }
-
-
 
 function showPagination(allSites, params)
 {
