@@ -122,7 +122,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
     public final void readRequestInfos(final HttpServletRequest request) throws PiwikException {
         if (request != null) {
             this.setUrlReferer(request.getHeader("Referer"));
-            this.setUserAgent(request.getHeader("user-agent"));
+            this.setUserAgent(request.getHeader("User-Agent"));
             this.setPageUrl(request.getRequestURL().toString());
             this.setIp(request.getRemoteAddr());
             this.setAcceptLanguage(request.getLocale());
@@ -294,7 +294,11 @@ public class SimplePiwikTracker implements IPiwikTracker {
      */
     public final void setUrlReferer(final String urlReferer) throws PiwikException {
         try {
-            this.urlReferer = new URL(apiurl, urlReferer);
+            if (urlReferer == null) {
+                this.urlReferer = null;
+            } else {
+                this.urlReferer = new URL(apiurl, urlReferer);
+            }
         } catch (final MalformedURLException e) {
             throw new PiwikException("Could not parse referer url: " + urlReferer, e);
         }
@@ -638,7 +642,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
                 connection.setInstanceFollowRedirects(false);
                 connection.setRequestMethod("GET");
                 connection.setConnectTimeout(600);
-                connection.setRequestProperty("user-agent", userAgent);
+                connection.setRequestProperty("User-Agent", userAgent);
                 connection.setRequestProperty("Accept-Language", language);
                 if (requestCookie != null) {
                     connection.setRequestProperty("Cookie", requestCookie.getName() + "=" + requestCookie.getValue());
