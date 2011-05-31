@@ -36,9 +36,12 @@
                     {if $properties.show_goals}
 					<a class="tableIcon" format="tableGoals" var="tableGoals"><img title="{'General_DisplayTableWithGoalMetrics'|translate}" src="themes/default/images/{if $javascriptVariablesToSet.filter_only_display_idgoal=='ecommerceOrder'}ecommerceOrder.gif{else}goal.png{/if}" /></a>
                     {/if}
+                    {if $properties.show_ecommerce}
+                    <a class="tableIcon" format="ecommerceOrder" var="ecommerceOrder"><img title="{'General_EcommerceOrders'|translate}" src="themes/default/images/ecommerceOrder.gif" /> <span>{'General_EcommerceOrders'|translate}</span></a>
+                    <a class="tableIcon" format="ecommerceAbandonedCart" var="ecommerceAbandonedCart"><img title="{'General_AbandonedCarts'|translate}" src="themes/default/images/ecommerceAbandonedCart.gif" /> <span>{'General_AbandonedCarts'|translate}</span></a>
+                    {/if}
                 </span>
            </div>
-           
             {if $properties.show_all_views_icons}
 			<div class="tableIconsGroup">
             	<span class="tableGraphViews tableGraphCollapsed">

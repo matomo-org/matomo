@@ -335,7 +335,6 @@ table thead div {
 .dataTableFooterIcons {
 	display:block; 
 	height: 20px;
-	overflow:hidden; 
 	white-space:nowrap; 
 	font-size:10px;
 	padding:6px 5px;
@@ -383,6 +382,13 @@ table thead div {
 .tableIconsGroup{
 	float:left; 
 	padding-right:4px;
+}
+.tableIconsGroup .tableIcon span {
+	margin-right:5px;	
+	margin-left:5px;
+}
+.tableIconsGroup img{
+	vertical-align:bottom;
 }
 
 .tableIconsGroupActive{

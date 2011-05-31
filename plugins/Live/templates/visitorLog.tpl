@@ -1,6 +1,6 @@
 <div id="{$properties.uniqueId}" class="visitorLog">
 {if !$isWidget}
-	<h2>{if $javascriptVariablesToSet.filterEcommerce}{'Goals_EcommerceOrdersLog'|translate}{else}{'Live_VisitorLog'|translate}{/if}</h2>
+	<h2>{if $javascriptVariablesToSet.filterEcommerce}{'Goals_EcommerceLog'|translate}{else}{'Live_VisitorLog'|translate}{/if}</h2>
 		
 	{if !empty($reportDocumentation)}
 		<div class="reportDocumentation"><p>{$reportDocumentation}</p></div>
@@ -164,7 +164,9 @@
 					{/foreach}
 				{/if}
 				{/capture}
-				{if !$javascriptVariablesToSet.filterEcommerce || $action.type == 'ecommerceOrder'}
+				{if !$javascriptVariablesToSet.filterEcommerce 	
+					|| $action.type == 'ecommerceOrder' 	
+					|| $action.type == 'ecommerceAbandonedCart'}
 				<li class="{if !empty($action.goalName)}goal{else}action{/if}" title="{$action.serverTimePretty|escape:'html'}{if !empty($action.url) && strlen(trim($action.url))} - {$action.url|escape:'html'}{/if} {if strlen(trim($customVariablesTooltip))} - {$customVariablesTooltip}{/if}">
 				{if $action.type == 'ecommerceOrder' || $action.type == 'ecommerceAbandonedCart'}
  					{* Ecommerce Abandoned Cart / Ecommerce Order *}

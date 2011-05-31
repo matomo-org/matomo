@@ -17,8 +17,8 @@
 		<li class='goalDimension' module='Goals' action='getItemsCategory'>
 			<span class='dimension'>{'Goals_ProductCategory'|translate}</span>
 		</li>
-		<li class='goalDimension' module='Goals' action='getOrdersLog'>
-			<span class='dimension'>{'Goals_EcommerceOrdersLog'|translate}</span>
+		<li class='goalDimension' module='Goals' action='getEcommerceLog'>
+			<span class='dimension'>{'Goals_EcommerceLog'|translate}</span>
 		</li>
 		</ul>
 	</div>
