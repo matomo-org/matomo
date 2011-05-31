@@ -19,6 +19,9 @@
 class Piwik_VisitsSummary_API
 {
 	static private $instance = null;
+	/**
+	 * @return Piwik_VisitsSummary_API
+	 */
 	static public function getInstance()
 	{
 		if (self::$instance == null)
