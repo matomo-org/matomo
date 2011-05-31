@@ -5,9 +5,9 @@
 {/if}
 {$graphEvolution}
 
-<div id='leftcolumn'>
+<div id='leftcolumn' style='width:33%'>
 	<div class="sparkline">{sparkline src=$urlSparklineConversions}
-	{if isset($ecommerce)} <strong>{$nb_conversions}</strong> {'General_EcommerceOrders'|translate}
+	{if isset($ecommerce)} <strong>{$nb_conversions}</strong> {'General_EcommerceOrders'|translate} <img src='themes/default/images/ecommerceOrder.gif'> 
 	{else}{'Goals_Conversions'|translate:"<strong>$nb_conversions</strong>"}
 	{/if}
 		 {if isset($goalAllowMultipleConversionsPerVisit) && $goalAllowMultipleConversionsPerVisit}
@@ -28,7 +28,7 @@
 	{/if}
 	
 </div>
-<div id='rightcolumn'>
+<div id='leftcolumn' style='width:33%'>
 	<div class="sparkline">{sparkline src=$urlSparklineConversionRate}
 	{if isset($ecommerce)}{capture assign='ecommerceOrdersText'}{'General_EcommerceOrders'|translate}{/capture}
 		{'Goals_ConversionRate'|translate:"<strong>$conversion_rate</strong> $ecommerceOrdersText"}
@@ -42,6 +42,27 @@
 	{/if}
 </div>
 
-
+{if isset($ecommerce)}
+<div id='rightcolumn' style='width:30%'>
+	<div>
+		<img src='themes/default/images/ecommerceAbandonedCart.gif'> <i>{'General_AbandonedCarts'|translate}</i>
+	</div>
+	
+	<div class="sparkline">{sparkline src=$cart_urlSparklineConversions}
+	{capture assign='ecommerceAbandonedCartsText'}{'Goals_AbandonedCart'|translate}{/capture}
+	<strong>{$cart_nb_conversions}</strong> {'General_VisitsWith'|translate:$ecommerceAbandonedCartsText}
+	</div>
+	
+	<div class="sparkline">{sparkline src=$cart_urlSparklineRevenue}
+	{capture assign=revenue}{$cart_revenue|money:$idSite}{/capture}
+	{capture assign=revenueText}{'Live_GoalRevenue'|translate}{/capture}
+	<strong>{$revenue}</strong> {'Goals_LeftInCart'|translate:$revenueText}
+	</div>
+	
+	<div class="sparkline">{sparkline src=$cart_urlSparklineConversionRate}
+	<strong>{$cart_conversion_rate}</strong> {'General_VisitsWith'|translate:$ecommerceAbandonedCartsText}
+	</div>
+</div>
+{/if}
 {include file="CoreHome/templates/sparkline_footer.tpl"}
 

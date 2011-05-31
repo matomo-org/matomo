@@ -66,6 +66,14 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$view = $this->getGoalReportView($idGoal = Piwik_Archive::LABEL_ECOMMERCE_ORDER);
 		$view->displayFullReport = true;
 		$view->goalDimensions = Piwik_Goals::getReportsWithGoalMetrics();
+		
+		$goal = $this->getMetricsForGoal(Piwik_Archive::LABEL_ECOMMERCE_CART);
+		foreach($goal as $name => $value)
+		{
+			$name = 'cart_'.$name;
+			$view->$name = $value;
+		}
+		
 		echo $view->render();
 	}
 	protected function getItemsView($fetch, $type, $function, $api)
@@ -203,7 +211,8 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$view->urlSparklineConversionRate 	= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('conversion_rate')));
 		$view->urlSparklineRevenue 			= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('revenue')));
 
-		$request = new Piwik_API_Request("method=Goals.get&format=original&idGoal=0");
+		// Pass empty idGoal will return Goal overview
+		$request = new Piwik_API_Request("method=Goals.get&format=original&idGoal=");
 		$datatable = $request->process();
 		$dataRow = $datatable->getFirstRow();
 		$view->nb_conversions = $dataRow->getColumn('nb_conversions');

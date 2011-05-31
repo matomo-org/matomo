@@ -152,6 +152,7 @@ $translations = array(
 	'General_ColumnAverageTimeOnPageDocumentation' => 'The average amount of time visitors spent on this page (only the page, not the entire website).',
 	'General_ColumnValuePerVisit' => 'Revenue per Visit',
 	'General_ColumnVisitsWithConversions' => 'Visits with Conversions',
+	'General_VisitsWith' => 'Visits with %s',
 	'General_YearsDays' => "%1\$s years %2\$s days",
 	'General_DaysHours' => "%1\$s days %2\$s hours",
 	'General_HoursMinutes' => "%1\$s hours %2\$s min",
