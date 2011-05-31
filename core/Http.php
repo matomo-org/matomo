@@ -180,7 +180,7 @@ class Piwik_Http
 				"Host: $host".($port != 80 ? ':'.$port : '')."\r\n"
 				.($proxyAuth ? $proxyAuth : '')
 				.'User-Agent: '.$userAgent."\r\n"
-				.$acceptLanguage ? $acceptLanguage ."\r\n" : '' 
+				. ($acceptLanguage ? $acceptLanguage ."\r\n" : '') 
 				.$xff."\r\n"
 				.$via."\r\n"
 				."Connection: close\r\n"
@@ -309,7 +309,7 @@ class Piwik_Http
 				$stream_options = array(
 					'http' => array(
 						'header' => 'User-Agent: '.$userAgent."\r\n"
-									.$acceptLanguage ? $acceptLanguage."\r\n" : ''
+									.($acceptLanguage ? $acceptLanguage."\r\n" : '')
 									.$xff."\r\n"
 									.$via."\r\n",
 						'max_redirects' => 5, // PHP 5.1.0
