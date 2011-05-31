@@ -5,7 +5,7 @@
 {/if}
 {$graphEvolution}
 
-<div id='leftcolumn' style='width:33%'>
+<div id='leftcolumn' {if !$isWidget}style='width:33%'{/if}>
 	<div class="sparkline">{sparkline src=$urlSparklineConversions}
 	{if isset($ecommerce)} <strong>{$nb_conversions}</strong> {'General_EcommerceOrders'|translate} <img src='themes/default/images/ecommerceOrder.gif'> 
 	{else}{'Goals_Conversions'|translate:"<strong>$nb_conversions</strong>"}
@@ -28,7 +28,7 @@
 	{/if}
 	
 </div>
-<div id='leftcolumn' style='width:33%'>
+<div id='leftcolumn' {if !$isWidget}style='width:33%'{/if}>
 	<div class="sparkline">{sparkline src=$urlSparklineConversionRate}
 	{if isset($ecommerce)}{capture assign='ecommerceOrdersText'}{'General_EcommerceOrders'|translate}{/capture}
 		{'Goals_ConversionRate'|translate:"<strong>$conversion_rate</strong> $ecommerceOrdersText"}
@@ -41,9 +41,8 @@
 		<strong>{$items}</strong> {'General_PurchasedProducts'|translate}</div>
 	{/if}
 </div>
-
 {if isset($ecommerce)}
-<div id='rightcolumn' style='width:30%'>
+<div id='rightcolumn'  {if !$isWidget}style='width:30%'{/if}>
 	<div>
 		<img src='themes/default/images/ecommerceAbandonedCart.gif'> <i>{'General_AbandonedCarts'|translate}</i>
 	</div>
