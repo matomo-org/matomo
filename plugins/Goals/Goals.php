@@ -219,6 +219,7 @@ class Piwik_Goals extends Piwik_Plugin
 				'conversion_rate' => Piwik_Translate('General_ProductConversionRate'),
 		);
 	}
+	
 	static public function getReportsWithGoalMetrics()
 	{
 		$dimensions = array();
@@ -263,7 +264,7 @@ class Piwik_Goals extends Piwik_Plugin
 		if($site->isEcommerceEnabled())
 		{
        		Piwik_AddWidget('Goals_Ecommerce', 'Goals_EcommerceOverview', 'Goals', 'widgetGoalReport', array('idGoal' => Piwik_Archive::LABEL_ECOMMERCE_ORDER));
-       		Piwik_AddWidget('Goals_Ecommerce', 'Goals_EcommerceOrdersLog', 'Goals', 'getOrdersLog');
+       		Piwik_AddWidget('Goals_Ecommerce', 'Goals_EcommerceLog', 'Goals', 'getEcommerceLog');
 			foreach($this->ecommerceReports as $widget)
 			{
 				Piwik_AddWidget('Goals_Ecommerce', $widget[0], $widget[1], $widget[2]);

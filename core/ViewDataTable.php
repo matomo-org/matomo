@@ -286,6 +286,7 @@ abstract class Piwik_ViewDataTable
 		$this->idSubtable = Piwik_Common::getRequestVar('idSubtable', false, 'int');
 
 		$this->viewProperties['show_goals'] = false;
+		$this->viewProperties['show_ecommerce'] = false;
 		$this->viewProperties['show_search'] = Piwik_Common::getRequestVar('show_search', true);
 		$this->viewProperties['show_table'] = Piwik_Common::getRequestVar('show_table', true);
 		$this->viewProperties['show_table_all_columns'] = Piwik_Common::getRequestVar('show_table_all_columns', true);
@@ -842,6 +843,14 @@ abstract class Piwik_ViewDataTable
 		{
 			$this->viewProperties['show_goals'] = true;
 		}
+	}
+
+	/**
+	 * Whether or not to show the "Ecommerce orders/cart" icons
+	 */
+	public function enableShowEcommerce()
+	{
+		$this->viewProperties['show_ecommerce'] = true;
 	}
 	
 	/**

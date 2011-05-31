@@ -61,7 +61,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 		}
 		else
 		{
-			$this->setMetricDocumentation('revenue_per_visit', Piwik_Translate('Goals_ColumnRevenuePerVisitDocumentation', Piwik_Translate('Goals_GoalConversions') ));
+			$this->setMetricDocumentation('revenue_per_visit', Piwik_Translate('Goals_ColumnRevenuePerVisitDocumentation', Piwik_Translate('Goals_EcommerceAndGoalsMenu') ));
 			$this->setColumnsTranslations( array(
 				'goal_%s_conversion_rate' => Piwik_Translate('Goals_ConversionRate'),
 				'goal_%s_nb_conversions' => Piwik_Translate('Goals_Conversions'),
@@ -107,12 +107,23 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 		if($idSite)
 		{
 			$goals = Piwik_Goals_API::getInstance()->getGoals( $idSite );
+			
+			$ecommerceGoal = 	array(	
+							'idgoal' => Piwik_Archive::LABEL_ECOMMERCE_ORDER, 
+							'name' => Piwik_Translate('Goals_EcommerceOrder')
+					);
+			$site = new Piwik_Site($idSite);
+			//Case Ecommerce report table 
 			if($this->isEcommerce)
 			{
-				$goals = array(
-					array(	'idgoal' => Piwik_Archive::LABEL_ECOMMERCE_ORDER, 
-							'name' => Piwik_Translate('Goals_EcommerceOrder')
-					)
+				$goals = array($ecommerceGoal);
+			}
+			// Case tableGoals
+			elseif($site->isEcommerceEnabled())
+			{
+				$goals = array_merge(
+					array($ecommerceGoal),
+					$goals
 				);
 			}
 		}

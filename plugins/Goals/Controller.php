@@ -76,45 +76,65 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		
 		echo $view->render();
 	}
-	protected function getItemsView($fetch, $type, $function, $api)
+	protected function getItemsView($fetch, $type, $function, $api, $abandonedCart = false)
 	{
+		$saveGET = $_GET;
 		$label = Piwik_Translate($type);
-		$view = Piwik_ViewDataTable::factory();
+		$abandonedCart = Piwik_Common::getRequestVar('viewDataTable', 'ecommerceOrder', 'string') == 'ecommerceAbandonedCart';
+		
+		// Products in Ecommerce Orders
+		if($abandonedCart === false)
+		{
+			$view = new Piwik_ViewDataTable_HtmlTable_EcommerceOrder();
+			$columns = Piwik_Goals::getProductReportColumns();
+			$view->setMetricDocumentation('revenue', Piwik_Translate('Goals_ColumnRevenueDocumentation', Piwik_Translate('Goals_DocumentationRevenueGeneratedByProductSales')));
+			$view->setMetricDocumentation('quantity', Piwik_Translate('Goals_ColumnQuantityDocumentation', $label));
+			$view->setMetricDocumentation('orders', Piwik_Translate('Goals_ColumnOrdersDocumentation', $label));
+			$view->setMetricDocumentation('avg_price', Piwik_Translate('Goals_ColumnAveragePriceDocumentation', $label));
+			$view->setMetricDocumentation('avg_quantity', Piwik_Translate('Goals_ColumnAverageQuantityDocumentation', $label));
+			$view->setMetricDocumentation('nb_visits', Piwik_Translate('Goals_ColumnVisitsProductDocumentation', $label));
+			$view->setMetricDocumentation('conversion_rate', Piwik_Translate('Goals_ColumnConversionRateProductDocumentation', $label));
+		}
+		// Products in Abandoned Carts
+		else
+		{
+			$view = new Piwik_ViewDataTable_HtmlTable_EcommerceAbandonedCart();
+			$columns = Piwik_Goals::getProductReportColumns();
+			$columns['abandoned_carts'] = Piwik_Translate('General_AbandonedCarts');
+			$columns['revenue'] = Piwik_Translate('Goals_LeftInCart', Piwik_Translate('General_ProductRevenue'));
+			$columns['quantity'] = Piwik_Translate('Goals_LeftInCart', Piwik_Translate('General_Quantity'));
+			$columns['avg_quantity'] = Piwik_Translate('Goals_LeftInCart', Piwik_Translate('General_AverageQuantity'));
+			unset($columns['orders']);
+			unset($columns['nb_visits']);
+			unset($columns['conversion_rate']);
+			$_GET['abandonedCarts'] = 1;
+		}
+		
 		$view->init( $this->pluginName, $function, $api );
+		$view->enableShowEcommerce();
+		$view->disableShowAllViewsIcons();
+		$view->disableShowTable();
 		$view->disableExcludeLowPopulation();
 		$view->disableShowAllColumns();
 		$this->setPeriodVariablesView($view);
 		$view->setLimit( 10 );
+		
 		$view->setColumnsTranslations(array_merge(
 			array('label' => $label),
-			Piwik_Goals::getProductReportColumns()
+			$columns
 		));
-		$view->setColumnsToDisplay(array(
-			'label',
-			'revenue',
-			'quantity',
-			'orders',
-			'avg_price',
-			'avg_quantity',
-			'nb_visits',
-			'conversion_rate',
-		));
-		$view->setMetricDocumentation('revenue', Piwik_Translate('Goals_ColumnRevenueDocumentation', Piwik_Translate('Goals_DocumentationRevenueGeneratedByProductSales')));
-		$view->setMetricDocumentation('quantity', Piwik_Translate('Goals_ColumnQuantityDocumentation', $label));
-		$view->setMetricDocumentation('orders', Piwik_Translate('Goals_ColumnOrdersDocumentation', $label));
-		$view->setMetricDocumentation('avg_price', Piwik_Translate('Goals_ColumnAveragePriceDocumentation', $label));
-		$view->setMetricDocumentation('avg_quantity', Piwik_Translate('Goals_ColumnAverageQuantityDocumentation', $label));
-		$view->setMetricDocumentation('nb_visits', Piwik_Translate('Goals_ColumnVisitsProductDocumentation', $label));
-		$view->setMetricDocumentation('conversion_rate', Piwik_Translate('Goals_ColumnConversionRateProductDocumentation', $label));
-		
+		$columnsToDisplay = array_merge(array('label'), array_keys($columns));
+		$view->setColumnsToDisplay($columnsToDisplay);
 		$view->setSortedColumn('revenue', 'desc');
 		foreach(array('revenue', 'avg_price') as $column)
 		{
 			$view->queueFilter('ColumnCallbackReplace', array($column, array("Piwik", "getPrettyMoney"), array($this->idSite)));
-		}		
-		return $this->renderView($view, $fetch);
+		}
+		$return = $this->renderView($view, $fetch);
+		$_GET = $saveGET;
+		return $return;
 	}
-	
+
 	public function getItemsSku($fetch = false)
 	{
 		return $this->getItemsView($fetch, 'Goals_ProductSKU', __FUNCTION__, "Goals.getItemsSku");
@@ -129,12 +149,13 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	{
 		return $this->getItemsView($fetch, 'Goals_ProductCategory', __FUNCTION__, "Goals.getItemsCategory");
 	}
-	public function getOrdersLog($fetch = false)
+	
+	public function getEcommerceLog($fetch = false)
 	{
 		$saveGET = $_GET;
 		$_GET['filterEcommerce'] = 1;
 		$_GET['widget'] = 1;
-		$_GET['segment'] = 'visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart';
+		$_GET['segment'] = 'visitEcommerceStatus!=none';
 		$output = Piwik_FrontController::getInstance()->dispatch('Live', 'getVisitorLog', array($fetch));
 		$_GET = $saveGET;
 		return $output;
@@ -391,5 +412,20 @@ class Piwik_Goals_Controller extends Piwik_Controller
 			));
 		}
 		return $return;
+	}
+}
+
+
+// Used so that the template knows which datatable is being currently viewed 
+class Piwik_ViewDataTable_HtmlTable_EcommerceOrder extends Piwik_ViewDataTable_HtmlTable {
+	protected function getViewDataTableId()
+	{
+		return Piwik_Archive::LABEL_ECOMMERCE_ORDER;
+	}
+}
+class Piwik_ViewDataTable_HtmlTable_EcommerceAbandonedCart extends Piwik_ViewDataTable_HtmlTable {
+	protected function getViewDataTableId()
+	{
+		return Piwik_Archive::LABEL_ECOMMERCE_CART;
 	}
 }

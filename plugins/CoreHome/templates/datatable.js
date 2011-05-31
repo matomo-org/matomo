@@ -579,7 +579,7 @@ dataTable.prototype =
 			}
 		);
 		
-		
+		// Initialize arrow footer to correct icon
 		$('.dataTableFooterWrap a.tableIcon', domElem).each(function(){
 			if(self.jsViewDataTable==$(this).attr('var')) self.setActiveIcon(this, domElem); 
 		});
