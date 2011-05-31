@@ -28,7 +28,6 @@ class Test_Piwik_Http extends UnitTestCase
 			catch(Exception $e) {
 				var_dump($e->getMessage());
 			}
-
 			$this->assertTrue( preg_match('/^([0-9.]+)$/', $version), $method );
 		}
 
