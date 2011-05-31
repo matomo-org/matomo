@@ -66,14 +66,6 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$view = $this->getGoalReportView($idGoal = Piwik_Archive::LABEL_ECOMMERCE_ORDER);
 		$view->displayFullReport = true;
 		$view->goalDimensions = Piwik_Goals::getReportsWithGoalMetrics();
-		
-		$goal = $this->getMetricsForGoal(Piwik_Archive::LABEL_ECOMMERCE_CART);
-		foreach($goal as $name => $value)
-		{
-			$name = 'cart_'.$name;
-			$view->$name = $value;
-		}
-		
 		echo $view->render();
 	}
 	protected function getItemsView($fetch, $type, $function, $api, $abandonedCart = false)
@@ -184,6 +176,15 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		{
 			$view->$name = $value;
 		}
+		if($idGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER)
+		{
+			$goal = $this->getMetricsForGoal(Piwik_Archive::LABEL_ECOMMERCE_CART);
+			foreach($goal as $name => $value)
+			{
+				$name = 'cart_'.$name;
+				$view->$name = $value;
+			}
+		}		
 		$view->idGoal = $idGoal;
 		$view->goalName = $goalDefinition['name'];
 		$view->goalAllowMultipleConversionsPerVisit = $goalDefinition['allow_multiple'];
