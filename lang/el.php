@@ -198,6 +198,7 @@ $translations = array(
 	'General_PleaseSpecifyValue' => 'Ορίστε μια τιμή για το «%s».',
 	'General_ExceptionMethodNotFound' => 'Η μέθοδος «%s» δεν υπάρχει ή δεν είναι διαθέσιμη στο πρότυπο «%s».',
 	'General_ExceptionInvalidRendererFormat' => 'Η μορφή του Αναφορέα «%s» δεν είναι έγκυρη. Δοκιμάστε κάποιο από τις ακόλουθες: %s.',
+	'General_ExceptionInvalidReportRendererFormat' => 'Η μορφή αναφοράς «%s» δεν είναι έγκυρη. Δοκιμάστε κάποια από τις επόμενες: %s.',
 	'General_ExceptionInvalidPeriod' => 'Η περίοδος «%s» δεν υποστηρίζεται. Δοκιμάστε κάποια από τις ακόλουθες: %s.',
 	'General_ExceptionInvalidDateRange' => 'Η ημερομηνία «%s» δεν είναι ορθό εύρος ημεφομηνιών. Πρέπει να έχει την ακόλουθη μορφή: %s.',
 	'General_ExceptionGoalNotFound' => 'Η ταυτότητα στόχου = %s δεν βρέθηκε.',
@@ -278,8 +279,11 @@ $translations = array(
 	'CoreAdminHome_YouMayOptOutBis' => 'Για να κάνετε αυτή την επιλογή, πατήστε παρακάτω για να λάβετε ένα cookie απενεργοποιήσης.',
 	'CoreAdminHome_YouAreOptedIn' => 'Καταγράφεστε',
 	'CoreAdminHome_YouAreOptedOut' => 'Δεν καταγράφεστε',
+	'CoreAdminHome_ClickHereToOptOut' => 'Πατήστε εδώ για να μην καταγράφεστε',
+	'CoreAdminHome_ClickHereToOptIn' => 'Πατήστε εδώ για να καταγράφεστε',
 	'CoreHome_PluginDescription' => 'Δομή Αναφορών Ανάλυσης Ιστού.',
 	'CoreHome_WebAnalyticsReports' => 'Αναφορές Στατιστικών Ιστού',
+	'CoreHome_NoPrivilegesAskPiwikAdmin' => 'Έχετε συνδεθεί ως «%s» αλλά φαίνεται να μην έχετε ορισμένα δικαιώματα στο Piwik. %s Ρωτήστε τον διαχειριστή του Piwik (πατήστε για να στείλετεα ηλεκτρονική επιστολή)%s για να σας δώσει δικαιώματα προβολή για μια ιστοσελίδα.',
 	'CoreHome_JavascriptDisabled' => 'Η JavaScript πρέπει να ενεργοποιηθεί για να χρησιμοποιήσετε το Piwik στη βασική του μορφή.<br />Ωστόσο, φαίνεται ότι η JavaScript είναι είτε απενεργοποιημένη ή δεν υποστηρίζεται από τον φυλλομετρητή σας.<br />Για τη χρήση της βασικής μορφής, ενεργοποιήστε τη JavaScript αλλάζοντας της ρυθμίσεις του φυλλομετρητή σας και %1$sδοκιμάστε ξανά%2$s.<br />',
 	'CoreHome_ThereIsNoDataForThisReport' => 'Δεν υπάρχουν δεδομένα για αυτή την αναφορά.',
 	'CoreHome_CategoryNoData' => 'Ανεπαρκή δεδομένα στη κατηγορία. Δοκιμάστε να συμπεριλάβετε όλο το πλήθος.',
@@ -661,21 +665,7 @@ $translations = array(
 	'Login_InvalidNonceOrHeadersOrReferer' => 'Η ασφάλεια της Φόρμας απέτυχε. Επαναφορτώστε τη φόρμα και ελέξτε ότι είναι ενεργοποιήμένα τα cookies. Αν χρεισιμοποιείτε διακομιστή proxy, πρέπει να %sρυθμίσετε το Piwik να δέχετε την κεφαλίδα proxy%s που προωθεί την κεφαλίδα του φιλοξενητή. Επίσης, ελέξτε ότι η κεφαλίδα Αναφορέα στέλνεται σωστά.',
 	'Login_InvalidOrExpiredToken' => 'Το τεκμήριο είναι άκυρο ή έχει λήξει',
 	'Login_MailTopicPasswordRecovery' => 'Ανάκτηση κωδικού',
-	'Login_MailPasswordRecoveryBody' => 'Γεια %1$s,
-
-Ελήφθη αίτημα ανάκτησης κωδικού πρόσβασης από %2$s.
-
-Για να ανακτήσετε τον κωδικό πρόσβασής σας:
-
-1) Μεταβείτε στη Φόρμα Ανάκτησης Κωδικού Πρόσβασης στο:
-
-%3$s 2) Εισάγετε το ακόλουθο τεκμήριο:
-
-%4$s
-
-3) Συμπληρώστε τη φόρμα (εισάγοντας τον νέο κωδικό πρόσβασης δύο φορές) και υποβάλετε τη φόρμα.
-
-Σημείωση: αυτό το τεκμήριο θα εκπεύσει σε 24 ώρες.',
+	'Login_MailPasswordRecoveryBody' => 'Γεια %1$s,Ελήφθη αίτημα ανάκτησης κωδικού πρόσβασης από %2$s.Για να ανακτήσετε τον κωδικό πρόσβασής σας:1) Μεταβείτε στη Φόρμα Ανάκτησης Κωδικού Πρόσβασης στο:%3$s 2) Εισάγετε το ακόλουθο τεκμήριο:%4$s3) Συμπληρώστε τη φόρμα (εισάγοντας τον νέο κωδικό πρόσβασης δύο φορές) και υποβάλετε τη φόρμα.Σημείωση: αυτό το τεκμήριο θα εκπεύσει σε 24 ώρες.',
 	'Login_PasswordSent' => 'Ο κωδικός σας μόλις απεστάλη. Ελέγξτε την αλληλογραφία σας.',
 	'Login_ContactAdmin' => 'Πιθανή αιτία: ο διακομιστής έχει απενεργοποιημένη τη συνάρτηση mail() <br />Επικοινωνήστε με τον διαχειριστή.',
 	'Login_ExceptionPasswordMD5HashExpected' => 'Η παράμετρος του κωδικού πρόσβασης αναμενόταν να είναι ο αριθμός MD5 του κωδικού πρόσβασης.',
@@ -853,6 +843,7 @@ $translations = array(
 	'UserCountry_country_bm' => 'Βερμούδα',
 	'UserCountry_country_bn' => 'Μπρούνεο',
 	'UserCountry_country_bo' => 'Βολιβία',
+	'UserCountry_country_bq' => 'Μποναίρ, Άγιος Ευστάθιος και Σάμπα',
 	'UserCountry_country_br' => 'Βραζιλία',
 	'UserCountry_country_bs' => 'Μπαχάμες',
 	'UserCountry_country_bt' => 'Μπουτάν',
@@ -878,6 +869,7 @@ $translations = array(
 	'UserCountry_country_cs' => 'Σερβία-Μαυροβούνιο',
 	'UserCountry_country_cu' => 'Κούβα',
 	'UserCountry_country_cv' => 'Πράσινο Ακρωτήρι',
+	'UserCountry_country_cw' => 'Κουρακάο',
 	'UserCountry_country_cx' => 'Νήσος Χριστουγέννων',
 	'UserCountry_country_cy' => 'Κύπρος',
 	'UserCountry_country_cz' => 'Τσεχία',
@@ -1041,6 +1033,7 @@ $translations = array(
 	'UserCountry_country_sr' => 'Σουρινάμ',
 	'UserCountry_country_st' => 'Άγιος Θωμάς και Πρίγκιπας',
 	'UserCountry_country_su' => 'Παλαιά Ε.Σ.Σ.Δ.',
+	'UserCountry_country_sx' => 'Άγιος Μαρτίνος',
 	'UserCountry_country_sv' => 'Ελ Σαλβαδόρ',
 	'UserCountry_country_sy' => 'Συριακή Αραβική Δημοκρατία',
 	'UserCountry_country_sz' => 'Σουαζιλάνδη',
@@ -1244,17 +1237,33 @@ $translations = array(
 	'VisitTime_SubmenuTimes' => 'Χρόνοι',
 	'VisitTime_NHour' => '%sω',
 	'Widgetize_PluginDescription' => 'Το πρόσθετο κάνει πολύ εύκολη την εξαγωγή οποιασδήποτε Μικροεφαρμογής Piwik στο Ιστολόγιό σας, την Ιστοσελίδα σας ή το Igoogle και το Netvibes!',
+	'PDFReports_PluginDescriptionReports' => 'Δημιουργήστε και λάβετε τις προσαρμοσμενες αναφορές σας και ρυθμίστε τες ώστε να τις λαμβάνετε ημερησίως, εβδομαδιαίως ή μηνιαίως.',
 	'PDFReports_ManageEmailReports' => 'Διαχείριση Αναφορών Αλληλογραφίας',
 	'PDFReports_EmailReports' => 'Αναφορές Αλληλογραφίας',
 	'PDFReports_PDF' => 'PDF',
 	'PDFReports_SendReportNow' => 'Αποστολή Αναφοράς τώρα',
 	'PDFReports_EmailSchedule' => 'Προγραμματισμός Ηλεκτρονικής Αλληλογραφίας',
 	'PDFReports_SendReportTo' => 'Αποστολή αναφοράς στο',
+	'PDFReports_ReportFormat' => 'Μορφή Αναφοράς',
 	'PDFReports_SentToMe' => 'Αποστολή σε μένα',
+	'PDFReports_CreateAndScheduleReport' => 'Δημιουργήστε και Προγραμματίστε μια αναφορά',
+	'PDFReports_CancelAndReturnToReports' => 'Άκυρο και %sεπιστροφή στη λίστα αναφορών%s',
+	'PDFReports_DescriptionOnFirstPage' => 'Η περιγραφή της αναφοράς θα εμφανίζεται στην πρώτη σελίδα της αναφοράς.',
 	'PDFReports_WeeklyScheduleHelp' => 'Εβδομαδιαίος προγραμματισμός: η αναφορά θα αποσταλεί την πρώτη Δευτέρα κάθε εβδομάδα.',
 	'PDFReports_MonthlyScheduleHelp' => 'Μηνιαίος προγραμματισμός: η αναφορά θα αποσταλεί την πρώτη μέρα κάθε μήνα.',
 	'PDFReports_AlsoSendReportToTheseEmails' => 'Να αποσταλεί η αναφορά και σε αυτές τις ηλεκτρονικές διευθύνσεις (μια ανά γραμμή):',
+	'PDFReports_ReportsIncluded' => 'Συμπερίληψη στατιστικών',
+	'PDFReports_CreateReport' => 'Δημιουργία Αναφοράς',
+	'PDFReports_UpdateReport' => 'Ενημέρωση Αναφοράς',
 	'PDFReports_PiwikReports' => 'Αναφορές Piwik',
+	'PDFReports_DefaultContainingAllReports' => 'Η προεπιλεγμένη αναφορά περιλαμβάνει όλα τα διαθέσιμα στατιστικά.',
 	'PDFReports_EmailHello' => 'Γεια σας,',
 	'PDFReports_PleaseFindAttachedFile' => 'Βρείτε στο συνημμένο αρχείο την αναφορά %1$s για %2$s.',
+	'PDFReports_PleaseFindBelow' => 'Βρείτε παρακάτω την αναφορά %1$s για τη %2$s.',
+	'PDFReports_AreYouSureDeleteReport' => 'Θέλετε σίγουρα να διαγράψετε αυτή την αναφορά και τον προγραμματισμό της;',
+	'PDFReports_ThereIsNoReportToManage' => 'Δεν υπάρχει αναφορά για τη διαχείριση της ιστοσελίδας %s',
+	'PDFReports_MustBeLoggedIn' => 'Πρέπει να έχετε συνδεθεί για  να δημιουργήσετε και να προγραμματίσετε προσαρμοσμένες αναφορές.',
+	'PDFReports_FrontPage' => 'Εξώφυλλο',
+	'PDFReports_TableOfContent' => 'Λίστα αναφορών',
+	'PDFReports_TopOfReport' => 'Επιστροφή στην κορυφή',
 );
