@@ -742,7 +742,7 @@
 	</row>
 	<row>
 		<label>General_Daily</label>
-		<value>Quotidien</value>
+		<value>Quotidiennement</value>
 	</row>
 	<row>
 		<label>General_Weekly</label>
@@ -750,7 +750,7 @@
 	</row>
 	<row>
 		<label>General_Monthly</label>
-		<value>Mensuel</value>
+		<value>Mensuellement</value>
 	</row>
 	<row>
 		<label>General_ConfigFileIsNotWritable</label>
@@ -791,6 +791,10 @@
 	<row>
 		<label>General_ExceptionInvalidRendererFormat</label>
 		<value>Le format de rendu '%s' n'est pas valide. Veuillez essayer un de ceux-ci à la place: %s.</value>
+	</row>
+	<row>
+		<label>General_ExceptionInvalidReportRendererFormat</label>
+		<value>Format de rapport '%s' invalide. Essayez n'importe lequel des formats suivants à la place: %s.</value>
 	</row>
 	<row>
 		<label>General_ExceptionInvalidPeriod</label>
@@ -1113,12 +1117,24 @@
 		<value>Vous n'êtes actuellement pas suivit.</value>
 	</row>
 	<row>
+		<label>CoreAdminHome_ClickHereToOptOut</label>
+		<value>Cliquez ici pour ne pas participer</value>
+	</row>
+	<row>
+		<label>CoreAdminHome_ClickHereToOptIn</label>
+		<value>Cliquez ici pour participer</value>
+	</row>
+	<row>
 		<label>CoreHome_PluginDescription</label>
 		<value>Structure des rapports statistiques web.</value>
 	</row>
 	<row>
 		<label>CoreHome_WebAnalyticsReports</label>
 		<value>Rapports des statistiques web.</value>
+	</row>
+	<row>
+		<label>CoreHome_NoPrivilegesAskPiwikAdmin</label>
+		<value>Vous êtes connecté en tant que '%s' mais il semble que nous n'ayez aucune permission définie dans Piwik. %s Demandez à votre administrateur (cliquez pour envoyer un e-mail)%s de vous donner l'accès 'Consultation' à un site web.</value>
 	</row>
 	<row>
 		<label>CoreHome_JavascriptDisabled</label>
@@ -1970,7 +1986,7 @@
 	</row>
 	<row>
 		<label>Goals_VisitUrl</label>
-		<value>Visiter une URL donnée (page ou groupe de pages)</value>
+		<value>Visitent une URL donnée (page ou groupe de pages)</value>
 	</row>
 	<row>
 		<label>Goals_URL</label>
@@ -1990,11 +2006,15 @@
 	</row>
 	<row>
 		<label>Goals_Download</label>
-		<value>Télécharger un fichier</value>
+		<value>Téléchargent un fichier</value>
+	</row>
+	<row>
+		<label>Goals_VisitPageTitle</label>
+		<value>Visitent un titre de page donné.</value>
 	</row>
 	<row>
 		<label>Goals_ClickOutlink</label>
-		<value>Cliquez sur un Lien vers un site externe</value>
+		<value>Cliquent sur un Lien vers un site externe</value>
 	</row>
 	<row>
 		<label>Goals_Optional</label>
@@ -2661,22 +2681,6 @@
 		<value>Le Super Utilisateur ne peut pas être authentifié en utilisant le mécanisme '%s'.</value>
 	</row>
 	<row>
-		<label>Mobile_AnonymousAccess</label>
-		<value>Accès anonyme</value>
-	</row>
-	<row>
-		<label>Mobile_EnableGraphsLabel</label>
-		<value>Afficher les graphs</value>
-	</row>
-	<row>
-		<label>Mobile_SaveSuccessError</label>
-		<value>Merci de vérifier vos paramètres</value>
-	</row>
-	<row>
-		<label>Mobile_YouAreOffline</label>
-		<value>Désolé, vous êtes actuellement déconnecté</value>
-	</row>
-	<row>
 		<label>MultiSites_PluginDescription</label>
 		<value>Affiche le sommaire/les statistiques multi-site. Actuellement maintenu comme un plugin Piwik cœur.</value>
 	</row>
@@ -3333,6 +3337,10 @@
 		<value>Bolivie</value>
 	</row>
 	<row>
+		<label>UserCountry_country_bq</label>
+		<value>Bonaire, Saint Eustache et Saba</value>
+	</row>
+	<row>
 		<label>UserCountry_country_br</label>
 		<value>Brésil</value>
 	</row>
@@ -3431,6 +3439,10 @@
 	<row>
 		<label>UserCountry_country_cv</label>
 		<value>Cap Vert</value>
+	</row>
+	<row>
+		<label>UserCountry_country_cw</label>
+		<value>Curaçao</value>
 	</row>
 	<row>
 		<label>UserCountry_country_cx</label>
@@ -4085,6 +4097,10 @@
 		<value>Ex U.R.S.S</value>
 	</row>
 	<row>
+		<label>UserCountry_country_sx</label>
+		<value>Saint Martin</value>
+	</row>
+	<row>
 		<label>UserCountry_country_sv</label>
 		<value>El Salvador</value>
 	</row>
@@ -4498,7 +4514,7 @@
 	</row>
 	<row>
 		<label>UsersManager_TheSuperUserAliasCannotBeChanged</label>
-		<value>L'alias du super utilisateur ne peut $etre changé.</value>
+		<value>L'alias du super utilisateur ne peut être changé.</value>
 	</row>
 	<row>
 		<label>UsersManager_ReportToLoadByDefault</label>
@@ -4897,6 +4913,10 @@
 		<value>Le plugin rend l'export de n'importe quel Widget Piwik dans votre blog, site web ou sur Igoogle et Netvibes!</value>
 	</row>
 	<row>
+		<label>PDFReports_PluginDescriptionReports</label>
+		<value>Créez et téléchargez vos rapports personnalisés, et recevez les par e-mail quotidiennement, chaque semaine ou mensuellement.</value>
+	</row>
+	<row>
 		<label>PDFReports_ManageEmailReports</label>
 		<value>Gérer les rapports par e-mail</value>
 	</row>
@@ -4921,8 +4941,24 @@
 		<value>Envoyer le(s) rapport(s) à</value>
 	</row>
 	<row>
+		<label>PDFReports_ReportFormat</label>
+		<value>Format du rapport</value>
+	</row>
+	<row>
 		<label>PDFReports_SentToMe</label>
 		<value>Envoyer à moi</value>
+	</row>
+	<row>
+		<label>PDFReports_CreateAndScheduleReport</label>
+		<value>Créer et planifier un rapport</value>
+	</row>
+	<row>
+		<label>PDFReports_CancelAndReturnToReports</label>
+		<value>Annuler et %s retourner à la liste des rapports%s</value>
+	</row>
+	<row>
+		<label>PDFReports_DescriptionOnFirstPage</label>
+		<value>La description du rapport sera affichée sur la première page du rapport.</value>
 	</row>
 	<row>
 		<label>PDFReports_WeeklyScheduleHelp</label>
@@ -4937,8 +4973,24 @@
 		<value>Envoyer le rapport aussi à ces adresses e-mail (une par ligne) :</value>
 	</row>
 	<row>
+		<label>PDFReports_ReportsIncluded</label>
+		<value>Statistiques inclues</value>
+	</row>
+	<row>
+		<label>PDFReports_CreateReport</label>
+		<value>Créer le rapport</value>
+	</row>
+	<row>
+		<label>PDFReports_UpdateReport</label>
+		<value>Mettre à jour le rapport</value>
+	</row>
+	<row>
 		<label>PDFReports_PiwikReports</label>
 		<value>Rapports Piwik</value>
+	</row>
+	<row>
+		<label>PDFReports_DefaultContainingAllReports</label>
+		<value>Le rapport par défaut contient toutes les statistiques disponibles.</value>
 	</row>
 	<row>
 		<label>PDFReports_EmailHello</label>
@@ -4947,5 +4999,33 @@
 	<row>
 		<label>PDFReports_PleaseFindAttachedFile</label>
 		<value>Veuillez trouver en pièce jointe votre rapport %1$s pour %2$s.</value>
+	</row>
+	<row>
+		<label>PDFReports_PleaseFindBelow</label>
+		<value>Veuillez trouver ci-dessous votre %1$s rapport pour %2$s.</value>
+	</row>
+	<row>
+		<label>PDFReports_AreYouSureDeleteReport</label>
+		<value>Etes vous sûr de vouloir supprimer ce rapport et sa planification?</value>
+	</row>
+	<row>
+		<label>PDFReports_ThereIsNoReportToManage</label>
+		<value>Il n'y a aucun rapport à gérer pour le site web %s</value>
+	</row>
+	<row>
+		<label>PDFReports_MustBeLoggedIn</label>
+		<value>Vous devez être connecté pour créer et planifier des rapports personnalisés.</value>
+	</row>
+	<row>
+		<label>PDFReports_FrontPage</label>
+		<value>Première page</value>
+	</row>
+	<row>
+		<label>PDFReports_TableOfContent</label>
+		<value>Liste des rapports</value>
+	</row>
+	<row>
+		<label>PDFReports_TopOfReport</label>
+		<value>Retour haut de page</value>
 	</row>
 </result>
