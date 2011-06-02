@@ -87,6 +87,7 @@ $translations = array(
 	'General_CurrentYear' => 'Current Year',
 	'General_DateRange' => 'Date range:',
 	'General_DateRangeInPeriodList' => 'Date range',
+	'General_DateRangeFromTo' => 'From %s to %s',
 	'General_ApplyDateRange' => 'Apply Date Range',
 	'General_InvalidDateRange_js' => 'Invalid Date Range, Please Try Again',
 	'General_DateRangeFrom_js' => 'From',

@@ -61,7 +61,7 @@ class Piwik_Period_Range extends Piwik_Period
 	
 	public function getPrettyString()
 	{
-		$out = "From ". $this->getDateStart()->toString() . " to " . $this->getDateEnd()->toString();
+		$out = Piwik_Translate('General_DateRangeFromTo', array($this->getDateStart()->toString(), $this->getDateEnd()->toString()));
 		return $out;
 	}
 
