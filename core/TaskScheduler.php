@@ -33,18 +33,11 @@ class Piwik_TaskScheduler
 	{
 		// Gets the array where rescheduled timetables are stored
 		$option = Piwik_GetOption(self::TIMETABLE_OPTION_STRING);
-		if($option === false)
-		{
-			$timetable = array();
-		}
-		elseif(!is_string($option))
-		{
-			return;
-		}
-		else
-		{
-			$timetable = unserialize($option);
-		}
+
+        $timetable = self::getTimetableFromOption($option);
+        if($timetable === false) {
+            return;
+        }
 
 		if(isset($GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS']) && $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'])
 		{
@@ -92,4 +85,40 @@ class Piwik_TaskScheduler
 		return $return;
 
 	}
+
+	/*
+	 * return the timetable for a given task
+	 */
+	static public function getScheduledTimeForTask($className, $methodName) {
+		// Gets the array where rescheduled timetables are stored
+		$option = Piwik_GetOption(self::TIMETABLE_OPTION_STRING);
+
+		$timetable = self::getTimetableFromOption($option);
+        if($timetable === false) {
+            return;
+        }
+
+		$taskName = $className . '.' . $methodName;
+
+		if(isset($timetable[$taskName])) {
+			return $timetable[$taskName];
+		} else {
+			return false;
+		}
+	}
+
+    static private function getTimetableFromOption($option = false) {
+        if($option === false)
+		{
+			return array();
+		}
+		elseif(!is_string($option))
+		{
+			return false;
+		}
+		else
+		{
+			return unserialize($option);
+		}
+    }
 }

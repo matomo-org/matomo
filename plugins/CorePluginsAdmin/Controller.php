@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik_Plugins
  * @package Piwik_CorePluginsAdmin
  */
@@ -15,13 +15,13 @@
  * @package Piwik_CorePluginsAdmin
  */
 class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
-{	
+{
 	function index()
 	{
 		Piwik::checkUserIsSuperUser();
-		
+
 		$plugins = array();
-	
+
 		$listPlugins = Piwik_PluginsManager::getInstance()->readPluginsDirectory();
 		foreach($listPlugins as $pluginName)
 		{
@@ -51,21 +51,27 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
 		echo $view->render();
 	}
 
-	public function deactivate()
+	public function deactivate($redirectAfter = true)
 	{
 		Piwik::checkUserIsSuperUser();
 		$this->checkTokenInUrl();
 		$pluginName = Piwik_Common::getRequestVar('pluginName', null, 'string');
 		Piwik_PluginsManager::getInstance()->deactivatePlugin($pluginName);
-		Piwik_Url::redirectToReferer();
+		if($redirectAfter)
+		{
+			Piwik_Url::redirectToReferer();
+		}
 	}
-	
-	public function activate()
+
+	public function activate($redirectAfter = true)
 	{
 		Piwik::checkUserIsSuperUser();
 		$this->checkTokenInUrl();
 		$pluginName = Piwik_Common::getRequestVar('pluginName', null, 'string');
 		Piwik_PluginsManager::getInstance()->activatePlugin($pluginName);
-		Piwik_Url::redirectToReferer();
+		if($redirectAfter)
+		{
+			Piwik_Url::redirectToReferer();
+		}
 	}
 }
