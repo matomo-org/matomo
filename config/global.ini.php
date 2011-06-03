@@ -338,6 +338,17 @@ ip_address_mask_length = 1
 ; If you define Custom Variables for your visitor, for example set the visit type
 ;Segments[]="customVariableName1==VisitType;customVariableValue1==Customer"
 
+[Deletelogs]
+; delete_logs_enable - enable (1) or disable (0) delete log feature. Make sure that all archives for the given period have been processed (setup a cronjob!),
+; otherwise you may lose tracking data.
+; delete_logs_schedule_lowest_interval - lowest possible interval between two table deletes (in days, 1|7|30). Default: 7.
+; delete_logs_older_than - delete data older than XX (days). Default: 180
+; delete_max_rows_per_run - Maximum of rows deleted in one go (in thousands)
+delete_logs_enable = 0
+delete_logs_schedule_lowest_interval = 7
+delete_logs_older_than = 180
+delete_max_rows_per_run = 100
+
 [branding]
 ; custom logo
 ; if 1, custom logo is being displayed instead of piwik logo
