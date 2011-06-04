@@ -338,7 +338,6 @@ $translations = array(
 	'CoreAdminHome_CustomLogoFeedbackInfo' => 'Hvis du tilpasser Piwik logoet, kan du også være interesseret i at skjule %s linket i topmenuen. For at gøre dette, kan du deaktivere tilbagemeldingsmodulet på %sUdvidelsesmodul administration%s siden.',
 	'CoreAdminHome_UseCustomLogo' => 'Anvend brugerdefineret logo',
 	'CoreAdminHome_LogoUpload' => 'Vælg et logo til overførelse',
-	'CoreAdminHome_LogoUploadDescription' => 'Overfør en fil i %s format, ingen gennemsigtig baggrund.',
 	'CoreAdminHome_LogoNotWriteable' => 'For at anvende et brugerdefineret logo, kræver Piwik skrive adgang til logofilerne i skabelonmappen: %s',
 	'CoreHome_PluginDescription' => 'Struktur for netanalyse rapporter.',
 	'CoreHome_WebAnalyticsReports' => 'Netanalyse rapporter',
