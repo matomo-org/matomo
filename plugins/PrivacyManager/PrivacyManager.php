@@ -49,7 +49,6 @@ class Piwik_PrivacyManager extends Piwik_Plugin
 
     function getJsFiles($notification)
     {
-
         $jsFiles = &$notification->getNotificationObject();
 
         $jsFiles[] = "plugins/PrivacyManager/templates/privacySettings.js";
@@ -63,6 +62,9 @@ class Piwik_PrivacyManager extends Piwik_Plugin
                            $order = 8);
     }
 
+    /*
+     * @ToDo: return number of Rows deleted in last run; Display age of "oldest" row to help the user setting the day offset;
+     */
     function deleteLogTables()
     {
         $deleteSettings = Zend_Registry::get('config')->Deletelogs;
@@ -82,11 +84,6 @@ class Piwik_PrivacyManager extends Piwik_Plugin
 
             $maxIdVisit = $this->getDeleteIdVisitOffset($deleteSettings->delete_logs_older_than);
 
-            //Break if no ID was found
-            if (!$maxIdVisit) {
-                return;
-            }
-
             $logTables = $this->getDeleteTableLogTables();
 
             //set lastDelete time to today
@@ -100,6 +97,11 @@ class Piwik_PrivacyManager extends Piwik_Plugin
              */
             Piwik_SetOption(self::OPTION_LAST_DELETE_PIWIK_LOGS, $lastDeleteDate);
 
+            //Break if no ID was found (nothing to delete for given period)
+            if (empty($maxIdVisit)) {
+                return;
+            }
+
             foreach ($logTables as $logTable) {
                 $this->deleteRowsFromTable($logTable, $maxIdVisit, $deleteSettings->delete_max_rows_per_run * self::DELETE_MAX_ROWS_MULTIPLICATOR);
             }
@@ -107,7 +109,6 @@ class Piwik_PrivacyManager extends Piwik_Plugin
             //optimize table overhead after deletion
             $query = "OPTIMIZE TABLE " . implode(",", $logTables);
             Piwik_Query($query);
-
         }
     }
 
@@ -117,8 +118,8 @@ class Piwik_PrivacyManager extends Piwik_Plugin
     }
 
     /*
-         * get highest idVisit to delete rows from
-         */
+     * get highest idVisit to delete rows from
+     */
     function getDeleteIdVisitOffset($deleteLogsOlderThan)
     {
         $date = Piwik_Date::factory("today");
@@ -135,8 +136,12 @@ class Piwik_PrivacyManager extends Piwik_Plugin
 
     function deleteRowsFromTable($table, $maxIdVisit, $maxRowsPerRun)
     {
-        //LOW_PRIORITY / QUICK read http://dev.mysql.com/doc/refman/4.1/en/delete.html
-        $sql = 'DELETE LOW_PRIORITY FROM ' . $table . ' WHERE idvisit <= ? LIMIT ' . $maxRowsPerRun;
+        /*
+         * @ToDo: check if DELETE ... tbl_name[.*] [, tbl_name[.*]] ... Statement performance is better (but LIMIT can't be used!). So for now, this is safer.
+         * LOW_PRIORITY / QUICK / IGNORE read http://dev.mysql.com/doc/refman/5.0/en/delete.html
+         */
+        
+        $sql = 'DELETE LOW_PRIORITY QUICK IGNORE FROM ' . $table . ' WHERE `idvisit` <= ? LIMIT ' . $maxRowsPerRun;
         Piwik_Query($sql, array($maxIdVisit));
     }
 
