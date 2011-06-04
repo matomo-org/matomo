@@ -50,7 +50,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 
     public function privacySettings()
     {
-        Piwik::isUserHasSomeAdminAccess();
+        Piwik::checkUserHasSomeAdminAccess();
         $view = Piwik_View::factory('privacySettings');
 
         if (Piwik::isUserIsSuperUser()) {
@@ -61,11 +61,13 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
         }
         $view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
 
-        $this->setBasicVariablesView($view);
-        $view->menu = Piwik_GetAdminMenu();
         if (!Zend_Registry::get('config')->isFileWritable()) {
             $view->configFileNotWritable = true;
         }
+
+        $this->setBasicVariablesView($view);
+        $view->menu = Piwik_GetAdminMenu();
+
         echo $view->render();
     }
 
