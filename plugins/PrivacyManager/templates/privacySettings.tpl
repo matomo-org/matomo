@@ -3,10 +3,6 @@
 {include file="CoreAdminHome/templates/header.tpl"}
 
 {if $isSuperUser}
-<!-- <h2>{'PrivacyManager_MenuPrivacySettings'|translate}</h2> !-->
-
-	{ajaxErrorDiv id=ajaxError}
-	{ajaxLoadingDiv id=ajaxLoading}
 
 <h2>{'PrivacyManager_TeaserHeadline'|translate}</h2>
 <p>{'PrivacyManager_Teaser'|translate:'<a href="#anonymizeIPAnchor">':"</a>":'<a href="#deleteLogsAnchor">':"</a>":'<a href="#optOutAnchor">':"</a>"}</p>
@@ -19,7 +15,7 @@
 				<td width="250">{'PrivacyManager_UseAnonymizeIp'|translate}<br/>
 					<span class="form-description">{'PrivacyManager_AnonymizeIpDescription'|translate}</span>
 				</td>
-				<td width='300'>
+				<td width='500'>
 					<label><input type="radio" name="anonymizeIPEnable" value="1" {if $anonymizeIP.enabled eq '1'}
 								  checked {/if}/> {'General_Yes'|translate}</label>
 					<label><input type="radio" name="anonymizeIPEnable" value="0"
@@ -55,14 +51,15 @@
 
 <a name="deleteLogsAnchor"></a>
 <h2>{'PrivacyManager_DeleteLogSettings'|translate}</h2>
+<p>{'PrivacyManager_DeleteLogDescription'|translate}</p>
 <form method="post" action="{url action=index form=formDeleteSettings}" id="formDeleteSettings" name="formMaskLength">
 	<div id='deleteLogSettingEnabled'>
 		<table class="adminTable" style='width:800px;'>
 			<tr>
 				<td width="250">{'PrivacyManager_UseDeleteLog'|translate}<br/>
-					<span class="form-description">{'PrivacyManager_DeleteLogDescription'|translate}</span>
+
 				</td>
-				<td width='300'>
+				<td width='500'>
 					<label><input type="radio" name="deleteEnable" value="1" {if $deleteLogs.config.delete_logs_enable eq '1'}
 								  checked {/if}/> {'General_Yes'|translate}</label>
 					<label><input type="radio" name="deleteEnable" value="0"
@@ -87,9 +84,9 @@
 		<table class="adminTable" style='width:800px;'>
 			<tr>
 				<td width="250">&nbsp;</td>
-				<td width="300">
+				<td width="500">
 					<label>{'PrivacyManager_DeleteLogsOlderThan'|translate}
-						<input type="text" id="deleteOlderThan" value="{$deleteLogs.config.delete_logs_older_than}" style="width:50px;"
+						<input type="text" id="deleteOlderThan" value="{$deleteLogs.config.delete_logs_older_than}" style="width:30px;"
 							   name="deleteOlderThan">
 						{'CoreHome_PeriodDays'|translate}</label><br/>
 					<span class="form-description">{'PrivacyManager_LeastDaysInput'|translate:"7"}</span>
@@ -100,7 +97,7 @@
 			</tr>
 			<tr>
 				<td width="250">&nbsp;</td>
-				<td width="300">
+				<td width="500">
 					{'PrivacyManager_DeleteLogInterval'|translate}
 					<select id="deleteLowestInterval" name="deleteLowestInterval">
 						<option {if $deleteLogs.config.delete_logs_schedule_lowest_interval eq '1'} selected="selected" {/if}
@@ -124,7 +121,7 @@
 			</tr>
 			<tr>
 				<td width="250">&nbsp;</td>
-				<td width="300">
+				<td width="500">
 					{'PrivacyManager_DeleteMaxRows'|translate}
 					<select id="deleteMaxRows" name="deleteMaxRows">
 						<option {if $deleteLogs.config.delete_max_rows_per_run eq '100'} selected="selected" {/if}  value="100">100.000</option>

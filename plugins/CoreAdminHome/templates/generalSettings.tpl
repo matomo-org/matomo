@@ -147,7 +147,7 @@
         <tr>
             {if $logosWriteable}
             <td><label for="customLogo">{'CoreAdminHome_LogoUpload'|translate}:<br />
-                <span class="form-description">{'CoreAdminHome_LogoUploadDescription'|translate:"JPG / PNG / GIF"}</span></label></td>
+                <span class="form-description">{'CoreAdminHome_LogoUploadDescription'|translate:"JPG / PNG / GIF":110}</span></label></td>
             <td style='width:200px'>
             <input name="customLogo" type="file" id="customLogo" /><img src="themes/logo.png?r={math equation='rand(10,1000)'}" id="currentLogo" height="150"/>
             </td>
@@ -162,6 +162,15 @@
 <input type="submit" value="{'General_Save'|translate}" id="generalSettingsSubmit" class="submit" />
 <br /><br />
 
+{capture assign=clickDeleteLogSettings}{'PrivacyManager_DeleteLogSettings'|translate}{/capture}
+<h2>{'PrivacyManager_DeleteLogSettings'|translate}</h2>
+<p>
+	{'PrivacyManager_DeleteLogDescription'|translate}
+<br/>
+	<a href='{url module="PrivacyManager" action="privacySettings"}#deleteLogsAnchor'>
+		{'PrivacyManager_ClickHereSettings'|translate:"'$clickDeleteLogSettings'"}
+	</a>
+</p>
 {/if}
 <h2>{'CoreAdminHome_OptOutForYourVisitors'|translate}</h2>
 
@@ -172,15 +181,6 @@
 <code>{$smarty.capture.iframeOptOut|escape:'html'}</code>
 <br/>
 {'CoreAdminHome_OptOutExplanationBis'|translate:"<a href='$optOutUrl' target='_blank'>":"</a>"}
-</p>
-
-{capture assign=clickDeleteLogSettings}{'PrivacyManager_DeleteLogSettings'|translate}{/capture}
-<h2>{'PrivacyManager_DeleteLogSettings'|translate}</h2>
-<p>
-	{'PrivacyManager_DeleteLogDescription'|translate}
-	<a href="index.php?module=PrivacyManager&action=privacySettings#deleteLogsAnchor">
-		{'PrivacyManager_ClickHereSettings'|translate:"<strong>$clickDeleteLogSettings</strong>"}
-	</a>
 </p>
 
 {include file="CoreAdminHome/templates/footer.tpl"}
