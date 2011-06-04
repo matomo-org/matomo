@@ -44,7 +44,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
                     break;
             }
         }
-        return $this->redirectToIndex('PrivacyManager', 'privacySettings');
+        return $this->redirectToIndex('PrivacyManager', 'privacySettings', null, null, null, array('updated' => 1));
     }
 
     public function privacySettings()
@@ -130,9 +130,9 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
         $pluginController = new Piwik_CorePluginsAdmin_Controller();
 
         if ($state == 1 && !Piwik_PluginsManager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME)) {
-            $pluginController->activate();
+            $pluginController->activate($redirectAfter = false);
         } elseif ($state == 0 && Piwik_PluginsManager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME)) {
-            $pluginController->deactivate();
+            $pluginController->deactivate($redirectAfter = false);
         } else {
             //nothing to do
         }

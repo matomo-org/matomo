@@ -427,7 +427,7 @@ abstract class Piwik_Controller
 	 * @param string $defaultPeriod Default period, eg. "day"
 	 * @param string $defaultDate Default date, eg. "today"
 	 */
-	function redirectToIndex($moduleToRedirect, $actionToRedirect, $websiteId = null, $defaultPeriod = null, $defaultDate = null)
+	function redirectToIndex($moduleToRedirect, $actionToRedirect, $websiteId = null, $defaultPeriod = null, $defaultDate = null, $parameters = array())
 	{
 		if(is_null($websiteId))
 		{
@@ -441,13 +441,19 @@ abstract class Piwik_Controller
 		{
 			$defaultPeriod = $this->getDefaultPeriod();
 		}
+		$parametersString = '';
+		if(!empty($parameters))
+		{
+			$parametersString = '&' . Piwik_Url::getQueryStringFromParameters($parameters);
+		}
 
 		if($websiteId) {
 			$url = "Location: index.php?module=".$moduleToRedirect
 									."&action=".$actionToRedirect
 									."&idSite=".$websiteId
 									."&period=".$defaultPeriod
-									."&date=".$defaultDate;
+									."&date=".$defaultDate
+									.$parametersString;
 			header($url);
 			exit;
 		}
