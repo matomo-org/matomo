@@ -122,7 +122,7 @@
 			<tr>
 				<td width="250">&nbsp;</td>
 				<td width="500">
-					{'PrivacyManager_DeleteMaxRows'|translate}
+					{'PrivacyManager_DeleteMaxRows'|translate} 
 					<select id="deleteMaxRows" name="deleteMaxRows">
 						<option {if $deleteLogs.config.delete_max_rows_per_run eq '100'} selected="selected" {/if}  value="100">100.000</option>
 						<option {if $deleteLogs.config.delete_max_rows_per_run eq '500'} selected="selected" {/if} value="500">500.000</option>
