@@ -22,32 +22,17 @@
 
 	</metadata>
 	<columns>
-		<label>Name</label>
-		<value>Value</value>
+		<nb_conversions>Abandoned Carts</nb_conversions>
+		<conversion_rate>Conversion Rate</conversion_rate>
+		<revenue>Revenue left in cart</revenue>
+		<items>Products left in cart</items>
 
 	</columns>
 	<reportData>
-		<row>
-			<label>Abandoned Carts</label>
-			<value>2</value>
-
-		</row>
-		<row>
-			<label>Conversion Rate</label>
-			<value>66.67%</value>
-
-		</row>
-		<row>
-			<label>Revenue left in cart</label>
-			<value>$ 5020.22</value>
-
-		</row>
-		<row>
-			<label>Products left in cart</label>
-			<value>8</value>
-
-		</row>
-
+		<nb_conversions>2</nb_conversions>
+		<conversion_rate>66.67%</conversion_rate>
+		<revenue>$ 5020.22</revenue>
+		<items>8</items>
 	</reportData>
 	<reportMetadata/>
 

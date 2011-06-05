@@ -498,35 +498,36 @@ class Piwik_API_API
         } catch(Exception $e) {
         	throw new Exception("API returned an error: ".$e->getMessage()."\n");
         }
-        // Table with a Dimension (Keywords, Pages, Browsers, etc.)
-        if(isset($reportMetadata['dimension']))
-        {
-        	$callback = 'handleTableReport';
-        }
-        // Table without a dimension, simple list of general metrics (eg. VisitsSummary.get)
-        else
-        {
-        	$callback = 'handleTableSimple';
-        }
-    	list($newReport, $columns, $rowsMetadata) = $this->$callback($idSite, $period, $dataTable, $reportMetadata);
+
+    	list($newReport, $columns, $rowsMetadata) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, isset($reportMetadata['dimension']));
     	foreach($columns as $columnId => &$name)
     	{
     		$name = ucfirst($name);
     	}
     	$website = new Piwik_Site($idSite);
 //    	$segment = new Piwik_Segment($segment, $idSite);
-    	if($period == 'range')
-    	{
-	    	$period = new Piwik_Period_Range($period, $date);
-    	}
-    	else
-    	{
-	    	$period = Piwik_Period::factory($period, Piwik_Date::factory($date));
-    	}
+
+		if(Piwik_Archive::isMultiplePeriod($date, $period))
+		{
+			$period =  new Piwik_Period_Range($period, $date);
+		}
+		else
+		{
+			if($period == 'range')
+			{
+				$period = new Piwik_Period_Range($period, $date);
+			}
+			else
+			{
+				$period = Piwik_Period::factory($period, Piwik_Date::factory($date));
+			}
+		}
+
+		$period = $period->getLocalizedLongString();
     	
     	$return = array(
 				'website' => $website->getName(),
-				'prettyDate' => $period->getLocalizedLongString(),
+				'prettyDate' => $period,
 //    			'prettySegment' => $segment->getPrettyString(),
 				'metadata' => $reportMetadata,
 				'columns' => $columns,
@@ -539,122 +540,191 @@ class Piwik_API_API
 		}
 		return $return;
     }
-    
-    private function handleTableSimple($idSite, $period, $dataTable, $reportMetadata)
-    {
-        $renderer = new Piwik_DataTable_Renderer_Php();
-        $renderer->setTable($dataTable);
-        $renderer->setSerialize(false);
-        $reportTable = $renderer->render();
 
-        $newReport = array();
-        foreach($reportTable as $metric => $value)
-        {
-        	// Use translated metric from metadata
-        	// If translation not found, do not display the returned data
-        	if(isset($reportMetadata['metrics'][$metric]))
-        	{
-        		$value = Piwik::getPrettyValue($idSite, $metric, $value, $htmlAllowed = false, $timeAsSentence = false);
-    		
-        		$metric = $reportMetadata['metrics'][$metric];
-            	$newReport[] = array(
-            		'label' => $metric,
-            		'value' => $value
-            	);
-        	}
-        }
-        
-        $columns = array(
-        	'label' => Piwik_Translate('General_Name'),
-        	'value' => Piwik_Translate('General_Value'),
-        );
-    	return array(
-    		$newReport,
-    		$columns,
-    		$rowsMetadata = array()
-    	);
-    }
-    
-    private function handleTableReport($idSite, $period, $dataTable, &$reportMetadata)
+	/**
+	 * Enhance a $dataTable using metadata :
+	 *
+	 * - remove metrics based on $reportMetadata['metrics']
+	 * - add 0 valued metrics if $dataTable doesn't provide all $reportMetadata['metrics']
+	 * - format metric values to a 'human readable' format
+	 * - extract row metadata to a separate Piwik_DataTable_Simple|Piwik_DataTable_Array : $rowsMetadata
+	 * - translate metric names to a separate array : $columns
+	 *
+	 * @param int $idSite enables monetary value formatting based on site currency
+	 * @param Piwik_DataTable|Piwik_DataTable_Array $dataTable
+	 * @param array $reportMetadata
+	 * @param boolean $hasDimension
+	 * @return array Piwik_DataTable_Simple|Piwik_DataTable_Array $newReport with human readable format & array $columns list of translated column names & Piwik_DataTable_Simple|Piwik_DataTable_Array $rowsMetadata
+	**/
+    private function handleTableReport($idSite, $dataTable, &$reportMetadata, $hasDimension)
     {
-    	// displayed columns
-    	$columns = array_merge(
-    		array('label' => $reportMetadata['dimension'] ),
-    		$reportMetadata['metrics']
-    	);
-    	
-        if(isset($reportMetadata['processedMetrics']))
-        {
-        	$processedMetricsAdded = $this->getDefaultProcessedMetrics();
-        	foreach($processedMetricsAdded as $processedMetricId => $processedMetricTranslation)
-        	{
-        		// this processed metric can be displayed for this report
-        		if(isset($reportMetadata['processedMetrics'][$processedMetricId]))
-        		{
-        			$columns[$processedMetricId] = $processedMetricTranslation;
-        		}
-        	}
-        }
-    	// Display the global Goal metrics
-        if(isset($reportMetadata['metricsGoal']))
-        {
-        	$metricsGoalDisplay = array('revenue');
-    		// Add processed metrics to be displayed for this report
-        	foreach($metricsGoalDisplay as $goalMetricId)
-        	{
-        		if(isset($reportMetadata['metricsGoal'][$goalMetricId]))
-        		{
-        			$columns[$goalMetricId] = $reportMetadata['metricsGoal'][$goalMetricId];
-        		}
-        	}
-        }
-        if(isset($reportMetadata['processedMetrics']))
-        {
-        	// Add processed metrics
-        	$dataTable->filter('AddColumnsProcessedMetrics', array($deleteRowsWithNoVisit = false));
-        }
-        $renderer = new Piwik_DataTable_Renderer_Php();
-        $renderer->setTable($dataTable);
-        $renderer->setSerialize(false);
-        $reportTable = $renderer->render();
-    	$rowsMetadata = array();
-    	$newReport = array();
-    	foreach($reportTable as $rowId => $row)
-    	{
-    		// ensure all displayed columns have 0 values
-    		foreach($columns as $id => $name)
-    		{
-    			if(!isset($row[$id]))
-    			{
-    				$row[$id] = 0;
-    			}
-    		}
-    		$newRow = array();
-    		foreach($row as $columnId => $value)
-    		{
-    			// Keep displayed columns
-    			if(isset($columns[$columnId]))
-    			{
-        			$newRow[$columnId] = Piwik::getPrettyValue($idSite, $columnId, $value, $htmlAllowed = false, $timeAsSentence = false);
-    			}
-        		// We try and only keep metadata
-        		// - if the column value is not an array (eg. metrics per goal)
-        		// - if the column name doesn't contain _ (which is by standard, a metric column)
-    			elseif(!is_array($value)
-    				&& strpos($columnId, '_') === false
-    				)
-    			{
-    				$rowsMetadata[$rowId][$columnId] = $value;
-    			}
-    		}
-    		$newReport[] = $newRow;
-    	}
+    	$columns = $reportMetadata['metrics'];
+
+		if($hasDimension)
+		{
+			$columns = array_merge(
+				array('label' => $reportMetadata['dimension'] ),
+				$columns
+			);
+
+			if(isset($reportMetadata['processedMetrics']))
+			{
+				$processedMetricsAdded = $this->getDefaultProcessedMetrics();
+				foreach($processedMetricsAdded as $processedMetricId => $processedMetricTranslation)
+				{
+					// this processed metric can be displayed for this report
+					if(isset($reportMetadata['processedMetrics'][$processedMetricId]))
+					{
+						$columns[$processedMetricId] = $processedMetricTranslation;
+					}
+				}
+			}
+
+			// Display the global Goal metrics
+			if(isset($reportMetadata['metricsGoal']))
+			{
+				$metricsGoalDisplay = array('revenue');
+				// Add processed metrics to be displayed for this report
+				foreach($metricsGoalDisplay as $goalMetricId)
+				{
+					if(isset($reportMetadata['metricsGoal'][$goalMetricId]))
+					{
+						$columns[$goalMetricId] = $reportMetadata['metricsGoal'][$goalMetricId];
+					}
+				}
+			}
+
+			if(isset($reportMetadata['processedMetrics']))
+			{
+				// Add processed metrics
+				$dataTable->filter('AddColumnsProcessedMetrics', array($deleteRowsWithNoVisit = false));
+			}
+		}
+
+		// $dataTable is an instance of Piwik_DataTable_Array when multiple periods requested
+		if ($dataTable instanceof Piwik_DataTable_Array)
+		{
+			// Need a new Piwik_DataTable_Array to store the 'human readable' values
+			$newReport = new Piwik_DataTable_Array();
+			$newReport->setKeyName("prettyDate");
+			$dataTableMetadata = $dataTable->metadata;
+			$newReport->metadata = $dataTableMetadata;
+
+			// Need a new Piwik_DataTable_Array to store report metadata
+			$rowsMetadata = new Piwik_DataTable_Array();
+			$rowsMetadata->setKeyName("prettyDate");
+
+			// Process each Piwik_DataTable_Simple entry
+			foreach($dataTable->getArray() as $label => $simpleDataTable)
+			{
+				list($enhancedSimpleDataTable, $rowMetadata) = $this->handleSimpleDataTable($idSite, $simpleDataTable, $columns, $hasDimension);
+
+				$period = $dataTableMetadata[$label]['period']->getLocalizedLongString();
+				$newReport->addTable($enhancedSimpleDataTable, $period);
+				$rowsMetadata->addTable($rowMetadata, $period);
+			}
+		}
+		else
+		{
+			list($newReport, $rowsMetadata) = $this->handleSimpleDataTable($idSite, $dataTable, $columns, $hasDimension);
+		}
+
     	return array(
     		$newReport,
     		$columns,
     		$rowsMetadata
     	);
     }
+
+	/**
+	 * Enhance $simpleDataTable using metadata :
+	 *
+	 * - remove metrics based on $reportMetadata['metrics']
+	 * - add 0 valued metrics if $simpleDataTable doesn't provide all $reportMetadata['metrics']
+	 * - format metric values to a 'human readable' format
+	 * - extract row metadata to a separate Piwik_DataTable_Simple $rowsMetadata
+	 *
+	 * @param int $idSite enables monetary value formatting based on site currency
+	 * @param Piwik_DataTable_Simple $simpleDataTable
+	 * @param array $metadataColumns
+	 * @param boolean $hasDimension
+	 * @return array Piwik_DataTable $enhancedDataTable filtered metrics with human readable format & Piwik_DataTable_Simple $rowsMetadata
+	 */
+	private function handleSimpleDataTable($idSite, $simpleDataTable, $metadataColumns, $hasDimension)
+	{
+		// new DataTable to store metadata
+		$rowsMetadata = new Piwik_DataTable();
+		
+		// new DataTable to store 'human readable' values
+		if($hasDimension)
+		{
+			$enhancedDataTable = new Piwik_DataTable();
+		}
+		else
+		{
+			$enhancedDataTable = new Piwik_DataTable_Simple();
+		}
+
+		// add missing metrics
+		foreach($simpleDataTable->getRows() as $row)
+		{
+			$rowMetrics = $row->getColumns();
+    		foreach($metadataColumns as $id => $name)
+    		{
+    			if(!isset($rowMetrics[$id]))
+    			{
+					$row->addColumn($id, 0);
+    			}
+    		}
+		}
+
+		foreach($simpleDataTable->getRows() as $row)
+		{
+			$enhancedRow = new Piwik_DataTable_Row();
+			$enhancedDataTable->addRow($enhancedRow);
+
+			$rowMetrics = $row->getColumns();
+			foreach($rowMetrics as $columnName => $columnValue)
+			{
+				// filter metrics according to metadata definition
+				if(isset($metadataColumns[$columnName]))
+				{
+					// generate 'human readable' metric values
+					$prettyValue = Piwik::getPrettyValue($idSite, $columnName, $columnValue, false, false);
+					$enhancedRow->addColumn($columnName, $prettyValue);
+				}
+			}
+
+			// If report has a dimension, extract metadata into a distinct DataTable
+			if($hasDimension)
+			{
+				$rowMetadata = $row->getMetadata();
+				$idSubDataTable = $row->getIdSubDataTable();
+
+				// Create a row metadata only if there are metadata to insert
+				if(count($rowMetadata) > 0 || !is_null($idSubDataTable))
+				{
+					$metadataRow = new Piwik_DataTable_Row();
+					$rowsMetadata->addRow($metadataRow);
+
+					foreach($rowMetadata as $metadataKey => $metadataValue)
+					{
+						$metadataRow->addColumn($metadataKey, $metadataValue);
+					}
+
+					if(!is_null($idSubDataTable))
+					{
+						$metadataRow->addColumn('idsubdatatable', $idSubDataTable);
+					}
+				}
+			}
+		}
+
+		return array(
+    		$enhancedDataTable,
+    		$rowsMetadata
+    	);
+	}
 
 	/**
 	 * API metadata are sorted by category/name,

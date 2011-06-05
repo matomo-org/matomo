@@ -13,7 +13,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/integration/Integration.php';
  * 
  * The test calls the Piwik tracker with known sets of data, expected errors, 
  * and can _test the output of the tracker beacon, as well as calling 
- * all API functions and compare their HTML output with the 'expected output'.
+ * all API functions and compare their XML output with the 'expected output'.
  * 
  * If an algorithm changes in the Tracker or in the Archiving, tests can easily be run to check that 
  * the output changes as expected (eg. More accurate browser detection, adding a new metric in the 
@@ -509,6 +509,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * Also tests a visit that spans over 2 days.
 	 * And testing empty URL and empty Page name request
 	 * Also testing a click on a mailto counted as outlink
+	 * Also testing metadata API for multiple periods
 	 */
 	function test_TwoVisitors_twoWebsites_differentDays()
 	{
@@ -516,12 +517,13 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	$dateTime = '2010-01-03 11:22:33';
     	$idSite = $this->createWebsite($dateTime);
     	$idSite2 = $this->createWebsite($dateTime);
-    	$this->setApiToCall(array('VisitFrequency.get', 
-    								'VisitsSummary.get',
-    								'Referers.getWebsites', 
-    								'Actions.getPageUrls', 
-    								'Actions.getPageTitles',
-    	                            'Actions.getOutlinks'));
+		$apiToCall = array('VisitFrequency.get',
+							'VisitsSummary.get',
+							'Referers.getWebsites',
+							'Actions.getPageUrls',
+							'Actions.getPageTitles',
+							'Actions.getOutlinks');
+    	$this->setApiToCall($apiToCall);
     	// -
     	// First visitor on Idsite 1: two page views
     	$datetimeSpanOverTwoDays = '2010-01-03 23:55:00'; 
@@ -580,15 +582,22 @@ class Test_Piwik_Integration_Main extends Test_Integration
 //        $t2->setUrl('http://example2.com/home');
 //        $this->checkResponse($t2->doTrackPageView('I\'m a returning visitor...'));
         
-        // -
-    	// Test Referer.get* methods in XML
     	$periods = array('day', 'week', 'month', 'year');
     	// Request data for the last 6 periods
-        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite = 'all', $dateTime, $periods, $setDateLastN = true);
+        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $allSites = 'all', $dateTime, $periods, $setDateLastN = true);
         
         // We also test a single period to check that this use case (Reports per idSite in the response) works
     	$this->setApiToCall(array('VisitsSummary.get', 'Goals.get'));
-    	$this->callGetApiCompareOutput(__FUNCTION__ . '_NotLastNPeriods', 'xml', $idSite = 'all', $dateTime, array('day', 'month'), $setDateLastN = false);
+    	$this->callGetApiCompareOutput(__FUNCTION__ . '_NotLastNPeriods', 'xml', $allSites = 'all', $dateTime, array('day', 'month'), $setDateLastN = false);
+		
+		// testing metadata API for multiple periods
+		$this->setApiNotToCall(array());
+		$this->setApiToCall( array('API.getProcessedReport'	) );
+		foreach($apiToCall as $api)
+		{
+			list($apiModule, $apiAction) = explode(".", $api);
+			$this->callGetApiCompareOutput(__FUNCTION__ . '_'.$api.'_firstSite_lastN', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = true, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal = false, $apiModule, $apiAction);
+		}
 	}
 	
 	private function doTest_twoVisitsWithCustomVariables($dateTime, $width=1111, $height=222)

@@ -42,7 +42,6 @@
 			<avg_price>1500</avg_price>
 			<avg_quantity>1</avg_quantity>
 			<conversion_rate>100%</conversion_rate>
-
 		</row>
 		<row>
 			<label>SKU VERY nice indeed</label>
@@ -53,7 +52,6 @@
 			<avg_price>500</avg_price>
 			<avg_quantity>2</avg_quantity>
 			<conversion_rate>33.33%</conversion_rate>
-
 		</row>
 		<row>
 			<label>ANOTHER SKU HERE</label>
@@ -64,7 +62,6 @@
 			<avg_quantity>6</avg_quantity>
 			<conversion_rate>0%</conversion_rate>
 			<nb_visits>0</nb_visits>
-
 		</row>
 		<row>
 			<label>SKU IN ABANDONED CART TWO</label>
@@ -75,9 +72,7 @@
 			<revenue>$ 0</revenue>
 			<quantity>0</quantity>
 			<orders>0</orders>
-
 		</row>
-
 	</reportData>
 	<reportMetadata/>
 
