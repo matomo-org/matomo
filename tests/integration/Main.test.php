@@ -449,7 +449,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	Piwik_SitesManager_API::getInstance()->updateSite($idSite, 'new name', $ecommerce = 0, null, null, $parameterToExclude . ',anotherParameter');
 
     	// Record 1st page view
-    	$urlPage1 = 'http://example.org/index.htm?excluded_Parameter=SHOULD_NOT_DISPLAY?parameter=Should display';
+    	$urlPage1 = 'http://example.org/index.htm?excluded_Parameter=SHOULD_NOT_DISPLAY&parameter=Should display';
         $t->setUrl( $urlPage1 );
         $this->checkResponse($t->doTrackPageView( 'incredible title!'));
         

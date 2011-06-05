@@ -26,7 +26,7 @@
 				<type>action</type>
 				<url>http://example.org/store/purchase.htm</url>
 				<pageTitle>Checkout/Purchasing...</pageTitle>
-				<pageIdAction>9</pageIdAction>
+				<pageIdAction>10</pageIdAction>
 				<pageId>6</pageId>
 				
 				<icon />
@@ -103,7 +103,7 @@
 		<actionDetails>
 			<row>
 				<type>action</type>
-				<url>http://example.org/index.htm</url>
+				<url>http://example.org/index.htm?parameter=Should display</url>
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				<pageId>1</pageId>
@@ -150,7 +150,7 @@
 				<type>action</type>
 				<url>http://example.org/index.htm</url>
 				<pageTitle>Looking at homepage (again)...</pageTitle>
-				<pageIdAction>2</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				<pageId>5</pageId>
 				
 				<icon />
