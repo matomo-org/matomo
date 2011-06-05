@@ -22,32 +22,17 @@
 
 	</metadata>
 	<columns>
-		<label>Name</label>
-		<value>Value</value>
+		<nb_conversions>Conversions</nb_conversions>
+		<nb_visits_converted>Visits with Conversions</nb_visits_converted>
+		<conversion_rate>Conversion Rate</conversion_rate>
+		<revenue>Revenue</revenue>
 
 	</columns>
 	<reportData>
-		<row>
-			<label>Conversions</label>
-			<value>1</value>
-
-		</row>
-		<row>
-			<label>Visits with Conversions</label>
-			<value>1</value>
-
-		</row>
-		<row>
-			<label>Conversion Rate</label>
-			<value>33.33%</value>
-
-		</row>
-		<row>
-			<label>Revenue</label>
-			<value>$ 10</value>
-
-		</row>
-
+		<nb_conversions>1</nb_conversions>
+		<nb_visits_converted>1</nb_visits_converted>
+		<conversion_rate>33.33%</conversion_rate>
+		<revenue>$ 10</revenue>
 	</reportData>
 	<reportMetadata/>
 

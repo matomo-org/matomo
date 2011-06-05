@@ -67,7 +67,6 @@
 			<nb_actions_per_visit>3</nb_actions_per_visit>
 			<avg_time_on_site>00:12:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
-
 		</row>
 		<row>
 			<label>1h</label>
@@ -78,7 +77,6 @@
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 			<revenue>$ 0</revenue>
-
 		</row>
 		<row>
 			<label>2h</label>
@@ -89,7 +87,6 @@
 			<nb_actions_per_visit>5</nb_actions_per_visit>
 			<avg_time_on_site>01:06:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
-
 		</row>
 		<row>
 			<label>3h</label>
@@ -100,7 +97,6 @@
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 			<revenue>$ 0</revenue>
-
 		</row>
 		<row>
 			<label>4h</label>
@@ -111,7 +107,6 @@
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 			<revenue>$ 0</revenue>
-
 		</row>
 		<row>
 			<label>5h</label>
@@ -122,7 +117,6 @@
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 			<revenue>$ 0</revenue>
-
 		</row>
 		<row>
 			<label>6h</label>
@@ -133,7 +127,6 @@
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 			<revenue>$ 0</revenue>
-
 		</row>
 		<row>
 			<label>7h</label>
@@ -144,7 +137,6 @@
 			<nb_actions_per_visit>2</nb_actions_per_visit>
 			<avg_time_on_site>00:12:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
-
 		</row>
 		<row>
 			<label>8h</label>
@@ -155,7 +147,6 @@
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 			<revenue>$ 0</revenue>
-
 		</row>
 		<row>
 			<label>9h</label>
@@ -166,7 +157,6 @@
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 			<revenue>$ 0</revenue>
-
 		</row>
 		<row>
 			<label>10h</label>
@@ -177,7 +167,6 @@
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 			<revenue>$ 0</revenue>
-
 		</row>
 		<row>
 			<label>11h</label>
@@ -188,7 +177,6 @@
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 			<revenue>$ 0</revenue>
-
 		</row>
 		<row>
 			<label>12h</label>
@@ -199,7 +187,6 @@
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 			<revenue>$ 0</revenue>
-
 		</row>
 		<row>
 			<label>13h</label>
@@ -210,7 +197,6 @@
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 			<revenue>$ 0</revenue>
-
 		</row>
 		<row>
 			<label>14h</label>
@@ -221,7 +207,6 @@
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 			<revenue>$ 0</revenue>
-
 		</row>
 		<row>
 			<label>15h</label>
@@ -232,7 +217,6 @@
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 			<revenue>$ 0</revenue>
-
 		</row>
 		<row>
 			<label>16h</label>
@@ -243,7 +227,6 @@
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 			<revenue>$ 0</revenue>
-
 		</row>
 		<row>
 			<label>17h</label>
@@ -254,7 +237,6 @@
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 			<revenue>$ 0</revenue>
-
 		</row>
 		<row>
 			<label>18h</label>
@@ -265,7 +247,6 @@
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 			<revenue>$ 0</revenue>
-
 		</row>
 		<row>
 			<label>19h</label>
@@ -276,7 +257,6 @@
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 			<revenue>$ 0</revenue>
-
 		</row>
 		<row>
 			<label>20h</label>
@@ -287,7 +267,6 @@
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 			<revenue>$ 0</revenue>
-
 		</row>
 		<row>
 			<label>21h</label>
@@ -298,7 +277,6 @@
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 			<revenue>$ 0</revenue>
-
 		</row>
 		<row>
 			<label>22h</label>
@@ -309,7 +287,6 @@
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 			<revenue>$ 0</revenue>
-
 		</row>
 		<row>
 			<label>23h</label>
@@ -320,9 +297,7 @@
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 			<revenue>$ 0</revenue>
-
 		</row>
-
 	</reportData>
 	<reportMetadata/>
 

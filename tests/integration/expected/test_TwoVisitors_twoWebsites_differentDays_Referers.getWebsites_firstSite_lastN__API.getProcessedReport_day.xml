@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>Piwik test</website>
-	
+	<prettyDate>3 Jan 10 - 9 Jan 10</prettyDate>
 	<metadata>
-		<category>Visitors</category>
-		<name>Country</name>
-		<module>UserCountry</module>
-		<action>getCountry</action>
-		<dimension>Country</dimension>
+		<category>Referrers</category>
+		<name>Websites</name>
+		<module>Referers</module>
+		<action>getWebsites</action>
+		<dimension>Website</dimension>
+		<documentation>In this table, you can see which websites referred visitors to your site. &lt;br /&gt; By clicking on a row in the table, you can see which URLs the links to your website were on.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
 
 		</metrics>
@@ -41,12 +43,13 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
-		<uniqueId>UserCountry_getCountry</uniqueId>
+		<uniqueId>Referers_getWebsites</uniqueId>
 
 	</metadata>
 	<columns>
-		<label>Country</label>
+		<label>Website</label>
 		<nb_visits>Visits</nb_visits>
+		<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 		<nb_actions>Actions</nb_actions>
 		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
@@ -55,23 +58,52 @@
 
 	</columns>
 	<reportData>
-		<row>
-			<label>France</label>
-			<nb_visits>3</nb_visits>
-			<nb_actions>5</nb_actions>
-			<revenue>$ 1000</revenue>
-			<nb_actions_per_visit>1.67</nb_actions_per_visit>
-			<avg_time_on_site>00:04:00</avg_time_on_site>
-			<bounce_rate>66.67%</bounce_rate>
-		</row>
+		<result prettyDate="Sunday 3 January 2010" />
+		<result prettyDate="Monday 4 January 2010">
+			<row>
+				<label>referer.com</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>2</nb_actions>
+				<nb_actions_per_visit>2</nb_actions_per_visit>
+				<avg_time_on_site>00:06:00</avg_time_on_site>
+				<bounce_rate>0%</bounce_rate>
+				<revenue>$ 0</revenue>
+			</row>
+		</result>
+		<result prettyDate="Tuesday 5 January 2010">
+			<row>
+				<label>referer.com</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>4</nb_actions>
+				<nb_actions_per_visit>4</nb_actions_per_visit>
+				<avg_time_on_site>00:15:00</avg_time_on_site>
+				<bounce_rate>0%</bounce_rate>
+				<revenue>$ 0</revenue>
+			</row>
+		</result>
+		<result prettyDate="Wednesday 6 January 2010" />
+		<result prettyDate="Thursday 7 January 2010" />
+		<result prettyDate="Friday 8 January 2010" />
+		<result prettyDate="Saturday 9 January 2010" />
 	</reportData>
 	<reportMetadata>
-		<row>
-			<code>fr</code>
-			<logo>plugins/UserCountry/flags/fr.png</logo>
-			<logoWidth>18</logoWidth>
-			<logoHeight>12</logoHeight>
-		</row>
+		<result prettyDate="Sunday 3 January 2010" />
+		<result prettyDate="Monday 4 January 2010">
+			<row>
+				<idsubdatatable>34</idsubdatatable>
+			</row>
+		</result>
+		<result prettyDate="Tuesday 5 January 2010">
+			<row>
+				<idsubdatatable>63</idsubdatatable>
+			</row>
+		</result>
+		<result prettyDate="Wednesday 6 January 2010" />
+		<result prettyDate="Thursday 7 January 2010" />
+		<result prettyDate="Friday 8 January 2010" />
+		<result prettyDate="Saturday 9 January 2010" />
 	</reportMetadata>
 
 </result>

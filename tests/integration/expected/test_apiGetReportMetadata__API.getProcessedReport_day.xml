@@ -66,9 +66,7 @@
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:18:00</avg_time_on_site>
 			<bounce_rate>100%</bounce_rate>
-
 		</row>
-
 	</reportData>
 	<reportMetadata>
 		<row>
@@ -76,9 +74,7 @@
 			<logo>plugins/UserCountry/flags/fr.png</logo>
 			<logoWidth>18</logoWidth>
 			<logoHeight>12</logoHeight>
-
 		</row>
-
 	</reportMetadata>
 
 </result>

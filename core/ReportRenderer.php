@@ -128,4 +128,37 @@ abstract class Piwik_ReportRenderer
 		@unlink($outputFilename);
 		return $outputFilename;
 	}
+
+	/**
+	 * Convert a dimension-less report to a multi-row two-column data table
+	 *
+	 * @static
+	 * @param  $reportMetadata array
+	 * @param  $report Piwik_DataTable
+	 * @param  $reportColumns array
+	 * @return array Piwik_DataTable $report & array $columns
+	 */
+	protected static function processTableFormat($reportMetadata, $report, $reportColumns)
+	{
+		if(!isset($reportMetadata['dimension']))
+		{
+			$simpleReportMetrics = $report->getFirstRow();
+			$report = new Piwik_DataTable_Simple();
+			foreach($simpleReportMetrics->getColumns() as $metricId => $metric)
+			{
+				$newRow = new Piwik_DataTable_Row();
+				$report->addRow($newRow);
+				$newRow->addColumn("label",$reportColumns[$metricId]);
+				$newRow->addColumn("value",$metric);
+			}
+
+			$reportColumns = array('label' => Piwik_Translate('General_Name'),
+										 'value' => Piwik_Translate('General_Value'),);
+		}
+
+		return array(
+				$report,
+				$reportColumns
+			);
+	}
 }

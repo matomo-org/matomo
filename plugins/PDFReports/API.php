@@ -344,7 +344,6 @@ class Piwik_PDFReports_API
 		// Generate the report
 		$reportRenderer = Piwik_ReportRenderer::factory($reportFormat);
 		$reportRenderer->setLocale($language);
-        $reportRenderer->setReportBasics($websiteName, $prettyDate, $description, $reports );
         $reportRenderer->renderFrontPage($websiteName, $prettyDate, $description, $reports );
 		array_walk($processedReports, array($reportRenderer, 'renderReport'));
 

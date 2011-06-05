@@ -29,11 +29,6 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 		//Nothing to do
 	}
 
-    public function setReportBasics($websiteName, $prettyDate, $description, $reportMetadata)
-    {
-        //Nothing to do
-    }
-
 	public function sendToDisk($filename)
 	{
 		$this->epilogue();
@@ -107,11 +102,17 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 		$smarty = new Piwik_Smarty();
 		$this->assignCommonParameters($smarty);
 
-		$smarty->assign("reportName", $processedReport['metadata']['name']);
-		$smarty->assign("reportId", $processedReport['metadata']['uniqueId']);
-		$smarty->assign("reportColumns", $processedReport['columns']);
-		$smarty->assign("reportRows", $processedReport['reportData']);
-		$smarty->assign("reportRowsMetadata", $processedReport['reportMetadata']);
+		$reportMetadata = $processedReport['metadata'];
+		$smarty->assign("reportName", $reportMetadata['name']);
+		$smarty->assign("reportId", $reportMetadata['uniqueId']);
+
+		$reportData = $processedReport['reportData'];
+		$columns = $processedReport['columns'];
+		list($reportData, $columns) = self::processTableFormat($reportMetadata, $reportData, $columns);
+
+		$smarty->assign("reportColumns", $columns);
+		$smarty->assign("reportRows", $reportData->getRows());
+		$smarty->assign("reportRowsMetadata", $processedReport['reportMetadata']->getRows());
 
 		$this->rendering .= $smarty->fetch(self::prefixTemplatePath("html_report_body.tpl"));
 	}

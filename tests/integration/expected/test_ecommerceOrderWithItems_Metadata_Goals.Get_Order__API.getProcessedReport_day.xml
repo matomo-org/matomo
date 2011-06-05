@@ -28,62 +28,29 @@
 
 	</metadata>
 	<columns>
-		<label>Name</label>
-		<value>Value</value>
+		<nb_conversions>Ecommerce Orders</nb_conversions>
+		<nb_visits_converted>Visits with Conversions</nb_visits_converted>
+		<conversion_rate>Conversion Rate</conversion_rate>
+		<revenue>Revenue</revenue>
+		<revenue_subtotal>Subtotal</revenue_subtotal>
+		<revenue_tax>Tax</revenue_tax>
+		<revenue_shipping>Shipping</revenue_shipping>
+		<revenue_discount>Discount</revenue_discount>
+		<items>Purchased Products</items>
+		<avg_order_revenue>Average Order Value</avg_order_revenue>
 
 	</columns>
 	<reportData>
-		<row>
-			<label>Ecommerce Orders</label>
-			<value>2</value>
-
-		</row>
-		<row>
-			<label>Visits with Conversions</label>
-			<value>1</value>
-
-		</row>
-		<row>
-			<label>Conversion Rate</label>
-			<value>33.33%</value>
-
-		</row>
-		<row>
-			<label>Revenue</label>
-			<value>$ 3111.11</value>
-
-		</row>
-		<row>
-			<label>Subtotal</label>
-			<value>$ 2500</value>
-
-		</row>
-		<row>
-			<label>Tax</label>
-			<value>$ 511</value>
-
-		</row>
-		<row>
-			<label>Shipping</label>
-			<value>$ 100.11</value>
-
-		</row>
-		<row>
-			<label>Discount</label>
-			<value>$ 666</value>
-
-		</row>
-		<row>
-			<label>Purchased Products</label>
-			<value>9</value>
-
-		</row>
-		<row>
-			<label>Average Order Value</label>
-			<value>$ 1555.56</value>
-
-		</row>
-
+		<nb_conversions>2</nb_conversions>
+		<nb_visits_converted>1</nb_visits_converted>
+		<conversion_rate>33.33%</conversion_rate>
+		<revenue>$ 3111.11</revenue>
+		<revenue_subtotal>$ 2500</revenue_subtotal>
+		<revenue_tax>$ 511</revenue_tax>
+		<revenue_shipping>$ 100.11</revenue_shipping>
+		<revenue_discount>$ 666</revenue_discount>
+		<items>9</items>
+		<avg_order_revenue>$ 1555.56</avg_order_revenue>
 	</reportData>
 	<reportMetadata/>
 

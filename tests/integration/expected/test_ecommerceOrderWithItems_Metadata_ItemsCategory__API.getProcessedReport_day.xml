@@ -42,7 +42,6 @@
 			<avg_price>1000</avg_price>
 			<avg_quantity>1.5</avg_quantity>
 			<conversion_rate>100%</conversion_rate>
-
 		</row>
 		<row>
 			<label>Product Category not defined</label>
@@ -53,7 +52,6 @@
 			<avg_quantity>6</avg_quantity>
 			<conversion_rate>0%</conversion_rate>
 			<nb_visits>0</nb_visits>
-
 		</row>
 		<row>
 			<label>Category TWO LEFT in cart</label>
@@ -64,9 +62,7 @@
 			<revenue>$ 0</revenue>
 			<quantity>0</quantity>
 			<orders>0</orders>
-
 		</row>
-
 	</reportData>
 	<reportMetadata/>
 

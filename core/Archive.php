@@ -194,13 +194,7 @@ abstract class Piwik_Archive
 			$archive = new Piwik_Archive_Array_IndexedBySite($sites, $period, $strDate, $segment);
 		}
 		// if a period date string is detected: either 'last30', 'previous10' or 'YYYY-MM-DD,YYYY-MM-DD'
-		elseif(is_string($strDate) 
-			&& (
-				preg_match('/^(last|previous){1}([0-9]*)$/', $strDate, $regs)
-				|| Piwik_Period_Range::parseDateRange($strDate)
-				)
-			&& $period != 'range'
-			)
+		elseif(is_string($strDate) && self::isMultiplePeriod($strDate, $period))
 		{
 			$oSite = new Piwik_Site($idSite);
 			$archive = new Piwik_Archive_Array_IndexedByDate($oSite, $period, $strDate, $segment);
@@ -376,6 +370,19 @@ abstract class Piwik_Archive
 				|| Zend_Registry::get('config')->General->anonymous_user_enable_use_segments_API
 				;
 	}
-	
-	
+
+	/**
+	 * Indicate if $dateString and $period correspond to multiple periods
+	 *
+	 * @static
+	 * @param  $dateString
+	 * @param  $period
+	 * @return boolean
+	 */
+	static public function isMultiplePeriod($dateString, $period)
+	{
+		return 	(preg_match('/^(last|previous){1}([0-9]*)$/', $dateString, $regs)
+				|| Piwik_Period_Range::parseDateRange($dateString))
+				&& $period != 'range';
+	}
 }
