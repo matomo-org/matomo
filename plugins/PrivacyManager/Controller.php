@@ -97,33 +97,32 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 
         $optionTable = Piwik_GetOption(self::OPTION_LAST_DELETE_PIWIK_LOGS);
 
-        if (!empty($optionTable)) {
+        $date = Piwik_Date::factory("today");
+        $nextPossibleSchedule = $date->addDay(1)->getTimestamp();
+
+        //deletion schedule did not run before
+        if (empty($optionTable)) {
+            $deleteLogsInfos["lastRun"] = false;
+
+            //next run ASAP (with next schedule run)
+            $date = Piwik_Date::factory("today");
+            $deleteLogsInfos["nextScheduleTime"] = $nextPossibleSchedule;
+        } else {
             $deleteLogsInfos["lastRun"] = $optionTable;
             $deleteLogsInfos["lastRunPretty"] = Piwik_Date::factory((int)$optionTable)->getLocalized('%day% %shortMonth% %longYear%');
-        } else {
-            $deleteLogsInfos["lastRun"] = false;
-        }
-        $deleteLogsInfos["nextScheduleTime"] = $taskScheduler->getScheduledTimeForTask("Piwik_PrivacyManager", "deleteLogTables");
 
-        if (empty($deleteLogsInfos["lastRun"])) {
-            if(($deleteLogsInfos["nextScheduleTime"] - time()) <= 0) {
-                $deleteLogsInfos["nextRunPretty"] = Piwik_Translate('PrivacyManager_NotYetRescheduled');
+            //Calculate next run based on last run + interval
+            $nextScheduleRun = (int)($deleteLogsInfos["lastRun"] + $deleteLogsInfos["config"]["delete_logs_schedule_lowest_interval"] * 24 * 60 * 60);
+
+            //is the calculated next run in the past? (e.g. plugin was disabled in the meantime or something) -> run ASAP
+            if (($nextScheduleRun - time()) <= 0) {
+                $deleteLogsInfos["nextScheduleTime"] = $nextPossibleSchedule;
             } else {
-                $deleteLogsInfos["nextRunPretty"] = Piwik::getPrettyTimeFromSeconds($deleteLogsInfos["nextScheduleTime"] - time());
-            }
-        } else {
-            $nextScheduleRun = (int)($deleteLogsInfos["lastRun"] + $deleteLogsInfos["config"]["delete_logs_schedule_lowest_interval"] * 24 * 60 * 60) - time();
-            if ($nextScheduleRun <= 0) {
-                $nextScheduleRunOffset = $deleteLogsInfos["nextScheduleTime"] - time();
-                if($nextScheduleRunOffset <=0) {
-                    $deleteLogsInfos["nextRunPretty"] = Piwik_Translate('PrivacyManager_NotYetRescheduled');
-                } else {
-                    $deleteLogsInfos["nextRunPretty"] = Piwik::getPrettyTimeFromSeconds($deleteLogsInfos["nextScheduleTime"] - time());
-                }
-            } else {
-                $deleteLogsInfos["nextRunPretty"] = Piwik::getPrettyTimeFromSeconds($nextScheduleRun);
+                $deleteLogsInfos["nextScheduleTime"] = $nextScheduleRun;
             }
         }
+
+        $deleteLogsInfos["nextRunPretty"] = Piwik::getPrettyTimeFromSeconds($deleteLogsInfos["nextScheduleTime"] - time());
 
         return $deleteLogsInfos;
     }

@@ -367,7 +367,6 @@ $translations = array(
 	'PrivacyManager_NextDelete' => 'Next scheduled deletion in',
 	'PrivacyManager_ClickHereSettings' => 'Click here to access the %s settings.',
 	'PrivacyManager_LeastDaysInput' => 'Please specify a number of days greater than %s.',
-    'PrivacyManager_NotYetRescheduled' => "Not yet rescheduled.",
 	'CoreHome_PluginDescription' => 'Web Analytics Reports Structure.',
 	'CoreHome_WebAnalyticsReports' => 'Web Analytics Reports',
 	'CoreHome_NoPrivilegesAskPiwikAdmin' => 'You are logged in as \'%s\' but it seems you don\'t have any permission set in Piwik. %s Ask your Piwik administrator (click to email)%s to give you \'view\' access to a website.',
