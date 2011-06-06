@@ -16,9 +16,9 @@
 			{literal}  window.setTimeout(function() {  {/literal}
 				var plot = new JQPlot({$data});
 				plot.render('{$graphType}', '{$chartDivId}', {literal} { {/literal}
-					noData: '{'General_NoDataForGraph'|translate}',
-					exportTitle: '{'General_ExportAsImage_js'|translate}',
-					exportText: '{'General_SaveImageOnYourComputer_js'|translate}'	
+					noData: '{'General_NoDataForGraph'|translate|escape:'javascript'}',
+					exportTitle: '{'General_ExportAsImage_js'|translate|escape:'javascript'}',
+					exportText: '{'General_SaveImageOnYourComputer_js'|translate|escape:'javascript'}'	
 				{literal} }); {/literal}
 			{literal}  }, 5);  {/literal}
 		</script>
