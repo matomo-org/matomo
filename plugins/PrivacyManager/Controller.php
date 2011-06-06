@@ -95,10 +95,17 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
         $privacyManager = new Piwik_PrivacyManager();
         $deleteLogsInfos["deleteTables"] = implode(", ", $privacyManager->getDeleteTableLogTables());
 
+        $scheduleTimetable = $taskScheduler->getScheduledTimeForTask("Piwik_PrivacyManager", "deleteLogTables");
+
         $optionTable = Piwik_GetOption(self::OPTION_LAST_DELETE_PIWIK_LOGS);
 
-        $date = Piwik_Date::factory("today");
-        $nextPossibleSchedule = $date->addDay(1)->getTimestamp();
+        //If task was already rescheduled, read time from taskTimetable. Else, calculate next possible runtime.
+        if(!empty($scheduleTimetable) && ($scheduleTimetable - time() > 0)) {
+            $nextPossibleSchedule = (int)$scheduleTimetable;
+        } else {
+            $date = Piwik_Date::factory("today");
+            $nextPossibleSchedule = $date->addDay(1)->getTimestamp();
+        }
 
         //deletion schedule did not run before
         if (empty($optionTable)) {
