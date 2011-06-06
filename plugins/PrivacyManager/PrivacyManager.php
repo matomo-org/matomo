@@ -17,6 +17,7 @@
 class Piwik_PrivacyManager extends Piwik_Plugin
 {
     const OPTION_LAST_DELETE_PIWIK_LOGS = "lastDelete_piwik_logs";
+    const OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL = "lastDelete_piwik_logs_initial";
     const DELETE_MAX_ROWS_MULTIPLICATOR = 1000;
 
     public function getInformation()
@@ -69,8 +70,15 @@ class Piwik_PrivacyManager extends Piwik_Plugin
     {
         $deleteSettings = Zend_Registry::get('config')->Deletelogs;
 
-        //Make sure, log purging is enabled
+        //Make sure, log deletion is enabled
         if ($deleteSettings->delete_logs_enable == 0) {
+            return;
+        }
+
+        //Log deletion may not run until it is once rescheduled (initial run). This is the only way to guarantee the calculated next scheduled deletion time.
+        $initialDelete = Piwik_GetOption(self::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL);
+        if (empty($initialDelete)) {
+            Piwik_SetOption(self::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL, 1);
             return;
         }
 
