@@ -1013,9 +1013,6 @@ var
 				// Custom Variables names and values are each truncated before being sent in the request or recorded in the cookie
 				customVariableMaximumLength = 100,
 
-				// Maximum number of custom variables
-				maxCustomVariables = 5,
-
 				// Ecommerce items
 				ecommerceItems = {},
 				
@@ -2057,7 +2054,7 @@ var
 					if(!isDefined(scope)) {
 						scope = 'visit';
 					}
-					if (index > 0 && index <= maxCustomVariables) {
+					if (index > 0) {
 						toRecord = [name.slice(0, customVariableMaximumLength), value.slice(0, customVariableMaximumLength)];
 						if(scope === 'visit' || scope === 2 /* GA compatibility/misuse */) {
 							loadCustomVariables();
