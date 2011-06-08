@@ -39,30 +39,59 @@
     };
         
     $.jqplot.TableLegendRenderer.prototype.addrow = function (label, color, pad, reverse) {
-        var rs = (pad) ? this.rowSpacing : '0';
-        var tr,
-        	elem;
+        var rs = (pad) ? this.rowSpacing+'px' : '0px';
+        var tr;
+        var td;
+        var elem;
+        var div0;
+        var div1;
+        elem = document.createElement('tr');
+        tr = $(elem);
+        tr.addClass('jqplot-table-legend');
+        elem = null;
+
         if (reverse){
-            tr = $('<tr class="jqplot-table-legend"></tr>').prependTo(this._elem);
+            tr.prependTo(this._elem);
         }
+
         else{
-            tr = $('<tr class="jqplot-table-legend"></tr>').appendTo(this._elem);
+            tr.appendTo(this._elem);
         }
+
         if (this.showSwatches) {
-            $('<td class="jqplot-table-legend" style="text-align:center;padding-top:'+rs+';">'+
-            '<div><div class="jqplot-table-legend-swatch" style="background-color:'+color+';border-color:'+color+';"></div>'+
-            '</div></td>').appendTo(tr);
+            td = $(document.createElement('td'));
+            td.addClass('jqplot-table-legend');
+            td.css({textAlign: 'center', paddingTop: rs});
+
+            div0 = $(document.createElement('div'));
+            div1 = $(document.createElement('div'));
+            div1.addClass('jqplot-table-legend-swatch');
+            div1.css({backgroundColor: color, borderColor: color});
+
+            tr.append(td.append(div0.append(div1)));
+
+            // $('<td class="jqplot-table-legend" style="text-align:center;padding-top:'+rs+';">'+
+            // '<div><div class="jqplot-table-legend-swatch" style="background-color:'+color+';border-color:'+color+';"></div>'+
+            // '</div></td>').appendTo(tr);
         }
         if (this.showLabels) {
-            elem = $('<td class="jqplot-table-legend" style="padding-top:'+rs+';"></td>');
-            elem.appendTo(tr);
+            td = $(document.createElement('td'));
+            td.addClass('jqplot-table-legend');
+            td.css('paddingTop', rs);
+            tr.append(td);
+
+            // elem = $('<td class="jqplot-table-legend" style="padding-top:'+rs+';"></td>');
+            // elem.appendTo(tr);
             if (this.escapeHtml) {
-                elem.text(label);
+                td.text(label);
             }
             else {
-                elem.html(label);
+                td.html(label);
             }
         }
+        td = null;
+        div0 = null;
+        div1 = null;
         tr = null;
         elem = null;
     };

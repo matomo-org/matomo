@@ -100,11 +100,9 @@
                 this._elem = null;
             }
             
-            var elem = document.createElement('div');
-            this._elem = $(elem);
+            this._elem = $(document.createElement('div'));
             this._elem.addClass('jqplot-axis jqplot-'+this.name);
             this._elem.css('posiiton', 'absolute');
-            elem = null;
 
             
             if (this.name == 'xaxis' || this.name == 'x2axis') {
@@ -118,8 +116,9 @@
             this.labelOptions.axis = this.name;
             this._label = new this.labelRenderer(this.labelOptions);
             if (this._label.show) {
-                elem = this._label.draw(ctx, plot);
+                var elem = this._label.draw(ctx, plot);
                 elem.appendTo(this._elem);
+                elem = null;
             }
     
             var t = this._ticks;
@@ -132,7 +131,6 @@
             }
             tick = null;
             t = null;
-            elem = null;
         }
         return this._elem;
     };

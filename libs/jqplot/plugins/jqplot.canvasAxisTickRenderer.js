@@ -222,6 +222,7 @@
         this._textRenderer.setText(this.label, ctx);
         var w = this.getWidth(ctx);
         var h = this.getHeight(ctx);
+        // canvases seem to need to have width and heigh attributes directly set.
         elem.width = w;
         elem.height = h;
         elem.style.width = w;

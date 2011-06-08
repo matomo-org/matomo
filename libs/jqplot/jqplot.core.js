@@ -115,30 +115,30 @@
       }
     };
     
-    // Memory Leaks patch : garbage collector
-    $.gcInit = function() {
-      var gc = $("<div id='gc_jqPlotSalsaGarbage' style='display:none;visibility:hidden;'></div>");
-      $("body").append(gc);
-      $._gc = gc;
-    };
+    // // Memory Leaks patch : garbage collector
+    // $.gcInit = function() {
+    //   var gc = $("<div id='gc_jqPlotSalsaGarbage' style='display:none;visibility:hidden;'></div>");
+    //   $("body").append(gc);
+    //   $._gc = gc;
+    // };
 
-    $.gcCollect = function(elem) {
-      $._gc.append(elem);
-    };
+    // $.gcCollect = function(elem) {
+    //   $._gc.append(elem);
+    // };
     
-    $.gcClear = function() {
-      if ($.browser.msie) {
-        $._gc.children().each(function() {
-          this.outerHTML = "";
-        });
-      }
+    // $.gcClear = function() {
+    //   if ($.browser.msie) {
+    //     $._gc.children().each(function() {
+    //       this.outerHTML = "";
+    //     });
+    //   }
       
-      $._gc.empty();
-    };
+    //   $._gc.empty();
+    // };
     
-    $(document).ready(function() {
-      $.gcInit();
-    });
+    // $(document).ready(function() {
+    //   $.gcInit();
+    // });
 
     /**
      * Class: $.jqplot
@@ -217,75 +217,82 @@
     // Should help solve problem of canvases not being freed and
     // problem of waiting forever for firefox to decide to free memory.
     $.jqplot.CanvasManager = function() {
-		// canvases are managed globally so that they can be reused
-		// across plots after they have been freed
-		if (typeof $.jqplot.CanvasManager.canvases == 'undefined') {
-			$.jqplot.CanvasManager.canvases = [];
-			$.jqplot.CanvasManager.free = [];
-		}
-		
-		var myCanvases = [];
+        // canvases are managed globally so that they can be reused
+        // across plots after they have been freed
+        if (typeof $.jqplot.CanvasManager.canvases == 'undefined') {
+            $.jqplot.CanvasManager.canvases = [];
+            $.jqplot.CanvasManager.free = [];
+        }
+        
+        var myCanvases = [];
         
         this.getCanvas = function() {
-			var canvas;
+            var canvas;
             var makeNew = true;
-			
-			if (!$.jqplot.use_excanvas) {
-				for (var i = 0, l = $.jqplot.CanvasManager.canvases.length; i < l; i++) {
-					if ($.jqplot.CanvasManager.free[i] === true) {
-						makeNew = false;
-						canvas = $.jqplot.CanvasManager.canvases[i];
-						$.jqplot.CanvasManager.free[i] = false;
-						myCanvases.push(i);
-						break;
-					}
-				}
-			}
+            
+            if (!$.jqplot.use_excanvas) {
+                for (var i = 0, l = $.jqplot.CanvasManager.canvases.length; i < l; i++) {
+                    if ($.jqplot.CanvasManager.free[i] === true) {
+                        makeNew = false;
+                        canvas = $.jqplot.CanvasManager.canvases[i];
+                        // $(canvas).removeClass('jqplot-canvasManager-free').addClass('jqplot-canvasManager-inuse');
+                        $.jqplot.CanvasManager.free[i] = false;
+                        myCanvases.push(i);
+                        break;
+                    }
+                }
+            }
 
             if (makeNew) {
                 canvas = document.createElement('canvas');
-				myCanvases.push($.jqplot.CanvasManager.canvases.length);
-				$.jqplot.CanvasManager.canvases.push(canvas);
+                myCanvases.push($.jqplot.CanvasManager.canvases.length);
+                $.jqplot.CanvasManager.canvases.push(canvas);
                 $.jqplot.CanvasManager.free.push(false);
             }   
             
             return canvas;
         };
-		
-		// this method has to be used after settings the dimesions
-		// on the element returned by getCanvas()
-		this.initCanvas = function(canvas) {
-			if ($.jqplot.use_excanvas) {
-				return window.G_vmlCanvasManager.initElement(canvas);
-			}
-			return canvas;
-		}
+        
+        // this method has to be used after settings the dimesions
+        // on the element returned by getCanvas()
+        this.initCanvas = function(canvas) {
+            if ($.jqplot.use_excanvas) {
+                return window.G_vmlCanvasManager.initElement(canvas);
+            }
+            return canvas;
+        };
 
         this.freeAllCanvases = function() {
-			for (var i = 0; i < myCanvases.length; i++) {
-				this.freeCanvas(myCanvases[i]);
+            for (var i = 0, l=myCanvases.length; i < l; i++) {
+                this.freeCanvas(myCanvases[i]);
             }
-			myCanvases = [];
+            myCanvases = [];
         };
 
         this.freeCanvas = function(idx) {
-			if ($.jqplot.use_excanvas) {
-				// excanvas can't be reused, but properly unset
-				window.G_vmlCanvasManager.uninitElement($.jqplot.CanvasManager.canvases[idx]);
-				$.jqplot.CanvasManager.canvases[idx] = null;
-			} else {
-				var canvas = $.jqplot.CanvasManager.canvases[idx];
-				canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-				$(canvas).unbind().removeAttr('class').removeAttr('style')
-						.removeAttr('width').removeAttr('height');
-				$.jqplot.CanvasManager.free[idx] = true;
-			}
+            if ($.jqplot.use_excanvas) {
+                // excanvas can't be reused, but properly unset
+                window.G_vmlCanvasManager.uninitElement($.jqplot.CanvasManager.canvases[idx]);
+                $.jqplot.CanvasManager.canvases[idx] = null;
+            } 
+            else {
+                var canvas = $.jqplot.CanvasManager.canvases[idx];
+                canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+                $(canvas).unbind().removeAttr('class').removeAttr('style');
+                // Style attributes seemed to be still hanging around.  wierd.  Some ticks
+                // still retained a left: 0px attribute after reusing a canvas.
+                $(canvas).css({left: '', top: '', position: ''});
+                // setting size to 0 may save memory of unused canvases?
+                canvas.width = 0;
+                canvas.height = 0;
+                $.jqplot.CanvasManager.free[idx] = true;
+            }
         };
-		
+        
     };
 
             
-    // Convienence function that won't hang IE of FF without FireBug.
+    // Convienence function that won't hang IE or FF without FireBug.
     $.jqplot.log = function() {
         if (window.console) {
             console.log.apply(console, arguments);
@@ -327,16 +334,16 @@
     // http://www.modernizr.com
     
     $.jqplot.support_canvas = function() {
-		if (typeof $.jqplot.support_canvas.result == 'undefined') {
-			$.jqplot.support_canvas.result = !!document.createElement('canvas').getContext; 
-		}
+        if (typeof $.jqplot.support_canvas.result == 'undefined') {
+            $.jqplot.support_canvas.result = !!document.createElement('canvas').getContext; 
+        }
         return $.jqplot.support_canvas.result;
     };
             
     $.jqplot.support_canvas_text = function() {
-		if (typeof $.jqplot.support_canvas_text.result == 'undefined') {
-			$.jqplot.support_canvas_text.result = !!(document.createElement('canvas').getContext && typeof document.createElement('canvas').getContext('2d').fillText == 'function'); 
-		}
+        if (typeof $.jqplot.support_canvas_text.result == 'undefined') {
+            $.jqplot.support_canvas_text.result = !!(document.createElement('canvas').getContext && typeof document.createElement('canvas').getContext('2d').fillText == 'function'); 
+        }
         return $.jqplot.support_canvas_text.result;
     };
     
@@ -1514,7 +1521,7 @@
         // }
 
         elem = plot.canvasManager.getCanvas();
-		
+        
         // if new plotDimensions supplied, use them.
         if (plotDimensions != null) {
             this._plotDimensions = plotDimensions;
@@ -1527,8 +1534,8 @@
         
         this._elem.addClass(klass);
         
-		elem = plot.canvasManager.initCanvas(elem);
-		
+        elem = plot.canvasManager.initCanvas(elem);
+        
         elem = null;
         return this._elem;
     };
@@ -2399,13 +2406,13 @@
                 this.postParseOptionsHooks.hooks[i].call(this, options);
             }
         };
-		
-		// method: destroy
-		// Releases all resources occupied by the plot
-		this.destroy = function() {
-			this.canvasManager.freeAllCanvases();
-			this.target[0].innerHTML = '';
-		};
+        
+        // method: destroy
+        // Releases all resources occupied by the plot
+        this.destroy = function() {
+            this.canvasManager.freeAllCanvases();
+            this.target[0].innerHTML = '';
+        };
         
         // method: replot
         // Does a reinitialization of the plot followed by
@@ -2428,21 +2435,21 @@
             if (clear) {
                 this.canvasManager.freeAllCanvases();
                 // Memory Leaks patch
-                this.target.find("table.jqplot-table-legend,table.jqplot-legend").each( function() {
-                    $(this).unbind();
+                // this.target.find("table.jqplot-table-legend,table.jqplot-legend").each( function() {
+                //     $(this).unbind();
 
-                    $(this).find(".jqplot-seriesToggle").each( function() {
-                        $(this).unbind();
-                    });
-                    $.gcCollect(this);
-                });
+                //     $(this).find(".jqplot-seriesToggle").each( function() {
+                //         $(this).unbind();
+                //     });
+                //     $.gcCollect(this);
+                // });
                 
-                this.target.find(".jqplot-title").each( function() {
-                    $(this).unbind();
-                    $.gcCollect(this);
-                });
+                // this.target.find(".jqplot-title").each( function() {
+                //     $(this).unbind();
+                //     $.gcCollect(this);
+                // });
                 
-                $.gcClear();
+                // $.gcClear();
 
                 this.eventCanvas._elem.unbind();
                 this.target.unbind();

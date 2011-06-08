@@ -776,6 +776,7 @@ JQPlot.prototype = {
 		ctx.font = '11px Arial';
 		
 		// render labels
+		var height = legend.pieLegendCanvas._elem.height();
 		var x1, x2, y1, y2, lastY2 = false, right, lastRight = false;
 		for (i = 0; i < labels.length; i++) {
 			var label = labels[i];
@@ -785,11 +786,8 @@ JQPlot.prototype = {
 			ctx.lineWidth = 1;
 			
 			// concentric line
-			ctx.beginPath();
-			
 			x1 = center[0] + Math.sin(lineAngles[i]) * (radius);
 			y1 = center[1] - Math.cos(lineAngles[i]) * (radius);
-			ctx.moveTo(x1, y1);
 			
 			x2 = center[0] + Math.sin(lineAngles[i]) * (radius + 7);
 			y2 = center[1] - Math.cos(lineAngles[i]) * (radius + 7);
@@ -810,6 +808,12 @@ JQPlot.prototype = {
 				}
 			}
 			
+			if (y2 < 4 || y2 + 4 > height) {
+				continue;
+			}
+			
+			ctx.beginPath();
+			ctx.moveTo(x1, y1);
 			ctx.lineTo(x2, y2);
 			
 			ctx.closePath();
