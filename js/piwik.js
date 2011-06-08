@@ -28,7 +28,7 @@
  * JSON - public domain reference implementation by Douglas Crockford
  * @link http://www.JSON.org/json2.js
  ************************************************************/
-/*jslint evil: true, strict: true, regexp: false */
+/*jslint evil: true, strict: true, regexp: false, type: true */
 /*global JSON2 */
 /*members "", "\b", "\t", "\n", "\f", "\r", "\"", JSON2, "\\", apply,
     call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
@@ -368,7 +368,10 @@ if (!this.JSON2) {
  ************************************************************/
 
 /*jslint browser:true, plusplus:false, onevar:false, strict:true, evil:true */
-/*global window unescape ActiveXObject _paq:true */
+/*global window */
+/*global unescape */
+/*global ActiveXObject */
+/*global _paq:true */
 /*members encodeURIComponent, decodeURIComponent,
 	shift, unshift,
 	addEventListener, attachEvent, removeEventListener, detachEvent,
@@ -387,7 +390,7 @@ if (!this.JSON2) {
 	pdf, qt, realp, wma, dir, fla, java, gears, ag,
 	hook, getHook, getVisitorId, getVisitorInfo, setTrackerUrl, setSiteId,
 	getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword, 
-	getAttributionReferrerTimestamp, getAttributionReferrerUrl
+	getAttributionReferrerTimestamp, getAttributionReferrerUrl,
 	setCustomData, getCustomData,
 	setCustomVariable, getCustomVariable, deleteCustomVariable,
 	setDownloadExtensions, addDownloadExtensions,
@@ -397,7 +400,7 @@ if (!this.JSON2) {
 	setCampaignNameKey, setCampaignKeywordKey,
 	discardHashTag,
 	setCookieNamePrefix, setCookieDomain, setCookiePath, setVisitorIdCookie,
-	setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout
+	setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout,
 	setConversionAttributionFirstReferrer,
 	doNotTrack, setDoNotTrack,
 	addListener, enableLinkTracking, setLinkTrackingTimer,
@@ -691,7 +694,7 @@ var
 
 			documentAlias.cookie = cookieName + '=' + encodeWrapper(value) +
 				(msToExpire ? ';expires=' + expiryDate.toGMTString() : '') +
-				';path=' + (path ? path : '/') +
+				';path=' + (path || '/') +
 				(domain ? ';domain=' + domain : '') +
 				(secure ? ';secure' : '');
 		}
