@@ -331,7 +331,7 @@ class Piwik_API_ResponseBuilder
 						{
 							case 'json':
 								@header( "Content-Type: application/json" );
-								return $this->convertMultiDimensionalArrayToJson($array);
+								return self::convertMultiDimensionalArrayToJson($array);
 							break;
 							
 							case 'php':
@@ -346,7 +346,7 @@ class Piwik_API_ResponseBuilder
 								$xml = 
 									"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n" .
 									"<result>\n".
-											$this->convertMultiDimensionalArrayToXml($array).
+											self::convertMultiDimensionalArrayToXml($array).
 									"\n</result>";
 								return $xml;
 							default:
@@ -362,11 +362,12 @@ class Piwik_API_ResponseBuilder
 	/**
 	 * Render a multidimensional array to XML
 	 *
+	 * @static
 	 * @param $array can contain scalar, arrays, Piwik_DataTable and Piwik_DataTable_Array
 	 * @param int $level
 	 * @return string
 	 */
-	protected function convertMultiDimensionalArrayToXml($array, $level = 0)
+	public static function convertMultiDimensionalArrayToXml($array, $level = 0)
 	{ 
 		$xml=""; 
 		foreach ($array as $key=>$value)
@@ -392,7 +393,7 @@ class Piwik_API_ResponseBuilder
 					{
 						$xml.=	$marginLeft .
 							"<$key>\n".
-								$this->convertMultiDimensionalArrayToXml($value, $level + 1).
+								self::convertMultiDimensionalArrayToXml($value, $level + 1).
 								"\n". $marginLeft .
 							"</$key>\n";
 					}
@@ -437,17 +438,43 @@ class Piwik_API_ResponseBuilder
 
 	/**
 	 * Render a multidimensional array to Json
+	 * Handle Piwik_DataTable|Piwik_DataTable_Array elements in the first dimension only, following case does not work:
+	 * array(
+	 * 		array(
+	 * 			Piwik_DataTable,
+	 * 			2 => array(
+	 * 				1,
+	 * 				2
+	 * 			),
+	 *		),
+	 *	);
 	 *
+	 * @static
 	 * @param $array can contain scalar, arrays, Piwik_DataTable and Piwik_DataTable_Array
 	 * @param int $level
 	 * @return string
 	 */
-	protected function convertMultiDimensionalArrayToJson($array)
+	public static function convertMultiDimensionalArrayToJson($array)
 	{
-		$json = "{";
+		// Naive but works for our current use cases
+		$arrayKeys = array_keys($array);
+		$isAssociative = !is_numeric($arrayKeys[0]);
+
+		if($isAssociative)
+		{
+			$json = "{";
+		}
+		else
+		{
+			$json = "[";
+		}
+
 		foreach ($array as $key=>$value)
 		{
-			$json .= "\"".$key."\":";
+			if($isAssociative)
+			{
+				$json .= "\"".$key."\":";
+			}
 
 			switch(true)
 			{
@@ -479,7 +506,14 @@ class Piwik_API_ResponseBuilder
 		// Remove trailing ","
 		$json = substr ($json, 0, strlen($json) - 1);
 
-		$json .= "}";
+		if($isAssociative)
+		{
+			$json .= "}";
+		}
+		else
+		{
+			$json .= "]";
+		}
 		return $json;
 	}
 }
