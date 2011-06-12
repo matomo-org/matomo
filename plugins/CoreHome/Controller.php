@@ -116,14 +116,4 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 		$jsMergedFile = Piwik_AssetManager::getMergedJsFileLocation();
 		Piwik::serveStaticFile($jsMergedFile, "application/javascript; charset=UTF-8");
 	}
-
-	/*
-	 * Returns the CSS3PIE PIE.htc file
-	 *
-	 * @see /libs/CSS3PIE
-	 */
-	public function getPieHtc ()
-	{
-		Piwik::serveStaticFile(PIWIK_INCLUDE_PATH ."/libs/CSS3PIE/PIE.htc", "text/x-component");
-	}	
 }

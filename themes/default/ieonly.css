@@ -1,28 +1,3 @@
-/**
- * Implementation of CSS3PIE for Internet Explorer
- */
-
-select,
-.ui-datepicker, .ui-datepicker-header,
-.ajaxError, .ajaxSuccess,
-.sites_autocomplete .custom_select,
-.sites_selection .custom_select, .sites_selection #sitesSelection,
-#header_message, #periodString,
-.nav li, .nav_sep, 
-.dialog, .dialog input,
-ol#menuList li, ul#widgetList li .button,
-#addWidget, #mt thead,
-#tablist li a,
-.ui-corner-all
-{
-	behavior: url("index.php?module=Proxy&action=getPieHtc");
-}
-
-.widget, 
-.widgetTop{
-	position: relative;
-	behavior: url("index.php?module=Proxy&action=getPieHtc");
-}
 .ui-dialog.ui-widget-content {
 	z-index: 1003!important;
 }
@@ -47,11 +22,13 @@ ol#menuList li, ul#widgetList li .button,
 .custom_select_block{ visibility: hidden; }
 .custom_select_block_show{ visibility:visible; }
 
-/**
- * disable CSS3PIE for rounded corners in dialogs language selector, as IE fails to display them correct
- */
-.ui-autocomplete, .ui-autocomplete a, .ui-dialog input, .ui-dialog button{
-    behavior: none!important;
+.submit {
+    height: 30px;
+}
+
+input[type=checkbox], input[type=radio] {
+    border: none;
+    background: transparent none;
 }
 
 /**
