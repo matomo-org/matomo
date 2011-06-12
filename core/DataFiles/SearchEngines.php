@@ -895,6 +895,12 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// YouGoo
 		'www.yougoo.fr'				=> array('YouGoo', 'q', '?cx=search&q={k}'),
 
+		// Zapmeta
+		'www.zapmeta.com'			=> array('Zapmeta', 'q', '?q={k}'),
+		'www.zapmeta.nl'			=> array('Zapmeta'),
+		'www.zapmeta.de'			=> array('Zapmeta'),
+		'uk.zapmeta.com'			=> array('Zapmeta'),
+
 		// Zoek
 		'www3.zoek.nl'				=> array('Zoek', 'q'),
 
