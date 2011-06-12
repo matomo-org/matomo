@@ -64,7 +64,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'1.cz'						=> array('1.cz', 'q', 'index.php?q={k}', 'iso-8859-2'),
 
 		// 123people
-		'www.123people.com'			=> array('123people', '/s\/([^\/]+)/', 's/{k}'),
+		'www.123people.com'			=> array('123people', array('/s\/([^\/]+)/', 'search_term'), 's/{k}'),
 		'123people.{}'				=> array('123people'),
 
 		// 1und1
@@ -168,6 +168,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'int.ask.com'				=> array('Ask'),
 		'mws.ask.com'				=> array('Ask'),
 		'images.ask.com'			=> array('Ask'),
+		'images.{}.ask.com'			=> array('Ask'),
 		'ask.reference.com'			=> array('Ask'),
 		'www.askkids.com'			=> array('Ask'),
 		'iwon.ask.com'				=> array('Ask'),

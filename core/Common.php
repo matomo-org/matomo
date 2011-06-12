@@ -1224,13 +1224,13 @@ class Piwik_Common
 				'/^(w+[0-9]*|search)\./',
 				'/(^|\.)m\./',
 				'/(\.(com|org|net|co|it|edu))?\.('.$countries.')(\/|$)/',
-				'/^('.$countries.')\./',
+				'/(^|\.)('.$countries.')\./',
 			),
 			array(
 				'',
 				'$1',
 				'.{}$4',
-				'{}.',
+				'$1{}.',
 			),
 			$url);
 	}
