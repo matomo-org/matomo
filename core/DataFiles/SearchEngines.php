@@ -91,6 +91,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Alexa
 		'alexa.com'					=> array('Alexa', 'q', 'search?q={k}'),
+		'search.toolbars.alexa.com'	=> array('Alexa'),
 
 		// Alice Adsl
 		'rechercher.aliceadsl.fr'	=> array('Alice Adsl', 'qs', 'google.pl?qs={k}'),
@@ -140,6 +141,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'suche.aol.de'				=> array('AOL'),
 		'suche.aolsvc.de'			=> array('AOL'),
 		'aolbusqueda.aol.com.mx'	=> array('AOL'),
+		'alicesuche.aol.de'			=> array('AOL'),
 		'alicesuchet.aol.de'		=> array('AOL'),
 		'suche.aolsvc.de'			=> array('AOL'),
 		'suche.aol.de'				=> array('AOL'),
@@ -161,6 +163,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Arianna (Libero.it)
 		'arianna.libero.it'			=> array('Arianna', 'query', 'search/abin/integrata.cgi?query={k}'),
+		'www.arianna.com'			=> array('Arianna'),
 
 		// Ask (IAC Search & Media)
 		'ask.com'					=> array('Ask', array('ask', 'q', 'searchfor'), 'web?q={k}'),
@@ -206,6 +209,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Bing
 		'bing.com'					=> array('Bing', array('q', 'Q'), 'search?q={k}'),
 		'{}.bing.com'				=> array('Bing'),
+		'msnbc.msn.com'				=> array('Bing'),
 
 		// Bing Cache
 		'cc.bingj.com'				=> array('Bing'),
@@ -250,6 +254,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Daemon search
 		'daemon-search.com'			=> array('Daemon search', 'q', 'explore/web?q={k}'),
+		'my.daemon-search.com'		=> array('Daemon search'),
 
 		// DasOertliche
 		'www.dasoertliche.de'		=> array('DasOertliche', 'kw'),
@@ -349,7 +354,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search.freecause.com'		=> array('FreeCause', 'p', '?p={k}'),
 
 		// Freenet
-		'suche.freenet.de'			=> array('Freenet', 'query', 'suche/?query={k}'),
+		'suche.freenet.de'			=> array('Freenet', array('query', 'Keywords'), 'suche/?query={k}'),
 
 		// FriendFeed
 		'friendfeed.com'			=> array('FriendFeed', 'q', 'search?q={k}'),
