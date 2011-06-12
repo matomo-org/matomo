@@ -826,6 +826,10 @@ class Test_Piwik_Common extends UnitTestCase
 			'http://search.babylon.com/web/piwik'
 				=> array('name' => 'Babylon', 'keywords' => 'piwik'),
 
+			// ask has country not at beginning
+			'http://images.de.ask.com/fr?q=piwik&qt=0'
+				=> array('name' => 'Ask', 'keywords' => 'piwik'),
+			
 			// test that master record is used to backfill subsequent rows
 			'http://www.baidu.com/?wd=test1'
 				=> array('name' => 'Baidu', 'keywords' => 'test1'),
@@ -858,6 +862,7 @@ class Test_Piwik_Common extends UnitTestCase
 			'www.m.example.ca' => 'example.{}',
 			'www.google.com.af' => 'google.{}',
 			'www.google.co.uk' => 'google.{}',
+			'images.de.ask.com' => 'images.{}.ask.com',
 		);
 		foreach($urls as $input => $expected)
 		{
