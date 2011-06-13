@@ -410,6 +410,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search3.incredimail.com'	=> array('Google'),
 		'search4.incredimail.com'	=> array('Google'),
 		'search.sweetim.com'		=> array('Google'),
+		'www.fastweb.it'			=> array('Google'),
 
 		// Google Earth
 		// - 2010-09-13: are these redirects now?
@@ -744,6 +745,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Suchnase
 		'www.suchnase.de'			=> array('Suchnase', 'q'),
+
+		// TalkTalk
+		'www.talktalk.co.uk'		=> array('TalkTalk', 'query', 'search/results.html?query={k}'),
 
 		// Technorati
 		'technorati.com'			=> array('Technorati', 'q', 'search?return=sites&authority=all&q={k}'),
