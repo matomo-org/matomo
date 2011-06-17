@@ -446,6 +446,8 @@ Plugins[]		= PDFReports
 Plugins[] 		= UserCountryMap
 Plugins[] 		= Live
 Plugins[]		= CustomVariables
+Plugins[]		= PrivacyManager
+
 [PluginsInstalled]
 PluginsInstalled[] = Login
 PluginsInstalled[] = CoreAdminHome
