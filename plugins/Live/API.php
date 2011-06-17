@@ -374,6 +374,7 @@ class Piwik_Live_API
 		$where[] = "log_visit.idsite = ? ";
 		$whereBind[] = $idSite;
 		$orderBy = "idsite, visit_last_action_time DESC";
+		$orderByParent = "sub.visit_last_action_time DESC";
 		if(!empty($visitorId))
 		{
 			$where[] = "log_visit.idvisitor = ? ";
@@ -385,6 +386,7 @@ class Piwik_Live_API
 			$where[] = "log_visit.idvisit < ? ";
 			$whereBind[] = $maxIdVisit;
 			$orderBy = "idvisit DESC";
+			$orderByParent = "sub.idvisit DESC";
 		}
 		
 		if(!empty($minTimestamp))
@@ -472,7 +474,7 @@ class Piwik_Live_API
 					LIMIT ".(int)$filter_limit."
 				) AS sub
 				GROUP BY sub.idvisit
-				ORDER BY sub.visit_last_action_time DESC
+				ORDER BY $orderByParent
 			"; 
 		try {
 			$data = Piwik_FetchAll($sql, $whereBind);
