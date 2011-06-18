@@ -63,7 +63,15 @@ function getAnonymousUserSettingsAJAX()
 
 $(document).ready( function() {
 	$('#userSettingsSubmit').click( function() {
-		$.ajax( getUserSettingsAJAX() );
+		var onValidate = function() {
+			$.ajax( getUserSettingsAJAX() );
+		}
+		if($('#password').val() != '') {
+			piwikHelper.windowModal( '#confirmPasswordChange', onValidate);
+		} else {
+			onValidate();
+		}
+		
 	});
 	$('#userSettingsTable input').keypress( function(e) {
 		var key=e.keyCode || e.which;

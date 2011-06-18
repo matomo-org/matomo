@@ -5,6 +5,13 @@
 <h2>{'UsersManager_MenuUserSettings'|translate}</h2>
 
 <br />
+
+<div class="ui-confirm" id="confirmPasswordChange">
+    <h2>{'UsersManager_ChangePasswordConfirm'|translate}</h2>
+    <input id="yes" type="button" value="{'General_Yes'|translate}" />
+    <input id="no" type="button" value="{'General_No'|translate}" />
+</div> 
+
 <table id='userSettingsTable' class="adminTable" style='width:1000px'>
 <tr>
 	<td><label for="username">{'General_Username'|translate} </label></td>
