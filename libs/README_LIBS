@@ -23,4 +23,3 @@ Here is a list of bug fixes and hacks made to some of the libraries used in Piwi
  * Zend/
    - strip require_once
    - in r3694, fix ZF-10888 and ZF-10835
-   - in Session.php, use @ini_set in case the function is disabled
