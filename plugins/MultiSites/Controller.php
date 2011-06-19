@@ -41,7 +41,7 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 	public function getSitesInfo()
 	{
 		Piwik::checkUserHasSomeViewAccess();
-		
+		$displayRevenueColumn = Piwik_Common::isGoalPluginEnabled();
 		
 		// overwrites the default Date set in the parent controller 
 		// Instead of the default current website's local date, 
@@ -64,8 +64,11 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		$dataTableArray = Piwik_VisitsSummary_API::getInstance()->get($ids, $period, $date, $segment = false, $columns = array('nb_visits', 'nb_actions'));
 		$currentVisits = $this->getArrayFromAPI($dataTableArray, 'nb_visits');
 		$currentActions = $this->getArrayFromAPI($dataTableArray, 'nb_actions');
-		$dataTableArray = Piwik_Goals_API::getInstance()->get($ids, $period, $date, $segment = false, $idGoal = false, $columns = array('revenue'));
-		$currentRevenue = $this->getArrayFromAPI($dataTableArray, 'revenue');
+		if($displayRevenueColumn)
+		{
+		    $dataTableArray = Piwik_Goals_API::getInstance()->get($ids, $period, $date, $segment = false, $idGoal = false, $columns = array('revenue'));
+		    $currentRevenue = $this->getArrayFromAPI($dataTableArray, 'revenue');
+		}
 		// Previous date
 		$lastVisits = $lastActions = $lastRevenue = array();
 		if($period != 'range')
@@ -74,36 +77,47 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 			$dataTableArray = Piwik_VisitsSummary_API::getInstance()->get($ids, $period, $lastDate, $segment = false, $columns = array('nb_visits', 'nb_actions'));
 			$lastVisits =  $this->getArrayFromAPI($dataTableArray, 'nb_visits');
 			$lastActions =  $this->getArrayFromAPI($dataTableArray, 'nb_actions');
-			$dataTableArray = Piwik_Goals_API::getInstance()->get($ids, $period, $lastDate, $segment = false, $idGoal = false, $columns = array('revenue'));
-			$lastRevenue = $this->getArrayFromAPI($dataTableArray, 'revenue');
+			if($displayRevenueColumn)
+			{
+			    $dataTableArray = Piwik_Goals_API::getInstance()->get($ids, $period, $lastDate, $segment = false, $idGoal = false, $columns = array('revenue'));
+			    $lastRevenue = $this->getArrayFromAPI($dataTableArray, 'revenue');
+			}
 		}
 		
 		$visitsSummary = $this->getChangeCurrentVsLast($currentVisits, $lastVisits);
 		$actionsSummary = $this->getChangeCurrentVsLast($currentActions, $lastActions);
-		$revenueSummary = $this->getChangeCurrentVsLast($currentRevenue, $lastRevenue);
-		
+		if($displayRevenueColumn)
+		{
+		    $revenueSummary = $this->getChangeCurrentVsLast($currentRevenue, $lastRevenue);
+		}
 		$totalVisits = $totalActions = $totalRevenue = 0;
 		
 		foreach($mySites as &$site)
 		{
 			$idSite = $site['idsite'];
-			$site['visits'] = $currentVisits[$idSite];
-			$site['actions'] = $currentActions[$idSite];
-			$site['revenue'] = $currentRevenue[$idSite];
-			$totalVisits += $site['visits'];
-			$totalActions += $site['actions'];
-			$totalRevenue += $site['revenue'];
-			
 			if($period != 'range')
 			{
 				$site['lastVisits'] = $lastVisits[$idSite];
 				$site['lastActions'] = $lastActions[$idSite];
-				$site['lastRevenue'] = $lastRevenue[$idSite];
+				if($displayRevenueColumn)
+				{
+				    $site['lastRevenue'] = $lastRevenue[$idSite];
+				}
 			}
 			
+			$site['visits'] = $currentVisits[$idSite];
+			$site['actions'] = $currentActions[$idSite];
+			$totalVisits += $site['visits'];
+			$totalActions += $site['actions'];
 			$site['visitsSummaryValue'] = $visitsSummary[$idSite];
 			$site['actionsSummaryValue'] = $actionsSummary[$idSite];
-			$site['revenueSummaryValue'] = $revenueSummary[$idSite];
+			$site['revenue'] = $site['revenueSummaryValue'] = 0;
+			if($displayRevenueColumn)
+			{
+    			$site['revenue'] = $currentRevenue[$idSite];
+    			$totalRevenue += $site['revenue'];
+    			$site['revenueSummaryValue'] = $revenueSummary[$idSite];
+			}
 		}
 		$mySites = $this->applyPrettyMoney($mySites);
 		
@@ -118,6 +132,7 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		$view->order = $this->order;
 		$view->totalVisits = $totalVisits;
 		$view->totalRevenue = $totalRevenue;
+		$view->displayRevenueColumn = $displayRevenueColumn;
 		$view->totalActions = $totalActions;
 	
 		$params = $this->getGraphParamsModified();
@@ -245,6 +260,7 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 			$columns = Piwik_Common::getRequestVar('columns');
 		}
 		$api = "VisitsSummary.get";
+		
 		if($columns == 'revenue')
 		{
 			$api = "Goals.get";

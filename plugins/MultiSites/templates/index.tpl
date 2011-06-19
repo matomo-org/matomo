@@ -51,17 +51,19 @@
 			<span>{'General_ColumnPageviews'|translate}</span>
 			<span class="arrow {if $evolutionBy=='actions'}multisites_{$order}{/if}"></span>
 		</th>
+		{if $displayRevenueColumn}
 		<th id="revenue" class="multisites-column" style="width: 110px" onClick="params = setOrderBy(this,allSites, params, 'revenue');">
 			<span>{'Goals_ColumnRevenue'|translate}</span>
 			<span class="arrow {if $evolutionBy=='revenue'}multisites_{$order}{/if}"></span>
 		</th>
+		{/if}
 		<th id="evolution" style=" width:350px" colspan="{if $show_sparklines}2{else}1{/if}">
 		<span class="arrow "></span>
 			<span class="evolution" style="cursor:pointer;" onClick="params = setOrderBy(this,allSites, params, $('#evolution_selector').val() + 'Summary');"> {'MultiSites_Evolution'|translate}</span>
 			<select class="selector" id="evolution_selector" onchange="params['evolutionBy'] = $('#evolution_selector').val(); switchEvolution(params);">
 				<option value="visits" {if $evolutionBy eq 'visits'} selected {/if}>{'General_ColumnNbVisits'|translate}</option>
 				<option value="actions" {if $evolutionBy eq 'actions'} selected {/if}>{'General_ColumnPageviews'|translate}</option>
-				<option value="revenue" {if $evolutionBy eq 'revenue'} selected {/if}>{'Goals_ColumnRevenue'|translate}</option>
+				{if $displayRevenueColumn}<option value="revenue" {if $evolutionBy eq 'revenue'} selected {/if}>{'Goals_ColumnRevenue'|translate}</option>{/if}
 			</select>
 		</th>
 	</thead>
