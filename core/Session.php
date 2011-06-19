@@ -55,14 +55,18 @@ class Piwik_Session extends Zend_Session
 		$currentSaveHandler = ini_get('session.save_handler');
 		if(in_array($currentSaveHandler, array('user', 'mm', 'files')))
 		{
+			$db = Zend_Registry::get('db');
+			$db->getConnection();
+
 			$config = array(
 				'name' => Piwik_Common::prefixTable('session'),
 				'primary' => 'id',
 				'modifiedColumn' => 'modified',
 				'dataColumn' => 'data',
 				'lifetimeColumn' => 'lifetime',
-				'db' => Zend_Registry::get('db'),
+				'db' => $db,
 			);
+			
 			self::setSaveHandler(new Zend_Session_SaveHandler_DbTable($config));
 		}
 
