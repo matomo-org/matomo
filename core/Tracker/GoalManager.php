@@ -111,11 +111,6 @@ class Piwik_Tracker_GoalManager
 		return $goalIds;
 	}
 
-	private function isGoalPluginEnabled()
-	{
-		return Piwik_PluginsManager::getInstance()->isPluginActivated('Goals');
-	}
-
 	/**
 	 * Look at the URL or Page Title and sees if it matches any existing Goal definition
 	 * 
@@ -125,7 +120,7 @@ class Piwik_Tracker_GoalManager
 	 */
 	function detectGoalsMatchingUrl($idSite, $action)
 	{
-		if(!$this->isGoalPluginEnabled())
+		if(!Piwik_Common::isGoalPluginEnabled())
 		{
 			return false;
 		}
@@ -209,7 +204,7 @@ class Piwik_Tracker_GoalManager
 
 	function detectGoalId($idSite)
 	{
-		if(!$this->isGoalPluginEnabled())
+		if(!Piwik_Common::isGoalPluginEnabled())
 		{
 			return false;
 		}

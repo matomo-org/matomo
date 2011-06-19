@@ -69,7 +69,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 		$view->setTemplate("Live/templates/visitorLog.tpl");
 		$view->setSortedColumn('idVisit', 'ASC');
 		$view->disableSearchBox();
-		$view->setLimit(10);
+		$view->setLimit(20);
 		$view->disableOffsetInformation();
 		$view->disableExcludeLowPopulation();
 		

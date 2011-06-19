@@ -116,6 +116,11 @@ class Piwik_Common
 		}
 	}
 
+	static public function isGoalPluginEnabled()
+	{
+		return Piwik_PluginsManager::getInstance()->isPluginActivated('Goals');
+	}
+	
 /*
  * File-based Cache
  */
