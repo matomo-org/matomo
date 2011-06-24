@@ -70,7 +70,7 @@ abstract class Piwik_TablePartitioning
 	{
 		if(is_null(self::$tablesAlreadyInstalled))
 		{
-			self::$tablesAlreadyInstalled = Piwik::getTablesInstalled($forceReload = false);
+			self::$tablesAlreadyInstalled = Piwik::getTablesInstalled();
 		}
 		
 		if(!in_array($this->generatedTableName, self::$tablesAlreadyInstalled))
