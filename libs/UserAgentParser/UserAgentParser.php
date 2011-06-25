@@ -74,7 +74,7 @@ class UserAgentParser
 			'beonex'						=> 'BE',
 
 			// BlackBerry smartphones and tablets
-			'blackberry'					=> 'BB',
+			'blackberry'					=> 'BB', // BlackBerry 6 and PlayBook adopted webkit
 			'playbook'						=> 'BP',
 
 			'browsex'						=> 'BX',
@@ -167,7 +167,7 @@ class UserAgentParser
 			'ie'	 => array('IE'),
 			'gecko'  => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'KP', 'KZ'),
 			'khtml'  => array('KO'),
-			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AN', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF', 'BP'),
+			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AN', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF', 'BB', 'BP'),
 			'opera'  => array('OP'),
 		);
 
@@ -379,6 +379,9 @@ class UserAgentParser
 		// Misbehaving IE add-ons
 		$userAgent = preg_replace('/[; ]Mozilla\/[0-9.]+ \([^)]+\)/', '', $userAgent);
 
+		// Clean-up BlackBerry device UAs
+		$userAgent = preg_replace('~^BlackBerry\d+/~', 'BlackBerry/', $userAgent);
+
 		if (preg_match_all("/($browsersPattern)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
 			|| (strpos($userAgent, 'Shiira') === false && preg_match_all("/(firefox|safari)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results))
 			|| preg_match_all("/(applewebkit)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
@@ -405,7 +408,11 @@ class UserAgentParser
 				 	$info['id'] = 'NS';
 				}
 			}
-			else if($info['id'] == 'SF' && strpos($userAgent, 'RIM Tablet OS') !== false) {
+			// BlackBerry devices
+			else if(strpos($userAgent, 'BlackBerry') !== false) {
+				$info['id'] = 'BB';
+			}
+			else if(strpos($userAgent, 'RIM Tablet OS') !== false) {
 				$info['id'] = 'BP';
 			}
 
