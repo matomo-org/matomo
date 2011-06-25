@@ -179,4 +179,39 @@ class Test_Piwik_Url extends UnitTestCase
 
 		$this->restoreGlobals($saved);
 	}
+
+	public function test_getCurrentUrlWithoutFilename()
+	{
+		$names = array('PATH_INFO', 'REQUEST_URI', 'SCRIPT_NAME', 'SCRIPT_FILENAME', 'argv', 'HTTPS', 'HTTP_HOST', 'QUERY_STRING', 'HTTP_REFERER');
+		$saved = $this->saveGlobals($names);
+
+		foreach($names as $name)
+		{
+			unset($_SERVER[$name]);
+		}
+
+		$tests = array(
+			array('http://example.com/', false, 'example.com', '/'),
+			array('https://example.org/', true, 'example.org', '/'),
+			array('https://example.net/piwik/', 'on', 'example.net', '/piwik/'),
+		);
+
+		foreach($tests as $test)
+		{
+			list($expected, $https, $host, $path) = $test;
+
+			if ($https)
+				$_SERVER['HTTPS'] = $https;
+			else
+				unset($_SERVER['HTTPS']);
+
+			$_SERVER['REQUEST_URI'] = $path;
+			$_SERVER['HTTP_HOST'] = $host;
+
+			$url = Piwik_Url::getCurrentUrlWithoutFilename();
+			$this->assertEqual($url, $expected);
+		}
+
+		$this->restoreGlobals($saved);
+	}
 }

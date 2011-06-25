@@ -133,21 +133,29 @@ class Piwik
 	/**
 	 * Returns the cached the Piwik URL, eg. http://demo.piwik.org/ or http://example.org/piwik/ 
 	 * If not found, then tries to cache it and returns the value.
+	 *
 	 * If the Piwik URL changes (eg. Piwik moved to new server), the value will automatically be refreshed in the cache.
+         *
 	 * @return string
 	 */
 	static public function getPiwikUrl()
 	{
 		$key = 'piwikUrl';
 		$url = Piwik_GetOption($key);
-		$currentUrl = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
 		if(Piwik_Common::isPhpCliMode())
 		{
 			return $url;
 		}
+
+		$currentUrl = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
+		if(self::isHttps()
+			&& strpos($currentUrl, 'http://') === 0)
+		{
+			$currentUrl = str_replace('http://', 'https://', $currentUrl);
+		}
 		
 		if(empty($url)
-			// if URL changes, always updates cache
+			// if URL changes, always update the cache
 			|| $currentUrl != $url) 
 		{
 			if(strlen($currentUrl) >= strlen('http://a/'))
