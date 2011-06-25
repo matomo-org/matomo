@@ -136,7 +136,11 @@ class Test_Piwik_UserSettings extends UnitTestCase
 
 		// BlackBerry
 		'BlackBerry8700/4.1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1' => array(
-			array('BB', 'BlackBerry', 'BlackBerry', '8700.0', '8700', '0', 'unknown'),
+			array('BB', 'BlackBerry', 'BlackBerry', '4.1', '4', '1', 'webkit'),
+			array('BLB', 'BlackBerry', 'BlackBerry')),
+
+		'Mozilla/5.0 (BlackBerry; U; BlackBerry 9800; en) AppleWebKit/534.1+ (KHTML, Like Gecko) Version/6.0.0.141 Mobile Safari/534.1+' => array(
+			array('BB', 'BlackBerry', 'BlackBerry', '6.0', '6', '0', 'webkit'),
 			array('BLB', 'BlackBerry', 'BlackBerry')),
 
 		'Mozilla/5.0 (PlayBook; U; RIM Tablet OS 1.0.0; en-US) AppleWebKit/534.11+ (KHTML, like Gecko) Version/0.0.1 Safari/534.11+' => array(
