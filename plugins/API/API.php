@@ -295,6 +295,9 @@ class Piwik_API_API
 	
 	/**
 	 * Returns the url to application logo (~280x110px)
+	 *
+	 * @param bool $pathOnly If true, returns path relative to doc root. Otherwise, returns a URL.
+	 * @return string
 	 */
 	public function getLogoUrl($pathOnly=false)
 	{
@@ -312,6 +315,9 @@ class Piwik_API_API
 	
 	/**
 	 * Returns the url to header logo (~127x50px)
+	 *
+	 * @param bool $pathOnly If true, returns path relative to doc root. Otherwise, returns a URL.
+	 * @return string
 	 */
 	public function getHeaderLogoUrl($pathOnly=false)
 	{
