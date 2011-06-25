@@ -78,6 +78,7 @@ class Piwik_Session extends Zend_Session
 
 		try {
 			Zend_Session::start();
+			register_shutdown_function(array('Zend_Session', 'writeClose'), true);
 		} catch(Exception $e) {
 			Piwik::log('Unable to start session: ' . $e->getMessage());
 			Piwik_ExitWithMessage(Piwik_Translate('General_ExceptionUnableToStartSession'));
