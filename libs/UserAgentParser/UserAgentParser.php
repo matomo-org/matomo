@@ -72,7 +72,11 @@ class UserAgentParser
 			'android'						=> 'AN',
 			'arora'							=> 'AR',
 			'beonex'						=> 'BE',
+
+			// BlackBerry smartphones and tablets
 			'blackberry'					=> 'BB',
+			'playbook'						=> 'BP',
+
 			'browsex'						=> 'BX',
 
 			// Camino (and earlier incarnation)
@@ -163,7 +167,7 @@ class UserAgentParser
 			'ie'	 => array('IE'),
 			'gecko'  => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'KP', 'KZ'),
 			'khtml'  => array('KO'),
-			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AN', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF'),
+			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AN', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF', 'BP'),
 			'opera'  => array('OP'),
 		);
 
@@ -260,6 +264,8 @@ class UserAgentParser
 			'Palm OS'				=> 'POS',
 
 			'BlackBerry'			=> 'BLB',
+			'RIM Tablet OS'			=> 'QNX',
+			'QNX'					=> 'QNX',
 
 			'SymbOS'				=> 'SYM',
 			'Symbian OS'			=> 'SYM',
@@ -399,6 +405,9 @@ class UserAgentParser
 				 	$info['id'] = 'NS';
 				}
 			}
+			else if($info['id'] == 'SF' && strpos($userAgent, 'RIM Tablet OS') !== false) {
+				$info['id'] = 'BP';
+			}
 
 			// Version/X.Y.Z override
 			if(preg_match_all("/(version)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $newResults)) {
@@ -478,6 +487,7 @@ class UserAgentParser
 		self::$browserIdToName['AV'] = 'AmigaVoyager';
 		self::$browserIdToName['AW'] = 'Amiga AWeb';
 		self::$browserIdToName['BB'] = 'BlackBerry';
+		self::$browserIdToName['BP'] = 'PlayBook';
 		self::$browserIdToName['BX'] = 'BrowseX';
 		self::$browserIdToName['CO'] = 'CometBird';
 		self::$browserIdToName['EL'] = 'ELinks';
@@ -498,6 +508,7 @@ class UserAgentParser
 		self::$browserIdToShortName['FB'] = 'Firebird';
 		self::$browserIdToShortName['IE'] = 'IE';
 		self::$browserIdToShortName['MC'] = 'Mosaic';
+		self::$browserIdToShortName['BP'] = 'PlayBook';
 		self::$browserIdToShortName['WO'] = 'webOS';
 		
 		// init OS names and short names
