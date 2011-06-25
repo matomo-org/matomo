@@ -26,27 +26,30 @@ function Piwik_ErrorHandler($errno, $errstr, $errfile, $errline)
 		return;
 	}
 
-	$backtrace = '';
-	$bt = @debug_backtrace();
-	if($bt !== null && isset($bt[0]))
+	if(function_exists('debug_backtrace'))
 	{
-		//array_shift($bt);
-		foreach($bt as $i => $debug)
+		$backtrace = '';
+		$bt = @debug_backtrace();
+		if($bt !== null && isset($bt[0]))
 		{
-			$args = isset($debug['args']) ? var_export($debug['args'], true) : '';
-			$args = preg_replace(
-				array("/\n/", "/\r/", '/ +/', '/, *\)/', '/\( +/', '/^array \(0 => /', '/\)$/'),
-				array('', '', ' ', ')', '(', '', ''),
-				$args
-			);
-			$backtrace .= "#$i  "
-				.(isset($debug['class']) ? $debug['class'] : '')
-				.(isset($debug['type']) ? $debug['type'] : '')
-				.(isset($debug['function']) ? $debug['function'] : '')
-				.'('.$args.') called at ['
-				.(isset($debug['file']) ? $debug['file'] : '').':'
-				.(isset($debug['line']) ? $debug['line'] : '').']'."\n";
+			foreach($bt as $i => $debug)
+			{
+				$backtrace .= "#$i  "
+					.(isset($debug['class']) ? $debug['class'] : '')
+					.(isset($debug['type']) ? $debug['type'] : '')
+					.(isset($debug['function']) ? $debug['function'] : '')
+					.'(...) called at ['
+					.(isset($debug['file']) ? $debug['file'] : '').':'
+					.(isset($debug['line']) ? $debug['line'] : '').']'."\n";
+			}
 		}
+	}
+	else
+	{
+	 	ob_start();
+ 		@debug_print_backtrace();
+ 		$backtrace = ob_get_contents();
+ 		ob_end_clean();
 	}
 
 	try {
