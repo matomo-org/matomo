@@ -428,7 +428,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'blogsearch.google.{}'		=> array('Google Blogsearch'),
 
 		// Google Custom Search
-		'www.google.com/cse'		=> array('Google Custom Search', 'q'),
+		'google.com/cse'			=> array('Google Custom Search', array('q', 'query')),
+		'google.{}/cse'				=> array('Google Custom Search'),
+		'google.com/custom'			=> array('Google Custom Search'),
+		'google.{}/custom'			=> array('Google Custom Search'),
 
 		// Google translation
 		'translate.google.com'		=> array('Google Translations', 'q'),
