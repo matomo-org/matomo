@@ -730,6 +730,10 @@ class Test_Piwik_Common extends UnitTestCase
 			// Google CSE is not standard google
 			'http://www.google.com/cse?cx=006944612449134755049%3Ahq5up-97k4u&cof=FORID%3A10&q=piwik&ad=w9&num=10&rurl=http%3A%2F%2Fwww.homepagle.com%2Fsearch.php%3Fcx%3D006944612449134755049%253Ahq5up-97k4u%26cof%3DFORID%253A10%26q%3D89'
 				=> array('name' => 'Google Custom Search', 'keywords' => 'piwik'),
+			'http://www.google.com/cse?cx=012634963936527368460%3Aqdoghy8xaco&cof=FORID%3A11%3BNB%3A1&ie=UTF-8&query=geoip&form_id=google_cse_searchbox_form&sa=Search&ad=w9&num=10&rurl=http%3A%2F%2Fpiwik.org%2Fsearch%2F%3Fcx%3D012634963936527368460%253Aqdoghy8xaco%26cof%3DFORID%253A11%253BNB%253A1%26ie%3DUTF-8%26query%3Dgeoip%26form_id%3Dgoogle_cse_searchbox_form%26sa%3DSearch'
+				=> array('name' => 'Google Custom Search', 'keywords' => 'geoip'),
+			'http://www.google.com.hk/custom?cx=012634963936527368460%3Aqdoghy8xaco&cof=AH%3Aleft%3BCX%3APiwik%252Eorg%3BDIV%3A%23cccccc%3BFORID%3A11%3BL%3Ahttp%3A%2F%2Fwww.google.com%2Fintl%2Fen%2Fimages%2Flogos%2Fcustom_search_logo_sm.gif%3BLH%3A30%3BLP%3A1%3BVLC%3A%23551a8b%3B&ie=UTF-8&query=mysqli.so&form_id=google_cse_searchbox_form&sa=Search&ad=w9&num=10&adkw=AELymgUTLKONpMqPGM-LbgTWRFfzo9uEj92nMyhi08lOA-wvJ9odphte3hfn5Nz13067or397hodwjlupE3ziTpE1uCKhvuTfzH8e8OHp_IAz7YoBQU6YvuSD-YiwcdcfrGRLxrLPUI3&hl=en&oe=UTF-8&client=google-coop-np&boostcse=0&rurl=http://piwik.org/search/%3Fcx%3D012634963936527368460%253Aqdoghy8xaco%26cof%3DFORID%253A11%253BNB%253A1%26ie%3DUTF-8%26query%3Dmysqli.so%26form_id%3Dgoogle_cse_searchbox_form%26sa%3DSearch'
+				=> array('name' => 'Google Custom Search', 'keywords' => 'mysqli.so'),
 
 			// Powered by Google CSE
 			'http://www.cathoogle.com/results?cx=partner-pub-6379407697620666%3Alil1v7i1hv0&cof=FORID%3A9&safe=active&q=i+love+piwik&sa=Cathoogle+Search&siteurl=www.cathoogle.com%2F#867'

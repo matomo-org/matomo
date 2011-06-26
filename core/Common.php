@@ -1307,7 +1307,7 @@ class Piwik_Common
 			if(!strncmp($query, 'cx=partner-pub-', 15))
 			{
 				// Google custom search engine
-				$refererHost = 'www.google.com/cse';
+				$refererHost = 'google.com/cse';
 			}
 			elseif(!strncmp($refererPath, '/pemonitorhosted/ws/results/', 28))
 			{
