@@ -85,8 +85,8 @@ class Piwik_FrontController
 			$action = Piwik_Common::getRequestVar('action', false);
 		}
 
-		if(!$sessionStarted
-			&& ($module !== 'API' || !$action)
+		if(($module !== 'API' || (!$action && $action !== 'index'))
+			&& !$sessionStarted
 			&& (!defined('PIWIK_ENABLE_SESSION_START') || PIWIK_ENABLE_SESSION_START))
 		{
 			Piwik_Session::start();
