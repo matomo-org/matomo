@@ -67,23 +67,32 @@ class Piwik_FrontController
 	 */
 	function dispatch( $module = null, $action = null, $parameters = null)
 	{
+		static $sessionStarted = false;
+
 		if( self::$enableDispatch === false)
 		{
 			return;
 		}
 
-		
 		if(is_null($module))
 		{
 			$defaultModule = 'CoreHome';
 			$module = Piwik_Common::getRequestVar('module', $defaultModule, 'string');
 		}
-		
+
 		if(is_null($action))
 		{
 			$action = Piwik_Common::getRequestVar('action', false);
 		}
-		
+
+		if(!$sessionStarted
+			&& ($module !== 'API' || !$action)
+			&& (!defined('PIWIK_ENABLE_SESSION_START') || PIWIK_ENABLE_SESSION_START))
+		{
+			Piwik_Session::start();
+			$sessionStarted = true;
+		}
+
 		if(is_null($parameters))
 		{
 			$parameters = array();
@@ -98,7 +107,7 @@ class Piwik_FrontController
 		{
 			throw new Piwik_FrontController_PluginDeactivatedException($module);
 		}
-				
+
 		$controllerClassName = 'Piwik_'.$module.'_Controller';
 
 		// FrontController's autoloader
@@ -262,11 +271,6 @@ class Piwik_FrontController
 
 			$pluginsManager->postLoadPlugins();
 			
-			if(!defined('PIWIK_ENABLE_SESSION_START') || PIWIK_ENABLE_SESSION_START)
-			{
-				Piwik_Session::start();
-			}
-
 			Piwik_PostEvent('FrontController.checkForUpdates');
 		} catch(Exception $e) {
 			Piwik_ExitWithMessage($e->getMessage(), false, true);
