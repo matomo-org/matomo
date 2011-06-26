@@ -157,7 +157,7 @@ class Piwik_Live_API
 			$visitorDetailsArray = $visitor->getAllVisitorDetails();
 
 			$visitorDetailsArray['siteCurrency'] = $site->getCurrency();
-			$visitorDetailsArray['siteCurrencySymbol'] = $currencies[$site->getCurrency()];
+			$visitorDetailsArray['siteCurrencySymbol'] = @$currencies[$site->getCurrency()];
 			$visitorDetailsArray['serverTimestamp'] = $visitorDetailsArray['lastActionTimestamp'];
 			$dateTimeVisit = Piwik_Date::factory($visitorDetailsArray['lastActionTimestamp'], $timezone);
 			$visitorDetailsArray['serverTimePretty'] = $dateTimeVisit->getLocalized('%time%');
