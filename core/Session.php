@@ -66,8 +66,12 @@ class Piwik_Session extends Zend_Session
 				'lifetimeColumn' => 'lifetime',
 				'db' => $db,
 			);
-			
-			self::setSaveHandler(new Zend_Session_SaveHandler_DbTable($config));
+
+			$saveHandler = new Zend_Session_SaveHandler_DbTable($config);
+			if($saveHandler)
+			{			
+				self::setSaveHandler($saveHandler);
+			}
 		}
 
 		// garbage collection may disabled by default (e.g., Debian)
@@ -78,10 +82,22 @@ class Piwik_Session extends Zend_Session
 
 		try {
 			Zend_Session::start();
-			register_shutdown_function(array('Zend_Session', 'writeClose'), true);
+			register_shutdown_function(array('Piwik_Session', 'writeClose'), true);
 		} catch(Exception $e) {
 			Piwik::log('Unable to start session: ' . $e->getMessage());
 			Piwik_ExitWithMessage(Piwik_Translate('General_ExceptionUnableToStartSession'));
 		}
+	}
+
+	/**
+	 * writeClose() - Shutdown the sesssion, close writing and detach $_SESSION from the back-end storage mechanism.
+	 * This will complete the internal data transformation on this request.
+	 *
+	 * @param bool $readonly - remove write access
+	 * @return void
+	 */
+	public static function writeClose($readOnly = true)
+	{
+		Zend_Session::writeClose($readOnly);
 	}
 }

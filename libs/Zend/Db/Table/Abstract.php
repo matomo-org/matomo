@@ -267,6 +267,8 @@ abstract class Zend_Db_Table_Abstract
 
         $this->_setup();
         $this->init();
+
+        $this->_metadata = array();
     }
 
     /**
