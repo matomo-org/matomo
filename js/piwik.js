@@ -1246,7 +1246,7 @@ var
 			 * or when there is a new visit or a new page view 
 			 */
 			function setVisitorIdCookie(uuid, createTs, visitCount, nowTs, lastVisitTs, lastEcommerceOrderTs) {
-				  setCookie(getCookieName('id'), uuid + '.' + createTs + '.' + visitCount + '.' + nowTs + '.' + lastVisitTs + '.' + lastEcommerceOrderTs, configVisitorCookieTimeout, configCookiePath, configCookieDomain, cookieSecure);
+				setCookie(getCookieName('id'), uuid + '.' + createTs + '.' + visitCount + '.' + nowTs + '.' + lastVisitTs + '.' + lastEcommerceOrderTs, configVisitorCookieTimeout, configCookiePath, configCookieDomain, cookieSecure);
 			}
 			
 			/*
@@ -1268,10 +1268,10 @@ var
 					// note: this isn't a RFC4122-compliant UUID
 					if (!visitorUUID) {
 						visitorUUID = hash(
-								(navigatorAlias.userAgent || '') +
+							(navigatorAlias.userAgent || '') +
 								(navigatorAlias.platform || '') +
 								JSON2.stringify(browserFeatures) + nowTs
-							).slice(0, 16); // 16 hexits = 64 bits
+						).slice(0, 16); // 16 hexits = 64 bits
 					}
 
 					tmpContainer = [
@@ -1326,10 +1326,10 @@ var
 					}
 				}
 				return [
-					    '',
-					    '',
-					    0,
-					    ''
+					'',
+					'',
+					0,
+					''
 				];
 			}
 			
@@ -1381,12 +1381,12 @@ var
 				currentVisitTs = id[4];
 				lastVisitTs = id[5];
 				// case migrating from pre-1.5 cookies
-				if(!isDefined(id[6])) {
+				if (!isDefined(id[6])) {
 					id[6] = "";
 				}
 				lastEcommerceOrderTs = id[6];
 				
-				if(!isDefined(currentEcommerceOrderTs)) {
+				if (!isDefined(currentEcommerceOrderTs)) {
 					currentEcommerceOrderTs = "";
 				}
 
@@ -1405,20 +1405,20 @@ var
 					// Only if campaign wasn't previously set
 					// Or if it was set but we must attribute to the most recent one
 					// Note: we are working on the currentUrl before purify() since we can parse the campaign parameters in the hash tag
-					if(!configConversionAttributionFirstReferrer
+					if (!configConversionAttributionFirstReferrer
 							|| !campaignNameDetected.length) {
-						for( i in configCampaignNameParameters) {
+						for (i in configCampaignNameParameters) {
 							if (Object.prototype.hasOwnProperty.call(configCampaignNameParameters, i)) {
 								campaignNameDetected = getParameter(currentUrl, configCampaignNameParameters[i]);
-								if(campaignNameDetected.length) {
+								if (campaignNameDetected.length) {
 									break;
 								}
 							}
 						}
-						for( i in configCampaignKeywordParameters) {
+						for (i in configCampaignKeywordParameters) {
 							if (Object.prototype.hasOwnProperty.call(configCampaignKeywordParameters, i)) {
 								campaignKeywordDetected = getParameter(currentUrl, configCampaignKeywordParameters[i]);
-								if(campaignKeywordDetected.length) {
+								if (campaignKeywordDetected.length) {
 									break;
 								}
 							}
@@ -1438,7 +1438,7 @@ var
 					}
 					
 					// Set the referral cookie if we have either a Referrer URL, or detected a Campaign (or both)
-					if(referralUrl.length
+					if (referralUrl.length
 							|| campaignNameDetected.length) {
 						referralTs = nowTs;
 						attributionCookie = [
@@ -1454,7 +1454,7 @@ var
 				// build out the rest of the request
 				request += '&idsite=' + configTrackerSiteId +
 					'&rec=1' +
-					'&r=' + String(Math.random()).slice(2,8) + // keep the string to a minimum
+					'&r=' + String(Math.random()).slice(2, 8) + // keep the string to a minimum
 					'&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
 					'&url=' + encodeWrapper(purify(currentUrl)) +
 					(configReferrerUrl.length ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
@@ -1465,12 +1465,11 @@ var
 					'&_refts=' + referralTs +
 					'&_viewts=' + lastVisitTs +
 					(String(lastEcommerceOrderTs).length ? '&_ects=' + lastEcommerceOrderTs : '') +
-					(String(referralUrl).length ? '&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength))) : '')
-				;
+					(String(referralUrl).length ? '&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength))) : '');
 
 				// Custom Variables, scope "page"
 				var customVariablesPageStringified = JSON2.stringify(customVariablesPage);
-				if(customVariablesPageStringified.length > 2) {
+				if (customVariablesPageStringified.length > 2) {
 					request += '&cvar=' + encodeWrapper(customVariablesPageStringified);
 				}
 
@@ -1492,7 +1491,7 @@ var
 				if (customVariables) {
 					var customVariablesStringified = JSON2.stringify(customVariables);
 					// Don't sent empty custom variables {}
-					if(customVariablesStringified.length > 2) {
+					if (customVariablesStringified.length > 2) {
 						request += '&_cvar=' + encodeWrapper(customVariablesStringified);
 					}
 
@@ -1525,44 +1524,44 @@ var
 					items = [],
 					sku;
 				
-				if(String(orderId).length) {
+				if (String(orderId).length) {
 					request += '&ec_id=' + encodeWrapper(orderId);
 					// Record date of order in the visitor cookie
 					lastEcommerceOrderTs = Math.round(now.getTime() / 1000);
 				}
 				
 				request += '&revenue=' + grandTotal;
-				if(String(subTotal).length) {
+				if (String(subTotal).length) {
 					request += '&ec_st=' + subTotal;
 				}
-				if(String(tax).length) {
+				if (String(tax).length) {
 					request += '&ec_tx=' + tax;
 				}
-				if(String(shipping).length) {
+				if (String(shipping).length) {
 					request += '&ec_sh=' + shipping;
 				}
-				if(String(discount).length) {
+				if (String(discount).length) {
 					request += '&ec_dt=' + discount;
 				}
-				if(ecommerceItems) {
+				if (ecommerceItems) {
 					// Removing the SKU index in the array before JSON encoding
-					for(sku in ecommerceItems) {
+					for (sku in ecommerceItems) {
 						if (Object.prototype.hasOwnProperty.call(ecommerceItems, sku)) {
 							// Ensure name and category default to healthy value
-							if(!isDefined(ecommerceItems[sku][1])) {
+							if (!isDefined(ecommerceItems[sku][1])) {
 								ecommerceItems[sku][1] = "";
 							}
-							if(!isDefined(ecommerceItems[sku][2])) {
+							if (!isDefined(ecommerceItems[sku][2])) {
 								ecommerceItems[sku][2] = "";
 							}
 							// Set price to zero
-							if(!isDefined(ecommerceItems[sku][3])
-								|| String(ecommerceItems[sku][3]).length === 0) {
+							if (!isDefined(ecommerceItems[sku][3])
+									|| String(ecommerceItems[sku][3]).length === 0) {
 								ecommerceItems[sku][3] = 0;
 							}
 							// Set quantity to 1
-							if(!isDefined(ecommerceItems[sku][4])
-								|| String(ecommerceItems[sku][4]).length === 0) {
+							if (!isDefined(ecommerceItems[sku][4])
+									|| String(ecommerceItems[sku][4]).length === 0) {
 								ecommerceItems[sku][4] = 1;
 							}
 							items.push(ecommerceItems[sku]);
@@ -1575,14 +1574,14 @@ var
 			}
 
 			function logEcommerceOrder(orderId, grandTotal, subTotal, tax, shipping, discount) {
-				if(String(orderId).length
-					&& isDefined(grandTotal)) {
+				if (String(orderId).length
+						&& isDefined(grandTotal)) {
 					logEcommerce(orderId, grandTotal, subTotal, tax, shipping, discount);
 				}	
 			}
 
 			function logEcommerceCartUpdate(grandTotal) {
-				if(isDefined(grandTotal)) {
+				if (isDefined(grandTotal)) {
 					logEcommerce("", grandTotal, "", "", "", "");
 				}
 			}
@@ -1935,7 +1934,7 @@ var
 				 *
 				 * @return array
 				 */
-				getVisitorInfo: function() {
+				getVisitorInfo: function () {
 					return loadVisitorIdCookie();
 				},
 
@@ -1949,7 +1948,7 @@ var
 				 *   1) Call JSON2.stringify(piwikTracker.getAttributionInfo()) 
 				 *   2) Pass this json encoded string to the Tracking API (php or java client): setAttributionInfo()
 				 */
-				getAttributionInfo: function() {
+				getAttributionInfo: function () {
 					return loadReferrerAttributionCookie();
 				},
 				
@@ -1959,7 +1958,7 @@ var
 				 * 
 				 * @return string
 				 */
-				getAttributionCampaignName: function() {
+				getAttributionCampaignName: function () {
 					return loadReferrerAttributionCookie()[0];
 				},
 				
@@ -1969,7 +1968,7 @@ var
 				 * 
 				 * @return string
 				 */
-				getAttributionCampaignKeyword: function() {
+				getAttributionCampaignKeyword: function () {
 					return loadReferrerAttributionCookie()[1];
 				},
 
@@ -1978,7 +1977,7 @@ var
 				 * 
 				 * @return int Timestamp or 0 if no referrer currently set
 				 */
-				getAttributionReferrerTimestamp: function() {
+				getAttributionReferrerTimestamp: function () {
 					return loadReferrerAttributionCookie()[2];
 				},
 				
@@ -1987,7 +1986,7 @@ var
 				 * 
 				 * @return string Raw URL, or empty string '' if no referrer currently set
 				 */
-				getAttributionReferrerUrl: function() {
+				getAttributionReferrerUrl: function () {
 					return loadReferrerAttributionCookie()[3];
 				},
 				
@@ -2051,16 +2050,15 @@ var
 				 */
 				setCustomVariable: function (index, name, value, scope) {
 					var toRecord;
-					if(!isDefined(scope)) {
+					if (!isDefined(scope)) {
 						scope = 'visit';
 					}
 					if (index > 0) {
 						toRecord = [name.slice(0, customVariableMaximumLength), value.slice(0, customVariableMaximumLength)];
-						if(scope === 'visit' || scope === 2 /* GA compatibility/misuse */) {
+						if (scope === 'visit' || scope === 2) { /* GA compatibility/misuse */
 							loadCustomVariables();
 							customVariables[index] = toRecord;
-						}
-						else if(scope === 'page' || scope === 3 /* GA compatibility/misuse */ ) {
+						} else if (scope === 'page' || scope === 3) { /* GA compatibility/misuse */
 							customVariablesPage[index] = toRecord;
 						}
 					}
@@ -2074,13 +2072,12 @@ var
 				 */
 				getCustomVariable: function (index, scope) {
 					var cvar;
-					if(!isDefined(scope)) {
+					if (!isDefined(scope)) {
 						scope = "visit";
 					}
-					if(scope === "page" || scope === 3) {
+					if (scope === "page" || scope === 3) {
 						cvar = customVariablesPage[index];
-					}
-					else if(scope === "visit" || scope === 2) {
+					} else if (scope === "visit" || scope === 2) {
 						loadCustomVariables();
 						cvar = customVariables[index];
 					}
@@ -2415,29 +2412,29 @@ var
 				},
 				
 
-			    /**
-			     * Used to record that the current page view is an item (product) page view, or a Ecommerce Category page view.
-			     * This must be called before trackPageView() on the product/category page. 
-			     * It will set 3 custom variables of scope "page" with the SKU, Name and Category for this page view.
-			     * Note: Custom Variables of scope "page" slots 3, 4 and 5 will be used.
-			     *  
-			     * On a category page, you can set the parameter category, and set the other parameters to empty string or false
-			     * 
-			     * Tracking Product/Category page views will allow Piwik to report on Product & Categories 
-			     * conversion rates (Conversion rate = Ecommerce orders containing this product or category / Visits to the product or category)
-			     * 
-			     * @param string sku Item's SKU code being viewed
-			     * @param string name Item's Name being viewed
-			     * @param string category Category page being viewed. On an Item's page, this is the item's category
-			     */
-				setEcommerceView: function(sku, name, category) {
-					if(isDefined(sku) && sku.length) {
+				/**
+				 * Used to record that the current page view is an item (product) page view, or a Ecommerce Category page view.
+				 * This must be called before trackPageView() on the product/category page. 
+				 * It will set 3 custom variables of scope "page" with the SKU, Name and Category for this page view.
+				 * Note: Custom Variables of scope "page" slots 3, 4 and 5 will be used.
+				 *
+				 * On a category page, you can set the parameter category, and set the other parameters to empty string or false
+				 *
+				 * Tracking Product/Category page views will allow Piwik to report on Product & Categories 
+				 * conversion rates (Conversion rate = Ecommerce orders containing this product or category / Visits to the product or category)
+				 *
+				 * @param string sku Item's SKU code being viewed
+				 * @param string name Item's Name being viewed
+				 * @param string category Category page being viewed. On an Item's page, this is the item's category
+				 */
+				setEcommerceView: function (sku, name, category) {
+					if (isDefined(sku) && sku.length) {
 						customVariablesPage[3] = ['_pks', sku];
 					}
-					if(isDefined(name) && name.length) {
+					if (isDefined(name) && name.length) {
 						customVariablesPage[4] = ['_pkn', name];
 					}
-					if(isDefined(category) && category.length) {
+					if (isDefined(category) && category.length) {
 						customVariablesPage[5] = ['_pkc', category];
 					}
 				},
@@ -2453,8 +2450,8 @@ var
 				 * @param float price (optional) Item's price. If not specified, will default to 0
 				 * @param float quantity (optional) Item's quantity. If not specified, will default to 1
 				 */
-				addEcommerceItem: function(sku, name, category, price, quantity) {
-					if(sku.length) {
+				addEcommerceItem: function (sku, name, category, price, quantity) {
+					if (sku.length) {
 						ecommerceItems[sku] = [ sku, name, category, price, quantity ]; 
 					}
 				},
@@ -2474,7 +2471,7 @@ var
 				 * @param float shipping (optional) Shipping amount for this order
 				 * @param float discount (optional) Discounted amount in this order
 				 */
-				trackEcommerceOrder: function(orderId, grandTotal, subTotal, tax, shipping, discount) {
+				trackEcommerceOrder: function (orderId, grandTotal, subTotal, tax, shipping, discount) {
 					logEcommerceOrder(orderId, grandTotal, subTotal, tax, shipping, discount);
 				},
 				
@@ -2485,7 +2482,7 @@ var
 				 * 
 				 * @param float grandTotal (required) Items (products) amount in the Cart
 				 */
-				trackEcommerceCartUpdate: function(grandTotal) {
+				trackEcommerceCartUpdate: function (grandTotal) {
 					logEcommerceCartUpdate(grandTotal);
 				}
 				
