@@ -52,6 +52,7 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 				'internalLabel' => $label
 			);
 			
+			array_walk($data, create_function('&$v', '$v = (float)$v;'));
 			$this->data[] = &$data;
 		}
 	}
