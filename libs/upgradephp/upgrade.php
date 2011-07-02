@@ -128,7 +128,7 @@ if (!function_exists("json_encode")) {
 
          #-- concat invidual entries
          foreach ((array)$var as $i=>$v) {
-            $json .= ($json ? "," : "")    // comma separators
+            $json .= ($json !== '' ? "," : "")    // comma separators
                    . ($obj ? ("\"$i\":") : "")   // assoc prefix
                    . (json_encode($v));    // value
          }
