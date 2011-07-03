@@ -193,6 +193,11 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 */
 	protected function lostPasswordFormValidated($loginMail)
 	{
+		if( $user === 'anonymous' )
+		{
+			return Piwik_Translate('Login_InvalidUsernameEmail');
+		}
+
 		$user = self::getUserInformation($loginMail);
 		if( $user === null )
 		{
@@ -374,7 +379,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		}
 
 		$expiry = strftime('%Y%m%d%H', $timestamp); 
-		$token = md5($expiry . $user['login'] . $user['email'] . $user['password']);
+		$token = md5(Piwik_Common::getSalt() . md5($expiry . $user['login'] . $user['email'] . $user['password']));
 		return $token;
 	}
 
