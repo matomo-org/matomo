@@ -388,7 +388,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 	protected function generatePasswordResetToken($user, $timestamp = null)
 	{
 		/*
-		 * Piwik does not stored the generated password reset token.
+		 * Piwik does not store the generated password reset token.
 		 * This avoids a database schema change and SQL queries to store, retrieve, and purge (expired) tokens.
 		 */
 		if(!$timestamp)
