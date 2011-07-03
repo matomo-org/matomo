@@ -802,6 +802,42 @@ class Piwik_Common
 	}
 
 	/**
+	 * Configureable hash() algorithm (defaults to md5)
+	 *
+	 * @param string $str String to be hashed
+	 * @param bool $raw_output
+	 * @return string Hash string
+	 */
+	static function hash($str, $raw_output = false)
+	{
+		static $hashAlgorithm = null;
+		if(is_null($hashAlgorithm))
+		{
+			if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
+			{
+				$hashAlgorithm = @Piwik_Tracker_Config::getInstance()->General['hash_algorithm'];
+			}
+			else
+			{
+				$config = Zend_Registry::get('config');
+				if($config !== false)
+				{
+					$hashAlgorithm = @$config->General->hash_algorithm;
+				}
+			}
+		}
+
+		if($hashAlgorithm)
+		{
+			$hash = @hash($hashAlgorithm, $str, $raw_output);
+			if($hash !== false)
+				return $hash;
+		}
+
+		return md5($str, $raw_output);
+	}
+
+	/**
 	 * Returns the list of Campaign parameter names that will be read to classify 
 	 * a visit as coming from a Campaign
 	 * 

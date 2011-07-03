@@ -18,6 +18,24 @@
 class Piwik_Login_Controller extends Piwik_Controller
 {
 	/**
+	 * Generate hash on user info and password
+	 *
+	 * @param string $userinfo User name, email, etc
+	 * @param string $password
+	 * @return string
+	 */
+	private function generateHash($userInfo, $password)
+	{
+		// mitigate rainbow table attack
+		$password = str_split($password, (strlen($password)/2)+1);
+		$hash = Piwik_Common::hash(
+			$userInfo . $password[0]
+			. Piwik_Common::getSalt() . $password[1]
+		);
+		return $hash;
+	}
+
+	/**
 	 * Default action
 	 *
 	 * @param none
@@ -193,7 +211,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 */
 	protected function lostPasswordFormValidated($loginMail)
 	{
-		if( $user === 'anonymous' )
+		if( $loginMail === 'anonymous' )
 		{
 			return Piwik_Translate('Login_InvalidUsernameEmail');
 		}
@@ -379,7 +397,10 @@ class Piwik_Login_Controller extends Piwik_Controller
 		}
 
 		$expiry = strftime('%Y%m%d%H', $timestamp); 
-		$token = md5(Piwik_Common::getSalt() . md5($expiry . $user['login'] . $user['email'] . $user['password']));
+		$token = $this->generateHash(
+			$expiry . $user['login'] . $user['email'],
+			$user['password']
+		);
 		return $token;
 	}
 

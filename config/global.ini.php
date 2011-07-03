@@ -139,6 +139,10 @@ minimum_memory_limit = 128
 ; This can be disabled, if for example you wish to import an existing User database in Piwik and your rules are less restrictive
 disable_checks_usernames_attributes = 0
 
+; Piwik will use the configured hash algorithm where possible.
+; For legacy data, fallback or non-security scenarios, we use md5.
+hash_algorithm = whirlpool
+
 ; by default, Piwik uses relative URLs, so you can login using http:// or https://
 ; (the latter assumes you have a valid SSL certificate).
 ; If set to 1, Piwik redirects the login form to use a secure connection (i.e., https).
