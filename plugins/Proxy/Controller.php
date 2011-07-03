@@ -47,24 +47,40 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 	{
 		Piwik::checkUserHasSomeViewAccess();
 
-		header('Content-Type: image/png');
-		$data = base64_decode(Piwik_Common::getRequestVar('imageData', self::TRANSPARENT_PNG_PIXEL, 'string', $_POST));
+		$rawData = Piwik_Common::getRequestVar('imageData', '', 'string', $_POST);
 
-		if(function_exists('imagecreatefromstring'))
+		// returns false if any illegal characters in input
+		$data = base64_decode($rawData);
+		if($data !== false)
 		{
-			// validate image data
-			$imgResource = @imagecreatefromstring($data);
-			if($imgResource !== false)
+			$substr = function_exists('mb_orig_substr') ? 'mb_orig_substr' : 'substr';
+			// check for PNG header
+			if($substr($data, 0, 8) === "\x89\x50\x4e\x47\x0d\x0a\x1a\x0a")
 			{
-				// output image and clean-up
-				imagepng($imgResource);
-				imagedestroy($imgResource);
+				header('Content-Type: image/png');
+
+				// more robust validation (if available)
+				if(function_exists('imagecreatefromstring'))
+				{
+					// validate image data
+					$imgResource = @imagecreatefromstring($data);
+					if($imgResource !== false)
+					{
+						// output image and clean-up
+						imagepng($imgResource);
+						imagedestroy($imgResource);
+						exit;
+					}
+				}
+				else
+				{
+					echo $data;
+					exit;
+				}
 			}
 		}
-		else
-		{
-			echo $data;
-		}
+
+		Piwik::setHttpStatus('400 Bad Request');
 		exit;
 	}
 
