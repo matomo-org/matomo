@@ -71,7 +71,7 @@ class Piwik_Session_SaveHandler_DbTable implements Zend_Session_SaveHandler_Inte
 	{
 		$sql = 'SELECT '.$this->config['dataColumn'].' FROM '.$this->config['name']
 			.' WHERE '.$this->config['primary'].' = ?'
-				.' AND '.$this->config['modifiedColumn'].' + '.$this->config['lifetimeColumn'].' < ?';
+				.' AND '.$this->config['modifiedColumn'].' + '.$this->config['lifetimeColumn'].' >= ?';
 
 		$result = $this->config['db']->fetchOne($sql, array($id, time()));
 		if(!$result)
