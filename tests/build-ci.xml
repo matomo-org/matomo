@@ -78,12 +78,7 @@
 	<target name="webtest" depends="prepare-build-filesystem">
 		<mkdir dir="${basedir}/integration/processed"/>
 		<delete file="${basedir}/../config/config.ini.php"/>
-		<exec executable="${php.executable}" dir="${basedir}" outputproperty="piwik_reset_token">
-			<arg value="-r" />
-			<arg value="@date_default_timezone_set('UTC'); $$ini = parse_ini_file('${basedir}/../config/config.ini.php', true); $$passwd = md5('piwik_password'); echo md5(strftime('%Y%m%d%H', time()+24*60*60) . 'piwik_login' . 'nobody@piwik.org' . substr($$passwd, 0, 16) . $$ini['superuser']['salt'] . substr($$passwd, -16));" />
-		</exec>
 		<ant antfile="${basedir}/build-webtest.xml">
-			<!--property name="piwik_reset_token" value="${piwik_reset_token}"/-->
 		</ant>
 	</target>
 
