@@ -251,6 +251,8 @@
 				&checkForErrors;
 				&verifyLinksAndImages;
 
+				<generateResetToken output="piwik_reset_token" />
+
 				<setInputField description="set Piwik login" htmlId="form_login" value="piwik_login" />
 				<setInputField description="set Piwik password" htmlId="form_password" value="new_password" />
 				<setInputField description="set Piwik password bis" htmlId="form_password_bis" value="new_password" />
