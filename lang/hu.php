@@ -1,4 +1,4 @@
-<?php
+<?php 
 $translations = array(
 	'General_Locale' => 'hu_HU.UTF-8',
 	'General_TranslatorName' => '<a href="http://www.oldalgazda.hu/">József Jároli</a>, Viktor Horvath & Mr. Balu',
@@ -330,7 +330,7 @@ $translations = array(
 	'CoreUpdater_TheUpgradeProcessMayFailExecuteCommand' => 'Ha nagy Piwik adatbázissal rendelkezel, a frissítések lehet, túl sok időt vesznek igénybe a böngészőben futtatáshoz. Ebben az esetben a frissítéseket a parancssorból így lehet végrehajtani: %s',
 	'CoreUpdater_YouCouldManuallyExecuteSqlQueries' => 'Ha nem lehetséges a parancssori frissítés és ha a Piwik nem tud frissíteni az újabb verzióra (adatbázis-műveletek időtúllépése, a böngésző időtúllépése vagy egyéb problémák miatt), kézzel is lehet frissíteni a Piwik-et a megfelelő SQL parancsok segítségével.',
 	'CoreUpdater_ClickHereToViewSqlQueries' => 'Kattints ide a végrehajtásra kerülő SQL parancsok listájának megtekintéséhez vagy kimásolásához.',
-	'CoreUpdater_NoteItIsExpectedThatQueriesFail' => 'Figyelem: ha kézzel hajtod végre ezeket a parancsokat, elképzelhető, hogy néhányuk nem kerül végrehajtásra. Ebben az esetben egyszerűen ne vedd figyelembe a hibaüzeneteket, és fojtasd a következő parancs kiadásával.',
+	'CoreUpdater_NoteItIsExpectedThatQueriesFail' => 'Figyelem: ha kézzel hajtod végre ezeket a parancsokat, elképzelhető, hogy néhányuk nem kerül végrehajtásra. Ebben az esetben egyszerűen ne vedd figyelembe a hibaüzeneteket, és folytasd a következő parancs kiadásával.',
 	'CoreUpdater_ReadyToGo' => 'Készen áll az indulásra?',
 	'CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient' => 'Az adatbázis frissítése eltart egy ideig. Kérjük, várj türelemmel!',
 	'CoreUpdater_UpgradePiwik' => 'Piwik frissítése',
