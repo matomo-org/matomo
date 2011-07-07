@@ -58,7 +58,7 @@ $(document).ready( function() {
 	menu.registerCallbackOnWidgetLoad( widgetized.callbackAddExportButtonsUnderWidget );
 	menu.registerCallbackOnMenuHover( widgetized.deleteEmbedElements );
 	menu.show();
-	var dashboardUrl = document.location.protocol + '//' + document.location.hostname + document.location.pathname + '?module=Widgetize&action=iframe&moduleToWidgetize=Dashboard&actionToWidgetize=index&idSite=1&period=week&date=yesterday';
+	var dashboardUrl = document.location.protocol + '//' + document.location.hostname + (document.location.port == '' ? '' : (':' + document.location.port)) + document.location.pathname + '?module=Widgetize&action=iframe&moduleToWidgetize=Dashboard&actionToWidgetize=index&idSite=1&period=week&date=yesterday';
 	$('#exportFullDashboard').html(
 		widgetized.getInputFormWithHtml( 'dashboardEmbed', '<iframe src="'+ dashboardUrl +'" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%"></iframe>')
 	);
