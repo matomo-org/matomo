@@ -25,7 +25,7 @@ function widgetize()
 		delete copyParameters['action'];
 		delete copyParameters['module'];
 		var sourceUrl;
-		sourceUrl = document.location.protocol + '//' + document.location.hostname + document.location.pathname + '?';
+		sourceUrl = document.location.protocol + '//' + document.location.hostname + (document.location.port == '' ? '' : (':' + document.location.port)) + document.location.pathname + '?';
 		sourceUrl += 	"module=Widgetize" +
 						"&action="+exportFormat+
 						"&"+piwikHelper.getQueryStringFromParameters(copyParameters)+
