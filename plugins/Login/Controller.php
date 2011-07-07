@@ -27,10 +27,10 @@ class Piwik_Login_Controller extends Piwik_Controller
 	private function generateHash($userInfo, $password)
 	{
 		// mitigate rainbow table attack
-		$password = str_split($password, (strlen($password)/2)+1);
+		$passwordLen = strlen($password) / 2;
 		$hash = Piwik_Common::hash(
-			$userInfo . $password[0]
-			. Piwik_Common::getSalt() . $password[1]
+			$userInfo . substr($password, 0, $passwordLen)
+			. Piwik_Common::getSalt() . substr($password, $passwordLen)
 		);
 		return $hash;
 	}
