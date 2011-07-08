@@ -3,7 +3,7 @@
 	<sequential>
 		<exec executable="${php.executable}" dir="${basedir}" outputproperty="@{output}">
 			<arg value="-r" />
-			<arg value="@date_default_timezone_set('UTC'); &#36;ini = parse_ini_file('${basedir}/../../config/config.ini.php', true); &#36;passwd = md5('piwik_password'); echo md5(strftime('%Y%m%d%H', time()+24*60*60) . 'piwik_login' . 'nobody@piwik.org' . substr(&#36;passwd, 0, 16) . &#36;ini['superuser']['salt'] . substr(&#36;passwd, -16));" />
+			<arg value="@date_default_timezone_set('UTC'); &#36;ini = parse_ini_file('${basedir}/../../config/config.ini.php', true); &#36;passwd = md5('piwik_password'); echo hash('whirlpool', strftime('%Y%m%d%H', time()+24*60*60) . 'piwik_login' . 'nobody@piwik.org' . substr(&#36;passwd, 0, 16) . &#36;ini['superuser']['salt'] . substr(&#36;passwd, -16));" />
 		</exec>
 	</sequential>
 </macrodef>
