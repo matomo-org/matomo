@@ -171,6 +171,10 @@ abstract class Piwik_Menu_Abstract
 	 */
 	private function applyOrdering()
 	{
+		if(empty($this->menu))
+		{
+			return;
+		}
 		uasort($this->menu, array($this, 'menuCompare'));
 		foreach ($this->menu as $key => &$element)
 		{
