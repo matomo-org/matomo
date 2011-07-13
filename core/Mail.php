@@ -46,19 +46,14 @@ class Piwik_Mail extends Zend_Mail
 			return;
 		}
 		$smtpConfig = array();
-		if ( !empty($config->type)
-			 || !empty($config->username)
-			 || !empty($config->password)
-			 || !empty($config->encryption)
-		)
-		{
-			$smtpConfig = array(
-				'auth' => strtolower($config->type),
-				'username' => $config->username,
-				'password' => $config->password,
-				'ssl' => $config->encryption,
-			);
-		}
+		if (!empty($config->type))
+			$smtpConfig['auth'] = strtolower($config->type);
+		if (!empty($config->username))
+			$smtpConfig['username'] = $config->username;
+		if (!empty($config->password))
+			$smtpConfig['password'] = $config->password;
+		if (!empty($config->encryption))
+			$smtpConfig['ssl'] = $config->encryption;
 		
 		$tr = new Zend_Mail_Transport_Smtp($config->host, $smtpConfig);
 		Piwik_Mail::setDefaultTransport($tr);
