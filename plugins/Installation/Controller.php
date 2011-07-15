@@ -328,12 +328,11 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$view->tablesInstalled = implode(', ', $tablesInstalled);
 			$view->someTablesInstalled = true;
 
-			$minimumCountPiwikTables = 18;
+			$minimumCountPiwikTables = 17;
 			$baseTablesInstalled = preg_grep('/archive_numeric|archive_blob/', $tablesInstalled, PREG_GREP_INVERT);
 
 			Piwik::createAccessObject();
 			Piwik::setUserIsSuperUser();
-
 			if(count($baseTablesInstalled) >= $minimumCountPiwikTables &&
 				count(Piwik_SitesManager_API::getInstance()->getAllSitesId()) > 0 &&
 				count(Piwik_UsersManager_API::getInstance()->getUsers()) > 0)
