@@ -903,7 +903,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.yougoo.fr'				=> array('YouGoo', 'q', '?cx=search&q={k}'),
 
 		// Zapmeta
-		'www.zapmeta.com'			=> array('Zapmeta', 'q', '?q={k}'),
+		'www.zapmeta.com'			=> array('Zapmeta', array('q', 'query'), '?q={k}'),
 		'www.zapmeta.nl'			=> array('Zapmeta'),
 		'www.zapmeta.de'			=> array('Zapmeta'),
 		'uk.zapmeta.com'			=> array('Zapmeta'),
