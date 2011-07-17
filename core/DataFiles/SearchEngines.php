@@ -863,6 +863,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.cercato.it'			=> array('Yahoo!', 'q'),
 		'search.offerbox.com'		=> array('Yahoo!', 'q'),
 
+		// Powered by Yahoo! Search Marketing (Overture)
+		'ys.mirostart.com'			=> array('Yahoo!', 'q'),
+
 		// Yahoo! Directory
 		'search.yahoo.com/search/dir' => array('Yahoo! Directory', 'p', '?p={k}'),
 //		'{}.dir.yahoo.com'			=> array('Yahoo! Directory'),
