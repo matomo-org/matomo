@@ -489,13 +489,18 @@ var
 		 * or:
 		 *      [ functionObject, optional_parameters ]
 		 */
-		function apply(parameterArray) {
-			var f = parameterArray.shift();
+		function apply() {
+			var i, f, parameterArray;
 
-			if (isString(f)) {
-				asyncTracker[f].apply(asyncTracker, parameterArray);
-			} else {
-				f.apply(asyncTracker, parameterArray);
+			for (i = 0; i < arguments.length; i += 1) {
+				parameterArray = arguments[i];
+				f = parameterArray.shift();
+
+				if (isString(f)) {
+					asyncTracker[f].apply(asyncTracker, parameterArray);
+				} else {
+					f.apply(asyncTracker, parameterArray);
+				}
 			}
 		}
 
