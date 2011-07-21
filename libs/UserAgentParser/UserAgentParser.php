@@ -416,10 +416,6 @@ class UserAgentParser
 				$info['id'] = 'BP';
 			}
 /*
-			// Titanium Mobile
-			else if(strpos($userAgent, 'Appcelerator Titanium') !== false) {
-			}
-*/
 			// Version/X.Y.Z override
 			if(preg_match_all("/(version)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $newResults)) {
 				$results = $newResults;
