@@ -57,6 +57,12 @@ class Test_Piwik_UserSettings extends UnitTestCase
 		'Mozilla/5.0 (Linux; U; Android 1.1; en-us; dream) AppleWebKit/525.10+ (KHTML, like Gecko) Version/3.0.4 Mobile Safari/523.12.2' => array(
 			array('AN', 'Android', 'Android', '3.0', '3', '0', 'webkit'),
 			array('AND', 'Android', 'Android')),
+		'Mozilla/5.0 (Linux; U; Android 2.2.1; en-us; Nexus One Build/FRG83) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1' => array(
+			array('AN', 'Android', 'Android', '4.0', '4', '0', 'webkit'),
+			array('AND', 'Android', 'Android')),
+		'Mozilla/5.0 (Linux; U; Android 2.2.1; en-us; device Build/FRG83) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Safari/533.1' => array(
+			array('AN', 'Android', 'Android', '4.0', '4', '0', 'webkit'),
+			array('AND', 'Android', 'Android')),
 
 		// AOL / America Online Browser (treat as IE)
 		'Mozilla/4.0 (compatible; MSIE 7.0; AOL 9.5; AOLBuild 4337.43; Windows NT 5.1; .NET CLR 1.1.4322)' => array(
@@ -838,6 +844,27 @@ class Test_Piwik_UserSettings extends UnitTestCase
 		'SonyEricssonG700/R100 Mozilla/4.0 (compatible; MSIE 6.0; Symbian OS; 958) Opera 8.65 [ru]' => array(
 			array('OP', 'Opera', 'Opera', '8.65', '8', '65', 'opera'),
 			array('SYM', 'SymbianOS', 'SymbianOS')),
+
+		// Appcelerator Titanium
+		'Appcelerator Titanium/1.8.0 (iPhone Simulator/4.3; iPhone OS; en_US;)' => array(
+			array('TI', 'Titanium', 'Titanium', '1.8', '1', '8', 'webkit'),
+			array('IPH', 'iPhone', 'iPhone')),
+
+		'Appcelerator Titanium/1.8.0 (iPod touch/4.3.1; iPhone OS; de_DE;)' => array(
+			array('TI', 'Titanium', 'Titanium', '1.8', '1', '8', 'webkit'),
+			array('IPD', 'iPod', 'iPod')),
+
+		'Appcelerator Titanium/1.8.0 (iPad/4.3.3; iPhone OS; de_DE;)' => array(
+			array('TI', 'Titanium', 'Titanium', '1.8', '1', '8', 'webkit'),
+			array('IPA', 'iPad', 'iPad')),
+
+		'Dalvik/1.1.0 (Linux; U; Android 2.1; google_sdk Build/ERD79) Titanium/1.8.0' => array(
+			array('TI', 'Titanium', 'Titanium', '1.8', '1', '8', 'webkit'),
+			array('AND', 'Android', 'Android')),
+
+		'Dalvik/1.4.0 (Linux; U; Android 2.3.3; GT-I9100 Build/GINGERBREAD) Titanium/1.8.0' => array(
+			array('TI', 'Titanium', 'Titanium', '1.8', '1', '8', 'webkit'),
+			array('AND', 'Android', 'Android')),
 	);
 
 	public function test_getBrowser()

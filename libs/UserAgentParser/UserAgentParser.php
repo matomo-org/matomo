@@ -158,6 +158,8 @@ class UserAgentParser
 			'safari'						=> 'SF',
 			'applewebkit'					=> 'SF',
 
+			'titanium'						=> 'TI',
+
 			'webos'							=> 'WO',
 			'webpro'						=> 'WP',
 		);
@@ -167,7 +169,7 @@ class UserAgentParser
 			'ie'	 => array('IE'),
 			'gecko'  => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'KP', 'KZ'),
 			'khtml'  => array('KO'),
-			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AN', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF', 'BB', 'BP'),
+			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AN', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF', 'BB', 'BP', 'TI'),
 			'opera'  => array('OP'),
 		);
 
@@ -371,6 +373,7 @@ class UserAgentParser
 		unset($browsers['mozilla']);
 		unset($browsers['safari']);
 		unset($browsers['applewebkit']);
+		unset($browsers['android']);
 
 		$browsersPattern = str_replace(')', '\)', implode('|', array_keys($browsers)));
 
@@ -415,7 +418,11 @@ class UserAgentParser
 			else if(strpos($userAgent, 'RIM Tablet OS') !== false) {
 				$info['id'] = 'BP';
 			}
-/*
+			// Android devices
+			else if($info['id'] == 'SF' && strpos($userAgent, 'Android') !== false) {
+				$info['id'] = 'AN';
+			}
+
 			// Version/X.Y.Z override
 			if(preg_match_all("/(version)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $newResults)) {
 				$results = $newResults;
