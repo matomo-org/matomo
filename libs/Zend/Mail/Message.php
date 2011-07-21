@@ -16,7 +16,7 @@
  * @package    Zend_Mail
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Message.php 23775 2011-03-01 17:25:24Z ralph $
+ * @version    $Id: Message.php 24163 2011-06-29 15:24:10Z adamlundrigan $
  */
 
 
@@ -73,7 +73,7 @@ class Zend_Mail_Message extends Zend_Mail_Part implements Zend_Mail_Message_Inte
 
         if (!empty($params['flags'])) {
             // set key and value to the same value for easy lookup
-            $this->_flags = array_combine($params['flags'], $params['flags']);
+            $this->_flags = array_merge($this->_flags, array_combine($params['flags'],$params['flags']));
         }
 
         parent::__construct($params);

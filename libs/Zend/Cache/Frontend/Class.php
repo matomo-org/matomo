@@ -17,7 +17,7 @@
  * @subpackage Zend_Cache_Frontend
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Class.php 23775 2011-03-01 17:25:24Z ralph $
+ * @version    $Id: Class.php 24032 2011-05-10 21:08:20Z mabe $
  */
 
 /**
@@ -200,13 +200,19 @@ class Zend_Cache_Frontend_Class extends Zend_Cache_Core
      */
     public function __call($name, $parameters)
     {
+        $callback = array($this->_cachedEntity, $name);
+
+        if (!is_callable($callback, false)) {
+            Zend_Cache::throwException('Invalid callback');
+        }
+
         $cacheBool1 = $this->_specificOptions['cache_by_default'];
         $cacheBool2 = in_array($name, $this->_specificOptions['cached_methods']);
         $cacheBool3 = in_array($name, $this->_specificOptions['non_cached_methods']);
         $cache = (($cacheBool1 || $cacheBool2) && (!$cacheBool3));
         if (!$cache) {
             // We do not have not cache
-            return call_user_func_array(array($this->_cachedEntity, $name), $parameters);
+            return call_user_func_array($callback, $parameters);
         }
 
         $id = $this->_makeId($name, $parameters);
@@ -220,7 +226,7 @@ class Zend_Cache_Frontend_Class extends Zend_Cache_Core
             ob_implicit_flush(false);
 
             try {
-                $return = call_user_func_array(array($this->_cachedEntity, $name), $parameters);
+                $return = call_user_func_array($callback, $parameters);
                 $output = ob_get_clean();
                 $data = array($output, $return);
                 $this->save($data, $id, $this->_tags, $this->_specificLifetime, $this->_priority);

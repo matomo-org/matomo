@@ -16,7 +16,7 @@
  * @package    Zend_Version
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Version.php 24016 2011-05-05 16:18:45Z matthew $
+ * @version    $Id: Version.php 24230 2011-07-13 17:44:57Z matthew $
  */
 
 /**
@@ -32,14 +32,14 @@ final class Zend_Version
     /**
      * Zend Framework version identification - see compareVersion()
      */
-    const VERSION = '1.11.6';
+    const VERSION = '1.11.9';
 
     /**
      * The latest stable version Zend Framework available
      *
      * @var string
      */
-    protected static $_lastestVersion;
+    protected static $_latestVersion;
 
     /**
      * Compare the specified Zend Framework version string $version
@@ -66,16 +66,16 @@ final class Zend_Version
      */
     public static function getLatest()
     {
-        if (null === self::$_lastestVersion) {
-            self::$_lastestVersion = 'not available';
+        if (null === self::$_latestVersion) {
+            self::$_latestVersion = 'not available';
 
             $handle = fopen('http://framework.zend.com/api/zf-version', 'r');
             if (false !== $handle) {
-                self::$_lastestVersion = stream_get_contents($handle);
+                self::$_latestVersion = stream_get_contents($handle);
                 fclose($handle);
             }
         }
 
-        return self::$_lastestVersion;
+        return self::$_latestVersion;
     }
 }

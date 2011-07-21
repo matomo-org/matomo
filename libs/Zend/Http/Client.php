@@ -16,7 +16,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client
- * @version    $Id: Client.php 23864 2011-04-19 16:14:07Z shahar $
+ * @version    $Id: Client.php 24194 2011-07-05 15:53:45Z matthew $
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -101,6 +101,12 @@ class Zend_Http_Client
      */
     const ENC_URLENCODED = 'application/x-www-form-urlencoded';
     const ENC_FORMDATA   = 'multipart/form-data';
+    
+    /**
+     * Value types for Body key/value pairs
+     */
+    const VTYPE_SCALAR  = 'SCALAR';
+    const VTYPE_FILE    = 'FILE';
 
     /**
      * Configuration array, set using the constructor or using ::setConfig()
@@ -201,6 +207,16 @@ class Zend_Http_Client
      * @var array
      */
     protected $files = array();
+    
+    /**
+     * Ordered list of keys from key/value pair data to include in body
+     * 
+     * An associative array, where each element is of the format:
+     *   '<field name>' => VTYPE_SCALAR | VTYPE_FILE
+     * 
+     * @var array 
+     */
+    protected $body_field_order = array();
 
     /**
      * The client's cookie jar
@@ -501,6 +517,12 @@ class Zend_Http_Client
                 break;
             case 'post':
                 $parray = &$this->paramsPost;
+                if ( $value === null ) {
+                    if (isset($this->body_field_order[$name]))
+                        unset($this->body_field_order[$name]);
+                } else {
+                    $this->body_field_order[$name] = self::VTYPE_SCALAR;
+                }
                 break;
         }
 
@@ -724,6 +746,8 @@ class Zend_Http_Client
             'ctype'    => $ctype,
             'data'     => $data
         );
+        
+        $this->body_field_order[$formname] = self::VTYPE_FILE;
 
         return $this;
     }
@@ -788,7 +812,8 @@ class Zend_Http_Client
         $this->paramsPost    = array();
         $this->files         = array();
         $this->raw_post_data = null;
-
+        $this->enctype       = null;
+        
         if($clearAll) {
             $this->headers = array();
             $this->last_request = null;
@@ -1211,16 +1236,37 @@ class Zend_Http_Client
                     $boundary = '---ZENDHTTPCLIENT-' . md5(microtime());
                     $this->setHeaders(self::CONTENT_TYPE, self::ENC_FORMDATA . "; boundary={$boundary}");
 
-                    // Get POST parameters and encode them
-                    $params = self::_flattenParametersArray($this->paramsPost);
-                    foreach ($params as $pp) {
-                        $body .= self::encodeFormData($boundary, $pp[0], $pp[1]);
+                    // Map the formname of each file to the array index it is stored in
+                    $fileIndexMap = array();
+                    foreach ($this->files as $key=>$fdata ) {
+                        $fileIndexMap[$fdata['formname']] = $key;
                     }
-
-                    // Encode files
-                    foreach ($this->files as $file) {
-                        $fhead = array(self::CONTENT_TYPE => $file['ctype']);
-                        $body .= self::encodeFormData($boundary, $file['formname'], $file['data'], $file['filename'], $fhead);
+                    
+                    // Encode all files and POST vars in the order they were given
+                    foreach ($this->body_field_order as $fieldName=>$fieldType) {
+                        switch ($fieldType) {
+                            case self::VTYPE_FILE:
+                                if (isset($fileIndexMap[$fieldName])) {
+                                    if (isset($this->files[$fileIndexMap[$fieldName]])) {
+                                        $file = $this->files[$fileIndexMap[$fieldName]];
+                                        $fhead = array(self::CONTENT_TYPE => $file['ctype']);
+                                        $body .= self::encodeFormData($boundary, $file['formname'], $file['data'], $file['filename'], $fhead);
+                                    }
+                                }
+                                break;
+                            case self::VTYPE_SCALAR:
+                                if (isset($this->paramsPost[$fieldName])) {
+                                    if (is_array($this->paramsPost[$fieldName])) {
+                                        $flattened = self::_flattenParametersArray($this->paramsPost[$fieldName], $fieldName);
+                                        foreach ($flattened as $pp) {
+                                            $body .= self::encodeFormData($boundary, $pp[0], $pp[1]);
+                                        }
+                                    } else {
+                                        $body .= self::encodeFormData($boundary, $fieldName, $this->paramsPost[$fieldName]);
+                                    }
+                                }
+                                break;
+                        }
                     }
 
                     $body .= "--{$boundary}--\r\n";

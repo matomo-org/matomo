@@ -17,7 +17,7 @@
  * @subpackage Table
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 23994 2011-05-04 06:09:42Z ralph $
+ * @version    $Id: Abstract.php 24148 2011-06-21 15:14:00Z yoshida@zend.co.jp $
  */
 
 /**
@@ -267,8 +267,6 @@ abstract class Zend_Db_Table_Abstract
 
         $this->_setup();
         $this->init();
-
-        $this->_metadata = array();
     }
 
     /**
@@ -746,6 +744,7 @@ abstract class Zend_Db_Table_Abstract
      * Initialize database adapter.
      *
      * @return void
+     * @throws Zend_Db_Table_Exception
      */
     protected function _setupDatabaseAdapter()
     {
@@ -976,6 +975,7 @@ abstract class Zend_Db_Table_Abstract
      *
      * @param  string $key The specific info part to return OPTIONAL
      * @return mixed
+     * @throws Zend_Db_Table_Exception
      */
     public function info($key = null)
     {
@@ -1054,7 +1054,7 @@ abstract class Zend_Db_Table_Abstract
         /**
          * If the primary key can be generated automatically, and no value was
          * specified in the user-supplied data, then omit it from the tuple.
-         * 
+         *
          * Note: this checks for sensible values in the supplied primary key
          * position of the data.  The following values are considered empty:
          *   null, false, true, '', array()
