@@ -17,7 +17,7 @@
  * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: DbTable.php 23775 2011-03-01 17:25:24Z ralph $
+ * @version    $Id: DbTable.php 24185 2011-07-05 13:10:05Z adamlundrigan $
  */
 
 
@@ -477,7 +477,7 @@ class Zend_Auth_Adapter_DbTable implements Zend_Auth_Adapter_Interface
                 $origDbFetchMode = $this->_zendDb->getFetchMode();
                 $this->_zendDb->setFetchMode(Zend_DB::FETCH_ASSOC);
             }
-            $resultIdentities = $this->_zendDb->fetchAll($dbSelect->__toString());
+            $resultIdentities = $this->_zendDb->fetchAll($dbSelect);
             if (isset($origDbFetchMode)) {
                 $this->_zendDb->setFetchMode($origDbFetchMode);
                 unset($origDbFetchMode);

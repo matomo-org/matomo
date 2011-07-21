@@ -17,7 +17,7 @@
  * @subpackage Formatter
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Xml.php 23981 2011-05-03 19:01:03Z ralph $
+ * @version    $Id: Xml.php 24237 2011-07-13 18:22:20Z matthew $
  */
 
 /** Zend_Log_Formatter_Abstract */
@@ -29,7 +29,7 @@
  * @subpackage Formatter
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Xml.php 23981 2011-05-03 19:01:03Z ralph $
+ * @version    $Id: Xml.php 24237 2011-07-13 18:22:20Z matthew $
  */
 class Zend_Log_Formatter_Xml extends Zend_Log_Formatter_Abstract
 {
@@ -146,10 +146,15 @@ class Zend_Log_Formatter_Xml extends Zend_Log_Formatter_Abstract
         $elt = $dom->appendChild(new DOMElement($this->_rootElement));
 
         foreach ($dataToInsert as $key => $value) {
-            if($key == "message") {
-                $value = htmlspecialchars($value, ENT_COMPAT, $enc);
+            if (empty($value) 
+                || is_scalar($value) 
+                || (is_object($value) && method_exists($value,'__toString'))
+            ) {
+                if($key == "message") {
+                    $value = htmlspecialchars($value, ENT_COMPAT, $enc);
+                }
+                $elt->appendChild(new DOMElement($key, (string)$value));
             }
-            $elt->appendChild(new DOMElement($key, $value));
         }
 
         $xml = $dom->saveXML();
