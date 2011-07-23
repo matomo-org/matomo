@@ -782,6 +782,10 @@ class Test_Piwik_UserSettings extends UnitTestCase
 		'Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/533.19.4 (KHTML, like Gecko) ' => array(
 			array('SF', 'Safari', 'Safari', '5.0', '5', '0', 'webkit'),
 			array('WVI', 'Windows Vista', 'Win Vista')),
+		'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50' => array(
+			array('SF', 'Safari', 'Safari', '5.1', '5', '1', 'webkit'),
+			array('MAC', 'Mac OS', 'Mac OS')),
+
 
 		// SeaMonkey (formerly Mozilla Suite and rebranded versions)
 		'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.8) Gecko/20071008 Iceape/1.1.5 (Ubuntu-1.1.5-1ubuntu0.7.10)' => array(
