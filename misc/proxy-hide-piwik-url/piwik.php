@@ -31,6 +31,11 @@
 		try {
 		var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);
 		[...]
+
+    What changed in this code snippet compared to the normal Piwik code?
+	    a) the Piwik URL was replaced by your website URL
+		b) the "piwik.js" became "piwik.php" because the proxy script will serve the Javascript file
+		c) note that you can remove the <noscript> part of the code at the end, since it is not used and it contains the Piwik URL which you want to hide.
  8) Paste the modified Piwik Javascript code in your website "example.com" pages you wish to track.
     This modified Javascript Code will then track visits/pages/conversions by calling example.com/piwik.php
     which will then automatically call the (hidden) Piwik Server URL.
