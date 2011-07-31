@@ -20,11 +20,11 @@ $(document).ready(function() {
 				$('#SeoRanks').html(response);
 			},
 			data: { 
-					module: 'SEO',
-					action :'getRank',
-					url: encodeURIComponent( $('#seoUrl').val() ), 
-					idSite: piwik.idSite
-				}
+				module: 'SEO',
+				action :'getRank',
+				url: encodeURIComponent( $('#seoUrl').val() ), 
+				idSite: piwik.idSite
+			}
 		};
 		piwikHelper.queueAjaxRequest( $.ajax( ajaxRequest ) );
 	}  
