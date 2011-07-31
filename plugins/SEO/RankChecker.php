@@ -26,7 +26,13 @@ class Piwik_SEO_RankChecker
 
 	public function __construct($url)
 	{
-		$this->url = preg_replace('/http\:\/\//si', '', $url);
+		$this->url = preg_replace(
+			array(
+				'~^https?\://~si',	// strip protocol
+				'~[/:#?;%&].*~',	// strip port, path, query, anchor, etc
+				'~\.$~',			// trailing period
+			),
+			'', $url);
 	}
 
 	private function getPage($url)
