@@ -9,10 +9,12 @@
 <link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico" /> 
 {loadJavascriptTranslations plugins='CoreHome'}
 {include file="CoreHome/templates/js_global_variables.tpl"}
-{include file="CoreHome/templates/js_css_includes.tpl"}
 <!--[if lt IE 9]>
-<link rel="stylesheet" type="text/css" href="themes/default/ieonly.css" />
 <script language="javascript" type="text/javascript" src="libs/jqplot/excanvas.min.js"></script>
+<![endif]-->
+{include file="CoreHome/templates/js_css_includes.tpl"}
+<!--[if IE]>
+<link rel="stylesheet" type="text/css" href="themes/default/ieonly.css" />
 <![endif]-->
 </head>
 <body>
