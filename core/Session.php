@@ -20,7 +20,7 @@ class Piwik_Session extends Zend_Session
 {
 	public static function start($options = false)
 	{
-		if(Piwik_Common::isPhpCliMode() || version_compare(Piwik_GetOption('version_core'), '1.5-b5') < 0)
+		if(Piwik_Common::isPhpCliMode())
 		{
 			return;
 		}
@@ -48,13 +48,31 @@ class Piwik_Session extends Zend_Session
 		// incorrectly invalidate the session
 		@ini_set('session.referer_check', '');
 
-		// we consider these to be misconfigurations, in that
-		// - user  - we can't verify that user-defined session handler functions have been set via session_set_save_handler()
-		// - mm    - this handler is not recommended, unsupported, not available for Windows, and has a potential concurrency issue
-		// - files - this handler doesn't work well in load-balanced environments and may have a concurrency issue with locked session files
 		$currentSaveHandler = ini_get('session.save_handler');
-		if(in_array($currentSaveHandler, array('user', 'mm', 'files')))
+
+		$config = Zend_Registry::get('config');
+		if (!isset($config->General->session_save_handler)
+			|| $config->General->session_save_handler === 'files')
 		{
+			// Note: this handler doesn't work well in load-balanced environments and may have a concurrency issue with locked session files
+
+			// for "files", use our own folder to prevent local session file hijacking 
+			$sessionPath = PIWIK_USER_PATH . '/tmp/sessions'; 
+			if(!is_dir($sessionPath)) 
+			{ 
+				Piwik_Common::mkdir($sessionPath); 
+			} 
+
+			@ini_set('session.save_handler', 'files');
+			@ini_set('session.save_path', $sessionPath); 
+		}
+		else if ($config->General->session_save_handler === 'dbtable'
+			|| in_array($currentSaveHandler, array('user', 'mm')))
+		{
+			// We consider these to be misconfigurations, in that:
+			// - user  - we can't verify that user-defined session handler functions have already been set via session_set_save_handler()
+			// - mm    - this handler is not recommended, unsupported, not available for Windows, and has a potential concurrency issue
+
 			$db = Zend_Registry::get('db');
 
 			$config = array(
