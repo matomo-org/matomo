@@ -193,7 +193,7 @@ class Piwik_Tracker_GoalManager
 			}
 			if($match)
 			{
-				$goal['url'] = $sanitizedUrl;
+				$goal['url'] = $url;
 				$this->convertedGoals[] = $goal;
 			}
 		}

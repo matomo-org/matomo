@@ -112,7 +112,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	
 	protected function setActionName($name)
 	{
-		$name = $this->cleanupString($name);
+		$name = self::cleanupString($name);
 		$this->actionName = $name;
 	}
 	
