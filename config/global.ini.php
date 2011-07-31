@@ -143,6 +143,10 @@ disable_checks_usernames_attributes = 0
 ; For legacy data, fallback or non-security scenarios, we use md5.
 hash_algorithm = whirlpool
 
+; by default, Piwik uses PHP's built-in file-based session save handler with lock files.
+; For clusters, use dbtable.
+session_save_handler = files
+
 ; by default, Piwik uses relative URLs, so you can login using http:// or https://
 ; (the latter assumes you have a valid SSL certificate).
 ; If set to 1, Piwik redirects the login form to use a secure connection (i.e., https).
