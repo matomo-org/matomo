@@ -634,7 +634,7 @@ class Piwik_Common
 		$value = html_entity_decode($value, Piwik_Common::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
 
 		// filter
-		$value = str_replace(array("\n", "\r", "\0"), "", $value);
+		$value = str_replace(array("\n", "\r", "\0"), '', $value);
 
 		// escape
 		$tmp = @htmlspecialchars( $value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8' );
