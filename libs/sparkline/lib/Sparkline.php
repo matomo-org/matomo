@@ -194,7 +194,7 @@ class Sparkline extends Object {
 
     $handle = @imagecreatetruecolor($x, $y);
     if (!is_resource($handle)) {
-      $handle = imagecreate($x, $y);
+      $handle = @imagecreate($x, $y);
       $this->Debug('imagecreatetruecolor unavailable', DEBUG_WARNING);
     }
 
