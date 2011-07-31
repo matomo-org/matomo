@@ -517,7 +517,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'visit_goal_buyer'			=> $this->goalManager->getBuyerType(),
 			'referer_type' 				=> $refererInfo['referer_type'],
 			'referer_name' 				=> $refererInfo['referer_name'],
-			'referer_url' 				=> Piwik_Common::unsanitizeInputValue($refererInfo['referer_url']),
+			'referer_url' 				=> $refererInfo['referer_url'],
 			'referer_keyword' 			=> $refererInfo['referer_keyword'],
 			'config_id' 				=> $userInfo['config_id'],
 			'config_os' 				=> $userInfo['config_os'],
@@ -1181,8 +1181,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		{
 			return false;
 		}
-		$actionUrl = $action->getActionUrl();
-		$actionUrlParsed = @parse_url(Piwik_Common::unsanitizeInputValue($actionUrl));
+		$decodedActionUrl = $action->getActionUrl();
+		$actionUrlParsed = @parse_url($decodedActionUrl);
 		if(!isset($actionUrlParsed['host']))
 		{
 			return false;
@@ -1327,7 +1327,7 @@ class Piwik_Tracker_Visit_Referer
 			'referer_type' 		=> $this->typeRefererAnalyzed,
 			'referer_name' 		=> $this->nameRefererAnalyzed,
 			'referer_keyword' 	=> $this->keywordRefererAnalyzed,
-			'referer_url' 		=> $refererUrl,
+			'referer_url' 		=> $this->refererUrl,
 		);
 
 		return $refererInformation;

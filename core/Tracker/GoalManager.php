@@ -124,8 +124,7 @@ class Piwik_Tracker_GoalManager
 		{
 			return false;
 		}
-		$sanitizedUrl = $action->getActionUrl();
-		$decodedUrl = htmlspecialchars_decode($sanitizedUrl);
+		$decodedActionUrl = $action->getActionUrl();
 		
 		$actionType = $action->getActionType();
 		$goals = $this->getGoalDefinitions($idSite);
@@ -142,7 +141,7 @@ class Piwik_Tracker_GoalManager
 				continue;
 			}
 			
-			$url = $decodedUrl;
+			$url = $decodedActionUrl;
 			// Matching on Page Title
 			if($attribute == 'title')
 			{
