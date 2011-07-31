@@ -67,8 +67,6 @@ class Piwik_FrontController
 	 */
 	function dispatch( $module = null, $action = null, $parameters = null)
 	{
-		static $sessionStarted = false;
-
 		if( self::$enableDispatch === false)
 		{
 			return;
@@ -85,11 +83,10 @@ class Piwik_FrontController
 			$action = Piwik_Common::getRequestVar('action', false);
 		}
 
-		if(!$sessionStarted
-			&& (!defined('PIWIK_ENABLE_SESSION_START') || PIWIK_ENABLE_SESSION_START))
+		if(Piwik_Session::isFileBasedSessions()
+			|| ($module !== 'API' || ($action && $action !== 'index')))
 		{
 			Piwik_Session::start();
-			$sessionStarted = true;
 		}
 
 		if(is_null($parameters))

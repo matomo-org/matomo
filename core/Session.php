@@ -18,12 +18,34 @@
  */
 class Piwik_Session extends Zend_Session
 {
+	protected static $sessionStarted = false;
+
+	/**
+	 * Are we using file-based session store?
+	 *
+	 * @return bool True if file-based; false otherwise
+	 */
+	public static function isFileBasedSessions()
+	{
+		$config = Zend_Registry::get('config');
+		return !isset($config->General->session_save_handler)
+			|| $config->General->session_save_handler === 'files';
+	}
+
+	/**
+	 * Start the session
+	 *
+	 * @param array $options An array of configuration options; the auto-start (bool) setting is ignored
+	 */
 	public static function start($options = false)
 	{
-		if(Piwik_Common::isPhpCliMode())
+		if(Piwik_Common::isPhpCliMode()
+			|| self::$sessionStarted
+			|| (defined('PIWIK_ENABLE_SESSION_START') && !PIWIK_ENABLE_SESSION_START))
 		{
 			return;
 		}
+		self::$sessionStarted = true;
 
 		// use cookies to store session id on the client side
 		@ini_set('session.use_cookies', '1');
@@ -49,10 +71,9 @@ class Piwik_Session extends Zend_Session
 		@ini_set('session.referer_check', '');
 
 		$currentSaveHandler = ini_get('session.save_handler');
-
 		$config = Zend_Registry::get('config');
-		if (!isset($config->General->session_save_handler)
-			|| $config->General->session_save_handler === 'files')
+
+		if (self::isFileBasedSessions())
 		{
 			// Note: this handler doesn't work well in load-balanced environments and may have a concurrency issue with locked session files
 
