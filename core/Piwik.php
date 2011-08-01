@@ -2350,4 +2350,73 @@ class Piwik
 			Piwik_Query($query, $row);
 		}
 	}
+
+	/**
+	 * Generate advisory lock name
+	 *
+	 * @param int $idsite
+	 * @param Piwik_Period $period
+	 * @return string
+	 */
+	static public function getArchiveProcessingLockName($idsite, $period)
+	{
+		$config = Zend_Registry::get('config');
+
+		$lockName = 'piwik.'
+			. $config->database->dbname . '.'
+			. $config->database->tables_prefix . '/'
+			. $idsite . '/'
+			. $period->getId() . '/'
+			. $period->getDateStart()->toString('Y-m-d') . ','
+			. $period->getDateEnd()->toString('Y-m-d');
+		return $lockName .'/'. md5($lockName . $config->superuser->salt);
+	}
+
+	/**
+	 * Get an advisory lock
+	 *
+	 * @param int $idsite
+	 * @param Piwik_Period $period
+	 * @return bool True if lock acquired; false otherwise
+	 */
+	static public function getArchiveProcessingLock($idsite, $period)
+	{
+		$lockName = self::getArchiveProcessingLockName($idsite, $period);
+		/*
+		 * the server (e.g., shared hosting) may have a low wait timeout
+		 * so instead of a single GET_LOCK() with a 30 second timeout,
+		 * we use a 1 second timeout and loop, to avoid losing our MySQL
+		 * connection
+		 */
+		$sql = 'SELECT GET_LOCK(?, 1)';
+
+		$db = Zend_Registry::get('db');
+
+		$maxRetries = 30;
+		while ($maxRetries > 0)
+		{
+			if ($db->fetchOne($sql, array($lockName)) == '1')
+			{
+				return true;
+			}
+			$maxRetries--;
+		}
+		return false;
+	}
+
+	/**
+	 * Release an advisory lock
+	 *
+	 * @param int $idsite
+	 * @param Piwik_Period $period
+	 * @return bool True if lock released; false otherwise
+	 */
+	static public function releaseArchiveProcessingLock($idsite, $period)
+	{
+		$lockName = self::getArchiveProcessingLockName($idsite, $period);
+		$sql = 'SELECT RELEASE_LOCK(?)';
+
+		$db = Zend_Registry::get('db');
+		return $db->fetchOne($sql, array($lockName)) == '1';
+	}
 }
