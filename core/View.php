@@ -43,7 +43,12 @@ class Piwik_View implements Piwik_iView
 
 		// global value accessible to all templates: the piwik base URL for the current request
 		$this->piwikUrl = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
-		$this->currentUrlWithoutFilename = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
+		if(Piwik::isHttps()
+			&& strpos($this->piwikUrl, 'http://') === 0)
+		{
+			$this->piwikUrl = str_replace('http://', 'https://', $this->piwikUrl);
+		}
+
 		$this->piwik_version = Piwik_Version::VERSION;
 		$this->cacheBuster = md5(Piwik_Common::getSalt() . PHP_VERSION . Piwik_Version::VERSION);
 	}
@@ -238,6 +243,11 @@ class Piwik_View implements Piwik_iView
 	
 	/**
 	 * Render the single report template
+	 *
+	 * @param string $title Report title
+	 * @param string $reportHtml Report body
+	 * @param bool $fetch If true, return report contents as a string; else echo to screen
+	 * @return string Report contents if $fetch == true
 	 */
 	static public function singleReport($title, $reportHtml, $fetch = false)
 	{

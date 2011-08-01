@@ -35,10 +35,10 @@ The Piwik Tracking API allows to trigger visits (page views and Goal conversions
 </p>
 
 <p>We currently provide a <b>PHP client</b> to call the API from your PHP projects. 
-If you would like to contribute a version of the client in another programming language (Python, Java, Ruby, Perl, etc.) please <a target='_blank' href='{$currentUrlWithoutFilename}?module=Proxy&action=redirect&url=http://dev.piwik.org/'>create a ticket</a> in our developer area (please attach the client code to the ticket).
+If you would like to contribute a version of the client in another programming language (Python, Java, Ruby, Perl, etc.) please <a target='_blank' href='{$piwikUrl}?module=Proxy&action=redirect&url=http://dev.piwik.org/'>create a ticket</a> in our developer area (please attach the client code to the ticket).
 </p><p>Follow these instructions to get started with the Tracking API:
 <ul style='list-style-type:decimal;'>
-<li><a href='{$currentUrlWithoutFilename}{url action=downloadPiwikTracker}' target='_blank'>Click here to download the file PiwikTracker.php</a>
+<li><a href='{$piwikUrl}{url action=downloadPiwikTracker}' target='_blank'>Click here to download the file PiwikTracker.php</a>
 </li><li>Upload the PiwikTracker.php file in the same path as your project files
 </li><li>Copy the following code, then paste it onto every page you want to track.
 <code>
@@ -94,7 +94,7 @@ $piwikTracker->doTrackGoal($idGoal = 1, $revenue = 42);<br/>
 </p>
 {if !isset($calledExternally) || !$calledExternally}
 	<p>
-	Read more about the Piwik Tracking API <a href='{$currentUrlWithoutFilename}?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-api/' target='_blank'>in the documentation</a>
+	Read more about the Piwik Tracking API <a href='{$piwikUrl}?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-api/' target='_blank'>in the documentation</a>
 	</p>
 {/if}
 </div>
