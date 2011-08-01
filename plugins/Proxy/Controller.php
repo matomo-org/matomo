@@ -22,6 +22,8 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 	/**
 	 * Display the "Export Image" window.
 	 *
+	 * @deprecated 1.5.1
+	 *
 	 * @param string $imageData Base-64 encoded image data (via $_POST)
 	 */
 	static public function exportImageWindow()
@@ -40,6 +42,8 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 
 	/**
 	 * Output binary image from base-64 encoded data.
+	 *
+	 * @deprecated 1.5.1
 	 *
 	 * @param string $imageData Base-64 encoded image data (via $_POST)
 	 */
@@ -95,7 +99,7 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 	 * 
 	 * @see core/AssetManager.php
 	 */
-	public function getCss ()
+	public function getCss()
 	{
 		$cssMergedFile = Piwik_AssetManager::getMergedCssFileLocation();
 		Piwik::serveStaticFile($cssMergedFile, "text/css");
@@ -107,21 +111,11 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 	 * 
 	 * @see core/AssetManager.php
 	 */
-	public function getJs ()
+	public function getJs()
 	{
 		$jsMergedFile = Piwik_AssetManager::getMergedJsFileLocation();
 		Piwik::serveStaticFile($jsMergedFile, "application/javascript; charset=UTF-8");
 	}
-
-	/**
-	 * Output the CSS3PIE PIE.htc file
-	 *
-	 * @see /libs/CSS3PIE
-	 */
-	public function getPieHtc ()
-	{
-		Piwik::serveStaticFile(PIWIK_INCLUDE_PATH ."/libs/CSS3PIE/PIE.htc", "text/x-component");
-	}	
 
 	/**
 	 * Output redirection page instead of linking directly to avoid
@@ -164,7 +158,7 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 		{
 			return true;
 		}
+
 		return false;
 	}
-
 }
