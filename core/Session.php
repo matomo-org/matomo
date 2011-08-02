@@ -54,7 +54,7 @@ class Piwik_Session extends Zend_Session
 		@ini_set('session.use_only_cookies', '1');
 
 		// advise browser that session cookie should only be sent over secure connection
-		if(Piwik_Url::getCurrentScheme() === 'https')
+		if(Piwik::isHttps())
 		{
 			@ini_set('session.cookie_secure', '1');
 		}
