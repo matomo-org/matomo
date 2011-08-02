@@ -43,12 +43,6 @@ class Piwik_View implements Piwik_iView
 
 		// global value accessible to all templates: the piwik base URL for the current request
 		$this->piwikUrl = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
-		if(Piwik::isHttps()
-			&& strpos($this->piwikUrl, 'http://') === 0)
-		{
-			$this->piwikUrl = str_replace('http://', 'https://', $this->piwikUrl);
-		}
-
 		$this->piwik_version = Piwik_Version::VERSION;
 		$this->cacheBuster = md5(Piwik_Common::getSalt() . PHP_VERSION . Piwik_Version::VERSION);
 	}

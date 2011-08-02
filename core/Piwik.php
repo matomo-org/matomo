@@ -148,11 +148,6 @@ class Piwik
 		}
 
 		$currentUrl = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
-		if(self::isHttps()
-			&& strpos($currentUrl, 'http://') === 0)
-		{
-			$currentUrl = str_replace('http://', 'https://', $currentUrl);
-		}
 		
 		if(empty($url)
 			// if URL changes, always update the cache
@@ -178,7 +173,7 @@ class Piwik
 	 */
 	static public function isHttps()
 	{
-		return Piwik_Url::getCurrentScheme() === 'https' || Zend_Registry::get('config')->General->assume_secure_protocol;
+		return Piwik_Url::getCurrentScheme() === 'https';
 	}
 
 	/**

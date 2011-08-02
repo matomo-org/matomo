@@ -841,7 +841,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$infos['tracker_status'] = Piwik_Common::getRequestVar('trackerStatus', 0, 'int');
 
 		$infos['protocol'] = Piwik_ProxyHeaders::getProtocolInformation();
-		if(Piwik_Url::getCurrentScheme() == 'http' && $infos['protocol'] !== null)
+		if(!Piwik::isHttps() && $infos['protocol'] !== null)
 		{
 			$infos['general_infos']['secure_protocol'] = '1';
 		}
