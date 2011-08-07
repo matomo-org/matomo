@@ -73,8 +73,8 @@ SEPARATELY LICENSED COMPONENTS AND LIBRARIES
 	Notes:
 	- see also http://www.openflashmap.org/
 
-	Name:  PiwikTracker - server-side tracker
-	Link: http://dev.piwik.org/trac/browser/trunk/libs/PiwikTracker/PiwikTracker.php
+	Name:  PiwikTracker - server-side tracker (PHP and Java)
+	Link: http://dev.piwik.org/trac/browser/trunk/libs/PiwikTracker/
 	License:  New BSD
 
 	Name:  UserAgentParser
