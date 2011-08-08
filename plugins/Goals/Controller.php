@@ -401,7 +401,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		if($idGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER)
 		{
 			$return = array_merge($return, array(
-				'revenue_subtotal' => $dataRow->getColumn('items'),
+				'revenue_subtotal' => $dataRow->getColumn('revenue_subtotal'),
 				'revenue_tax' => $dataRow->getColumn('revenue_tax'),
 				'revenue_shipping' => $dataRow->getColumn('revenue_shipping'),
 				'revenue_discount' => $dataRow->getColumn('revenue_discount'),
