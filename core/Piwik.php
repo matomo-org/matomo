@@ -1878,7 +1878,7 @@ class Piwik
 		if(is_null($db))
 		{
 			$adapter = $dbInfos['adapter'];
-			$db = Piwik_Db_Adapter::factory($adapter, $dbInfos);
+			$db = @Piwik_Db_Adapter::factory($adapter, $dbInfos);
 		}
 		Zend_Registry::set('db', $db);
 	}
