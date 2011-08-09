@@ -1423,7 +1423,7 @@ class Piwik
 	 * @param bool If set to true, will output "5min 17s", if false "00:05:17"
 	 * @return string
 	 */
-	static public function getPrettyTimeFromSeconds($numberOfSeconds, $displayTimeAsSentence = true)
+	static public function getPrettyTimeFromSeconds($numberOfSeconds, $displayTimeAsSentence = true, $isHtml = true)
 	{
 		$numberOfSeconds = (int)$numberOfSeconds;
 
@@ -1468,7 +1468,11 @@ class Piwik
 		{
 			$return = sprintf(Piwik_Translate('General_Seconds'), $seconds);
 		}
-		return str_replace(' ', '&nbsp;', $return);
+		if($isHtml)
+		{
+			return str_replace(' ', '&nbsp;', $return);
+		}
+		return $return;
 	}
 
 	/**

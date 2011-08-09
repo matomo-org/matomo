@@ -272,7 +272,7 @@ class Piwik_FrontController
 			Piwik_ExitWithMessage($e->getMessage(), false, true);
 		}
 		
-		Piwik::log('End FrontController->init() - Request: '. var_export($_REQUEST, true));
+//		Piwik::log('End FrontController->init() - Request: '. var_export($_REQUEST, true));
 	}
 }
 

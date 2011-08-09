@@ -181,6 +181,35 @@ class Piwik_SitesManager_API
 		Piwik::checkUserIsSuperUser();
 		return Piwik_SitesManager_API::getInstance()->getSitesId();
 	}
+
+	/**
+	 * Returns the list of the website IDs that received some visits since the specified timestamp.
+	 * Requires super user access.
+	 * 
+	 * @return array The list of website IDs
+	 */
+	public function getSitesIdWithVisits($timestamp)
+	{
+		Piwik::checkUserIsSuperUser();
+		
+        $time = Piwik_Date::factory((int)$timestamp)->getDatetime();
+		$result = Piwik_FetchAll("
+            SELECT
+                idsite
+            FROM
+                ".Piwik_Common::prefixTable('site')." s
+            WHERE EXISTS (
+                SELECT 1 FROM ".Piwik_Common::prefixTable('log_visit'). " v
+                WHERE v.idsite = s.idsite
+                AND visit_last_action_time > ?)
+        ", $time);
+		$idSites = array();
+		foreach($result as $idSite)
+		{
+			$idSites[] = $idSite['idsite'];
+		}
+		return $idSites;
+	}
 	
 	
 	/**
