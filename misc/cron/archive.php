@@ -22,6 +22,7 @@
 
 /**
  * TODO/Ideas
+ * - Hide from public HTTP access by default (rename .php.ignore?) for security + avoiding info leak
  * - Process first all period=day, then all other periods (less important)
  * - Ensure script can only run once at a time
  * - Add "report last processed X s ago" in UI grey box "About"
