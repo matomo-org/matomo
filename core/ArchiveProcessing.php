@@ -918,6 +918,10 @@ abstract class Piwik_ArchiveProcessing
 	protected function isRequestAuthorizedToArchive()
 	{
 		return self::isBrowserTriggerArchivingEnabled()
-				|| Piwik_Common::isPhpCliMode();
+				|| Piwik_Common::isPhpCliMode()
+				|| (Piwik::isUserIsSuperUser() 
+					&& !empty($_GET['trigger']) 
+					&& $_GET['trigger'] == 'archivephp')
+					;
 	}
 }

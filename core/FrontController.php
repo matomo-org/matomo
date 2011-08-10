@@ -188,7 +188,15 @@ class Piwik_FrontController
 			return;
 		}
 		$initialized = true;
-
+					
+		// If we are in no dispatch mode, eg. a script reusing Piwik libs, 
+		// then we should return the exception directly, rather than trigger the event "bad config file"
+		// which load the HTML page of the installer with the error.
+		// This is at least required for misc/cron/archive.php and useful to all other scripts
+		$shouldThrowExceptionWhenErrorNoDispatch = 
+				(defined('PIWIK_ENABLE_DISPATCH') && !PIWIK_ENABLE_DISPATCH) 
+				|| Piwik_Common::isPhpCliMode();
+		
 		try {
 			Zend_Registry::set('timer', new Piwik_Timer);
 			
@@ -230,6 +238,10 @@ class Piwik_FrontController
 			try {
 				Piwik::createDatabaseObject();
 			} catch(Exception $e) {
+				if($shouldThrowExceptionWhenErrorNoDispatch)
+				{
+					throw $e;
+				}
 				Piwik_PostEvent('FrontController.badConfigurationFile', $e, $info = array(), $pending = true);
 				throw $e;
 			}
@@ -269,6 +281,12 @@ class Piwik_FrontController
 			
 			Piwik_PostEvent('FrontController.checkForUpdates');
 		} catch(Exception $e) {
+			
+			if($shouldThrowExceptionWhenErrorNoDispatch)
+			{
+				throw $e;
+			}
+						
 			Piwik_ExitWithMessage($e->getMessage(), false, true);
 		}
 		
