@@ -1,34 +1,66 @@
 <?php
-/**
- * Description
- * This script is a much optimized rewrite of archive.sh in PHP 
- * allowing for more flexibility and better performance when Piwik tracks thousands of websites.
- * 
- * What this script does:
- * - Fetches Super User token_auth from config file
- * - Calls API to get the list of all websites Ids with new visits since the last archive.php succesful run
- * - Calls API to get the list of segments to pre-process
- * The script then loops over these websites & segments and calls the API to pre-process these reports.
- * 
- * Notes about the algorithm:
- * - To improve performance, API is called with date=last1 whenever possible, instead of last52.
- *   To do so, the script logs the last time it executed correctly.
- * - The script tries to achieve Near real time for "today" reports, processing "period=day" as often as possible.
- * - The script will only process (or re-process) reports for Current week / Current month  
- * 	 or Current year at most once per hour. To do so, the script logs last execution time for each website.
- *   You can change this <current_periods_timeout> timeout parameter when calling archive.php script.
- *   The concept is to archive daily report as often as possible, to stay near real time on "daily" reports,
- *   while allowing less real time weekly/monthly/yearly reporting. 
- */
-/**
- * TODO/Ideas
- * - Hide from public HTTP access by default (rename .php.ignore?) for security + avoiding info leak
- * - Process first all period=day, then all other periods (less important)
- * - Ensure script can only run once at a time
- * - Add "report last processed X s ago" in UI grey box "About"
- * - piwik.org update FAQ / online doc
- * - check that when ran as crontab, it will email errors when there is any
- */
+$USAGE = "
+Usage: /path/to/cli/php ".@$_SERVER['argv'][0]." <hostname> [<current_periods_timeout>]
+<hostname>: Piwik hostname eg. localhost, localhost/piwik
+<current_periods_timeout>: Current week/month/year will be processed at most every <current_periods_timeout> seconds. Defaults to 3600.
+
+For more help and documentation, try $ /path/to/cli/php ".@$_SERVER['argv'][0]." help
+";
+
+
+$HELP = "
+= Description =
+This script will automatically process all reports for websites tracked in Piwik. 
+See for more informationb http://piwik.org/docs/setup-auto-archiving/
+ 
+= Example usage =
+$ /usr/bin/php /path/to/piwik/misc/cron/archive.php localhost/piwik 6200
+This call will archive all websites reports calling the API on http://localhost/piwik/index.php?...
+It will only process the current week / current month / current year more if the existing reports are older than 2 hours (6200s).
+Setting a large timeout for periods ensures best performance when Piwik tracks thousands of websites or a few very high traffic sites.
+
+$ /usr/bin/php /path/to/piwik/misc/cron/archive.php localhost/piwik 1
+Setting <current_periods_timeout> to 1 ensures that whenever today's reports are processed, the current week/month/year will 
+also be reprocessed. This is less efficient than setting a timeout, but ensures that all reports are kept up to date as often as possible.
+
+= Sample output =
+See this link for a sample output:  
+
+= Requirements =
+ * Requires PHP CLI and Curl php extension
+ * It is recommended to disable browser based archiving as per documentation in: http://piwik.org/docs/setup-auto-archiving/
+
+= More information =
+This script is an optimized rewrite of archive.sh in PHP, allowing for more flexibility 
+and better near real-time performance when Piwik tracks thousands of websites.
+
+When executed, this script does the following:
+- Fetches Super User token_auth from config file
+- Calls API to get the list of all websites Ids with new visits since the last archive.php succesful run
+- Calls API to get the list of segments to pre-process
+The script then loops over these websites & segments and calls the API to pre-process these reports.
+At the end, some basic metrics and processing time are logged on screen.
+
+Notes about the algorithm:
+- To improve performance, API is called with date=last1 whenever possible, instead of last52.
+  To do so, the script logs the last time it executed correctly.
+- The script tries to achieve Near real time for \"today\" reports, processing \"period=day\" as frequently as possible.
+- The script will only process (or re-process) reports for Current week / Current month  
+	 or Current year at most once per hour. To do so, the script logs last execution time for each website.
+  You can change this <current_periods_timeout> timeout as a parameter when calling archive.php script.
+  The concept is to archive daily report as often as possible, to stay near real time on \"daily\" reports,
+  while allowing more stale data for the current week/month/year reports. 
+  
+= Ideas for improvements =
+ - Error handling: check run as cron will email errors
+ - Process first all period=day, then all other periods (less important)
+ - Ensure script can only run once at a time
+ - Add 'report last processed X s ago' in UI grey box 'About'
+ - FAQ for using this archive.php instead of archive.sh + doc update
+ - FAQ for daemon like process. Run 2 separate for days and week/month/year?
+ - Optimization: Run first most often requested websites, weighted by visits in the site (and/or time to generate the report)
+   to run more often websites that are faster to process while processing often for power users using frequently piwik.
+";
 define('PIWIK_INCLUDE_PATH', realpath('../../'));
 define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
 define('PIWIK_ENABLE_DISPATCH', false);
@@ -36,7 +68,6 @@ define('PIWIK_ENABLE_ERROR_HANDLER', false);
 define('PIWIK_ENABLE_SESSION_START', false);
 require_once PIWIK_INCLUDE_PATH . "/index.php";
 require_once PIWIK_INCLUDE_PATH . "/core/API/Request.php";
-Piwik_FrontController::getInstance()->init();
 
 $archiving = new Archiving;
 $archiving->init();
@@ -70,9 +101,22 @@ class Archiving
 	 */
 	protected function request($url)
 	{
-		$url = $this->piwikUrl.$url;
+		$url = $this->piwikUrl.$url . '&trigger=archivephp';
 //		$this->log($url);
-		return trim(file_get_contents($url));
+		$response = trim(@file_get_contents($url));
+		
+		if(empty($response)
+			|| stripos($response, 'error')) {
+			$this->logError("Got invalid response from $url. Response was '$response'");
+		}
+		return $response;
+	}
+	
+	//TODO: should report error on stderr
+	private function logError($m)
+	{
+		$this->log("ERROR: $m");
+		exit;
 	}
 	
 	/**
@@ -80,14 +124,44 @@ class Archiving
 	 */
 	protected function usage()
 	{
-	    $this->log("Usage: {$_SERVER['argv'][0]} <hostname> [<current_periods_timeout>]");
-	    $this->log("<hostname>: Piwik hostname eg. localhost, localhost/piwik");
-	    $this->log("<current_periods_timeout>: Current week/month/year will be processed at most every <current_periods_timeout> seconds. Defaults to ".$this->processPeriodsMaximumEverySeconds);
-	    $this->log("Description: this script will archive all reports (pre-process) for websites that have received new visits since the last succesful run");
+		global $USAGE;
+		$this->logLines($USAGE);
+	}
+	
+	/**
+	 * Displays script help
+	 */
+	protected function help()
+	{
+		global $HELP;
+		$this->logLines($HELP);
+	}
+	
+	private function logLines($t)
+	{
+		foreach(explode(PHP_EOL, $t) as $line) {
+			$this->log($line);
+		}
 	}
 	
 	public function init()
 	{
+		// Init Piwik, connect DB, create log & config objects, etc.
+		try {
+			Piwik_FrontController::getInstance()->init();
+		} catch(Exception $e) {
+			echo "ERROR: During Piwik init, Message: ".$e->getMessage();
+			exit;
+		}
+		
+		// Make sure this is executed in CLI only (no web access)
+		if(!Piwik_Common::isPhpCliMode())
+		{
+			die("This script archive.php must only be executed only in command line CLI mode. <br/>
+			In a shell, execute for example the following to trigger archiving on the local Piwik server available at 'localhost/piwik'<br/>
+			<code>$ /path/to/php /path/to/piwik/misc/cron/archive.php localhost/piwik</code>");
+		}
+		
 		// Setting up Logging configuration: log on screen all messages for the script run
 		Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
 		Zend_Registry::get('config')->log->log_only_when_debug_parameter = 0;
@@ -107,13 +181,26 @@ class Archiving
 			$this->usage();
 		    exit;
 		}
+		
+		// Display usage & help
+		if ($_SERVER['argc'] == 2
+			&& in_array($_SERVER['argv'][1], array("help", "-h", "h")))
+		{
+			$this->usage();
+			$this->help();
+			exit;
+		}
+		
+		// Testing timeout parameter
 		if ($_SERVER['argc'] == 3) {
-			if(!is_int($_SERVER['argc']))
+			$_SERVER['argv'][2] = trim($_SERVER['argv'][2]);
+			if(!is_numeric($_SERVER['argv'][2]))
 			{
-				$this->log("Expecting <current_periods_timeout> to be a number of seconds");
+				$this->log("Expecting <current_periods_timeout> to be a number of seconds, got {$_SERVER['argv'][2]}");
+				$this->usage();
 				exit;
 			}
-			$this->processPeriodsMaximumEverySeconds = $_SERVER['argv'][2];
+			$this->processPeriodsMaximumEverySeconds = (int)$_SERVER['argv'][2];
 			
 			// Ensure the cache for periods is at least as high as cache for today
 			$this->processPeriodsMaximumEverySeconds = max($this->processPeriodsMaximumEverySeconds, Piwik_ArchiveProcessing::getTodayArchiveTimeToLive());
@@ -131,14 +218,21 @@ class Archiving
 		
 		$this->logSection("INIT");
 		$this->piwikUrl ="http://{$_SERVER['argv'][1]}/index.php";
-				
+		$this->log("Querying Piwik API at: {$this->piwikUrl}");		
+		
 		// Fetching super user token_auth
 		$login = Zend_Registry::get('config')->superuser->login;
 		$password = Zend_Registry::get('config')->superuser->password;
 		$this->token_auth = $this->request("?module=API&method=UsersManager.getTokenAuth&userLogin=$login&md5Password=$password&format=php&serialize=0");
+		if(strlen($this->token_auth) != 32 ) {
+			$this->logError("token_auth is expected to be 32 characters long. Got a different response: ". substr($this->token_auth,0,100)."...");
+		}
 		$this->log("Running as Super User: $login");
 		
 		// Fetching websites to process
+		Piwik::setUserIsSuperUser(true);
+		$this->allWebsites = Piwik_SitesManager_API::getInstance()->getAllSitesId();
+		
 		$result = $this->request("?module=API&method=SitesManager.getSitesIdWithVisits&token_auth=".$this->token_auth."&format=csv&convertToUnicode=0" . ($this->timeLastCompleted !== false ? "&timestamp=".$this->timeLastCompleted : ""));
 		$this->websites = explode("\n", $result);
 		if(!is_array($this->websites)
@@ -175,7 +269,7 @@ class Archiving
 	 */
 	protected function getVisitsRequestUrl($idsite, $period)
 	{
-		return $this->piwikUrl."?module=API&method=VisitsSummary.getVisits&idSite=$idsite&period=$period&date=last".$this->dateLast."&format=php&token_auth=".$this->token_auth;
+		return "?module=API&method=VisitsSummary.getVisits&idSite=$idsite&period=$period&date=last".$this->dateLast."&format=php&token_auth=".$this->token_auth;
 	}
 	
 	protected function lastRunKey($idsite)
@@ -199,9 +293,7 @@ class Archiving
 		    if ($idsite > 0) 
 		    {
 	            $url = $this->getVisitsRequestUrl($idsite, "day");
-	            $ch = curl_init($url);
-	            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	            $response = curl_exec($ch);
+	            $response = $this->request($url);
 	            $response = unserialize($response);
 	            $visitsToday = end($response);
 	            $this->requests++;
@@ -209,13 +301,15 @@ class Archiving
 		        $timerWebsite = new $timer;
 	            if($visitsToday <= 0)
 	            {
-	            	$this->log("Skipping website, no visit today");
+	            	$this->log("Skipped website $idsite, no visit today.");
 	            	break;
 	            }
 	            
 	            $this->visits += $visitsToday;
 	            $websitesWithVisitsSinceLastRun++;
 	            $this->archiveVisitsAndSegments($idsite, "day");
+	            
+	            //TODO QUEUE THIS
 	            
 	            $lastRunForWebsite = Piwik_GetOption( $this->lastRunKey($idsite) );
 	            $shouldArchivePeriods = (time() - $lastRunForWebsite) > $this->processPeriodsMaximumEverySeconds;
@@ -241,7 +335,7 @@ class Archiving
 		        	$skippedPeriodsArchivesWebsite++;
 		        }
 		        
-		        Piwik::log("Archived idsite = $idsite, ". $timerWebsite);
+		        Piwik::log("Archived idsite = $idsite, today = $visitsToday visits, ". $timerWebsite);
 		    }
 		}
 		
@@ -250,10 +344,8 @@ class Archiving
 		$this->logSection("SUMMARY");
 		$this->log("Total daily visits archived: ". $this->visits);
 		$this->log("Archived today's report for $websitesWithVisitsSinceLastRun websites");
-		// Fetching total websites
-		Piwik::setUserIsSuperUser(true);
-		$totalWebsites = Piwik_SitesManager_API::getInstance()->getAllSitesId();
-		$totalWebsites = count($totalWebsites);
+
+		$totalWebsites = count($this->allWebsites);
 		$skipped = $totalWebsites - $websitesWithVisitsSinceLastRun;
 		$this->log("Archived week/month/year for $archivedPeriodsArchivesWebsite websites. ");
 		$this->log("Skipped $skippedPeriodsArchivesWebsite websites week/month/year archiving: existing reports are less than {$this->processPeriodsMaximumEverySeconds} seconds old");
@@ -272,7 +364,7 @@ class Archiving
 		$this->log("Archiving idsite = $idsite, period = $period...");
 	    $aCurl = array();
 		$mh = curl_multi_init();
-		$url = $this->getVisitsRequestUrl($idsite, $period);
+		$url = $this->piwikUrl . $this->getVisitsRequestUrl($idsite, $period);
 	    // already processed above for "day"
 	    if($period != "day")
 	    {
