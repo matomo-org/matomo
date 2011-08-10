@@ -4,6 +4,8 @@ Usage: /path/to/cli/php ".@$_SERVER['argv'][0]." <hostname> [<current_periods_ti
 <hostname>: Piwik hostname eg. localhost, localhost/piwik
 <current_periods_timeout>: Current week/month/year will be processed at most every <current_periods_timeout> seconds. Defaults to 3600.
 
+This script should be executed every hour, or as a deamon.
+
 For more help and documentation, try $ /path/to/cli/php ".@$_SERVER['argv'][0]." help
 ";
 
@@ -11,7 +13,7 @@ For more help and documentation, try $ /path/to/cli/php ".@$_SERVER['argv'][0]."
 $HELP = "
 = Description =
 This script will automatically process all reports for websites tracked in Piwik. 
-See for more informationb http://piwik.org/docs/setup-auto-archiving/
+See for more information http://piwik.org/docs/setup-auto-archiving/
  
 = Example usage =
 $ /usr/bin/php /path/to/piwik/misc/cron/archive.php localhost/piwik 6200
@@ -52,14 +54,25 @@ Notes about the algorithm:
   while allowing more stale data for the current week/month/year reports. 
   
 = Ideas for improvements =
- - Error handling: check run as cron will email errors
- - Process first all period=day, then all other periods (less important)
- - Ensure script can only run once at a time
- - Add 'report last processed X s ago' in UI grey box 'About'
- - FAQ for using this archive.php instead of archive.sh + doc update
- - FAQ for daemon like process. Run 2 separate for days and week/month/year?
+ TODO 
+ - Deploy
+ - Error handling: check run as cron will email errors.
+   Test memory error in php response is caught and reported and flag success not set
+ - Once an hour max: run archiving for previousN for websites which days have just 
+   finished in the last 2 hours in their timezones
+ - Continuously: Process first all period=day, then process all other periods 
+ - On request: option to do a full run, previous 52, of all sites.
+   If no visit for previous52 days, don't run period archiving.	
+ - Ensure script can only run once at a time, for hourly crons, using DB lock, named piwik_archive.php
+ - Check also: http://dev.piwik.org/trac/ticket/1938
+ 
+ - Core: check that on first day of month, if request last month from UI, 
+   it returns last temporary monthly report generated, if the last month haven't yet been processed / finalized
+ - FAQ for using this archive.php instead of archive.sh/.ps1 to deprecate + doc update
+ - FAQ for daemon like process. Run 2 separate for days and week/month/year? 
  - Optimization: Run first most often requested websites, weighted by visits in the site (and/or time to generate the report)
    to run more often websites that are faster to process while processing often for power users using frequently piwik.
+ - UI: Add 'report last processed X s ago' in UI grey box 'About'
 ";
 define('PIWIK_INCLUDE_PATH', realpath('../../'));
 define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
@@ -233,6 +246,7 @@ class Archiving
 		Piwik::setUserIsSuperUser(true);
 		$this->allWebsites = Piwik_SitesManager_API::getInstance()->getAllSitesId();
 		
+		// - If archive.php already ran at least once, we only re-archive 
 		$result = $this->request("?module=API&method=SitesManager.getSitesIdWithVisits&token_auth=".$this->token_auth."&format=csv&convertToUnicode=0" . ($this->timeLastCompleted !== false ? "&timestamp=".$this->timeLastCompleted : ""));
 		$this->websites = explode("\n", $result);
 		if(!is_array($this->websites)
