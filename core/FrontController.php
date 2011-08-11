@@ -83,8 +83,8 @@ class Piwik_FrontController
 			$action = Piwik_Common::getRequestVar('action', false);
 		}
 
-		if(Piwik_Session::isFileBasedSessions()
-			|| ($module !== 'API' || ($action && $action !== 'index')))
+		if(!Piwik_Session::isFileBasedSessions()
+			&& ($module !== 'API' || ($action && $action !== 'index')))
 		{
 			Piwik_Session::start();
 		}
@@ -221,12 +221,17 @@ class Piwik_FrontController
 				$exceptionToThrow = $e;
 			}
 
+			if(Piwik_Session::isFileBasedSessions())
+			{
+				Piwik_Session::start();
+			}
+
 			if(Zend_Registry::get('config')->General->maintenance_mode == 1
 				&& !Piwik_Common::isPhpCliMode())
 			{
 				throw new Exception("Piwik is in scheduled maintenance. Please come back later.");
 			}
-			
+
 			$pluginsManager = Piwik_PluginsManager::getInstance();
 			$pluginsManager->loadPlugins( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
 
