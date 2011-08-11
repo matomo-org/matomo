@@ -68,7 +68,14 @@ class Piwik_CoreUpdater extends Piwik_Plugin
 			// Proxy module is used to redirect users to piwik.org, should still work when Piwik must be updated
 			&& $module != 'Proxy')
 		{
-			Piwik::redirectToModule('CoreUpdater');
+			if(Piwik_FrontController::shouldRethrowException())
+			{
+				throw new Exception("Piwik and/or some plugins have been upgraded to a new version. Please run the update process first. See documentation: http://piwik.org/docs/update/");
+			}
+			else
+			{
+				Piwik::redirectToModule('CoreUpdater');
+			}
 		}
 	}
 
