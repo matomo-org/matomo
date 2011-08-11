@@ -172,6 +172,19 @@ class Piwik_FrontController
 		} catch(Exception $e) {}
 	}
 	
+	// Should we show exceptions messages directly rather than display an html error page?
+	public static function shouldRethrowException()
+	{
+		// If we are in no dispatch mode, eg. a script reusing Piwik libs, 
+		// then we should return the exception directly, rather than trigger the event "bad config file"
+		// which load the HTML page of the installer with the error.
+		// This is at least required for misc/cron/archive.php and useful to all other scripts
+		return (defined('PIWIK_ENABLE_DISPATCH') && !PIWIK_ENABLE_DISPATCH)
+				|| Piwik_Common::isPhpCliMode()
+				|| Piwik_Common::isArchivePhpTriggered()
+				;
+	}
+	
 	/**
 	 * Must be called before dispatch()
 	 * - checks that directories are writable,
@@ -189,13 +202,6 @@ class Piwik_FrontController
 		}
 		$initialized = true;
 					
-		// If we are in no dispatch mode, eg. a script reusing Piwik libs, 
-		// then we should return the exception directly, rather than trigger the event "bad config file"
-		// which load the HTML page of the installer with the error.
-		// This is at least required for misc/cron/archive.php and useful to all other scripts
-		$shouldThrowExceptionWhenErrorNoDispatch = 
-				(defined('PIWIK_ENABLE_DISPATCH') && !PIWIK_ENABLE_DISPATCH) 
-				|| Piwik_Common::isPhpCliMode();
 		
 		try {
 			Zend_Registry::set('timer', new Piwik_Timer);
@@ -243,7 +249,7 @@ class Piwik_FrontController
 			try {
 				Piwik::createDatabaseObject();
 			} catch(Exception $e) {
-				if($shouldThrowExceptionWhenErrorNoDispatch)
+				if(self::shouldRethrowException())
 				{
 					throw $e;
 				}
@@ -287,7 +293,7 @@ class Piwik_FrontController
 			Piwik_PostEvent('FrontController.checkForUpdates');
 		} catch(Exception $e) {
 			
-			if($shouldThrowExceptionWhenErrorNoDispatch)
+			if(self::shouldRethrowException())
 			{
 				throw $e;
 			}

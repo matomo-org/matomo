@@ -1485,6 +1485,17 @@ class Piwik_Common
 	}
 
 	/**
+	 * Is the current script execution triggered by misc/cron/archive.php ?
+	 * 
+	 * Helpful for error handling: directly throw error without HTML (eg. when DB is down)
+	 */
+	static public function isArchivePhpTriggered()
+	{
+		return !empty($_GET['trigger']) 
+					&& $_GET['trigger'] == 'archivephp';
+	}
+	
+	/**
 	 * Assign CLI parameters as if they were REQUEST or GET parameters.
 	 * You can trigger Piwik from the command line by
 	 * # /usr/bin/php5 /path/to/piwik/index.php -- "module=API&method=Actions.getActions&idSite=1&period=day&date=previous8&format=php"

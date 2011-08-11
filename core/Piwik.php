@@ -162,7 +162,6 @@ class Piwik
 		return $url;
 	}
 	
-	
 /*
  * HTTP headers
  */

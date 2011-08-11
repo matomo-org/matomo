@@ -920,8 +920,7 @@ abstract class Piwik_ArchiveProcessing
 		return self::isBrowserTriggerArchivingEnabled()
 				|| Piwik_Common::isPhpCliMode()
 				|| (Piwik::isUserIsSuperUser() 
-					&& !empty($_GET['trigger']) 
-					&& $_GET['trigger'] == 'archivephp')
+					&& Piwik_Common::isArchivePhpTriggered())
 					;
 	}
 }

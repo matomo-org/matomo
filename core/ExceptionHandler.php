@@ -20,6 +20,12 @@ function Piwik_ExceptionHandler(Exception $exception)
 	try	{
 		Zend_Registry::get('logger_exception')->logEvent($exception);
 	} catch(Exception $e) {
+		
+		if(Piwik_FrontController::shouldRethrowException())
+		{
+			throw $exception;
+		}
+		
 		// case when the exception is raised before the logger being ready
 		// we handle the exception a la mano, but using the Logger formatting properties
 		$event = array();
