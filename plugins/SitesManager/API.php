@@ -188,9 +188,11 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return array The list of website IDs
 	 */
-	public function getSitesIdWithVisits($timestamp)
+	public function getSitesIdWithVisits($timestamp = false)
 	{
 		Piwik::checkUserIsSuperUser();
+		
+		if(empty($timestamp)) $timestamp = time();
 		
         $time = Piwik_Date::factory((int)$timestamp)->getDatetime();
 		$result = Piwik_FetchAll("
