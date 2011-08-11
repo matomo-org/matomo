@@ -1,8 +1,11 @@
 <?php
 $USAGE = "
-Usage: /path/to/cli/php ".@$_SERVER['argv'][0]." <hostname> [<current_periods_timeout>]
+Usage: /path/to/cli/php ".@$_SERVER['argv'][0]." <hostname> [<current_periods_timeout> [<reset|forceall>]]
 <hostname>: Piwik hostname eg. localhost, localhost/piwik
 <current_periods_timeout>: Current week/month/year will be processed at most every <current_periods_timeout> seconds. Defaults to 3600.
+<reset|forceall>: you can either specify 
+	- reset: the script will run as if it was never executed before, therefore will trigger archiving on all websites with some traffic in the last 7 days.
+	- forceall: the script will trigger archiving on all websites for all periods, sequentially
 
 This script should be executed every hour, or as a deamon.
 
@@ -55,8 +58,6 @@ Notes about the algorithm:
   while allowing more stale data for the current week/month/year reports. 
   
 = Ideas for improvements =
- TODO 
- - Continuously: Process first all period=day, then process all other periods, for sites with recent visits 
  - Once an hour max, and on request: run archiving for previousN for websites which days have just 
    finished in the last 2 hours in their timezones
  - On request: option to do a full run, previous 52, of all sites.
@@ -64,7 +65,8 @@ Notes about the algorithm:
  - Ensure script can only run once at a time, for hourly crons, using DB lock, named piwik_archive.php
  - Check also: http://dev.piwik.org/trac/ticket/1938
  
- - Run websites archiving in parallel, currently only segments are ran in parallel 
+ - Run websites archiving in parallel, currently only segments are ran in parallel
+ - Queue Period archiving to be executed after today's reports with lower priority 
  - Core: check that on first day of month, if request last month from UI, 
    it returns last temporary monthly report generated, if the last month haven't yet been processed / finalized
  - FAQ for using this archive.php instead of archive.sh/.ps1 to deprecate + doc update
@@ -73,7 +75,7 @@ Notes about the algorithm:
    to run more often websites that are faster to process while processing often for power users using frequently piwik.
  - UI: Add 'report last processed X s ago' in UI grey box 'About'
 ";
-define('PIWIK_INCLUDE_PATH', realpath('../../'));
+define('PIWIK_INCLUDE_PATH', realpath( dirname(__FILE__)."/../.." ));
 define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
 define('PIWIK_ENABLE_DISPATCH', false);
 define('PIWIK_ENABLE_ERROR_HANDLER', false);
@@ -104,6 +106,9 @@ class Archiving
 	
 	protected $visits = 0;
 	protected $requests = 0;
+	
+	protected $shouldResetState = false;
+	protected $shouldArchiveAllWebsites = false;
 	
 	/**
 	 * By default, will process last 52 days/weeks/months/year.
@@ -217,7 +222,8 @@ class Archiving
 		
 		// Verify script is called with server URL
 		if ($_SERVER['argc'] != 2
-			&& $_SERVER['argc'] != 3) {
+			&& $_SERVER['argc'] != 3
+			&& $_SERVER['argc'] != 4) {
 			$this->usage();
 		    exit;
 		}
@@ -254,7 +260,25 @@ class Archiving
 		{
 			$this->log("WARNING: you should probably disable Browser archiving in Piwik UI > Settings > General Settings. See doc at: http://piwik.org/docs/setup-auto-archiving/");
 		}
+		if ($_SERVER['argc'] == 4) 
+		{
+			if($_SERVER['argv'][3] == "reset")
+			{
+				$this->log("NOTE: 'reset' option was detected: the script will run as if it was never executed before");
+				$this->shouldResetState = true;
+			}
+			elseif($_SERVER['argv'][3] == "forceall")
+			{
+				$this->log("NOTE: 'forceall' option was detected: the script will archive all websites and all periods sequentially");
+				$this->shouldArchiveAllWebsites = true;
+			}
+		}
+		
 		$this->timeLastCompleted = Piwik_GetOption(self::OPTION_ARCHIVING_FINISHED_TS);
+		if($this->shouldResetState)
+		{
+			$this->timeLastCompleted = false;
+		}
 		
 		$this->logSection("INIT");
 		$this->piwikUrl ="http://{$_SERVER['argv'][1]}/index.php";
@@ -273,31 +297,49 @@ class Archiving
 		Piwik::setUserIsSuperUser(true);
 		$this->allWebsites = Piwik_SitesManager_API::getInstance()->getAllSitesId();
 		
-		// List of websites to archive first
-		$timestampActiveTraffic = $this->timeLastCompleted; 
-		if(empty($timestampActiveTraffic))
+		if($this->shouldArchiveAllWebsites)
 		{
-			$timestampActiveTraffic = time() - $this->firstRunActiveWebsitesWithTraffic * 86400;
+			$this->websites = $this->allWebsites;
 		}
-		$this->websites = Piwik_SitesManager_API::getInstance()->getSitesIdWithVisits( $timestampActiveTraffic );
+		else
+		{
+			// List of websites to archive first
+			$timestampActiveTraffic = $this->timeLastCompleted; 
+			$debug = "last run";
+			if(empty($timestampActiveTraffic))
+			{
+				$timestampActiveTraffic = time() - $this->firstRunActiveWebsitesWithTraffic * 86400;
+				$debug = $this->firstRunActiveWebsitesWithTraffic . " days ago";
+			}
+			$this->websites = Piwik_SitesManager_API::getInstance()->getSitesIdWithVisits( $timestampActiveTraffic );
+		}
 		
 		// Fetching segments to process
 		$this->segments = Piwik_CoreAdminHome_API::getInstance()->getKnownSegmentsToArchive();
+		if(empty($this->segments)) $this->segments = array();
 		
 		$this->log("Notes");
+		// Information about timeout
+		$this->todayArchiveTimeToLive = Piwik_ArchiveProcessing::getTodayArchiveTimeToLive();
+		$this->log("- Reports for today will be processed at most every ".Piwik_ArchiveProcessing::getTodayArchiveTimeToLive()." seconds. You can change this value in Piwik UI > Settings > General Settings");
+		$this->log("- Reports for the current week/month/year will be refreshed at most every ".$this->processPeriodsMaximumEverySeconds." seconds");
+	
 		// Try and not request older data we know is already archived
 		if($this->timeLastCompleted !== false)
 		{
 			$dateLast = time() - $this->timeLastCompleted;
 			$this->log("- Archiving was last executed without error ".Piwik::getPrettyTimeFromSeconds($dateLast, true, $isHtml = false)." ago");
 		}
-		// Information about timeout
-		$this->todayArchiveTimeToLive = Piwik_ArchiveProcessing::getTodayArchiveTimeToLive();
-		$this->log("- Reports for today will be processed at most every ".Piwik_ArchiveProcessing::getTodayArchiveTimeToLive()." seconds. You can change this value in Piwik UI > Settings > General Settings");
-		$this->log("- Reports for the current week/month/year will be refreshed at most every ".$this->processPeriodsMaximumEverySeconds." seconds");
 		
-		$this->log("Segments to pre-process: ". implode(", ", $this->segments));
-		$this->log("Detected ". count($this->websites). " Websites with new visits since last run". (!empty($this->websites) ? ", IDs: ".implode(", ", $this->websites) : ""));
+		if($this->shouldArchiveAllWebsites)
+		{
+			$this->log("Will process ". count($this->websites). " websites (forceall)");
+		}
+		else
+		{
+			$this->log("Will process ". count($this->websites). " websites with new visits since $debug". (!empty($this->websites) ? ", IDs: ".implode(", ", $this->websites) : ""));
+		}
+		$this->log("Segments to pre-process for each website and each period: ". (!empty($this->segments) ? implode(", ", $this->segments) : "none"));
 		
 	}
 
@@ -312,7 +354,11 @@ class Archiving
 		}
 		else
 		{
+			//TODO: could be more clever here, not period=month&date=last52...
 			$dateLast = floor( (time() - $lastTimestampWebsiteProcessed) / 86400) + 1;
+			if($dateLast > self::DEFAULT_DATE_LAST) {
+				$dateLast = self::DEFAULT_DATE_LAST;
+			}
 		}
 		return "?module=API&method=VisitsSummary.getVisits&idSite=$idsite&period=$period&date=last".$dateLast."&format=php&token_auth=".$this->token_auth;
 	}
@@ -341,8 +387,13 @@ class Archiving
 		    if ($idsite > 0) 
 		    {
 		        $timerWebsite = new $timer;
-	            $lastTimestampWebsiteProcessedPeriods = Piwik_GetOption( $this->lastRunKey($idsite, "periods") );
-	            $lastTimestampWebsiteProcessedDay = Piwik_GetOption( $this->lastRunKey($idsite, "day") );
+		        
+		        $lastTimestampWebsiteProcessedPeriods = $lastTimestampWebsiteProcessedDay = false;
+				if(!$this->shouldResetState)
+				{
+		            $lastTimestampWebsiteProcessedPeriods = Piwik_GetOption( $this->lastRunKey($idsite, "periods") );
+		            $lastTimestampWebsiteProcessedDay = Piwik_GetOption( $this->lastRunKey($idsite, "day") );
+				}
 	            
         		// For period other than days, we only re-process the reports at most
         		// 1) every $processPeriodsMaximumEverySeconds
@@ -356,26 +407,29 @@ class Archiving
 	            // Test if we should process this website at all
 	            $elapsedSinceLastArchiving = time() - $lastTimestampWebsiteProcessedDay;
 	            if(!$shouldArchivePeriods
-	            	&& $elapsedSinceLastArchiving < $this->todayArchiveTimeToLive) {
-	            	$this->log("Skipped website $idsite, already processed today's report in recent run, ".Piwik::getPrettyTimeFromSeconds($elapsedSinceLastArchiving, true, $isHtml = false)." ago");
+	            	&& $elapsedSinceLastArchiving < $this->todayArchiveTimeToLive) 
+	            {
+	            	$this->log("Skipped website id $idsite, already processed today's report in recent run, ".Piwik::getPrettyTimeFromSeconds($elapsedSinceLastArchiving, true, $isHtml = false)." ago, ".$timerWebsite);
 	            	$skippedDayArchivesWebsites++;
 	            	continue;
 	            }
 	            
 	            
-	            $url = $this->getVisitsRequestUrl($idsite, "day", $lastTimestampWebsiteProcessedDay);
+	            $url = $this->getVisitsRequestUrl($idsite, "day", 
+						            // when 'forceall' option, also forces to archive last52 days to be safe
+	            					$this->shouldArchiveAllWebsites ? false : $lastTimestampWebsiteProcessedDay);
 	            $response = $this->request($url);
 	            
 	            if(empty($response))
 	            {
-	            	$this->log("WARNING: Empty or invalid response for website $idsite, skipping...");
+	            	$this->log("WARNING: Empty or invalid response for website id $idsite, ".$timerWebsite.", skipping");
 	            	continue;
 	            }
 	            
 	            $response = unserialize($response);
 	            $visitsToday = end($response);
 	            $this->requests++;
-
+	            
 	            // record successful daily archiving for this site
 	            Piwik_SetOption( $this->lastRunKey($idsite, "day"), time() );
 		        
@@ -383,10 +437,19 @@ class Archiving
 	            if($visitsToday <= 0
 	            	&& !$shouldArchivePeriods)
 	            {
-	            	$this->log("Skipped website $idsite, no visit today.");
+	            	$this->log("Skipped website id $idsite, no visit today, ".$timerWebsite);
 	            	continue;
 	            }
 	            
+	            $visitsAllDays = array_sum($response);
+	            if($visitsAllDays == 0
+	            	&& $shouldArchivePeriods
+	            	&& $this->shouldArchiveAllWebsites
+	            	)
+	            {
+	            	$this->log("Skipped website id $idsite, no visits in the last ".count($response)." days, ".$timerWebsite);
+	            	continue;
+	            }
 	            $this->visits += $visitsToday;
 	            $websitesWithVisitsSinceLastRun++;
 	            $this->archiveVisitsAndSegments($idsite, "day", $lastTimestampWebsiteProcessedDay);
@@ -411,7 +474,9 @@ class Archiving
 		        	$skippedPeriodsArchivesWebsite++;
 		        }
 		        $requestsWebsite = $this->requests - $requestsBefore;
-		        Piwik::log("Archived idsite = $idsite, today = $visitsToday visits, $requestsWebsite API requests, ". $timerWebsite);
+		        
+		        $debug = $this->shouldArchiveAllWebsites ? ", last days = $visitsAllDays visits" : "";
+		        Piwik::log("Archived website id = $idsite, today = $visitsToday visits".$debug.", $requestsWebsite API requests, ". $timerWebsite);
 		    }
 		}
 		
@@ -480,7 +545,7 @@ class Archiving
 	    	curl_multi_remove_handle($mh, $ch);
 	    }
 	    curl_multi_close($mh);
-		$this->log("Archived idsite = $idsite, period = $period, ".$timer);
+		$this->log("Archived website id = $idsite, period = $period, ".$timer);
 	    return $success;
 	}
 	
