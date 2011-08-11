@@ -6,7 +6,10 @@ Usage: /path/to/cli/php ".@$_SERVER['argv'][0]." <hostname> [<current_periods_ti
 <reset|forceall>: you can either specify 
 	- reset: the script will run as if it was never executed before, therefore will trigger archiving on all websites with some traffic in the last 7 days.
 	- forceall: the script will trigger archiving on all websites for all periods, sequentially
-
+	- reset+forceall: you can also specify both, which is effectively the same behavior 
+	as the slower script archive.sh. The only added optimization: it does not trigger archiving for periods 
+	if the last 52 days have no data at all. 
+	
 This script should be executed every hour, or as a deamon.
 
 For more help and documentation, try $ /path/to/cli/php ".@$_SERVER['argv'][0]." help
@@ -60,11 +63,7 @@ Notes about the algorithm:
 = Ideas for improvements =
  - Once an hour max, and on request: run archiving for previousN for websites which days have just 
    finished in the last 2 hours in their timezones
- - On request: option to do a full run, previous 52, of all sites.
-   If no visit for previous52 days, don't run period archiving.	
- - Ensure script can only run once at a time, for hourly crons, using DB lock, named piwik_archive.php
- - Check also: http://dev.piwik.org/trac/ticket/1938
- 
+ - Bug: when adding new segments to preprocess, script will assume that data was processed for this segment in the past
  - Run websites archiving in parallel, currently only segments are ran in parallel
  - Queue Period archiving to be executed after today's reports with lower priority 
  - Core: check that on first day of month, if request last month from UI, 
@@ -262,12 +261,15 @@ class Archiving
 		}
 		if ($_SERVER['argc'] == 4) 
 		{
-			if($_SERVER['argv'][3] == "reset")
+			$isResetAndForceAll = $_SERVER['argv'][3] == "reset+forceall" || $_SERVER['argv'][3] == "forceall+reset";
+			if($_SERVER['argv'][3] == "reset"
+				|| $isResetAndForceAll)
 			{
 				$this->log("NOTE: 'reset' option was detected: the script will run as if it was never executed before");
 				$this->shouldResetState = true;
 			}
-			elseif($_SERVER['argv'][3] == "forceall")
+			if($_SERVER['argv'][3] == "forceall"
+				|| $isResetAndForceAll)
 			{
 				$this->log("NOTE: 'forceall' option was detected: the script will archive all websites and all periods sequentially");
 				$this->shouldArchiveAllWebsites = true;

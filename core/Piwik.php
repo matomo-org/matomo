@@ -2356,7 +2356,7 @@ class Piwik
 	 * @param Piwik_Period $period
 	 * @return string
 	 */
-	static public function getArchiveProcessingLockName($idsite, $period)
+	static public function getArchiveProcessingLockName($idsite, $period, Piwik_Segment $segment)
 	{
 		$config = Zend_Registry::get('config');
 
@@ -2364,6 +2364,7 @@ class Piwik
 			. $config->database->dbname . '.'
 			. $config->database->tables_prefix . '/'
 			. $idsite . '/'
+			. (!$segment->isEmpty() ? $segment->getHash().'/' : '' )
 			. $period->getId() . '/'
 			. $period->getDateStart()->toString('Y-m-d') . ','
 			. $period->getDateEnd()->toString('Y-m-d');
@@ -2377,9 +2378,9 @@ class Piwik
 	 * @param Piwik_Period $period
 	 * @return bool True if lock acquired; false otherwise
 	 */
-	static public function getArchiveProcessingLock($idsite, $period)
+	static public function getArchiveProcessingLock($idsite, $period, $segment)
 	{
-		$lockName = self::getArchiveProcessingLockName($idsite, $period);
+		$lockName = self::getArchiveProcessingLockName($idsite, $period, $segment);
 		/*
 		 * the server (e.g., shared hosting) may have a low wait timeout
 		 * so instead of a single GET_LOCK() with a 30 second timeout,
@@ -2409,9 +2410,9 @@ class Piwik
 	 * @param Piwik_Period $period
 	 * @return bool True if lock released; false otherwise
 	 */
-	static public function releaseArchiveProcessingLock($idsite, $period)
+	static public function releaseArchiveProcessingLock($idsite, $period, $segment)
 	{
-		$lockName = self::getArchiveProcessingLockName($idsite, $period);
+		$lockName = self::getArchiveProcessingLockName($idsite, $period, $segment);
 		$sql = 'SELECT RELEASE_LOCK(?)';
 
 		$db = Zend_Registry::get('db');

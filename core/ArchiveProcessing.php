@@ -425,7 +425,7 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	public function launchArchiving()
 	{
-		if (!Piwik::getArchiveProcessingLock($this->idsite, $this->period))
+		if (!Piwik::getArchiveProcessingLock($this->idsite, $this->period, $this->segment))
 		{
 			// unable to get lock
 			Piwik::log('Unable to get lock for idSite = ' . $this->idsite
@@ -439,7 +439,7 @@ abstract class Piwik_ArchiveProcessing
 		$this->postCompute();
 		// we execute again the isArchived that does some initialization work
 		$this->idArchive = $this->isArchived();
-		Piwik::releaseArchiveProcessingLock($this->idsite, $this->period);
+		Piwik::releaseArchiveProcessingLock($this->idsite, $this->period, $this->segment);
 	}
 	
 	/**
