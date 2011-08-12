@@ -201,10 +201,12 @@ class Piwik_SitesManager_API
             FROM
                 ".Piwik_Common::prefixTable('site')." s
             WHERE EXISTS (
-                SELECT 1 FROM ".Piwik_Common::prefixTable('log_visit'). " v
+                SELECT 1 
+                FROM ".Piwik_Common::prefixTable('log_visit'). " v
                 WHERE v.idsite = s.idsite
-                AND visit_last_action_time > ?)
-        ", $time);
+                AND visit_last_action_time > ?
+                AND visit_last_action_time <= ?)
+        ", array($time, $now = Piwik_Date::now()->addHour(1)->getDatetime()));
 		$idSites = array();
 		foreach($result as $idSite)
 		{
