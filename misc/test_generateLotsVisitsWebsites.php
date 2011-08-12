@@ -1,5 +1,5 @@
 <?php
-//exit;
+exit;
 
 define('PIWIK_INCLUDE_PATH', realpath( dirname(__FILE__)."/.." ));
 define('PIWIK_ENABLE_DISPATCH', false);
