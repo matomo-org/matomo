@@ -369,6 +369,7 @@ class Archiving
 	{
 		return "lastRunArchive_$idsite";
 	}
+	
 	/**
 	 * Main function, runs archiving on all websites with new activity
 	 */
@@ -377,6 +378,7 @@ class Archiving
 		$websitesWithVisitsSinceLastRun = 
 			$skippedPeriodsArchivesWebsite = 
 			$skippedDayArchivesWebsites =
+			$skipped =
 			$archivedPeriodsArchivesWebsite = 0;
 		$timer = new Piwik_Timer;
 		
@@ -413,9 +415,13 @@ class Archiving
 	            {
 	            	$this->log("Skipped website id $idsite, already processed today's report in recent run, ".Piwik::getPrettyTimeFromSeconds($elapsedSinceLastArchiving, true, $isHtml = false)." ago, ".$timerWebsite);
 	            	$skippedDayArchivesWebsites++;
+	            	$skipped++;
 	            	continue;
 	            }
 	            
+	            // Fake that the request is already done, so that other archive.php
+	            // running do not grab the same website from the queue
+	            Piwik_SetOption( $this->lastRunKey($idsite, "day"), time() );
 	            
 	            $url = $this->getVisitsRequestUrl($idsite, "day", 
 						            // when 'forceall' option, also forces to archive last52 days to be safe
@@ -424,7 +430,12 @@ class Archiving
 	            
 	            if(empty($response))
 	            {
+	            	// cancel the succesful run flag
+	            	Piwik_SetOption( $this->lastRunKey($idsite, "day"), 0 );
+	            	
 	            	$this->log("WARNING: Empty or invalid response for website id $idsite, ".$timerWebsite.", skipping");
+		            $this->recordWasNotSuccessfulToday($idsite);
+	            	$skipped++;
 	            	continue;
 	            }
 	            
@@ -432,14 +443,12 @@ class Archiving
 	            $visitsToday = end($response);
 	            $this->requests++;
 	            
-	            // record successful daily archiving for this site
-	            Piwik_SetOption( $this->lastRunKey($idsite, "day"), time() );
-		        
 		        // If there is no visit today and we don't need to process this website, we can skip remaining archives
 	            if($visitsToday <= 0
 	            	&& !$shouldArchivePeriods)
 	            {
 	            	$this->log("Skipped website id $idsite, no visit today, ".$timerWebsite);
+	            	$skipped++;
 	            	continue;
 	            }
 	            
@@ -450,6 +459,7 @@ class Archiving
 	            	)
 	            {
 	            	$this->log("Skipped website id $idsite, no visits in the last ".count($response)." days, ".$timerWebsite);
+	            	$skipped++;
 	            	continue;
 	            }
 	            $this->visits += $visitsToday;
@@ -478,7 +488,7 @@ class Archiving
 		        $requestsWebsite = $this->requests - $requestsBefore;
 		        
 		        $debug = $this->shouldArchiveAllWebsites ? ", last days = $visitsAllDays visits" : "";
-		        Piwik::log("Archived website id = $idsite, today = $visitsToday visits".$debug.", $requestsWebsite API requests, ". $timerWebsite);
+		        Piwik::log("Archived website id = $idsite, today = $visitsToday visits".$debug.", $requestsWebsite API requests, ". $timerWebsite ." [" . ($websitesWithVisitsSinceLastRun+$skipped) . "/" . count($this->websites) . " done]" );
 		    }
 		}
 		
@@ -522,7 +532,7 @@ class Archiving
 			$aCurl[$url] = $ch;
 			$this->requests++;
 	    }
-	    
+	    $urlNoSegment = $url;
 	    foreach ($this->segments as $segment) {
 	    	$segmentUrl = $url.'&segment='.urlencode($segment);
 			$ch = curl_init($segmentUrl);
@@ -538,16 +548,27 @@ class Archiving
 	    } while ($running > 0);
 	
 	    $success = true;
+	    $visitsAllDaysInPeriod = false;
         foreach($aCurl as $url => $ch){
         	$content = curl_multi_getcontent($ch);
-            $success = $this->checkResponse($content, $url) && $success;
+        	$sucessResponse = $this->checkResponse($content, $url);
+            $success = $sucessResponse && $success;
+            if($url == $urlNoSegment
+            	&& $sucessResponse)
+            {
+            	$content = unserialize($content);
+            	$visitsAllDaysInPeriod = @array_sum($content);
+            }
         }
 
 	    foreach ($aCurl as $ch) {
 	    	curl_multi_remove_handle($mh, $ch);
 	    }
 	    curl_multi_close($mh);
-		$this->log("Archived website id = $idsite, period = $period, ".$timer);
+	    
+		$this->log("Archived website id = $idsite, period = $period, "
+					. ($period != "day" ? (int)$visitsAllDaysInPeriod. " visits, " : "" ) 
+					. $timer);
 	    return $success;
 	}
 	
