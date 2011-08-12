@@ -425,7 +425,8 @@ class UserAgentParser
 			}
 
 			// Version/X.Y.Z override
-			if(preg_match_all("/(version)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $newResults)) {
+			if(preg_match_all("/(version)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $newResults))
+			{
 				$results = $newResults;
 				$count = count($results[0])-1;
 			}
@@ -453,13 +454,23 @@ class UserAgentParser
 		 	}
 		 	$info['version'] = $info['major_number'] . '.' . $info['minor_number'];
 
+			// IE compatibility mode
+			if($info['id'] == 'IE'
+				&& strncmp($userAgent, 'Mozilla/4.0', 11) == 0
+				&& preg_match('~ Trident/([0-9]+)\.[0-9]+~', $userAgent, $tridentVersion))
+			{
+				$info['major_number'] = $tridentVersion[1] + 4;
+				$info['minor_number'] = '0';
+				$info['version'] = $info['major_number'] . '.' .$info['minor_number'];
+			}
+
 			// Safari fix
 			if($info['id'] == 'SF') {
 				foreach(self::$safariVersions as $buildVersion => $productVersion) {
 					if(version_compare($info['version'], $buildVersion) >= 0) {
 						$info['major_number'] = $productVersion[0];
 						$info['minor_number'] = $productVersion[1];
-						$info['version'] = $productVersion[0] . '.' . $productVersion[1];
+						$info['version'] = $info['major_number'] . '.' . $info['minor_number'];
 						break;
 					}
 				}
@@ -471,7 +482,7 @@ class UserAgentParser
 					if(version_compare($info['version'], $buildVersion) >= 0) {
 						$info['major_number'] = $productVersion[0];
 						$info['minor_number'] = $productVersion[1];
-						$info['version'] = $productVersion[0] . '.' . $productVersion[1];
+						$info['version'] = $info['major_number'] . '.' . $info['minor_number'];
 						break;
 					}
 				}
