@@ -135,7 +135,11 @@ class Archiving
 		$url = $this->piwikUrl. $url . $this->requestPrepend;
 //		$this->log($url);
 
-		$response = Piwik_Http::sendHttpRequestBy('curl', $url, $timeout = 300);
+		try {
+			$response = Piwik_Http::sendHttpRequestBy('curl', $url, $timeout = 300);
+		} catch(Exception $e) {
+			return $this->logNetworkError($url, $e->getMessage());
+		}
 		if($this->checkResponse($response, $url))
 		{
 			return $response;
@@ -143,12 +147,17 @@ class Archiving
 		return false;
 	}
 	
+	private function logNetworkError($url, $response)
+	{
+		$this->logError("Got invalid response from API request: $url. Response was '$response'");
+		return false;
+	}
+	
 	private function checkResponse($response, $url)
 	{
 		if(empty($response)
 			|| stripos($response, 'error')) {
-			$this->logError("Got invalid response from API request: $url. Response was '$response'");
-			return false;
+			return $this->logNetworkError($url, $response);
 		}
 		return true;
 	}
@@ -161,6 +170,7 @@ class Archiving
 	
 	public function logFatalError($m)
 	{
+//		debug_print_backtrace();
 		$this->log("ERROR: $m");
 		trigger_error($m, E_USER_ERROR);
 		exit;
@@ -259,7 +269,7 @@ class Archiving
 		// Recommend to disable browser archiving when using this script
 		if( Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled() )
 		{
-			$this->log("WARNING: you should probably disable Browser archiving in Piwik UI > Settings > General Settings. See doc at: http://piwik.org/docs/setup-auto-archiving/");
+			$this->log("NOTE: you should probably disable Browser archiving in Piwik UI > Settings > General Settings. See doc at: http://piwik.org/docs/setup-auto-archiving/");
 		}
 		if ($_SERVER['argc'] == 4
 			|| $_SERVER['argc'] == 5) 
@@ -349,7 +359,18 @@ class Archiving
 		}
 		else
 		{
-			$this->log("Will process ". count($this->websites). " websites with new visits since " . Piwik::getPrettyTimeFromSeconds($this->firstRunActiveWebsitesWithTraffic, true, false) . " " . (!empty($this->websites) ? ", IDs: ".implode(", ", $this->websites) : ""));
+			$this->log("Will process ". count($this->websites). " websites ".
+						"with new visits since " . 
+						Piwik::getPrettyTimeFromSeconds(
+								empty($this->timeLastCompleted)
+								? $this->firstRunActiveWebsitesWithTraffic
+								: $dateLast, 
+								true, false) 
+								. " " 
+								. (!empty($this->websites) 
+										? ", IDs: ".implode(", ", $this->websites) 
+										: ""
+			));
 		}
 		$this->log("Segments to pre-process for each website and each period: ". (!empty($this->segments) ? implode(", ", $this->segments) : "none"));
 		
@@ -389,6 +410,7 @@ class Archiving
 			$skippedPeriodsArchivesWebsite = 
 			$skippedDayArchivesWebsites =
 			$skipped =
+			$processed = 
 			$archivedPeriodsArchivesWebsite = 0;
 		$timer = new Piwik_Timer;
 		
@@ -451,6 +473,7 @@ class Archiving
 	            $response = unserialize($response);
 	            $visitsToday = end($response);
 	            $this->requests++;
+	            $processed++;
 	            
 		        // If there is no visit today and we don't need to process this website, we can skip remaining archives
 	            if($visitsToday <= 0
@@ -514,11 +537,26 @@ class Archiving
 		$this->log("Skipped $skippedDayArchivesWebsites websites day archiving: existing daily reports are less than {$this->todayArchiveTimeToLive} seconds old");
 		$this->log("Skipped $skippedPeriodsArchivesWebsite websites week/month/year archiving: existing periods reports are less than {$this->processPeriodsMaximumEverySeconds} seconds old");
 		$this->log("Total API requests: $this->requests");
+		
+		//DONE: done/total, visits, wtoday, wperiods, reqs, time, errors[count]: first eg.
+		$percent = count($this->websites) == 0
+						? ""
+						: " ".round($processed * 100 / count($this->websites),0) ."%";
+		$otherInParallel = $skippedDayArchivesWebsites;
+		$this->log("done: ".
+					$processed ."/". count($this->websites) . "" . $percent. ", ".
+					$this->visits." v, $websitesWithVisitsSinceLastRun wtoday, $archivedPeriodsArchivesWebsite wperiods, ".
+					$this->requests." req, ".round($timer->getTimeMs())." ms, ".
+					(empty($this->errors) 
+						? "no error" 
+						: (count($this->errors) . " errors. eg. '". reset($this->errors)."'" ))
+					);
 		$this->log($timer);
 		$this->logSection("SCHEDULED TASKS");
 		$this->log("Starting Scheduled tasks... ");
 		
 		$this->request("?module=API&method=CoreAdminHome.runScheduledTasks&format=csv&convertToUnicode=0&token_auth=".$this->token_auth);
+		
 		$this->log("done");
 		
 	}
