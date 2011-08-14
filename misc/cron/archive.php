@@ -3,8 +3,9 @@ $USAGE = "
 Usage: /path/to/cli/php ".@$_SERVER['argv'][0]." <hostname> [<current_periods_timeout> [<reset|forceall>]]
 <hostname>: Piwik hostname eg. localhost, localhost/piwik
 <current_periods_timeout>: Current week/month/year will be processed at most every <current_periods_timeout> seconds. Defaults to 3600.
-<reset|forceall>: you can either specify 
+<reset[window_back_seconds]|forceall>: you can either specify 
 	- reset: the script will run as if it was never executed before, therefore will trigger archiving on all websites with some traffic in the last 7 days.
+			You can specify a number of seconds to use instead of 7 days window, for example call archive.php 1 reset 86400 to archive all reports for all sites that had visits in the last 24 hours
 	- forceall: the script will trigger archiving on all websites for all periods, sequentially
 	- reset+forceall: you can also specify both, which is effectively the same behavior 
 	as the slower script archive.sh. The only added optimization: it does not trigger archiving for periods 
@@ -100,8 +101,8 @@ class Archiving
 	const OPTION_ARCHIVING_FINISHED_TS = "LastCompletedFullArchiving";
 	const TRUNCATE_ERROR_MESSAGE_SUMMARY = 400;
 	
-	// Days to look back to define "active websites" to archive on the first archive.php script execution 
-	protected $firstRunActiveWebsitesWithTraffic = 7;
+	// Seconds window to look back to define "active websites" to archive on the first archive.php script execution 
+	protected $firstRunActiveWebsitesWithTraffic = 604800; // 7 days
 	
 	protected $visits = 0;
 	protected $requests = 0;
@@ -127,12 +128,14 @@ class Archiving
 	
 	/**
 	 * Issues a request to $url
+	 * TODO: Add retry
 	 */
 	protected function request($url)
 	{
 		$url = $this->piwikUrl. $url . $this->requestPrepend;
 //		$this->log($url);
-		$response = trim(@file_get_contents($url));
+
+		$response = Piwik_Http::sendHttpRequestBy('curl', $url, $timeout = 300);
 		if($this->checkResponse($response, $url))
 		{
 			return $response;
@@ -220,9 +223,8 @@ class Archiving
 		}
 		
 		// Verify script is called with server URL
-		if ($_SERVER['argc'] != 2
-			&& $_SERVER['argc'] != 3
-			&& $_SERVER['argc'] != 4) {
+		if ($_SERVER['argc'] < 2
+			|| $_SERVER['argc'] >5) {
 			$this->usage();
 		    exit;
 		}
@@ -259,7 +261,8 @@ class Archiving
 		{
 			$this->log("WARNING: you should probably disable Browser archiving in Piwik UI > Settings > General Settings. See doc at: http://piwik.org/docs/setup-auto-archiving/");
 		}
-		if ($_SERVER['argc'] == 4) 
+		if ($_SERVER['argc'] == 4
+			|| $_SERVER['argc'] == 5) 
 		{
 			$isResetAndForceAll = $_SERVER['argv'][3] == "reset+forceall" || $_SERVER['argv'][3] == "forceall+reset";
 			if($_SERVER['argv'][3] == "reset"
@@ -267,6 +270,13 @@ class Archiving
 			{
 				$this->log("NOTE: 'reset' option was detected: the script will run as if it was never executed before");
 				$this->shouldResetState = true;
+				
+				if(!$isResetAndForceAll
+					&& is_numeric(@$_SERVER['argv'][4])
+					&& $_SERVER['argv'][4] > 0)
+				{
+					$this->firstRunActiveWebsitesWithTraffic = (int)$_SERVER['argv'][4];
+				}
 			}
 			if($_SERVER['argv'][3] == "forceall"
 				|| $isResetAndForceAll)
@@ -282,19 +292,6 @@ class Archiving
 			$this->timeLastCompleted = false;
 		}
 		
-		$this->logSection("INIT");
-		$this->piwikUrl ="http://{$_SERVER['argv'][1]}/index.php";
-		$this->log("Querying Piwik API at: {$this->piwikUrl}");		
-		
-		// Fetching super user token_auth
-		$login = Zend_Registry::get('config')->superuser->login;
-		$password = Zend_Registry::get('config')->superuser->password;
-		$this->token_auth = $this->request("?module=API&method=UsersManager.getTokenAuth&userLogin=$login&md5Password=$password&format=php&serialize=0");
-		if(strlen($this->token_auth) != 32 ) {
-			$this->logFatalError("token_auth is expected to be 32 characters long. Got a different response '". substr($this->token_auth,0,100)."'");
-		}
-		$this->log("Running as Super User: $login");
-		
 		// Fetching websites to process
 		Piwik::setUserIsSuperUser(true);
 		$this->allWebsites = Piwik_SitesManager_API::getInstance()->getAllSitesId();
@@ -307,14 +304,27 @@ class Archiving
 		{
 			// List of websites to archive first
 			$timestampActiveTraffic = $this->timeLastCompleted; 
-			$debug = "last run";
 			if(empty($timestampActiveTraffic))
 			{
-				$timestampActiveTraffic = time() - $this->firstRunActiveWebsitesWithTraffic * 86400;
-				$debug = $this->firstRunActiveWebsitesWithTraffic . " days ago";
+				$timestampActiveTraffic = time() - $this->firstRunActiveWebsitesWithTraffic;
+				$this->log("NOTE: in 'reset' mode, we will process all websites with visits in the last ". Piwik::getPrettyTimeFromSeconds($this->firstRunActiveWebsitesWithTraffic, true, false));
+				
 			}
 			$this->websites = Piwik_SitesManager_API::getInstance()->getSitesIdWithVisits( $timestampActiveTraffic );
 		}
+		
+		$this->logSection("INIT");
+		$this->piwikUrl ="http://{$_SERVER['argv'][1]}/index.php";
+		$this->log("Querying Piwik API at: {$this->piwikUrl}");		
+		
+		// Fetching super user token_auth
+		$login = Zend_Registry::get('config')->superuser->login;
+		$password = Zend_Registry::get('config')->superuser->password;
+		$this->token_auth = $this->request("?module=API&method=UsersManager.getTokenAuth&userLogin=$login&md5Password=$password&format=php&serialize=0");
+		if(strlen($this->token_auth) != 32 ) {
+			$this->logFatalError("token_auth is expected to be 32 characters long. Got a different response '". substr($this->token_auth,0,100)."'");
+		}
+		$this->log("Running as Super User: $login");
 		
 		// Fetching segments to process
 		$this->segments = Piwik_CoreAdminHome_API::getInstance()->getKnownSegmentsToArchive();
@@ -339,7 +349,7 @@ class Archiving
 		}
 		else
 		{
-			$this->log("Will process ". count($this->websites). " websites with new visits since $debug". (!empty($this->websites) ? ", IDs: ".implode(", ", $this->websites) : ""));
+			$this->log("Will process ". count($this->websites). " websites with new visits since " . Piwik::getPrettyTimeFromSeconds($this->firstRunActiveWebsitesWithTraffic, true, false) . " " . (!empty($this->websites) ? ", IDs: ".implode(", ", $this->websites) : ""));
 		}
 		$this->log("Segments to pre-process for each website and each period: ". (!empty($this->segments) ? implode(", ", $this->segments) : "none"));
 		
@@ -434,7 +444,6 @@ class Archiving
 	            	Piwik_SetOption( $this->lastRunKey($idsite, "day"), 0 );
 	            	
 	            	$this->log("WARNING: Empty or invalid response for website id $idsite, ".$timerWebsite.", skipping");
-		            $this->recordWasNotSuccessfulToday($idsite);
 	            	$skipped++;
 	            	continue;
 	            }
@@ -464,7 +473,7 @@ class Archiving
 	            }
 	            $this->visits += $visitsToday;
 	            $websitesWithVisitsSinceLastRun++;
-	            $this->archiveVisitsAndSegments($idsite, "day", $lastTimestampWebsiteProcessedDay);
+	            $this->archiveVisitsAndSegments($idsite, "day", $lastTimestampWebsiteProcessedDay, $timerWebsite);
 	            
 	            // TODO: Queue
 	        	if($shouldArchivePeriods)
@@ -517,7 +526,7 @@ class Archiving
 	/**
 	 * @return bool True on success, false if some request failed
 	 */
-	private function archiveVisitsAndSegments($idsite, $period, $lastTimestampWebsiteProcessed)
+	private function archiveVisitsAndSegments($idsite, $period, $lastTimestampWebsiteProcessed, $timerWebsite = false)
 	{
 		$timer = new Piwik_Timer;
 	    $aCurl = array();
@@ -567,8 +576,8 @@ class Archiving
 	    curl_multi_close($mh);
 	    
 		$this->log("Archived website id = $idsite, period = $period, "
-					. ($period != "day" ? (int)$visitsAllDaysInPeriod. " visits, " : "" ) 
-					. $timer);
+					. ($period != "day" ? (int)$visitsAllDaysInPeriod. " visits, " : "" )
+                    . (!empty($timerWebsite) ? $timerWebsite : $timer));
 	    return $success;
 	}
 	
