@@ -473,7 +473,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
             }
             withCustomVar = this.addParameter(withCustomData, "_cvar", json.toString());
         }
-        final String withRand = this.addParameter(withCustomVar, "rand", new Double(new Random().nextDouble()).toString());
+        final String withRand = this.addParameter(withCustomVar, "r", new Double(new Random().nextDouble()).toString().substring(2, 8));
         final String withDebug = withRand + this.debug_append_url;
         return withDebug;
     }

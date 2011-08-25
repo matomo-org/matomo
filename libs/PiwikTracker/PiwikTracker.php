@@ -789,7 +789,7 @@ class PiwikTracker
 	 		'?idsite=' . $idSite .
 			'&rec=1' .
 			'&apiv=' . self::VERSION . 
-	        '&rand=' . mt_rand() .
+	        '&r=' . substr(strval(mt_rand()), 2, 6) .
     	
     		// PHP DEBUGGING: Optional since debugger can be triggered remotely
     		(!empty($_GET['XDEBUG_SESSION_START']) ? '&XDEBUG_SESSION_START=' . @$_GET['XDEBUG_SESSION_START'] : '') . 
