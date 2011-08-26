@@ -776,6 +776,11 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'brisbane.t-online.de'		=> array('T-Online'),
 		'navigationshilfe.t-online.de'=> array('T-Online', 'q', 'dtag/dns/results?mode=search_top&q={k}'),
 
+		// Toolbarhome
+		'www.toolbarhome.com'		=> array('Toolbarhome', 'q', 'search.aspx?q={k}'),
+		
+		'vshare.toolbarhome.com'	=> array('Toolbarhome'),
+
 		// Trouvez.com
 		'www.trouvez.com'			=> array('Trouvez.com', 'query'),
 
