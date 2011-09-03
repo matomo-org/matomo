@@ -573,7 +573,7 @@ class Test_Piwik_IP extends UnitTestCase
 
 	function test_getHostByAddr()
 	{
-		$hosts = array( 'localhost', strtolower(@php_uname('n')) );
+		$hosts = array( 'localhost', strtolower(@php_uname('n')), '127.0.0.1', '::1' );
 		$this->assertTrue( in_array(strtolower(Piwik_IP::getHostByAddr('127.0.0.1')), $hosts), '127.0.0.1 -> localhost' );
 
 		if (!Piwik_Common::isWindows() || PHP_VERSION >= '5.3')
