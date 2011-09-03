@@ -91,6 +91,9 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 			if (!$segmentation ||
 					($segmentation && ($reportScope == 'visit' || !$reportScope)))
 			{
+				$this->checkSegmentationIsAvailable('visits', $segment,
+						$this->getSegmentsAvailableForVisits());
+						
 				$data = $this->getBasicMetricsForVisitScope($segmentationWhere, $segmentationBind);
 			}
 			
@@ -104,6 +107,10 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 			
 			else if ($reportScope == 'all')
 			{
+				$this->checkSegmentationIsAvailable('all scopes', $segment, array_merge(
+						$this->getSegmentsAvailableForVisits(),
+						$this->getSegmentsAvailableForActions()));
+				
 				// @TODO: calculations are inaccurate if segment matches both page and visit.
 				// is this important?
 				// not if the values returned by the api are taken from the archived tables
@@ -460,6 +467,56 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	    $allowedSegments = array(
 	    		'idvisitor',
                 'custom_var_k1',
+                'custom_var_v1',
+                'custom_var_k2',
+                'custom_var_v2',
+                'custom_var_k3',
+                'custom_var_v3',
+                'custom_var_k4',
+                'custom_var_v4',
+                'custom_var_k5',
+                'custom_var_v5',
+	    );
+	    return $allowedSegments;
+	}
+	
+	protected function getSegmentsAvailableForVisits()
+	{
+		// @TODO: build this list from meta data api
+		// (plugins provide the segments and (just not yet) the scope)
+	    $allowedSegments = array(
+	    		'idvisit',
+	    		'idvisitor',
+	    		'visitor_localtime',
+	    		'HOUR(visitor_localtime)',
+	    		'HOUR(visit_last_action_time)',
+	    		'visitor_returning',
+	    		'visitor_count_visits',
+	    		'visitor_days_since_first',
+	    		'visitor_days_since_last',
+	    		'visitor_days_since_order',
+	    		'visit_entry_idaction_url',
+	    		'visit_entry_idaction_name',
+	    		'visit_exit_idaction_url',
+	    		'visit_exit_idaction_name',
+	    		'visit_total_actions',
+	    		'visit_total_time',
+	    		'visit_goal_converted',
+	    		'visit_goal_buyer',
+                'referer_type',
+                'referer_name',
+	    		'referer_url',
+                'referer_keyword',
+	    		'config_os',
+	    		'config_browser_name',
+	    		'config_browser_lang',
+	    		'config_browser_version',
+	    		'config_resolution',
+	    		'location_ip',
+                'location_country',
+                'location_continent',
+	    		'location_provider',
+	    		'custom_var_k1',
                 'custom_var_v1',
                 'custom_var_k2',
                 'custom_var_v2',
