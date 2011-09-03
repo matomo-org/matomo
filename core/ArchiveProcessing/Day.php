@@ -91,9 +91,6 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 			if (!$segmentation ||
 					($segmentation && ($reportScope == 'visit' || !$reportScope)))
 			{
-				$this->checkSegmentationIsAvailable('visits', $segment,
-						$this->getSegmentsAvailableForVisits());
-						
 				$data = $this->getBasicMetricsForVisitScope($segmentationWhere, $segmentationBind);
 			}
 			
@@ -107,10 +104,6 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 			
 			else if ($reportScope == 'all')
 			{
-				$this->checkSegmentationIsAvailable('all scopes', $segment, array_merge(
-						$this->getSegmentsAvailableForVisits(),
-						$this->getSegmentsAvailableForActions()));
-				
 				// @TODO: calculations are inaccurate if segment matches both page and visit.
 				// is this important?
 				// not if the values returned by the api are taken from the archived tables
@@ -466,35 +459,6 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	{
 	    $allowedSegments = array(
 	    		'idvisitor',
-                'custom_var_k1',
-                'custom_var_v1',
-                'custom_var_k2',
-                'custom_var_v2',
-                'custom_var_k3',
-                'custom_var_v3',
-                'custom_var_k4',
-                'custom_var_v4',
-                'custom_var_k5',
-                'custom_var_v5',
-	    );
-	    return $allowedSegments;
-	}
-	
-	protected function getSegmentsAvailableForVisits()
-	{
-		// @TODO: complete list
-	    $allowedSegments = array(
-	    		'idvisitor',
-                'referer_type',
-                'referer_name',
-                'referer_keyword',
-                'visitor_returning',
-	    		'visitor_days_since_first',
-	    		'visitor_days_since_order',
-	    		'visitor_count_visits',
-	    		'visit_goal_buyer',
-                'location_country',
-                'location_continent',
                 'custom_var_k1',
                 'custom_var_v1',
                 'custom_var_k2',
