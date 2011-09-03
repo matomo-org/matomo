@@ -16,7 +16,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client
- * @version    $Id: Client.php 24194 2011-07-05 15:53:45Z matthew $
+ * @version    $Id: Client.php 24337 2011-08-01 13:04:41Z ezimuel $
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -282,7 +282,10 @@ class Zend_Http_Client
      */
     public function setUri($uri)
     {
-        if (is_string($uri)) {
+        if ($uri instanceof Zend_Uri_Http) {
+            // clone the URI in order to keep the passed parameter constant
+            $uri = clone $uri;
+        } elseif (is_string($uri)) {
             $uri = Zend_Uri::factory($uri);
         }
 
@@ -371,7 +374,7 @@ class Zend_Http_Client
             throw new Zend_Http_Client_Exception("'{$method}' is not a valid HTTP request method.");
         }
 
-        if ($method == self::POST && $this->enctype === null) {
+        if (($method == self::POST || $method == self::PUT || $method == self::DELETE) && $this->enctype === null) {
             $this->setEncType(self::ENC_URLENCODED);
         }
 
@@ -900,6 +903,10 @@ class Zend_Http_Client
      */
     public function getAdapter()
     {
+         if (null === $this->adapter) {
+            $this->setAdapter($this->config['adapter']);
+        }
+
         return $this->adapter;
     }
 
@@ -1028,7 +1035,10 @@ class Zend_Http_Client
             }
 
             if($this->config['output_stream']) {
-                rewind($stream);
+                $streamMetaData = stream_get_meta_data($stream);
+                if ($streamMetaData['seekable']) {
+                    rewind($stream);
+                }
                 // cleanup the adapter
                 $this->adapter->setOutputStream(null);
                 $response = Zend_Http_Response_Stream::fromStream($response, $stream);
@@ -1235,20 +1245,13 @@ class Zend_Http_Client
                     // Encode body as multipart/form-data
                     $boundary = '---ZENDHTTPCLIENT-' . md5(microtime());
                     $this->setHeaders(self::CONTENT_TYPE, self::ENC_FORMDATA . "; boundary={$boundary}");
-
-                    // Map the formname of each file to the array index it is stored in
-                    $fileIndexMap = array();
-                    foreach ($this->files as $key=>$fdata ) {
-                        $fileIndexMap[$fdata['formname']] = $key;
-                    }
                     
                     // Encode all files and POST vars in the order they were given
                     foreach ($this->body_field_order as $fieldName=>$fieldType) {
                         switch ($fieldType) {
                             case self::VTYPE_FILE:
-                                if (isset($fileIndexMap[$fieldName])) {
-                                    if (isset($this->files[$fileIndexMap[$fieldName]])) {
-                                        $file = $this->files[$fileIndexMap[$fieldName]];
+                                foreach ($this->files as $file) {
+                                    if ($file['formname']===$fieldName) {
                                         $fhead = array(self::CONTENT_TYPE => $file['ctype']);
                                         $body .= self::encodeFormData($boundary, $file['formname'], $file['data'], $file['filename'], $fhead);
                                     }

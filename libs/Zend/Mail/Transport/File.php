@@ -86,7 +86,7 @@ class Zend_Mail_Transport_File extends Zend_Mail_Transport_Abstract
      */
     public function setOptions(array $options)
     {
-        if (isset($options['path'])&& is_dir($options['path'])) {
+        if (isset($options['path']) && is_dir($options['path'])) {
             $this->_path = $options['path'];
         }
         if (isset($options['callback']) && is_callable($options['callback'])) {

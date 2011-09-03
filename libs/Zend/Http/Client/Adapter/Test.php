@@ -15,7 +15,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client_Adapter
- * @version    $Id: Test.php 23775 2011-03-01 17:25:24Z ralph $
+ * @version    $Id: Test.php 24309 2011-07-30 02:52:32Z ramon $
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -234,5 +234,15 @@ class Zend_Http_Client_Adapter_Test implements Zend_Http_Client_Adapter_Interfac
                 'Index out of range of response buffer size');
         }
         $this->responseIndex = $index;
+    }
+
+    /**
+     * Retrieve the array of all configuration options
+     *
+     * @return array
+     */
+    public function getConfig()
+    {
+        return $this->config;
     }
 }
