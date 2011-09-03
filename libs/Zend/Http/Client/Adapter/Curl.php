@@ -16,7 +16,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client_Adapter
- * @version    $Id: Curl.php 23775 2011-03-01 17:25:24Z ralph $
+ * @version    $Id: Curl.php 24272 2011-07-27 21:12:08Z mcleod@spaceweb.nl $
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -392,6 +392,9 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
             unset($this->_config['curloptions'][CURLOPT_INFILESIZE]);
         } elseif ($method == Zend_Http_Client::PUT) {
             // This is a PUT by a setRawData string, not by file-handle
+            curl_setopt($this->_curl, CURLOPT_POSTFIELDS, $body);
+        } elseif ($method == Zend_Http_Client::DELETE) {
+            // This is a DELETE by a setRawData string
             curl_setopt($this->_curl, CURLOPT_POSTFIELDS, $body);
         }
 

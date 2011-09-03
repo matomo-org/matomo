@@ -555,7 +555,11 @@ abstract class Zend_Http_UserAgent_AbstractDevice
                 $result['device']           = strtolower($result['compatibility_flag']);
                 $result['device_os_token']  = 'iPhone OS';
                 $result['browser_language'] = trim($comment[3]);
-                $result['browser_version']  = $result['others']['detail'][1][2];
+                if (isset($result['others']['detail'][1])) {
+                    $result['browser_version']  = $result['others']['detail'][1][2];
+                } elseif (count($result['others']['detail'])) {
+                    $result['browser_version']  = $result['others']['detail'][0][2];
+                }
                 if (!empty($result['others']['detail'][2])) {
                     $result['firmware'] = $result['others']['detail'][2][2];
                 }
@@ -570,7 +574,7 @@ abstract class Zend_Http_UserAgent_AbstractDevice
         if (isset($result['others'])) {
             if ($result['others']['detail'][0][1] == 'AppleWebKit') {
                 $result['browser_engine'] = 'AppleWebKit';
-                if ($result['others']['detail'][1][1] == 'Version') {
+                if (isset($result['others']['detail'][1]) && $result['others']['detail'][1][1] == 'Version') {
                     $result['browser_version'] = $result['others']['detail'][1][2];
                 } else {
                     $result['browser_version'] = $result['others']['detail'][count($result['others']['detail']) - 1][2];
@@ -582,8 +586,13 @@ abstract class Zend_Http_UserAgent_AbstractDevice
                 $last = $result['others']['detail'][count($result['others']['detail']) - 1][1];
 
                 if (empty($result['others']['detail'][2][1]) || $result['others']['detail'][2][1] == 'Safari') {
-                    $result['browser_name']    = ($result['others']['detail'][1][1] && $result['others']['detail'][1][1] != 'Version' ? $result['others']['detail'][1][1] : 'Safari');
-                    $result['browser_version'] = ($result['others']['detail'][1][2] ? $result['others']['detail'][1][2] : $result['others']['detail'][0][2]);
+                    if (isset($result['others']['detail'][1])) {
+                        $result['browser_name']    = ($result['others']['detail'][1][1] && $result['others']['detail'][1][1] != 'Version' ? $result['others']['detail'][1][1] : 'Safari');
+                        $result['browser_version'] = ($result['others']['detail'][1][2] ? $result['others']['detail'][1][2] : $result['others']['detail'][0][2]);
+                    } else {
+                        $result['browser_name']    = ($result['others']['detail'][0][1] && $result['others']['detail'][0][1] != 'Version' ? $result['others']['detail'][0][1] : 'Safari');
+                        $result['browser_version'] = $result['others']['detail'][0][2];
+                    }
                 } else {
                     $result['browser_name']    = $result['others']['detail'][2][1];
                     $result['browser_version'] = $result['others']['detail'][2][2];

@@ -16,7 +16,7 @@
  * @package    Zend_Validate
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: EmailAddress.php 24125 2011-06-07 16:13:26Z adamlundrigan $
+ * @version    $Id: EmailAddress.php 24304 2011-07-30 01:12:35Z adamlundrigan $
  */
 
 /**
@@ -527,9 +527,8 @@ class Zend_Validate_EmailAddress extends Zend_Validate_Abstract
         $this->_setValue($value);
 
         // Split email address up and disallow '..'
-        // and disallow addresses ending with a '.'
         if ((strpos($value, '..') !== false) or
-            (!preg_match('/^(.+)@([^@]+[^.])$/', $value, $matches))) {
+            (!preg_match('/^(.+)@([^@]+)$/', $value, $matches))) {
             $this->_error(self::INVALID_FORMAT);
             return false;
         }
