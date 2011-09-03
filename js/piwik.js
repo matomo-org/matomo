@@ -648,6 +648,9 @@ var
 				referrer = documentAlias.referrer;
 			}
 
+			// urldecode %xx
+			referrer = unescape(referrer);
+
 			return referrer;
 		}
 
