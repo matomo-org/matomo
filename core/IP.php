@@ -446,7 +446,8 @@ class Piwik_IP
 	{
 		// PHP's reverse lookup supports ipv4 and ipv6
 		// except on Windows before PHP 5.3
-		return strtolower(@gethostbyaddr($ipStr));
+		$host = strtolower(@gethostbyaddr($ipStr));
+		return $host === null ? $ipStr : $host;
 	}
 }
 
