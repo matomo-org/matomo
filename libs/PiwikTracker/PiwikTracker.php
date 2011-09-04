@@ -464,8 +464,8 @@ class PiwikTracker
     
     /**
      * @see doTrackGoal()
-     * @param string $actionUrl URL of the download or outlink
-     * @param string $actionType Type of the action: 'download' or 'link'
+     * @param int $idGoal Id Goal to record a conversion
+     * @param int $revenue Revenue for this conversion
      * @return string URL to piwik.php with all parameters set to track the goal conversion
      */
     public function getUrlTrackGoal($idGoal, $revenue = false)
