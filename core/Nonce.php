@@ -125,7 +125,7 @@ class Piwik_Nonce
 		$port = '';
 
 		// parse host:port
-		if(preg_match('/^([^:]+):([0-9]+)$/', $host, $matches))
+		if(preg_match('/^([^:]+):([0-9]+)$/D', $host, $matches))
 		{
 			$host = $matches[1];
 			$port = $matches[2];

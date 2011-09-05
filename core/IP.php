@@ -123,7 +123,7 @@ class Piwik_IP
 		// IPv4 address with wildcards '*'
 		if(strpos($ipRangeString, '*') !== false)
 		{
-			if(preg_match('~(^|\.)\*\.\d+(\.|$)~', $ipRangeString))
+			if(preg_match('~(^|\.)\*\.\d+(\.|$)~D', $ipRangeString))
 			{
 				return false;
 			}
@@ -502,7 +502,7 @@ function php_compat_inet_ntop($in_addr)
 			);
 
 			// compress longest (and leftmost) consecutive groups of zeros
-			if(preg_match_all('/(?:^|:)(0(:|$))+/', $r, $matches))
+			if(preg_match_all('/(?:^|:)(0(:|$))+/D', $r, $matches))
 			{
 				$longestMatch = 0;
 				foreach($matches[0] as $aMatch)
@@ -538,7 +538,7 @@ function php_compat_inet_ntop($in_addr)
 function php_compat_inet_pton($address)
 {
 	// IPv4 (or IPv4-compat, or IPv4-mapped)
-	if(preg_match('/(^|:)([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)$/i', $address, $matches))
+	if(preg_match('/(^|:)([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)$/iD', $address, $matches))
 	{
 		for($i = count($matches); $i-- > 2; )
 		{
