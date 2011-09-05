@@ -186,6 +186,10 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link:  http://www.phcomp.co.uk/tmp/Smarty.phps
 	License:  New BSD
 
+	Name:  Inspekt
+	Link:  http://inspekt.org/
+	License:  New BSD
+
 	Name:  PclZip
 	Link:  http://www.phpconcept.net/pclzip/
 	License:  LGPL

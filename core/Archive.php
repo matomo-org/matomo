@@ -381,7 +381,7 @@ abstract class Piwik_Archive
 	 */
 	static public function isMultiplePeriod($dateString, $period)
 	{
-		return 	(preg_match('/^(last|previous){1}([0-9]*)$/', $dateString, $regs)
+		return 	(preg_match('/^(last|previous){1}([0-9]*)$/D', $dateString, $regs)
 				|| Piwik_Period_Range::parseDateRange($dateString))
 				&& $period != 'range';
 	}

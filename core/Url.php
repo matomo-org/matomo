@@ -97,7 +97,7 @@ class Piwik_Url
 			$requestUri = $_SERVER['REQUEST_URI'];
 
 			// strip http://host (Apache+Rails anomaly)
-			if(preg_match('~^https?://[^/]+($|/.*)~', $requestUri, $matches))
+			if(preg_match('~^https?://[^/]+($|/.*)~D', $requestUri, $matches))
 			{
 				$requestUri = $matches[1];
 			}
