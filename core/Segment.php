@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- *
+ * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- *
+ * 
  * @category Piwik
  * @package Piwik
  */
@@ -22,7 +22,7 @@ class Piwik_Segment
     protected $segment = null;
     
     /**
-     * Truncate the Segments to 4k
+     * Truncate the Segments to 4k  
      */
     const SEGMENT_TRUNCATE_LIMIT = 4096;
     
@@ -30,10 +30,10 @@ class Piwik_Segment
     {
     	$string = Piwik_Common::unsanitizeInputValue($string);
         $string = trim($string);
-		if( !Piwik_Archive::isSegmentationEnabled()
+		if( !Piwik_Archive::isSegmentationEnabled() 
 			&& !empty($string))
 		{
-			throw new Exception("The Super User has disabled the use of 'segments' for the anonymous user.
+			throw new Exception("The Super User has disabled the use of 'segments' for the anonymous user. 
 									Please log in to use Segmentation in the API.");
 		}
         // As a preventive measure, we restrict the filter size to a safe limit
@@ -77,7 +77,7 @@ class Piwik_Segment
     {
         $expressions = $this->segment->parsedSubExpressions;
         $uniqueFields = array();
-        foreach($expressions as $expression)
+        foreach($expressions as $expression) 
         {
             $uniqueFields[] = $expression[Piwik_SegmentExpression::INDEX_OPERAND][0];
         }
@@ -112,8 +112,8 @@ class Piwik_Segment
                 throw new Exception("You do not have enough permission to access the segment ".$name);
             }
             
-//            $this->segmentsHumanReadable[] = $segment['name'] . " " .
-//                                            $this->getNameForMatchType($matchType) .
+//            $this->segmentsHumanReadable[] = $segment['name'] . " " . 
+//                                            $this->getNameForMatchType($matchType) . 
 //                                            $value;
             
             // apply presentation filter
@@ -166,7 +166,7 @@ class Piwik_Segment
         return $return;
     }
     
-	public function isSegmentAvailable($allowedSegments)
+	protected function isSegmentAvailable($allowedSegments)
 	{
 	    $segments = $this->getUniqueSqlFields();
 	    foreach($segments as $segment)
