@@ -346,11 +346,11 @@ class Piwik_Access
 		{
 			if(in_array($idsite, $idSitesAccessible))
 			{
-				return;
+				throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionPrivilegeAtLeastOneWebsite', array('admin')));
 			}
 		}
 
-		throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionPrivilegeAtLeastOneWebsite', array('admin')));
+		return;
 	}
 
 	/**
@@ -381,11 +381,11 @@ class Piwik_Access
 		{
 			if(in_array($idsite, $idSitesAccessible))
 			{
-				return;
+				throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionPrivilegeAtLeastOneWebsite', array('view')));
 			}
 		}
 
-		throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionPrivilegeAtLeastOneWebsite', array('view')));
+		return;
 	}
 }
 
