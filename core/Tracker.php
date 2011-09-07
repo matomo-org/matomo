@@ -400,12 +400,20 @@ class Piwik_Tracker
 	 */
 	protected function handleTrackingApi()
 	{
-		if(!$this->authenticateSuperUserOrAdmin())
+		$shouldAuthenticate = Piwik_Tracker_Config::getInstance()->Tracker['tracking_requests_require_authentication'];
+		if($shouldAuthenticate)
 		{
-			return;
+			if(!$this->authenticateSuperUserOrAdmin())
+			{
+				return;
+			}
+			printDebug("token_auth is authenticated!");
 		}
-		printDebug("token_auth is authenticated!");
-	
+		else
+		{
+			printDebug("token_auth authentication not required");
+		}
+
 		// Custom IP to use for this visitor
 		$customIp = Piwik_Common::getRequestVar('cip', false, 'string', $this->request);
 		if(!empty($customIp))
