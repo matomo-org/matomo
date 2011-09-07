@@ -95,6 +95,11 @@ all_websites_website_per_page = 50
 ; this is useful to prevent full DB access to the anonymous user, or to limit performance usage
 anonymous_user_enable_use_segments_API = 1
 
+; if browser trigger archiving is disabled, API requests with a &segment= parameter will still trigger archiving.
+; You can force the browser archiving to be disabled in most cases by setting this setting to 0
+; The only time that the browser will still trigge archiving is when requesting a custom date range that is not pre-processed yet
+browser_archiving_disabled_enforce = 0
+
 ; this action name is used when the URL ends with a slash /
 ; it is useful to have an actual string to write in the UI
 action_default_name = index

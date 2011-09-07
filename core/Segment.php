@@ -33,8 +33,7 @@ class Piwik_Segment
 		if( !Piwik_Archive::isSegmentationEnabled() 
 			&& !empty($string))
 		{
-			throw new Exception("The Super User has disabled the use of 'segments' for the anonymous user. 
-									Please log in to use Segmentation in the API.");
+			throw new Exception("The Super User has disabled the Segmentation feature.");
 		}
         // As a preventive measure, we restrict the filter size to a safe limit
         $string = substr($string, 0, self::SEGMENT_TRUNCATE_LIMIT);
