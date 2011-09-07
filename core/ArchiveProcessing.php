@@ -880,14 +880,23 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	public function isArchivingDisabled()
 	{
-		// If segment or range is requested, we allow archiving since it will only archive the minimum data
-		if(!$this->shouldProcessReportsAllPlugins($this->getSegment(), $this->period))
+		$processOneReportOnly = !$this->shouldProcessReportsAllPlugins($this->getSegment(), $this->period);
+		if($processOneReportOnly)
 		{
+			// When there is a segment, archiving is not necessary allowed
+			// If browser archiving is allowed, then archiving is enabled
+			// if browser archiving is not allowed, then archiving is disabled
+			if(!$this->getSegment()->isEmpty()
+				&& !$this->isRequestAuthorizedToArchive()
+				&& Zend_Registry::get('config')->General->browser_archiving_disabled_enforce
+			)
+			{
+				Piwik::log("Archiving is disabled because of config setting browser_archiving_disabled_enforce=1");
+				return true;
+			}
 			return false;
 		}
 		$isDisabled = !$this->isRequestAuthorizedToArchive();
-		
-		
 		return $isDisabled;
 	}
 	
@@ -900,6 +909,11 @@ abstract class Piwik_ArchiveProcessing
 					;
 	}
 	
+	/**
+	 * Returns true when 
+	 * - there is no segment and period is not range 
+	 * - there is a segment that is part of the preprocessed [Segments] list
+	 */
 	protected function shouldProcessReportsAllPlugins($segment, $period)
 	{
 		if($segment->isEmpty() && $period->getLabel() != 'range')
