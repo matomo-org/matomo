@@ -344,13 +344,11 @@ class Piwik_Access
 		$idSitesAccessible = $this->getSitesIdWithAdminAccess();
 		foreach($idSites as $idsite)
 		{
-			if(in_array($idsite, $idSitesAccessible))
+			if(!in_array($idsite, $idSitesAccessible))
 			{
-				throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionPrivilegeAtLeastOneWebsite', array('admin')));
+				throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionPrivilegeAccessWebsite', array("'admin'", $idsite)));
 			}
 		}
-
-		return;
 	}
 
 	/**
@@ -379,13 +377,11 @@ class Piwik_Access
 
 		foreach($idSites as $idsite)
 		{
-			if(in_array($idsite, $idSitesAccessible))
+			if(!in_array($idsite, $idSitesAccessible))
 			{
-				throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionPrivilegeAtLeastOneWebsite', array('view')));
+				throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionPrivilegeAccessWebsite', array("'view'", $idsite)));
 			}
 		}
-
-		return;
 	}
 }
 
