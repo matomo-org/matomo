@@ -62,8 +62,14 @@ Notes about the algorithm:
   while allowing more stale data for the current week/month/year reports. 
   
 = Ideas for improvements =
+- BUG: one hour bug: Archiving was last executed without error 59 min 53s ago
+- BUG: noreply@localhost instead of proper domain in email from: in scheduled tasks
+- 'reset' not compatible with concurrent threads
+- scheduled task send multiple reports when concurrent threads
+- prepare script to start multiple processes
+
  - Once an hour max, and on request: run archiving for previousN for websites which days have just 
-   finished in the last 2 hours in their timezones
+   finished in the last 2 hours in their timezones, then TODO uncomment when implemented full archiving
  - Bug: when adding new segments to preprocess, script will assume that data was processed for this segment in the past
  - Run websites archiving in parallel, currently only segments are ran in parallel
  - Queue Period archiving to be executed after today's reports with lower priority 
@@ -269,7 +275,8 @@ class Archiving
 		// Recommend to disable browser archiving when using this script
 		if( Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled() )
 		{
-			$this->log("NOTE: you should probably disable Browser archiving in Piwik UI > Settings > General Settings. See doc at: http://piwik.org/docs/setup-auto-archiving/");
+			//TODO uncomment when implemented full archiving
+			//$this->log("NOTE: you should probably disable Browser archiving in Piwik UI > Settings > General Settings. See doc at: http://piwik.org/docs/setup-auto-archiving/");
 		}
 		if ($_SERVER['argc'] == 4
 			|| $_SERVER['argc'] == 5) 
