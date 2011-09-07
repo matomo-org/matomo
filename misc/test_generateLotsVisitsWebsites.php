@@ -57,7 +57,9 @@ class Piwik_StressTests_CopyLogs
 		$sql = "INSERT INTO ". Piwik_Common::prefixTable('log_link_visit_action')." (`idsite`, `idvisitor`, `server_time`, `idvisit`, `idaction_url`, `idaction_url_ref`, `idaction_name`, `idaction_name_ref`, `time_spent_ref_action`, `custom_var_k1`, `custom_var_v1`, `custom_var_k2`, `custom_var_v2`, `custom_var_k3`, `custom_var_v3`, `custom_var_k4`, `custom_var_v4`, `custom_var_k5`, `custom_var_v5`)
 		SELECT `idsite`, `idvisitor`, CONCAT(CURRENT_DATE()  , \" \",  FLOOR(RAND()*24) , \":\",FLOOR(RAND()*60),\":\",FLOOR(RAND()*60)), `idvisit`, `idaction_url`, `idaction_url_ref`, `idaction_name`, `idaction_name_ref`, `time_spent_ref_action`, `custom_var_k1`, `custom_var_v1`, `custom_var_k2`, `custom_var_v2`, `custom_var_k3`, `custom_var_v3`, `custom_var_k4`, `custom_var_v4`, `custom_var_k5`, `custom_var_v5` 
 		FROM `". Piwik_Common::prefixTable('log_link_visit_action')."` 
-		WHERE idsite >= 1 AND date(server_time) between '$startDate' and '$endDate' ;";
+		WHERE idsite >= 1 AND date(server_time) between '$startDate' and '$endDate' 
+		
+		;"; // LIMIT 1000000
 		$result = $db->query($sql);
 		
 		$this->log(" Copying conversions...");
