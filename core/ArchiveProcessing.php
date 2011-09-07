@@ -200,6 +200,8 @@ abstract class Piwik_ArchiveProcessing
 	protected $startTimestampUTC;
 	protected $endTimestampUTC;
 	
+	protected $segmentsToProcess = null;
+	
 	/**
 	 * Constructor
 	 */
@@ -466,35 +468,6 @@ abstract class Piwik_ArchiveProcessing
 			$segment .= '.'.$pluginProcessed;
 		}
 	    return 'done' . $segment;
-	}
-	
-	protected function shouldProcessReportsAllPlugins($segment, $period)
-	{
-		return $segment->isEmpty() && $period->getLabel() != 'range';
-	}
-	
-	/**
-	 * When a segment is set, we shall only process the requested report (no more).
-	 * The requested data set will return a lot faster if we only process these reports rather than all plugins.
-	 * Similarly, when a period=range is requested, we shall only process the requested report for the range itself.
-	 * 
-	 * @param string $pluginName
-	 * @return bool
-	 */
-	public function shouldProcessReportsForPlugin($pluginName)
-	{
-		if($this->shouldProcessReportsAllPlugins($this->getSegment(), $this->period))
-		{
-			return true;
-		}
-	
-	
-		// If segment, only process if the requested report belong to this plugin
-		// or process all plugins if the requested report plugin couldn't be guessed
-		$pluginBeingProcessed = self::getPluginBeingProcessed($this->getRequestedReport());
-		return $pluginBeingProcessed == $pluginName
-				|| !Piwik_PluginsManager::getInstance()->isPluginLoaded($pluginBeingProcessed)
-				; 
 	}
 	
 	/**
@@ -912,7 +885,10 @@ abstract class Piwik_ArchiveProcessing
 		{
 			return false;
 		}
-		return !$this->isRequestAuthorizedToArchive();
+		$isDisabled = !$this->isRequestAuthorizedToArchive();
+		
+		
+		return $isDisabled;
 	}
 	
 	protected function isRequestAuthorizedToArchive()
@@ -923,4 +899,52 @@ abstract class Piwik_ArchiveProcessing
 					&& Piwik_Common::isArchivePhpTriggered())
 					;
 	}
+	
+	protected function shouldProcessReportsAllPlugins($segment, $period)
+	{
+		if($segment->isEmpty() && $period->getLabel() != 'range')
+		{
+			return true;
+		}
+		
+		if(is_null($this->segmentsToProcess))
+		{
+			$this->segmentsToProcess = Piwik::getKnownSegmentsToArchive();
+		}
+		if(!empty($this->segmentsToProcess))
+		{
+			// If the requested segment is one of the segments to pre-process
+			// we ensure that any call to the API will trigger archiving of all reports for this segment
+			$segment = $this->getSegment()->getString();
+			if(in_array($segment, $this->segmentsToProcess))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * When a segment is set, we shall only process the requested report (no more).
+	 * The requested data set will return a lot faster if we only process these reports rather than all plugins.
+	 * Similarly, when a period=range is requested, we shall only process the requested report for the range itself.
+	 * 
+	 * @param string $pluginName
+	 * @return bool
+	 */
+	public function shouldProcessReportsForPlugin($pluginName)
+	{
+		if($this->shouldProcessReportsAllPlugins($this->getSegment(), $this->period))
+		{
+			return true;
+		}
+		
+		// If any other segment, only process if the requested report belong to this plugin
+		// or process all plugins if the requested report plugin couldn't be guessed
+		$pluginBeingProcessed = self::getPluginBeingProcessed($this->getRequestedReport());
+		return $pluginBeingProcessed == $pluginName
+				|| !Piwik_PluginsManager::getInstance()->isPluginLoaded($pluginBeingProcessed)
+				; 
+	}
+	
 }

@@ -16,6 +16,9 @@
 class Piwik_CoreAdminHome_API 
 {
 	static private $instance = null;
+	/**
+	 * @return Piwik_CoreAdminHome_API
+	 */
 	static public function getInstance()
 	{
 		if (self::$instance == null)
@@ -38,7 +41,6 @@ class Piwik_CoreAdminHome_API
 	public function getKnownSegmentsToArchive()
 	{
 		Piwik::checkUserIsSuperUser();
-		$segments = Zend_Registry::get('config')->Segments->toArray();
-		return isset($segments['Segments']) ? $segments['Segments'] : '';
+		return Piwik::getKnownSegmentsToArchive();
 	}
 }
