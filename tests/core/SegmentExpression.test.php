@@ -33,7 +33,7 @@ class Test_Piwik_SegmentExpression extends UnitTestCase
         foreach($expressionToSql as $expression => $expectedSql)
         {
             $segment = new Piwik_SegmentExpression($expression);
-            $expected = array('sql' => $expectedSql, 'bind' => array());
+            $expected = array('where' => $expectedSql, 'bind' => array(), 'join' => '');
             $processed = $segment->getSql();
             $this->assertEqual($processed, $expected);
         }
@@ -43,23 +43,23 @@ class Test_Piwik_SegmentExpression extends UnitTestCase
     {
         // Filter expression => SQL string + Bind values
         $expressionToSql = array(
-            'A==B%' => array('sql' => " A = ? ", 'bind' => array('B%')),
-            'ABCDEF====B===' => array('sql' => " ABCDEF = ? ", 'bind' => array('==B===')),
-            'A===B;CDEF!=C!=' => array('sql' => " A = ? AND CDEF <> ? ", 'bind' => array('=B', 'C!=' )),
-            'A==B,C==D' => array('sql' => " (A = ? OR C = ? )", 'bind' => array('B', 'D')),
-            'A!=B;C==D' => array('sql' => " A <> ? AND C = ? ", 'bind' => array('B', 'D')),
-            'A!=B;C==D,E!=Hello World!=' => array('sql' => " A <> ? AND (C = ? OR E <> ? )", 'bind' => array('B', 'D', 'Hello World!=')),
+            'A==B%' => array('where' => " A = ? ", 'bind' => array('B%')),
+            'ABCDEF====B===' => array('where' => " ABCDEF = ? ", 'bind' => array('==B===')),
+            'A===B;CDEF!=C!=' => array('where' => " A = ? AND CDEF <> ? ", 'bind' => array('=B', 'C!=' )),
+            'A==B,C==D' => array('where' => " (A = ? OR C = ? )", 'bind' => array('B', 'D')),
+            'A!=B;C==D' => array('where' => " A <> ? AND C = ? ", 'bind' => array('B', 'D')),
+            'A!=B;C==D,E!=Hello World!=' => array('where' => " A <> ? AND (C = ? OR E <> ? )", 'bind' => array('B', 'D', 'Hello World!=')),
         
-            'A>B' => array('sql' => " A > ? ", 'bind' => array('B')),
-            'A<B' => array('sql' => " A < ? ", 'bind' => array('B')),
-            'A<=B' => array('sql' => " A <= ? ", 'bind' => array('B')),
-            'A>=B' => array('sql' => " A >= ? ", 'bind' => array('B')),
-            'ABCDEF>=>=>=B===' => array('sql' => " ABCDEF >= ? ", 'bind' => array('>=>=B===')),
-            'A>=<=B;CDEF>G;H>=I;J<K;L<=M' => array('sql' => " A >= ? AND CDEF > ? AND H >= ? AND J < ? AND L <= ? ", 'bind' => array('<=B', 'G','I','K','M' )),
-            'A>=B;C>=D,E<w_ow great!' => array('sql' => " A >= ? AND (C >= ? OR E < ? )", 'bind' => array('B', 'D', 'w_ow great!')),
+            'A>B' => array('where' => " A > ? ", 'bind' => array('B')),
+            'A<B' => array('where' => " A < ? ", 'bind' => array('B')),
+            'A<=B' => array('where' => " A <= ? ", 'bind' => array('B')),
+            'A>=B' => array('where' => " A >= ? ", 'bind' => array('B')),
+            'ABCDEF>=>=>=B===' => array('where' => " ABCDEF >= ? ", 'bind' => array('>=>=B===')),
+            'A>=<=B;CDEF>G;H>=I;J<K;L<=M' => array('where' => " A >= ? AND CDEF > ? AND H >= ? AND J < ? AND L <= ? ", 'bind' => array('<=B', 'G','I','K','M' )),
+            'A>=B;C>=D,E<w_ow great!' => array('where' => " A >= ? AND (C >= ? OR E < ? )", 'bind' => array('B', 'D', 'w_ow great!')),
 
-        	'A=@B_' => array('sql' => " A LIKE ? ", 'bind' => array('%B\_%')),
-        	'A!@B%' => array('sql' => " A NOT LIKE ? ", 'bind' => array('%B\%%')),
+        	'A=@B_' => array('where' => " A LIKE ? ", 'bind' => array('%B\_%')),
+        	'A!@B%' => array('where' => " A NOT LIKE ? ", 'bind' => array('%B\%%')),
         );
         foreach($expressionToSql as $expression => $expectedSql)
         {
@@ -67,7 +67,11 @@ class Test_Piwik_SegmentExpression extends UnitTestCase
             $segment->parseSubExpressions();
             $segment->parseSubExpressionsIntoSqlExpressions();
             $processed = $segment->getSql();
+            
+            $expectedSql['join'] = '';
+            
             $out = '<br/>'.var_export($processed, true) . "\n *DIFFERENT FROM*   ".var_export($expectedSql, true);
+            
             $this->assertEqual($processed, $expectedSql, str_replace('%', '%%', $out));
         }
     }

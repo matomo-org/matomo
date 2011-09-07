@@ -100,19 +100,27 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 		
 		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 		
-		$query = "SELECT 	count(distinct idvisitor) as nb_uniq_visitors_returning,
-							count(*) as nb_visits_returning,
-							sum(visit_total_actions) as nb_actions_returning,
-							max(visit_total_actions) as max_actions_returning,
-							sum(visit_total_time) as sum_visit_length_returning,
-							sum(case visit_total_actions when 1 then 1 else 0 end) as bounce_count_returning,
-							sum(case visit_goal_converted when 1 then 1 else 0 end) as nb_visits_converted_returning
-				 	FROM ".Piwik_Common::prefixTable('log_visit')."  AS log_visit
-				 	WHERE visit_last_action_time >= ?
-						AND visit_last_action_time <= ?
-				 		AND idsite = ?
-				 		AND visitor_returning >= 1";
-		$row = $archiveProcessing->db->fetchRow($query, array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ) );
+		$select = "count(distinct log_visit.idvisitor) as nb_uniq_visitors_returning,
+				count(*) as nb_visits_returning,
+				sum(log_visit.visit_total_actions) as nb_actions_returning,
+				max(log_visit.visit_total_actions) as max_actions_returning,
+				sum(log_visit.visit_total_time) as sum_visit_length_returning,
+				sum(case log_visit.visit_total_actions when 1 then 1 else 0 end) as bounce_count_returning,
+				sum(case log_visit.visit_goal_converted when 1 then 1 else 0 end) as nb_visits_converted_returning";
+		
+		$from = "log_visit";
+		
+		$where = "log_visit.visit_last_action_time >= ?
+				AND log_visit.visit_last_action_time <= ?
+		 		AND log_visit.idsite = ?
+		 		AND log_visit.visitor_returning >= 1";
+		
+		$bind = array($archiveProcessing->getStartDatetimeUTC(), 
+					$archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite);
+		
+		$query = $archiveProcessing->getSegment()->getSelectQuery($select, $from, $where, $bind);
+		
+		$row = $archiveProcessing->db->fetchRow($query['sql'], $query['bind']);
 		
 		if($row === false || $row === null)
 		{

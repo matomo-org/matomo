@@ -51,7 +51,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 				'getResolution',
 				'UserSettings_ColumnResolution',
 				'resolution',
-				'config_resolution',
+				'log_visit.config_resolution',
 				'1280x1024, 800x600, etc.',
 				),
 		
@@ -61,7 +61,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 				'getBrowser',
 				'UserSettings_ColumnBrowser',
 				'browserName',
-				'config_browser_name',
+				'log_visit.config_browser_name',
 				'FF, IE, CH, SF, OP, etc.',),
 		
 		// Only used as a Segment, not as a widget
@@ -71,7 +71,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 				'getBrowser',
 				'UserSettings_ColumnBrowserVersion',
 				'browserVersion',
-				'config_browser_version',
+				'log_visit.config_browser_version',
 				'1.0, 8.0, etc.',),
 		
 		array( 'UserSettings_VisitorSettings',
@@ -99,7 +99,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 				'getOS',
 				'UserSettings_ColumnOperatingSystem',
 				'operatingSystem',
-				'config_os',
+				'log_visit.config_os',
 				'WXP, WI7, MAC, LIN, AND, IPD, etc.'),
 		
 		array( 	'UserSettings_VisitorSettings',
@@ -238,21 +238,22 @@ class Piwik_UserSettings extends Piwik_Plugin
 		$this->archiveProcessing = $archiveProcessing;
 			
 		$recordName = 'UserSettings_configuration';
-		$labelSQL = "CONCAT(config_os, ';', config_browser_name, ';', config_resolution)";
+		$labelSQL = "CONCAT(log_visit.config_os, ';', log_visit.config_browser_name, ';', log_visit.config_resolution)";
 		$interestByConfiguration = $archiveProcessing->getArrayInterestForLabel($labelSQL);
+		
 		$tableConfiguration = $archiveProcessing->getDataTableFromArray($interestByConfiguration);
 		$archiveProcessing->insertBlobRecord($recordName, $tableConfiguration->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
 		destroy($tableConfiguration);
 		
 		$recordName = 'UserSettings_os';
-		$labelSQL = "config_os";
+		$labelSQL = "log_visit.config_os";
 		$interestByOs = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		$tableOs = $archiveProcessing->getDataTableFromArray($interestByOs);
 		$archiveProcessing->insertBlobRecord($recordName, $tableOs->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
 		destroy($tableOs);
 		
 		$recordName = 'UserSettings_browser';
-		$labelSQL = "CONCAT(config_browser_name, ';', config_browser_version)";
+		$labelSQL = "CONCAT(log_visit.config_browser_name, ';', log_visit.config_browser_version)";
 		$interestByBrowser = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		$tableBrowser = $archiveProcessing->getDataTableFromArray($interestByBrowser);
 		$archiveProcessing->insertBlobRecord($recordName, $tableBrowser->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
@@ -264,7 +265,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 		destroy($tableBrowserType);
 		
 		$recordName = 'UserSettings_resolution';
-		$labelSQL = "config_resolution";
+		$labelSQL = "log_visit.config_resolution";
 		$interestByResolution = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		$tableResolution = $archiveProcessing->getDataTableFromArray($interestByResolution);
 		$tableResolution->filter('ColumnCallbackDeleteRow', array('label', 'Piwik_UserSettings_keepStrlenGreater'));
@@ -369,16 +370,16 @@ class Piwik_UserSettings extends Piwik_Plugin
 	 */
 	protected function getDataTablePlugin()
 	{
-		$toSelect = "sum(case config_pdf when 1 then 1 else 0 end) as pdf,
-							sum(case config_flash when 1 then 1 else 0 end) as flash,
-							sum(case config_java when 1 then 1 else 0 end) as java,
-							sum(case config_director when 1 then 1 else 0 end) as director,
-							sum(case config_quicktime when 1 then 1 else 0 end) as quicktime,
-							sum(case config_realplayer when 1 then 1 else 0 end) as realplayer,
-							sum(case config_windowsmedia when 1 then 1 else 0 end) as windowsmedia,
-							sum(case config_gears when 1 then 1 else 0 end) as gears,
-							sum(case config_silverlight when 1 then 1 else 0 end) as silverlight,
-							sum(case config_cookie when 1 then 1 else 0 end) as cookie	";
+		$toSelect = "sum(case log_visit.config_pdf when 1 then 1 else 0 end) as pdf,
+				sum(case log_visit.config_flash when 1 then 1 else 0 end) as flash,
+				sum(case log_visit.config_java when 1 then 1 else 0 end) as java,
+				sum(case log_visit.config_director when 1 then 1 else 0 end) as director,
+				sum(case log_visit.config_quicktime when 1 then 1 else 0 end) as quicktime,
+				sum(case log_visit.config_realplayer when 1 then 1 else 0 end) as realplayer,
+				sum(case log_visit.config_windowsmedia when 1 then 1 else 0 end) as windowsmedia,
+				sum(case log_visit.config_gears when 1 then 1 else 0 end) as gears,
+				sum(case log_visit.config_silverlight when 1 then 1 else 0 end) as silverlight,
+				sum(case log_visit.config_cookie when 1 then 1 else 0 end) as cookie	";
 		return $this->archiveProcessing->getSimpleDataTableFromSelect($toSelect, Piwik_Archive::INDEX_NB_VISITS);
 	}
 }

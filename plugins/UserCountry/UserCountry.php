@@ -61,7 +61,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 		        'category' => 'Visit',
 		        'name' => Piwik_Translate('UserCountry_Country'),
 		        'segment' => 'country',
-		        'sqlSegment' => 'location_country',
+		        'sqlSegment' => 'log_visit.location_country',
 				'acceptedValues' => 'de, us, fr, in, es, etc.'
        );
        $segments[] = array(
@@ -69,7 +69,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 		        'category' => 'Visit',
 		        'name' => Piwik_Translate('UserCountry_Continent'),
 		        'segment' => 'continent',
-		        'sqlSegment' => 'location_continent',
+		        'sqlSegment' => 'log_visit.location_continent',
 				'acceptedValues' => 'eur, asi, amc, amn, ams, afr, ant, oce'
 		);
 	}
@@ -151,10 +151,10 @@ class Piwik_UserCountry extends Piwik_Plugin
 	 */
 	protected function archiveDayAggregateVisits($archiveProcessing)
 	{
-		$labelSQL = "location_country";
+		$labelSQL = "log_visit.location_country";
 		$this->interestByCountry = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		
-		$labelSQL = "location_continent";
+		$labelSQL = "log_visit.location_continent";
 		$this->interestByContinent = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 	}
 	

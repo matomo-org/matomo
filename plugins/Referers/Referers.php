@@ -120,7 +120,7 @@ class Piwik_Referers extends Piwik_Plugin
 		        'name' => 'Referers_ColumnRefererType',
 		        'segment' => 'referrerType',
 		        'acceptedValues' => 'direct, search, website, campaign',
-		        'sqlSegment' => 'referer_type',
+		        'sqlSegment' => 'log_visit.referer_type',
 	            'sqlFilter' => 'Piwik_getRefererTypeFromShortName',
 	    );
 		$segments[] = array(
@@ -129,7 +129,7 @@ class Piwik_Referers extends Piwik_Plugin
 		        'name' => 'Referers_ColumnKeyword',
 		        'segment' => 'referrerKeyword',
 		        'acceptedValues' => 'Encoded%20Keyword, keyword',
-		        'sqlSegment' => 'referer_keyword',
+		        'sqlSegment' => 'log_visit.referer_keyword',
 	    );
 		$segments[] = array(
 		        'type' => 'dimension',
@@ -137,7 +137,7 @@ class Piwik_Referers extends Piwik_Plugin
 		        'name' => 'Referers_RefererName',
 		        'segment' => 'referrerName',
 		        'acceptedValues' => 'twitter.com, www.facebook.com, Bing, Google, Yahoo, CampaignName',
-		        'sqlSegment' => 'referer_name',
+		        'sqlSegment' => 'log_visit.referer_name',
 	    );
 	    $segments[] = array(
 		        'type' => 'dimension',
@@ -145,7 +145,7 @@ class Piwik_Referers extends Piwik_Plugin
 		        'name' => 'Live_Referrer_URL',
 	    		'acceptedValues' => 'http%3A%2F%2Fwww.example.org%2Freferer-page.htm',
 		        'segment' => 'referrerUrl',
-		        'sqlSegment' => 'referer_url',
+		        'sqlSegment' => 'log_visit.referer_url',
 	    );
 	}
 	

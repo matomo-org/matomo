@@ -36,6 +36,7 @@ class Piwik_SegmentExpression
         $this->string = $string;
         $this->tree = $this->parseTree();
     }
+    protected $joins = array();
     protected $valuesBind = array();
     protected $parsedTree = array();
     protected $tree = array();
@@ -93,16 +94,18 @@ class Piwik_SegmentExpression
         return $this->parsedSubExpressions;
     }
     
-    public function parseSubExpressionsIntoSqlExpressions($fieldsAvailableInTable = array(), $joinedTableName = false)
+    public function parseSubExpressionsIntoSqlExpressions(&$availableTables=array())
     {
         $sqlSubExpressions = array();
         $this->valuesBind = array();
+        $this->joins = array();
+        
         foreach($this->parsedSubExpressions as $leaf)
         {
             $operator = $leaf[self::INDEX_BOOL_OPERATOR];
             $operandDefinition = $leaf[self::INDEX_OPERAND];
             
-            $operand = $this->getSqlMatchFromDefinition($operandDefinition, $fieldsAvailableInTable, $joinedTableName);
+            $operand = $this->getSqlMatchFromDefinition($operandDefinition, $availableTables);
             
             $this->valuesBind[] = $operand[1];
             $operand = $operand[0];
@@ -111,6 +114,7 @@ class Piwik_SegmentExpression
                 self::INDEX_OPERAND => $operand,
                 );
         }
+        
         $this->tree = $sqlSubExpressions;
     }
     
@@ -122,13 +126,12 @@ class Piwik_SegmentExpression
      * 
      */
     // @todo case insensitive?
-    protected function getSqlMatchFromDefinition($def, $fieldsAvailableInTable, $joinedTableName)
+    protected function getSqlMatchFromDefinition($def, &$availableTables)
     {
-        $field = $def[0];
-        $matchType = $def[1];
+    	$field = $def[0];
+    	$matchType = $def[1];
         $value = $def[2];
         
-        $prefix = !empty($joinedTableName) && in_array($field, $fieldsAvailableInTable) ? $joinedTableName .'.' : '';
         $sqlMatch = '';
         switch($matchType)
         {
@@ -162,7 +165,34 @@ class Piwik_SegmentExpression
         		throw new Exception("Filter contains the match type '".$matchType."' which is not supported");
         		break;
         }
-        return array("$prefix$field $sqlMatch ?", $value); 
+        
+        $sqlExpression = "$field $sqlMatch ?";
+        
+        $this->checkFieldIsAvailable($field, $availableTables);
+        
+        return array($sqlExpression, $value);
+    }
+    
+    /**
+     * Check whether the field is available
+     * If not, add it to the available tables
+     */
+    private function checkFieldIsAvailable($field, &$availableTables)
+    {
+        $fieldParts = explode('.', $field);
+        
+        $table = count($fieldParts) == 2 ? $fieldParts[0] : false;
+        
+        // remove sql functions from field name
+        // example: `HOUR(log_visit.visit_last_action_time)` gets `HOUR(log_visit` => remove `HOUR(` 
+        $table = preg_replace('/^[A-Z]+\(/', '', $table);
+        
+        $tableExists = !$table || in_array($table, $availableTables);
+        
+        if (!$tableExists)
+        {
+        	$availableTables[] = $table;
+        }
     }
     
     private function escapeLikeString($str)
@@ -234,9 +264,9 @@ class Piwik_SegmentExpression
     /**
      * Given the array of parsed boolean logic, will return
      * an array containing the full SQL string representing the filter, 
-     * and the values to bind to it
+     * the neede joins and the values to bind to the query
      * 
-     * @return array SQL Query, and Bind parameters
+     * @return array SQL Query, Joins and Bind parameters
      */
     public function getSql()
     {
@@ -279,8 +309,9 @@ class Piwik_SegmentExpression
             $sql .= ')';
         }
         return array(
-        	'sql' => $sql, 
-        	'bind' => $this->valuesBind
+        	'where' => $sql, 
+        	'bind' => $this->valuesBind,
+        	'join' => implode(' ', $this->joins)
         );
     }
 }

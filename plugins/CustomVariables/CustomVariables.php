@@ -82,14 +82,28 @@ class Piwik_CustomVariables extends Piwik_Plugin
 		        'category' => 'CustomVariables_CustomVariables',
 		        'name' => Piwik_Translate('CustomVariables_ColumnCustomVariableName').' '.$i,
 		        'segment' => 'customVariableName'.$i,
-		        'sqlSegment' => 'custom_var_k'.$i,
+		        'sqlSegment' => 'log_visit.custom_var_k'.$i,
 	        );
 	        $segments[] = array(
 		        'type' => 'dimension',
 		        'category' => 'CustomVariables_CustomVariables',
 		        'name' => Piwik_Translate('CustomVariables_ColumnCustomVariableValue').' '.$i,
 		        'segment' => 'customVariableValue'.$i,
-		        'sqlSegment' => 'custom_var_v'.$i,
+		        'sqlSegment' => 'log_visit.custom_var_v'.$i,
+	        );
+	        $segments[] = array(
+		        'type' => 'dimension',
+		        'category' => 'CustomVariables_CustomVariables',
+		        'name' => Piwik_Translate('CustomVariables_ColumnCustomVariablePageName').' '.$i,
+		        'segment' => 'customVariablePageName'.$i,
+		        'sqlSegment' => 'log_link_visit_action.custom_var_k'.$i,
+	        );
+	        $segments[] = array(
+		        'type' => 'dimension',
+		        'category' => 'CustomVariables_CustomVariables',
+		        'name' => Piwik_Translate('CustomVariables_ColumnCustomVariablePageValue').' '.$i,
+		        'segment' => 'customVariablePageValue'.$i,
+		        'sqlSegment' => 'log_link_visit_action.custom_var_v'.$i,
 	        );
 	    }
 	}

@@ -26,10 +26,10 @@ class Piwik_VisitFrequency_API
 		return self::$instance;
 	}
 	
-	public function get( $idSite, $period, $date, $columns = false )
+	public function get( $idSite, $period, $date, $segment = false, $columns = false )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $period, $date );
+		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
 		
 		$columns = Piwik::getArrayFromApiParameter($columns);
 		$countColumnsRequested = count($columns);
