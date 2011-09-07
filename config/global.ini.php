@@ -333,6 +333,11 @@ ip_address_pre_mask_length = 0
 ; For IPv4 addresses, valid values are 0..4; for IPv6 addresses, valid values are 0..16
 ip_address_mask_length = 1
 
+; When using the Tracking API, to override either the date & time of a request,
+; or to override the visitor IP, it is required to pass in the token_auth with an "admin" access
+; if you set this setting to 0, the token_auth will not be required anymore
+tracking_requests_require_authentication = 1
+
 [Segments]
 ; Reports with segmentation in API requests are processed in real time.
 ; On high traffic websites it is recommended to pre-process the data

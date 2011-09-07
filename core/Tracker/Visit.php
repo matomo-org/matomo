@@ -330,7 +330,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		}
 
 		$datetimeServer = Piwik_Tracker::getDatetimeFromTimestamp($this->getCurrentTimestamp());
-		printDebug("Visit is known. ");
+		printDebug("Visit is known (IP = ".Piwik_IP::N2P($this->getVisitorIp()).")");
 
 		$visitTotalTime = $this->getCurrentTimestamp() - $this->visitorInfo['visit_first_action_time'];
 		$valuesToUpdate['visit_last_action_time'] = $datetimeServer;
