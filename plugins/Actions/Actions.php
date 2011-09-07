@@ -57,12 +57,14 @@ class Piwik_Actions extends Piwik_Plugin
 	{
 		$segments =& $notification->getNotificationObject();
 		$sqlFilter = array($this, 'getIdActionFromString');
-        $segments[] = array(
+        
+		// entry and exit pages of visit
+		$segments[] = array(
 	        'type' => 'dimension',
 	        'category' => 'Actions_Actions',
 	        'name' => 'Actions_ColumnEntryPageURL',
 	        'segment' => 'entryPageUrl',
-	        'sqlSegment' => 'visit_entry_idaction_url',
+	        'sqlSegment' => 'log_visit.visit_entry_idaction_url',
         	'sqlFilter' => $sqlFilter,
         );
         $segments[] = array(
@@ -70,7 +72,7 @@ class Piwik_Actions extends Piwik_Plugin
 	        'category' => 'Actions_Actions',
 	        'name' => 'Actions_ColumnEntryPageTitle',
 	        'segment' => 'entryPageTitle',
-	        'sqlSegment' => 'visit_entry_idaction_name',
+	        'sqlSegment' => 'log_visit.visit_entry_idaction_name',
         	'sqlFilter' => $sqlFilter,
         );
         $segments[] = array(
@@ -78,7 +80,7 @@ class Piwik_Actions extends Piwik_Plugin
 	        'category' => 'Actions_Actions',
 	        'name' => 'Actions_ColumnExitPageURL',
 	        'segment' => 'exitPageUrl',
-	        'sqlSegment' => 'visit_exit_idaction_url',
+	        'sqlSegment' => 'log_visit.visit_exit_idaction_url',
         	'sqlFilter' => $sqlFilter,
         );
         $segments[] = array(
@@ -86,7 +88,25 @@ class Piwik_Actions extends Piwik_Plugin
 	        'category' => 'Actions_Actions',
 	        'name' => 'Actions_ColumnExitPageTitle',
 	        'segment' => 'exitPageTitle',
-	        'sqlSegment' => 'visit_exit_idaction_name',
+	        'sqlSegment' => 'log_visit.visit_exit_idaction_name',
+        	'sqlFilter' => $sqlFilter,
+        );
+        
+        // single pages
+        $segments[] = array(
+	        'type' => 'dimension',
+	        'category' => 'Actions_Actions',
+	        'name' => 'Actions_ColumnPageURL',
+	        'segment' => 'pageUrl',
+	        'sqlSegment' => 'log_link_visit_action.idaction_url',
+        	'sqlFilter' => $sqlFilter,
+        );
+        $segments[] = array(
+	        'type' => 'dimension',
+	        'category' => 'Actions_Actions',
+	        'name' => 'Actions_ColumnPageName',
+	        'segment' => 'pageTitle',
+	        'sqlSegment' => 'log_link_visit_action.idaction_name',
         	'sqlFilter' => $sqlFilter,
         );
 	}
@@ -296,94 +316,107 @@ class Piwik_Actions extends Piwik_Plugin
 										)));
 
 		/*
-		 * Handling a custom segment when processing Page reports
-		 */
-		$segment = $archiveProcessing->getSegment();
-		$segmentSql = $segment->getSql($archiveProcessing->getSegmentsAvailableForActions(), 'log_link_visit_action' );
-		$sqlJoinVisitTable = $segmentSql['sql_join_visits'];
-		$sqlSegmentWhere = '';
-		if(!$segment->isEmpty())
-		{
-			$sqlSegmentWhere = ' AND '.$segmentSql['sql'];
-		}
-		$sqlBind = $segmentSql['bind'];
-
-		/*
 		 * Page URLs and Page names, general stats
 		 */
-		$queryString = "SELECT name,
-							type,
-							idaction,
-							count(distinct log_link_visit_action.idvisit) as `". Piwik_Archive::INDEX_NB_VISITS ."`,
-							count(distinct log_link_visit_action.idvisitor) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`,
-							count(*) as `". Piwik_Archive::INDEX_PAGE_NB_HITS ."`
-					FROM ".Piwik_Common::prefixTable('log_link_visit_action')." as log_link_visit_action
-							LEFT JOIN ".Piwik_Common::prefixTable('log_action')." as log_action 
-							ON (log_link_visit_action.%s = idaction)
-							$sqlJoinVisitTable
-					WHERE server_time >= ?
-						AND server_time <= ?
-						AND log_link_visit_action.idsite = ?
-						AND %s IS NOT NULL
-				 		$sqlSegmentWhere
-					GROUP BY idaction
-					ORDER BY `". Piwik_Archive::INDEX_PAGE_NB_HITS ."` DESC";
-		$this->archiveDayQueryProcess($queryString, "idaction_url", $sqlBind, $archiveProcessing);
-		$this->archiveDayQueryProcess($queryString, "idaction_name", $sqlBind, $archiveProcessing);
-
+		
+		$select = "log_action.name,
+				log_action.type,
+				log_action.idaction,
+				count(distinct log_link_visit_action.idvisit) as `". Piwik_Archive::INDEX_NB_VISITS ."`,
+				count(distinct log_link_visit_action.idvisitor) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`,
+				count(*) as `". Piwik_Archive::INDEX_PAGE_NB_HITS ."`";
+		
+		$from = array(
+			"log_link_visit_action",
+			array(
+				"table" => "log_action",
+				"joinOn" => "log_link_visit_action.%s = log_action.idaction"
+			)
+		);
+		
+		$where = "log_link_visit_action.server_time >= ?
+				AND log_link_visit_action.server_time <= ?
+				AND log_link_visit_action.idsite = ?
+				AND log_link_visit_action.%s IS NOT NULL";
+			
+		$groupBy = "log_action.idaction";
+		$orderBy = "`". Piwik_Archive::INDEX_PAGE_NB_HITS ."` DESC";
+		
+		$this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy,
+				"idaction_url", $archiveProcessing);
+		
+		$this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy,
+				"idaction_name", $archiveProcessing);
 		
 		/*
 		 * Entry actions for Page URLs and Page names
 		 */
-		$sqlSegmentWhereVisit = str_replace("log_link_visit_action.", "log_visit.", $sqlSegmentWhere);
-		$queryString = "SELECT %s as idaction,
-							count(distinct idvisitor) as `". Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS ."`,
-							count(*) as `". Piwik_Archive::INDEX_PAGE_ENTRY_NB_VISITS ."`,
-							sum(visit_total_actions) as `". Piwik_Archive::INDEX_PAGE_ENTRY_NB_ACTIONS ."`,
-							sum(visit_total_time) as `". Piwik_Archive::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH ."`,
-							sum(case visit_total_actions when 1 then 1 else 0 end) as `". Piwik_Archive::INDEX_PAGE_ENTRY_BOUNCE_COUNT ."`
-					FROM ".Piwik_Common::prefixTable('log_visit')." AS log_visit
-					WHERE visit_last_action_time >= ?
-						AND visit_last_action_time <= ?
-						AND idsite = ?
-				 		AND %s > 0
-				 		$sqlSegmentWhereVisit
-					GROUP BY %s, idaction";
-		$this->archiveDayQueryProcess($queryString, "visit_entry_idaction_url", $sqlBind, $archiveProcessing);
-		$this->archiveDayQueryProcess($queryString, "visit_entry_idaction_name", $sqlBind, $archiveProcessing);
+		$select = "log_visit.%s as idaction,
+				count(distinct log_visit.idvisitor) as `". Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS ."`,
+				count(*) as `". Piwik_Archive::INDEX_PAGE_ENTRY_NB_VISITS ."`,
+				sum(log_visit.visit_total_actions) as `". Piwik_Archive::INDEX_PAGE_ENTRY_NB_ACTIONS ."`,
+				sum(log_visit.visit_total_time) as `". Piwik_Archive::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH ."`,
+				sum(case log_visit.visit_total_actions when 1 then 1 else 0 end) as `". Piwik_Archive::INDEX_PAGE_ENTRY_BOUNCE_COUNT ."`";
+		
+		$from = "log_visit";
+		
+		$where = "log_visit.visit_last_action_time >= ?
+				AND log_visit.visit_last_action_time <= ?
+				AND log_visit.idsite = ?
+		 		AND log_visit.%s > 0";
+		
+		$groupBy = "log_visit.%s, idaction";
+		
+		$this->archiveDayQueryProcess($select, $from, $where, $orderBy=false, $groupBy,
+				"visit_entry_idaction_url", $archiveProcessing);
+		
+		$this->archiveDayQueryProcess($select, $from, $where, $orderBy=false, $groupBy,
+				"visit_entry_idaction_name", $archiveProcessing);
 		
 		/*
 		 * Exit actions
 		 */
-		$queryString = "SELECT %s as idaction,
-							count(distinct idvisitor) as `". Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS ."`,
-							count(*) as `". Piwik_Archive::INDEX_PAGE_EXIT_NB_VISITS ."`
-				 	FROM ".Piwik_Common::prefixTable('log_visit')." AS log_visit
-				 	WHERE visit_last_action_time >= ?
-						AND visit_last_action_time <= ?
-				 		AND idsite = ?
-				 		AND %s > 0
-				 		$sqlSegmentWhereVisit
-				 	GROUP BY %s, idaction";
-		$this->archiveDayQueryProcess($queryString, "visit_exit_idaction_url", $sqlBind, $archiveProcessing);
-		$this->archiveDayQueryProcess($queryString, "visit_exit_idaction_name", $sqlBind, $archiveProcessing);
+		$select = "log_visit.%s as idaction,
+				count(distinct log_visit.idvisitor) as `". Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS ."`,
+				count(*) as `". Piwik_Archive::INDEX_PAGE_EXIT_NB_VISITS ."`";
+		
+		$from = "log_visit";
+		
+		$where = "log_visit.visit_last_action_time >= ?
+				AND log_visit.visit_last_action_time <= ?
+		 		AND log_visit.idsite = ?
+		 		AND log_visit.%s > 0";
+		
+		$groupBy = "log_visit.%s, idaction";
+		
+		$this->archiveDayQueryProcess($select, $from, $where, $orderBy=false, $groupBy,
+				"visit_exit_idaction_url", $archiveProcessing);
+		
+		$this->archiveDayQueryProcess($select, $from, $where, $orderBy=false, $groupBy,
+				"visit_exit_idaction_name", $archiveProcessing);
+		
 		
 		/*
 		 * Time per action
 		 */
-		$queryString = "SELECT %s as idaction,
-							sum(time_spent_ref_action) as `".Piwik_Archive::INDEX_PAGE_SUM_TIME_SPENT."`
-					FROM ".Piwik_Common::prefixTable('log_link_visit_action')." AS log_link_visit_action
-							$sqlJoinVisitTable
-					WHERE server_time >= ?
-						AND server_time <= ?
-				 		AND log_link_visit_action.idsite = ?
-				 		AND time_spent_ref_action > 0
-				 		AND %s > 0
-				 		$sqlSegmentWhere
-				 	GROUP BY %s, idaction";
-		$this->archiveDayQueryProcess($queryString, "idaction_url_ref", $sqlBind, $archiveProcessing);
-		$this->archiveDayQueryProcess($queryString, "idaction_name_ref", $sqlBind, $archiveProcessing);
+		$select = "log_link_visit_action.%s as idaction,
+				sum(log_link_visit_action.time_spent_ref_action) as `".Piwik_Archive::INDEX_PAGE_SUM_TIME_SPENT."`";
+		
+		$from = "log_link_visit_action";
+		
+		$where = "log_link_visit_action.server_time >= ?
+				AND log_link_visit_action.server_time <= ?
+		 		AND log_link_visit_action.idsite = ?
+		 		AND log_link_visit_action.time_spent_ref_action > 0
+		 		AND log_link_visit_action.%s > 0";
+		
+		$groupBy = "log_link_visit_action.%s, idaction";
+		
+		$this->archiveDayQueryProcess($select, $from, $where, $orderBy=false, $groupBy,
+				"idaction_url_ref", $archiveProcessing);
+		
+		$this->archiveDayQueryProcess($select, $from, $where, $orderBy=false, $groupBy,
+				"idaction_name_ref", $archiveProcessing);
 
 		// Empty static cache
 		self::$cacheParsedAction = array();
@@ -391,15 +424,34 @@ class Piwik_Actions extends Piwik_Plugin
 		// Record the final datasets
 		$this->archiveDayRecordInDatabase($archiveProcessing);
 	}
-
-	protected function archiveDayQueryProcess($queryString, $sprintfParameter, $bind, $archiveProcessing)
+	
+	protected function archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy,
+			$sprintfField, $archiveProcessing)
 	{
-		$queryString = str_replace("%s", $sprintfParameter, $queryString);
-		$bind = array_merge(array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ), $bind);
-		$resultSet = $archiveProcessing->db->query($queryString, $bind);
-		$modified = $this->updateActionsTableWithRowQuery($resultSet, $sprintfParameter);
+		// idaction field needs to be set in select clause before calling getSelectQuery().
+		// if a complex segmentation join is needed, the field needs to be propagated
+		// to the outer select. therefore, $segment needs to know about it. 
+		$select = sprintf($select, $sprintfField);
+		
+		// get query with segmentation
+		$bind = array();
+		$orderBy = false;
+		$query = $archiveProcessing->getSegment()->getSelectQuery(
+					$select, $from, $where, $bind, $orderBy, $groupBy);
+		
+		// replace the rest of the %s
+		$querySql = str_replace("%s", $sprintfField, $query['sql']);
+		
+		// extend bindings
+		$bind = array_merge(array($archiveProcessing->getStartDatetimeUTC(),
+					$archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite), $query['bind']);
+		
+		// get result
+		$resultSet = $archiveProcessing->db->query($querySql, $bind);
+		$modified = $this->updateActionsTableWithRowQuery($resultSet, $sprintfField);
 		return $modified;
 	}
+	
 	protected function archiveDayRecordInDatabase($archiveProcessing)
 	{
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_ACTION_URL]);

@@ -70,6 +70,13 @@ class Piwik_Archive_Single extends Piwik_Archive
 	protected $idArchive = null;
 	
 	/**
+	 * name of requested report
+	 *
+	 * @var string
+	 */
+	protected $requestedReport = null;
+	
+	/**
 	 * Flag set to true once the archive has been checked (when we make sure it is archived)
 	 *
 	 * @var bool

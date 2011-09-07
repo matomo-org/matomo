@@ -64,27 +64,24 @@ class Piwik_Live_API
 		Piwik::checkUserHasViewAccess($idSite);
 		$lastMinutes = (int)$lastMinutes;
 		
-		$segment = new Piwik_Segment($segment, $idSite);
-		$segmentSql = $segment->getSql();
-		$sqlSegment = $segmentSql['sql'];
-		if(!empty($sqlSegment)) $sqlSegment = ' AND '.$sqlSegment;
+		$select = "count(*) as visits,
+				SUM(log_visit.visit_total_actions) as actions,
+				SUM(log_visit.visit_goal_converted) as visitsConverted";
 		
-		$sql = "SELECT 
-				count(*) as visits,
-				SUM(visit_total_actions) as actions,
-				SUM(visit_goal_converted) as visitsConverted
-		FROM ". Piwik_Common::prefixTable('log_visit') ."  AS log_visit
-		WHERE idsite = ?
-			AND visit_last_action_time >= ?
-			$sqlSegment
-		";
-		$whereBind = array(
+		$from = "log_visit";
+		
+		$where = "log_visit.idsite = ?
+				AND log_visit.visit_last_action_time >= ?";
+		
+		$bind = array(
 			$idSite,
 			Piwik_Date::factory(time() - $lastMinutes * 60)->toString('Y-m-d H:i:s')
 		);
-		$whereBind = array_merge ( $whereBind, $segmentSql['bind'] );
 		
-		$data = Piwik_FetchAll($sql, $whereBind);
+		$segment = new Piwik_Segment($segment, $idSite);
+		$query = $segment->getSelectQuery($select, $from, $where, $bind);
+		
+		$data = Piwik_FetchAll($query['sql'], $query['bind']);
 		
 		// These could be unset for some reasons, ensure they are set to 0
 		empty($data[0]['actions']) ? $data[0]['actions'] = 0 : '';
@@ -447,37 +444,36 @@ class Piwik_Live_API
 			}
 		}
 
-		$sqlWhere = "";
 		if(count($where) > 0)
 		{
-			$sqlWhere = "
-			WHERE " . join(" 
+			$where = join(" 
 				AND ", $where);
+		}
+		else
+		{
+			$where = false;
 		}
 
 		$segment = new Piwik_Segment($segment, $idSite);
-		$segmentSql = $segment->getSql();
-		$sqlSegment = $segmentSql['sql'];
-		if(!empty($sqlSegment)) $sqlSegment = ' AND '.$sqlSegment;
-		$whereBind = array_merge ( $whereBind, $segmentSql['bind'] );
 		
 		// Subquery to use the indexes for ORDER BY
+		$select = "log_visit.*";
+		$from = "log_visit";
+		$subQuery = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy);
+		
 		// Group by idvisit so that a visitor converting 2 goals only appears twice
 		$sql = "
-				SELECT sub.* 
-				FROM ( 
-					SELECT 	*
-					FROM " . Piwik_Common::prefixTable('log_visit') . " AS log_visit
-					$sqlWhere
-					$sqlSegment
-					ORDER BY $orderBy
-					LIMIT ".(int)$filter_limit."
-				) AS sub
-				GROUP BY sub.idvisit
-				ORDER BY $orderByParent
-			"; 
+			SELECT sub.* 
+			FROM ( 
+				".$subQuery['sql']."	
+				LIMIT ".(int)$filter_limit."
+			) AS sub
+			GROUP BY sub.idvisit
+			ORDER BY $orderByParent
+		"; 
+		
 		try {
-			$data = Piwik_FetchAll($sql, $whereBind);
+			$data = Piwik_FetchAll($sql, $subQuery['bind']);
 		} catch(Exception $e) {
 			echo $e->getMessage();exit;
 		}

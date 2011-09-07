@@ -95,7 +95,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 		        'category' => 'Visit',
 		        'name' => Piwik_Translate('VisitTime_ColumnServerTime'),
 		        'segment' => 'visitServerHour',
-		        'sqlSegment' => 'HOUR(visit_last_action_time)',
+		        'sqlSegment' => 'HOUR(log_visit.visit_last_action_time)',
 				'acceptedValues' => $acceptedValues
        );
        $segments[] = array(
@@ -103,7 +103,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 		        'category' => 'Visit',
 		        'name' => Piwik_Translate('VisitTime_ColumnLocalTime'),
 		        'segment' => 'visitLocalHour',
-		        'sqlSegment' => 'HOUR(visitor_localtime)',
+		        'sqlSegment' => 'HOUR(log_visit.visitor_localtime)',
        			'acceptedValues' => $acceptedValues
        );
 	}
@@ -134,10 +134,10 @@ class Piwik_VisitTime extends Piwik_Plugin
 	
 	protected function archiveDayAggregateVisits($archiveProcessing)
 	{
-		$labelSQL = "HOUR(visitor_localtime)";
+		$labelSQL = "HOUR(log_visit.visitor_localtime)";
 		$this->interestByLocalTime = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		
-		$labelSQL = "HOUR(visit_last_action_time)";
+		$labelSQL = "HOUR(log_visit.visit_last_action_time)";
 		$this->interestByServerTime = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		$this->interestByServerTime = $this->convertServerTimeToLocalTimezone($this->interestByServerTime, $archiveProcessing);
 	}

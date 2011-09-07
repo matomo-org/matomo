@@ -318,24 +318,17 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 */
 	protected function computeNbUniqVisitors()
 	{
-		// Handling Custom Segment
-		$segmentSql = $this->getSegment()->getSql();
-		$sqlSegmentBind = $segmentSql['bind'];
-		$sqlSegment = $segmentSql['sql'];
-		if(!empty($sqlSegment)) $sqlSegment = ' AND '.$sqlSegment;
+		$select = "count(distinct log_visit.idvisitor) as nb_uniq_visitors";
+		$from = "log_visit";
+		$where = "log_visit.visit_last_action_time >= ?
+	    		AND log_visit.visit_last_action_time <= ? 
+	    		AND log_visit.idsite = ?";
 		
-		$query = "
-			SELECT count(distinct idvisitor) as nb_uniq_visitors 
-			FROM ".Piwik_Common::prefixTable('log_visit')." AS log_visit
-			WHERE visit_last_action_time >= ?
-    				AND visit_last_action_time <= ? 
-    				AND idsite = ?
-    				$sqlSegment
-    				";
-
-    	$bind = array_merge(array( $this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite ),
-    						$sqlSegmentBind);
-		return Zend_Registry::get('db')->fetchOne($query, $bind);
+    	$bind = array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite);
+    	
+    	$query = $this->getSegment()->getSelectQuery($select, $from, $where, $bind);
+    	
+		return Zend_Registry::get('db')->fetchOne($query['sql'], $query['bind']);
 	}
 	
 	/**

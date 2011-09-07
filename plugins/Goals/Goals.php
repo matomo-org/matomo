@@ -37,6 +37,7 @@ class Piwik_Goals extends Piwik_Plugin
 			'ArchiveProcessing_Day.compute' => 'archiveDay',
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'API.getReportMetadata.end' => 'getReportMetadata',
+			'API.getSegmentsMetadata' => 'getSegmentsMetadata',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenus',
 			'SitesManager.deleteSite' => 'deleteSiteGoals',
@@ -199,6 +200,18 @@ class Piwik_Goals extends Piwik_Plugin
 			}
 		}
 		
+	}
+	
+	public function getSegmentsMetadata($notification)
+	{
+		$segments =& $notification->getNotificationObject();
+		$segments[] = array(
+	        'type' => 'dimension',
+	        'category' => 'Goals_Goals',
+	        'name' => 'Goals_GoalConversion',
+	        'segment' => 'goalConversion',
+	        'sqlSegment' => 'log_conversion.idgoal'
+        );
 	}
 	
 	protected $ecommerceReports = array(

@@ -165,62 +165,128 @@
 	</row>
 	<row>
 		<type>dimension</type>
+		<category>Goals</category>
+		<name>Goal conversion</name>
+		<segment>goalConversion</segment>
+	</row>
+	<row>
+		<type>dimension</type>
 		<category>Custom Variables</category>
-		<name>Custom Variable name 1</name>
+		<name>Custom Variable name (scope page) 1</name>
+		<segment>customVariablePageName1</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable name (scope page) 2</name>
+		<segment>customVariablePageName2</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable name (scope page) 3</name>
+		<segment>customVariablePageName3</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable name (scope page) 4</name>
+		<segment>customVariablePageName4</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable name (scope page) 5</name>
+		<segment>customVariablePageName5</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable name (scope visit) 1</name>
 		<segment>customVariableName1</segment>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
-		<name>Custom Variable name 2</name>
+		<name>Custom Variable name (scope visit) 2</name>
 		<segment>customVariableName2</segment>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
-		<name>Custom Variable name 3</name>
+		<name>Custom Variable name (scope visit) 3</name>
 		<segment>customVariableName3</segment>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
-		<name>Custom Variable name 4</name>
+		<name>Custom Variable name (scope visit) 4</name>
 		<segment>customVariableName4</segment>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
-		<name>Custom Variable name 5</name>
+		<name>Custom Variable name (scope visit) 5</name>
 		<segment>customVariableName5</segment>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
-		<name>Custom Variable value 1</name>
+		<name>Custom Variable value (scope page) 1</name>
+		<segment>customVariablePageValue1</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable value (scope page) 2</name>
+		<segment>customVariablePageValue2</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable value (scope page) 3</name>
+		<segment>customVariablePageValue3</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable value (scope page) 4</name>
+		<segment>customVariablePageValue4</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable value (scope page) 5</name>
+		<segment>customVariablePageValue5</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable value (scope visit) 1</name>
 		<segment>customVariableValue1</segment>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
-		<name>Custom Variable value 2</name>
+		<name>Custom Variable value (scope visit) 2</name>
 		<segment>customVariableValue2</segment>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
-		<name>Custom Variable value 3</name>
+		<name>Custom Variable value (scope visit) 3</name>
 		<segment>customVariableValue3</segment>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
-		<name>Custom Variable value 4</name>
+		<name>Custom Variable value (scope visit) 4</name>
 		<segment>customVariableValue4</segment>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
-		<name>Custom Variable value 5</name>
+		<name>Custom Variable value (scope visit) 5</name>
 		<segment>customVariableValue5</segment>
 	</row>
 	<row>
@@ -246,5 +312,17 @@
 		<category>Actions</category>
 		<name>Exit Page URL</name>
 		<segment>exitPageUrl</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Page Name</name>
+		<segment>pageTitle</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Page URL</name>
+		<segment>pageUrl</segment>
 	</row>
 </result>

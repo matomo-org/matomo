@@ -66,7 +66,7 @@ class Piwik_Provider extends Piwik_Plugin
 		        'name' => Piwik_Translate('Provider_ColumnProvider'),
 		        'segment' => 'provider',
 				'acceptedValues' => 'comcast.net, proxad.net, etc.',
-		        'sqlSegment' => 'location_provider'
+		        'sqlSegment' => 'log_visit.location_provider'
        );
 	}
 	
@@ -133,7 +133,7 @@ class Piwik_Provider extends Piwik_Plugin
 		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 		
 		$recordName = 'Provider_hostnameExt';
-		$labelSQL = "location_provider";
+		$labelSQL = "log_visit.location_provider";
 		$interestByProvider = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		$tableProvider = $archiveProcessing->getDataTableFromArray($interestByProvider);
 		$columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;

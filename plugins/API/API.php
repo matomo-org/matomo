@@ -149,7 +149,7 @@ class Piwik_API_API
 		        'name' => 'General_VisitorIP',
 		        'segment' => 'visitIp',
 				'acceptedValues' => '13.54.122.1, etc.',
-		        'sqlSegment' => 'location_ip',
+		        'sqlSegment' => 'log_visit.location_ip',
 		        'sqlFilter' => array('Piwik_IP', 'P2N'),
 		        'permission' => Piwik::isUserHasAdminAccess($idSites),
 	    );
@@ -159,7 +159,7 @@ class Piwik_API_API
 		        'name' => 'General_VisitorID',
 		        'segment' => 'visitorId',
 				'acceptedValues' => '34c31e04394bdc63 - any 16 chars ID requested via the Tracking API function getVisitorId()',
-		        'sqlSegment' => 'idvisitor',
+		        'sqlSegment' => 'log_visit.idvisitor',
 		        'sqlFilter' => array('Piwik_Common', 'convertVisitorIdToBin'),
 	    );
 		$segments[] = array(
@@ -167,14 +167,14 @@ class Piwik_API_API
 		        'category' => 'Visit',
 		        'name' => 'General_NbActions',
 		        'segment' => 'actions',
-		        'sqlSegment' => 'visit_total_actions',
+		        'sqlSegment' => 'log_visit.visit_total_actions',
 	    );
 		$segments[] = array(
 		        'type' => 'metric',
 		        'category' => 'Visit',
 		        'name' => 'General_ColumnVisitDuration',
 		        'segment' => 'visitDuration',
-		        'sqlSegment' => 'visit_total_time',
+		        'sqlSegment' => 'log_visit.visit_total_time',
 	    );
 		$segments[] = array(
 		        'type' => 'dimension',
@@ -182,7 +182,7 @@ class Piwik_API_API
 		        'name' => Piwik_Translate('General_VisitType') . ". ".Piwik_Translate('General_VisitTypeExample', '"&segment=visitorType==returning,visitorType==returningCustomer"'),
 		        'segment' => 'visitorType',
 		        'acceptedValues' => 'new, returning, returningCustomer',
-		        'sqlSegment' => 'visitor_returning',
+		        'sqlSegment' => 'log_visit.visitor_returning',
 		        'sqlFilter' => create_function('$type', 'return $type == "new" ? 0 : ($type == "returning" ? 1 : 2);'),
 	    );
 		$segments[] = array(
@@ -190,21 +190,21 @@ class Piwik_API_API
 		        'category' => 'Visit',
 		        'name' => 'General_DaysSinceLastVisit',
 		        'segment' => 'daysSinceLastVisit',
-		        'sqlSegment' => 'visitor_days_since_last',
+		        'sqlSegment' => 'log_visit.visitor_days_since_last',
 	    );
 		$segments[] = array(
 		        'type' => 'metric',
 		        'category' => 'Visit',
 		        'name' => 'General_DaysSinceFirstVisit',
 		        'segment' => 'daysSinceFirstVisit',
-		        'sqlSegment' => 'visitor_days_since_first',
+		        'sqlSegment' => 'log_visit.visitor_days_since_first',
 	    );
 		$segments[] = array(
 		        'type' => 'metric',
 		        'category' => 'Visit',
 		        'name' => 'General_NumberOfVisits',
 		        'segment' => 'visitCount',
-		        'sqlSegment' => 'visitor_count_visits',
+		        'sqlSegment' => 'log_visit.visitor_count_visits',
 	    );
 	    
 		$segments[] = array(
@@ -213,7 +213,7 @@ class Piwik_API_API
 		        'name' => 'General_VisitConvertedGoal',
 		        'segment' => 'visitConverted',
 				'acceptedValues' => '0, 1',
-		        'sqlSegment' => 'visit_goal_converted',
+		        'sqlSegment' => 'log_visit.visit_goal_converted',
 	    );
 	    
 		$segments[] = array(
@@ -222,7 +222,7 @@ class Piwik_API_API
 		        'name' => Piwik_Translate('General_EcommerceVisitStatus', '"&segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart"'),
 		        'segment' => 'visitEcommerceStatus',
 				'acceptedValues' => implode(", ", self::$visitEcommerceStatus),
-		        'sqlSegment' => 'visit_goal_buyer',
+		        'sqlSegment' => 'log_visit.visit_goal_buyer',
 		        'sqlFilter' => array('Piwik_API_API', 'getVisitEcommerceStatus'),
 	    );
 	    
@@ -231,7 +231,7 @@ class Piwik_API_API
 		        'category' => 'Visit',
 		        'name' => 'General_DaysSinceLastEcommerceOrder',
 		        'segment' => 'daysSinceLastEcommerceOrder',
-		        'sqlSegment' => 'visitor_days_since_order',
+		        'sqlSegment' => 'log_visit.visitor_days_since_order',
 	    );
 	    
 		foreach ($segments as &$segment)
