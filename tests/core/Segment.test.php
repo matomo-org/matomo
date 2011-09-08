@@ -58,7 +58,7 @@ class Test_Piwik_Segment extends UnitTestCase
 			SELECT
 				log_visit.idvisit
 			FROM
-				piwiktests_log_visit AS log_visit
+				'.Piwik_Common::prefixTable('log_visit').' AS log_visit
 			WHERE
 				'.$expected['where'],
         		'bind' => $expected['bind']
@@ -93,7 +93,7 @@ class Test_Piwik_Segment extends UnitTestCase
 			SELECT
 				*
 			FROM
-				piwiktests_log_visit AS log_visit
+				".Piwik_Common::prefixTable('log_visit')." AS log_visit
 			WHERE
 				( idsite = ? )
 				AND
@@ -120,8 +120,8 @@ class Test_Piwik_Segment extends UnitTestCase
 			SELECT
 				*
 			FROM
-				piwiktests_log_link_visit_action AS log_link_visit_action
-				LEFT JOIN piwiktests_log_visit AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit
+				".Piwik_Common::prefixTable('log_link_visit_action')." AS log_link_visit_action
+				LEFT JOIN ".Piwik_Common::prefixTable('log_visit')." AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit
 			WHERE
 				( log_link_visit_action.idvisit = ? )
 				AND
@@ -153,8 +153,8 @@ class Test_Piwik_Segment extends UnitTestCase
 				log_visit.visit_total_actions,
 				log_visit.visit_total_time
 			FROM
-				piwiktests_log_visit AS log_visit
-				LEFT JOIN piwiktests_log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+				".Piwik_Common::prefixTable('log_visit')." AS log_visit
+				LEFT JOIN ".Piwik_Common::prefixTable('log_link_visit_action')." AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
 			WHERE
 				( log_visit.idvisit = ? )
 				AND
@@ -183,8 +183,8 @@ class Test_Piwik_Segment extends UnitTestCase
 			SELECT
 				*
 			FROM
-				piwiktests_log_link_visit_action AS log_link_visit_action
-				LEFT JOIN piwiktests_log_conversion AS log_conversion ON log_conversion.idlink_va = log_link_visit_action.idlink_va AND log_conversion.idsite = log_link_visit_action.idsite
+				".Piwik_Common::prefixTable('log_link_visit_action')." AS log_link_visit_action
+				LEFT JOIN ".Piwik_Common::prefixTable('log_conversion')." AS log_conversion ON log_conversion.idlink_va = log_link_visit_action.idlink_va AND log_conversion.idsite = log_link_visit_action.idsite
 			WHERE
 				( log_link_visit_action.idvisit = ? )
 				AND
@@ -211,8 +211,8 @@ class Test_Piwik_Segment extends UnitTestCase
 			SELECT
 				*
 			FROM
-				piwiktests_log_conversion AS log_conversion
-				LEFT JOIN piwiktests_log_link_visit_action AS log_link_visit_action ON log_conversion.idlink_va = log_link_visit_action.idlink_va
+				".Piwik_Common::prefixTable('log_conversion')." AS log_conversion
+				LEFT JOIN ".Piwik_Common::prefixTable('log_link_visit_action')." AS log_link_visit_action ON log_conversion.idlink_va = log_link_visit_action.idlink_va
 			WHERE
 				( log_conversion.idvisit = ? )
 				AND
@@ -243,8 +243,8 @@ class Test_Piwik_Segment extends UnitTestCase
 			SELECT
 				log_visit.*
 			FROM
-				piwiktests_log_visit AS log_visit
-				LEFT JOIN piwiktests_log_conversion AS log_conversion ON log_conversion.idvisit = log_visit.idvisit
+				".Piwik_Common::prefixTable('log_visit')." AS log_visit
+				LEFT JOIN ".Piwik_Common::prefixTable('log_conversion')." AS log_conversion ON log_conversion.idvisit = log_visit.idvisit
 			WHERE
 				( log_visit.idvisit = ? )
 				AND
@@ -273,8 +273,8 @@ class Test_Piwik_Segment extends UnitTestCase
 			SELECT
 				*
 			FROM
-				piwiktests_log_conversion AS log_conversion
-				LEFT JOIN piwiktests_log_visit AS log_visit ON log_conversion.idvisit = log_visit.idvisit
+				".Piwik_Common::prefixTable('log_conversion')." AS log_conversion
+				LEFT JOIN ".Piwik_Common::prefixTable('log_visit')." AS log_visit ON log_conversion.idvisit = log_visit.idvisit
 			WHERE
 				( log_conversion.idvisit = ? )
 				AND
@@ -303,9 +303,9 @@ class Test_Piwik_Segment extends UnitTestCase
 			SELECT
 				*
 			FROM
-				piwiktests_log_link_visit_action AS log_link_visit_action
-				LEFT JOIN piwiktests_log_visit AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit
-				LEFT JOIN piwiktests_log_conversion AS log_conversion ON log_conversion.idlink_va = log_link_visit_action.idlink_va AND log_conversion.idsite = log_link_visit_action.idsite
+				".Piwik_Common::prefixTable('log_link_visit_action')." AS log_link_visit_action
+				LEFT JOIN ".Piwik_Common::prefixTable('log_visit')." AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit
+				LEFT JOIN ".Piwik_Common::prefixTable('log_conversion')." AS log_conversion ON log_conversion.idlink_va = log_link_visit_action.idlink_va AND log_conversion.idsite = log_link_visit_action.idsite
 			WHERE
 				 HOUR(log_visit.visit_last_action_time) = ? AND log_conversion.idgoal = ? ",
     		"bind" => array(12, 1));
@@ -336,9 +336,9 @@ class Test_Piwik_Segment extends UnitTestCase
 			SELECT
 				log_visit.*
 			FROM
-				piwiktests_log_visit AS log_visit
-				LEFT JOIN piwiktests_log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-				LEFT JOIN piwiktests_log_conversion AS log_conversion ON log_conversion.idlink_va = log_link_visit_action.idlink_va AND log_conversion.idsite = log_link_visit_action.idsite
+				".Piwik_Common::prefixTable('log_visit')." AS log_visit
+				LEFT JOIN ".Piwik_Common::prefixTable('log_link_visit_action')." AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+				LEFT JOIN ".Piwik_Common::prefixTable('log_conversion')." AS log_conversion ON log_conversion.idlink_va = log_link_visit_action.idlink_va AND log_conversion.idsite = log_link_visit_action.idsite
 			WHERE
 				 log_conversion.idgoal = ? AND HOUR(log_visit.visit_last_action_time) = ? AND log_link_visit_action.custom_var_k1 = ? 
 			GROUP BY log_visit.idvisit
