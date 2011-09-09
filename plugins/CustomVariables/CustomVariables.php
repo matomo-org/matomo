@@ -80,28 +80,32 @@ class Piwik_CustomVariables extends Piwik_Plugin
 	        $segments[] = array(
 		        'type' => 'dimension',
 		        'category' => 'CustomVariables_CustomVariables',
-		        'name' => Piwik_Translate('CustomVariables_ColumnCustomVariableName').' '.$i,
+		        'name' => Piwik_Translate('CustomVariables_ColumnCustomVariableName').' '.$i
+	        				.' ('.Piwik_Translate('CustomVariables_ScopeVisit').')',
 		        'segment' => 'customVariableName'.$i,
 		        'sqlSegment' => 'log_visit.custom_var_k'.$i,
 	        );
 	        $segments[] = array(
 		        'type' => 'dimension',
 		        'category' => 'CustomVariables_CustomVariables',
-		        'name' => Piwik_Translate('CustomVariables_ColumnCustomVariableValue').' '.$i,
+		        'name' => Piwik_Translate('CustomVariables_ColumnCustomVariableValue').' '.$i
+	        				.' ('.Piwik_Translate('CustomVariables_ScopeVisit').')',
 		        'segment' => 'customVariableValue'.$i,
 		        'sqlSegment' => 'log_visit.custom_var_v'.$i,
 	        );
 	        $segments[] = array(
 		        'type' => 'dimension',
 		        'category' => 'CustomVariables_CustomVariables',
-		        'name' => Piwik_Translate('CustomVariables_ColumnCustomVariablePageName').' '.$i,
+		        'name' => Piwik_Translate('CustomVariables_ColumnCustomVariableName').' '.$i
+	        				.' ('.Piwik_Translate('CustomVariables_ScopePage').')',
 		        'segment' => 'customVariablePageName'.$i,
 		        'sqlSegment' => 'log_link_visit_action.custom_var_k'.$i,
 	        );
 	        $segments[] = array(
 		        'type' => 'dimension',
 		        'category' => 'CustomVariables_CustomVariables',
-		        'name' => Piwik_Translate('CustomVariables_ColumnCustomVariablePageValue').' '.$i,
+		        'name' => Piwik_Translate('CustomVariables_ColumnCustomVariableValue').' '.$i
+	        				.' ('.Piwik_Translate('CustomVariables_ScopePage').')',
 		        'segment' => 'customVariablePageValue'.$i,
 		        'sqlSegment' => 'log_link_visit_action.custom_var_v'.$i,
 	        );
