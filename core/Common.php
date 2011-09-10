@@ -1385,8 +1385,11 @@ class Piwik_Common
 		if($searchEngineName === 'Google Images'
 			|| ($searchEngineName === 'Google' && strpos($referrerUrl, '/imgres') !== false) )
 		{
-			$query = urldecode(trim(self::getParameterFromQueryString($query, 'prev')));
-			$query = str_replace('&', '&amp;', strstr($query, '?'));
+			if (strpos($query, '&prev') !== false)
+			{
+				$query = urldecode(trim(self::getParameterFromQueryString($query, 'prev')));
+				$query = str_replace('&', '&amp;', strstr($query, '?'));
+			}
 			$searchEngineName = 'Google Images';
 		}
 		else if($searchEngineName === 'Google' && (strpos($query, '&as_') !== false || strpos($query, 'as_') === 0))
@@ -1413,6 +1416,21 @@ class Piwik_Common
 				array_push($keys, "-$key");
 			}
 			$key = trim(urldecode(implode(' ', $keys)));
+		}
+
+		if ($searchEngineName === 'Google')
+		{
+			// top bar menu
+			$tbm = self::getParameterFromQueryString($query, 'tbm');
+			switch ($tbm)
+			{
+				case 'isch':
+					$searchEngineName = 'Google Images'; break;
+				case 'vid':
+					$searchEngineName = 'Google Video'; break;
+				case 'shop':
+					$searchEngineName = 'Google Shopping'; break;
+			}
 		}
 
 		if(empty($key))

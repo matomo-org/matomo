@@ -433,7 +433,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'google.com/custom'			=> array('Google Custom Search'),
 		'google.{}/custom'			=> array('Google Custom Search'),
 
-		// Google translation
+		// Google Translation
 		'translate.google.com'		=> array('Google Translations', 'q'),
 
 		// Google Images
@@ -444,12 +444,15 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'news.google.com'			=> array('Google News', 'q'),
 		'news.google.{}'			=> array('Google News'),
 
-		// Google product search
-		'froogle.google.com'		=> array('Google Product search', 'q'),
-		'froogle.google.{}'			=> array('Google Product search'),
+		// Google Shopping
+		'google.com/products'		=> array('Google Shopping', 'q', '?q={k}&tbm=shop'),
+		'google.{}/products'		=> array('Google Shopping'),
 
 		// Google syndicated search
 		'googlesyndicatedsearch.com'=> array('Google syndicated search', 'q'),
+
+		// Google Video
+		'video.google.com'			=> array('Google Video', 'q', 'search?q={k}&tbm=vid'),
 
 		// Google Wireless Transcoder
 		// - does not appear to execute JavaScript
