@@ -27,6 +27,7 @@ Piwik.addPlugin('testPlugin', {
 				'_setCookie : setCookie,' +
 				'_encode : encodeWrapper,' +
 				'_decode : decodeWrapper,' +
+				'_urldecode : urldecode,' +
 				'_getLinkType : getLinkType,' +
 				'_beforeUnloadHandler : beforeUnloadHandler,' +
 				'_getProtocolScheme : getProtocolScheme,' +

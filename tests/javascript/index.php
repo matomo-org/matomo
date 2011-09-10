@@ -400,16 +400,18 @@ function PiwikTest() {
 		ok( tracker.hook.test._isString(new String), 'isString(String)' ); // String is a string
 	});
 
-	test("Tracker encode and decode wrappers", function() {
-		expect(4);
+	test("Tracker encode, decode, urldecode wrappers", function() {
+		expect(6);
 
 		var tracker = Piwik.getTracker();
 
 		equal( typeof tracker.hook.test._encode, 'function', 'encodeWrapper' );
 		equal( typeof tracker.hook.test._decode, 'function', 'decodeWrapper' );
+		equal( typeof tracker.hook.test._urldecode, 'function', 'urldecodeWrapper' );
 
 		equal( tracker.hook.test._encode("&=?;/#"), '%26%3D%3F%3B%2F%23', 'encodeWrapper()' );
 		equal( tracker.hook.test._decode("%26%3D%3F%3B%2F%23"), '&=?;/#', 'decodeWrapper()' );
+		equal( tracker.hook.test._urldecode("mailto:%69%6e%66%6f@%65%78%61%6d%70%6c%65.%63%6f%6d"), 'mailto:info@example.com', 'decodeWrapper()' );
 	});
 
 	test("Tracker getHostName(), getParameter(), urlFixup(), domainFixup(), and purify()", function() {

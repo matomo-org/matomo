@@ -441,6 +441,9 @@ var
 			/* decode */
 			decodeWrapper = windowAlias.decodeURIComponent,
 
+			/* urldecode */
+			urldecode = unescape,
+
 			/* asynchronous tracker */
 			asyncTracker,
 
@@ -649,7 +652,7 @@ var
 			}
 
 			// urldecode %xx
-			referrer = unescape(referrer);
+			referrer = urldecode(referrer);
 
 			return referrer;
 		}
@@ -722,7 +725,7 @@ var
 		 * UTF-8 encoding
 		 */
 		function utf8_encode(argString) {
-			return unescape(encodeWrapper(argString));
+			return urldecode(encodeWrapper(argString));
 		}
 
 		/************************************************************
@@ -1747,6 +1750,8 @@ var
 						// track outlinks and all downloads
 						linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostName(sourceHostName));
 						if (linkType) {
+							// urldecode %xx
+							sourceHref = urldecode(sourceHref);
 							logLink(sourceHref, linkType);
 						}
 					}
