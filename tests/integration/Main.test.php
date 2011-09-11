@@ -31,14 +31,14 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		return PIWIK_INCLUDE_PATH . '/tests/integration';
 	}
 	
-	function test_ecommerceOrderWithItems()
+	function __test_ecommerceOrderWithItems()
 	{
 		$this->setApiNotToCall(array());
 		$dateTime = '2011-04-05 00:11:42';
 		$idSite = $this->createWebsite($dateTime, $ecommerce=1);
 		$idSite2 = $this->createWebsite($dateTime);
 		
-		$idGoal = Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js ONCE', 'title', 'incredible', 'contains', $caseSensitive=false, $revenue=10, $allowMultipleConversions = true);
+		$idGoal = Piwik_Goals_API::getInstance()->addGoal($idSite, 'title match, triggered ONCE', 'title', 'incredible', 'contains', $caseSensitive=false, $revenue=10, $allowMultipleConversions = true);
         $idGoalStandard = $idGoal;
         $t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
     	// VISIT NO 1
@@ -159,7 +159,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		// This hack allows the API proxy to let us generate example URLs for the ignored functions
 		Piwik_API_Proxy::getInstance()->hideIgnoredFunctions = false;
         
-		$this->setApiToCall( array('VisitTime', 'CustomVariables.getCustomVariables', 'Live.getLastVisitsDetails', 'UserCountry', 'API.getProcessedReport', 'Goals.get', 'Goals.getConversions', 'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory'	) );
+		$this->setApiToCall( array('VisitsSummary.get', 'VisitTime', 'CustomVariables.getCustomVariables', 'Live.getLastVisitsDetails', 'UserCountry', 'API.getProcessedReport', 'Goals.get', 'Goals.getConversions', 'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory'	) );
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime, $periods = array('day'));
 		$this->setApiToCall( array('Goals.get', 'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory'	) );
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime, $periods = array('week'));
@@ -220,6 +220,12 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $segment = 'visitEcommerceStatus==abandonedCart,visitEcommerceStatus==orderedThenAbandonedCart';
         $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentAbandonedCart', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment);
         
+        // Test segment visitConvertedGoalId
+        $segment = 'visitConvertedGoalId=='.$idGoalStandard;
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentConvertedGoalId1', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment);
+        $segment = 'visitConvertedGoalId!='.$idGoalStandard;
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentDidNotConvertGoalId1', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment);
+        
         $segment = 'visitorType==new';
         $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentNewVisitors', 'xml', $idSite, $dateTime, $periods = array('week'), $setDateLastN = false, $language = false, $segment);
         $segment = 'visitorType==returning';
@@ -236,7 +242,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $this->callGetApiCompareOutput(__FUNCTION__ . '_Website2', 'xml', $idSite2, $dateTime, $periods = array('week'));
 	}
 	
-	function test_trackGoals_allowMultipleConversionsPerVisit()
+	function __test_trackGoals_allowMultipleConversionsPerVisit()
 	{
 		$this->setApiToCall(array(
 			'VisitTime.getVisitInformationPerServerTime', 
@@ -297,7 +303,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * as well as the data itself, pre-processed and ready to be displayed
 	 * @return 
 	 */
-	function test_apiGetReportMetadata()
+	function __test_apiGetReportMetadata()
 	{
 		$this->setApiNotToCall(array());
 		$this->setApiToCall( 'API' );
@@ -321,7 +327,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * Test the Yearly metadata API response, 
 	 * with no visits, with custom response language 
 	 */
-	function test_apiGetReportMetadata_year()
+	function __test_apiGetReportMetadata_year()
 	{
 		$this->setApiNotToCall(array());
 		$this->setApiToCall( array('API.getProcessedReport', 
@@ -342,7 +348,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * API will archive and output empty stats.
 	 * 
 	 */
-	function test_noVisit()
+	function __test_noVisit()
 	{
 		$dateTime = '2009-01-04 00:11:42';
 		$idSite = $this->createWebsite($dateTime);
@@ -410,7 +416,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 *   
 	 *   NO cookie support
 	 */
-	function test_OneVisitorTwoVisits() 
+	function __test_OneVisitorTwoVisits() 
 	{
 		// Tests run in UTC, the Tracker in UTC
     	$dateTime = '2010-03-06 11:22:33';
@@ -426,7 +432,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * Same as before, but with cookie support, which incurs some slight changes 
 	 * in the reporting data (more accurate unique visitor count, better referer tracking for goals, etc.)
 	 */
-	function test_OneVisitorTwoVisits_withCookieSupport() 
+	function __test_OneVisitorTwoVisits_withCookieSupport() 
 	{
 		$this->setApiNotToCall(array());
     	$this->setApiToCall(array('VisitTime', 'VisitsSummary', 'VisitorInterest', 'VisitFrequency', 'UserSettings', 'UserCountry', 'Referers', 'Provider', 'Goals', 'CustomVariables', 'CoreAdminHome', 'Actions', 'Live.getLastVisitsDetails'));
@@ -676,7 +682,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	return $idSite;
 	}
 	
-	function test_twoVisitsWithCustomVariables()
+	function __test_twoVisitsWithCustomVariables()
 	{
 		$dateTime = '2010-01-03 11:22:33';
         $this->doTest_twoVisitsWithCustomVariables($dateTime);
@@ -687,7 +693,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         								$setDateLastN = true);
 	}
 
-	function test_twoVisitsWithCustomVariables_segmentMatchVisitorType()
+	function __test_twoVisitsWithCustomVariables_segmentMatchVisitorType()
 	{
 		$dateTime = '2010-01-03 11:22:33';
         $this->doTest_twoVisitsWithCustomVariables($dateTime);
@@ -749,7 +755,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		}
 	}
 	
-	function test_twoVisitsWithCustomVariables_segmentMatchALL_noGoalData()
+	function __test_twoVisitsWithCustomVariables_segmentMatchALL_noGoalData()
 	{
 		$dateTime = '2010-01-03 11:22:33';
         $width=1111; $height=222; $resolution = $width.'x'.$height;
@@ -770,7 +776,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	}
 	
 	/* Testing a segment containing all supported fields */
-	function test_twoVisitsWithCustomVariables_segmentMatchNONE()
+	function __test_twoVisitsWithCustomVariables_segmentMatchNONE()
 	{
 		$dateTime = '2010-01-03 11:22:33';
         $idSite = $this->doTest_twoVisitsWithCustomVariables($dateTime);
@@ -812,7 +818,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	/*
 	 * Testing period=range use case. Recording data before and after, checking that the requested range is processed correctly 
 	 */
-	public function test_oneVisitor_oneWebsite_severalDays_DateRange()
+	public function __test_oneVisitor_oneWebsite_severalDays_DateRange()
 	{        
     	$dateTimes = array(
     		'2010-12-14 01:00:00',
@@ -890,7 +896,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	}
 
 	// test Metadata API + period=range&date=lastN
-	function test_periodIsRange_dateIsLastN_MetadataAndNormalAPI()
+	function __test_periodIsRange_dateIsLastN_MetadataAndNormalAPI()
 	{
 		if(date('G') == 23 || date('G') == 22) {
 			echo "SKIPPED test_periodIsRange_dateIsLastN_MetadataAndNormalAPI() since it fails around midnight...";
@@ -940,7 +946,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	}
 	}
 	
-	function test_PiwikTracker_trackForceUsingVisitId_insteadOfHeuristics_alsoTestsCampaignTracking()
+	function __test_PiwikTracker_trackForceUsingVisitId_insteadOfHeuristics_alsoTestsCampaignTracking()
 	{
 		$this->setApiToCall( array(
 				'VisitsSummary.get', 

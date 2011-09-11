@@ -173,7 +173,7 @@ class Test_Piwik_Segment extends UnitTestCase
     	$where = 'log_link_visit_action.idvisit = ?';
     	$bind = array(1);
     	
-    	$segment = 'customVariablePageName1==Test;goalConversion==1;customVariablePageName2==Test2';
+    	$segment = 'customVariablePageName1==Test;visitConvertedGoalId==1;customVariablePageName2==Test2';
     	$segment = new Piwik_Segment($segment, $idSites = array());
     	
     	$query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -201,7 +201,7 @@ class Test_Piwik_Segment extends UnitTestCase
     	$where = 'log_conversion.idvisit = ?';
     	$bind = array(1);
     	
-    	$segment = 'goalConversion!=2;customVariablePageName1==Test;goalConversion==1';
+    	$segment = 'visitConvertedGoalId!=2;customVariablePageName1==Test;visitConvertedGoalId==1';
     	$segment = new Piwik_Segment($segment, $idSites = array());
     	
     	$query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -229,7 +229,7 @@ class Test_Piwik_Segment extends UnitTestCase
     	$where = 'log_visit.idvisit = ?';
     	$bind = array(1);
     	
-    	$segment = 'goalConversion==1';
+    	$segment = 'visitConvertedGoalId==1';
     	$segment = new Piwik_Segment($segment, $idSites = array());
     	
     	$query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -263,7 +263,7 @@ class Test_Piwik_Segment extends UnitTestCase
     	$where = 'log_conversion.idvisit = ?';
     	$bind = array(1);
     	
-    	$segment = 'goalConversion==1,visitServerHour==12';
+    	$segment = 'visitConvertedGoalId==1,visitServerHour==12';
     	$segment = new Piwik_Segment($segment, $idSites = array());
     	
     	$query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -293,7 +293,7 @@ class Test_Piwik_Segment extends UnitTestCase
     	$where = false;
     	$bind = array();
     	
-    	$segment = 'visitServerHour==12;goalConversion==1';
+    	$segment = 'visitServerHour==12;visitConvertedGoalId==1';
     	$segment = new Piwik_Segment($segment, $idSites = array());
     	
     	$query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -322,7 +322,7 @@ class Test_Piwik_Segment extends UnitTestCase
     	$where = false;
     	$bind = array();
     	
-    	$segment = 'goalConversion==1;visitServerHour==12;customVariablePageName1==Test';
+    	$segment = 'visitConvertedGoalId==1;visitServerHour==12;customVariablePageName1==Test';
     	$segment = new Piwik_Segment($segment, $idSites = array());
     	
     	$query = $segment->getSelectQuery($select, $from, $where, $bind);

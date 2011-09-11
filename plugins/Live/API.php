@@ -461,7 +461,7 @@ class Piwik_Live_API
 		$from = "log_visit";
 		$subQuery = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy);
 		
-		// Group by idvisit so that a visitor converting 2 goals only appears twice
+		// Group by idvisit so that a visitor converting 2 goals only appears once
 		$sql = "
 			SELECT sub.* 
 			FROM ( 
