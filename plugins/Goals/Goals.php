@@ -205,12 +205,13 @@ class Piwik_Goals extends Piwik_Plugin
 	public function getSegmentsMetadata($notification)
 	{
 		$segments =& $notification->getNotificationObject();
-		$segments[] = array(
+		$segments[] = array( 
 	        'type' => 'dimension',
-	        'category' => 'Goals_Goals',
-	        'name' => 'Goals_GoalConversion',
-	        'segment' => 'goalConversion',
-	        'sqlSegment' => 'log_conversion.idgoal'
+	        'category' => 'Visit',
+	        'name' => 'General_VisitConvertedGoalId',
+	        'segment' => 'visitConvertedGoalId',
+	        'sqlSegment' => 'log_conversion.idgoal',
+			'acceptedValues' => '1, 2, 3, etc.',
         );
 	}
 	

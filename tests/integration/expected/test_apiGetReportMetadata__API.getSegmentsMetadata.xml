@@ -37,13 +37,6 @@
 		<segment>visitDuration</segment>
 	</row>
 	<row>
-		<type>metric</type>
-		<category>Visit</category>
-		<name>Visit converted at least one Goal</name>
-		<segment>visitConverted</segment>
-		<acceptedValues>0, 1</acceptedValues>
-	</row>
-	<row>
 		<type>dimension</type>
 		<category>Visit</category>
 		<name>Browser</name>
@@ -116,6 +109,20 @@
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
+		<name>Visit converted a specific Goal Id</name>
+		<segment>visitConvertedGoalId</segment>
+		<acceptedValues>1, 2, 3, etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit</category>
+		<name>Visit converted at least one Goal</name>
+		<segment>visitConverted</segment>
+		<acceptedValues>0, 1</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit</category>
 		<name>Visitor ID</name>
 		<segment>visitorId</segment>
 		<acceptedValues>34c31e04394bdc63 - any 16 chars ID requested via the Tracking API function getVisitorId()</acceptedValues>
@@ -162,12 +169,6 @@
 		<name>Referrer URL</name>
 		<acceptedValues>http%3A%2F%2Fwww.example.org%2Freferer-page.htm</acceptedValues>
 		<segment>referrerUrl</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Goals</category>
-		<name>Goal conversion</name>
-		<segment>goalConversion</segment>
 	</row>
 	<row>
 		<type>dimension</type>

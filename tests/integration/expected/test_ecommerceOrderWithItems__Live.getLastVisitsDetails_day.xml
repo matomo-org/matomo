@@ -408,7 +408,7 @@
 			</row>
 			<row>
 				<type>goal</type>
-				<goalName>triggered js ONCE</goalName>
+				<goalName>title match, triggered ONCE</goalName>
 				<revenue>10</revenue>
 				<goalPageId>1</goalPageId>
 				

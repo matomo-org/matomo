@@ -208,7 +208,7 @@ class Piwik_API_API
 	    );
 	    
 		$segments[] = array(
-		        'type' => 'metric',
+		        'type' => 'dimension',
 		        'category' => 'Visit',
 		        'name' => 'General_VisitConvertedGoal',
 		        'segment' => 'visitConverted',

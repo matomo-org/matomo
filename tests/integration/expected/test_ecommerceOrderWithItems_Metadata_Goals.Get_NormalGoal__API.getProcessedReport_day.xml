@@ -4,7 +4,7 @@
 	<prettyDate>Tuesday 5 April 2011</prettyDate>
 	<metadata>
 		<category>Goals</category>
-		<name>Goal triggered js ONCE</name>
+		<name>Goal title match, triggered ONCE</name>
 		<module>Goals</module>
 		<action>get</action>
 		<parameters>
