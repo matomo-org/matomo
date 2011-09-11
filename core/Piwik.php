@@ -975,7 +975,8 @@ class Piwik
 		}
 		$minimumMemoryLimit = Zend_Registry::get('config')->General->minimum_memory_limit;
 		
-		if(Piwik_Common::isArchivePhpTriggered())
+		if(Piwik_Common::isArchivePhpTriggered()
+			&& Piwik::isUserIsSuperUser())
 		{
 			$minimumMemoryLimitWhenArchiving = Zend_Registry::get('config')->General->minimum_memory_limit_when_archiving;
 			if($memoryLimit < $minimumMemoryLimitWhenArchiving)
