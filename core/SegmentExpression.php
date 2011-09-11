@@ -185,8 +185,7 @@ class Piwik_SegmentExpression
         
         // remove sql functions from field name
         // example: `HOUR(log_visit.visit_last_action_time)` gets `HOUR(log_visit` => remove `HOUR(` 
-        $table = preg_replace('/^[A-Z]+\(/', '', $table);
-        
+        $table = preg_replace('/^[A-Z_]+\(/', '', $table);
         $tableExists = !$table || in_array($table, $availableTables);
         
         if (!$tableExists)

@@ -221,7 +221,7 @@ class Test_Piwik_Segment extends UnitTestCase
     	
     	$this->assertEqual($query, $expected, var_export($query, true));
     }
-    
+
     public function test_getSelectQuery_joinConversionOnVisit()
     {
     	$select = 'log_visit.*';
@@ -251,6 +251,32 @@ class Test_Piwik_Segment extends UnitTestCase
 				( log_conversion.idgoal = ? )
 			GROUP BY log_visit.idvisit
 				) AS log_inner",
+    		"bind" => array(1, 1));
+    	
+    	$this->assertEqual($query, $expected, var_export($query, true));
+    }
+    public function test_getSelectQuery_conversionOnly()
+    {
+    	$select = 'log_conversion.*';
+    	$from = 'log_conversion';
+    	$where = 'log_conversion.idvisit = ?';
+    	$bind = array(1);
+    	
+    	$segment = 'visitConvertedGoalId==1';
+    	$segment = new Piwik_Segment($segment, $idSites = array());
+    	
+    	$query = $segment->getSelectQuery($select, $from, $where, $bind);
+    	
+    	$expected = array(
+    		"sql" => "
+			SELECT
+				log_conversion.*
+			FROM
+				piwiktests_log_conversion AS log_conversion
+			WHERE
+				( log_conversion.idvisit = ? )
+				AND
+				( log_conversion.idgoal = ? )",
     		"bind" => array(1, 1));
     	
     	$this->assertEqual($query, $expected, var_export($query, true));
