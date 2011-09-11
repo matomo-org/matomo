@@ -272,7 +272,7 @@ class Test_Piwik_Segment extends UnitTestCase
 			SELECT
 				log_conversion.*
 			FROM
-				piwiktests_log_conversion AS log_conversion
+				".Piwik_Common::prefixTable('log_conversion')." AS log_conversion
 			WHERE
 				( log_conversion.idvisit = ? )
 				AND
