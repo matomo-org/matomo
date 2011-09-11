@@ -284,8 +284,14 @@ class Piwik_API_API
 			// Keep segments ordered alphabetically inside categories..
 			$type = -1;
 			if($column == 'name') $type = 1;
-			
 			$compare = $type * strcmp($row1[$column], $row2[$column]);
+			
+			// hack so that custom variables "page" are grouped together in the doc
+			if($row1['category'] == Piwik_Translate('CustomVariables_CustomVariables')
+				&& $row1['category'] == $row2['category']) {
+				$compare = strcmp($row1['segment'], $row2['segment']);
+				return $compare;
+			}
 			if($compare != 0){
 				return $compare;
 			}
