@@ -123,6 +123,13 @@ class Piwik_Actions extends Piwik_Plugin
 		$bind = array($string, $string, $actionType);
 		
 		$idAction = Zend_Registry::get('db')->fetchOne($sql, $bind);
+		
+		// if the action is not found, we hack -1 to ensure it tries to match against an integer
+		// otherwise binding idaction_name to "false" returns some rows for some reasons (in case &segment=pageTitle==Větrnásssssss)
+		if(empty($idAction))
+		{
+			$idAction = -1;
+		}
 		return $idAction;
 	}
 	
