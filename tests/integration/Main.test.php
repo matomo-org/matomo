@@ -226,12 +226,17 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $segment = 'visitConvertedGoalId!='.$idGoalStandard;
         $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentDidNotConvertGoalId1', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment);
         
+        // Test segment visitorType
         $segment = 'visitorType==new';
         $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentNewVisitors', 'xml', $idSite, $dateTime, $periods = array('week'), $setDateLastN = false, $language = false, $segment);
         $segment = 'visitorType==returning';
         $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentReturningVisitors', 'xml', $idSite, $dateTime, $periods = array('week'), $setDateLastN = false, $language = false, $segment);
         $segment = 'visitorType==returningCustomer';
         $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentReturningCustomers', 'xml', $idSite, $dateTime, $periods = array('week'), $setDateLastN = false, $language = false, $segment);
+        
+        // Test segment pageTitle 
+        $segment = 'pageTitle==incredible%20title!';
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentPageTitleMatch', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment);
         
         // test Live! output is OK also for the visit that just bought something (other visits leave an abandoned cart)
         $this->setApiToCall(array('Live.getLastVisitsDetails'));
@@ -922,6 +927,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
     		'visitorId!=33c31e01394bdc63',
     		// testing both filter on Actions table and visit table
     		'visitorId!=33c31e01394bdc63;daysSinceFirstVisit!=50',
+    		//'pageUrl!=http://unknown/not/viewed',
     	);
     	$dates = array(
     		'last7',
