@@ -140,6 +140,9 @@ minimum_pgsql_version = 8.3
 ; Minimum adviced memory limit in php.ini file (see memory_limit value)
 minimum_memory_limit = 128
 
+; Minimum memory limit enforced when archived via misc/cron/archive.php
+minimum_memory_limit_when_archiving = 768
+
 ; Piwik will check that usernames and password have a minimum length, and will check that characters are "allowed"
 ; This can be disabled, if for example you wish to import an existing User database in Piwik and your rules are less restrictive
 disable_checks_usernames_attributes = 0

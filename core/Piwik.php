@@ -968,14 +968,26 @@ class Piwik
 	 */
 	static public function raiseMemoryLimitIfNecessary()
 	{
-		$minimumMemoryLimit = Zend_Registry::get('config')->General->minimum_memory_limit;
 		$memoryLimit = self::getMemoryLimitValue();
-		if($memoryLimit !== false
-			&& $memoryLimit < $minimumMemoryLimit)
+		if($memoryLimit === false)
+		{
+			return false;
+		}
+		$minimumMemoryLimit = Zend_Registry::get('config')->General->minimum_memory_limit;
+		
+		if(Piwik_Common::isArchivePhpTriggered())
+		{
+			$minimumMemoryLimitWhenArchiving = Zend_Registry::get('config')->General->minimum_memory_limit_when_archiving;
+			if($memoryLimit < $minimumMemoryLimitWhenArchiving)
+			{
+				return self::setMemoryLimit($minimumMemoryLimitWhenArchiving);
+			}
+			return false;
+		}
+		if($memoryLimit < $minimumMemoryLimit)
 		{
 			return self::setMemoryLimit($minimumMemoryLimit);
 		}
-
 		return false;
 	}
 
