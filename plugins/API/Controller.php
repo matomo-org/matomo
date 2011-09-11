@@ -53,7 +53,8 @@ class Piwik_API_Controller extends Piwik_Controller
 		$lastCategory=array();
 		foreach($segments as $segment)
 		{
-			$customVariableWillBeDisplayed = in_array($segment['segment'], $onlyDisplay = array('customVariableName1', 'customVariableName2', 'customVariableValue1', 'customVariableValue2'));
+			$onlyDisplay = array('customVariableName1', 'customVariableName2', 'customVariableValue1', 'customVariableValue2', 'customVariablePageName1', 'customVariablePageValue1');
+			$customVariableWillBeDisplayed = in_array($segment['segment'], $onlyDisplay);
 			// Don't display more than 4 custom variables name/value rows
 			if($segment['category'] == 'Custom Variables'
 				&& !$customVariableWillBeDisplayed)
@@ -84,13 +85,13 @@ class Piwik_API_Controller extends Piwik_Controller
 			if($customVariableWillBeDisplayed)
 			{
 				$customVariables++;
-    			if($customVariables == 4)
+    			if($customVariables == count($onlyDisplay))
     			{
     				$output .= '<tr><td colspan="2"> There are 5 custom variables available, so you can segment across any segment name and value range.
     						<br/>For example, <code>customVariableName1==Type;customVariableValue1==Customer</code>
     						<br/>Returns all visitors that have the Custom Variable "Type" set to "Customer".
-    						<br/>At this stage, Custom Variables of scope "visit" are used as a segment in most API calls. 
-    						<br/>Custom Variables of scope "page" are used as a segment only for the Actions.get* API calls.
+    						<br/>Custom Variables of scope "page" can be queried separately. For example, to query the Custom Variable of scope "page",
+    						<br/>stored in index 1, you would use the segment <code>customVariablePageName1==ArticleLanguage;customVariablePageValue1==FR</code>
     						</td></tr>';
     			}
 			}

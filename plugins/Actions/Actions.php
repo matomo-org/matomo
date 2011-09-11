@@ -100,6 +100,7 @@ class Piwik_Actions extends Piwik_Plugin
 	        'segment' => 'pageUrl',
 	        'sqlSegment' => 'log_link_visit_action.idaction_url',
         	'sqlFilter' => $sqlFilter,
+        	'acceptedValues' => "All these segments must be URL encoded, for example: ".urlencode('http://example.com/path/page?query'),
         );
         $segments[] = array(
 	        'type' => 'dimension',
