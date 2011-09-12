@@ -65,7 +65,6 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		
 		// prepare segmentation
 		$segment = $this->getSegment();
-		$segmentation = !$segment->isEmpty();
 		
 		// We check if there is visits for the requested date / site / segment
 		//  If no specified Segment
