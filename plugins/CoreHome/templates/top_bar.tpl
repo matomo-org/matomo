@@ -5,7 +5,7 @@
     
         {if isset($menu._html)}
             {$menu._html}
-        {elseif $menu._url.module == $currentModule}
+        {elseif $menu._url.module == $currentModule && (empty($menu._url.action) || $menu._url.action == $currentAction)}
             <span class="topBarElem"><b>{$label|translate}</b></span> | 
         {else}
             <span class="topBarElem"><a id="topmenu-{$menu._url.module|strtolower}" href="index.php{$menu._url|@urlRewriteWithParameters}">{$label|translate}</a></span> | 
