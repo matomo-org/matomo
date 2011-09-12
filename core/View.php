@@ -80,6 +80,7 @@ class Piwik_View implements Piwik_iView
 	{
 		try {
 			$this->currentModule = Piwik::getModule();
+			$this->currentAction = Piwik::getAction();
 			$userLogin = Piwik::getCurrentUserLogin();
 			$this->userLogin = $userLogin;
 			
