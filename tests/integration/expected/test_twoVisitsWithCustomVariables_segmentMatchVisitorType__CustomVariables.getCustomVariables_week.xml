@@ -7,7 +7,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>3</nb_actions>
 				<max_actions>3</max_actions>
-				<sum_visit_length>720</sum_visit_length>
+				<sum_visit_length>362</sum_visit_length>
 				<bounce_count>0</bounce_count>
 				<goals>
 					<row idgoal='1'>
@@ -25,7 +25,7 @@
 						<nb_visits>1</nb_visits>
 						<nb_actions>3</nb_actions>
 						<max_actions>3</max_actions>
-						<sum_visit_length>720</sum_visit_length>
+						<sum_visit_length>362</sum_visit_length>
 						<bounce_count>0</bounce_count>
 						<goals>
 							<row idgoal='1'>
@@ -45,7 +45,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>3</nb_actions>
 				<max_actions>3</max_actions>
-				<sum_visit_length>720</sum_visit_length>
+				<sum_visit_length>362</sum_visit_length>
 				<bounce_count>0</bounce_count>
 				<goals>
 					<row idgoal='1'>
@@ -53,8 +53,13 @@
 						<nb_visits_converted>1</nb_visits_converted>
 						<revenue>0</revenue>
 					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>0</revenue>
+					</row>
 				</goals>
-				<nb_conversions>1</nb_conversions>
+				<nb_conversions>2</nb_conversions>
 				<revenue>0</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<subtable>
@@ -63,7 +68,7 @@
 						<nb_visits>1</nb_visits>
 						<nb_actions>3</nb_actions>
 						<max_actions>3</max_actions>
-						<sum_visit_length>720</sum_visit_length>
+						<sum_visit_length>362</sum_visit_length>
 						<bounce_count>0</bounce_count>
 						<goals>
 							<row idgoal='1'>
@@ -75,6 +80,18 @@
 						<nb_conversions>1</nb_conversions>
 						<revenue>0</revenue>
 						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+					</row>
+					<row>
+						<label>LoggedOut</label>
+						<goals>
+							<row idgoal='2'>
+								<nb_conversions>1</nb_conversions>
+								<nb_visits_converted>1</nb_visits_converted>
+								<revenue>0</revenue>
+							</row>
+						</goals>
+						<nb_conversions>1</nb_conversions>
+						<revenue>0</revenue>
 					</row>
 				</subtable>
 			</row>

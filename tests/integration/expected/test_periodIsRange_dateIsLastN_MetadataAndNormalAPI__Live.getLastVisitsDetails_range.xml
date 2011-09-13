@@ -197,13 +197,13 @@
 				<icon />
 			</row>
 			<row>
-				<type>action</type>
-				<url>http://example.org/user/profile</url>
-				<pageTitle>Profile page</pageTitle>
-				<pageIdAction>4</pageIdAction>
-				<pageId>2</pageId>
+				<type>goal</type>
+				<goalName>second goal</goalName>
+				<revenue>0</revenue>
+				<goalPageId />
 				
-				<icon />
+				<url>http://example.org/homepage</url>
+				<icon>themes/default/images/goal.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -223,6 +223,15 @@
 				
 				<icon />
 			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/user/profile</url>
+				<pageTitle>Profile page</pageTitle>
+				<pageIdAction>4</pageIdAction>
+				<pageId>2</pageId>
+				
+				<icon />
+			</row>
 		</actionDetails>
 		<customVariables>
 			<row>
@@ -234,7 +243,7 @@
 				<customVariableValue3>abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghij</customVariableValue3>
 			</row>
 		</customVariables>
-		<goalConversions>1</goalConversions>
+		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
@@ -242,8 +251,8 @@
 		
 		
 		
-		<visitDuration>720</visitDuration>
-		<visitDurationPretty>12 min 0s</visitDurationPretty>
+		<visitDuration>362</visitDuration>
+		<visitDurationPretty>6 min 2s</visitDurationPretty>
 		<visitCount>1</visitCount>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>

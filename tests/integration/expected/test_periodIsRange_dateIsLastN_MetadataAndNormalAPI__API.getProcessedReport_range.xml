@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>Piwik test</website>
-	
+	<prettyDate>7 Sep 11 - 13 Sep 11</prettyDate>
 	<metadata>
 		<category>Visitors</category>
 		<name>Country</name>
@@ -61,7 +61,7 @@
 			<nb_actions>5</nb_actions>
 			<revenue>$ 1000</revenue>
 			<nb_actions_per_visit>1.67</nb_actions_per_visit>
-			<avg_time_on_site>00:04:00</avg_time_on_site>
+			<avg_time_on_site>00:02:01</avg_time_on_site>
 			<bounce_rate>66.67%</bounce_rate>
 		</row>
 	</reportData>

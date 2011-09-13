@@ -65,8 +65,8 @@
 		
 		
 		
-		<visitDuration>360</visitDuration>
-		<visitDurationPretty>6 min 0s</visitDurationPretty>
+		<visitDuration>361</visitDuration>
+		<visitDurationPretty>6 min 1s</visitDurationPretty>
 		<visitCount>1</visitCount>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -215,8 +215,8 @@
 		
 		
 		
-		<visitDuration>1080</visitDuration>
-		<visitDurationPretty>18 min 0s</visitDurationPretty>
+		<visitDuration>1081</visitDuration>
+		<visitDurationPretty>18 min 1s</visitDurationPretty>
 		<visitCount>1</visitCount>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
