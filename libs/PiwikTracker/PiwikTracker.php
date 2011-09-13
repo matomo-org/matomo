@@ -499,6 +499,8 @@ class PiwikTracker
      * to track visits in the past. All times are in UTC.
      * 
      * Allowed only for Super User, must be used along with setTokenAuth()
+	 * Set tracking_requests_require_authentication = 0 in config.ini.php [Tracker] section
+	 * to change this security constraint.
      * @see setTokenAuth()
      * @param string Date with the format 'Y-m-d H:i:s', or a UNIX timestamp
      */
@@ -511,6 +513,8 @@ class PiwikTracker
      * Overrides IP address
      * 
      * Allowed only for Super User, must be used along with setTokenAuth()
+	 * Set tracking_requests_require_authentication = 0 in config.ini.php [Tracker] section
+	 * to change this security constraint.
      * @see setTokenAuth()
      * @param string IP string, eg. 130.54.2.1
      */
@@ -525,7 +529,9 @@ class PiwikTracker
      * 
      * This is typically used with the Javascript getVisitorId() function.
      * 
-     * Allowed only for Super User, must be used along with setTokenAuth()
+     * Allowed only for Super User, must be used along with setTokenAuth().
+	 * Set tracking_requests_require_authentication = 0 in config.ini.php [Tracker] section
+	 * to change this security constraint.
      * @see setTokenAuth()
      * @param string $visitorId 16 hexadecimal characters visitor ID, eg. "33c31e01394bdc63"
      */
@@ -595,6 +601,8 @@ class PiwikTracker
 	 * - force the date & time of the tracking requests rather than track for the current datetime
 	 * - force Piwik to track the requests to a specific VisitorId rather than use the standard visitor matching heuristic
 	 *
+	 * Set tracking_requests_require_authentication = 0 in config.ini.php [Tracker] section
+	 * to change this security constraint.
 	 * @param string token_auth 32 chars token_auth string
 	 */
 	public function setTokenAuth($token_auth)
@@ -795,7 +803,8 @@ class PiwikTracker
     		(!empty($_GET['XDEBUG_SESSION_START']) ? '&XDEBUG_SESSION_START=' . @$_GET['XDEBUG_SESSION_START'] : '') . 
 	        (!empty($_GET['KEY']) ? '&KEY=' . @$_GET['KEY'] : '') .
     	 
-    		// Only allowed for Super User, token_auth required
+    		// Only allowed for Super User, token_auth required,
+			// except when tracking_requests_require_authentication = 0 in config.ini.php [Tracker] section
 			(!empty($this->ip) ? '&cip=' . $this->ip : '') .
     		(!empty($this->forcedVisitorId) ? '&cid=' . $this->forcedVisitorId : '&_id=' . $this->visitorId) . 
 			(!empty($this->forcedDatetime) ? '&cdt=' . urlencode($this->forcedDatetime) : '') .
