@@ -189,7 +189,15 @@ class Piwik_Http
 
 			$streamMetaData = array('timed_out' => false);
 			@stream_set_blocking($fsock, true);
-			@stream_set_timeout($fsock, $timeout);
+
+			if (function_exists('stream_set_timeout'))
+			{
+				@stream_set_timeout($fsock, $timeout);
+			}
+			elseif (function_exists('socket_set_timeout'))
+			{
+				@socket_set_timeout($fsock, $timeout);
+			}
 
 			// process header
 			$status = null;
