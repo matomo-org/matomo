@@ -316,10 +316,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	{
 		// gather information that needs to be updated
 		$valuesToUpdate = array();
-		if($visitIsConverted)
-		{
-			$valuesToUpdate['visit_goal_converted'] = 1;
-		}
 
 		$sqlActionUpdate = '';
 		if($idActionUrl !== false)
@@ -334,8 +330,18 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 		$visitTotalTime = $this->getCurrentTimestamp() - $this->visitorInfo['visit_first_action_time'];
 		$valuesToUpdate['visit_last_action_time'] = $datetimeServer;
-		$valuesToUpdate['visit_total_time'] = $visitTotalTime;
-
+		$valuesToUpdate['visit_total_time'] = $visitTotalTime + 1;
+	
+		// Goal conversion
+		if($visitIsConverted)
+		{
+			$valuesToUpdate['visit_goal_converted'] = 1;
+			// If a pageview and goal conversion in the same second, with previously a goal conversion recorded
+			// the request would not "update" the row since all values are the same as previous
+			// therefore the request below throws exception, instead we make sure the UPDATE will affect the row
+			$valuesToUpdate['visit_total_time'] += (int)$this->goalManager->idGoal;
+		}
+		
 		// Update the idvisitor to the latest known value, in case the cookie value changed for some reasons,
 		// safer to always rely on the most recent values
 		if($this->shouldUseThirdPartyCookie())
@@ -382,12 +388,12 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			$updateParts[] = $name." = ?";
 			$sqlBind[] = $value;
 		}
-//var_dump($valuesToUpdate);exit;
 		$sqlQuery = "UPDATE ". Piwik_Common::prefixTable('log_visit')."
 						SET $sqlActionUpdate ".implode($updateParts, ', ')."
 						WHERE idsite = ?
 							AND idvisit = ?";
-		array_push($sqlBind, $this->idsite, $this->visitorInfo['idvisit']  );
+		array_push($sqlBind, $this->idsite, (int)$this->visitorInfo['idvisit']  );
+
 		$result = Piwik_Tracker::getDatabase()->query($sqlQuery, $sqlBind);
 
 		$this->visitorInfo['visit_last_action_time'] = $this->getCurrentTimestamp();
