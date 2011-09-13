@@ -9,7 +9,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>2</nb_actions>
 				<max_actions>2</max_actions>
-				<sum_visit_length>360</sum_visit_length>
+				<sum_visit_length>361</sum_visit_length>
 				<bounce_count>0</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
 				<subtable>
@@ -19,7 +19,7 @@
 						<nb_visits>1</nb_visits>
 						<nb_actions>2</nb_actions>
 						<max_actions>2</max_actions>
-						<sum_visit_length>360</sum_visit_length>
+						<sum_visit_length>361</sum_visit_length>
 						<bounce_count>0</bounce_count>
 						<nb_visits_converted>0</nb_visits_converted>
 					</row>
@@ -33,7 +33,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>4</nb_actions>
 				<max_actions>4</max_actions>
-				<sum_visit_length>900</sum_visit_length>
+				<sum_visit_length>901</sum_visit_length>
 				<bounce_count>0</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
 				<subtable>
@@ -43,7 +43,7 @@
 						<nb_visits>1</nb_visits>
 						<nb_actions>4</nb_actions>
 						<max_actions>4</max_actions>
-						<sum_visit_length>900</sum_visit_length>
+						<sum_visit_length>901</sum_visit_length>
 						<bounce_count>0</bounce_count>
 						<nb_visits_converted>0</nb_visits_converted>
 					</row>
