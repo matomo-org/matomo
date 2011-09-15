@@ -146,8 +146,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$this->goalManager->init($this->request);
 		
 		$requestIsManualGoalConversion = ($this->goalManager->idGoal > 0);
-		
-		if($this->goalManager->requestIsEcommerce)
+		$requestIsEcommerce = $this->goalManager->requestIsEcommerce;
+		if($requestIsEcommerce)
 		{
 			$someGoalsConverted = true;
 			
@@ -219,7 +219,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 				//   because the UPDATE didn't affect any rows (one row was found, but not updated since no field changed)
 				// - the exception is caught here and will result in a new visit incorrectly
 				// In this case, we cancel the current conversion to be recorded:
-				if($requestIsManualGoalConversion)
+				if($requestIsManualGoalConversion
+					|| $requestIsEcommerce)
 				{
 					$someGoalsConverted = $visitIsConverted = false;
 				}
@@ -339,7 +340,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			// If a pageview and goal conversion in the same second, with previously a goal conversion recorded
 			// the request would not "update" the row since all values are the same as previous
 			// therefore the request below throws exception, instead we make sure the UPDATE will affect the row
-			$valuesToUpdate['visit_total_time'] += (int)$this->goalManager->idGoal;
+			$valuesToUpdate['visit_total_time'] += (int)$this->goalManager->idGoal + 2; // +2 to offset idgoal=-1 and idgoal=0
 		}
 		
 		// Update the idvisitor to the latest known value, in case the cookie value changed for some reasons,
