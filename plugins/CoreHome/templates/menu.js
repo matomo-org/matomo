@@ -37,16 +37,6 @@ menu.prototype =
 	{
 	},
 	
-	onClickLI: function ()
-	{
-		var self = this;
-		var urlAjax = $(this).attr('name');
-		$('ul.nav').trigger('piwikSwitchPage');
-		broadcast.propagateAjax(urlAjax);
-		return false;
-		
-	},
-
 	init: function()
 	{
 		var self = this;
@@ -65,8 +55,10 @@ menu.prototype =
 		this.param.superfish.find("ul")
 			.click( function(e){ e.stopPropagation()} )
 			;
+		// using onclick attribute instead of jquery.bind(click) 
+		// to keep middle click for open in new tab still working
 		this.param.superfish.find("li a")
-			.click( self.onClickLI )
+			.attr( 'onclick', "$('ul.nav').trigger('piwikSwitchPage'); broadcast.propagateAjax($(this).attr('name')); return false;" )
 			;
 
 		this.param.superfish
