@@ -451,6 +451,25 @@ class Piwik_DataTable
 	}
 
 	/**
+	 * Returns a Piwik_DataTable that has only the one column that matches $label.
+	 * If no matches are found, an empty data table is returned.
+	 *
+	 * @param string $label Value of the column 'label' to search for
+	 * @return Piwik_DataTable
+	 */
+	public function getFilteredTableFromLabel($label)
+	{
+		$newTable = new Piwik_DataTable;
+		$row = $this->getRowFromLabel($label);
+		if ($row !== false)
+		{
+			$newTable->addRow($row);
+			$newTable->queuedFilters = $this->queuedFilters;
+		}
+		return $newTable;
+	}
+
+	/**
 	 * Rebuilds the index used to lookup a row by label
 	 */
 	private function rebuildIndex()

@@ -176,4 +176,26 @@ class Piwik_DataTable_Array
 			$table->deleteColumns($columns);
 		}
 	}
+
+	/**
+	 * Returns a Piwik_DataTable_Array whose sub tables are filtered by $label
+	 * @see Piwik_DataTable::getFilteredTableFromLabel
+	 *
+	 * @param string $label Value of the column 'label' to search for
+	 * @return Piwik_DataTable_Array
+	 */
+	public function getFilteredTableFromLabel($label)
+	{
+		$newTableArray = new Piwik_DataTable_Array;
+		$newTableArray->metadata = $this->metadata;
+
+		foreach ($this->array as $subTableLabel => $subTable)
+		{
+			$subTable = $subTable->getFilteredTableFromLabel($label);
+			$newTableArray->addTable($subTable, $subTableLabel);
+		}
+
+		return $newTableArray;
+	}
+
 }
