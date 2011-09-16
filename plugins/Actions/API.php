@@ -116,69 +116,99 @@ class Piwik_Actions_API
 	 * Will search in the DataTable for a Label matching the searched string
 	 * and return only the matching row, or an empty datatable
 	 */
-	protected function getFilterPageDatatableSearch( $callBackParameters, $search, $actionType, $table = false, $searchTree = false, $searchCurrentLevel = 0 )
+	protected function getFilterPageDatatableSearch($callBackParameters, $search, $actionType, $table = false,
+			$searchTree = false)
 	{
-		if($table === false)
+		if ($searchTree === false)
 		{
-			$table = call_user_func_array(array('Piwik_Archive', 'getDataTableFromArchive'), $callBackParameters);
-		}
-		if($searchTree === false)
-		{
+			// build the query parts that are searched inside the tree
     		if($actionType == Piwik_Tracker_Action::TYPE_ACTION_NAME)
     		{
     			$searchedString = Piwik_Common::unsanitizeInputValue($search);
     		}
     		else
     		{
-    			$searchedString = Piwik_Tracker_Action::excludeQueryParametersFromUrl($search, $idSite = $callBackParameters[1]);
+				$idSite = $callBackParameters[1];
+    			$searchedString = Piwik_Tracker_Action::excludeQueryParametersFromUrl($search, $idSite);
     		}
 			$searchTree = Piwik_Actions::getActionExplodedNames($searchedString, $actionType);
 		}
-		if(!($table instanceof Piwik_DataTable))
+
+		if ($table === false)
 		{
-			throw new Exception("For this API function, date=lastN or date=previousM is not supported");
-		}
-		$rows = $table->getRows();
-		$labelSearch = $searchTree[$searchCurrentLevel];
-		$isEndSearch = ((count($searchTree)-1) == $searchCurrentLevel);
-		foreach($rows as $key => $row)
-		{
-			$found = false;
-			// Found a match at this level
-			$label = $row->getColumn('label');
-			if($label === $labelSearch)
+			// fetch the data table
+			$table = call_user_func_array(array('Piwik_Archive', 'getDataTableFromArchive'), $callBackParameters);
+			
+			if ($table instanceof Piwik_DataTable_Array)
 			{
-				// Is this the end of the search tree? then we found the requested row
-				if($isEndSearch)
+				// search an array of tables, e.g. when using date=last30
+				// note that if the root is an array, we filter all children
+				// if an array occurs inside the nested table, we only look for the first match (see below)
+				$newTableArray = new Piwik_DataTable_Array;
+				$newTableArray->metadata = $table->metadata;
+				
+				foreach ($table->getArray() as $label => $subTable)
 				{
-//					var_dump($label); var_dump($labelSearch); exit;
-					$table = new Piwik_DataTable();
-					$table->addRow($row);
-					return $table;
+					$subTable = $this->doFilterPageDatatableSearch($callBackParameters, $subTable, $searchTree);
+					$newTableArray->addTable($subTable, $label);
 				}
 				
-				// If we still need to search deeper, call search 
-				$idSubTable = $row->getIdSubDataTable();
-				// Update the idSubtable in the callback parameter list, to fetch this subtable from the archive
-				$callBackParameters[6] = $idSubTable;
-				$subTable = call_user_func_array(array('Piwik_Archive', 'getDataTableFromArchive'), $callBackParameters);
-				$found = $this->getFilterPageDatatableSearch($callBackParameters, $search, $actionType, $subTable, $searchTree, $searchCurrentLevel+1);
-				if($found)
+				return $newTableArray;
+			}
+			
+		}
+
+		return $this->doFilterPageDatatableSearch($callBackParameters, $table, $searchTree);
+	}
+
+	protected function doFilterPageDatatableSearch($callBackParameters, $table, $searchTree)
+	{
+		// filter a data table array
+		if ($table instanceof Piwik_DataTable_Array)
+		{
+			foreach ($table->getArray() as $subTable)
+			{
+				$filteredSubTable = $this->doFilterPageDatatableSearch($callBackParameters,	$subTable, $searchTree);
+
+				if ($filteredSubTable->getRowsCount() > 0)
 				{
-					return $found;
+					// match found in a sub table, return and stop searching the others
+					return $filteredSubTable;
 				}
 			}
-			if(!$found)
-			{
-				$table->deleteRow($key);
-			}
-		}
-		// Case the DataTable was searched but nothing was found, @see getFilterPageDatatableSearch()
-		if($searchCurrentLevel == 0)
-		{
+
+			// nothing found in all sub tables
 			return new Piwik_DataTable;
 		}
-		return false;
+
+		// filter regular data table
+		if ($table instanceof Piwik_DataTable)
+		{
+			// search for the first part of the tree search
+			$search = array_shift($searchTree);
+			$row = $table->getRowFromLabel($search);
+			if ($row === false)
+			{
+				// not found
+				return new Piwik_DataTable;
+			}
+
+			// end of tree search reached
+			if (count($searchTree) == 0)
+			{
+				$table = new Piwik_DataTable();
+				$table->addRow($row);
+				return $table;
+			}
+
+			// match found on this level and more levels remaining: go deeper
+			$idSubTable = $row->getIdSubDataTable();
+			$callBackParameters[6] = $idSubTable;
+			$table = call_user_func_array(array('Piwik_Archive', 'getDataTableFromArchive'), $callBackParameters);
+			return $this->doFilterPageDatatableSearch($callBackParameters, $table, $searchTree);
+		}
+
+		throw new Exception("For this API function, DataTable ".get_class($table)." is not supported");
 	}
 	
 	/**
