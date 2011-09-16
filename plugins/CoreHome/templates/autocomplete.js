@@ -80,7 +80,7 @@ $(function() {
 		$(ul).attr('id', 'siteSelect');
 		return $( "<li></li>" )
 		.data( "item.autocomplete", item )
-		.append( $( "<a></a>" ).html( item.label ) )
+		.append( $( "<a></a>" ).html( item.label ).attr('href', '?idSite='+item.id) )
 		.appendTo( ul );
 	};
 

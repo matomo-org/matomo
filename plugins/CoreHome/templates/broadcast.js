@@ -140,6 +140,7 @@ broadcast.propagateNewPage = function (str)
 
     // Now load the new page.
     window.location.href = currentSearchStr + currentHashStr;
+    return false;
 };
 
 /*************************************************
