@@ -80,14 +80,14 @@ $(function() {
 		$(ul).attr('id', 'siteSelect');
 		return $( "<li></li>" )
 		.data( "item.autocomplete", item )
-		.append( $( "<a></a>" ).html( item.label ).attr('href', piwikHelper.getCurrentQueryStringWithParametersModified('idSite='+item.id)) )
+		.append( $( "<a></a>" ).html( item.label ).attr('href', piwikHelper.getCurrentQueryStringWithParametersModified('idSite='+item.id)+jQuery.historyCurrentHash.replace(/idSite=[0-9]+/, 'idSite='+item.id)) )
 		.appendTo( ul );
 	};
 
 	$('body').bind('mouseup',function(e){ 
 		if(!$(e.target).parents('#sitesSelectionSearch').length && !$(e.target).is('#sitesSelectionSearch') && !$(e.target).parents('#siteSelect.ui-autocomplete').length) {
 			reset();
-			$('#sitesSelectionSearch .custom_select_block').removeClass('custom_select_block_show');
+			$('#sitesSelectionSearch .cSustom_select_block').removeClass('custom_select_block_show');
 		}
 	});
 

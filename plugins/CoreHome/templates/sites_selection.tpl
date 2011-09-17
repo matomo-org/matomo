@@ -8,7 +8,7 @@
             <div id="custom_select_container">
             <ul class="custom_select_ul_list" >
                 {foreach from=$sites item=info}
-                    <li {if $idSite==$info.idsite} style="display: none"{/if}><a href="index.php?module=CoreHome&amp;action=index&amp;idSite={$info.idsite}&amp;period={$period}&amp;date={$rawDate}" onclick="broadcast.propagateNewPage( 'idSite={$info.idsite}');">{$info.name}</a></li>
+                    <li {if $idSite==$info.idsite} style="display: none"{/if}><a href="index.php?module=CoreHome&amp;action=index&amp;idSite={$info.idsite}&amp;period={$period}&amp;date={$rawDate}" siteid="{$info.idsite}" onclick="broadcast.propagateNewPage( 'idSite={$info.idsite}');">{$info.name}</a></li>
 				{/foreach}
             </ul>
             </div>
@@ -38,6 +38,11 @@
     		$('#websiteSearch').focus();
     		return false;
     	});
+        $('#sitesSelectionSearch .custom_select_block').bind('mouseenter', function(){
+            $('.custom_select_ul_list li a').each(function(){
+                $(this).attr('href', piwikHelper.getCurrentQueryStringWithParametersModified('idSite='+$(this).attr('siteid'))+jQuery.historyCurrentHash.replace(/idSite=[0-9]+/, 'idSite='+$(this).attr('siteid')))
+            });
+        });
         var inlinePaddingWidth=22;
         var staticPaddingWidth=34;
         if($(".custom_select_block ul")[0]){
