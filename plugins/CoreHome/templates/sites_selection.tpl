@@ -2,13 +2,13 @@
     <label>{'General_Website'|translate}</label>
     <div id="sitesSelectionSearch" class="custom_select">
     
-        <a href="?idSite={$idSite}" onclick="broadcast.propagateNewPage( 'idSite={$idSite}' );" class="custom_select_main_link">{$siteName}</a>
+        <a href="index.php?module=CoreHome&amp;action=index&amp;idSite={$idSite}&amp;period={$period}&amp;date={$rawDate}" onclick="broadcast.propagateNewPage( 'idSite={$idSite}' );" class="custom_select_main_link">{$siteName}</a>
         
         <div class="custom_select_block">
             <div id="custom_select_container">
             <ul class="custom_select_ul_list" >
                 {foreach from=$sites item=info}
-                    <li {if $idSite==$info.idsite} style="display: none"{/if}><a href="?idSite={$info.idsite}" onclick="broadcast.propagateNewPage( 'idSite={$info.idsite}');">{$info.name}</a></li>
+                    <li {if $idSite==$info.idsite} style="display: none"{/if}><a href="index.php?module=CoreHome&amp;action=index&amp;idSite={$info.idsite}&amp;period={$period}&amp;date={$rawDate}" onclick="broadcast.propagateNewPage( 'idSite={$info.idsite}');">{$info.name}</a></li>
 				{/foreach}
             </ul>
             </div>
