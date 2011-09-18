@@ -31,6 +31,7 @@ class Piwik_Tracker_GoalManager
 	
 	const REVENUE_PRECISION = 2;
 	
+	const MAXIMUM_PRODUCT_CATEGORIES = 5;
 	public $idGoal;
 	public $requestIsEcommerce;
 	public $isGoalAnOrder;
@@ -376,7 +377,7 @@ class Piwik_Tracker_GoalManager
 		$itemsCount = 0;
 		foreach($items as $item)
 		{
-			$itemsCount += $item[self::INDEX_ITEM_QUANTITY];
+			$itemsCount += $item[self::INTERNAL_ITEM_QUANTITY];
 		}
 		$goal['items'] = $itemsCount;
 		
@@ -430,7 +431,7 @@ class Piwik_Tracker_GoalManager
 //		var_dump($items); echo "Items by SKU:";var_dump($itemInCartBySku);
 
 		// Select all items currently in the Cart if any
-		$sql = "SELECT idaction_sku, idaction_name, idaction_category, price, quantity, deleted
+		$sql = "SELECT idaction_sku, idaction_name, idaction_category, idaction_category2, idaction_category3, idaction_category4, idaction_category5, price, quantity, deleted
 				FROM ". Piwik_Common::prefixTable('log_conversion_item') . "
 				WHERE idvisit = ?
 					AND idorder = ?";
@@ -487,11 +488,23 @@ class Piwik_Tracker_GoalManager
 		$this->insertEcommerceItems($goal, $itemsToInsert);
 	}
 	
+	// In the GET items parameter, each item has the following array of information 
 	const INDEX_ITEM_SKU = 0;
 	const INDEX_ITEM_NAME = 1;
 	const INDEX_ITEM_CATEGORY = 2;
 	const INDEX_ITEM_PRICE = 3;
 	const INDEX_ITEM_QUANTITY = 4;
+	
+	// Used in the array of items, internally to this class
+	const INTERNAL_ITEM_SKU = 0;
+	const INTERNAL_ITEM_NAME = 1;
+	const INTERNAL_ITEM_CATEGORY = 2;
+	const INTERNAL_ITEM_CATEGORY2 = 3;
+	const INTERNAL_ITEM_CATEGORY3 = 4;
+	const INTERNAL_ITEM_CATEGORY4 = 5;
+	const INTERNAL_ITEM_CATEGORY5 = 6;
+	const INTERNAL_ITEM_PRICE = 7;
+	const INTERNAL_ITEM_QUANTITY = 8;
 	
 	/**
 	 * Reads items from the request, then looks up the names from the lookup table 
@@ -506,7 +519,7 @@ class Piwik_Tracker_GoalManager
 		$cleanedItems = array();
 		foreach($items as $item)
 		{
-			$name = $category = false;
+			$name = $category = $category2 = $category3 = $category4 = $category5 = false;
 			$price = 0;
 			$quantity = 1;
 			// items are passed in the request as an array: ( $sku, $name, $category, $price, $quantity )
@@ -515,12 +528,14 @@ class Piwik_Tracker_GoalManager
 			}
 			
 			$sku = $item[self::INDEX_ITEM_SKU];
-			if(!empty($item[self::INDEX_ITEM_NAME])) { 
+			if(!empty($item[self::INDEX_ITEM_NAME])) {
 				$name = $item[self::INDEX_ITEM_NAME];
 			}
-			if(!empty($item[self::INDEX_ITEM_CATEGORY])) { 
+			
+			if(!empty($item[self::INDEX_ITEM_CATEGORY])) {
 				$category = $item[self::INDEX_ITEM_CATEGORY];
-			}
+			} 	
+			
 			if(!empty($item[self::INDEX_ITEM_PRICE]) 
 				&& is_numeric($item[self::INDEX_ITEM_PRICE])) { 
 					$price = $this->getRevenue($item[self::INDEX_ITEM_PRICE]); 
@@ -531,33 +546,78 @@ class Piwik_Tracker_GoalManager
 			}
 			
 			// self::INDEX_ITEM_* are in order
-			$cleanedItems[] = array( $sku, $name, $category, $price, $quantity );
+			$cleanedItems[] = array( 
+				self::INTERNAL_ITEM_SKU => $sku, 
+				self::INTERNAL_ITEM_NAME => $name, 
+				self::INTERNAL_ITEM_CATEGORY => $category, 
+				self::INTERNAL_ITEM_CATEGORY2 => $category2, 
+				self::INTERNAL_ITEM_CATEGORY3 => $category3, 
+				self::INTERNAL_ITEM_CATEGORY4 => $category4, 
+				self::INTERNAL_ITEM_CATEGORY5 => $category5, 
+				self::INTERNAL_ITEM_PRICE => $price, 
+				self::INTERNAL_ITEM_QUANTITY => $quantity 
+			);
 		}
 		
 		// Lookup Item SKUs, Names & Categories Ids
-		$actionsToLookup = array();
+		$actionsToLookupAllItems = array();
+		
+		// Each item has 7 potential "ids" to lookup in the lookup table
+		$columnsInEachRow = 1 + 1 + self::MAXIMUM_PRODUCT_CATEGORIES;
+		
 		foreach($cleanedItems as $item)
 		{
+			$actionsToLookup = array();
 			list($sku, $name, $category, $price, $quantity) = $item;
 			$actionsToLookup[] = array($sku, Piwik_Tracker_Action::TYPE_ECOMMERCE_ITEM_SKU);
-			$actionsToLookup[] = array($name, Piwik_Tracker_Action::TYPE_ECOMMERCE_ITEM_NAME); 
-			$actionsToLookup[] = array($category, Piwik_Tracker_Action::TYPE_ECOMMERCE_ITEM_CATEGORY); 
+			$actionsToLookup[] = array($name, Piwik_Tracker_Action::TYPE_ECOMMERCE_ITEM_NAME);
+
+			// Only one category
+			if(!is_array($category))
+			{
+				$actionsToLookup[] = array($category, Piwik_Tracker_Action::TYPE_ECOMMERCE_ITEM_CATEGORY);
+			}
+			// Multiple categories
+			else
+			{ 
+				$countCategories = 0;
+				foreach($category as $productCategory) {
+					if(empty($productCategory)) {
+						continue;
+					}
+					$countCategories++;
+					if($countCategories > self::MAXIMUM_PRODUCT_CATEGORIES) {
+						break;
+					}
+					$actionsToLookup[] = array($productCategory, Piwik_Tracker_Action::TYPE_ECOMMERCE_ITEM_CATEGORY);
+				}
+			}
+			// Ensure that each row has the same number of columns, fill in the blanks
+			for($i = count($actionsToLookup); $i < $columnsInEachRow; $i++) {
+				$actionsToLookup[] = array(false, Piwik_Tracker_Action::TYPE_ECOMMERCE_ITEM_CATEGORY);
+			}
+			$actionsToLookupAllItems = array_merge($actionsToLookupAllItems, $actionsToLookup);
 		}
 		
-		$actionsLookedUp = Piwik_Tracker_Action::loadActionId($actionsToLookup);
+		$actionsLookedUp = Piwik_Tracker_Action::loadActionId($actionsToLookupAllItems);
 //		var_dump($actionsLookedUp);
 
+		
 		// Replace SKU, name & category by their ID action
 		foreach($cleanedItems as $index => &$item)
 		{
 			list($sku, $name, $category, $price, $quantity) = $item;
 			
 			// SKU
-			$item[0] = $actionsLookedUp[ $index * 3 + self::INDEX_ITEM_SKU][2];
+			$item[0] = $actionsLookedUp[ $index * $columnsInEachRow + 0][2];
 			// Name
-			$item[1] = $actionsLookedUp[ $index * 3 + self::INDEX_ITEM_NAME][2];
-			// Category
-			$item[2] = $actionsLookedUp[ $index * 3 + self::INDEX_ITEM_CATEGORY][2];
+			$item[1] = $actionsLookedUp[ $index * $columnsInEachRow + 1][2];
+			// Categories
+			$item[2] = $actionsLookedUp[ $index * $columnsInEachRow + 2][2];
+			$item[3] = $actionsLookedUp[ $index * $columnsInEachRow + 3][2];
+			$item[4] = $actionsLookedUp[ $index * $columnsInEachRow + 4][2];
+			$item[5] = $actionsLookedUp[ $index * $columnsInEachRow + 5][2];
+			$item[6] = $actionsLookedUp[ $index * $columnsInEachRow + 6][2];
 		}
 		return $cleanedItems;
 	}
@@ -610,7 +670,7 @@ class Piwik_Tracker_GoalManager
 		printDebug($itemsToInsert);
 		
 		$sql = "INSERT INTO " . Piwik_Common::prefixTable('log_conversion_item') . "
-					(idaction_sku, idaction_name, idaction_category, price, quantity, deleted, 
+					(idaction_sku, idaction_name, idaction_category, idaction_category2, idaction_category3, idaction_category4, idaction_category5, price, quantity, deleted, 
 					idorder, idsite, idvisitor, server_time, idvisit) 
 					VALUES ";
 		$i = 0;
@@ -630,11 +690,15 @@ class Piwik_Tracker_GoalManager
 	protected function getItemRowEnriched($goal, $item)
 	{
 		$newRow = array(
-			'idaction_sku' => (int)$item[0],
-			'idaction_name' => (int)$item[1],
-			'idaction_category' => (int)$item[2],
-			'price' => $item[3],
-			'quantity' => $item[4],
+			'idaction_sku' => (int)$item[self::INTERNAL_ITEM_SKU],
+			'idaction_name' => (int)$item[self::INTERNAL_ITEM_NAME],
+			'idaction_category' => (int)$item[self::INTERNAL_ITEM_CATEGORY],
+			'idaction_category2' => (int)$item[self::INTERNAL_ITEM_CATEGORY2],
+			'idaction_category3' => (int)$item[self::INTERNAL_ITEM_CATEGORY3],
+			'idaction_category4' => (int)$item[self::INTERNAL_ITEM_CATEGORY4],
+			'idaction_category5' => (int)$item[self::INTERNAL_ITEM_CATEGORY5],
+			'price' => $item[self::INTERNAL_ITEM_PRICE],
+			'quantity' => $item[self::INTERNAL_ITEM_QUANTITY],
 			'deleted' => isset($item['deleted']) ? $item['deleted'] : 0, //deleted
 			'idorder' => isset($goal['idorder']) ? $goal['idorder'] : self::ITEM_IDORDER_ABANDONED_CART, //idorder = 0 in log_conversion_item for carts
 			'idsite' => $goal['idsite'],
@@ -725,11 +789,15 @@ class Piwik_Tracker_GoalManager
 	protected function getItemRowCast($row)
 	{			
 		return array(
-				(string)(int)$row[0],
-				(string)(int)$row[1],
-				(string)(int)$row[2],
-				(string)$row[3],
-				(string)$row[4],
+				(string)(int)$row[self::INTERNAL_ITEM_SKU],
+				(string)(int)$row[self::INTERNAL_ITEM_NAME],
+				(string)(int)$row[self::INTERNAL_ITEM_CATEGORY],
+				(string)(int)$row[self::INTERNAL_ITEM_CATEGORY2],
+				(string)(int)$row[self::INTERNAL_ITEM_CATEGORY3],
+				(string)(int)$row[self::INTERNAL_ITEM_CATEGORY4],
+				(string)(int)$row[self::INTERNAL_ITEM_CATEGORY5],
+				(string)$row[self::INTERNAL_ITEM_PRICE],
+				(string)$row[self::INTERNAL_ITEM_QUANTITY],
 		);
 	}
 }

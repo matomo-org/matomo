@@ -290,7 +290,7 @@ class PiwikTracker
      * 
      * @param string $sku (required) SKU, Product identifier 
      * @param string $name (optional) Product name
-     * @param string $category (optional) Product category
+     * @param string|array $category (optional) Product category, or array of product categories (up to 5 categories can be specified for a given product)
      * @param float|int $price (optional) Individual product price (supports integer and decimal prices)
      * @param int $quantity (optional) Product quantity. If not specified, will default to 1 in the Reports 
      */
@@ -354,7 +354,8 @@ class PiwikTracker
      * 
      * @param string $sku Product SKU being viewed
      * @param string $name Product Name being viewed
-     * @param string $category Category being viewed. On a Product page, this is the product's category
+     * @param string|array $category Category being viewed. On a Product page, this is the product's category. 
+     * 								You can also specify an array of up to 5 categories for a given page view.
      */
     public function setEcommerceView($sku = false, $name = false, $category = false)
     {
@@ -365,6 +366,9 @@ class PiwikTracker
     		$this->pageCustomVar[4] = array('_pkn', $name);
     	}
     	if(!empty($category)) {
+    		if(is_array($category)) {
+    			$category = json_encode($category);
+    		}
     		$this->pageCustomVar[5] = array('_pkc', $category);
     	}
     }

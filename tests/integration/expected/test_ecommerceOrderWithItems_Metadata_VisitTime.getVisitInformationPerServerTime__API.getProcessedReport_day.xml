@@ -62,9 +62,9 @@
 			<label>0h</label>
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_visits>1</nb_visits>
-			<nb_actions>3</nb_actions>
+			<nb_actions>4</nb_actions>
 			<revenue>$ 10</revenue>
-			<nb_actions_per_visit>3</nb_actions_per_visit>
+			<nb_actions_per_visit>4</nb_actions_per_visit>
 			<avg_time_on_site>00:12:01</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 		</row>

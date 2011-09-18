@@ -61,6 +61,10 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.2)->getDatetime());
         $t->setEcommerceView($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name' , '');
         $this->checkResponse($t->doTrackPageView( 'Another Product page with no category'));
+
+        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.2)->getDatetime());
+        $t->setEcommerceView($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name' , $categories = array('Multiple Category 1', '', 0, 'Multiple Category 2', 'Electronics & Cameras', 'Multiple Category 4', 'Multiple Category 5', 'SHOULD NOT BE REPORTEDSSSSSSSSSSSSSSssssssssssssssssssssssssssstttttttttttttttttttttttuuuu!'));
+        $this->checkResponse($t->doTrackPageView( 'Another Product page with multiple categories'));
         
         // VISIT NO 2
         
@@ -89,7 +93,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 
         // ORDER NO 1
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(2)->getDatetime());
-        $t->addEcommerceItem($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name' , $category = 'Electronics & Cameras', $price = 500, $quantity = 2);
+        $t->addEcommerceItem($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name' , $categories, $price = 500, $quantity = 2);
         $t->addEcommerceItem($sku = 'ANOTHER SKU HERE', $name = 'PRODUCT name BIS' , $category = '', $price = 100, $quantity = 6);
         $this->checkResponse($t->doTrackEcommerceOrder($orderId = '937nsjusu 3894', $grandTotal = 1111.11, $subTotal = 1000, $tax = 111, $shipping = 0.11, $discount = 666));
         
@@ -102,7 +106,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // Refresh the page with the receipt for the second order, should be ignored
         // we test that both the order, and the products, are not updated on subsequent "Receipt" views
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(2.2)->getDatetime());
-        $t->addEcommerceItem($sku = 'SKU2', $name = 'Canon SLR' , $category = 'Electronics & Cameras', $price = 15000000000, $quantity = 10000); 
+        $t->addEcommerceItem($sku = 'SKU2', $name = 'Canon SLR NOT!' , $category = 'Electronics & Cameras NOT!', $price = 15000000000, $quantity = 10000); 
         $this->checkResponse($t->doTrackEcommerceOrder($orderId = '1037nsjusu4s3894', $grandTotal = 20000000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
         
         // Leave with an opened cart
@@ -244,6 +248,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // Website2
 		$this->setApiToCall( array('Goals.get', 'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory'	) );
         $this->callGetApiCompareOutput(__FUNCTION__ . '_Website2', 'xml', $idSite2, $dateTime, $periods = array('week'));
+//        exit;
 	}
 	
 	function test_trackGoals_allowMultipleConversionsPerVisit()
@@ -649,7 +654,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $this->checkResponse($visitorA->doTrackPageView('Profile page'));
         
     	$visitorA->setCustomVariable($id = 2, $name = 'NOTSETBECAUSE EMPTY VALUE', $value = '');
-    	$visitorA->setCustomVariable($id = 3, $name = 'Value will be VERY long and truncated', $value = 'abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----');
+    	$visitorA->setCustomVariable($id = 3, $name = 'Value will be VERY long and truncated', $value = 'abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----');
         $this->checkResponse($visitorA->doTrackPageView('Profile page'));
     	$this->checkResponse($visitorA->doTrackGoal($idGoal));
     	

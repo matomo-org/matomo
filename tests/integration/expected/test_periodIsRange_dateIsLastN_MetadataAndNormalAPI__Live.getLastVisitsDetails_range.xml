@@ -30,7 +30,7 @@
 			</row>
 			<row>
 				<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
-				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuv</customVariableValue2>
+				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
 			</row>
 		</customVariables>
 		<goalConversions>0</goalConversions>
@@ -117,7 +117,7 @@
 			</row>
 			<row>
 				<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
-				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuv</customVariableValue2>
+				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
 			</row>
 		</customVariables>
 		<goalConversions>1</goalConversions>
@@ -240,7 +240,7 @@
 			</row>
 			<row>
 				<customVariableName3>Value will be VERY long and truncated</customVariableName3>
-				<customVariableValue3>abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghij</customVariableValue3>
+				<customVariableValue3>abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrst</customVariableValue3>
 			</row>
 		</customVariables>
 		<goalConversions>2</goalConversions>
@@ -251,8 +251,8 @@
 		
 		
 		
-		<visitDuration>362</visitDuration>
-		<visitDurationPretty>6 min 2s</visitDurationPretty>
+		<visitDuration>364</visitDuration>
+		<visitDurationPretty>6 min 4s</visitDurationPretty>
 		<visitCount>1</visitCount>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>

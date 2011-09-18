@@ -61,9 +61,9 @@
 			<label>France</label>
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_visits>3</nb_visits>
-			<nb_actions>10</nb_actions>
+			<nb_actions>11</nb_actions>
 			<revenue>$ 3121.11</revenue>
-			<nb_actions_per_visit>3.33</nb_actions_per_visit>
+			<nb_actions_per_visit>3.67</nb_actions_per_visit>
 			<avg_time_on_site>00:30:01</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 		</row>

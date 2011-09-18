@@ -4,13 +4,13 @@
 		<label>Product Name</label>
 		<nb_uniq_visitors>3</nb_uniq_visitors>
 		<nb_visits>6</nb_visits>
-		<nb_actions>8</nb_actions>
+		<nb_actions>9</nb_actions>
 		<subtable>
 			<row>
 				<label>PRODUCT name</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>2</nb_visits>
-				<nb_actions>4</nb_actions>
+				<nb_actions>5</nb_actions>
 			</row>
 			<row>
 				<label>PRODUCT THREE LEFT in cart</label>
@@ -30,13 +30,13 @@
 		<label>Product SKU</label>
 		<nb_uniq_visitors>3</nb_uniq_visitors>
 		<nb_visits>6</nb_visits>
-		<nb_actions>8</nb_actions>
+		<nb_actions>9</nb_actions>
 		<subtable>
 			<row>
 				<label>SKU VERY nice indeed</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>3</nb_visits>
-				<nb_actions>5</nb_actions>
+				<nb_actions>6</nb_actions>
 			</row>
 			<row>
 				<label>SKU IN ABANDONED CART TWO</label>
@@ -54,10 +54,16 @@
 	</row>
 	<row>
 		<label>Product Category</label>
-		<nb_uniq_visitors>2</nb_uniq_visitors>
-		<nb_visits>4</nb_visits>
-		<nb_actions>7</nb_actions>
+		<nb_uniq_visitors>3</nb_uniq_visitors>
+		<nb_visits>5</nb_visits>
+		<nb_actions>8</nb_actions>
 		<subtable>
+			<row>
+				<label>Electronics &amp; Cameras</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>3</nb_visits>
+				<nb_actions>6</nb_actions>
+			</row>
 			<row>
 				<label>Category TWO LEFT in cart</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -65,10 +71,28 @@
 				<nb_actions>2</nb_actions>
 			</row>
 			<row>
-				<label>Electronics &amp; Cameras</label>
+				<label>Multiple Category 1</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>2</nb_visits>
-				<nb_actions>5</nb_actions>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+			</row>
+			<row>
+				<label>Multiple Category 2</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+			</row>
+			<row>
+				<label>Multiple Category 4</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+			</row>
+			<row>
+				<label>Multiple Category 5</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
 			</row>
 		</subtable>
 	</row>
@@ -76,7 +100,7 @@
 		<label>VisitorType</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>3</nb_visits>
-		<nb_actions>10</nb_actions>
+		<nb_actions>11</nb_actions>
 		<max_actions>5</max_actions>
 		<sum_visit_length>5403</sum_visit_length>
 		<bounce_count>0</bounce_count>
@@ -110,7 +134,7 @@
 				<label>NewLoggedOut</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>3</nb_visits>
-				<nb_actions>10</nb_actions>
+				<nb_actions>11</nb_actions>
 				<max_actions>5</max_actions>
 				<sum_visit_length>5403</sum_visit_length>
 				<bounce_count>0</bounce_count>

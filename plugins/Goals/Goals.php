@@ -396,7 +396,7 @@ class Piwik_Goals extends Piwik_Plugin
 		
 		//Ecommerce
 		$goalIdsToSum[] = Piwik_Tracker_GoalManager::IDGOAL_ORDER;
-		$goalIdsToSum[] = Piwik_Tracker_GoalManager::IDGOAL_CART;
+		$goalIdsToSum[] = Piwik_Tracker_GoalManager::IDGOAL_CART; //bug here if idgoal=1
 		// Overall goal metrics
 		$goalIdsToSum[] = false;
 		
@@ -558,7 +558,14 @@ class Piwik_Goals extends Piwik_Plugin
 			'idaction_category'  => Piwik_Translate('General_NotDefined', Piwik_Translate('Goals_ProductCategory'))
 		);
 		$items = array();
-		foreach($this->dimensions as $dimension => $recordName)
+		
+		$dimensionsToQuery = $this->dimensions;
+		$dimensionsToQuery['idaction_category2'] = 'AdditionalCategory';
+		$dimensionsToQuery['idaction_category3'] = 'AdditionalCategory';
+		$dimensionsToQuery['idaction_category4'] = 'AdditionalCategory';
+		$dimensionsToQuery['idaction_category5'] = 'AdditionalCategory';
+		
+		foreach($dimensionsToQuery as $dimension => $recordName)
 		{
 			$query = $archiveProcessing->queryEcommerceItems($dimension);
 			if($query == false) { continue; }
@@ -570,6 +577,13 @@ class Piwik_Goals extends Piwik_Plugin
 				
 				if(empty($label))
 				{
+					// idaction==0 case: 
+					// If we are querying any optional category, we do not include idaction=0  
+					// Otherwise we over-report in the Product Categories report
+					if($recordName == 'AdditionalCategory') {
+						continue;
+					}
+					// "Product Category not defined"
 					$label = $dimensionsNotSet[$dimension];
 				}
 				// For carts, idorder = 0. To count abandoned carts, we must count visits with an abandoned cart
@@ -606,6 +620,19 @@ class Piwik_Goals extends Piwik_Plugin
 					$recordNameInsert = self::getItemRecordNameAbandonedCart($recordName);
 				}
 				$table = $archiveProcessing->getDataTableFromArray($items[$dimension][$ecommerceType]);
+				
+				// For "category" report, we aggregate all 5 category queries into one datatable
+				if($dimension == 'idaction_category') 
+				{
+					foreach(array('idaction_category2','idaction_category3','idaction_category4','idaction_category5') as $categoryToSum)
+					{
+						if(!empty($items[$categoryToSum][$ecommerceType]))
+						{
+							$tableToSum = $archiveProcessing->getDataTableFromArray($items[$categoryToSum][$ecommerceType]);
+							$table->addDataTable($tableToSum);
+						}
+					}
+				}
 				$archiveProcessing->insertBlobRecord($recordNameInsert, $table->getSerialized());
 			}
 		}

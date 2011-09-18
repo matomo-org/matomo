@@ -4,7 +4,7 @@
 		<label>France</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>3</nb_visits>
-		<nb_actions>10</nb_actions>
+		<nb_actions>11</nb_actions>
 		<max_actions>5</max_actions>
 		<sum_visit_length>5403</sum_visit_length>
 		<bounce_count>0</bounce_count>
