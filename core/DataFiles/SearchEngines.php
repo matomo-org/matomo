@@ -702,6 +702,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Sapo
 		'pesquisa.sapo.pt'			=> array('Sapo', 'q', '?q={k}'),
 
+		// scour.com
+		'scour.com'					=> array('Scour.com', '/search\/[^\/]+\/(.*)/', 'search/web/{k}'),
+
 		// Search.com
 		'www.search.com'			=> array('Search.com', 'q', 'search?q={k}'),
 
