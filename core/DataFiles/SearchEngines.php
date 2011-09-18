@@ -411,6 +411,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search4.incredimail.com'	=> array('Google'),
 		'search.sweetim.com'		=> array('Google'),
 		'www.fastweb.it'			=> array('Google'),
+		'search.juno.com'			=> array('Google', 'query'),
 
 		// Google Earth
 		// - 2010-09-13: are these redirects now?
