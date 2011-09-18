@@ -412,6 +412,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search.sweetim.com'		=> array('Google'),
 		'www.fastweb.it'			=> array('Google'),
 		'search.juno.com'			=> array('Google', 'query'),
+		'searchresults.verizon.com'	=> array('Google'),
 
 		// Google Earth
 		// - 2010-09-13: are these redirects now?
