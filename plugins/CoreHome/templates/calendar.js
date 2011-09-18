@@ -178,6 +178,30 @@ function displayCalendar()
 	{
 		$(document).ready(function(){
 			$('#datepicker').datepicker(getDatePickerOptions());
+			var period = broadcast.getValueFromUrl('period');
+			if(period == 'week') {
+				$('#datepicker').bind('mouseover', function(){
+					$('.ui-datepicker-calendar td a').unbind('mouseenter mouseleave');
+					$('.ui-datepicker-calendar td a').hover(function(){
+						$('a', $(this).parents('tr')).addClass('ui-state-hover');
+						$('td', $(this).parents('tr')).addClass('ui-datepicker-days-cell-over');
+					}, function(){
+						$('a', $(this).parents('tr')).removeClass('ui-state-hover');
+						$('td', $(this).parents('tr')).removeClass('ui-datepicker-days-cell-over');
+					});
+				});
+			} else if(period == 'month' || period == 'year') {
+				$('#datepicker').bind('mouseover', function(){
+					$('.ui-datepicker-calendar td a').unbind('mouseenter mouseleave');
+					$('.ui-datepicker-calendar td a').hover(function(){
+						$('a', $(this).parents('tbody')).addClass('ui-state-hover');
+						$('td', $(this).parents('tbody')).addClass('ui-datepicker-days-cell-over');
+					}, function(){
+						$('a', $(this).parents('tbody')).removeClass('ui-state-hover');
+						$('td', $(this).parents('tbody')).removeClass('ui-datepicker-days-cell-over');
+					});
+				});
+			}
 		});
 	}
 }
