@@ -797,6 +797,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Twingly
 		'www.twingly.com'			=> array('Twingly', 'q', 'search?q={k}'),
 
+		// URL.ORGanzier
+		'www.url.org'				=> array('URL.ORGanzier', 'q', '?l=de&q={k}'),
+
 		// Vinden
 		'www.vinden.nl'				=> array('Vinden', 'q', '?q={k}'),
 
