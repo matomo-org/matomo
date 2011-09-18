@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>Piwik test</website>
-	<prettyDate>7 Sep 11 - 13 Sep 11</prettyDate>
+	
 	<metadata>
 		<category>Visitors</category>
 		<name>Country</name>

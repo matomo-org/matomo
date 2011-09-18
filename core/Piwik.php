@@ -1006,12 +1006,7 @@ class Piwik
 		static $shouldLog = null;
 		if(is_null($shouldLog))
 		{
-			$shouldLog = (Piwik_Common::isPhpCliMode()
-							|| Zend_Registry::get('config')->log->log_only_when_cli == 0)
-						&& 
-						  ( Zend_Registry::get('config')->log->log_only_when_debug_parameter == 0
-						  	|| isset($_REQUEST['debug']))
-						;
+			$shouldLog = self::shouldLoggerLog();
 			// It is possible that the logger is not setup:
 			// - Tracker request, and debug disabled, 
 			// - and some scheduled tasks call code that tries and log something  
@@ -1027,6 +1022,21 @@ class Piwik
 		}
 	}
 
+	static public function shouldLoggerLog()
+	{
+		try {
+			$shouldLog = (Piwik_Common::isPhpCliMode()
+						|| Zend_Registry::get('config')->log->log_only_when_cli == 0)
+					&& 
+					  ( Zend_Registry::get('config')->log->log_only_when_debug_parameter == 0
+					  	|| isset($_REQUEST['debug']))
+					;
+		} catch(Exception $e) {
+			$shouldLog = false;
+		}
+		return $shouldLog;
+	}
+	
 	/**
 	 * Trigger E_USER_ERROR with optional message
 	 *

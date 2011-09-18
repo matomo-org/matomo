@@ -36,11 +36,51 @@
 		<row>
 			<label>Electronics &amp; Cameras</label>
 			<revenue>$ 2500</revenue>
-			<quantity>3.00</quantity>
+			<quantity>3</quantity>
 			<orders>2</orders>
-			<nb_visits>2</nb_visits>
+			<nb_visits>3</nb_visits>
 			<avg_price>1000</avg_price>
 			<avg_quantity>1.5</avg_quantity>
+			<conversion_rate>66.67%</conversion_rate>
+		</row>
+		<row>
+			<label>Multiple Category 1</label>
+			<revenue>$ 1000</revenue>
+			<quantity>2.00</quantity>
+			<orders>1</orders>
+			<nb_visits>1</nb_visits>
+			<avg_price>500</avg_price>
+			<avg_quantity>2</avg_quantity>
+			<conversion_rate>100%</conversion_rate>
+		</row>
+		<row>
+			<label>Multiple Category 2</label>
+			<revenue>$ 1000</revenue>
+			<quantity>2.00</quantity>
+			<orders>1</orders>
+			<nb_visits>1</nb_visits>
+			<avg_price>500</avg_price>
+			<avg_quantity>2</avg_quantity>
+			<conversion_rate>100%</conversion_rate>
+		</row>
+		<row>
+			<label>Multiple Category 4</label>
+			<revenue>$ 1000</revenue>
+			<quantity>2.00</quantity>
+			<orders>1</orders>
+			<nb_visits>1</nb_visits>
+			<avg_price>500</avg_price>
+			<avg_quantity>2</avg_quantity>
+			<conversion_rate>100%</conversion_rate>
+		</row>
+		<row>
+			<label>Multiple Category 5</label>
+			<revenue>$ 1000</revenue>
+			<quantity>2.00</quantity>
+			<orders>1</orders>
+			<nb_visits>1</nb_visits>
+			<avg_price>500</avg_price>
+			<avg_quantity>2</avg_quantity>
 			<conversion_rate>100%</conversion_rate>
 		</row>
 		<row>

@@ -1022,7 +1022,7 @@ var
 				customVariablesPage = {},
 				
 				// Custom Variables names and values are each truncated before being sent in the request or recorded in the cookie
-				customVariableMaximumLength = 100,
+				customVariableMaximumLength = 200,
 
 				// Ecommerce items
 				ecommerceItems = {},

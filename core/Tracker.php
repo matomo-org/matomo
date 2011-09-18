@@ -39,7 +39,7 @@ class Piwik_Tracker
 	
 	// These are also hardcoded in the Javascript
 	const MAX_CUSTOM_VARIABLES = 5;
-	const MAX_LENGTH_CUSTOM_VARIABLE = 100;
+	const MAX_LENGTH_CUSTOM_VARIABLE = 200;
 	
 	protected $authenticated = false;
 	static protected $forcedDateTime = null;

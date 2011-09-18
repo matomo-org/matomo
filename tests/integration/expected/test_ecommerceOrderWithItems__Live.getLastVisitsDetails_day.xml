@@ -18,7 +18,7 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>9</pageId>
+				<pageId>10</pageId>
 				
 				<customVariables>
 					<row>
@@ -37,7 +37,7 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>10</pageId>
+				<pageId>11</pageId>
 				
 				<customVariables>
 					<row>
@@ -168,7 +168,7 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>Looking at Electronics &amp; Cameras page with a page level custom variable</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>4</pageId>
+				<pageId>5</pageId>
 				
 				<customVariables>
 					<row>
@@ -183,7 +183,7 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>Looking at Electronics &amp; Cameras page again</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>5</pageId>
+				<pageId>6</pageId>
 				
 				<customVariables>
 					<row>
@@ -198,7 +198,7 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>Looking at product page</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>6</pageId>
+				<pageId>7</pageId>
 				
 				<customVariables>
 					<row>
@@ -231,7 +231,7 @@
 					<row>
 						<itemSKU>SKU VERY nice indeed</itemSKU>
 						<itemName>PRODUCT name</itemName>
-						<itemCategory>Electronics &amp; Cameras</itemCategory>
+						<itemCategory>Multiple Category 1</itemCategory>
 						<price>500</price>
 						<quantity>2</quantity>
 					</row>
@@ -261,7 +261,7 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>7</pageId>
+				<pageId>8</pageId>
 				
 				<customVariables>
 					<row>
@@ -280,7 +280,7 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>8</pageId>
+				<pageId>9</pageId>
 				
 				<customVariables>
 					<row>
@@ -381,8 +381,17 @@
 		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<actions>3</actions>
+		<actions>4</actions>
 		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>title match, triggered ONCE</goalName>
+				<revenue>10</revenue>
+				<goalPageId>1</goalPageId>
+				
+				<url>http://example.org/index.htm</url>
+				<icon>themes/default/images/goal.png</icon>
+			</row>
 			<row>
 				<type>action</type>
 				<url>http://example.org/index.htm</url>
@@ -405,15 +414,6 @@
 					</row>
 				</customVariables>
 				<icon />
-			</row>
-			<row>
-				<type>goal</type>
-				<goalName>title match, triggered ONCE</goalName>
-				<revenue>10</revenue>
-				<goalPageId>1</goalPageId>
-				
-				<url>http://example.org/index.htm</url>
-				<icon>themes/default/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -453,6 +453,29 @@
 					<row>
 						<customVariableName4>_pkn</customVariableName4>
 						<customVariableValue4>PRODUCT name</customVariableValue4>
+					</row>
+				</customVariables>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>Another Product page with multiple categories</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>4</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU VERY nice indeed</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT name</customVariableValue4>
+					</row>
+					<row>
+						<customVariableName5>_pkc</customVariableName5>
+						<customVariableValue5>[&quot;Multiple Category 1&quot;,&quot;&quot;,0,&quot;Multiple Category 2&quot;,&quot;Electronics &amp; Cameras&quot;,&quot;Multiple Category 4&quot;,&quot;Multiple Category 5&quot;,&quot;SHOULD NOT BE REPORTEDSSSSSSSSSSSSSSssssssssssssssssssssssssssstttttttttttttttttt</customVariableValue5>
 					</row>
 				</customVariables>
 				<icon />

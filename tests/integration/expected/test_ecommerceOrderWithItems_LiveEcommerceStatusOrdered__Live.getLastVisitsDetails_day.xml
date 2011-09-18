@@ -65,8 +65,8 @@
 		
 		
 		
-		<visitDuration>361</visitDuration>
-		<visitDurationPretty>6 min 1s</visitDurationPretty>
+		<visitDuration>363</visitDuration>
+		<visitDurationPretty>6 min 3s</visitDurationPretty>
 		<visitCount>1</visitCount>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -129,7 +129,7 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>11</pageId>
+				<pageId>12</pageId>
 				
 				<customVariables>
 					<row>
@@ -148,7 +148,7 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>12</pageId>
+				<pageId>13</pageId>
 				
 				<customVariables>
 					<row>
