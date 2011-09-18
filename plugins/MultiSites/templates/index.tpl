@@ -39,6 +39,7 @@
 
 <table id="mt" class="dataTable" cellspacing="0">
 	<thead>
+	<tr>
 		<th id="names" class="label" onClick="params = setOrderBy(this,allSites, params, 'names');">
 			<span>{'General_Website'|translate}</span>
 			<span class="arrow {if $evolutionBy=='names'}multisites_{$order}{/if}"></span>
@@ -66,12 +67,20 @@
 				{if $displayRevenueColumn}<option value="revenue" {if $evolutionBy eq 'revenue'} selected {/if}>{'Goals_ColumnRevenue'|translate}</option>{/if}
 			</select>
 		</th>
+	</tr>
 	</thead>
 
 	<tbody id="tb">
 	</tbody>
 
 	<tfoot>
+	{if $isSuperUser}
+	<tr>
+		<td colspan="8" class="clean" style="text-align: right; padding-top: 5px;">
+			<a href="{url}&module=SitesManager&action=index&showaddsite=1"><img src='plugins/UsersManager/images/add.png' alt="" style="margin: 0;" /> {'SitesManager_AddSite'|translate}</a>
+		</td>
+	</tr>
+	{/if}
 	<tr row_id="last" >
 		<td colspan="8" class="clean" style="padding: 20px">
 		<span id="prev" class="pager"  style="padding-right: 20px;"></span>
