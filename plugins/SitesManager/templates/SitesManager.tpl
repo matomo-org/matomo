@@ -211,6 +211,13 @@ vertical-align:middle;
 	{ajaxErrorDiv id=ajaxErrorGlobalSettings}
 	{ajaxLoadingDiv id=ajaxLoadingGlobalSettings}
 {/if}
+{if $showAddSite}
+<script type="text/javascript">{literal}
+$(document).ready(function(){
+    $('.addRowSite:first').trigger('click');
+});
+{/literal}</script>
+{/if}
 
 <br /><br /><br /><br />
 {include file="CoreAdminHome/templates/footer.tpl"}

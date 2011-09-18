@@ -53,6 +53,8 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
 		$view->globalExcludedQueryParameters = str_replace(',',"\n", $excludedQueryParametersGlobal);
 		$view->currentIpAddress = Piwik_IP::getIpFromHeader();
 
+		$view->showAddSite = (boolean) Piwik_Common::getRequestVar('showaddsite', false);
+		
 		$this->setBasicVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();
