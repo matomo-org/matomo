@@ -37,7 +37,9 @@ class Piwik_Mail extends Zend_Mail
 		// If known Piwik URL, use it instead of "localhost"
 		$piwikUrl = Piwik::getPiwikUrl();
 		$url = parse_url($piwikUrl);
-		if(isset($url['host']))
+		if(isset($url['host'])
+			&& $url['host'] != 'localhost'
+			&& $url['host'] != '127.0.0.1')
 		{
 			$piwikHost = $url['host'];
 		}
