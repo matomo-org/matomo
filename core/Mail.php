@@ -33,6 +33,14 @@ class Piwik_Mail extends Zend_Mail
 	{
 		$hostname = Zend_Registry::get('config')->mail->defaultHostnameIfEmpty;
 		$piwikHost = Piwik_Url::getCurrentHost($hostname);
+		
+		// If known Piwik URL, use it instead of "localhost"
+		$piwikUrl = Piwik::getPiwikUrl();
+		$url = parse_url($piwikUrl);
+		if(isset($url['host']))
+		{
+			$piwikHost = $url['host'];
+		}
 		$email = str_replace('{DOMAIN}', $piwikHost, $email);
 		parent::setFrom($email, $name);
 	}
