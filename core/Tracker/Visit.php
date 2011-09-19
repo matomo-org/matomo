@@ -1012,8 +1012,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			if($id < 1
 				|| $id > Piwik_Tracker::MAX_CUSTOM_VARIABLES
 				|| count($keyValue) != 2
-				|| !is_string($keyValue[0])
-				|| !is_string($keyValue[1])
+				|| (!is_string($keyValue[0]) && !is_numeric($keyValue[0]))
+				|| (!is_string($keyValue[1]) && !is_numeric($keyValue[1]))
 			)
 			{
 				printDebug("Invalid custom variables detected (id=$id)");

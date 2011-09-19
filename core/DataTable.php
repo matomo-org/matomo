@@ -430,6 +430,16 @@ class Piwik_DataTable
 	 */
 	public function getRowFromLabel( $label )
 	{
+		$rowId = $this->getRowIdFromLabel($label);
+		if(is_int($rowId))
+		{
+			return $this->rows[$rowId];
+		}
+		return $rowId;
+	}
+	
+	public function getRowIdFromLabel($label)
+	{
 		$this->rebuildIndexContinuously = true;
 		if($this->indexNotUpToDate)
 		{
@@ -447,7 +457,7 @@ class Piwik_DataTable
 		{
 			return false;
 		}
-		return $this->rows[$this->rowsIndexByLabel[$label]];
+		return $this->rowsIndexByLabel[$label];
 	}
 
 	/**

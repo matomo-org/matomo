@@ -594,13 +594,19 @@ class Piwik_Goals extends Piwik_Plugin
 				unset($row[Piwik_Archive::INDEX_NB_VISITS]);
 				unset($row['label']);
 				unset($row['ecommerceType']);
-				if($row[Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE] == round($row[Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE]))
+				
+				$revenueColumns = array(
+									Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE,
+									Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE,
+									Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED,
+				);
+				foreach($revenueColumns as $column)
 				{
-					$row[Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE] = round($row[Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE]);
-				}
-				if($row[Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE] == round($row[Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE]))
-				{
-					$row[Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE] = round($row[Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE]);
+					if(isset($row[$column])
+						&& $row[$column] == round($row[$column]))
+					{
+						$row[$column] = round($row[$column]);
+					}
 				}
 				$items[$dimension][$ecommerceType][$label] = $row;
 			}

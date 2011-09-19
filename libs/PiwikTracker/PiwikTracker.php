@@ -356,8 +356,9 @@ class PiwikTracker
      * @param string $name Product Name being viewed
      * @param string|array $category Category being viewed. On a Product page, this is the product's category. 
      * 								You can also specify an array of up to 5 categories for a given page view.
+     * @param float $price Specify the price at which the item was displayed
      */
-    public function setEcommerceView($sku = false, $name = false, $category = false)
+    public function setEcommerceView($sku = false, $name = false, $category = false, $price = false)
     {
     	if(!empty($sku)) {
     		$this->pageCustomVar[3] = array('_pks', $sku);
@@ -370,6 +371,9 @@ class PiwikTracker
     			$category = json_encode($category);
     		}
     		$this->pageCustomVar[5] = array('_pkc', $category);
+    	}
+    	if(!empty($price)) {
+    		$this->pageCustomVar[2] = array('_pkp', (float)$price);
     	}
     }
     

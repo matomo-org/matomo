@@ -11,16 +11,20 @@
 		<visitConvertedIcon />
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
 		<visitEcommerceStatusIcon>themes/default/images/ecommerceAbandonedCart.gif</visitEcommerceStatusIcon>
-		<actions>2</actions>
+		<actions>3</actions>
 		<actionDetails>
 			<row>
 				<type>action</type>
 				<url>http://example.org/index.htm</url>
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>10</pageId>
+				<pageId>11</pageId>
 				
 				<customVariables>
+					<row>
+						<customVariableName2>_pkp</customVariableName2>
+						<customVariableValue2>999</customVariableValue2>
+					</row>
 					<row>
 						<customVariableName3>_pks</customVariableName3>
 						<customVariableValue3>SKU VERY nice indeed</customVariableValue3>
@@ -37,7 +41,30 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>11</pageId>
+				<pageId>12</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName2>_pkp</customVariableName2>
+						<customVariableValue2>333</customVariableValue2>
+					</row>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU VERY nice indeed</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT THREE LEFT in cart</customVariableValue4>
+					</row>
+				</customVariables>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>View product left in cart</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>13</pageId>
 				
 				<customVariables>
 					<row>
@@ -161,7 +188,7 @@
 		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
 		<visitEcommerceStatusIcon>themes/default/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
-		<actions>5</actions>
+		<actions>6</actions>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -201,6 +228,10 @@
 				<pageId>7</pageId>
 				
 				<customVariables>
+					<row>
+						<customVariableName2>_pkp</customVariableName2>
+						<customVariableValue2>666</customVariableValue2>
+					</row>
 					<row>
 						<customVariableName3>_pks</customVariableName3>
 						<customVariableValue3>SKU VERY nice indeed</customVariableValue3>
@@ -265,6 +296,10 @@
 				
 				<customVariables>
 					<row>
+						<customVariableName2>_pkp</customVariableName2>
+						<customVariableValue2>999</customVariableValue2>
+					</row>
+					<row>
 						<customVariableName3>_pks</customVariableName3>
 						<customVariableValue3>SKU VERY nice indeed</customVariableValue3>
 					</row>
@@ -281,6 +316,29 @@
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				<pageId>9</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName2>_pkp</customVariableName2>
+						<customVariableValue2>333</customVariableValue2>
+					</row>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU VERY nice indeed</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT THREE LEFT in cart</customVariableValue4>
+					</row>
+				</customVariables>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>View product left in cart</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>10</pageId>
 				
 				<customVariables>
 					<row>
@@ -401,6 +459,10 @@
 				
 				<customVariables>
 					<row>
+						<customVariableName2>_pkp</customVariableName2>
+						<customVariableValue2>1111.11111</customVariableValue2>
+					</row>
+					<row>
 						<customVariableName3>_pks</customVariableName3>
 						<customVariableValue3>SKU2</customVariableValue3>
 					</row>
@@ -423,6 +485,10 @@
 				<pageId>2</pageId>
 				
 				<customVariables>
+					<row>
+						<customVariableName2>_pkp</customVariableName2>
+						<customVariableValue2>666</customVariableValue2>
+					</row>
 					<row>
 						<customVariableName3>_pks</customVariableName3>
 						<customVariableValue3>SKU VERY nice indeed</customVariableValue3>

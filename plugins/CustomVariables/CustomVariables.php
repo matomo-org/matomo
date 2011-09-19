@@ -189,6 +189,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
 			while($row = $query->fetch() )
 			{
 				$label = $row[$valueField];
+				
 				// when custom variable value is a JSON array of categories
 				// possibly JSON value
 				$mustInsertCustomVariableValue = true;
@@ -216,16 +217,20 @@ class Piwik_CustomVariables extends Piwik_Plugin
 							$count++;
 						}
 					}
-				}
-				
-				if(!isset($this->interestByCustomVariables[$row[$keyField]])) $this->interestByCustomVariables[$row[$keyField]]= $archiveProcessing->getNewInterestRow($onlyMetricsAvailableInActionsTable);
-				$archiveProcessing->updateInterestStats( $row, $this->interestByCustomVariables[$row[$keyField]], $onlyMetricsAvailableInActionsTable);
+				} // end multi categories hack
 				
 				if($mustInsertCustomVariableValue)
 				{
 					if(!isset($this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]])) $this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]] = $archiveProcessing->getNewInterestRow($onlyMetricsAvailableInActionsTable);
 					$archiveProcessing->updateInterestStats( $row, $this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]], $onlyMetricsAvailableInActionsTable);
 				}
+				
+				// Hack: when tracking Ecommerce product page view, we do not wish 
+				// to track the "price" in the Custom Variable name report, only in the values report
+				unset($row[Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED]);
+				
+				if(!isset($this->interestByCustomVariables[$row[$keyField]])) $this->interestByCustomVariables[$row[$keyField]]= $archiveProcessing->getNewInterestRow($onlyMetricsAvailableInActionsTable);
+				$archiveProcessing->updateInterestStats( $row, $this->interestByCustomVariables[$row[$keyField]], $onlyMetricsAvailableInActionsTable);
 			}
 			 
 			// Custom Vars names and values metrics for Goals
@@ -247,7 +252,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
 		$archiveProcessing->enrichConversionsByLabelArrayHasTwoLevels($this->interestByCustomVariablesAndValue);
 		 
 		//    	var_dump($this->interestByCustomVariables);
-		//    	var_dump($this->interestByCustomVariablesAndValue);
+    	//var_dump($this->interestByCustomVariablesAndValue);
 	}
 
 	/**
