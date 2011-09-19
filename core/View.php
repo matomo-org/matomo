@@ -35,7 +35,8 @@ class Piwik_View implements Piwik_iView
 	private $variables = array();
 	private $contentType = 'text/html; charset=utf-8';
 	private $xFrameOptions = null;
-
+	protected $piwikUrl = false;
+	
 	public function __construct( $templateFile, $smConf = array(), $filter = true )
 	{
 		$this->template = $templateFile;

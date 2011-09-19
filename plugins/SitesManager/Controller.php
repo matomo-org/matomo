@@ -122,7 +122,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
 	{
 		$view = Piwik_View::factory('DisplayAlternativeTags');
 		$view->idSite = Piwik_Common::getRequestVar('idSite');
-		$view->piwikUrlRequest = Piwik_Common::getRequestVar('piwikUrl');
+		$view->piwikUrlRequest = Piwik_Common::getRequestVar('piwikUrl', $view->piwikUrl, 'string');
 		$view->calledExternally = true;
 		echo $view->render();
 	}
