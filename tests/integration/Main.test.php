@@ -44,7 +44,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	// VISIT NO 1
         $t->setUrl( 'http://example.org/index.htm' );
         $category = 'Electronics & Cameras';
-        $price = 1111;
+        $price = 1111.11111;
         
         // VIEW product page
         $t->setEcommerceView('SKU2', 'PRODUCT name', $category, $price);
@@ -82,7 +82,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         
         // VIEW product page
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1.8)->getDatetime());
-        $t->setEcommerceView($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name' , $category = 'Electronics & Cameras');
+        $t->setEcommerceView($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name' , $category = 'Electronics & Cameras', $price = 666);
         $this->checkResponse($t->doTrackPageView( 'Looking at product page'));
         
         // ADD TO CART
@@ -130,7 +130,11 @@ class Test_Piwik_Integration_Main extends Test_Integration
         	
         	// VIEW PRODUCT PAGES
 	        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour($offsetHour + 2.5)->getDatetime());
-	        $t->setEcommerceView($sku = 'SKU VERY nice indeed', $name = 'PRODUCT THREE LEFT in cart' , $category = '');
+	        $t->setEcommerceView($sku = 'SKU VERY nice indeed', $name = 'PRODUCT THREE LEFT in cart' , $category = '', $price=999);
+	        $this->checkResponse($t->doTrackPageView("View product left in cart"));
+	        
+	        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour($offsetHour + 2.55)->getDatetime());
+	        $t->setEcommerceView($sku = 'SKU VERY nice indeed', $name = 'PRODUCT THREE LEFT in cart' , $category = '', $price=333);
 	        $this->checkResponse($t->doTrackPageView("View product left in cart"));
 	        
 	        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour($offsetHour + 2.6)->getDatetime());
@@ -250,7 +254,6 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // Website2
 		$this->setApiToCall( array('Goals.get', 'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory'	) );
         $this->callGetApiCompareOutput(__FUNCTION__ . '_Website2', 'xml', $idSite2, $dateTime, $periods = array('week'));
-        exit;
 	}
 	
 	function test_trackGoals_allowMultipleConversionsPerVisit()

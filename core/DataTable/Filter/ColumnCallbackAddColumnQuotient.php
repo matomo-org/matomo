@@ -54,6 +54,11 @@ class Piwik_DataTable_Filter_ColumnCallbackAddColumnQuotient extends Piwik_DataT
 	{
 		foreach($table->getRows() as $key => $row)
 		{
+			$existingValue = $row->getColumn($this->columnNameToAdd);
+			if($existingValue !== false) 
+			{
+				continue;
+			}
 			$value = $row->getColumn($this->columnValueToRead);
 			if(!is_null($this->totalValueUsedAsDivisor))
 			{

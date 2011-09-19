@@ -76,7 +76,7 @@
 	<tfoot>
 	{if $isSuperUser}
 	<tr>
-		<td colspan="8" class="clean" style="text-align: right; padding-top: 5px;">
+		<td colspan="8" class="clean" style="text-align: right; padding-top: 15px;padding-right:10px">
 			<a href="{url}&module=SitesManager&action=index&showaddsite=1"><img src='plugins/UsersManager/images/add.png' alt="" style="margin: 0;" /> {'SitesManager_AddSite'|translate}</a>
 		</td>
 	</tr>

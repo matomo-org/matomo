@@ -73,6 +73,7 @@ abstract class Piwik_Archive
 	const INDEX_ECOMMERCE_ITEM_QUANTITY = 24;
 	const INDEX_ECOMMERCE_ITEM_PRICE = 25;
 	const INDEX_ECOMMERCE_ORDERS = 26;
+	const INDEX_ECOMMERCE_ITEM_PRICE_VIEWED = 27;
 
 	// Goal reports
 	const INDEX_GOAL_NB_CONVERSIONS = 1;
@@ -117,6 +118,7 @@ abstract class Piwik_Archive
 				Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE => 'revenue',
 				Piwik_Archive::INDEX_ECOMMERCE_ITEM_QUANTITY => 'quantity',
 				Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE => 'price',
+				Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED => 'price_viewed',
 				Piwik_Archive::INDEX_ECOMMERCE_ORDERS => 'orders',
 			);
 

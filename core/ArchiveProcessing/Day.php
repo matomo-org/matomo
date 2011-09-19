@@ -192,6 +192,13 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	        $groupBy = implode(", ", $label2);
 	    	foreach($label2 as $id => &$field) { $field = "$field AS ".$label[$id]; }
 	        $select = implode(", ", $label2);
+	        
+	        // IF we query Custom Variables scope "page" either: Product SKU, Product Name, 
+	        // then we also query the "Product page view" price which was possibly recorded.
+	        if(in_array(reset($label), array('custom_var_k3','custom_var_k4')))
+	        {
+	        	$select .= ", ".self::getSqlRevenue("AVG(log_link_visit_action.custom_var_v2)")." as `". Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED ."`";
+	        }
 	    }
 	    else
 	    {
@@ -212,7 +219,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 				count(distinct log_link_visit_action.idvisit) as `". Piwik_Archive::INDEX_NB_VISITS ."`,
 				count(distinct log_link_visit_action.idvisitor) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`,
 				count(*) as `". Piwik_Archive::INDEX_NB_ACTIONS ."`";
-		
+
 		$from = "log_link_visit_action";
 		
 		$where = "log_link_visit_action.server_time >= ?
@@ -593,9 +600,20 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
     		$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS_CONVERTED] 	+= $newRowToAdd['nb_visits_converted'];
     		return;
 		}
+		
 		$oldRowToUpdate[Piwik_Archive::INDEX_NB_UNIQ_VISITORS]		+= $newRowToAdd[Piwik_Archive::INDEX_NB_UNIQ_VISITORS];
 		$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS] 			+= $newRowToAdd[Piwik_Archive::INDEX_NB_VISITS];
 		$oldRowToUpdate[Piwik_Archive::INDEX_NB_ACTIONS] 			+= $newRowToAdd[Piwik_Archive::INDEX_NB_ACTIONS];
+		
+		// Hack for Price tracking on Ecommerce product/category pages
+		// The price is not summed, but AVG is taken in the SQL query 
+		$index = Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED;
+		if(isset($newRowToAdd[$index])
+			&& !empty($newRowToAdd[$index]))
+		{
+			$oldRowToUpdate[$index] = (float)$newRowToAdd[$index];
+		}
+		
     	if($onlyMetricsAvailableInActionsTable)
     	{
     		return;
@@ -604,8 +622,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		$oldRowToUpdate[Piwik_Archive::INDEX_SUM_VISIT_LENGTH]		+= $newRowToAdd[Piwik_Archive::INDEX_SUM_VISIT_LENGTH];
 		$oldRowToUpdate[Piwik_Archive::INDEX_BOUNCE_COUNT] 			+= $newRowToAdd[Piwik_Archive::INDEX_BOUNCE_COUNT];
 		$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS_CONVERTED] 	+= $newRowToAdd[Piwik_Archive::INDEX_NB_VISITS_CONVERTED];
+		
 	}
-	
 	
 	/**
 	 * Given an array of stats, it will process the sum of goal conversions

@@ -56,6 +56,7 @@ class Piwik_CustomVariables_API
 	    		'_pks' => Piwik_Translate('Goals_ProductSKU'),
 	    		'_pkn' => Piwik_Translate('Goals_ProductName'),
 	    		'_pkc' => Piwik_Translate('Goals_ProductCategory'),
+	    		'_pkp' => 'do not display price values in UI'
 	    	);
 	    	foreach($mapping as $core => $friendly)
 	    	{
@@ -63,6 +64,10 @@ class Piwik_CustomVariables_API
 	    		if($row)
 	    		{
 	    			$row->setColumn('label', $friendly);
+		    		if($core == '_pkp') 
+		    		{
+		    			$dataTable->deleteRow($dataTable->getRowIdFromLabel($core));
+		    		}
 	    		}
 	    	}
 	    }
@@ -75,6 +80,9 @@ class Piwik_CustomVariables_API
 	public function getCustomVariablesValuesFromNameId($idSite, $period, $date, $idSubtable, $segment = false)
 	{
 	    $dataTable = $this->getDataTable($idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+	    
+	    // Hack Ecommerce product price tracking to display correctly
+	    $dataTable->renameColumn('price_viewed', 'price');
 		return $dataTable;
 	}
 }
