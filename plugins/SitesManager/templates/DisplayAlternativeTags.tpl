@@ -11,7 +11,7 @@ The Simple Image Tracker code can be used when Javascript is disallowed.
 </p>
 <code>
 &lt;!-- Piwik Image Tracker --&gt;<br/>
-&lt;img src="{$piwikUrlRequest}/piwik.php?idsite={$idSite}&rec=1" style="border:0" alt="" /&gt;<br/>
+&lt;img src="{if isset($piwikUrlRequest)}{$piwikUrlRequest}{else}{$piwikUrl}{/if}piwik.php?idsite={$idSite}&rec=1" style="border:0" alt="" /&gt;<br/>
 &lt;!-- End Piwik --&gt;<br/>
 </code>
 <br/>
@@ -45,7 +45,7 @@ If you would like to contribute a version of the client in another programming l
 &lt;?php <br/>
 // -- Piwik Tracking API init -- <br/>
 require_once "/path/to/PiwikTracker.php";<br/>
-PiwikTracker::$URL = '{$piwikUrlRequest}';<br/>
+PiwikTracker::$URL = '{if isset($piwikUrlRequest)}{$piwikUrlRequest}{else}{$piwikUrl}{/if}';<br/>
  ?&gt;
 </code>
 </li><li>Choose a Tracking method, then paste the code onto every page you want to track.
