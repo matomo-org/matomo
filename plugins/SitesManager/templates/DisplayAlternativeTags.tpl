@@ -11,7 +11,7 @@ The Simple Image Tracker code can be used when Javascript is disallowed.
 </p>
 <code>
 &lt;!-- Piwik Image Tracker --&gt;<br/>
-&lt;img src="{$piwikUrl}piwik.php?idsite={$idSite}&rec=1" style="border:0" alt="" /&gt;<br/>
+&lt;img src="{$piwikUrlRequest}/piwik.php?idsite={$idSite}&rec=1" style="border:0" alt="" /&gt;<br/>
 &lt;!-- End Piwik --&gt;<br/>
 </code>
 <br/>
@@ -35,7 +35,7 @@ The Piwik Tracking API allows to trigger visits (page views and Goal conversions
 </p>
 
 <p>We currently provide a <b>PHP client</b> to call the API from your PHP projects. 
-If you would like to contribute a version of the client in another programming language (Python, Java, Ruby, Perl, etc.) please <a target='_blank' href='{$piwikUrl}?module=Proxy&action=redirect&url=http://dev.piwik.org/'>create a ticket</a> in our developer area (please attach the client code to the ticket).
+If you would like to contribute a version of the client in another programming language (Python, Java, Ruby, Perl, etc.) please <a target='_blank' href='http://dev.piwik.org/'>create a ticket</a> in our developer area (please attach the client code to the ticket).
 </p><p>Follow these instructions to get started with the Tracking API:
 <ul style='list-style-type:decimal;'>
 <li><a href='{$piwikUrl}{url action=downloadPiwikTracker}' target='_blank'>Click here to download the file PiwikTracker.php</a>
@@ -45,7 +45,7 @@ If you would like to contribute a version of the client in another programming l
 &lt;?php <br/>
 // -- Piwik Tracking API init -- <br/>
 require_once "/path/to/PiwikTracker.php";<br/>
-PiwikTracker::$URL = '{$piwikUrl}';<br/>
+PiwikTracker::$URL = '{$piwikUrlRequest}';<br/>
  ?&gt;
 </code>
 </li><li>Choose a Tracking method, then paste the code onto every page you want to track.
@@ -94,7 +94,7 @@ $piwikTracker->doTrackGoal($idGoal = 1, $revenue = 42);<br/>
 </p>
 {if !isset($calledExternally) || !$calledExternally}
 	<p>
-	Read more about the Piwik Tracking API <a href='{$piwikUrl}?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-api/' target='_blank'>in the documentation</a>
+	Read more about the Piwik Tracking API <a href='http://piwik.org/docs/tracking-api/' target='_blank'>in the documentation</a>
 	</p>
 {/if}
 </div>

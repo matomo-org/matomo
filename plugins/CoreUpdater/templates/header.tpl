@@ -30,5 +30,5 @@
 {/if}
 </head>
 <body>
-<div id="content">
+<div id="contentsimple">
 	<div id="title"><img title='Piwik' alt="Piwik" src='themes/default/images/logo-header.png' style='margin-left:10px' /><span id="subh1"> # {'General_OpenSourceWebAnalytics'|translate}</span></div>
