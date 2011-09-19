@@ -188,9 +188,10 @@ class Piwik_CustomVariables extends Piwik_Plugin
 			$onlyMetricsAvailableInActionsTable = true;
 			while($row = $query->fetch() )
 			{
-				$mustInsertCustomVariableValue = true;
 				$label = $row[$valueField];
-				// Possibly JSON, use case when custom variable value is a JSON array of categories
+				// when custom variable value is a JSON array of categories
+				// possibly JSON value
+				$mustInsertCustomVariableValue = true;
 				if($row[$keyField] == '_pkc'
 					&& $label[0] == '[' && $label[1] == '"') 
 				{

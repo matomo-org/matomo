@@ -135,14 +135,15 @@ class Piwik
 	 * If not found, then tries to cache it and returns the value.
 	 *
 	 * If the Piwik URL changes (eg. Piwik moved to new server), the value will automatically be refreshed in the cache.
-         *
 	 * @return string
 	 */
 	static public function getPiwikUrl()
 	{
 		$key = 'piwikUrl';
 		$url = Piwik_GetOption($key);
-		if(Piwik_Common::isPhpCliMode())
+		if(Piwik_Common::isPhpCliMode()
+			// in case archive.php is triggered with domain localhost
+			|| Piwik_Common::isArchivePhpTriggered())
 		{
 			return $url;
 		}

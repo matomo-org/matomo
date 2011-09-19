@@ -62,24 +62,22 @@ Notes about the algorithm:
   while allowing more stale data for the current week/month/year reports. 
   
 = Ideas for improvements =
-- BUG: one hour bug: Archiving was last executed without error 59 min 53s ago
-- BUG: noreply@localhost instead of proper domain in email from: in scheduled tasks
+- Once an hour max, and on request: run archiving for previousN for websites which days have just 
+  finished in the last 2 hours in their timezones, then TODO uncomment when implemented full archiving
+- Bug: when adding new segments to preprocess, script will assume that data was processed for this segment in the past
+- FAQ + doc update, for using this archive.php instead of archive.sh/.ps1 to deprecate 
+
+- FAQ for daemon like process. Run 2 separate for days and week/month/year? 
 - 'reset' not compatible with concurrent threads
 - scheduled task send multiple reports when concurrent threads
 - prepare script to start multiple processes
-
- - Once an hour max, and on request: run archiving for previousN for websites which days have just 
-   finished in the last 2 hours in their timezones, then TODO uncomment when implemented full archiving
- - Bug: when adding new segments to preprocess, script will assume that data was processed for this segment in the past
- - Run websites archiving in parallel, currently only segments are ran in parallel
- - Queue Period archiving to be executed after today's reports with lower priority 
- - Core: check that on first day of month, if request last month from UI, 
-   it returns last temporary monthly report generated, if the last month haven't yet been processed / finalized
- - FAQ for using this archive.php instead of archive.sh/.ps1 to deprecate + doc update
- - FAQ for daemon like process. Run 2 separate for days and week/month/year? 
- - Optimization: Run first most often requested websites, weighted by visits in the site (and/or time to generate the report)
-   to run more often websites that are faster to process while processing often for power users using frequently piwik.
- - UI: Add 'report last processed X s ago' in UI grey box 'About'
+- Run websites archiving in parallel, currently only segments are ran in parallel
+- Queue Period archiving to be executed after today's reports with lower priority 
+- Core: check that on first day of month, if request last month from UI, 
+  it returns last temporary monthly report generated, if the last month haven't yet been processed / finalized
+- Optimization: Run first most often requested websites, weighted by visits in the site (and/or time to generate the report)
+  to run more often websites that are faster to process while processing often for power users using frequently piwik.
+- UI: Add 'report last processed X s ago' in UI grey box 'About'
 ";
 define('PIWIK_INCLUDE_PATH', realpath( dirname(__FILE__)."/../.." ));
 define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
@@ -440,7 +438,13 @@ class Archiving
 	            
         		// For period other than days, we only re-process the reports at most
         		// 1) every $processPeriodsMaximumEverySeconds
-	            $shouldArchivePeriods = (time() - $lastTimestampWebsiteProcessedPeriods) > $this->processPeriodsMaximumEverySeconds;
+        		$secondsSinceLastExecution = time() - $lastTimestampWebsiteProcessedPeriods;
+        		// if timeout is more than 10 min, we account for a 5 min processing time, and allow trigger 1 min earlier
+        		if($this->processPeriodsMaximumEverySeconds > 10 * 60)
+        		{
+        			$secondsSinceLastExecution += 5 * 60;
+        		}
+	            $shouldArchivePeriods = $secondsSinceLastExecution > $this->processPeriodsMaximumEverySeconds;
 	            if(empty($lastTimestampWebsiteProcessedPeriods))
 	            {
 	        		// 2) OR always if script never executed for this website before
