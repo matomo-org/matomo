@@ -377,6 +377,7 @@ abstract class Piwik_Controller
 		$view->isCustomLogo = Zend_Registry::get('config')->branding->use_custom_logo;
 		$view->logoHeader = Piwik_API_API::getInstance()->getHeaderLogoUrl();
 		$view->logoLarge = Piwik_API_API::getInstance()->getLogoUrl();
+		$view->piwikUrl = Piwik::getPiwikUrl();
 	}
 	
 	/**
