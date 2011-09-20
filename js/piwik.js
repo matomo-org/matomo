@@ -1734,7 +1734,7 @@ var
 					linkType;
 
 				while (!!(parentElement = sourceElement.parentNode) &&
-						((tag = sourceElement.tagName) !== 'A' && tag !== 'AREA')) {
+						((tag = sourceElement.tagName.toUpperCase()) !== 'A' && tag !== 'AREA')) {
 					sourceElement = parentElement;
 				}
 
