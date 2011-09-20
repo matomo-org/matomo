@@ -234,29 +234,25 @@ class Piwik_Goals_API
 			$idSubtable = $row->getIdSubDataTable();
 			$ecommerceViews = Piwik_CustomVariables_API::getInstance()->getCustomVariablesValuesFromNameId($idSite, $period, $date, $idSubtable);
 		
-			// For Product names and keyword reports, 
+			// For Product names and SKU reports, and for Category report 
 			// Use the Price (tracked on page views) 
 			// ONLY when the price sold in conversions is not found (ie. product viewed but not sold) 
-			if($recordName == 'Goals_ItemsSku' 
-				|| $recordName == 'Goals_ItemsName')
+			foreach($ecommerceViews->getRows() as $rowView)
 			{
-				foreach($ecommerceViews->getRows() as $rowView)
+				// If there is not already a 'sum price' for this product
+				$rowFound = $dataTable->getRowFromLabel($rowView->getColumn('label'));
+				$price = $rowFound 
+							? $rowFound->getColumn(Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE) 
+							: false;
+				if(empty($price))
 				{
-					// If there is not already a 'sum price' for this product
-					$rowFound = $dataTable->getRowFromLabel($rowView->getColumn('label'));
-					$price = $rowFound 
-								? $rowFound->getColumn(Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE) 
-								: false;
-					if(empty($price))
+					// If a price was tracked on the product page
+					if($rowView->getColumn(Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED))
 					{
-						// If a price was tracked on the product page
-						if($rowView->getColumn(Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED))
-						{
-							$rowView->renameColumn(Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED, 'avg_price');
-						}
+						$rowView->renameColumn(Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED, 'avg_price');
 					}
-					$rowView->deleteColumn(Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED);
 				}
+				$rowView->deleteColumn(Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED);
 			}
 			
 			$dataTable->addDataTable($ecommerceViews);

@@ -195,7 +195,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	        
 	        // IF we query Custom Variables scope "page" either: Product SKU, Product Name, 
 	        // then we also query the "Product page view" price which was possibly recorded.
-	        if(in_array(reset($label), array('custom_var_k3','custom_var_k4')))
+	        if(in_array(reset($label), array('custom_var_k3','custom_var_k4','custom_var_k5')))
 	        {
 	        	$select .= ", ".self::getSqlRevenue("AVG(log_link_visit_action.custom_var_v2)")." as `". Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED ."`";
 	        }

@@ -2451,8 +2451,8 @@ var
 					if (isDefined(category) && category.length) {
 						customVariablesPage[5] = ['_pkc', category];
 					}
-					if (isDefined(price) && price.length) {
-						customVariablesPage[2] = ['_pkp', category];
+					if (isDefined(price) && String(price).length) {
+						customVariablesPage[2] = ['_pkp', price];
 					}
 				},
 
@@ -2463,7 +2463,7 @@ var
 				 *
 				 * @param string sku (required) Item's SKU Code. This is the unique identifier for the product.
 				 * @param string name (optional) Item's name
-				 * @param string name (optional) Item's category
+				 * @param string name (optional) Item's category, or array of up to 5 categories
 				 * @param float price (optional) Item's price. If not specified, will default to 0
 				 * @param float quantity (optional) Item's quantity. If not specified, will default to 1
 				 */
