@@ -174,11 +174,16 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		$this->setApiToCall( array('Goals.get', 'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory'	) );
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime, $periods = array('week'));
 
-        // Abandoned carts calls
+		// Abandoned carts calls
         $abandonedCarts = 1;
 		$this->setApiToCall( array('Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory') );
         $this->callGetApiCompareOutput(__FUNCTION__ . '_AbandonedCarts', 'xml', $idSite, $dateTime, $periods = array('day', 'week'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts);
-
+        // test with multiple periods
+        $this->callGetApiCompareOutput(__FUNCTION__ . 'multipleDates', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN=true);
+        
+        // test with multiple periods and multiple websites
+        $this->callGetApiCompareOutput(__FUNCTION__ . 'multipleDates_andMultipleWebsites', 'xml', $idSites = "$idSite,$idSite2", $dateTime, $periods = array('day'), $setDateLastN=true);
+        
         // Test metadata products
 		$this->setApiToCall( array('API.getProcessedReport'	) );
         $apiModule = 'Goals';

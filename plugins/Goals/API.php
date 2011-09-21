@@ -220,47 +220,78 @@ class Piwik_Goals_API
 		$dataTable->queueFilter('ColumnDelete', array('price'));
 		
 		// Enrich the datatable with Product/Categories views, and conversion rates
+		$customVariables = Piwik_CustomVariables_API::getInstance()->getCustomVariables($idSite, $period, $date, $segment = false, $expanded = false, $_leavePiwikCoreVariables = true);
 		$mapping = array(
 			'Goals_ItemsSku' => '_pks',
 			'Goals_ItemsName' => '_pkn',
 			'Goals_ItemsCategory' => '_pkc',
 		);
 		
-		$customVariables = Piwik_CustomVariables_API::getInstance()->getCustomVariables($idSite, $period, $date, $segment = false, $expanded = false, $_leavePiwikCoreVariables = true);
-		if($customVariables instanceof Piwik_DataTable
-			&& $row = $customVariables->getRowFromLabel($mapping[$recordName]))
+		// Handle case where date=last30&period=day
+		if($customVariables instanceof Piwik_DataTable_Array)
 		{
-			// Request views for all products/categories
-			$idSubtable = $row->getIdSubDataTable();
-			$ecommerceViews = Piwik_CustomVariables_API::getInstance()->getCustomVariablesValuesFromNameId($idSite, $period, $date, $idSubtable);
-		
-			// For Product names and SKU reports, and for Category report 
-			// Use the Price (tracked on page views) 
-			// ONLY when the price sold in conversions is not found (ie. product viewed but not sold) 
-			foreach($ecommerceViews->getRows() as $rowView)
+			$customVariableDatatables = $customVariables->getArray();
+			$dataTables = $dataTable->getArray();
+			foreach($customVariableDatatables as $key => $customVariableTableForDate)
 			{
-				// If there is not already a 'sum price' for this product
-				$rowFound = $dataTable->getRowFromLabel($rowView->getColumn('label'));
-				$price = $rowFound 
-							? $rowFound->getColumn(Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE) 
-							: false;
-				if(empty($price))
+				$dataTableForDate = isset($dataTables[$key]) ? $dataTables[$key] : new Piwik_DataTable();
+				
+				// we do not enter the IF 
+				// if case idSite=1,3 AND period=day&date=datefrom,dateto, 
+				if(isset($dataTable->metadata[$key]['period']))
 				{
-					// If a price was tracked on the product page
-					if($rowView->getColumn(Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED))
+					$dateRewrite = $dataTable->metadata[$key]['period']->getDateStart()->toString();
+					$row = $customVariableTableForDate->getRowFromLabel($mapping[$recordName]);
+					if($row)
 					{
-						$rowView->renameColumn(Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED, 'avg_price');
+						$idSubtable = $row->getIdSubDataTable();
+						$this->enrichItemsDataTableWithItemsViewMetrics($dataTableForDate, $idSite, $period, $dateRewrite, $idSubtable);
 					}
+					$dataTable->addTable($dataTableForDate, $key);
 				}
-				$rowView->deleteColumn(Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED);
 			}
-			
-			$dataTable->addDataTable($ecommerceViews);
-			// Product conversion rate = orders / visits 
-			$dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('conversion_rate', $ordersColumn, 'nb_visits', Piwik_Tracker_GoalManager::REVENUE_PRECISION));
 		}
+		elseif($customVariables instanceof Piwik_DataTable)
+		{
+			$row = $customVariables->getRowFromLabel($mapping[$recordName]);
+			if($row)
+			{
+				$idSubtable = $row->getIdSubDataTable();
+				$this->enrichItemsDataTableWithItemsViewMetrics($dataTable, $idSite, $period, $date, $idSubtable);
+			}
+		}
+		// Product conversion rate = orders / visits 
+		$dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('conversion_rate', $ordersColumn, 'nb_visits', Piwik_Tracker_GoalManager::REVENUE_PRECISION));
 		
 		return $dataTable;
+	}
+	
+	protected function enrichItemsDataTableWithItemsViewMetrics($dataTable, $idSite, $period, $date, $idSubtable)
+	{
+		$ecommerceViews = Piwik_CustomVariables_API::getInstance()->getCustomVariablesValuesFromNameId($idSite, $period, $date, $idSubtable);
+	
+		// For Product names and SKU reports, and for Category report 
+		// Use the Price (tracked on page views) 
+		// ONLY when the price sold in conversions is not found (ie. product viewed but not sold) 
+		foreach($ecommerceViews->getRows() as $rowView)
+		{
+			// If there is not already a 'sum price' for this product
+			$rowFound = $dataTable->getRowFromLabel($rowView->getColumn('label'));
+			$price = $rowFound 
+						? $rowFound->getColumn(Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE) 
+						: false;
+			if(empty($price))
+			{
+				// If a price was tracked on the product page
+				if($rowView->getColumn(Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED))
+				{
+					$rowView->renameColumn(Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED, 'avg_price');
+				}
+			}
+			$rowView->deleteColumn(Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED);
+		}
+		
+		$dataTable->addDataTable($ecommerceViews);
 	}
 	
 	public function getItemsSku($idSite, $period, $date, $abandonedCarts = false )
