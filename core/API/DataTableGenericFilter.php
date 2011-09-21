@@ -91,12 +91,6 @@ class Piwik_API_DataTableGenericFilter
 			foreach($tables as $table)
 			{
 				$filterWasApplied = $this->applyGenericFilters($table);
-				// if no generic filter was applied to the first table, we can return
-				// as no filter would be applied to any other dataTable
-				if(!$filterWasApplied)
-				{
-					return;
-				}
 			}
 			return;
 		}
