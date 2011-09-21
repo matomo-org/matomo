@@ -236,7 +236,15 @@ class Piwik_FrontController
 			if(Zend_Registry::get('config')->General->maintenance_mode == 1
 				&& !Piwik_Common::isPhpCliMode())
 			{
-				throw new Exception("Piwik is in scheduled maintenance. Please come back later.");
+				$format = Piwik_Common::getRequestVar('format', '');
+				$exception = new Exception("Piwik is in scheduled maintenance. Please come back later.");
+				if(empty($format))
+				{
+					throw $exception;
+				}
+				$response = new Piwik_API_ResponseBuilder( $format );
+				echo $response->getResponseException( $exception );
+				exit;
 			}
 
 			$pluginsManager = Piwik_PluginsManager::getInstance();
