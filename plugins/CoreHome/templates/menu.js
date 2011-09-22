@@ -12,26 +12,22 @@ function menu()
 
 menu.prototype =
 {    
-    menuSectionLoaded: function (content, urlLoaded)
-    {
-        if(urlLoaded == menu.prototype.lastUrlRequested)
-        {
-            $('#content').html( content ).show();
-            piwikHelper.hideAjaxLoading();
-            menu.prototype.lastUrlRequested = null;
-        }
-    },
-    
-    customAjaxHandleError: function ()
-    {
-        menu.prototype.lastUrlRequested = null;
-        piwikHelper.ajaxHandleError();        
-    },
+    resetTimer: null,
     
     overMainLI: function ()
     {
         $(this).siblings().removeClass('sfHover');
         $(this).addClass('sfHover');
+        clearTimeout(menu.prototype.resetTimer);
+    },
+    
+    outMainLI: function ()
+    {
+        clearTimeout(menu.prototype.resetTimer);
+        menu.prototype.resetTimer = setTimeout(function(){
+            $('.nav>.sfHover').removeClass('sfHover');
+            $('.nav>.sfActive').addClass('sfHover');
+        }, 2000);
     },
     
     onItemClick: function (item)
@@ -48,7 +44,7 @@ menu.prototype =
         //sub LI auto height
         $('.nav li li a').each(function(){$(this).css({width:$(this).width()+30, paddingLeft:0, paddingRight:0});});
         
-        this.menuNode.find("li:has(ul)").bind('mouseenter' ,this.overMainLI);
+        this.menuNode.find("li:has(ul)").hover(this.overMainLI, this.outMainLI);
         
         // add id to all li menu to suport menu identification.
         // for all sub menu we want to have a unique id based on their module and action
