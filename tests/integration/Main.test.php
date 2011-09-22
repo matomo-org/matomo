@@ -268,7 +268,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	{
 		$this->setApiToCall(array(
 			'VisitTime.getVisitInformationPerServerTime', 
-			'VisitsSummary.get',
+			'VisitsSummary.get', 
 		));
 		$dateTime = '2009-01-04 00:11:42';
 		$idSite = $this->createWebsite($dateTime);
@@ -755,8 +755,8 @@ class Test_Piwik_Integration_Main extends Test_Integration
         
 		$tests = array(
 	        // 1) CHECK 'day' archive stored in January
-	        // We expect 2 segments * (2 custom variable name + 2 ref metrics + 1 subtable for the values of the name + 5 Referers blob) = 14
-			'archive_blob_2010_01' => 20,
+	        // We expect 2 segments * (2 custom variable name + 2 ref metrics + 2 subtable for the custom var values + 5 Referers blob)
+			'archive_blob_2010_01' => 22,
 			// This contains all 'last N' weeks & days, (6 metrics + 2 referer metrics + 1 done flag ) * 2 segments + 1 Done flag per Plugin, for each "Last N" date
 			'archive_numeric_2010_01' => 138,
 		
