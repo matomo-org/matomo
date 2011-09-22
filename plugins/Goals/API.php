@@ -226,6 +226,12 @@ class Piwik_Goals_API
 			'Goals_ItemsName' => '_pkn',
 			'Goals_ItemsCategory' => '_pkc',
 		);
+		$reportToNotDefinedString = array(
+			'Goals_ItemsSku' => Piwik_Translate('General_NotDefined', Piwik_Translate('Goals_ProductSKU')), // Note: this should never happen 
+			'Goals_ItemsName' => Piwik_Translate('General_NotDefined', Piwik_Translate('Goals_ProductName')), 
+			'Goals_ItemsCategory'  => Piwik_Translate('General_NotDefined', Piwik_Translate('Goals_ProductCategory'))
+		);
+		$notDefinedStringPretty = $reportToNotDefinedString[$recordName];
 		
 		// Handle case where date=last30&period=day
 		if($customVariables instanceof Piwik_DataTable_Array)
@@ -249,6 +255,7 @@ class Piwik_Goals_API
 					}
 					$dataTable->addTable($dataTableForDate, $key);
 				}
+				$this->renameNotDefinedRow($dataTableForDate, $notDefinedStringPretty);
 			}
 		}
 		elseif($customVariables instanceof Piwik_DataTable)
@@ -259,12 +266,32 @@ class Piwik_Goals_API
 				$idSubtable = $row->getIdSubDataTable();
 				$this->enrichItemsDataTableWithItemsViewMetrics($dataTable, $idSite, $period, $date, $idSubtable);
 			}
+			$this->renameNotDefinedRow($dataTable, $notDefinedStringPretty);
+			
 		}
 		// Product conversion rate = orders / visits 
 		$dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('conversion_rate', $ordersColumn, 'nb_visits', Piwik_Tracker_GoalManager::REVENUE_PRECISION));
 		
 		return $dataTable;
 	}
+	
+	protected function renameNotDefinedRow($dataTable, $notDefinedStringPretty)
+	{
+		if($dataTable instanceof Piwik_DataTable_Array)
+		{
+			foreach($dataTable->getArray() as $table)
+			{
+				$this->renameNotDefinedRow($table, $notDefinedStringPretty);
+			}
+			return;
+		}
+		$rowNotDefined = $dataTable->getRowFromLabel(Piwik_CustomVariables::LABEL_CUSTOM_VALUE_NOT_DEFINED);
+		if($rowNotDefined)
+		{
+			$rowNotDefined->setColumn('label', $notDefinedStringPretty);
+		}
+	}
+	
 	
 	protected function enrichItemsDataTableWithItemsViewMetrics($dataTable, $idSite, $period, $date, $idSubtable)
 	{

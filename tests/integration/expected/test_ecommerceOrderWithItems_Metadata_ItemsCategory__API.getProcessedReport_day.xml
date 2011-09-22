@@ -85,13 +85,13 @@
 		</row>
 		<row>
 			<label>Product Category not defined</label>
-			<revenue>$ 600</revenue>
-			<quantity>6.00</quantity>
-			<orders>1</orders>
-			<avg_price>100</avg_price>
-			<avg_quantity>6</avg_quantity>
-			<conversion_rate>0%</conversion_rate>
-			<nb_visits>0</nb_visits>
+			<revenue>$ 611.22</revenue>
+			<quantity>7.00</quantity>
+			<orders>2</orders>
+			<nb_visits>3</nb_visits>
+			<avg_price>55.61</avg_price>
+			<avg_quantity>3.5</avg_quantity>
+			<conversion_rate>66.67%</conversion_rate>
 		</row>
 		<row>
 			<label>Category TWO LEFT in cart</label>

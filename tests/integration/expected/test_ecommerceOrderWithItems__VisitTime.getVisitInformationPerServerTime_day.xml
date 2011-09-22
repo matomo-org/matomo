@@ -51,7 +51,7 @@
 				<revenue_tax>511</revenue_tax>
 				<revenue_shipping>100.11</revenue_shipping>
 				<revenue_discount>666</revenue_discount>
-				<items>9</items>
+				<items>10</items>
 			</row>
 		</goals>
 		<nb_conversions>2</nb_conversions>

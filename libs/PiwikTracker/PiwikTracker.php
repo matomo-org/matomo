@@ -360,21 +360,31 @@ class PiwikTracker
      */
     public function setEcommerceView($sku = false, $name = false, $category = false, $price = false)
     {
-    	if(!empty($sku)) {
-    		$this->pageCustomVar[3] = array('_pks', $sku);
-    	}
-    	if(!empty($name)) {
-    		$this->pageCustomVar[4] = array('_pkn', $name);
-    	}
     	if(!empty($category)) {
     		if(is_array($category)) {
     			$category = json_encode($category);
     		}
-    		$this->pageCustomVar[5] = array('_pkc', $category);
+    	} else {
+    		$category = "";
     	}
+    	$this->pageCustomVar[5] = array('_pkc', $category);
+    	
     	if(!empty($price)) {
     		$this->pageCustomVar[2] = array('_pkp', (float)$price);
     	}
+    	
+    	// On a category page, do not record "Product name not defined" 
+    	if(empty($sku) && empty($name))
+    	{
+    		return;
+    	}
+    	if(!empty($sku)) {
+    		$this->pageCustomVar[3] = array('_pks', $sku);
+    	}
+    	if(empty($name)) {
+    		$name = "";
+    	}
+    	$this->pageCustomVar[4] = array('_pkn', $name);
     }
     
     /**

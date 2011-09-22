@@ -552,11 +552,6 @@ class Piwik_Goals extends Piwik_Plugin
 		{
 			return false;
 		}
-		$dimensionsNotSet = array(
-			'idaction_sku' => Piwik_Translate('General_NotDefined', Piwik_Translate('Goals_ProductSKU')), // Note: this should never happen 
-			'idaction_name' => Piwik_Translate('General_NotDefined', Piwik_Translate('Goals_ProductName')), 
-			'idaction_category'  => Piwik_Translate('General_NotDefined', Piwik_Translate('Goals_ProductCategory'))
-		);
 		$items = array();
 		
 		$dimensionsToQuery = $this->dimensions;
@@ -583,8 +578,8 @@ class Piwik_Goals extends Piwik_Plugin
 					if($recordName == 'AdditionalCategory') {
 						continue;
 					}
-					// "Product Category not defined"
-					$label = $dimensionsNotSet[$dimension];
+					// Product Name/Category not defined"
+					$label = Piwik_CustomVariables::LABEL_CUSTOM_VALUE_NOT_DEFINED;
 				}
 				// For carts, idorder = 0. To count abandoned carts, we must count visits with an abandoned cart
 				if($ecommerceType == Piwik_Tracker_GoalManager::IDGOAL_CART)
