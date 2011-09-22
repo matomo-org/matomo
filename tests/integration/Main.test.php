@@ -666,7 +666,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	$visitorA->setCustomVariable($id = 1, $name = 'VisitorType', $value = 'LoggedIn');
         $this->checkResponse($visitorA->doTrackPageView('Profile page'));
         
-    	$visitorA->setCustomVariable($id = 2, $name = 'NOTSETBECAUSE EMPTY VALUE', $value = '');
+    	$visitorA->setCustomVariable($id = 2, $name = 'SET WITH EMPTY VALUE', $value = '');
     	$visitorA->setCustomVariable($id = 3, $name = 'Value will be VERY long and truncated', $value = 'abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----');
         $this->checkResponse($visitorA->doTrackPageView('Profile page'));
     	$this->checkResponse($visitorA->doTrackGoal($idGoal));
@@ -761,8 +761,8 @@ class Test_Piwik_Integration_Main extends Test_Integration
 			'archive_numeric_2010_01' => 138,
 		
 	        // 2) CHECK 'week' archive stored in December (week starts the month before)
-	        // We expect 2 segments * (2 custom variable name + 2 ref metrics + 1 subtable for the values of the name + 5 referers blob) = 14
-			'archive_blob_2009_12' => 20,
+	        // We expect 2 segments * (2 custom variable name + 2 ref metrics + 2 subtable for the values of the name + 5 referers blob)
+			'archive_blob_2009_12' => 22,
 	        // 6 metrics, 
 	        // 2 Referer metrics (Referers_distinctSearchEngines/Referers_distinctKeywords), 
 	        // 3 done flag (referers, CustomVar, VisitsSummary), 
