@@ -62,12 +62,15 @@
 	</row>
 	<row>
 		<label>Product Category not defined</label>
-		<revenue>600</revenue>
-		<quantity>6.00</quantity>
-		<orders>1</orders>
-		<avg_price>100</avg_price>
-		<avg_quantity>6</avg_quantity>
-		<conversion_rate>0%</conversion_rate>
+		<revenue>611.22</revenue>
+		<quantity>7.00</quantity>
+		<orders>2</orders>
+		<nb_visits>4</nb_visits>
+		<nb_actions>7</nb_actions>
+		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<avg_price>55.61</avg_price>
+		<avg_quantity>3.5</avg_quantity>
+		<conversion_rate>50%</conversion_rate>
 	</row>
 	<row>
 		<label>Tools</label>

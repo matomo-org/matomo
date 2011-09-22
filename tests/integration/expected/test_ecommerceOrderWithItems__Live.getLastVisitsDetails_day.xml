@@ -283,7 +283,7 @@
 				<revenueTax>400</revenueTax>
 				<revenueShipping>100</revenueShipping>
 				<revenueDiscount>0</revenueDiscount>
-				<items>1</items>
+				<items>2</items>
 				
 				<icon>themes/default/images/ecommerceOrder.gif</icon>
 			</row>

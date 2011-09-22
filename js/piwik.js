@@ -2442,18 +2442,27 @@ var
 				 * @param float price Item's display price, not use in standard Piwik reports, but output in API product reports. 
 				 */
 				setEcommerceView: function (sku, name, category, price) {
-					if (isDefined(sku) && sku.length) {
-						customVariablesPage[3] = ['_pks', sku];
+					if (!isDefined(category) || !category.length) {
+						category = "";
 					}
-					if (isDefined(name) && name.length) {
-						customVariablesPage[4] = ['_pkn', name];
-					}
-					if (isDefined(category) && category.length) {
-						customVariablesPage[5] = ['_pkc', category];
-					}
+					customVariablesPage[5] = ['_pkc', category];
 					if (isDefined(price) && String(price).length) {
 						customVariablesPage[2] = ['_pkp', price];
 					}
+					
+					// On a category page, do not track Product name not defined
+					if ((!isDefined(sku) || !sku.length)
+						&& (!isDefined(name) || !name.length)) {
+						return;
+					}
+					
+					if (isDefined(sku) && sku.length) {
+						customVariablesPage[3] = ['_pks', sku];
+					}
+					if (!isDefined(name) || !name.length) {
+						name = "";
+					}
+					customVariablesPage[4] = ['_pkn', name];
 				},
 
 				/**

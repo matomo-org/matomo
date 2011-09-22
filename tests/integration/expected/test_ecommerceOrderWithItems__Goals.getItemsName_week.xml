@@ -11,15 +11,15 @@
 	</row>
 	<row>
 		<label>PRODUCT name</label>
-		<revenue>1000</revenue>
-		<quantity>2.00</quantity>
-		<orders>1</orders>
+		<revenue>1011.22</revenue>
+		<quantity>3.00</quantity>
+		<orders>2</orders>
 		<nb_visits>2</nb_visits>
 		<nb_actions>5</nb_actions>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<avg_price>500</avg_price>
-		<avg_quantity>2</avg_quantity>
-		<conversion_rate>50%</conversion_rate>
+		<avg_price>255.61</avg_price>
+		<avg_quantity>1.5</avg_quantity>
+		<conversion_rate>100%</conversion_rate>
 	</row>
 	<row>
 		<label>PRODUCT name BIS</label>

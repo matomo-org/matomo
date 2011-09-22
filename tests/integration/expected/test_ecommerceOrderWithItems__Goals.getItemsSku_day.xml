@@ -14,15 +14,15 @@
 	</row>
 	<row>
 		<label>SKU VERY nice indeed</label>
-		<revenue>1000</revenue>
-		<quantity>2.00</quantity>
-		<orders>1</orders>
+		<revenue>1011.22</revenue>
+		<quantity>3.00</quantity>
+		<orders>2</orders>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>3</nb_visits>
 		<nb_actions>8</nb_actions>
-		<avg_price>500</avg_price>
-		<avg_quantity>2</avg_quantity>
-		<conversion_rate>33.33%</conversion_rate>
+		<avg_price>255.61</avg_price>
+		<avg_quantity>1.5</avg_quantity>
+		<conversion_rate>66.67%</conversion_rate>
 	</row>
 	<row>
 		<label>ANOTHER SKU HERE</label>

@@ -159,6 +159,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
 		destroy($this->interestByCustomVariablesAndValue);
 	}
 
+	const LABEL_CUSTOM_VALUE_NOT_DEFINED = "Value not defined";
 	/**
 	 * @param Piwik_ArchiveProcessing_Day $archiveProcessing
 	 * @return void
@@ -170,13 +171,17 @@ class Piwik_CustomVariables extends Piwik_Plugin
 			$keyField = "custom_var_k".$i;
 			$valueField = "custom_var_v".$i;
 			$dimensions = array($keyField, $valueField);
-			$where = "%s.$keyField != '' AND %s.$valueField != ''";
+			$where = "%s.$keyField != ''";
 			 
 			// Custom Vars names and values metrics for visits
 			$query = $archiveProcessing->queryVisitsByDimension($dimensions, $where);
 			 
 			while($row = $query->fetch() )
 			{
+				// Handle case custom var value is empty
+				$row[$valueField] = $this->cleanCustomVarValue($row[$valueField]);
+								
+				// Aggregate
 				if(!isset($this->interestByCustomVariables[$row[$keyField]])) $this->interestByCustomVariables[$row[$keyField]]= $archiveProcessing->getNewInterestRow();
 				if(!isset($this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]])) $this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]] = $archiveProcessing->getNewInterestRow();
 				$archiveProcessing->updateInterestStats( $row, $this->interestByCustomVariables[$row[$keyField]]);
@@ -188,6 +193,9 @@ class Piwik_CustomVariables extends Piwik_Plugin
 			$onlyMetricsAvailableInActionsTable = true;
 			while($row = $query->fetch() )
 			{
+				// Handle case custom var value is empty
+				$row[$valueField] = $this->cleanCustomVarValue($row[$valueField]);
+								
 				$label = $row[$valueField];
 				
 				// when custom variable value is a JSON array of categories
@@ -206,7 +214,8 @@ class Piwik_CustomVariables extends Piwik_Plugin
 						$count = 0;
 						foreach($decoded as $category)
 						{
-							if(empty($category) || $count >= Piwik_Tracker_GoalManager::MAXIMUM_PRODUCT_CATEGORIES) {
+							if(empty($category) 
+								|| $count >= Piwik_Tracker_GoalManager::MAXIMUM_PRODUCT_CATEGORIES) {
 								continue;
 							}
 							if(!isset($this->interestByCustomVariablesAndValue[$row[$keyField]][$category])) {
@@ -240,6 +249,9 @@ class Piwik_CustomVariables extends Piwik_Plugin
 			{
 				while($row = $query->fetch() )
 				{
+					// Handle case custom var value is empty
+					$row[$valueField] = $this->cleanCustomVarValue($row[$valueField]);
+					
 					if(!isset($this->interestByCustomVariables[$row[$keyField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByCustomVariables[$row[$keyField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
 					if(!isset($this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
 
@@ -255,6 +267,15 @@ class Piwik_CustomVariables extends Piwik_Plugin
     	//var_dump($this->interestByCustomVariablesAndValue);
 	}
 
+	protected function cleanCustomVarValue($value)
+	{
+		if(!empty($value))
+		{
+			return $value;
+		} 
+		return self::LABEL_CUSTOM_VALUE_NOT_DEFINED;
+	}
+	
 	/**
 	 * @param Piwik_ArchiveProcessing $archiveProcessing
 	 * @return void

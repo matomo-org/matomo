@@ -83,6 +83,9 @@ class Piwik_CustomVariables_API
 	    
 	    // Hack Ecommerce product price tracking to display correctly
 	    $dataTable->renameColumn('price_viewed', 'price');
+    	$dataTable->queueFilter('ColumnCallbackReplace', 
+    		array('label', create_function('$label', 'return $label == Piwik_CustomVariables::LABEL_CUSTOM_VALUE_NOT_DEFINED ? "'. Piwik_Translate( 'General_NotDefined', Piwik_Translate('CustomVariables_ColumnCustomVariableValue')) .'" : $label;')));
+	    
 		return $dataTable;
 	}
 }

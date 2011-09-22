@@ -17,9 +17,12 @@
 		<revenue>1500.33</revenue>
 		<quantity>3</quantity>
 		<abandoned_carts>3</abandoned_carts>
+		<nb_visits>4</nb_visits>
+		<nb_actions>7</nb_actions>
+		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<avg_price>500.11</avg_price>
 		<avg_quantity>1</avg_quantity>
-		<conversion_rate>0%</conversion_rate>
+		<conversion_rate>75%</conversion_rate>
 	</row>
 	<row>
 		<label>Electronics &amp; Cameras</label>

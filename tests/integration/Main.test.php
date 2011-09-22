@@ -102,8 +102,10 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // ORDER NO 2
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(2.1)->getDatetime());
         $t->addEcommerceItem($sku = 'SKU2', $name = 'Canon SLR' , $category = 'Electronics & Cameras', $price = 1500, $quantity = 1);
+        // Product bought with empty category
+		$t->addEcommerceItem($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name' , '', $price = 11.22, $quantity = 1);
         $this->checkResponse($t->doTrackEcommerceOrder($orderId = '1037nsjusu4s3894', $grandTotal = 2000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
-        
+       
         // ORDER SHOULD DEDUPE
         // Refresh the page with the receipt for the second order, should be ignored
         // we test that both the order, and the products, are not updated on subsequent "Receipt" views
@@ -259,6 +261,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // Website2
 		$this->setApiToCall( array('Goals.get', 'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory'	) );
         $this->callGetApiCompareOutput(__FUNCTION__ . '_Website2', 'xml', $idSite2, $dateTime, $periods = array('week'));
+	 
 	}
 	
 	function test_trackGoals_allowMultipleConversionsPerVisit()
