@@ -2449,13 +2449,12 @@ var
 					if (isDefined(price) && String(price).length) {
 						customVariablesPage[2] = ['_pkp', price];
 					}
-					
 					// On a category page, do not track Product name not defined
 					if ((!isDefined(sku) || !sku.length)
-						&& (!isDefined(name) || !name.length)) {
+							&& (!isDefined(name) || !name.length)) {
 						return;
 					}
-					
+
 					if (isDefined(sku) && sku.length) {
 						customVariablesPage[3] = ['_pks', sku];
 					}
