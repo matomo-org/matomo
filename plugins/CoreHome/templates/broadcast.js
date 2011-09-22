@@ -62,7 +62,7 @@ broadcast.pageload = function( hash ) {
  * propagateAjax -- update hash values then make ajax calls.
  *    example :
  *       1) <a href="javascript:broadcast.propagateAjax('module=Referers&action=getKeywords')">View keywords report</a>
- *       2) Main menu li also goes through this function. check out onClickLi();
+ *       2) Main menu li also goes through this function.
  *
  * Will propagate your new value into the current hash string and make ajax calls.
  *
