@@ -52,6 +52,11 @@
     } else {
         $('.custom_select_main_link').addClass('noselect');
     }
+    $('body').bind('mouseup',function(e){ 
+        if(!$(e.target).parents('#sitesSelectionSearch').length && !$(e.target).is('#sitesSelectionSearch')) {
+            $("#sitesSelectionSearch .custom_select_block").removeClass("custom_select_block_show");
+        }
+    });
     {/literal}
     </script>
 </div>
