@@ -128,7 +128,8 @@ $.fn.spy = function(settings) {
 			    var customParameterValue = o.customParameterValueCallback.call();
 			    if(!customParameterValue)
 			    {
-			    	spyRunning = 0; 
+			        window.clearInterval(spy.ajaxTimer);
+			        $('#_spyTmp').remove();
 			    	return;
 			    }
 				parameters[o.customParameterName] = customParameterValue;

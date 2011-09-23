@@ -29,7 +29,7 @@ function lastMaxTimestamp()
 			maxTimestamp = ts;
 		}
 	});
-	if(!isNaN(maxTimestamp)
+	if($('#visitsLive .serverTimestamp').length && !isNaN(maxTimestamp)
 			&& parseInt(maxTimestamp)==maxTimestamp) 
 	{
 		updateTotalVisits();
