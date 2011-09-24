@@ -87,7 +87,7 @@ $(function() {
 	$('body').bind('mouseup',function(e){ 
 		if(!$(e.target).parents('#sitesSelectionSearch').length && !$(e.target).is('#sitesSelectionSearch') && !$(e.target).parents('#siteSelect.ui-autocomplete').length) {
 			reset();
-			$('#sitesSelectionSearch .cSustom_select_block').removeClass('custom_select_block_show');
+			$('#sitesSelectionSearch .custom_select_block').removeClass('custom_select_block_show');
 		}
 	});
 
