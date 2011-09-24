@@ -10,12 +10,12 @@
 	
 {if isset($enableFrames) && !$enableFrames}
 {literal}
-	<style>body { display : none; }</style>
+	<style type="text/css">body { display : none; }</style>
 {/literal}
 {/if}
 {if isset($forceSslLogin) && $forceSslLogin}
 {literal}
-	<script>
+	<script type="text/javascript">
 		if(window.location.protocol !== 'https:') {
 			var url = window.location.toString();
 			url = url.replace(/^http:/, 'https:');
@@ -56,8 +56,8 @@
 {/if}
 {include file="default/ie6.tpl"}
 	<div id="logo">
-	{if !$isCustomLogo}<a href="http://piwik.org" title="{$linkTitle}">{/if}
-		<img src='{$logoLarge}' title="{$linkTitle}" width='200' style='margin-right:20px'>
+	{if !$isCustomLogo}<a href="http://piwik.org" alt="Piwik" title="{$linkTitle}">{/if}
+		<img src='{$logoLarge}' title="{$linkTitle}" width='200' style='margin-right:20px' />
 		{if !$isCustomLogo}<div class="description"># {$linkTitle}</div>
 		{else}{capture name='poweredByPiwik'}
 				<i><a href="http://piwik.org/" target="_blank">{$linkTitle}</a></i>
