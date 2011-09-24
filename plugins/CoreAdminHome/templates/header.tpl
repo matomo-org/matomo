@@ -16,7 +16,7 @@
 <![endif]-->
 {if isset($enableFrames) && !$enableFrames}
 {literal}
-	<style>body { display : none; }</style>
+	<style type="text/css">body { display : none; }</style>
 {/literal}
 {/if}
 </head>
