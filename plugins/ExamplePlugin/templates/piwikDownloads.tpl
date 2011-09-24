@@ -11,7 +11,7 @@
 				+"&idSite=7&period="+piwik.period+"&date="+broadcast.getValueFromUrl('date')
 				+"&token_auth=anonymous&format=json",
 		dataType: 'jsonp', 
-		jsonp: 'jsoncallback',
+		jsonp: 'callback',
 		success: function(data) {
 			$('.piwikDownloadCount_cnt').html(data.value);
 		}
