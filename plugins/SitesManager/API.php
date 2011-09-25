@@ -1042,6 +1042,7 @@ class Piwik_SitesManager_API
 		{
 			$urls = array($urls);
 		}
+		$urls = array_filter($urls);
 		
 		$urls = array_map('urldecode', $urls);
 		foreach($urls as &$url)
@@ -1053,7 +1054,6 @@ class Piwik_SitesManager_API
 			}
 		}
 		$urls = array_unique($urls);
-		
 		return $urls;
 	}
 
