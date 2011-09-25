@@ -91,10 +91,6 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link:  http://www.jqplot.com/
 	License:  Dual-licensed: MIT or GPL v2
 	
-	Name:  CSS3PIE
-	Link:  http://github.com/lojjic/PIE
-	License:  Dual-licensed: Apache v2 or GPL v2
-
 	Name:  jQuery
 	Link:  http://jquery.com/
 	License:  Dual-licensed: MIT or GPL
@@ -107,18 +103,6 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	License:  Dual-licensed: MIT or GPL
 	Notes:
 	- GPL version not explicitly stated in source but GPL v2 is in git
-
-	Name:  fdd2div
-	Link:  http://code.google.com/p/fdd2div/
-	License:  GPL v3
-
-	Name:  jquery.bgiframe
-	Link:  http://plugins.jquery.com/project/bgiframe
-	License:  Dual licensed: MIT or GPL
-
-	Name:  jquery.blockUI
-	Link:  http://jquery.malsup.com/block/
-	License:  Dual licensed: MIT or GPL
 
 	Name:  jquery.history
 	Link:  http://www.mikage.to/jquery/jquery_history.html
