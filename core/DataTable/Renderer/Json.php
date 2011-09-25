@@ -65,7 +65,7 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 			$jsonCallback = Piwik_Common::getRequestVar('jsoncallback', false);
 		if($jsonCallback !== false) 
 		{
-			if(preg_match('/^[0-9a-zA-Z_]*$/', $jsonCallback) > 0)
+			if(preg_match('/^[0-9a-zA-Z_]*$/D', $jsonCallback) > 0)
 			{
 				$str = $jsonCallback . "(" . $str . ")";
 			}
