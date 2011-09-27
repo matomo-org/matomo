@@ -198,6 +198,12 @@ class Piwik_CustomVariables extends Piwik_Plugin
 								
 				$label = $row[$valueField];
 				
+				// Remove price tracked if it's zero or we if we are not currently tracking an ecommerce var
+				if(!in_array($row[$keyField], array('_pks', '_pkn', '_pkc')))
+				{
+					unset($row[Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED]);
+				}
+				
 				// when custom variable value is a JSON array of categories
 				// possibly JSON value
 				$mustInsertCustomVariableValue = true;
@@ -234,12 +240,16 @@ class Piwik_CustomVariables extends Piwik_Plugin
 					$archiveProcessing->updateInterestStats( $row, $this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]], $onlyMetricsAvailableInActionsTable);
 				}
 				
-				// Hack: when tracking Ecommerce product page view, we do not wish 
-				// to track the "price" in the Custom Variable name report, only in the values report
+				// Do not report on Price viewed for the Custom Variable names 
 				unset($row[Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED]);
 				
-				if(!isset($this->interestByCustomVariables[$row[$keyField]])) $this->interestByCustomVariables[$row[$keyField]]= $archiveProcessing->getNewInterestRow($onlyMetricsAvailableInActionsTable);
-				$archiveProcessing->updateInterestStats( $row, $this->interestByCustomVariables[$row[$keyField]], $onlyMetricsAvailableInActionsTable);
+				// When tracking Custom Variables with scope=page we do not add up visits numbers
+				// as it is incorrect to sum visits this way
+				// for scope=visit this is allowed, since there is supposed to be one custom var value per custom variable name for a given visit
+				$doNotSumVisits = true;
+
+				if(!isset($this->interestByCustomVariables[$row[$keyField]])) $this->interestByCustomVariables[$row[$keyField]]= $archiveProcessing->getNewInterestRow($onlyMetricsAvailableInActionsTable, $doNotSumVisits);
+				$archiveProcessing->updateInterestStats( $row, $this->interestByCustomVariables[$row[$keyField]], $onlyMetricsAvailableInActionsTable, $doNotSumVisits);
 			}
 			 
 			// Custom Vars names and values metrics for Goals

@@ -364,10 +364,10 @@ abstract class Test_Integration extends Test_Database
 			// Used in Actions.getPageUrl, .getDownload, etc.
 			// tied to Main.test.php doTest_oneVisitorTwoVisits
 			// will need refactoring when these same API functions are tested in a new function
-			'downloadUrl' 	=> 'http://piwik.org/path/again/latest.zip?phpsessid=this is ignored when searching',
-			'outlinkUrl' 	=> 'http://dev.piwik.org/svn',
-			'pageUrl' 		=> 'http://example.org/index.htm?sessionid=this is also ignored by default',
-			'pageName' 		=> ' Checkout / Purchasing... ',
+			'downloadUrl' 	=> urlencode('http://piwik.org/path/again/latest.zip?phpsessid=this is ignored when searching'),
+			'outlinkUrl' 	=> urlencode('http://dev.piwik.org/svn'),
+			'pageUrl' 		=> urlencode('http://example.org/index.htm?sessionid=this is also ignored by default'),
+			'pageName' 		=> urlencode(' Checkout / Purchasing... '),
 		
 			// do not show the millisec timer in response or tests would always fail as value is changing
 			'showTimer'     => 0,
@@ -396,7 +396,7 @@ abstract class Test_Integration extends Test_Database
 		{
 			$parametersToSet['idGoal'] = $idGoal;
 		}
-		// Give it enough time for the current API test to finish (call all get* APIs)
+		
 		Zend_Registry::get('config')->General->time_before_today_archive_considered_outdated = 10;
 		
 		$requestUrls = $this->generateUrlsApi($parametersToSet, $formats, $periods, $setDateLastN, $language, $segment);

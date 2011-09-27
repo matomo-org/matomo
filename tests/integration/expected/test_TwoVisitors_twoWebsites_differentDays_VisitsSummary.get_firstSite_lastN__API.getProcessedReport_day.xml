@@ -63,12 +63,12 @@
 			<avg_time_on_site>00:06:01</avg_time_on_site>
 		</result>
 		<result prettyDate="Tuesday 5 January 2010">
-			<max_actions>4</max_actions>
-			<nb_actions>4</nb_actions>
+			<max_actions>5</max_actions>
+			<nb_actions>5</nb_actions>
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_visits>1</nb_visits>
 			<bounce_rate>0%</bounce_rate>
-			<nb_actions_per_visit>4</nb_actions_per_visit>
+			<nb_actions_per_visit>5</nb_actions_per_visit>
 			<avg_time_on_site>00:15:01</avg_time_on_site>
 		</result>
 		<result prettyDate="Wednesday 6 January 2010" />

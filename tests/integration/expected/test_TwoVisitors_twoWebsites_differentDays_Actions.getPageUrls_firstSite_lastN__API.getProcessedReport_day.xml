@@ -44,7 +44,7 @@
 	<reportData>
 		<result prettyDate="Sunday 3 January 2010">
 			<row>
-				<label>/homepage</label>
+				<label>/index.htm</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<avg_time_on_page>00:00:00</avg_time_on_page>
@@ -78,7 +78,7 @@
 		</result>
 		<result prettyDate="Tuesday 5 January 2010">
 			<row>
-				<label>/homepage</label>
+				<label>/index.htm</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<entry_nb_visits>1</entry_nb_visits>
@@ -90,12 +90,12 @@
 			<row>
 				<label>/thankyou</label>
 				<nb_visits>1</nb_visits>
-				<nb_hits>1</nb_hits>
+				<nb_hits>2</nb_hits>
+				<exit_nb_visits>1</exit_nb_visits>
 				<avg_time_on_page>00:06:00</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
-				<exit_rate>0%</exit_rate>
+				<exit_rate>100%</exit_rate>
 				<entry_nb_visits>0</entry_nb_visits>
-				<exit_nb_visits>0</exit_nb_visits>
 			</row>
 		</result>
 		<result prettyDate="Wednesday 6 January 2010" />
@@ -106,7 +106,7 @@
 	<reportMetadata>
 		<result prettyDate="Sunday 3 January 2010">
 			<row>
-				<url>http://example.org/homepage</url>
+				<url>http://example.org/index.htm</url>
 			</row>
 			<row>
 				<url>http://example.org/products</url>
@@ -119,7 +119,7 @@
 		</result>
 		<result prettyDate="Tuesday 5 January 2010">
 			<row>
-				<url>http://example.org/homepage</url>
+				<url>http://example.org/index.htm</url>
 			</row>
 			<row>
 				<url>http://example.org/thankyou</url>

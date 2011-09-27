@@ -536,15 +536,19 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 *
 	 * @return array
 	 */
-	public function getNewInterestRow($onlyMetricsAvailableInActionsTable = false)
+	public function getNewInterestRow($onlyMetricsAvailableInActionsTable = false, $doNotSumVisits = false)
 	{
 		if($onlyMetricsAvailableInActionsTable)
 		{
-			return array(	Piwik_Archive::INDEX_NB_UNIQ_VISITORS 	=> 0,
+			if($doNotSumVisits)
+			{
+					return array(Piwik_Archive::INDEX_NB_ACTIONS => 0 );
+			}
+			return array(	
+					Piwik_Archive::INDEX_NB_UNIQ_VISITORS 	=> 0,
 					Piwik_Archive::INDEX_NB_VISITS 			=> 0,
 					Piwik_Archive::INDEX_NB_ACTIONS 		=> 0 );
 		}
-		
 		return array(	Piwik_Archive::INDEX_NB_UNIQ_VISITORS 	=> 0,
 						Piwik_Archive::INDEX_NB_VISITS 			=> 0,
 						Piwik_Archive::INDEX_NB_ACTIONS 		=> 0,
@@ -552,7 +556,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 						Piwik_Archive::INDEX_SUM_VISIT_LENGTH 	=> 0,
 						Piwik_Archive::INDEX_BOUNCE_COUNT 		=> 0,
 						Piwik_Archive::INDEX_NB_VISITS_CONVERTED=> 0,
-						);
+		);
 	}
 	
 	
@@ -581,15 +585,18 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * @param array $newRowToAdd
 	 * @param array $oldRowToUpdate
 	 */
-	public function updateInterestStats( $newRowToAdd, &$oldRowToUpdate, $onlyMetricsAvailableInActionsTable = false)
+	public function updateInterestStats( $newRowToAdd, &$oldRowToUpdate, $onlyMetricsAvailableInActionsTable = false, $doNotSumVisits = false)
 	{
 		// Pre 1.2 format: string indexed rows are returned from the DB
 		// Left here for Backward compatibility with plugins doing custom SQL queries using these metrics as string
 		if(!isset($newRowToAdd[Piwik_Archive::INDEX_NB_VISITS]))
 		{
-    		$oldRowToUpdate[Piwik_Archive::INDEX_NB_UNIQ_VISITORS]		+= $newRowToAdd['nb_uniq_visitors'];
-    		$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS] 			+= $newRowToAdd['nb_visits'];
-    		$oldRowToUpdate[Piwik_Archive::INDEX_NB_ACTIONS] 			+= $newRowToAdd['nb_actions'];
+			if(!$doNotSumVisits)
+			{
+	    		$oldRowToUpdate[Piwik_Archive::INDEX_NB_UNIQ_VISITORS]		+= $newRowToAdd['nb_uniq_visitors'];
+	    		$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS] 			+= $newRowToAdd['nb_visits'];
+			}
+			$oldRowToUpdate[Piwik_Archive::INDEX_NB_ACTIONS] 			+= $newRowToAdd['nb_actions'];
     		if($onlyMetricsAvailableInActionsTable)
     		{
     			return;
@@ -600,16 +607,17 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
     		$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS_CONVERTED] 	+= $newRowToAdd['nb_visits_converted'];
     		return;
 		}
-		
-		$oldRowToUpdate[Piwik_Archive::INDEX_NB_UNIQ_VISITORS]		+= $newRowToAdd[Piwik_Archive::INDEX_NB_UNIQ_VISITORS];
-		$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS] 			+= $newRowToAdd[Piwik_Archive::INDEX_NB_VISITS];
+		if(!$doNotSumVisits)
+		{
+			$oldRowToUpdate[Piwik_Archive::INDEX_NB_UNIQ_VISITORS]		+= $newRowToAdd[Piwik_Archive::INDEX_NB_UNIQ_VISITORS];
+			$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS] 			+= $newRowToAdd[Piwik_Archive::INDEX_NB_VISITS];
+		}
 		$oldRowToUpdate[Piwik_Archive::INDEX_NB_ACTIONS] 			+= $newRowToAdd[Piwik_Archive::INDEX_NB_ACTIONS];
 		
 		// Hack for Price tracking on Ecommerce product/category pages
 		// The price is not summed, but AVG is taken in the SQL query 
 		$index = Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED;
-		if(isset($newRowToAdd[$index])
-			&& !empty($newRowToAdd[$index]))
+		if(!empty($newRowToAdd[$index]))
 		{
 			$oldRowToUpdate[$index] = (float)$newRowToAdd[$index];
 		}

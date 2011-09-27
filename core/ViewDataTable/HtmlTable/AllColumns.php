@@ -53,6 +53,7 @@ class Piwik_ViewDataTable_HtmlTable_AllColumns extends Piwik_ViewDataTable_HtmlT
 		$this->setColumnsToDisplay(array('label', 
 										'nb_visits', 
 										$columnUniqueVisitors, 
+										'nb_actions',
 										'nb_actions_per_visit', 
 										'avg_time_on_site', 
 										'bounce_rate',

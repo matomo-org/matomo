@@ -77,6 +77,16 @@
 				<exit_rate>0%</exit_rate>
 				<exit_nb_visits>0</exit_nb_visits>
 			</row>
+			<row>
+				<label>Checkout</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<exit_nb_visits>1</exit_nb_visits>
+				<avg_time_on_page>00:00:00</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+				<entry_nb_visits>0</entry_nb_visits>
+			</row>
 		</result>
 		<result prettyDate="Wednesday 6 January 2010" />
 		<result prettyDate="Thursday 7 January 2010" />
@@ -87,6 +97,9 @@
 		<result prettyDate="Sunday 3 January 2010" />
 		<result prettyDate="Monday 4 January 2010" />
 		<result prettyDate="Tuesday 5 January 2010">
+			<row>
+				
+			</row>
 			<row>
 				
 			</row>

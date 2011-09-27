@@ -17,7 +17,6 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
-				<exit_nb_visits>1</exit_nb_visits>
 				<subtable>
 					<row>
 						<label>/strangelink</label>
@@ -25,8 +24,6 @@
 						<nb_uniq_visitors>1</nb_uniq_visitors>
 						<nb_hits>1</nb_hits>
 						<sum_time_spent>0</sum_time_spent>
-						<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
-						<exit_nb_visits>1</exit_nb_visits>
 						<url>mailto:test@example.org/strangelink</url>
 					</row>
 				</subtable>

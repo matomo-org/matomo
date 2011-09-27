@@ -399,7 +399,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		// test with excluded IP
 		$t->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729)'); // restore normal user agent	
 		$excludedIp = '154.1.12.34';
-		Piwik_SitesManager_API::getInstance()->updateSite($idSite, 'new site name', $url=array('http://site.com'), $ecommerce = 0, $excludedIp . ',1.2.3.4');
+		Piwik_SitesManager_API::getInstance()->updateSite($idSite, 'new site name', $url=array('http://site.com'),$ecommerce = 0, $excludedIp . ',1.2.3.4');
 		$t->setIp($excludedIp);
 		$this->checkResponse($t->doTrackPageView('visit from IP excluded'));
 		
@@ -474,7 +474,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	
     	// Testing URL excluded parameters
     	$parameterToExclude = 'excluded_parameter';
-    	Piwik_SitesManager_API::getInstance()->updateSite($idSite, 'new name', $url=array('http://site.com'), $ecommerce = 0, null, $parameterToExclude . ',anotherParameter');
+    	Piwik_SitesManager_API::getInstance()->updateSite($idSite, 'new name', $url=array('http://site.com'),$ecommerce = 0, $excludedIps = null, $parameterToExclude . ',anotherParameter');
 
     	// Record 1st page view
     	$urlPage1 = 'http://example.org/index.htm?excluded_Parameter=SHOULD_NOT_DISPLAY&parameter=Should display';
@@ -550,14 +550,17 @@ class Test_Piwik_Integration_Main extends Test_Integration
 							'Referers.getWebsites',
 							'Actions.getPageUrls',
 							'Actions.getPageTitles',
-							'Actions.getOutlinks');
+							'Actions.getOutlinks',
+							'Actions.getPageTitle',
+							'Actions.getPageUrl'
+		);
     	$this->setApiToCall($apiToCall);
     	// -
     	// First visitor on Idsite 1: two page views
     	$datetimeSpanOverTwoDays = '2010-01-03 23:55:00'; 
         $visitorA = $this->getTracker($idSite, $datetimeSpanOverTwoDays, $defaultInit = true);
         $visitorA->setUrlReferrer( 'http://referer.com/page.htm?param=valuewith some spaces');
-        $visitorA->setUrl('http://example.org/homepage');
+        $visitorA->setUrl('http://example.org/index.htm');
         $this->checkResponse($visitorA->doTrackPageView('first page view'));
     	$visitorA->setForceVisitDateTime(Piwik_Date::factory($datetimeSpanOverTwoDays)->addHour(0.1)->getDatetime());
     	// Testing with empty URL and empty page title
@@ -583,7 +586,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $visitorB->DEBUG_APPEND_URL = '&_idvc=2';
 
     	$visitorB->setUrlReferrer( 'http://referer.com/Other_Page.htm' );
-    	$visitorB->setUrl('http://example.org/homepage');
+    	$visitorB->setUrl('http://example.org/index.htm');
     	$this->checkResponse($visitorB->doTrackPageView('second visitor/two days later/a new visit'));
     	// Second page view 6 minutes later
     	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.1)->getDatetime());
@@ -595,6 +598,10 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	$this->checkResponse($visitorB->doTrackAction('mailto:test@example.org', 'link'));
     	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.25)->getDatetime());
     	$this->checkResponse($visitorB->doTrackAction('mailto:test@example.org/strangelink', 'link'));
+    	
+    	// Actions.getPageTitle tested with this title
+    	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.25)->getDatetime());
+    	$this->checkResponse($visitorB->doTrackPageView('Checkout / Purchasing...'));
     	
     	// -
     	// First visitor on Idsite 2: one page view, with Website referer
@@ -611,8 +618,11 @@ class Test_Piwik_Integration_Main extends Test_Integration
 //        $this->checkResponse($t2->doTrackPageView('I\'m a returning visitor...'));
         
     	$periods = array('day', 'week', 'month', 'year');
-    	// Request data for the last 6 periods
+    	// Request data for the last 6 periods and idSite=all
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $allSites = 'all', $dateTime, $periods, $setDateLastN = true);
+        
+    	// Request data for the last 6 periods and idSite=1
+        $this->callGetApiCompareOutput(__FUNCTION__.'_idSiteOne_', 'xml', $idSite, $dateTime, array('day','month'), $setDateLastN = true);
         
         // We also test a single period to check that this use case (Reports per idSite in the response) works
     	$this->setApiToCall(array('VisitsSummary.get', 'Goals.get'));
@@ -621,6 +631,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		// testing metadata API for multiple periods
 		$this->setApiNotToCall(array());
 		$this->setApiToCall( array('API.getProcessedReport'	) );
+		$apiToCall = array_diff($apiToCall, array('Actions.getPageTitle', 'Actions.getPageUrl'));
 		foreach($apiToCall as $api)
 		{
 			list($apiModule, $apiAction) = explode(".", $api);
@@ -664,9 +675,14 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $visitorA->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.2)->getDatetime());
     	$visitorA->setUrl('http://example.org/user/profile');
     	$visitorA->setCustomVariable($id = 1, $name = 'VisitorType', $value = 'LoggedIn');
+    	$visitorA->setCustomVariable($id = 4, $name = 'Status user', $value = 'Loggedin', $scope = 'page');
+    	$visitorA->setCustomVariable($id = 5, $name = 'Status user', $value = 'looking at profile page', $scope = 'page');
         $this->checkResponse($visitorA->doTrackPageView('Profile page'));
         
     	$visitorA->setCustomVariable($id = 2, $name = 'SET WITH EMPTY VALUE', $value = '');
+    	$visitorA->setCustomVariable($id = 1, $name = 'Language', $value = 'FR', $scope = 'page');
+    	$visitorA->setCustomVariable($id = 2, $name = 'SET WITH EMPTY VALUE PAGE SCOPE', $value = '', $scope = 'page');
+    	$visitorA->setCustomVariable($id = 4, $name = 'Status user', $value = 'looking at profile page', $scope = 'page');
     	$visitorA->setCustomVariable($id = 3, $name = 'Value will be VERY long and truncated', $value = 'abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----');
         $this->checkResponse($visitorA->doTrackPageView('Profile page'));
     	$this->checkResponse($visitorA->doTrackGoal($idGoal));
@@ -755,14 +771,14 @@ class Test_Piwik_Integration_Main extends Test_Integration
         
 		$tests = array(
 	        // 1) CHECK 'day' archive stored in January
-	        // We expect 2 segments * (2 custom variable name + 2 ref metrics + 2 subtable for the custom var values + 5 Referers blob)
-			'archive_blob_2010_01' => 22,
-			// This contains all 'last N' weeks & days, (6 metrics + 2 referer metrics + 1 done flag ) * 2 segments + 1 Done flag per Plugin, for each "Last N" date
+	        // We expect 2 segments * (1 custom variable name + 2 ref metrics + 6 subtable for the custom var values + 5 Referers blob)
+			'archive_blob_2010_01' => 28,
+			// This contains all 'last N' weeks & days, (1 metrics + 2 referer metrics + 3 done flag ) * 2 segments + 1 Done flag per Plugin, for each "Last N" date
 			'archive_numeric_2010_01' => 138,
 		
 	        // 2) CHECK 'week' archive stored in December (week starts the month before)
-	        // We expect 2 segments * (2 custom variable name + 2 ref metrics + 2 subtable for the values of the name + 5 referers blob)
-			'archive_blob_2009_12' => 22,
+	        // We expect 2 segments * (1 custom variable name + 2 ref metrics + 6 subtable for the values of the name + 5 referers blob)
+			'archive_blob_2009_12' => 28,
 	        // 6 metrics, 
 	        // 2 Referer metrics (Referers_distinctSearchEngines/Referers_distinctKeywords), 
 	        // 3 done flag (referers, CustomVar, VisitsSummary), 
@@ -773,7 +789,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		{
 	        $sql = "SELECT count(*) FROM " . Piwik_Common::prefixTable($table) ;
 	        $countBlobs = Zend_Registry::get('db')->fetchOne($sql);
-	        $this->assertEqual( $expectedRows, $countBlobs);
+	        $this->assertEqual( $expectedRows, $countBlobs, "$table: %s");
 		}
 	}
 	

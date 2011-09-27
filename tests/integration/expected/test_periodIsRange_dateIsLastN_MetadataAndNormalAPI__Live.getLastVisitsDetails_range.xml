@@ -221,6 +221,16 @@
 				<pageIdAction>4</pageIdAction>
 				<pageId>3</pageId>
 				
+				<customVariables>
+					<row>
+						<customVariableName1>Language</customVariableName1>
+						<customVariableValue1>FR</customVariableValue1>
+					</row>
+					<row>
+						<customVariableName4>Status user</customVariableName4>
+						<customVariableValue4>looking at profile page</customVariableValue4>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 			<row>
@@ -230,6 +240,16 @@
 				<pageIdAction>4</pageIdAction>
 				<pageId>2</pageId>
 				
+				<customVariables>
+					<row>
+						<customVariableName4>Status user</customVariableName4>
+						<customVariableValue4>Loggedin</customVariableValue4>
+					</row>
+					<row>
+						<customVariableName5>Status user</customVariableName5>
+						<customVariableValue5>looking at profile page</customVariableValue5>
+					</row>
+				</customVariables>
 				<icon />
 			</row>
 		</actionDetails>

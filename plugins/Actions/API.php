@@ -129,7 +129,11 @@ class Piwik_Actions_API
     		else
     		{
 				$idSite = $callBackParameters[1];
-    			$searchedString = Piwik_Tracker_Action::excludeQueryParametersFromUrl($search, $idSite);
+				try {
+					$searchedString = Piwik_Tracker_Action::excludeQueryParametersFromUrl($search, $idSite);
+				} catch(Exception $e) {
+					$searchedString = $search;
+				}
     		}
 			$searchTree = Piwik_Actions::getActionExplodedNames($searchedString, $actionType);
 		}
@@ -146,6 +150,7 @@ class Piwik_Actions_API
 				// if an array occurs inside the nested table, we only look for the first match (see below)
 				$newTableArray = new Piwik_DataTable_Array;
 				$newTableArray->metadata = $table->metadata;
+				$newTableArray->setKeyName($table->getKeyName());
 				
 				foreach ($table->getArray() as $label => $subTable)
 				{
