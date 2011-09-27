@@ -18,11 +18,11 @@ function getGeneralSettingsAJAX()
 	request += '&todayArchiveTimeToLive='+todayArchiveTimeToLive;
  	request += '&token_auth=' + piwik.token_auth;
  	request += '&mailUseSmtp=' + isSmtpEnabled();
- 	request += '&mailPort=' + $('#mailPort').val();
- 	request += '&mailHost=' + $('#mailHost').val();
+ 	request += '&mailPort=' + encodeURIComponent($('#mailPort').val());
+ 	request += '&mailHost=' + encodeURIComponent($('#mailHost').val());
  	request += '&mailType=' + $('#mailType').val();
- 	request += '&mailUsername=' + $('#mailUsername').val();
- 	request += '&mailPassword=' + $('#mailPassword').val();
+ 	request += '&mailUsername=' + encodeURIComponent($('#mailUsername').val());
+ 	request += '&mailPassword=' + encodeURIComponent($('#mailPassword').val());
 	request += '&mailEncryption=' + $('#mailEncryption').val();
 	request += '&useCustomLogo=' + isCustomLogoEnabled();
 	ajaxRequest.data = request;
