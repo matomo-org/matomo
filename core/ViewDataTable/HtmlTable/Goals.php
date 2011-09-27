@@ -78,7 +78,6 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 				'goal_%s_nb_conversions',
 				'goal_%s_conversion_rate',
 				'goal_%s_revenue_per_visit',
-			
 				'revenue_per_visit',
 			));
 		}
@@ -90,6 +89,13 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 		if(!in_array($columnToSortBy, $columnsToDisplay))
 		{
 			$this->setSortedColumn('nb_visits', 'desc');
+		}
+		
+		$columnNbConversionsCurrentGoal = $columnsToDisplay[2];
+		if($this->processOnlyIdGoal > 0
+			&& strpos($columnNbConversionsCurrentGoal, '_nb_conversions') !== false)
+		{
+			$this->setSortedColumn($columnNbConversionsCurrentGoal, 'desc');
 		}
 		parent::main();
 	}
