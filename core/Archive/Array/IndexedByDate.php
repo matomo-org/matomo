@@ -132,7 +132,11 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 
 		foreach($arrayValues as $timestamp => $aNameValues)
 		{
-			$contentArray[$timestamp]['table']->addRowsFromArray($aNameValues);
+			// undefined in some edge/unknown cases see http://dev.piwik.org/trac/ticket/2578
+			if(isset($contentArray[$timestamp]['table']))
+			{
+				$contentArray[$timestamp]['table']->addRowsFromArray($aNameValues);
+			}
 		}
 		$contentArray;
 				
