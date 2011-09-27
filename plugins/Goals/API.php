@@ -295,7 +295,7 @@ class Piwik_Goals_API
 	
 	protected function enrichItemsDataTableWithItemsViewMetrics($dataTable, $idSite, $period, $date, $idSubtable)
 	{
-		$ecommerceViews = Piwik_CustomVariables_API::getInstance()->getCustomVariablesValuesFromNameId($idSite, $period, $date, $idSubtable);
+		$ecommerceViews = Piwik_CustomVariables_API::getInstance()->getCustomVariablesValuesFromNameId($idSite, $period, $date, $idSubtable, $segment = false, $_leavePriceViewedColumn = true);
 	
 		// For Product names and SKU reports, and for Category report 
 		// Use the Price (tracked on page views) 

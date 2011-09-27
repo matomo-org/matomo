@@ -77,15 +77,24 @@ class Piwik_CustomVariables_API
 	/**
 	 * @return Piwik_DataTable
 	 */
-	public function getCustomVariablesValuesFromNameId($idSite, $period, $date, $idSubtable, $segment = false)
+	public function getCustomVariablesValuesFromNameId($idSite, $period, $date, $idSubtable, $segment = false, $_leavePriceViewedColumn = false)
 	{
 	    $dataTable = $this->getDataTable($idSite, $period, $date, $segment, $expanded = false, $idSubtable);
 	    
-	    // Hack Ecommerce product price tracking to display correctly
-	    $dataTable->renameColumn('price_viewed', 'price');
-    	$dataTable->queueFilter('ColumnCallbackReplace', 
-    		array('label', create_function('$label', 'return $label == Piwik_CustomVariables::LABEL_CUSTOM_VALUE_NOT_DEFINED ? "'. Piwik_Translate( 'General_NotDefined', Piwik_Translate('CustomVariables_ColumnCustomVariableValue')) .'" : $label;')));
 	    
+    	if(!$_leavePriceViewedColumn)
+    	{
+    		$dataTable->deleteColumn('price_viewed');
+    	}
+    	else
+    	{
+		    // Hack Ecommerce product price tracking to display correctly
+		    $dataTable->renameColumn('price_viewed', 'price');
+    	}
+    	$dataTable->queueFilter('ColumnCallbackReplace', array('label', create_function('$label', '
+    					return $label == Piwik_CustomVariables::LABEL_CUSTOM_VALUE_NOT_DEFINED 
+    						? "'. Piwik_Translate( 'General_NotDefined', Piwik_Translate('CustomVariables_ColumnCustomVariableValue')) .'" 
+    						: $label;')));
 		return $dataTable;
 	}
 }

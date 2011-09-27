@@ -32,7 +32,7 @@ class Piwik_CustomVariables_Controller extends Piwik_Controller
 		$this->setPeriodVariablesView($view);
 		$view->enableShowGoals();
 		
-		$view->setColumnsToDisplay( array('label','nb_visits') );
+		$view->setColumnsToDisplay( array('label','nb_visits', 'nb_actions') );
 		$view->setColumnTranslation('label', Piwik_Translate('CustomVariables_ColumnCustomVariableName'));
 		$view->setSortedColumn( 'nb_visits'	 );
 		$view->setLimit( 10 );
@@ -46,8 +46,9 @@ class Piwik_CustomVariables_Controller extends Piwik_Controller
 		$view->init( $this->pluginName, __FUNCTION__, 'CustomVariables.getCustomVariablesValuesFromNameId' );
 
 		$view->disableSearchBox();
+		$view->enableShowGoals();
 		$view->disableExcludeLowPopulation();
-		$view->setColumnsToDisplay( array('label','nb_visits') );
+		$view->setColumnsToDisplay( array('label','nb_visits', 'nb_actions') );
 		$view->setColumnTranslation('label', Piwik_Translate('CustomVariables_ColumnCustomVariableValue'));
 
 		return $this->renderView($view, $fetch);

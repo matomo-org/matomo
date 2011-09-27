@@ -38,7 +38,9 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 		foreach($table->getRows() as $key => $row)
 		{
 			$nbVisits = $this->getColumn($row, Piwik_Archive::INDEX_NB_VISITS);
+			$nbActions = $this->getColumn($row, Piwik_Archive::INDEX_NB_ACTIONS);
 			if($nbVisits == 0
+				&& $nbActions == 0
 				&& $this->deleteRowsWithNoVisit)
 			{
 				// case of keyword/website/campaign with a conversion for this day, 
@@ -48,7 +50,7 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 			}
 			
 			$nbVisitsConverted = (int)$this->getColumn($row, Piwik_Archive::INDEX_NB_VISITS_CONVERTED);
-			if($nbVisitsConverted != 0)
+			if($nbVisitsConverted > 0)
 			{
 				$conversionRate = round(100 * $nbVisitsConverted / $nbVisits, $this->roundPrecision);
 				$row->addColumn('conversion_rate', $conversionRate."%");
@@ -63,7 +65,7 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 				// nb_actions / nb_visits => Actions/visit
 				// sum_visit_length / nb_visits => Avg. Time on Site 
 				// bounce_count / nb_visits => Bounce Rate
-				$actionsPerVisit = round($this->getColumn($row, Piwik_Archive::INDEX_NB_ACTIONS) / $nbVisits, $this->roundPrecision);
+				$actionsPerVisit = round($nbActions / $nbVisits, $this->roundPrecision);
 				$averageTimeOnSite = round($this->getColumn($row, Piwik_Archive::INDEX_SUM_VISIT_LENGTH) / $nbVisits, $rounding = 0);
 				$bounceRate = round(100 * $this->getColumn($row, Piwik_Archive::INDEX_BOUNCE_COUNT) / $nbVisits, $this->roundPrecision);
 			}

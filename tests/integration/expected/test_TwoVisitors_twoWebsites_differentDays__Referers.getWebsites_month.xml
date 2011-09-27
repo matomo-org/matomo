@@ -5,8 +5,8 @@
 			<row>
 				<label>referer.com</label>
 				<nb_visits>2</nb_visits>
-				<nb_actions>6</nb_actions>
-				<max_actions>4</max_actions>
+				<nb_actions>7</nb_actions>
+				<max_actions>5</max_actions>
 				<sum_visit_length>1262</sum_visit_length>
 				<bounce_count>0</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
@@ -15,8 +15,8 @@
 					<row>
 						<label>http://referer.com/Other_Page.htm</label>
 						<nb_visits>1</nb_visits>
-						<nb_actions>4</nb_actions>
-						<max_actions>4</max_actions>
+						<nb_actions>5</nb_actions>
+						<max_actions>5</max_actions>
 						<sum_visit_length>901</sum_visit_length>
 						<bounce_count>0</bounce_count>
 						<nb_visits_converted>0</nb_visits_converted>
