@@ -52,7 +52,7 @@ At the end, some basic metrics and processing time are logged on screen.
 
 Notes about the algorithm:
 - The first time it runs, all websites with traffic in the last 7 days will be processed
-- To improve performance, API is called with date=last1 whenever possible, instead of last52.
+- To improve performance, API is called with date=last2 (to query yesterday and today) whenever possible, instead of last52.
   To do so, the script logs the last time it executed correctly.
 - The script tries to achieve Near real time for \"today\" reports, processing \"period=day\" as frequently as possible.
 - The script will only process (or re-process) reports for Current week / Current month  
@@ -392,8 +392,9 @@ class Archiving
 		}
 		else
 		{
-			//TODO: could be more clever here, not period=month&date=last52...
-			$dateLast = floor( (time() - $lastTimestampWebsiteProcessed) / 86400) + 1;
+			//Note: could be more clever here, not period=month&date=last52...
+			// Enforcing last2 at minimum to work around timing issues and ensure we make most archives available
+			$dateLast = floor( (time() - $lastTimestampWebsiteProcessed) / 86400) + 2;
 			if($dateLast > self::DEFAULT_DATE_LAST) {
 				$dateLast = self::DEFAULT_DATE_LAST;
 			}
