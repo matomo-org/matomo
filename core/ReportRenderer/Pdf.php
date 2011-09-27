@@ -25,10 +25,10 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 {
 	private $reportFontStyle = '';
 	private $reportSimpleFontSize = 9;
-	private $reportHeaderFontSize = 22;
+	private $reportHeaderFontSize = 16;
 	private $cellHeight = 6;
-	private $bottomMargin = 20;
-	private $reportWidthPortrait = 180;
+	private $bottomMargin = 17;
+	private $reportWidthPortrait = 195;
 	private $reportWidthLandscape = 270;
 	private $minWidthLabelCell = 100;
 	private $maxColumnCountPortraitOrientation = 6;
@@ -37,7 +37,7 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 	private $totalWidth;
 	private $cellWidth;
 	private $labelCellWidth;
-	private $truncateAfter = 50;
+	private $truncateAfter = 55;
 	private $leftSpacesBeforeLogo = 7;
 	private $logoImagePosition = array(10, 40);
 	private $headerTextColor;
@@ -325,10 +325,7 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 		}
 		// Computes available column width
 		$this->totalWidth = $totalWidth;
-		$this->labelCellWidth = max(round(($this->totalWidth / $columnsCount) * 2), $this->minWidthLabelCell);
-		if ($columnsCount == 2) {
-			$this->labelCellWidth = $this->totalWidth / 2;
-		}
+		$this->labelCellWidth = max(round(($this->totalWidth / $columnsCount) ), $this->minWidthLabelCell);
 		$this->cellWidth = round(($this->totalWidth - $this->labelCellWidth) / ($columnsCount - 1));
 		$this->totalWidth = $this->labelCellWidth + ($columnsCount - 1) * $this->cellWidth;
 
