@@ -73,7 +73,7 @@
 	<table class="adminTable" style='width:550px;'>
 		<tr>
 			<td><label for="mailHost">{'General_SmtpServerAddress'|translate}</label></td>
-			<td style='width:200px'><input type="text" id="mailHost" value="{$mail.host}"></td>
+			<td style='width:200px'><input type="text" id="mailHost" value="{$mail.host|escape}"></td>
 		</tr>
 		<tr>
 			<td><label for="mailPort">{'General_SmtpPort'|translate}</label><br />
@@ -97,7 +97,7 @@
 			<td><label for="mailUsername">{'General_SmtpUsername'|translate}</label><br />
 				<span class="form-description">{'General_OnlyEnterIfRequired'|translate}</span></td>
 			<td>
-				<input type="text" id="mailUsername" value = "{$mail.username}" />
+				<input type="text" id="mailUsername" value = "{$mail.username|escape}" />
 			</td>
 		</tr>
 		<tr>
@@ -106,7 +106,7 @@
 				{'General_WarningPasswordStored'|translate:"<strong>":"</strong>"}</span>
 			</td>
 			<td>
-				<input type="password" id="mailPassword" value = "{$mail.password}" />
+				<input type="password" id="mailPassword" value = "{$mail.password|escape}" />
 			</td>
 		</tr>
 		<tr>
