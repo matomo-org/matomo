@@ -143,7 +143,7 @@
 
 				<!-- logged in; now, logout -->
 
-				<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Web Analytics Reports" />
+				<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Web Analytics Reports - Dummy Site Name" />
 				<verifyText description="check page text" text="Piwik" />
 				<verifyText description="check page text" text="Dashboard" />
 				<verifyText description="check page text" text="Hello" />
