@@ -2,10 +2,10 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Piwik &rsaquo; {'CoreHome_WebAnalyticsReports'|translate}</title>
+<title>{if !$isCustomLogo}Piwik &rsaquo; {/if} {'CoreHome_WebAnalyticsReports'|translate} - {$siteName}</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Piwik - Open Source Web Analytics" />
-<meta name="description" content="Web Analytics report for '{$siteName|escape}' - Piwik" />
+<meta name="description" content="Web Analytics report for '{$siteName}' - Piwik" />
 <link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico" /> 
 {loadJavascriptTranslations plugins='CoreHome'}
 {include file="CoreHome/templates/js_global_variables.tpl"}
