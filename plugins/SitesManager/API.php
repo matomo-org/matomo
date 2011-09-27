@@ -1060,6 +1060,11 @@ class Piwik_SitesManager_API
 	public function getPatternMatchSites($pattern)
 	{
 		$ids = $this->getSitesIdWithAtLeastViewAccess();
+		if(empty($ids))
+		{
+			return array();
+		}
+		
 		$ids_str = '';
 		foreach($ids as $id_num => $id_val)
 		{

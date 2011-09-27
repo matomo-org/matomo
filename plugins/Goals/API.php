@@ -57,6 +57,10 @@ class Piwik_Goals_API
 		{
 			$idSite = Piwik_Site::getIdSitesFromIdSitesString($idSite);
 		}
+		if(empty($idSite)) 
+		{
+			return array();
+		}
 		Piwik::checkUserHasViewAccess($idSite);
 		$goals = Piwik_FetchAll("SELECT * 
 								FROM ".Piwik_Common::prefixTable('goal')." 
