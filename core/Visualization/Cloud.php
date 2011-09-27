@@ -56,7 +56,16 @@ class Piwik_Visualization_Cloud
 			{
 				$wordTruncated = substr($word, 0, $this->truncatingLimit - 3).'...';
 			}
-			$percent = ($popularity / $maxValue) * 100;
+			
+			// case hideFutureHoursWhenToday=1 shows hours with no visits
+			if($maxValue == 0)
+			{
+				$percent = 0;
+			}
+			else
+			{
+				$percent = ($popularity / $maxValue) * 100;
+			}
 			// CSS style value
 			$sizeRange = $this->getClassFromPercent($percent);
 
