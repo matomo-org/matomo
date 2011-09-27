@@ -30,7 +30,7 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 		self::renderHeader();
 		
 		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
-		$exceptionMessage = str_replace("\n", "", $exceptionMessage);
+		$exceptionMessage = str_replace(array("\r\n","\n"), "", $exceptionMessage);
 		$exceptionMessage = '{"result":"error", "message":"'.$exceptionMessage.'"}';
 		
 		return $this->jsonpWrap($exceptionMessage);

@@ -1,2 +1,2 @@
-<h2>{$title|htmlentities}</h2>
+<h2>{$title|escape}</h2>
 {$report}
