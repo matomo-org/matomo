@@ -53,14 +53,19 @@ class Piwik_VisitFrequency_API
 		else
 		{ 
 			$bounceRateReturningRequested = $averageVisitDurationReturningRequested = $actionsPerVisitReturningRequested = true;
-			$columns = array( 	'nb_uniq_visitors_returning',
-								'nb_visits_returning',
-								'nb_actions_returning',
-								'max_actions_returning',
-								'sum_visit_length_returning',
-								'bounce_count_returning',
-								'nb_visits_converted_returning',
-					);
+			$columns = array( 	
+				'nb_visits_returning',
+				'nb_actions_returning',
+				'max_actions_returning',
+				'sum_visit_length_returning',
+				'bounce_count_returning',
+				'nb_visits_converted_returning',
+			);
+			
+			if($period=='day') 
+			{
+				$columns = array_merge(array('nb_uniq_visitors_returning'), $columns);
+			}
 		}
 		$dataTable = $archive->getDataTableFromNumeric($columns);
 		
