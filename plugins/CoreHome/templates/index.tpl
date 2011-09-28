@@ -10,10 +10,10 @@
     <div class="top_controls">
         {include file="CoreHome/templates/period_select.tpl"}
         {include file="CoreHome/templates/header_message.tpl"}
+	    {ajaxRequestErrorDiv}
     </div>
     
     {ajaxLoadingDiv}
-    {ajaxRequestErrorDiv}
     
     <div id="content" class="home">
         {if $content}{$content}{/if}
