@@ -332,15 +332,7 @@ class Piwik_Access
 		{
 			return;
 		}
-		
-		if($idSites === 'all')
-		{
-			$idSites = $this->getSitesIdWithAtLeastViewAccess();
-		}
-		if(!is_array($idSites))
-		{
-			$idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
-		}
+		$idSites = $this->getIdSites($idSites);
 		$idSitesAccessible = $this->getSitesIdWithAdminAccess();
 		foreach($idSites as $idsite)
 		{
@@ -364,6 +356,19 @@ class Piwik_Access
 		{
 			return;
 		}
+		$idSites = $this->getIdSites($idSites);
+		$idSitesAccessible = $this->getSitesIdWithAtLeastViewAccess();
+		foreach($idSites as $idsite)
+		{
+			if(!in_array($idsite, $idSitesAccessible))
+			{
+				throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionPrivilegeAccessWebsite', array("'view'", $idsite)));
+			}
+		}
+	}
+	
+	protected function getIdSites($idSites)
+	{
 		if($idSites === 'all')
 		{
 			$idSites = $this->getSitesIdWithAtLeastViewAccess();
@@ -373,15 +378,11 @@ class Piwik_Access
 		{
 			$idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
 		}
-		$idSitesAccessible = $this->getSitesIdWithAtLeastViewAccess();
-
-		foreach($idSites as $idsite)
+		if(empty($idSites))
 		{
-			if(!in_array($idsite, $idSitesAccessible))
-			{
-				throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionPrivilegeAccessWebsite', array("'view'", $idsite)));
-			}
+			throw new Piwik_Access_NoAccessException("The parameter 'idSite=' is missing from the request.");
 		}
+		return $idSites;
 	}
 }
 
