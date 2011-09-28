@@ -131,7 +131,7 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 		}
 		if(is_null($columnToApplyFilter))
 		{
-			$columnToApplyFilter = Piwik_Archive::INDEX_NB_VISITS;
+			$columnToApplyFilter = 'nb_visits';
 		}
 		$this->setExcludeLowPopulation( $columnToApplyFilter);
 	}

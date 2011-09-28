@@ -1103,6 +1103,7 @@ actionDataTable.prototype =
 			// Do not reset the sorting filters that must be applied to sub tables 
 			this.param['filter_sort_column'] = filtersToRestore['filter_sort_column'];
 			this.param['filter_sort_order'] = filtersToRestore['filter_sort_order'];
+			this.param['enable_filter_excludelowpop'] = filtersToRestore['enable_filter_excludelowpop'];
 			
 			self.param.idSubtable = idSubTable;
 			self.param.action = self.param.controllerActionCalledWhenRequestSubTable;
