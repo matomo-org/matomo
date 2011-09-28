@@ -490,5 +490,15 @@ class Test_Piwik_Period_Range extends UnitTestCase
 	 	$this->assertEqual( $range->toString(), $correct);
 	 }
 	
+	 function test_InvalidRange_throws()
+	 {
+	 	try {
+	 		$range = new Piwik_Period_Range( 'range', '0001-01-01,today' );
+	 		echo $range->getLocalizedLongString();
+	 		$this->fail();
+	 	} catch(Exception $e) {
+	 		$this->pass();
+	 	}
+	 }
 	 
 }

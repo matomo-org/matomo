@@ -41,6 +41,16 @@ class Test_Piwik_Date extends UnitTestCase
 		$date = Piwik_Date::yesterday();
 		$this->assertEqual( strtotime(date("Y-m-d",strtotime('-1day')). " 00:00:00"), $date->getTimestamp());
 	}
+	
+	function test_invalidDate_throws()
+	{
+		try {
+			$date = Piwik_Date::factory('0001-01-01');
+			$this->fail();
+		} catch(Exception $e) {
+			$this->pass();
+		}
+	}
 
 	function test_factoryTimezone()
 	{
