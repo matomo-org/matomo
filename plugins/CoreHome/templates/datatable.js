@@ -960,7 +960,8 @@ actionDataTable.prototype =
 	//initialisation of the actionDataTable
 	init: function(workingDivId, domElem)
 	{
-		if(typeof domElem == "undefined")
+		if(typeof domElem == "undefined"
+			|| domElem.length == 0 ) // needed for actions subtables where truncating was not working otherwise
 		{
 			domElem = $('#'+workingDivId);
 		}
