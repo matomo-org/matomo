@@ -676,7 +676,7 @@ abstract class Piwik_ViewDataTable
 		$deleteFromJavascriptVariables = array(
 						'filter_excludelowpop',
 						'filter_excludelowpop_value',
-				);
+		);
 		foreach($deleteFromJavascriptVariables as $name)
 		{
 			if(isset($javascriptVariablesToSet[$name]))
@@ -863,7 +863,7 @@ abstract class Piwik_ViewDataTable
 	{
 		if(is_null($columnName))
 		{
-			$columnName = Piwik_Archive::INDEX_NB_VISITS;
+			$columnName = 'nb_visits';
 		}
 		$this->variablesDefault['filter_excludelowpop'] = $columnName;
 		$this->variablesDefault['filter_excludelowpop_value'] = $minValue;
