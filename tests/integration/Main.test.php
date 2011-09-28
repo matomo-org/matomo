@@ -60,7 +60,8 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $t->setEcommerceView($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name' , $category, $price=666);
         $this->checkResponse($t->doTrackPageView( 'Another Product page'));
 
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.2)->getDatetime());
+        // Note: here testing to pass a timestamp to the tracking API rather than the datetime string
+        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.2)->getTimestampUTC());
         $t->setEcommerceView($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name' , '');
         $this->checkResponse($t->doTrackPageView( 'Another Product page with no category'));
 
@@ -268,7 +269,6 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // Website2
 		$this->setApiToCall( array('Goals.get', 'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory'	) );
         $this->callGetApiCompareOutput(__FUNCTION__ . '_Website2', 'xml', $idSite2, $dateTime, $periods = array('week'));
-	 
 	}
 	
 	function test_trackGoals_allowMultipleConversionsPerVisit()

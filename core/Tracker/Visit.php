@@ -66,7 +66,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$this->timestamp = time();
 		if(!empty($forcedDateTime))
 		{
-			if(!is_int($forcedDateTime))
+			if(!is_numeric($forcedDateTime))
 			{
 				$forcedDateTime = strtotime($forcedDateTime);
 			}
