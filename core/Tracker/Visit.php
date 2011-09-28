@@ -51,6 +51,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	// via setForcedVisitorId()
 	protected $forcedVisitorId;
 	
+	// Set to true when we set some custom variables from the cookie
+	protected $customVariablesSetFromRequest = false;
+	
 	/**
 	 * @var Piwik_Tracker_GoalManager
 	 */
@@ -137,6 +140,11 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			return;
 		}
 		$this->visitorCustomVariables = self::getCustomVariables($scope = 'visit', $this->request);
+		if(!empty($this->visitorCustomVariables))
+		{
+			$this->customVariablesSetFromRequest = true;
+		}
+	
 		$this->goalManager = new Piwik_Tracker_GoalManager();
 		
 		$someGoalsConverted = $visitIsConverted = false;
@@ -930,6 +938,18 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			return;
 		}
 
+		$selectCustomVariables = '';
+		// No custom var were found in the request, so let's copy the previous one in a potential conversion later
+		if(!$this->customVariablesSetFromRequest)
+		{
+			$selectCustomVariables = '
+				, custom_var_k1, custom_var_v1,
+				custom_var_k2, custom_var_v2,
+				custom_var_k3, custom_var_v3,
+				custom_var_k4, custom_var_v4,
+				custom_var_k5, custom_var_v5';
+		}
+		
 		$sql = " SELECT  	idvisitor,
 							visit_last_action_time,
 							visit_first_action_time,
@@ -944,6 +964,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 							referer_type,
 							visitor_count_visits,
 							visit_goal_buyer
+							$selectCustomVariables
 				FROM ".Piwik_Common::prefixTable('log_visit').
 				" WHERE ".$where."
 				ORDER BY visit_last_action_time DESC
@@ -971,8 +992,24 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			$this->visitorInfo['referer_name'] = $visitRow['referer_name'];
 			$this->visitorInfo['referer_keyword'] = $visitRow['referer_keyword'];
 			$this->visitorInfo['referer_type'] = $visitRow['referer_type'];
-			$this->visitorKnown = true;
 
+			// Custom Variables copied from Visit in potential later conversion
+			if(!empty($selectCustomVariables))
+			{
+				for($i=1; $i<=Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++) 
+				{
+					if(!empty($visitRow['custom_var_k'.$i]))
+					{
+						$this->visitorInfo['custom_var_k'.$i] = $visitRow['custom_var_k'.$i];
+					}
+					if(!empty($visitRow['custom_var_v'.$i]))
+					{
+						$this->visitorInfo['custom_var_v'.$i] = $visitRow['custom_var_v'.$i];
+					}
+				}
+			}
+			
+			$this->visitorKnown = true;
 			printDebug("The visitor is known (idvisitor = ".bin2hex($this->visitorInfo['idvisitor']).",
 						config_id = ".bin2hex($configId).",
 						idvisit = {$this->visitorInfo['idvisit']},
@@ -998,6 +1035,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			$parameter = 'cvar';
 			$debug = 'Page level';
 		}
+		
 		$customVar = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar( $parameter, '', 'string', $request));
 		$customVar = @json_decode($customVar, $assoc = true);
 

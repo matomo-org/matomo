@@ -249,9 +249,23 @@ class Piwik_Tracker_GoalManager
 			'visitor_days_since_first' => $visitorInformation['visitor_days_since_first'],
 			'visitor_days_since_order' => $visitorInformation['visitor_days_since_order'],
 			'visitor_count_visits' => $visitorInformation['visitor_count_visits'],
-		
 		);
 
+		// Copy Custom Variables from Visit row to the Goal conversion
+		for($i=1; $i<=Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++) 
+		{
+			if(!empty($visitorInformation['custom_var_k'.$i]))
+			{
+				$goal['custom_var_k'.$i] = $visitorInformation['custom_var_k'.$i];
+			}
+			if(!empty($visitorInformation['custom_var_v'.$i]))
+			{
+				$goal['custom_var_v'.$i] = $visitorInformation['custom_var_v'.$i];
+			}
+		}
+		// Otherwise, set the Custom Variables found in the cookie sent with this request
+		$goal += $visitCustomVariables;
+			
 		// Attributing the correct Referrer to this conversion. 
 		// Priority order is as follows:
 		// 1) Campaign name/kwd parsed in the JS
@@ -294,8 +308,6 @@ class Piwik_Tracker_GoalManager
 			// this field is currently unused
 			'referer_visit_server_date' => date("Y-m-d", $time),
 		);
-
-		$goal += $visitCustomVariables;
 		
 		// some goals are converted, so must be ecommerce Order or Cart Update 
 		if($this->requestIsEcommerce)
