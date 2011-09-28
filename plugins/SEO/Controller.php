@@ -21,8 +21,7 @@ class Piwik_SEO_Controller extends Piwik_Controller
 		$site = new Piwik_Site($idSite);
 
 		$url = urldecode(Piwik_Common::getRequestVar('url', '', 'string'));
-
-		if(empty($url) || @parse_url($url) === false)
+		if(empty($url) || !Piwik_Common::isLookLikeUrl($url))
 		{
 			$url = $site->getMainUrl();
 		}
