@@ -333,6 +333,11 @@ class Piwik_Config
 		{
 			$this->cacheConfigArray();
 		}
+		if(!isset($this->cachedConfigArray[$name]))
+		{
+			throw new Exception("Error while trying to read a specific config file entry <b>'$name'</b> in your configuration file <b>config/global.ini.php</b>
+			 This problem would usually appear after a Piwik upgrade. If so, please check that the file config/global.ini.php was overwritten with the equivalent file from the latest Piwik version.");
+		}
 		return $this->cachedConfigArray[$name];
 	}
 }
