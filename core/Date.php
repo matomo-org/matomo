@@ -44,6 +44,7 @@ class Piwik_Date
 	 */
 	static public function factory($dateString, $timezone = null)
 	{
+		$invalidDateException = new Exception(Piwik_TranslateException('General_ExceptionInvalidDateFormat', array("YYYY-MM-DD, or 'today' or 'yesterday'", "strtotime", "http://php.net/strtotime")));
 		if($dateString instanceof self)
 		{
 			$dateString = $dateString->toString();
@@ -73,11 +74,17 @@ class Piwik_Date
 				($dateString = strtotime($dateString)) === false
 				))
 		{
-			throw new Exception(Piwik_TranslateException('General_ExceptionInvalidDateFormat', array("YYYY-MM-DD, or 'today' or 'yesterday'", "strtotime", "http://php.net/strtotime")));
+			throw $invalidDateException;
 		}
 		else
 		{
 			$date = new Piwik_Date($dateString);
+		}
+		$timestamp = $date->getTimestamp();
+		if($timestamp < 681436800 // can't be doing web analytics before the 1st website
+			|| $timestamp > 7289049600 // piwik is designed to last (date lib will break long before that)
+		) {
+			throw $invalidDateException;
 		}
 		if(empty($timezone))
 		{
