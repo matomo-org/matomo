@@ -154,6 +154,12 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 	 */
 	static public function isPiwikUrl($url)
 	{
+		// guard for IE6 meta refresh parsing weakness (OSVDB 19029)
+		if(strpos($url, ';') !== false
+			|| strpos($url, '&#59') !== false)
+		{
+			return false;
+		}
 		if(preg_match('~^http://(qa\.|demo\.|dev\.|forum\.)?piwik.org([#?/]|$)~', $url))
 		{
 			return true;

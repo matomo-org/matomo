@@ -1,32 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <results>
 	<result idSite="1">
-		<result date="2010">
-			<row>
-				<label>/mailto:test@example.org</label>
-				<nb_visits>1</nb_visits>
-				<nb_hits>1</nb_hits>
-				<sum_time_spent>180</sum_time_spent>
-				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-				<url>mailto:test@example.org</url>
-			</row>
-			<row>
-				<label>mailto:test@example.org</label>
-				<nb_visits>1</nb_visits>
-				<nb_hits>1</nb_hits>
-				<sum_time_spent>0</sum_time_spent>
-				<subtable>
-					<row>
-						<label>/strangelink</label>
-						<nb_visits>1</nb_visits>
-						<nb_hits>1</nb_hits>
-						<sum_time_spent>0</sum_time_spent>
-						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-						<url>mailto:test@example.org/strangelink</url>
-					</row>
-				</subtable>
-			</row>
-		</result>
+		<result date="2010" />
 		<result date="2011" />
 		<result date="2012" />
 		<result date="2013" />

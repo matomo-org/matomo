@@ -495,6 +495,11 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			$actionName = implode($actionCategoryDelimiter, $split);
 		}
 		$url = self::cleanupString($url);
+		
+		if(!Piwik_Common::isLookLikeUrl($url))
+		{
+			$url = '';
+		}
 		$actionName = self::cleanupString($actionName);
 
 		return array(
@@ -514,6 +519,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	{
 		$string = trim($string);
 		$string = str_replace(array("\n", "\r", "\0"), '', $string);
+		
 		$limit = Piwik_Tracker_Config::getInstance()->Tracker['page_maximum_length'];
 		return substr($string, 0, $limit);
 	}
