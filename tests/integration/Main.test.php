@@ -617,6 +617,10 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $visitorAsite2->setUrlReferrer('http://only-homepage-referer.com/');
         $visitorAsite2->setUrl('http://example2.com/home');
         $this->checkResponse($visitorAsite2->doTrackPageView('Website 2 page view'));
+        // Test with invalid URL
+        $visitorAsite2->setUrl('this is invalid url');
+        // and an empty title
+        $this->checkResponse($visitorAsite2->doTrackPageView(''));
         
         // Returning visitor on Idsite 2 1 day later, one page view, with chinese referer
 //    	$t2->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48 + 10)->getDatetime());

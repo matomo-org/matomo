@@ -97,6 +97,16 @@
 				<exit_rate>100%</exit_rate>
 				<entry_nb_visits>0</entry_nb_visits>
 			</row>
+			<row>
+				<label>Page URL not defined</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>2</nb_hits>
+				<avg_time_on_page>00:00:00</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
+				<entry_nb_visits>0</entry_nb_visits>
+				<exit_nb_visits>0</exit_nb_visits>
+			</row>
 		</result>
 		<result prettyDate="Wednesday 6 January 2010" />
 		<result prettyDate="Thursday 7 January 2010" />
@@ -123,6 +133,9 @@
 			</row>
 			<row>
 				<url>http://example.org/thankyou</url>
+			</row>
+			<row>
+				<url />
 			</row>
 		</result>
 		<result prettyDate="Wednesday 6 January 2010" />
