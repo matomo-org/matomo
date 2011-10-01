@@ -16,7 +16,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client
- * @version    $Id: Client.php 24337 2011-08-01 13:04:41Z ezimuel $
+ * @version    $Id: Client.php 24461 2011-09-11 19:25:08Z padraic $
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -247,6 +247,20 @@ class Zend_Http_Client
     protected $redirectCounter = 0;
 
     /**
+     * Status for unmasking GET array params
+     *
+     * @var boolean
+     */
+    protected $_unmaskStatus = false;
+
+    /**
+     * Status if the http_build_query function escapes brackets
+     *
+     * @var boolean
+     */
+    protected $_queryBracketsEscaped = true;
+
+    /**
      * Fileinfo magic database resource
      *
      * This variable is populated the first time _detectFileMimeType is called
@@ -271,6 +285,8 @@ class Zend_Http_Client
         if ($config !== null) {
             $this->setConfig($config);
         }
+
+        $this->_queryBracketsEscaped = version_compare(phpversion(), '5.1.3', '>=');
     }
 
     /**
@@ -797,6 +813,35 @@ class Zend_Http_Client
     }
 
     /**
+     * Set the unmask feature for GET parameters as array
+     *
+     * Example:
+     * foo%5B0%5D=a&foo%5B1%5D=b
+     * becomes
+     * foo=a&foo=b
+     *
+     * This is usefull for some services
+     *
+     * @param boolean $status
+     * @return Zend_Http_Client
+     */
+    public function setUnmaskStatus($status = true)
+    {
+        $this->_unmaskStatus = (BOOL)$status;
+        return $this;
+    }
+
+    /**
+     * Returns the currently configured unmask status
+     *
+     * @return boolean
+     */
+    public function getUnmaskStatus()
+    {
+        return $this->_unmaskStatus;
+    }
+
+    /**
      * Clear all GET and POST parameters
      *
      * Should be used to reset the request parameters if the client is
@@ -994,6 +1039,15 @@ class Zend_Http_Client
                 $query .= http_build_query($this->paramsGet, null, '&');
                 if ($this->config['rfc3986_strict']) {
                     $query = str_replace('+', '%20', $query);
+                }
+
+                // @see ZF-11671 to unmask for some services to foo=val1&foo=val2
+                if ($this->getUnmaskStatus()) {
+                    if ($this->_queryBracketsEscaped) {
+                        $query = preg_replace('/%5B(?:[0-9]|[1-9][0-9]+)%5D=/', '=', $query);
+                    } else {
+                        $query = preg_replace('/\\[(?:[0-9]|[1-9][0-9]+)\\]=/', '=', $query);
+                    }
                 }
 
                 $uri->setQuery($query);

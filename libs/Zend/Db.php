@@ -17,7 +17,7 @@
  * @package    Zend_Db
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Db.php 23775 2011-03-01 17:25:24Z ralph $
+ * @version    $Id: Db.php 24417 2011-08-28 10:15:47Z padraic $
  */
 
 
@@ -90,6 +90,9 @@ class Zend_Db
      *    'NULL_TO_STRING', 'ERR_NONE', 'FETCH_ORI_NEXT',
      *    'FETCH_ORI_PRIOR', 'FETCH_ORI_FIRST', 'FETCH_ORI_LAST',
      *    'FETCH_ORI_ABS', 'FETCH_ORI_REL', 'CURSOR_FWDONLY', 'CURSOR_SCROLL',
+     *    'ERR_CANT_MAP', 'ERR_SYNTAX', 'ERR_CONSTRAINT', 'ERR_NOT_FOUND',
+     *    'ERR_ALREADY_EXISTS', 'ERR_NOT_IMPLEMENTED', 'ERR_MISMATCH',
+     *    'ERR_TRUNCATED', 'ERR_DISCONNECTED', 'ERR_NO_PERM',
      * );
      *
      * $const = array();
@@ -122,7 +125,17 @@ class Zend_Db
     const CASE_UPPER = 1;
     const CURSOR_FWDONLY = 0;
     const CURSOR_SCROLL = 1;
+    const ERR_ALREADY_EXISTS = NULL;
+    const ERR_CANT_MAP = NULL;
+    const ERR_CONSTRAINT = NULL;
+    const ERR_DISCONNECTED = NULL;
+    const ERR_MISMATCH = NULL;
+    const ERR_NO_PERM = NULL;
     const ERR_NONE = '00000';
+    const ERR_NOT_FOUND = NULL;
+    const ERR_NOT_IMPLEMENTED = NULL;
+    const ERR_SYNTAX = NULL;
+    const ERR_TRUNCATED = NULL;
     const ERRMODE_EXCEPTION = 2;
     const ERRMODE_SILENT = 0;
     const ERRMODE_WARNING = 1;
