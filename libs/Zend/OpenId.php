@@ -17,7 +17,7 @@
  * @package    Zend_OpenId
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: OpenId.php 23775 2011-03-01 17:25:24Z ralph $
+ * @version    $Id: OpenId.php 24379 2011-08-14 12:01:10Z padraic $
  */
 
 /**
@@ -285,7 +285,7 @@ class Zend_OpenId
         $port = $reg[4];
         $path = $reg[5];
         $query = $reg[6];
-        $fragment = $reg[7]; /* strip it */
+        $fragment = $reg[7]; /* strip it */ /* ZF-4358 Fragment retained under OpenID 2.0 */
 
         if (empty($scheme) || empty($host)) {
             return false;
@@ -350,7 +350,8 @@ class Zend_OpenId
             . $host
             . (empty($port) ? '' : (':' . $port))
             . $path
-            . $query;
+            . $query
+            . $fragment;
         return true;
     }
 

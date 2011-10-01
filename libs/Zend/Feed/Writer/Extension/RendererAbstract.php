@@ -13,10 +13,10 @@
  * to padraic dot brady at yahoo dot com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Feed_Writer_Entry_Rss
+ * @package    Zend_Feed_Writer
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: RendererAbstract.php 23775 2011-03-01 17:25:24Z ralph $
+ * @version    $Id: RendererAbstract.php 24437 2011-09-03 19:31:11Z ramon $
  */
 
 /**
@@ -26,7 +26,7 @@
 
  /**
  * @category   Zend
- * @package    Zend_Feed_Writer_Entry_Rss
+ * @package    Zend_Feed_Writer
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
