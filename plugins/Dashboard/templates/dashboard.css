@@ -35,6 +35,11 @@
 	border: 1px solid #aba494;
 }
 
+.widgetContent.hidden {
+    position: absolute;
+    top: -3000px;
+}
+
 .widgetContent h2 {
 	font-size:1.2em;
 	margin-left:10px;
@@ -75,7 +80,7 @@
 	cursor: pointer;
 }
 
-#close.button, #maximise.button {
+#close.button, #maximise.button, #minimise.button {
 	float: right;
 	display: none;
 	margin: 6px 6px 0 0;
