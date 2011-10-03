@@ -72,6 +72,9 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
 					'<div class="button" id="maximise">'+
 						'<img src="themes/default/images/maximise.png" title="'+_pk_translate('Dashboard_Maximise_js')+'" />'+
 					'</div>'+
+					'<div class="button" id="minimise">'+
+						'<img src="themes/default/images/minimise.png" title="'+_pk_translate('Dashboard_Minimise_js')+'" />'+
+					'</div>'+
 					'<div class="widgetName">'+widgetName+'</div>'+
 				'</div>'+
 				'<div class="widgetContent">'+ 

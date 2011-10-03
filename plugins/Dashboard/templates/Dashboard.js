@@ -73,6 +73,7 @@ dashboard.prototype =
 			self.layout = layout;
 		}
 		layout = self.layout;
+		
 		widgetViewDataTableToRestore = {};
 		for(var columnNumber in layout) {
 			var widgetsInColumn = layout[columnNumber];
@@ -80,8 +81,9 @@ dashboard.prototype =
 				widgetParameters = widgetsInColumn[widgetId]["parameters"];
 				uniqueId = widgetsInColumn[widgetId]["uniqueId"];
 				widgetViewDataTableToRestore[uniqueId] = widgetParameters['viewDataTable'];
+				var isHidden = widgetsInColumn[widgetId]['isHidden'] ? widgetsInColumn[widgetId]['isHidden'] : false;
 				if(uniqueId.length>0) {
-					self.addEmptyWidget(columnNumber, uniqueId, false);
+					self.addEmptyWidget(columnNumber, uniqueId, false, isHidden);
 				}
 			}
 			self.addDummyWidgetAtBottomOfColumn(columnNumber);
@@ -131,7 +133,7 @@ dashboard.prototype =
 						'</div>');
 	},
 	
-	addEmptyWidget: function(columnNumber, uniqueId, addWidgetOnTop)
+	addEmptyWidget: function(columnNumber, uniqueId, addWidgetOnTop, isHidden)
 	{
 		var self = this;
 		
@@ -156,14 +158,22 @@ dashboard.prototype =
 						$(this).addClass('widgetHover');
 						$('.widgetTop', this).addClass('widgetTopHover');
 						$('.button#close, .button#maximise', this).show();
+						if(!$('.widgetContent', this).hasClass('hidden')) {
+							$('.button#minimise', this).show();
+						}
 					}
  				}, function() {
  					if(!self.isMaximised) {
  						$(this).removeClass('widgetHover');
  						$('.widgetTop', this).removeClass('widgetTopHover');
- 						$('.button#close, .button#maximise', this).hide();
+ 						$('.button#close, .button#maximise, .button#minimise', this).hide();
  					}
 			});
+		
+		if(isHidden) {
+			$('.widgetContent', widgetElement).toggleClass('hidden');
+		}
+		
 		$('.button#close', widgetElement)
 			.click( function(ev){
 				self.onDeleteItem(this, ev);
@@ -171,9 +181,26 @@ dashboard.prototype =
 
 		$('.button#maximise', widgetElement)
 			.click( function(ev){
-				self.onMaximiseItem(this, ev);
+				if($('.widgetContent', $(this).parents('.widget')).hasClass('hidden')) {
+					$('.widgetContent', $(this).parents('.widget')).removeClass('hidden');
+					$('.button#minimise', $(this).parents('.widget')).show();
+					self.saveLayout();
+				} else {
+					self.onMaximiseItem(this, ev);
+				}
 			});
 
+		$('.button#minimise', widgetElement)
+			.click( function(ev){
+				if(!self.isMaximised) {
+					$('.widgetContent', $(this).parents('.widget')).addClass('hidden');
+					$('.button#minimise', $(this).parents('.widget')).hide();
+					self.saveLayout();
+				} else {
+					self.widgetDialog.dialog("close");
+				}
+			});
+		
 		widgetElement.show();
 		return widgetElement;
 	},
@@ -214,9 +241,9 @@ dashboard.prototype =
 	},
 
 	closeWidgetDialog: function() {
-	    if(piwik.dashboardObject.widgetDialog) {
-	        piwik.dashboardObject.widgetDialog.dialog('close');
-	    }
+		if(piwik.dashboardObject.widgetDialog) {
+			piwik.dashboardObject.widgetDialog.dialog('close');
+		}
 	},
 	
 	onMaximiseItem: function(target, ev) {
@@ -235,6 +262,7 @@ dashboard.prototype =
 			autoOpen: true,
 			close: function(event, ui) {
 				self.isMaximised = false;
+				$('.button#minimise', self.widgetDialog).hide()
 				self.widgetDialog.dialog("destroy");
 				$('#placeholder').replaceWith(self.widgetDialog);
 				self.widgetDialog.removeAttr('style');
@@ -243,11 +271,11 @@ dashboard.prototype =
 			}
 		});
 		self.widgetDialog.find('div.piwik-graph').trigger('piwikResizeGraph');
-        $('body').click(function(ev) {
-            if(ev.target.className == "ui-widget-overlay") {
-                self.widgetDialog.dialog("close");
-            }
-        });
+		$('body').click(function(ev) {
+			if(ev.target.className == "ui-widget-overlay") {
+				self.widgetDialog.dialog("close");
+			}
+		});
 	},
 	
 	
@@ -269,15 +297,15 @@ dashboard.prototype =
 	},
 	
 	// Called by DataTables when the View type changes.
-    // We want to restore the Dashboard with the same view types as the user selected
+	// We want to restore the Dashboard with the same view types as the user selected
 	setDataTableViewChanged: function(uniqueId, newViewDataTable)
 	{
 		this.viewDataTableToSave[uniqueId] = newViewDataTable;
 		if(newViewDataTable == 'tableAllColumns' || newViewDataTable == 'tableGoals') {
-		    $('#maximise', $('#'+uniqueId)).click();
+			$('#maximise', $('#'+uniqueId)).click();
 		}
 		if(!this.isMaximised) {
-		    this.saveLayout();
+			this.saveLayout();
 		}
 	},
 	
@@ -303,7 +331,8 @@ dashboard.prototype =
 				layout[columnNumber][j] = 
 				{
 					"uniqueId": uniqueId,
-					"parameters": widgetParameters
+					"parameters": widgetParameters,
+					"isHidden": $('.widgetContent', $(widgetElement)).hasClass('hidden') ? 1 : 0
 				};
 			}
 			columnNumber++;
@@ -320,7 +349,7 @@ dashboard.prototype =
 				dataType: 'html',
 				async: true,
 				error: piwikHelper.ajaxHandleError,
-				data: {	"layout": layoutString }
+				data: { "layout": layoutString }
 			};
 			$.ajax(ajaxRequest);
 		}
