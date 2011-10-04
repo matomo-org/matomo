@@ -25,7 +25,7 @@
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<uniqueId>VisitsSummary_get</uniqueId>
@@ -60,7 +60,7 @@
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<metricsGoal>
@@ -105,7 +105,7 @@
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<uniqueId>VisitTime_getVisitInformationPerLocalTime</uniqueId>
@@ -132,7 +132,7 @@
 			<nb_visits>The number of visits that included this page. If a page was viewed multiple times during one visit, it is only counted once.</nb_visits>
 			<bounce_rate>The percentage of visits that started on this page and left the website straight away.</bounce_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<documentation>This report contains information about the page URLs that have been visited. &lt;br /&gt; The table is organized hierarchically, the URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
@@ -160,7 +160,7 @@
 			<nb_visits>The number of visits that included this page. If a page was viewed multiple times during one visit, it is only counted once.</nb_visits>
 			<bounce_rate>The percentage of visits that started on this page and left the website straight away.</bounce_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
@@ -236,7 +236,7 @@
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<metricsGoal>
@@ -280,7 +280,7 @@
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<metricsGoal>
@@ -324,7 +324,7 @@
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<metricsGoal>
@@ -368,7 +368,7 @@
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<metricsGoal>
@@ -412,7 +412,7 @@
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<metricsGoal>
@@ -470,7 +470,7 @@
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<metricsGoal>
@@ -513,7 +513,7 @@
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<metricsGoal>
@@ -557,7 +557,7 @@
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<metricsGoal>
@@ -594,7 +594,7 @@
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<uniqueId>VisitorInterest_getNumberOfVisitsPerVisitDuration</uniqueId>
@@ -622,7 +622,7 @@
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<uniqueId>VisitorInterest_getNumberOfVisitsPerPage</uniqueId>
@@ -651,7 +651,7 @@
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<uniqueId>VisitFrequency_get</uniqueId>
@@ -687,7 +687,7 @@
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<uniqueId>Provider_getProvider</uniqueId>
@@ -722,7 +722,7 @@
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<uniqueId>UserSettings_getResolution</uniqueId>
@@ -758,7 +758,7 @@
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<uniqueId>UserSettings_getBrowser</uniqueId>
@@ -794,7 +794,7 @@
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<uniqueId>UserSettings_getBrowserType</uniqueId>
@@ -823,7 +823,7 @@
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<uniqueId>UserSettings_getPlugin</uniqueId>
@@ -858,7 +858,7 @@
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<uniqueId>UserSettings_getWideScreen</uniqueId>
@@ -893,7 +893,7 @@
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<uniqueId>UserSettings_getOS</uniqueId>
@@ -929,7 +929,7 @@
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<uniqueId>UserSettings_getConfiguration</uniqueId>
