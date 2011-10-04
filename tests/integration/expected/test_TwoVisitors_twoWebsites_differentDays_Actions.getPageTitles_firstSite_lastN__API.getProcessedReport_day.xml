@@ -23,7 +23,7 @@
 			<nb_visits>The number of visits that included this page. If a page was viewed multiple times during one visit, it is only counted once.</nb_visits>
 			<bounce_rate>The percentage of visits that started on this page and left the website straight away.</bounce_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
@@ -98,10 +98,10 @@
 		<result prettyDate="Monday 4 January 2010" />
 		<result prettyDate="Tuesday 5 January 2010">
 			<row>
-				
+				<idsubdatatable>68</idsubdatatable>
 			</row>
 			<row>
-				
+				<idsubdatatable>70</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Wednesday 6 January 2010" />

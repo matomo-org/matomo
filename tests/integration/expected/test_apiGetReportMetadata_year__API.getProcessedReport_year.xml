@@ -29,7 +29,7 @@
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page (unique pageviews devided by exists)</exit_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
 		<metricsGoal>
