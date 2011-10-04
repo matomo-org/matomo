@@ -443,13 +443,20 @@ class Piwik_Tracker_GoalManager
 //		var_dump($items); echo "Items by SKU:";var_dump($itemInCartBySku);
 
 		// Select all items currently in the Cart if any
-		$sql = "SELECT idaction_sku, idaction_name, idaction_category, idaction_category2, idaction_category3, idaction_category4, idaction_category5, price, quantity, deleted
+		$sql = "SELECT idaction_sku, idaction_name, idaction_category, idaction_category2, idaction_category3, idaction_category4, idaction_category5, price, quantity, deleted, idorder as idorder_original_value 
 				FROM ". Piwik_Common::prefixTable('log_conversion_item') . "
 				WHERE idvisit = ?
-					AND idorder = ?";
-		$bind = array($goal['idvisit'], isset($goal['idorder']) ? $goal['idorder'] : self::ITEM_IDORDER_ABANDONED_CART);
+					AND (idorder = ? OR idorder = ?)";
+		
+		$bind = array(	$goal['idvisit'], 
+						isset($goal['idorder']) ? $goal['idorder'] : self::ITEM_IDORDER_ABANDONED_CART,
+						self::ITEM_IDORDER_ABANDONED_CART
+		);
+		
 		$itemsInDb = Piwik_Tracker::getDatabase()->fetchAll($sql, $bind);
 		
+		printDebug("Items found in current cart, for conversion_item (visit,idorder)=" . var_export($bind,true));
+		printDebug($itemsInDb);
 		// Look at which items need to be deleted, which need to be added or updated, based on the SKU
 		$skuFoundInDb = $itemsToUpdate = array();
 		foreach($itemsInDb as $itemInDb)
@@ -458,6 +465,7 @@ class Piwik_Tracker_GoalManager
 			
 			// Ensure price comparisons will have the same assumption
 			$itemInDb['price'] = $this->getRevenue($itemInDb['price']);
+			$itemInDbOriginal = $itemInDb;
 			$itemInDb = array_values($itemInDb);
 			
 			// Cast all as string, because what comes out of the fetchAll() are strings
@@ -466,7 +474,15 @@ class Piwik_Tracker_GoalManager
 			//Item in the cart in the DB, but not anymore in the cart
 			if(!isset($itemInCartBySku[$itemInDb[0]]))
 			{
-				$itemsToUpdate[] = $itemInDb + array('deleted' => 1);
+				$itemToUpdate = array_merge($itemInDb,
+						array(	'deleted' => 1, 
+								'idorder_original_value' => $itemInDbOriginal['idorder_original_value']
+						)
+				);
+				
+				$itemsToUpdate[] = $itemToUpdate;
+				printDebug("Item found in the previous Cart, but no in the current cart/order");
+				printDebug($itemToUpdate);
 				continue;
 			}
 			
@@ -475,17 +491,19 @@ class Piwik_Tracker_GoalManager
 			
 			if(count($itemInDb) != count($newItem))
 			{
+				printDebug("ERROR: Different format in items from cart and DB");
 				throw new Exception(" Item in DB and Item in cart have a different format, this is not expected... ".var_export($itemInDb, true) . var_export($newItem, true));
 			}
-//			echo "NEW ITEM:";var_dump($newItem); echo "ITEM IN DB:";var_dump($itemInDb);
-			if($newItem != $itemInDb)
-			{
-//				echo "The following item is out of date in the DB: DB VERSION:"; var_dump($itemInDb); echo "NEW ITEM:"; var_dump($newItem);
-				$itemsToUpdate[] = $newItem;
-			}
+			printDebug("Item has changed since the last cart. Previous item stored in cart in database:");
+			printDebug($itemInDb);
+			printDebug("New item to UPDATE the previous row:");
+			$newItem['idorder_original_value'] = $itemInDbOriginal['idorder_original_value'];
+			printDebug($newItem);
+			$itemsToUpdate[] = $newItem;
 		}
 		
 		// Items to UPDATE
+		//var_dump($itemsToUpdate);
 		$this->updateEcommerceItems($goal, $itemsToUpdate);
 		
 		// Items to INSERT
@@ -541,11 +559,11 @@ class Piwik_Tracker_GoalManager
 			
 			$sku = $item[self::INDEX_ITEM_SKU];
 			if(!empty($item[self::INDEX_ITEM_NAME])) {
-				$name = trim($item[self::INDEX_ITEM_NAME]);
+				$name = $item[self::INDEX_ITEM_NAME];
 			}
 			
 			if(!empty($item[self::INDEX_ITEM_CATEGORY])) {
-				$category = trim($item[self::INDEX_ITEM_CATEGORY]);
+				$category = $item[self::INDEX_ITEM_CATEGORY];
 			} 	
 			
 			if(!empty($item[self::INDEX_ITEM_PRICE]) 
@@ -581,19 +599,20 @@ class Piwik_Tracker_GoalManager
 		{
 			$actionsToLookup = array();
 			list($sku, $name, $category, $price, $quantity) = $item;
-			$actionsToLookup[] = array($sku, Piwik_Tracker_Action::TYPE_ECOMMERCE_ITEM_SKU);
-			$actionsToLookup[] = array($name, Piwik_Tracker_Action::TYPE_ECOMMERCE_ITEM_NAME);
+			$actionsToLookup[] = array(trim($sku), Piwik_Tracker_Action::TYPE_ECOMMERCE_ITEM_SKU);
+			$actionsToLookup[] = array(trim($name), Piwik_Tracker_Action::TYPE_ECOMMERCE_ITEM_NAME);
 
 			// Only one category
 			if(!is_array($category))
 			{
-				$actionsToLookup[] = array($category, Piwik_Tracker_Action::TYPE_ECOMMERCE_ITEM_CATEGORY);
+				$actionsToLookup[] = array(trim($category), Piwik_Tracker_Action::TYPE_ECOMMERCE_ITEM_CATEGORY);
 			}
 			// Multiple categories
 			else
 			{ 
 				$countCategories = 0;
 				foreach($category as $productCategory) {
+					$productCategory = trim($productCategory);
 					if(empty($productCategory)) {
 						continue;
 					}
@@ -644,12 +663,13 @@ class Piwik_Tracker_GoalManager
 		{
 			return;
 		}
-		printDebug("Ecommerce items that are updated in the cart:");
-		printDebug($itemsToUpdate);
+		printDebug("Goal data used to update ecommerce items:");
+		printDebug($goal);
 		
 		foreach($itemsToUpdate as $item)
 		{
 			$newRow = $this->getItemRowEnriched($goal, $item);
+			printDebug($newRow);
 			$updateParts = $sqlBind = array();
 			foreach($newRow AS $name => $value)
 			{
@@ -662,7 +682,7 @@ class Piwik_Tracker_GoalManager
 							AND idorder = ? 
 							AND idaction_sku = ?";
 			$sqlBind[] = $newRow['idvisit'];
-			$sqlBind[] = $newRow['idorder'];
+			$sqlBind[] = $item['idorder_original_value'];
 			$sqlBind[] = $newRow['idaction_sku'];
 			Piwik_Tracker::getDatabase()->query($sql, $sqlBind);
 		}

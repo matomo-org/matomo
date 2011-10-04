@@ -350,9 +350,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			// therefore the request below throws exception, instead we make sure the UPDATE will affect the row
 			$valuesToUpdate['visit_total_time'] += (int)$this->goalManager->idGoal
 														// +2 to offset idgoal=-1 and idgoal=0 
-														+ 2 
-														// If manual goal conversion, then offset by 1 (hack if IDGOAL_ORDER==1)
-														+ (!$this->goalManager->requestIsEcommerce ? 1 : 0);
+														+ 2 ;
 		}
 		
 		// Update the idvisitor to the latest known value, in case the cookie value changed for some reasons,
