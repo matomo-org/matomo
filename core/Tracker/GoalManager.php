@@ -541,11 +541,11 @@ class Piwik_Tracker_GoalManager
 			
 			$sku = $item[self::INDEX_ITEM_SKU];
 			if(!empty($item[self::INDEX_ITEM_NAME])) {
-				$name = $item[self::INDEX_ITEM_NAME];
+				$name = trim($item[self::INDEX_ITEM_NAME]);
 			}
 			
 			if(!empty($item[self::INDEX_ITEM_CATEGORY])) {
-				$category = $item[self::INDEX_ITEM_CATEGORY];
+				$category = trim($item[self::INDEX_ITEM_CATEGORY]);
 			} 	
 			
 			if(!empty($item[self::INDEX_ITEM_PRICE]) 
