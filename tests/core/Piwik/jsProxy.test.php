@@ -24,7 +24,9 @@ class Test_Piwik_jsProxy extends UnitTestCase
 	function test_piwik_php()
 	{
 		$curlHandle = curl_init();
-		curl_setopt($curlHandle, CURLOPT_URL, $this->getStaticSrvUrl() . '/js/?idsite=1');
+		$url = $this->getStaticSrvUrl() . '/js/?idsite=1';
+		var_dump($url);
+		curl_setopt($curlHandle, CURLOPT_URL, $url);
 		curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
 		$fullResponse = curl_exec($curlHandle);
 		$responseInfo = curl_getinfo($curlHandle);
