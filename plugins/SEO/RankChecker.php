@@ -48,7 +48,7 @@ class Piwik_SEO_RankChecker
 	{
 		$chwrite = $this->CheckHash($this->HashURL($this->url));
 
-		$url="http://toolbarqueries.google.com/search?client=navclient-auto&ch=".$chwrite."&features=Rank&q=info:".$this->url."&num=100&filter=0";
+		$url="http://toolbarqueries.google.com/tbr?client=navclient-auto&ch=".$chwrite."&features=Rank&q=info:".$this->url."&num=100&filter=0";
 		$data = $this->getPage($url);
 		preg_match('#Rank_[0-9]:[0-9]:([0-9]+){1,}#si', $data, $p);
 		$value = isset($p[1]) ? $p[1] : 0;
