@@ -419,10 +419,6 @@ class UserAgentParser
 			else if(strpos($userAgent, 'RIM Tablet OS') !== false) {
 				$info['id'] = 'BP';
 			}
-			// Android devices
-			else if($info['id'] == 'SF' && strpos($userAgent, 'Android') !== false) {
-				$info['id'] = 'AN';
-			}
 
 			// Version/X.Y.Z override
 			if(preg_match_all("/(version)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $newResults))
