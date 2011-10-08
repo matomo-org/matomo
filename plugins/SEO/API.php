@@ -48,9 +48,9 @@ class Piwik_SEO_API
 		$rank = new Piwik_SEO_RankChecker($url);
 		
 		$data = array(
-			'Google Pagerank' 	=> array(
-				'rank' => $rank->getPagerank(),
-				'logo' => Piwik_getSearchEngineLogoFromUrl('http://www.google.com'),
+			'Google PageRank' 	=> array(
+				'rank' => $rank->getPageRank(),
+				'logo' => Piwik_getSearchEngineLogoFromUrl('http://google.com'),
 				'id' => 'pagerank'
 			),
 			Piwik_Translate('SEO_YahooBacklinks')	=> array(

@@ -26,7 +26,19 @@ class Piwik_SEO_RankChecker
 
 	public function __construct($url)
 	{
-		$this->url = preg_replace(
+		$this->url = self::extractDomainFromUrl($url);
+	}
+
+	/**
+	 * Extract domain from URL as the web services generally
+	 * expect only a domain name (i.e., no protocol, port, path, query, etc).
+	 *
+	 * @param string $url
+	 * @return string
+	 */
+	static public function extractDomainFromUrl($url)
+	{
+		return preg_replace(
 			array(
 				'~^https?\://~si',	// strip protocol
 				'~[/:#?;%&].*~',	// strip port, path, query, anchor, etc
@@ -35,6 +47,12 @@ class Piwik_SEO_RankChecker
 			'', $url);
 	}
 
+	/**
+	 * Web service proxy that retrieves the content at the specified URL
+	 *
+	 * @param string $url
+	 * @return string
+	 */
 	private function getPage($url)
 	{
 		try {
@@ -44,7 +62,7 @@ class Piwik_SEO_RankChecker
 		}
 	}
 
-	public function getPagerank()
+	public function getPageRank()
 	{
 		$chwrite = $this->CheckHash($this->HashURL($this->url));
 
@@ -142,7 +160,16 @@ class Piwik_SEO_RankChecker
 		return preg_replace('#[^0-9]#si', '', $string);
 	}
 
-	//--> for google Piwik_SEO_Ranks
+	/**
+	 * Convert numeric string to int
+	 *
+	 * @see getPageRank()
+	 *
+	 * @param string $Str
+	 * @param int $Check
+	 * @param int $Magic
+	 * @return int
+	 */
 	private function StrToNum($Str, $Check, $Magic)
 	{
 		$Int32Unit = 4294967296; // 2^32
@@ -165,9 +192,14 @@ class Piwik_SEO_RankChecker
 		return $Check;
 	}
 
-	/*
-	* Genearate a hash for a url
-	*/
+	/**
+	 * Generate a hash for a url
+	 *
+	 * @see getPageRank()
+	 *
+	 * @param string $String
+	 * @return int
+	 */
 	private function HashURL($String)
 	{
 		$Check1 = $this->StrToNum($String, 0x1505, 0x21);
@@ -184,10 +216,14 @@ class Piwik_SEO_RankChecker
 		return ($T1 | $T2);
 	}
 
-	//--> for google Piwik_SEO_Ranks
-	/*
-	* genearate a checksum for the hash string
-	*/
+	/**
+	 * Generate a checksum for the hash string
+	 *
+	 * @see getPageRank()
+	 *
+	 * @param int $Hashnum
+	 * @return string
+	 */
 	private function CheckHash($Hashnum)
 	{
 		$CheckByte = 0;
