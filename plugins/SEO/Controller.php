@@ -29,7 +29,7 @@ class Piwik_SEO_Controller extends Piwik_Controller
 		$dataTable = Piwik_SEO_API::getInstance()->getRank($url);
 		
 		$view = Piwik_View::factory('index');
-		$view->urlToRank = $url;
+		$view->urlToRank = Piwik_SEO_RankChecker::extractDomainFromUrl($url);
 		
 		$renderer = Piwik_DataTable_Renderer::factory('php');
 		$renderer->setSerialize(false);
