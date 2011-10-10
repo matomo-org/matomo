@@ -1,12 +1,13 @@
 Piwik modifications to libs/
 ---
-Here is a list of bug fixes and hacks made to some of the libraries used in Piwik:
+In general, bug fixes and improvements are reported upstream.  Until these are included
+upstream, we maintain a list of bug fixes and local mods made to third-party libraries:
 
  * Event/
    - in r41, php 5 incompatibility
    - in r1035 and r1041, profiling hook via increaseNotificationCount()
    - in r1287, fix php 5.3.x incompatibilities 
-   - in r1296, strip require_once
+   - in r1296, strip require_once (to support autoloading)
  * HTML/Quickform2/
    - in r2626, php 5.1.6 incompatibility
    - in r3040, exception classes don't follow PEAR naming convention
@@ -21,5 +22,5 @@ Here is a list of bug fixes and hacks made to some of the libraries used in Piwi
    - in r1296, remove require_once
    - empty sparklines with floats, off-by-one errors, and locale conflict
  * Zend/
-   - strip require_once
+   - strip require_once (to support autoloading)
    - in r3694, fix ZF-10888 and ZF-10835
