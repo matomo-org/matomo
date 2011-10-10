@@ -149,8 +149,12 @@ class Piwik_Url
 	 */
 	static public function getCurrentScheme()
 	{
-		$config = Zend_Registry::get('config');
-		$assume_secure_protocol = $config !== false && $config->General->assume_secure_protocol;
+		try {
+			$config = Zend_Registry::get('config');
+			$assume_secure_protocol = $config !== false && $config->General->assume_secure_protocol;
+		} catch(Exception $e) {
+			$assume_secure_protocol = false;
+		}
 
 		if($assume_secure_protocol
 			|| (isset($_SERVER['HTTPS'])
