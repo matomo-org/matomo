@@ -30,7 +30,8 @@ class Piwik_UpdateCheck
 	public static function check($force = false)
 	{
 		$lastTimeChecked = Piwik_GetOption(self::LAST_TIME_CHECKED);
-		if($force || $lastTimeChecked === false
+		if($force
+			|| $lastTimeChecked === false
 			|| time() - self::CHECK_INTERVAL > $lastTimeChecked )
 		{
 			// set the time checked first, so that parallel Piwik requests don't all trigger the http requests
@@ -43,17 +44,21 @@ class Piwik_UpdateCheck
 				'timezone' => Piwik_SitesManager_API::getInstance()->getDefaultTimezone(),
 			);
 
-			$url = Zend_Registry::get('config')->General->api_service_url;
-			$url .= '/1.0/getLatestVersion/';
-			$url .= '?' . http_build_query($parameters, '', '&');
+			$url = Zend_Registry::get('config')->General->api_service_url
+				. '/1.0/getLatestVersion/'
+				. '?' . http_build_query($parameters, '', '&');
 			$timeout = self::SOCKET_TIMEOUT;
 			try {
 				$latestVersion = Piwik_Http::sendHttpRequest($url, $timeout);
-				Piwik_SetOption(self::LATEST_VERSION, $latestVersion);
+				if (!preg_match('~^[0-9][0-9a-zA-Z_.-]*$~D', $latestVersion))
+				{
+					$latestVersion = '';
+				}
 			} catch(Exception $e) {
 				// e.g., disable_functions = fsockopen; allow_url_open = Off
-				Piwik_SetOption(self::LATEST_VERSION, '');
+				$latestVersion = '';
 			}
+			Piwik_SetOption(self::LATEST_VERSION, $latestVersion);
 		}
 	}
 	
