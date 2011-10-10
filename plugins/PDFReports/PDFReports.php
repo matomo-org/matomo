@@ -68,7 +68,7 @@ class Piwik_PDFReports extends Piwik_Plugin
 		// Reports have to be sent when the period ends for all websites
 		$maxHourOffset = 0;
 		$uniqueTimezones = Piwik_SitesManager_API::getInstance()->getUniqueSiteTimezones();
-		$baseDate = Piwik_Date::factory("1971-01-01");
+		$baseDate = Piwik_Date::factory("2011-01-01");
 		foreach($uniqueTimezones as &$timezone)
 		{
 			$offsetDate = Piwik_Date::factory($baseDate->toString(), $timezone);
