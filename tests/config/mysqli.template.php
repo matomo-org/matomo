@@ -34,3 +34,5 @@ charset = "utf8"
 
 [General]
 proxy_client_headers[] = HTTP_X_FORWARDED_FOR
+assume_secure_protocol = 0
+session_save_handler = files
