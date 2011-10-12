@@ -221,37 +221,37 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 							.append(inputSave)
 							.append(spanCancel);
 					}
-					if(idName == 'urls')
+					else if(idName == 'urls')
 					{
 						var contentAfter = '<textarea cols="25" rows="3" id="urls">'+contentBefore.replace(/<br *\/? *>/gi,"\n")+'</textarea>';
 						contentAfter += '<br />'+aliasUrlsHelp;
 						$(n).html(contentAfter);
 					}
-					if(idName == 'excludedIps')
+					else if(idName == 'excludedIps')
 					{
 						var contentAfter = '<textarea cols="20" rows="4" id="excludedIps">'+contentBefore.replace(/<br *\/? *>/gi,"\n")+'</textarea>';
 						contentAfter += '<br />'+excludedIpHelp;
 						$(n).html(contentAfter);
 					}
-					if(idName == 'excludedQueryParameters')
+					else if(idName == 'excludedQueryParameters')
 					{
 						var contentAfter = '<textarea cols="20" rows="4" id="excludedQueryParameters">'+contentBefore.replace(/<br *\/? *>/gi,"\n")+'</textarea>';
 						contentAfter += '<br />'+excludedQueryParametersHelp;
 						$(n).html(contentAfter);
 					}
-					if(idName == 'timezone')
+					else if(idName == 'timezone')
 					{
 						var contentAfter = getTimezoneSelector(contentBefore);
 						contentAfter += '<br />' + timezoneHelp;
 						$(n).html(contentAfter);
 					}
-					if(idName == 'currency')
+					else if(idName == 'currency')
 					{
 						var contentAfter = getCurrencySelector(contentBefore);
 						contentAfter += '<br />' + currencyHelp;
 						$(n).html(contentAfter);
 					}
-					if(idName == 'ecommerce')
+					else if(idName == 'ecommerce')
 					{
 						ecommerceActive = contentBefore.indexOf("ecommerceActive") > 0 ? 1 : 0;
 						contentAfter = getEcommerceSelector(ecommerceActive) + '<br />' + ecommerceHelp; 
