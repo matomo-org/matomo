@@ -22,7 +22,7 @@ if(!$content)
 print("<h1>Keywords for the last month</h1>");
 foreach($content as $row)
 {
-	$keyword = urldecode($row['label']);
+	$keyword = htmlspecialchars(html_entity_decode(urldecode($row['label']), ENT_QUOTES), ENT_QUOTES);
 	$hits = $row['nb_visits'];
 	
 	print("<b>$keyword</b> ($hits hits)<br>");
