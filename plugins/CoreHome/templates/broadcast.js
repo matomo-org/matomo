@@ -324,8 +324,8 @@ broadcast.getParamValue = function (param, url)
             endStr = url.length;
         }
         var value = url.substring(startStr + param.length +1,endStr);
-        // sanitize action=embed&test 
-        var value = value.replace(/[^\w\s]/gi, '')
+        // sanitize values
+        var value = value.replace(/[^,0-9a-zA-Z]/gi, '');
         
         return value;
     } else {

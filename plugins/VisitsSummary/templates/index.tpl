@@ -1,4 +1,4 @@
-
+{* This graphId must be unique for this report *}
 <a name="evolutionGraph" graphId="VisitsSummarygetEvolutionGraph"></a>
 
 <h2>{if $period=='range'}{'Referers_Evolution'|translate}
