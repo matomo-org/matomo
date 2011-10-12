@@ -3,7 +3,7 @@
 <div class="clear"></div>
 {literal}
 <!-- Piwik -->
-<script src="piwik.js" type="text/javascript"></script>
+<script src="js/piwik.js" type="text/javascript"></script>
 <script type="text/javascript">
 try {
  var piwikTracker = Piwik.getTracker("piwik.php", 1);
