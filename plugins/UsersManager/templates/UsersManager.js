@@ -189,11 +189,11 @@ $(document).ready( function() {
 				// make the fields editable
 				// change the EDIT button to VALID button
 				function (i,n) {
-					var contentBefore = $(n).html();
+					var contentBefore = $(n).text();
 					var idName = $(n).attr('id');
 					if(idName != 'userLogin')
 					{
-						var contentAfter = '<input id="'+idName+'" value="'+contentBefore+'" size="25" />';
+						var contentAfter = '<input id="'+idName+'" value="'+piwikHelper.htmlEntities(contentBefore)+'" size="25" />';
 						$(n).html(contentAfter);
 					}
 				}
