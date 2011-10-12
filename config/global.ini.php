@@ -130,6 +130,10 @@ time_before_today_archive_considered_outdated = 10
 ; to trigger the Piwik archiving process.
 enable_browser_archiving_triggering = 1
 
+; If set to 1, nested reports will be archived with parent references in the datatables
+; At the moment, this is not needed in core but it can be handy for plugins
+enable_archive_parents_of_datatable = 0
+
 ; MySQL minimum required version
 ; note: timezone support added in 4.1.3
 minimum_mysql_version = 4.1

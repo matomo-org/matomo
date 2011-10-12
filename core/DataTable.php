@@ -146,6 +146,13 @@ class Piwik_DataTable
 	protected $rows = array();
 	
 	/**
+	 * Array of parent IDs
+	 * 
+	 * @var array
+	 */
+	protected $parents = null;
+	
+	/**
 	 * Id assigned to the DataTable, used to lookup the table using the DataTable_Manager
 	 *
 	 * @var int
@@ -219,6 +226,7 @@ class Piwik_DataTable
 
 	const ID_SUMMARY_ROW = -1;
 	const LABEL_SUMMARY_ROW = -1;
+	const ID_PARENTS = -2;
 	
 	/**
 	 * Maximum nesting level
@@ -469,14 +477,26 @@ class Piwik_DataTable
 	 */
 	public function getFilteredTableFromLabel($label)
 	{
-		$newTable = new Piwik_DataTable;
+		$newTable = $this->getEmptyClone();
 		$row = $this->getRowFromLabel($label);
 		if ($row !== false)
 		{
 			$newTable->addRow($row);
-			$newTable->queuedFilters = $this->queuedFilters;
+			
 		}
 		return $newTable;
+	}
+	
+	/**
+	 * Get an empty table with the same properties as this one
+	 * 
+	 * @return Piwik_DataTable
+	 */
+	public function getEmptyClone()
+	{
+		$clone = new Piwik_DataTable;
+		$clone->queuedFilters = $this->queuedFilters;
+		return $clone;
 	}
 
 	/**
@@ -978,8 +998,12 @@ class Piwik_DataTable
 		}
 		
 		// we then serialize the rows and store them in the serialized dataTable
-		$aSerializedDataTable[$forcedId] = serialize($this->rows + array( self::ID_SUMMARY_ROW => $this->summaryRow));
-		
+		$addToRows = array( self::ID_SUMMARY_ROW => $this->summaryRow );
+		if ($this->parents && Zend_Registry::get('config')->General->enable_archive_parents_of_datatable)
+		{
+			$addToRows[self::ID_PARENTS] = $this->parents;
+		}
+		$aSerializedDataTable[$forcedId] = serialize($this->rows + $addToRows);
 		return $aSerializedDataTable;
 	}
 
@@ -1024,6 +1048,12 @@ class Piwik_DataTable
 	{
 		foreach($array as $id => $row)
 		{
+			if($id == self::ID_PARENTS)
+			{
+				$this->parents = $row;
+				continue;
+			}
+						
 			if(is_array($row))
 			{
 				$row = new Piwik_DataTable_Row($row);
@@ -1200,4 +1230,26 @@ class Piwik_DataTable
 			$this->addRow( new Piwik_DataTable_Row($cleanRow) );
 		}
 	}
+	
+	/**
+	 * Set the array of parent ids
+	 * @param array $parents
+	 */
+	public function setParents($parents)
+	{
+		$this->parents = $parents;
+	}
+	
+	/**
+	 * Get parents
+	 * @return array of all parents, root level first
+	 */
+	public function getParents() {
+		if ($this->parents == null)
+		{
+			return array();
+		}
+		return $this->parents;
+	}
+	
 }
