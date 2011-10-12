@@ -24,7 +24,8 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 
 		$view->availableWidgets = json_encode(Piwik_GetWidgetsList());
 		$layout = $this->getLayout();
-		if(empty($layout)) {
+		if(empty($layout)
+			|| $layout == $this->getEmptyLayout()) {
 			$layout = $this->getDefaultLayout();
 		}
 		$view->layout = $layout;
@@ -131,11 +132,6 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		$layout = html_entity_decode($layout);
 		$layout = str_replace("\\\"", "\"", $layout);
 
-		// compatibility with the old layout format
-		if(!empty($layout)
-			&& strstr($layout, '[[') == false) {
-			$layout = "'$layout'";
-		}
 		$layout = $this->removeDisabledPluginFromLayout($layout);
 		return $layout;
 	}
@@ -145,35 +141,47 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		$layout = str_replace("\n", "", $layout);
 		// if the json decoding works (ie. new Json format)
 		// we will only return the widgets that are from enabled plugins
-		if($layoutObject = json_decode($layout, $assoc = false)) 
-		{
-			foreach($layoutObject as &$row) 
-			{
-				if(!is_array($row))
-				{
-					$row = array();
-					continue;
-				}
+		$layoutObject = json_decode($layout, $assoc = false);
 
-				foreach($row as $widgetId => $widget)
-				{
-					if(isset($widget->parameters->module)) {
-						$controllerName = $widget->parameters->module;
-						$controllerAction = $widget->parameters->action;
-						if(!Piwik_IsWidgetDefined($controllerName, $controllerAction))
-						{
-							unset($row[$widgetId]);
-						}
-					}
-					else
+		if(empty($layoutObject))
+		{
+			$layoutObject = array();
+		}
+		foreach($layoutObject as &$row) 
+		{
+			if(!is_array($row))
+			{
+				$row = array();
+				continue;
+			}
+
+			foreach($row as $widgetId => $widget)
+			{
+				if(isset($widget->parameters->module)) {
+					$controllerName = $widget->parameters->module;
+					$controllerAction = $widget->parameters->action;
+					if(!Piwik_IsWidgetDefined($controllerName, $controllerAction))
 					{
 						unset($row[$widgetId]);
 					}
 				}
+				else
+				{
+					unset($row[$widgetId]);
+				}
 			}
-			$layout = json_encode($layoutObject);
 		}
+		$layout = json_encode($layoutObject);
 		return $layout;
+	}
+	
+	protected function getEmptyLayout()
+	{
+		return json_encode(array(
+			array(),
+			array(),
+			array())
+		);
 	}
 	
 	protected function getDefaultLayout()
