@@ -443,7 +443,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * @param array $table
 	 * @return Piwik_DataTable
 	 */
-	static public function generateDataTable( $table )
+	static public function generateDataTable( $table, $parents=array() )
 	{
 		$dataTableToReturn = new Piwik_DataTable();
 		foreach($table as $label => $maybeDatatableRow)
@@ -454,10 +454,15 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 			// and we associate this row to the subtable
 			if( !($maybeDatatableRow instanceof Piwik_DataTable_Row) )
 			{
-				$subTable = self::generateDataTable($maybeDatatableRow);
+				array_push($parents, array($dataTableToReturn->getId(), $label));
+				
+				$subTable = self::generateDataTable($maybeDatatableRow, $parents);
+				$subTable->setParents($parents);
 				$row = new Piwik_DataTable_Row_DataTableSummary( $subTable );
 				$row->setColumns( array('label' => $label) + $row->getColumns());
 				$row->addSubtable($subTable);
+				
+				array_pop($parents);
 			}
 			// if aInfo is a simple Row we build it
 			else
