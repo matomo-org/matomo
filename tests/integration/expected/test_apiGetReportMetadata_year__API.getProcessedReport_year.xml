@@ -20,16 +20,16 @@
 
 		</processedMetrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
-			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
-			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
-			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
-			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
-			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
-			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
-			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
+			<nb_visits>Si un visiteur se rend sur votre site web pour la première fois ou s'il visite une page plus de 30 minutes après sa dernière page, il sera enregistré en tant que nouvelle visite.</nb_visits>
+			<nb_uniq_visitors>Nombre de visiteurs uniques visitant votre site web. Chaque utilisateur n'est compté qu'une seule fois, même s'il visite le site plusieurs fois dans la journée.</nb_uniq_visitors>
+			<nb_actions>Nombre d'actions effectuées par vos visiteurs. Les actions peuvent être des visites de pages, téléchargements, liens sortants.</nb_actions>
+			<nb_actions_per_visit>Nombre moyen d'actions (affichages de page, téléchargements ou liens sortants) qui ont été effectuées durant les visites.</nb_actions_per_visit>
+			<avg_time_on_site>Durée moyenne d'une visite</avg_time_on_site>
+			<bounce_rate>Pourcentage de visites qui ont eu un affichage unique de page. Cela signifie que le visiteur a quitté le site directement depuis la page d'entrée.</bounce_rate>
+			<conversion_rate>Pourcentage de visites qui ont déclenché une conversion en Objectif.</conversion_rate>
+			<avg_time_on_page>Temps moyen que les visiteurs ont passé sur cette page (seulement la page, pas le site entier).</avg_time_on_page>
+			<nb_hits>Le nombre de fois que cette page a été visitée.</nb_hits>
+			<exit_rate>Pourcentage de visites qui ont quitté le site web après avoir visualisé cette page (affichages uniques divisés par sorties)</exit_rate>
 
 		</metricsDocumentation>
 		<metricsGoal>
