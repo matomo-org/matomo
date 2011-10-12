@@ -323,7 +323,11 @@ broadcast.getParamValue = function (param, url)
         if( endStr == -1 ) {
             endStr = url.length;
         }
-        return url.substring(startStr + param.length +1,endStr);
+        var value = url.substring(startStr + param.length +1,endStr);
+        // sanitize action=embed&test 
+        var value = value.replace(/[^\w\s]/gi, '')
+        
+        return value;
     } else {
         return '';
     }
