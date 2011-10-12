@@ -14,6 +14,14 @@ piwikHelper.htmlDecode = function(value)
 	return $('<div/>').html(value).text();
 }
 
+piwikHelper.htmlEntities = function(value)
+{
+	var findReplace = [[/&/g, "&amp;"], [/</g, "&lt;"], [/>/g, "&gt;"], [/"/g, "&quot;"]];
+	for(var item in findReplace) {
+		value = value.replace(findReplace[item][0], findReplace[item][1]);
+	}
+	return value;
+}
 
 /*
  * Displays a Modal dialog. Text will be taken from the DOM node domSelector.
