@@ -40,7 +40,11 @@
     	});
         $('#sitesSelectionSearch .custom_select_block').bind('mouseenter', function(){
             $('.custom_select_ul_list li a').each(function(){
-                $(this).attr('href', piwikHelper.getCurrentQueryStringWithParametersModified('idSite='+$(this).attr('siteid'))+jQuery.historyCurrentHash.replace(/idSite=[0-9]+/, 'idSite='+$(this).attr('siteid')))
+                var hash = jQuery.historyCurrentHash;
+                if(hash.charAt(0) != '#') {
+                    hash = '#'+hash;
+                }
+                $(this).attr('href', piwikHelper.getCurrentQueryStringWithParametersModified('idSite='+$(this).attr('siteid'))+hash.replace(/idSite=[0-9]+/, 'idSite='+$(this).attr('siteid')))
             });
         });
         var inlinePaddingWidth=22;
