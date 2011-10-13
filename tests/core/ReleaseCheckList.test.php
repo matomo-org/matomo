@@ -127,7 +127,7 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 			}
 
 			// skip files with these file extensions
-			if(preg_match('/\.(bmp|fdf|gif|deflate|gz|ico|jar|jpg|p12|pdf|png|rar|swf|vsd|z|zip)$/', $file))
+			if(preg_match('/\.(bmp|fdf|gif|deflate|gz|ico|jar|jpg|p12|pdf|png|rar|swf|vsd|z|zip|ttf)$/', $file))
 			{
 				continue;
 			}
@@ -178,7 +178,7 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 			}
 			
 			$contents = file_get_contents($file);
-			$this->assertTrue(strpos($contents, '$Id: '.basename($file).' ') !== false, $file ." no Id: keyword");
+			$this->assertTrue(strpos($contents, '$Id: ') !== false, $file ." no Id: keyword");
 		}
 
 		/*
