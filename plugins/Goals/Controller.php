@@ -297,17 +297,23 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		}
 		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.get');
 		$view->setParametersToModify(array('idGoal' => $idGoal));
+	
+		$nameToLabel = $this->goalColumnNameToLabel;
+		if($idGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER)
+		{
+			$nameToLabel['nb_conversions'] = 'General_EcommerceOrders';
+		}
+		elseif($idGoal == Piwik_Archive::LABEL_ECOMMERCE_CART)
+		{
+			$nameToLabel['nb_conversions'] = Piwik_Translate('General_VisitsWith', Piwik_Translate('Goals_AbandonedCart'));
+			$nameToLabel['conversion_rate'] = $nameToLabel['nb_conversions'];
+			$nameToLabel['revenue'] = Piwik_Translate('Goals_LeftInCart', Piwik_Translate('Goals_ColumnRevenue'));
+			$nameToLabel['items'] = Piwik_Translate('Goals_LeftInCart', Piwik_Translate('Goals_Products'));
+		}
 		
 		foreach($columns as $columnName)
 		{
 			$columnTranslation = '';
-
-			$nameToLabel = $this->goalColumnNameToLabel;
-			if($idGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER
-				&& $columnName == 'nb_conversions')
-			{
-				$nameToLabel[$columnName] = 'General_EcommerceOrders';
-			}
 			// find the right translation for this column, eg. find 'revenue' if column is Goal_1_revenue
 			foreach($nameToLabel as $metric => $metricTranslation)
 			{

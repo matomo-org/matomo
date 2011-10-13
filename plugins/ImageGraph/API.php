@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version 0.3.3_a
+ * @version $Id$
  * 
  * @category Piwik_Plugins
  * @package Piwik_ImageGraph
@@ -356,9 +356,12 @@ class Piwik_ImageGraph_API
 				$path = PIWIK_INCLUDE_PATH."/tmp/".$fileName;
 				$graph->Render($path);
 				return $path;
+				
 			case self::GRAPH_OUTPUT_INLINE:
 			default:
 				$graph->Stroke();
+				exit;
+			break;
 		}
 	}
 	
