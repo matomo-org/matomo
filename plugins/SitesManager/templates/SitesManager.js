@@ -209,7 +209,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 					if(idName == 'siteName')
 					{
 						siteBeingEditedName = contentBefore;
-						var contentAfter = '<input id="'+idName+'" value="'+contentBefore+'" size="15" />';
+						var contentAfter = '<input id="'+idName+'" value="'+piwikHelper.htmlEntities(contentBefore)+'" size="15" />';
 						
 						var inputSave = $('<br/><input style="margin-top:50px" type="submit" class="submit" value="'+_pk_translate('General_Save_js')+'" />')
 											.click( function(){ submitUpdateSite($(this).parent()); });
