@@ -195,6 +195,10 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Name:  Zend Framework
 	Link:  http://www.zendframework.com/
 	License:  New BSD
+	
+	Name: pChart 1.27d 
+	Link: http://pchart.sourceforge.net/
+	License: GPL
 
 THIRD-PARTY CONTENT
 
