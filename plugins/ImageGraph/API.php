@@ -11,13 +11,12 @@
  */
 
 /**
- * The ImageGraph.get API call lets you generate a beautiful static PNG Graph for any existing Piwik report.
- * This API should be used when you want to generate a static PNG image (line plot, pie chart, vertical bar chart).
+ * The ImageGraph.get API call lets you generate a beautiful static PNG Graph for any existing Piwik report (supported graphs types are: line plot, pie chart, vertical bar chart).
  * 
- * A few notes about some of the parameters available:
- * - $graphType defines the type of graph plotted, accepted values are: 'evolution', 'verticalBar', 'pie'
- * - $colors accepts a comma delimited list of colors that will overwrite the default Piwik colors 
- * - You can also customize the width, height, font size, metric being plotted (in case the API function specified returns several metrics).
+ * A few notes about some of the parameters available:<br/>
+ * - $graphType defines the type of graph plotted, accepted values are: 'evolution', 'verticalBar', 'pie'<br/>
+ * - $colors accepts a comma delimited list of colors that will overwrite the default Piwik colors <br/>
+ * - You can also customize the width, height, font size, metric being plotted (in case the data contains multiple columns/metrics).
  * 
  * @package Piwik_ImageGraph
  */ 

@@ -16,7 +16,6 @@ class Piwik_ImageGraph extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'Image Graph',
 			'description' => Piwik_Translate('ImageGraph_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
