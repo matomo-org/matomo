@@ -472,6 +472,7 @@ Plugins[] 		= UserCountryMap
 Plugins[] 		= Live
 Plugins[]		= CustomVariables
 Plugins[]		= PrivacyManager
+Plugins[]		= ImageGraph
 
 [PluginsInstalled]
 PluginsInstalled[] = Login
