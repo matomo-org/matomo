@@ -51,6 +51,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 			'action' => 'getVisitInformationPerLocalTime',
 			'dimension' => Piwik_Translate('VisitTime_ColumnLocalTime'),
 			'documentation' => Piwik_Translate('VisitTime_WidgetLocalTimeDocumentation', array('<b>', '</b>')),
+			'constantRowsCount' => true,
 			'order' => 20
 		);
 		
@@ -61,6 +62,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 			'action' => 'getVisitInformationPerServerTime',
 			'dimension' => Piwik_Translate('VisitTime_ColumnServerTime'),
 			'documentation' => Piwik_Translate('VisitTime_WidgetServerTimeDocumentation', array('<b>', '</b>')),
+			'constantRowsCount' => true,
 			'order' => 15,
 		);
 	}

@@ -159,7 +159,7 @@ class Piwik_ImageGraph_API
 			}
 			
 			//Fetch the metadata for given api-action
-			$metadata = Piwik_API_API::getInstance()->getMetadata($idSite, $apiModule, $apiAction);
+			$metadata = Piwik_API_API::getInstance()->getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $language = false, $period, $date);
 			
 			//If the metadata doesn´t provide any information about the dimension,
 			//the $abscissaColumn could only be the date-index
@@ -186,7 +186,7 @@ class Piwik_ImageGraph_API
 				$column = 'nb_visits';
 				if(empty($availableColumns[$column]))
 				{
-					$column = key($availableColumns);
+					$column = key($metadata[0]["metrics"]);
 				}
 			}
 			
@@ -224,7 +224,7 @@ class Piwik_ImageGraph_API
 				{
 					//if filter_truncate is less-equal than 24, we don´t have to set it
 					if(empty($_GET["filter_truncate"]) || $_GET["filter_truncate"] > 24)
-						$_GET["filter_truncate"] = 24;
+						$_GET["filter_truncate"] = 6;
 				}
 			}
 			

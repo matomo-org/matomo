@@ -244,7 +244,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		if(!isset($linkEnabled)) 
 		{
 			// 1) Custom Date Range always have link disabled, otherwise 
-			// the graph data set is way to big and fails to display
+			// the graph data set is way too big and fails to display
 			// 2) disableLink parameter is set in the Widgetize "embed" code
 			$linkEnabled = !Piwik_Common::getRequestVar('disableLink', 0, 'int')
 							&& Piwik_Common::getRequestVar('period', 'day') != 'range';

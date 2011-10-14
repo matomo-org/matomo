@@ -12,16 +12,39 @@
 
 class Piwik_ImageGraph_Controller extends Piwik_Controller
 {
+	// Call metadata reports, and draw the default graph for each report.
 	public function index()
 	{
-		// Call metadata reports, and draw the default graph for each report.
-		
+		Piwik::checkUserHasSomeAdminAccess();
+		$idSite	= Piwik_Common::getRequestVar('idSite', 1, 'int');
+		$period = Piwik_Common::getRequestVar('period', 'day', 'string');
+		$date = Piwik_Common::getRequestVar('date', 'today', 'string');
+		$_GET['token_auth'] = Piwik::getCurrentUserTokenAuth();
+		$reports = Piwik_API_API::getInstance()->getReportMetadata($idSite, $period, $date);
+		$plot = array();
+		foreach($reports as $report)
+		{
+			if(!empty($report['imageGraphUrl']))
+			{
+				$plot[] = array(
+					// Title
+					$report['category'] . ' › ' . $report['name'],
+					//URL
+					Piwik::getPiwikUrl() . $report['imageGraphUrl'] . '&height=150&width=460'
+				);
+			}
+		}
+		$view = Piwik_View::factory('index');
+		$view->titleAndUrls = $plot;
+		echo $view->render(); 
 	}
+	
+	// Draw graphs for all sizes (DEBUG)
     public function testAllSizes()
 	{
 		Piwik::checkUserIsSuperUser();
 		
-		$view = Piwik_View::factory('index');
+		$view = Piwik_View::factory('debug_graphs_all_sizes');
 		$this->setGeneralVariablesView($view);
 		
 		$availableReports = Piwik_API_API::getInstance()->getReportMetadata($this->idSite);

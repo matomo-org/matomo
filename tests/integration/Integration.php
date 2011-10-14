@@ -41,6 +41,7 @@ abstract class Test_Integration extends Test_Database
 			'ExampleAPI',
 			'PDFReports',
 			'API',
+			'ImageGraph',
 		));
 		$this->setApiToCall( array());
 	}

@@ -343,14 +343,14 @@ class Piwik_API_API
      * Loads reports metadata, then return the requested one,
      * matching optional API parameters.
      */
-	public function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $language = false, $period = false)
+	public function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $language = false, $period = false, $date = false)
     {
     	Piwik_Translate::getInstance()->reloadLanguage($language);
     	static $reportsMetadata = array();
     	$cacheKey = $idSite.$language;
     	if(!isset($reportsMetadata[$cacheKey]))
     	{
-    		$reportsMetadata[$cacheKey] = $this->getReportMetadata($idSite);
+    		$reportsMetadata[$cacheKey] = $this->getReportMetadata($idSite, $period, $date);
     	}
     	
     	foreach($reportsMetadata[$cacheKey] as $report)
@@ -392,12 +392,18 @@ class Piwik_API_API
 	 * @param string $idSites Comma separated list of website Ids
 	 * @return array
 	 */
-	public function getReportMetadata($idSites = '')
+	public function getReportMetadata($idSites = '', $period = false, $date = false)
 	{
 		$idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
+		if(!empty($idSites))
+		{
+			Piwik::checkUserHasViewAccess($idSites);
+		}
+		
+		$parameters = array( 'idSites' => $idSites, 'period' => $period, 'date' => $date);
 		
 		$availableReports = array();
-		Piwik_PostEvent('API.getReportMetadata', $availableReports, $idSites);
+		Piwik_PostEvent('API.getReportMetadata', $availableReports, $parameters);
 		foreach ($availableReports as &$availableReport) {
 			if (!isset($availableReport['metrics'])) {
 				$availableReport['metrics'] = $this->getDefaultMetrics();
@@ -411,7 +417,7 @@ class Piwik_API_API
 		}
 		
 		// Some plugins need to add custom metrics after all plugins hooked in
-		Piwik_PostEvent('API.getReportMetadata.end', $availableReports, $idSites);
+		Piwik_PostEvent('API.getReportMetadata.end', $availableReports, $parameters);
 		
 		// Sort results to ensure consistent order
 		usort($availableReports, array($this, 'sort'));
@@ -483,7 +489,7 @@ class Piwik_API_API
 			$apiParameters['idGoal'] = $idGoal;
 		}
         // Is this report found in the Metadata available reports?
-        $reportMetadata = $this->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period);
+        $reportMetadata = $this->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date);
         if(empty($reportMetadata))
         {
         	throw new Exception("Requested report $apiModule.$apiAction for Website id=$idSite not found in the list of available reports. \n");

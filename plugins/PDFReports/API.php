@@ -251,6 +251,7 @@ class Piwik_PDFReports_API
 		static $reportMetadata = null;
 		if(is_null($reportMetadata))
 		{
+			//TODO here should pass $period and $date for graphs to display in metadata and then in Email reports. 
 			$reportMetadata = Piwik_API_API::getInstance()->getReportMetadata($idSite);
 		}
 

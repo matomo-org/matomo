@@ -90,7 +90,7 @@ class Piwik_ImageGraph_ImageGraphObject extends pChart
 		}
 		if($sum == 0)
 		{
-			throw new Exception(Piwik_Translate("General_NoDataForGraph"));
+			//throw new Exception(Piwik_Translate("General_NoDataForGraph"));
 		}
 		
 		$this->abscissaSerie = $abscissaSerie;

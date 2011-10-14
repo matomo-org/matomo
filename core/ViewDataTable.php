@@ -1015,7 +1015,8 @@ abstract class Piwik_ViewDataTable
 	}
 	
 	/** Load documentation from the API */
-	private function loadDocumentation() {
+	private function loadDocumentation() 
+	{
 		$this->metricsDocumentation = array();
 		
 		$report = Piwik_API_API::getInstance()->getMetadata(0, $this->currentControllerName, $this->currentControllerAction);

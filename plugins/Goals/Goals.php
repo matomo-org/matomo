@@ -63,7 +63,8 @@ class Piwik_Goals extends Piwik_Plugin
 	 */
 	public function getReportMetadata($notification)
 	{
-		$idSites = $notification->getNotificationInfo();
+		$info = $notification->getNotificationInfo();
+		$idSites = $info['idSites'];
 		$reports = &$notification->getNotificationObject();
 	
 		// Processed in AddColumnsProcessedMetricsGoal

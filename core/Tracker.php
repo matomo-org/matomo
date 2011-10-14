@@ -389,7 +389,7 @@ class Piwik_Tracker
 					return true;
 				}
 			}
-			printDebug("token_auth = $tokenAuth - Warning: Super User / Admin was NOT authenticated");
+			printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin was NOT authenticated");
 		}
 		return false;
 	}
