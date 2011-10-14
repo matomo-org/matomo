@@ -460,6 +460,8 @@ abstract class Test_Integration extends Test_Database
     			$response = $this->removeXmlElement($response, 'sum_daily_nb_uniq_visitors');
     			$expected = $this->removeXmlElement($expected, 'nb_visits_converted');
     			$response = $this->removeXmlElement($response, 'nb_visits_converted');
+    			$expected = $this->removeXmlElement($expected, 'imageGraphUrl');
+    			$response = $this->removeXmlElement($response, 'imageGraphUrl');
     			$removeEndOfLines =true;
     		}
     		

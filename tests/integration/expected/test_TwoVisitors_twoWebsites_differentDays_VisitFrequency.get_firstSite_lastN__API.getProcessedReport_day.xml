@@ -28,7 +28,7 @@
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;graphType=evolution&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;graphType=evolution&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
 		<uniqueId>VisitFrequency_get</uniqueId>
 
 	</metadata>
