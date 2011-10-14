@@ -64,6 +64,10 @@ class Piwik_API_DocumentationGenerator_CallAllMethods extends Piwik_API_Document
 		foreach(Piwik_API_Proxy::getInstance()->getMetadata() as $class => $info)
 		{
 			$moduleName = Piwik_API_Proxy::getInstance()->getModuleNameFromClassName($class);
+			if($moduleName == 'ImageGraph')
+			{
+				continue;
+			}
 			foreach($info as $methodName => $infoMethod)
 			{
 				if($methodName == '__documentation') {

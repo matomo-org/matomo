@@ -78,9 +78,10 @@ class Piwik_ImageGraph_API
 	{
 		// Health check - should we also test for GD2 only?
 		$extensions = @get_loaded_extensions();
-		if (!in_array('gd', $extensions))
+		if (!in_array('gd', $extensions)
+			|| !function_exists('imageftbbox'))
 		{
-			throw new Exception("Error: To create graphs in Piwik, please enable GD php extension in php.ini, and restart your web server.");
+			throw new Exception("Error: To create graphs in Piwik, please enable GD php extension (with Freetype support) in php.ini, and restart your web server.");
 		}
 		
 		// Parameters init
