@@ -18,8 +18,11 @@
 			{foreach from=$reportRows item=row key=rowId}
 
 			{assign var=rowMetrics value=$row->getColumns()}
+
 			{if isset($reportRowsMetadata[$rowId])}
 				{assign var=rowMetadata value=$reportRowsMetadata[$rowId]->getColumns()}
+			{else}
+				{assign var=rowMetadata value=null}
 			{/if}
 
 			<tr style="{cycle delimiter=';' values=";background-color: rgb(`$tableBgColor`)" }">
@@ -27,14 +30,14 @@
 				<td style="font-size: {$reportTableRowTextSize}pt; border-bottom: 1px solid rgb({$tableCellBorderColor}); padding: 5px 0px 5px 5px;">
 					{if $columnId eq 'label'}
 						{if isset($rowMetrics[$columnId])}
-							{if isset($rowMetadata[$rowId].logo)}
-							<img src='{$currentPath}{$rowMetadata[$rowId].logo}'>&nbsp;
+							{if isset($rowMetadata.logo)}
+							<img src='{$currentPath}{$rowMetadata.logo}'>&nbsp;
 							{/if}
-							{if isset($rowMetadata[$rowId].url)}
-								<a style="color: rgb({$reportTextColor});" href='{$rowMetadata[$rowId].url|escape:"url"}'>
+							{if isset($rowMetadata.url)}
+								<a style="color: rgb({$reportTextColor});" href='{$rowMetadata.url|escape:"url"}'>
 							{/if}
 									{$rowMetrics[$columnId]}
-							{if isset($rowMetadata[$rowId].url)}
+							{if isset($rowMetadata.url)}
 								</a>
 							{/if}
 						{/if}
