@@ -77,6 +77,7 @@ class Piwik_ImageGraph_ImageGraphObject extends pChart
 		//Set font and properties
 		$this->fontSize = $fontSize;
 		$this->setFontProperties(PIWIK_INCLUDE_PATH."/libs/pChart.1.27d/Fonts/tahoma.ttf", $fontSize);
+		debug_print_backtrace();
 		$Position = imageftbbox($this->FontSize, 0, $this->FontName, "Test");
 		$this->imageFontHeight = $Position[1]-$Position[7];
 	}
