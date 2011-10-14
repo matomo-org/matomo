@@ -62,9 +62,18 @@ class Piwik_ImageGraph extends Piwik_Plugin
 		$dateLastN = $info['date'];
 		
 		// If the date is not already a range, then we process the range to plot on Graph
-		if(!Piwik_Archive::isMultiplePeriod($info['date'], $info['period']))
+		if($info['period'] != 'range')
 		{
-			$dateLastN = Piwik_Controller::getDateRangeRelativeToEndDate($info['period'], $lastN, $info['date'], new Piwik_Site($idSite));
+			if(!Piwik_Archive::isMultiplePeriod($info['date'], $info['period']))
+			{
+				$dateLastN = Piwik_Controller::getDateRangeRelativeToEndDate($info['period'], $lastN, $info['date'], new Piwik_Site($idSite));
+			}
+			// Period is not range, but date is already date1,date2 format
+			// so we draw the graph over the requested range
+			else
+			{
+				$info['period'] = 'range';
+			}
 		}
 		$token_auth = Piwik_Common::getRequestVar('token_auth', false);
 		
@@ -93,7 +102,12 @@ class Piwik_ImageGraph extends Piwik_Plugin
 			if(empty($report['dimension']))
 			{
 				$parameters['graphType'] = 'evolution';
-				$parameters['date'] = $dateLastN;
+				
+				// If period == range, then date is already a date range
+				if($info['period'] != 'range')
+				{
+					$parameters['date'] = $dateLastN;
+				}
 			}
 			
 			$report['imageGraphUrl'] = $urlPrefix . Piwik_Url::getQueryStringFromParameters($parameters);

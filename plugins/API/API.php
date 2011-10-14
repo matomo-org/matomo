@@ -346,14 +346,9 @@ class Piwik_API_API
 	public function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $language = false, $period = false, $date = false)
     {
     	Piwik_Translate::getInstance()->reloadLanguage($language);
-    	static $reportsMetadata = array();
-    	$cacheKey = $idSite.$language;
-    	if(!isset($reportsMetadata[$cacheKey]))
-    	{
-    		$reportsMetadata[$cacheKey] = $this->getReportMetadata($idSite, $period, $date);
-    	}
+    	$reportsMetadata = $this->getReportMetadata($idSite, $period, $date);
     	
-    	foreach($reportsMetadata[$cacheKey] as $report)
+    	foreach($reportsMetadata as $report)
     	{
     		// See ArchiveProcessing/Period.php - unique visitors are not processed for period != day
 	    	if($period != 'day'

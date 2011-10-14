@@ -281,6 +281,10 @@ class Piwik_ImageGraph_API
 			//Otherwise we have rows
 			else if(!empty($metadata[0]['dimension']))
 			{
+				if(!($report["reportData"] instanceof Piwik_DataTable))
+				{
+					throw new Exception("The graph cannot be drawn with the request 'date' and 'period' parameters.");
+				}
 				foreach($report["reportData"]->getRows() as $rowId => $row)
 				{
 					$row = $row->getColumns();
