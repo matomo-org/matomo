@@ -40,6 +40,7 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;graphType=verticalBar&amp;period=day&amp;date=2011-04-05</imageGraphUrl>
 		<uniqueId>UserCountry_getCountry</uniqueId>
 
 	</row>

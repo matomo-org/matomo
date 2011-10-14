@@ -227,14 +227,27 @@ abstract class Piwik_Controller
 		{
 			throw new Piwik_Access_NoAccessException("Website not initialized, check that you are logged in and/or using the correct token_auth.");
 		}
-		$last30Relative = new Piwik_Period_Range($period, $range, $this->site->getTimezone() );
-		
-		$last30Relative->setDefaultEndDate(Piwik_Date::factory($endDate));
-		
-		$paramDate = $last30Relative->getDateStart()->toString() . "," . $last30Relative->getDateEnd()->toString();
+		$paramDate = self::getDateRangeRelativeToEndDate($period, $range, $endDate, $this->site);
 		
 		$params = array_merge($paramsToSet , array(	'date' => $paramDate ) );
 		return $params;
+	}
+	
+	/**
+	 * Given for example, $period = month, $lastN = 'last6', $endDate = '2011-07-01', 
+	 * It will return the $date = '2011-01-01,2011-07-01' which is useful to draw graphs for the last N periods
+	 * 
+	 * @param string $period
+	 * @param string $lastN
+	 * @param string $endDate
+	 * @param Piwik_Site $site
+	 */
+	static public function getDateRangeRelativeToEndDate($period, $lastN, $endDate, $site )
+	{
+		$last30Relative = new Piwik_Period_Range($period, $lastN, $site->getTimezone() );
+		$last30Relative->setDefaultEndDate(Piwik_Date::factory($endDate));
+		$date = $last30Relative->getDateStart()->toString() . "," . $last30Relative->getDateEnd()->toString();
+		return $date;
 	}
 	
 	/**

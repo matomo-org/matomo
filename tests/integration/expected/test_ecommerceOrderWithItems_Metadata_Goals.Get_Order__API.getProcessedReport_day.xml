@@ -24,6 +24,7 @@
 			<avg_order_revenue>Average Order Value</avg_order_revenue>
 
 		</metrics>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;graphType=evolution&amp;period=day&amp;date=2011-03-07,2011-04-05&amp;idGoal=ecommerceOrder</imageGraphUrl>
 		<uniqueId>Goals_get_idGoal--ecommerceOrder</uniqueId>
 
 	</metadata>

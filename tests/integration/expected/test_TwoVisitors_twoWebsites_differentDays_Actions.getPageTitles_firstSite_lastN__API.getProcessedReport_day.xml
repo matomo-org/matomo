@@ -27,6 +27,7 @@
 
 		</metricsDocumentation>
 		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;graphType=verticalBar&amp;period=day&amp;date=2011-04-05</imageGraphUrl>
 		<uniqueId>Actions_getPageTitles</uniqueId>
 
 	</metadata>
@@ -98,10 +99,10 @@
 		<result prettyDate="Monday 4 January 2010" />
 		<result prettyDate="Tuesday 5 January 2010">
 			<row>
-				
+				<idsubdatatable>68</idsubdatatable>
 			</row>
 			<row>
-				
+				<idsubdatatable>70</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Wednesday 6 January 2010" />
