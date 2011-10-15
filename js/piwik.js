@@ -1733,7 +1733,8 @@ var
 					tag,
 					linkType;
 
-				while (!!(parentElement = sourceElement.parentNode) &&
+				while ((parentElement = sourceElement.parentNode) !== null &&
+						isDefined(parentElement) && // buggy IE5.5
 						((tag = sourceElement.tagName.toUpperCase()) !== 'A' && tag !== 'AREA')) {
 					sourceElement = parentElement;
 				}
@@ -2609,7 +2610,7 @@ var
 				return eval('piwik_' + optionName);
 			} catch (e) { }
 
-			return; /* undefined */
+			return; // undefined
 		}
 
 		// instantiate the tracker
@@ -2621,16 +2622,20 @@ var
 		piwikTracker.setCustomData(customData);
 
 		// handle Piwik globals
-		if (!!(option = getOption('tracker_pause'))) {
+		option = getOption('tracker_pause');
+		if (option) {
 			piwikTracker.setLinkTrackingTimer(option);
 		}
-		if (!!(option = getOption('download_extensions'))) {
+		option = getOption('download_extensions');
+		if (option) {
 			piwikTracker.setDownloadExtensions(option);
 		}
-		if (!!(option = getOption('hosts_alias'))) {
+		option = getOption('hosts_alias');
+		if (option) {
 			piwikTracker.setDomains(option);
 		}
-		if (!!(option = getOption('ignore_classes'))) {
+		option = getOption('ignore_classes');
+		if (option) {
 			piwikTracker.setIgnoreClasses(option);
 		}
 
@@ -2638,7 +2643,7 @@ var
 		piwikTracker.trackPageView();
 
 		// default is to install the link tracker
-		if ((getOption('install_tracker'))) {
+		if (getOption('install_tracker')) {
 
 			/**
 			 * Track click manually (function is defined below)
