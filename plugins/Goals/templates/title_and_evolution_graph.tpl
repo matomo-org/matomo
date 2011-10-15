@@ -14,7 +14,7 @@
 		 	({'VisitsSummary_NbVisits'|translate:"<strong>$nb_visits_converted</strong>"})
 		 {/if}
 	</div>
-	{if $revenue != 0 }
+	{if $revenue != 0 || isset($ecommerce)}
 		<div class="sparkline">{sparkline src=$urlSparklineRevenue}
 		{assign var=revenue value=$revenue|money:$idSite}
 		{if isset($ecommerce)}<strong>{$revenue}</strong> {'General_TotalRevenue'|translate}
