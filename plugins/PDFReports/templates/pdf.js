@@ -87,6 +87,8 @@ function initManagePdf()
 		ajaxRequest.type = 'POST';
 		parameters = getPDFAjaxRequest(idReport, 'PDFReports.sendEmailReport');
 		parameters.idReport = idReport;
+		parameters.period = broadcast.getValueFromUrl('period');
+		parameters.date = broadcast.getValueFromUrl('date');
 		ajaxRequest.data = parameters;
 		$.ajax( ajaxRequest );
 	});
