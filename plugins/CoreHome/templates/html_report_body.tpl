@@ -34,7 +34,7 @@
 							<img src='{$currentPath}{$rowMetadata.logo}'>&nbsp;
 							{/if}
 							{if isset($rowMetadata.url)}
-								<a style="color: rgb({$reportTextColor});" href='{$rowMetadata.url|escape:"url"}'>
+								<a style="color: rgb({$reportTextColor});" href='{if !in_array(substr($rowMetadata.url,0,4), array('http','ftp:'))}http://{/if}{$rowMetadata.url|escape:'html'}'>
 							{/if}
 									{$rowMetrics[$columnId]}
 							{if isset($rowMetadata.url)}
