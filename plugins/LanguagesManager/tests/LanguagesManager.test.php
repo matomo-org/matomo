@@ -30,6 +30,7 @@ class Test_LanguagesManager extends UnitTestCase
 			{
 				$englishStringsWithParameters[$stringLabel] = $count;
 			}
+			$englishStringsIndexed[$stringLabel] = $stringValue;
 			$expectedLanguageKeys[] = $stringLabel;
 		}
 		
@@ -75,9 +76,9 @@ class Test_LanguagesManager extends UnitTestCase
             		echo "$language: The string $stringLabel was not found in the English language file, removing the line. <br/>\n";
             		$cleanedStrings[$stringLabel] = false;
 				}
-    			// checking that translated strings have the same number of %s as the english source strings
 				else
 				{
+	    			// checking that translated strings have the same number of %s as the english source strings
 					if(isset($englishStringsWithParameters[$stringLabel]))
     				{
     					$englishParametersCount = $englishStringsWithParameters[$stringLabel];
@@ -99,6 +100,18 @@ class Test_LanguagesManager extends UnitTestCase
     				{
     					$cleanedStrings[$stringLabel] = $stringValue;
     				}
+				}
+			
+				// If the translation is the same as in English, we remove it from the translation file (as it might have been copied by
+				// the translator but this would skew translation stats
+				if(isset($englishStringsIndexed[$stringLabel])
+					&& $englishStringsIndexed[$stringLabel] == $stringValue
+					//Currently hackjed for Persian since only the Farsi translation seems affected by "english copy paste"
+					&& $language == 'fa')
+				{
+					$writeCleanedFile = true;
+					echo "$language: The string $stringLabel is the same as in English, removing... <br/>\n";
+					$cleanedStrings[$stringLabel] = false;
 				}
 				// remove excessive line breaks (and leading/trailing whitespace) from translations
 				if(!empty($cleanedStrings[$stringLabel]))
