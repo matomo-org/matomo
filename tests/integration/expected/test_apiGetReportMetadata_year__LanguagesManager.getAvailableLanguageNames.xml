@@ -66,6 +66,11 @@
 		<english_name>Basque</english_name>
 	</row>
 	<row>
+		<code>fa</code>
+		<name>فارسی</name>
+		<english_name>Persian</english_name>
+	</row>
+	<row>
 		<code>fi</code>
 		<name>Suomi</name>
 		<english_name>Finnish</english_name>
