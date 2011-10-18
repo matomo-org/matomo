@@ -168,7 +168,7 @@ class Piwik_Config
 				}
 				$configFile .= "\n";
 			}
-			chdir($this->correctCwd);
+			@chdir($this->correctCwd);
 			@file_put_contents($this->pathIniFileUserConfig, $configFile );
 		}
 	}
