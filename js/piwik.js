@@ -651,9 +651,6 @@ var
 				referrer = documentAlias.referrer;
 			}
 
-			// urldecode %xx
-			referrer = urldecode(referrer);
-
 			return referrer;
 		}
 
