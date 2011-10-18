@@ -127,12 +127,14 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		{
 			$layout = $this->getLayoutForUser(Piwik::getCurrentUserLogin(),$idDashboard);
 		}
+		if(!empty($layout))
+		{
+			// layout was JSON.stringified
+			$layout = html_entity_decode($layout);
+			$layout = str_replace("\\\"", "\"", $layout);
 	
-		// layout was JSON.stringified
-		$layout = html_entity_decode($layout);
-		$layout = str_replace("\\\"", "\"", $layout);
-
-		$layout = $this->removeDisabledPluginFromLayout($layout);
+			$layout = $this->removeDisabledPluginFromLayout($layout);
+		}
 		return $layout;
 	}
 	
