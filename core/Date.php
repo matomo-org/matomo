@@ -81,9 +81,9 @@ class Piwik_Date
 			$date = new Piwik_Date($dateString);
 		}
 		$timestamp = $date->getTimestamp();
-		if($timestamp < 681436800 // can't be doing web analytics before the 1st website
-			|| $timestamp > 7289049600 // piwik is designed to last (date lib will break long before that)
-		) {
+		// can't be doing web analytics before the 1st website
+		if($timestamp < 681436800 ) 
+		{
 			throw $invalidDateException;
 		}
 		if(empty($timezone))
