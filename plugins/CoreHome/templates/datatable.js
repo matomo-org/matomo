@@ -563,7 +563,11 @@ dataTable.prototype =
 						+'&idSite='+self.param.idSite
 						+'&period='+period
 						+'&date='+param_date
-						+'&token_auth='+piwik.token_auth;
+						+'&token_auth='+piwik.token_auth
+						+'&expanded=1';
+				if (format == 'CSV' || format == 'TSV') {
+					str += '&translateColumnNames=1';
+				}
 				if(typeof segment != 'undefined') {
 					str += '&segment='+segment;
 				}

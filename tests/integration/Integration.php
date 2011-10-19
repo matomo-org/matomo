@@ -330,7 +330,9 @@ abstract class Test_Integration extends Test_Database
 	 * 
 	 * @return bool Passed or failed
 	 */
-	function callGetApiCompareOutput($testName, $formats = 'xml', $idSite = false, $dateTime = false, $periods = false, $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal = false, $apiModule = false, $apiAction = false)
+	function callGetApiCompareOutput($testName, $formats = 'xml', $idSite = false, $dateTime = false, $periods = false,
+			$setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false,
+			$idGoal = false, $apiModule = false, $apiAction = false, $otherRequestParameters = array())
 	{
 		$pass = true;
 		
@@ -377,6 +379,7 @@ abstract class Test_Integration extends Test_Database
 			'abandonedCarts' => $abandonedCarts ? 1 : 0,
 			'idSites' => $idSite,
 		);
+		$parametersToSet = array_merge($parametersToSet, $otherRequestParameters);
 		if(!empty($visitorId ))
 		{
 			$parametersToSet['visitorId'] = $visitorId; 

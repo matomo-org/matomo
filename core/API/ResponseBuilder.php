@@ -192,9 +192,19 @@ class Piwik_API_ResponseBuilder
 		{
 			$renderer->setTableId($this->request['method']);
 		}
-		else if($format == 'csv')
+		else if($format == 'csv' || $format == 'tsv')
 		{
-			$renderer->setConvertToUnicode( Piwik_Common::getRequestVar('convertToUnicode', true, 'int') );
+			$renderer->setIncludeInnerNodes(Piwik_Common::getRequestVar('includeInnerNodes', false, 'int', $this->request));
+			$renderer->setConvertToUnicode( Piwik_Common::getRequestVar('convertToUnicode', true, 'int', $this->request) );
+			$renderer->setTranslateColumnNames( Piwik_Common::getRequestVar('translateColumnNames', false, 'int', $this->request) );
+			$renderer->setIdSite( Piwik_Common::getRequestVar('idSite', false, 'int', $this->request) );
+			
+			$method = Piwik_Common::getRequestVar('method', '', 'string', $this->request);
+			$renderer->setApiMethod($method);
+			if (substr($method, 0, 8) == 'Actions.')
+			{
+				$renderer->setRecursiveLabelSeparator('/');
+			}
 		}
 		
 		return $renderer->render();
