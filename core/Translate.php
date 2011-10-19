@@ -16,6 +16,7 @@
 class Piwik_Translate
 {
 	static private $instance = null;
+	static private $languageToLoad = null;
 	private $loadedLanguage = false;
 	
 	/**
@@ -100,27 +101,32 @@ class Piwik_Translate
 	 */
 	public function getLanguageToLoad()
 	{
-		static $language = null;
-		if(!is_null($language))
+		if(!is_null(self::$languageToLoad))
 		{
-			return $language;
+			return self::$languageToLoad;
 		}
 
-		Piwik_PostEvent('Translate.getLanguageToLoad', $language);
+		Piwik_PostEvent('Translate.getLanguageToLoad', self::$languageToLoad);
 		
-		$language = Piwik_Common::getRequestVar('language', is_null($language) ? '' : $language, 'string');
-		if(empty($language))
+		self::$languageToLoad = Piwik_Common::getRequestVar('language', is_null(self::$languageToLoad) ? '' : self::$languageToLoad, 'string');
+		if(empty(self::$languageToLoad))
 		{
-			$language = $this->getLanguageDefault();
+			echo self::$languageToLoad = $this->getLanguageDefault();
 		}
-		if( Piwik_Common::isValidFilename($language))
+		if( Piwik_Common::isValidFilename(self::$languageToLoad))
 		{
-			return $language;
+			return self::$languageToLoad;
 		}
 		else
 		{
-			throw new Exception("The language selected ('$language') is not a valid language file ");
+			throw new Exception("The language selected ('".self::$languageToLoad."') is not a valid language file ");
 		}
+	}
+	
+	/** Reset the cached language to load. Used in tests. */
+	static public function reset()
+	{
+		self::$languageToLoad = null;
 	}
 	
 	public function getLanguageDefault()

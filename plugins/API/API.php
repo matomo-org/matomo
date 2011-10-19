@@ -351,7 +351,7 @@ class Piwik_API_API
     	foreach($reportsMetadata as $report)
     	{
     		// See ArchiveProcessing/Period.php - unique visitors are not processed for period != day
-	    	if($period != 'day'
+	    	if(($period && $period != 'day')
 	    		&& !($apiModule == 'VisitsSummary'
 	    			&& $apiAction == 'get'))
 	    	{

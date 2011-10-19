@@ -1048,4 +1048,37 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime);
 	}
 	
+	/* Testing a segment containing all supported fields */
+	function test_csvExport()
+	{
+		$dateTime = '2010-01-03 11:22:33';
+        $idSite = $this->doTest_twoVisitsWithCustomVariables($dateTime);
+        
+        $this->callGetApiCompareOutput(__FUNCTION__.'_xp0', 'csv', 
+				$idSite, $dateTime, $periods = false, $setDateLastN = false, $language = false,
+				$segment = false, $visitorId = false, $abandonedCarts = false, $idGoal = false,
+				$apiModule = false, $apiAction = false,
+				$otherRequestParameters = array('expanded' => 0));
+		
+		$this->callGetApiCompareOutput(__FUNCTION__.'_xp1_inner0_trans-en', 'csv', 
+				$idSite, $dateTime, $periods = false, $setDateLastN = false, $language = false,
+				$segment = false, $visitorId = false, $abandonedCarts = false, $idGoal = false,
+				$apiModule = false, $apiAction = false,
+				$otherRequestParameters = array('expanded' => 1, 'includeInnerNodes' => 0,
+						'translateColumnNames' => 1, 'language' => 'en'));
+		
+		// changing the language within one request is a bit fancy
+		// in order to keep the core clean, we need a little hack here
+		Piwik_Translate::reset();
+		$_GET['language'] = 'de';
+		
+		$this->callGetApiCompareOutput(__FUNCTION__.'_xp1_inner1_trans-de', 'csv', 
+				$idSite, $dateTime, $periods = false, $setDateLastN = false, $language = false,
+				$segment = false, $visitorId = false, $abandonedCarts = false, $idGoal = false,
+				$apiModule = false, $apiAction = false,
+				$otherRequestParameters = array('expanded' => 1, 'includeInnerNodes' => 1,
+						'translateColumnNames' => 1, 'language' => 'de'));
+	}
+	
+	
 }
