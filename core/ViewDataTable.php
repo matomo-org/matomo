@@ -300,6 +300,7 @@ abstract class Piwik_ViewDataTable
 		$this->viewProperties['show_footer_icons'] = ($this->idSubtable == false);
 		$this->viewProperties['apiMethodToRequestDataTable'] = $this->apiMethodToRequestDataTable;
 		$this->viewProperties['uniqueId'] = $this->getUniqueIdViewDataTable();
+		$this->viewProperties['exportLimit'] = Zend_Registry::get('config')->General->API_datatable_default_limit;
 		
 		$standardColumnNameToTranslation = array_merge(
 			Piwik_API_API::getInstance()->getDefaultMetrics(),

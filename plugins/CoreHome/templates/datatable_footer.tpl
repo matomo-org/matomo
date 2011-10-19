@@ -63,13 +63,13 @@
 				<span class="exportToFormatIcons"><a class="tableIcon" var="export"><img width="16" height="16" src="themes/default/images/export.png" title="{'General_ExportThisReport'|translate}" /></a></span>
 				<span class="exportToFormatItems" style="display:none"> 
 					{'General_Export'|translate}: 
-					<a target="_blank" methodToCall="{$properties.apiMethodToRequestDataTable}" format="CSV" filter_limit="100">CSV</a> | 
-					<a target="_blank" methodToCall="{$properties.apiMethodToRequestDataTable}" format="TSV" filter_limit="100">TSV (Excel)</a> | 
-					<a target="_blank" methodToCall="{$properties.apiMethodToRequestDataTable}" format="XML" filter_limit="100">XML</a> |
-					<a target="_blank" methodToCall="{$properties.apiMethodToRequestDataTable}" format="JSON" filter_limit="100">Json</a> |
-					<a target="_blank" methodToCall="{$properties.apiMethodToRequestDataTable}" format="PHP" filter_limit="100">Php</a>
+					<a target="_blank" methodToCall="{$properties.apiMethodToRequestDataTable}" format="CSV" filter_limit="{$properties.exportLimit}">CSV</a> | 
+					<a target="_blank" methodToCall="{$properties.apiMethodToRequestDataTable}" format="TSV" filter_limit="{$properties.exportLimit}">TSV (Excel)</a> | 
+					<a target="_blank" methodToCall="{$properties.apiMethodToRequestDataTable}" format="XML" filter_limit="{$properties.exportLimit}">XML</a> |
+					<a target="_blank" methodToCall="{$properties.apiMethodToRequestDataTable}" format="JSON" filter_limit="{$properties.exportLimit}">Json</a> |
+					<a target="_blank" methodToCall="{$properties.apiMethodToRequestDataTable}" format="PHP" filter_limit="{$properties.exportLimit}">Php</a>
 					{if $properties.show_export_as_rss_feed}
-						| <a target="_blank" methodToCall="{$properties.apiMethodToRequestDataTable}" format="RSS" filter_limit="100" date="last10"><img border="0" src="themes/default/images/feed.png" /></a>
+						| <a target="_blank" methodToCall="{$properties.apiMethodToRequestDataTable}" format="RSS" filter_limit="{$properties.exportLimit}" date="last10"><img border="0" src="themes/default/images/feed.png" /></a>
 					{/if}
 				</span>
 				{if $properties.show_export_as_image_icon}

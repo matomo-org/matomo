@@ -112,7 +112,7 @@ default_language = en
 datatable_default_limit = 10
 
 ; default number of rows returned in API responses
-API_datatable_default_limit = 50
+API_datatable_default_limit = 100
 
 ; This setting is overriden in the UI, under "User Settings".
 ; The date and period loaded by Piwik uses the defaults below. Possible values: yesterday, today.
