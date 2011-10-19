@@ -111,7 +111,7 @@ class Piwik_Translate
 		self::$languageToLoad = Piwik_Common::getRequestVar('language', is_null(self::$languageToLoad) ? '' : self::$languageToLoad, 'string');
 		if(empty(self::$languageToLoad))
 		{
-			echo self::$languageToLoad = $this->getLanguageDefault();
+			self::$languageToLoad = $this->getLanguageDefault();
 		}
 		if( Piwik_Common::isValidFilename(self::$languageToLoad))
 		{
