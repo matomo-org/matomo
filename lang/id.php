@@ -1,8 +1,8 @@
 <?php
 $translations = array(
 	'General_Locale' => 'id_ID.UTF-8',
-	'General_TranslatorName' => 'Bayu Aditya H',
-	'General_TranslatorEmail' => 'translationsproject-b@yuah.web.id',
+	'General_TranslatorName' => 'Hendry Lee, Djaka PM, Bayu Aditya H',
+	'General_TranslatorEmail' => 'hendry.lee@gmail.com, jakenenator@gmail.com, translationsproject-b@yuah.web.id',
 	'General_EnglishLanguageName' => 'Indonesian',
 	'General_OriginalLanguageName' => 'Bahasa Indonesia',
 	'General_LayoutDirection' => 'ltr',
