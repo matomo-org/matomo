@@ -370,14 +370,23 @@ class Piwik_PDFReports_API
         }
 	}
 
-	public function sendEmailReport($idReport, $idSite)
+	public function sendEmailReport($idReport, $idSite, $period = false, $date = false)
 	{
-		$reports = $this->getReports($idSite, $period = false, $idReport);
+		$reports = $this->getReports($idSite, false, $idReport);
 		$report = reset($reports);
 		if($report['period'] == 'never')
 		{
 			$report['period'] = 'day';
 		}
+		if(!empty($period))
+		{
+			$report['period'] = $period;
+		}
+		if(empty($date))
+		{
+			$date = Piwik_Date::now()->subPeriod(1, $report['period'])->toString();
+		}
+		
 		// Get user emails and languages 
 		$emails = self::getEmailsFromString($report['additional_emails']);
 		if($report['email_me'] == 1)
@@ -404,10 +413,11 @@ class Piwik_PDFReports_API
 		list($outputFilename, $prettyDate, $websiteName, $reportFormat) =
 			$this->generateReport(
 					$idReport, 
-					Piwik_Date::now()->subPeriod(1, $report['period'])->toString(),
+					$date,
 					$idSite,
 					$language,
-					self::OUTPUT_SAVE_ON_DISK
+					self::OUTPUT_SAVE_ON_DISK,
+					$report['period']
 					);
 
 		$this->sendReportEmail($emails, $outputFilename, $prettyDate, $websiteName, $report, $reportFormat);
