@@ -1044,7 +1044,15 @@ abstract class Piwik_ViewDataTable
 	{
 		if(!is_array($columnsNames))
 		{
-			$columnsNames = array($columnsNames);
+			if (strpos($columnsNames, ',') !== false)
+			{
+	        	// array values are comma separated
+	        	$columnsNames = explode(',', $columnsNames);
+			}
+			else
+			{
+				$columnsNames = array($columnsNames);
+			}
 		}
 		$this->columnsToDisplay = $columnsNames;
 	}
