@@ -19,23 +19,23 @@ function formSetEditReport(idReport)
 		report = piwik.PDFReports[idReport];
 	}
 	$('#report_description').html(report.description);
-	$('#report_period option[value='+report.period+']').attr('selected', 'selected');
-	$('#report_format option[value='+report.format+']').attr('selected', 'selected');
+	$('#report_period option[value='+report.period+']').prop('selected', 'selected');
+	$('#report_format option[value='+report.format+']').prop('selected', 'selected');
 	if(report.email_me == 1)
 	{
-		$('#report_email_me').attr('checked','checked');
+		$('#report_email_me').prop('checked','checked');
 	}
 	$('#report_additional_emails').text(report.additional_emails);
 	
-	$('#reportsList input').attr('checked', false);
+	$('#reportsList input').prop('checked', false);
 
 	var key;
 	for(key in report.reports)
 	{
-		$('#'+report.reports[key]).attr('checked','checked');
+		$('#'+report.reports[key]).prop('checked','checked');
 	}
-	$('#report_idreport').attr('value', idReport);
-	$('#report_submit').attr('value', piwik.updateReportString);
+	$('#report_idreport').val(idReport);
+	$('#report_submit').val(piwik.updateReportString);
 }
 
 function getPDFAjaxRequest(idReport, defaultApiMethod)
@@ -58,13 +58,13 @@ function initManagePdf()
 {
 	// Click Add/Update Submit 
 	$('#addEditReport').submit( function() {
-		idReport = $('#report_idreport').attr('value');
+		idReport = $('#report_idreport').val();
 		parameters = getPDFAjaxRequest(idReport, 'PDFReports.updateReport');
 		parameters.idReport = idReport;
 		parameters.description = $('#report_description').val();
-		parameters.period = $('#report_period option:selected').attr('value');
-		parameters.reportFormat = $('#report_format option:selected').attr('value');
-		parameters.emailMe = $('#report_email_me').attr('checked') == true ? 1: 0;
+		parameters.period = $('#report_period option:selected').val();
+		parameters.reportFormat = $('#report_format option:selected').val();
+		parameters.emailMe = $('#report_email_me').prop('checked') == true ? 1: 0;
 		additionalEmails = $('#report_additional_emails').val();
 		parameters.additionalEmails = piwikHelper.getApiFormatTextarea(additionalEmails);
 		reports = '';

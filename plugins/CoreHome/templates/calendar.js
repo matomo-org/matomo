@@ -212,7 +212,7 @@ $(document).ready(function() {
 	
 	// this will trigger to change only the period value on search query and hash string.
 	$("#otherPeriods input").bind('click',function(e) {
-	    var request_URL = $(e.target).attr("value");
+	    var request_URL = $(e.target).val();
 	    var period = broadcast.getValueFromUrl('period',request_URL);
 	    if(period == 'range') return true;
 	    broadcast.propagateNewPage('period='+period+'&date='+piwik.currentDateString);
@@ -258,7 +258,7 @@ $(document).ready(function() {
 		// Apply date range button will reload the page with the selected range
 		 	$('#calendarRangeApply')
 		 		.bind('click', function() {
-		 	        var request_URL = $(e.target).attr("value");
+		 	        var request_URL = $(e.target).val();
 		 	        var dateFrom = $('#inputCalendarFrom').val(), 
 		 	        	dateTo = $('#inputCalendarTo').val(),
 		 	        	oDateFrom = $.datepicker.parseDate('yy-mm-dd', dateFrom),

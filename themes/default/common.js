@@ -33,12 +33,12 @@ piwikHelper.windowModal = function( domSelector, onValidate )
 {
     var question = $(domSelector);
     var buttons = {};
-    var textYes = $('#yes', question).attr('value');
+    var textYes = $('#yes', question).val();
     if(textYes) {
         buttons[textYes] = function(){$(this).dialog("close"); onValidate()};
         $('#yes', question).hide();
     }
-    var textNo = $('#no', question).attr('value');
+    var textNo = $('#no', question).val();
     if(textNo) {
         buttons[textNo] = function(){$(this).dialog("close");};
         $('#no', question).hide();

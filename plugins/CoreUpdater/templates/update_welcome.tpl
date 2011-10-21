@@ -105,7 +105,7 @@ $(document).ready(function() {
  		$('#sqlQueries').toggle(); 
  	});
  	$('#upgradeCorePluginsForm').submit(function(){
- 	    $('input[type=submit]', this).attr('disabled', 'disabled');
+ 	    $('input[type=submit]', this).prop('disabled', 'disabled');
  	});
 });
 </script>

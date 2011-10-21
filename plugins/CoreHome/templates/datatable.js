@@ -1053,7 +1053,7 @@ actionDataTable.prototype =
 				// we add an attribute parent that contains the ID of all the parent categories
 				// this ID is used when collapsing a parent row, it searches for all children rows
 				// which 'parent' attribute's value contains the collapsed row ID 
-				$(this).attr('parent', function(){ 
+				$(this).prop('parent', function(){ 
 					return self.parentAttributeParent + ' ' + self.parentId;
 					}
 				);
@@ -1125,7 +1125,7 @@ actionDataTable.prototype =
 			var plusDetected = $('td img', domElem).attr('src').indexOf('plus') >= 0;
 			
 			$(domElem).siblings().each( function(){
-				var parents = $(this).attr('parent');
+				var parents = $(this).prop('parent');
 				if(parents)
 				{
 					if(parents.indexOf(idSubTable) >= 0 
@@ -1190,7 +1190,7 @@ actionDataTable.prototype =
 		
 		// remove the first row of results which is only used to get the Id
 		var response = $(response).filter('tr').slice(1).addClass('rowToProcess');
-		self.parentAttributeParent = $('tr#'+idToReplace).prev().attr('parent');
+		self.parentAttributeParent = $('tr#'+idToReplace).prev().prop('parent');
 		self.parentId = idToReplace;
 		
 		$('tr#'+idToReplace).after( response ).remove();
