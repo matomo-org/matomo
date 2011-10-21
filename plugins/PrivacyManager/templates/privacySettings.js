@@ -11,15 +11,15 @@ function toggleBlock(id, value) {
 
 $(document).ready(function() {
 	$(function() {
-		toggleBlock("deleteLogSettings", $("input[name=deleteEnable]:checked").attr('value'));
-		toggleBlock("anonymizeIPenabled", $("input[name=anonymizeIPEnable]:checked").attr('value'));
+		toggleBlock("deleteLogSettings", $("input[name=deleteEnable]:checked").val());
+		toggleBlock("anonymizeIPenabled", $("input[name=anonymizeIPEnable]:checked").val());
 	});
 
 	$('input[name=anonymizeIPEnable]').click(function() {
-		toggleBlock("anonymizeIPenabled", $(this).attr('value'));
+		toggleBlock("anonymizeIPenabled", $(this).val());
 	});
 
 	$('input[name=deleteEnable]').click(function() {
-		toggleBlock("deleteLogSettings", $(this).attr('value'));
+		toggleBlock("deleteLogSettings", $(this).val());
 	});
 });

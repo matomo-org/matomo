@@ -34,7 +34,7 @@ function showSmtpSettings(value)
 }
 function isSmtpEnabled()
 {
-	return $('input[name="mailUseSmtp"]:checked').attr('value');
+	return $('input[name="mailUseSmtp"]:checked').val();
 }
 function showCustomLogoSettings(value)
 {
@@ -42,7 +42,7 @@ function showCustomLogoSettings(value)
 }
 function isCustomLogoEnabled()
 {
-	return $('input[name="useCustomLogo"]:checked').attr('value');
+	return $('input[name="useCustomLogo"]:checked').val();
 }
 
 function refreshCustomLogo() {
@@ -61,11 +61,11 @@ $(document).ready( function() {
 	});
 
 	$('input[name=mailUseSmtp]').click(function(){
-		 showSmtpSettings($(this).attr('value'));
+		 showSmtpSettings($(this).val());
 	});
 	$('input[name=useCustomLogo]').click(function(){
 		refreshCustomLogo();
-		showCustomLogoSettings($(this).attr('value'));
+		showCustomLogoSettings($(this).val());
 	});
 	$('input').keypress( function(e) {
 			var key=e.keyCode || e.which;
