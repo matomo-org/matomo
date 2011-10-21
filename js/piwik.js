@@ -1741,7 +1741,7 @@ var
 					var originalSourceHostName = sourceElement.hostname || getHostName(sourceElement.href),
 						sourceHostName = originalSourceHostName.toLowerCase(),
 						sourceHref = sourceElement.href.replace(originalSourceHostName, sourceHostName),
-						scriptProtocol = new RegExp('^(javascript|vbscript|jscript|mocha|livescript|ecmascript):', 'i');
+						scriptProtocol = new RegExp('^(javascript|vbscript|jscript|mocha|livescript|ecmascript|mailto):', 'i');
 
 					// ignore script pseudo-protocol links
 					if (!scriptProtocol.test(sourceHref)) {
