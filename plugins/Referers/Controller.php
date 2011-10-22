@@ -257,7 +257,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		{
 			$columns = Piwik_Common::getRequestVar('columns');
 		}
-		
+		$columns = !is_array($columns) ? array($columns) : $columns; 
 		$view->setColumnsToDisplay($columns);
 		$view->setParametersToModify(array('typeReferer' => $typeReferer));
 		foreach($columns as $columnName)
