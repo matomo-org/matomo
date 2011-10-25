@@ -461,12 +461,14 @@ class Piwik_Live_API
 		$from = "log_visit";
 		$subQuery = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy);
 		
+		$sqlLimit = $filter_limit >= 1 ? " LIMIT ".(int)$filter_limit : "";
+		
 		// Group by idvisit so that a visitor converting 2 goals only appears once
 		$sql = "
 			SELECT sub.* 
 			FROM ( 
-				".$subQuery['sql']."	
-				LIMIT ".(int)$filter_limit."
+				".$subQuery['sql']."
+				$sqlLimit
 			) AS sub
 			GROUP BY sub.idvisit
 			ORDER BY $orderByParent
