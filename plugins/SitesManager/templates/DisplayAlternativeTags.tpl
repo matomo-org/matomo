@@ -11,7 +11,7 @@ The Simple Image Tracker code can be used when Javascript is disallowed.
 </p>
 <code>
 &lt;!-- Piwik Image Tracker --&gt;<br/>
-&lt;img src="{if isset($piwikUrlRequest)}{$piwikUrlRequest}{else}{$piwikUrl}{/if}piwik.php?idsite={$idSite}&amp;rec=1" style="border:0" alt="" /&gt;<br/>
+&lt;img src="{if isset($piwikUrlRequest)}{$piwikUrlRequest}{else}{$piwikUrl}{/if}piwik.php?idsite={$idSite}&amp;amp;rec=1" style="border:0" alt="" /&gt;<br/>
 &lt;!-- End Piwik --&gt;<br/>
 </code>
 <br/>
@@ -20,8 +20,8 @@ The following parameters can also be passed to the image URL:
 	<li><i>rec</i> - (required) The parameter &rec=1 is required to force the request to be recorded</li>
 	<li><i>idsite</i> - (required) Defines the Website ID being tracked</li>
 	<li><i>action_name</i> - Defines the custom Page Title for this page view</li>
-	<li><i>idgoal</i> - The request will trigger the given Goal</li>
 	<li><i>urlref</i> - The Referrer URL: must be set to the referrer URL used before landing on the page containing the Image tracker. For example, in PHP this value is accessible via <pre>$_SERVER['HTTP_REFERER']</pre></li>
+	<li><i>idgoal</i> - The request will trigger the given Goal</li>
 	<li><i>revenue</i> - Used with idgoal, defines the custom revenue for this conversion</li>
 </ul>
 </div>
