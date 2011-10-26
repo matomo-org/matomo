@@ -11,6 +11,16 @@ $('.but').bind('click', function(e)
 		$('#websiteSearch').autocomplete('search', $('#websiteSearch').val() + '%%%');
 	return false;
 });
+
+function switchSite(id, name)
+{
+    $("#sitesSelectionSearch .custom_select_block").toggleClass("custom_select_block_show");
+    $('.custom_select_main_link').text(name);
+    $('.custom_select_main_link').addClass('custom_select_loading');
+    broadcast.propagateNewPage('idSite='+id );
+    return false;
+}
+
 $(function() {
 	if($('#websiteSearch').length == 0)
 	{
@@ -35,13 +45,12 @@ $(function() {
 		select: function(event, ui) {
 			if(piwik.idSite == ui.item.id)
 			{
-				hide();
 				$("#sitesSelectionSearch .custom_select_block").toggleClass("custom_select_block_show");
 			}
 			else
 			{
 				if(ui.item.id > 0) {
-					broadcast.propagateNewPage('idSite='+ui.item.id );
+				    switchSite(ui.item.id, ui.item.name);
 				} else {
 					reset();
 				}
