@@ -265,7 +265,7 @@ a {
 }
 
 .sites_autocomplete .custom_select_loading{
-	background: url(images/loading-blue.gif) no-repeat right 0;
+	background: url(images/loading-blue.gif) no-repeat right 3px;
 }
 
 .sites_autocomplete .custom_select_ul_list{

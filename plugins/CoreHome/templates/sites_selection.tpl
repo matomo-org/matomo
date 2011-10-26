@@ -8,7 +8,7 @@
             <div id="custom_select_container">
             <ul class="custom_select_ul_list" >
                 {foreach from=$sites item=info}
-                    <li {if $idSite==$info.idsite} style="display: none"{/if}><a href="index.php?module=CoreHome&amp;action=index&amp;idSite={$info.idsite}&amp;period={$period}&amp;date={$rawDate}" siteid="{$info.idsite}" onclick="broadcast.propagateNewPage( 'idSite={$info.idsite}');">{$info.name}</a></li>
+                    <li {if $idSite==$info.idsite} style="display: none"{/if}><a href="index.php?module=CoreHome&amp;action=index&amp;idSite={$info.idsite}&amp;period={$period}&amp;date={$rawDate}" siteid="{$info.idsite}" onclick="switchSite({$info.idsite}, $(this).text());">{$info.name}</a></li>
 				{/foreach}
             </ul>
             </div>
