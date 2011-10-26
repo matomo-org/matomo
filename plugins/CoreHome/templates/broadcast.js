@@ -122,8 +122,9 @@ broadcast.propagateAjax = function (ajaxUrl)
  */
 broadcast.propagateNewPage = function (str)
 {
-	broadcast.init();
-    var params_vals = str.split("&");
+	piwikHelper.showAjaxLoading();
+
+	var params_vals = str.split("&");
 
     // available in global scope
     var currentSearchStr = window.location.search;
