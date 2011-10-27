@@ -462,6 +462,7 @@
 		<name>Visits to Conversion</name>
 		<module>Goals</module>
 		<action>getVisitsUntilConversion</action>
+		<dimension>Visits to Conversion</dimension>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 
@@ -475,7 +476,7 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;graphType=evolution&amp;period=year&amp;date=1999-01-01,2009-12-31</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion</uniqueId>
 
 	</row>
@@ -484,6 +485,7 @@
 		<name>Days to Conversion</name>
 		<module>Goals</module>
 		<action>getDaysToConversion</action>
+		<dimension>Days to Conversion</dimension>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 
@@ -497,7 +499,7 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;graphType=evolution&amp;period=year&amp;date=1999-01-01,2009-12-31</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion</uniqueId>
 
 	</row>

@@ -31,6 +31,7 @@
 		<name>Ecommerce Orders - Visits to Conversion</name>
 		<module>Goals</module>
 		<action>getVisitsUntilConversion</action>
+		<dimension>Visits to Conversion</dimension>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 
@@ -39,7 +40,7 @@
 			<idGoal>ecommerceOrder</idGoal>
 
 		</parameters>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;graphType=evolution&amp;period=day&amp;date=2008-12-06,2009-01-04&amp;idGoal=ecommerceOrder</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;graphType=verticalBar&amp;period=day&amp;date=2009-01-04&amp;idGoal=ecommerceOrder</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion_idGoal--ecommerceOrder</uniqueId>
 
 	</row>
@@ -48,6 +49,7 @@
 		<name>Ecommerce Orders - Days to Conversion</name>
 		<module>Goals</module>
 		<action>getDaysToConversion</action>
+		<dimension>Days to Conversion</dimension>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 
@@ -56,7 +58,7 @@
 			<idGoal>ecommerceOrder</idGoal>
 
 		</parameters>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;graphType=evolution&amp;period=day&amp;date=2008-12-06,2009-01-04&amp;idGoal=ecommerceOrder</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;graphType=verticalBar&amp;period=day&amp;date=2009-01-04&amp;idGoal=ecommerceOrder</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion_idGoal--ecommerceOrder</uniqueId>
 
 	</row>
@@ -85,6 +87,7 @@
 		<name>Abandoned Carts - Visits to Conversion</name>
 		<module>Goals</module>
 		<action>getVisitsUntilConversion</action>
+		<dimension>Visits to Conversion</dimension>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 
@@ -93,7 +96,7 @@
 			<idGoal>ecommerceAbandonedCart</idGoal>
 
 		</parameters>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;graphType=evolution&amp;period=day&amp;date=2008-12-06,2009-01-04&amp;idGoal=ecommerceAbandonedCart</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;graphType=verticalBar&amp;period=day&amp;date=2009-01-04&amp;idGoal=ecommerceAbandonedCart</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion_idGoal--ecommerceAbandonedCart</uniqueId>
 
 	</row>
@@ -102,6 +105,7 @@
 		<name>Abandoned Carts - Days to Conversion</name>
 		<module>Goals</module>
 		<action>getDaysToConversion</action>
+		<dimension>Days to Conversion</dimension>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 
@@ -110,7 +114,7 @@
 			<idGoal>ecommerceAbandonedCart</idGoal>
 
 		</parameters>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;graphType=evolution&amp;period=day&amp;date=2008-12-06,2009-01-04&amp;idGoal=ecommerceAbandonedCart</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;graphType=verticalBar&amp;period=day&amp;date=2009-01-04&amp;idGoal=ecommerceAbandonedCart</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion_idGoal--ecommerceAbandonedCart</uniqueId>
 
 	</row>
@@ -636,6 +640,7 @@
 		<name>Visits to Conversion</name>
 		<module>Goals</module>
 		<action>getVisitsUntilConversion</action>
+		<dimension>Visits to Conversion</dimension>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 
@@ -649,7 +654,7 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;graphType=evolution&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;graphType=verticalBar&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion</uniqueId>
 
 	</row>
@@ -658,6 +663,7 @@
 		<name>Days to Conversion</name>
 		<module>Goals</module>
 		<action>getDaysToConversion</action>
+		<dimension>Days to Conversion</dimension>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 
@@ -671,7 +677,7 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;graphType=evolution&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;graphType=verticalBar&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion</uniqueId>
 
 	</row>
@@ -700,6 +706,7 @@
 		<name>Goal 1 - Thank you - Visits to Conversion</name>
 		<module>Goals</module>
 		<action>getVisitsUntilConversion</action>
+		<dimension>Visits to Conversion</dimension>
 		<parameters>
 			<idGoal>1</idGoal>
 
@@ -708,7 +715,7 @@
 			<nb_conversions>Conversions</nb_conversions>
 
 		</metrics>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;graphType=evolution&amp;period=day&amp;date=2008-12-06,2009-01-04&amp;idGoal=1</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;graphType=verticalBar&amp;period=day&amp;date=2009-01-04&amp;idGoal=1</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion_idGoal--1</uniqueId>
 
 	</row>
@@ -717,6 +724,7 @@
 		<name>Goal 1 - Thank you - Days to Conversion</name>
 		<module>Goals</module>
 		<action>getDaysToConversion</action>
+		<dimension>Days to Conversion</dimension>
 		<parameters>
 			<idGoal>1</idGoal>
 
@@ -725,7 +733,7 @@
 			<nb_conversions>Conversions</nb_conversions>
 
 		</metrics>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;graphType=evolution&amp;period=day&amp;date=2008-12-06,2009-01-04&amp;idGoal=1</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;graphType=verticalBar&amp;period=day&amp;date=2009-01-04&amp;idGoal=1</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion_idGoal--1</uniqueId>
 
 	</row>
@@ -754,6 +762,7 @@
 		<name>Goal 2 - Hello - Visits to Conversion</name>
 		<module>Goals</module>
 		<action>getVisitsUntilConversion</action>
+		<dimension>Visits to Conversion</dimension>
 		<parameters>
 			<idGoal>2</idGoal>
 
@@ -762,7 +771,7 @@
 			<nb_conversions>Conversions</nb_conversions>
 
 		</metrics>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;graphType=evolution&amp;period=day&amp;date=2008-12-06,2009-01-04&amp;idGoal=2</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;graphType=verticalBar&amp;period=day&amp;date=2009-01-04&amp;idGoal=2</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion_idGoal--2</uniqueId>
 
 	</row>
@@ -771,6 +780,7 @@
 		<name>Goal 2 - Hello - Days to Conversion</name>
 		<module>Goals</module>
 		<action>getDaysToConversion</action>
+		<dimension>Days to Conversion</dimension>
 		<parameters>
 			<idGoal>2</idGoal>
 
@@ -779,7 +789,7 @@
 			<nb_conversions>Conversions</nb_conversions>
 
 		</metrics>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;graphType=evolution&amp;period=day&amp;date=2008-12-06,2009-01-04&amp;idGoal=2</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;graphType=verticalBar&amp;period=day&amp;date=2009-01-04&amp;idGoal=2</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion_idGoal--2</uniqueId>
 
 	</row>
@@ -808,6 +818,7 @@
 		<name>triggered js - Visits to Conversion</name>
 		<module>Goals</module>
 		<action>getVisitsUntilConversion</action>
+		<dimension>Visits to Conversion</dimension>
 		<parameters>
 			<idGoal>3</idGoal>
 
@@ -816,7 +827,7 @@
 			<nb_conversions>Conversions</nb_conversions>
 
 		</metrics>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;graphType=evolution&amp;period=day&amp;date=2008-12-06,2009-01-04&amp;idGoal=3</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;graphType=verticalBar&amp;period=day&amp;date=2009-01-04&amp;idGoal=3</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion_idGoal--3</uniqueId>
 
 	</row>
@@ -825,6 +836,7 @@
 		<name>triggered js - Days to Conversion</name>
 		<module>Goals</module>
 		<action>getDaysToConversion</action>
+		<dimension>Days to Conversion</dimension>
 		<parameters>
 			<idGoal>3</idGoal>
 
@@ -833,7 +845,7 @@
 			<nb_conversions>Conversions</nb_conversions>
 
 		</metrics>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;graphType=evolution&amp;period=day&amp;date=2008-12-06,2009-01-04&amp;idGoal=3</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;graphType=verticalBar&amp;period=day&amp;date=2009-01-04&amp;idGoal=3</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion_idGoal--3</uniqueId>
 
 	</row>
