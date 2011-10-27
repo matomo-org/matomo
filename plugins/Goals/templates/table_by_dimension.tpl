@@ -60,14 +60,13 @@ $(document).ready( function() {
 		widgetUniqueId = module+action;
 		self.expectedWidgetUniqueId = widgetUniqueId;
 		
-		var idGoal = broadcast.getValueFromHash('idGoal');
 		var widgetParameters = {
 			'module': module,
 			'action': action,
 		};
-		if (window.location.hash.indexOf('idGoal') !== -1) {
-			widgetParameters['idGoal'] = idGoal.length ? idGoal : 0;
-		}
+		var idGoal = broadcast.getValueFromHash('idGoal');
+		widgetParameters['idGoal'] = idGoal.length ? idGoal : 0; //Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE;
+		
 		// Loading segment table means loading Goals view for Top Countries/etc.
 		if(module != 'Goals') {
 			widgetParameters['viewDataTable'] = 'tableGoals';

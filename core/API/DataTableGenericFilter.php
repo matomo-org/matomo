@@ -60,8 +60,7 @@ class Piwik_API_DataTableGenericFilter
 						),
 			'AddColumnsProcessedMetricsGoal'	=> array(
 								'filter_update_columns_when_show_all_goals'	=> array('integer'),
-								// third array element names the request variable to check
-								'filter_only_display_idgoal' => array('string', $goalsOverviewConst, 'idGoal'),
+								'idGoal' => array('string', $goalsOverviewConst),
 						),
 			'Sort' => array(
 								'filter_sort_column' 		=> array('string'),
@@ -125,7 +124,7 @@ class Piwik_API_DataTableGenericFilter
 				}
 				
 				try {
-					$value = Piwik_Common::getRequestVar($varName, $defaultValue, $type, $this->request);
+					$value = Piwik_Common::getRequestVar($name, $defaultValue, $type, $this->request);
 					settype($value, $type);
 					$filterParameters[] = $value;
 				}
