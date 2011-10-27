@@ -458,6 +458,50 @@
 
 	</row>
 	<row>
+		<category>Goals</category>
+		<name>Visits to Conversion</name>
+		<module>Goals</module>
+		<action>getVisitsUntilConversion</action>
+		<metrics>
+			<nb_conversions>Conversions</nb_conversions>
+
+		</metrics>
+		<metricsGoal>
+			<nb_conversions>Conversions</nb_conversions>
+			<revenue>Revenue</revenue>
+
+		</metricsGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+
+		</processedMetricsGoal>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;graphType=evolution&amp;period=year&amp;date=1999-01-01,2009-12-31</imageGraphUrl>
+		<uniqueId>Goals_getVisitsUntilConversion</uniqueId>
+
+	</row>
+	<row>
+		<category>Goals</category>
+		<name>Days to Conversion</name>
+		<module>Goals</module>
+		<action>getDaysToConversion</action>
+		<metrics>
+			<nb_conversions>Conversions</nb_conversions>
+
+		</metrics>
+		<metricsGoal>
+			<nb_conversions>Conversions</nb_conversions>
+			<revenue>Revenue</revenue>
+
+		</metricsGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+
+		</processedMetricsGoal>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;graphType=evolution&amp;period=year&amp;date=1999-01-01,2009-12-31</imageGraphUrl>
+		<uniqueId>Goals_getDaysToConversion</uniqueId>
+
+	</row>
+	<row>
 		<category>Visitors</category>
 		<name>Country</name>
 		<module>UserCountry</module>
@@ -646,6 +690,35 @@
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsPerPage&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>VisitorInterest_getNumberOfVisitsPerPage</uniqueId>
+
+	</row>
+	<row>
+		<category>Visitors</category>
+		<name>Visits by visit number</name>
+		<module>VisitorInterest</module>
+		<action>getNumberOfVisitsByVisitCount</action>
+		<dimension>Visits by visit number</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+
+		</metrics>
+		<constantRowsCount>1</constantRowsCount>
+		<documentation>In this report, you can see the number of visits who were the Nth visit, ie. visitors who visited your website at least N times.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
+
+		</metricsDocumentation>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsByVisitCount&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<uniqueId>VisitorInterest_getNumberOfVisitsByVisitCount</uniqueId>
 
 	</row>
 	<row>

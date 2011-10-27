@@ -24,7 +24,6 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,
 		);
-		
 		return $info;
 	}
 
@@ -70,12 +69,27 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 					.'<br />'.Piwik_Translate('General_ChangeTagCloudView'),
 			'order' => 20
 		);
+
+		$reports[] = array(
+			'category' => Piwik_Translate('General_Visitors'),
+			'name' => Piwik_Translate('VisitorInterest_visitsByVisitCount'),
+			'module' => 'VisitorInterest',
+			'action' => 'getNumberOfVisitsByVisitCount',
+			'dimension' => Piwik_Translate('VisitorInterest_visitsByVisitCount'),
+			'metrics' => array( 'nb_visits' ),
+			'processedMetrics' => false,
+			'constantRowsCount' => true,
+			'documentation' => Piwik_Translate('VisitorInterest_WidgetVisitsByNumDocumentation')
+					.'<br />'.Piwik_Translate('General_ChangeTagCloudView'),
+			'order' => 25
+		);
 	}
 
 	function addWidgets()
 	{
 		Piwik_AddWidget( 'General_Visitors', 'VisitorInterest_WidgetLengths', 'VisitorInterest', 'getNumberOfVisitsPerVisitDuration');
 		Piwik_AddWidget( 'General_Visitors', 'VisitorInterest_WidgetPages', 'VisitorInterest', 'getNumberOfVisitsPerPage');
+		Piwik_AddWidget( 'General_Visitors', 'VisitorInterest_visitsByVisitCount', 'VisitorInterest', 'getNumberOfVisitsByVisitCount');
 	}
 	
 	function addMenu()
@@ -90,7 +104,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		Piwik_AddAction('template_footerVisitsFrequency', array('Piwik_VisitorInterest','footerVisitsFrequency'));
 	}
 	
-	protected $timeGap = array(
+	protected static $timeGap = array(
 			array(0, 0.5),
 			array(0.5, 1),
 			array(1, 2),
@@ -102,7 +116,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 			array(15)
 		);
 		
-	protected $pageGap = array(
+	protected static $pageGap = array(
 			array(1, 1),
 			array(2, 2),
 			array(3, 3),
@@ -114,6 +128,27 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 			array(15, 20),
 			array(20)
 		);
+
+	/**
+	 * The set of ranges used when calculating the 'visitors who visited at least N times' report.
+	 */
+	protected static $visitNumberGap = array(
+			array(1, 1),
+			array(2, 2),
+			array(3, 3),
+			array(4, 4),
+			array(5, 5),
+			array(6, 6),
+			array(7, 7),
+			array(8, 8),
+			array(9, 14),
+			array(15, 25),
+			array(26, 50),
+			array(51, 100),
+			array(101, 200),
+			array(200)
+		);
+
 	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
@@ -123,6 +158,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		$dataTableToSum = array(
 				'VisitorInterest_timeGap',
 				'VisitorInterest_pageGap',
+				'VisitorInterest_visitsByVisitCount',
 		);
 		$archiveProcessing->archiveDataTable($dataTableToSum);
 	}
@@ -133,68 +169,78 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 
 		if(!$this->archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 		
+		// these prefixes are prepended to the 'SELECT as' parts of each SELECT expression. detecting
+		// these prefixes allows us to get all the data in one query.
+		$timeGapPrefix = 'tg';
+		$pageGapPrefix = 'pg';
+		$visitsByVisitNumPrefix = 'vbvn';
+
+		// create the select expressions to use
+		$timeGapSelects = Piwik_ArchiveProcessing_Day::buildReduceByRangeSelect(
+			'visit_total_time', self::getSecondsGap(), 'log_visit', $timeGapPrefix);
+		$pageGapSelects = Piwik_ArchiveProcessing_Day::buildReduceByRangeSelect(
+			'visit_total_actions', self::$pageGap, 'log_visit', $pageGapPrefix);
+		$visitsByVisitNumSelects = Piwik_ArchiveProcessing_Day::buildReduceByRangeSelect(
+			'visitor_count_visits', self::$visitNumberGap, 'log_visit', $visitsByVisitNumPrefix);
+
+		$selects = array_merge($timeGapSelects, $pageGapSelects, $visitsByVisitNumSelects);
+
+		// select data for every report
+		$row = $this->archiveProcessing->queryVisitsSimple(implode(',', $selects));
+		
+		// archive visits by total time report
 		$recordName = 'VisitorInterest_timeGap';
-		$tableTimegap = $this->getTableTimeGap();
-		$this->archiveProcessing->insertBlobRecord($recordName, $tableTimegap->getSerialized());
-		destroy($tableTimegap);
+		$this->archiveRangeStats($recordName, $row, Piwik_Archive::INDEX_NB_VISITS, $timeGapPrefix);
 		
+		// archive visits by total actions report
 		$recordName = 'VisitorInterest_pageGap';
-		$tablePagegap = $this->getTablePageGap();
-		$this->archiveProcessing->insertBlobRecord($recordName, $tablePagegap->getSerialized());
-		destroy($tablePagegap);
+		$this->archiveRangeStats($recordName, $row, Piwik_Archive::INDEX_NB_VISITS, $pageGapPrefix);
 		
-		
+		// archive visits by visit number report
+		$recordName = 'VisitorInterest_visitsByVisitCount';
+		$this->archiveRangeStats($recordName, $row, Piwik_Archive::INDEX_NB_VISITS, $visitsByVisitNumPrefix);
 	}
-
-	protected function getTablePageGap()
+	
+	/**
+	 * Transforms and returns the set of ranges used to calculate the 'visits by total time'
+	 * report from ranges in minutes to equivalent ranges in seconds.
+	 */
+	protected static function getSecondsGap()
 	{
-		$select = array();
-		foreach($this->pageGap as $gap)
+		$secondsGap = array();
+		foreach(self::$timeGap as $gap)
 		{
-			if(count($gap) == 2)
+			if (count($gap) == 2)
 			{
-				$minGap = $gap[0];
-				$maxGap = $gap[1];
-				$gapName = "'$minGap-$maxGap'";
-				$select[] = "sum(case when log_visit.visit_total_actions between $minGap and $maxGap then 1 else 0 end) as $gapName ";
+				$secondsGap[] = array($gap[0] * 60, $gap[1] * 60);
 			}
 			else
 			{
-				$minGap = $gap[0];
-				$plusEncoded = urlencode('+');
-				$gapName = "'".$minGap.$plusEncoded."'";
-				$select[] = "sum(case when log_visit.visit_total_actions > $minGap then 1 else 0 end) as $gapName ";
+				$secondsGap[] = array($gap[0] * 60);
 			}
 		}
-		$toSelect = implode(" , ", $select);
-		
-		return $this->archiveProcessing->getSimpleDataTableFromSelect($toSelect, Piwik_Archive::INDEX_NB_VISITS);
+		return $secondsGap;
 	}
 
-	protected function getTableTimeGap()
+	/**
+	 * Creates and archives a DataTable from some (or all) elements of a supplied database
+	 * row.
+	 *
+	 * @param string $recordName The record name to use when inserting the new archive.
+	 * @param array $row The database row to use.
+	 * @param string $selectAsPrefix The string to look for as the prefix of SELECT as 
+	 *                               expressions. Elements in $row that have a SELECT as
+	 *                               with this string as a prefix are used in creating
+	 *                               the DataTable.'
+	 */
+	protected function archiveRangeStats($recordName, $row, $index, $selectAsPrefix)
 	{
-		$select = array();
-		foreach($this->timeGap as $gap)
-		{
-			if(count($gap) == 2)
-			{
-				$minGap = $gap[0] * 60;
-				$maxGap = $gap[1] * 60;
-				
-				$gapName = "'".$minGap."-".$maxGap."'";
-				$select[] = "sum(case when log_visit.visit_total_time between $minGap and $maxGap then 1 else 0 end) as $gapName ";
-			}
-			else
-			{
-				$minGap = $gap[0] * 60;
-				$gapName = "'$minGap'";
-				$select[] = "sum(case when log_visit.visit_total_time > $minGap then 1 else 0 end) as $gapName ";
-			}
-		}
-		$toSelect = implode(" , ", $select);
-		
-		$table = $this->archiveProcessing->getSimpleDataTableFromSelect($toSelect, Piwik_Archive::INDEX_NB_VISITS);
-		return $table;
+		// create the DataTable from parts of the result row
+		$dataTable = $this->archiveProcessing->getSimpleDataTableFromRow($row, $index, $selectAsPrefix);
+
+		// insert the data table as a blob archive
+		$this->archiveProcessing->insertBlobRecord($recordName, $dataTable->getSerialized());
+		destroy($dataTable);
 	}
 	
 	static public function headerVisitsFrequency($notification)

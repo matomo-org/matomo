@@ -20,6 +20,7 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
 		$view = Piwik_View::factory('index');
 		$view->dataTableNumberOfVisitsPerVisitDuration = $this->getNumberOfVisitsPerVisitDuration(true);
 		$view->dataTableNumberOfVisitsPerPage = $this->getNumberOfVisitsPerPage(true);
+		$view->dataTableNumberOfVisitsByVisitNum = $this->getNumberOfVisitsByVisitCount(true);
 		echo $view->render();
 	}
 	
@@ -49,6 +50,32 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
 		$view->setColumnTranslation('label', Piwik_Translate('VisitorInterest_ColumnPagesPerVisit'));
 		$view->disableExcludeLowPopulation();
 		$view->disableOffsetInformationAndPaginationControls();
+		$view->disableSearchBox();
+		$view->disableSort();
+		$view->disableShowAllColumns();
+		
+		return $this->renderView($view, $fetch);
+	}
+	
+	/**
+	 * Returns a report that lists the count of visits for different ranges of
+	 * a visitor's visit number.
+	 *
+	 * @param bool $fetch Whether to return the rendered view as a string or echo it.
+	 * @return string The rendered report or nothing if $fetch is set to false.
+	 */
+	public function getNumberOfVisitsByVisitCount( $fetch = false )
+	{
+		$view = Piwik_ViewDataTable::factory( );
+		$view->init( $this->pluginName, __FUNCTION__, "VisitorInterest.getNumberOfVisitsByVisitCount" );
+		$view->setColumnsToDisplay( array('label', 'nb_visits', 'nb_visits_percentage') );
+		$view->setSortedColumn('label', 'asc');
+		$view->setColumnTranslation('label', Piwik_Translate('VisitorInterest_VisitNum'));
+		$view->setColumnTranslation('nb_visits_percentage', str_replace(' ', '&nbsp;', Piwik_Translate('General_ColumnPercentageVisits')));
+		$view->disableExcludeLowPopulation();
+		$view->disableOffsetInformationAndPaginationControls();
+		$view->disableShowAllViewsIcons();
+		$view->setLimit(15);
 		$view->disableSearchBox();
 		$view->disableSort();
 		$view->disableShowAllColumns();

@@ -143,6 +143,125 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		
 		return $this->isThereSomeVisits;
 	}
+
+	/**
+	 * Creates and returns an array of SQL SELECT expressions that will summarize
+	 * the data in a column of a specified table, over a set of ranges.
+	 *
+	 * The SELECT expressions will count the number of column values that are
+	 * within each range.
+	 * 
+	 * @param string $column The column of the log_conversion table to reduce.
+	 * @param array $ranges The ranges to reduce data over.
+	 * @param string $table The table the SELECTs should use.
+	 * @param string $selectColumnPrefix The prefix when specifying what a SELECT
+	 *                                   expression will be selected AS.
+	 * @return array An array of SQL SELECT expressions.
+	 */
+	public static function buildReduceByRangeSelect($column, $ranges, $table, $selectColumnPrefix = '')
+	{
+		$selects = array();
+
+		foreach($ranges as $gap)
+		{
+			if (count($gap) == 2)
+			{
+				$lowerBound = $gap[0];
+				$upperBound = $gap[1];
+				
+				$selectAs = "$selectColumnPrefix$lowerBound-$upperBound";
+
+				$selects[] = "sum(case when $table.$column between $lowerBound and $upperBound".
+									 " then 1 else 0 end) as `$selectAs`";
+			}
+			else
+			{
+				$lowerBound = $gap[0];
+				
+				$selectAs = $selectColumnPrefix.$lowerBound.urlencode('+');
+
+				$selects[] = "sum(case when $table.$column > $lowerBound then 1 else 0 end) as `$selectAs`";
+			}
+		}
+
+		return $selects;
+	}
+
+	/**
+	 * Converts a database SELECT result into a whole DataTable with two columns and as many
+	 * rows as elements in $row.
+	 * 
+	 * The key of each element in $row is used as the value of the first column, and the
+	 * value of each element is used as the second column.
+	 * 
+	 * NOTE: $selectAsPrefix can be used to make sure only SOME of the data in $row is used.
+	 * 
+	 * @param array $row The database row to convert.
+	 * @param mixed $labelCount The label to use for the second column of the DataTable result.
+	 * @param string $selectAsPrefix A string that identifies which elements of $row to use
+	 *                               in the result. Every key of $row that starts with this
+	 *                               value is used.
+	 * @return Piwik_DataTable
+	 */
+	public function getSimpleDataTableFromRow($row, $labelCount, $selectAsPrefix = '')
+	{
+		// the labels in $row can have prefixes that need to be removed before creating a table
+		$cleanRow = array();
+
+		foreach($row as $label => $count)
+		{
+			if (empty($selectAsPrefix) || strpos($label, $selectAsPrefix) === 0)
+			{
+				$cleanLabel = substr($label, strlen($selectAsPrefix));
+
+				$cleanRow[$cleanLabel] = array($labelCount => $count);
+			}
+		}
+
+		$table = new Piwik_DataTable();
+		$table->addRowsFromArrayWithIndexLabel($cleanRow);
+		return $table;
+	}
+
+	/**
+	 * Performs a simple query on the log_visit table within the time range this archive
+	 * represents.
+	 *
+	 * @param string $select The SELECT clause.
+	 * @param string|bool $orderBy The ORDER BY clause (without the 'ORDER BY' part). Set to
+	 *                             false to specify no ORDER BY.
+	 * @param array|bool $groupByCols An array of column names to group by. Set to false to
+	 *                                specify no GROUP BY.
+	 * @param bool $oneResultRow Whether only one row is expected or not. If set to true,
+	 *                           this function returns one row, if false, an array of rows.
+	 * @return array
+	 */
+	public function queryVisitsSimple($select, $orderBy = false, $groupByCols = false, $oneResultRow = true)
+	{
+		$from = "log_visit";
+		$where = "log_visit.visit_last_action_time >= ?
+				AND log_visit.visit_last_action_time <= ?
+	 			AND log_visit.idsite = ?";
+		
+		$groupBy = false;
+		if ($groupByCols and !empty($groupByCols))
+		{
+			$groupBy = implode(',', $groupByCols);
+		}
+		
+		$bind = array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite);
+		
+		$query = $this->getSegment()->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy);
+		
+		if ($oneResultRow)
+		{
+			return $this->db->fetchRow($query['sql'], $query['bind']);
+		}
+		else
+		{
+			return $this->db->fetchAll($query['sql'], $query['bind']);
+		}
+	}
 	
 	/**
 	 * Helper function that returns a DataTable containing the $select fields / value pairs.
@@ -163,24 +282,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 */
 	public function getSimpleDataTableFromSelect($select, $labelCount)
 	{
-		$from = "log_visit";
-		$where = "log_visit.visit_last_action_time >= ?
-				AND log_visit.visit_last_action_time <= ?
-	 			AND log_visit.idsite = ?";
-		
-		$bind = array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite);
-		
-		$query = $this->getSegment()->getSelectQuery($select, $from, $where, $bind);
-		
-		$data = $this->db->fetchRow($query['sql'], $query['bind']);
-		
-		foreach($data as $label => &$count)
-		{
-			$count = array($labelCount => $count);
-		}
-		$table = new Piwik_DataTable();
-		$table->addRowsFromArrayWithIndexLabel($data);
-		return $table;
+		$data = $this->queryVisitsSimple($select);
+		return $this->getSimpleDataTableFromRow($data, $labelCount);
 	}
 
 	public function queryActionsByDimension($label, $where = '')
@@ -292,7 +395,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * but queries metrics for the requested dimensions,
 	 * for each Goal conversion
 	 */
-	public function queryConversionsByDimension($label, $where = '')
+	public function queryConversionsByDimension($label, $where = '', $aggregateLabels = array())
 	{
 		if(empty($label))
 		{
@@ -312,6 +415,10 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	    {
 	        $select = $label . " AS label, ";
 	        $groupBy = 'label';
+	    }
+	    if(!empty($aggregateLabels))
+	    {
+	    	$select .= implode(", ", $aggregateLabels) . ", ";
 	    }
 	    if(!empty($where))
 	    {
