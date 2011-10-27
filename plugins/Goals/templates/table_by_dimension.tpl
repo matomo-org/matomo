@@ -65,11 +65,13 @@ $(document).ready( function() {
 			'module': module,
 			'action': action,
 		};
+		if (window.location.hash.indexOf('idGoal') !== -1) {
+			widgetParameters['idGoal'] = idGoal.length ? idGoal : 0;
+		}
 		// Loading segment table means loading Goals view for Top Countries/etc.
 		if(module != 'Goals') {
 			widgetParameters['viewDataTable'] = 'tableGoals';
 			// 0 is Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE
-			widgetParameters['filter_only_display_idgoal'] = idGoal.length ? idGoal : 0;
 			widgetParameters['documentationForGoalsPage'] = 1;
 		}
 		var onWidgetLoadedCallback = function (response) {

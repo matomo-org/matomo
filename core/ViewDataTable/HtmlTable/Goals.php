@@ -24,7 +24,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 	public function main()
 	{
 		$this->idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
-		$this->processOnlyIdGoal = Piwik_Common::getRequestVar('filter_only_display_idgoal', 0, 'string');
+		$this->processOnlyIdGoal = Piwik_Common::getRequestVar('idGoal', 0, 'string');
 		$this->isEcommerce = $this->processOnlyIdGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER;
 		$this->viewProperties['show_exclude_low_population'] = true;
 		$this->viewProperties['show_goals'] = true;
@@ -233,7 +233,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 			|| $this->isEcommerce
 			)
 		{
-			$requestString .= "&filter_only_display_idgoal=".$this->processOnlyIdGoal;
+			$requestString .= "&idGoal=".$this->processOnlyIdGoal;
 		}
 		return $requestString . '&filter_update_columns_when_show_all_goals=1';
 	}

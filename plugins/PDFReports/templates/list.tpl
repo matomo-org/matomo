@@ -60,6 +60,7 @@
 		{if $userLogin != 'anonymous'}
 			<br/>
 			<a onclick='' id='linkAddReport'>&rsaquo; {'PDFReports_CreateAndScheduleReport'|translate}</a>
+			<br/><br/>
 		{/if}
 	{/if}
 </div>

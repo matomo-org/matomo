@@ -357,7 +357,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 			$request = new Piwik_API_Request("method=$apiMethod
 												&format=original
 												&filter_update_columns_when_show_all_goals=1
-												&filter_only_display_idgoal=". Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE ."
+												&idGoal=". Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE ."
 												&filter_sort_order=desc
 												&filter_sort_column=$columnNbConversions
 												&filter_limit=3");
@@ -419,6 +419,48 @@ class Piwik_Goals_Controller extends Piwik_Controller
 			));
 		}
 		return $return;
+	}
+
+	/**
+	 * Gets the 'visits to conversion' report using the requested view type.
+	 */
+	public function getVisitsUntilConversion( $fetch = false )
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init($this->pluginName, __FUNCTION__, 'Goals.getVisitsUntilConversion', 'getVisitsUntilConversion');
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		$view->disableSubTableWhenShowGoals();
+		$view->disableShowAllColumns();
+		$view->setColumnsToDisplay( array('label','nb_conversions') );
+		$view->setSortedColumn('label', 'asc');
+		$view->setColumnTranslation('label', Piwik_Translate('Goals_VisitsUntilConv'));
+		$view->setColumnTranslation('nb_conversions', Piwik_Translate('Goals_ColumnConversions'));
+		$view->setLimit(count(Piwik_Goals::$visitCountRanges));
+		$view->disableOffsetInformationAndPaginationControls();
+		$view->disableShowAllViewsIcons();
+		return $this->renderView($view, $fetch);
+	}
+
+	/**
+	 * Gets the 'days to conversion' report using the requested view type.
+	 */
+	public function getDaysToConversion( $fetch = false )
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init($this->pluginName, __FUNCTION__, 'Goals.getDaysToConversion', 'getDaysToConversion');
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		$view->disableSubTableWhenShowGoals();
+		$view->disableShowAllColumns();
+		$view->setColumnsToDisplay( array('label','nb_conversions') );
+		$view->setSortedColumn('label', 'asc');
+		$view->setColumnTranslation('label', Piwik_Translate('Goals_DaysToConv'));
+		$view->setColumnTranslation('nb_conversions', Piwik_Translate('Goals_ColumnConversions'));
+		$view->disableShowAllViewsIcons();
+		$view->setLimit(count(Piwik_Goals::$daysToConvRanges));
+		$view->disableOffsetInformationAndPaginationControls();
+		return $this->renderView($view, $fetch);
 	}
 }
 

@@ -40,6 +40,8 @@ class Piwik_API_DataTableGenericFilter
 	 */
 	public static function getGenericFiltersInformation()
 	{
+		$goalsOverviewConst = Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW;
+	
 		$genericFilters = array(
 			'Pattern' => array(
 								'filter_column' 			=> array('string'), 
@@ -58,7 +60,8 @@ class Piwik_API_DataTableGenericFilter
 						),
 			'AddColumnsProcessedMetricsGoal'	=> array(
 								'filter_update_columns_when_show_all_goals'	=> array('integer'),
-								'filter_only_display_idgoal' => array('string', Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW),
+								// third array element names the request variable to check
+								'filter_only_display_idgoal' => array('string', $goalsOverviewConst, 'idGoal'),
 						),
 			'Sort' => array(
 								'filter_sort_column' 		=> array('string'),
@@ -114,8 +117,15 @@ class Piwik_API_DataTableGenericFilter
 					$defaultValue = $info[1];
 				}
 				
+				// third element in the array, if it exists, overrides the name of the request variable
+				$varName = $name;
+				if(isset($info[2]))
+				{
+					$varName = $info[2];
+				}
+				
 				try {
-					$value = Piwik_Common::getRequestVar($name, $defaultValue, $type, $this->request);
+					$value = Piwik_Common::getRequestVar($varName, $defaultValue, $type, $this->request);
 					settype($value, $type);
 					$filterParameters[] = $value;
 				}

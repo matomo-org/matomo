@@ -34,7 +34,7 @@
                     <a class="tableIcon" format="tableAllColumns" var="tableAllColumns"><img title="{'General_DisplayTableWithMoreMetrics'|translate}" src="themes/default/images/table_more.png" /></a>
                     {/if}
                     {if $properties.show_goals}
-					<a class="tableIcon" format="tableGoals" var="tableGoals"><img title="{'General_DisplayTableWithGoalMetrics'|translate}" src="themes/default/images/{if $javascriptVariablesToSet.filter_only_display_idgoal=='ecommerceOrder'}ecommerceOrder.gif{else}goal.png{/if}" /></a>
+					<a class="tableIcon" format="tableGoals" var="tableGoals"><img title="{'General_DisplayTableWithGoalMetrics'|translate}" src="themes/default/images/{if $javascriptVariablesToSet.idGoal=='ecommerceOrder'}ecommerceOrder.gif{else}goal.png{/if}" /></a>
                     {/if}
                     {if $properties.show_ecommerce}
                     <a class="tableIcon" format="ecommerceOrder" var="ecommerceOrder"><img title="{'General_EcommerceOrders'|translate}" src="themes/default/images/ecommerceOrder.gif" /> <span>{'General_EcommerceOrders'|translate}</span></a>
@@ -45,9 +45,9 @@
             {if $properties.show_all_views_icons}
 			<div class="tableIconsGroup">
             	<span class="tableGraphViews tableGraphCollapsed">
-                    <a class="tableIcon" format="graphVerticalBar" var="generateDataChartVerticalBar"><img width="16" height="16" src="themes/default/images/chart_bar.png" title="{'General_VBarGraph'|translate}" /></a>
-                    <a class="tableIcon" format="graphPie" var="generateDataChartPie"><img width="16" height="16" src="themes/default/images/chart_pie.png" title="{'General_Piechart'|translate}" /></a>
-                    <a class="tableIcon" format="cloud" var="cloud"><img width="16" height="16" src="themes/default/images/tagcloud.png" title="{'General_TagCloud'|translate}" /></a>
+                    {if $properties.show_bar_chart}<a class="tableIcon" format="graphVerticalBar" var="generateDataChartVerticalBar"><img width="16" height="16" src="themes/default/images/chart_bar.png" title="{'General_VBarGraph'|translate}" /></a>{/if}
+                    {if $properties.show_pie_chart}<a class="tableIcon" format="graphPie" var="generateDataChartPie"><img width="16" height="16" src="themes/default/images/chart_pie.png" title="{'General_Piechart'|translate}" /></a>{/if}
+                    {if $properties.show_tag_cloud}<a class="tableIcon" format="cloud" var="cloud"><img width="16" height="16" src="themes/default/images/tagcloud.png" title="{'General_TagCloud'|translate}" /></a>{/if}
 				</span>
            </div>
            {elseif $javascriptVariablesToSet.viewDataTable == "generateDataChartEvolution"}

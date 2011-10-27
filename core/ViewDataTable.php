@@ -291,6 +291,9 @@ abstract class Piwik_ViewDataTable
 		$this->viewProperties['show_table'] = Piwik_Common::getRequestVar('show_table', true);
 		$this->viewProperties['show_table_all_columns'] = Piwik_Common::getRequestVar('show_table_all_columns', true);
 		$this->viewProperties['show_all_views_icons'] = Piwik_Common::getRequestVar('show_all_views_icons', true);
+		$this->viewProperties['show_bar_chart'] = Piwik_Common::getRequestVar('show_barchart', true);
+		$this->viewProperties['show_pie_chart'] = Piwik_Common::getRequestVar('show_piechart', true);
+		$this->viewProperties['show_tag_cloud'] = Piwik_Common::getRequestVar('show_tag_cloud', true);
 		$this->viewProperties['show_export_as_image_icon'] = Piwik_Common::getRequestVar('show_export_as_image_icon', false);
 		$this->viewProperties['show_export_as_rss_feed'] = Piwik_Common::getRequestVar('show_export_as_rss_feed', true);
 		$this->viewProperties['show_exclude_low_population'] = Piwik_Common::getRequestVar('show_exclude_low_population', true);
@@ -827,6 +830,30 @@ abstract class Piwik_ViewDataTable
 		$this->viewProperties['show_all_views_icons'] = false;
 	}
 	
+	/**
+	 * Whether or not to show the bar chart icon.
+	 */
+	public function disableShowBarChart()
+	{
+		$this->viewProperties['show_bar_chart'] = false;
+	}
+
+	/**
+	 * Whether or not to show the pie chart icon.
+	 */
+	public function disableShowPieChart()
+	{
+		$this->viewProperties['show_pie_chart'] = false;
+	}
+
+	/**
+	 * Whether or not to show the tag cloud icon.
+	 */
+	public function disableTagCloud()
+	{
+		$this->viewProperties['show_tag_cloud'] = false;
+	}
+
 	/**
 	 * Whether or not to show the export to RSS feed icon
 	 */

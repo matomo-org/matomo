@@ -140,16 +140,21 @@ abstract class Piwik_ReportRenderer
 	 */
 	protected static function processTableFormat($reportMetadata, $report, $reportColumns)
 	{
+		$finalReport = $report;
 		if(!isset($reportMetadata['dimension']))
 		{
+//			var_dump($report);
 			$simpleReportMetrics = $report->getFirstRow();
-			$report = new Piwik_DataTable_Simple();
-			foreach($simpleReportMetrics->getColumns() as $metricId => $metric)
+			if($simpleReportMetrics)
 			{
-				$newRow = new Piwik_DataTable_Row();
-				$report->addRow($newRow);
-				$newRow->addColumn("label",$reportColumns[$metricId]);
-				$newRow->addColumn("value",$metric);
+				$finalReport = new Piwik_DataTable_Simple();
+				foreach($simpleReportMetrics->getColumns() as $metricId => $metric)
+				{
+					$newRow = new Piwik_DataTable_Row();
+					$newRow->addColumn("label", $reportColumns[$metricId]);
+					$newRow->addColumn("value", $metric);
+					$finalReport->addRow($newRow);
+				}
 			}
 
 			$reportColumns = array('label' => Piwik_Translate('General_Name'),
@@ -157,7 +162,7 @@ abstract class Piwik_ReportRenderer
 		}
 
 		return array(
-				$report,
+				$finalReport,
 				$reportColumns
 			);
 	}

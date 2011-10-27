@@ -490,7 +490,7 @@ abstract class Test_Integration extends Test_Database
     			$expectedToTest = str_replace("\n", "", $expected);
     		}
     		$pass = $pass && $this->assertEqual(trim($responseToTest), trim($expectedToTest), "<br/>\nDifferences with expected in: $processedFilePath %s ");
-    		if($response != $expected)
+    		if(trim($response) != trim($expected))
     		{
     			var_dump('ERROR FOR ' . $apiId . ' -- FETCHED RESPONSE, then EXPECTED RESPONSE - '.$requestUrl);
     			echo "\n";
@@ -504,8 +504,11 @@ abstract class Test_Integration extends Test_Database
     			file_put_contents( $processedFilePath, $response );
     		}
     	}
-    	
-    	$this->pass();
+    	if($pass) {
+    		$this->pass();
+    	} else { 
+    		$this->fail();
+    	}
     	return $pass;
 	}
 	
