@@ -259,6 +259,9 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 				$metadata = $row->getMetadata();
 				foreach($metadata as $name => $value)
 				{
+					if($name == 'idsubdatatable_in_db') {
+						continue;
+					}
 					//if a metadata and a column have the same name make sure they dont overwrite
 					if($this->translateColumnNames)
 					{
