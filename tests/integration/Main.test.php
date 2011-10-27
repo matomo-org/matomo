@@ -9,13 +9,13 @@ require_once PIWIK_INCLUDE_PATH . '/tests/core/Database.test.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/integration/Integration.php';
 
 /**
- * Runs integration / acceptance __tests
+ * Runs integration / acceptance tests
  * 
- * The __test calls the Piwik tracker with known sets of data, expected errors, 
+ * The test calls the Piwik tracker with known sets of data, expected errors, 
  * and can _test the output of the tracker beacon, as well as calling 
  * all API functions and compare their XML output with the 'expected output'.
  * 
- * If an algorithm changes in the Tracker or in the Archiving, __tests can easily be run to check that 
+ * If an algorithm changes in the Tracker or in the Archiving, tests can easily be run to check that 
  * the output changes as expected (eg. More accurate browser detection, adding a new metric in the 
  * API results, etc.
  * 
@@ -60,7 +60,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $t->setEcommerceView($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name' , $category, $price=666);
         $this->checkResponse($t->doTrackPageView( 'Another Product page'));
 
-        // Note: here __testing to pass a timestamp to the tracking API rather than the datetime string
+        // Note: here testing to pass a timestamp to the tracking API rather than the datetime string
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.2)->getTimestampUTC());
         $t->setEcommerceView($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name' , '');
         $this->checkResponse($t->doTrackPageView( 'Another Product page with no category'));
@@ -106,7 +106,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // Product bought with empty category
 		$t->addEcommerceItem($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name' , '', $price = 11.22, $quantity = 1);
 
-		// __test to delete all custom vars, they should be copied from visits
+		// test to delete all custom vars, they should be copied from visits
 		// This is a frequent use case: ecommerce shops tracking the order from backoffice 
 		// without passing the custom variable 1st party cookie along since it's not known by back office
         $visitorCustomVarSave = $t->visitorCustomVar;
@@ -116,7 +116,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         
         // ORDER SHOULD DEDUPE
         // Refresh the page with the receipt for the second order, should be ignored
-        // we __test that both the order, and the products, are not updated on subsequent "Receipt" views
+        // we test that both the order, and the products, are not updated on subsequent "Receipt" views
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(2.2)->getDatetime());
         $t->addEcommerceItem($sku = 'SKU2', $name = 'Canon SLR NOT!' , $category = 'Electronics & Cameras NOT!', $price = 15000000000, $quantity = 10000); 
         $this->checkResponse($t->doTrackEcommerceOrder($orderId = '1037nsjusu4s3894', $grandTotal = 20000000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
@@ -168,7 +168,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour( 30.8 )->getDatetime());
         $this->checkResponse($t->doTrackEcommerceOrder($orderId = '777', $grandTotal = 10000));
         
-        // __testing the same order in a different website should record
+        // testing the same order in a different website should record
         $t = $this->getTracker($idSite2, $dateTime, $defaultInit = true);
     	$t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour( 30.9 )->getDatetime());
         $t->addEcommerceItem($sku = 'TRIPOD SKU', $name = 'TRIPOD - bought day after' , $category = 'Tools', $price = 100, $quantity = 2);
@@ -188,13 +188,13 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $abandonedCarts = 1;
 		$this->setApiToCall( array('Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory') );
         $this->callGetApiCompareOutput(__FUNCTION__ . '_AbandonedCarts', 'xml', $idSite, $dateTime, $periods = array('day', 'week'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts);
-        // __test with multiple periods
+        // test with multiple periods
         $this->callGetApiCompareOutput(__FUNCTION__ . 'multipleDates', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN=true);
         
-        // __test with multiple periods and multiple websites
+        // test with multiple periods and multiple websites
         $this->callGetApiCompareOutput(__FUNCTION__ . 'multipleDates_andMultipleWebsites', 'xml', $idSites = "$idSite,$idSite2", $dateTime, $periods = array('day'), $setDateLastN=true);
         
-        // __test metadata products
+        // test metadata products
 		$this->setApiToCall( array('API.getProcessedReport'	) );
         $apiModule = 'Goals';
         $apiAction = 'getItemsSku';
@@ -203,7 +203,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $apiAction = 'getItemsCategory';
         $this->callGetApiCompareOutput(__FUNCTION__ . '_Metadata_ItemsCategory', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal = false, $apiModule, $apiAction);
 
-        // __test metadata Goals.get for Ecommerce orders & Carts
+        // test metadata Goals.get for Ecommerce orders & Carts
         $idGoal = Piwik_Archive::LABEL_ECOMMERCE_ORDER;
         $apiModule = 'Goals';
         $apiAction = 'get';
@@ -219,13 +219,13 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $idGoal = 'FAKE IDGOAL';
         $this->callGetApiCompareOutput(__FUNCTION__ . '_Metadata_Goals.Get_NotExistingGoal', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal, $apiModule, $apiAction);
         
-        // While we're at it, __test for a standard Metadata report with zero entries 
+        // While we're at it, test for a standard Metadata report with zero entries 
         $apiModule = 'VisitTime';
         $apiAction = 'getVisitInformationPerServerTime';
         $this->callGetApiCompareOutput(__FUNCTION__ . '_Metadata_VisitTime.getVisitInformationPerServerTime', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal = false, $apiModule, $apiAction);
         
         // Standard non metadata Goals.get
-        // __test Goals.get with idGoal=ecommerceOrder and ecommerceAbandonedCart
+        // test Goals.get with idGoal=ecommerceOrder and ecommerceAbandonedCart
         $this->setApiToCall( array('Goals.get') );
         $idGoal = Piwik_Archive::LABEL_ECOMMERCE_CART;
         $this->callGetApiCompareOutput(__FUNCTION__ . '_GoalAbandonedCart', 'xml', $idSite, $dateTime, $periods = array('day', 'week'), $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal);
@@ -244,13 +244,13 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $segment = 'visitEcommerceStatus==abandonedCart,visitEcommerceStatus==orderedThenAbandonedCart';
         $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentAbandonedCart', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment);
         
-        // __test segment visitConvertedGoalId
+        // test segment visitConvertedGoalId
         $segment = 'visitConvertedGoalId=='.$idGoalStandard;
         $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentConvertedGoalId1', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment);
         $segment = 'visitConvertedGoalId!='.$idGoalStandard;
         $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentDidNotConvertGoalId1', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment);
         
-        // __test segment visitorType
+        // test segment visitorType
         $segment = 'visitorType==new';
         $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentNewVisitors', 'xml', $idSite, $dateTime, $periods = array('week'), $setDateLastN = false, $language = false, $segment);
         $segment = 'visitorType==returning';
@@ -258,11 +258,11 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $segment = 'visitorType==returningCustomer';
         $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentReturningCustomers', 'xml', $idSite, $dateTime, $periods = array('week'), $setDateLastN = false, $language = false, $segment);
         
-        // __test segment pageTitle 
+        // test segment pageTitle 
         $segment = 'pageTitle==incredible%20title!';
         $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentPageTitleMatch', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment);
         
-        // __test Live! output is OK also for the visit that just bought something (other visits leave an abandoned cart)
+        // test Live! output is OK also for the visit that just bought something (other visits leave an abandoned cart)
         $this->setApiToCall(array('Live.getLastVisitsDetails'));
         $this->callGetApiCompareOutput(__FUNCTION__ . '_LiveEcommerceStatusOrdered', 'xml', $idSite, Piwik_Date::factory($dateTime)->addHour( 30.65 )->getDatetime(), $periods = array('day'));
         
@@ -317,7 +317,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // Compare XML
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime);
         
-        // __test delete is working as expected
+        // test delete is working as expected
         $goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
         $this->assertTrue( 2 == count($goals) );
         Piwik_Goals_API::getInstance()->deleteGoal($idSite, $idGoal_OneConversionPerVisit);
@@ -327,7 +327,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	}
 	
 	/**
-	 * This __tests the output of the API plugin API 
+	 * This tests the output of the API plugin API 
 	 * It will return metadata about all API reports from all plugins
 	 * as well as the data itself, pre-processed and ready to be displayed
 	 * @return 
@@ -353,7 +353,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	}
 	
 	/**
-	 * __test the Yearly metadata API response, 
+	 * test the Yearly metadata API response, 
 	 * with no visits, with custom response language 
 	 */
 	function test_apiGetReportMetadata_year()
@@ -371,7 +371,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	}
 	
 	/*
-	 * __testing various wrong Tracker requests and check that they behave as expected:
+	 * testing various wrong Tracker requests and check that they behave as expected:
 	 * not throwing errors and not recording data.
 	 *  
 	 * API will archive and output empty stats.
@@ -399,18 +399,18 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		
 		$t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
 		
-		// __test GoogleBot UA visitor
+		// test GoogleBot UA visitor
 		$t->setUserAgent('Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)');
 		$this->checkResponse($t->doTrackPageView('bot visit, please do not record'));
 		
-		// __test with excluded IP
+		// test with excluded IP
 		$t->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729)'); // restore normal user agent	
 		$excludedIp = '154.1.12.34';
 		Piwik_SitesManager_API::getInstance()->updateSite($idSite, 'new site name', $url=array('http://site.com'),$ecommerce = 0, $excludedIp . ',1.2.3.4');
 		$t->setIp($excludedIp);
 		$this->checkResponse($t->doTrackPageView('visit from IP excluded'));
 		
-		// __test with global list of excluded IPs 
+		// test with global list of excluded IPs 
 		$excludedIpBis = '145.5.3.4';
 		Piwik_SitesManager_API::getInstance()->setGlobalExcludedIps($excludedIpBis);
 		$t->setIp($excludedIpBis);
@@ -439,7 +439,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * - Tracking Goal by manual trigger, and URL matching, with custom revenue
 	 * - Tracking the same Goal twice only records it once
 	 * - Tracks 2 page views, a click and a file download
-	 * - URLs parameters exclude is __tested
+	 * - URLs parameters exclude is tested
 	 * - In a returning visit, tracks a Goal conversion 
 	 *   URL matching, with custom referer and keyword
 	 *   
@@ -447,7 +447,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 */
 	function test_OneVisitorTwoVisits() 
 	{
-		// __tests run in UTC, the Tracker in UTC
+		// tests run in UTC, the Tracker in UTC
     	$dateTime = '2010-03-06 11:22:33';
     	$idSite = $this->createWebsite($dateTime);
         $t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
@@ -465,7 +465,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	{
 		$this->setApiNotToCall(array());
     	$this->setApiToCall(array('VisitTime', 'VisitsSummary', 'VisitorInterest', 'VisitFrequency', 'UserSettings', 'UserCountry', 'Referers', 'Provider', 'Goals', 'CustomVariables', 'CoreAdminHome', 'Actions', 'Live.getLastVisitsDetails'));
-		// __tests run in UTC, the Tracker in UTC
+		// tests run in UTC, the Tracker in UTC
     	$dateTime = '2010-03-06 11:22:33';
     	$idSite = $this->createWebsite($dateTime);
         $t = $this->getTracker($idSite, $dateTime, $defaultInit = true, $useThirdPartyCookie = 1);
@@ -479,7 +479,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	{
         $t->setUrlReferrer( 'http://referer.com/page.htm?param=valuewith some spaces');
     	
-    	// __testing URL excluded parameters
+    	// testing URL excluded parameters
     	$parameterToExclude = 'excluded_parameter';
     	Piwik_SitesManager_API::getInstance()->updateSite($idSite, 'new name', $url=array('http://site.com'),$ecommerce = 0, $excludedIps = null, $parameterToExclude . ',anotherParameter');
 
@@ -488,7 +488,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $t->setUrl( $urlPage1 );
         $this->checkResponse($t->doTrackPageView( 'incredible title!'));
         
-        // __testing that / and index.htm above record with different URLs
+        // testing that / and index.htm above record with different URLs
         // Recording the 2nd page after 3 minutes
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.05)->getDatetime());
         $urlPage2 = 'http://example.org/' ;
@@ -533,20 +533,20 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		// Temporary, until we implement 1st party cookies in PiwikTracker
         $t->DEBUG_APPEND_URL = '&_idvc=2';
         
-        // Goal Tracking URL matching, __testing custom referer including keyword
+        // Goal Tracking URL matching, testing custom referer including keyword
         $this->checkResponse($t->doTrackPageView( 'Checkout/Purchasing...'));
         // -
         // End of second visit
 	}
 	
 	/*
-	 * __tests Tracker several websites, different days.
-	 * __tests API for period=day/week/month/year, requesting data for both websites, 
+	 * tests Tracker several websites, different days.
+	 * tests API for period=day/week/month/year, requesting data for both websites, 
 	 * and requesting data for last N periods.
-	 * Also __tests a visit that spans over 2 days.
-	 * And __testing empty URL and empty Page name request
-	 * Also __testing a click on a mailto counted as outlink
-	 * Also __testing metadata API for multiple periods
+	 * Also tests a visit that spans over 2 days.
+	 * And testing empty URL and empty Page name request
+	 * Also testing a click on a mailto counted as outlink
+	 * Also testing metadata API for multiple periods
 	 */
 	function test_TwoVisitors_twoWebsites_differentDays()
 	{
@@ -571,7 +571,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	private function doTest_TwoVisitors_twoWebsites_differentDays(
 		$function, $apiToCall, $allowConversions = false, $testGetProcessedReport = true)
 	{
-		// __tests run in UTC, the Tracker in UTC
+		// tests run in UTC, the Tracker in UTC
     	$dateTime = '2010-01-03 11:22:33';
     	$idSite = $this->createWebsite($dateTime);
     	$idSite2 = $this->createWebsite($dateTime);
@@ -591,7 +591,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $this->checkResponse($visitorA->doTrackPageView('first page view'));
 
     	$visitorA->setForceVisitDateTime(Piwik_Date::factory($datetimeSpanOverTwoDays)->addHour(0.1)->getDatetime());
-    	// __testing with empty URL and empty page title
+    	// testing with empty URL and empty page title
     	$visitorA->setUrl('  ');
         $this->checkResponse($visitorA->doTrackPageView('  '));
       
@@ -622,13 +622,13 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	$visitorB->setUrl('http://example.org/thankyou');
     	$this->checkResponse($visitorB->doTrackPageView('second visitor/two days later/second page view'));
     	
-    	// __testing a strange combination causing an error in r3767
+    	// testing a strange combination causing an error in r3767
     	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.2)->getDatetime());
     	$this->checkResponse($visitorB->doTrackAction('mailto:test@example.org', 'link'));
     	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.25)->getDatetime());
     	$this->checkResponse($visitorB->doTrackAction('mailto:test@example.org/strangelink', 'link'));
     	
-    	// Actions.getPageTitle __tested with this title
+    	// Actions.getPageTitle tested with this title
     	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.25)->getDatetime());
     	$this->checkResponse($visitorB->doTrackPageView('Checkout / Purchasing...'));
     	
@@ -640,7 +640,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $visitorAsite2->setUrl('http://example2.com/home');
         $visitorAsite2->DEBUG_APPEND_URL = '&_idts='.Piwik_Date::factory($dateTime)->addHour(24)->getTimestamp();
         $this->checkResponse($visitorAsite2->doTrackPageView('Website 2 page view'));
-        // __test with invalid URL
+        // test with invalid URL
         $visitorAsite2->setUrl('this is invalid url');
         // and an empty title
         $this->checkResponse($visitorAsite2->doTrackPageView(''));
@@ -658,11 +658,11 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	// Request data for the last 6 periods and idSite=1
         $this->callGetApiCompareOutput($function.'_idSiteOne_', 'xml', $idSite, $dateTime, array('day','month'), $setDateLastN = true);
         
-        // We also __test a single period to check that this use case (Reports per idSite in the response) works
+        // We also test a single period to check that this use case (Reports per idSite in the response) works
     	$this->setApiToCall(array('VisitsSummary.get', 'Goals.get'));
     	$this->callGetApiCompareOutput($function . '_NotLastNPeriods', 'xml', $allSites = 'all', $dateTime, array('day', 'month'), $setDateLastN = false);
 		
-		// __testing metadata API for multiple periods
+		// testing metadata API for multiple periods
 		$this->setApiNotToCall(array());
 		if ($testGetProcessedReport)
 		{
@@ -678,7 +678,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	
 	private function doTest_twoVisitsWithCustomVariables($dateTime, $width=1111, $height=222)
 	{        
-	    // __tests run in UTC, the Tracker in UTC
+	    // tests run in UTC, the Tracker in UTC
     	$idSite = $this->createWebsite($dateTime);
     	$this->setApiToCall(array(	'VisitsSummary.get',
     	                            'CustomVariables.getCustomVariables'
@@ -687,7 +687,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		$idGoal = Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');
 				$idGoal2 = Piwik_Goals_API::getInstance()->addGoal($idSite, 'second goal', 'manually', '', '');
         $visitorA = $this->getTracker($idSite, $dateTime, $defaultInit = true);
-        // Used to __test actual referer + keyword position in Live!
+        // Used to test actual referer + keyword position in Live!
         $visitorA->setUrlReferrer(urldecode('http://www.google.com/url?sa=t&source=web&cd=1&ved=0CB4QFjAA&url=http%3A%2F%2Fpiwik.org%2F&rct=j&q=this%20keyword%20should%20be%20ranked&ei=V8WfTePkKKLfiALrpZWGAw&usg=AFQjCNF_MGJRqKPvaKuUokHtZ3VvNG9ALw&sig2=BvKAdCtNixsmfNWXjsNyMw'));
         
         // no campaign, but a search engine to attribute the goal conversion to
@@ -747,8 +747,8 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	$visitorB->setUrl('http://example.org/homepage');
     	$this->checkResponse($visitorB->doTrackGoal($idGoal, 1000));
     	
-    	// DIFFERENT __test -
-    	// __testing that starting the visit with an outlink works (doesn't trigger errors)
+    	// DIFFERENT test -
+    	// testing that starting the visit with an outlink works (doesn't trigger errors)
     	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(2)->getDatetime());
     	$this->checkResponse($visitorB->doTrackAction('http://test.com', 'link'));
 
@@ -837,7 +837,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $this->doTest_twoVisitsWithCustomVariables($dateTime, $width, $height);
         
         // Segment matching ALL
-        // + adding DOES NOT CONTAIN segment always matched, to __test this particular operator
+        // + adding DOES NOT CONTAIN segment always matched, to test this particular operator
         $segment = 'resolution=='.$resolution.';customVariableName1!@randomvalue%20does%20not%20exist';
     	
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', 
@@ -850,7 +850,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         );
 	}
 	
-	/* __testing a segment containing all supported fields */
+	/* testing a segment containing all supported fields */
 	function test_twoVisitsWithCustomVariables_segmentMatchNONE()
 	{
 		$dateTime = '2010-01-03 11:22:33';
@@ -874,7 +874,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 			}
 			$segmentExpression[] = $segment['segment'] .'!='.$value;
 		}
-		// just checking that this segment was __tested (as it has the only visible to admin flag)
+		// just checking that this segment was tested (as it has the only visible to admin flag)
 		$this->assertTrue($seenVisitorId);
 		
         $segment = implode(";", $segmentExpression);
@@ -891,7 +891,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	}
 	
 	/*
-	 * __testing period=range use case. Recording data before and after, checking that the requested range is processed correctly 
+	 * testing period=range use case. Recording data before and after, checking that the requested range is processed correctly 
 	 */
 	public function test_oneVisitor_oneWebsite_severalDays_DateRange()
 	{        
@@ -968,11 +968,11 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		}
 	}
 
-	// __test Metadata API + period=range&date=lastN
+	// test Metadata API + period=range&date=lastN
 	function test_periodIsRange_dateIsLastN_MetadataAndNormalAPI()
 	{
 		if(date('G') == 23 || date('G') == 22) {
-			echo "SKIPPED __test_periodIsRange_dateIsLastN_MetadataAndNormalAPI() since it fails around midnight...";
+			echo "SKIPPED test_periodIsRange_dateIsLastN_MetadataAndNormalAPI() since it fails around midnight...";
 			$this->pass();
 			return; 
 		}
@@ -993,7 +993,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
     		false,
     		'daysSinceFirstVisit!=50',
     		'visitorId!=33c31e01394bdc63',
-    		// __testing both filter on Actions table and visit table
+    		// testing both filter on Actions table and visit table
     		'visitorId!=33c31e01394bdc63;daysSinceFirstVisit!=50',
     		//'pageUrl!=http://unknown/not/viewed',
     	);
@@ -1013,7 +1013,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	        								$setDateLastN = false,
 	        								$language=false, 
 	        								$segment,
-	        								// __testing getLastVisitsForVisitor requires a visitor ID
+	        								// testing getLastVisitsForVisitor requires a visitor ID
 	        								$this->visitorId
 	        	);
 	    	}
@@ -1039,7 +1039,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $visitorId = $t->getVisitorId();
         $this->assertTrue(strlen($visitorId) == 16);
         
-        // __test setting/getting the first party cookie via the PHP Tracking Client 
+        // test setting/getting the first party cookie via the PHP Tracking Client 
         $_COOKIE['_pk_id_1_1fff'] = 'ca0afe7b6b692ff5.1302307497.1.1302307497.1302307497';
         $_COOKIE['_pk_ref_1_1fff'] = '["YEAH","RIGHT!",1302307497,"http://referrer.example.org/page/sub?query=test&test2=test3"]';
         $_COOKIE['_pk_cvar_1_1fff'] = '{"1":["VAR 1 set, var 2 not set","yes"],"3":["var 3 set","yes!!!!"]}';
@@ -1074,7 +1074,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime);
 	}
 	
-	/* __testing a segment containing all supported fields */
+	/* testing a segment containing all supported fields */
 	function test_csvExport()
 	{
 		$dateTime = '2010-01-03 11:22:33';
