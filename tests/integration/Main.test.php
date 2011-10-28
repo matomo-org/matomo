@@ -246,7 +246,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         
         // test segment visitConvertedGoalId
         $segment = 'visitConvertedGoalId=='.$idGoalStandard;
-        $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentConvertedGoalId1', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment);
+        $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentConvertedGoalId1', 'xml', $idSite, $dateTime, $periods = array('day','week'), $setDateLastN = false, $language = false, $segment);
         $segment = 'visitConvertedGoalId!='.$idGoalStandard;
         $this->callGetApiCompareOutput(__FUNCTION__ . '_SegmentDidNotConvertGoalId1', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = false, $language = false, $segment);
         
@@ -656,7 +656,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $this->callGetApiCompareOutput($function, 'xml', $allSites = 'all', $dateTime, $periods, $setDateLastN = true);
         
     	// Request data for the last 6 periods and idSite=1
-        $this->callGetApiCompareOutput($function.'_idSiteOne_', 'xml', $idSite, $dateTime, array('day','month'), $setDateLastN = true);
+        $this->callGetApiCompareOutput($function.'_idSiteOne_', 'xml', $idSite, $dateTime, array('day','week','month','year'), $setDateLastN = true);
         
         // We also test a single period to check that this use case (Reports per idSite in the response) works
     	$this->setApiToCall(array('VisitsSummary.get', 'Goals.get'));
@@ -1074,7 +1074,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime);
 	}
 	
-	/* testing a segment containing all supported fields */
+	// Test CSV export with Expanded rows, Translated labels, Different languages	
 	function test_csvExport()
 	{
 		$dateTime = '2010-01-03 11:22:33';
