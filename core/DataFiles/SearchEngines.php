@@ -191,6 +191,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 	
 		// Babylon (Enhanced by Google)
 		'search.babylon.com'		=> array('Babylon', array('q', '/\/web\/(.*)/'), '?q={k}'),
+		'searchassist.babylon.com'	=> array('Babylon'),
 
 		// Baidu
 		'www.baidu.com'				=> array('Baidu', array('wd', 'word', 'kw'), 's?wd={k}', 'gb2312'),
