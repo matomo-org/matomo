@@ -148,7 +148,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$this->goalManager = new Piwik_Tracker_GoalManager();
 		
 		$someGoalsConverted = $visitIsConverted = false;
-		$idActionUrl = $idActionName = false;
+		$idActionUrl = $idActionName = $actionType = false;
 		$action = null;
 
 		$this->goalManager->init($this->request);
@@ -189,6 +189,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			$action->loadIdActionNameAndUrl();
 			$idActionUrl = (int)$action->getIdActionUrl();
 			$idActionName = (int)$action->getIdActionName();
+			$actionType = $action->getActionType();
 		}
 
 		// the visitor and session
@@ -209,7 +210,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			$idRefererActionUrl = $this->visitorInfo['visit_exit_idaction_url'];
 			$idRefererActionName = $this->visitorInfo['visit_exit_idaction_name'];
 			try {
-				$this->handleKnownVisit($idActionUrl, $idActionName, $visitIsConverted);
+				$this->handleKnownVisit($idActionUrl, $idActionName, $actionType, $visitIsConverted);
 				if(!is_null($action))
 				{
 					$action->record( 	$this->visitorInfo['idvisit'],
@@ -248,7 +249,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		if(!$this->isVisitorKnown()
 			|| !$isLastActionInTheSameVisit)
 		{
-			$this->handleNewVisit($idActionUrl, $idActionName, $visitIsConverted);
+			$this->handleNewVisit($idActionUrl, $idActionName, $actionType, $visitIsConverted);
 			if(!is_null($action))
 			{
 				$action->record( $this->visitorInfo['idvisit'], $this->visitorInfo['idvisitor'], 0, 0, 0 );
@@ -321,7 +322,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 * Tracker.knownVisitorInformation is triggered after saving the new visit data
 	 * Even data is an array with updated information about the visit
 	 */
-	protected function handleKnownVisit($idActionUrl, $idActionName, $visitIsConverted)
+	protected function handleKnownVisit($idActionUrl, $idActionName, $actionType, $visitIsConverted)
 	{
 		// gather information that needs to be updated
 		$valuesToUpdate = array();
@@ -441,7 +442,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 *
 	 * 2) Insert the visit information
 	 */
-	protected function handleNewVisit($idActionUrl, $idActionName, $visitIsConverted)
+	protected function handleNewVisit($idActionUrl, $idActionName, $actionType, $visitIsConverted)
 	{
 		printDebug("New Visit (IP = ".Piwik_IP::N2P($this->getVisitorIp()).")");
 
@@ -509,7 +510,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$refererUrl	= Piwik_Common::getRequestVar( 'urlref', '', 'string', $this->request);
 		$currentUrl	= Piwik_Common::getRequestVar( 'url', '', 'string', $this->request);
 		$refererInfo = $referrer->getRefererInformation($refererUrl, $currentUrl, $this->idsite);
-
+		
 		/**
 		 * Save the visitor
 		 */
@@ -528,7 +529,11 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'visit_entry_idaction_name' => (int)$idActionName,
 			'visit_exit_idaction_url' 	=> (int)$idActionUrl,
 			'visit_exit_idaction_name' 	=> (int)$idActionName,
-			'visit_total_actions' 		=> 1,
+			'visit_total_actions' 		=> in_array($actionType,
+												array(Piwik_Tracker_Action::TYPE_ACTION_URL,
+													 Piwik_Tracker_Action::TYPE_DOWNLOAD,
+													 Piwik_Tracker_Action::TYPE_OUTLINK))
+											? 1 : 0, // if visit starts with something else (e.g. ecommerce order), don't record as an action
 			'visit_total_time' 			=> $defaultTimeOnePageVisit,
 			'visit_goal_converted'  	=> $visitIsConverted ? 1: 0,
 			'visit_goal_buyer'			=> $this->goalManager->getBuyerType(),
