@@ -338,6 +338,15 @@ class Piwik_Actions extends Piwik_Plugin
 				'Actions_actions_url',
 		);
 		$archiveProcessing->archiveDataTable($dataTableToSum, self::$invalidSummedColumnNameToRenamedNameForPeriodArchive, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
+		
+		$archiveProcessing->archiveNumericValuesSum(array(
+			'nb_pageviews',
+			'nb_uniq_pageviews',
+			'nb_downloads',
+			'nb_uniq_downloads',
+			'nb_outlinks',
+			'nb_uniq_outlinks'
+		));
 	}
 	
 	/**

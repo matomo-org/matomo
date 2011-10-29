@@ -20,7 +20,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 	{
 		$view = Piwik_View::factory('index');
 		$this->setPeriodVariablesView($view);
-		$view->graphEvolutionVisitsSummary = $this->getEvolutionGraph( true, array('nb_visits') );
+		$view->graphEvolutionVisitsSummary = $this->getEvolutionGraph( true, array('nb_visits', 'nb_uniq_visitors') );
 		$this->setSparklinesAndNumbers($view);
 		echo $view->render();
 	}
@@ -87,7 +87,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 	
 	protected function setSparklinesAndNumbers($view)
 	{
-		$view->urlSparklineNbVisits 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_visits')));
+		$view->urlSparklineNbVisits 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => $view->displayUniqueVisitors ? array('nb_visits', 'nb_uniq_visitors') : array('nb_visits')));
 		$view->urlSparklineNbPageviews 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_pageviews', 'nb_uniq_pageviews')));
 		$view->urlSparklineNbDownloads 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_downloads', 'nb_uniq_downloads')));
 		$view->urlSparklineNbOutlinks 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_outlinks', 'nb_uniq_outlinks')));
@@ -98,13 +98,16 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		
 		$dataTableVisit = self::getVisitsSummary();
 		$dataRow = $dataTableVisit->getFirstRow();
-		$view->urlSparklineNbUniqVisitors 	= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_uniq_visitors')));
+		
 		$view->nbUniqVisitors = $dataRow->getColumn('nb_uniq_visitors');
 		$nbVisits = $dataRow->getColumn('nb_visits');
 		$view->nbVisits = $nbVisits;
 		$view->nbPageviews = $dataRow->getColumn('nb_pageviews');
+		$view->nbUniquePageviews = $dataRow->getColumn('nb_uniq_pageviews');
 		$view->nbDownloads = $dataRow->getColumn('nb_downloads');
+		$view->nbUniqueDownloads = $dataRow->getColumn('nb_uniq_downloads');
 		$view->nbOutlinks = $dataRow->getColumn('nb_outlinks');
+		$view->nbUniqueOutlinks = $dataRow->getColumn('nb_uniq_outlinks');
 		$view->averageVisitDuration = $dataRow->getColumn('avg_time_on_site');
 		$nbBouncedVisits = $dataRow->getColumn('bounce_count');
 		$view->bounceRate = Piwik::getPercentageSafe($nbBouncedVisits, $nbVisits);
