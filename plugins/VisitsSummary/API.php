@@ -63,6 +63,14 @@ class Piwik_VisitsSummary_API
 								'nb_visits',
 								'nb_uniq_visitors',
 								'nb_actions',
+								// hits, downloads and outlinks are archived by the actions plugin
+								// nevertheless, we can use them directly
+								'nb_pageviews',
+								'nb_uniq_pageviews',
+								'nb_downloads',
+								'nb_uniq_downloads',
+								'nb_outlinks',
+								'nb_uniq_outlinks',
 								'nb_visits_converted',
 								'bounce_count',
 								'sum_visit_length',
