@@ -42,6 +42,9 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		}
 		$view->setColumnsToDisplay($columns);
 		
+		$meta = Piwik_API_API::getInstance()->getMetadata(false, 'VisitsSummary', 'get');
+		$view->setColumnsTranslations($meta[0]['metrics']);
+		
 		$doc = Piwik_Translate('VisitsSummary_VisitsSummaryDocumentation').'<br />'
 		     . Piwik_Translate('General_BrokenDownReportDocumentation').'<br /><br />'
 		     
@@ -85,7 +88,9 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 	protected function setSparklinesAndNumbers($view)
 	{
 		$view->urlSparklineNbVisits 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_visits')));
-		$view->urlSparklineNbActions 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_actions')));
+		$view->urlSparklineNbPageviews 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_pageviews', 'nb_uniq_pageviews')));
+		$view->urlSparklineNbDownloads 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_downloads', 'nb_uniq_downloads')));
+		$view->urlSparklineNbOutlinks 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_outlinks', 'nb_uniq_outlinks')));
 		$view->urlSparklineAvgVisitDuration = $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('avg_time_on_site')));
 		$view->urlSparklineMaxActions 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('max_actions')));
 		$view->urlSparklineActionsPerVisit 	= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_actions_per_visit')));
@@ -97,7 +102,9 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		$view->nbUniqVisitors = $dataRow->getColumn('nb_uniq_visitors');
 		$nbVisits = $dataRow->getColumn('nb_visits');
 		$view->nbVisits = $nbVisits;
-		$view->nbActions = $dataRow->getColumn('nb_actions');
+		$view->nbPageviews = $dataRow->getColumn('nb_pageviews');
+		$view->nbDownloads = $dataRow->getColumn('nb_downloads');
+		$view->nbOutlinks = $dataRow->getColumn('nb_outlinks');
 		$view->averageVisitDuration = $dataRow->getColumn('avg_time_on_site');
 		$nbBouncedVisits = $dataRow->getColumn('bounce_count');
 		$view->bounceRate = Piwik::getPercentageSafe($nbBouncedVisits, $nbVisits);

@@ -3,7 +3,9 @@
 {if $displayUniqueVisitors}
 	<div class="sparkline">{sparkline src=$urlSparklineNbUniqVisitors} {'VisitsSummary_NbUniqueVisitors'|translate:"<strong>$nbUniqVisitors</strong>"}</div>
 {/if}
-	<div class="sparkline">{sparkline src=$urlSparklineNbActions} {'VisitsSummary_NbActionsDescription'|translate:"<strong>$nbActions</strong>"}</div>
+	<div class="sparkline">{sparkline src=$urlSparklineNbPageviews} {'VisitsSummary_NbPageviewsDescription'|translate:"<strong>$nbPageviews</strong>"}</div>
+	<div class="sparkline">{sparkline src=$urlSparklineNbDownloads} {'VisitsSummary_NbDownloadsDescription'|translate:"<strong>$nbDownloads</strong>"}</div>
+	<div class="sparkline">{sparkline src=$urlSparklineNbOutlinks} {'VisitsSummary_NbOutlinksDescription'|translate:"<strong>$nbOutlinks</strong>"}</div>
 	<div class="sparkline">{sparkline src=$urlSparklineActionsPerVisit} {'VisitsSummary_NbActionsPerVisit'|translate:"<strong>$nbActionsPerVisit</strong>"}</div>
 </div>
 <div id='rightcolumn'>
