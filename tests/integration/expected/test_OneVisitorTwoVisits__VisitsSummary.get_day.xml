@@ -3,6 +3,12 @@
 	<nb_visits>2</nb_visits>
 	<nb_uniq_visitors>1</nb_uniq_visitors>
 	<nb_actions>6</nb_actions>
+	<nb_pageviews>4</nb_pageviews>
+	<nb_uniq_pageviews>4</nb_uniq_pageviews>
+	<nb_downloads>1</nb_downloads>
+	<nb_uniq_downloads>1</nb_uniq_downloads>
+	<nb_outlinks>1</nb_outlinks>
+	<nb_uniq_outlinks>1</nb_uniq_outlinks>
 	<nb_visits_converted>2</nb_visits_converted>
 	<bounce_count>1</bounce_count>
 	<sum_visit_length>1621</sum_visit_length>
