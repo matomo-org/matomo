@@ -4,6 +4,8 @@
 		<bounce_count>1</bounce_count>
 		<max_actions>1</max_actions>
 		<nb_actions>1</nb_actions>
+		<nb_pageviews>2</nb_pageviews>
+		<nb_uniq_pageviews>2</nb_uniq_pageviews>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
 		<nb_visits_converted>1</nb_visits_converted>
@@ -14,6 +16,8 @@
 	<result date="2010-01-04">
 		<max_actions>2</max_actions>
 		<nb_actions>2</nb_actions>
+		<nb_pageviews>1</nb_pageviews>
+		<nb_uniq_pageviews>1</nb_uniq_pageviews>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
 		<nb_visits_converted>1</nb_visits_converted>
@@ -25,6 +29,8 @@
 	<result date="2010-01-05">
 		<max_actions>5</max_actions>
 		<nb_actions>5</nb_actions>
+		<nb_pageviews>5</nb_pageviews>
+		<nb_uniq_pageviews>3</nb_uniq_pageviews>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
 		<nb_visits_converted>1</nb_visits_converted>
