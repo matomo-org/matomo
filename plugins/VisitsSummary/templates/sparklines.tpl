@@ -20,6 +20,12 @@
 </div>
 
 <div id='rightcolumn'>
+	{if $showOnlyActions}
+	<div class="sparkline">
+		{sparkline src=$urlSparklineNbActions}
+		{'VisitsSummary_NbActionsDescription'|translate:"<strong>$nbActions</strong>"}
+	</div>
+	{else}
 	<div class="sparkline">
 		{sparkline src=$urlSparklineNbPageviews} 
 		{'VisitsSummary_NbPageviewsDescription'|translate:"<strong>$nbPageviews</strong>"|trim}, 
@@ -35,6 +41,7 @@
 		{'VisitsSummary_NbOutlinksDescription'|translate:"<strong>$nbOutlinks</strong>"|trim}, 
 		{'VisitsSummary_NbUniqueOutlinksDescription'|translate:"<strong>$nbUniqueOutlinks</strong>"}
 	</div>
+	{/if}
 	<div class="sparkline">
 		{sparkline src=$urlSparklineMaxActions} 
 		{'VisitsSummary_MaxNbActions'|translate:"<strong>$maxActions</strong>"}
