@@ -699,7 +699,6 @@ $translations = array(
 	'VisitorInterest_NPages' => '%s 개의 페이지',
 	'VisitsSummary_NbVisits' => '%s 방문 수',
 	'VisitsSummary_NbUniqueVisitors' => '%s 고유 방문자 수',
-	'VisitsSummary_NbActions' => '%s 활동 수 (페이지뷰)',
 	'VisitsSummary_MaxNbActions' => '%s 한번 방문의 최대 활동 수',
 	'VisitsSummary_NbVisitsBounced' => '%s 바로 떠난 방문 비율 (한 페이지만 보고 떠난 방문자)',
 	'VisitsSummary_EvolutionOverLastPeriods' => '지난 %s 진행 과정',

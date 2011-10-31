@@ -548,7 +548,6 @@ $translations = array(
 	'VisitorInterest_NPages' => '%s lehte',
 	'VisitsSummary_NbVisits' => '%s külastust',
 	'VisitsSummary_NbUniqueVisitors' => '%s unikaalset külastajat',
-	'VisitsSummary_NbActions' => '%s tegevust (lehe vaatamist)',
 	'VisitsSummary_MaxNbActions' => '%s maksmimum tegevuste arv ühel külastusel',
 	'VisitsSummary_GenerateTime' => 'Lehe genereerimiseks kulus %s sekundit',
 	'VisitsSummary_GenerateQueries' => '%s katkestatud päringut',

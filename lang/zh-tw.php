@@ -1104,7 +1104,6 @@ $translations = array(
 	'VisitsSummary_VisitsSummary' => '訪客總覽',
 	'VisitsSummary_NbVisits' => '%s 個造訪次數',
 	'VisitsSummary_NbUniqueVisitors' => '%s 個絕對不重複訪客',
-	'VisitsSummary_NbActions' => '%s 個活動數 (頁面瀏覽)',
 	'VisitsSummary_NbActionsDescription' => '%s 個活動（檢視網頁、下載和離開連結）',
 	'VisitsSummary_AverageVisitDuration' => '%s 平均訪問時間',
 	'VisitsSummary_MaxNbActions' => '%s 由單一次造訪所產生的最大活動數',

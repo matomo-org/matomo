@@ -1197,7 +1197,6 @@ $translations = array(
 	'VisitsSummary_VisitsSummary' => 'Përmbledhje Vizitash',
 	'VisitsSummary_NbVisits' => '%s vizita',
 	'VisitsSummary_NbUniqueVisitors' => '%s vizitorë unikë',
-	'VisitsSummary_NbActions' => '%s veprime',
 	'VisitsSummary_NbActionsDescription' => '%s veprime (parje faqesh, shkarkime dhe lidhje ikëse)',
 	'VisitsSummary_AverageVisitDuration' => '%s mesatare zgjatje vizitash',
 	'VisitsSummary_MaxNbActions' => 'maksimumi %s veprime në një vizitë',

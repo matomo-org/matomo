@@ -1160,7 +1160,6 @@ $translations = array(
 	'VisitsSummary_VisitsSummary' => 'Apsilankymų suvestinė',
 	'VisitsSummary_NbVisits' => '%s apsilankymai',
 	'VisitsSummary_NbUniqueVisitors' => '%s unikalūs lankytojai',
-	'VisitsSummary_NbActions' => '%s veiksmai (puslapių peržiūros)',
 	'VisitsSummary_NbActionsDescription' => '%s veiksmai (puslapio peržiūros, atsisiuntimai ir išorinės nuorodos)',
 	'VisitsSummary_AverageVisitDuration' => '%s vidutinio apsilankymo trukmė',
 	'VisitsSummary_MaxNbActions' => '%s daugiausia veiksmų per apsilankymą',

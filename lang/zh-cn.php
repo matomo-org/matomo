@@ -1098,7 +1098,6 @@ $translations = array(
 	'VisitsSummary_VisitsSummary' => '访客概述',
 	'VisitsSummary_NbVisits' => '%s 访客数',
 	'VisitsSummary_NbUniqueVisitors' => '%s 绝对唯一访客数',
-	'VisitsSummary_NbActions' => '%s 个活动数 (页面浏览)',
 	'VisitsSummary_NbActionsDescription' => '%s 个活动（检测网页、下载和离开链接）',
 	'VisitsSummary_AverageVisitDuration' => '%s 平均访问时间',
 	'VisitsSummary_MaxNbActions' => '%s 在一次会话中最大活动数',

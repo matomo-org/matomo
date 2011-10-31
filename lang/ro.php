@@ -592,7 +592,6 @@ $translations = array(
 	'VisitorInterest_NPages' => '%s pagini',
 	'VisitsSummary_NbVisits' => '%s vizitari',
 	'VisitsSummary_NbUniqueVisitors' => '%s vizitatori unici',
-	'VisitsSummary_NbActions' => '%s actiuni (pagini vizualizate)',
 	'VisitsSummary_MaxNbActions' => '%s actiuni maxime pe vizita',
 	'VisitsSummary_GenerateTime' => '%s secunde pentru generarea pagini',
 	'VisitsSummary_GenerateQueries' => '%s interogari executate',

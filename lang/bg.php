@@ -1173,7 +1173,6 @@ $translations = array(
 	'VisitsSummary_VisitsSummary' => 'Резюме на посещенията',
 	'VisitsSummary_NbVisits' => '%s посещения',
 	'VisitsSummary_NbUniqueVisitors' => '%s уникални посетителя',
-	'VisitsSummary_NbActions' => '%s дейстивя (разглеждания на страници)',
 	'VisitsSummary_NbActionsDescription' => '%s действия (показвания, изтегляния и outlinks)',
 	'VisitsSummary_AverageVisitDuration' => '%s средно времетраене на посещението',
 	'VisitsSummary_MaxNbActions' => '%s макс. действия при едно посещение',

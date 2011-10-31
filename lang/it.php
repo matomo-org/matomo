@@ -1267,7 +1267,6 @@ $translations = array(
 	'VisitsSummary_VisitsSummary' => 'Sommario delle visite',
 	'VisitsSummary_NbVisits' => '%s visite',
 	'VisitsSummary_NbUniqueVisitors' => '%s visitatori unici',
-	'VisitsSummary_NbActions' => '%s pagine sono state visualizzate',
 	'VisitsSummary_NbActionsDescription' => '%s azioni (pagine viste, download e link esterni)',
 	'VisitsSummary_AverageVisitDuration' => '%s durata stimata visita',
 	'VisitsSummary_MaxNbActions' => '%s è il massimo delle pagine viste in 1 visita',

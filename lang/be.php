@@ -1350,7 +1350,6 @@ $translations = array(
 	'VisitsSummary_VisitsSummaryDocumentation' => 'Гэта агляд зменаў наведванняў.',
 	'VisitsSummary_NbVisits' => '%s наведванняў',
 	'VisitsSummary_NbUniqueVisitors' => '%s унікальных наведвальнікаў',
-	'VisitsSummary_NbActions' => '%s дзеянняў (праглядаў старонак)',
 	'VisitsSummary_NbActionsDescription' => '%s дзеянні (прагляды старонак, запампоўка і знешнія спасылкі)',
 	'VisitsSummary_AverageVisitDuration' => '%s сярэдняя працягласць наведвання',
 	'VisitsSummary_MaxNbActions' => '%s макс. дзеянняў за адно наведванне',

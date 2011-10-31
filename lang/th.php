@@ -1235,7 +1235,6 @@ $translations = array(
 	'VisitsSummary_VisitsSummary' => 'สรุปการเข้าชม',
 	'VisitsSummary_NbVisits' => '%s ผู้เข้าชม',
 	'VisitsSummary_NbUniqueVisitors' => '%s ผู้เข้าชมที่ไม่ซ้ำ',
-	'VisitsSummary_NbActions' => '%s หน้าที่เข้าชม',
 	'VisitsSummary_NbActionsDescription' => '%s ดำเนินการ(เข้าชม ดาวน์โหลดและลิงค์ออก)',
 	'VisitsSummary_AverageVisitDuration' => 'เฉลี่ยระยะเวลาการเข้าชม %s',
 	'VisitsSummary_MaxNbActions' => '%s หน้าสูงสุดในหนึ่งผู้เข้าชม',

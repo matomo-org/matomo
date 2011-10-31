@@ -1183,7 +1183,6 @@ $translations = array(
 	'VisitsSummary_VisitsSummary' => 'Yhteenveto käynneistä',
 	'VisitsSummary_NbVisits' => '%s käyntiä',
 	'VisitsSummary_NbUniqueVisitors' => '%s uniikia kävijää',
-	'VisitsSummary_NbActions' => '%s toimintoa (katsottua sivua)',
 	'VisitsSummary_NbActionsDescription' => '%s toimintoa (sivua, latausta ja lähtevää linkkiä)',
 	'VisitsSummary_AverageVisitDuration' => '%s keskimääräinen käynnin kesto',
 	'VisitsSummary_MaxNbActions' => '%s toimintoa maksimissaan yhdellä käynnillä',

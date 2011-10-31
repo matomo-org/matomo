@@ -1219,7 +1219,6 @@ $translations = array(
 	'VisitsSummary_VisitsSummaryDocumentation' => 'Ez egy összefoglaló nézet a látogatások folyamatáról.',
 	'VisitsSummary_NbVisits' => '%s látogatás',
 	'VisitsSummary_NbUniqueVisitors' => '%s egyedi látogatás',
-	'VisitsSummary_NbActions' => '%s akció (oldal megtekintések)',
 	'VisitsSummary_NbActionsDescription' => '%s akció (weblap megnyitása, letöltések és kimenő linkek)',
 	'VisitsSummary_AverageVisitDuration' => '%s az átlagos látogatás időtartama',
 	'VisitsSummary_MaxNbActions' => '%s akció egy látogatás során maximum',

@@ -484,7 +484,6 @@ $translations = array(
 	'VisitsSummary_VisitsSummary' => 'תקציר ביקורים',
 	'VisitsSummary_NbVisits' => '%s ביקורים',
 	'VisitsSummary_NbUniqueVisitors' => '%s מבקרים יחודיים',
-	'VisitsSummary_NbActions' => '%s פעולות',
 	'VisitsSummary_NbActionsDescription' => '%s פעולות (צפייה בעמודים, הורדות וקישורים יוצאים)',
 	'VisitsSummary_AverageVisitDuration' => '%s זמן ביקור ממוצע',
 	'VisitsSummary_MaxNbActions' => '%s מספר פעולות מקסימלי בביקור אחד',

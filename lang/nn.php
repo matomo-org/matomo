@@ -875,7 +875,6 @@ $translations = array(
 	'VisitorInterest_NPages' => '%s sider',
 	'VisitsSummary_NbVisits' => '%s vitjingar',
 	'VisitsSummary_NbUniqueVisitors' => '%s unike vitjarar',
-	'VisitsSummary_NbActions' => '%s handlingar (sidevisingar)',
 	'VisitsSummary_MaxNbActions' => '%s maks mengd handlingar på ein vitjing',
 	'VisitsSummary_NbVisitsBounced' => '%s vitjarar hev hoppa (forsvunne etter ein sidevising)',
 	'VisitsSummary_EvolutionOverLastPeriods' => 'Utvikling over den siste %s',
