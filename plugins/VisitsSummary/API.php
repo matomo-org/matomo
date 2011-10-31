@@ -40,9 +40,11 @@ class Piwik_VisitsSummary_API
 		$columns = Piwik::getArrayFromApiParameter($columns);
 		$countColumnsRequested = count($columns);
 		
+		$allColumns = true;
 		$bounceRateRequested = $actionsPerVisitRequested = $averageVisitDurationRequested = false;
 		if(!empty($columns))
 		{
+			$allColumns = false;
 			if(($bounceRateRequested = array_search('bounce_rate', $columns)) !== false)
 			{
 				$columns = array('nb_visits', 'bounce_count');
@@ -63,18 +65,10 @@ class Piwik_VisitsSummary_API
 								'nb_visits',
 								'nb_uniq_visitors',
 								'nb_actions',
-								// hits, downloads and outlinks are archived by the actions plugin
-								// nevertheless, we can use them directly
-								'nb_pageviews',
-								'nb_uniq_pageviews',
-								'nb_downloads',
-								'nb_uniq_downloads',
-								'nb_outlinks',
-								'nb_uniq_outlinks',
 								'nb_visits_converted',
 								'bounce_count',
 								'sum_visit_length',
-								'max_actions',
+								'max_actions'
 							);
 			if(!Piwik::isUniqueVisitorsEnabled($period))
 			{
@@ -100,6 +94,10 @@ class Piwik_VisitsSummary_API
 			$dataTable->filter('ColumnCallbackAddColumnQuotient', array('avg_time_on_site', 'sum_visit_length', 'nb_visits', 0));
 		}
 		
+		// include action counts from actions plugin
+		$actionCounts = Piwik_API_Proxy::getInstance()->call('Piwik_Actions_API', 'getActionCounts', compact('idSite', 'period', 'date', 'segment'));
+		$this->mergeDataTables($dataTable, $actionCounts);
+		
 		// If only a computed metrics was requested, we delete other metrics
 		// that we selected only to process this one metric
 		if($countColumnsRequested == 1
@@ -109,6 +107,51 @@ class Piwik_VisitsSummary_API
 			$dataTable->deleteColumns($columns);
 		}
 		return $dataTable;
+	}
+	
+	/**
+	 * merge the columns of two data tables
+	 * used to add the action counts to the visits summary
+	 * manipulates the first table
+	 */ 
+	private function mergeDataTables($table1, $table2, $allColumns=true, $columns=array())
+	{
+		// handle table arrays
+		if ($table1 instanceof Piwik_DataTable_Array && $table2 instanceof Piwik_DataTable_Array)
+		{
+			$subTables2 = $table2->getArray();
+			foreach ($table1->getArray() as $index => $subTable1)
+			{
+				$subTable2 = $subTables2[$index];
+				$this->mergeDataTables($subTable1, $subTable2);
+			}
+			return;
+		}
+		
+		$firstRow2 = $table2->getFirstRow();
+		if (!$firstRow2)
+		{
+			// nothing to add
+			return;
+		}
+		
+		$firstRow1 = $table1->getFirstRow();
+		if (!$firstRow1)
+		{
+			// first table has no row yet
+			$firstRow1 = new Piwik_DataTable_Row;
+			$table1->addRow($firstRow1);
+		}
+		
+		foreach ($firstRow2->getColumns() as $metric => $value)
+		{
+			if (!$allColumns && !in_array($metric, $columns))
+			{
+				// only add the columns that have been requested
+				continue;
+			}
+			$firstRow1->setColumn($metric, $value);
+		}
 	}
 	
 	protected function getNumeric( $idSite, $period, $date, $segment, $toFetch )

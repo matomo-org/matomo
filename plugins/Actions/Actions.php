@@ -291,12 +291,12 @@ class Piwik_Actions extends Piwik_Plugin
 		$archiveProcessing->archiveDataTable($dataTableToSum, self::$invalidSummedColumnNameToRenamedNameForPeriodArchive, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
 		
 		$archiveProcessing->archiveNumericValuesSum(array(
-			'nb_pageviews',
-			'nb_uniq_pageviews',
-			'nb_downloads',
-			'nb_uniq_downloads',
-			'nb_outlinks',
-			'nb_uniq_outlinks'
+			'Actions_nb_pageviews',
+			'Actions_nb_uniq_pageviews',
+			'Actions_nb_downloads',
+			'Actions_nb_uniq_downloads',
+			'Actions_nb_outlinks',
+			'Actions_nb_uniq_outlinks'
 		));
 	}
 	
@@ -373,7 +373,7 @@ class Piwik_Actions extends Piwik_Plugin
 				count(*) as `". Piwik_Archive::INDEX_PAGE_ENTRY_NB_VISITS ."`,
 				sum(log_visit.visit_total_actions) as `". Piwik_Archive::INDEX_PAGE_ENTRY_NB_ACTIONS ."`,
 				sum(log_visit.visit_total_time) as `". Piwik_Archive::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH ."`,
-				sum(case log_visit.visit_total_actions when 1 then 1 else 0 end) as `". Piwik_Archive::INDEX_PAGE_ENTRY_BOUNCE_COUNT ."`";
+				sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `". Piwik_Archive::INDEX_PAGE_ENTRY_BOUNCE_COUNT ."`";
 		
 		$from = "log_visit";
 		
@@ -475,24 +475,24 @@ class Piwik_Actions extends Piwik_Plugin
 		$this->deleteInvalidSummedColumnsFromDataTable($dataTable);
 		$s = $dataTable->getSerialized( $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation );
 		$archiveProcessing->insertBlobRecord('Actions_actions_url', $s);
-		$archiveProcessing->insertNumericRecord('nb_pageviews', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS)));
-		$archiveProcessing->insertNumericRecord('nb_uniq_pageviews', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
+		$archiveProcessing->insertNumericRecord('Actions_nb_pageviews', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS)));
+		$archiveProcessing->insertNumericRecord('Actions_nb_uniq_pageviews', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
 		destroy($dataTable);
 
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_DOWNLOAD]);
 		$this->deleteInvalidSummedColumnsFromDataTable($dataTable);
 		$s = $dataTable->getSerialized($this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation );
 		$archiveProcessing->insertBlobRecord('Actions_downloads', $s);
-		$archiveProcessing->insertNumericRecord('nb_downloads', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS)));
-		$archiveProcessing->insertNumericRecord('nb_uniq_downloads', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
+		$archiveProcessing->insertNumericRecord('Actions_nb_downloads', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS)));
+		$archiveProcessing->insertNumericRecord('Actions_nb_uniq_downloads', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
 		destroy($dataTable);
 
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_OUTLINK]);
 		$this->deleteInvalidSummedColumnsFromDataTable($dataTable);
 		$s = $dataTable->getSerialized( $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation );
 		$archiveProcessing->insertBlobRecord('Actions_outlink', $s);
-		$archiveProcessing->insertNumericRecord('nb_outlinks', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS)));
-		$archiveProcessing->insertNumericRecord('nb_uniq_outlinks', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
+		$archiveProcessing->insertNumericRecord('Actions_nb_outlinks', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS)));
+		$archiveProcessing->insertNumericRecord('Actions_nb_uniq_outlinks', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
 		destroy($dataTable);
 
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_ACTION_NAME]);

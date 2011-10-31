@@ -80,7 +80,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 				sum(log_visit.visit_total_actions) as nb_actions,
 				max(log_visit.visit_total_actions) as max_actions,
 				sum(log_visit.visit_total_time) as sum_visit_length,
-				sum(case log_visit.visit_total_actions when 1 then 1 else 0 end) as bounce_count,
+				sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as bounce_count,
 				sum(case log_visit.visit_goal_converted when 1 then 1 else 0 end) as nb_visits_converted
 			";
 			$from = "log_visit";
@@ -373,7 +373,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 				sum(log_visit.visit_total_actions) as `". Piwik_Archive::INDEX_NB_ACTIONS ."`,
 				max(log_visit.visit_total_actions) as `". Piwik_Archive::INDEX_MAX_ACTIONS ."`,
 				sum(log_visit.visit_total_time) as `". Piwik_Archive::INDEX_SUM_VISIT_LENGTH ."`,
-				sum(case log_visit.visit_total_actions when 1 then 1 else 0 end) as `". Piwik_Archive::INDEX_BOUNCE_COUNT ."`,
+				sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `". Piwik_Archive::INDEX_BOUNCE_COUNT ."`,
 				sum(case log_visit.visit_goal_converted when 1 then 1 else 0 end) as `". Piwik_Archive::INDEX_NB_VISITS_CONVERTED ."`";
 	    
 	    $from = "log_visit";

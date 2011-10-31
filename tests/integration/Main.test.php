@@ -953,8 +953,11 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		$tests = array(
 			// 4 blobs for the Actions plugin, 7 blogs for UserSettings
 			'archive_blob_2010_12' => (4 + 7) * 2, 
-			// (VisitsSummary 5 metrics + 1 flag - no Unique visitors for range) + 2 Flags archive Actions/UserSettings + (Frequency 5 metrics + 1 flag) * 2 segments
-			'archive_numeric_2010_12' => (6 + 2 + 6) * 2,   
+			// (VisitsSummary 5 metrics + 1 flag - no Unique visitors for range) 
+			// + 1 flag archive UserSettings
+			// + (Actions 1 flag + 2 metrics - pageviews, unique pageviews)
+			// + (Frequency 5 metrics + 1 flag) * 2 segments
+			'archive_numeric_2010_12' => (6 + 1 + 3 + 6) * 2,   
 		
 			// all "Range" records are in December
 			'archive_blob_2011_01' => 0,

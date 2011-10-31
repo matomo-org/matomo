@@ -3,12 +3,6 @@
 	<nb_visits>2</nb_visits>
 	<nb_uniq_visitors>1</nb_uniq_visitors>
 	<nb_actions>9</nb_actions>
-	<nb_pageviews>0</nb_pageviews>
-	<nb_uniq_pageviews>0</nb_uniq_pageviews>
-	<nb_downloads>0</nb_downloads>
-	<nb_uniq_downloads>0</nb_uniq_downloads>
-	<nb_outlinks>0</nb_outlinks>
-	<nb_uniq_outlinks>0</nb_uniq_outlinks>
 	<nb_visits_converted>1</nb_visits_converted>
 	<bounce_count>0</bounce_count>
 	<sum_visit_length>4682</sum_visit_length>
@@ -16,4 +10,10 @@
 	<bounce_rate>0%</bounce_rate>
 	<nb_actions_per_visit>4.5</nb_actions_per_visit>
 	<avg_time_on_site>2341</avg_time_on_site>
+	<nb_pageviews>0</nb_pageviews>
+	<nb_uniq_pageviews>0</nb_uniq_pageviews>
+	<nb_downloads>0</nb_downloads>
+	<nb_uniq_downloads>0</nb_uniq_downloads>
+	<nb_outlinks>0</nb_outlinks>
+	<nb_uniq_outlinks>0</nb_uniq_outlinks>
 </result>

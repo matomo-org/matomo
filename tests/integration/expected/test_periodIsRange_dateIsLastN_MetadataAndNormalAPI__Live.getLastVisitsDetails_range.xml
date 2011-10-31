@@ -98,7 +98,7 @@
 		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<actions>1</actions>
+		<actions>0</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
