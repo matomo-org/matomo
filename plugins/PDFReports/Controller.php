@@ -40,7 +40,7 @@ class Piwik_PDFReports_Controller extends Piwik_Controller
 
 		$view->downloadOutputType = Piwik_PDFReports_API::OUTPUT_DOWNLOAD;
 		$columnsCount = 2;
-		$view->newColumnAfter = round(count($availableReports) / $columnsCount);
+		$view->newColumnAfter = ceil(count($reportsByCategory) / $columnsCount);
 		$view->reportsByCategory = $reportsByCategory;
 		$view->reportsJSON = json_encode($reportsById);
 		$view->periods = array_merge(array('never' => Piwik_Translate('General_Never')),
