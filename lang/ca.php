@@ -705,7 +705,6 @@ $translations = array(
 	'VisitsSummary_VisitsSummary' => 'Resum de les visites',
 	'VisitsSummary_NbVisits' => '%s visites',
 	'VisitsSummary_NbUniqueVisitors' => '%s visitants únics',
-	'VisitsSummary_NbActions' => '%s accions (pàgines vistes)',
 	'VisitsSummary_MaxNbActions' => 'Hi ha %s accions màximes en una visita',
 	'VisitsSummary_NbVisitsBounced' => '%s visites han rebotat (abandonat el lloc després de veure una pàgina)',
 	'VisitsSummary_EvolutionOverLastPeriods' => 'Evolució dels darrers %s',

@@ -1198,7 +1198,6 @@ $translations = array(
 	'VisitsSummary_VisitsSummary' => 'Besökssummering',
 	'VisitsSummary_NbVisits' => '%s besök',
 	'VisitsSummary_NbUniqueVisitors' => '%s unika besökare',
-	'VisitsSummary_NbActions' => '%s händelser',
 	'VisitsSummary_NbActionsDescription' => '%s händelser (sidvisningar, nedladdningar och outlinks)',
 	'VisitsSummary_AverageVisitDuration' => '%s genomsnittlig besökstid',
 	'VisitsSummary_MaxNbActions' => '%s händelser som mest i ett besök',

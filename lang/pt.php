@@ -1119,7 +1119,6 @@ Um pedido para repor a sua palavra-passe foi recebido de %2$s. Para repor a sua 
 	'VisitsSummary_VisitsSummary' => 'Resumo das Visitas',
 	'VisitsSummary_NbVisits' => '%s visitas',
 	'VisitsSummary_NbUniqueVisitors' => '%s visitantes únicos',
-	'VisitsSummary_NbActions' => '%s ações (page views)',
 	'VisitsSummary_NbActionsDescription' => '%s acções (páginas vistas, transferências e links de saída)',
 	'VisitsSummary_AverageVisitDuration' => '%s duração média de visitas',
 	'VisitsSummary_MaxNbActions' => '%s máximo de acções numa visita',

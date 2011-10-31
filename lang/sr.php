@@ -1224,7 +1224,6 @@ $translations = array(
 	'VisitsSummary_VisitsSummary' => 'Sumarno',
 	'VisitsSummary_NbVisits' => 'Broj poseta: %s',
 	'VisitsSummary_NbUniqueVisitors' => 'Broj jedinstvenih posetilaca: %s',
-	'VisitsSummary_NbActions' => 'Broj akcija (prikaza stranica): %s',
 	'VisitsSummary_NbActionsDescription' => 'Broj akcija (prikaza stranica, preuzimanja i odlazaka): %s',
 	'VisitsSummary_AverageVisitDuration' => 'Prosečno trajanje posete: %s',
 	'VisitsSummary_MaxNbActions' => 'Maksimum akcija u jednoj poseti: %s',

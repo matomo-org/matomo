@@ -660,7 +660,6 @@ $translations = array(
 	'VisitorInterest_NPages' => '%s ገፆች',
 	'VisitsSummary_NbVisits' => '%s ጉበኝቶች',
 	'VisitsSummary_NbUniqueVisitors' => '%s የተለዩ ጎብኚዎች',
-	'VisitsSummary_NbActions' => '%s ርምጃዎች (የገፅ ትይታዎች)',
 	'VisitsSummary_MaxNbActions' => '%s በአንድ ጉብኝት የተወሰዱ ከፍተኛ ርምጃዎች',
 	'VisitsSummary_NbVisitsBounced' => '%s የተመለሱ ጉብኝቶች (ከአንድ ገፅ በኋላ ገፁን የተዉ)',
 	'VisitsSummary_EvolutionOverLastPeriods' => 'Evolution በመጨረሻው ላይ %s',

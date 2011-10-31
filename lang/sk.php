@@ -908,7 +908,6 @@ $translations = array(
 	'VisitsSummary_VisitsSummary' => 'Všetky návštevy',
 	'VisitsSummary_NbVisits' => 'Počet návštev: %s',
 	'VisitsSummary_NbUniqueVisitors' => 'Počet unikátnych návštevníkov: %s',
-	'VisitsSummary_NbActions' => 'Počet akcií (zobrazení stránok): %s',
 	'VisitsSummary_NbActionsDescription' => '%s akcie (zobrazenie stránok, sťahovanie a odkazujúce odkazy)',
 	'VisitsSummary_AverageVisitDuration' => '%s priemerná dĺžka návštevy',
 	'VisitsSummary_MaxNbActions' => 'Max. akcií na jednu návštevu: %s',

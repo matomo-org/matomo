@@ -995,7 +995,6 @@ $translations = array(
 	'VisitsSummary_VisitsSummary' => 'Besøksammendrag',
 	'VisitsSummary_NbVisits' => '%s besøk',
 	'VisitsSummary_NbUniqueVisitors' => '%s unike besøkende',
-	'VisitsSummary_NbActions' => '%s handlinger (sidevisninger)',
 	'VisitsSummary_NbActionsDescription' => '%s handlinger (sidevisninger, nedlastinger og utlenker)',
 	'VisitsSummary_AverageVisitDuration' => '%s gjennomsnittlig besøksvarighet',
 	'VisitsSummary_MaxNbActions' => '%s maks handlinger i ett besøk',

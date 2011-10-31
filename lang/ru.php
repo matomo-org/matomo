@@ -1220,7 +1220,6 @@ $translations = array(
 	'VisitsSummary_VisitsSummary' => 'Посещения',
 	'VisitsSummary_NbVisits' => '%s посещений',
 	'VisitsSummary_NbUniqueVisitors' => '%s уникальных посетителей',
-	'VisitsSummary_NbActions' => '%s действий',
 	'VisitsSummary_NbActionsDescription' => '%s действий (просмотры страниц, загрузки, внешние переходы)',
 	'VisitsSummary_AverageVisitDuration' => '%s средняя продолжительность посещения',
 	'VisitsSummary_MaxNbActions' => '%s макс. действий за одно посещение',

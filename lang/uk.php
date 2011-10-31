@@ -1136,7 +1136,6 @@ $translations = array(
 	'VisitsSummary_VisitsSummary' => 'Узагальнено відвідування',
 	'VisitsSummary_NbVisits' => '%s відвідувань',
 	'VisitsSummary_NbUniqueVisitors' => '%s унікальних відвідувачів',
-	'VisitsSummary_NbActions' => '%s дій (переглядів сторінок)',
 	'VisitsSummary_NbActionsDescription' => '%s дій (переглядів сторінок, завантажень, переходів за зовнішніми посиланнями)',
 	'VisitsSummary_AverageVisitDuration' => '%s середня тривалість відвідування',
 	'VisitsSummary_MaxNbActions' => '%s максимальна кількість переглядів сторінок за одне відвідування',

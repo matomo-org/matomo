@@ -597,7 +597,6 @@ $translations = array(
 	'VisitorInterest_WidgetPages' => 'Páxinas vistas por visita',
 	'VisitsSummary_NbVisits' => '%s visitas',
 	'VisitsSummary_NbUniqueVisitors' => '%s visitas únicas',
-	'VisitsSummary_NbActions' => '%s accións (impresións de páxina)',
 	'VisitsSummary_MaxNbActions' => '%s accións máximas nunha visita',
 	'VisitsSummary_GenerateTime' => '%s segundos para xerar a páxina',
 	'VisitsSummary_GenerateQueries' => '%s consultas executadas',

@@ -1196,7 +1196,6 @@ $translations = array(
 	'VisitsSummary_VisitsSummary' => 'Bezoekers samenvatting',
 	'VisitsSummary_NbVisits' => '%s bezoeken',
 	'VisitsSummary_NbUniqueVisitors' => '%s unieke bezoekers',
-	'VisitsSummary_NbActions' => '%s acties',
 	'VisitsSummary_NbActionsDescription' => '%s acties (^pagina weergaves, downloads en externe links)',
 	'VisitsSummary_AverageVisitDuration' => '%s gemiddelde duur bezoek',
 	'VisitsSummary_MaxNbActions' => '%s acties per bezoek (max.)',
