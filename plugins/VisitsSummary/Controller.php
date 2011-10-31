@@ -113,5 +113,16 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		$view->bounceRate = Piwik::getPercentageSafe($nbBouncedVisits, $nbVisits);
 		$view->maxActions = $dataRow->getColumn('max_actions');
 		$view->nbActionsPerVisit = $dataRow->getColumn('nb_actions_per_visit');
+		
+		// backward compatibility:
+		// show actions if the finer metrics are not archived
+		$view->showOnlyActions = false;
+		if ($dataRow->getColumn('nb_pageviews') + $dataRow->getColumn('nb_downloads')
+				+ $dataRow->getColumn('nb_outlinks') == 0 && $dataRow->getColumn('nb_actions') > 0)
+		{
+			$view->showOnlyActions = true;
+			$view->nbActions = $dataRow->getColumn('nb_actions');
+			$view->urlSparklineNbActions = $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_actions')));
+		}
 	}
 }
