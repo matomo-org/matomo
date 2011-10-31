@@ -48,6 +48,25 @@ class Piwik_Actions_API
 	    return $this->getPageTitles( $idSite, $period, $date, $segment, $expanded, $idSubtable );
 	}
 	
+	public function getActionCounts( $idSite, $period, $date, $segment = false)
+	{
+		Piwik::checkUserHasViewAccess( $idSite );
+		
+		$metrics = array(
+			'Actions_nb_pageviews' => 'nb_pageviews',
+			'Actions_nb_uniq_pageviews' => 'nb_uniq_pageviews',
+			'Actions_nb_downloads' => 'nb_downloads',
+			'Actions_nb_uniq_downloads' => 'nb_uniq_downloads',
+			'Actions_nb_outlinks' => 'nb_outlinks',
+			'Actions_nb_uniq_outlinks' => 'nb_uniq_outlinks'
+		);
+		
+		$archive = Piwik_Archive::build( $idSite, $period, $date, $segment );
+		$table = $archive->getDataTableFromNumeric(array_keys($metrics));
+		$table->filter('ReplaceColumnNames', array($metrics));
+		return $table;
+	}
+	
 	public function getPageUrls( $idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false )
 	{
 		$dataTable = Piwik_Archive::getDataTableFromArchive('Actions_actions_url', $idSite, $period, $date, $segment, $expanded, $idSubtable );

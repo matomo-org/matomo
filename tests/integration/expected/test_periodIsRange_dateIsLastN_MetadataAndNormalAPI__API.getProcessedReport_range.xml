@@ -59,9 +59,9 @@
 		<row>
 			<label>France</label>
 			<nb_visits>3</nb_visits>
-			<nb_actions>5</nb_actions>
+			<nb_actions>4</nb_actions>
 			<revenue>$ 1000</revenue>
-			<nb_actions_per_visit>1.67</nb_actions_per_visit>
+			<nb_actions_per_visit>1.33</nb_actions_per_visit>
 			<avg_time_on_site>00:02:01</avg_time_on_site>
 			<bounce_rate>66.67%</bounce_rate>
 		</row>

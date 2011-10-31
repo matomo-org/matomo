@@ -19,7 +19,7 @@
 class Piwik_Visualization_Chart_Evolution extends Piwik_Visualization_Chart
 {
 	
-	protected $seriesColors = array('#5170AE', '#CC3399', '#9933CC', '#80a033', '#FD9816',
+	protected $seriesColors = array('#5170AE','#F29007', '#CC3399', '#9933CC', '#80a033', 
 			'#246AD2', '#FD16EA', '#49C100');
 	
 	function customizeChartProperties()

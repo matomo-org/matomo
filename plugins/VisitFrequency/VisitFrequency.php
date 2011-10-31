@@ -105,7 +105,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 				sum(log_visit.visit_total_actions) as nb_actions_returning,
 				max(log_visit.visit_total_actions) as max_actions_returning,
 				sum(log_visit.visit_total_time) as sum_visit_length_returning,
-				sum(case log_visit.visit_total_actions when 1 then 1 else 0 end) as bounce_count_returning,
+				sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as bounce_count_returning,
 				sum(case log_visit.visit_goal_converted when 1 then 1 else 0 end) as nb_visits_converted_returning";
 		
 		$from = "log_visit";
