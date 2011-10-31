@@ -95,7 +95,7 @@ class Piwik_VisitsSummary_API
 		}
 		
 		// include action counts from actions plugin
-		$actionCounts = Piwik_API_Proxy::getInstance()->call('Piwik_Actions_API', 'getActionCounts', compact('idSite', 'period', 'date', 'segment'));
+		$actionCounts = Piwik_API_Proxy::getInstance()->call('Piwik_Actions_API', 'get', compact('idSite', 'period', 'date', 'segment'));
 		$this->mergeDataTables($dataTable, $actionCounts);
 		
 		// If only a computed metrics was requested, we delete other metrics

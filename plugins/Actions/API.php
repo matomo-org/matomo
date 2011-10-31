@@ -48,7 +48,15 @@ class Piwik_Actions_API
 	    return $this->getPageTitles( $idSite, $period, $date, $segment, $expanded, $idSubtable );
 	}
 	
-	public function getActionCounts( $idSite, $period, $date, $segment = false)
+	/**
+	 * Returns the list of metrics (pages, downloads, outlinks)
+	 * 
+	 * @param int $idSite
+	 * @param string $period
+	 * @param string $date
+	 * @param string $segment
+	 */
+	public function get( $idSite, $period, $date, $segment = false)
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		
