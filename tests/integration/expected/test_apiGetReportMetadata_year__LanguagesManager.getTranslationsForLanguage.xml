@@ -5397,10 +5397,6 @@
 		<value>%s visiteurs uniques</value>
 	</row>
 	<row>
-		<label>VisitsSummary_NbActions</label>
-		<value>%s actions</value>
-	</row>
-	<row>
 		<label>VisitsSummary_NbActionsDescription</label>
 		<value>%s actions (pages vues, téléchargements et liens de sortie)</value>
 	</row>
