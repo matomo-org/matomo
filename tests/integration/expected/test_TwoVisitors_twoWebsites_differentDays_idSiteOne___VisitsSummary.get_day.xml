@@ -9,8 +9,6 @@
 		<bounce_rate>100%</bounce_rate>
 		<nb_actions_per_visit>1</nb_actions_per_visit>
 		<avg_time_on_site>0</avg_time_on_site>
-		<nb_pageviews>2</nb_pageviews>
-		<nb_uniq_pageviews>2</nb_uniq_pageviews>
 	</result>
 	<result date="2010-01-04">
 		<max_actions>2</max_actions>
@@ -21,8 +19,6 @@
 		<bounce_rate>0%</bounce_rate>
 		<nb_actions_per_visit>2</nb_actions_per_visit>
 		<avg_time_on_site>361</avg_time_on_site>
-		<nb_pageviews>1</nb_pageviews>
-		<nb_uniq_pageviews>1</nb_uniq_pageviews>
 	</result>
 	<result date="2010-01-05">
 		<max_actions>5</max_actions>
@@ -33,8 +29,6 @@
 		<bounce_rate>0%</bounce_rate>
 		<nb_actions_per_visit>5</nb_actions_per_visit>
 		<avg_time_on_site>901</avg_time_on_site>
-		<nb_pageviews>5</nb_pageviews>
-		<nb_uniq_pageviews>3</nb_uniq_pageviews>
 	</result>
 	<result date="2010-01-06" />
 	<result date="2010-01-07" />

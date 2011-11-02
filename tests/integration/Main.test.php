@@ -810,7 +810,12 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	        // 1) CHECK 'day' archive stored in January
 	        // We expect 2 segments * (1 custom variable name + 2 ref metrics + 6 subtable for the custom var values + 5 Referers blob)
 			'archive_blob_2010_01' => 28,
-			// This contains all 'last N' weeks & days, (1 metrics + 2 referer metrics + 3 done flag ) * 2 segments + 1 Done flag per Plugin, for each "Last N" date
+			// This contains all 'last N' weeks & days, 
+			// (1 metrics 
+			//  + 2 referer metrics 
+			//  + 3 done flag ) 
+			//  * 2 segments 
+			// + 1 Done flag per Plugin, for each "Last N" date
 			'archive_numeric_2010_01' => 138,
 		
 	        // 2) CHECK 'week' archive stored in December (week starts the month before)
@@ -828,6 +833,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	        $countBlobs = Zend_Registry::get('db')->fetchOne($sql);
 	        $this->assertEqual( $expectedRows, $countBlobs, "$table: %s");
 		}
+		exit;
 	}
 	
 	function test_twoVisitsWithCustomVariables_segmentMatchALL_noGoalData()
