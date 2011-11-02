@@ -89,7 +89,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 	{
 		$view->urlSparklineNbVisits 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => $view->displayUniqueVisitors ? array('nb_visits', 'nb_uniq_visitors') : array('nb_visits')));
 		$view->urlSparklineNbPageviews 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_pageviews', 'nb_uniq_pageviews')));
-		$view->urlSparklineNbDownloads 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_downloads', 'nb_uniq_downloads')));
+		$view->urlSparklineNbDownloads 	    = $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_downloads', 'nb_uniq_downloads')));
 		$view->urlSparklineNbOutlinks 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_outlinks', 'nb_uniq_outlinks')));
 		$view->urlSparklineAvgVisitDuration = $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('avg_time_on_site')));
 		$view->urlSparklineMaxActions 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('max_actions')));
@@ -99,15 +99,18 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		$dataTableVisit = self::getVisitsSummary();
 		$dataRow = $dataTableVisit->getFirstRow();
 		
+		$dataTableActions = Piwik_Actions_API::getInstance()->get(Piwik_Common::getRequestVar('idSite'), Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'));
+		$dataActionsRow = $dataTableActions->getFirstRow();
+		
 		$view->nbUniqVisitors = $dataRow->getColumn('nb_uniq_visitors');
 		$nbVisits = $dataRow->getColumn('nb_visits');
 		$view->nbVisits = $nbVisits;
-		$view->nbPageviews = $dataRow->getColumn('nb_pageviews');
-		$view->nbUniquePageviews = $dataRow->getColumn('nb_uniq_pageviews');
-		$view->nbDownloads = $dataRow->getColumn('nb_downloads');
-		$view->nbUniqueDownloads = $dataRow->getColumn('nb_uniq_downloads');
-		$view->nbOutlinks = $dataRow->getColumn('nb_outlinks');
-		$view->nbUniqueOutlinks = $dataRow->getColumn('nb_uniq_outlinks');
+		$view->nbPageviews = $dataActionsRow->getColumn('nb_pageviews');
+		$view->nbUniquePageviews = $dataActionsRow->getColumn('nb_uniq_pageviews');
+		$view->nbDownloads = $dataActionsRow->getColumn('nb_downloads');
+		$view->nbUniqueDownloads = $dataActionsRow->getColumn('nb_uniq_downloads');
+		$view->nbOutlinks = $dataActionsRow->getColumn('nb_outlinks');
+		$view->nbUniqueOutlinks = $dataActionsRow->getColumn('nb_uniq_outlinks');
 		$view->averageVisitDuration = $dataRow->getColumn('avg_time_on_site');
 		$nbBouncedVisits = $dataRow->getColumn('bounce_count');
 		$view->bounceRate = Piwik::getPercentageSafe($nbBouncedVisits, $nbVisits);
@@ -117,8 +120,10 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		// backward compatibility:
 		// show actions if the finer metrics are not archived
 		$view->showOnlyActions = false;
-		if ($dataRow->getColumn('nb_pageviews') + $dataRow->getColumn('nb_downloads')
-				+ $dataRow->getColumn('nb_outlinks') == 0 && $dataRow->getColumn('nb_actions') > 0)
+		if (  $dataActionsRow->getColumn('nb_pageviews') 
+			+ $dataActionsRow->getColumn('nb_downloads')
+			+ $dataActionsRow->getColumn('nb_outlinks') == 0 
+			&& $dataRow->getColumn('nb_actions') > 0)
 		{
 			$view->showOnlyActions = true;
 			$view->nbActions = $dataRow->getColumn('nb_actions');

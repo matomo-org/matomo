@@ -94,10 +94,6 @@ class Piwik_VisitsSummary_API
 			$dataTable->filter('ColumnCallbackAddColumnQuotient', array('avg_time_on_site', 'sum_visit_length', 'nb_visits', 0));
 		}
 		
-		// include action counts from actions plugin
-		$actionCounts = Piwik_API_Proxy::getInstance()->call('Piwik_Actions_API', 'get', compact('idSite', 'period', 'date', 'segment'));
-		$this->mergeDataTables($dataTable, $actionCounts);
-		
 		// If only a computed metrics was requested, we delete other metrics
 		// that we selected only to process this one metric
 		if($countColumnsRequested == 1

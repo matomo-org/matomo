@@ -10,8 +10,6 @@
 		<bounce_rate>100%</bounce_rate>
 		<nb_actions_per_visit>1</nb_actions_per_visit>
 		<avg_time_on_site>0</avg_time_on_site>
-		<nb_pageviews>2</nb_pageviews>
-		<nb_uniq_pageviews>2</nb_uniq_pageviews>
 	</result>
 	<result idSite="2" />
 </results>

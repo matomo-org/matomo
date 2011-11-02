@@ -12,10 +12,6 @@
 			<bounce_rate>67%</bounce_rate>
 			<nb_actions_per_visit>1.3</nb_actions_per_visit>
 			<avg_time_on_site>121</avg_time_on_site>
-			<nb_outlinks>1</nb_outlinks>
-			<nb_pageviews>3</nb_pageviews>
-			<nb_uniq_outlinks>1</nb_uniq_outlinks>
-			<nb_uniq_pageviews>2</nb_uniq_pageviews>
 		</result>
 		<result date="2010-01-04" />
 		<result date="2010-01-05" />

@@ -92,6 +92,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	{
 		$this->checkTokenInUrl();
 		$layout = Piwik_Common::getRequestVar('layout');
+		// Currently not used
 		$idDashboard = Piwik_Common::getRequestVar('idDashboard', 1, 'int' );
 		if(Piwik::isUserIsAnonymous())
 		{
@@ -112,6 +113,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	 */
 	protected function getLayout()
 	{
+		// Currently not used
 		$idDashboard = Piwik_Common::getRequestVar('idDashboard', 1, 'int' );
 
 		if(Piwik::isUserIsAnonymous())
