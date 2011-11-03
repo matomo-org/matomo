@@ -404,7 +404,7 @@ if (!this.JSON2) {
 	setConversionAttributionFirstReferrer,
 	doNotTrack, setDoNotTrack,
 	addListener, enableLinkTracking, setLinkTrackingTimer,
-	setHeartBeatTimer, killFrame, redirectFile,
+	setHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
 	trackGoal, trackLink, trackPageView, setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
 	addPlugin, getTracker, getAsyncTracker
 */
@@ -996,6 +996,9 @@ var
 
 				// Do Not Track
 				configDoNotTrack,
+
+				// Count sites which are pre-rendered
+				configCountPreRendered,
 
 				// Do we attribute the conversion to the first referrer or the most recent referrer?
 				configConversionAttributionFirstReferrer,
@@ -1663,6 +1666,58 @@ var
 				var request = getRequest(linkType + '=' + encodeWrapper(purify(url)), customData, 'link');
 
 				sendRequest(request, configTrackerPause);
+			}
+
+			/*
+			 * Browser prefix
+			 */
+			function prefixPropertyName(prefix, propertyName) {
+				if (prefix !== '') {
+					return prefix + propertyName.charAt(0).toUpperCase() + propertyName.slice(1);
+				}
+
+				return propertyName;
+			}
+
+			/*
+			 * Check for pre-rendered web pages, and log the page view/link/goal
+			 * according to the configuration and/or visibility
+			 *
+			 * @see http://dvcs.w3.org/hg/webperf/raw-file/tip/specs/PageVisibility/Overview.html
+			 */
+			function trackCallback(callback) {
+				var isPreRendered,
+					i,
+					// Chrome 13, IE10, FF10
+					prefixes = ['', 'webkit', 'ms', 'moz'],
+					prefix;
+
+				if (!configCountPreRendered) {
+					for (i = 0; i < prefixes.length; i++) {
+						prefix = prefixes[i];
+
+						// does this browser support the page visibility API?
+						if (Object.prototype.hasOwnProperty.call(documentAlias, prefixPropertyName(prefix, 'hidden'))) {
+							// if pre-rendered, then defer callback until page visibility changes
+							if (documentAlias[prefixPropertyName(prefix, 'visibilityState')] === 'prerender') {
+								isPreRendered = true;
+							}
+							break;
+						}
+					}
+				}
+
+				if (isPreRendered) {
+					// note: the event name doesn't follow the same naming convention as vendor properties
+					addEventListener(documentAlias, prefix + 'visibilitychange', function ready() {
+						documentAlias.removeEventListener(prefix + 'visibilitychange', ready, false);
+						callback();
+					});
+					return;
+				}
+
+				// configCountPreRendered === true || isPreRendered === false
+				callback();
 			}
 
 			/*
@@ -2391,6 +2446,15 @@ var
 				},
 
 				/**
+				 * Count sites in pre-rendered state
+				 *
+				 * @param bool enable If true, track when in pre-rendered state
+				 */
+				setCountPreRendered: function (enable) {
+					configCountPreRendered = enable;
+				},
+
+				/**
 				 * Trigger a goal
 				 *
 				 * @param int|string idGoal
@@ -2398,7 +2462,9 @@ var
 				 * @param mixed customData
 				 */
 				trackGoal: function (idGoal, customRevenue, customData) {
-					logGoal(idGoal, customRevenue, customData);
+					trackCallback(function () {
+						logGoal(idGoal, customRevenue, customData);
+					});
 				},
 
 				/**
@@ -2409,7 +2475,9 @@ var
 				 * @param mixed customData
 				 */
 				trackLink: function (sourceUrl, linkType, customData) {
-					logLink(sourceUrl, linkType, customData);
+					trackCallback(function () {
+						logLink(sourceUrl, linkType, customData);
+					});
 				},
 
 				/**
@@ -2419,7 +2487,9 @@ var
 				 * @param mixed customData
 				 */
 				trackPageView: function (customTitle, customData) {
-					logPageView(customTitle, customData);
+					trackCallback(function () {
+						logPageView(customTitle, customData);
+					});
 				},
 
 

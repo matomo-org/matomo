@@ -14,7 +14,7 @@ Why Use "js/index.php"?
   - it supports conditional-GET and Last-Modified, so piwik.js can be cached
     by the browser
   - it supports deflate/gzip compression if your web server (e.g., Apache
-    without mod_deflate or mod_gzip), shrinking the data transfer to 4K
+    without mod_deflate or mod_gzip), shrinking the data transfer to 8K
 
 * js/index.php (or implicitly as "js/") can also act as a proxy to piwik.php
 

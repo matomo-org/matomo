@@ -307,7 +307,7 @@ function PiwikTest() {
 	});
 
 	test("API methods", function() {
-		expect(48);
+		expect(49);
 
 		equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
 		equal( typeof Piwik.getTracker, 'function', 'getTracker' );
@@ -361,6 +361,7 @@ function PiwikTest() {
 		equal( typeof tracker.setHeartBeatTimer, 'function', 'setHeartBeatTimer' );
 		equal( typeof tracker.killFrame, 'function', 'killFrame' );
 		equal( typeof tracker.redirectFile, 'function', 'redirectFile' );
+		equal( typeof tracker.setCountPreRendered, 'function', 'setCountPreRendered' );
 		equal( typeof tracker.trackGoal, 'function', 'trackGoal' );
 		equal( typeof tracker.trackLink, 'function', 'trackLink' );
 		equal( typeof tracker.trackPageView, 'function', 'trackPageView' );
@@ -679,6 +680,16 @@ function PiwikTest() {
 
 		equal( typeof tracker.hook.test._sha1, 'function', 'sha1' );
 		equal( tracker.hook.test._sha1('hello world'), '<?php echo sha1("hello world"); ?>', 'sha1("hello world")' );
+	});
+
+	test("prefixPropertyName()", function() {
+		expect(3);
+
+		var tracker = Piwik.getTracker();
+
+		equal( typeof tracker.hook.test._prefixPropertyName, 'function', 'prefixPropertyName' );
+		equal( tracker.hook.test._prefixPropertyName('', 'hidden'), 'hidden', 'no prefix' );
+		equal( tracker.hook.test._prefixPropertyName('webkit', 'hidden'), 'webkitHidden', 'webkit prefix' );
 	});
 
 	test("Internal timers and setLinkTrackingTimer()", function() {
