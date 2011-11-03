@@ -128,8 +128,14 @@ class Piwik_FrontController
 		{
 			throw new Exception("Action $action not found in the controller $controllerClassName.");				
 		}
+		
+		// Generic hook that plugins can use to modify any input to the function, 
+		// or even change the plugin being called
+		$params = array($controller, $action, $parameters);
+		Piwik_PostEvent('FrontController.dispatch', $params);
+		
 		try {
-			return call_user_func_array( array($controller, $action ), $parameters);
+			return call_user_func_array( array($params[0], $params[1] ), $params[2]);
 		} catch(Piwik_Access_NoAccessException $e) {
 			Piwik_PostEvent('FrontController.NoAccessException', $e);					
 		} catch(Exception $e) {
@@ -248,7 +254,8 @@ class Piwik_FrontController
 			}
 
 			$pluginsManager = Piwik_PluginsManager::getInstance();
-			$pluginsManager->loadPlugins( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
+			$pluginsToLoad = Zend_Registry::get('config')->Plugins->Plugins->toArray();
+			$pluginsManager->loadPlugins( $pluginsToLoad );
 
 			if($exceptionToThrow)
 			{
