@@ -39,7 +39,8 @@ Piwik.addPlugin('testPlugin', {
 				'_utf8_encode : utf8_encode,' +
 				'_purify : purify,' +
 				'_resolveRelativeReference : resolveRelativeReference,' +
-				'_addEventListener : addEventListener' +
+				'_addEventListener : addEventListener,' +
+				'_prefixPropertyName : prefixPropertyName' +
 			'}'
 		);
 	},
