@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-$('.but').bind('click', function(e)
+$('.but').on('click', function(e)
 {
 	if($('#websiteSearch').val() != '')
 		$('#websiteSearch').autocomplete('search', $('#websiteSearch').val() + '%%%');
@@ -93,7 +93,7 @@ $(function() {
 		.appendTo( ul );
 	};
 
-	$('body').bind('mouseup',function(e){ 
+	$('body').on('mouseup',function(e){ 
 		if(!$(e.target).parents('#sitesSelectionSearch').length && !$(e.target).is('#sitesSelectionSearch') && !$(e.target).parents('#siteSelect.ui-autocomplete').length) {
 			reset();
 			$('#sitesSelectionSearch .custom_select_block').removeClass('custom_select_block_show');

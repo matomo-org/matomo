@@ -180,8 +180,8 @@ function displayCalendar()
 			$('#datepicker').datepicker(getDatePickerOptions());
 			var period = broadcast.getValueFromUrl('period');
 			if(period == 'week') {
-				$('#datepicker').bind('mouseover', function(){
-					$('.ui-datepicker-calendar td a').unbind('mouseenter mouseleave');
+				$('#datepicker').on('mouseover', function(){
+					$('.ui-datepicker-calendar td a').off('mouseenter mouseleave');
 					$('.ui-datepicker-calendar td a').hover(function(){
 						$('a', $(this).parents('tr')).addClass('ui-state-hover');
 						$('td', $(this).parents('tr')).addClass('ui-datepicker-days-cell-over');
@@ -191,8 +191,8 @@ function displayCalendar()
 					});
 				});
 			} else if(period == 'month' || period == 'year') {
-				$('#datepicker').bind('mouseover', function(){
-					$('.ui-datepicker-calendar td a').unbind('mouseenter mouseleave');
+				$('#datepicker').on('mouseover', function(){
+					$('.ui-datepicker-calendar td a').off('mouseenter mouseleave');
 					$('.ui-datepicker-calendar td a').hover(function(){
 						$('a', $(this).parents('tbody')).addClass('ui-state-hover');
 						$('td', $(this).parents('tbody')).addClass('ui-datepicker-days-cell-over');
@@ -211,7 +211,7 @@ $(document).ready(function() {
 	
 	
 	// this will trigger to change only the period value on search query and hash string.
-	$("#otherPeriods input").bind('click',function(e) {
+	$("#otherPeriods input").on('click',function(e) {
 	    var request_URL = $(e.target).val();
 	    var period = broadcast.getValueFromUrl('period',request_URL);
 	    if(period == 'range') return true;
@@ -228,7 +228,7 @@ $(document).ready(function() {
 	}
 	 
 	// this will trigger to change only the period value on search query and hash string.
-	$("#period_id_range").bind('click', function(e) {
+	$("#period_id_range").on('click', function(e) {
 		$('.period-date').html('<div id="calendarRangeFrom"><h6>'+_pk_translate('General_DateRangeFrom_js')+'<input tabindex="1" type="text" id="inputCalendarFrom" name="inputCalendarFrom"/></h6><div id="calendarFrom"></div></div>'+
 		 			 				'<div id="calendarRangeTo"><h6>'+_pk_translate('General_DateRangeTo_js')+'<input tabindex="2" type="text" id="inputCalendarTo" name="inputCalendarTo"/></h6><div id="calendarTo"></div></div>');
 		var options = getDatePickerOptions();
@@ -257,7 +257,7 @@ $(document).ready(function() {
 		
 		// Apply date range button will reload the page with the selected range
 		 	$('#calendarRangeApply')
-		 		.bind('click', function() {
+		 		.on('click', function() {
 		 	        var request_URL = $(e.target).val();
 		 	        var dateFrom = $('#inputCalendarFrom').val(), 
 		 	        	dateTo = $('#inputCalendarTo').val(),

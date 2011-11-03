@@ -107,7 +107,7 @@ widgetMenu.prototype =
 					function(){self.isHover=1}, 
 					function(){self.isHover=0}
 			);
-			$('body').bind('mouseup',function(e){ 
+			$('body').on('mouseup',function(e){ 
 				if(self.widgetIsOpen && !self.isHover){
 					self.hide();
 				}

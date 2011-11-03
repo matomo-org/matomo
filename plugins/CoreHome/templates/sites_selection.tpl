@@ -38,7 +38,7 @@
     		$('#websiteSearch').focus();
     		return false;
     	});
-        $('#sitesSelectionSearch .custom_select_block').bind('mouseenter', function(){
+        $('#sitesSelectionSearch .custom_select_block').on('mouseenter', function(){
             $('.custom_select_ul_list li a').each(function(){
                 var hash = jQuery.historyCurrentHash;
                 if(hash.charAt(0) != '#') {

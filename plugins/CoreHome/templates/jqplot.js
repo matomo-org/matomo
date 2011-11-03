@@ -81,7 +81,7 @@ JQPlot.prototype = {
 		// otherwise clicking on sparklines won't work anymore after an empty
 		// report has been displayed.
 		var target = $('#' + targetDivId)
-		.bind('replot', function(e, data) {
+		.on('replot', function(e, data) {
 			target.trigger('piwikDestroyPlot');
 			if (target.data('oldHeight') > 0) {
 				// handle replot after empty report
@@ -113,14 +113,14 @@ JQPlot.prototype = {
 		
 		// bind tooltip
 		var self = this;
-		target.bind('jqplotDataHighlight', function(e, s, i, d) {
+		target.on('jqplotDataHighlight', function(e, s, i, d) {
 			if (type == 'bar') {
 				self.showBarChartTooltip(i);
 			} else if (type == 'pie') {
 				self.showPieChartTooltip(i);
 			}
 		})
-		.bind('jqplotDataUnhighlight', function(e, s, i, d){
+		.on('jqplotDataUnhighlight', function(e, s, i, d){
 			if (type != 'evolution') {
 				self.hideTooltip();
 			}
@@ -144,28 +144,28 @@ JQPlot.prototype = {
 			}
 			timeout = window.setTimeout(resize, 300);
 		};
-		$(window).bind('resize', resizeListener);
+		$(window).on('resize', resizeListener);
 		
 		// export as image
-		target.bind('piwikExportAsImage', function(e) {
+		target.on('piwikExportAsImage', function(e) {
 			self.exportAsImage(target, lang);
 		});
 		
 		// manage resources
-		target.bind('piwikDestroyPlot', function() {
-			$(window).unbind('resize', resizeListener);
+		target.on('piwikDestroyPlot', function() {
+			$(window).off('resize', resizeListener);
 			plot.destroy();
 			for (var i = 0; i < $.jqplot.visiblePlots.length; i++) {
 				if ($.jqplot.visiblePlots[i] == plot) {
 					$.jqplot.visiblePlots[i] = null;
 				}
 			}
-			$(this).unbind();
+			$(this).off();
 		});
 		
 		if (typeof $.jqplot.visiblePlots == 'undefined') {
 			$.jqplot.visiblePlots = [];
-			$('ul.nav').bind('piwikSwitchPage', function() {
+			$('ul.nav').on('piwikSwitchPage', function() {
 				for (var i = 0; i < $.jqplot.visiblePlots.length; i++) {
 					if ($.jqplot.visiblePlots[i] == null) {
 						continue;
@@ -261,18 +261,18 @@ JQPlot.prototype = {
 		var lastTick = false;
 		
 		$('#' + targetDivId)
-		.bind('jqplotMouseLeave', function(e, s, i, d){
+		.on('jqplotMouseLeave', function(e, s, i, d){
 			self.hideTooltip();
 			$(this).css('cursor', 'default');
 		})
-		.bind('jqplotClick', function(e, s, i, d){
+		.on('jqplotClick', function(e, s, i, d){
 			if (lastTick !== false && typeof self.params.axes.xaxis.onclick != 'undefined'
 					&& typeof self.params.axes.xaxis.onclick[lastTick] == 'string') {
 				var url = self.params.axes.xaxis.onclick[lastTick];
 				piwikHelper.redirectToUrl(url);
 			}
 		})
-		.bind('jqplotPiwikTickOver', function(e, tick){
+		.on('jqplotPiwikTickOver', function(e, tick){
 			lastTick = tick;
 			self.showEvolutionChartTooltip(tick);
 			if (typeof self.params.axes.xaxis.onclick != 'undefined'
