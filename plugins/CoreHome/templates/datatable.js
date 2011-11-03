@@ -166,7 +166,7 @@ dataTable.prototype =
 		var container = $('#'+self.workingDivId+' .piwik-graph');
 		piwikHelper.queueAjaxRequest($.ajax(self.buildAjaxRequest(function(response) {
 			container.trigger('piwikDestroyPlot');
-			container.unbind('piwikDestroyPlot');
+			container.off('piwikDestroyPlot');
 			callbackSuccess(response);
 		})));
 	},
@@ -239,7 +239,7 @@ dataTable.prototype =
 			$('.sortable', domElem).click( 
 				function()
 				{
-					$(this).unbind('click');
+					$(this).off('click');
 					self.onClickSort(this);
 				}
 			);
@@ -290,7 +290,7 @@ dataTable.prototype =
 			.each(function(){
 				// when enter is pressed in the input field we submit the form
 				$('#keyword', this)
-					.bind("keyup", 
+					.on("keyup", 
 						function(e)
 						{
 							if(isEnterKey(e))
@@ -380,7 +380,7 @@ dataTable.prototype =
 			})
 			// bind the click event to trigger the ajax request with the new offset
 			.click(function(){
-				$(this).unbind('click');
+				$(this).off('click');
 				self.param.filter_offset = Number(self.param.filter_offset) + Number(self.param.filter_limit); 
 				self.reloadAjaxDataTable();
 			})
@@ -400,7 +400,7 @@ dataTable.prototype =
 			// take care of the negative offset, we setup 0 
 			.click(
 				function(){
-					$(this).unbind('click');
+					$(this).off('click');
 					var offset = Number(self.param.filter_offset) - Number(self.param.filter_limit);
 					if(offset < 0) { offset = 0; }
 					self.param.filter_offset = offset;
@@ -532,7 +532,7 @@ dataTable.prototype =
 		});
 		
 		//close exportToFormat onClickOutside
-		$('body').bind('mouseup',function(e){
+		$('body').on('mouseup',function(e){
 				if(self.exportToFormat){
 					self.exportToFormatHide(domElem);
 				}
@@ -1088,7 +1088,7 @@ actionDataTable.prototype =
 		if(currentRowLevel >= nextRowLevel)
 		{
 			//unbind click to avoid double click problem
-			$(domElem).unbind('click');
+			$(domElem).off('click');
 			self.disabledRowDom = $(domElem);
 			
 			var numberOfColumns = $(domElem).children().length;

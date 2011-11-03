@@ -38,7 +38,7 @@ $(document).ready(function(){
 		});
 	
 	//close periodString onClickOutside
-	$('body').bind('mouseup',function(e){ 
+	$('body').on('mouseup',function(e){ 
 		if(!$(e.target).parents('#periodString').length && !$(e.target).is('#periodString') && !$(e.target).is('option') && periodWidget.isOpen) {
 			periodWidget.hide();
 		}

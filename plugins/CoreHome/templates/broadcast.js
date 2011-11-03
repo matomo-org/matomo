@@ -46,7 +46,7 @@ broadcast.pageload = function( hash ) {
 	broadcast.init();
 
 	// Unbind any previously attached resize handlers
-	$(window).unbind('resize');
+	$(window).off('resize');
 
 	// hash doesn't contain the first # character.
 	if( hash ) {

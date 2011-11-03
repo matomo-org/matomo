@@ -59,7 +59,7 @@ $(document).ready(function() {
             .appendTo( ul );
     };
 
-    $('body').bind('mouseup',function(e){ 
+    $('body').on('mouseup',function(e){ 
         if(!$(e.target).parents('#languageSelection').length && !$(e.target).is('#languageSelection') && !$(e.target).parents('#languageSelect').length) {
             langSelect.autocomplete("close");
         }

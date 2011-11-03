@@ -30,7 +30,7 @@ $(document).ready(function() {
 	}  
 	
 	// click on Rank button
-	$('#rankbutton').bind('click', function() {
+	$('#rankbutton').on('click', function() {
 		getRank();
 		return false ;
 	});

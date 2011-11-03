@@ -10,7 +10,7 @@ function initFeedburner()
 	{
 		return $("#feedburnerName").val();
 	}
-	$("#feedburnerName").bind("keyup", function(e) {
+	$("#feedburnerName").on("keyup", function(e) {
 		if(isEnterKey(e)) { 
 			$("#feedburnerSubmit").click(); 
 		} 
