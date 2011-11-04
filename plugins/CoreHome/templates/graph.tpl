@@ -14,11 +14,12 @@
 		
 		<script type="text/javascript">
 			{literal}  window.setTimeout(function() {  {/literal}
-				var plot = new JQPlot({$data});
+				var plot = new JQPlot({$data}, '{$properties.uniqueId}');
 				plot.render('{$graphType}', '{$chartDivId}', {literal} { {/literal}
 					noData: '{'General_NoDataForGraph'|translate|escape:'javascript'}',
 					exportTitle: '{'General_ExportAsImage_js'|translate|escape:'javascript'}',
-					exportText: '{'General_SaveImageOnYourComputer_js'|translate|escape:'javascript'}'	
+					exportText: '{'General_SaveImageOnYourComputer_js'|translate|escape:'javascript'}',
+					metricsToPlot: '{'General_MetricsToPlot'|translate|escape:'javascript'}'
 				{literal} }); {/literal}
 			{literal}  }, 5);  {/literal}
 		</script>

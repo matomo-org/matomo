@@ -18,6 +18,9 @@
  */
 class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDataTable_GenerateGraphData
 {
+	
+	protected $selectableColumns = array();
+	
 	protected function checkStandardDataTable()
 	{
 		// DataTable_Array and DataTable allowed for the evolution chart
@@ -38,23 +41,38 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		$this->view = new Piwik_Visualization_Chart_Evolution();
 	}
 	
+	/**
+	 * Sets the columns that can be added/removed by the user
+	 * This is done on data level (not html level) because the columns might change after reloading via sparklines
+	 * @param array $columnsNames Array of column names eg. array('nb_visits','nb_hits')
+	 */
+	public function setSelectableColumns($columnsNames)
+	{
+		$this->selectableColumns = $columnsNames;
+	}
+	
 	protected function guessUnitFromRequestedColumnNames($requestedColumnNames, $idSite)
 	{
 		$nameToUnit = array(
 			'_rate' => '%',
 			'_revenue' => Piwik::getCurrency($idSite),
+			'_time_' => 's'
 		);
+		
+		$units = array();
 		foreach($requestedColumnNames as $columnName)
 		{
+			$units[$columnName] = false;
 			foreach($nameToUnit as $pattern => $type)
 			{
 				if(strpos($columnName, $pattern) !== false)
 				{
-					return $type;
+					$units[$columnName] = $type;
+					break;
 				}
 			}
 		}
-		return false;
+		return $units;
 	}
 	
 	protected function loadDataTableFromAPI()
@@ -101,7 +119,20 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		}
 		
 		$requestedColumnNames = $this->getColumnsToDisplay();
-		$yAxisLabelToValue = array();
+		
+		// derive units from column names
+		$idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
+		$units = $this->guessUnitFromRequestedColumnNames($requestedColumnNames, $idSite);
+		if(!empty($this->yAxisUnit))
+		{
+			// force unit to the value set via $this->setAxisYUnit()
+			foreach ($units as &$unit)
+			{
+				$unit = $this->yAxisUnit;
+			}
+		}
+		
+		$yAxisLabelToUnit = array();
 		foreach($this->dataTable->getArray() as $idDataTable => $dataTable)
 		{
 			foreach($dataTable->getRows() as $row)
@@ -120,9 +151,11 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 						// eg. "Visits"
 						$yAxisLabel = $metricLabel;
 					}
+					
 					if(($columnValue = $row->getColumn($requestedColumnName)) !== false)
 					{
 						$yAxisLabelToValue[$yAxisLabel][$idDataTable] = $columnValue;
+						$yAxisLabelToUnit[$yAxisLabel] = $units[$requestedColumnName];
 					} 
 				}
 			}
@@ -130,12 +163,10 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		
 		// make sure all column values are set to at least zero (no gap in the graph) 
 		$yAxisLabelToValueCleaned = array();
-		$yAxisLabels = array();
 		foreach($uniqueIdsDataTable as $uniqueIdDataTable)
 		{
 			foreach($yAxisLabelToValue as $yAxisLabel => $idDataTableToColumnValue)
 			{
-				$yAxisLabels[$yAxisLabel] = $yAxisLabel;
 				if(isset($idDataTableToColumnValue[$uniqueIdDataTable]))
 				{
 					$columnValue = $idDataTableToColumnValue[$uniqueIdDataTable];
@@ -147,18 +178,10 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 				$yAxisLabelToValueCleaned[$yAxisLabel][] = $columnValue;
 			}
 		}
-		$idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
-		
-		$unit = $this->yAxisUnit;
-		if(empty($unit))
-		{
-			$unit = $this->guessUnitFromRequestedColumnNames($requestedColumnNames, $idSite);
-		}
 		
 		$this->view->setAxisXLabels($xLabels);
 		$this->view->setAxisYValues($yAxisLabelToValueCleaned);
-		$this->view->setAxisYLabels($yAxisLabels);
-		$this->view->setAxisYUnit($unit);
+		$this->view->setAxisYUnits($yAxisLabelToUnit);		
 		
 		$countGraphElements = $this->dataTable->getRowsCount();
 		$firstDatatable = reset($this->dataTable->metadata);
@@ -205,6 +228,23 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 				$axisXOnClick[] = $link;
 			}
 			$this->view->setAxisXOnClick($axisXOnClick);
+		}
+		
+	
+		// Build the final configuration for the series picker
+		if (count($this->selectableColumns))
+		{
+			$columnsToDisplay = $this->getColumnsToDisplay();
+			$selectableColumns = array();
+			foreach ($this->selectableColumns as $column)
+			{
+				$selectableColumns[] = array(
+					'column' => $column,
+					'translation' => $this->getColumnTranslation($column),
+					'displayed' => in_array($column, $columnsToDisplay)
+				);
+			}
+			$this->view->setSelectabelColumns($selectableColumns);
 		}
 	}
 	

@@ -22,7 +22,7 @@ class Piwik_Visualization_Chart_Evolution extends Piwik_Visualization_Chart
 	protected $seriesColors = array('#5170AE','#F29007', '#CC3399', '#9933CC', '#80a033', 
 			'#246AD2', '#FD16EA', '#49C100');
 	
-	function customizeChartProperties()
+	public function customizeChartProperties()
 	{
 		parent::customizeChartProperties();
 		
@@ -34,4 +34,10 @@ class Piwik_Visualization_Chart_Evolution extends Piwik_Visualization_Chart
 			$this->axes['yaxis']['ticks'] = array(0, 50, 100);
 		}
 	}
+	
+	public function setSelectabelColumns($selectableColumns)
+	{
+		$this->seriesPicker['selectableColumns'] = $selectableColumns;
+	}
+	
 }

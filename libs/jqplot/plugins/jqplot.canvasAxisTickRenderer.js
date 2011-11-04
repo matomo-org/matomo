@@ -149,6 +149,9 @@
             this._textRenderer = new $.jqplot.CanvasTextRenderer(ropts); 
         }
     };
+	
+	$.jqplot.CanvasAxisTickRenderer.prototype = new $.jqplot.ElemContainer();
+    $.jqplot.CanvasAxisTickRenderer.prototype.constructor = $.jqplot.CanvasAxisTickRenderer;
     
     $.jqplot.CanvasAxisTickRenderer.prototype.init = function(options) {
         $.extend(true, this, options);

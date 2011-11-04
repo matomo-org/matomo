@@ -54,12 +54,6 @@ class Piwik_VisitsSummary extends Piwik_Plugin
 								'nb_actions',
 								'nb_actions_per_visit',
 								'bounce_rate',
-								'nb_pageviews' => Piwik_Translate('General_ColumnPageviews'),
-								'nb_uniq_pageviews' => Piwik_Translate('General_ColumnUniquePageviews'),
-								'nb_downloads' => Piwik_Translate('Actions_ColumnDownloads'),
-								'nb_uniq_downloads' => Piwik_Translate('Actions_ColumnUniqueDownloads'),
-								'nb_outlinks' => Piwik_Translate('Actions_ColumnOutlinks'),
-								'nb_uniq_outlinks' => Piwik_Translate('Actions_ColumnUniqueOutlinks'),
 								'avg_time_on_site' => Piwik_Translate('General_VisitDuration'),
 								'max_actions' => Piwik_Translate('General_ColumnMaxActions'),
 // Used to process metrics, not displayed/used directly

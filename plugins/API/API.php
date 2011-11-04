@@ -765,4 +765,98 @@ class Piwik_API_API
 				?  (@$a['order'] < @$b['order'] ? -1 : 1)
 				: $category;
 	}
+	
+	
+	/**
+	 * Get a combined report of the *.get API methods.
+	 * $columns has a format like "VisitsSummary.nb_visits,Actions.nb_uniq_pageviews".
+	 * In the example above, the metric nb_visits from VisitsSummary.get and the metric
+	 * nb_uniq_pageviews from Actions.get will be returned.
+	 */
+	public function get( $idSite, $period, $date, $segment = false, $columns = false)
+	{
+		// get the columns that are requested per plugin
+		$columns = Piwik::getArrayFromApiParameter($columns);
+		$columnsByPlugin = array();
+		$columnNameMap = array();
+		foreach ($columns as $column) {
+			list($plugin, $metric) = explode('.', $column);
+			$columnsByPlugin[$plugin][] = $metric;
+			$columnNameMap[$plugin][$metric] = $plugin.'.'.$metric;
+		}
+		
+		$mergedDataTable = false;
+		$params = compact('idSite', 'period', 'date', 'segment');
+		foreach ($columnsByPlugin as $plugin => $columns)
+		{
+			// load the data		
+			$className = 'Piwik_'.$plugin.'_API';
+			$params['columns'] = implode(',', $columns);
+			$dataTable = Piwik_API_Proxy::getInstance()->call($className, 'get', $params);
+			
+			// make sure the table has all columns
+			$array = ($dataTable instanceof Piwik_DataTable_Array ? $dataTable->getArray() : array($dataTable));
+			foreach ($array as $table) 
+			{
+				$firstRow = $table->getFirstRow();
+				if (!$firstRow)
+				{
+					$firstRow = new Piwik_DataTable_Row;
+					$table->addRow($firstRow);
+				}
+				foreach ($columns as $column)
+				{
+					if ($firstRow->getColumn($column) === false)
+					{
+						$firstRow->setColumn($column, 0);
+					}
+				
+				}
+			}
+			
+			// prefix columns with plugin name
+			$dataTable->filter('ReplaceColumnNames', array($columnNameMap[$plugin]));
+			
+			// merge reports
+			if ($mergedDataTable === false)
+			{
+				$mergedDataTable = $dataTable;
+			}
+			else
+			{
+				$this->mergeDataTables($mergedDataTable, $dataTable);
+			}
+		}
+		
+		return $mergedDataTable;
+	}
+	
+	
+	/**
+	 * Merge the columns of two data tables.
+	 * Manipulates the first table.
+	 */ 
+	private function mergeDataTables($table1, $table2)
+	{
+		// handle table arrays
+		if ($table1 instanceof Piwik_DataTable_Array && $table2 instanceof Piwik_DataTable_Array)
+		{
+			$subTables2 = $table2->getArray();
+			foreach ($table1->getArray() as $index => $subTable1)
+			{
+				$subTable2 = $subTables2[$index];
+				$this->mergeDataTables($subTable1, $subTable2);
+			}
+			return;
+		}
+		
+		$firstRow1 = $table1->getFirstRow();
+		$firstRow2 = $table2->getFirstRow();
+		foreach ($firstRow2->getColumns() as $metric => $value)
+		{
+			$firstRow1->setColumn($metric, $value);
+		}
+	}
+	
+	
 }

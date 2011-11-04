@@ -56,9 +56,10 @@ class Piwik_Actions_API
 	 * @param string $date
 	 * @param string $segment
 	 */
-	public function get( $idSite, $period, $date, $segment = false)
+	public function get( $idSite, $period, $date, $segment = false, $columns = false)
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
+		$archive = Piwik_Archive::build( $idSite, $period, $date, $segment );
 		
 		$metrics = array(
 			'Actions_nb_pageviews' => 'nb_pageviews',
@@ -69,9 +70,33 @@ class Piwik_Actions_API
 			'Actions_nb_uniq_outlinks' => 'nb_uniq_outlinks'
 		);
 		
-		$archive = Piwik_Archive::build( $idSite, $period, $date, $segment );
-		$table = $archive->getDataTableFromNumeric(array_keys($metrics));
-		$table->filter('ReplaceColumnNames', array($metrics));
+		// get requested columns
+		$columns = Piwik::getArrayFromApiParameter($columns);
+		if(!empty($columns))
+		{
+			// get the columns that are available and requested
+			$columns = array_intersect($columns, array_values($metrics));
+			$columns = array_values($columns); // make sure indexes are right
+			$nameReplace = array();
+			foreach ($columns as $i => $column)
+			{
+				$fullColumn = array_search($column, $metrics);
+				$columns[$i] = $fullColumn;
+				$nameReplace[$fullColumn] = $column;
+			}
+		}
+		else
+		{
+			// get all columns
+			$columns = array_keys($metrics);
+			$nameReplace = &$metrics;
+		}
+		
+		$table = $archive->getDataTableFromNumeric($columns);
+		
+		// replace labels (remove Actions_)
+		$table->filter('ReplaceColumnNames', array($nameReplace));
+		
 		return $table;
 	}
 	

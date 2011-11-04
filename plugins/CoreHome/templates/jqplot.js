@@ -14,18 +14,20 @@ var jqPlotTooltip = false;
  * Constructor function
  * @param the data that would be passed to open flash chart
  */
-function JQPlot(data) {
-	this.init(data);
+function JQPlot(data, dataTableId) {
+	this.init(data, dataTableId);
 }
 
 JQPlot.prototype = {
 
 	/** Generic init function */
-	init: function(data) {
+	init: function(data, dataTableId) {
+		this.dataTableId = dataTableId;
 		this.originalData = data;
 		this.params = data.params;
 		this.data = data.data;
 		this.tooltip = data.tooltip;
+		this.seriesPicker = data.seriesPicker;
 		
 		this.params.grid = {
 			drawGridLines: false,
@@ -64,7 +66,7 @@ JQPlot.prototype = {
 		// preapare the appropriate chart type
 		switch (type) {
 			case 'evolution':
-				this.prepareEvolutionChart(targetDivId);
+				this.prepareEvolutionChart(targetDivId, lang);
 				break;
 			case 'bar':
 				this.prepareBarChart();
@@ -80,6 +82,7 @@ JQPlot.prototype = {
 		// this has be bound before the check for an empty graph.
 		// otherwise clicking on sparklines won't work anymore after an empty
 		// report has been displayed.
+		var self = this;
 		var target = $('#' + targetDivId)
 		.on('replot', function(e, data) {
 			target.trigger('piwikDestroyPlot');
@@ -90,7 +93,31 @@ JQPlot.prototype = {
 				this.innerHTML = '';
 			}
 			
-			(new JQPlot(data)).render(type, targetDivId, lang);
+			(new JQPlot(data, self.dataTableId)).render(type, targetDivId, lang);
+		});
+		
+		// show loading
+		target.bind('showLoading', function() {
+			var loading = $(document.createElement('div')).addClass('jqplot-loading');
+			loading.css({
+				width: target.innerWidth()+'px',
+				height: target.innerHeight()+'px',
+				opacity: 0
+			});
+			target.prepend(loading);
+			loading.css({opacity: .7});
+		});
+		
+		// change columns
+		target.bind('changeColumns', function(e, columns) {
+			target.trigger('showLoading');
+			if (typeof columns == 'string') {
+				columns = columns.split(',');
+			}
+			var dataTable = dataTables[self.dataTableId];
+			dataTable.param.columns = columns.join(',');
+			dataTable.param.viewDataTable = 'graphEvolution';
+			dataTable.reloadAjaxDataTable(false);	
 		});
 		
 		// this case happens when there is no data for a line chart
@@ -134,7 +161,7 @@ JQPlot.prototype = {
 			if (width > 0 && Math.abs(plotWidth - width) >= 5) {
 				plotWidth = width;
 				target.trigger('piwikDestroyPlot');
-				(new JQPlot(self.originalData))
+				(new JQPlot(self.originalData, self.dataTableId))
 						.render(type, targetDivId, lang);
 			}
 		};
@@ -235,7 +262,9 @@ JQPlot.prototype = {
 	//  EVOLTION CHART
 	// ------------------------------------------------------------
 	
-	prepareEvolutionChart: function(targetDivId) {
+	prepareEvolutionChart: function(targetDivId, lang) {
+		this.setYTicks();
+
 		this.params.axes.xaxis.pad = 1.0;
 		this.params.axes.xaxis.renderer = $.jqplot.CategoryAxisRenderer;
 		this.params.axes.xaxis.tickOptions = {
@@ -287,6 +316,13 @@ JQPlot.prototype = {
 		this.params.canvasLegend = {
 			show: true
 		};
+		this.params.seriesPicker = {
+			show: typeof this.seriesPicker.selectableColumns == 'object',
+			selectableColumns: this.seriesPicker.selectableColumns,
+			targetDivId: targetDivId,
+			dataTableId: this.dataTableId,
+			lang: lang
+		};
 	},
 	
 	showEvolutionChartTooltip: function(i) {
@@ -299,7 +335,7 @@ JQPlot.prototype = {
 		
 		var text = [];
 		for (var d = 0; d < this.data.length; d++) {
-			var value = this.formatY(this.data[d][i]);
+			var value = this.formatY(this.data[d][i], d);
 			var series = this.params.series[d].label;
 			text.push('<b>' + value + '</b> ' + series);
 		}
@@ -343,7 +379,7 @@ JQPlot.prototype = {
 	},
 	
 	showPieChartTooltip: function(i) {
-		var value = this.formatY(this.data[0][i][1]);
+		var value = this.formatY(this.data[0][i][1], 0);
 		var series = this.params.series[0].label;
 		var percentage = this.tooltip.percentages[0][i];
 		
@@ -358,6 +394,8 @@ JQPlot.prototype = {
 	// ------------------------------------------------------------
 	
 	prepareBarChart: function() {
+		this.setYTicks();
+				
 		this.params.seriesDefaults = {
 			renderer: $.jqplot.BarRenderer,
 			rendererOptions: {
@@ -386,7 +424,7 @@ JQPlot.prototype = {
 	},
 	
 	showBarChartTooltip: function(i) {
-		var value = this.formatY(this.data[0][i]);
+		var value = this.formatY(this.data[0][i], 0);
 		var series = this.params.series[0].label;
 		
 		var percentage = '';
@@ -405,8 +443,53 @@ JQPlot.prototype = {
 	//  HELPER METHODS
 	// ------------------------------------------------------------
 	
+	/** Generate ticks in y direction */
+	setYTicks: function() {
+		// default axis
+		this.setYTicksForAxis('yaxis', this.params.axes.yaxis);
+		// other axes: y2axis, y3axis...
+		for (var i = 2; typeof this.params.axes['y'+i+'axis'] != 'undefined'; i++) {
+			this.setYTicksForAxis('y'+i+'axis', this.params.axes['y'+i+'axis']);
+		}
+	},
+	
+	setYTicksForAxis: function(axisName, axis) {
+		// calculate maximum x value of all data sets
+		var maxCrossDataSets = 0;
+		for (var i = 0; i < this.data.length; i++) {
+			if (this.params.series[i].yaxis == axisName) {
+				maxValue = Math.max.apply(Math, this.data[i]);
+				if (maxValue > maxCrossDataSets) {
+					maxCrossDataSets = maxValue;
+				}
+				maxCrossDataSets = parseFloat(maxCrossDataSets);
+			}
+		}
+		
+		// add little padding on top
+		maxCrossDataSets += Math.round(maxCrossDataSets * .03);
+
+		// round to the nearest multiple of ten
+		if (maxCrossDataSets > 15) {
+			maxCrossDataSets = maxCrossDataSets + 10 - maxCrossDataSets % 10;
+		}
+
+		if (maxCrossDataSets == 0) {
+			maxCrossDataSets = 1;
+		}
+
+		// calculate y-values for ticks
+		ticks = [];
+		numberOfTicks = 2;
+		tickDistance = Math.ceil(maxCrossDataSets / numberOfTicks);
+		for (var i = 0; i <= numberOfTicks; i++) {
+			ticks.push(i * tickDistance);
+		}
+		axis.ticks = ticks;
+	},
+	
 	/** Get a formatted y values (with unit) */
-	formatY: function(value) {
+	formatY: function(value, seriesIndex) {
 		var floatVal = parseFloat(value);
 		var intVal = parseInt(value, 10);
 		if (Math.abs(floatVal - intVal) >= 0.005) {
@@ -417,8 +500,8 @@ JQPlot.prototype = {
 			value = floatVal;
 		}
 
-		if (typeof this.tooltip.yUnit != 'undefined') {
-			value += this.tooltip.yUnit;
+		if (typeof this.tooltip.yUnits[seriesIndex] != 'undefined') {
+			value += this.tooltip.yUnits[seriesIndex];
 		}
 		
 		return value;
@@ -671,8 +754,9 @@ JQPlot.prototype = {
 		}
 		
 		// initialize legend canvas
-		var padding = {top: 0, right: 0, bottom: 0, left: this._gridPadding.left};
+		var padding = {top: 0, right: this._gridPadding.right, bottom: 0, left: this._gridPadding.left};
 		var dimensions = {width: this._plotDimensions.width, height: this._gridPadding.top};
+		var width = this._plotDimensions.width - this._gridPadding.left - this._gridPadding.right;
 		
 		legend.legendCanvas = new $.jqplot.GenericCanvas();
 		this.eventCanvas._elem.before(legend.legendCanvas.createElement(
@@ -700,15 +784,174 @@ JQPlot.prototype = {
 			ctx.fillRect(x, 10, 10, 2);
 			x += 15;
 			
+			var nextX = x + ctx.measureText(label).width + 20;
+			
+			if (nextX + 70 > width) {
+				ctx.fillText("[...]", x, 15);
+				x += ctx.measureText("[...]").width + 20;
+				break;
+			}
+			
 			ctx.fillText(label, x, 15);
-			x += ctx.measureText(label).width + 20;
+			x = nextX;
 		}
+		
+		legend.width = x;
 		
 		ctx.restore();
 	};
 	
 	$.jqplot.preInitHooks.push($.jqplot.CanvasLegendRenderer.init);
 	$.jqplot.postDrawHooks.push($.jqplot.CanvasLegendRenderer.postDraw);
+	
+})(jQuery);
+
+
+
+// ------------------------------------------------------------
+//  SERIES PICKER
+//  For line charts
+// ------------------------------------------------------------
+
+(function($) {
+	
+	$.jqplot.SeriesPicker = function(options) {
+		// dom element
+		this.domElem = null;
+		// render the picker?
+		this.show = false;
+		// the columns that can be selected
+		this.selectableColumns = null;
+		// css id of the target div dom element
+		this.targetDivId = "";
+		// the id of the current data table (index for global dataTables)
+		this.dataTableId = "";
+		// language strings
+		this.lang = {};
+		
+		$.extend(true, this, options);
+	};
+	
+	$.jqplot.SeriesPicker.init = function(target, data, opts) {
+		// add plugin as an attribute to the plot
+		var options = opts || {};
+		this.plugins.seriesPicker = new $.jqplot.SeriesPicker(options.seriesPicker);
+	};
+	
+	// render the link to add series
+	$.jqplot.SeriesPicker.postDraw = function() {
+		var plot = this;
+		var picker = plot.plugins.seriesPicker;
+		
+		if (!picker.show) {
+			return;
+		}
+		
+		// initialize dom element
+		picker.domElem = $(document.createElement('a'))
+			.addClass('jqplot-seriespicker')
+			.attr('href', '#').html('+')
+			.css('marginLeft', (this._gridPadding.left + plot.plugins.canvasLegend.width - 1) + 'px')
+			.hide();
+		
+		plot.baseCanvas._elem.before(picker.domElem);
+		
+		// show / hide dom element on legend hover
+		plot.plugins.canvasLegend.legendCanvas._elem.hover(function() {
+			picker.domElem.show();
+		}, function(e) {
+			if (!$(e.relatedTarget).is('.jqplot-seriespicker') && !picker.domElem.data('open')) {
+				picker.domElem.hide();
+			}
+		});
+		picker.domElem.mouseout(function() {
+			if (!picker.domElem.data('open')) {
+				picker.domElem.hide();
+			}
+		});
+		
+		picker.domElem.click(function() {
+			if (!picker.domElem.data('open')) {
+				picker.domElem.data('open', true);
+				showPicker(picker, plot._width);
+			}
+			return false;
+		});
+	};
+	
+	// show the series picker
+	function showPicker(picker, plotWidth) {
+		var pickerLink = picker.domElem;
+		var pickerPopover = $(document.createElement('div'))
+			.addClass('jqplock-seriespicker-popover').hide();
+		
+		pickerLink.before(pickerPopover);
+		
+		var manipulated = false;
+		
+		pickerPopover.mouseleave(function(e) {
+			if (!$(e.relatedTarget).is('.jqplot-seriespicker')) {
+				// if metrics list has been manipulated, replot
+				if (manipulated) {
+					var columns = [];
+					pickerPopover.find('input:checked').each(function() {
+						columns.push($(this).attr('name'));	
+					});
+					if (columns.length > 0) {
+						$('#'+picker.targetDivId).trigger('changeColumns', [columns]);
+					}
+				}
+				
+				// hide popupover
+				pickerPopover.hide();
+				pickerLink.hide().data('open', false);
+			}
+		});
+		
+		// headline
+		pickerPopover.append($(document.createElement('p'))
+			.addClass('headline').html(picker.lang.metricsToPlot));
+		
+		// render the selectable items
+		for (var i = 0; i < picker.selectableColumns.length; i++) {
+			var column = picker.selectableColumns[i];
+			
+			var checkbox = $(document.createElement('input')).attr('type', 'checkbox').addClass('select');
+			if (column.displayed) {
+				checkbox.attr('checked', 'checked');
+			}
+			checkbox.attr('name', column.column);
+			
+			var span = $(document.createElement('p'));
+			span.append(checkbox).append(column.translation)
+			span.click(function(e) {
+				manipulated = true;
+				if (!$(e.target).is('input.select')) {
+					var hit = $(this).find('input.select:not(:checked)').attr('checked', 'checked').size();
+					if (hit == 0) {
+						$(this).find('input.select:checked').removeAttr('checked');
+					}
+				};
+			});
+			
+			pickerPopover.append(span);
+		}
+		
+		var neededSpace = pickerPopover.outerWidth() + 10;
+		
+		// try to display popover to the right
+		var margin = (parseInt(pickerLink.css('marginLeft'), 10) - 4);
+		if (margin + neededSpace < plotWidth) {
+			pickerPopover.css('marginLeft', margin + 'px').show();
+		} else {
+			// display to the left
+			margin = margin - neededSpace + 40;
+			pickerPopover.addClass('alignright').css('marginLeft', margin + 'px').show();
+		}
+	}
+	
+	$.jqplot.preInitHooks.push($.jqplot.SeriesPicker.init);
+	$.jqplot.postDrawHooks.push($.jqplot.SeriesPicker.postDraw);
 	
 })(jQuery);
 

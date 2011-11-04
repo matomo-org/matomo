@@ -266,6 +266,15 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $this->setApiToCall(array('Live.getLastVisitsDetails'));
         $this->callGetApiCompareOutput(__FUNCTION__ . '_LiveEcommerceStatusOrdered', 'xml', $idSite, Piwik_Date::factory($dateTime)->addHour( 30.65 )->getDatetime(), $periods = array('day'));
         
+		// test API.get method
+		$this->setApiToCall(array('API.get'));
+		$this->callGetApiCompareOutput(__FUNCTION__ . '_API_get', 'xml', $idSite, $dateTime, 
+				$periods = array('day', 'week'), $setDateLastN = false, $language = false, 
+				$segment = false, $visitorId = false, $abandonedCarts = false, $idGoal = false, 
+				$apiModule = false, $apiAction = false, $otherParams = array(
+					'columns' => 'Actions.nb_pageviews,VisitsSummary.nb_visits,'
+						.'VisitsSummary.avg_time_on_site,Goals.nb_visits_converted'));
+		
         // Website2
 		$this->setApiToCall( array('Goals.get', 'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory'	) );
         $this->callGetApiCompareOutput(__FUNCTION__ . '_Website2', 'xml', $idSite2, $dateTime, $periods = array('week'));
