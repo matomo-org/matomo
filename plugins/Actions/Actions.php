@@ -151,7 +151,12 @@ class Piwik_Actions extends Piwik_Plugin
 				'nb_uniq_outlinks' => Piwik_Translate('Actions_ColumnUniqueOutlinks')
 			),
 			'metricsDocumentation' => array(
-				// to do	
+				'nb_pageviews' => Piwik_Translate('General_ColumnPageviewsDocumentation'),
+				'nb_uniq_pageviews' => Piwik_Translate('General_ColumnUniquePageviewsDocumentation'),
+				'nb_downloads' => Piwik_Translate('Actions_ColumnClicksDocumentation'),
+				'nb_uniq_downloads' => Piwik_Translate('Actions_ColumnUniqueClicksDocumentation'),
+				'nb_outlinks' => Piwik_Translate('Actions_ColumnClicksDocumentation'),
+				'nb_uniq_outlinks' => Piwik_Translate('Actions_ColumnUniqueClicksDocumentation')
 			),
 			'processedMetrics' => false,
 			'order' => 1
