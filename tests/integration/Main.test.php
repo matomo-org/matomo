@@ -833,7 +833,6 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	        $countBlobs = Zend_Registry::get('db')->fetchOne($sql);
 	        $this->assertEqual( $expectedRows, $countBlobs, "$table: %s");
 		}
-		exit;
 	}
 	
 	function test_twoVisitsWithCustomVariables_segmentMatchALL_noGoalData()
