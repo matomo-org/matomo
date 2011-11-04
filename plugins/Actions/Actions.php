@@ -137,6 +137,26 @@ class Piwik_Actions extends Piwik_Plugin
 	{
 		$reports = &$notification->getNotificationObject();
         
+		$reports[] = array(
+			'category' => Piwik_Translate('Actions_Actions'),
+			'name' => Piwik_Translate('Actions_Actions'),
+			'module' => 'Actions',
+			'action' => 'get',
+			'metrics' => array(
+				'nb_pageviews' => Piwik_Translate('General_ColumnPageviews'),
+				'nb_uniq_pageviews' => Piwik_Translate('General_ColumnUniquePageviews'),
+				'nb_downloads' => Piwik_Translate('Actions_ColumnDownloads'),
+				'nb_uniq_downloads' => Piwik_Translate('Actions_ColumnUniqueDownloads'),
+				'nb_outlinks' => Piwik_Translate('Actions_ColumnOutlinks'),
+				'nb_uniq_outlinks' => Piwik_Translate('Actions_ColumnUniqueOutlinks')
+			),
+			'metricsDocumentation' => array(
+				// to do	
+			),
+			'processedMetrics' => false,
+			'order' => 1
+		);
+		
 		$metrics = array(
             'nb_visits' => Piwik_Translate('General_ColumnUniquePageviews'),
             'nb_hits' => Piwik_Translate('General_ColumnPageviews'),
@@ -169,7 +189,7 @@ class Piwik_Actions extends Piwik_Plugin
 			'documentation' => Piwik_Translate('Actions_PagesReportDocumentation', '<br />')
 					.'<br />'.Piwik_Translate('General_UsePlusMinusIconsDocumentation'),
 			'processedMetrics' => false,
-			'order' => 1,
+			'order' => 2,
 		);
 
 		$reports[] = array(

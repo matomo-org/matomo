@@ -41,6 +41,7 @@ $translations = array(
 	'General_Description' => 'Beschreibung',
 	'General_Done' => 'Erledigt',
 	'General_PoweredBy' => 'Powered by',
+	'General_MetricsToPlot' => 'Metriken anzeigen',
 	'General_Name' => 'Name',
 	'General_Value' => 'Wert',
 	'General_Total' => 'Gesamt',

@@ -26,6 +26,7 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 	protected $axes = array();
 	protected $tooltip = array();
 	protected $seriesColors = array('#000000');
+	protected $seriesPicker = array();
 	
 	// other attributes (not directly used for jqplot)
 	protected $maxValue;
@@ -64,11 +65,52 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 
 	public function setAxisYUnit($yUnit)
 	{
-		if (!empty($yUnit))
+		$yUnits = array();
+		for ($i = 0; $i < count($this->data); $i++)
 		{
-			$this->yUnit = $yUnit;
-			$this->axes['yaxis']['tickOptions']['formatString'] = '%s'.$yUnit;
-			$this->tooltip['yUnit'] = $yUnit;
+			$yUnits[] = $yUnit;
+		}
+		$this->setAxisYUnits($yUnits);
+	}
+
+	public function setAxisYUnits($yUnits)
+	{
+		// generate an axis config for each unit
+		$axesIds = array();
+		// associate each series with the appropriate axis
+		$seriesAxes = array();
+		// units for tooltips
+		$seriesUnits = array();
+		foreach ($yUnits as $unit)
+		{
+			// handle axes ids: first y[]axis, then y[2]axis, y[3]axis...
+			$nextAxisId = empty($axesIds) ?  '' : count($axesIds) + 1;
+			
+			$unit = $unit ? $unit : '';
+			if (!isset($axesIds[$unit]))
+			{
+				$axesIds[$unit] = array('id' => $nextAxisId, 'unit' => $unit);
+				$seriesAxes[] = 'y'.$nextAxisId.'axis';
+			}
+			else
+			{
+				// reuse existing axis
+				$seriesAxes[] = 'y'.$axesIds[$unit]['id'].'axis';
+			}
+			$seriesUnits[] = $unit;
+		}
+		
+		// generate jqplot axes config
+		foreach ($axesIds as $axis) {
+			$axisKey = 'y'.$axis['id'].'axis';
+			$this->axes[$axisKey]['tickOptions']['formatString'] = '%s'.$axis['unit'];
+		}
+	
+		$this->tooltip['yUnits'] = $seriesUnits;
+	
+		// add axis config to series
+		foreach ($seriesAxes as $i => $axisName) {
+			$this->series[$i]['yaxis'] = $axisName;
 		}
 	}
 	
@@ -93,33 +135,12 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 	{
 		$this->xSteps = $steps;
 	}
-
-	public function getMaxValue()
-	{
-		if (count($this->data) == 0)
-		{
-			return 0;
-		}
-		
-		$maxCrossDataSets = 0;
-		foreach ($this->data as &$data)
-		{
-			$maxValue = max($data);
-			if($maxValue > $maxCrossDataSets)
-			{
-				$maxCrossDataSets = $maxValue;
-			}
-		}
-		
-		$maxCrossDataSets += round($maxCrossDataSets * .02);
-		
-		if ($maxCrossDataSets > 10)
-		{
-			$maxCrossDataSets = $maxCrossDataSets + 10 - $maxCrossDataSets % 10;
-		}
-		return $maxCrossDataSets;
-	}
 	
+	public function setSelectabelColumns($selectableColumns)
+	{
+		$this->seriesPicker['selectableColumns'] = $selectableColumns;
+	}
+
 	public function render()
 	{
 		Piwik::overrideCacheControlHeaders();
@@ -131,7 +152,8 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 				'seriesColors' => &$this->seriesColors
 			),
 			'data' => &$this->data,
-			'tooltip' => $this->tooltip
+			'tooltip' => &$this->tooltip,
+			'seriesPicker' => &$this->seriesPicker
 		);
 		
 		return json_encode($data);
@@ -139,12 +161,6 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 	
 	public function customizeChartProperties()
 	{
-		$this->maxValue = $this->getMaxValue();
-		if ($this->maxValue == 0)
-		{
-			$this->maxValue = 1;
-		}
-		
 		// x axis labels with steps
 		if (isset($this->axes['xaxis']['ticks']))
 		{
@@ -157,16 +173,6 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 				}
 			}
 		}
-		
-		// y axis labels
-		$ticks = array();
-		$numberOfTicks = 2;
-		$tickDistance = ceil($this->maxValue / $numberOfTicks);
-		for ($i = 0; $i <= $numberOfTicks; $i++)
-		{
-			$ticks[] = $i * $tickDistance;
-		}
-		$this->axes['yaxis']['ticks'] = &$ticks;
 	}
 	
 }

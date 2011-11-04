@@ -26,14 +26,7 @@ function initializeSparklines () {
 						var idDataTable = graph.attr('graphId');
 						//get the main page graph and reload with new data
 						var chart = $('#'+idDataTable+"Chart");
-						var loading = $(document.createElement('div')).addClass('jqplot-loading');
-						loading.css({
-							width: chart.innerWidth()+'px',
-							height: chart.innerHeight()+'px',
-							opacity: 0
-						});
-						chart.prepend(loading);
-						loading.css({opacity: .7});
+						chart.trigger('showLoading');
 						$.get(url, {}, function(data) {
 							chart.trigger('replot', data);
 						}, 'json');

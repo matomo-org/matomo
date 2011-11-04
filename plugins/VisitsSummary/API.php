@@ -35,28 +35,36 @@ class Piwik_VisitsSummary_API
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
-	
+		
 		// array values are comma separated
 		$columns = Piwik::getArrayFromApiParameter($columns);
-		$countColumnsRequested = count($columns);
+		$tempColumns = array();
 		
-		$allColumns = true;
 		$bounceRateRequested = $actionsPerVisitRequested = $averageVisitDurationRequested = false;
-		if(!empty($columns))
+		if($subsetOfColumns = !empty($columns))
 		{
-			$allColumns = false;
-			if(($bounceRateRequested = array_search('bounce_rate', $columns)) !== false)
+			// make sure base metrics are there for processed metrics
+			if(false !== ($bounceRateRequested = array_search('bounce_rate', $columns)))
 			{
-				$columns = array('nb_visits', 'bounce_count');
+				if (!in_array('nb_visits', $columns)) $tempColumns[] = 'nb_visits';
+				if (!in_array('bounce_count', $columns)) $tempColumns[] = 'bounce_count';
+				unset($columns[$bounceRateRequested]);
 			}
-			elseif(($actionsPerVisitRequested = array_search('nb_actions_per_visit', $columns)) !== false)
+			if(false !== ($actionsPerVisitRequested = array_search('nb_actions_per_visit', $columns)))
 			{
-				$columns = array('nb_actions', 'nb_visits');
+				if (!in_array('nb_actions', $columns)) $tempColumns[] = 'nb_actions';
+				if (!in_array('nb_visits', $columns)) $tempColumns[] = 'nb_visits';
+				unset($columns[$actionsPerVisitRequested]);
 			}
-			elseif(($averageVisitDurationRequested = array_search('avg_time_on_site', $columns)) !== false)
+			if(false !== ($averageVisitDurationRequested = array_search('avg_time_on_site', $columns)))
 			{
-				$columns = array('sum_visit_length', 'nb_visits');
+				if (!in_array('sum_visit_length', $columns)) $tempColumns[] = 'sum_visit_length';
+				if (!in_array('nb_visits', $columns)) $tempColumns[] = 'nb_visits';
+				unset($columns[$averageVisitDurationRequested]);
 			}
+			
+			$tempColumns = array_unique($tempColumns);
+			$columns = array_merge($columns, $tempColumns);
 		}
 		else
 		{
@@ -77,7 +85,7 @@ class Piwik_VisitsSummary_API
 			// Force reindex from 0 to N otherwise the SQL bind will fail
 			$columns = array_values($columns);
 		}
-
+		
 		$dataTable = $archive->getDataTableFromNumeric($columns);
 		
 		// Process ratio metrics from base metrics, when requested
@@ -94,60 +102,10 @@ class Piwik_VisitsSummary_API
 			$dataTable->filter('ColumnCallbackAddColumnQuotient', array('avg_time_on_site', 'sum_visit_length', 'nb_visits', 0));
 		}
 		
-		// If only a computed metrics was requested, we delete other metrics
-		// that we selected only to process this one metric
-		if($countColumnsRequested == 1
-			&& ($bounceRateRequested || $actionsPerVisitRequested || $averageVisitDurationRequested)
-			)
-		{
-			$dataTable->deleteColumns($columns);
-		}
+		// remove temp metrics that were used to compute processed metrics
+		$dataTable->deleteColumns($tempColumns);
+		
 		return $dataTable;
-	}
-	
-	/**
-	 * merge the columns of two data tables
-	 * used to add the action counts to the visits summary
-	 * manipulates the first table
-	 */ 
-	private function mergeDataTables($table1, $table2, $allColumns=true, $columns=array())
-	{
-		// handle table arrays
-		if ($table1 instanceof Piwik_DataTable_Array && $table2 instanceof Piwik_DataTable_Array)
-		{
-			$subTables2 = $table2->getArray();
-			foreach ($table1->getArray() as $index => $subTable1)
-			{
-				$subTable2 = $subTables2[$index];
-				$this->mergeDataTables($subTable1, $subTable2);
-			}
-			return;
-		}
-		
-		$firstRow2 = $table2->getFirstRow();
-		if (!$firstRow2)
-		{
-			// nothing to add
-			return;
-		}
-		
-		$firstRow1 = $table1->getFirstRow();
-		if (!$firstRow1)
-		{
-			// first table has no row yet
-			$firstRow1 = new Piwik_DataTable_Row;
-			$table1->addRow($firstRow1);
-		}
-		
-		foreach ($firstRow2->getColumns() as $metric => $value)
-		{
-			if (!$allColumns && !in_array($metric, $columns))
-			{
-				// only add the columns that have been requested
-				continue;
-			}
-			$firstRow1->setColumn($metric, $value);
-		}
 	}
 	
 	protected function getNumeric( $idSite, $period, $date, $segment, $toFetch )

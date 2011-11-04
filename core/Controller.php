@@ -178,6 +178,103 @@ abstract class Piwik_Controller
 		
 		return $view;
 	}
+	
+	/**
+	 * This method is similar to self::getLastUnitGraph. It works with API.get to combine metrics
+	 * of different *.get reports. The returned ViewDataTable is configured with column
+	 * translations and selectable metrics.
+	 * 
+	 * @param string $currentModuleName
+	 * @param string $currentControllerAction
+	 * @param array $columnsToDisplay in a format like ["VisitsSummary.nb_visits","Actions.nb_uniq_pageviews"]
+	 * @param array $selectableColumns in the same format as the parameter above
+	 * @param string $reportDocumentation the documentation to set on the report
+	 * @return Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution
+	 */
+	protected function getLastUnitGraphAcrossPlugins($currentModuleName, $currentControllerAction,
+			$columnsToDisplay, $selectableColumns=array(), $reportDocumentation=false)
+	{
+		// back up and manipulate the columns parameter
+		$backupColumns = false;
+		if (isset($_GET['columns']))
+		{
+			$backupColumns = $_GET['columns'];
+		}
+		
+		$_GET['columns'] = implode(',', $columnsToDisplay);
+		
+		// split the requested columns between the plugins
+		$columnsPerPlugin = array();
+		foreach (array_merge($columnsToDisplay, $selectableColumns) as $column)
+		{
+			@list($plugin, $col) = explode('.', $column);
+			$columnsPerPlugin[$plugin][] = $col;
+		}
+		
+		// load meta data for the requested plugins
+		$idSite = Piwik_Common::getRequestVar('idSite');
+		$period = Piwik_Common::getRequestVar('period');
+		$date = Piwik_Common::getRequestVar('date');
+		$meta = array();
+		foreach ($columnsPerPlugin as $plugin => $columns)
+		{
+			$meta[$plugin] = Piwik_API_API::getInstance()->getMetadata(
+					$idSite, $plugin, 'get', array(), false, $period, $date);
+			$meta[$plugin] = &$meta[$plugin][0];
+		}
+		
+		// handle wildcards like VisitsSummary.* in $selectableColumns
+		foreach ($selectableColumns as $i => $column)
+		{
+			if (substr($column, -2) == '.*')
+			{
+				$plugin = substr($column, 0, -2);
+				unset($selectableColumns[$i]);
+				$columnsPerPlugin[$plugin] = array();
+				foreach ($meta[$plugin]['metrics'] as $column => $translation)
+				{
+					$selectableColumns[] = $plugin.'.'.$column;
+					$columnsPerPlugin[$plugin][] = $column;
+				}
+			}
+		}
+		
+		// get metrics translations from meta data
+		$translations = array();
+		foreach ($columnsPerPlugin as $plugin => $columns)
+		{
+			foreach ($columns as $column)
+			{
+				$translations[$plugin.'.'.$column] = isset($meta[$plugin]['metrics'][$column]) ? 
+						$meta[$plugin]['metrics'][$column] : $column;
+			}
+		}
+		
+		// initialize the graph and load the data
+		$view = $this->getLastUnitGraph($currentModuleName, $currentControllerAction, 'API.get');
+		$view->setColumnsToDisplay($columnsToDisplay);
+		$view->setSelectableColumns($selectableColumns);
+		$view->setColumnsTranslations($translations);
+		
+		if ($reportDocumentation)
+		{
+			$view->setReportDocumentation($reportDocumentation);
+		}
+		
+		$view->main();
+		
+		// restore the columns parameter
+		if ($backupColumns !== false)
+		{
+			 $_GET['columns'] = $backupColumns;
+		}
+		else
+		{
+			unset($_GET['columns']);
+		}
+		
+		return $view;
+	}
 
 	/**
 	 * Returns the array of new processed parameters once the parameters are applied.

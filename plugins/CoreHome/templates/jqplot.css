@@ -51,6 +51,11 @@
     margin-right: 10px;
 }
 
+.jqplot-y2axis,
+.jqplot-y3axis {
+	margin-left: 10px;
+}
+
 .jqplot-axis-tick, .jqplot-xaxis-tick, .jqplot-yaxis-tick {
     position: absolute;
 }
@@ -92,4 +97,54 @@
     left: 0px;
     padding-bottom: 0.5em;
     font-size: 1.2em;
+}
+
+.jqplot-seriespicker {
+	display: block;
+	position: absolute;
+	z-index: 9;
+	width: 24px;
+	height: 16px;
+	margin-top: 3px;
+	background: url(../../../themes/default/images/chart_line_edit.png) no-repeat center center;
+	overflow: hidden;
+	text-indent: -999px;
+}
+
+.jqplock-seriespicker-popover {
+	display: block;
+	position: absolute;
+	z-index: 8;
+	margin-top: -2px;
+	background: #f7f7f7;
+	font-size: 11px;
+	font-weight: normal; 
+	border: 1px solid #e4e5e4;
+	padding: 6px 9px;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px; 
+	-moz-box-shadow: 1px 1px 2px #666;
+	-webkit-box-shadow: 1px 1px 2px #666;
+	box-shadow: 1px 1px 2px #666;
+}
+
+.jqplock-seriespicker-popover p {
+	margin: 0;
+	padding: 0 4px 0 0;
+}
+
+.jqplock-seriespicker-popover p.headline {
+	font-weight: bold;
+	font-size: 12px;
+	padding: 0 0 6px 22px;
+	color: #7E7363;
+}
+
+.jqplock-seriespicker-popover.alignright p.headline {
+	padding: 0 22px 6px 0;
+}
+
+.jqplock-seriespicker-popover input.select {
+	margin-right: 8px;
 }
