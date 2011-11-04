@@ -11,12 +11,6 @@
 			<nb_actions>Actions</nb_actions>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<bounce_rate>Bounce Rate</bounce_rate>
-			<nb_pageviews>Pageviews</nb_pageviews>
-			<nb_uniq_pageviews>Unique Pageviews</nb_uniq_pageviews>
-			<nb_downloads>Downloads</nb_downloads>
-			<nb_uniq_downloads>Unique Downloads</nb_uniq_downloads>
-			<nb_outlinks>Outlinks</nb_outlinks>
-			<nb_uniq_outlinks>Unique Outlinks</nb_uniq_outlinks>
 			<avg_time_on_site>Avg. Visit Duration (in seconds)</avg_time_on_site>
 			<max_actions>Maximum actions in one visit</max_actions>
 
@@ -120,6 +114,33 @@
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitTime&amp;apiAction=getVisitInformationPerLocalTime&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>VisitTime_getVisitInformationPerLocalTime</uniqueId>
+
+	</row>
+	<row>
+		<category>Actions</category>
+		<name>Actions</name>
+		<module>Actions</module>
+		<action>get</action>
+		<metrics>
+			<nb_pageviews>Pageviews</nb_pageviews>
+			<nb_uniq_pageviews>Unique Pageviews</nb_uniq_pageviews>
+			<nb_downloads>Downloads</nb_downloads>
+			<nb_uniq_downloads>Unique Downloads</nb_uniq_downloads>
+			<nb_outlinks>Outlinks</nb_outlinks>
+			<nb_uniq_outlinks>Unique Outlinks</nb_uniq_outlinks>
+
+		</metrics>
+		<metricsDocumentation>
+			<nb_pageviews>The number of times this page was visited.</nb_pageviews>
+			<nb_uniq_pageviews>The number of visits that included this page. If a page was viewed multiple times during one visit, it is only counted once.</nb_uniq_pageviews>
+			<nb_downloads>The number of times this link was clicked.</nb_downloads>
+			<nb_uniq_downloads>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</nb_uniq_downloads>
+			<nb_outlinks>The number of times this link was clicked.</nb_outlinks>
+			<nb_uniq_outlinks>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</nb_uniq_outlinks>
+
+		</metricsDocumentation>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=get&amp;graphType=evolution&amp;period=year&amp;date=1999-01-01,2009-12-31</imageGraphUrl>
+		<uniqueId>Actions_get</uniqueId>
 
 	</row>
 	<row>
