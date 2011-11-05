@@ -21,6 +21,7 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
 		$view->dataTableNumberOfVisitsPerVisitDuration = $this->getNumberOfVisitsPerVisitDuration(true);
 		$view->dataTableNumberOfVisitsPerPage = $this->getNumberOfVisitsPerPage(true);
 		$view->dataTableNumberOfVisitsByVisitNum = $this->getNumberOfVisitsByVisitCount(true);
+		$view->dataTableNumberOfVisitsByDaysSinceLast = $this->getNumberOfVisitsByDaysSinceLast(true);
 		echo $view->render();
 	}
 	
@@ -72,6 +73,31 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
 		$view->setSortedColumn('label', 'asc');
 		$view->setColumnTranslation('label', Piwik_Translate('VisitorInterest_VisitNum'));
 		$view->setColumnTranslation('nb_visits_percentage', str_replace(' ', '&nbsp;', Piwik_Translate('General_ColumnPercentageVisits')));
+		$view->disableExcludeLowPopulation();
+		$view->disableOffsetInformationAndPaginationControls();
+		$view->disableShowAllViewsIcons();
+		$view->setLimit(15);
+		$view->disableSearchBox();
+		$view->disableSort();
+		$view->disableShowAllColumns();
+		
+		return $this->renderView($view, $fetch);
+	}
+	
+	/**
+	 * Returns a rendered report that lists the count of visits for different ranges
+	 * of days since a visitor's last visit.
+	 *
+	 * @param bool $fetch Whether to return the rendered view as a string or echo it.
+	 * @return string The rendered report or nothing if $fetch is set to false.
+	 */
+	public function getNumberOfVisitsByDaysSinceLast( $fetch = false )
+	{
+		$view = Piwik_ViewDataTable::factory( );
+		$view->init( $this->pluginName, __FUNCTION__, 'VisitorInterest.getNumberOfVisitsByDaysSinceLast' );
+		$view->setColumnsToDisplay( array('label', 'nb_visits') );
+		$view->setSortedColumn('label', 'asc');
+		$view->setColumnTranslation('label', Piwik_Translate('General_DaysSinceLastVisit'));
 		$view->disableExcludeLowPopulation();
 		$view->disableOffsetInformationAndPaginationControls();
 		$view->disableShowAllViewsIcons();

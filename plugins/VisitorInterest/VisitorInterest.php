@@ -83,6 +83,19 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 					.'<br />'.Piwik_Translate('General_ChangeTagCloudView'),
 			'order' => 25
 		);
+		
+		$reports[] = array(
+			'category' => Piwik_Translate('General_Visitors'),
+			'name' => Piwik_Translate('VisitorInterest_VisitsByDaysSinceLast'),
+			'module' => 'VisitorInterest',
+			'action' => 'getNumberOfVisitsByDaysSinceLast',
+			'dimension' => Piwik_Translate('VisitorInterest_VisitsByDaysSinceLast'),
+			'metrics' => array( 'nb_visits' ),
+			'processedMetrics' => false,
+			'constantRowsCount' => true,
+			'documentation' => Piwik_Translate('VisitorInterest_WidgetVisitsByDaysSinceLastDocumentation'),
+			'order' => 30
+		);
 	}
 
 	function addWidgets()
@@ -90,6 +103,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		Piwik_AddWidget( 'General_Visitors', 'VisitorInterest_WidgetLengths', 'VisitorInterest', 'getNumberOfVisitsPerVisitDuration');
 		Piwik_AddWidget( 'General_Visitors', 'VisitorInterest_WidgetPages', 'VisitorInterest', 'getNumberOfVisitsPerPage');
 		Piwik_AddWidget( 'General_Visitors', 'VisitorInterest_visitsByVisitCount', 'VisitorInterest', 'getNumberOfVisitsByVisitCount');
+		Piwik_AddWidget( 'General_Visitors', 'VisitorInterest_VisitsByDaysSinceLast', 'VisitorInterest', 'getNumberOfVisitsByDaysSinceLast');
 	}
 	
 	function addMenu()
@@ -148,6 +162,26 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 			array(101, 200),
 			array(200)
 		);
+	
+	/**
+	 * The set of ranges used when calculating the 'days since last visit' report.
+	 */
+	protected static $daysSinceLastVisitGap = array(
+			array(0, 0),
+			array(1, 1),
+			array(2, 2),
+			array(3, 3),
+			array(4, 4),
+			array(5, 5),
+			array(6, 6),
+			array(7, 7),
+			array(8, 14),
+			array(15, 30),
+			array(31, 60),
+			array(61, 120),
+			array(121, 364),
+			array(365)
+		);
 
 	function archivePeriod( $notification )
 	{
@@ -159,6 +193,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 				'VisitorInterest_timeGap',
 				'VisitorInterest_pageGap',
 				'VisitorInterest_visitsByVisitCount',
+				'VisitorInterest_daysSinceLastVisit'
 		);
 		$archiveProcessing->archiveDataTable($dataTableToSum);
 	}
@@ -174,6 +209,14 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		$timeGapPrefix = 'tg';
 		$pageGapPrefix = 'pg';
 		$visitsByVisitNumPrefix = 'vbvn';
+		$daysSinceLastVisitPrefix = 'dslv';
+
+		// extra condition for the SQL SELECT that makes sure only returning visits are counted
+		// when creating the 'days since last visit' report. the SELECT expression below it
+		// is used to count all new visits.
+		$daysSinceLastExtraCondition = 'and log_visit.visitor_returning = 1';
+		$selectAs = $daysSinceLastVisitPrefix.'General_NewVisits';
+		$newVisitCountSelect = "sum(case when log_visit.visitor_returning = 0 then 1 else 0 end) as `$selectAs`";
 
 		// create the select expressions to use
 		$timeGapSelects = Piwik_ArchiveProcessing_Day::buildReduceByRangeSelect(
@@ -183,7 +226,13 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		$visitsByVisitNumSelects = Piwik_ArchiveProcessing_Day::buildReduceByRangeSelect(
 			'visitor_count_visits', self::$visitNumberGap, 'log_visit', $visitsByVisitNumPrefix);
 
-		$selects = array_merge($timeGapSelects, $pageGapSelects, $visitsByVisitNumSelects);
+		$daysSinceLastVisitSelects = Piwik_ArchiveProcessing_Day::buildReduceByRangeSelect(
+			'visitor_days_since_last', self::$daysSinceLastVisitGap, 'log_visit', $daysSinceLastVisitPrefix,
+			$daysSinceLastExtraCondition);
+		array_unshift($daysSinceLastVisitSelects, $newVisitCountSelect);
+
+		$selects = array_merge(
+			$timeGapSelects, $pageGapSelects, $visitsByVisitNumSelects, $daysSinceLastVisitSelects);
 
 		// select data for every report
 		$row = $this->archiveProcessing->queryVisitsSimple(implode(',', $selects));
@@ -199,6 +248,10 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		// archive visits by visit number report
 		$recordName = 'VisitorInterest_visitsByVisitCount';
 		$this->archiveRangeStats($recordName, $row, Piwik_Archive::INDEX_NB_VISITS, $visitsByVisitNumPrefix);
+		
+		// archive days since last visit report
+		$recordName = 'VisitorInterest_daysSinceLastVisit';
+		$this->archiveRangeStats($recordName, $row, Piwik_Archive::INDEX_NB_VISITS, $daysSinceLastVisitPrefix);
 	}
 	
 	/**

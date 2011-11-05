@@ -33,15 +33,14 @@ class Piwik_VisitorInterest_API
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
 		$dataTable = $archive->getDataTable($name);
-		$dataTable->filter('Sort',array($column));
 		$dataTable->queueFilter('ReplaceColumnNames');
-		$dataTable->queueFilter('Sort', array('label', 'asc', true));
 		return $dataTable;
 	}
 	
 	public function getNumberOfVisitsPerVisitDuration( $idSite, $period, $date, $segment = false )
 	{
 		$dataTable = $this->getDataTable('VisitorInterest_timeGap', $idSite, $period, $date, $segment);
+		$dataTable->queueFilter('Sort', array('label', 'asc', true));
 		$dataTable->queueFilter('BeautifyTimeRangeLabels', array(
 			Piwik_Translate('VisitorInterest_BetweenXYSeconds'),
 			Piwik_Translate('VisitorInterest_OneMinute'),
@@ -52,9 +51,32 @@ class Piwik_VisitorInterest_API
 	public function getNumberOfVisitsPerPage( $idSite, $period, $date, $segment = false )
 	{
 		$dataTable = $this->getDataTable('VisitorInterest_pageGap', $idSite, $period, $date, $segment);
+		$dataTable->queueFilter('Sort', array('label', 'asc', true));
 		$dataTable->queueFilter('BeautifyRangeLabels', array(
 			Piwik_Translate('VisitorInterest_OnePage'),
 			Piwik_Translate('VisitorInterest_NPages')));
+		return $dataTable;
+	}
+	
+	/**
+	 * Returns a DataTable that associates counts of days (N) with the count of visits that
+	 * occurred within N days of the last visit.
+	 *
+	 * @param int $idSite The site to select data from.
+	 * @param string $period The period type.
+	 * @param string $date The date type.
+	 * @param string|bool $segment The segment.
+	 * @return Piwik_DataTable the archived report data.
+	 */
+	public function getNumberOfVisitsByDaysSinceLast( $idSite, $period, $date, $segment = false )
+	{
+		$recordName = 'VisitorInterest_daysSinceLastVisit';
+		$dataTable = $this->getDataTable(
+			$recordName, $idSite, $period, $date, $segment, Piwik_Archive::INDEX_NB_VISITS);
+
+		$dataTable->queueFilter('BeautifyRangeLabels', array(
+			Piwik_Translate('General_OneDay'), Piwik_Translate('General_NDays')));
+		
 		return $dataTable;
 	}
 	
