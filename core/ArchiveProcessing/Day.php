@@ -156,9 +156,13 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * @param string $table The table the SELECTs should use.
 	 * @param string $selectColumnPrefix The prefix when specifying what a SELECT
 	 *                                   expression will be selected AS.
+	 * @param string $extraCondition An extra condition to be appended to 'case when'
+	 *                               expressions. Must start with the logical operator,
+	 *                               ie (AND, OR, etc.).
 	 * @return array An array of SQL SELECT expressions.
 	 */
-	public static function buildReduceByRangeSelect($column, $ranges, $table, $selectColumnPrefix = '')
+	public static function buildReduceByRangeSelect(
+		$column, $ranges, $table, $selectColumnPrefix = '', $extraCondition = false)
 	{
 		$selects = array();
 
@@ -171,7 +175,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 				
 				$selectAs = "$selectColumnPrefix$lowerBound-$upperBound";
 
-				$selects[] = "sum(case when $table.$column between $lowerBound and $upperBound".
+				$selects[] = "sum(case when $table.$column between $lowerBound and $upperBound $extraCondition".
 									 " then 1 else 0 end) as `$selectAs`";
 			}
 			else
@@ -180,7 +184,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 				
 				$selectAs = $selectColumnPrefix.$lowerBound.urlencode('+');
 
-				$selects[] = "sum(case when $table.$column > $lowerBound then 1 else 0 end) as `$selectAs`";
+				$selects[] = "sum(case when $table.$column > $lowerBound $extraCondition then 1 else 0 end) as `$selectAs`";
 			}
 		}
 

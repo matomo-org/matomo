@@ -566,7 +566,8 @@ class Test_Piwik_Integration_Main extends Test_Integration
 							'Actions.getPageTitles',
 							'Actions.getOutlinks',
 							'Actions.getPageTitle',
-							'Actions.getPageUrl'
+							'Actions.getPageUrl',
+							'VisitorInterest.getNumberOfVisitsByDaysSinceLast'
 		);
 		$this->doTest_TwoVisitors_twoWebsites_differentDays(__FUNCTION__, $apiToCall);
 	}
@@ -621,7 +622,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->getDatetime());
 		// visitor_returning is set to 1 only when visit count more than 1
 		// Temporary, until we implement 1st party cookies in PiwikTracker
-        $visitorB->DEBUG_APPEND_URL .= '&_idvc=2';
+        $visitorB->DEBUG_APPEND_URL .= '&_idvc=2&_viewts='.Piwik_Date::factory($dateTime)->getTimestamp();
 
     	$visitorB->setUrlReferrer( 'http://referer.com/Other_Page.htm' );
     	$visitorB->setUrl('http://example.org/index.htm');

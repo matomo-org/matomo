@@ -76,8 +76,8 @@
 	<tr class="label{cycle values='odd,even'}">
 	<td style="display:none;"></td>
 	<td class="label" style="width:12%" width="12%">
-
-				<strong>{$visitor.columns.serverDatePrettyFirstAction} 
+				<strong title="{if $visitor.columns.visitorType=='new'}{'General_NewVisitor'|translate}{else}{'Live_VisitorsLastVisit'|translate:$visitor.columns.daysSinceLastVisit}{/if}">
+				{$visitor.columns.serverDatePrettyFirstAction} 
 				{if $isWidget}<br/>{else}-{/if} {$visitor.columns.serverTimePrettyFirstAction}</strong>
 				{if !empty($visitor.columns.visitIp)} <br/><span title="{if !empty($visitor.columns.visitorId)}{'General_VisitorID'|translate}: {$visitor.columns.visitorId}{/if}">IP: {$visitor.columns.visitIp}</span>{/if}
 				

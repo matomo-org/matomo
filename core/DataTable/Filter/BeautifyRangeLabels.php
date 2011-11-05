@@ -90,17 +90,26 @@ class Piwik_DataTable_Filter_BeautifyRangeLabels extends Piwik_DataTable_Filter_
 			// get the lower bound
 			sscanf($value, "%d", $lowerBound);
 		
-			$plusEncoded = urlencode('+');
-			$plusLen = strlen($plusEncoded);
-			$len = strlen($value);
-
-			// if the label doesn't end with a '+', append it
-			if ($len < $plusLen || substr($value, $len - $plusLen) != $plusEncoded)
+			if ($lowerBound !== NULL)
 			{
-				$value .= $plusEncoded;
-			}
+				$plusEncoded = urlencode('+');
+				$plusLen = strlen($plusEncoded);
+				$len = strlen($value);
+
+				// if the label doesn't end with a '+', append it
+				if ($len < $plusLen || substr($value, $len - $plusLen) != $plusEncoded)
+				{
+					$value .= $plusEncoded;
+				}
 			
-			return $this->getUnboundedLabel($value, $lowerBound);
+				return $this->getUnboundedLabel($value, $lowerBound);
+			}
+			else
+			{
+				// if no lower bound can be found, this isn't a valid range. in this case
+				// we assume its a translation key and try to translate it.
+				return Piwik_Translate(trim($value));
+			}
 		}
 	}
 
