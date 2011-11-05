@@ -581,7 +581,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.maailm.com'			=> array('maailm.com', 'tekst'),
 
 		// Mail.ru
-		'go.mail.ru'				=> array('Mailru', 'q', 'search?q={k}', 'windows-1251'),
+		'go.mail.ru'				=> array('Mailru', 'q', 'search?rch=e&q={k}'),
 
 		// Mamma
 		'www.mamma.com'				=> array('Mamma', 'query', 'result.php?q={k}'),
