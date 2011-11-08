@@ -67,12 +67,12 @@
 		</tr>
 		<tr>
 			<td class="first">
-				{'PDFReports_AggregateReportsFormat'|translate}&nbsp;*
+				{'PDFReports_AggregateReportsFormat'|translate}
 			</td>
 			<td>
 				<select id="aggregate_reports_format">
 				{foreach from=$aggregateReportsFormats key=formatValue item=formatLabel}
-					<option value="{$formatValue}">{$formatLabel}</option>
+					<option {if $formatValue==1}selected{/if} value="{$formatValue}">{$formatLabel}</option>
 				{/foreach}
 				</select>
 			</td>
@@ -93,7 +93,7 @@
 						<li>
 							<input type="checkbox" id="{$report.uniqueId}" />
 							<label for="{$report.uniqueId}">
-								{$report.name|escape:"html"}{if $report.isAggregate}&nbsp;*{/if}
+								{$report.name|escape:"html"}
 							</label>
 						</li>
 					{/foreach}

@@ -13,7 +13,7 @@
 /**
  * @package Updates
  */
-class Piwik_Updates_1_7 extends Piwik_Updates
+class Piwik_Updates_1_7_b1 extends Piwik_Updates
 {
 	static function getSql($schema = 'Myisam')
 	{
