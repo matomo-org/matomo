@@ -103,16 +103,33 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 		$this->assignCommonParameters($smarty);
 
 		$reportMetadata = $processedReport['metadata'];
-		$smarty->assign("reportName", $reportMetadata['name']);
-		$smarty->assign("reportId", $reportMetadata['uniqueId']);
-
 		$reportData = $processedReport['reportData'];
 		$columns = $processedReport['columns'];
 		list($reportData, $columns) = self::processTableFormat($reportMetadata, $reportData, $columns);
 
+		$smarty->assign("reportName", $reportMetadata['name']);
+		$smarty->assign("reportId", $reportMetadata['uniqueId']);
 		$smarty->assign("reportColumns", $columns);
 		$smarty->assign("reportRows", $reportData->getRows());
 		$smarty->assign("reportRowsMetadata", $processedReport['reportMetadata']->getRows());
+		$smarty->assign("displayTable", $processedReport['displayTable']);
+
+		$displayGraph = $processedReport['displayGraph'];
+		$smarty->assign("displayGraph", $displayGraph);
+
+		if($displayGraph)
+		{
+			$smarty->assign("graphWidth", Piwik_ReportRenderer::IMAGE_GRAPH_WIDTH);
+			$smarty->assign("graphHeight", Piwik_ReportRenderer::IMAGE_GRAPH_HEIGHT);
+			$smarty->assign("renderImageInline", $this->renderImageInline);
+
+			if($this->renderImageInline)
+			{
+				$generatedImageGraph = $processedReport['generatedImageGraph'];
+				$smarty->assign("generatedImageGraph", base64_encode($generatedImageGraph));
+				unset($generatedImageGraph);
+			}
+		}
 
 		$this->rendering .= $smarty->fetch(self::prefixTemplatePath("html_report_body.tpl"));
 	}

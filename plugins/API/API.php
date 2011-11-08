@@ -754,6 +754,7 @@ class Piwik_API_API
 		{
 			$order = array(
 				Piwik_Translate('VisitsSummary_VisitsSummary'),
+				Piwik_Translate('Goals_Ecommerce'),
 				Piwik_Translate('Actions_Actions'),
 				Piwik_Translate('Referers_Referers'),
 				Piwik_Translate('Goals_Goals'),

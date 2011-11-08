@@ -53,12 +53,13 @@ class Piwik_PDFReports_API
 	 * @param string $reports Comma separated list of reports
 	 * @return int idReport generated
 	 */
-	public function addReport( $idSite, $description, $period, $reportFormat, $reports, $emailMe = true, $additionalEmails = false)
+	public function addReport( $idSite, $description, $period, $reportFormat, $aggregateReportsFormat, $reports, $emailMe = true, $additionalEmails = false)
 	{
 		Piwik::checkUserIsNotAnonymous();
 		Piwik::checkUserHasViewAccess($idSite);
 		$this->checkPeriod($period);
 		$this->checkFormat($reportFormat);
+		$this->checkAggregateReportsFormat($aggregateReportsFormat);
 		$description = $this->checkDescription($description);
 		$currentUser = Piwik::getCurrentUserLogin();
 		$emailMe = (int)$emailMe;
@@ -83,6 +84,7 @@ class Piwik_PDFReports_API
 						'description' => $description,
 						'period' => $period,
 						'format' => $reportFormat,
+						'aggregate_reports_format' => $aggregateReportsFormat,
 						'email_me' => $emailMe,
 						'additional_emails' => $additionalEmails,
 						'reports' => $reports,
@@ -106,7 +108,7 @@ class Piwik_PDFReports_API
 	 * 
 	 * @see addReport()
 	 */
-	public function updateReport( $idReport, $idSite, $description, $period, $reportFormat, $reports, $emailMe = true, $additionalEmails = false)
+	public function updateReport( $idReport, $idSite, $description, $period, $reportFormat, $aggregateReportsFormat, $reports, $emailMe = true, $additionalEmails = false)
 	{
 		Piwik::checkUserHasViewAccess($idSite);
 		$pdfReports = $this->getReports($idSite, $periodSearch = false, $idReport);
@@ -115,6 +117,7 @@ class Piwik_PDFReports_API
 		
 		$this->checkPeriod($period);
 		$this->checkFormat($reportFormat);
+		$this->checkAggregateReportsFormat($aggregateReportsFormat);
 		$description = $this->checkDescription($description);
 		$currentUser = Piwik::getCurrentUserLogin();
 		$emailMe = (int)$emailMe;
@@ -130,6 +133,7 @@ class Piwik_PDFReports_API
 						'description' => $description,
 						'period' => $period,
 						'format' => $reportFormat,
+						'aggregate_reports_format' => $aggregateReportsFormat,
 						'email_me' => $emailMe,
 						'additional_emails' => $additionalEmails,
 						'reports' => $reports,
@@ -209,14 +213,14 @@ class Piwik_PDFReports_API
 		
 		// Joining with the site table to work around pre-1.3 where reports could still be linked to a deleted site
 		$reports = Piwik_FetchAll("SELECT * 
-    							FROM ".Piwik_Common::prefixTable('pdf')." 
-    								JOIN ".Piwik_Common::prefixTable('site')."
-    								USING (idsite)
-    							WHERE deleted = 0
-    								$sqlWhere", $bind);
-    	// When a specific report was requested and not found, throw an error
-    	if($idReport !== false
-    		&& empty($reports))
+								FROM ".Piwik_Common::prefixTable('pdf')."
+									JOIN ".Piwik_Common::prefixTable('site')."
+									USING (idsite)
+								WHERE deleted = 0
+									$sqlWhere", $bind);
+		// When a specific report was requested and not found, throw an error
+		if($idReport !== false
+			&& empty($reports))
 		{
 			throw new Exception("Requested report couldn't be found.");
 		}
@@ -237,23 +241,19 @@ class Piwik_PDFReports_API
 	 * @param int|false $outputType 1 = download report, 2 = save report to disk, defaults to download
 	 * @param string|false $period Defaults to 'day'. If not specified, will default to the report's period set when creating the report
 	 * @param string $reportFormat pdf, html
+	 * @param int|false $aggregateReportsFormat 1 = display only tables, 2 = display only graphs, 3 = display both
 	 */
-	public function generateReport($idReport, $date, $idSite = false, $language = false, $outputType = false, $period = false, $reportFormat = false)
+	public function generateReport($idReport, $date, $idSite = false, $language = false, $outputType = false, $period = false, $reportFormat = false, $aggregateReportsFormat = false)
 	{
 		// Load specified language
 		if(empty($language))
 		{
 			$language = Piwik_Translate::getInstance()->getLanguageDefault();
 		}
-    	Piwik_Translate::getInstance()->reloadLanguage($language);
-		
+		Piwik_Translate::getInstance()->reloadLanguage($language);
+
 		// Available reports
-		static $reportMetadata = null;
-		if(is_null($reportMetadata))
-		{
-			//TODO here should pass $period and $date for graphs to display in metadata and then in Email reports. 
-			$reportMetadata = Piwik_API_API::getInstance()->getReportMetadata($idSite);
-		}
+		$reportMetadata = Piwik_API_API::getInstance()->getReportMetadata($idSite);
 
 		// Test template: include all reports
 		if($idReport == 0)
@@ -266,6 +266,10 @@ class Piwik_PDFReports_API
 			{
 				$reportFormat = Piwik_PDFReports::DEFAULT_FORMAT;
 			}
+			if(empty($aggregateReportsFormat))
+			{
+				$aggregateReportsFormat = Piwik_PDFReports::DEFAULT_AGGREGATE_REPORTS_FORMAT;
+			}
 			$reports = $reportMetadata;
 			$description = Piwik_Translate('PDFReports_DefaultContainingAllReports');
 		}
@@ -275,20 +279,20 @@ class Piwik_PDFReports_API
 			$pdfReports = $this->getReports($idSite, $_period = false, $idReport);
 			$pdfReport = reset($pdfReports);
 			$reportUniqueIds = explode(',', $pdfReport['reports']);
-			
-    		$description = $pdfReport['description'];
-			
-    		// If period wasn't specified, we shall default to the report's period
-    		if(empty($period))
-    		{
-    			$period = 'day';
-    			if($pdfReport['period'] != 'never')
+
+			$description = $pdfReport['description'];
+
+			// If period wasn't specified, we shall default to the report's period
+			if(empty($period))
+			{
+				$period = 'day';
+				if($pdfReport['period'] != 'never')
 				{
 					$period = $pdfReport['period'];
 				}
-    		}
+			}
 
-    		// If format wasn't specified, defaults to the report's format
+			// If format wasn't specified, defaults to the report's format
 			if(empty($reportFormat))
 			{
 				$reportFormat = $pdfReport['format'];
@@ -299,75 +303,135 @@ class Piwik_PDFReports_API
 				}
 			}
 
-    		// We need to lookup which reports metadata are registered in this report
-    		$reports = array();
-    		foreach($reportMetadata as $metadata)
-    		{
-    			if(in_array($metadata['uniqueId'], $reportUniqueIds))
-    			{
-    				$reports[] = $metadata;
-    			}
-    		}
+    		// If $aggregateReportsFormat wasn't specified, defaults to the report configuration
+			if(empty($aggregateReportsFormat))
+			{
+				$aggregateReportsFormat = $pdfReport['aggregate_reports_format'];
+			}
+
+			// We need to lookup which reports metadata are registered in this report
+			$reports = array();
+			foreach($reportMetadata as $metadata)
+			{
+				if(in_array($metadata['uniqueId'], $reportUniqueIds))
+				{
+					$reports[] = $metadata;
+				}
+			}
 		}
 
 		$description = str_replace(array("\r", "\n"), ' ', $description);
 
 		// The report will be rendered with the first 30 rows and will aggregate other rows in a summary row
-    	$filterTruncateGET = Piwik_Common::getRequestVar('filter_truncate', false);
-    	$_GET['filter_truncate'] = 30;
+		$filterTruncateGET = Piwik_Common::getRequestVar('filter_truncate', false);
+		$_GET['filter_truncate'] = 30;
 
-    	$websiteName = $prettyDate = false;
-        $processedReports = array();
-        foreach ($reports as $action)
-        {
-        	$apiModule = $action['module'];
-        	$apiAction = $action['action'];
-        	$apiParameters = array();
-        	if(isset($action['parameters']))
-        	{
-        		$apiParameters = $action['parameters'];
-        	}
-        	$report = Piwik_API_API::getInstance()->getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false, $apiParameters, $idGoal = false, $language);
-        	$websiteName = $report['website'];
-        	$prettyDate = $report['prettyDate'];
-        	$processedReports[] = $report;
-        }
-        
-        // Restore values
-        if($filterTruncateGET !== false)
-        {
-        	$_GET['filter_truncate'] = $filterTruncateGET;
-        }
-
-		if(empty($reportFormat))
+		$websiteName = $prettyDate = false;
+		$processedReports = array();
+		foreach ($reports as $action)
 		{
-			$reportFormat = Piwik_PDFReports::DEFAULT_FORMAT;
+			$apiModule = $action['module'];
+			$apiAction = $action['action'];
+			$apiParameters = array();
+			if(isset($action['parameters']))
+			{
+				$apiParameters = $action['parameters'];
+			}
+			$report = Piwik_API_API::getInstance()->getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false, $apiParameters, $idGoal = false, $language);
+			$websiteName = $report['website'];
+			$prettyDate = $report['prettyDate'];
+
+			$reportMetadata = $report['metadata'];
+			$isAggregateReport = !empty($reportMetadata['dimension']);
+
+			$report['displayTable'] = 	!$isAggregateReport ||
+										$aggregateReportsFormat == Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_TABLES ||
+										$aggregateReportsFormat == Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_TABLES_GRAPHS;
+
+			$report['displayGraph'] = 	!$isAggregateReport ||
+										$aggregateReportsFormat == Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_GRAPHS ||
+										$aggregateReportsFormat == Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_TABLES_GRAPHS;
+
+			if ($report['displayGraph'])
+			{
+				$request = new Piwik_API_Request(
+					$reportMetadata['imageGraphUrl'] .
+					'&outputType='.Piwik_ImageGraph_API::GRAPH_OUTPUT_PHP.
+					'&format=original&serialize=0'.
+					'&height='.Piwik_ReportRenderer::IMAGE_GRAPH_HEIGHT.
+					'&width='.Piwik_ReportRenderer::IMAGE_GRAPH_WIDTH
+				);
+
+				try {
+					$imageGraph = $request->process();
+
+					// Get image data as string
+					ob_start();
+					imagepng($imageGraph);
+					$imageGraphData = ob_get_contents();
+					ob_end_clean();
+					imagedestroy($imageGraph);
+
+					$report['generatedImageGraph'] = $imageGraphData;
+
+				} catch(Exception $e) {
+					throw new Exception("ImageGraph API returned an error: ".$e->getMessage()."\n");
+				}
+			}
+
+			$processedReports[] = $report;
+		}
+
+		// Restore values
+		if($filterTruncateGET !== false)
+		{
+			$_GET['filter_truncate'] = $filterTruncateGET;
 		}
 
 		// Generate the report
 		$reportRenderer = Piwik_ReportRenderer::factory($reportFormat);
 		$reportRenderer->setLocale($language);
-        $reportRenderer->renderFrontPage($websiteName, $prettyDate, $description, $reports );
+		$reportRenderer->setRenderImageInline($outputType == self::OUTPUT_DOWNLOAD ? true : false);
+		$reportRenderer->renderFrontPage($websiteName, $prettyDate, $description, $reports );
 		array_walk($processedReports, array($reportRenderer, 'renderReport'));
 
-        switch($outputType)
-        { 
-        	case self::OUTPUT_SAVE_ON_DISK:
+		switch($outputType)
+		{
+			case self::OUTPUT_SAVE_ON_DISK:
 				$outputFilename = 'Email Report - ' . $idReport . '.' . $date . '.' . $idSite . '.' . $language;
 				$outputFilename = $reportRenderer->sendToDisk($outputFilename);
+
+				$additionalFiles = array();
+				if($reportFormat == 'html')
+				{
+					foreach ($processedReports as &$report) {
+						if($report['displayGraph'])
+						{
+							$additionalFile = array();
+							$additionalFile['filename'] = $report['metadata']['name'].'.png';
+							$additionalFile['cid'] = $report['metadata']['uniqueId'];
+							$additionalFile['content'] = $report['generatedImageGraph'];
+							$additionalFile['mimeType'] = 'image/png';
+							$additionalFile['encoding'] = Zend_Mime::ENCODING_BASE64;
+
+							$additionalFiles[] = $additionalFile;
+						}
+					}
+				}
 
 				return array(	$outputFilename,
 								$prettyDate,
 								$websiteName,
-								$reportFormat
+								$reportFormat,
+								$additionalFiles,
 				);
-    		break;
+			break;
 
 			default:
 			case self::OUTPUT_DOWNLOAD:
 				$reportRenderer->sendToBrowserDownload("$websiteName - $prettyDate - $description");
 				break;
-        }
+		}
 	}
 
 	public function sendEmailReport($idReport, $idSite, $period = false, $date = false)
@@ -410,7 +474,7 @@ class Piwik_PDFReports_API
 			}
 		}
 		$language = Piwik_LanguagesManager_API::getInstance()->getLanguageForUser($report['login']);
-		list($outputFilename, $prettyDate, $websiteName, $reportFormat) =
+		list($outputFilename, $prettyDate, $websiteName, $reportFormat, $additionalFiles) =
 			$this->generateReport(
 					$idReport, 
 					$date,
@@ -420,10 +484,10 @@ class Piwik_PDFReports_API
 					$report['period']
 					);
 
-		$this->sendReportEmail($emails, $outputFilename, $prettyDate, $websiteName, $report, $reportFormat);
+		$this->sendReportEmail($emails, $outputFilename, $prettyDate, $websiteName, $report, $reportFormat, $additionalFiles);
 	}
 	
-	protected function sendReportEmail($emails, $outputFilename, $prettyDate, $websiteName, $report, $reportFormat)
+	protected function sendReportEmail($emails, $outputFilename, $prettyDate, $websiteName, $report, $reportFormat, $additionalFiles)
 	{
 		$periods = self::getPeriodToFrequency();
 		$message  = Piwik_Translate('PDFReports_EmailHello');
@@ -431,7 +495,7 @@ class Piwik_PDFReports_API
 
 		if(!file_exists($outputFilename))
 		{
-			throw new Exception("The PDF file wasn't found in $outputFilename");
+			throw new Exception("The report file wasn't found in $outputFilename");
 		}
 		$filename = basename($outputFilename);
 		$handle = fopen($outputFilename, "r");
@@ -448,6 +512,9 @@ class Piwik_PDFReports_API
 		switch ($reportFormat)
 		{
 			case 'html':
+
+				// Needed when using images as attachment with cid
+				$mail->setType(Zend_Mime::MULTIPART_RELATED);
 				$message .= "<br/>" . Piwik_Translate('PDFReports_PleaseFindBelow', array($periods[$report['period']], $websiteName));
 				$mail->setBodyHtml($message . "<br/><br/>". $contents);
 				break;
@@ -465,6 +532,21 @@ class Piwik_PDFReports_API
 				break;
 		}
 
+		foreach($additionalFiles as $additionalFile)
+		{
+			$fileContent = $additionalFile['content'];
+			$at = $mail->createAttachment(
+				$fileContent,
+				$additionalFile['mimeType'],
+				Zend_Mime::DISPOSITION_INLINE,
+				$additionalFile['encoding'],
+				$additionalFile['filename']
+			);
+			$at->id = $additionalFile['cid'];
+
+			unset($fileContent);
+		}
+
 		foreach ($emails as $email)
 		{
 			$mail->addTo($email);
@@ -478,7 +560,7 @@ class Piwik_PDFReports_API
 				{
 					throw new Exception("An error occured while sending '$filename' ".
 										" to ". implode(', ',$mail->getRecipients()). ".
-    								Error was '". $e->getMessage()."'");
+									Error was '". $e->getMessage()."'");
 				}
 			}
 			$mail->clearRecipients();
@@ -576,6 +658,20 @@ class Piwik_PDFReports_API
 		}
 	}
 
+	private function checkAggregateReportsFormat($format)
+	{
+		$availableAggregateReportsFormats = array_keys(Piwik_PDFReports_API::getAggregateReportsFormats());
+		if(!in_array($format, $availableAggregateReportsFormats))
+		{
+			throw new Exception(
+				Piwik_TranslateException(
+					'General_ExceptionInvalidAggregateReportsFormat',
+					array($format, implode(', ', $availableAggregateReportsFormats))
+				)
+			);
+		}
+	}
+
 	/**
 	 * @ignore
 	 */
@@ -585,6 +681,19 @@ class Piwik_PDFReports_API
 			'day' => Piwik_Translate('General_Daily'),
 			'week' => Piwik_Translate('General_Weekly'),
 			'month' => Piwik_Translate('General_Monthly'),
+		);
+		return $periods;
+	}
+
+	/**
+	 * @ignore
+	 */
+	static public function getAggregateReportsFormats()
+	{
+		$periods = array(
+			Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_TABLES => Piwik_Translate('PDFReports_AggregateReportsFormat_TablesOnly'),
+			Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_GRAPHS => Piwik_Translate('PDFReports_AggregateReportsFormat_GraphsOnly'),
+			Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_TABLES_GRAPHS => Piwik_Translate('PDFReports_AggregateReportsFormat_TablesAndGraphs'),
 		);
 		return $periods;
 	}
