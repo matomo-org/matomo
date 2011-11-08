@@ -186,9 +186,9 @@ abstract class Piwik_Controller
 	 * 
 	 * @param string $currentModuleName
 	 * @param string $currentControllerAction
-	 * @param array $columnsToDisplay in a format like ["VisitsSummary.nb_visits","Actions.nb_uniq_pageviews"]
-	 * @param array $selectableColumns in the same format as the parameter above
-	 * @param string $reportDocumentation the documentation to set on the report
+	 * @param array $columnsToDisplay
+	 * @param array $selectableColumns
+	 * @param string $reportDocumentation
 	 * @return Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution
 	 */
 	protected function getLastUnitGraphAcrossPlugins($currentModuleName, $currentControllerAction,
@@ -203,50 +203,25 @@ abstract class Piwik_Controller
 		
 		$_GET['columns'] = implode(',', $columnsToDisplay);
 		
-		// split the requested columns between the plugins
-		$columnsPerPlugin = array();
-		foreach (array_merge($columnsToDisplay, $selectableColumns) as $column)
-		{
-			@list($plugin, $col) = explode('.', $column);
-			$columnsPerPlugin[$plugin][] = $col;
-		}
-		
-		// load meta data for the requested plugins
+		// load translations from meta data
 		$idSite = Piwik_Common::getRequestVar('idSite');
 		$period = Piwik_Common::getRequestVar('period');
 		$date = Piwik_Common::getRequestVar('date');
-		$meta = array();
-		foreach ($columnsPerPlugin as $plugin => $columns)
-		{
-			$meta[$plugin] = Piwik_API_API::getInstance()->getMetadata(
-					$idSite, $plugin, 'get', array(), false, $period, $date);
-			$meta[$plugin] = &$meta[$plugin][0];
-		}
+		$meta = Piwik_API_API::getInstance()->getReportMetadata($idSite, $period, $date);
 		
-		// handle wildcards like VisitsSummary.* in $selectableColumns
-		foreach ($selectableColumns as $i => $column)
-		{
-			if (substr($column, -2) == '.*')
-			{
-				$plugin = substr($column, 0, -2);
-				unset($selectableColumns[$i]);
-				$columnsPerPlugin[$plugin] = array();
-				foreach ($meta[$plugin]['metrics'] as $column => $translation)
-				{
-					$selectableColumns[] = $plugin.'.'.$column;
-					$columnsPerPlugin[$plugin][] = $column;
-				}
-			}
-		}
-		
-		// get metrics translations from meta data
+		$columns = array_merge($columnsToDisplay, $selectableColumns);
 		$translations = array();
-		foreach ($columnsPerPlugin as $plugin => $columns)
+		foreach ($meta as $reportMeta)
 		{
-			foreach ($columns as $column)
+			if ($reportMeta['action'] == 'get' && !isset($reportMeta['parameters']))
 			{
-				$translations[$plugin.'.'.$column] = isset($meta[$plugin]['metrics'][$column]) ? 
-						$meta[$plugin]['metrics'][$column] : $column;
+				foreach ($columns as $column)
+				{
+					if (isset($reportMeta['metrics'][$column]))
+					{
+						$translations[$column] = $reportMeta['metrics'][$column];
+					}
+				}
 			}
 		}
 		

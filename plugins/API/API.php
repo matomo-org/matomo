@@ -767,22 +767,35 @@ class Piwik_API_API
 	}
 	
 	
-	/**
-	 * Get a combined report of the *.get API methods.
-	 * $columns has a format like "VisitsSummary.nb_visits,Actions.nb_uniq_pageviews".
-	 * In the example above, the metric nb_visits from VisitsSummary.get and the metric
-	 * nb_uniq_pageviews from Actions.get will be returned.
-	 */
+	/** Get a combined report of the *.get API methods. */
 	public function get( $idSite, $period, $date, $segment = false, $columns = false)
 	{
-		// get the columns that are requested per plugin
 		$columns = Piwik::getArrayFromApiParameter($columns);
-		$columnsByPlugin = array();
-		$columnNameMap = array();
+		
+		// build columns map for faster checks later on
+		$columnsMap = array();
 		foreach ($columns as $column) {
-			list($plugin, $metric) = explode('.', $column);
-			$columnsByPlugin[$plugin][] = $metric;
-			$columnNameMap[$plugin][$metric] = $plugin.'.'.$metric;
+			$columnsMap[$column] = true;
+		}
+		
+		// find out which columns belong to which plugin
+		$columnsByPlugin = array();
+		$meta = Piwik_API_API::getInstance()->getReportMetadata($idSite, $period, $date);
+		foreach ($meta as $reportMeta)
+		{
+			// scan all *.get reports
+			if ($reportMeta['action'] == 'get' && !isset($reportMeta['parameters']))
+			{
+				$plugin = $reportMeta['module'];
+				foreach ($reportMeta['metrics'] as $column => $columnTranslation)
+				{
+					// a metric from this report has been requested
+					if (isset($columnsMap[$column]))
+					{
+						$columnsByPlugin[$plugin][] = $column;
+					}
+				}
+			}
 		}
 		
 		$mergedDataTable = false;
@@ -813,9 +826,6 @@ class Piwik_API_API
 				
 				}
 			}
-			
-			// prefix columns with plugin name
-			$dataTable->filter('ReplaceColumnNames', array($columnNameMap[$plugin]));
 			
 			// merge reports
 			if ($mergedDataTable === false)
