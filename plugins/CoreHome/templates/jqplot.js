@@ -847,6 +847,12 @@ JQPlot.prototype = {
 			return;
 		}
 		
+		if ($('#dashboard').size() > 0) {
+			// don't display picker in dashboard
+			// it would be cut off by overflow:hidden containers
+			return;
+		}
+		
 		// initialize dom element
 		picker.domElem = $(document.createElement('a'))
 			.addClass('jqplot-seriespicker')

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<Actions.nb_pageviews>16</Actions.nb_pageviews>
-	<VisitsSummary.nb_visits>5</VisitsSummary.nb_visits>
-	<VisitsSummary.avg_time_on_site>1369</VisitsSummary.avg_time_on_site>
-	<Goals.nb_visits_converted>4</Goals.nb_visits_converted>
+	<nb_visits>5</nb_visits>
+	<avg_time_on_site>1369</avg_time_on_site>
+	<nb_pageviews>16</nb_pageviews>
+	<nb_visits_converted>4</nb_visits_converted>
 </result>

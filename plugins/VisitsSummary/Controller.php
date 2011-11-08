@@ -20,8 +20,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 	{
 		$view = Piwik_View::factory('index');
 		$this->setPeriodVariablesView($view);
-		$view->graphEvolutionVisitsSummary = $this->getEvolutionGraph( true, 
-				array('VisitsSummary.nb_visits', 'VisitsSummary.nb_uniq_visitors') );
+		$view->graphEvolutionVisitsSummary = $this->getEvolutionGraph( true, array('nb_visits') );
 		$this->setSparklinesAndNumbers($view);
 		echo $view->render();
 	}
@@ -42,7 +41,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 			$columns = Piwik::getArrayFromApiParameter($columns);
 		}
 		
-		$doc = Piwik_Translate('VisitsSummary_VisitsSummaryDocumentation').'<br />'
+		$documentation = Piwik_Translate('VisitsSummary_VisitsSummaryDocumentation').'<br />'
 		     . Piwik_Translate('General_BrokenDownReportDocumentation').'<br /><br />'
 		     
 		     . '<b>'.Piwik_Translate('General_ColumnNbVisits').':</b> '
@@ -57,8 +56,26 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		     . '<b>'.Piwik_Translate('General_ColumnActionsPerVisit').':</b> '
 		     . Piwik_Translate('General_ColumnActionsPerVisitDocumentation');
 		
+		$selectableColumns = array(
+			// columns from VisitsSummary.get
+			'nb_visits',
+			'nb_uniq_visitors',
+			'avg_time_on_site',
+			'bounce_rate',
+			'nb_actions_per_visit',
+			'max_actions',
+			'nb_visits_converted',
+			// columns from Actions.get
+			'nb_pageviews',
+			'nb_uniq_pageviews',
+			'nb_downloads',
+			'nb_uniq_downloads',
+			'nb_outlinks',
+			'nb_uniq_outlinks'
+		);
+		
 		$view = $this->getLastUnitGraphAcrossPlugins($this->pluginName, __FUNCTION__, $columns, 
-							$selectableColumns = array('VisitsSummary.*', 'Actions.*'), $doc);
+							$selectableColumns, $documentation);
 		
 		return $this->renderView($view, $fetch);
 	}
@@ -85,14 +102,14 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 	
 	protected function setSparklinesAndNumbers($view)
 	{
-		$view->urlSparklineNbVisits 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => $view->displayUniqueVisitors ? array('VisitsSummary.nb_visits', 'VisitsSummary.nb_uniq_visitors') : array('VisitsSummary.nb_visits')));
-		$view->urlSparklineNbPageviews 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('Actions.nb_pageviews', 'Actions.nb_uniq_pageviews')));
-		$view->urlSparklineNbDownloads 	    = $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('Actions.nb_downloads', 'Actions.nb_uniq_downloads')));
-		$view->urlSparklineNbOutlinks 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('Actions.nb_outlinks', 'Actions.nb_uniq_outlinks')));
-		$view->urlSparklineAvgVisitDuration = $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('VisitsSummary.avg_time_on_site')));
-		$view->urlSparklineMaxActions 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('VisitsSummary.max_actions')));
-		$view->urlSparklineActionsPerVisit 	= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('VisitsSummary.nb_actions_per_visit')));
-		$view->urlSparklineBounceRate 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('VisitsSummary.bounce_rate')));
+		$view->urlSparklineNbVisits 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => $view->displayUniqueVisitors ? array('nb_visits', 'nb_uniq_visitors') : array('nb_visits')));
+		$view->urlSparklineNbPageviews 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_pageviews', 'nb_uniq_pageviews')));
+		$view->urlSparklineNbDownloads 	    = $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_downloads', 'nb_uniq_downloads')));
+		$view->urlSparklineNbOutlinks 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_outlinks', 'nb_uniq_outlinks')));
+		$view->urlSparklineAvgVisitDuration = $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('avg_time_on_site')));
+		$view->urlSparklineMaxActions 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('max_actions')));
+		$view->urlSparklineActionsPerVisit 	= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_actions_per_visit')));
+		$view->urlSparklineBounceRate 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('bounce_rate')));
 		
 		$dataTableVisit = self::getVisitsSummary();
 		$dataRow = $dataTableVisit->getFirstRow();

@@ -272,8 +272,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 				$periods = array('day', 'week'), $setDateLastN = false, $language = false, 
 				$segment = false, $visitorId = false, $abandonedCarts = false, $idGoal = false, 
 				$apiModule = false, $apiAction = false, $otherParams = array(
-					'columns' => 'Actions.nb_pageviews,VisitsSummary.nb_visits,'
-						.'VisitsSummary.avg_time_on_site,Goals.nb_visits_converted'));
+					'columns' => 'nb_pageviews,nb_visits,avg_time_on_site,nb_visits_converted'));
 		
         // Website2
 		$this->setApiToCall( array('Goals.get', 'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory'	) );
