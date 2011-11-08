@@ -768,7 +768,9 @@ class Piwik_API_API
 	}
 	
 	
-	/** Get a combined report of the *.get API methods. */
+	/** 
+	 * Get a combined report of the *.get API methods. 
+	 */
 	public function get( $idSite, $period, $date, $segment = false, $columns = false)
 	{
 		$columns = Piwik::getArrayFromApiParameter($columns);
@@ -791,7 +793,9 @@ class Piwik_API_API
 				foreach ($reportMeta['metrics'] as $column => $columnTranslation)
 				{
 					// a metric from this report has been requested
-					if (isset($columnsMap[$column]))
+					if (isset($columnsMap[$column])
+					// or by default, return all metrics
+						|| empty($columnsMap))
 					{
 						$columnsByPlugin[$plugin][] = $column;
 					}
@@ -800,14 +804,13 @@ class Piwik_API_API
 		}
 		
 		$mergedDataTable = false;
-		$params = compact('idSite', 'period', 'date', 'segment');
+		$params = compact('idSite', 'period', 'date', 'segment', 'idGoal');
 		foreach ($columnsByPlugin as $plugin => $columns)
 		{
 			// load the data		
 			$className = 'Piwik_'.$plugin.'_API';
 			$params['columns'] = implode(',', $columns);
 			$dataTable = Piwik_API_Proxy::getInstance()->call($className, 'get', $params);
-			
 			// make sure the table has all columns
 			$array = ($dataTable instanceof Piwik_DataTable_Array ? $dataTable->getArray() : array($dataTable));
 			foreach ($array as $table) 
