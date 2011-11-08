@@ -12,13 +12,13 @@
 	</thead>
 	<tbody>
 		<tr>
-            <td class="first">{'General_Website'|translate} </th>
+            <td class="first">{'General_Website'|translate} </td>
 			<td  style="width:650px">
 				{$siteName}
 			</td>
 		</tr>
 		<tr>
-            <td class="first">{'General_Description'|translate} </th>
+            <td class="first">{'General_Description'|translate} </td>
 			<td>
 			<textarea cols="30" rows="3" id="report_description" class="inp"></textarea>
 			<div class="entityInlineHelp">
@@ -54,12 +54,25 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="first">{'PDFReports_ReportFormat'|translate}
+			<td class="first">
+				{'PDFReports_ReportFormat'|translate}
 			</td>
 			<td>
 				<select id="report_format">
 				{foreach from=$formats key=format item=icon}
 					<option value="{$format}">{$format|upper}</option>
+				{/foreach}
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td class="first">
+				{'PDFReports_AggregateReportsFormat'|translate}&nbsp;*
+			</td>
+			<td>
+				<select id="aggregate_reports_format">
+				{foreach from=$aggregateReportsFormats key=formatValue item=formatLabel}
+					<option value="{$formatValue}">{$formatLabel}</option>
 				{/foreach}
 				</select>
 			</td>
@@ -77,7 +90,12 @@
 					{/if}
 					<div class='reportCategory'>{$category}</div><ul class='listReports'>
 					{foreach from=$reports item=report}
-						<li><input type="checkbox" id="{$report.uniqueId}" /><label for="{$report.uniqueId}">{$report.name|escape:"html"}</label></li>
+						<li>
+							<input type="checkbox" id="{$report.uniqueId}" />
+							<label for="{$report.uniqueId}">
+								{$report.name|escape:"html"}{if $report.isAggregate}&nbsp;*{/if}
+							</label>
+						</li>
 					{/foreach}
 					{assign var=countReports value=$countReports+1}
 					</ul>

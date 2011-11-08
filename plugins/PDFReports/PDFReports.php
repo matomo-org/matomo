@@ -18,6 +18,11 @@ class Piwik_PDFReports extends Piwik_Plugin
 {
 	const DEFAULT_FORMAT = 'pdf';
 
+	const AGGREGATE_REPORTS_FORMAT_TABLES = 1; // Display Tables Only
+	const AGGREGATE_REPORTS_FORMAT_GRAPHS = 2; // Display Graphs Only
+	const AGGREGATE_REPORTS_FORMAT_TABLES_GRAPHS = 3; // Display Tables and Graphs
+	const DEFAULT_AGGREGATE_REPORTS_FORMAT = Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_TABLES;
+
 	public function getInformation()
 	{
 		return array(

@@ -31,7 +31,8 @@ class Piwik_ImageGraph_API
 	
 	const GRAPH_OUTPUT_INLINE		= 0;
 	const GRAPH_OUTPUT_FILE			= 1;
-	
+	const GRAPH_OUTPUT_PHP			= 2;
+
 	private $GRAPH_COLOR_PIE_0			= "3C5A69";
 	private $GRAPH_COLOR_PIE_1			= "679BB5";
 	private $GRAPH_COLOR_PIE_2			= "695A3C";
@@ -76,6 +77,8 @@ class Piwik_ImageGraph_API
 							$width = false, $height = false, $fontSize = false, $aliasedGraph = true, $colors = false
 	)
 	{
+		Piwik::checkUserHasViewAccess($idSite);
+
 		// Health check - should we also test for GD2 only?
 		$extensions = @get_loaded_extensions();
 		if (!in_array('gd', $extensions)
@@ -352,7 +355,14 @@ class Piwik_ImageGraph_API
 						$typeName = "BasicLine";
 						break;
 				}
-				$fileName = $typeName."_".$apiModule."_".$apiAction." $date $idSite.png";
+
+				// Adding the idGoal to the filename
+				$idGoal = Piwik_Common::getRequestVar('idGoal', '', 'string');
+				if($idGoal != '')
+				{
+					$idGoal = '_' . $idGoal;
+				}
+				$fileName = $typeName."_".$apiModule."_".$apiAction.$idGoal." ".str_replace(',', '-', $date)." $idSite.png";
 				$fileName = str_replace(array(" ","/"), "_", $fileName);
 				if(!Piwik_Common::isValidFilename($fileName))
 				{
@@ -361,7 +371,10 @@ class Piwik_ImageGraph_API
 				$path = PIWIK_INCLUDE_PATH."/tmp/".$fileName;
 				$graph->Render($path);
 				return $path;
-				
+
+			case self::GRAPH_OUTPUT_PHP:
+				return $graph->Picture;
+
 			case self::GRAPH_OUTPUT_INLINE:
 			default:
 				$graph->Stroke();

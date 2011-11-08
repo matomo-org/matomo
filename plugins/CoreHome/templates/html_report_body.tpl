@@ -6,6 +6,24 @@
 {if empty($reportRows)}
 	{'CoreHome_ThereIsNoDataForThisReport'|translate}
 {else}
+	{if $displayGraph}
+		<img
+			alt=""
+			{if $renderImageInline}
+				src="data:image/png;base64,{$generatedImageGraph}"
+			{else}
+				src="cid:{$reportId}"
+			{/if}
+			height="{$graphHeight}"
+			width="{$graphWidth}" />
+	{/if}
+
+	{if $displayGraph && $displayTable}
+		<br/>
+		<br/>
+	{/if}
+
+	{if $displayTable}
 	<table style="border-collapse:collapse; margin-left: 5px">
 		<thead style="background-color: rgb({$tableHeaderBgColor}); color: rgb({$tableHeaderTextColor}); font-size: {$reportTableHeaderTextSize}pt;">
 			{foreach from=$reportColumns item=columnName}
@@ -54,6 +72,7 @@
 			{/foreach}
 		</tbody>
 	</table>
+	{/if}
 {/if}
 <br/>
 <a style="text-decoration:none; color: rgb({$reportTitleTextColor}); font-size: {$reportBackToTopTextSize}pt" href="#reportTop">

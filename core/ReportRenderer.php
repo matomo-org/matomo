@@ -19,6 +19,8 @@
  */
 abstract class Piwik_ReportRenderer
 {
+	const IMAGE_GRAPH_HEIGHT = 200;
+	const IMAGE_GRAPH_WIDTH = 700;
 	const DEFAULT_REPORT_FONT = 'dejavusans';
 	const REPORT_TEXT_COLOR = "68,68,68";
 	const REPORT_TITLE_TEXT_COLOR = "126,115,99";
@@ -32,8 +34,10 @@ abstract class Piwik_ReportRenderer
 		'html' => 'themes/default/images/html_icon.png',
 	);
 
+	protected $renderImageInline = false;
+
 	/**
-	 * Returns the ReportRenderer associated to the renderer type $rendererType
+	 * Return the ReportRenderer associated to the renderer type $rendererType
 	 *
 	 * @throws exception If the renderer is unknown
 	 * @param string $rendererType
@@ -58,6 +62,18 @@ abstract class Piwik_ReportRenderer
 				)
 			);
 		}
+	}
+
+	/**
+	 * Currently only used for HTML reports.
+	 * When sent by mail, images are attached to the mail: renderImageInline = false
+	 * When downloaded, images are included base64 encoded in the report body: renderImageInline = true
+	 *
+	 * @param boolean $renderImageInline
+	 */
+	public function setRenderImageInline($renderImageInline)
+	{
+		$this->renderImageInline = $renderImageInline;
 	}
 
 	/**
@@ -115,7 +131,7 @@ abstract class Piwik_ReportRenderer
 	}
 
 	/**
-	 * Returns $filename with temp directory and delete file
+	 * Return $filename with temp directory and delete file
 	 *
 	 * @static
 	 * @param  $filename
@@ -141,7 +157,7 @@ abstract class Piwik_ReportRenderer
 	protected static function processTableFormat($reportMetadata, $report, $reportColumns)
 	{
 		$finalReport = $report;
-		if(!isset($reportMetadata['dimension']))
+		if(empty($reportMetadata['dimension']))
 		{
 //			var_dump($report);
 			$simpleReportMetrics = $report->getFirstRow();
@@ -157,13 +173,15 @@ abstract class Piwik_ReportRenderer
 				}
 			}
 
-			$reportColumns = array('label' => Piwik_Translate('General_Name'),
-										 'value' => Piwik_Translate('General_Value'),);
+			$reportColumns = array(
+				'label' => Piwik_Translate('General_Name'),
+				'value' => Piwik_Translate('General_Value'),
+			);
 		}
 
 		return array(
-				$finalReport,
-				$reportColumns
-			);
+			$finalReport,
+			$reportColumns,
+		);
 	}
 }

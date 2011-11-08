@@ -23,6 +23,10 @@ require_once PIWIK_INCLUDE_PATH . '/core/TCPDF.php';
  */
 class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 {
+	const MAX_ROW_COUNT = 28;
+	const TABLE_HEADER_ROW_COUNT = 6;
+	const NO_DATA_ROW_COUNT = 6;
+
 	private $reportFontStyle = '';
 	private $reportSimpleFontSize = 9;
 	private $reportHeaderFontSize = 16;
@@ -49,12 +53,14 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 	private $rowTopBottomBorder = array(231, 231, 231);
 	private $report;
 	private $reportMetadata;
+	private $displayGraph;
+	private $displayTable;
 	private $reportColumns;
 	private $reportRowsMetadata;
 	private $currentPage = 0;
-	private $lastTableIsSmallReport = false;
 	private $reportFont = Piwik_ReportRenderer::DEFAULT_REPORT_FONT;
 	private $TCPDF;
+	private $orientation = 'P';
 
 	public function __construct()
 	{
@@ -151,23 +157,72 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 	 */
 	private function paintReportHeader()
 	{
-		$currentTableIsSmallReport = count($this->reportColumns) == 2;
+		$isAggregateReport = !empty($this->reportMetadata['dimension']);
+
+		// Graph-only report
+		static $graphOnlyReportCount = 0;
+		$graphOnlyReport = $isAggregateReport && $this->displayGraph && !$this->displayTable;
+
+		// Table-only report
+		$tableOnlyReport = $isAggregateReport
+							&& !$this->displayGraph
+							&& $this->displayTable;
+
+		$columnCount = count($this->reportColumns);
+
+		// Table-only 2-column report
+		static $tableOnly2ColumnReportCount = 0;
+		$tableOnly2ColumnReport = $tableOnlyReport
+								  && $columnCount == 2;
+
+		// Table-only report with more than 2 columns
+		static $tableOnlyManyColumnReportRowCount = 0;
+		$tableOnlyManyColumnReport = $tableOnlyReport
+								  	&& $columnCount > 2;
+
 		$reportHasData = $this->reportHasData();
+
+		$rowCount = $reportHasData ? $this->report->getRowsCount() + self::TABLE_HEADER_ROW_COUNT : self::NO_DATA_ROW_COUNT;
+
 		// Only a page break before if the current report has some data
-		if (($reportHasData
-			 // or if it is the first report
-			 || $this->currentPage == 0)
-			&& !($this->lastTableIsSmallReport
-				 && $currentTableIsSmallReport)) {
+		if ($reportHasData &&
+			// and
+			(
+				// it is the first report
+				$this->currentPage == 0
+				// or, it is a graph-only report and it is the first of a series of 3
+				|| ($graphOnlyReport && $graphOnlyReportCount == 0)
+				// or, it is a table-only 2-column report and it is the first of a series of 2
+				|| ($tableOnly2ColumnReport && $tableOnly2ColumnReportCount == 0)
+				// or it is a table-only report with more than 2 columns and it is the first of its series or there isn't enough space left on the page
+				|| ($tableOnlyManyColumnReport && ($tableOnlyManyColumnReportRowCount == 0 || $tableOnlyManyColumnReportRowCount + $rowCount >= self::MAX_ROW_COUNT))
+				// or it is a report with both a table and a graph
+				||	!$graphOnlyReport && !$tableOnlyReport
+			)
+		)
+		{
 			$this->currentPage++;
-			$columnCount = count($this->reportColumns);
 			$this->TCPDF->AddPage();
-			// Pages without data are always Portrait
-			if ($reportHasData) {
-				$this->TCPDF->setPageOrientation($columnCount > $this->maxColumnCountPortraitOrientation ? 'L' : 'P', '', $this->bottomMargin);
+
+			// Table-only reports with more than 2 columns are always landscape
+			if ($tableOnlyManyColumnReport)
+			{
+				$tableOnlyManyColumnReportRowCount = 0;
+				$this->orientation = 'L';
 			}
+			else
+			{
+				// Graph-only reports are always portrait
+				$this->orientation = $graphOnlyReport ? 'P' : ($columnCount > $this->maxColumnCountPortraitOrientation ? 'L' : 'P');
+			}
+			
+			$this->TCPDF->setPageOrientation($this->orientation, '', $this->bottomMargin);
 		}
-		$this->lastTableIsSmallReport = $currentTableIsSmallReport;
+
+		$graphOnlyReportCount = ($graphOnlyReport && $reportHasData) ? ($graphOnlyReportCount + 1) % 3 : 0;
+		$tableOnly2ColumnReportCount = ($tableOnly2ColumnReport && $reportHasData) ? ($tableOnly2ColumnReportCount + 1) % 2 : 0;
+		$tableOnlyManyColumnReportRowCount = $tableOnlyManyColumnReport ? ($tableOnlyManyColumnReportRowCount + $rowCount) : 0;
+
 		$title = $this->formatText($this->reportMetadata['name']);
 		$this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportHeaderFontSize);
 		$this->TCPDF->SetTextColor($this->headerTextColor[0], $this->headerTextColor[1], $this->headerTextColor[2]);
@@ -192,6 +247,8 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 	{
 		$this->reportMetadata = $processedReport['metadata'];
 		$this->reportRowsMetadata = $processedReport['reportMetadata'];
+		$this->displayGraph = $processedReport['displayGraph'];
+		$this->displayTable = $processedReport['displayTable'];
 		list($this->report, $this->reportColumns) = self::processTableFormat($this->reportMetadata, $processedReport['reportData'], $processedReport['columns']);
 
 		$this->paintReportHeader();
@@ -201,8 +258,21 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 			return;
 		}
 
-		$this->paintReportTableHeader();
-		$this->paintReportTable();
+		if($this->displayGraph)
+		{
+			$this->paintGraph($processedReport['generatedImageGraph']);
+		}
+
+		if($this->displayGraph && $this->displayTable)
+		{
+			$this->TCPDF->Ln();
+		}
+
+		if($this->displayTable)
+		{
+			$this->paintReportTableHeader();
+			$this->paintReportTable();
+		}
 	}
 
 	private function formatText($text)
@@ -294,6 +364,32 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 			$fill = !$fill;
 		}
 	}
+	private function paintGraph($imageGraph)
+	{
+		$this->TCPDF->Image(
+			'@'.$imageGraph,
+			$x = '',
+			$y = '',
+			$w = 0,
+			$h = 0,
+			$type = '',
+			$link = '',
+			$align = 'N',
+			$resize = false,
+			$dpi = 72,
+			$palign = '',
+			$ismask = false,
+			$imgmask = false,
+			$order = 0,
+			$fitbox = false,
+			$hidden = false,
+			$fitonpage = true,
+			$alt = false,
+			$altimgs = array()
+		);
+
+		unset($imageGraph);
+	}
 
 	/**
 	 * Draw the table header (first row)
@@ -311,24 +407,22 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 			}
 		}
 
-		// Decide on page orientation
-		$columnsCount = count($this->reportColumns);
-		if ($columnsCount <= 2) {
+		// Computes available column width
+		if ($this->orientation == 'P') {
 			$totalWidth = $this->reportWidthPortrait * 2 / 3;
 		}
-		else if ($columnsCount > $this->maxColumnCountPortraitOrientation) {
+		else if ($this->orientation == 'L') {
 			$totalWidth = $this->reportWidthLandscape;
 		}
 		else
 		{
 			$totalWidth = $this->reportWidthPortrait;
 		}
-		// Computes available column width
+		$columnsCount = count($this->reportColumns);
 		$this->totalWidth = $totalWidth;
 		$this->labelCellWidth = max(round(($this->totalWidth / $columnsCount) ), $this->minWidthLabelCell);
 		$this->cellWidth = round(($this->totalWidth - $this->labelCellWidth) / ($columnsCount - 1));
 		$this->totalWidth = $this->labelCellWidth + ($columnsCount - 1) * $this->cellWidth;
-
 
 		$this->TCPDF->SetFillColor($this->tableHeaderBackgroundColor[0], $this->tableHeaderBackgroundColor[1], $this->tableHeaderBackgroundColor[2]);
 		$this->TCPDF->SetTextColor($this->tableHeaderTextColor[0], $this->tableHeaderTextColor[1], $this->tableHeaderTextColor[2]);
