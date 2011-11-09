@@ -11,8 +11,8 @@
 			<nb_visits_returning>Returning Visits</nb_visits_returning>
 			<nb_actions_returning>Actions by Returning Visits</nb_actions_returning>
 			<avg_time_on_site_returning>Avg. Visit Duration for Returning Visitors (in seconds)</avg_time_on_site_returning>
-			<bounce_rate_returning>Bounce rate for Returning Visits</bounce_rate_returning>
-			<nb_actions_per_visit_returning>Avg. Actions per Returning visit</nb_actions_per_visit_returning>
+			<bounce_rate_returning>Bounce rate for returning visits</bounce_rate_returning>
+			<nb_actions_per_visit_returning>Avg. actions per returning visit</nb_actions_per_visit_returning>
 
 		</metrics>
 		<metricsDocumentation>
@@ -36,8 +36,8 @@
 		<nb_visits_returning>Returning Visits</nb_visits_returning>
 		<nb_actions_returning>Actions by Returning Visits</nb_actions_returning>
 		<avg_time_on_site_returning>Avg. Visit Duration for Returning Visitors (in seconds)</avg_time_on_site_returning>
-		<bounce_rate_returning>Bounce rate for Returning Visits</bounce_rate_returning>
-		<nb_actions_per_visit_returning>Avg. Actions per Returning visit</nb_actions_per_visit_returning>
+		<bounce_rate_returning>Bounce rate for returning visits</bounce_rate_returning>
+		<nb_actions_per_visit_returning>Avg. actions per returning visit</nb_actions_per_visit_returning>
 
 	</columns>
 	<reportData>
