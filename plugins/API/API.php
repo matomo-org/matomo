@@ -414,9 +414,12 @@ class Piwik_API_API
 		// Some plugins need to add custom metrics after all plugins hooked in
 		Piwik_PostEvent('API.getReportMetadata.end', $availableReports, $parameters);
 		
+		// Add API.get report metadata
+		$this->addApiGetMetdata($availableReports);
+		
 		// Sort results to ensure consistent order
 		usort($availableReports, array($this, 'sort'));
-
+		
 		$knownMetrics = array_merge( $this->getDefaultMetrics(), $this->getDefaultProcessedMetrics() );
 		foreach($availableReports as &$availableReport)
 		{
@@ -469,6 +472,42 @@ class Piwik_API_API
 		}
 		
 		return $availableReports;
+	}
+	
+	
+	/**
+	 * Add the metadata for the API.get report
+	 */
+	private function addApiGetMetdata(&$availableReports)
+	{
+		$metadata = array(
+			'category' => Piwik_Translate('General_API'),
+			'name' => Piwik_Translate('General_API'),
+			'module' => 'API',
+			'action' => 'get',
+			'metrics' => array(),
+			'processedMetrics' => array(),
+			'metricsDocumentation' => array(),
+			'order' => 1
+		);
+		
+		$indexesToMerge = array('metrics', 'processedMetrics', 'metricsDocumentation');
+		
+		foreach ($availableReports as $report)
+		{
+			if ($report['action'] == 'get')
+			{
+				foreach ($indexesToMerge as $index)
+				{
+					if (isset($report[$index]) && is_array($report[$index]))
+					{
+						$metadata[$index] = array_merge($metadata[$index], $report[$index]);
+					}
+				} 
+			}
+		}
+		
+		$availableReports[] = $metadata;
 	}
 
 	public function getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false, $apiParameters = false, $idGoal = false, $language = false, $showTimer = true)
@@ -787,7 +826,8 @@ class Piwik_API_API
 		foreach ($meta as $reportMeta)
 		{
 			// scan all *.get reports
-			if ($reportMeta['action'] == 'get' && !isset($reportMeta['parameters']))
+			if ($reportMeta['action'] == 'get' && !isset($reportMeta['parameters'])
+					&& $reportMeta['module'] != 'API')
 			{
 				$plugin = $reportMeta['module'];
 				foreach ($reportMeta['metrics'] as $column => $columnTranslation)
