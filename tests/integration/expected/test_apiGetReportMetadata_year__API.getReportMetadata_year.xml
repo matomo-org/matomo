@@ -1,6 +1,58 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<category>API</category>
+		<name>API</name>
+		<module>API</module>
+		<action>get</action>
+		<metrics>
+			<nb_pageviews>Pageviews</nb_pageviews>
+			<nb_uniq_pageviews>Unique Pageviews</nb_uniq_pageviews>
+			<nb_downloads>Downloads</nb_downloads>
+			<nb_uniq_downloads>Unique Downloads</nb_uniq_downloads>
+			<nb_outlinks>Outlinks</nb_outlinks>
+			<nb_uniq_outlinks>Unique Outlinks</nb_uniq_outlinks>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_visits>Visits</nb_visits>
+			<nb_actions>Actions</nb_actions>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<avg_time_on_site>Avg. Visit Duration (in seconds)</avg_time_on_site>
+			<max_actions>Maximum actions in one visit</max_actions>
+			<nb_visits_returning>Returning Visits</nb_visits_returning>
+			<nb_actions_returning>Actions by Returning Visits</nb_actions_returning>
+			<avg_time_on_site_returning>Avg. Visit Duration for Returning Visitors (in seconds)</avg_time_on_site_returning>
+			<bounce_rate_returning>Bounce rate for returning visits</bounce_rate_returning>
+			<nb_actions_per_visit_returning>Avg. actions per returning visit</nb_actions_per_visit_returning>
+			<nb_conversions>Conversions</nb_conversions>
+			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
+			<conversion_rate>Conversion Rate</conversion_rate>
+			<revenue>Revenue</revenue>
+
+		</metrics>
+		<metricsDocumentation>
+			<nb_pageviews>The number of times this page was visited.</nb_pageviews>
+			<nb_uniq_pageviews>The number of visits that included this page. If a page was viewed multiple times during one visit, it is only counted once.</nb_uniq_pageviews>
+			<nb_downloads>The number of times this link was clicked.</nb_downloads>
+			<nb_uniq_downloads>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</nb_uniq_downloads>
+			<nb_outlinks>The number of times this link was clicked.</nb_outlinks>
+			<nb_uniq_outlinks>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</nb_uniq_outlinks>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
+
+		</metricsDocumentation>
+		<uniqueId>API_get</uniqueId>
+
+	</row>
+	<row>
 		<category>Visits Summary</category>
 		<name>Visits Summary</name>
 		<module>VisitsSummary</module>
@@ -788,8 +840,8 @@
 			<nb_visits_returning>Returning Visits</nb_visits_returning>
 			<nb_actions_returning>Actions by Returning Visits</nb_actions_returning>
 			<avg_time_on_site_returning>Avg. Visit Duration for Returning Visitors (in seconds)</avg_time_on_site_returning>
-			<bounce_rate_returning>Bounce rate for Returning Visits</bounce_rate_returning>
-			<nb_actions_per_visit_returning>Avg. Actions per Returning visit</nb_actions_per_visit_returning>
+			<bounce_rate_returning>Bounce rate for returning visits</bounce_rate_returning>
+			<nb_actions_per_visit_returning>Avg. actions per returning visit</nb_actions_per_visit_returning>
 
 		</metrics>
 		<metricsDocumentation>
