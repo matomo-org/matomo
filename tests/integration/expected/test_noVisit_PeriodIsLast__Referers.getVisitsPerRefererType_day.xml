@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result defaultKeyName="2009-01-04">
+		<row>
+			<nb_visits_1>0</nb_visits_1>
+			<nb_visits_2>0</nb_visits_2>
+			<nb_visits_3>0</nb_visits_3>
+			<nb_visits_6>0</nb_visits_6>
+		</row>
+	</result>
+	<result defaultKeyName="2009-01-05">
+		<row>
+			<nb_visits_1>0</nb_visits_1>
+			<nb_visits_2>0</nb_visits_2>
+			<nb_visits_3>0</nb_visits_3>
+			<nb_visits_6>0</nb_visits_6>
+		</row>
+	</result>
+	<result defaultKeyName="2009-01-06">
+		<row>
+			<nb_visits_1>0</nb_visits_1>
+			<nb_visits_2>0</nb_visits_2>
+			<nb_visits_3>0</nb_visits_3>
+			<nb_visits_6>0</nb_visits_6>
+		</row>
+	</result>
+	<result defaultKeyName="2009-01-07">
+		<row>
+			<nb_visits_1>0</nb_visits_1>
+			<nb_visits_2>0</nb_visits_2>
+			<nb_visits_3>0</nb_visits_3>
+			<nb_visits_6>0</nb_visits_6>
+		</row>
+	</result>
+	<result defaultKeyName="2009-01-08">
+		<row>
+			<nb_visits_1>0</nb_visits_1>
+			<nb_visits_2>0</nb_visits_2>
+			<nb_visits_3>0</nb_visits_3>
+			<nb_visits_6>0</nb_visits_6>
+		</row>
+	</result>
+	<result defaultKeyName="2009-01-09">
+		<row>
+			<nb_visits_1>0</nb_visits_1>
+			<nb_visits_2>0</nb_visits_2>
+			<nb_visits_3>0</nb_visits_3>
+			<nb_visits_6>0</nb_visits_6>
+		</row>
+	</result>
+	<result defaultKeyName="2009-01-10">
+		<row>
+			<nb_visits_1>0</nb_visits_1>
+			<nb_visits_2>0</nb_visits_2>
+			<nb_visits_3>0</nb_visits_3>
+			<nb_visits_6>0</nb_visits_6>
+		</row>
+	</result>
+</results>
