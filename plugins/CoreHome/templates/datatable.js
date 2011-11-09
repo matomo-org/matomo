@@ -575,11 +575,6 @@ dataTable.prototype =
 				if(typeof idGoal != 'undefined') {
 					str += '&idGoal='+idGoal;
 				}
-				// API.get only shows the columns that are requested
-				// for that report, we need to pass the columns to the export
-				if(method == 'API.get' && typeof self.param.columns != 'undefined') {
-					str += '&columns=' + self.param.columns;
-				}
 				if( filter_limit )
 				{
 					str += '&filter_limit=' + filter_limit;
