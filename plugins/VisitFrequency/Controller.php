@@ -33,25 +33,45 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
 	
 	public function getEvolutionGraph( $fetch = false, $columns = false)
 	{
-		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "VisitFrequency.get");
 		if(empty($columns))
 		{
 			$columns = Piwik_Common::getRequestVar('columns');
+			$columns = Piwik::getArrayFromApiParameter($columns);
 		}
-		$view->setColumnsToDisplay($columns);
-		$view->setColumnsTranslations(array(
-			'nb_visits_returning' => Piwik_Translate('VisitFrequency_ColumnReturningVisits'),
-			'nb_actions_returning' => Piwik_Translate('VisitFrequency_ColumnActionsByReturningVisits'),
-			'avg_time_on_site_returning' => Piwik_Translate('VisitFrequency_ColumnAverageVisitDurationForReturningVisitors'),
-			'bounce_rate_returning' => Piwik_Translate('VisitFrequency_ColumnBounceRateForReturningVisits'),
-			'nb_actions_per_visit_returning' => Piwik_Translate('VisitFrequency_ColumnAvgActionsPerReturningVisit'),
-		));
 		
-		$doc = Piwik_Translate('VisitFrequency_ReturningVisitsDocumentation').'<br />'
-		     . Piwik_Translate('General_BrokenDownReportDocumentation').'<br />'
-		     . Piwik_Translate('VisitFrequency_ReturningVisitDocumentation');
+		$documentation = Piwik_Translate('VisitFrequency_ReturningVisitsDocumentation').'<br />'
+				. Piwik_Translate('General_BrokenDownReportDocumentation').'<br />'
+				. Piwik_Translate('VisitFrequency_ReturningVisitDocumentation');
 		
-		$view->setReportDocumentation($doc);
+		$selectableColumns = array(
+			// columns from VisitFrequency.get
+			'nb_visits_returning',
+			'nb_actions_returning',
+			'nb_actions_per_visit_returning',
+			'bounce_rate_returning',
+			'avg_time_on_site_returning',
+			// columns from VisitsSummary.get
+			'nb_visits',
+			'nb_actions',
+			'nb_actions_per_visit',
+			'bounce_rate',
+			'avg_time_on_site'
+		);
+		
+		$period = Piwik_Common::getRequestVar('period', false);
+		if ($period == 'day')
+		{
+			// add number of unique (returning) visitors for period=day
+			$selectableColumns = array_merge(
+					array($selectableColumns[0]),
+					array('nb_uniq_visitors_returning'),
+					array_slice($selectableColumns, 1, -4),
+					array('nb_uniq_visitors'),
+					array_slice($selectableColumns, -4));
+		}
+		
+		$view = $this->getLastUnitGraphAcrossPlugins($this->pluginName, __FUNCTION__, $columns, 
+							$selectableColumns, $documentation);
 		
 		return $this->renderView($view, $fetch);
 	}

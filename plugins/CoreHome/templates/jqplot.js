@@ -947,7 +947,9 @@ JQPlot.prototype = {
 		
 		// try to display popover to the right
 		var margin = (parseInt(pickerLink.css('marginLeft'), 10) - 4);
-		if (margin + neededSpace < plotWidth) {
+		if (margin + neededSpace < plotWidth
+				// make sure it's not too far to the left
+				|| margin - neededSpace + 60 < 0) {
 			pickerPopover.css('marginLeft', margin + 'px').show();
 		} else {
 			// display to the left

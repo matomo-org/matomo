@@ -53,8 +53,8 @@ class Piwik_VisitFrequency extends Piwik_Plugin
     			'avg_time_on_site_returning' => Piwik_Translate('VisitFrequency_ColumnAverageVisitDurationForReturningVisitors'),
     			'bounce_rate_returning' => Piwik_Translate('VisitFrequency_ColumnBounceRateForReturningVisits'),
     			'nb_actions_per_visit_returning' => Piwik_Translate('VisitFrequency_ColumnAvgActionsPerReturningVisit'),
+				'nb_uniq_visitors_returning' => Piwik_Translate('VisitFrequency_ColumnUniqueReturningVisitors'),
 // Not displayed
-//    			'nb_uniq_visitors_returning',
 //    			'nb_visits_converted_returning',
 //    			'sum_visit_length_returning',
 //    			'max_actions_returning',
