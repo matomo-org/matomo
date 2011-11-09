@@ -408,7 +408,6 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 				'bounce_count_returning' => 'VisitFrequency_ColumnBounceCountForReturningVisits',
 				'max_actions' => 'General_ColumnMaxActions',
 				'max_actions_returning' => 'VisitFrequency_ColumnMaxActionsInReturningVisit',
-				'nb_uniq_visitors_returning' => 'VisitFrequency_ColumnUniqueReturningVisitors',
 				'nb_visits_converted_returning' => 'VisitFrequency_ColumnNbReturningVisitsConverted',
 				'sum_visit_length_returning' => 'VisitFrequency_ColumnSumVisitLengthReturning',
 				'nb_visits_converted' => 'General_ColumnVisitsWithConversions',

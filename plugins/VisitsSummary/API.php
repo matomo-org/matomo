@@ -41,7 +41,7 @@ class Piwik_VisitsSummary_API
 		$tempColumns = array();
 		
 		$bounceRateRequested = $actionsPerVisitRequested = $averageVisitDurationRequested = false;
-		if($subsetOfColumns = !empty($columns))
+		if(!empty($columns))
 		{
 			// make sure base metrics are there for processed metrics
 			if(false !== ($bounceRateRequested = array_search('bounce_rate', $columns)))

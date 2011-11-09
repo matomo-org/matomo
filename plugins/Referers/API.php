@@ -54,6 +54,61 @@ class Piwik_Referers_API
 		return $dataTable;
 	}
 	
+	/**
+	 * This is a combined report that contains one row with the visits per referrer
+	 * as columns. It is used internally to make comparing the referrers with the
+	 * metrics picker possible.
+	 */
+	public function getVisitsPerRefererType($idSite, $period, $date, $segment=false)
+	{
+		$dataTable = $this->getRefererType($idSite, $period, $date, $segment);
+		
+		$isDataTableArray = $dataTable instanceof Piwik_DataTable_Array;
+		$result = new Piwik_DataTable_Array;
+		
+		if ($isDataTableArray)
+		{
+			$array = $dataTable->getArray();
+			$result->metadata = $dataTable->metadata;
+		}
+		else
+		{
+			$array = array($dataTable);
+		}
+		
+		$rowBase = array(
+			'nb_visits_'.Piwik_Common::REFERER_TYPE_DIRECT_ENTRY => 0,
+			'nb_visits_'.Piwik_Common::REFERER_TYPE_SEARCH_ENGINE => 0,
+			'nb_visits_'.Piwik_Common::REFERER_TYPE_WEBSITE => 0,
+			'nb_visits_'.Piwik_Common::REFERER_TYPE_CAMPAIGN => 0
+		);
+		
+		foreach ($array as $tableIndex => $dataTable)
+		{
+			$newTable = new Piwik_DataTable;
+			$columns = $rowBase;
+			foreach ($dataTable->getRows() as $row)
+			{
+				$visits = $row->getColumn(Piwik_Archive::INDEX_NB_VISITS);
+				$refType = $row->getColumn('label');
+				$label = 'nb_visits_'.$refType;
+				$columns[$label] = $visits;
+			}
+			$newTable->addRowFromArray(array(
+				Piwik_DataTable_Row::COLUMNS => $columns
+			));
+			$result->addTable($newTable, $tableIndex);
+		}
+		
+		if (!$isDataTableArray)
+		{
+			$array = $result->getArray();
+			$result = $array[0];
+		}
+		
+		return $result;
+	}
+	
 	public function getKeywords($idSite, $period, $date, $segment = false, $expanded = false)
 	{
 		$dataTable = $this->getDataTable('Referers_searchEngineByKeyword', $idSite, $period, $date, $segment, $expanded);
