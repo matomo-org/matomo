@@ -155,6 +155,7 @@ class Piwik_PDFReports extends Piwik_Plugin
 					description VARCHAR(255) NOT NULL,
 					period VARCHAR(10) NULL,
 					format VARCHAR(10),
+					aggregate_reports_format TINYINT(1) NOT NULL,
 					email_me TINYINT NULL,
 					additional_emails TEXT NULL,
 					reports TEXT NOT NULL,
