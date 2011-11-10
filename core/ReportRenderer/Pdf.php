@@ -26,6 +26,8 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 	const MAX_ROW_COUNT = 28;
 	const TABLE_HEADER_ROW_COUNT = 6;
 	const NO_DATA_ROW_COUNT = 6;
+	const MAX_GRAPH_REPORTS = 3;
+	const MAX_2COL_TABLE_REPORTS = 2;
 
 	private $reportFontStyle = '';
 	private $reportSimpleFontSize = 9;
@@ -190,9 +192,9 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 			(
 				// it is the first report
 				$this->currentPage == 0
-				// or, it is a graph-only report and it is the first of a series of 3
+				// or, it is a graph-only report and it is the first of a series of self::MAX_GRAPH_REPORTS
 				|| ($graphOnlyReport && $graphOnlyReportCount == 0)
-				// or, it is a table-only 2-column report and it is the first of a series of 2
+				// or, it is a table-only 2-column report and it is the first of a series of self::MAX_2COL_TABLE_REPORTS
 				|| ($tableOnly2ColumnReport && $tableOnly2ColumnReportCount == 0)
 				// or it is a table-only report with more than 2 columns and it is the first of its series or there isn't enough space left on the page
 				|| ($tableOnlyManyColumnReport && ($tableOnlyManyColumnReportRowCount == 0 || $tableOnlyManyColumnReportRowCount + $rowCount >= self::MAX_ROW_COUNT))
@@ -219,8 +221,8 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 			$this->TCPDF->setPageOrientation($this->orientation, '', $this->bottomMargin);
 		}
 
-		$graphOnlyReportCount = ($graphOnlyReport && $reportHasData) ? ($graphOnlyReportCount + 1) % 3 : 0;
-		$tableOnly2ColumnReportCount = ($tableOnly2ColumnReport && $reportHasData) ? ($tableOnly2ColumnReportCount + 1) % 2 : 0;
+		$graphOnlyReportCount = ($graphOnlyReport && $reportHasData) ? ($graphOnlyReportCount + 1) % self::MAX_GRAPH_REPORTS : 0;
+		$tableOnly2ColumnReportCount = ($tableOnly2ColumnReport && $reportHasData) ? ($tableOnly2ColumnReportCount + 1) % self::MAX_2COL_TABLE_REPORTS : 0;
 		$tableOnlyManyColumnReportRowCount = $tableOnlyManyColumnReport ? ($tableOnlyManyColumnReportRowCount + $rowCount) : 0;
 
 		$title = $this->formatText($this->reportMetadata['name']);
