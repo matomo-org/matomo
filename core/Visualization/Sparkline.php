@@ -23,7 +23,7 @@ require_once PIWIK_INCLUDE_PATH . '/libs/sparkline/lib/Sparkline_Line.php';
  * @package Piwik
  * @subpackage Piwik_Visualization
  */
-class Piwik_Visualization_Sparkline implements Piwik_iView
+class Piwik_Visualization_Sparkline implements Piwik_View_Interface
 {
 	/**
 	 * Array with format: array( x, y, z, ... )

@@ -23,7 +23,7 @@ if(!defined('PIWIK_USER_PATH'))
  *
  * @package Piwik
  */
-class Piwik_View implements Piwik_iView
+class Piwik_View implements Piwik_View_Interface
 {
 	// view types
 	const STANDARD = 0; // REGULAR, FULL, CLASSIC

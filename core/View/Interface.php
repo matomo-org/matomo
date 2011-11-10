@@ -15,7 +15,7 @@
  *
  * @package Piwik
  */
-interface Piwik_iView
+interface Piwik_View_Interface
 {
 	/**
 	 * Outputs the data.

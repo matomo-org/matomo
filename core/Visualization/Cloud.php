@@ -19,7 +19,7 @@
  * @package Piwik
  * @subpackage Piwik_Visualization
  */
-class Piwik_Visualization_Cloud
+class Piwik_Visualization_Cloud implements Piwik_View_Interface
 {
 	protected $wordsArray = array();
 	public $truncatingLimit = 50;

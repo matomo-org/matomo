@@ -123,7 +123,7 @@ abstract class Piwik_Controller
 	}
 
 	/**
-	 * Given an Object implementing Piwik_iView interface, we either:
+	 * Given an Object implementing Piwik_View_Interface, we either:
 	 * - echo the output of the rendering if fetch = false
 	 * - returns the output of the rendering if fetch = true
 	 *
