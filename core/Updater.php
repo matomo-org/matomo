@@ -20,7 +20,6 @@ require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
  *
  * @package Piwik
  * @subpackage Piwik_Updater
- * @see Piwik_iUpdate
  */
 class Piwik_Updater
 {

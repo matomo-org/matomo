@@ -16,7 +16,7 @@
  * @package Piwik
  * @subpackage Piwik_Visualization
  */
-abstract class Piwik_Visualization_Chart implements Piwik_iView
+abstract class Piwik_Visualization_Chart implements Piwik_View_Interface
 {
 	
 	// the data kept here conforms to the jqplot data layout

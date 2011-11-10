@@ -12,7 +12,7 @@
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.
- * The main() method will create an object Piwik_iView
+ * The main() method will create an object implementing Piwik_View_Interface
  * You can customize the dataTable using the disable* methods.
  *
  * Example:
@@ -122,10 +122,10 @@ abstract class Piwik_ViewDataTable
 	protected $apiMethodToRequestDataTable;
 	
 	/**
-	 * This view should be an implementation of the Interface Piwik_iView
+	 * This view should be an implementation of the Interface Piwik_View_Interface
 	 * The $view object should be created in the main() method.
 	 *
-	 * @var Piwik_iView
+	 * @var Piwik_View_Interface
 	 */
 	protected $view = null;
 	
@@ -168,7 +168,7 @@ abstract class Piwik_ViewDataTable
 	
 	/**
 	 * Method to be implemented by the ViewDataTable_*.
-	 * This method should create and initialize a $this->view object @see Piwik_iView
+	 * This method should create and initialize a $this->view object @see Piwik_View_Interface
 	 *
 	 * @return mixed either prints the result or returns the output string
 	 */
@@ -326,10 +326,10 @@ abstract class Piwik_ViewDataTable
 	}
 		
 	/**
-	 * Returns the iView.
+	 * Returns the View_Interface.
 	 * You can then call render() on this object.
 	 *
-	 * @return Piwik_iView
+	 * @return Piwik_View_Interface
 	 * @throws exception if the view object was not created
 	 */
 	public function getView()
