@@ -243,7 +243,7 @@ class UserAgentParser
 			'Windows 95'			=> 'W95',
 
 			'Windows Phone OS 7.0'	=> 'WP7',
-            'Windows Phone OS 7.5'	=> 'WP7',
+			'Windows Phone OS 7.5'	=> 'WP7',
 			'Windows Mobile 6.5'	=> 'W65',
 			'Windows Mobile 6.1'	=> 'W61',
 			'Windows CE'			=> 'WCE',
