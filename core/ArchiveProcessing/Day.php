@@ -182,7 +182,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 			{
 				$lowerBound = $gap[0];
 				
-				$selectAs = $selectColumnPrefix.$lowerBound.urlencode('+');
+				$selectAs = $selectColumnPrefix.($lowerBound + 1).urlencode('+');
 
 				$selects[] = "sum(case when $table.$column > $lowerBound $extraCondition then 1 else 0 end) as `$selectAs`";
 			}

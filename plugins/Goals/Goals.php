@@ -36,7 +36,7 @@ class Piwik_Goals extends Piwik_Plugin
 		array(15, 25),
 		array(26, 50),
 		array(51, 100),
-		array(101)
+		array(100)
 	);
 
 	/**
@@ -56,8 +56,8 @@ class Piwik_Goals extends Piwik_Plugin
 		array(15, 30),
 		array(31, 60),
 		array(61, 120),
-		array(121, 365),
-		array(365)
+		array(121, 364),
+		array(364)
 	);
 
     public function getInformation()
