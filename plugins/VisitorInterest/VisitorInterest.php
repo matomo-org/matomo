@@ -180,7 +180,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 			array(31, 60),
 			array(61, 120),
 			array(121, 364),
-			array(365)
+			array(364)
 		);
 
 	function archivePeriod( $notification )
