@@ -979,6 +979,8 @@ class Piwik
 		if(Piwik_Common::isArchivePhpTriggered()
 			&& Piwik::isUserIsSuperUser())
 		{
+			// archive.php: no time limit, high memory limit
+			self::setMaxExecutionTime(0);
 			$minimumMemoryLimitWhenArchiving = Zend_Registry::get('config')->General->minimum_memory_limit_when_archiving;
 			if($memoryLimit < $minimumMemoryLimitWhenArchiving)
 			{
