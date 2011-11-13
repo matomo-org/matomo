@@ -57,7 +57,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	{
 		$view = $this->getGoalReportView($idGoal = Piwik_Common::getRequestVar('idGoal', null, 'string'));
 		$view->displayFullReport = true;
-        $view->goalDimensions = Piwik_Goals::getReportsWithGoalMetrics();
+		$view->goalDimensions = Piwik_Goals::getReportsWithGoalMetrics();
 		echo $view->render();
 	}
 	
@@ -205,8 +205,8 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	public function index()
 	{
 		$view = $this->getOverviewView();
-		$view->goalsJSON = json_encode($this->goals);
-        $view->goalDimensions = Piwik_Goals::getReportsWithGoalMetrics();
+		$view->goalsJSON = Piwik_Common::json_encode($this->goals);
+		$view->goalDimensions = Piwik_Goals::getReportsWithGoalMetrics();
 		$view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
 		$view->ecommerceEnabled = $this->site->isEcommerceEnabled();
 		$view->displayFullReport = true;
@@ -368,12 +368,12 @@ class Piwik_Goals_Controller extends Piwik_Controller
 				$conversions = $row->getColumn($columnNbConversions);
 				if($conversions > 0)
 				{
-    				$topDimension[] = array (
-    					'name' => $row->getColumn('label'),
-    					'nb_conversions' => $conversions,
+					$topDimension[] = array (
+						'name' => $row->getColumn('label'),
+						'nb_conversions' => $conversions,
 						'conversion_rate' => $this->formatConversionRate($row->getColumn($columnConversionRate)),
-    					'metadata' => $row->getMetadata(),
-    				);
+						'metadata' => $row->getMetadata(),
+					);
 				}
 			}
 			$topDimensions[$dimensionName] = $topDimension;

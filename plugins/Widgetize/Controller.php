@@ -19,7 +19,7 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 	function index()
 	{
 		$view = Piwik_View::factory('index');
-		$view->availableWidgets = json_encode(Piwik_GetWidgetsList());
+		$view->availableWidgets = Piwik_Common::json_encode(Piwik_GetWidgetsList());
 		$this->setGeneralVariablesView($view);
 		echo $view->render();
 	}

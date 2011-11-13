@@ -156,7 +156,7 @@ abstract class Piwik_Visualization_Chart implements Piwik_View_Interface
 			'seriesPicker' => &$this->seriesPicker
 		);
 		
-		return json_encode($data);
+		return Piwik_Common::json_encode($data);
 	}
 	
 	public function customizeChartProperties()

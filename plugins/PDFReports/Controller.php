@@ -43,7 +43,7 @@ class Piwik_PDFReports_Controller extends Piwik_Controller
 		$columnsCount = 2;
 		$view->newColumnAfter = ceil(count($reportsByCategory) / $columnsCount);
 		$view->reportsByCategory = $reportsByCategory;
-		$view->reportsJSON = json_encode($reportsById);
+		$view->reportsJSON = Piwik_Common::json_encode($reportsById);
 		$view->periods = array_merge(array('never' => Piwik_Translate('General_Never')),
 							Piwik_PDFReports_API::getPeriodToFrequency());
 		$view->defaultFormat = Piwik_PDFReports::DEFAULT_FORMAT;

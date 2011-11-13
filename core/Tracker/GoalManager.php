@@ -416,7 +416,7 @@ class Piwik_Tracker_GoalManager
 			// we still record an Ecommerce order without any item in it
 			return array();
 		}
-		$items = json_decode($items, $assoc = true);
+		$items = Piwik_Common::json_decode($items, $assoc = true);
 		if(!is_array($items))
 		{
 			printDebug("Error while json_decode the Ecommerce items = ".var_export($items, true));
