@@ -30,6 +30,21 @@ function smarty_modifier_truncate($string, $length = 80, $etc = '...',
     if ($length == 0)
         return '';
 
+    if (function_exists('mb_strlen') && function_exists('mb_substr'))
+    {
+        if (mb_strlen($string, 'UTF-8') > $length) {
+            $length -= min($length, mb_strlen($etc, 'UTF-8'));
+            if (!$break_words && !$middle) {
+                $string = preg_replace('/\s+?(\S+)?$/', '', mb_substr($string, 0, $length+1, 'UTF-8'));
+            }
+            if(!$middle) {
+                return mb_substr($string, 0, $length, 'UTF-8') . $etc;
+            }
+            return mb_substr($string, 0, $length/2, 'UTF-8') . $etc . mb_substr($string, -$length/2, $length/2, 'UTF-8');
+        }
+        return $string;
+    }
+
     if (strlen($string) > $length) {
         $length -= min($length, strlen($etc));
         if (!$break_words && !$middle) {
@@ -37,12 +52,10 @@ function smarty_modifier_truncate($string, $length = 80, $etc = '...',
         }
         if(!$middle) {
             return substr($string, 0, $length) . $etc;
-        } else {
-            return substr($string, 0, $length/2) . $etc . substr($string, -$length/2);
         }
-    } else {
-        return $string;
+        return substr($string, 0, $length/2) . $etc . substr($string, -$length/2);
     }
+    return $string;
 }
 
 /* vim: set expandtab: */

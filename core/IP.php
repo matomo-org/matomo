@@ -111,9 +111,6 @@ class Piwik_IP
 	 */
 	static public function sanitizeIpRange($ipRangeString)
 	{
-		// in case mbstring overloads strlen function
-		$strlen = function_exists('mb_orig_strlen') ? 'mb_orig_strlen' : 'strlen';
-
 		$ipRangeString = trim($ipRangeString);
 		if(empty($ipRangeString))
 		{
@@ -143,7 +140,7 @@ class Piwik_IP
 		if(($ip = @_inet_pton($ipRangeString)) === false)
 			return false;
 
-		$maxbits = $strlen($ip) * 8;
+		$maxbits = Piwik_Common::strlen($ip) * 8;
 		if(!isset($bits))
 			$bits = $maxbits;
 
@@ -207,24 +204,20 @@ class Piwik_IP
 	 */
 	static public function long2ip($ip)
 	{
-		// in case mbstring overloads strlen and substr functions
-		$strlen = function_exists('mb_orig_strlen') ? 'mb_orig_strlen' : 'strlen';
-		$substr = function_exists('mb_orig_substr') ? 'mb_orig_substr' : 'substr';
-
 		// IPv4
-		if($strlen($ip) == 4)
+		if(Piwik_Common::strlen($ip) == 4)
 		{
 			return self::N2P($ip);
 		}
 
 		// IPv6 - transitional address?
-		if($strlen($ip) == 16)
+		if(Piwik_Common::strlen($ip) == 16)
 		{
 			if(substr_compare($ip, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff", 0, 12) === 0
 				|| substr_compare($ip, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", 0, 12) === 0)
 			{
 				// remap 128-bit IPv4-mapped and IPv4-compat addresses
-				return self::N2P($substr($ip, 12));
+				return self::N2P(Piwik_Common::substr($ip, 12));
 			}
 		}
 
@@ -239,9 +232,6 @@ class Piwik_IP
 	 */
 	static public function getIpsForRange($ipRange)
 	{
-		// in case mbstring overloads strlen function
-		$strlen = function_exists('mb_orig_strlen') ? 'mb_orig_strlen' : 'strlen';
-
 		if(strpos($ipRange, '/') === false)
 		{
 			$ipRange = self::sanitizeIpRange($ipRange);
@@ -256,7 +246,7 @@ class Piwik_IP
 			return false;
 		}
 
-		$lowLen = $strlen($low);
+		$lowLen = Piwik_Common::strlen($low);
 		$i = $lowLen - 1;
 		$bits = $lowLen * 8 - $bits;
 
@@ -287,10 +277,7 @@ class Piwik_IP
 	 */
 	static public function isIpInRange($ip, $ipRanges)
 	{
-		// in case mbstring overloads strlen function
-		$strlen = function_exists('mb_orig_strlen') ? 'mb_orig_strlen' : 'strlen';
-
-		$ipLen = $strlen($ip);
+		$ipLen = Piwik_Common::strlen($ip);
 		if(empty($ip) || empty($ipRanges) || ($ipLen != 4 && $ipLen != 16))
 		{
 			return false;
@@ -316,7 +303,7 @@ class Piwik_IP
 
 			$low = $range[0];
 			$high = $range[1];
-			if($strlen($low) != $ipLen)
+			if(Piwik_Common::strlen($low) != $ipLen)
 			{
 				continue;
 			}
@@ -461,12 +448,9 @@ class Piwik_IP
  */
 function php_compat_inet_ntop($in_addr)
 {
-	// in case mbstring overloads strlen function
-	$strlen = function_exists('mb_orig_strlen') ? 'mb_orig_strlen' : 'strlen';
-
 	$r = bin2hex($in_addr);
 
-	switch ($strlen($in_addr))
+	switch (Piwik_Common::strlen($in_addr))
 	{
 		case 4:
 			// IPv4 address

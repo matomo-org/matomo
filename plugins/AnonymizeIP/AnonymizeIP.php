@@ -50,9 +50,7 @@ class Piwik_AnonymizeIP extends Piwik_Plugin
 	 */
 	static public function applyIPMask($ip, $maskLength)
 	{
-		// in case mbstring overloads strlen function
-		$strlen = function_exists('mb_orig_strlen') ? 'mb_orig_strlen' : 'strlen';
-		$i = $strlen($ip);
+		$i = Piwik_Common::strlen($ip);
 		if($maskLength > $i)
 		{
 			$maskLength = $i;

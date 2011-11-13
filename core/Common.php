@@ -554,6 +554,81 @@ class Piwik_Common
 	}
 
 /*
+ * String operations
+ */
+
+	/**
+	 * byte-oriented substr() - ASCII
+	 *
+	 * @param string $string
+	 * @param int $start
+	 * @param int $length optional length
+	 * @return string
+	 */
+	static public function substr($string, $start)
+	{
+		// in case mbstring overloads substr function
+		$substr = function_exists('mb_orig_substr') ? 'mb_orig_substr' : 'substr';
+
+		$length = func_num_args() > 2
+			? func_get_arg(2)
+			: self::strlen($string);
+
+		return $substr($string, $start, $length);
+	}
+
+	/**
+	 * byte-oriented strlen() - ASCII
+	 *
+	 * @param string $string
+	 * @return int
+	 */
+	static public function strlen($string)
+	{
+		// in case mbstring overloads strlen function
+		$strlen = function_exists('mb_orig_strlen') ? 'mb_orig_strlen' : 'strlen';
+		return $strlen($string);
+	}
+
+	/**
+	 * multi-byte substr() - UTF-8
+	 *
+	 * @param string $string
+	 * @param int $start
+	 * @param int $length optional length
+	 * @return string
+	 */
+	static public function mb_substr($string, $start)
+	{
+		$length = func_num_args() > 2
+			? func_get_arg(2)
+			: self::mb_strlen($string);
+
+		if (function_exists('mb_substr'))
+		{
+			return mb_substr($string, $start, $length, 'UTF-8');
+		}
+
+		return substr($string, $start, $length);
+	}
+
+	/**
+	 * multi-byte strlen() - UTF-8
+	 *
+	 * @param string $string
+	 * @return int
+	 */
+	static public function mb_strlen($string)
+	{
+		if (function_exists('mb_strlen'))
+		{
+			return mb_strlen($string, 'UTF-8');
+		}
+
+		return strlen($string);
+	}
+
+/*
  * Escaping input
  */
 
