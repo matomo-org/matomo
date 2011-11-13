@@ -57,9 +57,8 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 		$data = base64_decode($rawData);
 		if($data !== false)
 		{
-			$substr = function_exists('mb_orig_substr') ? 'mb_orig_substr' : 'substr';
 			// check for PNG header
-			if($substr($data, 0, 8) === "\x89\x50\x4e\x47\x0d\x0a\x1a\x0a")
+			if(Piwik_Common::substr($data, 0, 8) === "\x89\x50\x4e\x47\x0d\x0a\x1a\x0a")
 			{
 				header('Content-Type: image/png');
 

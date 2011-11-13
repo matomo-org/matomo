@@ -43,9 +43,6 @@ class Piwik_Visualization_Cloud implements Piwik_View_Interface
 
 	public function render()
 	{
-		$strlen = function_exists('mb_strlen') ? 'mb_strlen' : 'strlen';
-		$substr = function_exists('mb_substr') ? 'mb_substr' : 'substr';
-
 		$this->shuffleCloud();
 		$return = array();
 		if(empty($this->wordsArray)) {
@@ -55,9 +52,9 @@ class Piwik_Visualization_Cloud implements Piwik_View_Interface
 		foreach ($this->wordsArray as $word => $popularity)
 		{
 			$wordTruncated = $word;
-			if($strlen($word) > $this->truncatingLimit)
+			if(Piwik_Common::mb_strlen($word) > $this->truncatingLimit)
 			{
-				$wordTruncated = $substr($word, 0, $this->truncatingLimit - 3).'...';
+				$wordTruncated = Piwik_Common::mb_substr($word, 0, $this->truncatingLimit - 3).'...';
 			}
 			
 			// case hideFutureHoursWhenToday=1 shows hours with no visits
