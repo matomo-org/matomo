@@ -22,7 +22,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		$view = Piwik_View::factory($template);
 		$this->setGeneralVariablesView($view);
 
-		$view->availableWidgets = json_encode(Piwik_GetWidgetsList());
+		$view->availableWidgets = Piwik_Common::json_encode(Piwik_GetWidgetsList());
 		$layout = $this->getLayout();
 		if(empty($layout)
 			|| $layout == $this->getEmptyLayout()) {
@@ -145,7 +145,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		$layout = str_replace("\n", "", $layout);
 		// if the json decoding works (ie. new Json format)
 		// we will only return the widgets that are from enabled plugins
-		$layoutObject = json_decode($layout, $assoc = false);
+		$layoutObject = Piwik_Common::json_decode($layout, $assoc = false);
 
 		if(empty($layoutObject))
 		{
@@ -175,13 +175,13 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 				}
 			}
 		}
-		$layout = json_encode($layoutObject);
+		$layout = Piwik_Common::json_encode($layoutObject);
 		return $layout;
 	}
 	
 	protected function getEmptyLayout()
 	{
-		return json_encode(array(
+		return Piwik_Common::json_encode(array(
 			array(),
 			array(),
 			array())

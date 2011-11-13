@@ -214,7 +214,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
 					if(substr($label, -2) != '"]') {
 						$label .= '"]';
 					}
-					$decoded = @json_decode($label);
+					$decoded = @Piwik_Common::json_decode($label);
 					if(is_array($decoded))
 					{
 						$count = 0;

@@ -1035,6 +1035,75 @@ class Piwik_Common
 		return Piwik_IP::long2ip($ip);
 	}
 
+	/**
+	 * Should we use the replacement json_encode/json_decode functions?
+	 *
+	 * @return bool True if broken; false otherwise
+	 */
+	static private function useJsonLibrary()
+	{
+		static $useLib;
+
+		if (!isset($useLib))
+		{
+			/*
+			 * 5.1.x - doesn't have json extension; we use lib/upgradephp instead
+			 * 5.2 to 5.2.4 - broken in various ways, including:
+			 *
+			 * @see https://bugs.php.net/bug.php?id=38680 'json_decode cannot decode basic types'
+			 * @see https://bugs.php.net/bug.php?id=41403 'json_decode cannot decode floats'
+			 * @see https://bugs.php.net/bug.php?id=42785 'json_encode outputs numbers according to locale'
+			 */
+			$useLib = false;
+			if (version_compare(PHP_VERSION, '5.2.1') < 0)
+			{
+				$useLib = true;
+			}
+			else if (version_compare(PHP_VERSION, '5.2.5') < 0)
+			{
+				$info = localeconv();
+				$useLib = $info['decimal_point'] != '.';
+			}
+		}
+
+		return $useLib;
+	}
+
+	/**
+	 * JSON encode wrapper
+	 * - missing or broken in some php 5.x versions
+	 *
+	 * @param mixed $value
+	 * @return string
+	 */
+	static public function json_encode($value)
+	{
+		if (self::useJsonLibrary())
+		{
+			return _json_encode($value);
+		}
+
+		return json_encode($value);
+	}
+
+	/**
+	 * JSON decode wrapper
+	 * - missing or broken in some php 5.x versions
+	 *
+	 * @param string $json
+	 * @param bool $assoc
+	 * @return mixed
+	 */
+	static public function json_decode($json, $assoc = false)
+	{
+		if (self::useJsonLibrary())
+		{
+			return _json_decode($json, $assoc);
+		}
+
+		return json_decode($json, $assoc);
+	}
+
 /*
  * DataFiles
  */

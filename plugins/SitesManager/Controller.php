@@ -40,10 +40,10 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
 
 		$timezones = Piwik_SitesManager_API::getInstance()->getTimezonesList();
 		$view->timezoneSupported = Piwik::isTimezoneSupportEnabled();
-		$view->timezones = json_encode($timezones);
+		$view->timezones = Piwik_Common::json_encode($timezones);
 		$view->defaultTimezone = Piwik_SitesManager_API::getInstance()->getDefaultTimezone();
 
-		$view->currencies = json_encode(Piwik_SitesManager_API::getInstance()->getCurrencyList());
+		$view->currencies = Piwik_Common::json_encode(Piwik_SitesManager_API::getInstance()->getCurrencyList());
 		$view->defaultCurrency = Piwik_SitesManager_API::getInstance()->getDefaultCurrency();
 
 		$view->utcTime = Piwik_Date::now()->getDatetime();
@@ -161,6 +161,6 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
 			}
 		}
 
-		print json_encode($results);
+		print Piwik_Common::json_encode($results);
 	}
 }
