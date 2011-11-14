@@ -26,9 +26,9 @@ class Piwik_PDFReports_Controller extends Piwik_Controller
 		$reportsByCategory = array();
 		foreach($availableReports as $report)
 		{
-			$report['isAggregate'] = !empty($report['dimension']);
 			$reportsByCategory[$report['category']][] = $report;
 		}
+		unset($reportsByCategory['API']);
 
 		$reports = Piwik_PDFReports_API::getInstance()->getReports($this->idSite, $period = false, $idReport = false, $ifSuperUserReturnOnlySuperUserReports = true);
 		$reportsById = array();
