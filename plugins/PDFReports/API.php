@@ -270,7 +270,16 @@ class Piwik_PDFReports_API
 			{
 				$aggregateReportsFormat = Piwik_PDFReports::DEFAULT_AGGREGATE_REPORTS_FORMAT;
 			}
-			$reports = $reportMetadata;
+
+			$reports = array();
+			foreach($reportMetadata as $report)
+			{
+				if($report['category'] != 'API')
+				{
+					$reports[] = $report;
+				}
+			}
+
 			$description = Piwik_Translate('PDFReports_DefaultContainingAllReports');
 		}
 		// Template is a custom template
