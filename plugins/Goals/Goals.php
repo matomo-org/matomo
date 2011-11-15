@@ -428,7 +428,7 @@ class Piwik_Goals extends Piwik_Plugin
 		
 		// Goals widgets
 		Piwik_AddWidget('Goals_Goals', 'Goals_GoalsOverview', 'Goals', 'widgetGoalsOverview');
-		$goals = Piwik_Tracker_GoalManager::getGoalDefinitions($idSite);
+		$goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
 		if(count($goals) > 0)
 		{
 			foreach($goals as $goal)
@@ -448,7 +448,7 @@ class Piwik_Goals extends Piwik_Plugin
 	function addMenus()
 	{
 		$idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
-		$goals = Piwik_Tracker_GoalManager::getGoalDefinitions($idSite);
+		$goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
 		$mainGoalMenu = $this->getGoalCategoryName($idSite);
 		$site = new Piwik_Site($idSite);
 		if(count($goals)==0)
