@@ -287,6 +287,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		if(empty($columns))
 		{
 			$columns = Piwik_Common::getRequestVar('columns');
+			$columns = Piwik::getArrayFromApiParameter($columns);
 		}
 
 		$columns = !is_array($columns) ? array($columns) : $columns;
@@ -311,7 +312,9 @@ class Piwik_Goals_Controller extends Piwik_Controller
 			$nameToLabel['items'] = Piwik_Translate('Goals_LeftInCart', Piwik_Translate('Goals_Products'));
 		}
 		
-		foreach($columns as $columnName)
+		$selectableColumns = array('nb_conversions', 'conversion_rate');
+		
+		foreach(array_merge($columns, $selectableColumns) as $columnName)
 		{
 			$columnTranslation = '';
 			// find the right translation for this column, eg. find 'revenue' if column is Goal_1_revenue
@@ -332,6 +335,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 			$view->setColumnTranslation($columnName, $columnTranslation);
 		}
 		$view->setColumnsToDisplay($columns);
+		$view->setSelectableColumns($selectableColumns);
 		
 		$langString = $idGoal ? 'Goals_SingleGoalOverviewDocumentation' : 'Goals_GoalsOverviewDocumentation';
 		$view->setReportDocumentation(Piwik_Translate($langString, '<br />'));
