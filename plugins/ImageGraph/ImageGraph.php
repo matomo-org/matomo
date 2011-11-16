@@ -16,7 +16,10 @@ class Piwik_ImageGraph extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'description' => Piwik_Translate('ImageGraph_PluginDescription'),
+			'description' => Piwik_Translate('ImageGraph_PluginDescription') 
+					. ' Debug: <a href="'.Piwik_Url::getCurrentQueryStringWithParametersModified(
+							array('module'=> 'ImageGraph', 'action' => 'index'))
+					. '">All images</a>',
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION
