@@ -24,18 +24,27 @@ function initializeSparklines () {
 					//on click, reload the graph with the new url
 					$(this).click( function() {
 						var idDataTable = graph.attr('graphId');
-						//get the main page graph and reload with new data
+						// get the main page graph and reload with new data
 						var chart = $('#'+idDataTable+"Chart");
+						// when the metrics picker is used, the id of the data table might be updated (which is correct behavior).
+						// for example, in goal reports it might change from GoalsgetEvolutionGraph to GoalsgetEvolutionGraph1. 
+						// if this happens, we can't find the graph using $('#'+idDataTable+"Chart");
+						// instead, we just use the first evolution graph we can find.
+						if (chart.size() == 0) {
+							chart = $('div.dataTableGraphEvolutionWrapper div.piwik-graph');
+						}
 						chart.trigger('showLoading');
 						$.get(url, {}, function(data) {
 							chart.trigger('replot', data);
 						}, 'json');
 						piwikHelper.lazyScrollTo(graph[0], 400);
-						// Set the new clicked column in the datatable object
+						// set the new clicked column and idGoal in the datatable object
 						var sparklineColumn = broadcast.getValueFromUrl('columns', sparklineUrl);
+						var idGoal = broadcast.getValueFromUrl('idGoal', sparklineUrl);
 						if(dataTables[idDataTable])
 						{
 							dataTables[idDataTable].setGraphedColumn(sparklineColumn);
+							dataTables[idDataTable].param.idGoal = idGoal;
 						}
 					});
 					$(this).hover( 	
