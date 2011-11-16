@@ -108,16 +108,26 @@ JQPlot.prototype = {
 			loading.css({opacity: .7});
 		});
 		
-		// change columns
+		// change series
 		target.bind('changeColumns', function(e, columns) {
+			target.trigger('changeSeries', [columns, []]);
+		});
+		target.bind('changeSeries', function(e, columns, rows) {
 			target.trigger('showLoading');
 			if (typeof columns == 'string') {
 				columns = columns.split(',');
 			}
+			if (typeof rows == 'undefined') {
+				rows = [];
+			}
+			else if (typeof rows == 'string') {
+				rows = rows.split(',');
+			}
 			var dataTable = dataTables[self.dataTableId];
 			dataTable.param.columns = columns.join(',');
+			dataTable.param.rows = rows.join(',');
 			dataTable.param.viewDataTable = 'graphEvolution';
-			dataTable.reloadAjaxDataTable(false);	
+			dataTable.reloadAjaxDataTable(false);
 		});
 		
 		// this case happens when there is no data for a line chart
@@ -317,8 +327,10 @@ JQPlot.prototype = {
 			show: true
 		};
 		this.params.seriesPicker = {
-			show: typeof this.seriesPicker.selectableColumns == 'object',
+			show: typeof this.seriesPicker.selectableColumns == 'object'
+					|| typeof this.seriesPicker.selectableRows == 'object',
 			selectableColumns: this.seriesPicker.selectableColumns,
+			selectableRows: this.seriesPicker.selectableRows,
 			targetDivId: targetDivId,
 			dataTableId: this.dataTableId,
 			lang: lang
@@ -822,6 +834,8 @@ JQPlot.prototype = {
 		this.show = false;
 		// the columns that can be selected
 		this.selectableColumns = null;
+		// the rows that can be selected
+		this.selectableRows = null;
 		// css id of the target div dom element
 		this.targetDivId = "";
 		// the id of the current data table (index for global dataTables)
@@ -893,22 +907,28 @@ JQPlot.prototype = {
 		
 		pickerLink.before(pickerPopover);
 		
-		var manipulated = false;
+		var pickerState = {manipulated: false};
 		
 		pickerPopover.mouseleave(function(e) {
 			if (!$(e.relatedTarget).is('.jqplot-seriespicker')) {
 				// if metrics list has been manipulated, replot
-				if (manipulated) {
+				if (pickerState.manipulated) {
 					var columns = [];
+					var rows = [];
 					pickerPopover.find('input:checked').each(function() {
-						columns.push($(this).attr('name'));	
+						var type = $(this).closest('p').data('pickerType');
+						if (type == 'row') {
+							rows.push($(this).attr('name'));
+						} else {
+							columns.push($(this).attr('name'));
+						}
 					});
 					if (columns.length > 0) {
-						$('#'+picker.targetDivId).trigger('changeColumns', [columns]);
+						$('#'+picker.targetDivId).trigger('changeSeries', [columns, rows]);
 					}
 				}
 				
-				// hide popupover
+				// hide popover
 				pickerPopover.hide();
 				pickerLink.hide().data('open', false);
 			}
@@ -918,29 +938,25 @@ JQPlot.prototype = {
 		pickerPopover.append($(document.createElement('p'))
 			.addClass('headline').html(picker.lang.metricsToPlot));
 		
-		// render the selectable items
-		for (var i = 0; i < picker.selectableColumns.length; i++) {
-			var column = picker.selectableColumns[i];
-			
-			var checkbox = $(document.createElement('input')).attr('type', 'checkbox').addClass('select');
-			if (column.displayed) {
-				checkbox.attr('checked', 'checked');
+		if (picker.selectableColumns !== null) {
+			// render the selectable columns
+			for (var i = 0; i < picker.selectableColumns.length; i++) {
+				var column = picker.selectableColumns[i];
+				pickerPopover.append(createPickerPopupItem(column, 'column', pickerState));
 			}
-			checkbox.attr('name', column.column);
+		}
+		
+		if (picker.selectableRows !== null) {
+			// "records to plot" subheadline
+			pickerPopover.append($(document.createElement('p'))
+				.addClass('headline').addClass('recordsToPlot')
+				.html(picker.lang.recordsToPlot));
 			
-			var span = $(document.createElement('p'));
-			span.append(checkbox).append(column.translation)
-			span.click(function(e) {
-				manipulated = true;
-				if (!$(e.target).is('input.select')) {
-					var hit = $(this).find('input.select:not(:checked)').attr('checked', 'checked').size();
-					if (hit == 0) {
-						$(this).find('input.select:checked').removeAttr('checked');
-					}
-				};
-			});
-			
-			pickerPopover.append(span);
+			// render the selectable rows
+			for (var i = 0; i < picker.selectableRows.length; i++) {
+				var row = picker.selectableRows[i];
+				pickerPopover.append(createPickerPopupItem(row, 'row', pickerState));
+			}
 		}
 		
 		var neededSpace = pickerPopover.outerWidth() + 10;
@@ -956,6 +972,33 @@ JQPlot.prototype = {
 			margin = margin - neededSpace + 40;
 			pickerPopover.addClass('alignright').css('marginLeft', margin + 'px').show();
 		}
+	}
+	
+	function createPickerPopupItem(config, type, pickerState) {
+		var checkbox = $(document.createElement('input')).attr('type', 'checkbox').addClass('select');
+		if (config.displayed) {
+			checkbox.attr('checked', 'checked');
+		}
+		// if we are rendering a column, remember the column name
+		// if it's a row, remember the string that can be used to match the row
+		checkbox.attr('name', type == 'column' ? config.column : config.matcher);
+		
+		var el = $(document.createElement('p'))
+			.append(checkbox)
+			.append(type == 'column' ? config.translation : config.label)
+			.data('pickerType', type);
+		
+		el.click(function(e) {
+			pickerState.manipulated = true;
+			if (!$(e.target).is('input.select')) {
+				var hit = $(this).find('input.select:not(:checked)').attr('checked', 'checked').size();
+				if (hit == 0) {
+					$(this).find('input.select:checked').removeAttr('checked');
+				}
+			};
+		});
+		
+		return el;
 	}
 	
 	$.jqplot.preInitHooks.push($.jqplot.SeriesPicker.init);

@@ -19,7 +19,13 @@
 class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDataTable_GenerateGraphData
 {
 	
+	// used for the series picker
 	protected $selectableColumns = array();
+	
+	// used for the row picker
+	protected $rowPicker = false;
+	protected $visibleRows = array();
+	protected $rowPickerConfig = array();
 	
 	protected function checkStandardDataTable()
 	{
@@ -51,6 +57,54 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		$this->selectableColumns = $columnsNames;
 	}
 	
+	/**
+	 * Adds the same series picker as self::setSelectableColumns but the selectable series are not
+	 * columns of a single row but the same column across multiple rows, e.g. the number of visits
+	 * for each referrer type.
+	 * @param array $visibleRows the rows that are initially visible
+	 * @param string $matchBy the way the items in $visibleRows are matched with the data. possible values:
+	 * 							- label: matches the label of the row
+	 */
+	public function addRowPicker($visibleRows, $matchBy='label')
+	{
+		$this->rowPicker = $matchBy;
+		
+		if (!is_array($visibleRows))
+		{
+			$visibleRows = array($visibleRows);
+		}
+		$this->visibleRows = $visibleRows;
+	}
+	
+	/**
+	 * This method is called for every row of every table in the DataTable_Array.
+	 * It incrementally builds the row picker configuration and determines whether
+	 * the row is initially visible or not.
+	 */
+	protected function handleRowForRowPicker(&$rowLabel)
+	{
+		// determine whether row is visible
+		$isVisible = true;
+		switch ($this->rowPicker)
+		{
+			case 'label':
+				$isVisible = in_array($rowLabel, $this->visibleRows);
+				break;
+		}
+		
+		// build config
+		if (!isset($this->rowPickerConfig[$rowLabel]))
+		{
+			$this->rowPickerConfig[$rowLabel] = array(
+				'label' => $rowLabel,
+				'matcher' => $rowLabel,
+				'displayed' => $isVisible
+			);
+		}
+		
+		return $isVisible;
+	}
+	
 	protected function guessUnitFromRequestedColumnNames($requestedColumnNames, $idSite)
 	{
 		$nameToUnit = array(
@@ -78,7 +132,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 	protected function loadDataTableFromAPI()
 	{
 		$period = Piwik_Common::getRequestVar('period');
-		// period will be overriden when 'range' is requested in the UI
+		// period will be overridden when 'range' is requested in the UI
 		// but the graph will display for each day of the range. 
 		// Default 'range' behavior is to return the 'sum' for the range
 		if($period == 'range')
@@ -133,25 +187,30 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		}
 		
 		$yAxisLabelToUnit = array();
+		$yAxisLabelToValue = array();
+		$rowPickerConfig = array();
 		foreach($this->dataTable->getArray() as $idDataTable => $dataTable)
 		{
 			foreach($dataTable->getRows() as $row)
 			{
 				$rowLabel = $row->getColumn('label');
+				
+				// put together configuration for row picker.
+				// do this for every data table in the array because rows do not
+				// have to present for each date.
+				if ($this->rowPicker !== false)
+				{
+					$rowVisible = $this->handleRowForRowPicker($rowLabel);
+					if (!$rowVisible)
+					{
+						continue;
+					}
+				}
+				
+				// build data for request columns
 				foreach($requestedColumnNames as $requestedColumnName)
 				{
-					$metricLabel = $this->getColumnTranslation($requestedColumnName);
-					if($rowLabel !== false)
-					{
-						// eg. "Yahoo! (Visits)"
-						$yAxisLabel = "$rowLabel ($metricLabel)";
-					}
-					else
-					{
-						// eg. "Visits"
-						$yAxisLabel = $metricLabel;
-					}
-					
+					$yAxisLabel = $this->getSeriesLabel($rowLabel, $requestedColumnName);
 					if(($columnValue = $row->getColumn($requestedColumnName)) !== false)
 					{
 						$yAxisLabelToValue[$yAxisLabel][$idDataTable] = $columnValue;
@@ -230,10 +289,9 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 			$this->view->setAxisXOnClick($axisXOnClick);
 		}
 		
-	
-		// Build the final configuration for the series picker
 		if (count($this->selectableColumns))
 		{
+			// build the final configuration for the series picker
 			$columnsToDisplay = $this->getColumnsToDisplay();
 			$selectableColumns = array();
 			foreach ($this->selectableColumns as $column)
@@ -244,8 +302,35 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 					'displayed' => in_array($column, $columnsToDisplay)
 				);
 			}
-			$this->view->setSelectabelColumns($selectableColumns);
+			$this->view->setSelectableColumns($selectableColumns);
 		}
+		if ($this->rowPicker !== false)
+		{
+			// configure the row picker
+			$this->view->setSelectableRows(array_values($this->rowPickerConfig));
+		}
+	}
+	
+	/**
+	 * Derive the series label from the row label and the column name.
+	 * If the row label is set, both the label and the column name are displayed.
+	 */
+	private function getSeriesLabel($rowLabel, $columnName)
+	{
+		$metricLabel = $this->getColumnTranslation($columnName);
+	
+		if($rowLabel !== false)
+		{
+			// eg. "Yahoo! (Visits)"
+			$label = "$rowLabel ($metricLabel)";
+		}
+		else
+		{
+			// eg. "Visits"
+			$label = $metricLabel;
+		}
+		
+		return $label;
 	}
 	
 	/**
