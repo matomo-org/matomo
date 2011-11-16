@@ -141,6 +141,10 @@
 	color: #7E7363;
 }
 
+.jqplock-seriespicker-popover p.headline.recordsToPlot {
+	padding:  8px 0 3px 0;
+}
+
 .jqplock-seriespicker-popover.alignright p.headline {
 	padding: 0 22px 6px 0;
 }
