@@ -20,7 +20,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	{
 		$view = Piwik_View::factory('index');
 		
-		$view->graphEvolutionReferers = $this->getEvolutionGraph(true, Piwik_Common::REFERER_TYPE_DIRECT_ENTRY);
+		$view->graphEvolutionReferers = $this->getEvolutionGraph(true, Piwik_Common::REFERER_TYPE_DIRECT_ENTRY, array('nb_visits'));
 		$view->nameGraphEvolutionReferers = 'ReferersgetEvolutionGraph';
 		
 		$view->numberDistinctSearchEngines 	= $this->getNumberOfDistinctSearchEngines(true);
@@ -38,10 +38,10 @@ class Piwik_Referers_Controller extends Piwik_Controller
 			$view->$name = $value;
 		}
 		// sparkline for the historical data of the above values
-		$view->urlSparklineSearchEngines	= $this->getUrlSparkline('getEvolutionGraph', array('typeReferer' => Piwik_Common::REFERER_TYPE_SEARCH_ENGINE));
-		$view->urlSparklineDirectEntry 		= $this->getUrlSparkline('getEvolutionGraph', array('typeReferer' => Piwik_Common::REFERER_TYPE_DIRECT_ENTRY));
-		$view->urlSparklineWebsites 		= $this->getUrlSparkline('getEvolutionGraph', array('typeReferer' => Piwik_Common::REFERER_TYPE_WEBSITE));
-		$view->urlSparklineCampaigns 		= $this->getUrlSparkline('getEvolutionGraph', array('typeReferer' => Piwik_Common::REFERER_TYPE_CAMPAIGN));
+		$view->urlSparklineSearchEngines	= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_visits'), 'typeReferer' => Piwik_Common::REFERER_TYPE_SEARCH_ENGINE));
+		$view->urlSparklineDirectEntry 		= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_visits'), 'typeReferer' => Piwik_Common::REFERER_TYPE_DIRECT_ENTRY));
+		$view->urlSparklineWebsites 		= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_visits'), 'typeReferer' => Piwik_Common::REFERER_TYPE_WEBSITE));
+		$view->urlSparklineCampaigns 		= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_visits'), 'typeReferer' => Piwik_Common::REFERER_TYPE_CAMPAIGN));
 		
 		// sparklines for the evolution of the distinct keywords count/websites count/ etc
 		$view->urlSparklineDistinctSearchEngines 	= $this->getUrlSparkline('getLastDistinctSearchEnginesGraph');
@@ -246,43 +246,60 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		Piwik_Common::REFERER_TYPE_CAMPAIGN => 'Referers_Campaigns',
 	);
 	
-	public function getEvolutionGraph( $fetch = false, $typeReferer = false, $columns = array() )
+	public function getEvolutionGraph( $fetch = false, $typeReferer = false, $columns = false)
 	{
-		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Referers.getVisitsPerRefererType');
+		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Referers.getRefererType');
 		
-		$typeReferrerRequest = Piwik_Common::getRequestVar('typeReferer', false);
-		if ($typeReferrerRequest !== false)
-		{
-			$typeReferer = $typeReferrerRequest;
-		}
-		
+		// configure displayed columns
 		if(empty($columns))
 		{
-			$columns = Piwik_Common::getRequestVar('columns', false);
+			$columns = Piwik_Common::getRequestVar('columns');
 			$columns = Piwik::getArrayFromApiParameter($columns);
 		}
-		
-		// if referrer type is set, transform it into the corresponding column name
-		if ($typeReferer !== false)
-		{
-			$columns[] = 'nb_visits_'.$typeReferer;
-		}
-		
+		$columns = !is_array($columns) ? array($columns) : $columns;
 		$view->setColumnsToDisplay($columns);
 		
-		$translations = array();
-		$selectableColumns = array();
-		foreach ($this->referrerTypeToLabel as $id => $langString)
-		{
-			$label = 'nb_visits_'.$id;
-			$selectableColumns[] = $label;
-			
-			$translations[$label] = Piwik_Translate('Referers_MetricsFromRefererTypeGraphLegend',
-					array(Piwik_Translate('General_ColumnNbVisits'), Piwik_Translate($langString)));
-		}
+		// configure selectable columns
+		$view->setSelectableColumns(array('nb_visits', 'nb_uniq_visitors', 'nb_actions'));
 		
-		$view->setColumnsTranslations($translations);
-		$view->setSelectableColumns($selectableColumns);
+		// configure displayed rows
+		$visibleRows = Piwik_Common::getRequestVar('rows', false);
+		if ($visibleRows !== false)
+		{
+			// this happens when the row picker has been used
+			$visibleRows = Piwik::getArrayFromApiParameter($visibleRows);
+		}
+		else
+		{
+			// use $typeReferer as default
+			if($typeReferer === false)
+			{
+				$typeReferer = Piwik_Common::getRequestVar('typeReferer', false);
+			}
+			$label = Piwik_getRefererTypeLabel($typeReferer);
+			$label = Piwik_Translate($label);
+			$visibleRows = array($label);
+			$view->setParametersToModify(array('rows' => $label));
+		}
+		$view->addRowPicker($visibleRows);
+		
+		// TODO: please review - this code doesn't work anymore with multiple
+		// rows. The UI displays labels like "Search Engines (Visits)" by default.
+		// Is this OK or do we need the custom strings?
+		// If we remove this code, we should remove the language strings as well.
+		/*foreach($columns as $columnName)
+		{
+			$columnTranslation = $view->getColumnTranslation($columnName);
+			$referrerTypeTranslation = $this->referrerTypeToLabel[$typeReferer];
+			$view->setColumnTranslation(
+				$columnName,
+				Piwik_Translate('Referers_MetricsFromRefererTypeGraphLegend',
+					array(	Piwik_Translate($columnTranslation),
+							Piwik_Translate($referrerTypeTranslation)
+						)
+					)
+				);
+		}*/
 		
 		$view->setReportDocumentation(Piwik_Translate('Referers_EvolutionDocumentation').'<br />'
 				.Piwik_Translate('General_BrokenDownReportDocumentation').'<br />'
