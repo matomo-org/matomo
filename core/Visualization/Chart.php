@@ -43,17 +43,7 @@ abstract class Piwik_Visualization_Chart implements Piwik_View_Interface
 	{
 		$this->axes['xaxis']['onclick'] = &$onClick;
 	}
-
-	/**
-	 * A callback to convert value to float
-	 *
-	 * @param mixed &$v
-	 */
-	static public function convertToFloat(&$v)
-	{
-		$v = (float)$v;
-	}
-
+	
 	public function setAxisYValues(&$values)
 	{
 		foreach ($values as $label => &$data)
@@ -63,7 +53,7 @@ abstract class Piwik_Visualization_Chart implements Piwik_View_Interface
 				'internalLabel' => $label
 			);
 			
-			array_walk($data, array('Piwik_Visualization_Chart', 'convertToFloat'));
+			array_walk($data, create_function('&$v', '$v = (float)$v;'));
 			$this->data[] = &$data;
 		}
 	}
@@ -135,13 +125,13 @@ abstract class Piwik_Visualization_Chart implements Piwik_View_Interface
 			}
 		}
 	}
-	
+
 	public function setSelectableColumns($selectableColumns, $multiSelect=true)
 	{
 		$this->seriesPicker['selectableColumns'] = $selectableColumns;
 		$this->seriesPicker['multiSelect'] = $multiSelect;
 	}
-	
+
 	public function setDisplayPercentageInTooltip($display)
 	{
 		$this->displayPercentageInTooltip = $display;

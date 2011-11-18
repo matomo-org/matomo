@@ -31,19 +31,6 @@ class Piwik_Unzip_PclZip implements Piwik_Unzip_Interface
 		$this->filename = $filename;
 	}
 
-	/**
-	 * A callback extract path
-	 *
-	 * @param string $p_event
-	 * @param array &$p_header
-	 * @return int 0 to skip, 1 to resme, or 2 to abort
-	 */
-	private static $pathExtracted;
-	public static function extractPath($p_event, &$p_header)
-	{
-		return strncmp($p_header['filename'], self::$pathExtracted, strlen(self::$pathExtracted)) ? 0 : 1;
-	}
-
 	public function extract($pathExtracted) {
 		$pathExtracted = str_replace('\\', '/', $pathExtracted);
 		$list = $this->pclzip->listContent();
@@ -59,11 +46,14 @@ class Piwik_Unzip_PclZip implements Piwik_Unzip_Interface
 			}
 		}
 
-		self::$pathExtracted = $pathExtracted;
+		// PCLZIP_CB_PRE_EXTRACT callback returns 0 to skip, 1 to resume, or 2 to abort
 		return $this->pclzip->extract(
 				PCLZIP_OPT_PATH, $pathExtracted,
 				PCLZIP_OPT_STOP_ON_ERROR,
-				PCLZIP_CB_PRE_EXTRACT, array('Piwik_Unzip_PclZip', 'extractPath')
+				PCLZIP_CB_PRE_EXTRACT, create_function(
+					'$p_event, &$p_header',
+					"return strncmp(\$p_header['filename'], '$pathExtracted', strlen('$pathExtracted')) ? 0 : 1;"
+				)
 		);
 	}
 

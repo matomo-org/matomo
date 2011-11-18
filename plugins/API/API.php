@@ -137,18 +137,7 @@ class Piwik_API_API
 		);
 		return array_map('Piwik_Translate', $documentation);
 	}
-
-	/**
-	 * A callback to convert visit type (string) to a numeric value
-	 *
-	 * @param string $type
-	 * @return int
-	 */
-	static public function getVisitType($type)
-	{
-		return $type == 'new' ? 0 : ($type == 'returning' ? 1 : 2);
-	}
-
+	
 	public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true)
 	{
 		$segments = array();
@@ -194,7 +183,7 @@ class Piwik_API_API
 		        'segment' => 'visitorType',
 		        'acceptedValues' => 'new, returning, returningCustomer',
 		        'sqlSegment' => 'log_visit.visitor_returning',
-		        'sqlFilter' => array('Piwik_API_API', 'getVisitType'),
+		        'sqlFilter' => create_function('$type', 'return $type == "new" ? 0 : ($type == "returning" ? 1 : 2);'),
 	    );
 		$segments[] = array(
 		        'type' => 'metric',
