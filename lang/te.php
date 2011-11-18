@@ -244,7 +244,6 @@ $translations = array(
 	'Referers_DirectEntry' => 'నేరు సందర్శన',
 	'Referers_Websites' => 'జాలగూళ్ళు',
 	'Referers_Campaigns' => 'ప్రచారాలు',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (%2$s నుండి)',
 	'Referers_ColumnSearchEngine' => 'శోధనయంత్రం',
 	'Referers_ColumnWebsite' => 'జాలగూడు',
 	'Referers_ColumnWebsitePage' => 'జాలగూడు పుట',

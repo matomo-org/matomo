@@ -664,7 +664,6 @@ $translations = array(
 	'Referers_DirectEntry' => 'Tiesioginis apsilankymas',
 	'Referers_Websites' => 'Svetainės',
 	'Referers_Campaigns' => 'Kampanijos',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (iš %2$s)',
 	'Referers_Evolution' => 'Raida periodu',
 	'Referers_Type' => 'Šaltinio tipas',
 	'Referers_ColumnRefererType' => 'Šaltinio tipas',

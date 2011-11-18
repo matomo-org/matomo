@@ -810,7 +810,6 @@ $translations = array(
 	'Referers_WebsitesReportDocumentation' => 'У гэтай табліцы вы можаце ўбачыць, якія сайты спасылалі наведвальнікаў на ваш сайт. %s Пры націску на радок табліцы, можна ўбачыць URL старонкак, якія ўтрымліваюць спасылкі на на ваш вэб-сайт.',
 	'Referers_Campaigns' => 'Кампаніі',
 	'Referers_CampaignsReportDocumentation' => 'Гэтая справаздача паказвае, якія кампаніі спаслалі наведвальнікаў на ваш сайт. %s Для атрымання дадатковай інфармацыі аб кампаніі, чытайце %sДакументацыю па кампаніях на piwik.org%s',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (з %2$s)',
 	'Referers_Evolution' => 'Змена на працягу перыяду',
 	'Referers_Type' => 'Тып спасыльнікі',
 	'Referers_TypeReportDocumentation' => 'Гэтая табліца змяшчае інфармацыю аб размеркаванні тыпаў спасыльнікаў.',

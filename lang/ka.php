@@ -629,7 +629,6 @@ $translations = array(
 	'Referers_DirectEntry' => 'პირდაპირი შესვლა',
 	'Referers_Websites' => 'ვებ საიტები',
 	'Referers_Campaigns' => 'კამპანიები',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (სულ %2$s)',
 	'Referers_Evolution' => 'ევოლუცია პერიოდი სგანმავლობაში',
 	'Referers_Type' => 'რეფერერის ტიპი',
 	'Referers_ColumnRefererType' => 'რეფერერის ტიპი',

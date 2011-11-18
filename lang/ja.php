@@ -640,7 +640,6 @@ $translations = array(
 	'Referers_DirectEntry' => '直接アクセス',
 	'Referers_Websites' => 'ウェブサイト',
 	'Referers_Campaigns' => 'キャンペーン',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s （%2$s経由）',
 	'Referers_Evolution' => '一定期間の推移',
 	'Referers_Type' => '参照元タイプ',
 	'Referers_ColumnRefererType' => '参照元タイプ',

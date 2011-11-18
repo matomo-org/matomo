@@ -602,7 +602,6 @@ $translations = array(
 	'Referers_DirectEntry' => 'Entrada Direta',
 	'Referers_Websites' => 'Websites',
 	'Referers_Campaigns' => 'Campanhas',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (de %2$s)',
 	'Referers_Evolution' => 'Evolução no período',
 	'Referers_Type' => 'Tipo de Referer',
 	'Referers_ColumnRefererType' => 'Tipo de Referer',

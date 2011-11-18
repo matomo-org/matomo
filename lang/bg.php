@@ -656,7 +656,6 @@ $translations = array(
 	'Referers_DirectEntry' => 'Директни посещения',
 	'Referers_Websites' => 'Сайтове',
 	'Referers_Campaigns' => 'Кампании',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (от %2$s)',
 	'Referers_Evolution' => 'Развитие за периода',
 	'Referers_Type' => 'Тип на референцията',
 	'Referers_ColumnRefererType' => 'Тип на референцията',

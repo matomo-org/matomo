@@ -680,7 +680,6 @@ $translations = array(
 	'Referers_DirectEntry' => 'Direkttrafik',
 	'Referers_Websites' => 'Webbplatser',
 	'Referers_Campaigns' => 'Kampanjer',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (från %2$s)',
 	'Referers_Evolution' => 'Utveckling över perioden',
 	'Referers_Type' => 'Typ av källa',
 	'Referers_ColumnRefererType' => 'Typ av källa',

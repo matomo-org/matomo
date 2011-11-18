@@ -463,7 +463,6 @@ $translations = array(
 	'Referers_DirectEntry' => 'Priamy vstup',
 	'Referers_Websites' => 'Webstránky',
 	'Referers_Campaigns' => 'Kampane',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (od %2$s)',
 	'Referers_Evolution' => 'Vývoj za obdobie',
 	'Referers_Type' => 'Typ odkazu',
 	'Referers_ColumnRefererType' => 'Typ odkazu',

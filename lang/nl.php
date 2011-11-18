@@ -709,7 +709,6 @@ $translations = array(
 	'Referers_DirectEntry' => 'Direct bezoek',
 	'Referers_Websites' => 'Websites',
 	'Referers_Campaigns' => 'Campagnes',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (van %2$s)',
 	'Referers_Evolution' => 'Meest recente ontwikkelingen',
 	'Referers_Type' => 'Bezoekers per afkomst',
 	'Referers_ColumnRefererType' => 'Bezoekers afkomst',

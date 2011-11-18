@@ -679,7 +679,6 @@ $translations = array(
 	'Referers_DirectEntry' => 'Zë i Drejtpërdrejtë',
 	'Referers_Websites' => '"Site"-e Web',
 	'Referers_Campaigns' => 'Fushata',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (prej %2$s)',
 	'Referers_Evolution' => 'Zhvillime përgjatë periudhës',
 	'Referers_Type' => 'Lloj Referuesi',
 	'Referers_ColumnRefererType' => 'Lloj Referuesi',

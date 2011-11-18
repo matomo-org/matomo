@@ -684,7 +684,6 @@ $translations = array(
 	'Referers_DirectEntry' => 'الوصول المباشر',
 	'Referers_Websites' => 'المواقع',
 	'Referers_Campaigns' => 'الحملات',
-	'Referers_MetricsFromRefererTypeGraphLegend' => 'الدليل %1$s (من %2$s)',
 	'Referers_Evolution' => 'التطور خلال الفترة',
 	'Referers_Type' => 'نوع المرسل',
 	'Referers_ColumnRefererType' => 'نوع المرسل',

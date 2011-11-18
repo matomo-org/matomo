@@ -3237,10 +3237,6 @@
 		<value>Ce rapport montre quelles campagnes ont conduit des visiteurs à votre site web. %s Pour plus d'informations à propos des campagnes lisez %s la documentation des campagnes sur piwik.org%s</value>
 	</row>
 	<row>
-		<label>Referers_MetricsFromRefererTypeGraphLegend</label>
-		<value>%1$s (depuis %2$s)</value>
-	</row>
-	<row>
 		<label>Referers_Evolution</label>
 		<value>Évolution sur la période</value>
 	</row>
