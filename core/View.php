@@ -73,6 +73,18 @@ class Piwik_View implements Piwik_View_Interface
 	}
 
 	/**
+	 * A callback to compare site names for sorting
+	 *
+	 * @param Piwik_Site $site1
+	 * @param Piwik_Site $site2
+	 * @return int
+	 */
+	static public function compareSiteNames($site1, $site2)
+	{
+		return strcasecmp($site1['name'], $site2['name']);
+	}
+
+	/**
 	 * Renders the current view.
 	 *
 	 * @return string Generated template
@@ -89,7 +101,7 @@ class Piwik_View implements Piwik_View_Interface
 			$count = method_exists('Piwik', 'getWebsitesCountToDisplay') ? Piwik::getWebsitesCountToDisplay() : 1;
 
 			$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess($count);
-			usort($sites, create_function('$site1, $site2', 'return strcasecmp($site1["name"], $site2["name"]);'));
+			usort($sites, array('Piwik_View', 'compareSiteNames'));
 			$this->sites = $sites;
 			$this->url = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrl());
 			$this->token_auth = Piwik::getCurrentUserTokenAuth();

@@ -811,7 +811,18 @@ class Piwik_SitesManager_API
 		$parameters = array_unique($parameters);
 		return implode(',', $parameters);
 	}
-	
+
+	/**
+	 * A callback to return "Name (ID)"
+	 *
+	 * @param array $a
+	 * @return string
+	 */
+	static public function getCurrencyNameID($a)
+	{
+		return $a[1] . ' (' . $a[0] . ')';
+	}
+
 	/**
 	 * Returns the list of supported currencies 
 	 * @see getCurrencySymbols()
@@ -820,9 +831,20 @@ class Piwik_SitesManager_API
 	public function getCurrencyList()
 	{
 		$currencies = Piwik::getCurrencyList();
-		return array_map(create_function('$a', 'return $a[1]." (".$a[0].")";'), $currencies);
+		return array_map(array('Piwik_SitesManager_API', 'getCurrencyNameID'), $currencies);
 	}
-	
+
+	/**
+	 * A callback to return "ID"
+	 *
+	 * @param array $a
+	 * @return string
+	 */
+	static public function getCurrencyID($a)
+	{
+		return $a[0];
+	}
+
 	/**
 	 * Returns the list of currency symbols
 	 * @see getCurrencyList()
@@ -831,7 +853,7 @@ class Piwik_SitesManager_API
 	public function getCurrencySymbols()
 	{
 		$currencies = Piwik::getCurrencyList();
-		return array_map(create_function('$a', 'return $a[0];'), $currencies);
+		return array_map(array('Piwik_SitesManager_API', 'getCurrencyID'), $currencies);
 	}
 	
 	/**

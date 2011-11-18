@@ -70,7 +70,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 				'nb_conversions' => Piwik_Translate('Goals_ColumnConversions'),
 				'conversion_rate' => Piwik_Translate('General_ColumnConversionRate'),
 				'revenue' => Piwik_Translate('Goals_ColumnRevenue'),
-	    		'revenue_per_visit' => Piwik_Translate('General_ColumnValuePerVisit'),
+				'revenue_per_visit' => Piwik_Translate('General_ColumnValuePerVisit'),
 			));
 			$this->setColumnsToDisplay( array(
 				'label',
@@ -114,7 +114,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 		{
 			$goals = Piwik_Goals_API::getInstance()->getGoals( $idSite );
 			
-			$ecommerceGoal = 	array(	
+			$ecommerceGoal = array(	
 							'idgoal' => Piwik_Archive::LABEL_ECOMMERCE_ORDER, 
 							'name' => Piwik_Translate('Goals_EcommerceOrder')
 					);
@@ -246,7 +246,43 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 	{
 		return $this->idSite;
 	}
-	
+
+	/**
+	 * A callback to get value
+	 * 
+	 * @param mixed $value
+	 * @return mixed
+	 */
+	static public function getValue($value)
+	{
+		return $value;
+	}
+
+	/**
+	 * A callback to get percentages
+	 *
+	 * @param mixed $rate
+	 * @reurn string
+	 */
+	static public function getRateValue($rate)
+	{
+		if ($rate==0)
+			return "0%";
+
+		return $rate;
+	}
+
+	/**
+	 * A callback to get floats
+	 *
+	 * @param mixed $value
+	 * @reurn string
+	 */
+	static public function getFloatValue($value)
+	{
+		return sprintf('%.1f', $value);
+	}
+
 	protected function postDataTableLoadedFromAPI()
 	{
 		$valid = parent::postDataTableLoadedFromAPI();
@@ -256,20 +292,20 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 		{
 			if(strpos($columnName, 'conversion_rate'))
 			{
-    			$this->dataTable->filter('ColumnCallbackReplace', array($columnName, create_function('$rate', 'if($rate==0) return "0%"; else return $rate;')));
+				$this->dataTable->filter('ColumnCallbackReplace', array($columnName, array('Piwik_ViewDataTable_HtmlTable_Goals', 'getRateValue')));
 			}
 		}
 		$this->columnsToRevenueFilter[] = 'revenue_per_visit';
 		foreach($this->columnsToRevenueFilter as $columnName)
 		{
-    		$this->dataTable->filter('ColumnCallbackReplace', array($columnName, create_function('$value', 'return sprintf("%.1f",$value);')));
-    		$this->dataTable->filter('ColumnCallbackReplace', array($columnName, array("Piwik", "getPrettyMoney"), array($this->getIdSite())));
+			$this->dataTable->filter('ColumnCallbackReplace', array($columnName, array('Piwik_ViewDataTable_HtmlTable_Goals', 'getFloatValue')));
+			$this->dataTable->filter('ColumnCallbackReplace', array($columnName, array("Piwik", "getPrettyMoney"), array($this->getIdSite())));
 		}
 		
 		foreach($this->columnsToConversionFilter as $columnName)
 		{
 			// this ensures that the value is set to zero for all rows where the value was not set (no conversion)
-    		$this->dataTable->filter('ColumnCallbackReplace', array($columnName, create_function('$value', 'return $value;')));
+			$this->dataTable->filter('ColumnCallbackReplace', array($columnName, array('Piwik_ViewDataTable_HtmlTable_Goals', 'getValue')));
 		}
 	}
 }
