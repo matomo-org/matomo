@@ -136,6 +136,12 @@ abstract class Piwik_Visualization_Chart implements Piwik_View_Interface
 		}
 	}
 	
+	public function setSelectableColumns($selectableColumns, $multiSelect=true)
+	{
+		$this->seriesPicker['selectableColumns'] = $selectableColumns;
+		$this->seriesPicker['multiSelect'] = $multiSelect;
+	}
+	
 	public function setDisplayPercentageInTooltip($display)
 	{
 		$this->displayPercentageInTooltip = $display;

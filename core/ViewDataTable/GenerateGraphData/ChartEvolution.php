@@ -19,10 +19,8 @@
 class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDataTable_GenerateGraphData
 {
 	
-	// used for the series picker
-	protected $selectableColumns = array();
-	
 	// used for the row picker
+	// (the series picker configuration resides in the parent class) 
 	protected $rowPicker = false;
 	protected $visibleRows = array();
 	protected $rowPickerConfig = array();
@@ -48,17 +46,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 	}
 	
 	/**
-	 * Sets the columns that can be added/removed by the user
-	 * This is done on data level (not html level) because the columns might change after reloading via sparklines
-	 * @param array $columnsNames Array of column names eg. array('nb_visits','nb_hits')
-	 */
-	public function setSelectableColumns($columnsNames)
-	{
-		$this->selectableColumns = $columnsNames;
-	}
-	
-	/**
-	 * Adds the same series picker as self::setSelectableColumns but the selectable series are not
+	 * Adds the same series picker as parent::setSelectableColumns but the selectable series are not
 	 * columns of a single row but the same column across multiple rows, e.g. the number of visits
 	 * for each referrer type.
 	 * @param array $visibleRows the rows that are initially visible
@@ -188,7 +176,6 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		
 		$yAxisLabelToUnit = array();
 		$yAxisLabelToValue = array();
-		$rowPickerConfig = array();
 		foreach($this->dataTable->getArray() as $idDataTable => $dataTable)
 		{
 			foreach($dataTable->getRows() as $row)
@@ -289,21 +276,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 			$this->view->setAxisXOnClick($axisXOnClick);
 		}
 		
-		if (count($this->selectableColumns))
-		{
-			// build the final configuration for the series picker
-			$columnsToDisplay = $this->getColumnsToDisplay();
-			$selectableColumns = array();
-			foreach ($this->selectableColumns as $column)
-			{
-				$selectableColumns[] = array(
-					'column' => $column,
-					'translation' => $this->getColumnTranslation($column),
-					'displayed' => in_array($column, $columnsToDisplay)
-				);
-			}
-			$this->view->setSelectableColumns($selectableColumns);
-		}
+		$this->addSeriesPickerToView();
 		if ($this->rowPicker !== false)
 		{
 			// configure the row picker
