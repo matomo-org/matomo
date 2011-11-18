@@ -109,7 +109,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 	{
 		$nameToUnit = array(
 			'_rate' => '%',
-			'_revenue' => Piwik::getCurrency($idSite),
+			'revenue' => Piwik::getCurrency($idSite),
 			'_time_' => 's'
 		);
 		

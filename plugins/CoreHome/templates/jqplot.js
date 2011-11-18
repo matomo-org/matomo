@@ -871,22 +871,25 @@ JQPlot.prototype = {
 		picker.domElem = $(document.createElement('a'))
 			.addClass('jqplot-seriespicker')
 			.attr('href', '#').html('+')
-			.css('marginLeft', (this._gridPadding.left + plot.plugins.canvasLegend.width - 1) + 'px')
-			.hide();
+			.css('marginLeft', (this._gridPadding.left + plot.plugins.canvasLegend.width - 1) + 'px');
+		
+		picker.domElem.on('hide', function() {
+			$(this).css('opacity', .35);	
+		}).trigger('hide');
 		
 		plot.baseCanvas._elem.before(picker.domElem);
 		
 		// show / hide dom element on legend hover
 		plot.plugins.canvasLegend.legendCanvas._elem.hover(function() {
-			picker.domElem.show();
+			picker.domElem.css('opacity', 1);
 		}, function(e) {
 			if (!$(e.relatedTarget).is('.jqplot-seriespicker') && !picker.domElem.data('open')) {
-				picker.domElem.hide();
+				picker.domElem.trigger('hide');
 			}
 		});
 		picker.domElem.mouseout(function() {
 			if (!picker.domElem.data('open')) {
-				picker.domElem.hide();
+				picker.domElem.trigger('hide');
 			}
 		});
 		
@@ -916,21 +919,22 @@ JQPlot.prototype = {
 					var columns = [];
 					var rows = [];
 					pickerPopover.find('input:checked').each(function() {
-						var type = $(this).closest('p').data('pickerType');
-						if (type == 'row') {
+						if ($(this).closest('p').hasClass('pickRow')) {
 							rows.push($(this).attr('name'));
 						} else {
 							columns.push($(this).attr('name'));
 						}
 					});
-					if (columns.length > 0) {
+					var noRowSelected = pickerPopover.find('.pickRow').size() > 0
+							&& pickerPopover.find('.pickRow input:checked').size() == 0;
+					if (columns.length > 0 && !noRowSelected) {
 						$('#'+picker.targetDivId).trigger('changeSeries', [columns, rows]);
 					}
 				}
 				
 				// hide popover
 				pickerPopover.hide();
-				pickerLink.hide().data('open', false);
+				pickerLink.trigger('hide').data('open', false);
 			}
 		});
 		
@@ -986,7 +990,7 @@ JQPlot.prototype = {
 		var el = $(document.createElement('p'))
 			.append(checkbox)
 			.append(type == 'column' ? config.translation : config.label)
-			.data('pickerType', type);
+			.addClass(type == 'column' ? 'pickColumn' : 'pickRow');
 		
 		el.click(function(e) {
 			pickerState.manipulated = true;

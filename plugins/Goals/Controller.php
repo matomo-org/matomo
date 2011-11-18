@@ -312,7 +312,12 @@ class Piwik_Goals_Controller extends Piwik_Controller
 			$nameToLabel['items'] = Piwik_Translate('Goals_LeftInCart', Piwik_Translate('Goals_Products'));
 		}
 		
-		$selectableColumns = array('nb_conversions', 'conversion_rate');
+		$selectableColumns = array('nb_conversions', 'conversion_rate', 'revenue');
+		if ($this->site->isEcommerceEnabled())
+		{
+			$selectableColumns[] = 'items';
+			$selectableColumns[] = 'avg_order_revenue';
+		}
 		
 		foreach(array_merge($columns, $selectableColumns) as $columnName)
 		{

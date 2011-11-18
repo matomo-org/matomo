@@ -189,10 +189,12 @@ abstract class Piwik_Controller
 	 * @param array $columnsToDisplay
 	 * @param array $selectableColumns
 	 * @param string $reportDocumentation
+	 * @param string $apiMethod The method to request the report from
+	 * 					(by default, this is API.get but it can be changed for custom stuff)
 	 * @return Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution
 	 */
 	protected function getLastUnitGraphAcrossPlugins($currentModuleName, $currentControllerAction,
-			$columnsToDisplay, $selectableColumns=array(), $reportDocumentation=false)
+			$columnsToDisplay, $selectableColumns=array(), $reportDocumentation=false, $apiMethod='API.get')
 	{
 		// back up and manipulate the columns parameter
 		$backupColumns = false;
@@ -226,7 +228,7 @@ abstract class Piwik_Controller
 		}
 		
 		// initialize the graph and load the data
-		$view = $this->getLastUnitGraph($currentModuleName, $currentControllerAction, 'API.get');
+		$view = $this->getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod);
 		$view->setColumnsToDisplay($columnsToDisplay);
 		$view->setSelectableColumns($selectableColumns);
 		$view->setColumnsTranslations($translations);
