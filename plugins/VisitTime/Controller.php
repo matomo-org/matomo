@@ -26,17 +26,10 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
 		
 	public function getVisitInformationPerServerTime( $fetch = false)
 	{
-		$view = Piwik_ViewDataTable::factory( 'graphVerticalBar');
-		$view->init( $this->pluginName,  __FUNCTION__, "VisitTime.getVisitInformationPerServerTime" );
+		$view = $this->getGraph(__FUNCTION__, 'VisitTime.getVisitInformationPerServerTime',
+				'VisitTime_ColumnServerTime');
+		
 		$view->setCustomParameter('hideFutureHoursWhenToday', 1);
-		$view->setColumnsToDisplay( array('label','nb_visits') );
-		$view->setSortedColumn( 'label', 'asc' );		
-		$view->setColumnTranslation('label', Piwik_Translate('VisitTime_ColumnServerTime'));
-		$view->setLimit( 24 );
-		$view->setGraphLimit( 24 );
-		$view->disableSearchBox();
-		$view->disableExcludeLowPopulation();
-		$view->disableOffsetInformationAndPaginationControls();
 		$view->enableShowGoals();
 		
 		return $this->renderView($view, $fetch);
@@ -44,17 +37,29 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
 	
 	public function getVisitInformationPerLocalTime( $fetch = false)
 	{
-		$view = Piwik_ViewDataTable::factory( 'graphVerticalBar');
-		$view->init( $this->pluginName,  __FUNCTION__, "VisitTime.getVisitInformationPerLocalTime" );
-		$view->setColumnTranslation('label', Piwik_Translate('VisitTime_ColumnLocalTime'));
-		$view->setColumnsToDisplay( array('label','nb_visits') );
+		$view = $this->getGraph(__FUNCTION__, 'VisitTime.getVisitInformationPerLocalTime',
+					'VisitTime_ColumnLocalTime');
+		
+		return $this->renderView($view, $fetch);
+	}
+	
+	private function getGraph( $controllerMethod, $apiMethod, $labelTranslation )
+	{
+		$view = Piwik_ViewDataTable::factory('graphVerticalBar');
+		$view->init($this->pluginName, $controllerMethod, $apiMethod);
+		
+		$this->setMetricsVariablesView($view);
+		
+		$view->setColumnTranslation('label', Piwik_Translate($labelTranslation));
 		$view->setSortedColumn( 'label', 'asc' );
+		
 		$view->setLimit( 24 );
 		$view->setGraphLimit( 24 );
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
 		$view->disableOffsetInformationAndPaginationControls();
 		
-		return $this->renderView($view, $fetch);
+		return $view;
 	}
+	
 }

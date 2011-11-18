@@ -125,41 +125,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		$view->setGraphLimit(5);
 		
 		$this->setPeriodVariablesView($view);
-		
-		// columns is set in the request if metrics picker has been used
-		$columns = Piwik_Common::getRequestVar('columns', false);
-		if ($columns !== false)
-		{
-			$columns = Piwik::getArrayFromApiParameter($columns);
-			$firstColumn = $columns[0];
-		}
-		else
-		{
-			// default columns
-			$firstColumn = $view->period == 'day' ? 'nb_uniq_visitors' : 'nb_visits';
-			$columns = array($firstColumn);
-		}
-		
-		$view->setSortedColumn( $firstColumn );
-		
-		// displayed columns
-		array_unshift($columns, 'label');
-		$view->setColumnsToDisplay( $columns );
-		
-		// selectable columns
-		$selectableColumns = array();
-		if ($view->period == 'day')
-		{
-			$selectableColumns = array('nb_uniq_visitors');
-		}
-		else
-		{
-			$selectableColumns = array();
-		}
-		$selectableColumns[] = 'nb_visits';
-		$selectableColumns[] = 'nb_actions';
-		
-		$view->setSelectableColumns($selectableColumns);
+		$this->setMetricsVariablesView($view);
 		
 		return $view;
 	}
