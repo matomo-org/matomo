@@ -43,6 +43,7 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
 				. Piwik_Translate('General_BrokenDownReportDocumentation').'<br />'
 				. Piwik_Translate('VisitFrequency_ReturningVisitDocumentation');
 		
+		// Note: if you edit this array, maybe edit the code below as well
 		$selectableColumns = array(
 			// columns from VisitFrequency.get
 			'nb_visits_returning',
