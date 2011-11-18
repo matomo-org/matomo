@@ -401,7 +401,7 @@ class Piwik_Goals_API
 		{
 			$columns[] = 'nb_conversions';
 			$columns[] = 'revenue';
-			$columns = array_unique($columns);
+			$columns = array_values(array_unique($columns));
 		}
 		$columnsToSelect = array();
 		foreach($columns as &$columnName)

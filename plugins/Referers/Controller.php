@@ -283,24 +283,6 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		}
 		$view->addRowPicker($visibleRows);
 		
-		// TODO: please review - this code doesn't work anymore with multiple
-		// rows. The UI displays labels like "Search Engines (Visits)" by default.
-		// Is this OK or do we need the custom strings?
-		// If we remove this code, we should remove the language strings as well.
-		/*foreach($columns as $columnName)
-		{
-			$columnTranslation = $view->getColumnTranslation($columnName);
-			$referrerTypeTranslation = $this->referrerTypeToLabel[$typeReferer];
-			$view->setColumnTranslation(
-				$columnName,
-				Piwik_Translate('Referers_MetricsFromRefererTypeGraphLegend',
-					array(	Piwik_Translate($columnTranslation),
-							Piwik_Translate($referrerTypeTranslation)
-						)
-					)
-				);
-		}*/
-		
 		$view->setReportDocumentation(Piwik_Translate('Referers_EvolutionDocumentation').'<br />'
 				.Piwik_Translate('General_BrokenDownReportDocumentation').'<br />'
 				.Piwik_Translate('Referers_EvolutionDocumentationMoreInfo', '&quot;'.Piwik_Translate('Referers_DetailsByRefererType').'&quot;'));
