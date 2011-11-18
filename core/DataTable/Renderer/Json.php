@@ -35,21 +35,7 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 		
 		return $this->jsonpWrap($exceptionMessage);
 	}
-
-	/**
-	 * A callback to decode entities
-	 *
-	 * @param mixed &$value
-	 * @param mixed $key
-	 */
-	static public function decodeEntities(&$value, $key)
-	{
-		if (is_string($value))
-		{
-			$value = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
-		}
-	}
-
+	
 	protected function renderTable($table)
 	{
 		$renderer = new Piwik_DataTable_Renderer_Php();
@@ -65,7 +51,8 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 		}
 
 		// decode all entities
-		array_walk_recursive($array, array('Piwik_DataTable_Renderer_Json', 'decodeEntities'));
+		$callback = create_function('&$value,$key', 'if(is_string($value)){$value = html_entity_decode($value, ENT_QUOTES, "UTF-8");}');
+		array_walk_recursive($array, $callback);
 		
 		$str = Piwik_Common::json_encode($array);
 		
