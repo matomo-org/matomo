@@ -112,6 +112,7 @@ $translations = array(
 	'General_Piechart' => 'Piechart',
 	'General_TagCloud' => 'Tag Cloud',
 	'General_VBarGraph' => 'Vertical bar graph',
+	'General_View' => 'View',
 	'General_OpenInNewWindow_js' => 'Open in a new window',
 	'General_SaveImageOnYourComputer_js' => 'To save the image on your computer, right click on the image and select "Save Image As..."',
 	'General_Refresh' => 'Refresh the page',
