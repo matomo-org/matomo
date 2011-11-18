@@ -84,6 +84,43 @@ class Piwik_AssetManager
 	}
 
 	/**
+	 * Return root directory
+	 *
+	 * @return string
+	 */
+	private static function getRootDirectory()
+	{
+		static $rootDirectory;
+
+		if (!isset($rootDirectory))
+		{
+			// absolute path to doc root
+			$rootDirectory = realpath(PIWIK_DOCUMENT_ROOT);
+			if($rootDirectory != '/' && substr_compare($rootDirectory, '/', -1))
+			{
+				$rootDirectory .= '/';
+			}
+		}
+
+		return $rootDirectory;
+	}
+
+	/**
+	 * A callback to rewrite CSS url() directives
+	 *
+	 * @param array $matches
+	 * @return string
+	 */
+	private static $baseDirectory;
+	public static function rewriteCssUrl($matches)
+	{
+		$rootDirectoryLen = strlen(self::getRootDirectory());
+
+		return $matches[1] . str_replace('\\', '/',
+			substr(realpath(PIWIK_DOCUMENT_ROOT . '/' . self::$baseDirectory . '/' . $matches[2]), $rootDirectoryLen));
+	}
+
+	/**
 	 * Generate the merged css file.
 	 *
 	 * @throws Exception if a file can not be opened in write mode
@@ -91,14 +128,6 @@ class Piwik_AssetManager
 	private static function generateMergedCssFile()
 	{
 		$mergedContent = "";
-
-		// absolute path to doc root
-		$rootDirectory = realpath(PIWIK_DOCUMENT_ROOT);
-		if($rootDirectory != '/' && substr_compare($rootDirectory, '/', -1))
-		{
-			$rootDirectory .= '/';
-		}
-		$rootDirectoryLen = strlen($rootDirectory);
 
 		// Loop through each css file
 		$files = self::getCssFiles();
@@ -112,13 +141,10 @@ class Piwik_AssetManager
 			// Rewrite css url directives
 			// - assumes these are all relative paths
 			// - rewrite windows directory separator \\ to /
-			$baseDirectory = dirname($file);
+			self::$baseDirectory = dirname($file);
 			$content = preg_replace_callback(
 				"/(url\(['\"]?)([^'\")]*)/",
-				create_function(
-					'$matches',
-					"return \$matches[1] . str_replace('\\\\', '/', substr(realpath(PIWIK_DOCUMENT_ROOT . '/$baseDirectory/' . \$matches[2]), $rootDirectoryLen));"
-				),
+				array('Piwik_AssetManager', 'rewriteCssUrl'),
 				$content
 			);
 			$mergedContent = $mergedContent . $content;

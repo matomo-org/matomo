@@ -78,6 +78,50 @@ class Piwik_Smarty extends Smarty
 	}
 
 	/**
+	 * A callback for bitwise negation
+	 *
+	 * @param array $matches
+	 * @return string
+	 */
+	static public function bitwise_negate($matches)
+	{
+		return (string)((~(int)$matches[1]));
+	}
+
+	/**
+	 * A callback for bitwise AND
+	 *
+	 * @param array $matches
+	 * @return string
+	 */
+	static public function bitwise_and($matches)
+	{
+		return (string)((int)$matches[1]&(int)$matches[2]);
+	}
+
+	/**
+	 * A callback for bitwise XOR
+	 *
+	 * @param array $matches
+	 * @return string
+	 */
+	static public function bitwise_xor($matches)
+	{
+		return (string)((int)$matches[1]^(int)$matches[2]);
+	}
+
+	/**
+	 * A callback for bitwise OR
+	 *
+	 * @param array $matches
+	 * @return string
+	 */
+	static public function bitwise_or($matches)
+	{
+		return (string)((int)$matches[1]|(int)$matches[2]);
+	}
+
+	/**
 	 * Evaluate expression containing only bitwise operators.
 	 * Replaces defined constants with corresponding values.
 	 * Does not use eval().
@@ -96,10 +140,10 @@ class Piwik_Smarty extends Smarty
 
 		// bitwise operators in order of precedence (highest to lowest)
 		// note: boolean ! (NOT) and parentheses aren't handled
-		$expression = preg_replace_callback('/~(-?[0-9]+)/', @create_function('$matches', 'return (string)((~(int)$matches[1]));'), $expression);
-		$expression = preg_replace_callback('/(-?[0-9]+)&(-?[0-9]+)/', @create_function('$matches', 'return (string)((int)$matches[1]&(int)$matches[2]);'), $expression);
-		$expression = preg_replace_callback('/(-?[0-9]+)\^(-?[0-9]+)/', @create_function('$matches', 'return (string)((int)$matches[1]^(int)$matches[2]);'), $expression);
-		$expression = preg_replace_callback('/(-?[0-9]+)\|(-?[0-9]+)/', @create_function('$matches', 'return (string)((int)$matches[1]|(int)$matches[2]);'), $expression);
+		$expression = preg_replace_callback('/~(-?[0-9]+)/', array('Piwik_Smarty', 'bitwise_negate'), $expression);
+		$expression = preg_replace_callback('/(-?[0-9]+)&(-?[0-9]+)/', array('Piwik_Smarty', 'bitwise_and'), $expression);
+		$expression = preg_replace_callback('/(-?[0-9]+)\^(-?[0-9]+)/', array('Piwik_Smarty', 'bitwise_xor'), $expression);
+		$expression = preg_replace_callback('/(-?[0-9]+)\|(-?[0-9]+)/', array('Piwik_Smarty', 'bitwise_or'), $expression);
 
 		return (string)((int)$expression & PHP_INT_MAX);
 	}

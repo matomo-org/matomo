@@ -660,6 +660,17 @@ class Piwik
 	}
 
 	/**
+	 * A callback to test for default output handler
+	 *
+	 * @param string $var
+	 * @return bool True if not the default output handler; false otherwise
+	 */
+	static public function isNotDefaultOutputHandler($var)
+	{
+		return $var !== 'default output handler';
+	}
+
+	/**
 	 * Test if php output is compressed
 	 *
 	 * @return bool True if php output is (or suspected/likely) to be compressed
@@ -673,7 +684,7 @@ class Piwik
 		$outputHandler = ini_get('output_handler');
 
 		// output handlers can be stacked
-		$obHandlers = array_filter( ob_list_handlers(), create_function('$var', 'return $var !== "default output handler";') );
+		$obHandlers = array_filter( ob_list_handlers(), array('Piwik', 'isNotDefaultOutputHandler') );
 
 		// user defined handler via wrapper
 		$autoPrependFile = ini_get('auto_prepend_file');
@@ -2306,6 +2317,17 @@ class Piwik
 	}
 
 	/**
+	 * A callback to escape special characters
+	 *
+	 * @param string $str
+	 * @return string
+	 */
+	static public function escapeSpecialChars($str)
+	{
+		return str_replace(array(chr(92), chr(34)), array(chr(92).chr(92), chr(92).chr(34)), $str);
+	}
+
+	/**
 	 * Performs a batch insert into a specific table using either LOAD DATA INFILE or plain INSERTs,
 	 * as a fallback. On MySQL, LOAD DATA INFILE is 20x faster than a series of plain INSERTs.
 	 *
@@ -2327,7 +2349,7 @@ class Piwik
 					'delim' => "\t",
 					'quote' => '"', // chr(34)
 					'escape' => '\\\\', // chr(92)
-					'escapespecial_cb' => create_function('$str', 'return str_replace(array(chr(92), chr(34)), array(chr(92).chr(92), chr(92).chr(34)), $str);'),
+					'escapespecial_cb' => array('Piwik', 'escapeSpecialChars'),
 					'eol' => "\r\n",
 					'null' => 'NULL',
 				);

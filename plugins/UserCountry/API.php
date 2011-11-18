@@ -31,11 +31,22 @@ class Piwik_UserCountry_API
 		return self::$instance;
 	}
 	
+	/**
+	 * A callback to return the label
+	 *
+	 * @param string $label
+	 * @return string
+	 */
+	static public function getLabel($label)
+	{
+		return $label;
+	}
+
 	public function getCountry( $idSite, $period, $date, $segment = false )
 	{
 		$dataTable = $this->getDataTable('UserCountry_country', $idSite, $period, $date, $segment);
 		// apply filter on the whole datatable in order the inline search to work (searches are done on "beautiful" label)
-		$dataTable->filter('ColumnCallbackAddMetadata', array('label', 'code', create_function('$label', 'return $label;')));
+		$dataTable->filter('ColumnCallbackAddMetadata', array('label', 'code', array('Piwik_UserCountry_API', 'getLabel')));
 		$dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getFlagFromCode'));
 		$dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_CountryTranslate'));
 		$dataTable->queueFilter('AddConstantMetadata', array('logoWidth', 18));
@@ -47,7 +58,7 @@ class Piwik_UserCountry_API
 	{
 		$dataTable = $this->getDataTable('UserCountry_continent', $idSite, $period, $date, $segment);
 		$dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_ContinentTranslate'));
-		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'code', create_function('$label', 'return $label;')));
+		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'code', array('Piwik_UserCountry_API', 'getLabel')));
 		return $dataTable;
 	}
 	
