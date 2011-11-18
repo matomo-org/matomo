@@ -823,7 +823,6 @@ $translations = array(
 	'Referers_DirectEntry' => 'Direkte Zugriffe',
 	'Referers_Websites' => 'Webseiten',
 	'Referers_Campaigns' => 'Kampagnen',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (von %2$s)',
 	'Referers_Evolution' => 'Entwicklung über den Zeitraum',
 	'Referers_Type' => 'Verweisart',
 	'Referers_DirectEntryDocumentation' => 'Ein Besucher ging direkt auf deine Webseite indem er die URL direkt in den Browser eingegeben hat.',

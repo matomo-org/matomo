@@ -708,7 +708,6 @@ $translations = array(
 	'Referers_DirectEntry' => 'Közvetlen látogatás',
 	'Referers_Websites' => 'Weboldalak',
 	'Referers_Campaigns' => 'Kampányok',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (%2$s-ból)',
 	'Referers_Evolution' => 'Tendenciák',
 	'Referers_Type' => 'Forgalmi források típusa',
 	'Referers_ColumnRefererType' => 'Forgalmi források típusa',

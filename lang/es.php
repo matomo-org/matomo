@@ -819,7 +819,6 @@ $translations = array(
 	'Referers_DirectEntry' => 'Entrada directa',
 	'Referers_Websites' => 'Sitios web',
 	'Referers_Campaigns' => 'Campañas',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (desde %2$s)',
 	'Referers_Evolution' => 'Evolución en el periodo',
 	'Referers_Type' => 'Tipo de referencia',
 	'Referers_ColumnRefererType' => 'Tipo de referencia',

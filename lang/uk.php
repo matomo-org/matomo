@@ -631,7 +631,6 @@ $translations = array(
 	'Referers_DirectEntry' => 'Прямі заходи',
 	'Referers_Websites' => 'Веб-сайти',
 	'Referers_Campaigns' => 'Кампанії',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (від %2$s)',
 	'Referers_Evolution' => 'Динаміка протягом періоду',
 	'Referers_Type' => 'Тип реферера',
 	'Referers_ColumnRefererType' => 'Тип реферера',

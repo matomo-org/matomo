@@ -714,7 +714,6 @@ $translations = array(
 	'Referers_DirectEntry' => 'Direktni ulasci',
 	'Referers_Websites' => 'Sajtovi',
 	'Referers_Campaigns' => 'Kampanje',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (sa %2$s)',
 	'Referers_Evolution' => 'Trend kroz period',
 	'Referers_Type' => 'Tip dolaznog linka',
 	'Referers_ColumnRefererType' => 'Tip dolaznog linka',

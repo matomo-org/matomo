@@ -601,7 +601,6 @@ $translations = array(
 	'Referers_DirectEntry' => '直接链接',
 	'Referers_Websites' => '网站',
 	'Referers_Campaigns' => '广告活动',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (从 %2$s)',
 	'Referers_Evolution' => '此统计周期的发展趋势',
 	'Referers_Type' => '推介网站类型',
 	'Referers_ColumnRefererType' => '推荐网站类型',

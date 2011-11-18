@@ -622,7 +622,6 @@ Um pedido para repor a sua palavra-passe foi recebido de %2$s. Para repor a sua 
 	'Referers_DirectEntry' => 'Entrada Direta',
 	'Referers_Websites' => 'Websites',
 	'Referers_Campaigns' => 'Campanhas',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (de %2$s)',
 	'Referers_Evolution' => 'Evolução no período',
 	'Referers_Type' => 'Tipo de Referente',
 	'Referers_ColumnRefererType' => 'Tipo de Referente',

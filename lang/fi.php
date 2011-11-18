@@ -679,7 +679,6 @@ $translations = array(
 	'Referers_DirectEntry' => 'Suoraan',
 	'Referers_Websites' => 'Verkkosivut',
 	'Referers_Campaigns' => 'Kampanjat',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (%2$s)',
 	'Referers_Evolution' => 'Muutos aikavälillä',
 	'Referers_Type' => 'Viittaajan tyyppi',
 	'Referers_ColumnRefererType' => 'Tyyppi',

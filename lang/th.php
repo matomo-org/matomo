@@ -738,7 +738,6 @@ $translations = array(
 	'Referers_DirectEntry' => 'เข้าชมโดยตรง',
 	'Referers_Websites' => 'เว็บไซต์',
 	'Referers_Campaigns' => 'แคมเปญ',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (จาก %2$s)',
 	'Referers_Evolution' => 'ความเปลี่ยนแปลงระยะเวลาที่ผ่าน',
 	'Referers_Type' => 'ชนิดของแหล่งที่มา',
 	'Referers_ColumnRefererType' => 'ชนิดของแหล่งที่มา',

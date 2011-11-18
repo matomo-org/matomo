@@ -809,7 +809,6 @@ $translations = array(
 	'Referers_WebsitesReportDocumentation' => 'Dans ce tableau vous pouvez voir quels sites web ont conduit des visiteurs sur votre site.. %s En cliquant sur une ligne du tableau, vous pouvez voir les URL des sites sur lesquels sont les liens.',
 	'Referers_Campaigns' => 'Campagnes',
 	'Referers_CampaignsReportDocumentation' => 'Ce rapport montre quelles campagnes ont conduit des visiteurs à votre site web. %s Pour plus d\'informations à propos des campagnes lisez %s la documentation des campagnes sur piwik.org%s',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (depuis %2$s)',
 	'Referers_Evolution' => 'Évolution sur la période',
 	'Referers_Type' => 'Types d\'affluents',
 	'Referers_TypeReportDocumentation' => 'Ce tableau contient des informations à propos de la distribution des types de référants.',

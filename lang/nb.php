@@ -534,7 +534,6 @@ $translations = array(
 	'Referers_DirectEntry' => 'Direkte treff',
 	'Referers_Websites' => 'Nettsteder',
 	'Referers_Campaigns' => 'Kampanjer',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (fra %2$s)',
 	'Referers_Evolution' => 'Utvikling over perioden',
 	'Referers_Type' => 'Henvisingstype',
 	'Referers_ColumnRefererType' => 'Henvisingstype',

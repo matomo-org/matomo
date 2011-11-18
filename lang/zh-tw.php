@@ -607,7 +607,6 @@ $translations = array(
 	'Referers_DirectEntry' => '直接流量',
 	'Referers_Websites' => '網站',
 	'Referers_Campaigns' => '廣告活動',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (從 %2$s)',
 	'Referers_Evolution' => '此統計期的發展趨勢',
 	'Referers_Type' => '推薦連結網站類型',
 	'Referers_ColumnRefererType' => '推薦連結網站類型',
