@@ -84,10 +84,12 @@ class Piwik_Referers_Controller extends Piwik_Controller
 											'getSearchEnginesFromKeywordId'
 								);
 		$view->disableExcludeLowPopulation();
-		$view->setColumnsToDisplay( array('label','nb_visits') );
 		$view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnKeyword'));
 		$view->enableShowGoals();
 		$view->disableSubTableWhenShowGoals();
+		
+		$this->setMetricsVariablesView($view);
+		
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -116,8 +118,10 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->disableExcludeLowPopulation();
 		$view->enableShowGoals();
 		$view->disableSubTableWhenShowGoals();
-		$view->setColumnsToDisplay( array('label','nb_visits') );
 		$view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnSearchEngine'));
+		
+		$this->setMetricsVariablesView($view);
+		
 		return $this->renderView($view, $fetch);
 	}
 
@@ -149,11 +153,13 @@ class Piwik_Referers_Controller extends Piwik_Controller
 											'getUrlsFromWebsiteId'
 								);
 		$view->disableExcludeLowPopulation();
-		$view->setColumnsToDisplay( array('label','nb_visits') );
 		$view->setLimit(10);
 		$view->enableShowGoals();
 		$view->disableSubTableWhenShowGoals();
 		$view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnWebsite'));
+		
+		$this->setMetricsVariablesView($view);
+		
 		return $this->renderView($view, $fetch);
 	}
 	

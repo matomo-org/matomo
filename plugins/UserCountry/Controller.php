@@ -55,14 +55,10 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 		$view->disableExcludeLowPopulation();
 	
 		$this->setPeriodVariablesView($view);
-		$column = 'nb_visits';
-		if($view->period == 'day')
-		{
-			$column = 'nb_uniq_visitors';
-		}
-		$view->setColumnsToDisplay( array('label',$column) );
-		$view->setSortedColumn( $column );
+		$this->setMetricsVariablesView($view);
+		
 		$view->enableShowGoals();
+		
 		return $view;
 	}
 	

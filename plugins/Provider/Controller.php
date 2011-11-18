@@ -34,6 +34,7 @@ class Piwik_Provider_Controller extends Piwik_Controller
 		$view->setColumnTranslation('label', Piwik_Translate('Provider_ColumnProvider'));
 		$view->setSortedColumn( $column	 );
 		$view->setLimit( 5 );
+		$this->setMetricsVariablesView($view);
 		return $this->renderView($view, $fetch);
 	}
 	

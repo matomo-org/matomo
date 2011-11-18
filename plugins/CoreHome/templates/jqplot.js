@@ -1039,12 +1039,14 @@ JQPlot.prototype = {
 	function renderSingleSelection(plot, picker) {
 		var select = $(document.createElement('select'));
 		
+		var foundSelected = false;
 		for (var i = 0; i < picker.selectableColumns.length; i++) {
 			var series = picker.selectableColumns[i];
 			var option = $(document.createElement('option'))
 					.attr('value', series.column).html(series.translation);
-			if (series.displayed) {
+			if (series.displayed && !foundSelected) {
 				option.attr('selected', 'selected');
+				foundSelected = true;
 			}
 			select.append(option);
 		}

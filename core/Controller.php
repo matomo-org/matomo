@@ -506,6 +506,57 @@ abstract class Piwik_Controller
 	}
 	
 	/**
+	 * Set metrics variables (displayed metrics, available metrics) used by template
+	 * Handles the server-side of the metrics picker
+	 * @param Piwik_View $view
+	 * @param string $defaultMetricDay name of the default metric for period=day
+	 * @param string $defaultMetric name of the default metric for other periods
+	 * @param array $metricsForDay metrics that are only available for period=day
+	 * @param array $metricsForAllPeriods metrics that are available for all periods
+	 * @param bool $labelDisplayed add 'label' to columns to display?
+	 * @return void
+	 */
+	protected function setMetricsVariablesView($view, $defaultMetricDay='nb_uniq_visitors',
+			$defaultMetric='nb_visits', $metricsForDay=array('nb_uniq_visitors'),
+			$metricsForAllPeriods=array('nb_visits', 'nb_actions'), $labelDisplayed=true)
+	{
+		// columns is set in the request if metrics picker has been used
+		$columns = Piwik_Common::getRequestVar('columns', false);
+		if ($columns !== false)
+		{
+			$columns = Piwik::getArrayFromApiParameter($columns);
+			$firstColumn = $columns[0];
+		}
+		else
+		{
+			// default columns
+			$firstColumn = isset($view->period) && $view->period == 'day' ?
+					$defaultMetricDay : $defaultMetric;
+			$columns = array($firstColumn);
+		}
+		
+		$view->setSortedColumn($firstColumn);
+		
+		// displayed columns
+		if ($labelDisplayed)
+		{
+			array_unshift($columns, 'label');
+		}
+		$view->setColumnsToDisplay( $columns );
+		
+		// selectable columns
+		if (isset($view->period) && $view->period == 'day')
+		{
+			$selectableColumns = array_merge($metricsForDay, $metricsForAllPeriods);
+		}
+		else
+		{
+			$selectableColumns = $metricsForAllPeriods;
+		}
+		$view->setSelectableColumns($selectableColumns);
+	}
+	
+	/**
 	 * Helper method used to redirect the current http request to another module/action
 	 * If specified, will also redirect to a given website, period and /or date
 	 * 
