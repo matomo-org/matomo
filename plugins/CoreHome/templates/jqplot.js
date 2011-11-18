@@ -69,10 +69,10 @@ JQPlot.prototype = {
 				this.prepareEvolutionChart(targetDivId, lang);
 				break;
 			case 'bar':
-				this.prepareBarChart();
+				this.prepareBarChart(targetDivId, lang);
 				break;
 			case 'pie':
-				this.preparePieChart();
+				this.preparePieChart(targetDivId, lang);
 				break;
 			default:
 				return;
@@ -126,7 +126,13 @@ JQPlot.prototype = {
 			var dataTable = dataTables[self.dataTableId];
 			dataTable.param.columns = columns.join(',');
 			dataTable.param.rows = rows.join(',');
-			dataTable.param.viewDataTable = 'graphEvolution';
+			if (dataTable.param.viewDataTable == 'generateDataChartVerticalBar') {
+				dataTable.param.viewDataTable = 'graphVerticalBar';
+			} else if (dataTable.param.viewDataTable == 'generateDataChartPie') {
+				dataTable.param.viewDataTable = 'graphPie';
+			} else {
+				dataTable.param.viewDataTable = 'graphEvolution';
+			}
 			dataTable.reloadAjaxDataTable(false);
 		});
 		
@@ -152,7 +158,7 @@ JQPlot.prototype = {
 		var self = this;
 		target.on('jqplotDataHighlight', function(e, s, i, d) {
 			if (type == 'bar') {
-				self.showBarChartTooltip(i);
+				self.showBarChartTooltip(s, i);
 			} else if (type == 'pie') {
 				self.showPieChartTooltip(i);
 			}
@@ -274,6 +280,7 @@ JQPlot.prototype = {
 	
 	prepareEvolutionChart: function(targetDivId, lang) {
 		this.setYTicks();
+		this.addSeriesPicker(targetDivId, lang);
 
 		this.params.axes.xaxis.pad = 1.0;
 		this.params.axes.xaxis.renderer = $.jqplot.CategoryAxisRenderer;
@@ -326,15 +333,6 @@ JQPlot.prototype = {
 		this.params.canvasLegend = {
 			show: true
 		};
-		this.params.seriesPicker = {
-			show: typeof this.seriesPicker.selectableColumns == 'object'
-					|| typeof this.seriesPicker.selectableRows == 'object',
-			selectableColumns: this.seriesPicker.selectableColumns,
-			selectableRows: this.seriesPicker.selectableRows,
-			targetDivId: targetDivId,
-			dataTableId: this.dataTableId,
-			lang: lang
-		};
 	},
 	
 	showEvolutionChartTooltip: function(i) {
@@ -360,7 +358,9 @@ JQPlot.prototype = {
 	//  PIE CHART
 	// ------------------------------------------------------------
 	
-	preparePieChart: function() {
+	preparePieChart: function(targetDivId, lang) {
+		this.addSeriesPicker(targetDivId, lang);
+		
 		this.params.seriesDefaults = {
 			renderer: $.jqplot.PieRenderer,
 			rendererOptions: {
@@ -405,8 +405,9 @@ JQPlot.prototype = {
 	//  BAR CHART
 	// ------------------------------------------------------------
 	
-	prepareBarChart: function() {
+	prepareBarChart: function(targetDivId, lang) {
 		this.setYTicks();
+		this.addSeriesPicker(targetDivId, lang);
 				
 		this.params.seriesDefaults = {
 			renderer: $.jqplot.BarRenderer,
@@ -435,13 +436,13 @@ JQPlot.prototype = {
 		};
 	},
 	
-	showBarChartTooltip: function(i) {
-		var value = this.formatY(this.data[0][i], 0);
-		var series = this.params.series[0].label;
+	showBarChartTooltip: function(s, i) {
+		var value = this.formatY(this.data[s][i], 0);
+		var series = this.params.series[s].label;
 		
 		var percentage = '';
 		if (typeof this.tooltip.percentages != 'undefined') {
-			var percentage = this.tooltip.percentages[0][i];
+			var percentage = this.tooltip.percentages[s][i];
 			percentage = ' (' + percentage + '%)'; 
 		}
 		
@@ -559,6 +560,19 @@ JQPlot.prototype = {
 				});
 			}
 		});
+	},
+	
+	addSeriesPicker: function(targetDivId, lang) {
+		this.params.seriesPicker = {
+			show: typeof this.seriesPicker.selectableColumns == 'object'
+					|| typeof this.seriesPicker.selectableRows == 'object',
+			selectableColumns: this.seriesPicker.selectableColumns,
+			selectableRows: this.seriesPicker.selectableRows,
+			multiSelect: this.seriesPicker.multiSelect,
+			targetDivId: targetDivId,
+			dataTableId: this.dataTableId,
+			lang: lang
+		};
 	}
 	
 };
@@ -717,8 +731,11 @@ JQPlot.prototype = {
 	}
 	
 	function unHighlight(plot) {
-		var ctx = plot.plugins.piwikTicks.piwikHighlightCanvas._ctx;
-		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+		var canvas = plot.plugins.piwikTicks.piwikHighlightCanvas;
+		if (canvas !== null) {
+			var ctx = canvas._ctx;
+			ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+		}
 	}
 	
 })(jQuery);
@@ -836,6 +853,8 @@ JQPlot.prototype = {
 		this.selectableColumns = null;
 		// the rows that can be selected
 		this.selectableRows = null;
+		// can multiple rows we selected?
+		this.multiSelect = true;
 		// css id of the target div dom element
 		this.targetDivId = "";
 		// the id of the current data table (index for global dataTables)
@@ -861,6 +880,15 @@ JQPlot.prototype = {
 			return;
 		}
 		
+		if (picker.multiSelect) {
+			renderMultiSelectionPicker(plot, picker);
+		} else {
+			renderSingleSelection(plot, picker);
+		}
+	}
+	
+	// render the picker icon that has a multi selection popover
+	function renderMultiSelectionPicker(plot, picker) {
 		if ($('#dashboard').size() > 0) {
 			// don't display picker in dashboard
 			// it would be cut off by overflow:hidden containers
@@ -871,7 +899,7 @@ JQPlot.prototype = {
 		picker.domElem = $(document.createElement('a'))
 			.addClass('jqplot-seriespicker')
 			.attr('href', '#').html('+')
-			.css('marginLeft', (this._gridPadding.left + plot.plugins.canvasLegend.width - 1) + 'px');
+			.css('marginLeft', (plot._gridPadding.left + plot.plugins.canvasLegend.width - 1) + 'px');
 		
 		picker.domElem.on('hide', function() {
 			$(this).css('opacity', .35);	
@@ -887,7 +915,9 @@ JQPlot.prototype = {
 				picker.domElem.trigger('hide');
 			}
 		});
-		picker.domElem.mouseout(function() {
+		picker.domElem.hover(function() {
+			picker.domElem.css('opacity', 1);
+		}, function() {
 			if (!picker.domElem.data('open')) {
 				picker.domElem.trigger('hide');
 			}
@@ -1003,6 +1033,28 @@ JQPlot.prototype = {
 		});
 		
 		return el;
+	}
+	
+	// render a select box for picking a single column
+	function renderSingleSelection(plot, picker) {
+		var select = $(document.createElement('select'));
+		
+		for (var i = 0; i < picker.selectableColumns.length; i++) {
+			var series = picker.selectableColumns[i];
+			var option = $(document.createElement('option'))
+					.attr('value', series.column).html(series.translation);
+			if (series.displayed) {
+				option.attr('selected', 'selected');
+			}
+			select.append(option);
+		}
+		
+		select.change(function() {
+			var column = select.val();
+			$(plot.targetId).trigger('changeColumns', [[column]]);
+		});
+		
+		$(plot.targetId).parent().parent().find('div.dataTableFooterWrap').append(select);
 	}
 	
 	$.jqplot.preInitHooks.push($.jqplot.SeriesPicker.init);

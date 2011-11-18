@@ -39,6 +39,9 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 	protected $graphLimit = null;
 	protected $yAxisUnit = '';
 	
+	// used for the series picker
+	protected $selectableColumns = array();
+	
 	public function setAxisYUnit($unit)
 	{
 		$this->yAxisUnit = $unit;
@@ -77,6 +80,38 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 	public function disallowPercentageInGraphTooltip()
 	{
 		$this->displayPercentageInTooltip = false;
+	}
+	
+	/**
+	 * Sets the columns that can be added/removed by the user
+	 * This is done on data level (not html level) because the columns might change after reloading via sparklines
+	 * @param array $columnsNames Array of column names eg. array('nb_visits','nb_hits')
+	 */
+	public function setSelectableColumns($columnsNames)
+	{
+		$this->selectableColumns = $columnsNames;
+	}
+	
+	/**
+	 * Used in initChartObjectData to add the series picker config to the view object
+	 */
+	protected function addSeriesPickerToView($multiSelect=true)
+	{
+		if (count($this->selectableColumns))
+		{
+			// build the final configuration for the series picker
+			$columnsToDisplay = $this->getColumnsToDisplay();
+			$selectableColumns = array();
+			foreach ($this->selectableColumns as $column)
+			{
+				$selectableColumns[] = array(
+					'column' => $column,
+					'translation' => $this->getColumnTranslation($column),
+					'displayed' => in_array($column, $columnsToDisplay)
+				);
+			}
+			$this->view->setSelectableColumns($selectableColumns, $multiSelect);
+		}
 	}
 	
 	public function main()
@@ -143,5 +178,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		$this->view->setAxisYLabels($columnNameToTranslation);
 		$this->view->setAxisYUnit($this->yAxisUnit);
 		$this->view->setDisplayPercentageInTooltip($this->displayPercentageInTooltip);
+		
+		$this->addSeriesPickerToView();
 	}
 }

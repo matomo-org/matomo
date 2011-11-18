@@ -343,6 +343,11 @@ table thead div {
 
 .dataTableFooterWrap{ position:relative;  width:800px;}
 
+.dataTableFooterWrap select {
+	float: left;
+	margin: 1px 0 1px 10px;
+}
+
 .tableIcon{
 	background:#f2f1ed;
 	display:inline-block; 
