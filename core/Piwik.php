@@ -885,7 +885,7 @@ class Piwik
 				}
 				else
 				{
-					$output .= $quote.$escapespecial_cb($value).$quote.$delim;
+					$output .= $quote.call_user_func($escapespecial_cb, $value).$quote.$delim;
 				}
 			}
 
