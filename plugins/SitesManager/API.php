@@ -882,7 +882,10 @@ class Piwik_SitesManager_API
 
 		foreach($continents as $continent)
 		{
-			ksort($return[$continent]);
+			if(!empty($return[$continent]))
+			{
+				ksort($return[$continent]);
+			}
 		}
 
 		$return['UTC'] = $this->getTimezonesListUTCOffsets();
