@@ -73,6 +73,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->enableShowGoals();
 		$view->setColumnsToDisplay( array('label', 'nb_visits') );
 		$view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnRefererType'));
+		$this->setMetricsVariablesView($view);
 		return $this->renderView($view, $fetch);
 	}
 
@@ -183,6 +184,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->setColumnsToDisplay( array('label','nb_visits') );
 		$view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnCampaign'));
 		$view->setFooterMessage( 'Help: <a target="_blank" href="http://piwik.org/docs/tracking-campaigns/">Tracking Campaigns in Piwik</a> - <a target="_blank" href="http://piwik.org/docs/tracking-campaigns/url-builder/">URL Builder tool</a>');
+		$this->setMetricsVariablesView($view);
 		return $this->renderView($view, $fetch);
 	}
 	
