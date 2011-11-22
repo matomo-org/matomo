@@ -452,6 +452,9 @@ dataTable.prototype =
 					// when switching to display simple table, do not exclude low pop by default
 					delete self.param.enable_filter_excludelowpop; 
 					delete self.param.filter_limit;
+					delete self.param.filter_sort_column;
+					delete self.param.filter_sort_order;
+					
 					self.reloadAjaxDataTable();
 					self.notifyDashboardViewDataTableChange($(this), self.param.viewDataTable);
 				}
