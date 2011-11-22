@@ -19,8 +19,6 @@
  * The default field delimiter string is a comma (,).
  * Formatting and layout are ignored.
  * 
- * Note that CSV output doesn't handle recursive dataTable. It will output only the first parent level of the tables.
- * 
  * @package Piwik
  * @subpackage Piwik_DataTable
  */
