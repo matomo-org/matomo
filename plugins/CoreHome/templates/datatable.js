@@ -78,7 +78,8 @@ dataTable.prototype =
 			'filter_offset',
 			'filter_limit',
 			'filter_sort_column',
-			'filter_sort_order'
+			'filter_sort_order',
+			'columns'
 		];
 		
 		for(var key in filters)

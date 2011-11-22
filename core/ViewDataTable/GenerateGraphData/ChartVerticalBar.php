@@ -29,4 +29,13 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartVerticalBar extends Piwik_ViewD
 	{
 		$this->view = new Piwik_Visualization_Chart_VerticalBar();
 	}
+	
+	protected function getUnitsForColumnsToDisplay()
+	{
+		// the bar charts contain the labels a first series
+		// this series has to be removed from the units
+		$units = parent::getUnitsForColumnsToDisplay();
+		array_shift($units);
+		return $units;
+	}
 }
