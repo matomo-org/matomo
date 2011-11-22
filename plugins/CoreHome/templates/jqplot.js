@@ -909,7 +909,7 @@ JQPlot.prototype = {
 		
 		plot.baseCanvas._elem.before(picker.domElem);
 		
-		// show / hide dom element on legend hover
+		// fade dom element on legend hover
 		plot.plugins.canvasLegend.legendCanvas._elem.hover(function() {
 			picker.domElem.css('opacity', 1);
 		}, function(e) {
@@ -925,12 +925,14 @@ JQPlot.prototype = {
 			}
 		});
 		
-		picker.domElem.click(function() {
+		picker.domElem.mouseover(function() {
 			if (!picker.domElem.data('open')) {
 				picker.domElem.data('open', true);
 				showPicker(picker, plot._width);
 			}
-			return false;
+			
+		}).click(function() {
+			return false;	
 		});
 	};
 	

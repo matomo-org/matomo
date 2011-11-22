@@ -465,7 +465,7 @@ abstract class Piwik_ViewDataTable
 		$requestString .= '&format=original';
 		
 		// TODO: please review
-		//$requestString .= '&disable_generic_filters=1';
+		$requestString .= '&disable_generic_filters=1';
 		// if disable_generic_filters is set, sort filters won't be applied.
 		// therefore, the parameters filter_sort_column and filter_sort_order don't have any effect.
 		// sorting is needed if the plotted metric is changed on a bar graph and the new metric has
