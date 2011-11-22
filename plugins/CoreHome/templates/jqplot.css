@@ -53,7 +53,7 @@
 
 .jqplot-y2axis,
 .jqplot-y3axis {
-	margin-left: 10px;
+	margin: 0 3px 0 7px;
 }
 
 .jqplot-axis-tick, .jqplot-xaxis-tick, .jqplot-yaxis-tick {
