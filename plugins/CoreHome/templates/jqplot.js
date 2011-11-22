@@ -891,12 +891,6 @@ JQPlot.prototype = {
 			return;
 		}
 		
-		if ($('#dashboard').size() > 0) {
-			// don't display picker in dashboard
-			// it would be cut off by overflow:hidden containers
-			return;
-		}
-		
 		// initialize dom element
 		picker.domElem = $(document.createElement('a'))
 			.addClass('jqplot-seriespicker')
@@ -904,7 +898,7 @@ JQPlot.prototype = {
 			.css('marginLeft', (plot._gridPadding.left + plot.plugins.canvasLegend.width - 1) + 'px');
 		
 		picker.domElem.on('hide', function() {
-			$(this).css('opacity', .35);	
+			$(this).css('opacity', .55);	
 		}).trigger('hide');
 		
 		plot.baseCanvas._elem.before(picker.domElem);
@@ -993,7 +987,7 @@ JQPlot.prototype = {
 			// render the selectable columns
 			for (var i = 0; i < picker.selectableColumns.length; i++) {
 				var column = picker.selectableColumns[i];
-				pickerPopover.append(createPickerPopupItem(picker, column, 'column', pickerState));
+				pickerPopover.append(createPickerPopupItem(picker, column, 'column', pickerState, pickerPopover));
 			}
 		}
 		
@@ -1006,7 +1000,7 @@ JQPlot.prototype = {
 			// render the selectable rows
 			for (var i = 0; i < picker.selectableRows.length; i++) {
 				var row = picker.selectableRows[i];
-				pickerPopover.append(createPickerPopupItem(picker, row, 'row', pickerState));
+				pickerPopover.append(createPickerPopupItem(picker, row, 'row', pickerState, pickerPopover));
 			}
 		}
 		
@@ -1027,7 +1021,7 @@ JQPlot.prototype = {
 		return pickerPopover;
 	}
 	
-	function createPickerPopupItem(picker, config, type, pickerState) {
+	function createPickerPopupItem(picker, config, type, pickerState, pickerPopover) {
 		var checkbox = $(document.createElement('input')).attr('type', 'checkbox').addClass('select');
 		if (!picker.multiSelect) {
 			checkbox.attr('type', 'radio');
