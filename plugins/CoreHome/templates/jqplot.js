@@ -909,32 +909,44 @@ JQPlot.prototype = {
 		
 		plot.baseCanvas._elem.before(picker.domElem);
 		
-		// fade dom element on legend hover
-		plot.plugins.canvasLegend.legendCanvas._elem.hover(function() {
-			picker.domElem.css('opacity', 1);
-		}, function(e) {
-			if (!$(e.relatedTarget).is('.jqplot-seriespicker') && !picker.domElem.data('open')) {
-				picker.domElem.trigger('hide');
-			}
-		});
+		// show picker on hover
 		picker.domElem.hover(function() {
 			picker.domElem.css('opacity', 1);
-		}, function() {
-			if (!picker.domElem.data('open')) {
-				picker.domElem.trigger('hide');
-			}
-		});
-		
-		picker.domElem.mouseover(function() {
 			if (!picker.domElem.data('open')) {
 				picker.domElem.data('open', true);
-				showPicker(picker, plot._width);
+				var pickerPopover = showPicker(picker, plot._width);
+				checkPickerLeave(picker.domElem, pickerPopover);
 			}
-			
+		}, function() {
+			// do nothing on mouseout because using this event doesn't work properly.
+			// instead, the timeout check beneath is used (checkPickerLeave()).
 		}).click(function() {
 			return false;	
 		});
 	};
+	
+	// check whether the mouse has left the picker
+	function checkPickerLeave(pickerLink, pickerPopover) {
+		var offset = pickerPopover.offset();
+		var minX = offset.left;
+		var minY = offset.top;
+		var maxX = minX + pickerPopover.outerWidth();
+		var maxY = minY + pickerPopover.outerHeight();
+		
+		var currentX, currentY, onMouseMove;
+		onMouseMove = function(e) {
+			currentX = e.pageX;
+			currentY = e.pageY;
+			if (currentX < minX || currentX > maxX
+					|| currentY < minY || currentY > maxY) {
+				pickerPopover.hide();
+				pickerLink.trigger('hide').data('open', false);
+				$(document).unbind('mousemove', onMouseMove);
+			}
+		};
+		
+		$(document).mousemove(onMouseMove);
+	}
 	
 	// show the series picker
 	function showPicker(picker, plotWidth) {
@@ -973,8 +985,9 @@ JQPlot.prototype = {
 		});
 		
 		// headline
+		var title = picker.multiSelect ? picker.lang.metricsToPlot : picker.lang.metricToPlot;
 		pickerPopover.append($(document.createElement('p'))
-			.addClass('headline').html(picker.lang.metricsToPlot));
+			.addClass('headline').html(title));
 		
 		if (picker.selectableColumns !== null) {
 			// render the selectable columns
@@ -1010,6 +1023,8 @@ JQPlot.prototype = {
 			margin = margin - neededSpace + 40;
 			pickerPopover.addClass('alignright').css('marginLeft', margin + 'px').show();
 		}
+		
+		return pickerPopover;
 	}
 	
 	function createPickerPopupItem(picker, config, type, pickerState) {

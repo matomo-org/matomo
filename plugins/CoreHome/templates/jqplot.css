@@ -152,3 +152,8 @@
 .jqplock-seriespicker-popover input.select {
 	margin-right: 8px;
 }
+
+.jqplock-seriespicker-popover p.pickColumn,
+.jqplock-seriespicker-popover p.pickRow {
+	cursor: pointer;
+}
