@@ -567,7 +567,10 @@ dataTable.prototype =
 						+'&token_auth='+piwik.token_auth
 						+'&expanded=1';
 				if (format == 'CSV' || format == 'TSV') {
-					str += '&translateColumnNames=1';
+					str += '&includeInnerNodes=1';
+				}
+				if (format == 'CSV' || format == 'TSV' || format == 'RSS') {
+					str += '&translateColumnNames=1&language='+piwik.language;
 				}
 				if(typeof segment != 'undefined') {
 					str += '&segment='+segment;

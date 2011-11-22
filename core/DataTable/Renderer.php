@@ -28,6 +28,36 @@ abstract class Piwik_DataTable_Renderer
 	protected $renderSubTables = false;
 	protected $hideIdSubDatatable = false;
 	
+	/**
+	 * Whether to translate column names (i.e. metric names) or not
+	 * @var bool
+	 */
+	public $translateColumnNames = false;
+	
+	/**
+	 * Column translations
+	 * @var array
+	 */
+	private $columnTranslations = false;
+	
+	/**
+	 * The API method that has returned the data that should be rendered
+	 * @var string
+	 */
+	public $apiMethod = false;
+	
+	/**
+	 * API metadata for the current report
+	 * @var array
+	 */
+	private $apiMetaData = null;
+	
+	/**
+	 * The current idSite
+	 * @var int
+	 */
+	public $idSite = 'all';
+	
 	public function __construct()
 	{
 	}
@@ -168,4 +198,96 @@ abstract class Piwik_DataTable_Renderer
 		}
 		return $value;
 	}
+	
+	/**
+	 * Translate column names to the current language.
+	 * Used in subclasses.
+	 */
+	protected function translateColumnNames($names)
+	{
+		if (!$this->apiMethod)
+		{
+			return $names;
+		}
+		
+		// load the translations only once
+		// when multiple dates are requested (date=...,...&period=day), the meta data would
+		// be loaded lots of times otherwise
+		if ($this->columnTranslations === false)
+		{
+			$meta = $this->getApiMetaData();
+			if ($meta === false)
+			{
+				return $names;
+			}
+		
+			$t = Piwik_API_API::getDefaultMetricTranslations();
+			foreach (array('metrics', 'processedMetrics', 'metricsGoal', 'processedMetricsGoal') as $index)
+			{
+				if (isset($meta[$index]) && is_array($meta[$index]))
+				{
+					$t = array_merge($t, $meta[$index]);
+				}
+			}
+			
+			$this->columnTranslations = &$t;
+		}
+		
+		foreach ($names as &$name)
+		{
+			if (isset($this->columnTranslations[$name]))
+			{
+				$name = $this->columnTranslations[$name];
+			}
+		}
+		
+		return $names;
+	}
+	
+	protected function getApiMetaData()
+	{
+		if ($this->apiMetaData === null)
+		{
+			list($apiModule, $apiAction) = explode('.', $this->apiMethod);
+			
+			if(!$apiModule || !$apiAction)
+			{
+				$this->apiMetaData = false;
+			}
+			
+			$api = Piwik_API_API::getInstance();
+			$meta = $api->getMetadata($this->idSite, $apiModule, $apiAction);
+			if (is_array($meta[0]))
+			{
+				$meta = $meta[0];
+			}
+			
+			$this->apiMetaData = &$meta;
+		}
+		
+		return $this->apiMetaData;
+	}
+	
+	protected function translateColumnName($column)
+	{
+		$columns = array($column);
+		$columns = $this->translateColumnNames($columns);
+		return $columns[0];
+	}
+	
+	public function setTranslateColumnNames($bool)
+	{
+		$this->translateColumnNames = $bool;
+	}
+	
+	public function setApiMethod($method)
+	{
+		$this->apiMethod = $method;
+	}
+	
+	public function setIdSite($idSite)
+	{
+		$this->idSite = $idSite;
+	}
+	
 }
