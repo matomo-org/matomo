@@ -127,6 +127,7 @@ JQPlot.prototype = {
 			dataTable.param.columns = columns.join(',');
 			dataTable.param.rows = rows.join(',');
 			dataTable.param.filter_sort_column = columns[0];
+			dataTable.param.disable_generic_filters = '0';
 			if (dataTable.param.viewDataTable == 'generateDataChartVerticalBar') {
 				dataTable.param.viewDataTable = 'graphVerticalBar';
 			} else if (dataTable.param.viewDataTable == 'generateDataChartPie') {

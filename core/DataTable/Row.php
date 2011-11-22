@@ -310,7 +310,7 @@ class Piwik_DataTable_Row
 	{
 		if(isset($this->c[self::COLUMNS][$name]))
 		{
-			debug_print_backtrace();
+//			debug_print_backtrace();
 			throw new Exception("Column $name already in the array!");
 		}
 		$this->c[self::COLUMNS][$name] = $value;

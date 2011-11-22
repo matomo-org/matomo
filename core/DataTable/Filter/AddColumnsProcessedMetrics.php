@@ -34,7 +34,6 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 	public function filter($table)
 	{
 		$rowsIdToDelete = array();	
-		$bounceRateColumnWasSet = false;	
 		foreach($table->getRows() as $key => $row)
 		{
 			$nbVisits = $this->getColumn($row, Piwik_Archive::INDEX_NB_VISITS);
@@ -69,14 +68,15 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 				$averageTimeOnSite = round($this->getColumn($row, Piwik_Archive::INDEX_SUM_VISIT_LENGTH) / $nbVisits, $rounding = 0);
 				$bounceRate = round(100 * $this->getColumn($row, Piwik_Archive::INDEX_BOUNCE_COUNT) / $nbVisits, $this->roundPrecision);
 			}
+			try {
+				$row->addColumn('nb_actions_per_visit', $actionsPerVisit);
+				$row->addColumn('avg_time_on_site', $averageTimeOnSite);
+			} catch(Exception $e) {}
 			
-			$row->addColumn('nb_actions_per_visit', $actionsPerVisit);
-			$row->addColumn('avg_time_on_site', $averageTimeOnSite);
 			try {
 				$row->addColumn('bounce_rate', $bounceRate."%");
-			} catch(Exception $e) {
-				$bounceRateColumnWasSet = true;
-			}
+			} catch(Exception $e) {}
+			
 			$this->filterSubTable($row);
 		}
 		$table->deleteRows($rowsIdToDelete);

@@ -428,7 +428,7 @@ abstract class Piwik_ViewDataTable
 			$this->dataTable->filter($filterName, $filterParameters);
 		}
 		
-		if('false' == Piwik_Common::getRequestVar('disable_generic_filters', 'false', 'string'))
+		if(0 == Piwik_Common::getRequestVar('disable_generic_filters', '0', 'string'))
 		{
 			// Second, generic filters (Sort, Limit, Replace Column Names, etc.)
 			$requestString = $this->getRequestString();
@@ -463,16 +463,7 @@ abstract class Piwik_ViewDataTable
 		// - the format = original specifies that we want to get the original DataTable structure itself, not rendered
 		$requestString  = 'method='.$this->apiMethodToRequestDataTable;
 		$requestString .= '&format=original';
-		
-		// TODO: please review
-		$requestString .= '&disable_generic_filters=1';
-		// if disable_generic_filters is set, sort filters won't be applied.
-		// therefore, the parameters filter_sort_column and filter_sort_order don't have any effect.
-		// sorting is needed if the plotted metric is changed on a bar graph and the new metric has
-		// a different order of the rows than the main metric (e.g. most visits in france, but most
-		// conversions in germany).
-		// on the other hand, if this line is removed, table reports can't be displayed with goal
-		// metrics anymore.
+		$requestString .= '&disable_generic_filters='.Piwik_Common::getRequestVar('disable_generic_filters', 1, 'int');
 		
 		$toSetEventually = array(
 			'filter_limit',

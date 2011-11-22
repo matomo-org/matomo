@@ -270,7 +270,7 @@ class Piwik_API_ResponseBuilder
 	protected function handleDataTable($datatable)
 	{
 		// if the flag disable_generic_filters is defined we skip the generic filters
-		if('false' == Piwik_Common::getRequestVar('disable_generic_filters', 'false', 'string', $this->request))
+		if(0 == Piwik_Common::getRequestVar('disable_generic_filters', '0', 'string', $this->request))
 		{
 			$genericFilter = new Piwik_API_DataTableGenericFilter($this->request);
 			$genericFilter->filter($datatable);
