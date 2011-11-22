@@ -93,30 +93,6 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		return $isVisible;
 	}
 	
-	protected function guessUnitFromRequestedColumnNames($requestedColumnNames, $idSite)
-	{
-		$nameToUnit = array(
-			'_rate' => '%',
-			'revenue' => Piwik::getCurrency($idSite),
-			'_time_' => 's'
-		);
-		
-		$units = array();
-		foreach($requestedColumnNames as $columnName)
-		{
-			$units[$columnName] = false;
-			foreach($nameToUnit as $pattern => $type)
-			{
-				if(strpos($columnName, $pattern) !== false)
-				{
-					$units[$columnName] = $type;
-					break;
-				}
-			}
-		}
-		return $units;
-	}
-	
 	protected function loadDataTableFromAPI()
 	{
 		$period = Piwik_Common::getRequestVar('period');
@@ -160,19 +136,9 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 			$uniqueIdsDataTable[] = $idDataTable;
 		}
 		
-		$requestedColumnNames = $this->getColumnsToDisplay();
-		
-		// derive units from column names
 		$idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
-		$units = $this->guessUnitFromRequestedColumnNames($requestedColumnNames, $idSite);
-		if(!empty($this->yAxisUnit))
-		{
-			// force unit to the value set via $this->setAxisYUnit()
-			foreach ($units as &$unit)
-			{
-				$unit = $this->yAxisUnit;
-			}
-		}
+		$requestedColumnNames = $this->getColumnsToDisplay();
+		$units = $this->getUnitsForColumnsToDisplay();
 		
 		$yAxisLabelToUnit = array();
 		$yAxisLabelToValue = array();

@@ -542,7 +542,7 @@ abstract class Piwik_Controller
 		{
 			array_unshift($columns, 'label');
 		}
-		$view->setColumnsToDisplay( $columns );
+		$view->setColumnsToDisplay($columns);
 		
 		// selectable columns
 		if (isset($view->period) && $view->period == 'day')

@@ -126,6 +126,7 @@ JQPlot.prototype = {
 			var dataTable = dataTables[self.dataTableId];
 			dataTable.param.columns = columns.join(',');
 			dataTable.param.rows = rows.join(',');
+			dataTable.param.filter_sort_column = columns[0];
 			if (dataTable.param.viewDataTable == 'generateDataChartVerticalBar') {
 				dataTable.param.viewDataTable = 'graphVerticalBar';
 			} else if (dataTable.param.viewDataTable == 'generateDataChartPie') {
@@ -383,6 +384,10 @@ JQPlot.prototype = {
 		this.params.pieLegend = {
 			show: true
 		};
+		this.params.canvasLegend = {
+			show: true,
+			singleMetric: true
+		};
 		
 		// pie charts have a different data format
 		for (var i = 0; i < this.data[0].length; i++) {
@@ -391,11 +396,12 @@ JQPlot.prototype = {
 	},
 	
 	showPieChartTooltip: function(i) {
-		var value = this.formatY(this.data[0][i][1], 0);
+		var value = this.formatY(this.data[0][i][1], 1); // series index 1 because 0 is the label
 		var series = this.params.series[0].label;
 		var percentage = this.tooltip.percentages[0][i];
 		
 		var label = this.data[0][i][0];
+		
 		var text = '<b>' + percentage + '%</b> (' + value + ' ' + series + ')';
 		this.showTooltip(label, text);
 	},
@@ -437,7 +443,7 @@ JQPlot.prototype = {
 	},
 	
 	showBarChartTooltip: function(s, i) {
-		var value = this.formatY(this.data[s][i], 0);
+		var value = this.formatY(this.data[s][i], s);
 		var series = this.params.series[s].label;
 		
 		var percentage = '';
@@ -512,7 +518,6 @@ JQPlot.prototype = {
 		} else {
 			value = floatVal;
 		}
-
 		if (typeof this.tooltip.yUnits[seriesIndex] != 'undefined') {
 			value += this.tooltip.yUnits[seriesIndex];
 		}
@@ -752,6 +757,8 @@ JQPlot.prototype = {
 	$.jqplot.CanvasLegendRenderer = function(options) {
 		// canvas for the legend
 		this.legendCanvas = null;
+		// is it a legend for a single metric only (pie chart)?
+		this.singleMetric = false;
 		// render the legend?
 		this.show = false;
 		
@@ -809,6 +816,10 @@ JQPlot.prototype = {
 			} 
 			
 			ctx.fillStyle = s.color;
+			if (legend.singleMetric)
+			{
+				ctx.fillStyle = '#666666';
+			}
 			
 			ctx.fillRect(x, 10, 10, 2);
 			x += 15;
@@ -880,15 +891,6 @@ JQPlot.prototype = {
 			return;
 		}
 		
-		if (picker.multiSelect) {
-			renderMultiSelectionPicker(plot, picker);
-		} else {
-			renderSingleSelection(plot, picker);
-		}
-	}
-	
-	// render the picker icon that has a multi selection popover
-	function renderMultiSelectionPicker(plot, picker) {
 		if ($('#dashboard').size() > 0) {
 			// don't display picker in dashboard
 			// it would be cut off by overflow:hidden containers
@@ -950,9 +952,9 @@ JQPlot.prototype = {
 					var rows = [];
 					pickerPopover.find('input:checked').each(function() {
 						if ($(this).closest('p').hasClass('pickRow')) {
-							rows.push($(this).attr('name'));
+							rows.push($(this).data('name'));
 						} else {
-							columns.push($(this).attr('name'));
+							columns.push($(this).data('name'));
 						}
 					});
 					var noRowSelected = pickerPopover.find('.pickRow').size() > 0
@@ -976,7 +978,7 @@ JQPlot.prototype = {
 			// render the selectable columns
 			for (var i = 0; i < picker.selectableColumns.length; i++) {
 				var column = picker.selectableColumns[i];
-				pickerPopover.append(createPickerPopupItem(column, 'column', pickerState));
+				pickerPopover.append(createPickerPopupItem(picker, column, 'column', pickerState));
 			}
 		}
 		
@@ -989,7 +991,7 @@ JQPlot.prototype = {
 			// render the selectable rows
 			for (var i = 0; i < picker.selectableRows.length; i++) {
 				var row = picker.selectableRows[i];
-				pickerPopover.append(createPickerPopupItem(row, 'row', pickerState));
+				pickerPopover.append(createPickerPopupItem(picker, row, 'row', pickerState));
 			}
 		}
 		
@@ -1008,14 +1010,19 @@ JQPlot.prototype = {
 		}
 	}
 	
-	function createPickerPopupItem(config, type, pickerState) {
+	function createPickerPopupItem(picker, config, type, pickerState) {
 		var checkbox = $(document.createElement('input')).attr('type', 'checkbox').addClass('select');
-		if (config.displayed) {
+		if (!picker.multiSelect) {
+			checkbox.attr('type', 'radio');
+			checkbox.attr('name', 'singleMetricPicker');
+		}
+		if (config.displayed && !(!picker.multiSelect && pickerState.oneChecked)) {
 			checkbox.attr('checked', 'checked');
+			pickerState.oneChecked = true;
 		}
 		// if we are rendering a column, remember the column name
 		// if it's a row, remember the string that can be used to match the row
-		checkbox.attr('name', type == 'column' ? config.column : config.matcher);
+		checkbox.data('name', type == 'column' ? config.column : config.matcher);
 		
 		var el = $(document.createElement('p'))
 			.append(checkbox)
@@ -1033,30 +1040,6 @@ JQPlot.prototype = {
 		});
 		
 		return el;
-	}
-	
-	// render a select box for picking a single column
-	function renderSingleSelection(plot, picker) {
-		var select = $(document.createElement('select'));
-		
-		var foundSelected = false;
-		for (var i = 0; i < picker.selectableColumns.length; i++) {
-			var series = picker.selectableColumns[i];
-			var option = $(document.createElement('option'))
-					.attr('value', series.column).html(series.translation);
-			if (series.displayed && !foundSelected) {
-				option.attr('selected', 'selected');
-				foundSelected = true;
-			}
-			select.append(option);
-		}
-		
-		select.change(function() {
-			var column = select.val();
-			$(plot.targetId).trigger('changeColumns', [[column]]);
-		});
-		
-		$(plot.targetId).parent().parent().find('div.dataTableFooterWrap').append(select);
 	}
 	
 	$.jqplot.preInitHooks.push($.jqplot.SeriesPicker.init);

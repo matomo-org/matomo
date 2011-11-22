@@ -89,7 +89,25 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 	 */
 	public function setSelectableColumns($columnsNames)
 	{
-		$this->selectableColumns = $columnsNames;
+		// the array contains values if enableShowGoals() has been used
+		// add $columnsNames to the beginning of the array
+		$this->selectableColumns = array_merge($columnsNames, $this->selectableColumns);
+	}
+	
+	/**
+	 * The implementation of this method in Piwik_ViewDataTable passes to the graph whether the
+	 * goals icon should be displayed or not. Here, we use it to implicitly add the goal metrics
+	 * to the metrics picker.
+	 */
+	public function enableShowGoals()
+	{
+		parent::enableShowGoals();
+		
+		$goalMetrics = array('nb_conversions', 'revenue');
+		$this->selectableColumns = array_merge($this->selectableColumns, $goalMetrics);
+		
+		$this->setColumnTranslation('nb_conversions', Piwik_Translate('Goals_ColumnConversions'));
+		$this->setColumnTranslation('revenue', Piwik_Translate('Goals_ColumnRevenue'));
 	}
 	
 	/**
@@ -102,6 +120,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 			// build the final configuration for the series picker
 			$columnsToDisplay = $this->getColumnsToDisplay();
 			$selectableColumns = array();
+			
 			foreach ($this->selectableColumns as $column)
 			{
 				$selectableColumns[] = array(
@@ -112,6 +131,47 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 			}
 			$this->view->setSelectableColumns($selectableColumns, $multiSelect);
 		}
+	}
+	
+	protected function getUnitsForColumnsToDisplay()
+	{
+		// derive units from column names
+		$idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
+		$units = $this->guessUnitFromRequestedColumnNames($this->getColumnsToDisplay(), $idSite);
+		if(!empty($this->yAxisUnit))
+		{
+			// force unit to the value set via $this->setAxisYUnit()
+			foreach ($units as &$unit)
+			{
+				$unit = $this->yAxisUnit;
+			}
+		}
+		
+		return $units;
+	}
+	
+	protected function guessUnitFromRequestedColumnNames($requestedColumnNames, $idSite)
+	{
+		$nameToUnit = array(
+			'_rate' => '%',
+			'revenue' => Piwik::getCurrency($idSite),
+			'_time_' => 's'
+		);
+		
+		$units = array();
+		foreach($requestedColumnNames as $columnName)
+		{
+			$units[$columnName] = false;
+			foreach($nameToUnit as $pattern => $type)
+			{
+				if(strpos($columnName, $pattern) !== false)
+				{
+					$units[$columnName] = $type;
+					break;
+				}
+			}
+		}
+		return $units;
 	}
 	
 	public function main()
@@ -159,7 +219,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 
 		// We apply a filter to the DataTable, decoding the label column (useful for keywords for example)
 		$this->dataTable->filter('ColumnCallbackReplace', array('label','urldecode'));
-
+		
 		$xLabels = $this->dataTable->getColumn('label');
 		$columnNames = parent::getColumnsToDisplay();
 		if(($labelColumnFound = array_search('label',$columnNames)) !== false)
@@ -178,6 +238,9 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		$this->view->setAxisYLabels($columnNameToTranslation);
 		$this->view->setAxisYUnit($this->yAxisUnit);
 		$this->view->setDisplayPercentageInTooltip($this->displayPercentageInTooltip);
+		
+		$units = $this->getUnitsForColumnsToDisplay();
+		$this->view->setAxisYUnits($units);
 		
 		$this->addSeriesPickerToView();
 	}
