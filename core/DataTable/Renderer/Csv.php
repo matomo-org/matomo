@@ -61,39 +61,11 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 	public $includeInnerNodes = false;
 	
 	/**
-	 * Whether to translate column names (i.e. metric names) or not
-	 * 
-	 * @var bool
-	 */
-	public $translateColumnNames = false;
-	
-	/**
-	 * Column translations
-	 * 
-	 * @var array
-	 */
-	private $columnTranslations = false;
-	
-	/**
 	 * Separator for building recursive labels (or paths)
 	 * 
 	 * @var string
 	 */
 	public $recursiveLabelSeparator = ' - ';
-	
-	/**
-	 * The API method that has returned the data that should be rendered
-	 * 
-	 * @var string
-	 */
-	public $apiMethod = false;
-	
-	/**
-	 * The current idSite
-	 * 
-	 * @var int
-	 */
-	public $idSite = 'all';
 	
 	/**
 	 * idSubtable will be exported in a column called 'idsubdatatable'
@@ -110,7 +82,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 			return 'No data available';
 		}
 
-		self::renderHeader();
+		self::renderHeader($this);
 
 		if($this->convertToUnicode 
 			&& function_exists('mb_convert_encoding'))
@@ -136,11 +108,6 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		$this->includeInnerNodes = $bool;
 	}
 	
-	public function setTranslateColumnNames($bool)
-	{
-		$this->translateColumnNames = $bool;
-	}
-	
 	public function setSeparator($separator)
 	{
 		$this->separator = $separator;
@@ -151,22 +118,17 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		$this->recursiveLabelSeparator = $separator;
 	}
 	
-	public function setApiMethod($method)
-	{
-		$this->apiMethod = $method;
-	}
-	
-	public function setIdSite($idSite)
-	{
-		$this->idSite = $idSite;
-	}
-	
 	protected function renderTable($table)
 	{
 		if($table instanceof Piwik_DataTable_Array)
 		{
 			$str = $header = '';
-			$prefixColumns = $table->getKeyName() . $this->separator;
+			$keyName = $table->getKeyName();
+			if ($this->translateColumnNames)
+			{
+				$keyName = $this->translateColumnName($keyName);
+			}
+			$prefixColumns = $keyName . $this->separator;
 			foreach($table->getArray() as $currentLinePrefix => $dataTable)
 			{
 				$returned = explode("\n",$this->renderTable($dataTable));
@@ -233,8 +195,18 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 						{
 							foreach($subValues as $subKey => $subValue)
 							{
-								// goals_idgoal=1
-								$columnName = $name . "_" . $key . "_" . $subKey;
+								if ($this->translateColumnNames)
+								{
+									$subName = $name != 'goals' ? $name . ' ' . $key
+											: Piwik_Translate('Goals_GoalX', $key);
+									$columnName = $this->translateColumnName($subKey)
+											.' ('. $subName . ')';
+								}
+								else
+								{
+									// goals_idgoal=1
+									$columnName = $name . "_" . $key . "_" . $subKey;
+								}
 								$allColumns[$columnName] = true;
 								$csvRow[$columnName] = $subValue;
 							}
@@ -370,89 +342,6 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		$str = substr($str, 0, -strlen($this->lineEnd));
 		return $str;
 	}
-	
-	protected function translateColumnNames($names)
-	{
-		if (!$this->apiMethod)
-		{
-			return $names;
-		}
-		
-		// load the translations only once
-		// when multiple dates are requested (date=...,...&period=day), the meta data would
-		// be loaded lots of times otherwise
-		if ($this->columnTranslations === false)
-		{
-			list($apiModule, $apiAction) = explode('.', $this->apiMethod);
-		
-			if(!$apiModule || !$apiAction)
-			{
-				return $names;
-			}
-			
-			$api = Piwik_API_API::getInstance();
-			$meta = $api->getMetadata($this->idSite, $apiModule, $apiAction);
-			if (is_array($meta[0]))
-			{
-				$meta = $meta[0];
-			}
-			
-			$t = array_merge($api->getDefaultMetrics(), $api->getDefaultProcessedMetrics(), array(
-				'label' => 'General_ColumnLabel',
-				'avg_time_on_page' => 'General_ColumnAverageTimeOnPage',
-				'sum_time_spent' => 'General_ColumnSumVisitLength',
-				'sum_visit_length' => 'General_ColumnSumVisitLength',
-				'bounce_count' => 'General_ColumnBounces',
-				'bounce_count_returning' => 'VisitFrequency_ColumnBounceCountForReturningVisits',
-				'max_actions' => 'General_ColumnMaxActions',
-				'max_actions_returning' => 'VisitFrequency_ColumnMaxActionsInReturningVisit',
-				'nb_visits_converted_returning' => 'VisitFrequency_ColumnNbReturningVisitsConverted',
-				'sum_visit_length_returning' => 'VisitFrequency_ColumnSumVisitLengthReturning',
-				'nb_visits_converted' => 'General_ColumnVisitsWithConversions',
-				'nb_conversions' => 'Goals_ColumnConversions',
-				'revenue' => 'Goals_ColumnRevenue',
-				'nb_hits' => 'General_ColumnPageviews',
-				'entry_nb_visits' => 'General_ColumnEntrances',
-				'entry_nb_uniq_visitors' => 'General_ColumnUniqueEntrances',
-				'exit_nb_visits' => 'General_ColumnExits',
-				'exit_nb_uniq_visitors' => 'General_ColumnUniqueExits',
-				'entry_bounce_count' => 'General_ColumnBounces',
-				'exit_bounce_count' => 'General_ColumnBounces',
-				'exit_rate' => 'General_ColumnExitRate'
-			));
-			
-			$t = array_map('Piwik_Translate', $t);
-			
-			$dailySum = ' ('.Piwik_Translate('General_DailySum').')';
-			$afterEntry = ' '.Piwik_Translate('General_AfterEntry');
-			
-			$t['sum_daily_nb_uniq_visitors'] = Piwik_Translate('General_ColumnNbUniqVisitors').$dailySum;
-			$t['sum_daily_entry_nb_uniq_visitors'] = Piwik_Translate('General_ColumnUniqueEntrances').$dailySum;
-			$t['sum_daily_exit_nb_uniq_visitors'] = Piwik_Translate('General_ColumnUniqueExits').$dailySum;
-			$t['entry_nb_actions'] = Piwik_Translate('General_ColumnNbActions').$afterEntry;
-			$t['entry_sum_visit_length'] = Piwik_Translate('General_ColumnSumVisitLength').$afterEntry;
-			
-			foreach (array('metrics', 'processedMetrics', 'metricsGoal', 'processedMetricsGoal') as $index)
-			{
-				if (isset($meta[$index]) && is_array($meta[$index]))
-				{
-					$t = array_merge($t, $meta[$index]);
-				}
-			}
-			
-			$this->columnTranslations = &$t;
-		}
-		
-		foreach ($names as &$name)
-		{
-			if (isset($this->columnTranslations[$name]))
-			{
-				$name = $this->columnTranslations[$name];
-			}
-		}
-		
-		return $names;
-	}
 
 	protected function formatValue($value)
 	{
@@ -484,11 +373,39 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		return $value;
 	}
 	
-	protected static function renderHeader()
+	protected static function renderHeader($instance)
 	{
+		$fileName = 'Piwik '.Piwik_Translate('General_Export');
+		
+		$period = Piwik_Common::getRequestVar('period', false);
+		$date = Piwik_Common::getRequestVar('date', false);
+		if ($period || $date) // in test cases, there are no request params set
+		{
+			if ($period == 'range')
+			{
+				$period = new Piwik_Period_Range($period, $date);
+			}
+			else if (strpos($date, ',') !== false)
+			{
+				$period = new Piwik_Period_Range('range', $date);
+			}
+			else
+			{
+				$period = Piwik_Period::factory($period, Piwik_Date::factory($date));
+			}
+			
+			$prettyDate = $period->getLocalizedLongString();
+			
+			$meta = $instance->getApiMetaData();
+			
+			$fileName .= ' _ '.$meta['name']
+					.' _ '.$prettyDate.'.csv';
+		}
+		
 		// silent fail otherwise unit tests fail
 		@header('Content-Type: application/vnd.ms-excel');
-		@header('Content-Disposition: attachment; filename=piwik-report-export.csv');
+		@header('Content-Disposition: attachment; filename='.$fileName);
 		Piwik::overrideCacheControlHeaders();
 	}
+	
 }

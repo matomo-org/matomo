@@ -143,6 +143,10 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 		{
 			if($toDisplay !== false)
 			{
+				if($this->translateColumnNames)
+				{
+					$name = $this->translateColumnName($name);
+				}
 				$html .= "\n\t<td><b>$name</b></td>";
 			}
 		}

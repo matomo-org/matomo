@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<nb_visits>Visits</nb_visits>
+		<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+		<nb_actions>Actions</nb_actions>
+		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+		<bounce_rate>Bounce Rate</bounce_rate>
+		<conversion_rate>Conversion Rate</conversion_rate>
+		<label>Label</label>
+		<date>Date</date>
+		<avg_time_on_page>Avg. time on page</avg_time_on_page>
+		<sum_time_spent>Total time spent by visitors (in seconds)</sum_time_spent>
+		<sum_visit_length>Total time spent by visitors (in seconds)</sum_visit_length>
+		<bounce_count>Bounces</bounce_count>
+		<bounce_count_returning>Bounce Count for Returning Visits</bounce_count_returning>
+		<max_actions>Maximum actions in one visit</max_actions>
+		<max_actions_returning>Maximum actions in one returning visit</max_actions_returning>
+		<nb_visits_converted_returning>Number of converted returning visits</nb_visits_converted_returning>
+		<sum_visit_length_returning>Total time spent by returning visitors (in seconds)</sum_visit_length_returning>
+		<nb_visits_converted>Visits with Conversions</nb_visits_converted>
+		<nb_conversions>Conversions</nb_conversions>
+		<revenue>Revenue</revenue>
+		<nb_hits>Pageviews</nb_hits>
+		<entry_nb_visits>Entrances</entry_nb_visits>
+		<entry_nb_uniq_visitors>Unique entrances</entry_nb_uniq_visitors>
+		<exit_nb_visits>Exits</exit_nb_visits>
+		<exit_nb_uniq_visitors>Unique exits</exit_nb_uniq_visitors>
+		<entry_bounce_count>Bounces</entry_bounce_count>
+		<exit_bounce_count>Bounces</exit_bounce_count>
+		<exit_rate>Exit rate</exit_rate>
+		<sum_daily_nb_uniq_visitors>Unique visitors (daily sum)</sum_daily_nb_uniq_visitors>
+		<sum_daily_entry_nb_uniq_visitors>Unique entrances (daily sum)</sum_daily_entry_nb_uniq_visitors>
+		<sum_daily_exit_nb_uniq_visitors>Unique exits (daily sum)</sum_daily_exit_nb_uniq_visitors>
+		<entry_nb_actions>Actions after entereing here</entry_nb_actions>
+		<entry_sum_visit_length>Total time spent by visitors (in seconds) after entereing here</entry_sum_visit_length>
+	</row>
+</result>

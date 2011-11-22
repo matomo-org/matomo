@@ -1112,8 +1112,9 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		
 		// changing the language within one request is a bit fancy
 		// in order to keep the core clean, we need a little hack here
-		Piwik_Translate::reset();
 		$_GET['language'] = 'de';
+		Piwik_Translate::reset();
+		Piwik_Translate::getInstance()->reloadLanguage('de');
 		
 		$this->callGetApiCompareOutput(__FUNCTION__.'_xp1_inner1_trans-de', 'csv', 
 				$idSite, $dateTime, $periods = false, $setDateLastN = false, $language = false,

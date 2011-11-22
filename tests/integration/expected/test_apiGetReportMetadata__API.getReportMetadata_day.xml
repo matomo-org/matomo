@@ -1134,6 +1134,7 @@
 		<dimension>Visits by visit number</dimension>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
+			<nb_visits_percentage>% Visits</nb_visits_percentage>
 
 		</metrics>
 		<constantRowsCount>1</constantRowsCount>

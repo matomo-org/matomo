@@ -139,6 +139,10 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 				{
 					$name = 'value';
 				}
+				if($this->translateColumnNames)
+				{
+					$name = $this->translateColumnName($name);
+				}
 				$html .= "\t\t<th>$name</th>\n";
 			}
 		}

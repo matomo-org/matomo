@@ -179,13 +179,16 @@ class Piwik_API_ResponseBuilder
 			return $dataTable;
 		}
 		
+		$method = Piwik_Common::getRequestVar('method', '', 'string', $this->request);
+		
 		$renderer = Piwik_DataTable_Renderer::factory($format);
 		$renderer->setTable($dataTable);
 		$renderer->setRenderSubTables(Piwik_Common::getRequestVar('expanded', false, 'int', $this->request));
 		$renderer->setHideIdSubDatableFromResponse(Piwik_Common::getRequestVar('hideIdSubDatable', false, 'int', $this->request));
+		
 		if($format == 'php')
 		{
-			$renderer->setSerialize( $this->caseRendererPHPSerialize());
+			$renderer->setSerialize($this->caseRendererPHPSerialize());
 			$renderer->setPrettyDisplay(Piwik_Common::getRequestVar('prettyDisplay', false, 'int', $this->request));
 		}
 		else if($format == 'html')
@@ -195,16 +198,19 @@ class Piwik_API_ResponseBuilder
 		else if($format == 'csv' || $format == 'tsv')
 		{
 			$renderer->setIncludeInnerNodes(Piwik_Common::getRequestVar('includeInnerNodes', false, 'int', $this->request));
-			$renderer->setConvertToUnicode( Piwik_Common::getRequestVar('convertToUnicode', true, 'int', $this->request) );
-			$renderer->setTranslateColumnNames( Piwik_Common::getRequestVar('translateColumnNames', false, 'int', $this->request) );
-			$renderer->setIdSite( Piwik_Common::getRequestVar('idSite', false, 'int', $this->request) );
-			
-			$method = Piwik_Common::getRequestVar('method', '', 'string', $this->request);
-			$renderer->setApiMethod($method);
+			$renderer->setConvertToUnicode(Piwik_Common::getRequestVar('convertToUnicode', true, 'int', $this->request));
 			if (substr($method, 0, 8) == 'Actions.')
 			{
 				$renderer->setRecursiveLabelSeparator('/');
 			}
+		}
+		
+		// prepare translation of column names
+		if ($format == 'html' || $format == 'csv' || $format == 'tsv' || $format = 'rss')
+		{
+			$renderer->setApiMethod($method);
+			$renderer->setIdSite(Piwik_Common::getRequestVar('idSite', false, 'int', $this->request));
+			$renderer->setTranslateColumnNames(Piwik_Common::getRequestVar('translateColumnNames', false, 'int', $this->request));
 		}
 		
 		return $renderer->render();
