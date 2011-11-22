@@ -20,6 +20,7 @@
 					exportTitle: '{'General_ExportAsImage_js'|translate|escape:'javascript'}',
 					exportText: '{'General_SaveImageOnYourComputer_js'|translate|escape:'javascript'}',
 					metricsToPlot: '{'General_MetricsToPlot'|translate|escape:'javascript'}',
+					metricToPlot: '{'General_MetricToPlot'|translate|escape:'javascript'}',
 					recordsToPlot: '{'General_RecordsToPlot'|translate|escape:'javascript'}'
 				{literal} }); {/literal}
 			{literal}  }, 5);  {/literal}
