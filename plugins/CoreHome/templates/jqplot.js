@@ -178,7 +178,7 @@ JQPlot.prototype = {
 		// handle window resize
 		var plotWidth = target.innerWidth();
 		var timeout = false;
-		var resize = function() {
+		target.on('resizeGraph', function() {
 			var width = target.innerWidth();
 			if (width > 0 && Math.abs(plotWidth - width) >= 5) {
 				plotWidth = width;
@@ -186,12 +186,14 @@ JQPlot.prototype = {
 				(new JQPlot(self.originalData, self.dataTableId))
 						.render(type, targetDivId, lang);
 			}
-		};
+		});
 		var resizeListener = function() {
 			if (timeout) {
 				window.clearTimeout(timeout);
 			}
-			timeout = window.setTimeout(resize, 300);
+			timeout = window.setTimeout(function() {
+				target.trigger('resizeGraph');
+			}, 300);
 		};
 		$(window).on('resize', resizeListener);
 		
@@ -911,10 +913,9 @@ JQPlot.prototype = {
 		// show picker on hover
 		picker.domElem.hover(function() {
 			picker.domElem.css('opacity', 1);
-			if (!picker.domElem.data('open')) {
-				picker.domElem.data('open', true);
-				var pickerPopover = showPicker(picker, plot._width);
-				checkPickerLeave(picker.domElem, pickerPopover);
+			if (!picker.domElem.hasClass('open')) {
+				picker.domElem.addClass('open');
+				showPicker(picker, plot._width);
 			}
 		}, function() {
 			// do nothing on mouseout because using this event doesn't work properly.
@@ -924,46 +925,13 @@ JQPlot.prototype = {
 		});
 	};
 	
-	// check whether the mouse has left the picker
-	function checkPickerLeave(pickerLink, pickerPopover) {
-		var offset = pickerPopover.offset();
-		var minX = offset.left;
-		var minY = offset.top;
-		var maxX = minX + pickerPopover.outerWidth();
-		var maxY = minY + pickerPopover.outerHeight();
-		
-		var currentX, currentY, onMouseMove;
-		onMouseMove = function(e) {
-			currentX = e.pageX;
-			currentY = e.pageY;
-			if (currentX < minX || currentX > maxX
-					|| currentY < minY || currentY > maxY) {
-				pickerPopover.hide();
-				pickerLink.trigger('hide').data('open', false);
-				$(document).unbind('mousemove', onMouseMove);
-			}
-		};
-		
-		$(document).mousemove(onMouseMove);
-	}
-	
 	// show the series picker
 	function showPicker(picker, plotWidth) {
 		var pickerLink = picker.domElem;
 		var pickerPopover = $(document.createElement('div'))
-			.addClass('jqplock-seriespicker-popover').hide();
-		
-		pickerLink.before(pickerPopover);
+			.addClass('jqplock-seriespicker-popover');
 		
 		var pickerState = {manipulated: false};
-		
-		// hide and replot on mouse leave
-		pickerPopover.mouseleave(function(e) {
-			if (!$(e.relatedTarget).is('.jqplot-seriespicker')) {
-				var replot = pickerState.manipulated;
-				hidePicker(picker, pickerPopover, pickerLink, replot);
-			}
-		});
 		
 		// headline
 		var title = picker.multiSelect ? picker.lang.metricsToPlot : picker.lang.metricToPlot;
@@ -991,33 +959,45 @@ JQPlot.prototype = {
 			}
 		}
 		
+		$('body').prepend(pickerPopover.hide());
 		var neededSpace = pickerPopover.outerWidth() + 10;
 		
 		// try to display popover to the right
+		var linkOffset = pickerLink.offset();
+		if (navigator.appVersion.indexOf("MSIE 7.") != -1) {
+			linkOffset.left -= 10;
+		}
 		var margin = (parseInt(pickerLink.css('marginLeft'), 10) - 4);
 		if (margin + neededSpace < plotWidth
 				// make sure it's not too far to the left
 				|| margin - neededSpace + 60 < 0) {
-			pickerPopover.css('marginLeft', margin + 'px').show();
+			pickerPopover.css('marginLeft', (linkOffset.left - 4) + 'px').show();
 		} else {
 			// display to the left
-			margin = margin - neededSpace + 40;
-			pickerPopover.addClass('alignright').css('marginLeft', margin + 'px').show();
+			pickerPopover.addClass('alignright')
+				.css('marginLeft', (linkOffset.left  - neededSpace + 38) + 'px')
+				.css('backgroundPositionX', (pickerPopover.outerWidth() - 25) + 'px')
+				.show();
+			
 		}
+		pickerPopover.css('marginTop', (linkOffset.top - 5) + 'px').show();
 		
-		return pickerPopover;
+		// hide and replot on mouse leave
+		checkPickerLeave(pickerPopover, function() {
+			var replot = pickerState.manipulated;
+			hidePicker(picker, pickerPopover, pickerLink, replot);
+		});
 	}
 	
 	function createPickerPopupItem(picker, config, type, pickerState, pickerPopover, pickerLink) {
-		var checkbox = $(document.createElement('input')).attr('type', 'checkbox').addClass('select');
-		if (!picker.multiSelect) {
-			checkbox.attr('type', 'radio');
-			checkbox.attr('name', 'singleMetricPicker');
-		}
+		var checkbox = $(document.createElement('input')).addClass('select')
+				.attr('type', picker.multiSelect ? 'checkbox' : 'radio');
+
 		if (config.displayed && !(!picker.multiSelect && pickerState.oneChecked)) {
-			checkbox.attr('checked', 'checked');
+			checkbox.prop('checked', true);
 			pickerState.oneChecked = true;
 		}
+		
 		// if we are rendering a column, remember the column name
 		// if it's a row, remember the string that can be used to match the row
 		checkbox.data('name', type == 'column' ? config.column : config.matcher);
@@ -1027,27 +1007,66 @@ JQPlot.prototype = {
 			.append(type == 'column' ? config.translation : config.label)
 			.addClass(type == 'column' ? 'pickColumn' : 'pickRow');
 		
+		var replot = function() {
+			unbindPickerLeaveCheck();
+			hidePicker(picker, pickerPopover, pickerLink, true);
+		};
+		
+		var checkBox = function(box) {
+			if (!picker.multiSelect) {
+				pickerPopover.find('input.select:not(.current)').prop('checked', false);
+			}
+			box.prop('checked', true);
+			replot();
+		}
+		
 		el.click(function(e) {
 			pickerState.manipulated = true;
+			var box = $(this).find('input.select');
 			if (!$(e.target).is('input.select')) {
-				var hit = $(this).find('input.select:not(:checked)').attr('checked', 'checked').size();
-				if (hit == 0) {
-					$(this).find('input.select:checked').removeAttr('checked');
+				if (box.is(':checked')) {
+					box.prop('checked', false);
 				} else {
-					// new item has been ticked => replot
-					pickerPopover.unbind('mouseleave'); // prevent double replot
-					hidePicker(picker, pickerPopover, pickerLink, true);
+					checkBox(box);
 				}
-			};
+			} else {
+				if (box.is(':checked')) {
+					checkBox(box);
+				}
+			}
 		});
 		
 		return el;
 	}
 	
+	// check whether the mouse has left the picker
+	var onMouseMove;
+	function checkPickerLeave(pickerPopover, onLeaveCallback) {
+		var offset = pickerPopover.offset();
+		var minX = offset.left;
+		var minY = offset.top;
+		var maxX = minX + pickerPopover.outerWidth();
+		var maxY = minY + pickerPopover.outerHeight();
+		var currentX, currentY;
+		onMouseMove = function(e) {
+			currentX = e.pageX;
+			currentY = e.pageY;
+			if (currentX < minX || currentX > maxX
+					|| currentY < minY || currentY > maxY) {
+				unbindPickerLeaveCheck();
+				onLeaveCallback();
+			}
+		};
+		$(document).mousemove(onMouseMove);
+	}
+	function unbindPickerLeaveCheck() {
+		$(document).unbind('mousemove', onMouseMove);
+	}
+	
 	function hidePicker(picker, pickerPopover, pickerLink, replot) {
 		// hide picker
 		pickerPopover.hide();
-		pickerLink.trigger('hide').data('open', false);
+		pickerLink.trigger('hide').removeClass('open');
 		
 		// replot
 		if (replot) {
@@ -1066,6 +1085,8 @@ JQPlot.prototype = {
 				$('#'+picker.targetDivId).trigger('changeSeries', [columns, rows]);
 			}
 		}
+		
+		pickerPopover.remove();
 	}
 	
 	$.jqplot.preInitHooks.push($.jqplot.SeriesPicker.init);
