@@ -445,7 +445,8 @@ abstract class Piwik_Controller
 			$view->startDate = $dateStart;
 			$view->endDate = $dateEnd;
 			
-			$view->language = Piwik_LanguagesManager::getLanguageForSession();
+			$language = Piwik_LanguagesManager::getLanguageForSession();
+			$view->language = !empty($language) ? $language : 'en';
 			
 			$this->setBasicVariablesView($view);
 		} catch(Exception $e) {
