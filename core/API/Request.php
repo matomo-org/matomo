@@ -143,6 +143,7 @@ class Piwik_API_Request
 		{
 			Piwik_PostEvent('API.Request.authenticate', $token_auth);
 			Zend_Registry::get('access')->reloadAccess();
+			Piwik::raiseMemoryLimitIfNecessary();
 		}
 	}
 	
