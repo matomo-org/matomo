@@ -79,6 +79,7 @@ dataTable.prototype =
 			'filter_limit',
 			'filter_sort_column',
 			'filter_sort_order',
+			'disable_generic_filters',
 			'columns'
 		];
 		
@@ -454,7 +455,7 @@ dataTable.prototype =
 					delete self.param.filter_limit;
 					delete self.param.filter_sort_column;
 					delete self.param.filter_sort_order;
-					
+					delete columns;
 					self.reloadAjaxDataTable();
 					self.notifyDashboardViewDataTableChange($(this), self.param.viewDataTable);
 				}

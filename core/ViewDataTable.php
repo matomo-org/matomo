@@ -387,7 +387,7 @@ abstract class Piwik_ViewDataTable
 	{
 		// we build the request string (URL) to call the API
 		$requestString = $this->getRequestString();
-		
+
 		// we make the request to the API
 		$request = new Piwik_API_Request($requestString);
 		
@@ -940,6 +940,7 @@ abstract class Piwik_ViewDataTable
 	 */
 	public function setSortedColumn( $columnId, $order = 'desc')
 	{
+//		debug_print_backtrace();
 		$this->variablesDefault['filter_sort_column'] = $columnId;
 		$this->variablesDefault['filter_sort_order'] = $order;
 	}
@@ -951,7 +952,7 @@ abstract class Piwik_ViewDataTable
 	 */
 	public function getSortedColumn()
 	{
-		return $this->variablesDefault['filter_sort_column'];
+		return isset($this->variablesDefault['filter_sort_column']) ? $this->variablesDefault['filter_sort_column'] : false;
 	}
 
 	/**

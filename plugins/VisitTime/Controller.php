@@ -48,7 +48,6 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
 		$view = Piwik_ViewDataTable::factory('graphVerticalBar');
 		$view->init($this->pluginName, $controllerMethod, $apiMethod);
 		
-		$this->setMetricsVariablesView($view);
 		
 		$view->setColumnTranslation('label', Piwik_Translate($labelTranslation));
 		$view->setSortedColumn( 'label', 'asc' );
@@ -58,6 +57,7 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
 		$view->disableOffsetInformationAndPaginationControls();
+		$this->setMetricsVariablesView($view);
 		
 		return $view;
 	}
