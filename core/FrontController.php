@@ -297,13 +297,11 @@ class Piwik_FrontController
 									<code>Plugins[] = Login</code><br />
 									under the <code>[Plugins]</code> section in your config/config.inc.php");
 			}
-			
 			Zend_Registry::get('access')->reloadAccess($authAdapter);
 			
-			Piwik_Translate::getInstance()->reloadLanguage();
-
 			Piwik::raiseMemoryLimitIfNecessary();
 
+			Piwik_Translate::getInstance()->reloadLanguage();
 			$pluginsManager->postLoadPlugins();
 			
 			Piwik_PostEvent('FrontController.checkForUpdates');

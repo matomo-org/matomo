@@ -53,7 +53,6 @@ class Piwik_API_DocumentationGenerator
 								'date'		=> Piwik_Common::getRequestVar('date', 'today', 'string')
 							);
 		
-		
 		foreach(Piwik_API_Proxy::getInstance()->getMetadata() as $class => $info)
 		{
 			$moduleName = Piwik_API_Proxy::getInstance()->getModuleNameFromClassName($class);
@@ -106,9 +105,10 @@ class Piwik_API_DocumentationGenerator
 				$str .= '</small>';
 				$str .= "</div>\n";
 			}
+			$str .= '<div style="margin:15px;"><a href="#topApiRef" style="color:#95AECB">↑ Back to top</a></div>';
 		}
 		
-		$str = "<h2>Quick access to APIs</h2> 
+		$str = "<h2 id='topApiRef' name='topApiRef'>Quick access to APIs</h2> 
 				$toc 
 				$str";
 		return $str;
