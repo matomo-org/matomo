@@ -36,7 +36,6 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 		
 		
 		$this->setMetricDocumentation('nb_visits', Piwik_Translate('Goals_ColumnVisits'));
-		
 		if($this->isEcommerce)
 		{
 			$this->setMetricDocumentation('revenue_per_visit', Piwik_Translate('Goals_ColumnRevenuePerVisitDocumentation', Piwik_Translate('General_EcommerceOrders') ));
@@ -58,6 +57,9 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 				'goal_%s_items',
 				'goal_%s_revenue_per_visit',
 			));
+			
+			// Default sort column
+			$this->setSortedColumn('goal_ecommerceOrder_revenue', 'desc');
 		}
 		else
 		{
@@ -80,23 +82,17 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 				'goal_%s_revenue_per_visit',
 				'revenue_per_visit',
 			));
+			
+			// Default sort column
+			$columnsToDisplay = $this->getColumnsToDisplay();
+			$columnNbConversionsCurrentGoal = $columnsToDisplay[2];
+			if($this->processOnlyIdGoal > 0
+				&& strpos($columnNbConversionsCurrentGoal, '_nb_conversions') !== false)
+			{
+				$this->setSortedColumn($columnNbConversionsCurrentGoal, 'desc');
+			}
 		}
 		
-		// We ensure that the 'Sort by' column is actually displayed in the table
-		// eg. most daily reports sort by nb_uniq_visitors but this column is not displayed in the Goals table
-		$columnsToDisplay = $this->getColumnsToDisplay();
-		$columnToSortBy = $this->getSortedColumn();
-		if(!in_array($columnToSortBy, $columnsToDisplay))
-		{
-			$this->setSortedColumn('nb_visits', 'desc');
-		}
-		
-		$columnNbConversionsCurrentGoal = $columnsToDisplay[2];
-		if($this->processOnlyIdGoal > 0
-			&& strpos($columnNbConversionsCurrentGoal, '_nb_conversions') !== false)
-		{
-			$this->setSortedColumn($columnNbConversionsCurrentGoal, 'desc');
-		}
 		parent::main();
 	}
 	

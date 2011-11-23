@@ -92,22 +92,23 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 				{
 					$revenue = (int)$this->getColumn($currentColumns, Piwik_Archive::INDEX_REVENUE);
 				}
-				// If no visit for this metric, but some conversions, we still want to display some kind of "revenue per visit" 
-				// even though it will actually be in this edge case "Revenue per conversion"
-				$revenuePerVisit = $this->invalidDivision;
-				if($nbVisits > 0 
-					|| $conversions > 0)
+				if(!isset($currentColumns['revenue_per_visit']))
 				{
-					$revenuePerVisit = round( $revenue / ($nbVisits == 0 ? $conversions : $nbVisits), $roundingPrecision );
-				}
-				$newColumns['revenue_per_visit'] = $revenuePerVisit;
-				
+					// If no visit for this metric, but some conversions, we still want to display some kind of "revenue per visit" 
+					// even though it will actually be in this edge case "Revenue per conversion"
+					$revenuePerVisit = $this->invalidDivision;
+					if($nbVisits > 0 
+						|| $conversions > 0)
+					{
+						$revenuePerVisit = round( $revenue / ($nbVisits == 0 ? $conversions : $nbVisits), $roundingPrecision );
+					}
+					$newColumns['revenue_per_visit'] = $revenuePerVisit;
+				}				
 				if($this->processOnlyIdGoal == self::GOALS_MINIMAL_REPORT)
 				{
 					$row->addColumns($newColumns);
 					continue;
 				}
-				
 				// Display per goal metrics
 				// - conversion rate
 				// - conversions

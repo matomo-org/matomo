@@ -518,7 +518,7 @@ abstract class Piwik_Controller
 	 * @param bool $labelDisplayed add 'label' to columns to display?
 	 * @return void
 	 */
-	protected function setMetricsVariablesView($view, $defaultMetricDay='nb_uniq_visitors',
+	protected function setMetricsVariablesView(Piwik_ViewDataTable $view, $defaultMetricDay='nb_uniq_visitors',
 			$defaultMetric='nb_visits', $metricsForDay=array('nb_uniq_visitors'),
 			$metricsForAllPeriods=array('nb_visits', 'nb_actions'), $labelDisplayed=true)
 	{
@@ -532,13 +532,10 @@ abstract class Piwik_Controller
 		else
 		{
 			// default columns
-			$firstColumn = isset($view->period) && $view->period == 'day' ?
-					$defaultMetricDay : $defaultMetric;
+			$firstColumn = isset($view->period) && $view->period == 'day' ? $defaultMetricDay : $defaultMetric;
 			$columns = array($firstColumn);
 		}
-		
-		$view->setSortedColumn($firstColumn);
-		
+	
 		// displayed columns
 		if ($labelDisplayed)
 		{
@@ -546,6 +543,17 @@ abstract class Piwik_Controller
 		}
 		$view->setColumnsToDisplay($columns);
 		
+		
+		// Continue only for graphs
+		if(!($view instanceof Piwik_ViewDataTable_GenerateGraphData))
+		{
+			return;
+		}
+		// do not sort if sorted column was initially "label" or eg. it would make "Visits by Server time" not pretty
+		if($view->getSortedColumn() != 'label')
+		{
+			$view->setSortedColumn($firstColumn);
+		}
 		// selectable columns
 		if (isset($view->period) && $view->period == 'day')
 		{

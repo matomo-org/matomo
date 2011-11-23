@@ -200,7 +200,11 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 			$this->dataTable->filter('AddSummaryRow',
 										array($offsetStartSummary,
 										Piwik_Translate('General_Others'),
-										Piwik_Archive::INDEX_NB_VISITS
+										
+										// Column to sort by, before truncation
+										$this->dataTable->getSortedByColumnName() 
+											? $this->dataTable->getSortedByColumnName()
+											: Piwik_Archive::INDEX_NB_VISITS
 										)
 									);
 		}
