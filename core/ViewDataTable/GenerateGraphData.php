@@ -107,7 +107,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		$this->selectableColumns = array_merge($this->selectableColumns, $goalMetrics);
 		
 		$this->setColumnTranslation('nb_conversions', Piwik_Translate('Goals_ColumnConversions'));
-		$this->setColumnTranslation('revenue', Piwik_Translate('Goals_ColumnRevenue'));
+		$this->setColumnTranslation('revenue', Piwik_Translate('General_TotalRevenue'));
 	}
 	
 	/**
