@@ -114,9 +114,9 @@
 .jqplock-seriespicker-popover {
 	display: block;
 	position: absolute;
-	z-index: 8;
+	z-index: 1010; /* must be above ui dialog */
 	margin-top: -2px;
-	background: #f7f7f7;
+	background: url(../../../themes/default/images/chart_line_edit.png) no-repeat 7px 4px #f7f7f7;
 	font-size: 11px;
 	font-weight: normal; 
 	border: 1px solid #e4e5e4;
@@ -132,6 +132,8 @@
 .jqplock-seriespicker-popover p {
 	margin: 0;
 	padding: 0 4px 0 0;
+	line-height: 15px;
+	vertical-align:middle;
 }
 
 .jqplock-seriespicker-popover p.headline {

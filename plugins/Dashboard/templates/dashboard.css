@@ -24,6 +24,7 @@
 	background:#fff;
 	border: 1px solid #bbb6ad;
 	margin:10px 7px;
+	overflow: hidden;
 	border-radius:4px;
 	font-size:14px;
 	-moz-border-radius:4px;
