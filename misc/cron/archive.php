@@ -402,9 +402,9 @@ class Archiving
 		return "?module=API&method=VisitsSummary.getVisits&idSite=$idsite&period=$period&date=last".$dateLast."&format=php&token_auth=".$this->token_auth;
 	}
 	
-	protected function lastRunKey($idsite)
+	protected function lastRunKey($idsite, $period)
 	{
-		return "lastRunArchive_$idsite";
+		return "lastRunArchive". $period ."_". $idsite;
 	}
 	
 	/**
