@@ -463,6 +463,8 @@ class Piwik_API_API
 		
 		// Some plugins need to add custom metrics after all plugins hooked in
 		Piwik_PostEvent('API.getReportMetadata.end', $availableReports, $parameters);
+		// Oh this is not pretty! Until we have event listeners order parameter...
+		Piwik_PostEvent('API.getReportMetadata.end.end', $availableReports, $parameters);
 		
 		// Add API.get report metadata
 		$this->addApiGetMetdata($availableReports);

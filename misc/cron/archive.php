@@ -567,8 +567,12 @@ class Archiving
 		$this->logSection("SCHEDULED TASKS");
 		$this->log("Starting Scheduled tasks... ");
 		
-		$this->request("?module=API&method=CoreAdminHome.runScheduledTasks&format=csv&convertToUnicode=0&token_auth=".$this->token_auth);
-		
+		$tasksOutput = $this->request("?module=API&method=CoreAdminHome.runScheduledTasks&format=csv&convertToUnicode=0&token_auth=".$this->token_auth);
+		if($tasksOutput == "No data available")
+		{
+			$tasksOutput = " No task to run";
+		}
+		$this->log($tasksOutput);
 		$this->log("done");
 		
 	}
