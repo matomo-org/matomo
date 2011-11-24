@@ -569,4 +569,15 @@ class Piwik_Archive_Single extends Piwik_Archive
 		$this->freeBlob($name);
 		return $dataTableToLoad;		
 	}
+	
+	/**
+	 * Returns true if Piwik can launch the archiving process for this archive,
+	 * false if otherwise.
+	 * 
+	 * @return bool
+	 */
+	public function isArchivingDisabled()
+	{
+		return Piwik_ArchiveProcessing::isArchivingDisabledFor($this->segment, $this->period);
+	}
 }

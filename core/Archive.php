@@ -321,7 +321,7 @@ abstract class Piwik_Archive
 		return $dataTable;
 	}
 	
-	protected function getSegment()
+	public function getSegment()
 	{
 	    return $this->segment;
 	}

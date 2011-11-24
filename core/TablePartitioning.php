@@ -23,8 +23,7 @@ abstract class Piwik_TablePartitioning
 	protected $tableName = null;
 	protected $generatedTableName = null;
 	protected $timestamp = null;
-	protected $idSite = null;
-	
+
 	static public $tablesAlreadyInstalled = null;
 	
 	public function __construct( $tableName )
@@ -39,11 +38,6 @@ abstract class Piwik_TablePartitioning
 		$this->timestamp = $timestamp;
 		$this->generatedTableName = null;
 		$this->getTableName();
-	}
-	
-	public function setIdSite($idSite)
-	{
-		$this->idSite = $idSite;
 	}
 		
 	public function getTableName()
