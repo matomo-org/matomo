@@ -29,7 +29,7 @@ class Piwik_ImageGraph extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		$hooks = array(
-			'API.getReportMetadata.end' => 'getReportMetadata',
+			'API.getReportMetadata.end.end' => 'getReportMetadata',
 		);
 		return $hooks;
 	}
@@ -41,7 +41,6 @@ class Piwik_ImageGraph extends Piwik_Plugin
 	{
 		$info = $notification->getNotificationInfo();
 		$reports = &$notification->getNotificationObject();
-	
 		$idSites = $info['idSites'];
 		// If only one website is selected, we add the Graph URL
 		if(count($idSites) != 1)

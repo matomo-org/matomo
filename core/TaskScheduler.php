@@ -10,6 +10,9 @@
  * @package Piwik
  */
 
+// When set to true, all scheduled tasks will be triggered in all requests (careful!)
+define('DEBUG_FORCE_SCHEDULED_TASKS', false);
+
 /**
  * Piwik_TaskScheduler is the class used to manage the execution of periodicaly planned task.
  *
@@ -38,9 +41,11 @@ class Piwik_TaskScheduler
         if($timetable === false) {
             return;
         }
-
-		if(isset($GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS']) && $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'])
+        $forceScheduledTasks = false;
+		if((isset($GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS']) && $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'])
+			|| DEBUG_FORCE_SCHEDULED_TASKS)
 		{
+			$forceScheduledTasks = true;
 			$timetable = array();
 		}
 		// Collects tasks
@@ -64,7 +69,8 @@ class Piwik_TaskScheduler
 			 */
 			if ( !isset($timetable[$fullyQualifiedMethodName])
     			|| (isset($timetable[$fullyQualifiedMethodName])
-    			&& time() >= $timetable[$fullyQualifiedMethodName]) )
+    			&& time() >= $timetable[$fullyQualifiedMethodName]) 
+    			|| $forceScheduledTasks)
 			{
 				// Updates the rescheduled time
 				$timetable[$fullyQualifiedMethodName] = $scheduledTime->getRescheduledTime();

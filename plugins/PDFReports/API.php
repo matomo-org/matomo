@@ -360,8 +360,8 @@ class Piwik_PDFReports_API
 			$report['displayGraph'] = 	!$isAggregateReport ||
 										$aggregateReportsFormat == Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_GRAPHS ||
 										$aggregateReportsFormat == Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_TABLES_GRAPHS;
-
-			if ($report['displayGraph'])
+			if ($report['displayGraph']
+				&& !empty($reportMetadata['imageGraphUrl']))
 			{
 				$request = new Piwik_API_Request(
 					$reportMetadata['imageGraphUrl'] .
@@ -387,7 +387,6 @@ class Piwik_PDFReports_API
 					throw new Exception("ImageGraph API returned an error: ".$e->getMessage()."\n");
 				}
 			}
-
 			$processedReports[] = $report;
 		}
 
