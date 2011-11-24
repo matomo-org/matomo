@@ -580,8 +580,38 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	private function doTest_TwoVisitors_twoWebsites_differentDays(
 		$function, $apiToCall, $allowConversions = false, $testGetProcessedReport = true)
 	{
-		// tests run in UTC, the Tracker in UTC
     	$dateTime = '2010-01-03 11:22:33';
+		$idSites = $this->setup_TwoVisitors_twoWebsites_differentDays($dateTime, $allowConversions);
+    	$this->setApiToCall($apiToCall);
+        
+    	$periods = array('day', 'week', 'month', 'year');
+    	// Request data for the last 6 periods and idSite=all
+        $this->callGetApiCompareOutput($function, 'xml', $allSites = 'all', $dateTime, $periods, $setDateLastN = true);
+        
+    	// Request data for the last 6 periods and idSite=1
+        $this->callGetApiCompareOutput($function.'_idSiteOne_', 'xml', $idSites[0], $dateTime, array('day','week','month','year'), $setDateLastN = true);
+        
+        // We also test a single period to check that this use case (Reports per idSite in the response) works
+    	$this->setApiToCall(array('VisitsSummary.get', 'Goals.get'));
+    	$this->callGetApiCompareOutput($function . '_NotLastNPeriods', 'xml', $allSites = 'all', $dateTime, array('day', 'month'), $setDateLastN = false);
+		
+		// testing metadata API for multiple periods
+		$this->setApiNotToCall(array());
+		if ($testGetProcessedReport)
+		{
+			$this->setApiToCall( array('API.getProcessedReport'	) );
+		}
+		$apiToCall = array_diff($apiToCall, array('Actions.getPageTitle', 'Actions.getPageUrl'));
+		foreach($apiToCall as $api)
+		{
+			list($apiModule, $apiAction) = explode(".", $api);
+			$this->callGetApiCompareOutput($function . '_'.$api.'_firstSite_lastN', 'xml', $idSites[0], $dateTime, $periods = array('day'), $setDateLastN = true, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal = false, $apiModule, $apiAction);
+		}
+	}
+	
+	private function setup_TwoVisitors_twoWebsites_differentDays($dateTime, $allowConversions = false)
+	{
+		// tests run in UTC, the Tracker in UTC
     	$idSite = $this->createWebsite($dateTime);
     	$idSite2 = $this->createWebsite($dateTime);
     	if ($allowConversions)
@@ -589,7 +619,6 @@ class Test_Piwik_Integration_Main extends Test_Integration
     		Piwik_Goals_API::getInstance()->addGoal($idSite, 'all', 'url', 'http', 'contains');
     		Piwik_Goals_API::getInstance()->addGoal($idSite2, 'all', 'url', 'http', 'contains');
     	}
-    	$this->setApiToCall($apiToCall);
     	// -
     	// First visitor on Idsite 1: two page views
     	$datetimeSpanOverTwoDays = '2010-01-03 23:55:00'; 
@@ -659,30 +688,35 @@ class Test_Piwik_Integration_Main extends Test_Integration
 //        $t2->setUrlReferrer('http://www.baidu.com/s?wd=%D0%C2+%CE%C5&n=2');
 //        $t2->setUrl('http://example2.com/home');
 //        $this->checkResponse($t2->doTrackPageView('I\'m a returning visitor...'));
-        
-    	$periods = array('day', 'week', 'month', 'year');
-    	// Request data for the last 6 periods and idSite=all
-        $this->callGetApiCompareOutput($function, 'xml', $allSites = 'all', $dateTime, $periods, $setDateLastN = true);
-        
-    	// Request data for the last 6 periods and idSite=1
-        $this->callGetApiCompareOutput($function.'_idSiteOne_', 'xml', $idSite, $dateTime, array('day','week','month','year'), $setDateLastN = true);
-        
-        // We also test a single period to check that this use case (Reports per idSite in the response) works
-    	$this->setApiToCall(array('VisitsSummary.get', 'Goals.get'));
-    	$this->callGetApiCompareOutput($function . '_NotLastNPeriods', 'xml', $allSites = 'all', $dateTime, array('day', 'month'), $setDateLastN = false);
+		return array($idSite, $idSite2);
+	}
+	
+	public function test_TwoVisitors_twoWebsites_differentDays_ArchivingDisabled()
+	{
+		$apiToCall = array('VisitsSummary.get');
+
+    	$dateTime = '2010-01-03 11:22:33';
+		$periods = array('day', 'week', 'month', 'year');
+		$idSites = $this->setup_TwoVisitors_twoWebsites_differentDays($dateTime, false);
+		$this->setApiToCall($apiToCall);
 		
-		// testing metadata API for multiple periods
-		$this->setApiNotToCall(array());
-		if ($testGetProcessedReport)
-		{
-			$this->setApiToCall( array('API.getProcessedReport'	) );
-		}
-		$apiToCall = array_diff($apiToCall, array('Actions.getPageTitle', 'Actions.getPageUrl'));
-		foreach($apiToCall as $api)
-		{
-			list($apiModule, $apiAction) = explode(".", $api);
-			$this->callGetApiCompareOutput($function . '_'.$api.'_firstSite_lastN', 'xml', $idSite, $dateTime, $periods = array('day'), $setDateLastN = true, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false, $idGoal = false, $apiModule, $apiAction);
-		}
+		// disable archiving & check that there is no archive data
+		Piwik_ArchiveProcessing::$forceDisableArchiving = true;
+
+		$this->callGetApiCompareOutput(__FUNCTION__ . '_disabledBefore', 'xml', $allSites = 'all', $dateTime, $periods);
+
+		// re-enable archiving & check the output
+		Piwik_ArchiveProcessing::$forceDisableArchiving = false;
+
+		$this->callGetApiCompareOutput(__FUNCTION__ . '_enabled', 'xml', $allSites = 'all', $dateTime, $periods);
+
+		// disable archiving again & check the output
+		Piwik_ArchiveProcessing::$forceDisableArchiving = true;
+
+		$this->callGetApiCompareOutput(__FUNCTION__ . '_disabledAfter', 'xml', $allSites = 'all', $dateTime, $periods);
+		
+		// re-enable archiving
+		Piwik_ArchiveProcessing::$forceDisableArchiving = false;
 	}
 	
 	private function doTest_twoVisitsWithCustomVariables($dateTime, $width=1111, $height=222)

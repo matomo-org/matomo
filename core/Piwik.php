@@ -1552,14 +1552,21 @@ class Piwik
 					Zend_Registry::get('config')->General->autocomplete_min_sites);
 		return (int)$count;
 	}
-	
+
 	/**
 	 * Segments to pre-process
 	 */
 	static public function getKnownSegmentsToArchive()
 	{
-		$segments = Zend_Registry::get('config')->Segments->toArray();
-		return isset($segments['Segments']) ? $segments['Segments'] : '';
+		static $cachedResult = null;
+
+		if (is_null($cachedResult))
+		{
+			$segments = Zend_Registry::get('config')->Segments->toArray();
+			$cachedResult = isset($segments['Segments']) ? $segments['Segments'] : '';
+		}
+		
+		return $cachedResult;
 	}
 
 /*
