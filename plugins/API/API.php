@@ -534,7 +534,7 @@ class Piwik_API_API
 	{
 		$metadata = array(
 			'category' => Piwik_Translate('General_API'),
-			'name' => Piwik_Translate('General_API'),
+			'name' => Piwik_Translate('General_MainMetrics'),
 			'module' => 'API',
 			'action' => 'get',
 			'metrics' => array(),

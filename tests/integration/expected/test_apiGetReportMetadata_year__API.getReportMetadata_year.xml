@@ -2,7 +2,7 @@
 <result>
 	<row>
 		<category>API</category>
-		<name>API</name>
+		<name>Main metrics</name>
 		<module>API</module>
 		<action>get</action>
 		<metrics>

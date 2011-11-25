@@ -309,6 +309,7 @@ $translations = array(
 	'General_NVisits' => '%s visits',
 	'General_OneDay' => '1 day',
 	'General_NDays' => '%s days',
+	'General_MainMetrics' => 'Main metrics',
 	'Actions_PluginDescription' => 'Reports about the page views, the outlinks and downloads. Outlinks and Downloads tracking is automatic!',
 	'Actions_Actions' => 'Actions',
 	'Actions_SubmenuPages' => 'Pages',
