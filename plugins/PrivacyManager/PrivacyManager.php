@@ -149,7 +149,12 @@ class Piwik_PrivacyManager extends Piwik_Plugin
          * LOW_PRIORITY / QUICK / IGNORE read http://dev.mysql.com/doc/refman/5.0/en/delete.html
          */
         
-        $sql = 'DELETE LOW_PRIORITY QUICK IGNORE FROM ' . $table . ' WHERE `idvisit` <= ? LIMIT ' . $maxRowsPerRun;
+        $sql = 'DELETE LOW_PRIORITY QUICK IGNORE FROM ' . $table . ' WHERE `idvisit` <= ? ';
+
+        if(isset($maxRowsPerRun)&&$maxRowsPerRun>0) {
+            $sql .=  ' LIMIT ' . $maxRowsPerRun;
+        }
+
         Piwik_Query($sql, array($maxIdVisit));
     }
 
