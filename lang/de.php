@@ -613,7 +613,6 @@ $translations = array(
 	'Goals_ColumnOrdersDocumentation' => 'Die Gesamtzahl aller Ecommerce Bestellungen welche %s mindestens einmal enthielten.',
 	'Goals_ColumnAveragePriceDocumentation' => 'Der Durchschnittsertrag für %s.',
 	'Goals_ColumnAverageQuantityDocumentation' => 'Die durchschnittliche Anzahl von %s verkauft durch Ecommerce Bestellungen.',
-	'Goals_ColumnVisitsProductDocumentation' => 'Die Anzahl der Besuche auf der Seite des Produkts, bzw. der Kategorie. Diese Metrik wird nur angezeigt, wenn das Ecommerce-Tracking auf der entsprechenden Seite eingerichtet wurde.',
 	'Goals_ColumnConversionRateProductDocumentation' => 'Die %s Konversionsrate ist die Anzahl der Bestellungen, die dieses Produkt enthalten, geteilt durch die Anzahl der Besuche auf der entsprechenden Produktseite.',
 	'Goals_ColumnVisits' => 'Die Gesamtanzahl an Besuchen, unabhängig davon ob dabei ein Ziel erreicht wurde oder nicht.',
 	'Goals_GoalX' => 'Ziel %s',
@@ -1488,8 +1487,6 @@ $translations = array(
 	'ImageGraph_ColumnOrdinateMissing' => 'Die Zeile \'%s\' wurde in diesem Bericht nicht gefunden.',
 
 	// FOR REVIEW
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1$s (von %2$s)',
-	'VisitsSummary_NbActions' => '%s Aktionen (Seitenbesuche)',
 	'EntryPage_Bounces' => 'Absprünge',
 	'EntryPage_Referrers' => 'Verweis',
 	'Forecast_Widget' => 'Vorhersage für Heute',
