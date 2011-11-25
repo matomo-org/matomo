@@ -127,6 +127,7 @@
 						<option {if $deleteLogs.config.delete_max_rows_per_run eq '100'} selected="selected" {/if}  value="100">100.000</option>
 						<option {if $deleteLogs.config.delete_max_rows_per_run eq '500'} selected="selected" {/if} value="500">500.000</option>
 						<option {if $deleteLogs.config.delete_max_rows_per_run eq '1000'} selected="selected" {/if} value="1000">1.000.000</option>
+						<option {if $deleteLogs.config.delete_max_rows_per_run eq '0'} selected="selected" {/if}  value="0">{'PrivacyManager_DeleteMaxRowsNoLimit'|translate}</option>
 					</select>
 				</td>
 				<td width="200"></td>

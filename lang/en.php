@@ -388,6 +388,7 @@ $translations = array(
 	'PrivacyManager_DeleteLogsOlderThan' => 'Delete logs older than',
 	'PrivacyManager_DeleteLogInterval' => 'Delete old logs every',
 	'PrivacyManager_DeleteMaxRows' => 'Maximum number of rows to delete in one run:',
+    'PrivacyManager_DeleteMaxRowsNoLimit' => 'no limit',
 	'PrivacyManager_LastDelete' => 'Last deletion was on',
 	'PrivacyManager_NextDelete' => 'Next scheduled deletion in',
 	'PrivacyManager_ClickHereSettings' => 'Click here to access the %s settings.',
