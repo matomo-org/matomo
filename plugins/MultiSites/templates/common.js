@@ -233,7 +233,7 @@ function getImageForSummary(value)
 {
 	if(value > 0)
 	{
-		return '<img src="plugins/MultiSites/images/arrow_up.png" alt="" /> <b style="color: green;">' + value + ' %</b>';
+		return '<img src="plugins/MultiSites/images/arrow_up.png" alt="" /> <b style="color: green;">' + value + '&nbsp;%</b>';
 	}
 	else if(value == 0)
 	{
@@ -241,7 +241,7 @@ function getImageForSummary(value)
 	}
 	else
 	{
-		return '<img src="plugins/MultiSites/images/arrow_down.png" alt="" /> <b style="color: red;">' + value +' %</b>';
+		return '<img src="plugins/MultiSites/images/arrow_down.png" alt="" /> <b style="color: red;">' + value +'&nbsp;%</b>';
 	}
 }
 
