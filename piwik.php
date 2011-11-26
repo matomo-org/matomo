@@ -42,6 +42,7 @@ require_once PIWIK_INCLUDE_PATH .'/core/Plugin.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Common.php';
 require_once PIWIK_INCLUDE_PATH .'/core/IP.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker.php';
+require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Config/Ini.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Config.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Db.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker/IgnoreCookie.php';
