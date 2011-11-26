@@ -386,11 +386,15 @@ class Piwik_Common
 
 		foreach($values as $value)
 		{
-			if( false !== strpos($value, '='))
+			$pos = strpos($value, '=');
+			if($pos !== false)
 			{
-				$exploded = explode('=',$value);
-				$name = $exploded[0];
-				$value = $exploded[1];
+				$name = substr($value, 0, $pos);
+				$value = substr($value, $pos+1);
+				if ($value === false)
+				{
+					$value = '';
+				}
 			}
 			else
 			{
