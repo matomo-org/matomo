@@ -171,6 +171,23 @@ class Piwik_SitesManager_API
 	}
 	
 	/**
+	 * Returns all websites, requires Super User access
+	 * 
+	 * @return array The list of websites, indexed by idsite
+	 */
+	public function getAllSites()
+	{
+		Piwik::checkUserIsSuperUser();
+		$sites = Zend_Registry::get('db')->fetchAll("SELECT * FROM ".Piwik_Common::prefixTable("site"));
+		$return = array();
+		foreach($sites as $site)
+		{
+			$return[$site['idsite']] = $site;
+		}
+		return $return;
+	}
+	
+	/**
 	 * Returns the list of all the website IDs registered.
 	 * Requires super user access.
 	 *
@@ -181,7 +198,7 @@ class Piwik_SitesManager_API
 		Piwik::checkUserIsSuperUser();
 		return Piwik_SitesManager_API::getInstance()->getSitesId();
 	}
-
+	
 	/**
 	 * Returns the list of the website IDs that received some visits since the specified timestamp.
 	 * Requires super user access.
