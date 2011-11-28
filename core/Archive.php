@@ -166,6 +166,9 @@ abstract class Piwik_Archive
 	 */
 	protected $segment = false;
 	
+	// Have we already pre-loaded all websites for idSite=all 
+	static private $allWebsitesPreloaded = false;
+	
 	/**
 	 * Builds an Archive object or returns the same archive if previously built.
 	 *
@@ -193,11 +196,13 @@ abstract class Piwik_Archive
 		if( count($sites) > 1 
 			|| $idSite === 'all' )
 		{
-			if($idSite === 'all'
+			if(!self::$allWebsitesPreloaded
+				&& $idSite === 'all'
 				&& Piwik::isUserIsSuperUser())
 			{
 				// Pre-load cache with all websites
 				Piwik_Site::setSites(Piwik_SitesManager_API::getInstance()->getAllSites());
+				self::$allWebsitesPreloaded = true;
 			}
 			$archive = new Piwik_Archive_Array_IndexedBySite($sites, $period, $strDate, $segment);
 		}
