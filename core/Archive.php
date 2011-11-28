@@ -193,6 +193,12 @@ abstract class Piwik_Archive
 		if( count($sites) > 1 
 			|| $idSite === 'all' )
 		{
+			if($idSite === 'all'
+				&& Piwik::isUserIsSuperUser())
+			{
+				// Pre-load cache with all websites
+				Piwik_Site::setSites(Piwik_SitesManager_API::getInstance()->getAllSites());
+			}
 			$archive = new Piwik_Archive_Array_IndexedBySite($sites, $period, $strDate, $segment);
 		}
 		// if a period date string is detected: either 'last30', 'previous10' or 'YYYY-MM-DD,YYYY-MM-DD'
