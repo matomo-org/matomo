@@ -404,7 +404,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		
 		// silent fail otherwise unit tests fail
 		@header('Content-Type: application/vnd.ms-excel');
-		@header('Content-Disposition: attachment; filename='.$fileName);
+		@header('Content-Disposition: attachment; filename="'.$fileName.'"');
 		Piwik::overrideCacheControlHeaders();
 	}
 	
