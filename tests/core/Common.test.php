@@ -173,13 +173,16 @@ class Test_Piwik_Common extends UnitTestCase
 	// sanitize with magic quotes runtime on => shouldnt affect the result
 	function test_sanitizeInputValues_magicquotesON()
 	{
-		$this->assertTrue(@set_magic_quotes_runtime(1));
-		$this->assertTrue(@get_magic_quotes_runtime(), 1);
+		if (version_compare(PHP_VERSION, '5.4') < 0)
+		{
+			$this->assertTrue(@set_magic_quotes_runtime(1));
+			$this->assertTrue(@get_magic_quotes_runtime(), 1);
 		
-		$this->test_sanitizeInputValues_array1();
-		$this->test_sanitizeInputValues_array2();
-		$this->test_sanitizeInputValues_badString();
-		$this->test_sanitizeInputValues_HTML();
+			$this->test_sanitizeInputValues_array1();
+			$this->test_sanitizeInputValues_array2();
+			$this->test_sanitizeInputValues_badString();
+			$this->test_sanitizeInputValues_HTML();
+		}
 	}
 	
 	// sanitize with magic quotes off
