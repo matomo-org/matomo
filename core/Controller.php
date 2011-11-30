@@ -446,7 +446,7 @@ abstract class Piwik_Controller
 			$view->endDate = $dateEnd;
 			
 			$language = Piwik_LanguagesManager::getLanguageForSession();
-			$view->language = !empty($language) ? $language : 'en';
+			$view->language = !empty($language) ? $language : Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
 			
 			$this->setBasicVariablesView($view);
 		} catch(Exception $e) {
