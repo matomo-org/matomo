@@ -177,7 +177,6 @@ class Test_Piwik_Common extends UnitTestCase
 		{
 			$this->assertTrue(@set_magic_quotes_runtime(1));
 			$this->assertTrue(@get_magic_quotes_runtime(), 1);
-		
 			$this->test_sanitizeInputValues_array1();
 			$this->test_sanitizeInputValues_array2();
 			$this->test_sanitizeInputValues_badString();
@@ -186,14 +185,17 @@ class Test_Piwik_Common extends UnitTestCase
 	}
 	
 	// sanitize with magic quotes off
-	function test_sanitizeInputValues_magicquotesOFF()
+	function test_sanitizeInputValues_agicquotesOFF()
 	{
-		$this->assertTrue(@set_magic_quotes_runtime(0));
-		$this->assertEqual(@get_magic_quotes_runtime(), 0);
-		$this->test_sanitizeInputValues_array1();
-		$this->test_sanitizeInputValues_array2();
-		$this->test_sanitizeInputValues_badString();
-		$this->test_sanitizeInputValues_HTML();
+		if (version_compare(PHP_VERSION, '5.4') < 0)
+		{
+			$this->assertTrue(@set_magic_quotes_runtime(0));
+			$this->assertEqual(@get_magic_quotes_runtime(), 0);
+			$this->test_sanitizeInputValues_array1();
+			$this->test_sanitizeInputValues_array2();
+			$this->test_sanitizeInputValues_badString();
+			$this->test_sanitizeInputValues_HTML();
+		}
 	}
 	
     /**
