@@ -264,8 +264,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		{
 			$refererTimestamp = Piwik_Common::getRequestVar('_refts', 0, 'int', $this->request);
 			$refererUrl = Piwik_Common::getRequestVar('_ref', '', 'string', $this->request);
-			$refererCampaignName = Piwik_Common::getRequestVar('_rcn', '', 'string', $this->request);
-			$refererCampaignKeyword = Piwik_Common::getRequestVar('_rck', '', 'string', $this->request);
+			$refererCampaignName = trim(urldecode(Piwik_Common::getRequestVar('_rcn', '', 'string', $this->request)));
+			$refererCampaignKeyword = trim(urldecode(Piwik_Common::getRequestVar('_rck', '', 'string', $this->request)));
 
 			$this->goalManager->recordGoals( 
 										$this->idsite,
@@ -1416,7 +1416,7 @@ class Piwik_Tracker_Visit_Referer
 			$campaignNames = $campaignParameters[0];
 			foreach($campaignNames as $campaignNameParameter)
 			{
-				$campaignName = Piwik_Common::getParameterFromQueryString($this->currentUrlParse['query'], $campaignNameParameter);
+				$campaignName = trim(urldecode(Piwik_Common::getParameterFromQueryString($this->currentUrlParse['query'], $campaignNameParameter)));
 				if( !empty($campaignName))
 				{
 					break;
@@ -1434,7 +1434,7 @@ class Piwik_Tracker_Visit_Referer
 					$campaignKeyword = Piwik_Common::getParameterFromQueryString($this->currentUrlParse['query'], $campaignKeywordParameter);
 					if( !empty($campaignKeyword))
 					{
-						$this->keywordRefererAnalyzed = $campaignKeyword;
+						$this->keywordRefererAnalyzed = trim(urldecode($campaignKeyword));
 						break;
 					}
 				}
