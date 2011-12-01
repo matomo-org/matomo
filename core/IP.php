@@ -370,7 +370,11 @@ class Piwik_IP
 		}
 		else
 		{
-			$config = Zend_Registry::get('config');
+    	    try {
+    	        $config = Zend_Registry::get('config');
+    	    } catch(Exception $e) {
+    	        $config = false;
+    	    }
 			if($config !== false && isset($config->General->proxy_ips))
 			{
 				$proxyIps = $config->General->proxy_ips->toArray();
