@@ -391,6 +391,12 @@ class Test_PHP_Related extends UnitTestCase
 		$this->assertEqual((bool)"false", true);
 		$this->assertEqual((bool)"0", false);
 	}
+	
+	function test_urldecode()
+	{
+		$this->assertEqual(urldecode('Zubeh%C3%B6rshop+Homepage+'), urldecode('Zubeh%C3%B6rshop%20Homepage%20'));
+		$this->assertEqual(urldecode('+%20'), '  ');
+	}
 }
 
 

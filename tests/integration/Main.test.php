@@ -773,8 +773,8 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $visitorB->setUrlReferrer('');
         
         $attribution = array(
-        	'CAMPAIGN NAME - YEAH!',
-        	'CAMPAIGN KEYWORD - RIGHT...',
+        	' CAMPAIGN NAME -%20YEAH! ',
+        	' CAMPAIGN%20KEYWORD - RIGHT... ',
         	1302306504,
         	'http://www.example.org/test/really?q=yes'
         );
