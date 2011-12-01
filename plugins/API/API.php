@@ -894,6 +894,7 @@ class Piwik_API_API
 				}
 			}
 		}
+		krsort($columnsByPlugin);
 		
 		$mergedDataTable = false;
 		$params = compact('idSite', 'period', 'date', 'segment', 'idGoal');
