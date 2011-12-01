@@ -149,7 +149,11 @@ class Piwik_Url
 	 */
 	static public function getCurrentScheme()
 	{
-		$config = Zend_Registry::get('config');
+	    try {
+	        $config = Zend_Registry::get('config');
+	    } catch(Exception $e) {
+	        $config = false;
+	    }
 		$assume_secure_protocol = $config !== false && $config->General->assume_secure_protocol;
 
 		if($assume_secure_protocol
@@ -172,7 +176,11 @@ class Piwik_Url
 	static public function getCurrentHost($default = 'unknown')
 	{
 		$hostHeaders = null;
-		$config = Zend_Registry::get('config');
+	    try {
+	        $config = Zend_Registry::get('config');
+	    } catch(Exception $e) {
+	        $config = false;
+	    }
 		if($config !== false && $config->General->proxy_host_headers)
 		{
 			$hostHeaders = $config->General->proxy_host_headers->toArray();
