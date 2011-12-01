@@ -174,7 +174,7 @@ class UserAgentParser
 
 	// WebKit version numbers to Apple Safari version numbers (if Version/X.Y.Z not present)
 	static protected $safariVersions = array(
-			'534.50'	=> array('5', '1'),
+			'534.48'	=> array('5', '1'),
 			'533.16'	=> array('5', '0'),
 			'533.4'		=> array('4', '1'),
 			'526.11.2'	=> array('4', '0'),
@@ -210,6 +210,7 @@ class UserAgentParser
 			'Maemo'					=> 'MAE',
 			'Linux'					=> 'LIN',
 
+			// workaround for vendors who changed the WinPhone 7 user agent
 			'WP7'					=> 'WP7',
 
 			'CYGWIN_NT-6.1'			=> 'WI7',
@@ -242,6 +243,7 @@ class UserAgentParser
 			'Win95'					=> 'W95',		
 			'Windows 95'			=> 'W95',
 
+			'Windows Phone OS 7.5'	=> 'W75',
 			'Windows Phone OS 7.0'	=> 'WP7',
 			'Windows Mobile 6.5'	=> 'W65',
 			'Windows Mobile 6.1'	=> 'W61',
@@ -555,6 +557,7 @@ class UserAgentParser
 			'WNT' => 'Win NT',
 			'WME' => 'Win Me',
 			'W95' => 'Win 95',
+			'W75' => 'WinPhone 7.5',
 			'WP7' => 'WinPhone 7',
 			'W65' => 'WinMo 6.5',
 			'W61' => 'WinMo 6.1',
