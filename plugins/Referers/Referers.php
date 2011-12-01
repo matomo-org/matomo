@@ -416,7 +416,6 @@ class Piwik_Referers extends Piwik_Plugin
 		$query = $archiveProcessing->queryConversionsByDimension(array("referer_type","referer_name","referer_keyword"));
 		
 		if($query === false) return;
-		
 		while($row = $query->fetch() )
 		{
 			if(empty($row['referer_type']))
@@ -452,7 +451,8 @@ class Piwik_Referers extends Piwik_Plugin
 
 					default:
 						// The referer type is user submitted for goal conversions, we ignore any malformed value
-						continue;
+						// Continue to the next while iteration
+						continue 2;
 					break;
 				}
 			}
