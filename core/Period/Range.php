@@ -316,18 +316,4 @@ class Piwik_Period_Range extends Piwik_Period
 			$this->addSubperiod($period);
 		}
 	}
-	
-	function toString($format = "Y-m-d")
-	{
-		if(!$this->subperiodsProcessed)
-		{
-			$this->generate();
-		}
-		$range = array();
-		foreach($this->subperiods as $element)
-		{
-			$range[] = $element->toString($format);
-		}
-		return $range;
-	}
 }

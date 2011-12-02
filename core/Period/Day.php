@@ -55,6 +55,7 @@ class Piwik_Period_Day extends Piwik_Period
 	{
 		return $this->date->toString($format);
 	}
+
 	public function __toString()
 	{
 		return $this->toString();
