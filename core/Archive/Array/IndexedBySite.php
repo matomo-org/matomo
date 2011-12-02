@@ -33,9 +33,7 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 	{
 		foreach($sites as $idSite)
 		{
-			$archive = Piwik_Archive::build($idSite, $strPeriod, $strDate, $segment->getString() );
-			$archive->setSite(new Piwik_Site($idSite));
-			$archive->setSegment($segment);
+			$archive = Piwik_Archive::build($idSite, $strPeriod, $strDate, $segment );
 			$this->archives[$idSite] = $archive;
 		}
 		ksort( $this->archives );

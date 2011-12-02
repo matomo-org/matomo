@@ -29,9 +29,30 @@ class Piwik_Site
 		}
 	}
 	
+	/**
+	 * Sets the cached Site data with an array that associates site IDs with
+	 * individual site data.
+	 *
+	 * @param array $sites The array of sites data. Indexed by site ID.
+	 */
 	public static function setSites($sites)
 	{
 		self::$infoSites = $sites;
+	}
+	
+	/**
+	 * Sets the cached Site data with a non-associated array of site data.
+	 *
+	 * @param array $sites The array of sites data.
+	 */
+	public static function setSitesFromArray($sites)
+	{
+		$sitesById = array();
+		foreach($sites as $site)
+		{
+			$sitesById[$site['idsite']] = $site;
+		}
+		self::setSites($sitesById);
 	}
 	
 	function __toString()
