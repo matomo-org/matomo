@@ -46,7 +46,7 @@ class SimpleTest {
      *    @static
      *    @access public
      */
-    function ignore($class) {
+    static function ignore($class) {
         $registry = &SimpleTest::_getRegistry();
         $registry['IgnoreList'][strtolower($class)] = true;
     }
@@ -66,7 +66,7 @@ class SimpleTest {
      *    @static
      *    @access public
      */
-    function ignoreParentsIfIgnored($classes) {
+    static function ignoreParentsIfIgnored($classes) {
         $registry = &SimpleTest::_getRegistry();
         foreach ($classes as $class) {
             if (SimpleTest::isIgnored($class)) {
@@ -128,7 +128,7 @@ class SimpleTest {
      *    @access public
      *    @static
      */
-    function isIgnored($class) {
+    static function isIgnored($class) {
         $registry = &SimpleTest::_getRegistry();
         return isset($registry['IgnoreList'][strtolower($class)]);
     }
@@ -144,7 +144,7 @@ class SimpleTest {
     /**
      *    @deprecated
      */
-    function getMockBaseClass() {
+    static function getMockBaseClass() {
         $registry = &SimpleTest::_getRegistry();
         return $registry['MockBaseClass'];
     }
@@ -217,7 +217,7 @@ class SimpleTest {
      *    @access public
      *    @static
      */
-    function &getContext() {
+    static function &getContext() {
         static $context = false;
         if (! $context) {
             $context = new SimpleTestContext();
@@ -422,14 +422,14 @@ class SimpleTestOptions extends SimpleTest {
     /**
      *    @deprecated
      */
-    function ignore($class) {
+    static function ignore($class) {
         return Simpletest::ignore($class);
     }
 
     /**
      *    @deprecated
      */
-    function isIgnored($class) {
+    static function isIgnored($class) {
         return Simpletest::isIgnored($class);
     }
 
@@ -443,7 +443,7 @@ class SimpleTestOptions extends SimpleTest {
     /**
      *    @deprecated
      */
-    function getMockBaseClass() {
+    static function getMockBaseClass() {
         return Simpletest::getMockBaseClass();
     }
 

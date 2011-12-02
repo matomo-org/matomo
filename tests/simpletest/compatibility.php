@@ -134,7 +134,7 @@ class SimpleTestCompatibility {
      *    @access public
      *    @static
      */
-    function isA($object, $class) {
+    static function isA($object, $class) {
         if (version_compare(phpversion(), '5') >= 0) {
             if (! class_exists($class, false)) {
                 if (function_exists('interface_exists')) {

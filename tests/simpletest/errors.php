@@ -142,7 +142,7 @@ class SimpleErrorQueue {
      */
     function tally() {
         while (list($severity, $message, $file, $line) = $this->extract()) {
-            $severity = $this->getSeverityAsString($severity);
+            $severity = self::getSeverityAsString($severity);
             $this->_test->error($severity, $message, $file, $line);
         }
         while (list($expected, $message) = $this->_extractExpectation()) {
@@ -165,7 +165,7 @@ class SimpleErrorQueue {
             $this->_test->assert($expected, $content, sprintf(
                     $message,
                     "%s -> PHP error [$content] severity [" .
-                            $this->getSeverityAsString($severity) .
+                            self::getSeverityAsString($severity) .
                             "] in [$filename] line [$line]"));
         } else {
             $this->_test->error($severity, $content, $filename, $line);
@@ -219,7 +219,7 @@ class SimpleErrorQueue {
             return false;
         }
         list($severity, $content, $file, $line) = $this->extract();
-        $severity = $this->getSeverityAsString($severity);
+        $severity = self::getSeverityAsString($severity);
         return $this->_test->assert(
                 $expected,
                 $content,
@@ -234,7 +234,7 @@ class SimpleErrorQueue {
      *    @access public
      *    @static
      */
-    function getSeverityAsString($severity) {
+    static function getSeverityAsString($severity) {
         static $map = array(
                 E_STRICT => 'E_STRICT',
                 E_ERROR => 'E_ERROR',

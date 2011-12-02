@@ -1138,7 +1138,7 @@ class Mock {
      *    @static
      *    @access public
      */
-    function generate($class, $mock_class = false, $methods = false) {
+    static function generate($class, $mock_class = false, $methods = false) {
         $generator = new MockGenerator($class, $mock_class);
         return $generator->generateSubclass($methods);
     }
@@ -1155,7 +1155,7 @@ class Mock {
      *    @static
      *    @access public
      */
-    function generatePartial($class, $mock_class, $methods) {
+    static function generatePartial($class, $mock_class, $methods) {
         $generator = new MockGenerator($class, $mock_class);
         return $generator->generatePartial($methods);
     }
@@ -1165,7 +1165,7 @@ class Mock {
      *    @access public
      *    @static
      */
-    function getExpectationLine() {
+    static function getExpectationLine() {
         $trace = new SimpleStackTrace(array('expect'));
         return $trace->traceMethod();
     }
