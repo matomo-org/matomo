@@ -48,7 +48,7 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
     	{
 	    	$value = $this->globalConfig[$section][$optionName];
     	}
-    	$this->assertEqual($value, $valueExpected, "$section -> $optionName was '$value', expected '$valueExpected'");
+    	$this->assertEqual($value, $valueExpected, "$section -> $optionName was '".var_export($value, true)."', expected '".var_export($valueExpected, true)."'");
     }
     
     public function test_checkThatGivenPluginsAreDisabledByDefault()
