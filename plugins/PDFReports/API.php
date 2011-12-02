@@ -172,6 +172,7 @@ class Piwik_PDFReports_API
 	 * @param int $idSite If specified, will filter reports that belong to a specific idsite
 	 * @param string $period If specified, will filter reports that are scheduled for this period (day,week,month)
 	 * @param int $idReport If specified, will filter the report that has the given idReport 
+	 * @return array
 	 * @throws Exception if $idReport was specified but the report wasn't found
 	 */
 	public function getReports($idSite = false, $period = false, $idReport = false, $ifSuperUserReturnOnlySuperUserReports = false)

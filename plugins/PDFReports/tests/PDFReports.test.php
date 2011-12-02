@@ -58,25 +58,25 @@ class Test_Piwik_PDFReports extends Test_Database
 
     	$idReportTwo = $this->_createReport($dataWebsiteTwo);
     	// Testing getReports without parameters
-    	$report = reset(Piwik_PDFReports_API::getInstance()->getReports());
+    	$report = Piwik_PDFReports_API::getInstance()->getReports();
     	$this->_checkReportsEqual($report, $dataWebsiteTwo);
 
     	$idReport = $this->_createReport($data);
     	
     	// Passing 3 parameters
-    	$report = reset(Piwik_PDFReports_API::getInstance()->getReports($this->idSiteAccess, $data['period'], $idReport));
+    	$report = Piwik_PDFReports_API::getInstance()->getReports($this->idSiteAccess, $data['period'], $idReport);
     	$this->_checkReportsEqual($report, $data);
 
     	// Passing only idsite
-    	$report = reset(Piwik_PDFReports_API::getInstance()->getReports($this->idSiteAccess));
+    	$report = Piwik_PDFReports_API::getInstance()->getReports($this->idSiteAccess);
     	$this->_checkReportsEqual($report, $data);
     	
     	// Passing only period
-    	$report = reset(Piwik_PDFReports_API::getInstance()->getReports($idSite=false, $data['period']));
+    	$report = Piwik_PDFReports_API::getInstance()->getReports($idSite=false, $data['period']);
     	$this->_checkReportsEqual($report, $data);
     	
     	// Passing only idreport
-    	$report = reset(Piwik_PDFReports_API::getInstance()->getReports($idSite=false,$period=false, $idReport));
+    	$report = Piwik_PDFReports_API::getInstance()->getReports($idSite=false,$period=false, $idReport);
     	$this->_checkReportsEqual($report, $data);
     	
     }
@@ -135,7 +135,7 @@ class Test_Piwik_PDFReports extends Test_Database
     	$idReport = $this->_createReport($dataBefore);
     	$dataAfter = $this->_getYetAnotherAddReportData();
     	$this->_updateReport($idReport, $dataAfter);
-    	$newReport = reset(Piwik_PDFReports_API::getInstance()->getReports($idSite=false,$period=false, $idReport));
+    	$newReport = Piwik_PDFReports_API::getInstance()->getReports($idSite=false,$period=false, $idReport);
     	$this->_checkReportsEqual($newReport, $dataAfter);
     }
     
