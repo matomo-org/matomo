@@ -225,7 +225,14 @@ class Piwik_API_DocumentationGenerator
 			$str = $nameVariable;
 			if(!($defaultValue instanceof Piwik_API_Proxy_NoDefaultValue))
 			{
-				$str .= " = '$defaultValue'";
+				if (is_array($defaultValue))
+				{
+					$str .= " = 'Array'";
+				}
+				else
+				{
+					$str .= " = '$defaultValue'";
+				}
 			}
 			$asParameters[] = $str;
 		}
