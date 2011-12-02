@@ -510,7 +510,7 @@ class Piwik_Goals_API
 		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
 
 		// check for the special goal ids
-		$realGoalId = $idGoal === false ? false : self::convertSpecialGoalIds($idGoal);
+		$realGoalId = $idGoal != true ? false : self::convertSpecialGoalIds($idGoal);
 
 		// get the data table
 		$dataTable = $archive->getDataTable(Piwik_Goals::getRecordName($recordName, $realGoalId), $idSubtable = null);
