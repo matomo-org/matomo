@@ -628,7 +628,7 @@ class TestSuite {
      *    @access public
      *    @static
      */
-    function getBaseTestCase($class) {
+    static function getBaseTestCase($class) {
         while ($class = get_parent_class($class)) {
             $class = strtolower($class);
             if ($class == 'simpletestcase' || $class == 'testsuite') {
