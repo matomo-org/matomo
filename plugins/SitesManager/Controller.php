@@ -22,13 +22,20 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
 	function index()
 	{
 		$view = Piwik_View::factory('SitesManager');
-		$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
-		$sitesIndexedById = array();
-		foreach($sites as $site)
+
+		if (Piwik::isUserIsSuperUser())
 		{
-			$sitesIndexedById[$site['idsite']] = $site;
+			$sites = Piwik_SitesManager_API::getInstance()->getAllSites();
+			Piwik_Site::setSites($mySites);
+
+			$mySites = array_values($mySites);
 		}
-		Piwik_Site::setSites($sitesIndexedById);
+		else
+		{
+			$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
+			Piwik_Site::setSitesFromArray($sites);
+		}
+
 		foreach($sites as &$site)
 		{
 			$site['alias_urls'] = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($site['idsite']);

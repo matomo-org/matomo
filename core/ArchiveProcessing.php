@@ -201,7 +201,7 @@ abstract class Piwik_ArchiveProcessing
 	protected $endTimestampUTC;
 	
 	/**
-	 * TODO
+	 * Flag that will forcefully disable the archiving process. Only set by the tests.
 	 */
 	public static $forceDisableArchiving = false;
 	

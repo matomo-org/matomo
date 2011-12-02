@@ -56,8 +56,19 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 			$date = $date->toString();
 		}
 		
-		$mySites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess();
-		
+		if (Piwik::isUserIsSuperUser())
+		{
+			$mySites = Piwik_SitesManager_API::getInstance()->getAllSites();
+			Piwik_Site::setSites($mySites);
+			
+			$mySites = array_values($mySites);
+		}
+		else
+		{
+			$mySites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess();
+			Piwik_Site::setSitesFromArray($mySites);
+		}
+
 		$ids = 'all';
 		
 		// Current date - select metrics
@@ -228,29 +239,30 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 	 */
 	private function setMinMaxDateAcrossWebsites($mySites, $view)
 	{
+		$now = Piwik_Date::now();
+
 		$minDate = null;
-		$maxDate = Piwik_Date::now()->subDay(1);
+		$maxDate = $now->subDay(1)->getTimestamp();
 		foreach($mySites as &$site)
 		{
 			// look for 'now' in the website's timezone
 			$timezone = $site['timezone'];
-			$date = Piwik_Date::factory('now', $timezone);
-			if($date->isLater($maxDate))
+			$date = Piwik_Date::adjustForTimezone($now->getTimestamp(), $timezone);
+			if($date > $maxDate)
 			{
-				$maxDate = clone $date;
+				$maxDate = $date;
 			}
 			
 			// look for the absolute minimum date
 			$creationDate = $site['ts_created'];
-			$date = Piwik_Date::factory($creationDate, $timezone);
-			if(is_null($minDate) 
-				|| $date->isEarlier($minDate))
+			$date = Piwik_Date::adjustForTimezone(strtotime($creationDate), $timezone);
+			if(is_null($minDate) || $date < $minDate)
 			{
-				$minDate = clone $date;
+				$minDate = $date;
 			}
 		}
-		$this->setMinDateView($minDate, $view);
-		$this->setMaxDateView($maxDate, $view);
+		$this->setMinDateView(Piwik_Date::factory($minDate), $view);
+		$this->setMaxDateView(Piwik_Date::factory($maxDate), $view);
 	}
 	
 	public function getEvolutionGraph( $fetch = false, $columns = false)

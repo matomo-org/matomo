@@ -33,6 +33,7 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 			$archive->setSegment($segment);
 			$this->archives[] = $archive;
 		}
+		$this->setSite($oSite);
 	}
 	
 	protected function getIndexName()

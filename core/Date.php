@@ -91,20 +91,8 @@ class Piwik_Date
 			return $date;
 		}
 
-		// manually adjust for UTC timezones
-		$utcOffset = self::extractUtcOffset($timezone);
-		if($utcOffset !== false)
-		{
-			return $date->addHour($utcOffset);
-		}
-
-		date_default_timezone_set($timezone);
-		$datetime = $date->getDatetime();
-		date_default_timezone_set('UTC');
-
-		$date = Piwik_Date::factory(strtotime($datetime));
-
-		return $date;
+		$timestamp = self::adjustForTimezone($timestamp, $timezone);
+		return Piwik_Date::factory($timestamp);
 	}
 
 	/*
@@ -192,6 +180,29 @@ class Piwik_Date
 			$offset = -$offset;
 		}
 		return $offset;
+	}
+
+	/**
+	 * Adjusts a UNIX timestamp in UTC to a specific timezone.
+	 * 
+	 * @param int $timestamp The UNIX timestamp to adjust.
+	 * @param string $timezone The timezone to adjust to.
+	 * @return int The adjusted time as seconds from EPOCH.
+	 */
+	static public function adjustForTimezone($timestamp, $timezone)
+	{
+		// manually adjust for UTC timezones
+		$utcOffset = self::extractUtcOffset($timezone);
+		if($utcOffset !== false)
+		{
+			return self::addHourTo($timestamp, $utcOffset);
+		}
+
+		date_default_timezone_set($timezone);
+		$datetime = date(self::DATE_TIME_FORMAT, $timestamp);
+		date_default_timezone_set('UTC');
+
+		return strtotime($datetime);
 	}
 
 	/**
@@ -526,6 +537,19 @@ class Piwik_Date
 	 */
 	public function addHour( $n )
 	{
+		$ts = self::addHourTo( $this->timestamp, $n );
+		return new Piwik_Date( $ts, $this->timezone );
+	}
+	
+	/**
+	 * Adds N number of hours to a UNIX timestamp and returns the result.
+	 *
+	 * @param int $timestamp The timestamp to add to.
+	 * @param int|float Number of hours to add.
+	 * @return int The result as a UNIX timestamp.
+	 */
+	public static function addHourTo( $timestamp, $n )
+	{
 		$isNegative = ($n < 0);
 		$minutes = 0;
 		if($n != round($n))
@@ -551,8 +575,7 @@ class Piwik_Date
 				$n *= -1;
 			}
 		}
-		$ts = $this->timestamp + round($minutes * 60) + $n * 3600;
-		return new Piwik_Date( (int)$ts, $this->timezone );
+		return (int)($timestamp + round($minutes * 60) + $n * 3600);
 	}
 
 	/**

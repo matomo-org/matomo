@@ -166,9 +166,6 @@ abstract class Piwik_Archive
 	 */
 	protected $segment = false;
 	
-	// Have we already pre-loaded all websites for idSite=all 
-	static private $allWebsitesPreloaded = false;
-	
 	/**
 	 * Builds an Archive object or returns the same archive if previously built.
 	 *
@@ -190,20 +187,15 @@ abstract class Piwik_Archive
 			$sites = Piwik_Site::getIdSitesFromIdSitesString($idSite);
 		}
 		
-		$segment = new Piwik_Segment($segment, $idSite);
+		if (!($segment instanceof Piwik_Segment))
+		{
+			$segment = new Piwik_Segment($segment, $idSite);
+		}
 		
 		// idSite=1,3 or idSite=all
 		if( count($sites) > 1 
 			|| $idSite === 'all' )
 		{
-			if(!self::$allWebsitesPreloaded
-				&& $idSite === 'all'
-				&& Piwik::isUserIsSuperUser())
-			{
-				// Pre-load cache with all websites
-				Piwik_Site::setSites(Piwik_SitesManager_API::getInstance()->getAllSites());
-				self::$allWebsitesPreloaded = true;
-			}
 			$archive = new Piwik_Archive_Array_IndexedBySite($sites, $period, $strDate, $segment);
 		}
 		// if a period date string is detected: either 'last30', 'previous10' or 'YYYY-MM-DD,YYYY-MM-DD'
