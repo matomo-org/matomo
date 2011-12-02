@@ -53,8 +53,17 @@ class Piwik_Period_Year extends Piwik_Period
 		}
 	}
 	
-	function toString($format = 'Y-m-\0\1')
+	function toString($format = 'ignored')
 	{
-		return parent::toString($format);
+		if(!$this->subperiodsProcessed)
+		{
+			$this->generate();
+		}
+		$stringMonth = array();
+		foreach($this->subperiods as $month)
+		{
+			$stringMonth[] = $month->get("Y")."-".$month->get("m")."-01";
+		}
+		return $stringMonth;
 	}
 }
