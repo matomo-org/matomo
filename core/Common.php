@@ -668,8 +668,8 @@ class Piwik_Common
 		{
 			$value = self::sanitizeInputValue($value);
 
-			// Undo the damage caused by magic_quotes; deprecated in php 5.3 but not removed until php 6
-			if ( version_compare(PHP_VERSION, '6') === -1
+			// Undo the damage caused by magic_quotes; deprecated in php 5.3 but not removed until php 5.4
+			if(version_compare(PHP_VERSION, '5.4', '<')
 				&& get_magic_quotes_gpc())
 			{
 				$value = stripslashes($value);
