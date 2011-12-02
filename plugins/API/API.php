@@ -466,11 +466,11 @@ class Piwik_API_API
 		// Oh this is not pretty! Until we have event listeners order parameter...
 		Piwik_PostEvent('API.getReportMetadata.end.end', $availableReports, $parameters);
 		
-		// Add API.get report metadata
-		$this->addApiGetMetdata($availableReports);
-		
 		// Sort results to ensure consistent order
 		usort($availableReports, array($this, 'sort'));
+
+		// Add the magic API.get report metadata aggregating all plugins API.get API calls automatically 
+		$this->addApiGetMetdata($availableReports);
 		
 		$knownMetrics = array_merge( $this->getDefaultMetrics(), $this->getDefaultProcessedMetrics() );
 		foreach($availableReports as &$availableReport)
@@ -529,6 +529,7 @@ class Piwik_API_API
 	
 	/**
 	 * Add the metadata for the API.get report
+	 * In other plugins, this would hook on 'API.getReportMetadata'
 	 */
 	private function addApiGetMetdata(&$availableReports)
 	{
@@ -551,7 +552,8 @@ class Piwik_API_API
 			{
 				foreach ($indexesToMerge as $index)
 				{
-					if (isset($report[$index]) && is_array($report[$index]))
+					if (isset($report[$index]) 
+						&& is_array($report[$index]))
 					{
 						$metadata[$index] = array_merge($metadata[$index], $report[$index]);
 					}
@@ -909,7 +911,7 @@ class Piwik_API_API
 			foreach ($array as $table) 
 			{
 				$firstRow = $table->getFirstRow();
-				if (!$firstRow)
+				if(!$firstRow)
 				{
 					$firstRow = new Piwik_DataTable_Row;
 					$table->addRow($firstRow);
@@ -920,12 +922,11 @@ class Piwik_API_API
 					{
 						$firstRow->setColumn($column, 0);
 					}
-				
 				}
 			}
 			
 			// merge reports
-			if ($mergedDataTable === false)
+			if($mergedDataTable === false)
 			{
 				$mergedDataTable = $dataTable;
 			}
@@ -934,7 +935,6 @@ class Piwik_API_API
 				$this->mergeDataTables($mergedDataTable, $dataTable);
 			}
 		}
-		
 		return $mergedDataTable;
 	}
 	
@@ -964,6 +964,4 @@ class Piwik_API_API
 			$firstRow1->setColumn($metric, $value);
 		}
 	}
-	
-	
 }
