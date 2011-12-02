@@ -65,6 +65,7 @@ class Piwik_VisitsSummary_API
 			
 			$tempColumns = array_unique($tempColumns);
 			$columns = array_merge($columns, $tempColumns);
+			rsort($columns);
 		}
 		else
 		{
