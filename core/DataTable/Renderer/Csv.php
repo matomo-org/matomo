@@ -82,7 +82,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 			return 'No data available';
 		}
 
-		self::renderHeader($this);
+		self::renderHeader(/*$this*/);
 
 		if($this->convertToUnicode 
 			&& function_exists('mb_convert_encoding'))
@@ -373,8 +373,10 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		return $value;
 	}
 	
-	protected static function renderHeader($instance)
+	protected static function renderHeader(/*$instance*/)
 	{
+// @todo http://dev.piwik.org/trac/ticket/2809
+/*
 		$fileName = 'Piwik '.Piwik_Translate('General_Export');
 		
 		$period = Piwik_Common::getRequestVar('period', false);
@@ -401,11 +403,12 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 			$fileName .= ' _ '.$meta['name']
 					.' _ '.$prettyDate.'.csv';
 		}
-		
+*/
+		$fileName = 'piwik-report-export.csv';
+
 		// silent fail otherwise unit tests fail
 		@header('Content-Type: application/vnd.ms-excel');
 		@header('Content-Disposition: attachment; filename="'.$fileName.'"');
 		Piwik::overrideCacheControlHeaders();
 	}
-	
 }
