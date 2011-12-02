@@ -50,7 +50,7 @@ abstract class Piwik_Tracker_Db
 	 * 
 	 * @return bool 
 	 */
-	public function isProfilingEnabled()
+	public static function isProfilingEnabled()
 	{
 		return self::$profiling;
 	}
