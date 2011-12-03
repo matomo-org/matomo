@@ -132,7 +132,7 @@ function _json_encode($var, /*emu_args*/$obj=FALSE) {
       foreach ((array)$var as $i=>$v) {
          $json .= ($json !== '' ? "," : "")    // comma separators
                 . ($obj ? ("\"$i\":") : "")   // assoc prefix
-                . (json_encode($v));    // value
+                . (_json_encode($v));    // value
       }
 
       #-- enclose into braces or brackets
@@ -265,15 +265,15 @@ function _json_decode($json, $assoc=FALSE, /*emu_args*/$n=0,$state=0,$waitfor=0)
       
       #-= in-array
       elseif ($state===']') {
-         list($v, $n) = json_decode($json, 0, $n, 0, ",]");
+         list($v, $n) = _json_decode($json, 0, $n, 0, ",]");
          $val[] = $v;
          if ($json[$n] == "]") { return array($val, $n); }
       }
 
       #-= in-object
       elseif ($state==='}') {
-         list($i, $n) = json_decode($json, 0, $n, 0, ":");   // this allowed non-string indicies
-         list($v, $n) = json_decode($json, $assoc, $n+1, 0, ",}");
+         list($i, $n) = _json_decode($json, 0, $n, 0, ":");   // this allowed non-string indicies
+         list($v, $n) = _json_decode($json, $assoc, $n+1, 0, ",}");
          $val[$i] = $v;
          if ($json[$n] == "}") { return array($val, $n); }
       }
@@ -293,7 +293,7 @@ function _json_decode($json, $assoc=FALSE, /*emu_args*/$n=0,$state=0,$waitfor=0)
 
          #-> object
          elseif ($c == "{") {
-            list($val, $n) = json_decode($json, $assoc, $n+1, '}', "}");
+            list($val, $n) = _json_decode($json, $assoc, $n+1, '}', "}");
             if ($val && $n && !$assoc) {
                $obj = new stdClass();
                foreach ($val as $i=>$v) {
@@ -305,7 +305,7 @@ function _json_decode($json, $assoc=FALSE, /*emu_args*/$n=0,$state=0,$waitfor=0)
          }
          #-> array
          elseif ($c == "[") {
-            list($val, $n) = json_decode($json, $assoc, $n+1, ']', "]");
+            list($val, $n) = _json_decode($json, $assoc, $n+1, ']', "]");
          }
 
          #-> comment
