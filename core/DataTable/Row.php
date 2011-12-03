@@ -147,8 +147,9 @@ class Piwik_DataTable_Row
 		if(isset($this->c[self::COLUMNS][$oldName]))
 		{
 			$this->c[self::COLUMNS][$newName] = $this->c[self::COLUMNS][$oldName];
-			unset($this->c[self::COLUMNS][$oldName]);
 		}
+		// outside the if() since we want to delete nulled columns
+		unset($this->c[self::COLUMNS][$oldName]);
 	}
 	
 	/**

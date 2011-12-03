@@ -52,36 +52,34 @@ class Piwik_VisitsSummary_API
 			}
 			if(false !== ($actionsPerVisitRequested = array_search('nb_actions_per_visit', $columns)))
 			{
-				if (!in_array('nb_actions', $columns)) $tempColumns[] = 'nb_actions';
 				if (!in_array('nb_visits', $columns)) $tempColumns[] = 'nb_visits';
+				if (!in_array('nb_actions', $columns)) $tempColumns[] = 'nb_actions';
 				unset($columns[$actionsPerVisitRequested]);
 			}
 			if(false !== ($averageVisitDurationRequested = array_search('avg_time_on_site', $columns)))
 			{
-				if (!in_array('sum_visit_length', $columns)) $tempColumns[] = 'sum_visit_length';
 				if (!in_array('nb_visits', $columns)) $tempColumns[] = 'nb_visits';
+				if (!in_array('sum_visit_length', $columns)) $tempColumns[] = 'sum_visit_length';
 				unset($columns[$averageVisitDurationRequested]);
 			}
-			
 			$tempColumns = array_unique($tempColumns);
+			rsort($tempColumns);
 			$columns = array_merge($columns, $tempColumns);
-			rsort($columns);
 		}
 		else
 		{
     		$bounceRateRequested = $actionsPerVisitRequested = $averageVisitDurationRequested = true;
 			$columns = array(
 								'nb_visits',
-								'nb_uniq_visitors',
 								'nb_actions',
 								'nb_visits_converted',
 								'bounce_count',
 								'sum_visit_length',
 								'max_actions'
 							);
-			if(!Piwik::isUniqueVisitorsEnabled($period))
+			if(Piwik::isUniqueVisitorsEnabled($period))
 			{
-				unset($columns[array_search('nb_uniq_visitors', $columns)]);
+				$columns = array_merge(array('nb_uniq_visitors'), $columns);
 			}
 			// Force reindex from 0 to N otherwise the SQL bind will fail
 			$columns = array_values($columns);
@@ -102,7 +100,7 @@ class Piwik_VisitsSummary_API
 		{
 			$dataTable->filter('ColumnCallbackAddColumnQuotient', array('avg_time_on_site', 'sum_visit_length', 'nb_visits', 0));
 		}
-		
+
 		// remove temp metrics that were used to compute processed metrics
 		$dataTable->deleteColumns($tempColumns);
 		
