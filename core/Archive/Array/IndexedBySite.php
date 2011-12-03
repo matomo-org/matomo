@@ -85,9 +85,17 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 
 	private function getValues($fields)
 	{
+		// Creating the default array, to ensure consistent order
+		$defaultValues = array();
+		foreach($fields as $field) { $defaultValues[$field] = null; }
+		
 		$arrayValues = array();
 		foreach($this->loadValuesFromDB($fields) as $value)
  		{
+ 			if(!isset($arrayValues[$value['idsite']]))
+ 			{
+ 				$arrayValues[$value['idsite']] = $defaultValues;
+ 			}
 			$arrayValues[$value['idsite']][$value['name']] = $value['value'];
  		}
 		return $arrayValues;
