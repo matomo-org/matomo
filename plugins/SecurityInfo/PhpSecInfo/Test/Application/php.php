@@ -58,7 +58,10 @@ class PhpSecInfo_Test_Application_Php extends PhpSecInfo_Test_Application
 	function _setMessages() {
 		parent::_setMessages();
 
-		$this->setMessageForResult(PHPSECINFO_TEST_RESULT_OK, 'en', "You are running PHP ".$this->recommended_value." (the latest version).");
+		$this->setMessageForResult(PHPSECINFO_TEST_RESULT_OK, 'en', "You are running PHP ".$this->current_value.
+			($this->current_value == $this->recommended_value
+			? " (the latest version)."
+			: ".  The latest version is ".$this->recommended_value."."));
 		$this->setMessageForResult(PHPSECINFO_TEST_RESULT_NOTICE, 'en', "You are running PHP ".$this->current_value.".  The latest version of PHP is ".$this->recommended_value.".");
 		$this->setMessageForResult(PHPSECINFO_TEST_RESULT_WARN, 'en', "You are running PHP ".$this->current_value." which is really old. We recommend running the latest (stable) version of PHP which includes numerous bug fixes and security fixes.");
 		$this->setMessageForResult(PHPSECINFO_TEST_RESULT_ERROR, 'en', "Unable to determine the latest version of PHP available.");
