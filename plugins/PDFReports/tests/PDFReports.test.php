@@ -58,25 +58,30 @@ class Test_Piwik_PDFReports extends Test_Database
 
     	$idReportTwo = $this->_createReport($dataWebsiteTwo);
     	// Testing getReports without parameters
-    	$report = reset(Piwik_PDFReports_API::getInstance()->getReports());
+	$tmp = Piwik_PDFReports_API::getInstance()->getReports();
+    	$report = reset($tmp);
     	$this->_checkReportsEqual($report, $dataWebsiteTwo);
 
     	$idReport = $this->_createReport($data);
     	
     	// Passing 3 parameters
-    	$report = reset(Piwik_PDFReports_API::getInstance()->getReports($this->idSiteAccess, $data['period'], $idReport));
+    	$tmp = Piwik_PDFReports_API::getInstance()->getReports($this->idSiteAccess, $data['period'], $idReport);
+	$report = reset($tmp);
     	$this->_checkReportsEqual($report, $data);
 
     	// Passing only idsite
-    	$report = reset(Piwik_PDFReports_API::getInstance()->getReports($this->idSiteAccess));
+    	$tmp = Piwik_PDFReports_API::getInstance()->getReports($this->idSiteAccess);
+    	$report = reset($tmp);
     	$this->_checkReportsEqual($report, $data);
     	
     	// Passing only period
-    	$report = reset(Piwik_PDFReports_API::getInstance()->getReports($idSite=false, $data['period']));
+    	$tmp = Piwik_PDFReports_API::getInstance()->getReports($idSite=false, $data['period']);
+    	$report = reset($tmp);
     	$this->_checkReportsEqual($report, $data);
     	
     	// Passing only idreport
-    	$report = reset(Piwik_PDFReports_API::getInstance()->getReports($idSite=false,$period=false, $idReport));
+    	$tmp = Piwik_PDFReports_API::getInstance()->getReports($idSite=false,$period=false, $idReport);
+    	$report = reset($tmp);
     	$this->_checkReportsEqual($report, $data);
     	
     }
@@ -135,7 +140,8 @@ class Test_Piwik_PDFReports extends Test_Database
     	$idReport = $this->_createReport($dataBefore);
     	$dataAfter = $this->_getYetAnotherAddReportData();
     	$this->_updateReport($idReport, $dataAfter);
-    	$newReport = reset(Piwik_PDFReports_API::getInstance()->getReports($idSite=false,$period=false, $idReport));
+    	$tmp = Piwik_PDFReports_API::getInstance()->getReports($idSite=false,$period=false, $idReport);
+    	$newReport = reset($tmp);
     	$this->_checkReportsEqual($newReport, $dataAfter);
     }
     
@@ -218,7 +224,7 @@ class Test_Piwik_PDFReports extends Test_Database
     	{
     		if($key == 'additional_emails') $value = str_replace(' ','', $value);
     		if($key == 'description') $value = substr($value,0,250);
-    		$this->assertEqual($value, $report[$key], "Error for $key for report $report and data ".var_export($data,true)." ---> %s ");
+    		$this->assertEqual($value, $report[$key], "Error for $key for report ".var_export($report ,true)." and data ".var_export($data,true)." ---> %s ");
     	}
     }
        

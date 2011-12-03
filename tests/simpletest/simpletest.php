@@ -102,7 +102,7 @@ class SimpleTest {
      *   @return array|object|null
      *   @see prefer()
      */
-    function &preferred($classes) {
+    public static function &preferred($classes) {
         if (! is_array($classes)) {
             $classes = array($classes);
         }
