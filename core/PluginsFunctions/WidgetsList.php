@@ -35,6 +35,12 @@ class Piwik_WidgetsList
 		$widgetUniqueId = 'widget' . $controllerName . $controllerAction;
 		foreach($customParameters as $name => $value)
 		{
+			if (is_array($value))
+			{
+				// use 'Array' for backward compatibility;
+				// could we switch to using $value[0]?
+				$value = 'Array';
+			}
 			$widgetUniqueId .= $name . $value;
 		}
 		self::$widgets[$widgetCategory][] = array( 
