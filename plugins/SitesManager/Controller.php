@@ -26,9 +26,8 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
 		if (Piwik::isUserIsSuperUser())
 		{
 			$sites = Piwik_SitesManager_API::getInstance()->getAllSites();
-			Piwik_Site::setSites($mySites);
-
-			$mySites = array_values($mySites);
+			Piwik_Site::setSites($sites);
+			$sites = array_values($sites);
 		}
 		else
 		{
