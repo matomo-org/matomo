@@ -408,7 +408,32 @@ class Piwik_DataTable_Row
 		}
 		return 0;
 	}
-	
+
+	/**
+	 * Helper function to compare array elements
+	 *
+	 * @param mixed $elem1
+	 * @param mixed $elem2
+	 * @return bool
+	 */
+	static public function compareElements($elem1, $elem2)
+	{
+		if (is_array($elem1)) {
+			if (is_array($elem2))
+			{
+				return strcmp(serialize($elem1), serialize($elem2));
+			}
+			return 1;
+		}
+		if (is_array($elem2))
+			return -1;
+
+		if ((string)$elem1 === (string)$elem2)
+			return 0;
+
+		return ((string)$elem1 > (string)$elem2) ? 1 : -1;
+	}
+
 	/**
 	 * Helper function to test if two rows are equal.
 	 * 
@@ -426,7 +451,11 @@ class Piwik_DataTable_Row
 		//same columns
 		$cols1 = $row1->getColumns();
 		$cols2 = $row2->getColumns();
-		if(array_diff($cols1, $cols2) !== array_diff($cols2, $cols1))
+
+		$diff1 = array_udiff($cols1, $cols2, array(__CLASS__, 'compareElements'));
+		$diff2 = array_udiff($cols2, $cols1, array(__CLASS__, 'compareElements'));
+
+		if($diff1 != $diff2)
 		{
 			return false;
 		}
