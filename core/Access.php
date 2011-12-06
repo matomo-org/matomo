@@ -142,7 +142,8 @@ class Piwik_Access
 		{
 			return $this->reloadAccessSuperUser();
 		}
-		// case valid authentification (normal user logged in)
+		// in case multiple calls to API using different tokens, we ensure we reset it as not SU
+		$this->setSuperUser(false);
 		
 		// we join with site in case there are rows in access for an idsite that doesn't exist anymore
 		// (backward compatibility ; before we deleted the site without deleting rows in _access table)
