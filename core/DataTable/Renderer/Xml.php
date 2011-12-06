@@ -335,7 +335,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 		return $out;
 	}
 	
-	protected static function renderHeader()
+	protected static function renderHeader($instance=null)
 	{
 		// silent fail because otherwise it throws an exception in the unit tests
 		@header('Content-Type: text/xml; charset=utf-8');
