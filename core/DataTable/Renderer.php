@@ -79,8 +79,11 @@ abstract class Piwik_DataTable_Renderer
 
 	/**
 	 * Output HTTP Content-Type header
+	 * @param Piwik_DataTable_Renderer $instance
+	 * 			can be used to access the configuration of the current instance
+	 * 			(used in subclass Piwik_DataTable_Renderer_Csv)
 	 */
-	protected static function renderHeader()
+	protected static function renderHeader($instance=null)
 	{
 		@header('Content-Type: text/html; charset=utf-8');
 	}

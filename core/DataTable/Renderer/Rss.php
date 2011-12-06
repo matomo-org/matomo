@@ -78,7 +78,7 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 		return $header . $out . $footer;
 	}
 
-	protected static function renderHeader()
+	protected static function renderHeader($instance=null)
 	{
 		@header('Content-Type: text/xml; charset=utf-8');
 	}
