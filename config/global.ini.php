@@ -277,8 +277,6 @@ api_service_url = http://api.piwik.org
 ; this is useful when you want to do cross websites analysis
 use_third_party_id_cookie = 0
 
-; By default, Piwik does not trust the idcookie as accurate and will always check that if the visitor visited
-; the website earlier by looking for a visitor with the same IP and user configuration (to avoid abuse or misbehaviour)
 ; This setting should only be set to 1 in an intranet setting, where most users have the same configuration (browsers, OS)
 ; and the same IP. If left to 0 in this setting, all visitors will be counted as one single visitor.
 trust_visitors_cookies = 0

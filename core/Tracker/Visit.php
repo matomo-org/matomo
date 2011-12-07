@@ -48,8 +48,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	// can be overwritten in constructor
 	protected $timestamp;
 	protected $ip;
-	// via setForcedVisitorId()
-	protected $forcedVisitorId;
 	
 	// Set to true when we set some custom variables from the cookie
 	protected $customVariablesSetFromRequest = false;
@@ -197,6 +195,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 		$isLastActionInTheSameVisit = $this->isLastActionInTheSameVisit();
 
+		if(!$isLastActionInTheSameVisit)
+		{
+			printDebug("Visitor detected, but last action was more than 30 minutes ago...");
+		}
 		// Known visit when:
 		// ( - the visitor has the Piwik cookie with the idcookie ID used by Piwik to match the visitor
 		//   OR
@@ -354,19 +356,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 														+ 2 ;
 		}
 		
-		// Update the idvisitor to the latest known value, in case the cookie value changed for some reasons,
-		// safer to always rely on the most recent values
-		if($this->shouldUseThirdPartyCookie())
+		// Might update the idvisitor when it was forced or overwritten for this visit
+		if(strlen($this->visitorInfo['idvisitor']) == Piwik_Tracker::LENGTH_BINARY_ID)
 		{
-			$idVisitor = $this->cookie->get(0);
-		}
-		else
-		{
-			$idVisitor = Piwik_Common::getRequestVar('_id', '', 'string', $this->request);
-		}
-		if(strlen($idVisitor) == Piwik_Tracker::LENGTH_HEX_ID_STRING)
-		{
-			$valuesToUpdate['idvisitor'] = Piwik_Common::hex2bin($idVisitor);
+			$valuesToUpdate['idvisitor'] = $this->visitorInfo['idvisitor']; 
 		}
 
 		// Ecommerce buyer status
@@ -825,47 +818,13 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	{
 		return (bool)Piwik_Tracker_Config::getInstance()->Tracker['use_third_party_id_cookie'];
 	}
-
+	
 	/**
-	 * This methods tries to see if the visitor has visited the website before.
-	 *
-	 * We have to split the visitor into one of the category
-	 * - Known visitor
-	 * - New visitor
-	 *
-	 * A known visitor is a visitor that has already visited the website in the current month.
-	 * We define a known visitor using the algorithm:
-	 *
-	 * 1) Checking if a cookie contains
-	 * 		// a unique id for the visitor
-	 * 		- id_visitor
-	 *
-	 * 		// the timestamp of the last action in the most recent visit
-	 * 		- timestamp_last_action
-	 *
- 	 *  	// the timestamp of the first action in the most recent visit
-	 * 		- timestamp_first_action
-	 *
-	 * 		// the ID of the most recent visit (which could be in the past or the current visit)
-	 * 		- id_visit
-	 *
-	 * 		// the ID of the most recent action
-	 * 		- id_last_action
-	 *
-	 * 2) If the visitor doesn't have a cookie, we try to look for a similar visitor configuration.
-	 * 	  We search for a visitor with the same plugins/OS/Browser/Resolution for today for this website.
+	 * Is the request for a known VisitorId, based on 1st party, 3rd party (optional) cookies or Tracking API forced Visitor ID 
 	 */
-	protected function recognizeTheVisitor()
+	protected function assignVisitorIdFromRequest()
 	{
-		$this->visitorKnown = false;
-		$this->setCookie( new Piwik_Cookie(
-								$this->getCookieName(),
-								$this->getCookieExpire(),
-								$this->getCookiePath()) );
-
-		$this->printCookie();
-
-		$found = $forcedVisitorId = false;
+		$found = false;
 
 		// Was a Visitor ID "forced" (@see Tracking API setVisitorId()) for this request?
 		$idVisitor = $this->forcedVisitorId;
@@ -875,14 +834,13 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			{
 				throw new Exception("Visitor ID (cid) must be ".Piwik_Tracker::LENGTH_HEX_ID_STRING." characters long");
 			}
-			printDebug("Request will be forced to record for this idvisitor = ".$idVisitor);
-			$forcedVisitorId = true;
+			printDebug("Request will be recorded for this idvisitor = ".$idVisitor);
 			$found = true;
 		}
 
+		// - If set to use 3rd party cookies for Visit ID, read the cookie 
 		if(!$found)
 		{
-			// - If set to use 3rd party cookies for Visit ID, read the cookies
 			// - By default, reads the first party cookie ID
 			$useThirdPartyCookie = $this->shouldUseThirdPartyCookie();
 			if($useThirdPartyCookie)
@@ -902,47 +860,94 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			$found = strlen($idVisitor) >= Piwik_Tracker::LENGTH_HEX_ID_STRING;
 		}
 
-		// Does the cookie contain a Visitor ID?
 		if( $found )
 		{
-			$this->visitorInfo['idvisitor'] = Piwik_Common::hex2bin($idVisitor);
-			printDebug("The visitor has the piwik cookie (idvisitor = ".$idVisitor.") ");
+			$truncated = substr($idVisitor, 0, Piwik_Tracker::LENGTH_HEX_ID_STRING);
+			$binVisitorId = @Piwik_Common::hex2bin($truncated);
+			if(!empty($binVisitorId))
+			{
+				$this->visitorInfo['idvisitor'] = $binVisitorId;
+			}
+					
 		}
-		else
-		{
-			printDebug("Visitor doesn't have the piwik cookie.");
-		}
+	}
+
+	/**
+	 * This methods tries to see if the visitor has visited the website before.
+	 *
+	 * We have to split the visitor into one of the category
+	 * - Known visitor
+	 * - New visitor
+	 */
+	protected function recognizeTheVisitor()
+	{
+		$this->visitorKnown = false;
+		$this->setCookie( new Piwik_Cookie(
+								$this->getCookieName(),
+								$this->getCookieExpire(),
+								$this->getCookiePath()) );
+		$this->printCookie();
 
 		$userInfo = $this->getUserSettingsInformation();
 		$configId = $userInfo['config_id'];
 		$timeLookBack = date('Y-m-d H:i:s', $this->getCurrentTimestamp() - self::TIME_IN_PAST_TO_SEARCH_FOR_VISITOR);
-
-		$where = "visit_last_action_time >= ?
-					AND idsite = ?";
-		$bindSql = array( $timeLookBack, $this->idsite);
-
-		$forcedVisitorId = $forcedVisitorId || Piwik_Tracker_Config::getInstance()->Tracker['trust_visitors_cookies'];
 		
-		// we always match on the config_id, except if the current request forces the visitor id
-		if(!$forcedVisitorId)
+		$this->assignVisitorIdFromRequest();
+		$matchVisitorId = !empty($this->visitorInfo['idvisitor']);
+		
+		if($matchVisitorId)
 		{
-			$where .= ' AND config_id = ? ';
-			$bindSql[] = $configId;
-		}
-		// We force to match a visitor ID
-		// 1) If the visitor cookies should be trusted (ie. intranet) - config file setting
-		// 2) or if the Visitor ID was forced via the Tracking API setVisitorId()
-		else if(!empty($this->visitorInfo['idvisitor']))
-		{
-			printDebug("Matching the visitor based on his idcookie: ".bin2hex($this->visitorInfo['idvisitor']) ."...");
-
-			$where .= ' AND idvisitor = ?';
-			$bindSql[] = $this->visitorInfo['idvisitor'];
+			printDebug("Matching visitors with: visitorId=".bin2hex($this->visitorInfo['idvisitor'])." OR configId=".bin2hex($configId));
 		}
 		else
 		{
-			// Forced idvisitor, but empty idvisitor  
-			return;
+			printDebug("Visitor doesn't have the piwik cookie...");
+		}
+		
+		$bindSql = array();
+		
+		// See code below if/else
+		$trustCookiesOnly = Piwik_Tracker_Config::getInstance()->Tracker['trust_visitors_cookies'];
+		$visitPriority = 1;
+		if($matchVisitorId && !$trustCookiesOnly)
+		{
+			$visitPriority = 'case when idvisitor = ? then 1 else 0 end';
+			$bindSql[] = $this->visitorInfo['idvisitor'];
+		}
+
+		$where = "visit_last_action_time >= ?
+					AND idsite = ?";
+		$bindSql[] = $timeLookBack;
+		$bindSql[] = $this->idsite;
+		
+		if($matchVisitorId)
+		{
+			// This setting would be enabled for Intranet websites, to ensure that visitors using all the same computer config, same IP
+			// are not counted as 1 visitor. In this case, we want to enforce and trust the visitor ID from the cookie.
+			if($trustCookiesOnly)
+			{
+				$where .= ' AND idvisitor = ?';
+				$bindSql[] = $this->visitorInfo['idvisitor'];
+			}
+			// However, for all other cases, we do not trust this ID. Indeed, some browsers, or browser addons, 
+			// cause the visitor id from 1st party cookie to be different on each page view! 
+			// It is not acceptable to create a new visit every time such browser does a page view, 
+			// so we also backup by searching for matching configId. 
+			// NOTE Above we sort the visitors by first selecting the one that matches idvisitor, if it was found
+			else
+			{
+				$where .= ' AND (idvisitor = ? OR config_id = ?)';
+				$bindSql[] = $this->visitorInfo['idvisitor'];
+				$bindSql[] = $configId;
+			}
+		}
+		// No visitor ID, possible causes: no browser cookie support, direct Tracking API request without visitor ID passed, etc.
+		// We can use configId heuristics to try find the visitor in the past, there is a risk to assign 
+		// this page view to the wrong visitor, but this is better than creating artificial visits.
+		else
+		{
+			$where .= ' AND config_id = ?';
+			$bindSql[] = $configId;
 		}
 
 		$selectCustomVariables = '';
@@ -969,15 +974,17 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 							referer_name,
 							referer_keyword,
 							referer_type,
+							$visitPriority AS priority,
 							visitor_count_visits,
 							visit_goal_buyer
 							$selectCustomVariables
 				FROM ".Piwik_Common::prefixTable('log_visit').
 				" WHERE ".$where."
-				ORDER BY visit_last_action_time DESC
+				ORDER BY priority DESC, visit_last_action_time DESC
 				LIMIT 1";
 		$visitRow = Piwik_Tracker::getDatabase()->fetch($sql, $bindSql);
-
+//		var_dump($sql);var_dump($bindSql);var_dump($visitRow);
+		
 		if( !Piwik_Tracker_Config::getInstance()->Debug['tracker_always_new_visitor']
 			&& $visitRow
 			&& count($visitRow) > 0)
@@ -985,7 +992,12 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			// These values will be used throughout the request
 			$this->visitorInfo['visit_last_action_time'] = strtotime($visitRow['visit_last_action_time']);
 			$this->visitorInfo['visit_first_action_time'] = strtotime($visitRow['visit_first_action_time']);
-			$this->visitorInfo['idvisitor'] = $visitRow['idvisitor'];
+			
+			// if visitor id was not found in Third party cookies / forced visitor id / first party cookie, then we use previous ID
+			if(empty($this->visitorInfo['idvisitor']))
+			{
+				$this->visitorInfo['idvisitor'] = $visitRow['idvisitor'];
+			}
 			$this->visitorInfo['idvisit'] = $visitRow['idvisit'];
 			$this->visitorInfo['visit_exit_idaction_url'] = $visitRow['visit_exit_idaction_url'];
 			$this->visitorInfo['visit_exit_idaction_name'] = $visitRow['visit_exit_idaction_name'];

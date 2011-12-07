@@ -986,6 +986,7 @@ class Piwik_Common
 
 	/**
 	 * Convert hexadecimal representation into binary data.
+	 * !! Will emit warning if input string is not hex!!
 	 *
 	 * @see http://php.net/bin2hex
 	 *

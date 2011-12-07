@@ -375,7 +375,7 @@ class Piwik_Live_API
 		if(!empty($visitorId))
 		{
 			$where[] = "log_visit.idvisitor = ? ";
-			$whereBind[] = Piwik_Common::hex2bin($visitorId);
+			$whereBind[] = @Piwik_Common::hex2bin($visitorId);
 		}
 
 		if(!empty($maxIdVisit))
