@@ -268,7 +268,12 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->setColumnsToDisplay($columns);
 		
 		// configure selectable columns
-		$view->setSelectableColumns(array('nb_visits', 'nb_uniq_visitors', 'nb_actions'));
+		if (Piwik_Common::getRequestVar('period', false) == 'day') {
+			$selectable = array('nb_visits', 'nb_uniq_visitors', 'nb_actions');
+		} else {
+			$selectable = array('nb_visits', 'nb_actions');
+		}
+		$view->setSelectableColumns($selectable);
 		
 		// configure displayed rows
 		$visibleRows = Piwik_Common::getRequestVar('rows', false);
