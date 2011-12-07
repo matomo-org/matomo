@@ -229,7 +229,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 			}
 			else
 			{
-				$logMessage = "* ALREADY PROCESSED, Fetching [idArchive = $idArchive], for $logMessage";
+				$logMessage = "* ALREADY PROCESSED, Fetching idArchive = $idArchive (idSite=".$this->site->getId()."), for $logMessage";
 			}
 			Piwik::log("$logMessage, Visits = ". $this->archiveProcessing->getNumberOfVisits());
 			$this->isThereSomeVisits = !$archivingDisabledArchiveNotProcessed
