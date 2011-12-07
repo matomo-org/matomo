@@ -392,20 +392,12 @@ class Piwik_Live_Visitor
 
 	function getProvider()
 	{
-		if(!empty($this->details['location_provider']))
-		{
-			return Piwik_getHostnameName($this->details['location_provider']);
-		}
-		return null;
+		return Piwik_getHostnameName( @$this->details['location_provider']);
 	}
 
 	function getProviderUrl()
 	{
-		if(!empty($this->details['location_provider']))
-		{
-			return Piwik_getHostnameUrl($this->details['location_provider']);
-		}
-		return null;
+		return Piwik_getHostnameUrl( @$this->details['location_provider']);
 	}
 
 	function getDateTimeLastAction()
