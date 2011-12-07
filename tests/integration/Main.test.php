@@ -959,7 +959,10 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	        $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
 	    	$visitor->setUrl('http://example.org/homepage');
 	        $this->checkResponse($visitor->doTrackPageView('ou pas'));
-	
+	        
+	        // Test change the IP, the visit should not be split but recorded to the same idvisitor
+	        $visitor->setIp('200.1.15.22');
+	        
 	        $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.2)->getDatetime());
 	    	$visitor->setUrl('http://example.org/news');
 	        $this->checkResponse($visitor->doTrackPageView('ou pas'));
