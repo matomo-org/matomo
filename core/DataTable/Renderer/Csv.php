@@ -82,7 +82,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 			return 'No data available';
 		}
 
-		self::renderHeader($this);
+		$this->renderHeader();
 
 		if($this->convertToUnicode 
 			&& function_exists('mb_convert_encoding'))
@@ -373,7 +373,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		return $value;
 	}
 	
-	protected static function renderHeader($instance=null)
+	protected function renderHeader()
 	{
 		$fileName = 'Piwik '.Piwik_Translate('General_Export');
 		
@@ -396,7 +396,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 			
 			$prettyDate = $period->getLocalizedLongString();
 			
-			$meta = $instance->getApiMetaData();
+			$meta = $this->getApiMetaData();
 			
 			$fileName .= ' _ '.$meta['name']
 					.' _ '.$prettyDate.'.csv';
