@@ -22,13 +22,13 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 	
 	function render()
 	{
-		self::renderHeader();
+		$this->renderHeader();
 		return $this->renderTable($this->table);
 	}
 	
 	function renderException()
 	{
-		self::renderHeader();
+		$this->renderHeader();
 		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
 		return 'Error: '.$exceptionMessage;
 	}

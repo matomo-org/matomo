@@ -24,13 +24,13 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 {
 	function render()
 	{
-		self::renderHeader();
+		$this->renderHeader();
 		return '<?xml version="1.0" encoding="utf-8" ?>' .  "\n" . $this->renderTable($this->table);
 	}
 	
 	function renderException()
 	{
-		self::renderHeader();
+		$this->renderHeader();
 
 		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
 		
@@ -335,7 +335,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 		return $out;
 	}
 	
-	protected static function renderHeader($instance=null)
+	protected function renderHeader()
 	{
 		// silent fail because otherwise it throws an exception in the unit tests
 		@header('Content-Type: text/xml; charset=utf-8');

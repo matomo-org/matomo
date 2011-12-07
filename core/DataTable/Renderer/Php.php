@@ -48,7 +48,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 
 	public function render( $dataTable = null )
 	{
-		self::renderHeader();
+		$this->renderHeader();
 
 		if(is_null($dataTable))
 		{
@@ -69,7 +69,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 	
 	function renderException()
 	{
-		self::renderHeader();
+		$this->renderHeader();
 
 		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
 		

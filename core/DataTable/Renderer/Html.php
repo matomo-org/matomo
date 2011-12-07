@@ -31,7 +31,7 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 
 	function render()
 	{
-		self::renderHeader();
+		$this->renderHeader();
 		$this->tableStructure = array();
 		$this->allColumns = array();
 		$this->i = 0;
@@ -41,7 +41,7 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 	
 	function renderException()
 	{
-		self::renderHeader();
+		$this->renderHeader();
 		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
 		return nl2br($exceptionMessage);
 	}

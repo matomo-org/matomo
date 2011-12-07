@@ -21,13 +21,13 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 {
 	public function render()
 	{
-		self::renderHeader();
+		$this->renderHeader();
 		return $this->renderTable($this->table);
 	}
 	
 	function renderException()
 	{
-		self::renderHeader();
+		$this->renderHeader();
 		
 		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
 		$exceptionMessage = str_replace(array("\r\n","\n"), "", $exceptionMessage);
@@ -74,7 +74,7 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 		return $str;
 	}
 	
-	protected static function renderHeader($instance=null)
+	protected function renderHeader()
 	{
 		@header('Content-Type: application/json; charset=utf-8');
 		Piwik::overrideCacheControlHeaders();

@@ -79,11 +79,8 @@ abstract class Piwik_DataTable_Renderer
 
 	/**
 	 * Output HTTP Content-Type header
-	 * @param Piwik_DataTable_Renderer $instance
-	 * 			can be used to access the configuration of the current instance
-	 * 			(used in subclass Piwik_DataTable_Renderer_Csv)
 	 */
-	protected static function renderHeader($instance=null)
+	protected function renderHeader()
 	{
 		@header('Content-Type: text/html; charset=utf-8');
 	}
@@ -168,7 +165,7 @@ abstract class Piwik_DataTable_Renderer
 			return new $className;			
 		} catch(Exception $e) {
 			$availableRenderers = implode(', ', self::getRenderers());
-			self::renderHeader();
+			@header('Content-Type: text/html; charset=utf-8');
 			throw new Exception(Piwik_TranslateException('General_ExceptionInvalidRendererFormat', array($name, $availableRenderers)));
 		}		
 	}
