@@ -498,7 +498,7 @@ class SimpleImageSubmitTag extends SimpleWidget {
      *    @access public
      */
     function write(&$encoding) {
-	list($param, $x, $y) = func_get_args();
+	list(/**/, $x, $y) = func_get_args();
 
         if ($this->getName()) {
             $encoding->add($this->getName() . '.x', $x);
