@@ -160,7 +160,7 @@
 					{foreach from=$action.customVariables item=customVariable key=id}
 						{capture assign=name}customVariableName{$id}{/capture}
 						{capture assign=value}customVariableValue{$id}{/capture}
-						 - {$customVariable.$name} = {$customVariable.$value}
+						 - {$customVariable.$name|escape:'html'} = {$customVariable.$value|escape:'html'}
 					{/foreach}
 				{/if}
 				{/capture}
