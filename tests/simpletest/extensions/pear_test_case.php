@@ -44,9 +44,9 @@
          */
         function assertEquals($first, $second, $message = "%s", $delta = 0) {
             if ($this->_loosely_typed) {
-                $expectation = &new EqualExpectation($first);
+                $expectation = new EqualExpectation($first);
             } else {
-                $expectation = &new IdenticalExpectation($first);
+                $expectation = new IdenticalExpectation($first);
             }
             $this->assert($expectation, $second, $message);
         }
@@ -80,7 +80,7 @@
          *    @public
          */
         function assertSame(&$first, &$second, $message = "%s") {
-            $dumper = &new SimpleDumper();
+            $dumper = new SimpleDumper();
             $message = sprintf(
                     $message,
                     "[" . $dumper->describeValue($first) .
@@ -101,7 +101,7 @@
          *    @public
          */
         function assertNotSame(&$first, &$second, $message = "%s") {
-            $dumper = &new SimpleDumper();
+            $dumper = new SimpleDumper();
             $message = sprintf(
                     $message,
                     "[" . $dumper->describeValue($first) .
