@@ -93,7 +93,7 @@
 					{foreach from=$visitor.columns.customVariables item=customVariable key=id}
 						{capture assign=name}customVariableName{$id}{/capture}
 						{capture assign=value}customVariableValue{$id}{/capture}
-						<br/><acronym title="{'CustomVariables_CustomVariables'|translate} (index {$id})">{$customVariable.$name|truncate:30:"...":true}</acronym>: {$customVariable.$value|truncate:50:"...":true}
+						<br/><acronym title="{'CustomVariables_CustomVariables'|translate} (index {$id})">{$customVariable.$name|truncate:30:"...":true|escape:'html'}</acronym>: {$customVariable.$value|truncate:50:"...":true|escape:'html'}
 					{/foreach}
 				{/if}
 				{if !$displayVisitorsInOwnColumn}
