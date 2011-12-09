@@ -41,10 +41,14 @@
         $('#sitesSelectionSearch .custom_select_block').on('mouseenter', function(){
             $('.custom_select_ul_list li a').each(function(){
                 var hash = jQuery.historyCurrentHash;
-                if(hash.charAt(0) != '#') {
+                if(hash && hash.charAt(0) != '#') {
                     hash = '#'+hash;
                 }
-                $(this).attr('href', piwikHelper.getCurrentQueryStringWithParametersModified('idSite='+$(this).attr('siteid'))+hash.replace(/idSite=[0-9]+/, 'idSite='+$(this).attr('siteid')))
+                $(this).attr('href', piwikHelper.getCurrentQueryStringWithParametersModified('idSite='+$(this).attr('siteid')) + 
+                						(hash 
+                						? hash.replace(/idSite=[0-9]+/, 'idSite='+$(this).attr('siteid')) 
+                						: "")
+                );
             });
         });
         var inlinePaddingWidth=22;
