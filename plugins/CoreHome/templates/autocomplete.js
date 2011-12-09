@@ -89,7 +89,12 @@ $(function() {
 		$(ul).attr('id', 'siteSelect');
 		return $( "<li></li>" )
 		.data( "item.autocomplete", item )
-		.append( $( "<a></a>" ).html( item.label ).attr('href', piwikHelper.getCurrentQueryStringWithParametersModified('idSite='+item.id)+jQuery.historyCurrentHash.replace(/idSite=[0-9]+/, 'idSite='+item.id)) )
+		.append( $( "<a></a>" ).html( item.label )
+					.attr('href', piwikHelper.getCurrentQueryStringWithParametersModified('idSite='+item.id) 
+									+ (jQuery.historyCurrentHash 
+												? jQuery.historyCurrentHash.replace(/idSite=[0-9]+/, 'idSite='+item.id) 
+												: ""
+									) ) )
 		.appendTo( ul );
 	};
 
