@@ -358,9 +358,10 @@ class Piwik_PDFReports_API
 										$aggregateReportsFormat == Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_TABLES ||
 										$aggregateReportsFormat == Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_TABLES_GRAPHS;
 
-			$report['displayGraph'] = 	!$isAggregateReport ||
-										$aggregateReportsFormat == Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_GRAPHS ||
-										$aggregateReportsFormat == Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_TABLES_GRAPHS;
+			$report['displayGraph'] = 	(!$isAggregateReport ||
+										 $aggregateReportsFormat == Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_GRAPHS ||
+										 $aggregateReportsFormat == Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_TABLES_GRAPHS )
+										 && Piwik::isGdExtensionEnabled();
 			if ($report['displayGraph']
 				&& !empty($reportMetadata['imageGraphUrl']))
 			{

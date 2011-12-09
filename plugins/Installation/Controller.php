@@ -781,17 +781,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 		$infos['openurl'] = Piwik_Http::getTransportMethod();
 
-		$infos['gd_ok'] = false;
-		if (in_array('gd', $extensions))
-		{
-			$gdInfo = gd_info();
-			$infos['gd_version'] = $gdInfo['GD Version'];
-			preg_match('/([0-9]{1})/', $gdInfo['GD Version'], $gdVersion);
-			if($gdVersion[0] >= 2)
-			{
-				$infos['gd_ok'] = true;
-			}
-		}
+		$infos['gd_ok'] = Piwik::isGdExtensionEnabled();
 
 		$infos['hasMbstring'] = false;
 		$infos['multibyte_ok'] = true;

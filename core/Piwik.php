@@ -2096,6 +2096,22 @@ class Piwik
 		return Zend_Registry::get('config')->General->disable_checks_usernames_attributes == 0;
 	}
 
+	/**
+	 * Is GD php extension (sparklines, graphs) available?
+	 * 
+	 * @return bool
+	 */
+	static public function isGdExtensionEnabled()
+	{
+		static $gd = null;
+		if(is_null($gd))
+		{
+			$extensions = @get_loaded_extensions();
+			$gd = in_array('gd', $extensions) && function_exists('imageftbbox');
+		}
+		return $gd;
+	}
+	
 /*
  * Date / Timezone
  */
