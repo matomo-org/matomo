@@ -334,7 +334,7 @@ class Piwik_PDFReports_API
 
 		// The report will be rendered with the first 30 rows and will aggregate other rows in a summary row
 		$filterTruncateGET = Piwik_Common::getRequestVar('filter_truncate', false);
-		$_GET['filter_truncate'] = 30;
+		$_GET['filter_truncate'] = 23;
 
 		$websiteName = $prettyDate = false;
 		$processedReports = array();
