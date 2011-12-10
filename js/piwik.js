@@ -28,7 +28,7 @@
  * JSON - public domain reference implementation by Douglas Crockford
  * @link http://www.JSON.org/json2.js
  ************************************************************/
-/*jslint evil: true, strict: true, regexp: false, type: true, bitwise: true */
+/*jslint evil: true, regexp: false, bitwise: true */
 /*global JSON2 */
 /*members "", "\b", "\t", "\n", "\f", "\r", "\"", JSON2, "\\", apply,
     call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
@@ -367,7 +367,7 @@ if (!this.JSON2) {
  * end JSON
  ************************************************************/
 
-/*jslint browser:true, plusplus:true, vars:true, dangling:true, nomen:true, strict:true, evil:true */
+/*jslint browser:true, plusplus:true, vars:true, nomen:true, evil:true */
 /*global window */
 /*global unescape */
 /*global ActiveXObject */
