@@ -1,5 +1,5 @@
 // jslint.js
-// 2011-10-23
+// 2011-12-09
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -155,7 +155,6 @@
 // The jslint directive is a special comment that can set one or more options.
 // The current option set is
 
-//     adsafe     true, if ADsafe rules should be enforced
 //     bitwise    true, if bitwise operators should be allowed
 //     browser    true, if the standard browser globals should be predefined
 //     cap        true, if upper case HTML should be allowed
@@ -183,7 +182,6 @@
 //     rhino      true, if the Rhino environment globals should be predefined
 //     undef      true, if variables can be declared out of order
 //     unparam    true, if unused parameters should be tolerated
-//     safe       true, if use of some browser features should be restricted
 //     sloppy     true, if the 'use strict'; pragma is optional
 //     sub        true, if all forms of subscript notation are tolerated
 //     vars       true, if multiple var statements per function should be allowed
@@ -427,6 +425,41 @@ var JSLINT = (function () {
         adsafe_may,     // The widget may load approved scripts.
         adsafe_top,     // At the top of the widget script.
         adsafe_went,    // ADSAFE.go has been called.
+        allowed_option = {
+            bitwise   : true,
+            browser   : true,
+            cap       : true,
+            confusion : true,
+            'continue': true,
+            css       : true,
+            debug     : true,
+            devel     : true,
+            eqeq      : true,
+            es5       : true,
+            evil      : true,
+            forin     : true,
+            fragment  : true,
+            indent    :   10,
+            maxerr    : 1000,
+            maxlen    :  256,
+            newcap    : true,
+            node      : true,
+            nomen     : true,
+            on        : true,
+            passfail  : true,
+            plusplus  : true,
+            properties: true,
+            regexp    : true,
+            rhino     : true,
+            undef     : true,
+            unparam   : true,
+            sloppy    : true,
+            sub       : true,
+            vars      : true,
+            white     : true,
+            widget    : true,
+            windows   : true
+        },
         anonname,       // The guessed name for anonymous functions.
         approved,       // ADsafe approved urls.
 
@@ -900,11 +933,6 @@ var JSLINT = (function () {
             'regexp', 'string'
         ], true),
         itself,         // JSLint itself
-        jslint_limit = {
-            indent: 10,
-            maxerr: 1000,
-            maxlen: 256
-        },
         json_mode,
         lex,            // the tokenizer
         lines,
@@ -2368,14 +2396,17 @@ klass:              do {
         var name, value;
         while (next_token.id === '(string)' || next_token.identifier) {
             name = next_token.string;
+            if (!allowed_option[name]) {
+                stop('unexpected_a');
+            }
             advance();
             if (next_token.id !== ':') {
                 stop('expected_a_b', next_token, ':', artifact());
             }
             advance(':');
-            if (typeof jslint_limit[name] === 'number') {
+            if (typeof allowed_option[name] === 'number') {
                 value = next_token.number;
-                if (value > jslint_limit[name] || value <= 0 ||
+                if (value > allowed_option[name] || value <= 0 ||
                         Math.floor(value) !== value) {
                     stop('expected_small_a');
                 }
@@ -2387,15 +2418,6 @@ klass:              do {
                     option[name] = false;
                 } else {
                     stop('unexpected_a');
-                }
-                switch (name) {
-                case 'adsafe':
-                    option.safe = true;
-                    do_safe();
-                    break;
-                case 'safe':
-                    do_safe();
-                    break;
                 }
             }
             advance();
@@ -3009,10 +3031,12 @@ klass:              do {
                 if (!left.first || left.first.string === 'arguments') {
                     warn('bad_assignment', that);
                 }
-            } else if (left.identifier && !left.reserved) {
-                if (funct[left.string] === 'exception') {
+            } else if (left.identifier) {
+                if (!left.reserved && funct[left.string] === 'exception') {
                     warn('assign_exception', left);
                 }
+            } else {
+                warn('bad_assignment', that);
             }
             that.second = expression(19);
             if (that.id === '=' && are_similar(that.first, that.second)) {
@@ -3730,6 +3754,7 @@ klass:              do {
                     break;
                 case 'Date':
                 case 'RegExp':
+                case 'this':
                     break;
                 default:
                     if (c.id !== 'function') {
@@ -6913,8 +6938,7 @@ klass:              do {
     };
     itself.jslint = itself;
 
-    itself.edition = '2011-10-23';
+    itself.edition = '2011-12-09';
 
     return itself;
-
 }());
