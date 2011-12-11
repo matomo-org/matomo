@@ -200,7 +200,7 @@ class Piwik_ImageGraph_API
 			$metricTitle = $showMetricTitle ? $availableColumns[$column] : false;
 			
 			//Save original GET to reset after processing. Important for API-in-API-call
-			$origGET = $_GET;
+			$this->origGET = $_GET;
 			
 	    	//If a pie should be drawn the report should always be sorted and truncated,
 			if(	$graphType == self::GRAPH_TYPE_3D_PIE ||
@@ -230,10 +230,15 @@ class Piwik_ImageGraph_API
 				}
 			}
 			
-			//Fetch the report for given site, date, period and api-action
-			$report = Piwik_API_API::getInstance()->getProcessedReport(	$idSite, $period, $date,
-																		$apiModule, $apiAction
-			);
+			try {
+				//Fetch the report for given site, date, period and api-action
+				$report = Piwik_API_API::getInstance()->getProcessedReport(	
+								$idSite, $period, $date, $apiModule, $apiAction 
+				);
+			} catch(Exception $e) {
+				$this->restoreGET();
+				throw $e;
+			}
 			
 			//Copy the required data into arrays
 			$abscissaSerie = $ordinateSerie = array();
@@ -285,6 +290,7 @@ class Piwik_ImageGraph_API
 			{
 				if(!($report["reportData"] instanceof Piwik_DataTable))
 				{
+					$this->restoreGET();
 					throw new Exception("The graph cannot be drawn with the request 'date' and 'period' parameters.");
 				}
 				foreach($report["reportData"]->getRows() as $rowId => $row)
@@ -296,16 +302,18 @@ class Piwik_ImageGraph_API
 			}
 			else
 			{
+				$this->restoreGET();
 				throw new Exception('Invalid $graphType for this API function.');
 			}
 			
 			if($count == 0)
 			{
+				$this->restoreGET();
 				throw new Exception(Piwik_Translate("General_NoDataForGraph"));
 			}
 			
 			//Reset GET to original values
-			$_GET = $origGET;
+			$this->restoreGET();
 			
 			//Setup the graph
 			$graph = new Piwik_ImageGraph_ImageGraphObject($width, $height, $fontSize);
@@ -379,6 +387,16 @@ class Piwik_ImageGraph_API
 				exit;
 			break;
 		}
+	}
+	
+	/**
+	 * Ensures that the _GET array of parameters is restored 
+	 * to its original state removing ImageGraph.API filter_truncate etc.
+	 * This is important in case other APIs are called after this one (in the same php process) 
+	 */
+	private function restoreGET()
+	{
+		$_GET = $this->origGET;
 	}
 	
 	private function setDataFromRowHelper($report, $column, $rowData, &$count, &$abscissaSerie, $abscissaOptions, &$ordinateSerie)
