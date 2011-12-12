@@ -844,7 +844,7 @@ class Piwik
 	 * Create CSV (or other delimited) files
 	 *
 	 * @param string $filePath
-	 * @param array $fileSpec File specifications (delimeter, line terminator, etc)
+	 * @param array $fileSpec File specifications (delimiter, line terminator, etc)
 	 * @param array $rows Array of array corresponding to rows of values
 	 * @throw Exception if unable to create or write to file
 	 */
@@ -2243,12 +2243,12 @@ class Piwik
 	}
 
 	/**
-	 * Batch insert into table from CSV (or other delimeted) file.
+	 * Batch insert into table from CSV (or other delimited) file.
 	 *
 	 * @param string $tableName Name of table
 	 * @param array $fields Field names
 	 * @param string $filePath Path name of a file.
-	 * @param array $fileSpec File specifications (delimeter, line terminator, etc)
+	 * @param array $fileSpec File specifications (delimiter, line terminator, etc)
 	 * @return bool True if successful; false otherwise
 	 */
 	static public function createTableFromCSVFile($tableName, $fields, $filePath, $fileSpec)
