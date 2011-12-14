@@ -36,11 +36,6 @@ function widgetize()
 		return sourceUrl;
 	}
 	
-	this.deleteEmbedElements = function()
-	{
-		$('#exportButtons').remove();
-	}
-	
 	this.htmlentities = function(s)
 	{
 		return s.replace( /[<>&]/g, function(m) { return "&" + m.charCodeAt(0) + ";"; });
@@ -53,7 +48,6 @@ function widgetize()
 		widgetName = widget["name"];
 		widgetParameters = widget['parameters'];
 	
-		self.deleteEmbedElements();
 		var exportButtonsElement = $('<span id="exportButtons">');
 
 		var urlIframe = self.getEmbedUrl(widgetParameters, "iframe");

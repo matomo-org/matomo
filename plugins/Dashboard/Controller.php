@@ -18,17 +18,19 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 {
 	protected function getDashboardView($template)
 	{
-//		echo '';exit; //DEBUG do not load dashboard
 		$view = Piwik_View::factory($template);
 		$this->setGeneralVariablesView($view);
 
 		$view->availableWidgets = Piwik_Common::json_encode(Piwik_GetWidgetsList());
+		$view->availableLayouts = $this->getAvailableLayouts();
+		
 		$layout = $this->getLayout();
 		if(empty($layout)
 			|| $layout == $this->getEmptyLayout()) {
 			$layout = $this->getDefaultLayout();
 		}
-		$view->layout = $layout;
+		$view->layout      = $layout;
+		$view->dashboardId = 1;
 		return $view;
 	}
 	
@@ -42,6 +44,29 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	{
 		$view = $this->getDashboardView('standalone');
 		echo $view->render();
+	}
+	
+	public function getAvailableWidgets()
+	{
+		$this->checkTokenInUrl();
+	    echo json_encode(Piwik_GetWidgetsList());
+	}
+	
+	public function resetLayout() 
+	{
+		$this->checkTokenInUrl();
+		$layout = $this->getDefaultLayout();
+		$idDashboard = Piwik_Common::getRequestVar('idDashboard', 1, 'int' );
+		if(Piwik::isUserIsAnonymous())
+		{
+			$session = new Piwik_Session_Namespace("Piwik_Dashboard");
+			$session->dashboardLayout = $layout;
+			$session->setExpirationSeconds(1800);
+		}
+		else
+		{
+		    $this->saveLayoutForUser(Piwik::getCurrentUserLogin(),$idDashboard, $layout);
+		}
 	}
 	
 	/**
@@ -147,11 +172,22 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		// we will only return the widgets that are from enabled plugins
 		$layoutObject = Piwik_Common::json_decode($layout, $assoc = false);
 
+		if(is_array($layoutObject)) {
+			$layoutObject = (object) array(
+			    'config'  => array( 'layout' => '33-33-33' ),
+			    'columns' => $layoutObject
+			);
+		}
+		
 		if(empty($layoutObject))
 		{
-			$layoutObject = array();
+			$layoutObject = (object) array(
+			    'config'  => array( 'layout' => '33-33-33' ),
+			    'columns' => array()
+			);
 		}
-		foreach($layoutObject as &$row) 
+		
+		foreach($layoutObject->columns as &$row) 
 		{
 			if(!is_array($row))
 			{
@@ -212,30 +248,16 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		$defaultLayout = $this->removeDisabledPluginFromLayout($defaultLayout);
 		return $defaultLayout;
 	}
+	
+	protected function getAvailableLayouts()
+	{
+	    return array(
+	        array(100),
+	        array(50,50), array(75,25), array(25,75),
+	        array(33,33,33), array(50,25,25), array(25,50,25), array(25,25,50),
+	        array(25,25,25,25)
+	    );
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
