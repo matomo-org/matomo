@@ -1,15 +1,34 @@
 
-
 #dashboard{ 
 	padding:0 0 0 7px;
 	margin:-4px -14px 0 -14px;
 }
 
-#dashboardWidgetsArea{ padding:2px 0 0 0;}
+#dashboardWidgetsArea{ 
+    padding:2px 0 0 0;
+}
 
 .col {
 	float: left;
-	width: 33%;
+	padding-bottom: 100px;
+	min-height: 100px;
+	-height: 100px;
+}
+
+.col.width-100 {
+    width: 100%;
+}
+.col.width-75 {
+    width: 75%;
+}
+.col.width-50 {
+    width: 50%;
+}
+.col.width-33 {
+    width: 33%;
+}
+.col.width-25 {
+    width: 25%;
 }
 
 .sortable {
@@ -67,13 +86,6 @@
 	font-weight:normal; 
 	color:#fff;
 	text-shadow:1px 1px 2px #7e7363;
-}
-
-.dummyItem {
-	width: 100%;
-	height: 150px;
-	display: block;
-	visibility:hidden;
 }
 
 .button {
@@ -136,27 +148,11 @@
 .ui-widget-overlay {
     opacity: 0.6;
     background: none #000;
-}
-
-.dummyHandle {
-	display: none;
+    position: fixed;
 }
 
 .menu {
 	display: none;
-}
-
-.menuItem {
-}
-
-.menuSelected {
-	background:#e4e2d7  url(../../../themes/default/images/arr_r.png) no-repeat right 6px;
-	color:#255792;
-}
-
-.menuDisabled {
-	color: lightgrey;
-	cursor: default;
 }
 
 .widgetLoading {
@@ -166,57 +162,10 @@
 	font-size: 10pt;
 }
 
-#menuTitleBar {
-	background: #FFC35C;
-	font-size: 14pt;
-	font-weight: bold;
-	padding: 2px 20px 6px 20px;
-	border-bottom: 2px solid #FCB842;
-}
-
 #closeMenuIcon {
 	float: right;
 	margin: 3px;
-}
-
-.subMenu {
-	float: left;
-}
-
-#sub1.subMenu {
-	cursor: default;
-	margin-right:30px;
-}
-
-#sub2.subMenu {
 	cursor: pointer;
-	margin-right:15px;
-}
-
-#sub3.subMenu {
-	float: left;
-	width:0px;
-}
-
-ol#menuList, ul#widgetList {
-	color: #5d5342;
-	list-style:none;
-	font-size:11px;
-	line-height:20px;
-}
-
-ol#menuList li, ul#widgetList li .button{
-	line-height:20px;
-	padding:0px 25px 0px 5px;
-	border-radius:2px;
-	-moz-border-radius:2px;
-	-webkit-border-radius:2px;
-}
-
-
-
-.subMenuItem span {
-	color: black;
 }
 
 .menuClear {
@@ -224,40 +173,199 @@ ol#menuList li, ul#widgetList li .button{
 	height: 30px;
 }
 
-#closeMenuIcon {
-	cursor: pointer;
-}
-
-#addWidget {
+#dashboardSettings {
 	position:absolute; 
 	z-index:10;
-	left:300px;
-	margin-top:-33px;
-	background:#f7f7f7;
-	
+	background: #f7f7f7;
 	border: 1px solid #e4e5e4;
 	padding:5px 10px 6px 10px;
 	border-radius:4px;
 	-moz-border-radius:4px;
 	-webkit-border-radius:4px;
+    color:#444;
+    font-size:14px;
+    cursor: pointer;
 }
-#addWidget:hover {
+#dashboardSettings:hover {
 	background:#f1f0eb;
-	border-color:#a9a399; 
-	z-index:12;
+	border-color:#a9a399;
 }
 
-#addWidget .widget_button{
-	color:#255792;
-	font-size:14px;
-	font-weight:bold; 
-	cursor: pointer;
+#dashboardSettings > span {
+    background: url(../../../themes/default/images/sortdesc.png) right center no-repeat;
+    padding-right: 20px;
+    display: block;
 }
-#addWidget .widget_button .arr{ vertical-align:top; }
 
-#widgetChooser {
-	padding-top:10px;
+#dashboardSettings ul.submenu {
+    padding-top: 5px;
+    display: none;
+    float: left;
 }
-#widgetChooser .widgetTop {
-	cursor:pointer;
+
+#dashboardSettings.visible ul.submenu {
+    display: block;
+}
+
+#dashboardSettings > ul.submenu > li {
+    padding: 5px 0;
+    clear: both;
+}
+
+#dashboardSettings > ul.submenu > li:hover {
+    color: #e87500;
+}
+
+#changeDashboardLayout h2 {
+    margin-bottom: 20px;
+}
+
+#columnPreview {
+    clear: both;
+    width: 400px;
+    margin: auto;
+}
+
+#columnPreview>div {
+    margin: 5px;
+    float: left;
+    opacity: 0.4;
+    filter:Alpha(opacity:40);
+    cursor: pointer;
+}
+
+#columnPreview>div:hover, #columnPreview>div.choosen {
+    opacity: 1;
+    filter:Alpha(opacity:100);
+}
+
+#columnPreview div div{
+    height: 120px;
+    float: left;
+}
+
+#columnPreview div div span{
+    background-color: #ddd;
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: 2px dotted #555;
+    margin: 0 1px;
+}
+
+#columnPreview div.choosen div span, #columnPreview div:hover div span{
+    border-style: solid;
+}
+
+#columnPreview .width-100 {
+    width: 120px;
+}
+#columnPreview .width-75 {
+    width: 90px;
+}
+#columnPreview .width-50 {
+    width: 60px;
+}
+#columnPreview .width-33 {
+    width: 40px;
+}
+#columnPreview .width-25 {
+    width: 30px;
+}
+
+/**
+ * Layout for widget previews
+ */
+
+.widgetpreview-base {
+    clear: both;
+    min-height: 600px;
+    -height: 600px;
+}
+
+ul.widgetpreview-widgetlist,
+ul.widgetpreview-categorylist {
+    color: #5d5342;
+    list-style:none;
+    font-size:11px;
+    line-height:20px;
+    float: left;
+    margin-right:20px;
+}
+
+ul.widgetpreview-categorylist {
+    cursor: default;
+}
+
+ul.widgetpreview-categorylist li,
+ul.widgetpreview-widgetlist li {
+    line-height:20px;
+    padding:0px 25px 0px 5px;
+    border-radius:2px;
+    -moz-border-radius:2px;
+    -webkit-border-radius:2px;
+}
+
+.widgetpreview-base li.widgetpreview-choosen {
+    background:#e4e2d7  url(../../../themes/default/images/arr_r.png) no-repeat right 6px;
+    color:#255792;
+    font-weight: bold;
+}
+
+.widgetpreview-categorylist li.widgetpreview-choosen {
+    color: #000;
+}
+
+.widgetpreview-base li.widgetpreview-unavailable {
+    color: lightgrey;
+    cursor: default;
+}
+
+ul.widgetpreview-widgetlist {
+    cursor: pointer;
+    position: relative;
+    top: 0px;
+}
+
+div.widgetpreview-preview {
+    float: left;
+    width: 500px;
+}
+
+#dashboardSettings.widgetpreview-base {
+    min-height: 0px;
+    height: auto;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+#dashboardSettings li:hover .widgetpreview-preview {
+    color: #444;
+}
+
+#dashboardSettings .widgetpreview-categorylist {
+    float: none;
+}
+
+#dashboardSettings .widgetpreview-categorylist,
+#dashboardSettings .widgetpreview-widgetlist {
+    width: 185px;
+}
+
+#dashboardSettings .widgetpreview-categorylist {
+    padding-top:10px;
+}
+
+#dashboardSettings .widgetTop {
+    cursor:pointer;
+}
+
+#dashboardSettings .widgetpreview-widgetlist,
+#dashboardSettings .widgetpreview-preview {
+    display: none;
+}
+
+#dashboardSettings.visible .widgetpreview-widgetlist,
+#dashboardSettings.visible .widgetpreview-preview {
+    display: block;
 }

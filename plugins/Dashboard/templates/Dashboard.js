@@ -8,7 +8,6 @@
 function dashboard()
 {
 	this.dashboardElement = {};
-	this.dashboardColumnsElement = {};
 	this.viewDataTableToSave = {};
 	this.layout = '';
 }
@@ -17,41 +16,80 @@ dashboard.prototype =
 {
 	isMaximised: false,
 	widgetDialog: null,
+	idDashboard: 1,
 	
 	//function called on dashboard initialisation
-	init: function(layout)
+	init: function(layout, idDashboard)
 	{
-		var self = this;
-		
 		//save some often used DOM objects
-		self.dashboardElement = $('#dashboardWidgetsArea');
-		self.dashboardColumnsElement = $('.col', self.dashDom);
+		this.dashboardElement = $('#dashboardWidgetsArea');
+		
+		//dashboard id
+		if(idDashboard) {
+			this.idDashboard = idDashboard;
+		}
 		
 		//dashboard layout
-		self.layout = layout;
+		this.layout = layout;
+		this.currentColumnLayout = layout.config.layout;
 		
 		//generate dashboard layout and load every displayed widgets
-		self.generateLayout();
+		this.generateLayout();
 		
-		self.makeSortable();
+		this.makeSortable();
 	},
 	
 	getWidgetsElementsInsideElement: function(elementToSearch)
 	{
-		return $('.sortable:not(.dummyItem) .widget', elementToSearch);
+		return $('.sortable .widget', elementToSearch);
+	},
+	
+	adjustDashboardColumns: function(layout)
+	{
+		var columnWidth = layout.split('-');
+		var columnCount = columnWidth.length;
+		
+		var currentCount = $('.col').length;
+		
+		if(currentCount < columnCount) {
+			$('.menuClear').remove();
+			for(var i=currentCount;i<columnCount;i++) {
+				this.dashboardElement.append('<div class="col"> </div>');
+			}
+			this.dashboardElement.append('<div class="menuClear"> </div>');
+		} else if(currentCount > columnCount) {
+			for(var i=columnCount;i<currentCount;i++) {
+				$('.col:last').remove();
+			}
+		}
+		
+		for(var i=0; i < columnCount; i++) {
+			$('.col')[i].className = 'col width-'+columnWidth[i];
+		}
+		
+		this.currentColumnLayout = layout;
+		
+		this.makeSortable();
+		if(currentCount > 0) {
+			this.saveLayout();
+		}
+		
+		// reload all widgets containing a graph to make them display correct
+		var self = this;
+		$('.widget:has(".piwik-graph")').each(function(id, elem){
+			self.reloadWidget($(elem).attr('id'));
+		});
 	},
 	
 	generateLayout: function()
 	{
-		var self = this;
-		
-		if(typeof self.layout == 'string') {
+		if(typeof this.layout == 'string') {
 			var layout = {};
 			//Old dashboard layout format: a string that looks like 'Actions.getActions~Actions.getDownloads|UserCountry.getCountry|Referers.getSearchEngines';
 			// '|' separate columns
 			// '~' separate widgets
 			// '.' separate plugin name from action name
-			var columns = self.layout.split('|');
+			var columns = this.layout.split('|');
 			for(var columnNumber=0; columnNumber<columns.length; columnNumber++) {
 				if(columns[columnNumber].length == 0) {
 					continue;
@@ -68,31 +106,44 @@ dashboard.prototype =
 							"action": wid[1] 
 						}
 					};
-	  			}
-	  		}
-			self.layout = layout;
+				}
+			}
+			this.layout = layout;
 		}
-		layout = self.layout;
+		layout = this.layout;
+		
+		if($.isArray(layout)) {
+			var layout = {
+					config: {layout: '33-33-33'},
+					columns: layout
+			};
+		}
+		
+		if(!layout.config.layout) {
+			layout.config.layout = '33-33-33';
+		}
+		
+		this.adjustDashboardColumns(layout.config.layout);
 		
 		widgetViewDataTableToRestore = {};
-		for(var columnNumber in layout) {
-			var widgetsInColumn = layout[columnNumber];
+		for(var columnNumber in layout.columns) {
+			var widgetsInColumn = layout.columns[columnNumber];
 			for(var widgetId in widgetsInColumn) {
 				widgetParameters = widgetsInColumn[widgetId]["parameters"];
 				uniqueId = widgetsInColumn[widgetId]["uniqueId"];
 				widgetViewDataTableToRestore[uniqueId] = widgetParameters['viewDataTable'];
 				var isHidden = widgetsInColumn[widgetId]['isHidden'] ? widgetsInColumn[widgetId]['isHidden'] : false;
 				if(uniqueId.length>0) {
-					self.addEmptyWidget(columnNumber, uniqueId, false, isHidden);
+					this.addEmptyWidget(columnNumber, uniqueId, false, isHidden);
 				}
 			}
-			self.addDummyWidgetAtBottomOfColumn(columnNumber);
 		}
 
-		self.makeSortable();
+		this.makeSortable();
 		
 		// load all widgets
-		$('.widget', self.dashboardElement).each( function() {
+		var self = this;
+		$('.widget', this.dashboardElement).each( function() {
 			var uniqueId = $(this).attr('id');
 			self.reloadWidget(uniqueId, widgetViewDataTableToRestore[uniqueId]);
 		});
@@ -123,16 +174,6 @@ dashboard.prototype =
 		piwikHelper.queueAjaxRequest( $.ajax(widgetsHelper.getLoadWidgetAjaxRequest(uniqueId, widgetParameters, onWidgetLoadedReplaceElementWithContent)) );
 	},
 	
-	addDummyWidgetAtBottomOfColumn: function(columnNumber)
-	{
-		var self = this;
-		var columnElement = $(self.dashboardColumnsElement[columnNumber]);
-		$(columnElement).append(	
-						'<div class="sortable dummyItem">'+
-							'<div class="widgetTop dummyWidgetTop"></div>'+
-						'</div>');
-	},
-	
 	addEmptyWidget: function(columnNumber, uniqueId, addWidgetOnTop, isHidden)
 	{
 		var self = this;
@@ -141,7 +182,7 @@ dashboard.prototype =
 		if(widgetName == false) {
 			widgetName = _pk_translate('Dashboard_WidgetNotFound_js');
 		}
-		columnElement = $(self.dashboardColumnsElement[columnNumber]);
+		columnElement = $($('.col')[columnNumber]);
 		emptyWidgetContent = '<div class="sortable">'+
 								widgetsHelper.getEmptyWidgetHtml(uniqueId, widgetName)+
 							'</div>';
@@ -221,11 +262,14 @@ dashboard.prototype =
 			$('.widgetHover', this).removeClass('widgetHover');
 			$('.widgetTopHover', this).removeClass('widgetTopHover');
 			$('.button#close, .button#maximise', this).hide();
+			if($('.widget:has(".piwik-graph")', ui.item).length) {
+			    self.reloadWidget($('.widget', ui.item).attr('id'));
+			}
 			self.saveLayout();
 		}
 
 		//launch 'sortable' property on every dashboard widgets
-		self.dashboardElement
+		$('div.col', self.dashboardElement)
 					.sortable('destroy')
 					.sortable({
 						items: 'div.sortable',
@@ -236,7 +280,8 @@ dashboard.prototype =
 						handle: '.widgetTop',
 						helper: 'clone',
 						start: onStart,
-						stop: onStop
+						stop: onStop,
+						connectWith: 'div.col'
 					});
 	},
 
@@ -250,7 +295,9 @@ dashboard.prototype =
 		var self = this;
 		self.isMaximised = true;
 		self.widgetDialog = $(target).parents('.sortable');
-		$(self.widgetDialog).css({'minWidth': '500px', 'maxWidth': '1000px'});
+		var minWidth = self.widgetDialog.width() < 500 ? 500 : self.widgetDialog.width();
+		var maxWidth = minWidth > 1000 ? minWidth+100 : 1000;
+		$(self.widgetDialog).css({'minWidth': minWidth+'px', 'maxWidth': maxWidth+'px'});
 		$('.button#close, .button#maximise', self.widgetDialog).hide();
 		self.widgetDialog.before('<div id="placeholder"> </div>');
 		self.widgetDialog.dialog({
@@ -314,10 +361,16 @@ dashboard.prototype =
 		var self = this;
 		
 		// build the layout object to save
-		var layout = new Array;
+		var layout = {
+				config: {},
+				columns: []
+		};
+		
+		layout.config.layout = this.currentColumnLayout;
+		
 		var columnNumber = 0;
-		self.dashboardColumnsElement.each(function() {
-			layout[columnNumber] = new Array;
+		$('.col').each(function() {
+			layout.columns[columnNumber] = new Array;
 			var items = self.getWidgetsElementsInsideElement(this);
 			for(var j=0; j<items.size(); j++) {
 				widgetElement = items[j];
@@ -328,7 +381,7 @@ dashboard.prototype =
 				{
 					widgetParameters['viewDataTable'] = self.viewDataTableToSave[uniqueId];
 				}
-				layout[columnNumber][j] = 
+				layout.columns[columnNumber][j] = 
 				{
 					"uniqueId": uniqueId,
 					"parameters": widgetParameters,
@@ -349,9 +402,25 @@ dashboard.prototype =
 				dataType: 'html',
 				async: true,
 				error: piwikHelper.ajaxHandleError,
-				data: { "layout": layoutString }
+				data: { "layout": layoutString, "idDashboard": self.idDashboard }
 			};
 			$.ajax(ajaxRequest);
 		}
+	}, 
+	
+	resetLayout: function()
+	{
+		var ajaxRequest =
+		{
+			type: 'POST',
+			url: 'index.php?module=Dashboard&action=resetLayout&token_auth='+piwik.token_auth,
+			dataType: 'html',
+			async: false,
+			error: piwikHelper.ajaxHandleError,
+			success: function() { window.location.reload(); },
+			data: { "idDashboard": this.idDashboard, "idSite": piwik.idSite }
+		};
+		$.ajax(ajaxRequest);
+		piwikHelper.showAjaxLoading();
 	}
 };
