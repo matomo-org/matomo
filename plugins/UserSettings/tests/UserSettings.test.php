@@ -63,6 +63,9 @@ class Test_Piwik_UserSettings extends UnitTestCase
 		'Mozilla/5.0 (Linux; U; Android 2.2.1; en-us; device Build/FRG83) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Safari/533.1' => array(
 			array('SF', 'Safari', 'Safari', '4.0', '4', '0', 'webkit'),
 			array('AND', 'Android', 'Android')),
+		'Mozilla/5.0 (Linux; U; Android 4.0.1; en-us; Galaxy Nexus Build/ITL41D) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30' => array(
+			array('SF', 'Safari', 'Safari', '4.0', '4', '0', 'webkit'),
+			array('AND', 'Android', 'Android')),
 
 		// Android - Mobile Chrome
 /*
