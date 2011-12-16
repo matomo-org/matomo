@@ -14,7 +14,7 @@ function widgetsHelper()
  * 
  * @return object containing available widgets
  */
-widgetsHelper.getAvailableWdigets = function ()
+widgetsHelper.getAvailableWidgets = function ()
 {
     if(!widgetsHelper.availableWidgets)
     {
@@ -38,7 +38,7 @@ widgetsHelper.getAvailableWdigets = function ()
 
 widgetsHelper.getWidgetCategoryNameFromUniqueId = function (uniqueId)
 {
-	var widgets = widgetsHelper.getAvailableWdigets();
+	var widgets = widgetsHelper.getAvailableWidgets();
 	for(var widgetCategory in widgets) {
 		var widgetInCategory = widgets[widgetCategory];
 		for(var i in widgetInCategory) {
@@ -52,7 +52,7 @@ widgetsHelper.getWidgetCategoryNameFromUniqueId = function (uniqueId)
 
 widgetsHelper.getWidgetObjectFromUniqueId = function (uniqueId)
 {
-	var widgets = widgetsHelper.getAvailableWdigets();
+	var widgets = widgetsHelper.getAvailableWidgets();
 	for(var widgetCategory in widgets) {
 		var widgetInCategory = widgets[widgetCategory];
 		for(var i in widgetInCategory) {
@@ -348,7 +348,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
                     this.onPreviewLoaded = settings.onPreviewLoaded;
                 }
                 
-                availableWidgets = widgetsHelper.getAvailableWdigets();
+                availableWidgets = widgetsHelper.getAvailableWidgets();
                 
                 var categoryList = createWidgetCategoryList();
                 
