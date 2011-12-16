@@ -205,6 +205,8 @@
 
 #dashboardSettings.visible ul.submenu {
     display: block;
+    list-style: square outside none;
+    margin-left: 15px;
 }
 
 #dashboardSettings > ul.submenu > li {
@@ -283,6 +285,7 @@
     -height: 600px;
 }
 
+#addWidget { cursor:default;}
 ul.widgetpreview-widgetlist,
 ul.widgetpreview-categorylist {
     color: #5d5342;
@@ -339,6 +342,12 @@ div.widgetpreview-preview {
     margin-bottom: 10px;
 }
 
+#dashboardSettings  .submenu {	
+	font-weight:bold;
+	color:#255792;
+}
+
+
 #dashboardSettings li:hover .widgetpreview-preview {
     color: #444;
 }
@@ -347,13 +356,18 @@ div.widgetpreview-preview {
     float: none;
 }
 
-#dashboardSettings .widgetpreview-categorylist,
+#dashboardSettings .widgetpreview-categorylist {
+    width: 185px;    
+    font-weight:normal;
+}
 #dashboardSettings .widgetpreview-widgetlist {
-    width: 185px;
+	width: 228px;
+    font-weight:normal;
 }
 
 #dashboardSettings .widgetpreview-categorylist {
     padding-top:10px;
+	margin-left: 10px;
 }
 
 #dashboardSettings .widgetTop {
