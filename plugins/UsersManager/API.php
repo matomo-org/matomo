@@ -416,7 +416,7 @@ class Piwik_UsersManager_API
 		$this->checkUserIsNotAnonymous( $userLogin );
 		$this->checkUserIsNotSuperUser($userLogin);
 		$userInfo = $this->getUser($userLogin);
-				
+
 		if(empty($password))
 		{
 			$password = $userInfo['password'];
@@ -504,10 +504,10 @@ class Piwik_UsersManager_API
 	 */
 	public function userEmailExists( $userEmail )
 	{
-		Piwik::checkUserHasSomeAdminAccess();
+		Piwik::checkUserIsNotAnonymous();
 		$count = Piwik_FetchOne("SELECT count(*) 
-													FROM ".Piwik_Common::prefixTable("user"). " 
-													WHERE email = ?", $userEmail);
+								FROM ".Piwik_Common::prefixTable("user"). " 
+								WHERE email = ?", $userEmail);
 		return $count != 0;	
 	}
 	
