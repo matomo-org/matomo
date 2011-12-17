@@ -191,7 +191,7 @@ class PiwikTracker
     	{
     		throw new Exception("Invalid 'scope' parameter value");
     	}
-    	if(strlen($this->visitorCustomVar[$id]))
+    	if(!empty($this->visitorCustomVar[$id]))
     	{
     		return $this->visitorCustomVar[$id];
     	}
