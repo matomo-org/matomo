@@ -15,6 +15,9 @@ $(document).ready( function() {
     // Standard dashboard
     if($('#periodString').length) 
     {
+        var removeDashboardSettings = function() { $('#dashboardSettings').remove(); };
+        $('ul.nav').off('piwikSwitchPage', removeDashboardSettings);
+        $('ul.nav').on('piwikSwitchPage', removeDashboardSettings);
         $('#periodString').after($('#dashboardSettings'));
         $('#dashboardSettings').css({left:$('#periodString')[0].offsetWidth+10});
     }
