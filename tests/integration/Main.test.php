@@ -49,6 +49,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // VIEW product page
         $t->setEcommerceView('SKU2', 'PRODUCT name', $category, $price);
         $t->setCustomVariable(5, 'VisitorType', 'NewLoggedOut', 'visit');
+        $t->setCustomVariable(4, 'ValueIsZero', '0', 'visit');
         $this->assertTrue($t->getCustomVariable(3, 'page') == array('_pks','SKU2'));
         $this->assertTrue($t->getCustomVariable(4, 'page') == array('_pkn','PRODUCT name'));
         $this->assertTrue($t->getCustomVariable(5, 'page') == array('_pkc',$category));

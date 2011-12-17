@@ -254,11 +254,13 @@ class Piwik_Tracker_GoalManager
 		// Copy Custom Variables from Visit row to the Goal conversion
 		for($i=1; $i<=Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++) 
 		{
-			if(!empty($visitorInformation['custom_var_k'.$i]))
+			if(isset($visitorInformation['custom_var_k'.$i])
+			    && strlen($visitorInformation['custom_var_k'.$i]))
 			{
 				$goal['custom_var_k'.$i] = $visitorInformation['custom_var_k'.$i];
 			}
-			if(!empty($visitorInformation['custom_var_v'.$i]))
+			if(isset($visitorInformation['custom_var_v'.$i])
+			    && strlen($visitorInformation['custom_var_v'.$i]))
 			{
 				$goal['custom_var_v'.$i] = $visitorInformation['custom_var_v'.$i];
 			}
@@ -566,7 +568,7 @@ class Piwik_Tracker_GoalManager
 				$category = $item[self::INDEX_ITEM_CATEGORY];
 			} 	
 			
-			if(!empty($item[self::INDEX_ITEM_PRICE]) 
+			if(isset($item[self::INDEX_ITEM_PRICE]) 
 				&& is_numeric($item[self::INDEX_ITEM_PRICE])) { 
 					$price = $this->getRevenue($item[self::INDEX_ITEM_PRICE]); 
 			}
