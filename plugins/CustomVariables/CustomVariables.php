@@ -279,7 +279,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
 
 	protected function cleanCustomVarValue($value)
 	{
-		if(!empty($value))
+		if(strlen($value))
 		{
 			return $value;
 		} 

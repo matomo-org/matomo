@@ -1017,11 +1017,13 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			{
 				for($i=1; $i<=Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++) 
 				{
-					if(!empty($visitRow['custom_var_k'.$i]))
+					if(isset($visitRow['custom_var_k'.$i])
+					    && strlen($visitRow['custom_var_k'.$i]))
 					{
 						$this->visitorInfo['custom_var_k'.$i] = $visitRow['custom_var_k'.$i];
 					}
-					if(!empty($visitRow['custom_var_v'.$i]))
+					if(isset($visitRow['custom_var_v'.$i])
+					    && strlen($visitRow['custom_var_v'.$i]))
 					{
 						$this->visitorInfo['custom_var_v'.$i] = $visitRow['custom_var_v'.$i];
 					}
@@ -1075,7 +1077,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 				printDebug("Invalid custom variables detected (id=$id)");
 				continue;
 			}
-			if(empty($keyValue[1]))
+			if(strlen($keyValue[1]) == 0)
 			{
 				$keyValue[1] = "";
 			}
