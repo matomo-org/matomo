@@ -80,7 +80,7 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 		
 		// min finished timestamp considered when looking at archive timestamp 
 		$dateMinArchived = Piwik_Date::factory('2010-01-02')->getTimestamp();
-		$this->assertEqual($archiveProcessing->getMinTimeArchivedProcessed(), $dateMinArchived);
+		$this->assertEqual($archiveProcessing->getMinTimeArchivedProcessed() + 1, $dateMinArchived);
 		
 		$this->assertEqual($archiveProcessing->getStartDatetimeUTC(), '2010-01-01 00:00:00');
 		$this->assertEqual($archiveProcessing->getEndDatetimeUTC(), '2010-01-01 23:59:59');
@@ -94,7 +94,7 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 		$archiveProcessing = $this->createArchiveProcessing('day', '2010-01-01', $timezone);
 		// min finished timestamp considered when looking at archive timestamp 
 		$dateMinArchived = Piwik_Date::factory('2010-01-01 18:30:00');
-		$this->assertEqual($archiveProcessing->getMinTimeArchivedProcessed(), $dateMinArchived->getTimestamp());
+		$this->assertEqual($archiveProcessing->getMinTimeArchivedProcessed() + 1, $dateMinArchived->getTimestamp());
 		
 		$this->assertEqual($archiveProcessing->getStartDatetimeUTC(), '2009-12-31 18:30:00');
 		$this->assertEqual($archiveProcessing->getEndDatetimeUTC(), '2010-01-01 18:29:59');
@@ -108,7 +108,7 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 		$archiveProcessing = $this->createArchiveProcessing('month', '2010-01-02', $timezone);
 		// min finished timestamp considered when looking at archive timestamp 
 		$dateMinArchived = Piwik_Date::factory('2010-02-01 05:30:00');
-		$this->assertEqual($archiveProcessing->getMinTimeArchivedProcessed(), $dateMinArchived->getTimestamp());
+		$this->assertEqual($archiveProcessing->getMinTimeArchivedProcessed() + 1, $dateMinArchived->getTimestamp());
 		
 		$this->assertEqual($archiveProcessing->getStartDatetimeUTC(), '2010-01-01 05:30:00');
 		$this->assertEqual($archiveProcessing->getEndDatetimeUTC(), '2010-02-01 05:29:59');
