@@ -192,7 +192,7 @@
 }
 
 #dashboardSettings > span {
-    background: url(../../../themes/default/images/sortdesc.png) right center no-repeat;
+    background: url(../../../themes/default/images/sort_subtable_desc.png) right center no-repeat;
     padding-right: 20px;
     display: block;
 }
