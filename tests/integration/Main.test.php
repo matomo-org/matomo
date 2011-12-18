@@ -977,6 +977,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	$segments = array(
     		false,
     		'country!=aa',
+    		'pageUrl!=ThisIsNotKnownPageUrl',
     	);
     	// Running twice just as health check that second call also works
     	for($i = 0; $i <=1; $i++)
@@ -988,6 +989,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		    	                            'VisitsSummary.get',
 		    	                            'UserSettings.getResolution',
 		    	                            'VisitFrequency.get',
+				                            'VisitTime.getVisitInformationPerServerTime',
 		    	));
 				$this->callGetApiCompareOutput(__FUNCTION__, 'xml', 
 		        								$idSite, 

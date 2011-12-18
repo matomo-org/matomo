@@ -160,7 +160,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 	
 	protected function archiveDayAggregateGoals($archiveProcessing)
 	{
-		$query = $archiveProcessing->queryConversionsByDimension("HOUR(server_time)");
+		$query = $archiveProcessing->queryConversionsByDimension("HOUR(log_conversion.server_time)");
 		
 		if($query === false) return;
 		
