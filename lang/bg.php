@@ -280,7 +280,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'Включи всички данни',
 	'CoreHome_ExcludeLowPopulation_js' => 'Изключи данните с ниско равнище',
 	'CoreHome_PageOf_js' => '%1$s от %2$s',
-	'CoreHome_DayFormat' => '%longDay% %day% %longMonth% %longYear%',
 	'CoreHome_PeriodDay' => 'Ден',
 	'CoreHome_PeriodWeek' => 'Седмица',
 	'CoreHome_PeriodMonth' => 'Месец',

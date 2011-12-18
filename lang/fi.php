@@ -307,7 +307,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'Kaikki esiintymät',
 	'CoreHome_ExcludeLowPopulation_js' => 'Poista harvat esiintymät',
 	'CoreHome_PageOf_js' => '%1$s of %2$s',
-	'CoreHome_DayFormat' => '%longDay% %day% %longMonth% %longYear%',
 	'CoreHome_PeriodDay' => 'Päivä',
 	'CoreHome_PeriodWeek' => 'Viikko',
 	'CoreHome_PeriodMonth' => 'Kuukausi',

@@ -378,7 +378,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'Masukkan seluruh populasi',
 	'CoreHome_ExcludeLowPopulation_js' => 'Kecualikan populasi kecil',
 	'CoreHome_PageOf_js' => '%1$s dari %2$s',
-	'CoreHome_DayFormat' => '%longDay% %day% %longMonth% %longYear%',
 	'CoreHome_PeriodDay' => 'Hari',
 	'CoreHome_PeriodWeek' => 'Minggu',
 	'CoreHome_PeriodMonth' => 'Bulan',

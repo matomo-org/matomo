@@ -113,7 +113,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'ሁሉንም ምድብ ያጠቃሉ',
 	'CoreHome_ExcludeLowPopulation_js' => 'አነስተኛ ምድቦችን ይቀንሱ',
 	'CoreHome_PageOf_js' => '%1$s የ %2$s',
-	'CoreHome_DayFormat' => '%ረዥም ቀን% %ቀን% %lረዥም ወር% %ረዥም ዓመት%',
 	'CoreHome_PeriodDay' => 'ቀን',
 	'CoreHome_PeriodWeek' => 'ሳምንት',
 	'CoreHome_PeriodMonth' => 'ወር',

@@ -381,7 +381,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'Συμπερίληψη όλου του πλήθους',
 	'CoreHome_ExcludeLowPopulation_js' => 'Εξαίρεση χαμηλού πλήθους',
 	'CoreHome_PageOf_js' => '%1$s από %2$s',
-	'CoreHome_DayFormat' => '%longDay% %day% %longMonth% %longYear%',
 	'CoreHome_PeriodDay' => 'Ημέρα',
 	'CoreHome_PeriodWeek' => 'Εβδομάδα',
 	'CoreHome_PeriodMonth' => 'Μήνας',

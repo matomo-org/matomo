@@ -217,7 +217,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'Vrátane celej populácie',
 	'CoreHome_ExcludeLowPopulation_js' => 'Bez nízkej populácie',
 	'CoreHome_PageOf_js' => '%1$s z %2$s',
-	'CoreHome_DayFormat' => '%longDay% %day% %longMonth% %longYear%',
 	'CoreHome_PeriodDay' => 'Deň',
 	'CoreHome_PeriodWeek' => 'Týždeň',
 	'CoreHome_PeriodMonth' => 'Mesiac',

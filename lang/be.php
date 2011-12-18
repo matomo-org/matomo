@@ -380,7 +380,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'Уключыць усе паказчыкі',
 	'CoreHome_ExcludeLowPopulation_js' => 'Выключыць нізкія паказчыкі',
 	'CoreHome_PageOf_js' => '%1$s з %2$s',
-	'CoreHome_DayFormat' => '%longDay% %day% %longMonth% %longYear%',
 	'CoreHome_PeriodDay' => 'Дзень',
 	'CoreHome_PeriodWeek' => 'Тыдзень',
 	'CoreHome_PeriodMonth' => 'Месяц',

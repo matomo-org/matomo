@@ -307,7 +307,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'Įtraukti visą populiaciją',
 	'CoreHome_ExcludeLowPopulation_js' => 'Neįtraukti menkos populiacijos',
 	'CoreHome_PageOf_js' => '%1$s iš %2$s',
-	'CoreHome_DayFormat' => '%longDay% %longYear% %longMonth% %day%',
 	'CoreHome_PeriodDay' => 'Diena',
 	'CoreHome_PeriodWeek' => 'Savaitė',
 	'CoreHome_PeriodMonth' => 'Mėnuo',

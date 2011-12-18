@@ -246,7 +246,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => '包含所有個體',
 	'CoreHome_ExcludeLowPopulation_js' => '排除非主要個體',
 	'CoreHome_PageOf_js' => '%1$s 之於 %2$s',
-	'CoreHome_DayFormat' => '%longDay% %day% %longMonth% %longYear%',
 	'CoreHome_PeriodDay' => '日統計',
 	'CoreHome_PeriodWeek' => '週統計',
 	'CoreHome_PeriodMonth' => '月統計',

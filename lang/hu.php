@@ -328,7 +328,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'Tartalmazza a teljes populációt',
 	'CoreHome_ExcludeLowPopulation_js' => 'Kivéve alacsony populáció',
 	'CoreHome_PageOf_js' => '%1$s — %2$s',
-	'CoreHome_DayFormat' => '%longYear%. %longMonth% %day%., %longDay%',
 	'CoreHome_PeriodDay' => 'Nap',
 	'CoreHome_PeriodWeek' => 'Hét',
 	'CoreHome_PeriodMonth' => 'Hónap',

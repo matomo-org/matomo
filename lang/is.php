@@ -223,7 +223,6 @@ $translations = array(
 	'CoreHome_ThereIsNoDataForThisReport' => 'Það eru eingin gögn til fyrir þessa skýrslu',
 	'CoreHome_ShowJSCode' => 'Sýna JavaScript kóða til að setja inn',
 	'CoreHome_PageOf_js' => '%1$s of %2$s',
-	'CoreHome_DayFormat' => '%longDay% %day% %longMonth% %longYear%',
 	'CoreHome_PeriodDay' => 'Dagur',
 	'CoreHome_PeriodWeek' => 'Vika',
 	'CoreHome_PeriodMonth' => 'Mánuður',

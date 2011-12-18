@@ -197,7 +197,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'Sartu populazio guztia',
 	'CoreHome_ExcludeLowPopulation_js' => 'Baztertu populazio txikia',
 	'CoreHome_PageOf_js' => '%1$s / %2$s',
-	'CoreHome_DayFormat' => '%longDay%, %longYear%(e)ko %longMonth%ren %day%a',
 	'CoreHome_PeriodDay' => 'Eguna',
 	'CoreHome_PeriodWeek' => 'Astea',
 	'CoreHome_PeriodMonth' => 'Hilabetea',

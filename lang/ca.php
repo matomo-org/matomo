@@ -113,7 +113,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'Inclou tota la població',
 	'CoreHome_ExcludeLowPopulation_js' => 'Exclou la població baixa',
 	'CoreHome_PageOf_js' => '%1$s de %2$s',
-	'CoreHome_DayFormat' => '%longDay%, %day% de %longMonth% de %longYear%',
 	'CoreHome_PeriodDay' => 'Dia',
 	'CoreHome_PeriodWeek' => 'Setmana',
 	'CoreHome_PeriodMonth' => 'Mes',

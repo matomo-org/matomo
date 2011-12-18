@@ -350,7 +350,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'Vedi tutti',
 	'CoreHome_ExcludeLowPopulation_js' => 'Vedi i migliori',
 	'CoreHome_PageOf_js' => '%1$s di %2$s',
-	'CoreHome_DayFormat' => '%longDay% %day% %longMonth% %longYear%',
 	'CoreHome_PeriodDay' => 'Giorno',
 	'CoreHome_PeriodWeek' => 'Settimana',
 	'CoreHome_PeriodMonth' => 'Mese',

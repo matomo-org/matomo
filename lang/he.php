@@ -276,7 +276,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'לכלול את כלל האוכלוסייה',
 	'CoreHome_ExcludeLowPopulation_js' => 'למעט אוכלוסייה נמוכה',
 	'CoreHome_PageOf_js' => '%1$s מתוך %2$s',
-	'CoreHome_DayFormat' => '%longDay% %day% %longMonth% %longYear%',
 	'CoreHome_PeriodDay' => 'יום',
 	'CoreHome_PeriodWeek' => 'שבוע',
 	'CoreHome_PeriodMonth' => 'חודש',
