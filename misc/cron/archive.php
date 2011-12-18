@@ -110,6 +110,7 @@ class Archiving
 	
 	protected $visits = 0;
 	protected $requests = 0;
+	protected $output = '';
 	
 	protected $shouldResetState = false;
 	protected $shouldArchiveAllWebsites = false;
@@ -127,6 +128,7 @@ class Archiving
 	private function log($m)
 	{
 //		echo $m . "\n";
+	    $this->output .= $m . "\n";
 		Piwik::log($m);
 	}
 	
@@ -174,7 +176,9 @@ class Archiving
 	
 	public function logFatalError($m)
 	{
-//		debug_print_backtrace();
+	    $fe = fopen('php://stderr', 'w');
+	    fwrite($fe, "Error in the last Piwik archiving script: \n" . $m 
+	            . "\n\n Here is the full output of the script:\n\n" . $this->output);
 		$this->log("ERROR: $m");
 		trigger_error($m, E_USER_ERROR);
 		exit;
