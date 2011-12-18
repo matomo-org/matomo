@@ -380,7 +380,6 @@ $translations = array(
 	'CoreUpdater_ExceptionArchiveIncomplete' => 'アーカイブが不完全です：いくつかのファイルが不足しています（%s など）。',
 	'Dashboard_PluginDescription' => 'ウェブ解析のダッシュボードです。 新しいウィジェットを追加したり、ウィジェットの並び順を変更することで、あなたのダッシュボードをカスタマイズすることができます。 各ユーザーは、ユーザー自身のカスタムダッシュボードにアクセスすることができます。',
 	'Dashboard_Dashboard' => 'ダッシュボード',
-	'Dashboard_AddWidget' => 'ウィジェットを追加...',
 	'Dashboard_DeleteWidgetConfirm' => '本当にこのウィジェットをダッシュボードから削除しますか？',
 	'Dashboard_SelectWidget' => 'ダッシュボードに追加するウィジェットの選択',
 	'Dashboard_AddPreviewedWidget_js' => 'プレビューされたウィジェットをダッシュボードに追加します',

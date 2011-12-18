@@ -366,7 +366,6 @@ $translations = array(
 	'CoreUpdater_ExceptionArchiveIncomplete' => 'Arkivet er ikke komplett - noen file mangler (f.eks. %s).',
 	'Dashboard_PluginDescription' => 'Ditt nettanalyse-kontrollpanel. Du kan tilpasse kontrollpanelet: Legge til nye element, endre rekkefølgene for dine element. Hver bruker kan tilpasse sitt eget kontrollpanel.',
 	'Dashboard_Dashboard' => 'Kontrollpanel',
-	'Dashboard_AddWidget' => 'Legg til et element ...',
 	'Dashboard_DeleteWidgetConfirm' => 'Er du sikker på at du vil fjerne dette elementet fra ditt kontrollpanel?',
 	'Dashboard_SelectWidget' => 'Velg hvilket element som du vil legge til kontrollpanelet.',
 	'Dashboard_AddPreviewedWidget_js' => 'Legg til forhåndsvist element til kontrollpanelet.',

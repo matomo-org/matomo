@@ -315,7 +315,6 @@ $translations = array(
 	'CoreUpdater_PiwikUpdatedSuccessfully' => 'Piwik bol úspešne zaktualizovaný!',
 	'Dashboard_PluginDescription' => 'Váš Web Analytická Nástenka. Môžete si prisp§sobiť Vašu nástenku: Pridať nový nástroj, zmeniť poradie vašich nástrojov. Každý používateľ môže mať prístup k jeho vlastnej nástenke.',
 	'Dashboard_Dashboard' => 'Nástenka',
-	'Dashboard_AddWidget' => 'Pridať miniaplikáciu…',
 	'Dashboard_DeleteWidgetConfirm' => 'Ste si istý, že chcete odstrániť miniaplikáciu z panela?',
 	'Dashboard_SelectWidget' => 'Vyberte miniaplikáciu, ktorá sa pridá na panel',
 	'Dashboard_AddPreviewedWidget_js' => 'Pridať prezeranú miniaplikáciu do panelu',

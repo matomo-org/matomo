@@ -529,7 +529,6 @@ $translations = array(
 	'CustomVariables_CustomVariablesReportDocumentation' => 'Dieser Bericht enthält Informationen über Ihre benutzerdefinierten Variablen. Klicken Sie auf einen Variablennamen, um die Verteilung der Werte zu sehen. %s Für mehr Informationen über benutzerdefinierte Variablen, lesen Sie die %sDokumentation auf piwik.org%s',
 	'Dashboard_PluginDescription' => 'Ihr Dashboard. Sie können es sich individuell anpassen: neue Widgets hinzufügen oder deren Reihenfolge ändern. Jeder Benutzer hat ein eigenes Dashboard.',
 	'Dashboard_Dashboard' => 'Übersicht',
-	'Dashboard_AddWidget' => 'Widget hinzufügen...',
 	'Dashboard_DeleteWidgetConfirm' => 'Wollen Sie wirklich dieses Widget vom Dashboard entfernen?',
 	'Dashboard_SelectWidget' => 'Wählen Sie das hier das Widget aus, welches zum Dashboard hinzugefügt werden soll',
 	'Dashboard_AddPreviewedWidget_js' => 'Widget aus der Vorschau zum Dashboard hinzufügen',

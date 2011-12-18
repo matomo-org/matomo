@@ -412,7 +412,6 @@ $translations = array(
 	'CustomVariables_ColumnCustomVariableValue' => 'Anpassat variabelvärde',
 	'Dashboard_PluginDescription' => 'Din Webbanalys Instrumentpanel. Du kan anpassa din instrumentpanel: lägg till nya widgets, ändra ordningen på dina widgets. Varje användare har tillgång till sin egen anpassade instrumentpanel.',
 	'Dashboard_Dashboard' => 'Instrumentpanel',
-	'Dashboard_AddWidget' => 'Lägg till widget...',
 	'Dashboard_DeleteWidgetConfirm' => 'Är du säker på att du vill ta bort denna widget från Instrumentpanelen?',
 	'Dashboard_SelectWidget' => 'Välj vilken widget som ska läggas till i instrumentpanelen',
 	'Dashboard_AddPreviewedWidget_js' => 'Lägg till förhandsgranskad widget i instrumentpanelen',

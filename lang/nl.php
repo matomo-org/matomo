@@ -453,7 +453,6 @@ $translations = array(
 	'CoreUpdater_ExceptionArchiveIncomplete' => 'Archief is onvolledig. Sommige bestanden ontbreken (zoals %s)',
 	'Dashboard_PluginDescription' => 'Uw Web analyze Dashboard. U kunt uw dashboard aanpassen: nieuwe widgets toevoegen of de volgorde aanpassen. Iedere gebruiker heeft toegang tot zijn eigen Dashboard',
 	'Dashboard_Dashboard' => 'Dashboard',
-	'Dashboard_AddWidget' => 'Voeg een widget toe…',
 	'Dashboard_DeleteWidgetConfirm' => 'Weet u zeker dat u dit widget van het dashboard wilt verwijderen?',
 	'Dashboard_SelectWidget' => 'Selecteer een widget om toe te voegen aan het dashboard',
 	'Dashboard_AddPreviewedWidget_js' => 'Voeg widget toe aan dashboard.',

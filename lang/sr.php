@@ -456,7 +456,6 @@ $translations = array(
 	'CustomVariables_ColumnCustomVariableValue' => 'Vrednost dodatnog parametra',
 	'Dashboard_PluginDescription' => 'Vaša Konzola za web analitiku. Ovde možete personalizovati vašu Konzolu: dodajte vidžete ili im izmenite redosled. Svaki korisnik ima sopstvenu Konzolu.',
 	'Dashboard_Dashboard' => 'Konzola',
-	'Dashboard_AddWidget' => 'Dodaj vidžet...',
 	'Dashboard_DeleteWidgetConfirm' => 'Da li ste sigurni da želite da uklonite ovaj vidžet sa Konzole?',
 	'Dashboard_SelectWidget' => 'Izaberite vidžet koji želite da dodate na Konzolu',
 	'Dashboard_AddPreviewedWidget_js' => 'Dodaj pregledani vidžet na Konzolu',

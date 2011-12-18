@@ -503,7 +503,6 @@ $translations = array(
 	'CustomVariables_CustomVariablesReportDocumentation' => 'Laporan ini mengandung informasi tentang Variabel Kustom Anda. Klik di nama variabel untuk melihat distribusi nilai. %s Informasi lebih lengkap tentang Vabiabel Kustom, baca %sdokumentasi Vabiabel Kustom di piwik.org%s',
 	'Dashboard_PluginDescription' => 'Panel Kendali Analisis Ramatraya Anda. Anda dapat meneyesuaikan Panel Kendali Anda: menambah widget baru, mengubah urutan widget Anda. Setiap pengguna dapat mengakses Panel Kendali miliknya sendiri.',
 	'Dashboard_Dashboard' => 'Panel Kendali',
-	'Dashboard_AddWidget' => 'Menambah widget...',
 	'Dashboard_DeleteWidgetConfirm' => 'Apakah Anda yakin ingin menghapus widget ini dari Panel Kendali?',
 	'Dashboard_SelectWidget' => 'Pilih widget ditambah ke Panel Kendali',
 	'Dashboard_AddPreviewedWidget_js' => 'Tambah pratinjau widget ke Panel Kendali',

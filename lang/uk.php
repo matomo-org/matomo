@@ -380,7 +380,6 @@ $translations = array(
 	'CoreUpdater_ExceptionArchiveIncomplete' => 'Архів не повний: деякі файли відсутні (напр. %s).',
 	'Dashboard_PluginDescription' => 'Панель Керування Веб-аналітикою. Ви можете адаптувати Панель Керування: додати нові віджети, змінити порядок відображення віджетів. Кожен користувач може мати Панель Керування на свій смак.',
 	'Dashboard_Dashboard' => 'Панель Керування',
-	'Dashboard_AddWidget' => 'Додати віджет...',
 	'Dashboard_DeleteWidgetConfirm' => 'Видалити цей віджет з панелі керування?',
 	'Dashboard_SelectWidget' => 'Оберіть віджет для розміщення в панелі керування',
 	'Dashboard_AddPreviewedWidget_js' => 'Додати переглянутий віджет до панелі керування',

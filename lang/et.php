@@ -131,7 +131,6 @@ $translations = array(
 	'CoreUpdater_PiwikHasBeenSuccessfullyUpgraded' => 'Piwik edukalt uuendatud!',
 	'CoreUpdater_ContinueToPiwik' => 'Jätka Piwikiga',
 	'Dashboard_Dashboard' => 'Töölaud',
-	'Dashboard_AddWidget' => 'Lisa moodul...',
 	'Dashboard_DeleteWidgetConfirm' => 'Oled sa kindel selle mooduli kustutamises oma töölaualt?',
 	'Dashboard_SelectWidget' => 'Vali töölauale lisatav moodul',
 	'Dashboard_TitleWidgetInDashboard_js' => 'Moodul on juba töölaual',

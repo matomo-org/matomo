@@ -427,7 +427,6 @@ $translations = array(
 	'CoreUpdater_ExceptionArchiveIncomplete' => 'Arkisto on viallinen: osa tiedostoista puuttuu (esim. %s).',
 	'Dashboard_PluginDescription' => 'Piwikin työpöytä. Voit muokata työpöytääsi: lisätä uusia raportteja, poistaa raportteja ja muuttaa raporttien järjestystä. Jokainen käyttäjä voi käyttää omaa työpöytäänsä.',
 	'Dashboard_Dashboard' => 'Työpöytä',
-	'Dashboard_AddWidget' => 'Lisää vimpain...',
 	'Dashboard_DeleteWidgetConfirm' => 'Haluatko varmasti poistaa vimpaimen työpöydältä?',
 	'Dashboard_SelectWidget' => 'Valitse työpöydälle lisättävä vimpain',
 	'Dashboard_AddPreviewedWidget_js' => 'Lisää esikatseltu vimpain työpöydälle',

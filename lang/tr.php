@@ -316,7 +316,6 @@ $translations = array(
 	'CoreUpdater_ExceptionArchiveIncomplete' => 'Arşiv tamamlanmadı: bazı dosyalar kayıp (ör. %s).',
 	'Dashboard_PluginDescription' => 'Web istatistik panonuz. Panonuzu özelleştirebilirsiniz: yeni widget ekleyebilir, bileşen ayarlarınızı değiştirebilirsiniz. Her kullanıcı kendi panosuna ulaşır.',
 	'Dashboard_Dashboard' => 'Pano',
-	'Dashboard_AddWidget' => 'Bileşen ekle...',
 	'Dashboard_DeleteWidgetConfirm' => 'Bu Bileşenı panodan silmek istediğinize emin misiniz?',
 	'Dashboard_SelectWidget' => 'Panoya eklemek için bileşen seçiniz.',
 	'Dashboard_AddPreviewedWidget_js' => 'Görüntülenen Bileşenı panoya ekleyin.',

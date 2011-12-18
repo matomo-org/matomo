@@ -400,7 +400,6 @@ $translations = array(
 	'CustomVariables_ColumnCustomVariableValue' => 'ערך המשתנה',
 	'Dashboard_PluginDescription' => 'סקירה כללית של ניתוח פעילות אתרך. ניתן להתאים אישית את פאנל הסקירה: הוספת יישומונים, שינוי סדר הופעתם. כל משתמש יכול לגש ללוח סקירה כללית משל עצמו.',
 	'Dashboard_Dashboard' => 'פאנל סקירה',
-	'Dashboard_AddWidget' => 'הוספת יישומון...',
 	'Dashboard_DeleteWidgetConfirm' => 'למחוק את היישומון מפאנל הסקירה? 100%?',
 	'Dashboard_SelectWidget' => 'בחירת היישומון להוספה לפאנל הסקירה',
 	'Dashboard_AddPreviewedWidget_js' => 'הוספת היישומון המוצג לפאנל הסקירה',

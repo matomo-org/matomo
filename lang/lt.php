@@ -425,7 +425,6 @@ $translations = array(
 	'CoreUpdater_ExceptionArchiveIncomplete' => 'Archyvas nepilnas: trūksta kai kurių failų (pvz. %s).',
 	'Dashboard_PluginDescription' => 'Jūsų žiniatinklio analizės sprendimo skydelis. Galite pritaikyti skydelį savo poreikiams: pridėti naujų valdiklių, pakeisti jų išdėstymo tvarką. Kiekvienas naudotojas gali susikurti savo asmeninį skydelį.',
 	'Dashboard_Dashboard' => 'Skydelis',
-	'Dashboard_AddWidget' => 'Pridėti valdiklį...',
 	'Dashboard_DeleteWidgetConfirm' => 'Ar tikrai norite pašalinti šį valdiklį iš skydelio?',
 	'Dashboard_SelectWidget' => 'Pasirinkite valdiklį, kurį norite įdėti į skydelį',
 	'Dashboard_AddPreviewedWidget_js' => 'Įdėti peržiūrėtą valdiklį į skydelį',

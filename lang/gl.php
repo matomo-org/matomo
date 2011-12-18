@@ -198,7 +198,6 @@ $translations = array(
 	'CorePluginsAdmin_Deactivate' => 'Desactivar',
 	'CorePluginsAdmin_Activate' => 'Activar',
 	'CorePluginsAdmin_MenuPlugins' => 'Plugins',
-	'Dashboard_AddWidget' => 'Engadir un widget ...',
 	'Dashboard_DeleteWidgetConfirm' => '¿Está seguro de que desexa borrar este widget desde el tablón?',
 	'Dashboard_SelectWidget' => 'Seleccione un widget para engadilo no tablón',
 	'Dashboard_TitleWidgetInDashboard_js' => 'O widget xa se atopa no taboleiro',

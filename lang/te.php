@@ -208,7 +208,6 @@ $translations = array(
 	'CoreUpdater_UpgradeComplete' => 'నవీకరణ పూర్తయ్యింది!',
 	'CoreUpdater_WarningMessages' => 'హెచ్చరిక సందేశాలు:',
 	'Dashboard_Dashboard' => 'డాష్‌బోర్డు',
-	'Dashboard_AddWidget' => 'ఒక విడ్జెటుని చేర్చండి...',
 	'Dashboard_WidgetPreview_js' => 'విడ్జెట్ మునుజూపు',
 	'Dashboard_Close_js' => 'మూసివేయి',
 	'Dashboard_TitleWidgetInDashboard_js' => 'విడ్జెట్ ఇప్పటికే డాష్‌బోర్డులో ఉంది',

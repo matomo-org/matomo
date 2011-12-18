@@ -353,7 +353,6 @@ $translations = array(
 	'CoreUpdater_ExceptionArchiveIncomplete' => 'Archív je nekompletní: některé soubory chybí (např.: %s).',
 	'Dashboard_PluginDescription' => 'Váše nástěnka analýzy Web stránek. Můžete si jí upravit: přidat nové widgety, změnit jejich pořadí. Každý uživatel přistupuje ke své vlastní nástěncei',
 	'Dashboard_Dashboard' => 'Nástěnka',
-	'Dashboard_AddWidget' => 'Přidat widget...',
 	'Dashboard_DeleteWidgetConfirm' => 'Jste si jistí, že chcete odstranit tento widget z nástěnky?',
 	'Dashboard_SelectWidget' => 'Zvolte widget pro přidání na nástěnku',
 	'Dashboard_AddPreviewedWidget_js' => 'Přidat widget v náhledu na nástěnku',

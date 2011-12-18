@@ -306,7 +306,6 @@ $translations = array(
 	'CoreUpdater_ExceptionArchiveEmpty' => 'Artxibo hutsa.',
 	'CoreUpdater_ExceptionArchiveIncomplete' => 'Artxiboa osatu gabe dago: fitxategi batzuk falta dira (adib. %s).',
 	'Dashboard_Dashboard' => 'Arbela',
-	'Dashboard_AddWidget' => 'Gehitu widget-a...',
 	'Dashboard_DeleteWidgetConfirm' => 'Ziur zaude widget hau arbeletik ezabatu nahi duzula?',
 	'Dashboard_SelectWidget' => 'Hautatu arbelean gehitzeko widget-a',
 	'Dashboard_AddPreviewedWidget_js' => 'Gehitu arbelean aurrebistako widget-a',

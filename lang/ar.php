@@ -416,7 +416,6 @@ $translations = array(
 	'CustomVariables_ColumnCustomVariableValue' => 'قيمة المتغير المخصص',
 	'Dashboard_PluginDescription' => 'لوحتك لإدارة تحليلات ويب. يمكنك تخصيص لوحة التحكم، إضافة لوحات أدوات، وتغيير ترتيبها. يمكن لكل مستخدم الوصول للوحة الإدارة الخاصة به.',
 	'Dashboard_Dashboard' => 'لوحة التحكم',
-	'Dashboard_AddWidget' => 'إضافة لوحة أداة',
 	'Dashboard_DeleteWidgetConfirm' => 'هل ترغب حقاً في حذف لوحة الأداة هذه من لوحة التحكم.',
 	'Dashboard_SelectWidget' => 'اختر لوحة الأداة لإضافتها للوحة التحكم',
 	'Dashboard_AddPreviewedWidget_js' => 'أضف لوحة الأداة التي تم معاينتها إلى لوحة التحكم',

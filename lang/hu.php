@@ -448,7 +448,6 @@ $translations = array(
 	'CoreUpdater_ExceptionArchiveIncomplete' => 'Hiányos archívum: néhány fájl hiányzik (pl. %s).',
 	'Dashboard_PluginDescription' => 'Webanalitikai vezérlőpultod. Állítsd be ízlésednek megfelelően a saját vezérlőpultod: adj hozzá újabb modulokat vagy változtasd meg azok sorrendjét. Minden felhasználónak saját egyéni vezérlőpultja van.',
 	'Dashboard_Dashboard' => 'Vezérlőpult',
-	'Dashboard_AddWidget' => 'Kiegészítő hozzáadása…',
 	'Dashboard_DeleteWidgetConfirm' => 'Biztosan törölni akarod ezt a modult a vezérlőpultról?',
 	'Dashboard_SelectWidget' => 'Válaszd ki melyik modult szeretnéd hozzáadni a vezérlőpulthoz!',
 	'Dashboard_AddPreviewedWidget_js' => 'Add hozzá a megtekintett modult a vezérlőpultodhoz',
