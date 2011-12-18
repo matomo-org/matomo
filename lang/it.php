@@ -473,7 +473,6 @@ $translations = array(
 	'CustomVariables_ColumnCustomVariableValue' => 'Valori Variabili Personalizzate',
 	'Dashboard_PluginDescription' => 'La tua Dashboard di Web Analytics. Puoi personalizzare la TUA Dashboard: puoi aggiungere nuovi widget e cambiarne l\'ordine.Ogni utente può accedere alla propria Dashboard personalizzata.',
 	'Dashboard_Dashboard' => 'Dashboard',
-	'Dashboard_AddWidget' => 'Aggiungi widget...',
 	'Dashboard_DeleteWidgetConfirm' => 'Sei sicuro di voler eliminare il widget dalla dashboard?',
 	'Dashboard_SelectWidget' => 'Seleziona il widget da aggiungere nella dashboard',
 	'Dashboard_AddPreviewedWidget_js' => 'Aggiungi il widget visualizzato nella dashboard',

@@ -506,7 +506,6 @@ $translations = array(
 	'CustomVariables_CustomVariablesReportDocumentation' => 'Este reporte contiene información sobre sus Variables Personalizadas. Haga clic en el nombre de una variable para ver la distribución de los valores. %s Para más información sobre las Variables Personalizadas en general, lea la %sdocumentación de Variables Personalizadas en piwik.org%s',
 	'Dashboard_PluginDescription' => 'Tu Panel de Análisis Web. Puedes personalizar su Panel: agregar nuevos widgets, cambiar el orden de tus widgets. Cada usuario puede acceder a su propio Panel personalizado.',
 	'Dashboard_Dashboard' => 'Panel',
-	'Dashboard_AddWidget' => 'Añadir un widget...',
 	'Dashboard_DeleteWidgetConfirm' => '¿Está seguro de que quiere borrar este widget de su panel?',
 	'Dashboard_SelectWidget' => 'Selecciona el widget para añadir en el panel',
 	'Dashboard_AddPreviewedWidget_js' => 'Añade el widget previsualizado al panel',

@@ -364,7 +364,6 @@ $translations = array(
 	'CoreUpdater_ExceptionArchiveIncomplete' => '檔案是不完整的：遺失某些檔案（例如 %s）。',
 	'Dashboard_PluginDescription' => '你的網站分析控制台。你可以自動你的控制台：新增新的模組、變更你的模組排序。每位使用者可以存取他們自訂的控制台。',
 	'Dashboard_Dashboard' => '展示板',
-	'Dashboard_AddWidget' => '新增一個組件...',
 	'Dashboard_DeleteWidgetConfirm' => '您確定要從展示板中刪除此組件嗎？',
 	'Dashboard_SelectWidget' => '請選取欲增加至展示板的組件',
 	'Dashboard_AddPreviewedWidget_js' => '增加已預覽的組件至展示板',

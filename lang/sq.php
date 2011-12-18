@@ -412,7 +412,6 @@ $translations = array(
 	'CustomVariables_ColumnCustomVariableValue' => 'Vlerë Ndryshoreje të Personalizueshme',
 	'Dashboard_PluginDescription' => 'Pulti Juaj Për Analiza Web. Pultin Tuaj mund ta personalizoni: shtoni "widget"-e të rinj, ndryshoni radhën e "widget"-eve tuaja. Çdo përdorues mund të hyjë te Pulti i tij i personalizuar.',
 	'Dashboard_Dashboard' => 'Pulti',
-	'Dashboard_AddWidget' => 'Shtoni një "widget"...',
 	'Dashboard_DeleteWidgetConfirm' => 'Jeni i sigurt se doni të fshihet ky "widget" prej pulti?',
 	'Dashboard_SelectWidget' => 'Përzgjidhni "widget"-in që doni të shtoni te pulti',
 	'Dashboard_AddPreviewedWidget_js' => 'Shtoje "widget"-in e paraparë te pulti',

@@ -475,7 +475,6 @@ $translations = array(
 	'CustomVariables_ColumnCustomVariableValue' => 'ค่าตัวแปรที่กำหนดเอง',
 	'Dashboard_PluginDescription' => 'แผงควบคุมของการวิเคราะห์เว็บไซต์ คุณสามารถกำหนดเองของคุณกระดาน: เพิ่มเครื่องมือใหม่ เปลี่ยนลำดับของเครื่องมือของคุณได้ แต่ละผู้ใช้สามารถเข้าถึงกระดานข้อมูลแบบกำหนดเองของเขาเอง',
 	'Dashboard_Dashboard' => 'แผงควบคุม',
-	'Dashboard_AddWidget' => 'เพิ่ม widget...',
 	'Dashboard_DeleteWidgetConfirm' => 'คุณแน่ใจไหมที่จะลบ widget นี้ออกจากแผงควบคุม?',
 	'Dashboard_SelectWidget' => 'เลือก widget เพื่อเพิ่มในแผงควบคุม',
 	'Dashboard_AddPreviewedWidget_js' => 'เพิ่ม widget ที่ตัวอย่างในแผงควบคุม',

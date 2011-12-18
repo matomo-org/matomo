@@ -195,7 +195,6 @@ $translations = array(
 	'CoreUpdater_ExceptionArchiveEmpty' => 'Arxiu buit',
 	'CoreUpdater_ExceptionArchiveIncomplete' => 'L\'arxiu és incomplet: manquen alguns fitxers (per exemple, %s).',
 	'Dashboard_Dashboard' => 'Tauler',
-	'Dashboard_AddWidget' => 'Afegeix un giny…',
 	'Dashboard_DeleteWidgetConfirm' => 'Realment voleu esborrar aquest giny?',
 	'Dashboard_SelectWidget' => 'Escolliu el giny que voleu afegir a la consola',
 	'Dashboard_AddPreviewedWidget_js' => 'Afegeix el giny al tauler',

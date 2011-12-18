@@ -209,7 +209,6 @@ $translations = array(
 	'CoreUpdater_PiwikUpdatedSuccessfully' => 'Piwik 업데이트가 성공적으로 완료되었습니다!',
 	'CoreUpdater_EmptyDatabaseError' => '데이터베이스 %s 는 비어있습니다. Piwik 설정 파일을 편집하거나 제거해야 합니다.',
 	'Dashboard_Dashboard' => '대시보드',
-	'Dashboard_AddWidget' => '위젯 추가...',
 	'Dashboard_DeleteWidgetConfirm' => '대시보드에서 이 위젯을 삭제하시겠습니까?',
 	'Dashboard_SelectWidget' => '대시보드에 추가할 위젯 선택',
 	'Dashboard_AddPreviewedWidget_js' => '대시보드에 미리보기된 위젯 추가',

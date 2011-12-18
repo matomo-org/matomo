@@ -403,7 +403,6 @@ $translations = array(
 	'CustomVariables_ColumnCustomVariableValue' => 'Съдържание на променлива',
 	'Dashboard_PluginDescription' => 'Табло на Вашият Уеб Анализатор. Можете да персонализирате Вашето Табло: да добавяте нови джаджи, да променяте подредбата им. Всеки потребител има достъп до своето собствено Табло.',
 	'Dashboard_Dashboard' => 'Табло',
-	'Dashboard_AddWidget' => 'Добави джаджа...',
 	'Dashboard_DeleteWidgetConfirm' => 'Наистина ли искате да изтриете тази джаджа от таблото?',
 	'Dashboard_SelectWidget' => 'Изберете джаджа, която да добавите на таблото',
 	'Dashboard_AddPreviewedWidget_js' => 'Добави джаджата на таблото',

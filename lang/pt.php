@@ -363,7 +363,6 @@ $translations = array(
 	'CoreUpdater_ExceptionArchiveIncomplete' => 'O arquivo está incompleto: faltam alguns ficheiros (ex. %s).',
 	'Dashboard_PluginDescription' => 'O seu Painel de Controlo de Analíticas Web. Pode personalizar o seu Painel de Controlo: adicionar novos widgets, alterar a ordem dos seus widgets. Cada utilizador tem acesso ao seu próprio Painel de Controlo personalizado.',
 	'Dashboard_Dashboard' => 'Painel de Controlo',
-	'Dashboard_AddWidget' => 'Adicionar um widget...',
 	'Dashboard_DeleteWidgetConfirm' => 'Tem a certeza que deseja excluir este widget do seu painel de controlo?',
 	'Dashboard_SelectWidget' => 'Seleccione o widget para adicionar ao painel de controlo',
 	'Dashboard_AddPreviewedWidget_js' => 'Adicionar o widget pré-visualizado ao painel de controlo',

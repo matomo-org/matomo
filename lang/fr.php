@@ -504,7 +504,6 @@ $translations = array(
 	'CustomVariables_CustomVariablesReportDocumentation' => 'Ce rapport contient des informations à propos de vos Variables Personnalisées. Cliquez sur un nom de variable pour voir la répartition de la valeur. %s Pour plus d\'informations à propos des variables personnalisées en général, lisez la %s documentation sur les variables personnalisées sur piwik.org%s',
 	'Dashboard_PluginDescription' => 'Votre tableau de bord de statistiques web. Vous pouvez personnaliser votre tableau de bord: ajoutez de nouveau widgets, changez l\'ordre de vos widgets. Chaque utilisateur peut accéder à son propre tableau de bord.',
 	'Dashboard_Dashboard' => 'Tableau de bord',
-	'Dashboard_AddWidget' => 'Ajouter un widget...',
 	'Dashboard_DeleteWidgetConfirm' => 'Êtes-vous sûr de vouloir supprimer ce widget du tableau de bord?',
 	'Dashboard_SelectWidget' => 'Sélectionnez le widget à ajouter au tableau de bord',
 	'Dashboard_AddPreviewedWidget_js' => 'Ajouter le widget visualisé au tableau de bord',

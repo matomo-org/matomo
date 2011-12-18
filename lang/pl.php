@@ -413,7 +413,6 @@ $translations = array(
 	'CustomVariables_ColumnCustomVariableValue' => 'Wartość zmiennej niestandardowej',
 	'Dashboard_PluginDescription' => 'Tablica analityki. Możesz skonfigurować swoją tablicę tak jak zaplanujesz: możesz dodać nowe widżety, zmienić porządek ich wyświetlania. Każdy z uprawnionych użytkowników może posiadać własną zindywidualizowaną tablicę statystyk.',
 	'Dashboard_Dashboard' => 'Tablica statystyk',
-	'Dashboard_AddWidget' => 'Dodaj widżet...',
 	'Dashboard_DeleteWidgetConfirm' => 'Czy jesteś pewien, że chcesz usunąć ten widżet z tej tablicy statystyk?',
 	'Dashboard_SelectWidget' => 'Wybierz widżet który chcesz dodać do tablicy statystyk',
 	'Dashboard_AddPreviewedWidget_js' => 'Dodaj obejrzane widżety do tablicy',

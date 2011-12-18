@@ -182,7 +182,6 @@ $translations = array(
 	'CoreUpdater_InstallingTheLatestVersion' => 'አዲሱን ስሪት በመጫን ላይ',
 	'CoreUpdater_PiwikUpdatedSuccessfully' => 'የፒዊክ ማላቅ ተሳክቷል!',
 	'Dashboard_Dashboard' => 'ዳሽቦርድ',
-	'Dashboard_AddWidget' => 'widget ጨምር...',
 	'Dashboard_DeleteWidgetConfirm' => 'እርግጠኛ ነህ ይህ widget ከዳሽቦርድ ይሰረዝ?',
 	'Dashboard_SelectWidget' => 'ወደ ዳሽቦርድ የሚጨመረውን widget ምረጥ',
 	'Dashboard_AddPreviewedWidget_js' => 'ቅድመ እይታ የተሰጠውን widget ወደ ዳሽቦርዱ ጨምር',

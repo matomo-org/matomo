@@ -204,7 +204,6 @@ $translations = array(
 	'CoreUpdater_PiwikUpdatedSuccessfully' => 'Piwik با موفقیت به روز رسانی شد!',
 	'CoreUpdater_ExceptionArchiveEmpty' => 'بایگانی خالی.',
 	'Dashboard_Dashboard' => 'داشبورد',
-	'Dashboard_AddWidget' => 'ایجاد یک ابزار...',
 	'Dashboard_SelectWidget' => 'یک ابزار برای اضافه کردن در داشبورد انتخاب کنید',
 	'Dashboard_Close_js' => 'بستن',
 	'Dashboard_TitleWidgetInDashboard_js' => 'ابزار در حال حاضر در داشبورد است',

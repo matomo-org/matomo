@@ -296,7 +296,6 @@ $translations = array(
 	'CoreUpdater_ExceptionArchiveEmpty' => 'Tomt arkiv.',
 	'CoreUpdater_ExceptionArchiveIncomplete' => 'Arkivet er mangelfullt: nokon filar manglar (td %s).',
 	'Dashboard_Dashboard' => 'Dashbord',
-	'Dashboard_AddWidget' => 'Legg til ein dings...',
 	'Dashboard_DeleteWidgetConfirm' => 'Er du sikker på at du vil fjerna denne dingsen frå ditt dashbord?',
 	'Dashboard_SelectWidget' => 'Vel den dingsen du vil legga til dashbordet',
 	'Dashboard_AddPreviewedWidget_js' => 'Legg framvist dings til dashbordet',

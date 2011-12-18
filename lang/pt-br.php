@@ -359,7 +359,6 @@ $translations = array(
 	'CoreUpdater_ExceptionArchiveIncomplete' => 'Arquivo está incompleto: alguns arquivos estão faltando (ex. %s).',
 	'Dashboard_PluginDescription' => 'Seu painel de ferramentas',
 	'Dashboard_Dashboard' => 'Painel de Ferramentas',
-	'Dashboard_AddWidget' => 'Adicionar um widget...',
 	'Dashboard_DeleteWidgetConfirm' => 'Tem certeza que deseja excluir este widget do seu Painel?',
 	'Dashboard_SelectWidget' => 'Selecione o widget a adicionar ao painel',
 	'Dashboard_AddPreviewedWidget_js' => 'Adicionar o widget visualizado no preview ao painel',

@@ -504,7 +504,6 @@ $translations = array(
 	'CustomVariables_CustomVariablesReportDocumentation' => 'Rapporten indeholder oplysninger om brugerdefinerede variabler. Klik på et variabelnavn se fordeling af værdier. %s Yderligere oplysninger om brugerdefinerede variabler generelt, læs %sBrugerdefinerede variabel dokumentation på piwik.org%s',
 	'Dashboard_PluginDescription' => 'Kontrolpanelet kan tilpasses: tilføj nye kontroller, ændre rækkefølgen af dem. Hver bruger kan få adgang til sit eget brugerdefinerede kontrolpanel.',
 	'Dashboard_Dashboard' => 'Kontrolpanel',
-	'Dashboard_AddWidget' => 'Tilføj en kontrol...',
 	'Dashboard_DeleteWidgetConfirm' => 'Bekræft fjernelse af kontrol fra kontrolpanelet?',
 	'Dashboard_SelectWidget' => 'Vælg kontrol som skal tilføjes kontrolpanelet.',
 	'Dashboard_AddPreviewedWidget_js' => 'Tilføj forhåndsvist kontrol til kontrolpanelet.',

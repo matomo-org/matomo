@@ -361,7 +361,6 @@ $translations = array(
 	'CoreUpdater_ExceptionArchiveIncomplete' => '文件是不完整的：遗失某些文件（例如 %s）。',
 	'Dashboard_PluginDescription' => '您的网站分析控制台。您可以自动您的控制台：新增新的模組、变更您的模組排序。每位使用者可以存取他们自定义的控制台。',
 	'Dashboard_Dashboard' => '控制台',
-	'Dashboard_AddWidget' => '增加一个小工具...',
 	'Dashboard_DeleteWidgetConfirm' => '您确定要从控制台中删除此小工具吗？',
 	'Dashboard_SelectWidget' => '请选取小工具',
 	'Dashboard_Close_js' => '关闭',

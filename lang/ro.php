@@ -150,7 +150,6 @@ $translations = array(
 	'CoreUpdater_InstallingTheLatestVersion' => 'Instaleaza ultima versiune',
 	'CoreUpdater_PiwikUpdatedSuccessfully' => 'Piwik actualizat cu succes!',
 	'Dashboard_Dashboard' => 'Tablou de bord',
-	'Dashboard_AddWidget' => 'Adauga un dispozitiv...',
 	'Dashboard_DeleteWidgetConfirm' => 'Esti sigur ca doresti sa stergi dispozitivul din  tabloul de bord ?',
 	'Dashboard_SelectWidget' => 'Selecteaza dispozitivul ce doresti sa-l adaugi in panoul de bord',
 	'Dashboard_TitleWidgetInDashboard_js' => 'Dispozitivul este in tabloul de bord',
