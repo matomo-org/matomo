@@ -52,6 +52,9 @@ broadcast.pageload = function( hash ) {
 	if( hash ) {
 		// restore ajax loaded state
 		broadcast.loadAjaxContent(hash);
+
+		// Hack: make sure the "Widgets & Dashboard" is deleted on reload
+		$('#dashboardSettings').remove();
 	} else {
 		// start page
 		$('#content').empty();
@@ -333,3 +336,4 @@ broadcast.getParamValue = function (param, url)
         return '';
     }
 };
+
