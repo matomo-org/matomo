@@ -624,7 +624,13 @@ abstract class Piwik_ArchiveProcessing
 
 	static public function getPluginBeingProcessed( $requestedReport )
 	{
-		return substr($requestedReport, 0, strpos($requestedReport, '_'));
+		$plugin = substr($requestedReport, 0, strpos($requestedReport, '_'));
+		if(empty($plugin)
+		    || !Piwik_PluginsManager::getInstance()->isPluginActivated($plugin))
+	    {
+	        throw new Exception("The requested report is not a valid report, please check the request");
+	    }
+		return $plugin;
 	}
 	
 	/**
