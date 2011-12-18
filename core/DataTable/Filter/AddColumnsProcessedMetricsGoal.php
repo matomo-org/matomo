@@ -157,12 +157,13 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 					$newColumns[$name] = $revenuePerVisit;
 					$expectedColumns[$name] = true;
 					
+					// Total revenue
+					$name = 'goal_' . $goalId . '_revenue';
+					$newColumns[$name] = $goalRevenue;
+					$expectedColumns[$name] = true;
+					
 					if($this->isEcommerce )
 					{
-						// Total revenue
-						$name = 'goal_' . $goalId . '_revenue';
-						$newColumns[$name] = $goalRevenue;
-						$expectedColumns[$name] = true;
 						
 						// AOV Average Order Value
 						$name = 'goal_' . $goalId . '_avg_order_revenue';
