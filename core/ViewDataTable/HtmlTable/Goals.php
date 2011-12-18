@@ -67,6 +67,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 			$this->setColumnsTranslations( array(
 				'goal_%s_conversion_rate' => Piwik_Translate('Goals_ConversionRate'),
 				'goal_%s_nb_conversions' => Piwik_Translate('Goals_Conversions'),
+				'goal_%s_revenue' => '%s ' . Piwik_Translate('Goals_ColumnRevenue'),
 				'goal_%s_revenue_per_visit' => '%s ' . Piwik_Translate('General_ColumnValuePerVisit'),
 			
 				'nb_conversions' => Piwik_Translate('Goals_ColumnConversions'),
@@ -79,6 +80,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 				'nb_visits',
 				'goal_%s_nb_conversions',
 				'goal_%s_conversion_rate',
+				'goal_%s_revenue',
 				'goal_%s_revenue_per_visit',
 				'revenue_per_visit',
 			));
@@ -110,10 +112,11 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 		{
 			$goals = Piwik_Goals_API::getInstance()->getGoals( $idSite );
 			
-			$ecommerceGoal = 	array(	
-							'idgoal' => Piwik_Archive::LABEL_ECOMMERCE_ORDER, 
-							'name' => Piwik_Translate('Goals_EcommerceOrder')
-					);
+			$ecommerceGoal = array(	
+				'idgoal' => Piwik_Archive::LABEL_ECOMMERCE_ORDER, 
+				'name' => Piwik_Translate('Goals_EcommerceOrder')
+			);
+			
 			$site = new Piwik_Site($idSite);
 			//Case Ecommerce report table 
 			if($this->isEcommerce)
