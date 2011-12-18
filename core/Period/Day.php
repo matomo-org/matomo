@@ -35,7 +35,7 @@ class Piwik_Period_Day extends Piwik_Period
 	{
 		//"Mon 15 Aug"
 		$date = $this->getDateStart();
-		$template = "%longDay% %day% %longMonth% %longYear%";
+		$template = Piwik_Translate('CoreHome_DateFormat');
 		$out = $date->getLocalized($template);
 		return $out;
 	}
