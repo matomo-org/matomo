@@ -171,6 +171,10 @@ dashboard.prototype =
 		{
 			widgetParameters['viewDataTable'] = viewDataTableToRestore;
 		}
+		var segment = broadcast.getValueFromHash('segment');
+		if(segment.length) {
+			widgetParameters['segment'] = segment;
+		}
 		piwikHelper.queueAjaxRequest( $.ajax(widgetsHelper.getLoadWidgetAjaxRequest(uniqueId, widgetParameters, onWidgetLoadedReplaceElementWithContent)) );
 	},
 	

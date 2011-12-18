@@ -329,7 +329,7 @@ broadcast.getParamValue = function (param, url)
         }
         var value = url.substring(startStr + param.length +1,endStr);
         // sanitize values
-        var value = value.replace(/[^_%\-,0-9a-zA-Z]/gi, '');
+        var value = value.replace(/[^_%\-\<\>!@=,0-9a-zA-Z]/gi, '');
         
         return value;
     } else {

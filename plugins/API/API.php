@@ -208,7 +208,7 @@ class Piwik_API_API
 		        'category' => 'Visit',
 		        'name' => 'General_VisitorID',
 		        'segment' => 'visitorId',
-				'acceptedValues' => '34c31e04394bdc63 - any 16 chars ID requested via the Tracking API function getVisitorId()',
+				'acceptedValues' => '34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()',
 		        'sqlSegment' => 'log_visit.idvisitor',
 		        'sqlFilter' => array('Piwik_Common', 'convertVisitorIdToBin'),
 	    );

@@ -580,7 +580,8 @@ dataTable.prototype =
 					str += '&segment='+segment;
 				}
 				// Export Goals specific reports
-				if(typeof idGoal != 'undefined') {
+				if(typeof idGoal != 'undefined'
+					&& idGoal != '-1') {
 					str += '&idGoal='+idGoal;
 				}
 				if( filter_limit )
