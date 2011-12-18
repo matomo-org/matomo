@@ -260,7 +260,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'すべての母集団（統計の対象とする集団）を含める',
 	'CoreHome_ExcludeLowPopulation_js' => '低い母集団（統計の対象とする集団）を除外する',
 	'CoreHome_PageOf_js' => '%1$s / %2$s',
-	'CoreHome_DayFormat' => '%longYear% %longMonth% %day% %longDay%',
 	'CoreHome_PeriodDay' => '日',
 	'CoreHome_PeriodWeek' => '週',
 	'CoreHome_PeriodMonth' => '月',

@@ -351,7 +351,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'ใช้งานสถิติทั้งหมด',
 	'CoreHome_ExcludeLowPopulation_js' => 'ใช้งานสถิติขั้นต่ำ',
 	'CoreHome_PageOf_js' => '%1$s ของ %2$s',
-	'CoreHome_DayFormat' => '%วันแบบเต็ม%วัน%เดือนแบบเต็ม%%ปีแบบเต็ม%',
 	'CoreHome_PeriodDay' => 'วัน',
 	'CoreHome_PeriodWeek' => 'สัปดาห์',
 	'CoreHome_PeriodMonth' => 'เดือน',

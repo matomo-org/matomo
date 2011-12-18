@@ -113,7 +113,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => '모든 집단 포함',
 	'CoreHome_ExcludeLowPopulation_js' => '낮은 집단 제외',
 	'CoreHome_PageOf_js' => '%1$s : %2$s',
-	'CoreHome_DayFormat' => '%longYear%년 %longMonth% %day%일 %longDay%',
 	'CoreHome_PeriodDay' => '일간',
 	'CoreHome_PeriodWeek' => '주간',
 	'CoreHome_PeriodMonth' => '월간',

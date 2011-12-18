@@ -260,7 +260,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'Включити всі групи людей',
 	'CoreHome_ExcludeLowPopulation_js' => 'Виключити малочисельні групи людей',
 	'CoreHome_PageOf_js' => '%1$s із %2$s',
-	'CoreHome_DayFormat' => '%longDay% %day% %longMonth% %longYear%',
 	'CoreHome_PeriodDay' => 'День',
 	'CoreHome_PeriodWeek' => 'Тиждень',
 	'CoreHome_PeriodMonth' => 'Місяць',

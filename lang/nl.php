@@ -335,7 +335,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'Toon alle data',
 	'CoreHome_ExcludeLowPopulation_js' => 'Verberg te verwaarlozen data',
 	'CoreHome_PageOf_js' => '%1$s van %2$s',
-	'CoreHome_DayFormat' => '%longDay% %day% %longMonth% %longYear%',
 	'CoreHome_PeriodDay' => 'Dag',
 	'CoreHome_PeriodWeek' => 'Week',
 	'CoreHome_PeriodMonth' => 'Maand',

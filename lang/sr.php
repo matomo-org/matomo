@@ -332,7 +332,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'Uključi celu populaciju',
 	'CoreHome_ExcludeLowPopulation_js' => 'Isključi celu populaciju',
 	'CoreHome_PageOf_js' => '%1$s od %2$s',
-	'CoreHome_DayFormat' => '%longDay% %day% %longMonth% %longYear%',
 	'CoreHome_PeriodDay' => 'Dan',
 	'CoreHome_PeriodWeek' => 'Nedelja',
 	'CoreHome_PeriodMonth' => 'Mesec',

@@ -288,7 +288,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'Inkludera alla träffar',
 	'CoreHome_ExcludeLowPopulation_js' => 'Exkludera få träffar',
 	'CoreHome_PageOf_js' => '%1$s av %2$s',
-	'CoreHome_DayFormat' => '%longDay% %day% %longMonth% %longYear%',
 	'CoreHome_PeriodDay' => 'Dag',
 	'CoreHome_PeriodWeek' => 'Vecka',
 	'CoreHome_PeriodMonth' => 'Månad',

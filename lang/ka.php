@@ -259,7 +259,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'ყველა მონაწილის ჩართვა',
 	'CoreHome_ExcludeLowPopulation_js' => 'დაბალი მონაწილეების გამორიცხვა',
 	'CoreHome_PageOf_js' => '%1$s, სულ %2$s',
-	'CoreHome_DayFormat' => '%longDay% %დღე% %longMonth% %longYear%',
 	'CoreHome_PeriodDay' => 'დღე',
 	'CoreHome_PeriodWeek' => 'კვირა',
 	'CoreHome_PeriodMonth' => 'თვე',

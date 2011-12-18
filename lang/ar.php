@@ -292,7 +292,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'تضمين كافة الكثافات',
 	'CoreHome_ExcludeLowPopulation_js' => 'استثناء الكثافات المنخفضة',
 	'CoreHome_PageOf_js' => '%1$s من %2$s',
-	'CoreHome_DayFormat' => '%longDay% %day% %longMonth% %longYear%',
 	'CoreHome_PeriodDay' => 'يوم',
 	'CoreHome_PeriodWeek' => 'أسبوع',
 	'CoreHome_PeriodMonth' => 'شهر',

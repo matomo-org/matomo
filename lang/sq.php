@@ -288,7 +288,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'Përfshi krejt popullatën',
 	'CoreHome_ExcludeLowPopulation_js' => 'Përjashto popullatën e ulët',
 	'CoreHome_PageOf_js' => '%1$s nga %2$s',
-	'CoreHome_DayFormat' => '%longDay% %day% %longMonth% %longYear%',
 	'CoreHome_PeriodDay' => 'Ditë',
 	'CoreHome_PeriodWeek' => 'Javë',
 	'CoreHome_PeriodMonth' => 'Muaj',

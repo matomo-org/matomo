@@ -289,7 +289,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'Uwzględnij całą populację',
 	'CoreHome_ExcludeLowPopulation_js' => 'Wyklucz niewielkie populacje',
 	'CoreHome_PageOf_js' => '%1$s z %2$s',
-	'CoreHome_DayFormat' => '%longDay% %day% %longMonth% %longYear%',
 	'CoreHome_PeriodDay' => 'dzień',
 	'CoreHome_PeriodWeek' => 'tydzień',
 	'CoreHome_PeriodMonth' => 'miesiąc',

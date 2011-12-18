@@ -235,7 +235,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'Zobrazit všechny výsledky',
 	'CoreHome_ExcludeLowPopulation_js' => 'Vynechat nízké výsledky',
 	'CoreHome_PageOf_js' => '%s z %s',
-	'CoreHome_DayFormat' => '%longDay% %day% %longMonth% %longYear%',
 	'CoreHome_PeriodDay' => 'Den',
 	'CoreHome_PeriodWeek' => 'Týden',
 	'CoreHome_PeriodMonth' => 'Měsíc',

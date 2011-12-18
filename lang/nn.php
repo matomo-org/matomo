@@ -185,7 +185,6 @@ $translations = array(
 	'CoreHome_IncludeAllPopulation_js' => 'Inkluder heile populasjonen',
 	'CoreHome_ExcludeLowPopulation_js' => 'Ekskluder låg populasjon',
 	'CoreHome_PageOf_js' => '%1$s av %2$s',
-	'CoreHome_DayFormat' => '%langDag% %dag% %langMånad% %langtÅr%',
 	'CoreHome_PeriodDay' => 'Dag',
 	'CoreHome_PeriodWeek' => 'Veke',
 	'CoreHome_PeriodMonth' => 'Månad',

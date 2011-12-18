@@ -136,7 +136,6 @@ $translations = array(
 	'CoreAdminHome_PluginDescription' => 'పివిక్ యొక్క నిర్వహణా కేంద్రం.',
 	'CoreAdminHome_MenuGeneralSettings' => 'సాధారణ అమరికలు',
 	'CoreAdminHome_Administration' => 'నిర్వహణ',
-	'CoreHome_DayFormat' => '%longDay% %day% %longMonth% %longYear%',
 	'CoreHome_PeriodDay' => 'రోజు',
 	'CoreHome_PeriodWeek' => 'వారం',
 	'CoreHome_PeriodMonth' => 'నెల',
