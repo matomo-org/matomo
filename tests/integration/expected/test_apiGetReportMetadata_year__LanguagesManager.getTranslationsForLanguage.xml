@@ -2017,10 +2017,6 @@
 		<value>Tableau de bord</value>
 	</row>
 	<row>
-		<label>Dashboard_AddWidget</label>
-		<value>Ajouter un widget...</value>
-	</row>
-	<row>
 		<label>Dashboard_DeleteWidgetConfirm</label>
 		<value>Êtes-vous sûr de vouloir supprimer ce widget du tableau de bord?</value>
 	</row>
