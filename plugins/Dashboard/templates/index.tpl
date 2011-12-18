@@ -120,7 +120,7 @@ function showChangeDashboardLayoutDialog() {
         <span>{'Dashboard_WidgetsAndDashboard'|translate}</span>
         <ul class="submenu">
             <li>
-                <div id='addWidget'>{'Dashboard_AddWidget'|translate}</div>
+                <div id='addWidget'>{'Dashboard_AddAWidget'|translate} &darr;</div>
                 <ul class="widgetpreview-categorylist"></ul>
             </li>
             <li onclick="resetDashboard();">{'Dashboard_ResetDashboard'|translate}</li>
