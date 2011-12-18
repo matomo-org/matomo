@@ -125,7 +125,7 @@
 		<category>Visit</category>
 		<name>Visitor ID</name>
 		<segment>visitorId</segment>
-		<acceptedValues>34c31e04394bdc63 - any 16 chars ID requested via the Tracking API function getVisitorId()</acceptedValues>
+		<acceptedValues>34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
