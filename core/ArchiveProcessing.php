@@ -403,7 +403,7 @@ abstract class Piwik_ArchiveProcessing
 		//   is greater than the last day of the archive 
 		elseif($this->endTimestampUTC <= $this->time)
 		{
-			$minDatetimeArchiveProcessedUTC = $this->endTimestampUTC+1;
+			$minDatetimeArchiveProcessedUTC = $this->endTimestampUTC;
 		}
 		// - if the period we're looking for is not finished, we look for a recent enough archive
 		else
