@@ -28,8 +28,7 @@ class Piwik_Period_Day extends Piwik_Period
 	{
 		//"Mon 15 Aug"
 		$date = $this->getDateStart();
-		$template = "%shortDay% %day% %shortMonth%";
-		$out = $date->getLocalized($template);
+		$out = $date->getLocalized(Piwik_Translate('CoreHome_ShortDateFormat'));
 		return $out;
 	}
 	public function getLocalizedLongString()

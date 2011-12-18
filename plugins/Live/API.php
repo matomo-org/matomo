@@ -158,10 +158,10 @@ class Piwik_Live_API
 			$visitorDetailsArray['serverTimestamp'] = $visitorDetailsArray['lastActionTimestamp'];
 			$dateTimeVisit = Piwik_Date::factory($visitorDetailsArray['lastActionTimestamp'], $timezone);
 			$visitorDetailsArray['serverTimePretty'] = $dateTimeVisit->getLocalized('%time%');
-			$visitorDetailsArray['serverDatePretty'] = $dateTimeVisit->getLocalized('%shortDay% %day% %shortMonth%');
+			$visitorDetailsArray['serverDatePretty'] = $dateTimeVisit->getLocalized(Piwik_Translate('CoreHome_ShortDateFormat'));
 			
 			$dateTimeVisitFirstAction = Piwik_Date::factory($visitorDetailsArray['firstActionTimestamp'], $timezone);
-			$visitorDetailsArray['serverDatePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized('%shortDay% %day% %shortMonth%');
+			$visitorDetailsArray['serverDatePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized(Piwik_Translate('CoreHome_ShortDateFormat'));
 			$visitorDetailsArray['serverTimePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized('%time%');
 			
 			$idvisit = $visitorDetailsArray['idVisit'];
@@ -304,7 +304,7 @@ class Piwik_Live_API
 					break;
 				}
 				$dateTimeVisit = Piwik_Date::factory($details['serverTimePretty'], $timezone);
-				$details['serverTimePretty'] = $dateTimeVisit->getLocalized('%shortDay% %day% %shortMonth% %time%'); 
+				$details['serverTimePretty'] = $dateTimeVisit->getLocalized(Piwik_Translate('CoreHome_ShortDateFormat') .' %time%'); 
 			}
 			$visitorDetailsArray['goalConversions'] = count($goalDetails);
 			

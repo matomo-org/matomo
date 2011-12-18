@@ -404,6 +404,7 @@ $translations = array(
 	'CoreHome_ExcludeLowPopulation_js' => 'Exclude low population',
 	'CoreHome_PageOf_js' => '%1$s of %2$s',
 	'CoreHome_DayFormat' => '%longDay% %day% %longMonth% %longYear%',
+    'CoreHome_ShortDateFormat' => '%shortDay% %day% %shortMonth%',
 	'CoreHome_PeriodDay' => 'Day',
 	'CoreHome_PeriodWeek' => 'Week',
 	'CoreHome_PeriodMonth' => 'Month',
