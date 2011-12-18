@@ -1005,13 +1005,15 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // Check that requesting period "Range" means 
         // only processing the requested Plugin blob (Actions in this case), not all Plugins blobs
 		$tests = array(
-			// 4 blobs for the Actions plugin, 7 blogs for UserSettings
-			'archive_blob_2010_12' => (4 + 7) * 2, 
+			// 4 blobs for the Actions plugin, 7 blogs for UserSettings, 2 blobs VisitTime
+			'archive_blob_2010_12' => (4 + 7 + 2) * 3, 
 			// (VisitsSummary 5 metrics + 1 flag - no Unique visitors for range) 
 			// + 1 flag archive UserSettings
 			// + (Actions 1 flag + 2 metrics - pageviews, unique pageviews)
-			// + (Frequency 5 metrics + 1 flag) * 2 segments
-			'archive_numeric_2010_12' => (6 + 1 + 3 + 6) * 2,   
+			// + (Frequency 5 metrics + 1 flag)
+			// + 1 flag VisitTime 
+			// * 3 segments
+			'archive_numeric_2010_12' => (6 + 1 + 3 + 6 + 1 ) * 3,   
 		
 			// all "Range" records are in December
 			'archive_blob_2011_01' => 0,
@@ -1021,7 +1023,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		{
 	        $sql = "SELECT count(*) FROM " . Piwik_Common::prefixTable($table) . " WHERE period = ".Piwik::$idPeriods['range'];
 	        $countBlobs = Zend_Registry::get('db')->fetchOne($sql);
-	        $this->assertEqual( $expectedRows, $countBlobs, $table);
+	        $this->assertEqual( $expectedRows, $countBlobs, "$table expected $countBlobs" );
 		}
 	}
 
