@@ -1517,10 +1517,6 @@
 		<value>%1$s de %2$s</value>
 	</row>
 	<row>
-		<label>CoreHome_DayFormat</label>
-		<value>%longDay% %day% %longMonth% %longYear%</value>
-	</row>
-	<row>
 		<label>CoreHome_PeriodDay</label>
 		<value>Jour</value>
 	</row>
