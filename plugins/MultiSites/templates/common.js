@@ -94,11 +94,10 @@ function orderBy(allSites, params)
 	else if(params['mOrderBy'] == 'revenue')
 	{
 		allSites.sort(function (a,b) {
-			if (a['revenue'].replace(/[^0-9\.]+/g,"") == b['revenue'].replace(/[^0-9\.]+/g,"")) {
-				return 0;
-			}
-			return (parseFloat(a['revenue'].replace(/[^0-9\.]+/g,"")) 
-						< parseFloat(b['revenue'].replace(/[^0-9\.]+/g,""))) ? -1 : 1;
+			var lhs = parseFloat(a['revenue'].replace(/[^0-9\.]+/g,"")) || 0,
+				rhs = parseFloat(b['revenue'].replace(/[^0-9\.]+/g,"")) || 0;
+
+			return lhs === rhs ? 0 : ((lhs < rhs) ? -1 : 1);
 		});
 	}
 	else if(params['mOrderBy'] == 'revenueSummary')
