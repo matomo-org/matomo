@@ -66,7 +66,7 @@ widgetsHelper.getWidgetObjectFromUniqueId = function (uniqueId)
 
 widgetsHelper.getWidgetNameFromUniqueId = function (uniqueId)
 {
-	widget = this.getWidgetObjectFromUniqueId(uniqueId);
+	var widget = this.getWidgetObjectFromUniqueId(uniqueId);
 	if(widget == false) {
 		return false;
 	}
@@ -281,10 +281,10 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
                 
                 var previewElement = createPreviewElement();
                 
-                widget = widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId);
-                widgetParameters = widget['parameters'];
+                var widget = widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId);
+                var widgetParameters = widget['parameters'];
                 
-                emptyWidgetHtml = widgetsHelper.getEmptyWidgetHtml(
+                var emptyWidgetHtml = widgetsHelper.getEmptyWidgetHtml(
                                         widgetUniqueId, 
                                         '<div title="'+_pk_translate("Dashboard_AddPreviewedWidget_js")+'">'+
                                             _pk_translate('Dashboard_WidgetPreview_js')+
@@ -293,7 +293,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
                 previewElement.html(emptyWidgetHtml);
                 
                 var onWidgetLoadedCallback = function (response) {
-                    widgetElement = $('#'+widgetUniqueId);
+                    var widgetElement = $('#'+widgetUniqueId);
                     $('.widgetContent', widgetElement).html($(response));
                     settings.onPreviewLoaded(widgetUniqueId, widgetElement);
                     $('.'+settings.widgetpreviewClass+' .widgetTop', widgetPreview).on('click', function(){
@@ -310,7 +310,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
                     widgetAjaxRequest.abort();
                 }
                 
-                ajaxRequest = widgetsHelper.getLoadWidgetAjaxRequest(widgetUniqueId, widgetParameters, onWidgetLoadedCallback);
+                var ajaxRequest = widgetsHelper.getLoadWidgetAjaxRequest(widgetUniqueId, widgetParameters, onWidgetLoadedCallback);
                 widgetAjaxRequest = $.ajax(ajaxRequest);
             };
             
