@@ -271,6 +271,12 @@ latest_version_url = http://piwik.org/latest.zip
 ; subscribeNewsletter.
 api_service_url = http://api.piwik.org
 
+; When the ImageGraph plugin is activated, report metadata have an additional entry : 'imageGraphUrl'.
+; This entry can be used to request a static graph for the requested report.
+; When requesting report metadata with $period=range, Piwik needs to translate it to multiple periods for evolution graphs.
+; eg. $period=range&date=previous10 becomes $period=day&date=previous10. Use this setting to override the $period value.
+graphs_default_period_to_plot_when_period_range = day
+
 [Tracker]
 ; Piwik uses first party cookies by default. If set to 1,
 ; the visit ID cookie will be set on the Piwik server domain as well

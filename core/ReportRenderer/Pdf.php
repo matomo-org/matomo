@@ -229,7 +229,7 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 		$this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportHeaderFontSize);
 		$this->TCPDF->SetTextColor($this->headerTextColor[0], $this->headerTextColor[1], $this->headerTextColor[2]);
 		$this->TCPDF->Bookmark($title);
-		$this->TCPDF->Cell(40, 20, $title);
+		$this->TCPDF->Cell(40, 15, $title);
 		$this->TCPDF->Ln();
 		$this->TCPDF->SetFont($this->reportFont, '', $this->reportSimpleFontSize);
 		$this->TCPDF->SetTextColor($this->reportTextColor[0], $this->reportTextColor[1], $this->reportTextColor[2]);
@@ -267,7 +267,7 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 
 		if($this->displayGraph && $this->displayTable)
 		{
-			$this->TCPDF->Ln();
+			$this->TCPDF->Ln(5);
 		}
 
 		if($this->displayTable)

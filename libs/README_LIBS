@@ -11,6 +11,11 @@ upstream, we maintain a list of bug fixes and local mods made to third-party lib
  * HTML/Quickform2/
    - in r2626, php 5.1.6 incompatibility
    - in r3040, exception classes don't follow PEAR naming convention
+ * pChart2.1.3/
+   - the following files have been removed because they weren't needed or they had license conflicts :
+    class/pBarcode39.class.php, class/pBarcode128.class.php, class/pBubble.class.php, class/pCache.class.php,
+    class/pIndicator.class.php, class/pRadar.class.php, class/pScatter.class.php, class/pSplit.class.php,
+    class/pSpring.class.php, class/pStock.class.php, class/pSurface.class.php, data/, examples/, fonts/, palettes/
  * PclZip/
    - in r1960, ignore touch() - utime failed warning
  * PEAR/, PEAR.php
@@ -21,6 +26,8 @@ upstream, we maintain a list of bug fixes and local mods made to third-party lib
  * sparkline/
    - in r1296, remove require_once
    - empty sparklines with floats, off-by-one errors, and locale conflict
+ * tcpdf/
+   - in r5540, fix a temp file bug when embedding images in PDF
  * Zend/
    - strip require_once (to support autoloading)
    - in r3694, fix ZF-10888 and ZF-10835
