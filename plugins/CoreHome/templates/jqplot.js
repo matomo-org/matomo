@@ -976,9 +976,8 @@ JQPlot.prototype = {
 			// display to the left
 			pickerPopover.addClass('alignright')
 				.css('marginLeft', (linkOffset.left  - neededSpace + 38) + 'px')
-				.css('backgroundPositionX', (pickerPopover.outerWidth() - 25) + 'px')
+				.css('backgroundPosition', (pickerPopover.outerWidth() - 25) + 'px 4px')
 				.show();
-			
 		}
 		pickerPopover.css('marginTop', (linkOffset.top - 5) + 'px').show();
 		
