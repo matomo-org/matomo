@@ -104,7 +104,7 @@ class Piwik_Db_Schema
 
 		$schemas = array();
 
-		foreach($schemaNamess as $schemaName)
+		foreach($schemaNames as $schemaName)
 		{
 			$className = 'Piwik_Db_Schema_'.$schemaName;
 			if(call_user_func(array($className, 'isAvailable')))
