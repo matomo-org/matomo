@@ -154,7 +154,7 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 	function test_svnKeywords()
 	{
 		/*
-		 * Piwik's .php files have $Id$
+		 * Piwik's .php files have $Id: $
 		 */
 		$contents = file_get_contents($file = PIWIK_DOCUMENT_ROOT . '/index.php');
 		$this->assertTrue(strpos($contents, '$Id: '.basename($file).' ') !== false, $file);
@@ -178,7 +178,7 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 			}
 			
 			$contents = file_get_contents($file);
-			$this->assertTrue(strpos($contents, '$Id: ') !== false, $file ." no Id: keyword");
+			$this->assertTrue(strpos($contents, '$Id: ') !== false, $file ." Please add '@version \$Id: \$' in the file header comments");
 		}
 
 		/*
