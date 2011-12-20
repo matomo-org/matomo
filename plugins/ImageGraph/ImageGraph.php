@@ -42,6 +42,7 @@ class Piwik_ImageGraph extends Piwik_Plugin
 		$info = $notification->getNotificationInfo();
 		$reports = &$notification->getNotificationObject();
 		$idSites = $info['idSites'];
+
 		// If only one website is selected, we add the Graph URL
 		if(count($idSites) != 1)
 		{
@@ -58,25 +59,39 @@ class Piwik_ImageGraph extends Piwik_Plugin
 		{
 			$info['date'] = 'today';
 		}
-		// process the date parameter that will allow to plot the Evolution graph over multiple periods 
-		// rather than for just 1 day
-		$lastN = 'last' . self::GRAPH_EVOLUTION_LAST_PERIODS;
-		$dateLastN = $info['date'];
-		
-		// If the date is not already a range, then we process the range to plot on Graph
-		if($info['period'] != 'range')
+
+		// need two sets of period & date, one for single period graphs, one for multiple periods graphs
+		if(Piwik_Archive::isMultiplePeriod($info['date'], $info['period']))
 		{
-			if(!Piwik_Archive::isMultiplePeriod($info['date'], $info['period']))
+			$periodForMultiplePeriodGraph = $info['period'];
+			$dateForMultiplePeriodGraph = $info['date'];
+
+			$periodForSinglePeriodGraph = 'range';
+			$dateForSinglePeriodGraph = $info['date'];
+		}
+		else
+		{
+			$periodForSinglePeriodGraph = $info['period'];
+			$dateForSinglePeriodGraph = $info['date'];
+
+			$piwikSite = new Piwik_Site($idSite);
+			if($periodForSinglePeriodGraph == 'range')
 			{
-				$dateLastN = Piwik_Controller::getDateRangeRelativeToEndDate($info['period'], $lastN, $info['date'], new Piwik_Site($idSite));
+				$periodForMultiplePeriodGraph = Zend_Registry::get('config')->General->graphs_default_period_to_plot_when_period_range;
+				$dateForMultiplePeriodGraph = $dateForSinglePeriodGraph;
 			}
-			// Period is not range, but date is already date1,date2 format
-			// so we draw the graph over the requested range
 			else
 			{
-				$info['period'] = 'range';
+				$periodForMultiplePeriodGraph = $periodForSinglePeriodGraph;
+				$dateForMultiplePeriodGraph = Piwik_Controller::getDateRangeRelativeToEndDate(
+					$periodForSinglePeriodGraph,
+					'last' . self::GRAPH_EVOLUTION_LAST_PERIODS,
+					$dateForSinglePeriodGraph,
+					$piwikSite
+				);
 			}
 		}
+
 		$token_auth = Piwik_Common::getRequestVar('token_auth', false);
 		
 		$urlPrefix = "index.php?";
@@ -92,10 +107,7 @@ class Piwik_ImageGraph extends Piwik_Plugin
 			{
 				$parameters['token_auth'] = $token_auth;
 			}
-			$parameters['graphType'] = 'verticalBar';
-			$parameters['period'] = $info['period'];
-			$parameters['date'] = $info['date'];
-			
+
 			// Forward custom Report parameters to the graph URL 
 			if(!empty($report['parameters']))
 			{
@@ -103,13 +115,13 @@ class Piwik_ImageGraph extends Piwik_Plugin
 			}
 			if(empty($report['dimension']))
 			{
-				$parameters['graphType'] = 'evolution';
-				
-				// If period == range, then date is already a date range
-				if($info['period'] != 'range')
-				{
-					$parameters['date'] = $dateLastN;
-				}
+				$parameters['period'] = $periodForMultiplePeriodGraph;
+				$parameters['date'] = $dateForMultiplePeriodGraph;
+			}
+			else
+			{
+				$parameters['period'] = $periodForSinglePeriodGraph;
+				$parameters['date'] = $dateForSinglePeriodGraph;
 			}
 			
 			$report['imageGraphUrl'] = $urlPrefix . Piwik_Url::getQueryStringFromParameters($parameters);

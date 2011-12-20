@@ -332,7 +332,7 @@ class Piwik_PDFReports_API
 
 		$description = str_replace(array("\r", "\n"), ' ', $description);
 
-		// The report will be rendered with the first 30 rows and will aggregate other rows in a summary row
+		// The report will be rendered with the first 23 rows and will aggregate other rows in a summary row
 		$filterTruncateGET = Piwik_Common::getRequestVar('filter_truncate', false);
 		$_GET['filter_truncate'] = 23;
 
@@ -362,6 +362,7 @@ class Piwik_PDFReports_API
 										 $aggregateReportsFormat == Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_GRAPHS ||
 										 $aggregateReportsFormat == Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_TABLES_GRAPHS )
 										 && Piwik::isGdExtensionEnabled();
+
 			if ($report['displayGraph']
 				&& !empty($reportMetadata['imageGraphUrl']))
 			{
@@ -369,6 +370,7 @@ class Piwik_PDFReports_API
 					$reportMetadata['imageGraphUrl'] .
 					'&outputType='.Piwik_ImageGraph_API::GRAPH_OUTPUT_PHP.
 					'&format=original&serialize=0'.
+					'&filter_truncate='.
 					'&height='.Piwik_ReportRenderer::IMAGE_GRAPH_HEIGHT.
 					'&width='.Piwik_ReportRenderer::IMAGE_GRAPH_WIDTH
 				);

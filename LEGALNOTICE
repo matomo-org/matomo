@@ -196,9 +196,9 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link:  http://www.zendframework.com/
 	License:  New BSD
 	
-	Name: pChart 1.27d 
-	Link: http://pchart.sourceforge.net/
-	License: GPL
+	Name: pChart 2.1.3
+	Link: http://www.pchart.net
+	License: GPL v3
 
 THIRD-PARTY CONTENT
 
@@ -207,10 +207,16 @@ THIRD-PARTY CONTENT
 	License:  CC BY 3.0
 
 	Name:  Solar System icons - Dan Wiersema
-       	Link:  http://www.iconspedia.com/icon/neptune-4672.html
+	Link:  http://www.iconspedia.com/icon/neptune-4672.html
 	License:  Free for non-commercial use
 	Notes:
 	- used in Piwik's ExampleUI plugin
+
+	Name: Wine project - tahoma.ttf font
+	Link: http://source.winehq.org/git/wine.git/blob_plain/HEAD:/fonts/tahoma.ttf
+	License: LGPL v2.1
+	Notes:
+	- used in ImageGraph plugin
 
 Notes:
 - the "New BSD" license refers to either the "Modified BSD" and "Simplified BSD"

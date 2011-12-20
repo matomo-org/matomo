@@ -30,7 +30,7 @@ class Piwik_ImageGraph_Controller extends Piwik_Controller
 					// Title
 					$report['category'] . ' › ' . $report['name'],
 					//URL
-					Piwik::getPiwikUrl() . $report['imageGraphUrl'] . '&height=150&width=460'
+					Piwik::getPiwikUrl() . $report['imageGraphUrl']
 				);
 			}
 		}
@@ -46,23 +46,28 @@ class Piwik_ImageGraph_Controller extends Piwik_Controller
 		
 		$view = Piwik_View::factory('debug_graphs_all_sizes');
 		$this->setGeneralVariablesView($view);
-		
-		$availableReports = Piwik_API_API::getInstance()->getReportMetadata($this->idSite);
+
+		$period = Piwik_Common::getRequestVar('period', 'day', 'string');
+		$date = Piwik_Common::getRequestVar('date', 'today', 'string');
+
+		$_GET['token_auth'] = Piwik::getCurrentUserTokenAuth();
+		$availableReports = Piwik_API_API::getInstance()->getReportMetadata($this->idSite, $period, $date);
 		$view->availableReports = $availableReports;
 		$view->graphTypes = array(
-			'evolution',
-			'verticalBar',
-			'pie',
-			'3dPie'
+			'', // default graph type
+//			'evolution',
+//			'verticalBar',
+//			'horizontalBar',
+//			'pie',
+//			'3dPie',
 		);
 		$view->graphSizes = array(
-			array(600, 250), // standard graph size
+			array(null, null), // default graph size
 			array(460, 150), // standard phone
 			array(300, 150), // standard phone 2
 			array(240, 150), // smallest mobile display
 			array(800, 150), // landscape mode
 			array(600, 300, $fontSize = 18, 300, 150), // iphone requires bigger font, then it will be scaled down by ios
-		
 		);
 		echo $view->render();
 	}
