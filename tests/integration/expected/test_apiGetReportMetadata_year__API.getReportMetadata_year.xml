@@ -28,7 +28,7 @@
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitsSummary&amp;apiAction=get&amp;graphType=evolution&amp;period=year&amp;date=1999-01-01,2009-12-31</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitsSummary&amp;apiAction=get&amp;period=year&amp;date=1999-01-01,2009-12-31</imageGraphUrl>
 		<uniqueId>VisitsSummary_get</uniqueId>
 
 	</row>
@@ -74,7 +74,7 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitTime&amp;apiAction=getVisitInformationPerServerTime&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitTime&amp;apiAction=getVisitInformationPerServerTime&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>VisitTime_getVisitInformationPerServerTime</uniqueId>
 
 	</row>
@@ -112,7 +112,7 @@
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitTime&amp;apiAction=getVisitInformationPerLocalTime&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitTime&amp;apiAction=getVisitInformationPerLocalTime&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>VisitTime_getVisitInformationPerLocalTime</uniqueId>
 
 	</row>
@@ -139,7 +139,7 @@
 			<nb_uniq_outlinks>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</nb_uniq_outlinks>
 
 		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=get&amp;graphType=evolution&amp;period=year&amp;date=1999-01-01,2009-12-31</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=get&amp;period=year&amp;date=1999-01-01,2009-12-31</imageGraphUrl>
 		<uniqueId>Actions_get</uniqueId>
 
 	</row>
@@ -168,7 +168,7 @@
 
 		</metricsDocumentation>
 		<documentation>This report contains information about the page URLs that have been visited. &lt;br /&gt; The table is organized hierarchically, the URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Actions_getPageUrls</uniqueId>
 
 	</row>
@@ -197,7 +197,7 @@
 
 		</metricsDocumentation>
 		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Actions_getPageTitles</uniqueId>
 
 	</row>
@@ -218,7 +218,7 @@
 
 		</metricsDocumentation>
 		<documentation>This report shows a hierarchical list of outlink URLs that were clicked by your visitors. An outlink is a link that leads the visitor away from your website (to another domain).&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getOutlinks&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getOutlinks&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Actions_getOutlinks</uniqueId>
 
 	</row>
@@ -239,7 +239,7 @@
 
 		</metricsDocumentation>
 		<documentation>In this report, you can see which files your visitors have downloaded. &lt;br /&gt; What Piwik counts as a download is the click on a download link. Whether the download was completed or not isn't known to Piwik.</documentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getDownloads&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getDownloads&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Actions_getDownloads</uniqueId>
 
 	</row>
@@ -284,7 +284,7 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getRefererType&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getRefererType&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Referers_getRefererType</uniqueId>
 
 	</row>
@@ -329,7 +329,7 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getKeywords&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getKeywords&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Referers_getKeywords</uniqueId>
 
 	</row>
@@ -374,7 +374,7 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getWebsites&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getWebsites&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Referers_getWebsites</uniqueId>
 
 	</row>
@@ -419,7 +419,7 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getSearchEngines&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getSearchEngines&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Referers_getSearchEngines</uniqueId>
 
 	</row>
@@ -464,7 +464,7 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getCampaigns&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getCampaigns&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Referers_getCampaigns</uniqueId>
 
 	</row>
@@ -480,7 +480,7 @@
 			<revenue>Revenue</revenue>
 
 		</metrics>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;graphType=evolution&amp;period=year&amp;date=1999-01-01,2009-12-31</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;period=year&amp;date=1999-01-01,2009-12-31</imageGraphUrl>
 		<uniqueId>Goals_get</uniqueId>
 
 	</row>
@@ -503,7 +503,7 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion</uniqueId>
 
 	</row>
@@ -526,7 +526,7 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion</uniqueId>
 
 	</row>
@@ -570,7 +570,7 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>UserCountry_getCountry</uniqueId>
 
 	</row>
@@ -614,7 +614,7 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getContinent&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getContinent&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>UserCountry_getContinent</uniqueId>
 
 	</row>
@@ -659,7 +659,7 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariables&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariables&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>CustomVariables_getCustomVariables</uniqueId>
 
 	</row>
@@ -688,7 +688,7 @@
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsPerVisitDuration&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsPerVisitDuration&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>VisitorInterest_getNumberOfVisitsPerVisitDuration</uniqueId>
 
 	</row>
@@ -717,7 +717,7 @@
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsPerPage&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsPerPage&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>VisitorInterest_getNumberOfVisitsPerPage</uniqueId>
 
 	</row>
@@ -747,7 +747,7 @@
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsByVisitCount&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsByVisitCount&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>VisitorInterest_getNumberOfVisitsByVisitCount</uniqueId>
 
 	</row>
@@ -776,7 +776,7 @@
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsByDaysSinceLast&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsByDaysSinceLast&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>VisitorInterest_getNumberOfVisitsByDaysSinceLast</uniqueId>
 
 	</row>
@@ -807,7 +807,7 @@
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;graphType=evolution&amp;period=year&amp;date=1999-01-01,2009-12-31</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;period=year&amp;date=1999-01-01,2009-12-31</imageGraphUrl>
 		<uniqueId>VisitFrequency_get</uniqueId>
 
 	</row>
@@ -844,7 +844,7 @@
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Provider&amp;apiAction=getProvider&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Provider&amp;apiAction=getProvider&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Provider_getProvider</uniqueId>
 
 	</row>
@@ -880,7 +880,7 @@
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getResolution&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getResolution&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>UserSettings_getResolution</uniqueId>
 
 	</row>
@@ -917,7 +917,7 @@
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getBrowser&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getBrowser&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>UserSettings_getBrowser</uniqueId>
 
 	</row>
@@ -954,7 +954,7 @@
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getBrowserType&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getBrowserType&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>UserSettings_getBrowserType</uniqueId>
 
 	</row>
@@ -984,7 +984,7 @@
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getPlugin&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getPlugin&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>UserSettings_getPlugin</uniqueId>
 
 	</row>
@@ -1020,7 +1020,7 @@
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getWideScreen&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getWideScreen&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>UserSettings_getWideScreen</uniqueId>
 
 	</row>
@@ -1056,7 +1056,7 @@
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getOS&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getOS&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>UserSettings_getOS</uniqueId>
 
 	</row>
@@ -1093,7 +1093,7 @@
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getConfiguration&amp;graphType=verticalBar&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getConfiguration&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>UserSettings_getConfiguration</uniqueId>
 
 	</row>

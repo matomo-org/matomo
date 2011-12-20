@@ -43,7 +43,7 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getWebsites&amp;graphType=verticalBar&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getWebsites&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
 		<uniqueId>Referers_getWebsites</uniqueId>
 
 	</metadata>
