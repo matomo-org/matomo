@@ -940,7 +940,7 @@ if ($sqlite) {
 		tracker3.setDoNotTrack(false);
 		tracker3.trackPageView("DoTrack");
 
-		navigator.doNotTrack = '1';
+		navigator.doNotTrack = "1";
 		tracker3.setDoNotTrack(true);
 		tracker3.trackPageView("DoNotTrack");
 
