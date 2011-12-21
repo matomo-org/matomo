@@ -78,11 +78,9 @@ class Piwik_Session extends Zend_Session
 			// Note: this handler doesn't work well in load-balanced environments and may have a concurrency issue with locked session files
 
 			// for "files", use our own folder to prevent local session file hijacking 
-			$sessionPath = PIWIK_USER_PATH . '/tmp/sessions'; 
-			if(!is_dir($sessionPath)) 
-			{ 
-				Piwik_Common::mkdir($sessionPath); 
-			} 
+			$sessionPath = PIWIK_USER_PATH . '/tmp/sessions';
+			// We always call mkdir since it also chmods the directory which might help when permissions were reverted for some reasons 
+			Piwik_Common::mkdir($sessionPath); 
 
 			@ini_set('session.save_handler', 'files');
 			@ini_set('session.save_path', $sessionPath); 
@@ -123,7 +121,19 @@ class Piwik_Session extends Zend_Session
 			register_shutdown_function(array('Zend_Session', 'writeClose'), true);
 		} catch(Exception $e) {
 			Piwik::log('Unable to start session: ' . $e->getMessage());
-			Piwik_ExitWithMessage(Piwik_Translate('General_ExceptionUnableToStartSession'));
+			
+			$enableDbSessions = '';
+			if(Piwik::isInstalled()) 
+			{
+				$enableDbSessions = "<br/>If you still experience issues after trying these changes, 
+			            			we recommend that you <a href='http://piwik.org/faq/how-to-install/#faq_133' target='_blank'>enable database session storage</a>.";
+			}
+
+			$message = 'Error: ' . Piwik_Translate('General_ExceptionUnableToStartSession')
+			            . ' ' .Piwik::getErrorMessageMissingPermissions(Piwik_Common::getPathToPiwikRoot() . '/tmp/sessions/')
+			            . $enableDbSessions
+			            . "\n<pre>Debug: the original error was \n". $e->getMessage()."</pre>";
+			Piwik_ExitWithMessage($message);
 		}
 	}
 }
