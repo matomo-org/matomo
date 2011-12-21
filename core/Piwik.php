@@ -467,7 +467,7 @@ class Piwik
 			if($directory !== false // realpath() returns FALSE on failure
 				&& is_writable($directoryToCheck))
 			{
-//				$resultCheck[$directory] = true;
+				$resultCheck[$directory] = true;
 			}
 		}
 		return $resultCheck;
