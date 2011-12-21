@@ -402,7 +402,7 @@ if (!this.JSON2) {
 	setCookieNamePrefix, setCookieDomain, setCookiePath, setVisitorIdCookie,
 	setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout,
 	setConversionAttributionFirstReferrer,
-	doNotTrack, setDoNotTrack,
+	doNotTrack, setDoNotTrack, msDoNotTrack,
 	addListener, enableLinkTracking, setLinkTrackingTimer,
 	setHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
 	trackGoal, trackLink, trackPageView, setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
