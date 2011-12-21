@@ -2369,7 +2369,9 @@ var
 				 * @param bool enable If true, don't track if user agent sends 'do-not-track' header
 				 */
 				setDoNotTrack: function (enable) {
-					configDoNotTrack = enable && navigatorAlias.doNotTrack;
+					var dnt = navigatorAlias.doNotTrack;
+
+					configDoNotTrack = enable && (dnt === 'yes' || dnt === '1');
 				},
 
 				/**
