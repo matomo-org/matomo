@@ -116,7 +116,11 @@ class Piwik
 	 */
 	static public function isInstalled()
 	{
-		return Piwik_Db_Schema::getInstance()->hasTables();
+		try {
+			 return Piwik_Db_Schema::getInstance()->hasTables();
+		} catch(Exception $e) {
+			return false;
+		}
 	}
 	
 	/**
@@ -292,26 +296,40 @@ class Piwik
 			@chmod($dest, 0755);
 	   		if(!@copy( $source, $dest ))
 	   		{
-				$message = "Error while copying file to <code>$dest</code>. <br />"
-				         . "Please check that the web server has enough permission to overwrite this file. <br />";
-
-				if(Piwik_Common::isWindows())
-				{
-					$message .= "On Windows, you can try to execute:<br />"
-					          . "<code>cacls ".Piwik_Common::getPathToPiwikRoot()." /t /g ".get_current_user().":f</code><br />";
-				}
-				else
-				{
-					$message = "For example, on a Linux server, if your Apache httpd user is www-data you can try to execute:<br />"
-					         . "<code>chown -R www-data:www-data ".Piwik_Common::getPathToPiwikRoot()."</code><br />"
-					         . "<code>chmod -R 0755 ".Piwik_Common::getPathToPiwikRoot()."</code><br />";
-				}
+	   		    $message = "Error while creating/copying file to <code>$dest</code>. <br />"
+	   		        . self::getErrorMessageMissingPermissions(Piwik_Common::getPathToPiwikRoot());
 				throw new Exception($message);
 	   		}
 		}
 		return true;
 	}
 
+	/**
+	 * Returns friendly error message explaining how to fix permissions 
+	 * 
+	 * @param $path to the directory missing permissions
+	 * @return string Error message
+	 */
+	static public function getErrorMessageMissingPermissions($path)
+	{
+		$message = "Please check that the web server has enough permission to write to these files/directories:<br />";
+
+		if(Piwik_Common::isWindows())
+		{
+			$message .= "On Windows, check that the folder is not to read only. 
+						You can try to execute:<br />"
+			          . "<code>cacls ".$path." /t /g ".get_current_user().":f</code><br />";
+		}
+		else
+		{
+			$message .= "For example, on a Linux server if your Apache httpd user 
+						is www-data, you can try to execute:<br />"
+			         . "<code>chown -R www-data:www-data ".$path."</code><br />"
+			         . "<code>chmod -R 0755 ".$path."</code><br />";
+		}
+		return $message;
+	}
+	
 	/**
 	 * Recursively delete a directory
 	 *
@@ -399,7 +417,8 @@ class Piwik
 				}
 			}
 		}
-		$directoryMessage = "<p><b>Piwik couldn't write to some directories</b>.</p> <p>Try to Execute the following commands on your server:</p>"
+		$directoryMessage = "<p><b>Piwik couldn't write to some directories</b>.</p> 
+							<p>Try to Execute the following commands on your server:</p>"
 		                  . "<blockquote>$directoryList</blockquote>"
 		                  . "<p>If this doesn't work, you can try to create the directories with your FTP software, and set the CHMOD to 0777 (with your FTP software, right click on the directories, permissions).</p>"
 		                  . "<p>After applying the modifications, you can <a href='index.php'>refresh the page</a>.</p>"
@@ -426,6 +445,7 @@ class Piwik
 				'/tmp/assets/',
 				'/tmp/latest/',
 				'/tmp/tcpdf/',
+				'/tmp/sessions/',
 			);
 		}
 
@@ -447,7 +467,7 @@ class Piwik
 			if($directory !== false // realpath() returns FALSE on failure
 				&& is_writable($directoryToCheck))
 			{
-				$resultCheck[$directory] = true;
+//				$resultCheck[$directory] = true;
 			}
 		}
 		return $resultCheck;
