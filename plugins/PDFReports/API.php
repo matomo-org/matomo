@@ -361,7 +361,8 @@ class Piwik_PDFReports_API
 			$report['displayGraph'] = 	(!$isAggregateReport ||
 										 $aggregateReportsFormat == Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_GRAPHS ||
 										 $aggregateReportsFormat == Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_TABLES_GRAPHS )
-										 && Piwik::isGdExtensionEnabled();
+										 && Piwik::isGdExtensionEnabled()
+										 && Piwik_PluginsManager::getInstance()->isPluginActivated('ImageGraph');
 
 			if ($report['displayGraph']
 				&& !empty($reportMetadata['imageGraphUrl']))
