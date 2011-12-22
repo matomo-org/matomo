@@ -103,17 +103,17 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 	
 	private function loadValuesFromDB($fields)
 	{
-		$requestedReport = is_string($fields) ? $fields : current($fields);
+		$requestedMetrics = is_string($fields) ? array($fields) : $fields;
 		$inNames = Piwik_Common::getSqlStringFieldsArray($fields);
 
 		// get the archive ids
 		if (!$this->getFirstArchive()->isArchivingDisabled())
 		{
-			$archiveIds = $this->getArchiveIdsAfterLaunching($requestedReport);
+			$archiveIds = $this->getArchiveIdsAfterLaunching($requestedMetrics);
 		}
 		else
 		{
-			$archiveIds = $this->getArchiveIdsWithoutLaunching($requestedReport);
+			$archiveIds = $this->getArchiveIdsWithoutLaunching($requestedMetrics);
 		}
 
 		$archiveIds = implode(', ', array_filter($archiveIds));
@@ -129,6 +129,7 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 								FROM {$this->getNumericTableName()}
 								WHERE idarchive IN ( $archiveIds )
 									AND name IN ( $inNames )";
+		
 		return Piwik_FetchAll($sql, $fields);
 	}
 
@@ -141,35 +142,48 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 	 * Gets the archive id of every Single archive this archive holds. This method
 	 * will launch the archiving process if appropriate.
 	 * 
-	 * @param string $requestedReport The requested archive report.
+	 * @param string $metrics The requested archive metrics.
 	 * @return array
 	 */
-	private function getArchiveIdsAfterLaunching( $requestedReport )
+	private function getArchiveIdsAfterLaunching( $metrics )
 	{
-		// prepare archives (this will launch archiving when appropriate)
-		foreach($this->archives as $archive)
+		// collect the individual report names for the requested metrics
+		$reports = array();
+		foreach($metrics as $metric)
 		{
-			$archive->setRequestedReport( $requestedReport );
-			$archive->prepareArchive();
+			$report = Piwik_Archive_Single::getRequestedReportFor($metric);
+			$reports[$report] = $metric;
 		}
 
-		// collect archive ids for archives that have visits
+		// process archives for each individual report
 		$archiveIds = array();
-		foreach($this->archives as $archive)
- 		{
- 			if( !$archive->isThereSomeVisits )
- 			{
- 				continue;
- 			}
- 			
-			$archiveIds[] = $archive->getIdArchive();
-		
- 			if( $this->getNumericTableName() != $archive->archiveProcessing->getTableArchiveNumericName())
+		foreach($reports as $report => $metric)
+		{
+			// prepare archives (this will launch archiving when appropriate)
+			foreach($this->archives as $archive)
 			{
-				throw new Exception("Piwik_Archive_Array_IndexedBySite::getDataTableFromNumeric() algorithm won't work if data is stored in different tables");
+				// NOTE: Piwik_Archive_Single expects a metric here, not a report
+				$archive->setRequestedReport( $metric );
+				$archive->prepareArchive();
 			}
- 		}
- 		
+
+			// collect archive ids for archives that have visits
+			foreach($this->archives as $archive)
+	 		{
+	 			if( !$archive->isThereSomeVisits )
+	 			{
+	 				continue;
+	 			}
+			
+				$archiveIds[] = $archive->getIdArchive();
+		
+	 			if( $this->getNumericTableName() != $archive->archiveProcessing->getTableArchiveNumericName())
+				{
+					throw new Exception("Piwik_Archive_Array_IndexedBySite::getDataTableFromNumeric() algorithm won't work if data is stored in different tables");
+				}
+	 		}
+	 	}
+
  		return $archiveIds;
 	}
 
@@ -177,10 +191,10 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 	 * Gets the archive id of every Single archive this archive holds. This method
 	 * will not launch the archiving process.
 	 * 
-	 * @param string $requestedReport The requested archive report.
+	 * @param string $metrics The requested archive metrics.
 	 * @return array
 	 */
-	private function getArchiveIdsWithoutLaunching( $requestedReport )
+	private function getArchiveIdsWithoutLaunching( $metrics )
 	{
 		$firstArchive = $this->getFirstArchive();
 		$segment = $firstArchive->getSegment();
@@ -188,17 +202,20 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 		
 		// the flags used to tell how the archiving process for a specific archive was completed,
 		// if it was completed
-		$done = Piwik_ArchiveProcessing::getDoneStringFlagFor($segment, $period, $requestedReport);
-		$donePlugins = Piwik_ArchiveProcessing::getDoneStringFlagFor($segment, $period, $requestedReport, true);
-
-		// create the SQL to query every archive ID
-		$nameConditionSuffix = '';
-		if ($done != $donePlugins)
+		$doneFlags = array();
+		foreach ($metrics as $metric)
 		{
-			$nameConditionSuffix = "OR name = '$donePlugins'";
+			$done = Piwik_ArchiveProcessing::getDoneStringFlagFor($segment, $period, $metric);
+			$donePlugins = Piwik_ArchiveProcessing::getDoneStringFlagFor($segment, $period, $metric, true);
+
+			$doneFlags[$done] = $done;
+			$doneFlags[$donePlugins] = $donePlugins;
 		}
 
-		$nameCondition = "(name = '$done' $nameConditionSuffix) AND
+		$allDoneFlags = "'".implode("','", $doneFlags)."'";
+
+		// create the SQL to query every archive ID
+		$nameCondition = "(name IN ($allDoneFlags)) AND
 						  (value = '".Piwik_ArchiveProcessing::DONE_OK."' OR
 						   value = '".Piwik_ArchiveProcessing::DONE_OK_TEMPORARY."')";
 
