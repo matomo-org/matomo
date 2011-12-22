@@ -123,6 +123,12 @@ class Piwik_ImageGraph_API
 			$reportHasDimension = !empty($metadata['dimension']);
 			$constantRowsCount = !empty($metadata['constantRowsCount']);
 
+			$isMultiplePeriod = Piwik_Archive::isMultiplePeriod($date, $period);
+			if(($reportHasDimension && $isMultiplePeriod) || (!$reportHasDimension && !$isMultiplePeriod))
+			{
+				throw new Exception('The graph cannot be drawn for this combination of \'date\' and \'period\' parameters.');
+			}
+
 			if(empty($graphType))
 			{
 				if($reportHasDimension)
@@ -243,20 +249,14 @@ class Piwik_ImageGraph_API
 			$ordinateSerie = array();
 			$ordinateLogos = array();
 			$reportData = $processedReport['reportData'];
-			$isMultiplePeriod = Piwik_Archive::isMultiplePeriod($date, $period);
 			$hasData = false;
 
 			if($reportHasDimension)
 			{
-				if($isMultiplePeriod)
-				{
-					throw new Exception('Reports with a dimension can not be drawn over multiple periods.');
-				}
-
 				$reportMetadata = $processedReport['reportMetadata']->getRows();
 
-				// $reportData instanceof Piwik_DataTable
 				$i = 0;
+				// $reportData instanceof Piwik_DataTable
 				foreach($reportData->getRows() as $row) // Piwik_DataTable_Row[]
 				{
 					// $row instanceof Piwik_DataTable_Row
@@ -276,67 +276,36 @@ class Piwik_ImageGraph_API
 					$i++;
 				}
 			}
-			else
+			else // if the report has no dimension we have multiple reports each with only one row within the reportData
 			{
-				// if the report has no dimension we have one or many reports each with only one row within the reportData.
-				switch($graphType)
+				// $reportData instanceof Piwik_DataTable_Array
+				$periodsMetadata = array_values($reportData->metadata);
+
+				// $periodsData instanceof Piwik_DataTable_Simple[]
+				$periodsData = array_values($reportData->getArray());
+				$periodsCount = count($periodsMetadata);
+
+				for ($i = 0 ; $i < $periodsCount ; $i++)
 				{
-					case Piwik_ImageGraph_StaticGraph::GRAPH_TYPE_VERTICAL_BAR:
-					case Piwik_ImageGraph_StaticGraph::GRAPH_TYPE_HORIZONTAL_BAR:
-					case Piwik_ImageGraph_StaticGraph::GRAPH_TYPE_BASIC_LINE:
+					// $periodsData[$i] instanceof Piwik_DataTable_Simple
+					// $rows instanceof Piwik_DataTable_Row[]
+					$rows = $periodsData[$i]->getRows();
 
-						// we get many reports with one row when Piwik_Archive::isMultiplePeriod($date, $period) == true
-						if($isMultiplePeriod)
-						{
-							// $reportData instanceof Piwik_DataTable_Array
-							$periodsMetadata = array_values($reportData->metadata);
-							// $periodsData instanceof Piwik_DataTable_Simple[]
-							$periodsData = array_values($reportData->getArray());
-							$periodsCount = count($periodsMetadata);
+					if(array_key_exists(0, $rows))
+					{
+						$rowData = $rows[0]->getColumns(); // associative Array
+						$ordinateValue = $rowData[$ordinateColumn];
+						$hasData = true;
+					}
+					else
+					{
+						$ordinateValue = 0;
+					}
 
-							for ($i = 0 ; $i < $periodsCount ; $i++)
-							{
-								// $periodsData[$i] instanceof Piwik_DataTable_Simple
-								// $rows instanceof Piwik_DataTable_Row[]
-								$rows = $periodsData[$i]->getRows();
+					$rowId = $periodsMetadata[$i]['period']->getLocalizedShortString();
 
-								if(array_key_exists(0, $rows))
-								{
-									$rowData = $rows[0]->getColumns(); // associative Array
-									$ordinateValue = $rowData[$ordinateColumn];
-									$hasData = true;
-								}
-								else
-								{
-									$ordinateValue = 0;
-								}
-
-								$rowId = $periodsMetadata[$i]['period']->getLocalizedShortString();
-
-								$abscissaSerie[] = Piwik_Common::unsanitizeInputValue($rowId);
-								$ordinateSerie[] = $this->parseOrdinateValue($ordinateValue);
-							}
-						}
-						else
-						// we get one report with one row when Piwik_Archive::isMultiplePeriod($date, $period) == false
-						{
-							// $reportData instanceof Piwik_DataTable_Simple
-							// $rows instanceof Piwik_DataTable_Row[]
-							$rows = $reportData->getRows();
-
-							if(array_key_exists(0, $rows))
-							{
-								$rowData = $rows[0]->getColumns(); // associative Array
-								$ordinateValue = $rowData[$ordinateColumn];
-								$abscissaSerie[] = $processedReport['prettyDate'];
-								$ordinateSerie[] = $this->parseOrdinateValue($ordinateValue);
-								$hasData = true;
-							}
-						}
-						break;
-
-					default:
-						throw new Exception('Invalid $graphType for this API function.');
+					$abscissaSerie[] = Piwik_Common::unsanitizeInputValue($rowId);
+					$ordinateSerie[] = $this->parseOrdinateValue($ordinateValue);
 				}
 			}
 

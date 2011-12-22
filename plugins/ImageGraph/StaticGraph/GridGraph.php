@@ -24,14 +24,15 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 	const GRID_COLOR_KEY = 'GRID_COLOR';
 	const DEFAULT_GRID_COLOR = 'CCCCCC';
 
-	const LEFT_GRID_MARGIN = 4;
-	const BOTTOM_GRID_MARGIN = 10;
 	const DEFAULT_TICK_ALPHA = 20;
 	const DEFAULT_SERIE_WEIGHT = 0.5;
+	const LEFT_GRID_MARGIN = 4;
+	const BOTTOM_GRID_MARGIN = 10;
 	const TOP_GRID_MARGIN_HORIZONTAL_GRAPH = 1;
 	const RIGHT_GRID_MARGIN_HORIZONTAL_GRAPH = 5;
-	const LEGEND_LEFT_MARGIN = 15;
 	const LEGEND_TOP_MARGIN = 3;
+	const LEGEND_LEFT_MARGIN = 4;
+	const LEGEND_BOTTOM_MARGIN = 2;
 	const OUTER_TICK_WIDTH = 5;
 	const INNER_TICK_WIDTH = 0;
 	const LABEL_SPACE_VERTICAL_GRAPH = 10;
@@ -188,7 +189,7 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 		if($this->showMetricTitle)
 		{
 			$metricTitleWidthHeight = $this->getTextWidthHeight($this->metricTitle);
-			$topMargin += $metricTitleWidthHeight[self::HEIGHT_KEY];
+			$topMargin += $metricTitleWidthHeight[self::HEIGHT_KEY] + self::LEGEND_BOTTOM_MARGIN;
 		}
 
 		return $topMargin;
