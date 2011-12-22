@@ -88,11 +88,8 @@ class Piwik_Url
 	static public function getCurrentScriptName()
 	{
 		$url = '';
-		if( !empty($_SERVER['PATH_INFO']) ) 
-		{ 
-			$url = $_SERVER['PATH_INFO'];
-		} 
-		else if( !empty($_SERVER['REQUEST_URI']) ) 
+
+		if( !empty($_SERVER['REQUEST_URI']) ) 
 		{
 			$requestUri = $_SERVER['REQUEST_URI'];
 
