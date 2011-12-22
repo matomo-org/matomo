@@ -521,27 +521,47 @@ class Piwik_Archive_Single extends Piwik_Archive
 		$this->requestedReport = $requestedReport;
 	}
 	
+	/**
+	 * Returns the report (the named collection of metrics) this Archive instance is
+	 * currently going to query/process.
+	 * 
+	 * @return string
+	 */
 	protected function getRequestedReport()
 	{
+		return self::getRequestedReportFor($this->requestedReport);
+	}
+
+	/**
+	 * Returns the name of the report (the named collection of metrics) that contains the
+	 * specified metric.
+	 * 
+	 * @param string $metric The metric whose report is being requested. If this does
+	 *                       not belong to a known report, its assumed to be the report
+	 *                       itself.
+	 * @return string
+	 */	
+	public static function getRequestedReportFor($metric)
+	{
 		// Core metrics are always processed in Core, for the requested date/period/segment
-		if(in_array($this->requestedReport, Piwik_ArchiveProcessing::getCoreMetrics())
-			|| $this->requestedReport == 'max_actions')
+		if(in_array($metric, Piwik_ArchiveProcessing::getCoreMetrics())
+			|| $metric == 'max_actions')
 		{
 			return 'VisitsSummary_CoreMetrics';
 		}
 		// VisitFrequency metrics don't follow the same naming convention (HACK) 
-		if(strpos($this->requestedReport, '_returning') > 0
+		if(strpos($metric, '_returning') > 0
 			// ignore Goal_visitor_returning_1_1_nb_conversions 
-			&& strpos($this->requestedReport, 'Goal_') === false)
+			&& strpos($metric, 'Goal_') === false)
 		{
 			return 'VisitFrequency_Metrics';
 		}
 		// Goal_* metrics are processed by the Goals plugin (HACK)
-		if(strpos($this->requestedReport, 'Goal_') === 0)
+		if(strpos($metric, 'Goal_') === 0)
 		{
 			return 'Goals_Metrics';
 		}
-   		return $this->requestedReport;
+   		return $metric;
 	}
 	
 	/**

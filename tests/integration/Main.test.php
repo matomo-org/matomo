@@ -576,6 +576,17 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	{
 		$apiToCall = array('Goals.getDaysToConversion');
 		$this->doTest_TwoVisitors_twoWebsites_differentDays(__FUNCTION__, $apiToCall, true, false);
+		
+		// Tests that getting a visits summary metric (nb_visits) & a Goal's metric (Goal_revenue)
+		// at the same time works.
+		$dateTime = '2010-01-03,2010-01-06';
+		$columns = 'nb_visits,'.Piwik_Goals::getRecordName('conversion_rate');
+		
+		$this->setApiToCall(array('VisitsSummary.get'));
+		$this->callGetApiCompareOutput(__FUNCTION__. '_getMetricsFromDifferentReports', 'xml',
+			$allSites = 'all', $dateTime, 'range', $setDateLastN = false, $language = false, $segment = false,
+			$visitorId = false, $abandonedCarts = false, $idGoal = false, $apiModule = false, $apiAction = false,
+			$otherRequestParameters = array('columns' => $columns));
 	}
 
 	private function doTest_TwoVisitors_twoWebsites_differentDays(
@@ -698,7 +709,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 
     	$dateTime = '2010-01-03 11:22:33';
 		$periods = array('day', 'week', 'month', 'year');
-		$idSites = $this->setup_TwoVisitors_twoWebsites_differentDays($dateTime, false);
+		$idSites = $this->setup_TwoVisitors_twoWebsites_differentDays($dateTime, true);
 		$this->setApiToCall($apiToCall);
 		
 		// disable archiving & check that there is no archive data

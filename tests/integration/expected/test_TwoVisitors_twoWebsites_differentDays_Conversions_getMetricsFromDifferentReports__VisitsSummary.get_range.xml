@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result idSite="1">
+		<nb_visits>3</nb_visits>
+		<Goal_conversion_rate>100</Goal_conversion_rate>
+	</result>
+	<result idSite="2">
+		<nb_visits>1</nb_visits>
+		<Goal_conversion_rate>100</Goal_conversion_rate>
+	</result>
+</results>
