@@ -20,9 +20,10 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
 	const INTERLEAVE = 0.30;
 	const MIN_GRAPH_SIZE = 80;
 	const TRUNCATION_TEXT = '...';
-	const PADDING_CHARS = '  ';
+	const PADDING_CHARS = ' ';
 	const LEGEND_SQUARE_WIDTH = 11;
 	const MIN_SPACE_BETWEEN_HORIZONTAL_VALUES = 5;
+	const LOGO_MIN_RIGHT_MARGIN = 3;
 
 	public function renderGraph()
 	{
@@ -82,21 +83,16 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
 		}
 
 		// blank characters are used to pad labels so the logo can be displayed
-		$blankCharWidthHeight = $this->getTextWidthHeight(self::PADDING_CHARS);
-		$blankCharWidth = $blankCharWidthHeight[self::WIDTH_KEY];
-		$numOfPaddingBlankChar = ceil($maxLogoWidth / $blankCharWidth);
-
 		$paddingText = '';
-		for($i = 0 ; $i < $numOfPaddingBlankChar ; $i++)
-		{
-			$paddingText .= self::PADDING_CHARS;
-		}
-
 		$paddingWidth = 0;
-		if($numOfPaddingBlankChar > 0)
+		if($maxLogoWidth > 0)
 		{
-			$paddingWidthHeight = $this->getTextWidthHeight($paddingText);
-			$paddingWidth = $paddingWidthHeight[self::WIDTH_KEY];
+			while($paddingWidth < $maxLogoWidth + self::LOGO_MIN_RIGHT_MARGIN)
+			{
+				$paddingText .= self::PADDING_CHARS;
+				$paddingTextWidthHeight = $this->getTextWidthHeight($paddingText);
+				$paddingWidth = $paddingTextWidthHeight[self::WIDTH_KEY];
+			}
 		}
 
 		// determine the maximum label width according to the minimum comfortable graph size
