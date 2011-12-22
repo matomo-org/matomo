@@ -217,7 +217,8 @@ class Piwik_FrontController
 					'/tmp/',
 					'/tmp/templates_c/',
 					'/tmp/cache/',
-					'/tmp/assets/'
+					'/tmp/assets/',
+					'/tmp/tcpdf/'
 			);
 			
 			Piwik::checkDirectoriesWritableOrDie($directoriesToCheck);
