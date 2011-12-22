@@ -27,7 +27,7 @@ upstream, we maintain a list of bug fixes and local mods made to third-party lib
    - in r1296, remove require_once
    - empty sparklines with floats, off-by-one errors, and locale conflict
  * tcpdf/
-   - in r5540, fix a temp file bug when embedding images in PDF
+   - in r5540 and r5598, fix a temp file bug when embedding images in PDF
  * Zend/
    - strip require_once (to support autoloading)
    - in r3694, fix ZF-10888 and ZF-10835
