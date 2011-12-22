@@ -17,6 +17,8 @@
  */
 class Piwik_ImageGraph_StaticGraph_Exception extends Piwik_ImageGraph_StaticGraph
 {
+	const MESSAGE_RIGHT_MARGIN = 5;
+
 	private $exception;
 
 	public function setException($exception)
@@ -32,14 +34,18 @@ class Piwik_ImageGraph_StaticGraph_Exception extends Piwik_ImageGraph_StaticGrap
 	public function renderGraph()
 	{
 		$this->pData = new pData();
-		$this->initpImage();
 
 		$message = $this->exception->getMessage();
 		$messageWidthHeight = $this->getTextWidthHeight($message, false);
+		$messageHeight = $messageWidthHeight[self::HEIGHT_KEY];
+		$this->width = $messageWidthHeight[self::WIDTH_KEY] + self::MESSAGE_RIGHT_MARGIN;
+		$this->height = $messageHeight;
+
+		$this->initpImage();
 
 		$this->pImage->drawText(
 			0,
-			$messageWidthHeight[self::HEIGHT_KEY],
+			$messageHeight,
 			$message
 		);
 	}

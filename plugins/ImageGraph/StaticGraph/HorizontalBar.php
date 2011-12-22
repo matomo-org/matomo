@@ -22,6 +22,7 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
 	const TRUNCATION_TEXT = '...';
 	const PADDING_CHARS = '  ';
 	const LEGEND_SQUARE_WIDTH = 11;
+	const MIN_SPACE_BETWEEN_HORIZONTAL_VALUES = 5;
 
 	public function renderGraph()
 	{
@@ -50,8 +51,8 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
 		$graphHeight = $this->getGraphBottom() - $this->getGridTopMargin($horizontalGraph = true);
 		$abscissaMaxWidthHeight = $this->maxWidthHeight($this->abscissaSerie);
 		$abscissaMaxHeight = $abscissaMaxWidthHeight[self::HEIGHT_KEY];
-		$maxLineWidth = $abscissaMaxHeight > $maxLogoHeight ? $abscissaMaxHeight : $maxLogoHeight;
-		$maxNumOfValues = floor($graphHeight / $maxLineWidth);
+		$minLineWidth = ($abscissaMaxHeight > $maxLogoHeight ? $abscissaMaxHeight : $maxLogoHeight) + self::MIN_SPACE_BETWEEN_HORIZONTAL_VALUES;
+		$maxNumOfValues = floor($graphHeight / $minLineWidth);
 		$abscissaSerieCount = count($this->abscissaSerie);
 		
 		if($maxNumOfValues < $abscissaSerieCount - 1)

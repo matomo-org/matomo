@@ -244,6 +244,7 @@ class Piwik_ImageGraph_API
 			$ordinateLogos = array();
 			$reportData = $processedReport['reportData'];
 			$isMultiplePeriod = Piwik_Archive::isMultiplePeriod($date, $period);
+			$hasData = false;
 
 			if($reportHasDimension)
 			{
@@ -262,6 +263,7 @@ class Piwik_ImageGraph_API
 					$rowData = $row->getColumns(); // Associative Array
 					$abscissaSerie[] = Piwik_Common::unsanitizeInputValue($rowData[$abscissaColumn]);
 					$ordinateSerie[] = $this->parseOrdinateValue($rowData[$ordinateColumn]);
+					$hasData = true;
 
 					if(isset($reportMetadata[$i]))
 					{
@@ -302,6 +304,7 @@ class Piwik_ImageGraph_API
 								{
 									$rowData = $rows[0]->getColumns(); // associative Array
 									$ordinateValue = $rowData[$ordinateColumn];
+									$hasData = true;
 								}
 								else
 								{
@@ -325,14 +328,10 @@ class Piwik_ImageGraph_API
 							{
 								$rowData = $rows[0]->getColumns(); // associative Array
 								$ordinateValue = $rowData[$ordinateColumn];
+								$abscissaSerie[] = $processedReport['prettyDate'];
+								$ordinateSerie[] = $this->parseOrdinateValue($ordinateValue);
+								$hasData = true;
 							}
-							else
-							{
-								$ordinateValue = 0;
-							}
-
-							$abscissaSerie[] = $processedReport['prettyDate'];
-							$ordinateSerie[] = $this->parseOrdinateValue($ordinateValue);
 						}
 						break;
 
@@ -341,7 +340,7 @@ class Piwik_ImageGraph_API
 				}
 			}
 
-			if(count($abscissaSerie) == 0)
+			if(!$hasData)
 			{
 				throw new Exception(Piwik_Translate('General_NoDataForGraph'));
 			}
@@ -366,8 +365,6 @@ class Piwik_ImageGraph_API
 		} catch (Exception $e) {
 
 			$graph = new Piwik_ImageGraph_StaticGraph_Exception();
-			$graph->setHeight($height);
-			$graph->setWidth($width);
 			$graph->setFont($font);
 			$graph->setFontSize($fontSize);
 			$graph->setException($e);
@@ -387,7 +384,7 @@ class Piwik_ImageGraph_API
 				{
 					$idGoal = '_' . $idGoal;
 				}
-				$fileName = self::$DEFAULT_PARAMETERS[$graphType][self::FILENAME_KEY] . '_' . $apiModule . '_' . $apiAction . $idGoal . ' ' . str_replace(',', '-', $date) . ' $idSite.png';
+				$fileName = self::$DEFAULT_PARAMETERS[$graphType][self::FILENAME_KEY] . '_' . $apiModule . '_' . $apiAction . $idGoal . ' ' . str_replace(',', '-', $date) . ' ' . $idSite . '.png';
 				$fileName = str_replace(array(' ','/'), '_', $fileName);
 
 				if(!Piwik_Common::isValidFilename($fileName))
