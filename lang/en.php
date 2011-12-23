@@ -193,6 +193,7 @@ $translations = array(
 	'General_DisplayTableWithGoalMetrics' => 'Display a table with Goals metrics',
 	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s is a collaborative project. %3$s If you\'re a fan of Piwik, you can help! Check out %4$s How to participate in Piwik?%5$s',
 	'General_YouAreViewingDemoShortMessage' => 'You are currently viewing the demo of Piwik',
+	'General_YouAreCurrentlyUsing' => 'You are currently using Piwik %s.',
 	'General_DownloadFullVersion' => '%1$sDownload%2$s the full version! Check out %3$s',
 	'General_NewUpdatePiwikX' => 'New Update: Piwik %s',
 	'General_AboutPiwikX' => 'About Piwik %s',
