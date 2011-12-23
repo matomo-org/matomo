@@ -860,6 +860,9 @@ class Test_Piwik_Common extends UnitTestCase
 			// Google SSL hidden keyword
 			'http://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0CC&url=http%3A%2F%2Fpiwik.org%2F&ei=&usg='
 				=> array('name' => 'Google', 'keywords' => false),
+				
+			'http://search.naver.com/search.naver?where=nexearch&query=FAU+&x=0&y=0&sm=top_hty&fbm=1&ie=utf8'
+				=> array('name' => 'Naver', 'keywords' => 'fau')
 		);
 		
 		foreach($urls as $referrerUrl => $expectedReturnedValue) {
