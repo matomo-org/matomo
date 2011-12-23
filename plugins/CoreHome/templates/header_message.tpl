@@ -1,5 +1,5 @@
 {* testing, remove test_ from var names *}
-{assign var=test_latest_version_available value="1.0"}
+{assign var=test_latest_version_available value="2.0"}
 {assign var=test_piwikUrl value='http://demo.piwik.org/'}
 
 <span id="header_message" class="{if $piwikUrl == 'http://demo.piwik.org/' || !$latest_version_available}header_info{else}header_alert{/if}">
@@ -20,6 +20,7 @@
 	{elseif $latest_version_available}
 		{if $isSuperUser}
 			{'General_PiwikXIsAvailablePleaseUpdateNow'|translate:$latest_version_available:"<br /><a href='index.php?module=CoreUpdater&amp;action=newVersionAvailable'>":"</a>":"<a href='?module=Proxy&amp;action=redirect&amp;url=http://piwik.org/changelog/' target='_blank'>":"</a>"}
+			<br/>{'General_YouAreCurrentlyUsing'|translate:$piwik_version}
 		{else}
 			{'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin'|translate:"<a href='?module=Proxy&action=redirect&url=http://piwik.org/' target='_blank'>Piwik</a> <a href='?module=Proxy&action=redirect&url=http://piwik.org/changelog/' target='_blank'>$latest_version_available</a>"}
 		{/if}
