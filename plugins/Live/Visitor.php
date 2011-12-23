@@ -262,6 +262,18 @@ class Piwik_Live_Visitor
 			{
 				return 'http://piwik.org/faq/general/#faq_144';
 			}
+			// Case URL is google.XX/url.... then we rewrite to the search result page url
+			elseif($this->getRefererName() == 'Google'
+				&& strpos($this->details['referer_url'], '/url'))
+			{
+				$refUrl = @parse_url($this->details['referer_url']);
+				if(isset($refUrl['host']))
+				{
+					$url = Piwik_getSearchEngineUrlFromUrlAndKeyword('http://google.com', $this->getKeyword());
+					$url = str_replace('google.com', $refUrl['host'], $url);
+					return $url;
+				}
+			}
 		}
 		return $this->details['referer_url'];
 	}
@@ -271,8 +283,7 @@ class Piwik_Live_Visitor
 		if($this->getRefererType() == 'search'
 			&& strpos($this->getRefererName(), 'Google') !== false)
 		{
-			$url = $this->getRefererUrl();
-			$url = @parse_url($url);
+			$url = @parse_url($this->details['referer_url']);
 			if(empty($url['query']))
 			{
 				return null;
