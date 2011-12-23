@@ -1531,6 +1531,7 @@ class Piwik_Common
 			$variableNames = array($variableNames);
 		}
 
+		$key = null;
 		if($searchEngineName === 'Google Images'
 			|| ($searchEngineName === 'Google' && strpos($referrerUrl, '/imgres') !== false) )
 		{
@@ -1541,7 +1542,8 @@ class Piwik_Common
 			}
 			$searchEngineName = 'Google Images';
 		}
-		else if($searchEngineName === 'Google' && (strpos($query, '&as_') !== false || strpos($query, 'as_') === 0))
+		else if($searchEngineName === 'Google' 
+				&& (strpos($query, '&as_') !== false || strpos($query, 'as_') === 0))
 		{
 			$keys = array();
 			$key = self::getParameterFromQueryString($query, 'as_q');
@@ -1600,33 +1602,49 @@ class Piwik_Common
 					// search for keywords now &vname=keyword
 					$key = self::getParameterFromQueryString($query, $variableName);
 					$key = trim(urldecode($key));
-					if(!empty($key))
+					
+					// Special case: Google & empty q parameter
+					if(empty($key)
+						&& $searchEngineName == 'Google' 
+						&& $variableName == 'q'
+						&& (strpos($query, '&q=') !== false || strpos($query, '?q=') !== false)
+						)
+					{
+						$key = false;
+					}
+					if(!empty($key)
+						|| $key === false)
 					{
 						break;
 					}
 				}
 			}
 		}
-		if(empty($key))
+		
+		// $key === false is the special case "No keyword provided" which is a Search engine match
+		if($key === null
+			|| $key === '')
 		{
 			return false;
 		}
 
-		if(function_exists('iconv')
-			&& isset($searchEngines[$refererHost][3]))
+		if(!empty($key))
 		{
-			$charset = trim($searchEngines[$refererHost][3]);
-			if(!empty($charset))
+			if(function_exists('iconv')
+				&& isset($searchEngines[$refererHost][3]))
 			{
-				$newkey = @iconv($charset, 'UTF-8//IGNORE', $key);
-				if(!empty($newkey))
+				$charset = trim($searchEngines[$refererHost][3]);
+				if(!empty($charset))
 				{
-					$key = $newkey;
+					$newkey = @iconv($charset, 'UTF-8//IGNORE', $key);
+					if(!empty($newkey))
+					{
+						$key = $newkey;
+					}
 				}
 			}
+			$key = mb_strtolower($key, 'UTF-8');
 		}
-
-		$key = mb_strtolower($key, 'UTF-8');
 
 		return array(
 			'name' => $searchEngineName,

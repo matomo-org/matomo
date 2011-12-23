@@ -127,11 +127,11 @@
 					<img src="{$visitor.columns.searchEngineIcon}" alt="{$visitor.columns.referrerName|escape:'html'}" /> 
 				{/if}
 				{$visitor.columns.referrerName|escape:'html'}
+				{if !empty($visitor.columns.referrerKeyword)}{'Referers_Keywords'|translate}:
 				<br />
-				{if !empty($visitor.columns.referrerKeyword)}{'Referers_Keywords'|translate}:{/if}
 				<a href="{$visitor.columns.referrerUrl|escape:'html'}" target="_blank" style="text-decoration:underline;">
-					{if !empty($visitor.columns.referrerKeyword)}
-						"{$visitor.columns.referrerKeyword|escape:'html'}"{/if}</a>
+						"{$visitor.columns.referrerKeyword|escape:'html'}"</a>
+				{/if}
 				{capture assign='keyword'}{$visitor.columns.referrerKeyword|escape:'html'}{/capture}
 				{capture assign='searchName'}{$visitor.columns.referrerName|escape:"html"}{/capture}
 				{capture assign='position'}#{$visitor.columns.referrerKeywordPosition}{/capture}

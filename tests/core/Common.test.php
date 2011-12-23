@@ -796,20 +796,18 @@ class Test_Piwik_Common extends UnitTestCase
 			'http://search.yahoo.com/search/dir?ei=UTF-8&p=analytics&h=c'
 				=> array('name' => 'Yahoo! Directory', 'keywords' => 'analytics'),
 
-/*
+
 			// Bing mobile image search has a special URL
-			'http://m.bing.com/search/search.aspx?A=imageresults&Q=piwik&D=Image&MID=8015&SI=0&PN=0&SCO=0'
-				=> array('name' => 'Bing Images', 'keywords' => 'piwik'),
-*/
+//			'http://m.bing.com/search/search.aspx?A=imageresults&Q=piwik&D=Image&MID=8015&SI=0&PN=0&SCO=0'
+//				=> array('name' => 'Bing Images', 'keywords' => 'piwik'),
+//				
+//			// Yahoo (Bing-powered) cache
+//			'http://74.6.239.84/search/srpcache?ei=UTF-8&p=web+analytics&fr=yfp-t-715&u=http://cc.bingj.com/cache.aspx?q=web+analytics&d=5020318680482405&mkt=en-CA&setlang=en-CA&w=a68d7af0,873cfeb0&icp=1&.intl=ca&sig=x6MgjtrDYvsxi8Zk2ZX.tw--'
+//				=> array('name' => 'Yahoo', 'keywords' => 'web analytics'),
+//
+//			'http://74.6.239.185/search/srpcache?ei=UTF-8&p=piwik&fr=yfp-t-964&fp_ip=ca&u=http://cc.bingj.com/cache.aspx?q=piwik&d=4770519086662477&mkt=en-US&setlang=en-US&w=f4bc05d8,8c8af2e3&icp=1&.intl=us&sig=PXmPDNqapxSQ.scsuhIpZA--'
+//				=> array('name' => 'Yahoo', 'keywords' => 'piwik'),
 
-/*
-			// Yahoo (Bing-powered) cache
-			'http://74.6.239.84/search/srpcache?ei=UTF-8&p=web+analytics&fr=yfp-t-715&u=http://cc.bingj.com/cache.aspx?q=web+analytics&d=5020318680482405&mkt=en-CA&setlang=en-CA&w=a68d7af0,873cfeb0&icp=1&.intl=ca&sig=x6MgjtrDYvsxi8Zk2ZX.tw--'
-				=> array('name' => 'Yahoo', 'keywords' => 'web analytics'),
-
-			'http://74.6.239.185/search/srpcache?ei=UTF-8&p=piwik&fr=yfp-t-964&fp_ip=ca&u=http://cc.bingj.com/cache.aspx?q=piwik&d=4770519086662477&mkt=en-US&setlang=en-US&w=f4bc05d8,8c8af2e3&icp=1&.intl=us&sig=PXmPDNqapxSQ.scsuhIpZA--'
-				=> array('name' => 'Yahoo', 'keywords' => 'piwik'),
-*/
 
 			// InfoSpace
 			'http://infospace.com/ispace/ws/results/Web/real time web analytics/1/417/TopNavigation/Relevance/iq=true/zoom=off/enginefilter=all/_iceUrlFlag=7?_IceUrl=true'
@@ -858,6 +856,10 @@ class Test_Piwik_Common extends UnitTestCase
 				=> array('name' => 'Baidu', 'keywords' => 'test2'),
 			'http://web.gougou.com/?search=test3'
 				=> array('name' => 'Baidu', 'keywords' => 'test3'),
+			
+			// Google SSL hidden keyword
+			'http://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0CC&url=http%3A%2F%2Fpiwik.org%2F&ei=&usg='
+				=> array('name' => 'Google', 'keywords' => false),
 		);
 		
 		foreach($urls as $referrerUrl => $expectedReturnedValue) {

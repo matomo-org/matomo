@@ -1177,5 +1177,32 @@ class Test_Piwik_Integration_Main extends Test_Integration
 						'translateColumnNames' => 1, 'language' => 'de'));
 	}
 	
+		
+	/*
+	 * Test empty google kwd works nicely in Live! output and Top keywords
+	 */
+	function test_OneVisitor_NoKeywordSpecified() 
+	{
+		$this->setApiNotToCall(array());
+    	$this->setApiToCall(array('Referers.getKeywords', 'Live.getLastVisitsDetails'));
+		// tests run in UTC, the Tracker in UTC
+    	$dateTime = '2010-03-06 11:22:33';
+    	$idSite = $this->createWebsite($dateTime);
+        $t = $this->getTracker($idSite, $dateTime, $defaultInit = true, $useThirdPartyCookie = 1);
+        
+        $t->setUrlReferrer( 'http://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0CC&url=http%3A%2F%2Fpiwik.org%2F&ei=&usg=');
+
+        // Record 1st page view
+        $t->setUrl( 'http://example.org/this%20is%20cool!');
+        $this->checkResponse($t->doTrackPageView( 'incredible title!'));
+        
+        // Create Goal 1: Triggered by JS, after 18 minutes
+        $idGoal = Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');
+        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.3)->getDatetime());
+        $this->checkResponse($t->doTrackGoal($idGoal, $revenue = 42));
+        
+        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime, $periods = false,
+			$setDateLastN = false, $language = 'fr');
+	}
 	
 }

@@ -246,11 +246,23 @@ class Piwik_Live_Visitor
 
 	function getKeyword()
 	{
-		return urldecode($this->details['referer_keyword']);
+		$keyword = $this->details['referer_keyword'];
+		if($this->getRefererType() == 'search')
+		{
+			$keyword = Piwik_Referers::getCleanKeyword($keyword);
+		}
+		return urldecode($keyword);
 	}
 
 	function getRefererUrl()
 	{
+		if($this->getRefererType() == 'search')
+		{
+			if($this->details['referer_keyword'] == Piwik_Referers::LABEL_KEYWORD_NOT_DEFINED)
+			{
+				return 'http://piwik.org/faq/general/#faq_144';
+			}
+		}
 		return $this->details['referer_url'];
 	}
 	
