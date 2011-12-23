@@ -286,6 +286,15 @@ class Piwik_Referers extends Piwik_Plugin
 		}
 	}
 	
+	const LABEL_KEYWORD_NOT_DEFINED = "";
+	
+	static public function getCleanKeyword($label)
+	{
+		return $label == Piwik_Referers::LABEL_KEYWORD_NOT_DEFINED
+				? Piwik_Translate( 'General_NotDefined', Piwik_Translate('Referers_ColumnKeyword')) 
+				: $label;
+	}
+	
 	/**
 	 * Hooks on daily archive to trigger various log processing
 	 *
@@ -354,7 +363,10 @@ class Piwik_Referers extends Piwik_Plugin
 				switch($row['referer_type'])
 				{
 					case Piwik_Common::REFERER_TYPE_SEARCH_ENGINE:
-					
+						if(empty($row['referer_keyword']))
+						{
+							$row['referer_keyword'] = self::LABEL_KEYWORD_NOT_DEFINED;
+						}
 						if(!isset($this->interestBySearchEngine[$row['referer_name']])) $this->interestBySearchEngine[$row['referer_name']]= $archiveProcessing->getNewInterestRow();
 						if(!isset($this->interestByKeyword[$row['referer_keyword']])) $this->interestByKeyword[$row['referer_keyword']]= $archiveProcessing->getNewInterestRow();
 						if(!isset($this->interestBySearchEngineAndKeyword[$row['referer_name']][$row['referer_keyword']])) $this->interestBySearchEngineAndKeyword[$row['referer_name']][$row['referer_keyword']]= $archiveProcessing->getNewInterestRow();
@@ -427,6 +439,10 @@ class Piwik_Referers extends Piwik_Plugin
 				switch($row['referer_type'])
 				{
 					case Piwik_Common::REFERER_TYPE_SEARCH_ENGINE:
+						if(empty($row['referer_keyword']))
+						{
+							$row['referer_keyword'] = self::LABEL_KEYWORD_NOT_DEFINED;
+						}
 						if(!isset($this->interestBySearchEngine[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestBySearchEngine[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
 						if(!isset($this->interestByKeyword[$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByKeyword[$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
 						

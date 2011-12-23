@@ -58,6 +58,13 @@ class Piwik_Referers_API
 	public function getKeywords($idSite, $period, $date, $segment = false, $expanded = false)
 	{
 		$dataTable = $this->getDataTable('Referers_searchEngineByKeyword', $idSite, $period, $date, $segment, $expanded);
+		$dataTable = $this->handleKeywordNotDefined($dataTable);
+		return $dataTable;
+	}
+	
+	protected function handleKeywordNotDefined($dataTable)
+	{
+		$dataTable->queueFilter('ColumnCallbackReplace', array('label', array('Piwik_Referers', 'getCleanKeyword')));
 		return $dataTable;
 	}
 	
@@ -135,6 +142,7 @@ class Piwik_Referers_API
     		$searchEngineUrl = $subTable->getMetadata('url');
     		$dataTable->queueFilter('ColumnCallbackAddMetadata', array( 'label', 'url', 'Piwik_getSearchEngineUrlFromKeywordAndUrl', array($searchEngineUrl)));
 		}
+		$dataTable = $this->handleKeywordNotDefined($dataTable);
 		return $dataTable;
 	}
 
