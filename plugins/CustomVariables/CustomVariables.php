@@ -23,7 +23,8 @@ class Piwik_CustomVariables extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'description' => Piwik_Translate('CustomVariables_PluginDescription'),
+			'description' => Piwik_Translate('CustomVariables_PluginDescription') 
+			. ' <br/>Required to use <a href="http://piwik.org/docs/ecommerce-analytics/">Ecommerce Analytics</a> feature!',
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,

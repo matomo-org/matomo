@@ -63,6 +63,11 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	
 	public function ecommerceReport()
 	{
+		if(!Piwik_PluginsManager::getInstance()->isPluginActivated('CustomVariables'))
+		{
+			throw new Exception("Ecommerce Tracking requires that the plugin Custom Variables is enabled. Please enable the plugin CustomVariables (or ask your admin).");
+		}
+		
 		$view = $this->getGoalReportView($idGoal = Piwik_Archive::LABEL_ECOMMERCE_ORDER);
 		$view->displayFullReport = true;
 		$view->goalDimensions = Piwik_Goals::getReportsWithGoalMetrics();
