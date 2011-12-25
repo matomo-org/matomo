@@ -145,10 +145,14 @@ class Test_Piwik_IP extends UnitTestCase
 			// octets must be 0-255
 			'-1.0.0.0',
 			'1.1.1.256',
-
-			// leading zeros not supported (i.e., can be ambiguous, e.g., octal)
-			'07.07.07.07',
 		);
+
+		if (!Piwik_Common::isMacOS())
+		{
+			// leading zeros not supported (i.e., can be ambiguous, e.g., octal)
+			$tests[] = '07.07.07.07';
+		}
+
 		foreach($tests as $P)
 		{
 			$this->assertEqual( Piwik_IP::P2N($P), "\x00\x00\x00\x00", "$P" );
@@ -578,7 +582,7 @@ class Test_Piwik_IP extends UnitTestCase
 
 		if (!Piwik_Common::isWindows() || PHP_VERSION >= '5.3')
 		{
-			$hosts = array( 'ip6-localhost', strtolower(@php_uname('n')), '::1' );
+			$hosts = array( 'ip6-localhost', 'localhost', strtolower(@php_uname('n')), '::1' );
 			$this->assertTrue( in_array(strtolower(Piwik_IP::getHostByAddr('::1')), $hosts), '::1 -> ip6-localhost' );
 		}
 	}
@@ -605,8 +609,10 @@ class Test_Piwik_IP extends UnitTestCase
 
 		foreach ($adds as $k => $v) {
 			$this->assertEqual( php_compat_inet_ntop(pack('H*', $v)), $k, $k );
-			if(!Piwik_Common::isWindows())
+			if(!Piwik_Common::isWindows() && !Piwik_Common::isMacOS())
+			{
 				$this->assertEqual( @inet_ntop(pack('H*', $v)), $k, $k );
+			}
 		}
 	}
 
@@ -670,8 +676,10 @@ class Test_Piwik_IP extends UnitTestCase
 
 		foreach ($adds as $k => $v) {
 			$this->assertEqual( bin2hex(php_compat_inet_pton($k)), $v, $k );
-			if(!Piwik_Common::isWindows())
+			if(!Piwik_Common::isWindows() && !Piwik_Common::isMacOS())
+			{
 				$this->assertEqual( bin2hex(@inet_pton($k)), $v, $k );
+			}
 		}
 	}
 }
