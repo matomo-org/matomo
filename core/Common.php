@@ -1706,7 +1706,17 @@ class Piwik_Common
 	 */
 	static public function isWindows()
 	{
-		return DIRECTORY_SEPARATOR == '\\';
+		return DIRECTORY_SEPARATOR === '\\';
+	}
+
+	/** 
+	 * Returns true if running on MacOS 
+	 * 
+	 * @return bool true if PHP detects it is running on MacOS; else false 
+	 */ 
+	static public function isMacOS() 
+	{ 
+		return PHP_OS === 'Darwin'; 
 	}
 
 	/**

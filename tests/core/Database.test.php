@@ -16,6 +16,7 @@ Mock::generate('Piwik_Access');
 class Test_Database extends UnitTestCase
 {
 	static $warningDisplayed = false;
+
 	function __construct( $title = '')
 	{
 		parent::__construct( $title );
@@ -208,6 +209,7 @@ class FakeAccess
 		}
 		return  self::$idSitesView;
 	}
+
 	static public function getSitesIdWithAtLeastViewAccess()
 	{
 		if(self::$superUser)
