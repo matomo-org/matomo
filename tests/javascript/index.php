@@ -5,6 +5,8 @@
  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
  <title>piwik.js: Unit Tests</title>
 <?php
+require_once(dirname(__FILE__).'/SQLite.php');
+
 if(file_exists("stub.tpl")) {
 	echo file_get_contents("stub.tpl");
 }
@@ -16,7 +18,7 @@ function getToken() {
 <?php
 $sqlite = false;
 if (file_exists("enable_sqlite")) {
-	if (extension_loaded('sqlite')) {
+	if (class_exists('SQLite')) {
 		$sqlite = true;
 	} 
 }
