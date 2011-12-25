@@ -907,10 +907,10 @@ if ($sqlite) {
 		ok( /PREFIX/.test( document.cookie ), "setCookieNamePrefix()" );
 
 		tracker2.deleteCustomVariable(1);
-		console.log(tracker2.getCustomVariable(1));
+		//console.log(tracker2.getCustomVariable(1));
 		ok( tracker2.getCustomVariable(1) === false, "VISIT deleteCustomVariable(), getCustomVariable() === false" );
 		tracker2.deleteCustomVariable(2, "page");
-		console.log(tracker2.getCustomVariable(2, "page"));
+		//console.log(tracker2.getCustomVariable(2, "page"));
 		ok( tracker2.getCustomVariable(2, "page") === false, "PAGE deleteCustomVariable(), getCustomVariable() === false" );
 		tracker2.trackPageView("DeleteCustomVariableCookie");
 
@@ -942,9 +942,13 @@ if ($sqlite) {
 		tracker3.setDoNotTrack(false);
 		tracker3.trackPageView("DoTrack");
 
-		navigator.doNotTrack = "1";
-		tracker3.setDoNotTrack(true);
-		tracker3.trackPageView("DoNotTrack");
+		// Firefox 9: navigator.doNotTrack is read-only
+		navigator.doNotTrack = "yes";
+		if (navigator.doNotTrack === "yes")
+		{
+			tracker3.setDoNotTrack(true);
+			tracker3.trackPageView("DoNotTrack");
+		}
 
 		stop();
 		setTimeout(function() {
