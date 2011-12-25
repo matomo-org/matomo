@@ -1,6 +1,8 @@
 <?php
 // piwik.php test harness
 
+require_once(dirname(__FILE__).'/SQLite.php');
+
 function sendWebBug() {
 	$trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
 	header("Content-type: image/gif");
@@ -12,27 +14,27 @@ if (!file_exists("enable_sqlite")) {
 	exit;
 }
 
-if (!extension_loaded('sqlite')) {
+if (!class_exists('SQLite')) {
 	sendWebBug();
 	exit;
 }
 
-$dbhandle = sqlite_open( 'unittest.dbf' );
-if ($dbhandle) {
-	// SQLite 3.3 supports CREATE TABLE IF NOT EXISTS
-
-	$result = @sqlite_array_query($dbhandle, "SELECT COUNT(*) FROM requests");
-	if ($result === false) {
-		try {
-			$query = @sqlite_exec( $dbhandle, 'CREATE TABLE requests (token TEXT, ip TEXT, ts TEXT, uri TEXT, referer TEXT, ua TEXT);' );
-		} catch (Exception $e) { }
-	}
-}
-else
-{
+$sqlite = new SQLite( 'unittest.dbf' );
+if (!$sqlite) {
 	header("HTTP/1.0 500 Internal Server Error");
 	exit;
 }
+
+if (!file_exists(dirname(__FILE__).'/unittest.dbf'))
+{
+	try {
+		$query = @$sqlite->exec( 'CREATE TABLE requests (token TEXT, ip TEXT, ts TEXT, uri TEXT, referer TEXT, ua TEXT)' );
+	} catch (Exception $e) {
+		header("HTTP/1.0 500 Internal Server Error");
+		exit;
+	}
+}
+
 
 if (isset($_GET['requests'])) {
 	$token = get_magic_quotes_gpc() ? stripslashes($_GET['requests']) : $_GET['requests'];
@@ -40,14 +42,16 @@ if (isset($_GET['requests'])) {
 
 	echo "<html><head><title>$token</title></head><body>\n";
 
-//	$result = sqlite_array_query($dbhandle, "SELECT uri FROM requests");
-	$result = @sqlite_array_query($dbhandle, "SELECT uri FROM requests WHERE token = \"$token\" AND ua = \"$ua\"");
+	sleep(5);
+
+//	$result = $sqlite->query_array("SELECT uri FROM requests");
+	$result = @$sqlite->query_array("SELECT uri FROM requests WHERE token = \"$token\" AND ua = \"$ua\"");
 	if ($result !== false) {
 		$nofRows = count($result);
 		echo "<span>$nofRows</span>\n";
 
 		foreach ($result as $entry) {
-	    	echo "<span>". $entry['uri'] ."</span>\n";
+			echo "<span>". $entry['uri'] ."</span>\n";
 		}
 	}
 
@@ -71,14 +75,14 @@ if (isset($_GET['requests'])) {
 		$data = json_decode(get_magic_quotes_gpc() ? stripslashes($_REQUEST['data']) : $_REQUEST['data'], true);
 		$token = isset($data['token']) ? $data['token'] : '';
 
-		$query = sqlite_exec($dbhandle, "INSERT INTO requests (token, ip, ts, uri, referer, ua) VALUES (\"$token\", \"$ip\", \"$ts\", \"$uri\", \"$referer\", \"$ua\")", $error);
+		$query = $sqlite->exec("INSERT INTO requests (token, ip, ts, uri, referer, ua) VALUES (\"$token\", \"$ip\", \"$ts\", \"$uri\", \"$referer\", \"$ua\")");
 		if (!$query) {
 			header("HTTP/1.0 500 Internal Server Error");
 		} else {
-//			echo 'Number of rows modified: ', sqlite_changes($dbhandle);
+//			echo 'Number of rows modified: ', $sqlite->changes();
 			sendWebBug();
 		}
 	}
 }
 
-sqlite_close($dbhandle);
+$sqlite->close();
