@@ -127,6 +127,17 @@ class Piwik_DataTable_Array
 	}
 	
 	/**
+	 * Returns the table with the specified label.
+	 * 
+	 * @param string $label
+	 * @return Piwik_DataTable
+	 */
+	public function getTable($label)
+	{
+		return $this->array[$label];
+	}
+	
+	/**
 	 * Adds a new DataTable to the DataTable_Array
 	 *
 	 * @param Piwik_DataTable $table
@@ -198,4 +209,114 @@ class Piwik_DataTable_Array
 		return $newTableArray;
 	}
 
+	/**
+	 * Merges the rows of every child DataTable into a new DataTable and
+	 * returns it. This function will also set the label of the merged rows
+	 * to the label of the DataTable they were originally from.
+	 * 
+	 * The result of this function is determined by the type of DataTable
+	 * this instance holds. If this DataTable_Array instance holds an array
+	 * of DataTables, this function will transform it from:
+	 * <code>
+	 * Label 0:
+	 *   DataTable(row1)
+	 * Label 1:
+	 *   DataTable(row2)
+	 * </code>
+	 * to:
+	 * <code>
+	 * DataTable(row1[label = 'Label 0'], row2[label = 'Label 1'])
+	 * </code>
+	 * 
+	 * If this instance holds an array of DataTable_Arrays, this function will
+	 * transform it from:
+	 * <code>
+	 * Outer Label 0:			// the outer DataTable_Array
+	 *   Inner Label 0:			// one of the inner DataTable_Arrays
+	 *     DataTable(row1)
+	 *   Inner Label 1:
+	 *     DataTable(row2)
+	 * Outer Label 1:
+	 *   Inner Label 0:
+	 *     DataTable(row3)
+	 *   Inner Label 1:
+	 *     DataTable(row4)
+	 * </code>
+	 * to:
+	 * <code>
+	 * Inner Label 0:
+	 *   DataTable(row1[label = 'Outer Label 0'], row3[label = 'Outer Label 1'])
+	 * Inner Label 1:
+	 *   DataTable(row2[label = 'Outer Label 0'], row4[label = 'Outer Label 1'])
+	 * </code>
+	 * 
+	 * In addition, if this instance holds an array of DataTable_Arrays, the
+	 * metadata of the first child is used as the metadata of the result.
+	 * 
+	 * This function can be used, for example, to smoosh IndexedBySite archive
+	 * query results into one DataTable w/ different rows differentiated by site ID.
+	 * 
+	 * @return Piwik_DataTable|Piwik_DataTable_Array
+	 */
+	public function mergeChildren()
+	{
+		$firstChild = reset($this->array);
+
+		if ($firstChild instanceof Piwik_DataTable_Array)
+		{
+			$result = new Piwik_DataTable_Array();
+			$result->setKeyName($firstChild->getKeyName());
+			$result->metadata = $firstChild->metadata;
+			
+			foreach ($this->array as $label => $subTableArray)
+			{
+				foreach ($subTableArray->array as $innerLabel => $subTable)
+				{
+					if (!isset($result->array[$innerLabel]))
+					{
+						$result->addTable(new Piwik_DataTable(), $innerLabel);
+					}
+				
+					$this->copyRowsAndSetLabel($result->array[$innerLabel], $subTable, $label);
+				}
+			}
+		}
+		else
+		{
+			$result = new Piwik_DataTable();
+
+			foreach ($this->array as $label => $subTable)
+			{
+				$this->copyRowsAndSetLabel($result, $subTable, $label);
+			}
+		}
+		
+		return $result;
+	}
+	
+	/**
+	 * Utility function used by mergeChildren. Copies the rows from one table,
+	 * sets their 'label' columns to a value and adds them to another table.
+	 * 
+	 * @param Piwik_DataTable $toTable The table to copy rows to.
+	 * @param Piwik_DataTable $fromTable The table to copy rows from.
+	 * @param string $label The value to set the 'label' column of every copied
+	 *                      row.
+	 */
+	private function copyRowsAndSetLabel($toTable, $fromTable, $label)
+	{
+		foreach ($fromTable->getRows() as $fromRow)
+		{
+			$oldColumns = $fromRow->getColumns();
+			unset($oldColumns['label']);
+		
+			$columns = array_merge(array('label' => $label), $oldColumns);
+			$row = new Piwik_DataTable_Row(array(
+				Piwik_DataTable_Row::COLUMNS => $columns,
+				Piwik_DataTable_Row::METADATA => $fromRow->getMetadata(),
+				Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $fromRow->getIdSubDataTable()
+			));
+			$toTable->addRow($row);
+		}
+	}
 }
