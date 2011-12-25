@@ -25,7 +25,7 @@ if (!$sqlite) {
 	exit;
 }
 
-if (!file_exists(dirname(__FILE__).'/unittest.dbf'))
+if (filesize(dirname(__FILE__).'/unittest.dbf') == 0)
 {
 	try {
 		$query = @$sqlite->exec( 'CREATE TABLE requests (token TEXT, ip TEXT, ts TEXT, uri TEXT, referer TEXT, ua TEXT)' );
