@@ -574,8 +574,8 @@ class Test_Piwik_Integration_Main extends Test_Integration
 
 	public function test_TwoVisitors_twoWebsites_differentDays_Conversions()
 	{
-		$apiToCall = array('Goals.getDaysToConversion');
-		$this->doTest_TwoVisitors_twoWebsites_differentDays(__FUNCTION__, $apiToCall, true, false);
+		$apiToCall = array('Goals.getDaysToConversion', 'MultiSites.getAll');
+		$this->doTest_TwoVisitors_twoWebsites_differentDays(__FUNCTION__, $apiToCall, true);
 		
 		// Tests that getting a visits summary metric (nb_visits) & a Goal's metric (Goal_revenue)
 		// at the same time works.
@@ -590,7 +590,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	}
 
 	private function doTest_TwoVisitors_twoWebsites_differentDays(
-		$function, $apiToCall, $allowConversions = false, $testGetProcessedReport = true)
+		$function, $apiToCall, $allowConversions = false)
 	{
     	$dateTime = '2010-01-03 11:22:33';
 		$idSites = $this->setup_TwoVisitors_twoWebsites_differentDays($dateTime, $allowConversions);
@@ -609,10 +609,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		
 		// testing metadata API for multiple periods
 		$this->setApiNotToCall(array());
-		if ($testGetProcessedReport)
-		{
-			$this->setApiToCall( array('API.getProcessedReport'	) );
-		}
+		$this->setApiToCall( array('API.getProcessedReport'	) );
 		$apiToCall = array_diff($apiToCall, array('Actions.getPageTitle', 'Actions.getPageUrl'));
 		foreach($apiToCall as $api)
 		{
@@ -624,11 +621,12 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	private function setup_TwoVisitors_twoWebsites_differentDays($dateTime, $allowConversions = false)
 	{
 		// tests run in UTC, the Tracker in UTC
-    	$idSite = $this->createWebsite($dateTime);
-    	$idSite2 = $this->createWebsite($dateTime);
+		$ecommerce = $allowConversions ? 1 : 0;
+    	$idSite = $this->createWebsite($dateTime, $ecommerce, "Site 1");
+    	$idSite2 = $this->createWebsite($dateTime, 0, "Site 2");
     	if ($allowConversions)
     	{
-    		Piwik_Goals_API::getInstance()->addGoal($idSite, 'all', 'url', 'http', 'contains');
+    		Piwik_Goals_API::getInstance()->addGoal($idSite, 'all', 'url', 'http', 'contains', false, 5);
     		Piwik_Goals_API::getInstance()->addGoal($idSite2, 'all', 'url', 'http', 'contains');
     	}
     	// -
@@ -1000,7 +998,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		    	                            'VisitsSummary.get',
 		    	                            'UserSettings.getResolution',
 		    	                            'VisitFrequency.get',
-				                            'VisitTime.getVisitInformationPerServerTime',
+				                            'VisitTime.getVisitInformationPerServerTime'
 		    	));
 				$this->callGetApiCompareOutput(__FUNCTION__, 'xml', 
 		        								$idSite, 
@@ -1016,7 +1014,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // Check that requesting period "Range" means 
         // only processing the requested Plugin blob (Actions in this case), not all Plugins blobs
 		$tests = array(
-			// 4 blobs for the Actions plugin, 7 blogs for UserSettings, 2 blobs VisitTime
+			// 4 blobs for the Actions plugin, 7 blobs for UserSettings, 2 blobs VisitTime
 			'archive_blob_2010_12' => (4 + 7 + 2) * 3, 
 			// (VisitsSummary 5 metrics + 1 flag - no Unique visitors for range) 
 			// + 1 flag archive UserSettings
@@ -1034,8 +1032,18 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		{
 	        $sql = "SELECT count(*) FROM " . Piwik_Common::prefixTable($table) . " WHERE period = ".Piwik::$idPeriods['range'];
 	        $countBlobs = Zend_Registry::get('db')->fetchOne($sql);
-	        $this->assertEqual( $expectedRows, $countBlobs, "$table expected $countBlobs" );
+	        $this->assertEqual( $expectedRows, $countBlobs, "$table expected $expectedRows, got $countBlobs" );
 		}
+		
+		// perform other tests AFTER above blob/numeric count checks are done
+		// first test is same range test
+		$this->setApiToCall(array('MultiSites.getAll'));
+		$this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, '2010-12-15,2011-01-15', array('range'));
+        
+        // test several dates (tests use of IndexedByDate w/ 'date1,date2,etc.')
+        $this->setApiToCall(array('MultiSites.getAll'));
+        $this->callGetApiCompareOutput(
+        	__FUNCTION__ . '_IndexedByDate', 'xml', $idSite, '2010-12-10', array('day'), $setDateLastN = true);
 	}
 
 	// test Metadata API + period=range&date=lastN

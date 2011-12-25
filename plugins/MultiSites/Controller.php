@@ -19,7 +19,6 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 	protected $orderBy = 'visits';
 	protected $order = 'desc';
 	protected $evolutionBy = 'visits';
-	protected $mySites = array();
 	protected $page = 1;
 	protected $limit = 0;
 	protected $period;
@@ -55,85 +54,81 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 			$date = $this->getDateParameterInTimezone($dateRequest, $piwikDefaultTimezone);
 			$date = $date->toString();
 		}
-		
-		if (Piwik::isUserIsSuperUser())
-		{
-			$mySites = Piwik_SitesManager_API::getInstance()->getAllSites();
-			Piwik_Site::setSites($mySites);
-			
-			$mySites = array_values($mySites);
-		}
-		else
-		{
-			$mySites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess();
-			Piwik_Site::setSitesFromArray($mySites);
-		}
+		$siteIds = Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess();
+		$dataTable = Piwik_MultiSites_API::getInstance()->getAll($period, $date, $segment = false);
 
-		$ids = 'all';
+		list($minDate, $maxDate) = $this->getMinMaxDateAcrossWebsites($siteIds);
 		
-		// Current date - select metrics
-		$dataTableArray = Piwik_VisitsSummary_API::getInstance()->get($ids, $period, $date, $segment = false, $columns = array('nb_visits', 'nb_actions'));
-		$currentVisits = $this->getArrayFromAPI($dataTableArray, 'nb_visits');
-		$currentActions = $this->getArrayFromAPI($dataTableArray, 'nb_actions');
-		if($displayRevenueColumn)
-		{
-		    $dataTableArray = Piwik_Goals_API::getInstance()->get($ids, $period, $date, $segment = false, $idGoal = false, $columns = array('revenue'));
-		    $currentRevenue = $this->getArrayFromAPI($dataTableArray, 'revenue');
-		}
-		// Previous date
-		$lastVisits = $lastActions = $lastRevenue = array();
-		if($period != 'range')
-		{
-			$lastDate = Piwik_Period_Range::removePeriod($period, Piwik_Date::factory($date), $n = 1 );
-			$dataTableArray = Piwik_VisitsSummary_API::getInstance()->get($ids, $period, $lastDate, $segment = false, $columns = array('nb_visits', 'nb_actions'));
-			$lastVisits =  $this->getArrayFromAPI($dataTableArray, 'nb_visits');
-			$lastActions =  $this->getArrayFromAPI($dataTableArray, 'nb_actions');
-			if($displayRevenueColumn)
-			{
-			    $dataTableArray = Piwik_Goals_API::getInstance()->get($ids, $period, $lastDate, $segment = false, $idGoal = false, $columns = array('revenue'));
-			    $lastRevenue = $this->getArrayFromAPI($dataTableArray, 'revenue');
-			}
-		}
-		
-		$visitsSummary = $this->getChangeCurrentVsLast($currentVisits, $lastVisits);
-		$actionsSummary = $this->getChangeCurrentVsLast($currentActions, $lastActions);
-		if($displayRevenueColumn)
-		{
-		    $revenueSummary = $this->getChangeCurrentVsLast($currentRevenue, $lastRevenue);
-		}
 		$totalVisits = $totalActions = $totalRevenue = 0;
-		
-		foreach($mySites as &$site)
+
+		// put data into a form the template will understand better
+		$digestableData = array();
+		foreach($siteIds as $idSite)
 		{
-			$idSite = $site['idsite'];
-			if($period != 'range')
+			$isEcommerceEnabled = Piwik_Site::isEcommerceEnabledFor($idSite);
+
+			$digestableData[$idSite] = array(
+				'idsite' => $idSite,
+				'main_url' => Piwik_Site::getMainUrlFor($idSite),
+				'name' => Piwik_Site::getNameFor($idSite),
+				'visits' => 0,
+				'actions' => 0
+			);
+			
+			if ($period != 'range')
 			{
-				$site['lastVisits'] = $lastVisits[$idSite];
-				$site['lastActions'] = $lastActions[$idSite];
-				if($displayRevenueColumn)
+				$digestableData[$idSite]['visits_evolution'] = 0;
+				$digestableData[$idSite]['actions_evolution'] = 0;
+			}
+			
+			if ($displayRevenueColumn)
+			{
+				$revenueDefault = $isEcommerceEnabled ? 0 : "'-'";
+			
+				if ($period != 'range')
 				{
-				    $site['lastRevenue'] = $lastRevenue[$idSite];
+					$digestableData[$idSite]['revenue_evolution'] = $revenueDefault;
 				}
 			}
+		}
+
+		foreach($dataTable->getRows() as $row)
+		{
+			$idsite = (int)$row->getMetadata('idsite');
 			
-			$site['visits'] = $currentVisits[$idSite];
-			$site['actions'] = $currentActions[$idSite];
+			$site = &$digestableData[$idsite];
+			
+			$site['visits'] = $row->getColumn('nb_visits');
 			$totalVisits += $site['visits'];
+
+			$site['actions'] = $row->getColumn('nb_actions');
 			$totalActions += $site['actions'];
-			$site['visitsSummaryValue'] = $visitsSummary[$idSite];
-			$site['actionsSummaryValue'] = $actionsSummary[$idSite];
-			$site['revenue'] = $site['revenueSummaryValue'] = 0;
-			if($displayRevenueColumn)
+
+			if ($displayRevenueColumn)
 			{
-    			$site['revenue'] = $currentRevenue[$idSite];
-    			$totalRevenue += $site['revenue'];
-    			$site['revenueSummaryValue'] = $revenueSummary[$idSite];
+				if ($row->getColumn('revenue') !== false)
+				{
+					$site['revenue'] = $row->getColumn('revenue');
+					$totalRevenue += $site['revenue'];
+				}
+			}
+
+			if ($period != 'range')
+			{
+				$site['visits_evolution'] = $row->getColumn('visits_evolution');
+				$site['actions_evolution'] = $row->getColumn('actions_evolution');
+				
+				if ($displayRevenueColumn)
+				{
+					$site['revenue_evolution'] = $row->getColumn('revenue_evolution');
+				}
 			}
 		}
-		$mySites = $this->applyPrettyMoney($mySites);
 		
+		$this->applyPrettyMoney($digestableData);
+
 		$view = new Piwik_View("MultiSites/templates/index.tpl");
-		$view->mySites = $mySites;
+		$view->sitesData = array_values($digestableData);
 		$view->evolutionBy = $this->evolutionBy;
 		$view->period = $period;
 		$view->dateRequest = $dateRequest;
@@ -160,93 +155,30 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 			$view->autoRefreshTodayReport = Zend_Registry::get('config')->General->multisites_refresh_after_seconds;
 		}
 		$this->setGeneralVariablesView($view);
-		$this->setMinMaxDateAcrossWebsites($mySites, $view);
+		$this->setMinDateView($minDate, $view);
+		$this->setMaxDateView($maxDate, $view);
 		$view->show_sparklines = Zend_Registry::get('config')->General->show_multisites_sparklines;
 
 		echo $view->render();
 	}
 	
-	protected function applyPrettyMoney($sites)
-	{
-		foreach($sites as &$site)
-		{
-			$revenue = "-";
-			if(!empty($site['revenue']))
-			{
-				$revenue = Piwik::getPrettyMoney($site['revenue'], $site['idsite'], $htmlAllowed = false); 
-			}
-			$site['revenue'] = '"'. $revenue . '"';
-		}
-		return $sites;
-	}
-	
-	protected function getChangeCurrentVsLast($current, $last)
-	{
-		$evolution = array();
-		foreach($current as $idSite => $value)
-		{
-			$evolution[$idSite] = $this->getEvolutionPercentage($value, isset($last[$idSite]) ? $last[$idSite] : 0);
-		}
-		return $evolution;
-	}
-
-	private function getEvolutionPercentage($current, $last)
-	{
-		if($current == 0 && $last == 0)
-		{
-			$evolution = 0;
-		}
-		elseif($last == 0)
-		{
-			$evolution = 100;
-		}
-		else
-		{
-			$evolution = (($current - $last) / $last) * 100;
-		}
-
-		$output = round($evolution,2);
-
-		return $output;
-	}
-
-	protected function getArrayFromAPI($dataTableArray, $column)
-	{
-		$values = array();
-		foreach($dataTableArray->getArray() as $id => $row)
-		{
-			$firstRow = $row->getFirstRow();
-			$value = 0;
-			if($firstRow)
-			{
-				$value = $firstRow->getColumn($column);
-			}
-			if($column == 'revenue')
-			{
-				$value = round($value);
-			}
-			$values[$id] = $value;
-		}
-		return $values;
-	}
-	
 	/**
 	 * The Multisites reports displays the first calendar date as the earliest day available for all websites.
 	 * Also, today is the later "today" available across all timezones.
-	 * @param array $mySites
-	 * @param Piwik_View $view
-	 * @return void
+	 * @param array $siteIds Array of IDs for each site being displayed.
+	 * @return array of two Piwik_Date instances. First is the min-date & the second
+	 *               is the max date.
 	 */
-	private function setMinMaxDateAcrossWebsites($mySites, $view)
+	private function getMinMaxDateAcrossWebsites($siteIds)
 	{
 		$now = Piwik_Date::now();
 
 		$minDate = null;
 		$maxDate = $now->subDay(1)->getTimestamp();
-		foreach($mySites as &$site)
+		foreach($siteIds as $idsite)
 		{
 			// look for 'now' in the website's timezone
-			$timezone = $site['timezone'];
+			$timezone = Piwik_Site::getTimezoneFor($idsite);
 			$date = Piwik_Date::adjustForTimezone($now->getTimestamp(), $timezone);
 			if($date > $maxDate)
 			{
@@ -254,17 +186,30 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 			}
 			
 			// look for the absolute minimum date
-			$creationDate = $site['ts_created'];
+			$creationDate = Piwik_Site::getCreationDateFor($idsite);
 			$date = Piwik_Date::adjustForTimezone(strtotime($creationDate), $timezone);
 			if(is_null($minDate) || $date < $minDate)
 			{
 				$minDate = $date;
 			}
 		}
-		$this->setMinDateView(Piwik_Date::factory($minDate), $view);
-		$this->setMaxDateView(Piwik_Date::factory($maxDate), $view);
+		
+		return array(Piwik_Date::factory($minDate), Piwik_Date::factory($maxDate));
 	}
 	
+	protected function applyPrettyMoney(&$sites)
+	{
+		foreach($sites as $idsite => &$site)
+		{
+			$revenue = "-";
+			if(!empty($site['revenue']))
+			{
+				$revenue = Piwik::getPrettyMoney($site['revenue'], $site['idsite'], $htmlAllowed = false);
+			}
+			$site['revenue'] = '"'. $revenue . '"';
+		}
+	}
+
 	public function getEvolutionGraph( $fetch = false, $columns = false)
 	{
 		if(empty($columns))

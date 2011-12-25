@@ -32,6 +32,31 @@ class Piwik_MultiSites extends Piwik_Plugin
 			'AssetManager.getCssFiles' => 'getCssFiles',
 			'AssetManager.getJsFiles' => 'getJsFiles',
 			'TopMenu.add' => 'addTopMenu',
+			'API.getReportMetadata' => 'getReportMetadata',
+		);
+	}
+
+	public function getReportMetadata($notification)
+	{
+		$isGoalPluginEnabled = Piwik_Common::isGoalPluginEnabled();
+	
+		$metrics = array( 'nb_visits', 'nb_actions' );
+		if ($isGoalPluginEnabled)
+		{
+			$metrics['revenue'] = Piwik_Translate('Goals_ColumnRevenue');
+		}
+
+		$reports = &$notification->getNotificationObject();
+		$reports[] = array(
+			'category' => Piwik_Translate('General_MultiSitesSummary'),
+			'name' => Piwik_Translate('Referers_WidgetOverview'), // re-using translation
+			'module' => 'MultiSites',
+			'action' => 'getAll',
+			'dimension' => Piwik_Translate('General_Website'), // re-using translation
+			'metrics' => $metrics,
+			'processedMetrics' => false,
+			'constantRowsCount' => false,
+			'order' => 5
 		);
 	}
 

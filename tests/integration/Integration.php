@@ -127,10 +127,10 @@ abstract class Test_Integration extends Test_Database
 	 * @param $dateTime eg '2010-01-01 12:34:56'
 	 * @return $idSite of website created
 	 */
-	protected function createWebsite( $dateTime, $ecommerce = 0 )
+	protected function createWebsite( $dateTime, $ecommerce = 0, $siteName = 'Piwik test' )
 	{
     	$idSite = Piwik_SitesManager_API::getInstance()->addSite(
-    					"Piwik test",
+    					$siteName,
     					"http://piwik.net/", 
     					$ecommerce,
                     	$ips = null, 

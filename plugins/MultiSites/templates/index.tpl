@@ -7,8 +7,8 @@
 <script type="text/javascript">
 	var allSites = new Array();
 	var params = new Array();
-	{foreach from=$mySites key=i item=site}
-		allSites[{$i}] = new setRowData({$site.idsite}, {$site.visits}, {$site.actions}, {$site.revenue}, '{$site.name|escape:"javascript"}', '{$site.main_url|escape:"javascript"}', '{$site.visitsSummaryValue|replace:",":"."}', '{$site.actionsSummaryValue|replace:",":"."}', '{$site.revenueSummaryValue|replace:",":"."}');
+	{foreach from=$sitesData key=i item=site}
+		allSites[{$i}] = new setRowData({$site.idsite}, {$site.visits}, {$site.actions}, {$site.revenue}, '{$site.name|escape:"javascript"}', '{$site.main_url|escape:"javascript"}', '{$site.visits_evolution|replace:",":"."}', '{$site.actions_evolution|replace:",":"."}', '{$site.revenue_evolution|replace:",":"."}');
 	{/foreach}
 	params['period'] = '{$period}';
 	params['date'] = '{$dateRequest}';

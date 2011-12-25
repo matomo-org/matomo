@@ -22,10 +22,10 @@ class Piwik_Site
 
 	function __construct($idsite)
 	{
-		$this->id = $idsite;
+		$this->id = (int)$idsite;
 		if(!isset(self::$infoSites[$this->id]))
 		{
-			self::$infoSites[$this->id] = Piwik_SitesManager_API::getInstance()->getSiteFromId($idsite);
+			self::$infoSites[$this->id] = Piwik_SitesManager_API::getInstance()->getSiteFromId($this->id);
 		}
 	}
 	
@@ -146,5 +146,115 @@ class Piwik_Site
 	static public function clearCache()
 	{
 		self::$infoSites = array();
+	}
+	
+	/**
+	 * Utility function. Returns the value of the specified field for the
+	 * site with the specified ID.
+	 * 
+	 * @param int|string $idsite The ID of the site whose data is being
+	 *                           accessed.
+	 * @param string $field The name of the field to get.
+	 * @return mixed
+	 */
+	static protected function getFor($idsite, $field)
+	{
+		$idsite = (int)$idsite;
+
+		if (!isset(self::$infoSites[$idsite]))
+		{
+			self::$infoSites[$idsite] = Piwik_SitesManager_API::getInstance()->getSiteFromId($idsite);
+		}
+
+		return self::$infoSites[$idsite][$field];
+	}
+
+	/**
+	 * Returns the name of the site with the specified ID.
+	 * 
+	 * @param int $idsite The site ID.
+	 * @return string
+	 */
+	static public function getNameFor($idsite)
+	{
+		return self::getFor($idsite, 'name');
+	}
+
+	/**
+	 * Returns the timezone of the site with the specified ID.
+	 * 
+	 * @param int $idsite The site ID.
+	 * @return string
+	 */
+	static public function getTimezoneFor($idsite)
+	{
+		return self::getFor($idsite, 'timezone');
+	}
+	
+	/**
+	 * Returns the creation date of the site with the specified ID.
+	 * 
+	 * @param int $idsite The site ID.
+	 * @return string
+	 */
+	static public function getCreationDateFor($idsite)
+	{
+		return self::getFor($idsite, 'ts_created');
+	}
+	
+	/**
+	 * Returns the url for the site with the specified ID.
+	 * 
+	 * @param int $idsite The site ID.
+	 * @return string
+	 */
+	static public function getMainUrlFor($idsite)
+	{
+		return self::getFor($idsite, 'main_url');
+	}
+	
+	/**
+	 * Returns whether the site with the specified ID is ecommerce enabled
+	 * 
+	 * @param int $idsite The site ID.
+	 * @return string
+	 */
+	static public function isEcommerceEnabledFor($idsite)
+	{
+		return self::getFor($idsite, 'ecommerce') == 1;
+	}
+
+	/**
+	 * Returns the currency of the site with the specified ID.
+	 * 
+	 * @param int $idsite The site ID.
+	 * @return string
+	 */
+	static public function getCurrencyFor($idsite)
+	{
+		return self::getFor($idsite, 'currency');
+	}
+	
+	/**
+	 * Returns the excluded IP addresses of the site with the specified ID.
+	 * 
+	 * @param int $idsite The site ID.
+	 * @return string
+	 */
+	static public function getExcludedIpsFor($idsite)
+	{
+		return self::getFor($idsite, 'excluded_ips');
+	}
+
+	/**
+	 * Returns the excluded query parameters for the site with the specified
+	 * ID.
+	 * 
+	 * @param int $idsite The site ID.
+	 * @return string
+	 */
+	static public function getExcludedQueryParametersFor($idsite)
+	{
+		return self::getFor($idsite, 'excluded_parameters');
 	}
 }

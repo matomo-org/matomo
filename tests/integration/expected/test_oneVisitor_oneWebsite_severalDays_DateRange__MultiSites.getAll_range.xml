@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Piwik test</label>
+		<nb_visits>6</nb_visits>
+		<nb_actions>9</nb_actions>
+		<revenue />
+		<idsite>1</idsite>
+	</row>
+</result>
