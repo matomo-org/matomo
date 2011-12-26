@@ -172,7 +172,7 @@ class Piwik_MultiSites_API
 	{
 		if ($currentData instanceof Piwik_DataTable_Array)
 		{
-			$pastArray = &$pastData->getArray();
+			$pastArray = $pastData->getArray();
 			foreach ($currentData->getArray() as $label => $subTable)
 			{
 				$this->calculateEvolutionPercentages($subTable, current($pastArray), $fields);
