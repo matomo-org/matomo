@@ -917,46 +917,6 @@ class Piwik_Common
 	}
 
 	/**
-	 * Returns the list of Campaign parameter names that will be read to classify 
-	 * a visit as coming from a Campaign
-	 * 
-	 * @return array array( 
-	 * 			0 => array( ... ) // campaign names parameters
-	 * 			1 => array( ... ) // campaign keyword parameters
-	 * ); 
-	 */
-	static public function getCampaignParameters()
-	{
-		if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
-		{
-			$return = array(
-				Piwik_Tracker_Config::getInstance()->Tracker['campaign_var_name'],
-				Piwik_Tracker_Config::getInstance()->Tracker['campaign_keyword_var_name'],
-			);
-		}
-		else
-		{
-			$return = array(
-				Zend_Registry::get('config')->Tracker->campaign_var_name,
-				Zend_Registry::get('config')->Tracker->campaign_keyword_var_name,
-			);
-		}
-		foreach($return as &$list) 
-		{
-			if(strpos($list, ',') !== false)
-			{
-				$list = explode(',', $list);
-			}
-			else
-			{
-				$list = array($list);
-			}
-		}
-		array_walk_recursive($return, 'trim');
-		return $return;
-	}
-	
-	/**
 	 * Generate random string
 	 *
 	 * @param string $length string length
@@ -1382,6 +1342,50 @@ class Piwik_Common
 		return 'unk';
 	}
 
+/*
+ * Campaign
+ */
+
+	/**
+	 * Returns the list of Campaign parameter names that will be read to classify 
+	 * a visit as coming from a Campaign
+	 * 
+	 * @return array array( 
+	 * 			0 => array( ... ) // campaign names parameters
+	 * 			1 => array( ... ) // campaign keyword parameters
+	 * ); 
+	 */
+	static public function getCampaignParameters()
+	{
+		if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
+		{
+			$return = array(
+				Piwik_Tracker_Config::getInstance()->Tracker['campaign_var_name'],
+				Piwik_Tracker_Config::getInstance()->Tracker['campaign_keyword_var_name'],
+			);
+		}
+		else
+		{
+			$return = array(
+				Zend_Registry::get('config')->Tracker->campaign_var_name,
+				Zend_Registry::get('config')->Tracker->campaign_keyword_var_name,
+			);
+		}
+		foreach($return as &$list) 
+		{
+			if(strpos($list, ',') !== false)
+			{
+				$list = explode(',', $list);
+			}
+			else
+			{
+				$list = array($list);
+			}
+		}
+		array_walk_recursive($return, 'trim');
+		return $return;
+	}
+	
 /*
  * Referrer
  */
