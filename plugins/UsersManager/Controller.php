@@ -16,6 +16,11 @@
  */
 class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 {
+    	static function orderByName($a, $b)
+	{
+		return strcmp($a['name'], $b['name']);
+	}
+
 	/**
 	 * The "Manage Users and Permissions" Admin UI screen
 	 */
@@ -83,8 +88,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 		$view->usersCount = count($users) - 1;
 		$view->usersAccessByWebsite = $usersAccessByWebsite;
 		$websites = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
-    	function orderByName($a, $b) { return strcmp($a['name'], $b['name']); }
-		uasort($websites, 'orderByName');
+		uasort($websites, array('Piwik_UsersManager_Controller', 'orderByName'));
 		$view->websites = $websites;
 		$this->setBasicVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
