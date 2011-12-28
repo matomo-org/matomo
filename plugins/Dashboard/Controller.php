@@ -24,11 +24,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		$view->availableWidgets = Piwik_Common::json_encode(Piwik_GetWidgetsList());
 		$view->availableLayouts = $this->getAvailableLayouts();
 		
-		$layout = $this->getLayout();
-		if(empty($layout)
-			|| $layout == $this->getEmptyLayout()) {
-			$layout = $this->getDefaultLayout();
-		}
+		$layout            = $this->getLayout();
 		$view->layout      = $layout;
 		$view->dashboardId = 1;
 		return $view;
@@ -187,6 +183,12 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 			);
 		}
 		
+		// return default layout if all columns are empty
+		if(empty($layoutObject->columns[0]) && empty($layoutObject->columns[1]) && 
+		   empty($layoutObject->columns[2]) && empty($layoutObject->columns[3])) {
+		    return $this->getDefaultLayout();
+		}
+		
 		foreach($layoutObject->columns as &$row) 
 		{
 			if(!is_array($row))
@@ -213,15 +215,6 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		}
 		$layout = Piwik_Common::json_encode($layoutObject);
 		return $layout;
-	}
-	
-	protected function getEmptyLayout()
-	{
-		return Piwik_Common::json_encode(array(
-			array(),
-			array(),
-			array())
-		);
 	}
 	
 	protected function getDefaultLayout()
