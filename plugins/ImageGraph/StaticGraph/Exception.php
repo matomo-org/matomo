@@ -38,8 +38,16 @@ class Piwik_ImageGraph_StaticGraph_Exception extends Piwik_ImageGraph_StaticGrap
 		$message = $this->exception->getMessage();
 		$messageWidthHeight = $this->getTextWidthHeight($message, false);
 		$messageHeight = $messageWidthHeight[self::HEIGHT_KEY];
-		$this->width = $messageWidthHeight[self::WIDTH_KEY] + self::MESSAGE_RIGHT_MARGIN;
-		$this->height = $messageHeight;
+
+		if($this->width == null)
+		{
+			$this->width = $messageWidthHeight[self::WIDTH_KEY] + self::MESSAGE_RIGHT_MARGIN;
+		}
+
+		if($this->height == null)
+		{
+			$this->height = $messageHeight;
+		}
 
 		$this->initpImage();
 

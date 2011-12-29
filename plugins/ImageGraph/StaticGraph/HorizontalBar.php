@@ -18,7 +18,6 @@
 class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_StaticGraph_GridGraph
 {
 	const INTERLEAVE = 0.30;
-	const MIN_GRAPH_SIZE = 80;
 	const TRUNCATION_TEXT = '...';
 	const PADDING_CHARS = ' ';
 	const LEGEND_SQUARE_WIDTH = 11;
@@ -96,7 +95,8 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
 		}
 
 		// determine the maximum label width according to the minimum comfortable graph size
-		$minGraphSize = self::MIN_GRAPH_SIZE;
+		$gridRightMargin = $this->getGridRightMargin($horizontalGraph = true);
+		$minGraphSize = ($this->width - $gridRightMargin) / 2;
 		
 		$metricTitleWidthHeight = $this->getTextWidthHeight($this->metricTitle);
 		$legendWidth = $metricTitleWidthHeight[self::WIDTH_KEY] + self::LEGEND_LEFT_MARGIN + self::LEGEND_SQUARE_WIDTH;
@@ -109,7 +109,6 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
 		}
 
 		$gridLeftMarginWithoutLabels = $this->getGridLeftMargin($horizontalGraph = true, $withLabel = false);
-		$gridRightMargin = $this->getGridRightMargin($horizontalGraph = true);
 		$labelWidthLimit =
 				$this->width
 				- $gridLeftMarginWithoutLabels

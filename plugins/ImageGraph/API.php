@@ -250,6 +250,7 @@ class Piwik_ImageGraph_API
 			$ordinateLogos = array();
 			$reportData = $processedReport['reportData'];
 			$hasData = false;
+			$hasNonZeroValue = false;
 
 			if($reportHasDimension)
 			{
@@ -262,8 +263,16 @@ class Piwik_ImageGraph_API
 					// $row instanceof Piwik_DataTable_Row
 					$rowData = $row->getColumns(); // Associative Array
 					$abscissaSerie[] = Piwik_Common::unsanitizeInputValue($rowData[$abscissaColumn]);
-					$ordinateSerie[] = $this->parseOrdinateValue($rowData[$ordinateColumn]);
+					$parsedOrdinateValue = $this->parseOrdinateValue($rowData[$ordinateColumn]);
+
 					$hasData = true;
+
+					if($parsedOrdinateValue != 0)
+					{
+						$hasNonZeroValue = true;
+					}
+
+					$ordinateSerie[] = $parsedOrdinateValue;
 
 					if(isset($reportMetadata[$i]))
 					{
@@ -295,21 +304,28 @@ class Piwik_ImageGraph_API
 					{
 						$rowData = $rows[0]->getColumns(); // associative Array
 						$ordinateValue = $rowData[$ordinateColumn];
+						$parsedOrdinateValue = $this->parseOrdinateValue($ordinateValue);
+
 						$hasData = true;
+
+						if($parsedOrdinateValue != 0)
+						{
+							$hasNonZeroValue = true;
+						}
 					}
 					else
 					{
-						$ordinateValue = 0;
+						$parsedOrdinateValue = 0;
 					}
 
 					$rowId = $periodsMetadata[$i]['period']->getLocalizedShortString();
 
 					$abscissaSerie[] = Piwik_Common::unsanitizeInputValue($rowId);
-					$ordinateSerie[] = $this->parseOrdinateValue($ordinateValue);
+					$ordinateSerie[] = $parsedOrdinateValue;
 				}
 			}
 
-			if(!$hasData)
+			if(!$hasData || !$hasNonZeroValue)
 			{
 				throw new Exception(Piwik_Translate('General_NoDataForGraph'));
 			}
@@ -334,6 +350,8 @@ class Piwik_ImageGraph_API
 		} catch (Exception $e) {
 
 			$graph = new Piwik_ImageGraph_StaticGraph_Exception();
+			$graph->setWidth($width);
+			$graph->setHeight($height);
 			$graph->setFont($font);
 			$graph->setFontSize($fontSize);
 			$graph->setException($e);
