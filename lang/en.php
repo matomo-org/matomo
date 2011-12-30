@@ -172,6 +172,7 @@ $translations = array(
 	'General_MinutesSeconds' => '%1$s min %2$ss',
 	'General_Seconds' => '%ss',
 	'General_Save' => 'Save',
+	'General_Faq' => 'FAQ',
 	'General_ForExampleShort' => 'eg.',
 	'General_YouMustBeLoggedIn' => 'You must be logged in to access this functionnality.',
 	'General_Website' => 'Website',
