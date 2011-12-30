@@ -59,7 +59,6 @@ class Piwik_Dashboard extends Piwik_Plugin
 	{
 		$cssFiles = &$notification->getNotificationObject();
 		
-		$cssFiles[] = "plugins/Dashboard/templates/dashboard.css";
 		$cssFiles[] = "plugins/CoreHome/templates/datatable.css";
 		$cssFiles[] = "plugins/Dashboard/templates/dashboard.css";
 	}
@@ -94,7 +93,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 	public function uninstall()
 	{
 		$sql = "DROP TABLE ". Piwik_Common::prefixTable('user_dashboard') ;
-		Piwik_Exec($sql);		
+		Piwik_Exec($sql);
 	}
 	
 }
