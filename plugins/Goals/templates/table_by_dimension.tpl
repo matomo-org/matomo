@@ -62,7 +62,7 @@ $(document).ready( function() {
 		
 		var widgetParameters = {
 			'module': module,
-			'action': action,
+			'action': action
 		};
 		var idGoal = broadcast.getValueFromHash('idGoal');
 		widgetParameters['idGoal'] = idGoal.length ? idGoal : 0; //Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE;
