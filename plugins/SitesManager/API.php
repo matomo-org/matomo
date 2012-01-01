@@ -462,6 +462,8 @@ class Piwik_SitesManager_API
 		Zend_Registry::get('access')->reloadAccess();
 		$this->postUpdateWebsite($idSite);
 
+		Piwik_PostEvent('SitesManager.addSite', $idSite);
+
 		return (int)$idSite;
 	}
 	
@@ -812,6 +814,8 @@ class Piwik_SitesManager_API
 			$insertedUrls = $this->addSiteAliasUrls($idSite, array_slice($urls,1));
 		}
 		$this->postUpdateWebsite($idSite);
+
+		Piwik_PostEvent('SitesManager.updateSite', $idSite);
 	}
 	
 	private function checkAndReturnExcludedQueryParameters($parameters)
