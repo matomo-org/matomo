@@ -31,7 +31,6 @@ dashboard.prototype =
 		
 		//dashboard layout
 		this.layout = layout;
-		this.currentColumnLayout = layout.config.layout;
 		
 		//generate dashboard layout and load every displayed widgets
 		this.generateLayout();
@@ -44,6 +43,13 @@ dashboard.prototype =
 		return $('.sortable .widget', elementToSearch);
 	},
 	
+	/**
+	 * Adjust the dashboard columns to fit the new layout
+	 * removes or adds new columns if needed and sets the column sizes
+	 * 
+	 * @param layout new layout in format xx-xx-xx
+	 * @return void
+	 */
 	adjustDashboardColumns: function(layout)
 	{
 		var columnWidth = layout.split('-');
@@ -83,12 +89,13 @@ dashboard.prototype =
 	
 	generateLayout: function()
 	{
+		// Handle old dashboard layout format used in piwik before 0.2.33
+		// A string that looks like 'Actions.getActions~Actions.getDownloads|UserCountry.getCountry|Referers.getSearchEngines';
+		// '|' separate columns
+		// '~' separate widgets
+		// '.' separate plugin name from action name
 		if(typeof this.layout == 'string') {
 			var layout = {};
-			//Old dashboard layout format: a string that looks like 'Actions.getActions~Actions.getDownloads|UserCountry.getCountry|Referers.getSearchEngines';
-			// '|' separate columns
-			// '~' separate widgets
-			// '.' separate plugin name from action name
 			var columns = this.layout.split('|');
 			for(var columnNumber=0; columnNumber<columns.length; columnNumber++) {
 				if(columns[columnNumber].length == 0) {
@@ -110,8 +117,11 @@ dashboard.prototype =
 			}
 			this.layout = layout;
 		}
-		layout = this.layout;
+	    
+		var layout = this.layout;
 		
+		// Handle layout array used in piwik before 1.7
+		// column count was always 3, so use layout 33-33-33 as default
 		if($.isArray(layout)) {
 			var layout = {
 					config: {layout: '33-33-33'},
@@ -149,12 +159,25 @@ dashboard.prototype =
 		});
 	},
 
+	/**
+	 * reloads the widget inside the given dom element
+	 * 
+	 * @param domNodeInsideWidget   selector for a dom element
+	 * @return void
+	 */
 	reloadEnclosingWidget: function(domNodeInsideWidget)
 	{
 		var uniqueId = $(domNodeInsideWidget).parents('.widget').attr('id');
 		this.reloadWidget(uniqueId);
 	},
 	
+	/**
+	 * reloads a widget with the given uniqueId
+	 * 
+	 * @param uniqueId  id of a widget
+	 * @param viewDataTableToRestore  datatable view to restore
+	 * @return void
+	 */
 	reloadWidget: function(uniqueId, viewDataTableToRestore) 
 	{
 		function onWidgetLoadedReplaceElementWithContent(loadedContent)
