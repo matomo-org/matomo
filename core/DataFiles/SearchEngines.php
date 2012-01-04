@@ -920,6 +920,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.yasni.ch'				=> array('Yasni'),
 		'www.yasni.at'				=> array('Yasni'),
 
+		// Yatedo
+		'www.yatedo.com'				=> array('Yatedo', 'q', 'search/profil?q={q}'),
+		'www.yatedo.fr'					=> array('Yatedo'),
+
 		// Yellowmap
 		'yellowmap.de'				=> array('Yellowmap', ' '),
 
