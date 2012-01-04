@@ -1501,7 +1501,7 @@ class Piwik_Common
 			elseif(!strncmp($refererPath, '/pemonitorhosted/ws/results/', 28))
 			{
 				// private-label search powered by InfoSpace Metasearch
-				$refererHost = 'infospace.com';
+				$refererHost = 'wsdsold.infospace.com';
 			}
 			elseif(strpos($refererHost, '.images.search.yahoo.com') != false)
 			{
