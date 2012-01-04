@@ -810,14 +810,17 @@ class Test_Piwik_Common extends UnitTestCase
 
 
 			// InfoSpace
-			'http://infospace.com/ispace/ws/results/Web/real time web analytics/1/417/TopNavigation/Relevance/iq=true/zoom=off/enginefilter=all/_iceUrlFlag=7?_IceUrl=true'
+			'http://www.infospace.com/search/web?fcoid=417&fcop=topnav&fpid=27&q=piwik&ql='
+				=> array('name' => 'InfoSpace', 'keywords' => 'piwik'),
+
+			'http://www.metacrawler.com/info.metac.test.b8/search/web?fcoid=417&fcop=topnav&fpid=27&q=real+time+web+analytics'
 				=> array('name' => 'InfoSpace', 'keywords' => 'real time web analytics'),
 
 			// Powered by InfoSpace metasearch
-			'http://search.kiwee.com/pemonitorhosted/ws/results/Web/mobile analytics/1/417/TopNavigation/Source/iq=true/zoom=off/_iceUrlFlag=7?_IceUrl=true'
+			'http://search.nation.com/pemonitorhosted/ws/results/Web/mobile analytics/1/417/TopNavigation/Source/iq=true/zoom=off/_iceUrlFlag=7?_IceUrl=true'
 				=> array('name' => 'InfoSpace', 'keywords' => 'mobile analytics'),
 			
-			'http://ws.copernic.com/pemonitorhosted/ws/results/Web/piwik/1/417/TopNavigation/Source/iq=true/zoom=off/_iceUrlFlag=7?_IceUrl=true'
+			'http://wsdsold.infospace.com/pemonitorhosted/ws/results/Web/piwik/1/417/TopNavigation/Source/iq=true/zoom=off/_iceUrlFlag=7?_IceUrl=true'
 				=> array('name' => 'InfoSpace', 'keywords' => 'piwik'),
 			
 			// 123people

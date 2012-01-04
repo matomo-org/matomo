@@ -498,15 +498,15 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.ilse.nl'				=> array('Ilse NL', 'search_for', '?search_for={k}'),
 
 		// InfoSpace (and related web properties)
-		'infospace.com'				=> array('InfoSpace', '/\/[^\/]+\/ws\/results\/[^\/]+\/([^\/]+)/', 'ispace/ws/results/Web/{k}/1/1/content-top-left/Relevance/'),
+		'infospace.com'				=> array('InfoSpace', 'q', '/search/web?q={k}'),
 		'dogpile.com'				=> array('InfoSpace'),
-		'nbci.dogpile.com'			=> array('InfoSpace'),
-		'search.nation.com'			=> array('InfoSpace'),
-		'search.go2net.com'			=> array('InfoSpace'),
 		'metacrawler.com'			=> array('InfoSpace'),
 		'webfetch.com'				=> array('InfoSpace'),
 		'webcrawler.com'			=> array('InfoSpace'),
-		'search.dogreatgood.com'	=> array('InfoSpace'),
+		'search.kiwee.com'			=> array('InfoSpace'),
+	
+		// old infospace system
+		'wsdsold.infospace.com'		=> array('InfoSpace', '/\/[^\/]+\/ws\/results\/[^\/]+\/([^\/]+)/', 'pemonitorhosted/ws/results/Web/{k}/1/417/TopNavigation/Source/'),
 	
 		// Powered by InfoSpace
 		'isearch.babylon.com'		=> array('InfoSpace', 'q'),
@@ -518,7 +518,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		 * Other InfoSpace powered metasearches are handled in Piwik_Common::extractSearchEngineInformationFromUrl()
 		 *
 		 * This includes sites such as:
-		 * - search.kiwee.com
+		 * - search.nation.com
 		 * - ws.copernic.com
 		 * - result.iminent.com
 		 */
