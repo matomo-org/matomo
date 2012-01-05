@@ -56,6 +56,12 @@ var globalAjaxQueue = [];
 piwikHelper.queueAjaxRequest = function( request )
 {
 	globalAjaxQueue.push(request);
+	// clean up finihed requests
+	for(var request in globalAjaxQueue) {
+		if(!globalAjaxQueue[request] || globalAjaxQueue[request].readyState == 4) {
+			globalAjaxQueue.splice(request, 1);
+		}
+	}
 }
 piwikHelper.abortQueueAjax = function()
 {
