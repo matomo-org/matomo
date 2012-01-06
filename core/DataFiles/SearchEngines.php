@@ -921,7 +921,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.yasni.at'				=> array('Yasni'),
 
 		// Yatedo
-		'www.yatedo.com'				=> array('Yatedo', 'q', 'search/profil?q={q}'),
+		'www.yatedo.com'				=> array('Yatedo', 'q', 'search/profil?q={k}'),
 		'www.yatedo.fr'					=> array('Yatedo'),
 
 		// Yellowmap
