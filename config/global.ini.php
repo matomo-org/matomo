@@ -228,7 +228,7 @@ multisites_refresh_after_seconds = 300
 use_ajax_cdn = 0
 
 ; required AJAX library versions
-jquery_version = 1.7
+jquery_version = 1.7.1
 jqueryui_version = 1.8.16
 swfobject_version = 2.2
 
