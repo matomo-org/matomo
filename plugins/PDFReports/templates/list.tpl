@@ -13,7 +13,7 @@
 	</thead>
 	
 	{if $userLogin=='anonymous'}
-		<tr><td colspan=6> 
+		<tr><td colspan='7'> 
 		<br/>
 		{'PDFReports_MustBeLoggedIn'|translate}
 		<br/>&rsaquo; <a href='index.php?module={$loginModule}'>{'Login_LogIn'|translate}</a></strong>   
@@ -21,7 +21,7 @@
 		</td></tr>
 		</table>
 	{elseif empty($reports)}
-		<tr><td colspan=6> 
+		<tr><td colspan='7'> 
 		<br/>
 		{'PDFReports_ThereIsNoReportToManage'|translate:$siteName}.
 		<br/><br/>
