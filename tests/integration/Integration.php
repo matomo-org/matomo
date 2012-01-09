@@ -81,8 +81,8 @@ abstract class Test_Integration extends Test_Database
 			// create users for controller testing
 			$usersApi = Piwik_UsersManager_API::getInstance();
 			$usersApi->addUser('anonymous', self::DEFAULT_USER_PASSWORD, 'anonymous@anonymous.com');
-			$usersApi->addUser('view', self::DEFAULT_USER_PASSWORD, 'view@view.com');
-			$usersApi->addUser('admin', self::DEFAULT_USER_PASSWORD, 'admin@admin.com');
+			$usersApi->addUser('test_view', self::DEFAULT_USER_PASSWORD, 'view@view.com');
+			$usersApi->addUser('test_admin', self::DEFAULT_USER_PASSWORD, 'admin@admin.com');
 		}
 	}
 	
@@ -193,8 +193,8 @@ abstract class Test_Integration extends Test_Database
 		{
 			$usersApi = Piwik_UsersManager_API::getInstance();
 			$usersApi->setUserAccess('anonymous', 'view', array($idSite));
-			$usersApi->setUserAccess('view', 'view', array($idSite));
-			$usersApi->setUserAccess('admin', 'admin', array($idSite));
+			$usersApi->setUserAccess('test_view', 'view', array($idSite));
+			$usersApi->setUserAccess('test_admin', 'admin', array($idSite));
 		}
 
 		return $idSite;
@@ -748,14 +748,21 @@ abstract class Test_Integration extends Test_Database
 	{
 		if ($userType == 'superuser')
 		{
-			$authResultObj = new Piwik_Auth_Result(
-				Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE, 'superUserLogin', 'dummyTokenAuth');
+			$code = Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE;
+			$login = 'superUserLogin';
 		}
 		else
 		{
-			$authResultObj = new Piwik_Auth_Result(0, $userType, 'dummyTokenAuth');
+			$code = 0;
+
+			$login = $userType;
+			if ($login != 'anonymous')
+			{
+				$login = 'test_' . $login;
+			}
 		}
 	
+		$authResultObj = new Piwik_Auth_Result($code, $login, 'dummyTokenAuth');
 		$authObj = new MockPiwik_Auth();
 		$authObj->setReturnValue('getName', 'Login');
 		$authObj->setReturnValue('authenticate', $authResultObj);
