@@ -10,13 +10,34 @@ require_once PIWIK_INCLUDE_PATH . '/tests/core/Database.test.php';
 Mock::generate('Piwik_Auth');
 
 /**
- * Base class for Integration tests.
+ * Base class for Integration tests. Runs integration / acceptance tests
  * 
- * Provides helpers to track data and then call API get* methods to check outputs automatically.
+ * The tests call the Piwik tracker with known sets of data, expected errors, 
+ * and can _test the output of the tracker beacon, as well as calling 
+ * all API functions and compare their XML output with the 'expected output'.
  * 
+ * If an algorithm changes in the Tracker or in the Archiving, tests can easily be run to check that 
+ * the output changes as expected (eg. More accurate browser detection, adding a new metric in the 
+ * API results, etc.
+ * 
+ * @see Ideas for improvements http://dev.piwik.org/trac/ticket/1465
  */
-abstract class Test_Integration extends Test_Database
+abstract class Test_Integration extends Test_Database_Base
 {
+	public static $defaultApiNotToCall = array(
+		'LanguagesManager',
+		'DBStats',
+		'UsersManager',
+		'SitesManager',
+		'ExampleUI',
+		'Live',
+		'SEO',
+		'ExampleAPI',
+		'PDFReports',
+		'API',
+		'ImageGraph',
+	);
+
 	/**
 	 * Widget testing level constant. If Test_Integration::$widgetTestingLevel is
 	 * set to this, controller actions will not be tested.
@@ -59,19 +80,7 @@ abstract class Test_Integration extends Test_Database
     	
     	// List of Modules, or Module.Method that should not be called as part of the XML output compare
     	// Usually these modules either return random changing data, or are already tested in specific unit tests. 
-		$this->setApiNotToCall(array(
-			'LanguagesManager',
-			'DBStats',
-			'UsersManager',
-			'SitesManager',
-			'ExampleUI',
-			'Live',
-			'SEO',
-			'ExampleAPI',
-			'PDFReports',
-			'API',
-			'ImageGraph',
-		));
+		$this->setApiNotToCall(self::$defaultApiNotToCall);
 		$this->setApiToCall( array());
 
 		if (self::$widgetTestingLevel != self::NO_WIDGET_TESTING)
@@ -614,7 +623,7 @@ abstract class Test_Integration extends Test_Database
 			return;
 		}
 
-		if (!$testingLevelOverride)
+		if ($testingLevelOverride === false)
 		{
 			$testingLevelOverride = self::$widgetTestingLevel;
 		}
@@ -633,6 +642,10 @@ abstract class Test_Integration extends Test_Database
 		if ($actions == 'all')
 		{
 			$actions = $this->findAllControllerActions();
+		}
+		else if (!is_array($actions))
+		{
+			$actions = array($actions);
 		}
 
 		$oldGet = $_GET;
@@ -928,6 +941,235 @@ abstract class Test_Integration extends Test_Database
 			return null;
 		}
 		return $result;
+	}
+}
+
+/**
+ * Facade type that can be used to create more readable integration tests.
+ *
+ * Derived types must be prefixed with Test_Integration_Facade_.
+ */
+abstract class Test_Integration_Facade extends Test_Integration
+{
+	/**
+	 * Returns an array describing the API methods to call & compare with
+	 * expected output.
+	 * 
+	 * The returned array must be of the following format:
+	 * <code>
+	 * array(
+	 *     array('SomeAPI.method', array('testOption1' => 'value1', 'testOption2' => 'value2'),
+	 *     array(array('SomeAPI.method', 'SomeOtherAPI.method'), array(...)),
+	 *     .
+	 *     .
+	 *     .
+	 * )
+	 * </code>
+	 * 
+	 * Valid test options:
+	 * <ul>
+	 *   <li><b>testSuffix</b> The suffix added to the test name. Helps determine
+	 *   the filename of the expected output.</li>
+	 *   <li><b>format</b> The desired format of the output. Defaults to 'xml'.</li>
+	 *   <li><b>idSite</b> The id of the website to get data for.</li>
+	 *   <li><b>date</b> The date to get data for.</li>
+	 *   <li><b>periods</b> The period or periods to get data for. Can be an array.</li>
+	 *   <li><b>setDateLastN</b> Flag describing whether to query for a set of
+	 *   dates or not.</li>
+	 *   <li><b>language</b> The language to use.</li>
+	 *   <li><b>segment</b> The segment to use.</li>
+	 *   <li><b>visitorId</b> The visitor ID to use.</li>
+	 *   <li><b>abandonedCarts</b> Whether to look for abandoned carts or not.</li>
+	 *   <li><b>idGoal</b> The goal ID to use.</li>
+	 *   <li><b>apiModule</b> The value to use in the apiModule request parameter.</li>
+	 *   <li><b>apiAction</b> The value to use in the apiAction request parameter.</li>
+	 *   <li><b>otherRequestParameters</b> An array of extra request parameters to use.</li>
+	 *   <li><b>disableArchiving</b> Disable archiving before running tests.</li>
+	 * </ul>
+	 * 
+	 * All test options are optional, except 'idSite' & 'date'.
+	 */
+	abstract public function getApiToTest();
+	
+	/**
+	 * Returns an array descriging the Controller actions to call & compare
+	 * with expected output.
+	 * 
+	 * The returned array must be of the following format:
+	 * <code>
+	 * array(
+	 *     array('Controller.action', array('testOption1' => 'value1', 'testOption2' => 'value2'),
+	 *     array(array('Controller.action', 'OtherController.action'), array(...)),
+	 *     .
+	 *     .
+	 *     .
+	 * )
+	 * </code>
+	 * 
+	 * Valid test options:
+	 * <ul>
+	 *   <li><b>UNIMPLEMENTED</b></li>
+	 * </ul>
+	 */
+	abstract public function getControllerActionsToTest();
+	
+	/**
+	 * Called before running any tests. Overriding classes must log any
+	 * visits/conversions in this method.
+	 */
+	abstract protected function trackVisits();
+
+	/**
+	 * The main test case. Runs API & Controller tests.
+	 * 
+	 * This can be overriden to add more testing logic (or a new test case
+	 * can be added).
+	 */
+	public function test_RunAllTests()
+	{
+		$this->trackVisits();
+		$this->runApiTests();
+		$this->runControllerTests();
+	}
+	
+	/**
+	 * Gets the string prefix used in the name of the expected/processed output files.
+	 */
+	public function getOutputPrefix()
+	{
+		return str_replace('Test_Piwik_Integration_', '', get_class($this));
+	}
+
+	/** Identifies the last language used in an API/Controller call. */
+	private $lastLanguage;
+
+	/**
+	 * changing the language within one request is a bit fancy
+	 * in order to keep the core clean, we need a little hack here
+	 */
+	private function changeLanguage( $langId )
+	{
+		if (isset($this->lastLanguage) && $this->lastLanguage != $langId)
+		{
+			$_GET['language'] = $langId;
+			Piwik_Translate::reset();
+			Piwik_Translate::getInstance()->reloadLanguage($langId);
+		}
+		
+		$this->lastLanguage = $langId;
+	}
+
+	/**
+	 * Runs API tests.
+	 */
+	private function runApiTests()
+	{
+		$this->lastLanguage = null;
+		$apiToTest = $this->getApiToTest();
+		$testName = 'test_' . $this->getOutputPrefix();
+		
+		foreach ($apiToTest as $test)
+		{
+			list($api, $params) = $test;
+
+			if ($api == 'all')
+			{
+				$this->setApiToCall(array());
+				$this->setApiNotToCall(Test_Integration::$defaultApiNotToCall);
+			}
+			else
+			{
+				if (!is_array($api))
+				{
+					$api = array($api);
+				}
+			
+				$this->setApiToCall($api);
+				$this->setApiNotToCall(array());
+			}
+			
+			if (isset($params['disableArchiving']) && $params['disableArchiving'] === true)
+			{
+				Piwik_ArchiveProcessing::$forceDisableArchiving = true;
+			}
+			else
+			{
+				Piwik_ArchiveProcessing::$forceDisableArchiving = false;
+			}
+
+			if (isset($params['language']))
+			{
+				$this->changeLanguage($params['language']);
+			}
+			
+			$testSuffix = isset($params['testSuffix']) ? $params['testSuffix'] : '';
+			
+			$this->callGetApiCompareOutput(
+				$testName . $testSuffix,
+				isset($params['format']) ? $params['format'] : 'xml',
+				isset($params['idSite']) ? $params['idSite'] : false,
+				isset($params['date']) ? $params['date'] : false,
+				isset($params['periods']) ? $params['periods'] : false,
+				isset($params['setDateLastN']) ? $params['setDateLastN'] : false,
+				isset($params['language']) ? $params['language'] : false,
+				isset($params['segment']) ? $params['segment'] : false,
+				isset($params['visitorId']) ? $params['visitorId'] : false,
+				isset($params['abandonedCarts']) ? $params['abandonedCarts'] : false,
+				isset($params['idGoal']) ? $params['idGoal'] : false,
+				isset($params['apiModule']) ? $params['apiModule'] : false,
+				isset($params['apiAction']) ? $params['apiAction'] : false,
+				isset($params['otherRequestParameters']) ? $params['otherRequestParameters'] : array());
+		}
+	}
+	
+	/**
+	 * Runs controller tests.
+	 */
+	protected function runControllerTests()
+	{
+		static $nonRequestParameters = array('testingLevelOverride' => null, 'userTypes' => null);
+	
+		$lastLanguage = null;
+		$testGroups = $this->getControllerActionsToTest();
+		$testName = 'test_' . $this->getOutputPrefix();
+
+		foreach ($testGroups as $test)
+		{
+			list($actions, $params) = $test;
+			
+			// deal w/ any language changing hacks
+			if (isset($params['language']))
+			{
+				$this->changeLanguage($params['language']);
+			}
+			
+			// separate request parameters from function parameters
+			$requestParams = array();
+			foreach ($params as $key => $value)
+			{
+				if (!isset($nonRequestParameters[$key]))
+				{
+					$requestParams[$key] = $value;
+				}
+			}
+			
+			$testSuffix = isset($params['testSuffix']) ? $params['testSuffix'] : '';
+			
+			$this->callWidgetsCompareOutput(
+				$testName . $testSuffix,
+				$actions,
+				$requestParams,
+				isset($params['userTypes']) ? $params['userTypes'] : false,
+				isset($params['testingLevelOverride']) ? $params['testingLevelOverride'] : false);
+		}
+	}
+
+	/**
+	 * Path where expected/processed output files are stored. Can be overridden.
+	 */
+	public function getPathToTestDirectory()
+	{
+		return PIWIK_INCLUDE_PATH . '/tests/integration';
 	}
 }
 
