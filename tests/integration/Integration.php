@@ -3,10 +3,11 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 {
 	require_once dirname(__FILE__)."/../../tests/config_test.php";
 }
-Mock::generate('Piwik_Access');
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/core/Database.test.php';
+
+Mock::generate('Piwik_Auth');
 
 /**
  * Base class for Integration tests.
@@ -16,6 +17,33 @@ require_once PIWIK_INCLUDE_PATH . '/tests/core/Database.test.php';
  */
 abstract class Test_Integration extends Test_Database
 {
+	/**
+	 * Widget testing level constant. If Test_Integration::$widgetTestingLevel is
+	 * set to this, controller actions will not be tested.
+	 */
+	const NO_WIDGET_TESTING = 0;
+	
+	/**
+	 * Widget testing level constant. If Test_Integration::$widgetTestingLevel is
+	 * set to this, controller actions will be checked for non-fatal errors, but
+	 * the output will be ignored.
+	 */
+	const CHECK_WIDGET_ERRORS = 1;
+	
+	/**
+	 * Widget testing level constant. If Test_Integration::$widgetTestingLevel is
+	 * set to this, controller actions will be run & their output will be checked with
+	 * expected output files.
+	 */
+	const COMPARE_WIDGET_OUTPUT = 2;
+
+	/**
+	 * Determines how much of controller actions are tested (if at all).
+	 */
+	static public $widgetTestingLevel = self::CHECK_WIDGET_ERRORS;
+
+	const DEFAULT_USER_PASSWORD = 'nopass';
+
 	abstract function getPathToTestDirectory();
 
 	/**
@@ -25,6 +53,7 @@ abstract class Test_Integration extends Test_Database
 	function setUp() 
 	{
 		parent::setUp();
+
 		// Make sure translations are loaded to check messages in English 
     	Piwik_Translate::getInstance()->loadEnglishTranslation();
     	
@@ -44,6 +73,17 @@ abstract class Test_Integration extends Test_Database
 			'ImageGraph',
 		));
 		$this->setApiToCall( array());
+
+		if (self::$widgetTestingLevel != self::NO_WIDGET_TESTING)
+		{
+			Piwik::setUserIsSuperUser();
+				
+			// create users for controller testing
+			$usersApi = Piwik_UsersManager_API::getInstance();
+			$usersApi->addUser('anonymous', self::DEFAULT_USER_PASSWORD, 'anonymous@anonymous.com');
+			$usersApi->addUser('view', self::DEFAULT_USER_PASSWORD, 'view@view.com');
+			$usersApi->addUser('admin', self::DEFAULT_USER_PASSWORD, 'admin@admin.com');
+		}
 	}
 	
 	function tearDown() 
@@ -147,6 +187,16 @@ abstract class Test_Integration extends Test_Database
 								
         // Clear the memory Website cache 
 		Piwik_Site::clearCache();
+
+		// add access to all test users if doing controller tests
+		if (self::$widgetTestingLevel != self::NO_WIDGET_TESTING)
+		{
+			$usersApi = Piwik_UsersManager_API::getInstance();
+			$usersApi->setUserAccess('anonymous', 'view', array($idSite));
+			$usersApi->setUserAccess('view', 'view', array($idSite));
+			$usersApi->setUserAccess('admin', 'admin', array($idSite));
+		}
+
 		return $idSite;
 	}
 	
@@ -195,6 +245,12 @@ abstract class Test_Integration extends Test_Database
 	function __construct($title = '')
 	{
 		parent::__construct($title);
+
+		if (Test_Integration::$widgetTestingLevel != self::NO_WIDGET_TESTING)
+		{
+			self::initializeControllerTesting();
+		}
+
     	Piwik::createAccessObject();
     	Piwik_PostEvent('FrontController.initAuthenticationObject');
     	
@@ -206,7 +262,25 @@ abstract class Test_Integration extends Test_Database
     	$pluginsManager->loadPlugins( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
     	$pluginsManager->installLoadedPlugins();
 	}
-	
+
+	/**
+	 * Initializes parts of Piwik so controller actions can be called & tested.
+	 */
+	public static function initializeControllerTesting()
+	{
+		static $initialized = false;
+
+		if (!$initialized)
+		{
+			Zend_Registry::set('timer', new Piwik_Timer);
+
+			$pluginsManager = Piwik_PluginsManager::getInstance();
+			$pluginsToLoad = Zend_Registry::get('config')->Plugins->Plugins->toArray();
+			$pluginsManager->loadPlugins( $pluginsToLoad );
+
+			$initialized = true;
+		}
+	}
 	
 	/**
 	 * Given a list of default parameters to set, returns the URLs of APIs to call
@@ -336,9 +410,7 @@ abstract class Test_Integration extends Test_Database
 	{
 		$pass = true;
 		
-		$path = $this->getPathToTestDirectory();
-		$pathProcessed = $path . "/processed/";
-		$pathExpected = $path . "/expected/";
+		list($pathProcessed, $pathExpected) = $this->getProcessedAndExpectedDirs();
 		
 		if($periods === false)
 		{
@@ -411,14 +483,12 @@ abstract class Test_Integration extends Test_Database
 			$isLiveMustDeleteDates = strpos($requestUrl, 'Live.getLastVisits') !== false;
     		$request = new Piwik_API_Request($requestUrl);
 
-    		// $TEST_NAME - $API_METHOD
-    		$filename = $testName . '__' . $apiId;
+			list($processedFilePath, $expectedFilePath) = $this->getProcessedAndExpectedPaths($testName, $apiId);
     		
     		// Cast as string is important. For example when calling 
     		// with format=original, objects or php arrays can be returned.
     		// we also hide errors to prevent the 'headers already sent' in the ResponseBuilder (which sends Excel headers multiple times eg.)
     		$response = (string)$request->process();
-    		$processedFilePath = $pathProcessed . $filename;
     		
     		if($isLiveMustDeleteDates)
     		{
@@ -427,13 +497,12 @@ abstract class Test_Integration extends Test_Database
     		
     		file_put_contents( $processedFilePath, $response );
     		
-    		$expectedFilePath = $pathExpected . $filename;
-    		$expected = @file_get_contents($expectedFilePath  );
-    		if(empty($expected))
+    		$expected = $this->loadExpectedFile($expectedFilePath);
+    		if (empty($expected))
     		{
-    			$this->fail(" ERROR: Could not find expected API output '$expectedFilePath'. For new tests, to pass the test, you can copy files from the processed/ directory into $pathExpected  after checking that the output is valid. %s ");
     			continue;
     		}
+
 			// When tests run on Windows EOL delimiters are not the same as UNIX default EOL used in the renderers
     		$expected = str_replace("\r\n", "\n", $expected); 
     		$response = str_replace("\r\n", "\n", $response); 
@@ -512,6 +581,279 @@ abstract class Test_Integration extends Test_Database
     	return $pass;
 	}
 	
+	/**
+	 * Calls a set of controller actions & either checks the result against
+	 * expected output or just checks if errors occurred when called.
+	 * 
+	 * The behavior of this function can be modified by setting
+	 * Test_Integration::$widgetTestingLevel (or $testingLevelOverride):
+	 * <ul>
+	 *   <li>If set to <b>NO_WIDGET_TESTING</b> this function simply returns.<li>
+	 *   <li>If set to <b>CHECK_WIDGET_ERRORS</b> controller actions are called &
+	 *       this function will just check for errors.</li>
+	 *   <li>If set to <b>COMPARE_WIDGET_OUTPUT</b> controller actions are
+	 *       called & the output is checked against expected output.</li>
+	 * </ul>
+	 * 
+	 * @param string $testName Unique name of this test group. Expected/processed
+	 *                         file names use this as a prefix.
+	 * @param array $actions Array of controller actions to call. Each element
+	 *                       must be in the following format: 'Controller.action'
+	 * @param array $requestParameters The request parameters to set.
+	 * @param array $userTypes The user types to test the controller with. Can contain
+	 *                         these values: 'anonymous', 'view', 'admin', 'superuser'.
+	 *                         Defaults to all four.
+	 * @param int $testingLevelOverride Overrides Test_Integration::$widgetTestingLevel.
+	 */
+	public function callWidgetsCompareOutput(
+		$testName, $actions, $requestParameters, $userTypes = false, $testingLevelOverride = false)
+	{
+		// deal with the testing level
+		if (Test_Integration::$widgetTestingLevel == self::NO_WIDGET_TESTING)
+		{
+			return;
+		}
+
+		if (!$testingLevelOverride)
+		{
+			$testingLevelOverride = self::$widgetTestingLevel;
+		}
+		
+		// process $userTypes argument
+		if (!$userTypes)
+		{
+			$userTypes = array('anonymous', 'view', 'admin', 'superuser');
+		}
+		else if (!is_array($userTypes))
+		{
+			$userTypes = array($userTypes);
+		}
+
+		// get all testable controller actions if necessary
+		if ($actions == 'all')
+		{
+			$actions = $this->findAllControllerActions();
+		}
+
+		$oldGet = $_GET;
+
+		// run the tests
+		foreach ($actions as $controllerAction)
+		{
+			list($controllerName, $actionName) = explode('.', $controllerAction);
+			
+			foreach ($userTypes as $userType)
+			{
+				$this->setUserType($userType);
+				
+				try
+				{
+					// set request parameters
+					$_GET = array();
+					foreach ($requestParameters as $key => $value)
+					{
+						$_GET[$key] = $value;
+					}
+					
+					$_GET['module'] = $controllerName;
+					$_GET['action'] = $actionName;
+
+					if ($testingLevelOverride == self::CHECK_WIDGET_ERRORS)
+					{
+						$this->errorsOccurredInTest = array();
+						set_error_handler(array($this, "customErrorHandler"));
+					}
+
+					// call controller action
+					$response = Piwik_FrontController::getInstance()->fetchDispatch();
+			
+					list($processedFilePath, $expectedFilePath) = $this->getProcessedAndExpectedPaths(
+						$testName . '_' . $userType, $controllerAction, 'html');
+
+					if ($testingLevelOverride == self::CHECK_WIDGET_ERRORS)
+					{
+						restore_error_handler();
+
+						if (!empty($this->errorsOccurredInTest))
+						{
+							// write processed (only if there are errors)
+							file_put_contents($processedFilePath, $response);
+
+							$this->fail("PHP Errors occurred in calling controller action '$controllerAction':");
+							foreach ($this->errorsOccurredInTest as $error)
+							{
+								echo "&nbsp;   $error<br/>\n";
+							}
+						}
+						else
+						{
+							$this->pass();
+						}
+					}
+					else // check against expected
+					{
+						// write raw processed response
+						file_put_contents($processedFilePath, $response);
+
+						// load expected
+						$expected = $this->loadExpectedFile($expectedFilePath);
+						if (!$expected)
+						{
+							continue;
+						}
+
+						// normalize eol delimeters
+						$expected = str_replace("\r\n", "\n", $expected); 
+						$response = str_replace("\r\n", "\n", $response);
+				
+						// check against expected
+						$passed = $this->assertEqual(trim($expected), trim($response),
+							"<br/>\nDifferences with expected in: $processedFilePath %s ");
+
+						if (!$passed)
+						{
+							var_dump('ERROR FOR ' . $controllerAction . ' -- FETCHED RESPONSE, then EXPECTED RESPONSE - ');
+							echo "\n";
+							var_dump($response);
+							echo "\n";
+							var_dump($expected);
+							echo "\n";
+						}
+					}
+				}
+				catch (Exception $e)
+				{
+					$this->fail("EXCEPTION THROWN IN $controllerAction: ".$e->getTraceAsString());
+				}
+			}
+		}
+
+		// reset $_GET to old values
+		$_GET = array();
+		foreach ($oldGet as $key => $value)
+		{
+			$_GET[$key] = $value;
+		}
+		
+		// set user type
+		$this->setUserType('superuser');
+	}
+	
+	/**
+	 * Sets the access privilegs of the current user to the specified user type.
+	 * 
+	 * @param $userType string Can be 'superuser', 'admin', 'view' or 'anonymous'.
+	 */
+	protected function setUserType( $userType )
+	{
+		if ($userType == 'superuser')
+		{
+			$authResultObj = new Piwik_Auth_Result(
+				Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE, 'superUserLogin', 'dummyTokenAuth');
+		}
+		else
+		{
+			$authResultObj = new Piwik_Auth_Result(0, $userType, 'dummyTokenAuth');
+		}
+	
+		$authObj = new MockPiwik_Auth();
+		$authObj->setReturnValue('getName', 'Login');
+		$authObj->setReturnValue('authenticate', $authResultObj);
+		
+		Zend_Registry::get('access')->reloadAccess($authObj);
+	}
+	
+	/**
+	 * Set of messages for errors that occurred during the invocation of a
+	 * controller action. If not empty, there was an error in the controller.
+	 */
+	private $errorsOccurredInTest = array();
+	
+	/**
+	 * A custom error handler used with <code>set_error_handler</code>. If
+	 * an error occurs, a message describing it is saved in an array.
+	 */
+	public function customErrorHandler($errno, $errstr, $errfile, $errline)
+	{
+		if (strpos(strtolower($errstr), 'cannot modify header information - headers already sent')) // HACK
+		{
+			$this->errorsOccurredInTest[] = "$errfile($errline): - $errstr";
+		}
+	}
+	
+	/**
+	 * Returns a list of all available controller actions.
+	 */
+	protected function findAllControllerActions()
+	{
+		// list of plugins & actions that should not be tested this way. at the moment, only
+		// read-only operations can be tested.
+		// 
+		// NOTE: at the moment whole plugins are blacklisted. its possible to only specify the
+		// actions, but this becomes harder to maintain. Using a mock config that doesn't save,
+		// might remove the need for a blacklist... will also need to know which actions require
+		// admin access & which don't.
+		static $blacklist = array(
+			'CorePluginsAdmin', 'CoreAdminHome', 'CoreHome', 'CoreUpdater', 'Proxy', 'Dashboard',
+			'Feedback', 'UsersManager', 'Installation', 'LanguagesManager', 'Login', 'VisitorGenerator',
+			'Widgetize', 'PrivacyManager', 'ImageGraph', 'ExampleFeedburner.saveFeedburnerName',
+			'Referers.getKeywordsForPage', // tries to do a request to this host, but when testing, the url
+										   // ends up as http://whatever/tests/integration/?...
+										   // Problem is w/ Piwik_Url::getCurrentUrlWithoutFileName (FIXME)
+			'SitesManager', // some API calls require admin access (like getDefaultCurrency (why this?)), so
+							// testing w/ anonymous access fails.
+			'UserCountryMap.outputImage', 'UserCountryMap.exportImage', // uses Proxy
+			'Goals.getLastNbConversionsGraph','Goals.getLastConversionRateGraph','Goals.getLastRevenueGraph',
+		);
+
+		// the cached result		
+		static $result = null;
+		if (!is_null($result))
+		{
+			return $result;
+		}
+
+		// methods in the Piwik_Controller class, which will be detected but should not be
+		// considered controller actios
+		$baseControllerMethods = get_class_methods('Piwik_Controller');
+	
+		$result = array();
+
+		$plugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
+		foreach ($plugins as $plugin)
+		{
+			$pluginName = $plugin->getPluginName();
+			$controllerClass = 'Piwik_' . $pluginName . '_Controller';
+			
+			if (in_array($pluginName, $blacklist) || !class_exists($controllerClass))
+			{
+				continue;
+			}
+			
+			foreach (get_class_methods($controllerClass) as $methodName)
+			{
+				if ($methodName == '__construct' || $methodName == '__destruct' || $methodName == $controllerClass
+					|| in_array($methodName, $baseControllerMethods)
+					|| $methodName == 'getEvolutionGraph' // evolution graphs require a columns request var,
+														  // so they can't be tested here
+					)
+				{
+					continue;
+				}
+
+				$actionId = "$pluginName.$methodName";
+				if (in_array($actionId, $blacklist))
+				{
+					continue;
+				}
+
+				$result[] = $actionId;
+			}
+		}
+
+		return $result;
+	}
+	
 	protected function removeAllLiveDatesFromXml($input)
 	{
 		$toRemove = array(
@@ -549,4 +891,36 @@ abstract class Test_Integration extends Test_Database
 		}
     	return $input;
 	}
+
+	private function getProcessedAndExpectedDirs()
+	{
+		$path = $this->getPathToTestDirectory();
+		return array($path . '/processed/', $path . '/expected/');
+	}
+
+	private function getProcessedAndExpectedPaths($testName, $testId, $format = null)
+	{
+		$filename = $testName . '__' . $testId;
+		if ($format)
+		{
+			$filename .= ".$format";
+		}
+		
+		list($processedDir, $expectedDir) = $this->getProcessedAndExpectedDirs();
+		
+		return array($processedDir . $filename, $expectedDir . $filename);
+	}
+
+	private function loadExpectedFile($filePath)
+	{
+		$result = @file_get_contents($filePath);
+		if(empty($result))
+		{
+			$expectedDir = dirname($filePath);
+			$this->fail(" ERROR: Could not find expected API output '$filePath'. For new tests, to pass the test, you can copy files from the processed/ directory into $expectedDir  after checking that the output is valid. %s ");
+			return null;
+		}
+		return $result;
+	}
 }
+
