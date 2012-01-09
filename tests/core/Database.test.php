@@ -13,7 +13,7 @@ Mock::generate('Piwik_Access');
  * then test it.
  * 
  */
-class Test_Database extends UnitTestCase
+abstract class Test_Database_Base extends UnitTestCase
 {
 	static $warningDisplayed = false;
 
@@ -59,8 +59,13 @@ class Test_Database extends UnitTestCase
 		Piwik_Common::deleteTrackerCache();
 		Piwik_Site::clearCache();
 		Piwik::truncateAllTables();
+		Piwik_TablePartitioning::$tablesAlreadyInstalled = null;
 	}
-	
+}
+
+
+class Test_Database extends Test_Database_Base
+{
 	public function testHelloWorld()
 	{
 		$this->assertTrue(true);
