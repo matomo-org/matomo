@@ -587,6 +587,11 @@ class Test_Piwik_Integration_Main extends Test_Integration
 			$allSites = 'all', $dateTime, 'range', $setDateLastN = false, $language = false, $segment = false,
 			$visitorId = false, $abandonedCarts = false, $idGoal = false, $apiModule = false, $apiAction = false,
 			$otherRequestParameters = array('columns' => $columns));
+		
+		$this->callWidgetsCompareOutput(__FUNCTION__, array('MultiSites.index'), array('date' => '2010-01-03', 'period' => 'month', 'idSite' => 1));
+
+        // test all controller actions (only test for errors found)
+        $this->callWidgetsCompareOutput(__FUNCTION__, 'all', array('date' => '2010-01-03', 'period' => 'day', 'idSite' => '1', 'idGoal' => '1'), $userTypes = false, $testingLevelOverride = Test_Integration::CHECK_WIDGET_ERRORS);
 	}
 
 	private function doTest_TwoVisitors_twoWebsites_differentDays(
