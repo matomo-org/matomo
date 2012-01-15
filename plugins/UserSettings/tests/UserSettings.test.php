@@ -529,15 +529,18 @@ class Test_Piwik_UserSettings extends UnitTestCase
 		// IE Mobile
 		'Mozilla/5.0 (compatible; MSIE 9.0; Windows Phone OS 7.5; Trident/5.0; IEMobile/9.0; SAMSUNG; SGH-i917)' => array(
 			array('IE', 'Internet Explorer', 'IE', '9.0', '9', '0', 'ie'),
-			array('W75', 'Windows Phone OS 7.5', 'WinPhone 7.5')),
+			array('WPH', 'Windows Phone OS', 'WinPhone')),
 		'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1; XBLWP7; ZuneWP7)' => array(
 			array('IE', 'Internet Explorer', 'IE', '7.0', '7', '0', 'ie'),
-			array('WP7', 'Windows Phone OS 7.0', 'WinPhone 7')),
+			array('WPH', 'Windows Phone OS', 'WinPhone')),
 		'Mozilla/4.0 (compatible; MSIE 7.0; Windows Phone OS 7.0; Trident/3.1; IEMobile/7.0; DeviceManufacturer; DeviceModel)' => array(
 			array('IE', 'Internet Explorer', 'IE', '7.0', '7', '0', 'ie'),
-			array('WP7', 'Windows Phone OS 7.0', 'WinPhone 7')),
+			array('WPH', 'Windows Phone OS', 'WinPhone')),
 		'Mozilla/4.0 (compatible; MSIE 6.0; Windows CE; IEMobile 7.11)' => array(
 			array('IE', 'Internet Explorer', 'IE', '6.0', '6', '0', 'ie'),
+			array('WMO', 'Windows Mobile', 'WinMo')),
+		'Mozilla/4.0 (compatible; MSIE 4.01; Windows CE; PPC; 240x320)' => array(
+			array('IE', 'Internet Explorer', 'IE', '4.01', '4', '01', 'ie'),
 			array('WCE', 'Windows CE', 'Win CE')),
 
 		// Internet Explorer with misbehaving Google Tool Bar

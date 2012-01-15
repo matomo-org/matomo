@@ -211,7 +211,7 @@ class UserAgentParser
 			'Linux'					=> 'LIN',
 
 			// workaround for vendors who changed the WinPhone 7 user agent
-			'WP7'					=> 'WP7',
+			'WP7'					=> 'WPH',
 
 			'CYGWIN_NT-6.1'			=> 'WI7',
 			'Windows NT 6.1'		=> 'WI7',
@@ -243,18 +243,14 @@ class UserAgentParser
 			'Win95'					=> 'W95',		
 			'Windows 95'			=> 'W95',
 
-//			'Windows Phone OS 8.0'	=> '***', // Apollo
-//			'Windows Phone OS 7.x'	=> '***', // Tango
-			'Windows Phone OS 7.5'	=> 'W75', // Mango
-			'Windows Phone OS 7.0'	=> 'WP7',
-			'Windows Mobile 6.5'	=> 'W65',
-			'Windows Mobile 6.1'	=> 'W61',
-//			'Windows Mobile 6'		=> '***', // Crossbow
-//			'Windows Mobile 5'		=> '***', // Magneto
-//			'Windows Mobile 2003 SE'=> '***', // second edition
-//			'Windows Mobile 2003'	=> '***', // Ozone
-//			'Pocket PC 2002'		=> '***', // Merlin
-//			'Pocket PC 2000'		=> '***', // Rapier
+			// Windows Phone OS 7 and above
+			'Windows Phone OS'		=> 'WPH',
+
+			// Windows Mobile 6.x and some later versions of Windows Mobile 5
+			'IEMobile'			=> 'WMO', // fallback
+			'Windows Mobile'		=> 'WMO',
+
+			// Windows CE, Pocket PC, and Windows Mobile 5 are indistinguishable without vendor/device specific detection
 			'Windows CE'			=> 'WCE',
 
 			'iPod'					=> 'IPD',
@@ -565,10 +561,8 @@ class UserAgentParser
 			'WNT' => 'Win NT',
 			'WME' => 'Win Me',
 			'W95' => 'Win 95',
-			'W75' => 'WinPhone 7.5',
-			'WP7' => 'WinPhone 7',
-			'W65' => 'WinMo 6.5',
-			'W61' => 'WinMo 6.1',
+			'WPH' => 'WinPhone',
+			'WMO' => 'WinMo',
 			'WCE' => 'Win CE',
 			'WOS' => 'webOS',
 			'UNK' => 'Unknown',
