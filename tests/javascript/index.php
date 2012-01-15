@@ -422,8 +422,8 @@ function PiwikTest() {
 		equal( tracker.hook.test._urldecode("mailto:%69%6e%66%6f@%65%78%61%6d%70%6c%65.%63%6f%6d"), 'mailto:info@example.com', 'decodeWrapper()' );
 	});
 
-	test("Tracker getHostName(), getParameter(), urlFixup(), domainFixup(), and purify()", function() {
-		expect(44);
+	test("Tracker getHostName(), getParameter(), urlFixup(), domainFixup(), titleFixup() and purify()", function() {
+		expect(47);
 
 		var tracker = Piwik.getTracker();
 
@@ -479,6 +479,10 @@ function PiwikTest() {
 		equal( tracker.hook.test._domainFixup( '.example.com.' ), '.example.com', 'domainFixup: .example.com.' );
 		equal( tracker.hook.test._domainFixup( '*.example.com' ), '.example.com', 'domainFixup: *.example.com' );
 		equal( tracker.hook.test._domainFixup( '*.example.com.' ), '.example.com', 'domainFixup: *.example.com.' );
+
+		equal( typeof tracker.hook.test._titleFixup, 'function', 'titleFixup' );
+		equal( tracker.hook.test._titleFixup( 'hello' ), 'hello', 'hello string' );
+		equal( tracker.hook.test._titleFixup( document.title ), 'piwik.js: Unit Tests', 'hello string' );
 
 		equal( typeof tracker.hook.test._purify, 'function', 'purify' );
 
@@ -1069,7 +1073,7 @@ function addEventListener(element, eventType, eventHandler, useCapture) {
  </script>
 
  <div id="jashDiv">
- <a href="#" onclick="javascript:loadJash();" title="Open JavaScript Shell"><img src="gnome-terminal.png" border="0" width="24" height="24" /></a>
+ <a href="#" onclick="javascript:loadJash();" title="Open JavaScript Shell"><img id="title" src="gnome-terminal.png" border="0" width="24" height="24" /></a>
  </div>
 
 </body>
