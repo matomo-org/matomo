@@ -47,7 +47,6 @@ class Piwik_Live extends Piwik_Plugin
 	{
 		$jsFiles = &$notification->getNotificationObject();
 		
-		$jsFiles[] = "plugins/Live/templates/scripts/spy.js";
 		$jsFiles[] = "plugins/Live/templates/scripts/live.js";
 	}
 

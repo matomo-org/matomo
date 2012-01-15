@@ -1,5 +1,6 @@
+<ul id='visitsLive'>
 {foreach from=$visitors item=visitor}
-	<div id="{$visitor.idVisit}" class="visit{if $visitor.idVisit % 2} alt{/if}">
+	<li id="{$visitor.idVisit}" class="visit">
 		<div style="display:none" class="idvisit">{$visitor.idVisit}</div>
 			<div class="datetime">
 				<span style='display:none' class='serverTimestamp'>{$visitor.serverTimestamp}</span>
@@ -58,5 +59,6 @@
 				{/if}
 			{/foreach}
 		</div>
-	</div>
+	</li>
 {/foreach}
+</ul>
