@@ -243,10 +243,18 @@ class UserAgentParser
 			'Win95'					=> 'W95',		
 			'Windows 95'			=> 'W95',
 
-			'Windows Phone OS 7.5'	=> 'W75',
+//			'Windows Phone OS 8.0'	=> '***', // Apollo
+//			'Windows Phone OS 7.x'	=> '***', // Tango
+			'Windows Phone OS 7.5'	=> 'W75', // Mango
 			'Windows Phone OS 7.0'	=> 'WP7',
 			'Windows Mobile 6.5'	=> 'W65',
 			'Windows Mobile 6.1'	=> 'W61',
+//			'Windows Mobile 6'		=> '***', // Crossbow
+//			'Windows Mobile 5'		=> '***', // Magneto
+//			'Windows Mobile 2003 SE'=> '***', // second edition
+//			'Windows Mobile 2003'	=> '***', // Ozone
+//			'Pocket PC 2002'		=> '***', // Merlin
+//			'Pocket PC 2000'		=> '***', // Rapier
 			'Windows CE'			=> 'WCE',
 
 			'iPod'					=> 'IPD',
