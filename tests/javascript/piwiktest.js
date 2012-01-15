@@ -35,6 +35,7 @@ Piwik.addPlugin('testPlugin', {
 				'_getParameter : getParameter,' +
 				'_urlFixup : urlFixup,' +
 				'_domainFixup : domainFixup,' +
+				'_titleFixup : titleFixup,' +
 				'_sha1 : sha1,' +
 				'_utf8_encode : utf8_encode,' +
 				'_purify : purify,' +

@@ -16,7 +16,7 @@
  *
  * Incompatible with these (and earlier) versions of:
  * - IE4 - try..catch and for..in introduced in IE5
- * - IE5 - named anonymous functions, array.push, encodeURIComponent, and decodeURIComponent introduced in IE5.5
+ * - IE5 - named anonymous functions, array.push, encodeURIComponent, decodeURIComponent, and getElementsByTagName introduced in IE5.5
  * - Firefox 1.0 and Netscape 8.x - FF1.5 adds array.indexOf, among other things
  * - Mozilla 1.7 and Netscape 6.x-7.x
  * - Netscape 4.8
@@ -372,10 +372,10 @@ if (!this.JSON2) {
 /*global unescape */
 /*global ActiveXObject */
 /*global _paq:true */
-/*members encodeURIComponent, decodeURIComponent,
+/*members encodeURIComponent, decodeURIComponent, getElementsByTagName,
 	shift, unshift,
 	addEventListener, attachEvent, removeEventListener, detachEvent,
-	cookie, domain, readyState, documentElement, doScroll, title,
+	cookie, domain, readyState, documentElement, doScroll, title, text,
 	location, top, document, referrer, parent, links, href, protocol, GearsFactory,
 	event, which, button, srcElement, type, target,
 	parentNode, tagName, hostname, className,
@@ -903,6 +903,24 @@ var
 				domain = domain.slice(1);
 			}
 			return domain;
+		}
+
+		/*
+		 * Title fixup
+		 */
+		function titleFixup(title) {
+			if (isObject(title)) {
+				title = title.text || '';
+
+				var tmp = documentAlias.getElementsByTagName('head');
+				if (isObject(tmp)) {
+					tmp = tmp[0].getElementsByTagName('title');
+					if (isObject(tmp) && isDefined(tmp[0])) {
+						title = tmp[0].text;
+					}
+				}
+			}
+			return title;
 		}
 
 		/*
@@ -1602,7 +1620,7 @@ var
 			 */
 			function logPageView(customTitle, customData) {
 				var now = new Date(),
-					request = getRequest('action_name=' + encodeWrapper(customTitle || configTitle), customData, 'log');
+					request = getRequest('action_name=' + encodeWrapper(titleFixup(customTitle || configTitle)), customData, 'log');
 
 				sendRequest(request, configTrackerPause);
 
