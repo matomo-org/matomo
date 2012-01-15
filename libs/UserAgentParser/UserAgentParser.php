@@ -213,6 +213,9 @@ class UserAgentParser
 			// workaround for vendors who changed the WinPhone 7 user agent
 			'WP7'					=> 'WPH',
 
+			'CYGWIN_MT-6.2'			=> 'WI8',
+			'Windows NT 6.2'		=> 'WI8',
+			'Windows 8'				=> 'WI8',
 			'CYGWIN_NT-6.1'			=> 'WI7',
 			'Windows NT 6.1'		=> 'WI7',
 			'Windows 7'				=> 'WI7',
@@ -552,6 +555,7 @@ class UserAgentParser
 			'WII' => 'Wii',
 			'NDS' => 'DS',
 			'DSI' => 'DSi',
+			'WI8' => 'Win 8',
 			'WI7' => 'Win 7',
 			'WVI' => 'Win Vista',
 			'WS3' => 'Win S2003',

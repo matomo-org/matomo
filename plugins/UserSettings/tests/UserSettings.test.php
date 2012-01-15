@@ -489,6 +489,9 @@ class Test_Piwik_UserSettings extends UnitTestCase
 			array('MAC', 'Mac OS', 'Mac OS')),
 
 		// Internet Explorer
+		'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Win64; x64; Trident/6.0)' => array(
+			array('IE', 'Internet Explorer', 'IE', '10.0', '10', '0', 'ie'),
+			array('WI8', 'Windows 8', 'Win 8')),
 		'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)' => array(
 			array('IE', 'Internet Explorer', 'IE', '10.0', '10', '0', 'ie'),
 			array('WI7', 'Windows 7', 'Win 7')),
