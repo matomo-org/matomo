@@ -247,6 +247,7 @@ class UserAgentParser
 //			'Windows Phone OS 7.x'	=> '***', // Tango
 			'Windows Phone OS 7.5'	=> 'W75', // Mango
 			'Windows Phone OS 7.0'	=> 'WP7',
+			'Windows Phone OS 7.5'	=> 'WP7',
 			'Windows Mobile 6.5'	=> 'W65',
 			'Windows Mobile 6.1'	=> 'W61',
 //			'Windows Mobile 6'		=> '***', // Crossbow
