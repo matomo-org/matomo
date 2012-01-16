@@ -912,12 +912,9 @@ var
 			if (!isString(title)) {
 				title = title.text || '';
 
-				var tmp = documentAlias.getElementsByTagName('head');
+				var tmp = documentAlias.getElementsByTagName('title');
 				if (tmp && isDefined(tmp[0])) {
-					tmp = tmp[0].getElementsByTagName('title');
-					if (tmp && isDefined(tmp[0])) {
-						title = tmp[0].text;
-					}
+					title = tmp[0].text;
 				}
 			}
 			return title;
