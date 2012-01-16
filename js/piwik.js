@@ -909,13 +909,13 @@ var
 		 * Title fixup
 		 */
 		function titleFixup(title) {
-			if (isObject(title)) {
+			if (!isString(title)) {
 				title = title.text || '';
 
 				var tmp = documentAlias.getElementsByTagName('head');
-				if (isObject(tmp)) {
+				if (tmp) {
 					tmp = tmp[0].getElementsByTagName('title');
-					if (isObject(tmp) && isDefined(tmp[0])) {
+					if (tmp && isDefined(tmp[0])) {
 						title = tmp[0].text;
 					}
 				}
