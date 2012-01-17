@@ -120,16 +120,6 @@ class Piwik_SEO_RankChecker
 		return $value;
 	}
 
-	public function getBacklinksYahoo()
-	{
-		$url = $this->url;
-		$url = 'http://siteexplorer.search.yahoo.com/search?p='.urlencode($url);
-		$data = $this->getPage($url);
-		preg_match('/Inlinks \(([0-9\,]+)\)/si', $data, $p);
-		$value = isset($p[1]) ? $this->toInt($p[1]) : 0;
-		return $value;
-	}
-
 	public function getAge()
 	{
 		$url = preg_replace('/^www\./', '', $this->url);
@@ -142,16 +132,6 @@ class Piwik_SEO_RankChecker
 		}
 		$value = time() - strtotime($p[1]);
 		$value = Piwik::getPrettyTimeFromSeconds($value);
-		return $value;
-	}
-
-	public function getIndexedYahoo()
-	{
-		$url = $this->url;
-		$url = 'http://siteexplorer.search.yahoo.com/search?p='.urlencode($url);
-		$data = $this->getPage($url);
-		preg_match('/Pages \(([0-9,]{1,})\)/im', $data, $p);
-		$value = isset($p[1]) ? $this->toInt($p[1]) : 0;
 		return $value;
 	}
 

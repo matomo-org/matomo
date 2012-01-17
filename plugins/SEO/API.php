@@ -53,16 +53,6 @@ class Piwik_SEO_API
 				'logo' => Piwik_getSearchEngineLogoFromUrl('http://google.com'),
 				'id' => 'pagerank'
 			),
-			Piwik_Translate('SEO_YahooBacklinks')	=> array(
-				'rank' => $rank->getBacklinksYahoo(),
-				'logo' => Piwik_getSearchEngineLogoFromUrl('http://search.yahoo.com'),
-				'id' => 'yahoo-bls'
-			),
-			Piwik_Translate('SEO_YahooIndexedPages') => array(
-				'rank' => $rank->getIndexedYahoo(),
-				'logo' => Piwik_getSearchEngineLogoFromUrl('http://search.yahoo.com'),
-				'id' => 'yahoo-pages'
-			),
 			Piwik_Translate('SEO_AlexaRank') => array(
 				'rank' => $rank->getAlexaRank(),
 				'logo' => Piwik_getSearchEngineLogoFromUrl('http://alexa.com'),
