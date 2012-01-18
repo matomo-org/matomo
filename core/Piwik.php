@@ -1936,6 +1936,8 @@ class Piwik
 			$dbInfos = $config->database->toArray();
 		}
 
+		Piwik_PostEvent('Reporting.getDatabaseConfig', $dbInfos);
+
 		$dbInfos['profiler'] = $config->Debug->enable_sql_profiler;
 
 		$db = null;
