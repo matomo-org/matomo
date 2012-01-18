@@ -68,5 +68,4 @@ class Piwik_SEO_API
 		$dataTable->addRowsFromArrayWithIndexLabel($data);
 		return $dataTable;
 	}
-	
 }

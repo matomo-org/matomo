@@ -3,7 +3,6 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 {
 	require_once dirname(__FILE__)."/../../tests/config_test.php";
 }
-Mock::generate('Piwik_Access');
 
 /**
  * Tests exending Test_Database are much slower to run: the setUp will 
@@ -21,18 +20,18 @@ abstract class Test_Database_Base extends UnitTestCase
 	{
 		parent::__construct( $title );
 		try {
-    		Piwik::createConfigObject();
-    		Zend_Registry::get('config')->setTestEnvironment();	
-    		Piwik_Tracker_Config::getInstance()->setTestEnvironment();
-    		Piwik::createDatabaseObject();
-    		Piwik::createLogObject();
-    
-    		Piwik::dropDatabase();
-    		Piwik::createDatabase();
-    		Piwik::disconnectDatabase();
-    		Piwik::createDatabaseObject();
-    		Piwik::createTables();
-    		Piwik_PluginsManager::getInstance()->installLoadedPlugins();
+			Piwik::createConfigObject();
+			Zend_Registry::get('config')->setTestEnvironment();	
+			Piwik_Tracker_Config::getInstance()->setTestEnvironment();
+			Piwik::createDatabaseObject();
+			Piwik::createLogObject();
+
+			Piwik::dropDatabase();
+			Piwik::createDatabase();
+			Piwik::disconnectDatabase();
+			Piwik::createDatabaseObject();
+			Piwik::createTables();
+			Piwik_PluginsManager::getInstance()->installLoadedPlugins();
 		} catch(Exception $e) {
 			echo $e->getMessage();
 			echo "<br/><b>TEST INITIALIZATION FAILED!";

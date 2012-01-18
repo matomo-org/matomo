@@ -115,8 +115,13 @@ class Piwik_SEO_RankChecker
 		$url = $this->url;
 		$url = 'http://www.google.com/search?q=link%3A'.urlencode($url);
 		$data = $this->getPage($url);
-		preg_match('/of about \<b\>([0-9\,]+)\<\/b\>/si', $data, $p);
-		$value = isset($p[1]) ? $this->toInt($p[1]) : 0;
+		$value = 0;
+		if (preg_match('/\>About ([0-9\,]+) results\</', $data, $p)) {
+			$value = $this->toInt($p[1]);
+		}
+		elseif (preg_match('/of about \<b\>([0-9\,]+)\<\/b\>/si', $data, $p)) {
+			$value = $this->toInt($p[1]);
+		}
 		return $value;
 	}
 
