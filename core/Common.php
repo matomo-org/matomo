@@ -632,6 +632,22 @@ class Piwik_Common
 		return strlen($string);
 	}
 
+	/**
+	 * multi-byte strtolower() - UTF-8
+	 *
+	 * @param string $string
+	 * @return string
+	 */
+	static public function mb_strtolower($string)
+	{
+		if (function_exists('mb_strtolower'))
+		{
+			return mb_strtolower($string, 'UTF-8');
+		}
+
+		return strtolower($string);
+	}
+
 /*
  * Escaping input
  */
@@ -1637,9 +1653,26 @@ class Piwik_Common
 			if(function_exists('iconv')
 				&& isset($searchEngines[$refererHost][3]))
 			{
-				$charset = trim($searchEngines[$refererHost][3]);
-				if(!empty($charset))
+				// accepts string, array, or comma-separated list string in preferred order
+				$charsets = $searchEngines[$refererHost][3];
+				if (!is_array($charsets))
 				{
+					$charsets = explode(',', $charsets);
+				}
+
+				if(!empty($charsets))
+				{
+					$charset = $charsets[0];
+					if (count($charsets) > 1
+						&& function_exists('mb_detect_encoding'))
+					{
+						$charset = mb_detect_encoding($key, $charsets);
+						if ($charset === false)
+						{
+							$charset = $charsets[0];
+						}
+					}
+
 					$newkey = @iconv($charset, 'UTF-8//IGNORE', $key);
 					if(!empty($newkey))
 					{
@@ -1647,7 +1680,8 @@ class Piwik_Common
 					}
 				}
 			}
-			$key = mb_strtolower($key, 'UTF-8');
+
+			$key = self::mb_strtolower($key);
 		}
 
 		return array(

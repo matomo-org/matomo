@@ -668,6 +668,25 @@ class Test_Piwik_Common extends UnitTestCase
 
 				$this->assertTrue(strpos($host, '{}') === false, $host . " search URL is the master record and should not contain {}");
 			}
+
+			if(isset($info[3]) && $info[3] !== false)
+			{
+				$this->assertTrue(is_array($info[3]) || is_string($info[3]), $host . ' encoding must be either a string or an array');
+
+				if (is_string($info[3]))
+				{
+					$this->assertTrue(trim($info[3]) !== '', $host . ' encoding cannot be an empty string');
+					$this->assertTrue(strpos($info[3], ' ') === false, $host . ' encoding cannot contain spaces');
+
+				}
+
+				if (is_array($info[3]))
+				{
+					$this->assertTrue(count($info[3]) > 0, $host . ' encodings cannot be an empty array');
+					$this->assertTrue(strpos(serialize($info[3]), '""') === false, $host . ' encodings in array cannot be empty stringss');
+					$this->assertTrue(strpos(serialize($info[3]), ' ') === false, $host . ' encodings in array cannot contain spaces');
+				}
+			}
 		}
 	}
 	
@@ -718,6 +737,12 @@ class Test_Piwik_Common extends UnitTestCase
 			
 			'http://www.google.ge/search?hl=en&q=%E1%83%A1%E1%83%90%E1%83%A5%E1%83%90%E1%83%A0%E1%83%97%E1%83%95%E1%83%94%E1%83%9A%E1%83%9D&btnG=Google+Search' 
 				=> array('name' => 'Google', 'keywords' => 'საქართველო'),
+
+			// test multiple encodings per search engine (UTF-8, then Windows-1251)
+			'http://go.mail.ru/search?rch=e&q=%D0%B3%D0%BB%D1%83%D0%B1%D0%BE%D0%BA%D0%B8%D0%B5+%D0%BC%D0%B8%D0%BC%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5+%D0%BC%D0%BE%D1%80%D1%89%D0%B8%D0%BD%D1%8B'
+				=> array('name' => 'Mailru', 'keywords' => 'глубокие мимические морщины'),
+			'http://go.mail.ru/search?q=%F5%E8%EC%F1%EE%F1%F2%E0%E2%20%F0%E0%F1%F2%EE%F0%EE%EF%F8%E8'
+				=> array('name' => 'Mailru', 'keywords' => 'химсостав расторопши'),
 
 			// new Google url formats
 			'http://www.google.com/url?sa=t&source=web&ct=res&cd=7&url=http%3A%2F%2Fwww.example.com%2Fmypage.htm&ei=0SjdSa-1N5O8M_qW8dQN&rct=j&q=flowers&usg=AFQjCNHJXSUh7Vw7oubPaO3tZOzz-F-u_w&sig2=X8uCFh6IoPtnwmvGMULQfw'
