@@ -223,6 +223,8 @@ class Piwik_Tracker
 			$configDb['port'] = '3306';  
 		}
 
+		Piwik_PostEvent('Tracker.getDatabaseConfig', $configDb);
+
 		$db = self::factory( $configDb );
 		$db->connect();
 		
