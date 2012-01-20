@@ -39,7 +39,7 @@ class Piwik_Plugin_Config
 	 */
 	public function load()
 	{
-		$pluginConfig = @include(PIWIK_INCLUDE_PATH . '/plugins/' . $this->pluginName . '/config/' . $this->configFileName);
+		$pluginConfig = @include(PIWIK_USER_PATH . '/plugins/' . $this->pluginName . '/config/' . $this->configFileName);
 
 		return $pluginConfig;
 	}
@@ -51,6 +51,6 @@ class Piwik_Plugin_Config
 	 */
 	public function store($pluginConfig)
 	{
-		file_put_contents(PIWIK_INCLUDE_PATH . '/plugins/' . $this->pluginName . '/config/' . $this->configFileName, "<?php\nreturn ".var_export($pluginConfig, true).";\n");
+		file_put_contents(PIWIK_USER_PATH . '/plugins/' . $this->pluginName . '/config/' . $this->configFileName, "<?php\nreturn ".var_export($pluginConfig, true).";\n");
 	}
 }

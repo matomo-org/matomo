@@ -7,7 +7,7 @@
 
 [superuser]
 login			= yourSuperUserLogin
-password		= yourSuperUserPassword
+password		= yourSuperUserPasswordHash
 email			= hello@example.org
 
 [database]
