@@ -403,6 +403,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Powered by Google
 		'search.avg.com'			=> array('Google'),
+		'isearch.avg.com'			=> array('Google'),
 		'www.cnn.com'				=> array('Google', 'query'),
 		'darkoogle.com'				=> array('Google'),
 		'search.darkoogle.com'		=> array('Google'),
@@ -746,6 +747,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Sogou
 		'www.sogou.com'				=> array('Sogou', 'query', 'web?query={k}'),
+
+		// Softonic
+		'search.softonic.com'		=> array('Softonic', 'q', 'default/default?q={k}'),
 
 		// soso.com
 		'www.soso.com'				=> array('Soso', 'w', 'q?w={k}', 'gb2312'),
