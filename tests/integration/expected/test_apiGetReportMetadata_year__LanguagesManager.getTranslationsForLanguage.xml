@@ -3393,16 +3393,8 @@
 		<value>Notation Alexa</value>
 	</row>
 	<row>
-		<label>SEO_YahooIndexedPages</label>
-		<value>Pages indexées Yahoo</value>
-	</row>
-	<row>
 		<label>SEO_DomainAge</label>
 		<value>Age du domaine</value>
-	</row>
-	<row>
-		<label>SEO_YahooBacklinks</label>
-		<value>Liens de retour Yahoo</value>
 	</row>
 	<row>
 		<label>SEO_Rank</label>
