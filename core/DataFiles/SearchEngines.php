@@ -251,6 +251,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Comcast
 		'search.comcast.net'		=> array('Comcast', 'q', '?q={k}'),
 
+		// Crawler
+		'www.crawler.com'			=> array('Crawler', 'q', 'search/results1.aspx?q={k}'),
+
 		// Compuserve
 		'websearch.cs.com'			=> array('Compuserve.com (Enhanced by Google)', 'query', 'cs/search?query={k}'),
 
@@ -380,6 +383,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Gnadenmeer
 		'www.gnadenmeer.de'			=> array('Gnadenmeer', 'keyword'),
 
+		// Gomeo
+		'www.gomeo.com'				=> array('Gomeo', array('Keywords', '/\/search\/([^\/]+)/'), '/search/{k}'),
+
 		// goo
 		'search.goo.ne.jp'			=> array('goo', 'MT', 'web.jsp?MT={k}'),
 		'ocnsearch.goo.ne.jp'		=> array('goo'),
@@ -418,6 +424,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search.sweetim.com'		=> array('Google'),
 		'www.fastweb.it'			=> array('Google'),
 		'search.juno.com'			=> array('Google', 'query'),
+		'find.tdc.dk'				=> array('Google'),
 		'searchresults.verizon.com'	=> array('Google'),
 
 		// Google Earth
