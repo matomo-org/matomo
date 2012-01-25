@@ -4,8 +4,8 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 	require_once dirname(__FILE__)."/../../../tests/config_test.php";
 }
 
-// require_once 'Referers/API.php';
-require_once 'Referers/functions.php';
+require_once dirname(__FILE__).'/../Referers.php';
+require_once dirname(__FILE__).'/../functions.php';
 
 class Test_Referers extends UnitTestCase
 {
