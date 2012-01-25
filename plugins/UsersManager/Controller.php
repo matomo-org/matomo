@@ -26,6 +26,8 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 	 */
 	function index()
 	{
+		Piwik::checkUserIsNotAnonymous();
+
 		$view = Piwik_View::factory('UsersManager');
 		
 		$IdSitesAdmin = Piwik_SitesManager_API::getInstance()->getSitesIdWithAdminAccess();
@@ -116,6 +118,8 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 	 */
 	public function userSettings()
 	{
+		Piwik::checkUserIsNotAnonymous();
+
 		$view = Piwik_View::factory('userSettings');
 		
 		$userLogin = Piwik::getCurrentUserLogin();
@@ -168,6 +172,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 		Piwik::checkUserHasSomeViewAccess();
 		Piwik::checkUserIsNotAnonymous();
 		$this->checkTokenInUrl();
+
 		Piwik_Tracker_IgnoreCookie::setIgnoreCookie();
 		Piwik::redirectToModule('UsersManager', 'userSettings');
 	}
@@ -225,6 +230,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 		try {
 			Piwik::checkUserIsSuperUser();
 			$this->checkTokenInUrl();
+
 			$anonymousDefaultReport = Piwik_Common::getRequestVar('anonymousDefaultReport');
 			$anonymousDefaultDate = Piwik_Common::getRequestVar('anonymousDefaultDate');
 			$userLogin = 'anonymous';
@@ -249,6 +255,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 		$response = new Piwik_API_ResponseBuilder(Piwik_Common::getRequestVar('format'));
 		try {
 			$this->checkTokenInUrl();
+
 			$alias = Piwik_Common::getRequestVar('alias');
 			$email = Piwik_Common::getRequestVar('email');
 			$defaultReport = Piwik_Common::getRequestVar('defaultReport');

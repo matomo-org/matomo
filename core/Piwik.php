@@ -1671,7 +1671,7 @@ class Piwik
 				Piwik::checkUserIsSuperUser();
 			}
 		} catch( Piwik_Access_NoAccessException $e){
-			throw new Piwik_Access_NoAccessException("The user has to be either the Super User or the user '$theUser' itself.");
+			throw new Piwik_Access_NoAccessException(Piwik_Translate('General_ExceptionCheckUserIsSuperUserOrTheUser', array($theUser)));
 		}
 	}
 
@@ -1709,7 +1709,7 @@ class Piwik
 	{
 		if(self::isUserIsAnonymous())
 		{
-			throw new Exception(Piwik_Translate('General_YouMustBeLoggedIn'));
+			throw new Piwik_Access_NoAccessException(Piwik_Translate('General_YouMustBeLoggedIn'));
 		}
 	}
 
