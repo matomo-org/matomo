@@ -473,11 +473,7 @@ class Test_Piwik_Common extends UnitTestCase
 			'?x[]=1&x[]=2' => array('1', '2'),
 			'?x%5b%5d=3&x[]=4' => array('3', '4'),
 			'?x%5B]=5&x[%5D=6' => array('5', '6'),
-
-			// don't unescape the value, otherwise it becomes
-			//   ?x[]=A&y=1
 			'?x%5B%5D=A%26y%3D1' => array('A&y=1'),
-			//   ?z=y&x[]=1
 			'?z=y%26x%5b%5d%3d1' => null,
 		);
 
