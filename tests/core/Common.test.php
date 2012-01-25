@@ -476,7 +476,7 @@ class Test_Piwik_Common extends UnitTestCase
 
 			// don't unescape the value, otherwise it becomes
 			//   ?x[]=A&y=1
-			'?x%5B%5D=A%26y%3D1' => array('A%26y%3D1'),
+			'?x%5B%5D=A%26y%3D1' => array('A&y=1'),
 			//   ?z=y&x[]=1
 			'?z=y%26x%5b%5d%3d1' => null,
 		);
@@ -503,6 +503,7 @@ class Test_Piwik_Common extends UnitTestCase
 			'g' => array('b', 'c'),
 		);
 		$this->assertEqual(serialize(Piwik_Common::getArrayFromQueryString('a&b=&c=1&d[]&e[]=&f[]=a&g[]=b&g[]=c')), serialize($expected));
+		$this->assertEqual(serialize(Piwik_Common::getArrayFromQueryString('?a&b=&c=1&d[]&e[]=&f[]=a&g[]=b&g[]=c')), serialize($expected));
 	}
 
     public function test_isValidFilenameValidValues()
@@ -702,8 +703,8 @@ class Test_Piwik_Common extends UnitTestCase
 				=> array('name' => 'Google', 'keywords' => 'piwik'),
 				
 			// testing special case of Google images
-			'http://images.google.com/imgres?imgurl=http://www.linux-corner.info/snapshot1.png&imgrefurl=http://www.oxxus.net/blog/archives/date/2007/10/page/41/&usg=__-xYvnp1IKpRZKjRDQVhpfExMkuM=&h=781&w=937&sz=203&hl=en&start=1&tbnid=P9LqKMIbdhlg-M:&tbnh=123&tbnw=148&prev=/images%3Fq%3Dthis%2Bmy%2Bquery%2Bwith%2Bhttp://domain%2Bname%2Band%2Bstrange%2Bcharacters%2B%2526%2B%255E%2B%257C%2B%253C%253E%2B%2525%2B%2522%2B%2527%2527%2BEOL%26gbv%3D2%26hl%3Den%26sa%3DG'
-				=> array('name' => 'Google Images', 'keywords' => 'this my query with http://domain name and strange characters & ^ | <> % " \'\' eol'),
+			'http://images.google.com/imgres?imgurl=http://www.linux-corner.info/snapshot1.png&imgrefurl=http://www.oxxus.net/blog/archives/date/2007/10/page/41/&usg=__-xYvnp1IKpRZKjRDQVhpfExMkuM=&h=781&w=937&sz=203&hl=en&start=1&tbnid=P9LqKMIbdhlg-M:&tbnh=123&tbnw=148&prev=/images%3Fq%3Dthis%2Bmy%2Bquery%2Bwith%2Bhttp://domain%2Bname%2Band%2Bstrange%2Bcharacters%2B%255E%2B%257C%2B%253C%253E%2B%2525%2B%2522%2B%2527%2527%2BEOL%26gbv%3D2%26hl%3Den%26sa%3DG'
+				=> array('name' => 'Google Images', 'keywords' => 'this my query with http://domain name and strange characters ^ | <> % " \'\' eol'),
 			
 			'http://www.google.fr/search?hl=en&q=%3C%3E+%26test%3B+piwik+%26quot%3B&ei=GcXJSb-VKoKEsAPmnIjzBw&sa=X&oi=revisions_inline&ct=unquoted-query-link'
 				=> array('name' => 'Google', 'keywords' => '<> &test; piwik &quot;'),
