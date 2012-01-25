@@ -24,7 +24,11 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		$view->availableWidgets = Piwik_Common::json_encode(Piwik_GetWidgetsList());
 		$view->availableLayouts = $this->getAvailableLayouts();
 		
-		$layout            = $this->getLayout();
+		$layout = $this->getLayout();
+		if ($layout === false)
+		{
+			$layout = $this->getDefaultLayout();
+		}
 		$view->layout      = $layout;
 		$view->dashboardId = 1;
 		return $view;
