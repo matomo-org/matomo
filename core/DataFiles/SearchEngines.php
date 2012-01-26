@@ -764,6 +764,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Startpagina
 		'startgoogle.startpagina.nl'=> array('Startpagina (Google)', 'q', '?q={k}'),
 
+		// Startsiden
+		'www.startsiden.no'			=> array('Startsiden', 'q', 'sok/index.html?q={k}'),
+
 		// suche.info
 		'suche.info'				=> array('Suche.info', 'Keywords', 'suche.php?Keywords={k}'),
 	
