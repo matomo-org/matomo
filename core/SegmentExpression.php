@@ -107,7 +107,9 @@ class Piwik_SegmentExpression
             
             $operand = $this->getSqlMatchFromDefinition($operandDefinition, $availableTables);
             
-            $this->valuesBind[] = $operand[1];
+            if ($operand[1] !== null) {
+                $this->valuesBind[] = $operand[1];
+            }
             $operand = $operand[0];
             $sqlSubExpressions[] = array(
                 self::INDEX_BOOL_OPERATOR => $operator,
@@ -161,12 +163,25 @@ class Piwik_SegmentExpression
         		$sqlMatch = 'NOT LIKE';
         		$value = '%'.$this->escapeLikeString($value).'%';
         		break;
+            case 'IN':
+                // this match type is not accessible from the outside
+                // (it won't be matched in self::parseSubExpressions()).
+                // it can be used internally to inject sub-expressions into the query.
+                // see Piwik_Segment::getCleanedExpression()
+                $sqlMatch = 'IN ('.$value.')';
+                // mark this match as without an operand
+                $value = null;
+                break;
         	default:
         		throw new Exception("Filter contains the match type '".$matchType."' which is not supported");
         		break;
         }
         
-        $sqlExpression = "$field $sqlMatch ?";
+        if ($value === null) {
+            $sqlExpression = "$field $sqlMatch";
+        } else {
+            $sqlExpression = "$field $sqlMatch ?";
+        }
         
         $this->checkFieldIsAvailable($field, $availableTables);
         

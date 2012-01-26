@@ -56,7 +56,7 @@ class Piwik_Actions extends Piwik_Plugin
 	public function getSegmentsMetadata($notification)
 	{
 		$segments =& $notification->getNotificationObject();
-		$sqlFilter = array($this, 'getIdActionFromString');
+		$sqlFilter = array($this, 'getIdActionFromSegment');
         
 		// entry and exit pages of visit
 		$segments[] = array(
@@ -111,26 +111,65 @@ class Piwik_Actions extends Piwik_Plugin
         	'sqlFilter' => $sqlFilter,
         );
 	}
-
-	function getIdActionFromString($string, $sqlField)
+    
+    /**
+     * Convert segment expression to an action ID or an SQL expression.
+     * 
+     * This method is used as a sqlFilter-callback for the segments of this plugin.
+     * Usually, these callbacks only return a value that should be compared to the
+     * column in the database. In this case, that doesn't work since multiple IDs
+     * can match an expression (e.g. "pageUrl=@foo").
+     */
+	function getIdActionFromSegment($string, $sqlField, $matchType='==')
 	{
 		// Field is visit_*_idaction_url or visit_*_idaction_name
 		$actionType = strpos($sqlField, '_name') === false
 							? Piwik_Tracker_Action::TYPE_ACTION_URL
 							: Piwik_Tracker_Action::TYPE_ACTION_NAME;
-							 
-		$sql = Piwik_Tracker_Action::getSqlSelectActionId();
-		$bind = array($string, $string, $actionType);
 		
-		$idAction = Zend_Registry::get('db')->fetchOne($sql, $bind);
-		
-		// if the action is not found, we hack -1 to ensure it tries to match against an integer
-		// otherwise binding idaction_name to "false" returns some rows for some reasons (in case &segment=pageTitle==Větrnásssssss)
-		if(empty($idAction))
-		{
-			$idAction = -1;
-		}
-		return $idAction;
+        // exact matches work by returning the id directly
+        if ($matchType == '==' || $matchType == '!=')
+        {
+            $sql = Piwik_Tracker_Action::getSqlSelectActionId();
+            $bind = array($string, $string, $actionType);
+            $idAction = Piwik_FetchOne($sql, $bind);
+            // if the action is not found, we hack -100 to ensure it tries to match against an integer
+            // otherwise binding idaction_name to "false" returns some rows for some reasons (in case &segment=pageTitle==Větrnásssssss)
+            if(empty($idAction))
+            {
+                $idAction = -100;
+            }
+            return $idAction;
+        }
+        
+        // now, we handle the cases =@ and !@:
+        
+        // escape string manually since we can't use parameterised queries in this case
+        $string = str_replace('\\', '\\\\', $string);
+        $string = str_replace('"', '\"', $string);
+        $string = str_replace("%", "\%", $string);
+    	$string = str_replace("_", "\_", $string);
+        
+        // build the expression based on the match type
+        $sql = 'SELECT idaction FROM '.Piwik_Common::prefixTable('log_action').' WHERE ';
+        switch ($matchType)
+        {
+            case '=@':
+                // use concat to make sure, no %s occurs because some plugins use %s in their sql
+                $sql .= '( name LIKE CONCAT("%", "'.$string.'%") AND type = '.$actionType.' )';
+                break;
+            case '!@':
+                $sql .= '( name NOT LIKE CONCAT("%", "'.$string.'%") AND type = '.$actionType.' )';
+                break;
+            default:
+                throw new Exception("This match type is not available for action-segments.");
+                break;
+        }
+        
+        return array(
+            // mark that the returned value is an sql-expression instead of a literal value
+            'SQL' => $sql
+        );
 	}
 	
 	public function getReportMetadata($notification)

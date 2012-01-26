@@ -119,7 +119,18 @@ class Piwik_Segment
             if(isset($segment['sqlFilter'])
             	&& !empty($segment['sqlFilter']))
             {
-                $value = call_user_func($segment['sqlFilter'], $value, $segment['sqlSegment']);
+                $value = call_user_func($segment['sqlFilter'], $value, $segment['sqlSegment'], $matchType);
+                
+                // sqlFilter-callbacks might return arrays for more complex cases
+                // e.g. see Piwik_Actions::getIdActionFromSegment()
+                if (is_array($value))
+                {
+                    if (isset($value['SQL'])) {
+                        // return value is an sql expression
+                        $value = $value['SQL'];
+                        $matchType = 'IN';
+                    }
+                }
             }
             break;
         }
