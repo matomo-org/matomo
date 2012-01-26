@@ -16,10 +16,12 @@
  */
 class Piwik_PDFReports_Controller extends Piwik_Controller
 {	
-    public function index()
+	public function index()
 	{
+		Piwik::checkUserIsNotAnonymous();
+
 		$view = Piwik_View::factory('index');
-        $this->setGeneralVariablesView($view);
+		$this->setGeneralVariablesView($view);
 		$view->currentUserEmail = Piwik::getCurrentUserEmail();
 
 		$availableReports = Piwik_API_API::getInstance()->getReportMetadata($this->idSite);

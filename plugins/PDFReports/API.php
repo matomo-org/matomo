@@ -57,6 +57,7 @@ class Piwik_PDFReports_API
 	{
 		Piwik::checkUserIsNotAnonymous();
 		Piwik::checkUserHasViewAccess($idSite);
+
 		$this->checkPeriod($period);
 		$this->checkFormat($reportFormat);
 		$this->checkAggregateReportsFormat($aggregateReportsFormat);
@@ -110,7 +111,9 @@ class Piwik_PDFReports_API
 	 */
 	public function updateReport( $idReport, $idSite, $description, $period, $reportFormat, $aggregateReportsFormat, $reports, $emailMe = true, $additionalEmails = false)
 	{
+		Piwik::checkUserIsNotAnonymous();
 		Piwik::checkUserHasViewAccess($idSite);
+
 		$pdfReports = $this->getReports($idSite, $periodSearch = false, $idReport);
 		$report = reset($pdfReports);
 		$idReport = $report['idreport'];
@@ -177,6 +180,8 @@ class Piwik_PDFReports_API
 	 */
 	public function getReports($idSite = false, $period = false, $idReport = false, $ifSuperUserReturnOnlySuperUserReports = false)
 	{
+		Piwik::checkUserIsNotAnonymous();
+
 		$cacheKey = (int)$idSite .'.'. (string)$period .'.'. (int)$idReport .'.'. (int)$ifSuperUserReturnOnlySuperUserReports;
 		if(isset(self::$cache[$cacheKey]))
 		{
@@ -246,6 +251,8 @@ class Piwik_PDFReports_API
 	 */
 	public function generateReport($idReport, $date, $idSite = false, $language = false, $outputType = false, $period = false, $reportFormat = false, $aggregateReportsFormat = false)
 	{
+		Piwik::checkUserIsNotAnonymous();
+
 		// Load specified language
 		if(empty($language))
 		{
@@ -449,6 +456,8 @@ class Piwik_PDFReports_API
 
 	public function sendEmailReport($idReport, $idSite, $period = false, $date = false)
 	{
+		Piwik::checkUserIsNotAnonymous();
+
 		$reports = $this->getReports($idSite, false, $idReport);
 		$report = reset($reports);
 		if($report['period'] == 'never')
