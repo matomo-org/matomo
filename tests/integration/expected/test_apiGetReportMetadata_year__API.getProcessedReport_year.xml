@@ -17,6 +17,7 @@
 			<nb_actions_per_visit>Actions par visite</nb_actions_per_visit>
 			<avg_time_on_site>Temps moyen sur le site</avg_time_on_site>
 			<bounce_rate>Taux de rebond</bounce_rate>
+			<exit_rate>Taux de sortie</exit_rate>
 
 		</processedMetrics>
 		<metricsDocumentation>
@@ -52,6 +53,7 @@
 		<nb_actions_per_visit>Actions par visite</nb_actions_per_visit>
 		<avg_time_on_site>Temps moyen sur le site</avg_time_on_site>
 		<bounce_rate>Taux de rebond</bounce_rate>
+		<exit_rate>Taux de sortie</exit_rate>
 		<revenue>Revenu</revenue>
 
 	</columns>

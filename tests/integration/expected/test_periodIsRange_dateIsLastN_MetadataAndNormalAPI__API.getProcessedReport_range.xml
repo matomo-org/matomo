@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>Piwik test</website>
-	
+	<prettyDate>21 Jan 12 - 27 Jan 12</prettyDate>
 	<metadata>
 		<category>Visitors</category>
 		<name>Country</name>
@@ -17,6 +17,7 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<exit_rate>Exit rate</exit_rate>
 
 		</processedMetrics>
 		<metricsDocumentation>
@@ -41,7 +42,7 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
-		
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=range&amp;date=2012-01-21,now</imageGraphUrl>
 		<uniqueId>UserCountry_getCountry</uniqueId>
 
 	</metadata>
@@ -52,6 +53,7 @@
 		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 		<bounce_rate>Bounce Rate</bounce_rate>
+		<exit_rate>Exit rate</exit_rate>
 		<revenue>Revenue</revenue>
 
 	</columns>
@@ -64,6 +66,7 @@
 			<nb_actions_per_visit>1.33</nb_actions_per_visit>
 			<avg_time_on_site>00:02:01</avg_time_on_site>
 			<bounce_rate>66.67%</bounce_rate>
+			<exit_rate>0%</exit_rate>
 		</row>
 	</reportData>
 	<reportMetadata>

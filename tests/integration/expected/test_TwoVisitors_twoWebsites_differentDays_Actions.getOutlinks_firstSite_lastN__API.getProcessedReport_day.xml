@@ -9,13 +9,13 @@
 		<action>getOutlinks</action>
 		<dimension>Clicked URL</dimension>
 		<metrics>
-			<nb_hits>Pageviews</nb_hits>
-			<nb_visits>Visits</nb_visits>
+			<nb_visits>Unique Clicks</nb_visits>
+			<nb_hits>Clicks</nb_hits>
 
 		</metrics>
 		<metricsDocumentation>
-			<nb_hits>The number of times this link was clicked.</nb_hits>
 			<nb_visits>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</nb_visits>
+			<nb_hits>The number of times this link was clicked.</nb_hits>
 
 		</metricsDocumentation>
 		<documentation>This report shows a hierarchical list of outlink URLs that were clicked by your visitors. An outlink is a link that leads the visitor away from your website (to another domain).&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
@@ -25,8 +25,8 @@
 	</metadata>
 	<columns>
 		<label>Clicked URL</label>
-		<nb_hits>Pageviews</nb_hits>
-		<nb_visits>Visits</nb_visits>
+		<nb_visits>Unique Clicks</nb_visits>
+		<nb_hits>Clicks</nb_hits>
 
 	</columns>
 	<reportData>
