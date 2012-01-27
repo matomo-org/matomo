@@ -5,7 +5,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id$
+ * @version $Id: API.php 5334 2011-10-19 09:48:22Z EZdesign $
  *
  * @category Piwik_Plugins
  * @package Piwik_API
@@ -166,6 +166,7 @@ class Piwik_API_API
 			'nb_actions_per_visit' => 'General_ColumnActionsPerVisit',
     		'avg_time_on_site' => 'General_ColumnAvgTimeOnSite',
     		'bounce_rate' => 'General_ColumnBounceRate',
+			'exit_rate' => 'General_ColumnExitRate',
     		'conversion_rate' => 'General_ColumnConversionRate',
 		);
 		return array_map('Piwik_Translate', $translations);

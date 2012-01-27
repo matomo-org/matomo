@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id$
+ * @version $Id: UserCountry.php 5138 2011-09-07 15:25:57Z EZdesign $
  *
  * @category Piwik_Plugins
  * @package Piwik_UserCountry
@@ -76,14 +76,22 @@ class Piwik_UserCountry extends Piwik_Plugin
 	
 	public function getReportMetadata($notification)
 	{
+		$metrics = array(
+			'nb_visits' => Piwik_Translate('General_ColumnNbVisits'),
+			'nb_uniq_visitors' => Piwik_Translate('General_ColumnNbUniqVisitors'),
+            'nb_actions' => Piwik_Translate('General_ColumnNbActions')
+    	);
+		
 		$reports = &$notification->getNotificationObject();
+		
 		$reports[] = array(
 			'category' => Piwik_Translate('General_Visitors'),
 			'name' => Piwik_Translate('UserCountry_Country'),
 			'module' => 'UserCountry',
 			'action' => 'getCountry',
 			'dimension' => Piwik_Translate('UserCountry_Country'),
-        	'order' => 5,
+			'metrics' => $metrics,
+        	'order' => 5
 		);
 		
 		$reports[] = array(
@@ -92,7 +100,8 @@ class Piwik_UserCountry extends Piwik_Plugin
 			'module' => 'UserCountry',
 			'action' => 'getContinent',
         	'dimension' => Piwik_Translate('UserCountry_Continent'),
-        	'order' => 6,
+			'metrics' => $metrics,
+        	'order' => 6
 		);
 	}
 	

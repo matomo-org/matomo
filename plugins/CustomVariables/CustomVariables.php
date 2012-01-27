@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id$
+ * @version $Id: CustomVariables.php 5235 2011-09-27 07:20:45Z matt $
  *
  * @category Piwik_Plugins
  * @package Piwik_CustomVariables
@@ -66,6 +66,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
         			'name'   => Piwik_Translate('CustomVariables_CustomVariables'),
         			'module' => 'CustomVariables',
         			'action' => 'getCustomVariables',
+					'actionToLoadSubTables' => 'getCustomVariablesValuesFromNameId',
         			'dimension' => Piwik_Translate('CustomVariables_ColumnCustomVariableName'),
         			'documentation' => Piwik_Translate('CustomVariables_CustomVariablesReportDocumentation', array('<br />', '<a href="http://piwik.org/docs/custom-variables/" target="_blank">', '</a>')),
         			'order' => 10

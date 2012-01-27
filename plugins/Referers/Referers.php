@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id$
+ * @version $Id: Referers.php 5138 2011-09-07 15:25:57Z EZdesign $
  *
  * @category Piwik_Plugins
  * @package Piwik_Referers
@@ -76,6 +76,7 @@ class Piwik_Referers extends Piwik_Plugin
         			'name'   => Piwik_Translate('Referers_Keywords'),
         			'module' => 'Referers',
         			'action' => 'getKeywords',
+					'actionToLoadSubTables' => 'getSearchEnginesFromKeywordId',
         			'dimension' => Piwik_Translate('Referers_ColumnKeyword'),
         			'documentation' => Piwik_Translate('Referers_KeywordsReportDocumentation', '<br />'),
         			'order' => 3,
@@ -85,6 +86,7 @@ class Piwik_Referers extends Piwik_Plugin
         			'name'   => Piwik_Translate('Referers_Websites'),
         			'module' => 'Referers',
         			'action' => 'getWebsites',
+					'actionToLoadSubTables' => 'getUrlsFromWebsiteId',
         			'dimension' => Piwik_Translate('Referers_ColumnWebsite'),
         			'documentation' => Piwik_Translate('Referers_WebsitesReportDocumentation', '<br />'),
         			'order' => 5
@@ -94,6 +96,7 @@ class Piwik_Referers extends Piwik_Plugin
         			'name'   => Piwik_Translate('Referers_SearchEngines'),
         			'module' => 'Referers',
         			'action' => 'getSearchEngines',
+					'actionToLoadSubTables' => 'getKeywordsFromSearchEngineId',
         			'dimension' => Piwik_Translate('Referers_ColumnSearchEngine'),
         			'documentation' => Piwik_Translate('Referers_SearchEnginesReportDocumentation', '<br />'),
         			'order' => 7,
@@ -103,6 +106,7 @@ class Piwik_Referers extends Piwik_Plugin
         			'name'   => Piwik_Translate('Referers_Campaigns'),
         			'module' => 'Referers',
         			'action' => 'getCampaigns',
+					'actionToLoadSubTables' => 'getKeywordsFromCampaignId',
         			'dimension' => Piwik_Translate('Referers_ColumnCampaign'),
         			'documentation' => Piwik_Translate('Referers_CampaignsReportDocumentation',
         					array('<br />', '<a href="http://piwik.org/docs/tracking-campaigns/" target="_blank">', '</a>')),

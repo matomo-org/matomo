@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id$
+ * @version $Id: API.php 5235 2011-09-27 07:20:45Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Actions
@@ -106,6 +106,16 @@ class Piwik_Actions_API
 		$this->filterPageDatatable($dataTable);
 		$this->filterActionsDataTable($dataTable, $expanded);
 		return $dataTable;
+	}
+	
+	public function getEntryPageUrls( $idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false )
+	{
+		return $this->getPageUrls( $idSite, $period, $date, $segment, $expanded, $idSubtable );
+	}
+	
+	public function getExitPageUrls( $idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false )
+	{
+		return $this->getPageUrls( $idSite, $period, $date, $segment, $expanded, $idSubtable );
 	}
 	
 	public function getPageUrl( $pageUrl, $idSite, $period, $date, $segment = false)
