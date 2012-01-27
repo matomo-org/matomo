@@ -1092,11 +1092,11 @@ class Piwik_Common
  */
 
 	/**
-	 * Returns list of valid country codes
+	 * Returns list of continent codes
 	 *
 	 * @see core/DataFiles/Countries.php
 	 *
-	 * @return array Array of 2 letter ISO codes
+	 * @return array Array of 3 letter continent codes
 	 */
 	static public function getContinentsList()
 	{
