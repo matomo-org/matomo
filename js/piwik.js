@@ -382,7 +382,7 @@ if (!this.JSON2) {
 	userAgent, cookieEnabled, platform, mimeTypes, enabledPlugin, javaEnabled,
 	XDomainRequest, XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, setRequestHeader, send, readyState, status,
 	getTime, setTime, toGMTString, getHours, getMinutes, getSeconds,
-	toLowerCase, charAt, indexOf, lastIndexOf, split, slice,
+	toLowerCase, charAt, indexOf, lastIndexOf, split, slice, toUpperCase,
 	onLoad, src,
 	round, random,
 	exec,
