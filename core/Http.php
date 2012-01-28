@@ -69,6 +69,7 @@ class Piwik_Http
 			}
 		}
 
+		$acceptLanguage = $acceptLanguage ? 'Accept-Language: '.$acceptLanguage : '';
 		return self::sendHttpRequestBy(self::getTransportMethod(), $aUrl, $timeout, $userAgent, $destinationPath, $file, $followDepth, $acceptLanguage); 			
 	}
 
@@ -103,7 +104,6 @@ class Piwik_Http
 			. (isset($_SERVER['HTTP_VIA']) && !empty($_SERVER['HTTP_VIA']) ? $_SERVER['HTTP_VIA'] . ', ' : '')
 			. Piwik_Version::VERSION . ' Piwik'
 			. ($userAgent ? " ($userAgent)" : '');
-		$acceptLanguage = $acceptLanguage ? 'Accept-Language:'.$acceptLanguage : '';
 		$userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'Piwik/'.Piwik_Version::VERSION;
 
 		// proxy configuration
