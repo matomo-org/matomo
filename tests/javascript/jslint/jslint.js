@@ -1,5 +1,5 @@
 // jslint.js
-// 2012-01-13
+// 2012-01-26
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -159,7 +159,6 @@
 //     bitwise    true, if bitwise operators should be allowed
 //     browser    true, if the standard browser globals should be predefined
 //     cap        true, if upper case HTML should be allowed
-//     confusion  true, if types can be used inconsistently
 //     'continue' true, if the continuation statement should be tolerated
 //     css        true, if CSS workarounds should be tolerated
 //     debug      true, if debugger statements should be allowed
@@ -203,199 +202,117 @@
 // For example:
 
 /*properties
-    '\b': string, '\t': string, '\n': string, '\f': string, '\r': string,
-    '!=': boolean, '!==': boolean, '"': string, '%': boolean, '\'': string,
-    '(begin)', '(breakage)': number, '(confusion)': boolean,
-    '(context)': object, '(error)', '(identifier)', '(line)': number,
-    '(loopage)': number, '(name)', '(old_property_type)', '(params)',
-    '(scope)': object, '(token)', '(vars)', '(verb)', '*': boolean,
-    '+': boolean, '-': boolean, '/': *, '<': boolean, '<=': boolean,
-    '==': boolean, '===': boolean, '>': boolean, '>=': boolean,
-    ADSAFE: boolean, Array, Date, E: string, Function, LN10: string,
-    LN2: string, LOG10E: string, LOG2E: string, MAX_VALUE: string,
-    MIN_VALUE: string, NEGATIVE_INFINITY: string, Object, PI: string,
-    POSITIVE_INFINITY: string, SQRT1_2: string, SQRT2: string, '\\': string,
-    a: object, a_label: string, a_not_allowed: string, a_not_defined: string,
-    a_scope: string, abbr: object, acronym: object, address: object, adsafe,
-    adsafe_a: string, adsafe_autocomplete: string, adsafe_bad_id: string,
-    adsafe_div: string, adsafe_fragment: string, adsafe_go: string,
-    adsafe_html: string, adsafe_id: string, adsafe_id_go: string,
-    adsafe_lib: string, adsafe_lib_second: string, adsafe_missing_id: string,
-    adsafe_name_a: string, adsafe_placement: string, adsafe_prefix_a: string,
-    adsafe_script: string, adsafe_source: string, adsafe_subscript_a: string,
-    adsafe_tag: string, all: boolean, already_defined: string, and: string,
-    anon, applet: object, apply: string, approved: array, area: object,
-    arity: string, article: object, aside: object, assign: boolean,
-    assign_exception: string, assignment_function_expression: string,
-    at: number, attribute_case_a: string, audio: object, autocomplete: string,
-    avoid_a: string, b: *, background: array, 'background-attachment': array,
-    'background-color': array, 'background-image': array,
-    'background-position': array, 'background-repeat': array,
-    bad_assignment: string, bad_color_a: string, bad_constructor: string,
-    bad_entity: string, bad_html: string, bad_id_a: string, bad_in_a: string,
-    bad_invocation: string, bad_name_a: string, bad_new: string,
-    bad_number: string, bad_operand: string, bad_style: string,
-    bad_type: string, bad_url_a: string, bad_wrap: string, base: object,
-    bdo: object, big: object, bind: string, bitwise: boolean, block: array,
-    blockquote: object, body: object, border: array, 'border-bottom': array,
-    'border-bottom-color', 'border-bottom-left-radius',
-    'border-bottom-right-radius', 'border-bottom-style': array,
-    'border-bottom-width', 'border-collapse': array, 'border-color': array,
-    'border-left': array, 'border-left-color', 'border-left-style': array,
-    'border-left-width', 'border-radius', 'border-right': array,
-    'border-right-color', 'border-right-style': array, 'border-right-width',
-    'border-spacing': array, 'border-style': array, 'border-top': array,
-    'border-top-color', 'border-top-left-radius', 'border-top-right-radius',
-    'border-top-style': array, 'border-top-width', 'border-width': array,
-    bottom: array, br: object, braille: boolean, browser: boolean,
-    button: object, c, call: string, canvas: object, cap, caption: object,
-    'caption-side': array, ceil: string, center: object, charAt: *,
-    charCodeAt: *, character, cite: object, clear: array, clip: array, closure,
-    cm: boolean, code: object, col: object, colgroup: object, color,
-    combine_var: string, command: object, concat: string,
-    conditional_assignment: string, confusing_a: string,
-    confusing_regexp: string, confusion: boolean, constructor: string,
-    constructor_name_a: string, content: array, continue, control_a: string,
-    'counter-increment': array, 'counter-reset': array, create: *, css: string,
-    cursor: array, d, dangerous_comment: string, dangling_a: string,
-    data: function object, datalist: object, dd: object, debug,
-    defineProperties: string, defineProperty: string, del: object,
-    deleted: string, details: object, devel: boolean, dfn: object,
-    dialog: object, dir: object, direction: array, display: array,
-    disrupt: boolean, div: object, dl: object, dt: object, duplicate_a: string,
-    edge: string, edition: string, else, em: *, embed: object,
-    embossed: boolean, empty: boolean, 'empty-cells': array,
-    empty_block: string, empty_case: string, empty_class: string,
-    entityify: function, eqeq, errors: array, es5: string, eval, every: string,
-    evidence, evil: string, ex: boolean, exception, exec: *,
-    expected_a: string, expected_a_at_b_c: string, expected_a_b: string,
-    expected_a_b_from_c_d: string, expected_at_a: string,
-    expected_attribute_a: string, expected_attribute_value_a: string,
-    expected_class_a: string, expected_fraction_a: string,
-    expected_id_a: string, expected_identifier_a: string,
-    expected_identifier_a_reserved: string, expected_lang_a: string,
-    expected_linear_a: string, expected_media_a: string,
-    expected_name_a: string, expected_nonstandard_style_attribute: string,
-    expected_number_a: string, expected_operator_a: string,
-    expected_percent_a: string, expected_positive_a: string,
-    expected_pseudo_a: string, expected_selector_a: string,
-    expected_small_a: string, expected_space_a_b: string,
-    expected_string_a: string, expected_style_attribute: string,
-    expected_style_pattern: string, expected_tagname_a: string,
-    expected_type_a: string, f: string, fieldset: object, figure: object,
-    filter: *, first: *, flag, float: array, floor: *, font: *, 'font-family',
-    'font-size': array, 'font-size-adjust': array, 'font-stretch': array,
-    'font-style': array, 'font-variant': array, 'font-weight': array,
-    footer: object, for, forEach: *, for_if: string, forin, form: object,
-    fragment, frame: object, frameset: object, freeze: string, from: number,
-    fromCharCode: function, fud: function, funct: object, function,
-    function_block: string, function_eval: string, function_loop: string,
-    function_statement: string, function_strict: string, functions: array,
-    getDate: string, getDay: string, getFullYear: string, getHours: string,
-    getMilliseconds: string, getMinutes: string, getMonth: string,
-    getOwnPropertyDescriptor: string, getOwnPropertyNames: string,
-    getPrototypeOf: string, getSeconds: string, getTime: string,
-    getTimezoneOffset: string, getUTCDate: string, getUTCDay: string,
-    getUTCFullYear: string, getUTCHours: string, getUTCMilliseconds: string,
-    getUTCMinutes: string, getUTCMonth: string, getUTCSeconds: string,
-    getYear: string, global, globals, h1: object, h2: object, h3: object,
-    h4: object, h5: object, h6: object, handheld: boolean, hasOwnProperty: *,
-    head: object, header: object, height: array, hgroup: object, hr: object,
-    'hta:application': object, html: *, html_confusion_a: string,
-    html_handlers: string, i: object, id: string, identifier: boolean,
-    identifier_function: string, iframe: object, img: object, immed: boolean,
-    implied_evil: string, in, indent: number, indexOf: *, infix_in: string,
-    init: function, input: object, ins: object, insecure_a: string,
-    isAlpha: function, isArray: function boolean, isDigit: function,
-    isExtensible: string, isFrozen: string, isNaN: string,
-    isPrototypeOf: string, isSealed: string, join: *, jslint: function boolean,
-    json: boolean, kbd: object, keygen: object, keys: *, label: object,
-    label_a_b: string, labeled: boolean, lang: string, lastIndex: string,
-    lastIndexOf: *, lbp: number, leading_decimal_a: string, led: function,
-    left: array, legend: object, length: *, 'letter-spacing': array,
-    li: object, lib: boolean, line: number, 'line-height': array, link: object,
-    'list-style': array, 'list-style-image': array,
-    'list-style-position': array, 'list-style-type': array, map: *,
-    margin: array, 'margin-bottom', 'margin-left', 'margin-right',
-    'margin-top', mark: object, 'marker-offset': array, match: function,
-    'max-height': array, 'max-width': array, maxerr: number,
-    maxlen: number, member: object, menu: object, message, meta: object,
-    meter: object, 'min-height': function, 'min-width': function,
-    missing_a: string, missing_a_after_b: string, missing_option: string,
-    missing_property: string, missing_space_a_b: string, missing_url: string,
-    missing_use_strict: string, mixed: string, mm: boolean, mode: string,
-    move_invocation: string, move_var: string, n: string, name: string,
-    name_function: string, nav: object, nested_comment: string,
-    newcap: boolean, node: boolean, noframes: object, nomen, noscript: object,
-    not: string, not_a_constructor: string, not_a_defined: string,
-    not_a_function: string, not_a_label: string, not_a_scope: string,
-    not_greater: string, now: string, nud: function, number: number,
-    object: object, ol: object, on, opacity, open: boolean, optgroup: object,
-    option: object, outer: regexp, outline: array, 'outline-color': array,
-    'outline-style': array, 'outline-width', output: object, overflow: array,
-    'overflow-x': array, 'overflow-y': array, p: object, padding: array,
-    'padding-bottom': function, 'padding-left': function,
-    'padding-right': function, 'padding-top': function,
-    'page-break-after': array, 'page-break-before': array, param: object,
-    parameter_a_get_b: string, parameter_set_a: string, params: array,
-    paren: boolean, parent: string, parse: string, passfail, pc: boolean,
-    plusplus, pop: *, position: array, postscript: boolean, pre: object,
-    predef, preventExtensions: string, print: boolean, progress: object,
-    projection: boolean, properties: boolean, propertyIsEnumerable: string,
-    prototype: string, pt: boolean, push: *, px: boolean, q: object, quote,
-    quotes: array, r: string, radix: string, range: function, raw,
-    read_only: string, reason, redefinition_a: string, reduce: string,
-    reduceRight: string, regexp, replace: function, report: function,
-    reserved: boolean, reserved_a: string, reverse: string, rhino: boolean,
-    right: array, rp: object, rt: object, ruby: object, safe: boolean,
-    samp: object, scanned_a_b: string, screen: boolean, script: object,
-    seal: string, search: function, second: *, section: object, select: object,
-    setDate: string, setDay: string, setFullYear: string, setHours: string,
-    setMilliseconds: string, setMinutes: string, setMonth: string,
-    setSeconds: string, setTime: string, setTimezoneOffset: string,
-    setUTCDate: string, setUTCDay: string, setUTCFullYear: string,
-    setUTCHours: string, setUTCMilliseconds: string, setUTCMinutes: string,
-    setUTCMonth: string, setUTCSeconds: string, setYear: string, shift: *,
-    slash_equal: string, slice: string, sloppy, small: object, some: string,
-    sort: *, source: object, span: object, speech: boolean, splice: string,
-    split: function, src, statement_block: string, stopping: string,
-    strange_loop: string, strict: string, string: string, stringify: string,
-    strong: object, style: *, styleproperty: regexp, sub: object,
-    subscript: string, substr: *, substring: string, sup: object,
-    supplant: function, t: string, table: object, 'table-layout': array,
-    tag_a_in_b: string, tbody: object, td: object, test: *,
-    'text-align': array, 'text-decoration': array, 'text-indent': function,
-    'text-shadow': array, 'text-transform': array, textarea: object,
-    tfoot: object, th: object, thead: object, third: array, thru: number,
-    time: object, title: object, toDateString: string, toExponential: string,
-    toFixed: string, toISOString: string, toJSON: string,
-    toLocaleDateString: string, toLocaleLowerCase: string,
-    toLocaleString: string, toLocaleTimeString: string,
-    toLocaleUpperCase: string, toLowerCase: *, toPrecision: string,
-    toString: function, toTimeString: string, toUTCString: string,
-    toUpperCase: *, token: function, too_long: string, too_many: string,
-    top: array, tr: object, trailing_decimal_a: string, tree: string,
-    trim: string, tt: object, tty: boolean, tv: boolean, type: string,
-    type_confusion_a_b: string, u: object, ul: object, unclosed: string,
-    unclosed_comment: string, unclosed_regexp: string, undef: boolean,
-    undefined, unescaped_a: string, unexpected_a: string,
-    unexpected_char_a_b: string, unexpected_comment: string,
-    unexpected_property_a: string, unexpected_space_a_b: string,
-    'unicode-bidi': array, unnecessary_initialize: string,
-    unnecessary_use: string, unparam, unreachable_a_b: string,
-    unrecognized_style_attribute_a: string, unrecognized_tag_a: string,
-    unsafe: string, unshift: string, unused: array, url: string, urls: array,
-    use_array: string, use_braces: string, use_charAt: string,
-    use_object: string, use_or: string, use_param: string,
-    used_before_a: string, valueOf: string, var: object, var_a_not: string,
-    vars, 'vertical-align': array, video: object, visibility: array,
-    warn: boolean, was: object, weird_assignment: string,
-    weird_condition: string, weird_new: string, weird_program: string,
-    weird_relation: string, weird_ternary: string, white: boolean,
-    'white-space': array, widget: boolean, width: array, windows: boolean,
-    'word-spacing': array, 'word-wrap': array, wrap: boolean,
-    wrap_immediate: string, wrap_regexp: string, write_is_wrong: string,
-    writeable: boolean, 'z-index': array
+    '\b', '\t', '\n', '\f', '\r', '!=', '!==', '"', '%', '\'', '(begin)',
+    '(breakage)', '(context)', '(error)', '(identifier)', '(line)',
+    '(loopage)', '(name)', '(params)', '(scope)', '(token)', '(vars)',
+    '(verb)', '*', '+', '-', '/', '<', '<=', '==', '===', '>',
+    '>=', ADSAFE, Array, Date, E, Function, LN10, LN2, LOG10E, LOG2E,
+    MAX_VALUE, MIN_VALUE, NEGATIVE_INFINITY, Object, PI, POSITIVE_INFINITY,
+    SQRT1_2, SQRT2, '\\', a, a_label, a_not_allowed, a_not_defined, a_scope,
+    abbr, acronym, address, adsafe, adsafe_a, adsafe_autocomplete,
+    adsafe_bad_id, adsafe_div, adsafe_fragment, adsafe_go, adsafe_html,
+    adsafe_id, adsafe_id_go, adsafe_lib, adsafe_lib_second, adsafe_missing_id,
+    adsafe_name_a, adsafe_placement, adsafe_prefix_a, adsafe_script,
+    adsafe_source, adsafe_subscript_a, adsafe_tag, all, already_defined, and,
+    anon, applet, apply, approved, area, arity, article, aside, assign,
+    assign_exception, assignment_function_expression, at, attribute_case_a,
+    audio, autocomplete, avoid_a, b, background, 'background-attachment',
+    'background-color', 'background-image', 'background-position',
+    'background-repeat', bad_assignment, bad_color_a, bad_constructor,
+    bad_entity, bad_html, bad_id_a, bad_in_a, bad_invocation, bad_name_a,
+    bad_new, bad_number, bad_operand, bad_style, bad_type, bad_url_a, bad_wrap,
+    base, bdo, big, bind, bitwise, block, blockquote, body, border,
+    'border-bottom', 'border-bottom-color', 'border-bottom-left-radius',
+    'border-bottom-right-radius', 'border-bottom-style', 'border-bottom-width',
+    'border-collapse', 'border-color', 'border-left', 'border-left-color',
+    'border-left-style', 'border-left-width', 'border-radius', 'border-right',
+    'border-right-color', 'border-right-style', 'border-right-width',
+    'border-spacing', 'border-style', 'border-top', 'border-top-color',
+    'border-top-left-radius', 'border-top-right-radius', 'border-top-style',
+    'border-top-width', 'border-width', bottom, br, braille, browser, button,
+    c, call, canvas, cap, caption, 'caption-side', ceil, center, charAt,
+    charCodeAt, character, cite, clear, clip, closure, cm, code, col, colgroup,
+    color, combine_var, command, concat, conditional_assignment, confusing_a,
+    confusing_regexp, constructor, constructor_name_a, content, continue,
+    control_a, 'counter-increment', 'counter-reset', create, css, cursor, d,
+    dangerous_comment, dangling_a, data, datalist, dd, debug, defineProperties,
+    defineProperty, del, deleted, details, devel, dfn, dialog, dir, direction,
+    display, disrupt, div, dl, dt, duplicate_a, edge, edition, else, em, embed,
+    embossed, empty, 'empty-cells', empty_block, empty_case, empty_class,
+    entityify, eqeq, errors, es5, eval, every, evidence, evil, ex, exception,
+    exec, expected_a, expected_a_at_b_c, expected_a_b, expected_a_b_from_c_d,
+    expected_at_a, expected_attribute_a, expected_attribute_value_a,
+    expected_class_a, expected_fraction_a, expected_id_a,
+    expected_identifier_a, expected_identifier_a_reserved, expected_lang_a,
+    expected_linear_a, expected_media_a, expected_name_a,
+    expected_nonstandard_style_attribute, expected_number_a,
+    expected_operator_a, expected_percent_a, expected_positive_a,
+    expected_pseudo_a, expected_selector_a, expected_small_a,
+    expected_space_a_b, expected_string_a, expected_style_attribute,
+    expected_style_pattern, expected_tagname_a, expected_type_a, f, fieldset,
+    figure, filter, first, flag, float, floor, font, 'font-family',
+    'font-size', 'font-size-adjust', 'font-stretch', 'font-style',
+    'font-variant', 'font-weight', footer, for, forEach, for_if, forin, form,
+    fragment, frame, frameset, freeze, from, fromCharCode, fud, funct,
+    function, function_block, function_eval, function_loop, function_statement,
+    function_strict, functions, getDate, getDay, getFullYear, getHours,
+    getMilliseconds, getMinutes, getMonth, getOwnPropertyDescriptor,
+    getOwnPropertyNames, getPrototypeOf, getSeconds, getTime,
+    getTimezoneOffset, getUTCDate, getUTCDay, getUTCFullYear, getUTCHours,
+    getUTCMilliseconds, getUTCMinutes, getUTCMonth, getUTCSeconds, getYear,
+    global, globals, h1, h2, h3, h4, h5, h6, handheld, hasOwnProperty, head,
+    header, height, hgroup, hr, 'hta:application', html, html_confusion_a,
+    html_handlers, i, id, identifier, identifier_function, iframe, img, immed,
+    implied_evil, in, indent, indexOf, infix_in, init, input, ins, insecure_a,
+    isAlpha, isArray, isDigit, isExtensible, isFrozen, isNaN, isPrototypeOf,
+    isSealed, join, jslint, json, kbd, keygen, keys, label, label_a_b, labeled,
+    lang, lastIndex, lastIndexOf, lbp, leading_decimal_a, led, left, legend,
+    length, 'letter-spacing', li, lib, line, 'line-height', link, 'list-style',
+    'list-style-image', 'list-style-position', 'list-style-type', map, margin,
+    'margin-bottom', 'margin-left', 'margin-right', 'margin-top', mark,
+    'marker-offset', match, 'max-height', 'max-width', maxerr, maxlen, member,
+    menu, message, meta, meter, 'min-height', 'min-width', missing_a,
+    missing_a_after_b, missing_option, missing_property, missing_space_a_b,
+    missing_url, missing_use_strict, mixed, mm, mode, move_invocation,
+    move_var, n, name, name_function, nav, nested_comment, newcap, node,
+    noframes, nomen, noscript, not, not_a_constructor, not_a_defined,
+    not_a_function, not_a_label, not_a_scope, not_greater, now, nud, number,
+    object, ol, on, opacity, open, optgroup, option, outer, outline,
+    'outline-color', 'outline-style', 'outline-width', output, overflow,
+    'overflow-x', 'overflow-y', p, padding, 'padding-bottom', 'padding-left',
+    'padding-right', 'padding-top', 'page-break-after', 'page-break-before',
+    param, parameter_a_get_b, parameter_set_a, params, paren, parent, parse,
+    passfail, pc, plusplus, pop, position, postscript, pre, predef,
+    preventExtensions, print, progress, projection, properties,
+    propertyIsEnumerable, prototype, pt, push, px, q, quote, quotes, r, radix,
+    range, raw, read_only, reason, redefinition_a, reduce, reduceRight, regexp,
+    replace, report, reserved, reserved_a, reverse, rhino, right, rp, rt, ruby,
+    safe, samp, scanned_a_b, screen, script, seal, search, second, section,
+    select, setDate, setDay, setFullYear, setHours, setMilliseconds,
+    setMinutes, setMonth, setSeconds, setTime, setTimezoneOffset, setUTCDate,
+    setUTCDay, setUTCFullYear, setUTCHours, setUTCMilliseconds, setUTCMinutes,
+    setUTCMonth, setUTCSeconds, setYear, shift, slash_equal, slice, sloppy,
+    small, some, sort, source, span, speech, splice, split, src,
+    statement_block, stopping, strange_loop, strict, string, stringify, strong,
+    style, styleproperty, sub, subscript, substr, substring, sup, supplant, t,
+    table, 'table-layout', tag_a_in_b, tbody, td, test, 'text-align',
+    'text-decoration', 'text-indent', 'text-shadow', 'text-transform',
+    textarea, tfoot, th, thead, third, thru, time, title, toDateString,
+    toExponential, toFixed, toISOString, toJSON, toLocaleDateString,
+    toLocaleLowerCase, toLocaleString, toLocaleTimeString, toLocaleUpperCase,
+    toLowerCase, toPrecision, toString, toTimeString, toUTCString, toUpperCase,
+    token, too_long, too_many, top, tr, trailing_decimal_a, tree, trim, tt,
+    tty, tv, type, u, ul, unclosed, unclosed_comment, unclosed_regexp, undef,
+    undefined, unescaped_a, unexpected_a, unexpected_char_a_b,
+    unexpected_comment, unexpected_property_a, unexpected_space_a_b,
+    'unicode-bidi', unnecessary_initialize, unnecessary_use, unparam,
+    unreachable_a_b, unrecognized_style_attribute_a, unrecognized_tag_a,
+    unsafe, unshift, unused, url, urls, use_array, use_braces, use_charAt,
+    use_object, use_or, use_param, used_before_a, valueOf, var, var_a_not,
+    vars, 'vertical-align', video, visibility, warn, was, weird_assignment,
+    weird_condition, weird_new, weird_program, weird_relation, weird_ternary,
+    white, 'white-space', widget, width, windows, 'word-spacing', 'word-wrap',
+    wrap, wrap_immediate, wrap_regexp, write_is_wrong, writeable, 'z-index'
 */
 
 // The global directive is used to declare global variables that can
@@ -431,7 +348,6 @@ var JSLINT = (function () {
             bitwise   : true,
             browser   : true,
             cap       : true,
-            confusion : true,
             'continue': true,
             css       : true,
             debug     : true,
@@ -666,7 +582,6 @@ var JSLINT = (function () {
             trailing_decimal_a: "A trailing decimal point can be confused " +
                 "with a dot: '.{a}'.",
             type: "type is unnecessary.",
-            type_confusion_a_b: "Type confusion: {a} and {b}.",
             unclosed: "Unclosed string.",
             unclosed_comment: "Unclosed comment.",
             unclosed_regexp: "Unclosed regular expression.",
@@ -929,17 +844,11 @@ var JSLINT = (function () {
         ids,            // HTML ids
         in_block,
         indent,
-//         infer_statement,// Inference rules for statements
-        is_type = array_to_object([
-            '*', 'array', 'boolean', 'function', 'number', 'object',
-            'regexp', 'string'
-        ], true),
         itself,         // JSLint itself
         json_mode,
         lex,            // the tokenizer
         lines,
         lookahead,
-        member,
         node = array_to_object([
             'Buffer', 'clearInterval', 'clearTimeout', 'console', 'exports',
             'global', 'module', 'process', 'querystring', 'require',
@@ -952,7 +861,7 @@ var JSLINT = (function () {
         predefined,     // Global variables defined by option
         prereg,
         prev_token,
-        property_type,
+        property,
         regexp_flag = array_to_object(['g', 'i', 'm'], true),
         return_this = function return_this() {
             return this;
@@ -974,139 +883,15 @@ var JSLINT = (function () {
         standard = array_to_object([
             'Array', 'Boolean', 'Date', 'decodeURI', 'decodeURIComponent',
             'encodeURI', 'encodeURIComponent', 'Error', 'eval', 'EvalError',
-            'Function', 'isFinite', 'isNaN', 'JSON', 'Math', 'Number', 'Object',
-            'parseInt', 'parseFloat', 'RangeError', 'ReferenceError', 'RegExp',
-            'String', 'SyntaxError', 'TypeError', 'URIError'
+            'Function', 'isFinite', 'isNaN', 'JSON', 'Math', 'Number',
+            'Object', 'parseInt', 'parseFloat', 'RangeError', 'ReferenceError',
+            'RegExp', 'String', 'SyntaxError', 'TypeError', 'URIError'
         ], false),
-
-        standard_property_type = {
-            E                   : 'number',
-            LN2                 : 'number',
-            LN10                : 'number',
-            LOG2E               : 'number',
-            LOG10E              : 'number',
-            MAX_VALUE           : 'number',
-            MIN_VALUE           : 'number',
-            NEGATIVE_INFINITY   : 'number',
-            PI                  : 'number',
-            POSITIVE_INFINITY   : 'number',
-            SQRT1_2             : 'number',
-            SQRT2               : 'number',
-            apply               : 'function',
-            bind                : 'function function',
-            call                : 'function',
-            ceil                : 'function number',
-            charAt              : 'function string',
-            concat              : 'function',
-            constructor         : 'function object',
-            create              : 'function object',
-            defineProperty      : 'function object',
-            defineProperties    : 'function object',
-            every               : 'function boolean',
-            exec                : 'function array',
-            filter              : 'function array',
-            floor               : 'function number',
-            forEach             : 'function',
-            freeze              : 'function object',
-            getDate             : 'function number',
-            getDay              : 'function number',
-            getFullYear         : 'function number',
-            getHours            : 'function number',
-            getMilliseconds     : 'function number',
-            getMinutes          : 'function number',
-            getMonth            : 'function number',
-            getOwnPropertyDescriptor
-                                : 'function object',
-            getOwnPropertyNames : 'function array',
-            getPrototypeOf      : 'function object',
-            getSeconds          : 'function number',
-            getTime             : 'function number',
-            getTimezoneOffset   : 'function number',
-            getUTCDate          : 'function number',
-            getUTCDay           : 'function number',
-            getUTCFullYear      : 'function number',
-            getUTCHours         : 'function number',
-            getUTCMilliseconds  : 'function number',
-            getUTCMinutes       : 'function number',
-            getUTCMonth         : 'function number',
-            getUTCSeconds       : 'function number',
-            getYear             : 'function number',
-            hasOwnProperty      : 'function boolean',
-            indexOf             : 'function number',
-            isExtensible        : 'function boolean',
-            isFrozen            : 'function boolean',
-            isPrototypeOf       : 'function boolean',
-            isSealed            : 'function boolean',
-            join                : 'function string',
-            keys                : 'function array',
-            lastIndexOf         : 'function number',
-            lastIndex           : 'number',
-            length              : 'number',
-            map                 : 'function array',
-            now                 : 'function number',
-            parse               : 'function',
-            pop                 : 'function',
-            preventExtensions   : 'function object',
-            propertyIsEnumerable: 'function boolean',
-            prototype           : 'object',
-            push                : 'function number',
-            reduce              : 'function',
-            reduceRight         : 'function',
-            reverse             : 'function',
-            seal                : 'function object',
-            setDate             : 'function',
-            setDay              : 'function',
-            setFullYear         : 'function',
-            setHours            : 'function',
-            setMilliseconds     : 'function',
-            setMinutes          : 'function',
-            setMonth            : 'function',
-            setSeconds          : 'function',
-            setTime             : 'function',
-            setTimezoneOffset   : 'function',
-            setUTCDate          : 'function',
-            setUTCDay           : 'function',
-            setUTCFullYear      : 'function',
-            setUTCHours         : 'function',
-            setUTCMilliseconds  : 'function',
-            setUTCMinutes       : 'function',
-            setUTCMonth         : 'function',
-            setUTCSeconds       : 'function',
-            setYear             : 'function',
-            shift               : 'function',
-            slice               : 'function',
-            some                : 'function boolean',
-            sort                : 'function',
-            splice              : 'function',
-            stringify           : 'function string',
-            substr              : 'function string',
-            substring           : 'function string',
-            test                : 'function boolean',
-            toDateString        : 'function string',
-            toExponential       : 'function string',
-            toFixed             : 'function string',
-            toJSON              : 'function',
-            toISOString         : 'function string',
-            toLocaleDateString  : 'function string',
-            toLocaleLowerCase   : 'function string',
-            toLocaleUpperCase   : 'function string',
-            toLocaleString      : 'function string',
-            toLocaleTimeString  : 'function string',
-            toLowerCase         : 'function string',
-            toPrecision         : 'function string',
-            toTimeString        : 'function string',
-            toUpperCase         : 'function string',
-            toUTCString         : 'function string',
-            trim                : 'function string',
-            unshift             : 'function number',
-            valueOf             : 'function'
-        },
 
         strict_mode,
         syntax = {},
         tab,
         token,
-//         type_state_change,
         urls,
         var_mode,
         warnings,
@@ -1325,9 +1110,6 @@ var JSLINT = (function () {
                 add_to_predefined(widget);
                 option.widget = false;
             }
-        }
-        if (option.type) {
-            option.confusion = true;
         }
     }
 
@@ -2432,39 +2214,23 @@ klass:              do {
 
 
     function do_properties() {
-        var name, type;
+        var name;
         option.properties = true;
-        if (!funct['(old_property_type)']) {
-            funct['(old_property_type)'] = property_type;
-            property_type = Object.create(property_type);
-        }
         for (;;) {
             if (next_token.id !== '(string)' && !next_token.identifier) {
                 return;
             }
             name = next_token.string;
-            type = '';
             advance();
             if (next_token.id === ':') {
-                advance(':');
-                if (next_token.id === 'function') {
-                    advance('function');
-                    if (is_type[next_token.string] === true) {
-                        type = 'function ' + next_token.string;
-                        advance();
-                    } else {
-                        type = 'function';
-                    }
-                } else {
-                    type = next_token.string;
-                    if (is_type[type] !== true) {
-                        warn('expected_type_a', next_token);
-                        type = '';
-                    }
+                for (;;) {
                     advance();
+                    if (next_token.id === ',' || next_token.id === '*/' || next_token.id === '(end)') {
+                        break;
+                    }
                 }
             }
-            property_type[name] = type;
+            property[name] = 0;
             if (next_token.id !== ',') {
                 return;
             }
@@ -2834,7 +2600,7 @@ klass:              do {
     }
 
 
-    function prefix(s, f, type) {
+    function prefix(s, f) {
         var x = symbol(s, 150);
         reserve_name(x);
         x.nud = typeof f === 'function'
@@ -2855,7 +2621,6 @@ klass:              do {
                         warn('bad_operand', this);
                     }
                 }
-                this.type = type;
                 return this;
             };
         return x;
@@ -2864,7 +2629,7 @@ klass:              do {
 
     function type(s, t, nud) {
         var x = symbol(s);
-        x.arity = x.type = t;
+        x.arity = t;
         if (nud) {
             x.nud = nud;
         }
@@ -2882,9 +2647,8 @@ klass:              do {
     }
 
 
-    function constant(name, type) {
+    function constant(name) {
         var x = reserve(name);
-        x.type = type;
         x.string = name;
         x.nud = return_this;
         return x;
@@ -2901,7 +2665,7 @@ klass:              do {
     }
 
 
-    function infix(s, p, f, type, w) {
+    function infix(s, p, f, w) {
         var x = symbol(s, p);
         reserve_name(x);
         x.led = function (left) {
@@ -2921,9 +2685,6 @@ klass:              do {
                 return this;
             }
         };
-        if (type) {
-            x.type = type;
-        }
         return x;
     }
 
@@ -2984,7 +2745,7 @@ klass:              do {
             break;
         default:
             if (node.id  === 'NaN') {
-                warn('isnan', node);
+                warn('isNaN', node);
             }
         }
         return node;
@@ -3006,7 +2767,7 @@ klass:              do {
             that.first = left;
             that.second = check_relation(right);
             return that;
-        }, 'boolean');
+        });
     }
 
 
@@ -3053,9 +2814,6 @@ klass:              do {
         });
         x.assign = true;
         if (op) {
-            if (syntax[op].type) {
-                x.type = syntax[op].type;
-            }
             if (syntax[op].bitwise) {
                 x.bitwise = true;
             }
@@ -3269,13 +3027,13 @@ klass:              do {
 
 
     function tally_property(name) {
-        if (option.properties && typeof property_type[name] !== 'string') {
+        if (option.properties && typeof property[name] !== 'number') {
             warn('unexpected_property_a', token, name);
         }
-        if (typeof member[name] === 'number') {
-            member[name] += 1;
+        if (typeof property[name] === 'number') {
+            property[name] += 1;
         } else {
-            member[name] = 1;
+            property[name] = 1;
         }
     }
 
@@ -3521,7 +3279,6 @@ klass:              do {
         } else if (this.first.number !== 0) {
             warn('expected_a_b', this.first, '0', artifact(this.first));
         }
-        this.type = 'undefined';
         return this;
     });
 
@@ -3547,8 +3304,8 @@ klass:              do {
         that.left = left;
         that.right = expression(130);
         return that;
-    }, 'boolean');
-    infix('instanceof', 120, null, 'boolean');
+    });
+    infix('instanceof', 120);
     infix('+', 130, function (left, that) {
         if (left.id === '(number)') {
             if (left.number === 0) {
@@ -3616,7 +3373,7 @@ klass:              do {
         that.first = left;
         that.second = right;
         return that;
-    }, 'number');
+    });
     prefix('-');
     prefix('---', function () {
         warn('confusing_a', token);
@@ -3646,7 +3403,7 @@ klass:              do {
         that.first = left;
         that.second = right;
         return that;
-    }, 'number');
+    });
     infix('/', 140, function (left, that) {
         if ((left.id === '(number)' && left.number === 0) || left.id === '(string)') {
             warn('unexpected_a', left);
@@ -3663,7 +3420,7 @@ klass:              do {
         that.first = left;
         that.second = right;
         return that;
-    }, 'number');
+    });
     infix('%', 140, function (left, that) {
         if ((left.id === '(number)' && (left.number === 0 || left.number === 1)) || left.id === '(string)') {
             warn('unexpected_a', left);
@@ -3680,7 +3437,7 @@ klass:              do {
         that.first = left;
         that.second = right;
         return that;
-    }, 'number');
+    });
 
     suffix('++');
     prefix('++');
@@ -3705,7 +3462,7 @@ klass:              do {
         }
         expression(150);
         return this;
-    }, 'number');
+    });
     prefix('!', function () {
         no_space_only();
         this.first = expected_condition(expression(150));
@@ -3714,8 +3471,8 @@ klass:              do {
             warn('confusing_a', this);
         }
         return this;
-    }, 'boolean');
-    prefix('typeof', null, 'string');
+    });
+    prefix('typeof', null);
     prefix('new', function () {
         one_space();
         var c = expression(160), n, p, v;
@@ -3734,7 +3491,7 @@ klass:              do {
                         if (next_token.id !== ')') {
                             n = expression(0);
                             p.second = [n];
-                            if (n.type !== 'number' || next_token.id === ',') {
+                            if (n.id !== '(number)' || next_token.id === ',') {
                                 warn('use_array', p);
                             }
                             while (next_token.id === ',') {
@@ -3857,7 +3614,7 @@ klass:              do {
         that.first = left;
         that.second = p;
         return that;
-    }, '', true);
+    }, true);
 
     prefix('(', function () {
         step_in('expression');
@@ -3883,7 +3640,7 @@ klass:              do {
     infix('.', 170, function (left, that) {
         no_space(prev_token, token);
         no_space();
-        var name = identifier(), type;
+        var name = identifier();
         if (typeof name === 'string') {
             tally_property(name);
         }
@@ -3939,12 +3696,8 @@ klass:              do {
                 }
             }
         }
-        type = property_type[name];
-        if (type && typeof type === 'string' && type !== '*') {
-            that.type = type;
-        }
         return that;
-    }, '', true);
+    }, true);
 
     infix('[', 170, function (left, that) {
         var e, s;
@@ -3953,35 +3706,26 @@ klass:              do {
         step_in();
         edge();
         e = expression(0);
-        switch (e.type) {
-        case 'number':
+        switch (e.id) {
+        case '(number)':
             if (e.id === '(number)' && left.id === 'arguments') {
                 warn('use_param', left);
             }
             break;
-        case 'string':
-            if (e.id === '(string)') {
-                if (option.safe && (banned[e.string] ||
-                        e.string.charAt(0) === '_' || e.string.slice(-1) === '_')) {
-                    warn('adsafe_subscript_a', e);
-                } else if (!option.evil &&
-                        (e.string === 'eval' || e.string === 'execScript')) {
-                    warn('evil', e);
-                } else if (!option.sub && ix.test(e.string)) {
-                    s = syntax[e.string];
-                    if (!s || !s.reserved) {
-                        warn('subscript', e);
-                    }
+        case '(string)':
+            if (option.safe && (banned[e.string] ||
+                    e.string.charAt(0) === '_' || e.string.slice(-1) === '_')) {
+                warn('adsafe_subscript_a', e);
+            } else if (!option.evil &&
+                    (e.string === 'eval' || e.string === 'execScript')) {
+                warn('evil', e);
+            } else if (!option.sub && ix.test(e.string)) {
+                s = syntax[e.string];
+                if (!s || !s.reserved) {
+                    warn('subscript', e);
                 }
-                tally_property(e.string);
-            } else if (option.safe && e.id !== 'typeof') {
-                warn('adsafe_subscript_a', e);
             }
-            break;
-        case undefined:
-            if (option.safe) {
-                warn('adsafe_subscript_a', e);
-            }
+            tally_property(e.string);
             break;
         default:
             if (option.safe) {
@@ -3993,7 +3737,7 @@ klass:              do {
         that.first = left;
         that.second = e;
         return that;
-    }, '', true);
+    }, true);
 
     prefix('[', function () {
         this.arity = 'prefix';
@@ -4099,13 +3843,6 @@ klass:              do {
         func.first = funct['(params)'] = function_params();
         one_space();
         func.block = block(false);
-        if (funct['(old_property_type)']) {
-            property_type = funct['(old_property_type)'];
-            delete funct['(old_property_type)'];
-        }
-        if (option.confusion) {
-            funct['(confusion)'] = true;
-        }
         funct      = old_funct;
         option     = old_option;
         scope      = old_scope;
@@ -4791,215 +4528,6 @@ klass:              do {
     reserve('yield');
 
 
-// Type inference
-
-//     function get_type(one) {
-//         var type;
-//         if (typeof one === 'string') {
-//             return one;
-//         } else if (one.type) {
-//             return one.type;
-//         } else if (one.id === '.') {
-//             type = property_type[one.second.string];
-//             return typeof type === 'string' ? type : '';
-//         } else {
-//             return ((one.identifier && scope[one.string]) || one).type;
-//         }
-//     }
-
-
-//     function match_type(one_type, two_type, one, two) {
-//         if (one_type === two_type) {
-//             return true;
-//         } else {
-//             if (!funct.confusion && !two.warn) {
-//                 if (typeof one !== 'string') {
-//                     if (one.id === '.') {
-//                         one_type = '.' + one.second.string + ': ' + one_type;
-//                     } else {
-//                         one_type = one.string + ': ' + one_type;
-//                     }
-//                 }
-//                 if (two.id === '.') {
-//                     two_type = '.' + two.second.string + ': ' + one_type;
-//                 } else {
-//                     two_type = two.string + ': ' + one_type;
-//                 }
-//                 warn('type_confusion_a_b', two, one_type, two_type);
-//                 two.warn = true;
-//             }
-//             return false;
-//         }
-//     }
-
-
-//     function conform(one, two) {
-//
-// // The conform function takes a type string and a token, or two tokens.
-//
-//         var one_type = typeof one === 'string' ? one : one.type,
-//             two_type = two.type,
-//             two_thing;
-//
-// // If both tokens already have a type, and if they match, then we are done.
-// // Once a token has a type, it is locked. Neither token will change, but if
-// // they do not match, there will be a warning.
-//
-//         if (one_type) {
-//             if (two_type) {
-//                 match_type(one_type, two_type, one, two);
-//             } else {
-//
-// // two does not have a type, so look deeper. If two is a variable or property,
-// // then use its type if it has one, and make the deep type one's type if it
-// // doesn't. If the type was *, or if there was a mismatch, don't change the
-// // deep type.
-//
-//                 two_thing = two.id === '(identifier)'
-//                     ? scope[two.string]
-//                     : two.id === '.'
-//                     ? property_type[two.second.string]
-//                     : null;
-//                 if (two_thing) {
-//                     two_type = two_thing.type;
-//                     if (two_type) {
-//                         if (two_type !== '*') {
-//                             if (!match_type(one_type, two_type, one, two)) {
-//                                 return '';
-//                             }
-//                         }
-//                     } else {
-//                         two_thing.type = one_type;
-//                     }
-//                 }
-//
-// // In any case, we give two a type.
-//
-//                 two.type = one_type;
-//                 type_state_change = true;
-//                 return one_type;
-//             }
-//
-// // one does not have a type, but two does, so do the old switcheroo.
-//
-//         } else {
-//             if (two_type) {
-//                 return conform(two, one);
-//
-// // Neither token has a type yet. So we have to look deeper to see if either
-// // is a variable or property.
-//
-//             } else {
-//                 if (one.id === '(identifier)') {
-//                     one_type = scope[one.string].type;
-//                     if (one_type && one_type !== '*') {
-//                         one.type = one_type;
-//                         return conform(one, two);
-//                     }
-//                 } else if (one.id === '.') {
-//                     one_type = property_type[one.second.string];
-//                     if (one_type && one_type !== '*') {
-//                         one.type = scope[one.string].type;
-//                         return conform(one, two);
-//                     }
-//                 }
-//                 if (two.id === '(identifier)') {
-//                     two_type = scope[two.string].type;
-//                     if (two_type && two_type !== '*') {
-//                         two.type = two_type;
-//                         return conform(two, one);
-//                     }
-//                 } else if (two.id === '.') {
-//                     two_type = property_type[two.second.string];
-//                     if (two_type && two_type !== '*') {
-//                         two.type = scope[two.string].type;
-//                         return conform(two, one);
-//                     }
-//                 }
-//             }
-//         }
-//
-// // Return a falsy string if we were unable to determine the type of either token.
-//
-//         return '';
-//     }
-
-//     function conform_array(type, array) {
-//         array.forEach(function (item) {
-//             return conform(type, item);
-//         }, type);
-//     }
-
-
-//     function infer(node) {
-//         if (Array.isArray(node)) {
-//             node.forEach(infer);
-//         } else {
-//             switch (node.arity) {
-//             case 'statement':
-//                 infer_statement[node.id](node);
-//                 break;
-//             case 'infix':
-//                 infer(node.first);
-//                 infer(node.second);
-//                 switch (node.id) {
-//                 case '(':
-//                     conform('function', node.first);
-//                     break;
-//                 default:
-//                     stop('unfinished');
-//                 }
-//                 break;
-//             case 'number':
-//             case 'string':
-//             case 'boolean':
-//                 break;
-//             default:
-//                 stop('unfinished');
-//             }
-//         }
-//     }
-
-
-//     infer_statement = {
-//         'var': function (node) {
-//             var i, item, list = node.first;
-//             for (i = 0; i < list.length; i += 1) {
-//                 item = list[i];
-//                 if (item.id === '=') {
-//                     infer(item.second);
-//                     conform(item.first, item.second);
-//                     conform(item.first, item);
-//                 }
-//             }
-//         },
-//         'for': function (node) {
-//             infer(node.first);
-//             infer(node.second);
-//             if (node.forin) {
-//                 conform('string', node.first);
-//                 conform('object', node.second);
-//             } else {
-//                 infer(node.third);
-//                 conform_array('number', node.first);
-//                 conform('boolean', node.second);
-//                 conform_array('number', node.third);
-//             }
-//             infer(node.block);
-//         }
-//     };
-
-
-//     function infer_types(node) {
-//         do {
-//             funct = global_funct;
-//             scope = global_scope;
-//             type_state_change = false;
-//             infer(node);
-//         } while (type_state_change);
-//     }
-
-
 // Parse JSON
 
     function json_value() {
@@ -5682,9 +5210,6 @@ klass:              do {
 
 
     function style_value(v) {
-
-        /*jslint confusion: true */
-
         var i = 0,
             n,
             once,
@@ -6133,9 +5658,6 @@ klass:              do {
                 if (option.adsafe && (!adsafe_may || !approved[attribute.src])) {
                     warn('adsafe_source', token);
                 }
-                if (attribute.type) {
-                    warn('type', token);
-                }
             } else {
                 step_in(next_token.from);
                 edge();
@@ -6243,9 +5765,6 @@ klass:              do {
     }
 
     function html() {
-
-        /*jslint confusion: true */
-
         var attribute, attributes, is_empty, name, old_white = option.white,
             quote, tag_name, tag, wmode;
         xmode = 'html';
@@ -6453,7 +5972,7 @@ klass:              do {
             Object.create(syntax['(begin)']);
         predefined = {};
         add_to_predefined(standard);
-        property_type = Object.create(standard_property_type);
+        property = {};
         if (the_option) {
             option = Object.create(the_option);
             predef = option.predef;
@@ -6500,7 +6019,6 @@ klass:              do {
         indent = null;
         json_mode = false;
         lookahead = [];
-        member = {};
         node_js = false;
         prereg = true;
         src = false;
@@ -6685,9 +6203,9 @@ klass:              do {
         }
 
         members = [];
-        for (name in member) {
-            if (typeof member[name] === 'number') {
-                data.member = member;
+        for (name in property) {
+            if (typeof property[name] === 'number') {
+                data.member = property;
                 break;
             }
         }
@@ -6697,8 +6215,8 @@ klass:              do {
 
 
     itself.report = function (errors_only) {
-        var data = itself.data(), err, evidence, i, italics, j, key, keys, length,
-            mem = '', name, names, output = [], snippets, the_function, type,
+        var data = itself.data(), err, evidence, i, italics, j, key, keys,
+            length, mem = '', name, names, output = [], snippets, the_function,
             warning;
 
         function detail(h, value) {
@@ -6812,62 +6330,27 @@ klass:              do {
                     mem = '    ';
                     italics = 0;
                     j = 0;
-                    if (option.confusion) {
-                        for (i = 0; i < keys.length; i += 1) {
-                            key = keys[i];
-                            if (typeof standard_property_type[key] !== 'string') {
-                                name = ix.test(key)
-                                    ? key
-                                    : '\'' + key.entityify().replace(nx, sanitize) + '\'';
-                                if (data.member[key] === 1) {
-                                    name = '<i>' + name + '</i>';
-                                    italics += 1;
-                                    j = 1;
-                                }
-                                if (i < keys.length - 1) {
-                                    name += ', ';
-                                }
-                                if (mem.length + name.length - (italics * 7) > 80) {
-                                    output.push(mem + '<br>');
-                                    mem = '    ';
-                                    italics = j;
-                                }
-                                mem += name;
-                                j = 0;
-                            }
+                    for (i = 0; i < keys.length; i += 1) {
+                        key = keys[i];
+                        name = ix.test(key)
+                            ? key
+                            : '\'' + key.entityify().replace(nx, sanitize) + '\'';
+                        length += name.length + 2;
+                        if (data.member[key] === 1) {
+                            name = '<i>' + name + '</i>';
+                            italics += 1;
+                            j = 1;
                         }
-                    } else {
-                        for (i = 0; i < keys.length; i += 1) {
-                            key = keys[i];
-                            type = property_type[key];
-                            if (typeof type !== 'string') {
-                                type = '';
-                            }
-                            if (standard_property_type[key] !== type) {
-                                name = ix.test(key)
-                                    ? key
-                                    : '\'' + key.entityify().replace(nx, sanitize) + '\'';
-                                length += name.length + 2;
-                                if (data.member[key] === 1) {
-                                    name = '<i>' + name + '</i>';
-                                    italics += 1;
-                                    j = 1;
-                                }
-                                if (type) {
-                                    name += ': ' + type;
-                                }
-                                if (i < keys.length - 1) {
-                                    name += ', ';
-                                }
-                                if (mem.length + name.length - (italics * 7) > 80) {
-                                    output.push(mem + '<br>');
-                                    mem = '    ';
-                                    italics = j;
-                                }
-                                mem += name;
-                                j = 0;
-                            }
+                        if (i < keys.length - 1) {
+                            name += ', ';
                         }
+                        if (mem.length + name.length - (italics * 7) > 80) {
+                            output.push(mem + '<br>');
+                            mem = '    ';
+                            italics = j;
+                        }
+                        mem += name;
+                        j = 0;
                     }
                     output.push(mem + '<br>*/</pre>');
                 }
@@ -6878,7 +6361,7 @@ klass:              do {
     };
     itself.jslint = itself;
 
-    itself.edition = '2012-01-13';
+    itself.edition = '2012-01-26';
 
     return itself;
 }());
