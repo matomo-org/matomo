@@ -125,7 +125,10 @@ broadcast.propagateAjax = function (ajaxUrl)
  */
 broadcast.propagateNewPage = function (str)
 {
-	piwikHelper.showAjaxLoading();
+    // abort all existing ajax requests
+    piwikHelper.abortQueueAjax();
+
+    piwikHelper.showAjaxLoading();
 
 	var params_vals = str.split("&");
 

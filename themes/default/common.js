@@ -180,8 +180,12 @@ piwikHelper.redirectToUrl = function(url)
 	window.location = url;
 }
 
-piwikHelper.ajaxHandleError = function()
+piwikHelper.ajaxHandleError = function(deferred, status)
 {
+    // do not display error message if request was aborted
+    if(status == 'abort') {
+        return;
+    }
 	$('#loadingError').show();
 	setTimeout( function(){ 
 		$('#loadingError').fadeOut('slow');
