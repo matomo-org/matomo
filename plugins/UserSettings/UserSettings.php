@@ -33,7 +33,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 		'ie'     => 'Trident (IE)',
 		'gecko'  => 'Gecko (Firefox)',
 		'khtml'  => 'KHTML (Konqueror)',
-		'webkit' => 'WebKit (Safari)',
+		'webkit' => 'WebKit (Safari, Chrome)',
 		'opera'  => 'Presto (Opera)',
 	);
 
