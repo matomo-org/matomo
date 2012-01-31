@@ -141,7 +141,6 @@ class Piwik_VisitTime extends Piwik_Plugin
 		
 		$labelSQL = "HOUR(log_visit.visit_last_action_time)";
 		$this->interestByServerTime = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-		$this->interestByServerTime = $this->convertServerTimeToLocalTimezone($this->interestByServerTime, $archiveProcessing);
 	}
 	
 	protected function convertServerTimeToLocalTimezone($interestByServerTime, $archiveProcessing)
@@ -181,6 +180,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 		$archiveProcessing->insertBlobRecord('VisitTime_localTime', $tableLocalTime->getSerialized());
 		destroy($tableLocalTime);
 		
+		$this->interestByServerTime = $this->convertServerTimeToLocalTimezone($this->interestByServerTime, $archiveProcessing);
 		$tableServerTime = $archiveProcessing->getDataTableFromArray($this->interestByServerTime);
 		$this->makeSureAllHoursAreSet($tableServerTime, $archiveProcessing);
 		$archiveProcessing->insertBlobRecord('VisitTime_serverTime', $tableServerTime->getSerialized());
