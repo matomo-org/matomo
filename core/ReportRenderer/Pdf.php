@@ -180,7 +180,7 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 		// Table-only report with more than 2 columns
 		static $tableOnlyManyColumnReportRowCount = 0;
 		$tableOnlyManyColumnReport = $tableOnlyReport
-								  	&& $columnCount > 2;
+								  	&& $columnCount > 3;
 
 		$reportHasData = $this->reportHasData();
 
@@ -409,8 +409,10 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 			}
 		}
 
+		$columnsCount = count($this->reportColumns);
 		// Computes available column width
-		if ($this->orientation == 'P') {
+		if ($this->orientation == 'P'
+			&& $columnsCount <= 3) {
 			$totalWidth = $this->reportWidthPortrait * 2 / 3;
 		}
 		else if ($this->orientation == 'L') {
@@ -420,7 +422,6 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 		{
 			$totalWidth = $this->reportWidthPortrait;
 		}
-		$columnsCount = count($this->reportColumns);
 		$this->totalWidth = $totalWidth;
 		$this->labelCellWidth = max(round(($this->totalWidth / $columnsCount) ), $this->minWidthLabelCell);
 		$this->cellWidth = round(($this->totalWidth - $this->labelCellWidth) / ($columnsCount - 1));
