@@ -9,7 +9,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/integration/TwoVisitsWithCustomVariabl
 /**
  * test Metadata API + period=range&date=lastN
  */
-class Test_Piwik_Integration_PeriodIsRangeDateIsLastNMetadataAndNormalAPI extends Test_Piwik_Integration_TwoVisitsWithCustomVariables
+class Test_Piwik_Integration_PeriodIsRange_DateIsLastN_MetadataAndNormalAPI extends Test_Piwik_Integration_TwoVisitsWithCustomVariables
 {
 	public function getApiToTest()
 	{

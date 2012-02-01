@@ -4,12 +4,12 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 	require_once dirname(__FILE__)."/../../tests/config_test.php";
 }
 
-require_once PIWIK_INCLUDE_PATH . '/tests/integration/TwoVisitorsTwoWebsitesDifferentDays.test.php';
+require_once PIWIK_INCLUDE_PATH . '/tests/integration/TwoVisitors_TwoWebsites_DifferentDays.test.php';
 
 /**
  * TODO
  */
-class Test_Piwik_Integration_TwoVisitorsTwoWebsitesDifferentDaysArchivingDisabled extends Test_Piwik_Integration_TwoVisitorsTwoWebsitesDifferentDays
+class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_ArchivingDisabled extends Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays
 {
 	public function __construct($title = '')
 	{

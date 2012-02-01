@@ -10,7 +10,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/integration/OneVisitorTwoVisits.test.p
  * Same as OneVisitorTwoVisits.test.php, but with cookie support, which incurs some slight changes 
  * in the reporting data (more accurate unique visitor count, better referer tracking for goals, etc.)
  */
-class Test_Piwik_Integration_OneVisitorTwoVisitsWithCookieSupport extends Test_Piwik_Integration_OneVisitorTwoVisits
+class Test_Piwik_Integration_OneVisitorTwoVisits_WithCookieSupport extends Test_Piwik_Integration_OneVisitorTwoVisits
 {
 	public function getApiToTest()
 	{

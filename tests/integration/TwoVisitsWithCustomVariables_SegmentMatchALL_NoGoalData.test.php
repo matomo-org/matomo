@@ -6,7 +6,7 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 
 require_once PIWIK_INCLUDE_PATH . '/tests/integration/TwoVisitsWithCustomVariables.test.php';
 
-class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchALLNoGoalData extends Test_Piwik_Integration_TwoVisitsWithCustomVariables
+class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchALL_NoGoalData extends Test_Piwik_Integration_TwoVisitsWithCustomVariables
 {
 	public function __construct($title = '')
 	{

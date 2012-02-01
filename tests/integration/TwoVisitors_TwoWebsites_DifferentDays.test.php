@@ -15,7 +15,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/integration/Integration.php';
  * Also testing a click on a mailto counted as outlink
  * Also testing metadata API for multiple periods
  */
-class Test_Piwik_Integration_TwoVisitorsTwoWebsitesDifferentDays extends Test_Integration_Facade
+class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays extends Test_Integration_Facade
 {
 	protected $idSite1 = null;
 	protected $idSite2 = null;

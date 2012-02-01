@@ -9,7 +9,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/integration/TwoVisitsWithCustomVariabl
 /**
  * testing a segment containing all supported fields
  */
-class Test_Piwik_Integration_TwoVisitsWithCustomVariablesSegmentMatchNONE extends Test_Piwik_Integration_TwoVisitsWithCustomVariables
+class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchNONE extends Test_Piwik_Integration_TwoVisitsWithCustomVariables
 {
 	// set lazily so when testing, asserts can be run
 	private $segment = null;

@@ -12,7 +12,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/integration/Integration.php';
  * Also test that Live! will link to the search result page URL rather than the exact referrer URL
  * when the referrer URL is google.XX/url.... which is a redirect to landing page rather than the search result URL 
  */
-class Test_Piwik_Integration_OneVisitorNoKeywordSpecified extends Test_Integration_Facade
+class Test_Piwik_Integration_OneVisitor_NoKeywordSpecified extends Test_Integration_Facade
 {
 	protected $dateTime = '2010-03-06 11:22:33';
 	protected $idSite = null;

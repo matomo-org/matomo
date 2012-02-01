@@ -9,7 +9,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/integration/Integration.php';
 /**
  * testing period=range use case. Recording data before and after, checking that the requested range is processed correctly 
  */
-class Test_Piwik_Integration_OneVisitorOneWebsiteSeveralDaysDateRange extends Test_Integration_Facade
+class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends Test_Integration_Facade
 {
 	protected $dateTimes = array(
 		'2010-12-14 01:00:00',

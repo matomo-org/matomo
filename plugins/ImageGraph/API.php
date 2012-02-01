@@ -19,6 +19,8 @@
  * - $colors accepts a comma delimited list of colors that will overwrite the default Piwik colors <br/>
  * - you can also customize the width, height, font size, metric being plotted (in case the data contains multiple columns/metrics).
  * 
+ * See also <a href='http://piwik.org/docs/analytics-api/metadata/#toc-static-image-graphs'>How to embed static Image Graphs?</a> for more information.
+ * 
  * @package Piwik_ImageGraph
  */ 
 class Piwik_ImageGraph_API

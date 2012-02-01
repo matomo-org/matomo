@@ -9,7 +9,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/integration/TwoVisitsWithCustomVariabl
 /**
  * Tests use of custom variable segments.
  */
-class Test_Piwik_Integration_TwoVisitsWithCustomVariablesSegmentMatchVisitorType extends Test_Piwik_Integration_TwoVisitsWithCustomVariables
+class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorType extends Test_Piwik_Integration_TwoVisitsWithCustomVariables
 {
 	public function getApiToTest()
 	{

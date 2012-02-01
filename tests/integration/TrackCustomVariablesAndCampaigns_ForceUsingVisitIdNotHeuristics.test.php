@@ -10,7 +10,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/integration/Integration.php';
  * Test tracker & API when forcing the use of visit ID instead of heuristics. Also
  * tests campaign tracking.
  */
-class Test_Piwik_Integration_TrackForceUsingVisitIdNotHeuristics extends Test_Integration_Facade
+class Test_Piwik_Integration_TrackCustomVariablesAndCampaigns_ForceUsingVisitIdNotHeuristics extends Test_Integration_Facade
 {
 	protected $dateTime = '2009-01-04 00:11:42';
 	protected $idSite = null;

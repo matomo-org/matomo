@@ -4,13 +4,13 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 	require_once dirname(__FILE__)."/../../tests/config_test.php";
 }
 
-require_once PIWIK_INCLUDE_PATH . '/tests/integration/OneVisitorOneWebsiteSeveralDaysDateRange.test.php';
+require_once PIWIK_INCLUDE_PATH . '/tests/integration/OneVisitorOneWebsite_SeveralDaysDateRange.test.php';
 
 /**
  * Tests some API using range periods & makes sure the correct amount of blob/numeric
  * archives are created.
  */
-class Test_Piwik_Integration_OneVisitorOneWebsiteSeveralDaysDateRange_ArchivingTests extends Test_Piwik_Integration_OneVisitorOneWebsiteSeveralDaysDateRange
+class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_ArchivingTests extends Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange
 {
 	public function getApiToTest()
 	{

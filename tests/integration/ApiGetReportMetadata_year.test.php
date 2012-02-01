@@ -10,7 +10,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/integration/Integration.php';
  * test the Yearly metadata API response, 
  * with no visits, with custom response language 
  */
-class Test_Piwik_Integration_ApiGetReportMetadataYear extends Test_Integration_Facade
+class Test_Piwik_Integration_ApiGetReportMetadata_Year extends Test_Integration_Facade
 {
 	protected $idSite = null;
 	protected $dateTime = null;

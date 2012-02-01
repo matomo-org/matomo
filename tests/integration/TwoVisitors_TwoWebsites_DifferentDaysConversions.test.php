@@ -4,13 +4,13 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 	require_once dirname(__FILE__)."/../../tests/config_test.php";
 }
 
-require_once PIWIK_INCLUDE_PATH . '/tests/integration/TwoVisitorsTwoWebsitesDifferentDays.test.php';
+require_once PIWIK_INCLUDE_PATH . '/tests/integration/TwoVisitors_TwoWebsites_DifferentDays.test.php';
 
 /**
  * Same as TwoVisitors_twoWebsites_differentDays but with goals that convert
  * on every url.
  */
-class Test_Piwik_Integration_TwoVisitorsTwoWebsitesDifferentDaysConversions extends Test_Piwik_Integration_TwoVisitorsTwoWebsitesDifferentDays
+class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDaysConversions extends Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays
 {
 	public function __construct($title = '')
 	{

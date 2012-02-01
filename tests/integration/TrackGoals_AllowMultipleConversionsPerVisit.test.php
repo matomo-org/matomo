@@ -10,7 +10,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/integration/Integration.php';
  * Tests API methods with goals that do and don't allow multiple
  * conversions per visit.
  */
-class Test_Piwik_Integration_TrackGoalsAllowMultipleConversionsPerVisit extends Test_Integration_Facade
+class Test_Piwik_Integration_TrackGoals_AllowMultipleConversionsPerVisit extends Test_Integration_Facade
 {
 	protected $dateTime = null;
 	protected $idSite = null;
