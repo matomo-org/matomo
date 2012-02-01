@@ -814,7 +814,7 @@ abstract class Test_Integration extends Test_Database_Base
 		// might remove the need for a blacklist... will also need to know which actions require
 		// admin access & which don't.
 		static $blacklist = array(
-			'CorePluginsAdmin', 'CoreAdminHome', 'CoreHome', 'CoreUpdater', 'Proxy', 'Dashboard',
+			'TranslationsAdmin', 'CorePluginsAdmin', 'CoreAdminHome', 'CoreHome', 'CoreUpdater', 'Proxy', 'Dashboard',
 			'Feedback', 'UsersManager', 'Installation', 'LanguagesManager', 'Login', 'VisitorGenerator',
 			'Widgetize', 'PrivacyManager', 'ImageGraph', 'ExampleFeedburner.saveFeedburnerName',
 			'Referers.getKeywordsForPage', // tries to do a request to this host, but when testing, the url

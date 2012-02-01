@@ -498,8 +498,12 @@ class Test_Piwik_Common extends UnitTestCase
 			'f' => array('a'),
 			'g' => array('b', 'c'),
 		);
-		$this->assertEqual(serialize(Piwik_Common::getArrayFromQueryString('a&b=&c=1&d[]&e[]=&f[]=a&g[]=b&g[]=c')), serialize($expected));
-		$this->assertEqual(serialize(Piwik_Common::getArrayFromQueryString('?a&b=&c=1&d[]&e[]=&f[]=a&g[]=b&g[]=c')), serialize($expected));
+		$string = 'a&b=&c=1&d[]&e[]=&f[]=a&g[]=b&g[]=c';
+		$this->assertEqual(serialize(Piwik_Common::getArrayFromQueryString($string)), serialize($expected));
+		$string = "?" . $string;
+		$this->assertEqual(serialize(Piwik_Common::getArrayFromQueryString($string)), serialize($expected));
+		$string = "";
+		$this->assertEqual(serialize(Piwik_Common::getArrayFromQueryString($string)), serialize(array()));
 	}
 
     public function test_isValidFilenameValidValues()

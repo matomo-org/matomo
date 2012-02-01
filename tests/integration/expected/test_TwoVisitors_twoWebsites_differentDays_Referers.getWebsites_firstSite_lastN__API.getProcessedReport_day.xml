@@ -20,7 +20,6 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
-			<exit_rate>Exit rate</exit_rate>
 
 		</processedMetrics>
 		<metricsDocumentation>
@@ -57,7 +56,6 @@
 		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 		<bounce_rate>Bounce Rate</bounce_rate>
-		<exit_rate>Exit rate</exit_rate>
 		<revenue>Revenue</revenue>
 
 	</columns>
@@ -72,7 +70,6 @@
 				<nb_actions_per_visit>2</nb_actions_per_visit>
 				<avg_time_on_site>00:06:01</avg_time_on_site>
 				<bounce_rate>0%</bounce_rate>
-				<exit_rate>0%</exit_rate>
 				<revenue>$ 0</revenue>
 			</row>
 		</result>
@@ -85,7 +82,6 @@
 				<nb_actions_per_visit>5</nb_actions_per_visit>
 				<avg_time_on_site>00:15:01</avg_time_on_site>
 				<bounce_rate>0%</bounce_rate>
-				<exit_rate>0%</exit_rate>
 				<revenue>$ 0</revenue>
 			</row>
 		</result>
@@ -98,12 +94,12 @@
 		<result prettyDate="Sunday 3 January 2010" />
 		<result prettyDate="Monday 4 January 2010">
 			<row>
-				<idsubdatatable>38</idsubdatatable>
+				<idsubdatatable>56</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Tuesday 5 January 2010">
 			<row>
-				<idsubdatatable>71</idsubdatatable>
+				<idsubdatatable>89</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Wednesday 6 January 2010" />
