@@ -155,6 +155,9 @@ class Piwik_MultiSites_API
 			$mapping = array($revenueMetric => 'revenue');
 			$dataTable->filter('ReplaceColumnNames', array($mapping));
 		}
+		
+		// Ensures data set sorted, for Metadata output
+		$dataTable->filter('Sort', array('nb_visits', 'desc', $naturalSort = false));
 
 		return $dataTable;
 	}

@@ -49,7 +49,7 @@ class Piwik_MultiSites extends Piwik_Plugin
 		$reports = &$notification->getNotificationObject();
 		$reports[] = array(
 			'category' => Piwik_Translate('General_MultiSitesSummary'),
-			'name' => Piwik_Translate('Referers_WidgetOverview'), // re-using translation
+			'name' => Piwik_Translate('General_AllWebsitesDashboard'),
 			'module' => 'MultiSites',
 			'action' => 'getAll',
 			'dimension' => Piwik_Translate('General_Website'), // re-using translation

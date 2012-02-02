@@ -53,8 +53,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 				'resolution',
 				'log_visit.config_resolution',
 				'1280x1024, 800x600, etc.',
-				null,
-				),
+				null,),
 		
 		array( 	'UserSettings_VisitorSettings',
 				'UserSettings_WidgetBrowsers',
@@ -95,8 +94,7 @@ class Piwik_UserSettings extends Piwik_Plugin
     			null,
     			null,
     			null,
-    			null,
-		),
+    			null,),
 		
 		array( 	'UserSettings_VisitorSettings',
 				'UserSettings_WidgetWidescreen',
@@ -116,7 +114,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 				'operatingSystem',
 				'log_visit.config_os',
 				'WXP, WI7, MAC, LIN, AND, IPD, etc.',
-				null),
+				null,),
 		
 		array( 	'UserSettings_VisitorSettings',
 				'UserSettings_WidgetGlobalVisitors',
