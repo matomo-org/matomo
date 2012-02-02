@@ -123,13 +123,11 @@ class Piwik_Segment
                 
                 // sqlFilter-callbacks might return arrays for more complex cases
                 // e.g. see Piwik_Actions::getIdActionFromSegment()
-                if (is_array($value))
+                if (is_array($value)
+                	&& isset($value['SQL'])) 
                 {
-                    if (isset($value['SQL'])) {
-                        // return value is an sql expression
-                        $value = $value['SQL'];
-                        $matchType = 'IN';
-                    }
+                    // Special case: returned value is a sub sql expression!
+                    $matchType = Piwik_SegmentExpression::MATCH_ACTIONS_CONTAINS;
                 }
             }
             break;

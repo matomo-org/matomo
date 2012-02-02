@@ -17,8 +17,8 @@
 				<type>outlink</type>
 				<url>http://test.com</url>
 				<pageTitle />
-				<pageIdAction>5</pageIdAction>
-				<pageId>4</pageId>
+				<pageIdAction>6</pageIdAction>
+				<pageId>5</pageId>
 				
 				<icon>themes/default/images/link.gif</icon>
 			</row>
@@ -98,7 +98,7 @@
 		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<actions>0</actions>
+		<actions>1</actions>
 		<actionDetails>
 			<row>
 				<type>goal</type>
@@ -108,6 +108,15 @@
 				
 				<url>http://example.org/homepage</url>
 				<icon>themes/default/images/goal.png</icon>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/homepage</url>
+				<pageTitle>Homepage</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>4</pageId>
+				
+				<icon />
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -128,8 +137,8 @@
 		
 		
 		
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<visitDuration>361</visitDuration>
+		<visitDurationPretty>6 min 1s</visitDurationPretty>
 		<visitCount>1</visitCount>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -217,7 +226,7 @@
 			<row>
 				<type>action</type>
 				<url>http://example.org/user/profile</url>
-				<pageTitle>Profile page</pageTitle>
+				<pageTitle>Profile page for user *_)%</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				<pageId>3</pageId>
 				

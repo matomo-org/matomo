@@ -24,10 +24,12 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends Test_Integrati
 	{
     	$apiToCall = array('VisitsSummary.get', 'CustomVariables.getCustomVariables');
 
-		return array(
-			array($apiToCall, array('idSite' => 'all', 'date' => $this->dateTime, 'periods' => array('day', 'week'),
-									'setDateLastN' => true))
+		$return = array(
+					array($apiToCall, array('idSite' => 'all', 'date' => $this->dateTime, 'periods' => array('day', 'week'),
+									'setDateLastN' => true)),			
 		);
+		
+		return $return;
 	}
 
 	public function getControllerActionsToTest()
@@ -93,7 +95,7 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends Test_Integrati
     	$visitorA->setCustomVariable($id = 2, $name = 'SET WITH EMPTY VALUE PAGE SCOPE', $value = '', $scope = 'page');
     	$visitorA->setCustomVariable($id = 4, $name = 'Status user', $value = 'looking at profile page', $scope = 'page');
     	$visitorA->setCustomVariable($id = 3, $name = 'Value will be VERY long and truncated', $value = 'abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----');
-        $this->checkResponse($visitorA->doTrackPageView('Profile page'));
+        $this->checkResponse($visitorA->doTrackPageView('Profile page for user *_)%'));
     	$this->checkResponse($visitorA->doTrackGoal($idGoal));
     	
         // - 
@@ -118,6 +120,9 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends Test_Integrati
     	$visitorB->setCustomVariable($id = 6, $name = array('not tracked'), $value = 'not tracked');
     	$visitorB->setUrl('http://example.org/homepage');
     	$this->checkResponse($visitorB->doTrackGoal($idGoal, 1000));
+    	
+    	$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1.1)->getDatetime());
+    	$this->checkResponse($visitorB->doTrackPageView('Homepage'));
     	
     	// DIFFERENT test -
     	// testing that starting the visit with an outlink works (doesn't trigger errors)

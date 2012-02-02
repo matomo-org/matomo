@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Actions.php 5389 2011-10-29 18:50:01Z EZdesign $
+ * @version $Id$
  *
  * @category Piwik_Plugins
  * @package Piwik_Actions
@@ -128,7 +128,8 @@ class Piwik_Actions extends Piwik_Plugin
 							: Piwik_Tracker_Action::TYPE_ACTION_NAME;
 		
         // exact matches work by returning the id directly
-        if ($matchType == '==' || $matchType == '!=')
+        if ($matchType == Piwik_SegmentExpression::MATCH_EQUAL 
+			|| $matchType == Piwik_SegmentExpression::MATCH_NOT_EQUAL)
         {
             $sql = Piwik_Tracker_Action::getSqlSelectActionId();
             $bind = array($string, $string, $actionType);
@@ -142,24 +143,18 @@ class Piwik_Actions extends Piwik_Plugin
             return $idAction;
         }
         
-        // now, we handle the cases =@ and !@:
-        
-        // escape string manually since we can't use parameterised queries in this case
-        $string = str_replace('\\', '\\\\', $string);
-        $string = str_replace('"', '\"', $string);
-        $string = str_replace("%", "\%", $string);
-    	$string = str_replace("_", "\_", $string);
-        
+        // now, we handle the cases =@ (contains) and !@ (does not contain)
+                
         // build the expression based on the match type
         $sql = 'SELECT idaction FROM '.Piwik_Common::prefixTable('log_action').' WHERE ';
         switch ($matchType)
         {
             case '=@':
                 // use concat to make sure, no %s occurs because some plugins use %s in their sql
-                $sql .= '( name LIKE CONCAT("%", "'.$string.'%") AND type = '.$actionType.' )';
+                $sql .= '( name LIKE CONCAT("%", ?, "%") AND type = '.$actionType.' )';
                 break;
             case '!@':
-                $sql .= '( name NOT LIKE CONCAT("%", "'.$string.'%") AND type = '.$actionType.' )';
+                $sql .= '( name NOT LIKE CONCAT("%", ?, "%") AND type = '.$actionType.' )';
                 break;
             default:
                 throw new Exception("This match type is not available for action-segments.");
@@ -168,7 +163,8 @@ class Piwik_Actions extends Piwik_Plugin
         
         return array(
             // mark that the returned value is an sql-expression instead of a literal value
-            'SQL' => $sql
+            'SQL' => $sql,
+        	'bind' => $string
         );
 	}
 	
@@ -178,7 +174,7 @@ class Piwik_Actions extends Piwik_Plugin
         
 		$reports[] = array(
 			'category' => Piwik_Translate('Actions_Actions'),
-			'name' => Piwik_Translate('Actions_Actions'),
+			'name' => Piwik_Translate('Actions_Actions') . ' - ' . Piwik_Translate('General_MainMetrics'),
 			'module' => 'Actions',
 			'action' => 'get',
 			'metrics' => array(
@@ -220,7 +216,7 @@ class Piwik_Actions extends Piwik_Plugin
 		// pages report
 		$reports[] = array(
 			'category' => Piwik_Translate('Actions_Actions'),
-			'name' => Piwik_Translate('Actions_SubmenuPages'),
+			'name' => Piwik_Translate('Actions_PageUrls'),
 			'module' => 'Actions',
 			'action' => 'getPageUrls',
     		'dimension' => Piwik_Translate('Actions_ColumnPageURL'),

@@ -28,6 +28,9 @@ class Piwik_SegmentExpression
     const MATCH_CONTAINS = '=@';
     const MATCH_DOES_NOT_CONTAIN = '!@';
     
+    // Special case, since we look up Page URLs/Page titles in a sub SQL query
+    const MATCH_ACTIONS_CONTAINS = 'IN';
+    
     const INDEX_BOOL_OPERATOR = 0;
     const INDEX_OPERAND = 1;
     
@@ -163,21 +166,21 @@ class Piwik_SegmentExpression
         		$sqlMatch = 'NOT LIKE';
         		$value = '%'.$this->escapeLikeString($value).'%';
         		break;
-            case 'IN':
+        	
+            case self::MATCH_ACTIONS_CONTAINS:
                 // this match type is not accessible from the outside
-                // (it won't be matched in self::parseSubExpressions()).
+                // (it won't be matched in self::parseSubExpressions())
                 // it can be used internally to inject sub-expressions into the query.
                 // see Piwik_Segment::getCleanedExpression()
-                $sqlMatch = 'IN ('.$value.')';
-                // mark this match as without an operand
-                $value = null;
+                $sqlMatch = 'IN ('.$value['SQL'].')';
+                $value = $this->escapeLikeString($value['bind']);
                 break;
         	default:
         		throw new Exception("Filter contains the match type '".$matchType."' which is not supported");
         		break;
         }
         
-        if ($value === null) {
+        if ($matchType === self::MATCH_ACTIONS_CONTAINS) {
             $sqlExpression = "$field $sqlMatch";
         } else {
             $sqlExpression = "$field $sqlMatch ?";

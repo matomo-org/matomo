@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>Piwik test</website>
-	
+	<prettyDate>27 Jan 12 - 2 Feb 12</prettyDate>
 	<metadata>
 		<category>Visitors</category>
 		<name>Country</name>
@@ -41,7 +41,7 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
-		
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=range&amp;date=2012-01-27,now</imageGraphUrl>
 		<uniqueId>UserCountry_getCountry</uniqueId>
 
 	</metadata>
@@ -59,10 +59,10 @@
 		<row>
 			<label>France</label>
 			<nb_visits>3</nb_visits>
-			<nb_actions>4</nb_actions>
+			<nb_actions>5</nb_actions>
 			<revenue>$ 1000</revenue>
-			<nb_actions_per_visit>1.33</nb_actions_per_visit>
-			<avg_time_on_site>00:02:01</avg_time_on_site>
+			<nb_actions_per_visit>1.67</nb_actions_per_visit>
+			<avg_time_on_site>00:04:02</avg_time_on_site>
 			<bounce_rate>66.67%</bounce_rate>
 		</row>
 	</reportData>
