@@ -311,9 +311,5 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends Test_Integration_Fa
 		$t->addEcommerceItem($sku = 'TRIPOD SKU', $name = 'TRIPOD - bought day after' , $category = 'Tools', $price = 100, $quantity = 2);
 		$this->checkResponse($t->doTrackEcommerceOrder($orderId = '777', $grandTotal = 250));
 		//------------------------------------- End tracking
-		
-		// From Piwik 1.5, we hide Goals.getConversions and other get* methods via @ignore, but we ensure that they still work
-		// This hack allows the API proxy to let us generate example URLs for the ignored functions
-		Piwik_API_Proxy::getInstance()->hideIgnoredFunctions = false;
 	}
 }

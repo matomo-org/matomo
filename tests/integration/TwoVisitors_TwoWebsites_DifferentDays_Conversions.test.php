@@ -10,7 +10,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/integration/TwoVisitors_TwoWebsites_Di
  * Same as TwoVisitors_twoWebsites_differentDays but with goals that convert
  * on every url.
  */
-class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDaysConversions extends Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays
+class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions extends Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays
 {
 	public function __construct($title = '')
 	{

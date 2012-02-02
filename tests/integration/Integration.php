@@ -1028,6 +1028,11 @@ abstract class Test_Integration_Facade extends Test_Integration
 	public function test_RunAllTests()
 	{
 		$this->trackVisits();
+		
+		// From Piwik 1.5, we hide Goals.getConversions and other get* methods via @ignore, but we ensure that they still work
+		// This hack allows the API proxy to let us generate example URLs for the ignored functions
+		Piwik_API_Proxy::getInstance()->hideIgnoredFunctions = false;
+		
 		$this->runApiTests();
 		$this->runControllerTests();
 	}
