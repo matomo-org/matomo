@@ -2,7 +2,7 @@
 <result>
 	<row>
 		<category>All Websites</category>
-		<name>Overview</name>
+		<name>All Websites dashboard</name>
 		<module>MultiSites</module>
 		<action>getAll</action>
 		<dimension>Website</dimension>
@@ -147,7 +147,7 @@
 	</row>
 	<row>
 		<category>Actions</category>
-		<name>Actions</name>
+		<name>Actions - Main metrics</name>
 		<module>Actions</module>
 		<action>get</action>
 		<metrics>
@@ -174,7 +174,7 @@
 	</row>
 	<row>
 		<category>Actions</category>
-		<name>Pages</name>
+		<name>Page URLs</name>
 		<module>Actions</module>
 		<action>getPageUrls</action>
 		<dimension>Page URL</dimension>

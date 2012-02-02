@@ -320,6 +320,7 @@ $translations = array(
 	'Actions_SubmenuPagesEntry' => 'Entry pages',
 	'Actions_SubmenuPagesExit' => 'Exit pages',
 	'Actions_SubmenuPageTitles' => 'Page titles',
+	'Actions_PageUrls' => 'Page URLs',
 	'Actions_SubmenuOutlinks' => 'Outlinks',
 	'Actions_SubmenuDownloads' => 'Downloads',
 	'Actions_PagesReportDocumentation' => 'This report contains information about the page URLs that have been visited. %s The table is organized hierarchically, the URLs are displayed as a folder structure.',
