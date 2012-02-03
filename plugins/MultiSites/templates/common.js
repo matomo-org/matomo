@@ -15,7 +15,7 @@ function setRowData (idsite, visits, actions, revenue, name, url, visitsSummaryV
 	this.actions = actions;
 	this.visitsSummaryValue = parseFloat(visitsSummaryValue);
 	this.actionsSummaryValue = parseFloat(actionsSummaryValue);
-	this.revenueSummaryValue = parseFloat(revenueSummaryValue);
+	this.revenueSummaryValue = parseFloat(revenueSummaryValue) || 0;
 }
 
 function setOrderBy(self, allSites, params, mOrderBy)
