@@ -24,15 +24,9 @@
 class Piwik_MultiSites_CalculateEvolutionFilter extends Piwik_DataTable_Filter_ColumnCallbackAddColumnPercentage
 {
 	/**
-	 * The rows of the DataTable that contains past data.
+	 * The the DataTable that contains past data.
 	 */
-	private $pastDataTableRows;
-
-	/**
-	 * The current row in the past DataTable. Set and reset as the filter
-	 * executes.
-	 */
-	private $pastRow = null;
+	private $pastDataTable;
 
 	/**
 	 * Tells if column being added is the revenue evolution column.
@@ -52,8 +46,7 @@ class Piwik_MultiSites_CalculateEvolutionFilter extends Piwik_DataTable_Filter_C
 		parent::__construct(
 			$table, $columnToAdd, $columnToRead, $columnToRead, $quotientPrecision, $shouldSkipRows = true);
 		
-		$this->pastDataTableRows = $pastDataTable->getRows();
-		reset($this->pastDataTableRows);
+		$this->pastDataTable = $pastDataTable;
 		
 		$this->isRevenueEvolution = $columnToAdd == 'revenue_evolution';
 	}
@@ -78,10 +71,10 @@ class Piwik_MultiSites_CalculateEvolutionFilter extends Piwik_DataTable_Filter_C
 			return false;
 		}
 
-		$this->pastRow = $this->getCurrentPastRowAndAdvance();
-		if ($this->pastRow)
+		$pastRow = $this->getPastRowFromCurrent($row);
+		if ($pastRow)
 		{
-			$pastValue = $this->pastRow->getColumn($this->columnValueToRead);
+			$pastValue = $pastRow->getColumn($this->columnValueToRead);
 		}
 		else
 		{
@@ -100,9 +93,10 @@ class Piwik_MultiSites_CalculateEvolutionFilter extends Piwik_DataTable_Filter_C
 	 */
 	protected function getDivisor($row)
 	{
-		if (!$this->pastRow) return 0;
+		$pastRow = $this->getPastRowFromCurrent($row);
+		if (!$pastRow) return 0;
 
-		return $this->pastRow->getColumn($this->columnNameUsedAsDivisor);
+		return $pastRow->getColumn($this->columnNameUsedAsDivisor);
 	}
 	
 	/**
@@ -136,13 +130,12 @@ class Piwik_MultiSites_CalculateEvolutionFilter extends Piwik_DataTable_Filter_C
 	}
 
 	/**
-	 * Utility function. Returns the current row in the past DataTable and
-	 * increments the pastDataTableRows' internal iterator.
+	 * Utility function. Returns the current row in the past DataTable.
+	 * 
+	 * @param Piwik_DataTable_Row $row The row in the 'current' DataTable.
 	 */
-	private function getCurrentPastRowAndAdvance()
+	private function getPastRowFromCurrent($row)
 	{
-		$result = current($this->pastDataTableRows);
-		next($this->pastDataTableRows);
-		return $result;
+		return $this->pastDataTable->getRowFromLabel($row->getColumn('label'));
 	}
 }
