@@ -37,7 +37,7 @@ class Piwik_Feedback_Controller extends Piwik_Controller
 		$view->feedbackEmailAddress = Zend_Registry::get('config')->General->feedback_email_address;
 		try
 		{
-			$minimumBodyLength = 35;
+			$minimumBodyLength = 40;
 			if(strlen($body) < $minimumBodyLength)
 			{
 				throw new Exception(Piwik_TranslateException('Feedback_ExceptionBodyLength', array($minimumBodyLength)));
