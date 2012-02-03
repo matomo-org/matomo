@@ -1,6 +1,7 @@
 <?php
-require_once 'test_runner.php';
+require_once 'TestRunner.php';
 $runner = new TestRunner('all');
+$runner->init();
 $runner->requireDatabase();
 
 $testDirs = array('/tests/core', '/plugins');
@@ -10,7 +11,8 @@ if ($runner->isBrowserPresent())
 }
 else
 {
-	$runner->appendIntro("<p>" . $runner->getNoBrowserErrorMessage() . "<br/>Skipping integration tests...</p>");
+	$runner->appendIntro("<p>" . $runner->getNoBrowserErrorMessage() 
+							. "<br/>Skipping integration tests...</p>");
 }
 
 $runner->setTestDirectories($testDirs);

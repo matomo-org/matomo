@@ -65,5 +65,5 @@ assert_options(ASSERT_BAIL, 	0);
 
 define('PIWIK_CONFIG_TEST_INCLUDED', true);
 
-require_once 'reporter.php';
+require_once 'HtmlTimerReporter.php';
 SimpleTest::prefer(new HtmlTimerReporter());

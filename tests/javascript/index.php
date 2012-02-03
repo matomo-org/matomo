@@ -24,7 +24,7 @@ if (file_exists("enable_sqlite")) {
 }
 
 if(!$sqlite) {
-	echo 'alert("WARNING: some tests require sqlite, \n1) ensure this PHP extension is enabled to make sure you run all tests \n2) create an empty file enable_sqlite in tests/javascript/ ");';
+	echo 'alert("WARNING: Javascript integration tests require sqlite, \n1) ensure this PHP extension is enabled to make sure you run all tests \n2) Then please create an empty file enable_sqlite in tests/javascript/enable_sqlite \n3) Re-execute this page and make sure this popup does not display ");';
 }
 if ($sqlite) {
   echo '

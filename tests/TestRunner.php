@@ -1,13 +1,4 @@
 <?php
-flush();
-require_once "config_test.php";
-Piwik::createConfigObject();
-Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
-Piwik::setMaxExecutionTime(300);
-
-require_once(SIMPLE_TEST . 'unit_tester.php');
-require_once(SIMPLE_TEST . 'reporter.php');
-
 class TestRunner
 {
 	private $testGroupType;
@@ -22,6 +13,17 @@ class TestRunner
 		$this->testGroupType = $testGroupType;
 	}
 
+	public function init()
+	{
+		require_once "config_test.php";
+		require_once(SIMPLE_TEST . 'unit_tester.php');
+		require_once(SIMPLE_TEST . 'reporter.php');
+		flush();
+		Piwik::createConfigObject();
+		Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
+		Piwik::setMaxExecutionTime(300);
+	}
+	
 	public function getNoBrowserErrorMessage()
 	{
 		return "ERROR: You do not appear to be running the tests via your browser. "
@@ -69,18 +71,22 @@ class TestRunner
 		$this->dirsToGlob = $dirs;
 	}
 	
+	static public $testsHelpLinks = "<ul><li><a href=\"core\">Run each test separately</a></li>\n
+					<li><a href=\"all_tests.php\">Run all tests</a> or <a href='all_integration_tests.php'>Integration tests only</a> (please be patient, it will take at least 5-10 minutes)</li>\n
+					<li><a href=\"all_integration_tests.php?apiTestingLevel=none&widgetTestingLevel=check_errors \">Call all Widgets tests and check for error only</a> or <a href=\"all_integration_tests.php?apiTestingLevel=none&widgetTestingLevel=compare_output \">call all Widgets and compare output (tests will fail at this stage, this is normal!)</a></li>\n
+					<li><a href=\"javascript/\">Run piwik.js Javascript unit & integration tests</a></li>\n
+				</ul>\n";
 	public function run()
 	{
 		$test = new GroupTest("Piwik - running '{$this->testGroupType}' tests...");
 
-		$intro = "<h2>Piwik - {$this->testGroupType} tests</h2>\n";
-
+		$intro = '';
 		if (!$this->databaseRequired)
 		{
 			$intro .= $this->getTestDatabaseInfoMessage();
 		}
 
-		$intro .= "<p><a href=\"core\">Run the tests by module</a></p>\n<hr/>\n";
+		$intro .= self::$testsHelpLinks . "<hr/>";
 		$intro .= $this->introAppend;
 
 		$toInclude = array();
