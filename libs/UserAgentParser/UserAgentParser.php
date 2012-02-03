@@ -548,6 +548,13 @@ class UserAgentParser
 			'BEO' => 'BeOS',
 			'T64' => 'Tru64',
 			'NDS' => 'Nintendo DS',
+		
+			// These are for BC purposes only
+			'W75' => 'WinPhone 7.5', 
+			'WP7' => 'WinPhone 7', 
+			'W65' => 'WinMo 6.5', 
+			'W61' => 'WinMo 6.1', 
+	
 		));
 		self::$operatingSystemsIdToShortName = array_merge(self::$operatingSystemsIdToName, array(
 			'PS3' => 'PS3',
