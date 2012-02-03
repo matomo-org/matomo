@@ -42,26 +42,44 @@ abstract class Test_Integration extends Test_Database_Base
 	 * Widget testing level constant. If Test_Integration::$widgetTestingLevel is
 	 * set to this, controller actions will not be tested.
 	 */
-	const NO_WIDGET_TESTING = 0;
+	const NO_WIDGET_TESTING = 'none';
 	
 	/**
 	 * Widget testing level constant. If Test_Integration::$widgetTestingLevel is
 	 * set to this, controller actions will be checked for non-fatal errors, but
 	 * the output will be ignored.
 	 */
-	const CHECK_WIDGET_ERRORS = 1;
+	const CHECK_WIDGET_ERRORS = 'check_errors';
 	
 	/**
 	 * Widget testing level constant. If Test_Integration::$widgetTestingLevel is
 	 * set to this, controller actions will be run & their output will be checked with
 	 * expected output files.
 	 */
-	const COMPARE_WIDGET_OUTPUT = 2;
+	const COMPARE_WIDGET_OUTPUT = 'compare_output';
 
 	/**
 	 * Determines how much of controller actions are tested (if at all).
 	 */
 	static public $widgetTestingLevel = self::CHECK_WIDGET_ERRORS;
+
+	/**
+	 * API testing level constant. If Test_Integration::$apiTestingLevel is
+	 * set to this, API methods will not be tested.
+	 */
+	const NO_API_TESTING = 'none';
+	
+	/**
+	 * API testing level constant. If Test_Integration::$apiTestingLevel is
+	 * set to this, API methods will be run & their output will be checked with
+	 * expected output files.
+	 */
+	const COMPARE_API_OUTPUT = 'compare_output';
+
+	/**
+	 * Determines how much testing API methods are subjected to (if any).
+	 */
+	static public $apiTestingLevel = self::COMPARE_API_OUTPUT;
 
 	const DEFAULT_USER_PASSWORD = 'nopass';
 
@@ -290,6 +308,50 @@ abstract class Test_Integration extends Test_Database_Base
 			$initialized = true;
 		}
 	}
+
+	public static function processRequestArgs()
+	{
+		// set the widget testing level
+		if (isset($_GET['widgetTestingLevel']))
+		{
+			self::setWidgetTestingLevel($_GET['widgetTestingLevel']);
+		}
+
+		// set the API testing level
+		if (isset($_GET['apiTestingLevel']))
+		{
+			self::setApiTestingLevel($_GET['apiTestingLevel']);
+		}
+	}
+
+	public static function setWidgetTestingLevel($level)
+	{
+		if (!$level) return;
+	
+		if ($level != Test_Integration::NO_WIDGET_TESTING &&
+			$level != Test_Integration::CHECK_WIDGET_ERRORS &&
+			$level != Test_Integration::COMPARE_WIDGET_OUTPUT)
+		{
+			echo "<p>Invalid option for 'widgetTestingLevel', ignoring.</p>\n";
+			return;
+		}
+
+		self::$widgetTestingLevel = $level;
+	}
+	
+	public function setApiTestingLevel($level)
+	{
+		if (!$level) return;
+
+		if ($level != Test_Integration::NO_API_TESTING &&
+			$level != Test_Integration::COMPARE_API_OUTPUT)
+		{
+			echo "<p>Invalid option for 'apiTestingLevel', ignoring.</p>";
+			return;
+		}
+		
+		self::$apiTestingLevel = $level;
+	}
 	
 	/**
 	 * Given a list of default parameters to set, returns the URLs of APIs to call
@@ -417,6 +479,11 @@ abstract class Test_Integration extends Test_Database_Base
 			$setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false,
 			$idGoal = false, $apiModule = false, $apiAction = false, $otherRequestParameters = array())
 	{
+		if (self::$apiTestingLevel == Test_Integration::NO_API_TESTING)
+		{
+			return;
+		}
+
 		$pass = true;
 		
 		list($pathProcessed, $pathExpected) = $this->getProcessedAndExpectedDirs();
@@ -816,7 +883,7 @@ abstract class Test_Integration extends Test_Database_Base
 		static $blacklist = array(
 			'TranslationsAdmin', 'CorePluginsAdmin', 'CoreAdminHome', 'CoreHome', 'CoreUpdater', 'Proxy', 'Dashboard',
 			'Feedback', 'UsersManager', 'Installation', 'LanguagesManager', 'Login', 'VisitorGenerator',
-			'Widgetize', 'PrivacyManager', 'ImageGraph', 'ExampleFeedburner.saveFeedburnerName',
+			'Widgetize', 'PrivacyManager', 'ImageGraph', 'ExampleFeedburner.saveFeedburnerName', 'ExampleRssWidget',
 			'Referers.getKeywordsForPage', // tries to do a request to this host, but when testing, the url
 										   // ends up as http://whatever/tests/integration/?...
 										   // Problem is w/ Piwik_Url::getCurrentUrlWithoutFileName (FIXME)
@@ -1177,4 +1244,7 @@ abstract class Test_Integration_Facade extends Test_Integration
 		return PIWIK_INCLUDE_PATH . '/tests/integration';
 	}
 }
+
+// process testing level request args
+Test_Integration::processRequestArgs();
 

@@ -78,6 +78,7 @@ class Test_Piwik_Url extends UnitTestCase
 
 	public function test_getCurrentHost()
 	{
+		$GLOBALS['PIWIK_TRACKER_MODE'] = false;
 		Piwik::createConfigObject();
 		Zend_Registry::get('config')->setTestEnvironment();
 		$saved = $this->saveGlobals(array('HTTP_HOST', 'HTTP_X_FORWARDED_HOST'));
