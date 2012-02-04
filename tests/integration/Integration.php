@@ -1059,7 +1059,7 @@ abstract class Test_Integration_Facade extends Test_Integration
 	abstract public function getApiToTest();
 	
 	/**
-	 * Returns an array descriging the Controller actions to call & compare
+	 * Returns an array describing the Controller actions to call & compare
 	 * with expected output.
 	 * 
 	 * The returned array must be of the following format:

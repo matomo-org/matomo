@@ -182,6 +182,7 @@ class Piwik_API_DocumentationGenerator
 		$aParameters['language'] = false;
 		$aParameters['includeInnerNodes'] = false;
 		$aParameters['translateColumnNames'] = false;
+        $aParameters['label'] = false;
 		
 		$moduleName = Piwik_API_Proxy::getInstance()->getModuleNameFromClassName($class);
 		$urlExample = '?module=API&method='.$moduleName.'.'.$methodName.'&';
