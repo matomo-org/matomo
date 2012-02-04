@@ -58,7 +58,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	private $actionType;
 	private $actionUrl;
 	
-	static private $queryParametersToExclude = array('phpsessid', 'jsessionid', 'sessionid', 'aspsessionid');
+	static private $queryParametersToExclude = array('phpsessid', 'jsessionid', 'sessionid', 'aspsessionid', 'fb_xd_fragment', 'fb_comment_id');
 	
 	public function setRequest($requestArray)
 	{
