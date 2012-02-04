@@ -231,7 +231,6 @@ class Piwik_Date
 		if($utcOffset !== false) {
 			return (int)($this->timestamp - $utcOffset * 3600);
 		}
-		// @fixme
 		// The following code seems clunky - I thought the DateTime php class would allow to return timestamps
 		// after applying the timezone offset. Instead, the underlying timestamp is not changed.
 		// I decided to get the date without the timezone information, and create the timestamp from the truncated string.
