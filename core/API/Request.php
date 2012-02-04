@@ -113,14 +113,14 @@ class Piwik_API_Request
 			{
 				throw new Piwik_FrontController_PluginDeactivatedException($module);
 			}
-			$module = "Piwik_" . $module . "_API";
+			$moduleClass = "Piwik_" . $module . "_API";
 
 			self::reloadAuthUsingTokenAuth($this->request);
 			
 			// call the method 
-			$returnedValue = Piwik_API_Proxy::getInstance()->call($module, $method, $this->request);
-			
-			$toReturn = $response->getResponse($returnedValue);
+			$returnedValue = Piwik_API_Proxy::getInstance()->call($moduleClass, $method, $this->request);
+
+			$toReturn = $response->getResponse($returnedValue, $module, $method);
 		} catch(Exception $e ) {
 			$toReturn = $response->getResponseException( $e );
 		}

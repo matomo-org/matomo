@@ -18,6 +18,9 @@ class Piwik_API_ResponseBuilder
 {
 	private $request = null;
 	private $outputFormat = null;
+    
+    private $apiModule = false;
+    private $apiMethod = false;
 	
 	public function __construct($outputFormat, $request = array())
 	{
@@ -49,11 +52,16 @@ class Piwik_API_ResponseBuilder
 	 * 
 	 * @throws Exception If an object/resource is returned, if any of conversion fails, etc. 
 	 * 
-	 * @param mixed The initial returned value, before post process. If set to null, success response is returned. 
+	 * @param mixed The initial returned value, before post process. If set to null, success response is returned.
+     * @param string The API module that was called
+     * @param string The API method that was called 
 	 * @return mixed Usually a string, but can still be a PHP data structure if the format requested is 'original'
 	 */
-	public function getResponse($value = null)
-	{ 
+	public function getResponse($value = null, $apiModule = false, $apiMethod = false)
+	{
+        $this->apiModule = $apiModule;
+        $this->apiMethod = $apiMethod;
+        
 		// when null or void is returned from the api call, we handle it as a successful operation 
 		if(!isset($value))
 		{
@@ -278,12 +286,22 @@ class Piwik_API_ResponseBuilder
 		
 		// we automatically safe decode all datatable labels (against xss) 
 		$datatable->queueFilter('SafeDecodeLabel');
-		
+        
 		// if the flag disable_queued_filters is defined we skip the filters that were queued
 		if(Piwik_Common::getRequestVar('disable_queued_filters', 'false', 'string', $this->request) == 'false')
 		{
 			$datatable->applyQueuedFilters();
 		}
+        
+        // apply label filter: only return a single row matching the label parameter
+        $label = Piwik_Common::getRequestVar('label', '', 'string', $this->request);
+        if ($label != '')
+        {
+            $label = html_entity_decode($label);
+            $filter = new Piwik_API_DataTableLabelFilter;
+            $datatable = $filter->filter($label, $datatable, $this->apiModule, $this->apiMethod, $this->request);
+        }
+        
 		return $this->getRenderedDataTable($datatable);
 	}
 	

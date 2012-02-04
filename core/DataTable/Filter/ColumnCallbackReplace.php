@@ -40,6 +40,14 @@ class Piwik_DataTable_Filter_ColumnCallbackReplace extends Piwik_DataTable_Filte
 			{
 				$value = 0;
 			}
+
+			// if the label is replaced, we back the original value up to metadata
+			if($this->columnToFilter == 'label'
+					&& $row->getMetadata('originalLabel') === false)
+			{
+				$row->setMetadata('originalLabel', $value);
+			}
+
 			$parameters = array($value);
 			if(!is_null($this->functionParameters))
 			{
