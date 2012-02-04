@@ -723,6 +723,10 @@ class Test_Piwik_Common extends UnitTestCase
 			'http://www.baidu.com/s?wd=%C1%F7%D0%D0%C3%C0%D3%EF%CF%C2%D4%D8'
 				=> array('name' => 'Baidu', 'keywords' => '流行美语下载'),
 
+			// baidu utf-8
+			'http://www.baidu.com/s?ch=14&ie=utf-8&wd=%E4%BA%8C%E5%BA%A6%E5%AE%AB%E9%A2%88%E7%B3%9C%E7%83%82%E8%83%BD%E6%B2%BB%E5%A5%BD%E5%90%97%3F&searchRadio=on'
+				=> array('name' => 'Baidu', 'keywords' => '二度宫颈糜烂能治好吗?'),
+
 			'http://web.gougou.com/search?search=%E5%85%A8%E9%83%A8&id=1'
 				=> array('name' => 'Baidu', 'keywords' => '全部'),
 			

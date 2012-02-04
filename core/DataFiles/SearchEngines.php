@@ -195,7 +195,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'searchassist.babylon.com'	=> array('Babylon'),
 
 		// Baidu
-		'www.baidu.com'				=> array('Baidu', array('wd', 'word', 'kw'), 's?wd={k}', 'gb2312'),
+		'www.baidu.com'				=> array('Baidu', array('wd', 'word', 'kw'), 's?wd={k}', array('UTF-8', 'gb2312')),
 		'www1.baidu.com'			=> array('Baidu'),
 		'zhidao.baidu.com'			=> array('Baidu'),
 		'tieba.baidu.com'			=> array('Baidu'),
