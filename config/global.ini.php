@@ -289,7 +289,7 @@ trust_visitors_cookies = 0
 
 ; name of the cookie used to store the visitor information
 ; This is used only if use_third_party_id_cookie = 1
-cookie_name	= piwik_visitor
+cookie_name	= _pk_uid
 
 ; by default, the Piwik tracking cookie expires in 2 years
 ; This is used only if use_third_party_id_cookie = 1
