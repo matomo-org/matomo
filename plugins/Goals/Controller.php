@@ -18,6 +18,12 @@ class Piwik_Goals_Controller extends Piwik_Controller
 {
 	const CONVERSION_RATE_PRECISION = 1;
 	
+	/**
+	 * Number of "Your top converting keywords/etc are" to display in the per Goal overview page 
+	 * @var int
+	 */
+	const COUNT_TOP_ROWS_TO_DISPLAY = 3;
+	
 	protected $goalColumnNameToLabel = array(
 		'avg_order_revenue' => 'General_AverageOrderValue',
 		'nb_conversions' => 'Goals_ColumnConversions',
@@ -365,22 +371,31 @@ class Piwik_Goals_Controller extends Piwik_Controller
 			'website' => 'Referers.getWebsites',
 		);
 		
+		$keywordNotDefinedString = Piwik_Referers::getKeywordNotDefinedString();
 		$topDimensions = array();
 		foreach($topDimensionsToLoad as $dimensionName => $apiMethod)
 		{
 			$request = new Piwik_API_Request("method=$apiMethod
-												&format=original
-												&filter_update_columns_when_show_all_goals=1
-												&idGoal=". Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE ."
-												&filter_sort_order=desc
-												&filter_sort_column=$columnNbConversions
-												&filter_limit=3");
+								&format=original
+								&filter_update_columns_when_show_all_goals=1
+								&idGoal=". Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE ."
+								&filter_sort_order=desc
+								&filter_sort_column=$columnNbConversions".
+								// select a couple more in case some are not valid (ie. conversions==0 or they are "Keyword not defined")
+							    "&filter_limit=". ( self::COUNT_TOP_ROWS_TO_DISPLAY + 2) );  
 			$datatable = $request->process();
 			$topDimension = array();
+			$count = 0;
 			foreach($datatable->getRows() as $row)
 			{
 				$conversions = $row->getColumn($columnNbConversions);
-				if($conversions > 0)
+				if($conversions > 0
+					&& $count < self::COUNT_TOP_ROWS_TO_DISPLAY
+					
+					// Don't put the "Keyword not defined" in the best segment since it's irritating
+					&& !($dimensionName == 'keyword'
+						&& $row->getColumn('label') == $keywordNotDefinedString)
+				)
 				{
 					$topDimension[] = array (
 						'name' => $row->getColumn('label'),
@@ -388,6 +403,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 						'conversion_rate' => $this->formatConversionRate($row->getColumn($columnConversionRate)),
 						'metadata' => $row->getMetadata(),
 					);
+					$count++;
 				}
 			}
 			$topDimensions[$dimensionName] = $topDimension;

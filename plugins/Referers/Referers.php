@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Referers.php 5138 2011-09-07 15:25:57Z EZdesign $
+ * @version $Id$
  *
  * @category Piwik_Plugins
  * @package Piwik_Referers
@@ -292,10 +292,14 @@ class Piwik_Referers extends Piwik_Plugin
 	
 	const LABEL_KEYWORD_NOT_DEFINED = "";
 	
+	static public function getKeywordNotDefinedString()
+	{
+		return Piwik_Translate( 'General_NotDefined', Piwik_Translate('Referers_ColumnKeyword'));
+	}
 	static public function getCleanKeyword($label)
 	{
 		return $label == Piwik_Referers::LABEL_KEYWORD_NOT_DEFINED
-				? Piwik_Translate( 'General_NotDefined', Piwik_Translate('Referers_ColumnKeyword')) 
+				? self::getKeywordNotDefinedString() 
 				: $label;
 	}
 	

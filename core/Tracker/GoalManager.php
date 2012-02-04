@@ -230,8 +230,9 @@ class Piwik_Tracker_GoalManager
 		$location_country = isset($visitorInformation['location_country']) 
 							? $visitorInformation['location_country'] 
 							: Piwik_Common::getCountry( 
-										Piwik_Common::getBrowserLanguage(), 
-										$enableLanguageToCountryGuess = Piwik_Tracker_Config::getInstance()->Tracker['enable_language_to_country_guess'], $visitorInformation['location_ip'] 
+									Piwik_Common::getBrowserLanguage(), 
+									$enableLanguageToCountryGuess = Piwik_Tracker_Config::getInstance()->Tracker['enable_language_to_country_guess'], 
+									$visitorInformation['location_ip'] 
 							);
 							
 		$location_continent = isset($visitorInformation['location_continent']) 

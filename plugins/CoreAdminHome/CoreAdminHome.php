@@ -55,8 +55,8 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 		$cssFiles[] = "plugins/CoreAdminHome/templates/styles.css";
 	}
 	
-	function getJsFiles ( $notification ) {
-	
+	function getJsFiles ( $notification ) 
+	{
 		$jsFiles = &$notification->getNotificationObject();
 		
 		$jsFiles[] = "libs/jquery/jquery.js";
