@@ -8,7 +8,7 @@ class HtmlTimerReporter extends HtmlReporter
     }
 
     function paintHeader($test_name) {
-        ob_start();
+        //ob_start();
 
         $this->sendNoCacheHeaders();
         print "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">";
@@ -23,8 +23,8 @@ class HtmlTimerReporter extends HtmlReporter
 
 		print $this->intro;
 
-        ob_flush();
-        flush();
+        //ob_flush();
+        //flush();
     }
 
     function paintFooter($test_name) {
@@ -49,7 +49,7 @@ class HtmlTimerReporter extends HtmlReporter
 
 		@header('Content-type: text/html; charset=' . $this->_character_set, true);
 		@header('Content-disposition: ', true);
-        ob_end_flush();
+        //ob_end_flush();
     }
 
     function paintMethodStart($test_name) {
