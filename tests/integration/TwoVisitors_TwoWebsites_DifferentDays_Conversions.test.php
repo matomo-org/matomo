@@ -47,9 +47,8 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions e
 			// test MultiSites.index using default testing level
 			array('MultiSites.index', array('date' => $this->dateTime, 'period' => 'month', 'idSite' => $this->idSite1)),
 			
-			// test all testable controller actions using default testing level
-			array('all', array('date' => $this->dateTime, 'period' => 'day', 'idSite' => $this->idSite1,
-							   'idGoal' => (string)$this->idGoal1)),
+			// test all widgets using default testing level
+			array('all', array('date' => $this->dateTime, 'period' => 'day', 'idSite' => $this->idSite1)),
 		);
 	}
 	

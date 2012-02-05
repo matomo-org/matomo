@@ -61,7 +61,7 @@ abstract class Test_Integration extends Test_Database_Base
 	/**
 	 * Determines how much of controller actions are tested (if at all).
 	 */
-	static public $widgetTestingLevel = self::CHECK_WIDGET_ERRORS;
+	static public $widgetTestingLevel = self::COMPARE_WIDGET_OUTPUT;
 
 	/**
 	 * API testing level constant. If Test_Integration::$apiTestingLevel is
@@ -110,6 +110,9 @@ abstract class Test_Integration extends Test_Database_Base
 			$usersApi->addUser('anonymous', self::DEFAULT_USER_PASSWORD, 'anonymous@anonymous.com');
 			$usersApi->addUser('test_view', self::DEFAULT_USER_PASSWORD, 'view@view.com');
 			$usersApi->addUser('test_admin', self::DEFAULT_USER_PASSWORD, 'admin@admin.com');
+			
+			// disable shuffling of tag cloud visualization so output is consistent
+			Piwik_Visualization_Cloud::$debugDisableShuffle = true;
 		}
 	}
 	
@@ -117,6 +120,9 @@ abstract class Test_Integration extends Test_Database_Base
 	{
 		parent::tearDown();
     	Piwik_Translate::getInstance()->unloadEnglishTranslation();
+    	
+    	// re-enable tag cloud shuffling
+    	Piwik_Visualization_Cloud::$debugDisableShuffle = true;
 	}
 	
 	protected $apiToCall = array();
@@ -705,21 +711,28 @@ abstract class Test_Integration extends Test_Database_Base
 			$userTypes = array($userTypes);
 		}
 
+		$oldGet = $_GET;
+
 		// get all testable controller actions if necessary
+		$actionParams = array();
 		if ($actions == 'all')
 		{
-			$actions = $this->findAllControllerActions();
+			// Goals.addWidgets requires idSite to be set
+			$_GET['idSite'] = isset($requestParameters['idSite']) ? $requestParameters['idSite'] : '0';
+
+			list($actions, $actionParams) = $this->findAllWidgets();
+
+			$_GET = $oldGet;
 		}
 		else if (!is_array($actions))
 		{
 			$actions = array($actions);
 		}
 
-		$oldGet = $_GET;
-
 		// run the tests
 		foreach ($actions as $controllerAction)
 		{
+			$customParams = isset($actionParams[$controllerAction]) ? $actionParams[$controllerAction] : array();
 			list($controllerName, $actionName) = explode('.', $controllerAction);
 			
 			foreach ($userTypes as $userType)
@@ -730,6 +743,10 @@ abstract class Test_Integration extends Test_Database_Base
 				{
 					// set request parameters
 					$_GET = array();
+					foreach ($customParams as $key => $value)
+					{
+						$_GET[$key] = $value;
+					}
 					foreach ($requestParameters as $key => $value)
 					{
 						$_GET[$key] = $value;
@@ -793,11 +810,11 @@ abstract class Test_Integration extends Test_Database_Base
 						if (!$passed)
 						{
 							var_dump('ERROR FOR ' . $controllerAction . ' -- FETCHED RESPONSE, then EXPECTED RESPONSE - ');
-							echo "\n";
-							var_dump($response);
-							echo "\n";
-							var_dump($expected);
-							echo "\n";
+							echo "<br/>\n";
+							var_dump(htmlspecialchars($response));
+							echo "<br/>\n";
+							var_dump(htmlspecialchars($expected));
+							echo "<br/>\n";
 						}
 					}
 				}
@@ -869,76 +886,48 @@ abstract class Test_Integration extends Test_Database_Base
 	}
 	
 	/**
-	 * Returns a list of all available controller actions.
+	 * Returns a list of all available widgets.
 	 */
-	protected function findAllControllerActions()
+	protected function findAllWidgets()
 	{
-		// list of plugins & actions that should not be tested this way. at the moment, only
-		// read-only operations can be tested.
-		// 
-		// NOTE: at the moment whole plugins are blacklisted. its possible to only specify the
-		// actions, but this becomes harder to maintain. Using a mock config that doesn't save,
-		// might remove the need for a blacklist... will also need to know which actions require
-		// admin access & which don't.
-		static $blacklist = array(
-			'TranslationsAdmin', 'CorePluginsAdmin', 'CoreAdminHome', 'CoreHome', 'CoreUpdater', 'Proxy', 'Dashboard',
-			'Feedback', 'UsersManager', 'Installation', 'LanguagesManager', 'Login', 'VisitorGenerator',
-			'Widgetize', 'PrivacyManager', 'ImageGraph', 'ExampleFeedburner.saveFeedburnerName', 'ExampleRssWidget',
-			'Referers.getKeywordsForPage', // tries to do a request to this host, but when testing, the url
-										   // ends up as http://whatever/tests/integration/?...
-										   // Problem is w/ Piwik_Url::getCurrentUrlWithoutFileName (FIXME)
-			'SitesManager', // some API calls require admin access (like getDefaultCurrency (why this?)), so
-							// testing w/ anonymous access fails.
-			'UserCountryMap.outputImage', 'UserCountryMap.exportImage', // uses Proxy
-			'Goals.getLastNbConversionsGraph','Goals.getLastConversionRateGraph','Goals.getLastRevenueGraph',
-		);
+		$widgetList = Piwik_GetWidgetsList();
 
-		// the cached result		
-		static $result = null;
-		if (!is_null($result))
+		$actions = array();
+		$customParams = array();
+		
+		foreach($widgetList as $widgetCategory => $widgets)
 		{
-			return $result;
-		}
-
-		// methods in the Piwik_Controller class, which will be detected but should not be
-		// considered controller actios
-		$baseControllerMethods = get_class_methods('Piwik_Controller');
-	
-		$result = array();
-
-		$plugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
-		foreach ($plugins as $plugin)
-		{
-			$pluginName = $plugin->getPluginName();
-			$controllerClass = 'Piwik_' . $pluginName . '_Controller';
-			
-			if (in_array($pluginName, $blacklist) || !class_exists($controllerClass))
+			foreach($widgets as $widgetInfo)
 			{
-				continue;
-			}
-			
-			foreach (get_class_methods($controllerClass) as $methodName)
-			{
-				if ($methodName == '__construct' || $methodName == '__destruct' || $methodName == $controllerClass
-					|| in_array($methodName, $baseControllerMethods)
-					|| $methodName == 'getEvolutionGraph' // evolution graphs require a columns request var,
-														  // so they can't be tested here
-					)
+				$module = $widgetInfo['parameters']['module'];
+				$moduleAction = $widgetInfo['parameters']['action'];
+				$wholeAction = "$module.$moduleAction";
+				
+				// FIXME: can't test Referers.getKeywordsForPage since it tries to make a request to
+				// localhost w/ the wrong url. Piwik_Url::getCurrentUrlWithoutFileName
+				// returns /tests/integration/?... when used within a test.
+				if ($wholeAction == "Referers.getKeywordsForPage")
+				{
+					continue;
+				}
+				
+				// rss widgets depends on feedburner URL. don't test the widget just in case
+				// feedburner is down.
+				if ($module == "ExampleRssWidget"
+					|| $module == "ExampleFeedburner")
 				{
 					continue;
 				}
 
-				$actionId = "$pluginName.$methodName";
-				if (in_array($actionId, $blacklist))
-				{
-					continue;
-				}
-
-				$result[] = $actionId;
+				unset($widgetInfo['parameters']['module']);
+				unset($widgetInfo['parameters']['action']);
+			
+				$actions[] = $wholeAction;
+				$customParams[$wholeAction] = $widgetInfo['parameters'];
 			}
 		}
-
-		return $result;
+		
+		return array($actions, $customParams);
 	}
 	
 	protected function removeAllLiveDatesFromXml($input)
@@ -1008,6 +997,25 @@ abstract class Test_Integration extends Test_Database_Base
 			return null;
 		}
 		return $result;
+	}
+
+	/** Identifies the last language used in an API/Controller call. */
+	protected $lastLanguage;
+
+	/**
+	 * changing the language within one request is a bit fancy
+	 * in order to keep the core clean, we need a little hack here
+	 */
+	protected function changeLanguage( $langId )
+	{
+		if (isset($this->lastLanguage) && $this->lastLanguage != $langId)
+		{
+			$_GET['language'] = $langId;
+			Piwik_Translate::reset();
+			Piwik_Translate::getInstance()->reloadLanguage($langId);
+		}
+		
+		$this->lastLanguage = $langId;
 	}
 }
 
@@ -1112,31 +1120,11 @@ abstract class Test_Integration_Facade extends Test_Integration
 		return str_replace('Test_Piwik_Integration_', '', get_class($this));
 	}
 
-	/** Identifies the last language used in an API/Controller call. */
-	private $lastLanguage;
-
-	/**
-	 * changing the language within one request is a bit fancy
-	 * in order to keep the core clean, we need a little hack here
-	 */
-	private function changeLanguage( $langId )
-	{
-		if (isset($this->lastLanguage) && $this->lastLanguage != $langId)
-		{
-			$_GET['language'] = $langId;
-			Piwik_Translate::reset();
-			Piwik_Translate::getInstance()->reloadLanguage($langId);
-		}
-		
-		$this->lastLanguage = $langId;
-	}
-
 	/**
 	 * Runs API tests.
 	 */
 	private function runApiTests()
 	{
-		$this->lastLanguage = null;
 		$apiToTest = $this->getApiToTest();
 		$testName = 'test_' . $this->getOutputPrefix();
 		
@@ -1191,6 +1179,12 @@ abstract class Test_Integration_Facade extends Test_Integration
 				isset($params['apiModule']) ? $params['apiModule'] : false,
 				isset($params['apiAction']) ? $params['apiAction'] : false,
 				isset($params['otherRequestParameters']) ? $params['otherRequestParameters'] : array());
+			
+			// change the language back to en
+			if ($this->lastLanguage != 'en')
+			{
+				$this->changeLanguage('en');
+			}
 		}
 	}
 	
@@ -1201,7 +1195,6 @@ abstract class Test_Integration_Facade extends Test_Integration
 	{
 		static $nonRequestParameters = array('testingLevelOverride' => null, 'userTypes' => null);
 	
-		$lastLanguage = null;
 		$testGroups = $this->getControllerActionsToTest();
 		$testName = 'test_' . $this->getOutputPrefix();
 
@@ -1233,6 +1226,12 @@ abstract class Test_Integration_Facade extends Test_Integration
 				$requestParams,
 				isset($params['userTypes']) ? $params['userTypes'] : false,
 				isset($params['testingLevelOverride']) ? $params['testingLevelOverride'] : false);
+			
+			// change the language back to en
+			if ($this->lastLanguage != 'en')
+			{
+				$this->changeLanguage('en');
+			}
 		}
 	}
 

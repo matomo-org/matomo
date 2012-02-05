@@ -1,0 +1,49 @@
+<div id="GoalsgetItemsName">
+<div class="dataTableWrapper">
+<div class="pk-emptyDataTable">There is no data for this report.</div>
+<div class="dataTableFeatures">
+<span>
+<span class="dataTablePages"></span>
+</span>
+<span>
+<span class="dataTablePrevious">&lsaquo; Previous </span> 
+<span class="dataTableNext">Next &rsaquo;</span>
+</span>
+<span class="dataTableSearchPattern">
+<input id="keyword" type="text" length="15" />
+<input type="submit" value="Search" />
+</span>
+<span class="loadingPiwik" style='display:none'><img src="themes/default/images/loading-blue.gif" /> Loading data...</span>
+<div class="dataTableFooterIcons">
+<div class="dataTableFooterWrap" var="ecommerceOrder">
+<img src="themes/default/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem" />
+<div class="tableIconsGroup">
+<span class="tableAllColumnsSwitch">
+<a class="tableIcon" format="ecommerceOrder" var="ecommerceOrder"><img title="Ecommerce Orders" src="themes/default/images/ecommerceOrder.gif" /> <span>Ecommerce Orders</span></a>
+<a class="tableIcon" format="ecommerceAbandonedCart" var="ecommerceAbandonedCart"><img title="Abandoned Carts" src="themes/default/images/ecommerceAbandonedCart.gif" /> <span>Abandoned Carts</span></a>
+</span>
+</div>
+<div class="tableIconsGroup">
+<span class="exportToFormatIcons"><a class="tableIcon" var="export"><img width="16" height="16" src="themes/default/images/export.png" title="Export this dataset in other formats" /></a></span>
+<span class="exportToFormatItems" style="display:none"> 
+Export: 
+<a target="_blank" methodToCall="Goals.getItemsName" format="CSV" filter_limit="100">CSV</a> | 
+<a target="_blank" methodToCall="Goals.getItemsName" format="TSV" filter_limit="100">TSV (Excel)</a> | 
+<a target="_blank" methodToCall="Goals.getItemsName" format="XML" filter_limit="100">XML</a> |
+<a target="_blank" methodToCall="Goals.getItemsName" format="JSON" filter_limit="100">Json</a> |
+<a target="_blank" methodToCall="Goals.getItemsName" format="PHP" filter_limit="100">Php</a>
+| <a target="_blank" methodToCall="Goals.getItemsName" format="RSS" filter_limit="100" date="last10"><img border="0" src="themes/default/images/feed.png" /></a>
+</span>
+</div>
+</div>
+</div>
+</div>
+<div class="dataTableSpacer"></div>				<script type="text/javascript" defer="defer">
+$(document).ready(function(){ 
+	dataTables['GoalsgetItemsName'] = new dataTable();
+	dataTables['GoalsgetItemsName'].param = { 
+			'idGoal': '-1' ,			'filter_sort_order': 'desc' ,			'filter_offset': '0' ,			'date': '2010-01-03 11:22:33' ,			'period': 'day' ,			'idSite': '1' ,			'module': 'Goals' ,			'action': 'getItemsName' ,			'enable_sort': '1' ,			'filter_sort_column': '' ,			'filter_limit': '10' ,			'viewDataTable': 'ecommerceOrder' ,			'controllerActionCalledWhenRequestSubTable': '' ,			'totalRows': '0' 		};
+	dataTables['GoalsgetItemsName'].init('GoalsgetItemsName');
+});
+</script>		</div>
+</div>

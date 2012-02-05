@@ -1,0 +1,63 @@
+<div id="LivegetVisitorLog" class="visitorLog">
+<a graphid="VisitsSummarygetEvolutionGraph" name="evolutionGraph"></a>
+<a name="LivegetVisitorLog"></a>
+<div class="pk-emptyDataTable">There is no data for this report.</div>
+<div class="dataTableFeatures">
+<span>
+<span class="dataTablePrevious">&lsaquo; First </span> 
+<span class="dataTableNext">Next &rsaquo;</span>
+</span>
+<span class="loadingPiwik" style='display:none'><img src="themes/default/images/loading-blue.gif" /> Loading data...</span>
+<div class="dataTableFooterIcons">
+<div class="dataTableFooterWrap" var="table">
+<img src="themes/default/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem" />
+<div class="tableIconsGroup">
+<span class="tableAllColumnsSwitch">
+<a class="tableIcon" format="table" var="table"><img title="Display simple table" src="themes/default/images/table.png" /></a>
+</span>
+</div>
+<div class="tableIconsGroup">
+<span class="exportToFormatIcons"><a class="tableIcon" var="export"><img width="16" height="16" src="themes/default/images/export.png" title="Export this dataset in other formats" /></a></span>
+<span class="exportToFormatItems" style="display:none"> 
+Export: 
+<a target="_blank" methodToCall="Live.getLastVisitsDetails" format="CSV" filter_limit="100">CSV</a> | 
+<a target="_blank" methodToCall="Live.getLastVisitsDetails" format="TSV" filter_limit="100">TSV (Excel)</a> | 
+<a target="_blank" methodToCall="Live.getLastVisitsDetails" format="XML" filter_limit="100">XML</a> |
+<a target="_blank" methodToCall="Live.getLastVisitsDetails" format="JSON" filter_limit="100">Json</a> |
+<a target="_blank" methodToCall="Live.getLastVisitsDetails" format="PHP" filter_limit="100">Php</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+<div class="dataTableSpacer"></div>		<script type="text/javascript" defer="defer">
+$(document).ready(function(){ 
+	dataTables['LivegetVisitorLog'] = new dataTable();
+	dataTables['LivegetVisitorLog'].param = { 
+			'idGoal': '-1' ,			'filter_sort_order': 'ASC' ,			'filter_offset': '0' ,			'date': '2010-01-03 11:22:33' ,			'period': 'day' ,			'idSite': '1' ,			'module': 'Live' ,			'action': 'getVisitorLog' ,			'filterEcommerce': '1' ,			'widget': '1' ,			'segment': 'visitEcommerceStatus!=none' ,			'enable_sort': 'false' ,			'filter_sort_column': '' ,			'filter_limit': '20' ,			'disable_generic_filters': '1' ,			'dataTablePreviousIsFirst': '1' ,			'pageUrlNotDefined': 'Page URL not defined' ,			'viewDataTable': 'table' ,			'controllerActionCalledWhenRequestSubTable': '' ,			'totalRows': '0' 		};
+	dataTables['LivegetVisitorLog'].init('LivegetVisitorLog');
+});
+</script>	<script type="text/javascript" defer="defer">
+	$(document).ready(function(){ 
+		var dataTableVisitorLog = dataTables['LivegetVisitorLog'];
+		dataTableVisitorLog.param.maxIdVisit = 0;
+		
+		if(dataTableVisitorLog.param.previous == 1) {
+			$('.dataTablePrevious').hide();
+			dataTableVisitorLog.param.previous = 0;
+		}
+	});
+	
+	</script>
+<style type="text/css">
+hr {
+background:none repeat scroll 0 0 transparent;
+border-color:-moz-use-text-color -moz-use-text-color #EEEEEE;
+border-style:none none solid;
+border-width:0 0 1px;
+color:#CCCCCC;
+margin:0 2em 0.5em;
+padding:0 0 0.5em;
+}
+</style>
+</div>

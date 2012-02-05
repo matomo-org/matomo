@@ -1,0 +1,62 @@
+<div id="UserSettingsgetBrowserType">
+<div class="reportDocumentation"><p>This chart shows your visitors' browsers broken down into browser families. <br /> The most important information for web developers is what kind of rendering engine their visitors are using. The labels contain the names of the engines followed by the most common browser using that engine in brackets.</p></div>
+<div class="dataTableGraphWrapper">
+<div class="jqplot-pie" style="padding-left: 6px;">
+<div id="UserSettingsgetBrowserTypeChart" class="piwik-graph" style="position: relative; width: 100%; height: 250px;"></div>
+</div>
+<script type="text/javascript">
+			  window.setTimeout(function() {  
+				var plot = new JQPlot({"params":{"axes":{"xaxis":{"ticks":["Presto (Opera)"]},"yaxis":{"tickOptions":{"formatString":"%s"}}},"series":[{"label":"Unique visitors","internalLabel":"nb_uniq_visitors","yaxis":"yaxis"}],"seriesColors":["#59727F","#7DAAC0","#7F7259","#C09E7D","#9BB39B","#B1D8B3","#B39BA7","#D8B1C5","#A5A5A5"]},"data":[[1]],"tooltip":{"yUnits":["",""],"percentages":[[100]]},"seriesPicker":{"selectableColumns":[{"column":"nb_uniq_visitors","translation":"Unique visitors","displayed":true},{"column":"nb_visits","translation":"Visits","displayed":false},{"column":"nb_actions","translation":"Actions","displayed":false}],"multiSelect":false}}, 'UserSettingsgetBrowserType');
+				plot.render('pie', 'UserSettingsgetBrowserTypeChart',  { 
+					noData: 'No data for this graph.',
+					exportTitle: 'Export as Image',
+					exportText: 'To save the image on your computer, right click on the image and select \"Save Image As...\"',
+					metricsToPlot: 'Metrics to plot',
+					metricToPlot: 'Metric to plot',
+					recordsToPlot: 'Records to plot'
+				 }); 
+			  }, 5);  
+		</script>
+<div class="dataTableFeatures">
+<span class="loadingPiwik" style='display:none'><img src="themes/default/images/loading-blue.gif" /> Loading data...</span>
+<div class="dataTableFooterIcons">
+<div class="dataTableFooterWrap" var="generateDataChartPie">
+<img src="themes/default/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem" />
+<div class="tableIconsGroup">
+<span class="tableAllColumnsSwitch">
+<a class="tableIcon" format="table" var="table"><img title="Display simple table" src="themes/default/images/table.png" /></a>
+<a class="tableIcon" format="tableAllColumns" var="tableAllColumns"><img title="Display a table with more metrics" src="themes/default/images/table_more.png" /></a>
+</span>
+</div>
+<div class="tableIconsGroup">
+<span class="tableGraphViews tableGraphCollapsed">
+<a class="tableIcon" format="graphVerticalBar" var="generateDataChartVerticalBar"><img width="16" height="16" src="themes/default/images/chart_bar.png" title="Vertical bar graph" /></a>                    <a class="tableIcon" format="graphPie" var="generateDataChartPie"><img width="16" height="16" src="themes/default/images/chart_pie.png" title="Piechart" /></a>                    <a class="tableIcon" format="cloud" var="cloud"><img width="16" height="16" src="themes/default/images/tagcloud.png" title="Tag Cloud" /></a>				</span>
+</div>
+<div class="tableIconsGroup">
+<span class="exportToFormatIcons"><a class="tableIcon" var="export"><img width="16" height="16" src="themes/default/images/export.png" title="Export this dataset in other formats" /></a></span>
+<span class="exportToFormatItems" style="display:none"> 
+Export: 
+<a target="_blank" methodToCall="UserSettings.getBrowserType" format="CSV" filter_limit="100">CSV</a> | 
+<a target="_blank" methodToCall="UserSettings.getBrowserType" format="TSV" filter_limit="100">TSV (Excel)</a> | 
+<a target="_blank" methodToCall="UserSettings.getBrowserType" format="XML" filter_limit="100">XML</a> |
+<a target="_blank" methodToCall="UserSettings.getBrowserType" format="JSON" filter_limit="100">Json</a> |
+<a target="_blank" methodToCall="UserSettings.getBrowserType" format="PHP" filter_limit="100">Php</a>
+| <a target="_blank" methodToCall="UserSettings.getBrowserType" format="RSS" filter_limit="100" date="last10"><img border="0" src="themes/default/images/feed.png" /></a>
+</span>
+<span id="dataTableFooterExportAsImageIcon">
+<a class="tableIcon" href="#" onclick="$('#UserSettingsgetBrowserTypeChart').trigger('piwikExportAsImage'); return false;"><img title="Export as Image" src="themes/default/images/image.png" /></a>
+</span>
+</div>
+</div>
+</div>
+</div>
+<div class="dataTableSpacer"></div>		<script type="text/javascript" defer="defer">
+$(document).ready(function(){ 
+	dataTables['UserSettingsgetBrowserType'] = new dataTable();
+	dataTables['UserSettingsgetBrowserType'].param = { 
+			'filter_limit': '5' ,			'viewDataTable': 'generateDataChartPie' ,			'module': 'UserSettings' ,			'action': 'getBrowserType' ,			'idGoal': '-1' ,			'filter_sort_order': 'desc' ,			'filter_offset': '0' ,			'date': '2010-01-03 11:22:33' ,			'period': 'day' ,			'idSite': '1' ,			'controllerActionCalledWhenRequestSubTable': '' 		};
+	dataTables['UserSettingsgetBrowserType'].init('UserSettingsgetBrowserType');
+});
+</script>		
+</div>
+</div>

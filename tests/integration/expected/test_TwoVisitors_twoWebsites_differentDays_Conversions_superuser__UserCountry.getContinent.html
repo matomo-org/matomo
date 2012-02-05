@@ -1,0 +1,62 @@
+<div id="UserCountrygetContinent">
+<div class="dataTableGraphWrapper">
+<div class="jqplot-bar" style="padding-left: 6px;">
+<div id="UserCountrygetContinentChart" class="piwik-graph" style="position: relative; width: 100%; height: 250px;"></div>
+</div>
+<script type="text/javascript">
+			  window.setTimeout(function() {  
+				var plot = new JQPlot({"params":{"axes":{"xaxis":{"ticks":["Europe"],"labels":["Europe"]},"yaxis":{"tickOptions":{"formatString":"%s"}}},"series":[{"label":"Unique visitors","internalLabel":"nb_uniq_visitors","yaxis":"yaxis"}],"seriesColors":["#5170AE","#F3A010","#CC3399","#9933CC","#80a033","#246AD2","#FD16EA","#49C100"]},"data":[[1]],"tooltip":{"yUnits":[""],"percentages":[[100]]},"seriesPicker":{"selectableColumns":[{"column":"nb_uniq_visitors","translation":"Unique visitors","displayed":true},{"column":"nb_visits","translation":"Visits","displayed":false},{"column":"nb_actions","translation":"Actions","displayed":false},{"column":"nb_conversions","translation":"Conversions","displayed":false},{"column":"revenue","translation":"Total Revenue","displayed":false}],"multiSelect":true}}, 'UserCountrygetContinent');
+				plot.render('bar', 'UserCountrygetContinentChart',  { 
+					noData: 'No data for this graph.',
+					exportTitle: 'Export as Image',
+					exportText: 'To save the image on your computer, right click on the image and select \"Save Image As...\"',
+					metricsToPlot: 'Metrics to plot',
+					metricToPlot: 'Metric to plot',
+					recordsToPlot: 'Records to plot'
+				 }); 
+			  }, 5);  
+		</script>
+<div class="dataTableFeatures">
+<span class="loadingPiwik" style='display:none'><img src="themes/default/images/loading-blue.gif" /> Loading data...</span>
+<div class="dataTableFooterIcons">
+<div class="dataTableFooterWrap" var="generateDataChartVerticalBar">
+<img src="themes/default/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem" />
+<div class="tableIconsGroup">
+<span class="tableAllColumnsSwitch">
+<a class="tableIcon" format="table" var="table"><img title="Display simple table" src="themes/default/images/table.png" /></a>
+<a class="tableIcon" format="tableAllColumns" var="tableAllColumns"><img title="Display a table with more metrics" src="themes/default/images/table_more.png" /></a>
+<a class="tableIcon" format="tableGoals" var="tableGoals"><img title="Display a table with Goals metrics" src="themes/default/images/goal.png" /></a>
+</span>
+</div>
+<div class="tableIconsGroup">
+<span class="tableGraphViews tableGraphCollapsed">
+<a class="tableIcon" format="graphVerticalBar" var="generateDataChartVerticalBar"><img width="16" height="16" src="themes/default/images/chart_bar.png" title="Vertical bar graph" /></a>                    <a class="tableIcon" format="graphPie" var="generateDataChartPie"><img width="16" height="16" src="themes/default/images/chart_pie.png" title="Piechart" /></a>                    <a class="tableIcon" format="cloud" var="cloud"><img width="16" height="16" src="themes/default/images/tagcloud.png" title="Tag Cloud" /></a>				</span>
+</div>
+<div class="tableIconsGroup">
+<span class="exportToFormatIcons"><a class="tableIcon" var="export"><img width="16" height="16" src="themes/default/images/export.png" title="Export this dataset in other formats" /></a></span>
+<span class="exportToFormatItems" style="display:none"> 
+Export: 
+<a target="_blank" methodToCall="UserCountry.getContinent" format="CSV" filter_limit="100">CSV</a> | 
+<a target="_blank" methodToCall="UserCountry.getContinent" format="TSV" filter_limit="100">TSV (Excel)</a> | 
+<a target="_blank" methodToCall="UserCountry.getContinent" format="XML" filter_limit="100">XML</a> |
+<a target="_blank" methodToCall="UserCountry.getContinent" format="JSON" filter_limit="100">Json</a> |
+<a target="_blank" methodToCall="UserCountry.getContinent" format="PHP" filter_limit="100">Php</a>
+| <a target="_blank" methodToCall="UserCountry.getContinent" format="RSS" filter_limit="100" date="last10"><img border="0" src="themes/default/images/feed.png" /></a>
+</span>
+<span id="dataTableFooterExportAsImageIcon">
+<a class="tableIcon" href="#" onclick="$('#UserCountrygetContinentChart').trigger('piwikExportAsImage'); return false;"><img title="Export as Image" src="themes/default/images/image.png" /></a>
+</span>
+</div>
+</div>
+</div>
+</div>
+<div class="dataTableSpacer"></div>		<script type="text/javascript" defer="defer">
+$(document).ready(function(){ 
+	dataTables['UserCountrygetContinent'] = new dataTable();
+	dataTables['UserCountrygetContinent'].param = { 
+			'viewDataTable': 'generateDataChartVerticalBar' ,			'module': 'UserCountry' ,			'action': 'getContinent' ,			'idGoal': '-1' ,			'filter_sort_order': 'desc' ,			'filter_offset': '0' ,			'date': '2010-01-03 11:22:33' ,			'period': 'day' ,			'idSite': '1' ,			'controllerActionCalledWhenRequestSubTable': '' 		};
+	dataTables['UserCountrygetContinent'].init('UserCountrygetContinent');
+});
+</script>		
+</div>
+</div>

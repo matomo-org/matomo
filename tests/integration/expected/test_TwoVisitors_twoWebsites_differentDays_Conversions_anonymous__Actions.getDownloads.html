@@ -1,0 +1,49 @@
+<div id="ActionsgetDownloads">
+<div class="reportDocumentation"><p>In this report, you can see which files your visitors have downloaded. <br /> What Piwik counts as a download is the click on a download link. Whether the download was completed or not isn't known to Piwik.</p></div>
+<div class="dataTableActionsWrapper">
+<div class="pk-emptyDataTable">There is no data for this report.</div>
+<div class="dataTableFeatures">
+<span>
+<span class="dataTablePages"></span>
+</span>
+<span>
+<span class="dataTablePrevious">&lsaquo; Previous </span> 
+<span class="dataTableNext">Next &rsaquo;</span>
+</span>
+<span class="dataTableSearchPattern">
+<input id="keyword" type="text" length="15" />
+<input type="submit" value="Search" />
+</span>
+<span class="loadingPiwik" style='display:none'><img src="themes/default/images/loading-blue.gif" /> Loading data...</span>
+<div class="dataTableFooterIcons">
+<div class="dataTableFooterWrap" var="table">
+<img src="themes/default/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem" />
+<div class="tableIconsGroup">
+<span class="tableAllColumnsSwitch">
+<a class="tableIcon" format="table" var="table"><img title="Display simple table" src="themes/default/images/table.png" /></a>
+</span>
+</div>
+<div class="tableIconsGroup">
+<span class="exportToFormatIcons"><a class="tableIcon" var="export"><img width="16" height="16" src="themes/default/images/export.png" title="Export this dataset in other formats" /></a></span>
+<span class="exportToFormatItems" style="display:none"> 
+Export: 
+<a target="_blank" methodToCall="Actions.getDownloads" format="CSV" filter_limit="100">CSV</a> | 
+<a target="_blank" methodToCall="Actions.getDownloads" format="TSV" filter_limit="100">TSV (Excel)</a> | 
+<a target="_blank" methodToCall="Actions.getDownloads" format="XML" filter_limit="100">XML</a> |
+<a target="_blank" methodToCall="Actions.getDownloads" format="JSON" filter_limit="100">Json</a> |
+<a target="_blank" methodToCall="Actions.getDownloads" format="PHP" filter_limit="100">Php</a>
+| <a target="_blank" methodToCall="Actions.getDownloads" format="RSS" filter_limit="100" date="last10"><img border="0" src="themes/default/images/feed.png" /></a>
+</span>
+</div>
+</div>
+</div>
+</div>
+<div class="dataTableSpacer"></div>				<script type="text/javascript" defer="defer">
+$(document).ready(function(){ 
+	dataTables['ActionsgetDownloads'] = new actionDataTable();
+	dataTables['ActionsgetDownloads'].param = { 
+			'idGoal': '-1' ,			'filter_sort_order': 'desc' ,			'filter_offset': '0' ,			'date': '2010-01-03 11:22:33' ,			'period': 'day' ,			'idSite': '1' ,			'module': 'Actions' ,			'action': 'getDownloads' ,			'enable_sort': '1' ,			'filter_sort_column': '' ,			'filter_limit': '100' ,			'search_recursive': '1' ,			'viewDataTable': 'table' ,			'controllerActionCalledWhenRequestSubTable': 'getDownloadsSubDataTable' ,			'totalRows': '0' 		};
+	dataTables['ActionsgetDownloads'].init('ActionsgetDownloads');
+});
+</script>		</div>
+</div>

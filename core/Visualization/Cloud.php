@@ -21,6 +21,9 @@
  */
 class Piwik_Visualization_Cloud implements Piwik_View_Interface
 {
+	/** Used by integration tests to make sure output is consistent. */
+	public static $debugDisableShuffle = false;
+
 	protected $wordsArray = array();
 	public $truncatingLimit = 50;
 	
@@ -85,6 +88,11 @@ class Piwik_Visualization_Cloud implements Piwik_View_Interface
 	 */
 	protected function shuffleCloud()
 	{
+		if (self::$debugDisableShuffle)
+		{
+			return;
+		}
+
 		$keys = array_keys($this->wordsArray);
 		 
 		shuffle($keys);
