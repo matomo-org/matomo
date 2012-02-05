@@ -969,6 +969,7 @@ actionDataTable.prototype =
 	setActiveIcon: dataTable.prototype.setActiveIcon,
 	resetAllFilters: dataTable.prototype.resetAllFilters,
 	restoreAllFilters: dataTable.prototype.restoreAllFilters,
+	exportToFormatHide: dataTable.prototype.exportToFormatHide,
 	
 	//initialisation of the actionDataTable
 	init: function(workingDivId, domElem)
