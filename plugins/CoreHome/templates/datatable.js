@@ -228,6 +228,7 @@ dataTable.prototype =
 		self.handleSubDataTable(domElem);
 		self.handleColumnDocumentation(domElem);
 		self.handleReportDocumentation(domElem);
+		self.handleRowActions(domElem);
 	},
 		
 	// if sorting the columns is enabled, when clicking on a column, 
@@ -549,6 +550,7 @@ dataTable.prototype =
 				var method = $(this).attr('methodToCall');
 				var filter_limit = $(this).attr('filter_limit');
 				var segment = self.param.segment;
+				var label = self.param.label;
 				var idGoal = self.param.idGoal;
 				var param_date = self.param.date;
 				var date = $(this).attr('date');
@@ -584,9 +586,13 @@ dataTable.prototype =
 					&& idGoal != '-1') {
 					str += '&idGoal='+idGoal;
 				}
-				if( filter_limit )
+				if(filter_limit)
 				{
-					str += '&filter_limit=' + filter_limit;
+					str += '&filter_limit='+filter_limit;
+				}
+				if(label)
+				{
+					str += '&label='+encodeURIComponent(label);
 				}
 				return str;
 			}
@@ -709,8 +715,13 @@ dataTable.prototype =
 		else if(self.param.viewDataTable == 'tableAllColumns') {}		
 		
 		truncationLimit += truncationOffset;
-
-		$(domElemToTruncate).truncate(truncationLimit);
+		
+		domElemToTruncate = $(domElemToTruncate);
+		// make the original text (before truncation) available for others.
+		// the .truncate plugins adds a title to the dom element but the .tooltip
+		// plugin removes that again.
+		domElemToTruncate.data('originalText', domElemToTruncate.text());
+		domElemToTruncate.truncate(truncationLimit);
 		$('.truncated', domElemToTruncate)
 			.tooltip();
 	},
@@ -780,9 +791,14 @@ dataTable.prototype =
 					self.loadedSubDataTable[divIdToReplaceWithSubTable] = true;
 					
 					$(this).next().toggle();
+					
+					// when "loading..." is displayed, hide actions
+					// repositioning after loading is not easily possible
+					$(this).find('div.dataTableRowActions').hide();
 				}
 				
 				$(this).next().toggle();
+				self.repositionRowActions($(this));
 			} 
 		);
 	},
@@ -923,6 +939,77 @@ dataTable.prototype =
 		{
 			//domElem.prepend(icon);
 		}
+	},
+
+	handleRowActions: function(domElem)
+	{
+		this.doHandleRowActions(domElem.find('table > tbody > tr'));
+	},
+	
+	// also used in action data table
+	doHandleRowActions: function(trs)
+	{
+		var self = this;
+		var actionInstances = {};
+		
+		trs.each(function()
+		{
+			var tr = $(this);
+			var actions = tr.find('div.dataTableRowActions');
+			if (actions.size() == 0)
+			{
+				return true;
+			}
+			
+			// move before image in actions data table
+			if (actions.prev().size() > 0)
+			{
+				actions.prev().before(actions);
+			}
+			
+			// show actions on hover
+			tr.hover(function()
+			{
+				self.repositionRowActions($(this));
+				actions.show();
+			},
+			function()
+			{
+				actions.hide();
+			});
+			
+			// handle the individual actions
+			actions.find('> a').each(function()
+			{
+				var a = $(this);
+				var className = a.attr('class');
+				if (className.substring(0, 6) == 'action')
+				{
+					var actionName = className.substring(6, className.length);
+					if (typeof actionInstances[actionName] == "undefined")
+					{
+						actionInstances[actionName] = DataTable_RowActions_Factory(actionName, self);
+					}
+					var action = actionInstances[actionName];
+					action.initTr(tr);
+					
+					a.click(function(e)
+					{
+						$(this).blur();
+						actions.hide();
+						action.onActionClick(tr, e);
+						return false;
+					});
+				}
+			});
+		});
+	},
+	
+	repositionRowActions: function(tr) {
+		var td = tr.find('td:first');
+		var actions = tr.find('div.dataTableRowActions');
+		actions.height(tr.innerHeight() - 2)
+			.css('marginLeft', (td.width() + 5 - actions.outerWidth())+'px');
 	}
 	
 };
@@ -963,6 +1050,8 @@ actionDataTable.prototype =
 	handleSort: dataTable.prototype.handleSort,
 	handleColumnDocumentation: dataTable.prototype.handleColumnDocumentation,
 	handleReportDocumentation: dataTable.prototype.handleReportDocumentation,
+	doHandleRowActions: dataTable.prototype.doHandleRowActions,
+	repositionRowActions: dataTable.prototype.repositionRowActions,
 	onClickSort: dataTable.prototype.onClickSort,
 	truncate: dataTable.prototype.truncate,
 	handleOffsetInformation: dataTable.prototype.handleOffsetInformation,
@@ -1004,6 +1093,7 @@ actionDataTable.prototype =
 		}
 		
 		self.applyCosmetics(domElem);
+		self.handleRowActions(domElem);
 		
 		self.handleExportBox(domElem);
 		self.handleSort(domElem);
@@ -1072,8 +1162,13 @@ actionDataTable.prototype =
 				// label (first column of a data row) or not
 				$("td:first-child:odd", this).addClass('label labeleven');
 				$("td:first-child:even", this).addClass('label labelodd');
-			})
-			.removeClass('rowToProcess');
+			});
+	},
+	
+	handleRowActions: function(domElem)
+	{
+		var rowsToProcess = $('tr.rowToProcess').removeClass('rowToProcess');
+		this.doHandleRowActions(rowsToProcess);
 	},
 	
 	// Called when the user click on an actionDataTable row
@@ -1122,7 +1217,10 @@ actionDataTable.prototype =
 			self.param.idSubtable = idSubTable;
 			self.param.action = self.param.controllerActionCalledWhenRequestSubTable;
 			
-			self.reloadAjaxDataTable(false, function(resp){self.actionsSubDataTableLoaded(resp)});
+			self.reloadAjaxDataTable(false, function(resp){
+				self.actionsSubDataTableLoaded(resp);
+				self.repositionRowActions($(domElem));
+			});
 			self.param.action = savedActionVariable;
 
 			self.restoreAllFilters(filtersToRestore);
@@ -1132,7 +1230,7 @@ actionDataTable.prototype =
 		// else we toggle all these rows
 		else
 		{
-			var plusDetected = $('td img', domElem).attr('src').indexOf('plus') >= 0;
+			var plusDetected = $('td img.plusMinus', domElem).attr('src').indexOf('plus') >= 0;
 			
 			$(domElem).siblings().each( function(){
 				var parents = $(this).prop('parent');
@@ -1160,13 +1258,14 @@ actionDataTable.prototype =
 						{
 							$(this).css('display','none');
 						}
+						self.repositionRowActions($(domElem));
 					}
 				}
 			});
 		}
 		
 		// toggle the +/- image
-		var plusDetected = $('td img', domElem).attr('src').indexOf('plus') >= 0;
+		var plusDetected = $('td img.plusMinus', domElem).attr('src').indexOf('plus') >= 0;
 		if(plusDetected)
 		{
 			setImageMinus(domElem);
@@ -1255,12 +1354,12 @@ function getNextLevelFromClass( style )
 //helper function for actionDataTable
 function setImageMinus( domElem )
 {
-	$('img',domElem).attr('src', 'themes/default/images/minus.png');
+	$('img.plusMinus',domElem).attr('src', 'themes/default/images/minus.png');
 }
 
 //helper function for actionDataTable
 function setImagePlus( domElem )
 {
-	$('img',domElem).attr('src', 'themes/default/images/plus.png');
+	$('img.plusMinus',domElem).attr('src', 'themes/default/images/plus.png');
 }
 

@@ -121,13 +121,16 @@ table.dataTable td,table.dataTable td a {
 
 
 
-table.dataTable tr:hover>td{
+table.dataTable tr:hover>td,
+table.dataTable tr:hover>td .dataTableRowActions{
 	background-color:#FFFFF7;
 }
-table.dataTable tr.subDataTable:hover>td{
+table.dataTable tr.subDataTable:hover>td,
+table.dataTable tr.subDataTable:hover>td .dataTableRowActions{
 	background-color:#ffffcb;
 }
-table.dataTable tr:hover>td.cellSubDataTable{
+table.dataTable tr:hover>td.cellSubDataTable
+table.dataTable tr:hover>td.cellSubDataTable .dataTableRowActions{
 	background-color:#fff;
 }
 
@@ -549,4 +552,28 @@ h2 .reportDocumentationIcon {
 
 h2 .reportDocumentationIcon.hidden {
 	background: none;
+}
+
+table.dataTable .dataTableRowActions {
+	position: absolute;
+	display: none;
+	overflow: hidden;
+	margin-top: -5px;
+	width: 40px;
+}
+*+html table.dataTable .dataTableRowActions {
+	margin-top: -7px;
+}
+
+table.dataTable .dataTableRowActions a {
+	display: block;
+	float: left;
+	padding: 6px;
+	margin: 0 6px 0 0;
+}
+
+table.dataTable .dataTableRowActions a img {
+	margin: 0;
+	padding: 0;
+	border: 0;
 }
