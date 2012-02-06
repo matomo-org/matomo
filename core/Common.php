@@ -358,54 +358,6 @@ class Piwik_Common
 	}
 
 	/**
-	 * Handle case where query parameter is missing the '=value'.
-	 * We want to distinguish between '?a' and '?a=' if we later reconstruct the query.
-	 *
-	 * @param string $query
-	 * @param string|int $name
-	 * @param mixed $value
-	 */
-	static protected function fixMissingQueryValue($query, $name, $value)
-	{
-		if ($value === ''
-			&& !preg_match('/(^|\?|&)'.$name.'=/', $query))
-		{
-			return false;
-		}
-
-		if ($value === array('')
-			&& preg_match('/(^|\?|&)'.$name.'\[\]=/', $query))
-		{
-			return $value;
-		}
-
-		if (is_array($value))
-		{
-
-			return self::fixQueryArray($query, $value);
-		}
-
-		return $value;
-	}
-
-	/**
-	 * Iterate through query array.  This may be a nested array.
-	 *
-	 * @param string $query
-	 * @param array $arr
-	 * @return array
-	 */
-	static protected function fixQueryArray($query, $arr)
-	{
-		foreach ($arr as $name => $value)
-		{
-			$arr[$name] = self::fixMissingQueryValue($query, $name, $value);
-		}
-
-		return $arr;
-	}
-
-	/**
 	 * Returns an URL query string in an array format
 	 *
 	 * @param string urlQuery
@@ -413,15 +365,61 @@ class Piwik_Common
 	 */
 	static public function getArrayFromQueryString( $urlQuery )
 	{
-		if (strncmp($urlQuery, '?', 1) === 0)
+		if(strlen($urlQuery) == 0)
+		{
+			return array();
+		}
+		if($urlQuery[0] == '?')
 		{
 			$urlQuery = substr($urlQuery, 1);
 		}
 
-		$res = array();
-		parse_str($urlQuery, $res);
-		$res = self::fixQueryArray($urlQuery, $res);
-		return $res;
+		$separator = '&';
+
+		$urlQuery = $separator . $urlQuery;
+		//		$urlQuery = str_replace(array('%20'), ' ', $urlQuery);
+		$refererQuery = trim($urlQuery);
+
+		$values = explode($separator, $refererQuery);
+
+		$nameToValue = array();
+
+		foreach($values as $value)
+		{
+			$pos = strpos($value, '=');
+			if($pos !== false)
+			{
+				$name = substr($value, 0, $pos);
+				$value = substr($value, $pos+1);
+				if ($value === false)
+				{
+					$value = '';
+				}
+			}
+			else
+			{
+				$name = $value;
+				$value = false;
+			}
+
+			// if array without indexes
+			$count = 0;
+			$tmp = preg_replace('/(\[|%5b)(]|%5d)$/i', '', $name, -1, $count);
+			if(!empty($tmp) && $count)
+			{
+				$name = $tmp;
+				if( isset($nameToValue[$name]) == false || is_array($nameToValue[$name]) == false )
+				{
+					$nameToValue[$name] = array();
+				}
+				array_push($nameToValue[$name], $value);
+			}
+			else if(!empty($name))
+			{
+				$nameToValue[$name] = $value;
+			}
+		}
+		return $nameToValue;
 	}
 
 	/**
@@ -1576,7 +1574,7 @@ class Piwik_Common
 			$key = self::getParameterFromQueryString($query, 'as_oq');
 			if(!empty($key))
 			{
-				array_push($keys, preg_replace('/[+ ]+/', ' OR ', $key));
+				array_push($keys, str_replace('+', ' OR ', $key));
 			}
 			$key = self::getParameterFromQueryString($query, 'as_epq');
 			if(!empty($key))
