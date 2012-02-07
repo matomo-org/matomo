@@ -28,7 +28,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
                 case("formMaskLength"):
                     $this->handlePluginState(Piwik_Common::getRequestVar("anonymizeIPEnable", 0));
                     $maskLength = Zend_Registry::get('config')->Tracker;
-                    $maskLength->ip_address_mask_length = Piwik_Common::getRequestVar("maskLength", 1);
+                    $maskLength->ip_address_mask_length = $maskLength->ip_address_pre_mask_length = Piwik_Common::getRequestVar("maskLength", 1);
                     Zend_Registry::get('config')->Tracker = $maskLength->toArray();
                     break;
                 case("formDeleteSettings"):
@@ -81,6 +81,17 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
         $anonymizeIP["name"] = self::ANONYMIZE_IP_PLUGIN_NAME;
         $anonymizeIP["enabled"] = Piwik_PluginsManager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME);
         $anonymizeIP["maskLength"] = Zend_Registry::get('config')->Tracker->ip_address_mask_length;
+
+        /**
+         * synchronize ip_address_mask_length and ip_address_pre_mask_length (changed in Piwik 1.7)
+         */
+        $maskLength = Zend_Registry::get('config')->Tracker;
+        if (($maskLength->ip_address_mask_length != $maskLength->ip_address_pre_mask_length) &&
+                $anonymizeIP["enabled"] === true) {
+            $maskLength->ip_address_pre_mask_length = $maskLength->ip_address_mask_length;
+            Zend_Registry::get('config')->Tracker = $maskLength->toArray();
+        }
+
         $anonymizeIP["info"] = Piwik_PluginsManager::getInstance()->getLoadedPlugin(self::ANONYMIZE_IP_PLUGIN_NAME)->getInformation();
 
         return $anonymizeIP;
@@ -100,7 +111,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
         $optionTable = Piwik_GetOption(self::OPTION_LAST_DELETE_PIWIK_LOGS);
 
         //If task was already rescheduled, read time from taskTimetable. Else, calculate next possible runtime.
-        if(!empty($scheduleTimetable) && ($scheduleTimetable - time() > 0)) {
+        if (!empty($scheduleTimetable) && ($scheduleTimetable - time() > 0)) {
             $nextPossibleSchedule = (int)$scheduleTimetable;
         } else {
             $date = Piwik_Date::factory("today");
