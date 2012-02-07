@@ -77,7 +77,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		}
 
 		$ip = Piwik_IP::P2N($ipString);
-		Piwik_PostEvent('Tracker.Visit.setVisitorIp', $ip);
 		$this->ip = $ip;
 	}
 
@@ -137,6 +136,12 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		{
 			return;
 		}
+		
+		// Anonymize IP (after testing for IP exclusion)
+		$ip = $this->ip;
+		Piwik_PostEvent('Tracker.Visit.setVisitorIp', $ip);
+		$this->visitorInfo['location_ip'] = $ip;
+		
 		$this->visitorCustomVariables = self::getCustomVariables($scope = 'visit', $this->request);
 		if(!empty($this->visitorCustomVariables))
 		{

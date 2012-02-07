@@ -149,7 +149,16 @@ class Piwik_Provider extends Piwik_Plugin
 	{
 		$visitorInfo =& $notification->getNotificationObject();
 		
-		$hostname = $this->getHost($visitorInfo['location_ip']);
+		$ip = Piwik_IP::N2P($visitorInfo['location_ip']);
+		
+		// In case the IP was anonymized, we should not continue since the DNS reverse lookup will fail and this will slow down tracking
+		if(substr($ip, -2, 2) == '.0') 
+		{
+			printDebug("IP Was anonymized so we skip the Provider DNS reverse lookup...");
+			return;
+		}
+		
+		$hostname = $this->getHost($ip);
 		$hostnameExtension = $this->getCleanHostname($hostname);
 
 		// add the provider value in the table log_visit
@@ -214,15 +223,14 @@ class Piwik_Provider extends Piwik_Plugin
 	}
 	
 	/**
-	 * Returns the hostname given the internal representation of the
-	 * IP address
+	 * Returns the hostname given the IP address string
 	 *
-	 * @param string $ip Internal representation of IP address in binary-safe string
+	 * @param string $ip IP Address
 	 * @return string hostname (or human-readable IP address)
 	 */
 	private function getHost($ip)
 	{
-		return trim(strtolower(@Piwik_IP::getHostByAddr(Piwik_IP::N2P($ip))));
+		return trim(strtolower(@Piwik_IP::getHostByAddr($ip)));
 	}
 
 	static public function headerUserCountry($notification)

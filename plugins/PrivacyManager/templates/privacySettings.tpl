@@ -36,10 +36,10 @@
 				<td width="250">{'PrivacyManager_AnonymizeIpMaskLengtDescription'|translate}</td>
 				<td>
 					<label><input type="radio" name="maskLength" value="1" {if $anonymizeIP.maskLength eq '1'}
-								  checked {/if}/> {'PrivacyManager_AnonymizeIpMaskLength'|translate:"1":"192.168.100.xxx"} {'General_Recommended'|translate}
+								  checked {/if}/> {'PrivacyManager_AnonymizeIpMaskLength'|translate:"1":"192.168.100.xxx"}
 					</label><br/>
 					<label><input type="radio" name="maskLength" value="2" {if $anonymizeIP.maskLength eq '2'}
-								  checked {/if}/> {'PrivacyManager_AnonymizeIpMaskLength'|translate:"2":"192.168.xxx.xxx"}</label><br/>
+								  checked {/if}/> {'PrivacyManager_AnonymizeIpMaskLength'|translate:"2":"192.168.xxx.xxx"} {'General_Recommended'|translate}</label><br/>
 					<label><input type="radio" name="maskLength" value="3" {if $anonymizeIP.maskLength eq '3'}
 								  checked {/if}/> {'PrivacyManager_AnonymizeIpMaskLength'|translate:"3":"192.xxx.xxx.xxx"}</label>
 				</td>
