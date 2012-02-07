@@ -29,7 +29,7 @@ class Piwik_API_DataTableLabelFilter
 {
     
     /** The separator to be used for specifying recursive labels */
-    const RECURSIVE_LABEL_SEPARATOR = '->>-';
+    const RECURSIVE_LABEL_SEPARATOR = '-&gt;&gt;-';
 	
 	private $apiModule;
 	private $apiMethod;
@@ -133,51 +133,55 @@ class Piwik_API_DataTableLabelFilter
 	 */
 	protected function doFilterRecursiveDescend($labelParts, $dataTable, $date=false)
 	{
-		if ($dataTable instanceof Piwik_DataTable)
+		if(!($dataTable instanceof Piwik_DataTable))
 		{
-			// search for the first part of the tree search
-            $labelPart = array_shift($labelParts);
-            $row = $dataTable->getRowFromLabel($labelPart);
-			if ($row === false)
-			{
-				$labelPart = htmlentities($labelPart);
-				$row = $dataTable->getRowFromLabel($labelPart);
-			}
-			if ($row === false)
-			{
-				// not found
-				return false;
-			}
-			
-			// end of tree search reached
-			if (count($labelParts) == 0)
-			{
-				return $row;
-			}
-			
-			// match found on this level and more levels remaining: go deeper
-			$request = $this->request;
-            
-            // this is why the filter does not work with expanded=1:
-            // if the entire table is loaded, the id of sub-datatable has a different semantic.
-            $idSubTable = $row->getIdSubDataTable();
-            
-			$request['idSubtable'] = $idSubTable;
-			if ($date)
-			{
-				$request['date'] = $date;
-			}
-			
-			$class = 'Piwik_'.$this->apiModule.'_API';
-            $method = $this->getApiMethodForSubtable();
-            
-			$dataTable = Piwik_API_Proxy::getInstance()->call($class, $method, $request);
-            $dataTable->applyQueuedFilters();
-            
-			return $this->doFilterRecursiveDescend($labelParts, $dataTable, $date);
+			throw new Exception("Using the label filter is not supported for DataTable ".get_class($dataTable));
+		}
+		// search for the first part of the tree search
+        $labelPart = array_shift($labelParts);
+        $row = $dataTable->getRowFromLabel($labelPart);
+		if ($row === false)
+		{
+			$labelPart = htmlentities($labelPart);
+			$row = $dataTable->getRowFromLabel($labelPart);
+		}
+		if ($row === false)
+		{
+			// not found
+			return false;
 		}
 
-		throw new Exception("Using the label filter is not supported for DataTable ".get_class($dataTable));
+		// end of tree search reached
+		if (count($labelParts) == 0)
+		{
+			return $row;
+		}
+
+		// match found on this level and more levels remaining: go deeper
+		$request = $this->request;
+            
+        // this is why the filter does not work with expanded=1:
+        // if the entire table is loaded, the id of sub-datatable has a different semantic.
+        $idSubTable = $row->getIdSubDataTable();
+            
+		$request['idSubtable'] = $idSubTable;
+		if ($date)
+		{
+			$request['date'] = $date;
+		}
+			
+		$class = 'Piwik_'.$this->apiModule.'_API';
+        $method = $this->getApiMethodForSubtable();
+        
+        // Clean up request for Piwik_API_ResponseBuilder to behave correctly
+        unset($request['label']);
+        $request['serialize'] = 0;
+        
+		$dataTable = Piwik_API_Proxy::getInstance()->call($class, $method, $request);
+		$response = new Piwik_API_ResponseBuilder($format = 'original', $request);
+		$dataTable = $response->getResponse($dataTable);
+		
+		return $this->doFilterRecursiveDescend($labelParts, $dataTable, $date);
 	}
 	
 	private function getApiMethodForSubtable()
@@ -194,7 +198,6 @@ class Piwik_API_DataTableLabelFilter
 				$this->apiMethodForSubtable = $this->apiMethod;
 			}
 		}
-		
 		return $this->apiMethodForSubtable; 
 	}
 	

@@ -674,7 +674,7 @@ class Piwik_Actions extends Piwik_Plugin
 		{
 			$name = $urlPath;
 			
-			if( empty($name) || substr($name, -1) == '/' )
+			if( $name === '' || substr($name, -1) == '/' )
 			{
 				$name .= self::$defaultActionName;
 			}

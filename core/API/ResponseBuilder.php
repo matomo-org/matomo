@@ -283,7 +283,7 @@ class Piwik_API_ResponseBuilder
 			$genericFilter = new Piwik_API_DataTableGenericFilter($this->request);
 			$genericFilter->filter($datatable);
 		}
-		
+        
 		// we automatically safe decode all datatable labels (against xss) 
 		$datatable->queueFilter('SafeDecodeLabel');
         
@@ -292,16 +292,16 @@ class Piwik_API_ResponseBuilder
 		{
 			$datatable->applyQueuedFilters();
 		}
-        
+	
         // apply label filter: only return a single row matching the label parameter
         $label = Piwik_Common::getRequestVar('label', '', 'string', $this->request);
-        if ($label != '')
+        if ($label !== '')
         {
-            $label = html_entity_decode($label);
+            $label = Piwik_Common::unsanitizeInputValue($label);
+            $label = Piwik_DataTable_Filter_SafeDecodeLabel::filterValue($label);
             $filter = new Piwik_API_DataTableLabelFilter;
             $datatable = $filter->filter($label, $datatable, $this->apiModule, $this->apiMethod, $this->request);
         }
-        
 		return $this->getRenderedDataTable($datatable);
 	}
 	

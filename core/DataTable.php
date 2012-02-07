@@ -482,7 +482,6 @@ class Piwik_DataTable
 		if ($row !== false)
 		{
 			$newTable->addRow($row);
-			
 		}
 		return $newTable;
 	}
