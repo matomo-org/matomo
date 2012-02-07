@@ -7,7 +7,8 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 require_once PIWIK_INCLUDE_PATH . '/tests/integration/Integration.php';
 
 /**
- * Test empty google kwd works nicely in Live! output and Top keywords
+ * 1) Tests empty google kwd works nicely in Live! output and Top keywords
+ * 2) Tests IP anonymization
  * 
  * Also test that Live! will link to the search result page URL rather than the exact referrer URL
  * when the referrer URL is google.XX/url.... which is a redirect to landing page rather than the search result URL 
@@ -50,6 +51,7 @@ class Test_Piwik_Integration_OneVisitor_NoKeywordSpecified extends Test_Integrat
     	$idSite = $this->idSite;
         $t = $this->getTracker($idSite, $dateTime, $defaultInit = true, $useThirdPartyCookie = 1);
         
+		$t->DEBUG_APPEND_URL = '&forceIpAnonymization=1';
         // VISIT 1 = Referrer is "Keyword not defined"
         // Alsotrigger goal to check that attribution goes to this keyword
         $t->setUrlReferrer( 'http://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0CC&url=http%3A%2F%2Fpiwik.org%2F&ei=&usg=');

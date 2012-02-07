@@ -23,14 +23,17 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
     public function index()
     {
         Piwik::checkUserIsSuperUser();
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            switch (Piwik_Common::getRequestVar('form')) {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") 
+        {
+            switch (Piwik_Common::getRequestVar('form')) 
+            {
                 case("formMaskLength"):
                     $this->handlePluginState(Piwik_Common::getRequestVar("anonymizeIPEnable", 0));
                     $maskLength = Zend_Registry::get('config')->Tracker;
-                    $maskLength->ip_address_mask_length = $maskLength->ip_address_pre_mask_length = Piwik_Common::getRequestVar("maskLength", 1);
+                    $maskLength->ip_address_mask_length = Piwik_Common::getRequestVar("maskLength", 1);
                     Zend_Registry::get('config')->Tracker = $maskLength->toArray();
                     break;
+                    
                 case("formDeleteSettings"):
                     $deleteLogs = Zend_Registry::get('config')->Deletelogs;
                     $deleteLogs->delete_logs_enable = Piwik_Common::getRequestVar("deleteEnable", 0);
@@ -41,6 +44,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 
                     Zend_Registry::get('config')->Deletelogs = $deleteLogs->toArray();
                     break;
+                    
                 default: //do nothing
                     break;
             }
@@ -53,7 +57,8 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
         Piwik::checkUserHasSomeAdminAccess();
         $view = Piwik_View::factory('privacySettings');
 
-        if (Piwik::isUserIsSuperUser()) {
+        if (Piwik::isUserIsSuperUser()) 
+        {
             $deleteLogs = array();
 
             $view->deleteLogs = $this->getDeleteLogsInfo();
@@ -61,7 +66,8 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
         }
         $view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
 
-        if (!Zend_Registry::get('config')->isFileWritable()) {
+        if (!Zend_Registry::get('config')->isFileWritable()) 
+        {
             $view->configFileNotWritable = true;
         }
 
@@ -81,17 +87,6 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
         $anonymizeIP["name"] = self::ANONYMIZE_IP_PLUGIN_NAME;
         $anonymizeIP["enabled"] = Piwik_PluginsManager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME);
         $anonymizeIP["maskLength"] = Zend_Registry::get('config')->Tracker->ip_address_mask_length;
-
-        /**
-         * synchronize ip_address_mask_length and ip_address_pre_mask_length (changed in Piwik 1.7)
-         */
-        $maskLength = Zend_Registry::get('config')->Tracker;
-        if (($maskLength->ip_address_mask_length != $maskLength->ip_address_pre_mask_length) &&
-                $anonymizeIP["enabled"] === true) {
-            $maskLength->ip_address_pre_mask_length = $maskLength->ip_address_mask_length;
-            Zend_Registry::get('config')->Tracker = $maskLength->toArray();
-        }
-
         $anonymizeIP["info"] = Piwik_PluginsManager::getInstance()->getLoadedPlugin(self::ANONYMIZE_IP_PLUGIN_NAME)->getInformation();
 
         return $anonymizeIP;

@@ -71,19 +71,26 @@ class Test_Piwik_Integration_NoVisit extends Test_Integration_Facade
 		$t->setUserAgent('Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)');
 		$this->checkResponse($t->doTrackPageView('bot visit, please do not record'));
 		
-		// test with excluded IP
-		$t->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729)'); // restore normal user agent	
-		$excludedIp = '154.1.12.34';
-		Piwik_SitesManager_API::getInstance()->updateSite($idSite, 'new site name', $url=array('http://site.com'),$ecommerce = 0, $excludedIp . ',1.2.3.4');
-		$t->setIp($excludedIp);
-		$this->checkResponse($t->doTrackPageView('visit from IP excluded'));
-		
-		// test with global list of excluded IPs 
-		$excludedIpBis = '145.5.3.4';
-		Piwik_SitesManager_API::getInstance()->setGlobalExcludedIps($excludedIpBis);
-		$t->setIp($excludedIpBis);
-		$this->checkResponse($t->doTrackPageView('visit from IP globally excluded'));
-		
+		// Test IP Exclusion works with or without IP exclusion
+		foreach(array(false, true) as $enable)
+		{
+			// 	Enable IP Anonymization
+			$t->DEBUG_APPEND_URL = '&forceIpAnonymization=' . (int)$enable;
+			
+			// test with excluded IP
+			$t->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729)'); // restore normal user agent	
+			$excludedIp = '154.1.12.34';
+			Piwik_SitesManager_API::getInstance()->updateSite($idSite, 'new site name', $url=array('http://site.com'),$ecommerce = 0, $excludedIp . ',1.2.3.4');
+			$t->setIp($excludedIp);
+			$this->checkResponse($t->doTrackPageView('visit from IP excluded'));
+			
+			// test with global list of excluded IPs 
+			$excludedIpBis = '145.5.3.4';
+			Piwik_SitesManager_API::getInstance()->setGlobalExcludedIps($excludedIpBis);
+			$t->setIp($excludedIpBis);
+			$this->checkResponse($t->doTrackPageView('visit from IP globally excluded'));
+		}
+				
 		try {
 			@$t->setAttributionInfo(array());
 			$this->fail();

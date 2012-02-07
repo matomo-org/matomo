@@ -32,6 +32,15 @@ if(Piwik_Common::getRequestVar('forceUseThirdPartyCookie', false) == 1)
 {
 	Piwik_Tracker_Config::getInstance()->setTestValue('Tracker', 'use_third_party_id_cookie', 1);
 }
+
+// Tests can force the enabling of IP anonymization
+if(Piwik_Common::getRequestVar('forceIpAnonymization', false) == 1)
+{
+	Piwik_Tracker_Config::getInstance()->setTestValue('Tracker', 'ip_address_mask_length', 2);
+	$pluginsTracker = Piwik_Tracker_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
+	$pluginsTracker[] = "AnonymizeIP";
+	Piwik_Tracker_Config::getInstance()->setTestValue('Plugins_Tracker', array('Plugins_Tracker' => $pluginsTracker));
+}
 // Custom IP to use for this visitor
 $customIp = Piwik_Common::getRequestVar('cip', false);
 if(!empty($customIp)) 

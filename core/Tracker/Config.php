@@ -151,8 +151,16 @@ class Piwik_Tracker_Config
 	/**
 	 * Should only be used in tests/
 	 */
-	public function setTestValue($section, $name, $value)
+	public function setTestValue($section, $name, $value = false)
 	{
-		$this->configUser[$section][$name] = $value;
+		// Case setting the whole section at once
+		if($value === false)
+		{
+			$this->configUser[$section] = $name;
+		}
+		else
+		{
+			$this->configUser[$section][$name] = $value;
+		}
 	}
 }

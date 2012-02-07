@@ -339,12 +339,7 @@ campaign_keyword_var_name	= "pk_kwd,piwik_kwd,utm_term"
 ; maximum length of a Page Title or a Page URL recorded in the log_action.name table
 page_maximum_length = 1024;
 
-; Anonymize a visitor's IP address before any tracking heuristics or any plugins can access the visitor's IP address;
-; This value is the number of octets in IP address to mask; if the AnonymizeIP plugin is deactivated, this value is ignored.
-; For IPv4 addresses, valid values are 0..4; for IPv6 addresses, valid values are 0..16
-ip_address_pre_mask_length = 0
-
-; Anonymize a visitor's IP address after tracking heuristics but before storing to DB;
+; Anonymize a visitor's IP address after testing for "Ip exclude"
 ; This value is the number of octets in IP address to mask; if the AnonymizeIP plugin is deactivated, this value is ignored.
 ; For IPv4 addresses, valid values are 0..4; for IPv6 addresses, valid values are 0..16
 ip_address_mask_length = 1

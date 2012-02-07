@@ -38,7 +38,6 @@ class Piwik_AnonymizeIP extends Piwik_Plugin
 	{
 		return array(
 			'Tracker.Visit.setVisitorIp' => 'setVisitorIpAddress',
-			'Tracker.saveVisitorInformation' => 'anonymizeVisitorIpAddress',
 		);
 	}
 
@@ -70,15 +69,7 @@ class Piwik_AnonymizeIP extends Piwik_Plugin
 	function setVisitorIpAddress($notification)
 	{
 		$ip =& $notification->getNotificationObject();
-		$ip = self::applyIPMask($ip, Piwik_Tracker_Config::getInstance()->Tracker['ip_address_pre_mask_length']);
+		$ip = self::applyIPMask($ip, Piwik_Tracker_Config::getInstance()->Tracker['ip_address_mask_length']);
 	}
 
-	/**
-	 * Hook on Tracker.saveVisitorInformation to anonymize visitor IP addresses
-	 */
-	function anonymizeVisitorIpAddress($notification)
-	{
-		$visitorInfo =& $notification->getNotificationObject();
-		$visitorInfo['location_ip'] = self::applyIPMask($visitorInfo['location_ip'], Piwik_Tracker_Config::getInstance()->Tracker['ip_address_mask_length']);
-	}
 }
