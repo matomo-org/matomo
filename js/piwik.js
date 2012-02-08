@@ -2529,6 +2529,8 @@ var
 				setEcommerceView: function (sku, name, category, price) {
 					if (!isDefined(category) || !category.length) {
 						category = "";
+					} else if (category instanceof Array) {
+						category = JSON2.stringify(category);
 					}
 					customVariablesPage[5] = ['_pkc', category];
 					if (isDefined(price) && String(price).length) {
