@@ -52,22 +52,13 @@ class Piwik_CustomVariables_API
 		if($dataTable instanceof Piwik_DataTable
 			&& !$_leavePiwikCoreVariables)
 		{
-			$mapping = array(
-				'_pks' => Piwik_Translate('Goals_ProductSKU'),
-				'_pkn' => Piwik_Translate('Goals_ProductName'),
-				'_pkc' => Piwik_Translate('Goals_ProductCategory'),
-				'_pkp' => 'do not display price values in UI'
-			);
-			foreach($mapping as $core => $friendly)
+			$mapping = array('_pks', '_pkn', '_pkc', '_pkp');
+			foreach($mapping as $name)
 			{
-				$row = $dataTable->getRowFromLabel($core);
+				$row = $dataTable->getRowFromLabel($name);
 				if($row)
 				{
-					$row->setColumn('label', $friendly);
-					if($core == '_pkp') 
-					{
-						$dataTable->deleteRow($dataTable->getRowIdFromLabel($core));
-					}
+					$dataTable->deleteRow($dataTable->getRowIdFromLabel($name));
 				}
 			}
 		}
