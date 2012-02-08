@@ -92,6 +92,7 @@ abstract class Test_Integration extends Test_Database_Base
 	function setUp() 
 	{
 		parent::setUp();
+		$_GET = $_REQUEST = array();
 
 		// Make sure translations are loaded to check messages in English 
     	Piwik_Translate::getInstance()->loadEnglishTranslation();
@@ -119,6 +120,7 @@ abstract class Test_Integration extends Test_Database_Base
 	function tearDown() 
 	{
 		parent::tearDown();
+		$_GET = $_REQUEST = array();
     	Piwik_Translate::getInstance()->unloadEnglishTranslation();
     	
     	// re-enable tag cloud shuffling
