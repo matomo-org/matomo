@@ -23,6 +23,9 @@ require_once PIWIK_INCLUDE_PATH . '/core/TCPDF.php';
  */
 class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 {
+	const IMAGE_GRAPH_HEIGHT = 330;
+	const IMAGE_GRAPH_WIDTH = 1150;
+
 	const MAX_ROW_COUNT = 28;
 	const TABLE_HEADER_ROW_COUNT = 6;
 	const NO_DATA_ROW_COUNT = 6;
@@ -73,6 +76,16 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 		$this->tableHeaderTextColor = preg_split("/,/", Piwik_ReportRenderer::TABLE_HEADER_TEXT_COLOR);
 		$this->tableCellBorderColor = preg_split("/,/", Piwik_ReportRenderer::TABLE_CELL_BORDER_COLOR);
 		$this->tableBackgroundColor = preg_split("/,/", Piwik_ReportRenderer::TABLE_BG_COLOR);
+	}
+
+	public function getStaticGraphHeight()
+	{
+		return self::IMAGE_GRAPH_HEIGHT;
+	}
+
+	public function getStaticGraphWidth()
+	{
+		return self::IMAGE_GRAPH_WIDTH;
 	}
 
 	public function setLocale($locale)

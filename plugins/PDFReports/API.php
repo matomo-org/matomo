@@ -337,6 +337,11 @@ class Piwik_PDFReports_API
 			}
 		}
 
+		// prepare the report renderer
+		$reportRenderer = Piwik_ReportRenderer::factory($reportFormat);
+		$reportRenderer->setLocale($language);
+		$reportRenderer->setRenderImageInline($outputType == self::OUTPUT_DOWNLOAD ? true : false);
+
 		$description = str_replace(array("\r", "\n"), ' ', $description);
 
 		// The report will be rendered with the first 23 rows and will aggregate other rows in a summary row
@@ -379,8 +384,8 @@ class Piwik_PDFReports_API
 					'&outputType='.Piwik_ImageGraph_API::GRAPH_OUTPUT_PHP.
 					'&format=original&serialize=0'.
 					'&filter_truncate='.
-					'&height='.Piwik_ReportRenderer::IMAGE_GRAPH_HEIGHT.
-					'&width='.Piwik_ReportRenderer::IMAGE_GRAPH_WIDTH
+					'&height='.$reportRenderer->getStaticGraphHeight().
+					'&width='.$reportRenderer->getStaticGraphWidth()
 				);
 
 				try {
@@ -408,10 +413,7 @@ class Piwik_PDFReports_API
 			$_GET['filter_truncate'] = $filterTruncateGET;
 		}
 
-		// Generate the report
-		$reportRenderer = Piwik_ReportRenderer::factory($reportFormat);
-		$reportRenderer->setLocale($language);
-		$reportRenderer->setRenderImageInline($outputType == self::OUTPUT_DOWNLOAD ? true : false);
+		// generate the report
 		$reportRenderer->renderFrontPage($websiteName, $prettyDate, $description, $reports );
 		array_walk($processedReports, array($reportRenderer, 'renderReport'));
 

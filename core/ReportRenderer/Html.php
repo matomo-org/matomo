@@ -17,12 +17,25 @@
  */
 class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 {
+	const IMAGE_GRAPH_HEIGHT = 200;
+	const IMAGE_GRAPH_WIDTH = 700;
+
 	const REPORT_TITLE_TEXT_SIZE = 11;
 	const REPORT_TABLE_HEADER_TEXT_SIZE = 11;
 	const REPORT_TABLE_ROW_TEXT_SIZE = 11;
 	const REPORT_BACK_TO_TOP_TEXT_SIZE = 9;
 
 	private $rendering = "";
+
+	public function getStaticGraphHeight()
+	{
+		return self::IMAGE_GRAPH_HEIGHT;
+	}
+
+	public function getStaticGraphWidth()
+	{
+		return self::IMAGE_GRAPH_WIDTH;
+	}
 
 	public function setLocale($locale)
 	{
@@ -119,8 +132,8 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 
 		if($displayGraph)
 		{
-			$smarty->assign("graphWidth", Piwik_ReportRenderer::IMAGE_GRAPH_WIDTH);
-			$smarty->assign("graphHeight", Piwik_ReportRenderer::IMAGE_GRAPH_HEIGHT);
+			$smarty->assign("graphHeight", $this->getStaticGraphHeight());
+			$smarty->assign("graphWidth", $this->getStaticGraphWidth());
 			$smarty->assign("renderImageInline", $this->renderImageInline);
 
 			if($this->renderImageInline)

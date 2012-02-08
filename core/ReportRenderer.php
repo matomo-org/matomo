@@ -19,8 +19,6 @@
  */
 abstract class Piwik_ReportRenderer
 {
-	const IMAGE_GRAPH_HEIGHT = 200;
-	const IMAGE_GRAPH_WIDTH = 700;
 	const DEFAULT_REPORT_FONT = 'dejavusans';
 	const REPORT_TEXT_COLOR = "68,68,68";
 	const REPORT_TITLE_TEXT_COLOR = "126,115,99";
@@ -116,6 +114,16 @@ abstract class Piwik_ReportRenderer
 	 * @param array $processedReport @see Piwik_API_API::getProcessedReport()
 	 */
 	abstract public function renderReport($processedReport);
+
+	/**
+	 * @param int height of the static graph drawn by the report renderer
+	 */
+	abstract public function getStaticGraphHeight();
+
+	/**
+	 * @param int width of the static graph drawn by the report renderer
+	 */
+	abstract public function getStaticGraphWidth();
 
 	/**
 	 * Append $extension to $filename
