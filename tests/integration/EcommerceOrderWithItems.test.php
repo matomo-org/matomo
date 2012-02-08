@@ -31,7 +31,7 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends Test_Integration_Fa
 		// Normal standard goal
 		return array(
 			// day tests
-			array($dayApi, array('idSite' => $this->idSite, 'date' => $this->dateTime, 'periods' => array('day'))),
+			array($dayApi, array('idSite' => $this->idSite, 'date' => $this->dateTime, 'periods' => array('day'), 'otherRequestParameters' => array('_leavePiwikCoreVariables' => 1))),
 			
 			// goals API week tests
 			array($goalWeekApi, array('idSite' => $this->idSite, 'date' => $this->dateTime, 'periods' => array('week'))),
