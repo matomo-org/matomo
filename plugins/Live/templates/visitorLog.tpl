@@ -262,6 +262,30 @@
 			$('.dataTablePrevious').hide();
 			dataTableVisitorLog.param.previous = 0;
 		}
+		
+		// Replace duplicated page views by a NX count instead of using too much vertical space
+        $("ol.visitorLog").each(function () {
+                var prevelement;
+                var prevhtml;
+                var counter = 0;
+                $(this).find("li").each(function () {
+                        counter++;
+                        $(this).val(counter);
+                        var current = $(this).html();
+                        if (current == prevhtml) {
+                                var repeat = prevelement.find(".repeat")
+                                if (repeat.length) {
+                                        repeat.html( (parseInt(repeat.html()) + 1) + "x" );
+                                } else {
+                                        prevelement.append($("<em title='{/literal}{'Live_PageRefreshed'|translate|escape:'js'}{literal}' class='repeat'>2x</em>"));
+                                }
+                                $(this).hide();
+                        } else {
+                                prevhtml = current;
+                                prevelement = $(this);
+                        }
+                });
+        });
 	});
 	{/literal}
 	</script>

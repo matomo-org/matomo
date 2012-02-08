@@ -86,3 +86,10 @@ ol.visitorLog li {
     font-size: 9pt;
     margin-right:2px;
 }
+.repeat { 
+    font-weight: bold; 
+    border: 1px solid #444444; 
+    border-radius: 3px 3px 3px 3px; 
+    padding: 2px; 
+}
+

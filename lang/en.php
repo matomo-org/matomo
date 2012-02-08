@@ -803,6 +803,7 @@ $translations = array(
 	'Live_LastMinutes' => 'Last %s minutes',
 	'Live_LastHours' => 'Last %s hours',
 	'Live_GoalType' => 'Type',
+	'Live_PageRefreshed' => 'Number of times this page was viewed / refreshed in a row.',
 	'Live_GoalTime' => '1st Conversion time',
 	'Live_KeywordRankedOnSearchResultForThisVisitor' => 'The keyword %1$s was ranked %2$s on the %3$s search result page for this visitor',
 	'Live_GoalRevenue' => 'Revenue',
