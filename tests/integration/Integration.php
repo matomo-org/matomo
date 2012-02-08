@@ -61,7 +61,7 @@ abstract class Test_Integration extends Test_Database_Base
 	/**
 	 * Determines how much of controller actions are tested (if at all).
 	 */
-	static public $widgetTestingLevel = self::CHECK_WIDGET_ERRORS;
+	static public $widgetTestingLevel = self::NO_WIDGET_TESTING;
 
 	/**
 	 * API testing level constant. If Test_Integration::$apiTestingLevel is
