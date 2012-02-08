@@ -132,7 +132,11 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
 			$ip = strlen($ip) < 10 ? "13.5.111.3" : $ip;
 
 			// Force date/ip & authenticate
-			$url .= "&cdt=" . urlencode($datetime) . "&cip=" . $ip;
+			$url .= "&cdt=" . urlencode($datetime);
+			if(strpos($url, 'cip') === false)
+			{
+				$url .= "&cip=" . $ip;
+			}
 			$url .= "&token_auth=" . Piwik::getCurrentUserTokenAuth();
 			$url = $prefix . "?" . $url;
 			
