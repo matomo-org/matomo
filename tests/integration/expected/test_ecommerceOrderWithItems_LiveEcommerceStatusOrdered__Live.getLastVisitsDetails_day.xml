@@ -23,7 +23,6 @@
 				<revenueDiscount>20</revenueDiscount>
 				<items>2</items>
 				
-				<icon>themes/default/images/ecommerceOrder.gif</icon>
 				<itemDetails>
 					<row>
 						<itemSKU>TRIPOD SKU</itemSKU>
@@ -33,6 +32,7 @@
 						<quantity>2</quantity>
 					</row>
 				</itemDetails>
+				<icon>themes/default/images/ecommerceOrder.gif</icon>
 			</row>
 			<row>
 				<type>ecommerceOrder</type>
@@ -44,6 +44,8 @@
 				<revenueDiscount>0</revenueDiscount>
 				<items>0</items>
 				
+				<itemDetails>
+				</itemDetails>
 				<icon>themes/default/images/ecommerceOrder.gif</icon>
 			</row>
 		</actionDetails>
@@ -198,7 +200,6 @@
 				<revenue>2510.11</revenue>
 				<items>4</items>
 				
-				<icon>themes/default/images/ecommerceAbandonedCart.gif</icon>
 				<itemDetails>
 					<row>
 						<itemSKU>SKU VERY nice indeed</itemSKU>
@@ -222,6 +223,7 @@
 						<quantity>2</quantity>
 					</row>
 				</itemDetails>
+				<icon>themes/default/images/ecommerceAbandonedCart.gif</icon>
 			</row>
 		</actionDetails>
 		<customVariables>

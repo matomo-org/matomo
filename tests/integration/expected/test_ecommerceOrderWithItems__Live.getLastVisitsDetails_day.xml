@@ -87,7 +87,6 @@
 				<revenue>2510.11</revenue>
 				<items>4</items>
 				
-				<icon>themes/default/images/ecommerceAbandonedCart.gif</icon>
 				<itemDetails>
 					<row>
 						<itemSKU>SKU VERY nice indeed</itemSKU>
@@ -111,6 +110,7 @@
 						<quantity>2</quantity>
 					</row>
 				</itemDetails>
+				<icon>themes/default/images/ecommerceAbandonedCart.gif</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -257,7 +257,6 @@
 				<revenueDiscount>666</revenueDiscount>
 				<items>8</items>
 				
-				<icon>themes/default/images/ecommerceOrder.gif</icon>
 				<itemDetails>
 					<row>
 						<itemSKU>SKU VERY nice indeed</itemSKU>
@@ -274,6 +273,7 @@
 						<quantity>6</quantity>
 					</row>
 				</itemDetails>
+				<icon>themes/default/images/ecommerceOrder.gif</icon>
 			</row>
 			<row>
 				<type>ecommerceOrder</type>
@@ -285,6 +285,22 @@
 				<revenueDiscount>0</revenueDiscount>
 				<items>2</items>
 				
+				<itemDetails>
+					<row>
+						<itemSKU>SKU VERY nice indeed</itemSKU>
+						<itemName>PRODUCT name</itemName>
+						<itemCategory />
+						<price>11.22</price>
+						<quantity>1</quantity>
+					</row>
+					<row>
+						<itemSKU>SKU2</itemSKU>
+						<itemName>Canon SLR</itemName>
+						<itemCategory>Electronics &amp; Cameras</itemCategory>
+						<price>1500</price>
+						<quantity>1</quantity>
+					</row>
+				</itemDetails>
 				<icon>themes/default/images/ecommerceOrder.gif</icon>
 			</row>
 			<row>
@@ -361,6 +377,29 @@
 				<revenue>2510.11</revenue>
 				<items>4</items>
 				
+				<itemDetails>
+					<row>
+						<itemSKU>SKU VERY nice indeed</itemSKU>
+						<itemName>PRODUCT THREE LEFT in cart</itemName>
+						<itemCategory>Electronics &amp; Cameras</itemCategory>
+						<price>10</price>
+						<quantity>1</quantity>
+					</row>
+					<row>
+						<itemSKU>SKU IN ABANDONED CART ONE</itemSKU>
+						<itemName>PRODUCT ONE LEFT in cart</itemName>
+						<itemCategory />
+						<price>500.11</price>
+						<quantity>1</quantity>
+					</row>
+					<row>
+						<itemSKU>SKU IN ABANDONED CART TWO</itemSKU>
+						<itemName>PRODUCT TWO LEFT in cart</itemName>
+						<itemCategory>Category TWO LEFT in cart</itemCategory>
+						<price>1000</price>
+						<quantity>2</quantity>
+					</row>
+				</itemDetails>
 				<icon>themes/default/images/ecommerceAbandonedCart.gif</icon>
 			</row>
 		</actionDetails>

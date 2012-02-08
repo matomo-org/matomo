@@ -273,6 +273,43 @@ class Piwik_Live_API
 				}
 			}
 			
+			// Enrich ecommerce carts/orders with the list of products 
+			usort($ecommerceDetails, array($this, 'sortByServerTime'));
+			foreach($ecommerceDetails as $key => &$ecommerceConversion)
+			{
+				$sql = "SELECT 
+							log_action_sku.name as itemSKU,
+							log_action_name.name as itemName,
+							log_action_category.name as itemCategory,
+							".Piwik_ArchiveProcessing_Day::getSqlRevenue('price')." as price,
+							quantity as quantity
+						FROM ".Piwik_Common::prefixTable('log_conversion_item')."
+							INNER JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action_sku
+							ON  idaction_sku = log_action_sku.idaction
+							LEFT JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action_name
+							ON  idaction_name = log_action_name.idaction
+							LEFT JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action_category
+							ON idaction_category = log_action_category.idaction
+						WHERE idvisit = ? 
+							AND idorder = ?
+							AND deleted = 0
+				";
+				$bind = array($idvisit, isset($ecommerceConversion['orderId']) 
+											? $ecommerceConversion['orderId'] 
+											: Piwik_Tracker_GoalManager::ITEM_IDORDER_ABANDONED_CART
+				);
+				
+				$itemsDetails = Piwik_FetchAll($sql, $bind);
+				foreach($itemsDetails as &$detail)
+				{
+					if($detail['price'] == round($detail['price']))
+					{
+						$detail['price'] = round($detail['price']);
+					}
+				}
+				$ecommerceConversion['itemDetails'] = $itemsDetails;
+			}
+			
 			$actions = array_merge($actionDetails, $goalDetails, $ecommerceDetails);
 			
 			usort($actions, array($this, 'sortByServerTime'));
@@ -307,41 +344,6 @@ class Piwik_Live_API
 				$details['serverTimePretty'] = $dateTimeVisit->getLocalized(Piwik_Translate('CoreHome_ShortDateFormat') .' %time%'); 
 			}
 			$visitorDetailsArray['goalConversions'] = count($goalDetails);
-			
-			// Enrich ecommerce carts/orders with the list of products 
-			usort($ecommerceDetails, array($this, 'sortByServerTime'));
-			foreach($ecommerceDetails as $key => &$ecommerceConversion)
-			{
-				$sql = "SELECT 
-							log_action_sku.name as itemSKU,
-							log_action_name.name as itemName,
-							log_action_category.name as itemCategory,
-							".Piwik_ArchiveProcessing_Day::getSqlRevenue('price')." as price,
-							quantity as quantity
-						FROM ".Piwik_Common::prefixTable('log_conversion_item')."
-							INNER JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action_sku
-							ON  idaction_sku = log_action_sku.idaction
-							LEFT JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action_name
-							ON  idaction_name = log_action_name.idaction
-							LEFT JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action_category
-							ON idaction_category = log_action_category.idaction
-						WHERE idvisit = ? 
-							AND idorder = ?
-							AND deleted = 0
-				";
-				$bind = array($idvisit, isset($ecommerceConversion['orderId']) ? $ecommerceConversion['orderId'] : Piwik_Tracker_GoalManager::ITEM_IDORDER_ABANDONED_CART);
-				
-				$itemsDetails = Piwik_FetchAll($sql, $bind);
-			
-				foreach($itemsDetails as &$detail)
-				{
-					if($detail['price'] == round($detail['price']))
-					{
-						$detail['price'] = round($detail['price']);
-					}
-				}
-				$ecommerceConversion['itemDetails'] = $itemsDetails;
-			}
 			
 			$table->addRowFromArray( array(Piwik_DataTable_Row::COLUMNS => $visitorDetailsArray));
 		}
