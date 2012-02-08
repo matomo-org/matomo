@@ -42,6 +42,15 @@ class Piwik_TCPDF extends TCPDF
 	}
 
 	/**
+	 * @see TCPDF::Error()
+	 */
+	function Error($msg) 
+	{
+		$this->_destroy(true);
+		throw new Exception($msg);
+	}
+	
+	/**
 	 * Set current page number
 	 */
 	function setCurrentPageNo()

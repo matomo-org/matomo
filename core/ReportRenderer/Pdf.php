@@ -340,7 +340,11 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 						if ($logoHeight < 16) {
 							$topMargin = 2;
 						}
-						$this->TCPDF->Image(Piwik_Common::getPathToPiwikRoot() . "/" . $rowMetadata['logo'], $posX + ($leftMargin = 2), $posY + $topMargin, $logoWidth / 4);
+						$path = Piwik_Common::getPathToPiwikRoot() . "/" . $rowMetadata['logo'];
+						if(file_exists($path))
+						{
+							$this->TCPDF->Image($path, $posX + ($leftMargin = 2), $posY + $topMargin, $logoWidth / 4);
+						}
 						$this->TCPDF->SetXY($restoreX, $restoreY);
 					}
 				}
