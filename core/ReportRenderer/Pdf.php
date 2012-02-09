@@ -23,7 +23,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/TCPDF.php';
  */
 class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 {
-	const IMAGE_GRAPH_WIDTH_LANDSCAPE = 1150;
+	const IMAGE_GRAPH_WIDTH_LANDSCAPE = 1050;
 	const IMAGE_GRAPH_HEIGHT_LANDSCAPE = 330;
 	const IMAGE_GRAPH_WIDTH_PORTRAIT = 760;
 	const IMAGE_GRAPH_HEIGHT_PORTRAIT = 220;
