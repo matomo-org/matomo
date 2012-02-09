@@ -374,36 +374,9 @@ class Piwik_PDFReports_API
 										 $aggregateReportsFormat == Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_GRAPHS ||
 										 $aggregateReportsFormat == Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_TABLES_GRAPHS )
 										 && Piwik::isGdExtensionEnabled()
-										 && Piwik_PluginsManager::getInstance()->isPluginActivated('ImageGraph');
+										 && Piwik_PluginsManager::getInstance()->isPluginActivated('ImageGraph')
+										 && !empty($reportMetadata['imageGraphUrl']);
 
-			if ($report['displayGraph']
-				&& !empty($reportMetadata['imageGraphUrl']))
-			{
-				$request = new Piwik_API_Request(
-					$reportMetadata['imageGraphUrl'] .
-					'&outputType='.Piwik_ImageGraph_API::GRAPH_OUTPUT_PHP.
-					'&format=original&serialize=0'.
-					'&filter_truncate='.
-					'&height='.$reportRenderer->getStaticGraphHeight().
-					'&width='.$reportRenderer->getStaticGraphWidth()
-				);
-
-				try {
-					$imageGraph = $request->process();
-
-					// Get image data as string
-					ob_start();
-					imagepng($imageGraph);
-					$imageGraphData = ob_get_contents();
-					ob_end_clean();
-					imagedestroy($imageGraph);
-
-					$report['generatedImageGraph'] = $imageGraphData;
-
-				} catch(Exception $e) {
-					throw new Exception("ImageGraph API returned an error: ".$e->getMessage()."\n");
-				}
-			}
 			$processedReports[] = $report;
 		}
 
@@ -432,7 +405,12 @@ class Piwik_PDFReports_API
 							$additionalFile = array();
 							$additionalFile['filename'] = $report['metadata']['name'].'.png';
 							$additionalFile['cid'] = $report['metadata']['uniqueId'];
-							$additionalFile['content'] = $report['generatedImageGraph'];
+							$additionalFile['content'] =
+									Piwik_ReportRenderer::getStaticGraph(
+										$report['metadata']['imageGraphUrl'],
+										Piwik_ReportRenderer_Html::IMAGE_GRAPH_WIDTH,
+										Piwik_ReportRenderer_Html::IMAGE_GRAPH_HEIGHT
+									);
 							$additionalFile['mimeType'] = 'image/png';
 							$additionalFile['encoding'] = Zend_Mime::ENCODING_BASE64;
 

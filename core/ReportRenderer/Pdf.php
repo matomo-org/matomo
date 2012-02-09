@@ -23,8 +23,13 @@ require_once PIWIK_INCLUDE_PATH . '/core/TCPDF.php';
  */
 class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 {
-	const IMAGE_GRAPH_HEIGHT = 330;
-	const IMAGE_GRAPH_WIDTH = 1150;
+	const IMAGE_GRAPH_WIDTH_LANDSCAPE = 1150;
+	const IMAGE_GRAPH_HEIGHT_LANDSCAPE = 330;
+	const IMAGE_GRAPH_WIDTH_PORTRAIT = 760;
+	const IMAGE_GRAPH_HEIGHT_PORTRAIT = 220;
+
+	const LANDSCAPE = 'L';
+	const PORTRAIT = 'P';
 
 	const MAX_ROW_COUNT = 28;
 	const TABLE_HEADER_ROW_COUNT = 6;
@@ -65,7 +70,7 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 	private $currentPage = 0;
 	private $reportFont = Piwik_ReportRenderer::DEFAULT_REPORT_FONT;
 	private $TCPDF;
-	private $orientation = 'P';
+	private $orientation = self::PORTRAIT;
 
 	public function __construct()
 	{
@@ -76,16 +81,6 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 		$this->tableHeaderTextColor = preg_split("/,/", Piwik_ReportRenderer::TABLE_HEADER_TEXT_COLOR);
 		$this->tableCellBorderColor = preg_split("/,/", Piwik_ReportRenderer::TABLE_CELL_BORDER_COLOR);
 		$this->tableBackgroundColor = preg_split("/,/", Piwik_ReportRenderer::TABLE_BG_COLOR);
-	}
-
-	public function getStaticGraphHeight()
-	{
-		return self::IMAGE_GRAPH_HEIGHT;
-	}
-
-	public function getStaticGraphWidth()
-	{
-		return self::IMAGE_GRAPH_WIDTH;
 	}
 
 	public function setLocale($locale)
@@ -144,7 +139,7 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 
 		$this->TCPDF->setPrintHeader(false);
 		//		$this->SetMargins($left = , $top, $right=-1, $keepmargins=true)
-		$this->TCPDF->AddPage('P');
+		$this->TCPDF->AddPage(self::PORTRAIT);
 		$this->TCPDF->AddFont($this->reportFont, '', '', false);
 		$this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize);
 		//Image($file, $x='', $y='', $w=0, $h=0, $type='', $link='', $align='', $resize=false, $dpi=300, $palign='', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false) {
@@ -223,12 +218,12 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 			if ($tableOnlyManyColumnReport)
 			{
 				$tableOnlyManyColumnReportRowCount = 0;
-				$this->orientation = 'L';
+				$this->orientation = self::LANDSCAPE;
 			}
 			else
 			{
 				// Graph-only reports are always portrait
-				$this->orientation = $graphOnlyReport ? 'P' : ($columnCount > $this->maxColumnCountPortraitOrientation ? 'L' : 'P');
+				$this->orientation = $graphOnlyReport ? self::PORTRAIT : ($columnCount > $this->maxColumnCountPortraitOrientation ? self::LANDSCAPE : self::PORTRAIT);
 			}
 			
 			$this->TCPDF->setPageOrientation($this->orientation, '', $this->bottomMargin);
@@ -275,7 +270,7 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 
 		if($this->displayGraph)
 		{
-			$this->paintGraph($processedReport['generatedImageGraph']);
+			$this->paintGraph();
 		}
 
 		if($this->displayGraph && $this->displayTable)
@@ -383,8 +378,20 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 			$fill = !$fill;
 		}
 	}
-	private function paintGraph($imageGraph)
+	private function paintGraph()
 	{
+
+		if($this->orientation == self::PORTRAIT) {
+			$imageWidth = self::IMAGE_GRAPH_WIDTH_PORTRAIT;
+			$imageHeight = self::IMAGE_GRAPH_HEIGHT_PORTRAIT;
+		} else {
+			$imageWidth = self::IMAGE_GRAPH_WIDTH_LANDSCAPE;
+			$imageHeight = self::IMAGE_GRAPH_HEIGHT_LANDSCAPE;
+		}
+
+		$imageGraphUrl = $this->reportMetadata['imageGraphUrl'];
+		$imageGraph = parent::getStaticGraph($imageGraphUrl, $imageWidth, $imageHeight);
+
 		$this->TCPDF->Image(
 			'@'.$imageGraph,
 			$x = '',
@@ -428,11 +435,11 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 
 		$columnsCount = count($this->reportColumns);
 		// Computes available column width
-		if ($this->orientation == 'P'
+		if ($this->orientation == self::PORTRAIT
 			&& $columnsCount <= 3) {
 			$totalWidth = $this->reportWidthPortrait * 2 / 3;
 		}
-		else if ($this->orientation == 'L') {
+		else if ($this->orientation == self::LANDSCAPE) {
 			$totalWidth = $this->reportWidthLandscape;
 		}
 		else

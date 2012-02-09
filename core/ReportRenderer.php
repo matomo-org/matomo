@@ -116,16 +116,6 @@ abstract class Piwik_ReportRenderer
 	abstract public function renderReport($processedReport);
 
 	/**
-	 * @param int height of the static graph drawn by the report renderer
-	 */
-	abstract public function getStaticGraphHeight();
-
-	/**
-	 * @param int width of the static graph drawn by the report renderer
-	 */
-	abstract public function getStaticGraphWidth();
-
-	/**
 	 * Append $extension to $filename
 	 *
 	 * @static
@@ -191,5 +181,33 @@ abstract class Piwik_ReportRenderer
 			$finalReport,
 			$reportColumns,
 		);
+	}
+
+	public static function getStaticGraph($imageGraphUrl, $width, $height) {
+
+		$request = new Piwik_API_Request(
+			$imageGraphUrl .
+			'&outputType='.Piwik_ImageGraph_API::GRAPH_OUTPUT_PHP.
+			'&format=original&serialize=0'.
+			'&filter_truncate='.
+			'&width='.$width.
+			'&height='.$height
+		);
+
+		try {
+			$imageGraph = $request->process();
+
+			// Get image data as string
+			ob_start();
+			imagepng($imageGraph);
+			$imageGraphData = ob_get_contents();
+			ob_end_clean();
+			imagedestroy($imageGraph);
+
+			return $imageGraphData;
+
+		} catch(Exception $e) {
+			throw new Exception("ImageGraph API returned an error: ".$e->getMessage()."\n");
+		}
 	}
 }

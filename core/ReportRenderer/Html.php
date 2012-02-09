@@ -17,8 +17,8 @@
  */
 class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 {
-	const IMAGE_GRAPH_HEIGHT = 200;
 	const IMAGE_GRAPH_WIDTH = 700;
+	const IMAGE_GRAPH_HEIGHT = 200;
 
 	const REPORT_TITLE_TEXT_SIZE = 11;
 	const REPORT_TABLE_HEADER_TEXT_SIZE = 11;
@@ -26,16 +26,6 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 	const REPORT_BACK_TO_TOP_TEXT_SIZE = 9;
 
 	private $rendering = "";
-
-	public function getStaticGraphHeight()
-	{
-		return self::IMAGE_GRAPH_HEIGHT;
-	}
-
-	public function getStaticGraphWidth()
-	{
-		return self::IMAGE_GRAPH_WIDTH;
-	}
 
 	public function setLocale($locale)
 	{
@@ -132,14 +122,15 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 
 		if($displayGraph)
 		{
-			$smarty->assign("graphHeight", $this->getStaticGraphHeight());
-			$smarty->assign("graphWidth", $this->getStaticGraphWidth());
+			$smarty->assign("graphWidth", self::IMAGE_GRAPH_WIDTH);
+			$smarty->assign("graphHeight", self::IMAGE_GRAPH_HEIGHT);
 			$smarty->assign("renderImageInline", $this->renderImageInline);
 
 			if($this->renderImageInline)
 			{
-				$generatedImageGraph = $processedReport['generatedImageGraph'];
-				$smarty->assign("generatedImageGraph", base64_encode($generatedImageGraph));
+				$imageGraphUrl = $reportMetadata['imageGraphUrl'];
+				$staticGraph = parent::getStaticGraph($imageGraphUrl, self::IMAGE_GRAPH_WIDTH, self::IMAGE_GRAPH_HEIGHT);
+				$smarty->assign("generatedImageGraph", base64_encode($staticGraph));
 				unset($generatedImageGraph);
 			}
 		}
