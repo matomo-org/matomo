@@ -271,6 +271,7 @@ class Piwik_Tracker_GoalManager
 			
 		// Attributing the correct Referrer to this conversion. 
 		// Priority order is as follows:
+		// 0) In some cases, the campaign is not passed from the JS so we look it up from the current visit
 		// 1) Campaign name/kwd parsed in the JS
 		// 2) Referrer URL stored in the _ref cookie
 		// 3) If no info from the cookie, attribute to the current visit referrer
@@ -281,8 +282,17 @@ class Piwik_Tracker_GoalManager
         $keyword = $visitorInformation['referer_keyword'];
         $time = $visitorInformation['visit_first_action_time'];
         
+        // 0) In some (unknown!?) cases the campaign is not found in the attribution cookie 
+		//    so we look up if the current visit is credited to a campaign and will credit this campaign
+		if(empty($refererCampaignName)
+			&& $type == Piwik_Common::REFERER_TYPE_CAMPAIGN
+			&& !empty($name)
+		)
+		{
+			// Use default values per above
+		}
         // 1) Campaigns from 1st party cookie
-		if(!empty($referrerCampaignName))
+		elseif(!empty($referrerCampaignName))
 		{
 			$type = Piwik_Common::REFERER_TYPE_CAMPAIGN;
 			$name = $referrerCampaignName;

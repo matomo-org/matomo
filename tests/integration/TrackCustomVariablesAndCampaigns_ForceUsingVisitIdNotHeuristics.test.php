@@ -18,7 +18,7 @@ class Test_Piwik_Integration_TrackCustomVariablesAndCampaigns_ForceUsingVisitIdN
 
 	public function getApiToTest()
 	{
-		$apiToCall = array('VisitsSummary.get', 'Referers.getCampaigns');
+		$apiToCall = array('VisitsSummary.get', 'Referers.getCampaigns', 'Referers.getWebsites');
 
 		return array(
 	        // TOTAL should be: 1 visit, 1 converted goal, 1 page view
@@ -89,6 +89,15 @@ class Test_Piwik_Integration_TrackCustomVariablesAndCampaigns_ForceUsingVisitIdN
         // And Record a Goal: The previous visit should be updated rather than a new visit Created 
         $t2->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.3)->getDatetime());
         $this->checkResponse($t2->doTrackGoal($idGoal, $revenue = 42.256));
+        
+        // Yet another visitor, this time with a manual goal conversion, which should be credited to the campaign
+        $t3 = $this->getTracker($idSite, $dateTime);
+        $t3->setUrlReferrer('http://example.org/referrer');
+        $t3->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1.3)->getDatetime());
+        // fake a website ref cookie, the campaign should be credited for conversion, not referrer.example.com nor example.org 
+        $t3->DEBUG_APPEND_URL = '&_ref=http%3A%2F%2Freferrer.example.com%2Fpage%2Fsub%3Fquery%3Dtest%26test2%3Dtest3';
+        $t3->setUrl( 'http://example.org/index.htm?pk_campaign=CREDITED TO GOAL PLEASE' );
+        $this->checkResponse($t3->doTrackGoal($idGoal, 42));
 	}
 }
 
