@@ -571,6 +571,8 @@ dataTable.prototype =
 						+'&period='+period
 						+'&date='+param_date
 						+'&token_auth='+piwik.token_auth
+						+ ( typeof self.param.filter_pattern != "undefined" ? '&filter_pattern=' + self.param.filter_pattern : '')
+						+ ( typeof self.param.filter_pattern_recursive != "undefined" ? '&filter_pattern_recursive=' + self.param.filter_pattern_recursive : '')
 						+'&expanded=1';
 				if (format == 'CSV' || format == 'TSV') {
 					str += '&includeInnerNodes=1';
@@ -594,6 +596,7 @@ dataTable.prototype =
 				{
 					str += '&label='+encodeURIComponent(label);
 				}
+				console.log(str);
 				return str;
 			}
 		);
@@ -1085,11 +1088,9 @@ actionDataTable.prototype =
 		// including recursively all the subtables
 		if(!self.param.filter_pattern_recursive)
 		{
-			$('tr.subActionsDataTable.rowToProcess')
-				.click( function()
-				{
+			$('tr.subActionsDataTable.rowToProcess').click( function() {
 					self.onClickActionSubDataTable(this)
-				});
+			});
 		}
 		
 		self.applyCosmetics(domElem);

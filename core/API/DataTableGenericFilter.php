@@ -44,11 +44,11 @@ class Piwik_API_DataTableGenericFilter
 	
 		$genericFilters = array(
 			'Pattern' => array(
-								'filter_column' 			=> array('string'), 
+								'filter_column' 			=> array('string', 'label'), 
 								'filter_pattern' 			=> array('string'),
 						),
 			'PatternRecursive' => array(
-								'filter_column_recursive' 	=> array('string'), 
+								'filter_column_recursive' 	=> array('string', 'label'), 
 								'filter_pattern_recursive' 	=> array('string'),
 						),
 			'ExcludeLowPopulation'	=> array(
