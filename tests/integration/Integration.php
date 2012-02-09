@@ -558,7 +558,6 @@ abstract class Test_Integration extends Test_Database_Base
 		}
 		
 		Zend_Registry::get('config')->General->time_before_today_archive_considered_outdated = 10;
-		
 		$requestUrls = $this->generateUrlsApi($parametersToSet, $formats, $periods, $setDateLastN, $language, $segment);
     	
     	foreach($requestUrls as $apiId => $requestUrl)
