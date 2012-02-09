@@ -38,7 +38,10 @@ class Piwik_Feedback_Controller extends Piwik_Controller
 		try
 		{
 			$minimumBodyLength = 40;
-			if(strlen($body) < $minimumBodyLength)
+			if(strlen($body) < $minimumBodyLength
+				// Avoid those really annoying automated security test emails
+				|| strpos($email, 'probe@') !== false
+				|| strpos($body, '&lt;probe') !== false)
 			{
 				throw new Exception(Piwik_TranslateException('Feedback_ExceptionBodyLength', array($minimumBodyLength)));
 			}
