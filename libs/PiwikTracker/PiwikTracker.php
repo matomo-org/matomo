@@ -505,9 +505,7 @@ class PiwikTracker
     public function getUrlTrackAction($actionUrl, $actionType)
     {
     	$url = $this->getRequest( $this->idSite );
-		$url .= '&'.$actionType.'=' . $actionUrl .
-				'&redirect=0';
-		
+		$url .= '&'.$actionType.'=' . $actionUrl;
     	return $url;
     }
 
