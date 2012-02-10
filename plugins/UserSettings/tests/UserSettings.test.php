@@ -73,6 +73,9 @@ class Test_Piwik_UserSettings extends UnitTestCase
 			array('CH', 'Chrome', 'Chrome', '11.0', '11', '0', 'webkit'),
 			array('AND', 'Android', 'Android')),
 */
+		'Mozilla/5.0 (Linux; U; Android 4.0.1; en-us; Galaxy Nexus Build/ITL41F) AppleWebKit/535.7 (KHTML, like Gecko) CrMo/16.0.912.75 Mobile Safari/535.7' => array(
+			array('CH', 'Chrome', 'Chrome', '16.0', '16', '0', 'webkit'),
+			array('AND', 'Android', 'Android')),
 
 		// AOL / America Online Browser (treat as IE)
 		'Mozilla/4.0 (compatible; MSIE 7.0; AOL 9.5; AOLBuild 4337.43; Windows NT 5.1; .NET CLR 1.1.4322)' => array(

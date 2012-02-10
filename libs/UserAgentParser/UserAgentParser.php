@@ -85,6 +85,7 @@ class UserAgentParser
 			'cheshire'						=> 'CS',
 
 			// Chrome, Chromium, and ChromePlus
+			'crmo'							=> 'CH',
 			'chrome'						=> 'CH',
 
 			'cometbird'						=> 'CO',
