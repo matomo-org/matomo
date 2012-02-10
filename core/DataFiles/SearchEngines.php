@@ -132,6 +132,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.aolimages.aol.fr'		=> array('AOL'),
 		'aim.search.aol.com'		=> array('AOL'),
 		'www.recherche.aol.fr'		=> array('AOL'),
+		'recherche.aol.fr'			=> array('AOL'),
 		'find.web.aol.com'			=> array('AOL'),
 		'recherche.aol.ca'			=> array('AOL'),
 		'aolsearch.aol.co.uk'		=> array('AOL'),
