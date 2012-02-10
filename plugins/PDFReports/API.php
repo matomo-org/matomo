@@ -506,7 +506,9 @@ class Piwik_PDFReports_API
 
 		$mail = new Piwik_Mail();
 		$mail->setSubject($subject);
-		$fromEmailName = Piwik_Translate('PDFReports_PiwikReports');
+		$fromEmailName = Zend_Registry::get('config')->branding->use_custom_logo 
+							? Piwik_Translate('CoreHome_WebAnalyticsReports')
+							: Piwik_Translate('PDFReports_PiwikReports');
 		$fromEmailAddress = Zend_Registry::get('config')->General->noreply_email_address;
 		$attachmentName = $subject;
 		$mail->setFrom($fromEmailAddress, $fromEmailName);
