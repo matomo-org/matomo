@@ -25,7 +25,7 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends Test_Integration_Facade
 	public function getApiToTest()
 	{
 		return array(
-			array('all', array('idSite' => $this->idSite, 'date' => $this->dateTime))
+			array('all', array('idSite' => $this->idSite, 'date' => $this->dateTime)),
 		);
 	}
 
@@ -87,12 +87,16 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends Test_Integration_Facade
 		// Create Goal 1: Triggered by JS, after 18 minutes
 		$idGoal = Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');
 		$t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.3)->getDatetime());
+		
+		// Change to Thai  browser to ensure the conversion is credited to FR instead (the visitor initial country)
+		$t->setBrowserLanguage('th'); 
 		$this->checkResponse($t->doTrackGoal($idGoal, $revenue = 42));
 		
 		// Track same Goal twice (after 24 minutes), should only be tracked once
 		$t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.4)->getDatetime());
 		$this->checkResponse($t->doTrackGoal($idGoal, $revenue = 42));
 		
+		$t->setBrowserLanguage('fr'); 
 		// Final page view (after 27 min)
 		$t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.45)->getDatetime());
 		$t->setUrl( 'http://example.org/index.htm' );
@@ -116,5 +120,6 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends Test_Integration_Facade
 		$this->checkResponse($t->doTrackPageView( 'Checkout/Purchasing...'));
 		// -
 		// End of second visit
+		
 	}
 }
