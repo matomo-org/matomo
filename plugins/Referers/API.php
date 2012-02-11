@@ -73,6 +73,7 @@ class Piwik_Referers_API
 		// Fetch the Top keywords for this page
 		$segment = 'entryPageUrl=='.$url;
 		$table = $this->getKeywords($idSite, $period, $date, $segment);
+		$this->filterOutKeywordNotDefined($table);
 		return $this->getLabelsFromTable($table);
 
 	}
@@ -81,7 +82,23 @@ class Piwik_Referers_API
 	{
 		$segment = 'entryPageTitle=='.$title;
 		$table = $this->getKeywords($idSite, $period, $date, $segment);
+		$this->filterOutKeywordNotDefined($table);
 		return $this->getLabelsFromTable($table);
+	}
+	
+	/**
+	 * @param Piwik_Datatable $table
+	 */
+	private function filterOutKeywordNotDefined($table)
+	{
+		if($table instanceof Piwik_Datatable)
+		{
+			$row = $table->getRowIdFromLabel('');
+			if($row)
+			{
+				$table->deleteRow($row);	
+			}
+		} 
 	}
 	
 	protected function getLabelsFromTable($table)
