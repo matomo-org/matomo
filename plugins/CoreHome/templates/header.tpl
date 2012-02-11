@@ -16,8 +16,10 @@
 <!--[if IE]>
 <link rel="stylesheet" type="text/css" href="themes/default/ieonly.css" />
 <![endif]-->
+{include file="CoreHome/templates/iframe_buster_header.tpl"}
 </head>
 <body>
+{include file="CoreHome/templates/iframe_buster_body.tpl"}
 <div id="root">{if !isset($showTopMenu) || $showTopMenu}
 {include file="CoreHome/templates/top_bar.tpl"}
 {/if}

@@ -8,11 +8,8 @@
 	<link rel="stylesheet" type="text/css" href="plugins/Login/templates/login.css" />
 	<meta name="description" content="{'General_OpenSourceWebAnalytics'|translate|escape}" />
 	
-{if isset($enableFrames) && !$enableFrames}
-{literal}
-	<style type="text/css">body { display : none; }</style>
-{/literal}
-{/if}
+
+
 {if isset($forceSslLogin) && $forceSslLogin}
 {literal}
 	<script type="text/javascript">
@@ -40,20 +37,10 @@
 {if 'General_LayoutDirection'|translate =='rtl'}
 <link rel="stylesheet" type="text/css" href="themes/default/rtl.css" />
 {/if}
+{include file="CoreHome/templates/iframe_buster_header.tpl"}
 </head>
 <body class="login">
-{if isset($enableFrames) && !$enableFrames}
-{literal}
-	<script type="text/javascript">
-		if(self == top) {
-			var theBody = document.getElementsByTagName('body')[0];
-			theBody.style.display = 'block';
-		} else {
-			top.location = self.location;
-		}
-	</script>
-{/literal}
-{/if}
+{include file="CoreHome/templates/iframe_buster_body.tpl"}
 {include file="default/ie6.tpl"}
 	<div id="logo">
 	{if !$isCustomLogo}<a href="http://piwik.org" alt="Piwik" title="{$linkTitle}">{/if}
