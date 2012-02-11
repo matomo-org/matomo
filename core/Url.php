@@ -313,7 +313,14 @@ class Piwik_Url
 	 */
 	static public function redirectToUrl( $url )
 	{
-		@header("Location: $url");
+		if(Piwik_Common::isLookLikeUrl($url))
+		{
+			@header("Location: $url");
+		}
+		else
+		{
+			echo "Invalid URL to redirect to.";
+		}
 		exit;
 	}
 
