@@ -60,6 +60,7 @@ if(!isset($GLOBALS['Piwik_LanguageToCountry']))
 			'sr' => 'rs',	// Serbian    => Serbia
 			'sv' => 'se',	// Swedish    => Sweden
 			'th' => 'th',	// Thai       => Thailand
+			'bo' => 'ti',	// Tibetan    => Tibet
 			'tr' => 'tr',	// Turkish    => Turkey
 			'uk' => 'ua',	// Ukrainian  => Ukraine
 		);
