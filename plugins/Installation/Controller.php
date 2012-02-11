@@ -177,7 +177,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 				'adapter'       => $adapter,
 				'port'          => $port,
 			);
-
 			if(($portIndex = strpos($dbInfos['host'], '/')) !== false)
 			{
 				// unix_socket=/path/sock.n
@@ -219,7 +218,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 				$this->session->db_infos = $dbInfos;
 				$this->redirectToNextStep( __FUNCTION__ );
 			} catch(Exception $e) {
-				$view->errorMessage = $e->getMessage();
+				$view->errorMessage = Piwik_Common::sanitizeInputValue($e->getMessage());
 			}
 		}
 		$view->addForm($form);
