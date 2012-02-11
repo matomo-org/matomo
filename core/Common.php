@@ -401,6 +401,8 @@ class Piwik_Common
 				$name = $value;
 				$value = false;
 			}
+			$name = Piwik_Common::sanitizeInputValue($name);
+			$value = Piwik_Common::sanitizeInputValue($value);
 
 			// if array without indexes
 			$count = 0;
