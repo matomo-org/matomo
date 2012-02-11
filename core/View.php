@@ -35,7 +35,6 @@ class Piwik_View implements Piwik_View_Interface
 	private $variables = array();
 	private $contentType = 'text/html; charset=utf-8';
 	private $xFrameOptions = null;
-	public $piwikUrl = false;
 	
 	public function __construct( $templateFile, $smConf = array(), $filter = true )
 	{
@@ -43,9 +42,9 @@ class Piwik_View implements Piwik_View_Interface
 		$this->smarty = new Piwik_Smarty($smConf, $filter);
 
 		// global value accessible to all templates: the piwik base URL for the current request
-		$this->piwikUrl = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
 		$this->piwik_version = Piwik_Version::VERSION;
 		$this->cacheBuster = md5(Piwik_Common::getSalt() . PHP_VERSION . Piwik_Version::VERSION);
+		$this->piwikUrl = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
 	}
 	
 	/**
