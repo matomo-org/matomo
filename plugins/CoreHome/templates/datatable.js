@@ -545,7 +545,14 @@ dataTable.prototype =
 		});
 		
 		
-		$('.exportToFormatItems a', domElem).attr( 'href', function(){
+		$('.exportToFormatItems a', domElem)
+			// prevent click jacking attacks by dynamically adding the token auth when the link is clicked
+			.click( function() {
+				$(this).attr('href', function() { 
+					return $(this).attr('href') +'&token_auth='+piwik.token_auth;
+				})
+			})
+			.attr( 'href', function(){
 				var format = $(this).attr('format');
 				var method = $(this).attr('methodToCall');
 				var filter_limit = $(this).attr('filter_limit');
@@ -570,7 +577,6 @@ dataTable.prototype =
 						+'&idSite='+self.param.idSite
 						+'&period='+period
 						+'&date='+param_date
-						+'&token_auth='+piwik.token_auth
 						+ ( typeof self.param.filter_pattern != "undefined" ? '&filter_pattern=' + self.param.filter_pattern : '')
 						+ ( typeof self.param.filter_pattern_recursive != "undefined" ? '&filter_pattern_recursive=' + self.param.filter_pattern_recursive : '')
 						+'&expanded=1';
@@ -596,7 +602,6 @@ dataTable.prototype =
 				{
 					str += '&label='+encodeURIComponent(label);
 				}
-				console.log(str);
 				return str;
 			}
 		);
