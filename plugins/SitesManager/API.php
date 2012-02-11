@@ -1076,6 +1076,7 @@ class Piwik_SitesManager_API
 			{
 				$url = 'http://'.$url;
 			}
+			$url = Piwik_Common::sanitizeInputValue($url);
 		}
 		$urls = array_unique($urls);
 		return $urls;
