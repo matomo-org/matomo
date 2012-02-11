@@ -241,6 +241,7 @@ if(!isset($GLOBALS['Piwik_CountryList']))
 		'tf' => 'ant',
 		'tg' => 'afr',
 		'th' => 'asi',
+		'ti' => 'asi',
 		'tj' => 'asi',
 		'tk' => 'oce',
 		'tl' => 'asi',
