@@ -135,7 +135,7 @@ class Piwik_Site
 		foreach($ids as $id)
 		{
 			$id = trim($id);
-			if(!empty($id) && is_numeric($id))
+			if(!empty($id) && is_numeric($id) && $id > 0)
 			{
 			    $validIds[] = $id;
 			}
