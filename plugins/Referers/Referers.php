@@ -165,7 +165,7 @@ class Piwik_Referers extends Piwik_Plugin
 		Piwik_AddWidget( 'Referers_Referers', 'Referers_WidgetOverview', 'Referers', 'getRefererType');
 		if(Piwik_Archive::isSegmentationEnabled())
 		{
-    		Piwik_AddWidget( 'Referers_Referers', 'Top Keywords for Page URL', 'Referers', 'getKeywordsForPage');
+    		Piwik_AddWidget( 'SEO', 'Top Keywords for Page URL', 'Referers', 'getKeywordsForPage');
 		}
 	}
 	
