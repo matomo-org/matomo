@@ -29,7 +29,6 @@
 	<script type="text/javascript">
     {if !$show_autocompleter}{literal}
     $('.custom_select_search').hide();
-    $('.custom_select_all').hide();
     {/literal}{/if}
 	{literal}
     if($('.custom_select_ul_list li').length > 1) {
