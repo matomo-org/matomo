@@ -213,6 +213,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'bing.com'					=> array('Bing', array('q', 'Q'), 'search?q={k}'),
 		'{}.bing.com'				=> array('Bing'),
 		'msnbc.msn.com'				=> array('Bing'),
+		'dizionario.it.msn.com'		=> array('Bing'),
 
 		// Bing Cache
 		'cc.bingj.com'				=> array('Bing'),
