@@ -73,7 +73,13 @@ class Piwik_Log_Message_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Sc
     	}
     	$message .= "\n";
     	
-    	$message = '['. $event['timestamp'] . '] ['.$event['requestKey'].'] ['.Piwik::getMemoryUsage(). '] ' .$message;
+    	$memory = '';
+    	// Hacky: let's hide the memory usage in CLI to hide from the archive.php output
+    	if(!Piwik_Common::isPhpCliMode())
+    	{
+    		$memory = '['.Piwik::getMemoryUsage(). '] ';
+    	}
+    	$message = '['. $event['timestamp'] . '] ['.$event['requestKey'].'] ' .$memory.$message;
     	return parent::format($message);
     }
 }
