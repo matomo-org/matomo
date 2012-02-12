@@ -484,6 +484,7 @@ class Test_Piwik_SitesManager extends Test_Database
     	$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
     	$this->assertEqual($sites, array());
     }
+
     
     /**
      * normal case, admin and view and noaccess website => return only admin
@@ -913,4 +914,17 @@ class Test_Piwik_SitesManager extends Test_Database
 
 		Zend_Registry::set('access', $saveAccess);
 	}
+	
+	
+    function test_getSitesFromTimezones()
+    {
+    	$idsite1 = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"),null,null,null,'UTC');
+    	$idsite2 = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"),null,null,null,'Pacific/Auckland');
+    	$idsite3 = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"),null,null,null,'Pacific/Auckland');
+    	$idsite4 = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"),null,null,null,'UTC+10');
+    	$result = Piwik_SitesManager_API::getInstance()->getSitesIdFromTimezones(array('UTC+10', 'Pacific/Auckland'));
+    	$this->assertEqual($result, array($idsite2,$idsite3,$idsite4));
+    	
+    }
+    
 }

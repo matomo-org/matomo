@@ -381,6 +381,31 @@ class Piwik_SitesManager_API
 
 		return $ids;
 	}
+	
+	/**
+	 * Returns all websites with a timezone matching one the specified timezones
+	 *  
+	 * @param array $timezones
+	 * @ignore
+	 */
+	public function getSitesIdFromTimezones( $timezones )
+	{
+		Piwik::checkUserIsSuperUser();
+		$timezones = Piwik::getArrayFromApiParameter($timezones);
+		$timezones = array_unique($timezones);
+		$ids = Zend_Registry::get('db')->fetchAll(
+					'SELECT idsite 
+					FROM ' . Piwik_Common::prefixTable('site') . ' 
+					WHERE timezone IN ('.Piwik_Common::getSqlStringFieldsArray($timezones).')
+					ORDER BY idsite ASC', 
+					$timezones);
+		$return = array();
+		foreach($ids as $id)
+		{
+			$return[] = $id['idsite'];
+		}
+		return $return;
+	}
 
 	/**
 	 * Add a website.
