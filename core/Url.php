@@ -313,7 +313,8 @@ class Piwik_Url
 	 */
 	static public function redirectToUrl( $url )
 	{
-		if(Piwik_Common::isLookLikeUrl($url))
+		if(Piwik_Common::isLookLikeUrl($url)
+			|| strpos($url, 'index.php') === 0)
 		{
 			@header("Location: $url");
 		}

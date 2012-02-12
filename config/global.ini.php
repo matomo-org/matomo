@@ -180,17 +180,17 @@ login_password_recovery_email_address = "password-recovery@{DOMAIN}"
 ; name that appears as a Sender in the password recovery email
 login_password_recovery_email_name = Piwik
 
-; Set to 1 to disable the framebuster on the Login page (a click-jacking countermeasure).
+; Set to 1 to disable the framebuster on standard Non-widgets pages (a click-jacking countermeasure).
+; Default is 0 (i.e., bust frames on all non Widget pages such as Login, API, Widgets, Email reports, etc.).
+enable_framed_pages = 0
+
+; Set to 1 to disable the framebuster on the Login page only (a click-jacking countermeasure).
 ; Default is 0 (i.e., bust frames on the Login forms).
 enable_framed_logins = 0
 
 ; Set to 1 to disable the framebuster on Admin pages (a click-jacking countermeasure).
 ; Default is 0 (i.e., bust frames on the Settings forms).
 enable_framed_settings = 0
-
-; Set to 1 to disable the framebuster on standard Non-widgets pages (a click-jacking countermeasure).
-; Default is 0 (i.e., bust frames on all non Widget pages such as API, Widgets, Email reports, etc.).
-enable_framed_pages = 0
 
 ; language cookie name for session
 language_cookie_name = piwik_lang
