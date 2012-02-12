@@ -563,8 +563,8 @@ class Piwik_PDFReports_API
 				if(!isset($GLOBALS['PIWIK_TRACKER_DEBUG']) || !$GLOBALS['PIWIK_TRACKER_DEBUG'])
 				{
 					throw new Exception("An error occured while sending '$filename' ".
-										" to ". implode(', ',$mail->getRecipients()). ".
-									Error was '". $e->getMessage()."'");
+										" to ". implode(', ',$mail->getRecipients()). 
+									". Error was '". $e->getMessage()."'");
 				}
 			}
 			$mail->clearRecipients();
