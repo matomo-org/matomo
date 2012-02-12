@@ -83,6 +83,7 @@ define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
 define('PIWIK_ENABLE_DISPATCH', false);
 define('PIWIK_ENABLE_ERROR_HANDLER', false);
 define('PIWIK_ENABLE_SESSION_START', false);
+define('PIWIK_MODE_ARCHIVE', true);
 require_once PIWIK_INCLUDE_PATH . "/index.php";
 require_once PIWIK_INCLUDE_PATH . "/core/API/Request.php";
 
@@ -126,6 +127,7 @@ class Archiving
 	public function init()
 	{
 		$this->initCore();
+		$this->initTokenAuth();
 		$this->initCheckCli();
 		$this->initLog();
 		$this->displayHelp();
@@ -135,7 +137,7 @@ class Archiving
 		
 		$this->logSection("INIT");
 		$this->log("Querying Piwik API at: {$this->piwikUrl}");		
-		$this->initTokenAuth();
+		$this->log("Running as Super User: " . $this->login);
 		
 		$this->log("Notes");
 		// Information about timeout
@@ -476,7 +478,7 @@ class Archiving
 	protected function request($url)
 	{
 		$url = $this->piwikUrl. $url . $this->requestPrepend;
-//		$this->log($url);
+		//$this->log($url);
 		try {
 			$response = Piwik_Http::sendHttpRequestBy('curl', $url, $timeout = 300);
 		} catch(Exception $e) {
@@ -560,14 +562,22 @@ class Archiving
 		}
 	}
 	
+	/**
+	 * Script does run on http:// ONLY if the SU token is specified
+	 */
 	private function initCheckCli()
 	{
 		if(!Piwik_Common::isPhpCliMode())
 		{
-			die("This script archive.php must only be executed only in command line CLI mode. <br/>
-			In a shell, execute for example the following to trigger archiving on the local Piwik server:<br/>
-			<code>$ /path/to/php /path/to/piwik/misc/cron/archive.php</code>
-			<br/><br/><a href='http://piwik.org/docs/setup-auto-archiving/'>See the documentation</a>");
+			$token_auth = Piwik_Common::getRequestVar('token_auth', '', 'string');
+			if($token_auth != $this->token_auth
+				|| strlen($token_auth) != 32)
+			{
+				die('<b>You must specify the Super User token_auth as a parameter to this script, eg. <code>&token_auth=XYZ</code> if you wish to run this script through the browser. </b><br>
+					However it is recommended to run it <a href="http://piwik.org/docs/setup-auto-archiving/">via cron in the command line</a>, since it can take a long time to run.<br/>
+					In a shell, execute for example the following to trigger archiving on the local Piwik server:<br/>
+					<code>$ /path/to/php /path/to/piwik/misc/cron/archive.php</code>');
+			}
 		}
 	}
 	
@@ -713,17 +723,14 @@ class Archiving
 	protected function initTokenAuth()
 	{
 		$login = Zend_Registry::get('config')->superuser->login;
-		$password = Zend_Registry::get('config')->superuser->password;
-		$this->token_auth = $this->request("?module=API&method=UsersManager.getTokenAuth&userLogin=$login&md5Password=$password&format=php&serialize=0");
-		if(strlen($this->token_auth) != 32 ) {
-			$this->logFatalError("token_auth is expected to be 32 characters long. Got a different response '". substr($this->token_auth,0,100)."'");
-		}
-		$this->log("Running as Super User: $login");
+		$md5Password = Zend_Registry::get('config')->superuser->password;
+		$this->token_auth = md5( $login . $md5Password ) ;
+		$this->login = $login;
 	}
 	
 	private function initPiwikHost()
 	{
-		$piwikHost = Piwik::getPiwikUrl();
+		$piwikHost = Piwik::getPiwikUrl( $updateUrlIfDifferent = false );
 		if(Zend_Registry::get('config')->General->force_ssl == 1)
 		{
 			$piwikHost = str_replace('http://', 'https://', $piwikHost);
@@ -741,6 +748,10 @@ class Archiving
 	 */
 	private function isParameterSet($parameter, $valuePossible = false)
 	{
+		if(!Piwik_Common::isPhpCliMode())
+		{
+			return false;
+		}
 		foreach($_SERVER['argv'] as $arg)
 		{
 			if( strpos($arg, $parameter) !== false)

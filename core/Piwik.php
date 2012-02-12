@@ -147,7 +147,8 @@ class Piwik
 		$url = Piwik_GetOption($key);
 		if(Piwik_Common::isPhpCliMode()
 			// in case archive.php is triggered with domain localhost
-			|| Piwik_Common::isArchivePhpTriggered())
+			|| Piwik_Common::isArchivePhpTriggered()
+			|| defined('PIWIK_MODE_ARCHIVE'))
 		{
 			return $url;
 		}
@@ -156,7 +157,7 @@ class Piwik
 		
 		if(empty($url)
 			// if URL changes, always update the cache
-			|| $currentUrl != $url) 
+			|| $currentUrl != $url)
 		{
 			if(strlen($currentUrl) >= strlen('http://a/'))
 			{
