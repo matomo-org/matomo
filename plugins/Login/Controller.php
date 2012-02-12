@@ -465,16 +465,14 @@ class Piwik_Login_Controller extends Piwik_Controller
 	protected function checkForceSslLogin()
 	{
 		$forceSslLogin = Zend_Registry::get('config')->General->force_ssl_login;
-		if($forceSslLogin)
+		if($forceSslLogin
+			&& !Piwik::isHttps())
 		{
-			if(!Piwik::isHttps())
-			{
-				$url = 'https://'
-					. Piwik_Url::getCurrentHost()
-					. Piwik_Url::getCurrentScriptName()
-					. Piwik_Url::getCurrentQueryString();
-				Piwik_Url::redirectToUrl($url);
-			}
+			$url = 'https://'
+				. Piwik_Url::getCurrentHost()
+				. Piwik_Url::getCurrentScriptName()
+				. Piwik_Url::getCurrentQueryString();
+			Piwik_Url::redirectToUrl($url);
 		}
 	}
 }

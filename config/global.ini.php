@@ -164,6 +164,12 @@ session_save_handler = files
 ; If set to 1, Piwik redirects the login form to use a secure connection (i.e., https).
 force_ssl_login = 0
 
+; If set to 1, Piwik will automatically redirect all http:// requests to https://
+; If SSL / https is not correctly configured on the server, this will break Piwik
+; If you set this to 1, and your SSL configuration breaks later on, you can always edit this back to 0 
+; it is recommended for security reasons to always use Piwik over https
+force_ssl = 1
+
 ; login cookie name
 login_cookie_name = piwik_auth
 

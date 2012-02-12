@@ -254,6 +254,16 @@ class Piwik_FrontController
 				exit;
 			}
 
+			
+			if(Zend_Registry::get('config')->General->force_ssl == 1
+				&& !Piwik::isHttps())
+			{
+				$url = Piwik_Url::getCurrentUrl();
+				$url = str_replace("http://", "https://", $url);
+				Piwik_Url::redirectToUrl($url);
+			}
+				
+				
 			$pluginsManager = Piwik_PluginsManager::getInstance();
 			$pluginsToLoad = Zend_Registry::get('config')->Plugins->Plugins->toArray();
 			$pluginsManager->loadPlugins( $pluginsToLoad );
