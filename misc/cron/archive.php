@@ -1,5 +1,4 @@
 <?php
-
 $USAGE = "
 Usage: 
 	/path/to/cli/php \"".@$_SERVER['argv'][0]."\" [arguments]
@@ -17,67 +16,30 @@ Arguments:
 			If not specified, defaults to 3600.
 	--help
 			Displays usage
-	--help-verbose
-			Displays usage and verbose script description 
-This script should be executed every hour, or as a deamon.
 
-For more help and documentation, try $ /path/to/cli/php ".@$_SERVER['argv'][0]." --help
+Notes:
+	* You should probably run this script without any parameter (default).
+	* This script should be executed every hour via crontab, or as a deamon.
+	* You can also run it via http:// by specifying the Super User &token_auth=XYZ as a parameter ('Web Cron'), 
+	  but it is recommended to run it via command line/CLI instead.
+	* If you use Piwik to track dozens/hundreds of websites, please let the team know at hello@piwik.org
+	  it makes us happy to learn successful user stories :)
+	* Enjoy!
 ";
-
-$HELP = "
-= Description =
-This script will automatically process all reports for websites tracked in Piwik. 
-See for more information http://piwik.org/docs/setup-auto-archiving/
- 
-= Example usage =
-$ /usr/bin/php /path/to/piwik/misc/cron/archive.php localhost/piwik 6200
-This call will archive all websites reports calling the API on http://localhost/piwik/index.php?...
-It will only process the current week / current month / current year more if the existing reports are older than 2 hours (6200s).
-Setting a large timeout for periods ensures best performance when Piwik tracks thousands of websites or a few very high traffic sites.
-
-$ /usr/bin/php /path/to/piwik/misc/cron/archive.php localhost/piwik 1
-Setting <force-timeout-for-periods> to 1 ensures that whenever today's reports are processed, the current week/month/year will 
-also be reprocessed. This is less efficient than setting a timeout, but ensures that all reports are kept up to date as often as possible.
-
-= Requirements =
- * Requires PHP CLI and Curl php extension
- * It is recommended to disable browser based archiving as per documentation in: http://piwik.org/docs/setup-auto-archiving/
-
-= More information =
-This script is an optimized rewrite in PHP of archive.sh, allowing for more flexibility 
-and better near real-time performance when Piwik tracks thousands of websites.
-
-When executed, this script does the following:
-- Fetches Super User token_auth from config file
-- Calls API to get the list of all websites Ids with new visits since the last archive.php succesful run
-- Calls API to get the list of segments to pre-process
-The script then loops over these websites & segments and calls the API to pre-process these reports.
-At the end, some basic metrics and processing time are logged on screen.
-
-Notes about the algorithm:
-- The first time it runs, all websites with traffic in the last 7 days will be processed
-- To improve performance, API is called with date=last2 (to query yesterday and today) whenever possible, instead of last52.
-  To do so, the script logs the last time it executed correctly.
-- The script tries to achieve Near real time for \"today\" reports, processing \"period=day\" as frequently as possible.
-- The script will only process (or re-process) reports for Current week / Current month  
-	 or Current year at most once per hour. To do so, the script logs last execution time for each website.
-  You can change this <force-timeout-for-periods> timeout as a parameter when calling archive.php script.
-  The concept is to archive daily report as often as possible, to stay near real time on \"daily\" reports,
-  while allowing more stale data for the current week/month/year reports. 
-
-= Ideas for improvements =
-- Feature request: Add option to log completion even with errors: archive_script_ignore_errors = 0
-- Known bug: when adding new segments to preprocess, script will assume that data was processed for this segment in the past
-- Document: how to run the script as a daemon for near real time / constant processing
-- The script can be executed multiple times in parrallel but with known issues:
-  - 'reset' mode does not work
-  - scheduled task could send multiple reports 
-  - there is no documentation
-- Possible performance improvement: Run first websites which are faster to process (weighted by visits and/or time to generate the last daily report)
-  This would make sure that huge websites do not 'block' processing of smaller websites' reports.  
-- Core: check that on first day of month, if request last month from UI, 
-  it returns last temporary monthly report generated, if the last month haven't yet been processed / finalized
-";
+/*
+Ideas for improvements:
+	- Feature request: Add option to log completion even with errors: archive_script_ignore_errors = 0
+	- Known bug: when adding new segments to preprocess, script will assume that data was processed for this segment in the past
+	- Document: how to run the script as a daemon for near real time / constant processing
+	- The script can be executed multiple times in parrallel but with known issues:
+	  - scheduled task could send multiple reports 
+	  - there is no documentation
+	  - it does not work well with --force-all-periods etc.
+	- Possible performance improvement: Run first websites which are faster to process (weighted by visits and/or time to generate the last daily report)
+	  This would make sure that huge websites do not 'block' processing of smaller websites' reports.  
+	- Core: check that on first day of month, if request last month from UI, 
+	  it returns last temporary monthly report generated, if the last month haven't yet been processed / finalized
+ */
 define('PIWIK_INCLUDE_PATH', realpath( dirname(__FILE__)."/../.." ));
 define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
 define('PIWIK_ENABLE_DISPATCH', false);
@@ -98,16 +60,17 @@ try {
 
 class Archiving
 {
-	protected $piwikUrl = false;
-	protected $token_auth = false;
-	protected $processPeriodsMaximumEverySeconds = 3600;
-	
 	const OPTION_ARCHIVING_FINISHED_TS = "LastCompletedFullArchiving";
 	const TRUNCATE_ERROR_MESSAGE_SUMMARY = 400;
 	
 	// Seconds window to look back to define "active websites" to archive on the first archive.php script execution 
 	protected $firstRunActiveWebsitesWithTraffic = 604800; // 7 days
 	
+	// By default, we only process the current week/month/year at most once an hour
+	protected $processPeriodsMaximumEverySeconds = 3600;
+	
+	protected $piwikUrl = false;
+	protected $token_auth = false;
 	protected $visits = 0;
 	protected $requests = 0;
 	protected $output = '';
