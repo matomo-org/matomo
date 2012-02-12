@@ -168,7 +168,7 @@ force_ssl_login = 0
 ; If SSL / https is not correctly configured on the server, this will break Piwik
 ; If you set this to 1, and your SSL configuration breaks later on, you can always edit this back to 0 
 ; it is recommended for security reasons to always use Piwik over https
-force_ssl = 1
+force_ssl = 0
 
 ; login cookie name
 login_cookie_name = piwik_auth
