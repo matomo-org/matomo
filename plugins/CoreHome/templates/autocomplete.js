@@ -91,8 +91,8 @@ $(function() {
 		.data( "item.autocomplete", item )
 		.append( $( "<a></a>" ).html( item.label )
 					.attr('href', piwikHelper.getCurrentQueryStringWithParametersModified('idSite='+item.id) 
-									+ (jQuery.historyCurrentHash 
-												? jQuery.historyCurrentHash.replace(/idSite=[0-9]+/, 'idSite='+item.id) 
+									+ (broadcast.isHashExists()
+												? broadcast.getHashFromUrl().replace(/idSite=[0-9]+/, 'idSite='+item.id) 
 												: ""
 									) ) )
 		.appendTo( ul );

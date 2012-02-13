@@ -39,10 +39,7 @@
     	});
         $('#sitesSelectionSearch .custom_select_block').on('mouseenter', function(){
             $('.custom_select_ul_list li a').each(function(){
-                var hash = jQuery.historyCurrentHash;
-                if(hash && hash.charAt(0) != '#') {
-                    hash = '#'+hash;
-                }
+                var hash = broadcast.getHashFromUrl();
                 $(this).attr('href', piwikHelper.getCurrentQueryStringWithParametersModified('idSite='+$(this).attr('siteid')) + 
                 						(hash 
                 						? hash.replace(/idSite=[0-9]+/, 'idSite='+$(this).attr('siteid')) 

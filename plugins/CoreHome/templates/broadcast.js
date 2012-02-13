@@ -26,8 +26,8 @@ broadcast.init = function() {
 
 	// Initialize history plugin.
 	// The callback is called at once by present location.hash
-	$.historyInit(broadcast.pageload);
-
+	$.history.init(broadcast.pageload, {unescape: true});
+	
 	piwikHelper.showAjaxLoading();
 }
 
@@ -38,8 +38,8 @@ broadcast.init = function() {
  ************************************************/
 /**========== PageLoad function =================
 * This function is called when:
-* 1. after calling $.historyInit();
-* 2. after calling $.historyLoad();  //look at broadcast.changeParameter();
+* 1. after calling $.history.init();
+* 2. after calling $.history.load();  //look at broadcast.changeParameter();
 * 3. after pushing "Go Back" button of a browser
 */
 broadcast.pageload = function( hash ) {
@@ -80,11 +80,8 @@ broadcast.propagateAjax = function (ajaxUrl)
 	piwikHelper.abortQueueAjax();
 	
     // available in global scope
-    var currentHashStr = window.location.hash;
+    var currentHashStr = broadcast.getHashFromUrl().replace(/^#/, '');
 
-    // Because $.history plugin doesn't care about # or ? sign in front of the query string
-    // We take it out if it exists
-    currentHashStr = currentHashStr.replace(/^\?|^#/,'');
     ajaxUrl = ajaxUrl.replace(/^\?|&#/,'');
 
     var params_vals = ajaxUrl.split("&");
@@ -101,7 +98,7 @@ broadcast.propagateAjax = function (ajaxUrl)
     	currentHashStr = broadcast.updateParamValue('idGoal=', currentHashStr);
     }
     // Let history know about this new Hash and load it.
-    $.historyLoad(currentHashStr);
+    $.history.load(currentHashStr);
 };
 
 /*
@@ -134,7 +131,7 @@ broadcast.propagateNewPage = function (str)
 
     // available in global scope
     var currentSearchStr = window.location.search;
-    var currentHashStr = window.location.hash;
+    var currentHashStr = broadcast.getHashFromUrl();
 
     for( var i=0; i<params_vals.length; i++ ) {
         // update both the current search query and hash string
@@ -263,7 +260,7 @@ broadcast.getHashFromUrl = function(url)
         hashStr = url.substring(url.indexOf("#"),url.length);
     }
     else {
-        hashStr = location.hash;
+        hashStr = decodeURIComponent(location.hash);
     }
 
     return hashStr;
@@ -277,7 +274,7 @@ broadcast.getHashFromUrl = function(url)
 broadcast.getSearchFromUrl = function(url)
 {
     var searchStr = "";
-    // If url provided, give back the hash from url, else get hash from current address.
+    // If url provided, give back the query string from url, else get query string from current address.
     if( url && url.match(/\?/) ) {
         searchStr = url.substring(url.indexOf("?"),url.length);
     } else {

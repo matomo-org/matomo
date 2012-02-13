@@ -105,7 +105,7 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	- GPL version not explicitly stated in source but GPL v2 is in git
 
 	Name:  jquery.history
-	Link:  http://www.mikage.to/jquery/jquery_history.html
+	Link:  http://tkyk.github.com/jquery-history-plugin/
 	License:  MIT
 
 	Name:  jquery.scrollTo

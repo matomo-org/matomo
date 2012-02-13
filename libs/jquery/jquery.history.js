@@ -1,12 +1,177 @@
 /*
  * jQuery history plugin
- *
- * Copyright (c) 2006 Taku Sano (Mikage Sawatari)
+ * 
+ * Copyright (c) 2006-2009 Taku Sano (Mikage Sawatari)
+ * Copyright (c) 2010 Takayuki Miwa
+ * 
  * Licensed under the MIT License:
  *   http://www.opensource.org/licenses/mit-license.php
- *
- * Modified by Lincoln Cooper to add Safari support and only call the callback once during initialization
- * for msie when no initial hash supplied.
  */
 
-jQuery.extend({historyCurrentHash:undefined,historyCallback:undefined,historyInit:function(d){jQuery.historyCallback=d;var c=location.hash;jQuery.historyCurrentHash=c;if((jQuery.browser.msie)&&(jQuery.browser.version<8)){if(jQuery.historyCurrentHash==""){jQuery.historyCurrentHash="#"}$("body").prepend('<iframe id="jQuery_history" style="display: none;"></iframe>');var a=$("#jQuery_history")[0];var b=a.contentWindow.document;b.open();b.close();b.location.hash=c}else{if($.browser.safari){jQuery.historyBackStack=[];jQuery.historyBackStack.length=history.length;jQuery.historyForwardStack=[];jQuery.isFirst=true}}jQuery.historyCallback(c.replace(/^#/,""));setInterval(jQuery.historyCheck,100)},historyAddHistory:function(a){jQuery.historyBackStack.push(a);jQuery.historyForwardStack.length=0;this.isFirst=true},historyCheck:function(){if((jQuery.browser.msie)&&(jQuery.browser.version<8)){var a=$("#jQuery_history")[0];var d=a.contentDocument||a.contentWindow.document;var f=d.location.hash;if(f!=jQuery.historyCurrentHash){location.hash=f;jQuery.historyCurrentHash=f;jQuery.historyCallback(f.replace(/^#/,""))}}else{if($.browser.safari){if(!jQuery.dontCheck){var b=history.length-jQuery.historyBackStack.length;if(b){jQuery.isFirst=false;if(b<0){for(var c=0;c<Math.abs(b);c++){jQuery.historyForwardStack.unshift(jQuery.historyBackStack.pop())}}else{for(var c=0;c<b;c++){jQuery.historyBackStack.push(jQuery.historyForwardStack.shift())}}var e=jQuery.historyBackStack[jQuery.historyBackStack.length-1];if(e!=undefined){jQuery.historyCurrentHash=location.hash;jQuery.historyCallback(e)}}else{if(jQuery.historyBackStack[jQuery.historyBackStack.length-1]==undefined&&!jQuery.isFirst){if(document.URL.indexOf("#")>=0){jQuery.historyCallback(document.URL.split("#")[1])}else{var f=location.hash;jQuery.historyCallback("")}jQuery.isFirst=true}}}}else{var f=location.hash;if(f!=jQuery.historyCurrentHash){jQuery.historyCurrentHash=f;jQuery.historyCallback(f.replace(/^#/,""))}}}},historyLoad:function(d){var e;if(jQuery.browser.safari){e=d}else{e="#"+d;location.hash=e}jQuery.historyCurrentHash=e;if((jQuery.browser.msie)&&(jQuery.browser.version<8)){var a=$("#jQuery_history")[0];var c=a.contentWindow.document;c.open();c.close();c.location.hash=e;jQuery.historyCallback(d)}else{if(jQuery.browser.safari){jQuery.dontCheck=true;this.historyAddHistory(d);var b=function(){jQuery.dontCheck=false};window.setTimeout(b,200);jQuery.historyCallback(d);location.hash=e}else{jQuery.historyCallback(d)}}}});
+(function($) {
+    var locationWrapper = {
+        put: function(hash, win) {
+            (win || window).location.hash = this.encoder(hash);
+        },
+        get: function(win) {
+            var hash = ((win || window).location.hash).replace(/^#/, '');
+            try {
+                return $.browser.mozilla ? hash : decodeURIComponent(hash);
+            }
+            catch (error) {
+                return hash;
+            }
+        },
+        encoder: encodeURIComponent
+    };
+
+    var iframeWrapper = {
+        id: "__jQuery_history",
+        init: function() {
+            var html = '<iframe id="'+ this.id +'" style="display:none" src="javascript:false;" />';
+            $("body").prepend(html);
+            return this;
+        },
+        _document: function() {
+            return $("#"+ this.id)[0].contentWindow.document;
+        },
+        put: function(hash) {
+            var doc = this._document();
+            doc.open();
+            doc.close();
+            locationWrapper.put(hash, doc);
+        },
+        get: function() {
+            return locationWrapper.get(this._document());
+        }
+    };
+
+    function initObjects(options) {
+        options = $.extend({
+                unescape: false
+            }, options || {});
+
+        locationWrapper.encoder = encoder(options.unescape);
+
+        function encoder(unescape_) {
+            if(unescape_ === true) {
+                return function(hash){ return hash; };
+            }
+            if(typeof unescape_ == "string" &&
+               (unescape_ = partialDecoder(unescape_.split("")))
+               || typeof unescape_ == "function") {
+                return function(hash) { return unescape_(encodeURIComponent(hash)); };
+            }
+            return encodeURIComponent;
+        }
+
+        function partialDecoder(chars) {
+            var re = new RegExp($.map(chars, encodeURIComponent).join("|"), "ig");
+            return function(enc) { return enc.replace(re, decodeURIComponent); };
+        }
+    }
+
+    var implementations = {};
+
+    implementations.base = {
+        callback: undefined,
+        type: undefined,
+
+        check: function() {},
+        load:  function(hash) {},
+        init:  function(callback, options) {
+            initObjects(options);
+            self.callback = callback;
+            self._options = options;
+            self._init();
+        },
+
+        _init: function() {},
+        _options: {}
+    };
+
+    implementations.timer = {
+        _appState: undefined,
+        _init: function() {
+            var current_hash = locationWrapper.get();
+            self._appState = current_hash;
+            self.callback(current_hash);
+            setInterval(self.check, 100);
+        },
+        check: function() {
+            var current_hash = locationWrapper.get();
+            if(current_hash != self._appState) {
+                self._appState = current_hash;
+                self.callback(current_hash);
+            }
+        },
+        load: function(hash) {
+            if(hash != self._appState) {
+                locationWrapper.put(hash);
+                self._appState = hash;
+                self.callback(hash);
+            }
+        }
+    };
+
+    implementations.iframeTimer = {
+        _appState: undefined,
+        _init: function() {
+            var current_hash = locationWrapper.get();
+            self._appState = current_hash;
+            iframeWrapper.init().put(current_hash);
+            self.callback(current_hash);
+            setInterval(self.check, 100);
+        },
+        check: function() {
+            var iframe_hash = iframeWrapper.get(),
+                location_hash = locationWrapper.get();
+
+            if (location_hash != iframe_hash) {
+                if (location_hash == self._appState) {    // user used Back or Forward button
+                    self._appState = iframe_hash;
+                    locationWrapper.put(iframe_hash);
+                    self.callback(iframe_hash); 
+                } else {                              // user loaded new bookmark
+                    self._appState = location_hash;  
+                    iframeWrapper.put(location_hash);
+                    self.callback(location_hash);
+                }
+            }
+        },
+        load: function(hash) {
+            if(hash != self._appState) {
+                locationWrapper.put(hash);
+                iframeWrapper.put(hash);
+                self._appState = hash;
+                self.callback(hash);
+            }
+        }
+    };
+
+    implementations.hashchangeEvent = {
+        _init: function() {
+            self.callback(locationWrapper.get());
+            $(window).bind('hashchange', self.check);
+        },
+        check: function() {
+            self.callback(locationWrapper.get());
+        },
+        load: function(hash) {
+            locationWrapper.put(hash);
+        }
+    };
+
+    var self = $.extend({}, implementations.base);
+
+    if($.browser.msie && ($.browser.version < 8 || document.documentMode < 8)) {
+        self.type = 'iframeTimer';
+    } else if("onhashchange" in window) {
+        self.type = 'hashchangeEvent';
+    } else {
+        self.type = 'timer';
+    }
+
+    $.extend(self, implementations[self.type]);
+    $.history = self;
+})(jQuery);
