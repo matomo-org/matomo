@@ -28,8 +28,8 @@
 
 <p>{'General_View'|translate} 
 	<a href="javascript:broadcast.propagateAjax('module=Referers&action=getSearchEnginesAndKeywords')">{'Referers_SubmenuSearchEngines'|translate}</a>,
-	<a href="javascript:broadcast.propagateAjax('module=Referers&action=getWebsites')">{'Referers_SubmenuWebsites'|translate}</a>,
-	<a href="javascript:broadcast.propagateAjax('module=Referers&action=getCampaigns')">{'Referers_SubmenuCampaigns'|translate}</a>.
+	<a href="javascript:broadcast.propagateAjax('module=Referers&action=indexWebsites')">{'Referers_SubmenuWebsites'|translate}</a>,
+	<a href="javascript:broadcast.propagateAjax('module=Referers&action=indexCampaigns')">{'Referers_SubmenuCampaigns'|translate}</a>.
 </p>
 	
 
