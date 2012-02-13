@@ -53,7 +53,7 @@ class Test_Piwik_Integration_TrackCustomVariablesAndCampaigns_ForceUsingVisitIdN
         $t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
 
         // Record 1st page view
-        $t->setUrl( 'http://example.org/index.htm?utm_campaign=GA Campaign&piwik_kwd=Piwik kwd&utm_term=GA keyword SHOULD NOT DISPLAY' );
+        $t->setUrl( 'http://example.org/index.htm?utm_campaign=GA Campaign&piwik_kwd=Piwik kwd&utm_term=GA keyword SHOULD NOT DISPLAY#pk_campaign=NOT TRACKED!!&pk_kwd=NOT TRACKED!!' );
         $this->checkResponse($t->doTrackPageView( 'incredible title!'));
         
         $visitorId = $t->getVisitorId();
@@ -96,7 +96,7 @@ class Test_Piwik_Integration_TrackCustomVariablesAndCampaigns_ForceUsingVisitIdN
         $t3->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1.3)->getDatetime());
         // fake a website ref cookie, the campaign should be credited for conversion, not referrer.example.com nor example.org 
         $t3->DEBUG_APPEND_URL = '&_ref=http%3A%2F%2Freferrer.example.com%2Fpage%2Fsub%3Fquery%3Dtest%26test2%3Dtest3';
-        $t3->setUrl( 'http://example.org/index.htm?pk_campaign=CREDITED TO GOAL PLEASE' );
+        $t3->setUrl( 'http://example.org/index.htm#pk_campaign=CREDITED TO GOAL PLEASE' );
         $this->checkResponse($t3->doTrackGoal($idGoal, 42));
 	}
 }

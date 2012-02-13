@@ -1427,44 +1427,65 @@ class Piwik_Tracker_Visit_Referer
 		return true;
 	}
 
+	protected function detectCampaignFromString($string)
+	{
+		foreach($this->campaignNames as $campaignNameParameter)
+		{
+			$campaignName = trim(urldecode(Piwik_Common::getParameterFromQueryString($string, $campaignNameParameter)));
+			if( !empty($campaignName))
+			{
+				break;
+			}
+		}
+
+		if(!empty($campaignName))
+		{
+			$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_CAMPAIGN;
+			$this->nameRefererAnalyzed = $campaignName;
+
+			foreach($this->campaignKeywords as $campaignKeywordParameter)
+			{
+				$campaignKeyword = Piwik_Common::getParameterFromQueryString($string, $campaignKeywordParameter);
+				if( !empty($campaignKeyword))
+				{
+					$this->keywordRefererAnalyzed = trim(urldecode($campaignKeyword));
+					break;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+	
 	/*
 	 * Campaign analysis
 	 */
 	protected function detectRefererCampaign()
 	{
+		if(!isset($this->currentUrlParse['query'])
+			&& !isset($this->currentUrlParse['fragment']))
+		{
+			return false;
+		}
+		$campaignParameters = Piwik_Common::getCampaignParameters();
+		$this->campaignNames = $campaignParameters[0];
+		$this->campaignKeywords = $campaignParameters[1];
+		
+		$found = false;
+		
+		// 1) Detect campaign from query string
 		if(isset($this->currentUrlParse['query']))
 		{
-			$campaignParameters = Piwik_Common::getCampaignParameters();
-
-			$campaignNames = $campaignParameters[0];
-			foreach($campaignNames as $campaignNameParameter)
-			{
-				$campaignName = trim(urldecode(Piwik_Common::getParameterFromQueryString($this->currentUrlParse['query'], $campaignNameParameter)));
-				if( !empty($campaignName))
-				{
-					break;
-				}
-			}
-
-			if(!empty($campaignName))
-			{
-				$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_CAMPAIGN;
-				$this->nameRefererAnalyzed = $campaignName;
-
-				$campaignKeywords = $campaignParameters[1];
-				foreach($campaignKeywords as $campaignKeywordParameter)
-				{
-					$campaignKeyword = Piwik_Common::getParameterFromQueryString($this->currentUrlParse['query'], $campaignKeywordParameter);
-					if( !empty($campaignKeyword))
-					{
-						$this->keywordRefererAnalyzed = trim(urldecode($campaignKeyword));
-						break;
-					}
-				}
-				return true;
-			}
+			$found = $this->detectCampaignFromString($this->currentUrlParse['query']);
 		}
-		return false;
+
+		// 2) Detect from fragment #hash
+		if(!$found
+			&& isset($this->currentUrlParse['fragment']))
+		{
+			$found = $this->detectCampaignFromString($this->currentUrlParse['fragment']);
+		}
+		return $found;
 	}
 
 	/*

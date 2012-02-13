@@ -223,7 +223,7 @@
 				{else}
 				{* Goal conversion *}
 					<img src="{$action.icon}" /> 
-					<strong>{$action.goalName}</strong>
+					<strong>{$action.goalName|escape:'html'}</strong>
 					{if $action.revenue > 0}, {'Live_GoalRevenue'|translate}: <strong>{$action.revenue|money:$javascriptVariablesToSet.idSite}</strong>{/if}
 				{/if}
 				</li>
