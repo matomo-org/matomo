@@ -910,17 +910,21 @@ class Piwik_API_API
 			$array = ($dataTable instanceof Piwik_DataTable_Array ? $dataTable->getArray() : array($dataTable));
 			foreach ($array as $table) 
 			{
-				$firstRow = $table->getFirstRow();
-				if(!$firstRow)
+				// we don't support idSites=all&date=DATE1,DATE2
+				if($table instanceof Piwik_DataTable)
 				{
-					$firstRow = new Piwik_DataTable_Row;
-					$table->addRow($firstRow);
-				}
-				foreach ($columns as $column)
-				{
-					if ($firstRow->getColumn($column) === false)
+					$firstRow = $table->getFirstRow();
+					if(!$firstRow)
 					{
-						$firstRow->setColumn($column, 0);
+						$firstRow = new Piwik_DataTable_Row;
+						$table->addRow($firstRow);
+					}
+					foreach ($columns as $column)
+					{
+						if ($firstRow->getColumn($column) === false)
+						{
+							$firstRow->setColumn($column, 0);
+						}
 					}
 				}
 			}
@@ -959,9 +963,12 @@ class Piwik_API_API
 		
 		$firstRow1 = $table1->getFirstRow();
 		$firstRow2 = $table2->getFirstRow();
-		foreach ($firstRow2->getColumns() as $metric => $value)
+		if($firstRow2 instanceof Piwik_DataTable_Row)
 		{
-			$firstRow1->setColumn($metric, $value);
+			foreach ($firstRow2->getColumns() as $metric => $value)
+			{
+				$firstRow1->setColumn($metric, $value);
+			}
 		}
 	}
 }
