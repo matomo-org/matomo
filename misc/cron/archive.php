@@ -675,11 +675,13 @@ class Archiving
 			$websiteDayHasFinishedSinceLastRun = Piwik_SitesManager_API::getInstance()->getSitesIdFromTimezones($timezoneToProcess);
 			$websiteDayHasFinishedSinceLastRun = array_diff($websiteDayHasFinishedSinceLastRun, $this->websites);
 			$this->websiteDayHasFinishedSinceLastRun = $websiteDayHasFinishedSinceLastRun;
-			$websiteIds = !empty($this->websiteDayHasFinishedSinceLastRun) ? ", IDs: ".implode(", ", $this->websiteDayHasFinishedSinceLastRun) : "";
-			$this->log("Will process ". count($this->websiteDayHasFinishedSinceLastRun). " other websites because the last time they were archived was on a different day (in the website's timezone) " . $websiteIds);
-			
-			$this->websites = array_merge($this->websites, $websiteDayHasFinishedSinceLastRun);
-	
+			if(count($this->websiteDayHasFinishedSinceLastRun) > 0)
+			{
+				$websiteIds = !empty($this->websiteDayHasFinishedSinceLastRun) ? ", IDs: ".implode(", ", $this->websiteDayHasFinishedSinceLastRun) : "";
+				$this->log("Will process ". count($this->websiteDayHasFinishedSinceLastRun). " other websites because the last time they were archived was on a different day (in the website's timezone) " . $websiteIds);
+				
+				$this->websites = array_merge($this->websites, $websiteDayHasFinishedSinceLastRun);
+			}	
 		}
 	}
 
