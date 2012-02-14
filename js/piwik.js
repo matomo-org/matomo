@@ -381,7 +381,7 @@ if (!this.JSON2) {
 	parentNode, tagName, hostname, className,
 	userAgent, cookieEnabled, platform, mimeTypes, enabledPlugin, javaEnabled,
 	XDomainRequest, XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, setRequestHeader, send, readyState, status,
-	getTime, setTime, toGMTString, getHours, getMinutes, getSeconds,
+	getTime, getTimeAlias, setTime, toGMTString, getHours, getMinutes, getSeconds,
 	toLowerCase, charAt, indexOf, lastIndexOf, split, slice, toUpperCase,
 	onLoad, src,
 	round, random,
@@ -562,7 +562,7 @@ var
 				//     while (Date.now() < expireDateTime) { }
 				do {
 					now = new Date();
-				} while (now.getTime() < expireDateTime);
+				} while (now.getTimeAlias() < expireDateTime);
 			}
 		}
 
@@ -2620,6 +2620,8 @@ var
 		// initialize the Piwik singleton
 		addEventListener(windowAlias, 'beforeunload', beforeUnloadHandler, false);
 		addReadyListener();
+
+		Date.prototype.getTimeAlias = Date.prototype.getTime;
 
 		asyncTracker = new Tracker();
 
