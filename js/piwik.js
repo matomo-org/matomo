@@ -383,7 +383,7 @@ if (!this.JSON2) {
 	XDomainRequest, XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, setRequestHeader, send, readyState, status,
 	getTime, getTimeAlias, setTime, toGMTString, getHours, getMinutes, getSeconds,
 	toLowerCase, charAt, indexOf, lastIndexOf, split, slice, toUpperCase,
-	onLoad, src,
+	onload, src,
 	round, random,
 	exec,
 	res, width, height,
@@ -1147,7 +1147,7 @@ var
 			function getImage(request) {
 				var image = new Image(1, 1);
 
-				image.onLoad = function () { };
+				image.onload = function () { };
 				image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
 			}
 
