@@ -2135,6 +2135,8 @@ var
 						scope = 'visit';
 					}
 					if (index > 0) {
+						name = isDefined(name) && !isString(name) ? String(name) : name;
+						value = isDefined(value) && !isString(value) ? String(value) : value;
 						toRecord = [name.slice(0, customVariableMaximumLength), value.slice(0, customVariableMaximumLength)];
 						if (scope === 'visit' || scope === 2) { /* GA compatibility/misuse */
 							loadCustomVariables();
