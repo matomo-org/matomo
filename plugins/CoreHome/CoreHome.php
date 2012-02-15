@@ -69,26 +69,8 @@ class Piwik_CoreHome extends Piwik_Plugin
 		$jsFiles[] = "plugins/CoreHome/templates/autocomplete.js";
 		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
 		
-		$jqplot = 'libs/jqplot/';
 		$jsFiles[] = "plugins/CoreHome/templates/jqplot.js";
-		$jsFiles[] = $jqplot."jqplot.core.js";
-		$jsFiles[] = $jqplot."jqplot.linearAxisRenderer.js";
-		$jsFiles[] = $jqplot."jqplot.axisTickRenderer.js";
-		$jsFiles[] = $jqplot."jqplot.axisLabelRenderer.js";
-		$jsFiles[] = $jqplot."jqplot.tableLegendRenderer.js";
-		$jsFiles[] = $jqplot."jqplot.lineRenderer.js";
-		$jsFiles[] = $jqplot."jqplot.markerRenderer.js";
-		$jsFiles[] = $jqplot."jqplot.divTitleRenderer.js";
-		$jsFiles[] = $jqplot."jqplot.canvasGridRenderer.js";
-		$jsFiles[] = $jqplot."jqplot.shadowRenderer.js";
-		$jsFiles[] = $jqplot."jqplot.shapeRenderer.js";
-		$jsFiles[] = $jqplot."jqplot.sprintf.js";
-		$jsFiles[] = $jqplot."jqplot.themeEngine.js";
-		$jsFiles[] = $jqplot."plugins/jqplot.pieRenderer.js";
-		$jsFiles[] = $jqplot."plugins/jqplot.barRenderer.js";
-		$jsFiles[] = $jqplot."plugins/jqplot.categoryAxisRenderer.js";
-		$jsFiles[] = $jqplot."plugins/jqplot.canvasTextRenderer.js";
-		$jsFiles[] = $jqplot."plugins/jqplot.canvasAxisTickRenderer.js";
+		$jsFiles[] = "libs/jqplot/jqplot-custom.min.js";
 	}
 	
 }
