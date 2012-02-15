@@ -423,27 +423,29 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		{
 			$nbVisitsConverted = $nbConversions;
 		}
+		$revenue = $dataRow->getColumn('revenue');
 		$return = array (
 				'id'				=> $idGoal,
-				'nb_conversions' 	=> $nbConversions,
-				'nb_visits_converted' => $nbVisitsConverted,
+				'nb_conversions' 	=> (int)$nbConversions,
+				'nb_visits_converted' => (int)$nbVisitsConverted,
 				'conversion_rate'	=> $this->formatConversionRate($dataRow->getColumn('conversion_rate')),
-				'revenue'			=> $dataRow->getColumn('revenue'),
+				'revenue'			=> $revenue ? $revenue : 0,
 				'urlSparklineConversions' 		=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_conversions'), 'idGoal' => $idGoal)),
 				'urlSparklineConversionRate' 	=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('conversion_rate'), 'idGoal' => $idGoal)),
 				'urlSparklineRevenue' 			=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('revenue'), 'idGoal' => $idGoal)),
 		);
-		
 		if($idGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER)
 		{
+			$items = $dataRow->getColumn('items');
+			$aov = $dataRow->getColumn('avg_order_revenue');
 			$return = array_merge($return, array(
 				'revenue_subtotal' => $dataRow->getColumn('revenue_subtotal'),
 				'revenue_tax' => $dataRow->getColumn('revenue_tax'),
 				'revenue_shipping' => $dataRow->getColumn('revenue_shipping'),
 				'revenue_discount' => $dataRow->getColumn('revenue_discount'),
 			
-				'items' => $dataRow->getColumn('items'),
-				'avg_order_revenue' => $dataRow->getColumn('avg_order_revenue'),
+				'items' => $items ? $items : 0,
+				'avg_order_revenue' => $aov ? $aov : 0,
 				'urlSparklinePurchasedProducts' => $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('items'), 'idGoal' => $idGoal)),
 				'urlSparklineAverageOrderValue' => $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('avg_order_revenue'), 'idGoal' => $idGoal)),
 			));
