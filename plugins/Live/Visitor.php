@@ -279,7 +279,7 @@ class Piwik_Live_Visitor
 		{
 			return $this->details['referer_url'];
 		}
-		return false;
+		return null;
 	}
 	
 	function getKeywordPosition()
