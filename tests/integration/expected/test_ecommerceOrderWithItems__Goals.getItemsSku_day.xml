@@ -3,7 +3,7 @@
 	<row>
 		<label>SKU2</label>
 		<revenue>1500</revenue>
-		<quantity>1.00</quantity>
+		<quantity>1</quantity>
 		<orders>1</orders>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
@@ -15,7 +15,7 @@
 	<row>
 		<label>SKU VERY nice indeed</label>
 		<revenue>1011.22</revenue>
-		<quantity>3.00</quantity>
+		<quantity>3</quantity>
 		<orders>2</orders>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>3</nb_visits>
@@ -27,7 +27,7 @@
 	<row>
 		<label>ANOTHER SKU HERE</label>
 		<revenue>600</revenue>
-		<quantity>6.00</quantity>
+		<quantity>6</quantity>
 		<orders>1</orders>
 		<avg_price>100</avg_price>
 		<avg_quantity>6</avg_quantity>

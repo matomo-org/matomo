@@ -15,7 +15,7 @@
 	<row>
 		<label>Multiple Category 1</label>
 		<revenue>1000</revenue>
-		<quantity>2.00</quantity>
+		<quantity>2</quantity>
 		<orders>1</orders>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
@@ -27,7 +27,7 @@
 	<row>
 		<label>Multiple Category 2</label>
 		<revenue>1000</revenue>
-		<quantity>2.00</quantity>
+		<quantity>2</quantity>
 		<orders>1</orders>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
@@ -39,7 +39,7 @@
 	<row>
 		<label>Multiple Category 4</label>
 		<revenue>1000</revenue>
-		<quantity>2.00</quantity>
+		<quantity>2</quantity>
 		<orders>1</orders>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
@@ -51,7 +51,7 @@
 	<row>
 		<label>Multiple Category 5</label>
 		<revenue>1000</revenue>
-		<quantity>2.00</quantity>
+		<quantity>2</quantity>
 		<orders>1</orders>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
@@ -63,7 +63,7 @@
 	<row>
 		<label>Product Category not defined</label>
 		<revenue>611.22</revenue>
-		<quantity>7.00</quantity>
+		<quantity>7</quantity>
 		<orders>2</orders>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>3</nb_visits>

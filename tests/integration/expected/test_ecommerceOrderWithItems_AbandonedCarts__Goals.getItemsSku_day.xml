@@ -3,7 +3,7 @@
 	<row>
 		<label>SKU IN ABANDONED CART TWO</label>
 		<revenue>4000</revenue>
-		<quantity>4.00</quantity>
+		<quantity>4</quantity>
 		<abandoned_carts>2</abandoned_carts>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>2</nb_visits>
@@ -15,7 +15,7 @@
 	<row>
 		<label>SKU IN ABANDONED CART ONE</label>
 		<revenue>1000.22</revenue>
-		<quantity>2.00</quantity>
+		<quantity>2</quantity>
 		<abandoned_carts>2</abandoned_carts>
 		<avg_price>500.11</avg_price>
 		<avg_quantity>1</avg_quantity>
@@ -24,7 +24,7 @@
 	<row>
 		<label>SKU VERY nice indeed</label>
 		<revenue>20</revenue>
-		<quantity>2.00</quantity>
+		<quantity>2</quantity>
 		<abandoned_carts>2</abandoned_carts>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>3</nb_visits>

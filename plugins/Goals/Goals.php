@@ -797,12 +797,13 @@ class Piwik_Goals extends Piwik_Plugin
 				unset($row['label']);
 				unset($row['ecommerceType']);
 				
-				$revenueColumns = array(
+				$columnsToRound = array(
 									Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE,
+									Piwik_Archive::INDEX_ECOMMERCE_ITEM_QUANTITY,
 									Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE,
 									Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED,
 				);
-				foreach($revenueColumns as $column)
+				foreach($columnsToRound as $column)
 				{
 					if(isset($row[$column])
 						&& $row[$column] == round($row[$column]))

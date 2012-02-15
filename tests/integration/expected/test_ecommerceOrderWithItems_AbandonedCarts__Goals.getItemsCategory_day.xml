@@ -3,7 +3,7 @@
 	<row>
 		<label>Category TWO LEFT in cart</label>
 		<revenue>4000</revenue>
-		<quantity>4.00</quantity>
+		<quantity>4</quantity>
 		<abandoned_carts>2</abandoned_carts>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>2</nb_visits>
@@ -15,7 +15,7 @@
 	<row>
 		<label>Product Category not defined</label>
 		<revenue>1000.22</revenue>
-		<quantity>2.00</quantity>
+		<quantity>2</quantity>
 		<abandoned_carts>2</abandoned_carts>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>3</nb_visits>
@@ -27,7 +27,7 @@
 	<row>
 		<label>Electronics &amp; Cameras</label>
 		<revenue>20</revenue>
-		<quantity>2.00</quantity>
+		<quantity>2</quantity>
 		<abandoned_carts>2</abandoned_carts>
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_visits>3</nb_visits>

@@ -5,7 +5,7 @@
 			<row>
 				<label>SKU2</label>
 				<revenue>1500</revenue>
-				<quantity>1.00</quantity>
+				<quantity>1</quantity>
 				<orders>1</orders>
 				<avg_price>1500</avg_price>
 				<avg_quantity>1</avg_quantity>
@@ -14,7 +14,7 @@
 			<row>
 				<label>SKU VERY nice indeed</label>
 				<revenue>1011.22</revenue>
-				<quantity>3.00</quantity>
+				<quantity>3</quantity>
 				<orders>2</orders>
 				<avg_price>255.61</avg_price>
 				<avg_quantity>1.5</avg_quantity>
@@ -23,7 +23,7 @@
 			<row>
 				<label>ANOTHER SKU HERE</label>
 				<revenue>600</revenue>
-				<quantity>6.00</quantity>
+				<quantity>6</quantity>
 				<orders>1</orders>
 				<avg_price>100</avg_price>
 				<avg_quantity>6</avg_quantity>
@@ -34,7 +34,7 @@
 			<row>
 				<label>TRIPOD SKU</label>
 				<revenue>200</revenue>
-				<quantity>2.00</quantity>
+				<quantity>2</quantity>
 				<orders>1</orders>
 				<avg_price>100</avg_price>
 				<avg_quantity>2</avg_quantity>
@@ -53,7 +53,7 @@
 			<row>
 				<label>TRIPOD SKU</label>
 				<revenue>200</revenue>
-				<quantity>2.00</quantity>
+				<quantity>2</quantity>
 				<orders>1</orders>
 				<avg_price>100</avg_price>
 				<avg_quantity>2</avg_quantity>
