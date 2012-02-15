@@ -86,13 +86,13 @@ class Piwik_API_DocumentationGenerator
 						{
 							$exampleUrlRss1 = $prefixUrls . $this->getExampleUrl($class, $methodName, array('date' => 'last10', 'period' => 'day') + $parametersToSet) ;
 							$exampleUrlRss2 = $prefixUrls . $this->getExampleUrl($class, $methodName, array('date' => 'last5','period' => 'week',) + $parametersToSet );
-							$lastNUrls = ",	RSS of the last <a target=_blank href='$exampleUrlRss1&format=rss$token_auth'>10 days</a>";
+							$lastNUrls = ",	RSS of the last <a target=_blank href='$exampleUrlRss1&format=rss$token_auth&translateColumnNames=1'>10 days</a>";
 						}
 						$exampleUrl = $prefixUrls . $exampleUrl ;
 						$str .= " [ Example in  
 									<a target=_blank href='$exampleUrl&format=xml$token_auth'>XML</a>, 
 									<a target=_blank href='$exampleUrl&format=JSON$token_auth'>Json</a>, 
-									<a target=_blank href='$exampleUrl&format=Tsv$token_auth'>Tsv (Excel)</a> 
+									<a target=_blank href='$exampleUrl&format=Tsv$token_auth&translateColumnNames=1'>Tsv (Excel)</a> 
 									$lastNUrls
 									]";
 					}
