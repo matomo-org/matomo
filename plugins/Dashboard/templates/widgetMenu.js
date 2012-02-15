@@ -332,6 +332,12 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
              * @return void
              */
             this.construct = function(userSettings) {
+                
+                if(widgetPreview && userSettings == 'reset') {
+                    resetWidgetPreview();
+                    return;
+                }
+                
                 widgetPreview = this;
                 
                 $(this).addClass('widgetpreview-base');
@@ -361,7 +367,6 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
                     createPreviewElement(); // empty preview
                 });
             };
-
         }
     });
     

@@ -31,6 +31,7 @@ $(document).ready( function() {
     });
     $('body').on('mouseup', function(e) {
         if(!$(e.target).parents('#dashboardSettings').length && !$(e.target).is('#dashboardSettings')) {
+            $('#dashboardSettings').widgetPreview('reset');
             $('#dashboardSettings').removeClass('visible');
         }
     });
@@ -69,6 +70,12 @@ $(document).ready( function() {
     $('#columnPreview>div').on('click', function(){
         $('#columnPreview>div').removeClass('choosen');
         $(this).addClass('choosen');
+    });
+
+    $('.submenu>li').on('mouseenter', function(event){
+        if(!$('.widgetpreview-categorylist', event.target).length) {
+            $('#dashboardSettings').widgetPreview('reset');
+        }
     });
 });
 
