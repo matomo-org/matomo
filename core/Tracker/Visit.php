@@ -1363,7 +1363,14 @@ class Piwik_Tracker_Visit_Referer
 		$this->idsite = $idSite;
 
 		// default values for the referer_* fields
-		$this->refererUrl = Piwik_Common::unsanitizeInputValue($refererUrl);
+		$refererUrl = Piwik_Common::unsanitizeInputValue($refererUrl);
+		if(!empty($refererUrl)
+			&& !Piwik_Common::isLookLikeUrl($refererUrl))
+		{
+			$refererUrl = '';
+		}
+		
+		$this->refererUrl = $refererUrl;
 		$this->refererUrlParse = @parse_url($this->refererUrl);
 		$this->currentUrlParse = @parse_url(Piwik_Common::unsanitizeInputValue($currentUrl));
 		$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_DIRECT_ENTRY;

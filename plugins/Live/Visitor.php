@@ -275,7 +275,11 @@ class Piwik_Live_Visitor
 				}
 			}
 		}
-		return $this->details['referer_url'];
+		if(Piwik_Common::isLookLikeUrl($this->details['referer_url']))
+		{
+			return $this->details['referer_url'];
+		}
+		return false;
 	}
 	
 	function getKeywordPosition()
