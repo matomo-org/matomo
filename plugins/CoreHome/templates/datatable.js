@@ -725,10 +725,6 @@ dataTable.prototype =
 		truncationLimit += truncationOffset;
 		
 		domElemToTruncate = $(domElemToTruncate);
-		// make the original text (before truncation) available for others.
-		// the .truncate plugins adds a title to the dom element but the .tooltip
-		// plugin removes that again.
-		domElemToTruncate.data('originalText', domElemToTruncate.text());
 		domElemToTruncate.truncate(truncationLimit);
 		$('.truncated', domElemToTruncate)
 			.tooltip();
