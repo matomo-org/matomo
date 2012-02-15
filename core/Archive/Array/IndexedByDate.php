@@ -115,7 +115,7 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 			foreach($values as $value)
 			{
 				$timestamp = Piwik_Date::factory($value['startDate'])->getTimestamp();
-				$arrayValues[$timestamp][$value['name']] = round((float)$value['value'],2);
+				$arrayValues[$timestamp][$value['name']] = $this->formatNumericValue($value['value']);
 			}			
 		}
 		

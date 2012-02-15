@@ -323,6 +323,21 @@ abstract class Piwik_Archive
 		
 		return $dataTable;
 	}
+
+	protected function formatNumericValue($value)
+	{
+		// If there is no dot, we return as is
+		// Note: this could be an integer bigger than 32 bits
+		if(strpos($value, '.') === false)
+		{
+			return $value;
+		}
+
+		// Round up the value with 2 decimals
+		// we cast the result as float because returns false when no visitors
+		$value = round((float)$value, 2);
+		return $value;
+	}
 	
 	public function getSegment()
 	{

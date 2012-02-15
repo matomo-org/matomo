@@ -96,7 +96,7 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
  			{
  				$arrayValues[$value['idsite']] = $defaultValues;
  			}
-			$arrayValues[$value['idsite']][$value['name']] = $value['value'];
+			$arrayValues[$value['idsite']][$value['name']] = $this->formatNumericValue( $value['value'] );
  		}
 		return $arrayValues;
 	}
