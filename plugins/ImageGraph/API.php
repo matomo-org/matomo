@@ -105,9 +105,18 @@ class Piwik_ImageGraph_API
 			throw new Exception('Error: To create graphs in Piwik, please enable GD php extension (with Freetype support) in php.ini, and restart your web server.');
 		}
 
-		$unicodeFontPath = self::getFontPath(self::UNICODE_FONT);
-		$font = file_exists($unicodeFontPath) ? $unicodeFontPath : self::getFontPath(self::DEFAULT_FONT);
-
+		$useUnicodeFont = array(
+			'am', 'ar', 'el', 'fa' , 'fi', 'he', 'ja', 'ka', 'ko', 'te', 'th', 'zh-cn', 'zh-tw', 
+		);
+		$languageLoaded = Piwik_Translate::getInstance()->getLanguageToLoad();
+		
+		$font = self::getFontPath(self::DEFAULT_FONT);
+		if(in_array($languageLoaded, $useUnicodeFont))
+		{
+			$unicodeFontPath = self::getFontPath(self::UNICODE_FONT);
+			$font = file_exists($unicodeFontPath) ? $unicodeFontPath : $font;
+		}
+		
 		// save original GET to reset after processing. Important for API-in-API-call
 		$savedGET = $_GET;
 
