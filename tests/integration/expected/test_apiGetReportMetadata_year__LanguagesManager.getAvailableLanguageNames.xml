@@ -131,6 +131,11 @@
 		<english_name>Lithuanian</english_name>
 	</row>
 	<row>
+		<code>lv</code>
+		<name>Latviešu</name>
+		<english_name>Latvian</english_name>
+	</row>
+	<row>
 		<code>nb</code>
 		<name>Norsk (bokmål)</name>
 		<english_name>Norwegian Bokmål</english_name>
