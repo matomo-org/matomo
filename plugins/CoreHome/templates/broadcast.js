@@ -191,16 +191,19 @@ broadcast.updateParamValue = function(newParamValue,urlStr)
  */
 broadcast.loadAjaxContent = function(urlAjax)
 {
+	piwikMenu.activateMenu(
+			broadcast.getParamValue('module', urlAjax),
+			broadcast.getParamValue('action', urlAjax),
+			broadcast.getParamValue('idGoal', urlAjax)
+	);
+
 	piwikHelper.hideAjaxError('loadingError');
-    urlAjax = urlAjax.match(/^\?/) ? urlAjax : "?" + urlAjax;
-
 	piwikHelper.showAjaxLoading();
-    $('#content').hide();
-
+	$('#content').hide();
     $("object").remove();
-
+    
+    urlAjax = urlAjax.match(/^\?/) ? urlAjax : "?" + urlAjax;
     broadcast.lastUrlRequested = urlAjax;
-
     function sectionLoaded(content)
     {
         if(urlAjax == broadcast.lastUrlRequested) {
@@ -209,11 +212,6 @@ broadcast.loadAjaxContent = function(urlAjax)
 		    broadcast.lastUrlRequested = null;
 		}
     }
-	piwikMenu.activateMenu(
-	    broadcast.getParamValue('module', urlAjax),
-	    broadcast.getParamValue('action', urlAjax),
-	    broadcast.getParamValue('idGoal', urlAjax)
-    );
     ajaxRequest = {
         type: 'GET',
 	    url: urlAjax,
