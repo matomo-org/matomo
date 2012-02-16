@@ -69,6 +69,7 @@ class Archiving
 	// By default, we only process the current week/month/year at most once an hour
 	protected $processPeriodsMaximumEverySeconds = 3600;
 	
+	protected $websiteDayHasFinishedSinceLastRun = array();
 	protected $piwikUrl = false;
 	protected $token_auth = false;
 	protected $visits = 0;
@@ -199,6 +200,14 @@ class Archiving
 		    if(empty($lastTimestampWebsiteProcessedPeriods))
 		    {
 				// 2) OR always if script never executed for this website before
+		    	$shouldArchivePeriods = true;
+		    }
+		    
+		    // If the website is archived because it is a new day in its timezone
+		    // We make sure all periods are archived, even if there is 0 visit today
+		    if(!$shouldArchivePeriods
+		    	&& in_array($idsite, $this->websiteDayHasFinishedSinceLastRun))
+		    {
 		    	$shouldArchivePeriods = true;
 		    }
 		    
@@ -675,10 +684,10 @@ class Archiving
 			$websiteDayHasFinishedSinceLastRun = Piwik_SitesManager_API::getInstance()->getSitesIdFromTimezones($timezoneToProcess);
 			$websiteDayHasFinishedSinceLastRun = array_diff($websiteDayHasFinishedSinceLastRun, $this->websites);
 			$this->websiteDayHasFinishedSinceLastRun = $websiteDayHasFinishedSinceLastRun;
-			if(count($this->websiteDayHasFinishedSinceLastRun) > 0)
+			if(count($websiteDayHasFinishedSinceLastRun) > 0)
 			{
-				$websiteIds = !empty($this->websiteDayHasFinishedSinceLastRun) ? ", IDs: ".implode(", ", $this->websiteDayHasFinishedSinceLastRun) : "";
-				$this->log("Will process ". count($this->websiteDayHasFinishedSinceLastRun). " other websites because the last time they were archived was on a different day (in the website's timezone) " . $websiteIds);
+				$websiteIds = !empty($websiteDayHasFinishedSinceLastRun) ? ", IDs: ".implode(", ", $websiteDayHasFinishedSinceLastRun) : "";
+				$this->log("Will process ". count($websiteDayHasFinishedSinceLastRun). " other websites because the last time they were archived was on a different day (in the website's timezone) " . $websiteIds);
 				
 				$this->websites = array_merge($this->websites, $websiteDayHasFinishedSinceLastRun);
 			}	
