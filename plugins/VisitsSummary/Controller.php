@@ -117,8 +117,8 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		$dataTableActions = Piwik_Actions_API::getInstance()->get(Piwik_Common::getRequestVar('idSite'), Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'));
 		$dataActionsRow = $dataTableActions->getFirstRow();
 		
-		$view->nbUniqVisitors = $dataRow->getColumn('nb_uniq_visitors');
-		$nbVisits = $dataRow->getColumn('nb_visits');
+		$view->nbUniqVisitors = (int)$dataRow->getColumn('nb_uniq_visitors');
+		$nbVisits = (int)$dataRow->getColumn('nb_visits');
 		$view->nbVisits = $nbVisits;
 		$view->nbPageviews = (int)$dataActionsRow->getColumn('nb_pageviews');
 		$view->nbUniquePageviews = (int)$dataActionsRow->getColumn('nb_uniq_pageviews');
@@ -129,7 +129,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		$view->averageVisitDuration = $dataRow->getColumn('avg_time_on_site');
 		$nbBouncedVisits = $dataRow->getColumn('bounce_count');
 		$view->bounceRate = Piwik::getPercentageSafe($nbBouncedVisits, $nbVisits);
-		$view->maxActions = $dataRow->getColumn('max_actions');
+		$view->maxActions = (int)$dataRow->getColumn('max_actions');
 		$view->nbActionsPerVisit = $dataRow->getColumn('nb_actions_per_visit');
 		
 		// backward compatibility:
