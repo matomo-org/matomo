@@ -429,6 +429,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'find.tdc.dk'				=> array('Google'),
 		'searchresults.verizon.com'	=> array('Google'),
 		'search.walla.co.il'		=> array('Google'),
+		'search.alot.com'			=> array('Google'),
 
 		// Google Earth
 		// - 2010-09-13: are these redirects now?
