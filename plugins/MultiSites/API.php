@@ -130,7 +130,7 @@ class Piwik_MultiSites_API
 			}
 			else
 			{
-				$strLastDate = (string)Piwik_Period_Range::removePeriod($period, Piwik_Date::factory($date), $n = 1);
+				$strLastDate = Piwik_Period_Range::removePeriod($period, Piwik_Date::factory($date), $n = 1)->toString();
 			}
 
 			$pastArchive = Piwik_Archive::build('all', $period, $strLastDate, $segment);
