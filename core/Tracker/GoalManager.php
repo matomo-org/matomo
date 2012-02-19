@@ -54,7 +54,7 @@ class Piwik_Tracker_GoalManager
 		$this->requestIsEcommerce = ($this->idGoal == 0);
 	}
 
-	function getBuyerType($existingType = self::TYPE_BUYER_NONE)
+	function getBuyerType($existingType = Piwik_Tracker_GoalManager::TYPE_BUYER_NONE)
 	{
 		// Was there a Cart for this visit prior to the order?
 		$this->isThereExistingCartInVisit = in_array($existingType, 
