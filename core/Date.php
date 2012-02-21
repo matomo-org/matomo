@@ -460,6 +460,18 @@ class Piwik_Date
 		$ts = strtotime("-$n day", $this->timestamp);
 		return new Piwik_Date( $ts, $this->timezone );
 	}
+	
+	/**
+	 * Subtracts weeks from the existing date object and returns a new Piwik_Date object
+	 * Returned is the new date object
+	 * Doesn't modify $this
+	 *
+	 * @return Piwik_Date  new date
+	 */
+	public function subWeek( $n )
+	{
+		return $this->subDay( 7 * $n );
+	}
 
 	/**
 	 * Subtracts a month from the existing date object.
@@ -482,6 +494,31 @@ class Piwik_Date
 						date('n', $ts) - $n,
 						1, // we set the day to 1
 						date('Y', $ts)
+					);
+		return new Piwik_Date( $result, $this->timezone );
+	}
+
+	/**
+	 * Subtracts a year from the existing date object.
+	 * Returned is the new date object
+	 * Doesn't modify $this
+	 *
+	 * @return Piwik_Date  new date
+	 */
+	public function subYear( $n )
+	{
+		if($n === 0)
+		{
+			return clone $this;
+		}
+		$ts = $this->timestamp;
+		$result = mktime(
+						date('H', $ts),
+						date('i', $ts),
+						date('s', $ts),
+						1, // we set the month to 1
+						1, // we set the day to 1
+						date('Y', $ts) - $n
 					);
 		return new Piwik_Date( $result, $this->timezone );
 	}

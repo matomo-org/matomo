@@ -35,6 +35,11 @@ class Piwik_Visualization_Chart_Evolution extends Piwik_Visualization_Chart
 		}
 	}
 	
+	public function getSeriesColors()
+	{
+		return $this->seriesColors;
+	}
+
 	public function setSelectableRows($selectableRows)
 	{
 		$this->seriesPicker['selectableRows'] = $selectableRows;

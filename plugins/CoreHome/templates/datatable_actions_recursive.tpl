@@ -10,7 +10,7 @@
 			<thead>
 			<tr>
 			{foreach from=$dataTableColumns item=column}
-				<th class="sortable" id="{$column}">{$columnTranslations[$column]|escape:'html'}</td>
+				<th class="sortable" id="{$column}">{$columnTranslations[$column]|escape:'html'}</th>
 			{/foreach}
 			</tr>
 			</thead>

@@ -206,4 +206,12 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 			return false;
 		}
 	}
+	
+	/**
+	 * Disable the row evolution feature which is enabled by default
+	 */
+	public function disableRowEvolution()
+	{
+		$this->viewProperties['disable_row_evolution'] = true;
+	}
 }

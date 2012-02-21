@@ -585,8 +585,186 @@ JQPlot.prototype = {
 			dataTableId: this.dataTableId,
 			lang: lang
 		};
+	},
+
+	/**
+	 * Add an external series toggle.
+	 * As opposed to addSeriesPicker, the external series toggle can only show/hide
+	 * series that are already loaded.
+	 * @param seriesPickerClass a subclass of JQPlotExternalSeriesToggle
+	 */
+	addExternalSeriesToggle: function(seriesPickerClass, targetDivId, initiallyShowAll) {
+		new seriesPickerClass(targetDivId, this.originalData, initiallyShowAll);
+		
+		if (!initiallyShowAll) {
+			// initially, show only the first series
+			this.data = [this.data[0]];
+			this.params.series = [this.params.series[0]];
+		}
 	}
 	
+};
+
+
+
+
+// ----------------------------------------------------------------
+//  EXTERNAL SERIES TOGGLE
+//  Use external dom elements and their events to show/hide series
+// ----------------------------------------------------------------
+
+function JQPlotExternalSeriesToggle(targetDivId, originalConfig, initiallyShowAll) {
+	this.init(targetDivId, originalConfig, initiallyShowAll);
+}
+
+JQPlotExternalSeriesToggle.prototype = {
+	
+	init: function(targetDivId, originalConfig, initiallyShowAll) {
+		this.targetDivId = targetDivId;
+		this.originalConfig = originalConfig;
+		this.originalData = originalConfig.data;
+		this.originalSeries = originalConfig.params.series;
+		this.originalAxes = originalConfig.params.axes;
+		this.originalTooltipUnits = originalConfig.tooltip.yUnits;
+		this.originalSeriesColors = originalConfig.params.seriesColors;
+		this.initiallyShowAll = initiallyShowAll;
+		
+		this.activated = [];
+		this.target = $('#'+targetDivId);
+		
+		this.attachEvents();
+	},
+	
+	// can be overridden
+	attachEvents: function() {},
+	
+	// show a single series
+	showSeries: function(i) {
+		for (var j = 0; j < this.activated.length; j++) {
+			this.activated[j] = (i == j);
+		}
+		this.replot();
+	},
+	
+	// toggle a series (make plotting multiple series possible)
+	toggleSeries: function(i) {
+		var activatedCount = 0;
+		for (var k = 0; k < this.activated.length; k++) {
+			if (this.activated[k]) {
+				activatedCount++;
+			}
+		}
+		if (activatedCount == 1 && this.activated[i]) {
+			// prevent removing the only visible metric
+			return;
+		}
+		
+		this.activated[i] = !this.activated[i];
+		this.replot();
+	},
+	
+	replot: function() {
+		this.beforeReplot();
+		
+		// build new config and replot
+		var usedAxes = [];
+		var config = this.originalConfig;
+		config.data = [];
+		config.params.series = [];
+		config.params.axes = {xaxis: this.originalAxes.xaxis};
+		config.tooltip.yUnits = [];
+		config.params.seriesColors = [];
+		for (var j = 0; j < this.activated.length; j++) {
+			if (!this.activated[j]) {
+				continue;
+			}
+			config.data.push(this.originalData[j]);
+			config.tooltip.yUnits.push(this.originalTooltipUnits[j]);
+			config.params.seriesColors.push(this.originalSeriesColors[j]);
+			config.params.series.push($.extend(true, {}, this.originalSeries[j]));
+			// build array of used axes
+			var axis = this.originalSeries[j].yaxis;
+			if ($.inArray(axis, usedAxes) == -1) {
+				usedAxes.push(axis);
+			}
+		}
+		
+		// build new axes config
+		var replaceAxes = {};
+		for (j = 0; j < usedAxes.length; j++) {
+			var originalAxisName = usedAxes[j];
+			var newAxisName = (j == 0 ? 'yaxis' : 'y' + (j+1) + 'axis');
+			replaceAxes[originalAxisName] = newAxisName;
+			config.params.axes[newAxisName] = this.originalAxes[originalAxisName];
+		}
+		
+		// replace axis names in series config
+		for (j = 0; j < config.params.series.length; j++) {
+			var series = config.params.series[j];
+			series.yaxis = replaceAxes[series.yaxis];
+		}
+		
+		this.target.trigger('replot', config);
+	},
+	
+	// can be overridden
+	beforeReplot: function() {}
+
+};
+
+
+// ROW EVOLUTION SERIES TOGGLE
+
+function RowEvolutionSeriesToggle(targetDivId, originalConfig, initiallyShowAll) {
+	this.init(targetDivId, originalConfig, initiallyShowAll);
+}
+
+RowEvolutionSeriesToggle.prototype = JQPlotExternalSeriesToggle.prototype;
+
+RowEvolutionSeriesToggle.prototype.attachEvents = function() {
+	var self = this;
+	this.seriesPickers = this.target.closest('.rowevolution').find('table.metrics tr');
+	
+	this.seriesPickers.each(function(i) {
+		var el = $(this);
+		el.click(function(e) {
+			if (e.shiftKey) {
+				self.toggleSeries(i);
+			} else {
+				self.showSeries(i);
+			}
+			return false;
+		});
+		
+		if (i == 0 || self.initiallyShowAll) {
+			// show the active series
+			// if initiallyShowAll, all are active; otherwise only the first one
+			self.activated.push(true);
+		} else {
+			// fade out the others
+			el.find('td').css('opacity', .5);
+			self.activated.push(false);
+		}
+		
+		// prevent selecting in ie & opera (they don't support doing this via css)
+		if ($.browser.msie) {
+			this.ondrag = function() { return false; };
+			this.onselectstart = function() { return false; };
+		} else if ($.browser.opera) {
+			$(this).attr('unselectable', 'on');
+		}
+	});
+};
+
+RowEvolutionSeriesToggle.prototype.beforeReplot = function() {
+	// fade out if not activated
+	for (var i = 0; i < this.activated.length; i++) {
+		if (this.activated[i]) {
+			this.seriesPickers.eq(i).find('td').css('opacity', 1);
+		} else {
+			this.seriesPickers.eq(i).find('td').css('opacity', .5);
+		}
+	}
 };
 
 
@@ -1017,7 +1195,7 @@ JQPlot.prototype = {
 			}
 			box.prop('checked', true);
 			replot();
-		}
+		};
 		
 		el.click(function(e) {
 			pickerState.manipulated = true;
@@ -1233,4 +1411,3 @@ JQPlot.prototype = {
 	$.jqplot.postDrawHooks.push($.jqplot.PieLegend.postDraw);
 	
 })(jQuery);
-

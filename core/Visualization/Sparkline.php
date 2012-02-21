@@ -59,13 +59,18 @@ class Piwik_Visualization_Sparkline implements Piwik_View_Interface
 		$i = 0;
 		foreach($this->values as $value)
 		{
-			// 50% should be plotted as 50
-			$toRemove = '%';
-			if(strpos($value, $toRemove) !== false)
+			// 50% and 50s should be plotted as 50
+			$toRemove = array('%', 's');
+			$value = str_replace($toRemove, '', $value);
+			// replace localized decimal separator
+			$value = str_replace(',', '.', $value);
+			if ($value == '')
 			{
-				$value = str_replace($toRemove, '', $value);
+				$value = 0;
 			}
+			
 			$sparkline->SetData($i, $value);
+			
 			if(	null == $min || $value <= $min[1])
 			{
 				$min = array($i, $value);

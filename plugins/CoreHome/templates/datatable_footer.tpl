@@ -24,7 +24,9 @@
 {if $properties.show_footer_icons}
 	<div class="dataTableFooterIcons">
 		<div class="dataTableFooterWrap" var="{$javascriptVariablesToSet.viewDataTable}">
+			{if !$properties.hide_all_views_icons}
 			<img src="themes/default/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem" />
+			{/if}
 			<div class="tableIconsGroup">
             	<span class="tableAllColumnsSwitch">
                     {if $properties.show_table}
@@ -50,7 +52,7 @@
                     {if $properties.show_tag_cloud}<a class="tableIcon" format="cloud" var="cloud"><img width="16" height="16" src="themes/default/images/tagcloud.png" title="{'General_TagCloud'|translate}" /></a>{/if}
 				</span>
            </div>
-           {elseif $javascriptVariablesToSet.viewDataTable == "generateDataChartEvolution"}
+           {elseif !$properties.hide_all_views_icons && $javascriptVariablesToSet.viewDataTable == "generateDataChartEvolution"}
 			<div class="tableIconsGroup">
             	<span class="tableGraphViews">
                     <a class="tableIcon" format="graphEvolution" var="generateDataChartEvolution"><img width="16" height="16" src="themes/default/images/chart_bar.png" title="{'General_VBarGraph'|translate}" /></a>

@@ -291,6 +291,7 @@ abstract class Piwik_ViewDataTable
 		$this->viewProperties['show_table'] = Piwik_Common::getRequestVar('show_table', true);
 		$this->viewProperties['show_table_all_columns'] = Piwik_Common::getRequestVar('show_table_all_columns', true);
 		$this->viewProperties['show_all_views_icons'] = Piwik_Common::getRequestVar('show_all_views_icons', true);
+		$this->viewProperties['hide_all_views_icons'] = Piwik_Common::getRequestVar('hide_all_views_icons', false);
 		$this->viewProperties['show_bar_chart'] = Piwik_Common::getRequestVar('show_barchart', true);
 		$this->viewProperties['show_pie_chart'] = Piwik_Common::getRequestVar('show_piechart', true);
 		$this->viewProperties['show_tag_cloud'] = Piwik_Common::getRequestVar('show_tag_cloud', true);
@@ -378,6 +379,17 @@ abstract class Piwik_ViewDataTable
 	}
 	
 	/**
+	 * To prevent calling an API multiple times, the DataTable can be set directly.
+	 * It won't be loaded again from the API in this case
+	 * 
+	 * @return $dataTable Piwik_DataTable
+	 */
+	public function setDataTable($dataTable)
+	{
+		$this->dataTable = $dataTable;
+	}
+	
+	/**
 	 * Function called by the ViewDataTable objects in order to fetch data from the API.
 	 * The function init() must have been called before, so that the object knows which API module and action to call.
 	 * It builds the API request string and uses Piwik_API_Request to call the API.
@@ -385,6 +397,13 @@ abstract class Piwik_ViewDataTable
 	 */
 	protected function loadDataTableFromAPI()
 	{
+		if(!is_null($this->dataTable))
+		{
+			// data table is already there
+			// this happens when setDataTable has been used
+			return;
+		}
+		
 		// we build the request string (URL) to call the API
 		$requestString = $this->getRequestString();
 
@@ -828,6 +847,17 @@ abstract class Piwik_ViewDataTable
 	public function disableShowAllViewsIcons()
 	{
 		$this->viewProperties['show_all_views_icons'] = false;
+	}
+	
+	/**
+	 * Whether or not to hide view icons altogether.
+	 * The difference to disableShowAllViewsIcons is that not even the single icon
+	 * will be shown. This icon might cause trouble because it reloads the graph on click. 
+	 */
+	public function hideAllViewsIcons()
+	{
+		$this->viewProperties['show_all_views_icons'] = false;
+		$this->viewProperties['hide_all_views_icons'] = true;
 	}
 	
 	/**

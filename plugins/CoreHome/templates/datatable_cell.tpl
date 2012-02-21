@@ -6,12 +6,10 @@
 {/if}
 {if $column=='label'}
 	{logoHtml metadata=$row.metadata alt=$row.columns.label}
-	<span class='label'>	
-{/if}
-{if isset($row.columns[$column])}{$row.columns[$column]}{else}{$defaultWhenColumnValueNotDefined}{/if}
-{if $column=='label'}
-</span>
-{/if}
+	<span class='label'>{* make sure there are no whitespaces inside the span
+*}{/if}{*
+*}{if isset($row.columns[$column])}{$row.columns[$column]}{else}{$defaultWhenColumnValueNotDefined}{/if}{*
+*}{if $column=='label'}</span>{/if}
 {if !$row.idsubdatatable && $column=='label' && !empty($row.metadata.url)}
 	</a>
 {/if}

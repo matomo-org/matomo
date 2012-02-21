@@ -15,6 +15,10 @@
 		<script type="text/javascript">
 			{literal}  window.setTimeout(function() {  {/literal}
 				var plot = new JQPlot({$data}, '{$properties.uniqueId}');
+				{if isset($properties.externalSeriesToggle) && $properties.externalSeriesToggle}
+					plot.addExternalSeriesToggle({$properties.externalSeriesToggle}, '{$chartDivId}',
+						{if $properties.externalSeriesToggleShowAll}true{else}false{/if});
+				{/if}
 				plot.render('{$graphType}', '{$chartDivId}', {literal} { {/literal}
 					noData: '{'General_NoDataForGraph'|translate|escape:'javascript'}',
 					exportTitle: '{'General_ExportAsImage_js'|translate|escape:'javascript'}',
