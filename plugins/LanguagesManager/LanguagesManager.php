@@ -70,7 +70,14 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	function getLanguageToLoad($notification)
 	{
 		$language =& $notification->getNotificationObject();
-		$language = self::getLanguageCodeForCurrentUser();
+		if (empty($language))
+		{
+			$language = self::getLanguageCodeForCurrentUser();
+		}
+		if(!Piwik_LanguagesManager_API::getInstance()->isLanguageAvailable($language))
+		{
+			$language = Piwik_Translate::getInstance()->getLanguageDefault();
+		}
 	}
 
 	function deleteUserLanguage($notification)
@@ -123,7 +130,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 		}
 		if(!Piwik_LanguagesManager_API::getInstance()->isLanguageAvailable($languageCode))
 		{
-			$languageCode = 'en';
+			$languageCode = Piwik_Translate::getInstance()->getLanguageDefault();
 		}
 		return $languageCode;
 	}
