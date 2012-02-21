@@ -59,6 +59,11 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		$this->viewProperties['show_export_as_image_icon'] = true;
 	}
 	
+	public function addRowEvolutionSeriesToggle($initiallyShowAllMetrics) {
+		$this->viewProperties['externalSeriesToggle'] = 'RowEvolutionSeriesToggle';
+		$this->viewProperties['externalSeriesToggleShowAll'] = $initiallyShowAllMetrics;
+	}
+	
 	/**
 	 * Sets parameters to modify in the future generated URL
 	 * @param array $array array('nameParameter' => $newValue, ...)

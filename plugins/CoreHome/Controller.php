@@ -116,4 +116,46 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 		$jsMergedFile = Piwik_AssetManager::getMergedJsFileLocation();
 		Piwik::serveStaticFile($jsMergedFile, "application/javascript; charset=UTF-8");
 	}
+	
+	
+	//  --------------------------------------------------------
+	//  ROW EVOLUTION
+	//  The following methods render the popup that shows the
+	//  evolution of a singe or multiple rows in a data table
+	//  --------------------------------------------------------
+	
+	/**
+	 * This static cache is necessary because the signature cannot be modified
+	 * if the method renders a ViewDataTable. So we use it to pass information
+	 * to getRowEvolutionGraph()
+	 * @var Piwik_CoreHome_DataTableAction_Evolution
+	 */
+	private static $rowEvolutionCache = null;
+	
+	/** Render the entire row evolution popup for a single row */
+	public function getRowEvolutionPopup()
+	{
+		$rowEvolution = new Piwik_CoreHome_DataTableAction_RowEvolution($this->idSite, $this->date);
+		self::$rowEvolutionCache = $rowEvolution;
+		$view = Piwik_View::factory('popup_rowevolution');
+		echo $rowEvolution->renderPopup($this, $view);
+	}
+	
+	/** Render the entire row evolution popup for multiple rows */
+	public function getMultiRowEvolutionPopup()
+	{
+		$rowEvolution = new Piwik_CoreHome_DataTableAction_MultiRowEvolution($this->idSite, $this->date);
+		self::$rowEvolutionCache = $rowEvolution;
+		$view = Piwik_View::factory('popup_multirowevolution');
+		echo $rowEvolution->renderPopup($this, $view);
+	}
+	
+	/** Generic method to get an evolution graph or a sparkline for the row evolution popup */
+	public function getRowEvolutionGraph($fetch = false)
+	{
+		$rowEvolution = self::$rowEvolutionCache;
+		$view = $rowEvolution->getRowEvolutionGraph();
+		return $this->renderView($view, $fetch);
+	}
+	
 }
