@@ -382,8 +382,12 @@ class Archiving
             if($url == $urlNoSegment
             	&& $sucessResponse)
             {
-            	$content = unserialize($content);
-            	$visitsAllDaysInPeriod = @array_sum($content);
+            	$stats = unserialize($content);
+            	if(!is_array($stats))
+            	{
+            		$this->logError("Error unserializing the following response: " . $content);
+            	}
+            	$visitsAllDaysInPeriod = @array_sum($stats);
             }
         }
 
