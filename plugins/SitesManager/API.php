@@ -222,7 +222,8 @@ class Piwik_SitesManager_API
                 FROM ".Piwik_Common::prefixTable('log_visit'). " v
                 WHERE v.idsite = s.idsite
                 AND visit_last_action_time > ?
-                AND visit_last_action_time <= ?)
+                AND visit_last_action_time <= ?
+                LIMIT 1)
         ", array($time, $now = Piwik_Date::now()->addHour(1)->getDatetime()));
 		$idSites = array();
 		foreach($result as $idSite)
