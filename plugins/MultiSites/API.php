@@ -16,7 +16,7 @@
 require_once PIWIK_INCLUDE_PATH . '/plugins/MultiSites/CalculateEvolutionFilter.php';
 
 /**
- * The API class for the MultiSites plugin.
+ * The MultiSites API lets you request the key metrics (visits, page views, revenue) for all Websites in Piwik.
  */
 class Piwik_MultiSites_API
 {
