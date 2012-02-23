@@ -29,21 +29,26 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
 		// determine the maximum logo width & height
 		$maxLogoWidth = 0;
 		$maxLogoHeight = 0;
+		$logoPathToSizes = array();
 		foreach($this->ordinateLogos as $logoPath)
 		{
 			$absoluteLogoPath = self::getAbsoluteLogoPath($logoPath);
-			$logoWidthHeight = self::getLogoWidthHeight($absoluteLogoPath);
-			$logoWidth = $logoWidthHeight[self::WIDTH_KEY];
-			$logoHeight = $logoWidthHeight[self::HEIGHT_KEY];
-
-			if($logoWidth > $maxLogoWidth)
+			if(file_exists($absoluteLogoPath))
 			{
-				$maxLogoWidth = $logoWidth;
-			}
-
-			if($logoHeight > $maxLogoHeight)
-			{
-				$maxLogoHeight = $logoHeight;
+				$logoWidthHeight = self::getLogoWidthHeight($absoluteLogoPath);
+				$logoWidth = $logoWidthHeight[self::WIDTH_KEY];
+				$logoHeight = $logoWidthHeight[self::HEIGHT_KEY];
+	
+				$logoPathToSizes[$absoluteLogoPath] = $logoWidthHeight;
+				if($logoWidth > $maxLogoWidth)
+				{
+					$maxLogoWidth = $logoWidth;
+				}
+	
+				if($logoHeight > $maxLogoHeight)
+				{
+					$maxLogoHeight = $logoHeight;
+				}
 			}
 		}
 
@@ -167,25 +172,29 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
 			{
 				$logoPath = $this->ordinateLogos[$i];
 				$absoluteLogoPath = self::getAbsoluteLogoPath($logoPath);
-
-				$logoWidthHeight = self::getLogoWidthHeight($absoluteLogoPath);
-
-				$pathInfo = pathinfo($logoPath);
-				$logoExtension = strtoupper($pathInfo['extension']);
-				$drawingFunction = 'drawFrom' . $logoExtension;
-
-				$logoYPosition =
-						($logoInterleave * $i)
-						+ $this->getGridTopMargin(true)
-						+ $graphData['Axis'][1]['Margin']
-						- $logoWidthHeight[self::HEIGHT_KEY] / 2
-						+ 1;
-
-				$this->pImage->$drawingFunction(
-					$gridLeftMarginBeforePadding,
-					$logoYPosition,
-					$absoluteLogoPath
-				);
+				
+				
+				if(isset($logoPathToSizes[$absoluteLogoPath]))
+				{
+					$logoWidthHeight = $logoPathToSizes[$absoluteLogoPath];
+	
+					$pathInfo = pathinfo($logoPath);
+					$logoExtension = strtoupper($pathInfo['extension']);
+					$drawingFunction = 'drawFrom' . $logoExtension;
+	
+					$logoYPosition =
+							($logoInterleave * $i)
+							+ $this->getGridTopMargin(true)
+							+ $graphData['Axis'][1]['Margin']
+							- $logoWidthHeight[self::HEIGHT_KEY] / 2
+							+ 1;
+	
+					$this->pImage->$drawingFunction(
+						$gridLeftMarginBeforePadding,
+						$logoYPosition,
+						$absoluteLogoPath
+					);
+				}
 			}
 		}
 	}
