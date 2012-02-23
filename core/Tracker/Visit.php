@@ -57,7 +57,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected $goalManager;
 
-	const TIME_IN_PAST_TO_SEARCH_FOR_VISITOR = 3600;
+	const TIME_IN_PAST_TO_SEARCH_FOR_VISITOR = 86400;
 
 	public function __construct($forcedIpString = null, $forcedDateTime = null)
 	{
@@ -908,58 +908,19 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			printDebug("Visitor doesn't have the piwik cookie...");
 		}
 		
-		$bindSql = array();
-		
-		$timeLookBack = date('Y-m-d H:i:s', $this->getCurrentTimestamp() - self::TIME_IN_PAST_TO_SEARCH_FOR_VISITOR);
-		$where = "visit_last_action_time >= ?
-					AND idsite = ?";
-		$bindSql[] = $timeLookBack;
-		$bindSql[] = $this->idsite;
-		
-		if($matchVisitorId)
-		{
-			$trustCookiesOnly = Piwik_Tracker_Config::getInstance()->Tracker['trust_visitors_cookies'];
-			// This setting would be enabled for Intranet websites, to ensure that visitors using all the same computer config, same IP
-			// are not counted as 1 visitor. In this case, we want to enforce and trust the visitor ID from the cookie.
-			if($trustCookiesOnly)
-			{
-				$where .= ' AND idvisitor = ?';
-				$bindSql[] = $this->visitorInfo['idvisitor'];
-			}
-			// However, for all other cases, we do not trust this ID. Indeed, some browsers, or browser addons, 
-			// cause the visitor id from 1st party cookie to be different on each page view! 
-			// It is not acceptable to create a new visit every time such browser does a page view, 
-			// so we also backup by searching for matching configId. 
-			// NOTE Above we sort the visitors by first selecting the one that matches idvisitor, if it was found
-			else
-			{
-				$where .= ' AND (idvisitor = ? OR config_id = ?)';
-				$bindSql[] = $this->visitorInfo['idvisitor'];
-				$bindSql[] = $configId;
-			}
-		}
-		// No visitor ID, possible causes: no browser cookie support, direct Tracking API request without visitor ID passed, etc.
-		// We can use configId heuristics to try find the visitor in the past, there is a risk to assign 
-		// this page view to the wrong visitor, but this is better than creating artificial visits.
-		else
-		{
-			$where .= ' AND config_id = ?';
-			$bindSql[] = $configId;
-		}
-
 		$selectCustomVariables = '';
 		// No custom var were found in the request, so let's copy the previous one in a potential conversion later
 		if(!$this->customVariablesSetFromRequest)
 		{
-			$selectCustomVariables = '
-				, custom_var_k1, custom_var_v1,
+			$selectCustomVariables = ', 
+				custom_var_k1, custom_var_v1,
 				custom_var_k2, custom_var_v2,
 				custom_var_k3, custom_var_v3,
 				custom_var_k4, custom_var_v4,
 				custom_var_k5, custom_var_v5';
 		}
 		
-		$sql = " SELECT  	idvisitor,
+		$select = "SELECT  	idvisitor,
 							visit_last_action_time,
 							visit_first_action_time,
 							idvisit,
@@ -975,11 +936,96 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 							referer_type,
 							visitor_count_visits,
 							visit_goal_buyer
-							$selectCustomVariables
-				FROM ".Piwik_Common::prefixTable('log_visit').
-				" WHERE ".$where."
+							$selectCustomVariables 
+		";
+		$from = "FROM ".Piwik_Common::prefixTable('log_visit');
+
+		
+		$bindSql = array();
+		
+		$timeLookBack = date('Y-m-d H:i:s', $this->getCurrentTimestamp() - self::TIME_IN_PAST_TO_SEARCH_FOR_VISITOR);
+
+		// This setting would be enabled for Intranet websites, to ensure that visitors using all the same computer config, same IP
+		// are not counted as 1 visitor. In this case, we want to enforce and trust the visitor ID from the cookie.
+		$trustCookiesOnly = Piwik_Tracker_Config::getInstance()->Tracker['trust_visitors_cookies'];
+		
+		$shouldMatchOneFieldOnly = ($matchVisitorId && $trustCookiesOnly) || !$matchVisitorId;
+		
+		// Two use cases:
+		// 1) there is no visitor ID so we try to match only on config_id (heuristics)
+		// 		Possible causes of no visitor ID: no browser cookie support, direct Tracking API request without visitor ID passed, etc.
+		// 		We can use config_id heuristics to try find the visitor in the past, there is a risk to assign 
+		// 		this page view to the wrong visitor, but this is better than creating artificial visits.
+		// 2) there is a visitor ID and we trust it (config setting trust_visitors_cookies), so we force to look up this visitor id
+		if($shouldMatchOneFieldOnly)
+		{
+			$where = "visit_last_action_time >= ? AND idsite = ?";
+			$bindSql[] = $timeLookBack;
+			$bindSql[] = $this->idsite;
+			if(!$matchVisitorId)
+			{
+				$where .= ' AND config_id = ?';
+				$bindSql[] = $configId;
+			}
+			else
+			{
+				$where .= ' AND idvisitor = ?';
+				$bindSql[] = $this->visitorInfo['idvisitor'];
+			}
+			
+			$sql = "$select
+				$from
+				WHERE ".$where."
 				ORDER BY visit_last_action_time DESC
 				LIMIT 1";
+		}
+		// We have a config_id AND a visitor_id. We match on either of these.
+		// 		Why do we also match on config_id?
+		//		we do not trust the visitor ID only. Indeed, some browsers, or browser addons, 
+		// 		cause the visitor id from the 1st party cookie to be different on each page view! 
+		// 		It is not acceptable to create a new visit every time such browser does a page view, 
+		// 		so we also backup by searching for matching config_id. 
+		// We use a UNION here so that each sql query uses its own INDEX
+		else
+		{
+			$whereSameBothQueries = "visit_last_action_time >= ? AND idsite = ?";
+			
+			
+			// will use INDEX index_idsite_config_datetime (idsite, config_id, visit_last_action_time)
+			$bindSql[] = $timeLookBack;
+			$bindSql[] = $this->idsite;
+			$where = ' AND config_id = ?';
+			$bindSql[] = $configId;
+			$sqlConfigId = "$select ,
+					0 as priority
+					$from
+					WHERE $whereSameBothQueries $where
+					ORDER BY visit_last_action_time DESC
+					LIMIT 1
+			";
+		
+			// will use INDEX index_idsite_idvisitor (idsite, idvisitor)
+			$bindSql[] = $timeLookBack;
+			$bindSql[] = $this->idsite;
+			$where = ' AND idvisitor = ?';
+			$bindSql[] = $this->visitorInfo['idvisitor'];
+			$sqlVisitorId = "$select ,
+					1 as priority
+					$from
+					WHERE $whereSameBothQueries $where
+					ORDER BY visit_last_action_time DESC
+					LIMIT 1
+			";
+			
+			// We join both queries and favor the one matching the visitor_id if it did match
+			$sql = " ( $sqlConfigId ) 
+					UNION 
+					( $sqlVisitorId ) 
+					ORDER BY priority DESC 
+					LIMIT 1";
+		}
+		
+		
 		$visitRow = Piwik_Tracker::getDatabase()->fetch($sql, $bindSql);
 //		var_dump($sql);var_dump($bindSql);var_dump($visitRow);
 		

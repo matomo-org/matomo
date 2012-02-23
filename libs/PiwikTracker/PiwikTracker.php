@@ -85,7 +85,8 @@ class PiwikTracker
     	$this->ip = @$_SERVER['REMOTE_ADDR'];
     	$this->acceptLanguage = @$_SERVER['HTTP_ACCEPT_LANGUAGE'];
     	$this->userAgent = @$_SERVER['HTTP_USER_AGENT'];
-    	if(!empty($apiUrl)) {
+    	if(!empty($apiUrl)) 
+    	{
     		self::$URL = $apiUrl;
     	}
     	$this->visitorId = substr(md5(uniqid(rand(), true)), 0, self::LENGTH_VISITOR_ID);

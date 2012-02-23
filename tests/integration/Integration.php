@@ -93,6 +93,7 @@ abstract class Test_Integration extends Test_Database_Base
 	{
 		parent::setUp();
 		$_GET = $_REQUEST = array();
+		$_SERVER['HTTP_REFERER'] = '';
 
 		// Make sure translations are loaded to check messages in English 
     	Piwik_Translate::getInstance()->loadEnglishTranslation();
