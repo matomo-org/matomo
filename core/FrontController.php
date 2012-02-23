@@ -255,7 +255,8 @@ class Piwik_FrontController
 			}
 
 			
-			if(Zend_Registry::get('config')->General->force_ssl == 1
+			if(!Piwik_Common::isPhpCliMode()
+				&& Zend_Registry::get('config')->General->force_ssl == 1
 				&& !Piwik::isHttps())
 			{
 				$url = Piwik_Url::getCurrentUrl();
