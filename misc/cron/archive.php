@@ -17,6 +17,9 @@ Arguments:
 	--force-timeout-for-periods=[seconds]
 			The current week/ current month/ current year will be processed at most every [seconds].
 			If not specified, defaults to 3600.
+	--accept-invalid-ssl-certificate
+			It is _NOT_ recommended to use this argument. Instead, you should use a valid SSL certificate!
+			It can be useful if you specified --url=https://... or if you are using Piwik with force_ssl=1
 	--help
 			Displays usage
 
@@ -79,7 +82,7 @@ class Archiving
 	protected $output = '';
 	protected $shouldResetState = false;
 	protected $shouldArchiveAllWebsites = false;
-	
+	protected $acceptInvalidSSLCertificate = false;
 	/**
 	 * By default, will process last 52 days/weeks/months/year.
 	 * It will be overwritten by the number of days since last archiving ran until completion.
@@ -104,6 +107,9 @@ class Archiving
 		$this->logSection("INIT");
 		$this->log("Querying Piwik API at: {$this->piwikUrl}");		
 		$this->log("Running as Super User: " . $this->login);
+		
+		$this->acceptInvalidSSLCertificate = $this->isParameterSet("accept-invalid-ssl-certificate");
+		
 		// Test the specified piwik URL is valid
 		$response = $this->request("?module=API&method=API.getDefaultMetricTranslations&format=php");
 		$responseUnserialized = @unserialize($response);
@@ -361,11 +367,19 @@ class Archiving
 	    $aCurl = array();
 		$mh = curl_multi_init();
 		$url = $this->piwikUrl . $this->getVisitsRequestUrl($idsite, $period, $lastTimestampWebsiteProcessed) . $this->requestPrepend;
+		
 	    // already processed above for "day"
 	    if($period != "day")
 	    {
 			$ch = curl_init($url);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			
+			if($this->acceptInvalidSSLCertificate)
+			{
+				curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, false); 
+				curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, false); 
+			}
+			
 			curl_multi_add_handle($mh, $ch);
 			$aCurl[$url] = $ch;
 			$this->requests++;
@@ -468,7 +482,7 @@ class Archiving
 		$url = $this->piwikUrl. $url . $this->requestPrepend;
 		//$this->log($url);
 		try {
-			$response = Piwik_Http::sendHttpRequestBy('curl', $url, $timeout = 300);
+			$response = Piwik_Http::sendHttpRequestBy('curl', $url, $timeout = 300, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $acceptInvalidSSLCertificate = $this->acceptInvalidSSLCertificate);
 		} catch(Exception $e) {
 			return $this->logNetworkError($url, $e->getMessage());
 		}

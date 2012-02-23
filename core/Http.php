@@ -83,10 +83,12 @@ class Piwik_Http
 	 * @param string $destinationPath
 	 * @param resource $file
 	 * @param int $followDepth
+	 * @param string Accept-language header
+	 * @param bool Only used with $method == 'curl'. If set to true (NOT recommended!) the SSL certificate will not be checked
 	 * @return bool true (or string) on success; false on HTTP response error code (1xx or 4xx)
 	 * @throws Exception for all other errors
 	 */
-	static public function sendHttpRequestBy($method = 'socket', $aUrl, $timeout, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false)
+	static public function sendHttpRequestBy($method = 'socket', $aUrl, $timeout, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $acceptInvalidSslCertificate = false)
 	{
 		if ($followDepth > 5)
 		{
@@ -390,6 +392,15 @@ class Piwik_Http
 				CURLOPT_HEADER => false,
 				CURLOPT_CONNECTTIMEOUT => $timeout,
 			);
+			// Case archive.php is triggering archiving on https:// and the certificate is not valid
+			if($acceptInvalidSslCertificate)
+			{
+				$curl_options += array(
+					CURLOPT_SSL_VERIFYHOST => false,
+					CURLOPT_SSL_VERIFYPEER => false, 
+				);
+			}
+			
 			@curl_setopt_array($ch, $curl_options);
 
 			/*
