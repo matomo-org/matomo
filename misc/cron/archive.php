@@ -24,6 +24,7 @@ Arguments:
 			Displays usage
 
 Notes:
+	* It is recommended to run the script with the argument --url=[piwik-server-url] only. Other arguments are not required. 
 	* This script should be executed every hour via crontab, or as a deamon.
 	* You can also run it via http:// by specifying the Super User &token_auth=XYZ as a parameter ('Web Cron'), 
 	  but it is recommended to run it via command line/CLI instead.
