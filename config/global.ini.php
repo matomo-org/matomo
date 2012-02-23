@@ -190,10 +190,6 @@ login_password_recovery_email_name = Piwik
 ; Default is 0 (i.e., bust frames on all non Widget pages such as Login, API, Widgets, Email reports, etc.).
 enable_framed_pages = 0
 
-; Set to 1 to disable the framebuster on the Login page only (a click-jacking countermeasure).
-; Default is 0 (i.e., bust frames on the Login forms).
-enable_framed_logins = 0
-
 ; Set to 1 to disable the framebuster on Admin pages (a click-jacking countermeasure).
 ; Default is 0 (i.e., bust frames on the Settings forms).
 enable_framed_settings = 0

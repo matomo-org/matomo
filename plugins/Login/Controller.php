@@ -97,12 +97,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 	    
 		$view->linkTitle = Piwik::getRandomTitle();
 
-		$view->enableFrames = Zend_Registry::get('config')->General->enable_framed_logins;
-		if(!$view->enableFrames)
-		{
-			$view->setXFrameOptions('sameorigin');
-		}
-
 		$view->forceSslLogin = Zend_Registry::get('config')->General->force_ssl_login;
 
 		// crsf token: don't trust the submitted value; generate/fetch it from session data

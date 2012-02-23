@@ -468,7 +468,8 @@ abstract class Piwik_Controller
 		$view->logoHeader = Piwik_API_API::getInstance()->getHeaderLogoUrl();
 		$view->logoLarge = Piwik_API_API::getInstance()->getLogoUrl();
 		
-		$view->enableFrames = Zend_Registry::get('config')->General->enable_framed_pages;
+		$view->enableFrames = Zend_Registry::get('config')->General->enable_framed_pages
+						   || Zend_Registry::get('config')->General->enable_framed_logins;
 		if(!$view->enableFrames)
 		{
 			$view->setXFrameOptions('sameorigin');
