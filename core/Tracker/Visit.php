@@ -57,7 +57,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected $goalManager;
 
-	const TIME_IN_PAST_TO_SEARCH_FOR_VISITOR = 86400;
+	const TIME_IN_PAST_TO_SEARCH_FOR_VISITOR = 3600;
 
 	public function __construct($forcedIpString = null, $forcedDateTime = null)
 	{
@@ -895,7 +895,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 		$userInfo = $this->getUserSettingsInformation();
 		$configId = $userInfo['config_id'];
-		$timeLookBack = date('Y-m-d H:i:s', $this->getCurrentTimestamp() - self::TIME_IN_PAST_TO_SEARCH_FOR_VISITOR);
 		
 		$this->assignVisitorIdFromRequest();
 		$matchVisitorId = !empty($this->visitorInfo['idvisitor']);
@@ -911,15 +910,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		
 		$bindSql = array();
 		
-		// See code below if/else
-		$trustCookiesOnly = Piwik_Tracker_Config::getInstance()->Tracker['trust_visitors_cookies'];
-		$visitPriority = 1;
-		if($matchVisitorId && !$trustCookiesOnly)
-		{
-			$visitPriority = 'case when idvisitor = ? then 1 else 0 end';
-			$bindSql[] = $this->visitorInfo['idvisitor'];
-		}
-
+		$timeLookBack = date('Y-m-d H:i:s', $this->getCurrentTimestamp() - self::TIME_IN_PAST_TO_SEARCH_FOR_VISITOR);
 		$where = "visit_last_action_time >= ?
 					AND idsite = ?";
 		$bindSql[] = $timeLookBack;
@@ -927,6 +918,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		
 		if($matchVisitorId)
 		{
+			$trustCookiesOnly = Piwik_Tracker_Config::getInstance()->Tracker['trust_visitors_cookies'];
 			// This setting would be enabled for Intranet websites, to ensure that visitors using all the same computer config, same IP
 			// are not counted as 1 visitor. In this case, we want to enforce and trust the visitor ID from the cookie.
 			if($trustCookiesOnly)
@@ -981,13 +973,12 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 							referer_name,
 							referer_keyword,
 							referer_type,
-							$visitPriority AS priority,
 							visitor_count_visits,
 							visit_goal_buyer
 							$selectCustomVariables
 				FROM ".Piwik_Common::prefixTable('log_visit').
 				" WHERE ".$where."
-				ORDER BY priority DESC, visit_last_action_time DESC
+				ORDER BY visit_last_action_time DESC
 				LIMIT 1";
 		$visitRow = Piwik_Tracker::getDatabase()->fetch($sql, $bindSql);
 //		var_dump($sql);var_dump($bindSql);var_dump($visitRow);
