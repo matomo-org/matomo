@@ -82,7 +82,7 @@
 			</div>
 			
 		</div>
-			
+        <div class="limitSelection"></div>
 		{if $properties.show_exclude_low_population}
 			<span class="dataTableExcludeLowPopulation"></span>
 		{/if}

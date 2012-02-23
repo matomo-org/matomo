@@ -76,7 +76,6 @@ dataTable.prototype =
 			'filter_pattern_recursive', 
 			'enable_filter_excludelowpop',
 			'filter_offset',
-			'filter_limit',
 			'filter_sort_column',
 			'filter_sort_order',
 			'disable_generic_filters',
@@ -220,6 +219,7 @@ dataTable.prototype =
 		var self = this;
 		self.cleanParams();
 		self.handleSort(domElem);
+		self.handleLimit(domElem);
 		self.handleSearchBox(domElem);
 		self.handleLowPopulationLink(domElem);
 		self.handleOffsetInformation(domElem);
@@ -230,7 +230,50 @@ dataTable.prototype =
 		self.handleReportDocumentation(domElem);
 		self.handleRowActions(domElem);
 	},
+	
+	handleLimit: function(domElem)
+	{
+		var self = this;
 		
+		$('.limitSelection', domElem).append('<div><span>'+self.param.filter_limit+'</span></div><ul></ul>');
+		
+		if(self.param.viewDataTable == 'table' || self.param.viewDataTable == 'tableAllColumns' || self.param.viewDataTable == 'tableGoals') {
+			$('.limitSelection ul', domElem).hide();
+			var numbers = [5, 10, 25, 50, 100, 250];
+			for(var i=0; i<numbers.length; i++) {
+				$('.limitSelection ul', domElem).append('<li value="'+numbers[i]+'"><span>'+numbers[i]+'</span></li>');
+			}
+			$('.limitSelection ul li:last', domElem).addClass('last');
+			if(self.param.totalRows > 0) {
+				$('.limitSelection div', domElem).on('click', function(){
+					$('.limitSelection ul', domElem).toggle();
+					$('.limitSelection', domElem).toggleClass('visible');
+				});
+				$('.limitSelection ul li', domElem).on('click', function(event){
+					var limit = parseInt($(event.target).text());
+					$('.limitSelection', domElem).removeClass('visible');
+					$('.limitSelection ul', domElem).hide();
+					if(limit != self.param.filter_limit) {
+						self.param.filter_limit = limit;
+						$('.limitSelection>div>span', domElem).text(self.param.filter_limit);
+						self.reloadAjaxDataTable();
+						self.notifyWidgetParametersChange(domElem, {'filter_limit': self.param.filter_limit});
+					}
+				});
+				$('body').on('mouseup',function(e){ 
+					if(!$(e.target).parents('.limitSelection').length && !$(e.target).is('.limitSelection')) {
+						$('.limitSelection', domElem).removeClass('visible');
+						$('.limitSelection ul', domElem).hide();
+					}
+				});
+			} else {
+				$('.limitSelection', domElem).toggleClass('disabled');
+			}
+		} else {
+			$('.limitSelection', domElem).hide();
+		}
+	},
+	
 	// if sorting the columns is enabled, when clicking on a column, 
 	// - if this column was already the one used for sorting, we revert the order desc<->asc
 	// - we send the ajax request with the new sorting information
@@ -450,10 +493,8 @@ dataTable.prototype =
 					
 					//self.resetAllFilters();
 					
-					
 					// when switching to display simple table, do not exclude low pop by default
 					delete self.param.enable_filter_excludelowpop; 
-					delete self.param.filter_limit;
 					delete self.param.filter_sort_column;
 					delete self.param.filter_sort_order;
 					delete columns;
@@ -679,16 +720,10 @@ dataTable.prototype =
 		
 		var target=$('.dataTableFooterActiveItem', domElem);
 		
-		if(obj.offsetWidth){
-			//set arrow position
+		//set arrow position with delay (for ajax widget loading)
+		setTimeout(function(){
 			target.css({left:$(obj).position().left});
-		}
-		else{
-			//set arrow position with delay (for ajax widget loading)
-			setTimeout(function(){
-				target.css({left:$(obj).position().left});
-			},100);
-		}
+		},100);
 		
 		return lastActiveIcon;
 		
@@ -702,6 +737,15 @@ dataTable.prototype =
 		{
 			widgetUniqueId = $(domWidget).parents('.widget').attr('id');
 			piwik.dashboardObject.setDataTableViewChanged(widgetUniqueId, newViewDataTable);
+		}
+	},
+	
+	notifyWidgetParametersChange: function(domWidget, parameters)
+	{
+		if(piwik.dashboardObject)
+		{
+			widgetUniqueId = $(domWidget).parents('.widget').attr('id');
+			piwik.dashboardObject.setWidgetParameters(widgetUniqueId, parameters);
 		}
 	},
 	
@@ -1063,6 +1107,8 @@ actionDataTable.prototype =
 	resetAllFilters: dataTable.prototype.resetAllFilters,
 	restoreAllFilters: dataTable.prototype.restoreAllFilters,
 	exportToFormatHide: dataTable.prototype.exportToFormatHide,
+	handleLimit: dataTable.prototype.handleLimit,
+	notifyWidgetParametersChange: dataTable.prototype.notifyWidgetParametersChange,
 	
 	//initialisation of the actionDataTable
 	init: function(workingDivId, domElem)
@@ -1096,7 +1142,7 @@ actionDataTable.prototype =
 		
 		self.applyCosmetics(domElem);
 		self.handleRowActions(domElem);
-		
+		self.handleLimit(domElem);
 		self.handleExportBox(domElem);
 		self.handleSort(domElem);
 		self.handleOffsetInformation(domElem);

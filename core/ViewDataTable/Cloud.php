@@ -54,7 +54,6 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 	 */
 	public function main()
 	{
-		$this->setLimit( 30 );
 		if($this->mainAlreadyExecuted)
 		{
 			return;

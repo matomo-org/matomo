@@ -283,6 +283,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
                 
                 var widget = widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId);
                 var widgetParameters = widget['parameters'];
+                widgetParameters['filter_limit'] = 10;
                 
                 var emptyWidgetHtml = widgetsHelper.getEmptyWidgetHtml(
                                         widgetUniqueId, 

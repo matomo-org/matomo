@@ -71,6 +71,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->disableOffsetInformationAndPaginationControls();
 		$view->disableExcludeLowPopulation();
 		$view->enableShowGoals();
+		$view->setLimit(10);
 		$view->setColumnsToDisplay( array('label', 'nb_visits') );
 		$view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnRefererType'));
 		$this->setMetricsVariablesView($view);
@@ -87,6 +88,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->disableExcludeLowPopulation();
 		$view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnKeyword'));
 		$view->enableShowGoals();
+		$view->setLimit(25);
 		$view->disableSubTableWhenShowGoals();
 		
 		$this->setMetricsVariablesView($view);
@@ -118,6 +120,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
 		$view->enableShowGoals();
+		$view->setLimit(25);
 		$view->disableSubTableWhenShowGoals();
 		$view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnSearchEngine'));
 		
@@ -154,8 +157,8 @@ class Piwik_Referers_Controller extends Piwik_Controller
 											'getUrlsFromWebsiteId'
 								);
 		$view->disableExcludeLowPopulation();
-		$view->setLimit(10);
 		$view->enableShowGoals();
+		$view->setLimit(25);
 		$view->disableSubTableWhenShowGoals();
 		$view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnWebsite'));
 		
@@ -180,7 +183,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 								);
 		$view->disableExcludeLowPopulation();
 		$view->enableShowGoals();
-		$view->setLimit( 10 );
+		$view->setLimit(25);
 		$view->setColumnsToDisplay( array('label','nb_visits') );
 		$view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnCampaign'));
 		$view->setFooterMessage( 'Help: <a target="_blank" href="http://piwik.org/docs/tracking-campaigns/">Tracking Campaigns in Piwik</a> - <a target="_blank" href="http://piwik.org/docs/tracking-campaigns/url-builder/">URL Builder tool</a>');

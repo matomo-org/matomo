@@ -135,13 +135,14 @@ dashboard.prototype =
 		
 		this.adjustDashboardColumns(layout.config.layout);
 		
-		widgetViewDataTableToRestore = {};
+		widgetViewDataTableToRestore = widgetParametersToRestore = {};
 		for(var columnNumber in layout.columns) {
 			var widgetsInColumn = layout.columns[columnNumber];
 			for(var widgetId in widgetsInColumn) {
 				widgetParameters = widgetsInColumn[widgetId]["parameters"];
 				uniqueId = widgetsInColumn[widgetId]["uniqueId"];
 				widgetViewDataTableToRestore[uniqueId] = widgetParameters['viewDataTable'];
+				widgetParametersToRestore[uniqueId] = widgetParameters;
 				var isHidden = widgetsInColumn[widgetId]['isHidden'] ? widgetsInColumn[widgetId]['isHidden'] : false;
 				if(uniqueId.length>0) {
 					this.addEmptyWidget(columnNumber, uniqueId, false, isHidden);
@@ -155,7 +156,7 @@ dashboard.prototype =
 		var self = this;
 		$('.widget', this.dashboardElement).each( function() {
 			var uniqueId = $(this).attr('id');
-			self.reloadWidget(uniqueId, widgetViewDataTableToRestore[uniqueId]);
+			self.reloadWidget(uniqueId, widgetViewDataTableToRestore[uniqueId], widgetParametersToRestore[uniqueId]);
 		});
 	},
 
@@ -178,7 +179,7 @@ dashboard.prototype =
 	 * @param viewDataTableToRestore  datatable view to restore
 	 * @return void
 	 */
-	reloadWidget: function(uniqueId, viewDataTableToRestore) 
+	reloadWidget: function(uniqueId, viewDataTableToRestore, parametersToRestore) 
 	{
 		function onWidgetLoadedReplaceElementWithContent(loadedContent)
 		{
@@ -197,6 +198,14 @@ dashboard.prototype =
 		var segment = broadcast.getValueFromHash('segment');
 		if(segment.length) {
 			widgetParameters['segment'] = segment;
+		}
+		
+		for(var i in parametersToRestore) {
+		    widgetParameters[i] = parametersToRestore[i];
+		}
+		
+		if(!widgetParameters['filter_limit']) {
+		    widgetParameters['filter_limit'] = 10;
 		}
 		piwikHelper.queueAjaxRequest( $.ajax(widgetsHelper.getLoadWidgetAjaxRequest(uniqueId, widgetParameters, onWidgetLoadedReplaceElementWithContent)) );
 	},
@@ -383,7 +392,18 @@ dashboard.prototype =
 		}
 	},
 	
-	saveLayout: function()
+	setWidgetParameters: function(uniqueId, params)
+    {
+        var widget = widgetsHelper.getWidgetObjectFromUniqueId(uniqueId);
+        for(var i in params) {
+            widget.parameters[i] = params[i];
+        }
+        if(!this.isMaximised) {
+            this.saveLayout();
+        }
+    },
+    
+    saveLayout: function()
 	{
 		var self = this;
 		

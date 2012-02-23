@@ -344,7 +344,10 @@ table thead div {
 	border-top:1px solid #B6B0A6;
 }
 
-.dataTableFooterWrap{ position:relative;  width:800px;}
+.dataTableFooterWrap{ 
+    position:relative;
+    float: left;
+}
 
 .dataTableFooterWrap select {
 	float: left;
@@ -577,3 +580,73 @@ table.dataTable .dataTableRowActions a img {
 	padding: 0;
 	border: 0;
 }
+
+
+.limitSelection {
+    float: right;
+    position: relative;
+    margin-left: 5px;
+    min-height: 20px;
+}
+
+.limitSelection div {
+    border: 1px solid #BBB6AD;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    background: url(../../../themes/default/images/sort_subtable_desc.png) no-repeat right 2px;
+    padding: 0px 20px 0 4px;
+    display: block;
+    width: 30px;
+    height: 20px;
+    text-align: right;
+    cursor: pointer;
+}
+
+.limitSelection.disabled div {
+    opacity: 0.5;
+    filter:Alpha(opacity:50);
+    cursor: not-allowed;
+}
+
+.limitSelection.visible div {
+    border-radius: 0 0 4px 4px;
+    -moz-border-radius: 0 0 4px 4px;
+    -webkit-border-radius: 0 0 4px 4px;
+}
+
+.limitSelection ul {
+    margin-top: 1px;
+    overflow: visible;
+    background-color: #fff;
+}
+
+.limitSelection ul li {
+    cursor: pointer;
+    width: 30px;
+    padding: 0px 20px 0 4px;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-align: right;
+    height: 20px;
+    margin-top: -40px;
+    background-color: #fff;
+    border-left: 1px solid #BBB6AD;
+    border-right: 1px solid #BBB6AD;
+    vertical-align: middle;
+}
+
+.limitSelection ul li.last {
+    border-top: 1px solid #BBB6AD;
+    border-radius: 4px 4px 0 0;
+}
+
+.limitSelection ul li:hover {
+    background-color: #EBEAE6;
+}
+
+.limitSelection span {
+    padding-top: 3px;
+    display: inline-block;
+}
+
