@@ -1,9 +1,12 @@
 <?php
 $USAGE = "
 Usage: 
-	/path/to/cli/php \"".@$_SERVER['argv'][0]."\" [arguments]
+	/path/to/cli/php \"".@$_SERVER['argv'][0]."\" --url=http://your-website.org/path/to/piwik/ [arguments]
 	
 Arguments:
+	--url=[piwik-server-url]
+			Mandatory argument. Must be set to the Piwik base URL. 
+			For example: --url=http://analytics.example.org/ or --url=https://example.org/piwik/ 
 	--force-all-websites
 			If specified, the script will trigger archiving on all websites.
 			This can be used along with --force-all-periods to trigger archiving on all websites and all periods.
@@ -18,7 +21,6 @@ Arguments:
 			Displays usage
 
 Notes:
-	* You should probably run this script without any parameter (default).
 	* This script should be executed every hour via crontab, or as a deamon.
 	* You can also run it via http:// by specifying the Super User &token_auth=XYZ as a parameter ('Web Cron'), 
 	  but it is recommended to run it via command line/CLI instead.
@@ -95,13 +97,21 @@ class Archiving
 		$this->initCheckCli();
 		$this->initLog();
 		$this->displayHelp();
-		$this->initStateFromParameters();
 		$this->initPiwikHost();
+		$this->initStateFromParameters();
 		Piwik::setUserIsSuperUser(true);
 		
 		$this->logSection("INIT");
 		$this->log("Querying Piwik API at: {$this->piwikUrl}");		
 		$this->log("Running as Super User: " . $this->login);
+		// Test the specified piwik URL is valid
+		$response = $this->request("?module=API&method=API.getDefaultMetricTranslations&format=php");
+		$responseUnserialized = @unserialize($response);
+		if($response === false
+			|| !is_array($responseUnserialized))
+		{
+			$this->logFatalError("The Piwik URL {$this->piwikUrl} does not seem to be pointing to a Piwik server.");
+		}
 		
 		$this->log("Notes");
 		// Information about timeout
@@ -126,6 +136,7 @@ class Archiving
 		}
 		
 		$this->initWebsitesToProcess();
+		flush();
 	}
 
 	/**
@@ -172,6 +183,7 @@ class Archiving
 		
 		foreach ($this->websites as $idsite) 
 		{
+			flush();
 			$requestsBefore = $this->requests;
 		    if ($idsite <= 0) 
 		    {
@@ -482,13 +494,16 @@ class Archiving
 		$this->log("ERROR: $m");
 	}
 	
-	public function logFatalError($m)
+	public function logFatalError($m, $backtrace = true)
 	{
-	    $fe = fopen('php://stderr', 'w');
-	    fwrite($fe, "Error in the last Piwik archive.php run: \n" . $m 
-	            . "\n\n Here is the full output of the script:\n\n" . $this->output);
 		$this->log("ERROR: $m");
-		trigger_error($m, E_USER_ERROR);
+	    if($backtrace) 
+	    {
+			$fe = fopen('php://stderr', 'w');
+		    fwrite($fe, "Error in the last Piwik archive.php run: \n" . $m 
+		            . "\n\n Here is the full output of the script:\n\n" . $this->output);
+			trigger_error($m, E_USER_ERROR);
+	    }
 		exit;
 	}
 	
@@ -552,7 +567,7 @@ class Archiving
 				die('<b>You must specify the Super User token_auth as a parameter to this script, eg. <code>&token_auth=XYZ</code> if you wish to run this script through the browser. </b><br>
 					However it is recommended to run it <a href="http://piwik.org/docs/setup-auto-archiving/">via cron in the command line</a>, since it can take a long time to run.<br/>
 					In a shell, execute for example the following to trigger archiving on the local Piwik server:<br/>
-					<code>$ /path/to/php /path/to/piwik/misc/cron/archive.php</code>');
+					<code>$ /path/to/php /path/to/piwik/misc/cron/archive.php --url=http://your-website.org/path/to/piwik/</code>');
 			}
 		}
 	}
@@ -708,12 +723,34 @@ class Archiving
 	
 	private function initPiwikHost()
 	{
-		$piwikHost = Piwik::getPiwikUrl( $updateUrlIfDifferent = false );
+		// If archive.php run as a web cron, we use the current hostname
+		if(!Piwik_Common::isPhpCliMode())
+		{
+			// example.org/piwik/misc/cron/
+			$piwikUrl = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
+			// example.org/piwik/
+			$piwikUrl = $piwikUrl . "../../";
+		}
+		// If archive.php run as CLI/shell we require the piwik url to be set
+		else
+		{
+			$piwikUrl = $this->isParameterSet("url", true);
+			if(!$piwikUrl
+				|| !Piwik_Common::isLookLikeUrl($piwikUrl))
+			{
+				$this->logFatalError("archive.php expects the argument --url to be set to your Piwik URL, for example: --url=http://example.org/piwik/ ", $backtrace = false);
+			}
+			// ensure there is a trailing slash
+			if($piwikUrl[strlen($piwikUrl)-1] != '/')
+			{
+				$piwikUrl .= '/';
+			}
+		}
 		if(Zend_Registry::get('config')->General->force_ssl == 1)
 		{
-			$piwikHost = str_replace('http://', 'https://', $piwikHost);
+			$piwikUrl = str_replace('http://', 'https://', $piwikUrl);
 		}
-		$this->piwikUrl = $piwikHost . "index.php";
+		$this->piwikUrl = $piwikUrl . "index.php";
 	}
 	
 	
