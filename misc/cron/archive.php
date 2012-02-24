@@ -512,13 +512,11 @@ class Archiving
 	public function logFatalError($m, $backtrace = true)
 	{
 		$this->log("ERROR: $m");
-	    if($backtrace) 
-	    {
-			$fe = fopen('php://stderr', 'w');
-		    fwrite($fe, "Error in the last Piwik archive.php run: \n" . $m 
-		            . "\n\n Here is the full output of the script:\n\n" . $this->output);
-			trigger_error($m, E_USER_ERROR);
-	    }
+		$fe = fopen('php://stderr', 'w');
+	    fwrite($fe, "Error in the last Piwik archive.php run: \n" . $m 
+	            . ($backtrace ? "\n\n Here is the full output of the script:\n\n" . $this->output : '') 
+	    );
+		trigger_error($m, E_USER_ERROR);
 		exit;
 	}
 	
