@@ -590,16 +590,15 @@ table.dataTable .dataTableRowActions a img {
 }
 
 .limitSelection div {
-    border: 1px solid #BBB6AD;
+    border: 1px solid #DFDFDF;
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     background: url(../../../themes/default/images/sort_subtable_desc.png) no-repeat right 2px;
-    padding: 0px 20px 0 4px;
+    padding: 0px 14px 0 4px;
     display: block;
-    width: 30px;
+    width: 24px;
     height: 20px;
-    text-align: right;
     cursor: pointer;
 }
 
@@ -623,21 +622,21 @@ table.dataTable .dataTableRowActions a img {
 
 .limitSelection ul li {
     cursor: pointer;
-    width: 30px;
-    padding: 0px 20px 0 4px;
+    width: 28px;
+    padding: 0px 10px 0 4px;
     font-size: 1.1em;
     font-weight: bold;
-    text-align: right;
     height: 20px;
     margin-top: -40px;
     background-color: #fff;
-    border-left: 1px solid #BBB6AD;
-    border-right: 1px solid #BBB6AD;
+    border-left: 1px solid #DFDFDF;
+    border-right: 1px solid #DFDFDF;
     vertical-align: middle;
+    text-align: right;
 }
 
 .limitSelection ul li.last {
-    border-top: 1px solid #BBB6AD;
+    border-top: 1px solid #DFDFDF;
     border-radius: 4px 4px 0 0;
 }
 

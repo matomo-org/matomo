@@ -42,6 +42,7 @@ $translations = array(
 	'General_Done' => 'Done',
 	'General_PoweredBy' => 'Powered by',
 	'General_MetricsToPlot' => 'Metrics to plot',
+	'General_RowsToDisplay' => 'Rows to display',
 	'General_MetricToPlot' => 'Metric to plot',
 	'General_RecordsToPlot' => 'Records to plot',
 	'General_Name' => 'Name',
