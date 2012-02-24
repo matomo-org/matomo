@@ -1013,7 +1013,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 					1 as priority
 					$from
 					WHERE $whereSameBothQueries $where
-					ORDER BY visit_last_action_time DESC
 					LIMIT 1
 			";
 			
