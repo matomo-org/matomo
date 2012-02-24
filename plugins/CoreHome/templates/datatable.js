@@ -255,6 +255,7 @@ dataTable.prototype =
 					$('.limitSelection ul', domElem).hide();
 					if(limit != self.param.filter_limit) {
 						self.param.filter_limit = limit;
+						self.param.filter_offset = 0;
 						$('.limitSelection>div>span', domElem).text(self.param.filter_limit);
 						self.reloadAjaxDataTable();
 						self.notifyWidgetParametersChange(domElem, {'filter_limit': self.param.filter_limit});
