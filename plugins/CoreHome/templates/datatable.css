@@ -594,7 +594,7 @@ table.dataTable .dataTableRowActions a img {
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
-    background: url(../../../themes/default/images/sort_subtable_desc.png) no-repeat right 2px;
+    background: url(../../../themes/default/images/sort_subtable_desc_light.png) no-repeat right 2px;
     padding: 0px 14px 0 4px;
     display: block;
     width: 24px;

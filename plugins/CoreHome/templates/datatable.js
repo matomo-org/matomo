@@ -256,6 +256,8 @@ dataTable.prototype =
 					if(limit != self.param.filter_limit) {
 						self.param.filter_limit = limit;
 						self.param.filter_offset = 0;
+						// Hack for Visitor Log to not pass the maxIdVisit parameter when limit is changed
+						delete self.param.maxIdVisit;
 						$('.limitSelection>div>span', domElem).text(self.param.filter_limit);
 						self.reloadAjaxDataTable();
 						self.notifyWidgetParametersChange(domElem, {'filter_limit': self.param.filter_limit});
