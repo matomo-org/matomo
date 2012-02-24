@@ -36,6 +36,11 @@ class Piwik_Unzip_ZipArchive  implements Piwik_Unzip_Interface
 		$fileselector = array();
 		$list = array();
 		$count = $this->ziparchive->numFiles;
+		if ($count === 0)
+		{
+			return 0;
+		}
+
 		for($i = 0; $i < $count; $i++) {
 			$entry = $this->ziparchive->statIndex($i);
 

@@ -34,6 +34,11 @@ class Piwik_Unzip_PclZip implements Piwik_Unzip_Interface
 	public function extract($pathExtracted) {
 		$pathExtracted = str_replace('\\', '/', $pathExtracted);
 		$list = $this->pclzip->listContent();
+		if (empty($list))
+		{
+			return 0;
+		}
+
 		foreach($list as $entry) {
 			$filename = str_replace('\\', '/', $entry['stored_filename']);
 			$parts = explode('/', $filename);
