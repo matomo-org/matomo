@@ -56,9 +56,13 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends T
 		$dateTimes = $this->dateTimes;
     	$idSite = $this->idSite;
 
+    	$i = 0;
     	foreach($dateTimes as $dateTime)
     	{
+    		$i++;
 	        $visitor = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+    		// Fake the visit count cookie 
+	        $visitor->setDebugStringAppend("&_idvc=$i");
 	        
 	        $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
 	    	$visitor->setUrl('http://example.org/homepage');

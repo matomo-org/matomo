@@ -5,8 +5,8 @@
 		<idVisit>2</idVisit>
 		<visitIp>156.5.0.0</visitIp>
 		
-		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/templates/images/returningVisitor.gif</visitorTypeIcon>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitEcommerceStatus>none</visitEcommerceStatus>

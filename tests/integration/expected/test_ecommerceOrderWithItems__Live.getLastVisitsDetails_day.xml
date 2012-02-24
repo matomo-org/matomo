@@ -133,7 +133,7 @@
 		
 		<visitDuration>721</visitDuration>
 		<visitDurationPretty>12 min 1s</visitDurationPretty>
-		<visitCount>1</visitCount>
+		<visitCount>2</visitCount>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
@@ -423,7 +423,7 @@
 		
 		<visitDuration>3961</visitDuration>
 		<visitDurationPretty>1 hours 6 min</visitDurationPretty>
-		<visitCount>1</visitCount>
+		<visitCount>2</visitCount>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>

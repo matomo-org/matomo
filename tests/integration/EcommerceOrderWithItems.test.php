@@ -208,6 +208,9 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends Test_Integration_Fa
 		
 		// VISIT NO 2
 		
+		// Fake the returning visit cookie
+		$t->setDebugStringAppend("&_idvc=2");
+		
 		// VIEW category page
 		$t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1.6)->getDatetime());
 		$t->setEcommerceView('','', $category);
@@ -271,6 +274,7 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends Test_Integration_Fa
 			// Also recording an order the day after
 			if($offsetHour >= 24)
 			{
+				$t->setDebugStringAppend("&_idvc=1");
 				$t->addEcommerceItem($sku = 'SKU2', $name = 'Canon SLR' , $category = 'Electronics & Cameras', $price = 1500, $quantity = 1);
 				$this->checkResponse($t->doTrackEcommerceOrder($orderId = '1037nsjusu4s3894', $grandTotal = 20000000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
 			}
