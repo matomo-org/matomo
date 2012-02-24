@@ -237,7 +237,7 @@ dataTable.prototype =
 		
 		$('.limitSelection', domElem).append('<div><span>'+self.param.filter_limit+'</span></div><ul></ul>');
 		
-		if(self.param.viewDataTable == 'table' || self.param.viewDataTable == 'tableAllColumns' || self.param.viewDataTable == 'tableGoals') {
+		if(self.param.viewDataTable == 'table' || self.param.viewDataTable == 'tableAllColumns' || self.param.viewDataTable == 'tableGoals' || self.param.viewDataTable == 'ecommerceOrder' || self.param.viewDataTable == 'ecommerceAbandonedCart') {
 			$('.limitSelection ul', domElem).hide();
 			var numbers = [5, 10, 25, 50, 100, 250];
 			for(var i=0; i<numbers.length; i++) {
