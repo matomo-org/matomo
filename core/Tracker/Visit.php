@@ -57,8 +57,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected $goalManager;
 
-	const TIME_IN_PAST_TO_SEARCH_FOR_VISITOR = 86400;
-
 	public function __construct($forcedIpString = null, $forcedDateTime = null)
 	{
 		$this->timestamp = time();
@@ -943,7 +941,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		
 		$bindSql = array();
 		
-		$timeLookBack = date('Y-m-d H:i:s', $this->getCurrentTimestamp() - self::TIME_IN_PAST_TO_SEARCH_FOR_VISITOR);
+		$timeLookBack = date('Y-m-d H:i:s', $this->getCurrentTimestamp() - Piwik_Tracker_Config::getInstance()->Tracker['visit_standard_length']);
 
 		// This setting would be enabled for Intranet websites, to ensure that visitors using all the same computer config, same IP
 		// are not counted as 1 visitor. In this case, we want to enforce and trust the visitor ID from the cookie.
