@@ -473,6 +473,10 @@ class Piwik_Referers extends Piwik_Plugin
 						$archiveProcessing->updateGoalStats( $row, $this->interestByCampaign[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
 					break;
 
+					case Piwik_Common::REFERER_TYPE_DIRECT_ENTRY:
+						// Direct entry, no sub dimension
+					break;
+					
 					default:
 						// The referer type is user submitted for goal conversions, we ignore any malformed value
 						// Continue to the next while iteration
