@@ -108,8 +108,7 @@ class Piwik_ImageGraph_API
 		$useUnicodeFont = array(
 			'am', 'ar', 'el', 'fa' , 'fi', 'he', 'ja', 'ka', 'ko', 'te', 'th', 'zh-cn', 'zh-tw', 
 		);
-		$languageLoaded = Piwik_Translate::getInstance()->getLanguageToLoad();
-		
+		$languageLoaded = Piwik_Translate::getInstance()->getLanguageLoaded();
 		$font = self::getFontPath(self::DEFAULT_FONT);
 		if(in_array($languageLoaded, $useUnicodeFont))
 		{
@@ -123,8 +122,7 @@ class Piwik_ImageGraph_API
 		try
 		{
 			//Fetch the metadata for given api-action
-			$metadata = Piwik_API_API::getInstance()->getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $language = false, $period, $date);
-
+			$metadata = Piwik_API_API::getInstance()->getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $languageLoaded, $period, $date);
 			if(!$metadata)
 			{
 				throw new Exception('Invalid API Module and/or API Action');
@@ -252,7 +250,11 @@ class Piwik_ImageGraph_API
 				$period,
 				$date,
 				$apiModule,
-				$apiAction
+				$apiAction,
+				$segment = false,
+				$apiParameters = false, 
+				$idGoal = false, 
+				$languageLoaded
 			);
 
 			// prepare abscissa and ordinate series

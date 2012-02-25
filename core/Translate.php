@@ -47,10 +47,17 @@ class Piwik_Translate
 		{
 			$language = $this->getLanguageToLoad();
 		}
+		if($language == $this->getLanguageLoaded())
+		{
+			return;
+		}
 		$this->unloadEnglishTranslation();
 		$this->loadEnglishTranslation();
-		$this->loadCoreTranslation($language);
-		Piwik_PluginsManager::getInstance()->loadPluginTranslations($language);
+		if($language != 'en')
+		{
+			$this->loadCoreTranslation($language);
+			Piwik_PluginsManager::getInstance()->loadPluginTranslations($language);
+		}
 	}
 	
 	/**
@@ -117,6 +124,11 @@ class Piwik_Translate
 	static public function reset()
 	{
 		self::$languageToLoad = null;
+	}
+	
+	public function getLanguageLoaded()
+	{
+		return $this->loadedLanguage;
 	}
 	
 	public function getLanguageDefault()
