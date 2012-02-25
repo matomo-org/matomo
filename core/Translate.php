@@ -47,17 +47,10 @@ class Piwik_Translate
 		{
 			$language = $this->getLanguageToLoad();
 		}
-		if($language == $this->getLanguageLoaded())
-		{
-			return;
-		}
 		$this->unloadEnglishTranslation();
 		$this->loadEnglishTranslation();
-		if($language != 'en')
-		{
-			$this->loadCoreTranslation($language);
-			Piwik_PluginsManager::getInstance()->loadPluginTranslations($language);
-		}
+		$this->loadCoreTranslation($language);
+		Piwik_PluginsManager::getInstance()->loadPluginTranslations($language);
 	}
 	
 	/**
