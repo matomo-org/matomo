@@ -1051,3 +1051,28 @@ if(!function_exists('mb_strtolower')) {
 		return strtolower($input);
 	}
 }
+
+/**
+ * str_getcsv - parse CSV string into array
+ *
+ * @since php 5.3.0
+ *
+ * @param string $input
+ * @param string $delimeter
+ * @param string $enclosure
+ * @param string $escape (Not supported)
+ * @return array
+ */
+if(!function_exists('str_getcsv')) {
+	function str_getcsv($input, $delimiter=',', $enclosure='"', $escape='\\') {
+		$handle = fopen('php://memory', 'rw');
+		$input = str_replace("\n", "\r", $input);
+ 		fwrite($handle, $input);
+		fseek($handle, 0);
+		$r = array();
+		$data = fgetcsv($handle, strlen($input), $delimiter, $enclosure /*, $escape='\\' */);
+		$data = str_replace("\r", "\n", $data);
+		fclose($handle);
+		return $data;
+	}
+}
