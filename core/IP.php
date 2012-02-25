@@ -191,6 +191,37 @@ class Piwik_IP
 		return self::N2P($ip);
 	}
 
+ 	/**
+	 * Is this an IPv4, IPv4-compat, or IPv4-mapped address?
+	 *
+	 * @param string $ip IP address in network address format
+	 * @return bool True if IPv4, else false
+	 */
+	static public function isIPv4($ip)
+	{
+		// in case mbstring overloads strlen and substr functions
+		$strlen = function_exists('mb_orig_strlen') ? 'mb_orig_strlen' : 'strlen';
+		$substr = function_exists('mb_orig_substr') ? 'mb_orig_substr' : 'substr';
+
+		// IPv4
+		if($strlen($ip) == 4)
+		{
+			return true;
+		}
+
+		// IPv6 - transitional address?
+		if($strlen($ip) == 16)
+		{
+			if(substr_compare($ip, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff", 0, 12) === 0
+				|| substr_compare($ip, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", 0, 12) === 0)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	/**
 	 * Convert IP address (in network address format) to presentation format.
 	 * This is a backward compatibility function for code that only expects
@@ -370,11 +401,12 @@ class Piwik_IP
 		}
 		else
 		{
-    	    try {
-    	        $config = Zend_Registry::get('config');
-    	    } catch(Exception $e) {
-    	        $config = false;
-    	    }
+			try {
+				$config = Zend_Registry::get('config');
+			} catch(Exception $e) {
+				$config = false;
+			}
+
 			if($config !== false && isset($config->General->proxy_ips))
 			{
 				$proxyIps = $config->General->proxy_ips->toArray();

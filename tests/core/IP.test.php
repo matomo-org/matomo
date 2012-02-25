@@ -217,6 +217,56 @@ class Test_Piwik_IP extends UnitTestCase
 		}
 	}
 
+	function test_isIPv4()
+	{
+		// a valid network address is either 4 or 16 bytes; those lines are intentionally left blank ;)
+		$tests = array(
+			// invalid
+			null => false,
+			"" => false,
+
+			// IPv4
+			"\x00\x00\x00\x00" => true,
+			"\x7f\x00\x00\x01" => true,
+
+			// IPv4-compatible (this transitional format is deprecated in RFC 4291, section 2.5.5.1)
+			"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc0\xa8\x01\x01" => true,
+
+			// IPv4-mapped (RFC 4291, 2.5.5.2)
+			"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff\xc0\xa8\x01\x02" => true,
+
+			// other IPv6 address
+			"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\x00\xc0\xa8\x01\x03" => false,
+			"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\xc0\xa8\x01\x04" => false,
+			"\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc0\xa8\x01\x05" => false,
+
+			/*
+			 * We assume all stored IP addresses (pre-Piwik 1.4) were converted from UNSIGNED INT to VARBINARY.
+			 * The following is just for informational purposes.
+			 */
+
+			// 192.168.1.0
+			'-1062731520' => false,
+			'3232235776' => false,
+
+			// 10.10.10.10
+			'168430090' => false,
+
+			// 0.0.39.15 - this is the ambiguous case (i.e., 4 char string)
+			'9999' => true,
+			"\x39\x39\x39\x39" => true,
+
+			// 0.0.3.231
+			'999' => false,
+			"\x39\x39\x39" => false,
+		);
+
+		foreach($tests as $N => $bool)
+		{
+			$this->assertEqual( Piwik_IP::isIPv4($N), $bool, bin2hex($N) );
+		}
+	}
+
 	function test_long2ip()
 	{
 		// a valid network address is either 4 or 16 bytes; those lines are intentionally left blank ;)
