@@ -231,6 +231,7 @@ if(!isset($GLOBALS['Piwik_CountryList']))
 		'sn' => 'afr',
 		'so' => 'afr',
 		'sr' => 'ams',
+		'ss' => 'afr',
 		'st' => 'afr',
 		'sv' => 'amc',
 		'sx' => 'amc',
