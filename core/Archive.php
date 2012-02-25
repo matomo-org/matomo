@@ -330,6 +330,10 @@ abstract class Piwik_Archive
 		// Note: this could be an integer bigger than 32 bits
 		if(strpos($value, '.') === false)
 		{
+			if($value === false)
+			{
+				return 0;
+			}
 			return $value;
 		}
 
