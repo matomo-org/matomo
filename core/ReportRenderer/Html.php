@@ -60,7 +60,7 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 		Piwik::overrideCacheControlHeaders();
 		header('Content-Description: File Transfer');
 		header('Content-Type: text/html');
-		header('Content-Disposition: attachment; filename="'.basename($filename).'";');
+		header('Content-Disposition: attachment; filename="'.str_replace('"', '\'', basename($filename)).'";');
 		header('Content-Length: '.strlen($this->rendering));
 		echo $this->rendering;
 	}
