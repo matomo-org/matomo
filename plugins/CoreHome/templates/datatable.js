@@ -234,12 +234,17 @@ dataTable.prototype =
 	handleLimit: function(domElem)
 	{
 		var self = this;
+		if( self.parentId != '')
+		{
+			// no limit selector for subtables 
+			return;
+		}
 		
 		$('.limitSelection', domElem).append('<div><span>'+self.param.filter_limit+'</span></div><ul></ul>');
 		
 		if(self.param.viewDataTable == 'table' || self.param.viewDataTable == 'tableAllColumns' || self.param.viewDataTable == 'tableGoals' || self.param.viewDataTable == 'ecommerceOrder' || self.param.viewDataTable == 'ecommerceAbandonedCart') {
 			$('.limitSelection ul', domElem).hide();
-			var numbers = [5, 10, 25, 50, 100, 250];
+			var numbers = [5, 10, 25, 50, 100, 250, 500];
 			for(var i=0; i<numbers.length; i++) {
 				$('.limitSelection ul', domElem).append('<li value="'+numbers[i]+'"><span>'+numbers[i]+'</span></li>');
 			}

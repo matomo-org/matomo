@@ -104,6 +104,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 									);
 		$view->disableShowAllViewsIcons();
 		$view->disableShowAllColumns();
+		$view->disableOffsetInformationAndPaginationControls();
 		$view->setColumnsToDisplay( array('label','nb_visits_percentage','nb_visits') );
 		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_ColumnPlugin'));
 		$view->setColumnTranslation('nb_visits_percentage', str_replace(' ', '&nbsp;', Piwik_Translate('General_ColumnPercentageVisits')));
