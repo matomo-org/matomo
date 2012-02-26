@@ -2,13 +2,16 @@
 
 <br/>
 <p><b>{'CoreUpdater_ThereIsNewVersionAvailableForUpdate'|translate}</b></p>
-<p>
+
 {if $can_auto_update}
-	{'CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage'|translate:$piwik_new_version}
+	<p>{'CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage'|translate:$piwik_new_version}</p>
 {else}
-	{'CoreUpdater_YouMustDownloadPackageOrFixPermissions'|translate:$piwik_new_version}
+	<p>{'Installation_SystemCheckAutoUpdateHelp'|translate}</p>
+	<p>{'CoreUpdater_YouMustDownloadPackageOrFixPermissions'|translate:$piwik_new_version}
+	{$makeWritableCommands}
+	</p>
 {/if}
-</p>
+
 {if $can_auto_update}
 	<form action="index.php">
 		<input type="hidden" name="module" value="CoreUpdater" />

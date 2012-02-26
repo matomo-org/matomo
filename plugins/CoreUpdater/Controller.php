@@ -34,6 +34,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		$view->piwik_new_version = $newVersion;
 		$view->piwik_latest_version_url = Zend_Registry::get('config')->General->latest_version_url;
 		$view->can_auto_update = Piwik::canAutoUpdate();
+		$view->makeWritableCommands = Piwik::getAutoUpdateMakeWritableMessage();
 		echo $view->render();
 	}
 

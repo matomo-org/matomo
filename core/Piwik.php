@@ -317,17 +317,18 @@ class Piwik
 
 		if(Piwik_Common::isWindows())
 		{
-			$message .= "On Windows, check that the folder is not to read only. 
-						You can try to execute:<br />"
-			          . "<code>cacls ".$path." /t /g ".get_current_user().":f</code><br />";
+			$message .= "On Windows, check that the folder is not read only and is writable. 
+						You can try to execute:<br />";
 		}
 		else
 		{
 			$message .= "For example, on a Linux server if your Apache httpd user 
 						is www-data, you can try to execute:<br />"
-			         . "<code>chown -R www-data:www-data ".$path."</code><br />"
-			         . "<code>chmod -R 0755 ".$path."</code><br />";
+			         . "<code>chown -R www-data:www-data ".$path."</code><br />";
 		}
+		
+		$message .= self::getMakeWritableCommand($path);
+		
 		return $message;
 	}
 	
@@ -390,6 +391,21 @@ class Piwik
 	}
 
 	/**
+	 * Returns the help text displayed to suggest which command to run to give writable access to a file or directory
+	 * 
+	 * @param string $realpath
+	 * @return string
+	 */
+	static private function getMakeWritableCommand($realpath)
+	{
+		if(Piwik_Common::isWindows())
+		{
+			return "<code>cacls $realpath /t /g ".get_current_user().":f</code><br />";
+		}
+		return "<code>chmod -R 0755 $realpath</code><br />";
+	}
+	
+	/**
 	 * Checks that the directories Piwik needs write access are actually writable
 	 * Displays a nice error page if permissions are missing on some directories
 	 *
@@ -402,22 +418,25 @@ class Piwik
 		{
 			return;
 		}
+		
 		$directoryList = '';
 		foreach($resultCheck as $dir => $bool)
 		{
 			$realpath = Piwik_Common::realpath($dir);
 			if(!empty($realpath) && $bool === false)
 			{
-				if(Piwik_Common::isWindows())
-				{
-					$directoryList .= "<code>cacls $realpath /t /g ".get_current_user().":f</code><br />";
-				}
-				else
-				{
-					$directoryList .= "<code>chmod 0777 $realpath</code><br />";
-				}
+				$directoryList .= self::getMakeWritableCommand($realpath);
 			}
 		}
+		
+		// Also give the chown since the chmod is only 755
+		if(!Piwik_Common::isWindows())
+		{
+			$realpath = Piwik_Common::realpath(PIWIK_INCLUDE_PATH . '/');
+			$directoryList = "<code>chown -R www-data:www-data ".$realpath."</code><br/>" . $directoryList;
+		}
+		
+		// The error message mentions chmod 777 in case users can't chown
 		$directoryMessage = "<p><b>Piwik couldn't write to some directories</b>.</p> 
 							<p>Try to Execute the following commands on your server:</p>"
 		                  . "<blockquote>$directoryList</blockquote>"
@@ -489,6 +508,21 @@ class Piwik
 			return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * Returns the help message when the auto update can't run because of missing permissions
+	 * 
+	 * @return string
+	 */
+	static public function getAutoUpdateMakeWritableMessage()
+	{
+		$realpath = Piwik_Common::realpath(PIWIK_INCLUDE_PATH . '/');
+		$message = '';
+		$message .= "<code>chown -R www-data:www-data ".$realpath."</code><br />";
+		$message .= "<code>chmod -R 0755 ".$realpath."</code><br />";
+		$message .= 'After you execute these commands (or change permissions via your FTP software), refresh the page and you should be able to use the "Automatic Update" feature.';
+		return $message;
 	}
 
 	/**

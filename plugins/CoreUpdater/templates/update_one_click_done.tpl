@@ -1,5 +1,6 @@
 {include file="CoreUpdater/templates/header.tpl"}
 
+<br/>
 {foreach from=$feedbackMessages item=message}
 	<p>{$message}</p>
 {/foreach}
