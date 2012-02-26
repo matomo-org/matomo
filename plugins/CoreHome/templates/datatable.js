@@ -234,7 +234,7 @@ dataTable.prototype =
 	handleLimit: function(domElem)
 	{
 		var self = this;
-		if( self.parentId != '')
+		if( typeof self.parentId != "undefined" && self.parentId != '')
 		{
 			// no limit selector for subtables 
 			return;
