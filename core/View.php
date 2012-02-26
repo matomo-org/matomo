@@ -160,6 +160,10 @@ class Piwik_View implements Piwik_View_Interface
 		{
 			$this->xFrameOptions = $option;
 		}
+		if($option == 'allow')
+		{
+			$this->xFrameOptions = null;
+		}
 	}
 
 	/**

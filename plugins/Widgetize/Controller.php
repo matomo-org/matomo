@@ -67,6 +67,7 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 		$outputDataTable = Piwik_FrontController::getInstance()->fetchDispatch( $controllerName, $actionName, $parameters);
 		$view = Piwik_View::factory('iframe');
 		$this->setGeneralVariablesView($view);
+		$view->setXFrameOptions('allow');
 		$view->content = $outputDataTable;
 		echo $view->render();
 	}
