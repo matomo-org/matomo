@@ -130,10 +130,8 @@ class Piwik_View implements Piwik_View_Interface
 			Piwik::overrideCacheControlHeaders('no-store');
 		}
 		@header('Content-Type: '.$this->contentType);
-		if($this->xFrameOptions)
-		{
-			@header('X-Frame-Options: '.$this->xFrameOptions);
-		}
+		// always sending this header, sometimes empty, to ensure that Dashboard embed loads (which could call this header() multiple times, the last one will prevail)
+		@header('X-Frame-Options: '. (string)$this->xFrameOptions);
 		
 		return $this->smarty->fetch($this->template);
 	}
