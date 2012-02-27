@@ -278,7 +278,7 @@ class Archiving
 		    
 		    $visitsAllDays = array_sum($response);
 		    if($visitsAllDays == 0
-				&& $shouldArchivePeriods
+				&& !$shouldArchivePeriods
 				&& $this->shouldArchiveAllWebsites
 			)
 		    {
