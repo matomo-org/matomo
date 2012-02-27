@@ -117,7 +117,7 @@ class Archiving
 		if($response === false
 			|| !is_array($responseUnserialized))
 		{
-			$this->logFatalError("The Piwik URL {$this->piwikUrl} does not seem to be pointing to a Piwik server.");
+			$this->logFatalError("The Piwik URL {$this->piwikUrl} does not seem to be pointing to a Piwik server. Response was '$response'.");
 		}
 		
 		$this->log("Notes");
