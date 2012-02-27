@@ -250,20 +250,21 @@ class Archiving
 		    $url = $this->getVisitsRequestUrl($idsite, "day", 
 							    // when --force-all-websites option, also forces to archive last52 days to be safe
 							$this->shouldArchiveAllWebsites ? false : $lastTimestampWebsiteProcessedDay);
-		    $response = $this->request($url);
+		    $content = $this->request($url);
+		    $response = @unserialize($content);
 		    
-		    if(empty($response))
+		    if(empty($content)
+		    	|| !is_array($response)
+		    	|| count($response) == 0)
 		    {
 				// cancel the succesful run flag
 				Piwik_SetOption( $this->lastRunKey($idsite, "day"), 0 );
 				
-				$this->log("WARNING: Empty or invalid response for website id $idsite, ".$timerWebsite.", skipping");
+				$this->log("WARNING: Empty or invalid response '$content' for website id $idsite, ".$timerWebsite.", skipping");
 				$skipped++;
 				continue;
 		    }
-		    
-		    $response = unserialize($response);
-		    $visitsToday = end($response);
+            $visitsToday = end($response);
 		    $this->requests++;
 		    $processed++;
 		    
