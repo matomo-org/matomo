@@ -694,6 +694,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 				|| strpos($ua, 'YottaaMonitor') !== false		// Yottaa
 				|| Piwik_IP::isIpInRange($ip,
 					array(
+						// Live/Bing/MSN
 						'64.4.0.0/18',
 						'65.52.0.0/14',
 						'157.54.0.0/15',
@@ -702,7 +703,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 						'207.46.0.0/16',
 						'207.68.128.0/18',
 						'207.68.192.0/20',
-					))) // Live/Bing/MSN
+						// Chinese bot hammering websites
+						'1.202.218.8' 
+					))) 
 		{
 			printDebug('Search bot detected, visit excluded');
 			$excluded = true;
