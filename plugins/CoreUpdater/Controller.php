@@ -195,6 +195,11 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		}
 
 		Piwik::unlinkRecursive($this->pathRootExtractedPiwik, true);
+
+		if(function_exists('apc_clear_cache'))
+		{
+			apc_clear_cache(); // clear the system (aka 'opcode') cache
+		}
 	}
 	
 	private function oneClick_Finished()
