@@ -215,4 +215,38 @@ class Test_Piwik_Url extends UnitTestCase
 
 		$this->restoreGlobals($saved);
 	}
+
+	public function test_getCurrentScriptName()
+	{
+		$names = array('PATH_INFO', 'REQUEST_URI', 'SCRIPT_NAME', 'SCRIPT_FILENAME', 'argv', 'HTTPS', 'HTTP_HOST', 'QUERY_STRING', 'HTTP_REFERER');
+		$saved = $this->saveGlobals($names);
+
+		foreach($names as $name)
+		{
+			unset($_SERVER[$name]);
+		}
+
+		$tests = array(
+			array('/', 'http://example.com/', null),
+			array('/', '/', null),
+			array('/index.php', '/index.php', null),
+			array('/index.php', '/index.php?module=Foo', null),
+			array('/index.php', '/index.php/route/1', '/route/1'),
+			array('/index.php', '/index.php/route/2?module=Bar', '/route/2'),
+			array('/path/index.php', '/path/index.php/route/3/?module=Fu&action=Bar#Hash', '/route/3/'),
+		);
+
+		foreach($tests as $test)
+		{
+			list($expected, $uri, $pathInfo) = $test;
+
+			$_SERVER['REQUEST_URI'] = $uri;
+			$_SERVER['PATH_INFO'] = $pathInfo;
+
+			$scriptPathName = Piwik_Url::getCurrentScriptName();
+			$this->assertEqual($scriptPathName, $expected);
+		}
+
+		$this->restoreGlobals($saved);
+	}
 }
