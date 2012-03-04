@@ -91,22 +91,25 @@ class Piwik_Url
 
 		if( !empty($_SERVER['REQUEST_URI']) ) 
 		{
-			$requestUri = $_SERVER['REQUEST_URI'];
+			$url = $_SERVER['REQUEST_URI'];
 
 			// strip http://host (Apache+Rails anomaly)
-			if(preg_match('~^https?://[^/]+($|/.*)~D', $requestUri, $matches))
+			if(preg_match('~^https?://[^/]+($|/.*)~D', $url, $matches))
 			{
-				$requestUri = $matches[1];
+				$url = $matches[1];
 			}
 
 			// strip parameters
-			if( ($pos = strpos($requestUri, "?")) !== false ) 
+			if(($pos = strpos($url, "?")) !== false) 
 			{
-				$url = substr($requestUri, 0, $pos);
+				$url = substr($url, 0, $pos);
 			} 
-			else 
+
+			// strip path_info
+			$pathInfo = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
+			if(substr($url, -strlen($pathInfo)) === $pathInfo)
 			{
-				$url = $requestUri;
+				$url = substr($url, 0, -strlen($pathInfo));
 			}
 		} 
 
