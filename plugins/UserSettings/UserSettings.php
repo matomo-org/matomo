@@ -246,7 +246,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 	function archiveDay( $notification )
 	{
 		require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
-		$maximumRowsInDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_standard;
+		$maximumRowsInDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
 		$columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
 		
 		$archiveProcessing = $notification->getNotificationObject();
@@ -313,7 +313,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 		
 		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 		
-		$maximumRowsInDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_standard;
+		$maximumRowsInDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
 		
 		$dataTableToSum = array(
 				'UserSettings_configuration',

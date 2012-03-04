@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: CustomVariables.php 5235 2011-09-27 07:20:45Z matt $
+ * @version $Id$
  *
  * @category Piwik_Plugins
  * @package Piwik_CustomVariables
@@ -131,8 +131,8 @@ class Piwik_CustomVariables extends Piwik_Plugin
 
 	function __construct()
 	{
-		$this->maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_referers;
-		$this->maximumRowsInSubDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_subtable_referers;
+		$this->maximumRowsInDataTableLevelZero = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_referers'];
+		$this->maximumRowsInSubDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_referers'];
 	}
 
 	protected $interestByCustomVariables = array();

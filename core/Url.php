@@ -148,13 +148,7 @@ class Piwik_Url
 	 */
 	static public function getCurrentScheme()
 	{
-	    try {
-	        $config = Zend_Registry::get('config');
-	    } catch(Exception $e) {
-	        $config = false;
-	    }
-		$assume_secure_protocol = $config !== false && $config->General->assume_secure_protocol;
-
+		$assume_secure_protocol = @Piwik_Config::getInstance()->General['assume_secure_protocol'];
 		if($assume_secure_protocol
 			|| (isset($_SERVER['HTTPS'])
 				&& ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true))
@@ -174,16 +168,7 @@ class Piwik_Url
 	 */
 	static public function getCurrentHost($default = 'unknown')
 	{
-		$hostHeaders = null;
-	    try {
-	        $config = Zend_Registry::get('config');
-	    } catch(Exception $e) {
-	        $config = false;
-	    }
-		if($config !== false && $config->General->proxy_host_headers)
-		{
-			$hostHeaders = $config->General->proxy_host_headers->toArray();
-		}
+		$hostHeaders = @Piwik_Config::getInstance()->General['proxy_host_headers'];
 		if(!is_array($hostHeaders))
 		{
 			$hostHeaders = array();

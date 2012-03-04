@@ -25,19 +25,16 @@ class Piwik_Updates_0_5_4 extends Piwik_Updates
 
 	static function update()
 	{
-		$config = Zend_Registry::get('config');
+		$config = Piwik_Config_Writer::getInstance();
 		$salt = Piwik_Common::generateUniqId();
-		if(!isset($config->superuser->salt))
+		if(!isset($config->superuser['salt']))
 		{
 			try {
-				if(is_writable( Piwik_Config::getDefaultUserConfigPath() ))
+				if(is_writable( Piwik_Config_Writer::getLocalConfigPath() ))
 				{
-					$superuser_info = $config->superuser->toArray();
-					$superuser_info['salt'] = $salt;
-					$config->superuser = $superuser_info;
-
+					$config->setConfigOption('superuser', 'salt', $salt);
 					$config->__destruct();
-					Piwik::createConfigObject();
+					Piwik_Config::getInstance()->clear();
 				}
 				else
 				{
@@ -48,18 +45,17 @@ class Piwik_Updates_0_5_4 extends Piwik_Updates
 			}
 		}
 
-		$config = Zend_Registry::get('config');
-		$plugins = $config->Plugins->toArray();
+		$config = Piwik_Config_Writer::getInstance();
+		$plugins = $config->Plugins;
 		if(!in_array('MultiSites', $plugins))
 		{
 			try {
-				if(is_writable( Piwik_Config::getDefaultUserConfigPath() ))
+				if(is_writable( Piwik_Config_Writer::getLocalConfigPath() ))
 				{
 					$plugins[] = 'MultiSites';
-					$config->Plugins = $plugins;
-
+					$config->setConfigSection('Plugins', $plugins);
 					$config->__destruct();
-					Piwik::createConfigObject();
+					Piwik_Config::getInstance()->clear();
 				}
 				else
 				{

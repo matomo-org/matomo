@@ -78,7 +78,7 @@ class Test_PHP_Related extends UnitTestCase
 	{
 		ini_set('memory_limit','200M');
 		Piwik::createConfigObject();
-		Zend_Registry::get('config')->setTestEnvironment();	
+		Piwik_Config::getInstance()->setTestEnvironment();	
 		Piwik::createLogObject();
 		//test array[0] array[1] array[2] 
 		//VS

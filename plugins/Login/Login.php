@@ -84,9 +84,9 @@ class Piwik_Login extends Piwik_Plugin
 			return;
 		}
 
-		$authCookieName = Zend_Registry::get('config')->General->login_cookie_name;
+		$authCookieName = Piwik_Config::getInstance()->General['login_cookie_name'];
 		$authCookieExpiry = 0;
-		$authCookiePath = Zend_Registry::get('config')->General->login_cookie_path;
+		$authCookiePath = Piwik_Config::getInstance()->General['login_cookie_path'];
 		$authCookie = new Piwik_Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
 		$defaultLogin = 'anonymous';
 		$defaultTokenAuth = 'anonymous';
@@ -119,9 +119,9 @@ class Piwik_Login extends Piwik_Plugin
 		$auth->setTokenAuth($tokenAuth);
 		$authResult = $auth->authenticate();
 
-		$authCookieName = Zend_Registry::get('config')->General->login_cookie_name;
-		$authCookieExpiry = $rememberMe ? time() + Zend_Registry::get('config')->General->login_cookie_expire : 0;
-		$authCookiePath = Zend_Registry::get('config')->General->login_cookie_path;
+		$authCookieName = Piwik_Config::getInstance()->General['login_cookie_name'];
+		$authCookieExpiry = $rememberMe ? time() + Piwik_Config::getInstance()->General['login_cookie_expire'] : 0;
+		$authCookiePath = Piwik_Config::getInstance()->General['login_cookie_path'];
 		$cookie = new Piwik_Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
 		if(!$authResult->isValid())
 

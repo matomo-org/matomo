@@ -18,7 +18,7 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 	{
 		parent::setUp();
 		Piwik::createConfigObject();
-		Zend_Registry::get('config')->setTestEnvironment();	
+		Piwik_Config::getInstance()->setTestEnvironment();	
 		Piwik_DataTable_Manager::getInstance()->deleteAll();
 	}
 

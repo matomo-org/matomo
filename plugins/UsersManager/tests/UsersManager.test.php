@@ -8,26 +8,37 @@ require_once PIWIK_PATH_TEST_TO_ROOT . '/tests/core/Database.test.php';
 
 class Test_Piwik_UsersManager extends Test_Database
 {
-    function setUp()
-    {
-    	parent::setUp();
+	function __construct()
+	{
+		parent::__construct();
+	
+		Piwik_Config::getInstance()->setTestEnvironment();
+		Piwik_PluginsManager::getInstance()->unloadPlugins();
+		Piwik_PluginsManager::getInstance()->loadPlugins( array('LanguagesManager') );
+		$plugin = Piwik_PluginsManager::getInstance()->getLoadedPlugin('LanguagesManager');
+		$plugin->install();
+	}
+
+	function setUp()
+	{
+		parent::setUp();
     	
 		// setup the access layer
-    	$pseudoMockAccess = new FakeAccess;
+		$pseudoMockAccess = new FakeAccess;
 		FakeAccess::setIdSitesView( array(1,2));
 		FakeAccess::setIdSitesAdmin( array(3,4));
 		
 		//finally we set the user as a super user by default
 		FakeAccess::$superUser = true;
 		Zend_Registry::set('access', $pseudoMockAccess);
-		
+
 		// we make sure the tests don't depend on the config file content
-		Zend_Registry::get('config')->superuser = array(
+		Piwik_Config::getInstance()->superuser = array(
 			'login'=>'superusertest',
 			'password'=>'passwordsuperusertest',
 			'email'=>'superuser@example.com'
 		);
-    }
+	}
 
 	private function _flatten($sitesAccess)
 	{
@@ -65,7 +76,7 @@ class Test_Piwik_UsersManager extends Test_Database
     
     function test_all_superUserIncluded()
     {
-    	Zend_Registry::get('config')->superuser = array(
+    	Piwik_Config::getInstance()->superuser = array(
 			'login'=>'superusertest',
 			'password'=>'passwordsuperusertest',
 			'email'=>'superuser@example.com'

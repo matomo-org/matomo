@@ -240,7 +240,7 @@ class Piwik_FrontController
 				Piwik_Session::start();
 			}
 
-			if(Zend_Registry::get('config')->General->maintenance_mode == 1
+			if(Piwik_Config::getInstance()->General['maintenance_mode'] == 1
 				&& !Piwik_Common::isPhpCliMode())
 			{
 				$format = Piwik_Common::getRequestVar('format', '');
@@ -256,7 +256,7 @@ class Piwik_FrontController
 
 			
 			if(!Piwik_Common::isPhpCliMode()
-				&& Zend_Registry::get('config')->General->force_ssl == 1
+				&& Piwik_Config::getInstance()->General['force_ssl'] == 1
 				&& !Piwik::isHttps())
 			{
 				$url = Piwik_Url::getCurrentUrl();
@@ -266,7 +266,7 @@ class Piwik_FrontController
 				
 				
 			$pluginsManager = Piwik_PluginsManager::getInstance();
-			$pluginsToLoad = Zend_Registry::get('config')->Plugins->Plugins->toArray();
+			$pluginsToLoad = Piwik_Config::getInstance()->Plugins['Plugins'];
 			$pluginsManager->loadPlugins( $pluginsToLoad );
 
 			if($exceptionToThrow)

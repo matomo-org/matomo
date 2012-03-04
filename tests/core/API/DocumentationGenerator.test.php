@@ -20,7 +20,7 @@ class Test_Piwik_API_DocumentationGenerator extends UnitTestCase
 	function test_callableApiMethods_doNotFail()
 	{
 		Piwik::createConfigObject();
-		Zend_Registry::get('config')->setTestEnvironment();	
+		Piwik_Config::getInstance()->setTestEnvironment();	
 		Piwik::createLogObject();
 		Piwik::createAccessObject();
 		Piwik::createDatabaseObject();
@@ -28,7 +28,7 @@ class Test_Piwik_API_DocumentationGenerator extends UnitTestCase
 		
     	Piwik_Translate::getInstance()->loadEnglishTranslation();
 		$pluginsManager = Piwik_PluginsManager::getInstance();
-		$pluginsManager->loadPlugins( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
+		$pluginsManager->loadPlugins( Piwik_Config::getInstance()->Plugins['Plugins'] );
 		
 		Piwik_SitesManager_API::getInstance()->addSite("name","http://example.org");
 		

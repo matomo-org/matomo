@@ -68,10 +68,10 @@ class Piwik_PrivacyManager extends Piwik_Plugin
      */
     function deleteLogTables()
     {
-        $deleteSettings = Zend_Registry::get('config')->Deletelogs;
+        $deleteSettings = Piwik_Config::getInstance()->Deletelogs;
 
         //Make sure, log deletion is enabled
-        if ($deleteSettings->delete_logs_enable == 0) {
+        if ($deleteSettings['delete_logs_enable'] == 0) {
             return;
         }
 
@@ -84,13 +84,13 @@ class Piwik_PrivacyManager extends Piwik_Plugin
 
         //Make sure, log purging is allowed to run now
         $lastDelete = Piwik_GetOption(self::OPTION_LAST_DELETE_PIWIK_LOGS);
-        $deleteIntervalSeconds = $this->getDeleteIntervalInSeconds($deleteSettings->delete_logs_schedule_lowest_interval);
+        $deleteIntervalSeconds = $this->getDeleteIntervalInSeconds($deleteSettings['delete_logs_schedule_lowest_interval']);
 
         if ($lastDelete === false ||
             ($lastDelete !== false && ((int)$lastDelete + $deleteIntervalSeconds) <= time())
         ) {
 
-            $maxIdVisit = $this->getDeleteIdVisitOffset($deleteSettings->delete_logs_older_than);
+            $maxIdVisit = $this->getDeleteIdVisitOffset($deleteSettings['delete_logs_older_than']);
 
             $logTables = $this->getDeleteTableLogTables();
 
@@ -111,7 +111,7 @@ class Piwik_PrivacyManager extends Piwik_Plugin
             }
 
             foreach ($logTables as $logTable) {
-                $this->deleteRowsFromTable($logTable, $maxIdVisit, $deleteSettings->delete_max_rows_per_run * self::DELETE_MAX_ROWS_MULTIPLICATOR);
+                $this->deleteRowsFromTable($logTable, $maxIdVisit, $deleteSettings['delete_max_rows_per_run'] * self::DELETE_MAX_ROWS_MULTIPLICATOR);
             }
 
             //optimize table overhead after deletion

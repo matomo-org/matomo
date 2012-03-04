@@ -376,7 +376,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 		// Will be updated in cookie
 		$timeSpentRefererAction = $this->getCurrentTimestamp() - $this->visitorInfo['visit_last_action_time'];
-		if($timeSpentRefererAction > Piwik_Tracker_Config::getInstance()->Tracker['visit_standard_length'])
+		if($timeSpentRefererAction > Piwik_Config::getInstance()->Tracker['visit_standard_length'])
 		{
 			$timeSpentRefererAction = 0;
 		}
@@ -458,7 +458,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 		$idcookie = $this->getVisitorIdcookie();
 
-		$defaultTimeOnePageVisit = Piwik_Tracker_Config::getInstance()->Tracker['default_time_one_page_visit'];
+		$defaultTimeOnePageVisit = Piwik_Config::getInstance()->Tracker['default_time_one_page_visit'];
 
 		// Days since first visit
 		$cookieFirstVisitTimestamp = Piwik_Common::getRequestVar('_idts', 0, 'int', $this->request);
@@ -498,7 +498,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		// User settings
 		$userInfo = $this->getUserSettingsInformation();
 		$country = Piwik_Common::getCountry($userInfo['location_browser_lang'],
-											$enableLanguageToCountryGuess = Piwik_Tracker_Config::getInstance()->Tracker['enable_language_to_country_guess'],
+											$enableLanguageToCountryGuess = Piwik_Config::getInstance()->Tracker['enable_language_to_country_guess'],
 											$this->getVisitorIp());
 
 		// Referrer data
@@ -797,7 +797,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function getCookieName()
 	{
-		return Piwik_Tracker_Config::getInstance()->Tracker['cookie_name'];
+		return Piwik_Config::getInstance()->Tracker['cookie_name'];
 	}
 
 	/**
@@ -807,7 +807,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function getCookieExpire()
 	{
-		return $this->getCurrentTimestamp() + Piwik_Tracker_Config::getInstance()->Tracker['cookie_expire'];
+		return $this->getCurrentTimestamp() + Piwik_Config::getInstance()->Tracker['cookie_expire'];
 	}
 
 	/**
@@ -817,12 +817,12 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function getCookiePath()
 	{
-		return Piwik_Tracker_Config::getInstance()->Tracker['cookie_path'];
+		return Piwik_Config::getInstance()->Tracker['cookie_path'];
 	}
 
 	protected function shouldUseThirdPartyCookie()
 	{
-		return (bool)Piwik_Tracker_Config::getInstance()->Tracker['use_third_party_id_cookie'];
+		return (bool)Piwik_Config::getInstance()->Tracker['use_third_party_id_cookie'];
 	}
 	
 	/**
@@ -944,11 +944,11 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		
 		$bindSql = array();
 		
-		$timeLookBack = date('Y-m-d H:i:s', $this->getCurrentTimestamp() - Piwik_Tracker_Config::getInstance()->Tracker['visit_standard_length']);
+		$timeLookBack = date('Y-m-d H:i:s', $this->getCurrentTimestamp() - Piwik_Config::getInstance()->Tracker['visit_standard_length']);
 
 		// This setting would be enabled for Intranet websites, to ensure that visitors using all the same computer config, same IP
 		// are not counted as 1 visitor. In this case, we want to enforce and trust the visitor ID from the cookie.
-		$trustCookiesOnly = Piwik_Tracker_Config::getInstance()->Tracker['trust_visitors_cookies'];
+		$trustCookiesOnly = Piwik_Config::getInstance()->Tracker['trust_visitors_cookies'];
 		
 		$shouldMatchOneFieldOnly = ($matchVisitorId && $trustCookiesOnly) || !$matchVisitorId;
 		
@@ -1029,7 +1029,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$visitRow = Piwik_Tracker::getDatabase()->fetch($sql, $bindSql);
 //		var_dump($sql);var_dump($bindSql);var_dump($visitRow);
 		
-		if( !Piwik_Tracker_Config::getInstance()->Debug['tracker_always_new_visitor']
+		if( !Piwik_Config::getInstance()->Debug['tracker_always_new_visitor']
 			&& $visitRow
 			&& count($visitRow) > 0)
 		{
@@ -1234,7 +1234,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	{
 		return isset($this->visitorInfo['visit_last_action_time'])
 					&& ($this->visitorInfo['visit_last_action_time']
-						> ($this->getCurrentTimestamp() - Piwik_Tracker_Config::getInstance()->Tracker['visit_standard_length']));
+						> ($this->getCurrentTimestamp() - Piwik_Config::getInstance()->Tracker['visit_standard_length']));
 	}
 
 	/**

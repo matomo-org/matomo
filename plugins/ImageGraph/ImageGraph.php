@@ -77,7 +77,7 @@ class Piwik_ImageGraph extends Piwik_Plugin
 			$piwikSite = new Piwik_Site($idSite);
 			if($periodForSinglePeriodGraph == 'range')
 			{
-				$periodForMultiplePeriodGraph = Zend_Registry::get('config')->General->graphs_default_period_to_plot_when_period_range;
+				$periodForMultiplePeriodGraph = Piwik_Config::getInstance()->General['graphs_default_period_to_plot_when_period_range'];
 				$dateForMultiplePeriodGraph = $dateForSinglePeriodGraph;
 			}
 			else

@@ -17,9 +17,9 @@ class Piwik_Updates_1_1 extends Piwik_Updates
 {
 	static function update($schema = 'Myisam')
 	{
-		$config = Zend_Registry::get('config');
+		$config = Piwik_Config::getInstance();
 
-		$rootLogin = $config->superuser->login;
+		$rootLogin = $config->superuser['login'];
 		try {
 			// throws an exception if invalid
 			Piwik::checkValidLoginString($rootLogin);

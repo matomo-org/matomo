@@ -622,7 +622,7 @@ class Piwik_UsersManager_API
 	
 	private function checkUserIsNotSuperUser( $userLogin )
 	{
-		if($userLogin == Zend_Registry::get('config')->superuser->login)
+		if($userLogin == Piwik_Config::getInstance()->superuser['login'])
 		{
 			throw new Exception(Piwik_TranslateException("UsersManager_ExceptionSuperUser"));
 		}

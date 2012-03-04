@@ -29,20 +29,20 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
             {
                 case("formMaskLength"):
                     $this->handlePluginState(Piwik_Common::getRequestVar("anonymizeIPEnable", 0));
-                    $maskLength = Zend_Registry::get('config')->Tracker;
-                    $maskLength->ip_address_mask_length = Piwik_Common::getRequestVar("maskLength", 1);
-                    Zend_Registry::get('config')->Tracker = $maskLength->toArray();
+                    $trackerConfig = Piwik_Config_Writer::getInstance()->Tracker;
+                    $trackerConfig['ip_address_mask_length'] = Piwik_Common::getRequestVar("maskLength", 1);
+                    Piwik_Config::getInstance()->Tracker = $trackerConfig;
                     break;
                     
                 case("formDeleteSettings"):
-                    $deleteLogs = Zend_Registry::get('config')->Deletelogs;
-                    $deleteLogs->delete_logs_enable = Piwik_Common::getRequestVar("deleteEnable", 0);
-                    $deleteLogs->delete_logs_schedule_lowest_interval = Piwik_Common::getRequestVar("deleteLowestInterval", 7);
-                    $deleteLogs->delete_logs_older_than = ((int)Piwik_Common::getRequestVar("deleteOlderThan", 180) < 7) ?
+                    $deleteLogs = Piwik_Config_Writer::getInstance()->Deletelogs;
+                    $deleteLogs['delete_logs_enable'] = Piwik_Common::getRequestVar("deleteEnable", 0);
+                    $deleteLogs['delete_logs_schedule_lowest_interval'] = Piwik_Common::getRequestVar("deleteLowestInterval", 7);
+                    $deleteLogs['delete_logs_older_than'] = ((int)Piwik_Common::getRequestVar("deleteOlderThan", 180) < 7) ?
                             7 : Piwik_Common::getRequestVar("deleteOlderThan", 180);
-                    $deleteLogs->delete_max_rows_per_run = Piwik_Common::getRequestVar("deleteMaxRows", 100);
+                    $deleteLogs['delete_max_rows_per_run'] = Piwik_Common::getRequestVar("deleteMaxRows", 100);
 
-                    Zend_Registry::get('config')->Deletelogs = $deleteLogs->toArray();
+                    Piwik_Config::getInstance()->Deletelogs = $deleteLogs;
                     break;
                     
                 default: //do nothing
@@ -66,8 +66,8 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
         }
         $view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
 
-        if (!Zend_Registry::get('config')->isFileWritable()) 
-        {
+        if (!Piwik_Config::getInstance()->isFileWritable())
+	{
             $view->configFileNotWritable = true;
         }
 
@@ -86,7 +86,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 
         $anonymizeIP["name"] = self::ANONYMIZE_IP_PLUGIN_NAME;
         $anonymizeIP["enabled"] = Piwik_PluginsManager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME);
-        $anonymizeIP["maskLength"] = Zend_Registry::get('config')->Tracker->ip_address_mask_length;
+        $anonymizeIP["maskLength"] = Piwik_Config::getInstance()->Tracker['ip_address_mask_length'];
         $anonymizeIP["info"] = Piwik_PluginsManager::getInstance()->getLoadedPlugin(self::ANONYMIZE_IP_PLUGIN_NAME)->getInformation();
 
         return $anonymizeIP;
@@ -97,7 +97,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
         Piwik::checkUserIsSuperUser();
         $deleteLogsInfos = array();
         $taskScheduler = new Piwik_TaskScheduler();
-        $deleteLogsInfos["config"] = Zend_Registry::get('config')->Deletelogs->toArray();
+        $deleteLogsInfos["config"] = Piwik_Config::getInstance()->Deletelogs;
         $privacyManager = new Piwik_PrivacyManager();
         $deleteLogsInfos["deleteTables"] = implode(", ", $privacyManager->getDeleteTableLogTables());
 

@@ -126,7 +126,7 @@ class Piwik_Translate
 	
 	public function getLanguageDefault()
 	{
-		return Zend_Registry::get('config')->General->default_language;
+		return Piwik_Config::getInstance()->General['default_language'];
 	}
 	
 	/**

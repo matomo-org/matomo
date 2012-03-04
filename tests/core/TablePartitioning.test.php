@@ -35,8 +35,8 @@ class Test_Piwik_TablePartitioning extends Test_Database
     	$p = new Piwik_TablePartitioning_Monthly($tableName);
     	$timestamp = strtotime("10 September 2000");
     	$suffixShouldBe = "_2000_09";
-		$config = Zend_Registry::get('config');
-		$prefixTables = $config->database->tables_prefix;
+		$config = Piwik_Config::getInstance();
+		$prefixTables = $config->database['tables_prefix'];
 		$tablename = $prefixTables.$tableName.$suffixShouldBe;
 		
     	$p->setTimestamp( $timestamp );
@@ -56,8 +56,8 @@ class Test_Piwik_TablePartitioning extends Test_Database
     	$p = new Piwik_TablePartitioning_Monthly($tableName);
     	$timestamp = strtotime("10 September 2000");
     	$suffixShouldBe = "_2000_09";
-		$config = Zend_Registry::get('config');
-		$prefixTables = $config->database->tables_prefix;
+		$config = Piwik_Config::getInstance();
+		$prefixTables = $config->database['tables_prefix'];
 		$tablename = $prefixTables.$tableName.$suffixShouldBe;
 		
     	$p->setTimestamp( $timestamp );
@@ -76,8 +76,8 @@ class Test_Piwik_TablePartitioning extends Test_Database
     	$p = new Piwik_TablePartitioning_Daily($tableName);
     	$timestamp = strtotime("10 September 2000");
     	$suffixShouldBe = "_2000_09_10";
-		$config = Zend_Registry::get('config');
-		$prefixTables = $config->database->tables_prefix;
+		$config = Piwik_Config::getInstance();
+		$prefixTables = $config->database['tables_prefix'];
 		$tablename = $prefixTables.$tableName.$suffixShouldBe;
 		
     	$p->setTimestamp( $timestamp );

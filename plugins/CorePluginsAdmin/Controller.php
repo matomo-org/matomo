@@ -44,7 +44,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
 		$view->pluginsName = $plugins;
 		$this->setBasicVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
-		if(!Zend_Registry::get('config')->isFileWritable())
+		if(!Piwik_Config::getInstance()->isFileWritable())
 		{
 			$view->configFileNotWritable = true;
 		}

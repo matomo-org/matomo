@@ -33,15 +33,7 @@ class Piwik_DBStats_API
 
 		if(function_exists('mysql_connect'))
 		{
-			$configDb = Zend_Registry::get('config')->database->toArray();
-			// we decode the password. Password is html encoded because it's enclosed between " double quotes
-			$configDb['password'] = htmlspecialchars_decode($configDb['password']);
-			if(!isset($configDb['port']))
-			{
-				// before 0.2.4 there is no port specified in config file
-				$configDb['port'] = '3306';  
-			}
-
+			$configDb = Piwik_Config::getInstance()->database;
 			$link   = mysql_connect($configDb['host'], $configDb['username'], $configDb['password']);
 			$status = mysql_stat($link);
 			mysql_close($link);

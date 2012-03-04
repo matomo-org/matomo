@@ -44,7 +44,7 @@ class Piwik_UpdateCheck
 				'timezone' => Piwik_SitesManager_API::getInstance()->getDefaultTimezone(),
 			);
 
-			$url = Zend_Registry::get('config')->General->api_service_url
+			$url = Piwik_Config::getInstance()->General['api_service_url']
 				. '/1.0/getLatestVersion/'
 				. '?' . http_build_query($parameters, '', '&');
 			$timeout = self::SOCKET_TIMEOUT;

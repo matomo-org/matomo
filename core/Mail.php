@@ -31,7 +31,7 @@ class Piwik_Mail extends Zend_Mail
 	
 	public function setFrom($email, $name = null)
 	{
-		$hostname = Zend_Registry::get('config')->mail->defaultHostnameIfEmpty;
+		$hostname = Piwik_Config::getInstance()->mail['defaultHostnameIfEmpty'];
 		$piwikHost = Piwik_Url::getCurrentHost($hostname);
 		
 		// If known Piwik URL, use it instead of "localhost"
@@ -49,24 +49,24 @@ class Piwik_Mail extends Zend_Mail
 	
 	private function initSmtpTransport()
 	{
-		$config = Zend_Registry::get('config')->mail;
-		if ( empty($config->host) 
-			 || $config->transport != 'smtp')
+		$mailConfig = Piwik_Config::getInstance()->mail;
+		if ( empty($mailConfig['host']) 
+			 || $mailConfig['transport'] != 'smtp')
 		{
 			return;
 		}
 		$smtpConfig = array();
-		if (!empty($config->type))
-			$smtpConfig['auth'] = strtolower($config->type);
-		if (!empty($config->username))
-			$smtpConfig['username'] = $config->username;
-		if (!empty($config->password))
-			$smtpConfig['password'] = $config->password;
-		if (!empty($config->encryption))
-			$smtpConfig['ssl'] = $config->encryption;
+		if (!empty($mailConfig['type']))
+			$smtpConfig['auth'] = strtolower($mailConfig['type']);
+		if (!empty($mailConfig['username']))
+			$smtpConfig['username'] = $mailConfig['username'];
+		if (!empty($mailConfig['password']))
+			$smtpConfig['password'] = $mailConfig['password'];
+		if (!empty($mailConfig['encryption']))
+			$smtpConfig['ssl'] = $mailConfig['encryption'];
 		
-		$tr = new Zend_Mail_Transport_Smtp($config->host, $smtpConfig);
+		$tr = new Zend_Mail_Transport_Smtp($mailConfig['host'], $smtpConfig);
 		Piwik_Mail::setDefaultTransport($tr);
-		ini_set("smtp_port", $config->port);
+		ini_set("smtp_port", $mailConfig['port']);
 	}
 }

@@ -555,9 +555,9 @@ class Archiving
 
 	private function initLog()
 	{
-		Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
-		Zend_Registry::get('config')->log->log_only_when_debug_parameter = 0;
-		Zend_Registry::get('config')->log->logger_message = array("logger_message" => "screen");
+		$config = Piwik_Config::getInstance();
+		$config->log['log_only_when_debug_parameter'] = 0;
+		$config->log['logger_message'] = array("logger_message" => "screen");
 		Piwik::createLogObject();
 		
 		if(!function_exists("curl_multi_init")) {
@@ -729,8 +729,8 @@ class Archiving
 
 	protected function initTokenAuth()
 	{
-		$login = Zend_Registry::get('config')->superuser->login;
-		$md5Password = Zend_Registry::get('config')->superuser->password;
+		$login = Piwik_Config::getInstance()->superuser['login'];
+		$md5Password = Piwik_Config::getInstance()->superuser['password'];
 		$this->token_auth = md5( $login . $md5Password ) ;
 		$this->login = $login;
 	}
@@ -760,7 +760,7 @@ class Archiving
 				$piwikUrl .= '/';
 			}
 		}
-		if(Zend_Registry::get('config')->General->force_ssl == 1)
+		if(Piwik_Config::getInstance()->General['force_ssl'] == 1)
 		{
 			$piwikUrl = str_replace('http://', 'https://', $piwikUrl);
 		}

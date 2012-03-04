@@ -23,7 +23,7 @@ class Test_Piwik_Nonce extends UnitTestCase
 	public function test_getAcceptableOrigins()
 	{
 		Piwik::createConfigObject();
-		Zend_Registry::get('config')->setTestEnvironment();	
+		Piwik_Config::getInstance()->setTestEnvironment();	
 
 		$tests = array(
 			// HTTP_HOST => expected

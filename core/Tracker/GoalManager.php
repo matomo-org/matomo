@@ -231,7 +231,7 @@ class Piwik_Tracker_GoalManager
 							? $visitorInformation['location_country'] 
 							: Piwik_Common::getCountry( 
 									Piwik_Common::getBrowserLanguage(), 
-									$enableLanguageToCountryGuess = Piwik_Tracker_Config::getInstance()->Tracker['enable_language_to_country_guess'], 
+									$enableLanguageToCountryGuess = Piwik_Config::getInstance()->Tracker['enable_language_to_country_guess'],
 									$visitorInformation['location_ip'] 
 							);
 							

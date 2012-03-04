@@ -998,7 +998,7 @@ class Piwik_DataTable
 		
 		// we then serialize the rows and store them in the serialized dataTable
 		$addToRows = array( self::ID_SUMMARY_ROW => $this->summaryRow );
-		if ($this->parents && Zend_Registry::get('config')->General->enable_archive_parents_of_datatable)
+		if ($this->parents && Piwik_Config::getInstance()->General['enable_archive_parents_of_datatable'])
 		{
 			$addToRows[self::ID_PARENTS] = $this->parents;
 		}

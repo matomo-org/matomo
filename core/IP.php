@@ -357,19 +357,7 @@ class Piwik_IP
 	 */
 	static public function getIpFromHeader()
 	{
-		$clientHeaders = null;
-		if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
-		{
-			$clientHeaders = @Piwik_Tracker_Config::getInstance()->General['proxy_client_headers'];
-		}
-		else
-		{
-			$config = Zend_Registry::get('config');
-			if($config !== false && isset($config->General->proxy_client_headers))
-			{
-				$clientHeaders = $config->General->proxy_client_headers->toArray();
-			}
-		}
+		$clientHeaders = @Piwik_Config::getInstance()->General['proxy_client_headers'];
 		if(!is_array($clientHeaders))
 		{
 			$clientHeaders = array();
@@ -394,24 +382,7 @@ class Piwik_IP
 	 */
 	static public function getNonProxyIpFromHeader($default, $proxyHeaders)
 	{
-		$proxyIps = null;
-		if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
-		{
-			$proxyIps = @Piwik_Tracker_Config::getInstance()->General['proxy_ips'];
-		}
-		else
-		{
-			try {
-				$config = Zend_Registry::get('config');
-			} catch(Exception $e) {
-				$config = false;
-			}
-
-			if($config !== false && isset($config->General->proxy_ips))
-			{
-				$proxyIps = $config->General->proxy_ips->toArray();
-			}
-		}
+		$proxyIps = @Piwik_Config::getInstance()->General['proxy_ips'];
 		if(!is_array($proxyIps))
 		{
 			$proxyIps = array();

@@ -478,9 +478,9 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			$url = Piwik_Common::getRequestVar( 'url', '', 'string', $this->request);
 
 			// get the delimiter, by default '/'; BC, we read the old action_category_delimiter first (see #1067) 
-			$actionCategoryDelimiter = isset(Piwik_Tracker_Config::getInstance()->General['action_category_delimiter'])
-										? Piwik_Tracker_Config::getInstance()->General['action_category_delimiter']
-										: Piwik_Tracker_Config::getInstance()->General['action_url_category_delimiter'];
+			$actionCategoryDelimiter = isset(Piwik_Config::getInstance()->General['action_category_delimiter'])
+										? Piwik_Config::getInstance()->General['action_category_delimiter']
+										: Piwik_Config::getInstance()->General['action_url_category_delimiter'];
 			
 			// create an array of the categories delimited by the delimiter
 			$split = explode($actionCategoryDelimiter, $actionName);
@@ -520,7 +520,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		$string = trim($string);
 		$string = str_replace(array("\n", "\r", "\0"), '', $string);
 		
-		$limit = Piwik_Tracker_Config::getInstance()->Tracker['page_maximum_length'];
+		$limit = Piwik_Config::getInstance()->Tracker['page_maximum_length'];
 		return substr($string, 0, $limit);
 	}
 }

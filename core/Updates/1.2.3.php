@@ -19,7 +19,7 @@ class Piwik_Updates_1_2_3 extends Piwik_Updates
 	{
 		return array(
 			// LOAD DATA INFILE uses the database's charset
-			'ALTER DATABASE `'. Zend_Registry::get('config')->database->dbname .'` DEFAULT CHARACTER SET utf8' => false,
+			'ALTER DATABASE `'. Piwik_Config::getInstance()->database['dbname'] .'` DEFAULT CHARACTER SET utf8' => false,
 
 			// Various performance improvements schema updates
 			'ALTER TABLE `'. Piwik_Common::prefixTable('log_visit') .'` 

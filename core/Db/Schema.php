@@ -125,8 +125,8 @@ class Piwik_Db_Schema
 		Piwik_PostEvent('Schema.loadSchema', $schema);
 		if($schema === null)
 		{
-			$config = Zend_Registry::get('config');
-			$dbInfos = $config->database->toArray();
+			$config = Piwik_Config::getInstance();
+			$dbInfos = $config->database;
 			if(isset($dbInfos['schema']))
 			{
 				$schemaName = $dbInfos['schema'];

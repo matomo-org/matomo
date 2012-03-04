@@ -27,9 +27,9 @@ class Piwik_Session extends Zend_Session
 	 */
 	public static function isFileBasedSessions()
 	{
-		$config = Zend_Registry::get('config');
-		return !isset($config->General->session_save_handler)
-			|| $config->General->session_save_handler === 'files';
+		$config = Piwik_Config::getInstance();
+		return !isset($config->General['session_save_handler'])
+			|| $config->General['session_save_handler'] === 'files';
 	}
 
 	/**
@@ -71,7 +71,7 @@ class Piwik_Session extends Zend_Session
 		@ini_set('session.referer_check', '');
 
 		$currentSaveHandler = ini_get('session.save_handler');
-		$config = Zend_Registry::get('config');
+		$config = Piwik_Config::getInstance();
 
 		if (self::isFileBasedSessions())
 		{
@@ -85,7 +85,7 @@ class Piwik_Session extends Zend_Session
 			@ini_set('session.save_handler', 'files');
 			@ini_set('session.save_path', $sessionPath); 
 		}
-		else if ($config->General->session_save_handler === 'dbtable'
+		else if ($config->General['session_save_handler'] === 'dbtable'
 			|| in_array($currentSaveHandler, array('user', 'mm')))
 		{
 			// We consider these to be misconfigurations, in that:

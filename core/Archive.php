@@ -391,8 +391,8 @@ abstract class Piwik_Archive
 	static public function isSegmentationEnabled()
 	{
 		return !Piwik::isUserIsAnonymous()
-				|| Zend_Registry::get('config')->General->anonymous_user_enable_use_segments_API
-				;
+			|| Piwik_Config::getInstance()->General['anonymous_user_enable_use_segments_API']
+			;
 	}
 
 	/**

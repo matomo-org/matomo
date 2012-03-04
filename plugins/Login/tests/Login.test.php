@@ -12,12 +12,12 @@ require_once 'Database.test.php';
 
 class Test_Piwik_Login extends Test_Database
 {
-    function setUp()
-    {
-    	parent::setUp();
+	function setUp()
+	{
+		parent::setUp();
     	
 		// setup the access layer
-    	$pseudoMockAccess = new FakeAccess;
+		$pseudoMockAccess = new FakeAccess;
 		FakeAccess::setIdSitesView( array(1,2));
 		FakeAccess::setIdSitesAdmin( array(3,4));
 		
@@ -26,12 +26,12 @@ class Test_Piwik_Login extends Test_Database
 		Zend_Registry::set('access', $pseudoMockAccess);
 		
 		// we make sure the tests don't depend on the config file content
-		Zend_Registry::get('config')->superuser = array(
+		Piwik_Config::getInstance()->superuser = array(
 			'login'=>'superusertest',
 			'password'=>md5('passwordsuperusertest'),
 			'email'=>'superuser@example.com'
 		);
-    }
+	}
 
 	public function test_authenticate()
 	{
@@ -175,7 +175,7 @@ class Test_Piwik_Login extends Test_Database
 		$rc = $auth->authenticate();
 		$this->assertEqual( $rc->getCode(), Piwik_Auth_Result::SUCCESS );
 
-		$user = Zend_Registry::get('config')->superuser->toArray();
+		$user = Piwik_Config::getInstance()->superuser;
 		$password = $user['password'];
 		$tokenAuth = Piwik_UsersManager_API::getInstance()->getTokenAuth($user['login'], $password);
 

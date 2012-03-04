@@ -5,7 +5,6 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 }
 
 require_once 'Tracker/Action.php';
-require_once 'Tracker/Config.php';
 require_once "Database.test.php";
 
 class Test_Piwik_TrackerAction extends  Test_Database
@@ -15,16 +14,14 @@ class Test_Piwik_TrackerAction extends  Test_Database
 		parent::setUp();
 		$GLOBALS['PIWIK_TRACKER_MODE'] = true;
 		$userFile = PIWIK_PATH_TEST_TO_ROOT . '/tests/resources/Tracker/Action.config.ini.php';
-		$config = Piwik_Tracker_Config::getInstance();
-		$config->init($userFile);
-		$config->setTestEnvironment();
+		$config = Piwik_Config::getInstance();
+		$config->setTestEnvironment($userFile);
 	}
 
 	function tearDown()
 	{
 		parent::tearDown();
 		$GLOBALS['PIWIK_TRACKER_MODE'] = false;
-		Piwik_Tracker_Config::getInstance()->clear();
 	}
 
 	protected function setUpRootAccess()

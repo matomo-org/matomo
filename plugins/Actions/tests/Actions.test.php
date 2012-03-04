@@ -6,7 +6,6 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 
 require_once 'Actions/Actions.php';
 require_once 'Tracker/Action.php';
-require_once 'Tracker/Config.php';
 
 class Test_Piwik_Actions extends UnitTestCase
 {
@@ -15,14 +14,14 @@ class Test_Piwik_Actions extends UnitTestCase
 	{
 		$userFile = PIWIK_INCLUDE_PATH . '/tests/resources/plugins/Actions/Actions.config.ini.php';
 		Piwik::createConfigObject($userFile);
-    	Piwik_Translate::getInstance()->loadEnglishTranslation();
-		Zend_Registry::get('config')->setTestEnvironment();	
+		Piwik_Translate::getInstance()->loadEnglishTranslation();
+		Piwik_Config::getInstance()->setTestEnvironment();	
 	}
 	
 	function tearDown()
 	{
 		Piwik::createConfigObject();
-		Zend_Registry::get('config')->setTestEnvironment();	
+		Piwik_Config::getInstance()->setTestEnvironment();	
 	}
 	
 	function test_getActionExplodedNames()

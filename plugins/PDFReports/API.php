@@ -461,7 +461,7 @@ class Piwik_PDFReports_API
 			{
 				$emails[] = Piwik::getCurrentUserEmail();
 			}
-			elseif($report['login'] == Zend_Registry::get('config')->superuser->login)
+			elseif($report['login'] == Piwik_Config::getInstance()->superuser['login'])
 			{
 				$emails[] = Piwik::getSuperUserEmail();
 			}
@@ -506,10 +506,10 @@ class Piwik_PDFReports_API
 
 		$mail = new Piwik_Mail();
 		$mail->setSubject($subject);
-		$fromEmailName = Zend_Registry::get('config')->branding->use_custom_logo 
+		$fromEmailName = Piwik_Config::getInstance()->branding['use_custom_logo'] 
 							? Piwik_Translate('CoreHome_WebAnalyticsReports')
 							: Piwik_Translate('PDFReports_PiwikReports');
-		$fromEmailAddress = Zend_Registry::get('config')->General->noreply_email_address;
+		$fromEmailAddress = Piwik_Config::getInstance()->General['noreply_email_address'];
 		$attachmentName = $subject;
 		$mail->setFrom($fromEmailAddress, $fromEmailName);
 

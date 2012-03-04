@@ -177,7 +177,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	 */
 	static public function getLanguageForSession()
 	{
-		$cookieName = Zend_Registry::get('config')->General->language_cookie_name;
+		$cookieName = Piwik_Config::getInstance()->General['language_cookie_name'];
 		$cookie = new Piwik_Cookie($cookieName);
 		if($cookie->isCookieFound())
 		{
@@ -198,7 +198,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 			return false;
 		}
 
-		$cookieName = Zend_Registry::get('config')->General->language_cookie_name;
+		$cookieName = Piwik_Config::getInstance()->General['language_cookie_name'];
 		$cookie = new Piwik_Cookie($cookieName, 0);
 		$cookie->set('language', $languageCode);
 		$cookie->save();

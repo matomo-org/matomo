@@ -48,8 +48,6 @@ require_once PIWIK_INCLUDE_PATH .'/core/Loader.php';
 require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Exception.php';
 require_once PIWIK_INCLUDE_PATH .'/core/ErrorHandler.php';
 require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Registry.php';
-require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Config/Ini.php';
-require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Config.php';
 require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Db.php';
 require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Db/Table.php';
 require_once PIWIK_INCLUDE_PATH .'/core/FrontController.php';

@@ -80,7 +80,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 						$this->getInstallationSteps(),
 						__FUNCTION__
 					);
-		$view->newInstall = !file_exists(Piwik_Config::getDefaultUserConfigPath());
+		$view->newInstall = !file_exists(Piwik_Config::getLocalConfigPath());
 		$view->errorMessage = $message;
 		$this->skipThisStep( __FUNCTION__ );
 		$view->showNextStep = $view->newInstall;
@@ -387,7 +387,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 			$this->session->superuser_infos = $superUserInfos;
 
-			$url = Zend_Registry::get('config')->General->api_service_url;
+			$url = Piwik_Config::getInstance()->General['api_service_url'];
 			$url .= '/1.0/subscribeNewsletter/';
 			$params = array(
 				'email' => $form->getSubmitValue('email'),
@@ -519,7 +519,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 					);
 		$this->skipThisStep( __FUNCTION__ );
 
-		if(!file_exists(Piwik_Config::getDefaultUserConfigPath()))
+		if(!file_exists(Piwik_Config::getLocalConfigPath()))
 		{
 			$this->writeConfigFileFromSession();
 		}
@@ -551,8 +551,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	protected function createDbFromSessionInformation()
 	{
 		$dbInfos = $this->session->db_infos;
-		Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
-		Zend_Registry::get('config')->database = $dbInfos;
+		Piwik_Config::getInstance()->database = $dbInfos;
 		Piwik::createDatabaseObject($dbInfos);
 	}
 
@@ -566,14 +565,21 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		{
 			return;
 		}
-		$config = Zend_Registry::get('config');
-		$config->superuser = $this->session->superuser_infos;
-		$dbInfos = $this->session->db_infos;
-		$config->database = $dbInfos;
 
-		if(!empty($this->session->general_infos))
-		{
-			$config->General = $this->session->general_infos;
+		$config = Piwik_Config_Writer::getInstance();
+		try {
+			// expect exception since config.ini.php doesn't exist yet
+			$config->init();
+		} catch(Exception $e) {
+			$config->superuser = $this->session->superuser_infos;
+			$config->database = $this->session->db_infos;
+
+			if(!empty($this->session->general_infos))
+			{
+				$config->General = $this->session->general_infos;
+			}
+
+			$config->forceSave();
 		}
 
 		unset($this->session->superuser_infos);
@@ -613,7 +619,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		}
 		else
 		{
-			if(file_exists(Piwik_Config::getDefaultUserConfigPath()))
+			if(file_exists(Piwik_Config::getLocalConfigPath()))
 			{
 				$error = true;
 			}
@@ -679,7 +685,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	public static function getSystemInformation()
 	{
 		global $piwik_minimumPHPVersion;
-		$minimumMemoryLimit = Zend_Registry::get('config')->General->minimum_memory_limit;
+		$minimumMemoryLimit = Piwik_Config::getInstance()->General['minimum_memory_limit'];
 
 		$infos = array();
 

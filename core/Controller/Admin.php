@@ -28,7 +28,7 @@ abstract class Piwik_Controller_Admin extends Piwik_Controller
 
 		$view->currentAdminMenuName = Piwik_GetCurrentAdminMenuName();
 
-		$view->enableFrames = Zend_Registry::get('config')->General->enable_framed_settings;
+		$view->enableFrames = Piwik_Config::getInstance()->General['enable_framed_settings'];
 		if(!$view->enableFrames)
 		{
 			$view->setXFrameOptions('sameorigin');

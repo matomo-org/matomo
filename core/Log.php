@@ -36,7 +36,7 @@ abstract class Piwik_Log extends Zend_Log
 		
 		$this->currentRequestKey = substr( Piwik_Common::generateUniqId(), 0, 8);
 
-		$log_dir = Zend_Registry::get('config')->log->logger_file_path;
+		$log_dir = Piwik_Config::getInstance()->log['logger_file_path'];
 		if($log_dir[0] != '/' && $log_dir[0] != DIRECTORY_SEPARATOR)
 		{
 			$log_dir = PIWIK_USER_PATH . '/' . $log_dir;

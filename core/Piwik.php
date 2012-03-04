@@ -49,7 +49,7 @@ class Piwik
 	static public function isUniqueVisitorsEnabled($periodLabel)
 	{
 		return in_array($periodLabel, array('day', 'week', 'month'))
-			|| Zend_Registry::get('config')->General->enable_processing_unique_visitors_year_and_range ;
+			|| Piwik_Config::getInstance()->General['enable_processing_unique_visitors_year_and_range'];
 	}
 
 /*
@@ -96,7 +96,7 @@ class Piwik
 	 */
 	static public function install()
 	{
-		Piwik_Common::mkdir(PIWIK_USER_PATH . '/' . Zend_Registry::get('config')->smarty->compile_dir);
+		Piwik_Common::mkdir(PIWIK_USER_PATH . '/' . Piwik_Config::getInstance()->smarty['compile_dir']);
 	}
 
 	/**
@@ -1029,14 +1029,14 @@ class Piwik
 		{
 			return false;
 		}
-		$minimumMemoryLimit = Zend_Registry::get('config')->General->minimum_memory_limit;
+		$minimumMemoryLimit = Piwik_Config::getInstance()->General['minimum_memory_limit'];
 		
 		if(Piwik_Common::isArchivePhpTriggered()
 			&& Piwik::isUserIsSuperUser())
 		{
 			// archive.php: no time limit, high memory limit
 			self::setMaxExecutionTime(0);
-			$minimumMemoryLimitWhenArchiving = Zend_Registry::get('config')->General->minimum_memory_limit_when_archiving;
+			$minimumMemoryLimitWhenArchiving = Piwik_Config::getInstance()->General['minimum_memory_limit_when_archiving'];
 			if($memoryLimit < $minimumMemoryLimitWhenArchiving)
 			{
 				return self::setMemoryLimit($minimumMemoryLimitWhenArchiving);
@@ -1084,9 +1084,9 @@ class Piwik
 	{
 		try {
 			$shouldLog = (Piwik_Common::isPhpCliMode()
-						|| Zend_Registry::get('config')->log->log_only_when_cli == 0)
+						|| Piwik_Config::getInstance()->log['log_only_when_cli'] == 0)
 					&& 
-					  ( Zend_Registry::get('config')->log->log_only_when_debug_parameter == 0
+					  ( Piwik_Config::getInstance()->log['log_only_when_debug_parameter'] == 0
 					  	|| isset($_REQUEST['debug']))
 					;
 		} catch(Exception $e) {
@@ -1603,8 +1603,8 @@ class Piwik
 	 */
 	static public function getWebsitesCountToDisplay()
 	{
-		$count = max(Zend_Registry::get('config')->General->site_selector_max_sites,
-					Zend_Registry::get('config')->General->autocomplete_min_sites);
+		$count = max(Piwik_Config::getInstance()->General['site_selector_max_sites'],
+					Piwik_Config::getInstance()->General['autocomplete_min_sites']);
 		return (int)$count;
 	}
 
@@ -1617,7 +1617,7 @@ class Piwik
 
 		if (is_null($cachedResult))
 		{
-			$segments = Zend_Registry::get('config')->Segments->toArray();
+			$segments = Piwik_Config::getInstance()->Segments;
 			$cachedResult = isset($segments['Segments']) ? $segments['Segments'] : '';
 		}
 		
@@ -1650,8 +1650,8 @@ class Piwik
 	 */
 	static public function getSuperUserEmail()
 	{
-		$superuser = Zend_Registry::get('config')->superuser;
-		return $superuser->email;
+		$superuser = Piwik_Config::getInstance()->superuser;
+		return $superuser['email'];
 	}
 	
 	/**
@@ -1964,16 +1964,16 @@ class Piwik
 	 */
 	static public function createDatabaseObject( $dbInfos = null )
 	{
-		$config = Zend_Registry::get('config');
+		$config = Piwik_Config::getInstance();
 
 		if(is_null($dbInfos))
 		{
-			$dbInfos = $config->database->toArray();
+			$dbInfos = $config->database;
 		}
 
 		Piwik_PostEvent('Reporting.getDatabaseConfig', $dbInfos);
 
-		$dbInfos['profiler'] = $config->Debug->enable_sql_profiler;
+		$dbInfos['profiler'] = $config->Debug['enable_sql_profiler'];
 
 		$db = null;
 		Piwik_PostEvent('Reporting.createDatabase', $db);
@@ -2025,7 +2025,7 @@ class Piwik
 	 */
 	static public function createLogObject()
 	{
-		$configAPI = Zend_Registry::get('config')->log;
+		$configAPI = Piwik_Config::getInstance()->log;
 
 		$aLoggers = array(
 				'logger_api_call' => new Piwik_Log_APICall,
@@ -2080,14 +2080,15 @@ class Piwik
 
 	/**
 	 * Create configuration object
-	 *
-	 * @param string $pathConfigFile
 	 */
-	static public function createConfigObject( $pathConfigFile = null )
+	static public function createConfigObject()
 	{
-		$config = new Piwik_Config($pathConfigFile);
-		Zend_Registry::set('config', $config);
+		// instantiate the singleton
+		$config = Piwik_Config::getInstance();
 		$config->init();
+
+		// for backward compatibility
+		Zend_Registry::set('config', new Piwik_Config_Compat());
 	}
 
 /*
@@ -2150,7 +2151,7 @@ class Piwik
 	 */
 	static public function isChecksEnabled()
 	{
-		return Zend_Registry::get('config')->General->disable_checks_usernames_attributes == 0;
+		return Piwik_Config::getInstance()->General['disable_checks_usernames_attributes'] == 0;
 	}
 
 	/**
@@ -2413,7 +2414,7 @@ class Piwik
 				);
 
 				// hack for charset mismatch
-				if(!self::isDatabaseConnectionUTF8() && !isset(Zend_Registry::get('config')->database->charset))
+				if(!self::isDatabaseConnectionUTF8() && !isset(Piwik_Config::getInstance()->database['charset']))
 				{
 					$fileSpec['charset'] = 'latin1';
 				}
@@ -2473,17 +2474,17 @@ class Piwik
 	 */
 	static public function getArchiveProcessingLockName($idsite, $period, Piwik_Segment $segment)
 	{
-		$config = Zend_Registry::get('config');
+		$config = Piwik_Config::getInstance();
 
 		$lockName = 'piwik.'
-			. $config->database->dbname . '.'
-			. $config->database->tables_prefix . '/'
+			. $config->database['dbname'] . '.'
+			. $config->database['tables_prefix'] . '/'
 			. $idsite . '/'
 			. (!$segment->isEmpty() ? $segment->getHash().'/' : '' )
 			. $period->getId() . '/'
 			. $period->getDateStart()->toString('Y-m-d') . ','
 			. $period->getDateEnd()->toString('Y-m-d');
-		return $lockName .'/'. md5($lockName . $config->superuser->salt);
+		return $lockName .'/'. md5($lockName . $config->superuser['salt']);
 	}
 
 	/**

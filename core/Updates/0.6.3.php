@@ -27,18 +27,16 @@ class Piwik_Updates_0_6_3 extends Piwik_Updates
 
 	static function update()
 	{
-		$config = Zend_Registry::get('config');
-		$dbInfos = $config->database->toArray();
+		$config = Piwik_Config_Writer::getInstance();
+		$dbInfos = $config->database;
 		if(!isset($dbInfos['schema']))
 		{
 			try {
-				if(is_writable( Piwik_Config::getDefaultUserConfigPath() ))
+				if(is_writable( Piwik_Config_Writer::getLocalConfigPath() ))
 				{
-					$dbInfos['schema'] = 'Myisam';
-					$config->database = $dbInfos;
-
+					$config->setConfigOption('database', 'schema', 'Myisam');
 					$config->__destruct();
-					Piwik::createConfigObject();
+					Piwik_Config::getInstance()->clear();
 				}
 				else
 				{

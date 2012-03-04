@@ -27,9 +27,9 @@
  */
 function smarty_outputfilter_ajaxcdn($source, &$smarty)
 {
-	$jquery_version = Zend_Registry::get('config')->General->jquery_version;
-	$jqueryui_version = Zend_Registry::get('config')->General->jqueryui_version;
-	$swfobject_version = Zend_Registry::get('config')->General->swfobject_version;
+	$jquery_version = Piwik_Config::getInstance()->General['jquery_version'];
+	$jqueryui_version = Piwik_Config::getInstance()->General['jqueryui_version'];
+	$swfobject_version = Piwik_Config::getInstance()->General['swfobject_version'];
 
 	$pattern = array(
 		'~<link rel="stylesheet" type="text/css" href="libs/jquery/themes/([^"]*)" />~',

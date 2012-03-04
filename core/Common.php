@@ -62,18 +62,7 @@ class Piwik_Common
 		static $prefixTable = null;
 		if(is_null($prefixTable))
 		{
-			if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
-			{
-				$prefixTable = Piwik_Tracker_Config::getInstance()->database['tables_prefix'];
-			}
-			else
-			{
-				$config = Zend_Registry::get('config');
-				if($config !== false)
-				{
-					$prefixTable = $config->database->tables_prefix;
-				}
-			}
+			$prefixTable = Piwik_Config::getInstance()->database['tables_prefix'];
 		}
 		return $prefixTable . $table;
 	}
@@ -98,7 +87,7 @@ class Piwik_Common
 				Piwik::createAccessObject();
 			}
 			try {
-				$config = Zend_Registry::get('config');
+				$config = Piwik_Config::getInstance();
 			} catch (Exception $e) {
 				Piwik::createConfigObject();
 			}
@@ -109,7 +98,7 @@ class Piwik_Common
 			}
 
 			$pluginsManager = Piwik_PluginsManager::getInstance();
-			$pluginsToLoad = Zend_Registry::get('config')->Plugins->Plugins->toArray();
+			$pluginsToLoad = Piwik_Config::getInstance()->Plugins['Plugins'];
 			$pluginsForcedNotToLoad = Piwik_Tracker::getPluginsNotToLoad();
 			$pluginsToLoad = array_diff($pluginsToLoad, $pluginsForcedNotToLoad);
 			$pluginsManager->loadPlugins( $pluginsToLoad );
@@ -266,7 +255,7 @@ class Piwik_Common
 	{
 		// Currently, there is no hourly tasks. When there are some,
 		// this could be too agressive minimum interval (some hours would be skipped in case of low traffic)
-		$minimumInterval = Piwik_Tracker_Config::getInstance()->Tracker['scheduled_tasks_min_interval'];
+		$minimumInterval = Piwik_Config::getInstance()->Tracker['scheduled_tasks_min_interval'];
 
 		// If the user disabled browser archiving, he has already setup a cron
 		// To avoid parallel requests triggering the Scheduled Tasks,
@@ -888,18 +877,7 @@ class Piwik_Common
 		static $salt = null;
 		if(is_null($salt))
 		{
-			if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
-			{
-				$salt = @Piwik_Tracker_Config::getInstance()->superuser['salt'];
-			}
-			else
-			{
-				$config = Zend_Registry::get('config');
-				if($config !== false)
-				{
-					$salt = @$config->superuser->salt;
-				}
-			}
+			$salt = @Piwik_Config::getInstance()->superuser['salt'];
 		}
 		return $salt;
 	}
@@ -916,18 +894,7 @@ class Piwik_Common
 		static $hashAlgorithm = null;
 		if(is_null($hashAlgorithm))
 		{
-			if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
-			{
-				$hashAlgorithm = @Piwik_Tracker_Config::getInstance()->General['hash_algorithm'];
-			}
-			else
-			{
-				$config = Zend_Registry::get('config');
-				if($config !== false)
-				{
-					$hashAlgorithm = @$config->General->hash_algorithm;
-				}
-			}
+			$hashAlgorithm = @Piwik_Config::getInstance()->General['hash_algorithm'];
 		}
 
 		if($hashAlgorithm)
@@ -1381,20 +1348,11 @@ class Piwik_Common
 	 */
 	static public function getCampaignParameters()
 	{
-		if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
-		{
-			$return = array(
-				Piwik_Tracker_Config::getInstance()->Tracker['campaign_var_name'],
-				Piwik_Tracker_Config::getInstance()->Tracker['campaign_keyword_var_name'],
-			);
-		}
-		else
-		{
-			$return = array(
-				Zend_Registry::get('config')->Tracker->campaign_var_name,
-				Zend_Registry::get('config')->Tracker->campaign_keyword_var_name,
-			);
-		}
+		$return = array(
+			Piwik_Config::getInstance()->Tracker['campaign_var_name'],
+			Piwik_Config::getInstance()->Tracker['campaign_keyword_var_name'],
+		);
+
 		foreach($return as &$list) 
 		{
 			if(strpos($list, ',') !== false)
@@ -1406,6 +1364,7 @@ class Piwik_Common
 				$list = array($list);
 			}
 		}
+
 		array_walk_recursive($return, 'trim');
 		return $return;
 	}

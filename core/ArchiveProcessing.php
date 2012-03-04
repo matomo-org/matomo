@@ -226,19 +226,19 @@ abstract class Piwik_ArchiveProcessing
 		{
 			case 'day':
 				$process = new Piwik_ArchiveProcessing_Day();		
-				$process->debugAlwaysArchive = Zend_Registry::get('config')->Debug->always_archive_data_day;
+				$process->debugAlwaysArchive = Piwik_Config::getInstance()->Debug['always_archive_data_day'];
 			break;
 			
 			case 'week':
 			case 'month':
 			case 'year':
 				$process = new Piwik_ArchiveProcessing_Period();
-				$process->debugAlwaysArchive = Zend_Registry::get('config')->Debug->always_archive_data_period;
+				$process->debugAlwaysArchive = Piwik_Config::getInstance()->Debug['always_archive_data_period'];
 			break;
 
 			case 'range':
 				$process = new Piwik_ArchiveProcessing_Period();
-				$process->debugAlwaysArchive = Zend_Registry::get('config')->Debug->always_archive_data_range;
+				$process->debugAlwaysArchive = Piwik_Config::getInstance()->Debug['always_archive_data_range'];
 			break;
 			
 			default:
@@ -280,7 +280,7 @@ abstract class Piwik_ArchiveProcessing
 		{
 			return $timeToLive;
 		}
-		return Zend_Registry::get('config')->General->time_before_today_archive_considered_outdated;
+		return Piwik_Config::getInstance()->General['time_before_today_archive_considered_outdated'];
 	}
 
 	static public function setBrowserTriggerArchiving($enabled)
@@ -299,7 +299,7 @@ abstract class Piwik_ArchiveProcessing
 		{
 			return (bool)$browserArchivingEnabled;
 		}
-		return (bool)Zend_Registry::get('config')->General->enable_browser_archiving_triggering;
+		return (bool)Piwik_Config::getInstance()->General['enable_browser_archiving_triggering'];
 	}
 	
 	public function getIdArchive()
@@ -945,7 +945,7 @@ abstract class Piwik_ArchiveProcessing
 			// if browser archiving is not allowed, then archiving is disabled
 			if(!$segment->isEmpty()
 				&& !self::isRequestAuthorizedToArchive()
-				&& Zend_Registry::get('config')->General->browser_archiving_disabled_enforce
+				&& Piwik_Config::getInstance()->General['browser_archiving_disabled_enforce']
 			)
 			{
 				Piwik::log("Archiving is disabled because of config setting browser_archiving_disabled_enforce=1");

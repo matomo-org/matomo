@@ -108,7 +108,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 		$userSettingsDate = Piwik_UsersManager_API::getInstance()->getUserPreference($user, Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT_DATE);
 		if($userSettingsDate === false)
 		{
-			return Zend_Registry::get('config')->General->default_day;
+			return Piwik_Config::getInstance()->General['default_day'];
 		}
 		return $userSettingsDate;
 	}
@@ -127,7 +127,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 		{
 			$view->userAlias = $userLogin;
 			$view->userEmail = Piwik::getSuperUserEmail();
-			if(!Zend_Registry::get('config')->isFileWritable())
+			if(!Piwik_Config::getInstance()->isFileWritable())
 			{
 				$view->configFileNotWritable = true;
 			}
@@ -277,24 +277,24 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 			$userLogin = Piwik::getCurrentUserLogin();
 			if(Piwik::isUserIsSuperUser())
 			{
-				$superUser = Zend_Registry::get('config')->superuser;
+				$superUser = Piwik_Config_Writer::getInstance()->superuser;
 				$updatedSuperUser = false;
 
 				if($newPassword !== false)
 				{
 					$newPassword = Piwik_Common::unsanitizeInputValue($newPassword);
 					$md5PasswordSuperUser = md5($newPassword);
-					$superUser->password = $md5PasswordSuperUser;
+					$superUser['password'] = $md5PasswordSuperUser;
 					$updatedSuperUser = true;
 				}
 	 			if($superUser->email != $email)
 				{
-					$superUser->email = $email;
+					$superUser['email'] = $email;
 	 				$updatedSuperUser = true;
 				}
 				if($updatedSuperUser)
 				{
-					Zend_Registry::get('config')->superuser = $superUser->toArray();
+					Piwik_Config::getInstance()->superuser = $superUser;
 				}
 			}
 			else

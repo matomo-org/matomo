@@ -367,21 +367,21 @@ class Piwik_Actions extends Piwik_Plugin
 	public function __construct()
 	{
 		// for BC, we read the old style delimiter first (see #1067)
-		$actionDelimiter = Zend_Registry::get('config')->General->action_category_delimiter;
+		$actionDelimiter = @Piwik_Config::getInstance()->General['action_category_delimiter'];
 		if(empty($actionDelimiter))
 		{
-    		self::$actionUrlCategoryDelimiter =  Zend_Registry::get('config')->General->action_url_category_delimiter;
-    		self::$actionTitleCategoryDelimiter =  Zend_Registry::get('config')->General->action_title_category_delimiter;
+			self::$actionUrlCategoryDelimiter = Piwik_Config::getInstance()->General['action_url_category_delimiter'];
+			self::$actionTitleCategoryDelimiter = Piwik_Config::getInstance()->General['action_title_category_delimiter'];
 		}
 		else
 		{
 			self::$actionUrlCategoryDelimiter = self::$actionTitleCategoryDelimiter = $actionDelimiter;
 		}
 		
-		self::$defaultActionName = Zend_Registry::get('config')->General->action_default_name;
+		self::$defaultActionName = Piwik_Config::getInstance()->General['action_default_name'];
 		$this->columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
-		$this->maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_actions;
-		$this->maximumRowsInSubDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_subtable_actions;
+		$this->maximumRowsInDataTableLevelZero = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_actions'];
+		$this->maximumRowsInSubDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_actions'];
 	}
 	
 	function archivePeriod( $notification )

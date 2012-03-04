@@ -42,7 +42,7 @@ require_once PIWIK_INCLUDE_PATH .'/core/Plugin.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Common.php';
 require_once PIWIK_INCLUDE_PATH .'/core/IP.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker.php';
-require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Config.php';
+require_once PIWIK_INCLUDE_PATH .'/core/Config.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Db.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker/IgnoreCookie.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Visit.php';
@@ -68,12 +68,7 @@ if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 	set_exception_handler('Piwik_ExceptionHandler');
 	printDebug("Debug enabled - Input parameters: <br/>" . var_export($_GET, true));
 	Piwik_Tracker_Db::enableProfiling();
-	// Config might have been created by proxy-piwik.php
-	try {
-		$config = Zend_Registry::get('config');
-	} catch (Exception $e) {
-		Piwik::createConfigObject();
-	}
+	Piwik::createConfigObject();
 	Piwik::createLogObject();
 }
 

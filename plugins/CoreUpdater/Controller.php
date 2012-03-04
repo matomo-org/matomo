@@ -32,7 +32,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		$view = Piwik_View::factory('update_new_version_available');
 		$view->piwik_version = Piwik_Version::VERSION;
 		$view->piwik_new_version = $newVersion;
-		$view->piwik_latest_version_url = Zend_Registry::get('config')->General->latest_version_url;
+		$view->piwik_latest_version_url = Piwik_Config::getInstance()->General['latest_version_url'];
 		$view->can_auto_update = Piwik::canAutoUpdate();
 		$view->makeWritableCommands = Piwik::getAutoUpdateMakeWritableMessage();
 		echo $view->render();
@@ -45,7 +45,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
 		Piwik::setMaxExecutionTime(0);
 
-		$url = Zend_Registry::get('config')->General->latest_version_url;
+		$url = Piwik_Config::getInstance()->General['latest_version_url'];
 		$steps = array(
 			array('oneClick_Download', Piwik_Translate('CoreUpdater_DownloadingUpdateFromX', $url)),
 			array('oneClick_Unpack', Piwik_Translate('CoreUpdater_UnpackingTheUpdate')),
@@ -91,7 +91,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		Piwik::checkDirectoriesWritableOrDie( array(self::PATH_TO_EXTRACT_LATEST_VERSION) );
 
 		// we catch exceptions in the caller (i.e., oneClickUpdate)
-		$url = Zend_Registry::get('config')->General->latest_version_url . '?cb=' . $this->newVersion;
+		$url = Piwik_Config::getInstance()->General['latest_version_url'] . '?cb=' . $this->newVersion;
 		$fetched = Piwik_Http::fetchRemoteFile($url, $this->pathPiwikZip);
 	}
 	
@@ -122,11 +122,11 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	private function oneClick_Verify()
 	{
 		$someExpectedFiles = array( 
-									'/config/global.ini.php',
-									'/index.php',
-									'/core/Piwik.php',
-									'/piwik.php',
-									'/plugins/API/API.php'
+			'/config/global.ini.php',
+			'/index.php',
+			'/core/Piwik.php',
+			'/piwik.php',
+			'/plugins/API/API.php'
 		);
 		foreach($someExpectedFiles as $file) 
 		{
@@ -275,7 +275,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		// handle case of existing database with no tables
 		if(!Piwik::isInstalled())
 		{
-			$this->errorMessages[] = Piwik_Translate('CoreUpdater_EmptyDatabaseError', Zend_Registry::get('config')->database->dbname);
+			$this->errorMessages[] = Piwik_Translate('CoreUpdater_EmptyDatabaseError', Piwik_Config::getInstance()->database['dbname']);
 			$this->coreError = true;
 			$currentVersion = 'N/A';
 		}

@@ -20,9 +20,9 @@ class Piwik_StressTests_CopyLogs
 {
 	function init()
 	{
-		Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
-		Zend_Registry::get('config')->log->log_only_when_debug_parameter = 0;
-		Zend_Registry::get('config')->log->logger_message = array("logger_message" => "screen");
+		$config = Piwik_Config::getInstance();
+		$config->log['log_only_when_debug_parameter'] = 0;
+		$config->log['logger_message'] = array("logger_message" => "screen");
 		Piwik::createLogObject();
 	}
 	

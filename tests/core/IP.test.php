@@ -531,7 +531,7 @@ class Test_Piwik_IP extends UnitTestCase
 	function test_getIpFromHeader()
 	{
 		Piwik::createConfigObject();
-		Zend_Registry::get('config')->setTestEnvironment();
+		Piwik_Config::getInstance()->setTestEnvironment();
 		$saved = $this->saveGlobals(array('REMOTE_ADDR', 'HTTP_X_FORWARDED_FOR'));
 
 		$tests = array(
@@ -549,8 +549,8 @@ class Test_Piwik_IP extends UnitTestCase
 		{
 			$_SERVER['REMOTE_ADDR'] = $test[0];
 			$_SERVER['HTTP_X_FORWARDED_FOR'] = $test[1];
-			Zend_Registry::get('config')->General->proxy_client_headers = array($test[2]);
-			Zend_Registry::get('config')->General->proxy_ips = array($test[3]);
+			Piwik_Config::getInstance()->General['proxy_client_headers'] = array($test[2]);
+			Piwik_Config::getInstance()->General['proxy_ips'] = array($test[3]);
 			$this->assertEqual( Piwik_IP::getIpFromHeader(), $test[4], $description );
 		}
 
@@ -560,7 +560,7 @@ class Test_Piwik_IP extends UnitTestCase
 	function test_getNonProxyIpFromHeader()
 	{
 		Piwik::createConfigObject();
-		Zend_Registry::get('config')->setTestEnvironment();
+		Piwik_Config::getInstance()->setTestEnvironment();
 		$saved = $this->saveGlobals(array('REMOTE_ADDR', 'HTTP_X_FORWARDED_FOR'));
 
 		$ips = array(

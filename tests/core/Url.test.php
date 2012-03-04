@@ -14,7 +14,7 @@ class Test_Piwik_Url extends UnitTestCase
     public function test_allMethods()
     {
 		Piwik::createConfigObject();
-		Zend_Registry::get('config')->setTestEnvironment();	
+		Piwik_Config::getInstance()->setTestEnvironment();	
 
     	$this->assertEqual(Piwik_Url::getCurrentQueryStringWithParametersModified(array()),Piwik_Url::getCurrentQueryString() );
     	$this->assertEqual(Piwik_Url::getCurrentUrl(), Piwik_Url::getCurrentUrlWithoutQueryString());
@@ -80,7 +80,7 @@ class Test_Piwik_Url extends UnitTestCase
 	{
 		$GLOBALS['PIWIK_TRACKER_MODE'] = false;
 		Piwik::createConfigObject();
-		Zend_Registry::get('config')->setTestEnvironment();
+		Piwik_Config::getInstance()->setTestEnvironment();
 		$saved = $this->saveGlobals(array('HTTP_HOST', 'HTTP_X_FORWARDED_HOST'));
 
 		$tests = array(
@@ -107,8 +107,8 @@ class Test_Piwik_Url extends UnitTestCase
 		{
 			$_SERVER['HTTP_HOST'] = $test[0];
 			$_SERVER['HTTP_X_FORWARDED_HOST'] = $test[1];
-			Zend_Registry::get('config')->General->proxy_host_headers = array( $test[2] );
-			Zend_Registry::get('config')->General->proxy_ips = array( $test[3] );
+			Piwik_Config::getInstance()->General['proxy_host_headers'] = array( $test[2] );
+			Piwik_Config::getInstance()->General['proxy_ips'] = array( $test[3] );
 			$this->assertEqual( Piwik_Url::getCurrentHost(), $test[4], $description );
 		}
 

@@ -215,7 +215,7 @@ class Piwik_Tracker
 	public static function connectPiwikTrackerDb()
 	{
 		$db = null;
-		$configDb = Piwik_Tracker_Config::getInstance()->database;
+		$configDb = Piwik_Config::getInstance()->database;
 
 		if(!isset($configDb['port']))
 		{
@@ -329,7 +329,7 @@ class Piwik_Tracker
 		}
 
 		try{
-			$pluginsTracker = Piwik_Tracker_Config::getInstance()->Plugins_Tracker;
+			$pluginsTracker = Piwik_Config::getInstance()->Plugins_Tracker;
 			if(is_array($pluginsTracker)
 				&& count($pluginsTracker) != 0)
 			{
@@ -359,7 +359,7 @@ class Piwik_Tracker
 
 	protected function handleDisabledTracker()
 	{
-		$saveStats = Piwik_Tracker_Config::getInstance()->Tracker['record_statistics'];
+		$saveStats = Piwik_Config::getInstance()->Tracker['record_statistics'];
 		if($saveStats == 0)
 		{
 			$this->setState(self::STATE_LOGGING_DISABLE);
@@ -372,8 +372,8 @@ class Piwik_Tracker
 
 		if( $tokenAuth )
 		{
-			$superUserLogin =  Piwik_Tracker_Config::getInstance()->superuser['login'];
-			$superUserPassword = Piwik_Tracker_Config::getInstance()->superuser['password'];
+			$superUserLogin =  Piwik_Config::getInstance()->superuser['login'];
+			$superUserPassword = Piwik_Config::getInstance()->superuser['password'];
 			if( md5($superUserLogin . $superUserPassword ) == $tokenAuth )
 			{
 				$this->authenticated = true;
@@ -404,7 +404,7 @@ class Piwik_Tracker
 	 */
 	protected function handleTrackingApi()
 	{
-		$shouldAuthenticate = Piwik_Tracker_Config::getInstance()->Tracker['tracking_requests_require_authentication'];
+		$shouldAuthenticate = Piwik_Config::getInstance()->Tracker['tracking_requests_require_authentication'];
 		if($shouldAuthenticate)
 		{
 			if(!$this->authenticateSuperUserOrAdmin())

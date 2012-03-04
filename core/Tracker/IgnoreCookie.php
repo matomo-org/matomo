@@ -25,20 +25,8 @@ class Piwik_Tracker_IgnoreCookie
 	 */
 	static public function getTrackingCookie()
 	{
-		if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
-		{
-			$cookie_name = @Piwik_Tracker_Config::getInstance()->Tracker['cookie_name'];
-			$cookie_path = @Piwik_Tracker_Config::getInstance()->Tracker['cookie_path'];
-		}
-		else
-		{
-			$config = Zend_Registry::get('config');
-			if($config !== false)
-			{
-				$cookie_name = @$config->Tracker->cookie_name;
-				$cookie_path = @$config->Tracker->cookie_path;
-			}
-		}
+		$cookie_name = @Piwik_Config::getInstance()->Tracker['cookie_name'];
+		$cookie_path = @Piwik_Config::getInstance()->Tracker['cookie_path'];
 
 		return new Piwik_Cookie($cookie_name, null, $cookie_path);
 	}
@@ -50,20 +38,8 @@ class Piwik_Tracker_IgnoreCookie
 	 */
 	static public function getIgnoreCookie()
 	{
-		if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
-		{
-			$cookie_name = @Piwik_Tracker_Config::getInstance()->Tracker['ignore_visits_cookie_name'];
-			$cookie_path = @Piwik_Tracker_Config::getInstance()->Tracker['cookie_path'];
-		}
-		else
-		{
-			$config = Zend_Registry::get('config');
-			if($config !== false)
-			{
-				$cookie_name = @$config->Tracker->ignore_visits_cookie_name;
-				$cookie_path = @$config->Tracker->cookie_path;
-			}
-		}
+		$cookie_name = @Piwik_Config::getInstance()->Tracker['ignore_visits_cookie_name'];
+		$cookie_path = @Piwik_Config::getInstance()->Tracker['cookie_path'];
 
 		return new Piwik_Cookie($cookie_name, null, $cookie_path);
 	}

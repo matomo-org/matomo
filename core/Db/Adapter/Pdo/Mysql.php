@@ -79,7 +79,7 @@ class Piwik_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Pi
 	public function checkServerVersion()
 	{
 		$serverVersion = $this->getServerVersion();
-                $requiredVersion = Zend_Registry::get('config')->General->minimum_mysql_version;
+                $requiredVersion = Piwik_Config::getInstance()->General['minimum_mysql_version'];
                 if(version_compare($serverVersion, $requiredVersion) === -1)
                 {
                         throw new Exception(Piwik_TranslateException('General_ExceptionDatabaseVersion', array('MySQL', $serverVersion, $requiredVersion)));

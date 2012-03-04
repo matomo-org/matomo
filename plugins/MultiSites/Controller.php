@@ -28,7 +28,7 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 	{
 		parent::__construct();
 		
-		$this->limit = Zend_Registry::get('config')->General->all_websites_website_per_page;
+		$this->limit = Piwik_Config::getInstance()->General['all_websites_website_per_page'];
 	}
 
 	function index()
@@ -152,12 +152,12 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 											Piwik_Date::factory('now', 'UTC+14')->toString('Y-m-d'))))
 		{
 			
-			$view->autoRefreshTodayReport = Zend_Registry::get('config')->General->multisites_refresh_after_seconds;
+			$view->autoRefreshTodayReport = Piwik_Config::getInstance()->General['multisites_refresh_after_seconds'];
 		}
 		$this->setGeneralVariablesView($view);
 		$this->setMinDateView($minDate, $view);
 		$this->setMaxDateView($maxDate, $view);
-		$view->show_sparklines = Zend_Registry::get('config')->General->show_multisites_sparklines;
+		$view->show_sparklines = Piwik_Config::getInstance()->General['show_multisites_sparklines'];
 
 		echo $view->render();
 	}

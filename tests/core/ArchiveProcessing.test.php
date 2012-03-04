@@ -241,7 +241,7 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 		$didWeUseBulk = Piwik::tableInsertBatch($table, array('idsite', 'url'), $data);
 		if(version_compare(PHP_VERSION, '5.2.9') < 0 ||
 			version_compare(PHP_VERSION, '5.3.7') >= 0 ||
-			Zend_Registry::get('config')->database->adapter != 'PDO_MYSQL')
+			Piwik_Config::getInstance()->database['adapter'] != 'PDO_MYSQL')
 		{
 			$this->assertTrue($didWeUseBulk, "The test didn't LOAD DATA INFILE but fallbacked to plain INSERT, but we must unit test this function!");
 		}
@@ -287,7 +287,7 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 		$didWeUseBulk = Piwik::tableInsertBatch($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data);
 		if(version_compare(PHP_VERSION, '5.2.9') < 0 ||
 			version_compare(PHP_VERSION, '5.3.7') >= 0 ||
-			Zend_Registry::get('config')->database->adapter != 'PDO_MYSQL')
+			Piwik_Config::getInstance()->database['adapter'] != 'PDO_MYSQL')
 		{
 			$this->assertTrue($didWeUseBulk, "The test didn't LOAD DATA INFILE but fallbacked to plain INSERT, but we must unit test this function!");
 		}

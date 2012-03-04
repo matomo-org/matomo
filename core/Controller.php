@@ -462,14 +462,14 @@ abstract class Piwik_Controller
 	protected function setBasicVariablesView($view)
 	{
 		$view->topMenu = Piwik_GetTopMenu();
-		$view->debugTrackVisitsInsidePiwikUI = Zend_Registry::get('config')->Debug->track_visits_inside_piwik_ui;
+		$view->debugTrackVisitsInsidePiwikUI = Piwik_Config::getInstance()->Debug['track_visits_inside_piwik_ui'];
 		$view->isSuperUser = Zend_Registry::get('access')->isSuperUser();
-		$view->isCustomLogo = Zend_Registry::get('config')->branding->use_custom_logo;
+		$view->isCustomLogo = Piwik_Config::getInstance()->branding['use_custom_logo'];
 		$view->logoHeader = Piwik_API_API::getInstance()->getHeaderLogoUrl();
 		$view->logoLarge = Piwik_API_API::getInstance()->getLogoUrl();
 		
-		$view->enableFrames = Zend_Registry::get('config')->General->enable_framed_pages
-						   || Zend_Registry::get('config')->General->enable_framed_logins;
+		$view->enableFrames = Piwik_Config::getInstance()->General['enable_framed_pages']
+			|| Piwik_Config::getInstance()->General['enable_framed_logins'];
 		if(!$view->enableFrames)
 		{
 			$view->setXFrameOptions('sameorigin');
@@ -674,7 +674,7 @@ abstract class Piwik_Controller
 		$userSettingsDate = Piwik_UsersManager_API::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT_DATE);
 		if($userSettingsDate === false)
 		{
-			return Zend_Registry::get('config')->General->default_day;
+			return Piwik_Config::getInstance()->General['default_day'];
 		}
 		if($userSettingsDate == 'yesterday')
 		{
@@ -698,7 +698,7 @@ abstract class Piwik_Controller
 		$userSettingsDate = Piwik_UsersManager_API::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT_DATE);
 		if($userSettingsDate === false)
 		{
-			return Zend_Registry::get('config')->General->default_period;
+			return Piwik_Config::getInstance()->General['default_period'];
 		}
 		if(in_array($userSettingsDate, array('today','yesterday')))
 		{

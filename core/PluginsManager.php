@@ -131,27 +131,29 @@ class Piwik_PluginsManager
 	 */
 	public function deactivatePlugin($pluginName)
 	{
+		$configWriter = Piwik_Config_Writer::getInstance();
+
 		$plugins = $this->pluginsToLoad;
-		$key = array_search($pluginName,$plugins);
+		$key = array_search($pluginName, $plugins);
 		if($key !== false)
 		{
 			unset($plugins[$key]);
-			Zend_Registry::get('config')->Plugins = $plugins;
+			$configWriter->Plugins['Plugins'] = $plugins;
 		}
 
-		$pluginsTracker = Zend_Registry::get('config')->Plugins_Tracker->Plugins_Tracker;
+		$pluginsTracker = Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
 		if(!is_null($pluginsTracker))
 		{
-			$pluginsTracker = $pluginsTracker->toArray();
-			$key = array_search($pluginName,$pluginsTracker);
+			$key = array_search($pluginName, $pluginsTracker);
 			if($key !== false)
 			{
 				unset($pluginsTracker[$key]);
-				Zend_Registry::get('config')->Plugins_Tracker = array('Plugins_Tracker' => $pluginsTracker);
+				$configWriter->Plugins_Tracker['Plugins_Tracker'] = $pluginsTracker;
 			}
 		}
 
 		// Delete merged js/css files to force regenerations to exclude the deactivated plugin
+		Piwik_Config::getInstance()->clear();
 		Piwik::deleteAllCacheOnUpdate();
 	}
 
@@ -177,14 +179,14 @@ class Piwik_PluginsManager
 	 */
 	public function activatePlugin($pluginName)
 	{
-		$plugins = Zend_Registry::get('config')->Plugins->Plugins->toArray();
-		if(in_array($pluginName,$plugins))
+		$plugins = Piwik_Config::getInstance()->Plugins['Plugins'];
+		if(in_array($pluginName, $plugins))
 		{
 			throw new Exception("Plugin '$pluginName' already activated.");
 		}
 
 		$existingPlugins = $this->readPluginsDirectory();
-		if( array_search($pluginName,$existingPlugins) === false)
+		if( array_search($pluginName, $existingPlugins) === false)
 		{
 			throw new Exception("Unable to find the plugin '$pluginName'.");
 		}
@@ -197,7 +199,8 @@ class Piwik_PluginsManager
 		$plugins[] = $pluginName;
 
 		// the config file will automatically be saved with the new plugin
-		Zend_Registry::get('config')->Plugins = $plugins;
+		$configWriter = Piwik_Config_Writer::getInstance();
+		$configWriter->Plugins['Plugins'] = $plugins;
 
 		// Delete merged js/css files to force regenerations to include the activated plugin
 		Piwik::deleteAllCacheOnUpdate();
@@ -527,11 +530,7 @@ class Piwik_PluginsManager
 	 */
 	public function getInstalledPluginsName()
 	{
-		if(!class_exists('Zend_Registry', false))
-		{
-			throw new Exception("Not possible to list installed plugins (case Tracker module)");
-		}
-		$pluginNames = Zend_Registry::get('config')->PluginsInstalled->PluginsInstalled->toArray();
+		$pluginNames = Piwik_Config::getInstance()->PluginsInstalled['PluginsInstalled'];
 		return $pluginNames;
 	}
 
@@ -550,7 +549,8 @@ class Piwik_PluginsManager
 		{
 			$this->installPlugin($plugin);
 			$pluginsInstalled[] = $pluginName;
-			Zend_Registry::get('config')->PluginsInstalled = array('PluginsInstalled' => $pluginsInstalled);
+			$configWriter = Piwik_Config_Writer::getInstance();
+			$configWriter->PluginsInstalled['PluginsInstalled'] = $pluginsInstalled;
 		}
 
 		$information = $plugin->getInformation();
@@ -559,19 +559,16 @@ class Piwik_PluginsManager
 		if(isset($information['TrackerPlugin'])
 			&& $information['TrackerPlugin'] === true)
 		{
-			$pluginsTracker = Zend_Registry::get('config')->Plugins_Tracker->Plugins_Tracker;
+			$pluginsTracker = Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
 			if(is_null($pluginsTracker))
 			{
 				$pluginsTracker = array();
 			}
-			else
-			{
-				$pluginsTracker = $pluginsTracker->toArray();
-			}
 			if(!in_array($pluginName, $pluginsTracker))
 			{
 				$pluginsTracker[] = $pluginName;
-				Zend_Registry::get('config')->Plugins_Tracker = array('Plugins_Tracker' => $pluginsTracker);
+				$configWriter = Piwik_Config_Writer::getInstance();
+				$configWriter->Plugins_Tracker['Plugins_Tracker'] = $pluginsTracker;
 			}
 		}
 	}

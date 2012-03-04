@@ -34,7 +34,7 @@ class Piwik_Feedback_Controller extends Piwik_Controller
 		$nonce = Piwik_Common::getRequestVar('nonce', '', 'string');
 
 		$view = Piwik_View::factory('sent');
-		$view->feedbackEmailAddress = Zend_Registry::get('config')->General->feedback_email_address;
+		$view->feedbackEmailAddress = Piwik_Config::getInstance()->General['feedback_email_address'];
 		try
 		{
 			$minimumBodyLength = 40;

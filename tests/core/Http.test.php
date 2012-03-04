@@ -9,7 +9,7 @@ class Test_Piwik_Http extends UnitTestCase
 	public function test_fetchRemoteFile()
 	{
 		Piwik::createConfigObject();
-		Zend_Registry::get('config')->setTestEnvironment();	
+		Piwik_Config::getInstance()->setTestEnvironment();	
 
 		$methods = array(
 			'curl',

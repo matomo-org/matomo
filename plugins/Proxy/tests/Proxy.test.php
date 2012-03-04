@@ -9,7 +9,7 @@ class Test_Piwik_Proxy extends UnitTestCase
 	public function test_isAcceptableRemoteUrl()
 	{
 		Piwik::createConfigObject();
-		Zend_Registry::get('config')->setTestEnvironment();	
+		Piwik_Config::getInstance()->setTestEnvironment();	
 
 		$data = array(
 			// piwik white list (and used in homepage)

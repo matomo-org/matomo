@@ -16,9 +16,9 @@
  */
 class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 {
-    const LOGO_HEIGHT = 300;
-    const LOGO_SMALL_HEIGHT = 100;
-    
+	const LOGO_HEIGHT = 300;
+	const LOGO_SMALL_HEIGHT = 100;
+
 	public function index()
 	{
 		return $this->redirectToIndex('UsersManager', 'userSettings');
@@ -31,32 +31,32 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 		
 		if(Piwik::isUserIsSuperUser())
 		{
-    		$enableBrowserTriggerArchiving = Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled();
-    		$todayArchiveTimeToLive = Piwik_ArchiveProcessing::getTodayArchiveTimeToLive();
-    		$showWarningCron = false;
-    		if(!$enableBrowserTriggerArchiving
-    			&& $todayArchiveTimeToLive < 3600)
-    		{
-    			$showWarningCron = true;
-    		}
-    		$view->showWarningCron = $showWarningCron;
-    		$view->todayArchiveTimeToLive = $todayArchiveTimeToLive;
-    		$view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
-    	
-    		if(!Zend_Registry::get('config')->isFileWritable())
-    		{
-    			$view->configFileNotWritable = true;
-    		}
-    		$view->mail = Zend_Registry::get('config')->mail->toArray();
+			$enableBrowserTriggerArchiving = Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled();
+			$todayArchiveTimeToLive = Piwik_ArchiveProcessing::getTodayArchiveTimeToLive();
+			$showWarningCron = false;
+			if(!$enableBrowserTriggerArchiving
+				&& $todayArchiveTimeToLive < 3600)
+			{
+				$showWarningCron = true;
+			}
+			$view->showWarningCron = $showWarningCron;
+			$view->todayArchiveTimeToLive = $todayArchiveTimeToLive;
+			$view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
 
-			$view->branding = Zend_Registry::get('config')->branding->toArray();
+			if(!Piwik_Config::getInstance()->isFileWritable())
+			{
+				$view->configFileNotWritable = true;
+			}
+			$view->mail = Piwik_Config::getInstance()->mail;
+
+			$view->branding = Piwik_Config::getInstance()->branding;
 			
 			$directoryWritable = is_writable(PIWIK_DOCUMENT_ROOT.'/themes/');
 			$logoFilesWriteable = is_writeable(PIWIK_DOCUMENT_ROOT.'/themes/logo.png') && is_writeable(PIWIK_DOCUMENT_ROOT.'/themes/logo-header.png');
 			$view->logosWriteable = ($logoFilesWriteable || $directoryWritable) && ini_get('file_uploads') == 1;
 		}
 		
-    	$view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
+		$view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
 		$this->setBasicVariablesView($view);
 		$view->topMenu = Piwik_GetTopMenu();
 		$view->menu = Piwik_GetAdminMenu();
@@ -68,28 +68,26 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 		Piwik::checkUserIsSuperUser();
 		$response = new Piwik_API_ResponseBuilder(Piwik_Common::getRequestVar('format'));
 		try {
-    		$this->checkTokenInUrl();
-    		$enableBrowserTriggerArchiving = Piwik_Common::getRequestVar('enableBrowserTriggerArchiving');
-    		$todayArchiveTimeToLive = Piwik_Common::getRequestVar('todayArchiveTimeToLive');
+			$this->checkTokenInUrl();
+			$enableBrowserTriggerArchiving = Piwik_Common::getRequestVar('enableBrowserTriggerArchiving');
+			$todayArchiveTimeToLive = Piwik_Common::getRequestVar('todayArchiveTimeToLive');
 
-    		Piwik_ArchiveProcessing::setBrowserTriggerArchiving((bool)$enableBrowserTriggerArchiving);
-    		Piwik_ArchiveProcessing::setTodayArchiveTimeToLive($todayArchiveTimeToLive);
-    		
-    		// Update email settings
-			$mail = Zend_Registry::get('config')->mail;
-			$mail->transport = (Piwik_Common::getRequestVar('mailUseSmtp') == '1') ? 'smtp' : '';
-			$mail->port = Piwik_Common::getRequestVar('mailPort', '');
-			$mail->host = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('mailHost', ''));
-			$mail->type = Piwik_Common::getRequestVar('mailType', '');
-			$mail->username = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('mailUsername', ''));
-			$mail->password = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('mailPassword', ''));
-			$mail->encryption = Piwik_Common::getRequestVar('mailEncryption', '');
-			Zend_Registry::get('config')->mail = $mail->toArray();
+			Piwik_ArchiveProcessing::setBrowserTriggerArchiving((bool)$enableBrowserTriggerArchiving);
+			Piwik_ArchiveProcessing::setTodayArchiveTimeToLive($todayArchiveTimeToLive);
+
+			// Update email settings
+			$mail = array();
+			$mail['transport'] = (Piwik_Common::getRequestVar('mailUseSmtp') == '1') ? 'smtp' : '';
+			$mail['port'] = Piwik_Common::getRequestVar('mailPort', '');
+			$mail['host'] = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('mailHost', ''));
+			$mail['type'] = Piwik_Common::getRequestVar('mailType', '');
+			$mail['username'] = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('mailUsername', ''));
+			$mail['password'] = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('mailPassword', ''));
+			$mail['encryption'] = Piwik_Common::getRequestVar('mailEncryption', '');
+			Piwik_Config_Writer::getInstance()->mail = $mail;
 			
 			// update branding settings
-			$branding = Zend_Registry::get('config')->branding;
-			$branding->use_custom_logo = Piwik_Common::getRequestVar('useCustomLogo', '0');
-			Zend_Registry::get('config')->branding = $branding->toArray();
+			Piwik_Config_Writer::getInstance()->branding['use_custom_logo'] = Piwik_Common::getRequestVar('useCustomLogo', '0');
 			
 			$toReturn = $response->getResponse();
 		} catch(Exception $e ) {
@@ -99,10 +97,10 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 	}
 	
 	/**
-     * Shows the "Track Visits" checkbox.
-     */
-    public function optOut()
-    {
+	 * Shows the "Track Visits" checkbox.
+	 */
+	public function optOut()
+	{
 		$trackVisits = !Piwik_Tracker_IgnoreCookie::isIgnoreCookieFound();
 
 		$nonce = Piwik_Common::getRequestVar('nonce', false);

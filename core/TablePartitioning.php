@@ -72,8 +72,8 @@ abstract class Piwik_TablePartitioning
 			$db = Zend_Registry::get('db');
 			$sql = Piwik::getTableCreateSql($this->tableName);
 			
-			$config = Zend_Registry::get('config');
-			$prefixTables = $config->database->tables_prefix;
+			$config = Piwik_Config::getInstance();
+			$prefixTables = $config->database['tables_prefix'];
 			$sql = str_replace( $prefixTables . $this->tableName, $this->generatedTableName, $sql);
 			try {
 				$db->query( $sql );
@@ -109,8 +109,8 @@ class Piwik_TablePartitioning_Monthly extends Piwik_TablePartitioning
 	}
 	protected function generateTableName()
 	{
-		$config = Zend_Registry::get('config');
-		return $config->database->tables_prefix . $this->tableName . "_" . date("Y_m", $this->timestamp);
+		$config = Piwik_Config::getInstance();
+		return $config->database['tables_prefix'] . $this->tableName . "_" . date("Y_m", $this->timestamp);
 	}
 		
 }
@@ -128,7 +128,7 @@ class Piwik_TablePartitioning_Daily extends Piwik_TablePartitioning
 	}
 	protected function generateTableName()
 	{
-		$config = Zend_Registry::get('config');
-		return $config->database->tables_prefix . $this->tableName . "_" . date("Y_m_d", $this->timestamp);
+		$config = Piwik_Config::getInstance();
+		return $config->database['tables_prefix'] . $this->tableName . "_" . date("Y_m_d", $this->timestamp);
 	}		
 }

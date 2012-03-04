@@ -93,16 +93,16 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 */
 	private function configureView($view)
 	{
-	    $this->setBasicVariablesView($view);
-	    
+		$this->setBasicVariablesView($view);
+
 		$view->linkTitle = Piwik::getRandomTitle();
 
-		$view->forceSslLogin = Zend_Registry::get('config')->General->force_ssl_login;
+		$view->forceSslLogin = Piwik_Config::getInstance()->General['force_ssl_login'];
 
 		// crsf token: don't trust the submitted value; generate/fetch it from session data
 		$view->nonce = Piwik_Nonce::getNonce('Piwik_Login.login');
 	}
-	
+
 	/**
 	 * Form-less login
 	 * @see how to use it on http://piwik.org/faq/how-to/#faq_30
@@ -120,18 +120,18 @@ class Piwik_Login_Controller extends Piwik_Controller
 		}
 
 		$login = Piwik_Common::getRequestVar('login', null, 'string');
-		if($login == Zend_Registry::get('config')->superuser->login)
-		{			
+		if($login == Piwik_Config::getInstance()->superuser['login'])
+		{
 			throw new Exception(Piwik_TranslateException('Login_ExceptionInvalidSuperUserAuthenticationMethod', array("logme")));
 		}
 
 		$currentUrl = 'index.php';
-		
+
 		if(($idSite = Piwik_Common::getRequestVar('idSite', false, 'int')) !== false)
-		{			
+		{
 			$currentUrl .= '?idSite='.$idSite;
 		}
-		
+
 		$urlToRedirect = Piwik_Common::getRequestVar('url', $currentUrl, 'string');
 		$urlToRedirect = Piwik_Common::unsanitizeInputValue($urlToRedirect);
 
@@ -196,7 +196,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 	{
 		return Piwik_Translate('Login_InvalidNonceOrHeadersOrReferer', array('<a href="?module=Proxy&action=redirect&url='.urlencode('http://piwik.org/faq/how-to-install/#faq_98').'" target="_blank">', '</a>'));
 	}
-	
+
 	/**
 	 * Validate user (by username or email address).
 	 *
@@ -241,8 +241,8 @@ class Piwik_Login_Controller extends Piwik_Controller
 			$mail->setBodyText($bodyText);
 
 
-			$fromEmailName = Zend_Registry::get('config')->General->login_password_recovery_email_name;
-			$fromEmailAddress = Zend_Registry::get('config')->General->login_password_recovery_email_address;
+			$fromEmailName = Piwik_Config::getInstance()->General['login_password_recovery_email_name'];
+			$fromEmailAddress = Piwik_Config::getInstance()->General['login_password_recovery_email_address'];
 			$mail->setFrom($fromEmailAddress, $fromEmailName);
 			@$mail->send();
 		}
@@ -286,7 +286,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 		$view = Piwik_View::factory('resetPassword');
 		$view->AccessErrorString = $messageNoAccess;
-		$view->forceSslLogin = Zend_Registry::get('config')->General->force_ssl_login;
+		$view->forceSslLogin = Piwik_Config::getInstance()->General['force_ssl_login'];
 		$view->addForm( $form );
 		$this->configureView($view);
 		echo $view->render();
@@ -318,12 +318,13 @@ class Piwik_Login_Controller extends Piwik_Controller
 		{
 			if( $user['email'] == Piwik::getSuperUserEmail() )
 			{
-    			if(!Zend_Registry::get('config')->isFileWritable())
-    			{
-    				throw new Exception(Piwik_Translate('General_ConfigFileIsNotWritable', array("(config/config.ini.php)","<br/>")));
-    			}
+				if(!Piwik_Config::getInstance()->isFileWritable())
+				{
+					throw new Exception(Piwik_Translate('General_ConfigFileIsNotWritable', array("(config/config.ini.php)","<br/>")));
+				}
+
 				$user['password'] = md5($password);
-				Zend_Registry::get('config')->superuser = $user;
+				Piwik_Config_Writer::getInstance()->superuser = $user;
 			}
 			else
 			{
@@ -352,12 +353,12 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 		$user = null;
 		if( $loginMail == Piwik::getSuperUserEmail()
-			|| $loginMail == Zend_Registry::get('config')->superuser->login )
+			|| $loginMail == Piwik_Config::getInstance()->superuser['login'] )
 		{
 			$user = array(
-					'login' => Zend_Registry::get('config')->superuser->login,
+					'login' => Piwik_Config::getInstance()->superuser['login'],
 					'email' => Piwik::getSuperUserEmail(),
-					'password' => Zend_Registry::get('config')->superuser->password,
+					'password' => Piwik_Config::getInstance()->superuser['password'],
 			);
 		}
 		else if( Piwik_UsersManager_API::getInstance()->userExists($loginMail) )
@@ -431,7 +432,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 */
 	static public function clearSession()
 	{
-		$authCookieName = Zend_Registry::get('config')->General->login_cookie_name;
+		$authCookieName = Piwik_Config::getInstance()->General['login_cookie_name'];
 		$cookie = new Piwik_Cookie($authCookieName);
 		$cookie->delete();
 
@@ -458,7 +459,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 */
 	protected function checkForceSslLogin()
 	{
-		$forceSslLogin = Zend_Registry::get('config')->General->force_ssl_login;
+		$forceSslLogin = Piwik_Config::getInstance()->General['force_ssl_login'];
 		if($forceSslLogin
 			&& !Piwik::isHttps())
 		{

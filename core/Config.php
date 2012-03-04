@@ -11,252 +11,193 @@
  */
 
 /**
- * This class is used to access configuration files values.
- * You can also set these values, the updated configuration files will be written at the end of the script execution.
+ * A lightweight class to access the configuration file(s).
  *
- * Example reading a value from the configuration file:
- * 	$minValue = Zend_Registry::get('config')->General->minimum_memory_limit;
+ * For general performance (and specifically, the Tracker), we use deferred (lazy) initialization
+ * and cache sections.  We also avoid any dependency on Zend Framework's Zend_Config.
  *
- * will read the value minimumMemoryLimit under the [General] section of the config file
+ * We use a parse_ini_file() wrapper to parse the configuration files, in case php's built-in
+ * function is disabled.
+ *
+ * Example reading a value from the configuration:
+ *
+ *     $minValue = Piwik_Config::getInstance()->General['minimum_memory_limit'];
+ *
+ * will read the value minimum_memory_limit under the [General] section of the config file.
+ *
+ * Note: if you want to save your changes, you have to use Piwik_Config_Writer
  *
  * @package Piwik
  * @subpackage Piwik_Config
  */
 class Piwik_Config
 {
-	/**
-	 * When the user modifies the configuration file and there is one value missing, we suggest the default config file
-	 *
-	 * @var string
-	 */
-	protected $urlToPiwikHelpMissingValueInConfigurationFile =
-		'http://dev.piwik.org/trac/browser/trunk/config/global.ini.php?format=raw';
-
-	protected $defaultConfig 				= null;
-	protected $userConfig 					= null;
-	protected $pathIniFileUserConfig 		= null;
-	protected $pathIniFileDefaultConfig 	= null;
-	protected $configFileUpdated 			= false;
-	protected $doWriteFileWhenUpdated		= true;
-	protected $cachedConfigArray 			= array();
-	protected $isTestEnvironment			= false;
+	static private $instance = null;
 
 	/**
-	 * Returns default relative path for user configuration file
+	 * Returns the singleton Piwik_Config
 	 *
-	 * @return string
+	 * @return Piwik_Config
 	 */
-	static public function getDefaultUserConfigPath()
+	static public function getInstance()
 	{
-		return PIWIK_USER_PATH .'/config/config.ini.php';
+		if (self::$instance == null)
+		{
+			self::$instance = new self;
+		}
+		return self::$instance;
 	}
 
 	/**
-	 * Returns default relative path for global configuration file
+	 * Enable test environment
+	 *
+	 * @param string $pathLocal
+	 * @param string $pathGlobal
+	 */
+	public function setTestEnvironment($pathLocal = null, $pathGlobal = null)
+	{
+		$this->clear();
+
+		if ($pathLocal)
+		{
+			$this->pathLocal = $pathLocal;
+		}
+
+		if ($pathGlobal)
+		{
+			$this->pathGlobal = $pathGlobal;
+		}
+
+		$this->init();
+		if(isset($this->configGlobal['database_tests'])
+			|| isset($this->configLocal['database_tests']))
+		{
+			$this->__get('database_tests');
+			$this->configCache['database'] = $this->configCache['database_tests'];
+		}
+	}
+
+	/**
+	 * Contains configuration files values
+	 *
+	 * @var array
+	 */
+	protected $initialized = false;
+	protected $configGlobal = array();
+	protected $configLocal = array();
+	protected $configCache = array();
+	protected $pathGlobal = null;
+	protected $pathLocal = null;
+
+	protected function __construct()
+	{
+		$this->pathGlobal = self::getGlobalConfigPath();
+		$this->pathLocal = self::getLocalConfigPath();
+	}
+
+	/**
+	 * Returns absolute path to the global configuration file
 	 *
 	 * @return string
 	 */
-	static public function getDefaultDefaultConfigPath()
+	static public function getGlobalConfigPath()
 	{
 		return PIWIK_USER_PATH .'/config/global.ini.php';
 	}
 
 	/**
-	 * Builds the Config object, given the optional path for the user INI file
-	 * If not specified, it will use the default path
+	 * Backward compatibility stub
 	 *
-	 * @param string $pathIniFileUserConfig
+	 * @todo remove in 2.0
+	 * @since 1.7
+	 * @deprecated 1.7
 	 */
-	function __construct($pathIniFileUserConfig = null, $pathIniFileDefaultConfig = null)
+	static public function getDefaultDefaultConfigPath()
 	{
-		if(is_null($pathIniFileUserConfig))
-		{
-			$pathIniFileUserConfig = self::getDefaultUserConfigPath();
-		}
-		$this->pathIniFileUserConfig = $pathIniFileUserConfig;
-
-		if(is_null($pathIniFileDefaultConfig))
-		{
-			$pathIniFileDefaultConfig = self::getDefaultDefaultConfigPath();
-		}
-		$this->pathIniFileDefaultConfig = $pathIniFileDefaultConfig;
+		return self::getGlobalConfigPath();
 	}
 
 	/**
-	 * By default, when calling setting configuration values using
-	 * $config->database = array(...)
-	 * Piwik will automatically save the updated config file in __destruct()
-	 * This can be disabled (when setting partial configuration values during the installation process for example)
-	 */
-	public function disableSavingConfigurationFileUpdates()
-	{
-		$this->doWriteFileWhenUpdated = false;
-	}
-
-	public function init()
-	{
-		if(!is_readable($this->pathIniFileDefaultConfig))
-		{
-			Piwik_ExitWithMessage(Piwik_TranslateException('General_ExceptionConfigurationFileNotFound', array($this->pathIniFileDefaultConfig)));
-		}
-		$this->defaultConfig = new Piwik_Config_Ini($this->pathIniFileDefaultConfig, null, true);
-		if(is_null($this->defaultConfig) || count($this->defaultConfig->toArray()) == 0)
-		{
-			Piwik_ExitWithMessage(Piwik_TranslateException('General_ExceptionUnreadableFileDisabledMethod', array($this->pathIniFileDefaultConfig, "parse_ini_file()")));
-		}
-
-		if(!is_readable($this->pathIniFileUserConfig))
-		{
-			throw new Exception(Piwik_TranslateException('General_ExceptionConfigurationFileNotFound', array($this->pathIniFileUserConfig)));
-		}
-		$this->userConfig = new Piwik_Config_Ini($this->pathIniFileUserConfig, null, true);
-		if(is_null($this->userConfig) || count($this->userConfig->toArray()) == 0)
-		{
-			Piwik_ExitWithMessage(Piwik_TranslateException('General_ExceptionUnreadableFileDisabledMethod', array($this->pathIniFileUserConfig, "parse_ini_file()")));
-		}
-	}
-
-	/**
-	 * Write user configuration file
+	 * Returns absolute path to the local configuration file
 	 *
-	 * @param array $globalConfig
-	 * @param array $userConfig
-	 * @param string $filename
+	 * @return string
 	 */
-	function writeConfig($globalConfig, $userConfig, $filename)
+	static public function getLocalConfigPath()
 	{
-		$configFile = "; <?php exit; ?> DO NOT REMOVE THIS LINE\n";
-		$configFile .= "; file automatically generated or modified by Piwik; you can manually override the default values in global.ini.php by redefining them in this file.\n";
-
-		foreach($userConfig as $section => $arraySection)
-		{
-			$arraySection = $arraySection->toArray();
-			$configFile .= "[$section]\n";
-			foreach($arraySection as $name => $value)
-			{
-				if(is_numeric($name))
-				{
-					$name = $section;
-					$value = array($value);
-				}
-
-				if(is_array($value))
-				{
-					foreach($value as $currentValue)
-					{
-						$configFile .= $name."[] = \"$currentValue\"\n";
-					}
-				}
-				else
-				{
-					if(!is_numeric($value))
-					{
-						$value = "\"$value\"";
-					}
-					$configFile .= $name.' = '.$value."\n";
-				}
-			}
-			$configFile .= "\n";
-		}
-		@file_put_contents($filename, $configFile );
+		return PIWIK_USER_PATH .'/config/config.ini.php';
 	}
 
 	/**
-	 * At the script shutdown, we save the new configuration file, if the user has set some values
-	 */
-	function __destruct()
-	{
-		if($this->configFileUpdated === true
-			&& $this->doWriteFileWhenUpdated === true)
-		{
-			$this->writeConfig($this->defaultConfig, $this->userConfig, $this->pathIniFileUserConfig);
-		}
-	}
-
-	public function isFileWritable()
-	{
-		return is_writable($this->pathIniFileUserConfig);
-	}
-
-	/**
-	 * If called, we use the database_tests credentials
-	 */
-	public function setTestEnvironment()
-	{
-		$this->isTestEnvironment = true;
-
-		foreach(Piwik_Tracker_Config::$toRestoreFromGlobalConfig as $section)
-		{
-			$this->$section = $this->defaultConfig->$section->toArray();
-		}
-
-		$this->database = $this->database_tests->toArray();
-
-		// for unit tests, we set that no plugin is installed. This will force
-		// the test initialization to create the plugins tables, execute ALTER queries, etc.
-		$this->PluginsInstalled = array();
-
-		$this->disableSavingConfigurationFileUpdates();
-	}
-
-	/**
-	 * Is the config file set to use the test values?
+	 * Is local configuration file writable?
+	 *
 	 * @return bool
 	 */
-	public function isTestEnvironment()
+	public function isFileWritable()
 	{
-		return $this->isTestEnvironment;
+		return is_writable($this->pathLocal);
 	}
 
 	/**
-	 * Called when setting configuration values eg.
-	 * 	Zend_Registry::get('config')->MyConfigSection = 'foobar';
-	 *
-	 * The values will be saved in the configuration file at the end of the script @see __destruct()
-	 *
-	 * @param string $name
-	 * @param mixed $values
+	 * Clear in-memory configuration so it can be reloaded
 	 */
-	public function __set($name, $values)
+	public function clear()
 	{
-		$this->cachedConfigArray = array();
-		$this->checkWritePermissionOnFile();
-		if(is_null($this->userConfig))
-		{
-			$this->userConfig = new Zend_Config(array(), true);
-		}
-		$values = self::encodeValues($values);
-		if(is_array($values)
-			|| $this->userConfig->$name != $values)
-		{
-			$this->configFileUpdated = true;
-		}
-		$this->userConfig->$name = $values;
+		$this->configGlobal = array();
+		$this->configLocal = array();
+		$this->configCache = array();
+		$this->initialized = false;
+
+		$this->pathGlobal = self::getGlobalConfigPath();
+		$this->pathLocal = self::getLocalConfigPath();
 	}
 
-	private function encodeValues($values)
+	/**
+	 * Read configuration from files into memory
+	 *
+	 * @throws Exception if local config file is not readable; exits for other errors
+	 */
+	public function init()
+	{
+		$this->initialized = true;
+
+		// read defaults from global.ini.php
+		if(!is_readable($this->pathGlobal))
+		{
+			Piwik_ExitWithMessage(Piwik_TranslateException('General_ExceptionConfigurationFileNotFound', array($this->pathGlobal)));
+		}
+
+		$this->configGlobal = _parse_ini_file($this->pathGlobal, true);
+		if(empty($this->configGlobal))
+		{
+			Piwik_ExitWithMessage(Piwik_TranslateException('General_ExceptionUnreadableFileDisabledMethod', array($this->pathGlobal, "parse_ini_file()")));
+		}
+
+		// read the local settings from config.ini.php
+		if(!is_readable($this->pathLocal))
+		{
+			throw new Exception(Piwik_TranslateException('General_ExceptionConfigurationFileNotFound', array($this->pathLocal)));
+		}
+
+		$this->configLocal = _parse_ini_file($this->pathLocal, true);
+		if(empty($this->configLocal))
+		{
+			Piwik_ExitWithMessage(Piwik_TranslateException('General_ExceptionUnreadableFileDisabledMethod', array($this->pathLocal, "parse_ini_file()")));
+		}
+	}
+
+	/**
+	 * Decode HTML entities
+	 *
+	 * @param mixed $values
+	 * @return mixed
+	 */
+	protected function decodeValues($values)
 	{
 		if(is_array($values))
 		{
 			foreach($values as &$value)
 			{
-				$value = self::encodeValues($value);
-			}
-		}
-		else
-		{
-			$values = htmlentities($values, ENT_COMPAT);
-		}
-		return $values;
-	}
-
-	private function decodeValues($values)
-	{
-		if(is_array($values))
-		{
-			foreach($values as &$value)
-			{
-				$value = self::decodeValues($value);
+				$value = $this->decodeValues($value);
 			}
 		}
 		else
@@ -266,78 +207,62 @@ class Piwik_Config
 		return $values;
 	}
 
-	protected function checkWritePermissionOnFile()
-	{
-		static $enoughPermission = null;
-		if(is_null($enoughPermission))
-		{
-			if($this->doWriteFileWhenUpdated)
-			{
-				Piwik::checkDirectoriesWritableOrDie( array('/config/') );
-			}
-			$enoughPermission = true;
-		}
-		return $enoughPermission;
-	}
-
 	/**
-	 * Loop through the Default and the User configuration objects and cache them in arrays.
-	 * This slightly helps reducing the Zend overhead when accessing config entries hundreds of times.
-	 */
-	protected function cacheConfigArray()
-	{
-		$allSections = array();
-		foreach($this->defaultConfig as $sectionName => $valueInDefaultConfig)
-		{
-			$allSections[] = $sectionName;
-		}
-		if(!is_null($this->userConfig))
-		{
-			foreach($this->userConfig as $sectionName => $valueInUserConfig)
-			{
-				$allSections[] = $sectionName;
-			}
-		}
-		$allSections = array_unique($allSections);
-
-		foreach($allSections as $sectionName)
-		{
-			$section = array();
-			if(($valueInDefaultConfig = $this->defaultConfig->$sectionName) !== null)
-			{
-				$valueInDefaultConfig = $valueInDefaultConfig->toArray();
-				$section = array_merge($section, $valueInDefaultConfig);
-			}
-			if( !is_null($this->userConfig)
-				&& null !== ($valueInUserConfig = $this->userConfig->$sectionName))
-			{
-				$valueInUserConfig = $valueInUserConfig->toArray();
-				$valueInUserConfig = self::decodeValues($valueInUserConfig);
-				$section = array_merge($section, $valueInUserConfig);
-			}
-			$this->cachedConfigArray[$sectionName] = new Zend_Config($section, true);
-		}
-	}
-
-	/**
-	 * Called when getting a configuration value, eg. Zend_Registry::get('config')->superuser->login
+	 * Magic get methods catching calls to $config->var_name
+	 * Returns the value if found in the configuration
 	 *
 	 * @param string $name
-	 * @return mixed value
-	 *
-	 * @throws exception if the value was not found in the configuration file
+	 * @return string|array The value requested, returned by reference
+	 * @throws Exception if the value requested not found in both files
 	 */
-	public function __get($name)
+	public function &__get( $name )
 	{
-		if(empty($this->cachedConfigArray))
+		if(!$this->initialized)
 		{
-			$this->cacheConfigArray();
+			$this->init();
 		}
-		if(!isset($this->cachedConfigArray[$name]))
+
+		// check cache for merged section
+		if (isset($this->configCache[$name]))
 		{
-			throw new Exception("Error while trying to read a specific config file entry <b>'$name'</b> in your configuration file <b>config/global.ini.php</b>
-			 This problem would usually appear after a Piwik upgrade. If so, please check that the file config/global.ini.php was overwritten with the equivalent file from the latest Piwik version.");
+			$tmp =& $this->configCache[$name];
+			return $tmp;
 		}
-		return $this->cachedConfigArray[$name];
+
+		$section = null;
+
+		// merge corresponding sections from global and local settings
+		if(isset($this->configGlobal[$name]))
+		{
+			$section = $this->configGlobal[$name];
+		}
+		if(isset($this->configLocal[$name]))
+		{
+			// local settings override the global defaults
+			$section = $section
+				? array_merge($section, $this->configLocal[$name])
+				: $this->configLocal[$name];
+		}
+
+		if ($section === null)
+		{
+			throw new Exception("Error while trying to read a specific config file entry <b>'$name'</b> from your configuration files.</b>If you just completed a Piwik upgrade, please check that the file config/global.ini.php was overwritten by the latest Piwik version.");
+		}
+
+		// cache merged section for later
+		$this->configCache[$name] = $this->decodeValues($section);
+		$tmp =& $this->configCache[$name];
+		return $tmp;
+	}
+
+	/**
+	 * Set value
+	 *
+	 * @param string $name This corresponds to the section name
+	 * @param mixed $value
+	 */
+	public function __set($name, $value)
+	{
+		$this->configCache[$name] = $value;
 	}
 }

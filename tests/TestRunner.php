@@ -20,7 +20,7 @@ class TestRunner
 		require_once(SIMPLE_TEST . 'reporter.php');
 		flush();
 		Piwik::createConfigObject();
-		Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
+		Piwik_Config::getInstance()->setTestEnvironment();
 		Piwik::setMaxExecutionTime(300);
 	}
 	
@@ -42,7 +42,7 @@ class TestRunner
 	
 	public function getTestDatabaseName()
 	{
-		return Zend_Registry::get('config')->database_tests->dbname;
+		return Piwik_Config::getInstance()->database_tests['dbname'];
 	}
 
 	public function requireBrowser()
@@ -131,8 +131,7 @@ class TestRunner
 	{
 		try {
 			Piwik::createConfigObject();
-			Zend_Registry::get('config')->setTestEnvironment();	
-			Piwik_Tracker_Config::getInstance()->setTestEnvironment();
+			Piwik_Config::getInstance()->setTestEnvironment();	
 			Piwik::createDatabaseObject();
 			Piwik::disconnectDatabase();
 			return true;

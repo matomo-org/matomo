@@ -21,8 +21,7 @@ abstract class Test_Database_Base extends UnitTestCase
 		parent::__construct( $title );
 		try {
 			Piwik::createConfigObject();
-			Zend_Registry::get('config')->setTestEnvironment();	
-			Piwik_Tracker_Config::getInstance()->setTestEnvironment();
+    			Piwik_Config::getInstance()->setTestEnvironment();	
 			Piwik::createDatabaseObject();
 			Piwik::createLogObject();
 

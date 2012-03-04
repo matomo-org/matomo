@@ -53,8 +53,8 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 	 */
 	public function getTablesCreateSql()
 	{
-		$config = Zend_Registry::get('config');
-		$prefixTables = $config->database->tables_prefix;
+		$config = Piwik_Config::getInstance();
+		$prefixTables = $config->database['tables_prefix'];
 		$tables = array(
 			'user' => "CREATE TABLE {$prefixTables}user (
 						  login VARCHAR(100) NOT NULL,
@@ -409,8 +409,8 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 	public function getTablesNames()
 	{
 		$aTables = array_keys($this->getTablesCreateSql());
-		$config = Zend_Registry::get('config');
-		$prefixTables = $config->database->tables_prefix;
+		$config = Piwik_Config::getInstance();
+		$prefixTables = $config->database['tables_prefix'];
 		$return = array();
 		foreach($aTables as $table)
 		{
@@ -434,8 +434,8 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 			|| $forceReload === true)
 		{
 			$db = Zend_Registry::get('db');
-			$config = Zend_Registry::get('config');
-			$prefixTables = $config->database->tables_prefix;
+			$config = Piwik_Config::getInstance();
+			$prefixTables = $config->database['tables_prefix'];
 
 			// '_' matches any character; force it to be literal
 			$prefixTables = str_replace('_', '\_', $prefixTables);
@@ -479,7 +479,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 	{
 		if(is_null($dbName))
 		{
-			$dbName = Zend_Registry::get('config')->database->dbname;
+			$dbName = Piwik_Config::getInstance()->database['dbname'];
 		}
 		Piwik_Exec("CREATE DATABASE IF NOT EXISTS ".$dbName." DEFAULT CHARACTER SET utf8");
 	}
@@ -489,7 +489,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 	 */
 	public function dropDatabase()
 	{
-		$dbName = Zend_Registry::get('config')->database->dbname;
+		$dbName = Piwik_Config::getInstance()->database['dbname'];
 		Piwik_Exec("DROP DATABASE IF EXISTS " . $dbName);
 
 	}
@@ -500,8 +500,8 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 	public function createTables()
 	{
 		$db = Zend_Registry::get('db');
-		$config = Zend_Registry::get('config');
-		$prefixTables = $config->database->tables_prefix;
+		$config = Piwik_Config::getInstance();
+		$prefixTables = $config->database['tables_prefix'];
 
 		$tablesAlreadyInstalled = $this->getTablesInstalled();
 		$tablesToCreate = $this->getTablesCreateSql();

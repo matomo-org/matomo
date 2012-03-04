@@ -109,24 +109,10 @@ class Piwik_Http
 		$userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'Piwik/'.Piwik_Version::VERSION;
 
 		// proxy configuration
-		if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
-		{
-			$proxyHost = Piwik_Tracker_Config::getInstance()->proxy['host'];
-			$proxyPort = Piwik_Tracker_Config::getInstance()->proxy['port'];
-			$proxyUser = Piwik_Tracker_Config::getInstance()->proxy['username'];
-			$proxyPassword = Piwik_Tracker_Config::getInstance()->proxy['password'];
-		}
-		else
-		{
-			$config = Zend_Registry::get('config');
-			if($config !== false)
-			{
-				$proxyHost = $config->proxy->host;
-				$proxyPort = $config->proxy->port;
-				$proxyUser = $config->proxy->username;
-				$proxyPassword = $config->proxy->password;
-			}
-		}
+		$proxyHost = Piwik_Config::getInstance()->proxy['host'];
+		$proxyPort = Piwik_Config::getInstance()->proxy['port'];
+		$proxyUser = Piwik_Config::getInstance()->proxy['username'];
+		$proxyPassword = Piwik_Config::getInstance()->proxy['password'];
 
 		if($method == 'socket')
 		{

@@ -324,7 +324,7 @@ class Piwik_AssetManager
 	 */
 	private static function getDisableMergedAssets()
 	{
-		return Zend_Registry::get('config')->Debug->disable_merged_assets;
+		return Piwik_Config::getInstance()->Debug['disable_merged_assets'];
 	}
 
 	/**
