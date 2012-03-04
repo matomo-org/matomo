@@ -106,10 +106,9 @@ class Piwik_Url
 			} 
 
 			// strip path_info
-			$pathInfo = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
-			if(substr($url, -strlen($pathInfo)) === $pathInfo)
+			if(isset($_SERVER['PATH_INFO']))
 			{
-				$url = substr($url, 0, -strlen($pathInfo));
+				$url = substr($url, 0, -strlen($_SERVER['PATH_INFO']));
 			}
 		} 
 
