@@ -287,7 +287,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 					$superUser['password'] = $md5PasswordSuperUser;
 					$updatedSuperUser = true;
 				}
-	 			if($superUser->email != $email)
+	 			if($superUser['email'] != $email)
 				{
 					$superUser['email'] = $email;
 	 				$updatedSuperUser = true;
