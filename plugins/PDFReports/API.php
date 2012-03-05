@@ -685,6 +685,7 @@ class Piwik_PDFReports_API
 			'day' => Piwik_Translate('General_Daily'),
 			'week' => Piwik_Translate('General_Weekly'),
 			'month' => Piwik_Translate('General_Monthly'),
+			'range' => Piwik_Translate('General_DateRangeInPeriodList'),
 		);
 		return $periods;
 	}
