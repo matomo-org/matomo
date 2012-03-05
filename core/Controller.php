@@ -469,7 +469,7 @@ abstract class Piwik_Controller
 		$view->logoLarge = Piwik_API_API::getInstance()->getLogoUrl();
 		
 		$view->enableFrames = Piwik_Config::getInstance()->General['enable_framed_pages']
-			|| Piwik_Config::getInstance()->General['enable_framed_logins'];
+			|| @Piwik_Config::getInstance()->General['enable_framed_logins'];
 		if(!$view->enableFrames)
 		{
 			$view->setXFrameOptions('sameorigin');
