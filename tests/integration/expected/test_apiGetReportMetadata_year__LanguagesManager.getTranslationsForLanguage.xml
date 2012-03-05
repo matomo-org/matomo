@@ -6,11 +6,11 @@
 	</row>
 	<row>
 		<label>General_TranslatorName</label>
-		<value>&lt;a href=&quot;http://danstoncloud.com/blogs/vincent/&quot;&gt;Vincent BIRET&lt;/a&gt;</value>
+		<value>&lt;a href=&quot;http://danstoncloud.com/blogs/vincent/&quot;&gt;Vincent BIRET&lt;/a&gt;, &lt;a href=&quot;http://www.ludovicevrard.com&quot;&gt;Ludovic Evrard&lt;/a&gt;</value>
 	</row>
 	<row>
 		<label>General_TranslatorEmail</label>
-		<value>admin@get-surf.com</value>
+		<value>admin@get-surf.com, piwik@ludovicevrard.be</value>
 	</row>
 	<row>
 		<label>General_EnglishLanguageName</label>
@@ -19,6 +19,10 @@
 	<row>
 		<label>General_OriginalLanguageName</label>
 		<value>Français</value>
+	</row>
+	<row>
+		<label>General_LayoutDirection</label>
+		<value>ltr</value>
 	</row>
 	<row>
 		<label>General_HelloUser</label>
@@ -113,6 +117,10 @@
 		<value>Rapport</value>
 	</row>
 	<row>
+		<label>General_Reports</label>
+		<value>Rapports</value>
+	</row>
+	<row>
 		<label>General_Edit</label>
 		<value>Éditer</value>
 	</row>
@@ -155,6 +163,18 @@
 	<row>
 		<label>General_PoweredBy</label>
 		<value>Propulsé par</value>
+	</row>
+	<row>
+		<label>General_MetricsToPlot</label>
+		<value>Métriques à tracer</value>
+	</row>
+	<row>
+		<label>General_MetricToPlot</label>
+		<value>Métrique à tracer</value>
+	</row>
+	<row>
+		<label>General_RecordsToPlot</label>
+		<value>Enregistrements à tracer</value>
 	</row>
 	<row>
 		<label>General_Name</label>
@@ -278,7 +298,7 @@
 	</row>
 	<row>
 		<label>General_DaysSinceLastEcommerceOrder</label>
-		<value>Le jour depuis la dernière commande e-commerce</value>
+		<value>Jours depuis la dernière commande e-commerce</value>
 	</row>
 	<row>
 		<label>General_NumberOfVisits</label>
@@ -289,8 +309,12 @@
 		<value>Visite convertie en au moins un objectif</value>
 	</row>
 	<row>
+		<label>General_VisitConvertedGoalId</label>
+		<value>Visite convertie en id d'objectif spécifique</value>
+	</row>
+	<row>
 		<label>General_EcommerceVisitStatus</label>
-		<value>Statut de la visite Ecommerce à la fin de la visite. Par exemple, pour sélectionner toutes les visites qui ont généré une commande, la requête à l'API contiendrait %s.</value>
+		<value>Statut de la visite E-commerce à la fin de la visite. Par exemple, pour sélectionner toutes les visites qui ont généré une commande, la requête à l'API contiendrait %s.</value>
 	</row>
 	<row>
 		<label>General_VisitConvertedNGoals</label>
@@ -299,6 +323,10 @@
 	<row>
 		<label>General_NewVisitor</label>
 		<value>Nouveau visiteur</value>
+	</row>
+	<row>
+		<label>General_NewVisits</label>
+		<value>Nouvelles visites</value>
 	</row>
 	<row>
 		<label>General_ReturningVisitor</label>
@@ -414,7 +442,7 @@
 	</row>
 	<row>
 		<label>General_Piechart</label>
-		<value>Pointe de tarte</value>
+		<value>Camembert</value>
 	</row>
 	<row>
 		<label>General_TagCloud</label>
@@ -425,12 +453,16 @@
 		<value>Histogramme vertical</value>
 	</row>
 	<row>
+		<label>General_View</label>
+		<value>Vue</value>
+	</row>
+	<row>
 		<label>General_OpenInNewWindow_js</label>
 		<value>Ouvrir dans une nouvelle fenêtre</value>
 	</row>
 	<row>
 		<label>General_SaveImageOnYourComputer_js</label>
-		<value>Pour sauvegarder l'image sur votre ordinateur faites un clic droit dessus et sélectionnez &quot;Enregistrer l'image sous...&quot;</value>
+		<value>Pour sauvegarder l'image sur votre ordinateur, faites un clic droit dessus et sélectionnez &quot;Enregistrer l'image sous...&quot;</value>
 	</row>
 	<row>
 		<label>General_Refresh</label>
@@ -451,6 +483,10 @@
 	<row>
 		<label>General_Export</label>
 		<value>Exporter</value>
+	</row>
+	<row>
+		<label>General_ParameterMustIntegerBetween</label>
+		<value>Le paramètre %s doit être un entier entre les valeurs %s et %s.</value>
 	</row>
 	<row>
 		<label>General_YourChangesHaveBeenSaved</label>
@@ -574,7 +610,7 @@
 	</row>
 	<row>
 		<label>General_ColumnUniquePageviewsDocumentation</label>
-		<value>Nombre de visites qui ont inclu cette page. Si une page a été vue plusieurs fois durant la visite elle ne sera comptabilisée qu'une seule fois.</value>
+		<value>Nombre de visites qui ont inclus cette page. Si une page a été vue plusieurs fois durant la visite elle ne sera comptabilisée qu'une seule fois.</value>
 	</row>
 	<row>
 		<label>General_ColumnBounces</label>
@@ -583,6 +619,10 @@
 	<row>
 		<label>General_ColumnBouncesDocumentation</label>
 		<value>Nombre de visites qui ont commencé et se sont terminées sur cette page. Cela signifie que les visiteurs ont quitté le site après avoir vu seulement cette page.</value>
+	</row>
+	<row>
+		<label>General_ColumnUniqueEntrances</label>
+		<value>Entrées uniques</value>
 	</row>
 	<row>
 		<label>General_ColumnEntrances</label>
@@ -595,6 +635,10 @@
 	<row>
 		<label>General_ColumnExits</label>
 		<value>Sorties</value>
+	</row>
+	<row>
+		<label>General_ColumnUniqueExits</label>
+		<value>Sorties uniques</value>
 	</row>
 	<row>
 		<label>General_ColumnExitsDocumentation</label>
@@ -645,6 +689,10 @@
 		<value>Enregistrer</value>
 	</row>
 	<row>
+		<label>General_Faq</label>
+		<value>FAQ</value>
+	</row>
+	<row>
 		<label>General_ForExampleShort</label>
 		<value>ex.</value>
 	</row>
@@ -666,7 +714,7 @@
 	</row>
 	<row>
 		<label>General_ArchivingInlineHelp</label>
-		<value>Pour les sites à trafic moyen et fort il est recommandé de désactiver l'archivage de Piwik depuis le navigateur. Nous vous recommandons de mettre en place une tâche planifiée (cron) qui génère les rapports toutes les heures.</value>
+		<value>Pour les sites à trafic moyen et fort, il est recommandé de désactiver l'archivage de Piwik depuis le navigateur. Nous vous recommandons de mettre en place une tâche planifiée (cron job) qui génère les rapports toutes les heures.</value>
 	</row>
 	<row>
 		<label>General_ArchivingTriggerDescription</label>
@@ -694,11 +742,11 @@
 	</row>
 	<row>
 		<label>General_RequiresFlash</label>
-		<value>L'affichage des graphs dans Piwik requiert Flash</value>
+		<value>L'affichage des graphiques dans Piwik requiert Flash</value>
 	</row>
 	<row>
 		<label>General_GraphHelp</label>
-		<value>Plus d'informations à propos de l'affichage des graphs dans Piwik.</value>
+		<value>Plus d'informations à propos de l'affichage des graphiques dans Piwik.</value>
 	</row>
 	<row>
 		<label>General_NoDataForGraph</label>
@@ -729,6 +777,10 @@
 		<value>Vous êtes en train de visionner la démonstration de Piwik</value>
 	</row>
 	<row>
+		<label>General_YouAreCurrentlyUsing</label>
+		<value>Vous utilisez actuellement Piwik %s</value>
+	</row>
+	<row>
 		<label>General_DownloadFullVersion</label>
 		<value>%1$sTéléchargez%2$s la version complète! Rendez vous sur %3$s</value>
 	</row>
@@ -754,11 +806,11 @@
 	</row>
 	<row>
 		<label>General_ReportsWillBeProcessedAtMostEveryHour</label>
-		<value>Les rapports seront donc traités tout au plus à chaque heure.</value>
+		<value>Les rapports seront donc traités tout au plus chaque heure.</value>
 	</row>
 	<row>
 		<label>General_IfArchivingIsFastYouCanSetupCronRunMoreOften</label>
-		<value>En supposant que l'archivage soit rapide pour votre installation, vous pouvez paramétrer la crontab pour s'exécuter plus fréquemment.</value>
+		<value>En supposant que l'archivage soit rapide pour votre installation, vous pouvez paramétrer la crontab pour qu'elle s'exécute plus fréquemment.</value>
 	</row>
 	<row>
 		<label>General_BackToPiwik</label>
@@ -814,7 +866,7 @@
 	</row>
 	<row>
 		<label>General_ShortMonth_12</label>
-		<value>Dec</value>
+		<value>Déc</value>
 	</row>
 	<row>
 		<label>General_LongMonth_1</label>
@@ -958,7 +1010,7 @@
 	</row>
 	<row>
 		<label>General_ExceptionNonceMismatch</label>
-		<value>Impossible de vérifier le token de sécurité pour ce formulaire.</value>
+		<value>Impossible de vérifier le code (token) de sécurité pour ce formulaire.</value>
 	</row>
 	<row>
 		<label>General_PleaseSpecifyValue</label>
@@ -1046,7 +1098,7 @@
 	</row>
 	<row>
 		<label>General_FileIntegrityWarningExplanation</label>
-		<value>Le contrôle d'intégrité a échoué et a rapporté des erreurs. Cela est probablement du à un envoi de fichier partiel ou en échec des fichiers de Piwik. Vous devriez envoyer de nouveau les fichiers de Piwik et rafraichir cette page jusqu'à ce qu'elle n'affiche plus aucune erreur.</value>
+		<value>Le contrôle d'intégrité a échoué et a rapporté des erreurs. Cela est probablement dû à un envoi de fichier partiel ou en échec des fichiers de Piwik. Vous devriez envoyer de nouveau les fichiers de Piwik et rafraîchir cette page jusqu'à ce qu'elle n'affiche plus aucune erreur.</value>
 	</row>
 	<row>
 		<label>General_UseSMTPServerForEmail</label>
@@ -1062,7 +1114,7 @@
 	</row>
 	<row>
 		<label>General_AuthenticationMethodSmtp</label>
-		<value>Méthode d'authentification au serveur SMTP</value>
+		<value>Méthode d'authentification pour le serveur SMTP</value>
 	</row>
 	<row>
 		<label>General_SmtpUsername</label>
@@ -1086,7 +1138,7 @@
 	</row>
 	<row>
 		<label>General_OnlyUsedIfUserPwdIsSet</label>
-		<value>Seulement utilisé si un nom d'utilisateur / mot de passe est activée, demandez à votre fournisseur si vous n'êtes pas la méthode à utiliser.</value>
+		<value>Seulement utilisé si un nom d'utilisateur / mot de passe est activé, demandez à votre fournisseur si vous n'êtes pas la méthode à utiliser.</value>
 	</row>
 	<row>
 		<label>General_OnlyEnterIfRequired</label>
@@ -1134,15 +1186,15 @@
 	</row>
 	<row>
 		<label>General_UsePlusMinusIconsDocumentation</label>
-		<value>Utilisez les icones plus et moins sur la gauche pour naviguer.</value>
+		<value>Utilisez les icônes plus et moins sur la gauche pour naviguer.</value>
 	</row>
 	<row>
 		<label>General_BrokenDownReportDocumentation</label>
-		<value>Il est divisé en plusieurs rapports, qui sont affichés en lignes de tendance à la fin de la page. Vous pouvez aggrandir le graphique en cliquant sur le rapport que vous souhaitez voir.</value>
+		<value>Il est divisé en plusieurs rapports, qui sont affichés en lignes de tendance à la fin de la page. Vous pouvez agrandir le graphique en cliquant sur le rapport que vous souhaitez voir.</value>
 	</row>
 	<row>
 		<label>General_ChangeTagCloudView</label>
-		<value>Veuillez noter que vous pouvez visualiser le rapport sous une autre forme qu'un nuage de tags. Utilisez les controles à la fin du rapport pour ce faire.</value>
+		<value>Veuillez noter que vous pouvez visualiser le rapport sous une autre forme qu'un nuage de tags. Utilisez les contrôles à la fin du rapport pour ce faire.</value>
 	</row>
 	<row>
 		<label>General_Recommended</label>
@@ -1159,6 +1211,38 @@
 	<row>
 		<label>General_Help</label>
 		<value>Aide</value>
+	</row>
+	<row>
+		<label>General_DailySum</label>
+		<value>montant journalier</value>
+	</row>
+	<row>
+		<label>General_AfterEntry</label>
+		<value>après être entré ici</value>
+	</row>
+	<row>
+		<label>General_Metadata</label>
+		<value>Méta-données</value>
+	</row>
+	<row>
+		<label>General_OneVisit</label>
+		<value>1 visite</value>
+	</row>
+	<row>
+		<label>General_NVisits</label>
+		<value>%s visites</value>
+	</row>
+	<row>
+		<label>General_OneDay</label>
+		<value>1 jour</value>
+	</row>
+	<row>
+		<label>General_NDays</label>
+		<value>%s jours</value>
+	</row>
+	<row>
+		<label>General_MainMetrics</label>
+		<value>Métriques principales</value>
 	</row>
 	<row>
 		<label>Actions_PluginDescription</label>
@@ -1185,6 +1269,10 @@
 		<value>Titres des pages</value>
 	</row>
 	<row>
+		<label>Actions_PageUrls</label>
+		<value>URL de la page</value>
+	</row>
+	<row>
 		<label>Actions_SubmenuOutlinks</label>
 		<value>Liens sortants</value>
 	</row>
@@ -1202,7 +1290,7 @@
 	</row>
 	<row>
 		<label>Actions_OutlinksReportDocumentation</label>
-		<value>Ce rapport affice une liste hiérarchique de liens sortant sur lesquels ont cliqué vos visiteurs.</value>
+		<value>Ce rapport affiche une liste hiérarchique de liens sortants sur lesquels ont cliqué vos visiteurs.</value>
 	</row>
 	<row>
 		<label>Actions_OutlinkDocumentation</label>
@@ -1210,7 +1298,7 @@
 	</row>
 	<row>
 		<label>Actions_DownloadsReportDocumentation</label>
-		<value>Dans ce rapport vous pouvez voir quels fichiers les utilisateurs ont téléchargé. %s Ce que Piwik compte comme un téléchargement est le click sur le lien de téléchargement. Le fait que le téléchargement ait été terminé ou non n'est pas connu de Piwik.</value>
+		<value>Dans ce rapport vous pouvez voir quels fichiers les utilisateurs ont téléchargés. %s Ce que Piwik compte comme un téléchargement est le click sur le lien de téléchargement. Le fait que le téléchargement ait été terminé ou non n'est pas connu de Piwik.</value>
 	</row>
 	<row>
 		<label>Actions_ColumnClicks</label>
@@ -1218,7 +1306,7 @@
 	</row>
 	<row>
 		<label>Actions_ColumnClicksDocumentation</label>
-		<value>Nombre de clicks que le lien a reçu.</value>
+		<value>Nombre de clics que le lien a reçu.</value>
 	</row>
 	<row>
 		<label>Actions_ColumnUniqueClicks</label>
@@ -1226,7 +1314,7 @@
 	</row>
 	<row>
 		<label>Actions_ColumnUniqueClicksDocumentation</label>
-		<value>Nombre de visites qui ont impliqué un click sur ce lien. Si un lien a été clické plusieurs fois en une seule visite, il n'est compte qu'une seule fois.</value>
+		<value>Nombre de visites qui ont impliqué un clic sur ce lien. Si un lien a été cliqué plusieurs fois en une seule visite, il n'est compté qu'une seule fois.</value>
 	</row>
 	<row>
 		<label>Actions_ColumnDownloads</label>
@@ -1237,24 +1325,32 @@
 		<value>Téléchargements uniques</value>
 	</row>
 	<row>
+		<label>Actions_ColumnOutlinks</label>
+		<value>liens sortant</value>
+	</row>
+	<row>
+		<label>Actions_ColumnUniqueOutlinks</label>
+		<value>liens sortant unique</value>
+	</row>
+	<row>
 		<label>Actions_ColumnPageName</label>
 		<value>Nom de la page</value>
 	</row>
 	<row>
 		<label>Actions_ColumnPageURL</label>
-		<value>Url de la page</value>
+		<value>URL de la page</value>
 	</row>
 	<row>
 		<label>Actions_ColumnClickedURL</label>
-		<value>Url cliquées</value>
+		<value>URL cliquées</value>
 	</row>
 	<row>
 		<label>Actions_ColumnDownloadURL</label>
-		<value>Url de téléchargement</value>
+		<value>URL de téléchargement</value>
 	</row>
 	<row>
 		<label>Actions_ColumnEntryPageURL</label>
-		<value>Url de la page d'entrée</value>
+		<value>URL de la page d'entrée</value>
 	</row>
 	<row>
 		<label>Actions_ColumnEntryPageTitle</label>
@@ -1262,7 +1358,7 @@
 	</row>
 	<row>
 		<label>Actions_ColumnExitPageURL</label>
-		<value>Url de la page de sortie</value>
+		<value>URL de la page de sortie</value>
 	</row>
 	<row>
 		<label>Actions_ColumnExitPageTitle</label>
@@ -1274,7 +1370,7 @@
 	</row>
 	<row>
 		<label>Actions_ExitPagesReportDocumentation</label>
-		<value>Ce rapport contient des informations à propos des pages de sortie utilisées surant la période sélectionnée. Une page de sortie est là dernière page de la visite que l'utilisateur voit avant de sortir du site. %s Les Urls de sorties sont affichées dans une structure de dossier.</value>
+		<value>Ce rapport contient des informations à propos des pages de sortie utilisées durant la période sélectionnée. Une page de sortie est là dernière page de la visite que l'utilisateur voit avant de sortir du site. %s Les Urls de sorties sont affichées dans une structure de dossier.</value>
 	</row>
 	<row>
 		<label>AnonymizeIP_PluginDescription</label>
@@ -1302,7 +1398,7 @@
 	</row>
 	<row>
 		<label>API_UsingTokenAuth</label>
-		<value>Si vous souhaitez %s requêter des données depuis un script, une crontab, etc %s vous devez ajouter le paramètre %s aux appels d'URLs de l'API qui requièrent une authentification.</value>
+		<value>Si vous souhaitez %s récupérer des données depuis un script, un crontab, etc %s vous devez ajouter le paramètre %s aux appels d'URLs de l'API qui requièrent une authentification.</value>
 	</row>
 	<row>
 		<label>API_KeepTokenSecret</label>
@@ -1334,11 +1430,11 @@
 	</row>
 	<row>
 		<label>CoreAdminHome_OptOutExplanation</label>
-		<value>Piwik met un point d'honneur à respecter la vie privée sur Internet. Pour fournir à vos visiteurs le choix de ne pas apparaitre dans les analyses de Piwik, vous pouvez ajouter le code HTML suivant sur une des pages de votre site web, par exemple dans la page &quot;Politique de confidentialité&quot;.</value>
+		<value>Piwik met un point d'honneur à respecter la vie privée sur Internet. Pour fournir à vos visiteurs le choix de ne pas apparaître dans les analyses de Piwik, vous pouvez ajouter le code HTML suivant sur une des pages de votre site web, par exemple dans la page &quot;Politique de confidentialité&quot;.</value>
 	</row>
 	<row>
 		<label>CoreAdminHome_OptOutExplanationBis</label>
-		<value>Ce code va afficher un Iframe contenant un lien pour vos visiteurs pour ne pas être suivis dans Piwik en installant un cookie de neutralisation dans leur navigateur. %s Cliquez ici %s pour visualiser le contenu qui sera affiché par l'Iframe.</value>
+		<value>Ce code va afficher un Iframe contenant un lien pour vos visiteurs pour ne pas être suivi dans Piwik en installant un cookie de neutralisation dans leur navigateur. %s Cliquez ici %s pour visualiser le contenu qui sera affiché par l'iFrame.</value>
 	</row>
 	<row>
 		<label>CoreAdminHome_OptOutComplete</label>
@@ -1358,11 +1454,11 @@
 	</row>
 	<row>
 		<label>CoreAdminHome_YouAreOptedIn</label>
-		<value>Vous êtes actuellement suivit.</value>
+		<value>Vous êtes actuellement suivi(e).</value>
 	</row>
 	<row>
 		<label>CoreAdminHome_YouAreOptedOut</label>
-		<value>Vous n'êtes actuellement pas suivit.</value>
+		<value>Vous n'êtes actuellement pas suivi.</value>
 	</row>
 	<row>
 		<label>CoreAdminHome_ClickHereToOptOut</label>
@@ -1378,7 +1474,7 @@
 	</row>
 	<row>
 		<label>CoreAdminHome_CustomLogoHelpText</label>
-		<value>Vous pouvez personnaliser le logo Piwik qui sera affiché dans l'interface utilisa</value>
+		<value>Vous pouvez personnaliser le logo Piwik qui sera affichée dans l'interface utilisateur et les rapports par courriel.</value>
 	</row>
 	<row>
 		<label>CoreAdminHome_UseCustomLogo</label>
@@ -1414,7 +1510,7 @@
 	</row>
 	<row>
 		<label>PrivacyManager_UseAnonymizeIp</label>
-		<value>Rendre anonyme les adresses IP des visiteurs</value>
+		<value>Rendre anonymes les adresses IP des visiteurs</value>
 	</row>
 	<row>
 		<label>PrivacyManager_AnonymizeIpDescription</label>
@@ -1442,11 +1538,11 @@
 	</row>
 	<row>
 		<label>PrivacyManager_DeleteLogDescription</label>
-		<value>Vous pouvez configurer Piwik prou qu'il supprime régulièrement les logs des anciens visiteurs afin de garder une base de données de petite taille. Les rapports déjà compilés ne seront pas supprimés, seulement les logs bruts des visiteurs, pages et logs de conversions seront supprimés</value>
+		<value>Vous pouvez configurer Piwik pour qu'il supprime régulièrement les logs des anciens visiteurs afin de garder une base de données de petite taille. Les rapports déjà compilés ne seront pas supprimés, seulement les logs bruts des visiteurs, pages et logs de conversions seront supprimés</value>
 	</row>
 	<row>
 		<label>PrivacyManager_DeleteLogDescription2</label>
-		<value>Quand vous activez la suppression automatique des logs, vous devez vous assurer que tous les rapports précédents ont bien été compilés, de cette manière aucune données n'est perdue.</value>
+		<value>Quand vous activez la suppression automatique des logs, vous devez vous assurer que tous les rapports précédents ont bien été compilés, de cette manière aucune donnée n'est perdue.</value>
 	</row>
 	<row>
 		<label>PrivacyManager_DeleteLogsOlderThan</label>
@@ -1454,11 +1550,15 @@
 	</row>
 	<row>
 		<label>PrivacyManager_DeleteLogInterval</label>
-		<value>Supprimer les anciens logs tout les</value>
+		<value>Supprimer les anciens logs tous les</value>
 	</row>
 	<row>
 		<label>PrivacyManager_DeleteMaxRows</label>
 		<value>Nombre maximal de lignes à supprimer à la fois:</value>
+	</row>
+	<row>
+		<label>PrivacyManager_DeleteMaxRowsNoLimit</label>
+		<value>aucune limite</value>
 	</row>
 	<row>
 		<label>PrivacyManager_LastDelete</label>
@@ -1470,7 +1570,7 @@
 	</row>
 	<row>
 		<label>PrivacyManager_ClickHereSettings</label>
-		<value>Cliquez ici pour accèder aux %s paramètres.</value>
+		<value>Cliquez ici pour accéder aux %s paramètres.</value>
 	</row>
 	<row>
 		<label>PrivacyManager_LeastDaysInput</label>
@@ -1494,7 +1594,7 @@
 	</row>
 	<row>
 		<label>CoreHome_ThereIsNoDataForThisReport</label>
-		<value>Il n'y a pas de données pour ce rapport.</value>
+		<value>Il n'y a pas de donnée pour ce rapport.</value>
 	</row>
 	<row>
 		<label>CoreHome_CategoryNoData</label>
@@ -1515,6 +1615,14 @@
 	<row>
 		<label>CoreHome_PageOf_js</label>
 		<value>%1$s de %2$s</value>
+	</row>
+	<row>
+		<label>CoreHome_DateFormat</label>
+		<value>%longDay% %day% %longMonth% %longYear%</value>
+	</row>
+	<row>
+		<label>CoreHome_ShortDateFormat</label>
+		<value>%shortDay% %day% %shortMonth%</value>
 	</row>
 	<row>
 		<label>CoreHome_PeriodDay</label>
@@ -1542,7 +1650,7 @@
 	</row>
 	<row>
 		<label>CoreHome_PeriodMonths</label>
-		<value>moirs</value>
+		<value>mois</value>
 	</row>
 	<row>
 		<label>CoreHome_PeriodYears</label>
@@ -1886,11 +1994,11 @@
 	</row>
 	<row>
 		<label>CoreUpdater_HelpMessageIntroductionWhenError</label>
-		<value>Ci-dessus est le message d'erreur du noyau. Cela devrait expliquer la cause, mais si vous nécessitez d'avantage d'aide merci de :</value>
+		<value>Ci-dessus est le message d'erreur du noyau. Cela devrait expliquer la cause, mais si vous nécessitez davantage d'aide merci de :</value>
 	</row>
 	<row>
 		<label>CoreUpdater_HelpMessageIntroductionWhenWarning</label>
-		<value>La mise à jour a été complétée avec succès. Cependant, des problèmes sont survenus. Lisez la description ci-dessus pour plus de détails. Pour d'avantage d'aide :</value>
+		<value>La mise à jour a été complétée avec succès. Cependant, des problèmes sont survenus. Lisez la description ci-dessus pour plus de détails. Pour davantage d'aide :</value>
 	</row>
 	<row>
 		<label>CoreUpdater_UpgradeComplete</label>
@@ -1930,7 +2038,7 @@
 	</row>
 	<row>
 		<label>CoreUpdater_YouMustDownloadPackageOrFixPermissions</label>
-		<value>Piwik ne peut pas écraser votre installation courante.                Vous pouvez soit corriger les permissions du répertoire/fichier, soit télécharger le package et installer la version %s manuellement:</value>
+		<value>Piwik ne peut pas écraser votre installation courante. Vous pouvez soit corriger les permissions du répertoire/fichier, soit télécharger le package et installer la version %s manuellement:</value>
 	</row>
 	<row>
 		<label>CoreUpdater_DownloadX</label>
@@ -2001,16 +2109,28 @@
 		<value>Valeur de la variable personnalisée</value>
 	</row>
 	<row>
+		<label>CustomVariables_ScopeVisit</label>
+		<value>Étendue visite</value>
+	</row>
+	<row>
+		<label>CustomVariables_ScopePage</label>
+		<value>Étendue page</value>
+	</row>
+	<row>
 		<label>CustomVariables_CustomVariablesReportDocumentation</label>
 		<value>Ce rapport contient des informations à propos de vos Variables Personnalisées. Cliquez sur un nom de variable pour voir la répartition de la valeur. %s Pour plus d'informations à propos des variables personnalisées en général, lisez la %s documentation sur les variables personnalisées sur piwik.org%s</value>
 	</row>
 	<row>
 		<label>Dashboard_PluginDescription</label>
-		<value>Votre tableau de bord de statistiques web. Vous pouvez personnaliser votre tableau de bord: ajoutez de nouveau widgets, changez l'ordre de vos widgets. Chaque utilisateur peut accéder à son propre tableau de bord.</value>
+		<value>Votre tableau de bord de statistiques web. Vous pouvez personnaliser votre tableau de bord: ajoutez de nouveaux widgets, changez l'ordre de vos widgets. Chaque utilisateur peut accéder à son propre tableau de bord.</value>
 	</row>
 	<row>
 		<label>Dashboard_Dashboard</label>
 		<value>Tableau de bord</value>
+	</row>
+	<row>
+		<label>Dashboard_AddAWidget</label>
+		<value>Ajouter un widget</value>
 	</row>
 	<row>
 		<label>Dashboard_DeleteWidgetConfirm</label>
@@ -2037,6 +2157,10 @@
 		<value>Maximiser</value>
 	</row>
 	<row>
+		<label>Dashboard_Minimise_js</label>
+		<value>Minimiser</value>
+	</row>
+	<row>
 		<label>Dashboard_TitleWidgetInDashboard_js</label>
 		<value>Widget déjà présent sur le tableau de bord</value>
 	</row>
@@ -2051,6 +2175,26 @@
 	<row>
 		<label>Dashboard_WidgetNotFound_js</label>
 		<value>Widget introuvable</value>
+	</row>
+	<row>
+		<label>Dashboard_ResetDashboard</label>
+		<value>Restaurer le tableau de bord</value>
+	</row>
+	<row>
+		<label>Dashboard_ResetDashboardConfirm</label>
+		<value>Voulez-vous vraiment restaurer votre tableau de bord avec les widgets par défaut ?</value>
+	</row>
+	<row>
+		<label>Dashboard_WidgetsAndDashboard</label>
+		<value>Widgets &amp; Tableau de bord</value>
+	</row>
+	<row>
+		<label>Dashboard_ChangeDashboardLayout</label>
+		<value>Modifier mise en page du tableau de bord</value>
+	</row>
+	<row>
+		<label>Dashboard_SelectDashboardLayout</label>
+		<value>Veuillez sélectionner votre nouvelle mise en page pour le tableau de bord</value>
 	</row>
 	<row>
 		<label>DBStats_PluginDescription</label>
@@ -2106,15 +2250,15 @@
 	</row>
 	<row>
 		<label>ExampleUI_PluginDescription</label>
-		<value>Plugin d'exemple: Ce plugin montre comment fonctionne l'interface utilisateur de Piwik: création de tables, graphs, etc.</value>
+		<value>Plugin d'exemple: Ce plugin montre comment fonctionne l'interface utilisateur de Piwik: création de tables, graphiques, etc.</value>
 	</row>
 	<row>
 		<label>Feedback_PluginDescription</label>
-		<value>Envoie vos retours à l'Equipe Piwik. Partagez vos idées et suggestions avec nous!</value>
+		<value>Envoie vos retours à l’Équipe Piwik. Partagez vos idées et suggestions avec nous!</value>
 	</row>
 	<row>
 		<label>Feedback_DoYouHaveBugReportOrFeatureRequest</label>
-		<value>Avez vous un bug à rapporter ou une fonctionnalité à demander?</value>
+		<value>Avez-vous un bug à rapporter ou une fonctionnalité à demander?</value>
 	</row>
 	<row>
 		<label>Feedback_ViewAnswersToFAQ</label>
@@ -2134,7 +2278,7 @@
 	</row>
 	<row>
 		<label>Feedback_HowToAnonymizeIP</label>
-		<value>Comment puis-je masquer les adresse IP de mes visiteurs de ma base de données?</value>
+		<value>Comment puis-je masquer les adresses IP de mes visiteurs de ma base de données?</value>
 	</row>
 	<row>
 		<label>Feedback_VisitTheForums</label>
@@ -2146,11 +2290,11 @@
 	</row>
 	<row>
 		<label>Feedback_SpecialRequest</label>
-		<value>Avez vous une demande spéciale pour l'Equipe Piwik?</value>
+		<value>Avez-vous une demande spéciale pour l’Équipe Piwik?</value>
 	</row>
 	<row>
 		<label>Feedback_ContactThePiwikTeam</label>
-		<value>Contactez l'Equipe Piwik!</value>
+		<value>Contactez l’Équipe Piwik!</value>
 	</row>
 	<row>
 		<label>Feedback_IWantTo</label>
@@ -2194,7 +2338,7 @@
 	</row>
 	<row>
 		<label>Feedback_MessageSent</label>
-		<value>Votre message a été envoyé à l'Equipe Piwik.</value>
+		<value>Votre message a été envoyé à l’Équipe Piwik.</value>
 	</row>
 	<row>
 		<label>Feedback_ThankYou</label>
@@ -2202,7 +2346,7 @@
 	</row>
 	<row>
 		<label>Feedback_ThePiwikTeam</label>
-		<value>L'Equipe Piwik</value>
+		<value>L’Équipe Piwik</value>
 	</row>
 	<row>
 		<label>Feedback_ExceptionBodyLength</label>
@@ -2226,11 +2370,11 @@
 	</row>
 	<row>
 		<label>Goals_EcommerceOverview</label>
-		<value>Apperçu E-Commerce</value>
+		<value>Aperçu E-Commerce</value>
 	</row>
 	<row>
 		<label>Goals_EcommerceOrder</label>
-		<value>Commande E-Commerde</value>
+		<value>Commande E-Commerce</value>
 	</row>
 	<row>
 		<label>Goals_EcommerceLog</label>
@@ -2250,11 +2394,11 @@
 	</row>
 	<row>
 		<label>Goals_GoalsOverviewDocumentation</label>
-		<value>Ceci est un aperçu de vos conversions d'objectifs. Initialement, le graphique, affiche la somme des conversions. %s Sous le graphique, vous pouvez voir les rapports de conversion pour chacun de vos objectifs. Les lignes de tendance peuvent être aggrandies en cliquant dessus.</value>
+		<value>Ceci est un aperçu de vos conversions d'objectifs. Initialement, le graphique, affiche la somme des conversions. %s Sous le graphique, vous pouvez voir les rapports de conversion pour chacun de vos objectifs. Les lignes de tendance peuvent être agrandies en cliquant dessus.</value>
 	</row>
 	<row>
 		<label>Goals_SingleGoalOverviewDocumentation</label>
-		<value>Ceci est un apercçu des conversions pour un seul Objectif. %s les lignes de tendance sous le graphique peuvent être aggrandies en cliquant dessus.</value>
+		<value>Ceci est un aperçu des conversions pour un seul Objectif. %s les lignes de tendance sous le graphique peuvent être agrandies en cliquant dessus.</value>
 	</row>
 	<row>
 		<label>Goals_GoalsManagement</label>
@@ -2286,7 +2430,7 @@
 	</row>
 	<row>
 		<label>Goals_ConversionByTypeReportDocumentation</label>
-		<value>Ce rapport apporte des informations détailéles à propos de la performance de l'objectif(conversions, taux de conversion et recettes par visite) pour chacune des catégories disponibles sur le paneau de gauche. %s Veuillez cliquer sur une des catégories pour afficher le rapport. %s Pour plus d'informations sur les objectifs, lisez la %s documentation sur le suivit des objectifs sur Piwik.org%s</value>
+		<value>Ce rapport apporte des informations détaillés les à propos de la performance de l'objectif (conversions, taux de conversion et recettes par visite) pour chacune des catégories disponibles sur le panneau de gauche. %s Veuillez cliquer sur une des catégories pour afficher le rapport. %s Pour plus d'informations sur les objectifs, lisez la %s documentation sur le suivit des objectifs sur Piwik.org%s</value>
 	</row>
 	<row>
 		<label>Goals_ColumnConversions</label>
@@ -2294,7 +2438,7 @@
 	</row>
 	<row>
 		<label>Goals_ColumnConversionsDocumentation</label>
-		<value>NOmbre de conversions pour %s.</value>
+		<value>Nombre de conversions pour %s.</value>
 	</row>
 	<row>
 		<label>Goals_ColumnRevenue</label>
@@ -2318,11 +2462,11 @@
 	</row>
 	<row>
 		<label>Goals_ColumnAverageOrderRevenueDocumentation</label>
-		<value>Les recettes moyennes par commande représentent les reccetes totales des commandes Ecommerce divisées par le nombre de commandes.</value>
+		<value>Les recettes moyennes par commande représentent les recettes totales des commandes E-commerce divisées par le nombre de commandes.</value>
 	</row>
 	<row>
 		<label>Goals_ColumnPurchasedProductsDocumentation</label>
-		<value>Le nombre de produits achetés es tla somme des quantités de produits vendus lors de toutes les commandes Ecommerce.</value>
+		<value>Le nombre de produits achetés est la somme des quantités de produits vendus lors de toutes les commandes E-commerce.</value>
 	</row>
 	<row>
 		<label>Goals_ColumnQuantityDocumentation</label>
@@ -2330,7 +2474,7 @@
 	</row>
 	<row>
 		<label>Goals_ColumnOrdersDocumentation</label>
-		<value>Nombre total de commandes Ecommerce qui ont contenu ceci %s au moins une fois.</value>
+		<value>Nombre total de commandes E-commerce qui ont contenu ceci %s au moins une fois.</value>
 	</row>
 	<row>
 		<label>Goals_ColumnAveragePriceDocumentation</label>
@@ -2338,7 +2482,11 @@
 	</row>
 	<row>
 		<label>Goals_ColumnAverageQuantityDocumentation</label>
-		<value>Quantité moyenne vendue de %s dans les commandes Ecommerce.</value>
+		<value>Quantité moyenne vendue de %s dans les commandes E-commerce.</value>
+	</row>
+	<row>
+		<label>Goals_ColumnVisitsProductDocumentation</label>
+		<value>Le nombre de visites sur la page produit / catégorie. Ceci est également utilisé pour traiter les taux de conversion %s. Cette mesure est dans le rapport si le suivi E-commerce produit / catégorie a été configuré.</value>
 	</row>
 	<row>
 		<label>Goals_ColumnConversionRateProductDocumentation</label>
@@ -2346,7 +2494,7 @@
 	</row>
 	<row>
 		<label>Goals_ColumnVisits</label>
-		<value>Nombre total de visites, indifféremment du fait qu'un objectif ait été atteint ou non.</value>
+		<value>Nombre total de visites, indifféremment du fait qu'un objectif a été atteint ou non.</value>
 	</row>
 	<row>
 		<label>Goals_GoalX</label>
@@ -2398,7 +2546,7 @@
 	</row>
 	<row>
 		<label>Goals_DeleteGoalConfirm_js</label>
-		<value>Etes vous sûr de vouloir supprimer l'objectif %s?</value>
+		<value>Êtes vous sûr de vouloir supprimer l'objectif %s?</value>
 	</row>
 	<row>
 		<label>Goals_CreateNewGOal</label>
@@ -2482,7 +2630,7 @@
 	</row>
 	<row>
 		<label>Goals_DefaultGoalConvertedOncePerVisit</label>
-		<value>(par défaut) Un objectif peut être convertit une seule fois par visite</value>
+		<value>(par défaut) Un objectif peut-être converti une seule fois par visite</value>
 	</row>
 	<row>
 		<label>Goals_HelpOneConversionPerVisit</label>
@@ -2490,7 +2638,7 @@
 	</row>
 	<row>
 		<label>Goals_AllowGoalConvertedMoreThanOncePerVisit</label>
-		<value>Autoriser un objectif à être convertit plus d'une fois par visite.</value>
+		<value>Autoriser un objectif à être converti plus d'une fois par visite.</value>
 	</row>
 	<row>
 		<label>Goals_DefaultRevenue</label>
@@ -2546,7 +2694,7 @@
 	</row>
 	<row>
 		<label>Goals_ExceptionInvalidMatchingString</label>
-		<value>Si vous choisissez 'correspondance exacte', la chaine de caractères doit être une URL commençant par %s. Par exemple,'%s'.</value>
+		<value>Si vous choisissez 'correspondance exacte', la chaîne de caractères doit être une URL commençant par %s. Par exemple,'%s'.</value>
 	</row>
 	<row>
 		<label>Goals_LearnMoreAboutGoalTrackingDocumentation</label>
@@ -2567,6 +2715,14 @@
 	<row>
 		<label>Goals_Products</label>
 		<value>Produits</value>
+	</row>
+	<row>
+		<label>Goals_VisitsUntilConv</label>
+		<value>Visites par conversion</value>
+	</row>
+	<row>
+		<label>Goals_DaysToConv</label>
+		<value>Jours par conversion</value>
 	</row>
 	<row>
 		<label>Installation_PluginDescription</label>
@@ -2658,7 +2814,7 @@
 	</row>
 	<row>
 		<label>Installation_CongratulationsHelp</label>
-		<value>&lt;p&gt;Félicitations! Votre installation de Piwik est terminée.&lt;/p&gt;&lt;p&gt;Assurez vous que le code JavaScript est présent sur toutes vos pages et attendez vos premiers visiteurs!&lt;/p&gt;</value>
+		<value>&lt;p&gt;Félicitations! Votre installation de Piwik est terminée.&lt;/p&gt;&lt;p&gt;Assurez-vous que le code JavaScript est présent sur toutes vos pages et attendez vos premiers visiteurs!&lt;/p&gt;</value>
 	</row>
 	<row>
 		<label>Installation_ContinueToPiwik</label>
@@ -2674,7 +2830,7 @@
 	</row>
 	<row>
 		<label>Installation_SetupWebSiteURL</label>
-		<value>Url du site web</value>
+		<value>URL du site web</value>
 	</row>
 	<row>
 		<label>Installation_Timezone</label>
@@ -2714,11 +2870,11 @@
 	</row>
 	<row>
 		<label>Installation_SecurityNewsletter</label>
-		<value>Envoyez moi un courriel pour les mises à jour de versions majeures de piwik ou pour les alertes de sécurité</value>
+		<value>Envoyez-moi un courriel pour les mises à jour de versions majeures de piwik ou pour les alertes de sécurité</value>
 	</row>
 	<row>
 		<label>Installation_CommunityNewsletter</label>
-		<value>Envoyez moi un courriel pour les nouveautés de la communauté (nouveaux plugins, nouvelles fonctionnalités, etc.)</value>
+		<value>Envoyez-moi un courriel pour les nouveautés de la communauté (nouveaux plugins, nouvelles fonctionnalités, etc.)</value>
 	</row>
 	<row>
 		<label>Installation_PasswordDoNotMatch</label>
@@ -2726,7 +2882,7 @@
 	</row>
 	<row>
 		<label>Installation_Requirements</label>
-		<value>Pré-requis Piwik</value>
+		<value>Pré requis Piwik</value>
 	</row>
 	<row>
 		<label>Installation_Optional</label>
@@ -2790,7 +2946,7 @@
 	</row>
 	<row>
 		<label>Installation_SystemCheckWarnJsonHelp</label>
-		<value>Vous devriez activer l'extension &quot;json&quot; (ex installez le paquet &quot;php-json&quot;) pour de meilleurs performances.</value>
+		<value>Vous devriez activer l'extension &quot;json&quot; (ex installez le paquet &quot;php-json&quot;) pour de meilleures performances.</value>
 	</row>
 	<row>
 		<label>Installation_SystemCheckWarnDomHelp</label>
@@ -2814,7 +2970,7 @@
 	</row>
 	<row>
 		<label>Installation_SystemCheckMemoryLimitHelp</label>
-		<value>Sur un site à trafic important le processus d'archivage peut prendre plus de mémoire que la limite actuelle autorisée.&lt;br /&gt;Référez vous à la configuration memory_limit de votre php.ini si nécessaire.</value>
+		<value>Sur un site à trafic important, le processus d'archivage peut prendre plus de mémoire que la limite actuelle autorisée.&lt;br /&gt;Référez-vous à la configuration memory_limit de votre php.ini si nécessaire.</value>
 	</row>
 	<row>
 		<label>Installation_SystemCheckOpenURL</label>
@@ -2830,7 +2986,7 @@
 	</row>
 	<row>
 		<label>Installation_SystemCheckGDHelp</label>
-		<value>Les sparklines (petits graphs) ne fonctionneront pas.</value>
+		<value>Les sparklines (petits graphiques) ne fonctionneront pas.</value>
 	</row>
 	<row>
 		<label>Installation_SystemCheckFunctions</label>
@@ -2842,7 +2998,7 @@
 	</row>
 	<row>
 		<label>Installation_SystemCheckTimeLimitHelp</label>
-		<value>Sur un site à trafic important le processus d'archivage peut prendre plus de temps qu'il n'est déjà autorisé.&lt;br /&gt; Référez vous à la configuration max_execution_time de votre php.ini si nécessaire.</value>
+		<value>Sur un site à trafic important, le processus d'archivage peut prendre plus de temps qu'il n'est déjà autorisé.&lt;br /&gt; Référez-vous à la configuration max_execution_time de votre php.ini si nécessaire.</value>
 	</row>
 	<row>
 		<label>Installation_SystemCheckMailHelp</label>
@@ -2914,7 +3070,7 @@
 	</row>
 	<row>
 		<label>Installation_SystemCheckSecureProtocolHelp</label>
-		<value>Il apparait que vous utilisez du https sur votre serveur web. Ces lignes seront ajoutées à config/config.ini.php:</value>
+		<value>Il apparaît que vous utilisez du https sur votre serveur web. Ces lignes seront ajoutées à config/config.ini.php:</value>
 	</row>
 	<row>
 		<label>Installation_SystemCheckTracker</label>
@@ -2966,7 +3122,7 @@
 	</row>
 	<row>
 		<label>Installation_ConfirmDeleteExistingTables</label>
-		<value>Etes vous sûr de vouloir supprimer les tables : %s de votre base de données? ATTENTION: LES DONNEES SERONT DEFINITIVEMENT PERDUES!</value>
+		<value>Etes vous sûr de vouloir supprimer les tables : %s de votre base de données? ATTENTION: LES DONNÉES SERONT DÉFINITIVEMENT PERDUES!</value>
 	</row>
 	<row>
 		<label>Installation_Welcome</label>
@@ -2990,7 +3146,7 @@
 	</row>
 	<row>
 		<label>LanguagesManager_AboutPiwikTranslations</label>
-		<value>A propos des traductions de Piwik</value>
+		<value>À propos des traductions de Piwik</value>
 	</row>
 	<row>
 		<label>Live_PluginDescription</label>
@@ -3018,7 +3174,7 @@
 	</row>
 	<row>
 		<label>Live_VisitorLogDocumentation</label>
-		<value>Ce tableau affiche les dernières visites parmi la période sélectionnée. %s Si la période inclu aujourd'hui, vous pouvez voirs vos visiteurs en temps réel! %s Les données affichées ici le sont toujours en temps réel, indépendamment de quand et à quelle fréquence vous utilisez la tâche cron d'archivage.</value>
+		<value>Ce tableau affiche les dernières visites parmi la période sélectionnée. %s Si la période inclut aujourd'hui, vous pouvez voir vos visiteurs en temps réel! %s Les données affichées ici le sont toujours en temps réel, indépendamment de quand et à quelle fréquence vous utilisez la tâche automatique (cron) d'archivage.</value>
 	</row>
 	<row>
 		<label>Live_Time</label>
@@ -3041,6 +3197,10 @@
 		<value>Type</value>
 	</row>
 	<row>
+		<label>Live_PageRefreshed</label>
+		<value>Nombre de fois où cette page a été vue / rafraîchi dans une rangée.</value>
+	</row>
+	<row>
 		<label>Live_GoalTime</label>
 		<value>Temps de première conversion</value>
 	</row>
@@ -3057,8 +3217,12 @@
 		<value>Détails</value>
 	</row>
 	<row>
+		<label>Live_VisitorsLastVisit</label>
+		<value>La dernière visite du visiteur était il y a %s jours.</value>
+	</row>
+	<row>
 		<label>Login_PluginDescription</label>
-		<value>Plugin de login, lisant les identifiants du fichier config/config.inc.php pour le the Super Utilisateur, et depuis la base de données pour les autres utilisateurs. Peut être facilement remplacé pour introduire un nouveau système d'authentification (OpenID, htaccess, custom Auth, etc.).</value>
+		<value>Plugin de login, lisant les identifiants du fichier config/config.inc.php pour le the Super Utilisateur, et depuis la base de données pour les autres utilisateurs. Peut-être facilement remplacé pour introduire un nouveau système d'authentification (OpenID, htaccess, custom Auth, etc.).</value>
 	</row>
 	<row>
 		<label>Login_LoginPasswordNotCorrect</label>
@@ -3126,7 +3290,7 @@
 	</row>
 	<row>
 		<label>Login_InvalidOrExpiredToken</label>
-		<value>La Clef est invalide ou a expiré</value>
+		<value>La clef est invalide ou a expiré</value>
 	</row>
 	<row>
 		<label>Login_MailTopicPasswordRecovery</label>
@@ -3151,6 +3315,38 @@
 	<row>
 		<label>Login_ExceptionInvalidSuperUserAuthenticationMethod</label>
 		<value>Le Super Utilisateur ne peut pas être authentifié en utilisant le mécanisme '%s'.</value>
+	</row>
+	<row>
+		<label>Mobile_LastUpdated</label>
+		<value>Dernière mise à jour : %s</value>
+	</row>
+	<row>
+		<label>Mobile_Refresh</label>
+		<value>Rafraichir</value>
+	</row>
+	<row>
+		<label>Mobile_Reloading</label>
+		<value>Recharchement...</value>
+	</row>
+	<row>
+		<label>Mobile_ShowAll</label>
+		<value>Afficher tout</value>
+	</row>
+	<row>
+		<label>Mobile_HttpTimeoutInfo</label>
+		<value>Augmenter si vous rencontrer des délais d'attentes dépassés</value>
+	</row>
+	<row>
+		<label>Mobile_AnonymousAccess</label>
+		<value>Accès anonyme</value>
+	</row>
+	<row>
+		<label>Mobile_NavigationBack</label>
+		<value>Retour</value>
+	</row>
+	<row>
+		<label>Mobile_YouAreOffline</label>
+		<value>Désolé, vous êtes actuellement déconnecté(e)</value>
 	</row>
 	<row>
 		<label>MultiSites_PluginDescription</label>
@@ -3190,7 +3386,7 @@
 	</row>
 	<row>
 		<label>Referers_EvolutionDocumentation</label>
-		<value>Ceci est un apperçu des référants qui ont conduit des visiteurs sur votre site web.</value>
+		<value>Ceci est un aperçu des référants qui ont conduit des visiteurs sur votre site web.</value>
 	</row>
 	<row>
 		<label>Referers_EvolutionDocumentationMoreInfo</label>
@@ -3199,6 +3395,10 @@
 	<row>
 		<label>Referers_SearchEngines</label>
 		<value>Moteurs de recherche</value>
+	</row>
+	<row>
+		<label>Referers_SearchEnginesReportDocumentation</label>
+		<value>Ce rapport vous montre quels moteurs de recherche ont envoyé vos utilisateurs vers votre site. %s en cliquant sur une ligne sur la table, vous pouvez voir ce que vos utilisateurs étaient en train de chercher avec les moteurs de recherches spécifiques.</value>
 	</row>
 	<row>
 		<label>Referers_Keywords</label>
@@ -3250,7 +3450,7 @@
 	</row>
 	<row>
 		<label>Referers_WebsitesDocumentation</label>
-		<value>Le visiteur a suivit un lien sur un autre site qui l'a conduit sur votre site. %s Affichez le rapport %s pour plus de détails.</value>
+		<value>Le visiteur a suivi un lien sur un autre site qui l'a conduit sur votre site. %s Affichez le rapport %s pour plus de détails.</value>
 	</row>
 	<row>
 		<label>Referers_CampaignsDocumentation</label>
@@ -3366,7 +3566,7 @@
 	</row>
 	<row>
 		<label>SecurityInfo_PluginDescription</label>
-		<value>Basé sur PhpSecInfo du Consortium de Sécurité de PHP, ce plugin fournit des information de sécurité à propos de votre environnement PHP et donne des suggestions pour son amélioration. C'est un outil d'approche sécurité multi-couches. Cela ne remplace ni les pratiques de développement sécurisé ni les audit du code.</value>
+		<value>Basé sur PhpSecInfo du Consortium de Sécurité de PHP, ce plugin fournit des information de sécurité à propos de votre environnement PHP et donne des suggestions pour son amélioration. C'est un outil d'approche sécurité multi-couches. Cela ne remplace ni les pratiques de développement sécurisé ni les audits du code.</value>
 	</row>
 	<row>
 		<label>SecurityInfo_Security</label>
@@ -3394,7 +3594,7 @@
 	</row>
 	<row>
 		<label>SEO_DomainAge</label>
-		<value>Age du domaine</value>
+		<value>Âge du domaine</value>
 	</row>
 	<row>
 		<label>SEO_Rank</label>
@@ -3466,7 +3666,7 @@
 	</row>
 	<row>
 		<label>SitesManager_AliasUrlHelp</label>
-		<value>Il est recommandé, mais pas requis, de spécifier les URL différentes que vos utilisateurs utilisent pour accéder au site web. Les URL d'alias pour un site n'apparaitront pas dans Référents &gt; Sites Internet. Il n'est pas nécessaire d'entrer les URL avec et sans les www, Piwik les traite automatiquement.</value>
+		<value>Il est recommandé, mais pas requis, de spécifier les URL différentes que vos utilisateurs utilisent pour accéder au site web. Les URL d'alias pour un site n’apparaîtront pas dans Référents &gt; Sites Internet. Il n'est pas nécessaire d'entrer les URL avec et sans les www, Piwik les traite automatiquement.</value>
 	</row>
 	<row>
 		<label>SitesManager_Urls</label>
@@ -3486,7 +3686,7 @@
 	</row>
 	<row>
 		<label>SitesManager_ExceptionNoUrl</label>
-		<value>Vous devez spécifier au moins une url pour le site.</value>
+		<value>Vous devez spécifier au moins une URL pour le site.</value>
 	</row>
 	<row>
 		<label>SitesManager_ExceptionEmptyName</label>
@@ -3494,7 +3694,7 @@
 	</row>
 	<row>
 		<label>SitesManager_ExceptionInvalidUrl</label>
-		<value>L'url '%s' est invalide.</value>
+		<value>L'url '%s' n'est pas une URL valide.</value>
 	</row>
 	<row>
 		<label>SitesManager_ExceptionInvalidTimezone</label>
@@ -3530,7 +3730,7 @@
 	</row>
 	<row>
 		<label>SitesManager_GlobalListExcludedQueryParameters</label>
-		<value>Liste globale des paramètres Url des requêtes à exclure</value>
+		<value>Liste globale des paramètres URL des requêtes à exclure</value>
 	</row>
 	<row>
 		<label>SitesManager_ListOfQueryParametersToBeExcludedOnAllWebsites</label>
@@ -3538,7 +3738,7 @@
 	</row>
 	<row>
 		<label>SitesManager_ListOfQueryParametersToExclude</label>
-		<value>Entrez la liste des paramètres Url, un par ligne, à exclure des rapports des Url de pages.</value>
+		<value>Entrez la liste des paramètres URL, un par ligne, à exclure des rapports des URL de pages.</value>
 	</row>
 	<row>
 		<label>SitesManager_PiwikWillAutomaticallyExcludeCommonSessionParameters</label>
@@ -3618,7 +3818,7 @@
 	</row>
 	<row>
 		<label>SitesManager_PiwikOffersEcommerceAnalytics</label>
-		<value>Piwik permet un suivit et un rapport avancé des statistiques E-commerce. Apprenez-en plus à propos %s des statistiques E-commerce%s.</value>
+		<value>Piwik permet un suivi et un rapport avancé des statistiques E-commerce. Apprenez-en plus à propos %s des statistiques E-commerce%s.</value>
 	</row>
 	<row>
 		<label>TranslationsAdmin_PluginDescription</label>
@@ -3798,7 +3998,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_ax</label>
-		<value>État libre associé d'Åland</value>
+		<value>État libre associé d'Aland</value>
 	</row>
 	<row>
 		<label>UserCountry_country_az</label>
@@ -3878,7 +4078,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_bv</label>
-		<value>Ile Bouvet</value>
+		<value>Île Bouvet</value>
 	</row>
 	<row>
 		<label>UserCountry_country_bw</label>
@@ -3898,7 +4098,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_cc</label>
-		<value>Iles des Cocos (Keeling)</value>
+		<value>Îles des Cocos (Keeling)</value>
 	</row>
 	<row>
 		<label>UserCountry_country_cd</label>
@@ -3922,7 +4122,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_ck</label>
-		<value>Iles Cook</value>
+		<value>Îles Cook</value>
 	</row>
 	<row>
 		<label>UserCountry_country_cl</label>
@@ -3942,7 +4142,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_cp</label>
-		<value>Ile de La Passion</value>
+		<value>Île de La Passion</value>
 	</row>
 	<row>
 		<label>UserCountry_country_cr</label>
@@ -3966,7 +4166,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_cx</label>
-		<value>Ile Christmas</value>
+		<value>Île Christmas</value>
 	</row>
 	<row>
 		<label>UserCountry_country_cy</label>
@@ -4026,7 +4226,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_er</label>
-		<value>Erythrée</value>
+		<value>Érythrée</value>
 	</row>
 	<row>
 		<label>UserCountry_country_es</label>
@@ -4034,7 +4234,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_et</label>
-		<value>Ethiopie</value>
+		<value>Éthiopie</value>
 	</row>
 	<row>
 		<label>UserCountry_country_eu</label>
@@ -4050,7 +4250,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_fk</label>
-		<value>Iles Falkland</value>
+		<value>Îles Falkland</value>
 	</row>
 	<row>
 		<label>UserCountry_country_fm</label>
@@ -4058,7 +4258,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_fo</label>
-		<value>Iles Faroe</value>
+		<value>Îles Faroe</value>
 	</row>
 	<row>
 		<label>UserCountry_country_fr</label>
@@ -4090,7 +4290,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_gg</label>
-		<value>Ile de Guernesey</value>
+		<value>Île de Guernesey</value>
 	</row>
 	<row>
 		<label>UserCountry_country_gh</label>
@@ -4150,7 +4350,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_hm</label>
-		<value>Iles heard et Mac Donald</value>
+		<value>Îles heard et Mac Donald</value>
 	</row>
 	<row>
 		<label>UserCountry_country_hn</label>
@@ -4170,7 +4370,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_ic</label>
-		<value>Iles Canaries</value>
+		<value>Îles Canaries</value>
 	</row>
 	<row>
 		<label>UserCountry_country_id</label>
@@ -4186,7 +4386,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_im</label>
-		<value>Iles de Man</value>
+		<value>Îles de Man</value>
 	</row>
 	<row>
 		<label>UserCountry_country_in</label>
@@ -4266,7 +4466,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_ky</label>
-		<value>Iles Caïmans</value>
+		<value>Îles Caïmans</value>
 	</row>
 	<row>
 		<label>UserCountry_country_kz</label>
@@ -4314,7 +4514,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_ly</label>
-		<value>Lybie</value>
+		<value>Libye</value>
 	</row>
 	<row>
 		<label>UserCountry_country_ma</label>
@@ -4342,7 +4542,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_mh</label>
-		<value>Iles Marshall</value>
+		<value>Îles Marshall</value>
 	</row>
 	<row>
 		<label>UserCountry_country_mk</label>
@@ -4366,7 +4566,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_mp</label>
-		<value>Iles Mariannes du Nord</value>
+		<value>Îles Mariannes du Nord</value>
 	</row>
 	<row>
 		<label>UserCountry_country_mq</label>
@@ -4386,7 +4586,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_mu</label>
-		<value>Ile Maurice</value>
+		<value>Île Maurice</value>
 	</row>
 	<row>
 		<label>UserCountry_country_mv</label>
@@ -4422,7 +4622,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_nf</label>
-		<value>Ile Norfolk</value>
+		<value>Île Norfolk</value>
 	</row>
 	<row>
 		<label>UserCountry_country_ng</label>
@@ -4498,7 +4698,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_pn</label>
-		<value>Iles Pitcairn</value>
+		<value>Îles Pitcairn</value>
 	</row>
 	<row>
 		<label>UserCountry_country_pr</label>
@@ -4533,12 +4733,12 @@
 		<value>Roumanie</value>
 	</row>
 	<row>
-		<label>UserCountry_country_ru</label>
-		<value>Russie</value>
-	</row>
-	<row>
 		<label>UserCountry_country_rs</label>
 		<value>Serbie</value>
+	</row>
+	<row>
+		<label>UserCountry_country_ru</label>
+		<value>Russie</value>
 	</row>
 	<row>
 		<label>UserCountry_country_rw</label>
@@ -4550,7 +4750,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_sb</label>
-		<value>Iles Salomon</value>
+		<value>Îles Salomon</value>
 	</row>
 	<row>
 		<label>UserCountry_country_sc</label>
@@ -4582,7 +4782,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_sj</label>
-		<value>Svalbard et Ile Jan Mayen</value>
+		<value>Svalbard et Île Jan Mayen</value>
 	</row>
 	<row>
 		<label>UserCountry_country_sk</label>
@@ -4638,7 +4838,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_tc</label>
-		<value>Iles Turks et Caicos</value>
+		<value>Îles Turks et Caicos</value>
 	</row>
 	<row>
 		<label>UserCountry_country_td</label>
@@ -4705,6 +4905,10 @@
 		<value>Tanzanie</value>
 	</row>
 	<row>
+		<label>UserCountry_country_ti</label>
+		<value>Tibet</value>
+	</row>
+	<row>
 		<label>UserCountry_country_ua</label>
 		<value>Ukraine</value>
 	</row>
@@ -4722,7 +4926,7 @@
 	</row>
 	<row>
 		<label>UserCountry_country_us</label>
-		<value>Etats Unis</value>
+		<value>États Unis</value>
 	</row>
 	<row>
 		<label>UserCountry_country_uy</label>
@@ -4746,11 +4950,11 @@
 	</row>
 	<row>
 		<label>UserCountry_country_vg</label>
-		<value>Iles Vierges Britanniques</value>
+		<value>Îles Vierges Britanniques</value>
 	</row>
 	<row>
 		<label>UserCountry_country_vi</label>
-		<value>Iles Vierges U.S.</value>
+		<value>Îles Vierges U.S.</value>
 	</row>
 	<row>
 		<label>UserCountry_country_vn</label>
@@ -4854,7 +5058,7 @@
 	</row>
 	<row>
 		<label>UserCountryMap_worldMap</label>
-		<value>mappemonde</value>
+		<value>carte du monde</value>
 	</row>
 	<row>
 		<label>UserCountryMap_toggleFullscreen</label>
@@ -4890,7 +5094,7 @@
 	</row>
 	<row>
 		<label>UserSettings_WidgetPluginsDocumentation</label>
-		<value>Ce rapport montre quels plugins du navigateurs vos visiteurs ont activé. Cette information peut être importante pour choisir le bon moyen de délivrer le contenu.</value>
+		<value>Ce rapport montre quels plugins du navigateur vos visiteurs ont activés. Cette information peut être importante pour choisir le bon moyen de délivrer le contenu.</value>
 	</row>
 	<row>
 		<label>UserSettings_OperatingSystems</label>
@@ -4966,7 +5170,7 @@
 	</row>
 	<row>
 		<label>UserSettings_WidgetBrowserFamiliesDocumentation</label>
-		<value>Ce tableau affiche les navigateurs de vos visiteurs regroupés par famille. %s L'information la plus importante pour les developpeurs est quel type de moteur de rendu utilisent leurs visiteurs. Les labels contiennent les noms des moteurs suivis par les les principaux navigateurs les utilisant entre paranthèses.</value>
+		<value>Ce tableau affiche les navigateurs de vos visiteurs regroupés par famille. %s L'information la plus importante pour les développeurs est quel type de moteur de rendu utilisent leurs visiteurs. Les labels contiennent les noms des moteurs suivis par les principaux navigateurs les utilisant entre parenthèses.</value>
 	</row>
 	<row>
 		<label>UserSettings_WidgetOperatingSystems</label>
@@ -4990,7 +5194,7 @@
 	</row>
 	<row>
 		<label>UsersManager_UsersManagementMainDescription</label>
-		<value>Créez de nouveaux utilisateurs ou modifiez-les. Vous pourrez ensuite changez leurs permissions ci-dessus.</value>
+		<value>Créez de nouveaux utilisateurs ou modifiez-les. Vous pourrez ensuite changer leurs permissions ci-dessus.</value>
 	</row>
 	<row>
 		<label>UsersManager_ThereAreCurrentlyNRegisteredUsers</label>
@@ -5038,7 +5242,7 @@
 	</row>
 	<row>
 		<label>UsersManager_ChangePasswordConfirm</label>
-		<value>Modifier le mot de passe modifiera aussi la clef d'authentification des utilisateurs. Voulez vous vraiment continuer ?</value>
+		<value>Modifier le mot de passe modifiera aussi la clef d'authentification des utilisateurs. Voulez-vous vraiment continuer?</value>
 	</row>
 	<row>
 		<label>UsersManager_Password</label>
@@ -5114,7 +5318,7 @@
 	</row>
 	<row>
 		<label>UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess</label>
-		<value>Quand les utilisateurs ne sont pas connectés et accèdent à Piwik, il verront</value>
+		<value>Quand les utilisateurs ne sont pas connectés et accèdent à Piwik, ils verront</value>
 	</row>
 	<row>
 		<label>UsersManager_ChangePassword</label>
@@ -5134,7 +5338,7 @@
 	</row>
 	<row>
 		<label>UsersManager_DeleteConfirm_js</label>
-		<value>Etes vous sûr de vouloir supprimer l'utilisateur %s?</value>
+		<value>Êtes-vous sûr de vouloir supprimer l'utilisateur %s?</value>
 	</row>
 	<row>
 		<label>UsersManager_YourUsernameCannotBeChanged</label>
@@ -5150,7 +5354,7 @@
 	</row>
 	<row>
 		<label>UsersManager_ExceptionInvalidLoginFormat</label>
-		<value>Le login doit contenir entre %1$s et %2$s caractères et être composé uniquement de lettres, chiffres, ou les caractères '_' ou '-' ou '.'</value>
+		<value>Le login doit contenir entre %1$s et %2$s caractères et être composé uniquement de lettres, chiffres, ou les caractères '_' ou '-' ou '.' ou '@' ou '+'</value>
 	</row>
 	<row>
 		<label>UsersManager_ExceptionInvalidPassword</label>
@@ -5186,11 +5390,11 @@
 	</row>
 	<row>
 		<label>UsersManager_ExceptionPasswordMD5HashExpected</label>
-		<value>UsersManager.getTokenAuth attend un mot de passe hashé en MD5 (chaine de 32 caractères). Veuillez appeler la fonction md5() sur le mot de passe avant d'appeler cette méthode.</value>
+		<value>UsersManager.getTokenAuth attend un mot de passe haché en MD5 (chaine de 32 caractères). Veuillez appeler la fonction md5() sur le mot de passe avant d'appeler cette méthode.</value>
 	</row>
 	<row>
 		<label>VisitFrequency_PluginDescription</label>
-		<value>Effectue des rapports sur les visiteurs déjà venus vis à vis des nouveaux visiteurs.</value>
+		<value>Effectue des rapports sur les visiteurs déjà venus vis-à-vis des nouveaux visiteurs.</value>
 	</row>
 	<row>
 		<label>VisitFrequency_Evolution</label>
@@ -5202,11 +5406,11 @@
 	</row>
 	<row>
 		<label>VisitFrequency_ReturningVisitsDocumentation</label>
-		<value>Ceci est un apperçu des visites de retour.</value>
+		<value>Ceci est un aperçu des visites de retour.</value>
 	</row>
 	<row>
 		<label>VisitFrequency_ReturningVisitDocumentation</label>
-		<value>Une visite de retour (par opposition à une nouvelle visite) est effectué par quelqu'un qui a déjà visité le site web au moins une fois auparavant.</value>
+		<value>Une visite de retour (par opposition à une nouvelle visite) est effectuée par quelqu'un qui a déjà visité le site web au moins une fois auparavant.</value>
 	</row>
 	<row>
 		<label>VisitFrequency_ColumnActionsByReturningVisits</label>
@@ -5221,8 +5425,28 @@
 		<value>Pourcentage de rebond par les visites retour</value>
 	</row>
 	<row>
+		<label>VisitFrequency_ColumnBounceCountForReturningVisits</label>
+		<value>Compteur rebond pour visites de retour</value>
+	</row>
+	<row>
 		<label>VisitFrequency_ColumnAvgActionsPerReturningVisit</label>
 		<value>Nombre d'actions moyen par visiteur connu.</value>
+	</row>
+	<row>
+		<label>VisitFrequency_ColumnMaxActionsInReturningVisit</label>
+		<value>Actions maximum dans une visite de retour</value>
+	</row>
+	<row>
+		<label>VisitFrequency_ColumnUniqueReturningVisitors</label>
+		<value>Visiteurs uniques de retour</value>
+	</row>
+	<row>
+		<label>VisitFrequency_ColumnNbReturningVisitsConverted</label>
+		<value>Nombre de visites converties de retour</value>
+	</row>
+	<row>
+		<label>VisitFrequency_ColumnSumVisitLengthReturning</label>
+		<value>Le temps total passé par les visiteurs de retour (en secondes)</value>
 	</row>
 	<row>
 		<label>VisitFrequency_ReturnVisits</label>
@@ -5274,7 +5498,7 @@
 	</row>
 	<row>
 		<label>VisitorGenerator_AreYouSure</label>
-		<value>Etes vous sûrs de vouloir générer de fausses visites?</value>
+		<value>Êtes-vous sûrs de vouloir générer de fausses visites?</value>
 	</row>
 	<row>
 		<label>VisitorGenerator_ChoiceYes</label>
@@ -5317,6 +5541,14 @@
 		<value>Pages par visite</value>
 	</row>
 	<row>
+		<label>VisitorInterest_visitsByVisitCount</label>
+		<value>Visites par numéro de visite</value>
+	</row>
+	<row>
+		<label>VisitorInterest_VisitNum</label>
+		<value>Numéro de la visite</value>
+	</row>
+	<row>
 		<label>VisitorInterest_WidgetLengths</label>
 		<value>Durée des visites</value>
 	</row>
@@ -5333,8 +5565,16 @@
 		<value>Dans ce rapport, vous pouvez voir combien de visites impliquaient l'affichage d'un certain nombre de pages. Initialement ce rapport est affiché comme un nuage de tags, les nombres de pages les plus fréquents sont affichés dans des polices plus grandes.</value>
 	</row>
 	<row>
+		<label>VisitorInterest_WidgetVisitsByNumDocumentation</label>
+		<value>Dans ce rapport, vous pouvez voir le nombre de visites qui était la nième visite, par exemple: visiteurs qui ont visité votre site web au moins n fois.</value>
+	</row>
+	<row>
 		<label>VisitorInterest_Engagement</label>
 		<value>Engagement</value>
+	</row>
+	<row>
+		<label>VisitorInterest_OneMinute</label>
+		<value>1 min</value>
 	</row>
 	<row>
 		<label>VisitorInterest_PlusXMin</label>
@@ -5357,6 +5597,14 @@
 		<value>%1$s-%2$ss</value>
 	</row>
 	<row>
+		<label>VisitorInterest_VisitsByDaysSinceLast</label>
+		<value>Visites par jours depuis la dernière visite</value>
+	</row>
+	<row>
+		<label>VisitorInterest_WidgetVisitsByDaysSinceLastDocumentation</label>
+		<value>Dans ce rapport, vous pouvez voir le nombre de visites il y a eu de ce visiteur dont la dernière visite date depuis un certain nombre de jours.</value>
+	</row>
+	<row>
 		<label>VisitsSummary_PluginDescription</label>
 		<value>Effectue des rapports sur les valeurs générales des statistiques: visites, visiteurs uniques, nombre d'actions, taux de rebond, etc.</value>
 	</row>
@@ -5366,7 +5614,7 @@
 	</row>
 	<row>
 		<label>VisitsSummary_VisitsSummaryDocumentation</label>
-		<value>Ceci est un apperçu de l'évolution de la visite.</value>
+		<value>Ceci est un aperçu de l'évolution de la visite.</value>
 	</row>
 	<row>
 		<label>VisitsSummary_NbVisits</label>
@@ -5379,6 +5627,30 @@
 	<row>
 		<label>VisitsSummary_NbActionsDescription</label>
 		<value>%s actions (pages vues, téléchargements et liens de sortie)</value>
+	</row>
+	<row>
+		<label>VisitsSummary_NbPageviewsDescription</label>
+		<value>%s pages vues</value>
+	</row>
+	<row>
+		<label>VisitsSummary_NbUniquePageviewsDescription</label>
+		<value>%s pages vues uniques</value>
+	</row>
+	<row>
+		<label>VisitsSummary_NbDownloadsDescription</label>
+		<value>%s téléchargements</value>
+	</row>
+	<row>
+		<label>VisitsSummary_NbUniqueDownloadsDescription</label>
+		<value>%s téléchargements unique</value>
+	</row>
+	<row>
+		<label>VisitsSummary_NbOutlinksDescription</label>
+		<value>%s liens sortant</value>
+	</row>
+	<row>
+		<label>VisitsSummary_NbUniqueOutlinksDescription</label>
+		<value>%s liens sortant unique</value>
 	</row>
 	<row>
 		<label>VisitsSummary_AverageVisitDuration</label>
@@ -5474,7 +5746,7 @@
 	</row>
 	<row>
 		<label>Widgetize_PluginDescription</label>
-		<value>Le plugin rend l'export de n'importe quel Widget Piwik dans votre blog, site web ou sur Igoogle et Netvibes!</value>
+		<value>Le plugin rend simple l'export de n'importe quel Widget Piwik dans votre blog, site web ou sur Igoogle et Netvibes!</value>
 	</row>
 	<row>
 		<label>PDFReports_PluginDescriptionReports</label>
@@ -5509,8 +5781,24 @@
 		<value>Format du rapport</value>
 	</row>
 	<row>
+		<label>PDFReports_AggregateReportsFormat</label>
+		<value>Options d'affichage (optionnel)</value>
+	</row>
+	<row>
+		<label>PDFReports_AggregateReportsFormat_TablesOnly</label>
+		<value>(défaut) afficher les tableaux de rapport (Graphique uniquement pour les indicateurs clés)</value>
+	</row>
+	<row>
+		<label>PDFReports_AggregateReportsFormat_GraphsOnly</label>
+		<value>Afficher uniquement les graphiques (pas de tableau de valeur)</value>
+	</row>
+	<row>
+		<label>PDFReports_AggregateReportsFormat_TablesAndGraphs</label>
+		<value>Afficher les tableaux de rapport et les graphiques pour tous les rapports</value>
+	</row>
+	<row>
 		<label>PDFReports_SentToMe</label>
-		<value>Envoyer à moi</value>
+		<value>Envoyez-le moi</value>
 	</row>
 	<row>
 		<label>PDFReports_CreateAndScheduleReport</label>
@@ -5538,7 +5826,7 @@
 	</row>
 	<row>
 		<label>PDFReports_ReportsIncluded</label>
-		<value>Statistiques inclues</value>
+		<value>Statistiques incluses</value>
 	</row>
 	<row>
 		<label>PDFReports_CreateReport</label>
@@ -5570,7 +5858,7 @@
 	</row>
 	<row>
 		<label>PDFReports_AreYouSureDeleteReport</label>
-		<value>Etes vous sûr de vouloir supprimer ce rapport et sa planification?</value>
+		<value>Êtes-vous sûr de vouloir supprimer ce rapport et sa planification?</value>
 	</row>
 	<row>
 		<label>PDFReports_ThereIsNoReportToManage</label>
@@ -5595,5 +5883,13 @@
 	<row>
 		<label>PDFReports_Pagination</label>
 		<value>Page %s sur %s</value>
+	</row>
+	<row>
+		<label>ImageGraph_PluginDescription</label>
+		<value>Génère de magnifiques graphiques en image PNG statique pour tous vos rapports Piwik.</value>
+	</row>
+	<row>
+		<label>ImageGraph_ColumnOrdinateMissing</label>
+		<value>La colonne '%s' n'est pas trouvée dans ce rapport</value>
 	</row>
 </result>
