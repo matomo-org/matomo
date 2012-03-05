@@ -37,7 +37,8 @@ class Piwik_Smarty extends Smarty
 
 		if(count($smConf) == 0)
 		{
-			$smConf = Piwik_Config::getInstance()->smarty;
+			// workaround for #1331
+			$smConf = Zend_Registry::get('config')->smarty;
 		}
 		foreach($smConf as $key => $value)
 		{
