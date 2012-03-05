@@ -545,7 +545,7 @@ class Piwik_PluginsManager
 
 		// is the plugin already installed or is it the first time we activate it?
 		$pluginsInstalled = $this->getInstalledPluginsName();
-		if(!in_array($pluginName,$pluginsInstalled))
+		if(!in_array($pluginName, $pluginsInstalled))
 		{
 			$this->installPlugin($plugin);
 			$pluginsInstalled[] = $pluginName;

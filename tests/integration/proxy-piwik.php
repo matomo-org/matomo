@@ -39,7 +39,7 @@ if(Piwik_Common::getRequestVar('forceIpAnonymization', false) == 1)
 	Piwik_Config::getInstance()->Tracker['ip_address_mask_length'] = 2;
 	$pluginsTracker = Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
 	$pluginsTracker[] = "AnonymizeIP";
-	Piwik_Config::getInstance()->Plugins_Tracker = array('Plugins_Tracker' => $pluginsTracker);
+	Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'] = $pluginsTracker;
 }
 // Custom IP to use for this visitor
 $customIp = Piwik_Common::getRequestVar('cip', false);

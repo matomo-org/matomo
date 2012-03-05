@@ -75,6 +75,10 @@ class Piwik_Config
 			$this->__get('database_tests');
 			$this->configCache['database'] = $this->configCache['database_tests'];
 		}
+
+		// for unit tests, we set that no plugin is installed. This will force
+		// the test initialization to create the plugins tables, execute ALTER queries, etc.
+		$this->configCache['PluginsInstalled'] = array('PluginsInstalled' => array());
 	}
 
 	/**
