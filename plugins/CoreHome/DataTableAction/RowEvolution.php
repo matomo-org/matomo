@@ -72,7 +72,7 @@ class Piwik_CoreHome_DataTableAction_RowEvolution
 		if (empty($this->apiMethod)) throw new Exception("Parameter apiMethod not set.");
 		
 		$this->label = Piwik_Common::getRequestVar('label', '', 'string');
-		if ($this->label == '') throw new Exception("Parameter label not set.");
+		if ($this->label === '') throw new Exception("Parameter label not set.");
 		
 		$this->period = Piwik_Common::getRequestVar('period', '', 'string');
 		if (empty($this->period)) throw new Exception("Parameter period not set.");
@@ -91,7 +91,7 @@ class Piwik_CoreHome_DataTableAction_RowEvolution
 		{
 			// handle day, week, month and year: display last 30 periods
 			$end = $date->toString();
-			if ($this->period == 'year') $start = $date->subYear(30)->toString();
+			if ($this->period == 'year') $start = $date->subYear(10)->toString();
 			else if ($this->period == 'month') $start = $date->subMonth(30)->toString();
 			else if ($this->period == 'week') $start = $date->subWeek(30)->toString();
 			else $start = $date->subDay(30)->toString();
