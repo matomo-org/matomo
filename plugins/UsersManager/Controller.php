@@ -277,7 +277,8 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 			$userLogin = Piwik::getCurrentUserLogin();
 			if(Piwik::isUserIsSuperUser())
 			{
-				$superUser = Piwik_Config_Writer::getInstance()->superuser;
+				$config = Piwik_Config_Writer::getInstance();
+				$superUser = $config->superuser;
 				$updatedSuperUser = false;
 
 				if($newPassword !== false)
@@ -294,7 +295,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 				}
 				if($updatedSuperUser)
 				{
-					Piwik_Config::getInstance()->superuser = $superUser;
+					$config->superuser = $superUser;
 				}
 			}
 			else

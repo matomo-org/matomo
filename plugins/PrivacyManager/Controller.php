@@ -31,7 +31,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
                     $this->handlePluginState(Piwik_Common::getRequestVar("anonymizeIPEnable", 0));
                     $trackerConfig = Piwik_Config_Writer::getInstance()->Tracker;
                     $trackerConfig['ip_address_mask_length'] = Piwik_Common::getRequestVar("maskLength", 1);
-                    Piwik_Config::getInstance()->Tracker = $trackerConfig;
+                    Piwik_Config_Writer::getInstance()->Tracker = $trackerConfig;
                     break;
                     
                 case("formDeleteSettings"):
@@ -42,7 +42,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
                             7 : Piwik_Common::getRequestVar("deleteOlderThan", 180);
                     $deleteLogs['delete_max_rows_per_run'] = Piwik_Common::getRequestVar("deleteMaxRows", 100);
 
-                    Piwik_Config::getInstance()->Deletelogs = $deleteLogs;
+                    Piwik_Config_Writer::getInstance()->Deletelogs = $deleteLogs;
                     break;
                     
                 default: //do nothing
