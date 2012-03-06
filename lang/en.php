@@ -1517,6 +1517,7 @@ Note: this token will expire in 24 hrs.',
 	'PDFReports_TableOfContent' => 'Report list',
 	'PDFReports_TopOfReport' => 'Back to top',
 	'PDFReports_Pagination' => 'Page %s of %s',
+	'PDFReports_ReportIncludeNWebsites' => 'The report will include main metrics for all websites that have at least one visit (from the %s websites currently available).',
 	'ImageGraph_PluginDescription' => 'Generate beautiful static PNG Graph images for any Piwik report.',
 	'ImageGraph_ColumnOrdinateMissing' => 'The column \'%s\' was not found in this report.',
 );

@@ -94,6 +94,9 @@
 							<input type="checkbox" id="{$report.uniqueId}" />
 							<label for="{$report.uniqueId}">
 								{$report.name|escape:"html"}
+								{if $report.uniqueId=='MultiSites_getAll'}
+									<div class="entityInlineHelp">{'PDFReports_ReportIncludeNWebsites'|translate:"$countWebsites "}</div>
+								{/if}
 							</label>
 						</li>
 					{/foreach}

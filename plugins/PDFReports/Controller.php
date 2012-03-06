@@ -23,6 +23,8 @@ class Piwik_PDFReports_Controller extends Piwik_Controller
 		$view = Piwik_View::factory('index');
 		$this->setGeneralVariablesView($view);
 		$view->currentUserEmail = Piwik::getCurrentUserEmail();
+		$allSites = Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess();
+		$view->countWebsites = count($allSites);
 
 		$availableReports = Piwik_API_API::getInstance()->getReportMetadata($this->idSite);
 		$reportsByCategory = array();
