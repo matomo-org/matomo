@@ -350,9 +350,11 @@ page_maximum_length = 1024;
 ; For IPv4 addresses, valid values are 0..4; for IPv6 addresses, valid values are 0..16
 ip_address_mask_length = 1
 
-; When using the Tracking API, to override either the date & time of a request,
-; or to override the visitor IP, it is required to pass in the token_auth with an "admin" access
-; if you set this setting to 0, the token_auth will not be required anymore
+; DO NOT USE THIS SETTING ON PUBLICLY AVAILABLE PIWIK SERVER
+; !!! Security risk: if set to 0, it would allow anyone to push data to Piwik with custom dates in the past/future and with fake IPs !!!
+; When using the Tracking API, to override either the datetime and/or the visitor IP, 
+; token_auth with an "admin" access is required. If you set this setting to 0, the token_auth will not be required anymore.
+; DO NOT USE THIS SETTING ON PUBLIC PIWIK SERVERS
 tracking_requests_require_authentication = 1
 
 [Segments]
