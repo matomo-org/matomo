@@ -12,13 +12,13 @@ Piwik aims to be a Free software alternative to Google Analytics, and is already
 
 Mission statement
 =================
-« To create, as a community, the leading international open source 
+« To create, as a community, the leading international Free/Libre
   web analytics application, providing access to all functionality 
   through open components and open APIs. » 
 
 License
 =======
-Piwik is released under the GPL v3 license, see misc/gpl-3.0.txt 
+Piwik is released under the GPL v3 (or later) license, see misc/gpl-3.0.txt 
 
 Requirements
 ============
@@ -34,6 +34,8 @@ Install
 - Follow the steps
 - Add the given javascript code to your pages
 See http://piwik.org/docs/installation/
+
+You can generate fake data to play with by enabling the plugin VisitorGenerator in "Settings".
 
 Changelog
 =========
@@ -59,3 +61,4 @@ What makes Piwik unique from the competition:
 - Advanced Web Analytics capabilities such as Ecommerce Tracking, Goal tracking, Campaign tracking, 
   Custom Variables, Email Reports, and more!
 
+Documentation and more info on http://piwik.org
