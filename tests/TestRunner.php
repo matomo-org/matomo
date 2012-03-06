@@ -71,7 +71,7 @@ class TestRunner
 		$this->dirsToGlob = $dirs;
 	}
 	
-	static public $testsHelpLinks = "<ul><li><a href=\"core\">Run each test separately</a></li>\n
+	static public $testsHelpLinks = "<ul><li><a href=\"core\">Run each test separately</a> or each <a href='integration/'>each integration test separately</a></li>\n
 					<li><a href=\"all_tests.php\">Run all tests</a> or <a href='all_integration_tests.php'>Integration tests only</a> (please be patient, it will take at least 5-10 minutes)</li>\n
 					<li><a href=\"all_integration_tests.php?apiTestingLevel=none&widgetTestingLevel=check_errors \">Call all Widgets tests and check for error only</a> or <a href=\"all_integration_tests.php?apiTestingLevel=none&widgetTestingLevel=compare_output \">call all Widgets and compare output (tests will fail at this stage, this is normal!)</a></li>\n
 					<li><a href=\"javascript/\">Run piwik.js Javascript unit & integration tests</a></li>\n

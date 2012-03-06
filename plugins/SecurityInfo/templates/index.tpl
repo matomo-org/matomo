@@ -5,7 +5,7 @@
 
 <h2>{'SecurityInfo_SecurityInformation'|translate}</h2>
 <p>{'SecurityInfo_PluginDescription'|translate}</p>
-
+<p>Learn more: read our guide <a target='_blank' href='http://piwik.org/security/how-to-secure-piwik/'>Hardening Piwik: How to make Piwik and your web server more secure?</a></p>
 <div style="max-width:980px;">
 {foreach from=$results.test_results key=i item=section}
 <h2>{$i}</h2>

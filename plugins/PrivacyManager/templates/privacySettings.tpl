@@ -5,7 +5,9 @@
 {if $isSuperUser}
 
 <h2>{'PrivacyManager_TeaserHeadline'|translate}</h2>
-<p>{'PrivacyManager_Teaser'|translate:'<a href="#anonymizeIPAnchor">':"</a>":'<a href="#deleteLogsAnchor">':"</a>":'<a href="#optOutAnchor">':"</a>"}</p>
+<p>{'PrivacyManager_Teaser'|translate:'<a href="#anonymizeIPAnchor">':"</a>":'<a href="#deleteLogsAnchor">':"</a>":'<a href="#optOutAnchor">':"</a>"}
+See also our official guide <b><a href='http://piwik.org/privacy/' target='_blank'>Web Analytics Privacy</a></b></p>
+
 <a name="anonymizeIPAnchor"></a>
 <h2>{'PrivacyManager_UseAnonymizeIp'|translate}</h2>
 <form method="post" action="{url action=index form=formMaskLength}" id="formMaskLength" name="formMaskLength">
