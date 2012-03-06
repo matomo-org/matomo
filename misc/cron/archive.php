@@ -536,15 +536,6 @@ class Archiving
 		$this->logLines($USAGE);
 	}
 	
-	/**
-	 * Displays script help
-	 */
-	protected function help()
-	{
-		global $HELP;
-		$this->logLines($HELP);
-	}
-	
 	private function logLines($t)
 	{
 		foreach(explode(PHP_EOL, $t) as $line) 
@@ -601,15 +592,10 @@ class Archiving
 	
 	private function displayHelp()
 	{
-		$displayHelp = $this->isParameterSet('--help') || $this->isParameterSet('--h') || $this->isParameterSet('-h') || $this->isParameterSet('help');
-		$displayHelp = $this->isParameterSet('--help') || $this->isParameterSet('--h') || $this->isParameterSet('-h') || $this->isParameterSet('help');
+		$displayHelp = $this->isParameterSet('help') || $this->isParameterSet('h');
 		if ($displayHelp)
 		{
 			$this->usage();
-			if($this->isParameterSet('--help-verbose'))
-			{
-				$this->help();
-			}
 			exit;
 		}
 	}
@@ -617,9 +603,9 @@ class Archiving
 	protected function initStateFromParameters()
 	{
 		// Detect parameters 
-		$reset = $this->isParameterSet("--force-all-periods", $valuePossible = true);
-		$forceAll = $this->isParameterSet("--force-all-websites");
-		$forceTimeoutPeriod = $this->isParameterSet("--force-timeout-for-periods", $valuePossible = true);
+		$reset = $this->isParameterSet("force-all-periods", $valuePossible = true);
+		$forceAll = $this->isParameterSet("force-all-websites");
+		$forceTimeoutPeriod = $this->isParameterSet("force-timeout-for-periods", $valuePossible = true);
 		if(!empty($forceTimeoutPeriod)
 			&& $forceTimeoutPeriod !== true) // in case --force-timeout-for-periods= without [seconds] specified
 		{
@@ -781,23 +767,31 @@ class Archiving
 		{
 			return false;
 		}
-		foreach($_SERVER['argv'] as $arg)
+		$parameters = array(
+			"--$parameter",
+			"-$parameter",
+			$parameter
+		);
+		foreach($parameters as $parameter)
 		{
-			if( strpos($arg, $parameter) !== false)
+			foreach($_SERVER['argv'] as $arg)
 			{
-				if($valuePossible)
+				if( strpos($arg, $parameter) === 0)
 				{
-					$parameterFound = $arg;
-					if(($posEqual = strpos($parameterFound, '=')) !== false)
+					if($valuePossible)
 					{
-						$return = substr($parameterFound, $posEqual+1);
-						if($return !== false)
+						$parameterFound = $arg;
+						if(($posEqual = strpos($parameterFound, '=')) !== false)
 						{
-							return $return;
+							$return = substr($parameterFound, $posEqual+1);
+							if($return !== false)
+							{
+								return $return;
+							}
 						}
 					}
+					return true;
 				}
-				return true;
 			}
 		}
 		return false;
