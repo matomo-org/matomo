@@ -98,10 +98,10 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 			
 			$site = &$digestableData[$idsite];
 			
-			$site['visits'] = $row->getColumn('nb_visits');
+			$site['visits'] = (int)$row->getColumn('nb_visits');
 			$totalVisits += $site['visits'];
 
-			$site['actions'] = $row->getColumn('nb_actions');
+			$site['actions'] = (int)$row->getColumn('nb_actions');
 			$totalActions += $site['actions'];
 
 			if ($displayRevenueColumn)
