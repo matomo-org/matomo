@@ -29,20 +29,20 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
             {
                 case("formMaskLength"):
                     $this->handlePluginState(Piwik_Common::getRequestVar("anonymizeIPEnable", 0));
-                    $trackerConfig = Piwik_Config_Writer::getInstance()->Tracker;
+                    $trackerConfig = Piwik_Config::getInstance()->Tracker;
                     $trackerConfig['ip_address_mask_length'] = Piwik_Common::getRequestVar("maskLength", 1);
-                    Piwik_Config_Writer::getInstance()->Tracker = $trackerConfig;
+                    Piwik_Config::getInstance()->Tracker = $trackerConfig;
                     break;
                     
                 case("formDeleteSettings"):
-                    $deleteLogs = Piwik_Config_Writer::getInstance()->Deletelogs;
+                    $deleteLogs = Piwik_Config::getInstance()->Deletelogs;
                     $deleteLogs['delete_logs_enable'] = Piwik_Common::getRequestVar("deleteEnable", 0);
                     $deleteLogs['delete_logs_schedule_lowest_interval'] = Piwik_Common::getRequestVar("deleteLowestInterval", 7);
                     $deleteLogs['delete_logs_older_than'] = ((int)Piwik_Common::getRequestVar("deleteOlderThan", 180) < 7) ?
                             7 : Piwik_Common::getRequestVar("deleteOlderThan", 180);
                     $deleteLogs['delete_max_rows_per_run'] = Piwik_Common::getRequestVar("deleteMaxRows", 100);
 
-                    Piwik_Config_Writer::getInstance()->Deletelogs = $deleteLogs;
+                    Piwik_Config::getInstance()->Deletelogs = $deleteLogs;
                     break;
                     
                 default: //do nothing

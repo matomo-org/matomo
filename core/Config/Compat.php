@@ -85,7 +85,7 @@ class Piwik_Config_Compat
 	 */
 	public function __construct()
 	{
-		$this->config = Piwik_Config_Writer::getInstance();
+		$this->config = Piwik_Config::getInstance();
 		$this->data = array();
 		$this->enabled = true;
 	}

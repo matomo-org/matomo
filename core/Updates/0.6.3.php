@@ -27,12 +27,12 @@ class Piwik_Updates_0_6_3 extends Piwik_Updates
 
 	static function update()
 	{
-		$config = Piwik_Config_Writer::getInstance();
+		$config = Piwik_Config::getInstance();
 		$dbInfos = $config->database;
 		if(!isset($dbInfos['schema']))
 		{
 			try {
-				if(is_writable( Piwik_Config_Writer::getLocalConfigPath() ))
+				if(is_writable( Piwik_Config::getLocalConfigPath() ))
 				{
 					$config->setConfigOption('database', 'schema', 'Myisam');
 					$config->__destruct();

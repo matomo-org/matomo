@@ -25,7 +25,16 @@
  *
  * will read the value minimum_memory_limit under the [General] section of the config file.
  *
- * Note: if you want to save your changes, you have to use Piwik_Config_Writer
+ * Example setting a section in the configuration:
+ *
+ *    $brandingConfig = array(
+ *        'use_custom_logo' => 1,
+ *    );
+ *    Piwik_Config::getInstance()->setConfigSection('branding', $brandingConfig);
+ *
+ * Example setting an option within a section in the configuration:
+ *
+ *    Piwik_Config::getInstance()->setConfigOption('branding', 'use_custom_logo', '1');
  *
  * @package Piwik
  * @subpackage Piwik_Config
@@ -49,6 +58,29 @@ class Piwik_Config
 	}
 
 	/**
+	 * Contains configuration files values
+	 *
+	 * @var array
+	 */
+	protected $initialized = false;
+	protected $configGlobal = array();
+	protected $configLocal = array();
+	protected $configCache = array();
+	protected $pathGlobal = null;
+	protected $pathLocal = null;
+
+	protected function __construct()
+	{
+		$this->pathGlobal = self::getGlobalConfigPath();
+		$this->pathLocal = self::getLocalConfigPath();
+	}
+
+	/**
+	 * @var boolean
+	 */
+	protected $isTest = false;
+
+	/**
 	 * Enable test environment
 	 *
 	 * @param string $pathLocal
@@ -56,6 +88,8 @@ class Piwik_Config
 	 */
 	public function setTestEnvironment($pathLocal = null, $pathGlobal = null)
 	{
+		$this->isTest = true;
+
 		$this->clear();
 
 		if ($pathLocal)
@@ -79,24 +113,6 @@ class Piwik_Config
 		// for unit tests, we set that no plugin is installed. This will force
 		// the test initialization to create the plugins tables, execute ALTER queries, etc.
 		$this->configCache['PluginsInstalled'] = array('PluginsInstalled' => array());
-	}
-
-	/**
-	 * Contains configuration files values
-	 *
-	 * @var array
-	 */
-	protected $initialized = false;
-	protected $configGlobal = array();
-	protected $configLocal = array();
-	protected $configCache = array();
-	protected $pathGlobal = null;
-	protected $pathLocal = null;
-
-	protected function __construct()
-	{
-		$this->pathGlobal = self::getGlobalConfigPath();
-		$this->pathLocal = self::getLocalConfigPath();
 	}
 
 	/**
@@ -212,6 +228,28 @@ class Piwik_Config
 	}
 
 	/**
+	 * Encode HTML entities
+	 *
+	 * @param mixed $values
+	 * @return mixed
+	 */
+	protected function encodeValues($values)
+	{
+		if(is_array($values))
+		{
+			foreach($values as &$value)
+			{
+				$value = $this->encodeValues($value);
+			}
+		}
+		else
+		{
+			$values = htmlentities($values, ENT_COMPAT);
+		}
+		return $values;
+	}
+
+	/**
 	 * Magic get methods catching calls to $config->var_name
 	 * Returns the value if found in the configuration
 	 *
@@ -268,5 +306,144 @@ class Piwik_Config
 	public function __set($name, $value)
 	{
 		$this->configCache[$name] = $value;
+	}
+
+	/**
+	 * Comparison function
+	 *
+	 * @param mixed $elem1
+	 * @param mixed $elem2
+	 * @return int;
+	 */
+	static function compareElements($elem1, $elem2)
+	{
+		if (is_array($elem1)) {
+			if (is_array($elem2))
+			{
+				return strcmp(serialize($elem1), serialize($elem2));
+			}
+			return 1;
+		}
+		if (is_array($elem2))
+			return -1;
+
+		if ((string)$elem1 === (string)$elem2)
+			return 0;
+
+		return ((string)$elem1 > (string)$elem2) ? 1 : -1;
+	}
+
+	/**
+	 * Compare arrays and return difference, such that:
+	 *
+	 *     $modified = array_merge($original, $difference);
+	 *
+	 * @param array $original original array
+	 * @param array $modified modified array
+	 * @return array differences between original and modified
+	 */
+	public function array_unmerge($original, $modified)
+	{
+		// return key/value pairs for keys in $modified but not in $original
+		// return key/value pairs for keys in both $modified and $original, but values differ
+		// ignore keys that are in $original but not in $modified
+
+		return array_udiff_assoc($modified, $original, array(__CLASS__, 'compareElements'));
+	}
+
+	/**
+	 * Write user configuration file
+	 *
+	 * @param array $configLocal
+	 * @param array $configGlobal
+	 * @param array $configCache
+	 * @param string $pathLocal
+	 */
+	public function writeConfig($configLocal, $configGlobal, $configCache, $pathLocal)
+	{
+		if ($this->isTest)
+		{
+			return;
+		}
+
+		$dirty = false;
+
+		$output = "; <?php exit; ?> DO NOT REMOVE THIS LINE\n";
+		$output .= "; file automatically generated or modified by Piwik; you can manually override the default values in global.ini.php by redefining them in this file.\n";
+
+		if ($configCache)
+		{
+			foreach($configLocal as $name => $section)
+			{
+				if (!isset($configCache[$name]))
+				{
+					$configCache[$name] = $this->decodeValues($section);
+				}
+			}
+
+			foreach($configCache as $name => $section)
+			{
+				$configLocal = $this->array_unmerge($configGlobal[$name], $configCache[$name]);
+				if (count($configLocal) == 0)
+				{
+					continue;
+				}
+
+				$dirty = true;
+
+				$output .= "[$name]\n";
+
+				foreach($configLocal as $name => $value)
+				{
+					$value = $this->encodeValues($value);
+
+					if(is_numeric($name))
+					{
+						$name = $section;
+						$value = array($value);
+					}
+
+					if(is_array($value))
+					{
+						foreach($value as $currentValue)
+						{
+							$output .= $name."[] = \"$currentValue\"\n";
+						}
+					}
+					else
+					{
+						if(!is_numeric($value))
+						{
+							$value = "\"$value\"";
+						}
+						$output .= $name.' = '.$value."\n";
+					}
+				}
+				$output .= "\n";
+			}
+
+			if ($dirty)
+			{
+				@file_put_contents($pathLocal, $output );
+			}
+		}
+
+		$this->clear();
+	}
+
+	/**
+	 * Force save
+	 */
+	public function forceSave()
+	{
+		$this->writeConfig($this->configLocal, $this->configGlobal, $this->configCache, $this->pathLocal);
+	}
+
+	/**
+	 * At the script shutdown, we save the new configuration file, if the user has set some values
+	 */
+	public function __destruct()
+	{
+		$this->forceSave();
 	}
 }

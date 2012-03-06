@@ -74,7 +74,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	{
 		// Delete merged js/css files to force regenerations based on updated activated plugin list
 		Piwik::deleteAllCacheOnUpdate();
-		
+
 		$view = new Piwik_Installation_View(
 						$this->pathView . 'welcome.tpl',
 						$this->getInstallationSteps(),
@@ -566,7 +566,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			return;
 		}
 
-		$config = Piwik_Config_Writer::getInstance();
+		$config = Piwik_Config::getInstance();
 		try {
 			// expect exception since config.ini.php doesn't exist yet
 			$config->init();

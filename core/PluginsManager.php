@@ -131,7 +131,7 @@ class Piwik_PluginsManager
 	 */
 	public function deactivatePlugin($pluginName)
 	{
-		$configWriter = Piwik_Config_Writer::getInstance();
+		$configWriter = Piwik_Config::getInstance();
 
 		$plugins = $this->pluginsToLoad;
 		$key = array_search($pluginName, $plugins);
@@ -196,10 +196,18 @@ class Piwik_PluginsManager
 		$this->installPluginIfNecessary($plugin);
 
 		// we add the plugin to the list of activated plugins
-		$plugins[] = $pluginName;
+		if(!in_array($pluginName, $plugins))
+		{
+			$plugins[] = $pluginName;
+		}
+		else
+		{
+			// clean up if we find a dupe
+			$plugins = array_unique($plugins);
+		}
 
 		// the config file will automatically be saved with the new plugin
-		$configWriter = Piwik_Config_Writer::getInstance();
+		$configWriter = Piwik_Config::getInstance();
 		$configWriter->Plugins['Plugins'] = $plugins;
 
 		// Delete merged js/css files to force regenerations to include the activated plugin
@@ -549,7 +557,7 @@ class Piwik_PluginsManager
 		{
 			$this->installPlugin($plugin);
 			$pluginsInstalled[] = $pluginName;
-			$configWriter = Piwik_Config_Writer::getInstance();
+			$configWriter = Piwik_Config::getInstance();
 			$configWriter->PluginsInstalled['PluginsInstalled'] = $pluginsInstalled;
 		}
 
@@ -567,7 +575,7 @@ class Piwik_PluginsManager
 			if(!in_array($pluginName, $pluginsTracker))
 			{
 				$pluginsTracker[] = $pluginName;
-				$configWriter = Piwik_Config_Writer::getInstance();
+				$configWriter = Piwik_Config::getInstance();
 				$configWriter->Plugins_Tracker['Plugins_Tracker'] = $pluginsTracker;
 			}
 		}

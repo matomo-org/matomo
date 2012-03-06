@@ -84,10 +84,10 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 			$mail['username'] = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('mailUsername', ''));
 			$mail['password'] = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('mailPassword', ''));
 			$mail['encryption'] = Piwik_Common::getRequestVar('mailEncryption', '');
-			Piwik_Config_Writer::getInstance()->mail = $mail;
+			Piwik_Config::getInstance()->mail = $mail;
 			
 			// update branding settings
-			Piwik_Config_Writer::getInstance()->branding['use_custom_logo'] = Piwik_Common::getRequestVar('useCustomLogo', '0');
+			Piwik_Config::getInstance()->branding['use_custom_logo'] = Piwik_Common::getRequestVar('useCustomLogo', '0');
 			
 			$toReturn = $response->getResponse();
 		} catch(Exception $e ) {
