@@ -2083,12 +2083,12 @@ class Piwik
 	 */
 	static public function createConfigObject()
 	{
+		// for backward compatibility
+		Zend_Registry::set('config', new Piwik_Config_Compat());
+
 		// instantiate the singleton
 		$config = Piwik_Config::getInstance();
 		$config->init();
-
-		// for backward compatibility
-		Zend_Registry::set('config', new Piwik_Config_Compat());
 	}
 
 /*

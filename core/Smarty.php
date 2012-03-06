@@ -37,26 +37,26 @@ class Piwik_Smarty extends Smarty
 
 		if(count($smConf) == 0)
 		{
-			$smConf = Piwik_Config::getInstance()->smarty;
+			$smConf = Zend_Registry::get('config')->smarty;
 		}
 		foreach($smConf as $key => $value)
 		{
 			$this->$key = $value;
 		}
 
-		$this->template_dir = $smConf['template_dir'];
+		$this->template_dir = $smConf->template_dir->toArray();
 		array_walk($this->template_dir, array("Piwik_Smarty","addPiwikPath"), PIWIK_INCLUDE_PATH);
 
-		$this->plugins_dir = $smConf['plugins_dir'];
+		$this->plugins_dir = $smConf->plugins_dir->toArray();
 		array_walk($this->plugins_dir, array("Piwik_Smarty","addPiwikPath"), PIWIK_INCLUDE_PATH);
 
-		$this->compile_dir = $smConf['compile_dir'];
+		$this->compile_dir = $smConf->compile_dir;
 		Piwik_Smarty::addPiwikPath($this->compile_dir, null, PIWIK_USER_PATH);
 
-		$this->cache_dir = $smConf['cache_dir'];
+		$this->cache_dir = $smConf->cache_dir;
 		Piwik_Smarty::addPiwikPath($this->cache_dir, null, PIWIK_USER_PATH);
 
-		$error_reporting = $smConf['error_reporting'];
+		$error_reporting = $smConf->error_reporting;
 		if($error_reporting != (string)(int)$error_reporting)
 		{
 			$error_reporting = self::bitwise_eval($error_reporting);
@@ -67,7 +67,7 @@ class Piwik_Smarty extends Smarty
 		{
 			$this->load_filter('output', 'cachebuster');
 
-			$use_ajax_cdn = Piwik_Config::getInstance()->General['use_ajax_cdn'];
+			$use_ajax_cdn = Zend_Registry::get('config')->General->use_ajax_cdn;
 			if($use_ajax_cdn)
 			{
 				$this->load_filter('output', 'ajaxcdn');
