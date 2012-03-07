@@ -24,8 +24,6 @@
 				<name>Pageviews</name>
 				<min>0</min>
 				<max>1</max>
-				<first>0</first>
-				<last>0</last>
 				<change>0%</change>
 
 			</nb_hits>
@@ -33,8 +31,6 @@
 				<name>Unique Pageviews</name>
 				<min>0</min>
 				<max>1</max>
-				<first>0</first>
-				<last>0</last>
 				<change>0%</change>
 
 			</nb_visits>
@@ -42,8 +38,6 @@
 				<name>Bounce Rate</name>
 				<min>0</min>
 				<max>100</max>
-				<first>0</first>
-				<last>0</last>
 				<change>0%</change>
 
 			</bounce_rate>
@@ -51,8 +45,6 @@
 				<name>Avg. time on page</name>
 				<min>0</min>
 				<max>0</max>
-				<first>0</first>
-				<last>0</last>
 				<change>0%</change>
 
 			</avg_time_on_page>
@@ -60,13 +52,12 @@
 				<name>Exit rate</name>
 				<min>0</min>
 				<max>100</max>
-				<first>0</first>
-				<last>0</last>
 				<change>0%</change>
 
 			</exit_rate>
 
 		</metrics>
+		<dimension>Page URL</dimension>
 
 	</metadata>
 

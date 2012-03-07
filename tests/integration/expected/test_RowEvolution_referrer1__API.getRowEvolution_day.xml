@@ -12,7 +12,7 @@
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>0</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
-				<idsubdatatable>39</idsubdatatable>
+				
 			</row>
 		</result>
 		<result defaultKeyName="2010-02-08" />
@@ -27,7 +27,7 @@
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>0</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
-				<idsubdatatable>189</idsubdatatable>
+				
 			</row>
 		</result>
 		<result defaultKeyName="2010-02-13" />
@@ -42,7 +42,7 @@
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>0</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
-				<idsubdatatable>339</idsubdatatable>
+				
 			</row>
 		</result>
 		<result defaultKeyName="2010-02-18" />
@@ -57,7 +57,7 @@
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>0</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
-				<idsubdatatable>489</idsubdatatable>
+				
 			</row>
 		</result>
 		<result defaultKeyName="2010-02-23" />
@@ -72,7 +72,7 @@
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>0</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
-				<idsubdatatable>639</idsubdatatable>
+				
 			</row>
 		</result>
 		<result defaultKeyName="2010-02-28" />
@@ -87,7 +87,7 @@
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>0</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
-				<idsubdatatable>789</idsubdatatable>
+				
 			</row>
 		</result>
 		<result defaultKeyName="2010-03-05" />
@@ -99,8 +99,6 @@
 				<name>Visits</name>
 				<min>0</min>
 				<max>1</max>
-				<first>0</first>
-				<last>0</last>
 				<change>0%</change>
 
 			</nb_visits>
@@ -108,8 +106,6 @@
 				<name>Unique visitors</name>
 				<min>0</min>
 				<max>1</max>
-				<first>0</first>
-				<last>0</last>
 				<change>0%</change>
 
 			</nb_uniq_visitors>
@@ -117,8 +113,6 @@
 				<name>Actions</name>
 				<min>0</min>
 				<max>1</max>
-				<first>0</first>
-				<last>0</last>
 				<change>0%</change>
 
 			</nb_actions>
@@ -126,8 +120,6 @@
 				<name>Actions per Visit</name>
 				<min>0</min>
 				<max>1</max>
-				<first>0</first>
-				<last>0</last>
 				<change>0%</change>
 
 			</nb_actions_per_visit>
@@ -135,8 +127,6 @@
 				<name>Avg. Time on Website</name>
 				<min>0</min>
 				<max>0</max>
-				<first>0</first>
-				<last>0</last>
 				<change>0%</change>
 
 			</avg_time_on_site>
@@ -144,13 +134,12 @@
 				<name>Bounce Rate</name>
 				<min>0</min>
 				<max>100</max>
-				<first>0</first>
-				<last>0</last>
 				<change>0%</change>
 
 			</bounce_rate>
 
 		</metrics>
+		<dimension>Website</dimension>
 
 	</metadata>
 

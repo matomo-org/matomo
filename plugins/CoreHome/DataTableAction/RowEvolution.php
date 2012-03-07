@@ -33,11 +33,11 @@ class Piwik_CoreHome_DataTableAction_RowEvolution
 	/** The requested date */
 	protected $date;
 	
-	/** The meta data for the requested report */
-	protected $metaData;
-	
 	/** The metrics that are available for the requested report and period */
 	protected $availableMetrics;
+	
+	/** The name of the dimension of the current report */
+	protected $dimension;
 	
 	/**
 	 * The data
@@ -78,18 +78,10 @@ class Piwik_CoreHome_DataTableAction_RowEvolution
 		if (empty($this->period)) throw new Exception("Parameter period not set.");
 		
 		$this->idSite = $idSite;
-		$this->availableMetrics = $this->getAvailableMetrics();
 		
-		if ($this->period == 'range')
+		if ($this->period != 'range')
 		{
-			// handle range: display all days in range
-			$this->period = 'day';
-			$this->date = Piwik_Common::getRequestVar('date', '');
-			if (empty($this->date)) throw new Exception("Parameter date not set.");
-		}
-		else
-		{
-			// handle day, week, month and year: display last 30 periods
+			// handle day, week, month and year: display last X periods
 			$end = $date->toString();
 			if ($this->period == 'year') $start = $date->subYear(10)->toString();
 			else if ($this->period == 'month') $start = $date->subMonth(30)->toString();
@@ -99,73 +91,6 @@ class Piwik_CoreHome_DataTableAction_RowEvolution
 		}
 	}
 	
-	/** Get available metrics from metadata API */
-	protected function getAvailableMetrics()
-	{
-		list($apiModule, $apiAction) = explode('.', $this->apiMethod);
-		
-		$this->metaData = Piwik_API_API::getInstance()->getMetadata(
-					$this->idSite, $apiModule, $apiAction, array(), false, $this->period);
-		
-		$this->metaData = $this->metaData[0];
-		
-		$availableMetrics = $this->metaData['metrics'];
-		if (isset($this->metaData['processedMetrics'])) {
-			$availableMetrics += $this->metaData['processedMetrics'];
-		}
-		
-		return $availableMetrics;
-	}
-	
-	/**
-	 * Load the data table from the API
-	 * This is only done once, the views (evolution graph and spark lines) all use it
-	 */
-	protected function loadDataTable()
-	{
-		$dataTable = $this->doLoadDataTable();
-		
-		// remove the label from the data table rows
-		// otherwise the evolution graph legend would show both the label and the metric name
-		// this would be too long if multiple metrics are selected
-		foreach ($dataTable->getArray() as $dayTable)
-		{
-			$dataTable->applyQueuedFilters();
-			if ($dayTable->getRowsCount() > 0)
-			{
-				if (!$this->rowLabel)
-				{
-					$this->rowLabel = $dayTable->getFirstRow()->getColumn('label');
-					$this->rowIcon = $dayTable->getFirstRow()->getMetadata('logo');
-				}
-				
-				$dayTable->getFirstRow()->setColumn('label', false);
-			}
-		}
-		
-		return $dataTable;
-	}
-	
-	/**
-	 * Helper method for only the API call
-	 * Used in MultiRowEvolution as well
-	 * @return Piwik_DataTable_Array
-	 */
-	protected function doLoadDataTable()
-	{
-		$requestString = 'method='.$this->apiMethod.'&format=original'
-				. '&date='.$this->date.'&period='.$this->period
-				. '&label='.urlencode($this->label);
-		
-		// add "processed metrics" like actions per visit or bounce rate
-		if (substr($this->apiMethod, 0, 8) != 'Actions.') {
-			$requestString .= '&filter_add_columns_when_show_all_columns=1';
-		}
-		
-		$request = new Piwik_API_Request($requestString);
-		return $request->process();
-	}
-	
 	/**
 	 * Render the popup
 	 * @param Piwik_CoreHome_Controller
@@ -173,7 +98,7 @@ class Piwik_CoreHome_DataTableAction_RowEvolution
 	 */
 	public function renderPopup($controller, $view)
 	{
-		$this->dataTable = $this->loadDataTable();
+		$this->loadEvolutionReport();
 		
 		// render main evolution graph
 		$this->graphType = 'graphEvolution';
@@ -188,12 +113,40 @@ class Piwik_CoreHome_DataTableAction_RowEvolution
 		if ($this->rowLabel)
 		{
 			$icon = $this->rowIcon ? '<img src="'.$this->rowIcon.'" alt="">' : '';
-			$metricsText .= ' '.$this->metaData['dimension'].': '.$icon.' '.$this->rowLabel;
+			$metricsText .= ' '.$this->dimension.': '.$icon.' '.$this->rowLabel;
 		}
 		
 		$view->availableMetricsText = $metricsText; 
 		
 		return $view->render();
+	}
+	
+	protected function loadEvolutionReport()
+	{
+		list($apiModule, $apiAction) = explode('.', $this->apiMethod);
+		
+		$parameters = array(
+			'method' => 'API.getRowEvolution',
+			'label' => $this->label,
+			'apiModule' => $apiModule,
+			'apiAction' => $apiAction,
+			'idSite' => $this->idSite,
+			'period' => $this->period,
+			'date' => $this->date,
+			'format' => 'original',
+			'serialize' => '0'
+		);
+		
+		$url = Piwik_Url::getQueryStringFromParameters($parameters);
+		
+		$request = new Piwik_API_Request($url);
+		$report = $request->process();
+		
+		$this->dataTable = $report['data'];
+		$this->rowLabel = $report['label'];
+		$this->rowIcon = $report['logo'];
+		$this->availableMetrics = $report['metadata']['metrics'];
+		$this->dimension = $report['metadata']['dimension'];
 	}
 	
 	/**
@@ -205,6 +158,7 @@ class Piwik_CoreHome_DataTableAction_RowEvolution
 	{	
 		// update period and date in $_GET because this is what is passed to the export icons
 		// under the evolution graph
+		// TODO: can we find a way around this?
 		$_GET['period'] = $this->period;
 		$_GET['date'] = $this->date;
 		
@@ -213,10 +167,15 @@ class Piwik_CoreHome_DataTableAction_RowEvolution
 		$view->setDataTable($this->dataTable);
 		$view->init('CoreHome', 'getRowEvolutionGraph', $this->apiMethod);
 		$view->setColumnsToDisplay(array_keys($this->graphMetrics));
-		$view->setColumnsTranslations($this->graphMetrics);
 		$view->hideAllViewsIcons();
 		
-		if (method_exists($view, 'addRowEvolutionSeriesToggle')) {
+		foreach ($this->availableMetrics as $metric => $metadata)
+		{
+			$view->setColumnTranslation($metric, $metadata['name']);
+		}
+		
+		if (method_exists($view, 'addRowEvolutionSeriesToggle'))
+		{
 			$view->addRowEvolutionSeriesToggle($this->initiallyShowAllMetrics);
 		}
 		
@@ -226,73 +185,49 @@ class Piwik_CoreHome_DataTableAction_RowEvolution
 	/** Prepare metrics toggles with spark lines */
 	protected function getMetricsToggles($controller)
 	{
-		// calculate meta-metrics
-		$subDataTables = $this->dataTable->getArray();
-		$firstDataTable = current($subDataTables);
-		$firstDataTableRow = $firstDataTable->getFirstRow();
-		$lastDataTable = end($subDataTables);
-		$lastDataTableRow = $lastDataTable->getFirstRow();
-		$maxValues = array();
-		$minValues = array();
-		foreach ($subDataTables as $subDataTable)
-		{
-			// $subDataTable is the report for one period, it has only one row
-			$firstRow = $subDataTable->getFirstRow();
-			foreach ($this->availableMetrics as $metric => $label)
-			{
-				$value = $firstRow ? floatval($firstRow->getColumn($metric)) : 0;
-				if (!isset($minValues[$metric]) || $minValues[$metric] > $value)
-				{
-					$minValues[$metric] = $value;
-				}
-				if (!isset($maxValues[$metric]) || $maxValues[$metric] < $value)
-				{
-					$maxValues[$metric] = $value;
-				}
-			}
-		}
-		
 		$chart = new Piwik_Visualization_Chart_Evolution;
 		$colors = $chart->getSeriesColors();
 		
-		// put together metric info
 		$i = 0;
 		$metrics = array();
-		foreach ($this->availableMetrics as $metric => $label)
+		foreach ($this->availableMetrics as $metric => $metricData)
 		{
-			if ($maxValues[$metric] == 0 && !($this instanceof Piwik_CoreHome_DataTableAction_MultiRowEvolution))
+			$max = $metricData['max'];
+			$min = $metricData['min'];
+			$change = $metricData['change'];
+			
+			if ($max == 0 && !($this instanceof Piwik_CoreHome_DataTableAction_MultiRowEvolution))
 			{
 				// series with only 0 cause trouble in js
 				continue;
 			}
 			
-			$first = $firstDataTableRow ? floatval($firstDataTableRow->getColumn($metric)) : 0;
-			$last = $lastDataTableRow ? floatval($lastDataTableRow->getColumn($metric)) : 0;
-			$changePercent = $first > 0 ? round((($last / $first) * 100) - 100) : 100;
-			$changePercentHtml = $changePercent.'%';
-			if ($changePercent > 0)
+			if (substr($change, 0, 1) == '+')
 			{
-				$changePercentHtml = '+'.$changePercentHtml;
 				$changeClass = 'up';
 				$changeImage = 'arrow_up';
 			}
+			else if (substr($change, 0, 1) == '-')
+			{
+				$changeClass = 'down';
+				$changeImage = 'arrow_down';
+			}
 			else
 			{
-				$changeClass = $changePercent < 0 ? 'down' : 'nochange';
-				$changeImage = $changePercent < 0 ? 'arrow_down' : false;
+				$changeClass = 'nochange';
+				$changeImage = false;
 			}
 			
-			$changePercentHtml = '<span class="'.$changeClass.'">'
+			$change = '<span class="'.$changeClass.'">'
 					.($changeImage ? '<img src="plugins/MultiSites/images/'.$changeImage.'.png" /> ' : '')
-					.$changePercentHtml.'</span>';
+					.$change.'</span>';
 			
-			$details = Piwik_Translate('RowEvolution_MetricDetailsText', array(
-					$minValues[$metric], $maxValues[$metric], $changePercentHtml));
+			$details = Piwik_Translate('RowEvolution_MetricDetailsText', array($min, $max, $change));
 			
 			$color = $colors[ $i % count($colors) ];
 			
 			$metrics[] = array(
-				'label' => $label,
+				'label' => $metricData['name'],
 				'color' => $color,
 				'details' => $details,
 				'sparkline' => $this->getSparkline($metric, $controller) 
