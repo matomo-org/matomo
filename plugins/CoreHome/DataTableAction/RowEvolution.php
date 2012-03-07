@@ -89,6 +89,8 @@ class Piwik_CoreHome_DataTableAction_RowEvolution
 			else $start = $date->subDay(30)->toString();
 			$this->date = $start.','.$end;
 		}
+		
+		$this->loadEvolutionReport();
 	}
 	
 	/**
@@ -98,8 +100,6 @@ class Piwik_CoreHome_DataTableAction_RowEvolution
 	 */
 	public function renderPopup($controller, $view)
 	{
-		$this->loadEvolutionReport();
-		
 		// render main evolution graph
 		$this->graphType = 'graphEvolution';
 		$this->graphMetrics = $this->availableMetrics;
@@ -121,7 +121,7 @@ class Piwik_CoreHome_DataTableAction_RowEvolution
 		return $view->render();
 	}
 	
-	protected function loadEvolutionReport()
+	protected function loadEvolutionReport($column = false)
 	{
 		list($apiModule, $apiAction) = explode('.', $this->apiMethod);
 		
@@ -137,11 +137,21 @@ class Piwik_CoreHome_DataTableAction_RowEvolution
 			'serialize' => '0'
 		);
 		
+		if ($column !== false)
+		{
+			$parameters['column'] = $column;
+		}
+		
 		$url = Piwik_Url::getQueryStringFromParameters($parameters);
 		
 		$request = new Piwik_API_Request($url);
 		$report = $request->process();
 		
+		$this->extractEvolutionReport($report);
+	}
+	
+	protected function extractEvolutionReport($report)
+	{
 		$this->dataTable = $report['data'];
 		$this->rowLabel = $report['label'];
 		$this->rowIcon = $report['logo'];
@@ -235,6 +245,7 @@ class Piwik_CoreHome_DataTableAction_RowEvolution
 			
 			$i++;
 		}
+		
 		return $metrics;
 	}
 	

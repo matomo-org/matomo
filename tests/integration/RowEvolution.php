@@ -36,17 +36,30 @@ class Test_Piwik_Integration_RowEvolution extends Test_Integration_Facade
 		
 		
 		$config['testSuffix'] = '_referrer2';
-		$config['otherRequestParameters']['label'] = urlencode(urlencode('www.referrer0.com').'>'
-				.urlencode('theReferrerPage1.html'));
+		$referrerLabel = urlencode('www.referrer0.com').'>'.urlencode('theReferrerPage1.html');
+		$config['otherRequestParameters']['label'] = urlencode($referrerLabel);
 		
 		$return[] = array('API.getRowEvolution', $config);
 		
+		
+		$config['testSuffix'] = '_referrerMulti1';
+		$referrerLabel = urlencode($referrerLabel).','.urlencode('www.referrer2.com');
+		$config['otherRequestParameters']['label'] = urlencode($referrerLabel);
+		
+		$return[] = array('API.getRowEvolution', $config);
 		
 		$config['testSuffix'] = '_pageTitles';
 		$config['periods'] = array('day', 'week');
 		$config['otherRequestParameters']['apiModule'] = 'Actions';
 		$config['otherRequestParameters']['apiAction'] = 'getPageTitles';
 		$config['otherRequestParameters']['label'] = urlencode('incredible title 0');
+		
+		$return[] = array('API.getRowEvolution', $config);
+		
+		
+		$config['testSuffix'] = '_pageTitlesMulti';
+		$label = urlencode('incredible title 0').','.urlencode('incredible title 2');
+		$config['otherRequestParameters']['label'] = urlencode($label);
 		
 		$return[] = array('API.getRowEvolution', $config);
 		
