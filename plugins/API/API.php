@@ -971,4 +971,198 @@ class Piwik_API_API
 			}
 		}
 	}
+	
+	
+	/** 
+	 * Get information about the evolution of a row in any report.
+	 * 
+	 * @return array
+	 */
+	public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label, $language=false)
+    {
+		// this is needed because Piwik_API_Proxy uses Piwik_Common::getRequestVar which in turn
+		// uses Piwik_Common::sanitizeInputValue. This causes the > that separates recursive labels
+		// to become &gt; and we need to undo that here.
+		$label = Piwik_Common::unsanitizeInputValue($label);
+		
+		$logo = false;
+		$actualLabel = false;
+		
+		$metrics = $this->getRowEvolutionMetrics($idSite, $period, $date, $apiModule, $apiAction, $language);
+		$metricNames = array_keys($metrics);
+		
+		$dataTable = $this->loadRowEvolutionData($idSite, $period, $date, $apiModule, $apiAction, $label);
+		
+		foreach ($dataTable->getArray() as $date => $subTable)
+		{
+			/** @var $subTable Piwik_DataTable */
+			$subTable->applyQueuedFilters();
+			if ($subTable->getRowsCount() > 0)
+			{
+				/** @var $row Piwik_DataTable_Row */
+				$row = $subTable->getFirstRow();
+				
+				if (!$actualLabel)
+				{
+					$actualLabel = $row->getColumn('label');
+					$logo = $row->getMetadata('logo');
+					if ($row->getMetadata('url'))
+					{
+						$actualLabel = $row->getMetadata('url');
+					}
+				}
+				
+				// remove all columns that are not in the available metrics.
+				// this removes the label as well (which is desired for two reasons: (1) it was passed
+				// in the request, (2) it would cause the evolution graph to show the label in the legend).
+				foreach ($row->getColumns() as $column => $value)
+				{
+					if (!in_array($column, $metricNames))
+					{
+						$row->deleteColumn($column);
+					}
+				}
+				
+				$row->deleteMetadata();
+			}
+		}
+		
+		$metadata = $this->getRowEvolutionMetadata($metrics, $dataTable);
+		
+		return array(
+			'label' => $actualLabel,
+			'logo' => $logo == 0 ? '' : $logo,
+			'data' => $dataTable,
+			'metadata' => $metadata
+		);
+	}
+	
+	/** @return Piwik_DataTable_Array */
+	private function loadRowEvolutionData($idSite, $period, $date, $apiModule, $apiAction, $label)
+	{	
+		$parameters = array(
+			'method' => $apiModule.'.'.$apiAction,
+			'label' => $label,
+			'idSite' => $idSite,
+			'period' => $period,
+			'date' => $date,
+			'format' => 'original',
+			'serialize' => '0'
+		);
+		
+		// add "processed metrics" like actions per visit or bounce rate
+		if ($apiModule != 'Actions')
+		{
+			$parameters['filter_add_columns_when_show_all_columns'] = '1';
+		}
+		
+		$url = Piwik_Url::getQueryStringFromParameters($parameters);
+        $request = new Piwik_API_Request($url);
+		
+		try {
+        	$dataTable = $request->process();
+        } catch (Exception $e) {
+        	throw new Exception("API returned an error: ".$e->getMessage()."\n");
+        }
+		
+		if (!($dataTable instanceof Piwik_DataTable_Array))
+		{
+			throw new Exception("API didn't return a DataTable array. Maybe you used period=range or "
+				."a single date (i.e. not YYYY-MM-DD,YYYY-MM-DD)");
+		}
+		
+		return $dataTable;
+	}
+	
+	private function getRowEvolutionMetrics($idSite, $period, $date, $apiModule, $apiAction, $language)
+	{
+		$reportMetadata = $this->getMetadata($idSite, $apiModule, $apiAction, $apiParameters=false, 
+				$language, $period, $date);
+		
+        if (empty($reportMetadata))
+        {
+        	throw new Exception("Requested report $apiModule.$apiAction for Website id=$idSite "
+					. "not found in the list of available reports. \n");
+        }
+		
+		$reportMetadata = reset($reportMetadata);
+		
+		$metrics = $reportMetadata['metrics'];
+		if (isset($reportMetadata['processedMetrics']) && is_array($reportMetadata['processedMetrics']))
+		{
+			$metrics = $metrics + $reportMetadata['processedMetrics'];
+		}
+		
+		return $metrics;
+	}
+	
+	private function getRowEvolutionMetadata(&$metrics, $dataTable)
+	{
+		// prepare result array for metrics
+		$metricsResult = array();
+		foreach ($metrics as $metric => $name)
+		{
+			$metricsResult[$metric] = array('name' => $name);
+		}
+		
+		$subDataTables = $dataTable->getArray();
+		$firstDataTable = current($subDataTables);
+		$firstDataTableRow = $firstDataTable->getFirstRow();
+		$lastDataTable = end($subDataTables);
+		$lastDataTableRow = $lastDataTable->getFirstRow();
+		
+		// min/max values
+		foreach ($subDataTables as $subDataTable)
+		{
+			// $subDataTable is the report for one period, it has only one row
+			$firstRow = $subDataTable->getFirstRow();
+			foreach ($metrics as $metric => $label)
+			{
+				$value = $firstRow ? floatval($firstRow->getColumn($metric)) : 0;
+				if (!isset($metricsResult[$metric]['min']) || $metricsResult[$metric]['min'] > $value)
+				{
+					$metricsResult[$metric]['min'] = $value;
+				}
+				if (!isset($metricsResult[$metric]['max']) || $metricsResult[$metric]['max'] < $value)
+				{
+					$metricsResult[$metric]['max'] = $value;
+				}
+			}
+		}
+		
+		// first/last value, change
+		foreach ($metrics as $metric => $label)
+		{
+			$first = $firstDataTableRow ? floatval($firstDataTableRow->getColumn($metric)) : 0;
+			$last = $lastDataTableRow ? floatval($lastDataTableRow->getColumn($metric)) : 0;
+			
+			if ($first == 0 && $last == 0)
+			{
+				$change = 0;
+			}
+			else if ($first == 0)
+			{
+				$change = 100;
+			}
+			else
+			{
+				$change = round((($last / $first) * 100) - 100);
+			}
+			
+			if ($change > 0)
+			{
+				$change = '+'.$change;
+			}
+			$change = $change.'%';
+			
+			$metricsResult[$metric]['first'] = $first;
+			$metricsResult[$metric]['last'] = $last;
+			$metricsResult[$metric]['change'] = $change;
+		}
+		
+		return array(
+			'metrics' => $metricsResult
+		);
+	}
+	
 }

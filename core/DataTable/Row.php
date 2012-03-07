@@ -301,6 +301,27 @@ class Piwik_DataTable_Row
 	}
 	
 	/**
+	 * Deletes the given metadata 
+	 *
+	 * @param string Meta column name (omit to delete entire metadata)
+	 * @return bool True on success, false if the column didn't exist
+	 */
+	public function deleteMetadata($name = false)
+	{
+		if($name === false)
+		{
+			$this->c[self::METADATA] = array();
+			return true;
+		}
+		if(!isset($this->c[self::METADATA][$name]))
+		{
+			return false;
+		}
+		unset($this->c[self::METADATA][$name]);
+		return true;
+	}
+	
+	/**
 	 * Add a new column to the row. If the column already exists, throws an exception
 	 * 
 	 * @param string $name of the column to add
