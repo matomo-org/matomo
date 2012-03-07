@@ -138,9 +138,13 @@
 		<verifyText description="check page text" text="Download" />
 
 		<clickButton description="click 'Update Automatically' Button" label="Update Automatically" />
-		<!-- invoke description="one click update" url="/index.php?module=CoreUpdater&amp;action=oneClickUpdate" /-->
 
 		<!-- download, unzip -->
+
+		<!-- invoke description="one click update" url="/index.php?module=CoreUpdater&amp;action=oneClickUpdate" /-->
+
+		<!-- wait for form to auto-post -->
+		<sleep description="pause" seconds="5" />
 
 		<not description="check for errors">
 			<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']" />
