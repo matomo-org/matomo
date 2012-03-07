@@ -30,6 +30,8 @@ class Piwik_View implements Piwik_View_Interface
 	const MOBILE = 1;
 	const CLI = 2;
 
+	const COREUPDATER_ONE_CLICK_DONE = 'update_one_click_done';
+
 	private $template = '';
 	private $smarty = false;
 	private $variables = array();
@@ -262,6 +264,11 @@ class Piwik_View implements Piwik_View_Interface
 	 */
 	static public function factory( $templateName = null, $viewType = null)
 	{
+		if ($templateName == self::COREUPDATER_ONE_CLICK_DONE)
+		{
+			return new Piwik_View_OneClickDone(Piwik::getCurrentUserTokenAuth());
+		}
+
 		Piwik_PostEvent('View.getViewType', $viewType);
 
 		// get caller
