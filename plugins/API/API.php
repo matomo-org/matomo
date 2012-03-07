@@ -999,7 +999,7 @@ class Piwik_API_API
 	}
 	
 	/** Get row evolution for a single label */
-	public function getSingleRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label, $language=false)
+	private function getSingleRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label, $language=false)
 	{
 		$logo = false;
 		$actualLabel = false;
@@ -1186,7 +1186,7 @@ class Piwik_API_API
 	}
 	
 	/** Get row evolution for a multiple labels */
-	public function getMultiRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $labels, $column, $language=false)
+	private function getMultiRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $labels, $column, $language=false)
 	{
 		$actualLabels = array();
 		
