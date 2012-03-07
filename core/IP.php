@@ -382,7 +382,8 @@ class Piwik_IP
 	 */
 	static public function getNonProxyIpFromHeader($default, $proxyHeaders)
 	{
-		$proxyIps = @Piwik_Config::getInstance()->General['proxy_ips'];
+		// #1331 workaround
+		$proxyIps = @Zend_Registry::get('config')->General->proxy_ips;
 		if(!is_array($proxyIps))
 		{
 			$proxyIps = array();

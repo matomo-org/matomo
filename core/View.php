@@ -97,7 +97,8 @@ class Piwik_View implements Piwik_View_Interface
 			$this->latest_version_available = Piwik_UpdateCheck::isNewestVersionAvailable();
 			$this->disableLink = Piwik_Common::getRequestVar('disableLink', 0, 'int');
 			$this->isWidget = Piwik_Common::getRequestVar('widget', 0, 'int');
-			if(Piwik_Config::getInstance()->General['autocomplete_min_sites'] <= count($sites))
+			// #1331 workaround
+			if(Zend_Registry::get('config')->General->autocomplete_min_sites <= count($sites))
 			{
 				$this->show_autocompleter = true;
 			}
