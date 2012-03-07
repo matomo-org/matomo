@@ -222,7 +222,7 @@ class Piwik_Config
 		}
 		else
 		{
-			$values = html_entity_decode($values, ENT_COMPAT);
+			$values = html_entity_decode($values, ENT_COMPAT, 'UTF-8');
 		}
 		return $values;
 	}
@@ -244,7 +244,7 @@ class Piwik_Config
 		}
 		else
 		{
-			$values = htmlentities($values, ENT_COMPAT);
+			$values = htmlentities($values, ENT_COMPAT, 'UTF-8');
 		}
 		return $values;
 	}
