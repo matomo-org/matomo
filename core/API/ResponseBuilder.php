@@ -516,7 +516,7 @@ class Piwik_API_ResponseBuilder
 				// Case dimension is a PHP array
 				case (is_array($value)):
 
-					$json .= json_encode($value);
+					$json .= Piwik_Common::json_encode($value);
 					break;
 
 				// Case dimension is a Piwik_DataTable_Array or a Piwik_DataTable
@@ -531,7 +531,7 @@ class Piwik_API_ResponseBuilder
 				// Case scalar
 				default:
 
-					$json .= json_encode($value);
+					$json .= Piwik_Common::json_encode($value);
 					break;
 			}
 
