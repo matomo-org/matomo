@@ -148,8 +148,7 @@ class Piwik_Url
 	 */
 	static public function getCurrentScheme()
 	{
-		// #1331 workaround
-		$assume_secure_protocol = @Zend_Registry::get('config')->General->assume_secure_protocol;
+		$assume_secure_protocol = @Piwik_Config::getInstance()->General['assume_secure_protocol'];
 		if($assume_secure_protocol
 			|| (isset($_SERVER['HTTPS'])
 				&& ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true))
@@ -169,8 +168,7 @@ class Piwik_Url
 	 */
 	static public function getCurrentHost($default = 'unknown')
 	{
-		// #1331 workaround
-		$hostHeaders = @Zend_Registry::get('config')->General->proxy_host_headers;
+		$hostHeaders = @Piwik_Config::getInstance()->General['proxy_host_headers'];
 		if(!is_array($hostHeaders))
 		{
 			$hostHeaders = array();
@@ -181,12 +179,6 @@ class Piwik_Url
 			&& !empty($_SERVER['HTTP_HOST']))
 		{
 			$default = Piwik_Common::sanitizeInputValue($_SERVER['HTTP_HOST']);
-		}
-
-		// temporary workaround for #1331
-		if(!method_exists('Piwik_IP', 'getNonProxyIpFromHeader'))
-		{
-			return $default;
 		}
 
 		return Piwik_IP::getNonProxyIpFromHeader($default, $hostHeaders);

@@ -84,8 +84,7 @@ class Piwik_View implements Piwik_View_Interface
 			$userLogin = Piwik::getCurrentUserLogin();
 			$this->userLogin = $userLogin;
 			
-			// workaround for #1331
-			$count = method_exists('Piwik', 'getWebsitesCountToDisplay') ? Piwik::getWebsitesCountToDisplay() : 1;
+			$count = Piwik::getWebsitesCountToDisplay();
 
 			$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess($count);
 			usort($sites, create_function('$site1, $site2', 'return strcasecmp($site1["name"], $site2["name"]);'));
@@ -97,8 +96,7 @@ class Piwik_View implements Piwik_View_Interface
 			$this->latest_version_available = Piwik_UpdateCheck::isNewestVersionAvailable();
 			$this->disableLink = Piwik_Common::getRequestVar('disableLink', 0, 'int');
 			$this->isWidget = Piwik_Common::getRequestVar('widget', 0, 'int');
-			// #1331 workaround
-			if(Zend_Registry::get('config')->General->autocomplete_min_sites <= count($sites))
+			if(Piwik_Config::getInstance()->General['autocomplete_min_sites'] <= count($sites))
 			{
 				$this->show_autocompleter = true;
 			}
@@ -107,8 +105,7 @@ class Piwik_View implements Piwik_View_Interface
 				$this->show_autocompleter = false;
 			}
 
-			// workaround for #1331
-			$this->loginModule = method_exists('Piwik', 'getLoginPluginName') ? Piwik::getLoginPluginName() : 'Login';
+			$this->loginModule = Piwik::getLoginPluginName();
 			
 			$user = Piwik_UsersManager_API::getInstance()->getUser($userLogin);
 			$this->userAlias = $user['alias'];
@@ -125,11 +122,8 @@ class Piwik_View implements Piwik_View_Interface
 			$this->totalNumberOfQueries = 0;
 		}
  
-		// workaround for #1331
-		if(method_exists('Piwik', 'overrideCacheControlHeaders'))
-		{
-			Piwik::overrideCacheControlHeaders('no-store');
-		}
+		Piwik::overrideCacheControlHeaders('no-store');
+
 		@header('Content-Type: '.$this->contentType);
 		// always sending this header, sometimes empty, to ensure that Dashboard embed loads (which could call this header() multiple times, the last one will prevail)
 		@header('X-Frame-Options: '. (string)$this->xFrameOptions);
