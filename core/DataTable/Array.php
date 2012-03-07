@@ -135,6 +135,25 @@ class Piwik_DataTable_Array
 	public function getTable($label)
 	{
 		return $this->array[$label];
+    }
+    
+    /**
+	 * Returns the first row
+	 * This method can be used to treat DataTable and DataTable_Array in the same way
+	 *
+	 * @return Piwik_DataTable_Row
+	 */
+	public function getFirstRow()
+	{
+		foreach ($this->array as $table)
+		{
+			$row = $table->getFirstRow();
+			if ($row !== false)
+			{
+				return $row;
+			}
+		}
+		return false;
 	}
 	
 	/**

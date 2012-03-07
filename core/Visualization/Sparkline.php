@@ -60,7 +60,7 @@ class Piwik_Visualization_Sparkline implements Piwik_View_Interface
 		foreach($this->values as $value)
 		{
 			// 50% and 50s should be plotted as 50
-			$toRemove = array('%', 's');
+			$toRemove = array('%', str_replace('%s', '', Piwik_Translate('General_Seconds')));
 			$value = str_replace($toRemove, '', $value);
 			// replace localized decimal separator
 			$value = str_replace(',', '.', $value);

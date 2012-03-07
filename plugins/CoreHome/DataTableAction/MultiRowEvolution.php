@@ -41,11 +41,16 @@ class Piwik_CoreHome_DataTableAction_MultiRowEvolution
 		parent::__construct($idSite, $date);
 		
 		// extract multiple labels from the label parameter
-		$this->labels = explode('<+MultiRow+>', html_entity_decode($this->label));
-		if (count($this->labels) == 1) throw new Exception("Expecting at least two labels.");
+		$this->labels = explode(',', $this->label);
+		$this->labels = array_map('urldecode', $this->labels);
+		
+		if (count($this->labels) == 1)
+		{
+			throw new Exception("Expecting at least two labels.");
+		}
 		
 		// get selected metric
-		$this->metric = Piwik_Common::getRequestVar('metric', '', 'string');
+		$this->metric = Piwik_Common::getRequestVar('column', '', 'string');
 		if (empty($this->metric))
 		{
 			$this->metric = reset(array_keys($this->availableMetrics));
@@ -66,6 +71,7 @@ class Piwik_CoreHome_DataTableAction_MultiRowEvolution
 		{
 			// TODO this used to be: $_GET['label'] = $this->label = $rowLabel;
 			// is the $_GET assignment obsolete after label filter refactorings?
+			// maybe it is needed for the export icon?
 			$this->label = $rowLabel;
 			$table = $this->doLoadDataTable();
 			$dataTableArrays[$rowLabelIndex] = $table->getArray();
@@ -107,10 +113,10 @@ class Piwik_CoreHome_DataTableAction_MultiRowEvolution
 				}
 			}
 			
-			if (!$urlFound && strpos($rowLabel, Piwik_API_DataTableLabelFilter::RECURSIVE_LABEL_SEPARATOR) !== false)
+			if (!$urlFound && strpos($rowLabel, '>') !== false)
 			{
 				// if we have a recursive label and no url, use the path
-				$this->labels[$rowLabelIndex] = str_replace(Piwik_API_DataTableLabelFilter::RECURSIVE_LABEL_SEPARATOR, ' - ', $rowLabel);
+				$this->labels[$rowLabelIndex] = str_replace('>', ' - ', $rowLabel);
 			}
 		}
 		

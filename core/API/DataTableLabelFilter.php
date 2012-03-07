@@ -15,7 +15,8 @@
  * added to every API call. If the parameter is set, only the row with the matching
  * label is returned.
  * 
- * Some reports use recursive labels (e.g. action reports). Use ->>- to join them.
+ * The labels passed to this class should be urlencoded.
+ * Some reports use recursive labels (e.g. action reports). Use > to join them.
  * 
  * This filter does not work when expanded=1 is set because it is designed to load
  * only the subtables on the path, not all existing subtables (which would happen with
@@ -27,9 +28,6 @@
  */
 class Piwik_API_DataTableLabelFilter
 {
-    
-    /** The separator to be used for specifying recursive labels */
-    const RECURSIVE_LABEL_SEPARATOR = '-&gt;&gt;-';
 	
 	private $apiModule;
 	private $apiMethod;
@@ -67,7 +65,9 @@ class Piwik_API_DataTableLabelFilter
 			$this->apiMethod = $apiMethod;
 			$this->request = $request;
 			
-			$label = explode(self::RECURSIVE_LABEL_SEPARATOR, $label);
+			$label = explode('>', $label);
+			$label = array_map('urldecode', $label);
+			
 			if (count($label) > 1)
 			{
 				// do a recursive search
@@ -77,7 +77,34 @@ class Piwik_API_DataTableLabelFilter
 		}
 		
 		// do a non-recursive search
-		return $dataTable->getFilteredTableFromLabel($label);
+		foreach ($this->getLabelVariations($label) as $label)
+		{
+			$result = $dataTable->getFilteredTableFromLabel($label);
+			if ($result->getFirstRow() !== false)
+			{
+				return $result;
+			}
+		}
+		
+		return $result;
+	}
+	
+	/** Use variations of the label to make it easier to specify the desired label */
+	private function getLabelVariations($label) {
+		$variations = array(
+			$label,
+			htmlentities($label)
+		);
+		
+		if ($this->apiModule == 'Actions' && $this->apiMethod == 'getPageTitles')
+		{
+			// special case: the Actions.getPageTitles report prefixes some labels with a blank.
+			// the blank might be passed by the user but is removed in Piwik_API_Request::getRequestArrayFromString.
+			$variations[] = ' '.$label;
+			$variations[] = ' '.htmlentities($label);
+		}
+		
+		return $variations;
 	}
 	
 	/**
@@ -137,14 +164,18 @@ class Piwik_API_DataTableLabelFilter
 		{
 			throw new Exception("Using the label filter is not supported for DataTable ".get_class($dataTable));
 		}
+		
 		// search for the first part of the tree search
         $labelPart = array_shift($labelParts);
-        $row = $dataTable->getRowFromLabel($labelPart);
-		if ($row === false)
+		foreach ($this->getLabelVariations($labelPart) as $labelPart)
 		{
-			$labelPart = htmlentities($labelPart);
 			$row = $dataTable->getRowFromLabel($labelPart);
+			if ($row !== false)
+			{
+				break;
+			}
 		}
+		
 		if ($row === false)
 		{
 			// not found

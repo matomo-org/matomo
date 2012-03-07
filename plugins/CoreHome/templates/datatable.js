@@ -761,25 +761,36 @@ dataTable.prototype =
 	{
 		var self = this;
 		
-		if(typeof truncationOffset == 'undefined') {
+		domElemToTruncate = $(domElemToTruncate);
+		
+		if (typeof domElemToTruncate.data('originalText') != 'undefined')
+		{
+			// truncate only once. otherwise, the tooltip will show the truncated text as well.
+			return;
+		}
+		
+		// make the original text (before truncation) available for others. 
+		// the .truncate plugins adds a title to the dom element but the .tooltip 
+		// plugin removes that again. 
+		domElemToTruncate.data('originalText', domElemToTruncate.text());
+		
+		if (typeof truncationOffset == 'undefined')
+		{
 			truncationOffset = 0;
 		}
 		var truncationLimit = 50;
-		// Different truncation limit for different datatable types?
- 		// in a subtable
-		if(typeof self.param.idSubtable != 'undefined') {}
-		// when showing all columns
-		if(typeof self.param.idSubtable == 'undefined'
-			&& self.param.viewDataTable == 'tableAllColumns') { truncationLimit = 25; }
-		// when showing all columns in a subtable, space is restricted
-		else if(self.param.viewDataTable == 'tableAllColumns') {}		
+		
+		if (typeof self.param.idSubtable == 'undefined'
+			&& self.param.viewDataTable == 'tableAllColumns')
+		{
+			// when showing all columns in a subtable, space is restricted
+			truncationLimit = 25; 
+		}
 		
 		truncationLimit += truncationOffset;
-		
-		domElemToTruncate = $(domElemToTruncate);
 		domElemToTruncate.truncate(truncationLimit);
-		$('.truncated', domElemToTruncate)
-			.tooltip();
+		
+		$('.truncated', domElemToTruncate).tooltip();
 	},
 
 	//Apply some miscelleaneous style to the DataTable

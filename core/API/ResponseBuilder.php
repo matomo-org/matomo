@@ -297,8 +297,9 @@ class Piwik_API_ResponseBuilder
         $label = Piwik_Common::getRequestVar('label', '', 'string', $this->request);
         if ($label !== '')
         {
-            $label = Piwik_Common::unsanitizeInputValue($label);
-            $label = Piwik_DataTable_Filter_SafeDecodeLabel::filterValue($label);
+			// the label can be passed with html entities.
+			// we remove them here and try with and without them in the label filter.
+			$label = html_entity_decode($label);
             $filter = new Piwik_API_DataTableLabelFilter;
             $datatable = $filter->filter($label, $datatable, $this->apiModule, $this->apiMethod, $this->request);
         }
