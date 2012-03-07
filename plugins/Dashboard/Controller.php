@@ -49,7 +49,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	public function getAvailableWidgets()
 	{
 		$this->checkTokenInUrl();
-	    echo json_encode(Piwik_GetWidgetsList());
+	    echo Piwik_Common::json_encode(Piwik_GetWidgetsList());
 	}
 	
 	public function resetLayout() 
