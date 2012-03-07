@@ -43,6 +43,7 @@ class Test_Piwik_Integration_RowEvolution extends Test_Integration_Facade
 		
 		
 		$config['testSuffix'] = '_pageTitles';
+		$config['periods'] = array('day', 'week');
 		$config['otherRequestParameters']['apiModule'] = 'Actions';
 		$config['otherRequestParameters']['apiAction'] = 'getPageTitles';
 		$config['otherRequestParameters']['label'] = urlencode('incredible title 0');
@@ -51,6 +52,8 @@ class Test_Piwik_Integration_RowEvolution extends Test_Integration_Facade
 		
 		
 		$config['testSuffix'] = '_pageUrls';
+		$config['periods'] = array('range');
+		$config['otherRequestParameters']['date'] = '2010-03-01,2010-03-06';
 		$config['otherRequestParameters']['apiModule'] = 'Actions';
 		$config['otherRequestParameters']['apiAction'] = 'getPageUrls';
 		$config['otherRequestParameters']['label'] = 'my>dir>'.urlencode('/page3');

@@ -1040,6 +1040,12 @@ class Piwik_API_API
 	/** @return Piwik_DataTable_Array */
 	private function loadRowEvolutionData($idSite, $period, $date, $apiModule, $apiAction, $label)
 	{	
+		if ($period == 'range')
+		{
+			// load days in the range
+			$period = 'day';
+		}
+		
 		$parameters = array(
 			'method' => $apiModule.'.'.$apiAction,
 			'label' => $label,
@@ -1067,7 +1073,7 @@ class Piwik_API_API
 		
 		if (!($dataTable instanceof Piwik_DataTable_Array))
 		{
-			throw new Exception("API didn't return a DataTable array. Maybe you used period=range or "
+			throw new Exception("API didn't return a DataTable array. Maybe you used "
 				."a single date (i.e. not YYYY-MM-DD,YYYY-MM-DD)");
 		}
 		
