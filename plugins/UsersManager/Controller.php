@@ -195,7 +195,12 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 		foreach($anonymousSitesAccess as $info) 
 		{
 			$idSite = $info['site'];
-			$anonymousSites[$idSite] = Piwik_SitesManager_API::getInstance()->getSiteFromId($idSite);
+			$site = Piwik_SitesManager_API::getInstance()->getSiteFromId($idSite);
+			// Work around manual website deletion
+			if(!empty($site))
+			{
+				$anonymousSites[$idSite] = $site;
+			}
 		}
 		$view->anonymousSites = $anonymousSites;
 		
