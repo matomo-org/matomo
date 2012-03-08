@@ -1037,11 +1037,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			$this->visitorInfo['visit_last_action_time'] = strtotime($visitRow['visit_last_action_time']);
 			$this->visitorInfo['visit_first_action_time'] = strtotime($visitRow['visit_first_action_time']);
 			
-			// if visitor id was not found in Third party cookies / forced visitor id / first party cookie, then we use previous ID
-			if(empty($this->visitorInfo['idvisitor']))
-			{
-				$this->visitorInfo['idvisitor'] = $visitRow['idvisitor'];
-			}
+			// We always keep the first idvisitor seen for this visit (so that all page views for this visit have the same idvisitor)
+			$this->visitorInfo['idvisitor'] = $visitRow['idvisitor'];
 			$this->visitorInfo['idvisit'] = $visitRow['idvisit'];
 			$this->visitorInfo['visit_exit_idaction_url'] = $visitRow['visit_exit_idaction_url'];
 			$this->visitorInfo['visit_exit_idaction_name'] = $visitRow['visit_exit_idaction_name'];
