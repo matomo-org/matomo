@@ -34,12 +34,14 @@ if(Piwik_Common::getRequestVar('forceUseThirdPartyCookie', false) == 1)
 }
 
 // Tests can force the enabling of IP anonymization
+$forceIpAnonymization = false;
 if(Piwik_Common::getRequestVar('forceIpAnonymization', false) == 1)
 {
 	Piwik_Config::getInstance()->Tracker['ip_address_mask_length'] = 2;
 	$pluginsTracker = Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
 	$pluginsTracker[] = "AnonymizeIP";
 	Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'] = $pluginsTracker;
+	$forceIpAnonymization = true;
 }
 // Custom IP to use for this visitor
 $customIp = Piwik_Common::getRequestVar('cip', false);
@@ -61,8 +63,12 @@ if(!empty($customVisitorId))
 {
 	Piwik_Tracker::setForceVisitorId($customVisitorId);
 }
-
+$pluginsDisabled = array('Provider');
+if(!$forceIpAnonymization)
+{
+	$pluginsDisabled[] = 'AnonymizeIP';
+}
 // Disable provider plugin, because it is so slow to do reverse ip lookup in dev environment somehow
-Piwik_Tracker::setPluginsNotToLoad(array('Provider'));
+Piwik_Tracker::setPluginsNotToLoad($pluginsDisabled);
 include '../../piwik.php';
 ob_flush();

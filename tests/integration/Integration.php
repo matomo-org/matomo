@@ -92,6 +92,8 @@ abstract class Test_Integration extends Test_Database_Base
 	function setUp()
 	{
 		parent::setUp();
+		Piwik_Config::getInstance()->setTestEnvironment();
+		
 		$_GET = $_REQUEST = array();
 		$_SERVER['HTTP_REFERER'] = '';
 
@@ -294,7 +296,9 @@ abstract class Test_Integration extends Test_Database_Base
 
 		// Load and install plugins
 		$pluginsManager = Piwik_PluginsManager::getInstance();
-		$pluginsManager->loadPlugins( Piwik_Config::getInstance()->Plugins['Plugins'] );
+		$plugins = Piwik_Config::getInstance()->Plugins['Plugins'];
+
+		$pluginsManager->loadPlugins( $plugins );
 		$pluginsManager->installLoadedPlugins();
 	}
 
@@ -557,7 +561,6 @@ abstract class Test_Integration extends Test_Database_Base
 			$parametersToSet['idGoal'] = $idGoal;
 		}
 
-		Piwik_Config::getInstance()->General['time_before_today_archive_considered_outdated'] = 10;
 		$requestUrls = $this->generateUrlsApi($parametersToSet, $formats, $periods, $setDateLastN, $language, $segment);
 
 		foreach($requestUrls as $apiId => $requestUrl)
