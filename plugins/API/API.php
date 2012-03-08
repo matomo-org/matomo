@@ -1220,20 +1220,21 @@ class Piwik_API_API
 					// in case labels were replaced in the data table (e.g. for browsers report),
 					// display the label from the table, not the one passed as filter
 					$columnLabel = $firstRow->getColumn('label');
-					if (!empty($label))
+					
+					if (!empty($columnLabel))
 					{
 						$actualLabels[$labelIndex] = $columnLabel;
 						
+						// TODO: confirm we need this
 						// special case: websites report
-						if ($apiAction == 'getWebsites')
-						{
-							$actualLabels[$labelIndex] = html_entity_decode($actualLabels[$labelIndex]);
-							$urlFound = true;
-						}
+						//if ($apiAction == 'getWebsites')
+						//{
+						//	$actualLabels[$labelIndex] = html_entity_decode($actualLabels[$labelIndex]);
+						//}
 					}
 					
 					// if url is available as metadata, use it (only for actions reports)
-					if ($apiModule == 'Actions' && $url = $firstRow->getMetadata('url'))
+					if ($url = $firstRow->getMetadata('url'))
 					{
 						$actualLabels[$labelIndex] = $url;
 						$urlFound = true;
