@@ -111,12 +111,15 @@ class Piwik_Config
 		}
 		
 		// Ensure local mods do not affect tests
-		$this->configCache['Debug'] = $this->configGlobal['Debug'];
-		$this->configCache['General'] = $this->configGlobal['General'];
-		$this->configCache['Segments'] = $this->configGlobal['Segments'];
-		$this->configCache['Tracker'] = $this->configGlobal['Tracker'];
-		$this->configCache['Deletelogs'] = $this->configGlobal['Deletelogs'];
-		
+		if(is_null($pathGlobal))
+		{
+			$this->configCache['Debug'] = $this->configGlobal['Debug'];
+			$this->configCache['General'] = $this->configGlobal['General'];
+			$this->configCache['Segments'] = $this->configGlobal['Segments'];
+			$this->configCache['Tracker'] = $this->configGlobal['Tracker'];
+			$this->configCache['Deletelogs'] = $this->configGlobal['Deletelogs'];
+		}
+				
 		// for unit tests, we set that no plugin is installed. This will force
 		// the test initialization to create the plugins tables, execute ALTER queries, etc.
 		$this->configCache['PluginsInstalled'] = array('PluginsInstalled' => array());
