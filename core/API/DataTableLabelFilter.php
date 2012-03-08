@@ -28,7 +28,7 @@
  */
 class Piwik_API_DataTableLabelFilter
 {
-	
+	const SEPARATOR_RECURSIVE_LABEL = '>';
 	private $apiModule;
 	private $apiMethod;
 	private $apiMethodForSubtable;
@@ -65,7 +65,7 @@ class Piwik_API_DataTableLabelFilter
 			$this->apiMethod = $apiMethod;
 			$this->request = $request;
 			
-			$label = explode('>', $label);
+			$label = explode(self::SEPARATOR_RECURSIVE_LABEL, $label);
 			$label = array_map('urldecode', $label);
 			
 			if (count($label) > 1)
