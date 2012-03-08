@@ -381,9 +381,20 @@ class Piwik_Config
 				}
 			}
 
-			foreach($configCache as $name => $section)
+			foreach($configGlobal as $name => $section)
 			{
-				$configLocal = $this->array_unmerge($configGlobal[$name], $configCache[$name]);
+				if(!isset($configCache[$name]))
+				{
+					continue;
+				}
+				
+				$configLocal = $configCache[$name];
+				// Only merge if the section exists in Global.ini.php (in case a section only lives in config.ini.php) 
+				if(isset($configGlobal[$name]))
+				{
+					$configLocal = $this->array_unmerge($configGlobal[$name], $configCache[$name]);
+				}
+				
 				if (count($configLocal) == 0)
 				{
 					continue;

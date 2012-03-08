@@ -12,7 +12,7 @@
 
 /**
  * Posts an event from a smarty template. This event can then be hooked by another plugin.
- * The even will be posted along with a string value that plugins can edit.
+ * The event will be posted along with a string value that plugins can edit.
  * This is useful to allow other plugins to add content at a specific entry point in the template.
  * This string will be returned by the smarty function.
  * 
