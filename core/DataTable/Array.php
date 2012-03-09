@@ -225,6 +225,7 @@ class Piwik_DataTable_Array
 	public function getFilteredTableFromLabel($label)
 	{
 		$newTableArray = new Piwik_DataTable_Array;
+		$newTableArray->setKeyName($this->getKeyName());
 		$newTableArray->metadata = $this->metadata;
 
 		foreach ($this->array as $subTableLabel => $subTable)

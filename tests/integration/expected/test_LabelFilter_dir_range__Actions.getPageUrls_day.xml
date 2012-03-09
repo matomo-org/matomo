@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <results>
-	<result defaultKeyName="2010-03-06">
+	<result date="2010-03-06">
 		<row>
 			<label>dir</label>
 			<nb_visits>2</nb_visits>
@@ -11,6 +11,6 @@
 			<exit_rate>0%</exit_rate>
 		</row>
 	</result>
-	<result defaultKeyName="2010-03-07" />
-	<result defaultKeyName="2010-03-08" />
+	<result date="2010-03-07" />
+	<result date="2010-03-08" />
 </results>
