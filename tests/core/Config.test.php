@@ -192,65 +192,92 @@ END_OF_HEADER;
 				false,
 			),
 
-			'global cached' => array(
+			'global only, cached get' => array(
 				array(),
 				array('General' => array('debug' => '1')),
 				array('General' => array('debug' => '1')),
 				false,
 			),
 
-			'local copy, not cached, no difference' => array(
-				array('General' => array('debug' => '1')),
-				array('General' => array('debug' => '1')),
+			'global only, cached set' => array(
 				array(),
-				false,
-			),
-
-			'local copy, cached, no difference' => array(
 				array('General' => array('debug' => '1')),
-				array('General' => array('debug' => '1')),
-				array('General' => array('debug' => '1')),
-				false,
-			),
-
-			'local copy, not cached, difference' => array(
 				array('General' => array('debug' => '2')),
-				array('General' => array('debug' => '1')),
-				array(),
 				$header . "[General]\ndebug = 2\n\n",
 			),
 
-			'local copy, cached, difference' => array(
+			'local copy (same), not cached' => array(
+				array('General' => array('debug' => '1')),
+				array('General' => array('debug' => '1')),
+				array(),
+				false,
+			),
+
+			'local copy (same), cached get' => array(
+				array('General' => array('debug' => '1')),
+				array('General' => array('debug' => '1')),
+				array('General' => array('debug' => '1')),
+				false,
+			),
+
+			'local copy (same), cached set' => array(
+				array('General' => array('debug' => '1')),
+				array('General' => array('debug' => '1')),
+				array('General' => array('debug' => '2')),
+				$header . "[General]\ndebug = 2\n\n",
+			),
+
+			'local copy (different), not cached' => array(
+				array('General' => array('debug' => '2')),
+				array('General' => array('debug' => '1')),
+				array(),
+				false,
+			),
+
+			'local copy (different), cached get' => array(
+				array('General' => array('debug' => '2')),
+				array('General' => array('debug' => '1')),
+				array('General' => array('debug' => '2')),
+				false,
+			),
+
+			'local copy (different), cached set' => array(
 				array('General' => array('debug' => '2')),
 				array('General' => array('debug' => '1')),
 				array('General' => array('debug' => '3')),
 				$header . "[General]\ndebug = 3\n\n",
 			),
 
+
 			'local copy, not cached, new section' => array(
 				array('Tracker' => array('anonymize' => '1')),
 				array('General' => array('debug' => '1')),
 				array(),
-				$header . "[Tracker]\nanonymize = 1\n\n",
+				false,
 			),
 
-			'local copy, cached difference, new section' => array(
+			'local copy, cached get, new section' => array(
 				array('Tracker' => array('anonymize' => '1')),
 				array('General' => array('debug' => '1')),
-				array('Tracker' => array('anonymize' => '0')),
-				$header . "[Tracker]\nanonymize = 0\n\n",
+				array('Tracker' => array('anonymize' => '1')),
+				false,
 			),
 
-			'sort, common sections, differences not cached' => array(
-				array('Tracker' => array('anonymize' => '1'),
-					  'General' => array('debug' => '1')),
-				array('General' => array('debug' => '0'),
-					  'Tracker' => array('anonymize' => '0')),
-				array(),
-				$header . "[General]\ndebug = 1\n\n[Tracker]\nanonymize = 1\n\n",
+			'local copy, cached set local, new section' => array(
+				array('Tracker' => array('anonymize' => '1')),
+				array('General' => array('debug' => '1')),
+				array('Tracker' => array('anonymize' => '2')),
+				$header . "[Tracker]\nanonymize = 2\n\n",
 			),
 
-			'sort, common sections, differences cached' => array(
+			'local copy, cached set global, new section' => array(
+				array('Tracker' => array('anonymize' => '1')),
+				array('General' => array('debug' => '1')),
+				array('General' => array('debug' => '2')),
+				$header . "[General]\ndebug = 2\n\n[Tracker]\nanonymize = 2\n\n",
+			),
+
+			'sort, common sections' => array(
 				array('Tracker' => array('anonymize' => '1'),
 					  'General' => array('debug' => '1')),
 				array('General' => array('debug' => '0'),
@@ -259,12 +286,13 @@ END_OF_HEADER;
 				$header . "[General]\ndebug = 1\n\n[Tracker]\nanonymize = 2\n\n",
 			),
 
-			'sort, common sections, new section trailing' => array(
+			'sort, common sections before new section' => array(
 				array('Tracker' => array('anonymize' => '1'),
 					  'General' => array('debug' => '1')),
-				array('General' => array('debug' => '0')),
-				array('General' => array('debug' => '2')),
-				$header . "[General]\ndebug = 2\n\n[Tracker]\nanonymize = 1\n\n",
+				array('General' => array('debug' => '0'),
+					  'Tracker' => array('anonymize' => '0')),
+				array('Segment' => array('dimension' => 'foo')),
+				$header . "[General]\ndebug = 2\n\n[Segment]\ndimension = foo\n\n[Tracker]\nanonymize = 1\n\n",
 			),
 		);
 
