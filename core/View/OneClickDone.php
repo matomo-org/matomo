@@ -76,13 +76,13 @@ class Piwik_View_OneClickDone
    <input type="hidden" name="token_auth" value="$tokenAuth" />
    <input type="hidden" name="error" value="$error" />
    <input type="hidden" name="messages" value="$messages" />
+   <noscript>
+    <button type="submit" value="Continue" />
+   </noscript>
   </form>
   <script type="text/javascript">
    document.myform.submit();
   </script>
-  <noscript>
-   <button type="submit" value="Continue" />
-  </noscript>
  </body>
 </html>
 END_OF_TEMPLATE;
