@@ -274,7 +274,7 @@ END_OF_HEADER;
 				array('Tracker' => array('anonymize' => '1')),
 				array('General' => array('debug' => '1')),
 				array('General' => array('debug' => '2')),
-				$header . "[General]\ndebug = 2\n\n[Tracker]\nanonymize = 2\n\n",
+				$header . "[General]\ndebug = 2\n\n[Tracker]\nanonymize = 1\n\n",
 			),
 
 			'sort, common sections' => array(
@@ -292,7 +292,7 @@ END_OF_HEADER;
 				array('General' => array('debug' => '0'),
 					  'Tracker' => array('anonymize' => '0')),
 				array('Segment' => array('dimension' => 'foo')),
-				$header . "[General]\ndebug = 2\n\n[Segment]\ndimension = foo\n\n[Tracker]\nanonymize = 1\n\n",
+				$header . "[General]\ndebug = 1\n\n[Tracker]\nanonymize = 1\n\n[Segment]\ndimension = \"foo\"\n\n",
 			),
 		);
 
