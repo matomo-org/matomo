@@ -33,6 +33,9 @@ class Piwik_CoreHome_DataTableAction_RowEvolution
 	/** The requested date */
 	protected $date;
 	
+	/** The request segment */
+	protected $segment;
+	
 	/** The metrics that are available for the requested report and period */
 	protected $availableMetrics;
 	
@@ -89,6 +92,7 @@ class Piwik_CoreHome_DataTableAction_RowEvolution
 			else $start = $date->subDay(30)->toString();
 			$this->date = $start.','.$end;
 		}
+		$this->segment = Piwik_Common::getRequestVar('segment', '', 'string');
 		
 		$this->loadEvolutionReport();
 	}
@@ -136,6 +140,10 @@ class Piwik_CoreHome_DataTableAction_RowEvolution
 			'format' => 'original',
 			'serialize' => '0'
 		);
+		if(!empty($this->segment))
+		{
+			$parameters['segment'] = $this->segment;
+		}
 		
 		if ($column !== false)
 		{

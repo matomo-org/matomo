@@ -860,7 +860,6 @@ class Piwik_API_API
 				: $category;
 	}
 	
-	
 	/** 
 	 * Get a combined report of the *.get API methods. 
 	 */
@@ -978,7 +977,7 @@ class Piwik_API_API
 	 * 
 	 * @return array
 	 */
-	public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label, $column = false, $language=false)
+	public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label, $segment = false, $column = false, $language = false)
     {
 		// this is needed because Piwik_API_Proxy uses Piwik_Common::getRequestVar which in turn
 		// uses Piwik_Common::sanitizeInputValue. This causes the > that separates recursive labels
@@ -990,24 +989,24 @@ class Piwik_API_API
 		
 		if (count($labels) > 1)
 		{
-			return $this->getMultiRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $labels, $column, $language);
+			return $this->getMultiRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $labels, $segment, $column, $language);
 		}
 		else
 		{
-			return $this->getSingleRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $labels[0], $language);
+			return $this->getSingleRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $labels[0], $segment, $language);
 		}
 	}
 	
 	/** Get row evolution for a single label */
-	private function getSingleRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label, $language=false)
+	private function getSingleRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $language=false)
 	{
 		$logo = false;
 		$actualLabel = false;
 		
-		$metadata = $this->getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language);
+		$metadata = $this->getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $segment, $language);
 		$metricNames = array_keys($metadata['metrics']);
 		
-		$dataTable = $this->loadRowEvolutionData($idSite, $period, $date, $apiModule, $apiAction, $label);
+		$dataTable = $this->loadRowEvolutionData($idSite, $period, $date, $apiModule, $apiAction, $label, $segment);
 		
 		foreach ($dataTable->getArray() as $date => $subTable)
 		{
@@ -1023,7 +1022,7 @@ class Piwik_API_API
 					$actualLabel = $row->getColumn('label');
 					$logo = $row->getMetadata('logo');
 					if ($row->getMetadata('url'))
-					{
+					{ 
 						$actualLabel = $row->getMetadata('url');
 					}
 				}
@@ -1054,7 +1053,7 @@ class Piwik_API_API
 	}
 	
 	/** @return Piwik_DataTable_Array */
-	private function loadRowEvolutionData($idSite, $period, $date, $apiModule, $apiAction, $label)
+	private function loadRowEvolutionData($idSite, $period, $date, $apiModule, $apiAction, $label, $segment)
 	{	
 		if ($period == 'range')
 		{
@@ -1069,7 +1068,8 @@ class Piwik_API_API
 			'period' => $period,
 			'date' => $date,
 			'format' => 'original',
-			'serialize' => '0'
+			'serialize' => '0',
+			'segment' => $segment,
 		);
 		
 		// add "processed metrics" like actions per visit or bounce rate
@@ -1096,9 +1096,12 @@ class Piwik_API_API
 		return $dataTable;
 	}
 	
-	private function getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language)
+	private function getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $segment, $language)
 	{
-		$reportMetadata = $this->getMetadata($idSite, $apiModule, $apiAction, $apiParameters=false, 
+		$apiParameters = array();
+		if(!empty($segment)) $apiParameters['segment'] = $segment;
+		
+		$reportMetadata = $this->getMetadata($idSite, $apiModule, $apiAction, $apiParameters,
 				$language, $period, $date);
 		
         if (empty($reportMetadata))
@@ -1186,11 +1189,11 @@ class Piwik_API_API
 	}
 	
 	/** Get row evolution for a multiple labels */
-	private function getMultiRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $labels, $column, $language=false)
+	private function getMultiRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $labels, $segment, $column, $language=false)
 	{
 		$actualLabels = array();
 		
-		$metadata = $this->getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language);
+		$metadata = $this->getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $segment, $language);
 		
 		if (!isset($metadata['metrics'][$column]))
 		{
@@ -1203,7 +1206,7 @@ class Piwik_API_API
 		$dataTableMetadata = false;
 		foreach ($labels as $labelIndex => $label)
 		{
-			$dataTable = $this->loadRowEvolutionData($idSite, $period, $date, $apiModule, $apiAction, $label);
+			$dataTable = $this->loadRowEvolutionData($idSite, $period, $date, $apiModule, $apiAction, $label, $segment);
 			$dataTablesPerLabel[$labelIndex] = $dataTable->getArray();
 			if (!$dataTableMetadata)
 			{
@@ -1253,6 +1256,7 @@ class Piwik_API_API
 		
 		// combine the tables
 		$dataTable = new Piwik_DataTable_Array;
+		$dataTable->setKeyName($dataTable->getKeyName());
 		$dataTable->metadata = $dataTableMetadata;
 		
 		foreach (array_keys(reset($dataTablesPerLabel)) as $dateLabel)

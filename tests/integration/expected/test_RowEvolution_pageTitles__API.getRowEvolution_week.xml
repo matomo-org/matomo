@@ -3,7 +3,7 @@
 	<label> incredible title 0</label>
 	<logo></logo>
 	<data>
-		<result defaultKeyName="From 2010-02-01 to 2010-02-07">
+		<result date="From 2010-02-01 to 2010-02-07">
 			<row>
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
@@ -12,7 +12,7 @@
 				<exit_rate>100%</exit_rate>
 			</row>
 		</result>
-		<result defaultKeyName="From 2010-02-08 to 2010-02-14">
+		<result date="From 2010-02-08 to 2010-02-14">
 			<row>
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
@@ -21,7 +21,7 @@
 				<exit_rate>100%</exit_rate>
 			</row>
 		</result>
-		<result defaultKeyName="From 2010-02-15 to 2010-02-21">
+		<result date="From 2010-02-15 to 2010-02-21">
 			<row>
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
@@ -30,7 +30,7 @@
 				<exit_rate>100%</exit_rate>
 			</row>
 		</result>
-		<result defaultKeyName="From 2010-02-22 to 2010-02-28">
+		<result date="From 2010-02-22 to 2010-02-28">
 			<row>
 				<nb_visits>3</nb_visits>
 				<nb_hits>3</nb_hits>
@@ -39,7 +39,7 @@
 				<exit_rate>100%</exit_rate>
 			</row>
 		</result>
-		<result defaultKeyName="From 2010-03-01 to 2010-03-07">
+		<result date="From 2010-03-01 to 2010-03-07">
 			<row>
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
