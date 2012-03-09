@@ -77,7 +77,7 @@ class Piwik_View_OneClickDone
    <input type="hidden" name="error" value="$error" />
    <input type="hidden" name="messages" value="$messages" />
    <noscript>
-    <button type="submit" value="Continue" />
+    <button type="submit">Continue</button>
    </noscript>
   </form>
   <script type="text/javascript">
