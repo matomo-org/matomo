@@ -2,7 +2,7 @@
 <result>
 	<label> incredible title 0</label>
 	<logo></logo>
-	<data>
+	<reportData>
 		<result date="From 2010-02-01 to 2010-02-07">
 			<row>
 				<nb_visits>2</nb_visits>
@@ -48,7 +48,7 @@
 				<exit_rate>100%</exit_rate>
 			</row>
 		</result>
-	</data>
+	</reportData>
 	<metadata>
 		<metrics>
 			<nb_hits>

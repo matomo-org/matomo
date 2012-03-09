@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<column>nb_hits</column>
-	<data>
-		<result defaultKeyName="From 2010-02-01 to 2010-02-07">
+	<reportData>
+		<result date="From 2010-02-01 to 2010-02-07">
 			<row>
 				<nb_hits_0>2</nb_hits_0>
 				<nb_hits_1>1</nb_hits_1>
 			</row>
 		</result>
-		<result defaultKeyName="From 2010-02-08 to 2010-02-14">
+		<result date="From 2010-02-08 to 2010-02-14">
 			<row>
 				<nb_hits_0>2</nb_hits_0>
 				<nb_hits_1>3</nb_hits_1>
 			</row>
 		</result>
-		<result defaultKeyName="From 2010-02-15 to 2010-02-21">
+		<result date="From 2010-02-15 to 2010-02-21">
 			<row>
 				<nb_hits_0>2</nb_hits_0>
 				<nb_hits_1>2</nb_hits_1>
 			</row>
 		</result>
-		<result defaultKeyName="From 2010-02-22 to 2010-02-28">
+		<result date="From 2010-02-22 to 2010-02-28">
 			<row>
 				<nb_hits_0>3</nb_hits_0>
 				<nb_hits_1>2</nb_hits_1>
 			</row>
 		</result>
-		<result defaultKeyName="From 2010-03-01 to 2010-03-07">
+		<result date="From 2010-03-01 to 2010-03-07">
 			<row>
 				<nb_hits_0>2</nb_hits_0>
 				<nb_hits_1>2</nb_hits_1>
 			</row>
 		</result>
-	</data>
+	</reportData>
 	<metadata>
 		<metrics>
 			<nb_hits_0>

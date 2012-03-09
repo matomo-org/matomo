@@ -2,7 +2,7 @@
 <result>
 	<label>http://example.org/my/dir/page3</label>
 	<logo></logo>
-	<data>
+	<reportData>
 		<result defaultKeyName="2010-03-01" />
 		<result defaultKeyName="2010-03-02" />
 		<result defaultKeyName="2010-03-03">
@@ -17,7 +17,7 @@
 		<result defaultKeyName="2010-03-04" />
 		<result defaultKeyName="2010-03-05" />
 		<result defaultKeyName="2010-03-06" />
-	</data>
+	</reportData>
 	<metadata>
 		<metrics>
 			<nb_hits>

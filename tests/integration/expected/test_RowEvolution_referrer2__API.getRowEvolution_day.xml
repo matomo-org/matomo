@@ -2,7 +2,7 @@
 <result>
 	<label>http://www.referrer0.com/theReferrerPage1.html</label>
 	<logo></logo>
-	<data>
+	<reportData>
 		<result defaultKeyName="2010-02-06" />
 		<result defaultKeyName="2010-02-07" />
 		<result defaultKeyName="2010-02-08" />
@@ -59,7 +59,7 @@
 		<result defaultKeyName="2010-03-04" />
 		<result defaultKeyName="2010-03-05" />
 		<result defaultKeyName="2010-03-06" />
-	</data>
+	</reportData>
 	<metadata>
 		<metrics>
 			<nb_visits>

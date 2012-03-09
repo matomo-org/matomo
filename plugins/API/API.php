@@ -973,7 +973,9 @@ class Piwik_API_API
 	
 	
 	/** 
-	 * Get information about the evolution of a row in any report.
+	 * Given an API report to query (eg. "Referers.getKeywords", and a Label (eg. "free%20software"), 
+	 * this function will query the API for the previous days/weeks/etc. and will return 
+	 * a ready to use data structure containing the metrics for the requested Label, along with enriched information (min/max values, etc.) 
 	 * 
 	 * @return array
 	 */
@@ -997,20 +999,21 @@ class Piwik_API_API
 		}
 	}
 	
-	/** Get row evolution for a single label */
+	/**
+	 * Get row evolution for a single label 
+	 * @return array containing  report data, metadata, label, logo
+	 */
 	private function getSingleRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $language=false)
 	{
-		$logo = false;
-		$actualLabel = false;
-		
-		$metadata = $this->getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $segment, $language);
+		$metadata = $this->getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language);
 		$metricNames = array_keys($metadata['metrics']);
 		
-		$dataTable = $this->loadRowEvolutionData($idSite, $period, $date, $apiModule, $apiAction, $label, $segment);
+		$dataTable = $this->loadRowEvolutionDataFromAPI($idSite, $period, $date, $apiModule, $apiAction, $label, $segment);
 		
+		$logo = $actualLabel = false;
 		foreach ($dataTable->getArray() as $date => $subTable)
 		{
-			/** @var $subTable Piwik_DataTable */
+			/** @var $subTable Piwik_DataTable */ 
 			$subTable->applyQueuedFilters();
 			if ($subTable->getRowsCount() > 0)
 			{
@@ -1046,14 +1049,17 @@ class Piwik_API_API
 		
 		return array(
 			'label' => $actualLabel,
-			'logo' => $logo == 0 ? '' : $logo,
-			'data' => $dataTable,
+			'logo' => empty($logo) ? '' : $logo,
+			'reportData' => $dataTable,
 			'metadata' => $metadata
 		);
 	}
 	
-	/** @return Piwik_DataTable_Array */
-	private function loadRowEvolutionData($idSite, $period, $date, $apiModule, $apiAction, $label, $segment)
+	/**
+	 * 
+	 * @return Piwik_DataTable_Array 
+	 */
+	private function loadRowEvolutionDataFromAPI($idSite, $period, $date, $apiModule, $apiAction, $label, $segment)
 	{	
 		if ($period == 'range')
 		{
@@ -1096,13 +1102,14 @@ class Piwik_API_API
 		return $dataTable;
 	}
 	
-	private function getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $segment, $language)
+	/**
+	 * For a given API report, returns a simpler version 
+	 * of the metadata (will return only the metrics and the dimension name)
+	 * @return array 
+	 */
+	private function getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language)
 	{
-		$apiParameters = array();
-		if(!empty($segment)) $apiParameters['segment'] = $segment;
-		
-		$reportMetadata = $this->getMetadata($idSite, $apiModule, $apiAction, $apiParameters,
-				$language, $period, $date);
+		$reportMetadata = $this->getMetadata($idSite, $apiModule, $apiAction, $apiParameters = false, $language, $period, $date);
 		
         if (empty($reportMetadata))
         {
@@ -1123,6 +1130,12 @@ class Piwik_API_API
 		return compact('metrics', 'dimension');
 	}
 	
+	/**
+	 * Given the Row evolution dataTable, and the associated metadata, 
+	 * enriches the metadata with min/max values, and % change between the first period and the last one
+	 * @param array $metadata
+	 * @param Piwik_DataTable_Array $dataTable
+	 */
 	private function enhanceRowEvolutionMetaData(&$metadata, $dataTable)
 	{
 		// prepare result array for metrics
@@ -1138,7 +1151,7 @@ class Piwik_API_API
 		$lastDataTable = end($subDataTables);
 		$lastDataTableRow = $lastDataTable->getFirstRow();
 		
-		// min/max values
+		// Process min/max values
 		foreach ($subDataTables as $subDataTable)
 		{
 			// $subDataTable is the report for one period, it has only one row
@@ -1146,18 +1159,20 @@ class Piwik_API_API
 			foreach ($metadata['metrics'] as $metric => $label)
 			{
 				$value = $firstRow ? floatval($firstRow->getColumn($metric)) : 0;
-				if (!isset($metricsResult[$metric]['min']) || $metricsResult[$metric]['min'] > $value)
+				if (!isset($metricsResult[$metric]['min']) 
+					|| $metricsResult[$metric]['min'] > $value)
 				{
 					$metricsResult[$metric]['min'] = $value;
 				}
-				if (!isset($metricsResult[$metric]['max']) || $metricsResult[$metric]['max'] < $value)
+				if (!isset($metricsResult[$metric]['max']) 
+					|| $metricsResult[$metric]['max'] < $value)
 				{
 					$metricsResult[$metric]['max'] = $value;
 				}
 			}
 		}
 		
-		// first/last value, change
+		// Process % change between first/last values
 		foreach ($metadata['metrics'] as $metric => $label)
 		{
 			$first = $firstDataTableRow ? floatval($firstDataTableRow->getColumn($metric)) : 0;
@@ -1193,7 +1208,7 @@ class Piwik_API_API
 	{
 		$actualLabels = array();
 		
-		$metadata = $this->getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $segment, $language);
+		$metadata = $this->getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language);
 		
 		if (!isset($metadata['metrics'][$column]))
 		{
@@ -1206,7 +1221,7 @@ class Piwik_API_API
 		$dataTableMetadata = false;
 		foreach ($labels as $labelIndex => $label)
 		{
-			$dataTable = $this->loadRowEvolutionData($idSite, $period, $date, $apiModule, $apiAction, $label, $segment);
+			$dataTable = $this->loadRowEvolutionDataFromAPI($idSite, $period, $date, $apiModule, $apiAction, $label, $segment);
 			$dataTablesPerLabel[$labelIndex] = $dataTable->getArray();
 			if (!$dataTableMetadata)
 			{
@@ -1227,13 +1242,6 @@ class Piwik_API_API
 					if (!empty($columnLabel))
 					{
 						$actualLabels[$labelIndex] = $columnLabel;
-						
-						// TODO: confirm we need this
-						// special case: websites report
-						//if ($apiAction == 'getWebsites')
-						//{
-						//	$actualLabels[$labelIndex] = html_entity_decode($actualLabels[$labelIndex]);
-						//}
 					}
 					
 					// if url is available as metadata, use it (only for actions reports)
@@ -1255,9 +1263,9 @@ class Piwik_API_API
 		}
 		
 		// combine the tables
-		$dataTable = new Piwik_DataTable_Array;
-		$dataTable->setKeyName($dataTable->getKeyName());
-		$dataTable->metadata = $dataTableMetadata;
+		$dataTableMulti = new Piwik_DataTable_Array;
+		$dataTableMulti->setKeyName($dataTable->getKeyName());
+		$dataTableMulti->metadata = $dataTableMetadata;
 		
 		foreach (array_keys(reset($dataTablesPerLabel)) as $dateLabel)
 		{
@@ -1285,7 +1293,7 @@ class Piwik_API_API
 			
 			$newTable = new Piwik_DataTable;
 			$newTable->addRow($newRow);
-			$dataTable->addTable($newTable, $dateLabel);
+			$dataTableMulti->addTable($newTable, $dateLabel);
 		}
 		
 		// the available metrics for the report are returned as metadata / availableColumns
@@ -1299,11 +1307,11 @@ class Piwik_API_API
 			$metadata['metrics'][$column.'_'.$labelIndex] = $label;
 		}
 		
-		$this->enhanceRowEvolutionMetaData($metadata, $dataTable);
+		$this->enhanceRowEvolutionMetaData($metadata, $dataTableMulti);
 		
 		return array(
 			'column' => $column,
-			'data' => $dataTable,
+			'reportData' => $dataTableMulti,
 			'metadata' => $metadata
 		);
 	}
