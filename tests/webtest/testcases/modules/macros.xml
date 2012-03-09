@@ -128,7 +128,6 @@
 
 		<enableJavaScript enable="false" />
 		<clickLink description="click 'Please update now'" href="action=newVersionAvailable" />
-		<enableJavaScript enable="true" />
 
 		<!-- one click update -->
 
@@ -143,8 +142,9 @@
 
 		<!-- invoke description="one click update" url="/index.php?module=CoreUpdater&amp;action=oneClickUpdate" /-->
 
-		<!-- wait for form to auto-post -->
-		<sleep description="pause" seconds="5" />
+		<!-- javascript needed for form to auto-post -->
+
+		<clickButton description="simulate auto-post form" label="Continue" />
 
 		<not description="check for errors">
 			<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']" />
