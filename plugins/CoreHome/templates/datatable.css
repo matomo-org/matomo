@@ -589,6 +589,10 @@ table.dataTable .dataTableRowActions a img {
     min-height: 20px;
 }
 
+.limitSelection.hidden {
+    display: none;
+}
+
 .limitSelection div {
     border: 1px solid #DFDFDF;
     border-radius: 4px;
@@ -612,6 +616,7 @@ table.dataTable .dataTableRowActions a img {
     border-radius: 0 0 4px 4px;
     -moz-border-radius: 0 0 4px 4px;
     -webkit-border-radius: 0 0 4px 4px;
+    background-image: url(../../../themes/default/images/sort_subtable_asc_light.png)
 }
 
 .limitSelection ul {

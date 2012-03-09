@@ -55,6 +55,7 @@ broadcast.pageload = function( hash ) {
 
 		// Hack: make sure the "Widgets & Dashboard" is deleted on reload
 		$('#dashboardSettings').remove();
+		$('#dashboardWidgetsArea').dashboard('destroy');
 	} else {
 		// start page
 		$('#content').empty();

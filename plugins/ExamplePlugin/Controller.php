@@ -133,7 +133,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 
 		$out .= '<h3>Reload a widget in the dashboard</h3>';
 		$out .= 'It is sometimes useful to reload one widget in the dashboard (for example, every 20 seconds for a real time widget, or after a setting change). 
-					You can easily force your widget to reload in the dashboard by calling the helper function <code>piwik.dashboardObject.reloadEnclosingWidget($(this));</code>.';
+					You can easily force your widget to reload in the dashboard by calling the helper function <code>$(this).parents(\'[widgetId]\').dashboardWidget(\'reload\');</code>.';
 		
 		$out .= '<h2>Smarty plugins</h2>';
 		$out .= 'There are some builtin plugins for Smarty especially developped for Piwik. <br />

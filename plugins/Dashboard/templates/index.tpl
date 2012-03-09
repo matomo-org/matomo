@@ -1,14 +1,5 @@
 {loadJavascriptTranslations plugins='CoreHome Dashboard'}
 
-<script type="text/javascript">
-    piwik.dashboardLayout = {$layout};
-    piwik.idDashboard     = {$dashboardId};
-    {*
-    the old dashboard layout style is:
-    piwik.dashboardLayout = 'VisitsSummary.getEvolutionGraph~VisitorInterest.getNumberOfVisitsPerVisitDuration~UserSettings.getBrowser~ExampleFeedburner.feedburner|Referers.getKeywords~Referers.getWebsites|Referers.getSearchEngines~VisitTime.getVisitInformationPerServerTime~ExampleRssWidget.rssPiwik|';
-    *}
-</script>
-
 {literal}
 <script type="text/javascript">
 $(document).ready( function() {
@@ -36,25 +27,23 @@ $(document).ready( function() {
         }
     });
     
-    piwik.dashboardObject = new dashboard();
-    piwik.dashboardObject.init(piwik.dashboardLayout);
+    $('#dashboardWidgetsArea').dashboard({
+        idDashboard: {/literal}{$dashboardId}{literal}
+    });
+
 
     $('#dashboardSettings').widgetPreview({
         isWidgetAvailable: function(widgetUniqueId) {
-            if($('#'+widgetUniqueId, piwik.dashboardObject.dashboardElement).length) {
+            if($('#dashboardWidgetsArea [widgetId='+widgetUniqueId+']').length) {
                 return false;
             } else {
                 return true;
             }
         },
         onSelect: function(widgetUniqueId) {
-            var newDashboardWidget = piwik.dashboardObject.addEmptyWidget(0, widgetUniqueId, true);
-            $('.widgetContent', newDashboardWidget).replaceWith(
-                $('#dashboardSettings .widgetpreview-preview .widgetContent')
-            );
+            var widget = widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId);
+            $('#dashboardWidgetsArea').dashboard('addWidget', widget.uniqueId, 1, widget.parameters, true, false);
             $('#dashboardSettings').removeClass('visible');
-            piwik.dashboardObject.makeSortable();
-            piwik.dashboardObject.saveLayout();
         },
         resetOnSelect: true
     });
@@ -80,13 +69,13 @@ $(document).ready( function() {
 });
 
 function resetDashboard() {
-    piwikHelper.windowModal('#resetDashboardConfirm', function(){ piwik.dashboardObject.resetLayout(); })
+    piwikHelper.windowModal('#resetDashboardConfirm', function(){ $('#dashboardWidgetsArea').dashboard('resetLayout'); });
 }
 
 function showChangeDashboardLayoutDialog() {
-    $('#columnPreview>div[layout='+piwik.dashboardObject.currentColumnLayout+']').addClass('choosen');
+    $('#columnPreview>div[layout='+$('#dashboardWidgetsArea').dashboard('getColumnLayout')+']').addClass('choosen');
     piwikHelper.windowModal('#changeDashboardLayout', function(){
-        piwik.dashboardObject.adjustDashboardColumns($('#changeDashboardLayout .choosen').attr('layout'));
+        $('#dashboardWidgetsArea').dashboard('setColumnLayout', $('#changeDashboardLayout .choosen').attr('layout'));
     });
 }
 

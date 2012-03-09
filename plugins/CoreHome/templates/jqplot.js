@@ -92,7 +92,7 @@ JQPlot.prototype = {
 				target.data('oldHeight', 0);
 				this.innerHTML = '';
 			}
-			
+
 			(new JQPlot(data, self.dataTableId)).render(type, targetDivId, lang);
 		});
 		
@@ -1259,7 +1259,10 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function() {
 			var noRowSelected = pickerPopover.find('.pickRow').size() > 0
 					&& pickerPopover.find('.pickRow input:checked').size() == 0;
 			if (columns.length > 0 && !noRowSelected) {
+
 				$('#'+picker.targetDivId).trigger('changeSeries', [columns, rows]);
+				// inform dashboard widget about changed parameters (to be restored on reload)
+				$('#'+picker.targetDivId).parents('[widgetId]').trigger('setParameters', {columns: columns, rows: rows});
 			}
 		}
 		

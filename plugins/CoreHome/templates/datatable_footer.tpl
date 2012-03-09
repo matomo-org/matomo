@@ -82,9 +82,8 @@
 			</div>
 			
 		</div>
-		{if $properties.show_pagination_control}
-        <div class="limitSelection" title="{'General_RowsToDisplay'|translate:escape:'html'}"></div>
-        {/if}
+
+        <div class="limitSelection {if !$properties.show_pagination_control} hidden{/if}" title="{'General_RowsToDisplay'|translate:escape:'html'}"></div>
 		{if $properties.show_exclude_low_population}
 			<span class="dataTableExcludeLowPopulation"></span>
 		{/if}

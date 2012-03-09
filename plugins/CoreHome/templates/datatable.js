@@ -237,6 +237,7 @@ dataTable.prototype =
 		if( typeof self.parentId != "undefined" && self.parentId != '')
 		{
 			// no limit selector for subtables 
+			$('.limitSelection', domElem).remove();
 			return;
 		}
 		
@@ -507,7 +508,7 @@ dataTable.prototype =
 					delete self.param.filter_sort_order;
 					delete columns;
 					self.reloadAjaxDataTable();
-					self.notifyDashboardViewDataTableChange($(this), self.param.viewDataTable);
+					self.notifyWidgetParametersChange($(this), {viewDataTable: self.param.viewDataTable});
 				}
 			)
 		
@@ -519,7 +520,7 @@ dataTable.prototype =
 				self.resetAllFilters();
 				self.param.viewDataTable = viewDataTable;
 				self.reloadAjaxDataTable();
-				self.notifyDashboardViewDataTableChange($(this), self.param.viewDataTable);
+				self.notifyWidgetParametersChange($(this), {viewDataTable: self.param.viewDataTable});
 			});
 		
 		//Graph icon Collapsed functionality
@@ -737,24 +738,12 @@ dataTable.prototype =
 		
 	},
 	
-	// Tell dashboard that the ViewDataTable of this table was updated,
-	// Dashboard will records the new View type in the layout and restore it next reload
-	notifyDashboardViewDataTableChange: function(domWidget, newViewDataTable)
-	{
-		if(piwik.dashboardObject)
-		{
-			widgetUniqueId = $(domWidget).parents('.widget').attr('id');
-			piwik.dashboardObject.setDataTableViewChanged(widgetUniqueId, newViewDataTable);
-		}
-	},
-	
+	// Tell parent widget that the parameters of this table was updated,
 	notifyWidgetParametersChange: function(domWidget, parameters)
 	{
-		if(piwik.dashboardObject)
-		{
-			widgetUniqueId = $(domWidget).parents('.widget').attr('id');
-			piwik.dashboardObject.setWidgetParameters(widgetUniqueId, parameters);
-		}
+        var widget = $(domWidget).parents('[widgetId]');
+        // trigger setParameters event on base element
+        widget.trigger('setParameters', parameters);
 	},
 	
 	truncate: function(domElemToTruncate, truncationOffset)

@@ -18,7 +18,7 @@ function initFeedburner()
 	$("#feedburnerSubmit").click( function(){
 		var feedburnerName = getName();
 		$.get('?module=ExampleFeedburner&action=saveFeedburnerName&idSite='+idSite+'&name='+feedburnerName);
-		piwik.dashboardObject.reloadEnclosingWidget($(this));
+		$(this).parents('[widgetId]').dashboardWidget('reload');
 		initFeedburner();
 	});
 }

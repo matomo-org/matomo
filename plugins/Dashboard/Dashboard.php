@@ -53,7 +53,8 @@ class Piwik_Dashboard extends Piwik_Plugin
 		$jsFiles[] = "plugins/Dashboard/templates/widgetMenu.js";
 		$jsFiles[] = "libs/javascript/json2.js";
 		$jsFiles[] = "plugins/Dashboard/templates/Dashboard.js";
-	}	
+		$jsFiles[] = "plugins/Dashboard/templates/dashboardWidget.js";
+	}
 	
 	function getCssFiles( $notification )
 	{

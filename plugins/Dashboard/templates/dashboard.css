@@ -383,3 +383,7 @@ div.widgetpreview-preview {
 #dashboardSettings.visible .widgetpreview-preview {
     display: block;
 }
+
+.widgetPlaceholder {
+    border: 1px dashed #bbb6ad;
+}

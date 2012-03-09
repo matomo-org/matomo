@@ -24,11 +24,8 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		$view->availableWidgets = Piwik_Common::json_encode(Piwik_GetWidgetsList());
 		$view->availableLayouts = $this->getAvailableLayouts();
 		
-		$layout = $this->getLayout();
-		if ($layout === false)
-		{
-			$layout = $this->getDefaultLayout();
-		}
+		$layout = $this->getLayout(1);
+
 		$view->layout      = $layout;
 		$view->dashboardId = 1;
 		return $view;
@@ -50,6 +47,17 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	{
 		$this->checkTokenInUrl();
 	    echo Piwik_Common::json_encode(Piwik_GetWidgetsList());
+	}
+	
+	public function getDashboardLayout()
+	{
+		$this->checkTokenInUrl();
+		
+		$idDashboard = Piwik_Common::getRequestVar('idDashboard', 1, 'int');
+
+		$layout = $this->getLayout($idDashboard);
+		
+		echo $layout;
 	}
 	
 	public function resetLayout() 
@@ -92,8 +100,8 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	 *
 	 * @param string $login
 	 * @param int $idDashboard
-	 * @param string|false $layout
-	 */
+     * @return bool
+     */
 	protected function getLayoutForUser( $login, $idDashboard)
 	{
 		$paramsBind = array($login, $idDashboard);
@@ -130,17 +138,15 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 			$this->saveLayoutForUser(Piwik::getCurrentUserLogin(),$idDashboard, $layout);
 		}
 	}
-	
-	/**
-	 * Get the dashboard layout for the current user (anonymous or loggued user) 
-	 *
-	 * @return string $layout
-	 */
-	protected function getLayout()
-	{
-		// Currently not used
-		$idDashboard = Piwik_Common::getRequestVar('idDashboard', 1, 'int' );
 
+    /**
+     * Get the dashboard layout for the current user (anonymous or loggued user)
+     *
+     * @param int $idDashboard
+     * @return string $layout
+     */
+	protected function getLayout($idDashboard)
+	{
 		if(Piwik::isUserIsAnonymous())
 		{
 			$session = new Piwik_Session_Namespace("Piwik_Dashboard");
@@ -152,7 +158,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		}
 		else
 		{
-			$layout = $this->getLayoutForUser(Piwik::getCurrentUserLogin(),$idDashboard);
+			$layout = $this->getLayoutForUser(Piwik::getCurrentUserLogin(), $idDashboard);
 		}
 		if(!empty($layout))
 		{
@@ -161,6 +167,11 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 			$layout = str_replace("\\\"", "\"", $layout);
 	
 			$layout = $this->removeDisabledPluginFromLayout($layout);
+		}
+		
+		if ($layout === false)
+		{
+			$layout = $this->getDefaultLayout();
 		}
 		return $layout;
 	}

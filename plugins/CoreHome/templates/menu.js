@@ -33,7 +33,6 @@ menu.prototype =
     onItemClick: function (item)
     {
         $('ul.nav').trigger('piwikSwitchPage');
-        delete piwik.dashboardObject;
         broadcast.propagateAjax($(item).attr('name'));
         return false;
     },
