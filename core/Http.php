@@ -26,7 +26,7 @@ class Piwik_Http
 	static public function getTransportMethod()
 	{
 		$method = 'curl';
-		if(!extension_loaded('curl'))
+		if(!function_exists('curl_init'))
 		{
 			$method = 'fopen';
 			if(@ini_get('allow_url_fopen') != '1')
