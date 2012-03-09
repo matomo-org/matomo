@@ -1245,7 +1245,11 @@ class Piwik_API_API
 					}
 					
 					// if url is available as metadata, use it (only for actions reports)
-					if ($url = $firstRow->getMetadata('url'))
+					if ( ($url = $firstRow->getMetadata('url'))
+						&& ($apiModule == 'Actions' 
+							|| ($apiModule == 'Referers'
+								&& $apiAction == 'getWebsites'))
+					)
 					{
 						$actualLabels[$labelIndex] = $url;
 						$urlFound = true;
@@ -1255,9 +1259,9 @@ class Piwik_API_API
 				}
 			}
 			
+			// if we have a recursive label and no url, use the path
 			if (!$urlFound)
 			{
-				// if we have a recursive label and no url, use the path
 				$actualLabels[$labelIndex] = str_replace(Piwik_API_DataTableLabelFilter::SEPARATOR_RECURSIVE_LABEL, ' - ', $label);
 			}
 		}
@@ -1296,14 +1300,14 @@ class Piwik_API_API
 			$dataTableMulti->addTable($newTable, $dateLabel);
 		}
 		
-		// the available metrics for the report are returned as metadata / availableColumns
-		$metadata['availableColumns'] = $metadata['metrics'];
+		// the available metrics for the report are returned as metadata / columns
+		$metadata['columns'] = $metadata['metrics'];
 		
 		// metadata / metrics should document the rows that are compared
 		// this way, UI code can be reused
 		$metadata['metrics'] = array();
 		foreach ($actualLabels as $labelIndex => $label) {
-			$label .= ' ('.$metadata['availableColumns'][$column].')';
+			$label .= ' ('.$metadata['columns'][$column].')';
 			$metadata['metrics'][$column.'_'.$labelIndex] = $label;
 		}
 		

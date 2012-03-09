@@ -96,7 +96,8 @@ class Piwik_API_DataTableLabelFilter
 			htmlentities($label)
 		);
 		
-		if ($this->apiModule == 'Actions' && $this->apiMethod == 'getPageTitles')
+		if ($this->apiModule == 'Actions' 
+			&& $this->apiMethod == 'getPageTitles')
 		{
 			// special case: the Actions.getPageTitles report prefixes some labels with a blank.
 			// the blank might be passed by the user but is removed in Piwik_API_Request::getRequestArrayFromString.
@@ -123,6 +124,7 @@ class Piwik_API_DataTableLabelFilter
 			// if an array occurs inside the nested table, we only look for the first match (see below)
 			$newTableArray = new Piwik_DataTable_Array;
 			$newTableArray->metadata = $dataTable->metadata;
+			$newTableArray->setKeyName($dataTable->getKeyName());
 			
 			foreach ($dataTable->getArray() as $date => $subTable)
 			{

@@ -50,7 +50,7 @@ class Piwik_CoreHome_DataTableAction_MultiRowEvolution
 		$this->metric = $report['column'];
 		$this->dataTable = $report['data'];
 		$this->availableMetrics = $report['metadata']['metrics'];
-		$this->metricsForSelect = $report['metadata']['availableColumns'];
+		$this->metricsForSelect = $report['metadata']['columns'];
 		$this->dimension = $report['metadata']['dimension'];
 	}
 	
