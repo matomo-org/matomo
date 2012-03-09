@@ -109,7 +109,7 @@ class Piwik_Config
 			$this->__get('database_tests');
 			$this->configCache['database'] = $this->configCache['database_tests'];
 		}
-		
+
 		// Ensure local mods do not affect tests
 		if(is_null($pathGlobal))
 		{
@@ -119,7 +119,7 @@ class Piwik_Config
 			$this->configCache['Tracker'] = $this->configGlobal['Tracker'];
 			$this->configCache['Deletelogs'] = $this->configGlobal['Deletelogs'];
 		}
-				
+
 		// for unit tests, we set that no plugin is installed. This will force
 		// the test initialization to create the plugins tables, execute ALTER queries, etc.
 		$this->configCache['PluginsInstalled'] = array('PluginsInstalled' => array());
@@ -288,6 +288,7 @@ class Piwik_Config
 		{
 			$section = $this->configGlobal[$name];
 		}
+
 		if(isset($this->configLocal[$name]))
 		{
 			// local settings override the global defaults
@@ -327,18 +328,25 @@ class Piwik_Config
 	 */
 	static function compareElements($elem1, $elem2)
 	{
-		if (is_array($elem1)) {
+		if (is_array($elem1))
+		{
 			if (is_array($elem2))
 			{
 				return strcmp(serialize($elem1), serialize($elem2));
 			}
+
 			return 1;
 		}
+
 		if (is_array($elem2))
+		{
 			return -1;
+		}
 
 		if ((string)$elem1 === (string)$elem2)
+		{
 			return 0;
+		}
 
 		return ((string)$elem1 > (string)$elem2) ? 1 : -1;
 	}
@@ -362,20 +370,15 @@ class Piwik_Config
 	}
 
 	/**
-	 * Write user configuration file
+	 * Dump config
 	 *
 	 * @param array $configLocal
 	 * @param array $configGlobal
 	 * @param array $configCache
-	 * @param string $pathLocal
+	 * @return string
 	 */
-	public function writeConfig($configLocal, $configGlobal, $configCache, $pathLocal)
+	public function dumpConfig($configLocal, $configGlobal, $configCache)
 	{
-		if ($this->isTest)
-		{
-			return;
-		}
-
 		$dirty = false;
 
 		$output = "; <?php exit; ?> DO NOT REMOVE THIS LINE\n";
@@ -397,14 +400,14 @@ class Piwik_Config
 				{
 					continue;
 				}
-				
+
 				$configLocal = $configCache[$name];
-				// Only merge if the section exists in Global.ini.php (in case a section only lives in config.ini.php) 
+				// Only merge if the section exists in Global.ini.php (in case a section only lives in config.ini.php)
 				if(isset($configGlobal[$name]))
 				{
 					$configLocal = $this->array_unmerge($configGlobal[$name], $configCache[$name]);
 				}
-				
+
 				if (count($configLocal) == 0)
 				{
 					continue;
@@ -445,8 +448,33 @@ class Piwik_Config
 
 			if ($dirty)
 			{
-				@file_put_contents($pathLocal, $output );
+				return $output;
 			}
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * Write user configuration file
+	 *
+	 * @param array $configLocal
+	 * @param array $configGlobal
+	 * @param array $configCache
+	 * @param string $pathLocal
+	 */
+	public function writeConfig($configLocal, $configGlobal, $configCache, $pathLocal)
+	{
+		if ($this->isTest)
+		{
+			return;
+		}
+
+		$output = $this->dumpConfig($configLocal, $configGlobal, $configCache);
+		if ($output !== false)
+		{
+			@file_put_contents($pathLocal, $output );
 		}
 
 		$this->clear();
