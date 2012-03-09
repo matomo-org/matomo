@@ -175,4 +175,112 @@ class Test_Piwik_Config extends UnitTestCase
 			$this->assertEqual(serialize($b), serialize($diff), $description);
 		}
 	}
+
+	public function test_dumpConfig()
+	{
+		$header = <<<END_OF_HEADER
+; <?php exit; ?> DO NOT REMOVE THIS LINE
+; file automatically generated or modified by Piwik; you can manually override the default values in global.ini.php by redefining them in this file.
+
+END_OF_HEADER;
+
+		$tests = array(
+			'global only, not cached' => array(
+				array(),
+				array('General' => array('debug' => '1')),
+				array(),
+				false,
+			),
+
+			'global cached' => array(
+				array(),
+				array('General' => array('debug' => '1')),
+				array('General' => array('debug' => '1')),
+				false,
+			),
+
+			'local copy, not cached, no difference' => array(
+				array('General' => array('debug' => '1')),
+				array('General' => array('debug' => '1')),
+				array(),
+				false,
+			),
+
+			'local copy, cached, no difference' => array(
+				array('General' => array('debug' => '1')),
+				array('General' => array('debug' => '1')),
+				array('General' => array('debug' => '1')),
+				false,
+			),
+
+			'local copy, not cached, difference' => array(
+				array('General' => array('debug' => '2')),
+				array('General' => array('debug' => '1')),
+				array(),
+				$header . "[General]\ndebug = 2\n\n",
+			),
+
+			'local copy, cached, difference' => array(
+				array('General' => array('debug' => '2')),
+				array('General' => array('debug' => '1')),
+				array('General' => array('debug' => '3')),
+				$header . "[General]\ndebug = 3\n\n",
+			),
+
+			'local copy, not cached, new section' => array(
+				array('Tracker' => array('anonymize' => '1')),
+				array('General' => array('debug' => '1')),
+				array(),
+				$header . "[Tracker]\nanonymize = 1\n\n",
+			),
+
+			'local copy, cached difference, new section' => array(
+				array('Tracker' => array('anonymize' => '1')),
+				array('General' => array('debug' => '1')),
+				array('Tracker' => array('anonymize' => '0')),
+				$header . "[Tracker]\nanonymize = 0\n\n",
+			),
+
+			'sort, common sections, differences not cached' => array(
+				array('Tracker' => array('anonymize' => '1'),
+					  'General' => array('debug' => '1')),
+				array('General' => array('debug' => '0'),
+					  'Tracker' => array('anonymize' => '0')),
+				array(),
+				$header . "[General]\ndebug = 1\n\n[Tracker]\nanonymize = 1\n\n",
+			),
+
+			'sort, common sections, differences cached' => array(
+				array('Tracker' => array('anonymize' => '1'),
+					  'General' => array('debug' => '1')),
+				array('General' => array('debug' => '0'),
+					  'Tracker' => array('anonymize' => '0')),
+				array('Tracker' => array('anonymize' => '2')),
+				$header . "[General]\ndebug = 1\n\n[Tracker]\nanonymize = 2\n\n",
+			),
+
+			'sort, common sections, new section trailing' => array(
+				array('Tracker' => array('anonymize' => '1'),
+					  'General' => array('debug' => '1')),
+				array('General' => array('debug' => '0')),
+				array('General' => array('debug' => '2')),
+				$header . "[General]\ndebug = 2\n\n[Tracker]\nanonymize = 1\n\n",
+			),
+		);
+
+		$config = Piwik_Config::getInstance();
+
+		foreach ($tests as $description => $test)
+		{
+			list($configLocal, $configGlobal, $configCache, $expected) = $test;
+
+			$output = $config->dumpConfig($configLocal, $configGlobal, $configCache);
+
+			$this->assertEqual($output, $expected, $description);
+			if ($output !== $expected)
+			{
+				var_dump($expected, $output);
+			}
+		}
+	}
 }
