@@ -78,7 +78,6 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
 	public function oneClickResults()
 	{
-		$this->checkTokenInUrl();
 		Piwik_API_Request::reloadAuthUsingTokenAuth($_POST);
 		Piwik::checkUserIsSuperUser();
 
