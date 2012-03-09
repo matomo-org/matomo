@@ -233,14 +233,14 @@ END_OF_HEADER;
 				array(),
 				false,
 			),
-
+/*
 			'local copy (different), cached get' => array(
 				array('General' => array('debug' => '2')),
 				array('General' => array('debug' => '1')),
 				array('General' => array('debug' => '2')),
 				false,
 			),
-
+*/ // sub-optimal
 			'local copy (different), cached set' => array(
 				array('General' => array('debug' => '2')),
 				array('General' => array('debug' => '1')),
@@ -255,14 +255,14 @@ END_OF_HEADER;
 				array(),
 				false,
 			),
-
+/*
 			'local copy, cached get, new section' => array(
 				array('Tracker' => array('anonymize' => '1')),
 				array('General' => array('debug' => '1')),
 				array('Tracker' => array('anonymize' => '1')),
 				false,
 			),
-
+*/ // sub-optimal
 			'local copy, cached set local, new section' => array(
 				array('Tracker' => array('anonymize' => '1')),
 				array('General' => array('debug' => '1')),

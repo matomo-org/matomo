@@ -394,18 +394,19 @@ class Piwik_Config
 				}
 			}
 
-			foreach($configGlobal as $name => $section)
+			$sections = array_unique(array_merge(array_keys($configGlobal), array_keys($configCache)));
+			foreach($sections as $section)
 			{
-				if(!isset($configCache[$name]))
+				if(!isset($configCache[$section]))
 				{
 					continue;
 				}
 
-				$configLocal = $configCache[$name];
+				$configLocal = $configCache[$section];
 				// Only merge if the section exists in Global.ini.php (in case a section only lives in config.ini.php)
-				if(isset($configGlobal[$name]))
+				if(isset($configGlobal[$section]))
 				{
-					$configLocal = $this->array_unmerge($configGlobal[$name], $configCache[$name]);
+					$configLocal = $this->array_unmerge($configGlobal[$section], $configCache[$section]);
 				}
 
 				if (count($configLocal) == 0)
@@ -415,7 +416,7 @@ class Piwik_Config
 
 				$dirty = true;
 
-				$output .= "[$name]\n";
+				$output .= "[$section]\n";
 
 				foreach($configLocal as $name => $value)
 				{
