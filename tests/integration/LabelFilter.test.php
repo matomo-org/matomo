@@ -19,7 +19,7 @@ class Test_Piwik_Integration_LabelFilter extends Test_Integration_Facade
 	{
 		$labelsToTest = array(
             // first level
-            'nonExistent', 
+            'shouldBeNoData' => 'nonExistent',  
             'dir' => '  dir   ', 
             '0' => urlencode('/0'),
 			
