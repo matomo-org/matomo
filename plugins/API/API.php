@@ -1213,7 +1213,8 @@ class Piwik_API_API
 		if (!isset($metadata['metrics'][$column]))
 		{
 			// invalid column => use the first one that's available
-			$column = reset(array_keys($metadata['metrics']));
+			$metrics = array_keys($metadata['metrics']);
+			$column = reset($metrics);
 		}
 		
 		// load the tables for each label

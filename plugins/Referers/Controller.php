@@ -374,7 +374,8 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$tables = $request->getArray();
 		$topPageUrls = $tables[key($tables)];
 		$topPageUrls = $topPageUrls->getRowsMetadata('url');
-		$topPageUrl = current(array_values($topPageUrls));
+		$tmpTopPageUrls = array_values($topPageUrls);
+		$topPageUrl = current($tmpTopPageUrls);
 		
 		if(empty($topPageUrl))
 		{
