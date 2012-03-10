@@ -16,7 +16,7 @@ if(file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php'))
 }
 
 error_reporting(E_ALL|E_NOTICE);
-@ini_set('display_errors', (defined('PIWIK_DISPLAY_ERRORS') ? PIWIK_DISPLAY_ERRORS : 0));
+@ini_set('display_errors', (defined('PIWIK_DISPLAY_ERRORS') ? PIWIK_DISPLAY_ERRORS : 1));
 @ini_set('xdebug.show_exception_trace', 0);
 @ini_set('magic_quotes_runtime', 0);
 
