@@ -63,6 +63,7 @@ class Piwik_Config_Compat_Array
 		}
 
 		$this->data[$name] = $value;
+		$this->setDirtyBit();
 	}
 
 	/**
