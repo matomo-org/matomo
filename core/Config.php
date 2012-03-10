@@ -11,8 +11,6 @@
  */
 
 /**
- * A lightweight class to access the configuration file(s).
- *
  * For general performance (and specifically, the Tracker), we use deferred (lazy) initialization
  * and cache sections.  We also avoid any dependency on Zend Framework's Zend_Config.
  *
