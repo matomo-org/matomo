@@ -325,6 +325,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 				$user['password'] = md5($password);
 				Piwik_Config::getInstance()->superuser = $user;
+				Piwik_Config::getInstance()->forceSave();
 			}
 			else
 			{

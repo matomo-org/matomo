@@ -88,6 +88,8 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 			
 			// update branding settings
 			Piwik_Config::getInstance()->branding['use_custom_logo'] = Piwik_Common::getRequestVar('useCustomLogo', '0');
+
+			Piwik_Config::getInstance()->forceSave();
 			
 			$toReturn = $response->getResponse();
 		} catch(Exception $e ) {

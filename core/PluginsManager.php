@@ -131,14 +131,12 @@ class Piwik_PluginsManager
 	 */
 	public function deactivatePlugin($pluginName)
 	{
-		$configWriter = Piwik_Config::getInstance();
-
 		$plugins = $this->pluginsToLoad;
 		$key = array_search($pluginName, $plugins);
 		if($key !== false)
 		{
 			unset($plugins[$key]);
-			$configWriter->Plugins['Plugins'] = $plugins;
+			Piwik_Config::getInstance()->Plugins['Plugins'] = $plugins;
 		}
 
 		$pluginsTracker = Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
@@ -148,12 +146,12 @@ class Piwik_PluginsManager
 			if($key !== false)
 			{
 				unset($pluginsTracker[$key]);
-				$configWriter->Plugins_Tracker['Plugins_Tracker'] = $pluginsTracker;
+				Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'] = $pluginsTracker;
 			}
 		}
 
 		// Delete merged js/css files to force regenerations to exclude the deactivated plugin
-		Piwik_Config::getInstance()->clear();
+		Piwik_Config::getInstance()->forceSave();
 		Piwik::deleteAllCacheOnUpdate();
 	}
 
@@ -207,8 +205,8 @@ class Piwik_PluginsManager
 		}
 
 		// the config file will automatically be saved with the new plugin
-		$configWriter = Piwik_Config::getInstance();
-		$configWriter->Plugins['Plugins'] = $plugins;
+		Piwik_Config::getInstance()->Plugins['Plugins'] = $plugins;
+		Piwik_Config::getInstance()->forceSave();
 
 		// Delete merged js/css files to force regenerations to include the activated plugin
 		Piwik::deleteAllCacheOnUpdate();
@@ -557,8 +555,7 @@ class Piwik_PluginsManager
 		{
 			$this->installPlugin($plugin);
 			$pluginsInstalled[] = $pluginName;
-			$configWriter = Piwik_Config::getInstance();
-			$configWriter->PluginsInstalled['PluginsInstalled'] = $pluginsInstalled;
+			Piwik_Config::getInstance()->PluginsInstalled['PluginsInstalled'] = $pluginsInstalled;
 		}
 
 		$information = $plugin->getInformation();
@@ -575,10 +572,11 @@ class Piwik_PluginsManager
 			if(!in_array($pluginName, $pluginsTracker))
 			{
 				$pluginsTracker[] = $pluginName;
-				$configWriter = Piwik_Config::getInstance();
-				$configWriter->Plugins_Tracker['Plugins_Tracker'] = $pluginsTracker;
+				Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'] = $pluginsTracker;
 			}
 		}
+
+		Piwik_Config::getInstance()->forceSave();
 	}
 }
 

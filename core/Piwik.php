@@ -1,5 +1,4 @@
-<?php
-/**
+<?php /**
  * Piwik - Open source web analytics
  *
  * @link http://piwik.org

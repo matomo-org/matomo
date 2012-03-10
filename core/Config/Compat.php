@@ -24,14 +24,16 @@
 class Piwik_Config_Compat_Array
 {
 	private $data;
+	private $parent;
 
 	/**
 	 * Constructor
 	 *
 	 * @param array $data configuration section
 	 */
-	public function __construct(array $data)
+	public function __construct($parent, array $data)
 	{
+		$this->parent = $parent;
 		$this->data = $data;
 	}
 
@@ -44,7 +46,7 @@ class Piwik_Config_Compat_Array
 	public function __get($name)
 	{
 		$tmp = $this->data[$name];
-		return is_array($tmp) ? new Piwik_Config_Compat_Array($tmp) : $tmp;
+		return is_array($tmp) ? new Piwik_Config_Compat_Array($this, $tmp) : $tmp;
 	}
 
 	/**
@@ -72,6 +74,14 @@ class Piwik_Config_Compat_Array
 	{
 		return $this->data;
 	}
+
+	/**
+	 * Set dirty bit
+	 */
+	public function setDirtyBit()
+	{
+		$this->parent->setDirtyBit();
+	}
 }
 
 class Piwik_Config_Compat
@@ -79,6 +89,7 @@ class Piwik_Config_Compat
 	private $config;
 	private $data;
 	private $enabled;
+	private $dirty;
 
 	/**
 	 * Constructor
@@ -88,6 +99,7 @@ class Piwik_Config_Compat
 		$this->config = Piwik_Config::getInstance();
 		$this->data = array();
 		$this->enabled = true;
+		$this->dirty = false;
 	}
 
 	/**
@@ -95,15 +107,11 @@ class Piwik_Config_Compat
 	 */
 	public function __destruct()
 	{
-		if ($this->enabled)
+		if ($this->enabled && $this->dirty)
 		{
 			$this->config->forceSave();
-			Piwik_Config::getInstance()->clear();
 		}
-		else
-		{
-			$this->config->clear();
-		}
+		$this->config->clear();
 	}
 
 	/**
@@ -120,7 +128,7 @@ class Piwik_Config_Compat
 		}
 
 		$tmp = $this->data[$name];
-		return is_array($tmp) ? new Piwik_Config_Compat_Array($tmp) : $tmp;
+		return is_array($tmp) ? new Piwik_Config_Compat_Array($this, $tmp) : $tmp;
 	}
 
 	/**
@@ -137,6 +145,15 @@ class Piwik_Config_Compat
 		}
 
 		$this->config->__set($name, $value);
+		$this->dirty = true;
+	}
+
+	/**
+	 * Set dirty bit
+	 */
+	public function setDirtyBit()
+	{
+		$this->dirty = true;
 	}
 
 	/**

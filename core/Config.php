@@ -394,31 +394,34 @@ class Piwik_Config
 				}
 			}
 
-			$sections = array_unique(array_merge(array_keys($configGlobal), array_keys($configCache)));
-			foreach($sections as $section)
+			$sectionNames = array_unique(array_merge(array_keys($configGlobal), array_keys($configCache)));
+
+			foreach($sectionNames as $section)
 			{
 				if(!isset($configCache[$section]))
 				{
 					continue;
 				}
 
-				$configLocal = $configCache[$section];
-				// Only merge if the section exists in Global.ini.php (in case a section only lives in config.ini.php)
-				if(isset($configGlobal[$section]))
-				{
-					$configLocal = $this->array_unmerge($configGlobal[$section], $configCache[$section]);
-				}
+				// Only merge if the section exists in global.ini.php (in case a section only lives in config.ini.php)
+				$config = isset($configGlobal[$section])
+					? $this->array_unmerge($configGlobal[$section], $configCache[$section])
+					: $configCache[$section];
 
-				if (count($configLocal) == 0)
+				if (count($config) == 0)
 				{
 					continue;
 				}
 
-				$dirty = true;
+				if (!isset($configLocal[$section])
+					|| self::compareElements($config, $configLocal[$section]))
+				{
+					$dirty = true;
+				}
 
 				$output .= "[$section]\n";
 
-				foreach($configLocal as $name => $value)
+				foreach($config as $name => $value)
 				{
 					$value = $this->encodeValues($value);
 
@@ -444,6 +447,7 @@ class Piwik_Config
 						$output .= $name.' = '.$value."\n";
 					}
 				}
+
 				$output .= "\n";
 			}
 
@@ -475,7 +479,7 @@ class Piwik_Config
 		$output = $this->dumpConfig($configLocal, $configGlobal, $configCache);
 		if ($output !== false)
 		{
-			@file_put_contents($pathLocal, $output );
+			@file_put_contents($pathLocal, $output);
 		}
 
 		$this->clear();
@@ -487,13 +491,5 @@ class Piwik_Config
 	public function forceSave()
 	{
 		$this->writeConfig($this->configLocal, $this->configGlobal, $this->configCache, $this->pathLocal);
-	}
-
-	/**
-	 * At the script shutdown, we save the new configuration file, if the user has set some values
-	 */
-	public function __destruct()
-	{
-		$this->forceSave();
 	}
 }
