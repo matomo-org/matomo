@@ -16,9 +16,9 @@ body { background: #eee; }
 	font-weight: lighter;
 }
 #subh1 {
+	margin-left:15px;
 	color: #6B320B;
-    font-family: tahoma,Georgia;
-    font-size: 17pt;
+    font-size: 15pt;
 }
 #subh1 a {
 	color: #6B320B;

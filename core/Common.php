@@ -66,6 +66,23 @@ class Piwik_Common
 		}
 		return $prefixTable . $table;
 	}
+	
+	/**
+	 * Returns the table name, after removing the table prefix
+	 */
+	static public function unprefixTable($table)
+	{
+		static $prefixTable = null;
+		if(is_null($prefixTable))
+		{
+			$prefixTable = Piwik_Config::getInstance()->database['tables_prefix'];
+		}
+		if(strpos($table, $prefixTable) !== 0)
+		{
+			return $table;
+		}
+		return str_replace($prefixTable, '', $table, $count = 1);
+	}
 
 /*
  * Tracker

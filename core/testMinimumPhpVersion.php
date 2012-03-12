@@ -37,7 +37,7 @@ else
 	{
 		$piwik_errorMessage .= "<p><b>Piwik is not compatible with the directive <code>zend.ze1_compatibility_mode = On</code></b></p> 
 					<p>It seems your php.ini file has <pre>zend.ze1_compatibility_mode = On</pre>It makes PHP5 behave like PHP4.
-					If you want to use Piwik you need to set <pre>zend.ze1_compatibility_mode = Off</pre> in your php.ini configuration file. You may have to ask your system administrator.</p>";
+					If you want to use Piwik you need to set <pre>zend.ze1_compatibility_mode = Off</pre> in your php.ini configuration file, and restart your web server. You may have to ask your system administrator.</p>";
 	}
 
 	if(!class_exists('ArrayObject'))
@@ -58,7 +58,7 @@ else
 	{
 		$piwik_errorMessage .= "<p><b>Piwik and Zend_Session require the <code>ini_set()</code> function</b></p> 
 					<p>It appears your PHP has disabled this function.
-					To enjoy Piwik, you need remove <pre>ini_set</pre> from your <pre>disable_functions</pre> directive in php.ini.</p>";
+					To enjoy Piwik, you need remove <pre>ini_set</pre> from your <pre>disable_functions</pre> directive in php.ini, and restart your webserver.</p>";
 	}
 }
 

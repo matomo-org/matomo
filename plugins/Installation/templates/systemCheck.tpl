@@ -3,12 +3,20 @@
 {assign var=warning value="<img src='themes/default/images/warning.png' />"}
 {assign var=link value="<img src='themes/default/images/link.gif' />"}
 
-<h2>{'Installation_SystemCheck'|translate}</h2>
+{if !$showNextStep}
+{include file="Installation/templates/systemCheck_legend.tpl"}
+<br style="clear:both">
+{/if}
 
+<h3>{'Installation_SystemCheck'|translate}</h2>
+<br/>
 <table class="infosServer">
 	<tr>
-		<td class="label">{'Installation_SystemCheckPhp'|translate} &gt; {$infos.phpVersion_minimum}</td>
-		<td>{if $infos.phpVersion_ok}{$ok}{else}{$error}{/if}</td>
+		{capture assign="MinPHP"}{'Installation_SystemCheckPhp'|translate} &gt; {$infos.phpVersion_minimum}{/capture}
+		<td class="label">{$MinPHP}</td>
+
+		<td>{if $infos.phpVersion_ok}{$ok}
+		{else}{$error} <span class="err">{'General_Error'|translate}: {'General_Required'|translate:$MinPHP}</span>{/if}</td>
 	</tr>
 	<tr>
 		<td class="label">PDO {'Installation_Extension'|translate}</td>
@@ -33,6 +41,8 @@
 				{else}
 					{'Installation_SystemCheckPdoAndMysqliHelp'|translate:"<br /><br /><code>--with-mysqli</code><br /><code>--with-pdo-mysql</code><br /><br />":"<br /><br /><code>extension=mysqli.so</code><br /><code>extension=pdo.so</code><br /><code>extension=pdo_mysql.so</code><br />"}
 				{/if}
+				{'Installation_RestartWebServer'|translate}
+				<br />
 				<br />
 				{'Installation_SystemCheckPhpPdoAndMysqliSite'|translate}
 				</p>
@@ -46,12 +56,14 @@
 		<td>{foreach from=$infos.needed_extensions item=needed_extension}
 				{if in_array($needed_extension, $infos.missing_extensions)}
 					{$error}
+					{capture assign="hasError"}1{/capture}
 				{else}
 					{$ok}
 				{/if}
 				{$needed_extension}
 				<br />
 			{/foreach}
+			<br/>{if isset($hasError)}{'Installation_RestartWebServer'|translate}{/if}
 		</td>
 	</tr>
 	{if count($infos.missing_extensions) gt 0}
@@ -69,9 +81,11 @@
 	{/if}
 	<tr>
 		<td class="label">{'Installation_SystemCheckFunctions'|translate}</td>
+		
 		<td>{foreach from=$infos.needed_functions item=needed_function}
-				{if in_array($needed_function, $infos.missing_functions)}
-					{$error} {$needed_function}
+				{if  in_array($needed_function, $infos.missing_functions)}
+					{$error} <span class='err'>{$needed_function}</span>
+					{capture assign="hasError"}1{/capture}
 					<p>
 					<i>{$helpMessages[$needed_function]|translate}</i>
 					</p>
@@ -79,6 +93,7 @@
 					{$ok} {$needed_function}<br />
 				{/if}
 			{/foreach}
+			<br/>{if isset($hasError)}{'Installation_RestartWebServer'|translate}{/if}
 		</td>
 	</tr>
 	<tr>
@@ -97,8 +112,9 @@
 		</td>
 	</tr>
 </table>
+<br />
+	
 {if $problemWithSomeDirectories}
-	<br />
 	<div class="error">
 		{'Installation_SystemCheckWriteDirsHelp'|translate}:
 		{foreach from=$infos.directories key=dir item=bool}
@@ -135,8 +151,9 @@
 			{if $infos.tracker_status == 0}
 				{$ok}
 			{else}
-				{$warning} {$infos.tracker_status}
-				<br /><i>{'Installation_SystemCheckTrackerHelp'|translate}</i>
+				{$warning} <span class="warn">{$infos.tracker_status}
+				<br />{'Installation_SystemCheckTrackerHelp'|translate} </span>
+				<br/>{'Installation_RestartWebServer'|translate}
 			{/if}	
 		</td>
 	</tr>
@@ -146,39 +163,51 @@
 			{if $infos.memory_ok}
 				{$ok} {$infos.memoryCurrent}
 			{else}
-				{$warning} {$infos.memoryCurrent}
-				<br /><i>{'Installation_SystemCheckMemoryLimitHelp'|translate}</i>
+				{$warning} <span class="warn">{$infos.memoryCurrent}</span>
+				<br />{'Installation_SystemCheckMemoryLimitHelp'|translate} 
+				{'Installation_RestartWebServer'|translate}
 			{/if}	
 		</td>
 	</tr>
 	<tr>
 		<td class="label">{'SitesManager_Timezone'|translate}</td>
 		<td>
-			{if $infos.timezone}{$ok}{else}{$warning} 
-				<br /><i>{'SitesManager_AdvancedTimezoneSupportNotFound'|translate}</i>{/if}	
+			{if $infos.timezone}{$ok}
+			{else}{$warning} 
+			<span class="warn">{'SitesManager_AdvancedTimezoneSupportNotFound'|translate} </span>
+			<br/><a href="http://php.net/manual/en/datetime.installation.php" target="_blank">Timezone PHP documentation</a>.
+			{/if}	
 		</td>
 	</tr>
 	<tr>
 		<td class="label">{'Installation_SystemCheckOpenURL'|translate}</td>
 		<td>
-			{if $infos.openurl}{$ok} {$infos.openurl}{else}{$warning} <i>{'Installation_SystemCheckOpenURLHelp'|translate}</i>{/if}
+			{if $infos.openurl}{$ok} {$infos.openurl}
+			{else}{$warning} <span class="warn">{'Installation_SystemCheckOpenURLHelp'|translate}</span>
+			{/if}
 			{if !$infos.can_auto_update}
-				<br />{$warning} <i>{'Installation_SystemCheckAutoUpdateHelp'|translate}</i>{/if}	
+				<br />{$warning} <span class="warn">{'Installation_SystemCheckAutoUpdateHelp'|translate}</span>{/if}	
 		</td>
 	</tr>
 	<tr>
 		<td class="label">{'Installation_SystemCheckGD'|translate}</td>
 		<td>
-			{if $infos.gd_ok}{$ok}{else}{$warning} <br /><i>{'Installation_SystemCheckGDHelp'|translate}</i>{/if}
+			{if $infos.gd_ok}{$ok}
+			{else}{$warning} <span class="warn">{'Installation_SystemCheckGD'|translate} 
+			<br /> {'Installation_SystemCheckGDHelp'|translate} </span>{/if}
 		</td>
 	</tr>
 	<tr>
 		<td class="label">{'Installation_SystemCheckMbstring'|translate}</td>
 		<td>
 			{if $infos.hasMbstring}
-				{if $infos.multibyte_ok}{$ok}{else}{$warning} <br /><i>{'Installation_SystemCheckMbstringFuncOverloadHelp'|translate}</i>{/if}
+				{if $infos.multibyte_ok}{$ok}
+				{else}
+					{$warning} <span class="warn">{'Installation_SystemCheckMbstring'|translate}
+					<br/> {'Installation_SystemCheckMbstringFuncOverloadHelp'|translate}</span>
+				{/if}
 			{else}
-				{$warning} <br /><i>{'Installation_SystemCheckMbstringExtensionHelp'|translate}</i>
+				{$warning} <span class="warn">{'Installation_SystemCheckMbstringExtensionHelp'|translate}</span>
 			{/if}
 		</td>
 	</tr>
@@ -186,10 +215,8 @@
 		<td class="label">{'Installation_SystemCheckOtherExtensions'|translate}</td>
 		<td>{foreach from=$infos.desired_extensions item=desired_extension}
 				{if in_array($desired_extension, $infos.missing_desired_extensions)}
-					{$warning} {$desired_extension}
-					<p>
-					<i>{$helpMessages[$desired_extension]|translate}</i>
-					</p>
+					{$warning}<span class="warn">{$desired_extension}</span>
+					<p>{$helpMessages[$desired_extension]|translate}</p>
 				{else}
 					{$ok} {$desired_extension}<br />
 				{/if}
@@ -200,10 +227,8 @@
 		<td class="label">{'Installation_SystemCheckOtherFunctions'|translate}</td>
 		<td>{foreach from=$infos.desired_functions item=desired_function}
 				{if in_array($desired_function, $infos.missing_desired_functions)}
-					{$warning} {$desired_function}
-					<p>
-					<i>{$helpMessages[$desired_function]|translate}</i>
-					</p>
+					{$warning} <span class="warn">{$desired_function}</span>
+					<p>{$helpMessages[$desired_function]|translate}</p>
 				{else}
 					{$ok} {$desired_function}<br />
 				{/if}
@@ -214,7 +239,11 @@
 	<tr>
 		<td class="label">{'Installation_SystemCheckSecureProtocol'|translate}</td>
 		<td>
-			{$warning} {$infos.protocol}<br /><i>{'Installation_SystemCheckSecureProtocolHelp'|translate}</i><br /><br /><code>[General]</code><br /><code>assume_secure_protocol = 1</code><br />
+			{$warning} <span class="warn">{$infos.protocol} </span><br/>
+			{'Installation_SystemCheckSecureProtocolHelp'|translate}
+			<br /><br />
+			<code>[General]<br/>
+assume_secure_protocol = 1</code><br />
 		</td>
 	</tr>
 	{/if}
@@ -222,31 +251,10 @@
 
 {include file="Installation/templates/integrityDetails.tpl"}
 
-<p>
-{$link} <a href="?module=Proxy&action=redirect&url=http://piwik.org/docs/requirements/" target="_blank">{'Installation_Requirements'|translate}</a> 
-</p>
 
 {if !$showNextStep}
-{literal}
-<style type="text/css">
-#legend {
-	border:1px solid #A5A5A5;
-	padding:5px;
-	color:#727272;
-	margin-top:30px;
-}
-</style>
-{/literal}
-<div id="legend"><small>
-<b>{'Installation_Legend'|translate}</b>
-<br />
-{$ok} {'General_Ok'|translate}<br />
-{$error} {'General_Error'|translate}: {'Installation_SystemCheckError'|translate} <br />
-{$warning} {'General_Warning'|translate}: {'Installation_SystemCheckWarning'|translate} <br />
-</small></div>
-
-
-<p class="nextStep">
-	<a href="{url}">{'General_Refresh'|translate} &raquo;</a>
+<br/><p>
+{$link} &nbsp;<a href="?module=Proxy&action=redirect&url=http://piwik.org/docs/requirements/" target="_blank">{'Installation_Requirements'|translate}</a> 
 </p>
+{include file="Installation/templates/systemCheck_legend.tpl"}
 {/if}

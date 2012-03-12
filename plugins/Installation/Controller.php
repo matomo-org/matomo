@@ -104,11 +104,12 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 		$view->infos = self::getSystemInformation();
 		$this->session->general_infos = $view->infos['general_infos'];
-
+		
 		$view->helpMessages = array(
 			'zlib'            => 'Installation_SystemCheckZlibHelp',
 			'SPL'             => 'Installation_SystemCheckSplHelp',
 			'iconv'           => 'Installation_SystemCheckIconvHelp',
+			'Reflection'	  => 'Required extension that is built in PHP, see http://www.php.net/manual/en/book.reflection.php',
 			'json'            => 'Installation_SystemCheckWarnJsonHelp',
 			'libxml'          => 'Installation_SystemCheckWarnLibXmlHelp',
 			'dom'             => 'Installation_SystemCheckWarnDomHelp',
@@ -133,6 +134,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 							&& !count($view->infos['missing_extensions'])
 							&& !count($view->infos['missing_functions'])
 						;
+		// On the system check page, if all is green, display Next link at the top
+		$view->showNextStepAtTop = $view->showNextStep;  
 
 		$this->session->currentStepDone = __FUNCTION__;
 

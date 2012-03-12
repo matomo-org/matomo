@@ -82,6 +82,7 @@ class Piwik_Date
 		}
 		$timestamp = $date->getTimestamp();
 		// can't be doing web analytics before the 1st website
+		// Tue, 06 Aug 1991 00:00:00 GMT
 		if($timestamp < 681436800 ) 
 		{
 			throw $invalidDateException;

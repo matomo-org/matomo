@@ -786,16 +786,14 @@ class Piwik_SitesManager_API
 
 		$this->checkName($siteName);
 		
-		// SQL fields to update
+		// Build the SQL UPDATE based on specified updates to perform
 		$bind = array();
-		
 		if(!is_null($urls))
 		{
 			$urls = $this->cleanParameterUrls($urls);
 			$this->checkUrls($urls);
 			$this->checkAtLeastOneUrl($urls);
 			$url = $urls[0];
-			
 			$bind['main_url'] = $url;
 		}
 

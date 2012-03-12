@@ -26,182 +26,7 @@ $(document).ready( function(){
 </script>
 {/literal}
 
-{literal}
-<style type="text/css">
-div.both {
-	clear: both;
-}
-
-body {
-	background-color: #F9F9F9;
-	text-align: center;
-	font-family:Arial,Georgia,"Times New Roman",Times,serif;
-	font-size:17px;
-}
-
-#title{
-	font-size:50px;
-	color:#284F92;
-}
-
-#subtitle{
-	font-size:30px;
-	color:#C7D8D2;
-}
-
-#logo {
-	padding:30px;
-}
-
-h2 {
-	font-size:20px;
-	color:#666666;
-	border-bottom:1px solid #DADADA;
-	padding:0 0 7px;
-}
-
-h3 {
-	margin-top:10px;
-	font-size:17px;
-	color:#3F5163;
-}
-
-.topBarElem {
-	font-family:arial,sans-serif !important;
-	font-size:13px;
-	line-height:1.33;
-}
-
-.error {
-	color:red;
-	font-size:100%;
-	font-weight:bold;
-	border: 2px solid red;
-	width: 550px;
-	padding:20px;
-	margin-bottom:10px;
-}
-
-.error img {
-	border:0;
-	float:right;
-	margin:10;
-}
-.success {
-	color:#26981C;
-	font-size:130%;
-	font-weight:bold;
-	padding:10;	
-}
-.warning {
-	margin:10px;
-	color:#ff5502;
-	font-size:130%;
-	font-weight:bold;
-	padding:10px 20px 10px 30px;	
-	border: 1px solid #ff5502;
-}
-
-.warning ul {
-	list-style:disc;
-}
-
-.success img, .warning img {
-	border:0;
-	vertical-align:bottom;
-}
-
-
-/* Cadre general */
-#main {
-	margin: 5px;
-	margin-top:30px;
-	text-align: left;
-}
-
-#content {
-	font-size: 90%;
-	line-height: 1.4em;
-	width: 860px;
-	border: 1px solid #3B62AF;
-	text-align: $rightouleft;
-	margin: auto;
-	background: #FFFFFF;
-	padding: 0.2em 2em 2em 2em;
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
-}
-/* form errors */
-#adminErrors {
-	color:#FF6E46;
-	font-size:120%;
-}
-/* listing all the steps */
-#generalInstall {
-	float: left;
-	margin-left:20px;
-	width:19%;
-}
-
-#detailInstall {
-	width:75%;
-	float: right;
-}
-
-#generalInstall ul {
-	list-style-type: decimal;
-}
-li.futureStep {
-	color: #d3d3d3;
-}
-li.actualStep {
-	font-weight: bold;
-}
-li.pastStep {
-	color: #008000;
-}
-
-p.nextStep a {
-	font-weight: bold;
-	padding: 0.5em;
-	color: #ae0000;
-	text-decoration: underline;
-	float:right;
-	font-size:35px;
-	line-height:1em;
-}
-
-td {
-	border-color:#FFFFFF rgb(198, 205, 216)  rgb(198, 205, 216) rgb(198, 205, 216) ;
-	border-style:solid;
-	border-width:1px;
-	color:#203276;
-	padding:0.5em 0.5em 0.5em 0.8em;
-}
-
-.submit {
-	text-align:center;
-}
-.submit input{
-	margin-top:15px;
-	background:transparent url(./themes/default/images/background-submit.png) repeat scroll 0%;
-	font-size:1.4em;
-	border-color:#CCCCCC rgb(153, 153, 153) rgb(153, 153, 153) rgb(204, 204, 204);
-	border-style:double;
-	border-width:3px;
-	color:#333333;
-	padding:0.15em;
-}
-
-input {
-	font-size:18px;
-	border-color:#CCCCCC rgb(153, 153, 153) rgb(153, 153, 153) rgb(204, 204, 204);
-	border-width:1px;
-	color:#3A2B16;
-	padding:0.15em;
-}
-</style>
-{/literal}
+<link rel="stylesheet" type="text/css" href="plugins/Installation/templates/install.css" />
 {if 'General_LayoutDirection'|translate =='rtl'}
 <link rel="stylesheet" type="text/css" href="themes/default/rtl.css" />
 {/if}
@@ -224,6 +49,11 @@ input {
 		</div>
 		
 		<div id="detailInstall">
+			{if isset($showNextStepAtTop) && $showNextStepAtTop}
+				<p class="nextStep">
+					<a href="{url action=$nextModuleName}">{'General_Next'|translate} &raquo;</a>
+				</p>
+			{/if}
 			{include file="$subTemplateToLoad"}
 			{if $showNextStep}
 				<p class="nextStep">
