@@ -181,7 +181,7 @@ class Piwik_CoreAdminHome_API
 					" WHERE ( $sql ) ". 
 					" AND idsite IN (". $sqlIdSites .")";
 			Piwik_Query($query, $bind);
-			var_dump($query);var_dump($bind);
+//			var_dump($query);var_dump($bind);
 		}
 
 		// Update piwik_site.ts_created 
