@@ -416,13 +416,18 @@ abstract class Test_Integration extends Test_Database_Base
 					$parametersToSet['period'] = $period;
 
 					// If date must be a date range, we process this date range by adding 6 periods to it
-					if($setDateLastN === true)
+					if($setDateLastN)
 					{
 						if(!isset($parametersToSet['dateRewriteBackup']))
 						{
 							$parametersToSet['dateRewriteBackup'] = $parametersToSet['date'];
 						}
-						$lastCount = 6;
+						
+						$lastCount = (int)$setDateLastN;
+						if($setDateLastN === true)
+						{
+							$lastCount = 6;
+						}
 						$firstDate = $parametersToSet['dateRewriteBackup'];
 						$secondDate = date('Y-m-d', strtotime("+$lastCount " . $period . "s", strtotime($firstDate)));
 						$parametersToSet['date'] = $firstDate . ',' . $secondDate;
@@ -1071,6 +1076,18 @@ abstract class Test_Integration_Facade extends Test_Integration
 	abstract public function getApiToTest();
 
 	/**
+     * It is possible to run another set of API tests after the first one.
+     * For example, getApiToTest() will test and record with a specific suffix
+     * Then we will call some API that invalidates a piece of the reports
+     * Then call all reports again and check that what is expected to have changed indeed has changed!
+     * 
+     * @see getApiToTest() for returned values, same signature
+	 */
+	public function getAnotherApiToTest()
+	{
+		return array();
+	}
+	/**
 	 * Returns an array describing the Controller actions to call & compare
 	 * with expected output.
 	 *
@@ -1114,6 +1131,7 @@ abstract class Test_Integration_Facade extends Test_Integration
 
 		$this->runApiTests();
 		$this->runControllerTests();
+		$this->runApiAnotherTests();
 	}
 
 	/**
@@ -1124,12 +1142,27 @@ abstract class Test_Integration_Facade extends Test_Integration
 		return str_replace('Test_Piwik_Integration_', '', get_class($this));
 	}
 
+	/*
+	 * When there 2 distinct sets of APIs to call, call it
+	 */
+	private function runApiAnotherTests()
+	{
+		$apiToTest = $this->getAnotherApiToTest();
+		if(!empty($apiToTest))
+		{
+			$this->runApiTests( $apiToTest );
+		}
+	}
+	
 	/**
 	 * Runs API tests.
 	 */
-	private function runApiTests()
+	private function runApiTests($apiToTest = false)
 	{
-		$apiToTest = $this->getApiToTest();
+		if($apiToTest === false)
+		{
+			$apiToTest = $this->getApiToTest();
+		}
 		$testName = 'test_' . $this->getOutputPrefix();
 
 		foreach ($apiToTest as $test)

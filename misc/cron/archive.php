@@ -188,6 +188,7 @@ class Archiving
 		$this->logSection("START");
 		$this->log("Starting Piwik reports archiving...");
 		
+		$this->websites = array_unique($this->websites);
 		foreach ($this->websites as $idsite) 
 		{
 			flush();
@@ -222,10 +223,18 @@ class Archiving
 		    	$shouldArchivePeriods = true;
 		    }
 		    
-		    // If the website is archived because it is a new day in its timezone
+		    // (*) If the website is archived because it is a new day in its timezone
 		    // We make sure all periods are archived, even if there is 0 visit today
 		    if(!$shouldArchivePeriods
 		    	&& in_array($idsite, $this->websiteDayHasFinishedSinceLastRun))
+		    {
+		    	$shouldArchivePeriods = true;
+		    }
+		    
+		    // (*) If there was some old reports invalidated for this website
+		    // we make sure all these old reports are triggered at least once
+		    $websiteIsOldDataInvalidate = in_array($idsite, $this->idSitesInvalidatedOldReports);
+		    if($websiteIsOldDataInvalidate)
 		    {
 		    	$shouldArchivePeriods = true;
 		    }
@@ -247,9 +256,16 @@ class Archiving
 		    // running do not grab the same website from the queue
 		    Piwik_SetOption( $this->lastRunKey($idsite, "day"), time() );
 		    
-		    $url = $this->getVisitsRequestUrl($idsite, "day", 
-							    // when --force-all-websites option, also forces to archive last52 days to be safe
-							$this->shouldArchiveAllWebsites ? false : $lastTimestampWebsiteProcessedDay);
+		    $url = $this->getVisitsRequestUrl($idsite, "day",
+			    				// when some data was purged from this website
+			    				// we make sure we query all previous days/weeks/months
+		    				$websiteIsOldDataInvalidate
+								// when --force-all-websites option, 
+								// also forces to archive last52 days to be safe
+							|| $this->shouldArchiveAllWebsites 
+								? false 
+								: $lastTimestampWebsiteProcessedDay
+			);
 		    $content = $this->request($url);
 		    $response = @unserialize($content);
 		    
@@ -302,6 +318,24 @@ class Archiving
 				if($success)
 				{
 					Piwik_SetOption( $this->lastRunKey($idsite, "periods"), time() );
+					
+					// Remove this website from the list of websites to be invalidated
+					// since it now just been re-processing the reports, job is done!
+					if( in_array($idsite, $this->idSitesInvalidatedOldReports ) )
+					{
+						$websiteIdsInvalidated = Piwik_CoreAdminHome_API::getWebsiteIdsToInvalidate();
+						
+						if(count($websiteIdsInvalidated))
+						{
+							$found = array_search($idsite, $websiteIdsInvalidated);
+							if($found!==false)
+							{
+								unset($websiteIdsInvalidated[$found]);
+//								$this->log("Websites left to invalidate: " . implode(", ", $websiteIdsInvalidated));
+								Piwik_SetOption(Piwik_CoreAdminHome_API::OPTION_INVALIDATED_IDSITES, serialize($websiteIdsInvalidated));
+							}
+						}
+					}
 				}
 				$archivedPeriodsArchivesWebsite++;
 			}
@@ -685,8 +719,20 @@ class Archiving
 							. $prettySeconds 
 							. " " 
 							. $websiteIds);
+							
+			// 2) All websites that had reports in the past invalidated recently
+			//	eg. when using Python log import script
+			$this->idSitesInvalidatedOldReports = Piwik_CoreAdminHome_API::getWebsiteIdsToInvalidate();
+			$this->idSitesInvalidatedOldReports = array_intersect($this->idSitesInvalidatedOldReports, $this->allWebsites);
 			
-			// 2) Also process all other websites which days have finished since the last run.
+			if(count($this->idSitesInvalidatedOldReports) > 0)
+			{
+				$websiteIds = ", IDs: ".implode(", ", $this->idSitesInvalidatedOldReports);
+				$this->log("Will process ". count($this->idSitesInvalidatedOldReports). " other websites because some old data reports have been invalidated (eg. using the Log Import script) " . $websiteIds);
+				$this->websites = array_merge($this->websites, $this->idSitesInvalidatedOldReports);
+			}
+			
+			// 3) Also process all other websites which days have finished since the last run.
 			//    This ensures we process the previous day/week/month/year that just finished, even if there was no new visit
 			$uniqueTimezones = Piwik_SitesManager_API::getInstance()->getUniqueSiteTimezones();
 			$timezoneToProcess = array();
@@ -700,6 +746,7 @@ class Archiving
 					$timezoneToProcess[] = $timezone;
 				}
 			}
+			
 			$websiteDayHasFinishedSinceLastRun = Piwik_SitesManager_API::getInstance()->getSitesIdFromTimezones($timezoneToProcess);
 			$websiteDayHasFinishedSinceLastRun = array_diff($websiteDayHasFinishedSinceLastRun, $this->websites);
 			$this->websiteDayHasFinishedSinceLastRun = $websiteDayHasFinishedSinceLastRun;
@@ -709,7 +756,9 @@ class Archiving
 				$this->log("Will process ". count($websiteDayHasFinishedSinceLastRun). " other websites because the last time they were archived was on a different day (in the website's timezone) " . $websiteIds);
 				
 				$this->websites = array_merge($this->websites, $websiteDayHasFinishedSinceLastRun);
-			}	
+			}
+
+			
 		}
 	}
 
