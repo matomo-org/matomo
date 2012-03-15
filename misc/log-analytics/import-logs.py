@@ -19,6 +19,7 @@ import json
 import logging
 import optparse
 import os
+import os.path
 import Queue
 import re
 import threading
@@ -140,8 +141,12 @@ class Configuration(object):
             '-u', '--url', dest='piwik_url',
             help="Piwik install URL",
         )
+        default_config = os.path.abspath(
+            os.path.join(os.path.dirname(__file__),
+            '../../config/config.ini.php'),
+        )
         option_parser.add_option(
-            '-c', '--config', dest='config_file', default='../../config/config.ini.php',
+            '-c', '--config', dest='config_file', default=default_config,
             help=(
                 "Piwik configuration file (default: %default). This file is used to "
                 "get superuser credentials unless they are themselves given as "
