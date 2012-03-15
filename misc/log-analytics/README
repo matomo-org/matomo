@@ -1,10 +1,12 @@
-
 Piwik Server Log Analytics: Import your server logs in Piwik!
 =============================================================
 
 
 Requirements
 ------------
+ - This is currently in BETA TESTING. The parameters name and behavior might change
+   until the final stable release. Please use with care, expect bugs, and report your 
+   suggestions and advice. 
  - Python 2.6 or 2.7. Python 3.x is not supported.
  - Update to Piwik 1.7.2-RC1 or newer
    Download Piwik RC from: http://builds.piwik.org/piwik-1.7.2-rc1.zip
@@ -19,6 +21,8 @@ You must specify your Piwik URL with the -u argument.
 
 The script will automatically read your config.inc.php file to get the authentication
 token and communicate with your Piwik install to import the lines.
+
+(remember this is BETA release)
 
 How to import your logs automatically every day?
 ------------------------------------------------
