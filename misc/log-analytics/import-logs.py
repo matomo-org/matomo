@@ -12,6 +12,7 @@ import ConfigParser
 import datetime
 import fnmatch
 import gzip
+import hashlib
 import inspect
 import itertools
 import json
@@ -127,9 +128,8 @@ class Configuration(object):
             description="Import HTTP access logs to Piwik."
         )
         option_parser.add_option(
-            '-d', '--debug', dest='debug',
-            action='store_true', default=False,
-            help="Enable debug output",
+            '-d', '--debug', dest='debug', action='count', default=0,
+            help="Enable debug output (specify multiple times for more verbose)",
         )
         option_parser.add_option(
             '-n', '--dry-run', dest='dry_run',
@@ -162,11 +162,16 @@ class Configuration(object):
         )
         option_parser.add_option(
             '-f', '--format', dest='format', default=None,
-            help="Access log format (default: %default)",
+            help="Access log format. If not specified, the format will be autodetected",
         )
         option_parser.add_option(
-            '-i', '--id', dest='site_id',
+            '-i', '--idsite', dest='site_id',
             help="Piwik site ID to use",
+        )
+        option_parser.add_option(
+            '--idsite-fallback', dest='site_id_fallback',
+            help="Default Piwik site ID to use if the hostname doesn't match any "
+            "known Piwik URL",
         )
         option_parser.add_option(
             '--hostnames', dest='hostnames', action='append',
@@ -181,9 +186,17 @@ class Configuration(object):
             help="Number of simultaneous recorders (default: %default)",
         )
         option_parser.add_option(
-            '--create-unknown-sites', dest='create_unknown_sites',
+            '--add-sites-new-hosts', dest='add_sites_new_hosts',
             action='store_true', default=False,
-            help="Create Piwik sites for unknown hosts"
+            help="When a hostname is found in the log file, but not matched to any website "
+            "in Piwik, automatically create a new website in Piwik with this hostname to "
+            "import the logs"
+        )
+        option_parser.add_option(
+            '--useragent-exclude', dest='excluded_useragents',
+            action='append', default=[],
+            help="User agents to exclude (in addition to the standard excluded "
+            "user agents)",
         )
         option_parser.add_option(
             '--show-progress', dest='show_progress',
@@ -196,7 +209,7 @@ class Configuration(object):
         # Configure logging before calling logging.{debug,info}.
         logging.basicConfig(
             format='%(asctime)s: [%(levelname)s] %(message)s',
-            level=logging.DEBUG if self.options.debug else logging.INFO,
+            level=logging.DEBUG if self.options.debug >= 1 else logging.INFO,
         )
 
         if self.options.hostnames:
@@ -234,7 +247,7 @@ class Configuration(object):
         # Get superuser login/password from the options.
         logging.debug('No token specified, getting it from Piwik')
         piwik_login = self.options.login
-        piwik_password = self.options.password
+        piwik_password = hashlib.md5(self.options.password).hexdigest()
 
         # Fallback to the given (or default) configuration file, then
         # get the token from the API.
@@ -256,8 +269,8 @@ class Configuration(object):
         logging.debug('Using credentials: (%s, %s)', piwik_login, piwik_password)
         try:
             api_result = piwik.call_api('UsersManager.getTokenAuth',
-                userLogin=piwik_login.strip('"'),
-                md5Password=piwik_password.strip('"'),
+                userLogin=piwik_login,
+                md5Password=piwik_password,
                 _token_auth='',
                 _url=self.options.piwik_url,
             )
@@ -394,7 +407,7 @@ Website import summary
 %(sites_ignored)s
         TIP: if one of these hosts is an alias host for one of the websites
         in Piwik, you can add this host as an "Alias URL" in Settings > Websites.
-        TIP: use --create-unknown-sites if you wish to automatically create
+        TIP: use --add-sites-new-hosts if you wish to automatically create
         one website for each of these hosts in Piwik rather than discarding
         these requests.
 
@@ -613,13 +626,13 @@ class DynamicResolver(object):
         else:
             # The site doesn't exist.
             logging.debug('No Piwik site found for the hostname: %s', hit.host)
-            if config.options.site_id is not None:
+            if config.options.site_id_fallback is not None:
                 logging.debug('Using default site for hostname: %s', hit.host)
-                return config.options.site_id
-            elif (
-                not config.options.dry_run and
-                config.options.create_unknown_sites
-            ):
+                return config.options.site_id_fallback
+            elif config.options.add_sites_new_hosts:
+                if config.options.dry_run:
+                    # Let's just return a fake ID.
+                    site_id = 0
                 logging.debug('Creating a Piwik site for hostname %s', hit.host)
                 result = piwik.call_api(
                     'SitesManager.addSite',
@@ -633,6 +646,10 @@ class DynamicResolver(object):
                 else:
                     site_id = result['value']
                     stats.piwik_sites_created.append((hit.host, site_id))
+            else:
+                # The site doesn't exist, we don't want to create new sites and
+                # there's no default site ID. We thus have to ignore this hit.
+                site_id = None
         stats.piwik_sites.add(site_id)
 
     def resolve(self, hit):
@@ -830,7 +847,7 @@ class Parser(object):
         return True
 
     def check_user_agent(self, hit):
-        for s in EXCLUDED_USER_AGENTS:
+        for s in itertools.chain(EXCLUDED_USER_AGENTS, config.options.excluded_useragents):
             if s in hit.user_agent:
                 stats.count_lines_skipped_user_agent.increment()
                 return False
@@ -841,6 +858,11 @@ class Parser(object):
         """
         Parse the specified filename and insert hits in the queue.
         """
+        def invalid_line(line):
+            stats.count_lines_invalid.increment()
+            if self.options.debug >= 2:
+                logging.debug('Invalid line detected: ' + line)
+
         if config.options.show_progress:
             print 'Parsing log %s...' % filename
 
@@ -875,7 +897,7 @@ class Parser(object):
 
             match = config.format_regexp.match(line)
             if not match:
-                stats.count_lines_invalid.increment()
+                invalid_line(line)
                 continue
 
             hit = Hit(
@@ -895,7 +917,7 @@ class Parser(object):
                 hit.date = datetime.datetime.strptime(date_string[:-6], '%d/%b/%Y:%H:%M:%S')
             except ValueError:
                 # Date format is incorrect, the line is probably badly formatted.
-                stats.count_lines_invalid.increment()
+                invalid_line(line)
                 continue
             hit.date -= datetime.timedelta(hours=tz/100)
 
