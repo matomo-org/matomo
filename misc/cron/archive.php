@@ -198,7 +198,7 @@ class Archiving
 		    	continue;
 		    }
 		    
-			$timerWebsite = new $timer;
+			$timerWebsite = new Piwik_Timer;
 			
 			$lastTimestampWebsiteProcessedPeriods = $lastTimestampWebsiteProcessedDay = false;
 			if(!$this->shouldResetState)
@@ -246,7 +246,7 @@ class Archiving
 		    {
 		    	$this->log("Skipped website id $idsite, already processed today's report in recent run, "
 					.Piwik::getPrettyTimeFromSeconds($elapsedSinceLastArchiving, true, $isHtml = false)
-					." ago, ".$timerWebsite);
+					." ago, ".$timerWebsite->__toString());
 				$skippedDayArchivesWebsites++;
 				$skipped++;
 				continue;
@@ -276,7 +276,7 @@ class Archiving
 				// cancel the succesful run flag
 				Piwik_SetOption( $this->lastRunKey($idsite, "day"), 0 );
 				
-				$this->log("WARNING: Empty or invalid response '$content' for website id $idsite, ".$timerWebsite.", skipping");
+				$this->log("WARNING: Empty or invalid response '$content' for website id $idsite, ".$timerWebsite->__toString().", skipping");
 				$skipped++;
 				continue;
 		    }
@@ -288,7 +288,7 @@ class Archiving
 		    if($visitsToday <= 0
 		    	&& !$shouldArchivePeriods)
 		    {
-				$this->log("Skipped website id $idsite, no visit today, ".$timerWebsite);
+				$this->log("Skipped website id $idsite, no visit today, ".$timerWebsite->__toString());
 				$skipped++;
 				continue;
 		    }
@@ -299,13 +299,13 @@ class Archiving
 				&& $this->shouldArchiveAllWebsites
 			)
 		    {
-				$this->log("Skipped website id $idsite, no visits in the last ".count($response)." days, ".$timerWebsite);
+				$this->log("Skipped website id $idsite, no visits in the last ".count($response)." days, ".$timerWebsite->__toString());
 				$skipped++;
 				continue;
 		    }
 		    $this->visits += $visitsToday;
 		    $websitesWithVisitsSinceLastRun++;
-		    $this->archiveVisitsAndSegments($idsite, "day", $lastTimestampWebsiteProcessedDay, $timerWebsite);
+		    $this->archiveVisitsAndSegments($idsite, "day", $lastTimestampWebsiteProcessedDay, $timerWebsite->__toString());
 		    
 			if($shouldArchivePeriods)
 			{
@@ -348,7 +348,7 @@ class Archiving
 			$debug = $this->shouldArchiveAllWebsites ? ", last days = $visitsAllDays visits" : "";
 			Piwik::log("Archived website id = $idsite, today = $visitsToday visits"
 							.$debug.", $requestsWebsite API requests, "
-							. $timerWebsite 
+							. $timerWebsite->__toString() 
 							." [" . ($websitesWithVisitsSinceLastRun+$skipped) . "/" 
 							. count($this->websites) 
 							. " done]" );
@@ -381,7 +381,7 @@ class Archiving
 						? "no error" 
 						: (count($this->errors) . " errors. eg. '". reset($this->errors)."'" ))
 					);
-		$this->log($timer);
+		$this->log($timer->__toString());
 		$this->logSection("SCHEDULED TASKS");
 		$this->log("Starting Scheduled tasks... ");
 		
@@ -460,7 +460,7 @@ class Archiving
 	    
 		$this->log("Archived website id = $idsite, period = $period, "
 					. ($period != "day" ? (int)$visitsAllDaysInPeriod. " visits, " : "" )
-                    . (!empty($timerWebsite) ? $timerWebsite : $timer));
+                    . (!empty($timerWebsite) ? $timerWebsite->__toString() : $timer->__toString()));
 	    return $success;
 	}
 	
