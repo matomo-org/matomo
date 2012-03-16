@@ -140,23 +140,10 @@ class Piwik_UserSettings_API
 			}
 			$visitsSum		= $visitsSumTotal - $ieVisits;
 		
-			// Calculate percentage, but ignore IE users cause plugin detection doesn't work on IE
+			// Calculate percentage, but ignore IE users because plugin detection doesn't work on IE
 			// The filter must be applied now so that the new column can 
 			// be sorted by the generic filters (applied right after this function exits)
 			$table->filter('ColumnCallbackAddColumnPercentage', array('nb_visits_percentage', Piwik_Archive::INDEX_NB_VISITS, $visitsSum, 1));
-		
-			// correct the cookie and java value (as detection works in IE, too)
-			$row = $table->getRowFromLabel('cookie');
-			if($row) {
-				$percentage = Piwik::getPercentageSafe($row->getColumn(Piwik_Archive::INDEX_NB_VISITS), $visitsSumTotal, 1) . '%';
-				$row->setColumn('nb_visits_percentage', $percentage);
-			}
-			$row = $table->getRowFromLabel('java');
-			if($row) {
-				$percentage = Piwik::getPercentageSafe($row->getColumn(Piwik_Archive::INDEX_NB_VISITS), $visitsSumTotal, 1) . '%';
-				$row->setColumn('nb_visits_percentage', $percentage);
-			}
-			
 		}
 		
 		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getPluginsLogo'));
