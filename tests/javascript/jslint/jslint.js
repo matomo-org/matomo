@@ -1,5 +1,5 @@
 // jslint.js
-// 2012-03-02
+// 2012-03-07
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -256,7 +256,7 @@
     'hta:application', html, html_confusion_a, html_handlers, i, id, identifier,
     identifier_function, iframe, img, immed, implied_evil, in, indent, indexOf,
     infix_in, init, input, ins, insecure_a, isAlpha, isArray, isDigit, isNaN,
-    join, jslint, json, kbd, keygen, keys, label, label_a_b, labeled, lang, lbp,
+    join, jslint, json, kbd, keygen, keys, label, labeled, lang, lbp,
     leading_decimal_a, led, left, legend, length, 'letter-spacing', li, lib,
     line, 'line-height', link, 'list-style', 'list-style-image',
     'list-style-position', 'list-style-type', map, margin, 'margin-bottom',
@@ -287,15 +287,15 @@
     top, tr, trailing_decimal_a, tree, tt, tty, tv, type, u, ul, unclosed,
     unclosed_comment, unclosed_regexp, undef, undefined, unescaped_a,
     unexpected_a, unexpected_char_a_b, unexpected_comment, unexpected_else,
-    unexpected_property_a, unexpected_space_a_b, 'unicode-bidi',
-    unnecessary_initialize, unnecessary_use, unparam, unreachable_a_b,
-    unrecognized_style_attribute_a, unrecognized_tag_a, unsafe, unused, url,
-    urls, use_array, use_braces, use_charAt, use_object, use_or, use_param,
-    used_before_a, var, var_a_not, vars, 'vertical-align', video, visibility,
-    was, weird_assignment, weird_condition, weird_new, weird_program,
-    weird_relation, weird_ternary, white, 'white-space', widget, width, windows,
-    'word-spacing', 'word-wrap', wrap, wrap_immediate, wrap_regexp,
-    write_is_wrong, writeable, 'z-index'
+    unexpected_label_a, unexpected_property_a, unexpected_space_a_b,
+    'unicode-bidi', unnecessary_initialize, unnecessary_use, unparam,
+    unreachable_a_b, unrecognized_style_attribute_a, unrecognized_tag_a, unsafe,
+    unused, url, urls, use_array, use_braces, use_charAt, use_object, use_or,
+    use_param, used_before_a, var, var_a_not, vars, 'vertical-align', video,
+    visibility, was, weird_assignment, weird_condition, weird_new,
+    weird_program, weird_relation, weird_ternary, white, 'white-space', widget,
+    width, windows, 'word-spacing', 'word-wrap', wrap, wrap_immediate,
+    wrap_regexp, write_is_wrong, writeable, 'z-index'
 */
 
 // The global directive is used to declare global variables that can
@@ -394,10 +394,10 @@ var JSLINT = (function () {
 // web browser environment.
 
         browser = array_to_object([
-            'clearInterval', 'clearTimeout', 'document', 'event', 'frames',
-            'history', 'Image', 'localStorage', 'location', 'name', 'navigator',
-            'Option', 'parent', 'screen', 'sessionStorage', 'setInterval',
-            'setTimeout', 'Storage', 'window', 'XMLHttpRequest'
+            'clearInterval', 'clearTimeout', 'document', 'event', 'FormData',
+            'frames', 'history', 'Image', 'localStorage', 'location', 'name',
+            'navigator', 'Option', 'parent', 'screen', 'sessionStorage',
+            'setInterval', 'setTimeout', 'Storage', 'window', 'XMLHttpRequest'
         ], false),
 
 // bundle contains the text messages.
@@ -523,7 +523,6 @@ var JSLINT = (function () {
                 "hasOwnProperty method instead.",
             insecure_a: "Insecure '{a}'.",
             isNaN: "Use the isNaN function to compare with NaN.",
-            label_a_b: "Label '{a}' on '{b}' statement.",
             lang: "lang is deprecated.",
             leading_decimal_a: "A leading decimal point can be confused with a dot: '.{a}'.",
             missing_a: "Missing '{a}'.",
@@ -575,6 +574,7 @@ var JSLINT = (function () {
             unexpected_char_a_b: "Unexpected character '{a}' in {b}.",
             unexpected_comment: "Unexpected comment.",
             unexpected_else: "Unexpected 'else' after 'return'.",
+            unexpected_label_a: "Unexpected label '{a}'.",
             unexpected_property_a: "Unexpected /*property*/ '{a}'.",
             unexpected_space_a_b: "Unexpected space between '{a}' and '{b}'.",
             unnecessary_initialize: "It is not necessary to initialize '{a}' " +
@@ -2880,12 +2880,10 @@ klass:              do {
             advance(':');
             scope = Object.create(old_scope);
             add_label(label, 'label');
-            if (next_token.labeled !== true) {
-                warn('label_a_b', next_token, label.string, artifact());
+            if (next_token.labeled !== true || funct === global_funct) {
+                stop('unexpected_label_a', label);
             } else if (jx.test(label.string + ':')) {
                 warn('url', label);
-            } else if (funct === global_funct) {
-                stop('unexpected_a', token);
             }
             next_token.label = label;
         }
@@ -6389,7 +6387,7 @@ klass:              do {
     };
     itself.jslint = itself;
 
-    itself.edition = '2012-03-02';
+    itself.edition = '2012-03-07';
 
     return itself;
 }());

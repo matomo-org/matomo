@@ -1976,7 +1976,9 @@ var
 			/*
 			 * initialize tracker
 			 */
-			detectBrowserFeatures();
+			if (!((new RegExp('MSIE')).test(navigatorAlias.userAgent))) {
+				detectBrowserFeatures();
+			}
 			updateDomainHash();
 
 /*<DEBUG>*/
@@ -2526,7 +2528,7 @@ var
 				 * @param string sku Item's SKU code being viewed
 				 * @param string name Item's Name being viewed
 				 * @param string category Category page being viewed. On an Item's page, this is the item's category
-				 * @param float price Item's display price, not use in standard Piwik reports, but output in API product reports. 
+				 * @param float price Item's display price, not use in standard Piwik reports, but output in API product reports.
 				 */
 				setEcommerceView: function (sku, name, category, price) {
 					if (!isDefined(category) || !category.length) {
