@@ -2483,7 +2483,7 @@ class Piwik
 			. $period->getId() . '/'
 			. $period->getDateStart()->toString('Y-m-d') . ','
 			. $period->getDateEnd()->toString('Y-m-d');
-		return $lockName .'/'. md5($lockName . $config->superuser['salt']);
+		return $lockName .'/'. md5($lockName . Piwik_Common::getSalt());
 	}
 
 	/**
