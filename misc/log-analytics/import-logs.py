@@ -890,7 +890,7 @@ class Parser(object):
                         break
                     logging.debug('Format %s does not match', name)
                 if not config.format_regexp:
-                    raise config.ConfigurationError(
+                    return fatal_error(
                         'Cannot guess the logs format. Please give one using'
                         ' the --format option'
                     )
