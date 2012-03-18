@@ -251,15 +251,16 @@ class Configuration(object):
         """
         # Get superuser login/password from the options.
         logging.debug('No token specified, getting it from Piwik')
-        piwik_login = self.options.login
-        piwik_password = hashlib.md5(self.options.password).hexdigest()
 
-        # Fallback to the given (or default) configuration file, then
-        # get the token from the API.
-        if not piwik_login or not piwik_password:
+        if self.options.login and self.options.password:
+            piwik_login = self.options.login
+            piwik_password = hashlib.md5(self.options.password).hexdigest()
+        else:
+            # Fallback to the given (or default) configuration file, then
+            # get the token from the API.
             logging.debug(
                 'No credentials specified, reading them from "%s"',
-                self.options.config_file
+                self.options.config_file,
             )
             config_file = ConfigParser.RawConfigParser()
             success = len(config_file.read(self.options.config_file)) > 0
