@@ -135,11 +135,11 @@ class Configuration(object):
         option_parser.add_option(
             '-n', '--dry-run', dest='dry_run',
             action='store_true', default=False,
-            help="Perform a trial run with nothing being really inserted into Piwik",
+            help="Perform a trial run with no tracking data being inserted into Piwik",
         )
         option_parser.add_option(
             '-u', '--url', dest='piwik_url',
-            help="Piwik install URL",
+            help="Piwik base URL, eg. http://example.com/piwik/ or http://analytics.example.net",
         )
         default_config = os.path.abspath(
             os.path.join(os.path.dirname(__file__),
@@ -148,35 +148,42 @@ class Configuration(object):
         option_parser.add_option(
             '-c', '--config', dest='config_file', default=default_config,
             help=(
-                "Piwik configuration file (default: %default). This file is used to "
-                "get superuser credentials unless they are themselves given as "
-                "options"
+                "This is only used with --login and --password is not used. "
+		"Piwik will read the configuration file (default: %default) to "
+                "fetch the Super User token_auth from the config file. "
             )
         )
         option_parser.add_option(
             '-l', '--login', dest='login',
-            help="Piwik superuser login"
+            help="You can manually specify the Piwik Super User login"
         )
         option_parser.add_option(
             '-p', '--password', dest='password',
-            help="Piwik superuser password"
+            help="You can manually specify the Piwik Super User password"
         )
         option_parser.add_option(
             '-t', '--token-auth', dest='piwik_token_auth',
-            help="Piwik token_auth",
+            help="Piwik Super User token_auth, 32 characters hexadecimal string, found in Piwik > API",
         )
         option_parser.add_option(
             '-f', '--format', dest='format', default=None,
-            help="Access log format. If not specified, the format will be autodetected",
+            help=(
+		"Access log format to detect (supported are: common, common_vhost, nsca_extended, common_complete) "
+		"When not specified, the log format will be autodetected by trying all supported log formats."
+	    )
         )
         option_parser.add_option(
             '-i', '--idsite', dest='site_id',
-            help="Piwik site ID to use",
+            help= ( 
+		"When specified "
+		"- All data in the specified log files will be tracked for this Piwik site ID."
+		"- The script will not auto-detect the website based on the log line hostname (new websites will not be automatically created)."
+	    )
         )
         option_parser.add_option(
             '--idsite-fallback', dest='site_id_fallback',
             help="Default Piwik site ID to use if the hostname doesn't match any "
-            "known Piwik URL",
+            "known Website's URL",
         )
         option_parser.add_option(
             '--hostnames', dest='hostnames', action='append',
@@ -184,7 +191,7 @@ class Configuration(object):
         )
         option_parser.add_option(
             '-s', '--skip', dest='skip', default=0, type='int',
-            help="Skip the n first lines",
+            help="Skip the n first lines to start parsing/importing data at a given line for the specified log file",
         )
         option_parser.add_option(
             '-r', '--recorders', dest='recorders', default=1, type='int',
@@ -239,7 +246,7 @@ class Configuration(object):
 
         if not self.options.piwik_token_auth:
             self.options.piwik_token_auth = self._get_token_auth()
-        logging.debug('Authentication token is: %s', self.options.piwik_token_auth)
+        logging.debug('Authentication token token_auth is: %s', self.options.piwik_token_auth)
 
         if self.options.recorders < 1:
             self.options.recorders = 1
@@ -250,7 +257,7 @@ class Configuration(object):
         If the token auth is not specified in the options, get it from Piwik.
         """
         # Get superuser login/password from the options.
-        logging.debug('No token specified, getting it from Piwik')
+        logging.debug('No token-auth specified')
 
         if self.options.login and self.options.password:
             piwik_login = self.options.login
@@ -272,7 +279,7 @@ class Configuration(object):
             piwik_login = config_file.get('superuser', 'login')
             piwik_password = config_file.get('superuser', 'password')
 
-        logging.debug('Using credentials: (%s, %s)', piwik_login, piwik_password)
+        logging.debug('Using credentials: (login = %s, password = %s)', piwik_login, piwik_password)
         try:
             api_result = piwik.call_api('UsersManager.getTokenAuth',
                 userLogin=piwik_login,
@@ -281,7 +288,7 @@ class Configuration(object):
                 _url=self.options.piwik_url,
             )
         except urllib2.URLError, e:
-            fatal_error('error when getting authentication token: %s' % e)
+            fatal_error('error when fetching token_auth from the API: %s' % e)
 
         try:
             return api_result['value']
@@ -289,7 +296,7 @@ class Configuration(object):
             # Happens when the credentials are invalid.
             message = api_result.get('message')
             fatal_error(
-                'error when getting authentication token%s' % (
+                'error fetching authentication token token_auth%s' % (
                 ': %s' % message if message else '')
             )
 
