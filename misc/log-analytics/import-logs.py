@@ -8,6 +8,7 @@ if sys.version_info < (2, 6):
 
 
 import base64
+import bz2
 import ConfigParser
 import datetime
 import fnmatch
@@ -149,7 +150,7 @@ class Configuration(object):
             '-c', '--config', dest='config_file', default=default_config,
             help=(
                 "This is only used with --login and --password is not used. "
-		"Piwik will read the configuration file (default: %default) to "
+        "Piwik will read the configuration file (default: %default) to "
                 "fetch the Super User token_auth from the config file. "
             )
         )
@@ -168,17 +169,17 @@ class Configuration(object):
         option_parser.add_option(
             '-f', '--format', dest='format', default=None,
             help=(
-		"Access log format to detect (supported are: common, common_vhost, nsca_extended, common_complete) "
-		"When not specified, the log format will be autodetected by trying all supported log formats."
-	    )
+        "Access log format to detect (supported are: common, common_vhost, nsca_extended, common_complete) "
+        "When not specified, the log format will be autodetected by trying all supported log formats."
+        )
         )
         option_parser.add_option(
             '-i', '--idsite', dest='site_id',
-            help= ( 
-		"When specified "
-		"- All data in the specified log files will be tracked for this Piwik site ID."
-		"- The script will not auto-detect the website based on the log line hostname (new websites will not be automatically created)."
-	    )
+            help= (
+        "When specified "
+        "- All data in the specified log files will be tracked for this Piwik site ID."
+        "- The script will not auto-detect the website based on the log line hostname (new websites will not be automatically created)."
+        )
         )
         option_parser.add_option(
             '--idsite-fallback', dest='site_id_fallback',
@@ -214,6 +215,11 @@ class Configuration(object):
             '--show-progress', dest='show_progress',
             action='store_true', default=os.isatty(sys.stdout.fileno()),
             help="Print a progress report every second"
+        )
+        option_parser.add_option(
+            '--enable-reverse-dns', dest='reverse_dns',
+            action='store_true', default=False,
+            help="Enable reverse DNS. Disabled by default, as it impacts performance"
         )
 
         self.options, self.filenames = option_parser.parse_args(sys.argv[1:])
@@ -276,8 +282,8 @@ class Configuration(object):
                     "couldn't open the configuration file, "
                     "required to get the authentication token"
                 )
-            piwik_login = config_file.get('superuser', 'login')
-            piwik_password = config_file.get('superuser', 'password')
+            piwik_login = config_file.get('superuser', 'login').strip('"')
+            piwik_password = config_file.get('superuser', 'password').strip('"')
 
         logging.debug('Using credentials: (login = %s, password = %s)', piwik_login, piwik_password)
         try:
@@ -645,7 +651,7 @@ class DynamicResolver(object):
             elif config.options.add_sites_new_hosts:
                 if config.options.dry_run:
                     # Let's just return a fake ID.
-                    site_id = 0
+                    return 0
                 logging.debug('Creating a Piwik site for hostname %s', hit.host)
                 result = piwik.call_api(
                     'SitesManager.addSite',
@@ -664,6 +670,7 @@ class DynamicResolver(object):
                 # there's no default site ID. We thus have to ignore this hit.
                 site_id = None
         stats.piwik_sites.add(site_id)
+        return site_id
 
     def resolve(self, hit):
         """
@@ -686,7 +693,7 @@ class DynamicResolver(object):
         if 'host' not in regexp.groupindex:
             fatal_error(
                 "the selected log format doesn't include the hostname: you must "
-                "specify the Piwik site ID with the -i argument"
+                "specify the Piwik site ID with the --idsite argument"
             )
 
 
@@ -782,7 +789,7 @@ class Recorder(object):
             'cip': hit.ip,
             'cdt': self.date_to_piwik(hit.date),
             'idsite': site_id,
-            'dp': 1,
+            'dp': '0' if config.options.reverse_dns else '1',
             'token_auth': config.options.piwik_token_auth,
         }
         if hit.is_download:
@@ -879,7 +886,9 @@ class Parser(object):
         if config.options.show_progress:
             print 'Parsing log %s...' % filename
 
-        if filename.endswith('.gz'):
+        if filename.endswith('.bz2'):
+            open_func = bz2.BZ2File
+        elif filename.endswith('.gz'):
             open_func = gzip.open
         else:
             open_func = open
