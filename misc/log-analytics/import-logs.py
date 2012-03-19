@@ -861,7 +861,7 @@ class Parser(object):
 
     def check_extension(self, hit):
         for extension in EXCLUDED_EXTENSIONS:
-            if hit.path.endswith(extension) and not hit.is_download:
+            if hit.path.lower().endswith(extension) and not hit.is_download:
                 stats.count_lines_static.increment()
                 return False
         return True
@@ -873,6 +873,18 @@ class Parser(object):
                 return False
         return True
 
+    @staticmethod
+    def detect_format(line):
+        """
+        Return the format matching this line, or None if none was found.
+        """
+        logging.debug('Detecting the log format...')
+        for name, format in FORMATS.iteritems():
+            if re.match(format, line):
+                logging.debug('Format %s matches', name)
+                return name
+            else:
+                logging.debug('Format %s does not match', name)
 
     def parse(self, filename):
         """
@@ -898,18 +910,15 @@ class Parser(object):
             # Guess the format if needed.
             if not config.format_regexp:
                 logging.debug('Guessing the log format...')
-                for name, format in FORMATS.iteritems():
-                    if re.match(format, line):
-                        config.format = format
-                        config.format_regexp = re.compile(format)
-                        logging.debug('Format %s matches', name)
-                        break
-                    logging.debug('Format %s does not match', name)
-                if not config.format_regexp:
+                format_name = self.detect_format(line)
+                if not format_name:
                     return fatal_error(
                         'Cannot guess the logs format. Please give one using'
                         ' the --format option'
                     )
+                format = FORMATS[format_name]
+                config.format = format
+                config.format_regexp = re.compile(format)
                 # Make sure the format is compatible with the resolver.
                 resolver.check_format(format)
 
