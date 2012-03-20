@@ -12,7 +12,7 @@
 ;--------
 
 [superuser]
-login			= root
+login			= 
 password		=
 
 [database]

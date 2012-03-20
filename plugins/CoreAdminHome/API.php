@@ -210,7 +210,7 @@ class Piwik_CoreAdminHome_API
 			$output[] = 'Warning: the following Dates have not been invalidated, because they are earlier than your Log Deletion limit: '.
 						implode(", ", $warningDates).
 					"\n The last day with logs is " . $minimumDateWithLogs. ". ".
-					"\n Please disable this feature or set it to a higher deletion threshold (eg. 180 days or 365 years).'.";
+					"\n Please disable 'Delete old Logs' or set it to a higher deletion threshold (eg. 180 days or 365 years).'.";
 		} 
 		$output[] = "Success. The following dates were invalidated successfully: ".
 						implode(", ", $processedDates);
