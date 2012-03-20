@@ -365,13 +365,24 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$columnNbConversions = 'goal_'.$idGoal.'_nb_conversions';
 		$columnConversionRate = 'goal_'.$idGoal.'_conversion_rate';
 		
-		$topDimensionsToLoad = array(
-			'country' => 'UserCountry.getCountry',
-			'keyword' => 'Referers.getKeywords',
-			'website' => 'Referers.getWebsites',
-		);
+		$topDimensionsToLoad = array();
 		
-		$keywordNotDefinedString = Piwik_Referers::getKeywordNotDefinedString();
+		if(Piwik_PluginsManager::getInstance()->isPluginActivated('UserCountry'))
+		{
+			$topDimensionsToLoad  += array(
+				'country' => 'UserCountry.getCountry',
+			);
+		}
+		
+		$keywordNotDefinedString = '';
+		if(Piwik_PluginsManager::getInstance()->isPluginActivated('Referers'))
+		{
+			$keywordNotDefinedString = Piwik_Referers::getKeywordNotDefinedString();
+			$topDimensionsToLoad += array(
+				'keyword' => 'Referers.getKeywords',
+				'website' => 'Referers.getWebsites',
+			);
+		}
 		$topDimensions = array();
 		foreach($topDimensionsToLoad as $dimensionName => $apiMethod)
 		{

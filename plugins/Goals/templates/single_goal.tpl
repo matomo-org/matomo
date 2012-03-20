@@ -6,9 +6,9 @@
 	    <h2>{'Goals_ConversionsOverview'|translate}</h2>
 		<ul class="ulGoalTopElements">
 {if !isset($ecommerce)}
-	    <li>{'Goals_BestCountries'|translate} {include file='Goals/templates/list_top_dimension.tpl' topDimension=$topDimensions.country}</li>
-	    {if count($topDimensions.keyword)>0}<li>{'Goals_BestKeywords'|translate} {include file='Goals/templates/list_top_dimension.tpl' topDimension=$topDimensions.keyword}</li>{/if}
-	    {if count($topDimensions.website)>0}<li>{'Goals_BestReferers'|translate} {include file='Goals/templates/list_top_dimension.tpl' topDimension=$topDimensions.website}</li>{/if}
+	    {if isset($topDimensions.country)}<li>{'Goals_BestCountries'|translate} {include file='Goals/templates/list_top_dimension.tpl' topDimension=$topDimensions.country}</li>{/if}
+	    {if isset($topDimensions.keyword) && count($topDimensions.keyword)>0}<li>{'Goals_BestKeywords'|translate} {include file='Goals/templates/list_top_dimension.tpl' topDimension=$topDimensions.keyword}</li>{/if}
+	    {if isset($topDimensions.website) && count($topDimensions.website)>0}<li>{'Goals_BestReferers'|translate} {include file='Goals/templates/list_top_dimension.tpl' topDimension=$topDimensions.website}</li>{/if}
 	    <li>{'Goals_ReturningVisitorsConversionRateIs'|translate:"<b>$conversion_rate_returning</b>"}, {'Goals_NewVisitorsConversionRateIs'|translate:"<b>$conversion_rate_new</b>"}</li>
 {else}
 		<li>{'Live_GoalRevenue'|translate}: {$revenue|money:$idSite}{if !empty($revenue_subtotal)}, 

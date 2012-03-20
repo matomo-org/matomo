@@ -247,7 +247,8 @@ class Piwik_Live_Visitor
 	function getKeyword()
 	{
 		$keyword = $this->details['referer_keyword'];
-		if($this->getRefererType() == 'search')
+		if(Piwik_PluginsManager::getInstance()->isPluginActivated('Referers')
+			&& $this->getRefererType() == 'search')
 		{
 			$keyword = Piwik_Referers::getCleanKeyword($keyword);
 		}
@@ -258,7 +259,8 @@ class Piwik_Live_Visitor
 	{
 		if($this->getRefererType() == 'search')
 		{
-			if($this->details['referer_keyword'] == Piwik_Referers::LABEL_KEYWORD_NOT_DEFINED)
+			if(Piwik_PluginsManager::getInstance()->isPluginActivated('Referers') 
+				&& $this->details['referer_keyword'] == Piwik_Referers::LABEL_KEYWORD_NOT_DEFINED)
 			{
 				return 'http://piwik.org/faq/general/#faq_144';
 			}
