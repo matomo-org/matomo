@@ -72,9 +72,9 @@ EXCLUDED_EXTENSIONS = (
 )
 
 DOWNLOAD_EXTENSIONS = (
-    '7z aac arc arj asf asx avi bin csv deb dmg doc exe flv gif gz gzip hqx '
-    'jar jpg jpeg js mpg mp2 mp3 mp4 mpeg mov movie msi msp odb odf odg odp '
-    'ods odt ogg ogv pdf phps png ppt qt qtm ra ram rar rpm sea sit tar tbz '
+    '7z aac arc arj asf asx avi bin csv deb dmg doc exe flv gz gzip hqx '
+    'jar mpg mp2 mp3 mp4 mpeg mov movie msi msp odb odf odg odp '
+    'ods odt ogg ogv pdf phps ppt qt qtm ra ram rar rpm sea sit tar tbz '
     'bz2 tbz tgz torrent txt wav wma wmv wpd xls xml z zip'
 ).split()
 
@@ -424,11 +424,16 @@ Website import summary
 %(sites_created)s
     %(total_sites_ignored)d distinct hostnames did not match any existing site:
 %(sites_ignored)s
-        TIP: if one of these hosts is an alias host for one of the websites
-        in Piwik, you can add this host as an "Alias URL" in Settings > Websites.
-        TIP: use --add-sites-new-hosts if you wish to automatically create
-        one website for each of these hosts in Piwik rather than discarding
-        these requests.
+        TIPs: 
+	     - if one of these hosts is an alias host for one of the websites
+           in Piwik, you can add this host as an "Alias URL" in Settings > Websites.
+         - use --add-sites-new-hosts if you wish to automatically create
+           one website for each of these hosts in Piwik rather than discarding
+           these requests.
+	     - use --idsite-fallback to force all these log lines with a new hostname 
+	       to be recorded in a specific idsite (for example for troubleshooting/visualizing the data)
+         - use --idsite to force all lines in the specified log files 
+           to be all recorded in the specified idsite
 
 Performance summary
 -------------------
