@@ -114,7 +114,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		$dataTableVisit = self::getVisitsSummary();
 		$dataRow = $dataTableVisit->getFirstRow();
 		
-		$dataTableActions = Piwik_Actions_API::getInstance()->get(Piwik_Common::getRequestVar('idSite'), Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'));
+		$dataTableActions = Piwik_Actions_API::getInstance()->get(Piwik_Common::getRequestVar('idSite'), Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'), Piwik_Common::getRequestVar('segment',false));
 		$dataActionsRow = $dataTableActions->getFirstRow();
 		
 		$view->nbUniqVisitors = (int)$dataRow->getColumn('nb_uniq_visitors');
