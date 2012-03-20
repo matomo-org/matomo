@@ -426,13 +426,13 @@ Website import summary
     %(total_sites_ignored)d distinct hostnames did not match any existing site:
 %(sites_ignored)s
         TIPs: 
-	     - if one of these hosts is an alias host for one of the websites
+         - if one of these hosts is an alias host for one of the websites
            in Piwik, you can add this host as an "Alias URL" in Settings > Websites.
          - use --add-sites-new-hosts if you wish to automatically create
            one website for each of these hosts in Piwik rather than discarding
            these requests.
-	     - use --idsite-fallback to force all these log lines with a new hostname 
-	       to be recorded in a specific idsite (for example for troubleshooting/visualizing the data)
+         - use --idsite-fallback to force all these log lines with a new hostname 
+	   to be recorded in a specific idsite (for example for troubleshooting/visualizing the data)
          - use --idsite to force all lines in the specified log files 
            to be all recorded in the specified idsite
 
@@ -576,7 +576,8 @@ class Piwik(object):
             try:
                 response = func(*args, **kwargs)
                 if expected_response is not None and response != expected_response:
-                    raise urllib2.URLError("didn't receive the expected response")
+                    raise urllib2.URLError("didn't receive the expected response. Response was %s " 
+			% ((response[:200] + '..') if len(response) > 200 else data))
                 return response
             except (urllib2.URLError, ValueError), e:
                 logging.debug('Error when connecting to Piwik: %s', e)
