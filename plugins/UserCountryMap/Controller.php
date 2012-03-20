@@ -18,6 +18,10 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 {
 	function worldMap()
 	{
+		if(!Piwik_PluginsManager::getInstance()->isPluginActivated('UserCountry'))
+		{
+			return '';
+		}
 		$idSite = Piwik_Common::getRequestVar('idSite', 1, 'int');
 		Piwik::checkUserHasViewAccess($idSite);
 		
