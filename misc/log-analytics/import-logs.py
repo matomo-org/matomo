@@ -196,7 +196,8 @@ class Configuration(object):
         )
         option_parser.add_option(
             '-r', '--recorders', dest='recorders', default=1, type='int',
-            help="Number of simultaneous recorders (default: %default)",
+            help="Number of simultaneous recorders (default: %default). "
+	        "It should be set at most to the number of CPU cores in your server (a bit less if you also run Piwik on the same box).",
         )
         option_parser.add_option(
             '--add-sites-new-hosts', dest='add_sites_new_hosts',
