@@ -3,7 +3,7 @@
 
 import sys
 if sys.version_info < (2, 6):
-    print >> sys.stderr, 'You must use Python 2.6 or greater'
+    print >> sys.stderr, 'You must use Python 2.6 or greater Python 2.x'
     sys.exit(1)
 
 
