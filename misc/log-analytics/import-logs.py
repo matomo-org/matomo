@@ -577,7 +577,7 @@ class Piwik(object):
                 response = func(*args, **kwargs)
                 if expected_response is not None and response != expected_response:
                     raise urllib2.URLError("didn't receive the expected response. Response was %s " 
-			% ((response[:200] + '..') if len(response) > 200 else data))
+			% ((response[:200] + '..') if len(response) > 200 else response))
                 return response
             except (urllib2.URLError, ValueError), e:
                 logging.debug('Error when connecting to Piwik: %s', e)
