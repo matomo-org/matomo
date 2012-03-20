@@ -15,7 +15,6 @@
 	params['evolutionBy'] = '{$evolutionBy}';
 	params['mOrderBy'] = '{$orderBy}';
 	params['order'] = '{$order}';
-	params['site'] = '{$site}';
 	params['limit'] = '{$limit}';
 	params['page'] = 1;
 	params['prev'] = "{'General_Previous'|translate|escape:"javascript"}";
