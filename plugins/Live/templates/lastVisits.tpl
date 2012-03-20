@@ -1,3 +1,6 @@
+{* some users view thousands of pages which can crash the browser viewing Live! *}
+{assign var=maxPagesDisplayedByVisitor value=100}
+
 <ul id='visitsLive'>
 {foreach from=$visitors item=visitor}
 	<li id="{$visitor.idVisit}" class="visit">
@@ -33,7 +36,8 @@
 		<div id="{$visitor.idVisit}_actions" class="settings">
 			<span class="pagesTitle">{'Actions_SubmenuPages'|translate}:</span>&nbsp;
 			{php} $col = 0;	{/php}
-			{foreach from=$visitor.actionDetails item=action}
+			{foreach from=$visitor.actionDetails item=action name=visitorPages}
+				{if $smarty.foreach.visitorPages.iteration <= $maxPagesDisplayedByVisitor}
 				{if $action.type == 'ecommerceOrder' || $action.type == 'ecommerceAbandonedCart'}
 					<span title="
 						{if $action.type == 'ecommerceOrder'}{'Goals_EcommerceOrder'|translate}{else}{'Goals_AbandonedCart'|translate}{/if} 
@@ -57,7 +61,11 @@
 					{/if}
 					</a>
 				{/if}
+				{/if}
 			{/foreach}
+			{if $smarty.foreach.visitorPages.iteration > $maxPagesDisplayedByVisitor}
+				<i>({'Live_MorePagesNotDisplayed'|translate})</i>
+			{/if}
 		</div>
 	</li>
 {/foreach}

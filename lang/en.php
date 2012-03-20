@@ -804,6 +804,7 @@ $translations = array(
 	'Live_Referrer_URL' => 'Referrer URL',
 	'Live_LastMinutes' => 'Last %s minutes',
 	'Live_LastHours' => 'Last %s hours',
+	'Live_MorePagesNotDisplayed' => 'more pages by this visitor are not displayed',
 	'Live_GoalType' => 'Type',
 	'Live_PageRefreshed' => 'Number of times this page was viewed / refreshed in a row.',
 	'Live_GoalTime' => '1st Conversion time',
