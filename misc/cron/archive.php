@@ -240,6 +240,7 @@ class Archiving
 		    }
 		    
 		    // Test if we should process this website at all
+		    
 		    $elapsedSinceLastArchiving = time() - $lastTimestampWebsiteProcessedDay;
 		    if(!$shouldArchivePeriods
 		    	&& $elapsedSinceLastArchiving < $this->todayArchiveTimeToLive) 
@@ -305,7 +306,7 @@ class Archiving
 		    }
 		    $this->visits += $visitsToday;
 		    $websitesWithVisitsSinceLastRun++;
-		    $this->archiveVisitsAndSegments($idsite, "day", $lastTimestampWebsiteProcessedDay, $timerWebsite->__toString());
+		    $this->archiveVisitsAndSegments($idsite, "day", $lastTimestampWebsiteProcessedDay, $timerWebsite);
 		    
 			if($shouldArchivePeriods)
 			{
@@ -397,7 +398,7 @@ class Archiving
 	/**
 	 * @return bool True on success, false if some request failed
 	 */
-	private function archiveVisitsAndSegments($idsite, $period, $lastTimestampWebsiteProcessed, $timerWebsite = false)
+	private function archiveVisitsAndSegments($idsite, $period, $lastTimestampWebsiteProcessed, Piwik_Timer $timerWebsite = null)
 	{
 		$timer = new Piwik_Timer;
 	    $aCurl = array();
