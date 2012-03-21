@@ -774,6 +774,7 @@ class Test_Piwik_Common extends UnitTestCase
 			'http://www.google.fr/imgres?q=piwik&um=1&hl=fr&client=firefox-a&sa=N&rls=org.mozilla:fr:official&tbm=isch&tbnid=Xmlv3vfl6ost2M:&imgrefurl=http://example.com&docid=sCbh1P0moOANNM&w=500&h=690&ei=3OFpTpjvH4T6sgbosYTiBA&zoom=1&iact=hc&vpx=176&vpy=59&dur=299&hovh=264&hovw=191&tx=108&ty=140&page=1&tbnh=140&tbnw=103&start=0&ndsp=39&ved=1t:429,r:0,s:0&biw=1280&bih=885'
 				=> array('name' => 'Google Images', 'keywords' => 'piwik'),
 
+				
 			// Google CSE is not standard google
 			'http://www.google.com/cse?cx=006944612449134755049%3Ahq5up-97k4u&cof=FORID%3A10&q=piwik&ad=w9&num=10&rurl=http%3A%2F%2Fwww.homepagle.com%2Fsearch.php%3Fcx%3D006944612449134755049%253Ahq5up-97k4u%26cof%3DFORID%253A10%26q%3D89'
 				=> array('name' => 'Google Custom Search', 'keywords' => 'piwik'),
@@ -910,7 +911,11 @@ class Test_Piwik_Common extends UnitTestCase
 				=> array('name' => 'Google', 'keywords' => false),
 				
 			'http://search.naver.com/search.naver?where=nexearch&query=FAU+&x=0&y=0&sm=top_hty&fbm=1&ie=utf8'
-				=> array('name' => 'Naver', 'keywords' => 'fau')
+				=> array('name' => 'Naver', 'keywords' => 'fau'),
+				
+			// Google images no keyword
+			'http://www.google.com/imgres?hl=en&client=ubuntu&hs=xDb&sa=X&channel=fs&biw=1920&bih=1084&tbm=isch&prmd=imvns&tbnid=5i7iz7u4LPSSrM:&imgrefurl=http://dev.piwik.org/trac/wiki/HowToSetupDevelopmentEnvironmentWindows&docid=tWN9OesMyOTqsM&imgurl=http://dev.piwik.org/trac/raw-attachment/wiki/HowToSetupDevelopmentEnvironmentWindows/eclipse-preview.jpg&w=1000&h=627&ei=pURoT67BEdT74QTUzYiSCQ&zoom=1&iact=hc&vpx=1379&vpy=548&dur=513&hovh=178&hovw=284&tx=134&ty=105&sig=108396332168858896950&page=1&tbnh=142&tbnw=227&start=0&ndsp=37&ved=1t:429,r:5,s:0'
+				=> array('name' => 'Google Images', 'keywords' => false),
 		);
 		
 		foreach($urls as $referrerUrl => $expectedReturnedValue) {
