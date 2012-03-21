@@ -758,6 +758,8 @@ class Test_Piwik_Common extends UnitTestCase
 				=> false,
 			'http://www.google.com/#hl=en&source=hp&q=test+hash&aq=f&aqi=n1g5g-s1g1g-s1g2&aql=&oq=&fp=22b4dcbb1403dc0f'
 				=> false,
+			'http://www.google.com/reader/view/'
+				=> false,
 				
 			// new Google image format
 			'http://www.google.com/imgres?imgurl=http://www.imagedomain.com/zoom/34782_ZOOM.jpg&imgrefurl=http://www.mydomain.com/product/Omala-Govindra-Tank-XS-Brown-and-Chile.html&usg=__BD6z_JrJRAFjScDRhj4Tp8Vm_Zo=&h=610&w=465&sz=248&hl=en&start=3&itbs=1&tbnid=aiNVNce9-ZYAPM:&tbnh=136&tbnw=104&prev=/images%3Fq%3DFull%2BSupport%2BTummy%26hl%3Den%26safe%3Doff%26sa%3DG%26gbv%3D2%26tbs%3Disch:1'
@@ -892,8 +894,19 @@ class Test_Piwik_Common extends UnitTestCase
 			'http://web.gougou.com/?search=test3'
 				=> array('name' => 'Baidu', 'keywords' => 'test3'),
 			
-			// Google SSL hidden keyword
+			// Google SSL hidden keyword not defined
 			'http://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0CC&url=http%3A%2F%2Fpiwik.org%2F&ei=&usg='
+				=> array('name' => 'Google', 'keywords' => false),
+				
+			// Yet another change http://googlewebmastercentral.blogspot.ca/2012/03/upcoming-changes-in-googles-http.html
+			'https://www.google.com/'
+				=> array('name' => 'Google', 'keywords' => false),
+				
+			'https://www.google.co.uk/'
+				=> array('name' => 'Google', 'keywords' => false),
+				
+			// without trailing slash
+			'https://www.google.co.uk'
 				=> array('name' => 'Google', 'keywords' => false),
 				
 			'http://search.naver.com/search.naver?where=nexearch&query=FAU+&x=0&y=0&sm=top_hty&fbm=1&ie=utf8'

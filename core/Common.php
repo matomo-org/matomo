@@ -1611,7 +1611,12 @@ class Piwik_Common
 					if(empty($key)
 						&& $searchEngineName == 'Google' 
 						&& $variableName == 'q'
-						&& (strpos($query, '&q=') !== false || strpos($query, '?q=') !== false)
+						&& (	// First, they started putting an empty q= parameter
+								strpos($query, '&q=') !== false 
+							|| 	strpos($query, '?q=') !== false
+								// then they started sending the full host only (no path/query string)
+							||  (empty($query) && (empty($refererPath) || $refererPath == '/') && empty($refererParsed['fragment']))
+							)
 						)
 					{
 						$key = false;
