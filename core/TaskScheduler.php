@@ -27,7 +27,8 @@ class Piwik_TaskScheduler
 {
 	const GET_TASKS_EVENT = "TaskScheduler.getScheduledTasks";
 	const TIMETABLE_OPTION_STRING = "TaskScheduler.timetable";
-
+	static private $running = false;
+	
 	/*
 	 * runTasks collects tasks defined within piwik plugins, runs them if they are scheduled and reschedules
 	 * the tasks that have been executed.
@@ -76,6 +77,7 @@ class Piwik_TaskScheduler
 				$timetable[$fullyQualifiedMethodName] = $scheduledTime->getRescheduledTime();
 				Piwik_SetOption(self::TIMETABLE_OPTION_STRING, serialize($timetable));
 
+				self::$running = true;
 				// Run the task
 				try {
 					$timer = new Piwik_Timer;
@@ -84,6 +86,7 @@ class Piwik_TaskScheduler
 				} catch(Exception $e) {
 					$message = 'ERROR: '.$e->getMessage();
 				}
+				self::$running = false;
 				$return[] = array('task' => $fullyQualifiedMethodName, 'output' => $message);
 
 			}
@@ -92,6 +95,11 @@ class Piwik_TaskScheduler
 
 	}
 
+	static public function isTaskBeingExecuted()
+	{
+		return self::$running;
+	}
+	
 	/*
 	 * return the timetable for a given task
 	 */

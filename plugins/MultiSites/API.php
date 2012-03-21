@@ -80,26 +80,32 @@ class Piwik_MultiSites_API
 	 * @param string $period The period type to get data for.
 	 * @param string $date The date(s) to get data for.
 	 * @param string $segment The segments to get data for.
+	 * @param string $_restrictSitesToLogin Hack used to enforce we restrict the returned data to the specified username
+	 * 										Only used when a scheduled task is running 
 	 */
-	public function getAll($period, $date, $segment = false)
+	public function getAll($period, $date, $segment = false, $_restrictSitesToLogin = false)
 	{
 		Piwik::checkUserHasSomeViewAccess();
 		$isGoalPluginEnabled = Piwik_Common::isGoalPluginEnabled();
 
-		// get site data for every viewable site and cache them
-		if (Piwik::isUserIsSuperUser())
+		
+		if (Piwik::isUserIsSuperUser()
+				// Hack: when this API function is called as a Scheduled Task, Super User status is enforced.
+				// This means this function would return ALL websites in all cases. 
+				// Instead, we make sure that only the right set of data is returned
+				&& !Piwik_TaskScheduler::isTaskBeingExecuted()) 
 		{
 			$sites = Piwik_SitesManager_API::getInstance()->getAllSites();
 			Piwik_Site::setSites($sites);
 		}
 		else
-		{
-			$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess();
+		{ 
+			$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess($limit = false, $_restrictSitesToLogin);
 			Piwik_Site::setSitesFromArray($sites);
 		}
-
+		
 		// build the archive type used to query archive data
-		$archive = Piwik_Archive::build('all', $period, $date, $segment);
+		$archive = Piwik_Archive::build('all', $period, $date, $segment, $_restrictSitesToLogin);
 
 		// determine what data will be displayed
 		$fieldsToGet = array('nb_visits', 'nb_actions');
@@ -133,7 +139,7 @@ class Piwik_MultiSites_API
 				$strLastDate = Piwik_Period_Range::removePeriod($period, Piwik_Date::factory($date), $n = 1)->toString();
 			}
 
-			$pastArchive = Piwik_Archive::build('all', $period, $strLastDate, $segment);
+			$pastArchive = Piwik_Archive::build('all', $period, $strLastDate, $segment, $_restrictSitesToLogin);
 			$pastData = $pastArchive->getDataTableFromNumeric($fieldsToGet);
 
 			$pastData = $pastData->mergeChildren();

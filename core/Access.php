@@ -147,12 +147,17 @@ class Piwik_Access
 		
 		// we join with site in case there are rows in access for an idsite that doesn't exist anymore
 		// (backward compatibility ; before we deleted the site without deleting rows in _access table)
-		$accessRaw = Piwik_FetchAll(self::getSqlAccessSite("access, t2.idsite"), $this->login);
+		$accessRaw = self::getRawSitesWithSomeViewAccess($this->login);
 		foreach($accessRaw as $access)
 		{
 			$this->idsitesByAccess[$access['access']][] = $access['idsite'];
 		}
 		return true;
+	}
+	
+	static public function getRawSitesWithSomeViewAccess($login)
+	{
+		return Piwik_FetchAll(self::getSqlAccessSite("access, t2.idsite"), $login);
 	}
 
 	/**

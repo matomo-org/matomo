@@ -29,11 +29,11 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 	 * @param string $strPeriod eg. 'day' 'week' etc.
 	 * @param string $strDate A date range, eg. 'last10', 'previous5' or 'YYYY-MM-DD,YYYY-MM-DD'
 	 */
-	function __construct($sites, $strPeriod, $strDate, Piwik_Segment $segment)
+	function __construct($sites, $strPeriod, $strDate, Piwik_Segment $segment, $_restrictSitesToLogin)
 	{
 		foreach($sites as $idSite)
 		{
-			$archive = Piwik_Archive::build($idSite, $strPeriod, $strDate, $segment );
+			$archive = Piwik_Archive::build($idSite, $strPeriod, $strDate, $segment, $_restrictSitesToLogin );
 			$this->archives[$idSite] = $archive;
 		}
 		ksort( $this->archives );

@@ -263,6 +263,9 @@ class Piwik_PDFReports_API
 		// Available reports
 		$reportMetadata = Piwik_API_API::getInstance()->getReportMetadata($idSite);
 
+		// User who created this report
+		$userLogin = false;
+		
 		// Test template: include all reports
 		if($idReport == 0)
 		{
@@ -295,6 +298,8 @@ class Piwik_PDFReports_API
 		{
 			$pdfReports = $this->getReports($idSite, $_period = false, $idReport);
 			$pdfReport = reset($pdfReports);
+			
+			$userLogin = $pdfReport['login'];
 			$reportUniqueIds = explode(',', $pdfReport['reports']);
 
 			$description = $pdfReport['description'];
@@ -335,6 +340,7 @@ class Piwik_PDFReports_API
 					$reports[] = $metadata;
 				}
 			}
+			
 		}
 
 		// prepare the report renderer
@@ -353,6 +359,7 @@ class Piwik_PDFReports_API
 
 		$websiteName = $prettyDate = false;
 		$processedReports = array();
+		
 		foreach ($reports as $action)
 		{
 			$apiModule = $action['module'];
@@ -365,18 +372,25 @@ class Piwik_PDFReports_API
 			
 			$mustRestoreGET = false;
 			
-			// All Websites dashboard should display all websites
+			// All Websites dashboard should not be truncated in the report
 			if($apiModule == 'MultiSites' && $apiAction == 'getAll')
 			{
+				$mustRestoreGET = $_GET;
 				$_GET['filter_truncate'] = false;
-				$mustRestoreGET = true;
+				
+				// When a view/admin user created a report, workaround the fact that "Super User" 
+				// is enforced in Scheduled tasks, and ensure Multisites.getAll only return the websites that this user can access
+				if(!empty($userLogin)
+					&& $userLogin != Piwik_Config::getInstance()->superuser['login'])
+				{
+					$_GET['_restrictSitesToLogin'] = $userLogin;
+				}
 			}
-			
 			$report = Piwik_API_API::getInstance()->getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false, $apiParameters, $idGoal = false, $language);
 			
 			if($mustRestoreGET)
 			{
-				$_GET['filter_truncate'] = $reportTruncation;
+				$_GET = $mustRestoreGET;
 			}
 			$websiteName = $report['website'];
 			$prettyDate = $report['prettyDate'];
@@ -455,7 +469,6 @@ class Piwik_PDFReports_API
 	public function sendEmailReport($idReport, $idSite, $period = false, $date = false)
 	{
 		Piwik::checkUserIsNotAnonymous();
-
 		$reports = $this->getReports($idSite, false, $idReport);
 		$report = reset($reports);
 		if($report['period'] == 'never')
@@ -471,6 +484,7 @@ class Piwik_PDFReports_API
 			$date = Piwik_Date::now()->subPeriod(1, $report['period'])->toString();
 		}
 		
+
 		// Get user emails and languages 
 		$emails = self::getEmailsFromString($report['additional_emails']);
 		if($report['email_me'] == 1)

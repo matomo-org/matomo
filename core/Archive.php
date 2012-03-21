@@ -172,15 +172,16 @@ abstract class Piwik_Archive
 	 * @param string|int idSite integer, or comma separated list of integer
 	 * @param string|Piwik_Date $date 'YYYY-MM-DD' or magic keywords 'today' @see Piwik_Date::factory()
 	 * @param string $period 'week' 'day' etc.
-	 * @param string Segment definition - defaults to false for Backward Compatibility
+	 * @param string $segment Segment definition - defaults to false for Backward Compatibility
+	 * @param string $_restrictSitesToLogin Used only when running as a scheduled task
 	 * 
 	 * @return Piwik_Archive
 	 */
-	static public function build($idSite, $period, $strDate, $segment = false )
+	static public function build($idSite, $period, $strDate, $segment = false, $_restrictSitesToLogin = false )
 	{
 		if($idSite === 'all')
 		{
-			$sites = Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess();
+			$sites = Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess($_restrictSitesToLogin);
 		}
 		else
 		{
@@ -196,7 +197,7 @@ abstract class Piwik_Archive
 		if( count($sites) > 1 
 			|| $idSite === 'all' )
 		{
-			$archive = new Piwik_Archive_Array_IndexedBySite($sites, $period, $strDate, $segment);
+			$archive = new Piwik_Archive_Array_IndexedBySite($sites, $period, $strDate, $segment, $_restrictSitesToLogin);
 		}
 		// if a period date string is detected: either 'last30', 'previous10' or 'YYYY-MM-DD,YYYY-MM-DD'
 		elseif(is_string($strDate) && self::isMultiplePeriod($strDate, $period))

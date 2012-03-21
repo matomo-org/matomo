@@ -262,11 +262,13 @@ class Piwik_SitesManager_API
 	 * Returns the list of websites with the 'view' or 'admin' access for the current user.
 	 * For the superUser it returns all the websites in the database.
 	 * 
+	 * @param int $limit Specify max number of sites to return
+	 * @param bool $_restrictSitesToLogin Hack necessary when runnning scheduled tasks, where "Super User" is forced, but sometimes not desired, see #3017
 	 * @return array array for each site, an array of information (idsite, name, main_url, etc.)
 	 */
-	public function getSitesWithAtLeastViewAccess($limit = false)
+	public function getSitesWithAtLeastViewAccess($limit = false, $_restrictSitesToLogin = false)
 	{
-		$sitesId = $this->getSitesIdWithAtLeastViewAccess();
+		$sitesId = $this->getSitesIdWithAtLeastViewAccess($_restrictSitesToLogin);
 		return $this->getSitesFromIds($sitesId, $limit);
 	}
 	
@@ -299,9 +301,25 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return array list of websites ID
 	 */
-	public function getSitesIdWithAtLeastViewAccess()
+	public function getSitesIdWithAtLeastViewAccess($_restrictSitesToLogin = false)
 	{
-		return Zend_Registry::get('access')->getSitesIdWithAtLeastViewAccess();
+		if(!empty($_restrictSitesToLogin)
+			// Very important here to make sure we only proceed when in a scheduled task
+			// Otherwise anyone could get all websites for a given user
+			&& Piwik_TaskScheduler::isTaskBeingExecuted())
+		{
+			$accessRaw = Piwik_Access::getRawSitesWithSomeViewAccess($_restrictSitesToLogin);
+			$sitesId = array();
+			foreach($accessRaw as $access)
+			{
+				$sitesId[] = $access['idsite'];
+			}
+			return $sitesId;
+		}
+		else
+		{
+			return Zend_Registry::get('access')->getSitesIdWithAtLeastViewAccess();
+		}
 	}
 
 	/**
