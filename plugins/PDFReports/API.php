@@ -346,7 +346,10 @@ class Piwik_PDFReports_API
 
 		// The report will be rendered with the first 23 rows and will aggregate other rows in a summary row
 		$filterTruncateGET = Piwik_Common::getRequestVar('filter_truncate', false);
-		$_GET['filter_truncate'] = 23;
+
+		// 23 rows table fits in one portrait page
+		$reportTruncation = 23;
+		$_GET['filter_truncate'] = $reportTruncation;
 
 		$websiteName = $prettyDate = false;
 		$processedReports = array();
@@ -359,7 +362,22 @@ class Piwik_PDFReports_API
 			{
 				$apiParameters = $action['parameters'];
 			}
+			
+			$mustRestoreGET = false;
+			
+			// All Websites dashboard should display all websites
+			if($apiModule == 'MultiSites' && $apiAction == 'getAll')
+			{
+				$_GET['filter_truncate'] = false;
+				$mustRestoreGET = true;
+			}
+			
 			$report = Piwik_API_API::getInstance()->getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false, $apiParameters, $idGoal = false, $language);
+			
+			if($mustRestoreGET)
+			{
+				$_GET['filter_truncate'] = $reportTruncation;
+			}
 			$websiteName = $report['website'];
 			$prettyDate = $report['prettyDate'];
 
