@@ -18,8 +18,6 @@ class Piwik_PDFReports_Controller extends Piwik_Controller
 {	
 	public function index()
 	{
-		Piwik::checkUserIsNotAnonymous();
-
 		$view = Piwik_View::factory('index');
 		$this->setGeneralVariablesView($view);
 		$view->currentUserEmail = Piwik::getCurrentUserEmail();
@@ -34,13 +32,17 @@ class Piwik_PDFReports_Controller extends Piwik_Controller
 		}
 		unset($reportsByCategory['API']);
 
-		$reports = Piwik_PDFReports_API::getInstance()->getReports($this->idSite, $period = false, $idReport = false, $ifSuperUserReturnOnlySuperUserReports = true);
-		$reportsById = array();
-		foreach($reports as &$report)
+		$reports = $reportsById = array();
+		if(!Piwik::isUserIsAnonymous())
 		{
-			$report['additional_emails'] = str_replace(',',"\n", $report['additional_emails']);
-			$report['reports'] = explode(',', str_replace('.','_',$report['reports']));
-			$reportsById[$report['idreport']] = $report;
+			$reports = Piwik_PDFReports_API::getInstance()->getReports($this->idSite, $period = false, $idReport = false, $ifSuperUserReturnOnlySuperUserReports = true);
+			$reportsById = array();
+			foreach($reports as &$report)
+			{
+				$report['additional_emails'] = str_replace(',',"\n", $report['additional_emails']);
+				$report['reports'] = explode(',', str_replace('.','_',$report['reports']));
+				$reportsById[$report['idreport']] = $report;
+			}
 		}
 
 		$view->downloadOutputType = Piwik_PDFReports_API::OUTPUT_DOWNLOAD;
