@@ -1,15 +1,21 @@
 {literal}
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
+	// persist the &segment parameter so that the Live! widget is also segmented
+	var hash = broadcast.getHash();
+	var segment = broadcast.getValueFromUrl('segment', hash);
+	var appendSegment = segment != '' ? '&segment='+ segment : '';
+	
     $('#visitsLive').liveWidget({
         interval: {/literal}{$liveRefreshAfterMs}{literal},
         onUpdate: function(){
-                      //updates the numbers of total visits in startbox
-                      $("#visitsTotal").load("index.php?module=Live&idSite={/literal}{$idSite}{if !empty($liveTokenAuth)}&token_auth={$liveTokenAuth}{/if}{literal}&action=ajaxTotalVisitors");
-                  },
+        	
+		    //updates the numbers of total visits in startbox
+		    $("#visitsTotal").load("index.php?module=Live&idSite={/literal}{$idSite}{if !empty($liveTokenAuth)}&token_auth={$liveTokenAuth}{/if}{literal}&action=ajaxTotalVisitors" + appendSegment);
+		},
         maxRows: 10,
         fadeInSpeed: 600,
-        dataUrl: 'index.php?module=Live&idSite={/literal}{$idSite}{if !empty($liveTokenAuth)}&token_auth={$liveTokenAuth}{/if}{literal}&action=getLastVisitsStart'
+        dataUrl: 'index.php?module=Live&idSite={/literal}{$idSite}{if !empty($liveTokenAuth)}&token_auth={$liveTokenAuth}{/if}{literal}&action=getLastVisitsStart' + appendSegment
     });
 });
 </script>

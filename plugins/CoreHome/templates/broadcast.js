@@ -81,7 +81,7 @@ broadcast.propagateAjax = function (ajaxUrl)
 	piwikHelper.abortQueueAjax();
 	
     // available in global scope
-    var currentHashStr = broadcast.getHashFromUrl().replace(/^#/, '');
+    var currentHashStr = broadcast.getHash();
 
     ajaxUrl = ajaxUrl.replace(/^\?|&#/,'');
 
@@ -336,3 +336,10 @@ broadcast.getParamValue = function (param, url)
     }
 };
 
+/**
+ * Returns the hash without the starting #
+ */
+broadcast.getHash = function ()
+{
+	return broadcast.getHashFromUrl().replace(/^#/, '');
+};

@@ -133,7 +133,7 @@ class Piwik_Live_API
 	 */
 	public function getLastVisits( $idSite, $filter_limit = 10, $minTimestamp = false )
 	{
-		return $this->getLastVisitsDetails($idSite, $period = false, $date = false, $filter_limit, $maxIdVisit = false, $minTimestamp );
+		return $this->getLastVisitsDetails($idSite, $period = false, $date = false, $segment = false, $filter_limit, $maxIdVisit = false, $minTimestamp );
 	}
 
 	/**
