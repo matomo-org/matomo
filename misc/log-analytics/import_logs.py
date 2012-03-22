@@ -216,6 +216,10 @@ class Configuration(object):
             help="Print a progress report every second"
         )
         option_parser.add_option(
+            '--output', dest='output',
+            help="Redirect output (stdout and stderr) to the specified file"
+        )
+        option_parser.add_option(
             '--enable-reverse-dns', dest='reverse_dns',
             action='store_true', default=False,
             help="Enable reverse DNS. Disabled by default, as it impacts performance"
@@ -238,6 +242,10 @@ class Configuration(object):
 
 
         self.options, self.filenames = option_parser.parse_args(sys.argv[1:])
+
+        if self.options.output:
+            sys.stdout = sys.stderr = open(self.options.output, 'a+')
+
         if not self.filenames:
             print(option_parser.format_help())
             sys.exit(1)
