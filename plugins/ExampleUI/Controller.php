@@ -26,6 +26,7 @@ class Piwik_ExampleUI_Controller extends Piwik_Controller
 		$view->setLimit( 24 );
 		$view->disableExcludeLowPopulation();
 		$view->disableShowAllColumns();
+		$view->disableRowEvolution();
 		$view->setAxisYUnit('°C'); // useful if the user requests the bar graph
 		return $this->renderView($view);
 	}

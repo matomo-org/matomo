@@ -99,6 +99,132 @@
     font-size: 1.2em;
 }
 
+
+/**
+ * ROW EVOLUTION POPUP
+ */
+
+.rowevolution {
+	position: relative;
+	overflow: hidden;
+}
+
+.rowevolution h2 {
+	font-size: 16px;
+	margin: 0;
+	padding: 0;
+}
+
+.rowevolution .metrics-container {
+	padding: 11px 0 5px 0;
+}
+
+.rowevolution table.metrics {
+	border-spacing: 0;
+}
+.multirowevolution table.metrics {
+	margin-bottom: 12px;
+}
+.rowevolution table.metrics,
+.multirowevolution table.metrics {
+	/* prevent select for shift-click on metric toggles */
+	user-select: none; /* CSS3 */
+    -moz-user-select: none; /* Gecko (Firefox) */
+    -khtml-user-select:none; /* Webkit (Safari, Chrome) */
+}
+
+.rowevolution table.metrics tr {
+	margin: 0;
+	padding: 0;
+	cursor: pointer;
+}
+
+.rowevolution table.metrics td {
+	vertical-align: middle;
+	text-align: left;
+	margin: 0;
+	padding: 4px 0;
+	cursor: pointer;
+}
+
+.rowevolution table.metrics td.sparkline {
+	width: 120px;
+}
+.multirowevolution table.metrics td.sparkline {
+	padding-top: 15px;
+}
+
+/** IE7 does not support inline image data, which is needed for spark lines */
+*+html .multirowevolution table.metrics td.sparkline,
+*+html .rowevolution table.metrics td.sparkline {
+	display: none;
+}
+
+.rowevolution table.metrics td.text {
+	font-size: 13px;
+	line-height: 18px;
+	color: #7E7363;
+	font-weight: bold;
+}
+.multirowevolution table.metrics td.text {
+	padding-top: 8px;
+}
+
+.rowevolution table.metrics td.text span.details {
+	font-weight: normal;
+	color: #444;
+}
+
+.rowevolution table.metrics td.text span.change {
+	display: block;
+	float: left;
+	padding-left: 15px;
+}
+
+.rowevolution table.metrics td.text span.up {
+	color: green;
+}
+
+.rowevolution table.metrics td.text span.down {
+	color: red;
+}
+
+.rowevolution-documentation {
+	font-size: 12px;
+	margin: 2px 0 5px 0;
+	padding:  5px 0 5px 23px;
+	color: #888;
+	background: url(../../../themes/default/images/help.png) no-repeat left center;
+}
+
+.rowevolution .metric-selectbox,
+.rowevolution .compare-container {
+	padding: 15px 0 5px 0;
+}
+
+.rowevolution .metric-selectbox select {
+	font-size: 13px;
+	color: #444;
+	margin: 8px 0 0 0;
+	padding: 0;
+}
+
+a.rowevolution-startmulti {
+	font-size: 12px;
+	color: #7E7363;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+a.rowevolution-startmulti:hover {
+	color: #444;
+}
+
+
+/**
+ * SERIES PICKER FOR CHARTS
+ */
+ 
 .jqplot-seriespicker {
 	display: block;
 	position: absolute;
