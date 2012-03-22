@@ -899,7 +899,7 @@ class Parser(object):
         """
         def invalid_line(line):
             stats.count_lines_invalid.increment()
-            if self.options.debug >= 2:
+            if config.options.debug >= 2:
                 logging.debug('Invalid line detected: ' + line)
 
         if config.options.show_progress:
