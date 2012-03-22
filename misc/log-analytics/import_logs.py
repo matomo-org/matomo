@@ -122,7 +122,8 @@ class Configuration(object):
     def __init__(self):
         option_parser = optparse.OptionParser(
             usage='Usage: %prog [options] log_file [ log_file [...] ]',
-            description="Import HTTP access logs to Piwik."
+            description="Import HTTP access logs to Piwik. "
+                         "log_file is the path to a server access log file (uncompressed, .gz, .bz2, or specify - to read from stdin)."
         )
         option_parser.add_option(
             '-d', '--debug', dest='debug', action='count', default=0,
@@ -145,7 +146,7 @@ class Configuration(object):
             '-c', '--config', dest='config_file', default=default_config,
             help=(
                 "This is only used with --login and --password is not used. "
-        "Piwik will read the configuration file (default: %default) to "
+                "Piwik will read the configuration file (default: %default) to "
                 "fetch the Super User token_auth from the config file. "
             )
         )
@@ -833,9 +834,9 @@ class Recorder(object):
         if hit.is_robot:
             args['_cvar'] = '{"1":["Bot","%s"]}' % hit.user_agent
         if hit.status == '404':
-            args['action_name'] = '404/URL = %s/From = %s' % (
-                urllib.quote(args['url']),
-                urllib.quote(args['urlref'])
+            args['action_name'] = '404/URL = %s%s' % (
+                urllib.quote(args['url'], ''),
+                ("/From = %s" % urllib.quote(args['urlref'], '') if args['urlref'] is not ''  else '')
             )
 
         if not config.options.dry_run:
