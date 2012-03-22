@@ -676,7 +676,9 @@ abstract class Piwik_ViewDataTable
 		$javascriptVariablesToSet['viewDataTable'] = $this->getViewDataTableId();
 		$javascriptVariablesToSet['controllerActionCalledWhenRequestSubTable'] = $this->controllerActionCalledWhenRequestSubTable;
 		
-		if($this->dataTable)
+		if($this->dataTable &&
+			// Piwik_DataTable_Array doesn't have the method
+			!($this->dataTable instanceof Piwik_DataTable_Array))
 		{
 			$javascriptVariablesToSet['totalRows'] = $this->dataTable->getRowsCountBeforeLimitFilter();
 		}
