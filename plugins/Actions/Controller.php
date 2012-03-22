@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id$
+ * @version $Id: Controller.php 4634 2011-05-05 08:56:37Z EZdesign $
  *
  * @category Piwik_Plugins
  * @package Piwik_Actions
@@ -98,12 +98,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->setColumnTranslation('entry_nb_visits', Piwik_Translate('General_ColumnEntrances'));
 		// remove pages that are not entry pages
 		$view->queueFilter('ColumnCallbackDeleteRow', array('entry_nb_visits', 'strlen'), $priorityFilter = true);
-		
-		$view->setMetricDocumentation('entry_nb_visits', Piwik_Translate('General_ColumnEntrancesDocumentation'));
-		$view->setMetricDocumentation('entry_bounce_count', Piwik_Translate('General_ColumnBouncesDocumentation'));
-		$view->setMetricDocumentation('bounce_rate', Piwik_Translate('General_ColumnBounceRateForPageDocumentation'));
-		$view->setReportDocumentation(Piwik_Translate('Actions_EntryPagesReportDocumentation', '<br />').' '
-				.Piwik_Translate('General_UsePlusMinusIconsDocumentation'));
 	}
 	
 	
@@ -141,12 +135,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->setColumnTranslation('exit_nb_visits', Piwik_Translate('General_ColumnExits'));
 		// remove pages that are not exit pages
 		$view->queueFilter('ColumnCallbackDeleteRow', array('exit_nb_visits', 'strlen'), $priorityFilter = true);
-		
-		$view->setMetricDocumentation('exit_nb_visits', Piwik_Translate('General_ColumnExitsDocumentation'));
-		$view->setMetricDocumentation('nb_visits', Piwik_Translate('General_ColumnUniquePageviewsDocumentation'));
-		$view->setMetricDocumentation('exit_rate', Piwik_Translate('General_ColumnExitRateDocumentation'));
-		$view->setReportDocumentation(Piwik_Translate('Actions_ExitPagesReportDocumentation', '<br />').' '
-				.Piwik_Translate('General_UsePlusMinusIconsDocumentation'));
 	}
 	
 	
