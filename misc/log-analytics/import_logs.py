@@ -60,16 +60,10 @@ FORMATS = {
 DATE_FORMAT = '%d/%b/%Y:%H:%M:%S'
 
 
-EXCLUDED_EXTENSIONS = (
-    # Images
-    '.gif', '.jpg', '.jpeg', '.png', '.bmp', '.ico', '.svg',
-    # Fonts
-    '.ttf', '.eot', '.woff',
-    # Plugins
-    '.class', '.swf',
-    # Misc
-    '.css', '.js', '.xml', 'robots.txt',
-)
+STATIC_EXTENSIONS = (
+    'gif jpg jpeg png bmp ico svg ttf eot woff class swf css js xml robots.txt'
+).split()
+
 
 DOWNLOAD_EXTENSIONS = (
     '7z aac arc arj asf asx avi bin csv deb dmg doc exe flv gz gzip hqx '
@@ -78,23 +72,24 @@ DOWNLOAD_EXTENSIONS = (
     'bz2 tbz tgz torrent txt wav wma wmv wpd xls xml z zip'
 ).split()
 
+
 # A good source is: http://phpbb-bots.blogspot.com/
 EXCLUDED_USER_AGENTS = (
-    'AdsBot-Google',
+    'adsbot-google',
     'ia_archiver',
-    'Scooter/',
-    'Ask Jeeves',
-    'Baiduspider+(',
-    'Exabot',
-    'Googlebot',
-    'Mediapartners-Google',
+    'ccooter/',
+    'ask jeeves',
+    'baiduspider+(',
+    'exabot',
+    'googlebot',
+    'mediapartners-google',
     'msnbot',
-    'Sosospider+',
-    'SurveyBot',
-    'Twiceler',
-    'VoilaBot',
-    'Yahoo',
-    'Yandex',
+    'sosospider+',
+    'surveybot',
+    'twiceler',
+    'voilabot',
+    'yahoo',
+    'yandex',
 )
 
 
@@ -167,11 +162,14 @@ class Configuration(object):
             help="Piwik Super User token_auth, 32 characters hexadecimal string, found in Piwik > API",
         )
         option_parser.add_option(
-            '-f', '--format', dest='format', default=None,
+            '--log-format-name', dest='log_format_name', default=None,
             help=(
         "Access log format to detect (supported are: common, common_vhost, nsca_extended, common_complete) "
         "When not specified, the log format will be autodetected by trying all supported log formats."
-        )
+        ))
+        option_parser.add_option(
+            '--log-format-regex', dest='log_format_regex', default=None,
+            help="Access log regular expression. Overrides --log-format-name"
         )
         option_parser.add_option(
             '-i', '--idsite', dest='site_id',
@@ -187,8 +185,8 @@ class Configuration(object):
             "known Website's URL",
         )
         option_parser.add_option(
-            '--hostnames', dest='hostnames', action='append',
-            help="Accepted hostnames (others will be excluded)"
+            '--hostname', dest='hostnames', action='append', default=[],
+            help="Accepted hostnames (others will be excluded). Can be specified multiple times"
         )
         option_parser.add_option(
             '-s', '--skip', dest='skip', default=0, type='int',
@@ -210,7 +208,7 @@ class Configuration(object):
             '--useragent-exclude', dest='excluded_useragents',
             action='append', default=[],
             help="User agents to exclude (in addition to the standard excluded "
-            "user agents)",
+            "user agents). Can be specified multiple times",
         )
         option_parser.add_option(
             '--show-progress', dest='show_progress',
@@ -222,8 +220,27 @@ class Configuration(object):
             action='store_true', default=False,
             help="Enable reverse DNS. Disabled by default, as it impacts performance"
         )
+        option_parser.add_option(
+            '--enable-static', dest='enable_static',
+            action='store_true', default=False,
+            help="Track static files"
+        )
+        option_parser.add_option(
+            '--enable-bots', dest='enable_bots',
+            action='store_true', default=False,
+            help="Track bots"
+        )
+        option_parser.add_option(
+            '--strip-query-string', dest='strip_query_string',
+            action='store_true', default=False,
+            help="Strip the query string from the URL"
+        )
+
 
         self.options, self.filenames = option_parser.parse_args(sys.argv[1:])
+        if not self.filenames:
+            print(option_parser.format_help())
+            sys.exit(1)
 
         # Configure logging before calling logging.{debug,info}.
         logging.basicConfig(
@@ -231,16 +248,20 @@ class Configuration(object):
             level=logging.DEBUG if self.options.debug >= 1 else logging.INFO,
         )
 
+        self.options.excluded_useragents = [s.lower() for s in self.options.excluded_useragents]
+
         if self.options.hostnames:
             logging.debug('Accepted hostnames: %s', ', '.join(options.hostnames))
         else:
             logging.debug('Accepted hostnames: all')
 
-        if self.options.format:
+        if self.options.log_format_regex:
+            self.format_regexp = self.options.log_format_regex
+        elif self.options.log_format_name:
             try:
-                self.format_regexp = re.compile(FORMATS[self.options.format])
+                self.format_regexp = re.compile(FORMATS[self.options.log_format_name])
             except KeyError:
-                fatal_error('invalid log format: %s' % self.options.format)
+                fatal_error('invalid log format: %s' % self.options.log_format_name)
         else:
             self.format_regexp = None
 
@@ -425,15 +446,15 @@ Website import summary
 %(sites_created)s
     %(total_sites_ignored)d distinct hostnames did not match any existing site:
 %(sites_ignored)s
-        TIPs: 
+        TIPs:
          - if one of these hosts is an alias host for one of the websites
            in Piwik, you can add this host as an "Alias URL" in Settings > Websites.
          - use --add-sites-new-hosts if you wish to automatically create
            one website for each of these hosts in Piwik rather than discarding
            these requests.
-         - use --idsite-fallback to force all these log lines with a new hostname 
+         - use --idsite-fallback to force all these log lines with a new hostname
 	   to be recorded in a specific idsite (for example for troubleshooting/visualizing the data)
-         - use --idsite to force all lines in the specified log files 
+         - use --idsite to force all lines in the specified log files
            to be all recorded in the specified idsite
 
 Performance summary
@@ -576,7 +597,7 @@ class Piwik(object):
             try:
                 response = func(*args, **kwargs)
                 if expected_response is not None and response != expected_response:
-                    raise urllib2.URLError("didn't receive the expected response. Response was %s " 
+                    raise urllib2.URLError("didn't receive the expected response. Response was %s "
 			% ((response[:200] + '..') if len(response) > 200 else response))
                 return response
             except (urllib2.URLError, ValueError), e:
@@ -801,7 +822,8 @@ class Recorder(object):
         }
         if hit.is_download:
             args['download'] = args['url']
-            stats.count_lines_downloads.increment()
+        if hit.is_robot:
+            args['_cvar'] = '{"1":["Bot","%s"]}' % hit.user_agent
         if hit.status == '404':
             args['action_name'] = '404/URL = %s/From = %s' % (
                 urllib.quote(args['url']),
@@ -866,19 +888,36 @@ class Parser(object):
             stats.count_lines_hostname_skipped.increment()
         return result
 
-    def check_extension(self, hit):
-        for extension in EXCLUDED_EXTENSIONS:
-            if hit.path.lower().endswith(extension) and not hit.is_download:
-                stats.count_lines_static.increment()
-                return False
+    def check_static(self, hit):
+        for extension in STATIC_EXTENSIONS:
+            if hit.path.lower().endswith(extension):
+                if config.options.enable_static:
+                    hit.is_download = True
+                    return True
+                else:
+                    stats.count_lines_static.increment()
+                    return False
+        return True
+
+    def check_download(self, hit):
+        for extension in DOWNLOAD_EXTENSIONS:
+            if hit.path.lower().endswith(extension):
+                stats.count_lines_downloads.increment()
+                hit.is_download = True
         return True
 
     def check_user_agent(self, hit):
+        user_agent = hit.user_agent.lower()
         for s in itertools.chain(EXCLUDED_USER_AGENTS, config.options.excluded_useragents):
-            if s in hit.user_agent:
-                stats.count_lines_skipped_user_agent.increment()
-                return False
+            if s in user_agent:
+                if config.options.enable_bots:
+                    hit.is_robot = True
+                    return True
+                else:
+                    stats.count_lines_skipped_user_agent.increment()
+                    return False
         return True
+
 
     @staticmethod
     def detect_format(line):
@@ -902,17 +941,25 @@ class Parser(object):
             if config.options.debug >= 2:
                 logging.debug('Invalid line detected: ' + line)
 
+        if filename == '-':
+            filename = '(stdin)'
+            file = sys.stdin
+        else:
+            if not os.path.exists(filename):
+                print >> sys.stderr, 'File %s does not exist' % filename
+                return
+            else:
+                if filename.endswith('.bz2'):
+                    open_func = bz2.BZ2File
+                elif filename.endswith('.gz'):
+                    open_func = gzip.open
+                else:
+                    open_func = open
+                file = open_func(filename, 'r')
+
         if config.options.show_progress:
             print 'Parsing log %s...' % filename
 
-        if filename.endswith('.bz2'):
-            open_func = bz2.BZ2File
-        elif filename.endswith('.gz'):
-            open_func = gzip.open
-        else:
-            open_func = open
-
-        file = open_func(filename, 'r')
         for lineno, line in enumerate(file):
             # Guess the format if needed.
             if not config.format_regexp:
@@ -943,10 +990,15 @@ class Parser(object):
                 lineno=lineno,
                 status=match.group('status'),
                 full_path=match.group('path'),
+                is_download=False,
+                is_robot=False,
             )
 
             # Strip query string
-            hit.path = hit.full_path.split('?', 1)[0]
+            if config.options.strip_query_string:
+                hit.path = hit.full_path.split('?', 1)[0]
+            else:
+                hit.path = hit.full_path
 
             # Parse date _with_ timezone to get an UTC timestamp.
             date_string = match.group('date')
@@ -983,8 +1035,6 @@ class Parser(object):
                 # Some formats have no host.
                 pass
 
-            hit.is_download = hit.path.rsplit('.', 1)[-1] in DOWNLOAD_EXTENSIONS
-
             # Check if the hit must be excluded.
             check_methods = inspect.getmembers(self, predicate=inspect.ismethod)
             if all((method(hit) for name, method in check_methods if name.startswith('check_'))):
@@ -1005,10 +1055,7 @@ def main():
     recorders = Recorder.launch(config.options.recorders)
 
     for filename in config.filenames:
-        if os.path.exists(filename):
-            parser.parse(filename)
-        else:
-            print >> sys.stderr, 'File %s does not exist' % filename
+        parser.parse(filename)
 
     Recorder.wait_empty()
     stats.set_time_stop()
