@@ -77,7 +77,8 @@ class Piwik_Common
 		{
 			$prefixTable = Piwik_Config::getInstance()->database['tables_prefix'];
 		}
-		if(strpos($table, $prefixTable) !== 0)
+		if(empty($prefixTable)
+			|| strpos($table, $prefixTable) !== 0)
 		{
 			return $table;
 		}
