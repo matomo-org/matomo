@@ -1,5 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+#
+# Piwik - Open source web analytics
+#
+# @link http://piwik.org
+# @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+# @version $Id$
+# 
+# For more info see: http://piwik.org/log-analytics/
 
 import sys
 if sys.version_info < (2, 6):
@@ -38,7 +46,7 @@ _COMMON_LOG_FORMAT = (
     '(?P<ip>\S+) \S+ \S+ \[(?P<date>.*?)\] '
     '"\S+ (?P<path>.*?) \S+" (?P<status>\S+) (?P<length>\S+)'
 )
-_NSCA_EXTENDED_LOG_FORMAT = (
+_NCSA_EXTENDED_LOG_FORMAT = (
     '(?P<ip>\S+) \S+ \S+ \[(?P<date>.*?)\] '
     '"\S+ (?P<path>.*?) \S+" (?P<status>\S+) (?P<length>\S+) '
     '"(?P<referrer>.*?)" "(?P<user_agent>.*?)"'
@@ -53,7 +61,7 @@ _COMMON_COMPLETE_LOG_FORMAT = (
 FORMATS = {
     'common': _COMMON_LOG_FORMAT,
     'common_vhost': '(?P<host>[\w\-\.]*)(?::\d+)? ' + _COMMON_LOG_FORMAT,
-    'nsca_extended': _NSCA_EXTENDED_LOG_FORMAT,
+    'ncsa_extended': _NCSA_EXTENDED_LOG_FORMAT,
     'common_complete': _COMMON_COMPLETE_LOG_FORMAT,
 }
 
@@ -76,14 +84,18 @@ DOWNLOAD_EXTENSIONS = (
 # A good source is: http://phpbb-bots.blogspot.com/
 EXCLUDED_USER_AGENTS = (
     'adsbot-google',
-    'ia_archiver',
-    'ccooter/',
     'ask jeeves',
     'baiduspider+(',
+    'bot-',
+    'bot/',
+    'ccooter/',
     'exabot',
     'googlebot',
+    'ia_archiver',
+    'java/',
     'mediapartners-google',
     'msnbot',
+    'robot',
     'sosospider+',
     'surveybot',
     'twiceler',
@@ -99,7 +111,6 @@ PIWIK_DELAY_AFTER_FAILURE = 2
 PIWIK_EXPECTED_IMAGE = base64.b64decode(
     'R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='
 )
-
 
 
 
@@ -123,80 +134,29 @@ class Configuration(object):
         option_parser = optparse.OptionParser(
             usage='Usage: %prog [options] log_file [ log_file [...] ]',
             description="Import HTTP access logs to Piwik. "
-                         "log_file is the path to a server access log file (uncompressed, .gz, .bz2, or specify - to read from stdin)."
+                         "log_file is the path to a server access log file (uncompressed, .gz, .bz2, or specify - to read from stdin). "
+                         " By default, the script will try to produce clean reports and will exclude bots, static files, discard http error and redirects, etc. This is customizable, see below.",
+	    epilog="About Piwik Server Log Analytics: http://piwik.org/log-analytics/ "
+	           "              Found a bug? Please create a ticket in http://dev.piwik.org/ "
+		   "              Please send your suggestions or successful user story to hello@piwik.org "
         )
         option_parser.add_option(
-            '-d', '--debug', dest='debug', action='count', default=0,
+            '--debug', '-d', dest='debug', action='count', default=0,
             help="Enable debug output (specify multiple times for more verbose)",
         )
         option_parser.add_option(
-            '-n', '--dry-run', dest='dry_run',
+            '--url', dest='piwik_url',
+            help="REQUIRED Piwik base URL, eg. http://example.com/piwik/ or http://analytics.example.net",
+        )
+        option_parser.add_option(
+            '--dry-run', dest='dry_run',
             action='store_true', default=False,
             help="Perform a trial run with no tracking data being inserted into Piwik",
         )
         option_parser.add_option(
-            '-u', '--url', dest='piwik_url',
-            help="Piwik base URL, eg. http://example.com/piwik/ or http://analytics.example.net",
-        )
-        default_config = os.path.abspath(
-            os.path.join(os.path.dirname(__file__),
-            '../../config/config.ini.php'),
-        )
-        option_parser.add_option(
-            '-c', '--config', dest='config_file', default=default_config,
-            help=(
-                "This is only used with --login and --password is not used. "
-                "Piwik will read the configuration file (default: %default) to "
-                "fetch the Super User token_auth from the config file. "
-            )
-        )
-        option_parser.add_option(
-            '-l', '--login', dest='login',
-            help="You can manually specify the Piwik Super User login"
-        )
-        option_parser.add_option(
-            '-p', '--password', dest='password',
-            help="You can manually specify the Piwik Super User password"
-        )
-        option_parser.add_option(
-            '-t', '--token-auth', dest='piwik_token_auth',
-            help="Piwik Super User token_auth, 32 characters hexadecimal string, found in Piwik > API",
-        )
-        option_parser.add_option(
-            '--log-format-name', dest='log_format_name', default=None,
-            help=(
-        "Access log format to detect (supported are: common, common_vhost, nsca_extended, common_complete) "
-        "When not specified, the log format will be autodetected by trying all supported log formats."
-        ))
-        option_parser.add_option(
-            '--log-format-regex', dest='log_format_regex', default=None,
-            help="Access log regular expression. Overrides --log-format-name"
-        )
-        option_parser.add_option(
-            '-i', '--idsite', dest='site_id',
-            help= (
-        "When specified "
-        "- All data in the specified log files will be tracked for this Piwik site ID."
-        "- The script will not auto-detect the website based on the log line hostname (new websites will not be automatically created)."
-        )
-        )
-        option_parser.add_option(
-            '--idsite-fallback', dest='site_id_fallback',
-            help="Default Piwik site ID to use if the hostname doesn't match any "
-            "known Website's URL",
-        )
-        option_parser.add_option(
-            '--hostname', dest='hostnames', action='append', default=[],
-            help="Accepted hostnames (others will be excluded). Can be specified multiple times"
-        )
-        option_parser.add_option(
-            '-s', '--skip', dest='skip', default=0, type='int',
-            help="Skip the n first lines to start parsing/importing data at a given line for the specified log file",
-        )
-        option_parser.add_option(
-            '-r', '--recorders', dest='recorders', default=1, type='int',
-            help="Number of simultaneous recorders (default: %default). "
-	        "It should be set at most to the number of CPU cores in your server (a bit less if you also run Piwik on the same box).",
+            '--show-progress', dest='show_progress',
+            action='store_true', default=os.isatty(sys.stdout.fileno()),
+            help="Print a progress report every second"
         )
         option_parser.add_option(
             '--add-sites-new-hosts', dest='add_sites_new_hosts',
@@ -206,39 +166,97 @@ class Configuration(object):
             "import the logs"
         )
         option_parser.add_option(
+            '--idsite', dest='site_id',
+            help= ("When specified, "
+                   "data in the specified log files will be tracked for this Piwik site ID."
+                   " The script will not auto-detect the website based on the log line hostname (new websites will not be automatically created).")
+        )
+        option_parser.add_option(
+            '--idsite-fallback', dest='site_id_fallback',
+            help="Default Piwik site ID to use if the hostname doesn't match any "
+            "known Website's URL. New websites will not be automatically created. "
+	    "                         Used only if --add-sites-new-hosts or --idsite are not set",
+        )
+        default_config = os.path.abspath(
+            os.path.join(os.path.dirname(__file__),
+            '../../config/config.ini.php'),
+        )
+        option_parser.add_option(
+            '--config', dest='config_file', default=default_config,
+            help=(
+                "This is only used when --login and --password is not used. "
+                "Piwik will read the configuration file (default: %default) to "
+                "fetch the Super User token_auth from the config file. "
+            )
+        )
+        option_parser.add_option(
+            '--login', dest='login',
+            help="You can manually specify the Piwik Super User login"
+        )
+        option_parser.add_option(
+            '--password', dest='password',
+            help="You can manually specify the Piwik Super User password"
+        )
+        option_parser.add_option(
+            '--token-auth', dest='piwik_token_auth',
+            help="Piwik Super User token_auth, 32 characters hexadecimal string, found in Piwik > API",
+        )
+
+	option_parser.add_option(
+            '--hostname', dest='hostnames', action='append', default=[],
+            help="Accepted hostname (requests with other hostnames will be excluded). "
+	         "Can be specified multiple times"
+        )
+        option_parser.add_option(
             '--useragent-exclude', dest='excluded_useragents',
             action='append', default=[],
             help="User agents to exclude (in addition to the standard excluded "
             "user agents). Can be specified multiple times",
         )
         option_parser.add_option(
-            '--show-progress', dest='show_progress',
-            action='store_true', default=os.isatty(sys.stdout.fileno()),
-            help="Print a progress report every second"
-        )
-        option_parser.add_option(
-            '--output', dest='output',
-            help="Redirect output (stdout and stderr) to the specified file"
-        )
-        option_parser.add_option(
-            '--enable-reverse-dns', dest='reverse_dns',
-            action='store_true', default=False,
-            help="Enable reverse DNS. Disabled by default, as it impacts performance"
-        )
-        option_parser.add_option(
             '--enable-static', dest='enable_static',
             action='store_true', default=False,
-            help="Track static files"
+            help="Track static files (images, css, js, etc.)"
         )
         option_parser.add_option(
             '--enable-bots', dest='enable_bots',
             action='store_true', default=False,
-            help="Track bots"
+            help="Track bots. All bot visits will have a Custom Variable set with name='Bot' and value='$Bot_user_agent_here$'"
+        )
+        option_parser.add_option(
+            '--enable-reverse-dns', dest='reverse_dns',
+            action='store_true', default=False,
+            help="Enable reverse DNS, used to generate the 'Providers' report in Piwik. "
+                 "Disabled by default, as it impacts performance"
         )
         option_parser.add_option(
             '--strip-query-string', dest='strip_query_string',
             action='store_true', default=False,
             help="Strip the query string from the URL"
+        )
+        option_parser.add_option(
+            '--log-format-name', dest='log_format_name', default=None,
+            help=("Access log format to detect (supported are: common, common_vhost, ncsa_extended, common_complete). "
+                  "When not specified, the log format will be autodetected by trying all supported log formats."
+        ))
+        option_parser.add_option(
+            '--log-format-regex', dest='log_format_regex', default=None,
+            help="Access log regular expression. For an example of a supported Regex, see the source code of this file. "
+                 "Overrides --log-format-name"
+        )
+        option_parser.add_option(
+            '--skip', dest='skip', default=0, type='int',
+            help="Skip the n first lines to start parsing/importing data at a given line for the specified log file",
+        )
+        option_parser.add_option(
+            '--recorders', dest='recorders', default=1, type='int',
+            help="Number of simultaneous recorders (default: %default). "
+	        "It should be set to the number of CPU cores in your server. "
+            "You can also experiment with higher values which may increase performance until a certain point",
+        )
+        option_parser.add_option(
+            '--output', dest='output',
+            help="Redirect output (stdout and stderr) to the specified file"
         )
 
 
@@ -442,7 +460,7 @@ Logs import summary
     %(total_lines_ignored)d requests ignored:
         %(count_lines_invalid)d invalid log lines
         %(count_lines_skipped_user_agent)d requests done by bots, search engines, ...
-        %(count_lines_static)d requests to static resources (images, stylesheets, ...)
+        %(count_lines_static)d requests to static resources (css, js, ...)
         %(count_lines_no_site)d requests did not match any known site
         %(count_lines_hostname_skipped)d requests did not match any requested hostname
 
@@ -465,6 +483,7 @@ Website import summary
 	   to be recorded in a specific idsite (for example for troubleshooting/visualizing the data)
          - use --idsite to force all lines in the specified log files
            to be all recorded in the specified idsite
+         - or you can also manually create a new Website in Piwik with the URL set to this hostname
 
 Performance summary
 -------------------
@@ -854,7 +873,7 @@ class Recorder(object):
             return
 
         dates = [date.strftime('%Y-%m-%d') for date in stats.dates_recorded]
-        print 'Purging Piwik archives for dates: %s' % dates
+        print 'Purging Piwik archives for dates: %s ' % dates 
         result = piwik.call_api(
             'CoreAdminHome.invalidateArchivedReports',
             dates=','.join(dates),
