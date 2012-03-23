@@ -461,6 +461,16 @@ if(!function_exists('printDebug'))
 	}
 }
 
+// When the config file is not created, this function is called
+// During install, the config file is not there and the "test piwik.php request" then fails
+// On a test server, the php error returned status 500, which was mistakenly failing the "Tracker status" test in System Check
+if(!function_exists('Piwik_TranslateException'))
+{
+	function Piwik_TranslateException($message, $args)
+	{
+		return $message;
+	}
+}
 /**
  * Displays exception in a friendly UI and exits.
  *

@@ -75,7 +75,11 @@ if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 if(!defined('PIWIK_ENABLE_TRACKING') || PIWIK_ENABLE_TRACKING)
 {
 	$process = new Piwik_Tracker();
-	$process->main();
+	try {
+		$process->main();
+	} catch(Exception $e) {
+		echo "Error:" . $e->getMessage();
+	}
 	ob_end_flush();
 	if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 	{	
