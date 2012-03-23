@@ -61,7 +61,9 @@
                     
                     if(isStarted) {
                         window.clearTimeout(updateInterval);
-                        updateInterval = window.setTimeout(update, currentInterval);
+                        if($(liveWidget).closest('body').length) {
+                            updateInterval = window.setTimeout(update, currentInterval);
+                        }
                     }
                 }));
             };
