@@ -187,27 +187,28 @@ class Piwik_Config
 	public function init()
 	{
 		$this->initialized = true;
+		$reportError = empty($GLOBALS['PIWIK_TRACKER_MODE']);
 
 		// read defaults from global.ini.php
-		if(!is_readable($this->pathGlobal))
+		if(!is_readable($this->pathGlobal) && $reportError)
 		{
 			Piwik_ExitWithMessage(Piwik_TranslateException('General_ExceptionConfigurationFileNotFound', array($this->pathGlobal)));
 		}
 
 		$this->configGlobal = _parse_ini_file($this->pathGlobal, true);
-		if(empty($this->configGlobal))
+		if(empty($this->configGlobal) && $reportError)
 		{
 			Piwik_ExitWithMessage(Piwik_TranslateException('General_ExceptionUnreadableFileDisabledMethod', array($this->pathGlobal, "parse_ini_file()")));
 		}
 
 		// read the local settings from config.ini.php
-		if(!is_readable($this->pathLocal))
+		if(!is_readable($this->pathLocal) && $reportError)
 		{
 			throw new Exception(Piwik_TranslateException('General_ExceptionConfigurationFileNotFound', array($this->pathLocal)));
 		}
 
 		$this->configLocal = _parse_ini_file($this->pathLocal, true);
-		if(empty($this->configLocal))
+		if(empty($this->configLocal) && $reportError)
 		{
 			Piwik_ExitWithMessage(Piwik_TranslateException('General_ExceptionUnreadableFileDisabledMethod', array($this->pathLocal, "parse_ini_file()")));
 		}

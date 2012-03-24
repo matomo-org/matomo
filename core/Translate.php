@@ -213,26 +213,22 @@ function Piwik_Translate($string, $args = array())
 	return vsprintf($string, $args);
 }
 
-// this statement is needed for an unknown reason, for the test tests/core/Piwik/jsProxy.test.php to pass
-if(!function_exists('Piwik_TranslateException')) 
+/**
+ * Returns translated string or given message if translation is not found.
+ * This function does not throw any exception. Use it to translate exceptions.
+ *
+ * @param string $message Translation string index
+ * @param array $args sprintf arguments
+ * @return string
+ */
+function Piwik_TranslateException($message, $args = array())
 {
-	/**
-	 * Returns translated string or given message if translation is not found.
-	 * This function does not throw any exception. Use it to translate exceptions.
-	 *
-	 * @param string $message Translation string index
-	 * @param array $args sprintf arguments
-	 * @return string
-	 */
-	function Piwik_TranslateException($message, $args = array())
+	try
 	{
-		try
-		{
-			return Piwik_Translate($message, $args);		
-		} 
-		catch(Exception $e)
-		{
-			return $message;
-		}
+		return Piwik_Translate($message, $args);		
+	} 
+	catch(Exception $e)
+	{
+		return $message;
 	}
 }
