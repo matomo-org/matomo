@@ -491,7 +491,6 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 	{
 		$dbName = Piwik_Config::getInstance()->database['dbname'];
 		Piwik_Exec("DROP DATABASE IF EXISTS " . $dbName);
-
 	}
 
 	/**

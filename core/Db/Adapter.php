@@ -43,14 +43,25 @@ class Piwik_Db_Adapter
 
 		$className = self::getAdapterClassName($adapterName);
 		Piwik_Loader::loadClass($className);
-		$adapter = new $className($dbInfos);
+
+		/*
+		 * 5.2.1 fixes various bugs with references that caused PDO_MYSQL getConnection()
+		 * to clobber $dbInfos. (#33282, #35106, #39944)
+		 */
+		if (version_compare(PHP_VERSION, '5.2.1') < 0)
+		{
+			$adapter = new $className(array_map('trim', $dbInfos));
+		}
+		else
+		{
+			$adapter = new $className($dbInfos);
+		}
 
 		if($connect)
 		{
 			$adapter->getConnection();
 
 			Zend_Db_Table::setDefaultAdapter($adapter);
-
 			// we don't want the connection information to appear in the logs
 			$adapter->resetConfig();
 		}

@@ -303,6 +303,7 @@ class Piwik_Config
 		// cache merged section for later
 		$this->configCache[$name] = $this->decodeValues($section);
 		$tmp =& $this->configCache[$name];
+
 		return $tmp;
 	}
 

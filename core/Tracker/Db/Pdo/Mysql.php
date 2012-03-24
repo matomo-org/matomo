@@ -31,15 +31,15 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
 	{
 		if(isset($dbInfo['unix_socket']) && $dbInfo['unix_socket'][0] == '/')
 		{
-			$this->dsn = $driverName.":dbname=${dbInfo['dbname']};unix_socket=${dbInfo['unix_socket']}";
+			$this->dsn = $driverName . ':dbname=' . $dbInfo['dbname'] . ';unix_socket=' . $dbInfo['unix_socket'];
 		}
 		else if ($dbInfo['port'][0] == '/')
 		{
-			$this->dsn = $driverName.":dbname=${dbInfo['dbname']};unix_socket=${dbInfo['port']}";
+			$this->dsn = $driverName . ':dbname=' . $dbInfo['dbname'] . ';unix_socket=' . $dbInfo['port'];
 		}
 		else
 		{
-			$this->dsn = $driverName.":dbname=${dbInfo['dbname']};host=${dbInfo['host']};port=${dbInfo['port']}";
+			$this->dsn = $driverName . ':dbname=' . $dbInfo['dbname'] . ';host=' . $dbInfo['host'] . ';port=' . $dbInfo['port'];
 		}
 		$this->username = $dbInfo['username'];
 		$this->password = $dbInfo['password'];
