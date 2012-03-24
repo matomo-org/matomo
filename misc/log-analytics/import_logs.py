@@ -855,7 +855,7 @@ class Recorder(object):
         if hit.status == '404':
             args['action_name'] = '404/URL = %s%s' % (
                 urllib.quote(args['url'], ''),
-                ("/From = %s" % urllib.quote(args['urlref'], '') if args['urlref'] is not ''  else '')
+                ("/From = %s" % urllib.quote(args['urlref'], '') if args['urlref'] != ''  else '')
             )
 
         if not config.options.dry_run:
