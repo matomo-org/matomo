@@ -28,6 +28,7 @@
   <!-- Database server name -->
   <parameter
     name="DbServer"
+    description="This is usually localhost, 127.0.0.1, or a host name provided by the hosting provider."
     defaultValue="localhost"
     tags="MySQL,dbServer">
     <parameterEntry
@@ -50,6 +51,7 @@
   <!-- Database name -->
   <parameter
     name="DbName"
+    description="Database Name may be a combination of lower case letters, numerals and/or underscore (_), but must start with a letter."
     defaultValue="piwik"
     tags="MySQL,dbName">
     <parameterValidation
@@ -76,6 +78,7 @@
   <!-- Database user name -->
   <parameter
     name="DbUsername"
+    description="Username to access your database"
     defaultValue="piwikuser"
     tags="MySQL,DbUsername">
     <parameterValidation
@@ -128,6 +131,7 @@
   <!-- Database admin user name -->
   <parameter
     name="DbAdminUsername"
+    description="This can be the default MySQL username root, a username provided by your hosting provider, or one that your created in setting up your database server."
     defaultValue="root"
     tags="MySQL,DbAdminUsername">
   </parameter>
@@ -135,13 +139,14 @@
   <!-- Database admin user password -->
   <parameter
     name="DbAdminPassword"
-    description="Password for the database administrator account."
+    description="Password for the database administrator account. Required for site security. This may be predefined by your hosting provider."
     tags="Password,MySQL,DbAdminPassword">
   </parameter>
  
   <!-- Execute install.sql -->
   <parameter
     name="Connection String"
+    description="Automatically sets the connection string for the connection request."
     defaultValue="Server={DbServer};Database={DbName};uid={DbAdminUsername};Pwd={DbAdminPassword};"
     tags="Hidden,MySQLConnectionString,Validate,MySQL">
     <parameterEntry
