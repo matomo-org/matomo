@@ -372,7 +372,7 @@ class Test_PHP_Related extends UnitTestCase
 		$this->assertTrue(!is_bool($return));
 	}
 	
-
+	// php 5.1.x unserialize() emits E_NOTICE "Argument is not a string"
 	function test_isThisForReal()
 	{
 		// no error here??
