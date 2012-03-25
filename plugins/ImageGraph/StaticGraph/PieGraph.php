@@ -7,14 +7,14 @@
  * @version $Id$
  *
  * @category Piwik_Plugins
- * @package Piwik_ImageGraph
+ * @package Piwik_ImageGraph_StaticGraph
  */
 
 require_once PIWIK_INCLUDE_PATH . "/libs/pChart2.1.3/class/pPie.class.php";
 
 /**
  *
- * @package Piwik_ImageGraph
+ * @package Piwik_ImageGraph_StaticGraph
  */
 abstract class Piwik_ImageGraph_StaticGraph_PieGraph extends Piwik_ImageGraph_StaticGraph
 {

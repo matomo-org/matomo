@@ -7,13 +7,13 @@
  * @version $Id$
  *
  * @category Piwik_Plugins
- * @package Piwik_ImageGraph
+ * @package Piwik_ImageGraph_StaticGraph
  */
 
 
 /**
  *
- * @package Piwik_ImageGraph
+ * @package Piwik_ImageGraph_StaticGraph
  */
 class Piwik_ImageGraph_StaticGraph_Evolution extends Piwik_ImageGraph_StaticGraph_GridGraph
 {
