@@ -67,11 +67,12 @@
 		</tr>
 		<tr>
 			<td class="first">
+				{* PDFReports_AggregateReportsFormat should be named PDFReports_DisplayFormat *}
 				{'PDFReports_AggregateReportsFormat'|translate}
 			</td>
 			<td>
-				<select id="aggregate_reports_format">
-				{foreach from=$aggregateReportsFormats key=formatValue item=formatLabel}
+				<select id="display_format">
+				{foreach from=$displayFormats key=formatValue item=formatLabel}
 					<option {if $formatValue==1}selected{/if} value="{$formatValue}">{$formatLabel}</option>
 				{/foreach}
 				</select>

@@ -47,20 +47,23 @@ class Piwik_PDFReports_API
 	 * 
 	 * @param int $idSite 
 	 * @param string $description Report description
-	 * @param string $period Schedule frequency: day, week or month 
-	 * @param bool $sendToMe
-	 * @param string $additionalEmails Comma separated list of emails
+	 * @param string $period Schedule frequency: day, week or month
+	 * @param string $reportFormat 'pdf' or 'html'
+	 * @return int $displayFormat see Piwik_PDFReports_API::getDisplayFormats()
 	 * @param string $reports Comma separated list of reports
+	 * @param bool $emailMe
+	 * @param string $additionalEmails Comma separated list of emails
+	 *
 	 * @return int idReport generated
 	 */
-	public function addReport( $idSite, $description, $period, $reportFormat, $aggregateReportsFormat, $reports, $emailMe = true, $additionalEmails = false)
+	public function addReport( $idSite, $description, $period, $reportFormat, $displayFormat, $reports, $emailMe = true, $additionalEmails = false)
 	{
 		Piwik::checkUserIsNotAnonymous();
 		Piwik::checkUserHasViewAccess($idSite);
 
 		$this->checkPeriod($period);
 		$this->checkFormat($reportFormat);
-		$this->checkAggregateReportsFormat($aggregateReportsFormat);
+		$this->checkDisplayFormat($displayFormat);
 		$description = $this->checkDescription($description);
 		$currentUser = Piwik::getCurrentUserLogin();
 		$emailMe = (int)$emailMe;
@@ -85,7 +88,7 @@ class Piwik_PDFReports_API
 						'description' => $description,
 						'period' => $period,
 						'format' => $reportFormat,
-						'aggregate_reports_format' => $aggregateReportsFormat,
+						'display_format' => $displayFormat,
 						'email_me' => $emailMe,
 						'additional_emails' => $additionalEmails,
 						'reports' => $reports,
@@ -109,7 +112,7 @@ class Piwik_PDFReports_API
 	 * 
 	 * @see addReport()
 	 */
-	public function updateReport( $idReport, $idSite, $description, $period, $reportFormat, $aggregateReportsFormat, $reports, $emailMe = true, $additionalEmails = false)
+	public function updateReport( $idReport, $idSite, $description, $period, $reportFormat, $displayFormat, $reports, $emailMe = true, $additionalEmails = false)
 	{
 		Piwik::checkUserIsNotAnonymous();
 		Piwik::checkUserHasViewAccess($idSite);
@@ -120,7 +123,7 @@ class Piwik_PDFReports_API
 		
 		$this->checkPeriod($period);
 		$this->checkFormat($reportFormat);
-		$this->checkAggregateReportsFormat($aggregateReportsFormat);
+		$this->checkDisplayFormat($displayFormat);
 		$description = $this->checkDescription($description);
 		$currentUser = Piwik::getCurrentUserLogin();
 		$emailMe = (int)$emailMe;
@@ -136,7 +139,7 @@ class Piwik_PDFReports_API
 						'description' => $description,
 						'period' => $period,
 						'format' => $reportFormat,
-						'aggregate_reports_format' => $aggregateReportsFormat,
+						'display_format' => $displayFormat,
 						'email_me' => $emailMe,
 						'additional_emails' => $additionalEmails,
 						'reports' => $reports,
@@ -247,9 +250,9 @@ class Piwik_PDFReports_API
 	 * @param int|false $outputType 1 = download report, 2 = save report to disk, defaults to download
 	 * @param string|false $period Defaults to 'day'. If not specified, will default to the report's period set when creating the report
 	 * @param string $reportFormat pdf, html
-	 * @param int|false $aggregateReportsFormat 1 = display only tables, 2 = display only graphs, 3 = display both
+	 * @param int|false $displayFormat see Piwik_PDFReports_API::getDisplayFormats()
 	 */
-	public function generateReport($idReport, $date, $idSite = false, $language = false, $outputType = false, $period = false, $reportFormat = false, $aggregateReportsFormat = false)
+	public function generateReport($idReport, $date, $idSite = false, $language = false, $outputType = false, $period = false, $reportFormat = false, $displayFormat = false)
 	{
 		Piwik::checkUserIsNotAnonymous();
 
@@ -277,9 +280,9 @@ class Piwik_PDFReports_API
 			{
 				$reportFormat = Piwik_PDFReports::DEFAULT_FORMAT;
 			}
-			if(empty($aggregateReportsFormat))
+			if(empty($displayFormat))
 			{
-				$aggregateReportsFormat = Piwik_PDFReports::DEFAULT_AGGREGATE_REPORTS_FORMAT;
+				$displayFormat = Piwik_PDFReports::DEFAULT_DISPLAY_FORMAT;
 			}
 
 			$reports = array();
@@ -325,10 +328,10 @@ class Piwik_PDFReports_API
 				}
 			}
 
-    		// If $aggregateReportsFormat wasn't specified, defaults to the report configuration
-			if(empty($aggregateReportsFormat))
+    		// If $displayFormat wasn't specified, defaults to the report configuration
+			if(empty($displayFormat))
 			{
-				$aggregateReportsFormat = $pdfReport['aggregate_reports_format'];
+				$displayFormat = $pdfReport['display_format'];
 			}
 
 			// We need to lookup which reports metadata are registered in this report
@@ -398,16 +401,16 @@ class Piwik_PDFReports_API
 			$reportMetadata = $report['metadata'];
 			$isAggregateReport = !empty($reportMetadata['dimension']);
 
-			$report['displayTable'] = 	!$isAggregateReport ||
-										$aggregateReportsFormat == Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_TABLES ||
-										$aggregateReportsFormat == Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_TABLES_GRAPHS;
+			$report['displayTable'] = $displayFormat != Piwik_PDFReports::DISPLAY_FORMAT_GRAPHS_ONLY;
 
-			$report['displayGraph'] = 	(!$isAggregateReport ||
-										 $aggregateReportsFormat == Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_GRAPHS ||
-										 $aggregateReportsFormat == Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_TABLES_GRAPHS )
-										 && Piwik::isGdExtensionEnabled()
-										 && Piwik_PluginsManager::getInstance()->isPluginActivated('ImageGraph')
-										 && !empty($reportMetadata['imageGraphUrl']);
+			$report['displayGraph'] =
+				($isAggregateReport ?
+					$displayFormat == Piwik_PDFReports::DISPLAY_FORMAT_GRAPHS_ONLY || $displayFormat == Piwik_PDFReports::DISPLAY_FORMAT_TABLES_AND_GRAPHS
+						:
+					$displayFormat != Piwik_PDFReports::DISPLAY_FORMAT_TABLES_ONLY)
+				&& Piwik::isGdExtensionEnabled()
+				&& Piwik_PluginsManager::getInstance()->isPluginActivated('ImageGraph')
+				&& !empty($reportMetadata['imageGraphUrl']);
 
 			$processedReports[] = $report;
 		}
@@ -694,15 +697,16 @@ class Piwik_PDFReports_API
 		}
 	}
 
-	private function checkAggregateReportsFormat($format)
+	private function checkDisplayFormat($format)
 	{
-		$availableAggregateReportsFormats = array_keys(Piwik_PDFReports_API::getAggregateReportsFormats());
-		if(!in_array($format, $availableAggregateReportsFormats))
+		$availableDisplayFormats = array_keys(Piwik_PDFReports_API::getDisplayFormats());
+		if(!in_array($format, $availableDisplayFormats))
 		{
 			throw new Exception(
 				Piwik_TranslateException(
+					// General_ExceptionInvalidAggregateReportsFormat should be named General_ExceptionInvalidDisplayFormat
 					'General_ExceptionInvalidAggregateReportsFormat',
-					array($format, implode(', ', $availableAggregateReportsFormats))
+					array($format, implode(', ', $availableDisplayFormats))
 				)
 			);
 		}
@@ -725,12 +729,16 @@ class Piwik_PDFReports_API
 	/**
 	 * @ignore
 	 */
-	static public function getAggregateReportsFormats()
+	static public function getDisplayFormats()
 	{
 		$periods = array(
-			Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_TABLES => Piwik_Translate('PDFReports_AggregateReportsFormat_TablesOnly'),
-			Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_GRAPHS => Piwik_Translate('PDFReports_AggregateReportsFormat_GraphsOnly'),
-			Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_TABLES_GRAPHS => Piwik_Translate('PDFReports_AggregateReportsFormat_TablesAndGraphs'),
+			// PDFReports_AggregateReportsFormat_TablesOnly should be named PDFReports_DisplayFormat_GraphsOnlyForKeyMetrics
+			Piwik_PDFReports::DISPLAY_FORMAT_GRAPHS_ONLY_FOR_KEY_METRICS => Piwik_Translate('PDFReports_AggregateReportsFormat_TablesOnly'),
+			// PDFReports_AggregateReportsFormat_GraphsOnly should be named PDFReports_DisplayFormat_GraphsOnly
+			Piwik_PDFReports::DISPLAY_FORMAT_GRAPHS_ONLY => Piwik_Translate('PDFReports_AggregateReportsFormat_GraphsOnly'),
+			// PDFReports_AggregateReportsFormat_TablesAndGraphs should be named PDFReports_DisplayFormat_TablesAndGraphs
+			Piwik_PDFReports::DISPLAY_FORMAT_TABLES_AND_GRAPHS => Piwik_Translate('PDFReports_AggregateReportsFormat_TablesAndGraphs'),
+			Piwik_PDFReports::DISPLAY_FORMAT_TABLES_ONLY => Piwik_Translate('PDFReports_DisplayFormat_TablesOnly'),
 		);
 		return $periods;
 	}

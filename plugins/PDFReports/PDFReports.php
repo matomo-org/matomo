@@ -18,10 +18,11 @@ class Piwik_PDFReports extends Piwik_Plugin
 {
 	const DEFAULT_FORMAT = 'pdf';
 
-	const AGGREGATE_REPORTS_FORMAT_TABLES = 1; // Display Tables Only
-	const AGGREGATE_REPORTS_FORMAT_GRAPHS = 2; // Display Graphs Only
-	const AGGREGATE_REPORTS_FORMAT_TABLES_GRAPHS = 3; // Display Tables and Graphs
-	const DEFAULT_AGGREGATE_REPORTS_FORMAT = Piwik_PDFReports::AGGREGATE_REPORTS_FORMAT_TABLES;
+	const DISPLAY_FORMAT_GRAPHS_ONLY_FOR_KEY_METRICS = 1; // Display Tables Only (Graphs only for key metrics)
+	const DISPLAY_FORMAT_GRAPHS_ONLY = 2; // Display Graphs Only for all reports
+	const DISPLAY_FORMAT_TABLES_AND_GRAPHS = 3; // Display Tables and Graphs for all reports
+	const DISPLAY_FORMAT_TABLES_ONLY = 4; // Display only tables for all reports
+	const DEFAULT_DISPLAY_FORMAT = Piwik_PDFReports::DISPLAY_FORMAT_GRAPHS_ONLY_FOR_KEY_METRICS;
 
 	public function getInformation()
 	{
@@ -155,7 +156,7 @@ class Piwik_PDFReports extends Piwik_Plugin
 					description VARCHAR(255) NOT NULL,
 					period VARCHAR(10) NULL,
 					format VARCHAR(10),
-					aggregate_reports_format TINYINT(1) NOT NULL,
+					display_format TINYINT(1) NOT NULL,
 					email_me TINYINT NULL,
 					additional_emails TEXT NULL,
 					reports TEXT NOT NULL,

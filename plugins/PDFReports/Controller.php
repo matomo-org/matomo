@@ -54,7 +54,7 @@ class Piwik_PDFReports_Controller extends Piwik_Controller
 							Piwik_PDFReports_API::getPeriodToFrequency());
 		$view->defaultFormat = Piwik_PDFReports::DEFAULT_FORMAT;
 		$view->formats = Piwik_ReportRenderer::$availableReportRenderers;
-		$view->aggregateReportsFormats = Piwik_PDFReports_API::getAggregateReportsFormats();
+		$view->displayFormats = Piwik_PDFReports_API::getDisplayFormats();
 		$view->reports = $reports;
 		$view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
 		echo $view->render();
