@@ -56,9 +56,9 @@ class Test_Piwik_Integration_RowEvolution extends Test_Integration_Facade
 		// Keywords, hierarchical
 		$config['otherRequestParameters']['apiAction'] = 'getSearchEngines';
 		$config['testSuffix'] = '_LabelReservedCharactersHierarchical';
-		$keywords = "Google>".urlencode($this->keywords[0])
-					.',Google>'.urlencode($this->keywords[1])
-					.',Google>'.urlencode($this->keywords[2]);
+		$keywords = "Google>".urlencode(strtolower($this->keywords[0]))
+					.',Google>'.urlencode(strtolower($this->keywords[1]))
+					.',Google>'.urlencode(strtolower($this->keywords[2]));
 		$config['otherRequestParameters']['label'] = urlencode($keywords);
 		$return[] = array('API.getRowEvolution', $config);
 		
@@ -126,7 +126,7 @@ class Test_Piwik_Integration_RowEvolution extends Test_Integration_Facade
 			
 			// VISIT 2: search engine
 			$t->setForceVisitDateTime(Piwik_Date::factory($visitDateTime)->addHour(3)->getDatetime());
-			$t->setUrlReferrer('http://google.com/search?q='.($this->keywords[$daysIntoPast%3]));
+			$t->setUrlReferrer('http://google.com/search?q='.urlencode($this->keywords[$daysIntoPast%3]));
 			$this->checkResponse($t->doTrackPageView('not an incredible title '));
 		}
 	}
