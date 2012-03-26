@@ -48,7 +48,7 @@ class Piwik_CoreHome_DataTableAction_MultiRowEvolution
 	protected function extractEvolutionReport($report)
 	{
 		$this->metric = $report['column'];
-		$this->dataTable = $report['data'];
+		$this->dataTable = $report['reportData'];
 		$this->availableMetrics = $report['metadata']['metrics'];
 		$this->metricsForSelect = $report['metadata']['columns'];
 		$this->dimension = $report['metadata']['dimension'];

@@ -261,12 +261,12 @@ class Piwik_Url
 			{
 				foreach($value as $theValue)
 				{
-					$query .= $name . "[]=" . $theValue . "&";
+					$query .= $name . "[]=" . urlencode($theValue) . "&";
 				}
 			}
 			else
 			{
-				$query .= $name . "=" . $value . "&";
+				$query .= $name . "=" . urlencode($value) . "&";
 			}
 		}
 		$query = substr($query, 0, -1);

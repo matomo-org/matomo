@@ -82,7 +82,7 @@ class Test_Piwik_Integration_RowEvolution extends Test_Integration_Facade
 		$config['otherRequestParameters']['date'] = '2010-03-01,2010-03-06';
 		$config['otherRequestParameters']['apiModule'] = 'Actions';
 		$config['otherRequestParameters']['apiAction'] = 'getPageUrls';
-		$config['otherRequestParameters']['label'] = 'my>dir>'.urlencode('/page3');
+		$config['otherRequestParameters']['label'] = urlencode('my>dir>'.urlencode('/page3?foo=bar&baz=bar'));
 		$return[] = array('API.getRowEvolution', $config);
 		
 		return $return;
@@ -120,7 +120,7 @@ class Test_Piwik_Integration_RowEvolution extends Test_Integration_Facade
 			$visitDateTime = Piwik_Date::factory($dateTime)->subDay($daysIntoPast)->getDatetime();
 			$t = $this->getTracker($idSite, $visitDateTime, $defaultInit = true);
 			$t->setUrlReferrer('http://www.referrer'.($daysIntoPast % 5).'.com/theReferrerPage'.($daysIntoPast % 2).'.html');
-			$t->setUrl('http://example.org/my/dir/page'.($daysIntoPast % 4));
+			$t->setUrl('http://example.org/my/dir/page'.($daysIntoPast % 4).'?foo=bar&baz=bar');
 			$t->setForceVisitDateTime($visitDateTime);
 			$this->checkResponse($t->doTrackPageView('incredible title '.($daysIntoPast % 3)));
 			
