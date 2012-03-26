@@ -18,7 +18,7 @@
 			<items>Products left in cart</items>
 
 		</metrics>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceAbandonedCart&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceAbandonedCart&amp;period=day&amp;date=2011-03-07%2C2011-04-05</imageGraphUrl>
 		<uniqueId>Goals_get_idGoal--ecommerceAbandonedCart</uniqueId>
 
 	</metadata>
