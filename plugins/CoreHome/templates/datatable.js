@@ -1053,7 +1053,7 @@ dataTable.prototype =
 					{
 						$(this).blur();
 						actions.hide();
-						action.onActionClick(tr, e);
+						action.trigger(tr, e);
 						return false;
 					});
 				}

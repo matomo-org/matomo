@@ -120,7 +120,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
 		{
 			$icon = $this->rowIcon ? '<img src="'.$this->rowIcon.'" alt="">' : '';
 			$rowLabel = str_replace('/', '<wbr>/', str_replace('&', '<wbr>&', $this->rowLabel));
-			$metricsText .= ' '.$this->dimension.': '.$icon.' '.$rowLabel;
+			$metricsText = sprintf(Piwik_Translate('RowEvolution_MetricsFor'), $this->dimension.': '.$icon.' '.$rowLabel);
 			$popoverTitle = $icon.' '.$rowLabel;
 		}
 		
@@ -219,31 +219,35 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
 			$min = $metricData['min'];
 			$change = $metricData['change'];
 			
-			if ($max == 0 && !($this instanceof Piwik_CoreHome_DataTableAction_MultiRowEvolution))
+			if ($max == 0 && !($this instanceof Piwik_CoreHome_DataTableRowAction_MultiRowEvolution))
 			{
-				// series with only 0 cause trouble in js
 				continue;
 			}
 			
+			$lowerIsBetter = Piwik_API_API::isLowerValueBetter($metric);
 			if (substr($change, 0, 1) == '+')
 			{
-				$changeClass = 'up';
-				$changeImage = 'arrow_up';
+				$changeClass = $lowerIsBetter ? 'bad' : 'good';
+				$changeImage = $lowerIsBetter ? 'arrow_up_red' : 'arrow_up';
 			}
 			else if (substr($change, 0, 1) == '-')
 			{
-				$changeClass = 'down';
-				$changeImage = 'arrow_down';
+				$changeClass = $lowerIsBetter ? 'good' : 'bad';
+				$changeImage = $lowerIsBetter ? 'arrow_down_green' : 'arrow_down';
 			}
 			else
 			{
-				$changeClass = 'nochange';
+				$changeClass = 'neutral';
 				$changeImage = false;
 			}
 			
 			$change = '<span class="'.$changeClass.'">'
 					.($changeImage ? '<img src="plugins/MultiSites/images/'.$changeImage.'.png" /> ' : '')
 					.$change.'</span>';
+			
+			$unit = Piwik_API_API::getUnit($metric, $this->idSite);
+			$min .= $unit;
+			$max .= $unit;
 			
 			$details = Piwik_Translate('RowEvolution_MetricDetailsText', array($min, $max, $change));
 			

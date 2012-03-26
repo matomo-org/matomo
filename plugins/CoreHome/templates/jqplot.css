@@ -182,11 +182,11 @@
 	padding-left: 15px;
 }
 
-.rowevolution table.metrics td.text span.up {
+.rowevolution table.metrics td.text span.good {
 	color: green;
 }
 
-.rowevolution table.metrics td.text span.down {
+.rowevolution table.metrics td.text span.bad {
 	color: red;
 }
 

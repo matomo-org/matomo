@@ -137,7 +137,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 	{
 		// derive units from column names
 		$idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
-		$units = $this->guessUnitFromRequestedColumnNames($this->getColumnsToDisplay(), $idSite);
+		$units = $this->deriveUnitsFromRequestedColumnNames($this->getColumnsToDisplay(), $idSite);
 		if(!empty($this->yAxisUnit))
 		{
 			// force unit to the value set via $this->setAxisYUnit()
@@ -150,26 +150,13 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		return $units;
 	}
 	
-	protected function guessUnitFromRequestedColumnNames($requestedColumnNames, $idSite)
+	protected function deriveUnitsFromRequestedColumnNames($requestedColumnNames, $idSite)
 	{
-		$nameToUnit = array(
-			'_rate' => '%',
-			'revenue' => Piwik::getCurrency($idSite),
-			'_time_' => 's'
-		);
-		
 		$units = array();
 		foreach($requestedColumnNames as $columnName)
 		{
-			$units[$columnName] = false;
-			foreach($nameToUnit as $pattern => $type)
-			{
-				if(strpos($columnName, $pattern) !== false)
-				{
-					$units[$columnName] = $type;
-					break;
-				}
-			}
+			$derivedUnit = Piwik_API_API::getUnit($columnName, $idSite);
+			$units[$columnName] = empty($derivedUnit) ? false : $derivedUnit;
 		}
 		return $units;
 	}

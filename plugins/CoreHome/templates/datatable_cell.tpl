@@ -1,3 +1,11 @@
+{if $column=='label'}
+	<div class="dataTableRowActions">
+		{if !isset($properties.disable_row_evolution) || $properties.disable_row_evolution === false}
+			<a href="#" class="actionRowEvolution"><img src="themes/default/images/row_evolution.png" alt="" /></a>
+		{/if}
+	</div>
+{/if}
+
 {if !$row.idsubdatatable && $column=='label' && !empty($row.metadata.url)}
 <a target="_blank" href='{if !in_array(substr($row.metadata.url,0,4), array('http','ftp:'))}http://{/if}{$row.metadata.url|escape:'html'}'>
 	{if empty($row.metadata.logo)}

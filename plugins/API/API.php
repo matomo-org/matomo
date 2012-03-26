@@ -92,6 +92,48 @@ class Piwik_API_API
 	}
 	
 	/**
+	 * Derive the unit name from a column name
+	 */
+	static public function getUnit($columnName, $idSite)
+	{
+		$nameToUnit = array(
+			'_rate' => '%',
+			'revenue' => Piwik::getCurrency($idSite),
+			'_time_' => 's'
+		);
+		
+		foreach ($nameToUnit as $pattern => $type)
+		{
+			if (strpos($columnName, $pattern) !== false)
+			{
+				return $type;
+			}
+		}
+		
+		return '';
+	}
+	
+	/**
+	 * Is a lower value for a given column better?
+	 */
+	static public function isLowerValueBetter($columnName)
+	{
+		$lowerIsBetterPatterns = array(
+			'bounce', 'exit'
+		);
+		
+		foreach ($lowerIsBetterPatterns as $pattern)
+		{
+			if (strpos($columnName, $pattern) !== false)
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * Default translations for many core metrics.
 	 * This is used for exports with translated labels. The exports contain columns that
 	 * are not visible in the UI and not present in the API meta data. These columns are
