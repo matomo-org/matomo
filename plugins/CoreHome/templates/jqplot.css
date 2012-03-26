@@ -107,6 +107,7 @@
 .rowevolution {
 	position: relative;
 	overflow: hidden;
+	text-align: left
 }
 
 .rowevolution h2 {

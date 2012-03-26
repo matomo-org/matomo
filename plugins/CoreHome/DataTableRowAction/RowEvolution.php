@@ -12,10 +12,10 @@
 
 /**
  * ROW EVOLUTION
- * The class handles the popup that shows the evolution of a singe row in a data table
+ * The class handles the popover that shows the evolution of a singe row in a data table
  * @package Piwik_CoreHome
  */
-class Piwik_CoreHome_DataTableAction_RowEvolution
+class Piwik_CoreHome_DataTableRowAction_RowEvolution
 {
 	
 	/** The current site id */
@@ -60,7 +60,7 @@ class Piwik_CoreHome_DataTableAction_RowEvolution
 	/** The metrics for the graph that has been requested last */
 	protected $graphMetrics;
 	
-	/** Whether or not to show all metrics in the evolution graph when to popup opens */
+	/** Whether or not to show all metrics in the evolution graph when to popover opens */
 	protected $initiallyShowAllMetrics = false;
 	
 	/**
@@ -75,6 +75,7 @@ class Piwik_CoreHome_DataTableAction_RowEvolution
 		if (empty($this->apiMethod)) throw new Exception("Parameter apiMethod not set.");
 		
 		$this->label = Piwik_Common::getRequestVar('label', '', 'string');
+		$this->label = Piwik_Common::unsanitizeInputValue($this->label);
 		if ($this->label === '') throw new Exception("Parameter label not set.");
 		
 		$this->period = Piwik_Common::getRequestVar('period', '', 'string');
@@ -98,11 +99,11 @@ class Piwik_CoreHome_DataTableAction_RowEvolution
 	}
 	
 	/**
-	 * Render the popup
+	 * Render the popover
 	 * @param Piwik_CoreHome_Controller
-	 * @param Piwik_View (the popup_rowevolution template)
+	 * @param Piwik_View (the popover_rowevolution template)
 	 */
-	public function renderPopup($controller, $view)
+	public function renderPopover($controller, $view)
 	{
 		// render main evolution graph
 		$this->graphType = 'graphEvolution';
@@ -114,13 +115,17 @@ class Piwik_CoreHome_DataTableAction_RowEvolution
 		
 		// available metrics text
 		$metricsText = Piwik_Translate('RowEvolution_AvailableMetrics');
+		$popoverTitle = '';
 		if ($this->rowLabel)
 		{
 			$icon = $this->rowIcon ? '<img src="'.$this->rowIcon.'" alt="">' : '';
-			$metricsText .= ' '.$this->dimension.': '.$icon.' '.$this->rowLabel;
+			$rowLabel = str_replace('/', '<wbr>/', str_replace('&', '<wbr>&', $this->rowLabel));
+			$metricsText .= ' '.$this->dimension.': '.$icon.' '.$rowLabel;
+			$popoverTitle = $icon.' '.$rowLabel;
 		}
 		
-		$view->availableMetricsText = $metricsText; 
+		$view->availableMetricsText = $metricsText;
+		$view->popoverTitle = $popoverTitle;
 		
 		return $view->render();
 	}
@@ -168,7 +173,7 @@ class Piwik_CoreHome_DataTableAction_RowEvolution
 	}
 	
 	/**
-	 * Generic method to get an evolution graph or a sparkline for the row evolution popup.
+	 * Generic method to get an evolution graph or a sparkline for the row evolution popover.
 	 * Do as much as possible from outside the controller.
 	 * @return Piwik_ViewDataTable
 	 */

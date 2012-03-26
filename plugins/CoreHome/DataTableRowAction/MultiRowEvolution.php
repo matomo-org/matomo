@@ -12,17 +12,17 @@
 
 /**
  * MULTI ROW EVOLUTION
- * The class handles the popup that shows the evolution of a multiple rows in a data table
+ * The class handles the popover that shows the evolution of a multiple rows in a data table
  * @package Piwik_CoreHome
  */
-class Piwik_CoreHome_DataTableAction_MultiRowEvolution
-		extends Piwik_CoreHome_DataTableAction_RowEvolution
+class Piwik_CoreHome_DataTableRowAction_MultiRowEvolution
+		extends Piwik_CoreHome_DataTableRowAction_RowEvolution
 {
 	
 	/** The requested metric */
 	protected $metric;
 	
-	/** Show all metrics in the evolution graph when the popup opens */
+	/** Show all metrics in the evolution graph when the popover opens */
 	protected $initiallyShowAllMetrics = true;
 	
 	/** The metrics available in the metrics select */
@@ -55,11 +55,11 @@ class Piwik_CoreHome_DataTableAction_MultiRowEvolution
 	}
 	
 	/**
-	 * Render the popup
+	 * Render the popover
 	 * @param Piwik_CoreHome_Controller
-	 * @param Piwik_View (the popup_rowevolution template)
+	 * @param Piwik_View (the popover_rowevolution template)
 	 */
-	public function renderPopup($controller, $view)
+	public function renderPopover($controller, $view)
 	{
 		// add data for metric select box
 		$view->availableMetrics = $this->metricsForSelect;
@@ -68,7 +68,7 @@ class Piwik_CoreHome_DataTableAction_MultiRowEvolution
 		$view->availableRecordsText = $this->dimension.': '
 				.Piwik_Translate('RowEvolution_ComparingRecords', array(count($this->availableMetrics)));
 		
-		return parent::renderPopup($controller, $view);
+		return parent::renderPopover($controller, $view);
 	}
 	
 }

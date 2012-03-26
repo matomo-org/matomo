@@ -120,7 +120,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 	
 	//  --------------------------------------------------------
 	//  ROW EVOLUTION
-	//  The following methods render the popup that shows the
+	//  The following methods render the popover that shows the
 	//  evolution of a singe or multiple rows in a data table
 	//  --------------------------------------------------------
 	
@@ -132,25 +132,25 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 	 */
 	private static $rowEvolutionCache = null;
 	
-	/** Render the entire row evolution popup for a single row */
-	public function getRowEvolutionPopup()
+	/** Render the entire row evolution popover for a single row */
+	public function getRowEvolutionPopover()
 	{
-		$rowEvolution = new Piwik_CoreHome_DataTableAction_RowEvolution($this->idSite, $this->date);
+		$rowEvolution = new Piwik_CoreHome_DataTableRowAction_RowEvolution($this->idSite, $this->date);
 		self::$rowEvolutionCache = $rowEvolution;
-		$view = Piwik_View::factory('popup_rowevolution');
-		echo $rowEvolution->renderPopup($this, $view);
+		$view = Piwik_View::factory('popover_rowevolution');
+		echo $rowEvolution->renderPopover($this, $view);
 	}
 	
-	/** Render the entire row evolution popup for multiple rows */
-	public function getMultiRowEvolutionPopup()
+	/** Render the entire row evolution popover for multiple rows */
+	public function getMultiRowEvolutionPopover()
 	{
-		$rowEvolution = new Piwik_CoreHome_DataTableAction_MultiRowEvolution($this->idSite, $this->date);
+		$rowEvolution = new Piwik_CoreHome_DataTableRowAction_MultiRowEvolution($this->idSite, $this->date);
 		self::$rowEvolutionCache = $rowEvolution;
-		$view = Piwik_View::factory('popup_multirowevolution');
-		echo $rowEvolution->renderPopup($this, $view);
+		$view = Piwik_View::factory('popover_multirowevolution');
+		echo $rowEvolution->renderPopover($this, $view);
 	}
 	
-	/** Generic method to get an evolution graph or a sparkline for the row evolution popup */
+	/** Generic method to get an evolution graph or a sparkline for the row evolution popover */
 	public function getRowEvolutionGraph($fetch = false)
 	{
 		$rowEvolution = self::$rowEvolutionCache;

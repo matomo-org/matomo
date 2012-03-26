@@ -1,4 +1,5 @@
 <div class="rowevolution">
+	<div class="popover-title">{$popoverTitle}</div>
 	<div class="graph">
 		{$graph}
 	</div>

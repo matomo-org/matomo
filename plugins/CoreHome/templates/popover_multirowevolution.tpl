@@ -1,5 +1,5 @@
 <div class="rowevolution multirowevolution">
-	<div class="popup-title">{'RowEvolution_MultiRowEvolutionTitle'|translate|escape:'html'}</div>
+	<div class="popover-title">{'RowEvolution_MultiRowEvolutionTitle'|translate|escape:'html'}</div>
 	<div class="graph">
 		{$graph}
 	</div>
