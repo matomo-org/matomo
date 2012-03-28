@@ -183,6 +183,7 @@ class Piwik_API_DocumentationGenerator
 		$aParameters['includeInnerNodes'] = false;
 		$aParameters['translateColumnNames'] = false;
         $aParameters['label'] = false;
+		$aParameters['flat'] = false;
         $aParameters['filter_truncate'] = false;
 		
 		$moduleName = Piwik_API_Proxy::getInstance()->getModuleNameFromClassName($class);

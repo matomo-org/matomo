@@ -292,6 +292,13 @@ class Piwik_API_ResponseBuilder
 		{
 			$datatable->applyQueuedFilters();
 		}
+		
+		// if requested, flatten nested tables
+		if (Piwik_Common::getRequestVar('flat', '0', 'string', $this->request) == '1')
+		{
+			$flattener = new Piwik_API_DataTableManipulator_Flattener($this->apiModule, $this->apiMethod, $this->request);
+            $datatable = $flattener->flatten($datatable);
+		}
 	
         // apply label filter: only return a single row matching the label parameter
         $label = Piwik_Common::getRequestVar('label', '', 'string', $this->request);

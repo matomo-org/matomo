@@ -266,6 +266,14 @@ class Piwik_DataTable_Row
 	}
 	
 	/**
+	 * Remove the sub table reference
+	 */
+	public function removeSubtable()
+	{
+		$this->c[self::DATATABLE_ASSOCIATED] = null;
+	}
+	
+	/**
 	 * Set all the columns at once. Overwrites previously set columns.
 	 * 
 	 * @param array array( 
