@@ -9,7 +9,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/integration/Integration.php';
 /**
  * Tests the flattening of reports.
  */
-class Test_Piwik_Integration_LabelFilter extends Test_Integration_Facade
+class Test_Piwik_Integration_FlattenReports extends Test_Integration_Facade
 {
 	protected $dateTime = '2010-03-06 11:22:33';
 	protected $idSite = null;
