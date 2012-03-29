@@ -916,6 +916,9 @@ class Test_Piwik_Common extends UnitTestCase
 			// Google images no keyword
 			'http://www.google.com/imgres?hl=en&client=ubuntu&hs=xDb&sa=X&channel=fs&biw=1920&bih=1084&tbm=isch&prmd=imvns&tbnid=5i7iz7u4LPSSrM:&imgrefurl=http://dev.piwik.org/trac/wiki/HowToSetupDevelopmentEnvironmentWindows&docid=tWN9OesMyOTqsM&imgurl=http://dev.piwik.org/trac/raw-attachment/wiki/HowToSetupDevelopmentEnvironmentWindows/eclipse-preview.jpg&w=1000&h=627&ei=pURoT67BEdT74QTUzYiSCQ&zoom=1&iact=hc&vpx=1379&vpy=548&dur=513&hovh=178&hovw=284&tx=134&ty=105&sig=108396332168858896950&page=1&tbnh=142&tbnw=227&start=0&ndsp=37&ved=1t:429,r:5,s:0'
 				=> array('name' => 'Google Images', 'keywords' => false),
+				
+			// DDG
+			'http://duckduckgo.com/post.html' => array('name' => 'DuckDuckGo', 'keywords' => false),
 		);
 		
 		foreach($urls as $referrerUrl => $expectedReturnedValue) {

@@ -1622,8 +1622,9 @@ class Piwik_Common
 								||  (empty($query) && (empty($refererPath) || $refererPath == '/') && empty($refererParsed['fragment']))
 								)
 						) 
-							// Google Images search with no keyword
-							|| $searchEngineName == 'Google Images')
+							// search engines with no keyword
+							|| $searchEngineName == 'Google Images'
+							|| $searchEngineName == 'DuckDuckGo')
 					)
 					{
 						$key = false;
