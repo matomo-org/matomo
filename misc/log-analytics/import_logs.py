@@ -9,12 +9,6 @@
 # 
 # For more info see: http://piwik.org/log-analytics/
 
-import sys
-if sys.version_info < (2, 6):
-    print >> sys.stderr, 'You must use Python 2.6 or greater Python 2.x'
-    sys.exit(1)
-
-
 import base64
 import bz2
 import ConfigParser
@@ -24,17 +18,27 @@ import gzip
 import hashlib
 import inspect
 import itertools
-import json
 import logging
 import optparse
 import os
 import os.path
 import Queue
 import re
+import sys
 import threading
 import time
 import urllib
 import urllib2
+
+try:
+    import json
+except ImportError:
+    try:
+        import simplejson as json
+    except ImportError:
+        if sys.version_info < (2, 6):
+            print >> sys.stderr, 'simplejson (http://pypi.python.org/pypi/simplejson/) is required.'
+            sys.exit(1)
 
 
 
@@ -1117,5 +1121,6 @@ if __name__ == '__main__':
         resolver = config.get_resolver()
         parser = Parser()
         main()
+        sys.exit(0)
     except KeyboardInterrupt:
         pass
