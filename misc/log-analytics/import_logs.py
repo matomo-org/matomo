@@ -267,7 +267,7 @@ class Configuration(object):
         self.options, self.filenames = option_parser.parse_args(sys.argv[1:])
 
         if self.options.output:
-            sys.stdout = sys.stderr = open(self.options.output, 'a+')
+            sys.stdout = sys.stderr = open(self.options.output, 'a+', 0)
 
         if not self.filenames:
             print(option_parser.format_help())
