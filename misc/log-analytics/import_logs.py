@@ -287,7 +287,7 @@ class Configuration(object):
             logging.debug('Accepted hostnames: all')
 
         if self.options.log_format_regex:
-            self.format_regexp = self.options.log_format_regex
+            self.format_regexp = re.compile(self.options.log_format_regex)
         elif self.options.log_format_name:
             try:
                 self.format_regexp = re.compile(FORMATS[self.options.log_format_name])
