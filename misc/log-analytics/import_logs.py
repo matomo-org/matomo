@@ -228,6 +228,16 @@ class Configuration(object):
             help="Track bots. All bot visits will have a Custom Variable set with name='Bot' and value='$Bot_user_agent_here$'"
         )
         option_parser.add_option(
+            '--enable-http-errors', dest='enable_http_errors',
+            action='store_true', default=False,
+            help="Track HTTP errors (status code 4xx or 5xx)"
+        )
+        option_parser.add_option(
+            '--enable-http-redirects', dest='enable_http_redirects',
+            action='store_true', default=False,
+            help="Track HTTP redirects (status code 3xx except 304)"
+        )
+        option_parser.add_option(
             '--enable-reverse-dns', dest='reverse_dns',
             action='store_true', default=False,
             help="Enable reverse DNS, used to generate the 'Providers' report in Piwik. "
@@ -418,6 +428,10 @@ class Statistics(object):
         self.count_lines_static = self.Counter()
         # Ignored user-agents.
         self.count_lines_skipped_user_agent = self.Counter()
+        # Ignored HTTP erors.
+        self.count_lines_skipped_http_errors = self.Counter()
+        # Ignored HTTP redirects.
+        self.count_lines_skipped_http_redirects = self.Counter()
         # Downloads
         self.count_lines_downloads = self.Counter()
 
@@ -468,6 +482,8 @@ Logs import summary
     %(total_lines_ignored)d requests ignored:
         %(count_lines_invalid)d invalid log lines
         %(count_lines_skipped_user_agent)d requests done by bots, search engines, ...
+        %(count_lines_skipped_http_errors)d HTTP errors
+        %(count_lines_skipped_http_redirects)d HTTP redirects
         %(count_lines_static)d requests to static resources (css, js, ...)
         %(count_lines_no_site)d requests did not match any known site
         %(count_lines_hostname_skipped)d requests did not match any requested hostname
@@ -505,12 +521,16 @@ Performance summary
     'total_lines_ignored': sum([
             self.count_lines_invalid.value,
             self.count_lines_skipped_user_agent.value,
+            self.count_lines_skipped_http_errors.value,
+            self.count_lines_skipped_http_errors.value,
             self.count_lines_static.value,
             self.count_lines_no_site.value,
             self.count_lines_hostname_skipped.value,
         ]),
     'count_lines_invalid': self.count_lines_invalid.value,
     'count_lines_skipped_user_agent': self.count_lines_skipped_user_agent.value,
+    'count_lines_skipped_http_errors': self.count_lines_skipped_http_errors.value,
+    'count_lines_skipped_http_redirects': self.count_lines_skipped_http_redirects.value,
     'count_lines_static': self.count_lines_static.value,
     'count_lines_no_site': self.count_lines_no_site.value,
     'count_lines_hostname_skipped': self.count_lines_hostname_skipped.value,
@@ -860,8 +880,11 @@ class Recorder(object):
             args['download'] = args['url']
         if hit.is_robot:
             args['_cvar'] = '{"1":["Bot","%s"]}' % hit.user_agent
-        if hit.status == '404':
-            args['action_name'] = '404/URL = %s%s' % (
+        if hit.is_error:
+            args['_cvar'] = '{"1":["HTTP-code","%s"]}' % hit.status
+        if hit.is_error or hit.is_redirect:
+            args['action_name'] = '%s/URL = %s%s' % (
+                hit.status,
                 urllib.quote(args['url'], ''),
                 ("/From = %s" % urllib.quote(args['urlref'], '') if args['urlref'] != ''  else '')
             )
@@ -954,6 +977,26 @@ class Parser(object):
                     return False
         return True
 
+    def check_http_error(self, hit):
+        if hit.status.startswith('4') or hit.status.startswith('5'):
+            if config.options.enable_http_errors:
+                hit.is_error = True
+                return True
+            else:
+                stats.count_lines_skipped_http_errors.increment()
+                return False
+        return True
+
+    def check_http_redirect(self, hit):
+        if hit.status.startswith('3') and hit.status != '304':
+            if config.options.enable_http_redirects:
+                hit.is_redirect = True
+                return True
+            else:
+                stats.count_lines_skipped_http_redirects.increment()
+                return False
+        return True
+
 
     @staticmethod
     def detect_format(line):
@@ -1028,6 +1071,8 @@ class Parser(object):
                 full_path=match.group('path'),
                 is_download=False,
                 is_robot=False,
+                is_error=False,
+                is_redirect=False,
             )
 
             # Strip query string
