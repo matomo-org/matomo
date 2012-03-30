@@ -904,7 +904,7 @@ class Recorder(object):
             return
 
         dates = [date.strftime('%Y-%m-%d') for date in stats.dates_recorded]
-        print 'Purging Piwik archives for dates: %s ' % dates
+        print 'Purging Piwik archives for dates: ' + ''.join(dates)
         result = piwik.call_api(
             'CoreAdminHome.invalidateArchivedReports',
             dates=','.join(dates),
