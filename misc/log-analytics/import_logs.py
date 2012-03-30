@@ -6,7 +6,7 @@
 # @link http://piwik.org
 # @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 # @version $Id$
-# 
+#
 # For more info see: http://piwik.org/log-analytics/
 
 import base64
@@ -877,7 +877,7 @@ class Recorder(object):
             return
 
         dates = [date.strftime('%Y-%m-%d') for date in stats.dates_recorded]
-        print 'Purging Piwik archives for dates: %s ' % dates 
+        print 'Purging Piwik archives for dates: %s ' % dates
         result = piwik.call_api(
             'CoreAdminHome.invalidateArchivedReports',
             dates=','.join(dates),
@@ -1086,10 +1086,14 @@ def main():
 
     recorders = Recorder.launch(config.options.recorders)
 
-    for filename in config.filenames:
-        parser.parse(filename)
+    try:
+        for filename in config.filenames:
+            parser.parse(filename)
 
-    Recorder.wait_empty()
+        Recorder.wait_empty()
+    except KeyboardInterrupt:
+        pass
+
     stats.set_time_stop()
 
     if config.options.show_progress:
