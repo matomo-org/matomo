@@ -239,6 +239,10 @@ class Configuration(object):
             help="Strip the query string from the URL"
         )
         option_parser.add_option(
+            '--query-string-delimiter', dest='query_string_delimiter', default='?',
+            help="The query string delimiter (default: %default)"
+        )
+        option_parser.add_option(
             '--log-format-name', dest='log_format_name', default=None,
             help=("Access log format to detect (supported are: common, common_vhost, ncsa_extended, common_complete). "
                   "When not specified, the log format will be autodetected by trying all supported log formats."
@@ -1028,7 +1032,7 @@ class Parser(object):
 
             # Strip query string
             if config.options.strip_query_string:
-                hit.path = hit.full_path.split('?', 1)[0]
+                hit.path = hit.full_path.split(config.options.query_string_delimiter, 1)[0]
             else:
                 hit.path = hit.full_path
 
