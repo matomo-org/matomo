@@ -320,7 +320,10 @@ class Configuration(object):
         logging.debug('Piwik URL is: %s', self.options.piwik_url)
 
         if not self.options.piwik_token_auth:
-            self.options.piwik_token_auth = self._get_token_auth()
+            try:
+                self.options.piwik_token_auth = self._get_token_auth()
+            except Piwik.Error, e:
+                fatal_error(e)
         logging.debug('Authentication token token_auth is: %s', self.options.piwik_token_auth)
 
         if self.options.recorders < 1:
@@ -643,7 +646,7 @@ class Piwik(object):
         try:
             return json.loads(res)
         except ValueError:
-            raise urllib2.URLError('Piwik returned an invalid response: ' + res)
+            raise urllib2.URLError('Piwik returned an invalid response: ' + res[:300])
 
 
     def _call_wrapper(self, func, expected_response, *args, **kwargs):
@@ -662,7 +665,11 @@ class Piwik(object):
                 logging.debug('Error when connecting to Piwik: %s', e)
                 errors += 1
                 if errors == PIWIK_MAX_ATTEMPTS:
-                    raise Piwik.Error(str(e))
+                    if isinstance(e, urllib2.URLError):
+                        message = e.reason
+                    else:
+                        message = str(e)
+                    raise Piwik.Error(message)
                 else:
                     time.sleep(PIWIK_DELAY_AFTER_FAILURE)
 
@@ -905,7 +912,7 @@ class Recorder(object):
             return
 
         dates = [date.strftime('%Y-%m-%d') for date in stats.dates_recorded]
-        print 'Purging Piwik archives for dates: ' + ''.join(dates)
+        print 'Purging Piwik archives for dates: ' + ' '.join(dates)
         result = piwik.call_api(
             'CoreAdminHome.invalidateArchivedReports',
             dates=','.join(dates),
