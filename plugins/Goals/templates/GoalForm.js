@@ -165,9 +165,9 @@ function bindListGoalEdit()
 		var goal = piwik.goals[goalId];
 		
 		$('#confirm h2').text(sprintf(_pk_translate('Goals_DeleteGoalConfirm_js'), '"'+goal.name+'"'));
-		piwikHelper.windowModal('#confirm', function(){
+		piwikHelper.modalConfirm('#confirm', {yes: function(){
 		    $.ajax( getAjaxDeleteGoal( goalId ) );
-		});
+		}});
 		return false;
 	});
 

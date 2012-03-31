@@ -38,7 +38,34 @@ class Piwik_Dashboard extends Piwik_Plugin
 
 	public function addMenus()
 	{
-		Piwik_AddMenu('Dashboard_Dashboard', '', array('module' => 'Dashboard', 'action' => 'embeddedIndex'), true, 5);
+		Piwik_AddMenu('Dashboard_Dashboard', '', array('module' => 'Dashboard', 'action' => 'embeddedIndex', 'idDashboard' => 1), true, 5);
+
+		if (!Piwik::isUserIsAnonymous()) {
+			$login = Piwik::getCurrentUserLogin();
+
+			$dashboards = Piwik_FetchAll('SELECT iddashboard, name
+										  FROM '.Piwik_Common::prefixTable('user_dashboard') .
+										' WHERE login = ? ORDER BY iddashboard', array($login));
+			if (count($dashboards) > 0)
+			{
+				$pos = 0;
+				$nameless = 1;
+				foreach ($dashboards AS $dashboard) {
+					if (!empty($dashboard['name'])) {
+						$name = Piwik_Common::unsanitizeInputValue($dashboard['name']);
+					} else {
+						$name = Piwik_Translate('Dashboard_DashboardOf', $login);
+						if($nameless > 1) {
+							$name .= " ($nameless)";
+						}
+						$nameless++;
+					}
+					Piwik_AddMenu('Dashboard_Dashboard', $name, array('module' => 'Dashboard', 'action' => 'embeddedIndex', 'idDashboard' => $dashboard['iddashboard']), true, $pos);
+					$pos++;
+				}
+			}
+
+		}
 	}
 
 	public function addTopMenu()
@@ -77,6 +104,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 			$sql = "CREATE TABLE ". Piwik_Common::prefixTable('user_dashboard')." (
 					login VARCHAR( 100 ) NOT NULL ,
 					iddashboard INT NOT NULL ,
+					name VARCHAR( 100 ) NULL DEFAULT NULL ,
 					layout TEXT NOT NULL,
 					PRIMARY KEY ( login , iddashboard )
 					)  DEFAULT CHARSET=utf8 " ;

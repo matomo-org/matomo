@@ -85,20 +85,20 @@
 
 <div class="ui-confirm" id="confirm">
 	<h2>{'UsersManager_ChangeAllConfirm'|translate:"<span id='login'></span>"}</h2>
-    <input id="yes" type="button" value="{'General_Yes'|translate}" />
-    <input id="no" type="button" value="{'General_No'|translate}" />
+    <input role="yes" type="button" value="{'General_Yes'|translate}" />
+    <input role="no" type="button" value="{'General_No'|translate}" />
 </div> 
 
 {if $userIsSuperUser}
     <div class="ui-confirm" id="confirmUserRemove">
         <h2></h2>
-        <input id="yes" type="button" value="{'General_Yes'|translate}" />
-        <input id="no" type="button" value="{'General_No'|translate}" />
+        <input role="yes" type="button" value="{'General_Yes'|translate}" />
+        <input role="no" type="button" value="{'General_No'|translate}" />
     </div> 
     <div class="ui-confirm" id="confirmPasswordChange">
         <h2>{'UsersManager_ChangePasswordConfirm'|translate}</h2>
-        <input id="yes" type="button" value="{'General_Yes'|translate}" />
-        <input id="no" type="button" value="{'General_No'|translate}" />
+        <input role="yes" type="button" value="{'General_Yes'|translate}" />
+        <input role="no" type="button" value="{'General_No'|translate}" />
     </div> 
 
 	<br />
@@ -131,7 +131,7 @@
 					<td id="password" class="editable">-</td>
 					<td id="email" class="editable">{$user.email}</td>
 					<td id="alias" class="editable">{$user.alias}</td>
-					<td id="alias">{$user.token_auth}</td>
+					<td id="token_auth">{$user.token_auth}</td>
 					<td><span class="edituser link_but" id="row{$i}"><img title="{'General_Edit'|translate}" src='themes/default/images/ico_edit.png' /> {'General_Edit'|translate} </span></td>
 					<td><span class="deleteuser link_but" id="row{$i}"><img title="{'General_Delete'|translate}" src='themes/default/images/ico_delete.png' /> {'General_Delete'|translate} </span></td>
 				</tr>

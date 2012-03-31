@@ -108,8 +108,8 @@ vertical-align:middle;
 {else}
     <div class="ui-confirm" id="confirm">
         <h2></h2>
-        <input id="yes" type="button" value="{'General_Yes'|translate}" />
-        <input id="no" type="button" value="{'General_No'|translate}" />
+        <input role="yes" type="button" value="{'General_Yes'|translate}" />
+        <input role="no" type="button" value="{'General_No'|translate}" />
     </div>
 
 	<div class="entityContainer">

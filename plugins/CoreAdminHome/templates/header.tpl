@@ -52,5 +52,5 @@
 
 <div class="ui-confirm" id="alert">
     <h2></h2>
-    <input id="yes" type="button" value="{'General_Ok'|translate}" />
+    <input role="no" type="button" value="{'General_Ok'|translate}" />
 </div>

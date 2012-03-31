@@ -25,25 +25,28 @@ piwikHelper.htmlEntities = function(value)
 
 /*
  * Displays a Modal dialog. Text will be taken from the DOM node domSelector.
- * When user clicks Yes in Modal,onValidate() will be executed.
- * 
- * On clicking No, or esc key, the dialog will fade out.
+ * Given callback handles will be mapped to the buttons having a role attriute
+ *
+ * Dialog will be closed when a button is clicked and callback handle will be
+ * called, if one was given for the clicked role
  */
-piwikHelper.windowModal = function( domSelector, onValidate )
+piwikHelper.modalConfirm = function( domSelector, handles )
 {
-    var question = $(domSelector);
+    var domElem = $(domSelector);
     var buttons = {};
-    var textYes = $('#yes', question).val();
-    if(textYes) {
-        buttons[textYes] = function(){$(this).dialog("close"); onValidate()};
-        $('#yes', question).hide();
-    }
-    var textNo = $('#no', question).val();
-    if(textNo) {
-        buttons[textNo] = function(){$(this).dialog("close");};
-        $('#no', question).hide();
-    }
-    question.dialog({
+
+    $('[role]', domElem).each(function(){
+        var role = $(this).attr('role');
+        var text = $(this).val();
+        if(typeof handles[role] == 'function') {
+            buttons[text] = function(){$(this).dialog("close"); handles[role].apply()};
+        } else {
+            buttons[text] = function(){$(this).dialog("close");};
+        }
+        $(this).hide();
+    });
+
+    domElem.dialog({
         resizable: false,
         modal: true,
         buttons: buttons,

@@ -67,7 +67,7 @@ $(document).ready( function() {
 			$.ajax( getUserSettingsAJAX() );
 		}
 		if($('#password').val() != '') {
-			piwikHelper.windowModal( '#confirmPasswordChange', onValidate);
+			piwikHelper.modalConfirm( '#confirmPasswordChange', {yes: onValidate});
 		} else {
 			onValidate();
 		}

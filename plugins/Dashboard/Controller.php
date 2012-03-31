@@ -24,10 +24,8 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		$view->availableWidgets = Piwik_Common::json_encode(Piwik_GetWidgetsList());
 		$view->availableLayouts = $this->getAvailableLayouts();
 		
-		$layout = $this->getLayout(1);
-
-		$view->layout      = $layout;
-		$view->dashboardId = 1;
+		$view->dashboardId      = Piwik_Common::getRequestVar('idDashboard', 1, 'int');
+		$view->dashboardLayout  = $this->getLayout($view->dashboardId);
 		return $view;
 	}
 	
@@ -93,6 +91,20 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 					ON DUPLICATE KEY UPDATE layout=?',
 					$paramsBind);
 	}
+
+	/**
+	 * Updates the name of a dashboard
+	 *
+	 * @param string $login
+	 * @param int $idDashboard
+	 * @param string $name
+	 */
+	protected function updateDashboardName( $login, $idDashboard, $name ) {
+		$paramsBind = array($name, $login, $idDashboard);
+		Piwik_Query('UPDATE '.Piwik_Common::prefixTable('user_dashboard') .
+					' SET name = ? WHERE login = ? AND iddashboard = ?',
+					$paramsBind);
+	}
 	
 	/**
 	 * Returns the layout in the DB for the given user, or false if the layout has not been set yet.
@@ -105,7 +117,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	protected function getLayoutForUser( $login, $idDashboard)
 	{
 		$paramsBind = array($login, $idDashboard);
-		$return = Piwik_FetchAll('SELECT layout 
+		$return = Piwik_FetchAll('SELECT layout
 								FROM '.Piwik_Common::prefixTable('user_dashboard') .
 								' WHERE login = ? 
 									AND iddashboard = ?', $paramsBind);
@@ -115,7 +127,87 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		}
 		return $return[0]['layout'];
 	}
-	
+
+	/**
+	 * Removes the dashboard with the given id
+     */
+	public function removeDashboard()
+	{
+		$this->checkTokenInUrl();
+
+		if (Piwik::isUserIsAnonymous()) {
+			return;
+		}
+
+		$idDashboard = Piwik_Common::getRequestVar('idDashboard', 1, 'int');
+
+		// first layout can't be removed
+		if($idDashboard != 1) {
+			Piwik_Query('DELETE FROM '.Piwik_Common::prefixTable('user_dashboard') .
+						' WHERE iddashboard = ? AND login = ?', array($idDashboard, Piwik::getCurrentUserLogin()));
+		}
+	}
+
+	/**
+	 * Outputs all available dashboards for the current user as a JSON string
+	 */
+	function getAllDashboards()
+	{
+		$this->checkTokenInUrl();
+
+		if (!Piwik::isUserIsAnonymous()) {
+			$login = Piwik::getCurrentUserLogin();
+
+			$dashboards = Piwik_FetchAll('SELECT iddashboard, layout, name
+										  FROM '.Piwik_Common::prefixTable('user_dashboard') .
+										' WHERE login = ? ORDER BY iddashboard', array($login));
+
+			$unnamed = 1;
+			foreach($dashboards AS &$dashboard) {
+				$layout = html_entity_decode($dashboard['layout']);
+				$layout = str_replace("\\\"", "\"", $layout);
+				$dashboard['layout'] = Piwik_Common::json_decode($layout);
+				if(empty($dashboard['name'])) {
+					$dashboard['name'] = Piwik_Translate('Dashboard_DashboardOf', Piwik::getCurrentUserLogin());
+					if($unnamed > 1) {
+						$dashboard['name'] .= " ($unnamed)";
+					}
+					$unnamed++;
+				}
+			}
+
+			echo Piwik_Common::json_encode($dashboards);
+		} else {
+			echo '[]';
+		}
+	}
+
+	public function createNewDashboard()
+	{
+		$this->checkTokenInUrl();
+
+		if (!Piwik::isUserIsAnonymous()) {
+			$login = Piwik::getCurrentUserLogin();
+
+			$nextId = Piwik_FetchOne('SELECT MAX(iddashboard)+1
+										  FROM '.Piwik_Common::prefixTable('user_dashboard') .
+										' WHERE login = ?', array($login));
+
+			$name = urldecode(Piwik_Common::getRequestVar('name', '', 'string'));
+			$type = urldecode(Piwik_Common::getRequestVar('type', 'default', 'string'));
+			$layout = '{}';
+			if($type == 'default') {
+				$layout = $this->getDefaultLayout();
+			}
+
+			Piwik_Query('INSERT INTO '.Piwik_Common::prefixTable('user_dashboard').' (login, iddashboard, name, layout) VALUES (?, ?, ?, ?)',
+						array($login, $nextId, $name, $layout));
+			echo Piwik_Common::json_encode($nextId);
+		} else {
+			echo '0';
+		}
+	}
+
 	/**
 	 * Saves the layout for the current user
 	 * anonymous = in the session
@@ -124,9 +216,10 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	public function saveLayout()
 	{
 		$this->checkTokenInUrl();
-		$layout = Piwik_Common::getRequestVar('layout');
-		// Currently not used
+
+		$layout      = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('layout'));
 		$idDashboard = Piwik_Common::getRequestVar('idDashboard', 1, 'int' );
+		$name        = Piwik_Common::getRequestVar('name', '', 'string' );
 		if(Piwik::isUserIsAnonymous())
 		{
 			$session = new Piwik_Session_Namespace("Piwik_Dashboard");
@@ -136,15 +229,18 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		else
 		{
 			$this->saveLayoutForUser(Piwik::getCurrentUserLogin(),$idDashboard, $layout);
+			if(!empty($name)) {
+				$this->updateDashboardName(Piwik::getCurrentUserLogin(),$idDashboard, $name);
+			}
 		}
 	}
 
-    /**
-     * Get the dashboard layout for the current user (anonymous or loggued user)
-     *
-     * @param int $idDashboard
-     * @return string $layout
-     */
+	/**
+	 * Get the dashboard layout for the current user (anonymous or loggued user)
+	 *
+	 * @param int $idDashboard
+	 * @return string $layout
+	 */
 	protected function getLayout($idDashboard)
 	{
 		if(Piwik::isUserIsAnonymous())
@@ -162,10 +258,6 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		}
 		if(!empty($layout))
 		{
-			// layout was JSON.stringified
-			$layout = html_entity_decode($layout);
-			$layout = str_replace("\\\"", "\"", $layout);
-	
 			$layout = $this->removeDisabledPluginFromLayout($layout);
 		}
 		
@@ -190,21 +282,15 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 			);
 		}
 		
-		if(empty($layoutObject))
+		if(empty($layoutObject) || empty($layoutObject->columns))
 		{
 			$layoutObject = (object) array(
 			    'config'  => array( 'layout' => '33-33-33' ),
 			    'columns' => array()
 			);
 		}
-		
-		// return default layout if all columns are empty
-		if(empty($layoutObject->columns[0]) && empty($layoutObject->columns[1]) && 
-		   empty($layoutObject->columns[2]) && empty($layoutObject->columns[3])) {
-		    return $this->getDefaultLayout();
-		}
-		
-		foreach($layoutObject->columns as &$row) 
+
+		foreach($layoutObject->columns as &$row)
 		{
 			if(!is_array($row))
 			{
@@ -265,6 +351,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	        array(25,25,25,25)
 	    );
 	}
+
 }
 
 

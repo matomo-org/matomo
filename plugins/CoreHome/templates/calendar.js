@@ -269,7 +269,7 @@ $(document).ready(function() {
 		 	        	|| oDateFrom > oDateTo )
 		 	        {
 		 	        	$('#alert h2').text(_pk_translate('General_InvalidDateRange_js'));
-		 	        	piwikHelper.windowModal('#alert', function(){});
+		 	        	piwikHelper.modalConfirm('#alert', {});
 		 	        	return false;
 		 	        }
 		         	piwikHelper.showAjaxLoading('ajaxLoadingCalendar');

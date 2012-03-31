@@ -167,7 +167,7 @@ function bindUpdateAccess()
 		{			
 			launchAjaxRequest(target, successCallback);	
 		}
-		piwikHelper.windowModal( '#confirm', onValidate)
+		piwikHelper.modalConfirm( '#confirm', {yes: onValidate})
 	}
 	else
 	{
@@ -208,7 +208,7 @@ $(document).ready( function() {
 						$.ajax( getUpdateUserAJAX( $('tr#'+idRow) ) ); 
 					};
 					if($('tr#'+idRow).find('input#password').val() != '-') {
-						piwikHelper.windowModal( '#confirmPasswordChange', onValidate);
+						piwikHelper.modalConfirm( '#confirmPasswordChange', {yes: onValidate});
 					} else {
 						onValidate();
 					}
@@ -228,7 +228,7 @@ $(document).ready( function() {
 			var idRow = $(this).attr('id');
 			var loginToDelete = $(this).parent().parent().find('#userLogin').html();
 			$('#confirmUserRemove h2').text(sprintf(_pk_translate('UsersManager_DeleteConfirm_js'),'"'+loginToDelete+'"'));
-			piwikHelper.windowModal( '#confirmUserRemove', function(){ $.ajax( getDeleteUserAJAX( loginToDelete ) ); });
+			piwikHelper.modalConfirm( '#confirmUserRemove', {yes: function(){ $.ajax( getDeleteUserAJAX( loginToDelete ) ); }});
 		}
 	);
 	

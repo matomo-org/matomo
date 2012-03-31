@@ -6,68 +6,152 @@
  */
 (function( $ ){
 
+    /**
+     * Current dashboard column layout
+     * @type {object}
+     */
     var dashboardLayout     = {};
-    var idDashboard         = 1;
+    /**
+     * Id of current dashboard
+     * @type {int}
+     */
+    var dashboardId         = 1;
+    /**
+     * Name of current dashboard
+     * @type {string}
+     */
+    var dashboardName       = '';
+    /**
+     * Holds a reference to the dashboard element
+     * @type {object}
+     */
     var dashboardElement    = null;
+    /**
+     * Boolean indicating wether the layout config has been changed or not
+     * @type {boolean}
+     */
+    var dashboardChanged    = false;
 
     /**
      * public methods of dashboard plugin
+     * all methods defined here are accessible with $(selector).dashboard('method', param, param, ...)
      */
     var methods = {
-        
+
         /**
          * creates a dashboard object
-         * 
-         * @param object  options
+         *
+         * @param {object} options
          */
         init: function(options) {
 
             dashboardElement = this;
 
             if(options.idDashboard) {
-                idDashboard = options.idDashboard;
+                dashboardId = options.idDashboard;
             }
 
-            methods.loadDashboard.apply(this, [idDashboard]);
-            
+            if(options.name) {
+                dashboardName = options.name;
+            }
+
+            if(options.layout) {
+                generateLayout(options.layout);
+                buildMenu();
+            } else {
+                methods.loadDashboard.apply(this, [dashboardId]);
+            }
+
             return this;
         },
 
+        /**
+         * Destroys the dashboard object and all its childrens
+         *
+         * @return void
+         */
         destroy: function() {
             $(dashboardElement).remove();
+            dashboardElement = null;
             var widgets = $('[widgetId]');
-            for(var i=0; i < widgets.length; i++) {
+            for (var i=0; i < widgets.length; i++) {
                 $(widgets[i]).dashboardWidget('destroy');
             }
         },
 
         /**
          * Load dashboard with the given id
-         * 
-         * @param int dashboardIdToLoad
+         *
+         * @param {int} dashboardIdToLoad
          */
         loadDashboard: function(dashboardIdToLoad) {
 
             $(dashboardElement).empty();
-            idDashboard = dashboardIdToLoad;
+            dashboardName   = '';
+            dashboardLayout = null;
+            dashboardId     = dashboardIdToLoad;
+            piwikHelper.showAjaxLoading();
             fetchLayout(generateLayout);
-            
+            buildMenu();
             return this;
         },
 
+        /**
+         * Change current column layout to the given one
+         *
+         * @param {String} newLayout
+         */
         setColumnLayout: function(newLayout) {
             adjustDashboardColumns(newLayout);
         },
 
+        /**
+         * Returns the current column layout
+         *
+         * @return {String}
+         */
         getColumnLayout: function() {
             return dashboardLayout.config.layout;
         },
 
+        /**
+         * Return the current dashboard name
+         *
+         * @return {String}
+         */
+        getDashboardName: function() {
+            return dashboardName;
+        },
+
+        /**
+         * Sets a new name for the current dashboard
+         *
+         * @param {String} newName
+         */
+        setDashboardName: function(newName) {
+            dashboardName    = newName;
+            dashboardChanged = true;
+            saveLayout();
+        },
+
+        /**
+         * Adds a new widget to the dashboard
+         *
+         * @param {String}  uniqueId
+         * @param {int}     columnNumber
+         * @param {object}  widgetParameters
+         * @param {boolean} addWidgetOnTop
+         * @param {boolean} isHidden
+         */
         addWidget: function(uniqueId, columnNumber, widgetParameters, addWidgetOnTop, isHidden) {
             addWidgetTemplate(uniqueId, columnNumber, widgetParameters, addWidgetOnTop, isHidden);
             reloadWidget(uniqueId);
+            saveLayout();
         },
 
+        /**
+         * Resets the current layout to the defaults
+         */
         resetLayout: function()
         {
             var ajaxRequest =
@@ -77,24 +161,30 @@
                 dataType: 'html',
                 async: false,
                 error: piwikHelper.ajaxHandleError,
-                success: function() { window.location.reload(); },
-                data: { "idDashboard": this.idDashboard, "idSite": piwik.idSite }
+                success: function() { methods.loadDashboard.apply(this, [dashboardId])},
+                data: { "idDashboard": dashboardId, "idSite": piwik.idSite }
             };
             $.ajax(ajaxRequest);
             piwikHelper.showAjaxLoading();
+        },
+
+        /**
+         * Removes the current dashboard
+         */
+        removeDashboard: function() {
+            removeDashboard();
         }
     };
 
     /**
      * Generates the dashboard out of the given layout
      *
-     * @private
-     * @param layout
+     * @param {object|string} layout
      */
     function generateLayout(layout) {
-        
-        dashboardLayout = parseLayout(layout);
 
+        dashboardLayout = parseLayout(layout);
+        piwikHelper.hideAjaxLoading();
         adjustDashboardColumns(dashboardLayout.config.layout);
 
         for(var column=0; column < dashboardLayout.columns.length; column++) {
@@ -105,14 +195,20 @@
         }
 
         makeWidgetsSortable();
-    };
+    }
 
     /**
-     * Fetches the layout for the current set dashboard id
+     * Fetches the layout for the currently set dashboard id
+     * and passes the response to given callback function
      *
-     * @param callback
+     * @param {function} callback
      */
     function fetchLayout(callback) {
+
+        // abort previous send request
+        if(this.loadingRequest) {
+            this.loadingRequest.abort();
+        }
         var ajaxRequest =
         {
             type: 'GET',
@@ -122,26 +218,26 @@
             error: piwikHelper.ajaxHandleError,
             success: callback,
             data: {
-                idDashboard: idDashboard,
+                idDashboard: dashboardId,
                 token_auth: piwik.token_auth,
                 idSite: piwik.idSite
             }
         };
-        $.ajax(ajaxRequest);
+        this.loadingRequest = $.ajax(ajaxRequest);
     }
-    
+
     /**
      * Adjust the dashboard columns to fit the new layout
      * removes or adds new columns if needed and sets the column sizes.
-     * 
-     * @param layout new layout in format xx-xx-xx
-     * @return void
+     *
+     * @param {String} layout new layout in format xx-xx-xx
+     * @return {void}
      */
     function adjustDashboardColumns(layout)
     {
         var columnWidth = layout.split('-');
         var columnCount = columnWidth.length;
-        
+
         var currentCount = $('.col', dashboardElement).length;
 
         if(currentCount < columnCount) {
@@ -161,31 +257,32 @@
                 $('.col:last').remove();
             }
         }
-        
+
         for(var i=0; i < columnCount; i++) {
             $('.col', dashboardElement)[i].className = 'col width-'+columnWidth[i];
         }
-        
+
         makeWidgetsSortable();
-        
+
         // if dashboard column count is changed (not on initial load)
         if(currentCount > 0 && dashboardLayout.config.layout != layout) {
+            dashboardChanged                 = true;
             dashboardLayout.config.layout = layout;
             saveLayout();
         }
-        
+
         // reload all widgets containing a graph to make them display correct
         $('.widget:has(".piwik-graph")').each(function(id, elem){
             reloadWidget($(elem).attr('id'));
         });
-    };
+    }
 
     /**
      * Returns the given layout as an layout object
      * Used to parse old layout format into the new syntax
-     * 
-     * @param layout  layout object or string
-     * @return object
+     *
+     * @param {object}  layout  layout object or string
+     * @return {object}
      */
     function parseLayout(layout) {
 
@@ -217,7 +314,7 @@
             }
             layout = newLayout;
         }
-        
+
         // Handle layout array used in piwik before 1.7
         // column count was always 3, so use layout 33-33-33 as default
         if($.isArray(layout)) {
@@ -232,24 +329,24 @@
         }
 
         return layout;
-    };
-    
+    }
+
     /**
      * Reloads the widget with the given uniqueId
      *
-     * @param uniqueId
+     * @param {String} uniqueId
      */
     function reloadWidget(uniqueId) {
         $('[widgetId='+uniqueId+']', dashboardElement).dashboardWidget('reload');
-    };
+    }
 
     /**
      * Adds an empty widget template to the dashboard in the given column
-     * @param uniqueId
-     * @param columnNumber
-     * @param widgetParameters
-     * @param addWidgetOnTop
-     * @param isHidden
+     * @param {String}    uniqueId
+     * @param {int}       columnNumber
+     * @param {object}    widgetParameters
+     * @param {boolean}   addWidgetOnTop
+     * @param {boolean}   isHidden
      */
     function addWidgetTemplate(uniqueId, columnNumber, widgetParameters, addWidgetOnTop, isHidden) {
         if(!columnNumber) {
@@ -277,7 +374,6 @@
             },
             isHidden: isHidden
         });
-
     }
 
     /**
@@ -316,8 +412,43 @@
                         stop: onStop,
                         connectWith: 'div.col'
                     });
-    };
-    
+    }
+
+    /**
+     * Builds the menu for choosing between available dashboards
+     */
+    function buildMenu() {
+        var ajaxRequest =
+        {
+            type: 'POST',
+            url: 'index.php?module=Dashboard&action=getAllDashboards&token_auth='+piwik.token_auth,
+            dataType: 'json',
+            async: true,
+            success: function(dashboards) {
+                var dashboardMenuList = $('#Dashboard > ul');
+                dashboardMenuList.empty();
+                for(var i=0; i<dashboards.length; i++) {
+                    dashboardMenuList.append('<li class="dashboardMenuItem '+(dashboards[i].iddashboard == dashboardId ? 'sfHover' : '')+'"><a dashboardId="'+dashboards[i].iddashboard+'">'+dashboards[i].name+'</a></li>');
+                }
+
+                $('.dashboardMenuItem').on('click', function() {
+                    if(typeof piwikMenu != 'undefined') {
+                        piwikMenu.activateMenu('Dashboard', 'embeddedIndex');
+                    }
+                    $('.dashboardMenuItem').removeClass('sfHover');
+                    if($(dashboardElement).length) {
+                        $(dashboardElement).dashboard('loadDashboard', $('a', this).attr('dashboardId'));
+                    } else {
+                        broadcast.propagateAjax('module=Dashboard&action=embeddedIndex&idDashboard='+$('a', this).attr('dashboardId'));
+                    }
+                    $(this).addClass('sfHover');
+                });
+            },
+            error: piwikHelper.ajaxHandleError
+        };
+        $.ajax(ajaxRequest);
+    }
+
     /**
      * Save the current layout in database if it has changed
      */
@@ -335,10 +466,10 @@
             columnNumber++;
         });
 
-        if(JSON.stringify(dashboardLayout.columns) != JSON.stringify(columns)) {
+        if(JSON.stringify(dashboardLayout.columns) != JSON.stringify(columns) || dashboardChanged) {
 
             dashboardLayout.columns = JSON.parse(JSON.stringify(columns));
-            delete columns;
+            columns = null;
 
             var ajaxRequest =
             {
@@ -347,17 +478,46 @@
                 dataType: 'html',
                 async: true,
                 success: function() {
+                    if(dashboardChanged) {
+                        dashboardChanged = false;
+                        buildMenu();
+                    }
                 },
                 error: piwikHelper.ajaxHandleError,
                 data: {
                     layout: JSON.stringify(dashboardLayout),
-                    idDashboard: idDashboard
+                    name: dashboardName,
+                    idDashboard: dashboardId
                 }
             };
             $.ajax(ajaxRequest);
         }
-    };
-    
+    }
+
+    /**
+     * Removes the current dashboard
+     */
+    function removeDashboard() {
+        if(dashboardId == 1) {
+            return; // dashboard with id 1 should never be deleted, as it is the default
+        }
+        var ajaxRequest =
+        {
+            type: 'POST',
+            url: 'index.php?module=Dashboard&action=removeDashboard&token_auth='+piwik.token_auth,
+            dataType: 'html',
+            async: false,
+            success: function() {
+                methods.loadDashboard.apply(this, [1]);
+            },
+            error: piwikHelper.ajaxHandleError,
+            data: {
+                idDashboard: dashboardId
+            }
+        };
+        $.ajax(ajaxRequest);
+    }
+
     /**
      * Make plugin methods available
      */
@@ -367,8 +527,8 @@
         } else if ( typeof method === 'object' || ! method ) {
             return methods.init.apply( this, arguments );
         } else {
-            $.error( 'Method ' +  method + ' does not exist on jQuery.dashboard' );
+            $.error('Method ' +  method + ' does not exist on jQuery.dashboard');
         }
-    };
+    }
 
 })( jQuery );

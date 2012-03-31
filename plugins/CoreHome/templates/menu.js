@@ -53,7 +53,7 @@ menu.prototype =
             var url = $(this).find('a').attr('name');
             var module = broadcast.getValueFromUrl("module",url);
             var action = broadcast.getValueFromUrl("action",url);
-            var idGoal = broadcast.getValueFromUrl("idGoal",url);
+            var moduleId = broadcast.getValueFromUrl("idGoal",url) || broadcast.getValueFromUrl("idDashboard",url);
             var main_menu = $(this).parent().hasClass('nav') ? true : false;
             if(main_menu)
             {
@@ -61,10 +61,10 @@ menu.prototype =
             }
             else
             {
-                // so Goals plugin is a little different than other
-                // we can't identify by it's modules_action so we uses its idGoals.
-                if(idGoal != '') {
-                    $(this).attr({id: module + '_' + action + '_' + idGoal});
+                // so Goals plugin and Dashboard is a little different than other
+                // we can't identify by it's modules_action so we uses its ids.
+                if(moduleId != '') {
+                    $(this).attr({id: module + '_' + action + '_' + moduleId});
                 }
                 else {
                     $(this).attr({id: module + '_' + action});
@@ -73,15 +73,18 @@ menu.prototype =
         });
     },
 
-    activateMenu : function(module,action,idGoal)
+    activateMenu : function(module,action,id)
     {
         this.menuNode.find('li').removeClass('sfHover').removeClass('sfActive');
         
         // getting the right li is a little tricky since goals uses idGoal, and overview is index.
         var $li = '';
-        // So, if module is Goals, idGoal is present, and action is not Index, must be one of the goals
-        if(module == 'Goals' && idGoal != '' && (action != 'index')) {
-            $li = $("#" + module + "_" + action + "_" + idGoal);
+        // So, if module is Goals, id is present, and action is not Index, must be one of the goals
+        if(module == 'Goals' && id != '' && (action != 'index')) {
+            $li = $("#" + module + "_" + action + "_" + id);
+        // if module is Dashboard and id is present, must be one of the dashboards
+        } else if(module == 'Dashboard' && id != '') {
+            $li = $("#" + module + "_" + action + "_" + id);
         } else {
             $li = $("#" + module + "_" + action);
         }

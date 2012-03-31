@@ -12,7 +12,10 @@ $(document).ready( function() {
     // Embed dashboard
     else 
     {
-        $('#dashboardSettings').css({left:7, top:10});
+        $('#dashboardSettings').css({left:0, top:13});
+        $('#dashboardSettings').after('<div id="Dashboard"><ul></ul></div>');
+        $('#Dashboard').css({left: $('#dashboardSettings')[0].offsetWidth+15, top: 13});
+        $('#dashboardWidgetsArea').css({marginTop: 30});
     }
 
     $('#dashboardSettings').on('click', function(){
@@ -28,7 +31,8 @@ $(document).ready( function() {
     });
     
     $('#dashboardWidgetsArea').dashboard({
-        idDashboard: {/literal}{$dashboardId}{literal}
+        idDashboard: {/literal}{$dashboardId}{literal},
+        layout: {/literal}{$dashboardLayout}{literal}
     });
 
 
@@ -68,15 +72,51 @@ $(document).ready( function() {
     });
 });
 
+function createDashboard() {
+    $('#createDashboardName').attr('value', '');
+    var type = ($('#dashboard_type_empty:checked').length > 0) ? 'empty' : 'default';
+    piwikHelper.modalConfirm('#createDashboardConfirm', {yes: function(){
+        var dashboardName = $('#createDashboardName').attr('value');
+        var ajaxRequest =
+        {
+            type: 'GET',
+            url: 'index.php?module=Dashboard&action=createNewDashboard',
+            dataType: 'json',
+            async: true,
+            error: piwikHelper.ajaxHandleError,
+            success: function(id) {
+                $('#dashboardWidgetsArea').dashboard('loadDashboard', id);
+            },
+            data: {
+                token_auth: piwik.token_auth,
+                idSite: piwik.idSite,
+                name: encodeURIComponent(dashboardName),
+                type: type
+            }
+        };
+        $.ajax(ajaxRequest);
+    }});
+}
+
 function resetDashboard() {
-    piwikHelper.windowModal('#resetDashboardConfirm', function(){ $('#dashboardWidgetsArea').dashboard('resetLayout'); });
+    piwikHelper.modalConfirm('#resetDashboardConfirm', {yes: function(){ $('#dashboardWidgetsArea').dashboard('resetLayout'); }});
+}
+
+function renameDashboard() {
+    $('#newDashboardName').attr('value', $('#dashboardWidgetsArea').dashboard('getDashboardName'));
+    piwikHelper.modalConfirm('#renameDashboardConfirm', {yes: function(){ $('#dashboardWidgetsArea').dashboard('setDashboardName', $('#newDashboardName').attr('value')); }});
+}
+
+function removeDashboard() {
+    piwikHelper.modalConfirm('#removeDashboardConfirm', {yes: function(){ $('#dashboardWidgetsArea').dashboard('removeDashboard'); }});
 }
 
 function showChangeDashboardLayoutDialog() {
+    $('#columnPreview>div').removeClass('choosen');
     $('#columnPreview>div[layout='+$('#dashboardWidgetsArea').dashboard('getColumnLayout')+']').addClass('choosen');
-    piwikHelper.windowModal('#changeDashboardLayout', function(){
+    piwikHelper.modalConfirm('#changeDashboardLayout', {yes: function(){
         $('#dashboardWidgetsArea').dashboard('setColumnLayout', $('#changeDashboardLayout .choosen').attr('layout'));
-    });
+    }});
 }
 
 </script>
@@ -85,16 +125,16 @@ function showChangeDashboardLayoutDialog() {
  
     <div class="ui-confirm" id="confirm">
         <h2>{'Dashboard_DeleteWidgetConfirm'|translate}</h2>
-        <input id="yes" type="button" value="{'General_Yes'|translate}" />
-        <input id="no" type="button" value="{'General_No'|translate}" />
+        <input role="yes" type="button" value="{'General_Yes'|translate}" />
+        <input role="no" type="button" value="{'General_No'|translate}" />
     </div> 
     
     <div class="ui-confirm" id="resetDashboardConfirm">
         <h2>{'Dashboard_ResetDashboardConfirm'|translate}</h2>
-        <input id="yes" type="button" value="{'General_Yes'|translate}" />
-        <input id="no" type="button" value="{'General_No'|translate}" />
+        <input role="yes" type="button" value="{'General_Yes'|translate}" />
+        <input role="no" type="button" value="{'General_No'|translate}" />
     </div> 
-    
+
     <div class="ui-confirm" id="changeDashboardLayout">
         <h2>{'Dashboard_SelectDashboardLayout'|translate}</h2>
         <div id="columnPreview">
@@ -106,9 +146,32 @@ function showChangeDashboardLayoutDialog() {
             </div>
         {/foreach}
         </div>
-        <input id="yes" type="button" value="{'General_Save'|translate}" />
-    </div> 
-    
+        <input role="yes" type="button" value="{'General_Save'|translate}" />
+    </div>
+
+    <div class="ui-confirm" id="renameDashboardConfirm">
+        <h2>{'Dashboard_RenameDashboard'|translate}</h2>
+        <div id="newDashboardNameInput"><label for="newDashboardName">{'Dashboard_DashboardName'|translate} </label><input type="input" name="newDashboardName" id="newDashboardName" value=""/></div>
+        <input role="yes" type="button" value="{'General_Save'|translate}" />
+    </div>
+
+    <div class="ui-confirm" id="createDashboardConfirm">
+        <h2>{'Dashboard_CreateNewDashboard'|translate}</h2>
+        <div id="createDashboardNameInput">
+            <label for="createDashboardName">{'Dashboard_DashboardName'|translate} </label><input type="input" name="newDashboardName" id="createDashboardName" value=""/><br />
+            <input type="radio" name="type" value="empty" id="dashboard_type_empty"><label for="dashboard_type_empty">{'Dashboard_EmptyDashboard'|translate}</label>
+            <input type="radio" checked="checked" name="type" value="default" id="dashboard_type_default"><label for="dashboard_type_default">{'Dashboard_DefaultDashboard'|translate}</label>
+        </div>
+        <input role="yes" type="button" value="{'General_Yes'|translate}" />
+        <input role="no" type="button" value="{'General_No'|translate}" />
+    </div>
+
+    <div class="ui-confirm" id="removeDashboardConfirm">
+        <h2>{'Dashboard_RemoveDashboardConfirm'|translate}</h2>
+        <input role="yes" type="button" value="{'General_Yes'|translate}" />
+        <input role="no" type="button" value="{'General_No'|translate}" />
+    </div>
+
     <div id="dashboardSettings">
         <span>{'Dashboard_WidgetsAndDashboard'|translate}</span>
         <ul class="submenu">
@@ -118,6 +181,11 @@ function showChangeDashboardLayoutDialog() {
             </li>
             <li onclick="resetDashboard();">{'Dashboard_ResetDashboard'|translate}</li>
             <li onclick="showChangeDashboardLayoutDialog();">{'Dashboard_ChangeDashboardLayout'|translate}</li>
+            {if ($userLogin && 'anonymous' != $userLogin)}
+            <li onclick="renameDashboard();">{'Dashboard_RenameDashboard'|translate}</li>
+            <li onclick="removeDashboard();">{'Dashboard_RemoveDashboard'|translate}</li>
+            <li onclick="createDashboard();">{'Dashboard_CreateNewDashboard'|translate}</li>
+            {/if}
         </ul>
         <ul class="widgetpreview-widgetlist"></ul>
         <div class="widgetpreview-preview"></div>

@@ -7,5 +7,44 @@
 {loadJavascriptTranslations plugins='CoreHome Dashboard'}
 {include file="CoreHome/templates/js_global_variables.tpl"}
 {include file="CoreHome/templates/js_css_includes.tpl"}
+{literal}
+<style>
+    #Dashboard {
+        position:absolute;
+        z-index:5;
+        background: #f7f7f7;
+        border: 1px solid #e4e5e4;
+        padding:5px 10px 6px 10px;
+        border-radius:4px;
+        -moz-border-radius:4px;
+        -webkit-border-radius:4px;
+        color:#444;
+        font-size:14px;
+        cursor: pointer;
+    }
+
+    #Dashboard:hover {
+        background:#f1f0eb;
+        border-color:#a9a399;
+    }
+
+    #Dashboard > ul > li {
+        padding: 0 5px;
+        float: left;
+        display: block;
+    }
+
+    #Dashboard a {
+        color: #444444;
+        text-decoration: none;
+        font-weight: normal;
+    }
+
+    #Dashboard > ul > li:hover a,
+    #Dashboard > ul > li.sfHover a {
+        color: #e87500;
+    }
+</style>
+{/literal}
 </head>
 <body>

@@ -178,9 +178,9 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 			var idsiteToDelete = $(this).parent().parent().find('#idSite').html();
 			
 			$('#confirm h2').text(sprintf(_pk_translate('SitesManager_DeleteConfirm_js'),'"'+nameToDelete+'" (idSite = '+idsiteToDelete+')'));
-			piwikHelper.windowModal('#confirm', function(){
+			piwikHelper.modalConfirm('#confirm', {yes: function(){
 			    $.ajax( getDeleteSiteAJAX( idsiteToDelete ) );
-			});
+			}});
 		}
 	);
 	
@@ -193,7 +193,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 			if(siteBeingEdited)
 			{
 				$('#alert h2').text(sprintf(_pk_translate('SitesManager_OnlyOneSiteAtTime_js'), '"'+$("<div/>").html(siteBeingEditedName).text()+'"'));
-				piwikHelper.windowModal('#alert', function(){});
+				piwikHelper.modalConfirm('#alert', {});
 				return;
 			}
 			siteBeingEdited = true;

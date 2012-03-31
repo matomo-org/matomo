@@ -8,10 +8,25 @@
 
     $.widget('piwik.dashboardWidget', {
 
+        /**
+         * Boolean indicating wether the widget is currently maximised
+         * @type {boolean}
+         */
         isMaximised:        false,
+        /**
+         * Unique Id of the widget
+         * @type {string}
+         */
         uniqueId:           null,
+        /**
+         * Object holding the widget parameters
+         * @type {object}
+         */
         widgetParameters:   {},
 
+        /**
+         * Options available for initialization
+         */
         options: {
             uniqueId: null,
             isHidden: false,
@@ -45,7 +60,7 @@
 
         /**
          * Cleanup some events and dialog
-         * Called automaticly upon removing the widgets dom
+         * Called automaticly upon removing the widgets domNode
          */
         destroy: function() {
             if(this.isMaximised) {
@@ -57,6 +72,7 @@
 
         /**
          * Returns the data currently set for the widget
+         * @return {object}
          */
         getWidgetObject: function() {
             return {
@@ -139,7 +155,8 @@
 
         /**
          * Update widget parameters
-         * @param parameters
+         *
+         * @param {object} parameters
          */
         setParameters: function(parameters) {
 
@@ -158,7 +175,8 @@
 
         /**
          * Creaates the widget markup for the given uniqueId
-         * @param uniqueId
+         *
+         * @param {String} uniqueId
          */
         _createDashboardWidget: function(uniqueId) {
 
@@ -182,14 +200,14 @@
                             $('.button#minimise', this).show();
                         }
                     }
-                 })
+                })
                 .on( 'mouseleave.dashboardWidget', function() {
-                if(!self.isMaximised) {
-                    $(this).removeClass('widgetHover');
-                    $('.widgetTop', this).removeClass('widgetTopHover');
-                    $('.button#close, .button#maximise, .button#minimise', this).hide();
-                }
-            });
+                    if(!self.isMaximised) {
+                        $(this).removeClass('widgetHover');
+                        $('.widgetTop', this).removeClass('widgetTopHover');
+                        $('.button#close, .button#maximise, .button#minimise', this).hide();
+                    }
+                });
 
             if(this.options.isHidden) {
                 $('.widgetContent', widgetElement).toggleClass('hidden');
@@ -198,10 +216,10 @@
             var self = this;
             $('.button#close', widgetElement)
                 .on( 'click.dashboardWidget', function(ev){
-                    piwikHelper.windowModal('#confirm', function(){
+                    piwikHelper.modalConfirm('#confirm',{yes: function(){
                         self.element.remove();
                         self.options.onChange();
-                    });
+                    }});
                 });
 
             $('.button#maximise', widgetElement)

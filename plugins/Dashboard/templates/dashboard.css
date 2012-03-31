@@ -387,3 +387,12 @@ div.widgetpreview-preview {
 .widgetPlaceholder {
     border: 1px dashed #bbb6ad;
 }
+
+#newDashboardName, #createDashboardName {
+    width: 200px;
+}
+
+#newDashboardNameInput, #createDashboardNameInput {
+    margin: 10px 0 0 0;
+    text-align: center;
+}
