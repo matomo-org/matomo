@@ -562,6 +562,7 @@ $translations = array(
 	'Dashboard_DefaultDashboard' => 'Default dashboard',
 	'Dashboard_RemoveDashboard' => 'Remove dashboard',
 	'Dashboard_RemoveDashboardConfirm' => 'Do you realy want to remove the current dashboard. You will not be able to undo this operation',
+	'Dashboard_DashboardEmptyNotification' => 'Your Dashboard does not contain any widgets. Start by adding some widgets or just reset the dashboard to the default widget selection.',
 	'DBStats_PluginDescription' => 'This plugin reports the MySQL database usage by Piwik tables.',
 	'DBStats_DatabaseUsage' => 'Database usage',
 	'DBStats_MainDescription' => 'Piwik is storing all your web analytics data in the MySQL database. Currently, Piwik tables are using %s.',

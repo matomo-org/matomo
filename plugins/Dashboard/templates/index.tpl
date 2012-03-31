@@ -30,11 +30,12 @@ $(document).ready( function() {
         }
     });
     
+    $('#dashboardWidgetsArea').on('dashboardempty', showEmptyDashboardNotification);
+
     $('#dashboardWidgetsArea').dashboard({
         idDashboard: {/literal}{$dashboardId}{literal},
         layout: {/literal}{$dashboardLayout}{literal}
     });
-
 
     $('#dashboardSettings').widgetPreview({
         isWidgetAvailable: function(widgetUniqueId) {
@@ -70,6 +71,7 @@ $(document).ready( function() {
             $('#dashboardSettings').widgetPreview('reset');
         }
     });
+
 });
 
 function createDashboard() {
@@ -119,6 +121,15 @@ function showChangeDashboardLayoutDialog() {
     }});
 }
 
+function showEmptyDashboardNotification() {
+    piwikHelper.modalConfirm('#dashboardEmptyNotification', {
+        resetDashboard: resetDashboard,
+        addWidget: function(){ $('#dashboardSettings').trigger('click'); }
+    });
+}
+
+
+
 </script>
 {/literal}
 <div id="dashboard">
@@ -134,6 +145,12 @@ function showChangeDashboardLayoutDialog() {
         <input role="yes" type="button" value="{'General_Yes'|translate}" />
         <input role="no" type="button" value="{'General_No'|translate}" />
     </div> 
+
+    <div class="ui-confirm" id="dashboardEmptyNotification">
+        <h2>{'Dashboard_DashboardEmptyNotification'|translate}</h2>
+        <input role="addWidget" type="button" value="{'Dashboard_AddAWidget'|translate}" />
+        <input role="resetDashboard" type="button" value="{'Dashboard_ResetDashboard'|translate}" />
+    </div>
 
     <div class="ui-confirm" id="changeDashboardLayout">
         <h2>{'Dashboard_SelectDashboardLayout'|translate}</h2>

@@ -187,11 +187,17 @@
         piwikHelper.hideAjaxLoading();
         adjustDashboardColumns(dashboardLayout.config.layout);
 
+        var dashboardContainsWidgets = false;
         for(var column=0; column < dashboardLayout.columns.length; column++) {
             for(var i in dashboardLayout.columns[column]) {
                 var widget = dashboardLayout.columns[column][i];
+                dashboardContainsWidgets = true;
                 addWidgetTemplate(widget.uniqueId, column+1, widget.parameters, false, widget.isHidden)
             }
+        }
+
+        if(!dashboardContainsWidgets) {
+            $(dashboardElement).trigger('dashboardempty');
         }
 
         makeWidgetsSortable();
