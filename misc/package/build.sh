@@ -147,6 +147,7 @@ SUBSCRIBE_NEWSLETTER
 			done
 
 			echo $VERSION > $HTTP_PATH/LATEST
+			echo $VERSION > $HTTP_PATH/LATEST_BETA
 			echo "build finished! http://piwik.org/latest.zip"
 		fi
 	;;
