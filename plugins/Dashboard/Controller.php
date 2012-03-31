@@ -236,6 +236,26 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	}
 
 	/**
+	 * Saves the layout as default
+	 */
+	public function saveLayoutAsDefault()
+	{
+		$this->checkTokenInUrl();
+
+		if(Piwik::isUserIsSuperUser()) {
+			$layout      = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('layout'));
+			$paramsBind  = array('', '1', $layout, $layout);
+
+			Piwik_Query('INSERT INTO '.Piwik_Common::prefixTable('user_dashboard') .
+						' (login, iddashboard, layout)
+							VALUES (?,?,?)
+						ON DUPLICATE KEY UPDATE layout=?',
+						$paramsBind);
+		}
+
+	}
+
+	/**
 	 * Get the dashboard layout for the current user (anonymous or loggued user)
 	 *
 	 * @param int $idDashboard
@@ -320,24 +340,28 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	
 	protected function getDefaultLayout()
 	{
-		$defaultLayout = '[
-    		[
-    			{"uniqueId":"widgetVisitsSummarygetEvolutionGraphcolumnsArray","parameters":{"module":"VisitsSummary","action":"getEvolutionGraph","columns":"nb_visits"}},
-    			{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}},
-    			{"uniqueId":"widgetVisitorInterestgetNumberOfVisitsPerVisitDuration","parameters":{"module":"VisitorInterest","action":"getNumberOfVisitsPerVisitDuration"}}
-    		],
-    		[
-    			{"uniqueId":"widgetReferersgetKeywords","parameters":{"module":"Referers","action":"getKeywords"}},
-    			{"uniqueId":"widgetReferersgetWebsites","parameters":{"module":"Referers","action":"getWebsites"}}
-    		],
-    		[
-    			{"uniqueId":"widgetUserCountryMapworldMap","parameters":{"module":"UserCountryMap","action":"worldMap"}},
-    			{"uniqueId":"widgetUserSettingsgetBrowser","parameters":{"module":"UserSettings","action":"getBrowser"}},
-    			{"uniqueId":"widgetReferersgetSearchEngines","parameters":{"module":"Referers","action":"getSearchEngines"}},
-    			{"uniqueId":"widgetVisitTimegetVisitInformationPerServerTime","parameters":{"module":"VisitTime","action":"getVisitInformationPerServerTime"}},
-    			{"uniqueId":"widgetExampleRssWidgetrssPiwik","parameters":{"module":"ExampleRssWidget","action":"rssPiwik"}}
-    		]
-    	]';
+		$defaultLayout = $this->getLayoutForUser('', 1);
+
+		if(empty($defaultLayout)) {
+			$defaultLayout = '[
+	            [
+	                {"uniqueId":"widgetVisitsSummarygetEvolutionGraphcolumnsArray","parameters":{"module":"VisitsSummary","action":"getEvolutionGraph","columns":"nb_visits"}},
+	                {"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}},
+	                {"uniqueId":"widgetVisitorInterestgetNumberOfVisitsPerVisitDuration","parameters":{"module":"VisitorInterest","action":"getNumberOfVisitsPerVisitDuration"}}
+	            ],
+	            [
+	                {"uniqueId":"widgetReferersgetKeywords","parameters":{"module":"Referers","action":"getKeywords"}},
+	                {"uniqueId":"widgetReferersgetWebsites","parameters":{"module":"Referers","action":"getWebsites"}}
+	            ],
+	            [
+	                {"uniqueId":"widgetUserCountryMapworldMap","parameters":{"module":"UserCountryMap","action":"worldMap"}},
+	                {"uniqueId":"widgetUserSettingsgetBrowser","parameters":{"module":"UserSettings","action":"getBrowser"}},
+	                {"uniqueId":"widgetReferersgetSearchEngines","parameters":{"module":"Referers","action":"getSearchEngines"}},
+	                {"uniqueId":"widgetVisitTimegetVisitInformationPerServerTime","parameters":{"module":"VisitTime","action":"getVisitInformationPerServerTime"}},
+	                {"uniqueId":"widgetExampleRssWidgetrssPiwik","parameters":{"module":"ExampleRssWidget","action":"rssPiwik"}}
+	            ]
+	        ]';
+		}
 		$defaultLayout = $this->removeDisabledPluginFromLayout($defaultLayout);
 		return $defaultLayout;
 	}

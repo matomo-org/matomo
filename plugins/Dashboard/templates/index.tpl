@@ -128,7 +128,11 @@ function showEmptyDashboardNotification() {
     });
 }
 
-
+function saveDefaultLayout() {
+    piwikHelper.modalConfirm('#saveAsDefaultConfirmation', {
+        yes: function(){ $('#dashboardWidgetsArea').dashboard('saveLayoutAsDefault'); }
+    });
+}
 
 </script>
 {/literal}
@@ -138,8 +142,14 @@ function showEmptyDashboardNotification() {
         <h2>{'Dashboard_DeleteWidgetConfirm'|translate}</h2>
         <input role="yes" type="button" value="{'General_Yes'|translate}" />
         <input role="no" type="button" value="{'General_No'|translate}" />
-    </div> 
-    
+    </div>
+
+    <div class="ui-confirm" id="saveAsDefaultConfirmation">
+        <h2>{'Dashboard_SaveDefaultConfirm'|translate}</h2>
+        <input role="yes" type="button" value="{'General_Yes'|translate}" />
+        <input role="no" type="button" value="{'General_No'|translate}" />
+    </div>
+
     <div class="ui-confirm" id="resetDashboardConfirm">
         <h2>{'Dashboard_ResetDashboardConfirm'|translate}</h2>
         <input role="yes" type="button" value="{'General_Yes'|translate}" />
@@ -202,6 +212,9 @@ function showEmptyDashboardNotification() {
             <li onclick="renameDashboard();">{'Dashboard_RenameDashboard'|translate}</li>
             <li onclick="removeDashboard();">{'Dashboard_RemoveDashboard'|translate}</li>
             <li onclick="createDashboard();">{'Dashboard_CreateNewDashboard'|translate}</li>
+            {if ($isSuperUser)}
+            <li onclick="saveDefaultLayout();">{'Dashboard_SaveAsDefault'|translate}</li>
+            {/if}
             {/if}
         </ul>
         <ul class="widgetpreview-widgetlist"></ul>

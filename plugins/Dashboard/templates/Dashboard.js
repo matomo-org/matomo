@@ -173,6 +173,13 @@
          */
         removeDashboard: function() {
             removeDashboard();
+        },
+
+        /**
+         * Saves the current layout aus new default layout
+         */
+        saveLayoutAsDefault: function() {
+            saveLayout(true);
         }
     };
 
@@ -457,8 +464,9 @@
 
     /**
      * Save the current layout in database if it has changed
+     * @param {boolean} saveAsDefault
      */
-    function saveLayout() {
+    function saveLayout(saveAsDefault) {
 
         var columns = [];
 
@@ -472,15 +480,21 @@
             columnNumber++;
         });
 
-        if(JSON.stringify(dashboardLayout.columns) != JSON.stringify(columns) || dashboardChanged) {
+        if(JSON.stringify(dashboardLayout.columns) != JSON.stringify(columns) || dashboardChanged || saveAsDefault) {
 
             dashboardLayout.columns = JSON.parse(JSON.stringify(columns));
             columns = null;
 
+            if(saveAsDefault) {
+                var action = 'saveLayoutAsDefault';
+            } else {
+                var action = 'saveLayout';
+            }
+
             var ajaxRequest =
             {
                 type: 'POST',
-                url: 'index.php?module=Dashboard&action=saveLayout&token_auth='+piwik.token_auth,
+                url: 'index.php?module=Dashboard&action='+action+'&token_auth='+piwik.token_auth,
                 dataType: 'html',
                 async: true,
                 success: function() {
