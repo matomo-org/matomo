@@ -522,7 +522,7 @@ Performance summary
             self.count_lines_invalid.value,
             self.count_lines_skipped_user_agent.value,
             self.count_lines_skipped_http_errors.value,
-            self.count_lines_skipped_http_errors.value,
+            self.count_lines_skipped_http_redirects.value,
             self.count_lines_static.value,
             self.count_lines_no_site.value,
             self.count_lines_hostname_skipped.value,
@@ -880,9 +880,8 @@ class Recorder(object):
             args['download'] = args['url']
         if hit.is_robot:
             args['_cvar'] = '{"1":["Bot","%s"]}' % hit.user_agent
-        if hit.is_error:
-            args['_cvar'] = '{"1":["HTTP-code","%s"]}' % hit.status
         if hit.is_error or hit.is_redirect:
+            args['_cvar'] = '{"2":["HTTP-code","%s"]}' % hit.status
             args['action_name'] = '%s/URL = %s%s' % (
                 hit.status,
                 urllib.quote(args['url'], ''),
