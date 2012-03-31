@@ -219,6 +219,20 @@ class Test_Piwik_UserSettings extends UnitTestCase
 			array('CH', 'Chrome', 'Chrome', '11.0', '11', '0', 'webkit'),
 			array('LIN', 'Linux', 'Linux')),
 
+		// Chrome Frame
+		'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; chromeframe/11.0.660.0)' => array(
+			array('IE', 'Internet Explorer', 'IE', '6.0', '6', '0', 'ie'),
+			array('WXP', 'Windows XP', 'Win XP')),
+		'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) chromeframe/11.0.660.0' => array(
+			array('IE', 'Internet Explorer', 'IE', '6.0', '6', '0', 'ie'),
+			array('WXP', 'Windows XP', 'Win XP')),
+		'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; chromeframe/11.0.660.0) AppleWebKit/534.18 (KHTML, like Gecko) Chrome/11.0.660.0 Safari/534.18' => array(
+			array('CH', 'Chrome', 'Chrome', '11.0', '11', '0', 'webkit'),
+			array('WXP', 'Windows XP', 'Win XP')),
+		'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/534.18 (KHTML, like Gecko) Chrome/11.0.660.0 Safari/534.18' => array(
+			array('CH', 'Chrome', 'Chrome', '11.0', '11', '0', 'webkit'),
+			array('WXP', 'Windows XP', 'Win XP')),
+
 		// ChromePlus (treat as Chrome)
 		'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/532.2 (KHTML, like Gecko) ChromePlus/4.0.222.3 Chrome/4.0.222.3 Safari/532.2' => array(
 			array('CH', 'Chrome', 'Chrome', '4.0', '4', '0', 'webkit'),

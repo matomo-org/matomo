@@ -406,7 +406,7 @@ class UserAgentParser
 			$info['id'] = self::$browsers[strtolower($results[1][0])];
 
 			// sometimes there's a better match at the end
-			if(($info['id'] == 'IE' || $info['id'] == 'LX') && (count($results[0]) > 1)) {
+			if((($info['id'] == 'IE' && strpos($userAgent, 'chromeframe') === false) || $info['id'] == 'LX') && (count($results[0]) > 1)) {
 				$count = count($results[0]) - 1;
 				$info['id'] = self::$browsers[strtolower($results[1][$count])];
 			}
