@@ -88,6 +88,9 @@ class UserAgentParser
 			'crmo'							=> 'CH',
 			'chrome'						=> 'CH',
 
+			// Chrome Frame
+			'chromeframe'					=> 'CF',
+
 			'cometbird'						=> 'CO',
 			'dillo'							=> 'DI',
 			'elinks'						=> 'EL',
@@ -169,7 +172,7 @@ class UserAgentParser
 			'ie'	 => array('IE'),
 			'gecko'  => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'KP', 'KZ'),
 			'khtml'  => array('KO'),
-			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF', 'BB', 'BP', 'TI'),
+			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF', 'BB', 'BP', 'TI', 'CF'),
 			'opera'  => array('OP'),
 		);
 
@@ -406,7 +409,11 @@ class UserAgentParser
 			$info['id'] = self::$browsers[strtolower($results[1][0])];
 
 			// sometimes there's a better match at the end
-			if((($info['id'] == 'IE' && strpos($userAgent, 'chromeframe') === false) || $info['id'] == 'LX') && (count($results[0]) > 1)) {
+			if(strpos($userAgent, 'chromeframe') !== false) {
+				$count = count($results[0]) - 1;
+				$info['id'] = 'CF';
+			}
+			else if(($info['id'] == 'IE' || $info['id'] == 'LX') && (count($results[0]) > 1)) {
 				$count = count($results[0]) - 1;
 				$info['id'] = self::$browsers[strtolower($results[1][$count])];
 			}
@@ -519,6 +526,7 @@ class UserAgentParser
 		self::$browserIdToName['BB'] = 'BlackBerry';
 		self::$browserIdToName['BP'] = 'PlayBook';
 		self::$browserIdToName['BX'] = 'BrowseX';
+		self::$browserIdToName['CF'] = 'Chrome Frame';
 		self::$browserIdToName['CO'] = 'CometBird';
 		self::$browserIdToName['EL'] = 'ELinks';
 		self::$browserIdToName['FF'] = 'Firefox';
