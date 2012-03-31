@@ -323,6 +323,7 @@ class Piwik_Tracker
 	{
 		// Adding &dp=1 will disable the provider plugin, if token_auth is used (used to speed up bulk imports)
 		if(isset($this->request['dp'])
+			&& !empty($this->request['dp'])
 			&& $this->authenticated)
 		{
 			Piwik_Tracker::setPluginsNotToLoad(array('Provider'));

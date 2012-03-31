@@ -15,12 +15,16 @@ How to use this script?
 -----------------------
 The most simple way to import your logs is to run:
 
-    ./import-logs.py -u piwik.example.com /path/to/access.log
+    ./import_logs.py --url=piwik.example.com /path/to/access.log
 
-You must specify your Piwik URL with the -u argument.
-
+You must specify your Piwik URL with the --url argument.
 The script will automatically read your config.inc.php file to get the authentication
 token and communicate with your Piwik install to import the lines.
+The default mode will try to mimic the Javascript tracker as much as possible,
+and will not track bots, static files, or error requests.
+
+If you wish to track all requests the following command would be used:
+    python /path/to/piwik/misc/log-analytics/import_logs.py --url=http://mysite/piwik/ access.log --idsite=1234 --recorders=4 --enable-http-errors --enable-http-redirects --enable-static --enable-bots
 
 (remember this is BETA release)
 
@@ -43,15 +47,19 @@ You can then import your logs automatically each day (at 0:01). Setup a cron job
 
 Performance
 -----------
-The import-logs.py script needs CPU to read and parse the log files, but it's actually
+With an Intel Core i5-2400 @ 3.10GHz (2 cores, 4 virtual cores with Hyper-threading),
+running Piwik and its MySQL database, between 250 and 300 records were imported per second.
+
+The import_logs.py script needs CPU to read and parse the log files, but it is actually
 Piwik server itself (i.e. PHP/MySQL) which will use more CPU during data import. 
 
-By default, the script one thread to parse and import log lines. To improve performance, 
-you can use the --recorders option to specify the number of parallel threads which will 
-import hits into Piwik. We recommend to set --recorders=N to the number N of CPU cores 
-that the server hosting Piwik has. The parsing will still be single-threaded, 
-but several hits will be tracked in Piwik at the same time.
+To improve performance, 
+(1) by default, the script one thread to parse and import log lines. 
+    you can use the --recorders option to specify the number of parallel threads which will 
+    import hits into Piwik. We recommend to set --recorders=N to the number N of CPU cores 
+    that the server hosting Piwik has. The parsing will still be single-threaded, 
+    but several hits will be tracked in Piwik at the same time.
+(2) the script will issue hundreds of requests to piwik.php - to improve the Piwik webserver performance
+    you can disable server access logging for these requests.
+    Each Piwik webserver (Apache, Nginx, IIS) can also be tweaked a bit to handle more req/sec.
 
-With an Intel Core i5-2400 @ 3.10GHz (2 cores, 4 virtual cores with Hyper-threading),
-running Piwik and its MySQL database, between 250 and 300 records were imported
-per second.
