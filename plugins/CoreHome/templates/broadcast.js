@@ -133,6 +133,7 @@ broadcast.propagateNewPage = function (str)
     // available in global scope
     var currentSearchStr = window.location.search;
     var currentHashStr = broadcast.getHashFromUrl();
+    var oldUrl = currentSearchStr + currentHashStr;
 
     for( var i=0; i<params_vals.length; i++ ) {
         // update both the current search query and hash string
@@ -144,7 +145,13 @@ broadcast.propagateNewPage = function (str)
     }
 
     // Now load the new page.
-    window.location.href = currentSearchStr + currentHashStr;
+    var newUrl = currentSearchStr + currentHashStr;
+
+    if(oldUrl == newUrl) {
+        window.location.reload();
+    } else {
+        window.location.href = newUrl;
+    }
     return false;
 };
 
