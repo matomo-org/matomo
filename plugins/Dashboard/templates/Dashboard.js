@@ -164,8 +164,8 @@
                 success: function() { methods.loadDashboard.apply(this, [dashboardId])},
                 data: { "idDashboard": dashboardId, "idSite": piwik.idSite }
             };
-            $.ajax(ajaxRequest);
             piwikHelper.showAjaxLoading();
+            $.ajax(ajaxRequest);
         },
 
         /**
@@ -535,6 +535,7 @@
                 idDashboard: dashboardId
             }
         };
+        piwikHelper.showAjaxLoading();
         $.ajax(ajaxRequest);
     }
 

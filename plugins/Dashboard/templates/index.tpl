@@ -79,6 +79,7 @@ function createDashboard() {
     var type = ($('#dashboard_type_empty:checked').length > 0) ? 'empty' : 'default';
     piwikHelper.modalConfirm('#createDashboardConfirm', {yes: function(){
         var dashboardName = $('#createDashboardName').attr('value');
+        piwikHelper.showAjaxLoading();
         var ajaxRequest =
         {
             type: 'GET',
