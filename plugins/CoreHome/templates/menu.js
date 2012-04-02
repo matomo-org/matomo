@@ -83,7 +83,8 @@ menu.prototype =
         if(module == 'Goals' && id != '' && (action != 'index')) {
             $li = $("#" + module + "_" + action + "_" + id);
         // if module is Dashboard and id is present, must be one of the dashboards
-        } else if(module == 'Dashboard' && id != '') {
+        } else if(module == 'Dashboard') {
+            if(!id) id = 1;
             $li = $("#" + module + "_" + action + "_" + id);
         } else {
             $li = $("#" + module + "_" + action);
