@@ -415,6 +415,7 @@ $translations = array(
 	'CoreHome_PeriodWeek' => 'Week',
 	'CoreHome_PeriodMonth' => 'Month',
 	'CoreHome_PeriodYear' => 'Year',
+	'CoreHome_PeriodRange' => 'Range',
 	'CoreHome_PeriodDays' => 'days',
 	'CoreHome_PeriodWeeks' => 'weeks',
 	'CoreHome_PeriodMonths' => 'months',
