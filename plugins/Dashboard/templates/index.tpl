@@ -180,14 +180,15 @@ function saveDefaultLayout() {
         <h2>{'Dashboard_RenameDashboard'|translate}</h2>
         <div id="newDashboardNameInput"><label for="newDashboardName">{'Dashboard_DashboardName'|translate} </label><input type="input" name="newDashboardName" id="newDashboardName" value=""/></div>
         <input role="yes" type="button" value="{'General_Save'|translate}" />
+        <input role="cancel" type="button" value="{'General_Cancel'|translate}" />
     </div>
 
     <div class="ui-confirm" id="createDashboardConfirm">
         <h2>{'Dashboard_CreateNewDashboard'|translate}</h2>
         <div id="createDashboardNameInput">
             <label for="createDashboardName">{'Dashboard_DashboardName'|translate} </label><input type="input" name="newDashboardName" id="createDashboardName" value=""/><br />
+            <input type="radio" checked="checked" name="type" value="default" id="dashboard_type_default"><label for="dashboard_type_default">{'Dashboard_DefaultDashboard'|translate}</label><br />
             <input type="radio" name="type" value="empty" id="dashboard_type_empty"><label for="dashboard_type_empty">{'Dashboard_EmptyDashboard'|translate}</label>
-            <input type="radio" checked="checked" name="type" value="default" id="dashboard_type_default"><label for="dashboard_type_default">{'Dashboard_DefaultDashboard'|translate}</label>
         </div>
         <input role="yes" type="button" value="{'General_Yes'|translate}" />
         <input role="no" type="button" value="{'General_No'|translate}" />

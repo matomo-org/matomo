@@ -102,8 +102,8 @@
 	display: none;
 	width:630px;
 	background:#fff;
-	color: #7A0101;
-	cursor: wait;
+	color: #444;
+	cursor: default;
 	font-size: 12px!important;
 	font-family:Arial,Verdana,Arial,Helvetica,sans-serif;
 	border-radius:4px;
@@ -395,4 +395,8 @@ div.widgetpreview-preview {
 #newDashboardNameInput, #createDashboardNameInput {
     margin: 10px 0 0 0;
     text-align: center;
+}
+
+#createDashboardNameInput input {
+    margin-bottom: 10px;
 }
