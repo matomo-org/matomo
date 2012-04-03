@@ -440,8 +440,13 @@
             success: function(dashboards) {
                 var dashboardMenuList = $('#Dashboard > ul');
                 dashboardMenuList.empty();
-                for(var i=0; i<dashboards.length; i++) {
-                    dashboardMenuList.append('<li class="dashboardMenuItem '+(dashboards[i].iddashboard == dashboardId ? 'sfHover' : '')+'"><a dashboardId="'+dashboards[i].iddashboard+'">'+dashboards[i].name+'</a></li>');
+                if(dashboards.length > 1) {
+                    $('#Dashboard').show();
+                    for(var i=0; i<dashboards.length; i++) {
+                        dashboardMenuList.append('<li class="dashboardMenuItem '+(dashboards[i].iddashboard == dashboardId ? 'sfHover' : '')+'"><a dashboardId="'+dashboards[i].iddashboard+'">'+dashboards[i].name+'</a></li>');
+                    }
+                } else {
+                    $('#Dashboard').hide();
                 }
 
                 $('.dashboardMenuItem').on('click', function() {

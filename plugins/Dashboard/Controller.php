@@ -32,12 +32,19 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	public function embeddedIndex()
 	{
 		$view = $this->getDashboardView('index');
+
 		echo $view->render();
 	}
 	
 	public function index()
 	{
 		$view = $this->getDashboardView('standalone');
+		$view->dashboards = array();
+		if (!Piwik::isUserIsAnonymous()) {
+			$login = Piwik::getCurrentUserLogin();
+
+			$view->dashboards = Piwik_Dashboard::getAllDashboards($login);
+		}
 		echo $view->render();
 	}
 	
@@ -158,23 +165,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		if (!Piwik::isUserIsAnonymous()) {
 			$login = Piwik::getCurrentUserLogin();
 
-			$dashboards = Piwik_FetchAll('SELECT iddashboard, layout, name
-										  FROM '.Piwik_Common::prefixTable('user_dashboard') .
-										' WHERE login = ? ORDER BY iddashboard', array($login));
-
-			$unnamed = 1;
-			foreach($dashboards AS &$dashboard) {
-				$layout = html_entity_decode($dashboard['layout']);
-				$layout = str_replace("\\\"", "\"", $layout);
-				$dashboard['layout'] = Piwik_Common::json_decode($layout);
-				if(empty($dashboard['name'])) {
-					$dashboard['name'] = Piwik_Translate('Dashboard_DashboardOf', Piwik::getCurrentUserLogin());
-					if($unnamed > 1) {
-						$dashboard['name'] .= " ($unnamed)";
-					}
-					$unnamed++;
-				}
-			}
+			$dashboards = Piwik_Dashboard::getAllDashboards($login);
 
 			echo Piwik_Common::json_encode($dashboards);
 		} else {

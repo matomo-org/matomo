@@ -13,7 +13,7 @@ $(document).ready( function() {
     else 
     {
         $('#dashboardSettings').css({left:0, top:13});
-        $('#dashboardSettings').after('<div id="Dashboard"><ul></ul></div>');
+        $('#dashboardSettings').after($('#Dashboard'));
         $('#Dashboard').css({left: $('#dashboardSettings')[0].offsetWidth+15, top: 13});
         $('#dashboardWidgetsArea').css({marginTop: 30});
     }

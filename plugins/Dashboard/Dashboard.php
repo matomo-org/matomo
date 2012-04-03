@@ -36,6 +36,30 @@ class Piwik_Dashboard extends Piwik_Plugin
 		);
 	}
 
+	public static function getAllDashboards($login) {
+		$dashboards = Piwik_FetchAll('SELECT iddashboard, name
+									  FROM '.Piwik_Common::prefixTable('user_dashboard') .
+									' WHERE login = ? ORDER BY iddashboard', array($login));
+		$pos = 0;
+		$nameless = 1;
+		foreach ($dashboards AS &$dashboard) {
+			if (!empty($dashboard['name'])) {
+				$dashboard['name'] = Piwik_Common::unsanitizeInputValue($dashboard['name']);
+			} else {
+				$dashboard['name'] = Piwik_Translate('Dashboard_DashboardOf', $login);
+				if($nameless > 1) {
+					$dashboard['name'] .= " ($nameless)";
+				}
+				$layout = html_entity_decode($dashboard['layout']);
+				$layout = str_replace("\\\"", "\"", $layout);
+				$dashboard['layout'] = Piwik_Common::json_decode($layout);
+				$nameless++;
+			}
+			$pos++;
+		}
+		return $dashboards;
+	}
+
 	public function addMenus()
 	{
 		Piwik_AddMenu('Dashboard_Dashboard', '', array('module' => 'Dashboard', 'action' => 'embeddedIndex', 'idDashboard' => 1), true, 5);
@@ -43,24 +67,12 @@ class Piwik_Dashboard extends Piwik_Plugin
 		if (!Piwik::isUserIsAnonymous()) {
 			$login = Piwik::getCurrentUserLogin();
 
-			$dashboards = Piwik_FetchAll('SELECT iddashboard, name
-										  FROM '.Piwik_Common::prefixTable('user_dashboard') .
-										' WHERE login = ? ORDER BY iddashboard', array($login));
-			if (count($dashboards) > 0)
+			$dashboards = self::getAllDashboards($login);
+			if (count($dashboards) > 1)
 			{
 				$pos = 0;
-				$nameless = 1;
 				foreach ($dashboards AS $dashboard) {
-					if (!empty($dashboard['name'])) {
-						$name = Piwik_Common::unsanitizeInputValue($dashboard['name']);
-					} else {
-						$name = Piwik_Translate('Dashboard_DashboardOf', $login);
-						if($nameless > 1) {
-							$name .= " ($nameless)";
-						}
-						$nameless++;
-					}
-					Piwik_AddMenu('Dashboard_Dashboard', $name, array('module' => 'Dashboard', 'action' => 'embeddedIndex', 'idDashboard' => $dashboard['iddashboard']), true, $pos);
+					Piwik_AddMenu('Dashboard_Dashboard', $dashboard['name'], array('module' => 'Dashboard', 'action' => 'embeddedIndex', 'idDashboard' => $dashboard['iddashboard']), true, $pos);
 					$pos++;
 				}
 			}

@@ -28,10 +28,13 @@
         border-color:#a9a399;
     }
 
+    #Dashboard > ul {
+        list-style: square inside none;
+    }
+
     #Dashboard > ul > li {
-        padding: 0 5px;
+        padding: 0 10px;
         float: left;
-        display: block;
     }
 
     #Dashboard a {
@@ -40,9 +43,10 @@
         font-weight: normal;
     }
 
-    #Dashboard > ul > li:hover a,
-    #Dashboard > ul > li.sfHover a {
+    #Dashboard > ul > li:hover , #Dashboard > ul > li:hover a,
+    #Dashboard > ul > li.sfHover, #Dashboard > ul > li.sfHover a {
         color: #e87500;
+        font-weight: bold;
     }
 </style>
 {/literal}
