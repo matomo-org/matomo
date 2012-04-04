@@ -77,13 +77,13 @@ In the most basic setup, you might have in your main config section:
 	# Log to a file as usual
 	CustomLog /path/to/logfile myLogFormat
 	# Log to piwik as well
-	CustomLog "|/path/to/import_logs.py --option1 --option2 ... /dev/stdin" myLogFormat
+	CustomLog "|/path/to/import_logs.py --option1 --option2 ... -" myLogFormat
 
 Useful options here are:
 --add-sites-new-hosts (creates new websites in piwik based on %v in the LogFormat)
 --output=/path/to/piwik.log (puts any output into a log file for reference/debugging later)
 --recorders=1 (use of >1 recorder has not been tested)
-"/dev/stdin" as the filename to piwik, so it reads straight from apache
+"-" so it reads straight from /dev/stdin 
 
 You can have as many CustomLog statements as you like. However, if you define any CustomLog directives within a <VirtualHost> block, all CustomLogs in the main config will be overridden. Therefore if you require custom logging for particular VirtualHosts, it is recommended to use mod_macro to make configuration more maintainable.
 
@@ -115,7 +115,7 @@ Apache configuration source code:
 	--recorders=1 \
 	--log-format-regex='(?P<host>[\\\\w\\\\-\\\\.\\\\/]*)(?::\\\\d+)? (?P<ip>\\\\S+) \\\\S+ \\\\S+ \\\\[(?P<date>.*?)\\\\] \\\"\\\\S+ (?P<path>.*?) \\\\S+\\\" (?P<status>\\\\S+) (?P<length>\\\\S+) \\\"(?P<referrer>.*?)\\\" \\\"(?P<user_agent>.*?)\\\"' \
 	--output=/var/log/piwik/$output.log \
-	/dev/stdin" \
+	-" \
 	$logname \
 	$env
 	</Macro>
