@@ -82,11 +82,19 @@
 			</div>
 			
 		</div>
-
         <div class="limitSelection {if !$properties.show_pagination_control} hidden{/if}" title="{'General_RowsToDisplay'|translate:escape:'html'}"></div>
-		{if $properties.show_exclude_low_population}
-			<span class="dataTableExcludeLowPopulation"></span>
-		{/if}
+		<div class="tableConfiguration">
+			<a class="tableConfigurationIcon"><img width="16" height="16" src="themes/default/images/configure.png" title="{'CoreHome_ConfigureView'|translate}" /></a>
+			<ul>
+				{if isset($javascriptVariablesToSet.flat) && $javascriptVariablesToSet.flat == 1}
+					<li><span class="dataTableIncludeAggregateRows"></span></li>
+				{/if}
+				<li><span class="dataTableFlatten"></span></li>
+				{if $properties.show_exclude_low_population}
+					<li><span class="dataTableExcludeLowPopulation"></span></li>
+				{/if}
+			</ul>
+		</div>
 	</div>
 {/if}
 

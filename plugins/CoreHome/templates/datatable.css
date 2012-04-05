@@ -298,7 +298,7 @@ table thead div {
 	
 }
 
-.dataTableExcludeLowPopulation,.dataTableNext,.dataTablePrevious {
+.dataTableNext,.dataTablePrevious {
 	font-size: 12px;
 	color: #184A83;
 	cursor: pointer;
@@ -312,15 +312,6 @@ table thead div {
 .dataTableFeatures {
 	padding-top: 10px;
 	text-align: center;
-}
-
-.dataTableExcludeLowPopulation {
-	display:inline-block; 
-	float: right;
-	padding:2px 0 0 6px;
-	font-size:10px;
-	color: #255792;
-	text-align: right;
 }
 
 .dataTableNext,.dataTablePrevious,.dataTableSearchPattern 
@@ -654,3 +645,67 @@ table.dataTable .dataTableRowActions a img {
     display: inline-block;
 }
 
+
+.tableConfiguration {
+    float: right;
+    position: relative;
+    margin-left: 5px;
+    min-height: 20px;
+	min-width: 25px;
+	text-align: right;
+}
+
+a.tableConfigurationIcon img {
+	margin: 2px 6px 0 0;
+}
+
+.tableConfiguration ul {
+	margin-top: 18px;
+    overflow: visible;
+    background-color: #fff;
+	display: none;
+}
+
+.tableConfiguration ul.open {
+	display: block;
+}
+
+.tableConfiguration ul li {
+    padding: 0;
+    font-size: 1.1em;
+    height: 20px;
+    margin-top: -40px;
+    background-color: #fff;
+    border-left: 1px solid #DFDFDF;
+    border-right: 1px solid #DFDFDF;
+    vertical-align: middle;
+	text-align: left;
+}
+
+.tableConfiguration ul li.firstDummy {
+    border-bottom: 1px solid #DFDFDF;
+    border-radius: 0 0 4px 4px;
+	height: 25px;
+	cursor: default;
+}
+
+.tableConfiguration ul li.first {
+	margin-top: -45px;
+}
+
+.tableConfiguration ul li.last {
+    border-top: 1px solid #DFDFDF;
+    border-radius: 4px 4px 0 0;
+}
+
+.tableConfiguration span {
+    display: block;
+	cursor: pointer;
+    padding: 0 10px;
+	height: 20px;
+	line-height: 20px;
+}
+
+.tableConfiguration span:hover {
+    background-color: #EBEAE6;
+}

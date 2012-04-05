@@ -297,6 +297,10 @@ class Piwik_API_ResponseBuilder
 		if (Piwik_Common::getRequestVar('flat', '0', 'string', $this->request) == '1')
 		{
 			$flattener = new Piwik_API_DataTableManipulator_Flattener($this->apiModule, $this->apiMethod, $this->request);
+			if (Piwik_Common::getRequestVar('include_aggregate_rows', '0', 'string', $this->request) == '1')
+			{
+				$flattener->includeAggregateRows();
+			}
             $datatable = $flattener->flatten($datatable);
 		}
 	
