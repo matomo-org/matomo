@@ -210,7 +210,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
             /**
              * Display the given widgets in a widget list
              * 
-             * @param object widgets widgets to be displayed
+             * @param {object} widgets widgets to be displayed
              * @return void
              */
             function showWidgetList(widgets) {
@@ -271,7 +271,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
             /**
              * Show widget with the given uniqueId in preview
              * 
-             * @param string widgetUniqueId unique id of widget to display
+             * @param {string} widgetUniqueId unique id of widget to display
              * @return void
              */
             function showPreview(widgetUniqueId) {
@@ -329,7 +329,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
             /**
              * Constructor
              * 
-             * @param object userSettings Settings to be used
+             * @param {object} userSettings Settings to be used
              * @return void
              */
             this.construct = function(userSettings) {

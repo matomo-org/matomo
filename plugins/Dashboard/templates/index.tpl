@@ -129,9 +129,9 @@ function showEmptyDashboardNotification() {
     });
 }
 
-function saveDefaultLayout() {
-    piwikHelper.modalConfirm('#saveAsDefaultConfirmation', {
-        yes: function(){ $('#dashboardWidgetsArea').dashboard('saveLayoutAsDefault'); }
+function setAsDefaultWidgets() {
+    piwikHelper.modalConfirm('#setAsDefaultWidgetsConfirm', {
+        yes: function(){ $('#dashboardWidgetsArea').dashboard('saveLayoutAsDefaultWidgetLayout'); }
     });
 }
 
@@ -145,8 +145,9 @@ function saveDefaultLayout() {
         <input role="no" type="button" value="{'General_No'|translate}" />
     </div>
 
-    <div class="ui-confirm" id="saveAsDefaultConfirmation">
-        <h2>{'Dashboard_SaveDefaultConfirm'|translate}</h2>
+    <div class="ui-confirm" id="setAsDefaultWidgetsConfirm">
+        <h2>{'Dashboard_SetAsDefaultWidgetsConfirm'|translate}</h2>
+        <div id="setAsDefaultWidgetsConfirmHelp">{'Dashboard_SetAsDefaultWidgetsConfirmHelp'|translate}</div>
         <input role="yes" type="button" value="{'General_Yes'|translate}" />
         <input role="no" type="button" value="{'General_No'|translate}" />
     </div>
@@ -208,15 +209,22 @@ function saveDefaultLayout() {
                 <div id='addWidget'>{'Dashboard_AddAWidget'|translate} &darr;</div>
                 <ul class="widgetpreview-categorylist"></ul>
             </li>
-            <li onclick="resetDashboard();">{'Dashboard_ResetDashboard'|translate}</li>
-            <li onclick="showChangeDashboardLayoutDialog();">{'Dashboard_ChangeDashboardLayout'|translate}</li>
+            <li>
+                <div>{'Dashboard_ManageDashboard'|translate} &darr;</div>
+                <ul>
+                    <li onclick="resetDashboard();">{'Dashboard_ResetDashboard'|translate}</li>
+                    <li onclick="showChangeDashboardLayoutDialog();">{'Dashboard_ChangeDashboardLayout'|translate}</li>
+                    {if ($userLogin && 'anonymous' != $userLogin)}
+                    <li onclick="renameDashboard();">{'Dashboard_RenameDashboard'|translate}</li>
+                    <li onclick="removeDashboard();">{'Dashboard_RemoveDashboard'|translate}</li>
+                    {if ($isSuperUser)}
+                    <li onclick="setAsDefaultWidgets();">{'Dashboard_SetAsDefaultWidgets'|translate}</li>
+                    {/if}
+                    {/if}
+                </ul>
+            </li>
             {if ($userLogin && 'anonymous' != $userLogin)}
-            <li onclick="renameDashboard();">{'Dashboard_RenameDashboard'|translate}</li>
-            <li onclick="removeDashboard();">{'Dashboard_RemoveDashboard'|translate}</li>
             <li onclick="createDashboard();">{'Dashboard_CreateNewDashboard'|translate}</li>
-            {if ($isSuperUser)}
-            <li onclick="saveDefaultLayout();">{'Dashboard_SaveAsDefault'|translate}</li>
-            {/if}
             {/if}
         </ul>
         <ul class="widgetpreview-widgetlist"></ul>

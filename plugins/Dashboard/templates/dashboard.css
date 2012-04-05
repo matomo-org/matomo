@@ -342,32 +342,36 @@ div.widgetpreview-preview {
     margin-bottom: 10px;
 }
 
-#dashboardSettings  .submenu {	
+#dashboardSettings .submenu {
 	font-weight:bold;
 	color:#255792;
 }
 
+#dashboardSettings .submenu ul {
+    float: none;
+    font-weight:normal;
+    padding-top:10px;
+	margin-left: 10px;
+    color: #5D5342;
+    list-style: none;
+    font-size: 11px;
+    line-height: 20px;
+    margin-right: 20px;
+}
 
-#dashboardSettings li:hover .widgetpreview-preview {
+#dashboardSettings .submenu ul li {
+    line-height: 20px;
+    padding: 0px 25px 0px 5px;
     color: #444;
 }
 
-#dashboardSettings .widgetpreview-categorylist {
-    float: none;
+#dashboardSettings .submenu ul li:hover {
+    color: #e87500;
 }
 
-#dashboardSettings .widgetpreview-categorylist {
-    width: 185px;    
-    font-weight:normal;
-}
 #dashboardSettings .widgetpreview-widgetlist {
 	width: 228px;
     font-weight:normal;
-}
-
-#dashboardSettings .widgetpreview-categorylist {
-    padding-top:10px;
-	margin-left: 10px;
 }
 
 #dashboardSettings .widgetTop {
@@ -399,4 +403,9 @@ div.widgetpreview-preview {
 
 #createDashboardNameInput input {
     margin-bottom: 10px;
+}
+
+#setAsDefaultWidgetsConfirmHelp {
+    text-align: center;
+    padding: 10px 0 5px 0;
 }
