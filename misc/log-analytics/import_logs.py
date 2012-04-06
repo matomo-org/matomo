@@ -142,9 +142,9 @@ class Configuration(object):
             description="Import HTTP access logs to Piwik. "
                          "log_file is the path to a server access log file (uncompressed, .gz, .bz2, or specify - to read from stdin). "
                          " By default, the script will try to produce clean reports and will exclude bots, static files, discard http error and redirects, etc. This is customizable, see below.",
-	    epilog="About Piwik Server Log Analytics: http://piwik.org/log-analytics/ "
-	           "              Found a bug? Please create a ticket in http://dev.piwik.org/ "
-		   "              Please send your suggestions or successful user story to hello@piwik.org "
+            epilog="About Piwik Server Log Analytics: http://piwik.org/log-analytics/ "
+                   "              Found a bug? Please create a ticket in http://dev.piwik.org/ "
+                   "              Please send your suggestions or successful user story to hello@piwik.org "
         )
         option_parser.add_option(
             '--debug', '-d', dest='debug', action='count', default=0,
@@ -181,7 +181,7 @@ class Configuration(object):
             '--idsite-fallback', dest='site_id_fallback',
             help="Default Piwik site ID to use if the hostname doesn't match any "
             "known Website's URL. New websites will not be automatically created. "
-	    "                         Used only if --add-sites-new-hosts or --idsite are not set",
+            "                         Used only if --add-sites-new-hosts or --idsite are not set",
         )
         default_config = os.path.abspath(
             os.path.join(os.path.dirname(__file__),
@@ -208,10 +208,10 @@ class Configuration(object):
             help="Piwik Super User token_auth, 32 characters hexadecimal string, found in Piwik > API",
         )
 
-	option_parser.add_option(
+        option_parser.add_option(
             '--hostname', dest='hostnames', action='append', default=[],
             help="Accepted hostname (requests with other hostnames will be excluded). "
-	         "Can be specified multiple times"
+            "Can be specified multiple times"
         )
         option_parser.add_option(
             '--exclude-path', dest='excluded_paths', action='append', default=[],
@@ -279,7 +279,7 @@ class Configuration(object):
         option_parser.add_option(
             '--recorders', dest='recorders', default=1, type='int',
             help="Number of simultaneous recorders (default: %default). "
-	        "It should be set to the number of CPU cores in your server. "
+            "It should be set to the number of CPU cores in your server. "
             "You can also experiment with higher values which may increase performance until a certain point",
         )
         option_parser.add_option(
@@ -676,7 +676,7 @@ class Piwik(object):
                 response = func(*args, **kwargs)
                 if expected_response is not None and response != expected_response:
                     raise urllib2.URLError("didn't receive the expected response. Response was %s "
-			% ((response[:200] + '..') if len(response) > 200 else response))
+                    % ((response[:200] + '..') if len(response) > 200 else response))
                 return response
             except (urllib2.URLError, ValueError), e:
                 logging.debug('Error when connecting to Piwik: %s', e)
