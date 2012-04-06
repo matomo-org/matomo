@@ -762,7 +762,8 @@ class DynamicResolver(object):
                 # The site doesn't exist, we don't want to create new sites and
                 # there's no default site ID. We thus have to ignore this hit.
                 site_id = None
-        stats.piwik_sites.add(site_id)
+        if site_id is not None:
+            stats.piwik_sites.add(site_id)
         return site_id
 
     def resolve(self, hit):
