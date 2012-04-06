@@ -1,7 +1,7 @@
 <?php
 $translations = array(
 	'General_Locale' => 'be_BY.UTF-8',
-	'General_TranslatorName' => '<a href="http://www.fatcow.com">Fat Cow</a>, <a href="http://finfact.org">Alban \'r4bble\' Ardua</a>, Iflexion design',
+	'General_TranslatorName' => 'Marcis G, <a href="http://finfact.org">Alban \'r4bble\' Ardua</a>, Iflexion design',
 	'General_TranslatorEmail' => 'by.marcis@gmail.com, albanardua@gmail.com, iflexion.1@gmail.com',
 	'General_EnglishLanguageName' => 'Belarusian',
 	'General_OriginalLanguageName' => 'Беларуская',

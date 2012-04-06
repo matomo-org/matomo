@@ -7,6 +7,6 @@
 	<link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico" />
 	<link rel="stylesheet" type="text/css" href="themes/default/simple_structure.css" />
 </head>
-<body>
+<body id="simple">
 <div id="contentsimple">
 	<div id="title"><img title='Piwik' alt="Piwik" src='themes/default/images/logo-header.png' style='margin-left:10px' /><span id="subh1"> # <a href='http://piwik.org/'>Web Analytics</a></span></div>

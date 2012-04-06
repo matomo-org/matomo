@@ -50,8 +50,15 @@ class Piwik_Dashboard extends Piwik_Plugin
 				if($nameless > 1) {
 					$dashboard['name'] .= " ($nameless)";
 				}
-				$layout = html_entity_decode($dashboard['layout']);
-				$layout = str_replace("\\\"", "\"", $layout);
+				if(empty($dashboard['layout']))
+				{
+					$layout = '[]';
+				}
+				else
+				{
+					$layout = html_entity_decode($dashboard['layout']);
+					$layout = str_replace("\\\"", "\"", $layout);
+				}
 				$dashboard['layout'] = Piwik_Common::json_decode($layout);
 				$nameless++;
 			}

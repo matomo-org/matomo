@@ -1,4 +1,6 @@
-body { background: #eee; }
+#simple body { 
+	background: #eee; 
+}
 #contentsimple {
 	background: #fff;
 	color: #000;
