@@ -502,17 +502,7 @@ Website import summary
 %(sites_created)s
     %(total_sites_ignored)d distinct hostnames did not match any existing site:
 %(sites_ignored)s
-        TIPs:
-         - if one of these hosts is an alias host for one of the websites
-           in Piwik, you can add this host as an "Alias URL" in Settings > Websites.
-         - use --add-sites-new-hosts if you wish to automatically create
-           one website for each of these hosts in Piwik rather than discarding
-           these requests.
-         - use --idsite-fallback to force all these log lines with a new hostname
-	   to be recorded in a specific idsite (for example for troubleshooting/visualizing the data)
-         - use --idsite to force all lines in the specified log files
-           to be all recorded in the specified idsite
-         - or you can also manually create a new Website in Piwik with the URL set to this hostname
+%(sites_ignored_tips)s
 
 Performance summary
 -------------------
@@ -550,6 +540,19 @@ Performance summary
     'sites_ignored': self._indent_text(
             self.piwik_sites_ignored, level=3,
         ),
+    'sites_ignored_tips': '''
+        TIPs:
+         - if one of these hosts is an alias host for one of the websites
+           in Piwik, you can add this host as an "Alias URL" in Settings > Websites.
+         - use --add-sites-new-hosts if you wish to automatically create
+           one website for each of these hosts in Piwik rather than discarding
+           these requests.
+         - use --idsite-fallback to force all these log lines with a new hostname
+           to be recorded in a specific idsite (for example for troubleshooting/visualizing the data)
+         - use --idsite to force all lines in the specified log files
+           to be all recorded in the specified idsite
+         - or you can also manually create a new Website in Piwik with the URL set to this hostname
+''' if self.piwik_sites_ignored else '',
     'total_time': self.time_stop - self.time_start,
     'speed_recording': self._round_value(self._compute_speed(
             self.count_lines_recorded.value,
