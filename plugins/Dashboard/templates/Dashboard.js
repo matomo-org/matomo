@@ -180,6 +180,13 @@
          */
         saveLayoutAsDefaultWidgetLayout: function() {
             saveLayout('saveLayoutAsDefault');
+        },
+
+        /**
+         * Returns if the current loaded dashboard is the default dashboard
+         */
+        isDefaultDashboard: function() {
+            return (dashboardId == 1);
         }
     };
 

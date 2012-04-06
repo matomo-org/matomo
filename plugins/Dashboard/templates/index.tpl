@@ -20,6 +20,11 @@ $(document).ready( function() {
 
     $('#dashboardSettings').on('click', function(){
         $('#dashboardSettings').toggleClass('visible');
+        if ($('dashboardWidgetsArea').dashboard('isDefaultDashboard')) {
+            $('#removeDashboardLink').hide();
+        } else {
+            $('#removeDashboardLink').show();
+        }
         // fix position
         $('#dashboardSettings .widgetpreview-widgetlist').css('paddingTop', $('#dashboardSettings .widgetpreview-categorylist').parent('li').position().top);
     });
@@ -39,7 +44,7 @@ $(document).ready( function() {
 
     $('#dashboardSettings').widgetPreview({
         isWidgetAvailable: function(widgetUniqueId) {
-            if($('#dashboardWidgetsArea [widgetId='+widgetUniqueId+']').length) {
+            if ($('#dashboardWidgetsArea [widgetId='+widgetUniqueId+']').length) {
                 return false;
             } else {
                 return true;
@@ -67,7 +72,7 @@ $(document).ready( function() {
     });
 
     $('.submenu>li').on('mouseenter', function(event){
-        if(!$('.widgetpreview-categorylist', event.target).length) {
+        if (!$('.widgetpreview-categorylist', event.target).length) {
             $('#dashboardSettings').widgetPreview('reset');
         }
     });
@@ -216,7 +221,7 @@ function setAsDefaultWidgets() {
                     <li onclick="showChangeDashboardLayoutDialog();">{'Dashboard_ChangeDashboardLayout'|translate}</li>
                     {if ($userLogin && 'anonymous' != $userLogin)}
                     <li onclick="renameDashboard();">{'Dashboard_RenameDashboard'|translate}</li>
-                    <li onclick="removeDashboard();">{'Dashboard_RemoveDashboard'|translate}</li>
+                    <li onclick="removeDashboard();" id="removeDashboardLink">{'Dashboard_RemoveDashboard'|translate}</li>
                     {if ($isSuperUser)}
                     <li onclick="setAsDefaultWidgets();">{'Dashboard_SetAsDefaultWidgets'|translate}</li>
                     {/if}
