@@ -6,8 +6,8 @@
 }
 
 #content.admin {
-	margin:0px 15px;
-	padding:0px 0 0 0;
+	margin:0 15px;
+	padding:0 0 0 0;
 	font:13px Arial, Helvetica, sans-serif
 }
 
@@ -53,7 +53,6 @@ table.admin tbody td, table.admin tbody th {
 	text-decoration: none;
 	font-weight: normal;
 	padding: 10px;
-	padding:10px;
 }
 
 table.admin  tbody td:hover, table.admin  tbody th:hover {
@@ -78,8 +77,8 @@ table.admin  tbody td:hover, table.admin  tbody th:hover {
 
 .admin h2 {
 	border-bottom:1px solid #DADADA;
-	margin:15px -15px 20px 0px;
-	padding:0pt 0px 5px 0pt;
+	margin:15px -15px 20px 0;
+	padding:0 0 5px 0;
 	font-size:24px;
 }
 

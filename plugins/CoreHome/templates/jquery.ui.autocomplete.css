@@ -1,10 +1,19 @@
 /* Autocomplete
 ----------------------------------*/
-.ui-autocomplete { position: absolute; cursor: default; }	
-.ui-autocomplete-loading { background: white; }
+.ui-autocomplete {
+    position: absolute;
+    cursor: default;
+}
+
+.ui-autocomplete-loading {
+    background: white;
+}
 
 /* workarounds */
-* html .ui-autocomplete { width:1px; } /* without this, the menu expands to 100% in IE6 */
+* html .ui-autocomplete {
+    /* without this, the menu expands to 100% in IE6 */
+    width:1px;
+}
 
 /* Menu
 ----------------------------------*/
@@ -18,11 +27,11 @@
 }
 .ui-menu .ui-menu {
 	margin-top: -3px;
-        margin-bottom: 8px;
+    margin-bottom: 8px;
 }
 .ui-menu .ui-menu-item {
 	line-height:18px;
-	padding:0 0px;
+	padding:0;
 	height:auto;
 	display:block;
 	text-decoration:none;
@@ -32,31 +41,34 @@
 	line-height:18px;
 	color:#255792;
 	font-size: 12px;
-	padding: 0px 5px 0px 5px;
+	padding: 0 5px 0 5px;
 	position: relative;
-	
-
 }
+
 .ui-menu .ui-menu-item a.ui-state-hover,
 .ui-menu .ui-menu-item a.ui-state-active {
 	font-weight: normal;
-	margin: 0px;
+	margin: 0;
 }
 
 
 .ui-widget-content  {
-background:url("../../../libs/jquery/themes/base/images/ui-bg_flat_75_ffffff_40x100.png") repeat-x scroll 50% 50% #FFFFFF;
-border: 0px solid #D4D4D4;
-border-top: 0px;
-color:#222222;
+    background:url("../../../libs/jquery/themes/base/images/ui-bg_flat_75_ffffff_40x100.png") repeat-x scroll 50% 50% #FFFFFF;
+    border: 0 solid #D4D4D4;
+    border-top: 0;
+    color:#222;
 }
 .ui-corner-all {
--moz-border-radius:4px 4px 4px 4px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
 }
 
 .ui-menu .ui-menu-item a.ui-state-hover{
 	background:#ebeae6;
-	border: 0px;
-	-moz-border-radius: 0px;
+	border: 0;
+    border-radius: 0;
+	-moz-border-radius: 0;
+    -webkit-radius-radius: 0;
 }
 

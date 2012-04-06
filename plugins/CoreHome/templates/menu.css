@@ -25,7 +25,7 @@
     list-style: none;
     z-index: 49;
     margin-right:-1px;
-    border: 1px solid #dddddd;
+    border: 1px solid #ddd;
     border-bottom:0;
     border-radius: 4px 4px 0 0 ;
     -moz-border-radius:  4px 4px 0 0 ;
@@ -37,12 +37,12 @@
 }
 
 .nav a {
-    border-bottom: 1px solid #dddddd;
+    border-bottom: 1px solid #ddd;
     color: #444444;
     font-size:18px;
     display: block;
     float: left;
-    padding: 8px 27px 0px 27px;
+    padding: 8px 27px 0 27px;
     height:25px;
     text-decoration: none;
     font-weight: normal;
@@ -67,7 +67,7 @@
 
 .nav li ul {
     padding:9px 0 5px 0;
-    left: 0px;
+    left: 0;
     top: -999em;
     position: absolute;
     height:25px;

@@ -150,14 +150,14 @@ a {
 	padding:0 20px 0 0;
 }	
 #periodString .period-type input{
-	
+
 }
 #periodString .period-type label{
 	font-size:12px;
 	display:inline-block; 
 	padding: 2px 0px 3px 0;
 	vertical-align:top; 
-}	
+}
 
 
 /* About Piwik box top right */
@@ -208,7 +208,7 @@ a {
 	border: 1px solid #CBD9EB ;	
 }
 .header_info , .header_info  a { 
-	color:#444444; 
+	color:#444;
 }
 
 #header{ padding:5px 0 0 0; min-height:60px; }
@@ -227,7 +227,7 @@ a {
 	font-size:12px;
 }
 .autocompleteMatched {
-	font-color:#5256BE;
+	color:#5256BE;
 	font-weight:bold;
 }
 .sites_autocomplete label{
@@ -286,7 +286,7 @@ a {
 }
 
 .sites_autocomplete .custom_select_all {
-	padding:0px 0 0 4px;
+	padding:0 0 0 4px;
 }
 .sites_autocomplete .custom_select_all a{
 	text-decoration:none; 
@@ -321,7 +321,7 @@ a {
 	overflow:hidden; 
 	opacity:0;
 	filter:Alpha(opacity:0);
-	cursor:pointer; 
+	cursor:pointer;
 }
 
 .custom_select_block{ height:0; overflow:hidden; }

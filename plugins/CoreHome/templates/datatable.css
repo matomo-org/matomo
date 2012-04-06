@@ -106,7 +106,6 @@ table.dataTable th.columnSorted {
 }
 
 table.dataTable td {
-	border-left: 0;
 	padding: 5px 5px 5px 12px;
 	background: #fff;
 	border-left:1px solid #e7e7e7;
@@ -134,7 +133,9 @@ table.dataTable tr:hover>td.cellSubDataTable .dataTableRowActions{
 	background-color:#fff;
 }
 
-td.clean{ background-color:#fff!important;}
+td.clean{
+    background-color:#fff!important;
+}
 
 
 table.dataTable td.columneven {
@@ -155,8 +156,7 @@ table.dataTable td.labelodd {
 }
 
 
-table.dataTable td.label,table.subActionsDataTable td.label,table.actionsDataTable td.label
-{
+table.dataTable td.label,table.subActionsDataTable td.label,table.actionsDataTable td.label {
 	border-top: 0;
 	border-left: 0;
 }
@@ -224,7 +224,7 @@ table.subDataTable td.label {
 }
 
 table.subDataTable td.labelodd,table.subDataTable td.labelodd a {
-	background: #ffffff;
+	background: #fff;
 }
 table.subDataTable td.label {
 	padding: 5px;
@@ -243,12 +243,12 @@ table thead div {
 }
 
 #sortIcon {
-	margin: 0px;
+	margin: 0;
 	position: absolute;
 }
 
 .datatableFooterMessage {
-	color: #888888;
+	color: #888;
 	text-align:left;
 	margin: 10px;
 }
@@ -293,9 +293,8 @@ table thead div {
 	overflow:visible; 
 	padding:2px 6px;
 	opacity:1;
-	filter:Alpha(opacity:100); 
-	cursor:text; 
-	
+    cursor:text;
+	filter:Alpha(opacity:100);
 }
 
 .dataTableNext,.dataTablePrevious {
@@ -306,7 +305,7 @@ table thead div {
 
 /* are the following two supposed to be together? */
 .subDataTable.dataTableFeatures {
-	padding-top: 0px;
+	padding-top: 0;
 	padding-bottom: 5px;
 }
 .dataTableFeatures {
@@ -322,7 +321,7 @@ table thead div {
 	font-size:0.9em;
 }
 .subDataTable .dataTableFooterIcons {
-	height: 0px;
+	height: 0;
 }
 
 
@@ -363,7 +362,11 @@ table thead div {
 	background:#e9e8e1;
 }
 
-.dataTableFooterActiveItem{ position:absolute; top:-6px; left:0px;}
+.dataTableFooterActiveItem{
+    position:absolute;
+    top:-6px;
+    left:0;
+}
 
 .exportToFormatItems{
 	background:#dcdacf;
@@ -386,7 +389,7 @@ table thead div {
 	padding-right:4px;
 }
 .tableIconsGroup .tableIcon span {
-	margin-right:5px;	
+	margin-right:5px;
 	margin-left:5px;
 }
 .tableIconsGroup img{
@@ -441,23 +444,23 @@ tr.subActionsDataTable{
 }
 
 tr.level0 td.label {
-	padding-left: +1.5em;
+	padding-left: 1.5em;
 }
 
 tr.level1 td.label {
-	padding-left: +2.5em;
+	padding-left: 2.5em;
 }
 
 tr.level2 td.label {
-	padding-left: +3.5em;
+	padding-left: 3.5em;
 }
 
 tr.level3 td.label {
-	padding-left: +4.5em;
+	padding-left: 4.5em;
 }
 
 tr.level4 td.label {
-	padding-left: +5em;
+	padding-left: 5em;
 }
 
 /* less right margins for the link image in the Pa*/
@@ -510,7 +513,6 @@ table.dataTable th .columnDocumentationTitle {
 
 .reportDocumentation {
 	display: none;
-	margin: 10px 0;
 	background: #f7f7f7;
 	font-size: 12px;
 	font-weight: normal; 
@@ -590,7 +592,7 @@ table.dataTable .dataTableRowActions a img {
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     background: url(../../../themes/default/images/sort_subtable_desc_light.png) no-repeat right 2px;
-    padding: 0px 14px 0 4px;
+    padding: 0 14px 0 4px;
     display: block;
     width: 24px;
     height: 20px;
@@ -599,8 +601,8 @@ table.dataTable .dataTableRowActions a img {
 
 .limitSelection.disabled div {
     opacity: 0.5;
-    filter:Alpha(opacity:50);
     cursor: not-allowed;
+    filter:Alpha(opacity:50);
 }
 
 .limitSelection.visible div {
@@ -619,7 +621,7 @@ table.dataTable .dataTableRowActions a img {
 .limitSelection ul li {
     cursor: pointer;
     width: 28px;
-    padding: 0px 10px 0 4px;
+    padding: 0 10px 0 4px;
     font-size: 1.1em;
     font-weight: bold;
     height: 20px;
@@ -634,6 +636,8 @@ table.dataTable .dataTableRowActions a img {
 .limitSelection ul li.last {
     border-top: 1px solid #DFDFDF;
     border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
 }
 
 .limitSelection ul li:hover {
@@ -685,6 +689,8 @@ a.tableConfigurationIcon img {
 .tableConfiguration ul li.firstDummy {
     border-bottom: 1px solid #DFDFDF;
     border-radius: 0 0 4px 4px;
+    -moz-border-radius: 0 0 4px 4px;
+    -webkit-border-radius: 0 0 4px 4px;
 	height: 25px;
 	cursor: default;
 }
@@ -696,6 +702,8 @@ a.tableConfigurationIcon img {
 .tableConfiguration ul li.last {
     border-top: 1px solid #DFDFDF;
     border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
 }
 
 .tableConfiguration span {

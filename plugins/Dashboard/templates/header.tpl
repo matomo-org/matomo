@@ -38,7 +38,7 @@
     }
 
     #Dashboard a {
-        color: #444444;
+        color: #444;
         text-decoration: none;
         font-weight: normal;
     }

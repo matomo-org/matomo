@@ -28,10 +28,8 @@ form .forgetmenot {
 	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana,
 		sans-serif;
 	padding: 3px 5px;
-	border: none;
+	border: 1px solid;
 	font-size: 13px;
-	border-width: 1px;
-	border-style: solid;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
@@ -61,8 +59,7 @@ form p {
 
 #login_error,.message {
 	margin: 0 0 16px 8px;
-	border-width: 1px;
-	border-style: solid;
+	border: 1px solid;
 	padding: 12px;
 }
 

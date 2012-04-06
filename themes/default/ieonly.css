@@ -55,7 +55,7 @@ input[type=checkbox], input[type=radio] {
 }
 
 *+html .ui-confirm.ui-widget-content {
-    padding-top: 0px;
+    padding-top: 0;
 }
 
 * html .ui-autocomplete {

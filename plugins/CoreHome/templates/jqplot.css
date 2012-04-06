@@ -61,20 +61,20 @@
 }
 
 .jqplot-xaxis-tick {
-    top: 0px;
+    top: 0;
     left: 15px;
     vertical-align: top;
 }
 
 .jqplot-yaxis-tick {
-    right: 0px;
+    right: 0;
     top: 15px;
     text-align: right;
 }
 
 .jqplot-yaxis-tick.jqplot-breakTick {
 	right: -20px;
-	margin-right: 0px;
+	margin-right: 0;
 	padding:1px 5px 1px 5px;
 	z-index: 2;
 	font-size: 1.5em;
@@ -93,8 +93,8 @@
 }
 
 .jqplot-title {
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     padding-bottom: 0.5em;
     font-size: 1.2em;
 }
@@ -183,11 +183,11 @@
 }
 
 .rowevolution table.metrics td.text span.good {
-	color: green;
+	color: #008000;
 }
 
 .rowevolution table.metrics td.text span.bad {
-	color: red;
+	color: #f00;
 }
 
 .rowevolution-documentation {

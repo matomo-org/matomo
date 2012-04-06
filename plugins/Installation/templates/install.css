@@ -56,13 +56,13 @@ h3 {
 .error img {
 	border:0;
 	float:right;
-	margin:10;
+	margin:10px;
 }
 .success {
 	color:#26981C;
 	font-size:130%;
 	font-weight:bold;
-	padding:10;	
+	padding:10px;
 }
 .warn {
 	color:#D7A006;
@@ -73,7 +73,7 @@ h3 {
 	color:#ff5502;
 	font-size:130%;
 	font-weight:bold;
-	padding:10px 20px 10px 30px;	
+	padding:10px 20px 10px 30px;
 	border: 1px solid #ff5502;
 }
 

@@ -330,7 +330,7 @@ ul.widgetpreview-widgetlist li {
 ul.widgetpreview-widgetlist {
     cursor: pointer;
     position: relative;
-    top: 0px;
+    top: 0;
 }
 
 div.widgetpreview-preview {
@@ -339,7 +339,7 @@ div.widgetpreview-preview {
 }
 
 #dashboardSettings.widgetpreview-base {
-    min-height: 0px;
+    min-height: 0;
     height: auto;
     margin-left: 10px;
     margin-bottom: 10px;

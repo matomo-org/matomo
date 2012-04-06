@@ -1,8 +1,8 @@
 h1 {
-	font-size: 18px;	
-	font-weight:bold; 	
-	color: #7e7363;	
-	padding:3px 0  7px 0;	
+	font-size: 18px;
+	font-weight:bold;
+	color: #7e7363;
+	padding:3px 0  7px 0;
 	clear:both;
 }
 
@@ -107,17 +107,26 @@ div.ui-datepicker {
 	border-bottom: 1px solid #520202;
 }
 
-#calendarRangeTo { float:left;     margin-left: 20px;}
-#calendarRangeFrom { float:left; }
+#calendarRangeTo {
+    float:left;
+    margin-left: 20px;
+}
+
+#calendarRangeFrom {
+    float:left;
+}
+
 #inputCalendarFrom, #inputCalendarTo {
 	margin-left: 10px;
     width: 90px;
 }
+
 #calendarRangeApply {
-display:none;
-margin-top:10px;
-margin-left:10px; 
+    display:none;
+    margin-top:10px;
+    margin-left:10px;
 }
+
 #invalidDateRange {
 	display:none;
 }
@@ -137,8 +146,8 @@ div .sparkline {
 }
 
 div.pk-emptyGraph {
-        padding-top: 20px;
-        padding-bottom: 10px;
-        text-align: center;
-        font-style: italic;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    text-align: center;
+    font-style: italic;
 }

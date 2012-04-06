@@ -1,6 +1,6 @@
 #multisites { 
 	border:0; 
-	padding:0px 15px;
+	padding:0 15px;
 	font-size:14px;
 }
 
@@ -12,15 +12,15 @@
 }
 .indicator {
 	background-image: url("../images/loading-blue.gif");
-	background-position:	center;
+	background-position: center;
 	background-repeat: no-repeat;
 	height: 20px;
 	width: 60px;
 	margin: auto;
-	border: 0px !important;
+	border: 0 !important;
 }
 .clean {
-    border: 0px !important;
+    border: 0 !important;
 }
 #multisites th {
     cursor:pointer; 
@@ -28,8 +28,8 @@
 #multisites td, #multisites tr, #multisites .sparkline {
     text-align: center;
     vertical-align: middle;
-    padding: 1px ;
-    margin: 0px ;
+    padding: 1px;
+    margin: 0;
 }
 #multisites td.multisites-label {
     padding-left: 15px ;
@@ -66,10 +66,12 @@
 }
 #mt thead :first-child {
     -moz-border-radius-topleft: 7px;
-    -webkit-border-top-left-radius: 7px
+    -webkit-border-top-left-radius: 7px;
+    border-top-left-radius: 7px
 }
 
 #mt thead :last-child {
     -moz-border-radius-topright: 7px;
     -webkit-border-top-right-radius: 7px;
+    border-top-right-radius: 7px;
 }
