@@ -907,6 +907,8 @@ class Recorder(object):
             args['download'] = args['url']
         if hit.is_robot:
             args['_cvar'] = '{"1":["Bot","%s"]}' % hit.user_agent
+        elif config.options.enable_bots:
+            args['_cvar'] = '{"1":["Not-Bot","%s"]}' % hit.user_agent
         if hit.is_error or hit.is_redirect:
             args['_cvar'] = '{"2":["HTTP-code","%s"]}' % hit.status
             args['action_name'] = '%s/URL = %s%s' % (
