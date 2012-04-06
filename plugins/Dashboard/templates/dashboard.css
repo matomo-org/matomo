@@ -232,8 +232,8 @@
     margin: 5px;
     float: left;
     opacity: 0.4;
-    filter:Alpha(opacity:40);
     cursor: pointer;
+    filter:Alpha(opacity:40);
 }
 
 #columnPreview>div:hover, #columnPreview>div.choosen {
@@ -285,7 +285,10 @@
     -height: 600px;
 }
 
-#addWidget { cursor:default;}
+#addWidget, #manageDashboard {
+    cursor:default;
+}
+
 ul.widgetpreview-widgetlist,
 ul.widgetpreview-categorylist {
     color: #5d5342;
@@ -320,7 +323,7 @@ ul.widgetpreview-widgetlist li {
 }
 
 .widgetpreview-base li.widgetpreview-unavailable {
-    color: lightgrey;
+    color: #D3D3D3;
     cursor: default;
 }
 
@@ -361,7 +364,7 @@ div.widgetpreview-preview {
 
 #dashboardSettings .submenu ul li {
     line-height: 20px;
-    padding: 0px 25px 0px 5px;
+    padding: 0 25px 0 5px;
     color: #444;
 }
 

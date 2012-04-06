@@ -206,11 +206,11 @@ function setAsDefaultWidgets() {
         <span>{'Dashboard_WidgetsAndDashboard'|translate}</span>
         <ul class="submenu">
             <li>
-                <div id='addWidget'>{'Dashboard_AddAWidget'|translate} &darr;</div>
+                <div id="addWidget">{'Dashboard_AddAWidget'|translate} &darr;</div>
                 <ul class="widgetpreview-categorylist"></ul>
             </li>
             <li>
-                <div>{'Dashboard_ManageDashboard'|translate} &darr;</div>
+                <div id="manageDashboard">{'Dashboard_ManageDashboard'|translate} &darr;</div>
                 <ul>
                     <li onclick="resetDashboard();">{'Dashboard_ResetDashboard'|translate}</li>
                     <li onclick="showChangeDashboardLayoutDialog();">{'Dashboard_ChangeDashboardLayout'|translate}</li>
