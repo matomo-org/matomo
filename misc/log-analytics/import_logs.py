@@ -1080,8 +1080,8 @@ class Parser(object):
                 format_name = self.detect_format(line)
                 if not format_name:
                     return fatal_error(
-                        'Cannot guess the logs format. Please give one using'
-                        ' the --format option'
+                        'Cannot guess the logs format. Please give one using '
+                        'either the --log-format-name or --log-format-regex option'
                     )
                 format = FORMATS[format_name]
                 config.format = format
