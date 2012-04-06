@@ -214,6 +214,14 @@ class Configuration(object):
 	         "Can be specified multiple times"
         )
         option_parser.add_option(
+            '--exclude-path', dest='excluded_paths', action='append', default=[],
+            help="Paths to exclude. Can be specified multiple times"
+        )
+        option_parser.add_option(
+            '--exclude-path-from', dest='exclude_path_from',
+            help="Each line from this file is a path to exclude"
+        )
+        option_parser.add_option(
             '--useragent-exclude', dest='excluded_useragents',
             action='append', default=[],
             help="User agents to exclude (in addition to the standard excluded "
@@ -297,8 +305,14 @@ class Configuration(object):
 
         self.options.excluded_useragents = [s.lower() for s in self.options.excluded_useragents]
 
+        if self.options.exclude_path_from:
+            paths = [path.strip() for path in open(self.options.exclude_path_from).readlines()]
+            self.options.excluded_paths.extend(path for path in paths if len(path) > 0)
+        if self.options.excluded_paths:
+            logging.debug('Excluded paths: %s', ' '.join(self.options.excluded_paths))
+
         if self.options.hostnames:
-            logging.debug('Accepted hostnames: %s', ', '.join(options.hostnames))
+            logging.debug('Accepted hostnames: %s', ', '.join(self.options.hostnames))
         else:
             logging.debug('Accepted hostnames: all')
 
@@ -1006,6 +1020,12 @@ class Parser(object):
                 return True
             else:
                 stats.count_lines_skipped_http_redirects.increment()
+                return False
+        return True
+
+    def check_path(self, hit):
+        for excluded_path in config.options.excluded_paths:
+            if fnmatch.fnmatch(hit.path, excluded_path):
                 return False
         return True
 
