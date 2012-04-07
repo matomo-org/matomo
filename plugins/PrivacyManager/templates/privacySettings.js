@@ -10,11 +10,24 @@ $(document).ready(function() {
 		$('#' + id).toggle(value == 1);
 	}
 	
+	function toggleOtherDeleteSections() {
+		var isEitherDeleteSectionEnabled =
+			($('input[name=deleteEnable]:checked').val() == 1) ||
+			($('input[name=deleteReportsEnable]:checked').val() == 1);
+		toggleBlock('deleteDataEstimateSect', isEitherDeleteSectionEnabled);
+		toggleBlock('deleteSchedulingSettings', isEitherDeleteSectionEnabled);
+	}
+	
 	// reloads purged database size estimate
 	var currentRequest;
 	function reloadDbStats() {
 		if (currentRequest) {
 			currentRequest.abort();
+		}
+		
+		// if the section isn't visible, abort
+		if (!$('#deleteDataEstimate').is(':visible')) {
+			return;
 		}
 		
 		$('#deleteDataEstimate').html('');
@@ -42,10 +55,12 @@ $(document).ready(function() {
 
 	$('input[name=deleteEnable]').click(function() {
 		toggleBlock("deleteLogSettings", $(this).val());
+		toggleOtherDeleteSections();
 	}).change(reloadDbStats);
 	
 	$('input[name=deleteReportsEnable]').click(function() {
 		toggleBlock("deleteReportsSettings", $(this).val());
+		toggleOtherDeleteSections();
 	}).change(reloadDbStats);
 	
 	// initial toggling calls
@@ -53,6 +68,7 @@ $(document).ready(function() {
 		toggleBlock("deleteLogSettings", $("input[name=deleteEnable]:checked").val());
 		toggleBlock("anonymizeIPenabled", $("input[name=anonymizeIPEnable]:checked").val());
 		toggleBlock("deleteReportsSettings", $("input[name=deleteReportsEnable]:checked").val());
+		toggleOtherDeleteSections();
 	});
 	
 	// make sure the DB size estimate is reloaded every time a delete logs/reports setting is changed

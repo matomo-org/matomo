@@ -10,7 +10,7 @@ See also our official guide <b><a href='http://piwik.org/privacy/' target='_blan
 
 <a name="anonymizeIPAnchor"></a>
 <h2>{'PrivacyManager_UseAnonymizeIp'|translate}</h2>
-<form method="post" action="{url action=index form=formMaskLength}" id="formMaskLength" name="formMaskLength">
+<form method="post" action="{url action=saveSettings form=formMaskLength token_auth=$token_auth}" id="formMaskLength" name="formMaskLength">
 	<div id='anonymizeIpSettings'>
 		<table class="adminTable" style='width:800px;'>
 			<tr>
@@ -73,7 +73,7 @@ See also our official guide <b><a href='http://piwik.org/privacy/' target='_blan
 <a name="deleteLogsAnchor"></a>
 <h2>{'PrivacyManager_DeleteDataSettings'|translate}</h2>
 <p>{'PrivacyManager_DeleteDataDescription'|translate}</p>
-<form method="post" action="{url action=index form=formDeleteSettings}" id="formDeleteSettings" name="formMaskLength">
+<form method="post" action="{url action=saveSettings form=formDeleteSettings token_auth=$token_auth}" id="formDeleteSettings" name="formMaskLength">
 	<table class="adminTable" style='width:800px;'>
 		<tr id='deleteLogSettingEnabled'>
 			<td width="250">{'PrivacyManager_UseDeleteLog'|translate}<br/>
@@ -117,8 +117,10 @@ See also our official guide <b><a href='http://piwik.org/privacy/' target='_blan
 			<td width="500">
 				<label><input type="radio" name="deleteReportsEnable" value="1" {if $deleteData.config.delete_reports_enable eq '1'}checked="true"{/if}/> {'General_Yes'|translate}</label>
 				<label><input type="radio" name="deleteReportsEnable" value="0" {if $deleteData.config.delete_reports_enable eq '0'}checked="true"{/if} style="margin-left:20px;"/> {'General_No'|translate}</label>
+				<span class="form-description">{'General_Recommended'|translate} {'General_No'|translate}</span>
 				<span class="ajaxSuccess">
-					{'PrivacyManager_DeleteReportsInfo'|translate}
+					{'PrivacyManager_DeleteReportsInfo'|translate}<br/><br/>
+					{'PrivacyManager_DeleteReportsInfo2'|translate}
 				</span>
 			</td>
 			<td width="200">
@@ -168,8 +170,6 @@ See also our official guide <b><a href='http://piwik.org/privacy/' target='_blan
 					<option {if $deleteData.config.delete_logs_schedule_lowest_interval eq '30'} selected="selected" {/if}
 																								 value="30">{'CoreHome_PeriodMonth'|translate}</option>
 				</select><br/><br/>
-				<em><a id="purgeDataNowLink" href="#">{'PrivacyManager_PurgeNow'|translate}</a></em>
-				<span class='loadingPiwik' style='display:none'><img src='/themes/default/images/loading-blue.gif' /> {'PrivacyManager_PurgingData'|translate}</span>
 			</td>
 			<td width="200">
 				{capture assign=purgeStats}
@@ -178,6 +178,8 @@ See also our official guide <b><a href='http://piwik.org/privacy/' target='_blan
 						<br/><br/>{/if}
 					<strong>{'PrivacyManager_NextDelete'|translate}:</strong>
 					{$deleteData.nextRunPretty}
+					<br/><br/><em><a id="purgeDataNowLink" href="#">{'PrivacyManager_PurgeNow'|translate}</a></em>
+					<span class='loadingPiwik' style='display:none'><img src='/themes/default/images/loading-blue.gif' /> {'PrivacyManager_PurgingData'|translate}</span>
 				{/capture}
 				{$purgeStats|inlineHelp}
 			</td>

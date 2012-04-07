@@ -29,13 +29,14 @@ class Piwik_PrivacyManager extends Piwik_Plugin
     const OPTION_LAST_DELETE_PIWIK_LOGS = "lastDelete_piwik_logs";
     const OPTION_LAST_DELETE_PIWIK_REPORTS = 'lastDelete_piwik_reports';
     const OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL = "lastDelete_piwik_logs_initial";
+    const DEFAULT_MAX_ROWS_PER_QUERY = 100000;
     
     // default config options for data purging feature
     public static $defaultPurgeDataOptions = array(
 		'delete_logs_enable' => 0,
 		'delete_logs_schedule_lowest_interval' => 7,
 		'delete_logs_older_than' => 180,
-		'delete_logs_max_rows_per_query' => 100000,
+		'delete_logs_max_rows_per_query' => self::DEFAULT_MAX_ROWS_PER_QUERY,
 		'delete_reports_enable' => 0,
 		'delete_reports_older_than' => 12,
 		'delete_reports_keep_basic_metrics' => 1,

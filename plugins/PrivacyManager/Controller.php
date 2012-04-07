@@ -20,11 +20,12 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 	const ANONYMIZE_IP_PLUGIN_NAME = "AnonymizeIP";
 	const OPTION_LAST_DELETE_PIWIK_LOGS = "lastDelete_piwik_logs";
 
-	public function index()
+	public function saveSettings()
 	{
 		Piwik::checkUserIsSuperUser();
 		if ($_SERVER["REQUEST_METHOD"] == "POST")
 		{
+			$this->checkTokenInUrl();
 			switch (Piwik_Common::getRequestVar('form'))
 			{
 				case("formMaskLength"):
@@ -73,6 +74,8 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 		$settings['delete_reports_keep_week_reports'] = Piwik_Common::getRequestVar("deleteReportsKeepWeek", 0);
 		$settings['delete_reports_keep_month_reports'] = Piwik_Common::getRequestVar("deleteReportsKeepMonth", 0);
 		$settings['delete_reports_keep_year_reports'] = Piwik_Common::getRequestVar("deleteReportsKeepYear", 0);
+		
+		$settings['delete_logs_max_rows_per_query'] = Piwik_PrivacyManager::DEFAULT_MAX_ROWS_PER_QUERY;
 		
 		return $settings;
 	}
@@ -125,6 +128,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 	public function executeDataPurge()
 	{
 		Piwik::checkUserIsSuperUser();
+		$this->checkTokenInUrl();
 		
 		// if the request isn't a POST, redirect to index
 		if ($_SERVER["REQUEST_METHOD"] != "POST")
