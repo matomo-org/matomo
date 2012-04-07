@@ -39,10 +39,10 @@ class Piwik_PrivacyManager_ReportsPurger
 	private $maxRowsToDeletePerQuery;
 	
 	/**
-	 * List of metrics that should be purged. If $keepBasicMetrics is true, only these
-	 * metrics will be deleted.
+	 * List of metrics that should be kept when purging. If $keepBasicMetrics is true,
+	 * these metrics will be saved.
 	 */
-	private $metricsToPurge;
+	private $metricsToKeep;
 	
 	/**
 	 * Constructor.
@@ -52,17 +52,17 @@ class Piwik_PrivacyManager_ReportsPurger
 	 * @param bool $keepBasicMetrics Whether to keep basic metrics or not.
 	 * @param array $reportPeriodsToKeep Array of period types. Reports for these periods will not
 	 *                                   be purged.
-	 * @param array $metricsToPurge List of metrics that should be purged. if $keepBasicMetrics
-	 *                              is true, only these metrics will be deleted.
+	 * @param array $metricsToKeep List of metrics that should be kept. if $keepBasicMetrics
+	 *                             is true, these metrics will be saved.
 	 * @param int $maxRowsToDeletePerQuery The maximum number of rows to delete per DELETE query.
 	 */
 	public function __construct( $deleteReportsOlderThan, $keepBasicMetrics, $reportPeriodsToKeep,
-								 $metricsToPurge, $maxRowsToDeletePerQuery )
+								 $metricsToKeep, $maxRowsToDeletePerQuery )
 	{
 		$this->deleteReportsOlderThan = $deleteReportsOlderThan;
 		$this->keepBasicMetrics = $keepBasicMetrics;
 		$this->reportPeriodsToKeep = $reportPeriodsToKeep;
-		$this->metricsToPurge = $metricsToPurge;
+		$this->metricsToKeep = $metricsToKeep;
 		$this->maxRowsToDeletePerQuery = $maxRowsToDeletePerQuery;
 	}
 	
@@ -70,12 +70,15 @@ class Piwik_PrivacyManager_ReportsPurger
 	 * Purges old report/metric data.
 	 * 
 	 * If $keepBasicMetrics is false, old numeric tables will be dropped, otherwise only
-	 * the metrics in $metricsToPurge will be deleted.
+	 * the metrics not in $metricsToKeep will be deleted.
 	 * 
 	 * If $reportPeriodsToKeep is an empty array, old blob tables will be dropped. Otherwise,
 	 * specific reports will be deleted, except reports for periods in $reportPeriodsToKeep.
+	 * 
+	 * @param bool $optimize If tables should be optimized after rows are deleted. Normally,
+	 *                       this is handled by a scheduled task.
 	 */
-	public function purgeData()
+	public function purgeData($optimize = false)
 	{
 		// find archive tables to purge
 		list($oldNumericTables, $oldBlobTables) = $this->getArchiveTablesToPurge();
@@ -84,15 +87,17 @@ class Piwik_PrivacyManager_ReportsPurger
 		if (!empty($oldNumericTables))
 		{
 			// if keep_basic_metrics is set, empty all numeric tables of metrics to purge
-			if ($this->keepBasicMetrics == 1)
+			if ($this->keepBasicMetrics == 1 && !empty($this->metricsToKeep))
 			{
-				if (!empty($this->metricsToPurge))
+				$where = "WHERE name NOT IN ('".implode("','", $this->metricsToKeep)."') AND name NOT LIKE 'done%'";
+				foreach ($oldNumericTables as $table)
 				{
-					$where = "WHERE name IN ('".implode("','", $this->metricsToPurge)."')";
-					foreach ($oldNumericTables as $table)
-					{
-						Piwik_DeleteAllRows($table, $where, $this->maxRowsToDeletePerQuery);
-					}
+					Piwik_DeleteAllRows($table, $where, $this->maxRowsToDeletePerQuery);
+				}
+				
+				if ($optimize)
+				{
+					Piwik_OptimizeTables($oldNumericTables);
 				}
 			}
 			else // drop numeric tables
@@ -115,6 +120,11 @@ class Piwik_PrivacyManager_ReportsPurger
 				foreach ($oldBlobTables as $table)
 				{
 					Piwik_DeleteAllRows($table, $where, $this->maxRowsToDeletePerQuery);
+				}
+				
+				if ($optimize)
+				{
+					Piwik_OptimizeTables($oldBlobTables);
 				}
 			}
 		}
@@ -245,7 +255,8 @@ class Piwik_PrivacyManager_ReportsPurger
 
     private function getNumericTableDeleteCount( $table )
     {
-		$sql = "SELECT COUNT(*) FROM $table WHERE name IN ('".implode("','", $this->metricsToPurge)."')";
+		$sql = "SELECT COUNT(*) FROM $table
+				 WHERE name NOT IN ('".implode("','", $this->metricsToKeep)."') AND name NOT LIKE 'done%'";
 		return (int)Piwik_FetchOne($sql);
     }
 
@@ -269,13 +280,13 @@ class Piwik_PrivacyManager_ReportsPurger
      * -'delete_reports_keep_year_reports': 1 if yearly reports should be kept, 0 if otherwise.
      * -'delete_logs_max_rows_per_query': Maximum number of rows to delete in one DELETE query.
      */
-    public static function make( $settings, $metricsToPurge )
+    public static function make( $settings, $metricsToKeep )
     {
 		return new Piwik_PrivacyManager_ReportsPurger(
 			$settings['delete_reports_older_than'],
 			$settings['delete_reports_keep_basic_metrics'] == 1,
 			self::getReportPeriodsToKeep($settings),
-			$metricsToPurge,
+			$metricsToKeep,
 			$settings['delete_logs_max_rows_per_query']
 		);
     }

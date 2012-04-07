@@ -117,7 +117,7 @@ See also our official guide <b><a href='http://piwik.org/privacy/' target='_blan
 			<td width="500">
 				<label><input type="radio" name="deleteReportsEnable" value="1" {if $deleteData.config.delete_reports_enable eq '1'}checked="true"{/if}/> {'General_Yes'|translate}</label>
 				<label><input type="radio" name="deleteReportsEnable" value="0" {if $deleteData.config.delete_reports_enable eq '0'}checked="true"{/if} style="margin-left:20px;"/> {'General_No'|translate}</label>
-				<span class="form-description">{'General_Recommended'|translate} {'General_No'|translate}</span>
+				<span class="form-description">{'General_Recommended'|translate}</span>
 				<span class="ajaxSuccess">
 					{'PrivacyManager_DeleteReportsInfo'|translate}<br/><br/>
 					{'PrivacyManager_DeleteReportsInfo2'|translate}

@@ -11,6 +11,9 @@ $(document).ready(function() {
 	}
 	
 	function toggleOtherDeleteSections() {
+		// lock size of db size estimate
+		$('#deleteDataEstimateSect').height($('#deleteDataEstimateSect').height());
+		
 		var isEitherDeleteSectionEnabled =
 			($('input[name=deleteEnable]:checked').val() == 1) ||
 			($('input[name=deleteReportsEnable]:checked').val() == 1);
@@ -30,7 +33,7 @@ $(document).ready(function() {
 			return;
 		}
 		
-		$('#deleteDataEstimate').html('');
+		$('#deleteDataEstimate').hide();
 		$('#deleteDataEstimateSect .loadingPiwik').show();
 		
 		currentRequest = $.ajax({
@@ -43,7 +46,7 @@ $(document).ready(function() {
 			success: function(data) {
 				currentRequest = undefined;
 				$('#deleteDataEstimateSect .loadingPiwik').hide();
-				$('#deleteDataEstimate').html(data);
+				$('#deleteDataEstimate').html(data).show();
 			}
 		});
 	}
@@ -148,7 +151,12 @@ $(document).ready(function() {
 				// execute a data purge
 				$.ajax({
 					type: 'POST',
-					url: 'index.php?module=PrivacyManager&action=executeDataPurge',
+					url: 'index.php',
+					data: {
+					  module: 'PrivacyManager',
+					  action: 'executeDataPurge',
+					  token_auth: piwik.token_auth
+					},
 					dataType: 'html',
 					async: true,
 					error: piwikHelper.ajaxHandleError,		// Callback when the request fails

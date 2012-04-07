@@ -200,7 +200,7 @@ class Piwik_PrivacyManager extends Piwik_Plugin
         // set last run time
         Piwik_SetOption(self::OPTION_LAST_DELETE_PIWIK_REPORTS, Piwik_Date::factory('today')->getTimestamp());
 		
-		Piwik_PrivacyManager_ReportsPurger::make($settings, self::getMetricsToPurge())->purgeData();
+		Piwik_PrivacyManager_ReportsPurger::make($settings, self::getAllMetricsToKeep())->purgeData();
 	}
 	
     /**
@@ -272,7 +272,7 @@ class Piwik_PrivacyManager extends Piwik_Plugin
 		
 		if ($settings['delete_reports_enable'])
 		{
-			$reportsPurger = Piwik_PrivacyManager_ReportsPurger::make($settings, self::getMetricsToPurge());
+			$reportsPurger = Piwik_PrivacyManager_ReportsPurger::make($settings, self::getAllMetricsToKeep());
 			$result = array_merge($result, $reportsPurger->getPurgeEstimate());
 		}
 		
@@ -318,8 +318,8 @@ class Piwik_PrivacyManager extends Piwik_Plugin
 	}
 	
 	/**
-	 * Returns the general metrics to purge when 'delete_reports_keep_basic_metrics' is set to 1.
-	 * Right now, this is set to nothing, so the 'keep_basic_metrics' option will keep everything.
+	 * Returns the general metrics to keep when the 'delete_reports_keep_basic_metrics'
+	 * config is set to 1.
 	 */
 	private static function getMetricsToKeep()
 	{
@@ -329,8 +329,8 @@ class Piwik_PrivacyManager extends Piwik_Plugin
 	}
 	
 	/**
-	 * Returns the goal metrics to purge when 'delete_reports_keep_basic_metrics' is set to 1.
-	 * Right now, this is set to nothing, so the 'keep_basic_metrics' option will keep everything.
+	 * Returns the goal metrics to keep when the 'delete_reports_keep_basic_metrics'
+	 * config is set to 1.
 	 */
 	private static function getGoalMetricsToKeep()
 	{
@@ -339,39 +339,36 @@ class Piwik_PrivacyManager extends Piwik_Plugin
 	}
 	
 	/**
-	 * Returns the metrics that should be purged based on the metrics that should be kept.
+	 * Returns the names of metrics that should be kept when purging as they appear in
+	 * archive tables.
 	 */
-	public static function getMetricsToPurge()
+	public static function getAllMetricsToKeep()
 	{
 		$metricsToKeep = self::getMetricsToKeep();
 	
-		// the metrics to purge == all_metrics - metrics_to_keep
-		$metricsToPurge = array_diff(array_values(Piwik_Archive::$mappingFromIdToName), $metricsToKeep);
-		
 		// convert goal metric names to correct archive names
 		if (Piwik_Common::isGoalPluginEnabled())
 		{
-			$goalMetricsToPurge
-				= array_diff(array_values(Piwik_Archive::$mappingFromIdToNameGoal), self::getGoalMetricsToKeep());
+			$goalMetricsToKeep = self::getGoalMetricsToKeep();
 			
 			$maxGoalId = self::getMaxGoalId();
 			
 			// for each goal metric, there's a different name for each goal, including the overview,
 			// the order report & cart report
-			foreach ($goalMetricsToPurge as $metric)
+			foreach ($goalMetricsToKeep as $metric)
 			{
-				for ($i = 1; $i != $maxGoalId; ++$i)
+				for ($i = 1; $i <= $maxGoalId; ++$i) // maxGoalId can be 0
 				{
-					$metricsToPurge[] = Piwik_Goals::getRecordName($metric, $i);
+					$metricsToKeep[] = Piwik_Goals::getRecordName($metric, $i);
 				}
 				
-				$metricsToPurge[] = Piwik_Goals::getRecordName($metric);
-				$metricsToPurge[] = Piwik_Goals::getRecordName($metric, Piwik_Tracker_GoalManager::IDGOAL_ORDER);
-				$metricsToPurge[] = Piwik_Goals::getRecordName($metric, Piwik_Tracker_GoalManager::IDGOAL_CART);
+				$metricsToKeep[] = Piwik_Goals::getRecordName($metric);
+				$metricsToKeep[] = Piwik_Goals::getRecordName($metric, Piwik_Tracker_GoalManager::IDGOAL_ORDER);
+				$metricsToKeep[] = Piwik_Goals::getRecordName($metric, Piwik_Tracker_GoalManager::IDGOAL_CART);
 			}
 		}
 		
-		return $metricsToPurge;
+		return $metricsToKeep;
 	}
 
 	/**

@@ -1,4 +1,4 @@
-<p>Current database size: {$dbStats.currentSize}</p>
-<p>Estimated database size after purge: {$dbStats.sizeAfterPurge}</p>
-<p>Estimated space saved: {$dbStats.spaceSaved}</p>
+<p>{'PrivacyManager_CurrentDBSize'|translate}: {$dbStats.currentSize}</p>
+<p>{'PrivacyManager_EstimatedDBSizeAfterPurge'|translate}: {$dbStats.sizeAfterPurge}</p>
+<p>{'PrivacyManager_EstimatedSpaceSaved'|translate}: {$dbStats.spaceSaved}</p>
 

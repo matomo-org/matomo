@@ -148,8 +148,8 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 		if ($settings['delete_reports_enable'])
 		{
 			$reportsPurger = Piwik_PrivacyManager_ReportsPurger::make(
-				$settings, Piwik_PrivacyManager::getMetricsToPurge());
-			$reportsPurger->purgeData();
+				$settings, Piwik_PrivacyManager::getAllMetricsToKeep());
+			$reportsPurger->purgeData(true);
 		}
 		
 		// re-calculate db size estimate
