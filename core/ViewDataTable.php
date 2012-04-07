@@ -1193,7 +1193,6 @@ abstract class Piwik_ViewDataTable
 	 * user should be told about that.
 	 * 
 	 * In order for this function to return true, the following must also be true:
-	 * - The current user must be the super user.
 	 * - The data table for this report must either be empty or not have been fetched.
 	 * - The period of this report is not a range.
 	 * - The date of this report must be older than the delete_reports_older_than config option.
@@ -1201,7 +1200,6 @@ abstract class Piwik_ViewDataTable
 	public function hasReportBeenPurged()
 	{
 		if ((is_null($this->dataTable) || $this->dataTable->getRowsCount() == 0)
-			&& Piwik::isUserIsSuperUser()
 			&& Piwik_Common::getRequestVar('period') != 'range')
 		{
 			$reportDate = Piwik_Date::factory(Piwik_Common::getRequestVar('date'));
