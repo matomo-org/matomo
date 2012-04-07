@@ -33,7 +33,11 @@
 	{else}
 		
 		<div><div id="{$chartDivId}" class="pk-emptyGraph">
+			{if $showReportDataWasPurgedMessage}
+			{'General_DataForThisGraphHasBeenPurged'|translate:$deleteReportsOlderThan}
+			{else}
 			{'General_NoDataForGraph'|translate}
+			{/if}
 		</div></div>
 		
 	{/if}

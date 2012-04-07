@@ -1187,4 +1187,33 @@ abstract class Piwik_ViewDataTable
 			$this->queuedFilters[] = array($filterName, $parameters);
 		}
 	}
+	
+	/**
+	 * Returns true if it is likely that the data for this report has been purged and if the
+	 * user should be told about that.
+	 * 
+	 * In order for this function to return true, the following must also be true:
+	 * - The current user must be the super user.
+	 * - The data table for this report must either be empty or not have been fetched.
+	 * - The period of this report is not a range.
+	 * - The date of this report must be older than the delete_reports_older_than config option.
+	 */
+	public function hasReportBeenPurged()
+	{
+		if ((is_null($this->dataTable) || $this->dataTable->getRowsCount() == 0)
+			&& Piwik::isUserIsSuperUser()
+			&& Piwik_Common::getRequestVar('period') != 'range')
+		{
+			$reportDate = Piwik_Date::factory(Piwik_Common::getRequestVar('date'));
+			$reportYear = $reportDate->toString('Y');
+			$reportMonth = $reportDate->toString('m');
+			
+			if (Piwik_PrivacyManager::shouldReportBePurged($reportYear, $reportMonth))
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }

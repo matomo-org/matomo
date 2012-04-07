@@ -82,18 +82,38 @@ class Piwik_DBStats_API
 			return $tables[0][$field];
 		}
 	}
-
-	public function getAllTablesStatus() 
+	
+	/**
+	 * Gets the result of a SHOW TABLE STATUS query for every table in the DB.
+	 * 
+	 * @return array The table information.
+	 */
+	public function getAllTablesStatus()
 	{
 		Piwik::checkUserIsSuperUser();
-		$db = Zend_Registry::get('db');
-		// http://dev.mysql.com/doc/refman/5.1/en/show-table-status.html
-		$tablesPiwik =  Piwik::getTablesInstalled();
-		$total = array('Name' => 'Total', 'Data_length' => 0, 'Index_length' => 0, 'Rows' => 0);
-		$table = array();
-		foreach($tablesPiwik as $tableName) 
+		$tablesPiwik = Piwik::getTablesInstalled();
+		
+		$result = array();
+		foreach(Piwik_FetchAll("SHOW TABLE STATUS") as $t)
 		{
-			$t = $this->getTableStatus($tableName);
+			if (in_array($t['Name'], $tablesPiwik))
+			{
+				$result[] = $t;
+			}
+		}
+		
+		return $result;
+	}
+	
+	public function getAllTablesStatusPretty() 
+	{
+		Piwik::checkUserIsSuperUser();
+		
+		// http://dev.mysql.com/doc/refman/5.1/en/show-table-status.html
+		$total = array('Name' => 'Total', 'Data_length' => 0, 'Index_length' => 0, 'Rows' => 0);
+		$table = $this->getAllTablesStatus();
+		foreach($table as &$t)
+		{
 			$total['Data_length'] += $t['Data_length'];
 			$total['Index_length'] += $t['Index_length'];
 			$total['Rows'] += $t['Rows'];
@@ -102,7 +122,6 @@ class Piwik_DBStats_API
 			$t['Data_length'] = Piwik::getPrettySizeFromBytes($t['Data_length']);
 			$t['Index_length'] = Piwik::getPrettySizeFromBytes($t['Index_length']);
 			$t['Rows'] = Piwik::getPrettySizeFromBytes($t['Rows']);
-			$table[] = $t;
 		}
 		$total['Total_length'] = Piwik::getPrettySizeFromBytes($total['Data_length']+$total['Index_length']);
 		$total['Data_length'] = Piwik::getPrettySizeFromBytes($total['Data_length']);

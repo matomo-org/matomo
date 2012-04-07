@@ -7,7 +7,11 @@
 		{$arrayDataTable.message}
 	{else}
 		{if count($arrayDataTable) == 0}
-		<div class="pk-emptyDataTable">{'CoreHome_ThereIsNoDataForThisReport'|translate}</div>
+			{if $showReportDataWasPurgedMessage}
+			<div class="pk-emptyDataTable">{'CoreHome_DataForThisReportHasBeenPurged'|translate:$deleteReportsOlderThan}</div>
+			{else}
+			<div class="pk-emptyDataTable">{'CoreHome_ThereIsNoDataForThisReport'|translate}</div>
+			{/if}
 		{else}
 			<a name="{$properties.uniqueId}"></a>
 			<table cellspacing="0" class="dataTable"> 

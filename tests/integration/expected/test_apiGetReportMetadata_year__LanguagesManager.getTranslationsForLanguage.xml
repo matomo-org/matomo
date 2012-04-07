@@ -1525,10 +1525,6 @@
 		<value>%s byte(s) - ex %s</value>
 	</row>
 	<row>
-		<label>PrivacyManager_DeleteLogSettings</label>
-		<value>Supprimer les anciens logs de visiteurs de la base de données.</value>
-	</row>
-	<row>
 		<label>PrivacyManager_DeleteLogInfo</label>
 		<value>Les enregistrements des tables suivantes vont être supprimés: %s</value>
 	</row>
@@ -1537,20 +1533,12 @@
 		<value>Supprimer régulièrement les anciens logs de la base de données.</value>
 	</row>
 	<row>
-		<label>PrivacyManager_DeleteLogDescription</label>
-		<value>Vous pouvez configurer Piwik pour qu'il supprime régulièrement les logs des anciens visiteurs afin de garder une base de données de petite taille. Les rapports déjà compilés ne seront pas supprimés, seulement les logs bruts des visiteurs, pages et logs de conversions seront supprimés</value>
-	</row>
-	<row>
 		<label>PrivacyManager_DeleteLogDescription2</label>
 		<value>Quand vous activez la suppression automatique des logs, vous devez vous assurer que tous les rapports précédents ont bien été compilés, de cette manière aucune donnée n'est perdue.</value>
 	</row>
 	<row>
 		<label>PrivacyManager_DeleteLogsOlderThan</label>
 		<value>Supprimer les logs plus anciens que</value>
-	</row>
-	<row>
-		<label>PrivacyManager_DeleteLogInterval</label>
-		<value>Supprimer les anciens logs tous les</value>
 	</row>
 	<row>
 		<label>PrivacyManager_DeleteMaxRows</label>

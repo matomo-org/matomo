@@ -375,11 +375,9 @@ tracking_requests_require_authentication = 1
 ; otherwise you may lose tracking data.
 ; delete_logs_schedule_lowest_interval - lowest possible interval between two table deletes (in days, 1|7|30). Default: 7.
 ; delete_logs_older_than - delete data older than XX (days). Default: 180
-; delete_max_rows_per_run - Maximum of rows deleted in one go (in thousands); 0 for no limit
 delete_logs_enable = 0
 delete_logs_schedule_lowest_interval = 7
 delete_logs_older_than = 180
-delete_max_rows_per_run = 100
 
 [branding]
 ; custom logo

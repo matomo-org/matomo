@@ -11,15 +11,40 @@
  */
 
 /**
+ * @see plugins/PrivacyManager/LogDataPurger.php
+ */
+require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/LogDataPurger.php';
+
+/**
+ * @see plugins/PrivacyManager/ReportsPurger.php
+ */
+require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/ReportsPurger.php';
+
+/**
  *
  * @package Piwik_PrivacyManager
  */
 class Piwik_PrivacyManager extends Piwik_Plugin
 {
     const OPTION_LAST_DELETE_PIWIK_LOGS = "lastDelete_piwik_logs";
+    const OPTION_LAST_DELETE_PIWIK_REPORTS = 'lastDelete_piwik_reports';
     const OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL = "lastDelete_piwik_logs_initial";
-    const DELETE_MAX_ROWS_MULTIPLICATOR = 1000;
-
+    
+    // default config options for data purging feature
+    public static $defaultPurgeDataOptions = array(
+		'delete_logs_enable' => 0,
+		'delete_logs_schedule_lowest_interval' => 7,
+		'delete_logs_older_than' => 180,
+		'delete_logs_max_rows_per_query' => 100000,
+		'delete_reports_enable' => 0,
+		'delete_reports_older_than' => 12,
+		'delete_reports_keep_basic_metrics' => 1,
+		'delete_reports_keep_day_reports' => 0,
+		'delete_reports_keep_week_reports' => 0,
+		'delete_reports_keep_month_reports' => 1,
+		'delete_reports_keep_year_reports' => 1
+	);
+	
     public function getInformation()
     {
         return array(
@@ -39,14 +64,16 @@ class Piwik_PrivacyManager extends Piwik_Plugin
         );
     }
 
-    function getScheduledTasks($notification)
-    {
-        $tasks = &$notification->getNotificationObject();
-        $deleteLogTablesTask = new Piwik_ScheduledTask ($this,
-            'deleteLogTables',
-            new Piwik_ScheduledTime_Daily());
-        $tasks[] = $deleteLogTablesTask;
-    }
+	function getScheduledTasks($notification)
+	{
+		$tasks = &$notification->getNotificationObject();
+		
+		$purgeLogDataTask = new Piwik_ScheduledTask($this, 'deleteLogData', new Piwik_ScheduledTime_Daily());
+		$tasks[] = $purgeLogDataTask;
+		
+		$purgeReportDataTask = new Piwik_ScheduledTask($this, 'deleteReportData', new Piwik_ScheduledTime_Daily());
+		$tasks[] = $purgeReportDataTask;
+	}
 
     function getJsFiles($notification)
     {
@@ -62,109 +89,329 @@ class Piwik_PrivacyManager extends Piwik_Plugin
                            Piwik::isUserHasSomeAdminAccess(),
                            $order = 8);
     }
-
-    /*
-     * @ToDo: return number of Rows deleted in last run; Display age of "oldest" row to help the user setting the day offset;
+	
+	/**
+	 * Returns the settings for the data purging feature.
+	 * 
+	 * @return array
+	 */
+	public static function getPurgeDataSettings()
+	{
+		$settings = array();
+		
+		// backwards compatibility: load old values in ini config if present
+		try
+		{
+			$oldSettings = array(
+				'delete_logs_enable',
+				'delete_logs_schedule_lowest_interval',
+				'delete_logs_older_than'
+			);
+		
+			$deleteLogsSettings = Piwik_Config::getInstance()->Deletelogs;
+			foreach ($oldSettings as $settingName)
+			{
+				$settings[$settingName] = $deleteLogsSettings[$settingName];
+			}
+		}
+		catch (Exception $e)
+		{
+			// ignore
+		}
+	
+		// load the settings for the data purging settings
+		foreach (self::$defaultPurgeDataOptions as $optionName => $defaultValue)
+		{
+			$value = Piwik_GetOption($optionName);
+			if ($value !== false)
+			{
+				$settings[$optionName] = $value;
+			}
+			else
+			{
+				// if the option hasn't been set/created, use the default value
+				if (!isset($settings[$optionName]))
+				{
+					$settings[$optionName] = $defaultValue;
+				}
+			
+				// option is not saved in the DB, so save it now
+				Piwik_SetOption($optionName, $settings[$optionName]);
+			}
+		}
+		
+		return $settings;
+	}
+	
+	/**
+	 * Saves the supplied data purging settings.
+	 * 
+	 * @param array $settings The settings to save.
+	 */
+	public static function savePurgeDataSettings( $settings )
+	{
+		$plugin = Piwik_PluginsManager::getInstance()->getLoadedPlugin('PrivacyManager');
+		
+		foreach (self::$defaultPurgeDataOptions as $optionName => $defaultValue)
+		{
+			if (isset($settings[$optionName]))
+			{
+				Piwik_SetOption($optionName, $settings[$optionName]);
+			}
+		}
+	}
+	
+    /**
+	 * Deletes old archived data (reports & metrics).
+	 * 
+	 * Archive tables are not optimized after, as that is handled by a separate scheduled task
+	 * in CoreAdminHome. This is a scheduled task and will only execute every N days. The number
+     * of days is determined by the delete_logs_schedule_lowest_interval config option.
+     * 
+     * If delete_reports_enable is set to 1, old archive data is deleted. The following
+     * config options can tweak this behavior:
+     * - delete_reports_older_than: The number of months after which archive data is considered
+     *                              old. The current month is not considered when applying this
+     *                              value.
+     * - delete_reports_keep_basic_metrics: If set to 1, keeps certain metric data. Right now, 
+     *                                      all metric data is kept.
+     * - delete_reports_keep_day_reports: If set to 1, keeps old daily reports.
+     * - delete_reports_keep_week_reports: If set to 1, keeps old weekly reports.
+     * - delete_reports_keep_month_reports: If set to 1, keeps old monthly reports.
+     * - delete_reports_keep_year_reports: If set to 1, keeps old yearly reports.
      */
-    function deleteLogTables()
+	public function deleteReportData()
+	{
+        $settings = self::getPurgeDataSettings();
+        
+        // Make sure, data deletion is enabled
+        if ($settings['delete_reports_enable'] == 0)
+        {
+            return;
+        }
+        
+        // make sure purging should run at this time (unless this is a forced purge)
+        if (!$this->shouldPurgeData($settings, self::OPTION_LAST_DELETE_PIWIK_REPORTS))
+        {
+        	return;
+        }
+        
+        // set last run time
+        Piwik_SetOption(self::OPTION_LAST_DELETE_PIWIK_REPORTS, Piwik_Date::factory('today')->getTimestamp());
+		
+		Piwik_PrivacyManager_ReportsPurger::make($settings, self::getMetricsToPurge())->purgeData();
+	}
+	
+    /**
+     * Deletes old log data based on the options set in the Deletelogs config
+     * section. This is a scheduled task and will only execute every N days. The number
+     * of days is determined by the delete_logs_schedule_lowest_interval config option.
+     * 
+     * If delete_logs_enable is set to 1, old data in the log_visit, log_conversion,
+     * log_conversion_item and log_link_visit_action tables is deleted. The following
+     * options can tweak this behavior:
+     * - delete_logs_older_than: The number of days after which log data is considered old.
+     *
+     * @ToDo: return number of Rows deleted in last run; Display age of "oldest" row to help the user setting
+     *        the day offset;
+     */
+    public function deleteLogData()
     {
-        $deleteSettings = Piwik_Config::getInstance()->Deletelogs;
-
-        //Make sure, log deletion is enabled
-        if ($deleteSettings['delete_logs_enable'] == 0) {
+        $settings = self::getPurgeDataSettings();
+		
+        // Make sure, data deletion is enabled
+        if ($settings['delete_logs_enable'] == 0)
+        {
             return;
         }
-
-        //Log deletion may not run until it is once rescheduled (initial run). This is the only way to guarantee the calculated next scheduled deletion time.
-        $initialDelete = Piwik_GetOption(self::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL);
-        if (empty($initialDelete)) {
-            Piwik_SetOption(self::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL, 1);
-            return;
+        
+        // make sure purging should run at this time
+        if (!$this->shouldPurgeData($settings, self::OPTION_LAST_DELETE_PIWIK_LOGS))
+        {
+        	return;
         }
-
-        //Make sure, log purging is allowed to run now
-        $lastDelete = Piwik_GetOption(self::OPTION_LAST_DELETE_PIWIK_LOGS);
-        $deleteIntervalSeconds = $this->getDeleteIntervalInSeconds($deleteSettings['delete_logs_schedule_lowest_interval']);
-
-        if ($lastDelete === false ||
-            ($lastDelete !== false && ((int)$lastDelete + $deleteIntervalSeconds) <= time())
-        ) {
-
-            $maxIdVisit = $this->getDeleteIdVisitOffset($deleteSettings['delete_logs_older_than']);
-
-            $logTables = $this->getDeleteTableLogTables();
-
-            //set lastDelete time to today
-            $date = Piwik_Date::factory("today");
-            $lastDeleteDate = $date->getTimestamp();
-
-            /*
-             * Tell the DB that log deletion has run BEFORE deletion is executed;
-             * If deletion / table optimization exceeds execution time, other tasks maybe prevented of being executed every time,
-             * when the schedule is triggered.
-             */
-            Piwik_SetOption(self::OPTION_LAST_DELETE_PIWIK_LOGS, $lastDeleteDate);
-
-            //Break if no ID was found (nothing to delete for given period)
-            if (empty($maxIdVisit)) {
-                return;
-            }
-
-            foreach ($logTables as $logTable) {
-                $this->deleteRowsFromTable($logTable, $maxIdVisit, $deleteSettings['delete_max_rows_per_run'] * self::DELETE_MAX_ROWS_MULTIPLICATOR);
-            }
-
-            //optimize table overhead after deletion
-            $query = "OPTIMIZE TABLE " . implode(",", $logTables);
-            Piwik_Query($query);
-        }
+        
+        /*
+         * Tell the DB that log deletion has run BEFORE deletion is executed;
+         * If deletion / table optimization exceeds execution time, other tasks maybe prevented of being executed
+         * every time, when the schedule is triggered.
+         */
+        $lastDeleteDate = Piwik_Date::factory("today")->getTimestamp();
+        Piwik_SetOption(self::OPTION_LAST_DELETE_PIWIK_LOGS, $lastDeleteDate);
+        
+        // execute the purge
+        Piwik_PrivacyManager_LogDataPurger::make($settings)->purgeData();
     }
+    
+    /**
+     * Returns an array describing what data would be purged if both log data & report
+     * purging is invoked.
+     * 
+     * The returned array maps table names with the number of rows that will be deleted.
+     * If the table name is mapped with -1, the table will be dropped.
+     * 
+     * @param array $settings The config options to use in the estimate. If null, the real
+     *                        options are used.
+     * @return array
+     */
+    public static function getPurgeEstimate( $settings = null )
+    {
+    	if (is_null($settings))
+    	{
+    		$settings = self::getPurgeDataSettings();
+    	}
+    
+		$result = array();
+		
+		if ($settings['delete_logs_enable'])
+		{
+			$logDataPurger = Piwik_PrivacyManager_LogDataPurger::make($settings);
+			$result = array_merge($result, $logDataPurger->getPurgeEstimate());
+		}
+		
+		if ($settings['delete_reports_enable'])
+		{
+			$reportsPurger = Piwik_PrivacyManager_ReportsPurger::make($settings, self::getMetricsToPurge());
+			$result = array_merge($result, $reportsPurger->getPurgeEstimate());
+		}
+		
+		return $result;
+    }
+	
+	/**
+	 * Returns true if a report with the given year & month should be purged or not.
+	 * 
+	 * If reportsOlderThan is set to null or not supplied, this function will check if
+	 * a report should be purged, based on existing configuration. In this case, if 
+	 * delete_reports_enable is set to 0, this function will return false.
+	 * 
+	 * @param int $reportDateYear The year of the report in question.
+	 * @param int $reportDateMonth The month of the report in question.
+	 * @param int|Piwik_Date $reportsOlderThan If an int, the number of months a report must be older than
+	 *                                         in order to be purged. If a date, the date a report must be
+	 *                                         older than in order to be purged.
+	 */
+	public static function shouldReportBePurged( $reportDateYear, $reportDateMonth, $reportsOlderThan = null )
+	{
+		// if no 'older than' value/date was supplied, use existing config
+		if (is_null($reportsOlderThan))
+		{
+			// if report deletion is not enabled, the report shouldn't be purged
+			$settings = self::getPurgeDataSettings();
+			if ($settings['delete_reports_enable'] == 0)
+			{
+				return false;
+			}
+			
+			$reportsOlderThan = $settings['delete_reports_older_than'];
+		}
+		
+		// if a integer was supplied, assume it is the number of months a report must be older than
+		if (!($reportsOlderThan instanceof Piwik_Date))
+		{
+			$reportsOlderThan = Piwik_Date::factory('today')->subMonth(1 + $reportsOlderThan);
+		}
+		
+		return Piwik_PrivacyManager_ReportsPurger::shouldReportBePurged(
+			$reportDateYear, $reportDateMonth, $reportsOlderThan);
+	}
+	
+	/**
+	 * Returns the general metrics to purge when 'delete_reports_keep_basic_metrics' is set to 1.
+	 * Right now, this is set to nothing, so the 'keep_basic_metrics' option will keep everything.
+	 */
+	private static function getMetricsToKeep()
+	{
+		return array('nb_uniq_visitors', 'nb_visits', 'nb_actions', 'max_actions',
+					 'sum_visit_length', 'bounce_count', 'nb_visits_converted', 'nb_conversions', 
+					 'revenue', 'quantity', 'price', 'orders');
+	}
+	
+	/**
+	 * Returns the goal metrics to purge when 'delete_reports_keep_basic_metrics' is set to 1.
+	 * Right now, this is set to nothing, so the 'keep_basic_metrics' option will keep everything.
+	 */
+	private static function getGoalMetricsToKeep()
+	{
+		// keep all goal metrics
+		return array_values(Piwik_Archive::$mappingFromIdToNameGoal);
+	}
+	
+	/**
+	 * Returns the metrics that should be purged based on the metrics that should be kept.
+	 */
+	public static function getMetricsToPurge()
+	{
+		$metricsToKeep = self::getMetricsToKeep();
+	
+		// the metrics to purge == all_metrics - metrics_to_keep
+		$metricsToPurge = array_diff(array_values(Piwik_Archive::$mappingFromIdToName), $metricsToKeep);
+		
+		// convert goal metric names to correct archive names
+		if (Piwik_Common::isGoalPluginEnabled())
+		{
+			$goalMetricsToPurge
+				= array_diff(array_values(Piwik_Archive::$mappingFromIdToNameGoal), self::getGoalMetricsToKeep());
+			
+			$maxGoalId = self::getMaxGoalId();
+			
+			// for each goal metric, there's a different name for each goal, including the overview,
+			// the order report & cart report
+			foreach ($goalMetricsToPurge as $metric)
+			{
+				for ($i = 1; $i != $maxGoalId; ++$i)
+				{
+					$metricsToPurge[] = Piwik_Goals::getRecordName($metric, $i);
+				}
+				
+				$metricsToPurge[] = Piwik_Goals::getRecordName($metric);
+				$metricsToPurge[] = Piwik_Goals::getRecordName($metric, Piwik_Tracker_GoalManager::IDGOAL_ORDER);
+				$metricsToPurge[] = Piwik_Goals::getRecordName($metric, Piwik_Tracker_GoalManager::IDGOAL_CART);
+			}
+		}
+		
+		return $metricsToPurge;
+	}
+
+	/**
+	 * Returns true if one of the purge data tasks should run now, false if it shouldn't.
+	 */
+	private function shouldPurgeData( $settings, $lastRanOption )
+	{
+        // Log deletion may not run until it is once rescheduled (initial run). This is the
+        // only way to guarantee the calculated next scheduled deletion time.
+        $initialDelete = Piwik_GetOption(self::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL);
+        if (empty($initialDelete))
+        {
+            Piwik_SetOption(self::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL, 1);
+            return false;
+        }
+        
+        // Make sure, log purging is allowed to run now
+        $lastDelete = Piwik_GetOption($lastRanOption);
+        $deleteIntervalDays = $settings['delete_logs_schedule_lowest_interval'];
+        $deleteIntervalSeconds = $this->getDeleteIntervalInSeconds($deleteIntervalDays);
+        
+		if ($lastDelete === false ||
+			($lastDelete !== false && ((int)$lastDelete + $deleteIntervalSeconds) <= time())
+		)
+		{
+			return true;
+		}
+		else // not time to run data purge
+		{
+	        return false;
+		}
+	}
 
     function getDeleteIntervalInSeconds($deleteInterval)
     {
         return (int)$deleteInterval * 24 * 60 * 60;
     }
 
-    /*
-     * get highest idVisit to delete rows from
-     */
-    function getDeleteIdVisitOffset($deleteLogsOlderThan)
+    private static function getMaxGoalId()
     {
-        $date = Piwik_Date::factory("today");
-        $dateSubX = $date->subDay($deleteLogsOlderThan);
-
-        $sql = "SELECT `idvisit` FROM " . Piwik_Common::prefixTable("log_visit")
-               . " WHERE '" . $dateSubX->toString('Y-m-d H:i:s') . "' "
-               . "> `visit_last_action_time` AND `idvisit` > 0 ORDER BY `idvisit` DESC LIMIT 1";
-
-        $maxIdVisit = Piwik_FetchOne($sql);
-
-        return $maxIdVisit;
-    }
-
-    function deleteRowsFromTable($table, $maxIdVisit, $maxRowsPerRun)
-    {
-        /*
-         * @ToDo: check if DELETE ... tbl_name[.*] [, tbl_name[.*]] ... Statement performance is better (but LIMIT can't be used!). So for now, this is safer.
-         * LOW_PRIORITY / QUICK / IGNORE read http://dev.mysql.com/doc/refman/5.0/en/delete.html
-         */
-        
-        $sql = 'DELETE LOW_PRIORITY QUICK IGNORE FROM ' . $table . ' WHERE `idvisit` <= ? ';
-
-        if(isset($maxRowsPerRun) && $maxRowsPerRun > 0) {
-            $sql .=  ' LIMIT ' . (int)$maxRowsPerRun;
-        }
-
-        Piwik_Query($sql, array($maxIdVisit));
-    }
-
-    //let's hardcode, since these are no dynamically created tables
-    //exclude piwik_log_action since it is a lookup table
-    function getDeleteTableLogTables()
-    {
-        return array(Piwik_Common::prefixTable("log_conversion"),
-                     Piwik_Common::prefixTable("log_link_visit_action"),
-                     Piwik_Common::prefixTable("log_visit"),
-                     Piwik_Common::prefixTable("log_conversion_item"));
+    	return Piwik_FetchOne("SELECT MAX(idgoal) FROM ".Piwik_Common::prefixTable('goal'));
     }
 }
+

@@ -140,8 +140,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 	
 	public function uninstall()
 	{
-		$sql = "DROP TABLE ". Piwik_Common::prefixTable('user_dashboard') ;
-		Piwik_Exec($sql);
+		Piwik_DropTables(Piwik_Common::prefixTable('user_dashboard'));
 	}
 	
 }

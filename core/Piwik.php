@@ -1480,6 +1480,11 @@ class Piwik
 	 */
 	static public function getPrettySizeFromBytes($size)
 	{
+		if ($size == 0)
+		{
+			return '0 M';
+		}
+		
 		$bytes = array('','K','M','G','T');
 		foreach($bytes as $val)
 		{

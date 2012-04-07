@@ -191,7 +191,7 @@ class Piwik_Goals_API
 										WHERE idsite = ? 
 											AND idgoal = ?",
 									array($idSite, $idGoal));
-		Piwik_Query("DELETE FROM ".Piwik_Common::prefixTable("log_conversion")." WHERE idgoal = ?", $idGoal);
+		Piwik_DeleteAllRows(Piwik_Common::prefixTable("log_conversion"), "WHERE idgoal = ?", 100000, array($idGoal));
 		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);
 	}
 	

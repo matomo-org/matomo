@@ -117,6 +117,11 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 			$view->columnDocumentation = $columnDocumentation;
 			$view->nbColumns = $nbColumns;
 			$view->defaultWhenColumnValueNotDefined = '-';
+			
+			// if it's likely that the report data for this data table has been purged,
+			// set whether we should display a message to that effect.
+			$view->showReportDataWasPurgedMessage = $this->hasReportBeenPurged();
+			$view->deleteReportsOlderThan = Piwik_GetOption('delete_reports_older_than');
 		}
 		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
 		$view->properties = $this->getViewProperties();

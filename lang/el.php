@@ -1,4 +1,4 @@
-<?php 
+<?php
 $translations = array(
 	'General_Locale' => 'el_GR.UTF-8',
 	'General_TranslatorName' => 'Jim Black www.jblack.info, Γεώργιος Τέλλος OnSite.Net VoIP & IT Solutions, Παναγιώτης Παπάζογλου Δρ. Δασολόγος-Περιβαλλοντολόγος',
@@ -385,13 +385,10 @@ $translations = array(
 	'PrivacyManager_AnonymizeIpDescription' => 'Επιλέξτε «Ναι» αν θέλετε το Piwik να μην ανιχνεύει πλήρως ταυτοποιημένες διευθύνσεις IP.',
 	'PrivacyManager_AnonymizeIpMaskLengtDescription' => 'Επιλέξτε πόσα bytes από τις διευθύνσεις IPs των επισκεπτών πρέπει να κρύβονται.',
 	'PrivacyManager_AnonymizeIpMaskLength' => '%s byte(s) - π.χ.. %s',
-	'PrivacyManager_DeleteLogSettings' => 'Διαγραφή παλαιών καταγραφών επισκεπτών από την βάση δεδομένων',
 	'PrivacyManager_DeleteLogInfo' => 'Οι καταγραφές από τους ακόλουθους πίνακες θα διαγραφούν: %s',
 	'PrivacyManager_UseDeleteLog' => 'Τακτική διαγραφή παλαιών καταγραφών επισκεπτών από τη βάση δεδομένων',
-	'PrivacyManager_DeleteLogDescription' => 'Μπορείτε να ρυθμίσετε το Piwik να διαγράφει τακτικά τις παλαιές καταγραφές επισκεπτών για να διατηρείτε τη βάση δεδομένων σας σε μικρό μέγεθος. Οι ήδη καταχωρημένες αναφορές δεν θα διαγραφούν αλλά μόνο οι πρωτογενέίς καταγραφές επισκεπτών, σελίδων, μετατροπών.',
 	'PrivacyManager_DeleteLogDescription2' => 'Όταν ενεργοποιήσετε την αυτόματη διαγραφή καταγραφών, πρέπει να είστε σίγουροι ότι όλες οι προηγούμενες ημερήσιες αναφορές έχουν καταχωρηθεί για να μην χαθούν δεδομένα.',
 	'PrivacyManager_DeleteLogsOlderThan' => 'Διαγραφή καταγραφών παλαιοτέρων από',
-	'PrivacyManager_DeleteLogInterval' => 'Διαγραφή παλαιών καταγραφών κάθε',
 	'PrivacyManager_DeleteMaxRows' => 'Μέγιστος αριθμός εγγραφών για διαγραφή κάθε φορά:',
 	'PrivacyManager_DeleteMaxRowsNoLimit' => 'χωρίς περιορισμό',
 	'PrivacyManager_LastDelete' => 'Η τελευταία διαγραφή ήταν την',
@@ -1226,8 +1223,8 @@ $translations = array(
 	'UserCountry_country_qa' => 'Κατάρ',
 	'UserCountry_country_re' => 'Νήσος Ρεϋνιόν',
 	'UserCountry_country_ro' => 'Ρουμανία',
-	'UserCountry_country_ru' => 'Ρωσία',
 	'UserCountry_country_rs' => 'Σερβία',
+	'UserCountry_country_ru' => 'Ρωσία',
 	'UserCountry_country_rw' => 'Ρουάντα',
 	'UserCountry_country_sa' => 'Σαουδική Αραβία',
 	'UserCountry_country_sb' => 'Νήσοι Σολωμώντα',

@@ -39,9 +39,13 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 	function getScheduledTasks ( $notification )
 	{
 		$tasks = &$notification->getNotificationObject();
+		
+		// low priority since tables should be optimized after they are modified
+		$priority = Piwik_ScheduledTask::LOW_PRIORITY;
 		$optimizeArchiveTableTask = new Piwik_ScheduledTask ( $this, 
 															'optimizeArchiveTable',
-															new Piwik_ScheduledTime_Daily() );
+															new Piwik_ScheduledTime_Daily(),
+															$priority );
 		$tasks[] = $optimizeArchiveTableTask;
 	}
 	
@@ -84,8 +88,7 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 		{
 			return;
 		}
-		$query = "OPTIMIZE TABLE " . implode(",", $archiveTables);
-		Piwik_Query( $query );
+		Piwik_OptimizeTables($archiveTables);
 	}
 	
 	private function isArchiveTable ( $tableName )

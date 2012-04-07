@@ -162,10 +162,10 @@
 <input type="submit" value="{'General_Save'|translate}" id="generalSettingsSubmit" class="submit" />
 <br /><br />
 
-{capture assign=clickDeleteLogSettings}{'PrivacyManager_DeleteLogSettings'|translate}{/capture}
-<h2>{'PrivacyManager_DeleteLogSettings'|translate}</h2>
+{capture assign=clickDeleteLogSettings}{'PrivacyManager_DeleteDataSettings'|translate}{/capture}
+<h2>{'PrivacyManager_DeleteDataSettings'|translate}</h2>
 <p>
-	{'PrivacyManager_DeleteLogDescription'|translate}
+	{'PrivacyManager_DeleteDataDescription'|translate}
 <br/>
 	<a href='{url module="PrivacyManager" action="privacySettings"}#deleteLogsAnchor'>
 		{'PrivacyManager_ClickHereSettings'|translate:"'$clickDeleteLogSettings'"}

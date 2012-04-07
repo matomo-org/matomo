@@ -9,8 +9,8 @@
 <br />
 {'DBStats_LearnMore'|translate:"<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>Piwik Auto Archiving</a>"}
 <br />
-{'PrivacyManager_DeleteLogSettings'|translate}:	<a href='{url module="PrivacyManager" action="privacySettings"}#deleteLogsAnchor'>
-{capture assign=clickDeleteLogSettings}{'PrivacyManager_DeleteLogSettings'|translate}{/capture}
+{'PrivacyManager_DeleteDataSettings'|translate}:	<a href='{url module="PrivacyManager" action="privacySettings"}#deleteLogsAnchor'>
+{capture assign=clickDeleteLogSettings}{'PrivacyManager_DeleteDataSettings'|translate}{/capture}
 		{'PrivacyManager_ClickHereSettings'|translate:"'$clickDeleteLogSettings'"}
 	</a>
 	

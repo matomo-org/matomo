@@ -53,42 +53,54 @@ class Piwik_TaskScheduler
 		Piwik_PostEvent(self::GET_TASKS_EVENT, $tasks);
 
 		$return = array();
-		// Loop through each task
-		foreach ($tasks as $task)
+		
+		// for every priority level, starting with the highest and concluding with the lowest
+		for ($priority = Piwik_ScheduledTask::HIGH_PRIORITY;
+			 $priority != Piwik_ScheduledTask::LOW_PRIORITY;
+			 ++$priority)
 		{
-			$scheduledTime = $task->getScheduledTime();
-			$className = $task->getClassName();
-			$methodName = $task->getMethodName();
-
-			$fullyQualifiedMethodName = get_class($className) . '.' . $methodName;
-				
-			/*
-			 * Task has to be executed if :
-			 * 	- it is the first time, ie. rescheduledTime is not set
-			 *  - that task has already been executed and the current system time is greater than the
-			 *    rescheduled time.
-			 */
-			if ( !isset($timetable[$fullyQualifiedMethodName])
-    			|| (isset($timetable[$fullyQualifiedMethodName])
-    			&& time() >= $timetable[$fullyQualifiedMethodName]) 
-    			|| $forceScheduledTasks)
+			// Loop through each task
+			foreach ($tasks as $task)
 			{
-				// Updates the rescheduled time
-				$timetable[$fullyQualifiedMethodName] = $scheduledTime->getRescheduledTime();
-				Piwik_SetOption(self::TIMETABLE_OPTION_STRING, serialize($timetable));
-
-				self::$running = true;
-				// Run the task
-				try {
-					$timer = new Piwik_Timer;
-					call_user_func ( array($className,$methodName) );
-					$message = $timer->__toString();
-				} catch(Exception $e) {
-					$message = 'ERROR: '.$e->getMessage();
+				// if the task does not have the current priority level, don't execute it yet
+				if ($task->getPriority() != $priority)
+				{
+					continue;
 				}
-				self::$running = false;
-				$return[] = array('task' => $fullyQualifiedMethodName, 'output' => $message);
+		
+				$scheduledTime = $task->getScheduledTime();
+				$className = $task->getClassName();
+				$methodName = $task->getMethodName();
 
+				$fullyQualifiedMethodName = get_class($className) . '.' . $methodName;
+				
+				/*
+				 * Task has to be executed if :
+				 * 	- it is the first time, ie. rescheduledTime is not set
+				 *  - that task has already been executed and the current system time is greater than the
+				 *    rescheduled time.
+				 */
+				if ( !isset($timetable[$fullyQualifiedMethodName])
+					|| (isset($timetable[$fullyQualifiedMethodName])
+					&& time() >= $timetable[$fullyQualifiedMethodName]) 
+					|| $forceScheduledTasks)
+				{
+					// Updates the rescheduled time
+					$timetable[$fullyQualifiedMethodName] = $scheduledTime->getRescheduledTime();
+					Piwik_SetOption(self::TIMETABLE_OPTION_STRING, serialize($timetable));
+
+					self::$running = true;
+					// Run the task
+					try {
+						$timer = new Piwik_Timer;
+						call_user_func ( array($className,$methodName) );
+						$message = $timer->__toString();
+					} catch(Exception $e) {
+						$message = 'ERROR: '.$e->getMessage();
+					}
+					self::$running = false;
+					$return[] = array('task' => $fullyQualifiedMethodName, 'output' => $message);
+				}
 			}
 		}
 		return $return;

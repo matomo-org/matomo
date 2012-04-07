@@ -4,7 +4,11 @@
 	{/if}
 	<div class="tagCloud">
 	{if count($cloudValues) == 0}
+		{if $showReportDataWasPurgedMessage}
+		<div class="pk-emptyDataTable">{'General_DataForThisTagCloudHasBeenPurged'|translate:$deleteReportsOlderThan}</div>
+		{else}
 		<div class="pk-emptyDataTable">{'General_NoDataForTagCloud'|translate}</div>
+		{/if}
 	{else}
 		{foreach from=$cloudValues key=word item=value}
 		<span title="{$value.word} ({$value.value} {$columnTranslation})" class="word size{$value.size} {* we strike tags with 0 hits *} {if $value.value == 0}valueIsZero{/if}">

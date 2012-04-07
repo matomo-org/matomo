@@ -114,8 +114,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	 */
 	public function uninstall()
 	{
-		$sql = "DROP TABLE ". Piwik_Common::prefixTable('user_language') ;
-		Piwik_Exec($sql);		
+		Piwik_DropTables(Piwik_Common::prefixTable('user_language'));
 	}
 
 	/**

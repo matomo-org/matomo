@@ -51,92 +51,139 @@ See also our official guide <b><a href='http://piwik.org/privacy/' target='_blan
 	<input type="submit" value="{'General_Save'|translate}" id="privacySettingsSubmit" class="submit"/>
 </form>
 
+<div class="ui-confirm" id="confirmDeleteSettings">
+    <h2 id="deleteLogsConfirm">{'PrivacyManager_DeleteLogsConfirm'|translate}</h2>
+    <h2 id="deleteReportsConfirm">{'PrivacyManager_DeleteReportsConfirm'|translate}</h2>
+    <h2 id="deleteBothConfirm">{'PrivacyManager_DeleteBothConfirm'|translate}</h2>
+    <input role="yes" type="button" value="{'General_Yes'|translate}" />
+    <input role="no" type="button" value="{'General_No'|translate}" />
+</div>
+
+<div class="ui-confirm" id="saveSettingsBeforePurge">
+	<h2>{'PrivacyManager_SaveSettingsBeforePurge'|translate}</h2>
+	<input role="yes" type="button" value="{'General_Ok'|translate}"/>
+</div>
+
+<div class="ui-confirm" id="confirmPurgeNow">
+	<h2>{'PrivacyManager_PurgeNowConfirm'|translate}</h2>
+	<input role="yes" type="button" value="{'General_Yes'|translate}" />
+	<input role="no" type="button" value="{'General_No'|translate}" />
+</div>
+
 <a name="deleteLogsAnchor"></a>
-<h2>{'PrivacyManager_DeleteLogSettings'|translate}</h2>
-<p>{'PrivacyManager_DeleteLogDescription'|translate}</p>
+<h2>{'PrivacyManager_DeleteDataSettings'|translate}</h2>
+<p>{'PrivacyManager_DeleteDataDescription'|translate}</p>
 <form method="post" action="{url action=index form=formDeleteSettings}" id="formDeleteSettings" name="formMaskLength">
-	<div id='deleteLogSettingEnabled'>
-		<table class="adminTable" style='width:800px;'>
-			<tr>
-				<td width="250">{'PrivacyManager_UseDeleteLog'|translate}<br/>
+	<table class="adminTable" style='width:800px;'>
+		<tr id='deleteLogSettingEnabled'>
+			<td width="250">{'PrivacyManager_UseDeleteLog'|translate}<br/>
 
-				</td>
-				<td width='500'>
-					<label><input type="radio" name="deleteEnable" value="1" {if $deleteLogs.config.delete_logs_enable eq '1'}
-								  checked {/if}/> {'General_Yes'|translate}</label>
-					<label><input type="radio" name="deleteEnable" value="0"
-								  style="margin-left:20px;" {if $deleteLogs.config.delete_logs_enable eq '0'}
-								  checked {/if}/>  {'General_No'|translate}
-					</label>
-					<span class="ajaxSuccess">
-						{'PrivacyManager_DeleteLogDescription2'|translate}
-						<a href="http://piwik.org/faq/general/#faq_125" target="_blank">
-							{'General_ClickHere'|translate}
-						</a>
-					</span>
-				</td>
-				<td width="200">
-					{'PrivacyManager_DeleteLogInfo'|translate:$deleteLogs.deleteTables|inlineHelp}
-				</td>
-			</tr>
-		</table>
-	</div>
+			</td>
+			<td width='500'>
+				<label><input type="radio" name="deleteEnable" value="1" {if $deleteData.config.delete_logs_enable eq '1'}
+							  checked {/if}/> {'General_Yes'|translate}</label>
+				<label><input type="radio" name="deleteEnable" value="0"
+							  style="margin-left:20px;" {if $deleteData.config.delete_logs_enable eq '0'}
+							  checked {/if}/>  {'General_No'|translate}
+				</label>
+				<span class="ajaxSuccess">
+					{'PrivacyManager_DeleteLogDescription2'|translate}
+					<a href="http://piwik.org/faq/general/#faq_125" target="_blank">
+						{'General_ClickHere'|translate}
+					</a>
+				</span>
+			</td>
+			<td width="200">
+				{'PrivacyManager_DeleteLogInfo'|translate:$deleteData.deleteTables|inlineHelp}
+			</td>
+		</tr>
+		<tr id="deleteLogSettings">
+			<td width="250">&nbsp;</td>
+			<td width="500">
+				<label>{'PrivacyManager_DeleteLogsOlderThan'|translate}
+					<input type="text" id="deleteOlderThan" value="{$deleteData.config.delete_logs_older_than}" style="width:30px;"
+						   name="deleteOlderThan"/>
+					{'CoreHome_PeriodDays'|translate}</label><br/>
+				<span class="form-description">{'PrivacyManager_LeastDaysInput'|translate:"7"}</span>
+			</td>
+			<td width="200">
 
-	<div id="deleteLogSettings">
-		<table class="adminTable" style='width:800px;'>
-			<tr>
-				<td width="250">&nbsp;</td>
-				<td width="500">
-					<label>{'PrivacyManager_DeleteLogsOlderThan'|translate}
-						<input type="text" id="deleteOlderThan" value="{$deleteLogs.config.delete_logs_older_than}" style="width:30px;"
-							   name="deleteOlderThan">
-						{'CoreHome_PeriodDays'|translate}</label><br/>
-					<span class="form-description">{'PrivacyManager_LeastDaysInput'|translate:"7"}</span>
-				</td>
-				<td width="200">
-
-				</td>
-			</tr>
-			<tr>
-				<td width="250">&nbsp;</td>
-				<td width="500">
-					{'PrivacyManager_DeleteLogInterval'|translate}
-					<select id="deleteLowestInterval" name="deleteLowestInterval">
-						<option {if $deleteLogs.config.delete_logs_schedule_lowest_interval eq '1'} selected="selected" {/if}
-																									value="1"> {'CoreHome_PeriodDay'|translate}</option>
-						<option {if $deleteLogs.config.delete_logs_schedule_lowest_interval eq '7'} selected="selected" {/if}
-																									value="7">{'CoreHome_PeriodWeek'|translate}</option>
-						<option {if $deleteLogs.config.delete_logs_schedule_lowest_interval eq '30'} selected="selected" {/if}
-																									 value="30">{'CoreHome_PeriodMonth'|translate}</option>
-					</select>
-				</td>
-				<td width="200">
-					{capture assign=purgeStats}
-						{if $deleteLogs.lastRun}<strong>{'PrivacyManager_LastDelete'|translate}:</strong>
-							{$deleteLogs.lastRunPretty}
-							<br/><br/>{/if}
-						<strong>{'PrivacyManager_NextDelete'|translate}:</strong>
-						{$deleteLogs.nextRunPretty}
-					{/capture}
-					{$purgeStats|inlineHelp}
-				</td>
-			</tr>
-			<tr>
-				<td width="250">&nbsp;</td>
-				<td width="500">
-					{'PrivacyManager_DeleteMaxRows'|translate} 
-					<select id="deleteMaxRows" name="deleteMaxRows">
-						<option {if $deleteLogs.config.delete_max_rows_per_run eq '100'} selected="selected" {/if}  value="100">100.000</option>
-						<option {if $deleteLogs.config.delete_max_rows_per_run eq '500'} selected="selected" {/if} value="500">500.000</option>
-						<option {if $deleteLogs.config.delete_max_rows_per_run eq '1000'} selected="selected" {/if} value="1000">1.000.000</option>
-						<option {if $deleteLogs.config.delete_max_rows_per_run eq '0'} selected="selected" {/if}  value="0">{'PrivacyManager_DeleteMaxRowsNoLimit'|translate}</option>
-					</select>
-				</td>
-				<td width="200"></td>
-			</tr>
-		</table>
-	</div>
-	<input type="submit" value="{'General_Save'|translate}" id="deleteLogSettingsSubmit" class="submit"/>
+			</td>
+		</tr>
+		<tr id='deleteReportsSettingEnabled'>
+			<td width="250">{'PrivacyManager_UseDeleteReports'|translate}<br/>
+			
+			</td>
+			<td width="500">
+				<label><input type="radio" name="deleteReportsEnable" value="1" {if $deleteData.config.delete_reports_enable eq '1'}checked="true"{/if}/> {'General_Yes'|translate}</label>
+				<label><input type="radio" name="deleteReportsEnable" value="0" {if $deleteData.config.delete_reports_enable eq '0'}checked="true"{/if} style="margin-left:20px;"/> {'General_No'|translate}</label>
+				<span class="ajaxSuccess">
+					{'PrivacyManager_DeleteReportsInfo'|translate}
+				</span>
+			</td>
+			<td width="200">
+				{'PrivacyManager_DeleteReportsDetailedInfo'|translate|inlineHelp}
+			</td>
+		</tr>
+		<tr id='deleteReportsSettings'>
+			<td width="250">&nbsp;</td>
+			<td width="500">
+				<label>{'PrivacyManager_DeleteReportsOlderThan'|translate}
+					<input type="text" id="deleteReportsOlderThan" value="{$deleteData.config.delete_reports_older_than}" style="width:30px;"
+						   name="deleteReportsOlderThan"/>
+					{'CoreHome_PeriodMonths'|translate}
+				</label><br/>
+				<span class="form-description">{'PrivacyManager_LeastMonthsInput'|translate:"3"}</span><br/><br/>
+				<label><input type="checkbox" name="deleteReportsKeepBasic" value="1" {if $deleteData.config.delete_reports_keep_basic_metrics}checked="true"{/if}>{'PrivacyManager_KeepBasicMetrics'|translate}<span class="form-description">{'General_Recommended'|translate}</span></input>
+				</label><br/><br/>
+				<label>{'PrivacyManager_KeepDataFor'|translate}</label><br/><br/>
+				<input type="checkbox" name="deleteReportsKeepDay" value="1" {if $deleteData.config.delete_reports_keep_day_reports}checked="true"{/if}>{'General_DailyReports'|translate}</input><br/>
+				<input type="checkbox" name="deleteReportsKeepWeek" value="1" {if $deleteData.config.delete_reports_keep_week_reports}checked="true"{/if}>{'General_WeeklyReports'|translate}</input><br/>
+				<input type="checkbox" name="deleteReportsKeepMonth" value="1" {if $deleteData.config.delete_reports_keep_month_reports}checked="true"{/if}>{'General_MonthlyReports'|translate}<span class="form-description">{'General_Recommended'|translate}</span></input><br/>
+				<input type="checkbox" name="deleteReportsKeepYear" value="1" {if $deleteData.config.delete_reports_keep_year_reports}checked="true"{/if}>{'General_YearlyReports'|translate}<span class="form-description">{'General_Recommended'|translate}</span></input><br/>
+			</td>
+			<td width="200">
+			
+			</td>
+		</tr>
+		<tr id="deleteDataEstimateSect">
+			<td width="250">{'PrivacyManager_ReportsDataSavedEstimate'|translate}<br/></td>
+			<td width="500">
+				<div id="deleteDataEstimate">{include file="PrivacyManager/templates/databaseSize.tpl" dbStats=$deleteDbStats}</div>
+				<span class='loadingPiwik' style='display:none'><img src='/themes/default/images/loading-blue.gif' /> {'General_LoadingData'|translate}</span>
+			</td>
+			<td width="200">
+			
+			</td>
+		</tr>
+		<tr id="deleteSchedulingSettings">
+			<td width="250">{'PrivacyManager_DeleteSchedulingSettings'|translate}<br/></td>
+			<td width="500">
+				{'PrivacyManager_DeleteDataInterval'|translate}
+				<select id="deleteLowestInterval" name="deleteLowestInterval">
+					<option {if $deleteData.config.delete_logs_schedule_lowest_interval eq '1'} selected="selected" {/if}
+																								value="1"> {'CoreHome_PeriodDay'|translate}</option>
+					<option {if $deleteData.config.delete_logs_schedule_lowest_interval eq '7'} selected="selected" {/if}
+																								value="7">{'CoreHome_PeriodWeek'|translate}</option>
+					<option {if $deleteData.config.delete_logs_schedule_lowest_interval eq '30'} selected="selected" {/if}
+																								 value="30">{'CoreHome_PeriodMonth'|translate}</option>
+				</select><br/><br/>
+				<em><a id="purgeDataNowLink" href="#">{'PrivacyManager_PurgeNow'|translate}</a></em>
+				<span class='loadingPiwik' style='display:none'><img src='/themes/default/images/loading-blue.gif' /> {'PrivacyManager_PurgingData'|translate}</span>
+			</td>
+			<td width="200">
+				{capture assign=purgeStats}
+					{if $deleteData.lastRun}<strong>{'PrivacyManager_LastDelete'|translate}:</strong>
+						{$deleteData.lastRunPretty}
+						<br/><br/>{/if}
+					<strong>{'PrivacyManager_NextDelete'|translate}:</strong>
+					{$deleteData.nextRunPretty}
+				{/capture}
+				{$purgeStats|inlineHelp}
+			</td>
+		</tr>
+	</table>
+	<input type="button" value="{'General_Save'|translate}" id="deleteLogSettingsSubmit" class="submit"/>
 </form>
 
 {/if}

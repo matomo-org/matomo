@@ -59,6 +59,42 @@ class Piwik_Sql
 	{
 		return self::getDb()->fetchOne($sql, $parameters);
 	}
+	
+	static public function deleteAllRows( $table, $where, $maxRowsPerQuery, $parameters = array() )
+	{
+		$sql = "DELETE FROM $table $where LIMIT ".(int)$maxRowsPerQuery;
+		
+		// delete rows w/ a limit
+		$totalRowsDeleted = 0;
+		do
+		{
+			$rowsDeleted = self::query($sql, $parameters)->rowCount();
+			
+			$totalRowsDeleted += $rowsDeleted;
+		} while ($rowsDeleted >= $maxRowsPerQuery);
+		
+		return $totalRowsDeleted;
+	}
+
+	static public function optimizeTables( $tables )
+	{
+		if (!is_array($tables))
+		{
+			$tables = array($tables);
+		}
+		
+		return self::query("OPTIMIZE TABLE ".implode(',', $tables));
+	}
+	
+	static public function dropTables( $tables )
+	{
+		if (!is_array($tables))
+		{
+			$tables = array($tables);
+		}
+		
+		return self::query("DROP TABLE ".implode(',', $tables));
+	}
 }
 
 /**
@@ -125,3 +161,41 @@ function Piwik_FetchOne( $sqlQuery, $parameters = array())
 {
 	return Piwik_Sql::fetchOne($sqlQuery, $parameters);
 }
+
+/**
+ * Deletes all desired rows in a table, while using a limit. This function will execute a
+ * DELETE query until there are no more rows to delete.
+ * 
+ * @param string $table The table to delete from.
+ * @param string $where The where clause of the query. Must include the WHERE keyword.
+ * @param int $maxRowsPerQuery The maximum number of rows to delete per DELETE query.
+ * @param array $parameters Parameters to bind in the query.
+ * @return int The total number of rows deleted.
+ */
+function Piwik_DeleteAllRows( $table, $where, $maxRowsPerQuery, $parameters = array() )
+{
+	return Piwik_Sql::deleteAllRows($table, $where, $maxRowsPerQuery, $parameters);
+}
+
+/**
+ * Runs an OPTIMIZE TABLE query on the supplied table or tables.
+ * 
+ * @param string|array The name of the table to optimize or an array of tables to optimize.
+ * @return Zend_Db_Statement
+ */
+function Piwik_OptimizeTables( $tables )
+{
+	return Piwik_Sql::optimizeTables($tables);
+}
+
+/**
+ * Drops the supplied table or tables.
+ * 
+ * @param string|array The name of the table to drop or an array of table names to drop.
+ * @return Zend_Db_Statement
+ */
+function Piwik_DropTables( $tables )
+{
+	return Piwik_Sql::dropTables($tables);
+}
+

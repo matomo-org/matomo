@@ -18,6 +18,10 @@
  */
 class Piwik_ScheduledTask
 {
+	const LOW_PRIORITY = 2;
+	const NORMAL_PRIORITY = 1;
+	const HIGH_PRIORITY = 0;
+	
 	/**
 	 * Class name where the specified method is located
 	 * @var string 
@@ -35,12 +39,19 @@ class Piwik_ScheduledTask
 	 * @var Piwik_ScheduledTime
 	 */
 	var $scheduledTime;
+	
+	/**
+	 * The priority of a task. Affects the order in which this task will be run.
+	 * @var int
+	 */
+	var $priority;
 
-	function __construct( $_className, $_methodName, $_scheduledTime)
+	function __construct( $_className, $_methodName, $_scheduledTime, $_priority = self::NORMAL_PRIORITY )
 	{
 		$this->className = $_className;
 		$this->methodName = $_methodName;
 		$this->scheduledTime = $_scheduledTime;
+		$this->priority = $_priority;
 	}
 	
 	/*
@@ -68,5 +79,16 @@ class Piwik_ScheduledTask
 	public function getScheduledTime()
 	{
 		return $this->scheduledTime;
+	}
+	
+	/**
+	 * Returns the task priority. The priority will be an integer whose value is
+	 * between Piwik_ScheduledTask::HIGH_PRIORITY and Piwik_ScheduledTask::LOW_PRIORITY.
+	 * 
+	 * @return int
+	 */
+	public function getPriority()
+	{
+		return $this->priority;
 	}
 }
