@@ -524,7 +524,6 @@ dataTable.prototype =
 				
 				var filters = self.resetAllFilters();
 				self.param.flat = filters.flat;
-				self.param.include_aggregate_rows = filters.include_aggregate_rows;
 				
 				self.param.viewDataTable = viewDataTable;
 				self.reloadAjaxDataTable();
@@ -641,7 +640,7 @@ dataTable.prototype =
 				if (typeof self.param.flat != "undefined" && self.param.flat) {
 					str += '&flat=1';
 					if (typeof self.param.include_aggregate_rows != "undefined" && self.param.include_aggregate_rows) {
-						str += '&includeAggregateRows=1';
+						str += '&include_aggregate_rows=1';
 					}
 				} else {
 					str += '&expanded=1';
@@ -676,13 +675,14 @@ dataTable.prototype =
 		
 	},	
 	
-	exportToFormatHide: function(domElem)
+	exportToFormatHide: function(domElem, noAnimation)
 	{
 		var self=this;
 		if(self.exportToFormat){
 			self.setActiveIcon(self.exportToFormat.lastActiveIcon, domElem);
-			self.exportToFormat.target.hide('fast');
-			self.exportToFormat.obj.show('fast');
+			var animationSpeed = noAnimation ? 0 : 'fast';
+			self.exportToFormat.target.hide(animationSpeed);
+			self.exportToFormat.obj.show(animationSpeed);
 			self.exportToFormat=null;
 		}
 	},
@@ -720,27 +720,14 @@ dataTable.prototype =
 		ul.prepend('<li class="firstDummy"></li>');
 		
 		// open and close the box
-		var listenToClickOutside, open, close;
-		listenToClickOutside = function(e) {
-			if (!$(e.target).parents('.tableConfiguration').length && !$(e.target).is('.tableConfiguration')) { 
- 				close(); 
-			} 
-		};
-		open = function() {
+		var open = function() {
+			self.exportToFormatHide(domElem, true);
 			ul.addClass('open');
-			$(document).on('mouseup', listenToClickOutside);
 		};
-		close = function() {
+		var close = function() {
 			ul.removeClass('open');
-			$(document).unbind('mouseup', listenToClickOutside);
 		}; 
-		$('a.tableConfigurationIcon', domElem).click(function() {
-			if (!ul.hasClass('open')) {
-				open();
-			} else {
-				close();
-			}
-		});
+		$('div.tableConfiguration', domElem).hover(open, close);
 		
 		var generateClickCallback = function(paramName, callbackAfterToggle)
 		{
@@ -754,16 +741,27 @@ dataTable.prototype =
 			};
 		};
 		
+		var getText = function(text)
+		{
+			text = _pk_translate(text);
+			if (text.indexOf('%s') > 0)
+			{
+				text = text.replace('%s', '<br /><span class="action">&raquo; ');
+				text += '</span>';
+			}
+			return text;
+		};
+		
 		var setText = function(el, paramName, textA, textB)
 		{
 			if (typeof self.param[paramName] != 'undefined' && self.param[paramName] == 1)
 			{
-				$(el).html(_pk_translate(textA));
+				$(el).html(getText(textA));
 			}
 			else
 			{
 				self.param[paramName] = 0;
-				$(el).html(_pk_translate(textB));
+				$(el).html(getText(textB));
 			}
 		};
 		
@@ -778,12 +776,12 @@ dataTable.prototype =
 				}
 				if(Number(self.param.enable_filter_excludelowpop) != 0)
 				{
-					string = _pk_translate('CoreHome_IncludeAllPopulation_js');
+					string = getText('CoreHome_IncludeRowsWithLowPopulation_js');
 					self.param.enable_filter_excludelowpop = 1;
 				}
 				else
 				{
-					string = _pk_translate('CoreHome_ExcludeLowPopulation_js');
+					string = getText('CoreHome_ExcludeRowsWithLowPopulation_js');
 					self.param.enable_filter_excludelowpop = 0;
 				}
 				$(this).html(string);

@@ -87,11 +87,11 @@
 			<a class="tableConfigurationIcon"><img width="16" height="16" src="themes/default/images/configure.png" title="{'CoreHome_ConfigureView'|translate}" /></a>
 			<ul>
 				{if isset($javascriptVariablesToSet.flat) && $javascriptVariablesToSet.flat == 1}
-					<li><span class="dataTableIncludeAggregateRows"></span></li>
+					<li><div class="configItem dataTableIncludeAggregateRows"></div></li>
 				{/if}
-				<li><span class="dataTableFlatten"></span></li>
+				<li><div class="configItem dataTableFlatten"></div></li>
 				{if $properties.show_exclude_low_population}
-					<li><span class="dataTableExcludeLowPopulation"></span></li>
+					<li><div class="configItem dataTableExcludeLowPopulation"></div></li>
 				{/if}
 			</ul>
 		</div>

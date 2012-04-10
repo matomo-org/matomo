@@ -12,7 +12,15 @@
 
 /**
  * Base class for manipulating data tables.
- * It provides generic mechanisms like iteration or loading subtables.
+ * It provides generic mechanisms like iteration and loading subtables.
+ * 
+ * The manipulators are used in Piwik_API_ResponseBuilder and are triggered by
+ * API parameters. They are not filters because they don't work on the pre-
+ * fetched nested data tables. Instead, they load subtables using this base
+ * class. This way, they can only load the tables they really need instead
+ * of using expanded=1. Another difference between manipulators and filters
+ * is that filters keep the overall structure of the table intact while
+ * manipulators can change the entire thing.
  * 
  * @package Piwik
  * @subpackage Piwik_API

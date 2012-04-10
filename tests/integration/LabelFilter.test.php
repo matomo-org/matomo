@@ -7,8 +7,8 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 require_once PIWIK_INCLUDE_PATH . '/tests/integration/Integration.php';
 
 /**
- * Tests the class Piwik_API_DataTableLabelFilter.
- * This is not possible as unit test, since it loads data from the API.
+ * Tests the class Piwik_API_DataTableManipulator_LabelFilter.
+ * This is not possible as unit test, since it loads data from the archive.
  */
 class Test_Piwik_Integration_LabelFilter extends Test_Integration_Facade
 {

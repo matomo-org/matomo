@@ -1305,7 +1305,7 @@ class Piwik_API_API
 			// if we have a recursive label and no url, use the path
 			if (!$urlFound)
 			{
-				$actualLabels[$labelIndex] = str_replace(Piwik_API_DataTableLabelFilter::SEPARATOR_RECURSIVE_LABEL, ' - ', $label);
+				$actualLabels[$labelIndex] = str_replace(Piwik_API_DataTableManipulator_LabelFilter::SEPARATOR_RECURSIVE_LABEL, ' - ', $label);
 			}
 		}
 		

@@ -45,6 +45,7 @@ class Test_Piwik_Integration_FlattenReports extends Test_Integration_Facade
 			'otherRequestParameters' => array(
 				'date' => '2010-03-06,2010-03-08',
 				'flat' => '1',
+				'include_aggregate_rows' => '1',
 				'expanded' => '0'
 			)
 		));
