@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>www.referrer1.com/page1.html</label>
+		<label>www.referrer1.com/sub/dir/page1.html</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
 		<nb_actions>3</nb_actions>
@@ -9,10 +9,10 @@
 		<sum_visit_length>1</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<url>http://www.referrer1.com/page1.html</url>
+		<url>http://www.referrer1.com/sub/dir/page1.html</url>
 	</row>
 	<row>
-		<label>www.referrer1.com/page2.html</label>
+		<label>www.referrer1.com/sub/dir/page2.html</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
 		<nb_actions>3</nb_actions>
@@ -20,10 +20,10 @@
 		<sum_visit_length>1</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<url>http://www.referrer1.com/page2.html</url>
+		<url>http://www.referrer1.com/sub/dir/page2.html</url>
 	</row>
 	<row>
-		<label>www.referrer2.com/page1.html</label>
+		<label>www.referrer2.com/sub/dir/page1.html</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
 		<nb_actions>3</nb_actions>
@@ -31,10 +31,10 @@
 		<sum_visit_length>1</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<url>http://www.referrer2.com/page1.html</url>
+		<url>http://www.referrer2.com/sub/dir/page1.html</url>
 	</row>
 	<row>
-		<label>www.referrer2.com/page2.html</label>
+		<label>www.referrer2.com/sub/dir/page2.html</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
 		<nb_actions>3</nb_actions>
@@ -42,10 +42,10 @@
 		<sum_visit_length>1</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<url>http://www.referrer2.com/page2.html</url>
+		<url>http://www.referrer2.com/sub/dir/page2.html</url>
 	</row>
 	<row>
-		<label>www.referrer3.com/page1.html</label>
+		<label>www.referrer3.com/sub/dir/page1.html</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
 		<nb_actions>3</nb_actions>
@@ -53,10 +53,10 @@
 		<sum_visit_length>1</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<url>http://www.referrer3.com/page1.html</url>
+		<url>http://www.referrer3.com/sub/dir/page1.html</url>
 	</row>
 	<row>
-		<label>www.referrer3.com/page2.html</label>
+		<label>www.referrer3.com/sub/dir/page2.html</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
 		<nb_actions>3</nb_actions>
@@ -64,6 +64,6 @@
 		<sum_visit_length>1</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<url>http://www.referrer3.com/page2.html</url>
+		<url>http://www.referrer3.com/sub/dir/page2.html</url>
 	</row>
 </result>

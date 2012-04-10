@@ -37,6 +37,16 @@ class Test_Piwik_Integration_FlattenReports extends Test_Integration_Facade
 				'expanded' => '0'
 			)
 		));
+		$return[] = array('Actions.getPageUrls', array(
+			'idSite' => $this->idSite,
+			'date' => $this->dateTime,
+			'testSuffix' => '_withAggregate',
+			'otherRequestParameters' => array(
+				'flat' => '1',
+				'include_aggregate_rows' => '1',
+				'expanded' => '0'
+			)
+		));
 		
 		// custom variables for multiple days
 		$return[] = array('CustomVariables.getCustomVariables', array(
@@ -80,10 +90,10 @@ class Test_Piwik_Integration_FlattenReports extends Test_Integration_Facade
 			{
 				$offset = $referrerSite * 3 + $referrerPage;
 				$t = $this->getTracker($idSite, Piwik_Date::factory($dateTime)->addHour($offset)->getDatetime());
-				$t->setUrlReferrer('http://www.referrer'.$referrerSite.'.com/page'.$referrerPage.'.html');
+				$t->setUrlReferrer('http://www.referrer'.$referrerSite.'.com/sub/dir/page'.$referrerPage.'.html');
 				$t->setCustomVariable(1, 'CustomVarVisit', 'CustomVarValue'.$referrerPage, 'visit');
 				for ($page = 0; $page < 3; $page++) {
-					$t->setUrl('http://example.org/dir'.$referrerSite.'/page'.$page.'.html');
+					$t->setUrl('http://example.org/dir'.$referrerSite.'/sub/dir/page'.$page.'.html');
 					$t->setCustomVariable(1, 'CustomVarPage', 'CustomVarValue'.$page, 'page');
         			$this->checkResponse($t->doTrackPageView('title'));
 				}
@@ -92,7 +102,7 @@ class Test_Piwik_Integration_FlattenReports extends Test_Integration_Facade
 		
 		$t = $this->getTracker($idSite, Piwik_Date::factory($dateTime)->addHour(24)->getDatetime());
 		$t->setCustomVariable(1, 'CustomVarVisit', 'CustomVarValue1', 'visit');
-		$t->setUrl('http://example.org/dir1/page1.html');
+		$t->setUrl('http://example.org/sub/dir/dir1/page1.html');
 		$t->setCustomVariable(1, 'CustomVarPage', 'CustomVarValue1', 'page');
 		$this->checkResponse($t->doTrackPageView('title'));
 	}
