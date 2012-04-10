@@ -408,7 +408,7 @@ div.widgetpreview-preview {
     margin-bottom: 10px;
 }
 
-#setAsDefaultWidgetsConfirmHelp {
+.popoverSubMessage {
     text-align: center;
     padding: 10px 0 5px 0;
 }

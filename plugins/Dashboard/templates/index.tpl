@@ -152,7 +152,8 @@ function setAsDefaultWidgets() {
 
     <div class="ui-confirm" id="setAsDefaultWidgetsConfirm">
         <h2>{'Dashboard_SetAsDefaultWidgetsConfirm'|translate}</h2>
-        <div id="setAsDefaultWidgetsConfirmHelp">{'Dashboard_SetAsDefaultWidgetsConfirmHelp'|translate}</div>
+        {capture assign=resetDashboard}{'Dashboard_ResetDashboard'|translate}{/capture}
+        <div class="popoverSubMessage">{'Dashboard_SetAsDefaultWidgetsConfirmHelp'|translate:$resetDashboard}</div>
         <input role="yes" type="button" value="{'General_Yes'|translate}" />
         <input role="no" type="button" value="{'General_No'|translate}" />
     </div>
@@ -203,6 +204,7 @@ function setAsDefaultWidgets() {
 
     <div class="ui-confirm" id="removeDashboardConfirm">
         <h2>{'Dashboard_RemoveDashboardConfirm'|translate}</h2>
+        <div class="popoverSubMessage">{'Dashboard_NotUndo'|translate:$resetDashboard}</div>
         <input role="yes" type="button" value="{'General_Yes'|translate}" />
         <input role="no" type="button" value="{'General_No'|translate}" />
     </div>

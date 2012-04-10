@@ -63,6 +63,7 @@ $(document).ready(function() {
 	
 	$('input[name=deleteReportsEnable]').click(function() {
 		toggleBlock("deleteReportsSettings", $(this).val());
+		toggleBlock("deleteOldReportsMoreInfo", $(this).val());
 		toggleOtherDeleteSections();
 	}).change(reloadDbStats);
 	
@@ -71,6 +72,7 @@ $(document).ready(function() {
 		toggleBlock("deleteLogSettings", $("input[name=deleteEnable]:checked").val());
 		toggleBlock("anonymizeIPenabled", $("input[name=anonymizeIPEnable]:checked").val());
 		toggleBlock("deleteReportsSettings", $("input[name=deleteReportsEnable]:checked").val());
+		toggleBlock("deleteOldReportsMoreInfo", $("input[name=deleteReportsEnable]:checked").val());
 		toggleOtherDeleteSections();
 	});
 	

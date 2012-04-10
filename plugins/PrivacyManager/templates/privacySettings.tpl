@@ -41,7 +41,7 @@ See also our official guide <b><a href='http://piwik.org/privacy/' target='_blan
 								  checked {/if}/> {'PrivacyManager_AnonymizeIpMaskLength'|translate:"1":"192.168.100.xxx"}
 					</label><br/>
 					<label><input type="radio" name="maskLength" value="2" {if $anonymizeIP.maskLength eq '2'}
-								  checked {/if}/> {'PrivacyManager_AnonymizeIpMaskLength'|translate:"2":"192.168.xxx.xxx"} {'General_Recommended'|translate}</label><br/>
+								  checked {/if}/> {'PrivacyManager_AnonymizeIpMaskLength'|translate:"2":"192.168.xxx.xxx"} <span class="form-description">{'General_Recommended'|translate}</span></label><br/>
 					<label><input type="radio" name="maskLength" value="3" {if $anonymizeIP.maskLength eq '3'}
 								  checked {/if}/> {'PrivacyManager_AnonymizeIpMaskLength'|translate:"3":"192.xxx.xxx.xxx"}</label>
 				</td>
@@ -116,15 +116,20 @@ See also our official guide <b><a href='http://piwik.org/privacy/' target='_blan
 			</td>
 			<td width="500">
 				<label><input type="radio" name="deleteReportsEnable" value="1" {if $deleteData.config.delete_reports_enable eq '1'}checked="true"{/if}/> {'General_Yes'|translate}</label>
-				<label><input type="radio" name="deleteReportsEnable" value="0" {if $deleteData.config.delete_reports_enable eq '0'}checked="true"{/if} style="margin-left:20px;"/> {'General_No'|translate}</label>
+				<label><input type="radio" name="deleteReportsEnable" value="0" {if $deleteData.config.delete_reports_enable eq '0'}checked="true"{/if} style="margin-left:20px;"/> {'General_No'|translate}
 				<span class="form-description">{'General_Recommended'|translate}</span>
+				</label>
+				
 				<span class="ajaxSuccess">
-					{'PrivacyManager_DeleteReportsInfo'|translate}<br/><br/>
-					{'PrivacyManager_DeleteReportsInfo2'|translate}
+					{capture assign=deleteOldLogs}{'PrivacyManager_UseDeleteLog'|translate}{/capture}
+					{'PrivacyManager_DeleteReportsInfo'|translate}
+					<span id='deleteOldReportsMoreInfo'><br/><br/>
+					{'PrivacyManager_DeleteReportsInfo2'|translate:$deleteOldLogs}<br/><br/>
+					{'PrivacyManager_DeleteReportsInfo3'|translate:$deleteOldLogs}</span>
 				</span>
 			</td>
 			<td width="200">
-				{'PrivacyManager_DeleteReportsDetailedInfo'|translate|inlineHelp}
+				{'PrivacyManager_DeleteReportsDetailedInfo'|translate:'archive_numeric_*':'archive_blob_*'|inlineHelp}
 			</td>
 		</tr>
 		<tr id='deleteReportsSettings'>
