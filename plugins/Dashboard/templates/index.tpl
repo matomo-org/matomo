@@ -147,7 +147,7 @@ function setAsDefaultWidgets() {
     <div class="ui-confirm" id="confirm">
         <h2>{'Dashboard_DeleteWidgetConfirm'|translate}</h2>
         <input role="yes" type="button" value="{'General_Yes'|translate}" />
-        <input role="no" type="button" value="{'General_No'|translate}" />
+        <input role="no" type="button" value="{'General_Cancel'|translate}" />
     </div>
 
     <div class="ui-confirm" id="setAsDefaultWidgetsConfirm">
@@ -155,13 +155,13 @@ function setAsDefaultWidgets() {
         {capture assign=resetDashboard}{'Dashboard_ResetDashboard'|translate}{/capture}
         <div class="popoverSubMessage">{'Dashboard_SetAsDefaultWidgetsConfirmHelp'|translate:$resetDashboard}</div>
         <input role="yes" type="button" value="{'General_Yes'|translate}" />
-        <input role="no" type="button" value="{'General_No'|translate}" />
+        <input role="no" type="button" value="{'General_Cancel'|translate}" />
     </div>
 
     <div class="ui-confirm" id="resetDashboardConfirm">
         <h2>{'Dashboard_ResetDashboardConfirm'|translate}</h2>
         <input role="yes" type="button" value="{'General_Yes'|translate}" />
-        <input role="no" type="button" value="{'General_No'|translate}" />
+        <input role="no" type="button" value="{'General_Cancel'|translate}" />
     </div> 
 
     <div class="ui-confirm" id="dashboardEmptyNotification">
@@ -194,19 +194,19 @@ function setAsDefaultWidgets() {
     <div class="ui-confirm" id="createDashboardConfirm">
         <h2>{'Dashboard_CreateNewDashboard'|translate}</h2>
         <div id="createDashboardNameInput">
-            <label for="createDashboardName">{'Dashboard_DashboardName'|translate} </label><input type="input" name="newDashboardName" id="createDashboardName" value=""/><br />
-            <input type="radio" checked="checked" name="type" value="default" id="dashboard_type_default"><label for="dashboard_type_default">{'Dashboard_DefaultDashboard'|translate}</label><br />
-            <input type="radio" name="type" value="empty" id="dashboard_type_empty"><label for="dashboard_type_empty">{'Dashboard_EmptyDashboard'|translate}</label>
+            <label>{'Dashboard_DashboardName'|translate} <input type="input" name="newDashboardName" id="createDashboardName" value=""/></label><br />
+            <label><input type="radio" checked="checked" name="type" value="default" id="dashboard_type_default">{'Dashboard_DefaultDashboard'|translate}</label><br />
+            <label><input type="radio" name="type" value="empty" id="dashboard_type_empty">{'Dashboard_EmptyDashboard'|translate}</label>
         </div>
         <input role="yes" type="button" value="{'General_Yes'|translate}" />
-        <input role="no" type="button" value="{'General_No'|translate}" />
+        <input role="no" type="button" value="{'General_Cancel'|translate}" />
     </div>
 
     <div class="ui-confirm" id="removeDashboardConfirm">
         <h2>{'Dashboard_RemoveDashboardConfirm'|translate}</h2>
         <div class="popoverSubMessage">{'Dashboard_NotUndo'|translate:$resetDashboard}</div>
         <input role="yes" type="button" value="{'General_Yes'|translate}" />
-        <input role="no" type="button" value="{'General_No'|translate}" />
+        <input role="no" type="button" value="{'General_Cancel'|translate}" />
     </div>
 
     <div id="dashboardSettings">

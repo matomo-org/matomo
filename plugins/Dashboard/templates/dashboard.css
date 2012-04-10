@@ -400,8 +400,8 @@ div.widgetpreview-preview {
 }
 
 #newDashboardNameInput, #createDashboardNameInput {
-    margin: 10px 0 0 0;
-    text-align: center;
+     margin: 20px 0 0 100px;
+    text-align: left;
 }
 
 #createDashboardNameInput input {
