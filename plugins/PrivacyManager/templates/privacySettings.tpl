@@ -143,11 +143,11 @@ See also our official guide <b><a href='http://piwik.org/privacy/' target='_blan
 				<span class="form-description">{'PrivacyManager_LeastMonthsInput'|translate:"3"}</span><br/><br/>
 				<label><input type="checkbox" name="deleteReportsKeepBasic" value="1" {if $deleteData.config.delete_reports_keep_basic_metrics}checked="true"{/if}>{'PrivacyManager_KeepBasicMetrics'|translate}<span class="form-description">{'General_Recommended'|translate}</span></input>
 				</label><br/><br/>
-				<label>{'PrivacyManager_KeepDataFor'|translate}</label><br/><br/>
-				<input type="checkbox" name="deleteReportsKeepDay" value="1" {if $deleteData.config.delete_reports_keep_day_reports}checked="true"{/if}>{'General_DailyReports'|translate}</input><br/>
-				<input type="checkbox" name="deleteReportsKeepWeek" value="1" {if $deleteData.config.delete_reports_keep_week_reports}checked="true"{/if}>{'General_WeeklyReports'|translate}</input><br/>
-				<input type="checkbox" name="deleteReportsKeepMonth" value="1" {if $deleteData.config.delete_reports_keep_month_reports}checked="true"{/if}>{'General_MonthlyReports'|translate}<span class="form-description">{'General_Recommended'|translate}</span></input><br/>
-				<input type="checkbox" name="deleteReportsKeepYear" value="1" {if $deleteData.config.delete_reports_keep_year_reports}checked="true"{/if}>{'General_YearlyReports'|translate}<span class="form-description">{'General_Recommended'|translate}</span></input><br/>
+				{'PrivacyManager_KeepDataFor'|translate}<br/><br/>
+				<label><input type="checkbox" name="deleteReportsKeepDay" value="1" {if $deleteData.config.delete_reports_keep_day_reports}checked="true"{/if}>{'General_DailyReports'|translate}</input></label><br/>
+				<label><input type="checkbox" name="deleteReportsKeepWeek" value="1" {if $deleteData.config.delete_reports_keep_week_reports}checked="true"{/if}>{'General_WeeklyReports'|translate}</input></label><br/>
+				<label><input type="checkbox" name="deleteReportsKeepMonth" value="1" {if $deleteData.config.delete_reports_keep_month_reports}checked="true"{/if}>{'General_MonthlyReports'|translate}<span class="form-description">{'General_Recommended'|translate}</span></input></label><br/>
+				<label><input type="checkbox" name="deleteReportsKeepYear" value="1" {if $deleteData.config.delete_reports_keep_year_reports}checked="true"{/if}>{'General_YearlyReports'|translate}<span class="form-description">{'General_Recommended'|translate}</span></input></label><br/>
 			</td>
 			<td width="200">
 			
