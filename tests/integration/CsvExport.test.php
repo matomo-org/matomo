@@ -15,13 +15,13 @@ class Test_Piwik_Integration_CsvExport extends Test_Piwik_Integration_TwoVisitsW
 	{
 		$apiToCall = array('VisitsSummary.get', 'CustomVariables.getCustomVariables');
 
-		$enExtraParam = array('expanded' => 1, 'includeInnerNodes' => 0, 'translateColumnNames' => 1);
+		$enExtraParam = array('expanded' => 0, 'flat' => 1, 'include_aggregate_rows' => 0, 'translateColumnNames' => 1);
 
-		$deExtraParam = array('expanded' => 1, 'includeInnerNodes' => 1, 'translateColumnNames' => 1);
+		$deExtraParam = array('expanded' => 0, 'flat' => 1, 'include_aggregate_rows' => 1, 'translateColumnNames' => 1);
 
 		return array(
 			array($apiToCall, array('idSite' => $this->idSite, 'date' => $this->dateTime, 'format' => 'csv',
-									'otherRequestParameters' => array('expanded' => 0),
+									'otherRequestParameters' => array('expanded' => 0, 'flat' => 0),
 									'testSuffix' => '_xp0')),
 			
 			array($apiToCall, array('idSite' => $this->idSite, 'date' => $this->dateTime, 'format' => 'csv',

@@ -165,6 +165,10 @@ table.dataTable th.label {
 	border-left: 0;
 }
 
+table.dataTable span.label.highlighted {
+	font-style: italic;
+}
+
 /* the cell containing the subdatatable */
 table.dataTable .cellSubDataTable {
 	margin: 0;

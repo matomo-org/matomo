@@ -1,6 +1,7 @@
 {if $column=='label'}
 	<div class="dataTableRowActions">
-		{if !isset($properties.disable_row_evolution) || $properties.disable_row_evolution === false}
+		{if (!isset($properties.disable_row_evolution) || $properties.disable_row_evolution === false)
+				&& !(isset($javascriptVariablesToSet.flat) && $javascriptVariablesToSet.flat == 1)}
 			<a href="#" class="actionRowEvolution"><img src="themes/default/images/row_evolution.png" alt="" /></a>
 		{/if}
 	</div>
@@ -14,7 +15,7 @@
 {/if}
 {if $column=='label'}
 	{logoHtml metadata=$row.metadata alt=$row.columns.label}
-	<span class='label'>{* make sure there are no whitespaces inside the span
+	<span class='label{if !empty($row.metadata.is_aggregate) && $row.metadata.is_aggregate } highlighted{/if}'>{* make sure there are no whitespaces inside the span
 *}{/if}{*
 *}{if isset($row.columns[$column])}{$row.columns[$column]}{else}{$defaultWhenColumnValueNotDefined}{/if}{*
 *}{if $column=='label'}</span>{/if}

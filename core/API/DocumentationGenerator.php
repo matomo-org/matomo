@@ -174,16 +174,17 @@ class Piwik_API_DocumentationGenerator
 		// the parameter 'hideIdSubDatable' is used for integration tests only
 		// the parameter 'serialize' sets php outputs human readable, used in integration tests and debug
 		// the parameter 'language' sets the language for the response (eg. country names)
-		// the parameter 'includeInnerNodes' is used for nested csv/tsv export
+		// the parameter 'flat' reduces a hierarchical table to a single level by concatenating labels
+		// the parameter 'include_aggregate_rows' can be set to include inner nodes in flat reports
 		// the parameter 'translateColumnNames' can be set to translate metric names in csv/tsv exports
 		$aParameters['format'] = false;
 		$aParameters['hideIdSubDatable'] = false;
 		$aParameters['serialize'] = false;
 		$aParameters['language'] = false;
-		$aParameters['includeInnerNodes'] = false;
 		$aParameters['translateColumnNames'] = false;
         $aParameters['label'] = false;
 		$aParameters['flat'] = false;
+		$aParameters['include_aggregate_rows'] = false;
         $aParameters['filter_truncate'] = false;
 		
 		$moduleName = Piwik_API_Proxy::getInstance()->getModuleNameFromClassName($class);

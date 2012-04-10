@@ -67,13 +67,17 @@ class Piwik_API_DataTableManipulator_Flattener extends Piwik_API_DataTableManipu
 	private function flattenRow(Piwik_DataTable_Row $row, Piwik_DataTable $dataTable, $date,
 			$labelPrefix = '', $parentLogo = false) {
 		
-		$label = trim($row->getColumn('label'));
-		if (substr($label, 0, 1) == '/' && $this->recursiveLabelSeparator == '/')
+		$label = $row->getColumn('label');
+		if ($label !== false)
 		{
-			$label = substr($label, 1);
+			$label = trim($label);
+			if (substr($label, 0, 1) == '/' && $this->recursiveLabelSeparator == '/')
+			{
+				$label = substr($label, 1);
+			}
+			$label = $labelPrefix . $label;
+			$row->setColumn('label', $label);
 		}
-		$label = $labelPrefix . $label;
-		$row->setColumn('label', $label);
 		
 		$logo = $row->getMetadata('logo');
 		if ($logo === false && $parentLogo !== false)
@@ -87,14 +91,17 @@ class Piwik_API_DataTableManipulator_Flattener extends Piwik_API_DataTableManipu
 		
 		if ($subTable === null)
 		{
+			if ($this->includeAggregateRows)
+			{
+				$row->setMetadata('is_aggregate', 0);
+			}
 			$dataTable->addRow($row);
 		}
 		else
 		{
 			if ($this->includeAggregateRows)
 			{
-				$aggregate = Piwik_Translate('CoreHome_Aggregate');
-				$row->setColumn('label', $row->getColumn('label').' ['.$aggregate.']');
+				$row->setMetadata('is_aggregate', 1);
 				$dataTable->addRow($row);
 			}
 			$prefix = $label . $this->recursiveLabelSeparator;

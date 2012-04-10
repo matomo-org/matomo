@@ -53,21 +53,6 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 	public $convertToUnicode = true;
 	
 	/**
-	 * Whether to include inner nodes in the export or not
-	 * (only works if expanded=1)
-	 * 
-	 * @var bool
-	 */
-	public $includeInnerNodes = false;
-	
-	/**
-	 * Separator for building recursive labels (or paths)
-	 * 
-	 * @var string
-	 */
-	public $recursiveLabelSeparator = ' - ';
-	
-	/**
 	 * idSubtable will be exported in a column called 'idsubdatatable'
 	 *
 	 * @var bool
@@ -103,19 +88,9 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		$this->convertToUnicode = $bool;
 	}
 	
-	public function setIncludeInnerNodes($bool)
-	{
-		$this->includeInnerNodes = $bool;
-	}
-	
 	public function setSeparator($separator)
 	{
 		$this->separator = $separator;
-	}
-	
-	public function setRecursiveLabelSeparator($separator)
-	{
-		$this->recursiveLabelSeparator = $separator;
 	}
 	
 	protected function renderTable($table)
@@ -162,7 +137,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		return $str;
 	}
 	
-	protected function renderDataTable( $table, $returnRowArray = false, $labelPrefix = false )
+	protected function renderDataTable( $table )
 	{	
 		if($table instanceof Piwik_DataTable_Simple)
 		{
@@ -216,18 +191,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 				else
 				{
 					$allColumns[$name] = true;
-					if ($name == 'label' && $labelPrefix)
-					{
-						if (substr($value, 0, 1) == '/' && $this->recursiveLabelSeparator == '/')
-						{
-							$value = substr($value, 1);
-						}
-						$csvRow[$name] = $labelPrefix.$value;
-					}
-					else
-					{
-						$csvRow[$name] = $value;
-					}
+					$csvRow[$name] = $value;
 				}
 			}
 
@@ -264,26 +228,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 				}
 			}
 			
-			if($this->isRenderSubtables()
-				&& $row->getIdSubDataTable() !== null)
-			{
-				if($this->includeInnerNodes)
-				{
-					$csv[] = $csvRow;
-				}
-				try{
-					$idSubTable = $row->getIdSubDataTable();
-					$subTable = Piwik_DataTable_Manager::getInstance()->getTable($idSubTable);
-					$prefix = isset($csvRow['label']) ? $csvRow['label'].$this->recursiveLabelSeparator : '';
-					$csv = array_merge($csv, $this->renderDataTable($subTable, true, $prefix));
-				} catch (Exception $e) {
-					// the subtables are not loaded we don't do anything 
-				}
-			}
-			else
-			{
-				$csv[] = $csvRow;
-			}
+			$csv[] = $csvRow;
 		}
 		
 		// now we make sure that all the rows in the CSV array have all the columns
@@ -296,13 +241,6 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 					$row[$columnName] = '';
 				}
 			}
-		}
-		
-		// return the array of rows instead of the formatted string
-		// this is used for recursive calls
-		if($returnRowArray)
-		{
-			return $csv;
 		}
 		
 		$str = '';		

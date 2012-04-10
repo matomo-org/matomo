@@ -521,7 +521,11 @@ dataTable.prototype =
 			.click(function(){
 				var viewDataTable = $(this).attr('format');
 				self.setActiveIcon(this, domElem);
-				self.resetAllFilters();
+				
+				var filters = self.resetAllFilters();
+				self.param.flat = filters.flat;
+				self.param.include_aggregate_rows = filters.include_aggregate_rows;
+				
 				self.param.viewDataTable = viewDataTable;
 				self.reloadAjaxDataTable();
 				self.notifyWidgetParametersChange($(this), {viewDataTable: self.param.viewDataTable});
@@ -632,10 +636,15 @@ dataTable.prototype =
 						+'&period='+period
 						+'&date='+param_date
 						+ ( typeof self.param.filter_pattern != "undefined" ? '&filter_pattern=' + self.param.filter_pattern : '')
-						+ ( typeof self.param.filter_pattern_recursive != "undefined" ? '&filter_pattern_recursive=' + self.param.filter_pattern_recursive : '')
-						+'&expanded=1';
-				if (format == 'CSV' || format == 'TSV') {
-					str += '&includeInnerNodes=1';
+						+ ( typeof self.param.filter_pattern_recursive != "undefined" ? '&filter_pattern_recursive=' + self.param.filter_pattern_recursive : '');
+				
+				if (typeof self.param.flat != "undefined" && self.param.flat) {
+					str += '&flat=1';
+					if (typeof self.param.include_aggregate_rows != "undefined" && self.param.include_aggregate_rows) {
+						str += '&includeAggregateRows=1';
+					}
+				} else {
+					str += '&expanded=1';
 				}
 				if (format == 'CSV' || format == 'TSV' || format == 'RSS') {
 					str += '&translateColumnNames=1&language='+piwik.language;
@@ -697,9 +706,11 @@ dataTable.prototype =
 		
 		var ul = $('div.tableConfiguration ul', domElem);
 		
-		if (ul.find('li').size() == 0)
+		if (ul.find('li').size() == 0 ||
+			!(self.param.viewDataTable == 'table' || self.param.viewDataTable == 'tableAllColumns'
+				|| self.param.viewDataTable == 'tableGoals'))
 		{
-			// hide the icon when there are no actions available
+			// hide the icon when there are no actions available or we're not in a table view
 			$('div.tableConfiguration', domElem).remove();
 			return;
 		}

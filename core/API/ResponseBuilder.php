@@ -205,12 +205,7 @@ class Piwik_API_ResponseBuilder
 		}
 		else if($format == 'csv' || $format == 'tsv')
 		{
-			$renderer->setIncludeInnerNodes(Piwik_Common::getRequestVar('includeInnerNodes', true, 'int', $this->request));
 			$renderer->setConvertToUnicode(Piwik_Common::getRequestVar('convertToUnicode', true, 'int', $this->request));
-			if (substr($method, 0, 8) == 'Actions.')
-			{
-				$renderer->setRecursiveLabelSeparator('/');
-			}
 		}
 		
 		// prepare translation of column names
