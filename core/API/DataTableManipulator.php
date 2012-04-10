@@ -114,6 +114,10 @@ abstract class Piwik_API_DataTableManipulator
 		$dataTable = Piwik_API_Proxy::getInstance()->call($class, $method, $request);
 		$response = new Piwik_API_ResponseBuilder($format = 'original', $request);
 		$dataTable = $response->getResponse($dataTable);
+		if (method_exists($dataTable, 'applyQueuedFilters'))
+		{
+			$dataTable->applyQueuedFilters();
+		}
 		
 		return $dataTable;
 	}

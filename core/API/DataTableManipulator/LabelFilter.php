@@ -87,7 +87,7 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
 	 */
 	protected function doManipulate(Piwik_DataTable $dataTable, $date=false)
 	{
-		$row = $this->doFilterRecursiveDescend($dataTable, $date);
+		$row = $this->doFilterRecursiveDescend($this->labelParts, $dataTable, $date);
 		$newDataTable = $dataTable->getEmptyClone();
 		if ($row !== false)
 		{
@@ -100,11 +100,12 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
 	 * Method for the recursive descend
 	 * @return Piwik_DataTable_Row | false
 	 */
-	private function doFilterRecursiveDescend($dataTable, $date=false)
+	private function doFilterRecursiveDescend($labelParts, $dataTable, $date=false)
 	{
 		
 		// search for the first part of the tree search
-        $labelPart = array_shift($this->labelParts);
+        $labelPart = array_shift($labelParts);
+		
 		foreach ($this->getLabelVariations($labelPart) as $labelPart)
 		{
 			$row = $dataTable->getRowFromLabel($labelPart);
@@ -121,7 +122,7 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
 		}
 
 		// end of tree search reached
-		if (count($this->labelParts) == 0)
+		if (count($labelParts) == 0)
 		{
 			return $row;
 		}
@@ -133,7 +134,7 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
 			return false;
 		}
 		
-		return $this->doFilterRecursiveDescend($subTable, $date);
+		return $this->doFilterRecursiveDescend($labelParts, $subTable, $date);
 	}
 	
 	protected function manipulateSubtableRequest(&$request)
