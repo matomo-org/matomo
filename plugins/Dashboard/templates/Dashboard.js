@@ -306,35 +306,6 @@
      */
     function parseLayout(layout) {
 
-        // Handle old dashboard layout format used in piwik before 0.2.33
-        // A string that looks like 'Actions.getActions~Actions.getDownloads|UserCountry.getCountry|Referers.getSearchEngines';
-        // '|' separate columns
-        // '~' separate widgets
-        // '.' separate plugin name from action name
-        if (typeof layout == 'string') {
-            var newLayout = {};
-            var columns = layout.split('|');
-            for (var columnNumber=0; columnNumber<columns.length; columnNumber++) {
-                if (columns[columnNumber].length == 0) {
-                    continue;
-                }
-                var widgets = columns[columnNumber].split('~');
-                newLayout[columnNumber] = {};
-                for (var j=0; j<widgets.length; j++) {
-                    var wid = widgets[j].split('.');
-                    var uniqueId = 'widget'+wid[0]+wid[1];
-                    newLayout[columnNumber][j] = {
-                        uniqueId: uniqueId,
-                        parameters: {
-                            module: wid[0],
-                            action: wid[1]
-                        }
-                    };
-                }
-            }
-            layout = newLayout;
-        }
-
         // Handle layout array used in piwik before 1.7
         // column count was always 3, so use layout 33-33-33 as default
         if ($.isArray(layout)) {
