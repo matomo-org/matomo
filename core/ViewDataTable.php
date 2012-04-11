@@ -1199,10 +1199,11 @@ abstract class Piwik_ViewDataTable
 	 */
 	public function hasReportBeenPurged()
 	{
+		$strDate = Piwik_Common::getRequestVar('date');
 		if ((is_null($this->dataTable) || $this->dataTable->getRowsCount() == 0)
-			&& Piwik_Common::getRequestVar('period') != 'range')
+			&& strpos($strDate, ',') === false)
 		{
-			$reportDate = Piwik_Date::factory(Piwik_Common::getRequestVar('date'));
+			$reportDate = Piwik_Date::factory($strDate);
 			$reportYear = $reportDate->toString('Y');
 			$reportMonth = $reportDate->toString('m');
 			
