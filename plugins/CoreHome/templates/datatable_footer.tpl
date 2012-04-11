@@ -84,7 +84,7 @@
 		</div>
         <div class="limitSelection {if !$properties.show_pagination_control} hidden{/if}" title="{'General_RowsToDisplay'|translate:escape:'html'}"></div>
 		<div class="tableConfiguration">
-			<a class="tableConfigurationIcon"><img width="16" height="16" src="themes/default/images/configure.png" title="{'CoreHome_ConfigureView'|translate}" /></a>
+			<a class="tableConfigurationIcon" href="#"></a>
 			<ul>
 				{if isset($javascriptVariablesToSet.flat) && $javascriptVariablesToSet.flat == 1}
 					<li><div class="configItem dataTableIncludeAggregateRows"></div></li>

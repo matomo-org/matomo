@@ -660,18 +660,34 @@ table.dataTable .dataTableRowActions a img {
     margin-left: 5px;
     min-height: 20px;
 	min-width: 25px;
-	text-align: right;
 }
 
-a.tableConfigurationIcon img {
-	margin: 2px 6px 0 0;
+a.tableConfigurationIcon {
+	display: block;
+	width: 30px;
+	height: 22px;
+	background: url(../../../themes/default/images/configure.png) no-repeat center 2px;
+	position: absolute;
+	z-index: 9;
+	right: 0;
+}
+
+a.tableConfigurationIcon.highlighted {
+	display: block;
+	width: 30px;
+	height: 22px;
+	background-image: url(../../../themes/default/images/configure-highlight.png);
+	position: absolute;
+	z-index: 9;
+	right: 0;
 }
 
 .tableConfiguration ul {
-	margin-top: 18px;
     overflow: visible;
     background-color: #fff;
 	display: none;
+	position: relative;
+	z-index: 8;
 }
 
 .tableConfiguration ul.open {
@@ -697,7 +713,7 @@ a.tableConfigurationIcon img {
     -webkit-border-radius: 0 0 4px 4px;
 	height: 25px;
 	cursor: default;
-	margin-top: -40px;
+	margin-top: -4px;
 }
 
 .tableConfiguration ul li.first {

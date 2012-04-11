@@ -715,6 +715,10 @@ dataTable.prototype =
 			return;
 		}
 		
+		var icon = $('a.tableConfigurationIcon', domElem);
+		icon.click(function() { return false; });
+		var iconHighlighted = false;
+		
 		ul.find('li:first').addClass('first');
 		ul.find('li:last').addClass('last');
 		ul.prepend('<li class="firstDummy"></li>');
@@ -723,9 +727,11 @@ dataTable.prototype =
 		var open = function() {
 			self.exportToFormatHide(domElem, true);
 			ul.addClass('open');
+			icon.css('opacity', 1);
 		};
 		var close = function() {
 			ul.removeClass('open');
+			icon.css('opacity', icon.hasClass('highlighted') ? .85 : .6);
 		}; 
 		$('div.tableConfiguration', domElem).hover(open, close);
 		
@@ -741,12 +747,13 @@ dataTable.prototype =
 			};
 		};
 		
-		var getText = function(text)
+		var getText = function(text, addDefault)
 		{
 			text = _pk_translate(text);
 			if (text.indexOf('%s') > 0)
 			{
 				text = text.replace('%s', '<br /><span class="action">&raquo; ');
+				if (addDefault) text += ' (' + _pk_translate('CoreHome_Default_js') + ')';
 				text += '</span>';
 			}
 			return text;
@@ -756,7 +763,8 @@ dataTable.prototype =
 		{
 			if (typeof self.param[paramName] != 'undefined' && self.param[paramName] == 1)
 			{
-				$(el).html(getText(textA));
+				$(el).html(getText(textA, true));
+				iconHighlighted = true;
 			}
 			else
 			{
@@ -776,8 +784,9 @@ dataTable.prototype =
 				}
 				if(Number(self.param.enable_filter_excludelowpop) != 0)
 				{
-					string = getText('CoreHome_IncludeRowsWithLowPopulation_js');
+					string = getText('CoreHome_IncludeRowsWithLowPopulation_js', true);
 					self.param.enable_filter_excludelowpop = 1;
+					iconHighlighted = true;
 				}
 				else
 				{
@@ -808,6 +817,11 @@ dataTable.prototype =
 					self.param.filter_sort_column = '';
 				}
 			}));
+		
+		if (iconHighlighted) {
+			icon.addClass('highlighted');
+		}
+		close();
 	},
 	
 	//footer arrow position handler

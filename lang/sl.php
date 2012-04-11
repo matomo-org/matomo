@@ -295,7 +295,6 @@ $translations = array(
 	'CoreAdminHome_LogoUpload' => 'Izberite Logo za nalaganje',
 	'PrivacyManager_TeaserHeadline' => 'Nastavitve zasebnosti',
 	'CoreHome_ShowJSCode' => 'Prikaži JavaScript kodo za vstavljanje',
-	'CoreHome_IncludeAllPopulation_js' => 'Vključi vso populacijo',
 	'CoreHome_PeriodDay' => 'Dan',
 	'CoreHome_PeriodWeek' => 'Teden',
 	'CoreHome_PeriodMonth' => 'Mesec',
