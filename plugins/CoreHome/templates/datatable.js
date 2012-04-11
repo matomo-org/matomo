@@ -818,10 +818,25 @@ dataTable.prototype =
 				}
 			}));
 		
-		if (iconHighlighted) {
+		// handle highlighted icon
+		if (iconHighlighted)
+		{
 			icon.addClass('highlighted');
 		}
 		close();
+		
+		// fix a css bug of ie7
+		if (document.all && !window.opera && window.XMLHttpRequest)
+		{
+			window.setTimeout(function() {
+				open();
+				var width = 0;
+				ul.find('li').each(function() {
+					width = Math.max(width, $(this).width()); 
+				}).width(width);
+				close();
+			}, 400);
+		}
 	},
 	
 	//footer arrow position handler

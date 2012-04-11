@@ -688,6 +688,7 @@ a.tableConfigurationIcon.highlighted {
 	display: none;
 	position: relative;
 	z-index: 8;
+	text-align: left;
 }
 
 .tableConfiguration ul.open {
@@ -703,7 +704,6 @@ a.tableConfigurationIcon.highlighted {
     border-left: 1px solid #DFDFDF;
     border-right: 1px solid #DFDFDF;
     vertical-align: middle;
-	text-align: left;
 }
 
 .tableConfiguration ul li.firstDummy {
