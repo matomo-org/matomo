@@ -178,12 +178,13 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
 	 * @return Piwik_ViewDataTable
 	 */
 	public function getRowEvolutionGraph()
-	{	
-		// update period and date in $_GET because this is what is passed to the export icons
-		// under the evolution graph
-		// TODO: can we find a way around this?
-		$_GET['period'] = $this->period;
-		$_GET['date'] = $this->date;
+	{
+		// Not ideal to overwrite _GET FIXME
+		// Useful for "Export" buttons under graphs to export the data displayed in graph
+		if(!empty($this->date))
+		{
+			$_GET['date'] = $this->date;
+		}
 		
 		// set up the view data table
 		$view = Piwik_ViewDataTable::factory($this->graphType);
