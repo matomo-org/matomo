@@ -1593,14 +1593,6 @@
 		<value>Afficher le code JavaScript à insérer</value>
 	</row>
 	<row>
-		<label>CoreHome_IncludeAllPopulation_js</label>
-		<value>Inclure toute la population</value>
-	</row>
-	<row>
-		<label>CoreHome_ExcludeLowPopulation_js</label>
-		<value>Exclure les populations mineures</value>
-	</row>
-	<row>
 		<label>CoreHome_PageOf_js</label>
 		<value>%1$s de %2$s</value>
 	</row>
