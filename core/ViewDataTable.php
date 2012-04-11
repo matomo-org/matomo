@@ -1201,7 +1201,7 @@ abstract class Piwik_ViewDataTable
 	{
 		$strDate = Piwik_Common::getRequestVar('date');
 		if ((is_null($this->dataTable) || $this->dataTable->getRowsCount() == 0)
-			&& strpos($strDate, ',') === false)
+			&& Piwik_Period_Range::parseDateRange($strDate) === false)
 		{
 			$reportDate = Piwik_Date::factory($strDate);
 			$reportYear = $reportDate->toString('Y');
