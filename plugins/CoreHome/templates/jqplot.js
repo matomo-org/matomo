@@ -493,7 +493,7 @@ JQPlot.prototype = {
 		}
 		
 		// add little padding on top
-		maxCrossDataSets += Math.round(maxCrossDataSets * .03);
+		maxCrossDataSets += Math.max(1, Math.round(maxCrossDataSets * .03));
 
 		// round to the nearest multiple of ten
 		if (maxCrossDataSets > 15) {
@@ -502,6 +502,11 @@ JQPlot.prototype = {
 
 		if (maxCrossDataSets == 0) {
 			maxCrossDataSets = 1;
+		}
+		
+		// make sure percent axes don't go above 100%
+		if (axis.tickOptions.formatString.substring(2, 3) == '%' && maxCrossDataSets > 100) {
+			maxCrossDataSets = 100;
 		}
 
 		// calculate y-values for ticks

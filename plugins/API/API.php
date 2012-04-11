@@ -1053,6 +1053,7 @@ class Piwik_API_API
 		$dataTable = $this->loadRowEvolutionDataFromAPI($idSite, $period, $date, $apiModule, $apiAction, $label, $segment);
 		
 		$logo = $actualLabel = false;
+		$urlFound = false;
 		foreach ($dataTable->getArray() as $date => $subTable)
 		{
 			/** @var $subTable Piwik_DataTable */ 
@@ -1066,9 +1067,15 @@ class Piwik_API_API
 				{
 					$actualLabel = $row->getColumn('label');
 					$logo = $row->getMetadata('logo');
-					if ($row->getMetadata('url'))
+			
+					if ( ($url = $row->getMetadata('url'))
+						&& ($apiModule == 'Actions' 
+							|| ($apiModule == 'Referers'
+								&& $apiAction == 'getWebsites'))
+					)
 					{ 
-						$actualLabel = $row->getMetadata('url');
+						$actualLabel = preg_replace(';^http(s)?://(www.)?;i', '', $url);
+						$urlFound = true;
 					}
 				}
 				
@@ -1088,6 +1095,12 @@ class Piwik_API_API
 		}
 		
 		$this->enhanceRowEvolutionMetaData($metadata, $dataTable);
+		
+		// if we have a recursive label and no url, use the path
+		if (!$urlFound)
+		{
+			$actualLabel = str_replace(Piwik_API_DataTableManipulator_LabelFilter::SEPARATOR_RECURSIVE_LABEL, ' - ', $label);
+		}
 		
 		return array(
 			'label' => $actualLabel,
@@ -1194,6 +1207,7 @@ class Piwik_API_API
 		$lastDataTableRow = $lastDataTable->getFirstRow();
 		
 		// Process min/max values
+		$firstNonZeroFound = array();
 		foreach ($subDataTables as $subDataTable)
 		{
 			// $subDataTable is the report for one period, it has only one row
@@ -1201,6 +1215,14 @@ class Piwik_API_API
 			foreach ($metadata['metrics'] as $metric => $label)
 			{
 				$value = $firstRow ? floatval($firstRow->getColumn($metric)) : 0;
+				if ($value > 0)
+				{
+					$firstNonZeroFound[$metric] = true;
+				}
+				else if (!isset($firstNonZeroFound[$metric]))
+				{
+					continue;
+				}
 				if (!isset($metricsResult[$metric]['min']) 
 					|| $metricsResult[$metric]['min'] > $value)
 				{
@@ -1220,13 +1242,9 @@ class Piwik_API_API
 			$first = $firstDataTableRow ? floatval($firstDataTableRow->getColumn($metric)) : 0;
 			$last = $lastDataTableRow ? floatval($lastDataTableRow->getColumn($metric)) : 0;
 			
-			if ($first == 0 && $last == 0)
+			if ($first == 0)
 			{
-				$change = 0;
-			}
-			else if ($first == 0)
-			{
-				$change = 100;
+				continue;
 			}
 			else
 			{
@@ -1294,7 +1312,7 @@ class Piwik_API_API
 								&& $apiAction == 'getWebsites'))
 					)
 					{
-						$actualLabels[$labelIndex] = $url;
+						$actualLabels[$labelIndex] = preg_replace(';^http(s)?://(www.)?;i', '', $url);;
 						$urlFound = true;
 					}
 					

@@ -15,8 +15,8 @@
 						{$metric.sparkline}
 					</td>
 					<td class="text">
-						<span style="color:{$metric.color}">{$metric.label|escape:'html'}</span>: 
-						<span class="details">{$metric.details}</span>
+						<span style="color:{$metric.color}">{$metric.label|escape:'html'}</span>{if $metric.details}: 
+						<span class="details">{$metric.details}</span>{/if}
 					</td>
 				</tr>
 			{/foreach}

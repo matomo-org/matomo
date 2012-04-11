@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<label> incredible title 0</label>
+	<label>incredible title 0</label>
 	<logo></logo>
 	<reportData>
 		<result date="From 2010-02-01 to 2010-02-07">
@@ -74,9 +74,6 @@
 			</bounce_rate>
 			<avg_time_on_page>
 				<name>Avg. time on page</name>
-				<min>0</min>
-				<max>0</max>
-				<change>0%</change>
 
 			</avg_time_on_page>
 			<exit_rate>

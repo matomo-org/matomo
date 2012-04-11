@@ -159,6 +159,6 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 
 		$_GET = $saveGet;
 
-		return str_replace(array("\r", "\n", "'", '\"'), array('', '', "\\'", '\\\"'), $content);
+		return str_replace(array("\r", "\n"), '', $content);
 	}
 }

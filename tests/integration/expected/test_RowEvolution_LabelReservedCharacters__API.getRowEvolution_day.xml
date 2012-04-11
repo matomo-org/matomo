@@ -181,9 +181,6 @@
 		<metrics>
 			<nb_visits_0>
 				<name>free  -  proprietary (Visits)</name>
-				<min>0</min>
-				<max>0</max>
-				<change>0%</change>
 
 			</nb_visits_0>
 			<nb_visits_1>

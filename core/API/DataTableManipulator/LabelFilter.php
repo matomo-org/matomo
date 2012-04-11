@@ -147,7 +147,7 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
 	private function getLabelVariations($label) {
 		$variations = array(
 			$label,
-			htmlentities($label)
+			htmlspecialchars($label, Piwik_Common::HTML_ENCODING_QUOTE_STYLE, 'UTF-8')
 		);
 		
 		if ($this->apiModule == 'Actions' 
@@ -156,7 +156,7 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
 			// special case: the Actions.getPageTitles report prefixes some labels with a blank.
 			// the blank might be passed by the user but is removed in Piwik_API_Request::getRequestArrayFromString.
 			$variations[] = ' '.$label;
-			$variations[] = ' '.htmlentities($label);
+			$variations[] = ' '.htmlspecialchars($label, Piwik_Common::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
 		}
 		
 		return $variations;

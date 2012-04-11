@@ -54,8 +54,14 @@ abstract class Piwik_API_DataTableManipulator
 			foreach ($dataTable->getArray() as $date => $subTable)
 			{
 				// for period=week, the label is "2011-08-15 to 2011-08-21", which is
-				// an invalid date parameter => only use the first date (first 10 characters)
-				$dateForApiRequest = substr($date, 0, 10);
+				// an invalid date parameter => only use the first date
+				// in other languages the whole string does not start with the date so
+				// we need to preg match it.
+				if (!preg_match('/[0-9]{4}(-[0-9]{2})?(-[0-9]{2})?/', $date, $match))
+				{
+					throw new Exception("Could not recognize date: $date");
+				}
+				$dateForApiRequest = $match[0];
 				$subTable = $this->doManipulate($subTable, $dateForApiRequest);
 				$newTableArray->addTable($subTable, $date);
 			}

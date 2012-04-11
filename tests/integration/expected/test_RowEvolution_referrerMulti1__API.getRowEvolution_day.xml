@@ -180,17 +180,15 @@
 	<metadata>
 		<metrics>
 			<nb_visits_0>
-				<name>http://www.referrer0.com/theReferrerPage1.html (Visits)</name>
+				<name>referrer0.com/theReferrerPage1.html (Visits)</name>
 				<min>0</min>
 				<max>1</max>
-				<change>0%</change>
 
 			</nb_visits_0>
 			<nb_visits_1>
 				<name>www.referrer2.com (Visits)</name>
 				<min>0</min>
 				<max>1</max>
-				<change>0%</change>
 
 			</nb_visits_1>
 
