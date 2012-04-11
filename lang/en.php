@@ -435,7 +435,6 @@ $translations = array(
 	'CoreHome_DataForThisReportHasBeenPurged' => 'The data for this report is more than %s months old and has been purged.',
 	'CoreHome_CategoryNoData' => 'No data in this category. Try to "Include all population".',
 	'CoreHome_ShowJSCode' => 'Show the JavaScript code to insert',
-	'CoreHome_ConfigureView' => 'Configure view',
 	'CoreHome_IncludeRowsWithLowPopulation_js' => 'Rows with low population are hidden %s Show all rows',
 	'CoreHome_ExcludeRowsWithLowPopulation_js' => 'All rows are shown %s Exclude low population',
 	'CoreHome_DataTableIncludeAggregateRows_js' => 'Aggregate rows are hidden %s Show them',
