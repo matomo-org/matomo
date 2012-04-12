@@ -225,7 +225,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$resetToken = self::generatePasswordResetToken($user);
 
 		$ip = Piwik_IP::getIpFromHeader();
-		$url = Piwik_Url::getCurrentUrlWithoutQueryString() . "?module=Login&action=resetPassword&token=$resetToken";
+		$url = Piwik_Url::getCurrentUrlWithoutQueryString() . "?module=Login&action=resetPassword";
 
 		// send email with new password
 		try
