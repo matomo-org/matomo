@@ -534,8 +534,11 @@ class PhpSecInfo_Test
 					$gs = $matches[5];
 					$gs = explode(',', $gs);
 					foreach ($gs as $groupstr) {
-						preg_match("/(\d+)\(([^\)]+)\)/", $groupstr, $subs);
-						$groups[$subs[1]] = $subs[2];
+						if (preg_match("/(\d+)\(([^\)]+)\)/", $groupstr, $subs)) {
+							$groups[$subs[1]] = $subs[2];
+						} else {
+							$groups[$groupstr] = '';
+						}
 					}
 					ksort($groups);
 				}
