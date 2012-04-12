@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik_Plugins
  * @package Piwik_DoNotTrack
  */
@@ -30,14 +30,14 @@ class Piwik_DoNotTrack extends Piwik_Plugin
 	{
 		return array(
 			'description' => 'Ignore visits with X-Do-Not-Track or DNT header',
-			'author' => 'VIP Software Technologies Inc.',
-			'author_homepage' => 'http://activeanalytics.com/',
-			'version' => '0.3',
+			'author' => 'Piwik',
+			'author_homepage' => 'http://piwik.org/',
+			'version' => Piwik_Version::VERSION,
 			'translationAvailable' => false,
 			'TrackerPlugin' => true,
 		);
 	}
-	
+
 	public function getListHooksRegistered()
 	{
 		return array(
@@ -47,16 +47,16 @@ class Piwik_DoNotTrack extends Piwik_Plugin
 
 	function checkHeader($notification)
 	{
-		$setting = @Piwik_Tracker_Config::getInstance()->Tracker['do_not_track'];
+		$setting = @Piwik_Config::getInstance()->Tracker['do_not_track'];
 		if($setting === '1' &&
 			((isset($_SERVER['HTTP_X_DO_NOT_TRACK']) && $_SERVER['HTTP_X_DO_NOT_TRACK'] === '1') ||
-			(isset($_SERVER['HTTP_DNT']) && $_SERVER['HTTP_DNT'] === '1')))
+			(isset($_SERVER['HTTP_DNT']) && substr($_SERVER['HTTP_DNT'], 0, 1) === '1')))
 		{
 			$exclude =& $notification->getNotificationObject();
 			$exclude = true;
 
 			$trackingCookie = Piwik_Tracker_IgnoreCookie::getTrackingCookie();
-			$trackingCookie->delete();			
+			$trackingCookie->delete();
 		}
 	}
 }
