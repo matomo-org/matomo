@@ -350,9 +350,6 @@ page_maximum_length = 1024;
 ; For IPv4 addresses, valid values are 0..4; for IPv6 addresses, valid values are 0..16
 ip_address_mask_length = 1
 
-; Ignore visits with X-Do-Not-Track or DNT header
-do_not_track = 1
-
 ; DO NOT USE THIS SETTING ON PUBLICLY AVAILABLE PIWIK SERVER
 ; !!! Security risk: if set to 0, it would allow anyone to push data to Piwik with custom dates in the past/future and with fake IPs !!!
 ; When using the Tracking API, to override either the datetime and/or the visitor IP, 
