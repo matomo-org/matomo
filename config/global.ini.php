@@ -268,6 +268,12 @@ assume_secure_protocol = 0
 ;proxy_ips[] = 199.27.128.0/21
 ;proxy_ips[] = 173.245.48.0/20
 
+; List of trusted hosts (eg domain or subdomain names) when generating absolute URLs.
+;
+; Examples:
+;trusted_hosts[] = example.com
+;trusted_hosts[] = stats.example.com
+
 ; The release server is an essential part of the Piwik infrastructure/ecosystem
 ; to provide the latest software version.
 latest_version_url = http://piwik.org/latest.zip

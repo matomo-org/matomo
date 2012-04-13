@@ -159,6 +159,47 @@ class Piwik_Url
 		return 'http';
 	}
 
+	/*
+	 * Validate "Host" (untrusted user input)
+	 *
+	 * @param string $host         Contents of Host: header from Request
+	 * @param array  $trustedHosts An array of trusted hosts
+	 *
+	 * @return boolean True if valid; false otherwise
+	 */
+	public function isValidHost($host, $trustedHosts)
+	{
+		// Only punctuation we allow is '[', ']', ':', '.' and '-'
+		$hostLength = Piwik_Common::strlen($host);
+		if ($hostLength !== strcspn($host, '`~!@#$%^&*()_+={}\\|;"\'<>,?/ '))
+		{
+    			return false;
+		}
+
+		$untrustedHost = Piwik_Common::mb_strtolower($host);
+		$hostRegex     = Piwik_Common::mb_strtolower(str_replace('.', '\.', '/(^|.)' . implode('|', $trustedHosts) . '(:[0-9]+)?$/'));
+
+		return 0 !== preg_match($hostRegex, rtrim($untrustedHost, '.'));
+	}
+
+	/**
+	 * Get host
+	 *
+	 * @return string|false
+	 */
+	static public function getHost()
+	{
+		if (isset($_SERVER['HTTP_HOST'])
+			&& strlen($host = $_SERVER['HTTP_HOST'])
+			&& (!($trustedHosts = @Piwik_Config::getInstance()->General['trusted_hosts'])
+			|| self::isValidHost($host, $trustedHosts)))
+		{
+			return $host;
+		}
+
+		return false;
+	}
+
 	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
 	 * will return "example.org"
@@ -174,12 +215,8 @@ class Piwik_Url
 			$hostHeaders = array();
 		}
 
-		$default = Piwik_Common::sanitizeInputValue($default);
-		if(isset($_SERVER['HTTP_HOST'])
-			&& !empty($_SERVER['HTTP_HOST']))
-		{
-			$default = Piwik_Common::sanitizeInputValue($_SERVER['HTTP_HOST']);
-		}
+		$host = self::getHost();
+		$default = Piwik_Common::sanitizeInputValue($host ? $host : $default);
 
 		return Piwik_IP::getNonProxyIpFromHeader($default, $hostHeaders);
 	}
@@ -336,7 +373,7 @@ class Piwik_Url
 		// handle host name mangling
 		$requestUri = isset($_SERVER['SCRIPT_URI']) ? $_SERVER['SCRIPT_URI'] : '';
 		$parseRequest = @parse_url($requestUri);
-		$hosts = array(	$_SERVER['HTTP_HOST'], self::getCurrentHost() );
+		$hosts = array(	self::getHost(), self::getCurrentHost() );
 		if(isset($parseRequest['host']))
 		{
 			$hosts[] = $parseRequest['host'];

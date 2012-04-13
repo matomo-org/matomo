@@ -249,4 +249,30 @@ class Test_Piwik_Url extends UnitTestCase
 
 		$this->restoreGlobals($saved);
 	}
+
+	public function testIsValidHost()
+	{
+		$testData = array(
+			// $expected, $host, $trustedHosts, $description
+			array(true, 'example.com', array('example.com'), 'Naked domain'),
+			array(true, 'example.net', array('example.com', 'example.net'), 'Multiple domains'),
+			array(true, 'piwik.example.com', array('piwik.example.com'), 'Fully qualified domain name'),
+			array(true, 'piwik.example.com', array('example.com'), 'Valid subdomain'),
+			array(false, 'example.net', array('example.com'), 'Invalid domain'),
+			array(false, '.example.com', array('piwik.example.com'), 'Invalid subdomain'),
+			array(false, 'example-com', array('example.com'), 'Regex should match . literally'),
+			array(false, 'www.attacker.com?example.com', array('example.com'), 'Spoofed host'),
+			array(false, 'example.com.attacker.com', array('example.com'), 'Spoofed subdomain'),
+			array(true, 'example.com.', array('example.com'), 'Trailing . on host is actually valid'),
+			array(true, 'www-dev.example.com', array('example.com'), 'host with dashes is valid'),
+			array(true, 'www.example.com:8080', array('example.com'), 'host:port is valid'),
+		);
+ 
+		foreach ($testData as $test)
+		{
+			list($expected, $host, $trustedHosts, $description) = $test;
+ 
+			$this->assertEqual(Piwik_Url::isValidHost($host, $trustedHosts), $expected, $description);
+		}
+	}
 }
