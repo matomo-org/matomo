@@ -173,7 +173,7 @@ class Piwik_Url
 		$hostLength = Piwik_Common::strlen($host);
 		if ($hostLength !== strcspn($host, '`~!@#$%^&*()_+={}\\|;"\'<>,?/ '))
 		{
-    			return false;
+			return false;
 		}
 
 		$untrustedHost = Piwik_Common::mb_strtolower($host);
@@ -189,12 +189,19 @@ class Piwik_Url
 	 */
 	static public function getHost()
 	{
+		// HTTP/1.1 request
 		if (isset($_SERVER['HTTP_HOST'])
 			&& strlen($host = $_SERVER['HTTP_HOST'])
 			&& (!($trustedHosts = @Piwik_Config::getInstance()->General['trusted_hosts'])
 			|| self::isValidHost($host, $trustedHosts)))
 		{
 			return $host;
+		}
+		
+		// HTTP/1.0 request doesn't include Host: header
+		if (isset($_SERVER['SERVER_ADDR']))
+		{
+			return $_SERVER['SERVER_ADDR'];
 		}
 
 		return false;
@@ -203,7 +210,7 @@ class Piwik_Url
 	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
 	 * will return "example.org"
-	 *
+	 *	
 	 * @param string $default Default value to return if host unknown
 	 * @return string
 	 */
