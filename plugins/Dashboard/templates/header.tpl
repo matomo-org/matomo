@@ -12,6 +12,12 @@
     #Dashboard {
         position:absolute;
         z-index:5;
+        font-size:14px;
+        cursor: pointer;
+    }
+
+    #Dashboard > ul {
+        list-style: square inside none;
         background: #f7f7f7;
         border: 1px solid #e4e5e4;
         padding:5px 10px 6px 10px;
@@ -19,17 +25,12 @@
         -moz-border-radius:4px;
         -webkit-border-radius:4px;
         color:#444;
-        font-size:14px;
-        cursor: pointer;
+        height: 18px;
     }
 
-    #Dashboard:hover {
+    #Dashboard:hover ul {
         background:#f1f0eb;
         border-color:#a9a399;
-    }
-
-    #Dashboard > ul {
-        list-style: square inside none;
     }
 
     #Dashboard > ul > li {
