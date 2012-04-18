@@ -628,7 +628,9 @@ class Piwik(object):
         data = urllib.urlencode(args).encode('ascii', 'ignore')
         request = urllib2.Request(url + path, data, headers)
         response = urllib2.urlopen(request)
-        return response.read()
+        result = response.read()
+        response.close()
+        return result
 
     @staticmethod
     def _call_api(method, **kwargs):
