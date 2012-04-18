@@ -1,5 +1,5 @@
 // jslint.js
-// 2012-03-07
+// 2012-04-15
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -183,6 +183,7 @@
 //     undef      true, if variables can be declared out of order
 //     unparam    true, if unused parameters should be tolerated
 //     sloppy     true, if the 'use strict'; pragma is optional
+//     stupid     true, if really stupid practices are tolerated
 //     sub        true, if all forms of subscript notation are tolerated
 //     vars       true, if multiple var statements per function should be allowed
 //     white      true, if sloppy whitespace is tolerated
@@ -202,49 +203,50 @@
 // For example:
 
 /*properties
-    '\b', '\t', '\n', '\f', '\r', '!=', '!==', '"', '%', '\'', '(arguments)',
-    '(begin)', '(breakage)', '(context)', '(error)', '(identifier)', '(line)',
-    '(loopage)', '(name)', '(params)', '(scope)', '(token)', '(vars)', '(verb)',
-    '*', '+', '-', '/', '<', '<=', '==', '===', '>', '>=', ADSAFE,
-    Array, Date, Function, Object, '\\', a, a_label, a_not_allowed,
-    a_not_defined, a_scope, abbr, acronym, address, adsafe, adsafe_a,
-    adsafe_autocomplete, adsafe_bad_id, adsafe_div, adsafe_fragment, adsafe_go,
-    adsafe_html, adsafe_id, adsafe_id_go, adsafe_lib, adsafe_lib_second,
-    adsafe_missing_id, adsafe_name_a, adsafe_placement, adsafe_prefix_a,
-    adsafe_script, adsafe_source, adsafe_subscript_a, adsafe_tag, all,
-    already_defined, and, anon, applet, apply, approved, area, arity, article,
-    aside, assign, assign_exception, assignment_function_expression, at,
-    attribute_case_a, audio, autocomplete, avoid_a, b, background,
-    'background-attachment', 'background-color', 'background-image',
-    'background-position', 'background-repeat', bad_assignment, bad_color_a,
-    bad_constructor, bad_entity, bad_html, bad_id_a, bad_in_a, bad_invocation,
-    bad_name_a, bad_new, bad_number, bad_operand, bad_style, bad_type, bad_url_a,
-    bad_wrap, base, bdo, big, bitwise, block, blockquote, body, border,
-    'border-bottom', 'border-bottom-color', 'border-bottom-left-radius',
-    'border-bottom-right-radius', 'border-bottom-style', 'border-bottom-width',
-    'border-collapse', 'border-color', 'border-left', 'border-left-color',
-    'border-left-style', 'border-left-width', 'border-radius', 'border-right',
-    'border-right-color', 'border-right-style', 'border-right-width',
-    'border-spacing', 'border-style', 'border-top', 'border-top-color',
-    'border-top-left-radius', 'border-top-right-radius', 'border-top-style',
-    'border-top-width', 'border-width', bottom, br, braille, browser, button, c,
-    call, canvas, cap, caption, 'caption-side', center, charAt, charCodeAt,
-    character, cite, clear, clip, closure, cm, code, col, colgroup, color,
-    combine_var, command, conditional_assignment, confusing_a, confusing_regexp,
-    constructor_name_a, content, continue, control_a, 'counter-increment',
-    'counter-reset', create, css, cursor, d, dangerous_comment, dangling_a, data,
-    datalist, dd, debug, del, deleted, details, devel, dfn, dialog, dir,
-    direction, display, disrupt, div, dl, dt, duplicate_a, edge, edition, else,
-    em, embed, embossed, empty, 'empty-cells', empty_block, empty_case,
-    empty_class, entityify, eqeq, errors, es5, eval, evidence, evil, ex,
-    exception, exec, expected_a, expected_a_at_b_c, expected_a_b,
-    expected_a_b_from_c_d, expected_at_a, expected_attribute_a,
-    expected_attribute_value_a, expected_class_a, expected_fraction_a,
-    expected_id_a, expected_identifier_a, expected_identifier_a_reserved,
-    expected_lang_a, expected_linear_a, expected_media_a, expected_name_a,
-    expected_nonstandard_style_attribute, expected_number_a, expected_operator_a,
-    expected_percent_a, expected_positive_a, expected_pseudo_a,
-    expected_selector_a, expected_small_a, expected_space_a_b, expected_string_a,
+    '\b', '\t', '\n', '\f', '\r', '!', '!=', '!==', '"', '%', '\'',
+    '(arguments)', '(begin)', '(breakage)', '(context)', '(error)',
+    '(identifier)', '(line)', '(loopage)', '(name)', '(params)', '(scope)',
+    '(token)', '(vars)', '(verb)', '*', '+', '-', '/', '<', '<=', '==',
+    '===', '>', '>=', ADSAFE, Array, Date, Function, Object, '\\', a,
+    a_label, a_not_allowed, a_not_defined, a_scope, abbr, acronym, address,
+    adsafe, adsafe_a, adsafe_autocomplete, adsafe_bad_id, adsafe_div,
+    adsafe_fragment, adsafe_go, adsafe_html, adsafe_id, adsafe_id_go, adsafe_lib,
+    adsafe_lib_second, adsafe_missing_id, adsafe_name_a, adsafe_placement,
+    adsafe_prefix_a, adsafe_script, adsafe_source, adsafe_subscript_a,
+    adsafe_tag, all, already_defined, and, anon, applet, apply, approved, area,
+    arity, article, aside, assign, assign_exception,
+    assignment_function_expression, at, attribute_case_a, audio, autocomplete,
+    avoid_a, b, background, 'background-attachment', 'background-color',
+    'background-image', 'background-position', 'background-repeat',
+    bad_assignment, bad_color_a, bad_constructor, bad_entity, bad_html, bad_id_a,
+    bad_in_a, bad_invocation, bad_name_a, bad_new, bad_number, bad_operand,
+    bad_style, bad_type, bad_url_a, bad_wrap, base, bdo, big, bitwise, block,
+    blockquote, body, border, 'border-bottom', 'border-bottom-color',
+    'border-bottom-left-radius', 'border-bottom-right-radius',
+    'border-bottom-style', 'border-bottom-width', 'border-collapse',
+    'border-color', 'border-left', 'border-left-color', 'border-left-style',
+    'border-left-width', 'border-radius', 'border-right', 'border-right-color',
+    'border-right-style', 'border-right-width', 'border-spacing', 'border-style',
+    'border-top', 'border-top-color', 'border-top-left-radius',
+    'border-top-right-radius', 'border-top-style', 'border-top-width',
+    'border-width', bottom, br, braille, browser, button, c, call, canvas, cap,
+    caption, 'caption-side', center, charAt, charCodeAt, character, cite, clear,
+    clip, closure, cm, code, col, colgroup, color, combine_var, command,
+    conditional_assignment, confusing_a, confusing_regexp, constructor_name_a,
+    content, continue, control_a, 'counter-increment', 'counter-reset', create,
+    css, cursor, d, dangerous_comment, dangling_a, data, datalist, dd, debug,
+    del, deleted, details, devel, dfn, dialog, dir, direction, display, disrupt,
+    div, dl, dt, duplicate_a, edge, edition, else, em, embed, embossed, empty,
+    'empty-cells', empty_block, empty_case, empty_class, entityify, eqeq, errors,
+    es5, eval, evidence, evil, ex, exception, exec, expected_a,
+    expected_a_at_b_c, expected_a_b, expected_a_b_from_c_d, expected_at_a,
+    expected_attribute_a, expected_attribute_value_a, expected_class_a,
+    expected_fraction_a, expected_id_a, expected_identifier_a,
+    expected_identifier_a_reserved, expected_lang_a, expected_linear_a,
+    expected_media_a, expected_name_a, expected_nonstandard_style_attribute,
+    expected_number_a, expected_operator_a, expected_percent_a,
+    expected_positive_a, expected_pseudo_a, expected_selector_a,
+    expected_small_a, expected_space_a_b, expected_string_a,
     expected_style_attribute, expected_style_pattern, expected_tagname_a,
     expected_type_a, f, fieldset, figure, filter, first, flag, float, floor,
     font, 'font-family', 'font-size', 'font-size-adjust', 'font-stretch',
@@ -279,9 +281,9 @@
     reserved, reserved_a, rhino, right, rp, rt, ruby, safe, samp, scanned_a_b,
     screen, script, search, second, section, select, shift, slash_equal, slice,
     sloppy, small, sort, source, span, speech, split, src, statement_block,
-    stopping, strange_loop, strict, string, strong, style, styleproperty, sub,
-    subscript, substr, sup, supplant, t, table, 'table-layout', tag_a_in_b,
-    tbody, td, test, 'text-align', 'text-decoration', 'text-indent',
+    stopping, strange_loop, strict, string, strong, stupid, style, styleproperty,
+    sub, subscript, substr, sup, supplant, sync_a, t, table, 'table-layout',
+    tag_a_in_b, tbody, td, test, 'text-align', 'text-decoration', 'text-indent',
     'text-shadow', 'text-transform', textarea, tfoot, th, thead, third, thru,
     time, title, toLowerCase, toString, toUpperCase, token, too_long, too_many,
     top, tr, trailing_decimal_a, tree, tt, tty, tv, type, u, ul, unclosed,
@@ -292,10 +294,10 @@
     unreachable_a_b, unrecognized_style_attribute_a, unrecognized_tag_a, unsafe,
     unused, url, urls, use_array, use_braces, use_charAt, use_object, use_or,
     use_param, used_before_a, var, var_a_not, vars, 'vertical-align', video,
-    visibility, was, weird_assignment, weird_condition, weird_new,
-    weird_program, weird_relation, weird_ternary, white, 'white-space', widget,
-    width, windows, 'word-spacing', 'word-wrap', wrap, wrap_immediate,
-    wrap_regexp, write_is_wrong, writeable, 'z-index'
+    visibility, was, weird_assignment, weird_condition, weird_new, weird_program,
+    weird_relation, weird_ternary, white, 'white-space', widget, width, windows,
+    'word-spacing', 'word-wrap', wrap, wrap_immediate, wrap_regexp,
+    write_is_wrong, writeable, 'z-index'
 */
 
 // The global directive is used to declare global variables that can
@@ -355,6 +357,7 @@ var JSLINT = (function () {
             undef     : true,
             unparam   : true,
             sloppy    : true,
+            stupid    : true,
             sub       : true,
             vars      : true,
             white     : true,
@@ -560,6 +563,7 @@ var JSLINT = (function () {
             strange_loop: "Strange loop.",
             strict: "Strict violation.",
             subscript: "['{a}'] is better written in dot notation.",
+            sync_a: "Unexpected sync method: '{a}'.",
             tag_a_in_b: "A '<{a}>' must be within '<{b}>'.",
             too_long: "Line too long.",
             too_many: "Too many errors.",
@@ -677,7 +681,8 @@ var JSLINT = (function () {
             'r': '\r',
             '"': '"',
             '/': '/',
-            '\\': '\\'
+            '\\': '\\',
+            '!': '!'
         },
 
         devel = array_to_object([
@@ -2404,7 +2409,6 @@ klass:              do {
             advance();
             semicolon();
             strict_mode = true;
-            option.newcap = false;
             option.undef = false;
             return true;
         }
@@ -3645,6 +3649,8 @@ klass:              do {
         } else if (!option.evil && left && left.string === 'document' &&
                 (name === 'write' || name === 'writeln')) {
             warn('write_is_wrong', left);
+        } else if (!option.stupid && name.indexOf('Sync') > 0) {
+            warn('sync_a', token);
         } else if (option.adsafe) {
             if (!adsafe_top && left.string === 'ADSAFE') {
                 if (name === 'id' || name === 'lib') {
@@ -3895,7 +3901,7 @@ klass:              do {
                     warn('function_loop', get);
                 }
                 p = get.first;
-                if (p) {
+                if (p && p.length) {
                     warn('parameter_a_get_b', p[0], p[0].string, i);
                 }
                 comma();
@@ -6387,7 +6393,7 @@ klass:              do {
     };
     itself.jslint = itself;
 
-    itself.edition = '2012-03-07';
+    itself.edition = '2012-04-15';
 
     return itself;
 }());
