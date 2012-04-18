@@ -380,7 +380,7 @@ if (!this.JSON2) {
 	event, which, button, srcElement, type, target,
 	parentNode, tagName, hostname, className,
 	userAgent, cookieEnabled, platform, mimeTypes, enabledPlugin, javaEnabled,
-	XDomainRequest, XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, setRequestHeader, send, readyState, status,
+	XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, setRequestHeader, send, readyState, status,
 	getTime, getTimeAlias, setTime, toGMTString, getHours, getMinutes, getSeconds,
 	toLowerCase, charAt, indexOf, lastIndexOf, split, slice, toUpperCase,
 	onload, src,
@@ -1159,10 +1159,9 @@ var
 					// we use the progid Microsoft.XMLHTTP because
 					// IE5.5 included MSXML 2.5; the progid MSXML2.XMLHTTP
 					// is pinned to MSXML2.XMLHTTP.3.0
-					var xhr = windowAlias.XDomainRequest ? new windowAlias.XDomainRequest() :
-							windowAlias.XMLHttpRequest ? new windowAlias.XMLHttpRequest() :
-									windowAlias.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') :
-											null;
+					var xhr = windowAlias.XMLHttpRequest ? new windowAlias.XMLHttpRequest() :
+							windowAlias.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') :
+									null;
 
 					xhr.open('POST', configTrackerUrl, true);
 
