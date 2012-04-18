@@ -380,7 +380,7 @@ if (!this.JSON2) {
 	event, which, button, srcElement, type, target,
 	parentNode, tagName, hostname, className,
 	userAgent, cookieEnabled, platform, mimeTypes, enabledPlugin, javaEnabled,
-	XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, setRequestHeader, send, readyState, status,
+	XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, send, readyState, status,
 	getTime, getTimeAlias, setTime, toGMTString, getHours, getMinutes, getSeconds,
 	toLowerCase, charAt, indexOf, lastIndexOf, split, slice, toUpperCase,
 	onload, src,
@@ -1172,11 +1172,10 @@ var
 						}
 					};
 
+					// see XMLHttpRequest Level 2 spec, section 4.7.2 for invalid headers
+					// @link http://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html
 					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
 
-					// Safari: unsafe headers
-//					xhr.setRequestHeader('Content-Length', request.length);
-//					xhr.setRequestHeader('Connection', 'close');
 					xhr.send(request);
 				} catch (e) {
 					// fallback
