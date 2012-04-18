@@ -287,6 +287,10 @@ class Configuration(object):
             '--output', dest='output',
             help="Redirect output (stdout and stderr) to the specified file"
         )
+        option_parser.add_option(
+            '--encoding', dest='encoding', default='utf8',
+            help="Log files encoding (default: %default)"
+        )
 
 
         self.options, self.filenames = option_parser.parse_args(sys.argv[1:])
@@ -1075,6 +1079,7 @@ class Parser(object):
             print 'Parsing log %s...' % filename
 
         for lineno, line in enumerate(file):
+            line = line.decode(config.options.encoding)
             # Guess the format if needed.
             if not config.format_regexp:
                 logging.debug('Guessing the log format...')
