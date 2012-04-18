@@ -16,6 +16,7 @@ import datetime
 import fnmatch
 import gzip
 import hashlib
+import httplib
 import inspect
 import itertools
 import logging
@@ -678,7 +679,7 @@ class Piwik(object):
                     raise urllib2.URLError("didn't receive the expected response. Response was %s "
                     % ((response[:200] + '..') if len(response) > 200 else response))
                 return response
-            except (urllib2.URLError, ValueError), e:
+            except (urllib2.URLError, httplib.HTTPException, ValueError), e:
                 logging.debug('Error when connecting to Piwik: %s', e)
                 errors += 1
                 if errors == PIWIK_MAX_ATTEMPTS:
