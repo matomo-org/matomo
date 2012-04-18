@@ -687,7 +687,10 @@ class Piwik(object):
                 logging.debug('Error when connecting to Piwik: %s', e)
                 errors += 1
                 if errors == PIWIK_MAX_ATTEMPTS:
-                    if isinstance(e, urllib2.URLError):
+                    if isinstance(e, urllib2.HTTPError):
+                        # See Python issue 13211.
+                        message = e.msg
+                    elif isinstance(e, urllib2.URLError):
                         message = e.reason
                     else:
                         message = str(e)
