@@ -1194,7 +1194,7 @@ abstract class Piwik_ViewDataTable
 	 * 
 	 * In order for this function to return true, the following must also be true:
 	 * - The data table for this report must either be empty or not have been fetched.
-	 * - The period of this report is not a range.
+	 * - The period of this report is not a multiple period.
 	 * - The date of this report must be older than the delete_reports_older_than config option.
 	 */
 	public function hasReportBeenPurged()
@@ -1202,11 +1202,36 @@ abstract class Piwik_ViewDataTable
 		$strPeriod = Piwik_Common::getRequestVar('period');
 		$strDate = Piwik_Common::getRequestVar('date');
 		
-		if ((is_null($this->dataTable) || $this->dataTable->getRowsCount() == 0)
-			&& $strPeriod != 'range'
-			&& !Piwik_Archive::isMultiplePeriod($strDate, $strPeriod))
+		if ((is_null($this->dataTable) || $this->dataTable->getRowsCount() == 0))
 		{
-			$reportDate = Piwik_Date::factory($strDate);
+			// if range, only look at the first date
+			if ($strPeriod == 'range')
+			{
+				$idSite = Piwik_Common::getRequestVar('idSite');
+				if ($idSite == 0 || intval($idSite) != 0)
+				{
+					$site = new Piwik_Site($idSite);
+					$timezone = $site->getTimezone();
+				}
+				else
+				{
+					$timezone = 'UTC';
+				}
+				
+				$period = new Piwik_Period_Range('range', $strDate, $timezone);
+				$reportDate = $period->getDateStart();
+			}
+			// if a multiple period, this function is irrelevant
+			else if (Piwik_Archive::isMultiplePeriod($strDate, $strPeriod))
+			{
+				return false;
+			}
+			// otherwise, use the date as given
+			else
+			{
+				$reportDate = Piwik_Date::factory($strDate);
+			}
+			
 			$reportYear = $reportDate->toString('Y');
 			$reportMonth = $reportDate->toString('m');
 			

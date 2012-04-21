@@ -34,6 +34,11 @@ class Piwik_PrivacyManager_ReportsPurger
 	private $reportPeriodsToKeep;
 	
 	/**
+	 * Whether to keep reports for segments or not.
+	 */
+	private $keepSegmentReports;
+	
+	/**
 	 * The maximum number of rows to delete per DELETE query.
 	 */
 	private $maxRowsToDeletePerQuery;
@@ -45,6 +50,12 @@ class Piwik_PrivacyManager_ReportsPurger
 	private $metricsToKeep;
 	
 	/**
+	 * Array that maps a year and month ('2012_01') with lists of archive IDs for segmented
+	 * archives. Used to keep segmented reports when purging.
+	 */
+	private $segmentArchiveIds = null;
+	
+	/**
 	 * Constructor.
 	 * 
 	 * @param int $deleteReportsOlderThan The number of months after which report/metric data
@@ -52,16 +63,18 @@ class Piwik_PrivacyManager_ReportsPurger
 	 * @param bool $keepBasicMetrics Whether to keep basic metrics or not.
 	 * @param array $reportPeriodsToKeep Array of period types. Reports for these periods will not
 	 *                                   be purged.
+	 * @param bool $keepSegmentReports Whether to keep reports for segments or not.
 	 * @param array $metricsToKeep List of metrics that should be kept. if $keepBasicMetrics
 	 *                             is true, these metrics will be saved.
 	 * @param int $maxRowsToDeletePerQuery The maximum number of rows to delete per DELETE query.
 	 */
 	public function __construct( $deleteReportsOlderThan, $keepBasicMetrics, $reportPeriodsToKeep,
-								 $metricsToKeep, $maxRowsToDeletePerQuery )
+								 $keepSegmentReports, $metricsToKeep, $maxRowsToDeletePerQuery )
 	{
 		$this->deleteReportsOlderThan = $deleteReportsOlderThan;
 		$this->keepBasicMetrics = $keepBasicMetrics;
 		$this->reportPeriodsToKeep = $reportPeriodsToKeep;
+		$this->keepSegmentReports = $keepSegmentReports;
 		$this->metricsToKeep = $metricsToKeep;
 		$this->maxRowsToDeletePerQuery = $maxRowsToDeletePerQuery;
 	}
@@ -82,6 +95,29 @@ class Piwik_PrivacyManager_ReportsPurger
 	{
 		// find archive tables to purge
 		list($oldNumericTables, $oldBlobTables) = $this->getArchiveTablesToPurge();
+		
+		// process blob tables first, since archive status is stored in the numeric archives
+		if (!empty($oldBlobTables))
+		{
+			// if no reports should be kept, drop tables, otherwise drop individual reports
+			if (empty($this->reportPeriodsToKeep) && !$this->keepSegmentReports)
+			{
+				Piwik_DropTables($oldBlobTables);
+			}
+			else
+			{
+				foreach ($oldBlobTables as $table)
+				{
+					$where = $this->getBlobTableWhereExpr($oldNumericTables, $table);
+					Piwik_DeleteAllRows($table, $where, $this->maxRowsToDeletePerQuery);
+				}
+				
+				if ($optimize)
+				{
+					Piwik_OptimizeTables($oldBlobTables);
+				}
+			}
+		}
 		
 		// deal with numeric tables
 		if (!empty($oldNumericTables))
@@ -105,29 +141,6 @@ class Piwik_PrivacyManager_ReportsPurger
 				Piwik_DropTables($oldNumericTables);
 			}
 		}
-		
-		// process blob tables
-		if (!empty($oldBlobTables))
-		{
-			// if no reports should be kept, drop tables, otherwise drop individual reports
-			if (empty($this->reportPeriodsToKeep))
-			{
-				Piwik_DropTables($oldBlobTables);
-			}
-			else
-			{
-				$where = "WHERE period NOT IN (".implode(',', $this->reportPeriodsToKeep).")";
-				foreach ($oldBlobTables as $table)
-				{
-					Piwik_DeleteAllRows($table, $where, $this->maxRowsToDeletePerQuery);
-				}
-				
-				if ($optimize)
-				{
-					Piwik_OptimizeTables($oldBlobTables);
-				}
-			}
-		}
 	}
 	
 	/**
@@ -146,6 +159,28 @@ class Piwik_PrivacyManager_ReportsPurger
 		// get archive tables that will be purged
 		list($oldNumericTables, $oldBlobTables) = $this->getArchiveTablesToPurge();
 		
+		// process blob tables first, since archive status is stored in the numeric archives
+		if (empty($this->reportPeriodsToKeep) && !$this->keepSegmentReports)
+		{
+			// not keeping any reports, so drop all tables
+			foreach ($oldBlobTables as $table)
+			{
+				$result[$table] = self::DROP_TABLE;
+			}
+		}
+		else
+		{
+			// figure out which rows will be deleted
+			foreach ($oldBlobTables as $table)
+			{
+				$rowCount = $this->getBlobTableDeleteCount($oldNumericTables, $table);
+				if ($rowCount > 0)
+				{
+					$result[$table] = $rowCount;
+				}
+			}
+		}
+		
 		// deal w/ numeric tables
 		if ($this->keepBasicMetrics == 1)
 		{
@@ -163,28 +198,6 @@ class Piwik_PrivacyManager_ReportsPurger
 		{
 			// not keeping any metrics, so drop the entire table
 			foreach ($oldNumericTables as $table)
-			{
-				$result[$table] = self::DROP_TABLE;
-			}
-		}
-		
-		// deal w/ blob tables
-		if (!empty($this->reportPeriodsToKeep))
-		{
-			// figure out which rows will be deleted
-			foreach ($oldBlobTables as $table)
-			{
-				$rowCount = $this->getBlobTableDeleteCount($table);
-				if ($rowCount > 0)
-				{
-					$result[$table] = $rowCount;
-				}
-			}
-		}
-		else
-		{
-			// not keeping any reports, so drop all tables
-			foreach ($oldBlobTables as $table)
 			{
 				$result[$table] = self::DROP_TABLE;
 			}
@@ -253,44 +266,96 @@ class Piwik_PrivacyManager_ReportsPurger
 			|| ($reportDateYear == $toRemoveYear && $reportDateMonth <= $toRemoveMonth);
 	}
 
-    private function getNumericTableDeleteCount( $table )
-    {
+	private function getNumericTableDeleteCount( $table )
+	{
 		$sql = "SELECT COUNT(*) FROM $table
 				 WHERE name NOT IN ('".implode("','", $this->metricsToKeep)."') AND name NOT LIKE 'done%'";
 		return (int)Piwik_FetchOne($sql);
-    }
+	}
 
-    private function getBlobTableDeleteCount( $table )
-    {
-		$sql = "SELECT COUNT(*) FROM $table WHERE period NOT IN (".implode(',', $this->reportPeriodsToKeep).")";
+	private function getBlobTableDeleteCount( $oldNumericTables, $table )
+	{
+		$sql = "SELECT COUNT(*) FROM $table ".$this->getBlobTableWhereExpr($oldNumericTables, $table);
 		return (int)Piwik_FetchOne($sql);
-    }
-    
-    /**
-     * Utility function. Creates a new instance of ReportsPurger with the supplied array
-     * of settings.
-     * 
-     * $settings must contain the following keys:
-     * -'delete_reports_older_than': The number of months after which reports/metrics are
-     *                               considered old.
-     * -'delete_reports_keep_basic_metrics': 1 if basic metrics should be kept, 0 if otherwise.
-     * -'delete_reports_keep_day_reports': 1 if daily reports should be kept, 0 if otherwise.
-     * -'delete_reports_keep_week_reports': 1 if weekly reports should be kept, 0 if otherwise.
-     * -'delete_reports_keep_month_reports': 1 if monthly reports should be kept, 0 if otherwise.
-     * -'delete_reports_keep_year_reports': 1 if yearly reports should be kept, 0 if otherwise.
-     * -'delete_logs_max_rows_per_query': Maximum number of rows to delete in one DELETE query.
-     */
-    public static function make( $settings, $metricsToKeep )
-    {
+	}
+	
+	/** Returns SQL WHERE expression used to find reports that should be purged. */
+	private function getBlobTableWhereExpr( $oldNumericTables, $table )
+	{
+		$where = "";
+		if (!empty($this->reportPeriodsToKeep)) // if keeping reports
+		{
+			$where = "WHERE period NOT IN (".implode(',', $this->reportPeriodsToKeep).")";
+			
+			// if not keeping segments make sure segments w/ kept periods are also deleted
+			if (!$this->keepSegmentReports)
+			{
+				$this->findSegmentArchives($oldNumericTables);
+				$archiveIds = $this->segmentArchiveIds[$this->getArchiveTableDate($table)];
+			
+				if (!empty($archiveIds))
+				{
+					$where .= " OR idarchive IN (".implode(',', $archiveIds).")";
+				}
+			}
+		}
+		return $where;
+	}
+	
+	/**
+	 * If we're going to keep segmented reports, we need to know which archives are
+	 * for segments. This info is only in the numeric tables, so we must query them.
+	 */
+	private function findSegmentArchives( $numericTables )
+	{
+		if (!is_null($this->segmentArchiveIds))
+		{
+			return;
+		}
+		
+		foreach ($numericTables as $table)
+		{
+			$tableDate = $this->getArchiveTableDate($table);
+			
+			$sql = "SELECT idarchive, name, date1, date2 FROM $table WHERE name != 'done' AND name LIKE 'done_%.%'";
+			$this->segmentArchiveIds[$tableDate] = Piwik_FetchCol($sql, 0);
+		}
+	}
+	
+	private function getArchiveTableDate( $table )
+	{
+		preg_match("/[a-zA-Z_]+([0-9]+_[0-9]+)/", $table, $matches);
+		return $matches[1];
+	}
+	
+	/**
+	 * Utility function. Creates a new instance of ReportsPurger with the supplied array
+	 * of settings.
+	 * 
+	 * $settings must contain the following keys:
+	 * -'delete_reports_older_than': The number of months after which reports/metrics are
+	 *                               considered old.
+	 * -'delete_reports_keep_basic_metrics': 1 if basic metrics should be kept, 0 if otherwise.
+	 * -'delete_reports_keep_day_reports': 1 if daily reports should be kept, 0 if otherwise.
+	 * -'delete_reports_keep_week_reports': 1 if weekly reports should be kept, 0 if otherwise.
+	 * -'delete_reports_keep_month_reports': 1 if monthly reports should be kept, 0 if otherwise.
+	 * -'delete_reports_keep_year_reports': 1 if yearly reports should be kept, 0 if otherwise.
+	 * -'delete_reports_keep_range_reports': 1 if range reports should be kept, 0 if otherwise.
+	 * -'delete_reports_keep_segment_reports': 1 if reports for segments should be kept, 0 if otherwise.
+	 * -'delete_logs_max_rows_per_query': Maximum number of rows to delete in one DELETE query.
+	 */
+	public static function make( $settings, $metricsToKeep )
+	{
 		return new Piwik_PrivacyManager_ReportsPurger(
 			$settings['delete_reports_older_than'],
 			$settings['delete_reports_keep_basic_metrics'] == 1,
 			self::getReportPeriodsToKeep($settings),
+			$settings['delete_reports_keep_segment_reports'] == 1,
 			$metricsToKeep,
 			$settings['delete_logs_max_rows_per_query']
 		);
-    }
-    
+	}
+	
 	/**
 	 * Utility function that returns an array period values based on the 'delete_reports_keep_*'
 	 * settings. The period values returned are the integer values stored in the DB.
@@ -303,11 +368,6 @@ class Piwik_PrivacyManager_ReportsPurger
 		$keepReportPeriods = array();
 		foreach (Piwik::$idPeriods as $strPeriod => $intPeriod)
 		{
-			if ($strPeriod == 'range')
-			{
-				continue;
-			}
-			
 			$optionName = "delete_reports_keep_{$strPeriod}_reports";
 			if ($settings[$optionName] == 1)
 			{

@@ -60,6 +60,11 @@ class Piwik_Sql
 		return self::getDb()->fetchOne($sql, $parameters);
 	}
 	
+	static public function fetchCol($sqlQuery, $columnN, $parameters = array())
+	{
+		return self::getDb()->fetchCol($sqlQuery, $columnN, $parameters);
+	}
+	
 	static public function deleteAllRows( $table, $where, $maxRowsPerQuery, $parameters = array() )
 	{
 		$sql = "DELETE FROM $table $where LIMIT ".(int)$maxRowsPerQuery;
@@ -160,6 +165,20 @@ function Piwik_FetchRow($sqlQuery, $parameters = array())
 function Piwik_FetchOne( $sqlQuery, $parameters = array())
 {
 	return Piwik_Sql::fetchOne($sqlQuery, $parameters);
+}
+
+/**
+ * Fetches a specific column of the result of the database query
+ * 
+ * @param string $sqlQuery
+ * @param int $columnN The column index to return.
+ * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
+ * @return array All column values in the result set. This will not be an array of rows, but an array
+ *               of values.
+ */
+function Piwik_FetchCol( $sqlQuery, $columnN, $parameters = array())
+{
+	return Piwik_Sql::fetchCol($sqlQuery, $columnN, $parameters);
 }
 
 /**

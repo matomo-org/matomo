@@ -63,6 +63,8 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 		$settings['delete_reports_keep_week_reports'] = 0;
 		$settings['delete_reports_keep_month_reports'] = 0;
 		$settings['delete_reports_keep_year_reports'] = 0;
+		$settings['delete_reports_keep_range_reports'] = 0;
+		$settings['delete_reports_keep_segment_reports'] = 0;
 		Piwik_PrivacyManager::savePurgeDataSettings($settings);
 		
 		$this->instance = new Piwik_PrivacyManager();
@@ -254,7 +256,7 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 			Piwik_Common::prefixTable('log_link_visit_action') => 6,
 			Piwik_Common::prefixTable('log_visit') => 3,
 			Piwik_Common::prefixTable('log_conversion_item') => 3,
-			Piwik_Common::prefixTable('archive_numeric_2012_01') => 1,
+			Piwik_Common::prefixTable('archive_numeric_2012_01') => 1, // remove the garbage metric
 			Piwik_Common::prefixTable('archive_blob_2012_01') => -1
 		);
 		$this->assertEqual($expectedPrediction, $prediction);
@@ -269,14 +271,12 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 		
 		$archiveTables = $this->getArchiveTableNames();
 		
-		// all numeric metrics should be saved (5 metrics per period w/ visits + 1 'done' archive for every period)
-		// except the garbage metric
-		$janRowCount = self::JAN_METRIC_ARCHIVE_COUNT * 5 + self::TOTAL_JAN_ARCHIVE_COUNT;
+		// all numeric metrics should be saved except the garbage metric
+		$janRowCount = $this->getExpectedNumericArchiveCountJan() - 1;
 		$this->assertEqual($janRowCount, $this->getTableCount($archiveTables['numeric'][0])); // January
 		
-		// check february numerics not deleted (5 metrics per period w/ visits + 1 'done' archive for every period)
-		// + 1 garbage metric
-		$febRowCount = self::FEB_METRIC_ARCHIVE_COUNT * 5 + self::TOTAL_FEB_ARCHIVE_COUNT + 1;
+		// check february numerics not deleted
+		$febRowCount = $this->getExpectedNumericArchiveCountFeb();
 		$this->assertEqual($febRowCount, $this->getTableCount($archiveTables['numeric'][1])); // February
 		
 		// check that the january blob table was dropped
@@ -306,7 +306,7 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 			Piwik_Common::prefixTable('log_visit') => 3,
 			Piwik_Common::prefixTable('log_conversion_item') => 3,
 			Piwik_Common::prefixTable('archive_numeric_2012_01') => -1,
-			Piwik_Common::prefixTable('archive_blob_2012_01') => 7 // removing 4 weeks, 1 month & 1 year + 1 garbage report
+			Piwik_Common::prefixTable('archive_blob_2012_01') => 10 // removing 4 weeks, 1 month & 1 year + 1 garbage report + 2 range reports + 1 segmented report
 		);
 		$this->assertEqual($expectedPrediction, $prediction);
 		
@@ -340,7 +340,7 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 			Piwik_Common::prefixTable('log_visit') => 3,
 			Piwik_Common::prefixTable('log_conversion_item') => 3,
 			Piwik_Common::prefixTable('archive_numeric_2012_01') => -1,
-			Piwik_Common::prefixTable('archive_blob_2012_01') => 8 // 5 days, 1 month & 1 year to remove + 1 garbage report
+			Piwik_Common::prefixTable('archive_blob_2012_01') => 11 // 5 days, 1 month & 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
 		);
 		$this->assertEqual($expectedPrediction, $prediction);
 		
@@ -374,7 +374,7 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 			Piwik_Common::prefixTable('log_visit') => 3,
 			Piwik_Common::prefixTable('log_conversion_item') => 3,
 			Piwik_Common::prefixTable('archive_numeric_2012_01') => -1,
-			Piwik_Common::prefixTable('archive_blob_2012_01') => 11 // 5 days, 4 weeks, 1 year to remove + 1 garbage report
+			Piwik_Common::prefixTable('archive_blob_2012_01') => 14 // 5 days, 4 weeks, 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
 		);
 		$this->assertEqual($expectedPrediction, $prediction);
 		
@@ -408,7 +408,7 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 			Piwik_Common::prefixTable('log_visit') => 3,
 			Piwik_Common::prefixTable('log_conversion_item') => 3,
 			Piwik_Common::prefixTable('archive_numeric_2012_01') => -1,
-			Piwik_Common::prefixTable('archive_blob_2012_01') => 11 // 5 days, 4 weeks & 1 year to remove + 1 garbage report
+			Piwik_Common::prefixTable('archive_blob_2012_01') => 14 // 5 days, 4 weeks & 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
 		);
 		$this->assertEqual($expectedPrediction, $prediction);
 		
@@ -420,6 +420,75 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 		// perform checks
 		$this->checkLogDataPurged();
 		$this->checkReportsAndMetricsPurged($janBlobsRemaining = 1); // 1 blob for 1 year
+	}
+	
+	/** Tests that purgeData works correctly when the 'keep range reports' setting is set to true. */
+	public function test_purgeData_deleteReportsKeepRangeReports()
+	{
+		Piwik_PrivacyManager::savePurgeDataSettings(array(
+			'delete_reports_keep_range_reports' => 1
+		));
+		
+		$this->addLogData();
+		$this->addReportData();
+		
+		// get purge data prediction
+		$prediction = Piwik_PrivacyManager::getPurgeEstimate();
+		
+		// perform checks on prediction
+		$expectedPrediction = array(
+			Piwik_Common::prefixTable('log_conversion') => 6,
+			Piwik_Common::prefixTable('log_link_visit_action') => 6,
+			Piwik_Common::prefixTable('log_visit') => 3,
+			Piwik_Common::prefixTable('log_conversion_item') => 3,
+			Piwik_Common::prefixTable('archive_numeric_2012_01') => -1,
+			Piwik_Common::prefixTable('archive_blob_2012_01') => 13 // 5 days, 4 weeks, 1 month & 1 year + 1 garbage report + 1 segmented report
+		);
+		$this->assertEqual($expectedPrediction, $prediction);
+		
+		// purge data
+		$this->setTimeToRun();
+		$this->instance->deleteLogData();
+		$this->instance->deleteReportData();
+		
+		// perform checks
+		$this->checkLogDataPurged();
+		$this->checkReportsAndMetricsPurged($janBlobsRemaining = 2); // 2 range blobs
+	}
+	
+	/** Tests that purgeData works correctly when the 'keep segment reports' setting is set to true. */
+	public function test_purgeData_deleteReportsKeepSegmentsReports()
+	{
+		Piwik_PrivacyManager::savePurgeDataSettings(array(
+			'delete_reports_keep_day_reports' => 1,
+			'delete_reports_keep_segment_reports' => 1
+		));
+		
+		$this->addLogData();
+		$this->addReportData();
+		
+		// get purge data prediction
+		$prediction = Piwik_PrivacyManager::getPurgeEstimate();
+		
+		// perform checks on prediction
+		$expectedPrediction = array(
+			Piwik_Common::prefixTable('log_conversion') => 6,
+			Piwik_Common::prefixTable('log_link_visit_action') => 6,
+			Piwik_Common::prefixTable('log_visit') => 3,
+			Piwik_Common::prefixTable('log_conversion_item') => 3,
+			Piwik_Common::prefixTable('archive_numeric_2012_01') => -1,
+			Piwik_Common::prefixTable('archive_blob_2012_01') => 9 // 4 weeks, 1 month & 1 year + 1 garbage report + 2 range reports
+		);
+		$this->assertEqual($expectedPrediction, $prediction);
+		
+		// purge data
+		$this->setTimeToRun();
+		$this->instance->deleteLogData();
+		$this->instance->deleteReportData();
+		
+		// perform checks
+		$this->checkLogDataPurged();
+		$this->checkReportsAndMetricsPurged($janBlobsRemaining = 6); // 1 segmented blob + 5 day blobs
 	}
 	
 	// --- utility functions follow ---
@@ -448,6 +517,7 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 		{
 			$dateTime = $start->subDay($daysAgo)->toString();
 			$t = $this->getTracker($this->idSite, $dateTime, $defaultInit = true);
+			$t->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729)');
 			
 			$t->setUrl("http://whatever.com");
 			$t->doTrackPageView('First page view');
@@ -482,6 +552,33 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 				$this->idSite, 'week', $dateTime);
 		}
 		
+		// add segment for one day
+		$archive = Piwik_Archive::build($this->idSite, 'day', '2012-01-14', 'browserName==FF');
+		$archive->getNumeric('nb_visits', 'nb_hits');
+		
+		Piwik_VisitorInterest_API::getInstance()->getNumberOfVisitsPerVisitDuration(
+			$this->idSite, 'day', '2012-01-14', 'browserName==FF');
+		
+		// add range within January
+		$rangeEnd = Piwik_Date::factory('2012-01-29');
+		$rangeStart = $rangeEnd->subDay(1);
+		$range = $rangeStart->toString('Y-m-d').",".$rangeEnd->toString('Y-m-d');
+		
+		$rangeArchive = Piwik_Archive::build($this->idSite, 'range', $range);
+		$rangeArchive->getNumeric('nb_visits', 'nb_hits');
+		
+		Piwik_VisitorInterest_API::getInstance()->getNumberOfVisitsPerVisitDuration($this->idSite, 'range', $range);
+		
+		// add range between January & February
+		$rangeStart = $rangeEnd;
+		$rangeEnd = $rangeStart->addDay(3);
+		$range = $rangeStart->toString('Y-m-d').",".$rangeEnd->toString('Y-m-d');
+		
+		$rangeArchive = Piwik_Archive::build($this->idSite, 'range', $range);
+		$rangeArchive->getNumeric('nb_visits', 'nb_hits');
+		
+		Piwik_VisitorInterest_API::getInstance()->getNumberOfVisitsPerVisitDuration($this->idSite, 'range', $range);
+		
 		// when archiving is initiated, the archive metrics & reports for EVERY loaded plugin
 		// are archived. don't want this test to depend on every possible metric, so get rid of
 		// the unwanted archive data now.
@@ -497,7 +594,7 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 		foreach ($archiveTables['numeric'] as $table)
 		{
 			$realTable = Piwik_Common::prefixTable($table);
-			Piwik_Query("DELETE FROM $realTable WHERE name NOT IN ('".implode("','", $metricsToSave)."', 'done')");
+			Piwik_Query("DELETE FROM $realTable WHERE name NOT IN ('".implode("','", $metricsToSave)."') AND name NOT LIKE 'done%'");
 		}
 		foreach ($archiveTables['blob'] as $table)
 		{
@@ -535,16 +632,15 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 		
 		$archiveTables = $this->getArchiveTableNames();
 		
-		// 2 entries per period w/ visits (5 for each metric) + 1 entry for every period in the month (the 'done' rows)
-		// + 1 garbage metric
-		$janMetricCount = self::JAN_METRIC_ARCHIVE_COUNT * 5 + self::TOTAL_JAN_ARCHIVE_COUNT + 1;
+		$janMetricCount = $this->getExpectedNumericArchiveCountJan();
 		$this->assertEqual($janMetricCount, $this->getTableCount($archiveTables['numeric'][0])); // January
 		
-		$febMetricCount = self::FEB_METRIC_ARCHIVE_COUNT * 5 + self::TOTAL_FEB_ARCHIVE_COUNT + 1;
+		// no range metric for february
+		$febMetricCount = $this->getExpectedNumericArchiveCountFeb();
 		$this->assertEqual($febMetricCount, $this->getTableCount($archiveTables['numeric'][1])); // February
 		
-		// 1 entry per period w/ visits + 1 garbage report
-		$this->assertEqual(self::JAN_METRIC_ARCHIVE_COUNT + 1, $this->getTableCount($archiveTables['blob'][0])); // January
+		// 1 entry per period w/ visits + 1 garbage report + 2 range reports + 1 segment report
+		$this->assertEqual(self::JAN_METRIC_ARCHIVE_COUNT + 1 + 2 + 1, $this->getTableCount($archiveTables['blob'][0])); // January
 		$this->assertEqual(self::FEB_METRIC_ARCHIVE_COUNT + 1, $this->getTableCount($archiveTables['blob'][1])); // February
 	}
 	
@@ -560,9 +656,8 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 		// check that the january numeric table was dropped
 		$this->assertFalse($this->tableExists($archiveTables['numeric'][0])); // January
 		
-		// check february numerics not deleted (5 metrics per period w/ visits + 1 'done' archive for every period)
-		// + 1 garbage metric
-		$febRowCount = self::FEB_METRIC_ARCHIVE_COUNT * 5 + self::TOTAL_FEB_ARCHIVE_COUNT + 1;
+		// check february numerics not deleted
+		$febRowCount = $this->getExpectedNumericArchiveCountFeb();
 		$this->assertEqual($febRowCount, $this->getTableCount($archiveTables['numeric'][1])); // February
 		
 		// check the january blob count
@@ -617,10 +712,26 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 			)
 		);
 	}
+	
+	private function getExpectedNumericArchiveCountJan()
+	{
+		// 5 entries per period w/ visits
+		// + 1 entry for every period in the month (the 'done' rows)
+		// + 1 garbage metric
+		// + 2 entries per range period (4 total) + 2 'done...' entries per range period (4 total)
+		// + 2 entries per segment (2 total) + 2 'done...' entries per segment (2 total)
+		return self::JAN_METRIC_ARCHIVE_COUNT * 5 + self::TOTAL_JAN_ARCHIVE_COUNT + 1 + 8 + 4;
+	}
+	
+	private function getExpectedNumericArchiveCountFeb()
+	{
+		// (5 metrics per period w/ visits
+		// + 1 'done' archive for every period)
+		// + 1 garbage metric
+		return self::FEB_METRIC_ARCHIVE_COUNT * 5 + self::TOTAL_FEB_ARCHIVE_COUNT + 1;
+	}
 
-	/**
-	 * Irrelevant. Just needs to be defined.
-	 */
+	/** Irrelevant. Just needs to be defined. */
 	public function getPathToTestDirectory()
 	{
 		return PIWIK_INCLUDE_PATH . '/tests/integration';
