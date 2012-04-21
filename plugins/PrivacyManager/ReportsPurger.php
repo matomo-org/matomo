@@ -317,8 +317,13 @@ class Piwik_PrivacyManager_ReportsPurger
 		{
 			$tableDate = $this->getArchiveTableDate($table);
 			
-			$sql = "SELECT idarchive, name, date1, date2 FROM $table WHERE name != 'done' AND name LIKE 'done_%.%'";
-			$this->segmentArchiveIds[$tableDate] = Piwik_FetchCol($sql, 0);
+			$sql = "SELECT idarchive FROM $table WHERE name != 'done' AND name LIKE 'done_%.%'";
+			
+			$this->segmentArchiveIds[$tableDate] = array();
+			foreach (Piwik_FetchAll($sql) as $row)
+			{
+				$this->segmentArchiveIds[$tableDate][] = $row['idarchive'];
+			}
 		}
 	}
 	
