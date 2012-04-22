@@ -117,12 +117,12 @@ class Piwik_Sql
 			$lockExprs[] = $table." WRITE";
 		}
 		
-		return self::query("LOCK TABLES ".implode(', ', $lockExprs));
+		return self::exec("LOCK TABLES ".implode(', ', $lockExprs));
 	}
 	
 	static public function unlockAllTables()
 	{
-		return self::query("UNLOCK TABLES");
+		return self::exec("UNLOCK TABLES");
 	}
 }
 
