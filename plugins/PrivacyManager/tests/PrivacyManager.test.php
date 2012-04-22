@@ -26,6 +26,9 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 	private $dateTime = null;
 	private $instance = null;
 	private $daysAgoStart = 50;
+	private $settings = null;
+	
+	private $unusedIdAction = null;
 	
 	public function __construct( $title = '' )
 	{
@@ -54,8 +57,8 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 		$settings['delete_logs_enable'] = 1;
 		// purging log data from before 2012-01-24
 		$settings['delete_logs_older_than'] = 35 + $daysSinceToday;
-		$settings['delete_max_rows_per_run'] = 0;
 		$settings['delete_logs_schedule_lowest_interval'] = 7;
+		$settings['delete_logs_max_rows_per_query'] = 100000;
 		$settings['delete_reports_enable'] = 1;
 		$settings['delete_reports_older_than'] = $monthsSinceToday;
 		$settings['delete_reports_keep_basic_metrics'] = 0;
@@ -67,6 +70,7 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 		$settings['delete_reports_keep_segment_reports'] = 0;
 		Piwik_PrivacyManager::savePurgeDataSettings($settings);
 		
+		$this->settings = $settings;
 		$this->instance = new Piwik_PrivacyManager();
 	}
 	
@@ -85,6 +89,10 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 		// refresh table name caches so next test will pass
 		Piwik_TablePartitioning::$tablesAlreadyInstalled = null;
 		Piwik::getTablesInstalled(true);
+		
+		// drop temporary tables
+		$tempTableName = Piwik_PrivacyManager_LogDataPurger::TEMP_TABLE_NAME;
+		Piwik_Query("DROP TABLE IF EXISTS ".Piwik_Common::prefixTable($tempTableName));
 	}
 	
 	/** Make sure the first time deleteLogData is run, nothing happens. */
@@ -422,6 +430,35 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 		$this->checkReportsAndMetricsPurged($janBlobsRemaining = 1); // 1 blob for 1 year
 	}
 	
+	/** Test no concurrency issues when deleting log data from log_action table. */
+	public function test_purgeLogData_concurrency()
+	{
+		Piwik_AddAction("LogDataPurger.actionsToKeepInserted.olderThan", array($this, 'addReferenceToUnusedAction'));
+		
+		$this->addLogData();
+		
+		$purger = Piwik_PrivacyManager_LogDataPurger::make($this->settings, true);
+		
+		$this->unusedIdAction = Piwik_FetchOne(
+			"SELECT idaction FROM ".Piwik_Common::prefixTable('log_action')." WHERE name = ?",
+			array('http://whatever.com/_40'));
+		$this->assertTrue($this->unusedIdAction);
+		
+		// purge data
+		$purger->purgeData();
+		
+		// check that actions were purged
+		$this->assertEqual(22, $this->getTableCount('log_action')); // January
+		
+		// check that the unused action still exists
+		$count = Piwik_FetchOne(
+			"SELECT COUNT(*) FROM ".Piwik_Common::prefixTable('log_action')." WHERE idaction = ?",
+			array($this->unusedIdAction));
+		$this->assertEqual(1, $count);
+		
+		$this->unusedIdAction = null; // so the hook won't get executed twice
+	}
+
 	/** Tests that purgeData works correctly when the 'keep range reports' setting is set to true. */
 	public function test_purgeData_deleteReportsKeepRangeReports()
 	{
@@ -499,7 +536,7 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 		// - 2012-01-09
 		// - 2012-01-14
 		// - 2012-01-19
-		// - 2012-01-24
+		// - 2012-01-24 <--- everything before this date is to be purged
 		// - 2012-01-29
 		// - 2012-02-03
 		// - 2012-02-08
@@ -508,6 +545,16 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 		// - 2012-02-23
 		// - 2012-02-28
 		// 6 visits in feb, 5 in jan
+		
+		// following actions are created:
+		// - 'First page view'
+		// - 'Second page view'
+		// - 'SKU2'
+		// - 'Canon SLR'
+		// - 'Electronics & Cameras'
+		// - for every visit (11 visits total):
+		//   - http://whatever.com/_{$daysSinceLastVisit}
+		//   - http://whatever.com/42/{$daysSinceLastVisit}
 		
 		$start = $this->dateTime;
 		$this->idSite = $this->createWebsite('2012-01-01', $ecommerce=1);
@@ -519,10 +566,12 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 			$t = $this->getTracker($this->idSite, $dateTime, $defaultInit = true);
 			$t->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729)');
 			
-			$t->setUrl("http://whatever.com");
+			// use $daysAgo to make sure new actions are created for every day and aren't used again.
+			// when deleting visits, some of these actions will no longer be referenced in the DB.
+			$t->setUrl("http://whatever.com/_$daysAgo");
 			$t->doTrackPageView('First page view');
 			
-			$t->setUrl("http://whatever.com/42");
+			$t->setUrl("http://whatever.com/42/$daysAgo");
 			$t->doTrackPageView('Second page view');
 			
 			$t->addEcommerceItem($sku = 'SKU2', $name = 'Canon SLR' , $category = 'Electronics & Cameras',
@@ -629,6 +678,7 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 		$this->assertEqual(22, $this->getTableCount('log_conversion'));
 		$this->assertEqual(22, $this->getTableCount('log_link_visit_action'));
 		$this->assertEqual(11, $this->getTableCount('log_conversion_item'));
+		$this->assertEqual(27, $this->getTableCount('log_action'));
 		
 		$archiveTables = $this->getArchiveTableNames();
 		
@@ -669,11 +719,39 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 	
 	private function checkLogDataPurged()
 	{
-		// 3 days removed by purge, so 3 visits, 6 conversions, 6 actions & 3 e-commerce orders removed
+		// 3 days removed by purge, so 3 visits, 6 conversions, 6 visit actions, 3 e-commerce orders
+		// & 6 actions removed
 		$this->assertEqual(8, $this->getTableCount('log_visit'));
 		$this->assertEqual(16, $this->getTableCount('log_conversion'));
 		$this->assertEqual(16, $this->getTableCount('log_link_visit_action'));
 		$this->assertEqual(8, $this->getTableCount('log_conversion_item'));
+		$this->assertEqual(21, $this->getTableCount('log_action'));
+	}
+	
+	/**
+	 * Event hook that adds a row into the DB that references unused idaction AFTER LogDataPurger
+	 * does the insert into the temporary table. When log_actions are deleted, this idaction should still
+	 * be kept. w/ the wrong strategy, it won't be and there will be a dangling reference
+	 * in the log_link_visit_action table.
+	 */
+	public function addReferenceToUnusedAction( $notification )
+	{
+		$unusedIdAction = $this->unusedIdAction;
+		if (is_null($unusedIdAction)) // make sure we only do this for one test case
+		{
+			return;
+		}
+		
+		$tempTableName = Piwik_Common::prefixTable(Piwik_PrivacyManager_LogDataPurger::TEMP_TABLE_NAME);
+		$logLinkVisitActionTable = Piwik_Common::prefixTable("log_link_visit_action");
+		
+		$sql = "INSERT INTO $logLinkVisitActionTable
+							(idsite, idvisitor, server_time, idvisit, idaction_url, idaction_url_ref,
+							idaction_name, idaction_name_ref, time_spent_ref_action)
+					 VALUES (1, 'abc', NOW(), 15, $unusedIdAction, $unusedIdAction,
+							 $unusedIdAction, $unusedIdAction, 1000)";
+		
+		Piwik_Query($sql);
 	}
 	
 	private function setTimeToRun()

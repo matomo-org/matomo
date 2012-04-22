@@ -55,8 +55,8 @@ class Piwik_TaskScheduler
 		$return = array();
 		
 		// for every priority level, starting with the highest and concluding with the lowest
-		for ($priority = Piwik_ScheduledTask::HIGH_PRIORITY;
-			 $priority != Piwik_ScheduledTask::LOW_PRIORITY;
+		for ($priority = Piwik_ScheduledTask::HIGHEST_PRIORITY;
+			 $priority <= Piwik_ScheduledTask::LOWEST_PRIORITY;
 			 ++$priority)
 		{
 			// Loop through each task

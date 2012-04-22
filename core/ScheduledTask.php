@@ -18,9 +18,11 @@
  */
 class Piwik_ScheduledTask
 {
-	const LOW_PRIORITY = 2;
-	const NORMAL_PRIORITY = 1;
-	const HIGH_PRIORITY = 0;
+	const LOWEST_PRIORITY 	= 12;
+	const LOW_PRIORITY 		= 9;
+	const NORMAL_PRIORITY 	= 6;
+	const HIGH_PRIORITY 	= 3;
+	const HIGHEST_PRIORITY 	= 0;
 	
 	/**
 	 * Class name where the specified method is located
@@ -48,6 +50,11 @@ class Piwik_ScheduledTask
 
 	function __construct( $_className, $_methodName, $_scheduledTime, $_priority = self::NORMAL_PRIORITY )
 	{
+		if ($_priority < self::HIGHEST_PRIORITY || $_priority > self::LOWEST_PRIORITY)
+		{
+			throw new Exception("Invalid priority for ScheduledTask '$_className.$_methodName': $_priority");
+		}
+		
 		$this->className = $_className;
 		$this->methodName = $_methodName;
 		$this->scheduledTime = $_scheduledTime;

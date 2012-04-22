@@ -71,11 +71,16 @@ class Piwik_PrivacyManager extends Piwik_Plugin
 	{
 		$tasks = &$notification->getNotificationObject();
 		
-		$purgeLogDataTask = new Piwik_ScheduledTask($this, 'deleteLogData', new Piwik_ScheduledTime_Daily());
-		$tasks[] = $purgeLogDataTask;
+		// both tasks are low priority so they will execute after most others, but not lowest, so 
+		// they will execute before the optimize tables task
 		
-		$purgeReportDataTask = new Piwik_ScheduledTask($this, 'deleteReportData', new Piwik_ScheduledTime_Daily());
+		$purgeReportDataTask = new Piwik_ScheduledTask(
+			$this, 'deleteReportData', new Piwik_ScheduledTime_Daily(), Piwik_ScheduledTask::LOW_PRIORITY);
 		$tasks[] = $purgeReportDataTask;
+		
+		$purgeLogDataTask = new Piwik_ScheduledTask(
+			$this, 'deleteLogData', new Piwik_ScheduledTime_Daily(), Piwik_ScheduledTask::LOW_PRIORITY);
+		$tasks[] = $purgeLogDataTask;
 	}
 
     function getJsFiles($notification)

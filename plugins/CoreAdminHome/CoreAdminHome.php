@@ -40,8 +40,8 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 	{
 		$tasks = &$notification->getNotificationObject();
 		
-		// low priority since tables should be optimized after they are modified
-		$priority = Piwik_ScheduledTask::LOW_PRIORITY;
+		// lowest priority since tables should be optimized after they are modified
+		$priority = Piwik_ScheduledTask::LOWEST_PRIORITY;
 		$optimizeArchiveTableTask = new Piwik_ScheduledTask ( $this, 
 															'optimizeArchiveTable',
 															new Piwik_ScheduledTime_Daily(),

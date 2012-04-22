@@ -68,6 +68,22 @@ class Piwik_Common
 	}
 	
 	/**
+	 * Returns an array containing the prefixed table names of every passed argument.
+	 * 
+	 * @param string ... The table names to prefix, ie "log_visit"
+	 * @return array The prefixed names in an array.
+	 */
+	static public function prefixTables()
+	{
+		$result = array();
+		foreach (func_get_args() as $table)
+		{
+			$result[] = self::prefixTable($table);
+		}
+		return $result;
+	}
+	
+	/**
 	 * Returns the table name, after removing the table prefix
 	 */
 	static public function unprefixTable($table)

@@ -60,7 +60,7 @@ class Piwik_Sql
 		return self::getDb()->fetchOne($sql, $parameters);
 	}
 	
-	static public function deleteAllRows( $table, $where, $maxRowsPerQuery, $parameters = array() )
+	static public function deleteAllRows( $table, $where, $maxRowsPerQuery = 100000, $parameters = array() )
 	{
 		$sql = "DELETE FROM $table $where LIMIT ".(int)$maxRowsPerQuery;
 		
@@ -94,6 +94,35 @@ class Piwik_Sql
 		}
 		
 		return self::query("DROP TABLE ".implode(',', $tables));
+	}
+	
+	static public function lockTables( $tablesToRead, $tablesToWrite )
+	{
+		if (!is_array($tablesToRead))
+		{
+			$tablesToRead = array($tablesToRead);
+		}
+		if (!is_array($tablesToWrite))
+		{
+			$tablesToWrite = array($tablesToWrite);
+		}
+		
+		$lockExprs = array();
+		foreach ($tablesToRead as $table)
+		{
+			$lockExprs[] = $table." READ";
+		}
+		foreach ($tablesToWrite as $table)
+		{
+			$lockExprs[] = $table." WRITE";
+		}
+		
+		return self::query("LOCK TABLES ".implode(', ', $lockExprs));
+	}
+	
+	static public function unlockAllTables()
+	{
+		return self::query("UNLOCK TABLES");
 	}
 }
 
@@ -166,7 +195,7 @@ function Piwik_FetchOne( $sqlQuery, $parameters = array())
  * Deletes all desired rows in a table, while using a limit. This function will execute a
  * DELETE query until there are no more rows to delete.
  * 
- * @param string $table The table to delete from.
+ * @param string $table The name of the table to delete from. Must be prefixed.
  * @param string $where The where clause of the query. Must include the WHERE keyword.
  * @param int $maxRowsPerQuery The maximum number of rows to delete per DELETE query.
  * @param array $parameters Parameters to bind in the query.
@@ -178,9 +207,9 @@ function Piwik_DeleteAllRows( $table, $where, $maxRowsPerQuery, $parameters = ar
 }
 
 /**
- * Runs an OPTIMIZE TABLE query on the supplied table or tables.
+ * Runs an OPTIMIZE TABLE query on the supplied table or tables. The table names must be prefixed.
  * 
- * @param string|array The name of the table to optimize or an array of tables to optimize.
+ * @param string|array $tables The name of the table to optimize or an array of tables to optimize.
  * @return Zend_Db_Statement
  */
 function Piwik_OptimizeTables( $tables )
@@ -189,13 +218,35 @@ function Piwik_OptimizeTables( $tables )
 }
 
 /**
- * Drops the supplied table or tables.
+ * Drops the supplied table or tables. The table names must be prefixed.
  * 
- * @param string|array The name of the table to drop or an array of table names to drop.
+ * @param string|array $tables The name of the table to drop or an array of table names to drop.
  * @return Zend_Db_Statement
  */
 function Piwik_DropTables( $tables )
 {
 	return Piwik_Sql::dropTables($tables);
+}
+
+/**
+ * Locks the supplied table or tables. The table names must be prefixed.
+ * 
+ * @param string|array $tablesToRead The table or tables to obtain 'read' locks on.
+ * @param string|array $tablesToWrite The table or tables to obtain 'write' locks on.
+ * @return Zend_Db_Statement
+ */
+function Piwik_LockTables( $tablesToRead, $tablesToWrite )
+{
+	return Piwik_Sql::lockTables($tablesToRead, $tablesToWrite);
+}
+
+/**
+ * Releases all table locks.
+ * 
+ * @return Zend_Db_Statement
+ */
+function Piwik_UnlockAllTables()
+{
+	return Piwik_Sql::unlockAllTables();
 }
 
