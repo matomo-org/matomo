@@ -55,6 +55,7 @@ class Piwik_Unzip_PclZip implements Piwik_Unzip_Interface
 		return $this->pclzip->extract(
 				PCLZIP_OPT_PATH, $pathExtracted,
 				PCLZIP_OPT_STOP_ON_ERROR,
+				PCLZIP_OPT_REPLACE_NEWER,
 				PCLZIP_CB_PRE_EXTRACT, create_function(
 					'$p_event, &$p_header',
 					"return strncmp(\$p_header['filename'], '$pathExtracted', strlen('$pathExtracted')) ? 0 : 1;"
