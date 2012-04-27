@@ -4,23 +4,24 @@
 <script type="text/javascript">
 $(document).ready( function() {
     // Standard dashboard
-    if($('#periodString').length) 
+    if($('#periodString').length)
     {
         $('#periodString').after($('#dashboardSettings'));
         $('#dashboardSettings').css({left:$('#periodString')[0].offsetWidth+10});
     }
     // Embed dashboard
-    else 
+    if(!$('#topBars').length)
     {
-        $('#dashboardSettings').css({left:0, top:13});
+        $('#periodString').css({left: 10, top: 13});
+        $('#dashboardSettings').css({left:$('#periodString')[0].offsetWidth+23, top:13});
         $('#dashboardSettings').after($('#Dashboard'));
-        $('#Dashboard').css({left: $('#dashboardSettings')[0].offsetWidth+15, top: 13});
+        $('#Dashboard').css({left: $('#periodString')[0].offsetWidth+$('#dashboardSettings')[0].offsetWidth+43, top: 13});
         $('#dashboardWidgetsArea').css({marginTop: 30});
     }
 
     $('#dashboardSettings').on('click', function(){
         $('#dashboardSettings').toggleClass('visible');
-        if ($('dashboardWidgetsArea').dashboard('isDefaultDashboard')) {
+        if ($('#dashboardWidgetsArea').dashboard('isDefaultDashboard')) {
             $('#removeDashboardLink').hide();
         } else {
             $('#removeDashboardLink').show();
@@ -62,7 +63,7 @@ $(document).ready( function() {
         var width = new Array();
         $('div', this).each(function(){
             width.push(this.className.replace(/width-/, ''));
-        })
+        });
         $(this).attr('layout', width.join('-'));
     });
 
