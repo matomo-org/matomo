@@ -29,7 +29,7 @@ broadcast.init = function() {
 	$.history.init(broadcast.pageload, {unescape: true});
 	
 	piwikHelper.showAjaxLoading();
-}
+};
 
 /************************************************
  *
@@ -97,6 +97,12 @@ broadcast.propagateAjax = function (ajaxUrl)
     if( action != 'goalReport' && action != 'ecommerceReport')
     {
     	currentHashStr = broadcast.updateParamValue('idGoal=', currentHashStr);
+    }
+    // unset idDashboard if use doesn't display a dashboard
+    var module = broadcast.getParamValue('module', currentHashStr);
+    if( module != 'Dashboard')
+    {
+    	currentHashStr = broadcast.updateParamValue('idDashboard=', currentHashStr);
     }
     // Let history know about this new Hash and load it.
     $.history.load(currentHashStr);
@@ -252,7 +258,7 @@ broadcast.isHashExists = function()
     } else {
         return false;
     }
-},
+};
 
 /*
  * Get Hash from given url or from current location.
@@ -335,7 +341,7 @@ broadcast.getParamValue = function (param, url)
         }
         var value = url.substring(startStr + param.length +1,endStr);
         // sanitize values
-        var value = value.replace(/[^_%\-\<\>!@=,0-9a-zA-Z]/gi, '');
+        value = value.replace(/[^_%\-\<\>!@=,0-9a-zA-Z]/gi, '');
         
         return value;
     } else {
