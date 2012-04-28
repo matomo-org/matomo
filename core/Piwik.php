@@ -560,10 +560,15 @@ class Piwik
 			Piwik_Common::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect);
 		}
 
+		// Allow/Deny lives in different modules depending on the Apache version
+		$allow = "<IfModule mod_access.c>\nAllow from all\n</IfModule>\n<IfModule mod_authz_host>\nAllow from all\n</IfModule>\n<IfModule mod_access_compat>\nAllow from all\n</IfModule>\n";
+		$deny = "<IfModule mod_access.c>\nDeny from all\n</IfModule>\n<IfModule mod_authz_host>\nDeny from all\n</IfModule>\n<IfModule mod_access_compat>\nDeny from all\n</IfModule>\n";
+
 		// more selective allow/deny filters
-		$allowAny = "<Files \"*\">\nAllow from all\nSatisfy any\n</Files>\n";
-		$allowStaticAssets = "<Files ~ \"\\.(test\.php|gif|ico|jpg|png|js|css|swf)$\">\nSatisfy any\nAllow from all\n</Files>\n";
-		$denyDirectPhp = "<Files ~ \"\\.(php|php4|php5|inc|tpl|in)$\">\nDeny from all\n</Files>\n";
+		$allowAny = "<Files \"*\">\n".$allow."Satisfy any\n</Files>\n";
+		$allowStaticAssets = "<Files ~ \"\\.(test\.php|gif|ico|jpg|png|js|css|swf)$\">\n".$allow."Satisfy any\n</Files>\n";
+		$denyDirectPhp = "<Files ~ \"\\.(php|php4|php5|inc|tpl|in)$\">\n".$deny."</Files>\n";
+
 		$directoriesToProtect = array(
 			'/js' => $allowAny,
 			'/libs' => $denyDirectPhp . $allowStaticAssets,

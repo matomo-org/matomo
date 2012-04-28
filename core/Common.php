@@ -549,7 +549,7 @@ class Piwik_Common
 	 * @param string $path without trailing slash
 	 * @param string $content
 	 */
-	static public function createHtAccess( $path, $content = "<Files \"*\">\nDeny from all\n</Files>\n" )
+	static public function createHtAccess( $path, $content = "<Files \"*\">\n<IfModule mod_access.c>\nDeny from all\n</IfModule>\n<IfModule mod_authz_host>\nDeny from all\n</IfModule>\n<IfModule mod_access_compat>\nDeny from all\n</IfModule>\n</Files>\n" )
 	{
 		if(self::isApache())
 		{
