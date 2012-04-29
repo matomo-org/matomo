@@ -34,21 +34,26 @@
     }
 
     #Dashboard > ul > li {
-        padding: 0 10px;
         float: left;
+        text-align: center;
     }
 
     #Dashboard a {
         color: #444;
         text-decoration: none;
         font-weight: normal;
+        display: block;
     }
 
     #Dashboard > ul > li:hover , #Dashboard > ul > li:hover a,
     #Dashboard > ul > li.sfHover, #Dashboard > ul > li.sfHover a {
         color: #e87500;
+    }
+
+    #Dashboard > ul > li.sfHover, #Dashboard > ul > li.sfHover a {
         font-weight: bold;
     }
+
 </style>
 {/literal}
 </head>

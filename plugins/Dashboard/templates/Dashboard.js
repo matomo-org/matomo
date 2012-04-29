@@ -419,12 +419,14 @@
                 var dashboardMenuList = $('#Dashboard > ul');
                 dashboardMenuList.empty();
                 if (dashboards.length > 1) {
-                    $('#Dashboard > ul').show();
+                    dashboardMenuList.show();
                     for (var i=0; i<dashboards.length; i++) {
-                        dashboardMenuList.append('<li id="Dashboard_embeddedIndex_'+dashboards[i].iddashboard+'" class="dashboardMenuItem '+(dashboards[i].iddashboard == dashboardId ? 'sfHover' : '')+'"><a dashboardId="'+dashboards[i].iddashboard+'">'+dashboards[i].name+'</a></li>');
+                        dashboardMenuList.append('<li id="Dashboard_embeddedIndex_'+dashboards[i].iddashboard+'" class="dashboardMenuItem"><a dashboardId="'+dashboards[i].iddashboard+'">'+dashboards[i].name+'</a></li>');
                     }
+                    $('li a', dashboardMenuList).each(function(){$(this).css({width:$(this).width()+30, paddingLeft:0, paddingRight:0});});
+                    $('#Dashboard_embeddedIndex_'+dashboardId).addClass('sfHover');
                 } else {
-                    $('#Dashboard > ul').hide();
+                    dashboardMenuList.hide();
                 }
 
                 $('.dashboardMenuItem').on('click', function() {

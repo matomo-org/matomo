@@ -17,6 +17,8 @@ $(document).ready( function() {
         $('#dashboardSettings').after($('#Dashboard'));
         $('#Dashboard').css({left: $('#periodString')[0].offsetWidth+$('#dashboardSettings')[0].offsetWidth+43, top: 13});
         $('#dashboardWidgetsArea').css({marginTop: 30});
+        $('#Dashboard > ul li a').each(function(){$(this).css({width:$(this).width()+30, paddingLeft:0, paddingRight:0});});
+        $('#Dashboard_embeddedIndex_{/literal}{$dashboardId}{literal}').addClass('sfHover');
     }
 
     $('#dashboardSettings').on('click', function(){
