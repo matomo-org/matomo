@@ -422,6 +422,9 @@
                     dashboardMenuList.show();
                     for (var i=0; i<dashboards.length; i++) {
                         dashboardMenuList.append('<li id="Dashboard_embeddedIndex_'+dashboards[i].iddashboard+'" class="dashboardMenuItem"><a dashboardId="'+dashboards[i].iddashboard+'">'+dashboards[i].name+'</a></li>');
+                        if(dashboards[i].iddashboard == dashboardId) {
+                            dashboardName = dashboards[i].name;
+                        }
                     }
                     $('li a', dashboardMenuList).each(function(){$(this).css({width:$(this).width()+30, paddingLeft:0, paddingRight:0});});
                     $('#Dashboard_embeddedIndex_'+dashboardId).addClass('sfHover');
