@@ -421,7 +421,7 @@
                 if (dashboards.length > 1) {
                     $('#Dashboard > ul').show();
                     for (var i=0; i<dashboards.length; i++) {
-                        dashboardMenuList.append('<li class="dashboardMenuItem '+(dashboards[i].iddashboard == dashboardId ? 'sfHover' : '')+'"><a dashboardId="'+dashboards[i].iddashboard+'">'+dashboards[i].name+'</a></li>');
+                        dashboardMenuList.append('<li id="Dashboard_embeddedIndex_'+dashboards[i].iddashboard+'" class="dashboardMenuItem '+(dashboards[i].iddashboard == dashboardId ? 'sfHover' : '')+'"><a dashboardId="'+dashboards[i].iddashboard+'">'+dashboards[i].name+'</a></li>');
                     }
                 } else {
                     $('#Dashboard > ul').hide();
