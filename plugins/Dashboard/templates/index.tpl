@@ -119,6 +119,7 @@ function renameDashboard() {
 }
 
 function removeDashboard() {
+    $('#removeDashboardConfirm h2 span').html($('#dashboardWidgetsArea').dashboard('getDashboardName'));
     piwikHelper.modalConfirm('#removeDashboardConfirm', {yes: function(){ $('#dashboardWidgetsArea').dashboard('removeDashboard'); }});
 }
 
@@ -206,7 +207,7 @@ function setAsDefaultWidgets() {
     </div>
 
     <div class="ui-confirm" id="removeDashboardConfirm">
-        <h2>{'Dashboard_RemoveDashboardConfirm'|translate}</h2>
+        <h2>{'Dashboard_RemoveDashboardConfirm'|translate:'<span></span>'}</h2>
         <div class="popoverSubMessage">{'Dashboard_NotUndo'|translate:$resetDashboard}</div>
         <input role="yes" type="button" value="{'General_Yes'|translate}" />
         <input role="no" type="button" value="{'General_Cancel'|translate}" />
