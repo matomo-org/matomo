@@ -48,7 +48,7 @@
 
 var mappingMatchTypeName = {ldelim} 
 	"url": "{'Goals_URL'|translate|escape}", 
-	"url": "{'Goals_PageTitle'|translate|escape}", 
+	"title": "{'Goals_PageTitle'|translate|escape}", 
 	"file": "{'Goals_Filename'|translate|escape}", 
 	"external_website": "{'Goals_ExternalWebsiteUrl'|translate|escape}" 
 {rdelim};
