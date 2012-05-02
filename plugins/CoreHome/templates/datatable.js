@@ -744,6 +744,9 @@ dataTable.prototype =
 				self.param.filter_offset = 0;
 				if (callbackAfterToggle) callbackAfterToggle();
 				self.reloadAjaxDataTable(true, callbackSuccess);
+                var data = {};
+                data[paramName]    = self.param[paramName];
+                self.notifyWidgetParametersChange(domElem, data);
 			};
 		};
 		
@@ -815,6 +818,7 @@ dataTable.prototype =
 					// when including aggregate rows is enabled, we remove the sorting
 					// this way, the aggregate rows appear directly before their children
 					self.param.filter_sort_column = '';
+                    self.notifyWidgetParametersChange(domElem, {filter_sort_column: ''});
 				}
 			}));
 		
