@@ -9,6 +9,10 @@
 {include file="CoreHome/templates/js_css_includes.tpl"}
 {literal}
 <style>
+    #dashboard {
+        margin: -4px -6px 0 -12px;
+    }
+
     #Dashboard {
         position:absolute;
         z-index:5;
