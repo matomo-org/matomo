@@ -50,6 +50,9 @@ class Piwik_API extends Piwik_Plugin {
 		}
 	}
 
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	public function getCssFiles($notification) {
 		$cssFiles = &$notification->getNotificationObject();
 		
@@ -90,9 +93,12 @@ class Piwik_API_API
 		}
 		return self::$instance;
 	}
-	
+
 	/**
 	 * Derive the unit name from a column name
+	 * @param $columnName
+	 * @param $idSite
+	 * @return string
 	 */
 	static public function getUnit($columnName, $idSite)
 	{
@@ -112,9 +118,11 @@ class Piwik_API_API
 		
 		return '';
 	}
-	
+
 	/**
 	 * Is a lower value for a given column better?
+	 * @param $columnName
+	 * @return bool
 	 */
 	static public function isLowerValueBetter($columnName)
 	{
@@ -138,6 +146,7 @@ class Piwik_API_API
 	 * This is used for exports with translated labels. The exports contain columns that
 	 * are not visible in the UI and not present in the API meta data. These columns are
 	 * translated here.
+	 * @return array
 	 */
 	static public function getDefaultMetricTranslations()
 	{
@@ -1109,10 +1118,17 @@ class Piwik_API_API
 			'metadata' => $metadata
 		);
 	}
-	
+
 	/**
-	 * 
-	 * @return Piwik_DataTable_Array 
+	 * @param $idSite
+	 * @param $period
+	 * @param $date
+	 * @param $apiModule
+	 * @param $apiAction
+	 * @param $label
+	 * @param $segment
+	 * @throws Exception
+	 * @return Piwik_DataTable_Array
 	 */
 	private function loadRowEvolutionDataFromAPI($idSite, $period, $date, $apiModule, $apiAction, $label, $segment)
 	{	
@@ -1156,11 +1172,18 @@ class Piwik_API_API
 		
 		return $dataTable;
 	}
-	
+
 	/**
-	 * For a given API report, returns a simpler version 
+	 * For a given API report, returns a simpler version
 	 * of the metadata (will return only the metrics and the dimension name)
-	 * @return array 
+	 * @param $idSite
+	 * @param $period
+	 * @param $date
+	 * @param $apiModule
+	 * @param $apiAction
+	 * @param $language
+	 * @throws Exception
+	 * @return array
 	 */
 	private function getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language)
 	{

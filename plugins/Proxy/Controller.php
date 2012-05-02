@@ -131,7 +131,6 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 		if(!empty($referrer) && !Piwik_Url::isLocalUrl($referrer))
 		{
 			die('Invalid Referer detected - check that your browser sends the Referer header. <br/>The link you would have been redirected to is: '.$url);
-			exit;
 		}
 
 		// mask visits to *.piwik.org

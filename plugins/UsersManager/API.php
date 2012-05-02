@@ -26,14 +26,15 @@
 class Piwik_UsersManager_API 
 {
 	static private $instance = null;
-	
+
 	/**
-	 * You can create your own Users Plugin to override this class. 
+	 * You can create your own Users Plugin to override this class.
 	 * Example of how you would overwrite the UsersManager_API with your own class:
 	 * Call the following in your plugin __construct() for example:
-	 * 
+	 *
 	 * Zend_Registry::set('UsersManager_API',Piwik_MyCustomUsersManager_API::getInstance());
-	 * 
+	 *
+	 * @throws Exception
 	 * @return Piwik_UsersManager_API
 	 */
 	static public function getInstance()
@@ -67,13 +68,12 @@ class Piwik_UsersManager_API
 		Piwik::checkUserIsSuperUserOrTheUser($userLogin);
 		Piwik_SetOption($this->getPreferenceId($userLogin, $preferenceName), $preferenceValue);
 	}
-	
+
 	/**
 	 * Gets a user preference
 	 * @param string $userLogin
 	 * @param string $preferenceName
-	 * @param string $preferenceValue
-	 * @return void
+	 * @return bool|string
 	 */
 	public function getUserPreference($userLogin, $preferenceName)
 	{
@@ -89,7 +89,7 @@ class Piwik_UsersManager_API
 	/**
 	 * Returns the list of all the users
 	 * 
-	 * @param string Comma separated list of users to select. If not specified, will return all users
+	 * @param string $userLogins  Comma separated list of users to select. If not specified, will return all users
 	 * @return array the list of all the users
 	 */
 	public function getUsers( $userLogins = '' )
@@ -467,9 +467,9 @@ class Piwik_UsersManager_API
 	/**
 	 * Delete a user and all its access, given its login.
 	 * 
-	 * @param string the user login.
+	 * @param string $userLogin the user login.
 	 * 
-	 * @exception if the user doesn't exist
+	 * @throws Exception if the user doesn't exist
 	 * 
 	 * @return bool true on success
 	 */
@@ -520,15 +520,15 @@ class Piwik_UsersManager_API
 	 * 
 	 * If access = 'noaccess' the current access (if any) will be deleted.
 	 * If access = 'view' or 'admin' the current access level is deleted and updated with the new value.
-	 *  
-	 * @param string Access to grant. Must have one of the following value : noaccess, view, admin
-	 * @param string The user login 
-	 * @param int|array The array of idSites on which to apply the access level for the user. 
+	 *
+	 * @param string $userLogin The user login
+	 * @param string $access Access to grant. Must have one of the following value : noaccess, view, admin
+	 * @param int|array $idSites The array of idSites on which to apply the access level for the user.
 	 *       If the value is "all" then we apply the access level to all the websites ID for which the current authentificated user has an 'admin' access.
 	 * 
-	 * @exception if the user doesn't exist
-	 * @exception if the access parameter doesn't have a correct value
-	 * @exception if any of the given website ID doesn't exist
+	 * @throws Exception if the user doesn't exist
+	 * @throws Exception if the access parameter doesn't have a correct value
+	 * @throws Exception if any of the given website ID doesn't exist
 	 * 
 	 * @return bool true on success
 	 */
@@ -587,8 +587,8 @@ class Piwik_UsersManager_API
 	/**
 	 * Throws an exception is the user login doesn't exist
 	 * 
-	 * @param string user login
-	 * @exception if the user doesn't exist
+	 * @param string $userLogin user login
+	 * @throws Exception if the user doesn't exist
 	 */
 	private function checkUserExists( $userLogin )
 	{
@@ -601,8 +601,8 @@ class Piwik_UsersManager_API
 	/**
 	 * Throws an exception is the user email cannot be found
 	 * 
-	 * @param string user email
-	 * @exception if the user doesn't exist
+	 * @param string $userEmail user email
+	 * @throws Exception if the user doesn't exist
 	 */
 	private function checkUserEmailExists( $userEmail )
 	{
@@ -687,12 +687,14 @@ class Piwik_UsersManager_API
 			}
 		}
 	}
-	
+
 	/**
 	 * Generates a unique MD5 for the given login & password
-	 * 
-	 * @param string Login
-	 * @param string MD5ied string of the password
+	 *
+	 * @param string $userLogin Login
+	 * @param string $md5Password MD5ied string of the password
+	 * @throws Exception
+	 * @return string
 	 */
 	public function getTokenAuth($userLogin, $md5Password)
 	{

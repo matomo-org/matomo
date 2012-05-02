@@ -19,6 +19,7 @@ class Piwik_AnonymizeIP extends Piwik_Plugin
 {
 	/**
 	 * Get plugin information
+	 * @return array
 	 */
 	public function getInformation()
 	{
@@ -33,6 +34,7 @@ class Piwik_AnonymizeIP extends Piwik_Plugin
 
 	/**
 	 * Get list of hooks to register
+	 * @return array
 	 */
 	public function getListHooksRegistered()
 	{
@@ -46,6 +48,7 @@ class Piwik_AnonymizeIP extends Piwik_Plugin
 	 *
 	 * @param string $ip IP address in network address format
 	 * @param int $maskLength Number of octets to reset
+	 * @return string
 	 */
 	static public function applyIPMask($ip, $maskLength)
 	{
@@ -65,6 +68,8 @@ class Piwik_AnonymizeIP extends Piwik_Plugin
 
 	/**
 	 * Hook on Tracker.Visit.setVisitorIp to anonymize visitor IP addresses
+	 *
+	 * @param Piwik_Event_Notification $notification  notification object
 	 */
 	function setVisitorIpAddress($notification)
 	{

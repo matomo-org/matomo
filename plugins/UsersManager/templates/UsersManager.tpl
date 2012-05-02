@@ -18,7 +18,6 @@
 	cursor: pointer;
 }
 .addrow {
-	font-color:#3A477B;
 	padding:1em;
 	font-weight:bold;
 }

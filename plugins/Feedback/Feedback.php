@@ -40,6 +40,9 @@ class Piwik_Feedback extends Piwik_Plugin
 		Piwik_AddTopMenu('General_GiveUsYourFeedback', array('module' => 'Feedback', 'action' => 'index'), true, $order = 20);
 	}
 
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	function getCssFiles( $notification )
 	{
 		$cssFiles = &$notification->getNotificationObject();
@@ -47,6 +50,9 @@ class Piwik_Feedback extends Piwik_Plugin
 		$cssFiles[] = "plugins/Feedback/templates/styles.css";
 	}
 
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	function getJsFiles( $notification )
 	{
 		$jsFiles = &$notification->getNotificationObject();

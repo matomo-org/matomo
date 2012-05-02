@@ -38,6 +38,9 @@ class Piwik_ExampleRssWidget extends Piwik_Plugin
 		return array( 'AssetManager.getCssFiles' => 'getCssFiles');
 	}
 
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	function getCssFiles( $notification )
 	{
 		$cssFiles = &$notification->getNotificationObject();

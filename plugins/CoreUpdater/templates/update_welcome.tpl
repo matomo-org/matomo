@@ -82,7 +82,6 @@
 
 {literal}
 <style type="text/css">
-submit 
 code {
 	background-color:#F0F7FF;
 	border-color:#00008B;

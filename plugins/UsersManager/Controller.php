@@ -251,9 +251,10 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 		}
 		echo $toReturn;
 	}
-	
+
 	/**
 	 * Records settings from the "User Settings" page
+	 * @throws Exception
 	 */
 	public function recordUserSettings()
 	{

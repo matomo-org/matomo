@@ -306,7 +306,7 @@ ul.widgetpreview-categorylist {
 ul.widgetpreview-categorylist li,
 ul.widgetpreview-widgetlist li {
     line-height:20px;
-    padding:0px 25px 0px 5px;
+    padding:0 25px 0 5px;
     border-radius:2px;
     -moz-border-radius:2px;
     -webkit-border-radius:2px;

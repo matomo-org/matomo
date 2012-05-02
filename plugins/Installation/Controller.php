@@ -144,6 +144,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 	/**
 	 * Installation Step 3: Database Set-up
+	 * @throws Exception|Zend_Db_Adapter_Exception
 	 */
 	function databaseSetup()
 	{

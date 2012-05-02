@@ -42,6 +42,9 @@ class Piwik_Widgetize extends Piwik_Plugin
 		Piwik_AddTopMenu('General_Widgets', array('module' => 'Widgetize', 'action' => 'index'), true, 5);
 	}
 
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	function getJsFiles($notification) 
 	{
 		$jsFiles = &$notification->getNotificationObject();
@@ -55,7 +58,10 @@ class Piwik_Widgetize extends Piwik_Plugin
 		$jsFiles[] = "plugins/Dashboard/templates/widgetMenu.js";
 		$jsFiles[] = "plugins/Widgetize/templates/widgetize.js";
 	}	
-	
+
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	function getCssFiles($notification) 
 	{
 		$cssFiles = &$notification->getNotificationObject();

@@ -516,13 +516,14 @@ class Piwik_SitesManager_API
 		Piwik_Site::clearCache();
 		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);
 	}
-	
+
 	/**
 	 * Delete a website from the database, given its Id.
-	 * 
-	 * Requires Super User access. 
+	 *
+	 * Requires Super User access.
 	 *
 	 * @param int $idSite
+	 * @throws Exception
 	 */
 	public function deleteSite( $idSite )
 	{
@@ -554,12 +555,13 @@ class Piwik_SitesManager_API
 
 		Piwik_PostEvent('SitesManager.deleteSite', $idSite);
 	}
-	
-	
+
+
 	/**
 	 * Checks that the array has at least one element
-	 * 
-	 * @exception if the parameter is not an array or if array empty 
+	 *
+	 * @param array $urls
+	 * @throws Exception
 	 */
 	private function checkAtLeastOneUrl( $urls )
 	{
@@ -593,12 +595,13 @@ class Piwik_SitesManager_API
 			throw new Exception(Piwik_TranslateException('SitesManager_ExceptionInvalidCurrency', array($currency, "USD, EUR, etc.")));
 		}
 	}
-	
+
 	/**
 	 * Checks that the submitted IPs (comma separated list) are valid
 	 * Returns the cleaned up IPs
 	 *
 	 * @param string $excludedIps Comma separated list of IP addresses
+	 * @throws Exception
 	 * @return array of IPs
 	 */
 	private function checkAndReturnExcludedIps($excludedIps)
@@ -773,23 +776,24 @@ class Piwik_SitesManager_API
 		Piwik_SetOption(self::OPTION_DEFAULT_TIMEZONE, $defaultTimezone);
 		return true;
 	}
-	
+
 	/**
 	 * Update an existing website.
 	 * If only one URL is specified then only the main url will be updated.
 	 * If several URLs are specified, both the main URL and the alias URLs will be updated.
-	 * 
-	 * @param int website ID defining the website to edit
-	 * @param string website name
-	 * @param string|array the website URLs
-	 * @param string Comma separated list of IPs to exclude from being tracked (allows wildcards)
-	 * @param string Timezone
-	 * @param string Currency code
-	 * @param string Group name where this website belongs
-	 * @param string Date at which the statistics for this website will start. Defaults to today's date in YYYY-MM-DD format
-	 * 
-	 * @exception if any of the parameter is not correct
-	 * 
+	 *
+	 * @param int $idSite website ID defining the website to edit
+	 * @param string $siteName website name
+	 * @param string|array $urls the website URLs
+	 * @param null $ecommerce
+	 * @param string $excludedIps Comma separated list of IPs to exclude from being tracked (allows wildcards)
+	 * @param null $excludedQueryParameters
+	 * @param string $timezone Timezone
+	 * @param string $currency Currency code
+	 * @param string $group Group name where this website belongs
+	 * @param string $startDate Date at which the statistics for this website will start. Defaults to today's date in YYYY-MM-DD format
+	 *
+	 * @throws Exception
 	 * @return bool true on success
 	 */
 	public function updateSite( $idSite, $siteName, $urls = null, $ecommerce = null, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null)
@@ -1063,11 +1067,12 @@ class Piwik_SitesManager_API
 	{
 		return Piwik_IP::getIpsForRange($ip) !== false;
 	}
-	
+
 	/**
 	 * Check that the website name has a correct format.
-	 * 
-	 * @exception if the website name is empty
+	 *
+	 * @param $siteName
+	 * @throws Exception
 	 */
 	private function checkName($siteName)
 	{
@@ -1080,8 +1085,8 @@ class Piwik_SitesManager_API
 	/**
 	 * Check that the array of URLs are valid URLs
 	 * 
-	 * @exception if any of the urls is not valid
-	 * @param array
+	 * @param array $urls
+	 * @throws Exception if any of the urls is not valid
 	 */
 	private function checkUrls($urls)
 	{

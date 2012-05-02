@@ -82,13 +82,14 @@ class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 		$view->fbStats = $this->getFeedData($feedburnerFeedName);
 		echo $view->render();
 	}
-	
+
 
 	/**
 	 * Returns array of counts and images based on Feedburner URI
-	 * 
+	 *
 	 * @param string $uri
-	 * @return array()
+	 * @throws Exception
+	 * @return array
 	 */
 	protected function getFeedData($uri)
 	{

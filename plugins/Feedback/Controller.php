@@ -25,6 +25,7 @@ class Piwik_Feedback_Controller extends Piwik_Controller
 
 	/**
 	 * send email to Piwik team and display nice thanks
+	 * @throws Exception
 	 */
 	function sendFeedback()
 	{

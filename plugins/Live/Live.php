@@ -35,14 +35,20 @@ class Piwik_Live extends Piwik_Plugin
 			'Menu.add' => 'addMenu',
 		);
 	}
-	
+
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	function getCssFiles( $notification )
 	{
 		$cssFiles = &$notification->getNotificationObject();
 		
 		$cssFiles[] = "plugins/Live/templates/live.css";
 	}	
-	
+
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	function getJsFiles( $notification )
 	{
 		$jsFiles = &$notification->getNotificationObject();

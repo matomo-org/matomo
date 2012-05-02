@@ -39,6 +39,9 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		return $hooks;
 	}
 
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	public function getReportMetadata($notification)
 	{
 		$reports = &$notification->getNotificationObject();
@@ -186,6 +189,10 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 			array(364)
 		);
 
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 * @return mixed
+	 */
 	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
@@ -200,7 +207,11 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		);
 		$archiveProcessing->archiveDataTable($dataTableToSum);
 	}
-	
+
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 * @return mixed
+	 */
 	public function archiveDay( $notification )
 	{
 		$this->archiveProcessing = $notification->getNotificationObject();
@@ -298,13 +309,19 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		$this->archiveProcessing->insertBlobRecord($recordName, $dataTable->getSerialized());
 		destroy($dataTable);
 	}
-	
+
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	static public function headerVisitsFrequency($notification)
 	{
 		$out =& $notification->getNotificationObject();
 		$out = '<div id="leftcolumn">';
 	}
-	
+
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	static public function footerVisitsFrequency($notification)
 	{
 		$out =& $notification->getNotificationObject();

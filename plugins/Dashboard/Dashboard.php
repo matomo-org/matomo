@@ -91,7 +91,10 @@ class Piwik_Dashboard extends Piwik_Plugin
 	{
 		Piwik_AddTopMenu('General_Dashboard', array('module' => 'CoreHome', 'action' => 'index'), true, 1);
 	}
-	
+
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	function getJsFiles( $notification )
 	{
 		$jsFiles = &$notification->getNotificationObject();
@@ -101,7 +104,10 @@ class Piwik_Dashboard extends Piwik_Plugin
 		$jsFiles[] = "plugins/Dashboard/templates/Dashboard.js";
 		$jsFiles[] = "plugins/Dashboard/templates/dashboardWidget.js";
 	}
-	
+
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	function getCssFiles( $notification )
 	{
 		$cssFiles = &$notification->getNotificationObject();
@@ -110,6 +116,9 @@ class Piwik_Dashboard extends Piwik_Plugin
 		$cssFiles[] = "plugins/Dashboard/templates/dashboard.css";
 	}
 
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	function deleteDashboardLayout($notification)
 	{
 		$userLogin = $notification->getNotificationObject();

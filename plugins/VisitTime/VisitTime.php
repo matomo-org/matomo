@@ -41,6 +41,9 @@ class Piwik_VisitTime extends Piwik_Plugin
 		return $hooks;
 	}
 
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	public function getReportMetadata($notification)
 	{
 		$reports = &$notification->getNotificationObject();
@@ -78,6 +81,9 @@ class Piwik_VisitTime extends Piwik_Plugin
 		Piwik_AddMenu('General_Visitors', 'VisitTime_SubmenuTimes', array('module' => 'VisitTime', 'action' => 'index'));
 	}
 
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	function getReportsWithGoalMetrics( $notification )
 	{
 		$dimensions =& $notification->getNotificationObject();
@@ -87,7 +93,10 @@ class Piwik_VisitTime extends Piwik_Plugin
                 			'action' => 'getVisitInformationPerServerTime',
     	);
 	}
-	
+
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	public function getSegmentsMetadata($notification)
 	{
 		$segments =& $notification->getNotificationObject();
@@ -109,7 +118,11 @@ class Piwik_VisitTime extends Piwik_Plugin
        			'acceptedValues' => $acceptedValues
        );
 	}
-	
+
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 * @return mixed
+	 */
 	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
@@ -122,7 +135,11 @@ class Piwik_VisitTime extends Piwik_Plugin
 		);
 		$archiveProcessing->archiveDataTable($dataTableToSum);
 	}
-	
+
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 * @return mixed
+	 */
 	public function archiveDay( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();

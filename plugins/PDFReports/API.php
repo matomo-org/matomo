@@ -238,19 +238,20 @@ class Piwik_PDFReports_API
 		
 		return $reports;
 	}
-	
-    /**
+
+	/**
 	 * Generates a report file.
 	 *
-     * @param int $idReport ID of the report to generate. If idReport=0 it will generate a report containing all reports
+	 * @param int $idReport ID of the report to generate. If idReport=0 it will generate a report containing all reports
 	 * for the specified period & date
-     * @param string $date YYYY-MM-DD
-	 * @param int|false $idSite
-	 * @param string|false $language If not passed, will use default language.
-	 * @param int|false $outputType 1 = download report, 2 = save report to disk, defaults to download
-	 * @param string|false $period Defaults to 'day'. If not specified, will default to the report's period set when creating the report
-	 * @param string $reportFormat pdf, html
-	 * @param int|false $displayFormat see Piwik_PDFReports_API::getDisplayFormats()
+	 * @param string $date YYYY-MM-DD
+	 * @param bool|false|int $idSite
+	 * @param bool|false|string $language If not passed, will use default language.
+	 * @param bool|false|int $outputType 1 = download report, 2 = save report to disk, defaults to download
+	 * @param bool|false|string $period Defaults to 'day'. If not specified, will default to the report's period set when creating the report
+	 * @param bool|string $reportFormat pdf, html
+	 * @param bool|false|int $displayFormat see Piwik_PDFReports_API::getDisplayFormats()
+	 * @return array
 	 */
 	public function generateReport($idReport, $date, $idSite = false, $language = false, $outputType = false, $period = false, $reportFormat = false, $displayFormat = false)
 	{

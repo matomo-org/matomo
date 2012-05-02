@@ -29,10 +29,12 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->setColumnTranslation('label', Piwik_Translate('Actions_ColumnPageURL'));
 		return $view;
 	}
-	
-	
+
+
 	/**
 	 * PAGES
+	 * @param bool $fetch
+	 * @return string
 	 */
 	
 	public function indexPageUrls($fetch = false)
@@ -62,10 +64,12 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	{
 		$view->setColumnsToDisplay( array('label','nb_hits','nb_visits', 'bounce_rate', 'avg_time_on_page', 'exit_rate') );
 	}
-	
-	
+
+
 	/**
 	 * ENTRY PAGES
+	 * @param bool $fetch
+	 * @return string|void
 	 */
 	
 	public function indexEntryPageUrls($fetch = false)
@@ -101,10 +105,9 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	}
 	
 	
-	/**
+	/*
 	 * EXIT PAGES
 	 */
-
 	public function indexExitPageUrls($fetch = false)
 	{
 		return Piwik_View::singleReport(
@@ -138,7 +141,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	}
 	
 	
-	/**
+	/*
 	 * PAGE TITLES
 	 */
 	
@@ -175,7 +178,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	}
 
 	
-	/**
+	/*
 	 * DOWNLOADS
 	 */
 	
@@ -210,7 +213,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	}
 	
 	
-	/**
+	/*
 	 * OUTLINKS
 	 */
 
@@ -344,7 +347,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 				}
 			}
 			
-			$label = $row->getColumn('label');
 			$newRow = array(
 				'level' => $depth,
 				'columns' => $row->getColumns(),

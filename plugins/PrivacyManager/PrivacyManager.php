@@ -67,6 +67,9 @@ class Piwik_PrivacyManager extends Piwik_Plugin
         );
     }
 
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	function getScheduledTasks($notification)
 	{
 		$tasks = &$notification->getNotificationObject();
@@ -83,6 +86,9 @@ class Piwik_PrivacyManager extends Piwik_Plugin
 		$tasks[] = $purgeLogDataTask;
 	}
 
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
     function getJsFiles($notification)
     {
         $jsFiles = &$notification->getNotificationObject();
@@ -298,6 +304,7 @@ class Piwik_PrivacyManager extends Piwik_Plugin
 	 * @param int|Piwik_Date $reportsOlderThan If an int, the number of months a report must be older than
 	 *                                         in order to be purged. If a date, the date a report must be
 	 *                                         older than in order to be purged.
+	 * @return bool
 	 */
 	public static function shouldReportBePurged( $reportDateYear, $reportDateMonth, $reportsOlderThan = null )
 	{

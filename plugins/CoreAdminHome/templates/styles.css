@@ -83,7 +83,7 @@ table.admin  tbody td:hover, table.admin  tbody th:hover {
 }
 
 .admin p {
-	smargin-top:10px;
+	margin-top:10px;
 	line-height:140%;
 	padding-bottom:20px;
 }
@@ -101,8 +101,7 @@ table.admin  tbody td:hover, table.admin  tbody th:hover {
 }
 .adminTable td {
 	font-size: 13px;
-	vertical-align: text-top;
-	vertical-align:top;
+	vertical-align: top;
 	padding: 7px 15px 9px 10px;
 	vertical-align: top;
 }

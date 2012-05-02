@@ -79,9 +79,10 @@ class Piwik_MultiSites_API
 	 * 
 	 * @param string $period The period type to get data for.
 	 * @param string $date The date(s) to get data for.
-	 * @param string $segment The segments to get data for.
-	 * @param string $_restrictSitesToLogin Hack used to enforce we restrict the returned data to the specified username
-	 * 										Only used when a scheduled task is running 
+	 * @param bool|string $segment The segments to get data for.
+	 * @param bool|string $_restrictSitesToLogin Hack used to enforce we restrict the returned data to the specified username
+	 * 										Only used when a scheduled task is running
+	 * @return Piwik_DataTable
 	 */
 	public function getAll($period, $date, $segment = false, $_restrictSitesToLogin = false)
 	{

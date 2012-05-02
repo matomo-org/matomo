@@ -39,7 +39,10 @@ class Piwik_VisitsSummary extends Piwik_Plugin
 			'Menu.add' => 'addMenu',
 		);
 	}
-	
+
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	public function getReportMetadata($notification)
 	{
 		$reports = &$notification->getNotificationObject();

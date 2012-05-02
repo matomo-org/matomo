@@ -29,9 +29,11 @@ class Piwik_TaskScheduler
 	const TIMETABLE_OPTION_STRING = "TaskScheduler.timetable";
 	static private $running = false;
 	
-	/*
+	/**
 	 * runTasks collects tasks defined within piwik plugins, runs them if they are scheduled and reschedules
 	 * the tasks that have been executed.
+	 *
+	 * @return array
 	 */
 	static public function runTasks()
 	{

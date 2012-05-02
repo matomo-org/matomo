@@ -35,7 +35,10 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 			'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
 		);
 	}
-	
+
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	function getScheduledTasks ( $notification )
 	{
 		$tasks = &$notification->getNotificationObject();
@@ -48,7 +51,10 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 															$priority );
 		$tasks[] = $optimizeArchiveTableTask;
 	}
-	
+
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	function getCssFiles( $notification )
 	{
 		$cssFiles = &$notification->getNotificationObject();
@@ -58,7 +64,10 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 		$cssFiles[] = "themes/default/common.css";
 		$cssFiles[] = "plugins/CoreAdminHome/templates/styles.css";
 	}
-	
+
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	function getJsFiles ( $notification ) 
 	{
 		$jsFiles = &$notification->getNotificationObject();

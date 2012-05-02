@@ -57,6 +57,11 @@ class Piwik_CustomVariables extends Piwik_Plugin
 		Piwik_AddMenu('General_Visitors', 'CustomVariables_CustomVariables', array('module' => 'CustomVariables', 'action' => 'index'), $display = true, $order = 50);
 	}
 
+	/**
+	 * Returns metadata for available reports
+	 *
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	public function getReportMetadata($notification)
 	{
 		$reports = &$notification->getNotificationObject();
@@ -74,6 +79,9 @@ class Piwik_CustomVariables extends Piwik_Plugin
 		));
 	}
 
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	public function getSegmentsMetadata($notification)
 	{
 		$segments =& $notification->getNotificationObject();
@@ -116,6 +124,8 @@ class Piwik_CustomVariables extends Piwik_Plugin
 
 	/**
 	 * Adds Goal dimensions, so that the dimensions are displayed in the UI Goal Overview page
+	 *
+	 * @param Piwik_Event_Notification $notification  notification object
 	 */
 	function getReportsWithGoalMetrics( $notification )
 	{
@@ -141,7 +151,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
 	/**
 	 * Hooks on daily archive to trigger various log processing
 	 *
-	 * @param Piwik_Event_Notification $notification
+	 * @param Piwik_Event_Notification $notification  notification object
 	 * @return void
 	 */
 	public function archiveDay( $notification )
@@ -302,6 +312,10 @@ class Piwik_CustomVariables extends Piwik_Plugin
 		destroy($table);
 	}
 
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 * @return mixed
+	 */
 	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();

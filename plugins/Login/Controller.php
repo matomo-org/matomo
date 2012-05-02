@@ -106,7 +106,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 	/**
 	 * Form-less login
 	 * @see how to use it on http://piwik.org/faq/how-to/#faq_30
-	 * @param none
+	 * @throws Exception
 	 * @return void
 	 */
 	function logme()
@@ -298,6 +298,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 * @param string $loginMail user name or email address
 	 * @param string $token password reset token
 	 * @param string $password new password
+	 * @throws Exception
 	 * @return string failure message
 	 */
 	protected function resetPasswordFormValidated($loginMail, $token, $password)

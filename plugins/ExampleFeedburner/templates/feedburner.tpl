@@ -28,7 +28,7 @@ $(document).ready(function(){
 </script>
 <style type="text/css">
 .metric { font-weight:bold;text-align:left; }
-.feedburner td { padding:0px 3px; } 
+.feedburner td { padding:0 3px; }
 </style>
 {/literal}
 

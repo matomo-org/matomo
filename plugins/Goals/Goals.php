@@ -92,8 +92,10 @@ class Piwik_Goals extends Piwik_Plugin
 
 	/**
 	 * Delete goals recorded for this site
+	 *
+	 * @param Piwik_Event_Notification $notification  notification object
 	 */
-	function deleteSiteGoals($notification )
+	function deleteSiteGoals($notification)
 	{
 		$idSite = &$notification->getNotificationObject();
 		Piwik_Query("DELETE FROM ".Piwik_Common::prefixTable('goal') . " WHERE idsite = ? ", array($idSite));
@@ -105,6 +107,8 @@ class Piwik_Goals extends Piwik_Plugin
 	 * and for each goal.
 	 *
 	 * Also, this will update metadata of all other reports that have Goal segmentation
+	 *
+ 	 * @param Piwik_Event_Notification $notification  notification object
 	 */
 	public function getReportMetadata($notification)
 	{
@@ -342,7 +346,10 @@ class Piwik_Goals extends Piwik_Plugin
 		}
 		
 	}
-	
+
+	/**
+	 *  @param Piwik_Event_Notification $notification  notification object
+	 */
 	public function getSegmentsMetadata($notification)
 	{
 		$segments =& $notification->getNotificationObject();
@@ -388,19 +395,28 @@ class Piwik_Goals extends Piwik_Plugin
 		}
 		return $dimensionsByGroup;
 	}
-	
+
+	/**
+	 *  @param Piwik_Event_Notification $notification  notification object
+	 */
 	function getJsFiles( $notification )
 	{
 		$jsFiles = &$notification->getNotificationObject();
 		$jsFiles[] = "plugins/Goals/templates/GoalForm.js";
 	}
 
+	/**
+	 *  @param Piwik_Event_Notification $notification  notification object
+	 */
 	function getCssFiles( $notification )
 	{
 		$cssFiles = &$notification->getNotificationObject();
 		$cssFiles[] = "plugins/Goals/templates/goals.css";
 	}
 	
+	/**
+	 *  @param Piwik_Event_Notification $notification  notification object
+	 */
 	function fetchGoalsFromDb($notification)
 	{
 		$idsite = $notification->getNotificationInfo();
@@ -488,7 +504,7 @@ class Piwik_Goals extends Piwik_Plugin
 	
 	/**
 	 * @param string $recordName 'nb_conversions'
-	 * @param int $idGoal idGoal to return the metrics for, or false to return overall
+	 * @param int|bool $idGoal idGoal to return the metrics for, or false to return overall
 	 * @return string Archive record name
 	 */
 	static public function getRecordName($recordName, $idGoal = false)
@@ -527,7 +543,7 @@ class Piwik_Goals extends Piwik_Plugin
 			{
 				$dataTableToSum[] = self::getItemRecordNameAbandonedCart($recordName);
 			}
-			$nameToCount = $archiveProcessing->archiveDataTable($dataTableToSum);
+			$archiveProcessing->archiveDataTable($dataTableToSum);
 		}
 				
 		/*
@@ -862,6 +878,8 @@ class Piwik_Goals extends Piwik_Plugin
 	 * This function executes when the 'Goals.getReportsWithGoalMetrics' event fires. It
 	 * adds the 'visits to conversion' report metadata to the list of goal reports so
 	 * this report will be displayed.
+	 *
+	 * @param Piwik_Event_Notification $notification  notification object
 	 */
 	function getActualReportsWithGoalMetrics( $notification )
 	{

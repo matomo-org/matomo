@@ -52,7 +52,9 @@ class Piwik_UserCountry extends Piwik_Plugin
 		Piwik_AddMenu('General_Visitors', 'UserCountry_SubmenuLocations', array('module' => 'UserCountry', 'action' => 'index'));
 	}
 
-
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	public function getSegmentsMetadata($notification)
 	{
 		$segments =& $notification->getNotificationObject();
@@ -74,6 +76,9 @@ class Piwik_UserCountry extends Piwik_Plugin
 		);
 	}
 
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	public function getReportMetadata($notification)
 	{
 		$metrics = array(
@@ -105,6 +110,9 @@ class Piwik_UserCountry extends Piwik_Plugin
 		);
 	}
 
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	function getReportsWithGoalMetrics( $notification )
 	{
 		$dimensions =& $notification->getNotificationObject();
@@ -122,6 +130,10 @@ class Piwik_UserCountry extends Piwik_Plugin
 		));
 	}
 
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 * @return mixed
+	 */
 	function archivePeriod( $notification )
 	{
 		/**
@@ -141,6 +153,10 @@ class Piwik_UserCountry extends Piwik_Plugin
 												$nameToCount['UserCountry_country']['level0']);
 	}
 
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 * @return mixed
+	 */
 	function archiveDay($notification)
 	{
 		/**

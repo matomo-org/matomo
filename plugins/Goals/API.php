@@ -83,16 +83,16 @@ class Piwik_Goals_API
 
 	/**
 	 * Creates a Goal for a given website.
-	 * 
+	 *
 	 * @param int $idSite
 	 * @param string $name
 	 * @param string $matchAttribute 'url', 'title', 'file', 'external_website' or 'manually'
 	 * @param string $pattern eg. purchase-confirmation.htm
-	 * @param string $patternType 'regex', 'contains', 'exact' 
+	 * @param string $patternType 'regex', 'contains', 'exact'
 	 * @param bool $caseSensitive
-	 * @param float|string $revenue If set, default revenue to assign to conversions
+	 * @param bool|float $revenue If set, default revenue to assign to conversions
 	 * @param bool $allowMultipleConversionsPerVisit By default, multiple conversions in the same visit will only record the first conversion.
-	 * 						If set to true, multiple conversions will all be recorded within a visit (useful for Ecommerce goals)
+	 *                         If set to true, multiple conversions will all be recorded within a visit (useful for Ecommerce goals)
 	 * @return int ID of the new goal
 	 */
 	public function addGoal( $idSite, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false)
@@ -127,12 +127,21 @@ class Piwik_Goals_API
 		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);
 		return $idGoal;
 	}
-	
+
 	/**
 	 * Updates a Goal description.
-	 * Will not update or re-process the conversions already recorded  
-	 * 
+	 * Will not update or re-process the conversions already recorded
+	 *
 	 * @see addGoal() for parameters description
+	 * @param int $idSite
+	 * @param int $idGoal
+	 * @param $name
+	 * @param $matchAttribute
+	 * @param string $pattern
+	 * @param string $patternType
+	 * @param bool $caseSensitive
+	 * @param bool|float $revenue
+	 * @param bool $allowMultipleConversionsPerVisit
 	 * @return void
 	 */
 	public function updateGoal( $idSite, $idGoal, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false)
@@ -368,14 +377,15 @@ class Piwik_Goals_API
 			return $idGoal;
 		}
 	}
-	
+
 	/**
 	 * Returns Goals data
-	 * 
+	 *
 	 * @param int $idSite
 	 * @param string $period
 	 * @param string $date
-	 * @param int $idGoal
+	 * @param bool $segment
+	 * @param bool|int $idGoal
 	 * @param array $columns Array of metrics to fetch: nb_conversions, conversion_rate, revenue
 	 * @return Piwik_DataTable
 	 */

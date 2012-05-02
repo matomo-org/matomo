@@ -59,7 +59,7 @@ class Piwik_UsersManager extends Piwik_Plugin
 	 * Will record in the tracker config file the list of Admin token_auth for this website. This 
 	 * will be used when the Tracking API is used with setIp(), setForceDateTime(), setVisitorId(), etc. 
 	 * 
-	 * @param Piwik_Event_Notification $notification
+	 * @param Piwik_Event_Notification $notification  notification object
 	 * @return void
 	 */
 	function recordAdminUsersInCache($notification)
@@ -80,7 +80,7 @@ class Piwik_UsersManager extends Piwik_Plugin
 	/**
 	 * Delete user preferences associated with a particular site
 	 *
-	 * @param Event_Notification $notification
+	 * @param Piwik_Event_Notification $notification  notification object
 	 */
 	function deleteSite( $notification )
 	{
@@ -94,7 +94,7 @@ class Piwik_UsersManager extends Piwik_Plugin
 	 *
 	 * @see Piwik_AssetManager
 	 *
-	 * @param Event_Notification $notification
+	 * @param Piwik_Event_Notification $notification  notification object
 	 */
 	function getJsFiles( $notification )
 	{
@@ -106,8 +106,6 @@ class Piwik_UsersManager extends Piwik_Plugin
 
 	/**
 	 * Add admin menu items
-	 *
-	 * @param Event_Notification $notification (not used)
 	 */
 	function addMenu()
 	{

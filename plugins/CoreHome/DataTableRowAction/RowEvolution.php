@@ -62,12 +62,13 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
 	
 	/** Whether or not to show all metrics in the evolution graph when to popover opens */
 	protected $initiallyShowAllMetrics = false;
-	
+
 	/**
 	 * The constructor
 	 * Initialize some local variables from the request
-	 * @param int
-	 * @param Piwik_Date ($this->date from controller)
+	 * @param int $idSite
+	 * @param Piwik_Date $date ($this->date from controller)
+	 * @throws Exception
 	 */
 	public function __construct($idSite, $date)
 	{
@@ -205,8 +206,12 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
 		
 		return $view;
 	}
-	
-	/** Prepare metrics toggles with spark lines */
+
+	/**
+	 * Prepare metrics toggles with spark lines
+	 * @param $controller
+	 * @return array
+	 */
 	protected function getMetricsToggles($controller)
 	{
 		$chart = new Piwik_Visualization_Chart_Evolution;

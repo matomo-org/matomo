@@ -169,7 +169,9 @@ function Piwik_getRefererTypeLabel($label)
 
 /**
  * Works in both directions
- * @param mixed 
+ * @param string $name
+ * @throws Exception
+ * @return string
  */
 function Piwik_getRefererTypeFromShortName($name)
 {

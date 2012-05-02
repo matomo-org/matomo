@@ -157,12 +157,12 @@ class Piwik_LanguagesManager_API
 		}
 		return $languageInfo;
 	}
-	
+
 	/**
 	 * Returns the language for the user
 	 *
 	 * @param string $login
-	 * @param string|false $layout
+	 * @return string
 	 */
 	public function getLanguageForUser( $login )
 	{
@@ -176,6 +176,7 @@ class Piwik_LanguagesManager_API
 	 *
 	 * @param string $login
 	 * @param string $languageCode
+	 * @return bool
 	 */
 	public function setLanguageForUser($login, $languageCode)
 	{

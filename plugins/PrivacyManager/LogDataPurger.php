@@ -138,6 +138,7 @@ class Piwik_PrivacyManager_LogDataPurger
 	
 	/**
 	 * get highest idVisit to delete rows from
+	 * @return string
 	 */
 	private function getDeleteIdVisitOffset()
 	{
@@ -269,17 +270,19 @@ class Piwik_PrivacyManager_LogDataPurger
 										  'log_conversion_item',
 										  'log_action');
 	}
-	
+
 	/**
 	 * Utility function. Creates a new instance of LogDataPurger with the supplied array
 	 * of settings.
-	 * 
+	 *
 	 * $settings must contain values for the following keys:
 	 * - 'delete_logs_older_than': The number of days after which log entries are considered
 	 *                             old.
 	 * - 'delete_logs_max_rows_per_query': Max number of rows to DELETE in one query.
-	 * 
+	 *
 	 * @param array $settings Array of settings
+	 * @param bool $useRealTable
+	 * @return Piwik_PrivacyManager_LogDataPurger
 	 */
 	public static function make( $settings, $useRealTable = false )
 	{

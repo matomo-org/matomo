@@ -67,12 +67,10 @@ $(document).ready( function() {
 }
 .addRowSite {
 	padding:1em;
-	font-color:#3A477B;
-	padding:1em;
 	font-weight:bold;
 }
 #editSites {
-	valign: top;
+	vertical-align: top;
 }
 option, select {
 	font-size:11px;

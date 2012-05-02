@@ -43,7 +43,10 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
 //			'Controller.renderView' => 'addUniqueVisitorsColumnToGivenReport',
 		);
 	}
-	
+
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	function addUniqueVisitorsColumnToGivenReport($notification)
 	{
 		$view = $notification->getNotificationInfo();

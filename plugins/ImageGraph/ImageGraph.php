@@ -36,7 +36,11 @@ class Piwik_ImageGraph extends Piwik_Plugin
 	
 	// Number of periods to plot on an evolution graph
 	const GRAPH_EVOLUTION_LAST_PERIODS = 30;
-	
+
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 * @return mixed
+	 */
 	public function getReportMetadata($notification)
 	{
 		$info = $notification->getNotificationInfo();

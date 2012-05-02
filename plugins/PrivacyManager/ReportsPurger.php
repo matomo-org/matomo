@@ -252,10 +252,11 @@ class Piwik_PrivacyManager_ReportsPurger
 
 	/**
 	 * Returns true if a report with the given year & month should be purged or not.
-	 * 
+	 *
 	 * @param int $reportDateYear The year of the report in question.
 	 * @param int $reportDateMonth The month of the report in question.
-	 * @param Piwik_Date $reportsOlderThan The date a report must be older than in order to be purged.
+	 * @param Piwik_Date $toRemoveDate The date a report must be older than in order to be purged.
+	 * @return bool
 	 */
 	public static function shouldReportBePurged( $reportDateYear, $reportDateMonth, $toRemoveDate )
 	{

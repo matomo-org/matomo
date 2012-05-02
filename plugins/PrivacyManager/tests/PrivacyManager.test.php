@@ -733,6 +733,8 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 	 * does the insert into the temporary table. When log_actions are deleted, this idaction should still
 	 * be kept. w/ the wrong strategy, it won't be and there will be a dangling reference
 	 * in the log_link_visit_action table.
+	 *
+	 * @param Piwik_Event_Notification $notification  notification object
 	 */
 	public function addReferenceToUnusedAction( $notification )
 	{

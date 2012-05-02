@@ -43,6 +43,9 @@ class Piwik_Provider extends Piwik_Plugin
 		return $hooks;
 	}
 
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	public function getReportMetadata($notification)
 	{
 		$reports = &$notification->getNotificationObject();
@@ -57,6 +60,9 @@ class Piwik_Provider extends Piwik_Plugin
 		);
 	}
 
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	public function getSegmentsMetadata($notification)
 	{
 		$segments =& $notification->getNotificationObject();
@@ -112,6 +118,10 @@ class Piwik_Provider extends Piwik_Plugin
 		Piwik_AddAction('template_footerUserCountry', array('Piwik_Provider','footerUserCountry'));
 	}
 
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 * @return mixed
+	 */
 	function archivePeriod( $notification )
 	{
 		$maximumRowsInDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
@@ -125,6 +135,8 @@ class Piwik_Provider extends Piwik_Plugin
 
 	/**
 	 * Daily archive: processes the report Visits by Provider
+	 *
+	 * @param Piwik_Event_Notification $notification  notification object
 	 */
 	function archiveDay($notification)
 	{
@@ -144,6 +156,8 @@ class Piwik_Provider extends Piwik_Plugin
 	
 	/**
 	 * Logs the provider in the log_visit table
+	 *
+	 * @param Piwik_Event_Notification $notification  notification object
 	 */
 	public function logProviderInfo($notification)
 	{
@@ -233,12 +247,18 @@ class Piwik_Provider extends Piwik_Plugin
 		return trim(strtolower(@Piwik_IP::getHostByAddr($ip)));
 	}
 
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	static public function headerUserCountry($notification)
 	{
 		$out =& $notification->getNotificationObject();
 		$out = '<div id="leftcolumn">';
 	}
-	
+
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	static public function footerUserCountry($notification)
 	{
 		$out =& $notification->getNotificationObject();

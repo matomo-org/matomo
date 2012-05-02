@@ -27,7 +27,7 @@
 	<table style="border-collapse:collapse; margin-left: 5px">
 		<thead style="background-color: rgb({$tableHeaderBgColor}); color: rgb({$tableHeaderTextColor}); font-size: {$reportTableHeaderTextSize}pt;">
 			{foreach from=$reportColumns item=columnName}
-			<th style="padding: 6px 0px;">
+			<th style="padding: 6px 0;">
 				&nbsp;{$columnName}&nbsp;&nbsp;
 			</th>
 			{/foreach}
@@ -45,7 +45,7 @@
 
 			<tr style="{cycle delimiter=';' values=";background-color: rgb(`$tableBgColor`)" }">
 				{foreach from=$reportColumns key=columnId item=columnName}
-				<td style="font-size: {$reportTableRowTextSize}pt; border-bottom: 1px solid rgb({$tableCellBorderColor}); padding: 5px 0px 5px 5px;">
+				<td style="font-size: {$reportTableRowTextSize}pt; border-bottom: 1px solid rgb({$tableCellBorderColor}); padding: 5px 0 5px 5px;">
 					{if $columnId eq 'label'}
 						{if isset($rowMetrics[$columnId])}
 							{if isset($rowMetadata.logo)}

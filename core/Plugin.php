@@ -34,7 +34,7 @@ abstract class Piwik_Plugin
 
 	/**
 	 * Returns the list of hooks registered with the methods names
-	 * @var array
+	 * @return array
 	 */
 	function getListHooksRegistered()
 	{

@@ -52,7 +52,10 @@ class Piwik_Actions extends Piwik_Plugin
 		);
 		return $hooks;
 	}
-	    
+
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	public function getSegmentsMetadata($notification)
 	{
 		$segments =& $notification->getNotificationObject();
@@ -111,15 +114,20 @@ class Piwik_Actions extends Piwik_Plugin
         	'sqlFilter' => $sqlFilter,
         );
 	}
-    
-    /**
-     * Convert segment expression to an action ID or an SQL expression.
-     * 
-     * This method is used as a sqlFilter-callback for the segments of this plugin.
-     * Usually, these callbacks only return a value that should be compared to the
-     * column in the database. In this case, that doesn't work since multiple IDs
-     * can match an expression (e.g. "pageUrl=@foo").
-     */
+
+	/**
+	 * Convert segment expression to an action ID or an SQL expression.
+	 *
+	 * This method is used as a sqlFilter-callback for the segments of this plugin.
+	 * Usually, these callbacks only return a value that should be compared to the
+	 * column in the database. In this case, that doesn't work since multiple IDs
+	 * can match an expression (e.g. "pageUrl=@foo").
+	 * @param string $string
+	 * @param string $sqlField
+	 * @param string $matchType
+	 * @throws Exception
+	 * @return array|int|string
+	 */
 	function getIdActionFromSegment($string, $sqlField, $matchType='==')
 	{
 		// Field is visit_*_idaction_url or visit_*_idaction_name
@@ -167,7 +175,12 @@ class Piwik_Actions extends Piwik_Plugin
         	'bind' => $string
         );
 	}
-	
+
+	/**
+	 * Returns metadata for available reports
+	 *
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
 	public function getReportMetadata($notification)
 	{
 		$reports = &$notification->getNotificationObject();
@@ -383,7 +396,11 @@ class Piwik_Actions extends Piwik_Plugin
 		$this->maximumRowsInDataTableLevelZero = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_actions'];
 		$this->maximumRowsInSubDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_actions'];
 	}
-	
+
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 * @return mixed
+	 */
 	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
@@ -412,9 +429,9 @@ class Piwik_Actions extends Piwik_Plugin
 	 * Compute all the actions along with their hierarchies.
 	 *
 	 * For each action we process the "interest statistics" :
-	 * visits, unique visitors, bouce count, sum visit length.
+	 * visits, unique visitors, bounce count, sum visit length.
 	 *
-	 *
+	 * @param Piwik_Event_Notification $notification  notification object
 	 */
 	public function archiveDay( $notification )
 	{

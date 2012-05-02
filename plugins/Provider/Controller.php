@@ -15,9 +15,11 @@
  * @package Piwik_Provider
  */
 class Piwik_Provider_Controller extends Piwik_Controller 
-{	
+{
 	/**
 	 * Provider
+	 * @param bool $fetch
+	 * @return string|void
 	 */
 	function getProvider($fetch = false)
 	{

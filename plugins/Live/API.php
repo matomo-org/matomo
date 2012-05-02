@@ -88,12 +88,16 @@ class Piwik_Live_API
 		empty($data[0]['visitsConverted']) ? $data[0]['visitsConverted'] = 0 : '';
 		return $data;
 	}
-	
+
 	/**
 	 * The same functionnality can be obtained using segment=visitorId==$visitorId with getLastVisitsDetails
-	 * 
+	 *
 	 * @deprecated
 	 * @ignore
+	 * @param int $visitorId
+	 * @param int $idSite
+	 * @param int $filter_limit
+	 * @return Piwik_DataTable
 	 */
 	public function getLastVisitsForVisitor( $visitorId, $idSite, $filter_limit = 10 )
 	{
@@ -106,14 +110,15 @@ class Piwik_Live_API
 	/**
 	 * Returns the last visits tracked in the specified website
 	 * You can define any number of filters: none, one, many or all parameters can be defined
-	 * 
-	 * @param int Site ID
-	 * @param string (optional) Period to restrict to when looking at the logs
-	 * @param string (optional) Date to restrict to
-	 * @param int (optional) Number of visits rows to return
-	 * @param int (optional) Maximum idvisit to restrict the query to (useful when paginating)
-	 * @param int (optional) Minimum timestamp to restrict the query to (useful when paginating or refreshing visits)
-	 * 
+	 *
+	 * @param int $idSite Site ID
+	 * @param bool|string $period (optional) Period to restrict to when looking at the logs
+	 * @param bool|string $date (optional) Date to restrict to
+	 * @param bool|int $segment (optional) Number of visits rows to return
+	 * @param bool|int $filter_limit (optional)
+	 * @param bool|int $maxIdVisit (optional) Maximum idvisit to restrict the query to (useful when paginating)
+	 * @param bool|int $minTimestamp (optional) Minimum timestamp to restrict the query to (useful when paginating or refreshing visits)
+	 *
 	 * @return Piwik_DataTable
 	 */
 	public function getLastVisitsDetails( $idSite, $period = false, $date = false, $segment = false, $filter_limit = false, $maxIdVisit = false, $minTimestamp = false )
@@ -137,8 +142,11 @@ class Piwik_Live_API
 	}
 
 	/**
-	 * For an array of visits, query the list of pages for this visit 
+	 * For an array of visits, query the list of pages for this visit
 	 * as well as make the data human readable
+	 * @param array $visitorDetails
+	 * @param int $idSite
+	 * @return Piwik_DataTable
 	 */
 	private function getCleanedVisitorsFromDetails($visitorDetails, $idSite)
 	{
