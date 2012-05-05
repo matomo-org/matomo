@@ -12,12 +12,11 @@ function widgetsHelper()
 /**
  * Returns the available widgets fetched via AJAX (if not already done)
  * 
- * @return object containing available widgets
+ * @return {object} object containing available widgets
  */
 widgetsHelper.getAvailableWidgets = function ()
 {
-    if(!widgetsHelper.availableWidgets)
-    {
+    if(!widgetsHelper.availableWidgets) {
         var ajaxRequest =
         {
             type: 'GET',
@@ -36,20 +35,12 @@ widgetsHelper.getAvailableWidgets = function ()
 
 }
 
-widgetsHelper.getWidgetCategoryNameFromUniqueId = function (uniqueId)
-{
-	var widgets = widgetsHelper.getAvailableWidgets();
-	for(var widgetCategory in widgets) {
-		var widgetInCategory = widgets[widgetCategory];
-		for(var i in widgetInCategory) {
-			if(widgetInCategory[i]["uniqueId"] == uniqueId) {
-				return widgetCategory;
-			}
-		}
-	}
-	return false;
-};
-
+/**
+ * Returns the complete widget object by its unique id
+ *
+ * @param {string} uniqueId
+ * @return {object} widget object
+ */
 widgetsHelper.getWidgetObjectFromUniqueId = function (uniqueId)
 {
 	var widgets = widgetsHelper.getAvailableWidgets();
@@ -64,6 +55,12 @@ widgetsHelper.getWidgetObjectFromUniqueId = function (uniqueId)
 	return false;
 };
 
+/**
+ * Returns the name of a widget by its unique id
+ *
+ * @param {string} uniqueId  unique id of the widget
+ * @return {string}
+ */
 widgetsHelper.getWidgetNameFromUniqueId = function (uniqueId)
 {
 	var widget = this.getWidgetObjectFromUniqueId(uniqueId);
@@ -73,6 +70,14 @@ widgetsHelper.getWidgetNameFromUniqueId = function (uniqueId)
 	return widget["name"];
 };
 
+/**
+ * Returns an parameter object to be used for an jquery ajax request to fetch the widget html
+ *
+ * @param {string} widgetUniqueId             unique id of the widget
+ * @param {object} widgetParameters           parameters to be used for loading the widget
+ * @param {function} onWidgetLoadedCallback   callback to be executed after widget is loaded
+ * @return {object}
+ */
 widgetsHelper.getLoadWidgetAjaxRequest = function (widgetUniqueId, widgetParameters, onWidgetLoadedCallback)
 {
 	var ajaxRequest = 
@@ -82,13 +87,20 @@ widgetsHelper.getLoadWidgetAjaxRequest = function (widgetUniqueId, widgetParamet
 		url: 'index.php',
 		dataType: 'html',
 		async: true,
-		error: piwikHelper.ajaxHandleError,		
+		error: piwikHelper.ajaxHandleError,
 		success: onWidgetLoadedCallback,
 		data: piwikHelper.getQueryStringFromParameters(widgetParameters) + "&widget=1&idSite="+piwik.idSite+"&period="+piwik.period+"&date="+broadcast.getValueFromUrl('date')
 	};
 	return ajaxRequest;
 };
 
+/**
+ * Returns the base html use for displaying a widget
+ *
+ * @param {string} uniqueId     unique id of the widget
+ * @param {string} widgetName   name of the widget
+ * @return {string} html for empty widget
+ */
 widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
 {
 	return '<div id="'+uniqueId+'" class="widget">'+
@@ -124,27 +136,33 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
             
             /**
              * Default settings for widgetPreview
+             * @type {object}
              */
             var settings = {
                 /**
                  * handler called after a widget preview is loaded in preview element
+                 * @type {function}
                  */
                 onPreviewLoaded: function() {},
                 /**
                  * handler called on click on element in widgetlist or widget header
+                 * @type {function}
                  */
                 onSelect: function() {},
                 /**
                  * callback used to determine if a widget is available or not
                  * unavailable widgets aren't chooseable in widgetlist
+                 * @type {function}
                  */
                 isWidgetAvailable: function(widgetUniqueId){ return true; },
                 /**
                  * should the lists and preview be reset on widget selection?
+                 * @type {boolean}
                  */
                 resetOnSelect: false,
                 /**
                  * css classes for various elements
+                 * @type {string}
                  */
                 baseClass: 'widgetpreview-base',
                 categorylistClass: 'widgetpreview-categorylist',
@@ -161,7 +179,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
              * - if element doesn't exist it will be created and added
              * - if element already exist it's content will be removed
              * 
-             * @return category list element
+             * @return {$} category list element
              */
             function createWidgetCategoryList() {
                 
@@ -184,7 +202,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
              * - if element doesn't exist it will be created and added
              * - if element already exist it's content will be removed
              * 
-             * @return widget list element
+             * @return {$} widget list element
              */
             function createWidgetList() {
                 
@@ -211,7 +229,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
              * Display the given widgets in a widget list
              * 
              * @param {object} widgets widgets to be displayed
-             * @return void
+             * @return {void}
              */
             function showWidgetList(widgets) {
                 
@@ -254,7 +272,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
              * - if element doesn't exist it will be created and added
              * - if element already exist it's content will be removed
              * 
-             * @return preview element
+             * @return {$} preview element
              */
             function createPreviewElement() {
                 
@@ -272,7 +290,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
              * Show widget with the given uniqueId in preview
              * 
              * @param {string} widgetUniqueId unique id of widget to display
-             * @return void
+             * @return {void}
              */
             function showPreview(widgetUniqueId) {
                 
@@ -318,7 +336,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
             /**
              * Reset function
              * 
-             * @return void
+             * @return {void}
              */
             function resetWidgetPreview() {
                 $('.'+settings.categorylistClass+' li', widgetPreview).removeClass(settings.choosenClass);
@@ -330,7 +348,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
              * Constructor
              * 
              * @param {object} userSettings Settings to be used
-             * @return void
+             * @return {void}
              */
             this.construct = function(userSettings) {
                 
