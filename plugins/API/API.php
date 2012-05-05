@@ -95,12 +95,23 @@ class Piwik_API_API
 	}
 
 	/**
-	 * Derive the unit name from a column name
-	 * @param $columnName
-	 * @param $idSite
+	 * Get Piwik version
 	 * @return string
 	 */
-	static public function getUnit($columnName, $idSite)
+	public function getPiwikVersion()
+	{
+		Piwik::checkUserHasSomeViewAccess();
+		return Piwik_Version::VERSION;
+	}
+	
+	/**
+	 * Derive the unit name from a column name
+	 * @param $column
+	 * @param $idSite
+	 * @return string
+	 * @ignore
+	 */
+	static public function getUnit($column, $idSite)
 	{
 		$nameToUnit = array(
 			'_rate' => '%',
@@ -110,7 +121,7 @@ class Piwik_API_API
 		
 		foreach ($nameToUnit as $pattern => $type)
 		{
-			if (strpos($columnName, $pattern) !== false)
+			if (strpos($column, $pattern) !== false)
 			{
 				return $type;
 			}
@@ -121,10 +132,12 @@ class Piwik_API_API
 
 	/**
 	 * Is a lower value for a given column better?
-	 * @param $columnName
+	 * @param $column
 	 * @return bool
+	 * 
+	 * @ignore
 	 */
-	static public function isLowerValueBetter($columnName)
+	static public function isLowerValueBetter($column)
 	{
 		$lowerIsBetterPatterns = array(
 			'bounce', 'exit'
@@ -132,7 +145,7 @@ class Piwik_API_API
 		
 		foreach ($lowerIsBetterPatterns as $pattern)
 		{
-			if (strpos($columnName, $pattern) !== false)
+			if (strpos($column, $pattern) !== false)
 			{
 				return true;
 			}
@@ -358,6 +371,9 @@ class Piwik_API_API
 		Piwik_Tracker_GoalManager::TYPE_BUYER_ORDERED_AND_OPEN_CART => 'orderedThenAbandonedCart',
 	);
 	
+	/**
+	 * @ignore
+	 */
 	static public function getVisitEcommerceStatusFromId($id)
 	{
 		if(!isset(self::$visitEcommerceStatus[$id]))
@@ -367,6 +383,9 @@ class Piwik_API_API
 		return self::$visitEcommerceStatus[$id];
 	}
 	
+	/**
+	 * @ignore
+	 */
 	static public function getVisitEcommerceStatus($status)
 	{
 		$id = array_search($status, self::$visitEcommerceStatus);
