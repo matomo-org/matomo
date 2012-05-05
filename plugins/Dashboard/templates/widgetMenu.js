@@ -80,8 +80,7 @@ widgetsHelper.getWidgetNameFromUniqueId = function (uniqueId)
  */
 widgetsHelper.getLoadWidgetAjaxRequest = function (widgetUniqueId, widgetParameters, onWidgetLoadedCallback)
 {
-	var ajaxRequest = 
-	{
+	return {
 		widgetUniqueId:widgetUniqueId,
 		type: 'GET',
 		url: 'index.php',
@@ -91,7 +90,6 @@ widgetsHelper.getLoadWidgetAjaxRequest = function (widgetUniqueId, widgetParamet
 		success: onWidgetLoadedCallback,
 		data: piwikHelper.getQueryStringFromParameters(widgetParameters) + "&widget=1&idSite="+piwik.idSite+"&period="+piwik.period+"&date="+broadcast.getValueFromUrl('date')
 	};
-	return ajaxRequest;
 };
 
 /**
