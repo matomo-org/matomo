@@ -32,14 +32,14 @@ var broadcast = {
      * @return {void}
      */
     init: function() {
-        if(!this._isInit) {
+        if(broadcast._isInit) {
             return;
         }
-        this._isInit = true;
+        broadcast._isInit = true;
 
         // Initialize history plugin.
         // The callback is called at once by present location.hash
-        $.history.init(this.pageload, {unescape: true});
+        $.history.init(broadcast.pageload, {unescape: true});
 
         piwikHelper.showAjaxLoading();
     },
@@ -56,7 +56,7 @@ var broadcast = {
      */
     pageload: function( hash )
     {
-        this.init();
+        broadcast.init();
 
         // Unbind any previously attached resize handlers
         $(window).off('resize');
@@ -64,7 +64,7 @@ var broadcast = {
         // hash doesn't contain the first # character.
         if( hash ) {
             // restore ajax loaded state
-            this.loadAjaxContent(hash);
+            broadcast.loadAjaxContent(hash);
 
             // Hack: make sure the "Widgets & Dashboard" is deleted on reload
             $('#dashboardSettings').remove();
@@ -90,34 +90,34 @@ var broadcast = {
      */
     propagateAjax: function (ajaxUrl)
     {
-        this.init();
+        broadcast.init();
 
         // abort all existing ajax requests
         piwikHelper.abortQueueAjax();
 
         // available in global scope
-        var currentHashStr = this.getHash();
+        var currentHashStr = broadcast.getHash();
 
         ajaxUrl = ajaxUrl.replace(/^\?|&#/,'');
 
         var params_vals = ajaxUrl.split("&");
         for( var i=0; i<params_vals.length; i++ )
         {
-            currentHashStr = this.updateParamValue(params_vals[i],currentHashStr);
+            currentHashStr = broadcast.updateParamValue(params_vals[i],currentHashStr);
         }
 
         // if the module is not 'Goals', we specifically unset the 'idGoal' parameter
         // this is to ensure that the URLs are clean (and that clicks on graphs work as expected - they are broken with the extra parameter)
-        var action = this.getParamValue('action', currentHashStr);
+        var action = broadcast.getParamValue('action', currentHashStr);
         if( action != 'goalReport' && action != 'ecommerceReport')
         {
-            currentHashStr = this.updateParamValue('idGoal=', currentHashStr);
+            currentHashStr = broadcast.updateParamValue('idGoal=', currentHashStr);
         }
         // unset idDashboard if use doesn't display a dashboard
-        var module = this.getParamValue('module', currentHashStr);
+        var module = broadcast.getParamValue('module', currentHashStr);
         if( module != 'Dashboard')
         {
-            currentHashStr = this.updateParamValue('idDashboard=', currentHashStr);
+            currentHashStr = broadcast.updateParamValue('idDashboard=', currentHashStr);
         }
         // Let history know about this new Hash and load it.
         $.history.load(currentHashStr);
@@ -156,15 +156,15 @@ var broadcast = {
 
         // available in global scope
         var currentSearchStr = window.location.search;
-        var currentHashStr = this.getHashFromUrl();
+        var currentHashStr = broadcast.getHashFromUrl();
         var oldUrl = currentSearchStr + currentHashStr;
 
         for( var i=0; i<params_vals.length; i++ ) {
             // update both the current search query and hash string
-            currentSearchStr = this.updateParamValue(params_vals[i],currentSearchStr);
+            currentSearchStr = broadcast.updateParamValue(params_vals[i],currentSearchStr);
 
             if(currentHashStr.length != 0 ) {
-                currentHashStr   = this.updateParamValue(params_vals[i],currentHashStr);
+                currentHashStr   = broadcast.updateParamValue(params_vals[i],currentHashStr);
             }
         }
 
@@ -204,7 +204,7 @@ var broadcast = {
         var p_v = newParamValue.split("=");
 
         var paramName = p_v[0];
-        var valFromUrl = this.getParamValue(paramName,urlStr);
+        var valFromUrl = broadcast.getParamValue(paramName,urlStr);
         // if set 'idGoal=' then we remove the parameter from the URL automatically (rather than passing an empty value)
         var paramValue = p_v[1];
         if(paramValue == '')
@@ -231,9 +231,9 @@ var broadcast = {
     loadAjaxContent: function(urlAjax)
     {
         piwikMenu.activateMenu(
-                this.getParamValue('module', urlAjax),
-                this.getParamValue('action', urlAjax),
-                this.getParamValue('idGoal', urlAjax) || this.getParamValue('idDashboard', urlAjax)
+                broadcast.getParamValue('module', urlAjax),
+                broadcast.getParamValue('action', urlAjax),
+                broadcast.getParamValue('idGoal', urlAjax) || broadcast.getParamValue('idDashboard', urlAjax)
         );
 
         piwikHelper.hideAjaxError('loadingError');
@@ -242,13 +242,13 @@ var broadcast = {
         $("object").remove();
 
         urlAjax = urlAjax.match(/^\?/) ? urlAjax : "?" + urlAjax;
-        this.lastUrlRequested = urlAjax;
+        broadcast.lastUrlRequested = urlAjax;
         function sectionLoaded(content)
         {
-            if(urlAjax == this.lastUrlRequested) {
+            if(urlAjax == broadcast.lastUrlRequested) {
                 $('#content').html( content ).show();
                 piwikHelper.hideAjaxLoading();
-                this.lastUrlRequested = null;
+                broadcast.lastUrlRequested = null;
             }
         }
         var ajaxRequest = {
@@ -256,7 +256,7 @@ var broadcast = {
             url: urlAjax,
             dataType: 'html',
             async: true,
-            error: this.customAjaxHandleError,	// Callback when the request fails
+            error: broadcast.customAjaxHandleError,	// Callback when the request fails
             success: sectionLoaded, // Callback when the request succeeds
             data: new Object
         };
@@ -272,7 +272,7 @@ var broadcast = {
      */
     customAjaxHandleError: function (deferred, status)
     {
-        this.lastUrlRequested = null;
+        broadcast.lastUrlRequested = null;
         piwikHelper.ajaxHandleError(deferred, status);
     },
 
@@ -284,7 +284,7 @@ var broadcast = {
      */
     isHashExists: function()
     {
-        var hashStr = this.getHashFromUrl();
+        var hashStr = broadcast.getHashFromUrl();
 
         if ( hashStr != "" ) {
             return hashStr;
@@ -353,7 +353,7 @@ var broadcast = {
         } else {
             searchString = location.search;
         }
-        return this.getParamValue(param,searchString);
+        return broadcast.getParamValue(param,searchString);
     },
 
     /**
@@ -365,8 +365,8 @@ var broadcast = {
      */
     getValueFromHash: function(param, url)
     {
-        var hashStr = this.getHashFromUrl(url);
-        return this.getParamValue(param,hashStr);
+        var hashStr = broadcast.getHashFromUrl(url);
+        return broadcast.getParamValue(param,hashStr);
     },
 
 
@@ -405,7 +405,7 @@ var broadcast = {
      */
     getHash: function ()
     {
-        return this.getHashFromUrl().replace(/^#/, '');
+        return broadcast.getHashFromUrl().replace(/^#/, '');
     }
 
 };
