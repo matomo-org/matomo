@@ -32,8 +32,7 @@ widgetsHelper.getAvailableWidgets = function ()
     }
     
     return widgetsHelper.availableWidgets;
-
-}
+};
 
 /**
  * Returns the complete widget object by its unique id

@@ -338,7 +338,7 @@ div.widgetpreview-preview {
     width: 500px;
 }
 
-#dashboardSettings.widgetpreview-base {
+#dashboardSettings {
     min-height: 0;
     height: auto;
     margin-left: 10px;

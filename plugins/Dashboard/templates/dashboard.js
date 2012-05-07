@@ -11,7 +11,7 @@ function initDashboard(dashboardId, dashboardLayout) {
     if($('#periodString').length)
     {
         $('#periodString').after($('#dashboardSettings'));
-        $('#dashboardSettings').css({left:$('#periodString')[0].offsetWidth+10});
+        $('#dashboardSettings').css({left:$('#periodString')[0].offsetWidth});
     }
     // Embed dashboard
     if(!$('#topBars').length)
@@ -41,6 +41,8 @@ function initDashboard(dashboardId, dashboardLayout) {
             $('#dashboardSettings').removeClass('visible');
         }
     });
+
+    widgetsHelper.getAvailableWidgets();
 
     $('#dashboardWidgetsArea').on('dashboardempty', showEmptyDashboardNotification);
 
