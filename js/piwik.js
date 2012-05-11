@@ -1916,32 +1916,36 @@ var
 						ag: 'application/x-silverlight'
 					};
 
-				// general plugin detection
-				if (navigatorAlias.mimeTypes && navigatorAlias.mimeTypes.length) {
-					for (i in pluginMap) {
-						if (Object.prototype.hasOwnProperty.call(pluginMap, i)) {
-							mimeType = navigatorAlias.mimeTypes[pluginMap[i]];
-							browserFeatures[i] = (mimeType && mimeType.enabledPlugin) ? '1' : '0';
+				if (!((new RegExp('MSIE')).test(navigatorAlias.userAgent))) {
+					// general plugin detection
+					if (navigatorAlias.mimeTypes && navigatorAlias.mimeTypes.length) {
+						for (i in pluginMap) {
+							if (Object.prototype.hasOwnProperty.call(pluginMap, i)) {
+								mimeType = navigatorAlias.mimeTypes[pluginMap[i]];
+								browserFeatures[i] = (mimeType && mimeType.enabledPlugin) ? '1' : '0';
+							}
 						}
 					}
+
+					// Safari and Opera
+					// IE6/IE7 navigator.javaEnabled can't be aliased, so test directly
+					if (typeof navigator.javaEnabled !== 'unknown' &&
+							isDefined(navigatorAlias.javaEnabled) &&
+							navigatorAlias.javaEnabled()) {
+						browserFeatures.java = '1';
+					}
+
+					// Firefox
+					if (isFunction(windowAlias.GearsFactory)) {
+						browserFeatures.gears = '1';
+					}
+
+					// other browser features
+					browserFeatures.cookie = hasCookies();
 				}
 
-				// Safari and Opera
-				// IE6/IE7 navigator.javaEnabled can't be aliased, so test directly
-				if (typeof navigator.javaEnabled !== 'unknown' &&
-						isDefined(navigatorAlias.javaEnabled) &&
-						navigatorAlias.javaEnabled()) {
-					browserFeatures.java = '1';
-				}
-
-				// Firefox
-				if (isFunction(windowAlias.GearsFactory)) {
-					browserFeatures.gears = '1';
-				}
-
-				// other browser features
+				// screen resolution
 				browserFeatures.res = screenAlias.width + 'x' + screenAlias.height;
-				browserFeatures.cookie = hasCookies();
 			}
 
 /*<DEBUG>*/
@@ -1974,9 +1978,7 @@ var
 			/*
 			 * initialize tracker
 			 */
-			if (!((new RegExp('MSIE')).test(navigatorAlias.userAgent))) {
-				detectBrowserFeatures();
-			}
+			detectBrowserFeatures();
 			updateDomainHash();
 
 /*<DEBUG>*/

@@ -155,6 +155,11 @@ function Piwik_UserSettings_keepStrlenGreater($value)
 
 function Piwik_getScreenTypeFromResolution($resolution)
 {
+	if($resolution === 'unknown')
+	{
+		return $resolution;
+	}
+
 	$width = intval(substr($resolution, 0, strpos($resolution, 'x')));
 	$height= intval(substr($resolution, strpos($resolution, 'x') + 1));
 	$ratio = Piwik::secureDiv($width, $height);
