@@ -58,6 +58,11 @@ class Piwik_DoNotTrack extends Piwik_Plugin
 
 			$trackingCookie = Piwik_Tracker_IgnoreCookie::getTrackingCookie();
 			$trackingCookie->delete();
+
+			// this is an optional supplement to the site's tracking status resource at:
+			//     /.well-known/dnt
+			// per Tracking Preference Expression (draft)
+			header('Tk: 1');
 		}
 	}
 }
