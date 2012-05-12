@@ -946,7 +946,7 @@ class Recorder(object):
         result = piwik.call_api(
             'CoreAdminHome.invalidateArchivedReports',
             dates=','.join(dates),
-            idSites=','.join(stats.piwik_sites),
+            idSites=','.join(str(site_id) for site_id in stats.piwik_sites),
         )
 
 
