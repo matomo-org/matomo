@@ -21,13 +21,16 @@ class Piwik_DataTable_Filter_RangeCheck extends Piwik_DataTable_Filter
 	static public $minimumValue = 0.00;
 	static public $maximumValue = 100.0;
 
-	public function __construct( $table, $columnToFilter, $minimumValue, $maximum )
+	public function __construct( $table, $columnToFilter, $minimumValue = 0.00, $maximumValue = 100.0 )
 	{
 		parent::__construct($table);
 
 		$this->columnToFilter = $columnToFilter;
-		self::$minimumValue = $minimumValue;
-		self::$maximumValue = $maximumValue;
+
+		if ($minimumValue < $maximumValue) {
+			self::$minimumValue = $minimumValue;
+			self::$maximumValue = $maximumValue;
+		}
 	}
 
 	public function filter($table)
