@@ -16,12 +16,9 @@ function initDashboard(dashboardId, dashboardLayout) {
     // Embed dashboard
     if(!$('#topBars').length)
     {
-        $('#periodString').css({left: 10, top: 13});
-        $('#dashboardSettings').css({left:$('#periodString')[0].offsetWidth+23, top:13});
+        $('#dashboardSettings').css({left:0});
         $('#dashboardSettings').after($('#Dashboard'));
-        $('#Dashboard').css({left: $('#periodString')[0].offsetWidth+$('#dashboardSettings')[0].offsetWidth+43, top: 13});
-        $('#dashboardWidgetsArea').css({marginTop: 30});
-        $('#Dashboard > ul li a').each(function(){$(this).css({width:$(this).width()+30, paddingLeft:0, paddingRight:0});});
+        $('#Dashboard > ul li a').each(function(){$(this).css({width:this.offestWidth+30, paddingLeft:0, paddingRight:0});});
         $('#Dashboard_embeddedIndex_'+dashboardId).addClass('sfHover');
     }
 

@@ -65,7 +65,7 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 		$actionName = Piwik_Common::getRequestVar('actionToWidgetize');
 		$parameters = array ( $fetch = true );
 		$outputDataTable = Piwik_FrontController::getInstance()->fetchDispatch( $controllerName, $actionName, $parameters);
-		$view = Piwik_View::factory('iframe');
+		$view = Piwik_View::factory('empty');
 		$this->setGeneralVariablesView($view);
 		$view->setXFrameOptions('allow');
 		$view->content = $outputDataTable;

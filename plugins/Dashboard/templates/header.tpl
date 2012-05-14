@@ -8,13 +8,12 @@
 {include file="CoreHome/templates/js_global_variables.tpl"}
 {include file="CoreHome/templates/js_css_includes.tpl"}
 {literal}
-<style>
+<style type="text/css">
     #dashboard {
-        margin: -4px -6px 0 -12px;
+        margin: 30px -6px 0 -12px;
     }
 
     #Dashboard {
-        position:absolute;
         z-index:5;
         font-size:14px;
         cursor: pointer;
@@ -40,13 +39,15 @@
     #Dashboard > ul > li {
         float: left;
         text-align: center;
+        margin: 0 15px;
     }
 
     #Dashboard a {
         color: #444;
         text-decoration: none;
         font-weight: normal;
-        display: block;
+        display: inline-block;
+        margin: 0 -15px;
     }
 
     #Dashboard > ul > li:hover , #Dashboard > ul > li:hover a,
@@ -56,6 +57,20 @@
 
     #Dashboard > ul > li.sfHover, #Dashboard > ul > li.sfHover a {
         font-weight: bold;
+    }
+
+    #Dashboard, #periodString, #dashboardSettings {
+        float: left;
+        clear: none;
+        position: relative;
+        margin-left: 0;
+        margin-right: 10px;
+    }
+
+    #menuHead {
+        position: absolute;
+        top: 0;
+        padding: 3px 0 0 3px;
     }
 
 </style>
