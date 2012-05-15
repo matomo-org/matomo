@@ -214,6 +214,10 @@ var broadcast = {
         if( valFromUrl != '') {
             // replacing current param=value to newParamValue;
             var regToBeReplace = new RegExp(paramName + '=' + valFromUrl, 'ig');
+            if(newParamValue == '') {
+                // if new value is empty remove leading &, aswell
+                regToBeReplace = new RegExp('[\&]?' + paramName + '=' + valFromUrl, 'ig');
+            }
             urlStr = urlStr.replace( regToBeReplace, newParamValue );
         } else if(newParamValue != '') {
             urlStr += (urlStr == '') ? newParamValue : '&' + newParamValue;
