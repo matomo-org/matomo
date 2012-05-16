@@ -56,7 +56,12 @@ $(document).ready( function() {
 	$('#exportFullDashboard').html(
 		widgetized.getInputFormWithHtml( 'dashboardEmbed', '<iframe src="'+ dashboardUrl +'" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%"></iframe>')
 	);
-	$('#linkDashboardUrl').attr('href',dashboardUrl); 
+	$('#linkDashboardUrl').attr('href',dashboardUrl);
+	var allWebsitesDashboardUrl = document.location.protocol + '//' + document.location.hostname + (document.location.port == '' ? '' : (':' + document.location.port)) + document.location.pathname + '?module=Widgetize&action=iframe&moduleToWidgetize=MultiSites&actionToWidgetize=standalone&idSite='+piwik.idSite+'&period=week&date=yesterday';
+	$('#exportAllWebsitesDashboard').html(
+		widgetized.getInputFormWithHtml( 'dashboardEmbed', '<iframe src="'+ allWebsitesDashboardUrl +'" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%"></iframe>')
+	);
+	$('#linkAllWebsitesDashboardUrl').attr('href',allWebsitesDashboardUrl);
     $('#widgetPreview').widgetPreview({
         onPreviewLoaded: widgetized.callbackAddExportButtonsUnderWidget
     });
@@ -80,6 +85,8 @@ $(document).ready( function() {
     The date parameter can be set to a specific calendar date, "today", or "yesterday".  The period parameter can be set to "day", "week", "month", or "year".
     The language parameter can be set to the language code of a translation, such as language=fr.
 	For example, for idSite=1 and date=yesterday, you can write: <span id='exportFullDashboard'></span>
+	</p>
+	<p><b>&rsaquo; Widgetize the all websites dashboard in an IFRAME</b> (<a href='' target='_blank' id='linkAllWebsitesDashboardUrl'>see example</a>)  <span id='exportAllWebsitesDashboard'></span>
 	</p>
 	<p>	<b>&rsaquo; Select a report, and copy paste in your page the embed code below the widget:</b>
     

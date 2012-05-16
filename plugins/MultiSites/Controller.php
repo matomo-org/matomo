@@ -33,11 +33,18 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 
 	function index()
 	{
-		$this->getSitesInfo();
+		$view = new Piwik_View("MultiSites/templates/index.tpl");
+		$this->getSitesInfo($view);
+	}
+
+	function standalone()
+	{
+		$view = new Piwik_View("MultiSites/templates/standalone.tpl");
+		$this->getSitesInfo($view);
 	}
 
 
-	public function getSitesInfo()
+	public function getSitesInfo($view)
 	{
 		Piwik::checkUserHasSomeViewAccess();
 		$displayRevenueColumn = Piwik_Common::isGoalPluginEnabled();
@@ -127,7 +134,6 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		
 		$this->applyPrettyMoney($digestableData);
 
-		$view = new Piwik_View("MultiSites/templates/index.tpl");
 		$view->sitesData = array_values($digestableData);
 		$view->evolutionBy = $this->evolutionBy;
 		$view->period = $period;
