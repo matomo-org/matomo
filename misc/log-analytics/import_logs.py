@@ -1084,7 +1084,11 @@ class Parser(object):
             print 'Parsing log %s...' % filename
 
         for lineno, line in enumerate(file):
-            line = line.decode(config.options.encoding)
+            try:
+                line = line.decode(config.options.encoding)
+            except UnicodeDecodeError:
+                invalid_line(line)
+                continue
             # Guess the format if needed.
             if not config.format_regexp:
                 logging.debug('Guessing the log format...')
