@@ -4,11 +4,11 @@ import import_logs
 
 
 def test_format_detection():
-    def _test(format):
-        line = open('logs/%s.log' % format).readlines()[0]
-        assert(import_logs.Parser.detect_format(line) == format)
+    def _test(format_name):
+        file = open('logs/%s.log' % format_name)
+        assert(import_logs.Parser.detect_format(file).name == format_name)
 
-    for format in import_logs.FORMATS.iterkeys():
-        f = functools.partial(_test, format)
-        f.description = 'Testing autodetection of format ' + format
+    for format_name in import_logs.FORMATS.iterkeys():
+        f = functools.partial(_test, format_name)
+        f.description = 'Testing autodetection of format ' + format_name
         yield f
