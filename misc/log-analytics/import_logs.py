@@ -951,10 +951,15 @@ class Recorder(object):
 
         stats.dates_recorded.add(hit.date.date())
 
+        if config.options.strip_query_string:
+            path = hit.path
+        else:
+            path = '%s%s%s' % (hit.path, config.options.query_string_delimiter, hit.query_string)
+
         args = {
             'rec': '1',
             'apiv': '1',
-            'url': (main_url + hit.path[:1024]).encode('utf8'),
+            'url': (main_url + path[:1024]).encode('utf8'),
             'urlref': hit.referrer[:1024].encode('utf8'),
             'cip': hit.ip,
             'cdt': self.date_to_piwik(hit.date),
@@ -1172,21 +1177,11 @@ class Parser(object):
                 is_redirect=False,
             )
 
-            hit.path = hit.full_path
-            if config.options.strip_query_string:
-                try:
-                    query_string = match.group('query_string')
-                except IndexError:
-                    # Strip the query string
-                    hit.path = hit.full_path.split(config.options.query_string_delimiter, 1)[0]
-            else:
-                try:
-                    query_string = match.group('query_string')
-                except IndexError:
-                    pass
-                else:
-                    # Merge the query string
-                    hit.path = '%s%s%s' % (hit.full_path, config.options.query_string_delimiter, query_string)
+            try:
+                hit.query_string = match.group('query_string')
+                hit.path = hit.full_path
+            except IndexError:
+                hit.path, hit.query_string = hit.full_path.split(config.options.query_string_delimiter, 1)
 
             # Parse date
             date_string = match.group('date')
