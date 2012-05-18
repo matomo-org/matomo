@@ -39,7 +39,6 @@ class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
 	
 	public function filter($table)
 	{
-		$table = $table;
 		$table->setRowsCountBeforeLimitFilter();
 		
 		$rowsCount = $table->getRowsCount();

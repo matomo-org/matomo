@@ -50,11 +50,7 @@ function initDashboard(dashboardId, dashboardLayout) {
 
     $('#dashboardSettings').widgetPreview({
         isWidgetAvailable: function(widgetUniqueId) {
-            if ($('#dashboardWidgetsArea [widgetId='+widgetUniqueId+']').length) {
-                return false;
-            } else {
-                return true;
-            }
+            return !$('#dashboardWidgetsArea [widgetId=' + widgetUniqueId + ']').length;
         },
         onSelect: function(widgetUniqueId) {
             var widget = widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId);

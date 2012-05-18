@@ -155,7 +155,7 @@ function bindListGoalEdit()
 	$('a[name=linkEditGoal]').click( function() {
 		var goalId = $(this).attr('id');
 		var goal = piwik.goals[goalId];
-		initGoalForm("Goals.updateGoal", _pk_translate('Goals_UpdateGoal_js'), goal.name, goal.match_attribute, goal.pattern, goal.pattern_type, (goal.case_sensitive=='0' ? false : true), goal.revenue, goal.allow_multiple, goalId);
+		initGoalForm("Goals.updateGoal", _pk_translate('Goals_UpdateGoal_js'), goal.name, goal.match_attribute, goal.pattern, goal.pattern_type, (goal.case_sensitive != '0'), goal.revenue, goal.allow_multiple, goalId);
 		showAddNewGoal();
 		return false;
 	});

@@ -139,8 +139,7 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 				$contentArray[$timestamp]['table']->addRowsFromArray($aNameValues);
 			}
 		}
-		$contentArray;
-				
+
 		$tableArray = $this->getNewDataTableArray();
 		foreach($contentArray as $timestamp => $aData)
 		{

@@ -221,9 +221,9 @@ var piwikHelper = {
     refreshAfter: function(timeoutPeriod)
     {
         if(timeoutPeriod == 0) {
-            location.reload(true);
+            location.reload();
         } else {
-            setTimeout("location.reload(true);",timeoutPeriod);
+            setTimeout("location.reload();",timeoutPeriod);
         }
     },
 

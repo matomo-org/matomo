@@ -31,5 +31,4 @@ function smarty_function_ajaxLoadingDiv($params, &$smarty)
 					Piwik_Translate('General_LoadingData') .
 				' </div>'.
 			'</div>';
-	;
 }

@@ -144,9 +144,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'aolbusqueda.aol.com.mx'	=> array('AOL'),
 		'alicesuche.aol.de'			=> array('AOL'),
 		'alicesuchet.aol.de'		=> array('AOL'),
-		'suche.aolsvc.de'			=> array('AOL'),
-		'suche.aol.de'				=> array('AOL'),
-		'alicesuche.aol.de'			=> array('AOL'),
 		'suchet2.aol.de'			=> array('AOL'),
 		'search.hp.my.aol.com.au'	=> array('AOL'),
 		'search.hp.my.aol.de'		=> array('AOL'),
@@ -202,9 +199,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'tieba.baidu.com'			=> array('Baidu'),
 		'news.baidu.com'			=> array('Baidu'),
 		'web.gougou.com'			=> array('Baidu', 'search', 'search?search={k}'), // uses baidu search
-	
-		// Bellnet
-		'www.suchmaschine.com'		=> array('Bellnet', 'suchstr', 'cgi-bin/bellnet.cgi?suchstr={k}'),
 
 		// Biglobe
 		'cgi.search.biglobe.ne.jp'	=> array('Biglobe', 'q', 'cgi-bin/search-st?q={k}'),

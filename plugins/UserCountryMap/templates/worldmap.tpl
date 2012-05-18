@@ -25,8 +25,8 @@
 {/literal}
 
 	{* this hacks helps jquery to distingish between safari and chrome. *}
-	var isSafari = (navigator.userAgent.toLowerCase().indexOf("safari") != -1 && 
-		navigator.userAgent.toLowerCase().indexOf("chrome") == -1 ? true : false); 
+	var isSafari = (navigator.userAgent.toLowerCase().indexOf("safari") != -1 &&
+            navigator.userAgent.toLowerCase().indexOf("chrome") == -1);
 	
 	fv.dataUrl = encodeURIComponent("{$dataUrl}");
 	fv.hueMin = {$hueMin};
