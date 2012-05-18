@@ -675,7 +675,7 @@ class Piwik(object):
         headers = headers or {}
         # If Content-Type isn't defined, PHP do not parse the request's body.
         headers['Content-type'] = 'application/x-www-form-urlencoded'
-        data = urllib.urlencode(args).encode('ascii', 'ignore')
+        data = urllib.urlencode(args)
         request = urllib2.Request(url + path, data, headers)
         response = urllib2.urlopen(request)
         result = response.read()
@@ -954,8 +954,8 @@ class Recorder(object):
         args = {
             'rec': '1',
             'apiv': '1',
-            'url': main_url + hit.path[:1024],
-            'urlref': hit.referrer[:1024],
+            'url': (main_url + hit.path[:1024]).encode('utf8'),
+            'urlref': hit.referrer[:1024].encode('utf8'),
             'cip': hit.ip,
             'cdt': self.date_to_piwik(hit.date),
             'idsite': site_id,
