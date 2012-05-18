@@ -7,8 +7,7 @@
 	font-family: Arial, Georgia, "Times New Roman", Times, serif;
 	padding: 1em 2em;
 	width:780px;
-	margin:auto;
-	margin-top: 30px;
+	margin: 30px auto auto;
 	-moz-border-radius: 12px;
 	-webkit-border-radius: 12px;
 }

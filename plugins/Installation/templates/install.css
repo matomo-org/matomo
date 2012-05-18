@@ -146,9 +146,8 @@ p.nextStep a {
 }
 
 td {
-	border-color:#FFFFFF rgb(198, 205, 216)  rgb(198, 205, 216) rgb(198, 205, 216) ;
-	border-style:solid;
-	border-width:1px;
+	border: 1px solid rgb(198, 205, 216);
+	border-top-color: #FFF;
 	color:#203276;
 	padding:0.5em 0.5em 0.5em 0.8em;
 }

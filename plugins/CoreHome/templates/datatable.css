@@ -146,9 +146,7 @@ table.dataTable td.columnodd {
 }
 
 table.dataTable td.labeleven {
-	background: #F9FAFA;
-	background-image: url(images/bullet2.gif);
-	background-repeat: no-repeat;
+	background: #F9FAFA url(images/bullet2.gif) no-repeat;
 }
 
 table.dataTable td.labelodd {

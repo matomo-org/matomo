@@ -53,8 +53,7 @@ form p {
 
 #login {
 	width: 292px;
-	margin: 7em auto;
-	margin-top: 20px;
+	margin: 20px auto 7em;
 }
 
 #login_error,.message {

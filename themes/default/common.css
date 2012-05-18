@@ -12,7 +12,7 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 abbr {
 	border-bottom: 1px dotted;
 }
-form {margin: 0px; }
+form {margin: 0; }
 body {
 	line-height: 1.33;
 	background-color: white;
@@ -48,7 +48,7 @@ br.clearAll {
 }
 br.clear, div.clear{ 
 	clear:both;  
-	height:0px; 
+	height:0;
 	overflow:hidden; 
 }
 
@@ -155,7 +155,7 @@ a {
 #periodString .period-type label{
 	font-size:12px;
 	display:inline-block; 
-	padding: 2px 0px 3px 0;
+	padding: 2px 0 3px 0;
 	vertical-align:top; 
 }
 
@@ -232,7 +232,7 @@ a {
 }
 .sites_autocomplete label{
 	display:inline-block; 
-	padding:7px 12px 6px 0px;
+	padding:7px 12px 6px 0;
 	float:left; 
 }
 
@@ -391,10 +391,9 @@ a {
 	border-spacing:0;
 }
 .tableForm td {
-	border-color:#FFF #C6CDD8 #C6CDD8 #C6CDD8;
-	border-style:solid;
+	border: 1px solid #C6CDD8;
+	border-top: 10px #FFF;
 	padding:0.5em 0.5em 0.5em 0.8em;
-	border-width:10px 1px 1px 1px;
 	color:#203276;
 }
 .tableForm input {
@@ -451,9 +450,9 @@ div.ui-state-highlight {
 
 .ui-datepicker{ 
 	border: 1px solid #fff!important;
-	border-radius:0px!important;
-	-moz-border-radius:0px!important;
-	-webkit-border-radius:0px!important;
+	border-radius:0!important;
+	-moz-border-radius:0!important;
+	-webkit-border-radius:0!important;
 	font-size:11px!important; 
 	padding:0!important;
 	width:160px!important;
@@ -462,9 +461,9 @@ div.ui-state-highlight {
 .ui-datepicker-header{ 
 	background:#847b6d url(images/dashboard_h_bg_hover.png) repeat-x 0 0!important;
 	color:#fff!important;
-	border-radius:0px!important;
-	-moz-border-radius:0px!important;
-	-webkit-border-radius:0px!important;
+	border-radius:0!important;
+	-moz-border-radius:0!important;
+	-webkit-border-radius:0!important;
 }
 .ui-datepicker select {
 	padding:0;	
@@ -551,9 +550,8 @@ input, select, textarea {
 	margin-bottom:3px;
 }
 input[disabled] {
-	background:none;
-	background-color:#E9E9E9;
-	font-style:italic;
+    background: #E9E9E9 none;
+    font-style:italic;
 }
 
 select {  
@@ -573,8 +571,7 @@ select {
 	border:0;
 	background:#847b6d url(images/dashboard_h_bg_hover.png) repeat-x 0 0;
 	float:right; 
-	margin:12px 0 0 0;
-	margin-bottom:10px;
+	margin:12px 0 10px 0;
 }
 /* on admin screen, Save button aligned on the left */
 .admin .submit {

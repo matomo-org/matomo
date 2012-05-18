@@ -84,9 +84,8 @@
 <style type="text/css">
 code {
 	background-color:#F0F7FF;
-	border-color:#00008B;
-	border-style:dashed dashed dashed solid;
-	border-width:1px 1px 1px 5px;
+	border: 1px dashed #00008B;
+	border-left: 5px solid;
 	direction:ltr;
 	display:block;
 	margin:2px 2px 20px;

@@ -123,8 +123,7 @@ td.attributes, .fixedFont
 .summaryTable td.nameDescription, .description
 {
 	line-height: 15px;
-	padding: 4px;
-	padding-left: 4px;
+    padding: 4px;
 }
 
 .summaryTable { margin-bottom: 8px; }

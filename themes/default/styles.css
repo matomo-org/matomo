@@ -31,9 +31,8 @@
 
 code {
 	background-color:#F6F9F9;
-	border-color:#3B3BB5;
-	border-style:dashed dashed dashed solid;
-	border-width:1px 1px 1px 5px;
+	border: 1px dashed #3B3BB5;
+	border-left: 5px solid;
 	direction:ltr;
 	display:table;
 	font-size:100%;
