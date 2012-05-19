@@ -524,6 +524,7 @@ dataTable.prototype =
 				
 				var filters = self.resetAllFilters();
 				self.param.flat = filters.flat;
+				self.param.columns = filters.columns;
 				
 				self.param.viewDataTable = viewDataTable;
 				self.reloadAjaxDataTable();
