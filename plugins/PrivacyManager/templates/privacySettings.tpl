@@ -104,7 +104,7 @@ See also our official guide <b><a href='http://piwik.org/privacy/' target='_blan
 					<input type="text" id="deleteOlderThan" value="{$deleteData.config.delete_logs_older_than}" style="width:30px;"
 						   name="deleteOlderThan"/>
 					{'CoreHome_PeriodDays'|translate}</label><br/>
-				<span class="form-description">{'PrivacyManager_LeastDaysInput'|translate:"7"}</span>
+				<span class="form-description">{'PrivacyManager_LeastDaysInput'|translate:"1"}</span>
 			</td>
 			<td width="200">
 

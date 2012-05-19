@@ -62,8 +62,8 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 		// delete logs settings
 		$settings['delete_logs_enable'] = Piwik_Common::getRequestVar("deleteEnable", 0);
 		$settings['delete_logs_schedule_lowest_interval'] = Piwik_Common::getRequestVar("deleteLowestInterval", 7);
-		$settings['delete_logs_older_than'] = ((int)Piwik_Common::getRequestVar("deleteOlderThan", 180) < 7) ?
-				7 : Piwik_Common::getRequestVar("deleteOlderThan", 180);
+		$settings['delete_logs_older_than'] = ((int)Piwik_Common::getRequestVar("deleteOlderThan", 180) < 1) ?
+				1 : Piwik_Common::getRequestVar("deleteOlderThan", 180);
 		
 		// delete reports settings
 		$settings['delete_reports_enable'] = Piwik_Common::getRequestVar("deleteReportsEnable", 0);
