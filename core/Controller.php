@@ -425,7 +425,16 @@ abstract class Piwik_Controller
 				$period = new Piwik_Period_Range($periodStr, $rawDate, $this->site->getTimezone());
 			}
 			$view->rawDate = $rawDate;
-			$view->prettyDate = $period->getPrettyString();
+			
+			if ($period instanceof Piwik_Period_Month) // show month name when period is for a month
+			{
+				$view->prettyDate = $period->getLocalizedLongString();
+			}
+			else
+			{
+				$view->prettyDate = $period->getPrettyString();
+			}
+			
 			$view->siteName = $this->site->getName();
 			$view->siteMainUrl = $this->site->getMainUrl();
 			
