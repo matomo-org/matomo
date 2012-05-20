@@ -24,7 +24,6 @@ class Piwik_Actions extends Piwik_Plugin
 	static protected $defaultActionName = null;
 	static protected $defaultActionNameWhenNotDefined = null;
 	static protected $defaultActionUrlWhenNotDefined = null;
-	static protected $limitLevelSubCategory = 10; // must be less than Piwik_DataTable::MAXIMUM_DEPTH_LEVEL_ALLOWED
 	protected $maximumRowsInDataTableLevelZero;
 	protected $maximumRowsInSubDataTable;
 	protected $columnToSortByBeforeTruncation;
@@ -711,7 +710,7 @@ class Piwik_Actions extends Piwik_Plugin
 			return array( trim($name) );
 		}
 
-		$split = explode($categoryDelimiter, $name, self::$limitLevelSubCategory);
+		$split = explode($categoryDelimiter, $name, self::getSubCategoryLevelLimit());
 		
 		// trim every category and remove empty categories
 		$split = array_map('trim', $split);
@@ -897,6 +896,20 @@ class Piwik_Actions extends Piwik_Plugin
 			}
 		}
 		return $currentTable;
+	}
+	
+	/**
+	 * Returns the configured sub-category level limit. The result will be less than
+	 * Piwik_DataTable::MAXIMUM_DEPTH_LEVEL_ALLOWED.
+	 * 
+	 * @return int
+	 */
+	public static function getSubCategoryLevelLimit()
+	{
+		$limit = Piwik_Config::getInstance()->General['action_category_level_limit'];
+		
+		// limit must be less than Piwik_DataTable::MAXIMUM_DEPTH_LEVEL_ALLOWED
+		return min($limit, Piwik_DataTable::MAXIMUM_DEPTH_LEVEL_ALLOWED - 1);
 	}
 }
 
