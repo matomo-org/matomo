@@ -10,7 +10,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/integration/Integration.php';
  * This use case covers many simple tracking features.
  * - Tracking Goal by manual trigger, and URL matching, with custom revenue
  * - Tracking the same Goal twice only records it once
- * - Tracks 2 page views, a click and a file download
+ * - Tracks 4 page views: 3 clicks and a file download
  * - URLs parameters exclude is tested
  * - In a returning visit, tracks a Goal conversion 
  *   URL matching, with custom referer and keyword
@@ -24,8 +24,16 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends Test_Integration_Facade
 
 	public function getApiToTest()
 	{
+		$enExtraParam = array('expanded' => 1, 'flat' => 1, 'include_aggregate_rows' => 0, 'translateColumnNames' => 1);
 		return array(
 			array('all', array('idSite' => $this->idSite, 'date' => $this->dateTime)),
+			
+			// test API.get (for bug that incorrectly reorders columns of CSV output)
+			//   note: bug only affects rows after first
+			array('API.get', array('idSite' => $this->idSite, 'date' => '2009-10-01', 'format' => 'csv',
+								   'periods' => array('month'), 'setDateLastN' => true,
+								   'otherRequestParameters' => $enExtraParam, 'language' => 'en',
+								   'testSuffix' => '_csv')),
 		);
 	}
 
@@ -83,6 +91,12 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends Test_Integration_Facade
 		// Click on file download after 12 minutes (4th action)
 		$t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.2)->getDatetime());
 		$this->checkResponse($t->doTrackAction( 'http://piwik.org/path/again/latest.zip', 'download' ));
+		
+		// Click on two more external links, one the same as before (5th & 6th actions)
+		$t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.22)->getDateTime());
+		$this->checkResponse($t->doTrackAction('http://outlinks.org/other_outlink', 'link'));
+		$t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.25)->getDateTime());
+		$this->checkResponse($t->doTrackAction('http://dev.piwik.org/svn', 'link'));
 		
 		// Create Goal 1: Triggered by JS, after 18 minutes
 		$idGoal = Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');

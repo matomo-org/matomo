@@ -114,8 +114,8 @@
 		<label>11h</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
-		<nb_actions>5</nb_actions>
-		<max_actions>5</max_actions>
+		<nb_actions>7</nb_actions>
+		<max_actions>7</max_actions>
 		<sum_visit_length>1621</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<goals>

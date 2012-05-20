@@ -4,14 +4,14 @@
 		<label>piwik.org</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
-		<sum_time_spent>180</sum_time_spent>
+		<sum_time_spent>72</sum_time_spent>
 		<subtable>
 			<row>
 				<label>/path/again/latest.zip</label>
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
-				<sum_time_spent>180</sum_time_spent>
+				<sum_time_spent>72</sum_time_spent>
 				<url>http://piwik.org/path/again/latest.zip</url>
 			</row>
 		</subtable>

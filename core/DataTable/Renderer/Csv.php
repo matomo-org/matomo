@@ -93,25 +93,16 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		$this->separator = $separator;
 	}
 	
-	protected function renderTable($table)
+	protected function renderTable($table, &$allColumns = array() )
 	{
 		if($table instanceof Piwik_DataTable_Array)
 		{
-			$str = $header = '';
-			$keyName = $table->getKeyName();
-			if ($this->translateColumnNames)
-			{
-				$keyName = $this->translateColumnName($keyName);
-			}
-			$prefixColumns = $keyName . $this->separator;
+			$str = '';
 			foreach($table->getArray() as $currentLinePrefix => $dataTable)
 			{
-				$returned = explode("\n",$this->renderTable($dataTable));
-				// get the columns names
-				if(empty($header))
-				{
-					$header = $returned[0];
-				}
+				$returned = explode("\n",$this->renderTable($dataTable, $allColumns));
+				
+				// get rid of the columns names
 				$returned = array_slice($returned,1);
 				
 				// case empty datatable we dont print anything in the CSV export
@@ -125,19 +116,21 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 					$str .= "\n" .  implode("\n", $returned);
 				}
 			}
-			if(!empty($header))
-			{
-				$str = $prefixColumns . $header . $str;
-			}
+			
+			// prepend table key to column list
+			$allColumns = array_merge(array($table->getKeyName() => true), $allColumns);
+			
+			// add header to output string
+			$str = $this->getHeaderLine(array_keys($allColumns)).$str;
 		}
 		else
 		{
-			$str = $this->renderDataTable($table);
+			$str = $this->renderDataTable($table, $allColumns);
 		}
 		return $str;
 	}
 	
-	protected function renderDataTable( $table )
+	protected function renderDataTable( $table, &$allColumns = array() )
 	{	
 		if($table instanceof Piwik_DataTable_Simple)
 		{
@@ -147,13 +140,16 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 				$columnNameToValue = $row->getColumns();
 				if(count($columnNameToValue) == 1)
 				{
+					// simple tables should only have one column, the value
+					$allColumns['value'] = true;
+					
 					$value = array_values($columnNameToValue);
 					$str = 'value' . $this->lineEnd . $this->formatValue($value[0]);
 					return $str;
 				}
 			}
 		}
-		$csv = $allColumns = array();
+		$csv = array();
 		foreach($table->getRows() as $row)
 		{
 			$csvRow = array();
@@ -256,13 +252,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		else
 		{
 			// render row names
-			$keys = array_keys($allColumns);
-			if ($this->translateColumnNames)
-			{
-				$keys = $this->translateColumnNames($keys);
-			}
-			$str .= implode($this->separator, $keys);
-			$str .= $this->lineEnd;
+			$str .= $this->getHeaderLine(array_keys($allColumns)).$this->lineEnd;
 		}
 		
 		// we render the CSV
@@ -279,6 +269,21 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		}
 		$str = substr($str, 0, -strlen($this->lineEnd));
 		return $str;
+	}
+	
+	/**
+	 * Returns the CSV header line for a set of metrics. Will translate columns if desired.
+	 * 
+	 * @param array $columnMetrics
+	 * @return array
+	 */
+	private function getHeaderLine( $columnMetrics )
+	{
+		if ($this->translateColumnNames)
+		{
+			$columnMetrics = $this->translateColumnNames($columnMetrics);
+		}
+		return implode($this->separator, $columnMetrics);
 	}
 
 	protected function formatValue($value)

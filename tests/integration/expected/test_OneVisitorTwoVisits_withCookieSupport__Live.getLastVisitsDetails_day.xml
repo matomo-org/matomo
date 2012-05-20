@@ -17,7 +17,7 @@
 				<type>goal</type>
 				<goalName>matching purchase.htm</goalName>
 				<revenue>1</revenue>
-				<goalPageId>6</goalPageId>
+				<goalPageId>8</goalPageId>
 				
 				<url>http://example.org/store/purchase.htm</url>
 				<icon>themes/default/images/goal.png</icon>
@@ -26,8 +26,8 @@
 				<type>action</type>
 				<url>http://example.org/store/purchase.htm</url>
 				<pageTitle>Checkout/Purchasing...</pageTitle>
-				<pageIdAction>10</pageIdAction>
-				<pageId>6</pageId>
+				<pageIdAction>11</pageIdAction>
+				<pageId>8</pageId>
 				
 				<icon />
 			</row>
@@ -99,7 +99,7 @@
 		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<actions>5</actions>
+		<actions>7</actions>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -138,6 +138,24 @@
 				<icon>themes/default/images/download.png</icon>
 			</row>
 			<row>
+				<type>outlink</type>
+				<url>http://outlinks.org/other_outlink</url>
+				<pageTitle />
+				<pageIdAction>7</pageIdAction>
+				<pageId>5</pageId>
+				
+				<icon>themes/default/images/link.gif</icon>
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://dev.piwik.org/svn</url>
+				<pageTitle />
+				<pageIdAction>5</pageIdAction>
+				<pageId>6</pageId>
+				
+				<icon>themes/default/images/link.gif</icon>
+			</row>
+			<row>
 				<type>goal</type>
 				<goalName>triggered js</goalName>
 				<revenue>0</revenue>
@@ -150,8 +168,8 @@
 				<type>action</type>
 				<url>http://example.org/index.htm</url>
 				<pageTitle>Looking at homepage (again)...</pageTitle>
-				<pageIdAction>8</pageIdAction>
-				<pageId>5</pageId>
+				<pageIdAction>9</pageIdAction>
+				<pageId>7</pageId>
 				
 				<icon />
 			</row>
