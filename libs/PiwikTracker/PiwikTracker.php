@@ -90,6 +90,9 @@ class PiwikTracker
     		self::$URL = $apiUrl;
     	}
     	$this->visitorId = substr(md5(uniqid(rand(), true)), 0, self::LENGTH_VISITOR_ID);
+    	
+		// Allow debug while blocking the request
+    	$this->requestTimeout = 600;
     }
     
     /**
@@ -705,11 +708,35 @@ class PiwikTracker
     }
     
     /**
+     * Returns the maximum number of seconds the tracker will spend waiting for a response
+     * from Piwik. Defaults to 600 seconds.
+     */
+    public function getRequestTimeout()
+    {
+    	return $this->requestTimeout;
+    }
+	
+	/**
+	 * Sets the maximum number of seconds that the tracker will spend waiting for a response
+	 * from Piwik.
+	 * 
+	 * @param int $timeout
+	 */
+    public function setRequestTimeout( $timeout )
+    {
+    	if (!is_int($timeout) || $timeout < 0)
+    	{
+    		throw new Exception("Invalid value supplied for request timeout: $timeout");
+    	}
+    	
+    	$this->requestTimeout = $timeout;
+    }
+    
+    /**
      * @ignore
      */
     protected function sendRequest($url)
     {
-		$timeout = 600; // Allow debug while blocking the request
 		$response = '';
 
 		if(!$this->cookieSupport)
@@ -723,7 +750,7 @@ class PiwikTracker
 				CURLOPT_URL => $url,
 				CURLOPT_USERAGENT => $this->userAgent,
 				CURLOPT_HEADER => true,
-				CURLOPT_TIMEOUT => $timeout,
+				CURLOPT_TIMEOUT => $this->requestTimeout,
 				CURLOPT_RETURNTRANSFER => true,
 				CURLOPT_HTTPHEADER => array(
 					'Accept-Language: ' . $this->acceptLanguage,
@@ -746,7 +773,7 @@ class PiwikTracker
 					'user_agent' => $this->userAgent,
 					'header' => "Accept-Language: " . $this->acceptLanguage . "\r\n" .
 					            "Cookie: ".$this->requestCookie. "\r\n" ,
-					'timeout' => $timeout, // PHP 5.2.1
+					'timeout' => $this->requestTimeout, // PHP 5.2.1
 				)
 			);
 			$ctx = stream_context_create($stream_options);
