@@ -47,8 +47,8 @@ class Piwik
 	 */
 	static public function isUniqueVisitorsEnabled($periodLabel)
 	{
-		return in_array($periodLabel, array('day', 'week', 'month'))
-			|| Piwik_Config::getInstance()->General['enable_processing_unique_visitors_year_and_range'];
+		$settingName = "enable_processing_unique_visitors_$periodLabel";
+		return Piwik_Config::getInstance()->General[$settingName] == 1;
 	}
 
 /*

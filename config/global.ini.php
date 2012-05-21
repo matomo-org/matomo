@@ -62,10 +62,15 @@ disable_merged_assets = 0
 tracker_always_new_visitor = 0
 
 [General]
-; if set to 1, Unique Visitors will be processed for Years and Date Ranges
-; disabled by default, to ensure optimal performance for high traffic Piwik instances
-; if you set it to 1 and want the Unique Visitors to be re-processed in for reports in the past, drop all piwik_archive_* tables
-enable_processing_unique_visitors_year_and_range = 0
+; the following settings control whether Unique Visitors will be processed for different period types.
+; year and range periods are disabled by default, to ensure optimal performance for high traffic Piwik instances
+; if you set it to 1 and want the Unique Visitors to be re-processed for reports in the past, drop all piwik_archive_* tables
+; it is recommended to always enable Unique Visitors processing for 'day' periods
+enable_processing_unique_visitors_day = 1
+enable_processing_unique_visitors_week = 1
+enable_processing_unique_visitors_month = 1
+enable_processing_unique_visitors_year = 0
+enable_processing_unique_visitors_range = 0
 
 ; when set to 1, all requests to Piwik will return a maintenance message without connecting to the DB
 ; this is useful when upgrading using the shell command, to prevent other users from accessing the UI while Upgrade is in progress
