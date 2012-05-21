@@ -1181,7 +1181,7 @@ class Parser(object):
                 hit.query_string = match.group('query_string')
                 hit.path = hit.full_path
             except IndexError:
-                hit.path, hit.query_string = hit.full_path.split(config.options.query_string_delimiter, 1)
+                hit.path, _, hit.query_string = hit.full_path.partition(config.options.query_string_delimiter)
 
             # Parse date
             date_string = match.group('date')
