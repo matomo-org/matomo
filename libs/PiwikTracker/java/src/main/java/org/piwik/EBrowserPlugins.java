@@ -13,21 +13,32 @@ package org.piwik;
 /**
  *
  * @author Martin Fochler
- * @version 1.0.0
+ * @version 1.0.1
  */
 public enum EBrowserPlugins {
 
-    FLASH("fla"), JAVA("java"), DIRECTOR("dir"), QUICKTIME("qt"),
+	/**
+	 *  Browserplugins.
+	 */
+	FLASH("fla"), JAVA("java"), DIRECTOR("dir"), QUICKTIME("qt"),
     REALPLAYER("realp"), PDF("pdf"), WINDOWSMEDIA("wma"), GEARS("gears"),
     SILVERLIGHT("ag");
-    private String urlshort;
+	
+	/**
+	 * The short URL.
+	 */
+	private String urlshort;
 
-    EBrowserPlugins(final String urlshort) {
-        this.urlshort = urlshort;
-    }
+	/**
+	 * Constructor that sets the short URL.
+	 * @param urlshort 
+	 */
+	EBrowserPlugins(final String urlshort) {
+		this.urlshort = urlshort;
+	}
 
-    @Override
-    public String toString() {
-        return this.urlshort + "=true";
-    }
+	@Override
+	public String toString() {
+		return this.urlshort + "=true";
+	}
 }

@@ -109,7 +109,7 @@ public class SimplePiwikTrackerTest {
         String debug_append_url = "";
         SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
         instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
-        instance.setDebug_append_url(debug_append_url);
+        instance.setDebugAppendUrl(debug_append_url);
     }
 
     /**
@@ -196,7 +196,7 @@ public class SimplePiwikTrackerTest {
         String token_auth = "";
         SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
         instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
-        instance.setToken_auth(token_auth);
+        instance.setTokenAuth(token_auth);
     }
 
     /**
@@ -258,7 +258,7 @@ public class SimplePiwikTrackerTest {
         SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
         instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
         int expResult = 1;
-        int result = instance.setCustomVariable(name, value);
+        int result = instance.setPageCustomVariable(name, value);
         Assert.assertEquals(expResult, result);
     }
 
@@ -334,7 +334,7 @@ public class SimplePiwikTrackerTest {
     }
 
     private int assertGeneralURLPart(final String result) {
-        String expResult = "idsite=0&rec=1&apiv=1&_id=" + SimplePiwikTrackerTest.TEST_VISITORID + "&cookie=false&rand=";
+        String expResult = "idsite=0&rec=1&apiv=1&_id=" + SimplePiwikTrackerTest.TEST_VISITORID + "&cookie=false&r=";
         String generalpart = result.substring(0, expResult.length());
         String rest = result.substring(generalpart.length());
         int index = rest.indexOf("&");
@@ -343,7 +343,8 @@ public class SimplePiwikTrackerTest {
         }
         String random = result.substring(generalpart.length(), generalpart.length() + index);
         Assert.assertEquals(expResult, generalpart);
-        Assert.assertTrue(random.matches("[0-9]\\.[0-9]{" + (index - 2) + "}"));
+//        Assert.assertTrue(random.matches("[0-9]\\.[0-9]{" + (index - 2) + "}"));
+        Assert.assertTrue(random.matches("[0-9]{6}"));
         Assert.assertEquals(index, random.length());
         return result.length() - generalpart.length() - random.length();
     }
@@ -392,7 +393,7 @@ public class SimplePiwikTrackerTest {
         SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
         instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
         String expResult = "&download=http%3A%2F%2Flocalhost%2Ftestdownload.pdf";
-        this.assertFullUrl(expResult, "http://localhost/piwik/piwik.php?", instance.getDownloadTackURL(downloadurl).toString());
+        this.assertFullUrl(expResult, "http://localhost/piwik/piwik.php?", instance.getDownloadTrackURL(downloadurl).toString());
     }
 
     /**
@@ -405,7 +406,7 @@ public class SimplePiwikTrackerTest {
         SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
         instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
         String expResult = "&link=http%3A%2F%2Flocalhost%2Ftestlink";
-        this.assertFullUrl(expResult, "http://localhost/piwik/piwik.php?", instance.getLinkTackURL(linkurl).toString());
+        this.assertFullUrl(expResult, "http://localhost/piwik/piwik.php?", instance.getLinkTrackURL(linkurl).toString());
     }
 
     /**
