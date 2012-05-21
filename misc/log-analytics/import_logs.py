@@ -951,10 +951,9 @@ class Recorder(object):
 
         stats.dates_recorded.add(hit.date.date())
 
-        if config.options.strip_query_string:
-            path = hit.path
-        else:
-            path = '%s%s%s' % (hit.path, config.options.query_string_delimiter, hit.query_string)
+        path = hit.path
+        if hit.query_string and not config.options.strip_query_string:
+            path += config.options.query_string_delimiter + hit.query_string
 
         args = {
             'rec': '1',
