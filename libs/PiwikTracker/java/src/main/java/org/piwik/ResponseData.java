@@ -15,55 +15,75 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.Cookie;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * 
+ * @author Martin Fochler
+ */
 public class ResponseData {
 
-    private Map<String, List<String>> data;
+	/**
+	 * Map to store header information.
+	 */
+	private Map<String, List<String>> headerData;
 
-    public ResponseData(HttpURLConnection connection) {
-        data = connection.getHeaderFields();
-    }
+	/**
+	 * For debug output.
+	 */
+	private static final Log LOGGER = LogFactory.getLog(ResponseData.class);
 
-    public List<Cookie> getCookies() {
-        List<Cookie> cookies = new ArrayList<Cookie>();
+	/**
+	 * Initialize the local header data with the header fields from the connection.
+	 * Those information are needed to parse the cookie information.
+	 * @param connection used to retrieve the header fields
+	 */
+	public ResponseData(final HttpURLConnection connection) {
+		headerData = connection.getHeaderFields();
+	}
 
-        Set<String> keys = data.keySet();
-        for (String key : keys) {
-            List<String> stringData = data.get(key);
-            //String headerValue = connection.getHeaderField(i);
+	public List<Cookie> getCookies() {
+		List<Cookie> cookies = new ArrayList<Cookie>();
 
-            String value = "";
+		for (String key : headerData.keySet()) {
+			List<String> headerParts = headerData.get(key);
 
-            for (String value2 : stringData) {
-                value += value2;
-            }
+			StringBuilder cookieInfo = new StringBuilder();
+			for (String part : headerParts) {
+				cookieInfo.append(part);
+			}
 
-            if (key == null && value == null) {
-                // No more headers
-                break;
-            } else if (key == null) {
-                // The header value contains the server's HTTP version
-            } else if (key.equals("Set-Cookie")) {
-                List<HttpCookie> httpCookies = HttpCookie.parse(value);
-                for (HttpCookie h : httpCookies) {
-                    Cookie c = new Cookie(h.getName(), h.getValue());
-                    c.setComment(h.getComment());
-                    if (h.getDomain() != null) {
-                        c.setDomain(h.getDomain());
-                    }
-                    c.setMaxAge(new Long(h.getMaxAge()).intValue());
-                    c.setPath(h.getPath());
-                    c.setSecure(h.getSecure());
-                    c.setVersion(h.getVersion());
-                    cookies.add(c);
-                }
-            }
-            //else
-            //System.out.println(key + " : " + value);
-        }
-        return cookies;
-    }
+			if (key == null && cookieInfo.toString().equals("")) {
+				LOGGER.debug("No more headers, not proceeding");
+				return null;
+			}
+
+			if (key == null) {
+				LOGGER.debug("The header value contains the server's HTTP version, not proceeding");
+			} else if (key.equals("Set-Cookie")) {
+				List<HttpCookie> httpCookies = HttpCookie.parse(cookieInfo.toString());
+				for (HttpCookie h : httpCookies) {
+					Cookie c = new Cookie(h.getName(), h.getValue());
+					c.setComment(h.getComment());
+					if (h.getDomain() != null) {
+						c.setDomain(h.getDomain());
+					}
+					c.setMaxAge(Long.valueOf(h.getMaxAge()).intValue());
+					c.setPath(h.getPath());
+					c.setSecure(h.getSecure());
+					c.setVersion(h.getVersion());
+					cookies.add(c);
+				}
+			} else {
+				LOGGER.debug("The provided key (" + key + ") with value (" + cookieInfo
+						+ ") were not processed because the key is unknown");
+			}
+		}
+		return cookies;
+	}
+
 }
