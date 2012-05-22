@@ -52,17 +52,19 @@ import org.json.JSONArray;
  *
  * 
  * Changes:
+ *  - coding style fixes
+ *  - converted from spaces to tabs
  *  - cookiesupport removed cause was not used
  *  - more checkstyle
  *  - the url will not have empty parameters
  *  - Java 1.5 needed
  *  - logging with commons-logging
  *
- * @author Martin Fochler, Klaus Pfeiffer
- * @version 1.0.4
+ * @author Martin Fochler, Klaus Pfeiffer, Bernhard Friedreich
+ * @version 1.0.5
  */
 public class SimplePiwikTracker implements IPiwikTracker {
-	
+
 	/**
 	 * Random object used for the request URl.
 	 */
@@ -113,7 +115,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 	 * Custom data per pageview.
 	 */
 	private Map<String, String> pageCustomVar = new HashMap<String, String>(SimplePiwikTracker.MAX_CUSTOM_VARIABLES);
-	
+
 	/**
 	 * Custom data per visitor.
 	 */
@@ -141,7 +143,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 	 * If the page custom variables map is empty use this data.
 	 */
 	private String pageCustomData;
-	
+
 	/**
 	 * If the visitor custom variables map is empty use this data.
 	 */
@@ -154,7 +156,6 @@ public class SimplePiwikTracker implements IPiwikTracker {
 	private String ip;
 
 	private URL urlReferer;
-
 
 	/**
 	 * 
@@ -455,7 +456,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 		this.pageCustomVar.put(name, value);
 		return this.pageCustomVar.size();
 	}
-	
+
 	/**
 	 * Sets visitor custom variables; ignoring fixed order (differs from PHP version).
 	 * still the order shouldn't change anyway.
@@ -471,17 +472,17 @@ public class SimplePiwikTracker implements IPiwikTracker {
 			throw new PiwikException("Max size of custom variables are reached. You can only put up to "
 					+ SimplePiwikTracker.MAX_CUSTOM_VARIABLE_LENGTH + " custom variables to a request.");
 		}
-		
+
 		if (name.length() > MAX_CUSTOM_VARIABLE_LENGTH) {
 			throw new PiwikException("Parameter \"name\" exceeds maximum length of " + MAX_CUSTOM_VARIABLE_LENGTH
-				+ ". Given length is " + name.length());
+					+ ". Given length is " + name.length());
 		}
-		
+
 		if (value.length() > MAX_CUSTOM_VARIABLE_LENGTH) {
 			throw new PiwikException("Parameter \"value\" exceeds maximum length of " + MAX_CUSTOM_VARIABLE_LENGTH
-				+ ". Given length is " + name.length());
+					+ ". Given length is " + name.length());
 		}
-		
+
 		this.visitorCustomVar.put(name, value);
 		return this.visitorCustomVar.size();
 	}
@@ -582,10 +583,9 @@ public class SimplePiwikTracker implements IPiwikTracker {
 		}
 		final String withCookieInfo = this.addParameter(withResolution, "cookie", this.requestCookie != null);
 		final String withVisitorCustomData = this.addParameter(withCookieInfo, "data", this.visitorCustomData);
-		
-		
+
 		/* ADD VISITOR CUSTOM VARIABLES */
-		
+
 		final String withVisitorCustomVar;
 		if (this.visitorCustomVar.isEmpty()) {
 			withVisitorCustomVar = withVisitorCustomData;
@@ -599,20 +599,19 @@ public class SimplePiwikTracker implements IPiwikTracker {
 				list.add(entry.getValue());
 				customVariables.put(Integer.toString(i), list);
 			}
-			
+
 			final JSONArray json = new JSONArray();
 			json.put(customVariables);
-			
+
 			// remove unnecessary parent square brackets from JSON-string 
 			String jsonString = json.toString().substring(1, json.toString().length() - 1);
-			
+
 			// visitor custom variables: _cvar
 			withVisitorCustomVar = this.addParameter(withVisitorCustomData, "_cvar", jsonString);
 		}
-		
-		
+
 		/* ADD PAGE CUSTOM VARIABLES */
-		
+
 		final String withPageCustomData = this.addParameter(withVisitorCustomVar, "data", this.pageCustomData);
 		final String withPageCustomVar;
 		if (this.pageCustomVar.isEmpty()) {
@@ -630,18 +629,17 @@ public class SimplePiwikTracker implements IPiwikTracker {
 
 			final JSONArray json = new JSONArray();
 			json.put(customVariables);
-			
+
 			// remove unnecessary parent square brackets from JSON-string 
 			String jsonString = json.toString().substring(1, json.toString().length() - 1);
-			
+
 			// page custom variables: cvar
 			withPageCustomVar = this.addParameter(withPageCustomData, "cvar", jsonString);
 		}
 
-		final String withRand = this.addParameter(withPageCustomVar, "r", new Double(random.nextDouble()).toString()
+		final String withRand = this.addParameter(withPageCustomVar, "r", String.valueOf(random.nextDouble())
 				.substring(2, 8));
-		final String withDebug = withRand + this.debugAppendUrl;
-		return withDebug;
+		return (withRand + this.debugAppendUrl);
 	}
 
 	/**
@@ -962,7 +960,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 		return visitorCustomData;
 	}
 
-	public void setVisitorCustomData(String visitorCustomData) {
+	public void setVisitorCustomData(final String visitorCustomData) {
 		this.visitorCustomData = visitorCustomData;
 	}
 
