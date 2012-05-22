@@ -21,9 +21,9 @@ public enum EBrowserPlugins {
 	 *  Browserplugins.
 	 */
 	FLASH("fla"), JAVA("java"), DIRECTOR("dir"), QUICKTIME("qt"),
-    REALPLAYER("realp"), PDF("pdf"), WINDOWSMEDIA("wma"), GEARS("gears"),
-    SILVERLIGHT("ag");
-	
+	REALPLAYER("realp"), PDF("pdf"), WINDOWSMEDIA("wma"), GEARS("gears"),
+	SILVERLIGHT("ag");
+
 	/**
 	 * The short URL.
 	 */
