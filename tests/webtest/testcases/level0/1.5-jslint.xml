@@ -21,9 +21,7 @@
 				<setInputField description="paste javascript" xpath="//fieldset[@id='JSLINT_SOURCE']/textarea" value="${js}" />
 				<clickButton description="click button" label="JSLint" />
 				<sleep description="pause" seconds="1" />
-				<not description="check for success">
-					<verifyXPath description="check for errors" xpath="//fieldset[@id='JSLINT_ERRORS']/div" />
-				</not>
+				<verifyXPath description="check for errors" xpath="//fieldset[@id='JSLINT_ERRORS' and @style='display: none;']" />
 			</steps>
 		</webtest>
 	</target>
