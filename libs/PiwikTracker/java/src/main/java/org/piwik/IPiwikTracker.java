@@ -24,34 +24,34 @@ public interface IPiwikTracker {
 	 * @param pagename 
 	 * @return URL 
 	 */
-    URL getPageTrackURL(final String pagename);
+	URL getPageTrackURL(final String pagename);
 
-    /**
-     * Builds the URL for the download tracking request.
-     * @param downloadurl 
-     * @return URl 
-     */
-    URL getDownloadTrackURL(final String downloadurl);
+	/**
+	 * Builds the URL for the download tracking request.
+	 * @param downloadurl
+	 * @return URl
+	 */
+	URL getDownloadTrackURL(final String downloadurl);
 
-    URL getLinkTrackURL(final String linkurl);
+	URL getLinkTrackURL(final String linkurl);
 
-    URL getGoalTrackURL(final String goal);
+	URL getGoalTrackURL(final String goal);
 
-    URL getGoalTrackURL(final String goal, final String revenue);
-    
-    /**
-     * Probably was a typo. Use getDownloadTrackURL.
-     * @param downloadurl 
-     * @return URL 
-     */
-    @Deprecated
-    URL getDownloadTackURL(final String downloadurl);
-    
-    /**
-     * Probably was a typo. Use getLinkTrackURL.
-     * @param linkurl 
-     * @return URL 
-     */
-    @Deprecated
-    URL getLinkTackURL(final String linkurl);
+	URL getGoalTrackURL(final String goal, final String revenue);
+
+	/**
+	 * Probably was a typo. Use getDownloadTrackURL.
+	 * @param downloadurl
+	 * @return URL
+	 */
+	@Deprecated
+	URL getDownloadTackURL(final String downloadurl);
+
+	/**
+	 * Probably was a typo. Use getLinkTrackURL.
+	 * @param linkurl
+	 * @return URL
+	 */
+	@Deprecated
+	URL getLinkTackURL(final String linkurl);
 }

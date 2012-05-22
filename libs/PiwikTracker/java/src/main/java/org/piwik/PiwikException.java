@@ -17,11 +17,11 @@ package org.piwik;
  */
 public class PiwikException extends Exception {
 
-    public PiwikException(final String message) {
-        super(message);
-    }
+	public PiwikException(final String message) {
+		super(message);
+	}
 
-    public PiwikException(final String message, final Throwable e) {
-        super(message,e);
-    }
+	public PiwikException(final String message, final Throwable e) {
+		super(message, e);
+	}
 }
