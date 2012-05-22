@@ -18,11 +18,11 @@
 
 				<invoke description="get form" url="http://jslint.com/" />
 				<loadfile description="load javascript" srcFile="../../js/piwik.js" property="js" encoding="UTF-8" />
-				<setInputField description="paste javascript" htmlId="JSLINT_INPUT" value="${js}" />
+				<setInputField description="paste javascript" xpath="//fieldset[@id='JSLINT_SOURCE']/*/textarea" value="${js}" />
 				<clickButton description="click button" label="JSLint" />
 				<sleep description="pause" seconds="1" />
 				<not description="check for success">
-					<verifyXPath description="check for errors" xpath="//div[@id='JSLINT_OUTPUT']/div[@id='errors']" />
+					<verifyXPath description="check for errors" xpath="//fieldset[@id='JSLINT_ERRORS']/*/div" />
 				</not>
 			</steps>
 		</webtest>
