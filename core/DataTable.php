@@ -137,7 +137,14 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  * @subpackage Piwik_DataTable
  */
 class Piwik_DataTable
-{	
+{
+	/**
+	 * Maximum nesting level
+	 * 
+	 * @var int
+	 */
+	static private $maximumDepthLevelAllowed = 15;
+	
 	/**
 	 * Array of Piwik_DataTable_Row
 	 *
@@ -227,13 +234,6 @@ class Piwik_DataTable
 	const ID_SUMMARY_ROW = -1;
 	const LABEL_SUMMARY_ROW = -1;
 	const ID_PARENTS = -2;
-	
-	/**
-	 * Maximum nesting level
-	 * 
-	 * @var int
-	 */
-	const MAXIMUM_DEPTH_LEVEL_ALLOWED = 15;
 
 	/**
 	 * Builds the DataTable, registers itself to the manager
@@ -251,7 +251,7 @@ class Piwik_DataTable
 	{
 		static $depth = 0;
 		// destruct can be called several times
-		if($depth < self::MAXIMUM_DEPTH_LEVEL_ALLOWED
+		if($depth < self::$maximumDepthLevelAllowed
 			&& isset($this->rows))
 		{
 			$depth++;
@@ -959,10 +959,10 @@ class Piwik_DataTable
 	{
 		static $depth = 0;
 		
-		if($depth > self::MAXIMUM_DEPTH_LEVEL_ALLOWED)
+		if($depth > self::$maximumDepthLevelAllowed)
 		{
 			$depth = 0;
-			throw new Exception("Maximum recursion level of ".self::MAXIMUM_DEPTH_LEVEL_ALLOWED. " reached. You have probably set a DataTable_Row with an associated DataTable which belongs already to its parent hierarchy.");
+			throw new Exception("Maximum recursion level of ".self::$maximumDepthLevelAllowed. " reached. You have probably set a DataTable_Row with an associated DataTable which belongs already to its parent hierarchy.");
 		}
 		if( !is_null($maximumRowsInDataTable) )
 		{
@@ -1251,4 +1251,39 @@ class Piwik_DataTable
 		return $this->parents;
 	}
 	
+	/**
+	 * Gets the maximum nesting level for datatables.
+	 * 
+	 * @return int
+	 */
+	static public function getMaximumDepthLevelAllowed()
+	{
+		return self::$maximumDepthLevelAllowed;
+	}
+	
+	/**
+	 * Sets the maximum nesting level.
+	 * 
+	 * @param int $level Must be > 0.
+	 */
+	static public function setMaximumDepthLevelAllowed( $level )
+	{
+		if ($level <= 0)
+		{
+			throw new Exception("Invalid maximum depth level: $level");
+		}
+		
+		self::$maximumDepthLevelAllowed = $level;
+	}
+	
+	/**
+	 * Sets the maximum nesting level to at least a certain value. If the current value is
+	 * greater than the supplied level, the maximum nesting level is not changed.
+	 * 
+	 * @param int $atLeastLevel
+	 */
+	static public function setMaximumDepthLevelAllowedAtLeast( $atLeastLevel )
+	{
+		self::$maximumDepthLevelAllowed = max($atLeastLevel, self::$maximumDepthLevelAllowed);
+	}
 }

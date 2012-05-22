@@ -394,6 +394,9 @@ class Piwik_Actions extends Piwik_Plugin
 		$this->columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
 		$this->maximumRowsInDataTableLevelZero = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_actions'];
 		$this->maximumRowsInSubDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_actions'];
+
+		// Piwik_DataTable::MAXIMUM_DEPTH_LEVEL_ALLOWED must be greater than the category level limit
+		Piwik_DataTable::setMaximumDepthLevelAllowedAtLeast(self::getSubCategoryLevelLimit() + 1);
 	}
 
 	/**
@@ -899,17 +902,13 @@ class Piwik_Actions extends Piwik_Plugin
 	}
 	
 	/**
-	 * Returns the configured sub-category level limit. The result will be less than
-	 * Piwik_DataTable::MAXIMUM_DEPTH_LEVEL_ALLOWED.
+	 * Returns the configured sub-category level limit.
 	 * 
 	 * @return int
 	 */
 	public static function getSubCategoryLevelLimit()
 	{
-		$limit = Piwik_Config::getInstance()->General['action_category_level_limit'];
-		
-		// limit must be less than Piwik_DataTable::MAXIMUM_DEPTH_LEVEL_ALLOWED
-		return min($limit, Piwik_DataTable::MAXIMUM_DEPTH_LEVEL_ALLOWED - 1);
+		return Piwik_Config::getInstance()->General['action_category_level_limit'];
 	}
 }
 

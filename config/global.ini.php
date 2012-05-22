@@ -87,7 +87,6 @@ action_title_category_delimiter = /
 ; the maximum url category depth to track. if this is set to 2, then a url such as
 ; "example.com/blog/development/first-post" would be treated as "example.com/blog/development".
 ; this setting is used mainly to limit the amount of data that is stored by Piwik.
-; note: this value is not allowed to be greater than Piwik_DataTable::MAXIMUM_DEPTH_LEVEL_ALLOWED.
 action_category_level_limit = 10
 
 ; minimum number of websites to run autocompleter
