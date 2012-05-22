@@ -4,7 +4,7 @@
 
 	<groupId>org.piwik</groupId>
 	<artifactId>PiwikTracking</artifactId>
-	<version>1.0.5</version>
+	<version>1.0.6</version>
 	<packaging>jar</packaging>
 
 	<name>PiwikTracking</name>
@@ -14,7 +14,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.0.2</version>
+				<version>2.4</version>
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
@@ -23,6 +23,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1.2</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -42,7 +43,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.8.2</version>
+			<version>4.10</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
