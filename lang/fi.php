@@ -658,7 +658,6 @@ $translations = array(
 	'Mobile_EnableGraphsLabel' => 'Näytä graafit',
 	'Mobile_DefaultReportDate' => 'Raportin päivä',
 	'Mobile_MultiChartLabel' => 'Näytä minikuvaajat',
-	'Mobile_MultiChartInfo' => 'jokaisen verkkosivun vieressä',
 	'Mobile_NetworkNotReachable' => 'Verkkoon ei ole pääsyä',
 	'Mobile_SaveSuccessError' => 'Tarkista asetukset',
 	'Mobile_YouAreOffline' => 'Sinulla ei ole yhteyttä',

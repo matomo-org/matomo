@@ -581,7 +581,6 @@ $translations = array(
 	'Mobile_AccessUrlLabel' => 'Piwik 存取网址',
 	'Mobile_EnableGraphsLabel' => '显示图表',
 	'Mobile_MultiChartLabel' => '显示 sparklines',
-	'Mobile_MultiChartInfo' => '紧邻着每个网站的欢迎页面',
 	'Mobile_NetworkNotReachable' => '网络无法访问',
 	'Mobile_SaveSuccessError' => '请确认设置',
 	'Mobile_YouAreOffline' => '抱歉，您目前离线状态',

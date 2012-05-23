@@ -663,7 +663,6 @@ $translations = array(
 	'Mobile_ShowAll' => 'Rādīt visu',
 	'Mobile_ShowLess' => 'Rādīt mazāk',
 	'Mobile_HttpTimeout' => 'HTTP noilgums',
-	'Mobile_HttpTimeoutInfo' => 'Palieliniet, ja saņemat noilguma kļūdas',
 	'Mobile_VerifyAccount' => 'Notiek konta pārbaude',
 	'Mobile_AnonymousAccess' => 'Anonīma pieeja',
 	'Mobile_AccessUrlLabel' => 'Piwik pieejas URL',

@@ -568,7 +568,6 @@ $translations = array(
 	'Mobile_AnonymousAccess' => 'Anonymný prístup',
 	'Mobile_AccessUrlLabel' => 'Prístup Url',
 	'Mobile_EnableGraphsLabel' => 'Zobraziť grafy',
-	'Mobile_MultiChartInfo' => 'na každej webovej stránke na uvítacej obrazovke',
 	'MultiSites_PluginDescription' => 'Zobrazuje Multi-Site zhrnutie / štatistiky. V súčasnej dobe je ako hlavný plugin.',
 	'MultiSites_Evolution' => 'Vývoj',
 	'Provider_PluginDescription' => 'Report cez ktorého poskytovateľa pripojenia prišli návštevníci na web stránku.',

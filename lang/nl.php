@@ -688,7 +688,6 @@ $translations = array(
 	'Mobile_EnableGraphsLabel' => 'Toon grafieken',
 	'Mobile_DefaultReportDate' => 'Rapporteer datum',
 	'Mobile_MultiChartLabel' => 'Toon grafieklijnen',
-	'Mobile_MultiChartInfo' => 'Naast elke website op het welkom scherm',
 	'Mobile_NetworkNotReachable' => 'Network niet bereikbaar',
 	'Mobile_SaveSuccessError' => 'Gelieve je instellingen te verifiëren',
 	'Mobile_YouAreOffline' => 'Sorry, je bent momenteel offline',

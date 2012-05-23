@@ -586,7 +586,6 @@ $translations = array(
 	'Mobile_AccessUrlLabel' => 'Piwik 存取網址',
 	'Mobile_EnableGraphsLabel' => '顯示圖表',
 	'Mobile_MultiChartLabel' => '顯示 sparklines',
-	'Mobile_MultiChartInfo' => '緊鄰著每個網站的歡迎畫面',
 	'Mobile_NetworkNotReachable' => '網路無法訪問',
 	'Mobile_SaveSuccessError' => '請確認設定',
 	'Mobile_YouAreOffline' => '抱歉，您目前為離線狀態',

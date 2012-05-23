@@ -619,7 +619,6 @@ $translations = array(
 	'Mobile_EnableGraphsLabel' => 'グラフの表示',
 	'Mobile_DefaultReportDate' => 'リポートの日付',
 	'Mobile_MultiChartLabel' => 'スパークラインの表示',
-	'Mobile_MultiChartInfo' => 'ウェルカム画面の各ウェブサイトの隣',
 	'Mobile_NetworkNotReachable' => 'ネットワークに到達できませんでした',
 	'Mobile_SaveSuccessError' => '設定を確認してください',
 	'Mobile_YouAreOffline' => '現在はオフラインです',

@@ -812,7 +812,6 @@ $translations = array(
 	'Mobile_AccessUrlLabel' => 'Endereço de Acesso Piwik',
 	'Mobile_EnableGraphsLabel' => 'Mostrar gráficos',
 	'Mobile_MultiChartLabel' => 'Mostrar sparklines',
-	'Mobile_MultiChartInfo' => 'ao lado de cada website no ecrã de boas-vindas',
 	'Mobile_NetworkNotReachable' => 'Rede não acessível',
 	'Mobile_SaveSuccessError' => 'Por favor verifique as definições',
 	'Mobile_YouAreOffline' => 'Desculpe, encontra-se desconectado',

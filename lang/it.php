@@ -763,7 +763,6 @@ $translations = array(
 	'Mobile_EnableGraphsLabel' => 'Mostra grafici',
 	'Mobile_DefaultReportDate' => 'Data report',
 	'Mobile_MultiChartLabel' => 'Mostra sparklines',
-	'Mobile_MultiChartInfo' => 'accanto a ciascun sito web sulla schermata di benvenuto',
 	'Mobile_NetworkNotReachable' => 'Impossibile connettersi',
 	'Mobile_SaveSuccessError' => 'Per favore verifica le impostazioni',
 	'Mobile_YouAreOffline' => 'Spiacente, sei al momento offline',

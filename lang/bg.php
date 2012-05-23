@@ -635,7 +635,6 @@ $translations = array(
 	'Mobile_AccessUrlLabel' => 'Piwik URL достъп',
 	'Mobile_EnableGraphsLabel' => 'Покажи графики',
 	'Mobile_MultiChartLabel' => 'Покажи sparklines',
-	'Mobile_MultiChartInfo' => 'до всеки уеб сайт на welcome screen',
 	'Mobile_NetworkNotReachable' => 'Мрежата не постижима',
 	'Mobile_SaveSuccessError' => 'Моля, проверете настройките',
 	'Mobile_YouAreOffline' => 'За съжаление, в момента не сте на линия',

@@ -760,7 +760,6 @@ $translations = array(
 	'Mobile_EnableGraphsLabel' => 'Отображать графики',
 	'Mobile_DefaultReportDate' => 'Дата отчета',
 	'Mobile_MultiChartLabel' => 'Отображать тонкие графики (нити)',
-	'Mobile_MultiChartInfo' => 'веб-сайты рядом на странице приветствия',
 	'Mobile_NetworkNotReachable' => 'Сеть недоступна',
 	'Mobile_NavigationBack' => 'Назад',
 	'Mobile_SaveSuccessError' => 'Пожалуйста, проверьте настройки',

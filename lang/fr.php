@@ -828,7 +828,6 @@ $translations = array(
 	'Mobile_Refresh' => 'Rafraichir',
 	'Mobile_Reloading' => 'Recharchement...',
 	'Mobile_ShowAll' => 'Afficher tout',
-	'Mobile_HttpTimeoutInfo' => 'Augmenter si vous rencontrer des délais d\'attentes dépassés',
 	'Mobile_AnonymousAccess' => 'Accès anonyme',
 	'Mobile_NavigationBack' => 'Retour',
 	'Mobile_YouAreOffline' => 'Désolé, vous êtes actuellement déconnecté(e)',

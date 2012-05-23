@@ -791,7 +791,6 @@ $translations = array(
 	'Mobile_EnableGraphsLabel' => 'Mostrar gráficos',
 	'Mobile_DefaultReportDate' => 'Fecha del reporte',
 	'Mobile_MultiChartLabel' => 'Mostrar sparklines',
-	'Mobile_MultiChartInfo' => 'junto a cada sitio web en la pantalla de bienvenida',
 	'Mobile_NetworkNotReachable' => 'Red inaccesible',
 	'Mobile_SaveSuccessError' => 'Por favor verifique la configuración',
 	'Mobile_YouAreOffline' => 'Disculpe, está actualmente desconectado',

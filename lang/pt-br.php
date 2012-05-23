@@ -581,7 +581,6 @@ $translations = array(
 	'Mobile_AccessUrlLabel' => 'Url de Acesso Piwik',
 	'Mobile_EnableGraphsLabel' => 'Mostrar gráficos',
 	'Mobile_MultiChartLabel' => 'Mostrar sparklines',
-	'Mobile_MultiChartInfo' => 'ao lado de cada website na tela de boas vindas',
 	'Mobile_NetworkNotReachable' => 'Rede não encontrada',
 	'Mobile_SaveSuccessError' => 'Por favor verifique configurações',
 	'Mobile_YouAreOffline' => 'Desculpe, no momento você está offline.',
