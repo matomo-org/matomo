@@ -984,7 +984,7 @@ class Recorder(object):
             piwik.call(
                 '/piwik.php', args,
                 expected_content=PIWIK_EXPECTED_IMAGE,
-                headers={'User-Agent' : hit.user_agent},
+                headers={'User-Agent' : hit.user_agent.encode('utf8')},
             )
         stats.count_lines_recorded.increment()
 
