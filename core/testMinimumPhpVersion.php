@@ -66,7 +66,7 @@ else
  * Displays info/warning/error message in a friendly UI and exits.
  *
  * @param string $message Main message
- * @param string|false $optionalTrace Backtrace; will be displayed in lighter color
+ * @param bool|string $optionalTrace Backtrace; will be displayed in lighter color
  * @param bool $optionalLinks If true, will show links to the Piwik website for help
  */
 function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks = false)

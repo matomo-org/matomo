@@ -25,6 +25,7 @@ class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
 
 	/**
 	 * @see Piwik_ViewDataTable::main()
+	 * @return mixed
 	 */
 	public function main()
 	{

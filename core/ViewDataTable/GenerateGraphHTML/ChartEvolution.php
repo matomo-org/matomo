@@ -53,7 +53,8 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
 	/**
      * We ensure that the graph for a given Goal has a different ID than the 'Goals Overview' graph
      * so that both can display on the dashboard at the same time
-     */
+	 * @return null|string
+	 */
 	public function getUniqueIdViewDataTable()
 	{
 		$id = parent::getUniqueIdViewDataTable();

@@ -23,9 +23,13 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	protected $width = '100%';
 	protected $height = 250;
 	protected $graphType = 'unknown';
-	
+
 	/**
 	 * @see Piwik_ViewDataTable::init()
+	 * @param string $currentControllerName
+	 * @param string $currentControllerAction
+	 * @param string $apiMethodToRequestDataTable
+	 * @param null $controllerActionCalledWhenRequestSubTable
 	 */
 	function init($currentControllerName,
 						$currentControllerAction,
@@ -77,6 +81,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	 * We persist the parametersToModify values in the javascript footer.
 	 * This is used by the "export links" that use the "date" attribute
 	 * from the json properties array in the datatable footer.
+	 * @return array
 	 */
 	protected function getJavascriptVariablesToSet()
 	{
@@ -85,6 +90,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	
 	/**
 	 * @see Piwik_ViewDataTable::main()
+	 * @return null
 	 */
 	public function main()
 	{

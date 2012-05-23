@@ -53,6 +53,9 @@ class Piwik_API_DataTableManipulator_Flattener extends Piwik_API_DataTableManipu
 	/**
 	 * Template method called from self::manipulate.
 	 * Flatten each data table.
+	 * @param Piwik_DataTable $dataTable
+	 * @param bool $date
+	 * @return Piwik_DataTable
 	 */
 	protected function doManipulate(Piwik_DataTable $dataTable, $date = false)
 	{
@@ -112,7 +115,10 @@ class Piwik_API_DataTableManipulator_Flattener extends Piwik_API_DataTableManipu
 		}
 	}
 
-	/** Remove the flat parameter from the subtable request */
+	/**
+	 * Remove the flat parameter from the subtable request
+	 * @param $request
+	 */
 	protected function manipulateSubtableRequest(&$request)
 	{
 		unset($request['flat']);

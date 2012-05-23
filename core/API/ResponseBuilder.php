@@ -27,34 +27,32 @@ class Piwik_API_ResponseBuilder
 		$this->request = $request;
 		$this->outputFormat = $outputFormat;
 	}
-	
+
 	/**
 	 * This method processes the data resulting from the API call.
-	 * 
-	 * - If the data resulted from the API call is a Piwik_DataTable then 
-	 * 		- we apply the standard filters if the parameters have been found
-	 * 		  in the URL. For example to offset,limit the Table you can add the following parameters to any API
-	 *  	  call that returns a DataTable: filter_limit=10&filter_offset=20
-	 * 		- we apply the filters that have been previously queued on the DataTable
-	 *        @see Piwik_DataTable::queueFilter()
-	 * 		- we apply the renderer that generate the DataTable in a given format (XML, PHP, HTML, JSON, etc.) 
-	 * 		  the format can be changed using the 'format' parameter in the request.
+	 *
+	 * - If the data resulted from the API call is a Piwik_DataTable then
+	 *         - we apply the standard filters if the parameters have been found
+	 *           in the URL. For example to offset,limit the Table you can add the following parameters to any API
+	 *        call that returns a DataTable: filter_limit=10&filter_offset=20
+	 *         - we apply the filters that have been previously queued on the DataTable
+	 * @see Piwik_DataTable::queueFilter()
+	 *         - we apply the renderer that generate the DataTable in a given format (XML, PHP, HTML, JSON, etc.)
+	 *           the format can be changed using the 'format' parameter in the request.
 	 *        Example: format=xml
-	 * 
+	 *
 	 * - If there is nothing returned (void) we display a standard success message
-	 * 
-	 * - If there is a PHP array returned, we try to convert it to a dataTable 
+	 *
+	 * - If there is a PHP array returned, we try to convert it to a dataTable
 	 *   It is then possible to convert this datatable to any requested format (xml/etc)
-	 * 
+	 *
 	 * - If a bool is returned we convert to a string (true is displayed as 'true' false as 'false')
-	 * 
+	 *
 	 * - If an integer / float is returned, we simply return it
-	 * 
-	 * @throws Exception If an object/resource is returned, if any of conversion fails, etc. 
-	 * 
-	 * @param mixed The initial returned value, before post process. If set to null, success response is returned.
-     * @param string The API module that was called
-     * @param string The API method that was called 
+	 *
+	 * @param mixed $value The initial returned value, before post process. If set to null, success response is returned.
+	 * @param bool|string $apiModule The API module that was called
+	 * @param bool|string $apiMethod The API method that was called
 	 * @return mixed Usually a string, but can still be a PHP data structure if the format requested is 'original'
 	 */
 	public function getResponse($value = null, $apiModule = false, $apiMethod = false)
@@ -102,12 +100,12 @@ class Piwik_API_ResponseBuilder
 		// bool // integer // float // serialized object 
 		return $this->handleScalar($value);
 	}
-	
+
 	/**
-	 * Returns an error $message in the requested $format 
+	 * Returns an error $message in the requested $format
 	 *
-	 * @param string $message
-	 * @param string $format xml/json/php/csv
+	 * @param \Exception $e
+	 * @throws Exception
 	 * @return string
 	 */
 	public function getResponseException(Exception $e)
@@ -218,11 +216,10 @@ class Piwik_API_ResponseBuilder
 		
 		return $renderer->render();
 	}
-	
+
 	/**
-	 * Returns a success $message in the requested $format 
+	 * Returns a success $message in the requested $format
 	 *
-	 * @param string $format xml/json/php/csv
 	 * @param string $message
 	 * @return string
 	 */
@@ -336,26 +333,27 @@ class Piwik_API_ResponseBuilder
 		$dataTable->addRowsFromSimpleArray($array);
 		return $this->getRenderedDataTable($dataTable);
 	}
-	
+
 	/**
-	 * Is this a multi dimensional array? 
+	 * Is this a multi dimensional array?
 	 * Multi dim arrays are not supported by the Datatable renderer.
 	 * We manually render these.
-	 * 
+	 *
 	 * array(
-	 * 		array(
-	 * 			1,
-	 * 			2 => array( 1,
-	 * 						2
-	 * 			)
-	 *		), 
-	 *		array( 2,
-	 *			   3
-	 *		)
-	 *	);
-	 * 
+	 *         array(
+	 *             1,
+	 *             2 => array( 1,
+	 *                         2
+	 *             )
+	 *        ),
+	 *        array( 2,
+	 *               3
+	 *        )
+	 *    );
+	 *
+	 * @param $array
 	 * @return String or false if it isn't a multidim array
-	 */ 
+	 */
 	protected function handleMultiDimensionalArray($array)
 	{
 		$first = reset($array);
@@ -491,8 +489,7 @@ class Piwik_API_ResponseBuilder
 	 *	);
 	 *
 	 * @static
-	 * @param $array can contain scalar, arrays, Piwik_DataTable and Piwik_DataTable_Array
-	 * @param int $level
+	 * @param array $array can contain scalar, arrays, Piwik_DataTable and Piwik_DataTable_Array
 	 * @return string
 	 */
 	public static function convertMultiDimensionalArrayToJson($array)

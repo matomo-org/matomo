@@ -41,11 +41,9 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
      * for the recursive search. If the label is not recursive, these parameters
      * are not needed.
 	 * 
-	 * @param $label the label to search for
-	 * @param $dataTable the data table to be filtered
-	 * @param $apiModule the API module that generated the data table (optional)
-	 * @param $apiMethod the API method that generated the data table (optional)
-	 * @param $request the request parameters used to generate the data table (optional)
+	 * @param string $label the label to search for
+	 * @param Piwik_DataTable $dataTable the data table to be filtered
+	 * @return Piwik_DataTable
 	 */
 	public function filter($label, $dataTable)
 	{
@@ -80,10 +78,13 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
 		
 		return $result;
 	}
-	
+
 	/**
 	 * This method is called from parent::manipulate for each Piwik_DataTable.
 	 * It starts the recursive descend and builds a table with one or zero rows.
+	 * @param Piwik_DataTable $dataTable
+	 * @param bool $date
+	 * @return Piwik_DataTable
 	 */
 	protected function doManipulate(Piwik_DataTable $dataTable, $date=false)
 	{
@@ -95,9 +96,12 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
 		}
 		return $newDataTable;
 	}
-	
+
 	/**
 	 * Method for the recursive descend
+	 * @param $labelParts
+	 * @param $dataTable
+	 * @param bool $date
 	 * @return Piwik_DataTable_Row | false
 	 */
 	private function doFilterRecursiveDescend($labelParts, $dataTable, $date=false)
@@ -142,8 +146,12 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
 		// Clean up request for Piwik_API_ResponseBuilder to behave correctly
 		unset($request['label']);
 	}
-	
-	/** Use variations of the label to make it easier to specify the desired label */
+
+	/**
+	 * Use variations of the label to make it easier to specify the desired label
+	 * @param $label
+	 * @return array
+	 */
 	private function getLabelVariations($label) {
 		$variations = array(
 			$label,

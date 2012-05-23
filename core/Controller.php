@@ -178,19 +178,19 @@ abstract class Piwik_Controller
 		
 		return $view;
 	}
-	
+
 	/**
 	 * This method is similar to self::getLastUnitGraph. It works with API.get to combine metrics
 	 * of different *.get reports. The returned ViewDataTable is configured with column
 	 * translations and selectable metrics.
-	 * 
+	 *
 	 * @param string $currentModuleName
 	 * @param string $currentControllerAction
 	 * @param array $columnsToDisplay
 	 * @param array $selectableColumns
-	 * @param string $reportDocumentation
+	 * @param bool|string $reportDocumentation
 	 * @param string $apiMethod The method to request the report from
-	 * 					(by default, this is API.get but it can be changed for custom stuff)
+	 *                     (by default, this is API.get but it can be changed for custom stuff)
 	 * @return Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution
 	 */
 	protected function getLastUnitGraphAcrossPlugins($currentModuleName, $currentControllerAction,
@@ -255,15 +255,17 @@ abstract class Piwik_Controller
 
 	/**
 	 * Returns the array of new processed parameters once the parameters are applied.
-	 * For example: if you set range=last30 and date=2008-03-10, 
+	 * For example: if you set range=last30 and date=2008-03-10,
 	 *  the date element of the returned array will be "2008-02-10,2008-03-10"
-	 * 
+	 *
 	 * Parameters you can set:
 	 * - range: last30, previous10, etc.
 	 * - date: YYYY-MM-DD, today, yesterday
 	 * - period: day, week, month, year
-	 * 
-	 * @param array  paramsToSet = array( 'date' => 'last50', 'viewDataTable' =>'sparkline' )
+	 *
+	 * @param array $paramsToSet array( 'date' => 'last50', 'viewDataTable' =>'sparkline' )
+	 * @throws Piwik_Access_NoAccessException
+	 * @return array
 	 */
 	protected function getGraphParamsModified($paramsToSet = array())
 	{
@@ -315,6 +317,7 @@ abstract class Piwik_Controller
 	 * @param string $lastN
 	 * @param string $endDate
 	 * @param Piwik_Site $site
+	 * @return string
 	 */
 	static public function getDateRangeRelativeToEndDate($period, $lastN, $endDate, $site )
 	{
@@ -522,11 +525,11 @@ abstract class Piwik_Controller
 		$view->otherPeriods = $availablePeriods;
 		$view->periodsNames = $periodNames;
 	}
-	
+
 	/**
 	 * Set metrics variables (displayed metrics, available metrics) used by template
 	 * Handles the server-side of the metrics picker
-	 * @param Piwik_View $view
+	 * @param Piwik_View|Piwik_ViewDataTable $view
 	 * @param string $defaultMetricDay name of the default metric for period=day
 	 * @param string $defaultMetric name of the default metric for other periods
 	 * @param array $metricsForDay metrics that are only available for period=day
@@ -581,16 +584,17 @@ abstract class Piwik_Controller
 		}
 		$view->setSelectableColumns($selectableColumns);
 	}
-	
+
 	/**
 	 * Helper method used to redirect the current http request to another module/action
 	 * If specified, will also redirect to a given website, period and /or date
-	 * 
+	 *
 	 * @param string $moduleToRedirect Module, eg. "MultiSites"
 	 * @param string $actionToRedirect Action, eg. "index"
 	 * @param string $websiteId Website ID, eg. 1
 	 * @param string $defaultPeriod Default period, eg. "day"
 	 * @param string $defaultDate Default date, eg. "today"
+	 * @param array $parameters
 	 */
 	function redirectToIndex($moduleToRedirect, $actionToRedirect, $websiteId = null, $defaultPeriod = null, $defaultDate = null, $parameters = array())
 	{

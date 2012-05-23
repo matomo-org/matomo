@@ -274,8 +274,9 @@ class Piwik
 	 * Copy individual file from $source to $target.
 	 *
 	 * @param string $source eg. './tmp/latest/index.php'
-	 * @param string $target eg. './index.php'
+	 * @param string $dest eg. './index.php'
 	 * @param bool   $excludePhp
+	 * @throws Exception
 	 * @return bool
 	 */
 	static public function copy($source, $dest, $excludePhp=false)
@@ -496,6 +497,7 @@ class Piwik
 	 * Check if this installation can be auto-updated.
 	 *
 	 * For performance, we look for clues rather than an exhaustive test.
+	 * @return bool
 	 */
 	static public function canAutoUpdate()
 	{
@@ -905,7 +907,7 @@ class Piwik
 	 * @param string $filePath
 	 * @param array $fileSpec File specifications (delimiter, line terminator, etc)
 	 * @param array $rows Array of array corresponding to rows of values
-	 * @throw Exception if unable to create or write to file
+	 * @throws Exception if unable to create or write to file
 	 */
 	static public function createCSVFile($filePath, $fileSpec, $rows)
 	{
@@ -1306,7 +1308,7 @@ class Piwik
 	/**
 	 * Print memory usage
 	 *
-	 * @param string $prefixString
+	 * @return string
 	 */
 	static public function getMemoryUsage()
 	{
@@ -1435,8 +1437,9 @@ class Piwik
 	/**
 	 * Pretty format monetary value for a site
 	 *
-	 * @param numeric|string $value
+	 * @param int|string $value
 	 * @param int $idSite
+	 * @param bool $htmlAllowed
 	 * @return string
 	 */
 	static public function getPrettyMoney($value, $idSite, $htmlAllowed = true)
@@ -1508,8 +1511,9 @@ class Piwik
 	/**
 	 * Pretty format a time
 	 *
-	 * @param numeric $numberOfSeconds
-	 * @param bool If set to true, will output "5min 17s", if false "00:05:17"
+	 * @param int $numberOfSeconds
+	 * @param bool $displayTimeAsSentence If set to true, will output "5min 17s", if false "00:05:17"
+	 * @param bool $isHtml
 	 * @return string
 	 */
 	static public function getPrettyTimeFromSeconds($numberOfSeconds, $displayTimeAsSentence = true, $isHtml = true)
@@ -1619,6 +1623,7 @@ class Piwik
 
 	/**
 	 * Segments to pre-process
+	 * @return string
 	 */
 	static public function getKnownSegmentsToArchive()
 	{
@@ -1761,7 +1766,7 @@ class Piwik
 	 * Helper method user to set the current as Super User.
 	 * This should be used with great care as this gives the user all permissions.
 	 *
-	 * @param bool True to set current user as super user
+	 * @param bool $bool  true to set current user as super user
 	 */
 	static public function setUserIsSuperUser( $bool = true )
 	{
@@ -1970,6 +1975,7 @@ class Piwik
 
 	/**
 	 * Create database object and connect to database
+	 * @param array $dbInfos
 	 */
 	static public function createDatabaseObject( $dbInfos = null )
 	{
@@ -2131,7 +2137,8 @@ class Piwik
 	 * Returns true if the login is valid.
 	 * Warning: does not check if the login already exists! You must use UsersManager_API->userExists as well.
 	 *
-	 * @param string $login
+	 * @param $userLogin
+	 * @throws Exception
 	 * @return bool or throws exception
 	 */
 	static public function checkValidLoginString( $userLogin )
@@ -2479,6 +2486,7 @@ class Piwik
 	 *
 	 * @param int $idsite
 	 * @param Piwik_Period $period
+	 * @param Piwik_Segment $segment
 	 * @return string
 	 */
 	static public function getArchiveProcessingLockName($idsite, $period, Piwik_Segment $segment)
@@ -2501,6 +2509,7 @@ class Piwik
 	 *
 	 * @param int $idsite
 	 * @param Piwik_Period $period
+	 * @param Piwik_Segment $segment
 	 * @return bool True if lock acquired; false otherwise
 	 */
 	static public function getArchiveProcessingLock($idsite, $period, $segment)
@@ -2533,6 +2542,7 @@ class Piwik
 	 *
 	 * @param int $idsite
 	 * @param Piwik_Period $period
+	 * @param Piwik_Segment $segment
 	 * @return bool True if lock released; false otherwise
 	 */
 	static public function releaseArchiveProcessingLock($idsite, $period, $segment)

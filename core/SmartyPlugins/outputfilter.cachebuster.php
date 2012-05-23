@@ -27,6 +27,7 @@
  *
  * @param string
  * @param Smarty
+ * @return mixed
  */
 function smarty_outputfilter_cachebuster($source, &$smarty)
 {

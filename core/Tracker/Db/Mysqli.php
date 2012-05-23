@@ -26,9 +26,11 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 	private $username;
 	private $password;
 	private $charset;
-	
+
 	/**
 	 * Builds the DB object
+	 * @param array  $dbInfo
+	 * @param string $driverName
 	 */
 	public function __construct( $dbInfo, $driverName = 'mysql') 
 	{
@@ -64,7 +66,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 	/**
 	 * Connects to the DB
 	 * 
-	 * @throws Exception if there was an error connecting the DB
+	 * @throws Exception|Piwik_Tracker_Db_Exception if there was an error connecting the DB
 	 */
 	public function connect() 
 	{
@@ -104,10 +106,11 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 	/**
 	 * Returns an array containing all the rows of a query result, using optional bound parameters.
 	 * 
-	 * @param string Query 
-	 * @param array Parameters to bind
+	 * @param string $query Query
+	 * @param array $parameters Parameters to bind
+	 * @return array
 	 * @see also query()
-	 * @throws Exception if an exception occured
+	 * @throws Exception|Piwik_Tracker_Db_Exception if an exception occured
 	 */
 	public function fetchAll( $query, $parameters = array() )
 	{

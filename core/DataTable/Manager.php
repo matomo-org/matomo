@@ -60,14 +60,15 @@ class Piwik_DataTable_Manager
 		$this->nextTableId++;
 		return $this->nextTableId - 1;
 	}
-	
+
 	/**
 	 * Returns the DataTable associated to the ID $idTable.
-	 * NB: The datatable has to have been instanciated before! 
+	 * NB: The datatable has to have been instanciated before!
 	 * This method will not fetch the DataTable from the DB.
-	 * 
-	 * @exception If the table can't be found
-	 * @return Piwik_DataTable The table 
+	 *
+	 * @param $idTable
+	 * @throws Exception If the table can't be found
+	 * @return Piwik_DataTable The table
 	 */
 	public function getTable( $idTable )
 	{

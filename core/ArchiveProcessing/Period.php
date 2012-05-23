@@ -35,7 +35,8 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 * Sums all values for the given field names $aNames over the period
 	 * See @archiveNumericValuesGeneral for more information
 	 * 
-	 * @param string|array 
+	 * @param string|array $aNames
+	 * @return array
 	 */
 	public function archiveNumericValuesSum( $aNames )
 	{
@@ -46,21 +47,24 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 * Get the maximum value for all values for the given field names $aNames over the period
 	 * See @archiveNumericValuesGeneral for more information
 	 * 
-	 * @param string|array 
+	 * @param string|array $aNames
+	 * @return array
 	 */
 	public function archiveNumericValuesMax( $aNames )
 	{
 		return $this->archiveNumericValuesGeneral($aNames, 'max');
 	}
-	
+
 	/**
 	 * Given a list of fields names, the method will fetch all their values over the period, and archive them using the given operation.
-	 * 
+	 *
 	 * For example if $operationToApply = 'sum' and $aNames = array('nb_visits', 'sum_time_visit')
 	 *  it will sum all values of nb_visits for the period (for example give the number of visits for the month by summing the visits of every day)
-	 * 
+	 *
 	 * @param array|string $aNames Array of strings or string containg the field names to select
-	 * @param string $operationToApply Available operations = sum, max, min 
+	 * @param string $operationToApply Available operations = sum, max, min
+	 * @throws Exception
+	 * @return array
 	 */
 	private function archiveNumericValuesGeneral($aNames, $operationToApply)
 	{

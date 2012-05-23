@@ -25,9 +25,11 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 	private $tableName = null;
 
 	/**
-	 * @param Piwik_Site $oSite 
+	 * @param array $sites array of siteIds
 	 * @param string $strPeriod eg. 'day' 'week' etc.
 	 * @param string $strDate A date range, eg. 'last10', 'previous5' or 'YYYY-MM-DD,YYYY-MM-DD'
+	 * @param Piwik_Segment $segment
+	 * @param $_restrictSitesToLogin
 	 */
 	function __construct($sites, $strPeriod, $strDate, Piwik_Segment $segment, $_restrictSitesToLogin)
 	{
@@ -141,8 +143,9 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 	/**
 	 * Gets the archive id of every Single archive this archive holds. This method
 	 * will launch the archiving process if appropriate.
-	 * 
+	 *
 	 * @param string $metrics The requested archive metrics.
+	 * @throws Exception
 	 * @return array
 	 */
 	private function getArchiveIdsAfterLaunching( $metrics )

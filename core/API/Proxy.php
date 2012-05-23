@@ -102,10 +102,11 @@ class Piwik_API_Proxy
 		$this->setDocumentation($rClass, $className);
 		$this->alreadyRegistered[$className] = true;
 	}
-	
+
 	/**
 	 * Will be displayed in the API page
-	 * 
+	 * @param $rClass
+	 * @param $className
 	 */
 	private function setDocumentation($rClass, $className)
 	{
@@ -141,11 +142,12 @@ class Piwik_API_Proxy
 	 * It also logs the API calls, with the parameters values, the returned value, the performance, etc.
 	 * You can enable logging in config/global.ini.php (log_api_call)
 	 * 
-	 * @param string The class name (eg. Piwik_Referers_API)
-	 * @param string The method name
-	 * @param array The parameters pairs (name=>value)
-	 * 
-	 * @throws Piwik_Access_NoAccessException 
+	 * @param string $className The class name (eg. Piwik_Referers_API)
+	 * @param string $methodName The method name
+	 * @param array $parametersRequest The parameters pairs (name=>value)
+	 *
+	 * @return mixed|null
+	 * @throws Exception|Piwik_Access_NoAccessException
 	 */
 	public function call($className, $methodName, $parametersRequest )
 	{
@@ -240,13 +242,14 @@ class Piwik_API_Proxy
 	{
 		return str_replace(array('Piwik_', '_API'), '', $className);
 	}
-	
+
 	/**
 	 * Returns an array containing the values of the parameters to pass to the method to call
 	 *
-	 * @param array array of (parameter name, default value)
+	 * @param array $requiredParameters array of (parameter name, default value)
+	 * @param array $parametersRequest
+	 * @throws Exception
 	 * @return array values to pass to the function call
-	 * @throws exception If there is a parameter missing from the required function parameters
 	 */
 	private function getRequestParametersArray( $requiredParameters, $parametersRequest )
 	{

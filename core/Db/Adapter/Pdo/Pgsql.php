@@ -36,6 +36,7 @@ class Piwik_Db_Adapter_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements Pi
 
 	/**
 	 * Check PostgreSQL version
+	 * @throws Exception
 	 */
 	public function checkServerVersion()
 	{

@@ -67,8 +67,10 @@ class Piwik_Period_Range extends Piwik_Period
 
 	/**
 	 *
+	 * @param string $period
 	 * @param Piwik_Date $date
 	 * @param int $n
+	 * @throws Exception
 	 * @return Piwik_Date
 	 */
 	static public function removePeriod( $period, Piwik_Date $date, $n )

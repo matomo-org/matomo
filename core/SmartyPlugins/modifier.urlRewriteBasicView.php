@@ -13,7 +13,8 @@
 /**
  * Rewrites the given URL so that it looks like a URL that can be loaded directly.
  * Useful for users who don't handle javascript / ajax, they can still use piwik with these rewritten URLs.
- * 
+ *
+ * @param array $parameters
  * @return string
  */
 function smarty_modifier_urlRewriteBasicView($parameters)

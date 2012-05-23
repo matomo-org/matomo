@@ -53,17 +53,17 @@ class Piwik_FrontController
 		}
 		return self::$instance;
 	}
-	
+
 	/**
 	 * Dispatches the request to the right plugin and executes the requested action on the plugin controller.
-	 * 
-	 * @throws Exception in case the plugin doesn't exist, the action doesn't exist, there is not enough permission, etc.
+	 *
+	 * @throws Exception|Piwik_FrontController_PluginDeactivatedException in case the plugin doesn't exist, the action doesn't exist, there is not enough permission, etc.
 	 *
 	 * @param string $module
 	 * @param string $action
 	 * @param array $parameters
 	 * @return mixed The returned value of the calls, often nothing as the module print but don't return data
-	 * @see fetchDispatch() 
+	 * @see fetchDispatch()
 	 */
 	function dispatch( $module = null, $action = null, $parameters = null)
 	{
@@ -191,14 +191,18 @@ class Piwik_FrontController
 				|| Piwik_Common::isArchivePhpTriggered()
 				;
 	}
-	
+
 	/**
 	 * Must be called before dispatch()
 	 * - checks that directories are writable,
 	 * - loads the configuration file,
-	 * - loads the plugin, 
+	 * - loads the plugin,
 	 * - inits the DB connection,
 	 * - etc.
+	 * @throws Exception
+	 * @throws Exception
+	 * @throws bool|Exception
+	 * @return
 	 */
 	function init()
 	{

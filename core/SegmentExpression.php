@@ -43,12 +43,16 @@ class Piwik_SegmentExpression
     protected $valuesBind = array();
     protected $parsedTree = array();
     protected $tree = array();
-    
-    /**
-     * Given the array of parsed filters containing, for each filter, 
-     * the boolean operator (AND/OR) and the operand,
-     * Will return the array where the filters are in SQL representation
-     */
+	protected $parsedSubExpressions = array();
+
+	/**
+	 * Given the array of parsed filters containing, for each filter,
+	 * the boolean operator (AND/OR) and the operand,
+	 * Will return the array where the filters are in SQL representation
+	 *
+	 * @throws Exception
+	 * @return array
+	 */
     public function parseSubExpressions()
     {
         $parsedSubExpressions = array();
@@ -86,17 +90,28 @@ class Piwik_SegmentExpression
         $this->parsedSubExpressions = $parsedSubExpressions;
         return $parsedSubExpressions;
     }
-    
+
+	/**
+	 * Set the given expression
+	 * @param $parsedSubExpressions
+	 */
     public function setSubExpressionsAfterCleanup($parsedSubExpressions)
     {
         $this->parsedSubExpressions = $parsedSubExpressions;
     }
-    
+
+	/**
+	 * Returns the current sub expression
+	 * @return array
+	 */
     public function getSubExpressions()
     {
         return $this->parsedSubExpressions;
     }
-    
+
+	/**
+	 * @param array $availableTables
+	 */
     public function parseSubExpressionsIntoSqlExpressions(&$availableTables=array())
     {
         $sqlSubExpressions = array();
@@ -122,14 +137,18 @@ class Piwik_SegmentExpression
         
         $this->tree = $sqlSubExpressions;
     }
-    
-    /**
-     * Given an array representing one filter operand ( left member , operation , right member)
-     * Will return an array containing 
-     * - the SQL substring, 
-     * - the values to bind to this substring
-     * 
-     */
+
+	/**
+	 * Given an array representing one filter operand ( left member , operation , right member)
+	 * Will return an array containing
+	 * - the SQL substring,
+	 * - the values to bind to this substring
+	 *
+	 * @param array $def
+	 * @param array $availableTables
+	 * @throws Exception
+	 * @return array
+	 */
     // @todo case insensitive?
     protected function getSqlMatchFromDefinition($def, &$availableTables)
     {
@@ -137,7 +156,6 @@ class Piwik_SegmentExpression
     	$matchType = $def[1];
         $value = $def[2];
         
-        $sqlMatch = '';
         switch($matchType)
         {
         	case self::MATCH_EQUAL:
@@ -190,11 +208,14 @@ class Piwik_SegmentExpression
         
         return array($sqlExpression, $value);
     }
-    
-    /**
-     * Check whether the field is available
-     * If not, add it to the available tables
-     */
+
+	/**
+	 * Check whether the field is available
+	 * If not, add it to the available tables
+	 *
+	 * @param string $field
+	 * @param array  $availableTables
+	 */
     private function checkFieldIsAvailable($field, &$availableTables)
     {
         $fieldParts = explode('.', $field);
@@ -211,7 +232,12 @@ class Piwik_SegmentExpression
         	$availableTables[] = $table;
         }
     }
-    
+
+	/**
+	 * Escape the characters % and _ in the given string
+	 * @param string $str
+	 * @return string
+	 */
     private function escapeLikeString($str)
     {
     	$str = str_replace("%", "\%", $str);
@@ -222,7 +248,9 @@ class Piwik_SegmentExpression
     /**
      * Given a filter string, 
      * will parse it into an array where each row contains the boolean operator applied to it, 
-     * and the operand 
+     * and the operand
+     *
+     * @return array
      */
     protected function parseTree()
     {
@@ -277,14 +305,15 @@ class Piwik_SegmentExpression
         }
         return $tree;
     }
-    
-    /**
-     * Given the array of parsed boolean logic, will return
-     * an array containing the full SQL string representing the filter, 
-     * the neede joins and the values to bind to the query
-     * 
-     * @return array SQL Query, Joins and Bind parameters
-     */
+
+	/**
+	 * Given the array of parsed boolean logic, will return
+	 * an array containing the full SQL string representing the filter,
+	 * the needed joins and the values to bind to the query
+	 *
+	 * @throws Exception
+	 * @return array SQL Query, Joins and Bind parameters
+	 */
     public function getSql()
     {
         if(count($this->tree) == 0) 

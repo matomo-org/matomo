@@ -86,14 +86,15 @@ class Piwik_API_Request
 	{
 		$this->request = self::getRequestArrayFromString($request);
 	}
-	
+
 	/**
 	 * Handles the request to the API.
 	 * It first checks that the method called (parameter 'method') is available in the module (it means that the method exists and is public)
 	 * It then reads the parameters from the request string and throws an exception if there are missing parameters.
 	 * It then calls the API Proxy which will call the requested method.
-	 * 
-	 * @return mixed The data resulting from the API call  
+	 *
+	 * @throws Piwik_FrontController_PluginDeactivatedException
+	 * @return mixed The data resulting from the API call
 	 */
 	public function process()
 	{
@@ -146,12 +147,13 @@ class Piwik_API_Request
 			Piwik::raiseMemoryLimitIfNecessary();
 		}
 	}
-	
+
 	/**
 	 * Returns array( $class, $method) from the given string $class.$method
-	 * 
+	 *
+	 * @param $parameter
+	 * @throws Exception
 	 * @return array
-	 * @throws exception if the name is invalid
 	 */
 	private function extractModuleAndMethod($parameter)
 	{

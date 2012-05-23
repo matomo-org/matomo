@@ -24,6 +24,7 @@
  *
  * @param string
  * @param Smarty
+ * @return mixed
  */
 function smarty_outputfilter_ajaxcdn($source, &$smarty)
 {

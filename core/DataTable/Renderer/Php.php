@@ -82,21 +82,21 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		
 		return $return;
 	}
-	
+
 	/**
 	 * Produces a flat php array from the DataTable, putting "columns" and "metadata" on the same level.
-	 * 
-	 * For example, when  a originalRender() would be 
-	 * 	array( 'columns' => array( 'col1_name' => value1, 'col2_name' => value2 ),
-	 * 	       'metadata' => array( 'metadata1_name' => value_metadata) )
-	 * 
-	 * a flatRender() is
-	 * 	array( 'col1_name' => value1, 
-	 * 	       'col2_name' => value2,
-	 * 	       'metadata1_name' => value_metadata )
-	 *  
-	 * @return array Php array representing the 'flat' version of the datatable
 	 *
+	 * For example, when  a originalRender() would be
+	 *     array( 'columns' => array( 'col1_name' => value1, 'col2_name' => value2 ),
+	 *            'metadata' => array( 'metadata1_name' => value_metadata) )
+	 *
+	 * a flatRender() is
+	 *     array( 'col1_name' => value1,
+	 *            'col2_name' => value2,
+	 *            'metadata1_name' => value_metadata )
+	 *
+	 * @param null|Piwik_DataTable_Array|Piwik_DataTable_Simple $dataTable
+	 * @return array Php array representing the 'flat' version of the datatable
 	 */
 	public function flatRender( $dataTable = null )
 	{

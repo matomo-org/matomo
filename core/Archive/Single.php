@@ -106,10 +106,11 @@ class Piwik_Archive_Single extends Piwik_Archive
 	{
 		return $this->period->getPrettyString();
 	}
-	
+
 	/**
 	 * Returns the idarchive of this Archive used to index this archive in the DB
 	 *
+	 * @throws Exception
 	 * @return int
 	 */
 	public function getIdArchive()
@@ -159,6 +160,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 * Prepares the archive. Gets the idarchive from the ArchiveProcessing.
 	 * 
 	 * This will possibly launch the archiving process if the archive was not available.
+	 * @return bool
 	 */
 	public function prepareArchive()
 	{
@@ -362,9 +364,10 @@ class Piwik_Archive_Single extends Piwik_Archive
 		}
 	}
 
-	
+
 	/**
 	 * Free the blob cache memory array
+	 * @param $name
 	 */
 	public function freeBlob( $name )
 	{
@@ -376,11 +379,12 @@ class Piwik_Archive_Single extends Piwik_Archive
 	{
 		return @gzuncompress($data);
 	}
-	
+
 	/**
 	 * Fetches all blob fields name_* at once for the current archive for performance reasons.
-	 * 
-	 * @return false if no visits
+	 *
+	 * @param $name
+	 * @return
 	 */
 	public function preFetchBlob( $name )
 	{

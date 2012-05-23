@@ -386,6 +386,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 	 * Get the SQL to create a specific Piwik table
 	 *
 	 * @param string $tableName
+	 * @throws Exception
 	 * @return string SQL
 	 */
 	public function getTableCreateSql( $tableName )
@@ -425,7 +426,6 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 	 * Get list of tables installed
 	 *
 	 * @param bool $forceReload Invalidate cache
-	 * @param string $idSite
 	 * @return array Tables installed
 	 */
 	public function getTablesInstalled($forceReload = true)

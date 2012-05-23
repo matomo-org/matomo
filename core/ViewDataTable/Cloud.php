@@ -30,9 +30,13 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 	{
 		return 'cloud';
 	}
-		
+
 	/**
 	 * @see Piwik_ViewDataTable::init()
+	 * @param string $currentControllerName
+	 * @param string $currentControllerAction
+	 * @param string $apiMethodToRequestDataTable
+	 * @param null|string $controllerActionCalledWhenRequestSubTable
 	 */
 	function init($currentControllerName,
 						$currentControllerAction,
@@ -51,6 +55,7 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 	/**
 	 * @see Piwik_ViewDataTable::main()
 	 *
+	 * @return null
 	 */
 	public function main()
 	{

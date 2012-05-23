@@ -83,6 +83,7 @@ class Piwik_API_DataTableGenericFilter
 	 * Disable this feature by setting the parameter disable_generic_filters to 1 in the API call request.
 	 * 
 	 * @param Piwik_DataTable
+	 * @return bool
 	 */
 	protected function applyGenericFilters($datatable)
 	{

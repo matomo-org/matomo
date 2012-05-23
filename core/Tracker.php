@@ -132,7 +132,7 @@ class Piwik_Tracker
 	/**
 	 * Returns the date in the "Y-m-d H:i:s" PHP format
 	 *
-	 * @param int $timstamp
+	 * @param int $timestamp
 	 * @return string
 	 */
 	public static function getDatetimeFromTimestamp($timestamp)
@@ -194,7 +194,8 @@ class Piwik_Tracker
 	 * Factory to create database objects
 	 *
 	 * @param array $configDb Database configuration
-	 * @return Piwik_Tracker_Db_*
+	 * @throws Exception
+	 * @return Piwik_Tracker_Db_Mysqli|Piwik_Tracker_Db_Pdo_Mysql
 	 */
 	public static function factory($configDb)
 	{
@@ -268,6 +269,7 @@ class Piwik_Tracker
 	 * Returns the Tracker_Visit object.
 	 * This method can be overwritten to use a different Tracker_Visit object
 	 *
+	 * @throws Exception
 	 * @return Piwik_Tracker_Visit
 	 */
 	protected function getNewVisitObject()

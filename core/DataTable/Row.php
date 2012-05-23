@@ -307,11 +307,11 @@ class Piwik_DataTable_Row
 	{
 		$this->c[self::METADATA][$name] = $value;
 	}
-	
+
 	/**
-	 * Deletes the given metadata 
+	 * Deletes the given metadata
 	 *
-	 * @param string Meta column name (omit to delete entire metadata)
+	 * @param bool|string $name Meta column name (omit to delete entire metadata)
 	 * @return bool True on success, false if the column didn't exist
 	 */
 	public function deleteMetadata($name = false)
@@ -380,10 +380,11 @@ class Piwik_DataTable_Row
 	 * Sums the given $row columns values to the existing row' columns values.
 	 * It will sum only the int or float values of $row.
 	 * It will not sum the column 'label' even if it has a numeric value.
-	 * 
+	 *
 	 * If a given column doesn't exist in $this then it is added with the value of $row.
 	 * If the column already exists in $this then we have
-	 * 		this.columns[idThisCol] += $row.columns[idThisCol]
+	 *         this.columns[idThisCol] += $row.columns[idThisCol]
+	 * @param Piwik_DataTable_Row $rowToSum
 	 */
 	public function sumRow( Piwik_DataTable_Row $rowToSum )
 	{

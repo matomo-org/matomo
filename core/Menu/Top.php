@@ -78,10 +78,10 @@ function Piwik_GetTopMenu()
  * Adds a new entry to the TopMenu.
  *
  * @param string $topMenuName
- * @param string $subTopName
- * @param string $url
+ * @param $data
  * @param boolean $displayedForCurrentUser
  * @param int $order
+ * @param bool $isHTML
  */
 function Piwik_AddTopMenu( $topMenuName, $data, $displayedForCurrentUser = true, $order = 10, $isHTML = false)
 {

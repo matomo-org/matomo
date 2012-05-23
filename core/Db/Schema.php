@@ -52,6 +52,7 @@ class Piwik_Db_Schema
 	/**
 	 * Get list of schemas
 	 *
+	 * @param string $adapterName
 	 * @return array
 	 */
 	public static function getSchemas($adapterName)
@@ -158,6 +159,7 @@ class Piwik_Db_Schema
 	/**
 	 * Get the SQL to create a specific Piwik table
 	 *
+	 * @param string $tableName
 	 * @return string SQL
 	 */
 	public function getTableCreateSql( $tableName )
@@ -177,6 +179,7 @@ class Piwik_Db_Schema
 
 	/**
 	 * Create database
+	 * @param null|string $dbName
 	 */
 	public function createDatabase( $dbName = null )
 	{
@@ -217,6 +220,7 @@ class Piwik_Db_Schema
 
 	/**
 	 * Drop specific tables
+	 * @param array $doNotDelete
 	 */
 	public function dropTables( $doNotDelete = array() )
 	{
@@ -238,7 +242,6 @@ class Piwik_Db_Schema
 	 * Get list of tables installed
 	 *
 	 * @param bool $forceReload Invalidate cache
-	 * @param string $idSite
 	 * @return array Tables installed
 	 */
 	public function getTablesInstalled($forceReload = true)

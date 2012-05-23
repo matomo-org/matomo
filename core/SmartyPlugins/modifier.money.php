@@ -12,7 +12,9 @@
 
 /**
  * Prints money, given the currency symbol.
- *  
+ *
+ * @param $amount
+ * @throws Exception
  * @return string The amount with the currency symbol
  */
 function smarty_modifier_money($amount)

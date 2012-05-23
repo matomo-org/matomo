@@ -119,9 +119,9 @@ class Piwik_Site
 	{
 		return $this->get('ecommerce') == 1;
 	}
-	
+
 	/**
-	 * @param string comma separated idSite list
+	 * @param string $string comma separated idSite list
 	 * @return array of valid integer
 	 */
 	static public function getIdSitesFromIdSitesString( $string )

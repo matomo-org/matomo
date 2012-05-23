@@ -75,6 +75,7 @@ class Piwik_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Pi
 
 	/**
 	 * Check MySQL version
+	 * @throws Exception
 	 */
 	public function checkServerVersion()
 	{
@@ -88,6 +89,7 @@ class Piwik_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Pi
 
 	/**
 	 * Check client version compatibility against database server
+	 * @throws Exception
 	 */
 	public function checkClientVersion()
 	{

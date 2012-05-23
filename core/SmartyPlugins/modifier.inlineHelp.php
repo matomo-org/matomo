@@ -12,6 +12,8 @@
 
 /**
  * Displays inline help using the jquery UI CSS
+ * @param string $text
+ * @return string
  */
 function smarty_modifier_inlineHelp($text)
 {

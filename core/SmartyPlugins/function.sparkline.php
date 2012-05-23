@@ -11,8 +11,9 @@
  */
 
 /**
- * @param string $url
- * @return string IMG HTML tag 
+ * @param array $params  array([src] => src url of the image)
+ * @param bool $smarty
+ * @return string IMG HTML tag
  */
 function smarty_function_sparkline($params, &$smarty = false)
 {

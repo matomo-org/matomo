@@ -12,14 +12,16 @@
 
 /**
  * Sends AssetManager.getCssFiles or AssetManager.getJsFiles events, gathers assets and include them.
- * 
+ *
  * Examples:
  * <pre>
- * 		{includeAssets type="css"}
+ *         {includeAssets type="css"}
  * </pre>
- * 
- * @throws Exception if the type parameter is not present or invalid
- * @param string $type The type of the assets to include
+ *
+ * @param array $params array([type] => the type of the assets to include)
+ * @param $smarty
+ * @throws Exception
+ * @return
  */
 function smarty_function_includeAssets($params, &$smarty)
 {

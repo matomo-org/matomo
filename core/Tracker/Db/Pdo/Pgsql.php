@@ -20,6 +20,8 @@ class Piwik_Tracker_Db_Pdo_Pgsql extends Piwik_Tracker_Db_Pdo_Mysql
 {
 	/**
 	 * Builds the DB object
+	 * @param $dbInfo
+	 * @param string $driverName
 	 */
 	public function __construct( $dbInfo, $driverName = 'pgsql') 
 	{

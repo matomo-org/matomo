@@ -12,8 +12,9 @@
 
 /**
  * Exception handler used to display nicely exceptions in Piwik
- * 
+ *
  * @param Exception $exception
+ * @throws Exception
  */
 function Piwik_ExceptionHandler(Exception $exception) 
 {

@@ -43,6 +43,8 @@ class Piwik_TCPDF extends TCPDF
 
 	/**
 	 * @see TCPDF::Error()
+	 * @param $msg
+	 * @throws Exception
 	 */
 	function Error($msg) 
 	{

@@ -114,9 +114,10 @@ class Piwik_Tracker_GoalManager
 
 	/**
 	 * Look at the URL or Page Title and sees if it matches any existing Goal definition
-	 * 
+	 *
 	 * @param int $idSite
 	 * @param Piwik_Tracker_Action $action
+	 * @throws Exception
 	 * @return int Number of goals matched
 	 */
 	function detectGoalsMatchingUrl($idSite, $action)
@@ -224,6 +225,14 @@ class Piwik_Tracker_GoalManager
 
 	/**
 	 * Records one or several goals matched in this request.
+	 * @param int $idSite
+	 * @param array $visitorInformation
+	 * @param array $visitCustomVariables
+	 * @param string $action
+	 * @param $referrerTimestamp
+	 * @param string $referrerUrl
+	 * @param string $referrerCampaignName
+	 * @param string $referrerCampaignKeyword
 	 */
 	public function recordGoals($idSite, $visitorInformation, $visitCustomVariables, $action, $referrerTimestamp, $referrerUrl, $referrerCampaignName, $referrerCampaignKeyword)
 	{
@@ -439,12 +448,14 @@ class Piwik_Tracker_GoalManager
 		$cleanedItems = $this->getCleanedEcommerceItems($items);
 		return $cleanedItems;
 	}
-	
+
 	/**
 	 * Loads the Ecommerce items from the request and records them in the DB
-	 * 
+	 *
 	 * @param array $goal
-	 * @return int $items Number of items in the cart
+	 * @param array $items
+	 * @throws Exception
+	 * @return int Number of items in the cart
 	 */
 	protected function recordEcommerceItems($goal, $items)
 	{
@@ -665,10 +676,13 @@ class Piwik_Tracker_GoalManager
 		}
 		return $cleanedItems;
 	}
-	
+
 	/**
-	 * Updates the cart items in the DB 
+	 * Updates the cart items in the DB
 	 * that have been modified since the last cart update
+	 * @param $goal
+	 * @param array $itemsToUpdate
+	 * @return
 	 */
 	protected function updateEcommerceItems($goal, $itemsToUpdate)
 	{
@@ -700,10 +714,13 @@ class Piwik_Tracker_GoalManager
 			Piwik_Tracker::getDatabase()->query($sql, $sqlBind);
 		}
 	}
-	
+
 	/**
-	 * Inserts in the cart in the DB the new items 
+	 * Inserts in the cart in the DB the new items
 	 * that were not previously in the cart
+	 * @param $goal
+	 * @param array $itemsToInsert
+	 * @return
 	 */
 	protected function insertEcommerceItems($goal, $itemsToInsert)
 	{
@@ -753,9 +770,13 @@ class Piwik_Tracker_GoalManager
 		);
 		return $newRow;
 	}
+
 	/**
-	 * Records a standard non-Ecommerce goal in the DB (URL/Title matching), 
+	 * Records a standard non-Ecommerce goal in the DB (URL/Title matching),
 	 * linking the conversion to the action that triggered it
+	 * @param $goal
+	 * @param $action
+	 * @param $visitorInformation
 	 */
 	protected function recordStandardGoals($goal, $action, $visitorInformation)
 	{
@@ -787,6 +808,7 @@ class Piwik_Tracker_GoalManager
 	 * @param array $newGoal
 	 * @param bool $mustUpdateNotInsert If set to true, the previous conversion will be UPDATEd. This is used for the Cart Update conversion (only one cart per visit)
 	 * @param array $updateWhere
+	 * @return bool
 	 */
 	protected function recordGoal($newGoal, $mustUpdateNotInsert = false, $updateWhere = array())
 	{
@@ -827,9 +849,11 @@ class Piwik_Tracker_GoalManager
 			return Piwik_Tracker::getDatabase()->rowCount($result) > 0;
 		}
 	}
-	
+
 	/**
 	 * Casts the item array so that array comparisons work nicely
+	 * @param array $row
+	 * @return array
 	 */
 	protected function getItemRowCast($row)
 	{			

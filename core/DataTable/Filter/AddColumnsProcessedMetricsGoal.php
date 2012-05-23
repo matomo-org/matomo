@@ -29,23 +29,23 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 	 * Process all goal and per-goal metrics 
 	 */
 	const GOALS_FULL_TABLE = 0;
-	
+
 	/**
-	 * Adds processed goal metrics to a table: 
-	 * - global conversion rate, 
+	 * Adds processed goal metrics to a table:
+	 * - global conversion rate,
 	 * - global revenue per visit.
 	 * Can also process per-goal metrics:
 	 * - conversion rate
 	 * - nb conversions
 	 * - revenue per visit
-	 * 
+	 *
 	 * @param Piwik_DataTable $table
 	 * @param bool $enable should be true (automatically set to true when filter_update_columns_when_show_all_goals is found in the API request)
 	 * @param string $processOnlyIdGoal Defines what metrics to add (don't process metrics when you don't display them)
-	 * 			If self::GOALS_FULL_TABLE, all Goal metrics (and per goal metrics) will be processed
-	 * 			If self::GOALS_OVERVIEW, only the main goal metrics will be added
-	 * 			If an int > 0, then will process only metrics for this specific Goal
-	 * @return void
+	 *                                  If self::GOALS_FULL_TABLE, all Goal metrics (and per goal metrics) will be processed
+	 *                                  If self::GOALS_OVERVIEW, only the main goal metrics will be added
+	 *                                  If an int > 0, then will process only metrics for this specific Goal
+	 * @return Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal
 	 */
 	public function __construct( $table, $enable = true, $processOnlyIdGoal )
 	{

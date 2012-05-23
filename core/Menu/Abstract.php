@@ -43,6 +43,11 @@ abstract class Piwik_Menu_Abstract
 
 	/**
 	 * Adds a new entry to the menu.
+	 * @param string $menuName
+	 * @param string $subMenuName
+	 * @param string $url
+	 * @param bool $displayedForCurrentUser
+	 * @param int $order
 	 */
 	public function add($menuName, $subMenuName, $url, $displayedForCurrentUser, $order = 50)
 	{
@@ -59,6 +64,10 @@ abstract class Piwik_Menu_Abstract
 
 	/**
 	 * Builds a single menu item
+	 * @param string $menuName
+	 * @param string $subMenuName
+	 * @param string $url
+	 * @param int $order
 	 */
 	private function buildMenuItem($menuName, $subMenuName, $url, $order = 50)
 	{
@@ -92,7 +101,10 @@ abstract class Piwik_Menu_Abstract
 
 	/**
 	 * Renames a single menu entry.
-	 *
+	 * @param $mainMenuOriginal
+	 * @param $subMenuOriginal
+	 * @param $mainMenuRenamed
+	 * @param $subMenuRenamed
 	 */
 	public function rename($mainMenuOriginal, $subMenuOriginal, $mainMenuRenamed, $subMenuRenamed)
 	{
@@ -102,7 +114,9 @@ abstract class Piwik_Menu_Abstract
 
 	/**
 	 * Edits a URL of an existing menu entry.
-	 *
+	 * @param $mainMenuToEdit
+	 * @param $subMenuToEdit
+	 * @param $newUrl
 	 */
 	public function editUrl($mainMenuToEdit, $subMenuToEdit, $newUrl)
 	{
@@ -192,9 +206,9 @@ abstract class Piwik_Menu_Abstract
 	/**
 	 * Compares two menu entries. Used for ordering.
 	 *
-	 * @param <array> $itemOne
-	 * @param <array> $itemTwo
-	 * @return <boolean>
+	 * @param array $itemOne
+	 * @param array $itemTwo
+	 * @return boolean
 	 */
 	protected function menuCompare($itemOne, $itemTwo)
 	{

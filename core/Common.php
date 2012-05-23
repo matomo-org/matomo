@@ -82,9 +82,11 @@ class Piwik_Common
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Returns the table name, after removing the table prefix
+	 * @param string $table
+	 * @return string
 	 */
 	static public function unprefixTable($table)
 	{
@@ -230,6 +232,7 @@ class Piwik_Common
 	 * Store data in general (global cache)
 	 *
 	 * @param mixed $value
+	 * @return bool
 	 */
 	static protected function setCacheGeneral($value)
 	{
@@ -456,7 +459,8 @@ class Piwik_Common
 	/**
 	 * Builds a URL from the result of parse_url function
 	 * Copied from the PHP comments at http://php.net/parse_url
-	 * @param array
+	 * @param array $parsed
+	 * @return bool|string
 	 */
 	static public function getParseUrlReverse($parsed)
 	{
@@ -695,14 +699,15 @@ class Piwik_Common
 	 * - The single quotes are not protected so "Piwik's amazing" will still be "Piwik's amazing".
 	 *
 	 * - Transformations are:
-	 * 		- '&' (ampersand) becomes '&amp;'
-	 *  	- '"'(double quote) becomes '&quot;'
-	 * 		- '<' (less than) becomes '&lt;'
-	 * 		- '>' (greater than) becomes '&gt;'
+	 *         - '&' (ampersand) becomes '&amp;'
+	 *         - '"'(double quote) becomes '&quot;'
+	 *         - '<' (less than) becomes '&lt;'
+	 *         - '>' (greater than) becomes '&gt;'
 	 * - It handles the magic_quotes setting.
 	 * - A non string value is returned without modification
 	 *
-	 * @param mixed The variable to be cleaned
+	 * @param mixed $value The variable to be cleaned
+	 * @throws Exception
 	 * @return mixed The variable after cleaning
 	 */
 	static public function sanitizeInputValues($value)
@@ -798,8 +803,8 @@ class Piwik_Common
 	 * @param string $varType Expected type, the value must be one of the following: array, int, integer, string
 	 * @param array $requestArrayToUse
 	 *
-	 * @exception if the variable type is not known
-	 * @exception if the variable we want to read doesn't have neither a value nor a default value specified
+	 * @throws Exception  if the variable type is not known
+	 *                    or if the variable we want to read doesn't have neither a value nor a default value specified
 	 *
 	 * @return mixed The variable after cleaning
 	 */
@@ -986,13 +991,14 @@ class Piwik_Common
 	/**
 	 * This function will convert the input string to the binary representation of the ID
 	 * but it will throw an Exception if the specified input ID is not correct
-	 * 
+	 *
 	 * This is used when building segments containing visitorId which could be an invalid string
 	 * therefore throwing Unexpected PHP error [pack(): Type H: illegal hex digit i] severity [E_WARNING]
-	 * 
-	 * It would be simply to silent fail the pack() call above but in all other cases, we don't expect an error, 
+	 *
+	 * It would be simply to silent fail the pack() call above but in all other cases, we don't expect an error,
 	 * so better be safe and get the php error when something unexpected is happening
 	 * @param string $id
+	 * @throws Exception
 	 * @return binary string
 	 */
 	static public function convertVisitorIdToBin($id)
@@ -1320,8 +1326,8 @@ class Piwik_Common
 	/**
 	 * Returns the visitor language based only on the Browser 'accepted language' information
 	 *
-	 * @param string $browserLang Browser's accepted langauge header
-	 * @param array Array of valid language codes
+	 * @param $browserLanguage Browser's accepted langauge header
+	 * @param $validLanguages  array of valid language codes
 	 * @return string 2 letter ISO 639 code
 	 */
 	static public function extractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages)
@@ -1724,6 +1730,7 @@ class Piwik_Common
 	 * Is the current script execution triggered by misc/cron/archive.php ?
 	 * 
 	 * Helpful for error handling: directly throw error without HTML (eg. when DB is down)
+	 * @return bool
 	 */
 	static public function isArchivePhpTriggered()
 	{
@@ -1823,6 +1830,7 @@ class Piwik_Common
  * Mark orphaned object for garbage collection
  *
  * For more information: @link http://dev.piwik.org/trac/ticket/374
+ * @param $var
  */
 function destroy(&$var)
 {

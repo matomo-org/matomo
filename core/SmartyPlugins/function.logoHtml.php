@@ -20,6 +20,7 @@
  * </pre>
  *
  * @param array $params attributes to be set
+ * @param $smarty
  * @return string HTML IMG tag
  */
 function smarty_function_logoHtml($params, &$smarty)

@@ -212,12 +212,13 @@ abstract class Piwik_ArchiveProcessing
 	{
 		$this->time = time();
 	}
-	
+
 	/**
 	 * Returns the Piwik_ArchiveProcessing_Day or Piwik_ArchiveProcessing_Period object
 	 * depending on $name period string
 	 *
 	 * @param string $name day|week|month|year
+	 * @throws Exception
 	 * @return Piwik_ArchiveProcessing Piwik_ArchiveProcessing_Day|Piwik_ArchiveProcessing_Period
 	 */
 	static function factory($name)
@@ -337,7 +338,7 @@ abstract class Piwik_ArchiveProcessing
 	 * Utility function which creates a TablePartitioning instance for the numeric
 	 * archive data of a given period.
 	 * 
-	 * @param $period The time period of the archive data.
+	 * @param Piwik_Period $period The time period of the archive data.
 	 * @return Piwik_TablePartitioning_Monthly
 	 */
 	public static function makeNumericArchiveTable($period)
@@ -351,7 +352,7 @@ abstract class Piwik_ArchiveProcessing
 	 * Utility function which creates a TablePartitioning instance for the blob
 	 * archive data of a given period.
 	 * 
-	 * @param $period The time period of the archive data.
+	 * @param Piwik_Period $period The time period of the archive data.
 	 * @return Piwik_TablePartitioning_Monthly
 	 */
 	public static function makeBlobArchiveTable($period)
@@ -481,7 +482,7 @@ abstract class Piwik_ArchiveProcessing
 	
 	/**
 	 * Returns the name of the archive field used to tell the status of an archive, (ie,
-	 * whether the archive was created succesfully or not).
+	 * whether the archive was created successfully or not).
 	 * 
 	 * @param bool $flagArchiveAsAllPlugins
 	 * @return string
@@ -491,11 +492,14 @@ abstract class Piwik_ArchiveProcessing
 		return self::getDoneStringFlagFor(
 			$this->getSegment(), $this->period, $this->getRequestedReport(), $flagArchiveAsAllPlugins);
 	}
-	
+
 	/**
 	 * Returns the name of the archive field used to tell the status of an archive, (ie,
-	 * whether the archive was created succesfully or not).
-	 * 
+	 * whether the archive was created successfully or not).
+	 *
+	 * @param Piwik_Segment $segment
+	 * @param Piwik_Period $period
+	 * @param string $requestedReport
 	 * @param bool $flagArchiveAsAllPlugins
 	 * @return string
 	 */
@@ -694,8 +698,8 @@ abstract class Piwik_ArchiveProcessing
 	
 	/**
 	 * @param string $name
-	 * @param string|array of string $aValues
-	 * @return true 
+	 * @param string|array $values
+	 * @return bool|array
 	 */
 	public function insertBlobRecord($name, $values)
 	{
@@ -791,10 +795,12 @@ abstract class Piwik_ArchiveProcessing
 	{
 		return array('idarchive', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'name', 'value');
 	}
-	
+
 	/**
 	 * Inserts a record in the right table (either NUMERIC or BLOB)
-	 *
+	 * @param $name
+	 * @param $value
+	 * @return
 	 */
 	protected function insertRecord($name, $value)
 	{
@@ -966,17 +972,25 @@ abstract class Piwik_ArchiveProcessing
 					&& Piwik_Common::isArchivePhpTriggered()))
 					;
 	}
-	
+
 	/**
-	 * Returns true when 
-	 * - there is no segment and period is not range 
+	 * Returns true when
+	 * - there is no segment and period is not range
 	 * - there is a segment that is part of the preprocessed [Segments] list
+	 * @param Piwik_Segment $segment
+	 * @param Piwik_Period $period
+	 * @return bool
 	 */
 	protected function shouldProcessReportsAllPlugins($segment, $period)
 	{
 		return self::shouldProcessReportsAllPluginsFor($segment, $period);
 	}
-	
+
+	/**
+	 * @param Piwik_Segment $segment
+	 * @param Piwik_Period $period
+	 * @return bool
+	 */
 	protected static function shouldProcessReportsAllPluginsFor($segment, $period)
 	{
 		if($segment->isEmpty() && $period->getLabel() != 'range')

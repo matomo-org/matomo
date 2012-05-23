@@ -29,6 +29,7 @@ class Piwik_Config_Compat_Array
 	/**
 	 * Constructor
 	 *
+	 * @param $parent
 	 * @param array $data configuration section
 	 */
 	public function __construct($parent, array $data)

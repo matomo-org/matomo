@@ -20,7 +20,9 @@ class Piwik_Date
 	/**
 	 * Builds a Piwik_Date object
 	 *
-	 * @param int timestamp
+	 * @param int $timestamp
+	 * @param string $timezone
+	 * @throws Exception
 	 */
 	protected function __construct( $timestamp, $timezone = 'UTC')
 	{
@@ -36,10 +38,11 @@ class Piwik_Date
 	/**
 	 * Returns a Piwik_Date objects.
 	 *
-	 * @param string $strDate 'today' 'yesterday' or any YYYY-MM-DD or timestamp
+	 * @param string $dateString 'today' 'yesterday' or any YYYY-MM-DD or timestamp
 	 * @param string $timezone if specified, the dateString will be relative to this $timezone.
-	 * 				For example, today in UTC+12 will be a timestamp in the future for UTC.
+	 *                 For example, today in UTC+12 will be a timestamp in the future for UTC.
 	 *              This is different from using ->setTimezone()
+	 * @throws Exception
 	 * @return Piwik_Date
 	 */
 	static public function factory($dateString, $timezone = null)
@@ -321,7 +324,7 @@ class Piwik_Date
 	 * Returns 0 if equal, -1 if current month is earlier or 1 if current month is later
 	 * For example: 10.03.2000 -> 15.03.1950 -> 0
 	 *
-	 * @param  Piwik_Date  $month   Month to compare
+	 * @param Piwik_Date $date  Month to compare
 	 * @return integer  0 = equal, 1 = later, -1 = earlier
 	 */
 	function compareMonth( Piwik_Date $date )
@@ -450,6 +453,7 @@ class Piwik_Date
 	 * Returned is the new date object
 	 * Doesn't modify $this
 	 *
+	 * @param $n
 	 * @return Piwik_Date  new date
 	 */
 	public function subDay( $n )
@@ -461,12 +465,13 @@ class Piwik_Date
 		$ts = strtotime("-$n day", $this->timestamp);
 		return new Piwik_Date( $ts, $this->timezone );
 	}
-	
+
 	/**
 	 * Subtracts weeks from the existing date object and returns a new Piwik_Date object
 	 * Returned is the new date object
 	 * Doesn't modify $this
 	 *
+	 * @param $n
 	 * @return Piwik_Date  new date
 	 */
 	public function subWeek( $n )
@@ -479,6 +484,7 @@ class Piwik_Date
 	 * Returned is the new date object
 	 * Doesn't modify $this
 	 *
+	 * @param $n
 	 * @return Piwik_Date  new date
 	 */
 	public function subMonth( $n )
@@ -504,6 +510,7 @@ class Piwik_Date
 	 * Returned is the new date object
 	 * Doesn't modify $this
 	 *
+	 * @param $n
 	 * @return Piwik_Date  new date
 	 */
 	public function subYear( $n )
@@ -633,7 +640,8 @@ class Piwik_Date
 	 * Returned is the new date object
 	 * Doesn't modify $this
 	 *
-	 * @param int Number of period to add
+	 * @param $n
+	 * @param $period period to add
 	 * @return  Piwik_Date new date
 	 */
 	public function addPeriod( $n, $period )
@@ -654,7 +662,8 @@ class Piwik_Date
 	 * Returned is the new date object
 	 * Doesn't modify $this
 	 *
-	 * @param int Number of period to sub
+	 * @param $n
+	 * @param $period period to sub
 	 * @return  Piwik_Date new date
 	 */
 	public function subPeriod( $n, $period )

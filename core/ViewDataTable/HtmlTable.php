@@ -34,9 +34,13 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	 * @var array
 	 */
 	public $arrayDataTable; // phpArray
-	
+
 	/**
 	 * @see Piwik_ViewDataTable::init()
+	 * @param string $currentControllerName
+	 * @param string $currentControllerAction
+	 * @param string $apiMethodToRequestDataTable
+	 * @param null|string $controllerActionCalledWhenRequestSubTable
 	 */
 	function init($currentControllerName,
 						$currentControllerAction,
@@ -58,9 +62,11 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	{
 		return 'table';
 	}
-	
+
 	/**
 	 * @see Piwik_ViewDataTable::main()
+	 * @throws Exception|Piwik_Access_NoAccessException
+	 * @return null
 	 */
 	public function main()
 	{

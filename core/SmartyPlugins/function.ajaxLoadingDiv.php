@@ -12,9 +12,10 @@
 
 /**
  * Outputs the generic Ajax Loading div (displayed when ajax requests are triggered)
- * 
- * @param id=$ID_NAME ID of the HTML div, defaults to ajaxLoading
- * @return	string Html of the Loading... div
+ *
+ * @param array $params array([id] => ID of the HTML div, defaults to ajaxLoading)
+ * @param $smarty
+ * @return string Html of the Loading... div
  */
 function smarty_function_ajaxLoadingDiv($params, &$smarty)
 {

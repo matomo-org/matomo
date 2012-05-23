@@ -63,11 +63,13 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		}
 		$this->visibleRows = $visibleRows;
 	}
-	
+
 	/**
 	 * This method is called for every row of every table in the DataTable_Array.
 	 * It incrementally builds the row picker configuration and determines whether
 	 * the row is initially visible or not.
+	 * @param string $rowLabel
+	 * @return bool
 	 */
 	protected function handleRowForRowPicker(&$rowLabel)
 	{
@@ -249,10 +251,13 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 			$this->view->setSelectableRows(array_values($this->rowPickerConfig));
 		}
 	}
-	
+
 	/**
 	 * Derive the series label from the row label and the column name.
 	 * If the row label is set, both the label and the column name are displayed.
+	 * @param string $rowLabel
+	 * @param string $columnName
+	 * @return string
 	 */
 	private function getSeriesLabel($rowLabel, $columnName)
 	{

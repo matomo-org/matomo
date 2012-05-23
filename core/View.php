@@ -261,6 +261,8 @@ class Piwik_View implements Piwik_View_Interface
 	 *
 	 * @param string $templateName Template name (e.g., 'index')
 	 * @param int $viewType     View type (e.g., Piwik_View::CLI)
+	 * @throws Exception
+	 * @return Piwik_View|Piwik_View_OneClickDone
 	 */
 	static public function factory( $templateName = null, $viewType = null)
 	{

@@ -16,7 +16,8 @@
  * Type:     modifier<br>
  * Name:     unescape<br>
  * Purpose:  Unescape the string
- * @param string
+ * @param string $string
+ * @param string $char_set
  * @return string
  */
 function smarty_modifier_unescape($string, $char_set = 'UTF-8')

@@ -35,12 +35,14 @@ class Piwik_API_DocumentationGenerator
 			}
 		}
 	}
-	
+
 	/**
 	 * Returns a HTML page containing help for all the successfully loaded APIs.
-	 *  For each module it will return a mini help with the method names, parameters to give, 
+	 *  For each module it will return a mini help with the method names, parameters to give,
 	 * links to get the result in Xml/Csv/etc
 	 *
+	 * @param bool $outputExampleUrls
+	 * @param string $prefixUrls
 	 * @return string
 	 */
 	public function getAllInterfaceString( $outputExampleUrls = true, $prefixUrls = '' )
@@ -113,14 +115,15 @@ class Piwik_API_DocumentationGenerator
 				$str";
 		return $str;
 	}
-	
+
 	/**
 	 * Returns a string containing links to examples on how to call a given method on a given API
 	 * It will export links to XML, CSV, HTML, JSON, PHP, etc.
-	 * It will not export links for methods such as deleteSite or deleteUser 
+	 * It will not export links for methods such as deleteSite or deleteUser
 	 *
-	 * @param string the class 
-	 * @param methodName the method
+	 * @param string $class the class
+	 * @param string $methodName the method
+	 * @param array $parametersToSet
 	 * @return string|false when not possible
 	 */
 	public function getExampleUrl($class, $methodName, $parametersToSet = array())

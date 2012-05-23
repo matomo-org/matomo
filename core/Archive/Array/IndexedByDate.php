@@ -19,9 +19,10 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 	/**
 	 * Builds an array of Piwik_Archive of a given date range
 	 *
-	 * @param Piwik_Site $oSite 
+	 * @param Piwik_Site $oSite
 	 * @param string $strPeriod eg. 'day' 'week' etc.
 	 * @param string $strDate A date range, eg. 'last10', 'previous5' or 'YYYY-MM-DD,YYYY-MM-DD'
+	 * @param Piwik_Segment $segment
 	 */
 	function __construct(Piwik_Site $oSite, $strPeriod, $strDate, Piwik_Segment $segment)
 	{

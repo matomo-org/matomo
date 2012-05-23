@@ -107,10 +107,11 @@ abstract class Piwik_DataTable_Renderer
 	{
 		return $this->render();
 	}
-	
+
 	/**
 	 * Set the DataTable to be rendered
 	 * @param Piwik_DataTable|Piwik_DataTable_Simple|Piwik_DataTable_Array $table to be rendered
+	 * @throws Exception
 	 */
 	public function setTable($table)
 	{
@@ -121,10 +122,11 @@ abstract class Piwik_DataTable_Renderer
 		}
 		$this->table = $table;
 	}
-	
+
 	/**
 	 * Set the Exception to be rendered
 	 * @param Exception $exception to be rendered
+	 * @throws Exception
 	 */
 	public function setException($exception)
 	{
@@ -148,11 +150,13 @@ abstract class Piwik_DataTable_Renderer
 	{
 		return self::$availableRenderers;
 	}
-	
+
 	/**
 	 * Returns the DataTable associated to the output format $name
-	 * 
-	 * @throws exception If the renderer is unknown
+	 *
+	 *
+	 * @param string $name
+	 * @throws Exception If the renderer is unknown
 	 * @return Piwik_DataTable_Renderer
 	 */
 	static public function factory( $name )
@@ -198,10 +202,12 @@ abstract class Piwik_DataTable_Renderer
 		}
 		return $value;
 	}
-	
+
 	/**
 	 * Translate column names to the current language.
 	 * Used in subclasses.
+	 * @param array $names
+	 * @return array
 	 */
 	protected function translateColumnNames($names)
 	{

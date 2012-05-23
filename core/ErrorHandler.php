@@ -12,11 +12,12 @@
 
 /**
  * Error handler used to display nicely errors in Piwik
- * 
+ *
  * @param int $errno Error number
- * @param string $errstring Error message
+ * @param string $errstr Error message
  * @param string $errfile File name
  * @param int $errline Line number
+ * @return
  */
 function Piwik_ErrorHandler($errno, $errstr, $errfile, $errline)
 {

@@ -137,11 +137,12 @@ class Piwik_Updater
 		}
 		return 'Piwik_'. $componentName .'_Updates_' . $suffix;
 	}
-	
+
 	/**
 	 * Update the named component
 	 *
 	 * @param string $componentName 'core', or plugin name
+	 * @throws Exception|Piwik_Updater_UpdateErrorException
 	 * @return array of warning strings if applicable
 	 */
 	public function update($componentName)
@@ -224,10 +225,11 @@ class Piwik_Updater
 		}
 		return $componentsWithUpdateFile;
 	}
-	
+
 	/**
 	 * Construct list of outdated components
 	 *
+	 * @throws Exception
 	 * @return array array( componentName => array( oldVersion, newVersion), [...])
 	 */
 	public function getComponentsWithNewVersion()
@@ -293,6 +295,7 @@ class Piwik_Updater
 	 *
 	 * @param string $file Update script filename
 	 * @param array $sqlarray An array of SQL queries to be executed
+	 * @throws Piwik_Updater_UpdateErrorException
 	 */
 	static function updateDatabase($file, $sqlarray)
 	{

@@ -109,9 +109,10 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		$this->setColumnTranslation('nb_conversions', Piwik_Translate('Goals_ColumnConversions'));
 		$this->setColumnTranslation('revenue', Piwik_Translate('General_TotalRevenue'));
 	}
-	
+
 	/**
 	 * Used in initChartObjectData to add the series picker config to the view object
+	 * @param bool $multiSelect
 	 */
 	protected function addSeriesPickerToView($multiSelect=true)
 	{

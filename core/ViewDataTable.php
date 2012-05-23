@@ -188,8 +188,8 @@ abstract class Piwik_ViewDataTable
 	 * If defaultType is specified and if there is no 'viewDataTable' in the URL, a ViewDataTable of this $defaultType will be returned.
 	 * If force is set to true, a ViewDataTable of the $defaultType will be returned in all cases.
 	 *
-	 * @param string defaultType Any of these: table, cloud, graphPie, graphVerticalBar, graphEvolution, sparkline, generateDataChart*
-	 * @param bool force If set to true, returns a ViewDataTable of the $defaultType
+	 * @param string $defaultType Any of these: table, cloud, graphPie, graphVerticalBar, graphEvolution, sparkline, generateDataChart*
+	 * @param bool $force If set to true, returns a ViewDataTable of the $defaultType
 	 * @return Piwik_ViewDataTable
 	 */
 	static public function factory( $defaultType = null, $force = false)
@@ -377,12 +377,13 @@ abstract class Piwik_ViewDataTable
 		}
 		return $this->dataTable;
 	}
-	
+
 	/**
 	 * To prevent calling an API multiple times, the DataTable can be set directly.
 	 * It won't be loaded again from the API in this case
-	 * 
-	 * @return $dataTable Piwik_DataTable
+	 *
+	 * @param $dataTable
+	 * @return void $dataTable Piwik_DataTable
 	 */
 	public function setDataTable($dataTable)
 	{
@@ -432,6 +433,7 @@ abstract class Piwik_ViewDataTable
 	/**
 	 * Hook called after the dataTable has been loaded from the API
 	 * Can be used to add, delete or modify the data freshly loaded
+	 * @return bool
 	 */
 	protected function postDataTableLoadedFromAPI()
 	{
@@ -565,6 +567,7 @@ abstract class Piwik_ViewDataTable
 
 	/**
 	 *  Sets the $uniqIdTable variable that is used as the DIV ID in the rendered HTML
+	 * @param $uniqIdTable
 	 */
 	public function setUniqueIdViewDataTable($uniqIdTable)
 	{
@@ -573,7 +576,8 @@ abstract class Piwik_ViewDataTable
 	}
 
 	/**
-	 *  Returns current value of $uniqIdTable variable that is used as the DIV ID in the rendered HTML
+	 * Returns current value of $uniqIdTable variable that is used as the DIV ID in the rendered HTML
+	 * @return null|string
 	 */
 	public function getUniqueIdViewDataTable()
 	{
@@ -992,6 +996,7 @@ abstract class Piwik_ViewDataTable
 	 *
 	 * @param string $columnName column name
 	 * @param string $columnTranslation column name translation
+	 * @throws Exception
 	 */
 	public function setColumnTranslation( $columnName, $columnTranslation )
 	{
@@ -1007,6 +1012,7 @@ abstract class Piwik_ViewDataTable
 	 * Returns column translation if available, in other case given column name
 	 *
 	 * @param string $columnName column name
+	 * @return string
 	 */
 	public function getColumnTranslation( $columnName )
 	{
@@ -1034,7 +1040,9 @@ abstract class Piwik_ViewDataTable
 	
 	/**
 	 * Returns metric documentation, or false
+	 *
 	 * @param string $columnName column name
+	 * @return bool
 	 */
 	public function getMetricDocumentation($columnName)
 	{
@@ -1064,7 +1072,10 @@ abstract class Piwik_ViewDataTable
 		$this->documentation = $documentation;
 	}
 	
-	/** Returns report documentation, or false */
+	/**
+	 * Returns report documentation, or false
+	 * @return array|bool
+	 */
 	public function getReportDocumentation()
 	{
 		if ($this->metricsDocumentation === false)
@@ -1149,12 +1160,13 @@ abstract class Piwik_ViewDataTable
 	{
 		$this->columnsTranslations += $columnsTranslations;
 	}
-	
+
 	/**
 	 * Sets a custom parameter, that will be printed in the javascript array associated with each datatable
 	 *
-	 * @param string parameter name
+	 * @param string $parameter name
 	 * @param mixed $value
+	 * @throws Exception
 	 */
 	public function setCustomParameter($parameter, $value)
 	{
@@ -1196,6 +1208,7 @@ abstract class Piwik_ViewDataTable
 	 * - The data table for this report must either be empty or not have been fetched.
 	 * - The period of this report is not a multiple period.
 	 * - The date of this report must be older than the delete_reports_older_than config option.
+	 * @return bool
 	 */
 	public function hasReportBeenPurged()
 	{

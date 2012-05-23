@@ -144,10 +144,13 @@ abstract class Piwik_Tracker_Db
 	 * @throws Piwik_Tracker_Db_Exception if an exception occured
 	 */
 	abstract public function fetch( $query, $parameters = array() );
-	
+
 	/**
 	 * This function is a proxy to fetch(), used to maintain compatibility with Zend_Db interface
 	 * @see fetch()
+	 * @param $query
+	 * @param array $parameters
+	 * @return
 	 */
 	public function fetchRow( $query, $parameters = array() )
 	{
@@ -157,6 +160,9 @@ abstract class Piwik_Tracker_Db
 	/**
 	 * This function is a proxy to fetch(), used to maintain compatibility with Zend_Db interface
 	 * @see fetch()
+	 * @param string $query
+	 * @param array $parameters
+	 * @return bool|mixed
 	 */
 	public function fetchOne( $query, $parameters = array() )
 	{
@@ -167,6 +173,9 @@ abstract class Piwik_Tracker_Db
 	/**
 	 * This function is a proxy to fetch(), used to maintain compatibility with Zend_Db + PDO interface
 	 * @see fetch()
+	 * @param string $query
+	 * @param array $parameters
+	 * @return
 	 */
 	public function exec( $query, $parameters = array() )
 	{

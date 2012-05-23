@@ -50,6 +50,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * Then the function will create the Archive for the Core metrics 'VisitsSummary' which will in turn process the number of visits
 	 *
 	 *  If there is no specified segment, the SQL query will always run.
+	 * @return bool|null
 	 */
 	public function isThereSomeVisits()
 	{
@@ -122,6 +123,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * If a segment is specified but a plugin other than 'VisitsSummary' is being requested,
 	 * we create an archive for processing VisitsSummary Core Metrics, which will in turn
 	 * execute the query above (in isThereSomeVisits)
+	 * @return bool|null
 	 */
 	private function redirectRequestToVisitsSummary()
 	{
@@ -150,13 +152,13 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 *
 	 * The SELECT expressions will count the number of column values that are
 	 * within each range.
-	 * 
+	 *
 	 * @param string $column The column of the log_conversion table to reduce.
 	 * @param array $ranges The ranges to reduce data over.
 	 * @param string $table The table the SELECTs should use.
 	 * @param string $selectColumnPrefix The prefix when specifying what a SELECT
 	 *                                   expression will be selected AS.
-	 * @param string $extraCondition An extra condition to be appended to 'case when'
+	 * @param bool|string $extraCondition An extra condition to be appended to 'case when'
 	 *                               expressions. Must start with the logical operator,
 	 *                               ie (AND, OR, etc.).
 	 * @return array An array of SQL SELECT expressions.
@@ -393,11 +395,15 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		
 		return $this->db->query($query['sql'], $query['bind']);
 	}
-	
+
 	/**
 	 * @see queryVisitsByDimension() Similar to this function,
 	 * but queries metrics for the requested dimensions,
 	 * for each Goal conversion
+	 * @param $label
+	 * @param string $where
+	 * @param array $aggregateLabels
+	 * @return
 	 */
 	public function queryConversionsByDimension($label, $where = '', $aggregateLabels = array())
 	{
@@ -545,13 +551,14 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		}
 		return $interest;
 	}
-	
+
 	/**
 	 * Generates a dataTable given a multidimensional PHP array that associates LABELS to Piwik_DataTableRows
 	 * This is used for the "Actions" DataTable, where a line is the aggregate of all the subtables
 	 * Example: the category /blog has 3 visits because it has /blog/index (2 visits) + /blog/about (1 visit)
 	 *
 	 * @param array $table
+	 * @param array $parents
 	 * @return Piwik_DataTable
 	 */
 	static public function generateDataTable( $table, $parents=array() )
@@ -646,10 +653,12 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 
 		return $parentTableLevel0;
 	}
-	
+
 	/**
 	 * Returns an empty row containing default values for the common stat
 	 *
+	 * @param bool $onlyMetricsAvailableInActionsTable
+	 * @param bool $doNotSumVisits
 	 * @return array
 	 */
 	public function getNewInterestRow($onlyMetricsAvailableInActionsTable = false, $doNotSumVisits = false)
@@ -692,7 +701,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 					)
 				);
 	}
-	
+
 	/**
 	 * Adds the given row $newRowToAdd to the existing  $oldRowToUpdate passed by reference
 	 *
@@ -700,6 +709,9 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 *
 	 * @param array $newRowToAdd
 	 * @param array $oldRowToUpdate
+	 * @param bool $onlyMetricsAvailableInActionsTable
+	 * @param bool $doNotSumVisits
+	 * @return
 	 */
 	public function updateInterestStats( $newRowToAdd, &$oldRowToUpdate, $onlyMetricsAvailableInActionsTable = false, $doNotSumVisits = false)
 	{

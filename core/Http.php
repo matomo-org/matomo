@@ -52,8 +52,9 @@ class Piwik_Http
 	 * @param string $userAgent
 	 * @param string $destinationPath
 	 * @param int $followDepth
+	 * @param bool $acceptLanguage
+	 * @throws Exception
 	 * @return bool true (or string) on success; false on HTTP response error code (1xx or 4xx)
-	 * @throws Exception for all other errors
 	 */
 	static public function sendHttpRequest($aUrl, $timeout, $userAgent = null, $destinationPath = null, $followDepth = 0, $acceptLanguage = false)
 	{
@@ -83,10 +84,10 @@ class Piwik_Http
 	 * @param string $destinationPath
 	 * @param resource $file
 	 * @param int $followDepth
-	 * @param string Accept-language header
-	 * @param bool Only used with $method == 'curl'. If set to true (NOT recommended!) the SSL certificate will not be checked
+	 * @param bool|string $acceptLanguage Accept-language header
+	 * @param bool $acceptInvalidSslCertificate Only used with $method == 'curl'. If set to true (NOT recommended!) the SSL certificate will not be checked
+	 * @throws Exception
 	 * @return bool true (or string) on success; false on HTTP response error code (1xx or 4xx)
-	 * @throws Exception for all other errors
 	 */
 	static public function sendHttpRequestBy($method = 'socket', $aUrl, $timeout, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $acceptInvalidSslCertificate = false)
 	{

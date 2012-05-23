@@ -115,6 +115,7 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 	
 	/**
 	 * @param Piwik_DataTable_Row
+	 * @return int
 	 */
 	protected function selectColumnToSort($row)
 	{

@@ -25,16 +25,16 @@ class Piwik_DataTable_Filter_ColumnCallbackAddColumnQuotient extends Piwik_DataT
 	protected $totalValueUsedAsDivisor;
 	protected $quotientPrecision;
 	protected $shouldSkipRows;
-	
+
 	/**
 	 * @param Piwik_DataTable $table
-	 * @param string $columnValueToRead
 	 * @param string $columnNameToAdd
-	 * @param numeric|string $divisorValueOrDivisorColumnName 
-	 * 						if a numeric value is given, we use this value as the divisor to process the percentage. 
-	 * 						if a string is given, this string is the column name's value used as the divisor.
-	 * @param numeric $quotientPrecision Division precision
-	 * @param numeric $shouldSkipRows Whether rows w/o the column to read should be skipped.
+	 * @param string $columnValueToRead
+	 * @param numeric|string $divisorValueOrDivisorColumnName
+	 *                         if a numeric value is given, we use this value as the divisor to process the percentage.
+	 *                         if a string is given, this string is the column name's value used as the divisor.
+	 * @param int $quotientPrecision Division precision
+	 * @param bool|numeric $shouldSkipRows Whether rows w/o the column to read should be skipped.
 	 */
 	public function __construct( $table, $columnNameToAdd, $columnValueToRead, $divisorValueOrDivisorColumnName, $quotientPrecision = 0, $shouldSkipRows = false)
 	{

@@ -139,6 +139,7 @@ class Piwik_Config
 	 * @todo remove in 2.0
 	 * @since 1.7
 	 * @deprecated 1.7
+	 * @return string
 	 */
 	static public function getDefaultDefaultConfigPath()
 	{

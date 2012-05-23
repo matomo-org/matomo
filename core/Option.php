@@ -129,8 +129,7 @@ class Piwik_Option
 
 	/**
 	 * Initialize cache with autoload settings.
-	 *
-	 * @param bool $forceReload Forces a reload if true; default is false
+	 * @return
 	 */
 	private function autoload()
 	{

@@ -392,10 +392,11 @@ class Piwik_DataTable
 	 * - if a row in $table doesnt exist in $this we add the new row to $this
 	 * - if a row exists in both $table and $this we sum the columns values into $this
 	 * - if a row in $this doesnt exist in $table we add in $this the row of $table without modification
-	 * 
+	 *
 	 * A common row to 2 DataTable is defined by the same label
-	 * 	
+	 *
 	 * @example tests/core/DataTable.test.php
+	 * @param Piwik_DataTable $tableToSum
 	 */
 	public function addDataTable( Piwik_DataTable $tableToSum )
 	{
@@ -616,7 +617,7 @@ class Piwik_DataTable
 	/**
 	 * Returns the array of Piwik_DataTable_Row
 	 * 
-	 * @return Piwik_DataTable_Row
+	 * @return Piwik_DataTable_Row[]
 	 */
 	public function getRows()
 	{
@@ -633,7 +634,8 @@ class Piwik_DataTable
 	/**
 	 * Returns the array containing all rows values for the requested column
 	 *
-	 * @return array 
+	 * @param $name
+	 * @return array
 	 */
 	public function getColumn( $name )
 	{
@@ -771,11 +773,12 @@ class Piwik_DataTable
 			$this->summaryRow->renameColumn($oldName, $newName);
 		}
 	}
-	
+
 	/**
 	 * Delete columns by name in all rows
 	 *
-	 * @param string $name
+	 * @param array $names
+	 * @param bool $deleteRecursiveInSubtables
 	 */
 	public function deleteColumns($names, $deleteRecursiveInSubtables = false)
 	{
@@ -798,12 +801,13 @@ class Piwik_DataTable
 			}
 		}
 	}
-	
+
 	/**
-	 * Deletes the ith row 
+	 * Deletes the ith row
 	 *
-	 * @param int $key
+	 * @param int $id
 	 * @throws Exception if the row $id cannot be found
+	 * @return
 	 */
 	public function deleteRow( $id )
 	{
@@ -825,6 +829,7 @@ class Piwik_DataTable
 	 *
 	 * @param int $offset
 	 * @param int $limit
+	 * @return int
 	 */
 	public function deleteRowsOffset( $offset, $limit = null )
 	{
@@ -920,35 +925,35 @@ class Piwik_DataTable
 	}
 
 	/**
-	 * The serialization returns a one dimension array containing all the 
+	 * The serialization returns a one dimension array containing all the
 	 * serialized DataTable contained in this DataTable.
 	 * We save DataTable in serialized format in the Database.
 	 * Each row of this returned PHP array will be a row in the DB table.
 	 * At the end of the method execution, the dataTable may be truncated (if $maximum* parameters are set).
-	 * 
+	 *
 	 * The keys of the array are very important as they are used to define the DataTable
-	 * 
+	 *
 	 * IMPORTANT: The main table (level 0, parent of all tables) will always be indexed by 0
 	 * 	even it was created after some other tables.
-	 * 	It also means that all the parent tables (level 0) will be indexed with 0 in their respective 
-	 *  serialized arrays. You should never lookup a parent table using the getTable( $id = 0) as it 
+	 * 	It also means that all the parent tables (level 0) will be indexed with 0 in their respective
+	 *  serialized arrays. You should never lookup a parent table using the getTable( $id = 0) as it
 	 *  won't work.
-	 * 
+	 *
 	 * @throws Exception if an infinite recursion is found (a table row's has a subtable that is one of its parent table)
 	 * @param int If not null, defines the number of rows maximum of the serialized dataTable
 	 * 	          If $addSummaryRowAfterNRows is less than the size of the table, a SummaryRow will be added at the end of the table, that
 	 *            is the sum of the values of all the rows after the Nth row. All the rows after the Nth row will be deleted.
-	 * 
-	 * @return array Serialized arrays	
+	 *
+	 * @return array Serialized arrays
 	 * 			array( 	// Datatable level0
-	 * 					0 => 'eghuighahgaueytae78yaet7yaetae', 
-	 * 
+	 * 					0 => 'eghuighahgaueytae78yaet7yaetae',
+	 *
 	 * 					// first Datatable level1
 	 * 					1 => 'gaegae gh gwrh guiwh uigwhuige',
-	 * 					
-	 * 					//second Datatable level1 
-	 * 					2 => 'gqegJHUIGHEQjkgneqjgnqeugUGEQHGUHQE',  
-	 * 					
+	 *
+	 * 					//second Datatable level1
+	 * 					2 => 'gqegJHUIGHEQjkgneqjgnqeugUGEQHGUHQE',
+	 *
 	 * 					//first Datatable level3 (child of second Datatable level1 for example)
  	 *					3 => 'eghuighahgaueytae78yaet7yaetaeGRQWUBGUIQGH&QE',
 	 * 					);
@@ -1006,16 +1011,17 @@ class Piwik_DataTable
 		return $aSerializedDataTable;
 	}
 
-	 /**
-	  * Load a serialized string of a datatable.
-	  * 
-	  * Does not load recursively all the sub DataTable.
-	  * They will be loaded only when requesting them specifically.
-	  * 
-	  * The function creates all the necessary DataTable_Row
-	  * 
-	  * @param string string of serialized datatable
-	  */
+	/**
+	 * Load a serialized string of a datatable.
+	 *
+	 * Does not load recursively all the sub DataTable.
+	 * They will be loaded only when requesting them specifically.
+	 *
+	 * The function creates all the necessary DataTable_Row
+	 *
+	 * @param string string of serialized datatable
+	 * @throws Exception
+	 */
 	public function addRowsFromSerializedArray( $stringSerialized )
 	{
 		$serialized = unserialize($stringSerialized);
@@ -1072,12 +1078,14 @@ class Piwik_DataTable
 	 * Loads the data from a simple php array.
 	 * Basically maps a simple multidimensional php array to a DataTable.
 	 * Not recursive (if a row contains a php array itself, it won't be loaded)
-	 * 
+	 *
 	 * @param array Array with the simple structure:
-	 * 		array(
-	 * 			array( col1_name => valueA, col2_name => valueC, ...),
-	 * 			array( col1_name => valueB, col2_name => valueD, ...), 
-	 *		)
+	 *         array(
+	 *             array( col1_name => valueA, col2_name => valueC, ...),
+	 *             array( col1_name => valueB, col2_name => valueD, ...),
+	 *        )
+	 * @throws Exception
+	 * @return
 	 */
 	public function addRowsFromSimpleArray( $array )
 	{
@@ -1260,11 +1268,12 @@ class Piwik_DataTable
 	{
 		return self::$maximumDepthLevelAllowed;
 	}
-	
+
 	/**
 	 * Sets the maximum nesting level.
-	 * 
+	 *
 	 * @param int $level Must be > 0.
+	 * @throws Exception
 	 */
 	static public function setMaximumDepthLevelAllowed( $level )
 	{

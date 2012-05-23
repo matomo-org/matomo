@@ -182,8 +182,14 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 		}
 		parent::setColumnsToDisplay($newColumnsNames);
 	}
-	
-	/** Find the appropriate metric documentation for a goal column */
+
+	/**
+	 * Find the appropriate metric documentation for a goal column
+	 * @param string $genericMetricName
+	 * @param string $metricName
+	 * @param string $goalName
+	 * @param int $idGoal
+	 */
 	private function setDynamicMetricDocumentation($genericMetricName, $metricName, $goalName, $idGoal)
 	{
 		if($idGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER)

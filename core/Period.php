@@ -37,10 +37,11 @@ abstract class Piwik_Period
 		$this->checkInputDate( $date );
 		$this->date = clone $date;
 	}
-	
+
 	/**
 	 * @param string $strPeriod "day", "week", "month", "year"
 	 * @param Piwik_Date $date Piwik_Date object
+	 * @throws Exception
 	 * @return Piwik_Period
 	 */
 	static public function factory($strPeriod, Piwik_Date $date)

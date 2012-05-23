@@ -55,6 +55,7 @@ class Piwik_ProxyHeaders
 	/**
 	 * Get headers present in the HTTP request
 	 *
+	 * @param array $recognizedHeaders
 	 * @return array HTTP headers
 	 */
 	private static function getHeaders($recognizedHeaders)

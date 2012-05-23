@@ -104,7 +104,7 @@ class Piwik_PluginsManager
 	/**
 	 * Returns true if plugin is loaded (in memory)
 	 *
-	 * @parm string $name Name of plugin
+	 * @param string $name Name of plugin
 	 * @return bool
 	 */
 	public function isPluginLoaded( $name )
@@ -174,6 +174,7 @@ class Piwik_PluginsManager
 	 * Activate the specified plugin and install (if needed)
 	 *
 	 * @param string $pluginName Name of plugin
+	 * @throws Exception
 	 */
 	public function activatePlugin($pluginName)
 	{
@@ -247,7 +248,7 @@ class Piwik_PluginsManager
 	/**
 	 * Load translations for loaded plugins
 	 *
-	 * @param string $language Optional language code
+	 * @param bool|string $language Optional language code
 	 */
 	public function loadPluginTranslations($language = false)
 	{
@@ -304,6 +305,7 @@ class Piwik_PluginsManager
 	 * Returns the given Piwik_Plugin object
 	 *
 	 * @param string $name
+	 * @throws Exception
 	 * @return Piwik_Piwik
 	 */
 	public function getLoadedPlugin($name)
@@ -347,6 +349,7 @@ class Piwik_PluginsManager
 	 * Do NOT give the class name ie. Piwik_UserCountry, but give the plugin name ie. UserCountry
 	 *
 	 * @param string $pluginName
+	 * @throws Exception
 	 * @return Piwik_Plugin
 	 */
 	public function loadPlugin( $pluginName )
@@ -395,6 +398,7 @@ class Piwik_PluginsManager
 	 * Unload plugin
 	 *
 	 * @param Piwik_Plugin $plugin
+	 * @throws Exception
 	 */
 	public function unloadPlugin( $plugin )
 	{
@@ -442,7 +446,7 @@ class Piwik_PluginsManager
 	 * Install a specific plugin
 	 *
 	 * @param Piwik_Plugin $plugin
-	 * @throws Exception if installation fails
+	 * @throws Piwik_PluginsManager_PluginException if installation fails
 	 */
 	private function installPlugin( Piwik_Plugin $plugin )
 	{
@@ -638,8 +642,6 @@ class Piwik_Event_Notification extends Event_Notification
 	/**
 	 * Use notification counter to profile runtime execution
 	 * time and memory usage.
-	 *
-	 * @param  mixed $callback Callback function
 	 */
 	function increaseNotificationCount(/* array($className|object, $method) */) {
 		parent::increaseNotificationCount();

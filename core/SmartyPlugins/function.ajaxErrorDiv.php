@@ -12,9 +12,10 @@
 
 /**
  * Outputs the generic Ajax error div (displayed when ajax requests are throwing exceptions and returning error messages)
- * 
- * @param id=$ID_NAME ID of the HTML div, defaults to ajaxError
- * @return	string Html of the error message div, hidden by defayult
+ *
+ * @param array $params array([id] => ID of the HTML div, defaults to ajaxError)
+ * @param $smarty
+ * @return string Html of the error message div, hidden by default
  */
 function smarty_function_ajaxErrorDiv($params, &$smarty)
 {

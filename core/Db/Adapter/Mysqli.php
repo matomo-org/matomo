@@ -43,6 +43,7 @@ class Piwik_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db
 
 	/**
 	 * Check MySQL version
+	 * @throws Exception
 	 */
 	public function checkServerVersion()
 	{
@@ -56,6 +57,7 @@ class Piwik_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db
 
 	/**
 	 * Check client version compatibility against database server
+	 * @throws Exception
 	 */
 	public function checkClientVersion()
 	{

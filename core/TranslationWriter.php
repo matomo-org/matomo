@@ -47,6 +47,7 @@ class Piwik_TranslationWriter
 	 *
 	 * @param string $lang ISO 639-1 alpha-2 language code
 	 * @param string $base Optional base directory (either 'lang' or 'tmp')
+	 * @throws Exception
 	 * @return string path
 	 */
 	static public function getTranslationPath($lang, $base = 'lang')
@@ -64,6 +65,7 @@ class Piwik_TranslationWriter
 	 * Load translations from file
 	 *
 	 * @param string $lang ISO 639-1 alpha-2 language code
+	 * @throws Exception
 	 * @return array $translations Array of translations ( key => translated string )
 	 */
 	static public function loadTranslation($lang)

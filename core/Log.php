@@ -86,6 +86,11 @@ abstract class Piwik_Log extends Zend_Log
 
 	/**
 	 * Log an event
+	 * @param string $event
+	 * @param int $priority
+	 * @param null $extras
+	 * @throws Zend_Log_Exception
+	 * @return void
 	 */
 	public function log($event, $priority, $extras = null)
 	{

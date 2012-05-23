@@ -52,11 +52,11 @@ class Piwik_Translate
 		$this->loadCoreTranslation($language);
 		Piwik_PluginsManager::getInstance()->loadPluginTranslations($language);
 	}
-	
+
 	/**
 	 * Reads the specified code translation file in memory.
-	 * 
-	 * @param string $language 2 letter language code. If not specified, will detect current user translation, or load default translation.
+	 *
+	 * @param bool|string $language 2 letter language code. If not specified, will detect current user translation, or load default translation.
 	 * @return void
 	 */
 	public function loadCoreTranslation($language = false)
@@ -128,10 +128,11 @@ class Piwik_Translate
 	{
 		return Piwik_Config::getInstance()->General['default_language'];
 	}
-	
+
 	/**
 	 * Generate javascript translations array
-	 * 
+	 *
+	 * @param array $moduleList
 	 * @return string containing javascript code with translations array (including <script> tag)
 	 */
 	public function getJavascriptTranslations(array $moduleList)
@@ -192,7 +193,7 @@ class Piwik_Translate
 /**
  * Returns translated string or given message if translation is not found.
  *
- * @param string Translation string index
+ * @param string $string Translation string index
  * @param array $args sprintf arguments
  * @return string
  */
