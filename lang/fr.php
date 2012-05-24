@@ -401,6 +401,7 @@ $translations = array(
 	'CoreHome_PageOf_js' => '%1$s de %2$s',
 	'CoreHome_DateFormat' => '%longDay% %day% %longMonth% %longYear%',
 	'CoreHome_ShortDateFormat' => '%shortDay% %day% %shortMonth%',
+    'CoreHome_LongMonthFormat' => '%longMonth% %longYear%',
 	'CoreHome_PeriodDay' => 'Jour',
 	'CoreHome_PeriodWeek' => 'Semaine',
 	'CoreHome_PeriodMonth' => 'Mois',

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2009, 2010  Matthieu Aubry
+ * Copyright 2009, 2010  Matthieu Aubry & Piwik team
  * All rights reserved.
  *
  * @link http://dev.piwik.org/trac/browser/trunk/libs/UserAgentParser

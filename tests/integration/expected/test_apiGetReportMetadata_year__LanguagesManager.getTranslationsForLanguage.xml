@@ -1605,6 +1605,10 @@
 		<value>%shortDay% %day% %shortMonth%</value>
 	</row>
 	<row>
+		<label>CoreHome_LongMonthFormat</label>
+		<value>%longMonth% %longYear%</value>
+	</row>
+	<row>
 		<label>CoreHome_PeriodDay</label>
 		<value>Jour</value>
 	</row>

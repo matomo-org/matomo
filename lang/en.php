@@ -447,6 +447,7 @@ $translations = array(
 	'CoreHome_UnFlattenDataTable_js' => 'The report is flat %s Make it hierarchical',
 	'CoreHome_DateFormat' => '%longDay% %day% %longMonth% %longYear%',
     'CoreHome_ShortDateFormat' => '%shortDay% %day% %shortMonth%',
+    'CoreHome_LongMonthFormat' => '%longYear%, %longMonth%',
 	'CoreHome_PeriodDay' => 'Day',
 	'CoreHome_PeriodWeek' => 'Week',
 	'CoreHome_PeriodMonth' => 'Month',
