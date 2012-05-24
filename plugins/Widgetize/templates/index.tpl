@@ -52,12 +52,13 @@
 {literal}
 $(document).ready( function() {
 	var widgetized = new widgetize();
-	var dashboardUrl = document.location.protocol + '//' + document.location.hostname + (document.location.port == '' ? '' : (':' + document.location.port)) + document.location.pathname + '?module=Widgetize&action=iframe&moduleToWidgetize=Dashboard&actionToWidgetize=index&idSite='+piwik.idSite+'&period=week&date=yesterday';
+	var urlPath = document.location.protocol + '//' + document.location.hostname + (document.location.port == '' ? '' : (':' + document.location.port)) + document.location.pathname ;
+	var dashboardUrl = urlPath + '?module=Widgetize&action=iframe&moduleToWidgetize=Dashboard&actionToWidgetize=index&idSite='+piwik.idSite+'&period=week&date=yesterday';
 	$('#exportFullDashboard').html(
 		widgetized.getInputFormWithHtml( 'dashboardEmbed', '<iframe src="'+ dashboardUrl +'" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%"></iframe>')
 	);
 	$('#linkDashboardUrl').attr('href',dashboardUrl);
-	var allWebsitesDashboardUrl = document.location.protocol + '//' + document.location.hostname + (document.location.port == '' ? '' : (':' + document.location.port)) + document.location.pathname + '?module=Widgetize&action=iframe&moduleToWidgetize=MultiSites&actionToWidgetize=standalone&idSite='+piwik.idSite+'&period=week&date=yesterday';
+	var allWebsitesDashboardUrl = urlPath + '?module=Widgetize&action=iframe&moduleToWidgetize=MultiSites&actionToWidgetize=standalone&idSite='+piwik.idSite+'&period=week&date=yesterday';
 	$('#exportAllWebsitesDashboard').html(
 		widgetized.getInputFormWithHtml( 'dashboardEmbed', '<iframe src="'+ allWebsitesDashboardUrl +'" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%"></iframe>')
 	);
