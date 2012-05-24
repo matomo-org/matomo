@@ -97,36 +97,43 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 	{
 		if($table instanceof Piwik_DataTable_Array)
 		{
-			$str = '';
-			foreach($table->getArray() as $currentLinePrefix => $dataTable)
-			{
-				$returned = explode("\n",$this->renderTable($dataTable, $allColumns));
-				
-				// get rid of the columns names
-				$returned = array_slice($returned,1);
-				
-				// case empty datatable we dont print anything in the CSV export
-				// when in xml we would output <result date="2008-01-15" />
-				if(!empty($returned))
-				{
-					foreach($returned as &$row)
-					{
-						$row = $currentLinePrefix . $this->separator . $row;
-					}
-					$str .= "\n" .  implode("\n", $returned);
-				}
-			}
-			
-			// prepend table key to column list
-			$allColumns = array_merge(array($table->getKeyName() => true), $allColumns);
-			
-			// add header to output string
-			$str = $this->getHeaderLine(array_keys($allColumns)).$str;
+			$str = $this->renderDataTableArray($table, $allColumns);
 		}
 		else
 		{
 			$str = $this->renderDataTable($table, $allColumns);
 		}
+		return $str;
+	}
+	
+	protected function renderDataTableArray($table, &$allColumns = array())
+	{
+		$str = '';
+		foreach($table->getArray() as $currentLinePrefix => $dataTable)
+		{
+			$returned = explode("\n",$this->renderTable($dataTable, $allColumns));
+			
+			// get rid of the columns names
+			$returned = array_slice($returned,1);
+			
+			// case empty datatable we dont print anything in the CSV export
+			// when in xml we would output <result date="2008-01-15" />
+			if(!empty($returned))
+			{
+				foreach($returned as &$row)
+				{
+					$row = $currentLinePrefix . $this->separator . $row;
+				}
+				$str .= "\n" .  implode("\n", $returned);
+			}
+		}
+		
+		// prepend table key to column list
+		$allColumns = array_merge(array($table->getKeyName() => true), $allColumns);
+		
+		// add header to output string
+		$str = $this->getHeaderLine(array_keys($allColumns)).$str;
+		
 		return $str;
 	}
 	
