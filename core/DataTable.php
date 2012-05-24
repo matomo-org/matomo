@@ -1269,21 +1269,6 @@ class Piwik_DataTable
 		return self::$maximumDepthLevelAllowed;
 	}
 
-	/**
-	 * Sets the maximum nesting level.
-	 *
-	 * @param int $level Must be > 0.
-	 * @throws Exception
-	 */
-	static public function setMaximumDepthLevelAllowed( $level )
-	{
-		if ($level <= 0)
-		{
-			throw new Exception("Invalid maximum depth level: $level");
-		}
-		
-		self::$maximumDepthLevelAllowed = $level;
-	}
 	
 	/**
 	 * Sets the maximum nesting level to at least a certain value. If the current value is
