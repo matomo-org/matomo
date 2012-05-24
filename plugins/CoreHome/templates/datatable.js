@@ -253,14 +253,26 @@ dataTable.prototype =
 			}
 			$('.limitSelection ul li:last', domElem).addClass('last');
 			if(self.param.totalRows > 0) {
+				var show = function() {
+					$('.limitSelection ul', domElem).show();
+					$('.limitSelection', domElem).addClass('visible');
+					$(document).on('mouseup.limitSelection',function(e){
+						if((!$(e.target).parents('.limitSelection').length || $(e.target).parents('.limitSelection') != $('.limitSelection', domElem)) && !$(e.target).is('.limitSelection')) {
+							hide();
+						}
+					});
+				}
+				var hide = function() {
+					$('.limitSelection ul', domElem).hide();
+					$('.limitSelection', domElem).removeClass('visible');
+					$(document).off('mouseup.limitSelection');
+				}
 				$('.limitSelection div', domElem).on('click', function(){
-					$('.limitSelection ul', domElem).toggle();
-					$('.limitSelection', domElem).toggleClass('visible');
+					$('.limitSelection', domElem).is('.visible') ? hide() : show();
 				});
 				$('.limitSelection ul li', domElem).on('click', function(event){
 					var limit = parseInt($(event.target).text());
-					$('.limitSelection', domElem).removeClass('visible');
-					$('.limitSelection ul', domElem).hide();
+					hide();
 					if(limit != self.param.filter_limit) {
 						self.param.filter_limit = limit;
 						self.param.filter_offset = 0;
@@ -269,12 +281,6 @@ dataTable.prototype =
 						$('.limitSelection>div>span', domElem).text(self.param.filter_limit);
 						self.reloadAjaxDataTable();
 						self.notifyWidgetParametersChange(domElem, {'filter_limit': self.param.filter_limit});
-					}
-				});
-				$('body').on('mouseup',function(e){ 
-					if(!$(e.target).parents('.limitSelection').length && !$(e.target).is('.limitSelection')) {
-						$('.limitSelection', domElem).removeClass('visible');
-						$('.limitSelection ul', domElem).hide();
 					}
 				});
 			} else {
