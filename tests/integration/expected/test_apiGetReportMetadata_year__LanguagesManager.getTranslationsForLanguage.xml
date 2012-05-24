@@ -3313,10 +3313,6 @@
 		<value>Afficher tout</value>
 	</row>
 	<row>
-		<label>Mobile_HttpTimeoutInfo</label>
-		<value>Augmenter si vous rencontrer des délais d'attentes dépassés</value>
-	</row>
-	<row>
 		<label>Mobile_AnonymousAccess</label>
 		<value>Accès anonyme</value>
 	</row>
