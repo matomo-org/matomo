@@ -1455,7 +1455,7 @@ class Piwik
 		$currencyAfter = '';
 		// manually put the currency symbol after the amount for euro
 		// (maybe more currencies prefer this notation?)
-		if(in_array($currencyBefore,array('€')))
+		if(in_array($currencyBefore,array('€', 'kr')))
 		{
 			$currencyAfter = $space.$currencyBefore;
 			$currencyBefore = '';
