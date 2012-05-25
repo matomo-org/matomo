@@ -912,13 +912,17 @@ class Test_Piwik_Common extends UnitTestCase
 				
 			'http://search.naver.com/search.naver?where=nexearch&query=FAU+&x=0&y=0&sm=top_hty&fbm=1&ie=utf8'
 				=> array('name' => 'Naver', 'keywords' => 'fau'),
+
+			// DDG
+			'http://duckduckgo.com/post.html' => array('name' => 'DuckDuckGo', 'keywords' => false),
 				
 			// Google images no keyword
 			'http://www.google.com/imgres?hl=en&client=ubuntu&hs=xDb&sa=X&channel=fs&biw=1920&bih=1084&tbm=isch&prmd=imvns&tbnid=5i7iz7u4LPSSrM:&imgrefurl=http://dev.piwik.org/trac/wiki/HowToSetupDevelopmentEnvironmentWindows&docid=tWN9OesMyOTqsM&imgurl=http://dev.piwik.org/trac/raw-attachment/wiki/HowToSetupDevelopmentEnvironmentWindows/eclipse-preview.jpg&w=1000&h=627&ei=pURoT67BEdT74QTUzYiSCQ&zoom=1&iact=hc&vpx=1379&vpy=548&dur=513&hovh=178&hovw=284&tx=134&ty=105&sig=108396332168858896950&page=1&tbnh=142&tbnw=227&start=0&ndsp=37&ved=1t:429,r:5,s:0'
 				=> array('name' => 'Google Images', 'keywords' => false),
 				
-			// DDG
-			'http://duckduckgo.com/post.html' => array('name' => 'DuckDuckGo', 'keywords' => false),
+			// Google images no keyword next try
+			'http://www.google.fr/imgres?hl=en&biw=1680&bih=925&gbv=2&tbm=isch&tbnid=kBma1eg8aVOKoM:&imgrefurl=http://www.squido.com/research-keywords&docid=YSY3GQh3O8dkjM&imgurl=http://i3.squidocdn.com/resize/squidoo_images/590/draft_lens10233921module148408128photo_1298307262Research_keywords_6.jpg&w=590&h=412&ei=_OVZT4_3EInQ8gOWuqXbDg&zoom=1&iact=hc&vpx=164&vpy=205&dur=33&hovh=188&hovw=269&tx=137&ty=89&sig=113944581904793140725&page=1&tbnh=109&tbnw=156&start=0&ndsp=42&ved=1t:429,r:0,s:0www.google.fr/imgres?hl=en&biw=1680&bih=925&gbv=2&tbm=isch&tbnid=kBma1eg8aVOKoM:&imgrefurl=http://www.squido.com/research-keywords&docid=YSY3GQh3O8dkjM&imgurl=http://i3.squidocdn.com/resize/squidoo_images/590/draft_lens10233921module148408128photo_1298307262Research_keywords_6.jpg&w=590&h=412&ei=_OVZT4_3EInQ8gOWuqXbDg&zoom=1&iact=hc&vpx=164&vpy=205&dur=33&hovh=188&hovw=269&tx=137&ty=89&sig=113944581904793140725&page=1&tbnh=109&tbnw=156&start=0&ndsp=42&ved=1t:429,r:0,s:0'
+				=> array('name' => 'Google Images', 'keywords' => false),
 		);
 		
 		foreach($urls as $referrerUrl => $expectedReturnedValue) {
