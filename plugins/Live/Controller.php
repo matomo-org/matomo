@@ -22,7 +22,6 @@ class Piwik_Live_Controller extends Piwik_Controller
 
 	public function widget($fetch = false)
 	{
-		Piwik_API_Request::reloadAuthUsingTokenAuth(); 
 		$view = Piwik_View::factory('index');
 		$view->idSite = $this->idSite;
 		$view = $this->setCounters($view);
@@ -34,7 +33,6 @@ class Piwik_Live_Controller extends Piwik_Controller
 
 	public function ajaxTotalVisitors($fetch = false)
 	{
-		Piwik_API_Request::reloadAuthUsingTokenAuth(); 
 		$view = Piwik_View::factory('totalVisits');
 		$view = $this->setCounters($view);
 		$view->idSite = $this->idSite;
@@ -52,7 +50,6 @@ class Piwik_Live_Controller extends Piwik_Controller
 	
 	public function getVisitorLog($fetch = false)
 	{
-		Piwik_API_Request::reloadAuthUsingTokenAuth(); 
 		// If previous=1 is set, user clicked previous
 		// we can't deal with previous so we force display of the first page
 		if(Piwik_Common::getRequestVar('previous', 0, 'int') == 1) {
@@ -89,7 +86,6 @@ class Piwik_Live_Controller extends Piwik_Controller
 
 	public function getLastVisitsStart($fetch = false)
 	{
-		Piwik_API_Request::reloadAuthUsingTokenAuth(); 
 		// hack, ensure we load today's visits by default
 		$_GET['date'] = 'today';
 		$_GET['period'] = 'day';

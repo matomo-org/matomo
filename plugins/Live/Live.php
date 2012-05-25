@@ -64,6 +64,7 @@ class Piwik_Live extends Piwik_Plugin
 	public function addWidget() 
 	{
 		Piwik_AddWidget('Live!', 'Live_VisitorsInRealTime', 'Live', 'widget');
+		Piwik_AddWidget('Live!', 'Live_VisitorLog', 'Live', 'getVisitorLog');
 	}
 
 }
