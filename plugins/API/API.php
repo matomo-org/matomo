@@ -105,6 +105,15 @@ class Piwik_API_API
 	}
 	
 	/**
+	 * Returns the section [APISettings] if defined in config.ini.php
+	 * @return array
+	 */
+	public function getSettings()
+	{
+		return Piwik_Config::getInstance()->APISettings;
+	}
+	
+	/**
 	 * Derive the unit name from a column name
 	 * @param $column
 	 * @param $idSite

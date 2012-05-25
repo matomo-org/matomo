@@ -507,3 +507,13 @@ PluginsInstalled[] = Installation
 Plugins_Tracker[] = Provider
 Plugins_Tracker[] = Goals
 Plugins_Tracker[] = DoNotTrack
+
+[APISettings]
+; Any key/value pair can be added in this section, they will be available via the REST call
+; index.php?module=API&method=API.getSettings 
+; This can be used to expose values from Piwik, to control for example a Mobile app tracking
+SDK_batch_size = 10
+SDK_interval_value = 30
+
+; NOTE: do not directly in this file! See notice at the top
+ 
