@@ -236,6 +236,10 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function(tr, labe
 	if (metric) {
 		request.data.column = metric;
 	}
+	var token_auth = broadcast.getValueFromUrl('token_auth');
+	if (token_auth.length && token_auth != 'anonymous') {
+		request.data.token_auth = token_auth;
+	}
 
 	piwikHelper.queueAjaxRequest($.ajax(request));
 };

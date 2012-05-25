@@ -315,6 +315,12 @@ class Piwik_FrontController
 			}
 			Zend_Registry::get('access')->reloadAccess($authAdapter);
 			
+			// Force the auth to use the token_auth if specified, so that embed dashboard 
+			// and all other non widgetized controller methods works fine
+			if(($token_auth = Piwik_Common::getRequestVar('token_auth', false, 'string')) !== false)
+			{
+				Piwik_API_Request::reloadAuthUsingTokenAuth();
+			}
 			Piwik::raiseMemoryLimitIfNecessary();
 
 			Piwik_Translate::getInstance()->reloadLanguage();

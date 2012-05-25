@@ -79,6 +79,13 @@ widgetsHelper.getWidgetNameFromUniqueId = function (uniqueId)
  */
 widgetsHelper.getLoadWidgetAjaxRequest = function (widgetUniqueId, widgetParameters, onWidgetLoadedCallback)
 {
+
+    var token_auth = broadcast.getValueFromUrl('token_auth');
+    if(token_auth.length && token_auth != 'anonymous')
+    {
+    	widgetParameters['token_auth'] = token_auth;
+    }
+    
 	return {
 		widgetUniqueId:widgetUniqueId,
 		type: 'GET',
@@ -87,7 +94,7 @@ widgetsHelper.getLoadWidgetAjaxRequest = function (widgetUniqueId, widgetParamet
 		async: true,
 		error: piwikHelper.ajaxHandleError,
 		success: onWidgetLoadedCallback,
-		data: piwikHelper.getQueryStringFromParameters(widgetParameters) + "&widget=1&idSite="+piwik.idSite+"&period="+piwik.period+"&date="+broadcast.getValueFromUrl('date')
+		data: piwikHelper.getQueryStringFromParameters(widgetParameters) + "&widget=1&idSite="+piwik.idSite+"&period="+piwik.period+"&date="+broadcast.getValueFromUrl('date') + "&token_auth=" + piwik.token_auth  
 	};
 };
 
