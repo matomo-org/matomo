@@ -81,6 +81,10 @@
         top: 0;
     }
 
+    #ajaxLoading {
+        margin: 30px 0 -30px 0;
+    }
+
 </style>
 {/literal}
 </head>

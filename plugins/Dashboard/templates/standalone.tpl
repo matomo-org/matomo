@@ -9,6 +9,7 @@
     </ul></div>
     <div class="clear"></div>
 </div>
+{ajaxLoadingDiv}
 {include file="Dashboard/templates/index.tpl"}
 </body>
 </html>
