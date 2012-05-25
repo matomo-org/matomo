@@ -98,6 +98,17 @@
 	</div>
 {/if}
 
+{if !empty($properties.relatedReports)}
+	<div class="datatableRelatedReports">
+		<strong>{if count($properties.relatedReports) == 1}{'General_RelatedReport'|translate}{else}{'General_RelatedReports'|translate}{/if}:</strong>
+		<ul style="list-style:none;{if count($properties.relatedReports) == 1}display:inline-block;{/if}">
+			{foreach from=$properties.relatedReports key=reportUrl item=reportTitle}
+				<li><span href="{$reportUrl}">{$reportTitle}</span></li>
+			{/foreach}
+		</ul>
+	</div>
+{/if}
+
 {if !empty($properties.show_footer_message)}
 	<div class='datatableFooterMessage'>{$properties.show_footer_message}</div>
 {/if}

@@ -231,6 +231,7 @@ dataTable.prototype =
 		self.handleColumnDocumentation(domElem);
 		self.handleReportDocumentation(domElem);
 		self.handleRowActions(domElem);
+		self.handleRelatedReports(domElem);
 	},
 	
 	handleLimit: function(domElem)
@@ -1137,6 +1138,32 @@ dataTable.prototype =
 	handleRowActions: function(domElem)
 	{
 		this.doHandleRowActions(domElem.find('table > tbody > tr'));
+	},
+	
+	handleRelatedReports: function(domElem)
+	{
+		var self = this;
+		$('.datatableRelatedReports span', domElem).each(function() {
+			$(this).click(function(e) {
+				// show loading message
+				$('#'+self.workingDivId+' .loadingPiwik').last().css('display','block');
+				
+				// do ajax request
+				var ajaxRequest =
+				{
+					type: 'GET',
+					url: $(this).attr('href'),
+					dataType: 'html',
+					async: true,
+					error: piwikHelper.ajaxHandleError,
+					success: function(newReport) {
+						$(domElem).replaceWith(newReport);
+					}
+				};
+				
+				piwikHelper.queueAjaxRequest($.ajax(ajaxRequest));
+			});
+		});
 	},
 	
 	// also used in action data table

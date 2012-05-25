@@ -305,6 +305,15 @@ table thead div {
 	cursor: pointer;
 }
 
+.datatableRelatedReports {
+	font-size: 13px;
+	color: #222;
+}
+
+.datatableRelatedReports span {
+	cursor: pointer;
+}
+
 /* are the following two supposed to be together? */
 .subDataTable.dataTableFeatures {
 	padding-top: 0;

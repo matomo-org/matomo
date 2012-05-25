@@ -305,6 +305,7 @@ abstract class Piwik_ViewDataTable
 		$this->viewProperties['apiMethodToRequestDataTable'] = $this->apiMethodToRequestDataTable;
 		$this->viewProperties['uniqueId'] = $this->getUniqueIdViewDataTable();
 		$this->viewProperties['exportLimit'] = Piwik_Config::getInstance()->General['API_datatable_default_limit'];
+		$this->viewProperties['relatedReports'] = array();
 		
 		$standardColumnNameToTranslation = array_merge(
 			Piwik_API_API::getInstance()->getDefaultMetrics(),
@@ -1197,6 +1198,66 @@ abstract class Piwik_ViewDataTable
 		else
 		{
 			$this->queuedFilters[] = array($filterName, $parameters);
+		}
+	}
+	
+	/**
+	 * Adds one report to the set of reports that are related to this one. Related reports
+	 * are displayed in the footer as links. When they are clicked, the report will change to
+	 * the related report.
+	 * 
+	 * @param string $module The report's controller name, ie, 'UserSettings'.
+	 * @param string $action The report's controller action, ie, 'getBrowser'.
+	 * @param string $title The text used to describe the related report.
+	 * @param array $queryParams Any specific query params to use when loading the report.
+	 *                           This can be used to, for example, make a goal report a related
+	 *                           report (by adding an idGoal parameter).
+	 */
+	public function addRelatedReport( $module, $action, $title, $queryParams = array() )
+	{
+		// don't add the related report if it references this report
+		if ($this->currentControllerName == $module && $this->currentControllerAction == $action)
+		{
+			return;
+		}
+		
+		$params = array_merge($queryParams, array('module' => $module, 'action' => $action));
+		
+		// unset all filter query params so the related report will show up in its default state,
+		// unless the filter param was in $queryParams
+		$genericFiltersInfo = Piwik_API_DataTableGenericFilter::getGenericFiltersInformation();
+		foreach ($genericFiltersInfo as $filter)
+		{
+			foreach ($filter as $queryParamName => $queryParamInfo)
+			{
+				if (!isset($params[$queryParamName]))
+				{
+					$params[$queryParamName] = null;
+				}
+			}
+		}
+		
+		// add the related report
+		$url = "/index.php".Piwik_Url::getCurrentQueryStringWithParametersModified($params);
+		$this->viewProperties['relatedReports'][$url] = $title;
+	}
+	
+ 	/**
+	 * Adds a set of reports that are related to this one. Related reports are displayed in
+	 * the footer as links. When they are clicked, the report will change to the related report.
+	 * 
+	 * If you need to associate specific query params with a report, use the addRelatedReport
+	 * method instead of this one.
+	 * 
+	 * @param array $relatedReports An array mapping report IDs ('Controller.methodName') with
+	 *                              display text.
+	 */
+	public function addRelatedReports( $relatedReports )
+	{
+		foreach ($relatedReports as $report => $title)
+		{
+			list($module, $action) = explode('.', $report);
+			$this->addRelatedReport($module, $action, $title);
 		}
 	}
 	
