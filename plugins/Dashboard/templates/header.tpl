@@ -73,6 +73,10 @@
         padding: 3px 0 0 3px;
     }
 
+    .jqplock-seriespicker-popover {
+        top: 0;
+    }
+
 </style>
 {/literal}
 </head>
