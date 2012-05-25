@@ -223,12 +223,9 @@
      *
      * @param {function} callback
      */
-    function fetchLayout(callback) {
-
-        // abort previous send request
-        if (this.loadingRequest) {
-            this.loadingRequest.abort();
-        }
+    function fetchLayout(callback)
+    {
+        piwikHelper.abortQueueAjax();
         var ajaxRequest =
         {
             type: 'GET',
@@ -243,7 +240,7 @@
                 idSite: piwik.idSite
             }
         };
-        this.loadingRequest = $.ajax(ajaxRequest);
+        piwikHelper.queueAjaxRequest($.ajax(ajaxRequest));
     }
 
     /**
