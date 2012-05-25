@@ -3,14 +3,25 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<title>{'General_Dashboard'|translate} - {'CoreHome_WebAnalyticsReports'|translate}</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 {loadJavascriptTranslations plugins='CoreHome Dashboard'}
 {include file="CoreHome/templates/js_global_variables.tpl"}
 {include file="CoreHome/templates/js_css_includes.tpl"}
 {literal}
 <style type="text/css">
+    body {
+    	padding-left:7px;
+    }
     #dashboard {
         margin: 30px -6px 0 -12px;
+        width: 100%;
+        padding-top:8px;
+    }
+    #menuHead {
+        position: absolute;
+        top: 0;
+        padding: 7px 0 0 2px;
     }
 
     #Dashboard {
@@ -66,13 +77,6 @@
         margin-left: 0;
         margin-right: 10px;
     }
-
-    #menuHead {
-        position: absolute;
-        top: 0;
-        padding: 3px 0 0 3px;
-    }
-
     .jqplock-seriespicker-popover {
         top: 0;
     }
