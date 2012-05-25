@@ -553,6 +553,8 @@ class Piwik_PluginsManager
 	{
 		$pluginName = $plugin->getPluginName();
 
+		$saveConfig = false;
+			
 		// is the plugin already installed or is it the first time we activate it?
 		$pluginsInstalled = $this->getInstalledPluginsName();
 		if(!in_array($pluginName, $pluginsInstalled))
@@ -560,6 +562,8 @@ class Piwik_PluginsManager
 			$this->installPlugin($plugin);
 			$pluginsInstalled[] = $pluginName;
 			Piwik_Config::getInstance()->PluginsInstalled['PluginsInstalled'] = $pluginsInstalled;
+			
+			$saveConfig = true;
 		}
 
 		$information = $plugin->getInformation();
@@ -577,10 +581,14 @@ class Piwik_PluginsManager
 			{
 				$pluginsTracker[] = $pluginName;
 				Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'] = $pluginsTracker;
+				$saveConfig = true;
 			}
 		}
-
-		Piwik_Config::getInstance()->forceSave();
+		
+		if($saveConfig)
+		{
+			Piwik_Config::getInstance()->forceSave();
+		}
 	}
 }
 
