@@ -57,16 +57,45 @@ class Piwik_UserSettings_API
 		return $dataTable;
 	}
 
-	public function getOS( $idSite, $period, $date, $segment = false )
+	public function getOS( $idSite, $period, $date, $segment = false, $addShortLabel = true )
 	{
 		$dataTable = $this->getDataTable('UserSettings_os', $idSite, $period, $date, $segment);
 		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getOSLogo'));
-		$dataTable->queueFilter('ColumnCallbackAddMetadata', array( 'label', 'shortLabel', 'Piwik_getOSShortLabel') );
+		if ($addShortLabel)
+		{
+			$dataTable->queueFilter(
+				'ColumnCallbackAddMetadata', array( 'label', 'shortLabel', 'Piwik_getOSShortLabel') );
+		}
 		$dataTable->queueFilter('ColumnCallbackReplace', array( 'label', 'Piwik_getOSLabel') );
 		return $dataTable;
 	}
-
-	public function getBrowser( $idSite, $period, $date, $segment = false )
+	
+	/**
+	 * Gets a DataTable displaying number of visits by operating system family. The operating
+	 * system families are listed in /libs/UserAgentParser/UserAgentParser.php.
+	 */
+	public function getOSFamily( $idSite, $period, $date, $segment = false )
+	{
+		$dataTable = $this->getOS($idSite, $period, $date, $segment, $addShortLabel = false);
+		$dataTable->queueFilter('GroupBy', array('label', 'Piwik_UserSettings_getOSFamily'));
+		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_Translate'));
+		return $dataTable;
+	}
+	
+	/**
+	 * Gets a DataTable displaying number of visits by device type (mobile vs. desktop).
+	 */
+	public function getDeviceType( $idSite, $period, $date, $segment = false )
+	{
+		$dataTable = $this->getOS($idSite, $period, $date, $segment, $addShortLabel = false);
+		$dataTable->queueFilter('GroupBy', array('label', 'Piwik_UserSettings_getDeviceTypeFromOS'));
+		$dataTable->queueFilter('MetadataCallbackReplace',
+			array('logo', 'Piwik_UserSettings_getDeviceTypeImg', null, array('label')));
+		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_Translate'));
+		return $dataTable;
+	}
+	
+	public function getBrowserVersion( $idSite, $period, $date, $segment = false )
 	{
 		$dataTable = $this->getDataTable('UserSettings_browser', $idSite, $period, $date, $segment);
 		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getBrowsersLogo'));
@@ -74,7 +103,21 @@ class Piwik_UserSettings_API
 		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getBrowserLabel'));
 		return $dataTable;
 	}
-
+	
+	/**
+	 * Gets a DataTable displaying number of visits by browser (ie, Firefox, Chrome, etc.).
+	 * The browser version is not included in this report.
+	 */
+	public function getBrowser( $idSite, $period, $date, $segment = false )
+	{
+		$dataTable = $this->getBrowserVersion($idSite, $period, $date, $segment);
+		
+		$getBrowserFromBrowserVersion = 'Piwik_UserSettings_getBrowserFromBrowserVersion';
+		$dataTable->queueFilter('GroupBy', array('label', $getBrowserFromBrowserVersion));
+		
+		return $dataTable;
+	}
+	
 	public function getBrowserType( $idSite, $period, $date, $segment = false )
 	{
 		$dataTable = $this->getDataTable('UserSettings_browserType', $idSite, $period, $date, $segment);

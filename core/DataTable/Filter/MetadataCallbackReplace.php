@@ -19,9 +19,10 @@
  */
 class Piwik_DataTable_Filter_MetadataCallbackReplace extends Piwik_DataTable_Filter_ColumnCallbackReplace
 {
-	public function __construct( $table, $metadataToFilter, $functionToApply, $functionParameters = null )
+	public function __construct( $table, $metadataToFilter, $functionToApply, $functionParameters = null,
+								 $extraColumnParameters = array() )
 	{
-		parent::__construct($table, $metadataToFilter, $functionToApply, $functionParameters);
+		parent::__construct($table, $metadataToFilter, $functionToApply, $functionParameters, $extraColumnParameters);
 	}
 
 	protected function setElementToReplace($row, $metadataToFilter, $newValue)

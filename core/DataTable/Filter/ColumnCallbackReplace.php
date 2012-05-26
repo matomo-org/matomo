@@ -22,8 +22,10 @@ class Piwik_DataTable_Filter_ColumnCallbackReplace extends Piwik_DataTable_Filte
 	private $columnsToFilter;
 	private $functionToApply;
 	private $functionParameters;
+	private $extraColumnParameters;
 	
-	public function __construct( $table, $columnsToFilter, $functionToApply, $functionParameters = null )
+	public function __construct( $table, $columnsToFilter, $functionToApply, $functionParameters = null,
+								 $extraColumnParameters = array() )
 	{
 		parent::__construct($table);
 		$this->functionToApply = $functionToApply;
@@ -35,12 +37,19 @@ class Piwik_DataTable_Filter_ColumnCallbackReplace extends Piwik_DataTable_Filte
 		}
 		
 		$this->columnsToFilter = $columnsToFilter;
+		$this->extraColumnParameters = $extraColumnParameters;
 	}
 	
 	public function filter($table)
 	{
 		foreach($table->getRows() as $key => $row)
 		{
+			$extraColumnParameters = array();
+			foreach ($this->extraColumnParameters as $columnName)
+			{
+				$extraColumnParameters[] = $row->getColumn($columnName);
+			}
+			
 			foreach ($this->columnsToFilter as $column)
 			{
 				// when a value is not defined, we set it to zero by default (rather than displaying '-')
@@ -50,7 +59,7 @@ class Piwik_DataTable_Filter_ColumnCallbackReplace extends Piwik_DataTable_Filte
 					$value = 0;
 				}
 
-				$parameters = array($value);
+				$parameters = array_merge(array($value), $extraColumnParameters);
 				if(!is_null($this->functionParameters))
 				{
 					$parameters = array_merge($parameters, $this->functionParameters);

@@ -313,6 +313,22 @@ class UserAgentParser
 			'Amiga'					=> 'AMI',
 			'AmigaOS'				=> 'AMI',
 		);
+	
+	// os family
+	// NOTE: The keys in this array are used by plugins/UserSettings/functions.php . Any  changes
+	// made here should also be made in that file.
+	static protected $osType = array(
+			'Windows' => array('WI8', 'WI7', 'WVI', 'WS3', 'WXP', 'W2K', 'WNT', 'WME', 'W98', 'W95'),
+			'Linux' => array('LIN'),
+			'Mac' => array('MAC'),
+			'iOS' => array('IPD', 'IPA', 'IPH'),
+			'Android' => array('AND'),
+			'Windows Mobile' => array('WPH', 'WMO', 'WCE'),
+			'Gaming Console' => array('WII', 'NDS', 'DSI', 'PSP', 'PS3'),
+			'Unix' => array('SOS', 'AIX', 'HP-UX', 'BSD', 'NBS', 'OBS', 'DFB', 'SYL', 'IRI', 'T64'),
+			'Other Mobile' => array('MAE', 'WOS', 'POS', 'BLB', 'QNX', 'SYM', 'SBA'),
+			'Other' => array('VMS', 'OS2', 'BEOS', 'AMI')
+		);
 
 	static protected $browserIdToName;
 	static protected $browserIdToShortName;
@@ -638,5 +654,23 @@ class UserAgentParser
 			return self::$operatingSystemsIdToShortName[$osId];
 		}
 		return false;
+	}
+	
+	static public function getOperatingSystemIdFromName($osName)
+	{
+		return isset(self::$operatingSystems[$osName]) ? self::$operatingSystems[$osName] : false;
+	}
+	
+	static public function getOperatingSystemFamilyFromId($osId)
+	{
+		self::init();
+		foreach (self::$osType as $familyName => $aSystems)
+		{
+			if (in_array($osId, $aSystems))
+			{
+				return $familyName;
+			}
+		}
+		return 'unknown';
 	}
 }

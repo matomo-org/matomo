@@ -48,6 +48,50 @@ function Piwik_getOSShortLabel($osId)
 	return $osId;
 }
 
+
+function Piwik_UserSettings_getOSFamily($osLabel)
+{
+	$osId = UserAgentParser::getOperatingSystemIdFromName($osLabel);
+	$osFamily = UserAgentParser::getOperatingSystemFamilyFromId($osId);
+	
+	if ($osFamily == 'unknown')
+	{
+		$osFamily = Piwik_Translate('General_Unknown');
+	}
+	else if ($osFamily == 'Gaming Console')
+	{
+		$osFamily = Piwik_Translate('UserSettings_GamingConsole');
+	}
+	
+	return $osFamily;
+}
+
+function Piwik_UserSettings_getDeviceTypeFromOS($osLabel)
+{
+	$osId = UserAgentParser::getOperatingSystemIdFromName($osLabel);
+	$osFamily = UserAgentParser::getOperatingSystemFamilyFromId($osId);
+	
+	// NOTE: translations done in another filter
+	switch ($osFamily)
+	{
+		case 'Windows':
+		case 'Linux':
+		case 'Mac':
+		case 'Unix':
+		case 'Other':
+			return 'General_Desktop';
+		case 'iOS':
+		case 'Android':
+		case 'Windows Mobile':
+		case 'Other Mobile':
+			return 'General_Mobile';
+		case 'Gaming Console':
+			return 'UserSettings_GamingConsole';
+		default:
+			return 'General_Unknown';
+	}
+}
+
 function Piwik_getBrowserTypeLabel($oldLabel)
 {
 	if(isset(Piwik_UserSettings::$browserType_display[$oldLabel]))
@@ -148,6 +192,22 @@ function Piwik_getScreensLogo($label)
 	return 'plugins/UserSettings/images/screens/' . $label . '.gif';
 }
 
+function Piwik_UserSettings_getDeviceTypeImg( $oldOSImage, $osFamilyLabel )
+{
+	switch ($osFamilyLabel)
+	{
+		case 'General_Desktop':
+			return 'plugins/UserSettings/images/screens/normal.gif';
+		case 'General_Mobile':
+			return 'plugins/UserSettings/images/screens/mobile.gif';
+		case 'UserSettings_GamingConsole':
+			return 'plugins/UserSettings/images/os/WII.gif';
+		case 'General_Unknown':
+		default:
+			return 'plugins/UserSettings/images/os/UNK.gif';
+	}
+}
+
 function Piwik_UserSettings_keepStrlenGreater($value)
 {
 	return strlen($value) > 5;
@@ -188,3 +248,17 @@ function Piwik_getBrowserFamily($browserLabel)
 	$familyNameToUse = UserAgentParser::getBrowserFamilyFromId(substr($browserLabel, 0, 2));
 	return $familyNameToUse;	
 }
+
+/**
+ * Extracts the browser name from a string with the browser name and version.
+ */
+function Piwik_UserSettings_getBrowserFromBrowserVersion( $browserWithVersion )
+{
+	if (preg_match("/(.+) [0-9]+(?:\.[0-9]+)?$/", $browserWithVersion, $matches) === 0)
+	{
+		return $browserWithVersion;
+	}
+	
+	return $matches[1];
+}
+

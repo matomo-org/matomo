@@ -65,11 +65,11 @@ class Piwik_UserSettings extends Piwik_Plugin
 				'FF, IE, CH, SF, OP, etc.',
 				null,),
 		
-		// Only used as a Segment, not as a widget
-		array( 	false,
-				false,
+		// browser version
+		array( 	'UserSettings_VisitorSettings',
+				'UserSettings_ColumnBrowserVersion',
 				'UserSettings',
-				'getBrowser',
+				'getBrowserVersion',
 				'UserSettings_ColumnBrowserVersion',
 				'browserVersion',
 				'log_visit.config_browser_version',
@@ -121,6 +121,28 @@ class Piwik_UserSettings extends Piwik_Plugin
 				'UserSettings',
 				'getConfiguration',
 				'UserSettings_ColumnConfiguration',
+				null,
+				null,
+				null,
+				null),
+		
+		// operating system family
+		array(	'UserSettings_VisitorSettings',
+				'UserSettings_OperatingSystemFamily',
+				'UserSettings',
+				'getOSFamily',
+				'UserSettings_OperatingSystemFamily',
+				null,
+				null,
+				null,
+				null),
+		
+		// device type
+		array(	'UserSettings_VisitorSettings',
+				'UserSettings_DeviceType',
+				'UserSettings',
+				'getDeviceType',
+				'UserSettings_DeviceType',
 				null,
 				null,
 				null,
