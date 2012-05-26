@@ -24,8 +24,9 @@ class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
 	 * @param Piwik_DataTable $table
 	 * @param int $offset Starting row (indexed from 0)
 	 * @param int $limit Number of rows to keep (specify -1 to keep all rows)
+	 * @param bool $keepSummaryRow Whether to keep the summary row or not.
 	 */
-	public function __construct( $table, $offset, $limit = null )
+	public function __construct( $table, $offset, $limit = null, $keepSummaryRow = false )
 	{
 		parent::__construct($table);
 		$this->offset = $offset;
@@ -35,6 +36,7 @@ class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
 			$limit = -1;
 		}
 		$this->limit = $limit;
+		$this->keepSummaryRow = $keepSummaryRow;
 	}	
 	
 	public function filter($table)
@@ -42,6 +44,11 @@ class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
 		$table->setRowsCountBeforeLimitFilter();
 		
 		$rowsCount = $table->getRowsCount();
+		
+		if ($this->keepSummaryRow)
+		{
+			$summaryRow = $table->getRowFromId(Piwik_DataTable::ID_SUMMARY_ROW);
+		}
 		
 		// we delete from 0 to offset
 		if($this->offset > 0) 
@@ -52,6 +59,11 @@ class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
 		if( $this->limit >= 0 )
 		{
 			$table->deleteRowsOffset( $this->limit );
+		}
+		
+		if ($this->keepSummaryRow && $summaryRow)
+		{
+			$table->addSummaryRow($summaryRow);
 		}
 	}
 }

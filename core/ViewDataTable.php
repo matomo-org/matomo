@@ -306,6 +306,7 @@ abstract class Piwik_ViewDataTable
 		$this->viewProperties['uniqueId'] = $this->getUniqueIdViewDataTable();
 		$this->viewProperties['exportLimit'] = Piwik_Config::getInstance()->General['API_datatable_default_limit'];
 		$this->viewProperties['relatedReports'] = array();
+		$this->viewProperties['highlight_summary_row'] = false;
 		
 		$standardColumnNameToTranslation = array_merge(
 			Piwik_API_API::getInstance()->getDefaultMetrics(),
@@ -465,12 +466,17 @@ abstract class Piwik_ViewDataTable
 			$genericFilter->filter($this->dataTable);
 		}
 		
-		// Finally, apply datatable filters that were queued (should be 'presentation' filters that do not affect the number of rows)
-		foreach($this->queuedFilters as $filter)
+		if (!isset($this->variablesDefault['disable_queued_filters'])
+			|| !$this->variablesDefault['disable_queued_filters'])
 		{
-			$filterName = $filter[0];
-			$filterParameters = $filter[1];
-			$this->dataTable->filter($filterName, $filterParameters);
+			// Finally, apply datatable filters that were queued (should be 'presentation' filters that
+			// do not affect the number of rows)
+			foreach($this->queuedFilters as $filter)
+			{
+				$filterName = $filter[0];
+				$filterParameters = $filter[1];
+				$this->dataTable->filter($filterName, $filterParameters);
+			}
 		}
 	}
 	
@@ -489,6 +495,7 @@ abstract class Piwik_ViewDataTable
 		
 		$toSetEventually = array(
 			'filter_limit',
+			'keep_summary_row',
 			'filter_sort_column',
 			'filter_sort_order',
 			'filter_excludelowpop',
@@ -919,6 +926,15 @@ abstract class Piwik_ViewDataTable
 	}
 	
 	/**
+	 * Whether or not to show the summary row on every page of results. The default behavior
+	 * is to treat the summary row like any other row.
+	 */
+	public function alwaysShowSummaryRow()
+	{
+		$this->variablesDefault['keep_summary_row'] = true;
+	}
+	
+	/**
 	 * Sets the value to use for the Exclude low population filter.
 	 *
 	 * @param int|float If a row value is less than this value, it will be removed from the dataTable
@@ -1153,6 +1169,15 @@ abstract class Piwik_ViewDataTable
 	}
 	
 	/**
+	 * Set whether to highlight the summary row or not. If not highlighted, it will
+	 * look like every other row.
+	 */
+	public function setHighlightSummaryRow( $highlightSummaryRow )
+	{
+		$this->viewProperties['highlight_summary_row'] = $highlightSummaryRow;
+	}
+	
+	/**
 	 * Sets columns translations array.
 	 *
 	 * @param array $columnsTranslations An associative array indexed by column names, eg. array('nb_visit'=>"Numer of visits")
@@ -1273,15 +1298,17 @@ abstract class Piwik_ViewDataTable
 	 */
 	public function hasReportBeenPurged()
 	{
-		$strPeriod = Piwik_Common::getRequestVar('period');
-		$strDate = Piwik_Common::getRequestVar('date');
+		$strPeriod = Piwik_Common::getRequestVar('period', false);
+		$strDate = Piwik_Common::getRequestVar('date', false);
 		
-		if ((is_null($this->dataTable) || $this->dataTable->getRowsCount() == 0))
+		if ($strPeriod !== false
+			&& $strDate !== false
+			&& (is_null($this->dataTable) || $this->dataTable->getRowsCount() == 0))
 		{
 			// if range, only look at the first date
 			if ($strPeriod == 'range')
 			{
-				$idSite = Piwik_Common::getRequestVar('idSite');
+				$idSite = Piwik_Common::getRequestVar('idSite', '');
 				if ($idSite == 0 || intval($idSite) != 0)
 				{
 					$site = new Piwik_Site($idSite);

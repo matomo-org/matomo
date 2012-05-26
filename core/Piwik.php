@@ -1484,19 +1484,21 @@ class Piwik
 	 * Pretty format a memory size value
 	 *
 	 * @param numeric $size in bytes
+	 * @param string $unit The specific unit to use, if any. If null, the unit is determined by $size.
+	 * @param int $precision The precision to use when rounding.
 	 * @return string
 	 */
-	static public function getPrettySizeFromBytes($size)
+	static public function getPrettySizeFromBytes( $size, $unit = null, $precision = 1 )
 	{
 		if ($size == 0)
 		{
 			return '0 M';
 		}
 		
-		$bytes = array('','K','M','G','T');
-		foreach($bytes as $val)
+		$units = array('B','K','M','G','T');
+		foreach($units as $currentUnit)
 		{
-			if($size > 1024)
+			if ($size >= 1024 && $unit != $currentUnit)
 			{
 				$size = $size / 1024;
 			}
@@ -1505,9 +1507,9 @@ class Piwik
 				break;
 			}
 		}
-		return round($size, 1)." ".$val;
+		return round($size, $precision)." ".$currentUnit;
 	}
-
+	
 	/**
 	 * Pretty format a time
 	 *
@@ -1566,6 +1568,23 @@ class Piwik
 			return str_replace(' ', '&nbsp;', $return);
 		}
 		return $return;
+	}
+	
+	/**
+	 * Gets a prettified string representation of a number. The result will have
+	 * thousands separators and a decimal point specific to the current locale.
+	 * 
+	 * @param numeric $value
+	 * @return string
+	 */
+	static public function getPrettyNumber( $value )
+	{
+		$locale = localeconv();
+		
+		$decimalPoint = $locale['decimal_point'];
+		$thousandsSeparator = $locale['thousands_sep'];
+		
+		return number_format($value, 0, $decimalPoint, $thousandsSeparator);
 	}
 
 	/**

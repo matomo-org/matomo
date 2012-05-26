@@ -180,6 +180,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		// throws exception if no view access
 		$this->loadDataTableFromAPI();
 		$this->checkStandardDataTable();
+		$this->postDataTableLoadedFromAPI();
 		
 		$graphLimit = $this->getGraphLimit();
 		if(!empty($graphLimit))

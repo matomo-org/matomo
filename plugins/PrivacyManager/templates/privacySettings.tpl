@@ -72,7 +72,7 @@ See also our official guide <b><a href='http://piwik.org/privacy/' target='_blan
 
 <a name="deleteLogsAnchor"></a>
 <h2>{'PrivacyManager_DeleteDataSettings'|translate}</h2>
-<p>{'PrivacyManager_DeleteDataDescription'|translate}</p>
+<p>{'PrivacyManager_DeleteDataDescription'|translate} {'PrivacyManager_DeleteDataDescription2'|translate}</p>
 <form method="post" action="{url action=saveSettings form=formDeleteSettings token_auth=$token_auth}" id="formDeleteSettings" name="formMaskLength">
 	<table class="adminTable" style='width:800px;'>
 		<tr id='deleteLogSettingEnabled'>

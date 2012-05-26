@@ -35,7 +35,7 @@
 			
 			<tbody>
 			{foreach from=$arrayDataTable item=row}
-			<tr {if $row.idsubdatatable && $javascriptVariablesToSet.controllerActionCalledWhenRequestSubTable != null}class="subDataTable" id="{$row.idsubdatatable}"{/if}>
+			<tr {if $row.idsubdatatable && $javascriptVariablesToSet.controllerActionCalledWhenRequestSubTable != null}class="subDataTable" id="{$row.idsubdatatable}"{/if}{if isset($row.issummaryrow) && $row.issummaryrow && $properties.highlight_summary_row} class="highlight"{/if}>
 				{foreach from=$dataTableColumns item=column}
 				<td>
 					{include file="CoreHome/templates/datatable_cell.tpl"}

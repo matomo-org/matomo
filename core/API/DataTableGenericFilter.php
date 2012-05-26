@@ -76,6 +76,7 @@ class Piwik_API_DataTableGenericFilter
 				'Limit' => array(
 									'filter_offset' 			=> array('integer', '0'),
 									'filter_limit' 				=> array('integer'),
+									'keep_summary_row'			=> array('integer', '0'),
 							),
 			);
 		}

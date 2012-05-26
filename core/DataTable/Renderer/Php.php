@@ -190,13 +190,18 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 	{
 		$array = array();
 
-		foreach($table->getRows() as $row)
+		foreach($table->getRows() as $id => $row)
 		{
 			$newRow = array(
 				'columns' => $row->getColumns(),
 				'metadata' => $row->getMetadata(),
 				'idsubdatatable' => $row->getIdSubDataTable(),
 			);
+			
+			if ($id == Piwik_DataTable::ID_SUMMARY_ROW)
+			{
+				$newRow['issummaryrow'] = Piwik_DataTable::ID_SUMMARY_ROW;
+			}
 			
 			if($this->isRenderSubtables()
 				&& $row->getIdSubDataTable() !== null)

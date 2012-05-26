@@ -165,7 +165,7 @@
 {capture assign=clickDeleteLogSettings}{'PrivacyManager_DeleteDataSettings'|translate}{/capture}
 <h2>{'PrivacyManager_DeleteDataSettings'|translate}</h2>
 <p>
-	{'PrivacyManager_DeleteDataDescription'|translate}
+	{'PrivacyManager_DeleteDataDescription'|translate} {'PrivacyManager_DeleteDataDescription2'|translate}
 <br/>
 	<a href='{url module="PrivacyManager" action="privacySettings"}#deleteLogsAnchor'>
 		{'PrivacyManager_ClickHereSettings'|translate:"'$clickDeleteLogSettings'"}

@@ -16,6 +16,8 @@
  */
 class Piwik_DBStats extends Piwik_Plugin
 {
+	const TIME_OF_LAST_TASK_RUN_OPTION = 'dbstats_time_of_last_cache_task_run';
+	
 	public function getInformation()
 	{
 		return array(
@@ -28,7 +30,10 @@ class Piwik_DBStats extends Piwik_Plugin
 
 	function getListHooksRegistered()
 	{
-		return array('AdminMenu.add' => 'addMenu');
+		return array(
+			'AdminMenu.add' => 'addMenu',
+            'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
+		);
 	}
 	
 	function addMenu()
@@ -37,5 +42,40 @@ class Piwik_DBStats extends Piwik_Plugin
 							array('module' => 'DBStats', 'action' => 'index'),
 							Piwik::isUserIsSuperUser(),
 							$order = 9);		
+	}
+
+	/**
+	 * Gets all scheduled tasks executed by this plugin.
+	 * 
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
+	public function getScheduledTasks($notification)
+	{
+		$tasks = &$notification->getNotificationObject();
+		
+		$priority = Piwik_ScheduledTask::LOWEST_PRIORITY;
+		$cacheDataByArchiveNameReportsTask = new Piwik_ScheduledTask(
+			$this, 'cacheDataByArchiveNameReports', new Piwik_ScheduledTime_Weekly(), $priority);
+		$tasks[] = $cacheDataByArchiveNameReportsTask;
+	}
+	
+	/**
+	 * Caches the intermediate DataTables used in the getIndividualReportsSummary and
+	 * getIndividualMetricsSummary reports in the option table.
+	 */
+	public function cacheDataByArchiveNameReports()
+	{
+		$api = Piwik_DBStats_API::getInstance();
+		$api->getIndividualReportsSummary(true);
+		$api->getIndividualMetricsSummary(true);
+		
+		$now = Piwik_Date::now()->getLocalized("%longYear%, %shortMonth% %day%");
+		Piwik_SetOption(self::TIME_OF_LAST_TASK_RUN_OPTION, $now);
+	}
+	
+	/** Returns the date when the cacheDataByArchiveNameReports was last run. */
+	public static function getDateOfLastCachingRun()
+	{
+		return Piwik_GetOption(self::TIME_OF_LAST_TASK_RUN_OPTION);
 	}
 }

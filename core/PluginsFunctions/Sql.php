@@ -103,6 +103,18 @@ class Piwik_Sql
 	{
 		return self::getDb()->fetchOne($sql, $parameters);
 	}
+	
+	/**
+	 * Fetches result from the database query as an array of associative arrays.
+	 * 
+	 * @param string	$sql		SQL query
+	 * @param array		$parameters	Parameters to bind in the query, array( param1 => value1, param2 => value2)
+	 * @return array
+	 */
+	static public function fetchAssoc($sql, $parameters = array())
+	{
+		return self::getDb()->fetchAssoc($sql, $parameters);
+	}
 
 	/**
 	 * Deletes all desired rows in a table, while using a limit. This function will execute a
@@ -276,6 +288,18 @@ function Piwik_FetchRow($sqlQuery, $parameters = array())
 function Piwik_FetchOne( $sqlQuery, $parameters = array())
 {
 	return Piwik_Sql::fetchOne($sqlQuery, $parameters);
+}
+
+/**
+ * Fetches result from the database query as an array of associative arrays.
+ * 
+ * @param string $sqlQuery
+ * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
+ * @return array
+ */
+function Piwik_FetchAssoc( $sqlQuery, $parameters = array() )
+{
+	return Piwik_Sql::fetchAssoc($sqlQuery, $parameters);
 }
 
 /**

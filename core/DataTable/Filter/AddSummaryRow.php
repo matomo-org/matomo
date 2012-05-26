@@ -31,12 +31,14 @@ class Piwik_DataTable_Filter_AddSummaryRow extends Piwik_DataTable_Filter
 	public function __construct(	$table, 
 									$startRowToSummarize, 
 									$labelSummaryRow = Piwik_DataTable::LABEL_SUMMARY_ROW, 
-									$columnToSortByBeforeTruncating = null )
+									$columnToSortByBeforeTruncating = null,
+									$deleteRows = true )
 	{
 		parent::__construct($table);
 		$this->startRowToSummarize = $startRowToSummarize;
 		$this->labelSummaryRow = $labelSummaryRow;
 		$this->columnToSortByBeforeTruncating = $columnToSortByBeforeTruncating;
+		$this->deleteRows = $deleteRows;
 	}
 
 	public function filter($table)
@@ -66,7 +68,10 @@ class Piwik_DataTable_Filter_AddSummaryRow extends Piwik_DataTable_Filter
 		}
 		
 		$newRow->setColumns(array('label' => $this->labelSummaryRow) + $newRow->getColumns());
-		$table->filter('Limit', array(0, $this->startRowToSummarize));
+		if ($this->deleteRows)
+		{
+			$table->filter('Limit', array(0, $this->startRowToSummarize));
+		}
 		$table->addSummaryRow($newRow);
 		unset($rows);
 	}

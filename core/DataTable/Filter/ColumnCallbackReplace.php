@@ -19,36 +19,46 @@
  */
 class Piwik_DataTable_Filter_ColumnCallbackReplace extends Piwik_DataTable_Filter
 {
-	private $columnToFilter;
+	private $columnsToFilter;
 	private $functionToApply;
+	private $functionParameters;
 	
-	public function __construct( $table, $columnToFilter, $functionToApply, $functionParameters = null )
+	public function __construct( $table, $columnsToFilter, $functionToApply, $functionParameters = null )
 	{
 		parent::__construct($table);
 		$this->functionToApply = $functionToApply;
 		$this->functionParameters = $functionParameters;
-		$this->columnToFilter = $columnToFilter;
+		
+		if (!is_array($columnsToFilter))
+		{
+			$columnsToFilter = array($columnsToFilter);
+		}
+		
+		$this->columnsToFilter = $columnsToFilter;
 	}
 	
 	public function filter($table)
 	{
 		foreach($table->getRows() as $key => $row)
 		{
-			// when a value is not defined, we set it to zero by default (rather than displaying '-')
-			$value = $this->getElementToReplace($row, $this->columnToFilter);
-			if($value === false)
+			foreach ($this->columnsToFilter as $column)
 			{
-				$value = 0;
-			}
+				// when a value is not defined, we set it to zero by default (rather than displaying '-')
+				$value = $this->getElementToReplace($row, $column);
+				if($value === false)
+				{
+					$value = 0;
+				}
 
-			$parameters = array($value);
-			if(!is_null($this->functionParameters))
-			{
-				$parameters = array_merge($parameters, $this->functionParameters);
+				$parameters = array($value);
+				if(!is_null($this->functionParameters))
+				{
+					$parameters = array_merge($parameters, $this->functionParameters);
+				}
+				$newValue = call_user_func_array( $this->functionToApply, $parameters);
+				$this->setElementToReplace($row, $column, $newValue);
+				$this->filterSubTable($row);
 			}
-			$newValue = call_user_func_array( $this->functionToApply, $parameters);
-			$this->setElementToReplace($row, $this->columnToFilter, $newValue);
-			$this->filterSubTable($row);
 		}
 	}
 	
