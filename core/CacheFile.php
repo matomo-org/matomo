@@ -22,9 +22,18 @@
  */
 class Piwik_CacheFile
 {
+	/**
+	 * @var string
+	 */
 	protected $cachePath;
+	/**
+	 * @var
+	 */
 	protected $cachePrefix;
 
+	/**
+	 * @param string  $directory  directory to use
+	 */
 	function __construct($directory)
 	{
 		$this->cachePath = PIWIK_USER_PATH . '/tmp/cache/' . $directory . '/';
@@ -33,8 +42,8 @@ class Piwik_CacheFile
 	/**
 	 * Function to fetch a cache entry
 	 *
-	 * @param string $id The cache entry ID
-	 * @return mixed False on error, or array the cache content
+	 * @param string  $id  The cache entry ID
+	 * @return array|bool  False on error, or array the cache content
 	 */
 	function get($id)
 	{
@@ -54,9 +63,9 @@ class Piwik_CacheFile
 	/**
 	 * A function to store content a cache entry.
 	 *
-	 * @param string $id The cache entry ID
-	 * @param array $content  The cache content
-	 * @return bool True if the entry was succesfully stored
+	 * @param string  $id       The cache entry ID
+	 * @param array   $content  The cache content
+	 * @return bool  True if the entry was succesfully stored
 	 */
 	function set($id, $content)
 	{
@@ -100,8 +109,8 @@ class Piwik_CacheFile
 	/**
 	 * A function to delete a single cache entry
 	 *
-	 * @param string $id The cache entry ID
-	 * @return bool True if the entres were succesfully deleted
+	 * @param string  $id  The cache entry ID
+	 * @return bool  True if the entres were succesfully deleted
 	 */
 	function delete($id)
 	{

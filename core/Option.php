@@ -20,13 +20,24 @@
  */
 class Piwik_Option
 {
+	/**
+	 * @var array
+	 */
 	private $all = array();
+
+	/**
+	 * @var bool
+	 */
 	private $loaded = false;
 
+	/**
+	 * Singleton instance
+	 * @var self
+	 */
 	static private $instance = null;
 
 	/**
-	 * Singleton
+	 * Returns Singleton instance
 	 *
 	 * @return Piwik_Option
 	 */
@@ -38,14 +49,17 @@ class Piwik_Option
 		}
 		return self::$instance;
 	}
-	
+
+	/**
+	 * Private Constructor
+	 */
 	private function __construct() {}
 
 	/**
 	 * Returns the option value for the requested option $name, fetching from database, if not in cache.
 	 *
-	 * @param string $name Key
- 	* @return string|false Value or false, if not found
+	 * @param string  $name  Key
+ 	 * @return string|false  Value or false, if not found
 	 */
 	public function get($name)
 	{
@@ -68,9 +82,9 @@ class Piwik_Option
 	/**
 	 * Sets the option value in the database and cache
 	 *
-	 * @param string $name
-	 * @param string $value
-	 * @param int $autoload if set to 1, this option value will be automatically loaded; should be set to 1 for options that will always be used in the Piwik request.
+	 * @param string  $name
+	 * @param string  $value
+	 * @param int     $autoload  if set to 1, this option value will be automatically loaded; should be set to 1 for options that will always be used in the Piwik request.
 	 */
 	public function set($name, $value, $autoload = 0)
 	{
@@ -85,8 +99,8 @@ class Piwik_Option
 	/**
 	 * Delete key-value pair from database and reload cache.
 	 *
-	 * @param string $name Key to match exactly
-	 * @param string $value Optional value
+	 * @param string  $name   Key to match exactly
+	 * @param string  $value  Optional value
 	 */
 	public function delete($name, $value = null)
 	{
@@ -108,8 +122,8 @@ class Piwik_Option
 	 * Delete key-value pair(s) from database and reload cache.
 	 * The supplied pattern should use '%' as wildcards, and literal '_' should be escaped.
 	 *
-	 * @param string $name Pattern of key to match.
-	 * @param string $value Optional value
+	 * @param string  $name   Pattern of key to match.
+	 * @param string  $value  Optional value
 	 */
 	public function deleteLike($name, $value = null)
 	{
@@ -129,7 +143,8 @@ class Piwik_Option
 
 	/**
 	 * Initialize cache with autoload settings.
-	 * @return
+	 *
+	 * @return void
 	 */
 	private function autoload()
 	{
@@ -165,8 +180,8 @@ class Piwik_Option
 /**
  * Returns the option value for the requested option $name
  *
- * @param string $name Key
- * @return string|false Value or false, if not found
+ * @param string  $name  Key
+ * @return string|false  Value or false, if not found
  */
 function Piwik_GetOption($name)
 {
@@ -176,9 +191,9 @@ function Piwik_GetOption($name)
 /**
  * Sets the option value in the database
  *
- * @param string $name
- * @param string $value
- * @param int $autoload if set to 1, this option value will be automatically loaded; should be set to 1 for options that will always be used in the Piwik request.
+ * @param string  $name
+ * @param string  $value
+ * @param int     $autoload  if set to 1, this option value will be automatically loaded; should be set to 1 for options that will always be used in the Piwik request.
  */
 function Piwik_SetOption($name, $value, $autoload = 0)
 {

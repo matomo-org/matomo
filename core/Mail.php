@@ -21,14 +21,21 @@ class Piwik_Mail extends Zend_Mail
 {
 	/**
 	 * Default charset utf-8
-	 * @param string $charset
+	 *
+	 * @param string  $charset  charset, defaults to utf-8
 	 */
 	public function __construct($charset = 'utf-8')
 	{
 		parent::__construct($charset);
 		$this->initSmtpTransport();
 	}
-	
+
+	/**
+	 * Sets the sender to use
+	 *
+	 * @param string       $email
+	 * @param null|string  $name
+	 */
 	public function setFrom($email, $name = null)
 	{
 		$hostname = Piwik_Config::getInstance()->mail['defaultHostnameIfEmpty'];
@@ -46,7 +53,10 @@ class Piwik_Mail extends Zend_Mail
 		$email = str_replace('{DOMAIN}', $piwikHost, $email);
 		parent::setFrom($email, $name);
 	}
-	
+
+	/**
+	 * @return void
+	 */
 	private function initSmtpTransport()
 	{
 		$mailConfig = Piwik_Config::getInstance()->mail;

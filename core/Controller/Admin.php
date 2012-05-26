@@ -18,9 +18,10 @@
 abstract class Piwik_Controller_Admin extends Piwik_Controller
 {
 	/**
-	 * Used by Admin screens
+	 * Set the minimal variables in the view object
+	 * Extended by some admin view specific variables
 	 * 
-	 * @param Piwik_View $view
+	 * @param Piwik_View  $view
 	 */
 	protected function setBasicVariablesView($view)
 	{

@@ -26,6 +26,15 @@
  */
 abstract class Piwik_DataTable_Filter
 {
+	/**
+	 * @var bool
+	 */
+	protected $enableRecursive = false;
+
+	/**
+	 * @throws Exception
+	 * @param Piwik_DataTable  $table
+	 */
 	public function __construct($table)
 	{
 		if(!($table instanceof Piwik_DataTable))
@@ -33,16 +42,31 @@ abstract class Piwik_DataTable_Filter
 			throw new Exception("The filter accepts only a Piwik_DataTable object.");
 		}
 	}
-	
+
+	/**
+	 * Filters the given data table
+	 *
+	 * @param Piwik_DataTable  $table
+	 * @return mixed
+	 */
 	abstract public function filter($table);
-	
-	protected $enableRecursive = false;
-	
+
+	/**
+	 * Enables/Disables the recursive mode
+	 *
+	 * @param $bool
+	 */
 	public function enableRecursive($bool)
 	{
 		$this->enableRecursive = (bool)$bool;
 	}
-	
+
+	/**
+	 * Filters a subtable
+	 *
+	 * @param Piwik_DataTable_Row  $row
+	 * @return mixed
+	 */
 	public function filterSubTable(Piwik_DataTable_Row $row)
 	{
 		if(!$this->enableRecursive)

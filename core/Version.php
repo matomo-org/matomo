@@ -17,5 +17,9 @@
  */
 final class Piwik_Version
 {
+	/**
+	 * Current Piwik version
+	 * @var string
+	 */
 	const VERSION = '1.7.2-rc8';
 }

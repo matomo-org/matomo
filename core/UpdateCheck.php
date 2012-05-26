@@ -25,7 +25,7 @@ class Piwik_UpdateCheck
 	/**
 	 * Check for a newer version
 	 *
-	 * @param bool $force Force check
+	 * @param bool  $force  Force check
 	 */
 	public static function check($force = false)
 	{
@@ -65,8 +65,8 @@ class Piwik_UpdateCheck
 	/**
 	 * Returns version number of a newer Piwik release.
 	 *
-	 * @return string|false false if current version is the latest available, 
-	 * 	 or the latest version number if a newest release is available
+	 * @return string|false  false if current version is the latest available,
+	 *                       or the latest version number if a newest release is available
 	 */
 	public static function isNewestVersionAvailable()
 	{

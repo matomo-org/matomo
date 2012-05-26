@@ -27,37 +27,44 @@ class Piwik_Cookie
 
 	/**
 	 * The name of the cookie
+	 * @var string
 	 */
 	protected $name = null;
 
 	/**
 	 * The expire time for the cookie (expressed in UNIX Timestamp)
+	 * @var int
 	 */
 	protected $expire = null;
 
 	/**
 	 * Restrict cookie path
+	 * @var string
 	 */
 	protected $path = '';
 
 	/**
 	 * Restrict cookie to a domain (or subdomains)
+	 * @var string
 	 */
 	protected $domain = '';
 
 	/**
 	 * If true, cookie should only be transmitted over secure HTTPS
+	 * @var bool
 	 */
 	protected $secure = false;
 
 	/**
 	 * If true, cookie will only be made available via the HTTP protocol.
 	 * Note: not well supported by browsers.
+	 * @var bool
 	 */
 	protected $httponly = false;
 
 	/**
 	 * The content of the cookie
+	 * @var array
 	 */
 	protected $value = array();
 
@@ -70,10 +77,11 @@ class Piwik_Cookie
 	 * Instantiate a new Cookie object and tries to load the cookie content if the cookie
 	 * exists already.
 	 *
-	 * @param string $cookieName cookie Name
-	 * @param int $expire The timestamp after which the cookie will expire, eg time() + 86400; use 0 (int zero) to expire cookie at end of browser session
-	 * @param string $path The path on the server in which the cookie will be available on.
-	 * @param bool|string $keyStore Will be used to store several bits of data (eg. one array per website)
+	 * @param string       $cookieName  cookie Name
+	 * @param int          $expire      The timestamp after which the cookie will expire, eg time() + 86400;
+	 *                                  use 0 (int zero) to expire cookie at end of browser session
+	 * @param string       $path        The path on the server in which the cookie will be available on.
+	 * @param bool|string  $keyStore    Will be used to store several bits of data (eg. one array per website)
 	 */
 	public function __construct( $cookieName, $expire = null, $path = null, $keyStore = false)
 	{
@@ -107,7 +115,7 @@ class Piwik_Cookie
 	/**
 	 * Returns the default expiry time, 2 years
 	 *
-	 * @return int Timestamp in 2 years
+	 * @return int  Timestamp in 2 years
 	 */
 	protected function getDefaultExpire()
 	{
@@ -120,13 +128,13 @@ class Piwik_Cookie
 	 *
 	 * @link http://php.net/setcookie
 	 *
-	 * @param string $Name Name of cookie
-	 * @param string $Value Value of cookie
-	 * @param int $Expires Time the cookie expires
-	 * @param string $Path
-	 * @param string $Domain
-	 * @param bool $Secure
-	 * @param bool $HTTPOnly
+	 * @param string  $Name      Name of cookie
+	 * @param string  $Value     Value of cookie
+	 * @param int     $Expires   Time the cookie expires
+	 * @param string  $Path
+	 * @param string  $Domain
+	 * @param bool    $Secure
+	 * @param bool    $HTTPOnly
 	 */
 	protected function setCookie($Name, $Value, $Expires, $Path = '', $Domain = '', $Secure = false, $HTTPOnly = false)
 	{
@@ -196,8 +204,8 @@ class Piwik_Cookie
 	/**
 	 * Extract signed content from string: content VALUE_SEPARATOR '_=' signature
 	 *
-	 * @param string $content
-	 * @return string|false Content or false if unsigned
+	 * @param string  $content
+	 * @return string|bool  Content or false if unsigned
 	 */
 	private function extractSignedContent($content)
 	{
@@ -256,7 +264,7 @@ class Piwik_Cookie
 	 * Returns the string to save in the cookie from the $this->value array of values.
 	 * It goes through the array and generates the cookie content string.
 	 *
-	 * @return string Cookie content
+	 * @return string  Cookie content
 	 */
 	protected function generateContentString()
 	{
@@ -286,7 +294,7 @@ class Piwik_Cookie
 	/**
 	 * Set cookie domain
 	 *
-	 * @param string $domain
+	 * @param string  $domain
 	 */
 	public function setDomain($domain)
 	{
@@ -296,7 +304,7 @@ class Piwik_Cookie
 	/**
 	 * Set secure flag
 	 *
-	 * @param bool $secure
+	 * @param bool  $secure
 	 */
 	public function setSecure($secure)
 	{
@@ -306,7 +314,7 @@ class Piwik_Cookie
 	/**
 	 * Set HTTP only
 	 *
-	 * @param bool $httponly
+	 * @param bool  $httponly
 	 */
 	public function setHttpOnly($httponly)
 	{
@@ -323,8 +331,8 @@ class Piwik_Cookie
 	 * You should save arrays only when you are sure about their maximum data size.
 	 * A cookie has to stay small and its size shouldn't increase over time!
 	 *
-	 * @param string Name of the value to save; the name will be used to retrieve this value
-	 * @param string|array|numeric Value to save. If null, entry will be deleted from cookie.
+	 * @param string               $name   Name of the value to save; the name will be used to retrieve this value
+	 * @param string|array|number  $value  Value to save. If null, entry will be deleted from cookie.
 	 */
 	public function set( $name, $value )
 	{
@@ -353,8 +361,8 @@ class Piwik_Cookie
 	/**
 	 * Returns the value defined by $name from the cookie.
 	 *
-	 * @param string|integer Index name of the value to return
-	 * @return mixed The value if found, false if the value is not found
+	 * @param string|integer  Index name of the value to return
+	 * @return mixed  The value if found, false if the value is not found
 	 */
 	public function get( $name )
 	{
@@ -373,7 +381,7 @@ class Piwik_Cookie
 	/**
 	 * Returns an easy to read cookie dump
 	 *
-	 * @return string The cookie dump
+	 * @return string  The cookie dump
 	 */
 	public function __toString()
 	{
@@ -386,8 +394,8 @@ class Piwik_Cookie
 	 * Escape values from the cookie before sending them back to the client
 	 * (when using the get() method).
 	 *
-	 * @param string $value Value to be escaped
-	 * @return mixed The value once cleaned.
+	 * @param string  $value  Value to be escaped
+	 * @return mixed  The value once cleaned.
 	 */
 	static protected function escapeValue( $value )
 	{

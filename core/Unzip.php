@@ -20,9 +20,9 @@ class Piwik_Unzip
 	/**
 	 * Factory method to create an unarchiver
 	 *
-	 * @param string $name Name of unarchiver
-	 * @param string $filename Name of .zip archive
-	 * @return Piwik_Unzip
+	 * @param string  $name      Name of unarchiver
+	 * @param string  $filename  Name of .zip archive
+	 * @return Piwik_Unzip_Interface
 	 */
 	static public function factory($name, $filename)
 	{

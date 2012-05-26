@@ -21,8 +21,8 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 	/**
 	 * Is this MySQL storage engine available?
 	 *
-	 * @param string $engineName
-	 * @return bool True if available and enabled; false otherwise
+	 * @param string  $engineName
+	 * @return bool  True if available and enabled; false otherwise
 	 */
 	static private function hasStorageEngine($engineName)
 	{
@@ -39,7 +39,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 	/**
 	 * Is this schema available?
 	 *
-	 * @return bool True if schema is available; false otherwise
+	 * @return bool  True if schema is available; false otherwise
 	 */
 	static public function isAvailable()
 	{
@@ -49,7 +49,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 	/**
 	 * Get the SQL to create Piwik tables
 	 *
-	 * @return array of strings containing SQL
+	 * @return array  array of strings containing SQL
 	 */
 	public function getTablesCreateSql()
 	{
@@ -385,9 +385,9 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 	/**
 	 * Get the SQL to create a specific Piwik table
 	 *
-	 * @param string $tableName
+	 * @param string  $tableName
 	 * @throws Exception
-	 * @return string SQL
+	 * @return string  SQL
 	 */
 	public function getTableCreateSql( $tableName )
 	{
@@ -405,7 +405,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 	 * Names of all the prefixed tables in piwik
 	 * Doesn't use the DB
 	 *
-	 * @return array Table names
+	 * @return array  Table names
 	 */
 	public function getTablesNames()
 	{
@@ -425,8 +425,8 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 	/**
 	 * Get list of tables installed
 	 *
-	 * @param bool $forceReload Invalidate cache
-	 * @return array Tables installed
+	 * @param bool  $forceReload  Invalidate cache
+	 * @return array  installed Tables
 	 */
 	public function getTablesInstalled($forceReload = true)
 	{
@@ -461,9 +461,9 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 	}
 
 	/**
-	 * Do tables exist?
+	 * Checks whether any table exists
 	 *
-	 * @return bool True if tables exist; false otherwise
+	 * @return bool  True if tables exist; false otherwise
 	 */
 	public function hasTables()
 	{
@@ -473,7 +473,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 	/**
 	 * Create database
 	 *
-	 * @param string $dbName
+	 * @param string  $dbName  Name of the database to create
 	 */
 	public function createDatabase( $dbName = null )
 	{

@@ -20,8 +20,18 @@
  */
 class Piwik_Db_Schema
 {
+	/**
+	 * Singleton instance
+	 *
+	 * @var Piwik_Db_Schema
+	 */
 	static private $instance = null;
 
+	/**
+	 * Type of database schema
+	 *
+	 * @var string
+	 */
 	private $schema = null;
 
 	/**
@@ -41,7 +51,7 @@ class Piwik_Db_Schema
 	/**
 	 * Get schema class name
 	 *
-	 * @param string $schemaName
+	 * @param string  $schemaName
 	 * @return string
 	 */
 	private static function getSchemaClassName($schemaName)
@@ -52,7 +62,7 @@ class Piwik_Db_Schema
 	/**
 	 * Get list of schemas
 	 *
-	 * @param string $adapterName
+	 * @param string  $adapterName
 	 * @return array
 	 */
 	public static function getSchemas($adapterName)
@@ -159,8 +169,8 @@ class Piwik_Db_Schema
 	/**
 	 * Get the SQL to create a specific Piwik table
 	 *
-	 * @param string $tableName
-	 * @return string SQL
+	 * @param string  $tableName  name of the table to create
+	 * @return string  SQL
 	 */
 	public function getTableCreateSql( $tableName )
 	{
@@ -170,7 +180,7 @@ class Piwik_Db_Schema
 	/**
 	 * Get the SQL to create Piwik tables
 	 *
-	 * @return array of strings containing SQL
+	 * @return array   array of strings containing SQL
 	 */
 	public function getTablesCreateSql()
 	{
@@ -179,7 +189,8 @@ class Piwik_Db_Schema
 
 	/**
 	 * Create database
-	 * @param null|string $dbName
+	 *
+	 * @param null|string  $dbName  database name to create
 	 */
 	public function createDatabase( $dbName = null )
 	{
@@ -220,7 +231,8 @@ class Piwik_Db_Schema
 
 	/**
 	 * Drop specific tables
-	 * @param array $doNotDelete
+	 *
+	 * @param array  $doNotDelete
 	 */
 	public function dropTables( $doNotDelete = array() )
 	{
@@ -241,8 +253,8 @@ class Piwik_Db_Schema
 	/**
 	 * Get list of tables installed
 	 *
-	 * @param bool $forceReload Invalidate cache
-	 * @return array Tables installed
+	 * @param bool  $forceReload  Invalidate cache
+	 * @return array  installed tables
 	 */
 	public function getTablesInstalled($forceReload = true)
 	{
@@ -252,36 +264,10 @@ class Piwik_Db_Schema
 	/**
 	 * Returns true if Piwik tables exist
 	 *
-	 * @return bool True if tables exist; false otherwise
+	 * @return bool  True if tables exist; false otherwise
 	 */
 	public function hasTables()
 	{
 		return $this->getSchema()->hasTables();
 	}
-}
-
-/**
- * Database schema interface
- *
- * @package Piwik
- * @subpackage Piwik_Db
- */
-interface Piwik_Db_Schema_Interface
-{
-	static public function isAvailable();
-
-	public function getTableCreateSql($tableName);
-	public function getTablesCreateSql();
-
-	public function createDatabase( $dbName = null );
-	public function dropDatabase();
-
-	public function createTables();
-	public function createAnonymousUser();
-	public function truncateAllTables();
-	public function dropTables( $doNotDelete = array() );
-
-	public function getTablesNames();
-	public function getTablesInstalled($forceReload = true);
-	public function hasTables();
 }

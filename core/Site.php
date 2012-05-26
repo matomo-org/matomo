@@ -16,10 +16,19 @@
  */
 class Piwik_Site
 {
+	/**
+	 * @var int|null
+	 */
 	protected $id = null;
-	
+
+	/**
+	 * @var array
+	 */
 	public static $infoSites = array();
 
+	/**
+	 * @param int  $idsite
+	 */
 	function __construct($idsite)
 	{
 		$this->id = (int)$idsite;
@@ -33,7 +42,7 @@ class Piwik_Site
 	 * Sets the cached Site data with an array that associates site IDs with
 	 * individual site data.
 	 *
-	 * @param array $sites The array of sites data. Indexed by site ID.
+	 * @param array  $sites  The array of sites data. Indexed by site ID.
 	 */
 	public static function setSites($sites)
 	{
@@ -43,7 +52,7 @@ class Piwik_Site
 	/**
 	 * Sets the cached Site data with a non-associated array of site data.
 	 *
-	 * @param array $sites The array of sites data.
+	 * @param array  $sites  The array of sites data.
 	 */
 	public static function setSitesFromArray($sites)
 	{
@@ -54,7 +63,10 @@ class Piwik_Site
 		}
 		self::setSites($sitesById);
 	}
-	
+
+	/**
+	 * @return string
+	 */
 	function __toString()
 	{
 		return "site id=".$this->getId().",
@@ -65,22 +77,43 @@ class Piwik_Site
 				 currency = ".$this->getCurrency().",
 				 creation date = ".$this->getCreationDate();
 	}
-	
+
+	/**
+	 * Returns the name of the site
+	 *
+	 * @return string
+	 */
 	function getName()
 	{
 		return $this->get('name');
 	}
-	
+
+	/**
+	 * Returns the main url of the site
+	 *
+	 * @return string
+	 */
 	function getMainUrl()
 	{
 		return $this->get('main_url');
 	}
-	
+
+	/**
+	 * Returns the id of the site
+	 *
+	 * @return int
+	 */
 	function getId()
 	{
 		return $this->id;
 	}
-	
+
+	/**
+	 * Returns a site property
+	 * @param string  $name  property to return
+	 * @return mixed
+	 * @throws Exception
+	 */
 	protected function get( $name)
 	{
 		if(!isset(self::$infoSites[$this->id][$name]))
@@ -90,37 +123,70 @@ class Piwik_Site
 		return self::$infoSites[$this->id][$name];
 	}
 
+	/**
+	 * Returns the creation date of the site
+	 *
+	 * @return Piwik_Date
+	 */
 	function getCreationDate()
 	{
 		$date = $this->get('ts_created');
 		return Piwik_Date::factory($date);
 	}
 
+	/**
+	 * Returns the timezone of the size
+	 *
+	 * @return string
+	 */
 	function getTimezone()
 	{
 		return $this->get('timezone');
 	}
-	
+
+	/**
+	 * Returns the currency of the site
+	 *
+	 * @return string
+	 */
 	function getCurrency()
 	{
 		return $this->get('currency');
 	}
-	
+
+	/**
+	 * Returns the excluded ips of the site
+	 *
+	 * @return string
+	 */
 	function getExcludedIps()
 	{
 		return $this->get('excluded_ips');
 	}
 
+	/**
+	 * Returns the excluded query parameters of the site
+	 *
+	 * @return string
+	 */
 	function getExcludedQueryParameters()
 	{
 		return $this->get('excluded_parameters');
 	}
+
+	/**
+	 * Returns whether ecommerce id enabled for the site
+	 *
+	 * @return bool
+	 */
 	function isEcommerceEnabled()
 	{
 		return $this->get('ecommerce') == 1;
 	}
 
 	/**
+	 * Checks the given string for valid site ids and returns them as an array
+	 *
 	 * @param string $string comma separated idSite list
 	 * @return array of valid integer
 	 */
@@ -142,7 +208,10 @@ class Piwik_Site
 		}
 		return $validIds;
 	}
-	
+
+	/**
+	 * Clears the site cache
+	 */
 	static public function clearCache()
 	{
 		self::$infoSites = array();
@@ -152,9 +221,9 @@ class Piwik_Site
 	 * Utility function. Returns the value of the specified field for the
 	 * site with the specified ID.
 	 * 
-	 * @param int|string $idsite The ID of the site whose data is being
-	 *                           accessed.
-	 * @param string $field The name of the field to get.
+	 * @param int|string  $idsite  The ID of the site whose data is being
+	 *                             accessed.
+	 * @param string      $field   The name of the field to get.
 	 * @return mixed
 	 */
 	static protected function getFor($idsite, $field)
@@ -172,7 +241,7 @@ class Piwik_Site
 	/**
 	 * Returns the name of the site with the specified ID.
 	 * 
-	 * @param int $idsite The site ID.
+	 * @param int  $idsite  The site ID.
 	 * @return string
 	 */
 	static public function getNameFor($idsite)
@@ -183,7 +252,7 @@ class Piwik_Site
 	/**
 	 * Returns the timezone of the site with the specified ID.
 	 * 
-	 * @param int $idsite The site ID.
+	 * @param int  $idsite  The site ID.
 	 * @return string
 	 */
 	static public function getTimezoneFor($idsite)
@@ -194,7 +263,7 @@ class Piwik_Site
 	/**
 	 * Returns the creation date of the site with the specified ID.
 	 * 
-	 * @param int $idsite The site ID.
+	 * @param int  $idsite  The site ID.
 	 * @return string
 	 */
 	static public function getCreationDateFor($idsite)
@@ -205,7 +274,7 @@ class Piwik_Site
 	/**
 	 * Returns the url for the site with the specified ID.
 	 * 
-	 * @param int $idsite The site ID.
+	 * @param int  $idsite  The site ID.
 	 * @return string
 	 */
 	static public function getMainUrlFor($idsite)
@@ -216,7 +285,7 @@ class Piwik_Site
 	/**
 	 * Returns whether the site with the specified ID is ecommerce enabled
 	 * 
-	 * @param int $idsite The site ID.
+	 * @param int  $idsite  The site ID.
 	 * @return string
 	 */
 	static public function isEcommerceEnabledFor($idsite)
@@ -227,7 +296,7 @@ class Piwik_Site
 	/**
 	 * Returns the currency of the site with the specified ID.
 	 * 
-	 * @param int $idsite The site ID.
+	 * @param int  $idsite  The site ID.
 	 * @return string
 	 */
 	static public function getCurrencyFor($idsite)
@@ -238,7 +307,7 @@ class Piwik_Site
 	/**
 	 * Returns the excluded IP addresses of the site with the specified ID.
 	 * 
-	 * @param int $idsite The site ID.
+	 * @param int  $idsite  The site ID.
 	 * @return string
 	 */
 	static public function getExcludedIpsFor($idsite)
@@ -247,10 +316,9 @@ class Piwik_Site
 	}
 
 	/**
-	 * Returns the excluded query parameters for the site with the specified
-	 * ID.
+	 * Returns the excluded query parameters for the site with the specified ID.
 	 * 
-	 * @param int $idsite The site ID.
+	 * @param int  $idsite  The site ID.
 	 * @return string
 	 */
 	static public function getExcludedQueryParametersFor($idsite)

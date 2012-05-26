@@ -131,6 +131,7 @@ class Piwik_Db_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql implements Piwik_Db_A
 
 	/**
 	 * Check MSSQL version
+	 *
 	 * @throws Exception
 	 */
 	public function checkServerVersion()
@@ -144,6 +145,11 @@ class Piwik_Db_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql implements Piwik_Db_A
 
 	}
 
+	/**
+	 * Returns the Mssql server version
+	 *
+	 * @return null|string
+	 */
 	public function getServerVersion()
 	{
 		try
@@ -164,6 +170,7 @@ class Piwik_Db_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql implements Piwik_Db_A
 
 	/**
 	 * Check client version compatibility against database server
+	 *
 	 * @throws Exception
 	 */
 	public function checkClientVersion()
@@ -216,8 +223,8 @@ class Piwik_Db_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql implements Piwik_Db_A
 	/**
 	 * Test error number
 	 *
-	 * @param Exception $e
-	 * @param string $errno
+	 * @param Exception  $e
+	 * @param string     $errno
 	 * @return bool
 	 */
 	public function isErrNo($e, $errno)

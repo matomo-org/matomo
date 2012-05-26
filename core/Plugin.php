@@ -29,11 +29,14 @@ abstract class Piwik_Plugin
 	 * - 'version' => string            // plugin version number; examples and 3rd party plugins must not use Piwik_Version::VERSION; 3rd party plugins must increment the version number with each plugin release
 	 * - 'translationAvailable' => bool // is there a translation file in plugins/your-plugin/lang/* ?
 	 * - 'TrackerPlugin' => bool        // should we load this plugin during the stats logging process?
+	 *
+	 * @return array
 	 */
 	abstract public function getInformation();
 
 	/**
 	 * Returns the list of hooks registered with the methods names
+	 *
 	 * @return array
 	 */
 	public function getListHooksRegistered()

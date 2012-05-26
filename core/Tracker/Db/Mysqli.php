@@ -29,8 +29,9 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 
 	/**
 	 * Builds the DB object
-	 * @param array  $dbInfo
-	 * @param string $driverName
+	 *
+	 * @param array   $dbInfo
+	 * @param string  $driverName
 	 */
 	public function __construct( $dbInfo, $driverName = 'mysql') 
 	{
@@ -58,6 +59,9 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 		$this->charset = isset($dbInfo['charset']) ? $dbInfo['charset'] : null;
 	}
 
+	/**
+	 * Destructor
+	 */
 	public function __destruct() 
 	{
 		$this->connection = null;
@@ -66,7 +70,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 	/**
 	 * Connects to the DB
 	 * 
-	 * @throws Exception|Piwik_Tracker_Db_Exception if there was an error connecting the DB
+	 * @throws Exception|Piwik_Tracker_Db_Exception  if there was an error connecting the DB
 	 */
 	public function connect() 
 	{
@@ -105,11 +109,12 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 	
 	/**
 	 * Returns an array containing all the rows of a query result, using optional bound parameters.
-	 * 
-	 * @param string $query Query
-	 * @param array $parameters Parameters to bind
+	 *
+	 * @see query()
+	 *
+	 * @param string  $query       Query
+	 * @param array   $parameters  Parameters to bind
 	 * @return array
-	 * @see also query()
 	 * @throws Exception|Piwik_Tracker_Db_Exception if an exception occured
 	 */
 	public function fetchAll( $query, $parameters = array() )
@@ -146,12 +151,12 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 	
 	/**
 	 * Returns the first row of a query result, using optional bound parameters.
-	 * 
-	 * @param string Query 
-	 * @param array Parameters to bind
-	 * @see also query()
-	 * 
-	 * @throws Exception if an exception occured
+	 *
+	 * @see query()
+	 *
+	 * @param string  $query       Query
+	 * @param array   $parameters  Parameters to bind
+	 * @throws Piwik_Tracker_Db_Exception if an exception occured
 	 */
 	public function fetch( $query, $parameters = array() )
 	{
@@ -184,11 +189,11 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 	/**
 	 * Executes a query, using optional bound parameters.
 	 * 
-	 * @param string Query 
-	 * @param array|string Parameters to bind array('idsite'=> 1)
+	 * @param string        $query       Query
+	 * @param array|string  $parameters  Parameters to bind array('idsite'=> 1)
 	 * 
-	 * @return bool|resource false if failed
-	 * @throws Exception if an exception occured
+	 * @return bool|resource  false if failed
+	 * @throws Piwik_Tracker_Db_Exception  if an exception occured
 	 */
 	public function query($query, $parameters = array()) 
 	{
@@ -236,8 +241,8 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 	 * Input is a prepared SQL statement and parameters
 	 * Returns the SQL statement
 	 *
-	 * @param string $query
-	 * @param array $parameters 
+	 * @param string  $query
+	 * @param array   $parameters
 	 * @return string
 	 */
 	private function prepare($query, $parameters) {
@@ -263,8 +268,8 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 	/**
 	 * Test error number
 	 *
-	 * @param Exception $e
-	 * @param string $errno
+	 * @param Exception  $e
+	 * @param string     $errno
 	 * @return bool
 	 */
 	public function isErrNo($e, $errno)
@@ -275,7 +280,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 	/**
 	 * Return number of affected rows in last query
 	 *
-	 * @param mixed $queryResult Result from query()
+	 * @param mixed  $queryResult  Result from query()
 	 * @return int
 	 */
 	public function rowCount($queryResult)

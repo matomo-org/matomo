@@ -51,7 +51,7 @@ class Piwik_IP
 	/**
 	 * Sanitize human-readable IP address.
 	 *
-	 * @param string $ipString IP address
+	 * @param string  $ipString  IP address
 	 * @return string|false
 	 */
 	static public function sanitizeIp($ipString)
@@ -106,8 +106,8 @@ class Piwik_IP
 	 * - IPv6 block using CIDR notation, e.g., 2001:DB8::/48 represents the IPv6 addresses from 2001:DB8:0:0:0:0:0:0 to 2001:DB8:0:FFFF:FFFF:FFFF:FFFF:FFFF
 	 * - wildcards, e.g., 192.168.0.*
 	 *
-	 * @param string $ipRangeString IP address range
-	 * @return string|false IP address range in CIDR notation
+	 * @param string  $ipRangeString  IP address range
+	 * @return string|false  IP address range in CIDR notation
 	 */
 	static public function sanitizeIpRange($ipRangeString)
 	{
@@ -155,8 +155,8 @@ class Piwik_IP
 	/**
 	 * Convert presentation format IP address to network address format
 	 *
-	 * @param string $ipString IP address, either IPv4 or IPv6, e.g., "127.0.0.1"
-	 * @return string Binary-safe string, e.g., "\x7F\x00\x00\x01"
+	 * @param string  $ipString  IP address, either IPv4 or IPv6, e.g., "127.0.0.1"
+	 * @return string  Binary-safe string, e.g., "\x7F\x00\x00\x01"
 	 */
 	static public function P2N($ipString)
 	{
@@ -170,8 +170,8 @@ class Piwik_IP
 	 *
 	 * @see prettyPrint()
 	 *
-	 * @param string $ip IP address in network address format
-	 * @return string IP address in presentation format
+	 * @param string  $ip  IP address in network address format
+	 * @return string  IP address in presentation format
 	 */
 	static public function N2P($ip)
 	{
@@ -183,8 +183,8 @@ class Piwik_IP
 	/**
 	 * Alias for N2P()
 	 *
-	 * @param string $ip IP address in network address format
-	 * @return string IP address in presentation format
+	 * @param string  $ip  IP address in network address format
+	 * @return string  IP address in presentation format
 	 */
 	static public function prettyPrint($ip)
 	{
@@ -194,8 +194,8 @@ class Piwik_IP
  	/**
 	 * Is this an IPv4, IPv4-compat, or IPv4-mapped address?
 	 *
-	 * @param string $ip IP address in network address format
-	 * @return bool True if IPv4, else false
+	 * @param string  $ip  IP address in network address format
+	 * @return bool  True if IPv4, else false
 	 */
 	static public function isIPv4($ip)
 	{
@@ -230,8 +230,8 @@ class Piwik_IP
 	 * This function does not support the long (or its string representation)
 	 * returned by the built-in ip2long() function, from Piwik 1.3 and earlier.
 	 *
-	 * @param string $ip IPv4 address in network address format
-	 * @return string IP address in presentation format
+	 * @param string  $ip  IPv4 address in network address format
+	 * @return string  IP address in presentation format
 	 */
 	static public function long2ip($ip)
 	{
@@ -258,8 +258,8 @@ class Piwik_IP
 	/**
 	 * Get low and high IP addresses for a specified range.
 	 *
-	 * @param array $ipRange An IP address range in presentation format
-	 * @return array|false Array ($lowIp, $highIp) in network address format, or false if failure
+	 * @param array  $ipRange  An IP address range in presentation format
+	 * @return array|false  Array ($lowIp, $highIp) in network address format, or false if failure
 	 */
 	static public function getIpsForRange($ipRange)
 	{
@@ -302,9 +302,9 @@ class Piwik_IP
 	 *
 	 * An IPv4-mapped address should be range checked with an IPv4-mapped address range.
 	 *
-	 * @param string $ip IP address in network address format
-	 * @param array $ipRanges List of IP address ranges
-	 * @return bool True if in any of the specified IP address ranges; else false.
+	 * @param string  $ip        IP address in network address format
+	 * @param array   $ipRanges  List of IP address ranges
+	 * @return bool  True if in any of the specified IP address ranges; else false.
 	 */
 	static public function isIpInRange($ip, $ipRanges)
 	{
@@ -353,7 +353,7 @@ class Piwik_IP
 	 * Returns the best possible IP of the current user, in the format A.B.C.D
 	 * For example, this could be the proxy client's IP address.
 	 *
-	 * @return string IP address in presentation format
+	 * @return string  IP address in presentation format
 	 */
 	static public function getIpFromHeader()
 	{
@@ -376,8 +376,8 @@ class Piwik_IP
 	/**
 	 * Returns a non-proxy IP address from header
 	 *
-	 * @param string $default Default value to return if no matching proxy header
-	 * @param array $proxyHeaders List of proxy headers
+	 * @param string  $default       Default value to return if no matching proxy header
+	 * @param array   $proxyHeaders  List of proxy headers
 	 * @return string
 	 */
 	static public function getNonProxyIpFromHeader($default, $proxyHeaders)
@@ -408,9 +408,9 @@ class Piwik_IP
 	/**
 	 * Returns the last IP address in a comma separated list, subject to an optional exclusion list.
 	 *
-	 * @param string $csv Comma separated list of elements
-	 * @param array $excludedIps Optional list of excluded IP addresses (or IP address ranges)
-	 * @return string Last (non-excluded) IP address in the list
+	 * @param string  $csv          Comma separated list of elements
+	 * @param array   $excludedIps  Optional list of excluded IP addresses (or IP address ranges)
+	 * @return string  Last (non-excluded) IP address in the list
 	 */
 	static public function getLastIpFromList($csv, $excludedIps = null)
 	{
@@ -433,8 +433,8 @@ class Piwik_IP
 	/**
 	 * Get hostname for a given IP address
 	 *
-	 * @param string $ipStr Human-readable IP address
-	 * @return string Hostname or unmodified $ipStr if failure
+	 * @param string  $ipStr  Human-readable IP address
+	 * @return string  Hostname or unmodified $ipStr if failure
 	 */
 	static public function getHostByAddr($ipStr)
 	{
@@ -450,8 +450,8 @@ class Piwik_IP
  *
  * @link http://php.net/inet_ntop
  *
- * @param string $in_addr 32-bit IPv4 or 128-bit IPv6 address
- * @return string|false string representation of address or false on failure
+ * @param string  $in_addr  32-bit IPv4 or 128-bit IPv6 address
+ * @return string|false  string representation of address or false on failure
  */
 function php_compat_inet_ntop($in_addr)
 {
@@ -523,8 +523,8 @@ function php_compat_inet_ntop($in_addr)
  *
  * @link http://php.net/inet_pton
  *
- * @param string $address a human readable IPv4 or IPv6 address
- * @return string in_addr representation or false on failure
+ * @param string  $address  a human readable IPv4 or IPv6 address
+ * @return string  in_addr representation or false on failure
  */
 function php_compat_inet_pton($address)
 {

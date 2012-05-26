@@ -16,6 +16,11 @@
  */
 class Piwik_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db_Adapter_Interface
 {
+	/**
+	 * Constructor
+	 *
+	 * @param array|Zend_Config  $config  database configuration
+	 */
 	public function __construct($config)
 	{
 		// Enable LOAD DATA INFILE
@@ -43,6 +48,7 @@ class Piwik_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db
 
 	/**
 	 * Check MySQL version
+	 *
 	 * @throws Exception
 	 */
 	public function checkServerVersion()
@@ -57,6 +63,7 @@ class Piwik_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db
 
 	/**
 	 * Check client version compatibility against database server
+	 *
 	 * @throws Exception
 	 */
 	public function checkClientVersion()
@@ -105,8 +112,8 @@ class Piwik_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db
 	/**
 	 * Test error number
 	 *
-	 * @param Exception $e
-	 * @param string $errno
+	 * @param Exception  $e
+	 * @param string     $errno
 	 * @return bool
 	 */
 	public function isErrNo($e, $errno)
@@ -129,8 +136,8 @@ class Piwik_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db
 	 * Workaround some SQL statements not compatible with prepare().
 	 * See http://framework.zend.com/issues/browse/ZF-1398
 	 *
-	 * @param string $sqlQuery
-	 * @return int Number of rows affected (SELECT/INSERT/UPDATE/DELETE)
+	 * @param string  $sqlQuery
+	 * @return int  Number of rows affected (SELECT/INSERT/UPDATE/DELETE)
 	 */
 	public function exec( $sqlQuery )
 	{

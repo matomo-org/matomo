@@ -21,6 +21,9 @@ class Piwik_Session_SaveHandler_DbTable implements Zend_Session_SaveHandler_Inte
 	protected $config;
 	protected $maxLifetime;
 
+	/**
+	 * @param array  $config
+	 */
 	function __construct($config)
 	{
 		$this->config = $config;
@@ -40,8 +43,8 @@ class Piwik_Session_SaveHandler_DbTable implements Zend_Session_SaveHandler_Inte
 	/**
 	 * Open Session - retrieve resources
 	 *
-	 * @param string $save_path
-	 * @param string $name
+	 * @param string  $save_path
+	 * @param string  $name
 	 * @return boolean
 	 */
 	public function open($save_path, $name)
@@ -64,7 +67,7 @@ class Piwik_Session_SaveHandler_DbTable implements Zend_Session_SaveHandler_Inte
 	/**
 	 * Read session data
 	 *
-	 * @param string $id
+	 * @param string  $id
 	 * @return string
 	 */
 	public function read($id)
@@ -83,8 +86,8 @@ class Piwik_Session_SaveHandler_DbTable implements Zend_Session_SaveHandler_Inte
 	/**
 	 * Write Session - commit data to resource
 	 *
-	 * @param string $id
-	 * @param mixed $data
+	 * @param string  $id
+	 * @param mixed   $data
 	 * @return boolean
 	 */
 	public function write($id, $data)
@@ -109,7 +112,7 @@ class Piwik_Session_SaveHandler_DbTable implements Zend_Session_SaveHandler_Inte
 	 * Destroy Session - remove data from resource for
 	 * given session id
 	 *
-	 * @param string $id
+	 * @param string  $id
 	 * @return boolean
 	 */
 	public function destroy($id)
@@ -126,7 +129,7 @@ class Piwik_Session_SaveHandler_DbTable implements Zend_Session_SaveHandler_Inte
 	 * Garbage Collection - remove old session data older
 	 * than $maxlifetime (in seconds)
 	 *
-	 * @param int $maxlifetime
+	 * @param int  $maxlifetime  timestamp in seconds
 	 * @return true
 	 */
 	public function gc($maxlifetime)

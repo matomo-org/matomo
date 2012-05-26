@@ -23,14 +23,31 @@ require_once PIWIK_INCLUDE_PATH . '/libs/PclZip/pclzip.lib.php';
  */
 class Piwik_Unzip_PclZip implements Piwik_Unzip_Interface
 {
+	/**
+	 * @var PclZip
+	 */
 	private $pclzip;
+	/**
+	 * @var string
+	 */
 	public $filename;
 
-	function __construct($filename) {
+	/**
+	 * Constructor
+	 *
+	 * @param string  $filename  Name of the .zip archive
+	 */
+	public function __construct($filename) {
 		$this->pclzip = new PclZip($filename);
 		$this->filename = $filename;
 	}
 
+	/**
+	 * Extract files from archive to target directory
+	 *
+	 * @param string  $pathExtracted  Absolute path of target directory
+	 * @return mixed  Array of filenames if successful; or 0 if an error occurred
+	 */
 	public function extract($pathExtracted) {
 		$pathExtracted = str_replace('\\', '/', $pathExtracted);
 		$list = $this->pclzip->listContent();
@@ -63,6 +80,11 @@ class Piwik_Unzip_PclZip implements Piwik_Unzip_Interface
 		);
 	}
 
+	/**
+	 * Get error status string for the latest error
+	 *
+	 * @return string
+	 */
 	public function errorInfo() {
 		return $this->pclzip->errorInfo(true);
 	}

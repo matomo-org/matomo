@@ -18,6 +18,10 @@
  */
 class Piwik_Session_Namespace extends Zend_Session_Namespace
 {
+	/**
+	 * @param string  $namespace
+	 * @param bool    $singleInstance
+	 */
 	public function __construct($namespace = 'Default', $singleInstance = false)
 	{
 		if(Piwik_Common::isPhpCliMode())

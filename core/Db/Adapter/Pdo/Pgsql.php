@@ -36,6 +36,7 @@ class Piwik_Db_Adapter_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements Pi
 
 	/**
 	 * Check PostgreSQL version
+	 *
 	 * @throws Exception
 	 */
 	public function checkServerVersion()
@@ -98,8 +99,8 @@ class Piwik_Db_Adapter_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements Pi
 	/**
 	 * Test error number
 	 *
-	 * @param Exception $e
-	 * @param string $errno
+	 * @param Exception  $e
+	 * @param string     $errno
 	 * @return bool
 	 */
 	public function isErrNo($e, $errno)

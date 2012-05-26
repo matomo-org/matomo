@@ -15,10 +15,27 @@
  */
 class Piwik_WidgetsList
 {
+	/**
+	 * List of widgets
+	 *
+	 * @var array
+	 */
 	static protected $widgets = null;
+
+	/**
+	 * Indicated whether the hook was posted or not
+	 *
+	 * @var bool
+	 */
 	static protected $hookCalled = false;
-	
-	static function get()
+
+	/**
+	 * Returns all available widgets
+	 * The event WidgetsList.add is used to create the list
+	 *
+	 * @return array
+	 */
+	static public function get()
 	{
 		if(!self::$hookCalled)
 		{
@@ -27,8 +44,17 @@ class Piwik_WidgetsList
 		}
 		return self::$widgets;
 	}
-	
-	static function add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters)
+
+	/**
+	 * Adds an widget to the list
+	 *
+	 * @param string  $widgetCategory
+	 * @param string  $widgetName
+	 * @param string  $controllerName
+	 * @param string  $controllerAction
+	 * @param array   $customParameters
+	 */
+	static public function add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters)
 	{
 		$widgetCategory = Piwik_Translate($widgetCategory);
 		$widgetName = Piwik_Translate($widgetName);
@@ -51,8 +77,15 @@ class Piwik_WidgetsList
 										) + $customParameters
 									);
 	}
-	
-	static function isDefined($controllerName, $controllerAction)
+
+	/**
+	 * Checks if the widget with the given parameters exists in der widget list
+	 *
+	 * @param string  $controllerName
+	 * @param string  $controllerAction
+	 * @return bool
+	 */
+	static public function isDefined($controllerName, $controllerAction)
 	{
 		$widgetsList = self::get();
 		foreach($widgetsList as $widgetCategory => $widgets) 
@@ -70,16 +103,43 @@ class Piwik_WidgetsList
 	}
 }
 
+/**
+ * Returns all available widgets
+ *
+ * @see Piwik_WidgetsList::get
+ *
+ * @return array
+ */
 function Piwik_GetWidgetsList()
 {
 	return Piwik_WidgetsList::get();
 }
 
+/**
+ * Adds an widget to the list
+ *
+ * @see Piwik_WidgetsList::add
+ *
+ * @param string  $widgetCategory
+ * @param string  $widgetName
+ * @param string  $controllerName
+ * @param string  $controllerAction
+ * @param array   $customParameters
+ */
 function Piwik_AddWidget( $widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array())
 {
 	Piwik_WidgetsList::add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters);
 }
 
+/**
+ * Checks if the widget with the given parameters exists in der widget list
+ *
+ * @see Piwik_WidgetsList::isDefined
+ *
+ * @param string  $controllerName
+ * @param string  $controllerAction
+ * @return bool
+ */
 function Piwik_IsWidgetDefined($controllerName, $controllerAction)
 {
 	return Piwik_WidgetsList::isDefined($controllerName, $controllerAction);

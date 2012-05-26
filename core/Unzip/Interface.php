@@ -21,15 +21,15 @@ interface Piwik_Unzip_Interface
 	/**
 	 * Constructor
 	 *
-	 * @param string $filename Name of the .zip archive
+	 * @param string  $filename  Name of the .zip archive
 	 */
-	function __construct($filename);
+	public function __construct($filename);
 
 	/**
 	 * Extract files from archive to target directory
 	 *
-	 * @param string $pathExtracted Absolute path of target directory
-	 * @return mixed Array of filenames if successful; or 0 if an error occurred
+	 * @param string  $pathExtracted  Absolute path of target directory
+	 * @return mixed  Array of filenames if successful; or 0 if an error occurred
 	 */
 	public function extract($pathExtracted);
 

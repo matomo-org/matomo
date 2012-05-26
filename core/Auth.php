@@ -54,10 +54,10 @@ class Piwik_Auth_Result extends Zend_Auth_Result
 	/**
 	 * Constructor for Piwik_Auth_Result
 	 *
-	 * @param int $code
-	 * @param string $login identity
-	 * @param string $token_auth
-	 * @param array $messages
+	 * @param int     $code
+	 * @param string  $login identity
+	 * @param string  $token_auth
+	 * @param array   $messages
 	 */
 	public function __construct($code, $login, $token_auth, array $messages = array())
 	{

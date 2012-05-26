@@ -23,7 +23,7 @@ class Piwik_Session extends Zend_Session
 	/**
 	 * Are we using file-based session store?
 	 *
-	 * @return bool True if file-based; false otherwise
+	 * @return bool  True if file-based; false otherwise
 	 */
 	public static function isFileBasedSessions()
 	{
@@ -35,7 +35,7 @@ class Piwik_Session extends Zend_Session
 	/**
 	 * Start the session
 	 *
-	 * @param array|bool $options An array of configuration options; the auto-start (bool) setting is ignored
+	 * @param array|bool  $options  An array of configuration options; the auto-start (bool) setting is ignored
 	 * @return void
 	 */
 	public static function start($options = false)

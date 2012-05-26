@@ -37,6 +37,10 @@ abstract class Piwik_Controller
 	 * @var Piwik_Date|null 
 	 */
 	protected $date;
+
+	/**
+	 * @var int
+	 */
 	protected $idSite;
 	
 	/**
@@ -71,8 +75,9 @@ abstract class Piwik_Controller
 	/**
 	 * Helper method to convert "today" or "yesterday" to the default timezone specified.
 	 * If the date is absolute, ie. YYYY-MM-DD, it will not be converted to the timezone
-	 * @param string $date today, yesterday, YYYY-MM-DD
-	 * @param string $defaultTimezone
+	 *
+	 * @param string  $date             today, yesterday, YYYY-MM-DD
+	 * @param string  $defaultTimezone  default timezone to use
 	 * @return Piwik_Date
 	 */
 	protected function getDateParameterInTimezone($date, $defaultTimezone )
@@ -101,7 +106,8 @@ abstract class Piwik_Controller
 	/**
 	 * Sets the date to be used by all other methods in the controller.
 	 * If the date has to be modified, it should be called just after the controller construct
-	 * @param Piwik_Date $date
+	 *
+	 * @param Piwik_Date  $date
 	 * @return void
 	 */
 	protected function setDate(Piwik_Date $date)
@@ -127,8 +133,8 @@ abstract class Piwik_Controller
 	 * - echo the output of the rendering if fetch = false
 	 * - returns the output of the rendering if fetch = true
 	 *
-	 * @param Piwik_ViewDataTable $view
-	 * @param bool $fetch
+	 * @param Piwik_ViewDataTable  $view   view object to use
+	 * @param bool                 $fetch  indicates whether to output or return the content
 	 * @return string|void
 	 */
 	protected function renderView( Piwik_ViewDataTable $view, $fetch = false)
@@ -156,9 +162,9 @@ abstract class Piwik_Controller
 	 * Returns a ViewDataTable object of an Evolution graph 
 	 * for the last30 days/weeks/etc. of the current period, relative to the current date.
 	 *
-	 * @param string $currentModuleName
-	 * @param string $currentControllerAction
-	 * @param string $apiMethod
+	 * @param string  $currentModuleName
+	 * @param string  $currentControllerAction
+	 * @param string  $apiMethod
 	 * @return Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution
 	 */
 	protected function getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod)
@@ -184,13 +190,13 @@ abstract class Piwik_Controller
 	 * of different *.get reports. The returned ViewDataTable is configured with column
 	 * translations and selectable metrics.
 	 *
-	 * @param string $currentModuleName
-	 * @param string $currentControllerAction
-	 * @param array $columnsToDisplay
-	 * @param array $selectableColumns
-	 * @param bool|string $reportDocumentation
-	 * @param string $apiMethod The method to request the report from
-	 *                     (by default, this is API.get but it can be changed for custom stuff)
+	 * @param string       $currentModuleName
+	 * @param string       $currentControllerAction
+	 * @param array        $columnsToDisplay
+	 * @param array        $selectableColumns
+	 * @param bool|string  $reportDocumentation
+	 * @param string       $apiMethod The method to request the report from
+	 *                                (by default, this is API.get but it can be changed for custom stuff)
 	 * @return Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution
 	 */
 	protected function getLastUnitGraphAcrossPlugins($currentModuleName, $currentControllerAction,
@@ -263,7 +269,7 @@ abstract class Piwik_Controller
 	 * - date: YYYY-MM-DD, today, yesterday
 	 * - period: day, week, month, year
 	 *
-	 * @param array $paramsToSet array( 'date' => 'last50', 'viewDataTable' =>'sparkline' )
+	 * @param array  $paramsToSet  array( 'date' => 'last50', 'viewDataTable' =>'sparkline' )
 	 * @throws Piwik_Access_NoAccessException
 	 * @return array
 	 */
@@ -313,10 +319,10 @@ abstract class Piwik_Controller
 	 * Given for example, $period = month, $lastN = 'last6', $endDate = '2011-07-01', 
 	 * It will return the $date = '2011-01-01,2011-07-01' which is useful to draw graphs for the last N periods
 	 * 
-	 * @param string $period
-	 * @param string $lastN
-	 * @param string $endDate
-	 * @param Piwik_Site $site
+	 * @param string      $period
+	 * @param string      $lastN
+	 * @param string      $endDate
+	 * @param Piwik_Site  $site
 	 * @return string
 	 */
 	static public function getDateRangeRelativeToEndDate($period, $lastN, $endDate, $site )
@@ -331,7 +337,7 @@ abstract class Piwik_Controller
 	 * Returns a numeric value from the API.
 	 * Works only for API methods that originally returns numeric values (there is no cast here)
 	 *
-	 * @param string $methodToCall Name of method to call, eg. Referers.getNumberOfDistinctSearchEngines
+	 * @param string  $methodToCall  Name of method to call, eg. Referers.getNumberOfDistinctSearchEngines
 	 * @return int|float
 	 */
 	protected function getNumericValue( $methodToCall )
@@ -347,8 +353,8 @@ abstract class Piwik_Controller
 	 * It will automatically build a sparkline by setting the viewDataTable=sparkline parameter in the URL.
 	 * It will also computes automatically the 'date' for the 'last30' days/weeks/etc. 
 	 *
-	 * @param string $action Method name of the controller to call in the img src
-	 * @param array Array of name => value of parameters to set in the generated GET url 
+	 * @param string  $action            Method name of the controller to call in the img src
+	 * @param array   $customParameters  Array of name => value of parameters to set in the generated GET url
 	 * @return string The generated URL
 	 */
 	protected function getUrlSparkline( $action, $customParameters = array() )
@@ -373,8 +379,9 @@ abstract class Piwik_Controller
 	
 	/**
 	 * Sets the first date available in the calendar
-	 * @param Piwik_Date $minDate
-	 * @param Piwik_View $view
+	 *
+	 * @param Piwik_Date  $minDate
+	 * @param Piwik_View  $view
 	 * @return void
 	 */
 	protected function setMinDateView(Piwik_Date $minDate, $view)
@@ -386,8 +393,9 @@ abstract class Piwik_Controller
 	
 	/**
 	 * Sets "today" in the calendar. Today does not always mean "UTC" today, eg. for websites in UTC+12.
-	 * @param Piwik_Date $maxDate
-	 * @param Piwik_View $view
+	 *
+	 * @param Piwik_Date  $maxDate
+	 * @param Piwik_View  $view
 	 * @return void
 	 */
 	protected function setMaxDateView(Piwik_Date $maxDate, $view)
@@ -396,11 +404,14 @@ abstract class Piwik_Controller
 		$view->maxDateMonth = $maxDate->toString('m');
 		$view->maxDateDay = $maxDate->toString('d');
 	}
-	
+
 	/**
-	 * Sets general variables to the view that are used by various templates and Javascript.
+	 * Sets general variables to the view that are used by
+	 * various templates and Javascript.
 	 * If any error happens, displays the login screen
-	 * @param Piwik_View $view
+	 *
+	 * @param Piwik_View  $view
+	 * @throws Exception
 	 * @return void
 	 */
 	protected function setGeneralVariablesView($view)
@@ -469,7 +480,7 @@ abstract class Piwik_Controller
 	/**
 	 * Set the minimal variables in the view object
 	 * 
-	 * @param Piwik_View $view
+	 * @param Piwik_View  $view
 	 */
 	protected function setBasicVariablesView($view)
 	{
@@ -487,10 +498,12 @@ abstract class Piwik_Controller
 			$view->setXFrameOptions('sameorigin');
 		}
 	}
-	
+
 	/**
-	 * Sets general period variables (available periods, current period, period labels) used by templates 
-	 * @param Piwik_View $view
+	 * Sets general period variables (available periods, current period, period labels) used by templates
+	 *
+	 * @param Piwik_View  $view
+	 * @throws Exception
 	 * @return void
 	 */
 	public static function setPeriodVariablesView($view)
@@ -529,12 +542,13 @@ abstract class Piwik_Controller
 	/**
 	 * Set metrics variables (displayed metrics, available metrics) used by template
 	 * Handles the server-side of the metrics picker
-	 * @param Piwik_View|Piwik_ViewDataTable $view
-	 * @param string $defaultMetricDay name of the default metric for period=day
-	 * @param string $defaultMetric name of the default metric for other periods
-	 * @param array $metricsForDay metrics that are only available for period=day
-	 * @param array $metricsForAllPeriods metrics that are available for all periods
-	 * @param bool $labelDisplayed add 'label' to columns to display?
+	 *
+	 * @param Piwik_View|Piwik_ViewDataTable  $view
+	 * @param string                          $defaultMetricDay      name of the default metric for period=day
+	 * @param string                          $defaultMetric         name of the default metric for other periods
+	 * @param array                           $metricsForDay         metrics that are only available for period=day
+	 * @param array                           $metricsForAllPeriods  metrics that are available for all periods
+	 * @param bool                            $labelDisplayed        add 'label' to columns to display?
 	 * @return void
 	 */
 	protected function setMetricsVariablesView(Piwik_ViewDataTable $view, $defaultMetricDay='nb_uniq_visitors',
@@ -589,12 +603,12 @@ abstract class Piwik_Controller
 	 * Helper method used to redirect the current http request to another module/action
 	 * If specified, will also redirect to a given website, period and /or date
 	 *
-	 * @param string $moduleToRedirect Module, eg. "MultiSites"
-	 * @param string $actionToRedirect Action, eg. "index"
-	 * @param string $websiteId Website ID, eg. 1
-	 * @param string $defaultPeriod Default period, eg. "day"
-	 * @param string $defaultDate Default date, eg. "today"
-	 * @param array $parameters
+	 * @param string  $moduleToRedirect  Module, eg. "MultiSites"
+	 * @param string  $actionToRedirect  Action, eg. "index"
+	 * @param string  $websiteId         Website ID, eg. 1
+	 * @param string  $defaultPeriod     Default period, eg. "day"
+	 * @param string  $defaultDate       Default date, eg. "today"
+	 * @param array   $parameters        Parameters to append to url
 	 */
 	function redirectToIndex($moduleToRedirect, $actionToRedirect, $websiteId = null, $defaultPeriod = null, $defaultDate = null, $parameters = array())
 	{
@@ -648,7 +662,8 @@ abstract class Piwik_Controller
 	
 
 	/**
-	 * Returns default website that Piwik should load 
+	 * Returns default website that Piwik should load
+	 *
 	 * @return Piwik_Site
 	 */
 	protected function getDefaultWebsiteId()
@@ -679,7 +694,8 @@ abstract class Piwik_Controller
 
 	/**
 	 * Returns default date for Piwik reports
-	 * @return string today, 2010-01-01, etc.
+	 *
+	 * @return string  today, 2010-01-01, etc.
 	 */
 	protected function getDefaultDate()
 	{
@@ -704,7 +720,8 @@ abstract class Piwik_Controller
 	
 	/**
 	 * Returns default date for Piwik reports
-	 * @return string today, 2010-01-01, etc.
+	 *
+	 * @return string  today, 2010-01-01, etc.
 	 */
 	protected function getDefaultPeriod()
 	{
@@ -731,8 +748,9 @@ abstract class Piwik_Controller
 	 * actions that are either invoked via AJAX or redirect to a page
 	 * within the site.  The token should never appear in the browser's
 	 * address bar.
-	 * 
-	 * @return throws exception if token doesn't match
+	 *
+	 * @throws Piwik_Access_NoAccessException  if token doesn't match
+	 * @return void
 	 */
 	protected function checkTokenInUrl()
 	{

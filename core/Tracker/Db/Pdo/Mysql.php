@@ -147,11 +147,10 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
 	/**
 	 * Executes a query, using optional bound parameters.
 	 * 
-	 * @param string Query 
-	 * @param array|string Parameters to bind array('idsite'=> 1)
-	 * 
-	 * @return PDOStatement or false if failed
-	 * @throws Exception if an exception occured
+	 * @param string        $query       Query
+	 * @param array|string  $parameters  Parameters to bind array('idsite'=> 1)
+	 * @return PDOStatement|bool  PDOStatement or false if failed
+	 * @throws Piwik_Tracker_Db_Exception if an exception occured
 	 */
 	public function query($query, $parameters = array()) 
 	{

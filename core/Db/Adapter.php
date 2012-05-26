@@ -22,7 +22,7 @@ class Piwik_Db_Adapter
 	 * @param string $adapterName database adapter name
 	 * @param array $dbInfos database connection info
 	 * @param bool $connect
-	 * @return mixed (Piwik_Db_Adapter_Mysqli, Piwik_Db_Adapter_Pdo_Mysql, etc)
+	 * @return Piwik_Db_Adapter_Interface
 	 */
 	public static function factory($adapterName, & $dbInfos, $connect = true)
 	{
@@ -72,7 +72,7 @@ class Piwik_Db_Adapter
 	/**
 	 * Get adapter class name
 	 *
-	 * @param string $adapterName
+	 * @param string  $adapterName
 	 * @return string
 	 */
 	private static function getAdapterClassName($adapterName)
@@ -83,7 +83,7 @@ class Piwik_Db_Adapter
 	/**
 	 * Get default port for named adapter
 	 *
-	 * @param string $adapterName
+	 * @param string  $adapterName
 	 * @return int
 	 */
 	public static function getDefaultPortForAdapter($adapterName)

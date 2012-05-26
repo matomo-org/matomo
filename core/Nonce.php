@@ -28,9 +28,9 @@ class Piwik_Nonce
 	/**
 	 * Generate nonce
 	 *
-	 * @param string $id Unique id to avoid namespace conflicts, e.g., ModuleName.ActionName
-	 * @param int $ttl Optional time-to-live in seconds; default is 5 minutes
-	 * @return string Nonce
+	 * @param string  $id   Unique id to avoid namespace conflicts, e.g., ModuleName.ActionName
+	 * @param int     $ttl  Optional time-to-live in seconds; default is 5 minutes
+	 * @return string  Nonce
 	 */
 	static public function getNonce($id, $ttl = 300)
 	{
@@ -54,9 +54,9 @@ class Piwik_Nonce
 	/**
 	 * Verify nonce and check referrer (if present, i.e., it may be suppressed by the browser or a proxy/network).
 	 *
-	 * @param string $id Unique id
-	 * @param string $cnonce Nonce sent to client
-	 * @return bool true if valid; false otherwise
+	 * @param string  $id      Unique id
+	 * @param string  $cnonce  Nonce sent to client
+	 * @return bool  true if valid; false otherwise
 	 */
 	static public function verifyNonce($id, $cnonce)
 	{
@@ -91,7 +91,7 @@ class Piwik_Nonce
 	/**
 	 * Discard nonce ("now" as opposed to waiting for garbage collection)
 	 *
-	 * @param string $id Unique id
+	 * @param string  $id  Unique id
 	 */
 	static public function discardNonce($id)
 	{
