@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Adapter.php 6109 2012-03-24 11:49:29Z vipsoft $
+ * @version $Id$
  *
  * @category Piwik
  * @package Piwik
