@@ -39,7 +39,7 @@ class Piwik_Actions extends Piwik_Plugin
 		return $info;
 	}
 	
-	function getListHooksRegistered()
+	public function getListHooksRegistered()
 	{
 		$hooks = array(
 			'ArchiveProcessing_Day.compute' => 'archiveDay',
@@ -568,7 +568,17 @@ class Piwik_Actions extends Piwik_Plugin
 		// Record the final datasets
 		$this->archiveDayRecordInDatabase($archiveProcessing);
 	}
-	
+
+	/**
+	 * @param $select
+	 * @param $from
+	 * @param $where
+	 * @param $orderBy
+	 * @param $groupBy
+	 * @param $sprintfField
+	 * @param Piwik_ArchiveProcessing $archiveProcessing
+	 * @return int
+	 */
 	protected function archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy,
 			$sprintfField, $archiveProcessing)
 	{
@@ -760,7 +770,12 @@ class Piwik_Actions extends Piwik_Plugin
 	const CACHE_PARSED_INDEX_NAME = 0;
 	const CACHE_PARSED_INDEX_TYPE = 1;
 	static $cacheParsedAction = array();
-	
+
+	/**
+	 * @param Zend_Db_Statement|PDOStatement $query
+	 * @param string|bool $fieldQueried
+	 * @return int
+	 */
 	protected function updateActionsTableWithRowQuery($query, $fieldQueried = false)
 	{
 		$rowsProcessed = 0;

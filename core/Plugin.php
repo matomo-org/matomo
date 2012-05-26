@@ -30,13 +30,13 @@ abstract class Piwik_Plugin
 	 * - 'translationAvailable' => bool // is there a translation file in plugins/your-plugin/lang/* ?
 	 * - 'TrackerPlugin' => bool        // should we load this plugin during the stats logging process?
 	 */
-	abstract function getInformation();
+	abstract public function getInformation();
 
 	/**
 	 * Returns the list of hooks registered with the methods names
 	 * @return array
 	 */
-	function getListHooksRegistered()
+	public function getListHooksRegistered()
 	{
 		return array();
 	}
