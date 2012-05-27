@@ -175,7 +175,8 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 		$deletedDataSummary = Piwik_PrivacyManager::getPurgeEstimate($settings);
 		
 		// determine the DB size & purged DB size
-		$tableStatuses = Piwik_DBStats_API::getInstance()->getAllTablesStatus();
+		$metadataProvider = new Piwik_DBStats_MySQLMetadataProvider();
+		$tableStatuses = $metadataProvider->getAllTablesStatus();
 		
 		$totalBytes = 0;
 		foreach ($tableStatuses as $status)
