@@ -19,13 +19,10 @@ class Piwik_Actions_Controller extends Piwik_Controller
 {
 	const ACTIONS_REPORT_ROWS_DISPLAY = 100;
 	
-	protected function getPageUrlsView($currentAction, $controllerActionSubtable)
+	protected function getPageUrlsView($currentAction, $controllerActionSubtable, $apiAction)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init(  	$this->pluginName,
-						$currentAction,
-						'Actions.getPageUrls',
-						$controllerActionSubtable );
+		$view->init($this->pluginName, $currentAction, $apiAction, $controllerActionSubtable);
 		$view->setColumnTranslation('label', Piwik_Translate('Actions_ColumnPageURL'));
 		return $view;
 	}
@@ -46,7 +43,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	
 	public function getPageUrls($fetch = false)
 	{
-		$view = $this->getPageUrlsView(__FUNCTION__, 'getPageUrlsSubDataTable');
+		$view = $this->getPageUrlsView(__FUNCTION__, 'getPageUrlsSubDataTable', 'Actions.getPageUrls');
 		$this->configureViewPages($view);
 		$this->configureViewActions($view);
 		return $this->renderView($view, $fetch);
@@ -54,7 +51,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	
 	public function getPageUrlsSubDataTable($fetch = false)
 	{
-		$view = $this->getPageUrlsView(__FUNCTION__, 'getPageUrlsSubDataTable');
+		$view = $this->getPageUrlsView(__FUNCTION__, 'getPageUrlsSubDataTable', 'Actions.getPageUrls');
 		$this->configureViewPages($view);
 		$this->configureViewActions($view);
 		return $this->renderView($view, $fetch);
@@ -80,7 +77,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	}
 	
 	public function getEntryPageUrls($fetch = false) {
-		$view = $this->getPageUrlsView(__FUNCTION__, 'getEntryPageUrlsSubDataTable');
+		$view = $this->getPageUrlsView(__FUNCTION__, 'getEntryPageUrlsSubDataTable', 'Actions.getEntryPageUrls');
 		$this->configureViewEntryPageUrls($view);
 		$this->configureViewActions($view);
 		return $this->renderView($view, $fetch);
@@ -88,7 +85,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	
 	public function getEntryPageUrlsSubDataTable($fetch = false)
 	{
-		$view = $this->getPageUrlsView(__FUNCTION__, 'getEntryPageUrlsSubDataTable');
+		$view = $this->getPageUrlsView(__FUNCTION__, 'getEntryPageUrlsSubDataTable', 'Actions.getEntryPageUrls');
 		$this->configureViewEntryPageUrls($view);
 		$this->configureViewActions($view);
 		return $this->renderView($view, $fetch);
@@ -100,10 +97,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->setColumnsToDisplay( array('label','entry_nb_visits', 'entry_bounce_count', 'bounce_rate') );
 		$view->setColumnTranslation('entry_bounce_count', Piwik_Translate('General_ColumnBounces'));
 		$view->setColumnTranslation('entry_nb_visits', Piwik_Translate('General_ColumnEntrances'));
-		// remove pages that are not entry pages
-		$view->queueFilter('ColumnCallbackDeleteRow', array('entry_nb_visits', 'strlen'), $priorityFilter = true);
 	}
-	
 	
 	/*
 	 * EXIT PAGES
@@ -117,7 +111,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	
 	public function getExitPageUrls($fetch = false)
 	{
-		$view = $this->getPageUrlsView(__FUNCTION__, 'getExitPageUrlsSubDataTable');
+		$view = $this->getPageUrlsView(__FUNCTION__, 'getExitPageUrlsSubDataTable', 'Actions.getExitPageUrls');
 		$this->configureViewExitPageUrls($view);
 		$this->configureViewActions($view);
 		return $this->renderView($view, $fetch);
@@ -125,7 +119,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	
 	public function getExitPageUrlsSubDataTable($fetch = false)
 	{
-		$view = $this->getPageUrlsView(__FUNCTION__, 'getExitPageUrlsSubDataTable');
+		$view = $this->getPageUrlsView(__FUNCTION__, 'getExitPageUrlsSubDataTable', 'Actions.getExitPageUrls');
 		$this->configureViewExitPageUrls($view);
 		$this->configureViewActions($view);
 		return $this->renderView($view, $fetch);
@@ -136,10 +130,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->setSortedColumn('exit_nb_visits');
 		$view->setColumnsToDisplay( array('label', 'exit_nb_visits', 'nb_visits', 'exit_rate') );
 		$view->setColumnTranslation('exit_nb_visits', Piwik_Translate('General_ColumnExits'));
-		// remove pages that are not exit pages
-		$view->queueFilter('ColumnCallbackDeleteRow', array('exit_nb_visits', 'strlen'), $priorityFilter = true);
 	}
-	
 	
 	/*
 	 * PAGE TITLES

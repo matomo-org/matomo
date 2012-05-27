@@ -123,12 +123,18 @@ class Piwik_Actions_API
 	
 	public function getEntryPageUrls( $idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false )
 	{
-		return $this->getPageUrls( $idSite, $period, $date, $segment, $expanded, $idSubtable );
+		$dataTable = $this->getPageUrls($idSite, $period, $date, $segment, $expanded, $idSubtable);
+		// remove pages that are not entry pages
+		$dataTable->filter('ColumnCallbackDeleteRow', array('entry_nb_visits', 'strlen'));
+		return $dataTable;
 	}
 	
 	public function getExitPageUrls( $idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false )
 	{
-		return $this->getPageUrls( $idSite, $period, $date, $segment, $expanded, $idSubtable );
+		$dataTable = $this->getPageUrls($idSite, $period, $date, $segment, $expanded, $idSubtable);
+		// remove pages that are not exit pages
+		$dataTable->filter('ColumnCallbackDeleteRow', array('exit_nb_visits', 'strlen'));
+		return $dataTable;
 	}
 	
 	public function getPageUrl( $pageUrl, $idSite, $period, $date, $segment = false)
