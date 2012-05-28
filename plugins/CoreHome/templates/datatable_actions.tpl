@@ -1,7 +1,7 @@
 <div id="{$properties.uniqueId}">
 	<div class="reportDocumentation">
 		{if !empty($reportDocumentation)}<p>{$reportDocumentation}</p>{/if}
-		{if isset($properties.metadata.archived_date)}<p>{$properties.metadata.archived_date}</p>{/if}
+		{if isset($properties.metadata.archived_date)}<span class='helpDate'>{$properties.metadata.archived_date}</span>{/if}
 	</div>
 	<div class="dataTableActionsWrapper">
 	{if isset($arrayDataTable.result) and $arrayDataTable.result == 'error'}
