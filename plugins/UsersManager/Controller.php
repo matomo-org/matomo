@@ -174,7 +174,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 		$this->checkTokenInUrl();
 
 		Piwik_Tracker_IgnoreCookie::setIgnoreCookie();
-		Piwik::redirectToModule('UsersManager', 'userSettings');
+		Piwik::redirectToModule('UsersManager', 'userSettings', array('token_auth'=> false));
 	}
 
 	/**
