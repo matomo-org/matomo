@@ -200,7 +200,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 			
 			if ($id == Piwik_DataTable::ID_SUMMARY_ROW)
 			{
-				$newRow['issummaryrow'] = Piwik_DataTable::ID_SUMMARY_ROW;
+				$newRow['issummaryrow'] = true;
 			}
 			
 			if($this->isRenderSubtables()

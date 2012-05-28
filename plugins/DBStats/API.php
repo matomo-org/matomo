@@ -55,6 +55,7 @@ class Piwik_DBStats_API
 	 */
 	public function resetTableStatuses()
 	{
+		Piwik::checkUserIsSuperUser();
 		self::getInstance()->metadataProvider = new Piwik_DBStats_MySQLMetadataProvider();
 	}
 	

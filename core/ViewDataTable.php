@@ -1345,7 +1345,7 @@ abstract class Piwik_ViewDataTable
 			if ($strPeriod == 'range')
 			{
 				$idSite = Piwik_Common::getRequestVar('idSite', '');
-				if ($idSite == 0 || intval($idSite) != 0)
+				if (intval($idSite) != 0)
 				{
 					$site = new Piwik_Site($idSite);
 					$timezone = $site->getTimezone();
