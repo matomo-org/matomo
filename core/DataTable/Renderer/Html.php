@@ -24,11 +24,21 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 	protected $tableStructure;
 	protected $i;
 
+	/**
+	 * Sets the table id
+	 *
+	 * @param string  $id
+	 */
 	function setTableId($id)
 	{
 		$this->tableId = str_replace('.', '_', $id);
 	}
 
+	/**
+	 * Computes the dataTable output and returns the string/binary
+	 *
+	 * @return string
+	 */
 	function render()
 	{
 		$this->renderHeader();
@@ -38,14 +48,25 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 
 		return $this->renderTable($this->table);
 	}
-	
+
+	/**
+	 * Computes the exception output and returns the string/binary
+	 *
+	 * @return string
+	 */
 	function renderException()
 	{
 		$this->renderHeader();
 		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
 		return nl2br($exceptionMessage);
 	}
-	
+
+	/**
+	 * Computes the output for the given data table
+	 *
+	 * @param Piwik_DataTable  $table
+	 * @return string
+	 */
 	protected function renderTable($table)
 	{
 		if($table instanceof Piwik_DataTable_Array)
@@ -69,6 +90,14 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 		return $out;
 	}	
 
+	/**
+	 * Adds the given data table to the table structure array
+	 *
+	 * @param Piwik_DataTable_Simple  $table
+	 * @param null|string             $columnToAdd
+	 * @param null|string             $valueToAdd
+	 * @throws Exception
+	 */
 	protected function buildTableStructure($table, $columnToAdd = null, $valueToAdd = null)
 	{
 		$i = $this->i;
@@ -127,6 +156,11 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 		$this->allColumns['_idSubtable'] = $someIdSubTable;
 	}
 
+	/**
+	 * Computes the output for the table structure array
+	 *
+	 * @return string
+	 */
 	protected function renderDataTable()
 	{
 		$html = "<table ". ($this->tableId ? "id=\"{$this->tableId}\" " : "") ."border=\"1\">\n<thead>\n\t<tr>\n";

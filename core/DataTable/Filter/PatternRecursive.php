@@ -26,7 +26,12 @@ class Piwik_DataTable_Filter_PatternRecursive extends Piwik_DataTable_Filter
 	private $columnToFilter;
 	private $patternToSearch;
 	private $patternToSearchQuoted;
-	
+
+	/**
+	 * @param Piwik_DataTable  $table
+	 * @param string           $columnToFilter
+	 * @param string           $patternToSearch
+	 */
 	public function __construct( $table, $columnToFilter, $patternToSearch )
 	{
 		parent::__construct($table);
@@ -35,7 +40,11 @@ class Piwik_DataTable_Filter_PatternRecursive extends Piwik_DataTable_Filter
 		$this->patternToSearch = $patternToSearch;//preg_quote($patternToSearch);
 		$this->columnToFilter = $columnToFilter;
 	}
-	
+
+	/**
+	 * @param Piwik_DataTable $table
+	 * @return int
+	 */
 	public function filter( $table )
 	{
 		$rows = $table->getRows();

@@ -23,7 +23,14 @@ class Piwik_DataTable_Filter_ColumnCallbackReplace extends Piwik_DataTable_Filte
 	private $functionToApply;
 	private $functionParameters;
 	private $extraColumnParameters;
-	
+
+	/**
+	 * @param Piwik_DataTable  $table
+	 * @param array|string     $columnsToFilter
+	 * @param callback         $functionToApply
+	 * @param array|null       $functionParameters
+	 * @param array            $extraColumnParameters
+	 */
 	public function __construct( $table, $columnsToFilter, $functionToApply, $functionParameters = null,
 								 $extraColumnParameters = array() )
 	{
@@ -39,7 +46,12 @@ class Piwik_DataTable_Filter_ColumnCallbackReplace extends Piwik_DataTable_Filte
 		$this->columnsToFilter = $columnsToFilter;
 		$this->extraColumnParameters = $extraColumnParameters;
 	}
-	
+
+	/**
+	 * Filters the given data table
+	 *
+	 * @param Piwik_DataTable  $table
+	 */
 	public function filter($table)
 	{
 		foreach($table->getRows() as $key => $row)
@@ -70,11 +82,26 @@ class Piwik_DataTable_Filter_ColumnCallbackReplace extends Piwik_DataTable_Filte
 			}
 		}
 	}
-	
+
+	/**
+	 * Replaces the given column within given row with the given value
+	 *
+	 * @param Piwik_DataTable_Row  $row
+	 * @param string               $columnToFilter
+	 * @param mixed                $newValue
+	 */
 	protected function setElementToReplace($row, $columnToFilter, $newValue)
 	{
 		$row->setColumn($columnToFilter, $newValue);
 	}
+
+	/**
+	 * Returns the element that should be replaced
+	 *
+	 * @param Piwik_DataTable_Row  $row
+	 * @param string               $columnToFilter
+	 * @return mixed
+	 */
 	protected function getElementToReplace($row, $columnToFilter)
 	{
 		return $row->getColumn($columnToFilter);

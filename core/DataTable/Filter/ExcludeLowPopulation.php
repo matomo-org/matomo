@@ -24,6 +24,15 @@ class Piwik_DataTable_Filter_ExcludeLowPopulation extends Piwik_DataTable_Filter
 {
 	static public $minimumValue;
 	const MINIMUM_SIGNIFICANT_PERCENTAGE_THRESHOLD = 0.02;
+
+	/**
+	 * Constructor
+	 *
+	 * @param Piwik_DataTable  $table
+	 * @param string           $columnToFilter              column to filter
+	 * @param number           $minimumValue                minimum value
+	 * @param bool             $minimumPercentageThreshold
+	 */
 	public function __construct( $table, $columnToFilter, $minimumValue, $minimumPercentageThreshold = false )
 	{
 		parent::__construct($table);
@@ -41,7 +50,12 @@ class Piwik_DataTable_Filter_ExcludeLowPopulation extends Piwik_DataTable_Filter
 		}
 		self::$minimumValue = $minimumValue;
 	}
-	
+
+	/**
+	 * Executes filter and removes all rows below the defined minimum
+	 *
+	 * @param Piwik_DataTable  $table
+	 */
 	function filter($table)
 	{
 		$table->filter('ColumnCallbackDeleteRow',
@@ -50,7 +64,13 @@ class Piwik_DataTable_Filter_ExcludeLowPopulation extends Piwik_DataTable_Filter
 							)
 						);
 	}
-	
+
+	/**
+	 * Checks whether the given value is below the defined minimum
+	 *
+	 * @param number  $value  value to check
+	 * @return bool
+	 */
 	static public function excludeLowPopulation($value)
 	{
 		return $value >= self::$minimumValue;

@@ -20,19 +20,36 @@
  */
 class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 {
+	/**
+	 * Computes the dataTable output and returns the string/binary
+	 *
+	 * @return string
+	 */
 	function render()
 	{
 		$this->renderHeader();
 		return $this->renderTable($this->table);
 	}
-	
+
+	/**
+	 * Computes the exception output and returns the string/binary
+	 *
+	 * @return string
+	 */
 	function renderException()
 	{
 		$this->renderHeader();
 		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
 		return 'Error: '.$exceptionMessage;
 	}
-	
+
+	/**
+	 * Computes the output for the given data table
+	 *
+	 * @param Piwik_DataTable  $table
+	 * @return string
+	 * @throws Exception
+	 */
 	protected function renderTable($table)
 	{
 		if(!($table instanceof Piwik_DataTable_Array)
@@ -78,16 +95,29 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 		return $header . $out . $footer;
 	}
 
+	/**
+	 * Sends the xml file http header
+	 */
 	protected function renderHeader()
 	{
 		@header('Content-Type: text/xml; charset=utf-8');
 	}
 
+	/**
+	 * Returns the RSS file footer
+	 *
+	 * @return string
+	 */
 	protected function getRssFooter()
 	{
 		return "\t</channel>\n</rss>";
 	}
 
+	/**
+	 * Returns the RSS file header
+	 *
+	 * @return string
+	 */
 	protected function getRssHeader()
 	{
 		$generationDate = date('r');

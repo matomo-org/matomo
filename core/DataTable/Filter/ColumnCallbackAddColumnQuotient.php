@@ -29,15 +29,15 @@ class Piwik_DataTable_Filter_ColumnCallbackAddColumnQuotient extends Piwik_DataT
 	protected $getDivisorFromSummaryRow;
 	
 	/**
-	 * @param Piwik_DataTable $table
-	 * @param string $columnNameToAdd
-	 * @param string $columnValueToRead
-	 * @param numeric|string $divisorValueOrDivisorColumnName
-	 *                         if a numeric value is given, we use this value as the divisor to process the percentage.
-	 *                         if a string is given, this string is the column name's value used as the divisor.
-	 * @param int $quotientPrecision Division precision
-	 * @param bool|numeric $shouldSkipRows Whether rows w/o the column to read should be skipped.
-	 * @param bool $getDivisorFromSummaryRow Whether to get the divisor from the summary row or the current row.
+	 * @param Piwik_DataTable  $table
+	 * @param string           $columnNameToAdd
+	 * @param string           $columnValueToRead
+	 * @param number|string    $divisorValueOrDivisorColumnName
+	 *                           if a numeric value is given, we use this value as the divisor to process the percentage.
+	 *                           if a string is given, this string is the column name's value used as the divisor.
+	 * @param int              $quotientPrecision                 Division precision
+	 * @param bool|number      $shouldSkipRows                    Whether rows w/o the column to read should be skipped.
+	 * @param bool             $getDivisorFromSummaryRow          Whether to get the divisor from the summary row or the current row.
 	 */
 	public function __construct( $table, $columnNameToAdd, $columnValueToRead, $divisorValueOrDivisorColumnName, $quotientPrecision = 0, $shouldSkipRows = false, $getDivisorFromSummaryRow = false)
 	{
@@ -57,7 +57,12 @@ class Piwik_DataTable_Filter_ColumnCallbackAddColumnQuotient extends Piwik_DataT
 		$this->shouldSkipRows = $shouldSkipRows;
 		$this->getDivisorFromSummaryRow = $getDivisorFromSummaryRow;
 	}
-	
+
+	/**
+	 * Filters the given data table
+	 *
+	 * @param Piwik_DataTable  $table
+	 */
 	public function filter($table)
 	{
 		foreach($table->getRows() as $key => $row)
@@ -82,7 +87,14 @@ class Piwik_DataTable_Filter_ColumnCallbackAddColumnQuotient extends Piwik_DataT
 			$this->filterSubTable($row);
 		}
 	}
-	
+
+	/**
+	 * Formats the given value
+	 *
+	 * @param number  $value
+	 * @param number  $divisor
+	 * @return float|int
+	 */
 	protected function formatValue($value, $divisor)
 	{
 		$quotient = 0;
@@ -97,7 +109,7 @@ class Piwik_DataTable_Filter_ColumnCallbackAddColumnQuotient extends Piwik_DataT
 	 * Returns the dividend to use when calculating the new column value. Can
 	 * be overridden by descendent classes to customize behavior.
 	 * 
-	 * @param Piwik_DataTable_Row $row The row being modified.
+	 * @param Piwik_DataTable_Row  $row  The row being modified.
 	 * @return int|float
 	 */
 	protected function getDividend($row)
@@ -109,7 +121,7 @@ class Piwik_DataTable_Filter_ColumnCallbackAddColumnQuotient extends Piwik_DataT
 	 * Returns the divisor to use when calculating the new column value. Can
 	 * be overridden by descendent classes to customize behavior.
 	 * 
-	 * @param Piwik_DataTable_Row $row The row being modified.
+	 * @param Piwik_DataTable_Row  $row  The row being modified.
 	 * @return int|float
 	 */
 	protected function getDivisor($row)

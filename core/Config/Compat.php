@@ -24,13 +24,16 @@
 class Piwik_Config_Compat_Array
 {
 	private $data;
+	/**
+	 * @var Piwik_Config_Compat
+	 */
 	private $parent;
 
 	/**
 	 * Constructor
 	 *
-	 * @param $parent
-	 * @param array $data configuration section
+	 * @param Piwik_Config_Compat  $parent
+	 * @param array                $data configuration section
 	 */
 	public function __construct($parent, array $data)
 	{
@@ -41,7 +44,7 @@ class Piwik_Config_Compat_Array
 	/**
 	 * Get value by name
 	 *
-	 * @param string $name
+	 * @param string  $name
 	 * @return mixed
 	 */
 	public function __get($name)
@@ -53,8 +56,8 @@ class Piwik_Config_Compat_Array
 	/**
 	 * Set name, value pair
 	 *
-	 * @param string $name
-	 * @param mixed $value
+	 * @param string  $name
+	 * @param mixed  $value
 	 */
 	public function __set($name, $value)
 	{
@@ -119,7 +122,7 @@ class Piwik_Config_Compat
 	/**
 	 * Get value by name
 	 *
-	 * @param string $name
+	 * @param string  $name
 	 * @return mixed
 	 */
 	public function __get($name)
@@ -136,8 +139,8 @@ class Piwik_Config_Compat
 	/**
 	 * Set name, value pair
 	 *
-	 * @param string $name
-	 * @param mixed $value
+	 * @param string  $name
+	 * @param mixed   $value
 	 */
 	public function __set($name, $value)
 	{

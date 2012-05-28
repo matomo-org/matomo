@@ -240,15 +240,15 @@ class Piwik_Archive_Single extends Piwik_Archive
 		}
 		return $archiveJustProcessed;
 	}
-	
+
 	/**
-	 * Returns a value from the current archive with the name = $name 
+	 * Returns a value from the current archive with the name = $name
 	 * Method used by getNumeric or getBlob
 	 *
-	 * @param string $name
-	 * @param string $typeValue numeric|blob
-	 * @param string|false $archivedDate Value to store date of archive info in. If false, not stored.
-	 * @return mixed|false if no result
+	 * @param string        $name
+	 * @param string        $typeValue     numeric|blob
+	 * @param string|bool   $archivedDate  Value to store date of archive info in. If false, not stored.
+	 * @return mixed|bool  false if no result
 	 */
 	protected function get( $name, $typeValue = 'numeric', &$archivedDate = false )
 	{
@@ -298,22 +298,22 @@ class Piwik_Archive_Single extends Piwik_Archive
 		$db = Zend_Registry::get('db');
 		$row = $db->fetchRow("SELECT value, ts_archived
 								FROM $table
-								WHERE idarchive = ? AND name = ?",	
+								WHERE idarchive = ? AND name = ?",
 								array( $this->idArchive , $name) 
 							);
-		
+
 		$value = $tsArchived = false;
 		if (is_array($row))
 		{
 			$value = $row['value'];
 			$tsArchived = $row['ts_archived'];
 		}
-		
+
 		if ($archivedDate !== false)
 		{
 			$archivedDate = $tsArchived;
 		}
-		
+
 		if($value === false)
 		{
 			if($typeValue == 'numeric' 
@@ -346,9 +346,9 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 * If $addMetadataSubtableId set to true, it will add for each row a 'metadata' called 'databaseSubtableId' 
 	 *  containing the child ID of the subtable  associated to this row.
 	 *
-	 * @param string $name
-	 * @param Piwik_DataTable $dataTableToLoad
-	 * @param bool $addMetadataSubtableId
+	 * @param string           $name
+	 * @param Piwik_DataTable  $dataTableToLoad
+	 * @param bool             $addMetadataSubtableId
 	 */
 	public function loadSubDataTables($name, Piwik_DataTable $dataTableToLoad, $addMetadataSubtableId = false)
 	{
@@ -498,8 +498,8 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 * Returns a DataTable that has the name '$name' from the current Archive.
 	 * If $idSubTable is specified, returns the subDataTable called '$name_$idSubTable'
 	 *
-	 * @param string $name
-	 * @param int $idSubTable optional id SubDataTable
+	 * @param string  $name
+	 * @param int     $idSubTable  optional id SubDataTable
 	 * @return Piwik_DataTable
 	 */
 	public function getDataTable( $name, $idSubTable = null )
@@ -592,8 +592,8 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 * 		$idSubTable = $row->getIdSubDataTable();
 	 * 		$subTable = Piwik_DataTable_Manager::getInstance()->getTable($idSubTable);
 	 *  
-	 * @param string $name
-	 * @param int $idSubTable Optional subDataTable to load instead of loading the parent DataTable
+	 * @param string  $name
+	 * @param int     $idSubTable  Optional subDataTable to load instead of loading the parent DataTable
 	 * @return Piwik_DataTable
 	 */
 	public function getDataTableExpanded($name, $idSubTable = null)

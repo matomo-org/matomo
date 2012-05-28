@@ -41,8 +41,8 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
      * for the recursive search. If the label is not recursive, these parameters
      * are not needed.
 	 * 
-	 * @param string $label the label to search for
-	 * @param Piwik_DataTable $dataTable the data table to be filtered
+	 * @param string           $label      the label to search for
+	 * @param Piwik_DataTable  $dataTable  the data table to be filtered
 	 * @return Piwik_DataTable
 	 */
 	public function filter($label, $dataTable)
@@ -82,8 +82,9 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
 	/**
 	 * This method is called from parent::manipulate for each Piwik_DataTable.
 	 * It starts the recursive descend and builds a table with one or zero rows.
-	 * @param Piwik_DataTable $dataTable
-	 * @param bool $date
+	 *
+	 * @param Piwik_DataTable  $dataTable
+	 * @param bool             $date
 	 * @return Piwik_DataTable
 	 */
 	protected function doManipulate(Piwik_DataTable $dataTable, $date=false)
@@ -99,10 +100,11 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
 
 	/**
 	 * Method for the recursive descend
-	 * @param $labelParts
-	 * @param $dataTable
-	 * @param bool $date
-	 * @return Piwik_DataTable_Row | false
+	 *
+	 * @param array            $labelParts
+	 * @param Piwik_DataTable  $dataTable
+	 * @param bool             $date
+	 * @return Piwik_DataTable_Row|false
 	 */
 	private function doFilterRecursiveDescend($labelParts, $dataTable, $date=false)
 	{
@@ -140,16 +142,21 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
 		
 		return $this->doFilterRecursiveDescend($labelParts, $subTable, $date);
 	}
-	
+
+	/**
+	 * Clean up request for Piwik_API_ResponseBuilder to behave correctly
+	 *
+	 * @param $request
+	 */
 	protected function manipulateSubtableRequest(&$request)
 	{
-		// Clean up request for Piwik_API_ResponseBuilder to behave correctly
 		unset($request['label']);
 	}
 
 	/**
 	 * Use variations of the label to make it easier to specify the desired label
-	 * @param $label
+	 *
+	 * @param string $label
 	 * @return array
 	 */
 	private function getLabelVariations($label) {

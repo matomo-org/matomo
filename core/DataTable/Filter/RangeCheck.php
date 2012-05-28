@@ -21,6 +21,12 @@ class Piwik_DataTable_Filter_RangeCheck extends Piwik_DataTable_Filter
 	static public $minimumValue = 0.00;
 	static public $maximumValue = 100.0;
 
+	/**
+	 * @param Piwik_DataTable  $table
+	 * @param string           $columnToFilter  name of the column to filter
+	 * @param float            $minimumValue    minimum value for range
+	 * @param float            $maximumValue    maximum value for range
+	 */
 	public function __construct( $table, $columnToFilter, $minimumValue = 0.00, $maximumValue = 100.0 )
 	{
 		parent::__construct($table);
@@ -33,6 +39,11 @@ class Piwik_DataTable_Filter_RangeCheck extends Piwik_DataTable_Filter
 		}
 	}
 
+	/**
+	 * Executes the filter an adjusts all columns to fit the defined range
+	 *
+	 * @param Piwik_DataTable  $table
+	 */
 	public function filter($table)
 	{
 		foreach($table->getRows() as $row)

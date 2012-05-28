@@ -18,12 +18,22 @@ class Piwik_DataTable_Filter_SafeDecodeLabel extends Piwik_DataTable_Filter
 {
 	private $columnToDecode;
 	static private $outputHtml = true;
+
+	/**
+	 * @param Piwik_DataTable $table
+	 */
 	public function __construct( $table )
 	{
 		parent::__construct($table);
 		$this->columnToDecode = 'label';
 	}
-	
+
+	/**
+	 * Decodes the given value
+	 *
+	 * @param string  $value
+	 * @return mixed|string
+	 */
 	static public function filterValue($value)
 	{
 		$value = htmlspecialchars_decode( urldecode($value), ENT_QUOTES);
@@ -33,7 +43,12 @@ class Piwik_DataTable_Filter_SafeDecodeLabel extends Piwik_DataTable_Filter
 		}
 		return $value;
 	}
-	
+
+	/**
+	 * Decodes all columns of the given data table
+	 *
+	 * @param Piwik_DataTable  $table
+	 */
 	public function filter($table)
 	{
 		foreach($table->getRows() as $row)

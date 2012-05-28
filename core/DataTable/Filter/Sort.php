@@ -21,7 +21,14 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 {
 	protected $columnToSort;
 	protected $order;
-	
+
+	/**
+	 * @param Piwik_DataTable  $table
+	 * @param string           $columnToSort   name of the column to sort by
+	 * @param string           $order          order (asc|desc)
+	 * @param bool             $naturalSort    use natural sort?
+	 * @param bool             $recursiveSort  sort recursively?
+	 */
 	public function __construct( $table, $columnToSort, $order = 'desc', $naturalSort = true, $recursiveSort = false )
 	{
 		parent::__construct($table);
@@ -33,8 +40,13 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 		$this->naturalSort = $naturalSort;
 		$this->setOrder($order);
 	}
-	
-	function setOrder($order)
+
+	/**
+	 * Updates the order
+	 *
+	 * @param string  $order  asc|desc
+	 */
+	public function setOrder($order)
 	{
 		if($order == 'asc')
 		{
@@ -47,8 +59,15 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 			$this->sign = -1;
 		}
 	}
-	
-	function sort($a, $b)
+
+	/**
+	 * Sorting method used for sorting numbers
+	 *
+	 * @param number  $a
+	 * @param number  $b
+	 * @return int
+	 */
+	public function sort($a, $b)
 	{
 		return !isset($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
 						&&  !isset($b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
@@ -76,7 +95,14 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 					)
 			;
 	}
-	
+
+	/**
+	 * Sorting method used for sorting values natural
+	 *
+	 * @param mixed  $a
+	 * @param mixed  $b
+	 * @return int
+	 */
 	function naturalSort($a, $b)
 	{
 		return !isset($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
@@ -94,7 +120,14 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 					)
 				;
 	}
-	
+
+	/**
+	 * Sorting method used for sorting values
+	 *
+	 * @param mixed  $a
+	 * @param mixed  $b
+	 * @return int
+	 */
 	function sortString($a, $b)
 	{
 		return !isset($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
@@ -114,7 +147,9 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 	}
 	
 	/**
-	 * @param Piwik_DataTable_Row
+	 * Sets the column to be used for sorting
+	 *
+	 * @param Piwik_DataTable_Row  $row
 	 * @return int
 	 */
 	protected function selectColumnToSort($row)
@@ -150,7 +185,13 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 		// we select it for the sort, so that the table's internal state is set properly
 		return $this->columnToSort;
 	}
-	
+
+	/**
+	 * Sorts the given data table by defined column and sorting method
+	 *
+	 * @param Piwik_DataTable  $table
+	 * @return mixed
+	 */
 	public function filter($table)
 	{
 		if($table instanceof Piwik_DataTable_Simple)

@@ -28,18 +28,24 @@ class Piwik_DataTable_Simple extends Piwik_DataTable
 	/**
 	 * Loads (append) in the DataTable the array information
 	 *
-	 * @param array Array containing the rows information
-	 * 		array(
-	 * 			'Label row 1' => Value row 1,
-	 * 			'Label row 2' => Value row 2,
-	 * 	)
+	 * @param array  $array  Array containing the rows information
+	 *                       array(
+	 *                             'Label row 1' => Value row 1,
+	 *                             'Label row 2' => Value row 2,
+	 *                       )
 	 */
-	function addRowsFromArray($array)
+	public function addRowsFromArray($array)
 	{
 		$this->addRowsFromSimpleArray(array($array));
 	}
-	
-	function setColumn($columnName, $value)
+
+	/**
+	 * Updates the given column with the given value
+	 *
+	 * @param string  $columnName
+	 * @param mixed   $value
+	 */
+	public function setColumn($columnName, $value)
 	{
 		$this->getLastRow()->setColumn($columnName, $value);
 	}

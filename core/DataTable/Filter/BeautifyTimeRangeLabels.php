@@ -32,15 +32,15 @@ class Piwik_DataTable_Filter_BeautifyTimeRangeLabels extends Piwik_DataTable_Fil
 	/**
 	 * Constructor.
 	 *
-	 * @param Piwik_DataTable $table The DataTable this filter will run over.
-	 * @param string $labelSecondsPlural A string to use when beautifying range labels
-	 *                                   whose lower bound is between 0 and 60. Must be
-	 *                                   a format string that takes two numeric params.
-	 * @param string $labelMinutesSingular A string to use when replacing a range that
-	 *                                     equals 60-60 (or 1 minute - 1 minute).
-	 * @param string $labelMinutesPlural A string to use when replacing a range that
-	 *                                   spans multiple minutes. This must be a
-	 *                                   format string that takes one string parameter.
+	 * @param Piwik_DataTable  $table                 The DataTable this filter will run over.
+	 * @param string           $labelSecondsPlural    A string to use when beautifying range labels
+	 *                                                whose lower bound is between 0 and 60. Must be
+	 *                                                a format string that takes two numeric params.
+	 * @param string           $labelMinutesSingular  A string to use when replacing a range that
+	 *                                                equals 60-60 (or 1 minute - 1 minute).
+	 * @param string           $labelMinutesPlural    A string to use when replacing a range that
+	 *                                                spans multiple minutes. This must be a
+	 *                                                format string that takes one string parameter.
 	 */
 	public function __construct( $table, $labelSecondsPlural, $labelMinutesSingular, $labelMinutesPlural )
 	{
@@ -56,9 +56,9 @@ class Piwik_DataTable_Filter_BeautifyTimeRangeLabels extends Piwik_DataTable_Fil
 	 * If the lower bound of the range is less than 60 the pretty range label
 	 * will be in seconds. Otherwise, it will be in minutes.
 	 *
-	 * @param string $oldLabel The original label value.
-	 * @param int $lowerBound The lower bound of the range.
-	 * @return string The pretty range label.
+	 * @param string  $oldLabel    The original label value.
+	 * @param int     $lowerBound  The lower bound of the range.
+	 * @return string  The pretty range label.
 	 */
 	public function getSingleUnitLabel( $oldLabel, $lowerBound )
 	{
@@ -83,10 +83,10 @@ class Piwik_DataTable_Filter_BeautifyTimeRangeLabels extends Piwik_DataTable_Fil
 	 * If the lower bound of the range is less than 60 the pretty range label
 	 * will be in seconds. Otherwise, it will be in minutes.
 	 *
-	 * @param string $oldLabel The original label value.
-	 * @param int $lowerBound The lower bound of the range.
-	 * @param int $upperBound The upper bound of the range.
-	 * @return string The pretty range label.
+	 * @param string  $oldLabel    The original label value.
+	 * @param int     $lowerBound  The lower bound of the range.
+	 * @param int     $upperBound  The upper bound of the range.
+	 * @return string  The pretty range label.
 	 */
 	public function getRangeLabel( $oldLabel, $lowerBound, $upperBound )
 	{
@@ -107,9 +107,9 @@ class Piwik_DataTable_Filter_BeautifyTimeRangeLabels extends Piwik_DataTable_Fil
 	 * If the lower bound of the range is less than 60 the pretty range label
 	 * will be in seconds. Otherwise, it will be in minutes.
 	 * 
-	 * @param string $oldLabel The original label value.
-	 * @param int $lowerBound The lower bound of the range.
-	 * @return string The pretty range label.
+	 * @param string  $oldLabel    The original label value.
+	 * @param int     $lowerBound  The lower bound of the range.
+	 * @return string  The pretty range label.
 	 */
 	public function getUnboundedLabel( $oldLabel, $lowerBound )
 	{

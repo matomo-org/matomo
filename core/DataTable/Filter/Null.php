@@ -19,12 +19,17 @@
  */
 class Piwik_DataTable_Filter_Null extends Piwik_DataTable_Filter
 {
-	
+	/**
+	 * @param Piwik_DataTable  $table
+	 */
 	public function __construct( $table )
 	{
 		parent::__construct($table);
 	}
-	
+
+	/**
+	 * @param Piwik_DataTable  $table
+	 */
 	public function filter($table)
 	{
 		foreach($table->getRows() as $key => $row)

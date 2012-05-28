@@ -544,7 +544,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 	/**
 	 * Drop specific tables
 	 *
-	 * @param array $doNotDelete Names of tables to not delete
+	 * @param array  $doNotDelete  Names of tables to not delete
 	 */
 	public function dropTables( $doNotDelete = array() )
 	{

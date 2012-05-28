@@ -17,12 +17,22 @@
 class Piwik_API_DataTableGenericFilter
 {
 	private static $genericFiltersInfo = null;
-	
+
+	/**
+	 * Constructor
+	 *
+	 * @param $request
+	 */
 	function __construct( $request )
 	{
 		$this->request = $request;
 	}
 
+	/**
+	 * Filters the given data table
+	 *
+	 * @param Piwik_DataTable  $table
+	 */
 	public function filter($table)
 	{
 		$this->applyGenericFilters($table);
@@ -38,7 +48,7 @@ class Piwik_API_DataTableGenericFilter
 	 * 3 - Filter that keep only a subset of the results
 	 * 4 - Presentation filters
 	 * 
-	 * @return array See the code for spec
+	 * @return array  See the code for spec
 	 */
 	public static function getGenericFiltersInformation()
 	{
@@ -88,7 +98,7 @@ class Piwik_API_DataTableGenericFilter
 	 * Apply generic filters to the DataTable object resulting from the API Call.
 	 * Disable this feature by setting the parameter disable_generic_filters to 1 in the API call request.
 	 * 
-	 * @param Piwik_DataTable
+	 * @param Piwik_DataTable  $datatable
 	 * @return bool
 	 */
 	protected function applyGenericFilters($datatable)

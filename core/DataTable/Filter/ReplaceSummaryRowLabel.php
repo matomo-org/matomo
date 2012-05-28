@@ -17,6 +17,10 @@
  */
 class Piwik_DataTable_Filter_ReplaceSummaryRowLabel extends Piwik_DataTable_Filter
 {
+	/**
+	 * @param Piwik_DataTable  $table
+	 * @param string|null      $newLabel  new label for summary row
+	 */
 	public function __construct( $table, $newLabel = null)
 	{
 		parent::__construct($table);
@@ -26,7 +30,12 @@ class Piwik_DataTable_Filter_ReplaceSummaryRowLabel extends Piwik_DataTable_Filt
 		}
 		$this->newLabel = $newLabel;
 	}
-	
+
+	/**
+	 * Updates the summary row label
+	 *
+	 * @param Piwik_DataTable  $table
+	 */
 	public function filter($table)
 	{
 		$rows = $table->getRows();

@@ -39,7 +39,11 @@ class Piwik_API_DataTableManipulator_Flattener extends Piwik_API_DataTableManipu
 	 * @var string
 	 */
 	public $recursiveLabelSeparator = ' - ';
-	
+
+	/**
+	 * @param  Piwik_DataTable  $dataTable
+	 * @return Piwik_DataTable|Piwik_DataTable_Array
+	 */
 	public function flatten($dataTable)
 	{
 		if ($this->apiModule == 'Actions' || $this->apiMethod == 'getWebsites')
@@ -53,8 +57,9 @@ class Piwik_API_DataTableManipulator_Flattener extends Piwik_API_DataTableManipu
 	/**
 	 * Template method called from self::manipulate.
 	 * Flatten each data table.
-	 * @param Piwik_DataTable $dataTable
-	 * @param bool $date
+	 *
+	 * @param Piwik_DataTable  $dataTable
+	 * @param bool             $date
 	 * @return Piwik_DataTable
 	 */
 	protected function doManipulate(Piwik_DataTable $dataTable, $date = false)
@@ -66,7 +71,14 @@ class Piwik_API_DataTableManipulator_Flattener extends Piwik_API_DataTableManipu
 		}
 		return $newDataTable;
 	}
-	
+
+	/**
+	 * @param Piwik_DataTable_Row  $row
+	 * @param Piwik_DataTable      $dataTable
+	 * @param string               $date
+	 * @param string               $labelPrefix
+	 * @param bool                 $parentLogo
+	 */
 	private function flattenRow(Piwik_DataTable_Row $row, Piwik_DataTable $dataTable, $date,
 			$labelPrefix = '', $parentLogo = false) {
 		
@@ -117,7 +129,8 @@ class Piwik_API_DataTableManipulator_Flattener extends Piwik_API_DataTableManipu
 
 	/**
 	 * Remove the flat parameter from the subtable request
-	 * @param $request
+	 *
+	 * @param array  $request
 	 */
 	protected function manipulateSubtableRequest(&$request)
 	{

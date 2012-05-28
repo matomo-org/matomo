@@ -15,13 +15,22 @@
  * @subpackage Piwik_DataTable
  */
 class Piwik_DataTable_Filter_Truncate extends Piwik_DataTable_Filter
-{	
+{
+	/**
+	 * @param Piwik_DataTable  $table
+	 * @param int              $truncateAfter
+	 */
 	public function __construct( $table, $truncateAfter)
 	{
 		parent::__construct($table);
 		$this->truncateAfter = $truncateAfter;
 	}	
-	
+
+	/**
+	 * Truncates the table after X rows and adds a summary row
+	 *
+	 * @param Piwik_DataTable  $table
+	 */
 	public function filter($table)
 	{
 		$table->filter('AddSummaryRow', array($this->truncateAfter));

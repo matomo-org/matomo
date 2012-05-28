@@ -27,6 +27,13 @@
  */
 class Piwik_DataTable_Filter_ColumnCallbackAddColumnPercentage extends Piwik_DataTable_Filter_ColumnCallbackAddColumnQuotient
 {
+	/**
+	 * Formats the given value
+	 *
+	 * @param number  $value
+	 * @param number  $divisor
+	 * @return string
+	 */
 	protected function formatValue($value, $divisor)
 	{
 		return Piwik::getPercentageSafe($value, $divisor, $this->quotientPrecision) . '%';

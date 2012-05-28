@@ -25,17 +25,32 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 {
 	protected $prettyDisplay = false;
 	protected $serialize = true;
-	
+
+	/**
+	 * Enables/Disables serialize
+	 *
+	 * @param bool  $bool
+	 */
 	public function setSerialize( $bool )
 	{
 		$this->serialize = (bool)$bool;
 	}
-	
+
+	/**
+	 * Enables/Disables pretty display
+	 *
+	 * @param bool  $bool
+	 */
 	public function setPrettyDisplay($bool)
 	{
 		$this->prettyDisplay = (bool)$bool;
 	}
-	
+
+	/**
+	 * Converts current data table to string
+	 *
+	 * @return string
+	 */
 	public function __toString()
 	{
 		$data = $this->render();
@@ -46,6 +61,12 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		return $data;
 	}
 
+	/**
+	 * Computes the dataTable output and returns the string/binary
+	 *
+	 * @param null|Piwik_DataTable_Array|Piwik_DataTable_Simple  $dataTable
+	 * @return string
+	 */
 	public function render( $dataTable = null )
 	{
 		$this->renderHeader();
@@ -66,7 +87,12 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		}
 		return $toReturn;
 	}
-	
+
+	/**
+	 * Computes the exception output and returns the string/binary
+	 *
+	 * @return string
+	 */
 	function renderException()
 	{
 		$this->renderHeader();
@@ -95,8 +121,8 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 	 *            'col2_name' => value2,
 	 *            'metadata1_name' => value_metadata )
 	 *
-	 * @param null|Piwik_DataTable_Array|Piwik_DataTable_Simple $dataTable
-	 * @return array Php array representing the 'flat' version of the datatable
+	 * @param null|Piwik_DataTable_Array|Piwik_DataTable_Simple  $dataTable
+	 * @return array  Php array representing the 'flat' version of the datatable
 	 */
 	public function flatRender( $dataTable = null )
 	{
@@ -143,7 +169,12 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		
 		return $flatArray;
 	}
-	
+
+	/**
+	 *
+	 * @param array  $array
+	 * @return array
+	 */
 	protected function flattenArray($array)
 	{
 		$flatArray = array();
@@ -163,7 +194,13 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		}		
 		return $flatArray;
 	}
-	
+
+	/**
+	 * Converts the current data table to an array
+	 *
+	 * @return array
+	 * @throws Exception
+	 */
 	public function originalRender()
 	{
 		if($this->table instanceof Piwik_DataTable_Simple)
@@ -185,7 +222,13 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		}
 		return $array;
 	}
-	
+
+	/**
+	 * Converts the given data table to an array
+	 *
+	 * @param Piwik_DataTable  $table
+	 * @return array
+	 */
 	protected function renderTable($table)
 	{
 		$array = array();
@@ -228,7 +271,13 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		}
 		return $array;
 	}
-	
+
+	/**
+	 * Converts the simple data table to an array
+	 *
+	 * @param Piwik_DataTable_Simple  $table
+	 * @return array
+	 */
 	protected function renderSimpleTable($table)
 	{
 		$array = array();

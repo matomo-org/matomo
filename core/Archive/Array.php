@@ -22,14 +22,16 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 	/**
 	 * This array contains one Piwik_Archive per entry in the period
 	 * 
-	 * @var array
+	 * @var Piwik_Archive[]
 	 */
 	protected $archives = array();
 	
 	abstract protected function getIndexName();
 	abstract protected function getDataTableLabelValue( $archive );
 
-
+	/**
+	 * Destructor
+	 */
 	public function __destruct()
 	{
 		foreach($this->archives as $archive)
@@ -38,7 +40,10 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 		}
 		$this->archives = array();
 	}
-	
+
+	/**
+	 * Prepares each archive in the array
+	 */
 	public function prepareArchive()
 	{
 		foreach($this->archives as $archive)
@@ -65,8 +70,8 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 	 * Adds metadata information to the Piwik_DataTable_Array 
 	 * using the information given by the Archive
 	 *
-	 * @param Piwik_DataTable_Array $table
-	 * @param unknown_type $archive
+	 * @param Piwik_DataTable_Array  $table
+	 * @param Piwik_Archive          $archive
 	 */
 	protected function loadMetadata(Piwik_DataTable_Array $table, $archive)
 	{
@@ -76,9 +81,8 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 	 * Returns a DataTable_Array containing numeric values 
 	 * of the element $name from the archives in this Archive_Array.
 	 *
-	 * @param string $name Name of the mysql table field to load eg. Referers_distinctKeywords
-	 * 
-	 * @return Piwik_DataTable_Array containing the requested numeric value for each Archive
+	 * @param string  $name  Name of the mysql table field to load eg. Referers_distinctKeywords
+	 * @return Piwik_DataTable_Array  containing the requested numeric value for each Archive
 	 */
 	public function getNumeric( $name )
 	{
@@ -97,7 +101,6 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 		return $table;
 	}
 	
-	
 	/**
 	 * Returns a DataTable_Array containing values 
 	 * of the element $name from the archives in this Archive_Array.
@@ -105,9 +108,8 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 	 * The value to be returned are blob values (stored in the archive_numeric_* tables in the DB).	 * 
 	 * It can return anything from strings, to serialized PHP arrays or PHP objects, etc.
 	 *
-	 * @param string $name Name of the mysql table field to load eg. Referers_keywordBySearchEngine 
-	 * 
-	 * @return Piwik_DataTable_Array containing the requested blob values for each Archive
+	 * @param string  $name  Name of the mysql table field to load eg. Referers_keywordBySearchEngine
+	 * @return Piwik_DataTable_Array  containing the requested blob values for each Archive
 	 */
 	public function getBlob( $name )
 	{
@@ -129,10 +131,10 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 	 * Given a BLOB field name (eg. 'Referers_searchEngineByKeyword'), it will return a Piwik_DataTable_Array
 	 * which is an array of Piwik_DataTable, ordered by chronological order
 	 * 
-	 * @param string $name Name of the mysql table field to load
-	 * @param int $idSubTable optional idSubDataTable
+	 * @param string  $name        Name of the mysql table field to load
+	 * @param int     $idSubTable  optional idSubDataTable
 	 * @return Piwik_DataTable_Array
-	 * @throws exception If the value cannot be found
+	 * @throws Exception  If the value cannot be found
 	 */
 	public function getDataTable( $name, $idSubTable = null )
 	{		
@@ -153,8 +155,8 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 	 * all the subtables for the DataTable $name. 
 	 * You can then access the subtables by using the Piwik_DataTable_Manager::getInstance()->getTable($idSubTable);
 	 *
-	 * @param string $name Name of the mysql table field to load
-	 * @param int $idSubTable optional idSubDataTable
+	 * @param string  $name        Name of the mysql table field to load
+	 * @param int     $idSubTable  optional idSubDataTable
 	 * @return Piwik_DataTable_Array
 	 */
 	public function getDataTableExpanded($name, $idSubTable = null)
@@ -169,5 +171,4 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 		}
 		return $table;
 	}
-	
 }

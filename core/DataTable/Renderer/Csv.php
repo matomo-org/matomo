@@ -58,7 +58,12 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 	 * @var bool
 	 */
 	public $exportIdSubtable = true;
-	
+
+	/**
+	 * Computes the dataTable output and returns the string/binary
+	 *
+	 * @return string
+	 */
 	public function render()
 	{
 		$str = $this->renderTable($this->table);
@@ -76,23 +81,45 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		}
 		return $str;
 	}
-	
+
+	/**
+	 * Computes the exception output and returns the string/binary
+	 *
+	 * @return string
+	 */
 	function renderException()
 	{
 		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
 		return 'Error: '.$exceptionMessage;
 	}
-	
+
+	/**
+	 * Enables / Disables unicode converting
+	 *
+	 * @param $bool
+	 */
 	public function setConvertToUnicode($bool)
 	{
 		$this->convertToUnicode = $bool;
 	}
-	
+
+	/**
+	 * Sets the column separator
+	 *
+	 * @param $separator
+	 */
 	public function setSeparator($separator)
 	{
 		$this->separator = $separator;
 	}
-	
+
+	/**
+	 * Computes the output of the given data table
+	 *
+	 * @param Piwik_DataTable  $table
+	 * @param array            $allColumns
+	 * @return string
+	 */
 	protected function renderTable($table, &$allColumns = array() )
 	{
 		if($table instanceof Piwik_DataTable_Array)
@@ -105,7 +132,14 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		}
 		return $str;
 	}
-	
+
+	/**
+	 * Computes the output of the given data table array
+	 *
+	 * @param Piwik_DataTable_Array  $table
+	 * @param array                  $allColumns
+	 * @return string
+	 */
 	protected function renderDataTableArray($table, &$allColumns = array())
 	{
 		$str = '';
@@ -136,7 +170,14 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		
 		return $str;
 	}
-	
+
+	/**
+	 * Converts the output of the given simple data table
+	 *
+	 * @param Piwik_DataTable_Simple  $table
+	 * @param array                   $allColumns
+	 * @return string
+	 */
 	protected function renderDataTable( $table, &$allColumns = array() )
 	{	
 		if($table instanceof Piwik_DataTable_Simple)
@@ -281,7 +322,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 	/**
 	 * Returns the CSV header line for a set of metrics. Will translate columns if desired.
 	 * 
-	 * @param array $columnMetrics
+	 * @param array  $columnMetrics
 	 * @return array
 	 */
 	private function getHeaderLine( $columnMetrics )
@@ -293,6 +334,12 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		return implode($this->separator, $columnMetrics);
 	}
 
+	/**
+	 * Formats/Escapes the given value
+	 *
+	 * @param mixed  $value
+	 * @return string
+	 */
 	protected function formatValue($value)
 	{
 		if(is_string($value)
@@ -322,7 +369,10 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		
 		return $value;
 	}
-	
+
+	/**
+	 * Sends the http headers for csv file
+	 */
 	protected function renderHeader()
 	{
 		$fileName = 'Piwik '.Piwik_Translate('General_Export');

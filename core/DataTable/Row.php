@@ -51,19 +51,20 @@ class Piwik_DataTable_Row
 	/**
 	 * Efficient load of the Row structure from a well structured php array
 	 * 
-	 * @param array The row array has the structure
-	 * 					array( 
-	 * 						Piwik_DataTable_Row::COLUMNS => array( 
-	 * 										'label' => 'Piwik',
-	 * 										'column1' => 42,
-	 * 										'visits' => 657,
-	 * 										'time_spent' => 155744,	
-	 * 									),
-	 * 						Piwik_DataTable_Row::METADATA => array(
-	 * 										'logo' => 'test.png'
-	 * 									),
-	 * 						Piwik_DataTable_Row::DATATABLE_ASSOCIATED => #Piwik_DataTable object (but in the row only the ID will be stored)
-	 * 					)
+	 * @param array  $row  The row array has the structure
+	 *                     array(
+	 *                           Piwik_DataTable_Row::COLUMNS => array(
+	 *                                                                 'label' => 'Piwik',
+	 *                                                                 'column1' => 42,
+	 *                                                                 'visits' => 657,
+	 *                                                                 'time_spent' => 155744,
+	 *                                                                 ),
+	 *                            Piwik_DataTable_Row::METADATA => array(
+	 *                                                                  'logo' => 'test.png'
+	 *                                                                  ),
+	 *                            Piwik_DataTable_Row::DATATABLE_ASSOCIATED => #Piwik_DataTable object
+	 *                                                                         (but in the row only the ID will be stored)
+	 *                           )
 	 */
 	public function __construct( $row = array() )
 	{
@@ -100,7 +101,7 @@ class Piwik_DataTable_Row
 	}
 
 	/**
-	 * Applys a basic rendering to the Row and returns the output
+	 * Applies a basic rendering to the Row and returns the output
 	 *
 	 * @return string characterizing the row. Example: - 1 ['label' => 'piwik', 'nb_uniq_visitors' => 1685, 'nb_visits' => 1861, 'nb_actions' => 2271, 'max_actions' => 13, 'sum_visit_length' => 920131, 'bounce_count' => 1599] [] [idsubtable = 1375]
 	 */
@@ -129,8 +130,8 @@ class Piwik_DataTable_Row
 	/**
 	 * Deletes the given column 
 	 *
-	 * @param string Column name
-	 * @return bool True on success, false if the column didn't exist
+	 * @param string  $name  Column name
+	 * @return bool  True on success, false if the column didn't exist
 	 */
 	public function deleteColumn( $name )
 	{
@@ -141,7 +142,13 @@ class Piwik_DataTable_Row
 		unset($this->c[self::COLUMNS][$name]);
 		return true;
 	}
-	
+
+	/**
+	 * Renames the given column
+	 *
+	 * @param string  $oldName
+	 * @param string  $newName
+	 */
 	public function renameColumn($oldName, $newName)
 	{
 		if(isset($this->c[self::COLUMNS][$oldName]))
@@ -155,8 +162,8 @@ class Piwik_DataTable_Row
 	/**
 	 * Returns the given column
 	 * 
-	 * @param string Column name
-	 * @return mixed|false The column value  
+	 * @param string  $name  Column name
+	 * @return mixed|false  The column value
 	 */
 	public function getColumn( $name )
 	{
@@ -171,7 +178,7 @@ class Piwik_DataTable_Row
 	 * Returns the array of all metadata,
 	 * or the specified metadata  
 	 * 
-	 * @param string Metadata name
+	 * @param string  $name  Metadata name
 	 * @return mixed|array|false 
 	 */
 	public function getMetadata( $name = null )
@@ -190,11 +197,11 @@ class Piwik_DataTable_Row
 	/**
 	 * Returns the array containing all the columns
 	 * 
-	 * @return array Example: array( 
-	 * 					'column1' 	=> VALUE,
-	 * 					'label' 	=> 'www.php.net'
-	 * 					'nb_visits' => 15894,
-	 * 			)
+	 * @return array  Example: array(
+	 *                              'column1'   => VALUE,
+	 *                              'label'     => 'www.php.net'
+	 *                              'nb_visits' => 15894,
+	 *                              )
 	 */
 	public function getColumns()
 	{
@@ -217,7 +224,7 @@ class Piwik_DataTable_Row
 	 * If this row doesn't have a SubDataTable yet, we create a new one.
 	 * Then we add the values of the given DataTable to this row's DataTable.
 	 * 	 
-	 * @param Piwik_DataTable Table to sum to this row's subDatatable
+	 * @param Piwik_DataTable  $subTable  Table to sum to this row's subDatatable
 	 * @see Piwik_DataTable::addDataTable() for the algorithm used for the sum 
 	 */
 	public function sumSubtable(Piwik_DataTable $subTable)
@@ -241,7 +248,7 @@ class Piwik_DataTable_Row
 	 * Set a DataTable to be associated to this row.
 	 * If the row already has a DataTable associated to it, throws an Exception.
 	 * 
-	 * @param Piwik_DataTable DataTable to associate to this row
+	 * @param Piwik_DataTable  $subTable  DataTable to associate to this row
 	 * @throws Exception 
 	 * 
 	 */
@@ -258,7 +265,7 @@ class Piwik_DataTable_Row
 	 * Set a DataTable to this row. If there is already 
 	 * a DataTable associated, it is simply overwritten.
 	 * 
-	 * @param Piwik_DataTable DataTable to associate to this row
+	 * @param Piwik_DataTable  $subTable  DataTable to associate to this row
 	 */
 	public function setSubtable(Piwik_DataTable $subTable)
 	{
@@ -276,10 +283,10 @@ class Piwik_DataTable_Row
 	/**
 	 * Set all the columns at once. Overwrites previously set columns.
 	 * 
-	 * @param array array( 
-	 * 					'label' 	=> 'www.php.net'
-	 * 					'nb_visits' => 15894,
-	 * 			)
+	 * @param array  array(
+	 *                    'label'       => 'www.php.net'
+	 *                    'nb_visits'   => 15894,
+	 *                    )
 	 */
 	public function setColumns( $columns )
 	{
@@ -289,8 +296,8 @@ class Piwik_DataTable_Row
 	/**
 	 * Set the value $value to the column called $name.
 	 * 
-	 * @param string $name of the column to set
-	 * @param mixed $value of the column to set
+	 * @param string  $name   name of the column to set
+	 * @param mixed   $value  value of the column to set
 	 */
 	public function setColumn($name, $value)
 	{
@@ -300,8 +307,8 @@ class Piwik_DataTable_Row
 	/**
 	 * Set the value $value to the metadata called $name.
 	 * 
-	 * @param string $name of the metadata to set
-	 * @param mixed $value of the metadata to set
+	 * @param string  $name   name of the metadata to set
+	 * @param mixed   $value  value of the metadata to set
 	 */
 	public function setMetadata($name, $value)
 	{
@@ -311,8 +318,8 @@ class Piwik_DataTable_Row
 	/**
 	 * Deletes the given metadata
 	 *
-	 * @param bool|string $name Meta column name (omit to delete entire metadata)
-	 * @return bool True on success, false if the column didn't exist
+	 * @param bool|string  $name  Meta column name (omit to delete entire metadata)
+	 * @return bool  True on success, false if the column didn't exist
 	 */
 	public function deleteMetadata($name = false)
 	{
@@ -332,8 +339,8 @@ class Piwik_DataTable_Row
 	/**
 	 * Add a new column to the row. If the column already exists, throws an exception
 	 * 
-	 * @param string $name of the column to add
-	 * @param mixed $value of the column to set
+	 * @param string  $name   name of the column to add
+	 * @param mixed   $value  value of the column to set
 	 * @throws Exception
 	 */
 	public function addColumn($name, $value)
@@ -349,7 +356,7 @@ class Piwik_DataTable_Row
 	/**
 	 * Add columns to the row
 	 *
-	 * @param array $columns Name/Value pairs, e.g., array( name => value , ...)
+	 * @param array  $columns  Name/Value pairs, e.g., array( name => value , ...)
 	 * @return void
 	 */
 	public function addColumns($columns)
@@ -363,8 +370,8 @@ class Piwik_DataTable_Row
 	/**
 	 * Add a new metadata to the row. If the column already exists, throws an exception.
 	 * 
-	 * @param string $name of the metadata to add
-	 * @param mixed $value of the metadata to set
+	 * @param string  $name   name of the metadata to add
+	 * @param mixed   $value  value of the metadata to set
 	 * @throws Exception
 	 */
 	public function addMetadata($name, $value)
@@ -384,7 +391,8 @@ class Piwik_DataTable_Row
 	 * If a given column doesn't exist in $this then it is added with the value of $row.
 	 * If the column already exists in $this then we have
 	 *         this.columns[idThisCol] += $row.columns[idThisCol]
-	 * @param Piwik_DataTable_Row $rowToSum
+	 *
+	 * @param Piwik_DataTable_Row  $rowToSum
 	 */
 	public function sumRow( Piwik_DataTable_Row $rowToSum )
 	{
@@ -407,7 +415,13 @@ class Piwik_DataTable_Row
 			}
 		}
 	}
-	
+
+	/**
+	 *
+	 * @param number|bool   $thisColumnValue
+	 * @param number|array  $columnToSumValue
+	 * @return array|int
+	 */
 	protected function sumRowArray( $thisColumnValue, $columnToSumValue )
 	{
 		if(is_numeric($columnToSumValue))
@@ -442,8 +456,8 @@ class Piwik_DataTable_Row
 	/**
 	 * Helper function to compare array elements
 	 *
-	 * @param mixed $elem1
-	 * @param mixed $elem2
+	 * @param mixed  $elem1
+	 * @param mixed  $elem2
 	 * @return bool
 	 */
 	static public function compareElements($elem1, $elem2)
@@ -471,9 +485,8 @@ class Piwik_DataTable_Row
 	 * - if they have exactly the same columns / metadata
 	 * - if they have a subDataTable associated, then we check that both of them are the same.
 	 * 
-	 * @param Piwik_DataTable_Row row1 to compare
-	 * @param Piwik_DataTable_Row row2 to compare
-	 * 
+	 * @param Piwik_DataTable_Row  $row1  first to compare
+	 * @param Piwik_DataTable_Row  $row2  second to compare
 	 * @return bool
 	 */
 	static public function isEqual( Piwik_DataTable_Row $row1, Piwik_DataTable_Row $row2 )

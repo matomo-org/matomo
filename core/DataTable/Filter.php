@@ -47,14 +47,13 @@ abstract class Piwik_DataTable_Filter
 	 * Filters the given data table
 	 *
 	 * @param Piwik_DataTable  $table
-	 * @return mixed
 	 */
 	abstract public function filter($table);
 
 	/**
 	 * Enables/Disables the recursive mode
 	 *
-	 * @param $bool
+	 * @param bool  $bool
 	 */
 	public function enableRecursive($bool)
 	{

@@ -21,17 +21,25 @@
  */
 class Piwik_DataTable_Filter_AddConstantMetadata extends Piwik_DataTable_Filter
 {
-	private $metadataToRead;
-	private $functionToApply;
-	private $metadataToAdd;
-	
+	/**
+	 * Creates a new filter and sets all required parameters
+	 *
+	 * @param Piwik_DataTable  $table
+	 * @param string           $metadataName
+	 * @param mixed            $metadataValue
+	 */
 	public function __construct( $table, $metadataName, $metadataValue )
 	{
 		parent::__construct($table);
 		$this->name = $metadataName;
 		$this->value = $metadataValue;
 	}
-	
+
+	/**
+	 * Filters the given data table
+	 *
+	 * @param Piwik_DataTable  $table
+	 */
 	public function filter($table)
 	{
 		foreach($table->getRows() as $row)

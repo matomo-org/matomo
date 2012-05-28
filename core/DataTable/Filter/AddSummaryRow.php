@@ -28,11 +28,20 @@
  */
 class Piwik_DataTable_Filter_AddSummaryRow extends Piwik_DataTable_Filter
 {
-	public function __construct(	$table, 
-									$startRowToSummarize, 
-									$labelSummaryRow = Piwik_DataTable::LABEL_SUMMARY_ROW, 
-									$columnToSortByBeforeTruncating = null,
-									$deleteRows = true )
+	/**
+	 * Creates a new filter and set all required parameters
+	 *
+	 * @param Piwik_DataTable  $table
+	 * @param int              $startRowToSummarize
+	 * @param int              $labelSummaryRow
+	 * @param null             $columnToSortByBeforeTruncating
+	 * @param bool             $deleteRows
+	 */
+	public function __construct($table,
+								$startRowToSummarize,
+								$labelSummaryRow = Piwik_DataTable::LABEL_SUMMARY_ROW,
+								$columnToSortByBeforeTruncating = null,
+								$deleteRows = true )
 	{
 		parent::__construct($table);
 		$this->startRowToSummarize = $startRowToSummarize;
@@ -41,6 +50,11 @@ class Piwik_DataTable_Filter_AddSummaryRow extends Piwik_DataTable_Filter
 		$this->deleteRows = $deleteRows;
 	}
 
+	/**
+	 * Adds a summary row to the given data table
+	 *
+	 * @param Piwik_DataTable  $table
+	 */
 	public function filter($table)
 	{
 		if($table->getRowsCount() <= $this->startRowToSummarize + 1)

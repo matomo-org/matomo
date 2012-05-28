@@ -31,24 +31,26 @@ class Piwik_DataTable_Filter_BeautifyRangeLabels extends Piwik_DataTable_Filter_
 {
 	/**
 	 * The string to use when the range being beautified is between 1-1 units.
+	 * @var string
 	 */
 	protected $labelSingular;
 
 	/**
 	 * The format string to use when the range being beautified references more than
 	 * one unit.
+	 * @var string
 	 */
 	protected $labelPlural;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param Piwik_DataTable $table The DataTable that will be filtered.
-	 * @param string $labelSingular The string to use when the range being beautified
-	 *                              is equal to '1-1 units'.
-	 * @param string $labelPlural The string to use when the range being beautified
-	 *                            references more than one unit. This must be a format
-	 *                            string that takes one string parameter.
+	 * @param Piwik_DataTable  $table          The DataTable that will be filtered.
+	 * @param string           $labelSingular  The string to use when the range being beautified
+	 *                                         is equal to '1-1 units'.
+	 * @param string           $labelPlural    The string to use when the range being beautified
+	 *                                         references more than one unit. This must be a format
+	 *                                         string that takes one string parameter.
 	 */
 	public function __construct( $table, $labelSingular, $labelPlural )
 	{
@@ -59,11 +61,11 @@ class Piwik_DataTable_Filter_BeautifyRangeLabels extends Piwik_DataTable_Filter_
 	}
 
 	/**
-	 * Beautifes a range label and returns the pretty result.
+	 * Beautifies a range label and returns the pretty result.
 	 *
-	 * @param string $value The range string. This must be in either a '$min-$max' format
-	 *                      a '$min+' format.
-	 * @return string The pretty range label.
+	 * @param string  $value  The range string. This must be in either a '$min-$max' format
+	 *                        a '$min+' format.
+	 * @return string  The pretty range label.
 	 */
 	public function beautify( $value )
 	{
@@ -120,9 +122,9 @@ class Piwik_DataTable_Filter_BeautifyRangeLabels extends Piwik_DataTable_Filter_
 	 * This function can be overridden in derived types to customize beautifcation
 	 * behavior based on the range values.
 	 *
-	 * @param string $oldLabel The original label value.
-	 * @param int $lowerBound The lower bound of the range.
-	 * @return string The pretty range label.
+	 * @param string  $oldLabel    The original label value.
+	 * @param int     $lowerBound  The lower bound of the range.
+	 * @return string  The pretty range label.
 	 */
 	public function getSingleUnitLabel( $oldLabel, $lowerBound )
 	{
@@ -143,10 +145,10 @@ class Piwik_DataTable_Filter_BeautifyRangeLabels extends Piwik_DataTable_Filter_
 	 * This function can be overridden in derived types to customize beautifcation
 	 * behavior based on the range values.
 	 * 
-	 * @param string $oldLabel The original label value.
-	 * @param int $lowerBound The lower bound of the range.
-	 * @param int $upperBound The upper bound of the range.
-	 * @return string The pretty range label.
+	 * @param string  $oldLabel    The original label value.
+	 * @param int     $lowerBound  The lower bound of the range.
+	 * @param int     $upperBound  The upper bound of the range.
+	 * @return string  The pretty range label.
 	 */
 	public function getRangeLabel( $oldLabel, $lowerBound, $upperBound )
 	{
@@ -160,9 +162,9 @@ class Piwik_DataTable_Filter_BeautifyRangeLabels extends Piwik_DataTable_Filter_
 	 * This function can be overridden in derived types to customize beautifcation
 	 * behavior based on the range values.
 	 * 
-	 * @param string $oldLabel The original label value.
-	 * @param int $lowerBound The lower bound of the range.
-	 * @return string The pretty range label.
+	 * @param string  $oldLabel    The original label value.
+	 * @param int     $lowerBound  The lower bound of the range.
+	 * @return string  The pretty range label.
 	 */
 	public function getUnboundedLabel( $oldLabel, $lowerBound )
 	{

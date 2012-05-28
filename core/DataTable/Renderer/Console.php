@@ -18,26 +18,53 @@
  */
 class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 {
+	/**
+	 * Prefix
+	 *
+	 * @var string
+	 */
 	protected $prefixRows = '#';
-	
-	function render()
+
+	/**
+	 * Computes the dataTable output and returns the string/binary
+	 *
+	 * @return string
+	 */
+	public function render()
 	{
 		$this->renderHeader();
 		return $this->renderTable($this->table);
 	}
-	
-	function renderException()
+
+	/**
+	 * Computes the exception output and returns the string/binary
+	 *
+	 * @return string
+	 */
+	public function renderException()
 	{
 		$this->renderHeader();
 		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
 		return 'Error: '.$exceptionMessage;
 	}
-	
-	function setPrefixRow($str)
+
+	/**
+	 * Sets the prefix to be used
+	 *
+	 * @param string  $str  new prefix
+	 */
+	public function setPrefixRow($str)
 	{
 		$this->prefixRows = $str;
 	}
-	
+
+	/**
+	 * Computes the output of the given array of data tables
+	 *
+	 * @param Piwik_DataTable_Array  $tableArray  data tables to render
+	 * @param string                 $prefix      prefix to output before table data
+	 * @return string
+	 */
 	protected function renderDataTableArray(Piwik_DataTable_Array $tableArray, $prefix )
 	{
 		$output = "Piwik_DataTable_Array<hr />";
@@ -61,7 +88,14 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 		$output .= "<hr />";
 		return $output;
 	}
-	
+
+	/**
+	 * Computes the given dataTable output and returns the string/binary
+	 *
+	 * @param Piwik_DataTable  $table   data table to render
+	 * @param string           $prefix  prefix to output before table data
+	 * @return string
+	 */
 	protected function renderTable($table, $prefix = "")
 	{
 		if($table instanceof Piwik_DataTable_Array)

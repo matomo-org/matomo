@@ -21,6 +21,7 @@ class Piwik_DataTable_Filter_GroupBy extends Piwik_DataTable_Filter
 {
 	/**
 	 * The name of the columns to reduce.
+	 * @var string
 	 */
 	private $groupByColumn;
 	
@@ -38,10 +39,10 @@ class Piwik_DataTable_Filter_GroupBy extends Piwik_DataTable_Filter
 	/**
 	 * Constructor.
 	 * 
-	 * @param Piwik_DataTable $table The DataTable to filter.
-	 * @param string $groupByColumn The column name to reduce.
-	 * @param mixed $reduceFunction The reduce function. This must alter the $groupByColumn in some way.
-	 * @param array $parameters Extra parameters to supply to the reduce function.
+	 * @param Piwik_DataTable  $table           The DataTable to filter.
+	 * @param string           $groupByColumn   The column name to reduce.
+	 * @param mixed            $reduceFunction  The reduce function. This must alter the $groupByColumn in some way.
+	 * @param array            $parameters      Extra parameters to supply to the reduce function.
 	 */
 	public function __construct( $table, $groupByColumn, $reduceFunction, $parameters = array() )
 	{
@@ -54,6 +55,8 @@ class Piwik_DataTable_Filter_GroupBy extends Piwik_DataTable_Filter
 	
 	/**
 	 * Applies the reduce function to each row and merges rows w/ the same reduce result.
+	 *
+	 * @param Piwik_DataTable  $table
 	 */
 	public function filter( $table )
 	{
@@ -87,4 +90,3 @@ class Piwik_DataTable_Filter_GroupBy extends Piwik_DataTable_Filter
 		$table->deleteRows($nonGroupByRowIds);
 	}
 }
-

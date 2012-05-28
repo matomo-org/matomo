@@ -51,8 +51,8 @@ class Piwik_DataTable_Manager
 	/**
 	 * Add a DataTable to the registry
 	 * 
-	 * @param Piwik_DataTable
-	 * @return int Index of the table in the manager array
+	 * @param Piwik_DataTable  $table
+	 * @return int  Index of the table in the manager array
 	 */
 	public function addTable( $table )
 	{
@@ -66,9 +66,9 @@ class Piwik_DataTable_Manager
 	 * NB: The datatable has to have been instanciated before!
 	 * This method will not fetch the DataTable from the DB.
 	 *
-	 * @param $idTable
+	 * @param int  $idTable
 	 * @throws Exception If the table can't be found
-	 * @return Piwik_DataTable The table
+	 * @return Piwik_DataTable  The table
 	 */
 	public function getTable( $idTable )
 	{
@@ -96,7 +96,7 @@ class Piwik_DataTable_Manager
 	 * Deletes (unsets) the datatable given its id and removes it from the manager
 	 * Subsequent get for this table will fail
 	 *
-	 * @param int $id
+	 * @param int  $id
 	 */
 	public function deleteTable( $id )
 	{
@@ -110,7 +110,7 @@ class Piwik_DataTable_Manager
 	/**
 	 * Remove the table from the manager (table has already been unset)
 	 *
-	 * @param int $id
+	 * @param int  $id
 	 */
 	public function setTableDeleted($id)
 	{

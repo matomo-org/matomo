@@ -19,12 +19,12 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 	/**
 	 * Builds an array of Piwik_Archive of a given date range
 	 *
-	 * @param Piwik_Site $oSite
-	 * @param string $strPeriod eg. 'day' 'week' etc.
-	 * @param string $strDate A date range, eg. 'last10', 'previous5' or 'YYYY-MM-DD,YYYY-MM-DD'
-	 * @param Piwik_Segment $segment
+	 * @param Piwik_Site     $oSite
+	 * @param string         $strPeriod eg. 'day' 'week' etc.
+	 * @param string         $strDate A date range, eg. 'last10', 'previous5' or 'YYYY-MM-DD,YYYY-MM-DD'
+	 * @param Piwik_Segment  $segment
 	 */
-	function __construct(Piwik_Site $oSite, $strPeriod, $strDate, Piwik_Segment $segment)
+	public function __construct(Piwik_Site $oSite, $strPeriod, $strDate, Piwik_Segment $segment)
 	{
 		$rangePeriod = new Piwik_Period_Range($strPeriod, $strDate, $oSite->getTimezone());
 		foreach($rangePeriod->getSubperiods() as $subPeriod)
@@ -36,7 +36,10 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 		}
 		$this->setSite($oSite);
 	}
-	
+
+	/**
+	 * @return string
+	 */
 	protected function getIndexName()
 	{
 		return 'date';
@@ -46,8 +49,8 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 	 * Adds metadata information to the Piwik_DataTable_Array 
 	 * using the information given by the Archive
 	 *
-	 * @param Piwik_DataTable_Array $table
-	 * @param Piwik_Archive $archive
+	 * @param Piwik_DataTable_Array  $table
+	 * @param Piwik_Archive          $archive
 	 */
 	protected function loadMetadata(Piwik_DataTable_Array $table, $archive)
 	{
@@ -57,7 +60,11 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 				'period' => $archive->getPeriod(),
 			);
 	}
-	
+
+	/**
+	 * @param Piwik_Archive  $archive
+	 * @return mixed
+	 */
 	protected function getDataTableLabelValue( $archive )
 	{
 		return $archive->getPrettyDate();
@@ -67,7 +74,7 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 	 * Given a list of fields defining numeric values, it will return a Piwik_DataTable_Array
 	 * which is an array of Piwik_DataTable_Simple, ordered by chronological order
 	 *
-	 * @param array|string $fields array( fieldName1, fieldName2, ...)  Names of the mysql table fields to load
+	 * @param array|string  $fields  array( fieldName1, fieldName2, ...)  Names of the mysql table fields to load
 	 * @return Piwik_DataTable_Array
 	 */
 	public function getDataTableFromNumeric( $fields )

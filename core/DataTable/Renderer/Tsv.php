@@ -21,12 +21,20 @@
  */
 class Piwik_DataTable_Renderer_Tsv extends Piwik_DataTable_Renderer_Csv
 {
+	/**
+	 * Constructor
+	 */
 	function __construct()
 	{
 		parent::__construct();
 		$this->setSeparator("\t");
 	}
-	
+
+	/**
+	 * Computes the dataTable output and returns the string/binary
+	 *
+	 * @return string
+	 */
 	function render()
 	{
 		return parent::render();

@@ -25,11 +25,11 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 	private $tableName = null;
 
 	/**
-	 * @param array $sites array of siteIds
-	 * @param string $strPeriod eg. 'day' 'week' etc.
-	 * @param string $strDate A date range, eg. 'last10', 'previous5' or 'YYYY-MM-DD,YYYY-MM-DD'
-	 * @param Piwik_Segment $segment
-	 * @param $_restrictSitesToLogin
+	 * @param array          $sites      array of siteIds
+	 * @param string         $strPeriod  eg. 'day' 'week' etc.
+	 * @param string         $strDate    A date range, eg. 'last10', 'previous5' or 'YYYY-MM-DD,YYYY-MM-DD'
+	 * @param Piwik_Segment  $segment
+	 * @param string         $_restrictSitesToLogin
 	 */
 	function __construct($sites, $strPeriod, $strDate, Piwik_Segment $segment, $_restrictSitesToLogin)
 	{
@@ -40,12 +40,19 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 		}
 		ksort( $this->archives );
 	}
-	
+
+	/**
+	 * @return string
+	 */
 	protected function getIndexName()
 	{
 		return 'idSite';
 	}
-	
+
+	/**
+	 * @param Piwik_Archive  $archive
+	 * @return mixed
+	 */
 	protected function getDataTableLabelValue( $archive )
 	{
 		return $archive->getIdSite();
@@ -55,7 +62,7 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 	 * Given a list of fields defining numeric values, it will return a Piwik_DataTable_Array
 	 * ordered by idsite
 	 *
-	 * @param array|string $fields array( fieldName1, fieldName2, ...)  Names of the mysql table fields to load
+	 * @param array|string  $fields  array( fieldName1, fieldName2, ...)  Names of the mysql table fields to load
 	 * @return Piwik_DataTable_Array
 	 */
 	public function getDataTableFromNumeric( $fields )
@@ -85,6 +92,12 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 		return $tableArray;
 	}
 
+	/**
+	 * Returns the values of the requested fields
+	 *
+	 * @param array  $fields
+	 * @return array
+	 */
 	private function getValues($fields)
 	{
 		// Creating the default array, to ensure consistent order
@@ -102,7 +115,11 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
  		}
 		return $arrayValues;
 	}
-	
+
+	/**
+	 * @param $fields
+	 * @return array|array  (one row in the array per row fetched in the DB)
+	 */
 	private function loadValuesFromDB($fields)
 	{
 		$requestedMetrics = is_string($fields) ? array($fields) : $fields;
@@ -135,6 +152,11 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 		return Piwik_FetchAll($sql, $fields);
 	}
 
+	/**
+	 * Returns the first archive in the list
+	 *
+	 * @return Piwik_Archive
+	 */
 	private function getFirstArchive()
 	{
 		return reset($this->archives);
@@ -144,7 +166,7 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 	 * Gets the archive id of every Single archive this archive holds. This method
 	 * will launch the archiving process if appropriate.
 	 *
-	 * @param string $metrics The requested archive metrics.
+	 * @param array  $metrics  The requested archive metrics.
 	 * @throws Exception
 	 * @return array
 	 */
@@ -194,7 +216,7 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 	 * Gets the archive id of every Single archive this archive holds. This method
 	 * will not launch the archiving process.
 	 * 
-	 * @param string $metrics The requested archive metrics.
+	 * @param string  $metrics  The requested archive metrics.
 	 * @return array
 	 */
 	private function getArchiveIdsWithoutLaunching( $metrics )

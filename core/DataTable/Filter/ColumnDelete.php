@@ -11,22 +11,37 @@
  */
 
 /**
- * Deletes a column from a datatable
+ * Deletes a column from a data table
  * 
  * @package Piwik
  * @subpackage Piwik_DataTable
  */
 class Piwik_DataTable_Filter_ColumnDelete extends Piwik_DataTable_Filter
 {
-	private $columnToFilter;
-	private $functionToApply;
-	
+	/**
+	 * Column that should be removed
+	 *
+	 * @var string
+	 */
+	private $columnToDelete;
+
+	/**
+	 * Constructor - sets the column to be deleted
+	 *
+	 * @param Piwik_DataTable  $table           data table
+	 * @param string           $columnToDelete  column to delete
+	 */
 	public function __construct( $table, $columnToDelete )
 	{
 		parent::__construct($table);
 		$this->columnToDelete = $columnToDelete;
 	}
-	
+
+	/**
+	 * Executes the filter and removes the specified column in the given data table
+	 *
+	 * @param Piwik_DataTable  $table
+	 */
 	public function filter($table)
 	{
 		$table->deleteColumn($this->columnToDelete);

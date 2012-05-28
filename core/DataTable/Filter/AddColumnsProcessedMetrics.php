@@ -21,8 +21,8 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 	protected $deleteRowsWithNoVisit = true;
 
 	/**
-	 * @param Piwik_DataTable $table
-	 * @param bool $deleteRowsWithNoVisit Automatically set to true when filter_add_columns_when_show_all_columns is found in the API request
+	 * @param Piwik_DataTable  $table
+	 * @param bool             $deleteRowsWithNoVisit  Automatically set to true when filter_add_columns_when_show_all_columns is found in the API request
 	 * @return Piwik_DataTable_Filter_AddColumnsProcessedMetrics
 	 */
 	public function __construct( $table, $deleteRowsWithNoVisit = true )
@@ -30,7 +30,12 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 		$this->deleteRowsWithNoVisit = $deleteRowsWithNoVisit;
 		parent::__construct($table);
 	}
-	
+
+	/**
+	 * Filters the given data table
+	 *
+	 * @param Piwik_DataTable  $table
+	 */
 	public function filter($table)
 	{
 		$rowsIdToDelete = array();	
@@ -88,10 +93,10 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 	 * - raw datatables coming from the archive DB, which columns are int indexed
 	 * - datatables processed resulting of API calls, which columns have human readable english names
 	 *
-	 * @param Piwik_DataTable_Row $row
-	 * @param int $columnIdRaw see consts in Piwik_Archive::
-	 * @param bool $mappingIdToName
-	 * @return mixed Value of column, false if not found
+	 * @param Piwik_DataTable_Row  $row
+	 * @param int                  $columnIdRaw see consts in Piwik_Archive::
+	 * @param bool                 $mappingIdToName
+	 * @return mixed  Value of column, false if not found
 	 */
 	protected function getColumn($row, $columnIdRaw, $mappingIdToName = false)
 	{

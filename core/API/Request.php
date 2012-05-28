@@ -39,7 +39,13 @@
 class Piwik_API_Request
 {	
 	protected $request = null;
-	
+
+	/**
+	 * Returns the request array as string
+	 *
+	 * @param string|array  $request
+	 * @return array|null
+	 */
 	static public function getRequestArrayFromString($request)
 	{
 		$defaultRequest = $_GET + $_POST;
@@ -76,11 +82,11 @@ class Piwik_API_Request
 	
 	/**
 	 * Constructs the request to the API, given the request url
-	 * 
-	 * @param string GET request that defines the API call (must at least contain a "method" parameter) 
-	 *  Example: method=UserSettings.getWideScreen&idSite=1&date=yesterday&period=week&format=xml
-	 * 	If a request is not provided, then we use the $_GET and $_POST superglobal and fetch
-	 * 	the values directly from the HTTP GET query.
+	 *
+	 * @param string  $request  GET request that defines the API call (must at least contain a "method" parameter)
+	 *                          Example: method=UserSettings.getWideScreen&idSite=1&date=yesterday&period=week&format=xml
+	 *                          If a request is not provided, then we use the $_GET and $_POST superglobal and fetch
+	 *                          the values directly from the HTTP GET query.
 	 */
 	function __construct($request = null)
 	{
@@ -94,7 +100,7 @@ class Piwik_API_Request
 	 * It then calls the API Proxy which will call the requested method.
 	 *
 	 * @throws Piwik_FrontController_PluginDeactivatedException
-	 * @return mixed The data resulting from the API call
+	 * @return mixed  The data resulting from the API call
 	 */
 	public function process()
 	{
@@ -133,7 +139,7 @@ class Piwik_API_Request
 	 * the current session will be authenticated using this token_auth.
 	 * It will overwrite the previous Auth object.
 	 * 
-	 * @param array $request If null, uses the default request ($_GET)
+	 * @param array  $request  If null, uses the default request ($_GET)
 	 * @return void
 	 */
 	static public function reloadAuthUsingTokenAuth($request = null)
@@ -151,7 +157,7 @@ class Piwik_API_Request
 	/**
 	 * Returns array( $class, $method) from the given string $class.$method
 	 *
-	 * @param $parameter
+	 * @param string  $parameter
 	 * @throws Exception
 	 * @return array
 	 */

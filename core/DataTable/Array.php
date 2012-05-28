@@ -31,7 +31,7 @@ class Piwik_DataTable_Array
 	/**
 	 * Array containing the DataTable withing this Piwik_DataTable_Array
 	 *
-	 * @var array of Piwik_DataTable
+	 * @var Piwik_DataTable[]
 	 */
 	protected $array = array();
 	
@@ -60,7 +60,7 @@ class Piwik_DataTable_Array
 	/**
 	 * Set the keyName @see self::$keyName
 	 *
-	 * @param string $name
+	 * @param string  $name
 	 */
 	public function setKeyName($name)
 	{
@@ -80,8 +80,8 @@ class Piwik_DataTable_Array
 	/**
 	 * Queue a filter to the DataTable_Array will queue this filter to every DataTable of the DataTable_Array.
 	 *
-	 * @param string $className Filter name, eg. Piwik_DataTable_Filter_Limit
-	 * @param array $parameters Filter parameters, eg. array( 50, 10 )
+	 * @param string  $className   Filter name, eg. Piwik_DataTable_Filter_Limit
+	 * @param array   $parameters  Filter parameters, eg. array( 50, 10 )
 	 */
 	public function queueFilter( $className, $parameters = array() )
 	{
@@ -105,8 +105,8 @@ class Piwik_DataTable_Array
 	/**
 	 * Apply a filter to all tables in the array
 	 *
-	 * @param string $className Name of filter class
-	 * @param array $parameters Filter parameters
+	 * @param string  $className   Name of filter class
+	 * @param array   $parameters  Filter parameters
 	 */
 	public function filter($className, $parameters = array())
 	{
@@ -119,7 +119,7 @@ class Piwik_DataTable_Array
 	/**
 	 * Returns the array of DataTable
 	 *
-	 * @return array of Piwik_DataTable
+	 * @return Piwik_DataTable[]
 	 */
 	public function getArray()
 	{
@@ -129,7 +129,7 @@ class Piwik_DataTable_Array
 	/**
 	 * Returns the table with the specified label.
 	 * 
-	 * @param string $label
+	 * @param string  $label
 	 * @return Piwik_DataTable
 	 */
 	public function getTable($label)
@@ -159,8 +159,8 @@ class Piwik_DataTable_Array
 	/**
 	 * Adds a new DataTable to the DataTable_Array
 	 *
-	 * @param Piwik_DataTable $table
-	 * @param string $label Label used to index this table in the array
+	 * @param Piwik_DataTable  $table
+	 * @param string           $label  Label used to index this table in the array
 	 */
 	public function addTable( $table, $label )
 	{
@@ -190,7 +190,14 @@ class Piwik_DataTable_Array
 			$table->enableRecursiveSort();
 		}
 	}
-	
+
+	/**
+	 * Renames the given column
+	 *
+	 * @see Piwik_DataTable::renameColumn
+	 * @param string  $oldName
+	 * @param string  $newName
+	 */
 	public function renameColumn($oldName, $newName)
 	{
 		foreach($this->array as $table)
@@ -199,6 +206,12 @@ class Piwik_DataTable_Array
 		}
 	}
 
+	/**
+	 * Deletes the given columns
+	 *
+	 * @see Piwik_DataTable::deleteColumns
+	 * @param array  $columns
+	 */
 	public function deleteColumns($columns)
 	{
 		foreach($this->array as $table)
@@ -206,7 +219,13 @@ class Piwik_DataTable_Array
 			$table->deleteColumns($columns);
 		}
 	}
-	
+
+	/**
+	 * Deletes the given column
+	 *
+	 * @see Piwik_DataTable::deleteColumn
+	 * @param string  $column
+	 */
 	public function deleteColumn($column)
 	{
 		foreach($this->array as $table)
@@ -219,7 +238,7 @@ class Piwik_DataTable_Array
 	 * Returns a Piwik_DataTable_Array whose sub tables are filtered by $label
 	 * @see Piwik_DataTable::getFilteredTableFromLabel
 	 *
-	 * @param string $label Value of the column 'label' to search for
+	 * @param string  $label  Value of the column 'label' to search for
 	 * @return Piwik_DataTable_Array
 	 */
 	public function getFilteredTableFromLabel($label)
@@ -326,10 +345,9 @@ class Piwik_DataTable_Array
 	 * Utility function used by mergeChildren. Copies the rows from one table,
 	 * sets their 'label' columns to a value and adds them to another table.
 	 * 
-	 * @param Piwik_DataTable $toTable The table to copy rows to.
-	 * @param Piwik_DataTable $fromTable The table to copy rows from.
-	 * @param string $label The value to set the 'label' column of every copied
-	 *                      row.
+	 * @param Piwik_DataTable  $toTable    The table to copy rows to.
+	 * @param Piwik_DataTable  $fromTable  The table to copy rows from.
+	 * @param string           $label      The value to set the 'label' column of every copied row.
 	 */
 	private function copyRowsAndSetLabel($toTable, $fromTable, $label)
 	{

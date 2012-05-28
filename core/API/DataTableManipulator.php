@@ -32,7 +32,14 @@ abstract class Piwik_API_DataTableManipulator
 	protected $request;
 	
 	private $apiMethodForSubtable;
-	
+
+	/**
+	 * Constructor
+	 *
+	 * @param bool   $apiModule
+	 * @param bool   $apiMethod
+	 * @param array  $request
+	 */
 	public function __construct($apiModule=false, $apiMethod=false, $request=array()) {
 		$this->apiModule = $apiModule;
 		$this->apiMethod = $apiMethod;
@@ -43,7 +50,8 @@ abstract class Piwik_API_DataTableManipulator
 	 * This method can be used by subclasses to iterate over data tables that might be
 	 * data table arrays. It calls back the template method self::doManipulate for each table.
 	 * This way, data table arrays can be handled in a transparent fashion.
-	 * @param Piwik_DataTable_Array|Piwik_DataTable $dataTable
+	 *
+	 * @param Piwik_DataTable_Array|Piwik_DataTable  $dataTable
 	 * @throws Exception
 	 * @return Piwik_DataTable_Array|Piwik_DataTable
 	 */
@@ -82,8 +90,9 @@ abstract class Piwik_API_DataTableManipulator
 
 	/**
 	 * Template method called from self::manipulate
-	 * @param Piwik_DataTable $dataTable
-	 * @param bool|string $date
+	 *
+	 * @param Piwik_DataTable  $dataTable
+	 * @param bool|string      $date
 	 * @return
 	 */
 	protected abstract function doManipulate(Piwik_DataTable $dataTable, $date=false);
@@ -92,8 +101,8 @@ abstract class Piwik_API_DataTableManipulator
 	 * Load the subtable for a row.
 	 * Returns null if none is found.
 	 *
-	 * @param Piwik_Datatable_Row $row
-	 * @param bool $date
+	 * @param Piwik_Datatable_Row  $row
+	 * @param bool|string          $date
 	 * @throws Exception
 	 * @return Piwik_DataTable
 	 */
@@ -144,12 +153,17 @@ abstract class Piwik_API_DataTableManipulator
 	 * In this method, subclasses can clean up the request array for loading subtables
 	 * in order to make Piwik_API_ResponseBuilder behave correctly (e.g. not trigger the
 	 * manipulator again).
+	 *
 	 * @param $request
 	 * @return
 	 */
 	protected abstract function manipulateSubtableRequest(&$request);
 	
-	/** Extract the API method for loading subtables from the meta data */
+	/**
+	 * Extract the API method for loading subtables from the meta data
+	 *
+	 * @return string
+	 */
 	private function getApiMethodForSubtable()
 	{
 		if (!$this->apiMethodForSubtable)

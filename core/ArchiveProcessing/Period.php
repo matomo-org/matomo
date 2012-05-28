@@ -30,12 +30,17 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	static public $invalidSummedColumnNameToRenamedName = array(
 		Piwik_Archive::INDEX_NB_UNIQ_VISITORS => Piwik_Archive::INDEX_SUM_DAILY_NB_UNIQ_VISITORS 
 	);
+
+	/**
+	 * @var Piwik_Archive_Single[]
+	 */
+	public $archives = array();
 	
 	/**
 	 * Sums all values for the given field names $aNames over the period
 	 * See @archiveNumericValuesGeneral for more information
 	 * 
-	 * @param string|array $aNames
+	 * @param string|array  $aNames
 	 * @return array
 	 */
 	public function archiveNumericValuesSum( $aNames )
@@ -47,7 +52,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 * Get the maximum value for all values for the given field names $aNames over the period
 	 * See @archiveNumericValuesGeneral for more information
 	 * 
-	 * @param string|array $aNames
+	 * @param string|array  $aNames
 	 * @return array
 	 */
 	public function archiveNumericValuesMax( $aNames )
@@ -61,8 +66,8 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 * For example if $operationToApply = 'sum' and $aNames = array('nb_visits', 'sum_time_visit')
 	 *  it will sum all values of nb_visits for the period (for example give the number of visits for the month by summing the visits of every day)
 	 *
-	 * @param array|string $aNames Array of strings or string containg the field names to select
-	 * @param string $operationToApply Available operations = sum, max, min
+	 * @param array|string  $aNames            Array of strings or string containg the field names to select
+	 * @param string        $operationToApply  Available operations = sum, max, min
 	 * @throws Exception
 	 * @return array
 	 */
@@ -95,15 +100,15 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 							$results[$name] += $valueToSum;	
 							break;
 						case 'max':
-							$results[$name] = max($results[$name], $valueToSum);		
+							$results[$name] = max($results[$name], $valueToSum);
 							break;
 						case 'min':
-							$results[$name] = min($results[$name], $valueToSum);		
+							$results[$name] = min($results[$name], $valueToSum);
 							break;
 						default:
 							throw new Exception("Operation not applicable.");
 							break;
-					}								
+					}
 				}
 			}
 		}
@@ -147,11 +152,12 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 * It returns an array that gives information about the "final" DataTable. The array gives for every field name, the number of rows in the 
 	 *  final DataTable (ie. the number of distinct LABEL over the period) (eg. the number of distinct keywords over the last month)
 	 * 
-	 * @param string|array Field name(s) of DataTable to select so we can get the sum 
-	 * @param array (current_column_name => new_column_name) for columns that must change names when summed (eg. unique visitors go from nb_uniq_visitors to sum_daily_nb_uniq_visitors)
-	 * @param int Max row count of parent datatable to archive  
-	 * @param int Max row count of children datatable(s) to archive
-	 * @param string Column name to sort by, before truncating rows (ie. if there are more rows than the specified max row count) 
+	 * @param string|array  $aRecordName                           Field name(s) of DataTable to select so we can get the sum
+	 * @param array         $invalidSummedColumnNameToRenamedName  (current_column_name => new_column_name) for columns that must change names when summed
+	 *                                                             (eg. unique visitors go from nb_uniq_visitors to sum_daily_nb_uniq_visitors)
+	 * @param int           $maximumRowsInDataTableLevelZero       Max row count of parent datatable to archive
+	 * @param int           $maximumRowsInSubDataTable             Max row count of children datatable(s) to archive
+	 * @param string        $columnToSortByBeforeTruncation        Column name to sort by, before truncating rows (ie. if there are more rows than the specified max row count)
 	 * 
 	 * @return array  array (
 	 * 					nameTable1 => number of rows, 
@@ -192,8 +198,8 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 * It calls the appropriate methods that sum all these tables together.
 	 * The resulting DataTable is returned.
 	 *
-	 * @param string $name
-	 * @param array columns in the array (old name, new name) to be renamed as the sum operation is not valid on them (eg. nb_uniq_visitors->sum_daily_nb_uniq_visitors)
+	 * @param string  $name
+	 * @param array   $invalidSummedColumnNameToRenamedName  columns in the array (old name, new name) to be renamed as the sum operation is not valid on them (eg. nb_uniq_visitors->sum_daily_nb_uniq_visitors)
 	 * @return Piwik_DataTable
 	 */
 	protected function getRecordDataTableSum( $name, $invalidSummedColumnNameToRenamedName )
@@ -218,7 +224,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		}
 		return $table;
 	}
-	
+
 	protected function initCompute()
 	{
 		parent::initCompute();
@@ -227,7 +233,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	/**
 	 * Returns the ID of the archived subperiods.
 	 * 
-	 * @return array Array of the idArchive of the subperiods
+	 * @return array  Array of the idArchive of the subperiods
 	 */
 	protected function loadSubperiodsArchive()
 	{
@@ -260,7 +266,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		{
 			return;
 		}
-		Piwik_PostEvent('ArchiveProcessing_Period.compute', $this);		
+		Piwik_PostEvent('ArchiveProcessing_Period.compute', $this);
 	}
 
 	protected function loadSubPeriods()
@@ -271,7 +277,11 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		}
 	}
 	
-	// Similar logic to Piwik_ArchiveProcessing_Day::isThereSomeVisits()
+	/**
+	 *
+	 * @see Piwik_ArchiveProcessing_Day::isThereSomeVisits()
+	 * @return bool|null
+	 */
 	public function isThereSomeVisits()
 	{
 		if(!is_null($this->isThereSomeVisits))
@@ -417,6 +427,5 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 			destroy($archive);
 		}
 		$this->archives = array();
-		
-	}	
+	}
 }

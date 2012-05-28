@@ -41,8 +41,8 @@ class Piwik_API_DocumentationGenerator
 	 *  For each module it will return a mini help with the method names, parameters to give,
 	 * links to get the result in Xml/Csv/etc
 	 *
-	 * @param bool $outputExampleUrls
-	 * @param string $prefixUrls
+	 * @param bool    $outputExampleUrls
+	 * @param string  $prefixUrls
 	 * @return string
 	 */
 	public function getAllInterfaceString( $outputExampleUrls = true, $prefixUrls = '' )
@@ -121,9 +121,9 @@ class Piwik_API_DocumentationGenerator
 	 * It will export links to XML, CSV, HTML, JSON, PHP, etc.
 	 * It will not export links for methods such as deleteSite or deleteUser
 	 *
-	 * @param string $class the class
-	 * @param string $methodName the method
-	 * @param array $parametersToSet
+	 * @param string  $class            the class
+	 * @param string  $methodName       the method
+	 * @param array   $parametersToSet  parameters to set
 	 * @return string|false when not possible
 	 */
 	public function getExampleUrl($class, $methodName, $parametersToSet = array())
@@ -213,9 +213,9 @@ class Piwik_API_DocumentationGenerator
 	/**
 	 * Returns the methods $class.$name parameters (and default value if provided) as a string.
 	 * 
-	 * @param string The class name
-	 * @param string The method name
-	 * @return string For example "(idSite, period, date = 'today')"
+	 * @param string  $class  The class name
+	 * @param string  $name   The method name
+	 * @return string  For example "(idSite, period, date = 'today')"
 	 */
 	public function getParametersString($class, $name)
 	{

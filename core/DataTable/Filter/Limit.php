@@ -21,10 +21,10 @@ class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
 	/**
 	 * Filter constructor.
 	 * 
-	 * @param Piwik_DataTable $table
-	 * @param int $offset Starting row (indexed from 0)
-	 * @param int $limit Number of rows to keep (specify -1 to keep all rows)
-	 * @param bool $keepSummaryRow Whether to keep the summary row or not.
+	 * @param Piwik_DataTable  $table
+	 * @param int              $offset          Starting row (indexed from 0)
+	 * @param int              $limit           Number of rows to keep (specify -1 to keep all rows)
+	 * @param bool             $keepSummaryRow  Whether to keep the summary row or not.
 	 */
 	public function __construct( $table, $offset, $limit = null, $keepSummaryRow = false )
 	{
@@ -37,13 +37,16 @@ class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
 		}
 		$this->limit = $limit;
 		$this->keepSummaryRow = $keepSummaryRow;
-	}	
-	
+	}
+
+	/**
+	 * Limits the given data table
+	 *
+	 * @param Piwik_DataTable  $table
+	 */
 	public function filter($table)
 	{
 		$table->setRowsCountBeforeLimitFilter();
-		
-		$rowsCount = $table->getRowsCount();
 		
 		if ($this->keepSummaryRow)
 		{

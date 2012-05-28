@@ -22,6 +22,9 @@
  */
 class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 {
+	/**
+	 * Constructor
+	 */
 	function __construct()
 	{
 		parent::__construct();
@@ -49,7 +52,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 *   (for example when a Segment is defined and the Keywords report is requested)
 	 * Then the function will create the Archive for the Core metrics 'VisitsSummary' which will in turn process the number of visits
 	 *
-	 *  If there is no specified segment, the SQL query will always run.
+	 * If there is no specified segment, the SQL query will always run.
+	 *
 	 * @return bool|null
 	 */
 	public function isThereSomeVisits()
@@ -123,6 +127,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * If a segment is specified but a plugin other than 'VisitsSummary' is being requested,
 	 * we create an archive for processing VisitsSummary Core Metrics, which will in turn
 	 * execute the query above (in isThereSomeVisits)
+	 *
 	 * @return bool|null
 	 */
 	private function redirectRequestToVisitsSummary()
@@ -153,15 +158,15 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * The SELECT expressions will count the number of column values that are
 	 * within each range.
 	 *
-	 * @param string $column The column of the log_conversion table to reduce.
-	 * @param array $ranges The ranges to reduce data over.
-	 * @param string $table The table the SELECTs should use.
-	 * @param string $selectColumnPrefix The prefix when specifying what a SELECT
-	 *                                   expression will be selected AS.
-	 * @param bool|string $extraCondition An extra condition to be appended to 'case when'
-	 *                               expressions. Must start with the logical operator,
-	 *                               ie (AND, OR, etc.).
-	 * @return array An array of SQL SELECT expressions.
+	 * @param string       $column              The column of the log_conversion table to reduce.
+	 * @param array        $ranges              The ranges to reduce data over.
+	 * @param string       $table               The table the SELECTs should use.
+	 * @param string       $selectColumnPrefix  The prefix when specifying what a SELECT
+	 *                                          expression will be selected AS.
+	 * @param bool|string  $extraCondition      An extra condition to be appended to 'case when'
+	 *                                          expressions. Must start with the logical operator,
+	 *                                          ie (AND, OR, etc.).
+	 * @return array  An array of SQL SELECT expressions.
 	 */
 	public static function buildReduceByRangeSelect(
 		$column, $ranges, $table, $selectColumnPrefix = '', $extraCondition = false)
@@ -202,11 +207,11 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * 
 	 * NOTE: $selectAsPrefix can be used to make sure only SOME of the data in $row is used.
 	 * 
-	 * @param array $row The database row to convert.
-	 * @param mixed $labelCount The label to use for the second column of the DataTable result.
-	 * @param string $selectAsPrefix A string that identifies which elements of $row to use
-	 *                               in the result. Every key of $row that starts with this
-	 *                               value is used.
+	 * @param array   $row             The database row to convert.
+	 * @param mixed   $labelCount      The label to use for the second column of the DataTable result.
+	 * @param string  $selectAsPrefix  A string that identifies which elements of $row to use
+	 *                                 in the result. Every key of $row that starts with this
+	 *                                 value is used.
 	 * @return Piwik_DataTable
 	 */
 	public function getSimpleDataTableFromRow($row, $labelCount, $selectAsPrefix = '')
@@ -233,13 +238,13 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * Performs a simple query on the log_visit table within the time range this archive
 	 * represents.
 	 *
-	 * @param string $select The SELECT clause.
-	 * @param string|bool $orderBy The ORDER BY clause (without the 'ORDER BY' part). Set to
-	 *                             false to specify no ORDER BY.
-	 * @param array|bool $groupByCols An array of column names to group by. Set to false to
-	 *                                specify no GROUP BY.
-	 * @param bool $oneResultRow Whether only one row is expected or not. If set to true,
-	 *                           this function returns one row, if false, an array of rows.
+	 * @param string      $select        The SELECT clause.
+	 * @param string|bool $orderBy       The ORDER BY clause (without the 'ORDER BY' part). Set to
+	 *                                   false to specify no ORDER BY.
+	 * @param array|bool  $groupByCols   An array of column names to group by. Set to false to
+	 *                                   specify no GROUP BY.
+	 * @param bool        $oneResultRow  Whether only one row is expected or not. If set to true,
+	 *                                   this function returns one row, if false, an array of rows.
 	 * @return array
 	 */
 	public function queryVisitsSimple($select, $orderBy = false, $groupByCols = false, $oneResultRow = true)
@@ -282,8 +287,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * 		PercentFlash 		0.5676
 	 *
 	 *
-	 * @param string $select
-	 * @param string $labelCount
+	 * @param string  $select
+	 * @param string  $labelCount
 	 * @return Piwik_DataTable
 	 */
 	public function getSimpleDataTableFromSelect($select, $labelCount)
@@ -292,6 +297,13 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		return $this->getSimpleDataTableFromRow($data, $labelCount);
 	}
 
+	/**
+	 * Returns the actions by the given dimension
+	 *
+	 * @param array|string  $label
+	 * @param string        $where
+	 * @return mixed
+	 */
 	public function queryActionsByDimension($label, $where = '')
 	{
 	    if(is_array($label))
@@ -346,9 +358,9 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	/**
 	 * Query visits by dimension
 	 *
-	 * @param string $label mixed Can be a string, eg. "referer_name", will be aliased as 'label' in the returned rows
-	 * 				Can also be an array of strings, when the dimension spans multiple fields, eg. array("referer_name", "referer_keyword")
-	 * @param string $where Additional condition for WHERE clause
+	 * @param array|string  $label  mixed Can be a string, eg. "referer_name", will be aliased as 'label' in the returned rows
+	 * 				                Can also be an array of strings, when the dimension spans multiple fields, eg. array("referer_name", "referer_keyword")
+	 * @param string        $where  Additional condition for WHERE clause
 	 */
 	public function queryVisitsByDimension($label, $where = '')
 	{
@@ -400,9 +412,10 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * @see queryVisitsByDimension() Similar to this function,
 	 * but queries metrics for the requested dimensions,
 	 * for each Goal conversion
-	 * @param $label
-	 * @param string $where
-	 * @param array $aggregateLabels
+	 *
+	 * @param string|array  $label
+	 * @param string        $where
+	 * @param array         $aggregateLabels
 	 * @return
 	 */
 	public function queryConversionsByDimension($label, $where = '', $aggregateLabels = array())
@@ -465,7 +478,13 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
         
         return $this->db->query($query['sql'], $query['bind']);
 	}
-	
+
+	/**
+	 * Returns the ecommerce items
+	 *
+	 * @param string  $field
+	 * @return string
+	 */
 	public function queryEcommerceItems($field)
 	{
 		$query = "SELECT
@@ -493,12 +512,21 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		$query = $this->db->query($query, $bind);
 		return $query;
 	}
-	
+
+	/**
+	 * @param string  $field
+	 * @return string
+	 */
 	static public function getSqlRevenue($field)
 	{
 		return "ROUND(".$field.",".Piwik_Tracker_GoalManager::REVENUE_PRECISION.")";
 	}
-	
+
+	/**
+	 * Converts the given array to a datatable
+	 * @param array $array
+	 * @return Piwik_DataTable
+	 */
 	public function getDataTableFromArray( $array )
 	{
 		$table = new Piwik_DataTable();
@@ -537,7 +565,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * Windows XP	12	...
 	 * Mac OS	15	36	...
 	 *
-	 * @param string $label Table log_visit field name to be use to compute common stats
+	 * @param string  $label  Table log_visit field name to be use to compute common stats
 	 * @return array
 	 */
 	public function getArrayInterestForLabel($label)
@@ -557,8 +585,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * This is used for the "Actions" DataTable, where a line is the aggregate of all the subtables
 	 * Example: the category /blog has 3 visits because it has /blog/index (2 visits) + /blog/about (1 visit)
 	 *
-	 * @param array $table
-	 * @param array $parents
+	 * @param array  $table
+	 * @param array  $parents
 	 * @return Piwik_DataTable
 	 */
 	static public function generateDataTable( $table, $parents=array() )
@@ -601,8 +629,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * 	 				LABEL2 => array(col1 => X, col2 => Y),
 	 * 				)
 	 *
-	 * @param array $array at the given format
-	 * @return array Array with one element: the serialized data table string
+	 * @param array  $array  at the given format
+	 * @return array  Array with one element: the serialized data table string
 	 */
 	public function getDataTableSerialized( $array )
 	{
@@ -634,9 +662,9 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * 				)
 	 *
 	 *
-	 * @param array $arrayLevel0
-	 * @param array $subArrayLevel1ByKey Array of Piwik_DataTable
-	 * @return array Array with N elements: the strings of the datatable serialized
+	 * @param array  $arrayLevel0
+	 * @param array  $subArrayLevel1ByKey  Array of Piwik_DataTable
+	 * @return array  Array with N elements: the strings of the datatable serialized
 	 */
 	public function getDataTableWithSubtablesFromArraysIndexedByLabel( $arrayLevel0, $subArrayLevel1ByKey )
 	{
@@ -657,8 +685,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	/**
 	 * Returns an empty row containing default values for the common stat
 	 *
-	 * @param bool $onlyMetricsAvailableInActionsTable
-	 * @param bool $doNotSumVisits
+	 * @param bool  $onlyMetricsAvailableInActionsTable
+	 * @param bool  $doNotSumVisits
 	 * @return array
 	 */
 	public function getNewInterestRow($onlyMetricsAvailableInActionsTable = false, $doNotSumVisits = false)
@@ -689,7 +717,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * Returns a Piwik_DataTable_Row containing default values for common stat,
 	 * plus a column 'label' with the value $label
 	 *
-	 * @param string $label
+	 * @param string  $label
 	 * @return Piwik_DataTable_Row
 	 */
 	public function getNewInterestRowLabeled( $label )
@@ -707,10 +735,10 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 *
 	 * The rows are php arrays Name => value
 	 *
-	 * @param array $newRowToAdd
-	 * @param array $oldRowToUpdate
-	 * @param bool $onlyMetricsAvailableInActionsTable
-	 * @param bool $doNotSumVisits
+	 * @param array  $newRowToAdd
+	 * @param array  $oldRowToUpdate
+	 * @param bool   $onlyMetricsAvailableInActionsTable
+	 * @param bool   $doNotSumVisits
 	 * @return
 	 */
 	public function updateInterestStats( $newRowToAdd, &$oldRowToUpdate, $onlyMetricsAvailableInActionsTable = false, $doNotSumVisits = false)
@@ -792,7 +820,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * 			);
 	 * 		)
 	 *
-	 * @param array $interestByLabel Passed by reference, will be modified
+	 * @param array  $interestByLabel  Passed by reference, will be modified
 	 */
 	function enrichConversionsByLabelArray(&$interestByLabel)
 	{
@@ -826,7 +854,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	}
 
 	/**
-	 * @param array $interestByLabelAndSubLabel Passed by reference, will be modified
+	 *
+	 * @param array  $interestByLabelAndSubLabel  Passed by reference, will be modified
 	 */
 	function enrichConversionsByLabelArrayHasTwoLevels(&$interestByLabelAndSubLabel)
 	{
@@ -836,6 +865,11 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		}
 	}
 
+	/**
+	 *
+	 * @param $newRowToAdd
+	 * @param $oldRowToUpdate
+	 */
 	function updateGoalStats($newRowToAdd, &$oldRowToUpdate)
 	{
 		$oldRowToUpdate[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS]	+= $newRowToAdd[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS];
@@ -857,7 +891,12 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 			}
 		}
 	}
-	
+
+	/**
+	 *
+	 * @param $idGoal
+	 * @return array
+	 */
 	function getNewGoalRow($idGoal)
 	{
 		if($idGoal > Piwik_Tracker_GoalManager::IDGOAL_ORDER)

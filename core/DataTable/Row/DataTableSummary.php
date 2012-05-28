@@ -23,6 +23,9 @@
  */
 class Piwik_DataTable_Row_DataTableSummary extends Piwik_DataTable_Row
 {
+	/**
+	 * @param Piwik_DataTable  $subTable
+	 */
 	function __construct($subTable)
 	{
 		parent::__construct();

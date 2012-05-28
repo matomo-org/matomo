@@ -21,7 +21,11 @@ class Piwik_API_ResponseBuilder
     
     private $apiModule = false;
     private $apiMethod = false;
-	
+
+	/**
+	 * @param string  $outputFormat
+	 * @param array   $request
+	 */
 	public function __construct($outputFormat, $request = array())
 	{
 		$this->request = $request;
@@ -50,10 +54,10 @@ class Piwik_API_ResponseBuilder
 	 *
 	 * - If an integer / float is returned, we simply return it
 	 *
-	 * @param mixed $value The initial returned value, before post process. If set to null, success response is returned.
-	 * @param bool|string $apiModule The API module that was called
-	 * @param bool|string $apiMethod The API method that was called
-	 * @return mixed Usually a string, but can still be a PHP data structure if the format requested is 'original'
+	 * @param mixed        $value      The initial returned value, before post process. If set to null, success response is returned.
+	 * @param bool|string  $apiModule  The API module that was called
+	 * @param bool|string  $apiMethod  The API method that was called
+	 * @return mixed  Usually a string, but can still be a PHP data structure if the format requested is 'original'
 	 */
 	public function getResponse($value = null, $apiModule = false, $apiMethod = false)
 	{
@@ -104,7 +108,7 @@ class Piwik_API_ResponseBuilder
 	/**
 	 * Returns an error $message in the requested $format
 	 *
-	 * @param \Exception $e
+	 * @param Exception  $e
 	 * @throws Exception
 	 * @return string
 	 */
@@ -139,7 +143,7 @@ class Piwik_API_ResponseBuilder
 	/**
 	 * Returns true if the user requested to serialize the output data (&serialize=1 in the request)
 	 *
-	 * @param mixed $defaultSerializeValue Default value in case the user hasn't specified a value
+	 * @param mixed  $defaultSerializeValue  Default value in case the user hasn't specified a value
 	 * @return bool
 	 */	
 	protected function caseRendererPHPSerialize($defaultSerializeValue = 1)
@@ -155,7 +159,7 @@ class Piwik_API_ResponseBuilder
 	/**
 	 * Apply the specified renderer to the DataTable
 	 * 
-	 * @param Piwik_DataTable
+	 * @param Piwik_DataTable  $dataTable
 	 * @return string
 	 */
 	protected function getRenderedDataTable($dataTable)
@@ -220,7 +224,7 @@ class Piwik_API_ResponseBuilder
 	/**
 	 * Returns a success $message in the requested $format
 	 *
-	 * @param string $message
+	 * @param string  $message
 	 * @return string
 	 */
 	protected function handleSuccess( $message = 'ok' )
@@ -260,6 +264,12 @@ class Piwik_API_ResponseBuilder
 		return $return;
 	}
 
+	/**
+	 * Converts the given scalar to an data table
+	 *
+	 * @param mixed  $scalar
+	 * @return string
+	 */
 	protected function handleScalar($scalar)
 	{
 		$dataTable = new Piwik_DataTable_Simple();
@@ -267,6 +277,12 @@ class Piwik_API_ResponseBuilder
 		return $this->getRenderedDataTable($dataTable);
 	}
 
+	/**
+	 * Handles the given data table
+	 *
+	 * @param Piwik_DataTable  $datatable
+	 * @return string
+	 */
 	protected function handleDataTable($datatable)
 	{
 		// if the flag disable_generic_filters is defined we skip the generic filters
@@ -308,7 +324,13 @@ class Piwik_API_ResponseBuilder
         }
 		return $this->getRenderedDataTable($datatable);
 	}
-	
+
+	/**
+	 * Converts the given simple array to a data table
+	 *
+	 * @param array  $array
+	 * @return string
+	 */
 	protected function handleArray($array)
 	{
 		if($this->outputFormat == 'original')
@@ -351,8 +373,8 @@ class Piwik_API_ResponseBuilder
 	 *        )
 	 *    );
 	 *
-	 * @param $array
-	 * @return String or false if it isn't a multidim array
+	 * @param array  $array
+	 * @return string|bool  false if it isn't a multidim array
 	 */
 	protected function handleMultiDimensionalArray($array)
 	{
@@ -401,9 +423,8 @@ class Piwik_API_ResponseBuilder
 	/**
 	 * Render a multidimensional array to XML
 	 *
-	 * @static
-	 * @param $array can contain scalar, arrays, Piwik_DataTable and Piwik_DataTable_Array
-	 * @param int $level
+	 * @param array  $array  can contain scalar, arrays, Piwik_DataTable and Piwik_DataTable_Array
+	 * @param int    $level
 	 * @return string
 	 */
 	public static function convertMultiDimensionalArrayToXml($array, $level = 0)
@@ -488,8 +509,7 @@ class Piwik_API_ResponseBuilder
 	 *		),
 	 *	);
 	 *
-	 * @static
-	 * @param array $array can contain scalar, arrays, Piwik_DataTable and Piwik_DataTable_Array
+	 * @param array  $array  can contain scalar, arrays, Piwik_DataTable and Piwik_DataTable_Array
 	 * @return string
 	 */
 	public static function convertMultiDimensionalArrayToJson($array)

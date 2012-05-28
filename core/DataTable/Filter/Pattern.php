@@ -13,7 +13,7 @@
 /**
  * Delete all rows for which the given $columnToFilter do not contain the $patternToSearch
  * This filter is to be used on columns containing strings. 
- * Exemple: fron the keyword report, keep only the rows for which the label contains "piwik"
+ * Example: from the keyword report, keep only the rows for which the label contains "piwik"
  * 
  * @package Piwik
  * @subpackage Piwik_DataTable
@@ -23,8 +23,14 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 	private $columnToFilter;
 	private $patternToSearch;
 	private $patternToSearchQuoted;
-        private $invertedMatch;
-	
+    private $invertedMatch;
+
+	/**
+	 * @param Piwik_DataTable  $table
+	 * @param string           $columnToFilter
+	 * @param string           $patternToSearch
+	 * @param bool             $invertedMatch
+	 */
 	public function __construct( $table, $columnToFilter, $patternToSearch, $invertedMatch = false )
 	{
 		parent::__construct($table);
@@ -33,20 +39,35 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 		$this->columnToFilter = $columnToFilter;
         $this->invertedMatch = $invertedMatch;
 	}
-	
+
+	/**
+	 * Helper method to return the given pattern quoted
+	 *
+	 * @param string  $pattern
+	 * @return string
+	 */
 	static public function getPatternQuoted( $pattern )
 	{
 		return '/'. str_replace('/', '\/', $pattern) .'/';
 	}
-	
-	/*
+
+	/**
 	 * Performs case insensitive match
+	 *
+	 * @param string  $pattern
+	 * @param string  $patternQuoted
+	 * @param string  $string
+	 * @param bool    $invertedMatch
+	 * @return int
 	 */
 	static public function match($pattern, $patternQuoted, $string, $invertedMatch)
 	{
 		return @preg_match($patternQuoted . "i",  $string) == 1 ^ $invertedMatch;
 	}
-	
+
+	/**
+	 * @param Piwik_DataTable  $table
+	 */
 	public function filter($table)
 	{
 		foreach($table->getRows() as $key => $row)
