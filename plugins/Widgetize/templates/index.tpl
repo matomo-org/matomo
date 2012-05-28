@@ -58,9 +58,10 @@ $(document).ready( function() {
 		widgetized.getInputFormWithHtml( 'dashboardEmbed', '<iframe src="'+ dashboardUrl +'" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%"></iframe>')
 	);
 	$('#linkDashboardUrl').attr('href',dashboardUrl);
+	
 	var allWebsitesDashboardUrl = urlPath + '?module=Widgetize&action=iframe&moduleToWidgetize=MultiSites&actionToWidgetize=standalone&idSite='+piwik.idSite+'&period=week&date=yesterday';
 	$('#exportAllWebsitesDashboard').html(
-		widgetized.getInputFormWithHtml( 'dashboardEmbed', '<iframe src="'+ allWebsitesDashboardUrl +'" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%"></iframe>')
+		widgetized.getInputFormWithHtml( 'allWebsitesDashboardEmbed', '<iframe src="'+ allWebsitesDashboardUrl +'" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%"></iframe>')
 	);
 	$('#linkAllWebsitesDashboardUrl').attr('href',allWebsitesDashboardUrl);
     $('#widgetPreview').widgetPreview({
