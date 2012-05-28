@@ -311,7 +311,8 @@ table thead div {
 
 .datatableRelatedReports {
 	color: #555555;
-    font-size: 11px;
+    font-size: 11px;    
+    padding-bottom: 5px;
 }
 
 .datatableRelatedReports span {
