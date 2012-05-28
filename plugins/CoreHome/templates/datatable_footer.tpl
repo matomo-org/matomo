@@ -100,7 +100,7 @@
 
 {if !empty($properties.relatedReports)}
 	<div class="datatableRelatedReports">
-		<strong>{if count($properties.relatedReports) == 1}{'General_RelatedReport'|translate}{else}{'General_RelatedReports'|translate}{/if}:</strong>
+		{if count($properties.relatedReports) == 1}{'General_RelatedReport'|translate}{else}{'General_RelatedReports'|translate}{/if}:
 		<ul style="list-style:none;{if count($properties.relatedReports) == 1}display:inline-block;{/if}">
 			{foreach from=$properties.relatedReports key=reportUrl item=reportTitle}
 				<li><span href="{$reportUrl}">{$reportTitle}</span></li>

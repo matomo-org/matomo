@@ -310,12 +310,13 @@ table thead div {
 }
 
 .datatableRelatedReports {
-	font-size: 13px;
-	color: #222;
+	color: #555555;
+    font-size: 11px;
 }
 
 .datatableRelatedReports span {
 	cursor: pointer;
+	font-weight:bold;
 }
 
 /* are the following two supposed to be together? */
