@@ -1069,7 +1069,7 @@ dataTable.prototype =
 		{
 			h2 = $('h2', domElem);
 		}
-		if (doc.size() == 0)
+		if (doc.size() == 0 || doc.children().size() == 0) // if we can't find the element, or the element is empty
 		{
 			if (h2 && h2.size() > 0)
 			{

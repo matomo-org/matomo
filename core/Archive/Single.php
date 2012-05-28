@@ -247,9 +247,10 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 *
 	 * @param string $name
 	 * @param string $typeValue numeric|blob
+	 * @param string|false $archivedDate Value to store date of archive info in. If false, not stored.
 	 * @return mixed|false if no result
 	 */
-	protected function get( $name, $typeValue = 'numeric' )
+	protected function get( $name, $typeValue = 'numeric', &$archivedDate = false )
 	{
 	   	$this->setRequestedReport($name);
 	   	$this->prepareArchive();
@@ -295,13 +296,24 @@ class Piwik_Archive_Single extends Piwik_Archive
 		}
 
 		$db = Zend_Registry::get('db');
-		$value = $db->fetchOne("SELECT value 
+		$row = $db->fetchRow("SELECT value, ts_archived
 								FROM $table
-								WHERE idarchive = ?
-									AND name = ?",	
+								WHERE idarchive = ? AND name = ?",	
 								array( $this->idArchive , $name) 
 							);
-
+		
+		$value = $tsArchived = false;
+		if (is_array($row))
+		{
+			$value = $row['value'];
+			$tsArchived = $row['ts_archived'];
+		}
+		
+		if ($archivedDate !== false)
+		{
+			$archivedDate = $tsArchived;
+		}
+		
 		if($value === false)
 		{
 			if($typeValue == 'numeric' 
@@ -499,13 +511,14 @@ class Piwik_Archive_Single extends Piwik_Archive
 		
 		$this->setRequestedReport($name);
 		
-		$data = $this->get($name, 'blob');
+		$data = $this->get($name, 'blob', $tsArchived);
 		
 		$table = new Piwik_DataTable();
 	
 		if($data !== false)
 		{
 			$table->addRowsFromSerializedArray($data);
+			$table->setMetadata(Piwik_DataTable::ARCHIVED_DATE_METADATA_NAME, $tsArchived);
 		}
 		if($data === false 
 			&& $idSubTable !== null)

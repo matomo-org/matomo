@@ -1,8 +1,9 @@
 <div id="{$properties.uniqueId}">
 	
-	{if !empty($reportDocumentation)}
-		<div class="reportDocumentation"><p>{$reportDocumentation}</p></div>
-	{/if}
+	<div class="reportDocumentation">
+		{if !empty($reportDocumentation)}<p>{$reportDocumentation}</p>{/if}
+		{if isset($properties.metadata.archived_date)}<p>{$properties.metadata.archived_date}</p>{/if}
+	</div>
 	
 	<div class="{if $graphType=='evolution'}dataTableGraphEvolutionWrapper{else}dataTableGraphWrapper{/if}">
 

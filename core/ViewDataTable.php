@@ -307,6 +307,7 @@ abstract class Piwik_ViewDataTable
 		$this->viewProperties['exportLimit'] = Piwik_Config::getInstance()->General['API_datatable_default_limit'];
 		$this->viewProperties['relatedReports'] = array();
 		$this->viewProperties['highlight_summary_row'] = false;
+		$this->viewProperties['metadata'] = array();
 		
 		$standardColumnNameToTranslation = array_merge(
 			Piwik_API_API::getInstance()->getDefaultMetrics(),
@@ -443,6 +444,19 @@ abstract class Piwik_ViewDataTable
 		{
 			return false;
 		}
+		
+		// deal w/ table metadata
+		if ($this->dataTable instanceof Piwik_DataTable)
+		{
+			$this->viewProperties['metadata'] = $this->dataTable->getAllTableMetadata();
+			
+			if (isset($this->viewProperties['metadata'][Piwik_DataTable::ARCHIVED_DATE_METADATA_NAME]))
+			{
+				$this->viewProperties['metadata'][Piwik_DataTable::ARCHIVED_DATE_METADATA_NAME] =
+					$this->makePrettyArchivedOnText();
+			}
+		}
+		
 		// First, filters that delete rows
 		foreach($this->queuedFiltersPriority as $filter)
 		{
@@ -478,6 +492,47 @@ abstract class Piwik_ViewDataTable
 				$this->dataTable->filter($filterName, $filterParameters);
 			}
 		}
+	}
+	
+	/**
+	 * Returns prettified and translated text that describes when a report was last updated.
+	 * 
+	 * @return string
+	 */
+	private function makePrettyArchivedOnText()
+	{
+		$dateText = $this->viewProperties['metadata'][Piwik_DataTable::ARCHIVED_DATE_METADATA_NAME];
+		$date = Piwik_Date::factory($dateText);
+		
+		$today = mktime(0,0,0);
+		if ($date->getTimestamp() > $today)
+		{
+			$elapsedSeconds = time() - $date->getTimestamp();
+			if ($elapsedSeconds < 60)
+			{
+				$timeAgo = Piwik_Translate('General_Seconds', $elapsedSeconds);
+			}
+			else
+			{
+				$elapsedMinutes = floor($elapsedSeconds / 60);
+				if ($elapsedMinutes < 60)
+				{
+					$remainingSecs = $elapsedSeconds % 60;
+					$timeAgo = Piwik_Translate('General_MinutesSeconds', array($elapsedMinutes, $remainingSecs));
+				}
+				else
+				{
+					$elapsedHours = floor($elapsedMinutes / 60);
+					$remainingMins = $elapsedMinutes % 60;
+					$timeAgo = Piwik_Translate('General_HoursMinutes', array($elapsedHours, $remainingMins));
+				}
+			}
+			
+			return Piwik_Translate('CoreHome_ReportGeneratedXAgo', $timeAgo);
+		}
+		
+		$prettyDate = $date->getLocalized("%longyear%, %longMonth% %day%");
+		return Piwik_Translate('CoreHome_ReportGeneratedOn', $prettyDate);
 	}
 	
 	/**

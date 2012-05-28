@@ -138,6 +138,9 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  */
 class Piwik_DataTable
 {
+	/** Name for metadata that describes when a report was archived. */
+	const ARCHIVED_DATE_METADATA_NAME = 'archived_date';
+	
 	/**
 	 * Maximum nesting level
 	 * 
@@ -235,6 +238,13 @@ class Piwik_DataTable
 	 * @var Piwik_DataTable_Row
 	 */
 	protected $summaryRow = null;
+	
+	/**
+	 * Table metadata.
+	 * 
+	 * @var array
+	 */
+	protected $metadata = array();
 
 	const ID_SUMMARY_ROW = -1;
 	const LABEL_SUMMARY_ROW = -1;
@@ -1298,5 +1308,37 @@ class Piwik_DataTable
 	static public function setMaximumDepthLevelAllowedAtLeast( $atLeastLevel )
 	{
 		self::$maximumDepthLevelAllowed = max($atLeastLevel, self::$maximumDepthLevelAllowed);
+	}
+	
+	/**
+	 * Returns all table metadata.
+	 * 
+	 * @return array
+	 */
+	public function getAllTableMetadata()
+	{
+		return $this->metadata;
+	}
+	
+	/**
+	 * Returns metadata by name.
+	 * 
+	 * @param string $name The metadata name.
+	 * @return mixed
+	 */
+	public function getMetadata( $name )
+	{
+		return $this->metadata[$name];
+	}
+	
+	/**
+	 * Sets a metadata value by name.
+	 * 
+	 * @param string $name The metadata name.
+	 * @param mixed $value
+	 */
+	public function setMetadata( $name, $value )
+	{
+		$this->metadata[$name] = $value;
 	}
 }

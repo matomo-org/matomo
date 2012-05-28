@@ -1,7 +1,8 @@
 <div id="{$properties.uniqueId}">
-	{if !empty($reportDocumentation)}
-		<div class="reportDocumentation"><p>{$reportDocumentation}</p></div>
-	{/if}
+	<div class="reportDocumentation">
+		{if !empty($reportDocumentation)}<p>{$reportDocumentation}</p>{/if}
+		{if isset($properties.metadata.archived_date)}<p>{$properties.metadata.archived_date}</p>{/if}
+	</div>
 	<div class="{if isset($javascriptVariablesToSet.idSubtable)&& $javascriptVariablesToSet.idSubtable!=0}sub{/if}{if $javascriptVariablesToSet.viewDataTable=='tableAllColumns'}dataTableAllColumnsWrapper{elseif $javascriptVariablesToSet.viewDataTable=='tableGoals'}dataTableAllColumnsWrapper{else}dataTableWrapper{/if}">
 	{if isset($arrayDataTable.result) and $arrayDataTable.result == 'error'}
 		{$arrayDataTable.message}
