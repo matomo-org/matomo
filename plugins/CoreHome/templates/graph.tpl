@@ -1,4 +1,4 @@
-<div id="{$properties.uniqueId}">
+<div id="{$properties.uniqueId}" class="dataTable">
 	
 	<div class="reportDocumentation">
 		{if !empty($reportDocumentation)}<p>{$reportDocumentation}</p>{/if}
