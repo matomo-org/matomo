@@ -27,7 +27,13 @@ dataTable.prototype =
 	{
 		if(typeof domElem == "undefined")
 		{
-			domElem = $('#'+workingDivId);
+			$('div.dataTable').each(function() {
+				if ($(this).attr('id') == workingDivId && !$(this).attr('_used'))
+				{
+					domElem = $(this).attr('_used', true);
+					return false;
+				}
+			});
 		}
 		
 		this.workingDivId = workingDivId;
@@ -1148,14 +1154,35 @@ dataTable.prototype =
 		var self = this;
 		$('.datatableRelatedReports span', domElem).each(function() {
 			$(this).click(function(e) {
+				var url = $(this).attr('href');
+				
+				// if this url is also the url of a menu item, better to click that menu item instead of
+				// doing AJAX request
+				var menuItem = null;
+				$("#root>ul.nav a").each(function () {
+					if ($(this).attr('name') == url)
+					{
+						menuItem = this;
+						return false
+					}
+				});
+				
+				if (menuItem)
+				{
+					$(menuItem).click();
+					return;
+				}
+				
+				// do ajax request
+				
 				// show loading message
-				$('#'+self.workingDivId+' .loadingPiwik').last().css('display','block');
+				$('#'+self.workingDivId+' .loadingPiwik', domElem.parent()).last().css('display','block');
 				
 				// do ajax request
 				var ajaxRequest =
 				{
 					type: 'GET',
-					url: $(this).attr('href'),
+					url: url,
 					dataType: 'html',
 					async: true,
 					error: piwikHelper.ajaxHandleError,
