@@ -1263,7 +1263,7 @@ abstract class Piwik_ViewDataTable
 		}
 		
 		// add the related report
-		$url = "/index.php".Piwik_Url::getCurrentQueryStringWithParametersModified($params);
+		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($params);
 		$this->viewProperties['relatedReports'][$url] = $title;
 	}
 	
