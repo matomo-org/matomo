@@ -567,6 +567,15 @@ h2 .reportDocumentationIcon.hidden {
 	background: none;
 }
 
+.helpDate {
+	color: #777777;
+    font-size: 11px;
+	font-style:italic;    
+    padding: 4px;
+    text-align: right;
+    display:block;
+}
+
 table.dataTable .dataTableRowActions {
 	position: absolute;
 	display: none;

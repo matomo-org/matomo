@@ -503,35 +503,16 @@ abstract class Piwik_ViewDataTable
 	{
 		$dateText = $this->viewProperties['metadata'][Piwik_DataTable::ARCHIVED_DATE_METADATA_NAME];
 		$date = Piwik_Date::factory($dateText);
-		
 		$today = mktime(0,0,0);
 		if ($date->getTimestamp() > $today)
 		{
 			$elapsedSeconds = time() - $date->getTimestamp();
-			if ($elapsedSeconds < 60)
-			{
-				$timeAgo = Piwik_Translate('General_Seconds', $elapsedSeconds);
-			}
-			else
-			{
-				$elapsedMinutes = floor($elapsedSeconds / 60);
-				if ($elapsedMinutes < 60)
-				{
-					$remainingSecs = $elapsedSeconds % 60;
-					$timeAgo = Piwik_Translate('General_MinutesSeconds', array($elapsedMinutes, $remainingSecs));
-				}
-				else
-				{
-					$elapsedHours = floor($elapsedMinutes / 60);
-					$remainingMins = $elapsedMinutes % 60;
-					$timeAgo = Piwik_Translate('General_HoursMinutes', array($elapsedHours, $remainingMins));
-				}
-			}
+			$timeAgo = Piwik::getPrettyTimeFromSeconds( $elapsedSeconds );
 			
 			return Piwik_Translate('CoreHome_ReportGeneratedXAgo', $timeAgo);
 		}
 		
-		$prettyDate = $date->getLocalized("%longyear%, %longMonth% %day%");
+		$prettyDate = $date->getLocalized("%longYear%, %longMonth% %day%") . $date->toString('S');
 		return Piwik_Translate('CoreHome_ReportGeneratedOn', $prettyDate);
 	}
 	
