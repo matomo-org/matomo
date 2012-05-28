@@ -27,13 +27,7 @@ dataTable.prototype =
 	{
 		if(typeof domElem == "undefined")
 		{
-			$('div.dataTable').each(function() {
-				if ($(this).attr('id') == workingDivId && !$(this).attr('_used'))
-				{
-					domElem = $(this).attr('_used', true);
-					return false;
-				}
-			});
+			domElem = $('#'+workingDivId);
 		}
 		
 		this.workingDivId = workingDivId;
