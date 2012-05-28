@@ -1,10 +1,10 @@
 <div class="rowevolution">
-	<div class="popover-title">{$popoverTitle}</div>
+	<div class="popover-title">{$popoverTitle|escape}</div>
 	<div class="graph">
 		{$graph}
 	</div>
 	<div class="metrics-container">
-		<h2>{$availableMetricsText}</h2>
+		<h2>{$availableMetricsText|escape}</h2>
 		<div class="rowevolution-documentation">
 			{'RowEvolution_Documentation'|translate}
 		</div>

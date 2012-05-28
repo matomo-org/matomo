@@ -1,4 +1,4 @@
-<div id="{$properties.uniqueId}">
+<div id="{$properties.uniqueId}" class="dataTable">
 	{if !empty($reportDocumentation) && $javascriptVariablesToSet.viewDataTable != 'tableGoals'}
 		<div class="reportDocumentation"><p>{$reportDocumentation}</p></div>
 	{/if}
