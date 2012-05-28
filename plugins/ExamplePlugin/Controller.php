@@ -42,17 +42,9 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 		<script type=\"text/javascript\">$('#happycoding').hide().fadeIn(5000);$('#jsenabled').hide().css({'color':'red'}).fadeIn(10000);</script>";
 	}
 
-	/**
-	 * Embed Piwik.org blog using widgetbox.com widget code
-	 */
-	function blogPiwik()
-	{
-		echo '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" type="application/x-shockwave-flash" width="400px" height="343px" id="InsertWidget_0bf84c7c-70b5-41c1-adbc-6f4f823c598c" align="middle"><param name="movie" value="http://widgetserver.com/syndication/flash/wrapper/InsertWidget.swf"/><param name="quality" value="high" /><param name="wmode" value="transparent" /><param name="menu" value="false" /><param name="flashvars" value="r=2&appId=0bf84c7c-70b5-41c1-adbc-6f4f823c598c" /> <embed src="http://widgetserver.com/syndication/flash/wrapper/InsertWidget.swf"  name="InsertWidget_0bf84c7c-70b5-41c1-adbc-6f4f823c598c"  width="400px" height="343px" quality="high" menu="false" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" wmode="transparent" align="middle" flashvars="r=2&appId=0bf84c7c-70b5-41c1-adbc-6f4f823c598c" /></object>';
-	}
-	
 	function photostreamMatt()
 	{
-		echo '<iframe align=center src=http://www.flickr.com/slideShow/index.gne?user_id=34965144@N00&set_id=72157602308487455 frameBorder=0 width=380 scrolling=no height=500></iframe> ';
+		echo '<object width="400" height="500"> <param name="flashvars" value="offsite=true&lang=en-us&page_show_url=%2Fphotos%2Fmatthieu-aubry%2Fsets%2F72157602308487455%2Fshow%2F&page_show_back_url=%2Fphotos%2Fmatthieu-aubry%2Fsets%2F72157602308487455%2F&set_id=72157602308487455&jump_to="></param> <param name="movie" value="http://www.flickr.com/apps/slideshow/show.swf?v=109615"></param> <param name="allowFullScreen" value="true"></param><embed type="application/x-shockwave-flash" src="http://www.flickr.com/apps/slideshow/show.swf?v=109615" allowFullScreen="true" flashvars="offsite=true&lang=en-us&page_show_url=%2Fphotos%2Fmatthieu-aubry%2Fsets%2F72157602308487455%2Fshow%2F&page_show_back_url=%2Fphotos%2Fmatthieu-aubry%2Fsets%2F72157602308487455%2F&set_id=72157602308487455&jump_to=" width="400" height="500"></embed></object>';
 	}
 	
 	/**

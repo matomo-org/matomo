@@ -28,7 +28,7 @@ class Piwik_WidgetsList
 	 * @var bool
 	 */
 	static protected $hookCalled = false;
-
+	
 	/**
 	 * Returns all available widgets
 	 * The event WidgetsList.add is used to create the list
@@ -42,9 +42,19 @@ class Piwik_WidgetsList
 			self::$hookCalled = true;
 			Piwik_PostEvent('WidgetsList.add');
 		}
-		return self::$widgets;
+		uksort(self::$widgets, 'Piwik_sortWidgetCategories');
+		
+		$widgets = array();
+		foreach(self::$widgets as $key => $v) 
+		{
+			if(isset($widgets[Piwik_Translate($key)])) {
+				$v = array_merge($widgets[Piwik_Translate($key)], $v);
+			}
+			$widgets[Piwik_Translate($key)] = $v;
+		}
+		return $widgets;
 	}
-
+	
 	/**
 	 * Adds an widget to the list
 	 *
@@ -56,7 +66,7 @@ class Piwik_WidgetsList
 	 */
 	static public function add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters)
 	{
-		$widgetCategory = Piwik_Translate($widgetCategory);
+		$widgetCategory = $widgetCategory;
 		$widgetName = Piwik_Translate($widgetName);
 		$widgetUniqueId = 'widget' . $controllerName . $controllerAction;
 		foreach($customParameters as $name => $value)
@@ -77,7 +87,7 @@ class Piwik_WidgetsList
 										) + $customParameters
 									);
 	}
-
+	
 	/**
 	 * Checks if the widget with the given parameters exists in der widget list
 	 *
@@ -102,6 +112,38 @@ class Piwik_WidgetsList
 		return false;
 	}
 }
+
+/*
+ * @private
+ */
+function Piwik_sortWidgetCategories($a, $b)
+{
+	$order = array(
+		'VisitsSummary_VisitsSummary',
+		'Live!',
+		'General_Visitors',
+		'UserSettings_VisitorSettings',
+		'Actions_Actions',
+		'Referers_Referers',
+		'Goals_Goals',
+		'Goals_Ecommerce',
+		'_others_',
+		'Example Widgets',
+		'ExamplePlugin_exampleWidgets',
+	);
+	
+	if(($oa = array_search($a, $order)) === false) {
+		$oa = array_search('_others_', $order);
+	}
+	if(($ob = array_search($b, $order)) === false) {
+		$ob = array_search('_others_', $order);
+	}
+//	var_dump($a);
+//	var_dump($b);
+	return $oa > $ob; 
+}
+
+
 
 /**
  * Returns all available widgets
