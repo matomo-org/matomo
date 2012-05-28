@@ -190,7 +190,12 @@ function getSparklineImg(id, column, params)
 	if(column != 'revenue') {
 		column = 'nb_' + column;
 	}
-	return '<img class="sparkline" alt="" src="?module=MultiSites&action=getEvolutionGraph&period=' + params['period'] + '&date=' + params['dateSparkline']  + '&evolutionBy=' + params['evolutionBy'] + '&columns=' + column  + '&idSite=' + id + '&idsite=' + id + '&viewDataTable=sparkline" width="100" height="25" />';
+	var append = '';
+	var token_auth = broadcast.getValueFromUrl('token_auth');
+	if(token_auth.length) {
+		append = '&token_auth=' + token_auth;
+	}
+	return '<img class="sparkline" alt="" src="?module=MultiSites&action=getEvolutionGraph&period=' + params['period'] + '&date=' + params['dateSparkline']  + '&evolutionBy=' + params['evolutionBy'] + '&columns=' + column  + '&idSite=' + id + '&idsite=' + id + '&viewDataTable=sparkline'+ append +'" width="100" height="25" />';
 }
 
 function showPagination(allSites, params)

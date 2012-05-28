@@ -67,6 +67,7 @@ class Piwik_DBStats_API
 	 */
 	public function getGeneralInformation()
 	{
+		Piwik::checkUserIsSuperUser();
 		// calculate total size
 		$totalSpaceUsed = 0;
 		foreach ($this->metadataProvider->getAllTablesStatus() as $status)
