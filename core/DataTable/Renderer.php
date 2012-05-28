@@ -82,7 +82,7 @@ abstract class Piwik_DataTable_Renderer
 	 */
 	protected function renderHeader()
 	{
-		@header('Content-Type: text/html; charset=utf-8');
+		@header('Content-Type: text/plain; charset=utf-8');
 	}
 
 	/**
@@ -169,7 +169,7 @@ abstract class Piwik_DataTable_Renderer
 			return new $className;			
 		} catch(Exception $e) {
 			$availableRenderers = implode(', ', self::getRenderers());
-			@header('Content-Type: text/html; charset=utf-8');
+			@header('Content-Type: text/plain; charset=utf-8');
 			throw new Exception(Piwik_TranslateException('General_ExceptionInvalidRendererFormat', array($name, $availableRenderers)));
 		}		
 	}
