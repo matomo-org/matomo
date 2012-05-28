@@ -98,7 +98,7 @@
 	</div>
 {/if}
 
-{if !empty($properties.relatedReports)}
+{if !empty($properties.relatedReports) && !empty($arrayDataTable)}
 	<div class="datatableRelatedReports">
 		{if count($properties.relatedReports) == 1}{'General_RelatedReport'|translate}{else}{'General_RelatedReports'|translate}{/if}:
 		<ul style="list-style:none;{if count($properties.relatedReports) == 1}display:inline-block;{/if}">
