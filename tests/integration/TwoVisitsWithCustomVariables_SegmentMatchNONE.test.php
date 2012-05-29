@@ -14,6 +14,12 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchNONE exten
 	// set lazily so when testing, asserts can be run
 	private $segment = null;
 
+	public function __construct($title = '')
+	{
+		parent::__construct($title);
+		$this->doExtraQuoteTests = false;
+	}
+	
 	public function getApiToTest()
 	{
 		$apiToCall = array('VisitsSummary.get', 'CustomVariables.getCustomVariables');

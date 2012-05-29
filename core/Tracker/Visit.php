@@ -1111,8 +1111,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			$debug = 'Page level';
 		}
 		
-		$customVar = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar( $parameter, '', 'string', $request));
-		$customVar = @Piwik_Common::json_decode($customVar, $assoc = true);
+		$customVar = Piwik_Common::unsanitizeInputValues(Piwik_Common::getRequestVar($parameter, '', 'json', $request));
 
 		if(!is_array($customVar))
 		{

@@ -14,6 +14,7 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchALL_NoGoal
 		
 		$this->width = 1111;
 		$this->height = 222;
+		$this->doExtraQuoteTests = false;
 	}
 
 	public function getApiToTest()

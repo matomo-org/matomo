@@ -11,6 +11,13 @@ require_once PIWIK_INCLUDE_PATH . '/tests/integration/TwoVisitsWithCustomVariabl
  */
 class Test_Piwik_Integration_CsvExport extends Test_Piwik_Integration_TwoVisitsWithCustomVariables
 {
+	public function __construct( $testName = '' )
+	{
+		parent::__construct($testName);
+		$this->useEscapedQuotes = false;
+		$this->doExtraQuoteTests = false;
+	}
+	
 	public function getApiToTest()
 	{
 		$apiToCall = array('VisitsSummary.get', 'CustomVariables.getCustomVariables');

@@ -790,7 +790,30 @@ class Piwik_Common
 	{
 		return htmlspecialchars_decode($value, self::HTML_ENCODING_QUOTE_STYLE);
 	}
-
+	
+	/**
+	 * Unsanitize one or more values.
+	 * 
+	 * @param string|array $value
+	 * @return string|array unsanitized input
+	 */
+	static public function unsanitizeInputValues($value)
+	{
+		if (is_array($value))
+		{
+			$result = array();
+			foreach ($value as $key => $arrayValue)
+			{
+				$result[$key] = self::unsanitizeInputValues($arrayValue);
+			}
+			return $result;
+		}
+		else
+		{
+			return self::unsanitizeInputValue($value);
+		}
+	}
+	
 	/**
 	 * Returns a sanitized variable value from the $_GET and $_POST superglobal.
 	 * If the variable doesn't have a value or an empty value, returns the defaultValue if specified.
@@ -800,7 +823,7 @@ class Piwik_Common
 	 *
 	 * @param string $varName name of the variable
 	 * @param string $varDefault default value. If '', and if the type doesn't match, exit() !
-	 * @param string $varType Expected type, the value must be one of the following: array, int, integer, string
+	 * @param string $varType Expected type, the value must be one of the following: array, int, integer, string, json
 	 * @param array $requestArrayToUse
 	 *
 	 * @throws Exception  if the variable type is not known
@@ -846,7 +869,14 @@ class Piwik_Common
 			}
 		}
 
-		// Normal case, there is a value available in REQUEST for the requested varName
+		// Normal case, there is a value available in REQUEST for the requested varName:
+		
+		// we deal w/ json differently
+		if ($varType == 'json')
+		{
+			return self::sanitizeInputValues(Piwik_Common::json_decode($requestArrayToUse[$varName], $assoc = true));
+		}
+		
 		$value = self::sanitizeInputValues( $requestArrayToUse[$varName] );
 		if( !is_null($varType))
 		{

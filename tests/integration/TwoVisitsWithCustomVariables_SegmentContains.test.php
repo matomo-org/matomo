@@ -11,6 +11,12 @@ require_once PIWIK_INCLUDE_PATH . '/tests/integration/TwoVisitsWithCustomVariabl
  */
 class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentContains extends Test_Piwik_Integration_TwoVisitsWithCustomVariables
 {
+	public function __construct($title = '')
+	{
+		parent::__construct($title);
+		$this->doExtraQuoteTests = false;
+	}
+	
 	public function getApiToTest()
 	{
 		$return = array();

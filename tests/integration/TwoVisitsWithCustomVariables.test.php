@@ -19,6 +19,9 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends Test_Integrati
 	protected $idGoal1 = null;
 	protected $idGoal2 = null;
 	protected $visitorId = null;
+	
+	protected $useEscapedQuotes = true;
+	protected $doExtraQuoteTests = true;
 
 	public function getApiToTest()
 	{
@@ -87,16 +90,35 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends Test_Integrati
     	$visitorA->setUrl('http://example.org/user/profile');
     	$visitorA->setCustomVariable($id = 1, $name = 'VisitorType', $value = 'LoggedIn');
     	$visitorA->setCustomVariable($id = 4, $name = 'Status user', $value = 'Loggedin', $scope = 'page');
-    	$visitorA->setCustomVariable($id = 5, $name = 'Status user', $value = 'looking at profile page', $scope = 'page');
+    	if ($this->useEscapedQuotes)
+    	{
+    		$lookingAtProfile = 'looking at &quot;profile page&quot;';
+    	}
+    	else
+    	{
+    		$lookingAtProfile = 'looking at profile page';
+    	}
+    	$visitorA->setCustomVariable($id = 5, $name = 'Status user', $value = $lookingAtProfile, $scope = 'page');
         $this->checkResponse($visitorA->doTrackPageView('Profile page'));
         
     	$visitorA->setCustomVariable($id = 2, $name = 'SET WITH EMPTY VALUE', $value = '');
     	$visitorA->setCustomVariable($id = 1, $name = 'Language', $value = 'FR', $scope = 'page');
     	$visitorA->setCustomVariable($id = 2, $name = 'SET WITH EMPTY VALUE PAGE SCOPE', $value = '', $scope = 'page');
-    	$visitorA->setCustomVariable($id = 4, $name = 'Status user', $value = 'looking at profile page', $scope = 'page');
+    	$visitorA->setCustomVariable($id = 4, $name = 'Status user', $value = "looking at \"profile page\"", $scope = 'page');
     	$visitorA->setCustomVariable($id = 3, $name = 'Value will be VERY long and truncated', $value = 'abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----');
         $this->checkResponse($visitorA->doTrackPageView('Profile page for user *_)%'));
     	$this->checkResponse($visitorA->doTrackGoal($idGoal));
+    	
+    	if ($this->doExtraQuoteTests)
+    	{
+	    	$visitorA->setCustomVariable($id = 2, $name = 'var1', $value = 'looking at "profile page"',
+	    								 $scope = 'page');
+    		$visitorA->setCustomVariable($id = 3, $name = 'var2', $value = '\'looking at "\profile page"\'',
+    									 $scope = 'page');
+    		$visitorA->setCustomVariable($id = 4, $name = 'var3', $value = '\\looking at "\profile page"\\',
+    									 $scope = 'page');
+    		$this->checkResponse($visitorA->doTrackPageView('Concurrent page views'));
+		}
     	
         // - 
     	// Second new visitor on Idsite 1: one page view 
