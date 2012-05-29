@@ -194,7 +194,9 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 	protected function getMessageExceptionNoAccess()
 	{
-		return Piwik_Translate('Login_InvalidNonceOrHeadersOrReferer', array('<a href="?module=Proxy&action=redirect&url='.urlencode('http://piwik.org/faq/how-to-install/#faq_98').'" target="_blank">', '</a>'));
+		$message = Piwik_Translate('Login_InvalidNonceOrHeadersOrReferer', array('<a href="?module=Proxy&action=redirect&url='.urlencode('http://piwik.org/faq/how-to-install/#faq_98').'" target="_blank">', '</a>'));
+		// Should mention trusted_hosts or link to FAQ
+		return $message;
 	}
 
 	/**

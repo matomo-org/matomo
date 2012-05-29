@@ -525,7 +525,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 		if(!file_exists(Piwik_Config::getLocalConfigPath()))
 		{
-			$this->addTrustedHosts();
+//			$this->addTrustedHosts();
 			$this->writeConfigFileFromSession();
 		}
 
@@ -693,10 +693,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	 */
 	protected function extractHost($url)
 	{
-		$skipLocalHosts = array('localhost', '127.0.0.1', '[::1]');
-
 		$urlParts = parse_url($url);
-		if (isset($urlParts['host']) && strlen($host = $urlParts['host']) && !in_array($host, $skipLocalHosts))
+		if (isset($urlParts['host']) && strlen($host = $urlParts['host']))
 		{
 			return $host;
 		}
@@ -723,6 +721,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$trustedHosts[] = $host;
 		}
 
+		$trustedHosts = array_unique($trustedHosts);
 		if (count($trustedHosts))
 		{
 			$this->session->general_infos['trusted_hosts'] = $trustedHosts;
