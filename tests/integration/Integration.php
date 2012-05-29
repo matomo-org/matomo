@@ -1182,7 +1182,7 @@ abstract class Test_Integration_Facade extends Test_Integration
 				}
 
 				$this->setApiToCall($api);
-				$this->setApiNotToCall(array());
+				$this->setApiNotToCall(array('API.getPiwikVersion'));
 			}
 
 			if (isset($params['disableArchiving']) && $params['disableArchiving'] === true)
