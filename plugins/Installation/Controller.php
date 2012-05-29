@@ -169,59 +169,19 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 		if($form->validate())
 		{
-			$adapter = $form->getSubmitValue('adapter');
-			$port = Piwik_Db_Adapter::getDefaultPortForAdapter($adapter);
-
-			$dbInfos = array(
-				'host'          => $form->getSubmitValue('host'),
-				'username'      => $form->getSubmitValue('username'),
-				'password'      => $form->getSubmitValue('password'),
-				'dbname'        => $form->getSubmitValue('dbname'),
-				'tables_prefix' => $form->getSubmitValue('tables_prefix'),
-				'adapter'       => $adapter,
-				'port'          => $port,
-			);
-			if(($portIndex = strpos($dbInfos['host'], '/')) !== false)
+			try
 			{
-				// unix_socket=/path/sock.n
-				$dbInfos['port'] = substr($dbInfos['host'], $portIndex);
-				$dbInfos['host'] = '';
-			}
-			else if(($portIndex = strpos($dbInfos['host'], ':')) !== false)
-			{
-				// host:port
-				$dbInfos['port'] = substr($dbInfos['host'], $portIndex + 1 );
-				$dbInfos['host'] = substr($dbInfos['host'], 0, $portIndex);
-			}
-
-			try{
-				try {
-					@Piwik::createDatabaseObject($dbInfos);
-					$this->session->databaseCreated = true;
-				} catch (Zend_Db_Adapter_Exception $e) {
-					$db = Piwik_Db_Adapter::factory($adapter, $dbInfos, $connect = false);
-
-					// database not found, we try to create  it
-					if($db->isErrNo($e, '1049'))
-					{
-						$dbInfosConnectOnly = $dbInfos;
-						$dbInfosConnectOnly['dbname'] = null;
-						@Piwik::createDatabaseObject($dbInfosConnectOnly);
-						@Piwik::createDatabase($dbInfos['dbname']);
-						$this->session->databaseCreated = true;
-					}
-					else
-					{
-						throw $e;
-					}
-				}
-
+				$dbInfos = $form->createDatabaseObject();
+				$this->session->databaseCreated = true;
+				
 				Piwik::checkDatabaseVersion();
 				$this->session->databaseVersionOk = true;
 
 				$this->session->db_infos = $dbInfos;
 				$this->redirectToNextStep( __FUNCTION__ );
-			} catch(Exception $e) {
+			}
+			catch (Exception $e)
+			{
 				$view->errorMessage = Piwik_Common::sanitizeInputValue($e->getMessage());
 			}
 		}
