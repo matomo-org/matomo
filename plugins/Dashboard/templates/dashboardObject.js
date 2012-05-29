@@ -86,12 +86,12 @@
          */
         loadDashboard: function(dashboardIdToLoad) {
 
+        	fetchLayout(generateLayout);
             $(dashboardElement).empty();
             dashboardName   = '';
             dashboardLayout = null;
             dashboardId     = dashboardIdToLoad;
             piwikHelper.showAjaxLoading();
-            fetchLayout(generateLayout);
             buildMenu();
             return this;
         },
@@ -444,7 +444,7 @@
             },
             error: piwikHelper.ajaxHandleError
         };
-        $.ajax(ajaxRequest);
+        piwikHelper.queueAjaxRequest( $.ajax(ajaxRequest) );
     }
 
     /**
@@ -461,6 +461,10 @@
             var items = $('[widgetId]', this);
             for (var j=0; j<items.size(); j++) {
                 columns[columnNumber][j] = $(items[j]).dashboardWidget('getWidgetObject');
+                
+                // Do not store segment in the dashboard layout
+                delete columns[columnNumber][j].parameters.segment;
+                
             }
             columnNumber++;
         });

@@ -167,7 +167,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
 	protected function extractEvolutionReport($report)
 	{
 		$this->dataTable = $report['reportData'];
-		$this->rowLabel = $report['label'];
+		$this->rowLabel = Piwik_Common::sanitizeInputValue($report['label']);
 		$this->rowIcon = $report['logo'];
 		$this->availableMetrics = $report['metadata']['metrics'];
 		$this->dimension = $report['metadata']['dimension'];

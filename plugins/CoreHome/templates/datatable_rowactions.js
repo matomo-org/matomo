@@ -230,7 +230,8 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function(tr, labe
 		date: request.data.date,
 		idSite: request.data.idSite,
 		period: request.data.period,
-		label: requestLabel
+		label: requestLabel,
+		segment: request.data.segment
 	};
 
 	if (metric) {
