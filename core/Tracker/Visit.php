@@ -734,6 +734,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			{
 				printDebug($_SERVER['REQUEST_METHOD'].' parameter '.$parameterForceRecord.' not found in URL, request excluded');
 				$excluded = true;
+				printDebug("'$parameterForceRecord' parameter not found.");
 			}
 		}
 
@@ -749,12 +750,14 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		if(!$excluded)
 		{
 			$excluded = $this->isIgnoreCookieFound();
+			printDebug("Ignore cookie found.");
 		}
 
 		// Checking for excluded IPs
 		if(!$excluded)
 		{
 			$excluded = $this->isVisitorIpExcluded($ip);
+			printDebug("IP excluded.");
 		}
 
 		if($excluded)

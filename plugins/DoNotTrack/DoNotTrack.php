@@ -55,6 +55,7 @@ class Piwik_DoNotTrack extends Piwik_Plugin
 		{
 			$exclude =& $notification->getNotificationObject();
 			$exclude = true;
+			printDebug("DoNotTrack found.");
 
 			$trackingCookie = Piwik_Tracker_IgnoreCookie::getTrackingCookie();
 			$trackingCookie->delete();
