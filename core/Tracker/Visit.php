@@ -1123,10 +1123,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$customVar = Piwik_Common::unsanitizeInputValues(Piwik_Common::getRequestVar($parameter, '', 'json', $request));
 		if(!empty($request[$parameter]))
 		{
-			var_dump($request[$parameter]);
-			var_dump(Piwik_Common::json_decode($request[$parameter], $assoc = true));
-			var_dump(Piwik_Common::sanitizeInputValues(Piwik_Common::json_decode($request[$parameter], $assoc = true)));
-				var_dump($customVar);
+//			var_dump($request[$parameter]);
+//			var_dump(Piwik_Common::json_decode($request[$parameter], $assoc = true));
+//			var_dump(Piwik_Common::sanitizeInputValues(Piwik_Common::json_decode($request[$parameter], $assoc = true)));
+//				var_dump($customVar);
 		}
 		if(!is_array($customVar))
 		{

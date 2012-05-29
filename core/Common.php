@@ -1122,7 +1122,7 @@ class Piwik_Common
 	 */
 	static public function json_decode($json, $assoc = false)
 	{
-		echo "Use JSON library = [" . self::useJsonLibrary() . "]";
+		//echo "Use JSON library = [" . self::useJsonLibrary() . "]";
 		if (self::useJsonLibrary())
 		{
 			return _json_decode($json, $assoc);
