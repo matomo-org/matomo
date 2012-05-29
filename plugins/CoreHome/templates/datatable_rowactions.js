@@ -170,11 +170,18 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function(tr, labe
 		position: ['center', 'center'],
 		resizable: false,
 		autoOpen: true,
+		open: function(event, ui) {
+			$('.ui-widget-overlay').on('click.rowEvolution',function(){
+				$('.rowEvolutionPopover').dialog('close');
+			})
+		},
 		close: function(event, ui) {
 			// reset multi evolution if regular close button has been used
 			if (typeof event.originalEvent != 'undefined') {
 				self.multiEvolutionRows = [];
 			}
+			piwikHelper.abortQueueAjax();
+			$('.ui-widget-overlay').off('click.rowEvolution');
 			box.find('div.jqplot-target').trigger('piwikDestroyPlot');
 			box.dialog('destroy').remove();
 		}
