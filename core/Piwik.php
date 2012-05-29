@@ -47,8 +47,19 @@ class Piwik
 	 */
 	static public function isUniqueVisitorsEnabled($periodLabel)
 	{
+		$generalSettings = Piwik_Config::getInstance()->General;
+		
 		$settingName = "enable_processing_unique_visitors_$periodLabel";
-		return Piwik_Config::getInstance()->General[$settingName] == 1;
+		$result = $generalSettings[$settingName] == 1;
+		
+		// check enable_processing_unique_visitors_year_and_range for backwards compatibility
+		if (($periodLabel == 'year' || $periodLabel == 'range')
+			&& isset($generalSettings['enable_processing_unique_visitors_year_and_range']))
+		{
+			$result |= $generalSettings['enable_processing_unique_visitors_year_and_range'] == 1;
+		}
+		
+		return $result;
 	}
 	
 	/**
