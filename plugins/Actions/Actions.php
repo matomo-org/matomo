@@ -301,11 +301,57 @@ class Piwik_Actions extends Piwik_Plugin
 			
 		);
 		
+		// entry page titles report
+		$reports[] = array(
+			'category' => Piwik_Translate('Actions_Actions'),
+			'name' => Piwik_Translate('Actions_EntryPageTitles'),
+			'module' => 'Actions',
+			'action' => 'getEntryPageTitles',
+			'dimension' => Piwik_Translate('Actions_ColumnPageName'),
+			'metrics' => array(
+				'entry_nb_visits' => Piwik_Translate('General_ColumnEntrances'),
+				'entry_bounce_count' => Piwik_Translate('General_ColumnBounces'),
+				'bounce_rate' => Piwik_Translate('General_ColumnBounceRate'),
+			),
+			'metricsDocumentation' => array(
+				'entry_nb_visits' => Piwik_Translate('General_ColumnEntrancesDocumentation'),
+				'entry_bounce_count' => Piwik_Translate('General_ColumnBouncesDocumentation'),
+				'bounce_rate' => Piwik_Translate('General_ColumnBounceRateForPageDocumentation')
+			),
+			'documentation' => Piwik_Translate('Actions_ExitPageTitlesReportDocumentation', '<br />')
+					.' '.Piwik_Translate('General_UsePlusMinusIconsDocumentation'),
+			'processedMetrics' => false,
+			'order' => 6
+		);
+		
+		// exit page titles report
+		$reports[] = array(
+			'category' => Piwik_Translate('Actions_Actions'),
+			'name' => Piwik_Translate('Actions_ExitPageTitles'),
+			'module' => 'Actions',
+			'action' => 'getExitPageTitles',
+			'dimension' => Piwik_Translate('Actions_ColumnPageName'),
+			'metrics' => array(
+				'exit_nb_visits' => Piwik_Translate('General_ColumnExits'),
+				'nb_visits' => Piwik_Translate('General_ColumnUniquePageviews'),
+				'exit_rate' => Piwik_Translate('General_ColumnExitRate')
+			),
+			'metricsDocumentation' => array(
+				'exit_nb_visits' => Piwik_Translate('General_ColumnExitsDocumentation'),
+				'nb_visits' => Piwik_Translate('General_ColumnUniquePageviewsDocumentation'),
+				'exit_rate' => Piwik_Translate('General_ColumnExitRateDocumentation')
+			),
+			'documentation' => Piwik_Translate('Actions_EntryPageTitlesReportDocumentation', '<br />')
+					.' '.Piwik_Translate('General_UsePlusMinusIconsDocumentation'),
+			'processedMetrics' => false,
+			'order' => 7
+		);
+    	
 		$documentation = array(
 			'nb_visits' => Piwik_Translate('Actions_ColumnUniqueClicksDocumentation'),
 			'nb_hits' => Piwik_Translate('Actions_ColumnClicksDocumentation')
 		);
-    	
+		
 		// outlinks report
 		$reports[] = array(
 			'category' => Piwik_Translate('Actions_Actions'),
@@ -322,7 +368,7 @@ class Piwik_Actions extends Piwik_Plugin
 					.Piwik_Translate('Actions_OutlinkDocumentation').'<br />'
 					.Piwik_Translate('General_UsePlusMinusIconsDocumentation'),
 			'processedMetrics' => false,
-			'order' => 6,
+			'order' => 8,
 		);
 		
 		// downloads report
@@ -339,7 +385,7 @@ class Piwik_Actions extends Piwik_Plugin
 			'metricsDocumentation' => $documentation,
 			'documentation' => Piwik_Translate('Actions_DownloadsReportDocumentation', '<br />'),
 			'processedMetrics' => false,
-			'order' => 7,
+			'order' => 9,
 		);
 	}
 	
@@ -351,6 +397,8 @@ class Piwik_Actions extends Piwik_Plugin
 		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuPageTitles', 'Actions', 'getPageTitles');
 		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuOutlinks', 'Actions', 'getOutlinks');
 		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuDownloads', 'Actions', 'getDownloads');
+		Piwik_AddWidget( 'Actions_Actions', 'Actions_EntryPageTitles', 'Actions', 'getEntryPageTitles' );
+		Piwik_AddWidget( 'Actions_Actions', 'Actions_ExitPageTitles', 'Actions', 'getExitPageTitles' );
 	}
 	
 	function addMenus()

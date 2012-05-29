@@ -121,19 +121,25 @@ class Piwik_Actions_API
 		return $dataTable;
 	}
 	
+	/**
+	 * Returns a DataTable with analytics information for every unique entry page URL, for
+	 * the specified site, period & segment.
+	 */
 	public function getEntryPageUrls( $idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false )
 	{
 		$dataTable = $this->getPageUrls($idSite, $period, $date, $segment, $expanded, $idSubtable);
-		// remove pages that are not entry pages
-		$dataTable->filter('ColumnCallbackDeleteRow', array('entry_nb_visits', 'strlen'));
+		$this->filterNonEntryActions($dataTable);
 		return $dataTable;
 	}
 	
+	/**
+	 * Returns a DataTable with analytics information for every unique exit page URL, for
+	 * the specified site, period & segment.
+	 */
 	public function getExitPageUrls( $idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false )
 	{
 		$dataTable = $this->getPageUrls($idSite, $period, $date, $segment, $expanded, $idSubtable);
-		// remove pages that are not exit pages
-		$dataTable->filter('ColumnCallbackDeleteRow', array('exit_nb_visits', 'strlen'));
+		$this->filterNonExitActions($dataTable);
 		return $dataTable;
 	}
 	
@@ -151,6 +157,30 @@ class Piwik_Actions_API
 		$dataTable = Piwik_Archive::getDataTableFromArchive('Actions_actions', $idSite, $period, $date, $segment, $expanded, $idSubtable);
 		$this->filterPageDatatable($dataTable);
 		$this->filterActionsDataTable($dataTable, $expanded);
+		return $dataTable;
+	}
+	
+	/**
+	 * Returns a Piwik_DataTable with analytics information for every unique entry page title
+	 * for the given site, time period & segment.
+	 */
+	public function getEntryPageTitles( $idSite, $period, $date, $segment = false, $expanded = false,
+										$idSubtable = false )
+	{
+		$dataTable = $this->getPageTitles($idSite, $period, $date, $segment, $expanded, $idSubtable);
+		$this->filterNonEntryActions($dataTable);
+		return $dataTable;
+	}
+	
+	/**
+	 * Returns a Piwik_DataTable with analytics information for every unique exit page title
+	 * for the given site, time period & segment.
+	 */
+	public function getExitPageTitles( $idSite, $period, $date, $segment = false, $expanded = false,
+									   $idSubtable = false )
+	{
+		$dataTable = $this->getPageTitles($idSite, $period, $date, $segment, $expanded, $idSubtable);
+		$this->filterNonExitActions($dataTable);
 		return $dataTable;
 	}
 	
@@ -323,6 +353,26 @@ class Piwik_Actions_API
 		$dataTable->filter('Sort', array('nb_visits', 'desc', $naturalSort = false, $expanded));
 		
 		$dataTable->queueFilter('ReplaceSummaryRowLabel');
+	}
+	
+	/**
+	 * Removes DataTable rows referencing actions that were never the first action of a visit.
+	 * 
+	 * @param Piwik_DataTable $dataTable
+	 */
+	private function filterNonEntryActions( $dataTable )
+	{
+		$dataTable->filter('ColumnCallbackDeleteRow', array('entry_nb_visits', 'strlen'));
+	}
+	
+	/**
+	 * Removes DataTable rows referencing actions that were never the last action of a visit.
+	 * 
+	 * @param Piwik_DataTable $dataTable
+	 */
+	private function filterNonExitActions( $dataTable )
+	{
+		$dataTable->filter('ColumnCallbackDeleteRow', array('exit_nb_visits', 'strlen'));
 	}
 }
 

@@ -274,6 +274,52 @@
 	</row>
 	<row>
 		<category>Actions</category>
+		<name>Entry page titles</name>
+		<module>Actions</module>
+		<action>getEntryPageTitles</action>
+		<dimension>Page Name</dimension>
+		<metrics>
+			<entry_nb_visits>Entrances</entry_nb_visits>
+			<entry_bounce_count>Bounces</entry_bounce_count>
+			<bounce_rate>Bounce Rate</bounce_rate>
+
+		</metrics>
+		<metricsDocumentation>
+			<entry_nb_visits>Number of visits that started on this page.</entry_nb_visits>
+			<entry_bounce_count>Number of visits that started and ended on this page. This means that the visitor left the website after viewing only this page.</entry_bounce_count>
+			<bounce_rate>Percentage of visits that started and ended on this page.</bounce_rate>
+
+		</metricsDocumentation>
+		<documentation>This report contains information about the titles of exit pages that occurred during the specified period. Use the plus and minus icons on the left to navigate.</documentation>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getEntryPageTitles&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<uniqueId>Actions_getEntryPageTitles</uniqueId>
+
+	</row>
+	<row>
+		<category>Actions</category>
+		<name>Exit page titles</name>
+		<module>Actions</module>
+		<action>getExitPageTitles</action>
+		<dimension>Page Name</dimension>
+		<metrics>
+			<exit_nb_visits>Exits</exit_nb_visits>
+			<nb_visits>Unique Pageviews</nb_visits>
+			<exit_rate>Exit rate</exit_rate>
+
+		</metrics>
+		<metricsDocumentation>
+			<exit_nb_visits>Number of visits that ended on this page.</exit_nb_visits>
+			<nb_visits>The number of visits that included this page. If a page was viewed multiple times during one visit, it is only counted once.</nb_visits>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
+
+		</metricsDocumentation>
+		<documentation>This report contains information about the titles of entry pages that were used during the specified period. Use the plus and minus icons on the left to navigate.</documentation>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getExitPageTitles&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<uniqueId>Actions_getExitPageTitles</uniqueId>
+
+	</row>
+	<row>
+		<category>Actions</category>
 		<name>Outlinks</name>
 		<module>Actions</module>
 		<action>getOutlinks</action>

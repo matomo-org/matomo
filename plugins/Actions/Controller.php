@@ -27,7 +27,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		return $view;
 	}
 
-
 	/**
 	 * PAGES
 	 * @param bool $fetch
@@ -97,6 +96,10 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->setColumnsToDisplay( array('label','entry_nb_visits', 'entry_bounce_count', 'bounce_rate') );
 		$view->setColumnTranslation('entry_bounce_count', Piwik_Translate('General_ColumnBounces'));
 		$view->setColumnTranslation('entry_nb_visits', Piwik_Translate('General_ColumnEntrances'));
+		$view->addRelatedReports(Piwik_Translate('Actions_SubmenuPagesEntry'), array(
+			'Actions.getEntryPageTitles' => Piwik_Translate('Actions_EntryPageTitles')
+		));
+		$view->setReportUrl('Actions', $this->getEntryPageUrlActionForLink());
 	}
 	
 	/*
@@ -130,6 +133,10 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->setSortedColumn('exit_nb_visits');
 		$view->setColumnsToDisplay( array('label', 'exit_nb_visits', 'nb_visits', 'exit_rate') );
 		$view->setColumnTranslation('exit_nb_visits', Piwik_Translate('General_ColumnExits'));
+		$view->addRelatedReports(Piwik_Translate('Actions_SubmenuPagesExit'), array(
+			'Actions.getExitPageTitles' => Piwik_Translate('Actions_ExitPageTitles')
+		));
+		$view->setReportUrl('Actions', $this->getExitPageUrlActionForLink());
 	}
 	
 	/*
@@ -151,6 +158,11 @@ class Piwik_Actions_Controller extends Piwik_Controller
 						'Actions.getPageTitles',
 						'getPageTitlesSubDataTable' );
 		$view->setColumnTranslation('label', Piwik_Translate('Actions_ColumnPageName'));
+		$view->addRelatedReports(Piwik_Translate('Actions_SubmenuPageTitles'), array(
+			'Actions.getEntryPageTitles' => Piwik_Translate('Actions_EntryPageTitles'),
+			'Actions.getExitPageTitles' => Piwik_Translate('Actions_ExitPageTitles'),
+		));
+		$view->setReportUrl('Actions', $this->getPageTitlesActionForLink());
 		$this->configureViewPages($view);
 		$this->configureViewActions($view);
 		return $this->renderView($view, $fetch);
@@ -167,7 +179,52 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$this->configureViewActions($view);
 		return $this->renderView($view, $fetch);
 	}
-
+	
+	/**
+	 * Echos or returns a report displaying analytics data for every unique entry
+	 * page title.
+	 * 
+	 * @param bool $fetch True to return the view as a string, false to echo it.
+	 * @return string
+	 */
+	public function getEntryPageTitles( $fetch = false )
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init($this->pluginName, __FUNCTION__, 'Actions.getEntryPageTitles', __FUNCTION__);
+		
+		$entryPageUrlAction = $this->getEntryPageUrlActionForLink();
+		$view->addRelatedReports(Piwik_Translate('Actions_EntryPageTitles'), array(
+			'Actions.getPageTitles' => Piwik_Translate('Actions_SubmenuPageTitles'),
+			"Actions.$entryPageUrlAction" => Piwik_Translate('Actions_SubmenuPagesEntry'),
+		));
+		
+		$this->configureViewPages($view);
+		$this->configureViewActions($view);
+		return $this->renderView($view, $fetch);
+	}
+	
+	/**
+	 * Echos or returns a report displaying analytics data for every unique exit
+	 * page title.
+	 * 
+	 * @param bool $fetch True to return the view as a string, false to echo it.
+	 * @return string
+	 */
+	public function getExitPageTitles( $fetch = false )
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init($this->pluginName, __FUNCTION__, 'Actions.getExitPageTitles', __FUNCTION__);
+		
+		$exitPageUrlAction = $this->getExitPageUrlActionForLink();
+		$view->addRelatedReports(Piwik_Translate('Actions_ExitPageTitles'), array(
+			'Actions.getPageTitles' => Piwik_Translate('Actions_SubmenuPageTitles'),
+			"Actions.$exitPageUrlAction" => Piwik_Translate('Actions_SubmenuPagesExit'),
+		));
+		
+		$this->configureViewPages($view);
+		$this->configureViewActions($view);
+		return $this->renderView($view, $fetch);
+	}
 	
 	/*
 	 * DOWNLOADS
@@ -351,5 +408,27 @@ class Piwik_Actions_Controller extends Piwik_Controller
 			}
 		}
 		return $table;
+	}
+	
+	/** Returns action to use when linking to the exit page URLs report. */
+	private function getExitPageUrlActionForLink()
+	{
+		// link to the page not, just the report, but only if not a widget
+		return Piwik_Common::getRequestVar('widget', 0) == 0 ? 'indexExitPageUrls' : 'getExitPageUrls';
+	}
+
+	
+	/** Returns action to use when linking to the entry page URLs report. */
+	private function getEntryPageUrlActionForLink()
+	{
+		// link to the page not, just the report, but only if not a widget
+		return Piwik_Common::getRequestVar('widget', 0) == 0 ? 'indexEntryPageUrls' : 'getEntryPageUrls';
+	}
+	
+	/** Returns action to use when linking to the page titles report. */
+	private function getPageTitlesActionForLink()
+	{
+		// link to the page not, just the report, but only if not a widget
+		return Piwik_Common::getRequestVar('widget', 0) == 0 ? 'indexPageTitles' : 'getPageTitles';
 	}
 }

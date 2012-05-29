@@ -1318,6 +1318,7 @@ actionDataTable.prototype =
 	exportToFormatHide: dataTable.prototype.exportToFormatHide,
 	handleLimit: dataTable.prototype.handleLimit,
 	notifyWidgetParametersChange: dataTable.prototype.notifyWidgetParametersChange,
+	handleRelatedReports: dataTable.prototype.handleRelatedReports,
 	
 	//initialisation of the actionDataTable
 	init: function(workingDivId, domElem)
@@ -1363,6 +1364,7 @@ actionDataTable.prototype =
 		
 		self.handleColumnDocumentation(domElem);
 		self.handleReportDocumentation(domElem);
+		self.handleRelatedReports(domElem);
 	},
 	
 	//see dataTable::applyCosmetics
@@ -1534,16 +1536,21 @@ actionDataTable.prototype =
 	},
 	
 	//called when the full table actions is loaded
-	dataTableLoaded: function(response)
+	dataTableLoaded: function(response, workingDivId)
 	{
 		var content = $(response);
-		var idToReplace = $(content).attr('id');		
+		var idToReplace = workingDivId || $(content).attr('id');		
 		
 		//reset parents id
 		self.parentAttributeParent = '';
 		self.parentId = '';
 	
 		var dataTableSel = $('#'+idToReplace);
+		
+		// keep the original list of related reports
+		var oldReportsElem = $('.datatableRelatedReports', dataTableSel);
+		$('.datatableRelatedReports', content).replaceWith(oldReportsElem);
+		
 		dataTableSel.replaceWith(content);
 		piwikHelper.lazyScrollTo(content[0], 400);
 	},
