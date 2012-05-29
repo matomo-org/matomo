@@ -207,6 +207,8 @@ dataTable.prototype =
 		}
 		
 		piwikHelper.lazyScrollTo(content[0], 400);
+		
+		return content;
 	},
 			
 	/* This method is triggered when a new DIV is loaded, which happens
@@ -1061,19 +1063,7 @@ dataTable.prototype =
 		domElem = $(domElem);
 		var doc = domElem.find('.reportDocumentation');
 		
-		var h2 = false;
-		if (domElem.prev().is('h2'))
-		{
-			h2 = domElem.prev();
-		}
-		else if (this.param.viewDataTable == 'tableGoals')
-		{
-			h2 = $('#titleGoalsByDimension');
-		}
-		else if( $('h2', domElem))
-		{
-			h2 = $('h2', domElem);
-		}
+		var h2 = this._findReportHeader(domElem);
 		if (doc.size() == 0 || doc.children().size() == 0) // if we can't find the element, or the element is empty
 		{
 			if (h2 && h2.size() > 0)
@@ -1196,8 +1186,13 @@ dataTable.prototype =
 				
 				// do ajax request
 				self.reloadAjaxDataTable(true, function(newReport) {
-					self.dataTableLoaded(newReport, self.workingDivId);
+					var newDomElem = self.dataTableLoaded(newReport, self.workingDivId);
 					hideShowRelatedReports(clicked);
+					
+					// update header, if we can find it
+					var h2 = self._findReportHeader(newDomElem);
+					if (h2)
+						h2.text($(clicked).text());
 				});
 			});
 		});
@@ -1267,8 +1262,24 @@ dataTable.prototype =
 		var actions = tr.find('div.dataTableRowActions');
 		actions.height(tr.innerHeight() - 2)
 			.css('marginLeft', (td.width() + 5 - actions.outerWidth())+'px');
-	}
+	},
 	
+	_findReportHeader: function(domElem) {
+		var h2 = false;
+		if (domElem.prev().is('h2'))
+		{
+			h2 = domElem.prev();
+		}
+		else if (this.param.viewDataTable == 'tableGoals')
+		{
+			h2 = $('#titleGoalsByDimension');
+		}
+		else if( $('h2', domElem))
+		{
+			h2 = $('h2', domElem);
+		}
+		return h2;
+	}
 };
 
 
@@ -1319,6 +1330,7 @@ actionDataTable.prototype =
 	handleLimit: dataTable.prototype.handleLimit,
 	notifyWidgetParametersChange: dataTable.prototype.notifyWidgetParametersChange,
 	handleRelatedReports: dataTable.prototype.handleRelatedReports,
+	_findReportHeader: dataTable.prototype._findReportHeader,
 	
 	//initialisation of the actionDataTable
 	init: function(workingDivId, domElem)
@@ -1553,6 +1565,8 @@ actionDataTable.prototype =
 		
 		dataTableSel.replaceWith(content);
 		piwikHelper.lazyScrollTo(content[0], 400);
+		
+		return content;
 	},
 	
 	// Called when a set of rows for a category of actions is loaded
