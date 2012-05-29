@@ -750,14 +750,20 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		if(!$excluded)
 		{
 			$excluded = $this->isIgnoreCookieFound();
-			printDebug("Ignore cookie found.");
+			if($excluded)
+			{
+				printDebug("Ignore cookie found.");
+			}
 		}
 
 		// Checking for excluded IPs
 		if(!$excluded)
 		{
 			$excluded = $this->isVisitorIpExcluded($ip);
-			printDebug("IP excluded.");
+			if($excluded)
+			{
+				printDebug("IP excluded.");
+			}
 		}
 
 		if($excluded)
