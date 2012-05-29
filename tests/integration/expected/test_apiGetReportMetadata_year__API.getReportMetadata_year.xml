@@ -1293,10 +1293,10 @@
 	</row>
 	<row>
 		<category>Visitor Settings</category>
-		<name>Device type</name>
+		<name>Mobile vs Desktop</name>
 		<module>UserSettings</module>
-		<action>getDeviceType</action>
-		<dimension>Device type</dimension>
+		<action>getMobileVsDesktop</action>
+		<dimension>Mobile vs Desktop</dimension>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -1323,8 +1323,8 @@
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getDeviceType&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
-		<uniqueId>UserSettings_getDeviceType</uniqueId>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getMobileVsDesktop&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<uniqueId>UserSettings_getMobileVsDesktop</uniqueId>
 
 	</row>
 	<row>

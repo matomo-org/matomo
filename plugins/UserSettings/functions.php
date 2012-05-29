@@ -79,14 +79,14 @@ function Piwik_UserSettings_getDeviceTypeFromOS($osLabel)
 		case 'Mac':
 		case 'Unix':
 		case 'Other':
+		case 'Gaming Console':
 			return 'General_Desktop';
 		case 'iOS':
 		case 'Android':
 		case 'Windows Mobile':
 		case 'Other Mobile':
+		case 'Mobile Gaming Console':
 			return 'General_Mobile';
-		case 'Gaming Console':
-			return 'UserSettings_GamingConsole';
 		default:
 			return 'General_Unknown';
 	}
@@ -200,8 +200,6 @@ function Piwik_UserSettings_getDeviceTypeImg( $oldOSImage, $osFamilyLabel )
 			return 'plugins/UserSettings/images/screens/normal.gif';
 		case 'General_Mobile':
 			return 'plugins/UserSettings/images/screens/mobile.gif';
-		case 'UserSettings_GamingConsole':
-			return 'plugins/UserSettings/images/os/WII.gif';
 		case 'General_Unknown':
 		default:
 			return 'plugins/UserSettings/images/os/UNK.gif';

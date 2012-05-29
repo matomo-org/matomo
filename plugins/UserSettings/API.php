@@ -85,7 +85,7 @@ class Piwik_UserSettings_API
 	/**
 	 * Gets a DataTable displaying number of visits by device type (mobile vs. desktop).
 	 */
-	public function getDeviceType( $idSite, $period, $date, $segment = false )
+	public function getMobileVsDesktop( $idSite, $period, $date, $segment = false )
 	{
 		$dataTable = $this->getOS($idSite, $period, $date, $segment, $addShortLabel = false);
 		$dataTable->queueFilter('GroupBy', array('label', 'Piwik_UserSettings_getDeviceTypeFromOS'));

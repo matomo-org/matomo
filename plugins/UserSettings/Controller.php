@@ -38,7 +38,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		$view->dataTableOS = $this->getOS( true );
 		$view->dataTableBrowser = $this->getBrowser( true );
 		$view->dataTableBrowserType = $this->getBrowserType ( true );
-		$view->dataTableWideScreen = $this->getWideScreen( true );
+		$view->dataTableMobileVsDesktop = $this->getMobileVsDesktop( true );
 		
 		echo $view->render();
 	}
@@ -136,7 +136,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_ColumnTypeOfScreen'));
 		$view->disableOffsetInformationAndPaginationControls();
 		$view->addRelatedReports(Piwik_Translate('UserSettings_ColumnTypeOfScreen'), array(
-			'UserSettings.getDeviceType' => Piwik_Translate('UserSettings_DeviceType')
+			'UserSettings.getMobileVsDesktop' => Piwik_Translate('UserSettings_MobileVsDesktop')
 		));
 		return $this->renderView($view, $fetch);
 	}
@@ -144,11 +144,11 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 	/**
 	 * Returns or echos a report displaying the number of visits by device type (Mobile or Desktop).
 	 */
-	public function getDeviceType( $fetch = false )
+	public function getMobileVsDesktop( $fetch = false )
 	{
-		$view = $this->getStandardDataTableUserSettings(__FUNCTION__, 'UserSettings.getDeviceType');
-		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_DeviceType'));
-		$view->addRelatedReports(Piwik_Translate('UserSettings_DeviceType'), array(
+		$view = $this->getStandardDataTableUserSettings(__FUNCTION__, 'UserSettings.getMobileVsDesktop');
+		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_MobileVsDesktop'));
+		$view->addRelatedReports(Piwik_Translate('UserSettings_MobileVsDesktop'), array(
 			'UserSettings.getWideScreen' => Piwik_Translate('UserSettings_ColumnTypeOfScreen')
 		));
 		return $this->renderView($view, $fetch);

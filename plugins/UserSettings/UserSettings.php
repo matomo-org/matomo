@@ -139,10 +139,10 @@ class Piwik_UserSettings extends Piwik_Plugin
 		
 		// device type
 		array(	'UserSettings_VisitorSettings',
-				'UserSettings_DeviceType',
+				'UserSettings_MobileVsDesktop',
 				'UserSettings',
-				'getDeviceType',
-				'UserSettings_DeviceType',
+				'getMobileVsDesktop',
+				'UserSettings_MobileVsDesktop',
 				null,
 				null,
 				null,

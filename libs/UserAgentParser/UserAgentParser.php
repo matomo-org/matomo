@@ -324,7 +324,8 @@ class UserAgentParser
 			'iOS' => array('IPD', 'IPA', 'IPH'),
 			'Android' => array('AND'),
 			'Windows Mobile' => array('WPH', 'WMO', 'WCE'),
-			'Gaming Console' => array('WII', 'NDS', 'DSI', 'PSP', 'PS3'),
+			'Gaming Console' => array('WII', 'PS3'),
+			'Mobile Gaming Console' => array('PSP', 'NDS', 'DSI'),
 			'Unix' => array('SOS', 'AIX', 'HP-UX', 'BSD', 'NBS', 'OBS', 'DFB', 'SYL', 'IRI', 'T64'),
 			'Other Mobile' => array('MAE', 'WOS', 'POS', 'BLB', 'QNX', 'SYM', 'SBA'),
 			'Other' => array('VMS', 'OS2', 'BEOS', 'AMI')

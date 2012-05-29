@@ -19,6 +19,6 @@
 	<h2>{'UserSettings_Resolutions'|translate}</h2>
 	{$dataTableResolution}
 	
-	<h2>{'UserSettings_WideScreen'|translate}</h2>
-	{$dataTableWideScreen}
+	<h2>{'UserSettings_MobileVsDesktop'|translate}</h2>
+	{$dataTableMobileVsDesktop}
 </div>
