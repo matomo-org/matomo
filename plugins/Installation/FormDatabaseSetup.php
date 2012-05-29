@@ -22,7 +22,9 @@ class Piwik_Installation_FormDatabaseSetup extends Piwik_QuickForm2
 	}
 
 	function init()
-	{
+	{		
+		HTML_QuickForm2_Factory::registerRule('checkValidFilename', 'Piwik_Installation_FormDatabaseSetup_Rule_checkValidFilename');
+		
 		$availableAdapters = Piwik_Db_Adapter::getAdapters();
 		$adapters = array();
 		foreach($availableAdapters as $adapter => $port)
@@ -41,12 +43,14 @@ class Piwik_Installation_FormDatabaseSetup extends Piwik_QuickForm2
 		$this->addElement('password', 'password')
 		     ->setLabel(Piwik_Translate('Installation_DatabaseSetupPassword'));
 
-		$this->addElement('text', 'dbname')
-		     ->setLabel(Piwik_Translate('Installation_DatabaseSetupDatabaseName'))
-		     ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_DatabaseSetupDatabaseName')));
+		$item = $this->addElement('text', 'dbname')
+		     ->setLabel(Piwik_Translate('Installation_DatabaseSetupDatabaseName'));
+		$item->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_DatabaseSetupDatabaseName')));
+		$item->addRule('checkValidFilename', Piwik_Translate('General_NotValid', Piwik_Translate('Installation_DatabaseSetupDatabaseName')));
 
 		$this->addElement('text', 'tables_prefix')
-		     ->setLabel(Piwik_Translate('Installation_DatabaseSetupTablePrefix'));
+		     ->setLabel(Piwik_Translate('Installation_DatabaseSetupTablePrefix'))
+		     ->addRule('checkValidFilename', Piwik_Translate('General_NotValid', Piwik_Translate('Installation_DatabaseSetupTablePrefix')));
 
 		$this->addElement('select', 'adapter')
 		     ->setLabel(Piwik_Translate('Installation_DatabaseSetupAdapter'))
@@ -60,5 +64,18 @@ class Piwik_Installation_FormDatabaseSetup extends Piwik_QuickForm2
 			'host' => '127.0.0.1',
 			'tables_prefix' => 'piwik_',
 		)));
+	}
+}
+
+/**
+ * Filename check for prefix/DB name
+ *
+ * @package Piwik_Installation
+ */
+class Piwik_Installation_FormDatabaseSetup_Rule_checkValidFilename extends HTML_QuickForm2_Rule
+{
+	function validateOwner()
+	{
+		return Piwik_Common::isValidFilename($this->owner->getValue());
 	}
 }
