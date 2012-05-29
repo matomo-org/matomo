@@ -178,11 +178,16 @@ dataTable.prototype =
 	// Function called when the AJAX request is successful
 	// it looks for the ID of the response and replace the very same ID 
 	// in the current page with the AJAX response
-	dataTableLoaded: function(response)
+	dataTableLoaded: function(response, workingDivId)
 	{
 		var content = $(response);
-		var idToReplace = $(content).attr('id');
+		
+		var idToReplace = workingDivId || $(content).attr('id');
 		var dataTableSel = $('#'+idToReplace);
+		
+		// keep the original list of related reports
+		var oldReportsElem = $('.datatableRelatedReports', dataTableSel);
+		$('.datatableRelatedReports', content).replaceWith(oldReportsElem);
 		
 		// if the current dataTable is located inside another datatable
 		table = $(content).parents('table.dataTable');
@@ -191,18 +196,18 @@ dataTable.prototype =
 			// we add class to the table so that we can give a different style to the subtable
 			$(content).find('table.dataTable').addClass('subDataTable');
 			$(content).find('.dataTableFeatures').addClass('subDataTable');
-			
+		
 			//we force the initialisation of subdatatables
-			dataTableSel.html( $(content) );
+			dataTableSel.replaceWith(content);
 		}
 		else
 		{
 			dataTableSel.find('object').remove();
-			dataTableSel.html( $(content) );
+			dataTableSel.replaceWith(content);
 		}
-		piwikHelper.lazyScrollTo(dataTableSel[0], 400);
-	},	
 		
+		piwikHelper.lazyScrollTo(content[0], 400);
+	},
 			
 	/* This method is triggered when a new DIV is loaded, which happens
 		- at the first loading of the page
@@ -1145,9 +1150,23 @@ dataTable.prototype =
 	
 	handleRelatedReports: function(domElem)
 	{
-		var self = this;
+		var self = this,
+			hideShowRelatedReports = function(thisReport)
+			{
+				$('span', $(thisReport).parent().parent()).each(function () {
+					if (thisReport == this)
+						$(this).hide();
+					else
+						$(this).show();
+				});
+			},
+			// 'this' report must be hidden in datatable output
+			thisReport = $('.datatableRelatedReports span:hidden', domElem)[0];
+		
+		hideShowRelatedReports(thisReport);
 		$('.datatableRelatedReports span', domElem).each(function() {
-			$(this).click(function(e) {
+			var clicked = this;
+			$(this).unbind('click').click(function(e) {
 				var url = $(this).attr('href');
 				
 				// if this url is also the url of a menu item, better to click that menu item instead of
@@ -1167,25 +1186,19 @@ dataTable.prototype =
 					return;
 				}
 				
-				// do ajax request
-				
-				// show loading message
-				$('#'+self.workingDivId+' .loadingPiwik', domElem.parent()).last().css('display','block');
-				
-				// do ajax request
-				var ajaxRequest =
+				// modify parameters
+				self.resetAllFilters();
+				var newParams = broadcast.getValuesFromUrl(url);
+				for (var key in newParams)
 				{
-					type: 'GET',
-					url: url,
-					dataType: 'html',
-					async: true,
-					error: piwikHelper.ajaxHandleError,
-					success: function(newReport) {
-						$(domElem).replaceWith(newReport);
-					}
-				};
+					self.param[key] = newParams[key];
+				}
 				
-				piwikHelper.queueAjaxRequest($.ajax(ajaxRequest));
+				// do ajax request
+				self.reloadAjaxDataTable(true, function(newReport) {
+					self.dataTableLoaded(newReport, self.workingDivId);
+					hideShowRelatedReports(clicked);
+				});
 			});
 		});
 	},
@@ -1531,8 +1544,8 @@ actionDataTable.prototype =
 		self.parentId = '';
 	
 		var dataTableSel = $('#'+idToReplace);
-		dataTableSel.html( $(content) );
-		piwikHelper.lazyScrollTo(dataTableSel[0], 400);
+		dataTableSel.replaceWith(content);
+		piwikHelper.lazyScrollTo(content[0], 400);
 	},
 	
 	// Called when a set of rows for a category of actions is loaded

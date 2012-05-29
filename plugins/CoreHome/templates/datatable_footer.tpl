@@ -98,16 +98,17 @@
 	</div>
 {/if}
 
-{if !empty($properties.relatedReports) && !empty($arrayDataTable)}
-	<div class="datatableRelatedReports">
+<div class="datatableRelatedReports">
+	{if !empty($properties.relatedReports) && (!empty($arrayDataTable) || !empty($cloudValues) || (isset($isDataAvailable) && $isDataAvailable))}
 		{if count($properties.relatedReports) == 1}{'General_RelatedReport'|translate}{else}{'General_RelatedReports'|translate}{/if}:
 		<ul style="list-style:none;{if count($properties.relatedReports) == 1}display:inline-block;{/if}">
+			<li><span href="{$properties.self_url}" style="display:none;">{$properties.title}</span></li>
 			{foreach from=$properties.relatedReports key=reportUrl item=reportTitle}
 				<li><span href="{$reportUrl}">{$reportTitle}</span></li>
 			{/foreach}
 		</ul>
-	</div>
-{/if}
+	{/if}
+</div>
 
 {if !empty($properties.show_footer_message)}
 	<div class='datatableFooterMessage'>{$properties.show_footer_message}</div>

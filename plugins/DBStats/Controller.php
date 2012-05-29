@@ -94,7 +94,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
 	{
 		Piwik::checkUserIsSuperUser();
 		$view = $this->getDataTableView(__FUNCTION__, $viewType = 'table', $orderDir = 'desc');
-		$view->addRelatedReports(array(
+		$view->addRelatedReports(Piwik_Translate('DBStats_MetricTables'), array(
 			'DBStats.getMetricDataSummaryByYear' => Piwik_Translate('DBStats_MetricDataByYear')
 		));
 		return $this->renderView($view, $fetch);
@@ -112,7 +112,9 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
 		Piwik::checkUserIsSuperUser();
 		$view = $this->getDataTableView(__FUNCTION__, $viewType = 'table', $orderDir = 'desc',
 										$addPercentColumn = false, $labelKey = 'CoreHome_PeriodYear');
-		$view->addRelatedReports(array('DBStats.getMetricDataSummary' => Piwik_Translate('DBStats_MetricTables')));
+		$view->addRelatedReports(Piwik_Translate('DBStats_MetricDataByYear'), array(
+			'DBStats.getMetricDataSummary' => Piwik_Translate('DBStats_MetricTables')
+		));
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -127,7 +129,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
 	{
 		Piwik::checkUserIsSuperUser();
 		$view = $this->getDataTableView(__FUNCTION__, $viewType = 'table', $orderDir = 'desc');
-		$view->addRelatedReports(array(
+		$view->addRelatedReports(Piwik_Translate('DBStats_ReportTables'), array(
 			'DBStats.getReportDataSummaryByYear' => Piwik_Translate('DBStats_ReportDataByYear')
 		));
 		return $this->renderView($view, $fetch);
@@ -145,7 +147,9 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
 		Piwik::checkUserIsSuperUser();
 		$view = $this->getDataTableView(__FUNCTION__, $viewType = 'table', $orderDir = 'desc',
 										$addPercentColumn = false, $labelKey = 'CoreHome_PeriodYear');
-		$view->addRelatedReports(array('DBStats.getReportDataSummary' => Piwik_Translate('DBStats_ReportTables')));
+		$view->addRelatedReports(Piwik_Translate('DBStats_ReportDataByYear'), array(
+			'DBStats.getReportDataSummary' => Piwik_Translate('DBStats_ReportTables')
+		));
 		return $this->renderView($view, $fetch);
 	}
 	

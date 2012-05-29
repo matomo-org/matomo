@@ -85,7 +85,13 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	 */
 	protected function getJavascriptVariablesToSet()
 	{
-		return $this->parametersToModify + parent::getJavascriptVariablesToSet();
+		$original = parent::getJavascriptVariablesToSet();
+		$originalViewDataTable = $original['viewDataTable'];
+		
+		$result = $this->parametersToModify + $original;;
+		$result['viewDataTable'] = $originalViewDataTable;
+		
+		return $result;
 	}
 	
 	/**

@@ -337,6 +337,26 @@ var broadcast = {
 
         return searchStr;
     },
+    
+    /**
+     * Returns all key-value pairs in query string of url.
+     * 
+     * @param {string} url url to check. if undefined, null or empty, current url is used.
+     * @return {object} key value pair describing query string parameters
+     */
+    getValuesFromUrl: function(url)
+    {
+    	var searchString = this._removeHashFromUrl(url).split('?')[1] || '',
+    		pairs = searchString.split('&');
+    	
+    	var result = {};
+    	for (var i = 0; i != pairs.length; ++i)
+    	{
+    		var pair = pairs[i].split('=');
+    		result[pair[0]] = pair[1];
+    	}
+    	return result;
+    },
 
     /**
      * help to get param value for any given url string with provided param name
@@ -350,13 +370,7 @@ var broadcast = {
      */
     getValueFromUrl: function (param, url)
     {
-        var searchString = '';
-        if( url ) {
-            var urlParts = url.split('#');
-            searchString = urlParts[0];
-        } else {
-            searchString = location.search;
-        }
+        var searchString = this._removeHashFromUrl(url);
         return broadcast.getParamValue(param,searchString);
     },
 
@@ -410,6 +424,23 @@ var broadcast = {
     getHash: function ()
     {
         return broadcast.getHashFromUrl().replace(/^#/, '');
-    }
-
+    },
+	
+	/**
+	 * Removes the hash portion of a URL and returns the rest.
+	 * 
+	 * @param {string} url
+	 * @return {string} url w/o hash
+	 */
+	_removeHashFromUrl: function(url)
+	{
+        var searchString = '';
+        if( url ) {
+            var urlParts = url.split('#');
+            searchString = urlParts[0];
+        } else {
+            searchString = location.search;
+        }
+        return searchString;
+	}
 };

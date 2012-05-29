@@ -305,9 +305,12 @@ abstract class Piwik_ViewDataTable
 		$this->viewProperties['apiMethodToRequestDataTable'] = $this->apiMethodToRequestDataTable;
 		$this->viewProperties['uniqueId'] = $this->getUniqueIdViewDataTable();
 		$this->viewProperties['exportLimit'] = Piwik_Config::getInstance()->General['API_datatable_default_limit'];
-		$this->viewProperties['relatedReports'] = array();
 		$this->viewProperties['highlight_summary_row'] = false;
 		$this->viewProperties['metadata'] = array();
+		
+		$this->viewProperties['relatedReports'] = array();
+		$this->viewProperties['title'] = 'unknown';
+		$this->viewProperties['self_url'] = $this->getBaseReportUrl($currentControllerName, $currentControllerAction);
 		
 		$standardColumnNameToTranslation = array_merge(
 			Piwik_API_API::getInstance()->getDefaultMetrics(),
@@ -1267,6 +1270,8 @@ abstract class Piwik_ViewDataTable
 	 * are displayed in the footer as links. When they are clicked, the report will change to
 	 * the related report.
 	 * 
+	 * Make sure to call setReportTitle so this report will be displayed correctly.
+	 * 
 	 * @param string $module The report's controller name, ie, 'UserSettings'.
 	 * @param string $action The report's controller action, ie, 'getBrowser'.
 	 * @param string $title The text used to describe the related report.
@@ -1282,24 +1287,7 @@ abstract class Piwik_ViewDataTable
 			return;
 		}
 		
-		$params = array_merge($queryParams, array('module' => $module, 'action' => $action));
-		
-		// unset all filter query params so the related report will show up in its default state,
-		// unless the filter param was in $queryParams
-		$genericFiltersInfo = Piwik_API_DataTableGenericFilter::getGenericFiltersInformation();
-		foreach ($genericFiltersInfo as $filter)
-		{
-			foreach ($filter as $queryParamName => $queryParamInfo)
-			{
-				if (!isset($params[$queryParamName]))
-				{
-					$params[$queryParamName] = null;
-				}
-			}
-		}
-		
-		// add the related report
-		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($params);
+		$url = $this->getBaseReportUrl($module, $action, $queryParams);
 		$this->viewProperties['relatedReports'][$url] = $title;
 	}
 	
@@ -1310,16 +1298,38 @@ abstract class Piwik_ViewDataTable
 	 * If you need to associate specific query params with a report, use the addRelatedReport
 	 * method instead of this one.
 	 * 
+	 * @param string $thisReportTitle The title of this report.
 	 * @param array $relatedReports An array mapping report IDs ('Controller.methodName') with
 	 *                              display text.
 	 */
-	public function addRelatedReports( $relatedReports )
+	public function addRelatedReports( $thisReportTitle, $relatedReports )
 	{
+		$this->setReportTitle($thisReportTitle);
 		foreach ($relatedReports as $report => $title)
 		{
 			list($module, $action) = explode('.', $report);
 			$this->addRelatedReport($module, $action, $title);
 		}
+	}
+	
+	/**
+	 * Sets the title of this report.
+	 * 
+	 * @param string $title
+	 */
+	public function setReportTitle( $title )
+	{
+		$this->viewProperties['title'] = $title;
+	}
+	
+	/**
+	 * Sets a custom URL to use to reference this report.
+	 * 
+	 * @param string $url
+	 */
+	public function setReportUrl( $module, $action, $queryParams = array() )
+	{
+		$this->viewProperties['self_url'] = $this->getBaseReportUrl($module, $action, $queryParams);
 	}
 	
 	/**
@@ -1379,5 +1389,35 @@ abstract class Piwik_ViewDataTable
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Returns URL for this report w/o any filter parameters.
+	 * 
+	 * @param string $module
+	 * @param string $action
+	 * @param array $queryParams
+	 */
+	private function getBaseReportUrl( $module, $action, $queryParams = array() )
+	{
+		$params = array_merge($queryParams, array('module' => $module, 'action' => $action));
+		
+		// unset all filter query params so the related report will show up in its default state,
+		// unless the filter param was in $queryParams
+		$genericFiltersInfo = Piwik_API_DataTableGenericFilter::getGenericFiltersInformation();
+		foreach ($genericFiltersInfo as $filter)
+		{
+			foreach ($filter as $queryParamName => $queryParamInfo)
+			{
+				if (!isset($params[$queryParamName]))
+				{
+					$params[$queryParamName] = null;
+				}
+			}
+		}
+		
+		// add the related report
+		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($params);
+		return $url;
 	}
 }

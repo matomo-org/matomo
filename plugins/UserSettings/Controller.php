@@ -71,7 +71,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 										'UserSettings.getOS'
 									);
 		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_ColumnOperatingSystem'));
-		$view->addRelatedReports($this->osRelatedReports);
+		$view->addRelatedReports(Piwik_Translate('UserSettings_OperatingSystems'), $this->osRelatedReports);
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -82,7 +82,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 	{
 		$view = $this->getStandardDataTableUserSettings(__FUNCTION__, 'UserSettings.getOSFamily');
 		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_OperatingSystemFamily'));
-		$view->addRelatedReports($this->osRelatedReports);
+		$view->addRelatedReports(Piwik_Translate('UserSettings_OperatingSystemFamily'), $this->osRelatedReports);
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -94,7 +94,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 									);
 		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_ColumnBrowserVersion'));
 		$view->setGraphLimit(7);
-		$view->addRelatedReports(array(
+		$view->addRelatedReports(Piwik_Translate('UserSettings_ColumnBrowserVersion'), array(
 			'UserSettings.getBrowser' => Piwik_Translate('UserSettings_Browsers')
 		));
 		return $this->renderView($view, $fetch);
@@ -109,7 +109,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		$view = $this->getStandardDataTableUserSettings(__FUNCTION__, 'UserSettings.getBrowser');
 		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_ColumnBrowser'));
 		$view->setGraphLimit(7);
-		$view->addRelatedReports(array(
+		$view->addRelatedReports(Piwik_Translate('UserSettings_Browsers'), array(
 			'UserSettings.getBrowserVersion' => Piwik_Translate('UserSettings_ColumnBrowserVersion')
 		));
 		return $this->renderView($view, $fetch);
@@ -135,7 +135,9 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 									);
 		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_ColumnTypeOfScreen'));
 		$view->disableOffsetInformationAndPaginationControls();
-		$view->addRelatedReports(array('UserSettings.getDeviceType' => Piwik_Translate('UserSettings_DeviceType')));
+		$view->addRelatedReports(Piwik_Translate('UserSettings_ColumnTypeOfScreen'), array(
+			'UserSettings.getDeviceType' => Piwik_Translate('UserSettings_DeviceType')
+		));
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -146,7 +148,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 	{
 		$view = $this->getStandardDataTableUserSettings(__FUNCTION__, 'UserSettings.getDeviceType');
 		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_DeviceType'));
-		$view->addRelatedReports(array(
+		$view->addRelatedReports(Piwik_Translate('UserSettings_DeviceType'), array(
 			'UserSettings.getWideScreen' => Piwik_Translate('UserSettings_ColumnTypeOfScreen')
 		));
 		return $this->renderView($view, $fetch);
