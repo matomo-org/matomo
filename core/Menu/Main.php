@@ -32,7 +32,7 @@ class Piwik_Menu_Main extends Piwik_Menu_Abstract
 	/**
 	 * Returns if the URL was found in the menu.
 	 *
-	 * @param string $url
+	 * @param string  $url
 	 * @return boolean
 	 */
 	public function isUrlFound($url)
@@ -72,7 +72,7 @@ class Piwik_Menu_Main extends Piwik_Menu_Abstract
 /**
  * Checks if an entry uses the URL $url.
  * 
- * @param string $url
+ * @param string  $url
  * @return boolean
  */
 function Piwik_IsMenuUrlFound($url)
@@ -93,11 +93,11 @@ function Piwik_GetMenu()
 /**
  * Adds a new entry to the MainMenu.
  *
- * @param string $mainMenuName
- * @param string $subMenuName
- * @param string $url
- * @param boolean $displayedForCurrentUser
- * @param int $order
+ * @param string   $mainMenuName
+ * @param string   $subMenuName
+ * @param string   $url
+ * @param boolean  $displayedForCurrentUser
+ * @param int      $order
  */
 function Piwik_AddMenu( $mainMenuName, $subMenuName, $url, $displayedForCurrentUser = true, $order = 10)
 {
@@ -107,10 +107,10 @@ function Piwik_AddMenu( $mainMenuName, $subMenuName, $url, $displayedForCurrentU
 /**
  * Renames a menu entry.
  * 
- * @param string $mainMenuOriginal
- * @param string $subMenuOriginal
- * @param string $mainMenuRenamed
- * @param string $subMenuRenamed
+ * @param string  $mainMenuOriginal
+ * @param string  $subMenuOriginal
+ * @param string  $mainMenuRenamed
+ * @param string  $subMenuRenamed
  */
 function Piwik_RenameMenuEntry($mainMenuOriginal, $subMenuOriginal, 
 								$mainMenuRenamed, $subMenuRenamed)
@@ -121,9 +121,9 @@ function Piwik_RenameMenuEntry($mainMenuOriginal, $subMenuOriginal,
 /**
  * Edits the URL of a menu entry.
  * 
- * @param string $mainMenuToEdit
- * @param string $subMenuToEdit
- * @param string $newUrl
+ * @param string  $mainMenuToEdit
+ * @param string  $subMenuToEdit
+ * @param string  $newUrl
  */
 function Piwik_EditMenuUrl( $mainMenuToEdit, $subMenuToEdit, $newUrl )
 {

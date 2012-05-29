@@ -16,6 +16,7 @@
 class Piwik_Menu_Top extends Piwik_Menu_Abstract
 {
 	static private $instance = null;
+
 	/**
 	 * @return Piwik_Menu_Top
 	 */
@@ -31,10 +32,10 @@ class Piwik_Menu_Top extends Piwik_Menu_Abstract
 	/**
 	 * Directly adds a menu entry containing html.
 	 *
-	 * @param string $menuName
-	 * @param string $data
-	 * @param boolean $displayedForCurrentUser
-	 * @param int $order
+	 * @param string   $menuName
+	 * @param string   $data
+	 * @param boolean  $displayedForCurrentUser
+	 * @param int      $order
 	 */
 	public function addHtml($menuName, $data, $displayedForCurrentUser, $order)
 	{
@@ -77,11 +78,11 @@ function Piwik_GetTopMenu()
 /**
  * Adds a new entry to the TopMenu.
  *
- * @param string $topMenuName
- * @param $data
- * @param boolean $displayedForCurrentUser
- * @param int $order
- * @param bool $isHTML
+ * @param string   $topMenuName
+ * @param string   $data
+ * @param boolean  $displayedForCurrentUser
+ * @param int      $order
+ * @param bool     $isHTML
  */
 function Piwik_AddTopMenu( $topMenuName, $data, $displayedForCurrentUser = true, $order = 10, $isHTML = false)
 {
@@ -98,8 +99,8 @@ function Piwik_AddTopMenu( $topMenuName, $data, $displayedForCurrentUser = true,
 /**
  * Renames a entry of the TopMenu
  *
- * @param string $topMenuOriginal
- * @param string $topMenuRenamed
+ * @param string  $topMenuOriginal
+ * @param string  $topMenuRenamed
  */
 function Piwik_RenameTopMenuEntry($topMenuOriginal, $topMenuRenamed)
 {

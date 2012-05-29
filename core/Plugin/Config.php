@@ -23,8 +23,8 @@ class Piwik_Plugin_Config
 	/**
 	 * Constructor
 	 *
-	 * @param string $pluginName
-	 * @param string $configFileName
+	 * @param string  $pluginName      name of the plugin
+	 * @param string  $configFileName  name of the plugin file; defaults to local.config.php
 	 */
 	public function __construct($pluginName, $configFileName = 'local.config.php')
 	{
@@ -47,7 +47,7 @@ class Piwik_Plugin_Config
 	/**
 	 * Store local plugin configuration
 	 *
-	 * @param array $pluginConfig
+	 * @param array  $pluginConfig
 	 */
 	public function store($pluginConfig)
 	{

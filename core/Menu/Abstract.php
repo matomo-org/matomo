@@ -43,11 +43,12 @@ abstract class Piwik_Menu_Abstract
 
 	/**
 	 * Adds a new entry to the menu.
-	 * @param string $menuName
-	 * @param string $subMenuName
-	 * @param string $url
-	 * @param bool $displayedForCurrentUser
-	 * @param int $order
+	 *
+	 * @param string  $menuName
+	 * @param string  $subMenuName
+	 * @param string  $url
+	 * @param bool    $displayedForCurrentUser
+	 * @param int     $order
 	 */
 	public function add($menuName, $subMenuName, $url, $displayedForCurrentUser, $order = 50)
 	{
@@ -64,10 +65,11 @@ abstract class Piwik_Menu_Abstract
 
 	/**
 	 * Builds a single menu item
-	 * @param string $menuName
-	 * @param string $subMenuName
-	 * @param string $url
-	 * @param int $order
+	 *
+	 * @param string  $menuName
+	 * @param string  $subMenuName
+	 * @param string  $url
+	 * @param int     $order
 	 */
 	private function buildMenuItem($menuName, $subMenuName, $url, $order = 50)
 	{
@@ -89,7 +91,6 @@ abstract class Piwik_Menu_Abstract
 
 	/**
 	 * Builds the menu from the $this->menuEntries variable.
-	 *
 	 */
 	private function buildMenu()
 	{
@@ -101,6 +102,7 @@ abstract class Piwik_Menu_Abstract
 
 	/**
 	 * Renames a single menu entry.
+	 *
 	 * @param $mainMenuOriginal
 	 * @param $subMenuOriginal
 	 * @param $mainMenuRenamed
@@ -114,6 +116,7 @@ abstract class Piwik_Menu_Abstract
 
 	/**
 	 * Edits a URL of an existing menu entry.
+	 *
 	 * @param $mainMenuToEdit
 	 * @param $subMenuToEdit
 	 * @param $newUrl
@@ -125,7 +128,6 @@ abstract class Piwik_Menu_Abstract
 
 	/**
 	 * Applies all edits to the menu.
-	 *
 	 */
 	private function applyEdits()
 	{
@@ -147,7 +149,6 @@ abstract class Piwik_Menu_Abstract
 
 	/**
 	 * Applies renames to the menu.
-	 *
 	 */
 	private function applyRenames()
 	{
@@ -181,7 +182,6 @@ abstract class Piwik_Menu_Abstract
 
 	/**
 	 * Orders the menu according to their order.
-	 *
 	 */
 	private function applyOrdering()
 	{
@@ -206,8 +206,8 @@ abstract class Piwik_Menu_Abstract
 	/**
 	 * Compares two menu entries. Used for ordering.
 	 *
-	 * @param array $itemOne
-	 * @param array $itemTwo
+	 * @param array  $itemOne
+	 * @param array  $itemTwo
 	 * @return boolean
 	 */
 	protected function menuCompare($itemOne, $itemTwo)

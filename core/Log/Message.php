@@ -19,6 +19,10 @@
 class Piwik_Log_Message extends Piwik_Log
 {
 	const ID = 'logger_message.htm';
+
+	/**
+	 * Constructor
+	 */
 	function __construct()
 	{
 		$logToFileFilename = self::ID;
@@ -33,7 +37,12 @@ class Piwik_Log_Message extends Piwik_Log
 							$logToDatabaseTableName, 
 							$logToDatabaseColumnMapping );
 	}
-	
+
+	/**
+	 * Logs the given message
+	 *
+	 * @param string  $message
+	 */
 	public function logEvent($message)
 	{
 		$event = array();
@@ -55,7 +64,7 @@ class Piwik_Log_Message_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Sc
      * Formats data into a single line to be written by the writer.
      *
      * @param  array    $event    event data
-     * @return string             formatted line to write to the log
+     * @return string  formatted line to write to the log
      */
     public function format($event)
     {

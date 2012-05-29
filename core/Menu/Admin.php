@@ -16,6 +16,7 @@
 class Piwik_Menu_Admin extends Piwik_Menu_Abstract
 {
 	static private $instance = null;
+
 	/**
 	 * @return Piwik_Menu_Admin
 	 */
@@ -45,6 +46,7 @@ class Piwik_Menu_Admin extends Piwik_Menu_Abstract
 
 /**
  * Returns the current AdminMenu name
+ *
  * @return boolean
  */
 function Piwik_GetCurrentAdminMenuName()
@@ -63,7 +65,11 @@ function Piwik_GetCurrentAdminMenuName()
 	return false;
 }
 
-
+/**
+ * Returns the AdminMenu
+ *
+ * @return Array
+ */
 function Piwik_GetAdminMenu()
 {
 	return Piwik_Menu_Admin::getInstance()->get();
@@ -72,10 +78,10 @@ function Piwik_GetAdminMenu()
 /**
  * Adds a new AdminMenu entry.
  *
- * @param string $adminMenuName
- * @param string $url
- * @param boolean $displayedForCurrentUser
- * @param int $order
+ * @param string   $adminMenuName
+ * @param string   $url
+ * @param boolean  $displayedForCurrentUser
+ * @param int      $order
  */
 function Piwik_AddAdminMenu( $adminMenuName, $url, $displayedForCurrentUser = true, $order = 10 )
 {
@@ -85,8 +91,8 @@ function Piwik_AddAdminMenu( $adminMenuName, $url, $displayedForCurrentUser = tr
 /**
  * Renames an AdminMenu entry.
  *
- * @param string $adminMenuOriginal
- * @param string $adminMenuRenamed
+ * @param string  $adminMenuOriginal
+ * @param string  $adminMenuRenamed
  */
 function Piwik_RenameAdminMenuEntry($adminMenuOriginal, $adminMenuRenamed)
 {

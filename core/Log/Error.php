@@ -19,6 +19,10 @@
 class Piwik_Log_Error extends Piwik_Log
 {
 	const ID = 'logger_error';
+
+	/**
+	 * Constructor
+	 */
 	function __construct()
 	{
 		$logToFileFilename = self::ID;
@@ -33,7 +37,10 @@ class Piwik_Log_Error extends Piwik_Log
 							$logToDatabaseTableName, 
 							$logToDatabaseColumnMapping );
 	}
-	
+
+	/**
+	 * Adds the writer
+	 */
 	function addWriteToScreen()
 	{
 		parent::addWriteToScreen();
@@ -41,7 +48,16 @@ class Piwik_Log_Error extends Piwik_Log
 		$writerScreen->setFormatter( $this->screenFormatter );
 		$this->addWriter($writerScreen);
 	}
-	
+
+	/**
+	 * Logs the given error event
+	 *
+	 * @param int     $errno
+	 * @param string  $errstr
+	 * @param string  $errfile
+	 * @param int     $errline
+	 * @param string  $backtrace
+	 */
 	public function logEvent($errno, $errstr, $errfile, $errline, $backtrace)
 	{
 		$event = array();
@@ -67,7 +83,7 @@ class Piwik_Log_Error_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Scre
      * Formats data into a single line to be written by the writer.
      *
      * @param  array    $event    event data
-     * @return string             formatted line to write to the log
+     * @return string  formatted line to write to the log
      */
     public function format($event)
     {

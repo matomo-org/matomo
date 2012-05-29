@@ -29,6 +29,10 @@ abstract class Piwik_Period
 	protected $subperiods = array();
 	protected $subperiodsProcessed = false;
 	protected $label = null;
+
+	/**
+	 * @var Piwik_Date
+	 */
 	protected $date = null;
 	static protected $errorAvailablePeriods = 'day, week, month, year, range';
 	
