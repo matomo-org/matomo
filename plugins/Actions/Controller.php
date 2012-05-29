@@ -191,7 +191,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	{
 		$view = Piwik_ViewDataTable::factory();
 		$view->init($this->pluginName, __FUNCTION__, 'Actions.getEntryPageTitles', __FUNCTION__);
-		$view->setColumnTranslation('label', Piwik_Translate('Actions_ColumnPageName'));
+		$view->setColumnTranslation('label', Piwik_Translate('Actions_ColumnEntryPageTitle'));
 		$view->setColumnTranslation('entry_bounce_count', Piwik_Translate('General_ColumnBounces'));
 		$view->setColumnTranslation('entry_nb_visits', Piwik_Translate('General_ColumnEntrances'));
 		$view->setColumnsToDisplay( array('label','entry_nb_visits', 'entry_bounce_count', 'bounce_rate') );
@@ -218,7 +218,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	{
 		$view = Piwik_ViewDataTable::factory();
 		$view->init($this->pluginName, __FUNCTION__, 'Actions.getExitPageTitles', __FUNCTION__);
-		$view->setColumnTranslation('label', Piwik_Translate('Actions_ColumnPageName'));
+		$view->setColumnTranslation('label', Piwik_Translate('Actions_ColumnEntryPageTitle'));
 		$view->setColumnTranslation('exit_nb_visits', Piwik_Translate('General_ColumnExits'));
 		$view->setColumnsToDisplay( array('label', 'exit_nb_visits', 'nb_visits', 'exit_rate') );
 		
