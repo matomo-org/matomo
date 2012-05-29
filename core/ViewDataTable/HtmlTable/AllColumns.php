@@ -35,7 +35,9 @@ class Piwik_ViewDataTable_HtmlTable_AllColumns extends Piwik_ViewDataTable_HtmlT
 	
 	protected function postDataTableLoadedFromAPI()
 	{
-		parent::postDataTableLoadedFromAPI();
+		$valid = parent::postDataTableLoadedFromAPI();
+		if(!$valid) return false;
+		
 		Piwik_Controller::setPeriodVariablesView($this);
 		$columnUniqueVisitors = false;
 		if($this->period == 'day')

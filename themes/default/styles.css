@@ -31,8 +31,8 @@
 
 code {
 	background-color:#F6F9F9;
-	border: 1px dashed #3B3BB5;
-	border-left: 5px solid;
+	border: 1px dashed;
+	border-left: 5px solid  #4B4BD5;
 	direction:ltr;
 	display:table;
 	font-size:100%;

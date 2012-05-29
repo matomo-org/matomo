@@ -226,7 +226,8 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 				$parameters = array(
 							'idSite' => $idSite,
 							'period' => $period->getLabel(),
-							'date' => $dateInUrl->toString()
+							'date' => $dateInUrl->toString(),
+							'segment' => Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('segment', false))
 				);
 				$hash = '';
 				if(!empty($queryStringAsHash))

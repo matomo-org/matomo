@@ -37,6 +37,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 			. "&period=" . $period
 			. "&date=" . $date
 			. "&token_auth=" . $token_auth
+			. "&segment=" . Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('segment', ''))
 			. "&filter_limit=-1";
 		
 		// definition of the color scale

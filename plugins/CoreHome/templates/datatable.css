@@ -538,7 +538,8 @@ table.dataTable th .columnDocumentationTitle {
 	padding: 0;
 	border-radius: 4px;
 	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px; 
+	-webkit-border-radius: 4px;
+	max-width: 500px; 
 }
 
 .reportDocumentation p {

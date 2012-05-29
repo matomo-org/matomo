@@ -277,6 +277,9 @@ class Piwik_Actions_API
 		return $this->doFilterPageDatatableSearch($callBackParameters, $table, $searchTree);
 	}
 
+	/**
+	 * This looks very similar to LabelFilter.php should it be refactored somehow? FIXME
+	 */
 	protected function doFilterPageDatatableSearch($callBackParameters, $table, $searchTree)
 	{
 		// filter a data table array
