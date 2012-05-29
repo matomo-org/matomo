@@ -556,8 +556,8 @@ class Piwik
 		}
 
 		// Allow/Deny lives in different modules depending on the Apache version
-		$allow = "<IfModule mod_access.c>\nAllow from all\n</IfModule>\n<IfModule mod_authz_host>\nAllow from all\n</IfModule>\n<IfModule mod_access_compat>\nAllow from all\n</IfModule>\n";
-		$deny = "<IfModule mod_access.c>\nDeny from all\n</IfModule>\n<IfModule mod_authz_host>\nDeny from all\n</IfModule>\n<IfModule mod_access_compat>\nDeny from all\n</IfModule>\n";
+		$allow = "<IfModule mod_access.c>\nAllow from all\n</IfModule>\n<IfModule !mod_access_compat>\n<IfModule mod_authz_host.c>\nAllow from all\n</IfModule>\n</IfModule>\n<IfModule mod_access_compat>\nAllow from all\n</IfModule>\n";
+		$deny = "<IfModule mod_access.c>\nDeny from all\n</IfModule>\n<IfModule !mod_access_compat>\n<IfModule mod_authz_host.c>\nDeny from all\n</IfModule>\n</IfModule>\n<IfModule mod_access_compat>\nDeny from all\n</IfModule>\n";
 
 		// more selective allow/deny filters
 		$allowAny = "<Files \"*\">\n".$allow."Satisfy any\n</Files>\n";
