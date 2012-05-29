@@ -638,7 +638,7 @@ select {
 table.entityTable tr td a {
 	text-decoration:underline;
 }
-.entityTable tr.highlight td {
+.entityTable tr.highlighted td {
 	background-color: #ECF9DD;
 }
 

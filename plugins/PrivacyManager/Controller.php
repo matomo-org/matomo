@@ -97,6 +97,10 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 		echo $view->render();
 	}
 
+	private function isDntSupport()
+	{
+		return Piwik_PluginsManager::getInstance()->isPluginActivated('DoNotTrack');
+	}
 	public function privacySettings()
 	{
 		Piwik::checkUserHasSomeAdminAccess();
@@ -109,6 +113,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 			$view->deleteData = $this->getDeleteDataInfo();
 			$view->deleteDbStats = $this->getDeleteDBSizeEstimate();
 			$view->anonymizeIP = $this->getAnonymizeIPInfo();
+			$view->dntSupport = $this->isDntSupport();
 		}
 		$view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
 

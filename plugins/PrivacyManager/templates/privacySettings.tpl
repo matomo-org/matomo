@@ -209,4 +209,31 @@ See also our official guide <b><a href='http://piwik.org/privacy/' target='_blan
 {'CoreAdminHome_OptOutExplanationBis'|translate:"<a href='$optOutUrl' target='_blank'>":"</a>"}
 </p>
 
+<a name="DNT"></a>
+<h2>{'PrivacyManager_DoNotTrack_SupportDNTPreference'|translate}</h2>
+
+<table class="adminTable" style='width:800px;'>
+	<tr>
+		<td width="650">
+			<p>{if $dntSupport}
+			{assign var=action value=deactivate}
+			<b>{'PrivacyManager_DoNotTrack_Enabled'|translate}</b> <br/>{'PrivacyManager_DoNotTrack_EnabledMoreInfo'|translate}
+			{else}
+			{assign var=action value=activate}
+			{'PrivacyManager_DoNotTrack_Disabled'|translate} {'PrivacyManager_DoNotTrack_DisabledMoreInfo'|translate}
+			{/if}</p>
+			<span style='margin-left:20px'>
+			<a href='{url module=CorePluginsAdmin token_auth=$token_auth action=$action pluginName=DoNotTrack}#DNT'>&rsaquo; 
+			{if $dntSupport}{'PrivacyManager_DoNotTrack_Disable'|translate} {'General_NotRecommended'|translate}
+			{else}{'PrivacyManager_DoNotTrack_Enable'|translate} {'General_Recommended'|translate}{/if} 
+			<br />
+			</a></span>
+		</td>
+		<td width="200">
+			{'PrivacyManager_DoNotTrack_Description'|translate|inlineHelp}
+		</td>
+	</tr>
+</table>
+
+<div style='height:100px'></div>
 {include file="CoreAdminHome/templates/footer.tpl"}
