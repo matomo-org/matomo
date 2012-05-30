@@ -883,7 +883,7 @@ abstract class Piwik_ArchiveProcessing
 									$sqlSegmentsFindArchiveAllPlugins
 									OR name = 'nb_visits')
 							$timeStampWhere
-						ORDER BY ts_archived DESC";
+						ORDER BY idarchive DESC";
 		$results = Piwik_FetchAll($sqlQuery, $bindSQL );
 		if(empty($results))
 		{
