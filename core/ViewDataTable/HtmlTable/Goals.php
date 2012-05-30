@@ -276,5 +276,6 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 			// this ensures that the value is set to zero for all rows where the value was not set (no conversion)
     		$this->dataTable->filter('ColumnCallbackReplace', array($columnName, create_function('$value', 'return $value;')));
 		}
+		return true;
 	}
 }

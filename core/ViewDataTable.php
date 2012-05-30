@@ -495,6 +495,7 @@ abstract class Piwik_ViewDataTable
 				$this->dataTable->filter($filterName, $filterParameters);
 			}
 		}
+		return true;
 	}
 	
 	/**

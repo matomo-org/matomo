@@ -720,12 +720,9 @@ class Piwik_Common
 		{
 			$value = self::sanitizeInputValue($value);
 
-			// Undo the damage caused by magic_quotes; deprecated in php 5.3 but not removed until php 5.4
-			if(!$alreadyStripslashed // a JSON array was already stripslashed, don't do it again for each value
-				&& version_compare(PHP_VERSION, '5.4', '<')
-				&& get_magic_quotes_gpc())
+			if(!$alreadyStripslashed) // a JSON array was already stripslashed, don't do it again for each value
 			{
-				$value = stripslashes($value);
+				$value = self::undoMagicQuotes($value);
 			}
 		}
 		elseif (is_array($value))
@@ -816,6 +813,20 @@ class Piwik_Common
 	}
 	
 	/**
+	 * Undo the damage caused by magic_quotes; deprecated in php 5.3 but not removed until php 5.4
+	 * 
+	 * @param string
+	 * @return string modified or not
+	 */
+	static public function undoMagicQuotes($value)
+	{
+		return version_compare(PHP_VERSION, '5.4', '<')
+				&& get_magic_quotes_gpc()
+				? stripslashes($value)
+				: $value;
+	}
+	
+	/**
 	 * Returns a sanitized variable value from the $_GET and $_POST superglobal.
 	 * If the variable doesn't have a value or an empty value, returns the defaultValue if specified.
 	 * If the variable doesn't have neither a value nor a default value provided, an exception is raised.
@@ -875,15 +886,8 @@ class Piwik_Common
 		// we deal w/ json differently
 		if ($varType == 'json')
 		{
-			if(version_compare(PHP_VERSION, '5.4', '<')
-				&& get_magic_quotes_gpc())
-			{
-				$value = Piwik_Common::json_decode(stripslashes($requestArrayToUse[$varName]), $assoc = true);
-			}
-			else
-			{
-				$value = Piwik_Common::json_decode($requestArrayToUse[$varName], $assoc = true);
-			}
+			$value = self::undoMagicQuotes($requestArrayToUse[$varName]);
+			$value = Piwik_Common::json_decode($value, $assoc = true);
 			return self::sanitizeInputValues($value, $alreadyStripslashed = true);
 		}
 		
