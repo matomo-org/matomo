@@ -51,7 +51,10 @@ class Test_Piwik_Integration_OneVisitor_NoKeywordSpecified extends Test_Integrat
     	$idSite = $this->idSite;
         $t = $this->getTracker($idSite, $dateTime, $defaultInit = true, $useThirdPartyCookie = 1);
         
-		$t->DEBUG_APPEND_URL = '&forceIpAnonymization=1';
+        // Also testing to record this as a bot while specifically allowing bots
+		$t->setUserAgent('Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)');
+		$t->DEBUG_APPEND_URL .= '&bots=1';
+		$t->DEBUG_APPEND_URL .= '&forceIpAnonymization=1';
         // VISIT 1 = Referrer is "Keyword not defined"
         // Alsotrigger goal to check that attribution goes to this keyword
         $t->setUrlReferrer( 'http://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0CC&url=http%3A%2F%2Fpiwik.org%2F&ei=&usg=');
@@ -65,7 +68,9 @@ class Test_Piwik_Integration_OneVisitor_NoKeywordSpecified extends Test_Integrat
         // in Live Output to point to google search result page
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(2)->getDatetime());
         $t->setUrlReferrer( 'http://www.google.com.vn/url?sa=t&rct=j&q=%3C%3E%26%5C%22the%20pdo%20extension%20is%20required%20for%20this%20adapter%20but%20the%20extension%20is%20not%20loaded&source=web&cd=4&ved=0FjAD&url=http%3A%2F%2Fforum.piwik.org%2Fread.php%3F2%2C1011&ei=y-HHAQ&usg=AFQjCN2-nt5_GgDeg&cad=rja');
+        
         $this->checkResponse($t->doTrackPageView( 'incredible title!'));
+        
 	}
 }
 

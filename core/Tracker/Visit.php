@@ -698,7 +698,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		 * As a result, these sophisticated bots exhibit characteristics of
 		 * browsers (cookies enabled, executing JavaScript, etc).
 		 */
-		if ( strpos($ua, 'Googlebot') !== false					// Googlebot
+		$allowBots = Piwik_Common::getRequestVar('bots', false) != false;
+		if ( !$allowBots
+			&& (strpos($ua, 'Googlebot') !== false					// Googlebot
 				|| strpos($ua, 'Google Web Preview') !== false	// Google Instant
 				|| strpos($ua, 'bingbot') !== false				// Bingbot
 				|| strpos($ua, 'YottaaMonitor') !== false		// Yottaa
@@ -715,7 +717,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 						'207.68.192.0/20',
 						// Chinese bot hammering websites
 						'1.202.218.8' 
-					))) 
+					)))) 
 		{
 			printDebug('Search bot detected, visit excluded');
 			$excluded = true;
