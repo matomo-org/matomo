@@ -874,7 +874,16 @@ class Piwik_Common
 		// we deal w/ json differently
 		if ($varType == 'json')
 		{
-			return self::sanitizeInputValues(Piwik_Common::json_decode(stripslashes($requestArrayToUse[$varName]), $assoc = true));
+			if(version_compare(PHP_VERSION, '5.4', '<')
+				&& get_magic_quotes_gpc())
+			{
+				$value = Piwik_Common::json_decode(stripslashes($requestArrayToUse[$varName]), $assoc = true);
+			}
+			else
+			{
+				$value = Piwik_Common::json_decode($requestArrayToUse[$varName], $assoc = true);
+			}
+			return self::sanitizeInputValues($value);
 		}
 		
 		$value = self::sanitizeInputValues( $requestArrayToUse[$varName] );
