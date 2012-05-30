@@ -2,6 +2,7 @@
 
 {literal}
 <script type="text/javascript">
+widgetsHelper.availableWidgets = {/literal}{$availableWidgets}{literal};
 $(document).ready(function() {
     initDashboard({/literal}{$dashboardId},{$dashboardLayout}{literal});
 });
