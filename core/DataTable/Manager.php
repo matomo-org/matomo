@@ -74,7 +74,7 @@ class Piwik_DataTable_Manager
 	{
 		if(!isset($this->tables[$idTable]))
 		{
-			throw new Exception(sprintf("This report has been reprocessed since your last click. Please increase the timeout value in seconds in Settings > General Settings. (error: id %s not found).", $idTable));
+			throw new Exception(sprintf("This report has been reprocessed since your last click. To see this error less often, please increase the timeout value in seconds in Settings > General Settings. (error: id %s not found).", $idTable));
 		}
 		return $this->tables[$idTable];
 	}
