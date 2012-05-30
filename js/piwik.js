@@ -374,7 +374,7 @@ if (!this.JSON2) {
 /*global _paq:true */
 /*members encodeURIComponent, decodeURIComponent, getElementsByTagName,
 	shift, unshift,
-	addEventListener, attachEvent, removeEventListener, detachEvent,
+	addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
 	cookie, domain, readyState, documentElement, doScroll, title, text,
 	location, top, document, referrer, parent, links, href, protocol, GearsFactory,
 	event, which, button, srcElement, type, target,
@@ -689,36 +689,6 @@ var
 		}
 
 		/*
-		 * Set cookie value
-		 */
-		function setCookie(cookieName, value, msToExpire, path, domain, secure) {
-			var expiryDate;
-
-			// relative time to expire in milliseconds
-			if (msToExpire) {
-				expiryDate = new Date();
-				expiryDate.setTime(expiryDate.getTime() + msToExpire);
-			}
-
-			documentAlias.cookie = cookieName + '=' + encodeWrapper(value) +
-				(msToExpire ? ';expires=' + expiryDate.toGMTString() : '') +
-				';path=' + (path || '/') +
-				(domain ? ';domain=' + domain : '') +
-				(secure ? ';secure' : '');
-		}
-
-		/*
-		 * Get cookie value
-		 */
-		function getCookie(cookieName) {
-			var cookiePattern = new RegExp('(^|;)[ ]*' + cookieName + '=([^;]*)'),
-
-				cookieMatch = cookiePattern.exec(documentAlias.cookie);
-
-			return cookieMatch ? decodeWrapper(cookieMatch[2]) : 0;
-		}
-
-		/*
 		 * UTF-8 encoding
 		 */
 		function utf8_encode(argString) {
@@ -1009,6 +979,9 @@ var
 				// Default is user agent defined.
 				configCookiePath,
 
+				// Cookies are disabled
+				configCookiesDisabled = false,
+
 				// Do Not Track
 				configDoNotTrack,
 
@@ -1066,6 +1039,42 @@ var
 
 				// Visitor UUID
 				visitorUUID;
+
+
+			/*
+			 * Set cookie value
+			 */
+			function setCookie(cookieName, value, msToExpire, path, domain, secure) {
+				if (configCookiesDisabled) {
+					return;
+				}
+				var expiryDate;
+
+				// relative time to expire in milliseconds
+				if (msToExpire) {
+					expiryDate = new Date();
+					expiryDate.setTime(expiryDate.getTime() + msToExpire);
+				}
+
+				documentAlias.cookie = cookieName + '=' + encodeWrapper(value) +
+					(msToExpire ? ';expires=' + expiryDate.toGMTString() : '') +
+					';path=' + (path || '/') +
+					(domain ? ';domain=' + domain : '') +
+					(secure ? ';secure' : '');
+			}
+
+			/*
+			 * Get cookie value
+			 */
+			function getCookie(cookieName) {
+				if (configCookiesDisabled) {
+					return 0;
+				}
+				var cookiePattern = new RegExp('(^|;)[ ]*' + cookieName + '=([^;]*)'),
+					cookieMatch = cookiePattern.exec(documentAlias.cookie);
+
+				return cookieMatch ? decodeWrapper(cookieMatch[2]) : 0;
+			}
 
 			/*
 			 * Removes hash tag from the URL
@@ -1213,9 +1222,11 @@ var
 			 * Does browser have cookies enabled (for this site)?
 			 */
 			function hasCookies() {
-				var testCookieName = getCookieName('testcookie');
-
+				if (configCookiesDisabled) {
+					return '0';
+				}
 				if (!isDefined(navigatorAlias.cookieEnabled)) {
+					var testCookieName = getCookieName('testcookie');
 					setCookie(testCookieName, '1');
 					return getCookie(testCookieName) === '1' ? '1' : '0';
 				}
@@ -1390,11 +1401,17 @@ var
 					campaignNameDetected,
 					campaignKeywordDetected;
 
+				if (configCookiesDisabled) {
+					// Temporarily allow cookies just to delete the existing ones
+					configCookiesDisabled = false;
+					setCookie(idname, '', -86400, configCookiePath, configCookieDomain);
+					setCookie(sesname, '', -86400, configCookiePath, configCookieDomain);
+					setCookie(cvarname, '', -86400, configCookiePath, configCookieDomain);
+					setCookie(refname, '', -86400, configCookiePath, configCookieDomain);
+					configCookiesDisabled = true;
+				}
+
 				if (configDoNotTrack) {
-					setCookie(idname, '', -1, configCookiePath, configCookieDomain);
-					setCookie(sesname, '', -1, configCookiePath, configCookieDomain);
-					setCookie(cvarname, '', -1, configCookiePath, configCookieDomain);
-					setCookie(refname, '', -1, configCookiePath, configCookieDomain);
 					return '';
 				}
 
@@ -2383,14 +2400,28 @@ var
 				},
 
 				/**
+				 * Disables all cookies from being set
+				 * Existing cookies will be deleted on the next call to track*
+				 * 
+				 */
+				disableCookies: function () {
+					configCookiesDisabled = true;
+					browserFeatures.cookie = '0';
+				},
+
+				/**
 				 * Handle do-not-track requests
 				 *
 				 * @param bool enable If true, don't track if user agent sends 'do-not-track' header
 				 */
 				setDoNotTrack: function (enable) {
 					var dnt = navigatorAlias.doNotTrack || navigatorAlias.msDoNotTrack;
-
 					configDoNotTrack = enable && (dnt === 'yes' || dnt === '1');
+
+					// do not track also disables cookies and deletes existing cookies
+					if (configDoNotTrack) {
+						this.disableCookies();
+					}
 				},
 
 				/**
