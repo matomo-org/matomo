@@ -733,14 +733,14 @@ class Piwik_Common
 			foreach (array_keys($value) as $key)
 			{
 				$newKey = $key;
-				$newKey = self::sanitizeInputValues($newKey);
+				$newKey = self::sanitizeInputValues($newKey, $alreadyStripslashed);
 				if ($key != $newKey)
 				{
 					$value[$newKey] = $value[$key];
 					unset($value[$key]);
 				}
 
-				$value[$newKey] = self::sanitizeInputValues($value[$newKey]);
+				$value[$newKey] = self::sanitizeInputValues($value[$newKey], $alreadyStripslashed);
 			}
 		}
 		elseif( !is_null($value)
