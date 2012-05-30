@@ -24,15 +24,24 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	private $errorMessages = array();
 	private $deactivatedPlugins = array();
 
+	static protected function getLatestZipUrl($newVersion)
+	{
+		if(@Piwik_Config::getInstance()->Debug['allow_upgrades_to_beta'])
+		{
+			return 'http://builds.piwik.org/piwik-'.$newVersion.'.zip';
+		}
+		return Piwik_Config::getInstance()->General['latest_version_url'];
+	}
 	public function newVersionAvailable()
 	{
 		Piwik::checkUserIsSuperUser();
+	
 		$newVersion = $this->checkNewVersionIsAvailableOrDie();
 
 		$view = Piwik_View::factory('update_new_version_available');
 		$view->piwik_version = Piwik_Version::VERSION;
 		$view->piwik_new_version = $newVersion;
-		$view->piwik_latest_version_url = Piwik_Config::getInstance()->General['latest_version_url'];
+		$view->piwik_latest_version_url = self::getLatestZipUrl($newVersion);
 		$view->can_auto_update = Piwik::canAutoUpdate();
 		$view->makeWritableCommands = Piwik::getAutoUpdateMakeWritableMessage();
 		echo $view->render();
@@ -45,7 +54,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
 		Piwik::setMaxExecutionTime(0);
 
-		$url = Piwik_Config::getInstance()->General['latest_version_url'];
+		$url = self::getLatestZipUrl($this->newVersion);
 		$steps = array(
 			array('oneClick_Download', Piwik_Translate('CoreUpdater_DownloadingUpdateFromX', $url)),
 			array('oneClick_Unpack', Piwik_Translate('CoreUpdater_UnpackingTheUpdate')),
@@ -103,7 +112,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		Piwik::checkDirectoriesWritableOrDie( array(self::PATH_TO_EXTRACT_LATEST_VERSION) );
 
 		// we catch exceptions in the caller (i.e., oneClickUpdate)
-		$url = Piwik_Config::getInstance()->General['latest_version_url'] . '?cb=' . $this->newVersion;
+		$url = self::getLatestZipUrl($this->newVersion) . '?cb=' . $this->newVersion;
 		$fetched = Piwik_Http::fetchRemoteFile($url, $this->pathPiwikZip);
 	}
 

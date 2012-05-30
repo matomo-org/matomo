@@ -48,6 +48,12 @@ class Piwik_UpdateCheck
 				. '/1.0/getLatestVersion/'
 				. '?' . http_build_query($parameters, '', '&');
 			$timeout = self::SOCKET_TIMEOUT;
+			
+			if(@Piwik_Config::getInstance()->Debug['allow_upgrades_to_beta'])
+			{
+				$url = 'http://builds.piwik.org/LATEST_BETA';
+			}
+			
 			try {
 				$latestVersion = Piwik_Http::sendHttpRequest($url, $timeout);
 				if (!preg_match('~^[0-9][0-9a-zA-Z_.-]*$~D', $latestVersion))

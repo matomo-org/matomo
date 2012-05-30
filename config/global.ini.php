@@ -61,6 +61,9 @@ disable_merged_assets = 0
 ; If set to 1, all requests to piwik.php will be forced to be 'new visitors'
 tracker_always_new_visitor = 0
 
+; Allow automatic upgrades to Beta or RC releases
+allow_upgrades_to_beta = 0
+
 [General]
 ; the following settings control whether Unique Visitors will be processed for different period types.
 ; year and range periods are disabled by default, to ensure optimal performance for high traffic Piwik instances
