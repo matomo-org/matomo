@@ -710,7 +710,7 @@ class Piwik_Common
 	 * @throws Exception
 	 * @return mixed The variable after cleaning
 	 */
-	static public function sanitizeInputValues($value)
+	static public function sanitizeInputValues($value, $alreadyStripslashed = false)
 	{
 		if(is_numeric($value))
 		{
@@ -721,7 +721,8 @@ class Piwik_Common
 			$value = self::sanitizeInputValue($value);
 
 			// Undo the damage caused by magic_quotes; deprecated in php 5.3 but not removed until php 5.4
-			if(version_compare(PHP_VERSION, '5.4', '<')
+			if(!$alreadyStripslashed // a JSON array was already stripslashed, don't do it again for each value
+				&& version_compare(PHP_VERSION, '5.4', '<')
 				&& get_magic_quotes_gpc())
 			{
 				$value = stripslashes($value);
@@ -883,7 +884,7 @@ class Piwik_Common
 			{
 				$value = Piwik_Common::json_decode($requestArrayToUse[$varName], $assoc = true);
 			}
-			return self::sanitizeInputValues($value);
+			return self::sanitizeInputValues($value, $alreadyStripslashed = true);
 		}
 		
 		$value = self::sanitizeInputValues( $requestArrayToUse[$varName] );
