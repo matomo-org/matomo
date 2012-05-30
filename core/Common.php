@@ -874,7 +874,7 @@ class Piwik_Common
 		// we deal w/ json differently
 		if ($varType == 'json')
 		{
-			return self::sanitizeInputValues(Piwik_Common::json_decode($requestArrayToUse[$varName], $assoc = true));
+			return self::sanitizeInputValues(Piwik_Common::json_decode(stripslashes($requestArrayToUse[$varName]), $assoc = true));
 		}
 		
 		$value = self::sanitizeInputValues( $requestArrayToUse[$varName] );
