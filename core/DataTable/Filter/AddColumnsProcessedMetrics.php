@@ -57,7 +57,11 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 			if($nbVisitsConverted > 0)
 			{
 				$conversionRate = round(100 * $nbVisitsConverted / $nbVisits, $this->roundPrecision);
-				$row->addColumn('conversion_rate', $conversionRate."%");
+				try {
+					$row->addColumn('conversion_rate', $conversionRate."%");
+				} catch(Exception $e) {
+					// conversion_rate can be defined upstream apparently? FIXME
+				}
 			}
 			
 			if($nbVisits == 0)

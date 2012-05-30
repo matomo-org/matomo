@@ -568,9 +568,9 @@ abstract class Piwik_Controller
 			$firstColumn = isset($view->period) && $view->period == 'day' ? $defaultMetricDay : $defaultMetric;
 			$columns = array($firstColumn);
 		}
-	
 		// displayed columns
-		if ($labelDisplayed)
+		if ($labelDisplayed 
+			&& !($view instanceof Piwik_ViewDataTable_GenerateGraphData))
 		{
 			array_unshift($columns, 'label');
 		}

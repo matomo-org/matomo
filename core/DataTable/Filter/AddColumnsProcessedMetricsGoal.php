@@ -183,7 +183,12 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 					}
 				}
 			}
-			$row->addColumns($newColumns);
+			
+			// conversion_rate can be defined upstream apparently? FIXME
+			try {
+				$row->addColumns($newColumns);
+			}catch(Exception $e) {
+			}
 		}
 		$expectedColumns['revenue_per_visit'] = true;
 		

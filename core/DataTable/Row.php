@@ -363,7 +363,14 @@ class Piwik_DataTable_Row
 	{
 		foreach($columns as $name => $value)
 		{
-			$this->addColumn($name, $value);
+			try {
+				$this->addColumn($name, $value); 
+			} catch(Exception $e) {
+			}
+		}
+		
+		if(!empty($e)) {
+			throw $e;
 		}
 	}
 	

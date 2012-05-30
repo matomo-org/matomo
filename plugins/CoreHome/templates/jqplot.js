@@ -132,13 +132,6 @@ JQPlot.prototype = {
 				dataTable.param.filter_sort_column = columns[0];
 			}
 			dataTable.param.disable_generic_filters = '0';
-			if (dataTable.param.viewDataTable == 'generateDataChartVerticalBar') {
-				dataTable.param.viewDataTable = 'graphVerticalBar';
-			} else if (dataTable.param.viewDataTable == 'generateDataChartPie') {
-				dataTable.param.viewDataTable = 'graphPie';
-			} else {
-				dataTable.param.viewDataTable = 'graphEvolution';
-			}
 			dataTable.reloadAjaxDataTable(false);
 		});
 		
