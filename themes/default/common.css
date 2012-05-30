@@ -16,7 +16,7 @@ form {margin: 0; }
 body {
 	line-height: 1.33;
 	background-color: white;
-	color: black;
+	color: #333;
 }
 ol,ul {
 	list-style: none;
