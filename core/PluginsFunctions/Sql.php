@@ -193,13 +193,13 @@ class Piwik_Sql
 		}
 		
 		$lockExprs = array();
-		foreach ($tablesToRead as $table)
-		{
-			$lockExprs[] = $table." READ";
-		}
 		foreach ($tablesToWrite as $table)
 		{
 			$lockExprs[] = $table." WRITE";
+		}
+		foreach ($tablesToRead as $table)
+		{
+			$lockExprs[] = $table." READ";
 		}
 		
 		return self::exec("LOCK TABLES ".implode(', ', $lockExprs));

@@ -457,7 +457,6 @@ abstract class Piwik_ArchiveProcessing
 	{
 		if (!Piwik::getArchiveProcessingLock($this->idsite, $this->period, $this->segment))
 		{
-			// unable to get lock
 			Piwik::log('Unable to get lock for idSite = ' . $this->idsite
 				. ', period = ' . $this->period->getLabel()
 				. ', UTC datetime [' . $this->startDatetimeUTC . ' -> ' . $this->endDatetimeUTC . ' ]...');
@@ -676,14 +675,17 @@ abstract class Piwik_ArchiveProcessing
 	protected function loadNextIdarchive()
 	{
 		$db = Zend_Registry::get('db');
-		$id = $db->fetchOne("SELECT max(idarchive) 
-							FROM ".$this->tableArchiveNumeric->getTableName());
-		if(empty($id))
-		{
-			$id = 0;
-		}
-		$this->idArchive = $id + 1;
+		$table = $this->tableArchiveNumeric->getTableName();
+		$locked = "locked_".Piwik_Common::generateUniqId();
 		
+		Piwik_LockTables("$table AS tb1", $table);
+		$db->exec("INSERT INTO $table "
+					." SELECT ifnull(max(idarchive),0)+1, '$locked','','','','','','' "
+					." FROM $table as tb1");		
+		Piwik_UnlockAllTables();
+        $id = $db->fetchOne("SELECT idarchive FROM $table WHERE name = ? LIMIT 1", $locked);
+
+		$this->idArchive = $id + 1;
 	}
 
 	/**
