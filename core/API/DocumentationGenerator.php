@@ -47,6 +47,9 @@ class Piwik_API_DocumentationGenerator
 	 */
 	public function getAllInterfaceString( $outputExampleUrls = true, $prefixUrls = '' )
 	{
+		if(!empty($prefixUrls)) {
+			$prefixUrls = 'http://demo.piwik.org/';
+		}
 		$str = $toc = '';
 		$token_auth = "&token_auth=" . Piwik::getCurrentUserTokenAuth();
 		$parametersToSet = array(

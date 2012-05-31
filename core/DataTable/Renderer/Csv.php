@@ -89,6 +89,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 	 */
 	function renderException()
 	{
+		@header('Content-Type: text/html; charset=utf-8');
 		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
 		return 'Error: '.$exceptionMessage;
 	}

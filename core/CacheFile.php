@@ -47,6 +47,9 @@ class Piwik_CacheFile
 	 */
 	function get($id)
 	{
+		if(empty($id)) {
+			return false;
+		}
 		$cache_complete = false;
 		$content = '';
 
@@ -69,6 +72,9 @@ class Piwik_CacheFile
 	 */
 	function set($id, $content)
 	{
+		if(empty($id)) {
+			return false;
+		}
 		if( !is_dir($this->cachePath))
 		{
 			Piwik_Common::mkdir($this->cachePath);
@@ -76,7 +82,7 @@ class Piwik_CacheFile
 		if (!is_writable($this->cachePath)) {
 			return false;
 		}
-
+	
 		$id = $this->cachePath . $id . '.php';
 
 		$cache_literal  = "<"."?php\n\n";
@@ -114,6 +120,9 @@ class Piwik_CacheFile
 	 */
 	function delete($id)
 	{
+		if(empty($id)) {
+			return false;
+		}
 		$filename = $this->cachePath . $id . '.php';
 		if (file_exists($filename)) {
 			@unlink ($filename);

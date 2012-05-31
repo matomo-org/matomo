@@ -171,6 +171,8 @@ class Piwik_Common
 	 */
 	static function getCacheWebsiteAttributes( $idSite )
 	{
+		$idSite = (int)$idSite;
+		
 		$cache = self::getTrackerCache();
 		if(($cacheContent = $cache->get($idSite)) !== false)
 		{
@@ -266,6 +268,7 @@ class Piwik_Common
 	 */
 	static public function deleteCacheWebsiteAttributes( $idSite )
 	{
+		$idSite = (int)$idSite;
 		$cache = new Piwik_CacheFile('tracker');
 		$cache->delete($idSite);
 	}
@@ -1881,12 +1884,4 @@ function destroy(&$var)
 	if (is_object($var)) $var->__destruct();
 	unset($var);
 	$var = null;
-}
-
-
-// http://bugs.php.net/bug.php?id=53632
-if (strpos(str_replace('.','',serialize($_REQUEST)), '22250738585072011') !== false)
-{
-  header('Status: 422 Unprocessable Entity');
-  die('Exit');
 }
