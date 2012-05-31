@@ -223,7 +223,6 @@ $(document).ready(function() {
 	function onDateRangeSelect(dateText, inst)
 	{
 		var toOrFrom = inst.id == 'calendarFrom' ? 'From' : 'To';
-		//alert(dateText + toOrFrom);
 		$('#inputCalendar'+toOrFrom).val(dateText);
 	}
 	 

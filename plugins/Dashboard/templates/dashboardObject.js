@@ -433,7 +433,6 @@
                     if (typeof piwikMenu != 'undefined') {
                         piwikMenu.activateMenu('Dashboard', 'embeddedIndex');
                     }
-                    console.log($('a', this).attr('dashboardId'));
                     $('.dashboardMenuItem').removeClass('sfHover');
                     if ($(dashboardElement).length) {
                         $(dashboardElement).dashboard('loadDashboard', $('a', this).attr('dashboardId'));
