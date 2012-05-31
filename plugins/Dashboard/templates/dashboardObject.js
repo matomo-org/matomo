@@ -86,12 +86,12 @@
          */
         loadDashboard: function(dashboardIdToLoad) {
 
-        	fetchLayout(generateLayout);
             $(dashboardElement).empty();
             dashboardName   = '';
             dashboardLayout = null;
             dashboardId     = dashboardIdToLoad;
             piwikHelper.showAjaxLoading();
+            fetchLayout(generateLayout);
             buildMenu();
             return this;
         },
@@ -433,6 +433,7 @@
                     if (typeof piwikMenu != 'undefined') {
                         piwikMenu.activateMenu('Dashboard', 'embeddedIndex');
                     }
+                    console.log($('a', this).attr('dashboardId'));
                     $('.dashboardMenuItem').removeClass('sfHover');
                     if ($(dashboardElement).length) {
                         $(dashboardElement).dashboard('loadDashboard', $('a', this).attr('dashboardId'));
