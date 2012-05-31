@@ -1067,15 +1067,17 @@ class Piwik_API_API
 		
 		$labels = explode(',', $label);
 		$labels = array_map('urldecode', $labels);
+		$labels = array_unique($labels);
 		
 		if (count($labels) > 1)
 		{
-			return $this->getMultiRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $labels, $segment, $column, $language);
+			$data = $this->getMultiRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $labels, $segment, $column, $language);
 		}
 		else
 		{
-			return $this->getSingleRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $labels[0], $segment, $language);
+			$data = $this->getSingleRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $labels[0], $segment, $language);
 		}
+		return $data;
 	}
 	
 	/**
@@ -1139,12 +1141,15 @@ class Piwik_API_API
 			$actualLabel = str_replace(Piwik_API_DataTableManipulator_LabelFilter::SEPARATOR_RECURSIVE_LABEL, ' - ', $label);
 		}
 		
-		return array(
+		$return = array(
 			'label' => $actualLabel,
-			'logo' => empty($logo) ? '' : $logo,
 			'reportData' => $dataTable,
 			'metadata' => $metadata
 		);
+		if(!empty($logo)){
+			$return['logo'] = $logo; 
+		} 
+		return $return;
 	}
 
 	/**
@@ -1249,7 +1254,12 @@ class Piwik_API_API
 		foreach ($metadata['metrics'] as $metric => $name)
 		{
 			$metricsResult[$metric] = array('name' => $name);
+			
+			if(!empty($metadata['logos'][$metric])) {
+				$metricsResult[$metric]['logo'] = $metadata['logos'][$metric]; 
+			}
 		}
+		unset($metadata['logos']);
 		
 		$subDataTables = $dataTable->getArray();
 		$firstDataTable = current($subDataTables);
@@ -1317,7 +1327,7 @@ class Piwik_API_API
 	/** Get row evolution for a multiple labels */
 	private function getMultiRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $labels, $segment, $column, $language=false)
 	{
-		$actualLabels = array();
+		$actualLabels = $logos = array();
 		
 		$metadata = $this->getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language);
 		
@@ -1334,6 +1344,7 @@ class Piwik_API_API
 		foreach ($labels as $labelIndex => $label)
 		{
 			$dataTable = $this->loadRowEvolutionDataFromAPI($idSite, $period, $date, $apiModule, $apiAction, $label, $segment);
+			
 			$dataTablesPerLabel[$labelIndex] = $dataTable->getArray();
 			if (!$dataTableMetadata)
 			{
@@ -1367,6 +1378,8 @@ class Piwik_API_API
 						$urlFound = true;
 					}
 					
+					// Forward the logo path to display logos in multi rows comparison
+					$logos[$labelIndex] = $firstRow->getMetadata('logo');
 					break;
 				}
 			}
@@ -1420,7 +1433,12 @@ class Piwik_API_API
 		$metadata['metrics'] = array();
 		foreach ($actualLabels as $labelIndex => $label) {
 			$label .= ' ('.$metadata['columns'][$column].')';
-			$metadata['metrics'][$column.'_'.$labelIndex] = $label;
+			$metricName = $column.'_'.$labelIndex;
+			$metadata['metrics'][$metricName] = $label;
+			
+			if(!empty($logos[$labelIndex])) {
+				$metadata['logos'][$metricName] = $logos[$labelIndex]; 
+			}
 		}
 		
 		$this->enhanceRowEvolutionMetaData($metadata, $dataTableMulti);

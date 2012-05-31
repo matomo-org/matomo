@@ -265,14 +265,18 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
 			}
 			
 			$color = $colors[ $i % count($colors) ];
-			
-			$metrics[] = array(
+			$newMetric = array(
 				'label' => $metricData['name'],
 				'color' => $color,
 				'details' => $details,
-				'sparkline' => $this->getSparkline($metric, $controller) 
+				'sparkline' => $this->getSparkline($metric, $controller),
 			);
-			
+			// Multi Rows, each metric can be for a particular row and display an icon
+			if(!empty($metricData['logo']))
+			{
+				$newMetric['logo'] = $metricData['logo'];
+			}
+			$metrics[] = $newMetric;
 			$i++;
 		}
 		

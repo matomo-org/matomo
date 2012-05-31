@@ -35,6 +35,14 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 	}
 
 	/**
+	 * Output HTTP Content-Type header
+	 */
+	protected function renderHeader()
+	{
+		@header('Content-Type: text/html; charset=utf-8');
+	}
+	
+	/**
 	 * Computes the dataTable output and returns the string/binary
 	 *
 	 * @return string

@@ -59,7 +59,8 @@ class Test_Piwik_Integration_RowEvolution extends Test_Integration_Facade
 		$keywords = "Google>".urlencode(strtolower($this->keywords[0]))
 					.',Google>'.urlencode(strtolower($this->keywords[1]))
 					.',Google>'.urlencode(strtolower($this->keywords[2]));
-		$config['otherRequestParameters']['label'] = urlencode($keywords);
+		// Test multiple labels search engines, Google should also have a 'logo' entry
+		$config['otherRequestParameters']['label'] = urlencode($keywords) . ",Google";
 		$return[] = array('API.getRowEvolution', $config);
 		
 		// Actions > Pages titles, standard label

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<label>www.referrer2.com</label>
-	<logo></logo>
 	<reportData>
 		<result date="2010-02-06" />
 		<result date="2010-02-07">
@@ -12,7 +11,7 @@
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>0</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
-				<idsubdatatable>47</idsubdatatable>
+				
 			</row>
 		</result>
 		<result date="2010-02-08" />
@@ -27,7 +26,7 @@
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>0</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
-				<idsubdatatable>217</idsubdatatable>
+				
 			</row>
 		</result>
 		<result date="2010-02-13" />
@@ -42,7 +41,7 @@
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>0</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
-				<idsubdatatable>387</idsubdatatable>
+				
 			</row>
 		</result>
 		<result date="2010-02-18" />
@@ -57,7 +56,7 @@
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>0</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
-				<idsubdatatable>557</idsubdatatable>
+				
 			</row>
 		</result>
 		<result date="2010-02-23" />
@@ -72,7 +71,7 @@
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>0</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
-				<idsubdatatable>727</idsubdatatable>
+				
 			</row>
 		</result>
 		<result date="2010-02-28" />
@@ -87,7 +86,7 @@
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>0</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
-				<idsubdatatable>897</idsubdatatable>
+				
 			</row>
 		</result>
 		<result date="2010-03-05" />

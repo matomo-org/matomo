@@ -2,7 +2,7 @@
 	<div class="popover-title">{'RowEvolution_MultiRowEvolutionTitle'|translate|escape:'html'}</div>
 	<div class="graph">
 		{$graph}
-	</div>
+	</div> 
 	<div class="metrics-container">
 		<h2>{$availableRecordsText|translate}</h2>
 		<table class="metrics" border="0" cellpadding="0" cellspacing="0">
@@ -12,7 +12,7 @@
 						{$metric.sparkline}
 					</td>
 					<td class="text">
-						<span style="color:{$metric.color}">{$metric.label|escape:'html'}</span><br />
+						{logoHtml metadata=$metric alt=""} <span style="color:{$metric.color}">{$metric.label|escape:'html'}</span><br />
 						<span class="details">{$metric.details}</span>
 					</td>
 				</tr>
