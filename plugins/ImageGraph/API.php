@@ -29,6 +29,8 @@ class Piwik_ImageGraph_API
 	const TRUNCATE_KEY = 'truncate';
 	const WIDTH_KEY = 'width';
 	const HEIGHT_KEY = 'height';
+	const MAX_WIDTH = 1024;
+	const MAX_HEIGHT = 1024; 
 
 	static private $DEFAULT_PARAMETERS = array(
 		Piwik_ImageGraph_StaticGraph::GRAPH_TYPE_BASIC_LINE => array(
@@ -180,11 +182,13 @@ class Piwik_ImageGraph_API
 			{
 				$width = self::$DEFAULT_PARAMETERS[$graphType][self::WIDTH_KEY];
 			}
-
 			if(empty($height))
 			{
 				$height = self::$DEFAULT_PARAMETERS[$graphType][self::HEIGHT_KEY];
 			}
+			// Cap width and height to a safe amount
+			$width = min($width, self::MAX_WIDTH);
+			$height = min($height, self::MAX_HEIGHT);
 
 			if($reportHasDimension)
 			{
