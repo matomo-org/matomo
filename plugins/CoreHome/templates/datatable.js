@@ -724,12 +724,15 @@ dataTable.prototype =
 		
 		var ul = $('div.tableConfiguration ul', domElem);
 		
-		if (ul.find('li').size() == 0 ||
-			!(self.param.viewDataTable == 'table' || self.param.viewDataTable == 'tableAllColumns'
-				|| self.param.viewDataTable == 'tableGoals'))
+		function hideConfigurationIcon()
 		{
 			// hide the icon when there are no actions available or we're not in a table view
 			$('div.tableConfiguration', domElem).remove();
+		}
+		
+		if (ul.find('li').size() == 0)
+		{
+			hideConfigurationIcon();
 			return;
 		}
 		
@@ -847,6 +850,15 @@ dataTable.prototype =
 		}
 		close();
 		
+		if(	!iconHighlighted
+			&& !(self.param.viewDataTable == 'table' 
+				|| self.param.viewDataTable == 'tableAllColumns'
+				|| self.param.viewDataTable == 'tableGoals'))
+		{
+			hideConfigurationIcon();
+			return;
+		}
+			
 		// fix a css bug of ie7
 		if (document.all && !window.opera && window.XMLHttpRequest)
 		{
