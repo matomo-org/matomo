@@ -261,7 +261,11 @@ class Piwik_FrontController
 			
 			if(!Piwik_Common::isPhpCliMode()
 				&& Piwik_Config::getInstance()->General['force_ssl'] == 1
-				&& !Piwik::isHttps())
+				&& !Piwik::isHttps()
+				// Specifically disable for the opt out iframe 
+				&& !(Piwik_Common::getRequestVar('module', '') == 'CoreAdminHome'
+					&& Piwik_Common::getRequestVar('action', '') == 'optOut')
+			)
 			{
 				$url = Piwik_Url::getCurrentUrl();
 				$url = str_replace("http://", "https://", $url);
