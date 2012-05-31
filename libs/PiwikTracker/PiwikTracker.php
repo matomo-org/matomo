@@ -261,7 +261,7 @@ class PiwikTracker
      * Records a Goal conversion
      * 
      * @param int $idGoal Id Goal to record a conversion
-     * @param int $revenue Revenue for this conversion
+     * @param float $revenue Revenue for this conversion
      * @return string Response
      */
     public function doTrackGoal($idGoal, $revenue = false)
@@ -487,7 +487,7 @@ class PiwikTracker
     /**
      * @see doTrackGoal()
      * @param int $idGoal Id Goal to record a conversion
-     * @param int $revenue Revenue for this conversion
+     * @param float $revenue Revenue for this conversion
      * @return string URL to piwik.php with all parameters set to track the goal conversion
      */
     public function getUrlTrackGoal($idGoal, $revenue = false)
