@@ -133,6 +133,10 @@ class Piwik_PluginsManager
 	{
 		$plugins = $this->pluginsToLoad;
 		$key = array_search($pluginName, $plugins);
+		
+		$plugin = $this->loadPlugin($pluginName);
+		$plugin->deactivate();
+		
 		if($key !== false)
 		{
 			unset($plugins[$key]);
@@ -194,6 +198,8 @@ class Piwik_PluginsManager
 
 		$this->installPluginIfNecessary($plugin);
 
+		$plugin->activate();
+		
 		// we add the plugin to the list of activated plugins
 		if(!in_array($pluginName, $plugins))
 		{
@@ -453,7 +459,8 @@ class Piwik_PluginsManager
 		try{
 			$plugin->install();
 		} catch(Exception $e) {
-			throw new Piwik_PluginsManager_PluginException($plugin->getPluginName(), $e->getMessage());		}
+			throw new Piwik_PluginsManager_PluginException($plugin->getPluginName(), $e->getMessage());		
+		}
 	}
 
 

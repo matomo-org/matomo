@@ -44,6 +44,16 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
 		);
 	}
 
+	function activate()
+	{
+		// Executed every time plugin is Enabled
+	}
+	
+	function deactivate()
+	{
+		// Executed every time plugin is disabled
+	}
+	
 	/**
 	 * @param Piwik_Event_Notification $notification  notification object
 	 */

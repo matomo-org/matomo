@@ -73,6 +73,22 @@ abstract class Piwik_Plugin
 	}
 	
 	/**
+	 * Executed every time the plugin is enabled
+	 */
+	public function activate()
+	{
+		return;
+	}
+	
+	/**
+	 * Executed every time the plugin is disabled
+	 */
+	public function deactivate()
+	{
+		return;
+	}
+	
+	/**
 	 * Returns the plugin version number
 	 *
 	 * @return string
