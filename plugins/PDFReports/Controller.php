@@ -50,8 +50,11 @@ class Piwik_PDFReports_Controller extends Piwik_Controller
 		$view->newColumnAfter = ceil(count($reportsByCategory) / $columnsCount);
 		$view->reportsByCategory = $reportsByCategory;
 		$view->reportsJSON = Piwik_Common::json_encode($reportsById);
-		$view->periods = array_merge(array('never' => Piwik_Translate('General_Never')),
+		$periods = array_merge(array('never' => Piwik_Translate('General_Never')),
 							Piwik_PDFReports_API::getPeriodToFrequency());
+		// Do not display date range in selector
+		unset($periods['range']);
+		$view->periods = $periods;
 		$view->defaultFormat = Piwik_PDFReports::DEFAULT_FORMAT;
 		$view->formats = Piwik_ReportRenderer::$availableReportRenderers;
 		$view->displayFormats = Piwik_PDFReports_API::getDisplayFormats();
