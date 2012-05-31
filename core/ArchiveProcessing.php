@@ -53,7 +53,13 @@ abstract class Piwik_ArchiveProcessing
 	 * @var int
 	 */
 	const DONE_OK_TEMPORARY = 3;
-
+	
+	/**
+	 * A row is created to lock an idarchive for the current archive being processed
+	 * @var string
+	 */
+	const PREFIX_SQL_LOCK = "locked_";
+	
 	/**
 	 * Idarchive in the DB for the requested archive
 	 *
@@ -554,7 +560,7 @@ abstract class Piwik_ArchiveProcessing
 		// delete the first done = ERROR 
 		$done = $this->getDoneStringFlag();
 		Piwik_Query("DELETE FROM ".$this->tableArchiveNumeric->getTableName()." 
-					WHERE idarchive = ? AND name = '".$done."'",
+					WHERE idarchive = ? AND (name = '".$done."' OR name LIKE '".self::PREFIX_SQL_LOCK."%')",
 					array($this->idArchive)
 		);
 		
@@ -667,6 +673,7 @@ abstract class Piwik_ArchiveProcessing
 		return $this->nb_visits_converted;
 	}
 	
+	
 	/**
 	 * Returns the idArchive we will use for the current archive
 	 *
@@ -676,7 +683,7 @@ abstract class Piwik_ArchiveProcessing
 	{
 		$db = Zend_Registry::get('db');
 		$table = $this->tableArchiveNumeric->getTableName();
-		$locked = "locked_".Piwik_Common::generateUniqId();
+		$locked = self::PREFIX_SQL_LOCK . Piwik_Common::generateUniqId();
 		
 		Piwik_LockTables("$table AS tb1", $table);
 		$db->exec("INSERT INTO $table "
@@ -685,7 +692,7 @@ abstract class Piwik_ArchiveProcessing
 		Piwik_UnlockAllTables();
         $id = $db->fetchOne("SELECT idarchive FROM $table WHERE name = ? LIMIT 1", $locked);
 
-		$this->idArchive = $id + 1;
+		$this->idArchive = $id;
 	}
 
 	/**
