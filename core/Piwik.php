@@ -50,7 +50,7 @@ class Piwik
 		$generalSettings = Piwik_Config::getInstance()->General;
 		
 		$settingName = "enable_processing_unique_visitors_$periodLabel";
-		$result = $generalSettings[$settingName] == 1;
+		$result = !empty($generalSettings[$settingName]) && $generalSettings[$settingName] == 1;
 		
 		// check enable_processing_unique_visitors_year_and_range for backwards compatibility
 		if (($periodLabel == 'year' || $periodLabel == 'range')
