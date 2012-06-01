@@ -97,7 +97,7 @@ class Piwik_ImageGraph_API
 	public function get($idSite, $period, $date, $apiModule, $apiAction, $graphType = false,
 						$outputType = Piwik_ImageGraph_API::GRAPH_OUTPUT_INLINE, $column = false, $showMetricTitle = true,
 						$width = false, $height = false, $fontSize = Piwik_ImageGraph_API::DEFAULT_FONT_SIZE, $aliasedGraph = true,
-						$colors = false)
+						$idGoal = false, $colors = false)
 	{
 		Piwik::checkUserHasViewAccess($idSite);
 
@@ -257,10 +257,9 @@ class Piwik_ImageGraph_API
 				$apiAction,
 				$segment = false,
 				$apiParameters = false, 
-				$idGoal = false, 
+				$idGoal, 
 				$languageLoaded
 			);
-
 			// prepare abscissa and ordinate series
 			$abscissaSerie = array();
 			$ordinateSerie = array();
@@ -381,9 +380,6 @@ class Piwik_ImageGraph_API
 		switch($outputType)
 		{
 			case self::GRAPH_OUTPUT_FILE:
-
-				// adding the idGoal to the filename
-				$idGoal = Piwik_Common::getRequestVar('idGoal', '', 'string');
 				if($idGoal != '')
 				{
 					$idGoal = '_' . $idGoal;
