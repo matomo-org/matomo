@@ -684,10 +684,17 @@ abstract class Piwik_ArchiveProcessing
 		$db = Zend_Registry::get('db');
 		$table = $this->tableArchiveNumeric->getTableName();
 		$locked = self::PREFIX_SQL_LOCK . Piwik_Common::generateUniqId();
-		
+		$date = date("Y-m-d H:i:s");
 		Piwik_LockTables("$table AS tb1", $table);
 		$db->exec("INSERT INTO $table "
-					." SELECT ifnull(max(idarchive),0)+1, '$locked',".(int)$this->idsite.",'','',0,'',0 "
+					." SELECT ifnull(max(idarchive),0)+1, 
+								'".$locked."',
+								".(int)$this->idsite.",
+								'".$date."',
+								'".$date."',
+								0,
+								'".$date."',
+								0 "
 					." FROM $table as tb1");		
 		Piwik_UnlockAllTables();
         $id = $db->fetchOne("SELECT idarchive FROM $table WHERE name = ? LIMIT 1", $locked);
