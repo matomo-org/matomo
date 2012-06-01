@@ -124,7 +124,8 @@ class Piwik_ImageGraph_API
 		try
 		{
 			//Fetch the metadata for given api-action
-			$metadata = Piwik_API_API::getInstance()->getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $languageLoaded, $period, $date);
+			$apiParameters = array( 'idGoal' => $idGoal);
+			$metadata = Piwik_API_API::getInstance()->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $languageLoaded, $period, $date);
 			if(!$metadata)
 			{
 				throw new Exception('Invalid API Module and/or API Action');
