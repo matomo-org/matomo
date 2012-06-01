@@ -685,9 +685,18 @@ abstract class Piwik_ArchiveProcessing
 		$table = $this->tableArchiveNumeric->getTableName();
 		$locked = self::PREFIX_SQL_LOCK . Piwik_Common::generateUniqId();
 		
+		idarchive INTEGER UNSIGNED NOT NULL,
+									  name VARCHAR(255) NOT NULL,
+									  idsite INTEGER UNSIGNED NULL,
+									  date1 DATE NULL,
+								  	  date2 DATE NULL,
+									  period TINYINT UNSIGNED NULL,
+								  	  ts_archived DATETIME NULL,
+								  	  value FLOAT NULL,
+								  	  
 		Piwik_LockTables("$table AS tb1", $table);
 		$db->exec("INSERT INTO $table "
-					." SELECT ifnull(max(idarchive),0)+1, '$locked','','','','','','' "
+					." SELECT ifnull(max(idarchive),0)+1, '$locked',".(int)$this->idsite.",'','',0,'',0 "
 					." FROM $table as tb1");		
 		Piwik_UnlockAllTables();
         $id = $db->fetchOne("SELECT idarchive FROM $table WHERE name = ? LIMIT 1", $locked);
