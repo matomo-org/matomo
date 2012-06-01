@@ -1383,7 +1383,8 @@ abstract class Piwik_ViewDataTable
 			$reportYear = $reportDate->toString('Y');
 			$reportMonth = $reportDate->toString('m');
 			
-			if (Piwik_PrivacyManager::shouldReportBePurged($reportYear, $reportMonth))
+			if (class_exists('Piwik_PrivacyManager')
+				&& Piwik_PrivacyManager::shouldReportBePurged($reportYear, $reportMonth))
 			{
 				return true;
 			}
