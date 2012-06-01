@@ -1,4 +1,3 @@
-
 {include file="Dashboard/templates/header.tpl"}
 <div id="menuHead">
     {include file="CoreHome/templates/period_select.tpl"}

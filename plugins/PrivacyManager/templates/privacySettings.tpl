@@ -195,19 +195,7 @@ See also our official guide <b><a href='http://piwik.org/privacy/' target='_blan
 	<input type="button" value="{'General_Save'|translate}" id="deleteLogSettingsSubmit" class="submit"/>
 </form>
 
-{/if}
 
-<a name="optOutAnchor"></a>
-<h2>{'CoreAdminHome_OptOutForYourVisitors'|translate}</h2>
-<p>{'CoreAdminHome_OptOutExplanation'|translate}
-{capture name=optOutUrl}{$piwikUrl}index.php?module=CoreAdminHome&action=optOut&language={$language}{/capture}
-{assign var=optOutUrl value=$smarty.capture.optOutUrl}
-{capture name=iframeOptOut}
-<iframe frameborder="no" width="600px" height="200px" src="{$smarty.capture.optOutUrl}"></iframe>{/capture}
-<code>{$smarty.capture.iframeOptOut|escape:'html'}</code>
-<br/>
-{'CoreAdminHome_OptOutExplanationBis'|translate:"<a href='$optOutUrl' target='_blank'>":"</a>"}
-</p>
 
 <a name="DNT"></a>
 <h2>{'PrivacyManager_DoNotTrack_SupportDNTPreference'|translate}</h2>
@@ -234,6 +222,20 @@ See also our official guide <b><a href='http://piwik.org/privacy/' target='_blan
 		</td>
 	</tr>
 </table>
+
+{/if}
+
+<a name="optOutAnchor"></a>
+<h2>{'CoreAdminHome_OptOutForYourVisitors'|translate}</h2>
+<p>{'CoreAdminHome_OptOutExplanation'|translate}
+{capture name=optOutUrl}{$piwikUrl}index.php?module=CoreAdminHome&action=optOut&language={$language}{/capture}
+{assign var=optOutUrl value=$smarty.capture.optOutUrl}
+{capture name=iframeOptOut}
+<iframe frameborder="no" width="600px" height="200px" src="{$smarty.capture.optOutUrl}"></iframe>{/capture}
+<code>{$smarty.capture.iframeOptOut|escape:'html'}</code>
+<br/>
+{'CoreAdminHome_OptOutExplanationBis'|translate:"<a href='$optOutUrl' target='_blank'>":"</a>"}
+</p>
 
 <div style='height:100px'></div>
 {include file="CoreAdminHome/templates/footer.tpl"}

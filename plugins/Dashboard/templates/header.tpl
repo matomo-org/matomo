@@ -6,6 +6,9 @@
 <title>{'General_Dashboard'|translate} - {'CoreHome_WebAnalyticsReports'|translate}</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 {loadJavascriptTranslations plugins='CoreHome Dashboard'}
+<!--[if lt IE 9]>
+<script language="javascript" type="text/javascript" src="libs/jqplot/excanvas.min.js"></script>
+<![endif]-->
 {include file="CoreHome/templates/js_global_variables.tpl"}
 {include file="CoreHome/templates/js_css_includes.tpl"}
 {literal}
