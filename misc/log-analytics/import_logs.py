@@ -972,6 +972,7 @@ class Recorder(object):
             args['_cvar'] = '{"1":["Bot","%s"]}' % hit.user_agent
         elif config.options.enable_bots:
             args['_cvar'] = '{"1":["Not-Bot","%s"]}' % hit.user_agent
+            args['bots'] = '1'
         if hit.is_error or hit.is_redirect:
             args['_cvar'] = '{"2":["HTTP-code","%s"]}' % hit.status
             args['action_name'] = '%s/URL = %s%s' % (
