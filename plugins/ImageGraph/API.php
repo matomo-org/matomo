@@ -325,7 +325,7 @@ class Piwik_ImageGraph_API
 
 						$hasData = true;
 
-						if($parsedOrdinateValue != 0)
+						if(!empty($parsedOrdinateValue))
 						{
 							$hasNonZeroValue = true;
 						}
@@ -341,7 +341,6 @@ class Piwik_ImageGraph_API
 					$ordinateSerie[] = $parsedOrdinateValue;
 				}
 			}
-
 			if(!$hasData || !$hasNonZeroValue)
 			{
 				throw new Exception(Piwik_Translate('General_NoDataForGraph'));
@@ -424,6 +423,8 @@ class Piwik_ImageGraph_API
 			$ordinateValue = ($hour * 3600) + ($min * 60) + $sec;
 		}
 
+		// OK, only numbers from here please (strip out currency sign)
+		$ordinateValue = preg_replace('/[^0-9.]/', '', $ordinateValue);
 		return $ordinateValue;
 	}
 
