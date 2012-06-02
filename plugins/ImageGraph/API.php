@@ -123,8 +123,11 @@ class Piwik_ImageGraph_API
 
 		try
 		{
-			//Fetch the metadata for given api-action
-			$apiParameters = array( 'idGoal' => $idGoal);
+			$apiParameters = array();
+			if(!empty($idGoal)) {
+				$apiParameters = array( 'idGoal' => $idGoal);
+			}
+			// Fetch the metadata for given api-action
 			$metadata = Piwik_API_API::getInstance()->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $languageLoaded, $period, $date);
 			if(!$metadata)
 			{
@@ -179,6 +182,8 @@ class Piwik_ImageGraph_API
 				}
 			}
 
+			$width = (int)$width;
+			$height = (int)$height;
 			if(empty($width))
 			{
 				$width = self::$DEFAULT_PARAMETERS[$graphType][self::WIDTH_KEY];
