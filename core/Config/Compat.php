@@ -49,7 +49,7 @@ class Piwik_Config_Compat_Array
 	 */
 	public function __get($name)
 	{
-		$tmp = $this->data[$name];
+		$tmp = isset($this->data[$name]) ? $this->data[$name] : false;
 		return is_array($tmp) ? new Piwik_Config_Compat_Array($this, $tmp) : $tmp;
 	}
 
