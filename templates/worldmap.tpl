@@ -35,8 +35,17 @@
 
         function renderCountryMap(iso) {
             map.loadMap(__svgBasePath + iso + '.svg', function() {
-                var ratio = map.viewAB.width / map.viewAB.height;
-                map.container.height(map.container.width() / ratio);
+
+                var ratio, w, h;
+
+                map.clear();
+
+                ratio = map.viewAB.width / map.viewAB.height;
+                w = map.container.width();
+                h = w / ratio;
+                map.container.height(h);
+                map.resize(w, h);
+
                 map.addLayer('context');
                 map.addLayer('center');
             });
