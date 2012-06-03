@@ -34,7 +34,6 @@ class Piwik_UserCountryMap extends Piwik_Plugin
 
     public function getListHooksRegistered()
     {
-        die("hoo");
         $hooks = array(
             'AssetManager.getJsFiles' => 'getJsFiles'
         );
@@ -46,6 +45,7 @@ class Piwik_UserCountryMap extends Piwik_Plugin
      */
     public function getJsFiles($notification)
     {
+        die("foo");
         $jsFiles = &$notification->getNotificationObject();
 
         $jsFiles[] = "plugins/UserCountryMap/js/vendor/raphael-min.js";
