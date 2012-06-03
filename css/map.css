@@ -21,5 +21,5 @@
 #UserCountryMap_map svg .regions {
     stroke: #3C6FB6;
     fill: #B7CCE5;
-    stroke-width: 5px;
+    stroke-width: 1px;
 }
