@@ -1,7 +1,7 @@
 <div id="UserCountryMap_content" style="position:relative; overflow:hidden;">
     <div id="UserCountryMap_container">
         <div id="UserCountryMap_map"></div>
-        <div id="UserCountryMap_overlay" style="position: absolute; top: 10px; left:10px;">
+        <div id="UserCountryMap_overlay" style="position: absolute; top: 10px; left:10px;z-index:1000;padding:5px;border-radius:3px;background:rgba(255,255,255,0.5)">
             <div class="county-name" style="font-weight:bold; color:#9A9386;">Deutschland</div>
             <div class="county-stats" style="color:#565656;"><b>1.234</b> Visits total</div>
         </div>
