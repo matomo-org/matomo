@@ -10,7 +10,7 @@
         <div class="dataTableFooterIcons">
             <div class="dataTableFooterWrap" var="graphVerticalBar">
                 <img class="dataTableFooterActiveItem" src="{$piwikUrl}themes/default/images/data_table_footer_active_item.png" style="left: 67px;">
-                <select id="userCountryMapSelectMetrics" style="float:left; width:15em">
+                <select id="userCountryMapSelectMetrics" style="float:left; width:15em;margin-left:0;margin-bottom:5px;margin-right:5px;">
                     {foreach from=$metrics item=metric}
                         <option value="{$metric[0]}" {if $metric[0] == $defaultMetric}selected="selected"{/if}>{$metric[1]}</option>
                     {/foreach}
