@@ -1,6 +1,9 @@
 <div id="UserCountryMap_content" style="position:relative; overflow:hidden;">
     <div id="UserCountryMap_container">
         <div id="UserCountryMap_map"></div>
+        <div id="UserCountryMap_overlay" style="position: absolute; top: 10px; left:10px;">
+            <div class="county-name" style="font-weight:bold; color:#9A9386;">Deutschland</div>
+        </div>
     </div>
     <div class="dataTableFeatures" style="padding-top:0px">
         <span class="loadingPiwik">
