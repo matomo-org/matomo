@@ -184,8 +184,22 @@ class Piwik_Installation_FormDatabaseSetup_Rule_checkUserPrivileges extends HTML
 		
 		$db = Zend_Registry::get('db');
 		
-		// try to drop tables before running privilege tests
-		$this->dropExtraTables($db);
+		try
+		{
+			// try to drop tables before running privilege tests
+			$this->dropExtraTables($db);
+		}
+		catch (Exception $ex)
+		{
+			if ($this->isAccessDenied($ex))
+			{
+				return false;
+			}
+			else
+			{
+				throw $ex;
+			}
+		}
 		
 		// check each required privilege by running a query that uses it
 		foreach (self::getRequiredPrivileges() as $privilegeType => $queries)
