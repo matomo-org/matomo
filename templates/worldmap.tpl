@@ -47,18 +47,26 @@
                 map.container.height(h);
                 map.resize(w, h);
 
-                map.addLayer('context');
+                // add background
+                map.addLayer({ id: 'context', key: 'iso' });
+                map.addLayer({ id: "regions", className: "regionBG" });
+                map.addLayer('regions');
 
                 // add click events for surrounding countries
-                map.onLayerEvent('click', function(e, b) {
-                    console.log(e, b);
+                map.onLayerEvent('click', function(path) {
+                    renderCountryMap(path.iso);
                 }, 'context');
 
-                map.addLayer({
-                    id: "regions",
-                    className: "regionBG"
+                map.addSymbols({
+                    data: map.getLayer('context').getPathsData(),
+                    type: $K.Label,
+                    location: function(data) {
+                        return data.iso;
+                    },
+                    text: function(data) {
+                        return data.iso;
+                    };
                 });
-                map.addLayer('regions');
 
             }, { padding: -2 });
         }
