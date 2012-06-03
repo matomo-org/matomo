@@ -33,11 +33,13 @@
 
         function renderCountryMap(iso) {
             map = $K.map('#UserCountryMap_map');
-            map.loadMap(__svgBasePath + 'DEU.svg', function() {
+            map.loadMap(__svgBasePath + iso + '.svg', function() {
                 map.addLayer('context');
                 map.addLayer('center');
             });
         }
+
+        renderCountryMap('DEU');
     });
 
 {/literal}
