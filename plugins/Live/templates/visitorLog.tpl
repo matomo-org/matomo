@@ -295,9 +295,9 @@
 <style type="text/css">
 hr {
 	background:none repeat scroll 0 0 transparent;
-	border: 0 none -moz-use-text-color;
-	border-bottom: 1px solid #EEEEEE;
-	color:#CCCCCC;
+	border: 0 none #000;
+	border-bottom: 1px solid #ccc;
+	color:#eee;
 	margin:0 2em 0.5em;
 	padding:0 0 0.5em;
 }
