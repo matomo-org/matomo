@@ -48,11 +48,18 @@
                 map.resize(w, h);
 
                 map.addLayer('context');
+
+                // add click events for surrounding countries
+                map.onLayerEvent('click', function(e, b) {
+                    console.log(e, b);
+                }, 'context');
+
                 map.addLayer({
                     id: "regions",
                     className: "regionBG"
                 });
                 map.addLayer('regions');
+
             }, { padding: -2 });
         }
 
