@@ -77,7 +77,7 @@
 			</td>
 			<td>
 				<h2>{'General_Reports'|translate}</h2>
-				<div class="ajaxLoad" href="/index.php?module=DBStats&action=getIndividualReportsSummary&viewDataTable=table">
+				<div class="ajaxLoad" href="index.php?module=DBStats&action=getIndividualReportsSummary&viewDataTable=table">
 					<span class="loadingPiwik"><img src="themes/default/images/loading-blue.gif" />{'General_LoadingData'|translate}</span>
  				</div>
 			</td>
@@ -95,7 +95,7 @@
 			</td>
 			<td>
 				<h2>{'General_Metrics'|translate}</h2>
-				<div class="ajaxLoad" href="/index.php?module=DBStats&action=getIndividualMetricsSummary&viewDataTable=table">
+				<div class="ajaxLoad" href="index.php?module=DBStats&action=getIndividualMetricsSummary&viewDataTable=table">
 					<span class="loadingPiwik"><img src="themes/default/images/loading-blue.gif" />{'General_LoadingData'|translate}</span>
 				</div>
 			</td>
