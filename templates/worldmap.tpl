@@ -15,11 +15,14 @@
 
 <!-- piwik-map.js -->
 <script type="text/javascript">
+{literal}
+
     $(function() {
         var main = $('#UserCountryMap_map');
         main.html('Hello World');
     });
 
+{/literal}
 </script>
 <!--<script type="text/javascript">
 {literal}
