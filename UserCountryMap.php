@@ -27,15 +27,24 @@ class Piwik_UserCountryMap extends Piwik_Plugin
         );
     }
 
-    function postLoad()
+    public function postLoad()
     {
         Piwik_AddWidget('General_Visitors', Piwik_Translate('UserCountry_WidgetCountries').' ('.Piwik_Translate('UserCountryMap_worldMap').')', 'UserCountryMap', 'worldMap');
+    }
+
+    public function getListHooksRegistered()
+    {
+        return array(
+            'AssetManager.getJsFiles' => 'getJsFiles',
+            'AssetManager.getCssFiles' => 'getCssFiles',
+            'TopMenu.add' => 'addTopMenu',
+        );
     }
 
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getJsFiles($notification)
+    public function getJsFiles($notification)
     {
         $jsFiles = &$notification->getNotificationObject();
 
