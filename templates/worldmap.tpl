@@ -9,6 +9,7 @@
             {/foreach}
         </select>
         <input id="userCountryMapInsertID" style="float:left; width:2em" placeholder="country code" />
+        <button id="userCountryMap-update" style="float:left">update</button>
     </div>
 </div>
 
