@@ -27,12 +27,14 @@
 {literal}
 
     $(function() {
-        var main = $('#UserCountryMap_container');
+        var map = $K.map('#UserCountryMap_map'),
+            main = $('#UserCountryMap_container');
         main.height(400);
         //main.html('Hello World');
 
+        window.__userCountryMap = map;
+
         function renderCountryMap(iso) {
-            map = $K.map('#UserCountryMap_map');
             map.loadMap(__svgBasePath + iso + '.svg', function() {
                 map.addLayer('context');
                 map.addLayer('center');
