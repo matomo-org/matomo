@@ -13,8 +13,15 @@
     </div>
 </div>
 
-<script type="text/javascript" src=""></script>
+<!-- piwik-map.js -->
 <script type="text/javascript">
+    $(function() {
+        var main = $('#UserCountryMap_map');
+        main.html('Hello World');
+    });
+
+</script>
+<!--<script type="text/javascript">
 {literal}
 
 
@@ -84,4 +91,4 @@
         }
     });
 {/literal}
-</script>
+</script>-->
