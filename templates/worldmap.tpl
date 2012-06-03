@@ -3,15 +3,19 @@
         <div id="UserCountryMap_map"></div>
     </div>
     <div style="height:3px"></div>
-
-    <div class="userCountryMap-controls" style="padding-left:5px">
-        <select id="userCountryMapSelectMetrics" style="float:left; width:15em">
-            {foreach from=$metrics item=metric}
-                <option value="{$metric[0]}" {if $metric[0] == $defaultMetric}selected="selected"{/if}>{$metric[1]}</option>
-            {/foreach}
-        </select>
-        <input id="userCountryMapInsertID" style="float:left; width:5em" placeholder="country code" />
-        <button id="userCountryMap-update" style="float:left">update</button>
+    <div class="dataTableFeatures">
+        <span class="loadingPiwik">
+            <img src="{$piwikUrl}themes/default/images/loading-blue.gif"> Loading data...
+        </span>
+        <div class="dataTableFooterIcons">
+            <select id="userCountryMapSelectMetrics" style="float:left; width:15em">
+                {foreach from=$metrics item=metric}
+                    <option value="{$metric[0]}" {if $metric[0] == $defaultMetric}selected="selected"{/if}>{$metric[1]}</option>
+                {/foreach}
+            </select>
+            <input id="userCountryMapInsertID" style="float:left; width:5em" placeholder="country code" />
+            <button id="userCountryMap-update" style="float:left">update</button>
+        </div>
     </div>
 </div>
 
