@@ -18,6 +18,7 @@
 <!-- configure some piwik vars -->
 <script type="text/javascript">
 
+    window.__mapCssPath = "{$piwikUrl}plugins/UserCountryMap/css/map.css";
     window.__svgBasePath = "{$piwikUrl}plugins/UserCountryMap/svg/";
 
 </script>
@@ -47,15 +48,21 @@
                 map.resize(w, h);
 
                 map.addLayer('context');
+                map.addLayer({
+                    id: "regions",
+                    className: "regionBG"
+                });
                 map.addLayer('regions');
             }, { padding: -2 });
         }
 
-        renderCountryMap('DEU');
-
-        $('#userCountryMap-update').click(function() {
-            renderCountryMap($('#userCountryMapInsertID').val());
+        map.loadStyles(__mapCssPath, function() {
+            renderCountryMap('DEU');
+            $('#userCountryMap-update').click(function() {
+                renderCountryMap($('#userCountryMapInsertID').val());
+            });
         });
+
     });
 
 {/literal}

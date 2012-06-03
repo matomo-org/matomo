@@ -1,0 +1,25 @@
+/*
+ * Stylesheets for UserCountryMap
+ */
+
+#UserCountryMap_map svg path {
+    stroke-linejoin: round;
+}
+
+#UserCountryMap_map svg .context {
+    stroke: #BBBBBB;
+    fill: #eee;
+    stroke-width: 0.5px;
+}
+
+#UserCountryMap_map svg .regionBG {
+    stroke: #fff;
+    fill: #fff;
+    stroke-width: 5px;
+}
+
+#UserCountryMap_map svg .regions {
+    stroke: #3C6FB6;
+    fill: #B7CCE5;
+    stroke-width: 5px;
+}
