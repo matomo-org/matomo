@@ -8,11 +8,22 @@
             <img src="{$piwikUrl}themes/default/images/loading-blue.gif"> Loading data...
         </span>
         <div class="dataTableFooterIcons">
-            <select id="userCountryMapSelectMetrics" style="float:left; width:15em">
-                {foreach from=$metrics item=metric}
-                    <option value="{$metric[0]}" {if $metric[0] == $defaultMetric}selected="selected"{/if}>{$metric[1]}</option>
-                {/foreach}
-            </select>
+            <div class="dataTableFooterWrap" var="graphVerticalBar">
+                <img class="dataTableFooterActiveItem" src="{$piwikUrl}themes/default/images/data_table_footer_active_item.png" style="left: 67px;">
+                <select id="userCountryMapSelectMetrics" style="float:left; width:15em">
+                    {foreach from=$metrics item=metric}
+                        <option value="{$metric[0]}" {if $metric[0] == $defaultMetric}selected="selected"{/if}>{$metric[1]}</option>
+                    {/foreach}
+                </select>
+                <div class="tableIconsGroup">
+                    <span class="tableAllColumnsSwitch">
+                        <a var="world" format="table" class="tableIcon activeIcon"><img src="{$piwikUrl}themes/default/images/table.png" title="Display simple table"></a>
+                        <a var="tableAllColumns" format="tableAllColumns" class="tableIcon"><img src="{$piwikUrl}themes/default/images/table_more.png" title="Display a table with more metrics"></a>
+                        <a var="tableGoals" format="tableGoals" class="tableIcon"><img src="{$piwikUrl}themes/default/images/goal.png" title="Display a table with Goals metrics"></a>
+                    </span>
+                </div>
+            </div>
+           
             <input id="userCountryMapInsertID" style="float:left; width:5em" placeholder="country code" />
             <button id="userCountryMap-update" style="float:left">update</button>
         </div>
