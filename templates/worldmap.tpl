@@ -1,5 +1,5 @@
 <div id="UserCountryMap_content" style="position:relative; overflow:hidden;">
-    <div id="UserCountryMap_map"></div>
+    <div id="UserCountryMap_map">Foo</div>
     <div style="height:3px"></div>
     <select id="userCountryMapSelectMetrics" style="position:absolute; left: 5px; bottom: 0;">
         {foreach from=$metrics item=metric}
@@ -8,6 +8,7 @@
     </select>
 </div>
 
+<script type="text/javascript" src=""></script>
 <script type="text/javascript">
 {literal}
 
@@ -49,12 +50,8 @@
 
 {literal}
 
-    var attr = { id:"UserCountryMap" };
 {/literal}
-    swfobject.embedSWF("plugins/UserCountryMap/PiwikMap.swf?cb={$cacheBuster}", "UserCountryMap_map", 
-        "100%", Math.round($('#UserCountryMap_content').width() *.55), "10.0.0", 
-        "libs/swfobject/expressInstall.swf", fv, params, attr
-    );
+
 {literal}
 
 
