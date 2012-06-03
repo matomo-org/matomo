@@ -23,3 +23,10 @@
     fill: #B7CCE5;
     stroke-width: 1px;
 }
+
+#UserCountryMap_map svg .countryLabel {
+    font-family: Arial,Verdana,Helvetica,sans-serif;
+    fill: #666;
+    font-size: 10px;
+}
+

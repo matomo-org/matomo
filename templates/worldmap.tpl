@@ -60,12 +60,10 @@
                 map.addSymbols({
                     data: map.getLayer('context').getPathsData(),
                     type: $K.Label,
-                    location: function(data) {
-                        return 'context.'+data.iso;
-                    },
-                    text: function(data) {
-                        return data.iso;
-                    }
+                    filter: function(data) { return data.iso != iso },
+                    location: function(data) { return 'context.'+data.iso; },
+                    text: function(data) { return data.iso; },
+                    'class': 'countryLabel'
                 });
 
             }, { padding: -2 });
