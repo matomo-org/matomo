@@ -165,8 +165,6 @@ class Piwik_Installation_FormDatabaseSetup_Rule_checkUserPrivileges extends HTML
 	 */
 	public function validateOwner()
 	{
-		$isValid = true;
-		
 		// try and create the database object
 		try
 		{
@@ -186,41 +184,41 @@ class Piwik_Installation_FormDatabaseSetup_Rule_checkUserPrivileges extends HTML
 		
 		$db = Zend_Registry::get('db');
 		
-		try
+		// try to drop tables before running privilege tests
+		$this->dropExtraTables($db);
+		
+		// check each required privilege by running a query that uses it
+		foreach (self::getRequiredPrivileges() as $privilegeType => $queries)
 		{
-			// try to drop tables before running privilege tests
-			$this->dropExtraTables($db);
-			
-			// check each required privilege by running a query that uses it
-			foreach (self::getRequiredPrivileges() as $privilegeType => $queries)
+			if (!is_array($queries))
 			{
-				if (!is_array($queries))
-				{
-					$queries = array($queries);
-				}
-				
-				foreach ($queries as $sql)
-				{
-					$db->query($sql);
-				}
+				$queries = array($queries);
 			}
 			
-			// remove extra tables that were created
-			$this->dropExtraTables($db);
-		}
-		catch (Exception $ex)
-		{
-			if ($this->isAccessDenied($ex))
+			foreach ($queries as $sql)
 			{
-				$isValid = false;
-			}
-			else
-			{
-				throw $ex;
+				try
+				{
+					$db->exec($sql);
+				}
+				catch (Exception $ex)
+				{
+					if ($this->isAccessDenied($ex))
+					{
+						return false;
+					}
+					else
+					{
+						throw new Exception("Test SQL failed to execute: $sql\nError: ".$ex->getMessage());
+					}
+				}
 			}
 		}
 		
-		return $isValid;
+		// remove extra tables that were created
+		$this->dropExtraTables($db);
+		
+		return true;
 	}
 	
 	/**
