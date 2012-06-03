@@ -28,14 +28,15 @@
 
     $(function() {
         var map = $K.map('#UserCountryMap_map'),
-            main = $('#UserCountryMap_container');
-        main.height(400);
-        //main.html('Hello World');
+            main = $('#UserCountryMap_container'),
+            width = main.width();
 
         window.__userCountryMap = map;
 
         function renderCountryMap(iso) {
             map.loadMap(__svgBasePath + iso + '.svg', function() {
+                var ratio = map.viewAB.width / map.viewAB.height;
+                map.container.height(map.container.width() / ratio);
                 map.addLayer('context');
                 map.addLayer('center');
             });
