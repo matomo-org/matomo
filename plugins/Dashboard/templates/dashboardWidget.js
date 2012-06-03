@@ -144,10 +144,6 @@
                 this.widgetParameters.segment = segment;
             }
 
-            if(!this.widgetParameters.filter_limit) {
-                this.widgetParameters.filter_limit = 10;
-            }
-
             piwikHelper.queueAjaxRequest( $.ajax(widgetsHelper.getLoadWidgetAjaxRequest(this.uniqueId, this.widgetParameters, onWidgetLoadedReplaceElementWithContent)) );
 
             return this;
