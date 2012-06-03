@@ -61,7 +61,7 @@
                     data: map.getLayer('context').getPathsData(),
                     type: $K.Label,
                     location: function(data) {
-                        return data.iso;
+                        return 'context.'+data.iso;
                     },
                     text: function(data) {
                         return data.iso;
