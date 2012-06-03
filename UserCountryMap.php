@@ -44,6 +44,8 @@ class Piwik_UserCountryMap extends Piwik_Plugin
      */
     public function getJsFiles($notification)
     {
+        var_dump($notification);
+        die();
         $jsFiles = &$notification->getNotificationObject();
 
         $jsFiles[] = "plugins/UserCountryMap/js/vendor/raphael-min.js";
