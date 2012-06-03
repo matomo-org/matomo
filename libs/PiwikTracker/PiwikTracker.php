@@ -794,6 +794,7 @@ class PiwikTracker
 			{
 				$cookie = $cookie[1];
 			}
+			// XDEBUG is a PHP Debugger 
 			if(strpos($cookie, 'XDEBUG') === false)
 			{
 				$this->requestCookie = $cookie;
@@ -835,7 +836,7 @@ class PiwikTracker
 			'&apiv=' . self::VERSION . 
 	        '&r=' . substr(strval(mt_rand()), 2, 6) .
     	
-    		// PHP DEBUGGING: Optional since debugger can be triggered remotely
+    		// XDEBUG_SESSIONS_START and KEY are related to the PHP Debugger, this can be ignored in other languages
     		(!empty($_GET['XDEBUG_SESSION_START']) ? '&XDEBUG_SESSION_START=' . @$_GET['XDEBUG_SESSION_START'] : '') . 
 	        (!empty($_GET['KEY']) ? '&KEY=' . @$_GET['KEY'] : '') .
     	 

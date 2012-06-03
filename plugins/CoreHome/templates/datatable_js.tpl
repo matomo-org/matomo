@@ -1,5 +1,5 @@
 {if !isset($dataTableClassName)}{assign var=dataTableClassName value=dataTable}{/if}
-<script type="text/javascript">
+<script type="text/javascript" defer="defer">
 $(document).ready(function(){literal}{{/literal} 
 	var id = '{$properties.uniqueId}',
 		table = new {$dataTableClassName}();
