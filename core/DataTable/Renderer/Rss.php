@@ -38,7 +38,7 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 	 */
 	function renderException()
 	{
-		$this->renderHeader();
+		header('Content-type: text/plain');
 		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
 		return 'Error: '.$exceptionMessage;
 	}
@@ -55,7 +55,8 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 		if(!($table instanceof Piwik_DataTable_Array)
 			|| $table->getKeyName() != 'date')
 		{
-			throw new Exception("RSS Feed only used on Piwik_DataTable_Array with keyName = 'date'");
+			throw new Exception("RSS feeds can be generated for one specific website &idSite=X.". 
+			"\nPlease specify only one idSite or consider using &format=XML instead.");
 		}
 		
 		$idSite = Piwik_Common::getRequestVar('idSite', 1, 'int');
