@@ -2,8 +2,7 @@
     <div id="UserCountryMap_container">
         <div id="UserCountryMap_map"></div>
     </div>
-    <div style="height:3px"></div>
-    <div class="dataTableFeatures">
+    <div class="dataTableFeatures" style="padding-top:0px">
         <span class="loadingPiwik">
             <img src="{$piwikUrl}themes/default/images/loading-blue.gif"> Loading data...
         </span>
@@ -24,7 +23,7 @@
             <input id="userCountryMapInsertID" style="float:left; width:5em" placeholder="country code" />
             <button id="userCountryMap-update" style="float:left">update</button>
 
-            <select id="userCountryMapSelectMetrics" style="float:right;">
+            <select id="userCountryMapSelectMetrics" style="float:right;margin-right:0;margin-bottom:5px">
                 {foreach from=$metrics item=metric}
                     <option value="{$metric[0]}" {if $metric[0] == $defaultMetric}selected="selected"{/if}>{$metric[1]}</option>
                 {/foreach}
@@ -84,7 +83,7 @@
                     'class': 'countryLabel'
                 });
 
-            }, { padding: -2 });
+            }, { padding: -3});
         }
 
         map.loadStyles(__mapCssPath, function() {
