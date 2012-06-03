@@ -74,6 +74,9 @@
         }
 
         map.loadStyles(__mapCssPath, function() {
+
+            $('#UserCountryMap_content .loadingPiwik').hide();
+
             renderCountryMap('DEU');
             $('#userCountryMap-update').click(function() {
                 renderCountryMap($('#userCountryMapInsertID').val());
