@@ -47,7 +47,7 @@
                 map.resize(w, h);
 
                 map.addLayer('context');
-                map.addLayer('center');
+                map.addLayer('regions');
             });
         }
 
