@@ -54,7 +54,7 @@
         renderCountryMap('DEU');
 
         $('#userCountryMap-update').click(function() {
-            renderCountryMap('#userCountryMapInsertID').val());
+            renderCountryMap($('#userCountryMapInsertID').val());
         });
     });
 
