@@ -3,12 +3,12 @@
     <div style="height:3px"></div>
 
     <div class="userCountryMap-controls">
-        <select id="userCountryMapSelectMetrics" style="float:left">
+        <select id="userCountryMapSelectMetrics" style="float:left; width:5em">
             {foreach from=$metrics item=metric}
                 <option value="{$metric[0]}" {if $metric[0] == $defaultMetric}selected="selected"{/if}>{$metric[1]}</option>
             {/foreach}
         </select>
-        <input id="userCountryMapInsertID" style="float:left" placeholder="country code" />
+        <input id="userCountryMapInsertID" style="float:left; width:2em" placeholder="country code" />
     </div>
 </div>
 
