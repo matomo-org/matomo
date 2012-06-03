@@ -48,10 +48,14 @@
 
                 map.addLayer('context');
                 map.addLayer('regions');
-            });
+            }, { padding: -2 });
         }
 
         renderCountryMap('DEU');
+
+        $('#userCountryMap-update').click(function() {
+            renderCountryMap('#userCountryMapInsertID').val());
+        });
     });
 
 {/literal}
