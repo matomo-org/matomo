@@ -1,5 +1,7 @@
 <div id="UserCountryMap_content" style="position:relative; overflow:hidden;">
-    <div id="UserCountryMap_map">Foo</div>
+    <div id="UserCountryMap_container">
+        <div id="UserCountryMap_map"></div>
+    </div>
     <div style="height:3px"></div>
 
     <div class="userCountryMap-controls" style="padding-left:5px">
@@ -13,25 +15,29 @@
     </div>
 </div>
 
+<!-- configure some piwik vars -->
+<script type="text/javascript">
+
+    window.__svgBasePath = "{$piwikUrl}plugins/UserCountryMap/svg/";
+
+</script>
+
 <!-- piwik-map.js -->
 <script type="text/javascript">
 {literal}
 
     $(function() {
-        var main = $('#UserCountryMap_map');
-        main.html('Hello World');
+        var main = $('#UserCountryMap_container');
+        main.height(400);
+        //main.html('Hello World');
 
-
-        // Creates canvas 320 × 200 at 10, 50
-        var paper = Raphael('UserCountryMap_map');
-
-        // Creates circle at x = 50, y = 40, with radius 10
-        var circle = paper.circle(50, 40, 10);
-        // Sets the fill attribute of the circle to red (#f00)
-        circle.attr("fill", "#f00");
-
-        // Sets the stroke attribute of the circle to white
-        circle.attr("stroke", "#fff");
+        function renderCountryMap(iso) {
+            map = $K.map('#UserCountryMap_map');
+            map.loadMap(__svgBasePath + 'DEU.svg', function() {
+                map.addLayer('context');
+                map.addLayer('center');
+            });
+        }
     });
 
 {/literal}
