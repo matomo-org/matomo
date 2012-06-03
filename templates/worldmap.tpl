@@ -65,7 +65,7 @@
                     },
                     text: function(data) {
                         return data.iso;
-                    };
+                    }
                 });
 
             }, { padding: -2 });
