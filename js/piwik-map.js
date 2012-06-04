@@ -86,11 +86,11 @@ UserCountryMap.run = function(config) {
         updateMap(target + '.svg', function() {
 
             map.addLayer({ id: 'countries', className: 'context', filter: function(pd) {
-                return UserCountryMap[pd.iso] === undefined;
+                return UserCountryMap.countriesByIso[pd.iso] === undefined;
             }});
 
             map.addLayer({ id: 'countries', key: 'iso', filter: function(pd) {
-                return UserCountryMap[pd.iso] !== undefined;
+                return UserCountryMap.countriesByIso[pd.iso] !== undefined;
             }});
 
             map.onLayerEvent('click', function(path) {
