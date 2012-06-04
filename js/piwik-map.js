@@ -50,13 +50,9 @@ UserCountryMap.run = function(config) {
         });
     }
 
-    function renderWorldMap(target) {
-        UserCountryMap.lastSelected = target;
-        updateMap(target + '.svg', function() {
-            map.addLayer({ id: 'countries', key: 'iso' });
+    function renderWorldMap(target, metric) {
 
-            var metric = $('#userCountryMapSelectMetrics').val();
-
+        function updateColors() {
             // create color scale
             colscale = new chroma.ColorScale({
                 colors: ['#f5f5f5', '#5170AE'],
@@ -77,11 +73,25 @@ UserCountryMap.run = function(config) {
                     }
                }
             });
+        }
+
+        if (target == UserCountryMap.lastSelected) {
+            updateColors();
+            return;
+        }
+
+        UserCountryMap.lastSelected = target;
+
+        updateMap(target + '.svg', function() {
+            map.addLayer({ id: 'countries', key: 'iso' });
+
+            var metric = $('#userCountryMapSelectMetrics').val();
 
             map.onLayerEvent('click', function(path) {
                 renderCountryMap(path.iso);
             }, 'countries');
 
+            updateColors();
         });
     }
 
