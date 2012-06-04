@@ -74,7 +74,7 @@ UserCountryMap.run = function(config) {
 
         var countryData = [];
         $.each(report.reportData, function(i, data) {
-            var meta = report.reportMetaData[i];
+            var meta = report.reportMetadata[i];
             countryData.push({
                 name: data.label,
                 iso: UserCountryMap.ISO2toISO3[meta.code.toUpperCase()],
