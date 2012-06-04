@@ -102,7 +102,7 @@ UserCountryMap.run = function(config) {
             countryData.push(country);
         });
 
-        countries.sort(function(a,b) { return a.name > b.name ? 1 : -1; });
+        countryData.sort(function(a,b) { return a.name > b.name ? 1 : -1; });
 
         function update(target) {
             if (t.length == 3) {
@@ -113,7 +113,7 @@ UserCountryMap.run = function(config) {
         }
 
         // populate country select
-        $.each(countries, function(i, country) {
+        $.each(countryData, function(i, country) {
             countrySelect.append('<option value="'+country.iso+'">'+country.name+'</option>');
         });
         countrySelect.change(function() {
