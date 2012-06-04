@@ -64,6 +64,7 @@ UserCountryMap.run = function(config) {
             map.choropleth({
                layer: 'countries',
                data: countryData,
+               key: 'iso',
                colors: function(d, e) {
                     console.log(d, e);
                   return '#f94'; // return color based on data value/object
