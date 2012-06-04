@@ -22,8 +22,8 @@
 	max-width: 280px;
 	min-width: 50px;
 	
-	font-size: 10.5px;
-	line-height: 12px;
+	font-size: 12px;
+	line-height: 14px;
 
 	z-index: 15000;
 }
@@ -47,6 +47,7 @@
 		text-align: left;
 		word-wrap: break-word;
 		overflow: hidden;
+		color: #444;
 	}
 
 	.ui-tooltip-titlebar{
@@ -59,6 +60,7 @@
 		border-style: solid;
 
 		font-weight: bold;
+		color: #7E7363;
 	}
 
 	.ui-tooltip-titlebar + .ui-tooltip-content{ border-top-width: 0px !important; }
@@ -139,9 +141,11 @@
 }
 
 .ui-tooltip-titlebar {
+	border-radius: 3px 3px 0 0;
 	border-bottom: 0;
 }
 
 .ui-tooltip-content {
+	border-radius: 0 0 3px 3px;
 	border-top: 0;
 }
