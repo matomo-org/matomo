@@ -55,7 +55,7 @@ UserCountryMap.run = function(config) {
         updateMap(target + '.svg', function() {
             map.addLayer({ id: 'countries', key: 'iso' });
 
-            var metric = 'nb_visits';
+            var metric = $('#userCountryMapSelectMetrics').val();
 
             // create color scale
             colscale = new chroma.ColorScale({
@@ -87,7 +87,7 @@ UserCountryMap.run = function(config) {
 
     $.getJSON(config.countryDataUrl, function(report) {
 
-        var metrics = ['nb_visits'];
+        var metrics = $('#userCountryMapSelectMetrics option');
 
         var countryData = [], countrySelect = $('#userCountryMapSelectCountry');
         $.each(report.reportData, function(i, data) {
@@ -98,6 +98,7 @@ UserCountryMap.run = function(config) {
                     flag: meta.logo
                 };
             $.each(metrics, function(i, metric) {
+                metric = $(metric).attr('value');
                 country[metric] = data[metric];
             });
             countryData.push(country);
@@ -113,24 +114,29 @@ UserCountryMap.run = function(config) {
             }
         }
 
-        // populate country select
-        $.each(countryData, function(i, country) {
-            countrySelect.append('<option value="'+country.iso+'">'+country.name+'</option>');
-        });
-        countrySelect.change(function() {
-            var t = countrySelect.val();
-            if (t.length == 3) {
-                renderCountryMap(t);
-            } else {
-                renderWorldMap(t);
-            }
-        });
 
         UserCountryMap.countryData = countryData;
 
         map.loadStyles(config.mapCssPath, function() {
             $('#UserCountryMap_content .loadingPiwik').hide();
             renderWorldMap('EU');
+
+            function updateState(id) {
+                $('#userCountryMapSelectCountry').val(id);
+                if (id.length == 3) {
+                    renderCountryMap(id);
+                } else {
+                    renderWorldMap(id);
+                }
+            }
+
+            // populate country select
+            $.each(countryData, function(i, country) {
+                countrySelect.append('<option value="'+country.iso+'">'+country.name+'</option>');
+            });
+            countrySelect.change(function() {
+                updateState(countrySelect.val());
+            });
 
             // enable zoom-out
             $('#UserCountryMap-btn-zoom').click(function() {
@@ -143,6 +149,11 @@ UserCountryMap.run = function(config) {
                         renderWorldMap('world');
                     }
                 }
+            });
+
+            // enable mertic changes
+            $('#userCountryMapSelectMetrics').change(function() {
+                updateState(UserCountryMap.lastSelected);
             });
         });
     });
