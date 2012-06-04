@@ -55,20 +55,26 @@ UserCountryMap.run = function(config) {
             map.addLayer({ id: 'countries', key: 'iso' });
 
             var metric = 'nb_visits';
+
             // create color scale
             colscale = new chroma.ColorScale({
                 colors: ['#f5f5f5', '#5170AE'],
                 limits: chroma.limits(countryData, 'quant', 5, metric)
             });
 
+            // apply colors to map
             map.choropleth({
-               layer: 'countries',
-               data: countryData,
-               key: 'iso',
-               colors: function(d, e) {
-                    console.log(d, e);
-                  return '#f94'; // return color based on data value/object
-               }
+                layer: 'countries',
+                data: countryData,
+                key: 'iso',
+                colors: function(d, e) {
+                    if (d === null) {
+                        console.log(d, e);
+                        return '#eee';
+                    } else {
+                        return colscale.getColor(d[metric]);
+                    }
+                }
             });
 
             map.onLayerEvent('click', function(path) {
