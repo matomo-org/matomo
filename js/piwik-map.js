@@ -70,6 +70,10 @@ UserCountryMap.run = function(config) {
                }
             });
 
+            map.onLayerEvent('click', function(path) {
+                renderCountryMap(path.iso);
+            }, 'context');
+
         });
     }
 
