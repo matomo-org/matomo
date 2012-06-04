@@ -102,7 +102,7 @@ UserCountryMap.run = function(config) {
             countryData.push(country);
         });
 
-        countriessort(function(a,b) { return a.name > b.name ? 1 : -1; });
+        countries.sort(function(a,b) { return a.name > b.name ? 1 : -1; });
 
         function update(target) {
             if (t.length == 3) {
