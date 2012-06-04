@@ -84,7 +84,14 @@ UserCountryMap.run = function(config) {
         UserCountryMap.lastSelected = target;
 
         updateMap(target + '.svg', function() {
-            map.addLayer({ id: 'countries', key: 'iso' });
+
+            map.addLayer({ id: 'countries', className: 'context', filter: function(pd) {
+                return UserCountryMap[pd.iso] === undefined;
+            }});
+
+            map.addLayer({ id: 'countries', key: 'iso', filter: function(pd) {
+                return UserCountryMap[pd.iso] !== undefined;
+            }});
 
             map.onLayerEvent('click', function(path) {
                 renderCountryMap(path.iso);
@@ -98,7 +105,8 @@ UserCountryMap.run = function(config) {
 
         var metrics = $('#userCountryMapSelectMetrics option');
 
-        var countryData = [], countrySelect = $('#userCountryMapSelectCountry');
+        var countryData = [], countrySelect = $('#userCountryMapSelectCountry'),
+            countriesByIso = {};
         $.each(report.reportData, function(i, data) {
             var meta = report.reportMetadata[i],
                 country = {
@@ -111,6 +119,7 @@ UserCountryMap.run = function(config) {
                 country[metric] = data[metric];
             });
             countryData.push(country);
+            countriesByIso[country.iso] = country;
         });
 
         countryData.sort(function(a,b) { return a.name > b.name ? 1 : -1; });
@@ -125,6 +134,7 @@ UserCountryMap.run = function(config) {
 
 
         UserCountryMap.countryData = countryData;
+        UserCountryMap.countriesByIso = countriesByIso;
 
         map.loadStyles(config.mapCssPath, function() {
             $('#UserCountryMap_content .loadingPiwik').hide();
