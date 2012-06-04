@@ -111,7 +111,7 @@ UserCountryMap.run = function(config) {
 
             // add tooltips
             map.tooltips({
-                layer: 'regions',
+                layer: 'countries',
                 content: function(id, path) {
                     return [id, path.data.name];
                 }
