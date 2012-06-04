@@ -49,7 +49,7 @@ UserCountryMap.run = function(config) {
 
             map.tooltips({
                 layer: 'regions',
-                tooltips: function(iso, path) {
+                content: function(iso, path) {
                     console.log(path);
                     return [iso, ''];
                 }
