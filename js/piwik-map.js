@@ -47,6 +47,9 @@ UserCountryMap.run = function(config) {
                 'class': 'countryLabel'
             });
 
+
+            console.log('tooltips!');
+
             map.tooltips({
                 layer: 'regions',
                 content: function(iso, path) {
