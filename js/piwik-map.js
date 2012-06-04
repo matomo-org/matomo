@@ -57,7 +57,7 @@ UserCountryMap.run = function(config) {
             // create color scale
             colscale = new chroma.ColorScale({
                 colors: ['#CDDAEF', '#385993'],
-                limits: chroma.limits(UserCountryMap.countryData, 'k', 5, metric)
+                limits: chroma.limits(UserCountryMap.countryData, 'k', 8, metric)
             });
 
             // apply colors to map
