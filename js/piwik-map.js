@@ -26,7 +26,7 @@ UserCountryMap.run = function(config) {
     }
 
     function renderCountryMap(iso) {
-
+        UserCountryMap.lastSelected = target;
         updateMap(iso + '.svg', function() {
             // add background
             map.addLayer({ id: 'context', key: 'iso' });
@@ -51,6 +51,7 @@ UserCountryMap.run = function(config) {
     }
 
     function renderWorldMap(target) {
+        UserCountryMap.lastSelected = target;
         updateMap(target + '.svg', function() {
             map.addLayer({ id: 'countries', key: 'iso' });
 
@@ -129,7 +130,20 @@ UserCountryMap.run = function(config) {
 
         map.loadStyles(config.mapCssPath, function() {
             $('#UserCountryMap_content .loadingPiwik').hide();
-            renderWorldMap('EU', countryData);
+            renderWorldMap('EU');
+
+            // enable zoom-out
+            $('#UserCountryMap-btn-zoom').click(function() {
+                var t = UserCountryMap.lastSelected;
+                if (t.length == 2) renderWorldMap('world');
+                else if (t.length == 3) {
+                    if (UserCountryMap.ISO3toCONT[t] !== undefined) {
+                        renderWorldMap(UserCountryMap.ISO3toCONT[t]);
+                    } else {
+                        renderWorldMap('world');
+                    }
+                }
+            });
         });
     });
 

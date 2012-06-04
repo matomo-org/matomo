@@ -16,7 +16,7 @@
 
                 <div class="tableIconsGroup">
                     <span class="tableAllColumnsSwitch">
-                        <a var="world" format="table" class="tableIcon activeIcon"><img src="{$piwikUrl}plugins/UserCountryMap/img/zoom-out.png" title="Zoom to world"></a>
+                        <a id="UserCountryMap-btn-zoom" format="table" class="tableIcon activeIcon"><img src="{$piwikUrl}plugins/UserCountryMap/img/zoom-out.png" title="Zoom to world"></a>
                     </span>
                 </div>
 
@@ -30,7 +30,7 @@
 
             </div>
 
-           <select id="userCountryMapSelectMetrics" style="float:right;margin-right:0;margin-bottom:5px">
+           <select id="userCountryMapSelectMetrics" style="float:right;margin-right:0;margin-bottom:5px;max-width: 10em">
                 {foreach from=$metrics item=metric}
                     <option value="{$metric[0]}" {if $metric[0] == $defaultMetric}selected="selected"{/if}>{$metric[1]}</option>
                 {/foreach}
