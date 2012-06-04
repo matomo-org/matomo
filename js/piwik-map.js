@@ -53,6 +53,7 @@ UserCountryMap.run = function(config) {
     function renderWorldMap(target, metric) {
 
         function updateColors() {
+            var metric = $('#userCountryMapSelectMetrics').val();
             // create color scale
             colscale = new chroma.ColorScale({
                 colors: ['#f5f5f5', '#5170AE'],
@@ -66,7 +67,7 @@ UserCountryMap.run = function(config) {
                 key: 'iso',
                 colors: function(d, e) {
                     if (d === null) {
-                        console.log(d, e);
+                        // console.log(d, e);
                         return '#eee';
                     } else {
                         return colscale.getColor(d[metric]);
@@ -84,8 +85,6 @@ UserCountryMap.run = function(config) {
 
         updateMap(target + '.svg', function() {
             map.addLayer({ id: 'countries', key: 'iso' });
-
-            var metric = $('#userCountryMapSelectMetrics').val();
 
             map.onLayerEvent('click', function(path) {
                 renderCountryMap(path.iso);
