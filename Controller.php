@@ -31,7 +31,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 
         $view = Piwik_View::factory('worldmap');
         $view->countryDataUrl = "?module=API"
-            . "&method=API.getProcessedReport&format=XML"
+            . "&method=API.getProcessedReport&format=JSON"
             . "&apiModule=UserCountry&apiAction=getCountry"
             . "&idSite=" . $idSite
             . "&period=" . $period

@@ -70,18 +70,21 @@ UserCountryMap.run = function(config) {
         });
     }
 
-    map.loadStyles(config.mapCssPath, function() {
+    $.getJSON(config.countryDataUrl, function(reportData) {
 
-        $('#UserCountryMap_content .loadingPiwik').hide();
+        console.log(reportData);
 
-        renderCountryMap('DEU');
-        $('#userCountryMap-update').click(function() {
-            var t = $('#userCountryMapInsertID').val();
-            if (t.length == 3) {
-                renderCountryMap(t);
-            } else {
-                renderWorldMap(t);
-            }
+        map.loadStyles(config.mapCssPath, function() {
+            $('#UserCountryMap_content .loadingPiwik').hide();
+            renderCountryMap('DEU');
+            $('#userCountryMap-update').click(function() {
+                var t = $('#userCountryMapInsertID').val();
+                if (t.length == 3) {
+                    renderCountryMap(t);
+                } else {
+                    renderWorldMap(t);
+                }
+            });
         });
     });
 
