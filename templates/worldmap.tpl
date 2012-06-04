@@ -36,7 +36,7 @@
                 {/foreach}
             </select>
 
-            <select id="userCountryMapSelectCountry" style="float:right;margin-right:5px;margin-bottom:5px">
+            <select id="userCountryMapSelectCountry" style="float:right;margin-right:5px;margin-bottom:5px; max-width: 12em">
                 
             </select>
         </div>

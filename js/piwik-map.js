@@ -105,7 +105,7 @@ UserCountryMap.run = function(config) {
             countrySelect.append('<option value="'+country.iso+'">'+country.name+'</option>');
         });
 
-        countrySelect.select(function() {
+        countrySelect.change(function() {
             renderCountryMap(countrySelect.val());
         });
 
