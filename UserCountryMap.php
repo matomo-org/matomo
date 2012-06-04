@@ -35,7 +35,8 @@ class Piwik_UserCountryMap extends Piwik_Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'AssetManager.getJsFiles' => 'getJsFiles'
+            'AssetManager.getJsFiles' => 'getJsFiles',
+            'AssetManager.getCssFiles' => 'getCssFiles'
         );
         return $hooks;
     }
@@ -48,8 +49,16 @@ class Piwik_UserCountryMap extends Piwik_Plugin
         $jsFiles = &$notification->getNotificationObject();
 
         $jsFiles[] = "plugins/UserCountryMap/js/vendor/raphael-min.js";
+        $jsFiles[] = "plugins/UserCountryMap/js/vendor/jquery.qtip.min.js";
         $jsFiles[] = "plugins/UserCountryMap/js/vendor/kartograph.min.js";
         $jsFiles[] = "plugins/UserCountryMap/js/vendor/chroma.min.js";
         $jsFiles[] = "plugins/UserCountryMap/js/piwik-map.js";
+    }
+
+    public function getCssFiles($notification)
+    {
+        $cssFiles = &$notification->getNotificationObject();
+
+        $cssFiles[] = "plugins/UserCountryMap/css/vendor/jquery.qtip.min.css";
     }
 }
