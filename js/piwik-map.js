@@ -56,7 +56,7 @@ UserCountryMap.run = function(config) {
             var metric = $('#userCountryMapSelectMetrics').val();
             // create color scale
             colscale = new chroma.ColorScale({
-                colors: ['#f5f5f5', '#5170AE'],
+                colors: ['#CDDAEF', '#385993'],
                 limits: chroma.limits(UserCountryMap.countryData, 'eq', 5, metric)
             });
 
