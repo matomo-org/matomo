@@ -65,7 +65,7 @@ UserCountryMap.run = function(config) {
             map.choropleth({
                 layer: 'countries',
                 key: 'iso',
-                colors: function(path) {
+                colors: function(f, path) {
                     if (countryData[path.iso] === null) {
                         console.log(path);
                         return '#eee';
