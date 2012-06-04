@@ -47,11 +47,23 @@ UserCountryMap.run = function(config) {
                 'class': 'countryLabel'
             });
 
-            // add tooltips
+            // add tooltips for regions
             map.tooltips({
                 layer: 'regions',
                 content: function(data) {
                     return [data.fips, data.name];
+                }
+            });
+
+            // and also for neighboring countries
+            map.tooltips({
+                layer: 'context',
+                content: function(data) {
+                    if (UserCountryMap.countriesByIso[data.iso] === undefined) {
+                        return [data.name, 'n/a'];
+                    }
+                    var metric = $('#userCountryMapSelectMetrics').val();
+                    return [data.name, UserCountryMap.countriesByIso[data.iso]][metric];
                 }
             });
 
@@ -113,7 +125,8 @@ UserCountryMap.run = function(config) {
             map.tooltips({
                 layer: 'countries',
                 content: function(data) {
-                    return [data.iso, data.name];
+                    var metric = $('#userCountryMapSelectMetrics').val();
+                    return [data.name, UserCountryMap.countriesByIso[data.iso]][metric];
                 }
             });
 
