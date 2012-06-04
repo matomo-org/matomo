@@ -96,6 +96,8 @@ UserCountryMap.run = function(config) {
             countryData.push(country);
         });
 
+        console.log(countryData);
+
         map.loadStyles(config.mapCssPath, function() {
             $('#UserCountryMap_content .loadingPiwik').hide();
             $('#userCountryMap-update').click(function() {
