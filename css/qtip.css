@@ -55,7 +55,7 @@
 		min-height: 14px;
 		padding: 5px 35px 5px 10px;
 		overflow: hidden;
-		
+
 		border-width: 1px 1px 0;
 		border-style: solid;
 
@@ -98,8 +98,6 @@
 				height: 14px;
 
 				text-align: center;
-				text-indent: 0;
-				font: normal bold 10px/13px Tahoma,sans-serif;
 
 				color: inherit;
 				background: transparent none no-repeat -100em -100em;
@@ -122,17 +120,7 @@
 .ui-tooltip-default .ui-tooltip-content{
 	border-color: #E7E8E7;
 	background-color: #F7F7F7;
-	color: #555;
-}
-
-.ui-tooltip-default .ui-tooltip-titlebar{
-	background-color: #F7F7F7;
-}
-
-.ui-tooltip-default .ui-tooltip-icon{
-	border-color: #E7E8E7;
-	background: #F7F7F7;
-	color: #777;
+	box-shadow: 1px 1px 3px rgba(0,0,0,.5)
 }
 
 .ui-tooltip-default .ui-tooltip-titlebar .ui-state-hover{
@@ -141,11 +129,11 @@
 }
 
 .ui-tooltip-titlebar {
-	border-radius: 3px 3px 0 0;
+	border-radius: 5px 5px 0 0;
 	border-bottom: 0;
 }
 
 .ui-tooltip-content {
-	border-radius: 0 0 3px 3px;
+	border-radius: 0 0 5px 5px;
 	border-top: 0;
 }
