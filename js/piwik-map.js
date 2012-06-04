@@ -26,7 +26,7 @@ UserCountryMap.run = function(config) {
     }
 
     function renderCountryMap(iso) {
-        UserCountryMap.lastSelected = target;
+        UserCountryMap.lastSelected = iso;
         updateMap(iso + '.svg', function() {
             // add background
             map.addLayer({ id: 'context', key: 'iso' });
