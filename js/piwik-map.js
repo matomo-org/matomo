@@ -1,4 +1,6 @@
-$(function() {
+window.UserCountryMap = {};
+
+UserCountryMap.run = function(config) {
 
     var map = $K.map('#UserCountryMap_map'),
         main = $('#UserCountryMap_container'),
@@ -7,7 +9,7 @@ $(function() {
     window.__userCountryMap = map;
 
     function updateMap(svgUrl, callback) {
-        map.loadMap(__svgBasePath + svgUrl, function() {
+        map.loadMap(config.svgBasePath + svgUrl, function() {
             var ratio, w, h;
 
             map.clear();
@@ -50,10 +52,7 @@ $(function() {
 
     function renderWorldMap(id) {
         updateMap(id + '.svg', function() {
-            map.addLayer({
-                id: 'countries',
-                key: 'iso'
-            });
+            map.addLayer({ id: 'countries', key: 'iso' });
 
             map.choropleth({
                layer: 'countries',
@@ -65,7 +64,7 @@ $(function() {
         });
     }
 
-    map.loadStyles(__mapCssPath, function() {
+    map.loadStyles(config.mapCssPath, function() {
 
         $('#UserCountryMap_content .loadingPiwik').hide();
 
@@ -80,4 +79,4 @@ $(function() {
         $('#UserCountryMap_overlay').hide();
     });
 
-});
+};

@@ -39,7 +39,17 @@
 <!-- configure some piwik vars -->
 <script type="text/javascript">
 
-    window.__mapCssPath = "{$piwikUrl}plugins/UserCountryMap/css/map.css";
-    window.__svgBasePath = "{$piwikUrl}plugins/UserCountryMap/svg/";
+{literal}
+    var config = {};
+{/literal}
+
+    config.mapCssPath = "{$piwikUrl}plugins/UserCountryMap/css/map.css";
+    config.svgBasePath = "{$piwikUrl}plugins/UserCountryMap/svg/";
+
+{literal}
+    $(function() {
+        UserCountryMap.run(config)
+    });
+{/literal}
 
 </script>
