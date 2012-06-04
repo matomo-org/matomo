@@ -1,6 +1,6 @@
 <div id="UserCountryMap_content" style="position:relative; overflow:hidden;">
     <div id="UserCountryMap_container">
-        <div id="UserCountryMap_map"></div>
+        <div id="UserCountryMap_map" style="overflow:hidden"></div>
         <div id="UserCountryMap_overlay" style="position: absolute; top: 10px; left:10px;z-index:1000;padding:5px;border-radius:3px;background:rgba(255,255,255,0.9)">
             <div class="county-name" style="font-weight:bold; color:#9A9386;">Deutschland</div>
             <div class="county-stats" style="color:#565656;"><b>1.234</b> Visits total</div>
@@ -27,15 +27,14 @@
             <input id="userCountryMapInsertID" style="float:left; width:5em" placeholder="country code" />
             <button id="userCountryMap-update" style="float:left">update</button>
 
-            <select id="userCountryMapSelectCountry" style="float:right;margin-right:0;margin-bottom:5px">
-                {foreach from=$countries item=country}
-                    <option value="{$metric[0]}" {if $metric[0] == $defaultMetric}selected="selected"{/if}>{$metric[1]}</option>
-                {/foreach}
-            </select>
            <select id="userCountryMapSelectMetrics" style="float:right;margin-right:0;margin-bottom:5px">
                 {foreach from=$metrics item=metric}
                     <option value="{$metric[0]}" {if $metric[0] == $defaultMetric}selected="selected"{/if}>{$metric[1]}</option>
                 {/foreach}
+            </select>
+
+            <select id="userCountryMapSelectCountry" style="float:right;margin-right:5px;margin-bottom:5px">
+                
             </select>
         </div>
     </div>
