@@ -31,7 +31,7 @@ UserCountryMap.run = function(config) {
             // add background
             map.addLayer({ id: 'context', key: 'iso' });
             map.addLayer({ id: "regions", className: "regionBG" });
-            map.addLayer('regions');
+            map.addLayer({ id: 'regions', key: 'fips' });
 
             // add click events for surrounding countries
             map.onLayerEvent('click', function(path) {
@@ -48,13 +48,10 @@ UserCountryMap.run = function(config) {
             });
 
 
-            console.log('tooltips!');
-
             map.tooltips({
                 layer: 'regions',
-                content: function(iso, path) {
-                    console.log(path);
-                    return [iso, ''];
+                content: function(id, path) {
+                    return [id, path.name];
                 }
             });
 
