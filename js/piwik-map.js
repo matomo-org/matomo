@@ -63,7 +63,7 @@ UserCountryMap.run = function(config) {
                         return [data.name, 'n/a'];
                     }
                     var metric = $('#userCountryMapSelectMetrics').val();
-                    return [data.name, UserCountryMap.countriesByIso[data.iso]][metric];
+                    return [data.name, UserCountryMap.countriesByIso[data.iso][metric]];
                 }
             });
 
@@ -126,7 +126,7 @@ UserCountryMap.run = function(config) {
                 layer: 'countries',
                 content: function(data) {
                     var metric = $('#userCountryMapSelectMetrics').val();
-                    return [data.name, UserCountryMap.countriesByIso[data.iso]][metric];
+                    return [data.name, UserCountryMap.countriesByIso[data.iso][metric]];
                 }
             });
 
