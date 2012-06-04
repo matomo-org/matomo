@@ -1,7 +1,7 @@
 <div id="UserCountryMap_content" style="position:relative; overflow:hidden;">
     <div id="UserCountryMap_container">
         <div id="UserCountryMap_map" style="overflow:hidden"></div>
-        <div id="UserCountryMap_overlay" style="position: absolute; top: 10px; left:10px;z-index:1000;padding:5px;border-radius:3px;background:rgba(255,255,255,0.9)">
+        <div id="UserCountryMap_overlay" style="display:none; position: absolute; top: 10px; left:10px;z-index:1000;padding:5px;border-radius:3px;background:rgba(255,255,255,0.9)">
             <div class="county-name" style="font-weight:bold; color:#9A9386;">Deutschland</div>
             <div class="county-stats" style="color:#565656;"><b>1.234</b> Visits total</div>
         </div>
@@ -20,13 +20,13 @@
                     </span>
                 </div>
 
-                <div class="tableIconsGroup">
+                <!--<div class="tableIconsGroup">
                     <span class="tableAllColumnsSwitch">
                         <a var="world" format="table" class="tableIcon activeIcon"><img src="{$piwikUrl}plugins/UserCountryMap/img/world.png" title="Zoom to world"></a>
                         <a var="tableAllColumns" format="tableAllColumns" class="tableIcon"><img src="{$piwikUrl}plugins/UserCountryMap/img/regions.png" title="Display a table with more metrics"></a>
                         <a var="tableGoals" format="tableGoals" class="tableIcon"><img src="{$piwikUrl}plugins/UserCountryMap/img/cities.png" title="Display a table with Goals metrics"></a>
                     </span>
-                </div>
+                </div>-->
 
             </div>
 
