@@ -17,7 +17,7 @@ UserCountryMap.run = function(config) {
             ratio = map.viewAB.width / map.viewAB.height;
             w = map.container.width();
             h = w / ratio;
-            map.container.height(h);
+            map.container.height(h-2);
             map.resize(w, h);
 
             callback();
@@ -50,8 +50,8 @@ UserCountryMap.run = function(config) {
         });
     }
 
-    function renderWorldMap(id) {
-        updateMap(id + '.svg', function() {
+    function renderWorldMap(target) {
+        updateMap(target + '.svg', function() {
             map.addLayer({ id: 'countries', key: 'iso' });
 
             map.choropleth({ colors: '#eee' });

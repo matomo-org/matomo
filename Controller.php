@@ -48,6 +48,26 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         $view->lgtMin = ".97";
         $view->lgtMax = ".44";
 
+        $view->metrics = $this->getMetrics();
+        $view->defaultMetric = 'nb_visits';
+
+        $request = new Piwik_API_Request(
+            'method=API.getMetadata&format=PHP'
+            . '&apiModule=UserCountry&apiAction=getCountry'
+            . '&idSite=' . $idSite
+            . '&period=' . $period
+            . '&date=' . $date
+            . '&token_auth=' . $token_auth
+            . '&filter_limit=-1'
+        );
+        $metaData = $request->process();
+
+
+
+        echo $view->render();
+    }
+
+    private function getMetrics() {
         $request = new Piwik_API_Request(
             'method=API.getMetadata&format=PHP'
             . '&apiModule=UserCountry&apiAction=getCountry'
@@ -70,10 +90,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         {
             $metrics[] = array($id, $val);
         }
-
-        $view->metrics = $metrics;
-        $view->defaultMetric = 'nb_visits';
-        echo $view->render();
+        return $metrics;
     }
 
     /*
