@@ -7,8 +7,6 @@
 }
 
 #UserCountryMap_map svg .countries {
-    stroke: #BBBBBB;
-    fill: #eee;
     stroke-width: 0.5px;
 }
 
