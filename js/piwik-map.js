@@ -158,7 +158,7 @@ UserCountryMap.run = function(config) {
 
         map.loadStyles(config.mapCssPath, function() {
             $('#UserCountryMap_content .loadingPiwik').hide();
-            renderWorldMap('EU');
+            renderWorldMap('world');
 
             function updateState(id) {
                 $('#userCountryMapSelectCountry').val(id);
