@@ -93,7 +93,7 @@ UserCountryMap.run = function(config) {
 
         map.loadStyles(config.mapCssPath, function() {
             $('#UserCountryMap_content .loadingPiwik').hide();
-            renderCountryMap('DEU');
+            renderCountryMap('EU');
             $('#userCountryMap-update').click(function() {
                 var t = $('#userCountryMapInsertID').val();
                 if (t.length == 3) {
