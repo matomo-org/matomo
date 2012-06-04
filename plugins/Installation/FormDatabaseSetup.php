@@ -213,7 +213,11 @@ class Piwik_Installation_FormDatabaseSetup_Rule_checkUserPrivileges extends HTML
 			{
 				try
 				{
-					$db->exec($sql);
+					if( in_array($privilegeType, array('SELECT'))) {
+						$db->fetchAll($sql);
+					} else {
+						$db->exec($sql);
+					}
 				}
 				catch (Exception $ex)
 				{
