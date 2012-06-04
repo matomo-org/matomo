@@ -17,8 +17,9 @@
     stroke-width: 0.5px;
 }
 
-#UserCountryMap_map svg .regionBG {
-    stroke: #fff;
+#UserCountryMap_map svg .regionBG,
+#UserCountryMap_map svg .countryBG {
+    stroke: #fff
     fill: #fff;
     stroke-width: 5px;
 }

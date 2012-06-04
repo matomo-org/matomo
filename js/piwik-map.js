@@ -89,6 +89,10 @@ UserCountryMap.run = function(config) {
                 return UserCountryMap.countriesByIso[pd.iso] === undefined;
             }});
 
+            map.addLayer({ id: 'countries', className: 'countryBG', filter: function(pd) {
+                return UserCountryMap.countriesByIso[pd.iso] !== undefined;
+            }});
+
             map.addLayer({ id: 'countries', key: 'iso', filter: function(pd) {
                 return UserCountryMap.countriesByIso[pd.iso] !== undefined;
             }});
