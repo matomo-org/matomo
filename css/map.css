@@ -6,6 +6,12 @@
     stroke-linejoin: round;
 }
 
+#UserCountryMap_map svg .countries {
+    stroke: #BBBBBB;
+    fill: #eee;
+    stroke-width: 0.5px;
+}
+
 #UserCountryMap_map svg .context {
     stroke: #BBBBBB;
     fill: #eee;

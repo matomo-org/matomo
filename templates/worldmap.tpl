@@ -45,70 +45,7 @@
 </script>
 
 <!-- piwik-map.js -->
-<script type="text/javascript">
-{literal}
 
-    $(function() {
-        var map = $K.map('#UserCountryMap_map'),
-            main = $('#UserCountryMap_container'),
-            width = main.width();
-
-        window.__userCountryMap = map;
-
-        function renderCountryMap(iso) {
-            map.loadMap(__svgBasePath + iso + '.svg', function() {
-
-                var ratio, w, h;
-
-                map.clear();
-
-                ratio = map.viewAB.width / map.viewAB.height;
-                w = map.container.width();
-                h = w / ratio;
-                map.container.height(h);
-                map.resize(w, h);
-
-                // add background
-                map.addLayer({ id: 'context', key: 'iso' });
-                map.addLayer({ id: "regions", className: "regionBG" });
-                map.addLayer('regions');
-
-                // add click events for surrounding countries
-                map.onLayerEvent('click', function(path) {
-                    renderCountryMap(path.iso);
-                }, 'context');
-
-                map.addSymbols({
-                    data: map.getLayer('context').getPathsData(),
-                    type: $K.Label,
-                    filter: function(data) { return data.iso != iso },
-                    location: function(data) { return 'context.'+data.iso; },
-                    text: function(data) { return data.iso; },
-                    'class': 'countryLabel'
-                });
-
-            }, { padding: -3});
-        }
-
-        map.loadStyles(__mapCssPath, function() {
-
-            $('#UserCountryMap_content .loadingPiwik').hide();
-
-            renderCountryMap('DEU');
-            $('#userCountryMap-update').click(function() {
-                renderCountryMap($('#userCountryMapInsertID').val());
-            });
-        });
-
-
-        $('#UserCountryMap_overlay').hover(function() {
-            $('#UserCountryMap_overlay').hide();
-        });
-
-    });
-
-{/literal}
-</script>
 <!--<script type="text/javascript">
 {literal}
 

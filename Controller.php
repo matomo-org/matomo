@@ -30,7 +30,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         $token_auth = Piwik::getCurrentUserTokenAuth();
 
         $view = Piwik_View::factory('worldmap');
-        $view->dataUrl = "?module=API"
+        $view->countryDataUrl = "?module=API"
             . "&method=API.getProcessedReport&format=XML"
             . "&apiModule=UserCountry&apiAction=getCountry"
             . "&idSite=" . $idSite
