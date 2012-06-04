@@ -54,19 +54,16 @@ UserCountryMap.run = function(config) {
         updateMap(target + '.svg', function() {
             map.addLayer({ id: 'countries', key: 'iso' });
 
-            map.choropleth({ colors: '#eee' });
             // load country data
-
-            /*
 
             map.choropleth({
                layer: 'countries',
-               data: mydata,
+               data: countryData,
                colors: function(d) {
                   return '#f94'; // return color based on data value/object
                }
             });
-            */
+
         });
     }
 
