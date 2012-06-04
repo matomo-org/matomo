@@ -47,7 +47,7 @@ UserCountryMap.run = function(config) {
                 'class': 'countryLabel'
             });
 
-
+            // add tooltips
             map.tooltips({
                 layer: 'regions',
                 content: function(id, path) {
@@ -108,6 +108,14 @@ UserCountryMap.run = function(config) {
             map.onLayerEvent('click', function(path) {
                 renderCountryMap(path.iso);
             }, 'countries');
+
+            // add tooltips
+            map.tooltips({
+                layer: 'regions',
+                content: function(id, path) {
+                    return [id, path.data.name];
+                }
+            });
 
             updateColors();
         });
