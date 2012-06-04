@@ -114,7 +114,7 @@ UserCountryMap.run = function(config) {
                 }
             });
 
-            renderWorldMap('EU');
+            renderWorldMap('EU', countryData);
         });
     });
 
