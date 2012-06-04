@@ -9,6 +9,7 @@
 #UserCountryMap_map svg .countries {
     stroke-width: 0.5px;
     cursor: pointer;
+    stroke: #3C6FB6;
 }
 
 #UserCountryMap_map svg .context {
