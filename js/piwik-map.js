@@ -50,8 +50,8 @@ UserCountryMap.run = function(config) {
             // add tooltips
             map.tooltips({
                 layer: 'regions',
-                content: function(id, path) {
-                    return [id, path.data.name];
+                content: function(data) {
+                    return [data.fips, data.name];
                 }
             });
 
@@ -112,8 +112,8 @@ UserCountryMap.run = function(config) {
             // add tooltips
             map.tooltips({
                 layer: 'countries',
-                content: function(id, path) {
-                    return [id, path.data.name];
+                content: function(data) {
+                    return [data.iso, data.name];
                 }
             });
 
