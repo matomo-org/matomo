@@ -51,7 +51,7 @@ UserCountryMap.run = function(config) {
             map.tooltips({
                 layer: 'regions',
                 content: function(id, path) {
-                    return [id, 'foo'];
+                    return [id, path.data.name];
                 }
             });
 
