@@ -97,7 +97,6 @@ UserCountryMap.run = function(config) {
 
         map.loadStyles(config.mapCssPath, function() {
             $('#UserCountryMap_content .loadingPiwik').hide();
-            renderCountryMap('EU');
             $('#userCountryMap-update').click(function() {
                 var t = $('#userCountryMapInsertID').val();
                 if (t.length == 3) {
@@ -106,6 +105,8 @@ UserCountryMap.run = function(config) {
                     renderWorldMap(t, countryData);
                 }
             });
+
+            renderWorldMap('EU');
         });
     });
 
