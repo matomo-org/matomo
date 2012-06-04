@@ -159,6 +159,7 @@ UserCountryMap.run = function(config) {
         countryData.sort(function(a,b) { return a.name > b.name ? 1 : -1; });
 
         function update(target) {
+            $('.ui-tooltip').remove(); // remove all existing tooltips
             if (t.length == 3) {
                 renderCountryMap(target);
             } else {
