@@ -88,7 +88,7 @@ UserCountryMap.run = function(config) {
 
         var metrics = ['nb_visits'];
 
-        var countryData = [];
+        var countryData = [], countrySelect = $('#userCountryMapSelectCountry');
         $.each(report.reportData, function(i, data) {
             var meta = report.reportMetadata[i],
                 country = {
@@ -100,6 +100,13 @@ UserCountryMap.run = function(config) {
                 country[metric] = data[metric];
             });
             countryData.push(country);
+
+            // populate country select
+            countrySelect.append('<option value="'+iso+'">'+country.name+'</option>');
+        });
+
+        countrySelect.select(function() {
+            renderCountryMap(countrySelect.val());
         });
 
         console.log(countryData);

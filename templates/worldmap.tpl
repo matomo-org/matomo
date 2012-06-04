@@ -30,9 +30,6 @@
 
             </div>
 
-            <input id="userCountryMapInsertID" style="float:left; width:5em" placeholder="country code" />
-            <button id="userCountryMap-update" style="float:left">update</button>
-
            <select id="userCountryMapSelectMetrics" style="float:right;margin-right:0;margin-bottom:5px">
                 {foreach from=$metrics item=metric}
                     <option value="{$metric[0]}" {if $metric[0] == $defaultMetric}selected="selected"{/if}>{$metric[1]}</option>
