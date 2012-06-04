@@ -60,10 +60,11 @@ UserCountryMap.run = function(config) {
                 layer: 'context',
                 content: function(data) {
                     if (UserCountryMap.countriesByIso[data.iso] === undefined) {
-                        return [data.name, 'n/a'];
+                        return 'no data';
                     }
-                    var metric = $('#userCountryMapSelectMetrics').val();
-                    return [data.name, UserCountryMap.countriesByIso[data.iso][metric]];
+                    var metric = $('#userCountryMapSelectMetrics').val(),
+                        country = UserCountryMap.countriesByIso[data.iso];
+                    return [country.name, [metric]];
                 }
             });
 
