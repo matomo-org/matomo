@@ -54,12 +54,18 @@ UserCountryMap.run = function(config) {
         updateMap(target + '.svg', function() {
             map.addLayer({ id: 'countries', key: 'iso' });
 
-            // load country data
+            var metric = 'nb_visits';
+            // create color scale
+            colscale = new chroma.ColorScale({
+                colors: ['#f5f5f5', '#5170AE'],
+                limits: chroma.limits(countryData, 'quant', 5, metric)
+            });
 
             map.choropleth({
                layer: 'countries',
                data: countryData,
-               colors: function(d) {
+               colors: function(d, e) {
+                    console.log(d, e);
                   return '#f94'; // return color based on data value/object
                }
             });
@@ -69,15 +75,20 @@ UserCountryMap.run = function(config) {
 
     $.getJSON(config.countryDataUrl, function(report) {
 
+        var metrics = ['nb_visits'];
+
         var countryData = [];
         $.each(report.reportData, function(i, data) {
-            var meta = report.reportMetadata[i];
-            countryData.push({
-                name: data.label,
-                iso: UserCountryMap.ISO2toISO3[meta.code.toUpperCase()],
-                flag: meta.logo,
-                data: data
+            var meta = report.reportMetadata[i],
+                country = {
+                    name: data.label,
+                    iso: UserCountryMap.ISO2toISO3[meta.code.toUpperCase()],
+                    flag: meta.logo
+                };
+            $.each(metrics, function(i, metric) {
+                country[metric] = data[metric];
             });
+            countryData.push(country);
         });
 
         map.loadStyles(config.mapCssPath, function() {
