@@ -54,6 +54,11 @@ UserCountryMap.run = function(config) {
         updateMap(id + '.svg', function() {
             map.addLayer({ id: 'countries', key: 'iso' });
 
+            map.choropleth({ colors: '#eee' });
+            // load country data
+
+            /*
+
             map.choropleth({
                layer: 'countries',
                data: mydata,
@@ -61,6 +66,7 @@ UserCountryMap.run = function(config) {
                   return '#f94'; // return color based on data value/object
                }
             });
+            */
         });
     }
 
@@ -70,7 +76,12 @@ UserCountryMap.run = function(config) {
 
         renderCountryMap('DEU');
         $('#userCountryMap-update').click(function() {
-            renderCountryMap($('#userCountryMapInsertID').val());
+            var t = $('#userCountryMapInsertID').val();
+            if (t.length == 3) {
+                renderCountryMap(t);
+            } else {
+                renderWorldMap(t);
+            }
         });
     });
 

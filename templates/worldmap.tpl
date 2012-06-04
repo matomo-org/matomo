@@ -45,6 +45,7 @@
 
     config.mapCssPath = "{$piwikUrl}plugins/UserCountryMap/css/map.css";
     config.svgBasePath = "{$piwikUrl}plugins/UserCountryMap/svg/";
+    config.countryDataUrl = "{$countryDataUrl}";
 
 {literal}
     $(function() {
