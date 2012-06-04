@@ -37,7 +37,15 @@
             </select>
 
             <select id="userCountryMapSelectCountry" style="float:right;margin-right:5px;margin-bottom:5px; max-width: 12em">
-                
+                <option value="world">Overview</option>
+                <option disabled="disabled">––––––</option>
+                <option value="AF">Africa</option>
+                <option value="AS">Asia</option>
+                <option value="EU">Europe</option>
+                <option value="NA">North America</option>
+                <option value="OC">Oceania</option>
+                <option value="SA">South America</option>
+                <option disabled="disabled">––––––</option>
             </select>
         </div>
     </div>

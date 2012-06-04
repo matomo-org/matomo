@@ -50,7 +50,7 @@ UserCountryMap.run = function(config) {
         });
     }
 
-    function renderWorldMap(target, countryData) {
+    function renderWorldMap(target) {
         updateMap(target + '.svg', function() {
             map.addLayer({ id: 'countries', key: 'iso' });
 
@@ -59,13 +59,13 @@ UserCountryMap.run = function(config) {
             // create color scale
             colscale = new chroma.ColorScale({
                 colors: ['#f5f5f5', '#5170AE'],
-                limits: chroma.limits(countryData, 'quant', 5, metric)
+                limits: chroma.limits(UserCountryMap.countryData, 'quant', 5, metric)
             });
 
             // apply colors to map
             map.choropleth({
                 layer: 'countries',
-                data: countryData,
+                data: UserCountryMap.countryData,
                 key: 'iso',
                 colors: function(d, e) {
                     if (d === null) {
@@ -100,28 +100,35 @@ UserCountryMap.run = function(config) {
                 country[metric] = data[metric];
             });
             countryData.push(country);
+        });
 
-            // populate country select
+        countriessort(function(a,b) { return a > b ? 1 : -1; });
+
+        function update(target) {
+            if (t.length == 3) {
+                renderCountryMap(target);
+            } else {
+                renderWorldMap(ttarget);
+            }
+        }
+
+        // populate country select
+        $.each(countries, function(i, country) {
             countrySelect.append('<option value="'+country.iso+'">'+country.name+'</option>');
         });
-
         countrySelect.change(function() {
-            renderCountryMap(countrySelect.val());
+            var t = countrySelect.val();
+            if (t.length == 3) {
+                renderCountryMap(t);
+            } else {
+                renderWorldMap(t);
+            }
         });
 
-        console.log(countryData);
+        UserCountryMap.countryData = countryData;
 
         map.loadStyles(config.mapCssPath, function() {
             $('#UserCountryMap_content .loadingPiwik').hide();
-            $('#userCountryMap-update').click(function() {
-                var t = $('#userCountryMapInsertID').val();
-                if (t.length == 3) {
-                    renderCountryMap(t);
-                } else {
-                    renderWorldMap(t, countryData);
-                }
-            });
-
             renderWorldMap('EU', countryData);
         });
     });
