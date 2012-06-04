@@ -59,6 +59,6 @@ class Piwik_UserCountryMap extends Piwik_Plugin
     {
         $cssFiles = &$notification->getNotificationObject();
 
-        $cssFiles[] = "plugins/UserCountryMap/css/jquery.qtip.css";
+        $cssFiles[] = "plugins/UserCountryMap/css/qtip.css";
     }
 }
