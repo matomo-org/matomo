@@ -64,7 +64,7 @@
                 <option disabled="disabled">––––––</option>
             </select>
 
-            <div id="userCountryMapFlag" style="float:right;width:24px;height: 25px">
+            <div id="userCountryMapFlag" style="float:right;width:25px;height: 25px">
 
             </div>
         </div>
