@@ -47,7 +47,6 @@ class Piwik_UserCountryMap extends Piwik_Plugin
     public function getJsFiles($notification)
     {
         $jsFiles = &$notification->getNotificationObject();
-
         $jsFiles[] = "plugins/UserCountryMap/js/vendor/raphael-min.js";
         $jsFiles[] = "plugins/UserCountryMap/js/vendor/jquery.qtip.min.js";
         $jsFiles[] = "plugins/UserCountryMap/js/vendor/kartograph.min.js";
@@ -58,7 +57,6 @@ class Piwik_UserCountryMap extends Piwik_Plugin
     public function getCssFiles($notification)
     {
         $cssFiles = &$notification->getNotificationObject();
-
         $cssFiles[] = "plugins/UserCountryMap/css/qtip.css";
     }
 }

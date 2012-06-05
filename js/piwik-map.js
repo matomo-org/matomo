@@ -14,7 +14,8 @@ UserCountryMap.run = function(config) {
      * updateState
      */
     function updateState(id) {
-        $('#userCountryMapSelectCountry').val(id);
+        var countrySelect = $('#userCountryMapSelectCountry');
+        countrySelect.val(id);
         if (id.length == 3) {
             renderCountryMap(id);
         } else {
@@ -23,6 +24,19 @@ UserCountryMap.run = function(config) {
         var zoom = $('#UserCountryMap-btn-zoom');
         if (id == 'world') zoom.addClass('inactiveIcon');
         else zoom.removeClass('inactiveIcon');
+
+        // show flag icon in select box
+        if (id.length == 3) {
+            countrySelect.css({
+                'background': 'url('+UserCountryMap.countriesByIso[id].flag+') no-repeat',
+                'padding-left': '30px'
+            });
+        } else {
+            countrySelect.css({
+                'background': 'none',
+                'padding-left': 'auto'
+            });
+        }
     }
 
     /*
