@@ -127,7 +127,7 @@ UserCountryMap.run = function(config) {
                     renderCountryMap(path.iso);
                 } else {
                     // zoom to continent first
-                    renderWorldMap(UserCountryMap.countriesByIso[path.iso]);
+                    renderWorldMap(UserCountryMap.ISO3toCONT[path.iso]);
                 }
             }, 'countries');
 
