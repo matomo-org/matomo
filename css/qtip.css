@@ -123,7 +123,7 @@
 .ui-tooltip-default .ui-tooltip-titlebar,
 .ui-tooltip-default .ui-tooltip-content{
 	border-color: #E7E8E7;
-	background-color: #F7F7F7
+	background-color: #F7F7F7;
 	box-shadow: 1px 1px 3px rgba(0,0,0,.5);
 }
 
