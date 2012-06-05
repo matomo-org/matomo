@@ -68,34 +68,38 @@ UserCountryMap.run = function(config) {
         function updateColors() {
 
             // load some fake data with real region ids from GeoIP
-            $.getJSON('http://geoip.vis4.net/'+UserCountryMap.countriesByIso[iso].iso2+'/regions?f&callback=foo', function(data) {
+            $.ajax({
+                url: 'http://geoip.vis4.net/'+UserCountryMap.countriesByIso[iso].iso2+'/regions',
+                dataType: 'jsonp',
+                success : function(data) {
 
-                var regionDict = {};
-                $.each(data, function(i, row) { regionDict[row.code] = row; });
+                    var regionDict = {};
+                    $.each(data, function(i, row) { regionDict[row.code] = row; });
 
-                var metric = 'nb_visits'; // $('#userCountryMapSelectMetrics').val();
-                // create color scale
-                colscale = new chroma.ColorScale({
-                    colors: ['#CDDAEF', '#385993'],
-                    limits: chroma.limits(data, 'k', 8, metric)
-                });
+                    var metric = 'nb_visits'; // $('#userCountryMapSelectMetrics').val();
+                    // create color scale
+                    colscale = new chroma.ColorScale({
+                        colors: ['#CDDAEF', '#385993'],
+                        limits: chroma.limits(data, 'k', 8, metric)
+                    });
 
-                // apply colors to map
-                map.choropleth({
-                    layer: 'regions',
-                    key: 'fips',
-                    colors: function(d, pd) {
-                        console.log(d, pd);
-                        var code = pd.fips.substr(2);  // cut first two letters from fips code (=country code)
-                        if (regionDict[code] === undefined) {
-                            // not found :(
-                            return '#F6F5F3';
-                        } else {
-                            // match
-                            return colscale.getColor(regionDict[code][metric]);
-                        }
-                   }
-                });
+                    // apply colors to map
+                    map.choropleth({
+                        layer: 'regions',
+                        key: 'fips',
+                        colors: function(d, pd) {
+                            console.log(d, pd);
+                            var code = pd.fips.substr(2);  // cut first two letters from fips code (=country code)
+                            if (regionDict[code] === undefined) {
+                                // not found :(
+                                return '#F6F5F3';
+                            } else {
+                                // match
+                                return colscale.getColor(regionDict[code][metric]);
+                            }
+                       }
+                    });
+                }
             });
         }
 
