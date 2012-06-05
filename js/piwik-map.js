@@ -20,8 +20,11 @@ UserCountryMap.run = function(config) {
         } else {
             renderWorldMap(id);
         }
-        var zoomImg = $('#UserCountryMap-btn-zoom img');
+        var zoom = $('#UserCountryMap-btn-zoom'),
+            zoomImg = $('img', zoom);
         zoomImg.attr({ src: zoomImg.data('src-' + (id != 'world' ? 'enabled' : 'disabled'))});
+        if (id == 'world') zoom.addClass('inactiveIcon');
+        else zoom.removeClass('inactiveIcon');
     }
 
     /*

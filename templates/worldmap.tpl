@@ -1,4 +1,14 @@
 <div id="UserCountryMap_content" style="position:relative; overflow:hidden;">
+    <style type="text/css">
+.dataTableFooterIcons .inactiveIcon:hover {
+    background-color: #F2F1ED;
+}
+
+.dataTableFooterIcons .inactiveIcon {
+    cursor: default;
+}
+
+    </style>
     <div id="UserCountryMap_container">
 
         <div id="UserCountryMap_map" style="overflow:hidden"></div>
@@ -17,7 +27,7 @@
 
                 <div class="tableIconsGroup">
                     <span class="tableAllColumnsSwitch">
-                        <a id="UserCountryMap-btn-zoom" format="table" class="tableIcon"><img src="" data-src-disabled="{$piwikUrl}plugins/UserCountryMap/img/zoom-out-disabled.png" data-src-enabled="{$piwikUrl}plugins/UserCountryMap/img/zoom-out.png" title="Zoom to world"></a>
+                        <a id="UserCountryMap-btn-zoom" format="table" class="tableIcon"><img src="{$piwikUrl}plugins/UserCountryMap/img/zoom-out-disabled.png" data-src-disabled="{$piwikUrl}plugins/UserCountryMap/img/zoom-out-disabled.png" data-src-enabled="{$piwikUrl}plugins/UserCountryMap/img/zoom-out.png" title="Zoom to world"></a>
                     </span>
                 </div>
 
