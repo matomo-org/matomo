@@ -84,7 +84,7 @@ UserCountryMap.run = function(config) {
                 data: map.getLayer('context-clickable').getPathsData(),
                 type: $K.Label,
                 filter: function(data) { return data.iso != iso; },
-                location: function(data) { return 'context.'+data.iso; },
+                location: function(data) { return 'context-clickable.'+data.iso; },
                 text: function(data) { return data.iso; },
                 'class': 'countryLabel'
             });
@@ -99,7 +99,7 @@ UserCountryMap.run = function(config) {
 
             // and also for neighboring countries
             map.tooltips({
-                layer: 'context',
+                layer: 'context-clickable',
                 content: function(data) {
                     if (UserCountryMap.countriesByIso[data.iso] === undefined) {
                         return 'no data';
