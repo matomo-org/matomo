@@ -8,6 +8,11 @@
     .dataTableFooterIcons .inactiveIcon {
         cursor: default;
     }
+    .dataTableFooterIcons .inactiveIcon img {
+        opacity: 0.3;
+        -moz-opacity: 0.3;
+        filter:alpha(opacity=3);
+    }
 {/literal}
     </style>
     <div id="UserCountryMap_container">
@@ -28,17 +33,17 @@
 
                 <div class="tableIconsGroup">
                     <span class="tableAllColumnsSwitch">
-                        <a id="UserCountryMap-btn-zoom" format="table" class="tableIcon"><img src="{$piwikUrl}plugins/UserCountryMap/img/zoom-out-disabled.png" data-src-disabled="{$piwikUrl}plugins/UserCountryMap/img/zoom-out-disabled.png" data-src-enabled="{$piwikUrl}plugins/UserCountryMap/img/zoom-out.png" title="Zoom to world"></a>
+                        <a id="UserCountryMap-btn-zoom" format="table" class="tableIcon"><img src="{$piwikUrl}plugins/UserCountryMap/img/zoom-out.png" title="Zoom to world"></a>
                     </span>
                 </div>
 
-                <!--<div class="tableIconsGroup">
+                <div class="tableIconsGroup">
                     <span class="tableAllColumnsSwitch">
                         <a var="world" format="table" class="tableIcon activeIcon"><img src="{$piwikUrl}plugins/UserCountryMap/img/world.png" title="Zoom to world"></a>
                         <a var="tableAllColumns" format="tableAllColumns" class="tableIcon"><img src="{$piwikUrl}plugins/UserCountryMap/img/regions.png" title="Display a table with more metrics"></a>
                         <a var="tableGoals" format="tableGoals" class="tableIcon"><img src="{$piwikUrl}plugins/UserCountryMap/img/cities.png" title="Display a table with Goals metrics"></a>
                     </span>
-                </div>-->
+                </div>
 
             </div>
 
