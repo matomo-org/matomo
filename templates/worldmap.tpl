@@ -1,13 +1,14 @@
 <div id="UserCountryMap_content" style="position:relative; overflow:hidden;">
     <style type="text/css">
-.dataTableFooterIcons .inactiveIcon:hover {
-    background-color: #F2F1ED;
-}
-
-.dataTableFooterIcons .inactiveIcon {
-    cursor: default;
-}
-
+{literal}
+    /* this should me moved to TableView css sometimes */
+    .dataTableFooterIcons .inactiveIcon:hover {
+        background-color: #F2F1ED;
+    }
+    .dataTableFooterIcons .inactiveIcon {
+        cursor: default;
+    }
+{/literal}
     </style>
     <div id="UserCountryMap_container">
 
