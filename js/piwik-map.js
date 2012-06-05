@@ -263,7 +263,9 @@ UserCountryMap.run = function(config) {
             $('#UserCountryMap .loadingPiwik').hide();
 
             // start with default view (or saved state??)
-            var state = $('#UserCountryMap').dashboardWidget('getWidgetObject').parameters;
+            var widgetObj = $('#UserCountryMap').dashboardWidget('getWidgetObject'),
+                state = widgetObj.parameters;
+            console.log('widget object:', widgetObj);
             console.log('stored state:', state);
             updateState('world');
 
