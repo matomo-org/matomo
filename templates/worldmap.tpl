@@ -17,7 +17,7 @@
 
                 <div class="tableIconsGroup">
                     <span class="tableAllColumnsSwitch">
-                        <a id="UserCountryMap-btn-zoom" format="table" class="tableIcon activeIcon"><img src="{$piwikUrl}plugins/UserCountryMap/img/zoom-out.png" title="Zoom to world"></a>
+                        <a id="UserCountryMap-btn-zoom" format="table" class="tableIcon"><img src="" data-src-disabled="{$piwikUrl}plugins/UserCountryMap/img/zoom-out-disabled.png" data-src-enabled="{$piwikUrl}plugins/UserCountryMap/img/zoom-out.png" title="Zoom to world"></a>
                     </span>
                 </div>
 

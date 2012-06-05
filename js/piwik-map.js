@@ -10,6 +10,21 @@ UserCountryMap.run = function(config) {
 
     window.__userCountryMap = map;
 
+    /*
+     * updateState
+     */
+    function updateState(id) {
+        $('#userCountryMapSelectCountry').val(id);
+        if (id.length == 3) {
+            renderCountryMap(id);
+        } else {
+            renderWorldMap(id);
+        }
+    }
+
+    /*
+     * updateMap is called by renderCountryMap() and renderWorldMap()
+     */
     function updateMap(svgUrl, callback) {
         map.loadMap(config.svgBasePath + svgUrl, function() {
             var ratio, w, h;
@@ -123,12 +138,13 @@ UserCountryMap.run = function(config) {
             }});
 
             map.onLayerEvent('click', function(path) {
+                var tgt;
                 if (UserCountryMap.lastSelected != 'world' || UserCountryMap.countriesByIso[path.iso] === undefined) {
-                    renderCountryMap(path.iso);
+                    tgt = path.iso;
                 } else {
-                    // zoom to continent first
-                    renderWorldMap(UserCountryMap.ISO3toCONT[path.iso]);
+                    tgt = UserCountryMap.ISO3toCONT[path.iso];
                 }
+                updateState(tgt);
             }, 'countries');
 
             // add tooltips
@@ -145,12 +161,13 @@ UserCountryMap.run = function(config) {
         });
     }
 
+    // now load the metrics for all countries
     $.getJSON(config.countryDataUrl, function(report) {
 
         var metrics = $('#userCountryMapSelectMetrics option');
-
         var countryData = [], countrySelect = $('#userCountryMapSelectCountry'),
             countriesByIso = {};
+        // read api result to countryData and countriesByISo
         $.each(report.reportData, function(i, data) {
             var meta = report.reportMetadata[i],
                 country = {
@@ -165,53 +182,40 @@ UserCountryMap.run = function(config) {
             countryData.push(country);
             countriesByIso[country.iso] = country;
         });
-
+        // sort countries by name
         countryData.sort(function(a,b) { return a.name > b.name ? 1 : -1; });
 
-        function update(target) {
-            if (t.length == 3) {
-                renderCountryMap(target);
-            } else {
-                renderWorldMap(ttarget);
-            }
-        }
-
-
+        // store country data globally
         UserCountryMap.countryData = countryData;
         UserCountryMap.countriesByIso = countriesByIso;
 
         map.loadStyles(config.mapCssPath, function() {
-            $('#UserCountryMap_content .loadingPiwik').hide();
-            renderWorldMap('world');
+            // map stylesheets are loaded
 
-            function updateState(id) {
-                $('#userCountryMapSelectCountry').val(id);
-                if (id.length == 3) {
-                    renderCountryMap(id);
-                } else {
-                    renderWorldMap(id);
-                }
-            }
+            // hide loading indicator
+            $('#UserCountryMap_content .loadingPiwik').hide();
+
+            // start with default view (or saved state??)
+            renderWorldMap('world');
 
             // populate country select
             $.each(countryData, function(i, country) {
                 countrySelect.append('<option value="'+country.iso+'">'+country.name+'</option>');
             });
+
+            // react to changes of country select
             countrySelect.change(function() {
                 updateState(countrySelect.val());
             });
 
             // enable zoom-out
             $('#UserCountryMap-btn-zoom').click(function() {
-                var t = UserCountryMap.lastSelected;
-                if (t.length == 2) renderWorldMap('world');
-                else if (t.length == 3) {
-                    if (UserCountryMap.ISO3toCONT[t] !== undefined) {
-                        renderWorldMap(UserCountryMap.ISO3toCONT[t]);
-                    } else {
-                        renderWorldMap('world');
-                    }
+                var t = UserCountryMap.lastSelected,
+                    tgt = 'world';  // zoom out to world per default..
+                if (t.length == 3 && UserCountryMap.ISO3toCONT[t] !== undefined) {
+                    tgt = UserCountryMap.ISO3toCONT[t];  // ..but zoom to continent if we know it
                 }
+                updateState(tgt);
             });
 
             // enable mertic changes
