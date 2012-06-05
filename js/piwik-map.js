@@ -264,8 +264,8 @@ UserCountryMap.run = function(config) {
 
             // start with default view (or saved state??)
             var state = $('#UserCountryMap').dashboardWidget('getWidgetObject').parameters;
-            console.log(state, state.lastMap);
-            updateState(state.lastMap | 'world');
+            console.log('stored state:', state);
+            updateState('world');
 
             // populate country select
             $.each(countryData, function(i, country) {
