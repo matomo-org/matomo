@@ -196,7 +196,7 @@ UserCountryMap.run = function(config) {
             $('#UserCountryMap_content .loadingPiwik').hide();
 
             // start with default view (or saved state??)
-            renderWorldMap('world');
+            updateState('world');
 
             // populate country select
             $.each(countryData, function(i, country) {
