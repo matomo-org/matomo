@@ -20,6 +20,8 @@ UserCountryMap.run = function(config) {
         } else {
             renderWorldMap(id);
         }
+        var zoomImg = $('#UserCountryMap-btn-zoom img');
+        zoomImg.attr({ src: zoomImg.data('src-' + (id != 'world' ? 'enabled' : 'disabled'))});
     }
 
     /*
