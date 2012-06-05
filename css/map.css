@@ -14,19 +14,19 @@
 
 #UserCountryMap_map svg .context {
     stroke: #BBBBBB;
-    fill: #F2F1ED;
+    fill: #F6F5F3;
     stroke-width: 0.5px;
 }
 
 #UserCountryMap_map svg .context-clickable {
     stroke: #BBBBBB;
-    fill: #E4E2D7;
+    fill: #F2F1ED;
     stroke-width: 0.5px;
     cursor: pointer;
 }
 
 #UserCountryMap_map svg .context-clickable:hover {
-    fill: #;
+    fill: #E4E2D7;
 }
 
 #UserCountryMap_map svg .regionBG {
