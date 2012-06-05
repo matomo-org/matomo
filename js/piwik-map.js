@@ -68,7 +68,7 @@ UserCountryMap.run = function(config) {
         function updateColors() {
 
             // load some fake data with real region ids from GeoIP
-            $.getJSON('http://geoip.vis4.net/'+UserCountryMap.countriesByIso[iso].iso2+'/regions?callback=foo', function(data) {
+            $.getJSON('http://geoip.vis4.net/'+UserCountryMap.countriesByIso[iso].iso2+'/regions?f&callback=foo', function(data) {
 
                 var regionDict = {};
                 $.each(data, function(i, row) { regionDict[row.code] = row; });
