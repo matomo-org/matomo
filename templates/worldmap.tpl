@@ -1,4 +1,4 @@
-<div id="UserCountryMap_content" style="position:relative; overflow:hidden;">
+<div id="UserCountryMap" style="position:relative; overflow:hidden;">
     <style type="text/css">
 {literal}
     /* this should me moved to TableView css sometimes */

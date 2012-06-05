@@ -14,6 +14,8 @@ UserCountryMap.run = function(config) {
      * updateState
      */
     function updateState(id) {
+        $('#UserCountryMap').dashboardWidget('setParameters', { lastMap: id });
+
         var countrySelect = $('#userCountryMapSelectCountry');
         countrySelect.val(id);
         if (id.length == 3) {
@@ -258,10 +260,12 @@ UserCountryMap.run = function(config) {
             // map stylesheets are loaded
 
             // hide loading indicator
-            $('#UserCountryMap_content .loadingPiwik').hide();
+            $('#UserCountryMap .loadingPiwik').hide();
 
             // start with default view (or saved state??)
-            updateState('world');
+            var state = $('#UserCountryMap').dashboardWidget('getWidgetObject').parameters;
+            console.log(state, state.lastMap);
+            updateState(state.lastMap | 'world');
 
             // populate country select
             $.each(countryData, function(i, country) {
