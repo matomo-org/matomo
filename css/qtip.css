@@ -60,7 +60,7 @@
 		border-style: solid;
 
 		font-weight: bold;
-		color: #7E7363;
+
 	}
 
 	.ui-tooltip-titlebar + .ui-tooltip-content{ border-top-width: 0px !important; }
@@ -117,13 +117,14 @@
 
 /*! Default tooltip style */
 .ui-tooltip-default {
-	box-shadow: 1px 1px 3px rgba(0,0,0,.5);
+	
 }
 
 .ui-tooltip-default .ui-tooltip-titlebar,
 .ui-tooltip-default .ui-tooltip-content{
 	border-color: #E7E8E7;
-	background-color: #F7F7F7;
+	background-color: #F7F7F7
+	box-shadow: 1px 1px 3px rgba(0,0,0,.5);
 }
 
 .ui-tooltip-default .ui-tooltip-titlebar .ui-state-hover{
@@ -132,11 +133,16 @@
 }
 
 .ui-tooltip-titlebar {
-	border-radius: 5px 5px 0 0;
 	border-bottom: 0;
 }
 
 .ui-tooltip-content {
-	border-radius: 0 0 5px 5px;
-	border-top: 0;
+	border-radius: 5px;
+}
+
+.ui-tooltip-content h3 {
+	font-weight: bold;
+	color: #7E7363;
+	font-size: 14px;
+	margin: 0 0 5px;
 }

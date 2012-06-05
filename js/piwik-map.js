@@ -53,7 +53,7 @@ UserCountryMap.run = function(config) {
             map.tooltips({
                 layer: 'regions',
                 content: function(data) {
-                    return [data.fips, data.name];
+                    return '<h3>'+data.name+'</h3>FIPS: '+data.fips + '<br />FIPS-1: '+ data['fips-'];
                 }
             });
 
@@ -66,7 +66,7 @@ UserCountryMap.run = function(config) {
                     }
                     var metric = $('#userCountryMapSelectMetrics').val(),
                         country = UserCountryMap.countriesByIso[data.iso];
-                    return [country.name, [metric]];
+                    return '<h3>'+country.name+'</h3>'+metric;
                 }
             });
 
@@ -128,8 +128,9 @@ UserCountryMap.run = function(config) {
             map.tooltips({
                 layer: 'countries',
                 content: function(data) {
-                    var metric = $('#userCountryMapSelectMetrics').val();
-                    return [data.name, UserCountryMap.countriesByIso[data.iso][metric]];
+                    var metric = $('#userCountryMapSelectMetrics').val(),
+                        country = UserCountryMap.countriesByIso[data.iso];
+                    return '<h3>'+country.name+'</h3>'+metric;
                 }
             });
 
