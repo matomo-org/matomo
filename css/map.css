@@ -18,6 +18,17 @@
     stroke-width: 0.5px;
 }
 
+#UserCountryMap_map svg .context-clickable {
+    stroke: #BBBBBB;
+    fill: #E4E2D7;
+    stroke-width: 0.5px;
+    cursor: pointer;
+}
+
+#UserCountryMap_map svg .context-clickable:hover {
+    fill: #;
+}
+
 #UserCountryMap_map svg .regionBG {
     stroke: #fff;
     fill: #fff;

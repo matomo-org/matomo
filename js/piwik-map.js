@@ -66,17 +66,22 @@ UserCountryMap.run = function(config) {
         UserCountryMap.lastSelected = iso;
         updateMap(iso + '.svg', function() {
             // add background
-            map.addLayer({ id: 'context', key: 'iso' });
+            map.addLayer({ id: 'context', key: 'iso', filter: function(pd) {
+                return UserCountryMap.countriesByIso[pd.iso] === undefined;
+            } });
+            map.addLayer({ id: 'context', key: 'iso', className: 'context-clickable', filter: function(pd) {
+                return UserCountryMap.countriesByIso[pd.iso] !== undefined;
+            } });
             map.addLayer({ id: "regions", className: "regionBG" });
             map.addLayer({ id: 'regions', key: 'fips' });
 
             // add click events for surrounding countries
             map.onLayerEvent('click', function(path) {
                 updateState(path.iso);
-            }, 'context');
+            }, 'context-clickable');
 
             map.addSymbols({
-                data: map.getLayer('context').getPathsData(),
+                data: map.getLayer('context-clickable').getPathsData(),
                 type: $K.Label,
                 filter: function(data) { return data.iso != iso; },
                 location: function(data) { return 'context.'+data.iso; },
