@@ -64,6 +64,41 @@ UserCountryMap.run = function(config) {
 
     function renderCountryMap(iso) {
         UserCountryMap.lastSelected = iso;
+
+        function updateColors() {
+
+            // load some fake data with real region ids from GeoIP
+            $.getJSON('http://geoip.vis4.net/'+UserCountryMap.countriesByIso[iso].iso2+'/regions?callback=foo', function(data) {
+
+                var regionDict = {};
+                $.each(data, function(i, row) { regionDict[row.code] = row; });
+
+                var metric = 'nb_visits'; // $('#userCountryMapSelectMetrics').val();
+                // create color scale
+                colscale = new chroma.ColorScale({
+                    colors: ['#CDDAEF', '#385993'],
+                    limits: chroma.limits(data, 'k', 8, metric)
+                });
+
+                // apply colors to map
+                map.choropleth({
+                    layer: 'regions',
+                    // data: UserCountryMap.countryData,
+                    key: 'fips',
+                    colors: function(d, pd) {
+                        var code = pd.fips.substr(2);  // cut first two letters from fips code (=country code)
+                        if (regionDict[code] === undefined) {
+                            // not found :(
+                            return '#eee';
+                        } else {
+                            // match
+                            return colscale.getColor(regionDict[code][metric]);
+                        }
+                   }
+                });
+            });
+        }
+
         updateMap(iso + '.svg', function() {
             // add background
             map.addLayer({ id: 'context', key: 'iso', filter: function(pd) {
@@ -109,6 +144,8 @@ UserCountryMap.run = function(config) {
                     return '<h3>'+country.name+'</h3>'+UserCountryMap.config.metrics[metric]+': '+country[metric];
                 }
             });
+
+            updateColors();
 
         });
     }
@@ -195,6 +232,7 @@ UserCountryMap.run = function(config) {
             var meta = report.reportMetadata[i],
                 country = {
                     name: data.label,
+                    iso2: meta.code.toUpperCase(),
                     iso: UserCountryMap.ISO2toISO3[meta.code.toUpperCase()],
                     flag: meta.logo
                 };
