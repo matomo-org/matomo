@@ -6,6 +6,8 @@ UserCountryMap.run = function(config) {
         main = $('#UserCountryMap_container'),
         width = main.width();
 
+    UserCountryMap.config = config;
+
     window.__userCountryMap = map;
 
     function updateMap(svgUrl, callback) {
@@ -66,7 +68,7 @@ UserCountryMap.run = function(config) {
                     }
                     var metric = $('#userCountryMapSelectMetrics').val(),
                         country = UserCountryMap.countriesByIso[data.iso];
-                    return '<h3>'+country.name+'</h3>'+metric;
+                    return '<h3>'+country.name+'</h3>'+UserCountryMap.config.metrics[metric]+': '+country[metric];
                 }
             });
 
@@ -130,7 +132,7 @@ UserCountryMap.run = function(config) {
                 content: function(data) {
                     var metric = $('#userCountryMapSelectMetrics').val(),
                         country = UserCountryMap.countriesByIso[data.iso];
-                    return '<h3>'+country.name+'</h3>'+metric;
+                    return '<h3>'+country.name+'</h3>'+UserCountryMap.config.metrics[metric]+': '+country[metric];
                 }
             });
 

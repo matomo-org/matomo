@@ -1,5 +1,6 @@
 <div id="UserCountryMap_content" style="position:relative; overflow:hidden;">
     <div id="UserCountryMap_container">
+
         <div id="UserCountryMap_map" style="overflow:hidden"></div>
         <div id="UserCountryMap_overlay" style="display:none; position: absolute; top: 10px; left:10px;z-index:1000;padding:5px;border-radius:3px;background:rgba(255,255,255,0.9)">
             <div class="county-name" style="font-weight:bold; color:#9A9386;">Deutschland</div>
@@ -55,12 +56,15 @@
 <script type="text/javascript">
 
 {literal}
-    var config = {};
+    var config = { metrics: {} };
 {/literal}
 
     config.mapCssPath = "{$piwikUrl}plugins/UserCountryMap/css/map.css";
     config.svgBasePath = "{$piwikUrl}plugins/UserCountryMap/svg/";
     config.countryDataUrl = "{$countryDataUrl}";
+    {foreach from=$metrics item=metric}
+    config.metrics['{$metric[0]}'] = "{$metric[1]}";
+    {/foreach}
 
 {literal}
     $(function() {
