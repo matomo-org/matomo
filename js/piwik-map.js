@@ -83,9 +83,9 @@ UserCountryMap.run = function(config) {
                 // apply colors to map
                 map.choropleth({
                     layer: 'regions',
-                    // data: UserCountryMap.countryData,
                     key: 'fips',
                     colors: function(d, pd) {
+                        console.log(d, pd);
                         var code = pd.fips.substr(2);  // cut first two letters from fips code (=country code)
                         if (regionDict[code] === undefined) {
                             // not found :(
