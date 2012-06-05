@@ -89,7 +89,7 @@ UserCountryMap.run = function(config) {
                         var code = pd.fips.substr(2);  // cut first two letters from fips code (=country code)
                         if (regionDict[code] === undefined) {
                             // not found :(
-                            return '#eee';
+                            return '#F6F5F3';
                         } else {
                             // match
                             return colscale.getColor(regionDict[code][metric]);
@@ -168,7 +168,7 @@ UserCountryMap.run = function(config) {
                 colors: function(d, e) {
                     if (d === null) {
                         // console.log(d, e);
-                        return '#eee';
+                        return '#F6F5F3';
                     } else {
                         return colscale.getColor(d[metric]);
                     }
