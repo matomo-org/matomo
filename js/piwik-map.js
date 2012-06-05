@@ -123,7 +123,12 @@ UserCountryMap.run = function(config) {
             }});
 
             map.onLayerEvent('click', function(path) {
-                renderCountryMap(path.iso);
+                if (UserCountryMap.lastSelected != 'world' || UserCountryMap.countriesByIso[path.iso] === undefined) {
+                    renderCountryMap(path.iso);
+                } else {
+                    // zoom to continent first
+                    renderWorldMap(UserCountryMap.countriesByIso[path.iso]);
+                }
             }, 'countries');
 
             // add tooltips
