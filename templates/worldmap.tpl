@@ -39,8 +39,8 @@
 
                 <div class="tableIconsGroup">
                     <span class="tableAllColumnsSwitch">
-                        <a var="tableAllColumns" format="tableAllColumns" class="tableIcon"><img src="{$piwikUrl}plugins/UserCountryMap/img/regions.png" title="Display a table with more metrics"></a>
-                        <a var="tableGoals" format="tableGoals" class="tableIcon"><img src="{$piwikUrl}plugins/UserCountryMap/img/cities.png" title="Display a table with Goals metrics"></a>
+                        <a var="tableAllColumns" format="tableAllColumns" class="tableIcon"><img src="{$piwikUrl}plugins/UserCountryMap/img/regions.png" title="Show vistors per region/country"></a>
+                        <a var="tableGoals" format="tableGoals" class="tableIcon inactiveIcon"><img src="{$piwikUrl}plugins/UserCountryMap/img/cities.png" title="Show visitors per city"></a>
                     </span>
                 </div>
 
