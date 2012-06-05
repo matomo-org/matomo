@@ -31,9 +31,8 @@ UserCountryMap.run = function(config) {
             flag.css({
                 'background-image': 'url('+UserCountryMap.countriesByIso[id].flag+')',
                 'background-repeat': 'no-repeat',
-                'background-position': '5px 2px'
+                'background-position': '5px 5px'
             });
-
         } else {
             flag.css({
                 'background': 'none'
