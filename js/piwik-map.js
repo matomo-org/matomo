@@ -54,7 +54,7 @@ UserCountryMap.run = function(config) {
 
             // add click events for surrounding countries
             map.onLayerEvent('click', function(path) {
-                renderCountryMap(path.iso);
+                updateState(path.iso);
             }, 'context');
 
             map.addSymbols({
