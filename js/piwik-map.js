@@ -26,15 +26,17 @@ UserCountryMap.run = function(config) {
         else zoom.removeClass('inactiveIcon');
 
         // show flag icon in select box
+        var flag = $('#userCountryMapFlag');
         if (id.length == 3) {
-            countrySelect.css({
-                'background': 'url('+UserCountryMap.countriesByIso[id].flag+') no-repeat',
-                'padding-left': '30px'
+            flag.css({
+                'background-image': 'url('+UserCountryMap.countriesByIso[id].flag+')',
+                'background-repeat': 'no-repeat',
+                'background-position': '5px 2px'
             });
+
         } else {
-            countrySelect.css({
-                'background': 'none',
-                'padding-left': 'auto'
+            flag.css({
+                'background': 'none'
             });
         }
     }
