@@ -7,6 +7,7 @@ UserCountryMap.run = function(config) {
         width = main.width();
 
     UserCountryMap.config = config;
+    UserCountryMap.widget = $('#widgetUserCountryMapworldMap').parent().dashboardWidget;
 
     window.__userCountryMap = map;
 
@@ -14,7 +15,7 @@ UserCountryMap.run = function(config) {
      * updateState
      */
     function updateState(id) {
-        $('#UserCountryMap').dashboardWidget('setParameters', { lastMap: id });
+       UserCountryMap.widget.setParameters({ lastMap: id });
 
         var countrySelect = $('#userCountryMapSelectCountry');
         countrySelect.val(id);
@@ -263,10 +264,8 @@ UserCountryMap.run = function(config) {
             $('#UserCountryMap .loadingPiwik').hide();
 
             // start with default view (or saved state??)
-            var widgetObj = $('#UserCountryMap').dashboardWidget('getWidgetObject'),
-                state = widgetObj.parameters;
-            console.log('widget object:', widgetObj);
-            console.log('stored state:', state);
+            console.log('stored state:', UserCountryMap.widget.widgetParameters);
+            console.log('stored state:', UserCountryMap.widget.widgetParameters.lastMap);
             updateState('world');
 
             // populate country select
