@@ -11,6 +11,16 @@ UserCountryMap.run = function(config) {
 
     window.__userCountryMap = map;
 
+    function onResize() {
+        var ratio, w, h;
+
+        ratio = map.viewAB.width / map.viewAB.height;
+        w = map.container.width();
+        h = w / ratio;
+        map.container.height(h-2);
+        map.resize(w, h);
+    }
+
     /*
      * updateState
      */
@@ -48,16 +58,9 @@ UserCountryMap.run = function(config) {
      */
     function updateMap(svgUrl, callback) {
         map.loadMap(config.svgBasePath + svgUrl, function() {
-            var ratio, w, h;
 
             map.clear();
-
-            ratio = map.viewAB.width / map.viewAB.height;
-            w = map.container.width();
-            h = w / ratio;
-            map.container.height(h-2);
-            map.resize(w, h);
-
+            onResize();
             callback();
 
             $('.ui-tooltip').remove(); // remove all existing tooltips
@@ -286,6 +289,8 @@ UserCountryMap.run = function(config) {
                 }
                 updateState(tgt);
             });
+
+            $(window).resize(onResize);
 
             // enable mertic changes
             $('#userCountryMapSelectMetrics').change(function() {
