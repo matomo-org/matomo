@@ -152,8 +152,7 @@ UserCountryMap.run = function(config) {
     function renderCountryMap(iso) {
         UserCountryMap.lastSelected = iso;
 
-        function updateColors() {
-
+        function updateRegionColors() {
             // load some fake data with real region ids from GeoIP
             $.ajax({
                 url: 'http://geoip.vis4.net/'+UserCountryMap.countriesByIso[iso].iso2+'/regions',
@@ -185,6 +184,24 @@ UserCountryMap.run = function(config) {
                                 return colscale.getColor(regionDict[code][metric]);
                             }
                        }
+                    });
+                }
+            });
+        }
+
+        function updateCitySymbols() {
+             // load some fake data with real cities ids from GeoIP
+            $.ajax({
+                url: 'http://geoip.vis4.net/'+UserCountryMap.countriesByIso[iso].iso2+'/cities',
+                dataType: 'jsonp',
+                success : function(data) {
+
+                    console.log(data);
+                    var metric = 'nb_visits'; // $('#userCountryMapSelectMetrics').val();
+
+                    map.choropleth({
+                        layer: 'regions',
+                        colors: function() { return '#CDDAEF'; }
                     });
                 }
             });
@@ -236,7 +253,11 @@ UserCountryMap.run = function(config) {
                 }
             });
 
-            updateColors();
+            if (UserCountryMap.mode == "region") {
+                updateRegionColors();
+            } else {
+                updateCitySymbols();
+            }
 
         });
     }
