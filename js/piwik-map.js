@@ -190,11 +190,12 @@ UserCountryMap.run = function(config) {
         }
 
         function updateCitySymbols() {
-             // load some fake data with real cities ids from GeoIP
+            // load some fake data with real cities ids from GeoIP
 
+            // color regions in light blue
             map.choropleth({
                 layer: 'regions',
-                colors: function() { return '#CDDAEF'; }
+                colors: '#CDDAEF'
             });
 
             $.ajax({
