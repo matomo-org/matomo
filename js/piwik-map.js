@@ -33,6 +33,12 @@ UserCountryMap.run = function(config) {
         UserCountryMap._resizeTimer = setTimeout(onResize, 300);
     }
 
+    function activateButton(btn) {
+        $('#UserCountryMap-view-mode-buttons a').removeClass('activeIcon');
+        btn.addClass('activeIcon');
+        $('#UserCountryMap-activeItem').offset({ left: btn.offset().left });
+    }
+
     function initUserInterface() {
         // react to changes of country select
         $('#userCountryMapSelectCountry').change(function() {
@@ -57,20 +63,13 @@ UserCountryMap.run = function(config) {
             updateState(UserCountryMap.lastSelected);
         });
 
-        function activateButton(btn) {
-            $('#UserCountryMap-view-mode-buttons a').removeClass('activeIcon');
-            btn.addClass('activeIcon');
-            $('#UserCountryMap-activeItem').offset({ left: btn.offset().left });
-            updateState(UserCountryMap.lastSelected);
-        }
-
         // handle city button
         (function(btn) {
             btn.click(function() {
                 if (UserCountryMap.lastSelected.length == 3) {
                     if (UserCountryMap.mode != "city") {
                         UserCountryMap.mode = "city";
-                        activateButton(btn);
+                        updateState(UserCountryMap.lastSelected);
                     }
                 }
             });
@@ -82,7 +81,7 @@ UserCountryMap.run = function(config) {
                 if (UserCountryMap.mode != "region") {
                     $('#UserCountryMap-view-mode-buttons a').removeClass('activeIcon');
                     UserCountryMap.mode = "region";
-                    activateButton(btn);
+                    updateState(UserCountryMap.lastSelected);
                 }
             });
         })($('#UserCountryMap-btn-region'));
@@ -92,7 +91,14 @@ UserCountryMap.run = function(config) {
      * updateState
      */
     function updateState(id) {
-        UserCountryMap.widget.dashboardWidget('setParameters', { lastMap: id });
+        // store map state
+        UserCountryMap.widget.dashboardWidget('setParameters', { lastMap: id, viewMode: UserCountryMap.mode });
+
+        if (UserCountryMap.mode == "city") {
+            activateButton($('#UserCountryMap-btn-city'));
+        } else {
+            activateButton($('#UserCountryMap-btn-region'));
+        }
 
         var countrySelect = $('#userCountryMapSelectCountry');
         countrySelect.val(id);
@@ -337,6 +343,7 @@ UserCountryMap.run = function(config) {
 
             // start with default view (or saved state??)
             var params = UserCountryMap.widget.dashboardWidget('getWidgetObject').parameters;
+            UserCountryMap.mode = params.viewMode ? params.viewMode : 'region';
             updateState(params.lastMap ? params.lastMap : 'world');
 
             // populate country select
