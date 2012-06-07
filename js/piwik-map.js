@@ -13,12 +13,48 @@ UserCountryMap.run = function(config) {
 
     function onResize() {
         var ratio, w, h;
-
         ratio = map.viewAB.width / map.viewAB.height;
         w = map.container.width();
         h = w / ratio;
         map.container.height(h-2);
         map.resize(w, h);
+    }
+
+    /*
+     * to ensure that onResize is not called a hundred times
+     * while resizing the browser window, this functions
+     * makes sure to only call onResize at the end
+     */
+    function onResizeLazy() {
+        clearTimeout(UserCountryMap._resizeTimer);
+        UserCountryMap._resizeTimer = setTimeout(onResize, 300);
+    }
+
+    function initUserInterface() {
+        // react to changes of country select
+        $('#userCountryMapSelectCountry').change(function() {
+            updateState($('#userCountryMapSelectCountry').val());
+        });
+
+        // enable zoom-out
+        $('#UserCountryMap-btn-zoom').click(function() {
+            var t = UserCountryMap.lastSelected,
+                tgt = 'world';  // zoom out to world per default..
+            if (t.length == 3 && UserCountryMap.ISO3toCONT[t] !== undefined) {
+                tgt = UserCountryMap.ISO3toCONT[t];  // ..but zoom to continent if we know it
+            }
+            updateState(tgt);
+        });
+
+        // handle window resizes
+        $(window).resize(onResizeLazy);
+
+        // enable mertic changes
+        $('#userCountryMapSelectMetrics').change(function() {
+            updateState(UserCountryMap.lastSelected);
+        });
+
+
     }
 
     /*
@@ -51,7 +87,7 @@ UserCountryMap.run = function(config) {
             flag.css({
                 'background': 'none'
             });
-            $('#UserCountryMap-btn-city').removeClass('inactiveIcon');
+            $('#UserCountryMap-btn-city').addClass('inactiveIcon');
         }
     }
 
@@ -277,27 +313,8 @@ UserCountryMap.run = function(config) {
                 countrySelect.append('<option value="'+country.iso+'">'+country.name+'</option>');
             });
 
-            // react to changes of country select
-            countrySelect.change(function() {
-                updateState(countrySelect.val());
-            });
+            initUserInterface();
 
-            // enable zoom-out
-            $('#UserCountryMap-btn-zoom').click(function() {
-                var t = UserCountryMap.lastSelected,
-                    tgt = 'world';  // zoom out to world per default..
-                if (t.length == 3 && UserCountryMap.ISO3toCONT[t] !== undefined) {
-                    tgt = UserCountryMap.ISO3toCONT[t];  // ..but zoom to continent if we know it
-                }
-                updateState(tgt);
-            });
-
-            $(window).resize(onResize);
-
-            // enable mertic changes
-            $('#userCountryMapSelectMetrics').change(function() {
-                updateState(UserCountryMap.lastSelected);
-            });
         });
     });
 
