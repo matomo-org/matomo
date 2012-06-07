@@ -215,7 +215,7 @@ UserCountryMap.run = function(config) {
                         s += scale(city[metric]);
                     });
                     s /= data.length;
-                    var maxRad = 1/s;
+                    var maxRad = 2/s;
 
                     map.addSymbols({
                         type: $K.Bubble,
