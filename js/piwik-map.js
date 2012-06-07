@@ -191,6 +191,12 @@ UserCountryMap.run = function(config) {
 
         function updateCitySymbols() {
              // load some fake data with real cities ids from GeoIP
+
+            map.choropleth({
+                layer: 'regions',
+                colors: function() { return '#CDDAEF'; }
+            });
+
             $.ajax({
                 url: 'http://geoip.vis4.net/'+UserCountryMap.countriesByIso[iso].iso2+'/cities',
                 dataType: 'jsonp',
@@ -199,10 +205,6 @@ UserCountryMap.run = function(config) {
                     console.log(data);
                     var metric = 'nb_visits'; // $('#userCountryMapSelectMetrics').val();
 
-                    map.choropleth({
-                        layer: 'regions',
-                        colors: function() { return '#CDDAEF'; }
-                    });
                 }
             });
         }
