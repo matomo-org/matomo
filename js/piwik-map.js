@@ -195,7 +195,7 @@ UserCountryMap.run = function(config) {
             // color regions in light blue
             map.choropleth({
                 layer: 'regions',
-                colors: '#CDDAEF'
+                colors: function() { return '#CDDAEF'; }
             });
 
             $.ajax({
