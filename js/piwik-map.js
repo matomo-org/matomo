@@ -169,13 +169,17 @@ UserCountryMap.run = function(config) {
                         limits: chroma.limits(data, 'k', 8, metric)
                     });
 
+                    function regionCode(region) {
+                        return region.fips.substr(2);  // cut first two letters from fips code (=country code)
+                    }
+
                     // apply colors to map
                     map.choropleth({
                         layer: 'regions',
                         key: 'fips',
                         colors: function(d, pd) {
                             console.log(d, pd);
-                            var code = pd.fips.substr(2);  // cut first two letters from fips code (=country code)
+                            var code = regionCode(pd);
                             if (regionDict[code] === undefined) {
                                 // not found :(
                                 return '#F6F5F3';
@@ -185,6 +189,17 @@ UserCountryMap.run = function(config) {
                             }
                        }
                     });
+
+                    // add tooltips for regions
+                    map.tooltips({
+                        layer: 'regions',
+                        content: function(data) {
+                            var metric = $('#userCountryMapSelectMetrics').val(),
+                            region = regionDict[regionCode(data)];
+                            return '<h3>'+data.name+'</h3>'+UserCountryMap.config.metrics[metric]+': '+ region[metric] +'<br />debug:FIPS: '+data.fips + '<br />FIPS-1: '+ data['fips-'];
+                        }
+                    });
+
                 }
             });
         }
@@ -252,14 +267,6 @@ UserCountryMap.run = function(config) {
                 location: function(data) { return 'context-clickable.'+data.iso; },
                 text: function(data) { return data.iso; },
                 'class': 'countryLabel'
-            });
-
-            // add tooltips for regions
-            map.tooltips({
-                layer: 'regions',
-                content: function(data) {
-                    return '<h3>'+data.name+'</h3>FIPS: '+data.fips + '<br />FIPS-1: '+ data['fips-'];
-                }
             });
 
             // and also for neighboring countries
