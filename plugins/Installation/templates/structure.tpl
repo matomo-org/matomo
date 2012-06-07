@@ -36,7 +36,7 @@ $(document).ready( function(){
 <div id="main">
 	<div id="content">
 		<div id="logo">
-			<span id="title">Piwik</span> &nbsp;&nbsp;&nbsp;<span id="subtitle"># {'General_OpenSourceWebAnalytics'|translate}</span>
+			<img id="title" src="themes/default/images/logo-header.png"/> &nbsp;&nbsp;&nbsp;<span id="subtitle"># {'General_OpenSourceWebAnalytics'|translate}</span>
 		</div>
 		<div style="float:right" id="topRightBar">
 		<br />
