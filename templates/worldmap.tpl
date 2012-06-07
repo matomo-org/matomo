@@ -29,7 +29,7 @@
         </span>
         <div class="dataTableFooterIcons">
             <div class="dataTableFooterWrap" var="graphVerticalBar">
-                <img class="dataTableFooterActiveItem" src="{$piwikUrl}themes/default/images/data_table_footer_active_item.png" style="left: 25px;">
+                <img id="UserCountryMap-activeItem" class="dataTableFooterActiveItem" src="{$piwikUrl}themes/default/images/data_table_footer_active_item.png" style="left: 25px;">
 
                 <div class="tableIconsGroup">
                     <span class="tableAllColumnsSwitch">

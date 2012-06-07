@@ -57,15 +57,20 @@ UserCountryMap.run = function(config) {
             updateState(UserCountryMap.lastSelected);
         });
 
+        function activateButton(btn) {
+            $('#UserCountryMap-view-mode-buttons a').removeClass('activeIcon');
+            btn.addClass('activeIcon');
+            $('#UserCountryMap-activeItem').offset({ left: btn.offset().left });
+            updateState(UserCountryMap.lastSelected);
+        }
+
         // handle city button
         (function(btn) {
             btn.click(function() {
                 if (UserCountryMap.lastSelected.length == 3) {
                     if (UserCountryMap.mode != "city") {
-                        $('#UserCountryMap-view-mode-buttons a').removeClass('activeIcon');
                         UserCountryMap.mode = "city";
-                        btn.addClass("activeIcon");
-                        updateState(UserCountryMap.lastSelected);
+                        activateButton(btn);
                     }
                 }
             });
@@ -77,8 +82,7 @@ UserCountryMap.run = function(config) {
                 if (UserCountryMap.mode != "region") {
                     $('#UserCountryMap-view-mode-buttons a').removeClass('activeIcon');
                     UserCountryMap.mode = "region";
-                    btn.addClass("activeIcon");
-                    updateState(UserCountryMap.lastSelected);
+                    activateButton(btn);
                 }
             });
         })($('#UserCountryMap-btn-region'));
