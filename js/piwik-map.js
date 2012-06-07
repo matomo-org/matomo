@@ -222,7 +222,7 @@ UserCountryMap.run = function(config) {
                         data: data,
                         location: function(city) { return [city.longitude, city.latitude]; },
                         radius: function(city) { return scale(city[metric]) * maxRad + 2; },
-                        style: 'fill-opacity: 0.9; fill: #ffcd05; stroke: #F26621; stroke-width: 0.6px'
+                        style: 'fill-opacity: 0.95; fill: #FFE47F; stroke: #620D0D; stroke-width: 0.6px'
                     });
 
                 }
