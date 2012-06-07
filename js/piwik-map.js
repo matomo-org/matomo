@@ -208,6 +208,8 @@ UserCountryMap.run = function(config) {
 
                     var scale = $K.scale.linear(data, metric);
 
+                    data.sort(function(a, b) { return a[metric] - b[metric]; });
+
                     map.addSymbols({
                         type: $K.Bubble,
                         data: data,
