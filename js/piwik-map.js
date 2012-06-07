@@ -25,7 +25,7 @@ UserCountryMap.run = function(config) {
      * updateState
      */
     function updateState(id) {
-       UserCountryMap.widget.dashboardWidget('setParameters', { lastMap: id });
+        UserCountryMap.widget.dashboardWidget('setParameters', { lastMap: id });
 
         var countrySelect = $('#userCountryMapSelectCountry');
         countrySelect.val(id);
@@ -46,10 +46,12 @@ UserCountryMap.run = function(config) {
                 'background-repeat': 'no-repeat',
                 'background-position': '5px 5px'
             });
+            $('#UserCountryMap-btn-city').removeClass('inactiveIcon');
         } else {
             flag.css({
                 'background': 'none'
             });
+            $('#UserCountryMap-btn-city').removeClass('inactiveIcon');
         }
     }
 
