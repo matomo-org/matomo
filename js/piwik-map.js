@@ -206,12 +206,14 @@ UserCountryMap.run = function(config) {
                     console.log(data);
                     var metric = 'nb_visits'; // $('#userCountryMapSelectMetrics').val();
 
+                    var scale = $K.scale.linear(data, metric);
+
                     map.addSymbols({
                         type: $K.Bubble,
                         data: data,
                         location: function(city) { return [city.longitude, city.latitude]; },
-                        radius: 5,
-                        style: 'fill: #ffcd05'
+                        radius: function(city) { return scale(city[metric]) * 30; },
+                        style: 'fill: #ffcd05; stroke: #F26621; stroke-width: 0.6px'
                     });
 
                 }
