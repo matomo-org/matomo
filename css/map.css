@@ -52,3 +52,7 @@
     font-size: 10px;
 }
 
+#UserCountryMap_map svg .bubble:hover {
+    stroke: #000;
+    stroke-width: 2px;
+}
