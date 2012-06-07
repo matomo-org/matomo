@@ -91,6 +91,12 @@ UserCountryMap.run = function(config) {
      * updateState
      */
     function updateState(id) {
+        // double check view mode
+        if (UserCountryMap.mode == "city" && id.length != 3) {
+            // city mode is reserved for country views
+            UserCountryMap.mode = "region";
+        }
+
         // store map state
         UserCountryMap.widget.dashboardWidget('setParameters', { lastMap: id, viewMode: UserCountryMap.mode });
 
