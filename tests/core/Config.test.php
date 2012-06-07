@@ -294,6 +294,14 @@ END_OF_HEADER;
 				array('Segment' => array('dimension' => 'foo')),
 				$header . "[General]\ndebug = 1\n\n[Tracker]\nanonymize = 1\n\n[Segment]\ndimension = \"foo\"\n\n",
 			),
+			
+			'change back to default' => array(
+				array('Tracker' => array('anonymize' => '1')),
+				array('Tracker' => array('anonymize' => '0'),
+					  'General' => array('debug' => '1')),
+				array('Tracker' => array('anonymize' => '0')),
+				$header
+			),
 		);
 
 		$config = Piwik_Config::getInstance();
