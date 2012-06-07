@@ -206,6 +206,14 @@ UserCountryMap.run = function(config) {
                     console.log(data);
                     var metric = 'nb_visits'; // $('#userCountryMapSelectMetrics').val();
 
+                    map.addSymbols({
+                        type: $K.Bubble,
+                        data: data,
+                        location: function(city) { return [city.longitude, city.latitude]; },
+                        radius: 5,
+                        style: 'fill: #ffcd05'
+                    });
+
                 }
             });
         }
