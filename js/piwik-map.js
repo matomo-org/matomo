@@ -208,14 +208,14 @@ UserCountryMap.run = function(config) {
 
                     var scale = $K.scale.linear(data, metric);
 
-                    data.sort(function(a, b) { return a[metric] - b[metric]; });
+                    data.sort(function(a, b) { return b[metric] - a[metric]; });
 
                     map.addSymbols({
                         type: $K.Bubble,
                         data: data,
                         location: function(city) { return [city.longitude, city.latitude]; },
                         radius: function(city) { return scale(city[metric]) * 30; },
-                        style: 'fill: #ffcd05; stroke: #F26621; stroke-width: 0.6px'
+                        style: 'fill-opacity: 0.8; fill: #ffcd05; stroke: #F26621; stroke-width: 0.6px'
                     });
 
                 }
