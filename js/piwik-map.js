@@ -210,11 +210,18 @@ UserCountryMap.run = function(config) {
 
                     data.sort(function(a, b) { return b[metric] - a[metric]; });
 
+                    var s = 0;
+                    $.each(data, function(i, city) {
+                        s += scale(city[metric]);
+                    });
+                    s /= data.length;
+                    var maxRad = 1/s;
+
                     map.addSymbols({
                         type: $K.Bubble,
                         data: data,
                         location: function(city) { return [city.longitude, city.latitude]; },
-                        radius: function(city) { return scale(city[metric]) * 30; },
+                        radius: function(city) { return scale(city[metric]) * maxRad + 2; },
                         style: 'fill-opacity: 0.9; fill: #ffcd05; stroke: #F26621; stroke-width: 0.6px'
                     });
 
