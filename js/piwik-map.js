@@ -11,6 +11,9 @@ UserCountryMap.run = function(config) {
 
     window.__userCountryMap = map;
 
+    /*
+     * resizes the map
+     */
     function onResize() {
         var ratio, w, h;
         ratio = map.viewAB.width / map.viewAB.height;
@@ -54,7 +57,31 @@ UserCountryMap.run = function(config) {
             updateState(UserCountryMap.lastSelected);
         });
 
+        // handle city button
+        (function(btn) {
+            btn.click(function() {
+                if (UserCountryMap.lastSelected.length == 3) {
+                    if (UserCountryMap.mode != "city") {
+                        $('#UserCountryMap-view-mode-buttons a').removeClass('activeIcon');
+                        UserCountryMap.mode = "city";
+                        btn.addClass("activeIcon");
+                        updateState(UserCountryMap.lastSelected);
+                    }
+                }
+            });
+        })($('#UserCountryMap-btn-city'));
 
+        // handle region button
+        (function(btn) {
+            btn.click(function() {
+                if (UserCountryMap.mode != "region") {
+                    $('#UserCountryMap-view-mode-buttons a').removeClass('activeIcon');
+                    UserCountryMap.mode = "region";
+                    btn.addClass("activeIcon");
+                    updateState(UserCountryMap.lastSelected);
+                }
+            });
+        })($('#UserCountryMap-btn-region'));
     }
 
     /*

@@ -37,7 +37,7 @@
                     </span>
                 </div>
 
-                <div class="tableIconsGroup">
+                <div class="tableIconsGroup" id="UserCountryMap-view-mode-buttons">
                     <span class="tableAllColumnsSwitch">
                         <a var="tableAllColumns" id="UserCountryMap-btn-region" format="tableAllColumns" class="tableIcon activeIcon"><img src="{$piwikUrl}plugins/UserCountryMap/img/regions.png" title="Show vistors per region/country"></a>
                         <a var="tableGoals" id="UserCountryMap-btn-city" format="tableGoals" class="tableIcon inactiveIcon"><img src="{$piwikUrl}plugins/UserCountryMap/img/cities.png" title="Show visitors per city"></a>
