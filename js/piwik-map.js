@@ -238,7 +238,7 @@ UserCountryMap.run = function(config) {
                         location: function(city) { return [city.longitude, city.latitude]; },
                         radius: function(city) { return scale(city[metric]) * maxRad + 2; },
                         tooltip: function(city) {
-                            return '<h3>'+city.name+'</h3>'+UserCountryMap.config.metrics[metric]+': '+city[metric];
+                            return '<h3>'+city.city+'</h3>'+UserCountryMap.config.metrics[metric]+': '+city[metric];
                         }
                     });
 
