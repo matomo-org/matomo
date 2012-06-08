@@ -113,7 +113,7 @@ Apache configuration source code:
 	--config=/path/to/piwik/config/config.ini.php \
 	--url='http://your.piwik.install/' \
 	--recorders=1 \
-	--log-format-regex='(?P<host>[\\\\w\\\\-\\\\.\\\\/]*)(?::\\\\d+)? (?P<ip>\\\\S+) \\\\S+ \\\\S+ \\\\[(?P<date>.*?)\\\\] \\\"\\\\S+ (?P<path>.*?) \\\\S+\\\" (?P<status>\\\\S+) (?P<length>\\\\S+) \\\"(?P<referrer>.*?)\\\" \\\"(?P<user_agent>.*?)\\\"' \
+	--log-format-regex='(?P<host>[\\\\w\\\\-\\\\.\\\\/]*)(?::\\\\d+)? (?P<ip>\\\\S+) \\\\S+ \\\\S+ \\\\[(?P<date>.*?) (?P<timezone>.*?)\\\\] \\\"\\\\S+ (?P<path>.*?) \\\\S+\\\" (?P<status>\\\\S+) (?P<length>\\\\S+) \\\"(?P<referrer>.*?)\\\" \\\"(?P<user_agent>.*?)\\\"' \
 	--output=/var/log/piwik/$output.log \
 	-" \
 	$logname \
