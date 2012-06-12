@@ -34,6 +34,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
             . "&method=API.getProcessedReport&format=JSON"
             . "&apiModule=UserCountry&apiAction=getCountry"
             . "&idSite=" . $idSite
+            . "&continent=EU"
             . "&period=" . $period
             . "&date=" . $date
             . "&token_auth=" . $token_auth

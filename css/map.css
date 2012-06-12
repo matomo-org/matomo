@@ -32,8 +32,15 @@
 #UserCountryMap_map svg .regionBG {
     stroke: #fff;
     fill: #fff;
+    stroke-width: 6px;
+}
+
+#UserCountryMap_map svg .regionBG-2 {
+    stroke: #555;
+    fill: #555;
     stroke-width: 5px;
 }
+
 
 #UserCountryMap_map svg .countryBG {
     stroke: #fff;
@@ -46,6 +53,12 @@
     stroke-width: 1px;
 }
 
+#UserCountryMap_map svg .regions2 {
+    stroke-width: 1px;
+    stroke: #aaa;
+    fill: #fff;
+}
+
 #UserCountryMap_map svg .countryLabel {
     font-family: Arial,Verdana,Helvetica,sans-serif;
     fill: #666;
@@ -53,7 +66,8 @@
 }
 
 #UserCountryMap_map svg .bubble {
-    fill-opacity: 0.95; fill: #FFE47F; stroke: #620D0D; stroke-width: 0.6px;
+    fill-opacity: 0.7;
+    fill: #5170AE; stroke: #112299; stroke-width: 0.6px;
 }
 
 #UserCountryMap_map svg .bubble:hover {

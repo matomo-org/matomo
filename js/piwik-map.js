@@ -7,6 +7,7 @@ UserCountryMap.run = function(config) {
         width = main.width();
 
     UserCountryMap.config = config;
+    UserCountryMap.config.noDataColor = '#E4E2D7';
     UserCountryMap.widget = $('#widgetUserCountryMapworldMap').parent();
 
     window.__userCountryMap = map;
@@ -98,7 +99,9 @@ UserCountryMap.run = function(config) {
         }
 
         // store map state
-        UserCountryMap.widget.dashboardWidget('setParameters', { lastMap: id, viewMode: UserCountryMap.mode });
+        UserCountryMap.widget.dashboardWidget('setParameters', {
+            lastMap: id, viewMode: UserCountryMap.mode
+        });
 
         if (UserCountryMap.mode == "city") {
             activateButton($('#UserCountryMap-btn-city'));
@@ -149,13 +152,17 @@ UserCountryMap.run = function(config) {
         }, { padding: -3});
     }
 
+    function renderRegionMap(iso) {
+
+    }
+
     function renderCountryMap(iso) {
         UserCountryMap.lastSelected = iso;
 
         function updateRegionColors() {
             // load some fake data with real region ids from GeoIP
             $.ajax({
-                url: 'http://geoip.vis4.net/'+UserCountryMap.countriesByIso[iso].iso2+'/regions',
+                url: 'http://piwik-fake-api/piwik/'+piwik.idSite+'/geoip/'+UserCountryMap.countriesByIso[iso].iso2+'/regions?startDate='+piwik.startDateString+'&endDate='+piwik.endDateString,
                 dataType: 'jsonp',
                 success : function(data) {
 
@@ -170,6 +177,14 @@ UserCountryMap.run = function(config) {
                     });
 
                     function regionCode(region) {
+                        var iso = UserCountryMap.lastSelected,
+                            useFips2 = iso == "ESP" || iso == "BEL" || iso == "GBR",
+                            usePostal = iso == "USA" || iso == "CAN";
+                        if (useFips2) {
+                            return region['fips-'].substr(2);
+                        } else if (usePostal) {
+                            return region.p;
+                        }
                         return region.fips.substr(2);  // cut first two letters from fips code (=country code)
                     }
 
@@ -178,11 +193,10 @@ UserCountryMap.run = function(config) {
                         layer: 'regions',
                         key: 'fips',
                         colors: function(d, pd) {
-                            console.log(d, pd);
                             var code = regionCode(pd);
                             if (regionDict[code] === undefined) {
                                 // not found :(
-                                return '#F6F5F3';
+                                return UserCountryMap.config.noDataColor;
                             } else {
                                 // match
                                 return colscale.getColor(regionDict[code][metric]);
@@ -196,10 +210,12 @@ UserCountryMap.run = function(config) {
                         content: function(data) {
                             var metric = $('#userCountryMapSelectMetrics').val(),
                             region = regionDict[regionCode(data)];
+                            if (region === undefined) {
+                                return '<h3>'+data.name+'</h3><p>'+_pk_translate('General_NoVisits_js')+'</p>';
+                            }
                             return '<h3>'+data.name+'</h3>'+UserCountryMap.config.metrics[metric]+': '+ region[metric] +'<br />debug:FIPS: '+data.fips + '<br />FIPS-1: '+ data['fips-'];
                         }
                     });
-
                 }
             });
         }
@@ -210,19 +226,18 @@ UserCountryMap.run = function(config) {
             // color regions in light blue
             map.choropleth({
                 layer: 'regions',
-                colors: function() { return '#CDDAEF'; }
+                colors: function() { return '#fff'; }
             });
 
             $.ajax({
-                url: 'http://geoip.vis4.net/'+UserCountryMap.countriesByIso[iso].iso2+'/cities',
+                url: 'http://piwik-fake-api/piwik/'+UserCountryMap.config.idSite+'/geoip/'+UserCountryMap.countriesByIso[iso].iso2+'/cities?startDate='+piwik.startDateString+'&endDate='+piwik.endDateString,
                 dataType: 'jsonp',
                 success : function(data) {
 
-                    console.log(data);
                     var metric = 'nb_visits'; // $('#userCountryMapSelectMetrics').val();
-
-                    var scale = $K.scale.linear(data, metric);
-
+                    var scale = $K.scale.linear(data, metric, function(r) {
+                        return r.city != 'Unknown';
+                    });
                     data.sort(function(a, b) { return b[metric] - a[metric]; });
 
                     var s = 0;
@@ -230,18 +245,20 @@ UserCountryMap.run = function(config) {
                         s += scale(city[metric]);
                     });
                     s /= data.length;
-                    var maxRad = 2/s;
+                    var maxRad = 20;
 
                     map.addSymbols({
                         type: $K.Bubble,
                         data: data,
+                        filter: function(r) {
+                            return r.city != 'Unknown';
+                        },
                         location: function(city) { return [city.longitude, city.latitude]; },
-                        radius: function(city) { return scale(city[metric]) * maxRad + 2; },
+                        radius: function(city) { return scale(city[metric]) * maxRad + 3; },
                         tooltip: function(city) {
                             return '<h3>'+city.city+'</h3>'+UserCountryMap.config.metrics[metric]+': '+city[metric];
                         }
                     });
-
                 }
             });
         }
@@ -255,7 +272,10 @@ UserCountryMap.run = function(config) {
                 return UserCountryMap.countriesByIso[pd.iso] !== undefined;
             } });
             map.addLayer({ id: "regions", className: "regionBG" });
-            map.addLayer({ id: 'regions', key: 'fips' });
+            if (UserCountryMap.mode != "region") {
+                //map.addLayer({ id: "regions", className: "regionBG-2" });
+            }
+            map.addLayer({ id: 'regions', key: 'fips', className: UserCountryMap.mode != "region" ? "regions2" : "regions" });
 
             // add click events for surrounding countries
             map.onLayerEvent('click', function(path) {
@@ -300,7 +320,13 @@ UserCountryMap.run = function(config) {
             // create color scale
             colscale = new chroma.ColorScale({
                 colors: ['#CDDAEF', '#385993'],
-                limits: chroma.limits(UserCountryMap.countryData, 'k', 8, metric)
+                limits: chroma.limits(UserCountryMap.countryData, 'e', 5, metric, function(r) {
+                    if (target.length == 2) {
+                        return UserCountryMap.ISO3toCONT[r.iso] == target;
+                    } else {
+                        return true;
+                    }
+                })
             });
 
             // apply colors to map
@@ -310,8 +336,7 @@ UserCountryMap.run = function(config) {
                 key: 'iso',
                 colors: function(d, e) {
                     if (d === null) {
-                        // console.log(d, e);
-                        return '#F6F5F3';
+                        return UserCountryMap.config.noDataColor;
                     } else {
                         return colscale.getColor(d[metric]);
                     }
@@ -386,6 +411,7 @@ UserCountryMap.run = function(config) {
             countryData.push(country);
             countriesByIso[country.iso] = country;
         });
+        console.log(report);
         // sort countries by name
         countryData.sort(function(a,b) { return a.name > b.name ? 1 : -1; });
 
@@ -401,8 +427,8 @@ UserCountryMap.run = function(config) {
 
             // start with default view (or saved state??)
             var params = UserCountryMap.widget.dashboardWidget('getWidgetObject').parameters;
-            UserCountryMap.mode = params.viewMode ? params.viewMode : 'region';
-            updateState(params.lastMap ? params.lastMap : 'world');
+            UserCountryMap.mode = params && params.viewMode ? params.viewMode : 'region';
+            updateState(params && params.lastMap ? params.lastMap : 'world');
 
             // populate country select
             $.each(countryData, function(i, country) {
