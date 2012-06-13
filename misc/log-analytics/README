@@ -5,8 +5,8 @@ Piwik Server Log Analytics: Import your server logs in Piwik!
 Requirements
 ------------
  - This is currently in BETA TESTING. The parameters name and behavior might change
-   until the final stable release. Please use with care, expect bugs, and report your 
-   suggestions and advice. 
+   until the final stable release. Please use with care, expect bugs, and report your
+   suggestions and advice.
  - Python 2.6 or 2.7. Python 3.x is not supported.
  - Update to Piwik 1.7.2-RC1 or newer
    Download Piwik RC from: http://builds.piwik.org/piwik-1.7.2-rc1.zip
@@ -40,7 +40,7 @@ popular ways to implement this are using either:
 
 Your logs should be automatically rotated and stored on your webserver, for instance in daily logs
 /var/log/apache/access-%Y-%m-%d.log (where %Y, %m and %d represent the year,
-month and day). 
+month and day).
 You can then import your logs automatically each day (at 0:01). Setup a cron job with the command:
 
     0 1 * * * /path/to/piwik/misc/log-analytics/import-logs.py -u piwik.example.com `date --date=yesterday +/var/log/apache/access-\%Y-\%m-\%d.log`
@@ -51,13 +51,13 @@ With an Intel Core i5-2400 @ 3.10GHz (2 cores, 4 virtual cores with Hyper-thread
 running Piwik and its MySQL database, between 250 and 300 records were imported per second.
 
 The import_logs.py script needs CPU to read and parse the log files, but it is actually
-Piwik server itself (i.e. PHP/MySQL) which will use more CPU during data import. 
+Piwik server itself (i.e. PHP/MySQL) which will use more CPU during data import.
 
-To improve performance, 
-(1) by default, the script one thread to parse and import log lines. 
-    you can use the --recorders option to specify the number of parallel threads which will 
-    import hits into Piwik. We recommend to set --recorders=N to the number N of CPU cores 
-    that the server hosting Piwik has. The parsing will still be single-threaded, 
+To improve performance,
+(1) by default, the script one thread to parse and import log lines.
+    you can use the --recorders option to specify the number of parallel threads which will
+    import hits into Piwik. We recommend to set --recorders=N to the number N of CPU cores
+    that the server hosting Piwik has. The parsing will still be single-threaded,
     but several hits will be tracked in Piwik at the same time.
 (2) the script will issue hundreds of requests to piwik.php - to improve the Piwik webserver performance
     you can disable server access logging for these requests.
@@ -66,7 +66,7 @@ To improve performance,
 
 Setup Apache CustomLog that directly imports in Piwik
 -----------------------------------------------------
-Since apache CustomLog directives can send log data to a script, it is possible to import hits into piwik server-side in real-time rather than processing a logfile each day. 
+Since apache CustomLog directives can send log data to a script, it is possible to import hits into piwik server-side in real-time rather than processing a logfile each day.
 
 This approach has many advantages, including real-time data being available on your piwik site, using real logs files instead of relying on client-side Javacsript, and not having a surge of CPU/RAM usage during log processing.
 The disadvantage is that if Piwik is unavailable, logging data will be lost. Therefore we recommend to also log into a standard log file.
@@ -79,11 +79,14 @@ In the most basic setup, you might have in your main config section:
 	# Log to piwik as well
 	CustomLog "|/path/to/import_logs.py --option1 --option2 ... -" myLogFormat
 
+Note: on Debian/Ubuntu, the default configuration defines the vhost_combined format. You
+can use it instead of defining myLogFormat.
+
 Useful options here are:
 --add-sites-new-hosts (creates new websites in piwik based on %v in the LogFormat)
 --output=/path/to/piwik.log (puts any output into a log file for reference/debugging later)
 --recorders=1 (use of >1 recorder has not been tested)
-"-" so it reads straight from /dev/stdin 
+"-" so it reads straight from /dev/stdin
 
 You can have as many CustomLog statements as you like. However, if you define any CustomLog directives within a <VirtualHost> block, all CustomLogs in the main config will be overridden. Therefore if you require custom logging for particular VirtualHosts, it is recommended to use mod_macro to make configuration more maintainable.
 
@@ -100,9 +103,9 @@ NB use of mod_macro to ensure consistency and maintainability
 
 Apache configuration source code:
 ---------------------------------
-	# Set up macro with the options 
-	# * $vhost (this will be used as the piwik website name), 
-	# * $logname (the name of the LogFormat we're using), 
+	# Set up macro with the options
+	# * $vhost (this will be used as the piwik website name),
+	# * $logname (the name of the LogFormat we're using),
 	# * $output (which logfile to save import_logs.py output to),
 	# * $env (CustomLog can be set only to fire if an environment variable is set - this contains that environment variable, so subsites only log when it's set)
 	# NB the --log-format-regex line is exactly the same regex as import_logs.py's own 'common_vhost' format, but with "\/" added in the "host" section's allowed characters
@@ -120,10 +123,10 @@ Apache configuration source code:
 	$env
 	</Macro>
 
-	# Set up main apache logging, with: 
-	# * normal %v as hostname, 
-	# * vhost_common as logformat name, 
-	# * /var/log/piwik/main.log as the logfile, 
+	# Set up main apache logging, with:
+	# * normal %v as hostname,
+	# * vhost_common as logformat name,
+	# * /var/log/piwik/main.log as the logfile,
 	# * no env variable needed since we always want to trigger
 	Use piwiklog %v vhost_common main " "
 
@@ -139,7 +142,7 @@ Apache configuration source code:
 		# (if this is omitted, our other CustomLogs below will override the one in the main section, so the main site won't be logged)
 		Use piwiklog %v vhost_common main " "
 
-		# Now set up mod_rewrite to detect our subsites and set up new piwik websites to track just hits to these (this is a bit like profiles in Google Analytics). 
+		# Now set up mod_rewrite to detect our subsites and set up new piwik websites to track just hits to these (this is a bit like profiles in Google Analytics).
 		# We want to match domain.com/anothersubsite and domain.com/subsite[0-9]+
 
 		# First to be on the safe side, unset the env we'll use to test if we're in a subsite:
