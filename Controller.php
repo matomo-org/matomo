@@ -30,6 +30,18 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         $token_auth = Piwik::getCurrentUserTokenAuth();
 
         $view = Piwik_View::factory('worldmap');
+
+        // request visits summary
+        $request = new Piwik_API_Request(
+            'method=VisitsSummary.get&format=JSON'
+            . '&idSite=' . $idSite
+            . '&period=' . $period
+            . '&date=' . $date
+            . '&token_auth=' . $token_auth
+            . '&filter_limit=-1'
+        );
+        $view->visitsSummary = $request->process();
+
         $view->countryDataUrl = "?module=API"
             . "&method=API.getProcessedReport&format=JSON"
             . "&apiModule=UserCountry&apiAction=getCountry"
@@ -39,6 +51,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
             . "&date=" . $date
             . "&token_auth=" . $token_auth
             . "&segment=" . Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('segment', ''))
+            . "&enable_filter_excludelowpop=1"
             . "&filter_limit=-1";
 
         // definition of the color scale
