@@ -36,33 +36,14 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 	{
 		$this->epilogue();
 
-		$filename = Piwik_ReportRenderer::appendExtension($filename, "html");
-		$outputFilename = Piwik_ReportRenderer::getOutputPath($filename);
-
-		$emailReport = @fopen($outputFilename, "w");
-
-		if (!$emailReport) {
-			throw new Exception ("The file : " . $outputFilename . " can not be opened in write mode.");
-		}
-
-		fwrite($emailReport, $this->rendering);
-		fclose($emailReport);
-
-		return $outputFilename;
+		return Piwik_ReportRenderer::writeFile($filename, 'html', $this->rendering);
 	}
 
 	public function sendToBrowserDownload($filename)
 	{
 		$this->epilogue();
 
-		$filename = Piwik_ReportRenderer::appendExtension($filename, "html");
-
-		Piwik::overrideCacheControlHeaders();
-		header('Content-Description: File Transfer');
-		header('Content-Type: text/html');
-		header('Content-Disposition: attachment; filename="'.str_replace('"', '\'', basename($filename)).'";');
-		header('Content-Length: '.strlen($this->rendering));
-		echo $this->rendering;
+		Piwik_ReportRenderer::sendToBrowser($filename, 'html', 'text/html', $this->rendering);
 	}
 
 	private function epilogue()

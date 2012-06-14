@@ -27,9 +27,12 @@ abstract class Piwik_ReportRenderer
 	const TABLE_CELL_BORDER_COLOR =  "231,231,231";
 	const TABLE_BG_COLOR = "249,250,250";
 
-	static public $availableReportRenderers = array(
-		'pdf' => 'plugins/UserSettings/images/plugins/pdf.gif',
-		'html' => 'themes/default/images/html_icon.png',
+	const HTML_FORMAT = 'html';
+	const PDF_FORMAT = 'pdf';
+
+	static private $availableReportRenderers = array(
+		self::PDF_FORMAT,
+		self::HTML_FORMAT,
 	);
 
 	protected $renderImageInline = false;
@@ -56,7 +59,7 @@ abstract class Piwik_ReportRenderer
 			throw new Exception(
 				Piwik_TranslateException(
 					'General_ExceptionInvalidReportRendererFormat',
-					array($name, implode(', ', array_keys(self::$availableReportRenderers)))
+					array($name, implode(', ', self::$availableReportRenderers))
 				)
 			);
 		}
@@ -141,6 +144,35 @@ abstract class Piwik_ReportRenderer
 		@chmod($outputFilename, 0600);
 		@unlink($outputFilename);
 		return $outputFilename;
+	}
+
+	protected static function writeFile($filename, $extension, $content)
+	{
+		$filename = self::appendExtension($filename, $extension);
+		$outputFilename = self::getOutputPath($filename);
+
+		$emailReport = @fopen($outputFilename, "w");
+
+		if (!$emailReport) {
+			throw new Exception ("The file : " . $outputFilename . " can not be opened in write mode.");
+		}
+
+		fwrite($emailReport, $content);
+		fclose($emailReport);
+
+		return $outputFilename;
+	}
+
+	protected static function sendToBrowser($filename, $extension, $contentType, $content)
+	{
+		$filename = Piwik_ReportRenderer::appendExtension($filename, $extension);
+
+		Piwik::overrideCacheControlHeaders();
+		header('Content-Description: File Transfer');
+		header('Content-Type: ' . $contentType);
+		header('Content-Disposition: attachment; filename="'.str_replace('"', '\'', basename($filename)).'";');
+		header('Content-Length: '.strlen($content));
+		echo $content;
 	}
 
 	/**

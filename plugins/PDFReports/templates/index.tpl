@@ -25,8 +25,13 @@
 </div> 
 
 <script type="text/javascript">
-piwik.PDFReports = {$reportsJSON};
-piwik.updateReportString = "{'PDFReports_UpdateReport'|translate}";
+var ReportPlugin = new Object();
+ReportPlugin.defaultPeriod = '{$defaultPeriod}';
+ReportPlugin.defaultReportType = '{$defaultReportType}';
+ReportPlugin.defaultReportFormat = '{$defaultReportFormat}';
+ReportPlugin.reportList = {$reportsJSON};
+ReportPlugin.createReportString = "{'PDFReports_CreateReport'|translate}";
+ReportPlugin.updateReportString = "{'PDFReports_UpdateReport'|translate}";
 {literal}
 $(document).ready( function() {
 	initManagePdf();

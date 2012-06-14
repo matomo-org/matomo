@@ -41,22 +41,36 @@ class Piwik_MultiSites extends Piwik_Plugin
 	 */
 	public function getReportMetadata($notification)
 	{
-		$isGoalPluginEnabled = Piwik_Common::isGoalPluginEnabled();
-	
-		$metrics = array( 'nb_visits', 'nb_actions' );
-		if ($isGoalPluginEnabled)
+		$metadataMetrics = array();
+		foreach(Piwik_MultiSites_API::getApiMetrics($enhanced = true) as $metricName => $metricSettings)
 		{
-			$metrics['revenue'] = Piwik_Translate('Goals_ColumnRevenue');
+			$metadataMetrics[$metricName] =
+					Piwik_Translate($metricSettings[Piwik_MultiSites_API::METRIC_TRANSLATION_KEY]);
+			$metadataMetrics[$metricSettings[Piwik_MultiSites_API::METRIC_EVOLUTION_COL_NAME_KEY]] =
+					Piwik_Translate($metricSettings[Piwik_MultiSites_API::METRIC_TRANSLATION_KEY]) . " " . Piwik_Translate('MultiSites_Evolution');
 		}
 
 		$reports = &$notification->getNotificationObject();
+
 		$reports[] = array(
 			'category' => Piwik_Translate('General_MultiSitesSummary'),
 			'name' => Piwik_Translate('General_AllWebsitesDashboard'),
 			'module' => 'MultiSites',
 			'action' => 'getAll',
 			'dimension' => Piwik_Translate('General_Website'), // re-using translation
-			'metrics' => $metrics,
+			'metrics' => $metadataMetrics,
+			'processedMetrics' => false,
+			'constantRowsCount' => false,
+			'order' => 5
+		);
+
+		$reports[] = array(
+			'category' => Piwik_Translate('General_MultiSitesSummary'),
+			'name' => Piwik_Translate('General_SingleWebsitesDashboard'),
+			'module' => 'MultiSites',
+			'action' => 'getOne',
+			'dimension' => Piwik_Translate('General_Website'), // re-using translation
+			'metrics' => $metadataMetrics,
 			'processedMetrics' => false,
 			'constantRowsCount' => false,
 			'order' => 5

@@ -1687,6 +1687,17 @@ class Piwik
 	}
 
 	/**
+	 * Returns Super User login
+	 *
+	 * @return string
+	 */
+	static public function getSuperUserLogin()
+	{
+		$superuser = Piwik_Config::getInstance()->superuser;
+		return $superuser['login'];
+	}
+
+	/**
 	 * Returns Super User email
 	 * 
 	 * @return string

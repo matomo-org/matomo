@@ -31,7 +31,9 @@
 			<td>
 				<select id="report_period" class="inp">
 				{foreach from=$periods item=period key=periodId}
-					<option value="{$periodId}">{$period}</option>
+					<option value="{$periodId}">
+						{$period}
+					</option>
 				{/foreach}
 				</select>
 				
@@ -42,81 +44,94 @@
 				</div>
 			</td>
 		</tr>
-		<tr>
-			<td style='width:240px;' class="first">{'PDFReports_SendReportTo'|translate}
+
+		<tr {if $reportTypes|@count eq 1}style='display:none'{/if}>
+			<td class='first'>
+				{'PDFReports_ReportType'|translate}
 			</td>
 			<td>
-				<input type="checkbox" id="report_email_me" />
-				<label for="report_email_me">{'PDFReports_SentToMe'|translate} (<i>{$currentUserEmail}</i>) </label>
-				<br/><br/>
-				{'PDFReports_AlsoSendReportToTheseEmails'|translate}<br/>
-				<textarea cols="30" rows="3" id="report_additional_emails" class="inp"></textarea>
-			</td>
-		</tr>
-		<tr>
-			<td class="first">
-				{'PDFReports_ReportFormat'|translate}
-			</td>
-			<td>
-				<select id="report_format">
-				{foreach from=$formats key=format item=icon}
-					<option value="{$format}">{$format|upper}</option>
+				<select id='report_type'>
+				{foreach from=$reportTypes key=reportType item=reportTypeIcon}
+					<option value="{$reportType}">{$reportType|upper}</option>
 				{/foreach}
 				</select>
 			</td>
 		</tr>
+
 		<tr>
-			<td class="first">
-				{* PDFReports_AggregateReportsFormat should be named PDFReports_DisplayFormat *}
-				{'PDFReports_AggregateReportsFormat'|translate}
+			<td class='first'>
+			{'PDFReports_ReportFormat'|translate}
 			</td>
+
 			<td>
-				<select id="display_format">
-				{foreach from=$displayFormats key=formatValue item=formatLabel}
-					<option {if $formatValue==1}selected{/if} value="{$formatValue}">{$formatLabel}</option>
+				{foreach from=$reportFormatsByReportType key=reportType item=reportFormats}
+					<select name='report_format' class='{$reportType}'>
+						{foreach from=$reportFormats key=reportFormat item=reportFormatIcon}
+							<option value="{$reportFormat}">{$reportFormat|upper}</option>
+						{/foreach}
+					</select>
 				{/foreach}
-				</select>
 			</td>
 		</tr>
+
+		{postEvent name="template_reportParametersPDFReports"}
+
 		<tr>
 			<td class="first">{'PDFReports_ReportsIncluded'|translate}</td>
 			<td>
-			<div id='reportsList'>
-				{assign var=countReports value=0}
-				<div id='leftcolumn'>
-				{foreach from=$reportsByCategory item=reports key=category name=reports}
-					{if $countReports >= $newColumnAfter && $newColumnAfter != 0}
-						{assign var=newColumnAfter value=0}
-						</div><div id='rightcolumn'>
+			{foreach from=$reportsByCategoryByReportType key=reportType item=reportsByCategory}
+				<div name='reportsList' class='{$reportType}'>
+
+					{if $allowMultipleReportsByReportType[$reportType]}
+						{assign var=reportInputType value='checkbox'}
+					{else}
+						{assign var=reportInputType value='radio'}
 					{/if}
-					<div class='reportCategory'>{$category}</div><ul class='listReports'>
-					{foreach from=$reports item=report}
-						<li>
-							<input type="checkbox" id="{$report.uniqueId}" />
-							<label for="{$report.uniqueId}">
-								{$report.name|escape:"html"}
-								{if $report.uniqueId=='MultiSites_getAll'}
-									<div class="entityInlineHelp">{'PDFReports_ReportIncludeNWebsites'|translate:"$countWebsites "}</div>
-								{/if}
-							</label>
-						</li>
+
+					{assign var=countCategory value=0}
+
+					{math
+						equation="ceil (reportsByCategoryCount / 2)"
+						reportsByCategoryCount=$reportsByCategory|@count
+						assign=newColumnAfter
+					}
+
+					<div id='leftcolumn'>
+					{foreach from=$reportsByCategory item=reports key=category name=reports}
+						{if $countCategory >= $newColumnAfter && $newColumnAfter != 0}
+							{assign var=newColumnAfter value=0}
+							</div><div id='rightcolumn'>
+						{/if}
+						<div class='reportCategory'>{$category}</div><ul class='listReports'>
+						{foreach from=$reports item=report}
+							<li>
+								<input type='{$reportInputType}' id="{$report.uniqueId}" name='{$reportType}Reports'/>
+								<label for="{$report.uniqueId}">
+									{$report.name|escape:"html"}
+									{if $report.uniqueId=='MultiSites_getAll'}
+										<div class="entityInlineHelp">{'PDFReports_ReportIncludeNWebsites'|translate:"$countWebsites "}</div>
+									{/if}
+								</label>
+							</li>
+						{/foreach}
+						{assign var=countCategory value=$countCategory+1}
+						</ul>
+						<br/>
 					{/foreach}
-					{assign var=countReports value=$countReports+1}
-					</ul>
-					<br/>
-				{/foreach}
+					</div>
 				</div>
-			</div>
+			{/foreach}
 			</td>
 		</tr>
 		
 	</tbody>
 </table>
-<input type="hidden" id="report_idreport" value="">
-<input type="submit" value="{'PDFReports_CreateReport'|translate}" name="submit" id="report_submit" class="submit" />
+
+	<input type="hidden" id="report_idreport" value="">
+	<input type="submit" id="report_submit" name="submit" class="submit"/>
+
 </form>
 <div class='entityCancel'>
 	{'General_OrCancel'|translate:"<a class='entityCancelLink'>":"</a>"}
 </div>
 </div>
-

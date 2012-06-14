@@ -40,7 +40,7 @@ class Test_Piwik_PDFReports extends Test_Database
 
 	function tearDown()
 	{
-		Piwik_Query('TRUNCATE '.Piwik_Common::prefixTable('pdf'));
+		Piwik_Query('TRUNCATE '.Piwik_Common::prefixTable('report'));
 		Piwik_PDFReports_API::$cache = array();
 	}
 
@@ -49,12 +49,15 @@ class Test_Piwik_PDFReports extends Test_Database
 		$data = array(
 			'idsite' => $this->idSiteAccess,
 			'description' => 'test description"',
+			'type' => 'email',
 			'period' => 'day',
 			'format' => 'pdf',
-			'display_format' => '1',
-	 		'reports' => 'UserCountry_getCountry',
-			'email_me' => 1,
-			'additional_emails' => 'test@test.com, t2@test.com',
+	 		'reports' => array('UserCountry_getCountry'),
+			'parameters' => array(
+				'displayFormat' => '1',
+				'emailMe' => true,
+				'additionalEmails' => array('test@test.com', 't2@test.com')
+			)
 		);
 
 		$dataWebsiteTwo = $data;
@@ -172,11 +175,14 @@ class Test_Piwik_PDFReports extends Test_Database
 			'idsite' => $this->idSiteAccess,
 			'description' => 'test description"',
 			'period' => 'day',
+			'type' => 'email',
 			'format' => 'pdf',
-			'display_format' => '1',
-			'reports' => 'UserCountry_getCountry',
-			'email_me' => 1,
-			'additional_emails' => 'test@test.com, t2@test.com',
+			'reports' => array('UserCountry_getCountry'),
+			'parameters' => array(
+				'displayFormat' => '1',
+				'emailMe' => true,
+				'additionalEmails' => array('test@test.com', 't2@test.com')
+			)
 		);
 	}
 
@@ -186,11 +192,14 @@ class Test_Piwik_PDFReports extends Test_Database
 			'idsite' => $this->idSiteAccess,
 			'description' => 'very very long and possibly truncated description. very very long and possibly truncated description. very very long and possibly truncated description. very very long and possibly truncated description. very very long and possibly truncated description. ',
 			'period' => 'month',
+			'type' => 'email',
 			'format' => 'pdf',
-			'display_format' => '1',
-			'reports' => 'UserCountry_getContinent',
-			'email_me' => 0,
-			'additional_emails' => 'blabla@ec.fr',
+			'reports' => array('UserCountry_getContinent'),
+			'parameters' => array(
+				'displayFormat' => '1',
+				'emailMe' => false,
+				'additionalEmails' => array('blabla@ec.fr')
+			)
 		);
 	}
 	function _createReport($data)
@@ -199,27 +208,25 @@ class Test_Piwik_PDFReports extends Test_Database
 			$data['idsite'],
 			$data['description'],
 			$data['period'],
+			$data['type'],
 			$data['format'],
-			$data['display_format'],
 			$data['reports'],
-			$data['email_me'],
-			$data['additional_emails']);
+			$data['parameters']
+		);
 		return $idReport;
 	}
 
 	function _updateReport($idReport, $data)
 	{
-		//$idReport, $idSite, $description, $period, $reports, $emailMe = true, $additionalEmails = false)
 		$idReport = Piwik_PDFReports_API::getInstance()->updateReport(
 			$idReport,
 			$data['idsite'],
 			$data['description'],
 			$data['period'],
+			$data['type'],
 			$data['format'],
-			$data['display_format'],
 			$data['reports'],
-			$data['email_me'],
-			$data['additional_emails']);
+			$data['parameters']);
 		return $idReport;
 	}
 
@@ -227,7 +234,6 @@ class Test_Piwik_PDFReports extends Test_Database
 	{
 		foreach($data as $key => $value)
 		{
-			if($key == 'additional_emails') $value = str_replace(' ','', $value);
 			if($key == 'description') $value = substr($value,0,250);
 			$this->assertEqual($value, $report[$key], "Error for $key for report ".var_export($report ,true)." and data ".var_export($data,true)." ---> %s ");
 		}

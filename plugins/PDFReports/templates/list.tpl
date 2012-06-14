@@ -39,21 +39,45 @@
 				<td>
 					{if !empty($report.format)}
 						{$report.format|upper}
-					{else}
-						{$defaultFormat}
 					{/if}
 				</td>
-				<td>{if $report.email_me == 1}{$currentUserEmail}{if !empty($report.additional_emails)}<br/>{/if}{/if}
-					{$report.additional_emails|replace:",":" "}
-					<br/><a href='#' idreport='{$report.idreport}' name='linkEmailNow' class="link_but" style='margin-top:3px'><img border=0 src='themes/default/images/email.png'/> {'PDFReports_SendReportNow'|translate}</a>
-					</td>
 				<td>
-					<a href="{url module=API token_auth=$token_auth method='PDFReports.generateReport' idSite=$idSite date=$rawDate idReport=$report.idreport outputType=$downloadOutputType language=$language reportFormat=$report.format}"
-					   target="_blank" name="linkDownloadReport" id="{$report.idreport}" class="link_but">
-						<img src='{$formats[$report.format]}' border="0" /> {'General_Download'|translate}</a>
+					{*report recipients*}
+					{if $report.recipients|@count eq 0}
+						{'PDFReports_NoRecipients'|translate}
+					{else}
+						{foreach name=recipients from=$report.recipients item=recipient}
+							{$recipient}<br/>
+						{/foreach}
+						{*send now link*}
+						<a href='#' idreport='{$report.idreport}' name='linkSendNow' class="link_but" style='margin-top:3px'>
+							<img border=0 src='{$reportTypes[$report.type]}'/>
+							{'PDFReports_SendReportNow'|translate}
+						</a>
+					{/if}
 				</td>
-				<td><a href='#' name="linkEditReport" id="{$report.idreport}" class="link_but"><img src='themes/default/images/ico_edit.png' border="0" /> {'General_Edit'|translate}</a></td>
-				<td><a href='#' name="linkDeleteReport" id="{$report.idreport}" class="link_but"><img src='themes/default/images/ico_delete.png' border="0" /> {'General_Delete'|translate}</a></td>
+				<td>
+					{*download link*}
+					<a href="{url module=API token_auth=$token_auth method='PDFReports.generateReport' date=$rawDate idReport=$report.idreport outputType=$downloadOutputType language=$language}"
+					   target="_blank" name="linkDownloadReport" id="{$report.idreport}" class="link_but">
+						<img src='{$reportFormatsByReportType[$report.type][$report.format]}' border="0" />
+						{'General_Download'|translate}
+					</a>
+				</td>
+				<td>
+					{*edit link*}
+					<a href='#' name="linkEditReport" id="{$report.idreport}" class="link_but">
+						<img src='themes/default/images/ico_edit.png' border="0" />
+							{'General_Edit'|translate}
+					</a>
+				</td>
+				<td>
+					{*delete link *}
+					<a href='#' name="linkDeleteReport" id="{$report.idreport}" class="link_but">
+						<img src='themes/default/images/ico_delete.png' border="0" />
+						{'General_Delete'|translate}
+					</a>
+				</td>
 			</tr>
 		{/foreach}
 		</table>
