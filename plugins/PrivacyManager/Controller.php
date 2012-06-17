@@ -138,20 +138,18 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 		$this->checkTokenInUrl();
 		
 		// if the request isn't a POST, redirect to index
-		if ($_SERVER["REQUEST_METHOD"] != "POST")
+		if ($_SERVER["REQUEST_METHOD"] != "POST"
+			&& !Piwik_Common::isPhpCliMode())
 		{
 			return $this->redirectToIndex('PrivacyManager', 'privacySettings');
 		}
 		
 		$settings = Piwik_PrivacyManager::getPurgeDataSettings();
-		
-		// execute the purge
 		if ($settings['delete_logs_enable'])
 		{
 			$logDataPurger = Piwik_PrivacyManager_LogDataPurger::make($settings);
 			$logDataPurger->purgeData();
 		}
-		
 		if ($settings['delete_reports_enable'])
 		{
 			$reportsPurger = Piwik_PrivacyManager_ReportsPurger::make(
