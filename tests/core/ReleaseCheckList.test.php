@@ -184,6 +184,7 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 
 		/*
 		 * Piwik's .js files don't have $Id$
+		 * @FIXME Why don't they have $Id ?
 		 */
 		$contents = file_get_contents($file = PIWIK_DOCUMENT_ROOT . '/piwik.js');
 		$this->assertTrue(strpos($contents, '$Id') === false, $file);
@@ -194,7 +195,8 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 		foreach(Piwik::globr(PIWIK_DOCUMENT_ROOT . '/plugins', '*.js') as $file)
 		{
 			$contents = file_get_contents($file);
-			$this->assertTrue(strpos($contents, '$Id') === false, $file);
+			$found = strpos($contents, '$Id') !== false;
+			$this->assertTrue(!$found, $file, "Please Remove the string \$Id from the JS files");
 		}
 
 		foreach(Piwik::globr(PIWIK_DOCUMENT_ROOT . '/themes', '*.js') as $file)
