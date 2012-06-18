@@ -41,6 +41,7 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 		parent::setUp();
 		
 		Piwik_TablePartitioning::$tablesAlreadyInstalled = null;
+		Piwik::$lockPrivilegeGranted = null;
 		
 		// purging depends upon today's date, so 'older_than' parts must be dependent upon today
 		$today = Piwik_Date::factory('today');
@@ -77,6 +78,8 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 	public function tearDown()
 	{
 		parent::tearDown();
+		
+		Piwik::$lockPrivilegeGranted = null;
 		
 		// remove archive tables (integration test teardown will only truncate)
 		$archiveTables = $this->getArchiveTableNames();
@@ -528,6 +531,23 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 		$this->checkReportsAndMetricsPurged($janBlobsRemaining = 6); // 1 segmented blob + 5 day blobs
 	}
 	
+	/** Tests that log actions are not purged when the lock privilege is not granted.
+	 * (Simulates absence of lock privilege.)
+	 */
+	public function test_purgeData_deleteLogsWithoutLockPrivilege()
+	{
+		Piwik::$lockPrivilegeGranted = false;
+		
+		$this->addLogData();
+		
+		// purge data
+		$this->setTimeToRun();
+		$this->instance->deleteLogData();
+		
+		// perform checks
+		$this->checkLogDataPurged($actionsPurged = false);
+	}
+	
 	// --- utility functions follow ---
 	
 	private function addLogData()
@@ -717,7 +737,7 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 		$this->assertEqual(self::FEB_METRIC_ARCHIVE_COUNT + 1, $this->getTableCount($archiveTables['blob'][1])); // February
 	}
 	
-	private function checkLogDataPurged()
+	private function checkLogDataPurged( $actionsPurged = true )
 	{
 		// 3 days removed by purge, so 3 visits, 6 conversions, 6 visit actions, 3 e-commerce orders
 		// & 6 actions removed
@@ -725,7 +745,14 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 		$this->assertEqual(16, $this->getTableCount('log_conversion'));
 		$this->assertEqual(16, $this->getTableCount('log_link_visit_action'));
 		$this->assertEqual(8, $this->getTableCount('log_conversion_item'));
-		$this->assertEqual(21, $this->getTableCount('log_action'));
+		if ($actionsPurged)
+		{
+			$this->assertEqual(21, $this->getTableCount('log_action'));
+		}
+		else
+		{
+			$this->assertEqual(27, $this->getTableCount('log_action'));
+		}
 	}
 	
 	/**

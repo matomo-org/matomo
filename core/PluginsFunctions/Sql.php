@@ -181,7 +181,7 @@ class Piwik_Sql
 	 * @param string|array  $tablesToWrite  The table or tables to obtain 'write' locks on.
 	 * @return Zend_Db_Statement
 	 */
-	static public function lockTables( $tablesToRead, $tablesToWrite )
+	static public function lockTables( $tablesToRead, $tablesToWrite = array() )
 	{
 		if (!is_array($tablesToRead))
 		{
@@ -354,7 +354,7 @@ function Piwik_DropTables( $tables )
  * @param string|array  $tablesToWrite  The table or tables to obtain 'write' locks on.
  * @return Zend_Db_Statement
  */
-function Piwik_LockTables( $tablesToRead, $tablesToWrite )
+function Piwik_LockTables( $tablesToRead, $tablesToWrite = array() )
 {
 	return Piwik_Sql::lockTables($tablesToRead, $tablesToWrite);
 }

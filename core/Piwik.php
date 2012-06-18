@@ -2595,4 +2595,38 @@ class Piwik
 		$db = Zend_Registry::get('db');
 		return $db->fetchOne($sql, array($lockName)) == '1';
 	}
+	
+	/**
+	 * Cached result of isLockprivilegeGranted function.
+	 * 
+	 * Public so tests can simulate the situation where the lock tables privilege isn't granted.
+	 * 
+	 * @var bool
+	 */
+	static public $lockPrivilegeGranted = null;
+	
+	/**
+	 * Checks whether the database user is allowed to lock tables.
+	 * 
+	 * @return bool
+	 */
+	static public function isLockPrivilegeGranted()
+	{
+		if (is_null(self::$lockPrivilegeGranted))
+		{
+			try
+			{
+				Piwik_LockTables(Piwik_Common::prefixTable('log_visit'));
+				Piwik_UnlockAllTables();
+				
+				self::$lockPrivilegeGranted = true;
+			}
+			catch (Exception $ex)
+			{
+				self::$lockPrivilegeGranted = false;
+			}
+		}
+		
+		return self::$lockPrivilegeGranted;
+	}
 }

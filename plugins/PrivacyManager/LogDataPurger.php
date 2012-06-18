@@ -73,8 +73,16 @@ class Piwik_PrivacyManager_LogDataPurger
 			}
 		}
 		
-		// delete unused actions from the log_action table
-		$this->purgeUnusedLogActions();
+		// delete unused actions from the log_action table (but only if we can lock tables)
+		if (Piwik::isLockPrivilegeGranted())
+		{
+			$this->purgeUnusedLogActions();
+		}
+		else
+		{
+			$logMessage = get_class($this).": LOCK TABLES privilege not granted; skipping unused actions purge";
+			Piwik::log($logMessage);
+		}
 		
 		// optimize table overhead after deletion
 		Piwik_OptimizeTables($logTables);

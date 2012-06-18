@@ -148,7 +148,6 @@ class Piwik_Installation_FormDatabaseSetup extends Piwik_QuickForm2
  * - INSERT
  * - UPDATE
  * - DELETE
- * - LOCK TABLES
  * - DROP
  * - CREATE TEMPORARY TABLES
  * 
@@ -244,7 +243,8 @@ class Piwik_Installation_FormDatabaseSetup_Rule_checkUserPrivileges extends HTML
 	 * array maps privilege names with one or more SQL queries that can be used to test
 	 * if the current user has the privilege.
 	 * 
-	 * NOTE: LOAD DATA INFILE privilege is not **required** so its not checked.
+	 * NOTE: LOAD DATA INFILE & LOCK TABLES privileges are not **required** so they're
+	 * not checked.
 	 * 
 	 * @return array
 	 */
@@ -263,7 +263,6 @@ class Piwik_Installation_FormDatabaseSetup_Rule_checkUserPrivileges extends HTML
 			'INSERT' => 'INSERT INTO '.self::TEST_TABLE_NAME.' (value) VALUES (123)',
 			'UPDATE' => 'UPDATE '.self::TEST_TABLE_NAME.' SET value = 456 WHERE id = 1',
 			'DELETE' => 'DELETE FROM '.self::TEST_TABLE_NAME.' WHERE id = 1',
-			'LOCK TABLES' => array('LOCK TABLES '.self::TEST_TABLE_NAME.' WRITE', 'UNLOCK TABLES'),
 			'DROP' => 'DROP TABLE '.self::TEST_TABLE_NAME,
 			'CREATE TEMPORARY TABLES' => 'CREATE TEMPORARY TABLE '.self::TEST_TEMP_TABLE_NAME.' (
 											id INT AUTO_INCREMENT,
