@@ -155,14 +155,19 @@ See also our official guide <b><a href='http://piwik.org/privacy/' target='_blan
 			
 			</td>
 		</tr>
-		<tr id="deleteDataEstimateSect">
+		<tr id="deleteDataEstimateSect" {if $deleteData.config.delete_reports_enable eq '0' and $deleteData.config.delete_logs_enable eq '0'}style="display:none;"{/if}>
 			<td width="250">{'PrivacyManager_ReportsDataSavedEstimate'|translate}<br/></td>
 			<td width="500">
-				<div id="deleteDataEstimate">{include file="PrivacyManager/templates/databaseSize.tpl" dbStats=$deleteDbStats}</div>
+				<div id="deleteDataEstimate"></div>
 				<span class='loadingPiwik' style='display:none'><img src='/themes/default/images/loading-blue.gif' /> {'General_LoadingData'|translate}</span>
 			</td>
 			<td width="200">
-			
+			{if $deleteData.config.enable_auto_database_size_estimate eq '0'}
+			{capture assign=manualEstimate}
+				<em><a id="getPurgeEstimateLink" class="ui-inline-help" href="#">{'PrivacyManager_GetPurgeEstimate'|translate}</a></em>
+			{/capture}
+			{$manualEstimate|inlineHelp}
+			{/if}
 			</td>
 		</tr>
 		<tr id="deleteSchedulingSettings">

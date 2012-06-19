@@ -10,31 +10,41 @@ $(document).ready(function() {
 		$('#' + id).toggle(value == 1);
 	}
 	
+	function isEitherDeleteSectionEnabled() {
+		return ($('input[name=deleteEnable]:checked').val() == 1)
+			|| ($('input[name=deleteReportsEnable]:checked').val() == 1);
+	}
+	
 	function toggleOtherDeleteSections() {
-		// lock size of db size estimate
-		$('#deleteDataEstimateSect').height($('#deleteDataEstimateSect').height());
-		
-		var isEitherDeleteSectionEnabled =
-			($('input[name=deleteEnable]:checked').val() == 1) ||
-			($('input[name=deleteReportsEnable]:checked').val() == 1);
-		toggleBlock('deleteDataEstimateSect', isEitherDeleteSectionEnabled);
-		toggleBlock('deleteSchedulingSettings', isEitherDeleteSectionEnabled);
+		var showSection = isEitherDeleteSectionEnabled();
+		toggleBlock('deleteDataEstimateSect', showSection);
+		toggleBlock('deleteSchedulingSettings', showSection);
 	}
 	
 	// reloads purged database size estimate
 	var currentRequest;
-	function reloadDbStats() {
+	function reloadDbStats(forceEstimate) {
 		if (currentRequest) {
 			currentRequest.abort();
 		}
 		
-		// if the section isn't visible, abort
-		if (!$('#deleteDataEstimate').is(':visible')) {
+		// if the section isn't visible or the manual estimate link is showing, abort
+		// (unless on first load or forcing)
+		var isFirstLoad = $('#deleteDataEstimate').html() == '';
+		if (!isFirstLoad
+			&& forceEstimate !== true
+			&& (!isEitherDeleteSectionEnabled() || $('#getPurgeEstimateLink').length > 0))
+		{
 			return;
 		}
 		
 		$('#deleteDataEstimate').hide();
 		$('#deleteDataEstimateSect .loadingPiwik').show();
+		
+		var data = $('#formDeleteSettings').serialize();
+		if (forceEstimate === true) {
+			data += '&forceEstimate=1';
+		}
 		
 		currentRequest = $.ajax({
 			type: 'GET',
@@ -42,11 +52,14 @@ $(document).ready(function() {
 			dataType: 'html',
 			async: true,
 			error: piwikHelper.ajaxHandleError,		// Callback when the request fails
-			data: $('#formDeleteSettings').serialize(),
+			data: data,
 			success: function(data) {
 				currentRequest = undefined;
 				$('#deleteDataEstimateSect .loadingPiwik').hide();
 				$('#deleteDataEstimate').html(data).show();
+				
+				// lock size of db size estimate
+				$('#deleteDataEstimateSect').height($('#deleteDataEstimateSect').height());
 			}
 		});
 	}
@@ -159,16 +172,27 @@ $(document).ready(function() {
 					  action: 'executeDataPurge',
 					  token_auth: piwik.token_auth
 					},
-					dataType: 'html',
 					async: true,
 					error: piwikHelper.ajaxHandleError,		// Callback when the request fails
-					success: function(data) { // ajax request will return new database estimate
+					success: function() {
 						$('#deleteSchedulingSettings .loadingPiwik').hide();
 						$(link).show();
-						$('#deleteDataEstimate').html(data);
+						
+						// force reload
+						$('#deleteDataEstimate').html('');
+						reloadDbStats();
 					}
 				});
 			}
 		});
 	});
+	
+	// get estimate link click
+	$('#getPurgeEstimateLink').click(function(e) {
+		e.preventDefault();
+		reloadDbStats(true);
+	});
+	
+	// load initial db size estimate
+	reloadDbStats();
 });

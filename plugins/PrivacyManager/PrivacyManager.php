@@ -113,13 +113,16 @@ class Piwik_PrivacyManager extends Piwik_Plugin
 	{
 		$settings = array();
 		
-		// backwards compatibility: load old values in ini config if present
+		// load settings from ini config
 		try
 		{
 			$oldSettings = array(
+				'enable_auto_database_size_estimate',
+				
+				// backwards compatibility: load old values in ini config if present
 				'delete_logs_enable',
 				'delete_logs_schedule_lowest_interval',
-				'delete_logs_older_than'
+				'delete_logs_older_than',
 			);
 		
 			$deleteLogsSettings = Piwik_Config::getInstance()->Deletelogs;

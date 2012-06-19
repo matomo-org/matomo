@@ -214,6 +214,108 @@ class Piwik_Sql
 	{
 		return self::exec("UNLOCK TABLES");
 	}
+	
+	/**
+	 * Performs a SELECT on a table one chunk at a time and returns the first
+	 * fetched value.
+	 * 
+	 * @param string $sql The SQL to perform. The last two conditions of the WHERE
+	 *                    expression must be as follows: 'id >= ? AND id < ?' where
+	 *                    'id' is the int id of the table. If $step < 0, the condition
+	 *                    should be 'id <= ? AND id > ?'.
+	 * @param int $first The minimum ID to loop from.
+	 * @param int $last The maximum ID to loop to.
+	 * @param int $step The maximum number of rows to scan in each smaller SELECT.
+	 * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
+	 * @return array
+	 */
+	static public function segmentedFetchFirst( $sql, $first, $last, $step, $params )
+	{
+		$result = false;
+		if ($step > 0)
+		{
+			for ($i = $first; $result === false && $i <= $last; $i += $step)
+			{
+				$result = self::fetchOne($sql, array_merge($params, array($i, $i + $step)));
+			}
+		}
+		else
+		{
+			for ($i = $first; $result === false && $i >= $last; $i += $step)
+			{
+				$result = self::fetchOne($sql, array_merge($params, array($i, $i + $step)));
+			}
+		}
+		return $result;
+	}
+	
+	/**
+	 * Performs a SELECT on a table one chunk at a time and returns an array
+	 * of every fetched value.
+	 * 
+	 * @param string $sql The SQL to perform. The last two conditions of the WHERE
+	 *                    expression must be as follows: 'id >= ? AND id < ?' where
+	 *                    'id' is the int id of the table.
+	 * @param int $first The minimum ID to loop from.
+	 * @param int $last The maximum ID to loop to.
+	 * @param int $step The maximum number of rows to scan in each smaller SELECT.
+	 * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
+	 * @return array
+	 */
+	static public function segmentedFetchOne( $sql, $first, $last, $step, $params )
+	{
+		$result = array();
+		if ($step > 0)
+		{
+			for ($i = $first; $i <= $last; $i += $step)
+			{
+				$result[] = self::fetchOne($sql, array_merge($params, array($i, $i + $step)));
+			}
+		}
+		else
+		{
+			for ($i = $first; $i >= $last; $i += $step)
+			{
+				$result[] = self::fetchOne($sql, array_merge($params, array($i, $i + $step)));
+			}
+		}
+		return $result;
+	}
+	
+	/**
+	 * Performs a SELECT on a table one chunk at a time and returns an array
+	 * of every fetched row.
+	 * 
+	 * @param string $sql The SQL to perform. The last two conditions of the WHERE
+	 *                    expression must be as follows: 'id >= ? AND id < ?' where
+	 *                    'id' is the int id of the table.
+	 * @param int $first The minimum ID to loop from.
+	 * @param int $last The maximum ID to loop to.
+	 * @param int $step The maximum number of rows to scan in each smaller SELECT.
+	 * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
+	 * @return array
+	 */
+	static public function segmentedFetchAll( $sql, $first, $last, $step, $params )
+	{
+		$result = array();
+		if ($step > 0)
+		{
+			for ($i = $first; $i <= $last; $i += $step)
+			{
+				$currentParams = array_merge($params, array($i, $i + $step));
+				$result = array_merge($result, self::fetchAll($sql, $currentParams));
+			}
+		}
+		else
+		{
+			for ($i = $first; $i >= $last; $i += $step)
+			{
+				$currentParams = array_merge($params, array($i, $i + $step));
+				$result = array_merge($result, self::fetchAll($sql, $currentParams));
+			}
+		}
+		return $result;
+	}
 }
 
 /**
@@ -369,5 +471,80 @@ function Piwik_LockTables( $tablesToRead, $tablesToWrite = array() )
 function Piwik_UnlockAllTables()
 {
 	return Piwik_Sql::unlockAllTables();
+}
+
+/**
+ * Performs a SELECT on a table one chunk at a time and returns the first
+ * fetched value.
+ * 
+ * This function will break up a SELECT into several smaller SELECTs and
+ * should be used when performing a SELECT that can take a long time to finish.
+ * Using several smaller SELECTs will ensure that the table will not be locked
+ * for too long.
+ * 
+ * @see Piwik_Sql::segmentedFetchFirst
+ * 
+ * @param string $sql The SQL to perform. The last two conditions of the WHERE
+ *                    expression must be as follows: 'id >= ? AND id < ?' where
+ *                    'id' is the int id of the table.
+ * @param int $first The minimum ID to loop from.
+ * @param int $last The maximum ID to loop to.
+ * @param int $step The maximum number of rows to scan in each smaller SELECT.
+ * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
+ * @return string
+ */
+function Piwik_SegmentedFetchFirst( $sql, $first, $last, $step, $params = array() )
+{
+	return Piwik_Sql::segmentedFetchFirst($sql, $first, $last, $step, $params);
+}
+
+/**
+ * Performs a SELECT on a table one chunk at a time and returns an array
+ * of every fetched value.
+ * 
+ * This function will break up a SELECT into several smaller SELECTs and
+ * should be used when performing a SELECT that can take a long time to finish.
+ * Using several smaller SELECTs will ensure that the table will not be locked
+ * for too long.
+ * 
+ * @see Piwik_Sql::segmentedFetchFirst
+ * 
+ * @param string $sql The SQL to perform. The last two conditions of the WHERE
+ *                    expression must be as follows: 'id >= ? AND id < ?' where
+ *                    'id' is the int id of the table.
+ * @param int $first The minimum ID to loop from.
+ * @param int $last The maximum ID to loop to.
+ * @param int $step The maximum number of rows to scan in each smaller SELECT.
+ * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
+ * @return array
+ */
+function Piwik_SegmentedFetchOne( $sql, $first, $last, $step, $params = array() )
+{
+	return Piwik_Sql::segmentedFetchOne($sql, $first, $last, $step, $params);
+}
+
+/**
+ * Performs a SELECT on a table one chunk at a time and returns an array
+ * of every fetched row.
+ * 
+ * This function will break up a SELECT into several smaller SELECTs and
+ * should be used when performing a SELECT that can take a long time to finish.
+ * Using several smaller SELECTs will ensure that the table will not be locked
+ * for too long.
+ * 
+ * @see Piwik_Sql::segmentedFetchFirst
+ * 
+ * @param string $sql The SQL to perform. The last two conditions of the WHERE
+ *                    expression must be as follows: 'id >= ? AND id < ?' where
+ *                    'id' is the int id of the table.
+ * @param int $first The minimum ID to loop from.
+ * @param int $last The maximum ID to loop to.
+ * @param int $step The maximum number of rows to scan in each smaller SELECT.
+ * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
+ * @return array
+ */
+function Piwik_SegmentedFetchAll( $sql, $first, $last, $step, $params = array() )
+{
+	return Piwik_Sql::segmentedFetchAll($sql, $first, $last, $step, $params);
 }
 

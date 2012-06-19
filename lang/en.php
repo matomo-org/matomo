@@ -454,6 +454,7 @@ $translations = array(
 	'PrivacyManager_DoNotTrack_DisabledMoreInfo' => 'We recommend to respect your visitors privacy and enable DoNotTrack support.',
 	'PrivacyManager_DoNotTrack_Enable' => 'Enable Do Not Track support',
 	'PrivacyManager_DoNotTrack_Disable' => 'Disable Do Not Track support',
+	'PrivacyManager_GetPurgeEstimate' => 'Get purge estimate',
 	'CoreHome_PluginDescription' => 'Web Analytics Reports Structure.',
 	'CoreHome_WebAnalyticsReports' => 'Web Analytics Reports',
 	'CoreHome_NoPrivilegesAskPiwikAdmin' => 'You are logged in as \'%s\' but it seems you don\'t have any permission set in Piwik. %s Ask your Piwik administrator (click to email)%s to give you \'view\' access to a website.',

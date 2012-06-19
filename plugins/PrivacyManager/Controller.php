@@ -91,7 +91,8 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 		Piwik::checkUserIsSuperUser();
 		$view = Piwik_View::factory('databaseSize');
 		
-		$view->dbStats = $this->getDeleteDBSizeEstimate(true);
+		$forceEstimate = Piwik_Common::getRequestVar('forceEstimate', 0);
+		$view->dbStats = $this->getDeleteDBSizeEstimate($getSettingsFromQuery = true, $forceEstimate);
 		$view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
 		
 		echo $view->render();
@@ -111,7 +112,6 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 			$deleteLogs = array();
 
 			$view->deleteData = $this->getDeleteDataInfo();
-			$view->deleteDbStats = $this->getDeleteDBSizeEstimate();
 			$view->anonymizeIP = $this->getAnonymizeIPInfo();
 			$view->dntSupport = $this->isDntSupport();
 		}
@@ -156,12 +156,9 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 				$settings, Piwik_PrivacyManager::getAllMetricsToKeep());
 			$reportsPurger->purgeData(true);
 		}
-		
-		// re-calculate db size estimate
-		$this->getDatabaseSize();
 	}
 	
-	protected function getDeleteDBSizeEstimate( $getSettingsFromQuery = false )
+	protected function getDeleteDBSizeEstimate( $getSettingsFromQuery = false, $forceEstimate = false )
 	{
 		// get the purging settings & create two purger instances
 		if ($getSettingsFromQuery)
@@ -173,9 +170,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 			$settings = Piwik_PrivacyManager::getPurgeDataSettings();
 		}
 		
-		// maps tables whose data will be deleted with number of rows that will be deleted
-		// if a value is -1, it means the table will be dropped.
-		$deletedDataSummary = Piwik_PrivacyManager::getPurgeEstimate($settings);
+		$doDatabaseSizeEstimate = Piwik_Config::getInstance()->Deletelogs['enable_auto_database_size_estimate'];
 		
 		// determine the DB size & purged DB size
 		$metadataProvider = new Piwik_DBStats_MySQLMetadataProvider();
@@ -187,31 +182,40 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 			$totalBytes += $status['Data_length'] + $status['Index_length'];
 		}
 		
-		$totalAfterPurge = $totalBytes;
-		foreach ($tableStatuses as $status)
+		$result = array(
+			'currentSize' => Piwik::getPrettySizeFromBytes($totalBytes)
+		);
+		
+		// if the db size estimate feature is enabled, get the estimate
+		if ($doDatabaseSizeEstimate || $forceEstimate == 1)
 		{
-			$tableName = $status['Name'];
-			if (isset($deletedDataSummary[$tableName]))
+			// maps tables whose data will be deleted with number of rows that will be deleted
+			// if a value is -1, it means the table will be dropped.
+			$deletedDataSummary = Piwik_PrivacyManager::getPurgeEstimate($settings);
+		
+			$totalAfterPurge = $totalBytes;
+			foreach ($tableStatuses as $status)
 			{
-				$tableTotalBytes = $status['Data_length'] + $status['Index_length'];
+				$tableName = $status['Name'];
+				if (isset($deletedDataSummary[$tableName]))
+				{
+					$tableTotalBytes = $status['Data_length'] + $status['Index_length'];
 				
-				// if dropping the table
-				if ($deletedDataSummary[$tableName] === Piwik_PrivacyManager_ReportsPurger::DROP_TABLE)
-				{
-					$totalAfterPurge -= $tableTotalBytes;
-				}
-				else // if just deleting rows
-				{
-					$totalAfterPurge -= ($tableTotalBytes / $status['Rows']) * $deletedDataSummary[$tableName];
+					// if dropping the table
+					if ($deletedDataSummary[$tableName] === Piwik_PrivacyManager_ReportsPurger::DROP_TABLE)
+					{
+						$totalAfterPurge -= $tableTotalBytes;
+					}
+					else // if just deleting rows
+					{
+						$totalAfterPurge -= ($tableTotalBytes / $status['Rows']) * $deletedDataSummary[$tableName];
+					}
 				}
 			}
+			
+			$result['sizeAfterPurge'] = Piwik::getPrettySizeFromBytes($totalAfterPurge);
+			$result['spaceSaved'] = Piwik::getPrettySizeFromBytes($totalBytes - $totalAfterPurge);
 		}
-		
-		$result = array(
-			'currentSize' => Piwik::getPrettySizeFromBytes($totalBytes),
-			'sizeAfterPurge' => Piwik::getPrettySizeFromBytes($totalAfterPurge),
-			'spaceSaved' => Piwik::getPrettySizeFromBytes($totalBytes - $totalAfterPurge)
-		);
 		
 		return $result;
 	}

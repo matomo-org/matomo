@@ -17,6 +17,11 @@ class Piwik_PrivacyManager_ReportsPurger
 {
     // constant used in database purging estimate to signify a table should be dropped
     const DROP_TABLE = -1;
+	
+	/**
+	 * The max set of rows each table scan select should query at one time.
+	 */
+	public static $selectSegmentSize = 100000;
     
     /** 
      * The number of months after which report/metric data is considered old.
@@ -109,6 +114,10 @@ class Piwik_PrivacyManager_ReportsPurger
 				foreach ($oldBlobTables as $table)
 				{
 					$where = $this->getBlobTableWhereExpr($oldNumericTables, $table);
+					if (!empty($where))
+					{
+						$where = "WHERE $where";
+					}
 					Piwik_DeleteAllRows($table, $where, $this->maxRowsToDeletePerQuery);
 				}
 				
@@ -269,15 +278,31 @@ class Piwik_PrivacyManager_ReportsPurger
 
 	private function getNumericTableDeleteCount( $table )
 	{
-		$sql = "SELECT COUNT(*) FROM $table
-				 WHERE name NOT IN ('".implode("','", $this->metricsToKeep)."') AND name NOT LIKE 'done%'";
-		return (int)Piwik_FetchOne($sql);
+		$maxIdArchive = Piwik_FetchOne("SELECT MAX(idarchive) FROM $table");
+		
+		$sql = "SELECT COUNT(*)
+				  FROM $table
+				 WHERE name NOT IN ('".implode("','", $this->metricsToKeep)."')
+				   AND name NOT LIKE 'done%'
+				   AND idarchive >= ?
+				   AND idarchive < ?";
+		
+		$segments = Piwik_SegmentedFetchOne($sql, 0, $maxIdArchive, self::$selectSegmentSize);
+		return array_sum($segments);
 	}
 
 	private function getBlobTableDeleteCount( $oldNumericTables, $table )
 	{
-		$sql = "SELECT COUNT(*) FROM $table ".$this->getBlobTableWhereExpr($oldNumericTables, $table);
-		return (int)Piwik_FetchOne($sql);
+		$maxIdArchive = Piwik_FetchOne("SELECT MAX(idarchive) FROM $table");
+		
+		$sql = "SELECT COUNT(*)
+				  FROM $table
+				 WHERE ".$this->getBlobTableWhereExpr($oldNumericTables, $table)."
+				   AND idarchive >= ?
+				   AND idarchive < ?";
+		
+		$segments = Piwik_SegmentedFetchOne($sql, 0, $maxIdArchive, self::$selectSegmentSize);
+		return array_sum($segments);
 	}
 	
 	/** Returns SQL WHERE expression used to find reports that should be purged. */
@@ -286,7 +311,7 @@ class Piwik_PrivacyManager_ReportsPurger
 		$where = "";
 		if (!empty($this->reportPeriodsToKeep)) // if keeping reports
 		{
-			$where = "WHERE period NOT IN (".implode(',', $this->reportPeriodsToKeep).")";
+			$where = "period NOT IN (".implode(',', $this->reportPeriodsToKeep).")";
 			
 			// if not keeping segments make sure segments w/ kept periods are also deleted
 			if (!$this->keepSegmentReports)
@@ -299,6 +324,8 @@ class Piwik_PrivacyManager_ReportsPurger
 					$where .= " OR idarchive IN (".implode(',', $archiveIds).")";
 				}
 			}
+			
+			$where = "($where)";
 		}
 		return $where;
 	}
@@ -318,10 +345,17 @@ class Piwik_PrivacyManager_ReportsPurger
 		{
 			$tableDate = $this->getArchiveTableDate($table);
 			
-			$sql = "SELECT idarchive FROM $table WHERE name != 'done' AND name LIKE 'done_%.%'";
+			$maxIdArchive = Piwik_FetchOne("SELECT MAX(idarchive) FROM $table");
+			
+			$sql = "SELECT idarchive
+					  FROM $table
+					 WHERE name != 'done'
+					   AND name LIKE 'done_%.%'
+					   AND idarchive >= ?
+					   AND idarchive < ?";
 			
 			$this->segmentArchiveIds[$tableDate] = array();
-			foreach (Piwik_FetchAll($sql) as $row)
+			foreach (Piwik_SegmentedFetchAll($sql, 0, $maxIdArchive, self::$selectSegmentSize) as $row)
 			{
 				$this->segmentArchiveIds[$tableDate][] = $row['idarchive'];
 			}

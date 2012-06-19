@@ -41,6 +41,9 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 		parent::setUp();
 		
 		Piwik_TablePartitioning::$tablesAlreadyInstalled = null;
+
+		Piwik_PrivacyManager_LogDataPurger::$selectSegmentSize = 2;
+		Piwik_PrivacyManager_ReportsPurger::$selectSegmentSize = 2;
 		Piwik::$lockPrivilegeGranted = null;
 		
 		// purging depends upon today's date, so 'older_than' parts must be dependent upon today
