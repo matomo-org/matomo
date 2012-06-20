@@ -23,7 +23,7 @@ class Piwik_WidgetsList
 	static protected $widgets = null;
 
 	/**
-	 * Indicated whether the hook was posted or not
+	 * Indicates whether the hook was posted or not
 	 *
 	 * @var bool
 	 */
@@ -42,7 +42,7 @@ class Piwik_WidgetsList
 			self::$hookCalled = true;
 			Piwik_PostEvent('WidgetsList.add');
 		}
-		uksort(self::$widgets, 'Piwik_sortWidgetCategories');
+		uksort(self::$widgets, array('Piwik_WidgetsList', '_sortWidgetCategories'));
 		
 		$widgets = array();
 		foreach(self::$widgets as $key => $v) 
@@ -54,7 +54,39 @@ class Piwik_WidgetsList
 		}
 		return $widgets;
 	}
-	
+
+	/**
+	 * Sorting method for widget categories
+	 *
+	 * @param string  $a
+	 * @param string  $b
+	 * @return bool
+	 */
+	protected static function _sortWidgetCategories($a, $b)
+	{
+		$order = array(
+			'VisitsSummary_VisitsSummary',
+			'Live!',
+			'General_Visitors',
+			'UserSettings_VisitorSettings',
+			'Actions_Actions',
+			'Referers_Referers',
+			'Goals_Goals',
+			'Goals_Ecommerce',
+			'_others_',
+			'Example Widgets',
+			'ExamplePlugin_exampleWidgets',
+		);
+
+		if(($oa = array_search($a, $order)) === false) {
+			$oa = array_search('_others_', $order);
+		}
+		if(($ob = array_search($b, $order)) === false) {
+			$ob = array_search('_others_', $order);
+		}
+		return $oa > $ob;
+	}
+
 	/**
 	 * Adds an widget to the list
 	 *
@@ -66,7 +98,6 @@ class Piwik_WidgetsList
 	 */
 	static public function add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters)
 	{
-		$widgetCategory = $widgetCategory;
 		$widgetName = Piwik_Translate($widgetName);
 		$widgetUniqueId = 'widget' . $controllerName . $controllerAction;
 		foreach($customParameters as $name => $value)
@@ -112,38 +143,6 @@ class Piwik_WidgetsList
 		return false;
 	}
 }
-
-/*
- * @private
- */
-function Piwik_sortWidgetCategories($a, $b)
-{
-	$order = array(
-		'VisitsSummary_VisitsSummary',
-		'Live!',
-		'General_Visitors',
-		'UserSettings_VisitorSettings',
-		'Actions_Actions',
-		'Referers_Referers',
-		'Goals_Goals',
-		'Goals_Ecommerce',
-		'_others_',
-		'Example Widgets',
-		'ExamplePlugin_exampleWidgets',
-	);
-	
-	if(($oa = array_search($a, $order)) === false) {
-		$oa = array_search('_others_', $order);
-	}
-	if(($ob = array_search($b, $order)) === false) {
-		$ob = array_search('_others_', $order);
-	}
-//	var_dump($a);
-//	var_dump($b);
-	return $oa > $ob; 
-}
-
-
 
 /**
  * Returns all available widgets

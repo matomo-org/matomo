@@ -1,26 +1,20 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik
  * @package Piwik
  */
 
 /**
- * Rendering interface for Piwik_View and Piwik_Visualization
+ * Database Exception
  *
  * @package Piwik
+ * @subpackage Piwik_Tracker
  */
-interface Piwik_View_Interface
-{
-	/**
-	 * Outputs the data.
-	 *
-	 * @return mixed (image, array, html...)
-	 */
-	function render();
+class Piwik_Tracker_Db_Exception extends Exception {
 }

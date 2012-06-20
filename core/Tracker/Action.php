@@ -59,12 +59,22 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	private $actionUrl;
 	
 	static private $queryParametersToExclude = array('phpsessid', 'jsessionid', 'sessionid', 'aspsessionid', 'fb_xd_fragment', 'fb_comment_id');
-	
+
+	/**
+	 * Set request parameters
+	 *
+	 * @param array  $requestArray
+	 */
 	public function setRequest($requestArray)
 	{
 		$this->request = $requestArray;
 	}
 
+	/**
+	 * Returns the current set request parameters
+	 *
+	 * @return array
+	 */
 	public function getRequest()
 	{
 	    return $this->request;
@@ -72,6 +82,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	
 	/**
 	 * Returns URL of the page currently being tracked, or the file being downloaded, or the outlink being clicked
+	 *
 	 * @return string
 	 */
 	public function getActionUrl()

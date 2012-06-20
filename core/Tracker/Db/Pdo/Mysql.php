@@ -19,15 +19,16 @@
 class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
 {
 	protected $connection = null;
-	private $dsn;
-	private $username;
-	private $password;
-	private $charset;
+	protected $dsn;
+	protected $username;
+	protected $password;
+	protected $charset;
 
 	/**
 	 * Builds the DB object
-	 * @param array $dbInfo
-	 * @param string $driverName
+	 *
+	 * @param array   $dbInfo
+	 * @param string  $driverName
 	 */
 	public function __construct( $dbInfo, $driverName = 'mysql') 
 	{
@@ -100,10 +101,10 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
 	/**
 	 * Returns an array containing all the rows of a query result, using optional bound parameters.
 	 *
-	 * @param string $query Query
-	 * @param array $parameters Parameters to bind
+	 * @param string  $query       Query
+	 * @param array   $parameters  Parameters to bind
 	 * @return array|bool
-	 * @see also query()
+	 * @see query()
 	 * @throws Exception|Piwik_Tracker_Db_Exception if an exception occurred
 	 */
 	public function fetchAll( $query, $parameters = array() )
@@ -123,11 +124,10 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
 	/**
 	 * Returns the first row of a query result, using optional bound parameters.
 	 * 
-	 * @param string $query Query
-	 * @param array $parameters Parameters to bind
+	 * @param string  $query Query
+	 * @param array   $parameters Parameters to bind
 	 * @return bool|mixed
-	 * @see also query()
-	 * 
+	 * @see query()
 	 * @throws Exception|Piwik_Tracker_Db_Exception if an exception occurred
 	 */
 	public function fetch( $query, $parameters = array() )
@@ -198,8 +198,8 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
 	/**
 	 * Test error number
 	 *
-	 * @param Exception $e
-	 * @param string $errno
+	 * @param Exception  $e
+	 * @param string     $errno
 	 * @return bool
 	 */
 	public function isErrNo($e, $errno)
@@ -214,7 +214,7 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
 	/**
 	 * Return number of affected rows in last query
 	 *
-	 * @param mixed $queryResult Result from query()
+	 * @param mixed  $queryResult  Result from query()
 	 * @return int
 	 */
 	public function rowCount($queryResult)

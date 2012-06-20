@@ -169,11 +169,11 @@ abstract class Piwik_Archive
 	/**
 	 * Builds an Archive object or returns the same archive if previously built.
 	 *
-	 * @param int|string $idSite integer, or comma separated list of integer
-	 * @param string $period 'week' 'day' etc.
-	 * @param Piwik_Date|string $strDate 'YYYY-MM-DD' or magic keywords 'today' @see Piwik_Date::factory()
-	 * @param bool|string $segment Segment definition - defaults to false for Backward Compatibility
-	 * @param bool|string $_restrictSitesToLogin Used only when running as a scheduled task
+	 * @param int|string         $idSite                 integer, or comma separated list of integer
+	 * @param string             $period                 'week' 'day' etc.
+	 * @param Piwik_Date|string  $strDate                'YYYY-MM-DD' or magic keywords 'today' @see Piwik_Date::factory()
+	 * @param bool|string        $segment                Segment definition - defaults to false for Backward Compatibility
+	 * @param bool|string        $_restrictSitesToLogin  Used only when running as a scheduled task
 	 * @return Piwik_Archive
 	 */
 	static public function build($idSite, $period, $strDate, $segment = false, $_restrictSitesToLogin = false )
@@ -248,8 +248,8 @@ abstract class Piwik_Archive
 	 * Returns the value of the element $name from the current archive 
 	 * The value to be returned is a numeric value and is stored in the archive_numeric_* tables
 	 *
-	 * @param string $name For example Referers_distinctKeywords 
-	 * @return float|int|false False if no value with the given name
+	 * @param string  $name  For example Referers_distinctKeywords
+	 * @return float|int|false  False if no value with the given name
 	 */
 	abstract public function getNumeric( $name );
 	
@@ -260,8 +260,8 @@ abstract class Piwik_Archive
 	 * 
 	 * It can return anything from strings, to serialized PHP arrays or PHP objects, etc.
 	 *
-	 * @param string $name For example Referers_distinctKeywords 
-	 * @return mixed False if no value with the given name
+	 * @param string  $name  For example Referers_distinctKeywords
+	 * @return mixed  False if no value with the given name
 	 */
 	abstract public function getBlob( $name );
 
@@ -290,8 +290,8 @@ abstract class Piwik_Archive
 	 * all the subtables for the DataTable $name. 
 	 * You can then access the subtables by using the Piwik_DataTable_Manager getTable() 
 	 *
-	 * @param string $name
-	 * @param int $idSubTable or null if requesting the parent table
+	 * @param string    $name
+	 * @param int|null  $idSubTable  null if requesting the parent table
 	 * @return Piwik_DataTable
 	 */
 	abstract public function getDataTableExpanded($name, $idSubTable = null);
@@ -301,13 +301,14 @@ abstract class Piwik_Archive
 	 * Helper - Loads a DataTable from the Archive.
 	 * Optionally loads the table recursively,
 	 * or optionally fetches a given subtable with $idSubtable
-	 * @param $name
-	 * @param $idSite
-	 * @param $period
-	 * @param $date
-	 * @param $segment
-	 * @param $expanded
-	 * @param null $idSubtable
+	 *
+	 * @param string      $name
+	 * @param int         $idSite
+	 * @param string      $period
+	 * @param Piwik_Date  $date
+	 * @param string      $segment
+	 * @param bool        $expanded
+	 * @param null        $idSubtable
 	 * @return Piwik_DataTable
 	 */
 	static public function getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable = null )

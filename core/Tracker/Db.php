@@ -24,6 +24,8 @@ abstract class Piwik_Tracker_Db
 
 	protected $queriesProfiling = array();
 
+	protected $connection = null;
+
 	/**
 	 * Enables the SQL profiling. 
 	 * For each query, saves in the DB the time spent on this query. 
@@ -68,8 +70,8 @@ abstract class Piwik_Tracker_Db
 	/**
 	 * Record query profile
 	 *
-	 * @param string $query
-	 * @param Piwik_Timer $timer
+	 * @param string       $query
+	 * @param Piwik_Timer  $timer
 	 */	
 	protected function recordQueryProfile( $query, $timer )
 	{
@@ -127,29 +129,30 @@ abstract class Piwik_Tracker_Db
 	/**
 	 * Returns an array containing all the rows of a query result, using optional bound parameters.
 	 * 
-	 * @param string Query 
-	 * @param array Parameters to bind
-	 * @see also query()
-	 * @throws Piwik_Tracker_Db_Exception if an exception occured
+	 * @param string  $query       Query
+	 * @param array   $parameters  Parameters to bind
+	 * @see query()
+	 * @throws Piwik_Tracker_Db_Exception if an exception occurred
 	 */
 	abstract public function fetchAll( $query, $parameters = array() );
 	
 	/**
 	 * Returns the first row of a query result, using optional bound parameters.
 	 * 
-	 * @param string Query 
-	 * @param array Parameters to bind
+	 * @param string  $query       Query
+	 * @param array   $parameters  Parameters to bind
 	 * @see also query()
 	 * 
-	 * @throws Piwik_Tracker_Db_Exception if an exception occured
+	 * @throws Piwik_Tracker_Db_Exception if an exception occurred
 	 */
 	abstract public function fetch( $query, $parameters = array() );
 
 	/**
 	 * This function is a proxy to fetch(), used to maintain compatibility with Zend_Db interface
+	 *
 	 * @see fetch()
-	 * @param $query
-	 * @param array $parameters
+	 * @param string  $query       Query
+	 * @param array   $parameters  Parameters to bind
 	 * @return
 	 */
 	public function fetchRow( $query, $parameters = array() )
@@ -159,9 +162,10 @@ abstract class Piwik_Tracker_Db
 
 	/**
 	 * This function is a proxy to fetch(), used to maintain compatibility with Zend_Db interface
+	 *
 	 * @see fetch()
-	 * @param string $query
-	 * @param array $parameters
+	 * @param string  $query       Query
+	 * @param array   $parameters  Parameters to bind
 	 * @return bool|mixed
 	 */
 	public function fetchOne( $query, $parameters = array() )
@@ -172,9 +176,10 @@ abstract class Piwik_Tracker_Db
 
 	/**
 	 * This function is a proxy to fetch(), used to maintain compatibility with Zend_Db + PDO interface
+	 *
 	 * @see fetch()
-	 * @param string $query
-	 * @param array $parameters
+	 * @param string  $query       Query
+	 * @param array   $parameters  Parameters to bind
 	 * @return
 	 */
 	public function exec( $query, $parameters = array() )
@@ -185,7 +190,7 @@ abstract class Piwik_Tracker_Db
 	/**
 	 * Return number of affected rows in last query
 	 *
-	 * @param mixed $queryResult Result from query()
+	 * @param mixed  $queryResult  Result from query()
 	 * @return int
 	 */
 	abstract public function rowCount($queryResult);
@@ -193,11 +198,11 @@ abstract class Piwik_Tracker_Db
 	/**
 	 * Executes a query, using optional bound parameters.
 	 * 
-	 * @param string Query 
-	 * @param array|string Parameters to bind array('idsite'=> 1)
+	 * @param string  $query       Query
+	 * @param array   $parameters  Parameters to bind array('idsite'=> 1)
 	 * 
 	 * @return PDOStatement or false if failed
-	 * @throws Piwik_Tracker_Db_Exception if an exception occured
+	 * @throws Piwik_Tracker_Db_Exception if an exception occurred
 	 */
 	abstract public function query($query, $parameters = array());
 
@@ -212,16 +217,9 @@ abstract class Piwik_Tracker_Db
 	/**
 	 * Test error number
 	 *
-	 * @param Exception $e
-	 * @param string $errno
-	 * @return bool True if error number matches; false otherwise
+	 * @param Exception  $e
+	 * @param string     $errno
+	 * @return bool  True if error number matches; false otherwise
 	 */
 	abstract public function isErrNo($e, $errno);
-}
-
-/**
- * @package Piwik
- * @subpackage Piwik_Tracker
- */
-class Piwik_Tracker_Db_Exception extends Exception {
 }

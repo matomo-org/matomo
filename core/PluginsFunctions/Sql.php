@@ -107,8 +107,8 @@ class Piwik_Sql
 	/**
 	 * Fetches result from the database query as an array of associative arrays.
 	 * 
-	 * @param string	$sql		SQL query
-	 * @param array		$parameters	Parameters to bind in the query, array( param1 => value1, param2 => value2)
+	 * @param string  $sql         SQL query
+	 * @param array   $parameters  Parameters to bind in the query, array( param1 => value1, param2 => value2)
 	 * @return array
 	 */
 	static public function fetchAssoc($sql, $parameters = array())

@@ -20,8 +20,9 @@ class Piwik_Tracker_Db_Pdo_Pgsql extends Piwik_Tracker_Db_Pdo_Mysql
 {
 	/**
 	 * Builds the DB object
-	 * @param $dbInfo
-	 * @param string $driverName
+	 *
+	 * @param array   $dbInfo
+	 * @param string  $driverName
 	 */
 	public function __construct( $dbInfo, $driverName = 'pgsql') 
 	{
@@ -63,8 +64,8 @@ class Piwik_Tracker_Db_Pdo_Pgsql extends Piwik_Tracker_Db_Pdo_Mysql
 	/**
 	 * Test error number
 	 *
-	 * @param Exception $e
-	 * @param string $errno
+	 * @param Exception  $e
+	 * @param string     $errno
 	 * @return bool
 	 */
 	public function isErrNo($e, $errno)
@@ -110,7 +111,7 @@ class Piwik_Tracker_Db_Pdo_Pgsql extends Piwik_Tracker_Db_Pdo_Mysql
 	/**
 	 * Return number of affected rows in last query
 	 *
-	 * @param mixed $queryResult Result from query()
+	 * @param mixed  $queryResult  Result from query()
 	 * @return int
 	 */
 	public function rowCount($queryResult)

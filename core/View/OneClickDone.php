@@ -47,7 +47,7 @@ class Piwik_View_OneClickDone
 	/**
 	 * Outputs the data.
 	 *
-	 * @return string html
+	 * @return string  html
 	 */
 	public function render()
 	{

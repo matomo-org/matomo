@@ -67,7 +67,7 @@ class Piwik_Tracker_IgnoreCookie
 	/**
 	 * Returns true if ignore (visit) cookie is present
 	 *
-	 * @return bool True if ignore cookie found; false otherwise
+	 * @return bool  True if ignore cookie found; false otherwise
 	 */
 	static public function isIgnoreCookieFound()
 	{

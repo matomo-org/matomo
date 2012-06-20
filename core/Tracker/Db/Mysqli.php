@@ -19,13 +19,13 @@
 class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 {
 	protected $connection = null;
-	private $host;
-	private $port;
-	private $socket;
-	private $dbname;
-	private $username;
-	private $password;
-	private $charset;
+	protected $host;
+	protected $port;
+	protected $socket;
+	protected $dbname;
+	protected $username;
+	protected $password;
+	protected $charset;
 
 	/**
 	 * Builds the DB object
@@ -156,7 +156,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 	 *
 	 * @param string  $query       Query
 	 * @param array   $parameters  Parameters to bind
-	 * @throws Piwik_Tracker_Db_Exception if an exception occured
+	 * @throws Piwik_Tracker_Db_Exception if an exception occurred
 	 */
 	public function fetch( $query, $parameters = array() )
 	{
@@ -193,7 +193,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 	 * @param array|string  $parameters  Parameters to bind array('idsite'=> 1)
 	 * 
 	 * @return bool|resource  false if failed
-	 * @throws Piwik_Tracker_Db_Exception  if an exception occured
+	 * @throws Piwik_Tracker_Db_Exception  if an exception occurred
 	 */
 	public function query($query, $parameters = array()) 
 	{
