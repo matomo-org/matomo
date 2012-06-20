@@ -681,11 +681,17 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	protected function loadNextIdarchive()
 	{
-		$db = Zend_Registry::get('db');
 		$table = $this->tableArchiveNumeric->getTableName();
+		$dbLockName = "loadNextIdArchive.$table";
+		
+		$db = Zend_Registry::get('db');
 		$locked = self::PREFIX_SQL_LOCK . Piwik_Common::generateUniqId();
 		$date = date("Y-m-d H:i:s");
-		Piwik_LockTables("$table AS tb1", $table);
+		
+		if (Piwik_GetDbLock($dbLockName, $maxRetries = 30) === false)
+		{
+			throw new Exception("loadNextIdArchive: Cannot get named lock for table $table.");
+		}
 		$db->exec("INSERT INTO $table "
 					." SELECT ifnull(max(idarchive),0)+1, 
 								'".$locked."',
@@ -695,8 +701,8 @@ abstract class Piwik_ArchiveProcessing
 								0,
 								'".$date."',
 								0 "
-					." FROM $table as tb1");		
-		Piwik_UnlockAllTables();
+					." FROM $table as tb1");
+		Piwik_ReleaseDbLock($dbLockName);
         $id = $db->fetchOne("SELECT idarchive FROM $table WHERE name = ? LIMIT 1", $locked);
 
 		$this->idArchive = $id;

@@ -94,7 +94,13 @@ See also our official guide <b><a href='http://piwik.org/privacy/' target='_blan
 				</span>
 			</td>
 			<td width="200">
-				{'PrivacyManager_DeleteLogInfo'|translate:$deleteData.deleteTables|inlineHelp}
+			{capture assign=deleteLogInfo}
+				{'PrivacyManager_DeleteLogInfo'|translate:$deleteData.deleteTables}
+				{if !$canDeleteLogActions}
+				<br/><br/>{'PrivacyManager_CannotLockSoDeleteLogActions'|translate:$dbUser}
+				{/if}
+			{/capture}
+				{$deleteLogInfo|inlineHelp}
 			</td>
 		</tr>
 		<tr id="deleteLogSettings">

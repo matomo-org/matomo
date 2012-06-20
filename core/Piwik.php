@@ -2557,26 +2557,7 @@ class Piwik
 	static public function getArchiveProcessingLock($idsite, $period, $segment)
 	{
 		$lockName = self::getArchiveProcessingLockName($idsite, $period, $segment);
-		/*
-		 * the server (e.g., shared hosting) may have a low wait timeout
-		 * so instead of a single GET_LOCK() with a 30 second timeout,
-		 * we use a 1 second timeout and loop, to avoid losing our MySQL
-		 * connection
-		 */
-		$sql = 'SELECT GET_LOCK(?, 1)';
-
-		$db = Zend_Registry::get('db');
-
-		$maxRetries = 30;
-		while ($maxRetries > 0)
-		{
-			if ($db->fetchOne($sql, array($lockName)) == '1')
-			{
-				return true;
-			}
-			$maxRetries--;
-		}
-		return false;
+		return Piwik_GetDbLock($lockName, $maxRetries = 30);
 	}
 
 	/**
@@ -2590,10 +2571,7 @@ class Piwik
 	static public function releaseArchiveProcessingLock($idsite, $period, $segment)
 	{
 		$lockName = self::getArchiveProcessingLockName($idsite, $period, $segment);
-		$sql = 'SELECT RELEASE_LOCK(?)';
-
-		$db = Zend_Registry::get('db');
-		return $db->fetchOne($sql, array($lockName)) == '1';
+		return Piwik_ReleaseDbLock($lockName);
 	}
 	
 	/**

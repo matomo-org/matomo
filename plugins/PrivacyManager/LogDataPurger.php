@@ -286,14 +286,17 @@ class Piwik_PrivacyManager_LogDataPurger
 	}
 	
 	// let's hardcode, since these are not dynamically created tables
-	// exclude piwik_log_action since it is a lookup table
 	public static function getDeleteTableLogTables()
 	{
-		return Piwik_Common::prefixTables('log_conversion',
-										  'log_link_visit_action',
-										  'log_visit',
-										  'log_conversion_item',
-										  'log_action');
+		$result = Piwik_Common::prefixTables('log_conversion',
+											 'log_link_visit_action',
+											 'log_visit',
+											 'log_conversion_item');
+		if (Piwik::isLockPrivilegeGranted())
+		{
+			$result[] = Piwik_Common::prefixTable('log_action');
+		}
+		return $result;
 	}
 
 	/**

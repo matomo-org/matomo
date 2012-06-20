@@ -114,6 +114,8 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 			$view->deleteData = $this->getDeleteDataInfo();
 			$view->anonymizeIP = $this->getAnonymizeIPInfo();
 			$view->dntSupport = $this->isDntSupport();
+			$view->canDeleteLogActions = Piwik::isLockPrivilegeGranted();
+			$view->dbUser = Piwik_Config::getInstance()->database['username'];
 		}
 		$view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
 
@@ -242,7 +244,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 		$taskScheduler = new Piwik_TaskScheduler();
 		$deleteDataInfos["config"] = Piwik_PrivacyManager::getPurgeDataSettings();
 		$deleteDataInfos["deleteTables"] =
-			implode(", ", Piwik_PrivacyManager_LogDataPurger::getDeleteTableLogTables());
+			"<br/>".implode(", ", Piwik_PrivacyManager_LogDataPurger::getDeleteTableLogTables());
 
 		$scheduleTimetable = $taskScheduler->getScheduledTimeForTask("Piwik_PrivacyManager", "deleteLogTables");
 

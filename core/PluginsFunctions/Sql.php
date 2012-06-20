@@ -316,6 +316,51 @@ class Piwik_Sql
 		}
 		return $result;
 	}
+	
+	/**
+	 * Attempts to get a named lock. This function uses a timeout of 1s, but will
+	 * retry a set number of time.
+	 * 
+	 * @param string $lockName The lock name.
+	 * @param int $maxRetries The max number of times to retry.
+	 * @return bool true if the lock was obtained, false if otherwise.
+	 */
+	static public function getDbLock( $lockName, $maxRetries = 30 )
+	{
+		/*
+		 * the server (e.g., shared hosting) may have a low wait timeout
+		 * so instead of a single GET_LOCK() with a 30 second timeout,
+		 * we use a 1 second timeout and loop, to avoid losing our MySQL
+		 * connection
+		 */
+		$sql = 'SELECT GET_LOCK(?, 1)';
+
+		$db = Zend_Registry::get('db');
+
+		while ($maxRetries > 0)
+		{
+			if ($db->fetchOne($sql, array($lockName)) == '1')
+			{
+				return true;
+			}
+			$maxRetries--;
+		}
+		return false;
+	}
+	
+	/**
+	 * Releases a named lock.
+	 * 
+	 * @param string $lockName The lock name.
+	 * @return bool true if the lock was released, false if otherwise.
+	 */
+	static public function releaseDbLock( $lockName )
+	{
+		$sql = 'SELECT RELEASE_LOCK(?)';
+
+		$db = Zend_Registry::get('db');
+		return $db->fetchOne($sql, array($lockName)) == '1';
+	}
 }
 
 /**
@@ -546,5 +591,33 @@ function Piwik_SegmentedFetchOne( $sql, $first, $last, $step, $params = array() 
 function Piwik_SegmentedFetchAll( $sql, $first, $last, $step, $params = array() )
 {
 	return Piwik_Sql::segmentedFetchAll($sql, $first, $last, $step, $params);
+}
+
+/**
+ * Attempts to get a named lock. This function uses a timeout of 1s, but will
+ * retry a set number of time.
+ * 
+ * @see Piwik_Sql::getDbLock
+ * 
+ * @param string $lockName The lock name.
+ * @param int $maxRetries The max number of times to retry.
+ * @return bool true if the lock was obtained, false if otherwise.
+ */
+function Piwik_GetDbLock( $lockName, $maxRetries = 30 )
+{
+	return Piwik_Sql::getDbLock($lockName, $maxRetries);
+}
+
+/**
+ * Releases a named lock.
+ * 
+ * @see Piwik_Sql::releaseDbLock
+ * 
+ * @param string $lockName The lock name.
+ * @return bool true if the lock was released, false if otherwise.
+ */
+function Piwik_ReleaseDbLock( $lockName )
+{
+	return Piwik_Sql::releaseDbLock($lockName);
 }
 
