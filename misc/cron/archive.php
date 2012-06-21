@@ -76,6 +76,7 @@ class Archiving
 	protected $processPeriodsMaximumEverySeconds = 3600;
 	
 	protected $websiteDayHasFinishedSinceLastRun = array();
+	protected $idSitesInvalidatedOldReports = array();
 	protected $piwikUrl = false;
 	protected $token_auth = false;
 	protected $visits = 0;
