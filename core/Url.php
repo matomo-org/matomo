@@ -167,7 +167,7 @@ class Piwik_Url
 	 *
 	 * @return boolean True if valid; false otherwise
 	 */
-	public function isValidHost($host, $trustedHosts)
+	static public function isValidHost($host, $trustedHosts)
 	{
 		// Only punctuation we allow is '[', ']', ':', '.' and '-'
 		$hostLength = Piwik_Common::strlen($host);
