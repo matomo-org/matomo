@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit backupGlobals="true"
+         backupStaticAttributes="false"
+         bootstrap="bootstrap.php"
+         colors="false"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         forceCoversAnnotation="false"
+         mapTestClassNameToCoveredClassName="false"
+         processIsolation="false"
+         stopOnError="false"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
+         stopOnSkipped="false"
+         syntaxCheck="false"
+         strict="false"
+         verbose="true">
+
+<testsuites>
+  <testsuite name="PluginTests">
+      <directory>./Plugins</directory>
+  </testsuite>
+  <testsuite name="CoreTests">
+      <directory>./Core</directory>
+  </testsuite>
+  <testsuite name="IntegrationTests">
+      <directory>./Integration</directory>
+  </testsuite>
+</testsuites>
+
+<logging>
+  <log type="coverage-html" target="./codecoverage" charset="UTF-8"
+       yui="true" highlight="false"
+       lowUpperBound="35" highLowerBound="70"/>
+</logging>
+
+<filter>
+  <whitelist addUncoveredFilesFromWhitelist="false">
+    <directory suffix=".php">../../core</directory>
+    <directory suffix=".php">../../plugins</directory>
+  </whitelist>
+</filter>
+
+<php>
+    <server name="HTTP_HOST" value="local"/>
+    <server name="PATH_INFO" value=""/>
+    <server name="REQUEST_URI" value="/piwik/tests/all_tests.php"/>
+    <server name="REMOTE_ADDR" value="127.0.0.1"/>
+</php>
+
+</phpunit>
