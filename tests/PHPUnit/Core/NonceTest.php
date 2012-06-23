@@ -30,6 +30,6 @@ class NonceTest extends PHPUnit_Framework_TestCase
     public function test_getAcceptableOrigins($host, $expected)
     {
         $_SERVER['HTTP_HOST'] = $host;
-        $this->assertEquals( Piwik_Nonce::getAcceptableOrigins(), $expected, $host );
+        $this->assertEquals( $expected, Piwik_Nonce::getAcceptableOrigins(), $host );
     }
 }

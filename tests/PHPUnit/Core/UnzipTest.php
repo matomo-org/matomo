@@ -23,7 +23,7 @@ class UnzipTest extends PHPUnit_Framework_TestCase
         {
             $unzip = Piwik_Unzip::factory('ZipArchive', $filename);
             $res = $unzip->extract($extractDir);
-            $this->assertEquals(count($res), 1);
+            $this->assertEquals(1, count($res));
             $this->assertTrue(file_exists($extractDir . $test . '.txt'));
             $this->assertFalse(file_exists(dirname(__FILE__) . '/' . $test . '.txt'));
             $this->assertFalse(file_exists(dirname(__FILE__) . '/../../tests/' . $test . '.txt'));
@@ -31,7 +31,7 @@ class UnzipTest extends PHPUnit_Framework_TestCase
 
             $unzip = new Piwik_Unzip_ZipArchive($filename);
             $res = $unzip->extract($extractDir);
-            $this->assertEquals(count($res), 1);
+            $this->assertEquals(1, count($res));
             $this->assertTrue(file_exists($extractDir . $test . '.txt'));
             $this->assertFalse(file_exists(dirname(__FILE__) . '/' . $test . '.txt'));
             $this->assertFalse(file_exists(dirname(__FILE__) . '/../../tests/' . $test . '.txt'));
@@ -40,7 +40,7 @@ class UnzipTest extends PHPUnit_Framework_TestCase
 
         $unzip = Piwik_Unzip::factory('PclZip', $filename);
         $res = $unzip->extract($extractDir);
-        $this->assertEquals(count($res), 1);
+        $this->assertEquals(1, count($res));
         $this->assertTrue(file_exists($extractDir . $test . '.txt'));
         $this->assertFalse(file_exists(dirname(__FILE__) . '/' . $test . '.txt'));
         $this->assertFalse(file_exists(dirname(__FILE__) . '/../../tests/' . $test . '.txt'));
@@ -48,7 +48,7 @@ class UnzipTest extends PHPUnit_Framework_TestCase
 
         $unzip = new Piwik_Unzip_PclZip($filename);
         $res = $unzip->extract($extractDir);
-        $this->assertEquals(count($res), 1);
+        $this->assertEquals(1, count($res));
         $this->assertTrue(file_exists($extractDir . $test . '.txt'));
         $this->assertFalse(file_exists(dirname(__FILE__) . '/' . $test . '.txt'));
         $this->assertFalse(file_exists(dirname(__FILE__) . '/../../tests/' . $test . '.txt'));
@@ -70,7 +70,7 @@ class UnzipTest extends PHPUnit_Framework_TestCase
         {
             $unzip = new Piwik_Unzip_ZipArchive($filename);
             $res = $unzip->extract($extractDir);
-            $this->assertEquals($res, 0);
+            $this->assertEquals(0, $res);
             $this->assertFalse(file_exists($extractDir . $test . '.txt'));
             $this->assertFalse(file_exists($extractDir . '../' . $test . '.txt'));
             $this->assertFalse(file_exists(dirname(__FILE__) . '/' . $test . '.txt'));
@@ -80,7 +80,7 @@ class UnzipTest extends PHPUnit_Framework_TestCase
 
         $unzip = new Piwik_Unzip_PclZip($filename);
         $res = $unzip->extract($extractDir);
-        $this->assertEquals($res, 0);
+        $this->assertEquals(0, $res);
         $this->assertFalse(file_exists($extractDir . $test . '.txt'));
         $this->assertFalse(file_exists($extractDir . '../' . $test . '.txt'));
         $this->assertFalse(file_exists(dirname(__FILE__) . '/' . $test . '.txt'));
@@ -103,14 +103,14 @@ class UnzipTest extends PHPUnit_Framework_TestCase
         {
             $unzip = new Piwik_Unzip_ZipArchive($filename);
             $res = $unzip->extract($extractDir);
-            $this->assertEquals($res, 0);
+            $this->assertEquals(0, $res);
             $this->assertFalse(file_exists($extractDir . $test . '.txt'));
             $this->assertFalse(file_exists(dirname(__FILE__) . '/' . $test . '.txt'));
         }
 
         $unzip = new Piwik_Unzip_PclZip($filename);
         $res = $unzip->extract($extractDir);
-        $this->assertEquals($res, 0);
+        $this->assertEquals(0, $res);
         $this->assertFalse(file_exists($extractDir . $test . '.txt'));
         $this->assertFalse(file_exists(dirname(__FILE__) . '/' . $test . '.txt'));
     }

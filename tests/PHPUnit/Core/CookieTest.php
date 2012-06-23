@@ -47,7 +47,7 @@ class CookieTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('see http://bugs.php.net/38680');
         }
 
-        $this->assertEquals( json_decode(json_encode($testData), $assoc = true), $testData, $id );
+        $this->assertEquals( $testData, json_decode(json_encode($testData), $assoc = true), $id );
     }
 
     /**
@@ -84,10 +84,10 @@ class CookieTest extends PHPUnit_Framework_TestCase
      */
     public function testSafeSerialize($id, $testData)
     {
-        $this->assertEquals( safe_serialize($testData), serialize($testData), $id );
-        $this->assertEquals( unserialize(safe_serialize($testData)), $testData, $id );
-        $this->assertTrue( safe_unserialize(safe_serialize($testData)) === $testData, $id );
-        $this->assertTrue( safe_unserialize(serialize($testData)) === $testData, $id );
+        $this->assertEquals( serialize($testData), safe_serialize($testData), $id );
+        $this->assertEquals( $testData, unserialize(safe_serialize($testData)), $id );
+        $this->assertSame( $testData, safe_unserialize(safe_serialize($testData)), $id );
+        $this->assertSame( $testData, safe_unserialize(serialize($testData)), $id );
     }
 
     /**
@@ -103,10 +103,10 @@ class CookieTest extends PHPUnit_Framework_TestCase
         $testData = $tests['exp float'] = -5.0E+142;
         // intentionally disabled; this doesn't work
 //        $this->assertEquals( safe_serialize($testData), serialize($testData) );
-        $this->assertEquals( unserialize(safe_serialize($testData)), $testData );
-        $this->assertTrue( safe_unserialize(safe_serialize($testData)) === $testData) ;
+        $this->assertEquals( $testData, unserialize(safe_serialize($testData)) );
+        $this->assertSame( $testData, safe_unserialize(safe_serialize($testData))) ;
         // workaround: cast floats into strings
-        $this->assertTrue( (string)safe_unserialize(serialize($testData)) === (string)$testData );
+        $this->assertSame( $testData, safe_unserialize(serialize($testData)) );
 
         $unserialized = array(
             'announcement' => true,
@@ -129,13 +129,13 @@ class CookieTest extends PHPUnit_Framework_TestCase
         );
         $serialized = 'a:4:{s:12:"announcement";b:1;s:6:"source";a:2:{i:0;a:4:{s:8:"filename";s:17:"php-5.3.3.tar.bz2";s:4:"name";s:19:"PHP 5.3.3 (tar.bz2)";s:3:"md5";s:32:"21ceeeb232813c10283a5ca1b4c87b48";s:4:"date";s:12:"22 July 2010";}i:1;a:4:{s:8:"filename";s:16:"php-5.3.3.tar.gz";s:4:"name";s:18:"PHP 5.3.3 (tar.gz)";s:3:"md5";s:32:"5adf1a537895c2ec933fddd48e78d8a2";s:4:"date";s:12:"22 July 2010";}}s:4:"date";s:12:"22 July 2010";s:7:"version";s:5:"5.3.3";}';
 
-        $this->assertTrue( unserialize($serialized) === $unserialized );
-        $this->assertEquals( serialize($unserialized), $serialized );
+        $this->assertSame( $unserialized, unserialize($serialized) );
+        $this->assertEquals( $serialized, serialize($unserialized) );
 
-        $this->assertTrue( safe_unserialize($serialized) === $unserialized );
-        $this->assertEquals( safe_serialize($unserialized), $serialized );
-        $this->assertTrue( safe_unserialize(safe_serialize($unserialized)) === $unserialized );
-        $this->assertEquals( safe_serialize(safe_unserialize($serialized)), $serialized );
+        $this->assertSame( $unserialized, safe_unserialize($serialized) );
+        $this->assertEquals( $serialized, safe_serialize($unserialized) );
+        $this->assertSame( $unserialized, safe_unserialize(safe_serialize($unserialized)) );
+        $this->assertEquals( $serialized, safe_serialize(safe_unserialize($serialized)) );
 
         $a = 'O:31:"Test_Piwik_Cookie_Phantom_Class":0:{}';
         $this->assertFalse( safe_unserialize($a), "test: unserializing an object where class not (yet) defined" );

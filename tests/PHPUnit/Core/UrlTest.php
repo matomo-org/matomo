@@ -26,7 +26,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
         {
             $parametersNameToValue[$name] = null;
         }
-        $this->assertEquals(Piwik_Url::getCurrentQueryStringWithParametersModified($parametersNameToValue), '');
+        $this->assertEquals('', Piwik_Url::getCurrentQueryStringWithParametersModified($parametersNameToValue));
     }
 
     /**
@@ -65,7 +65,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
         $_SERVER['HTTP_X_FORWARDED_HOST'] = $test[1];
         Piwik_Config::getInstance()->General['proxy_host_headers'] = array( $test[2] );
         Piwik_Config::getInstance()->General['proxy_ips'] = array( $test[3] );
-        $this->assertEquals( Piwik_Url::getCurrentHost(), $test[4], $description );
+        $this->assertEquals( $test[4], Piwik_Url::getCurrentHost(), $description );
     }
 
     /**
@@ -135,7 +135,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
         $_SERVER['SCRIPT_URI'] = $scripturi;
         $_SERVER['REQUEST_URI'] = $requesturi;
         $urlToTest = $testurl;
-        $this->assertEquals( Piwik_Url::isLocalUrl($urlToTest), $result );
+        $this->assertEquals( $result, Piwik_Url::isLocalUrl($urlToTest) );
     }
 
     /**
@@ -174,7 +174,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
         $_SERVER['HTTP_HOST'] = $host;
 
         $url = Piwik_Url::getCurrentUrlWithoutFilename();
-        $this->assertEquals($url, $expected);
+        $this->assertEquals($expected, $url);
     }
 
     /**
@@ -208,7 +208,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
             $_SERVER['PATH_INFO'] = $pathInfo;
 
             $scriptPathName = Piwik_Url::getCurrentScriptName();
-            $this->assertEquals($scriptPathName, $expected);
+            $this->assertEquals($expected, $scriptPathName);
         }
     }
 
@@ -241,7 +241,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
      */
     public function testIsValidHost($expected, $host, $trustedHosts, $description)
     {
-        $this->assertEquals(Piwik_Url::isValidHost($host, $trustedHosts), $expected, $description);
+        $this->assertEquals($expected, Piwik_Url::isValidHost($host, $trustedHosts), $description);
     }
 
 }

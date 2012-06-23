@@ -43,7 +43,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      */
     public function testIsUrl($url, $isValid)
     {
-        $this->assertEquals(Piwik_Common::isLookLikeUrl($url), $isValid);
+        $this->assertEquals($isValid, Piwik_Common::isLookLikeUrl($url));
     }
 
     /**
@@ -133,11 +133,11 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
         if (version_compare(PHP_VERSION, '5.4') < 0)
         {
             $this->assertTrue(@set_magic_quotes_runtime(1));
-            $this->assertEquals(@get_magic_quotes_runtime(), 1);
+            $this->assertEquals(1, @get_magic_quotes_runtime());
             $this->assertEquals( $output, Piwik_Common::sanitizeInputValues($input));
         
             $this->assertTrue(@set_magic_quotes_runtime(0));
-            $this->assertEquals(@get_magic_quotes_runtime(), 0);
+            $this->assertEquals(0, @get_magic_quotes_runtime());
             $this->assertEquals( $output, Piwik_Common::sanitizeInputValues($input));
         }
     }
@@ -176,7 +176,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     function testGetRequestVarNoDefaultNoTypeWithValue()
     {
         $_GET['test'] = 1413.431413;
-        $this->assertEquals( Piwik_Common::getRequestVar('test'), $_GET['test']);
+        $this->assertEquals($_GET['test'], Piwik_Common::getRequestVar('test'));
         
     }
     
@@ -252,7 +252,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     {
         $_GET['test'] = $varValue;
         $return = Piwik_Common::getRequestVar('test', $default, $type);
-        $this->assertEquals( $return, $expected);
+        $this->assertEquals($expected, $return);
         // validate correct type
         switch($type) {
             case 'int':
@@ -323,7 +323,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      */
     function testGetParameterFromQueryString($queryString, $parameter, $expected)
     {
-        $this->assertTrue(Piwik_Common::getParameterFromQueryString($queryString, $parameter) === $expected);
+        $this->assertSame($expected, Piwik_Common::getParameterFromQueryString($queryString, $parameter));
     }
 
     /**
@@ -342,7 +342,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
             'f' => array('a'),
             'g' => array('b', 'c'),
         );
-        $this->assertEquals(serialize(Piwik_Common::getArrayFromQueryString('a&b=&c=1&d[]&e[]=&f[]=a&g[]=b&g[]=c')), serialize($expected));
+        $this->assertEquals(serialize($expected), serialize(Piwik_Common::getArrayFromQueryString('a&b=&c=1&d[]&e[]=&f[]=a&g[]=b&g[]=c')));
     }
 
     /**
@@ -845,6 +845,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLossyUrl($input, $expected)
     {
-        $this->assertEquals( Piwik_Common::getLossyUrl($input), $expected);
+        $this->assertEquals($expected, Piwik_Common::getLossyUrl($input));
     }
 }

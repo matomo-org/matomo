@@ -21,19 +21,19 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $config->setTestEnvironment($userFile, $globalFile);
         $config->init();
 
-        $this->assertEquals($config->Category['key1'], "value_overwritten");
-        $this->assertEquals($config->Category['key2'], "value2");
-        $this->assertEquals($config->GeneralSection['login'], 'tes"t');
-        $this->assertEquals($config->CategoryOnlyInGlobalFile['key3'], "value3");
-        $this->assertEquals($config->CategoryOnlyInGlobalFile['key4'], "value4");
+        $this->assertEquals("value_overwritten", $config->Category['key1']);
+        $this->assertEquals("value2", $config->Category['key2']);
+        $this->assertEquals('tes"t', $config->GeneralSection['login']);
+        $this->assertEquals("value3", $config->CategoryOnlyInGlobalFile['key3']);
+        $this->assertEquals("value4", $config->CategoryOnlyInGlobalFile['key4']);
 
         $expectedArray = array('plugin"1', 'plugin2', 'plugin3');
         $array = $config->TestArray;
-        $this->assertEquals($array['installed'], $expectedArray);
+        $this->assertEquals($expectedArray, $array['installed']);
 
         $expectedArray = array('value1', 'value2');
         $array = $config->TestArrayOnlyInGlobalFile;
-        $this->assertEquals($array['my_array'], $expectedArray);
+        $this->assertEquals($expectedArray, $array['my_array']);
     }
 
     /**
@@ -51,20 +51,20 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
         $stringWritten = '&6^ geagea\'\'\'";;&';
         $config->Category = array('test' => $stringWritten);
-        $this->assertEquals($config->Category['test'], $stringWritten);
+        $this->assertEquals($stringWritten, $config->Category['test']);
         unset($config);
 
         $config = Piwik_Config::getInstance();
         $config->setTestEnvironment($userFile, $globalFile);
         $config->init();
 
-        $this->assertEquals($config->Category['test'], $stringWritten);
+        $this->assertEquals($stringWritten, $config->Category['test']);
         $config->Category = array(
             'test' => $config->Category['test'],
             'test2' => $stringWritten,
         );
-        $this->assertEquals($config->Category['test'], $stringWritten);
-        $this->assertEquals($config->Category['test2'], $stringWritten);
+        $this->assertEquals($stringWritten, $config->Category['test']);
+        $this->assertEquals($stringWritten, $config->Category['test2']);
     }
 
     /**
@@ -79,19 +79,19 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $config = Piwik_Config::getInstance();
         $config->setTestEnvironment($userFile, $globalFile);
 
-        $this->assertEquals($config->Category['key1'], "value_overwritten");
-        $this->assertEquals($config->Category['key2'], "value2");
-        $this->assertEquals($config->GeneralSection['login'], "tes\"t");
-        $this->assertEquals($config->CategoryOnlyInGlobalFile['key3'], "value3");
-        $this->assertEquals($config->CategoryOnlyInGlobalFile['key4'], "value4");
+        $this->assertEquals("value_overwritten", $config->Category['key1']);
+        $this->assertEquals("value2", $config->Category['key2']);
+        $this->assertEquals("tes\"t", $config->GeneralSection['login']);
+        $this->assertEquals("value3", $config->CategoryOnlyInGlobalFile['key3']);
+        $this->assertEquals("value4", $config->CategoryOnlyInGlobalFile['key4']);
 
         $expectedArray = array('plugin"1', 'plugin2', 'plugin3');
         $array = $config->TestArray;
-        $this->assertEquals($array['installed'], $expectedArray);
+        $this->assertEquals($expectedArray, $array['installed']);
 
         $expectedArray = array('value1', 'value2');
         $array = $config->TestArrayOnlyInGlobalFile;
-        $this->assertEquals($array['my_array'], $expectedArray);
+        $this->assertEquals($expectedArray, $array['my_array']);
 
         Piwik_Config::getInstance()->clear();
     }
@@ -139,7 +139,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         list($a, $b, $expected) = $test;
 
         $result = Piwik_Config::compareElements($a, $b);
-        $this->assertEquals($result, $expected, $description);
+        $this->assertEquals($expected, $result, $description);
     }
 
     /**
@@ -351,7 +351,7 @@ END_OF_HEADER;
 
         $output = $config->dumpConfig($configLocal, $configGlobal, $configCache);
 
-        $this->assertEquals($output, $expected, $description);
+        $this->assertEquals($expected, $output, $description);
     }
 }
 
