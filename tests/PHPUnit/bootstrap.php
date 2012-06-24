@@ -30,7 +30,7 @@ require_once PIWIK_INCLUDE_PATH .'/core/Loader.php';
 require_once PIWIK_INCLUDE_PATH .'/core/FrontController.php';
 #require_once PIWIK_INCLUDE_PATH .'/tests/PHPUnit/DatabaseTestCase.php';
 #require_once PIWIK_INCLUDE_PATH .'/tests/PHPUnit/IntegrationTestCase.php';
-#require_once PIWIK_INCLUDE_PATH .'/tests/PHPUnit/FakeAccess.php';
+require_once PIWIK_INCLUDE_PATH .'/tests/PHPUnit/FakeAccess.php';
 
 // required to build code coverage for uncovered files
 require_once PIWIK_INCLUDE_PATH .'/plugins/SecurityInfo/PhpSecInfo/PhpSecInfo.php';

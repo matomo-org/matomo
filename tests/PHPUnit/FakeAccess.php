@@ -1,0 +1,156 @@
+<?php
+/**
+ * Piwik - Open source web analytics
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @version $Id$
+ */
+/**
+ * FakeAccess for UnitTests
+ */
+class FakeAccess
+{
+    public static $superUser = false;
+    public static $idSitesAdmin = array();
+    public static $idSitesView = array();
+    public static $identity = 'superUserLogin';
+    
+    public static function setIdSitesAdmin($ids)
+    {
+        self::$superUser = false;
+        self::$idSitesAdmin = $ids;
+    }
+    public static function setIdSitesView($ids)
+    {
+        self::$superUser = false;
+        self::$idSitesView = $ids;
+    }
+    
+    public static function checkUserIsSuperUser()
+    {
+        if(!self::$superUser)
+        {
+            throw new Exception("checkUserIsSuperUser Fake exception // string not to be tested");
+        }
+    }
+    
+    public static function setSuperUser($bool = true)
+    {
+        self::$superUser = $bool;
+    }
+
+    public static function reloadAccess()
+    {}
+
+    public static function checkUserHasAdminAccess( $idSites )
+    {
+        if(!self::$superUser)
+        {
+            $websitesAccess=self::$idSitesAdmin;
+        }
+        else
+        {
+            $websitesAccess=Piwik_SitesManager_API::getInstance()->getAllSitesId();
+        }
+        
+        if(!is_array($idSites))
+        {
+            $idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
+        }
+        foreach($idSites as $idsite)
+        {
+            if(!in_array($idsite, $websitesAccess))
+            {
+                throw new Exception("checkUserHasAdminAccess Fake exception // string not to be tested");
+            }
+        }
+    }
+    
+    //means at least view access
+    public static function checkUserHasViewAccess( $idSites )
+    {
+        if(!self::$superUser)
+        {
+            $websitesAccess=array_merge(self::$idSitesView,self::$idSitesAdmin);
+        }
+        else
+        {
+            $websitesAccess=Piwik_SitesManager_API::getInstance()->getAllSitesId();
+        }
+        
+        if(!is_array($idSites))
+        {
+            $idSites=array($idSites);
+        }
+        foreach($idSites as $idsite)
+        {
+            if(!in_array($idsite, $websitesAccess))
+            {
+                throw new Exception("checkUserHasViewAccess Fake exception // string not to be tested");
+            }
+        }
+    }
+
+    public static function checkUserHasSomeViewAccess()
+    {
+        if(!self::$superUser)
+        {
+            if( count(self::$idSitesView) == 0 )
+            {
+                throw new Exception("checkUserHasSomeViewAccess Fake exception // string not to be tested");
+            }
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    //means at least view access
+    public static function checkUserHasSomeAdminAccess()
+    {
+        if(!self::$superUser)
+        {
+            if( count(self::$idSitesAdmin) == 0 )
+            {
+                throw new Exception("checkUserHasSomeAdminAccess Fake exception // string not to be tested");
+            }
+        }
+        else
+        {
+            return; //super user has some admin rights
+        }
+    }
+    
+    public static function getLogin()
+    {
+        return self::$identity;
+    }
+    
+    public static function getSitesIdWithAdminAccess()
+    {
+        if(self::$superUser)
+        {
+            return Piwik_SitesManager_API::getInstance()->getAllSitesId();
+        }
+        return  self::$idSitesAdmin;
+    }
+    
+    public static function getSitesIdWithViewAccess()
+    {
+        if(self::$superUser)
+        {
+            return Piwik_SitesManager_API::getInstance()->getAllSitesId();
+        }
+        return  self::$idSitesView;
+    }
+    public static function getSitesIdWithAtLeastViewAccess()
+    {
+        if(self::$superUser)
+        {
+            return Piwik_SitesManager_API::getInstance()->getAllSitesId();
+        }
+        return  array_merge(self::$idSitesView,self::$idSitesAdmin);
+    }
+}
