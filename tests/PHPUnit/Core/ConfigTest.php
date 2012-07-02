@@ -211,11 +211,8 @@ class ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function getDumpConfigData()
     {
-        $header = <<<END_OF_HEADER
-; <?php exit; ?> DO NOT REMOVE THIS LINE
-; file automatically generated or modified by Piwik; you can manually override the default values in global.ini.php by redefining them in this file.
-
-END_OF_HEADER;
+        $header = "; <?php exit; ?> DO NOT REMOVE THIS LINE\n" .
+                  "; file automatically generated or modified by Piwik; you can manually override the default values in global.ini.php by redefining them in this file.\n";
 
         return array(
             array('global only, not cached', array(

@@ -48,11 +48,7 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
             // alphanumeric
             array('abc 123', "'abc 123'"),
             // newline
-            array("\n", "'
-'"),
-            array('
-', "'
-'"),
+            array("\n", "'\n'"),
             // tab
             array('	', "'	'"),
             // single quote
@@ -155,17 +151,7 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
         $this->assertNotEquals(false, $rc);
 
         $contents = file_get_contents($path);
-        $expected = "<?php
-\$translations = array(
-\t'General_Locale' => 'en_CA.UTF-8',
-\t'General_Id' => 'Id',
-\t'Goals_Goals' => 'Goals',
-
-\t// FOR REVIEW
-\t'Plugin_Body' => 'Message
-Body',
-);
-";
+        $expected = "<?php\n\$translations = array(\n\t'General_Locale' => 'en_CA.UTF-8',\n\t'General_Id' => 'Id',\n\t'Goals_Goals' => 'Goals',\n\n\t// FOR REVIEW\n\t'Plugin_Body' => 'Message\nBody',\n);\n";
         if(Piwik_Common::isWindows()) $expected = str_replace("\r\n", "\n", $expected);
         $this->assertEquals($expected, $contents);
     }

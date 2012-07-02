@@ -244,4 +244,13 @@ class UrlTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, Piwik_Url::isValidHost($host, $trustedHosts), $description);
     }
 
+    /**
+     * @group Core
+     * @group Url
+     */
+    public function testGetReferer()
+    {
+        $_SERVER['HTTP_REFERER'] = 'http://www.piwik.org';
+        $this->assertEquals('http://www.piwik.org', Piwik_Url::getReferer());
+    }
 }
