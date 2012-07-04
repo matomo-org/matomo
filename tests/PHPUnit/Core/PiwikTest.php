@@ -138,11 +138,15 @@ class PiwikTest extends PHPUnit_Framework_TestCase
      * @group Core
      * @group Piwik
      * @dataProvider getInvalidLoginStringData
-     * @expectedException Exception
      */
     public function testCheckInvalidLoginString($toTest)
     {
-        Piwik::checkValidLoginString($toTest);
+        try {
+            Piwik::checkValidLoginString($toTest);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
 
     /**

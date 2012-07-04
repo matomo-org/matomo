@@ -73,21 +73,29 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
     /**
      * @group Core
      * @group TranslationWriter
-     * @expectedException Exception
      */
     public function testGetTranslationPathInvalidLang()
     {
-        $path = Piwik_TranslationWriter::getTranslationPath('../index');
+        try {
+            $path = Piwik_TranslationWriter::getTranslationPath('../index');
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**
      * @group Core
      * @group TranslationWriter
-     * @expectedException Exception
      */
     public function testGetTranslationPathInvalidBasePath()
     {
-        $path = Piwik_TranslationWriter::getTranslationPath('en', 'core');
+        try {
+            $path = Piwik_TranslationWriter::getTranslationPath('en', 'core');
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**
@@ -107,11 +115,15 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
     /**
      * @group Core
      * @group TranslationWriter
-     * @expectedException Exception
      */
     public function testLoadTranslationInvalidLang()
     {
-        $translations = Piwik_TranslationWriter::loadTranslation('a');
+        try {
+            $translations = Piwik_TranslationWriter::loadTranslation('a');
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**

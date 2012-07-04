@@ -291,15 +291,19 @@ class DataTableTest extends PHPUnit_Framework_TestCase
      * 
      * @group Core
      * @group DataTable
-     * @expectedException Exception
      */
     function testSerializeWithInfiniteRecursion()
     {
-        $table = new Piwik_DataTable;
-        $table->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 'visits'=>245,'visitors'=>245),
-                              Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $table,));
-                              
-        $table->getSerialized();
+        try {
+            $table = new Piwik_DataTable;
+            $table->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 'visits'=>245,'visitors'=>245),
+                                  Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $table,));
+
+            $table->getSerialized();
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     

@@ -147,12 +147,16 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      * @group Core
      * @group Common
      * @group getRequestVar
-     * @expectedException Exception
      */
     function testGetRequestVarEmptyVarName()
     {
-        $_GET['']=1;
-        Piwik_Common::getRequestVar('');
+        try {
+            $_GET['']=1;
+            Piwik_Common::getRequestVar('');
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**
@@ -160,11 +164,15 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      * @group Core
      * @group Common
      * @group getRequestVar
-     * @expectedException Exception
      */
     function testGetRequestVarNoDefaultNoTypeNoValue()
     {
-        Piwik_Common::getRequestVar('test');
+        try {
+            Piwik_Common::getRequestVar('test');
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**
@@ -185,12 +193,16 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      * @group Core
      * @group Common
      * @group getRequestVar
-     * @expectedException Exception
      */
     function testGetRequestVarNoDefaultWithTypeWithValue()
     {
-        $_GET['test'] = 1413.431413;
-        Piwik_Common::getRequestVar('test', null, 'string');
+        try {
+            $_GET['test'] = 1413.431413;
+            Piwik_Common::getRequestVar('test', null, 'string');
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
 
     /**
@@ -198,11 +210,16 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      * @group Core
      * @group Common
      * @group getRequestVar
-     * @expectedException Exception
      */
     function testGetRequestVarNoDefaultWithTypeWithValue2()
     {
-        Piwik_Common::getRequestVar('test', null, 'string');
+        try {
+            Piwik_Common::getRequestVar('test', null, 'string');
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
+
     }
     
     /**
@@ -321,7 +338,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      * @group Common
      * @group getParameterFromQueryString
      */
-    function testGetParameterFromQueryString($queryString, $parameter, $expected)
+    public function testGetParameterFromQueryString($queryString, $parameter, $expected)
     {
         $this->assertSame($expected, Piwik_Common::getParameterFromQueryString($queryString, $parameter));
     }
@@ -329,9 +346,19 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     /**
      * @group Core
      * @group Common
+     * @group getPathAndQueryFromUrl
+     */
+    public function testGetPathAndQueryFromUrl()
+    {
+        $this->assertEquals('test/index.php?module=CoreHome', Piwik_Common::getPathAndQueryFromUrl('http://piwik.org/test/index.php?module=CoreHome'));
+    }
+
+    /**
+     * @group Core
+     * @group Common
      * @group getArrayFromQueryString
      */
-    function testGetArrayFromQueryString()
+    public function testGetArrayFromQueryString()
     {
         $expected = array(
             'a' => false,

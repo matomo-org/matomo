@@ -846,11 +846,15 @@ class UsersManagerTest extends DatabaseTestCase
      * 
      * @group Plugins
      * @group UsersManager
-     * @expectedException Exception
      */
     public function testGetUsersAccessFromSiteWrongSite()
     {
-        $access1 = Piwik_UsersManager_API::getInstance()->getUsersAccessFromSite(1);
+        try {
+            $access1 = Piwik_UsersManager_API::getInstance()->getUsersAccessFromSite(1);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**
@@ -970,13 +974,17 @@ class UsersManagerTest extends DatabaseTestCase
      * 
      * @group Plugins
      * @group UsersManager
-     * @expectedException Exception
      */
     public function testUpdateUserIAmNotTheUser()
     {
-        FakeAccess::$identity = 'login2';
-        FakeAccess::$superUser = false;
-        $this->testUpdateUserNoEmailNoAlias();
+        try {
+            FakeAccess::$identity = 'login2';
+            FakeAccess::$superUser = false;
+            $this->testUpdateUserNoEmailNoAlias();
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**
@@ -1005,11 +1013,15 @@ class UsersManagerTest extends DatabaseTestCase
      * 
      * @group Plugins
      * @group UsersManager
-     * @expectedException Exception
      */
     public function testGetUserByEmailInvalidMail()
     {
-        $userByMail = Piwik_UsersManager_API::getInstance()->getUserByEmail('email@test.com');
+        try {
+            $userByMail = Piwik_UsersManager_API::getInstance()->getUserByEmail('email@test.com');
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**

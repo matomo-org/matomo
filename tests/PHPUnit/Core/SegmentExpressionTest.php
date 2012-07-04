@@ -117,12 +117,16 @@ class SegmentExpressionTest extends PHPUnit_Framework_TestCase
      * @dataProvider getBogusFilters
      * @group Core
      * @group SegmentExpression
-     * @expectedException Exception
      */
     public function testBogusFiltersExpectExceptionThrown($bogus)
     {
-        $segment = new Piwik_SegmentExpression($bogus);
-        $segment->parseSubExpressions();
-        $segment->getSql();
+        try {
+            $segment = new Piwik_SegmentExpression($bogus);
+            $segment->parseSubExpressions();
+            $segment->getSql();
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
 }

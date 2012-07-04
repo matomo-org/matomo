@@ -40,11 +40,15 @@ class DateTest extends PHPUnit_Framework_TestCase
     /**
      * @group Core
      * @group Date
-     * @expectedException Exception
      */
     public function testInvalidDateThrowsException()
     {
-        Piwik_Date::factory('0001-01-01');
+        try {
+            Piwik_Date::factory('0001-01-01');
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
 
     /**

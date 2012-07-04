@@ -18,7 +18,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     {
         $range = new Piwik_Period_Range( 'day', 'last1' );
         $today = Piwik_Date::today();
-        
+
         $correct=array(
             $today->toString(),
         );
@@ -953,15 +953,19 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Core
      * @group Period
      * @group Period_Range
-     * @expectedException Exception
      */
-    function testCustomRangeBeforeIsAfterYearRight()
+    public function testCustomRangeBeforeIsAfterYearRight()
     {
-        $range = new Piwik_Period_Range( 'range', '2007-02-09,2007-02-01' );
-        $this->assertEquals(0, $range->getNumberOfSubperiods());
-        $this->assertEquals(array(), $range->toString());
+        try {
+            $range = new Piwik_Period_Range( 'range', '2007-02-09,2007-02-01' );
+            $this->assertEquals(0, $range->getNumberOfSubperiods());
+            $this->assertEquals(array(), $range->toString());
         
-        $range->getPrettyString();
+            $range->getPrettyString();
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**
@@ -969,7 +973,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testCustomRangeLastN()
+    public function testCustomRangeLastN()
     {
         $range = new Piwik_Period_Range( 'range', 'last4' );
         $range->setDefaultEndDate(Piwik_Date::factory('2008-01-03'));
@@ -988,7 +992,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testCustomRangePreviousN()
+    public function testCustomRangePreviousN()
     {
         $range = new Piwik_Period_Range( 'range', 'previous3' );
         $range->setDefaultEndDate(Piwik_Date::factory('2008-01-03'));
@@ -1006,7 +1010,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testCustomRangePreviousNEndToday()
+    public function testCustomRangePreviousNEndToday()
     {
         $range = new Piwik_Period_Range( 'range', 'previous3' );
         $correct = array(
@@ -1022,11 +1026,15 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Core
      * @group Period
      * @group Period_Range
-     * @expectedException Exception
      */
-    function test_InvalidRange_throws()
+    public function test_InvalidRange_throws()
     {
-        $range = new Piwik_Period_Range( 'range', '0001-01-01,today' );
-        $range->getLocalizedLongString();
+        try {
+            $range = new Piwik_Period_Range( 'range', '0001-01-01,today' );
+            $range->getLocalizedLongString();
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
 }

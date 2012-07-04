@@ -12,12 +12,16 @@ class TablePartitioningTest extends DatabaseTestCase
      * test no timestamp => exception
      * @group Core
      * @group TablePartitioning
-     * @expectedException Exception
      */
-    function testNoTimestamp()
+    public function testNoTimestamp()
     {
-        $p = new Piwik_TablePartitioning_Monthly('testtable');
-        $p->getTableName();
+        try {
+            $p = new Piwik_TablePartitioning_Monthly('testtable');
+            $p->getTableName();
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**
@@ -25,7 +29,7 @@ class TablePartitioningTest extends DatabaseTestCase
      * @group Core
      * @group TablePartitioning
      */
-    function testNoTable()
+    public function testNoTable()
     {
         $tableName ='archive_numeric';
         $p = new Piwik_TablePartitioning_Monthly($tableName);
@@ -48,7 +52,7 @@ class TablePartitioningTest extends DatabaseTestCase
      * @group Core
      * @group TablePartitioning
      */
-    function testMonthlyPartition()
+    public function testMonthlyPartition()
     {
         $tableName ='archive_numeric';
         $p = new Piwik_TablePartitioning_Monthly($tableName);
@@ -70,7 +74,7 @@ class TablePartitioningTest extends DatabaseTestCase
      * @group Core
      * @group TablePartitioning
      */
-    function testDailyPartition()
+    public function testDailyPartition()
     {
         $tableName ='archive_numeric';
         $p = new Piwik_TablePartitioning_Daily($tableName);

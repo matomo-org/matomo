@@ -48,156 +48,210 @@ class ScheduledTimeTest extends PHPUnit_Framework_TestCase
      * Tests forbidden call to setHour on Piwik_ScheduledTime_Hourly
      * @group Core
      * @group ScheduledTime
-     * @expectedException Exception
      */
     public function testSetHourScheduledTimeHourly()
     {
-        $hourlySchedule = new Piwik_ScheduledTime_Hourly();
-        $hourlySchedule->setHour(0);
+        try {
+            $hourlySchedule = new Piwik_ScheduledTime_Hourly();
+            $hourlySchedule->setHour(0);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
 
     /**
      * Tests invalid call to setHour on Piwik_ScheduledTime_Daily
      * @group Core
      * @group ScheduledTime
-     * @expectedException Exception
      */
     public function testSetHourScheduledTimeDailyNegative()
     {
-        $dailySchedule = new Piwik_ScheduledTime_Daily();
-        $dailySchedule->setHour(-1);
+        try
+        {
+            $dailySchedule = new Piwik_ScheduledTime_Daily();
+            $dailySchedule->setHour(-1);
+
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
 
     /**
      * Tests invalid call to setHour on Piwik_ScheduledTime_Daily
      * @group Core
      * @group ScheduledTime
-     * @expectedException Exception
      */
     public function testSetHourScheduledTimeDailyOver24()
     {
-        $dailySchedule = new Piwik_ScheduledTime_Daily();
-        $dailySchedule->setHour(25);
+        try {
+            $dailySchedule = new Piwik_ScheduledTime_Daily();
+            $dailySchedule->setHour(25);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**
      * Tests invalid call to setHour on Piwik_ScheduledTime_Weekly
      * @group Core
      * @group ScheduledTime
-     * @expectedException Exception
      */
     public function testSetHourScheduledTimeWeeklyNegative()
     {
-        $weeklySchedule = new Piwik_ScheduledTime_Weekly();
-        $weeklySchedule->setHour(-1);
+        try {
+            $weeklySchedule = new Piwik_ScheduledTime_Weekly();
+            $weeklySchedule->setHour(-1);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
 
     /**
      * Tests invalid call to setHour on Piwik_ScheduledTime_Weekly
      * @group Core
      * @group ScheduledTime
-     * @expectedException Exception
      */
     public function testSetHourScheduledTimeWeeklyOver24()
     {
-        $weeklySchedule = new Piwik_ScheduledTime_Weekly();
-        $weeklySchedule->setHour(25);
+        try {
+            $weeklySchedule = new Piwik_ScheduledTime_Weekly();
+            $weeklySchedule->setHour(25);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**
      * Tests invalid call to setHour on Piwik_ScheduledTime_Monthly
      * @group Core
      * @group ScheduledTime
-     * @expectedException Exception
      */
     public function testSetHourScheduledTimeMonthlyNegative()
     {
-        $monthlySchedule = new Piwik_ScheduledTime_Monthly();
-        $monthlySchedule->setHour(-1);
+        try {
+            $monthlySchedule = new Piwik_ScheduledTime_Monthly();
+            $monthlySchedule->setHour(-1);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
 
     /**
      * Tests invalid call to setHour on Piwik_ScheduledTime_Monthly
      * @group Core
      * @group ScheduledTime
-     * @expectedException Exception
      */
     public function testSetHourScheduledTimMonthlyOver24()
     {
-        $monthlySchedule = new Piwik_ScheduledTime_Monthly();
-        $monthlySchedule->setHour(25);
+        try {
+            $monthlySchedule = new Piwik_ScheduledTime_Monthly();
+            $monthlySchedule->setHour(25);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
 
     /**
      * Tests forbidden call to setDay on Piwik_ScheduledTime_Hourly
      * @group Core
      * @group ScheduledTime
-     * @expectedException Exception
      */
     public function testSetDayScheduledTimeHourly()
     {
-        $hourlySchedule = new Piwik_ScheduledTime_Hourly();
-        $hourlySchedule->setDay(1);
+        try {
+            $hourlySchedule = new Piwik_ScheduledTime_Hourly();
+            $hourlySchedule->setDay(1);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**
      * Tests forbidden call to setDay on Piwik_ScheduledTime_Daily
      * @group Core
      * @group ScheduledTime
-     * @expectedException Exception
      */
     public function testSetDayScheduledTimeDaily()
     {
-        $dailySchedule = new Piwik_ScheduledTime_Daily();
-        $dailySchedule->setDay(1);
+        try {
+            $dailySchedule = new Piwik_ScheduledTime_Daily();
+            $dailySchedule->setDay(1);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**
      * Tests invalid call to setDay on Piwik_ScheduledTime_Weekly
      * @group Core
      * @group ScheduledTime
-     * @expectedException Exception
      */
     public function testSetDayScheduledTimeWeeklyDay0()
     {
-        $weeklySchedule = new Piwik_ScheduledTime_Weekly();
-        $weeklySchedule->setDay(0);
+        try {
+            $weeklySchedule = new Piwik_ScheduledTime_Weekly();
+            $weeklySchedule->setDay(0);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
 
     /**
      * Tests invalid call to setDay on Piwik_ScheduledTime_Weekly
      * @group Core
      * @group ScheduledTime
-     * @expectedException Exception
      */
     public function testSetDayScheduledTimeWeeklyOver7()
     {
-        $weeklySchedule = new Piwik_ScheduledTime_Weekly();
-        $weeklySchedule->setDay(8);
+        try {
+            $weeklySchedule = new Piwik_ScheduledTime_Weekly();
+            $weeklySchedule->setDay(8);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**
      * Tests invalid call to setDay on Piwik_ScheduledTime_Monthly
      * @group Core
      * @group ScheduledTime
-     * @expectedException Exception
      */
     public function testSetDayScheduledTimeMonthlyDay0()
     {
-        $monthlySchedule = new Piwik_ScheduledTime_Monthly();
-        $monthlySchedule->setDay(0);
+        try {
+            $monthlySchedule = new Piwik_ScheduledTime_Monthly();
+            $monthlySchedule->setDay(0);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
 
     /**
      * Tests invalid call to setDay on Piwik_ScheduledTime_Monthly
      * @group Core
      * @group ScheduledTime
-     * @expectedException Exception
      */
     public function testSetDayScheduledTimeMonthlyOver31()
     {
-        $monthlySchedule = new Piwik_ScheduledTime_Monthly();
-        $monthlySchedule->setDay(32);
+        try {
+            $monthlySchedule = new Piwik_ScheduledTime_Monthly();
+            $monthlySchedule->setDay(32);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
 

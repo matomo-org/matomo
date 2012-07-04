@@ -23,11 +23,15 @@ class SitesManagerTest extends DatabaseTestCase
      * 
      * @group Plugins
      * @group SitesManager
-     * @expectedException Exception
      */
     public function testAddSiteEmptyName()
     {
-        Piwik_SitesManager_API::getInstance()->addSite("",array("http://piwik.net"));
+        try {
+            Piwik_SitesManager_API::getInstance()->addSite("",array("http://piwik.net"));
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**
@@ -50,11 +54,15 @@ class SitesManagerTest extends DatabaseTestCase
      * @dataProvider getInvalidUrlData
      * @group Plugins
      * @group SitesManager
-     * @expectedException Exception
      */
     public function testAddSiteWrongUrls($url)
     {
-        Piwik_SitesManager_API::getInstance()->addSite("name", $url);
+        try {
+            Piwik_SitesManager_API::getInstance()->addSite("name", $url);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**
@@ -101,11 +109,15 @@ class SitesManagerTest extends DatabaseTestCase
      * @dataProvider getInvalidIPsData
      * @group Plugins
      * @group SitesManager
-     * @expectedException Exception
      */
     public function testAddSiteExcludedIpsNotValid($ip)
     {
-        Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/", $ecommerce = 0,$ip);
+        try {
+            Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/", $ecommerce = 0,$ip);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**
@@ -312,13 +324,17 @@ class SitesManagerTest extends DatabaseTestCase
      * 
      * @group Plugins
      * @group SitesManager
-     * @expectedException Exception
      */
     public function testAddSiteUrlsWrongUrlsFormat3()
     {
-        $idsite = $this->_addSite();
-        $toAdd = array("http:mpigeq");
-        $insertedUrls = Piwik_SitesManager_API::getInstance()->addSiteAliasUrls($idsite, $toAdd);
+        try {
+            $idsite = $this->_addSite();
+            $toAdd = array("http:mpigeq");
+            $insertedUrls = Piwik_SitesManager_API::getInstance()->addSiteAliasUrls($idsite, $toAdd);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**
@@ -326,12 +342,16 @@ class SitesManagerTest extends DatabaseTestCase
      * 
      * @group Plugins
      * @group SitesManager
-     * @expectedException Exception
      */
     public function testAddSiteUrlsWrongIdSite1()
     {
-        $toAdd = array("http://pigeq.com/test");
-        $insertedUrls = Piwik_SitesManager_API::getInstance()->addSiteAliasUrls(-1, $toAdd);
+        try {
+            $toAdd = array("http://pigeq.com/test");
+            $insertedUrls = Piwik_SitesManager_API::getInstance()->addSiteAliasUrls(-1, $toAdd);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**
@@ -339,12 +359,16 @@ class SitesManagerTest extends DatabaseTestCase
      * 
      * @group Plugins
      * @group SitesManager
-     * @expectedException Exception
      */
     public function testAddSiteUrlsWrongIdSite2()
     {
-        $toAdd = array("http://pigeq.com/test");
-        $insertedUrls = Piwik_SitesManager_API::getInstance()->addSiteAliasUrls(155, $toAdd);
+        try {
+            $toAdd = array("http://pigeq.com/test");
+            $insertedUrls = Piwik_SitesManager_API::getInstance()->addSiteAliasUrls(155, $toAdd);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**
@@ -385,29 +409,38 @@ class SitesManagerTest extends DatabaseTestCase
      * 
      * @group Plugins
      * @group SitesManager
-     * @expectedException Exception
      */
     function testGetSiteFromIdWrongId1()
     {
-        $siteInfo = Piwik_SitesManager_API::getInstance()->getSiteFromId(0);
+        try {
+            $siteInfo = Piwik_SitesManager_API::getInstance()->getSiteFromId(0);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
+
     /**
      * wrong id => exception
      * 
      * @group Plugins
      * @group SitesManager
-     * @expectedException Exception
      */
     function testGetSiteFromIdWrongId2()
     {
-        $siteInfo = Piwik_SitesManager_API::getInstance()->getSiteFromId("x1");
+        try {
+            $siteInfo = Piwik_SitesManager_API::getInstance()->getSiteFromId("x1");
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
+
     /**
      * wrong id : no access => exception
      * 
      * @group Plugins
      * @group SitesManager
-     * @expectedException Exception
      */
     function testGetSiteFromIdWrongId3()
     {
@@ -417,8 +450,13 @@ class SitesManagerTest extends DatabaseTestCase
         // set noaccess to site 1
         FakeAccess::setIdSitesView (array(2));
         FakeAccess::setIdSitesAdmin (array());
-        
-        $siteInfo = Piwik_SitesManager_API::getInstance()->getSiteFromId(1);
+
+        try {
+            $siteInfo = Piwik_SitesManager_API::getInstance()->getSiteFromId(1);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     /**
      * normal case
@@ -608,13 +646,17 @@ class SitesManagerTest extends DatabaseTestCase
      * 
      * @group Plugins
      * @group SitesManager
-     * @expectedException Exception
      */
     function testGetSiteUrlsFromIdWrongId()
     {
-        FakeAccess::setIdSitesView(array(3));
-        FakeAccess::setIdSitesAdmin(array());
-        Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId(1);
+        try {
+            FakeAccess::setIdSitesView(array(3));
+            FakeAccess::setIdSitesAdmin(array());
+            Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId(1);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**
@@ -761,23 +803,31 @@ class SitesManagerTest extends DatabaseTestCase
      * @dataProvider getInvalidTimezoneData
      * @group Plugins
      * @group SitesManager
-     * @expectedException Exception
      */
     function testAddSitesInvalidTimezone($timezone)
     {
-        $idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0, '', '', $timezone);
+        try {
+            $idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0, '', '', $timezone);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**
      * 
      * @group Plugins
      * @group SitesManager
-     * @expectedException Exception
      */
     function testAddSitesInvalidCurrency()
     {
-        $invalidCurrency = '€';
-        $idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0, '', 'UTC', $invalidCurrency);
+        try {
+            $invalidCurrency = '€';
+            $idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0, '', 'UTC', $invalidCurrency);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**

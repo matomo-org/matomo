@@ -12,6 +12,34 @@
 class Period_DayTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @group Core
+     * @group Period
+     * @group Period_Day
+     */
+    public function testInvalidDate()
+    {
+        try {
+            $period = new Piwik_Period_Day( 'Invalid Date' );
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected Exception not raised');
+    }
+    
+    /**
+     * @group Core
+     * @group Period
+     * @group Period_Day
+     */
+    public function testToString()
+    {
+        $period = new Piwik_Period_Day( Piwik_Date::today());
+        $this->assertEquals(date("Y-m-d"), $period->getPrettyString());
+        $this->assertEquals(date("Y-m-d"), (string) $period);
+        $this->assertEquals(date("Y-m-d"), $period->toString());
+    }
+
+    /**
      * today is NOT finished
      * @group Core
      * @group Period
@@ -24,7 +52,7 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $period->getSubperiods());
         $this->assertEquals(0, $period->getNumberOfSubperiods());
     }
-    
+
     /**
      * yesterday 23:59:59 is finished
      * @group Core

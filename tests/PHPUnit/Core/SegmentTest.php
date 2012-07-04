@@ -456,10 +456,14 @@ class SegmentTest extends PHPUnit_Framework_TestCase
      * @group Core
      * @group Segment
      * @dataProvider getBogusSegments
-     * @expectedException Exception
      */
     public function testBogusSegmentThrowsException($segment)
     {
-        $segment = new Piwik_Segment($segment, $idSites = array());
+        try {
+            $segment = new Piwik_Segment($segment, $idSites = array());
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
 }

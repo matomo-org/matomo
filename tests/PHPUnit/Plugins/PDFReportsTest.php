@@ -93,48 +93,64 @@ class PDFReportsTest extends DatabaseTestCase
     /**
      * @group Plugins
      * @group PDFReports
-     * @expectedException Exception
      */
     public function testGetReportsIdReportNotFound()
     {
-        $report = Piwik_PDFReports_API::getInstance()->getReports($idSite=false,$period=false, $idReport = 1);
+        try {
+            $report = Piwik_PDFReports_API::getInstance()->getReports($idSite=false,$period=false, $idReport = 1);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**
      * @group Plugins
      * @group PDFReports
-     * @expectedException Exception
      */
     public function testGetReportsInvalidPermission()
     {
-        $data = $this->_getAddReportData();
-        $idReport = $this->_createReport($data);
+        try {
+            $data = $this->_getAddReportData();
+            $idReport = $this->_createReport($data);
         
-        $report = Piwik_PDFReports_API::getInstance()->getReports($idSite=44,$period=false, $idReport);
+            $report = Piwik_PDFReports_API::getInstance()->getReports($idSite=44,$period=false, $idReport);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**
      * @group Plugins
      * @group PDFReports
-     * @expectedException Exception
      */
     public function testAddReportInvalidWebsite()
     {
-        $data = $this->_getAddReportData();
-        $data['idsite'] = 33;
-        $idReport = $this->_createReport($data);
+        try {
+            $data = $this->_getAddReportData();
+            $data['idsite'] = 33;
+            $idReport = $this->_createReport($data);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**
      * @group Plugins
      * @group PDFReports
-     * @expectedException Exception
      */
     public function testAddReportInvalidPeriod()
     {
-        $data = $this->_getAddReportData();
-        $data['period'] = 'dx';
-        $idReport = $this->_createReport($data);
+        try {
+            $data = $this->_getAddReportData();
+            $data['period'] = 'dx';
+            $idReport = $this->_createReport($data);
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not raised');
     }
     
     /**

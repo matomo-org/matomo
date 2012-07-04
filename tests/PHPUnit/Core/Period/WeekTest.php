@@ -17,20 +17,6 @@ class Period_WeekTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Week
      */
-    function testWeekZendSetWeekday()
-    {
-        $this->markTestSkipped('see http://framework.zend.com/issues/browse/ZF-1832');
-        $date = Piwik_Date::factory('2006-01-01', 'YYYY-MM-dd', 'en');
-        $date->setWeekday(1);
-        $this->assertEquals('2005-12-26', $date->toString("Y-m-d"));
-    }
-
-    /**
-     * test week between 2 years
-     * @group Core
-     * @group Period
-     * @group Period_Week
-     */
     public function testWeekBetween2years()
     {
         $week = new Piwik_Period_Week( Piwik_Date::factory("2006-01-01"));
