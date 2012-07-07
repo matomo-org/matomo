@@ -69,7 +69,7 @@ Setup Apache CustomLog that directly imports in Piwik
 Since apache CustomLog directives can send log data to a script, it is possible to import hits into piwik server-side in real-time rather than processing a logfile each day.
 
 This approach has many advantages, including real-time data being available on your piwik site, using real logs files instead of relying on client-side Javacsript, and not having a surge of CPU/RAM usage during log processing.
-The disadvantage is that if Piwik is unavailable, logging data will be lost. Therefore we recommend to also log into a standard log file.
+The disadvantage is that if Piwik is unavailable, logging data will be lost. Therefore we recommend to also log into a standard log file. Bear in mind also that apache processes will wait until a request is logged before processing a new request, so if piwik runs slow so does your site: it's therefore important to tune --recorders to the right level.
 
 In the most basic setup, you might have in your main config section:
 	# Set up your log format as a normal extended format, with hostname at the start
@@ -85,7 +85,7 @@ can use it instead of defining myLogFormat.
 Useful options here are:
 --add-sites-new-hosts (creates new websites in piwik based on %v in the LogFormat)
 --output=/path/to/piwik.log (puts any output into a log file for reference/debugging later)
---recorders=1 (use of >1 recorder has not been tested)
+--recorders=4 (use whatever value seems sensible for you - higher traffic sites will need more recorders to keep up)
 "-" so it reads straight from /dev/stdin
 
 You can have as many CustomLog statements as you like. However, if you define any CustomLog directives within a <VirtualHost> block, all CustomLogs in the main config will be overridden. Therefore if you require custom logging for particular VirtualHosts, it is recommended to use mod_macro to make configuration more maintainable.
@@ -115,7 +115,7 @@ Apache configuration source code:
 	--add-sites-new-hosts \
 	--config=/path/to/piwik/config/config.ini.php \
 	--url='http://your.piwik.install/' \
-	--recorders=1 \
+	--recorders=4 \
 	--log-format-regex='(?P<host>[\\\\w\\\\-\\\\.\\\\/]*)(?::\\\\d+)? (?P<ip>\\\\S+) \\\\S+ \\\\S+ \\\\[(?P<date>.*?) (?P<timezone>.*?)\\\\] \\\"\\\\S+ (?P<path>.*?) \\\\S+\\\" (?P<status>\\\\S+) (?P<length>\\\\S+) \\\"(?P<referrer>.*?)\\\" \\\"(?P<user_agent>.*?)\\\"' \
 	--output=/var/log/piwik/$output.log \
 	-" \
