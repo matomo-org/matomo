@@ -23,9 +23,10 @@
  */
 class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 {
-	/*
+	/**
 	 * Array of (column name before => column name renamed) of the columns for which sum operation is invalid. 
 	 * The summed value is not accurate and these columns will be renamed accordingly.
+     * @var array
 	 */
 	static public $invalidSummedColumnNameToRenamedName = array(
 		Piwik_Archive::INDEX_NB_UNIQ_VISITORS => Piwik_Archive::INDEX_SUM_DAILY_NB_UNIQ_VISITORS 

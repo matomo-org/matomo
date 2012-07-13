@@ -1493,8 +1493,9 @@ class Piwik_Tracker_Visit_Referer
 		return $refererInformation;
 	}
 
-	/*
+	/**
 	 * Search engine detection
+     * @return bool
 	 */
 	protected function detectRefererSearchEngine()
 	{
@@ -1510,7 +1511,11 @@ class Piwik_Tracker_Visit_Referer
 		return true;
 	}
 
-	protected function detectCampaignFromString($string)
+    /**
+     * @param string $string
+     * @return bool
+     */
+    protected function detectCampaignFromString($string)
 	{
 		foreach($this->campaignNames as $campaignNameParameter)
 		{
@@ -1540,8 +1545,9 @@ class Piwik_Tracker_Visit_Referer
 		return false;
 	}
 	
-	/*
+	/**
 	 * Campaign analysis
+     * @return bool
 	 */
 	protected function detectRefererCampaign()
 	{
@@ -1571,11 +1577,12 @@ class Piwik_Tracker_Visit_Referer
 		return $found;
 	}
 
-	/*
+	/**
 	 * We have previously tried to detect the campaign variables in the URL
 	 * so at this stage, if the referer host is the current host,
 	 * or if the referer host is any of the registered URL for this website,
 	 * it is considered a direct entry
+     * @return bool
 	 */
 	protected function detectRefererDirectEntry()
 	{

@@ -10,7 +10,7 @@ require_once 'Login/Auth.php';
 
 class LoginTest extends DatabaseTestCase
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         

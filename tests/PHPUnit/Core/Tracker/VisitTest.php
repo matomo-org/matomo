@@ -66,7 +66,7 @@ class Tracker_VisitTest extends DatabaseTestCase
      * @group Tracker_Visit
      * @dataProvider getExcludedIpTestData
      */
-    function testIsVisitorIpExcluded($excludedIp, $tests)
+    public function testIsVisitorIpExcluded($excludedIp, $tests)
     {
         $visit = new Test_Piwik_TrackerVisit_public();
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/",$ecommerce=0, $excludedIp);

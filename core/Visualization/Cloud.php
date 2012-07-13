@@ -26,12 +26,13 @@ class Piwik_Visualization_Cloud implements Piwik_View_Interface
 
 	protected $wordsArray = array();
 	public $truncatingLimit = 50;
-	
-	/*
-	 * Assign word to array
-	 * @param string $word
-	 * @return string
-	 */
+
+    /**
+     * Assign word to array
+     * @param string $word
+     * @param int $value
+     * @return string
+     */
 	function addWord($word, $value = 1)
 	{
 		if (isset($this->wordsArray[$word]))
@@ -83,7 +84,7 @@ class Piwik_Visualization_Cloud implements Piwik_View_Interface
 		return $return;
 	}
 	
-	/*
+	/**
 	 * Shuffle associated names in array
 	 */
 	protected function shuffleCloud()
@@ -106,7 +107,7 @@ class Piwik_Visualization_Cloud implements Piwik_View_Interface
 		}
 	}
 	 
-	/*
+	/**
 	 * Get the class range using a percentage
 	 *
 	 * @return int $class

@@ -15,7 +15,7 @@ class API_ResponseBuilderTest extends PHPUnit_Framework_TestCase
      * @group API
      * @group API_ResponseBuilder
      */
-    function testConvertMultiDimensionalStandardArrayToJson()
+    public function testConvertMultiDimensionalStandardArrayToJson()
     {
         $input = array( "firstElement",
                         array(
@@ -36,7 +36,7 @@ class API_ResponseBuilderTest extends PHPUnit_Framework_TestCase
      * @group API
      * @group API_ResponseBuilder
      */
-    function testConvertMultiDimensionalAssociativeArrayToJson()
+    public function testConvertMultiDimensionalAssociativeArrayToJson()
     {
         $input = array(
                     "firstElement" => "isFirst",
@@ -58,7 +58,7 @@ class API_ResponseBuilderTest extends PHPUnit_Framework_TestCase
      * @group API
      * @group API_ResponseBuilder
      */
-    function testConvertMultiDimensionalMixedArrayToJson()
+    public function testConvertMultiDimensionalMixedArrayToJson()
     {
         $input = array(
                     "firstElement" => "isFirst",
@@ -84,7 +84,7 @@ class API_ResponseBuilderTest extends PHPUnit_Framework_TestCase
      * @group API
      * @group API_ResponseBuilder
      */
-    function testConvertMultiDimensionalStandardArrayToXML()
+    public function testConvertMultiDimensionalStandardArrayToXML()
     {
         $input = array( "firstElement",
                         array(
@@ -105,7 +105,7 @@ class API_ResponseBuilderTest extends PHPUnit_Framework_TestCase
      * @group API
      * @group API_ResponseBuilder
      */
-    function testConvertMultiDimensionalAssociativeArrayToXML()
+    public function testConvertMultiDimensionalAssociativeArrayToXML()
     {
         $input = array(
                     "firstElement" => "isFirst",
@@ -127,7 +127,7 @@ class API_ResponseBuilderTest extends PHPUnit_Framework_TestCase
      * @group API
      * @group API_ResponseBuilder
      */
-    function testConvertMultiDimensionalMixedArrayToXML()
+    public function testConvertMultiDimensionalMixedArrayToXML()
     {
         $input = array(
                     "firstElement" => "isFirst",

@@ -25,7 +25,7 @@ abstract class Piwik_ScheduledTime
 	 * Defaults to midnight
 	 * @var integer 
 	 */
-	var $hour = 0;
+	public $hour = 0;
 	
 	/**
 	 * For weekly scheduling : http://php.net/manual/en/function.date.php, format string : 'N', defaults to Monday
@@ -33,11 +33,12 @@ abstract class Piwik_ScheduledTime
 	 * month), defaults to first day of the month
 	 * @var integer
 	 */
-	var $day = 1;
+	public $day = 1;
 
-	/*
+	/**
 	 * Returns the system time used by subclasses to compute schedulings.
 	 * This method has been introduced so unit tests can override the current system time.
+     * @return int
 	 */
 	protected function getTime()
 	{
@@ -53,14 +54,16 @@ abstract class Piwik_ScheduledTime
 	 */
 	abstract public function getRescheduledTime();
 
-	/*
-	 * @param  _day the day to set
+	/**
+     * @abstract
+	 * @param  int $_day the day to set
 	 * @throws Exception if method not supported by subclass or parameter _day is invalid
 	 */
 	abstract public function setDay($_day);
 
-	/*
-	 * @param  _hour the hour to set, has to be >= 0 and < 24
+	/**
+     * @abstract
+	 * @param  int $_hour the hour to set, has to be >= 0 and < 24
 	 * @throws Exception if method not supported by subclass or parameter _hour is invalid
 	 */
 	public function setHour($_hour)
@@ -73,12 +76,12 @@ abstract class Piwik_ScheduledTime
 		$this->hour = $_hour;
 	}
 	
-	/*
+	/**
 	 * Computes the delta in seconds needed to adjust the rescheduled time to the required hour.
 	 * 
-	 * @param rescheduledTime The rescheduled time to be adjusted
-	 * @return adjusted rescheduled time
-	 */	
+	 * @param int $rescheduledTime The rescheduled time to be adjusted
+	 * @return int adjusted rescheduled time
+	 */
 	protected function adjustHour ($rescheduledTime)
 	{
 		if ( $this->hour !== null )

@@ -356,7 +356,7 @@ class Piwik_Common
 	 * @param string  $url  either http://piwik.org/test or /
 	 * @return string
 	 */
-	static function getPathAndQueryFromUrl($url)
+	static public function getPathAndQueryFromUrl($url)
 	{
 		$parsedUrl = parse_url( $url );
 		$result = '';
@@ -499,7 +499,7 @@ class Piwik_Common
 	 * @param string  $url
 	 * @return bool
 	 */
-	static function isLookLikeUrl( $url )
+	static public function isLookLikeUrl( $url )
 	{
 		return preg_match('~^(ftp|news|http|https)?://(.*)$~D', $url, $matches) !== 0
 				&& strlen($matches[2]) > 0;

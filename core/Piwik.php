@@ -25,9 +25,9 @@ class Piwik
 	const CLASSES_PREFIX = 'Piwik_';
 	const COMPRESSED_FILE_LOCATION = '/tmp/assets/';
 
-	/*
+	/**
 	 * Piwik periods
-	 * @var arrray
+	 * @var array
 	 */
 	public static $idPeriods =  array(
 			'day'	=> 1,

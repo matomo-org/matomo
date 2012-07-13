@@ -124,7 +124,7 @@ class DataTableTest extends PHPUnit_Framework_TestCase
      * @group Core
      * @group DataTable
      */
-    function testCountRowsSimple()
+    public function testCountRowsSimple()
     {
         
          $table = new Piwik_DataTable;
@@ -154,7 +154,7 @@ class DataTableTest extends PHPUnit_Framework_TestCase
      * @group Core
      * @group DataTable
      */
-    function testCountRowsComplex()
+    public function testCountRowsComplex()
     {
         
         $idcol = Piwik_DataTable_Row::COLUMNS;
@@ -216,7 +216,7 @@ class DataTableTest extends PHPUnit_Framework_TestCase
      * @group Core
      * @group DataTable
      */
-    function testRow()
+    public function testRow()
     {
         $columns = array('test_column'=> 145,
                         092582495 => new Piwik_Timer,
@@ -242,7 +242,7 @@ class DataTableTest extends PHPUnit_Framework_TestCase
      * @group Core
      * @group DataTable
      */
-    function testSumRow()
+    public function testSumRow()
     {
         $columns = array('test_int'=> 145,
                         'test_float'=> 145.5,
@@ -292,7 +292,7 @@ class DataTableTest extends PHPUnit_Framework_TestCase
      * @group Core
      * @group DataTable
      */
-    function testSerializeWithInfiniteRecursion()
+    public function testSerializeWithInfiniteRecursion()
     {
         try {
             $table = new Piwik_DataTable;
@@ -313,8 +313,8 @@ class DataTableTest extends PHPUnit_Framework_TestCase
      * @group Core
      * @group DataTable
      */
-     function testFilterQueueSortString()
-     {
+    public function testFilterQueueSortString()
+    {
         
         $idcol = Piwik_DataTable_Row::COLUMNS;
         
@@ -359,9 +359,7 @@ class DataTableTest extends PHPUnit_Framework_TestCase
         // do one more time to make sure it doesnt change
         $table->applyQueuedFilters();
         $this->assertTrue(Piwik_DataTable::isEqual($expectedtableReverse, $table));
-     }
-    
-    
+    }
 
     /**
      * General tests that tries to test the normal behaviour of DataTable
@@ -373,7 +371,7 @@ class DataTableTest extends PHPUnit_Framework_TestCase
      * @group Core
      * @group DataTable
      */
-    function testGeneral()
+    public function testGeneral()
     {
         /*
          * create some fake tables to make sure that the serialized array of the first TABLE

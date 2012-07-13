@@ -377,7 +377,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testGetAllSitesIdNoId()
+    public function testGetAllSitesIdNoId()
     {
         $ids = Piwik_SitesManager_API::getInstance()->getAllSitesId();
         $this->assertEquals(array(), $ids);
@@ -389,7 +389,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testGetAllSitesIdSeveralId()
+    public function testGetAllSitesIdSeveralId()
     {
         $name="tetq";
         $idsites = array(
@@ -410,7 +410,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testGetSiteFromIdWrongId1()
+    public function testGetSiteFromIdWrongId1()
     {
         try {
             $siteInfo = Piwik_SitesManager_API::getInstance()->getSiteFromId(0);
@@ -426,7 +426,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testGetSiteFromIdWrongId2()
+    public function testGetSiteFromIdWrongId2()
     {
         try {
             $siteInfo = Piwik_SitesManager_API::getInstance()->getSiteFromId("x1");
@@ -442,7 +442,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testGetSiteFromIdWrongId3()
+    public function testGetSiteFromIdWrongId3()
     {
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site",array("http://piwik.net","http://piwik.com/test/"));
         $this->assertEquals(1, $idsite);
@@ -464,7 +464,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testGetSiteFromIdNormalId()
+    public function testGetSiteFromIdNormalId()
     {
         $name = "website ''";
         $idsite = Piwik_SitesManager_API::getInstance()->addSite($name,array("http://piwik.net","http://piwik.com/test/"));
@@ -482,7 +482,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testGetSitesWithAdminAccessNoResult()
+    public function testGetSitesWithAdminAccessNoResult()
     {
         FakeAccess::setIdSitesAdmin (array());
         
@@ -496,7 +496,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testGetSitesWithAdminAccess()
+    public function testGetSitesWithAdminAccess()
     {
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array("http://piwik.net","http://piwik.com/test/"));
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site2",array("http://piwik.com/test/"));
@@ -523,7 +523,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testGetSitesWithViewAccessNoResult()
+    public function testGetSitesWithViewAccessNoResult()
     {
         FakeAccess::setIdSitesView (array());
         FakeAccess::setIdSitesAdmin (array());
@@ -538,7 +538,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testGetSitesWithViewAccess()
+    public function testGetSitesWithViewAccess()
     {
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array("http://piwik.net","http://piwik.com/test/"));
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site2",array("http://piwik.com/test/"));
@@ -565,7 +565,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testGetSitesWithAtLeastViewAccessNoResult()
+    public function testGetSitesWithAtLeastViewAccessNoResult()
     {
         FakeAccess::setIdSitesView (array());
         FakeAccess::setIdSitesAdmin (array());
@@ -580,7 +580,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testGetSitesWithAtLeastViewAccess()
+    public function testGetSitesWithAtLeastViewAccess()
     {
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array("http://piwik.net","http://piwik.com/test/"), $ecommerce=1);
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site2",array("http://piwik.com/test/"));
@@ -607,7 +607,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testGetSiteUrlsFromIdNoUrls()
+    public function testGetSiteUrlsFromIdNoUrls()
     {
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array("http://piwik.net"));
         
@@ -621,7 +621,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testGetSiteUrlsFromIdManyUrls()
+    public function testGetSiteUrlsFromIdManyUrls()
     {
         $site = array("http://piwik.net",
                         "http://piwik.org",    
@@ -647,7 +647,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testGetSiteUrlsFromIdWrongId()
+    public function testGetSiteUrlsFromIdWrongId()
     {
         try {
             FakeAccess::setIdSitesView(array(3));
@@ -665,7 +665,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testUpdateSiteOneUrl()
+    public function testUpdateSiteOneUrl()
     {
         $urls = array("http://piwiknew.com",
                         "http://piwiknew.net",
@@ -710,7 +710,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testUpdateSiteStrangeNameNoUrl()
+    public function testUpdateSiteStrangeNameNoUrl()
     {
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site1","http://main.url");
         $newName ="test toto@{'786'}";
@@ -731,7 +731,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testUpdateSiteSeveralUrlsAndGroup()
+    public function testUpdateSiteSeveralUrlsAndGroup()
     {
         $urls = array("http://piwiknew.com",
                         "http://piwiknew.net",
@@ -777,7 +777,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testGetSitesGroups()
+    public function testGetSitesGroups()
     {
         $groups = array( 'group1', ' group1 ', '', 'group2');
         $expectedGroups = array('group1','','group2');
@@ -804,7 +804,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testAddSitesInvalidTimezone($timezone)
+    public function testAddSitesInvalidTimezone($timezone)
     {
         try {
             $idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0, '', '', $timezone);
@@ -819,7 +819,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testAddSitesInvalidCurrency()
+    public function testAddSitesInvalidCurrency()
     {
         try {
             $invalidCurrency = '€';
@@ -835,7 +835,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testSetDefaultTimezoneAndCurrencyAndExcludedQueryParametersAndExcludedIps()
+    public function testSetDefaultTimezoneAndCurrencyAndExcludedQueryParametersAndExcludedIps()
     {
         // test that they return default values
         $defaultTimezone = Piwik_SitesManager_API::getInstance()->getDefaultTimezone();
@@ -899,7 +899,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testGetSitesIdFromSiteUrlSuperUser()
+    public function testGetSitesIdFromSiteUrlSuperUser()
     {
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array("http://piwik.net","http://piwik.com"));
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site2",array("http://piwik.com","http://piwik.net"));
@@ -923,7 +923,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testGetSitesIdFromSiteUrlUser()
+    public function testGetSitesIdFromSiteUrlUser()
     {
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array("http://www.piwik.net","http://piwik.com"));
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site2",array("http://piwik.com","http://piwik.net"));
@@ -983,7 +983,7 @@ class SitesManagerTest extends DatabaseTestCase
      * @group Plugins
      * @group SitesManager
      */
-    function testGetSitesFromTimezones()
+    public function testGetSitesFromTimezones()
     {
         $idsite1 = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"),null,null,null,'UTC');
         $idsite2 = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"),null,null,null,'Pacific/Auckland');

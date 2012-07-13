@@ -97,7 +97,7 @@ class DataTable_Filter_ExcludeLowPopulationTest extends PHPUnit_Framework_TestCa
      * @group DataTable_Filter
      * @group DataTable_Filter_ExcludeLowPopulation
      */
-    function testFilterLowpop1()
+    public function testFilterLowpop1()
     {
         
         $idcol = Piwik_DataTable_Row::COLUMNS;

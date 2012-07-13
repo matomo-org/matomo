@@ -52,8 +52,8 @@ class Piwik_ScheduledTime_Weekly extends Piwik_ScheduledTime
 		return $rescheduledTime;
 	}
 	
-	/*
-	 * @param  _day the day to set, has to be >= 1 and < 8
+	/**
+	 * @param int $_day the day to set, has to be >= 1 and < 8
 	 * @throws Exception if parameter _day is invalid
 	 */
 	public function setDay($_day)

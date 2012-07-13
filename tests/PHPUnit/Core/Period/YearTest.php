@@ -17,7 +17,7 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Year
      */
-    function testYearNormalcase()
+    public function testYearNormalcase()
     {
         $correct=array(
             '2024-01-01',
@@ -44,7 +44,7 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Year
      */
-    function testYearPastAndWrongdate()
+    public function testYearPastAndWrongdate()
     {
         $correct=array(
             '2000-01-01',

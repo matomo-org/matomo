@@ -133,8 +133,9 @@ abstract class Piwik_Archive
 				Piwik_Archive::INDEX_GOAL_ECOMMERCE_ITEMS  => 'items',
 	);
 
-	/*
-	 * string indexed column name => Integer indexed column name 
+	/**
+	 * string indexed column name => Integer indexed column name
+     * @var array
 	 */
 	public static $mappingFromNameToId = array(
 				'nb_uniq_visitors'			=> Piwik_Archive::INDEX_NB_UNIQ_VISITORS,

@@ -302,7 +302,7 @@ class Tracker_ActionTest extends DatabaseTestCase
      * @group Tracker
      * @group Tracker_Action
      */
-    function testExtractUrlAndActionNameFromRequest($request, $expected)
+    public function testExtractUrlAndActionNameFromRequest($request, $expected)
     {
         $action = new Test_Piwik_TrackerAction_extractUrlAndActionNameFromRequest();
         $action->setRequest($request);

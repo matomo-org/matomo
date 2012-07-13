@@ -199,7 +199,7 @@ class UsersManagerTest extends DatabaseTestCase
     /**
      * Dataprovider for wrong password tests
      */
-    function getWrongPasswordTestData()
+    public function getWrongPasswordTestData()
     {
         return array(
             array("geggeqgeqag", "pas", "email@email.com", "alias"),  // too short -> exception
@@ -229,7 +229,7 @@ class UsersManagerTest extends DatabaseTestCase
     /**
      * Dataprovider for wrong email tests
      */
-    function getWrongEmailTestData()
+    public function getWrongEmailTestData()
     {
         return array(
             array("geggeqgeqag", "geqgeagae", "ema'il@email.com", "alias"),

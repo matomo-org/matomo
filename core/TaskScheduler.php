@@ -114,10 +114,13 @@ class Piwik_TaskScheduler
 		return self::$running;
 	}
 	
-	/*
-	 * return the timetable for a given task
-	 */
-	static public function getScheduledTimeForTask($className, $methodName) {
+    /**
+     * return the timetable for a given task
+     * @param string $className
+     * @param string $methodName
+     * @return mixed
+     */
+    static public function getScheduledTimeForTask($className, $methodName) {
 		// Gets the array where rescheduled timetables are stored
 		$option = Piwik_GetOption(self::TIMETABLE_OPTION_STRING);
 

@@ -61,7 +61,7 @@ class Piwik_ScheduledTask
 		$this->priority = $_priority;
 	}
 	
-	/*
+	/**
 	 * Returns class name
 	 * @return string
 	 */
@@ -70,7 +70,7 @@ class Piwik_ScheduledTask
 		return $this->className;
 	}
 
-	/*
+	/**
 	 * Returns method name
 	 * @return string
 	 */
@@ -79,7 +79,7 @@ class Piwik_ScheduledTask
 		return $this->methodName;
 	}
 
-	/*
+	/**
 	 * Returns scheduled time
 	 * @return Piwik_ScheduledTime
 	 */

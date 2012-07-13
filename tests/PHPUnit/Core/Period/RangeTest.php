@@ -14,7 +14,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testRangeToday()
+    public function testRangeToday()
     {
         $range = new Piwik_Period_Range( 'day', 'last1' );
         $today = Piwik_Date::today();
@@ -33,7 +33,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testRangeTodayUtcPlus12()
+    public function testRangeTodayUtcPlus12()
     {
         // rather ugly test, UTC+23 doesn't exist, but it's a way to test that last1 in UTC+23 will be "our" UTC tomorrow
         $range = new Piwik_Period_Range( 'day', 'last1', 'UTC+23' );
@@ -54,7 +54,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testRange2days()
+    public function testRange2days()
     {
         $range = new Piwik_Period_Range( 'day', 'last2' );
         $today = Piwik_Date::today();
@@ -75,7 +75,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testRange5days()
+    public function testRange5days()
     {
         $range = new Piwik_Period_Range( 'day', 'last50' );
         $today = Piwik_Date::today();
@@ -97,7 +97,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testRangePrevious3days()
+    public function testRangePrevious3days()
     {
         $range = new Piwik_Period_Range( 'day', 'previous3' );
         $yesterday = Piwik_Date::yesterday();
@@ -119,7 +119,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testRangeComma1()
+    public function testRangeComma1()
     {
         
         $range = new Piwik_Period_Range( 'day', '2008-01-01,2008-01-03' );
@@ -140,7 +140,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testRangeComma2()
+    public function testRangeComma2()
     {
         
         $range = new Piwik_Period_Range( 'day', '2007-12-22,2008-01-03' );
@@ -171,7 +171,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testRangeWeekcomma1()
+    public function testRangeWeekcomma1()
     {
         $range = new Piwik_Period_Range( 'week', '2007-12-22,2008-01-03' );
         
@@ -215,7 +215,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testRangeYearcomma1()
+    public function testRangeYearcomma1()
     {
         $range = new Piwik_Period_Range( 'year', '2006-12-22,2007-01-03' );
         
@@ -260,7 +260,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testRangeMonthcomma1()
+    public function testRangeMonthcomma1()
     {
         $range = new Piwik_Period_Range( 'month', '2006-12-22,2007-01-03' );
         
@@ -343,7 +343,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testRangeWeek()
+    public function testRangeWeek()
     {
         $range = new Piwik_Period_Range( 'week', 'last50' );
         $today = Piwik_Date::today();
@@ -369,7 +369,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testRangeWeekLast1()
+    public function testRangeWeekLast1()
     {
         $range = new Piwik_Period_Range( 'week', 'last1' );
         $currentWeek = new Piwik_Period_Week(Piwik_Date::today());
@@ -383,7 +383,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testRangeMonth()
+    public function testRangeMonth()
     {
         $range = new Piwik_Period_Range( 'month', 'last20' );
         $today = Piwik_Date::today();
@@ -408,7 +408,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testRangeMonthLast1()
+    public function testRangeMonthLast1()
     {
         $range = new Piwik_Period_Range( 'month', 'last1' );
         $month = new Piwik_Period_Month(Piwik_Date::today());
@@ -422,7 +422,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testRangePreviousmonth()
+    public function testRangePreviousmonth()
     {
         $range = new Piwik_Period_Range( 'month', 'previous10' );
         $end = Piwik_Date::today();
@@ -449,7 +449,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testRangeYear()
+    public function testRangeYear()
     {
         $range = new Piwik_Period_Range( 'year', 'last10' );
         $today = Piwik_Date::today();
@@ -474,7 +474,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testRangeYearLast1()
+    public function testRangeYearLast1()
     {
         $range = new Piwik_Period_Range( 'year', 'last1' );
         $currentYear = new Piwik_Period_Year(Piwik_Date::today());
@@ -487,7 +487,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testCustomRangeWeekInsideEndingToday()
+    public function testCustomRangeWeekInsideEndingToday()
     {
         $range = new Piwik_Period_Range( 'range', '2007-12-22,2008-01-03', 'UTC', Piwik_Date::factory('2008-01-03') );
         
@@ -522,7 +522,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testCustomRangeWeekInsideEndingYesterday()
+    public function testCustomRangeWeekInsideEndingYesterday()
     {
         $todays = array(
             Piwik_Date::factory('2008-01-04'),
@@ -563,7 +563,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testCustomRangeOnlyDaysLessThanOneWeek()
+    public function testCustomRangeOnlyDaysLessThanOneWeek()
     {
         $range = new Piwik_Period_Range( 'range', '2007-12-30,2008-01-01' );
         
@@ -581,7 +581,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testCustomRangeOneWeekOnly()
+    public function testCustomRangeOneWeekOnly()
     {
         $range = new Piwik_Period_Range( 'range', '2007-12-31,2008-01-06' );
         
@@ -605,7 +605,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testCustomRangeStartsWithWeek()
+    public function testCustomRangeStartsWithWeek()
     {
         $range = new Piwik_Period_Range( 'range', '2007-12-31,2008-01-08' );
         
@@ -631,7 +631,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testCustomRangeEndsWithWeek()
+    public function testCustomRangeEndsWithWeek()
     {
         $range = new Piwik_Period_Range( 'range', '2007-12-21,2008-01-06' );
         
@@ -667,7 +667,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testCustomRangeContainsMonthAndWeek()
+    public function testCustomRangeContainsMonthAndWeek()
     {
         $range = new Piwik_Period_Range( 'range', '2011-09-18,2011-11-02', 'UTC', Piwik_Date::factory('2012-01-01') );
         
@@ -734,7 +734,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testCustomRangeContainsSeveralMonthsAndWeeksStartingWithMonth()
+    public function testCustomRangeContainsSeveralMonthsAndWeeksStartingWithMonth()
     {
         // Testing when "today" is in the same month, or later in the future
         $todays = array(
@@ -851,7 +851,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function testCustomRangeOneMonthOnly()
+    public function testCustomRangeOneMonthOnly()
     {
         $range = new Piwik_Period_Range( 'range', '2011-09-01,2011-09-30' );
         
@@ -897,7 +897,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    function test_CustomRange_startsWithWeek_EndsWithMonth()
+    public function test_CustomRange_startsWithWeek_EndsWithMonth()
     {
         $range = new Piwik_Period_Range( 'range', '2011-07-25,2011-08-31' );
         

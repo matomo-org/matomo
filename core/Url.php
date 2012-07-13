@@ -159,7 +159,7 @@ class Piwik_Url
 		return 'http';
 	}
 
-	/*
+	/**
 	 * Validate "Host" (untrusted user input)
 	 *
 	 * @param string $host         Contents of Host: header from Request

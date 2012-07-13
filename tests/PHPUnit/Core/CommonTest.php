@@ -148,7 +148,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      * @group Common
      * @group getRequestVar
      */
-    function testGetRequestVarEmptyVarName()
+    public function testGetRequestVarEmptyVarName()
     {
         try {
             $_GET['']=1;
@@ -165,7 +165,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      * @group Common
      * @group getRequestVar
      */
-    function testGetRequestVarNoDefaultNoTypeNoValue()
+    public function testGetRequestVarNoDefaultNoTypeNoValue()
     {
         try {
             Piwik_Common::getRequestVar('test');
@@ -181,7 +181,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      * @group Common
      * @group getRequestVar
      */
-    function testGetRequestVarNoDefaultNoTypeWithValue()
+    public function testGetRequestVarNoDefaultNoTypeWithValue()
     {
         $_GET['test'] = 1413.431413;
         $this->assertEquals($_GET['test'], Piwik_Common::getRequestVar('test'));
@@ -194,7 +194,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      * @group Common
      * @group getRequestVar
      */
-    function testGetRequestVarNoDefaultWithTypeWithValue()
+    public function testGetRequestVarNoDefaultWithTypeWithValue()
     {
         try {
             $_GET['test'] = 1413.431413;
@@ -211,7 +211,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      * @group Common
      * @group getRequestVar
      */
-    function testGetRequestVarNoDefaultWithTypeWithValue2()
+    public function testGetRequestVarNoDefaultWithTypeWithValue2()
     {
         try {
             Piwik_Common::getRequestVar('test', null, 'string');

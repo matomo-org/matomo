@@ -10,12 +10,12 @@ require_once 'Actions/Actions.php';
 
 class ActionsTests extends PHPUnit_Framework_TestCase
 {
-    function setUp()
+    public function setUp()
     {
         Piwik_Translate::getInstance()->loadEnglishTranslation();
     }
     
-    function tearDown()
+    public function tearDown()
     {
         Piwik_Translate::getInstance()->unloadEnglishTranslation();
     }
