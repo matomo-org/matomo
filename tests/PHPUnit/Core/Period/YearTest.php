@@ -61,8 +61,47 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
             '2000-12-01',
         );
         
-        $week = new Piwik_Period_Year( Piwik_Date::factory('2000-02-15'));
-        $this->assertEquals(12, $week->getNumberOfSubperiods());
-        $this->assertEquals($correct, $week->toString());
+        $year = new Piwik_Period_Year( Piwik_Date::factory('2000-02-15'));
+        $this->assertEquals(12, $year->getNumberOfSubperiods());
+        $this->assertEquals($correct, $year->toString());
+    }
+
+    /**
+     * @group Core
+     * @group Period
+     * @group Period_Year
+     */
+    public function testGetLocalizedShortString()
+    {
+        Piwik_Translate::getInstance()->loadEnglishTranslation();
+        $year = new Piwik_Period_Year( Piwik_Date::factory('2024-10-09'));
+        $shouldBe = '2024';
+        $this->assertEquals($shouldBe, $year->getLocalizedShortString());
+    }
+
+    /**
+     * @group Core
+     * @group Period
+     * @group Period_Year
+     */
+    public function testGetLocalizedLongString()
+    {
+        Piwik_Translate::getInstance()->loadEnglishTranslation();
+        $year = new Piwik_Period_Year( Piwik_Date::factory('2024-10-09'));
+        $shouldBe = '2024';
+        $this->assertEquals($shouldBe, $year->getLocalizedLongString());
+    }
+
+    /**
+     * @group Core
+     * @group Period
+     * @group Period_Year
+     */
+    public function testGetPrettyString()
+    {
+        Piwik_Translate::getInstance()->loadEnglishTranslation();
+        $year = new Piwik_Period_Year( Piwik_Date::factory('2024-10-09'));
+        $shouldBe = '2024';
+        $this->assertEquals($shouldBe, $year->getPrettyString());
     }
 }

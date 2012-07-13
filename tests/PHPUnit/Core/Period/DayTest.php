@@ -212,4 +212,63 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
         // expected string
         $this->assertEquals("2007-12-31", $endDate->toString());
     }
+
+    /**
+     * adding a subperiod should not be possible
+     * @group Core
+     * @group Period
+     * @group Period_Day
+     */
+    public function testAddSubperiodFails()
+    {
+        // create the period
+        $period = new Piwik_Period_Day( Piwik_Date::factory("2007-12-31"));
+
+        try {
+            $period->addSubperiod('');
+        } catch (Exception $e) {
+            return;
+        }
+        // expected string
+        $this->fail('Exception not raised');
+    }
+
+    /**
+     * @group Core
+     * @group Period
+     * @group Period_Day
+     */
+    public function testGetLocalizedShortString()
+    {
+        Piwik_Translate::getInstance()->loadEnglishTranslation();
+        $month = new Piwik_Period_Day( Piwik_Date::factory('2024-10-09'));
+        $shouldBe = 'Wed 9 Oct';
+        $this->assertEquals($shouldBe, $month->getLocalizedShortString());
+    }
+
+    /**
+     * @group Core
+     * @group Period
+     * @group Period_Day
+     */
+    public function testGetLocalizedLongString()
+    {
+        Piwik_Translate::getInstance()->loadEnglishTranslation();
+        $month = new Piwik_Period_Day( Piwik_Date::factory('2024-10-09'));
+        $shouldBe = 'Wednesday 9 October 2024';
+        $this->assertEquals($shouldBe, $month->getLocalizedLongString());
+    }
+
+    /**
+     * @group Core
+     * @group Period
+     * @group Period_Day
+     */
+    public function testGetPrettyString()
+    {
+        Piwik_Translate::getInstance()->loadEnglishTranslation();
+        $month = new Piwik_Period_Day( Piwik_Date::factory('2024-10-09'));
+        $shouldBe = '2024-10-09';
+        $this->assertEquals($shouldBe, $month->getPrettyString());
+    }
 }

@@ -1027,7 +1027,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
      * @group Period
      * @group Period_Range
      */
-    public function test_InvalidRange_throws()
+    public function testInvalidRangeThrows()
     {
         try {
             $range = new Piwik_Period_Range( 'range', '0001-01-01,today' );
@@ -1036,5 +1036,44 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
             return;
         }
         $this->fail('Expected exception not raised');
+    }
+
+    /**
+     * @group Core
+     * @group Period
+     * @group Period_Range
+     */
+    public function testGetLocalizedShortString()
+    {
+        Piwik_Translate::getInstance()->loadEnglishTranslation();
+        $month = new Piwik_Period_Range( 'range', '2000-12-09,2001-02-01' );
+        $shouldBe = '9 Dec 00 - 1 Feb 01';
+        $this->assertEquals($shouldBe, $month->getLocalizedShortString());
+    }
+
+    /**
+     * @group Core
+     * @group Period
+     * @group Period_Range
+     */
+    public function testGetLocalizedLongString()
+    {
+        Piwik_Translate::getInstance()->loadEnglishTranslation();
+        $month = new Piwik_Period_Range( 'range', '2023-05-09,2023-05-21' );
+        $shouldBe = '8 May 23 - 21 May 23';
+        $this->assertEquals($shouldBe, $month->getLocalizedLongString());
+    }
+
+    /**
+     * @group Core
+     * @group Period
+     * @group Period_Range
+     */
+    public function testGetPrettyString()
+    {
+        Piwik_Translate::getInstance()->loadEnglishTranslation();
+        $month = new Piwik_Period_Range( 'range', '2007-02-09,2007-03-15' );
+        $shouldBe = 'From 2007-02-09 to 2007-03-15';
+        $this->assertEquals($shouldBe, $month->getPrettyString());
     }
 }

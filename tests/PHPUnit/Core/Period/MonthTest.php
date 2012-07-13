@@ -274,4 +274,43 @@ class Period_MonthTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $month->toString());
         $this->assertEquals(31, $month->getNumberOfSubperiods());
     }
+
+    /**
+     * @group Core
+     * @group Period
+     * @group Period_Month
+     */
+    public function testGetLocalizedShortString()
+    {
+        Piwik_Translate::getInstance()->loadEnglishTranslation();
+        $month = new Piwik_Period_Month( Piwik_Date::factory('2024-10-09'));
+        $shouldBe = 'Oct 2024';
+        $this->assertEquals($shouldBe, $month->getLocalizedShortString());
+    }
+
+    /**
+     * @group Core
+     * @group Period
+     * @group Period_Month
+     */
+    public function testGetLocalizedLongString()
+    {
+        Piwik_Translate::getInstance()->loadEnglishTranslation();
+        $month = new Piwik_Period_Month( Piwik_Date::factory('2024-10-09'));
+        $shouldBe = '2024, October';
+        $this->assertEquals($shouldBe, $month->getLocalizedLongString());
+    }
+
+    /**
+     * @group Core
+     * @group Period
+     * @group Period_Month
+     */
+    public function testGetPrettyString()
+    {
+        Piwik_Translate::getInstance()->loadEnglishTranslation();
+        $month = new Piwik_Period_Month( Piwik_Date::factory('2024-10-09'));
+        $shouldBe = '2024-10';
+        $this->assertEquals($shouldBe, $month->getPrettyString());
+    }
 }

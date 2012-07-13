@@ -124,4 +124,43 @@ class Period_WeekTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $week->toString());
         $this->assertEquals(7, $week->getNumberOfSubperiods());
     }
+
+    /**
+     * @group Core
+     * @group Period
+     * @group Period_Week
+     */
+    public function testGetLocalizedShortString()
+    {
+        Piwik_Translate::getInstance()->loadEnglishTranslation();
+        $week = new Piwik_Period_Week( Piwik_Date::factory('2024-10-09'));
+        $shouldBe = '7 Oct - 13 Oct 24';
+        $this->assertEquals($shouldBe, $week->getLocalizedShortString());
+    }
+
+    /**
+     * @group Core
+     * @group Period
+     * @group Period_Week
+     */
+    public function testGetLocalizedLongString()
+    {
+        Piwik_Translate::getInstance()->loadEnglishTranslation();
+        $week = new Piwik_Period_Week( Piwik_Date::factory('2024-10-09'));
+        $shouldBe = 'Week 7 October - 13 October 2024';
+        $this->assertEquals($shouldBe, $week->getLocalizedLongString());
+    }
+
+    /**
+     * @group Core
+     * @group Period
+     * @group Period_Week
+     */
+    public function testGetPrettyString()
+    {
+        Piwik_Translate::getInstance()->loadEnglishTranslation();
+        $week = new Piwik_Period_Week( Piwik_Date::factory('2024-10-09'));
+        $shouldBe = 'From 2024-10-07 to 2024-10-13';
+        $this->assertEquals($shouldBe, $week->getPrettyString());
+    }
 }
