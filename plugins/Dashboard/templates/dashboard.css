@@ -21,11 +21,20 @@
 .col.width-75 {
     width: 75%;
 }
+.col.width-67 {
+    width: 67%;
+}
 .col.width-50 {
     width: 50%;
 }
+.col.width-40 {
+    width: 40%;
+}
 .col.width-33 {
     width: 33%;
+}
+.col.width-30 {
+    width: 30%;
 }
 .col.width-25 {
     width: 25%;
@@ -265,11 +274,20 @@
 #columnPreview .width-75 {
     width: 90px;
 }
+#columnPreview .width-67 {
+    width: 80.4px;
+}
 #columnPreview .width-50 {
     width: 60px;
 }
+#columnPreview .width-40 {
+    width: 48px;
+}
 #columnPreview .width-33 {
     width: 40px;
+}
+#columnPreview .width-30 {
+    width: 36px;
 }
 #columnPreview .width-25 {
     width: 30px;
