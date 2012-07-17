@@ -298,9 +298,12 @@ class Piwik_DBStats_MySQLMetadataProvider
 				$fixedSizeColumnLength += $this->sizeOfMySQLColumn($columnType);
 			}
 		}
-		
 		// calculate the average row size
-		$avgRowSize = $status['Index_length'] / $status['Rows'] + $fixedSizeColumnLength;
+		if($status['Rows'] == 0) {
+			$avgRowSize = 0;
+		} else {
+			$avgRowSize = $status['Index_length'] / $status['Rows'] + $fixedSizeColumnLength;
+		}
 		
 		// calculate the row set's size
 		return $avgRowSize * $row_count + $blob_size + $name_size;
