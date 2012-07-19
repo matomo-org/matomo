@@ -78,6 +78,8 @@ class Piwik_CoreHome extends Piwik_Plugin
 		
 		$jsFiles[] = "plugins/CoreHome/templates/jqplot.js";
 		$jsFiles[] = "libs/jqplot/jqplot-custom.min.js";
+		
+		$jsFiles[] = "plugins/CoreHome/templates/workarounds.js";
 	}
 	
 }
