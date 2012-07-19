@@ -14,6 +14,8 @@
  * DataTable filter that will group DataTable rows together based on the results
  * of a reduce function. Rows with the same reduce result will be summed and merged.
  * 
+ * NOTE: This filter should never be queued, it must be applied directly on a DataTable.
+ * 
  * @package Piwik
  * @subpackage Piwik_DataTable
  */
@@ -65,6 +67,12 @@ class Piwik_DataTable_Filter_GroupBy extends Piwik_DataTable_Filter
 		
 		foreach ($table->getRows() as $rowId => $row)
 		{
+			// skip the summary row
+			if ($rowId == Piwik_DataTable::ID_SUMMARY_ROW)
+			{
+				continue;
+			}
+			
 			// reduce the group by column of this row
 			$groupByColumnValue = $row->getColumn($this->groupByColumn);
 			$parameters = array_merge(array($groupByColumnValue), $this->parameters);

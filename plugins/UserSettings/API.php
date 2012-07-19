@@ -60,13 +60,14 @@ class Piwik_UserSettings_API
 	public function getOS( $idSite, $period, $date, $segment = false, $addShortLabel = true )
 	{
 		$dataTable = $this->getDataTable('UserSettings_os', $idSite, $period, $date, $segment);
-		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getOSLogo'));
+		// these filters are applied directly so other API methods can use GroupBy on the result of this method
+		$dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getOSLogo'));
 		if ($addShortLabel)
 		{
-			$dataTable->queueFilter(
+			$dataTable->filter(
 				'ColumnCallbackAddMetadata', array( 'label', 'shortLabel', 'Piwik_getOSShortLabel') );
 		}
-		$dataTable->queueFilter('ColumnCallbackReplace', array( 'label', 'Piwik_getOSLabel') );
+		$dataTable->filter('ColumnCallbackReplace', array( 'label', 'Piwik_getOSLabel') );
 		return $dataTable;
 	}
 	
@@ -77,7 +78,7 @@ class Piwik_UserSettings_API
 	public function getOSFamily( $idSite, $period, $date, $segment = false )
 	{
 		$dataTable = $this->getOS($idSite, $period, $date, $segment, $addShortLabel = false);
-		$dataTable->queueFilter('GroupBy', array('label', 'Piwik_UserSettings_getOSFamily'));
+		$dataTable->filter('GroupBy', array('label', 'Piwik_UserSettings_getOSFamily'));
 		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_Translate'));
 		return $dataTable;
 	}
@@ -88,7 +89,7 @@ class Piwik_UserSettings_API
 	public function getMobileVsDesktop( $idSite, $period, $date, $segment = false )
 	{
 		$dataTable = $this->getOS($idSite, $period, $date, $segment, $addShortLabel = false);
-		$dataTable->queueFilter('GroupBy', array('label', 'Piwik_UserSettings_getDeviceTypeFromOS'));
+		$dataTable->filter('GroupBy', array('label', 'Piwik_UserSettings_getDeviceTypeFromOS'));
 		$dataTable->queueFilter('MetadataCallbackReplace',
 			array('logo', 'Piwik_UserSettings_getDeviceTypeImg', null, array('label')));
 		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_Translate'));
@@ -98,9 +99,10 @@ class Piwik_UserSettings_API
 	public function getBrowserVersion( $idSite, $period, $date, $segment = false )
 	{
 		$dataTable = $this->getDataTable('UserSettings_browser', $idSite, $period, $date, $segment);
-		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getBrowsersLogo'));
-		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'shortLabel', 'Piwik_getBrowserShortLabel'));
-		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getBrowserLabel'));
+		// these filters are applied directly so getBrowser can use GroupBy on the result of this method
+		$dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getBrowsersLogo'));
+		$dataTable->filter('ColumnCallbackAddMetadata', array('label', 'shortLabel', 'Piwik_getBrowserShortLabel'));
+		$dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_getBrowserLabel'));
 		return $dataTable;
 	}
 	
@@ -113,7 +115,7 @@ class Piwik_UserSettings_API
 		$dataTable = $this->getBrowserVersion($idSite, $period, $date, $segment);
 		
 		$getBrowserFromBrowserVersion = 'Piwik_UserSettings_getBrowserFromBrowserVersion';
-		$dataTable->queueFilter('GroupBy', array('label', $getBrowserFromBrowserVersion));
+		$dataTable->filter('GroupBy', array('label', $getBrowserFromBrowserVersion));
 		
 		return $dataTable;
 	}
