@@ -28,6 +28,7 @@ function smarty_modifier_escape($string, $esc_type = 'html', $char_set = 'UTF-8'
 {
     switch ($esc_type) {
         case 'html':
+			$string = html_entity_decode($string, ENT_QUOTES, $char_set);
             return htmlspecialchars($string, ENT_QUOTES, $char_set);
 
         case 'htmlall':
