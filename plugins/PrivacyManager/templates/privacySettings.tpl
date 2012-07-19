@@ -165,7 +165,7 @@ See also our official guide <b><a href='http://piwik.org/privacy/' target='_blan
 			<td width="250">{'PrivacyManager_ReportsDataSavedEstimate'|translate}<br/></td>
 			<td width="500">
 				<div id="deleteDataEstimate"></div>
-				<span class='loadingPiwik' style='display:none'><img src='/themes/default/images/loading-blue.gif' /> {'General_LoadingData'|translate}</span>
+				<span class='loadingPiwik' style='display:none'><img src='./themes/default/images/loading-blue.gif' /> {'General_LoadingData'|translate}</span>
 			</td>
 			<td width="200">
 			{if $deleteData.config.enable_auto_database_size_estimate eq '0'}
@@ -197,7 +197,7 @@ See also our official guide <b><a href='http://piwik.org/privacy/' target='_blan
 					<strong>{'PrivacyManager_NextDelete'|translate}:</strong>
 					{$deleteData.nextRunPretty}
 					<br/><br/><em><a id="purgeDataNowLink" href="#">{'PrivacyManager_PurgeNow'|translate}</a></em>
-					<span class='loadingPiwik' style='display:none'><img src='/themes/default/images/loading-blue.gif' /> {'PrivacyManager_PurgingData'|translate}</span>
+					<span class='loadingPiwik' style='display:none'><img src='./themes/default/images/loading-blue.gif' /> {'PrivacyManager_PurgingData'|translate}</span>
 				{/capture}
 				{$purgeStats|inlineHelp}
 			</td>
