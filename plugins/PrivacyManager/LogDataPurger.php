@@ -133,8 +133,8 @@ class Piwik_PrivacyManager_LogDataPurger
 	{
 		$this->createTempTable();
 		
-		// get current max visit ID in log tables w/ idaction references.
-		$maxIds = $this->getMaxVisitIdsInLogTables();
+		// get current max ID in log tables w/ idaction references.
+		$maxIds = $this->getMaxIdsInLogTables();
 		
 		// do large insert (inserting everything before maxIds) w/o locking tables...
 		$this->insertActionsToKeep($maxIds, $deleteOlderThanMax = true);
@@ -192,14 +192,16 @@ class Piwik_PrivacyManager_LogDataPurger
 		Piwik_Query($sql);
 	}
 	
-	private function getMaxVisitIdsInLogTables()
+	private function getMaxIdsInLogTables()
 	{
 		$tables = array('log_conversion', 'log_link_visit_action', 'log_visit', 'log_conversion_item');
+		$idColumns = $this->getTableIdColumns();
 		
 		$result = array();
 		foreach ($tables as $table)
 		{
-			$result[$table] = Piwik_FetchOne("SELECT MAX(idvisit) FROM ".Piwik_Common::prefixTable($table));
+			$idCol = $idColumns[$table];
+			$result[$table] = Piwik_FetchOne("SELECT MAX($idCol) FROM ".Piwik_Common::prefixTable($table));
 		}
 		
 		return $result;
@@ -208,16 +210,29 @@ class Piwik_PrivacyManager_LogDataPurger
 	private function insertActionsToKeep( $maxIds, $olderThan = true )
 	{
 		$tempTableName = Piwik_Common::prefixTable(self::TEMP_TABLE_NAME);
-		$idvisitCondition = $olderThan ? "idvisit <= ?" : "idvisit > ?";
 		
+		$idColumns = $this->getTableIdColumns();
 		foreach ($this->getIdActionColumns() as $table => $columns)
 		{
+			$idCol = $idColumns[$table];
+			
 			foreach ($columns as $col)
 			{
-				$select = "SELECT $col FROM ".Piwik_Common::prefixTable($table)." WHERE $idvisitCondition";
+				$select = "SELECT $col FROM ".Piwik_Common::prefixTable($table)." WHERE $idCol >= ? AND $idCol < ?";
 				$sql = "INSERT IGNORE INTO $tempTableName $select";
 				
-				Piwik_Query($sql, array($maxIds[$table]));
+				if ($olderThan)
+				{
+					$start = 0;
+					$finish = $maxIds[$table];
+				}
+				else
+				{
+					$start = $maxIds[$table];
+					$finish = Piwik_FetchOne("SELECT MAX($idCol) FROM ".Piwik_Common::prefixTable($table));
+				}
+				
+				Piwik_SegmentedQuery($sql, $start, $finish, self::$selectSegmentSize);
 			}
 		}
 		
@@ -282,6 +297,16 @@ class Piwik_PrivacyManager_LogDataPurger
 											'idaction_category3',
 											'idaction_category4',
 											'idaction_category5' )
+		);
+	}
+	
+	private function getTableIdColumns()
+	{
+		return array(
+			'log_link_visit_action' => 'idlink_va',
+			'log_conversion' => 'idvisit',
+			'log_visit' => 'idvisit',
+			'log_conversion_item' => 'idvisit'
 		);
 	}
 	

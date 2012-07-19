@@ -318,6 +318,38 @@ class Piwik_Sql
 	}
 	
 	/**
+	 * Performs a non-SELECT query on a table one chunk at a time.
+	 * 
+	 * @param string $sql The SQL to perform. The last two conditions of the WHERE
+	 *                    expression must be as follows: 'id >= ? AND id < ?' where
+	 *                    'id' is the int id of the table.
+	 * @param int $first The minimum ID to loop from.
+	 * @param int $last The maximum ID to loop to.
+	 * @param int $step The maximum number of rows to scan in each smaller query.
+	 * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
+	 * @return array
+	 */
+	static public function segmentedQuery( $sql, $first, $last, $step, $params )
+	{
+		if ($step > 0)
+		{
+			for ($i = $first; $i <= $last; $i += $step)
+			{
+				$currentParams = array_merge($params, array($i, $i + $step));
+				self::query($sql, $currentParams);
+			}
+		}
+		else
+		{
+			for ($i = $first; $i >= $last; $i += $step)
+			{
+				$currentParams = array_merge($params, array($i, $i + $step));
+				self::query($sql, $currentParams);
+			}
+		}
+	}
+	
+	/**
 	 * Attempts to get a named lock. This function uses a timeout of 1s, but will
 	 * retry a set number of time.
 	 * 
@@ -591,6 +623,31 @@ function Piwik_SegmentedFetchOne( $sql, $first, $last, $step, $params = array() 
 function Piwik_SegmentedFetchAll( $sql, $first, $last, $step, $params = array() )
 {
 	return Piwik_Sql::segmentedFetchAll($sql, $first, $last, $step, $params);
+}
+
+/**
+ * Performs a query on a table one chunk at a time and returns an array of
+ * every fetched row.
+ * 
+ * This function will break up a non-SELECT query (like an INSERT, UPDATE, or
+ * DELETE) into smaller queries and should be used when performing an operation
+ * that can take a long time to finish. Using several small queries will ensure
+ * that the table will not be locked for too long.
+ * 
+ * @see Piwik_Sql::segmentedQuery
+ * 
+ * @param string $sql The SQL to perform. The last two conditions of the WHERE
+ *                    expression must be as follows: 'id >= ? AND id < ?' where
+ *                    'id' is the int id of the table.
+ * @param int $first The minimum ID to loop from.
+ * @param int $last The maximum ID to loop to.
+ * @param int $step The maximum number of rows to scan in each smaller query.
+ * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
+ * @return array
+ */
+function Piwik_SegmentedQuery( $sql, $first, $last, $step, $params = array() )
+{
+	return Piwik_Sql::segmentedQuery($sql, $first, $last, $step, $params);
 }
 
 /**
