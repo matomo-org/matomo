@@ -848,7 +848,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$infos['protocol'] = Piwik_ProxyHeaders::getProtocolInformation();
 		if(!Piwik::isHttps() && $infos['protocol'] !== null)
 		{
-			$infos['general_infos']['secure_protocol'] = '1';
+			$infos['general_infos']['assume_secure_protocol'] = '1';
 		}
 		if(count($headers = Piwik_ProxyHeaders::getProxyClientHeaders()) > 0)
 		{

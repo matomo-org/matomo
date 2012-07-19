@@ -235,7 +235,7 @@
 			{/foreach}
 		</td>
 	</tr>
-	{if isset($infos.general_infos.secure_protocol)}
+	{if isset($infos.general_infos.assume_secure_protocol)}
 	<tr>
 		<td class="label">{'Installation_SystemCheckSecureProtocol'|translate}</td>
 		<td>
