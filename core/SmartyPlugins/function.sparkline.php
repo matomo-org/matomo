@@ -18,7 +18,8 @@
 function smarty_function_sparkline($params, &$smarty = false)
 {
 	$src = $params['src'];
-	$width = Piwik_Visualization_Sparkline::getWidth();
-	$height = Piwik_Visualization_Sparkline::getHeight();
+	$graph = new Piwik_Visualization_Sparkline();
+	$width = $graph->getWidth();
+	$height = $graph->getHeight();
 	return "<img class=\"sparkline\" alt=\"\" src=\"$src\" width=\"$width\" height=\"$height\" />";
 }
