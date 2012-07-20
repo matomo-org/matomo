@@ -24,11 +24,11 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentContains extend
 		$api = array('Actions.getPageUrls', 'Actions.getPageTitles', 'VisitsSummary.get');
 		$segmentsToTest = array(
 		// array( SegmentString , TestSuffix , Array of API to test)
-			array("pageTitle=@".urlencode('*_)%'), '_SegmentPageTitleContainsStrangeCharacters', array('Actions.getPageTitles', 'VisitsSummary.get')),
-			array("pageUrl=@".urlencode('user/profile'), '_SegmentPageUrlContains', $api),
-			array("pageTitle=@Profile%20pa", '_SegmentPageTitleContains', $api),
+			array("pageTitle=@*_)%", '_SegmentPageTitleContainsStrangeCharacters', array('Actions.getPageTitles', 'VisitsSummary.get')),
+			array("pageUrl=@user/profile", '_SegmentPageUrlContains', $api),
+			array("pageTitle=@Profile pa", '_SegmentPageTitleContains', $api),
 			array("pageUrl!@user/profile", '_SegmentPageUrlExcludes', $api),
-			array("pageTitle!@Profile%20pa", '_SegmentPageTitleExcludes', $api),
+			array("pageTitle!@Profile pa", '_SegmentPageTitleExcludes', $api),
 		);
 		
 		foreach($segmentsToTest as $segment) 

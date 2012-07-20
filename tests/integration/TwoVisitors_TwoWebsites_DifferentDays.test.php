@@ -122,10 +122,11 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays extends Test_
 		// testing with empty URL and empty page title
 		$visitorA->setUrl('  ');
 		$this->checkResponse($visitorA->doTrackPageView('  '));
-	  
+		
 		// - 
 		// Second new visitor on Idsite 1: one page view 
 		$visitorB = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+		$visitorB->enableBulkTracking();
 		$visitorB->setIp('100.52.156.83');
 		$visitorB->setResolution(800, 300);
 		$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1)->getDatetime());
@@ -133,7 +134,7 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays extends Test_
 		$visitorB->setUserAgent('Opera/9.63 (Windows NT 5.1; U; en) Presto/2.1.1');
 		$visitorB->setUrl('http://example.org/products');
 		$visitorB->DEBUG_APPEND_URL = '&_idts='.Piwik_Date::factory($dateTime)->addHour(1)->getTimestamp();
-		$this->checkResponse($visitorB->doTrackPageView('first page view'));
+		$this->assertTrue($visitorB->doTrackPageView('first page view'));
 
 		// -
 		// Second visitor again on Idsite 1: 2 page views 2 days later, 2010-01-05
@@ -144,21 +145,22 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays extends Test_
 
 		$visitorB->setUrlReferrer( 'http://referer.com/Other_Page.htm' );
 		$visitorB->setUrl('http://example.org/index.htm');
-		$this->checkResponse($visitorB->doTrackPageView('second visitor/two days later/a new visit'));
+		$this->assertTrue($visitorB->doTrackPageView('second visitor/two days later/a new visit'));
 		// Second page view 6 minutes later
 		$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.1)->getDatetime());
 		$visitorB->setUrl('http://example.org/thankyou');
-		$this->checkResponse($visitorB->doTrackPageView('second visitor/two days later/second page view'));
+		$this->assertTrue($visitorB->doTrackPageView('second visitor/two days later/second page view'));
 		
 		// testing a strange combination causing an error in r3767
 		$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.2)->getDatetime());
-		$this->checkResponse($visitorB->doTrackAction('mailto:test@example.org', 'link'));
+		$this->assertTrue($visitorB->doTrackAction('mailto:test@example.org', 'link'));
 		$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.25)->getDatetime());
-		$this->checkResponse($visitorB->doTrackAction('mailto:test@example.org/strangelink', 'link'));
+		$this->assertTrue($visitorB->doTrackAction('mailto:test@example.org/strangelink', 'link'));
 		
 		// Actions.getPageTitle tested with this title
 		$visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.25)->getDatetime());
-		$this->checkResponse($visitorB->doTrackPageView('Checkout / Purchasing...'));
+		$this->assertTrue($visitorB->doTrackPageView('Checkout / Purchasing...'));
+		$this->checkResponse($visitorB->doBulkTrack());
 		
 		// -
 		// First visitor on Idsite 2: one page view, with Website referer

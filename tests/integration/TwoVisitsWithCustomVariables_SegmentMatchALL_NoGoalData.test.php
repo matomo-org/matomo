@@ -24,7 +24,7 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchALL_NoGoal
         // Segment matching ALL
         // + adding DOES NOT CONTAIN segment always matched, to test this particular operator
 		$resolution = $this->width.'x'.$this->height;
-        $segment = 'resolution=='.$resolution.';customVariableName1!@randomvalue%20does%20not%20exist';
+        $segment = 'resolution=='.$resolution.';customVariableName1!@randomvalue does not exist';
 
 		return array(
 			array($apiToCall, array('idSite' => 'all', 'date' => $this->dateTime, 'periods' => array('day', 'week'),

@@ -1450,4 +1450,26 @@ class Piwik_API_API
 		);
 	}
 	
+	/**
+	 * Performs multiple API requests at once and returns every result.
+	 * 
+	 * @param array $urls The array of API requests.
+	 */
+	public function getBulkRequest( $urls )
+	{
+		if (empty($urls))
+		{
+			return array();
+		}
+		
+		$urls = Piwik_Common::unsanitizeInputValues($urls);
+		
+		$result = array();
+		foreach ($urls as $url)
+		{
+			$req = new Piwik_API_Request($url);
+			$result[] = $req->process();
+		}
+		return $result;
+	}
 }

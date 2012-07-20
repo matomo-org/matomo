@@ -47,11 +47,61 @@ class Piwik_Tracker
 	static protected $forcedVisitorId = null;
 
 	static protected $pluginsNotToLoad = array();
+	
+	/**
+	 * The set of visits to track.
+	 * 
+	 * @var array
+	 */
+	private $requests = array();
+	
+	/**
+	 * The token auth supplied with a bulk visits POST.
+	 * 
+	 * @var string
+	 */
+	private $tokenAuth = null;
 
 	public function __construct($args = null)
 	{
-		$this->request = $args ? $args : $_GET + $_POST;
+		if (!empty($args) || !empty($_GET) || !empty($_POST))
+		{
+			$this->requests = $args ? $args : array($_GET + $_POST);
+		}
+		else
+		{
+			// doing bulk tracking. POST data can be array of string URLs or array of arrays w/ visit info
+			$rawData = file_get_contents("php://input");
+			$jsonData = Piwik_Common::json_decode($rawData, $assoc = true);
+			
+			if (isset($jsonData['requests']))
+			{
+				$this->requests = $jsonData['requests'];
+			}
+			
+			$this->tokenAuth = Piwik_Common::getRequestVar('token_auth', false, null, $jsonData);
+			
+			if (!empty($this->requests))
+			{
+				foreach ($this->requests as &$request)
+				{
+					// if a string is sent, we assume its a URL and try to parse it
+					if (is_string($request))
+					{
+						$params = array();
+					
+						$url = @parse_url($request);
+						if (!empty($url))
+						{
+							@parse_str($url['query'], $params);
+							$request = $params;
+						}
+					}
+				}
+			}
+		}
 	}
+	
 	public static function setForceIp($ipString)
 	{
 		self::$forcedIpString = $ipString;
@@ -99,19 +149,40 @@ class Piwik_Tracker
 	 */
 	public function main()
 	{
-		$this->init();
-
-		try {
-			if( $this->isVisitValid() )
+		if (!empty($this->requests))
+		{
+			// handle all visits
+			foreach ($this->requests as $request)
 			{
-				self::connectDatabase();
+				$this->init($request);
+		
+				try
+				{
+					if ($this->isVisitValid())
+					{
+						self::connectDatabaseIfNotConnected();
 
-				$visit = $this->getNewVisitObject();
-				$visit->setRequest($this->request);
-				$visit->handle();
-				unset($visit);
+						$visit = $this->getNewVisitObject();
+						$visit->setRequest($request);
+						$visit->handle();
+						unset($visit);
+					}
+				} catch (Piwik_Tracker_Db_Exception $e) {
+					printDebug("<b>".$e->getMessage()."</b>");
+				} catch(Piwik_Tracker_Visit_Excluded $e) {
+				} catch(Exception $e) {
+					Piwik_Tracker_ExitWithException($e);
+				}
 			}
-
+		}
+		else
+		{
+			$this->handleEmptyRequest($_GET + $_POST);
+		}
+		
+		// run scheduled task
+		try
+		{
 			// don't run scheduled tasks in CLI mode from Tracker, this is the case
 			// where we bulk load logs & don't want to lose time with tasks
 			if(!Piwik_Common::isPhpCliMode()
@@ -119,13 +190,12 @@ class Piwik_Tracker
 			{
 				Piwik_Common::runScheduledTasks($now = $this->getCurrentTimestamp());
 			}
-		} catch (Piwik_Tracker_Db_Exception $e) {
-			printDebug("<b>".$e->getMessage()."</b>");
-		} catch(Piwik_Tracker_Visit_Excluded $e) {
-		} catch(Exception $e) {
+		}
+		catch (Exception $e)
+		{
 			Piwik_Tracker_ExitWithException($e);
 		}
-
+		
 		$this->end();
 	}
 
@@ -143,12 +213,12 @@ class Piwik_Tracker
 	/**
 	 * Initialization
 	 */
-	protected function init()
+	protected function init( $request )
 	{
-		$this->handleTrackingApi();
-		$this->loadTrackerPlugins();
+		$this->handleTrackingApi($request);
+		$this->loadTrackerPlugins($request);
 		$this->handleDisabledTracker();
-		$this->handleEmptyRequest();
+		$this->handleEmptyRequest($request);
 
 		printDebug("Current datetime: ".date("Y-m-d H:i:s", $this->getCurrentTimestamp()));
 	}
@@ -232,7 +302,7 @@ class Piwik_Tracker
 		return $db;
 	}
 
-	public static function connectDatabase()
+	public static function connectDatabaseIfNotConnected()
 	{
 		if( !is_null(self::$db))
 		{
@@ -321,11 +391,11 @@ class Piwik_Tracker
 		$this->stateValid = $value;
 	}
 
-	protected function loadTrackerPlugins()
+	protected function loadTrackerPlugins( $request )
 	{
 		// Adding &dp=1 will disable the provider plugin, if token_auth is used (used to speed up bulk imports)
-		if(isset($this->request['dp'])
-			&& !empty($this->request['dp'])
+		if(isset($request['dp'])
+			&& !empty($request['dp'])
 			&& $this->authenticated)
 		{
 			Piwik_Tracker::setPluginsNotToLoad(array('Provider'));
@@ -347,9 +417,9 @@ class Piwik_Tracker
 		}
 	}
 
-	protected function handleEmptyRequest()
+	protected function handleEmptyRequest( $request )
 	{
-		$countParameters = count($this->request);
+		$countParameters = count($request);
 		if($countParameters == 0)
 		{
 			$this->setState(self::STATE_EMPTY_REQUEST);
@@ -369,9 +439,9 @@ class Piwik_Tracker
 		}
 	}
 
-	protected function authenticateSuperUserOrAdmin()
+	protected function authenticateSuperUserOrAdmin( $request )
 	{
-		$tokenAuth = Piwik_Common::getRequestVar('token_auth', false);
+		$tokenAuth = $this->getTokenAuth();
 
 		if( $tokenAuth )
 		{
@@ -384,7 +454,7 @@ class Piwik_Tracker
 			}
 
 			// Now checking the list of admin token_auth cached in the Tracker config file
-			$idSite = Piwik_Common::getRequestVar('idsite', false, 'int', $this->request);
+			$idSite = Piwik_Common::getRequestVar('idsite', false, 'int', $request);
 			if(!empty($idSite)
 				&& $idSite > 0)
 			{
@@ -400,17 +470,27 @@ class Piwik_Tracker
 		}
 		return false;
 	}
+	
+	protected function getTokenAuth()
+	{
+		if (!is_null($this->tokenAuth))
+		{
+			return $this->tokenAuth;
+		}
+		
+		return Piwik_Common::getRequestVar('token_auth', false);
+	}
 
 	/**
 	 * This method allows to set custom IP + server time when using Tracking API.
 	 * These two attributes can be only set by the Super User (passing token_auth).
 	 */
-	protected function handleTrackingApi()
+	protected function handleTrackingApi( $request )
 	{
 		$shouldAuthenticate = Piwik_Config::getInstance()->Tracker['tracking_requests_require_authentication'];
 		if($shouldAuthenticate)
 		{
-			if(!$this->authenticateSuperUserOrAdmin())
+			if(!$this->authenticateSuperUserOrAdmin($request))
 			{
 				return;
 			}
@@ -422,21 +502,21 @@ class Piwik_Tracker
 		}
 
 		// Custom IP to use for this visitor
-		$customIp = Piwik_Common::getRequestVar('cip', false, 'string', $this->request);
+		$customIp = Piwik_Common::getRequestVar('cip', false, 'string', $request);
 		if(!empty($customIp))
 		{
 			$this->setForceIp($customIp);
 		}
 
 		// Custom server date time to use
-		$customDatetime = Piwik_Common::getRequestVar('cdt', false, 'string', $this->request);
+		$customDatetime = Piwik_Common::getRequestVar('cdt', false, 'string', $request);
 		if(!empty($customDatetime))
 		{
 			$this->setForceDateTime($customDatetime);
 		}
 
 		// Forced Visitor ID to record the visit / action
-		$customVisitorId = Piwik_Common::getRequestVar('cid', false, 'string', $this->request);
+		$customVisitorId = Piwik_Common::getRequestVar('cid', false, 'string', $request);
 		if(!empty($customVisitorId))
 		{
 			$this->setForceVisitorId($customVisitorId);

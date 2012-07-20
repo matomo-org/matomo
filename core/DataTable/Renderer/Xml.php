@@ -323,7 +323,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 			if(count($row) === 1
 				&& key($row) === 0)
 			{
-				$value = current($row);
+				$value = self::formatValueXml(current($row));
 				$out .= $prefixLine . $value;				
 			}
 			else

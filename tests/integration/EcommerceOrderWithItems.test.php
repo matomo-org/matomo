@@ -130,7 +130,7 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends Test_Integration_Fa
 
 			// test segment pageTitle 
 			array('VisitsSummary.get', array('idSite' => $this->idSite, 'date' => $this->dateTime,
-											 'periods' => array('day'), 'segment' => 'pageTitle==incredible%20title!',
+											 'periods' => array('day'), 'segment' => 'pageTitle==incredible title!',
 											 'testSuffix' => '_SegmentPageTitleMatch')),
 			
 			// test Live! output is OK also for the visit that just bought something (other visits leave an abandoned cart)

@@ -27,7 +27,7 @@ class Test_Piwik_Integration_RowEvolution extends Test_Integration_Facade
 				'period' => 'day',
 				'apiModule' => 'Referers',
 				'apiAction' => 'getWebsites',
-                'label' => urlencode('www.referrer2.com'),
+                'label' => 'www.referrer2.com',
                 'expanded' => 0
             )
         );
@@ -37,20 +37,20 @@ class Test_Piwik_Integration_RowEvolution extends Test_Integration_Facade
 		// Websites, hierarchical
 		$config['testSuffix'] = '_referrer2';
 		$referrerLabel = urlencode('www.referrer0.com').'>'.urlencode('theReferrerPage1.html');
-		$config['otherRequestParameters']['label'] = urlencode($referrerLabel);
+		$config['otherRequestParameters']['label'] = $referrerLabel;
 		$return[] = array('API.getRowEvolution', $config);
 		
 		// Websites, multiple labels including one hierarchical
 		$config['testSuffix'] = '_referrerMulti1';
 		$referrerLabel = urlencode($referrerLabel).','.urlencode('www.referrer2.com');
-		$config['otherRequestParameters']['label'] = urlencode($referrerLabel);
+		$config['otherRequestParameters']['label'] = $referrerLabel;
 		$return[] = array('API.getRowEvolution', $config);
 		
         // Keywords, label containing > and ,
 		$config['otherRequestParameters']['apiAction'] = 'getKeywords';
 		$config['testSuffix'] = '_LabelReservedCharacters';
 		$keywords = urlencode($this->keywords[0]).','.urlencode($this->keywords[1]);
-		$config['otherRequestParameters']['label'] = urlencode($keywords);
+		$config['otherRequestParameters']['label'] = $keywords;
 		$return[] = array('API.getRowEvolution', $config);
         
 		// Keywords, hierarchical
@@ -60,7 +60,7 @@ class Test_Piwik_Integration_RowEvolution extends Test_Integration_Facade
 					.',Google>'.urlencode(strtolower($this->keywords[1]))
 					.',Google>'.urlencode(strtolower($this->keywords[2]));
 		// Test multiple labels search engines, Google should also have a 'logo' entry
-		$config['otherRequestParameters']['label'] = urlencode($keywords) . ",Google";
+		$config['otherRequestParameters']['label'] = $keywords . ",Google";
 		$return[] = array('API.getRowEvolution', $config);
 		
 		// Actions > Pages titles, standard label
@@ -68,13 +68,13 @@ class Test_Piwik_Integration_RowEvolution extends Test_Integration_Facade
 		$config['periods'] = array('day', 'week');
 		$config['otherRequestParameters']['apiModule'] = 'Actions';
 		$config['otherRequestParameters']['apiAction'] = 'getPageTitles';
-		$config['otherRequestParameters']['label'] = urlencode('incredible title 0');
+		$config['otherRequestParameters']['label'] = 'incredible title 0';
 		$return[] = array('API.getRowEvolution', $config);
 		
 		// Actions > Page titles, multiple labels
 		$config['testSuffix'] = '_pageTitlesMulti';
 		$label = urlencode('incredible title 0').','.urlencode('incredible title 2');
-		$config['otherRequestParameters']['label'] = urlencode($label);
+		$config['otherRequestParameters']['label'] = $label;
 		$return[] = array('API.getRowEvolution', $config);
 		
 		// Actions > Page URLS, hierarchical label
@@ -83,7 +83,7 @@ class Test_Piwik_Integration_RowEvolution extends Test_Integration_Facade
 		$config['otherRequestParameters']['date'] = '2010-03-01,2010-03-06';
 		$config['otherRequestParameters']['apiModule'] = 'Actions';
 		$config['otherRequestParameters']['apiAction'] = 'getPageUrls';
-		$config['otherRequestParameters']['label'] = urlencode('my>dir>'.urlencode('/page3?foo=bar&baz=bar'));
+		$config['otherRequestParameters']['label'] = 'my>dir>'.urlencode('/page3?foo=bar&baz=bar');
 		$return[] = array('API.getRowEvolution', $config);
 		
 		return $return;

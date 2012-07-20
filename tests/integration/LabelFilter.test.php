@@ -42,7 +42,7 @@ class Test_Piwik_Integration_LabelFilter extends Test_Integration_Facade
                 'idSite' => $this->idSite,
                 'date' => $this->dateTime,
                 'otherRequestParameters' => array(
-                    'label' => urlencode($label),
+                    'label' => $label,
                     'expanded' => 0
                 )
             ));
@@ -55,7 +55,7 @@ class Test_Piwik_Integration_LabelFilter extends Test_Integration_Facade
             'date' => $this->dateTime,
             'otherRequestParameters' => array(
                 'date' => '2010-03-06,2010-03-08',
-                'label' => urlencode($label),
+                'label' => $label,
                 'expanded' => 0
             )
         ));
@@ -67,7 +67,7 @@ class Test_Piwik_Integration_LabelFilter extends Test_Integration_Facade
             'otherRequestParameters' => array(
 				// encode once for test framework and once for the label filter.
 				// note: title has no blank prefixed here. in the report it has.
-                'label' => urlencode(urlencode('incredible title! <>,;')),
+                'label' => urlencode('incredible title! <>,;'),
                 'expanded' => 0
             )
         ));
@@ -79,9 +79,9 @@ class Test_Piwik_Integration_LabelFilter extends Test_Integration_Facade
             'otherRequestParameters' => array(
                 'label' => 
 					'   '. // test trimming
-					urlencode(urlencode('incredible parent title! <>,;').
+					urlencode('incredible parent title! <>,;').
 					'>'.
-					urlencode('subtitle <>,;')),
+					urlencode('subtitle <>,;'),
                 'expanded' => 0
             )
         ));
@@ -92,13 +92,13 @@ class Test_Piwik_Integration_LabelFilter extends Test_Integration_Facade
             'idSite' => $this->idSite,
             'date' => $this->dateTime,
             'otherRequestParameters' => array(
-               	'label' => urlencode('Google>'.urlencode($keyword)),
+               	'label' => 'Google>'.urlencode($keyword),
                 'expanded' => 0
             )
         );
 		$return[] = array('Referers.getSearchEngines', $searchEngineTest);
 	
-		$searchEngineTest['otherRequestParameters']['label'] = urlencode('Google>'.urlencode(html_entity_decode($keyword)));
+		$searchEngineTest['otherRequestParameters']['label'] = 'Google>'.urlencode(html_entity_decode($keyword));
 		$return[] = array('Referers.getSearchEngines', $searchEngineTest);
 	
 		return $return;

@@ -27,6 +27,13 @@ Piwik_Config::getInstance()->PluginsInstalled['PluginsInstalled'] = array();
 // Do not run scheduled tasks during tests
 Piwik_Config::getInstance()->Tracker['scheduled_tasks_min_interval'] = 0;
 
+// if nothing found in _GET/_POST and we're doing a POST, assume bulk request. in which case, we have to bypass
+// authentication
+if (empty($_GET) && empty($_POST) && $_SERVER['REQUEST_METHOD'] == 'POST')
+{
+	Piwik_Config::getInstance()->Tracker['tracking_requests_require_authentication'] = 0;
+}
+
 // Tests can force the use of 3rd party cookie for ID visitor
 if(Piwik_Common::getRequestVar('forceUseThirdPartyCookie', false) == 1)
 {

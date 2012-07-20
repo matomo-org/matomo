@@ -192,15 +192,15 @@ class Piwik_API_DocumentationGenerator
 		$aParameters['flat'] = false;
 		$aParameters['include_aggregate_rows'] = false;
         $aParameters['filter_truncate'] = false;
-		
+        
 		$moduleName = Piwik_API_Proxy::getInstance()->getModuleNameFromClassName($class);
-		$urlExample = '?module=API&method='.$moduleName.'.'.$methodName.'&';
-		foreach($aParameters as $nameVariable=> $defaultValue)
+		$aParameters = array_merge(array('module' => 'API', 'method' => $moduleName.'.'.$methodName), $aParameters);
+		
+		foreach($aParameters as $nameVariable => &$defaultValue)
 		{
 			if(isset($knowExampleDefaultParametersValues[$nameVariable]))
 			{
-				$exampleValue = $knowExampleDefaultParametersValues[$nameVariable];
-				$urlExample .= $nameVariable . '=' . $exampleValue . '&';
+				$defaultValue = $knowExampleDefaultParametersValues[$nameVariable];
 			}
 			// if there isn't a default value for a given parameter, 
 			// we need a 'know default value' or we can't generate the link
@@ -209,7 +209,7 @@ class Piwik_API_DocumentationGenerator
 				return false;
 			}
 		}
-		return substr($urlExample,0,-1);
+		return '?'.Piwik_Url::getQueryStringFromParameters($aParameters);
 	}
 	
 	

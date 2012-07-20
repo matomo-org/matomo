@@ -25,6 +25,12 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends Test_Integration_Facade
 	public function getApiToTest()
 	{
 		$enExtraParam = array('expanded' => 1, 'flat' => 1, 'include_aggregate_rows' => 0, 'translateColumnNames' => 1);
+		$bulkUrls = array(
+			"idSite={$this->idSite}&date=2010-03-06&format=json&expanded=1&period=day&method=VisitsSummary.get",
+			"idSite={$this->idSite}&date=2010-03-06&format=xml&expanded=1&period=day&method=VisitsSummary.get",
+			"idSite={$this->idSite}&date=2010-03-06&format=json&expanded=1&period=day&method="
+				."VisitorInterest.getNumberOfVisitsPerVisitDuration"
+		);
 		return array(
 			array('all', array('idSite' => $this->idSite, 'date' => $this->dateTime)),
 			
@@ -34,6 +40,8 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends Test_Integration_Facade
 								   'periods' => array('month'), 'setDateLastN' => true,
 								   'otherRequestParameters' => $enExtraParam, 'language' => 'en',
 								   'testSuffix' => '_csv')),
+		   
+			array('API.getBulkRequest', array('otherRequestParameters' => array('urls' => $bulkUrls))),
 		);
 	}
 
