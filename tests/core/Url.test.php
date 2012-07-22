@@ -19,7 +19,8 @@ class Test_Piwik_Url extends UnitTestCase
     	$this->assertEqual(Piwik_Url::getCurrentQueryStringWithParametersModified(array()),Piwik_Url::getCurrentQueryString() );
     	
     	$expectedUrl = parse_url(Piwik_Url::getCurrentUrl());
-    	$expectedUrl = $expectedUrl['scheme'].'://'.$expectedUrl['host'].$expectedUrl['path'];
+    	$port = isset($expectedUrl['port']) ? ":{$expectedUrl['port']}" : '';
+    	$expectedUrl = $expectedUrl['scheme'].'://'.$expectedUrl['host'].$port.$expectedUrl['path'];
     	$this->assertEqual($expectedUrl, Piwik_Url::getCurrentUrlWithoutQueryString());
     	$this->assertEqual($expectedUrl, Piwik_Url::getCurrentScheme() . '://' . Piwik_Url::getCurrentHost() . Piwik_Url::getCurrentScriptName() );
     	
