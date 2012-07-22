@@ -100,7 +100,7 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 		$this->assertEqual( $matches[1], Piwik_Config::getInstance()->General['jquery_version'] );
 
 		$jqueryuiJs = file_get_contents( PIWIK_DOCUMENT_ROOT . '/libs/jquery/jquery-ui.js', false, NULL, 0, 512 );
-		$this->assertTrue( preg_match('/jQuery UI v?([0-9.]+)/', $jqueryuiJs, $matches) );
+		$this->assertTrue( preg_match('/jQuery UI (?:- v)?([0-9.]+)/', $jqueryuiJs, $matches) );
 		$this->assertEqual( $matches[1], Piwik_Config::getInstance()->General['jqueryui_version'] );
 
 
