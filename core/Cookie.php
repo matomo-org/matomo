@@ -158,8 +158,8 @@ class Piwik_Cookie
 					 . (empty($Domain) ? '' : '; domain=' . $Domain)
 					 . (!$Secure ? '' : '; secure')
 					 . (!$HTTPOnly ? '' : '; HttpOnly');
-
-		 header($header, false);
+		
+		Piwik_Common::sendHeader($header, false);
 	}
 
 	/**
@@ -167,7 +167,7 @@ class Piwik_Cookie
 	 */
 	protected function setP3PHeader()
 	{
-		header("P3P: CP='OTI DSP COR NID STP UNI OTPa OUR'");
+		Piwik_Common::sendHeader("P3P: CP='OTI DSP COR NID STP UNI OTPa OUR'");
 	}
 
 	/**

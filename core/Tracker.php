@@ -364,15 +364,15 @@ class Piwik_Tracker
 		if( !isset($GLOBALS['PIWIK_TRACKER_DEBUG']) || !$GLOBALS['PIWIK_TRACKER_DEBUG'] )
 		{
 			$trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
-			header('Content-Type: image/gif');
-			header('Access-Control-Allow-Origin: *');
+			$this->sendHeader('Content-Type: image/gif');
+			$this->sendHeader('Access-Control-Allow-Origin: *');
 			print(base64_decode($trans_gif_64));
 		}
 	}
 
 	protected function sendHeader($header)
 	{
-		header($header);
+		Piwik_Common::sendHeader($header);
 	}
 
 	protected function isVisitValid()
@@ -522,6 +522,74 @@ class Piwik_Tracker
 			$this->setForceVisitorId($customVisitorId);
 		}
 	}
+	
+	public static function setTestEnvironment( $args = null, $requestMethod = null )
+	{
+		if (is_null($args))
+		{
+			$args = $_GET + $_POST;
+		}
+		if (is_null($requestMethod))
+		{
+			$requestMethod = $_SERVER['REQUEST_METHOD'];
+		}
+		
+		// Do not run scheduled tasks during tests
+		Piwik_Config::getInstance()->Tracker['scheduled_tasks_min_interval'] = 0;
+		
+		// if nothing found in _GET/_POST and we're doing a POST, assume bulk request. in which case,
+		// we have to bypass authentication
+		if (empty($args) && $requestMethod == 'POST')
+		{
+			Piwik_Config::getInstance()->Tracker['tracking_requests_require_authentication'] = 0;
+		}
+
+		// Tests can force the use of 3rd party cookie for ID visitor
+		if(Piwik_Common::getRequestVar('forceUseThirdPartyCookie', false, null, $args) == 1)
+		{
+			Piwik_Config::getInstance()->Tracker['use_third_party_id_cookie'] = 1;
+		}
+		
+		// Tests can force the enabling of IP anonymization
+		$forceIpAnonymization = false;
+		if (Piwik_Common::getRequestVar('forceIpAnonymization', false, null, $args) == 1)
+		{
+			Piwik_Config::getInstance()->Tracker['ip_address_mask_length'] = 2;
+			$pluginsTracker = Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
+			$pluginsTracker[] = "AnonymizeIP";
+			Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'] = $pluginsTracker;
+			$forceIpAnonymization = true;
+		}
+		
+		// Custom IP to use for this visitor
+		$customIp = Piwik_Common::getRequestVar('cip', false, null, $args);
+		if(!empty($customIp)) 
+		{
+			self::setForceIp($customIp);
+		}
+
+		// Custom server date time to use
+		$customDatetime = Piwik_Common::getRequestVar('cdt', false, null, $args);
+		if(!empty($customDatetime))
+		{
+			self::setForceDateTime($customDatetime);
+		}
+
+		// Custom server date time to use
+		$customVisitorId = Piwik_Common::getRequestVar('cid', false, null, $args);
+		if(!empty($customVisitorId))
+		{
+			self::setForceVisitorId($customVisitorId);
+		}
+		$pluginsDisabled = array('Provider');
+		if(!$forceIpAnonymization)
+		{
+			$pluginsDisabled[] = 'AnonymizeIP';
+		}
+		
+		// Disable provider plugin, because it is so slow to do reverse ip lookup in dev environment somehow
+		self::setPluginsNotToLoad($pluginsDisabled);
+	}
 }
 
 if(!function_exists('printDebug'))
@@ -551,7 +619,7 @@ if(!function_exists('printDebug'))
  */
 function Piwik_Tracker_ExitWithException($e)
 {
-	header('Content-Type: text/html; charset=utf-8');
+	Piwik_Common::sendHeader('Content-Type: text/html; charset=utf-8');
 	if(isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG'])
 	{
 		$trailer = '<font color="#888888">Backtrace:<br /><pre>'.$e->getTraceAsString().'</pre></font>';
@@ -570,3 +638,4 @@ function Piwik_Tracker_ExitWithException($e)
 
 	exit;
 }
+

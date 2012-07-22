@@ -24,8 +24,18 @@ if(!defined('PIWIK_INCLUDE_SEARCH_PATH'))
 @ini_set('memory_limit', -1);
 error_reporting(E_ALL|E_NOTICE);
 @date_default_timezone_set('UTC');
-					
-require_once 'simpletest/autorun.php';
+
+$scriptName = $_SERVER['SCRIPT_NAME'];
+if (preg_match("/.benchmark.php$/", $scriptName) !== 0 || preg_match("/benchmark_runner.php/", $scriptName) !== 0)
+{
+	// don't run as test if requested page has benchmarks
+	require_once 'benchmark_runner.php';
+}
+else
+{
+	require_once 'simpletest/autorun.php';
+}
+
 require_once 'simpletest/mock_objects.php';
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';

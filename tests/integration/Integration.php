@@ -82,8 +82,19 @@ abstract class Test_Integration extends Test_Database_Base
 	static public $apiTestingLevel = self::COMPARE_API_OUTPUT;
 
 	const DEFAULT_USER_PASSWORD = 'nopass';
-
-	abstract function getPathToTestDirectory();
+	
+	/**
+	 * Whether to send tracking requests through CURL or to the Tracker directly.
+	 */
+	static public $useLocalTracking = false;
+	
+	/**
+	 * Path where expected/processed output files are stored. Can be overridden.
+	 */
+	public function getPathToTestDirectory()
+	{
+		return PIWIK_INCLUDE_PATH . '/tests/integration';
+	}
 
 	/**
 	 * Load english translations to ensure API response have english text
@@ -179,7 +190,16 @@ abstract class Test_Integration extends Test_Database_Base
 	 */
 	protected function getTracker($idSite, $dateTime, $defaultInit = true )
 	{
-		$t = new PiwikTracker( $idSite, $this->getTrackerUrl());
+		if (self::$useLocalTracking)
+		{
+			require_once PIWIK_INCLUDE_PATH.'/tests/LocalTracker.php';
+			$t = new Piwik_LocalTracker($idSite, $this->getTrackerUrl());
+		}
+		else
+		{
+			$t = new PiwikTracker( $idSite, $this->getTrackerUrl());
+		}
+		
 		$t->setForceVisitDateTime($dateTime);
 
 		if($defaultInit)
@@ -333,6 +353,11 @@ abstract class Test_Integration extends Test_Database_Base
 		if (isset($_GET['apiTestingLevel']))
 		{
 			self::setApiTestingLevel($_GET['apiTestingLevel']);
+		}
+		
+		if (isset($_GET['useLocalTracking']) && strtolower($_GET['useLocalTracking']) == 'true')
+		{
+			self::$useLocalTracking = true;
 		}
 	}
 
@@ -1270,14 +1295,6 @@ abstract class Test_Integration_Facade extends Test_Integration
 				$this->changeLanguage('en');
 			}
 		}
-	}
-
-	/**
-	 * Path where expected/processed output files are stored. Can be overridden.
-	 */
-	public function getPathToTestDirectory()
-	{
-		return PIWIK_INCLUDE_PATH . '/tests/integration';
 	}
 }
 

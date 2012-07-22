@@ -108,13 +108,13 @@ class Piwik_Common
  * Tracker
  */
 
+	static public $initTrackerMode = false;
 	static protected function initCorePiwikInTrackerMode()
 	{
-		static $init = false;
 		if(!empty($GLOBALS['PIWIK_TRACKER_MODE'])
-			&& $init === false)
+			&& self::$initTrackerMode === false)
 		{
-			$init = true;
+			self::$initTrackerMode = true;
 			require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 			require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
 			require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
@@ -1874,6 +1874,24 @@ class Piwik_Common
 			return "''";
 		}
 		return '?'.str_repeat(',?', $count-1);
+	}
+	
+	/**
+	 * Sets outgoing header.
+	 * 
+	 * @param string $header The header.
+	 * @param bool $replace Whether to replace existing or not.
+	 */
+	public static function sendHeader( $header, $replace = true )
+	{
+		if (isset($GLOBALS['PIWIK_TRACKER_LOCAL_TRACKING']) && $GLOBALS['PIWIK_TRACKER_LOCAL_TRACKING'])
+		{
+			@header($header, $replace);
+		}
+		else
+		{
+			header($header, $replace);
+		}
 	}
 }
 
