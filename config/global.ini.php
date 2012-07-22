@@ -247,8 +247,8 @@ multisites_refresh_after_seconds = 300
 use_ajax_cdn = 0
 
 ; required AJAX library versions
-jquery_version = 1.7.1
-jqueryui_version = 1.8.16
+jquery_version = 1.7.2
+jqueryui_version = 1.8.21
 swfobject_version = 2.2
 
 ; Set to 1 if you're using https on your Piwik server and Piwik can't detect it,
@@ -519,5 +519,5 @@ Plugins_Tracker[] = DoNotTrack
 SDK_batch_size = 10
 SDK_interval_value = 30
 
-; NOTE: do not directly in this file! See notice at the top
+; NOTE: do not directly edit this file! See notice at the top
  
