@@ -13,10 +13,6 @@ if (preg_match("/benchmark_runner.php$/", $_SERVER['SCRIPT_NAME']))
 		require_once $file;
 	}
 }
-else // otherwise just use SCRIPT_NAME
-{
-	require_once PIWIK_INCLUDE_PATH.$_SERVER['SCRIPT_NAME'];
-}
 
 function display_runner( $benchmarkGroups )
 {
