@@ -13,7 +13,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $this->globalConfig = _parse_ini_file(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php', true);
         parent::setUp();
     }
-    
+
     /**
      * @group Core
      * @group ReleaseCheckList
@@ -82,7 +82,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
                 throw new Exception("Plugin $pluginName is enabled by default but shouldn't.");
             }
         }
-        
+
     }
 
     /**
@@ -188,55 +188,55 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     public function testSvnKeywords()
     {
         /*
-         * Piwik's .php files have $Id$
+         * Piwik's .php files have $ Id $
          */
         $contents = file_get_contents($file = PIWIK_DOCUMENT_ROOT . '/index.php');
-        $this->assertTrue(strpos($contents, '$Id$file);
+        $this->assertTrue(strpos($contents, '$I'.'d: '.basename($file).' ') !== false, $file);
 
         $contents = file_get_contents($file = PIWIK_DOCUMENT_ROOT . '/piwik.php');
-        $this->assertTrue(strpos($contents, '$Id$file);
+        $this->assertTrue(strpos($contents, '$I'.'d: '.basename($file).' ') !== false, $file);
 
         foreach(Piwik::globr(PIWIK_DOCUMENT_ROOT . '/core', '*.php') as $file)
         {
             $contents = file_get_contents($file);
-            $this->assertTrue(strpos($contents, '$Id$file);
+            $this->assertTrue(strpos($contents, '$I'.'d: '.basename($file).' ') !== false, $file);
         }
 
         foreach(Piwik::globr(PIWIK_DOCUMENT_ROOT . '/plugins', '*.php') as $file)
         {
-            if(strpos($file, '/tests/') !== false 
+            if(strpos($file, '/tests/') !== false
                 || strpos($file, '/PhpSecInfo/') !== false
                 || strpos($file, '/config/') !== false
                 || strpos($file, 'tcpdf_config.php') !== false)
             {
                 continue;
             }
-            
+
             $contents = file_get_contents($file);
-            $this->assertTrue(strpos($contents, '$Id$file ." Please add '@version \$Id: \$' in the file header comments");
+            $this->assertTrue(strpos($contents, '$I'.'d: ') !== false, $file ." Please add '@version \$I"."d: \$' in the file header comments");
         }
 
         /*
-         * Piwik's .js files don't have $Id$
-         * @FIXME Why don't they have $Id ?
+         * Piwik's .js files don't have $ Id $
+         * @FIXME Why don't they have $ Id ?
          */
         $contents = file_get_contents($file = PIWIK_DOCUMENT_ROOT . '/piwik.js');
-        $this->assertTrue(strpos($contents, '$Id') === false, $file);
+        $this->assertTrue(strpos($contents, '$I'.'d') === false, $file);
 
         $contents = file_get_contents($file = PIWIK_DOCUMENT_ROOT . '/js/piwik.js');
-        $this->assertTrue(strpos($contents, '$Id') === false, $file);
+        $this->assertTrue(strpos($contents, '$I'.'d') === false, $file);
 
         foreach(Piwik::globr(PIWIK_DOCUMENT_ROOT . '/plugins', '*.js') as $file)
         {
             $contents = file_get_contents($file);
-            $found = strpos($contents, '$Id') !== false;
-            $this->assertTrue(!$found, $file, "Please Remove the string \$Id from the JS files");
+            $found = strpos($contents, '$I'.'d') !== false;
+            $this->assertTrue(!$found, $file, "Please Remove the string \$I"."d from the JS files");
         }
 
         foreach(Piwik::globr(PIWIK_DOCUMENT_ROOT . '/themes', '*.js') as $file)
         {
             $contents = file_get_contents($file);
-            $this->assertTrue(strpos($contents, '$Id') === false, $file);
+            $this->assertTrue(strpos($contents, '$I'.'d') === false, $file);
         }
     }
 
