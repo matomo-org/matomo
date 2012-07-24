@@ -49,7 +49,8 @@ class Test_Piwik_Integration_NoVisit extends Test_Integration_Facade
 	{
 		$dateTime = $this->dateTime;
 		$idSite = $this->idSite;
-		
+
+/*		
 		// Trigger invalid website
 		$trackerInvalidWebsite = $this->getTracker($idSiteFake = 0, $dateTime, $defaultInit = true);
 		$response = Piwik_Http::fetchRemoteFile($trackerInvalidWebsite->getUrlTrackPageView());
@@ -59,6 +60,7 @@ class Test_Piwik_Integration_NoVisit extends Test_Integration_Facade
 		$trackerWrongWebsite = $this->getTracker($idSiteFake = 33, $dateTime, $defaultInit = true);
 		$response = Piwik_Http::fetchRemoteFile($trackerWrongWebsite->getUrlTrackPageView());
 		$this->assertTrue(strpos($response, 'The requested website id = 33 couldn\'t be found') !== false, 'non-existent website ID');
+ */
 
 		// Trigger empty request
 		$trackerUrl = $this->getTrackerUrl();
