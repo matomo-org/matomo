@@ -311,6 +311,7 @@ abstract class Piwik_ViewDataTable
 		$this->viewProperties['relatedReports'] = array();
 		$this->viewProperties['title'] = 'unknown';
 		$this->viewProperties['self_url'] = $this->getBaseReportUrl($currentControllerName, $currentControllerAction);
+		$this->viewProperties['tooltip_metadata_name'] = false;
 		
 		$standardColumnNameToTranslation = array_merge(
 			Piwik_API_API::getInstance()->getDefaultMetrics(),
@@ -1248,6 +1249,14 @@ abstract class Piwik_ViewDataTable
 	public function setHighlightSummaryRow( $highlightSummaryRow )
 	{
 		$this->viewProperties['highlight_summary_row'] = $highlightSummaryRow;
+	}
+	
+	/**
+	 * Sets the name of the metadata to use for a custom tooltip.
+	 */
+	public function setTooltipMetadataName( $metadataName )
+	{
+		$this->viewProperties['tooltip_metadata_name'] = $metadataName;
 	}
 	
 	/**

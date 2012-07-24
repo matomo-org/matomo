@@ -939,7 +939,25 @@ dataTable.prototype =
 		truncationLimit += truncationOffset;
 		domElemToTruncate.truncate(truncationLimit);
 		
-		$('.truncated', domElemToTruncate).tooltip();
+		var tooltipElem = $('.truncated', domElemToTruncate),
+			customToolTipText = domElemToTruncate.attr('title');
+		
+		// if there's a title on the dom element, use this as the tooltip instead of
+		// the one set by the truncate plugin
+		if (customToolTipText)
+		{
+			// make sure browser doesn't add its own tooltip for the truncated element
+			if (tooltipElem[0])
+			{
+				tooltipElem.removeAttr('title');
+			}
+			
+			tooltipElem = domElemToTruncate;
+			tooltipElem.attr('title', customToolTipText);
+		}
+		
+		// use tooltip (tooltip text determined by the 'title' attribute)
+		tooltipElem.tooltip();
 	},
 
 	//Apply some miscelleaneous style to the DataTable
