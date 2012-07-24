@@ -149,10 +149,10 @@ class Piwik_Tracker
 	 */
 	public function main()
 	{
-		$this->outputTransparentGif();
-
 		if (!empty($this->requests))
 		{
+			$this->outputTransparentGif();
+
 			// handle all visits
 			foreach ($this->requests as $request)
 			{
@@ -238,6 +238,7 @@ class Piwik_Tracker
 
 			case self::STATE_EMPTY_REQUEST:
 				printDebug("Empty request => Piwik page");
+				echo "<a href='/'>Piwik</a> is a free open source <a href='http://piwik.org'>web analytics</a> alternative to Google analytics.";
 			break;
 
 			case self::STATE_NOSCRIPT_REQUEST:
