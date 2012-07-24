@@ -4,7 +4,9 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 	require_once dirname(__FILE__)."/../../../tests/config_test.php";
 }
 
-class Test_Piwik_jsProxy extends UnitTestCase
+require_once 'Database.test.php';
+
+class Test_Piwik_jsProxy extends Test_Database
 {
 	function test_piwik_js()
 	{
