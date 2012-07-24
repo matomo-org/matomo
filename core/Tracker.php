@@ -149,6 +149,8 @@ class Piwik_Tracker
 	 */
 	public function main()
 	{
+		$this->outputTransparentGif();
+
 		if (!empty($this->requests))
 		{
 			// handle all visits
@@ -232,19 +234,16 @@ class Piwik_Tracker
 		{
 			case self::STATE_LOGGING_DISABLE:
 				printDebug("Logging disabled, display transparent logo");
-				$this->outputTransparentGif();
 			break;
 
 			case self::STATE_EMPTY_REQUEST:
 				printDebug("Empty request => Piwik page");
-				echo "<a href='/'>Piwik</a> is a free open source <a href='http://piwik.org'>web analytics</a> alternative to Google analytics.";
 			break;
 
 			case self::STATE_NOSCRIPT_REQUEST:
 			case self::STATE_NOTHING_TO_NOTICE:
 			default:
 				printDebug("Nothing to notice => default behaviour");
-				$this->outputTransparentGif();
 			break;
 		}
 		printDebug("End of the page.");
@@ -620,21 +619,16 @@ if(!function_exists('printDebug'))
 function Piwik_Tracker_ExitWithException($e)
 {
 	Piwik_Common::sendHeader('Content-Type: text/html; charset=utf-8');
+
 	if(isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG'])
 	{
 		$trailer = '<font color="#888888">Backtrace:<br /><pre>'.$e->getTraceAsString().'</pre></font>';
-	}
-	else
-	{
-		$trailer = '<p>Edit the following line in piwik.php to enable tracker debugging and display a backtrace:</p>
-					<blockquote><pre>$GLOBALS[\'PIWIK_TRACKER_DEBUG\'] = true;</pre></blockquote>';
-	}
+		$headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_header.tpl');
+		$footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_footer.tpl');
+		$headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
 
-	$headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_header.tpl');
-	$footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_footer.tpl');
-	$headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
-
-	echo $headerPage . '<p>' . $e->getMessage() . '</p>' . $trailer . $footerPage;
+		echo $headerPage . '<p>' . $e->getMessage() . '</p>' . $trailer . $footerPage;
+	}
 
 	exit;
 }
