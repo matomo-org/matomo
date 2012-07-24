@@ -217,8 +217,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         }
 
         /*
-         * Piwik's .js files don't have $ Id $
-         * @FIXME Why don't they have $ Id ?
+         * Piwik's .js files don't have $ Id $ (information disclosure)
          */
         $contents = file_get_contents($file = PIWIK_DOCUMENT_ROOT . '/piwik.js');
         $this->assertTrue(strpos($contents, '$I'.'d') === false, $file);
