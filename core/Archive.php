@@ -345,7 +345,7 @@ abstract class Piwik_Archive
 			{
 				return 0;
 			}
-			return $value;
+			return (float)$value;
 		}
 
 		// Round up the value with 2 decimals

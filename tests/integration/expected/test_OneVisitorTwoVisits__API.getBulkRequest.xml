@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<row>{&quot;nb_uniq_visitors&quot;:&quot;1&quot;,&quot;nb_visits&quot;:&quot;2&quot;,&quot;nb_actions&quot;:&quot;8&quot;,&quot;nb_visits_converted&quot;:&quot;2&quot;,&quot;bounce_count&quot;:&quot;1&quot;,&quot;sum_visit_length&quot;:&quot;1621&quot;,&quot;max_actions&quot;:&quot;7&quot;,&quot;bounce_rate&quot;:&quot;50%&quot;,&quot;nb_actions_per_visit&quot;:4,&quot;avg_time_on_site&quot;:811}</row>
+	<row>{&quot;nb_uniq_visitors&quot;:1,&quot;nb_visits&quot;:2,&quot;nb_actions&quot;:8,&quot;nb_visits_converted&quot;:2,&quot;bounce_count&quot;:1,&quot;sum_visit_length&quot;:1621,&quot;max_actions&quot;:7,&quot;bounce_rate&quot;:&quot;50%&quot;,&quot;nb_actions_per_visit&quot;:4,&quot;avg_time_on_site&quot;:811}</row>
 	<row>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
 &lt;result&gt;
 	&lt;nb_uniq_visitors&gt;1&lt;/nb_uniq_visitors&gt;
