@@ -465,7 +465,7 @@ class Piwik_DataTable
 	public function getRowFromLabel( $label )
 	{
 		$rowId = $this->getRowIdFromLabel($label);
-		if(is_int($rowId))
+		if(is_int($rowId) && isset($this->rows[$rowId]))
 		{
 			return $this->rows[$rowId];
 		}
