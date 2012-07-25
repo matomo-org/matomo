@@ -62,46 +62,6 @@ class Piwik_Tracker
 	 */
 	private $tokenAuth = null;
 
-	public function __construct($args = null)
-	{
-		if (!empty($args) || !empty($_GET) || !empty($_POST))
-		{
-			$this->requests = $args ? $args : array($_GET + $_POST);
-		}
-		else
-		{
-			// doing bulk tracking. POST data can be array of string URLs or array of arrays w/ visit info
-			$rawData = file_get_contents("php://input");
-			$jsonData = Piwik_Common::json_decode($rawData, $assoc = true);
-			
-			if (isset($jsonData['requests']))
-			{
-				$this->requests = $jsonData['requests'];
-			}
-			
-			$this->tokenAuth = Piwik_Common::getRequestVar('token_auth', false, null, $jsonData);
-			
-			if (!empty($this->requests))
-			{
-				foreach ($this->requests as &$request)
-				{
-					// if a string is sent, we assume its a URL and try to parse it
-					if (is_string($request))
-					{
-						$params = array();
-					
-						$url = @parse_url($request);
-						if (!empty($url))
-						{
-							@parse_str($url['query'], $params);
-							$request = $params;
-						}
-					}
-				}
-			}
-		}
-	}
-	
 	public static function setForceIp($ipString)
 	{
 		self::$forcedIpString = $ipString;
@@ -144,11 +104,66 @@ class Piwik_Tracker
 		return self::$pluginsNotToLoad;
 	}
 
+	protected function initRequests()
+	{
+		if (!empty($args) || !empty($_GET))
+		{
+			// Still reading $_POST here in case some users depend on it
+			$this->requests = $args ? $args : array($_GET + $_POST);
+		}
+		else
+		{
+			// doing bulk tracking. POST data can be array of string URLs or array of arrays w/ visit info
+			$rawData = file_get_contents("php://input");
+			$jsonData = Piwik_Common::json_decode($rawData, $assoc = true);
+			
+			if (isset($jsonData['requests']))
+			{
+				$this->requests = $jsonData['requests'];
+			}
+			$this->tokenAuth = Piwik_Common::getRequestVar('token_auth', false, null, $jsonData);
+			if(empty($this->tokenAuth))
+			{
+				throw new Exception(" token_auth must be specified when using Bulk Tracking Import. See <a href='http://piwik.org/docs/tracking-api/reference/'>Tracking Doc</a>");
+			}
+			if (!empty($this->requests))
+			{
+				$idSiteForAuthentication = 0;
+				
+				foreach ($this->requests as &$request)
+				{
+					// if a string is sent, we assume its a URL and try to parse it
+					if (is_string($request))
+					{
+						$params = array();
+					
+						$url = @parse_url($request);
+						if (!empty($url))
+						{
+							@parse_str($url['query'], $params);
+							$request = $params;
+							if(isset($request['idsite']) && !$idSiteForAuthentication)
+							{
+								$idSiteForAuthentication = $request['idsite'];
+							}
+						}
+					}
+				}
+				
+				if(!$this->authenticateSuperUserOrAdmin(array('idsite' => $idSiteForAuthentication)))
+				{
+					throw new Exception(" token_auth specified is not valid for site ". intval($idSiteForAuthentication));
+				}
+			}
+		}
+	}
+	
 	/**
 	 * Main
 	 */
 	public function main()
 	{
+		$this->initRequests();
 		if (!empty($this->requests))
 		{
 			$this->outputTransparentGif();
@@ -443,31 +458,33 @@ class Piwik_Tracker
 	{
 		$tokenAuth = $this->getTokenAuth();
 
-		if( $tokenAuth )
+		if( !$tokenAuth )
 		{
-			$superUserLogin =  Piwik_Config::getInstance()->superuser['login'];
-			$superUserPassword = Piwik_Config::getInstance()->superuser['password'];
-			if( md5($superUserLogin . $superUserPassword ) == $tokenAuth )
+			return false;
+		}
+		$superUserLogin =  Piwik_Config::getInstance()->superuser['login'];
+		$superUserPassword = Piwik_Config::getInstance()->superuser['password'];
+		if( md5($superUserLogin . $superUserPassword ) == $tokenAuth )
+		{
+			$this->authenticated = true;
+			return true;
+		}
+
+		// Now checking the list of admin token_auth cached in the Tracker config file
+		$idSite = Piwik_Common::getRequestVar('idsite', false, 'int', $request);
+		if(!empty($idSite)
+			&& $idSite > 0)
+		{
+			$website = Piwik_Common::getCacheWebsiteAttributes( $idSite );
+			$adminTokenAuth = $website['admin_token_auth'];
+			if(in_array($tokenAuth, $adminTokenAuth))
 			{
 				$this->authenticated = true;
 				return true;
 			}
-
-			// Now checking the list of admin token_auth cached in the Tracker config file
-			$idSite = Piwik_Common::getRequestVar('idsite', false, 'int', $request);
-			if(!empty($idSite)
-				&& $idSite > 0)
-			{
-				$website = Piwik_Common::getCacheWebsiteAttributes( $idSite );
-				$adminTokenAuth = $website['admin_token_auth'];
-				if(in_array($tokenAuth, $adminTokenAuth))
-				{
-					$this->authenticated = true;
-					return true;
-				}
-			}
-			printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin was NOT authenticated");
 		}
+		printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin was NOT authenticated");
+		
 		return false;
 	}
 	
