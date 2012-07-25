@@ -176,11 +176,17 @@ $(document).ready(function() {
 					error: piwikHelper.ajaxHandleError,		// Callback when the request fails
 					success: function() {
 						$('#deleteSchedulingSettings .loadingPiwik').hide();
-						$(link).show();
 						
 						// force reload
 						$('#deleteDataEstimate').html('');
 						reloadDbStats();
+						
+						// show 'db purged' message
+						$('#db-purged-message').fadeIn('slow');
+						setTimeout( function(){
+							// hide 'db purged' message & show link
+							$('#db-purged-message').fadeOut('slow', function(){ $(link).show(); });
+						}, 2000);
 					}
 				});
 			}

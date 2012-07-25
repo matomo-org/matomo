@@ -198,6 +198,7 @@ See also our official guide <b><a href='http://piwik.org/privacy/' target='_blan
 					{$deleteData.nextRunPretty}
 					<br/><br/><em><a id="purgeDataNowLink" href="#">{'PrivacyManager_PurgeNow'|translate}</a></em>
 					<span class='loadingPiwik' style='display:none'><img src='./themes/default/images/loading-blue.gif' /> {'PrivacyManager_PurgingData'|translate}</span>
+					<span id="db-purged-message" style="display: none;"><em>DB purged.</em></span>
 				{/capture}
 				{$purgeStats|inlineHelp}
 			</td>
