@@ -104,7 +104,7 @@ class Piwik_Tracker
 		return self::$pluginsNotToLoad;
 	}
 
-	protected function initRequests()
+	protected function initRequests($args)
 	{
 		if (!empty($args) || !empty($_GET))
 		{
@@ -159,11 +159,13 @@ class Piwik_Tracker
 	}
 	
 	/**
-	 * Main
+	 * Main - tracks the visit/action
+	 * 
+	 * @param array $args Optional Request Array
 	 */
-	public function main()
+	public function main($args = null)
 	{
-		$this->initRequests();
+		$this->initRequests($args);
 		if (!empty($this->requests))
 		{
 			$this->outputTransparentGif();
