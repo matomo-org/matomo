@@ -440,9 +440,12 @@ abstract class Piwik_ViewDataTable
 	/**
 	 * Hook called after the dataTable has been loaded from the API
 	 * Can be used to add, delete or modify the data freshly loaded
+	 * 
+	 * @param bool $skipLimit Whether to skip the Limit generic filter.
+	 *                        Used by graphs.
 	 * @return bool
 	 */
-	protected function postDataTableLoadedFromAPI()
+	protected function postDataTableLoadedFromAPI( $skipLimit = false )
 	{
 		if(empty($this->dataTable))
 		{
@@ -480,6 +483,12 @@ abstract class Piwik_ViewDataTable
 			{
 				$request['filter_sort_column'] = $request['filter_sort_order'] = '';
 			}
+			
+			if ($skipLimit)
+			{
+				$request['filter_offset'] = $request['filter_limit'] = '';
+			}
+			
 			$genericFilter = new Piwik_API_DataTableGenericFilter($request);
 			$genericFilter->filter($this->dataTable);
 		}
