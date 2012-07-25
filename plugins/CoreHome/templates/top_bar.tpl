@@ -24,4 +24,9 @@
 
 </div>
 
-{if $showSitesSelection}{include file="CoreHome/templates/sites_selection.tpl"}{/if}
+{if $showSitesSelection}
+<div class="top_bar_sites_selector">
+    <label>{'General_Website'|translate}</label>
+    {include file="CoreHome/templates/sites_selection.tpl"}
+</div>
+{/if}

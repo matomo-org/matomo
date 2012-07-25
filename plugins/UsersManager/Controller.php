@@ -145,6 +145,15 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 			$defaultReport = $this->getDefaultWebsiteId();
 		}
 		$view->defaultReport = $defaultReport;
+		
+		if ($defaultReport == 'MultiSites')
+		{
+			$view->defaultReportSiteName = Piwik_Site::getNameFor($this->getDefaultWebsiteId());
+		}
+		else
+		{
+			$view->defaultReportSiteName = Piwik_Site::getNameFor($defaultReport);
+		}
 
 		$view->defaultDate = $this->getDefaultDateForUser($userLogin);
 		$view->availableDefaultDates = array(

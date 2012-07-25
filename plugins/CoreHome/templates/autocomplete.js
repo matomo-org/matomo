@@ -21,6 +21,13 @@ function switchSite(id, name)
     return false;
 }
 
+// global function that is executed when the user selects a new site.
+// can be overridden to customize behavior (see UsersManager)
+window.autocompleteOnNewSiteSelect = function(siteId, siteName)
+{
+	switchSite(siteId, siteName);
+};
+
 $(function() {
 	if($('#websiteSearch').length == 0)
 	{
@@ -50,7 +57,14 @@ $(function() {
 			else
 			{
 				if(ui.item.id > 0) {
-				    switchSite(ui.item.id, ui.item.name);
+					// set attributes of selected site display (what shows in the box)
+					$("#sitesSelectionSearch .custom_select_main_link")
+                		.attr('siteid', ui.item.id)
+                		.text(ui.item.name);
+                	// hide the dropdown
+        			$("#sitesSelectionSearch .custom_select_block").toggleClass("custom_select_block_show");
+        			// fire the site selected event
+					window.autocompleteOnNewSiteSelect(ui.item.id, ui.item.name);
 				} else {
 					reset();
 				}
@@ -83,7 +97,6 @@ $(function() {
 			$("#siteSelect.ui-autocomplete").css('left', '-6px');
 			$("#siteSelect.ui-autocomplete").width(parseInt(widthSitesSelection));
 			$(".custom_select_block_show").width(parseInt(widthSitesSelection));
-
 		}
 	}).data("autocomplete")._renderItem = function( ul, item ) {
 		$(ul).attr('id', 'siteSelect');

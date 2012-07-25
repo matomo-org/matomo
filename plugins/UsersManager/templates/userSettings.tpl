@@ -41,11 +41,14 @@
 	<fieldset>
 		<label><input type="radio" value="MultiSites" name="defaultReport"{if $defaultReport=='MultiSites'} checked="checked"{/if} /> {'General_AllWebsitesDashboard'|translate}</label><br />
 		<label><input type="radio" value="1" name="defaultReport"{if $defaultReport!='MultiSites'} checked="checked"{/if} /> {'General_DashboardForASpecificWebsite'|translate}</label> 
-		<select id="defaultReportWebsite">
-		   {if isset($sites)}{foreach from=$sites item=info}
-		   		<option value="{$info.idsite}" {if $defaultReport==$info.idsite} selected="selected"{/if}>{$info.name}</option>
-		   {/foreach}{/if}
-		</select>
+		{assign var=siteName value="$defaultReportSiteName"}
+		{include file="CoreHome/templates/sites_selection.tpl"}
+		{literal}
+		<script type="text/javascript">
+			// make sure nothing happens when an item is selected
+			window.autocompleteOnNewSiteSelect = function() {};
+		</script>
+		{/literal}
 	</fieldset>
 	</td>
 </tr>

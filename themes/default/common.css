@@ -220,20 +220,29 @@ a {
 }
 
 /*sites_autocomplete*/
-.sites_autocomplete{ 
+.sites_autocomplete{
+	position: absolute;
+	font-size:12px;
+	display: inline-block;
+	padding-left: 12px;
+}
+.top_bar_sites_selector{ 
 	position:absolute; 
 	top:65px; 
 	right:0;
+}
+.top_bar_sites_selector>label{
+	display:inline-block; 
+	padding:7px 0 6px 0;
+	float:left; 
 	font-size:12px;
+}
+.top_bar_sites_selector>.sites_autocomplete{
+	position:static;
 }
 .autocompleteMatched {
 	color:#5256BE;
 	font-weight:bold;
-}
-.sites_autocomplete label{
-	display:inline-block; 
-	padding:7px 12px 6px 0;
-	float:left; 
 }
 
 .sites_autocomplete .custom_select{
