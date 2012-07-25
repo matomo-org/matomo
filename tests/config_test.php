@@ -49,9 +49,11 @@ function dump($var)
 	print("</pre>");
 }
 
-function printDebug($text)
-{
-	return;
+if(!function_exists('printDebug')) {
+    function printDebug($text)
+    {
+        return;
+    }
 }
 
 require_once PIWIK_INCLUDE_PATH .'/core/Loader.php';

@@ -45,7 +45,6 @@
 
 <php>
     <server name="HTTP_HOST" value="local"/>
-    <server name="PATH_INFO" value=""/>
     <server name="REQUEST_URI" value="/piwik/tests/all_tests.php"/>
     <server name="REMOTE_ADDR" value="127.0.0.1"/>
 </php>
