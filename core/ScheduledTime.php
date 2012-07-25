@@ -62,7 +62,6 @@ abstract class Piwik_ScheduledTime
 	abstract public function setDay($_day);
 
 	/**
-     * @abstract
 	 * @param  int $_hour the hour to set, has to be >= 0 and < 24
 	 * @throws Exception if method not supported by subclass or parameter _hour is invalid
 	 */
