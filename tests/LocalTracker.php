@@ -78,9 +78,9 @@ class Piwik_LocalTracker extends PiwikTracker
 		// do tracking and capture output
 		ob_start();
 		
-		$localTracker = new Piwik_Tracker($requests);
+		$localTracker = new Piwik_Tracker();
 		try {
-			$localTracker->main();
+			$localTracker->main($requests);
 		} catch(Exception $e) {
 			echo "Error:" . $e->getMessage();
 		}

@@ -113,8 +113,13 @@ class Piwik_Tracker
 		}
 		else
 		{
-			// doing bulk tracking. POST data can be array of string URLs or array of arrays w/ visit info
 			$rawData = file_get_contents("php://input");
+			if (empty($rawData))
+			{
+				return;
+			}
+			
+			// doing bulk tracking. POST data can be array of string URLs or array of arrays w/ visit info
 			$jsonData = Piwik_Common::json_decode($rawData, $assoc = true);
 			
 			if (isset($jsonData['requests']))
