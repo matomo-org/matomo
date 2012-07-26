@@ -14,7 +14,6 @@ require_once dirname(__FILE__).'/TwoVisitsWithCustomVariablesTest.php';
  */
 class Test_Piwik_Integration_CsvExport extends Test_Piwik_Integration_TwoVisitsWithCustomVariables
 {
-
     protected $useEscapedQuotes  = false;
     protected $doExtraQuoteTests = false;
 

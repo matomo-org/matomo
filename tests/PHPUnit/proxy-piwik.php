@@ -26,6 +26,9 @@ Piwik_Config::getInstance()->setTestEnvironment();
 Piwik_Config::getInstance()->PluginsInstalled['PluginsInstalled'] = array();
 
 Piwik_Tracker::setTestEnvironment();
+Piwik_DataTable_Manager::getInstance()->deleteAll();
+Piwik_Option::getInstance()->clearCache();
+Piwik_Site::clearCache();
 Piwik_Common::deleteTrackerCache();
 
 include '../../piwik.php';

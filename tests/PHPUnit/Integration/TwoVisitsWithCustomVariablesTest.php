@@ -53,16 +53,12 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends IntegrationTes
         return 'twoVisitsWithCustomVariables';
     }
 
-    public function setUp()
+    protected function setUpWebsitesAndGoals()
     {
-        parent::setUp();
-
         // tests run in UTC, the Tracker in UTC
         $this->createWebsite($this->dateTime);
         Piwik_Goals_API::getInstance()->addGoal($this->idSite, 'triggered js', 'manually', '', '');
         Piwik_Goals_API::getInstance()->addGoal($this->idSite, 'second goal', 'manually', '', '');
-
-        $this->trackVisits();
     }
 
     protected function trackVisits()

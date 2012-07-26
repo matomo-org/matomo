@@ -20,14 +20,17 @@ class Test_Piwik_Integration_ApiGetReportMetadata extends IntegrationTestCase
     protected $idGoal2  = 2;
     protected $idGoal3  = 3;
 
-    public function setUp()
+    protected function setUpWebsitesAndGoals()
     {
-        parent::setUp();
         $this->createWebsite($this->dateTime, $ecommerce = 1);
         Piwik_Goals_API::getInstance()->addGoal($this->idSite, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
         Piwik_Goals_API::getInstance()->addGoal($this->idSite, 'Goal 2 - Hello', 'url', 'hellow', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 0);
         Piwik_Goals_API::getInstance()->addGoal($this->idSite, 'triggered js', 'manually', '', '');
-        $this->trackVisits();
+    }
+
+    public function setUp()
+    {
+        parent::setUp();
 
         // From Piwik 1.5, we hide Goals.getConversions and other get* methods via @ignore, but we ensure that they still work
         // This hack allows the API proxy to let us generate example URLs for the ignored functions

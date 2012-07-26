@@ -76,7 +76,14 @@ abstract class IntegrationTestCase extends DatabaseTestCase
             // disable shuffling of tag cloud visualization so output is consistent
             Piwik_Visualization_Cloud::$debugDisableShuffle = true;
         }
+
+        $this->setUpWebsitesAndGoals();
+        $this->trackVisits();
     }
+
+    abstract protected function setUpWebsitesAndGoals();
+
+    abstract protected function trackVisits();
 
     public function tearDown()
     {

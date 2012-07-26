@@ -42,11 +42,13 @@ require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
 $_COOKIE = array();
 
-function dump($var)
-{
-	print("<pre>");
-	var_export($var);
-	print("</pre>");
+if(function_exists('dump')) {
+    function dump($var)
+    {
+        print("<pre>");
+        var_export($var);
+        print("</pre>");
+    }
 }
 
 if(!function_exists('printDebug')) {
