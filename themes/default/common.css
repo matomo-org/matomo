@@ -345,7 +345,7 @@ a {
 /*------------------------*/
 
 
-#javascriptDisable, #javascriptDisable a {
+#javascriptDisabled, #javascriptDisabled a {
 	font-weight: bold;
 	color: #F88D22;
 	padding:15px;

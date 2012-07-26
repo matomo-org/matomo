@@ -15,7 +15,7 @@
 	<ul><li>{$helpMessage}</li></ul></p>
 {else}
 	{if $coreToUpdate || count($pluginNamesToUpdate) > 0}
-		<p style='font-size:110%;padding-top:1em;'><b>{'CoreUpdater_DatabaseUpgradeRequired'|translate}</b></p>
+		<p style='font-size:110%;padding-top:1em;'><b id='titleUpdate'>{'CoreUpdater_DatabaseUpgradeRequired'|translate}</b></p>
 		<p>{'CoreUpdater_YourDatabaseIsOutOfDate'|translate}</p>
 
 		{if $coreToUpdate}
@@ -27,7 +27,7 @@
 			<p>{'CoreUpdater_TheFollowingPluginsWillBeUpgradedX'|translate:$listOfPlugins}</p>
 		{/if}
 
-		<h4>{'CoreUpdater_NoteForLargePiwikInstances'|translate}</h4>
+		<h3 id='titleUpdate'>{'CoreUpdater_NoteForLargePiwikInstances'|translate}</h3>
 		<ul>
 		<li>{'CoreUpdater_TheUpgradeProcessMayFailExecuteCommand'|translate:$commandUpgradePiwik}</li>
 		<li>It is also recommended for high traffic Piwik servers to <a target='_blank' href='?module=Proxy&action=redirect&url={"http://piwik.org/faq/how-to/#faq_111"|escape:"url"}'>momentarily disable visitor Tracking and put the Piwik User Interface in maintenance mode</a>.</li>
@@ -44,7 +44,7 @@
 		</li>
 		</ul>
 		<br /><br />
-		<h4>{'CoreUpdater_ReadyToGo'|translate}</h4>
+		<h4 id='titleUpdate'>{'CoreUpdater_ReadyToGo'|translate}</h4>
 		<p>{'CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient'|translate}</p>
 	{/if}
 

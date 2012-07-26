@@ -1,4 +1,4 @@
-#simple body { 
+body#simple  { 
 	background: #eee; 
 }
 #contentsimple {
@@ -20,6 +20,12 @@
 	margin-left:15px;
 	color: #6B320B;
     font-size: 15pt;
+}
+
+#titleUpdate {
+	font-size: 18px;
+ 	color: #7e7363;
+	clear:both;
 }
 #subh1 a {
 	color: #6B320B;

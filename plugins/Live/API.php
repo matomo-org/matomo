@@ -112,8 +112,8 @@ class Piwik_Live_API
 	 * You can define any number of filters: none, one, many or all parameters can be defined
 	 *
 	 * @param int $idSite Site ID
-	 * @param bool|string $period (optional) Period to restrict to when looking at the logs
-	 * @param bool|string $date (optional) Date to restrict to
+	 * @param bool|string $period Period to restrict to when looking at the logs
+	 * @param bool|string $date Date to restrict to
 	 * @param bool|int $segment (optional) Number of visits rows to return
 	 * @param bool|int $filter_limit (optional)
 	 * @param bool|int $maxIdVisit (optional) Maximum idvisit to restrict the query to (useful when paginating)
@@ -121,7 +121,7 @@ class Piwik_Live_API
 	 *
 	 * @return Piwik_DataTable
 	 */
-	public function getLastVisitsDetails( $idSite, $period = false, $date = false, $segment = false, $filter_limit = false, $maxIdVisit = false, $minTimestamp = false )
+	public function getLastVisitsDetails( $idSite, $period, $date, $segment = false, $filter_limit = false, $maxIdVisit = false, $minTimestamp = false )
 	{
 		if(empty($filter_limit)) 
 		{
@@ -136,6 +136,7 @@ class Piwik_Live_API
 	/**
 	 * @deprecated
 	 */
+	
 	public function getLastVisits( $idSite, $filter_limit = 10, $minTimestamp = false )
 	{
 		return $this->getLastVisitsDetails($idSite, $period = false, $date = false, $segment = false, $filter_limit, $maxIdVisit = false, $minTimestamp );
