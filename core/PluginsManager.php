@@ -79,6 +79,42 @@ class Piwik_PluginsManager
 	}
 
 	/**
+	 * Update Plugins config
+	 *
+	 * @param array $plugins Plugins
+	 */
+	private function updatePluginsConfig($plugins)
+	{
+		$section = Piwik_Config::getInstance()->Plugins;
+		$section['Plugins'] = $plugins;
+		Piwik_Config::getInstance()->Plugins = $section;
+	}
+
+	/**
+	 * Update Plugins_Tracker config
+	 *
+	 * @param array $plugins Plugins
+	 */
+	private function updatePluginsTrackerConfig($plugins)
+	{
+		$section = Piwik_Config::getInstance()->Plugins_Tracker;
+		$section['Plugins_Tracker'] = $plugins;
+		Piwik_Config::getInstance()->Plugins_Tracker = $section;
+	}
+
+	/**
+	 * Update Plugins_Installed config
+	 *
+	 * @param array $plugins Plugins
+	 */
+	private function updatePluginsInstalledConfig($plugins)
+	{
+		$section = Piwik_Config::getInstance()->Plugins_Installed;
+		$section['Plugins_Installed'] = $plugins;
+		Piwik_Config::getInstance()->Plugins_Installed = $section;
+	}
+
+	/**
 	 * Returns true if plugin is always activated
 	 *
 	 * @param string  $name  Name of plugin
@@ -133,14 +169,14 @@ class Piwik_PluginsManager
 	{
 		$plugins = $this->pluginsToLoad;
 		$key = array_search($pluginName, $plugins);
-		
+
 		$plugin = $this->loadPlugin($pluginName);
 		$plugin->deactivate();
-		
+
 		if($key !== false)
 		{
 			unset($plugins[$key]);
-			Piwik_Config::getInstance()->Plugins['Plugins'] = $plugins;
+			$this->updatePluginsConfig($plugins);
 		}
 
 		$pluginsTracker = Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
@@ -150,7 +186,7 @@ class Piwik_PluginsManager
 			if($key !== false)
 			{
 				unset($pluginsTracker[$key]);
-				Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'] = $pluginsTracker;
+				$this->updatePluginsTrackerConfig($pluginsTracker);
 			}
 		}
 
@@ -199,7 +235,7 @@ class Piwik_PluginsManager
 		$this->installPluginIfNecessary($plugin);
 
 		$plugin->activate();
-		
+
 		// we add the plugin to the list of activated plugins
 		if(!in_array($pluginName, $plugins))
 		{
@@ -212,7 +248,7 @@ class Piwik_PluginsManager
 		}
 
 		// the config file will automatically be saved with the new plugin
-		Piwik_Config::getInstance()->Plugins['Plugins'] = $plugins;
+		$this->updatePluginsConfig($plugins);
 		Piwik_Config::getInstance()->forceSave();
 
 		// Delete merged js/css files to force regenerations to include the activated plugin
@@ -459,7 +495,7 @@ class Piwik_PluginsManager
 		try{
 			$plugin->install();
 		} catch(Exception $e) {
-			throw new Piwik_PluginsManager_PluginException($plugin->getPluginName(), $e->getMessage());		
+			throw new Piwik_PluginsManager_PluginException($plugin->getPluginName(), $e->getMessage());
 		}
 	}
 
@@ -563,15 +599,14 @@ class Piwik_PluginsManager
 		$pluginName = $plugin->getPluginName();
 
 		$saveConfig = false;
-			
+
 		// is the plugin already installed or is it the first time we activate it?
 		$pluginsInstalled = $this->getInstalledPluginsName();
 		if(!in_array($pluginName, $pluginsInstalled))
 		{
 			$this->installPlugin($plugin);
 			$pluginsInstalled[] = $pluginName;
-			Piwik_Config::getInstance()->PluginsInstalled['PluginsInstalled'] = $pluginsInstalled;
-			
+			$this->updatePluginsInstalledConfig($pluginsInstalled);
 			$saveConfig = true;
 		}
 
@@ -589,11 +624,11 @@ class Piwik_PluginsManager
 			if(!in_array($pluginName, $pluginsTracker))
 			{
 				$pluginsTracker[] = $pluginName;
-				Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'] = $pluginsTracker;
+				$this->updatePluginsTrackerConfig($pluginsTracker);
 				$saveConfig = true;
 			}
 		}
-		
+
 		if($saveConfig)
 		{
 			Piwik_Config::getInstance()->forceSave();

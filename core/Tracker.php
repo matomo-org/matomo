@@ -47,17 +47,17 @@ class Piwik_Tracker
 	static protected $forcedVisitorId = null;
 
 	static protected $pluginsNotToLoad = array();
-	
+
 	/**
 	 * The set of visits to track.
-	 * 
+	 *
 	 * @var array
 	 */
 	private $requests = array();
-	
+
 	/**
 	 * The token auth supplied with a bulk visits POST.
-	 * 
+	 *
 	 * @var string
 	 */
 	private $tokenAuth = null;
@@ -104,6 +104,19 @@ class Piwik_Tracker
 		return self::$pluginsNotToLoad;
 	}
 
+	/**
+	 * Update Tracker config
+	 *
+	 * @param string $name  Setting name
+	 * @param mixed  $value Value
+	 */
+	static private function updateTrackerConfig($name, $value)
+	{
+		$section = Piwik_Config::getInstance()->Tracker;
+		$section[$name] = $value;
+		Piwik_Config::getInstance()->Tracker = $section;
+	}
+
 	protected function initRequests($args)
 	{
 		if (!empty($args) || !empty($_GET))
@@ -118,10 +131,10 @@ class Piwik_Tracker
 			{
 				return;
 			}
-			
+
 			// doing bulk tracking. POST data can be array of string URLs or array of arrays w/ visit info
 			$jsonData = Piwik_Common::json_decode($rawData, $assoc = true);
-			
+
 			if (isset($jsonData['requests']))
 			{
 				$this->requests = $jsonData['requests'];
@@ -134,14 +147,14 @@ class Piwik_Tracker
 			if (!empty($this->requests))
 			{
 				$idSiteForAuthentication = 0;
-				
+
 				foreach ($this->requests as &$request)
 				{
 					// if a string is sent, we assume its a URL and try to parse it
 					if (is_string($request))
 					{
 						$params = array();
-					
+
 						$url = @parse_url($request);
 						if (!empty($url))
 						{
@@ -154,7 +167,7 @@ class Piwik_Tracker
 						}
 					}
 				}
-				
+
 				if(!$this->authenticateSuperUserOrAdmin(array('idsite' => $idSiteForAuthentication)))
 				{
 					throw new Exception(" token_auth specified is not valid for site ". intval($idSiteForAuthentication));
@@ -162,10 +175,10 @@ class Piwik_Tracker
 			}
 		}
 	}
-	
+
 	/**
 	 * Main - tracks the visit/action
-	 * 
+	 *
 	 * @param array $args Optional Request Array
 	 */
 	public function main($args = null)
@@ -179,7 +192,7 @@ class Piwik_Tracker
 			foreach ($this->requests as $request)
 			{
 				$this->init($request);
-		
+
 				try
 				{
 					if ($this->isVisitValid())
@@ -203,7 +216,7 @@ class Piwik_Tracker
 		{
 			$this->handleEmptyRequest($_GET + $_POST);
 		}
-		
+
 		// run scheduled task
 		try
 		{
@@ -219,7 +232,7 @@ class Piwik_Tracker
 		{
 			Piwik_Tracker_ExitWithException($e);
 		}
-		
+
 		$this->end();
 	}
 
@@ -491,17 +504,17 @@ class Piwik_Tracker
 			}
 		}
 		printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin was NOT authenticated");
-		
+
 		return false;
 	}
-	
+
 	protected function getTokenAuth()
 	{
 		if (!is_null($this->tokenAuth))
 		{
 			return $this->tokenAuth;
 		}
-		
+
 		return Piwik_Common::getRequestVar('token_auth', false);
 	}
 
@@ -546,7 +559,7 @@ class Piwik_Tracker
 			$this->setForceVisitorId($customVisitorId);
 		}
 	}
-	
+
 	public static function setTestEnvironment( $args = null, $requestMethod = null )
 	{
 		if (is_null($args))
@@ -557,37 +570,39 @@ class Piwik_Tracker
 		{
 			$requestMethod = $_SERVER['REQUEST_METHOD'];
 		}
-		
+
 		// Do not run scheduled tasks during tests
-		Piwik_Config::getInstance()->Tracker['scheduled_tasks_min_interval'] = 0;
-		
+		self::updateTrackerConfig('scheduled_tasks_min_interval', 0);
+
 		// if nothing found in _GET/_POST and we're doing a POST, assume bulk request. in which case,
 		// we have to bypass authentication
 		if (empty($args) && $requestMethod == 'POST')
 		{
-			Piwik_Config::getInstance()->Tracker['tracking_requests_require_authentication'] = 0;
+			self::updateTrackerConfig('tracking_requests_require_authentication', 0);
 		}
 
 		// Tests can force the use of 3rd party cookie for ID visitor
 		if(Piwik_Common::getRequestVar('forceUseThirdPartyCookie', false, null, $args) == 1)
 		{
-			Piwik_Config::getInstance()->Tracker['use_third_party_id_cookie'] = 1;
+			self::updateTrackerConfig('use_third_party_id_cookie', 1);
 		}
-		
+
 		// Tests can force the enabling of IP anonymization
 		$forceIpAnonymization = false;
 		if (Piwik_Common::getRequestVar('forceIpAnonymization', false, null, $args) == 1)
 		{
-			Piwik_Config::getInstance()->Tracker['ip_address_mask_length'] = 2;
-			$pluginsTracker = Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
-			$pluginsTracker[] = "AnonymizeIP";
-			Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'] = $pluginsTracker;
+			self::updateTrackerConfig('ip_address_mask_length', 2);
+
+			$section = Piwik_Config::getInstance()->Plugins_Tracker;
+			$section['Plugins_Tracker'][] = "AnonymizeIP";
+			Piwik_Config::getInstance()->Plugins_Tracker = $section;
+
 			$forceIpAnonymization = true;
 		}
-		
+
 		// Custom IP to use for this visitor
 		$customIp = Piwik_Common::getRequestVar('cip', false, null, $args);
-		if(!empty($customIp)) 
+		if(!empty($customIp))
 		{
 			self::setForceIp($customIp);
 		}
@@ -610,7 +625,7 @@ class Piwik_Tracker
 		{
 			$pluginsDisabled[] = 'AnonymizeIP';
 		}
-		
+
 		// Disable provider plugin, because it is so slow to do reverse ip lookup in dev environment somehow
 		self::setPluginsNotToLoad($pluginsDisabled);
 	}
