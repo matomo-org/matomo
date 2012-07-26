@@ -458,7 +458,8 @@ var
 		 * Is property defined?
 		 */
 		function isDefined(property) {
-			return typeof property !== 'undefined';
+			// workaround https://github.com/douglascrockford/JSLint/commit/24f63ada2f9d7ad65afc90e6d949f631935c2480
+			return 'undefined' !== typeof property;
 		}
 
 		/*
