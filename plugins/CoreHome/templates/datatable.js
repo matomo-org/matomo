@@ -543,6 +543,10 @@ dataTable.prototype =
 				self.param.flat = filters.flat;
 				self.param.columns = filters.columns;
 				
+				// when switching to display graphs, reset limit
+				delete self.param.filter_offset;
+				delete self.param.filter_limit;
+				
 				self.param.viewDataTable = viewDataTable;
 				self.reloadAjaxDataTable();
 				self.notifyWidgetParametersChange($(this), {viewDataTable: self.param.viewDataTable});
