@@ -437,8 +437,7 @@ class Piwik_PDFReports_API
 		$reportRenderer->setRenderImageInline($outputType == self::OUTPUT_DOWNLOAD ? true : false);
 
 		// render report
-		$site = Piwik_SitesManager_API::getInstance()->getSiteFromId($idSite);
-		$websiteName = $site['name'];
+		$websiteName = Piwik_Site::getNameFor($idSite);
 		$description = str_replace(array("\r", "\n"), ' ', $report['description']);
 
 		$reportRenderer->renderFrontPage($websiteName, $prettyDate, $description, $reportMetadata);
@@ -557,7 +556,6 @@ class Piwik_PDFReports_API
 		if(!isset($GLOBALS['PIWIK_TRACKER_DEBUG']) || !$GLOBALS['PIWIK_TRACKER_DEBUG'])
 		{
 			@chmod($outputFilename, 0600);
-			@unlink($outputFilename);
 		}
 	}
 

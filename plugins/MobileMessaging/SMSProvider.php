@@ -38,13 +38,10 @@ abstract class Piwik_MobileMessaging_SMSProvider
 			Piwik_Loader::loadClass($className);
 			return new $className;
 		} catch(Exception $e) {
-
-			@header('Content-Type: text/html; charset=utf-8');
-
 			throw new Exception(
 				Piwik_TranslateException(
 					'MobileMessaging_Exception_UnknownProvider',
-					array($name, implode(', ', array_keys(self::$availableSMSProviders)))
+					array($name, implode(', ', self::$availableSMSProviders))
 				)
 			);
 		}

@@ -156,8 +156,8 @@ class Piwik_MobileMessaging_API
 	 * send a SMS
 	 *
 	 * @param string $phoneNumber
-	 *
 	 * @return bool true
+	 * @ignore
 	 */
 	public function sendSMS($content, $phoneNumber, $from)
 	{
@@ -306,6 +306,7 @@ class Piwik_MobileMessaging_API
 	 * get phone number list
 	 *
 	 * @return array $phoneNumber => $isValidated
+	 * @ignore
 	 */
 	public function getPhoneNumbers()
 	{
@@ -326,6 +327,7 @@ class Piwik_MobileMessaging_API
 	 * get activated phone number list
 	 *
 	 * @return array $phoneNumber
+	 * @ignore
 	 */
 	public function getActivatedPhoneNumbers()
 	{

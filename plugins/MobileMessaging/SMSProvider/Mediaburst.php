@@ -17,7 +17,7 @@ require_once PIWIK_INCLUDE_PATH . "/plugins/MobileMessaging/APIException.php";
  */
 class Piwik_MobileMessaging_SMSProvider_Mediaburst extends Piwik_MobileMessaging_SMSProvider
 {
-	const SOCKET_TIMEOUT = 10;
+	const SOCKET_TIMEOUT = 15;
 
 	const BASE_API_URL = 'https://api.mediaburst.co.uk/http';
 	const CHECK_CREDIT_RESOURCE = '/credit.aspx';
