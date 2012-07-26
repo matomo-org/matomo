@@ -337,3 +337,20 @@ function isEnterKey(e)
 {
     return (window.event?window.event.keyCode:e.which)==13; 
 }
+
+// workarounds
+(function($){
+try { // this code is not vital, so we make sure any errors are ignored
+
+// monkey patch that works around bug in arc function of some browsers where
+// nothing gets drawn if angles are exactly 2 * PI apart.
+// affects some versions of chrome & IE 8
+var oldArc = CanvasRenderingContext2D.prototype.arc;
+CanvasRenderingContext2D.prototype.arc = function(x, y, r, sAngle, eAngle, clockwise) {
+	if (Math.abs(sAngle - eAngle) === Math.PI * 2)
+		eAngle -= 0.000001;
+	oldArc.call(this, x, y, r, sAngle, eAngle, clockwise);
+};
+
+} catch (e) {}
+}(jQuery));
