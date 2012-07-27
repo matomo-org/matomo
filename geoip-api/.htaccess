@@ -1,3 +1,11 @@
+# Since Piwik denys access to php scripts inside plugins/ folder
+# we need to allow our script to run
+<Files ~ "^index.php$">
+Satisfy any
+Allow from all
+</Files>
+
+
 RewriteEngine On
 
 # Some hosts may require you to use the `RewriteBase` directive.
