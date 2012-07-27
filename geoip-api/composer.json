@@ -1,0 +1,21 @@
+{
+    "name": "slim/slim",
+    "type": "library",
+    "description": "Slim Framework, a micro framework for PHP 5",
+    "keywords": ["templating","extensions"],
+    "homepage": "http://github.com/codeguy/Slim",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Josh Lockhart",
+            "email": "info@joshlockhart.com",
+            "homepage": "http://www.joshlockhart.com/"
+        }
+    ],
+    "require": {
+        "php": ">=5.2.0"
+    },
+    "autoload": {
+        "psr-0": { "Slim": "Slim/" }
+    }
+}
