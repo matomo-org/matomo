@@ -11,10 +11,6 @@
 ; WARNING - YOU SHOULD NOT EDIT THIS FILE DIRECTLY - Edit config.ini.php instead.
 ;--------
 
-[superuser]
-login			= 
-password		=
-
 [database]
 host			=
 username		=
@@ -37,6 +33,10 @@ tables_prefix	= piwiktests_
 port			= 3306
 adapter 		= PDO_MYSQL
  
+[superuser]
+login			= 
+password		=
+
 [Debug]
 ; if set to 1, the archiving process will always be triggered, even if the archive has already been computed
 ; this is useful when making changes to the archiving code so we can force the archiving process
