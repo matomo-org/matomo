@@ -379,7 +379,7 @@ UserCountryMap.run = function(config) {
             // load some fake data with real region ids from GeoIP
             $.ajax({
                 url: '/plugins/UserCountryMap/geoip-api/'+UserCountryMap.countriesByIso[iso].iso2+'/regions?idSite='+piwik.idSite+'&startDate='+piwik.startDateString+'&endDate='+piwik.endDateString,
-                dataType: 'jsonp',
+                dataType: 'json',
                 success : function(data) {
 
                     var regionDict = {};
@@ -450,7 +450,7 @@ UserCountryMap.run = function(config) {
 
             $.ajax({
                 url: '/plugins/UserCountryMap/geoip-api/'+UserCountryMap.countriesByIso[iso].iso2+'/cities?idSite='+piwik.idSite+'&startDate='+piwik.startDateString+'&endDate='+piwik.endDateString,
-                dataType: 'jsonp',
+                dataType: 'json',
                 success : function(data) {
 
                     var metric = 'nb_visits'; // $('#userCountryMapSelectMetrics').val();

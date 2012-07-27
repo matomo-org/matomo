@@ -26,7 +26,7 @@ function date_query($app) {
     $startDate = $app->request()->get('startDate');
     $endDate = $app->request()->get('endDate');
     $col = 'visit_first_action_time';
-    $query = $col.' >= "'.$startDate.'" AND '.$col.' <= "'.$endDate.'" ';
+    $query = $col.' >= "'.$startDate.'" AND '.$col.' <= "'.$endDate.' 23:59:59" ';
     return $query;
 }
 
