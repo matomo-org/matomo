@@ -40,7 +40,9 @@ $app = new Slim();
 ini_set('display_errors', 'on');
 error_reporting(E_ALL);
 
-$cfg = parse_ini_file('../../..//config/config.ini.php', true);
+$cfg = parse_ini_file('../../../config/config.ini.php', true);
+
+$pdo = 'mysql:host=' . $cfg['database']['host'] . ';dbname=' . $cfg['database']['dbname'];
 
 $geoip_db = new PDO(
 	$pdo, $cfg['database']['username'], $cfg['database']['password']
