@@ -36,8 +36,8 @@
         <div id="UserCountryMap_map" style="overflow:hidden"></div>
         <div id="UserCountryMap_overlay">
             <div class="content">
-                <div class="map-title" style="font-weight:bold; color:#9A9386;">Deutschland</div>
-                <div class="map-stats" style="color:#565656;"><b>1.234</b> Visits total</div>
+                <div class="map-title" style="font-weight:bold; color:#9A9386;"></div>
+                <div class="map-stats" style="color:#565656;"><b></b> </div>
             </div>
         </div>
     </div>
