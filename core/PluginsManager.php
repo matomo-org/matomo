@@ -103,15 +103,15 @@ class Piwik_PluginsManager
 	}
 
 	/**
-	 * Update Plugins_Installed config
+	 * Update PluginsInstalled config
 	 *
 	 * @param array $plugins Plugins
 	 */
 	private function updatePluginsInstalledConfig($plugins)
 	{
-		$section = Piwik_Config::getInstance()->Plugins_Installed;
-		$section['Plugins_Installed'] = $plugins;
-		Piwik_Config::getInstance()->Plugins_Installed = $section;
+		$section = Piwik_Config::getInstance()->PluginsInstalled;
+		$section['PluginsInstalled'] = $plugins;
+		Piwik_Config::getInstance()->PluginsInstalled = $section;
 	}
 
 	/**
