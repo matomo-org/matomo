@@ -378,7 +378,7 @@ UserCountryMap.run = function(config) {
         function updateRegionColors() {
             // load some fake data with real region ids from GeoIP
             $.ajax({
-                url: 'http://piwik-fake-api/piwik/'+piwik.idSite+'/geoip/'+UserCountryMap.countriesByIso[iso].iso2+'/regions?startDate='+piwik.startDateString+'&endDate='+piwik.endDateString,
+                url: '/plugins/UserCountryMap/geoip-api/'+UserCountryMap.countriesByIso[iso].iso2+'/regions?idSite='+piwik.idSite+'&startDate='+piwik.startDateString+'&endDate='+piwik.endDateString,
                 dataType: 'jsonp',
                 success : function(data) {
 
@@ -449,7 +449,7 @@ UserCountryMap.run = function(config) {
             });
 
             $.ajax({
-                url: 'http://piwik-fake-api/piwik/'+piwik.idSite+'/geoip/'+UserCountryMap.countriesByIso[iso].iso2+'/cities?startDate='+piwik.startDateString+'&endDate='+piwik.endDateString,
+                url: '/plugins/UserCountryMap/geoip-api/'+UserCountryMap.countriesByIso[iso].iso2+'/cities?idSite='+piwik.idSite+'&startDate='+piwik.startDateString+'&endDate='+piwik.endDateString,
                 dataType: 'jsonp',
                 success : function(data) {
 
