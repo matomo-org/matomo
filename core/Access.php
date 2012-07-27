@@ -189,8 +189,6 @@ class Piwik_Access
 	{
 		$this->isSuperUser = true;
 		$this->idsitesByAccess['superuser'] = Piwik_SitesManager_API::getInstance()->getAllSitesId();
-		$config = Piwik_Config::getInstance();
-		$this->token_auth = md5($config->superuser['login'].$config->superuser['password']);
 		return true;
 	}
 
@@ -210,7 +208,6 @@ class Piwik_Access
 		{
 			$this->isSuperUser = false;
 			$this->idsitesByAccess['superuser'] = array();
-			$this->token_auth = null;
 		}
 	}
 	
