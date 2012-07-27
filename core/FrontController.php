@@ -355,7 +355,7 @@ class Piwik_FrontController_PluginDeactivatedException extends Exception
 {
 	function __construct($module)
 	{
-		parent::__construct("The plugin '$module' is not activated. You can activate the plugin on the 'Plugins admin' page.");
+		parent::__construct("The plugin $module is not enabled. You can activate the plugin on Settings > Plugins page in Piwik.");
 	}
 }
 
