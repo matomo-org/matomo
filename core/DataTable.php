@@ -783,6 +783,11 @@ class Piwik_DataTable
 		$this->deleteColumns(array($name));
 	}
 
+	public function __sleep()
+	{
+		return array('rows', 'parents', 'summaryRow');
+	}
+	
 	/**
 	 * Rename a column in all rows
 	 *

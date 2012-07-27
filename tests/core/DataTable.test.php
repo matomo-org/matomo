@@ -51,7 +51,18 @@ class Test_Piwik_DataTable extends UnitTestCase
 		
 		// normal row
 		$idToDelete = 1;
-		$this->assertEqual(count($table->getRowFromId($idToDelete)->getColumns()), 2);
+		$row = $table->getRowFromId($idToDelete);
+		
+		// ----- Also testing the Serialize output to ensure there is no unexpected Backward breaking changes in the future
+		$serializedRow = 'O:19:"Piwik_DataTable_Row":1:{s:1:"c";a:3:{i:0;a:2:{s:5:"label";s:6:"ninety";s:5:"count";i:90;}i:1;a:0:{}i:3;N;}}';
+		$this->assertEqual($serializedRow, serialize($row));
+
+		$serializedTable = 'O:15:"Piwik_DataTable":3:{s:7:"' . "\0" . '*' . "\0" . 'rows";a:3:{i:0;O:19:"Piwik_DataTable_Row":1:{s:1:"c";a:3:{i:0;a:2:{s:5:"label";s:3:"ten";s:5:"count";i:10;}i:1;a:0:{}i:3;N;}}i:1;O:19:"Piwik_DataTable_Row":1:{s:1:"c";a:3:{i:0;a:2:{s:5:"label";s:6:"ninety";s:5:"count";i:90;}i:1;a:0:{}i:3;N;}}i:2;O:19:"Piwik_DataTable_Row":1:{s:1:"c";a:3:{i:0;a:2:{s:5:"label";s:7:"hundred";s:5:"count";i:100;}i:1;a:0:{}i:3;N;}}}s:10:"' . "\0" . '*' . "\0" . 'parents";N;s:13:"' . "\0" . '*' . "\0" . 'summaryRow";O:19:"Piwik_DataTable_Row":1:{s:1:"c";a:3:{i:0;a:2:{s:5:"label";s:7:"summary";s:5:"count";i:200;}i:1;a:0:{}i:3;N;}}}';
+		$s = serialize($table);
+		$this->assertEqual($serializedTable, $s);
+		// ----- End test unserialize
+		
+		$this->assertEqual(count($row->getColumns()), 2);
 		$table->deleteRow($idToDelete);
 		$this->assertEqual($table->getRowFromId($idToDelete), false);
 
