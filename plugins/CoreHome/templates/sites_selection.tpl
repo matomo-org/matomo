@@ -1,19 +1,19 @@
 <div class="sites_autocomplete">
     <div id="sitesSelectionSearch" class="custom_select">
     
-        <a href="index.php?module=CoreHome&amp;action=index&amp;idSite={$idSite}&amp;period={$period}&amp;date={$rawDate}" siteid="{$idSite}" onclick="return false" class="custom_select_main_link">{$siteName}</a>
+        <a href="#" onclick="return false" class="custom_select_main_link">{$siteName}</a>
         
         <div class="custom_select_block">
             <div id="custom_select_container">
             <ul class="custom_select_ul_list" >
                 {foreach from=$sites item=info}
-                    <li {if $idSite==$info.idsite} style="display: none"{/if}><a href="index.php?module=CoreHome&amp;action=index&amp;idSite={$info.idsite}&amp;period={$period}&amp;date={$rawDate}" siteid="{$info.idsite}">{$info.name}</a></li>
+                    <li {if isset($idSite) && $idSite==$info.idsite} style="display: none"{/if}><a href="#" siteid="{$info.idsite}">{$info.name}</a></li>
 				{/foreach}
             </ul>
             </div>
             <div class="custom_select_all" style="clear: both">
 				<br />
-				<a href="index.php?module=MultiSites&amp;action=index&amp;period={$period}&amp;date={$rawDate}&amp;idSite={$idSite}">{'General_MultiSitesSummary'|translate}</a>
+				<a href="#">{'General_MultiSitesSummary'|translate}</a>
 			</div>
             
             <div class="custom_select_search">
@@ -58,7 +58,6 @@
             	window.autocompleteOnNewSiteSelect(idsite, name);
             	
             	$("#sitesSelectionSearch .custom_select_main_link")
-            		.attr('href', $(this).attr('href'))
             		.attr('siteid', idsite)
             		.text(name);
             	
@@ -78,6 +77,11 @@
     } else {
         $('.custom_select_main_link').addClass('noselect');
     }
+    
+    // handle multi-sites link click
+    $('.custom_select_all').click(function () {
+    	broadcast.propagateNewPage('module=MultiSites&action=index');
+    });
     {/literal}
     </script>
 </div>

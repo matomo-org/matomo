@@ -41,12 +41,14 @@
 	<fieldset>
 		<label><input type="radio" value="MultiSites" name="defaultReport"{if $defaultReport=='MultiSites'} checked="checked"{/if} /> {'General_AllWebsitesDashboard'|translate}</label><br />
 		<label><input type="radio" value="1" name="defaultReport"{if $defaultReport!='MultiSites'} checked="checked"{/if} /> {'General_DashboardForASpecificWebsite'|translate}</label> 
-		{assign var=siteName value="$defaultReportSiteName"}
-		{include file="CoreHome/templates/sites_selection.tpl"}
+		{* we don't pass idSite since we want the selected site to show in the available sites list *}
+		{include file="CoreHome/templates/sites_selection.tpl" siteName=$defaultReportSiteName idSite=null}
 		{literal}
 		<script type="text/javascript">
 			// make sure nothing happens when an item is selected
 			window.autocompleteOnNewSiteSelect = function() {};
+			// hide 'all sites' item
+			$('.custom_select_all>a').hide();
 		</script>
 		{/literal}
 	</fieldset>
