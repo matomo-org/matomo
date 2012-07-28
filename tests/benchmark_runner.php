@@ -99,7 +99,7 @@ function display_runner( $benchmarkGroups )
 		}
 		
 		$(document).ready(function () {
-			var baseUrl = window.location.search;
+			var baseUrl = window.location.search || '?';
 			if (baseUrl !== '?') {
 				baseUrl += '&';
 			}
