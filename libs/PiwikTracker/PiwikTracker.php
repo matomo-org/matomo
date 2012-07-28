@@ -341,17 +341,18 @@ class PiwikTracker
      */
     public function doBulkTrack()
     {
+    	if (empty($this->token_auth))
+    	{
+    		throw new Exception("Token auth is required for bulk tracking.");
+    	}
+    	
     	if (empty($this->storedTrackingActions))
     	{
     		return '';
     	}
     	
-    	$data = array('requests' => $this->storedTrackingActions);
-    	if (!empty($this->token_auth))
-    	{
-    		$data['token_auth'] = $this->token_auth;
-    	}
-    	
+    	$data = array('requests' => $this->storedTrackingActions, 'token_auth' => $this->token_auth);
+		
     	$postData = json_encode($data);
     	$response = $this->sendRequest($this->getBaseUrl(), 'POST', $postData, $force = true);
     	
