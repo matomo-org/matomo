@@ -14,8 +14,8 @@ require_once dirname(__FILE__).'/TwoVisitsWithCustomVariablesTest.php';
  */
 class Test_Piwik_Integration_CsvExport extends Test_Piwik_Integration_TwoVisitsWithCustomVariables
 {
-    protected $useEscapedQuotes  = false;
-    protected $doExtraQuoteTests = false;
+    protected static $useEscapedQuotes  = false;
+    protected static $doExtraQuoteTests = false;
 
     public function getApiForTesting()
     {
@@ -26,20 +26,20 @@ class Test_Piwik_Integration_CsvExport extends Test_Piwik_Integration_TwoVisitsW
         $deExtraParam = array('expanded' => 0, 'flat' => 1, 'include_aggregate_rows' => 1, 'translateColumnNames' => 1);
 
         return array(
-            array($apiToCall, array('idSite'                 => $this->idSite,
-                                    'date'                   => $this->dateTime, 'format' => 'csv',
+            array($apiToCall, array('idSite'                 => self::$idSite,
+                                    'date'                   => self::$dateTime, 'format' => 'csv',
                                     'otherRequestParameters' => array('expanded' => 0, 'flat' => 0),
                                     'testSuffix'             => '_xp0')),
 
-            array($apiToCall, array('idSite'                 => $this->idSite,
-                                    'date'                   => $this->dateTime,
+            array($apiToCall, array('idSite'                 => self::$idSite,
+                                    'date'                   => self::$dateTime,
                                     'format'                 => 'csv',
                                     'otherRequestParameters' => $enExtraParam,
                                     'language'               => 'en',
                                     'testSuffix'             => '_xp1_inner0_trans-en')),
 
-            array($apiToCall, array('idSite'                 => $this->idSite,
-                                    'date'                   => $this->dateTime,
+            array($apiToCall, array('idSite'                 => self::$idSite,
+                                    'date'                   => self::$dateTime,
                                     'format'                 => 'csv',
                                     'otherRequestParameters' => $deExtraParam,
                                     'language'               => 'de',

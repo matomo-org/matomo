@@ -13,12 +13,12 @@
  */
 class Test_Piwik_Integration_ApiGetReportMetadata_Year extends IntegrationTestCase
 {
-    protected $idSite   = 1;
-    protected $dateTime = '2009-01-04 00:11:42';
+    protected static $idSite   = 1;
+    protected static $dateTime = '2009-01-04 00:11:42';
 
     protected function setUpWebsitesAndGoals()
     {
-        $this->createWebsite($this->dateTime);
+        $this->createWebsite(self::$dateTime);
     }
 
     protected function trackVisits()
@@ -27,8 +27,8 @@ class Test_Piwik_Integration_ApiGetReportMetadata_Year extends IntegrationTestCa
 
     public function getApiForTesting()
     {
-        $params = array('idSite'   => $this->idSite,
-                        'date'     => $this->dateTime,
+        $params = array('idSite'   => self::$idSite,
+                        'date'     => self::$dateTime,
                         'periods'  => 'year',
                         'language' => 'fr');
         return array(
@@ -49,7 +49,7 @@ class Test_Piwik_Integration_ApiGetReportMetadata_Year extends IntegrationTestCa
      * @dataProvider getApiForTesting
      * @group        Integration
      * @group        ApiGetReportMetadata
-     * @group        ApiGetReportMetadata_year
+     * @group        ApiGetReportMetadata_Year
      */
     public function testApi($api, $params)
     {

@@ -1,0 +1,87 @@
+<?php
+/**
+ * Piwik - Open source web analytics
+ *
+ * @link    http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @version $Id$
+ */
+
+require_once dirname(__FILE__) . '/TwoVisitsWithCustomVariablesTest.php';
+
+/**
+ * test Metadata API + period=range&date=lastN
+ */
+class Test_Piwik_Integration_PeriodIsRange_DateIsLastN_MetadataAndNormalAPI extends Test_Piwik_Integration_TwoVisitsWithCustomVariables
+{
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+        self::$dateTime = Piwik_Date::factory('now')->getDateTime();
+    }
+
+    public function setUp()
+    {
+        if (date('G') == 23 || date('G') == 22) {
+            echo "SKIPPED test_periodIsRange_dateIsLastN_MetadataAndNormalAPI() since it fails around midnight...";
+            $this->markTestSkipped();
+        }
+
+        parent::setUp();
+    }
+
+    /**
+     * @dataProvider getApiForTesting
+     * @group        Integration
+     * @group        PeriodIsRange_DateIsLastN_MetadataAndNormalAPI
+     */
+    public function testApi($api, $params)
+    {
+        $this->runApiTests($api, $params);
+    }
+
+    public function getApiForTesting()
+    {
+        $apiToCall = array(
+            'API.getProcessedReport',
+            'Actions.getPageUrls',
+            'Goals.get',
+            'CustomVariables.getCustomVariables',
+            'Referers.getCampaigns',
+            'Referers.getKeywords',
+            'VisitsSummary.get',
+            'Live');
+
+        $segments = array(
+            false,
+            'daysSinceFirstVisit!=50',
+            'visitorId!=33c31e01394bdc63',
+            // testing both filter on Actions table and visit table
+            'visitorId!=33c31e01394bdc63;daysSinceFirstVisit!=50',
+            //'pageUrl!=http://unknown/not/viewed',
+        );
+        $dates    = array(
+            'last7',
+            Piwik_Date::factory('now')->subDay(6)->toString() . ',today',
+            Piwik_Date::factory('now')->subDay(6)->toString() . ',now',
+        );
+
+        $result = array();
+        foreach ($segments as $segment) {
+            foreach ($dates as $date) {
+                $result[] = array($apiToCall, array('idSite'    => self::$idSite, 'date' => $date,
+                                                    'periods'   => array('range'), 'segment' => $segment,
+                                                    // testing getLastVisitsForVisitor requires a visitor ID
+                                                    'visitorId' => self::$visitorId));
+            }
+        }
+
+        return $result;
+    }
+
+    public function getOutputPrefix()
+    {
+        return 'periodIsRange_dateIsLastN_MetadataAndNormalAPI';
+    }
+}
+

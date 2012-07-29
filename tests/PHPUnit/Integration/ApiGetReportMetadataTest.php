@@ -14,18 +14,18 @@
  */
 class Test_Piwik_Integration_ApiGetReportMetadata extends IntegrationTestCase
 {
-    protected $dateTime = '2009-01-04 00:11:42';
-    protected $idSite   = 1;
-    protected $idGoal   = 1;
-    protected $idGoal2  = 2;
-    protected $idGoal3  = 3;
+    protected static $dateTime = '2009-01-04 00:11:42';
+    protected static $idSite   = 1;
+    protected static $idGoal   = 1;
+    protected static $idGoal2  = 2;
+    protected static $idGoal3  = 3;
 
     protected function setUpWebsitesAndGoals()
     {
-        $this->createWebsite($this->dateTime, $ecommerce = 1);
-        Piwik_Goals_API::getInstance()->addGoal($this->idSite, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
-        Piwik_Goals_API::getInstance()->addGoal($this->idSite, 'Goal 2 - Hello', 'url', 'hellow', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 0);
-        Piwik_Goals_API::getInstance()->addGoal($this->idSite, 'triggered js', 'manually', '', '');
+        $this->createWebsite(self::$dateTime, $ecommerce = 1);
+        Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
+        Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'Goal 2 - Hello', 'url', 'hellow', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 0);
+        Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'triggered js', 'manually', '', '');
     }
 
     public function setUp()
@@ -45,7 +45,7 @@ class Test_Piwik_Integration_ApiGetReportMetadata extends IntegrationTestCase
     public function getApiForTesting()
     {
         return array(
-            array('API', array('idSite' => $this->idSite, 'date' => $this->dateTime))
+            array('API', array('idSite' => self::$idSite, 'date' => self::$dateTime))
         );
     }
 
@@ -61,8 +61,8 @@ class Test_Piwik_Integration_ApiGetReportMetadata extends IntegrationTestCase
 
     protected function trackVisits()
     {
-        $idSite   = $this->idSite;
-        $dateTime = $this->dateTime;
+        $idSite   = self::$idSite;
+        $dateTime = self::$dateTime;
 
         $t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
 
@@ -71,7 +71,7 @@ class Test_Piwik_Integration_ApiGetReportMetadata extends IntegrationTestCase
         $this->checkResponse($t->doTrackPageView('incredible title!'));
 
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.3)->getDatetime());
-        $this->checkResponse($t->doTrackGoal($this->idGoal3, $revenue = 42.256));
+        $this->checkResponse($t->doTrackGoal(self::$idGoal3, $revenue = 42.256));
     }
 }
 

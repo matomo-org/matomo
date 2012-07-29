@@ -1034,19 +1034,6 @@ abstract class IntegrationTestCase extends DatabaseTestCase
     }
 
     /**
-     * It is possible to run another set of API tests after the first one.
-     * For example, getApiForTesting() will test and record with a specific suffix
-     * Then we will call some API that invalidates a piece of the reports
-     * Then call all reports again and check that what is expected to have changed indeed has changed!
-     *
-     * @see getApiForTesting() for returned values, same signature
-     */
-    public function getAnotherApiForTesting()
-    {
-        return array();
-    }
-
-    /**
      * Returns an array describing the Controller actions to call & compare
      * with expected output.
      *

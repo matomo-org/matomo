@@ -12,17 +12,23 @@
  */
 class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends IntegrationTestCase
 {
-    protected $dateTime  = '2010-01-03 11:22:33';
-    protected $width     = 1111;
-    protected $height    = 222;
+    protected static $dateTime  = '2010-01-03 11:22:33';
+    protected static $width     = 1111;
+    protected static $height    = 222;
 
-    protected $idSite    = 1;
-    protected $idGoal1   = 1;
-    protected $idGoal2   = 2;
-    protected $visitorId = null;
+    protected static $idSite    = 1;
+    protected static $idGoal1   = 1;
+    protected static $idGoal2   = 2;
+    protected static $visitorId = null;
 
-    protected $useEscapedQuotes  = true;
-    protected $doExtraQuoteTests = true;
+    protected static $useEscapedQuotes  = true;
+    protected static $doExtraQuoteTests = true;
+
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+        self::$visitorId = substr(md5(uniqid()), 0, 16);
+    }
 
     public function getApiForTesting()
     {
@@ -30,7 +36,7 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends IntegrationTes
 
         $return = array(
             array($apiToCall, array('idSite'       => 'all',
-                                    'date'         => $this->dateTime,
+                                    'date'         => self::$dateTime,
                                     'periods'      => array('day', 'week'),
                                     'setDateLastN' => true)),
         );
@@ -56,19 +62,18 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends IntegrationTes
     protected function setUpWebsitesAndGoals()
     {
         // tests run in UTC, the Tracker in UTC
-        $this->createWebsite($this->dateTime);
-        Piwik_Goals_API::getInstance()->addGoal($this->idSite, 'triggered js', 'manually', '', '');
-        Piwik_Goals_API::getInstance()->addGoal($this->idSite, 'second goal', 'manually', '', '');
+        $this->createWebsite(self::$dateTime);
+        Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'triggered js', 'manually', '', '');
+        Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'second goal', 'manually', '', '');
     }
 
     protected function trackVisits()
     {
-        $dateTime = $this->dateTime;
-        $idSite   = $this->idSite;
-        $idGoal   = $this->idGoal1;
-        $idGoal2  = $this->idGoal2;
+        $dateTime = self::$dateTime;
+        $idSite   = self::$idSite;
+        $idGoal   = self::$idGoal1;
+        $idGoal2  = self::$idGoal2;
 
-        ob_start();
         $visitorA = $this->getTracker($idSite, $dateTime, $defaultInit = true);
         // Used to test actual referer + keyword position in Live!
         $visitorA->setUrlReferrer(urldecode('http://www.google.com/url?sa=t&source=web&cd=1&ved=0CB4QFjAA&url=http%3A%2F%2Fpiwik.org%2F&rct=j&q=this%20keyword%20should%20be%20ranked&ei=V8WfTePkKKLfiALrpZWGAw&usg=AFQjCNF_MGJRqKPvaKuUokHtZ3VvNG9ALw&sig2=BvKAdCtNixsmfNWXjsNyMw'));
@@ -82,7 +87,7 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends IntegrationTes
         );
         $visitorA->setAttributionInfo(json_encode($attribution));
 
-        $visitorA->setResolution($this->width, $this->height);
+        $visitorA->setResolution(self::$width, self::$height);
 
         // At first, visitor custom var is set to LoggedOut
         $visitorA->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
@@ -96,7 +101,7 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends IntegrationTes
         $visitorA->setUrl('http://example.org/user/profile');
         $visitorA->setCustomVariable($id = 1, $name = 'VisitorType', $value = 'LoggedIn');
         $visitorA->setCustomVariable($id = 4, $name = 'Status user', $value = 'Loggedin', $scope = 'page');
-        if ($this->useEscapedQuotes) {
+        if (self::$useEscapedQuotes) {
             $lookingAtProfile = 'looking at &quot;profile page&quot;';
         } else {
             $lookingAtProfile = 'looking at profile page';
@@ -112,7 +117,7 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends IntegrationTes
         $this->checkResponse($visitorA->doTrackPageView('Profile page for user *_)%'));
         $this->checkResponse($visitorA->doTrackGoal($idGoal, 0));
 
-        if ($this->doExtraQuoteTests) {
+        if (self::$doExtraQuoteTests) {
             $visitorA->setCustomVariable($id = 2, $name = 'var1', $value = 'looking at "profile page"',
                 $scope = 'page');
             $visitorA->setCustomVariable($id = 3, $name = 'var2', $value = '\'looking at "\profile page"\'',
@@ -134,7 +139,7 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends IntegrationTes
             'http://www.example.org/test/really?q=yes'
         );
         $visitorB->setAttributionInfo(json_encode($attribution));
-        $visitorB->setResolution($this->width, $this->height);
+        $visitorB->setResolution(self::$width, self::$height);
         $visitorB->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.6) Gecko/2009011913 Firefox/3.0.6');
         $visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1)->getDatetime());
         $visitorB->setCustomVariable($id = 1, $name = 'VisitorType', $value = 'LoggedOut');
@@ -151,9 +156,7 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends IntegrationTes
         // DIFFERENT test -
         // testing that starting the visit with an outlink works (doesn't trigger errors)
         $visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(2)->getDatetime());
+        $visitorB->setVisitorId(self::$visitorId);
         $this->checkResponse($visitorB->doTrackAction('http://test.com', 'link'));
-
-        // hack
-        $this->visitorId = $visitorB->getVisitorId();
     }
 }

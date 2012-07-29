@@ -12,8 +12,8 @@
  */
 class Test_Piwik_Integration_FlattenReports extends IntegrationTestCase
 {
-    protected $dateTime = '2010-03-06 11:22:33';
-    protected $idSite   = 1;
+    protected static $dateTime = '2010-03-06 11:22:33';
+    protected static $idSite   = 1;
 
     /**
      * @dataProvider getApiForTesting
@@ -33,8 +33,8 @@ class Test_Piwik_Integration_FlattenReports extends IntegrationTestCase
         $return[] = array(
             'Referers.getWebsites',
             array(
-                'idSite'                 => $this->idSite,
-                'date'                   => $this->dateTime,
+                'idSite'                 => self::$idSite,
+                'date'                   => self::$dateTime,
                 'otherRequestParameters' => array(
                     'flat'     => '1',
                     'expanded' => '0'
@@ -45,8 +45,8 @@ class Test_Piwik_Integration_FlattenReports extends IntegrationTestCase
         $return[] = array(
             'Actions.getPageUrls',
             array(
-                'idSite'                 => $this->idSite,
-                'date'                   => $this->dateTime,
+                'idSite'                 => self::$idSite,
+                'date'                   => self::$dateTime,
                 'otherRequestParameters' => array(
                     'flat'     => '1',
                     'expanded' => '0'
@@ -55,8 +55,8 @@ class Test_Piwik_Integration_FlattenReports extends IntegrationTestCase
         $return[] = array(
             'Actions.getPageUrls',
             array(
-                'idSite'                 => $this->idSite,
-                'date'                   => $this->dateTime,
+                'idSite'                 => self::$idSite,
+                'date'                   => self::$dateTime,
                 'testSuffix'             => '_withAggregate',
                 'otherRequestParameters' => array(
                     'flat'                   => '1',
@@ -67,8 +67,8 @@ class Test_Piwik_Integration_FlattenReports extends IntegrationTestCase
 
         // custom variables for multiple days
         $return[] = array('CustomVariables.getCustomVariables', array(
-            'idSite'                 => $this->idSite,
-            'date'                   => $this->dateTime,
+            'idSite'                 => self::$idSite,
+            'date'                   => self::$dateTime,
             'otherRequestParameters' => array(
                 'date'                   => '2010-03-06,2010-03-08',
                 'flat'                   => '1',
@@ -87,13 +87,13 @@ class Test_Piwik_Integration_FlattenReports extends IntegrationTestCase
 
     protected function setUpWebsitesAndGoals()
     {
-        $this->createWebsite($this->dateTime);
+        $this->createWebsite(self::$dateTime);
     }
 
     protected function trackVisits()
     {
-        $dateTime = $this->dateTime;
-        $idSite   = $this->idSite;
+        $dateTime = self::$dateTime;
+        $idSite   = self::$idSite;
 
         for ($referrerSite = 1; $referrerSite < 4; $referrerSite++) {
             for ($referrerPage = 1; $referrerPage < 3; $referrerPage++) {

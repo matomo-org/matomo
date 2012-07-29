@@ -14,8 +14,8 @@
  */
 class Test_Piwik_Integration_NoVisit extends IntegrationTestCase
 {
-    protected $idSite   = 1;
-    protected $dateTime = '2009-01-04 00:11:42';
+    protected static $idSite   = 1;
+    protected static $dateTime = '2009-01-04 00:11:42';
 
     /**
      * @dataProvider getApiForTesting
@@ -31,10 +31,10 @@ class Test_Piwik_Integration_NoVisit extends IntegrationTestCase
     {
         // this will output empty XML result sets as no visit was tracked
         return array(
-            array('all', array('idSite'       => $this->idSite,
-                               'date'         => $this->dateTime)),
-            array('all', array('idSite'       => $this->idSite,
-                               'date'         => $this->dateTime,
+            array('all', array('idSite'       => self::$idSite,
+                               'date'         => self::$dateTime)),
+            array('all', array('idSite'       => self::$idSite,
+                               'date'         => self::$dateTime,
                                'periods'      => array('day', 'week'),
                                'setDateLastN' => true,
                                'testSuffix'   => '_PeriodIsLast')),
@@ -48,13 +48,13 @@ class Test_Piwik_Integration_NoVisit extends IntegrationTestCase
 
     public function setUpWebsitesAndGoals()
     {
-        $this->createWebsite($this->dateTime);
+        $this->createWebsite(self::$dateTime);
     }
 
     protected function trackVisits()
     {
-        $dateTime = $this->dateTime;
-        $idSite   = $this->idSite;
+        $dateTime = self::$dateTime;
+        $idSite   = self::$idSite;
 
         /*
            // Trigger invalid website
