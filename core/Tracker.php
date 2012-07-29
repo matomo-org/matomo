@@ -62,6 +62,15 @@ class Piwik_Tracker
 	 */
 	private $tokenAuth = null;
 
+	public function clear()
+	{
+		self::$forcedIpString = null;
+		self::$forcedDateTime = null;
+		self::$forcedVisitorId = null;
+		$this->stateValid = self::STATE_NOTHING_TO_NOTICE;
+		$this->authenticated = false;
+	}
+	
 	public static function setForceIp($ipString)
 	{
 		self::$forcedIpString = $ipString;
@@ -187,12 +196,11 @@ class Piwik_Tracker
 		if (!empty($this->requests))
 		{
 			$this->outputTransparentGif();
-
+		
 			// handle all visits
 			foreach ($this->requests as $request)
 			{
 				$this->init($request);
-
 				try
 				{
 					if ($this->isVisitValid())
@@ -210,6 +218,7 @@ class Piwik_Tracker
 				} catch(Exception $e) {
 					Piwik_Tracker_ExitWithException($e);
 				}
+				$this->clear();
 			}
 		}
 		else
@@ -436,7 +445,7 @@ class Piwik_Tracker
 			Piwik_Tracker::setPluginsNotToLoad(array('Provider'));
 		}
 
-		try{
+		try {
 			$pluginsTracker = Piwik_Config::getInstance()->Plugins_Tracker;
 			if(is_array($pluginsTracker)
 				&& count($pluginsTracker) != 0)
