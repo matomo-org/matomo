@@ -251,7 +251,9 @@ class Piwik_DBStats_MySQLMetadataProvider
 				$reduceArchiveRowName = array($this, 'reduceArchiveRowName');
 				$table->filter('GroupBy', array('label', $reduceArchiveRowName));
 				
-				Piwik_SetOption($dataTableOptionName, reset($table->getSerialized()));
+				$serializedTables = $table->getSerialized();
+				$serializedTable = reset($serializedTables);
+				Piwik_SetOption($dataTableOptionName, $serializedTable);
 			}
 			
 			// add estimated_size column
