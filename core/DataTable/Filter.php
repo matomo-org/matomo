@@ -72,11 +72,10 @@ abstract class Piwik_DataTable_Filter
 		{
 			return;
 		}
-		try {
+		if($row->isSubtableLoaded())
+		{
 			$subTable = Piwik_DataTable_Manager::getInstance()->getTable( $row->getIdSubDataTable() );
 			$this->filter($subTable);
-		} catch(Exception $e) {
-			// case idSubTable == null, or if the table is not loaded in memory
 		}
 	}
 }

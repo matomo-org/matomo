@@ -38,12 +38,11 @@ class Piwik_DataTable_Filter_Truncate extends Piwik_DataTable_Filter
 	
 		foreach($table->getRows() as $row)
 		{
-			try {
+			if($row->isSubtableLoaded())
+			{
 				$idSubTable = $row->getIdSubDataTable();
 				$subTable = Piwik_DataTable_Manager::getInstance()->getTable($idSubTable);
 				$subTable->filter('Truncate', array($this->truncateAfter));
-			} catch(Exception $e) {
-				// there is no subtable loaded for example
 			}
 		}
 	}

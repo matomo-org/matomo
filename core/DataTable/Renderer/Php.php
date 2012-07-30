@@ -247,20 +247,16 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 			}
 			
 			if($this->isRenderSubtables()
-				&& $row->getIdSubDataTable() !== null)
+				&& $row->isSubtableLoaded() )
 			{
-				try{
-					$subTable = $this->renderTable( Piwik_DataTable_Manager::getInstance()->getTable($row->getIdSubDataTable()));
-					$newRow['subtable'] = $subTable;
-					if($this->hideIdSubDatatable === false
-						&& isset($newRow['metadata']['idsubdatatable_in_db']))
-					{
-						$newRow['columns']['idsubdatatable'] = $newRow['metadata']['idsubdatatable_in_db'];
-					}
-					unset($newRow['metadata']['idsubdatatable_in_db']);
-				} catch (Exception $e) {
-					// the subtables are not loaded we dont do anything 
+				$subTable = $this->renderTable( Piwik_DataTable_Manager::getInstance()->getTable($row->getIdSubDataTable()));
+				$newRow['subtable'] = $subTable;
+				if($this->hideIdSubDatatable === false
+					&& isset($newRow['metadata']['idsubdatatable_in_db']))
+				{
+					$newRow['columns']['idsubdatatable'] = $newRow['metadata']['idsubdatatable_in_db'];
 				}
+				unset($newRow['metadata']['idsubdatatable_in_db']);
 			}
 			if($this->hideIdSubDatatable !== false)
 			{

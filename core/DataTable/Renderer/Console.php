@@ -147,20 +147,18 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 						. "- $i [".$columns."] [".$metadata."] [idsubtable = " 
 						. $row->getIdSubDataTable()."]<br />\n";
 			
-			if($row->getIdSubDataTable() !== null)
+			if($row->isSubtableLoaded())
 			{
-				$depth++;
-				try{
-					$output.= $this->renderTable( 
-									Piwik_DataTable_Manager::getInstance()->getTable(
-												$row->getIdSubDataTable()
-											),
-											$prefix . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-										);
-				} catch(Exception $e) {
-					$output.= "-- Sub DataTable not loaded<br />\n";
-				}
-				$depth--;
+				$output.= $this->renderTable( 
+								Piwik_DataTable_Manager::getInstance()->getTable(
+											$row->getIdSubDataTable()
+										),
+										$prefix . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+									);
+			} 
+			else
+			{
+				$output.= "-- Sub DataTable not loaded<br />\n";
 			}
 			$i++;
 		}
