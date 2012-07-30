@@ -130,6 +130,7 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends IntegrationTes
         // -
         // Second new visitor on Idsite 1: one page view
         $visitorB = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+        $visitorB->setVisitorId(self::$visitorId);
         $visitorB->setUrlReferrer('');
 
         $attribution = array(
@@ -156,7 +157,6 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends IntegrationTes
         // DIFFERENT test -
         // testing that starting the visit with an outlink works (doesn't trigger errors)
         $visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(2)->getDatetime());
-        $visitorB->setVisitorId(self::$visitorId);
         $this->checkResponse($visitorB->doTrackAction('http://test.com', 'link'));
     }
 }

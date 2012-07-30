@@ -1130,47 +1130,37 @@ abstract class IntegrationTestCase extends DatabaseTestCase
     /**
      * Runs controller tests.
      */
-    protected function runControllerTests()
+    protected function runControllerTests($actions, $params)
     {
         static $nonRequestParameters = array('testingLevelOverride' => null, 'userTypes' => null);
 
-        $testGroups = $this->getControllerActionsForTesting();
         $testName = 'test_' . $this->getOutputPrefix();
 
-        foreach ($testGroups as $test)
-        {
-            list($actions, $params) = $test;
+        // deal w/ any language changing hacks
+        if (isset($params['language'])) {
+            $this->changeLanguage($params['language']);
+        }
 
-            // deal w/ any language changing hacks
-            if (isset($params['language']))
-            {
-                $this->changeLanguage($params['language']);
+        // separate request parameters from function parameters
+        $requestParams = array();
+        foreach ($params as $key => $value) {
+            if (!isset($nonRequestParameters[$key])) {
+                $requestParams[$key] = $value;
             }
+        }
 
-            // separate request parameters from function parameters
-            $requestParams = array();
-            foreach ($params as $key => $value)
-            {
-                if (!isset($nonRequestParameters[$key]))
-                {
-                    $requestParams[$key] = $value;
-                }
-            }
+        $testSuffix = isset($params['testSuffix']) ? $params['testSuffix'] : '';
 
-            $testSuffix = isset($params['testSuffix']) ? $params['testSuffix'] : '';
+        $this->callWidgetsCompareOutput(
+            $testName . $testSuffix,
+            $actions,
+            $requestParams,
+            isset($params['userTypes']) ? $params['userTypes'] : false,
+            isset($params['testingLevelOverride']) ? $params['testingLevelOverride'] : false);
 
-            $this->callWidgetsCompareOutput(
-                $testName . $testSuffix,
-                $actions,
-                $requestParams,
-                isset($params['userTypes']) ? $params['userTypes'] : false,
-                isset($params['testingLevelOverride']) ? $params['testingLevelOverride'] : false);
-
-            // change the language back to en
-            if ($this->lastLanguage != 'en')
-            {
-                $this->changeLanguage('en');
-            }
+        // change the language back to en
+        if ($this->lastLanguage != 'en') {
+            $this->changeLanguage('en');
         }
     }
 
