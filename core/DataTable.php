@@ -465,18 +465,22 @@ class Piwik_DataTable
 	public function getRowFromLabel( $label )
 	{
 		$rowId = $this->getRowIdFromLabel($label);
+		if($rowId instanceof Piwik_DataTable_Row)
+		{
+			return $rowId;
+		}
 		if(is_int($rowId) && isset($this->rows[$rowId]))
 		{
 			return $this->rows[$rowId];
 		}
-		return $rowId;
+		return false;
 	}
 
 	/**
 	 * Returns the row id for the givel label
 	 *
 	 * @param string  $label  Value of the column 'label' of the row to return
-	 * @return bool|null
+	 * @return int|Row
 	 */
 	public function getRowIdFromLabel($label)
 	{
