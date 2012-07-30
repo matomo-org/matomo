@@ -18,6 +18,12 @@
          strict="false"
          verbose="true">
 
+<php>
+    <server name="HTTP_HOST" value="localhost"/>
+    <server name="REQUEST_URI" value="/trunk/tests/all_tests.php"/>
+    <server name="REMOTE_ADDR" value="127.0.0.1"/>
+</php>
+
 <testsuites>
   <testsuite name="PluginTests">
       <directory>./Plugins</directory>
@@ -42,11 +48,5 @@
     <directory suffix=".php">../../plugins</directory>
   </whitelist>
 </filter>
-
-<php>
-    <server name="HTTP_HOST" value="local"/>
-    <server name="REQUEST_URI" value="/piwik/tests/all_tests.php"/>
-    <server name="REMOTE_ADDR" value="127.0.0.1"/>
-</php>
 
 </phpunit>

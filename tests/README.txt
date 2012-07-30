@@ -39,6 +39,30 @@ it might be that your changes are breaking some features unexpectedly.
 To run all integration tests at once, execute tests/integration_tests.php
 See also http://dev.piwik.org/trac/ticket/1465   
 
+ PHPUNIT TESTS
+==============
+1) install PHPUnit on your system
+	$ cd your/php/directory
+	$ sudo pear upgrade PEAR
+	$ pear config-set auto_discover 1
+	$ pear install --alldeps pear.phpunit.de/PHPUnit
+	Doc at: http://www.phpunit.de/manual/current/en/installation.html
+
+2) Configure PHPUnit: Edit the file piwik/tests/PHPUnit/phpunit.xml
+	In this file, you will find the following lines.
+	Please edit HTTP_HOST and REQUEST_URI to match the hostname and path of the Piwik files:
+    <server name="HTTP_HOST" value="localhost"/>
+    <server name="REQUEST_URI" value="/path/to/piwik/tests/all_tests.php"/>
+	
+3) Run the tests
+	$ cd /path/to/piwik/tests/PHPUnit
+	$ phpunit
+	This will run all unit + integration tests. It might take 10 minutes to run. 
+	
+4) Write more tests :)
+	See "Writing Unit tests with PHPUnit" 
+	http://www.phpunit.de/manual/current/en/writing-tests-for-phpunit.html
+
  JAVASCRIPT TESTS
 =================
 piwik.js is unit tested and you can run tests via piwik/tests/javascript/
