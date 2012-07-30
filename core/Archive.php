@@ -209,38 +209,56 @@ abstract class Piwik_Archive
 		else
 		{
 			$oSite = new Piwik_Site($idSite);
+			$oPeriod = Piwik_Archive::makePeriodFromQueryParams($oSite, $period, $strDate);
 
-			if($period == 'range')
-			{
-				$oPeriod = new Piwik_Period_Range('range', $strDate, $oSite->getTimezone(), Piwik_Date::factory('today', $oSite->getTimezone()));
-			}
-			else
-			{
-				if(is_string($strDate))
-				{
-					if($strDate == 'now' || $strDate == 'today')
-					{
-						$strDate = date('Y-m-d', Piwik_Date::factory('now', $oSite->getTimezone())->getTimestamp());
-					}
-					elseif($strDate == 'yesterday' || $strDate == 'yesterdaySameTime')
-					{
-						$strDate = date('Y-m-d', Piwik_Date::factory('now', $oSite->getTimezone())->subDay(1)->getTimestamp());
-					}
-					$oDate = Piwik_Date::factory($strDate);
-				}
-				else
-				{
-					$oDate = $strDate;
-				}
-				$date = $oDate->toString();
-				$oPeriod = Piwik_Period::factory($period, $oDate);
-			}
 			$archive = new Piwik_Archive_Single();
 			$archive->setPeriod($oPeriod);
 			$archive->setSite($oSite);
 			$archive->setSegment($segment);
 		}
 		return $archive;
+	}
+	
+	/**
+	 * Creates a period instance using a Piwik_Site instance and two strings describing
+	 * the period & date.
+	 * 
+	 * @param Piwik_Site $site
+	 * @param string $strPeriod The period string: day, week, month, year, range
+	 * @param string $strDate The date or date range string.
+	 * @return Piwik_Period
+	 */
+	public function makePeriodFromQueryParams( $site, $strPeriod, $strDate )
+	{
+		$tz = $site->getTimezone();
+		
+		if($strPeriod == 'range')
+		{
+			$oPeriod = new Piwik_Period_Range('range', $strDate, $tz, Piwik_Date::factory('today', $tz));
+		}
+		else
+		{
+			if(is_string($strDate))
+			{
+				if($strDate == 'now' || $strDate == 'today')
+				{
+					$strDate = date('Y-m-d', Piwik_Date::factory('now', $tz)->getTimestamp());
+				}
+				elseif($strDate == 'yesterday' || $strDate == 'yesterdaySameTime')
+				{
+					$strDate = date('Y-m-d', Piwik_Date::factory('now', $tz)->subDay(1)->getTimestamp());
+				}
+				$oDate = Piwik_Date::factory($strDate);
+			}
+			else
+			{
+				$oDate = $strDate;
+			}
+			$date = $oDate->toString();
+			$oPeriod = Piwik_Period::factory($strPeriod, $oDate);
+		}
+		
+		return $oPeriod;
 	}
 	
 	abstract public function prepareArchive();
@@ -419,5 +437,16 @@ abstract class Piwik_Archive
 		return 	(preg_match('/^(last|previous){1}([0-9]*)$/D', $dateString, $regs)
 				|| Piwik_Period_Range::parseDateRange($dateString))
 				&& $period != 'range';
+	}
+	
+	/**
+	 * Indicate if $idSiteString corresponds to multiple sites.
+	 * 
+	 * @param string $idSiteString
+	 * @return bool
+	 */
+	static public function isMultipleSites( $idSiteString )
+	{
+		return $idSiteString == 'all' || strpos($idSiteString, ',') !== false;
 	}
 }

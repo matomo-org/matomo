@@ -23,6 +23,14 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	protected $width = '100%';
 	protected $height = 250;
 	protected $graphType = 'unknown';
+	
+	/**
+	 * Parameters to send to GenerateGraphData instance. Parameters are passed
+	 * via the $_GET array.
+	 * 
+	 * @var array
+	 */
+	protected $generateGraphDataParams = array();
 
 	/**
 	 * @see Piwik_ViewDataTable::init()
@@ -75,6 +83,14 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	public function setParametersToModify($array)
 	{
 		$this->parametersToModify = array_merge($this->parametersToModify, $array);
+	}
+	
+	/**
+	 * Show every x-axis tick instead of just every other one.
+	 */
+	public function showAllTicks()
+	{
+		$this->generateGraphDataParams['show_all_ticks'] = 1;
 	}
 	
 	/**
@@ -151,8 +167,9 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	protected function getGraphData()
 	{
 		$saveGet = $_GET;
-
-		foreach($this->parametersToModify as $key => $val)
+		
+		$params = array_merge($this->generateGraphDataParams, $this->parametersToModify);
+		foreach($params as $key => $val)
 		{
 			// We do not forward filter data to the graph controller.
 			// This would cause the graph to have filter_limit=5 set by default,

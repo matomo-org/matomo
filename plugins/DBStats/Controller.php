@@ -59,6 +59,11 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
 										$addPercentColumn = true);
 		$view->disableOffsetInformationAndPaginationControls();
 		
+		if ($view instanceof Piwik_ViewDataTable_GenerateGraphHTML)
+		{
+			$view->showAllTicks();
+		}
+		
 		// translate the labels themselves
 		$translateSummaryLabel = array($this, 'translateSummarylabel');
 		$view->queueFilter('ColumnCallbackReplace', array(array('label'), $translateSummaryLabel), 

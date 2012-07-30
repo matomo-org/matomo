@@ -476,6 +476,23 @@ class Piwik_DataTable_Row
 			}
 			return $newValue;
 		}
+		
+		if (is_string($columnToSumValue))
+		{
+			if ($thisColumnValue === false)
+			{
+				return $columnToSumValue;
+			}
+			else if ($columnToSumValue === false)
+			{
+				return $thisColumnValue;
+			}
+			else
+			{
+				throw new Exception("Trying to add two strings values in DataTable_Row::sumRowArray.");
+			}
+		}
+		
 		return 0;
 	}
 

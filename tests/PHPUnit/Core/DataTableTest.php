@@ -249,7 +249,6 @@ class DataTableTest extends PHPUnit_Framework_TestCase
                         'test_float3'=> 1.5,
                         'test_stringint'=> "145",
                         "test" => 'string fake',
-                        'super'=>array('this column has an array string that will be 0 when algorithm sums the value'),
                         'integerArrayToSum'=>array( 1 => 1, 2 => 10.0, 3 => array(1 => 2, 2 => 3)),
                         );
         $metadata = array('logo'=> 'piwik.png',
@@ -266,7 +265,6 @@ class DataTableTest extends PHPUnit_Framework_TestCase
                         'test_float2'=> 14.5,
                         'test_stringint'=> "5",
                         0925824 => 'toto',
-                        'super'=>array('this column has geagaean array value, amazing'),
                         'integerArrayToSum'=>array( 1 => 5, 2 => 5.5, 3 => array(2 => 4)),
                     );
         $finalRow = new Piwik_DataTable_Row( array(Piwik_DataTable_Row::COLUMNS => $columns2));
@@ -276,15 +274,44 @@ class DataTableTest extends PHPUnit_Framework_TestCase
                         'test_float2'=> 14.5,
                         'test_float3'=> 1.5,
                         'test_stringint'=> 150, //add also strings!!
-                        'super'=>array(0),
-                        'test' => 0,
+                        'test' => 'string fake',
                         'integerArrayToSum' => array( 1 => 6, 2 => 15.5, 3 => array(1 => 2, 2 => 7)),
                         0925824 => 'toto',
                 );
         $rowWanted = new Piwik_DataTable_Row( array(Piwik_DataTable_Row::COLUMNS => $columnsWanted));
         $this->assertTrue( Piwik_DataTable_Row::isEqual($rowWanted, $finalRow));
     }
-    
+		
+	/**
+	 * Test that adding two string column values results in an exception.
+	 * 
+     * @group Core
+     * @group DataTable
+	 */
+	public function testSumRow_stringException()
+	{
+		$columns = array(
+			'super'=>array('this column has an array string that will be 0 when algorithm sums the value'),
+		);
+		$row1 = new Piwik_DataTable_Row(array(Piwik_DataTable_Row::COLUMNS => $columns));
+		
+		$columns2 = array(
+			'super'=>array('this column has geagaean array value, amazing'),
+		);
+		$row2 = new Piwik_DataTable_Row(array(Piwik_DataTable_Row::COLUMNS => $columns2));
+		
+		// TODO: when phpunit 3.7 is released, can do check w/ "@expectedException Exception"
+		try
+		{
+			$row2->sumRow($row1);
+			$this->fail("sumRow did not throw when adding two string columns.");
+		}
+		catch (Exception $ex)
+		{
+			// pass
+		}
+	}
+	
     /**
      * Test serialize with an infinite recursion (a row linked to a table in the parent hierarchy)
      * After 100 recursion must throw an exception

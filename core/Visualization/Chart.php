@@ -34,6 +34,11 @@ abstract class Piwik_Visualization_Chart implements Piwik_View_Interface
 	protected $displayPercentageInTooltip = true;
 	protected $xSteps = 2;
 	
+	/**
+	 * Whether to show every x-axis tick or only every other one.
+	 */
+	protected $showAllTicks = false;
+	
 	public function setAxisXLabels(&$xLabels)
 	{
 		$this->axes['xaxis']['ticks'] = &$xLabels;
@@ -146,6 +151,14 @@ abstract class Piwik_Visualization_Chart implements Piwik_View_Interface
 	{
 		$this->seriesPicker['selectableColumns'] = $selectableColumns;
 	}
+	
+	/**
+	 * Show every x-axis tick instead of just every other one.
+	 */
+	public function showAllTicks()
+	{
+		$this->showAllTicks = true;
+	}
 
 	public function render()
 	{
@@ -168,7 +181,7 @@ abstract class Piwik_Visualization_Chart implements Piwik_View_Interface
 	public function customizeChartProperties()
 	{
 		// x axis labels with steps
-		if (isset($this->axes['xaxis']['ticks']))
+		if (isset($this->axes['xaxis']['ticks']) && !$this->showAllTicks)
 		{
 			foreach ($this->axes['xaxis']['ticks'] as $i => &$xLabel)
 			{
