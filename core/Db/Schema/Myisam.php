@@ -298,7 +298,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 			",
 
 			'log_link_visit_action' => "CREATE TABLE {$prefixTables}log_link_visit_action (
-											  idlink_va INTEGER(11) NOT NULL AUTO_INCREMENT,
+											  idlink_va INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 									          idsite int(10) UNSIGNED NOT NULL,
 									  		  idvisitor BINARY(8) NOT NULL,
 									          server_time DATETIME NOT NULL,
