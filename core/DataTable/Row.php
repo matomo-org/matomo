@@ -83,7 +83,7 @@ class Piwik_DataTable_Row
 		if(isset($row[self::DATATABLE_ASSOCIATED])
 			&& $row[self::DATATABLE_ASSOCIATED] instanceof Piwik_DataTable)
 		{
-			$this->c[self::DATATABLE_ASSOCIATED] = $row[self::DATATABLE_ASSOCIATED]->getId();
+			$this->setSubtable($row[self::DATATABLE_ASSOCIATED]);
 		}	
 	}
 	
