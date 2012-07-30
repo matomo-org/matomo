@@ -178,11 +178,8 @@ class Test_Piwik_Config extends UnitTestCase
 
 	public function test_dumpConfig()
 	{
-		$header = <<<END_OF_HEADER
-; <?php exit; ?> DO NOT REMOVE THIS LINE
-; file automatically generated or modified by Piwik; you can manually override the default values in global.ini.php by redefining them in this file.
-
-END_OF_HEADER;
+		$header = "; <?php exit; ?> DO NOT REMOVE THIS LINE\n".
+				  "; file automatically generated or modified by Piwik; you can manually override the default values in global.ini.php by redefining them in this file.\n";
 
 		$tests = array(
 			'global only, not cached' => array(
