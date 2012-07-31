@@ -767,6 +767,18 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 				printDebug("IP excluded.");
 			}
 		}
+		
+		if(!$excluded)
+		{
+			if( (isset($_SERVER["HTTP_X_PURPOSE"]) 
+					&& $_SERVER["HTTP_X_PURPOSE"] == "preview")
+			 || (isset($_SERVER['HTTP_X_MOZ'])
+			 		&& $_SERVER['HTTP_X_MOZ'] == "prefetch"))
+	 		{
+	 			$excluded = true;
+	 			printDebug("Prefetch request detected, not a real visit so we Ignore this visit/pageview");
+	 		}
+		}
 
 		if($excluded)
 		{
