@@ -380,7 +380,7 @@ class Piwik_MobileMessaging_API
 	{
 		Piwik_SetOption(
 			$user . Piwik_MobileMessaging::USER_SETTINGS_POSTFIX_OPTION,
-			json_encode($settings)
+			Piwik_Common::json_encode($settings)
 		);
 	}
 
@@ -410,7 +410,7 @@ class Piwik_MobileMessaging_API
 		}
 		else
 		{
-			$userSettings = json_decode($userSettings, true);
+			$userSettings = Piwik_Common::json_decode($userSettings, true);
 		}
 
 		return $userSettings;

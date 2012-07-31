@@ -263,10 +263,10 @@ class Piwik_PDFReports_API
 
 		foreach($reports as &$report) {
 			// decode report parameters
-			$report['parameters'] = json_decode($report['parameters'], true);
+			$report['parameters'] = Piwik_Common::json_decode($report['parameters'], true);
 
 			// decode report list
-			$report['reports'] = json_decode($report['reports'], true);
+			$report['reports'] = Piwik_Common::json_decode($report['reports'], true);
 		}
 
 		// static cache
@@ -325,7 +325,7 @@ class Piwik_PDFReports_API
 		// override report parameters
 		if(!empty($parameters))
 		{
-			$report['parameters'] = json_decode(
+			$report['parameters'] = Piwik_Common::json_decode(
 				self::validateReportParameters($reportType, $parameters),
 				true
 			);
@@ -592,7 +592,7 @@ class Piwik_PDFReports_API
 		// delegate report parameter validation
 		Piwik_PostEvent(self::VALIDATE_PARAMETERS_EVENT, $parameters, $notificationInfo);
 
-		return json_encode($parameters);
+		return Piwik_Common::json_encode($parameters);
 	}
 
 	private static function validateDescription($description)
@@ -625,7 +625,7 @@ class Piwik_PDFReports_API
 			}
 		}
 
-		return json_encode($requestedReports);
+		return Piwik_Common::json_encode($requestedReports);
 	}
 
 	private static function validateReportPeriod($period)
