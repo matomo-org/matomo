@@ -95,7 +95,7 @@ class Piwik_DataTable_Row
 		if($this->isSubtableLoaded())
 		{
 			Piwik_DataTable_Manager::getInstance()->deleteTable( $this->getIdSubDataTable() );
-			$idSubtable = null;
+			$this->c[self::DATATABLE_ASSOCIATED] = null;
 		}
 	}
 
@@ -286,8 +286,8 @@ class Piwik_DataTable_Row
 	{
 		// self::DATATABLE_ASSOCIATED are set as negative values, 
 		// as a flag to signify that the subtable is loaded in memory
-		return !is_null($this->c[self::DATATABLE_ASSOCIATED]) 
-	  		&& $this->c[self::DATATABLE_ASSOCIATED] < 0;
+		return !is_null($this->c[self::DATATABLE_ASSOCIATED])
+	  			&& $this->c[self::DATATABLE_ASSOCIATED] < 0;
 	}
 		
 	/**

@@ -293,6 +293,8 @@ class Test_Piwik_DataTable extends UnitTestCase
         	$this->fail("Exception not raised.");
     	}
     	catch (Exception $expected) {
+    		// manually tell the manager it is deleted otherwise infinite recursion in __destruct
+    		Piwik_DataTable_Manager::getInstance()->setTableDeleted($table->getId());
     		$this->pass();
             return;
         }
