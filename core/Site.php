@@ -118,7 +118,7 @@ class Piwik_Site
 	{
 		if(!isset(self::$infoSites[$this->id][$name]))
 		{
-			throw new Exception('The requested website id = '.(int)$this->id.' couldn\'t be found');
+			throw new Exception('The requested website id = '.(int)$this->id.' (or its property '.$name.') couldn\'t be found');
 		}
 		return self::$infoSites[$this->id][$name];
 	}
