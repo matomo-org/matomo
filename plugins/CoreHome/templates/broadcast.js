@@ -143,14 +143,18 @@ var broadcast = {
      * NOTE: This method will refresh the page with new values.
      *
      * @param {string} str  url with parameters to be updated
+     * @param {bool} showAjaxLoading whether to show the ajax loading gif or not.
      * @return {void}
      */
-    propagateNewPage: function (str)
+    propagateNewPage: function (str, showAjaxLoading)
     {
         // abort all existing ajax requests
         piwikHelper.abortQueueAjax();
-
-        piwikHelper.showAjaxLoading();
+		
+		if (typeof showAjaxLoading === 'undefined' || showAjaxLoading)
+		{
+	        piwikHelper.showAjaxLoading();
+        }
 
         var params_vals = str.split("&");
 

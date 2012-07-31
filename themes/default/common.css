@@ -224,7 +224,6 @@ a {
 	position: absolute;
 	font-size:12px;
 	display: inline-block;
-	padding-left: 12px;
 }
 .top_bar_sites_selector{ 
 	position:absolute; 
@@ -239,6 +238,7 @@ a {
 }
 .top_bar_sites_selector>.sites_autocomplete{
 	position:static;
+	padding-left: 12px;
 }
 .autocompleteMatched {
 	color:#5256BE;
@@ -277,28 +277,26 @@ a {
 	background: url(images/loading-blue.gif) no-repeat right 3px;
 }
 
-.sites_autocomplete .custom_select_ul_list{
+.sites_autocomplete .custom_select_ul_list,.sites_autocomplete ul.ui-autocomplete{
 	position:relative;
-	padding-top:3px;
 	list-style:none;
 	line-height:18px;
+	padding: 0 0 15px 0;
 }
-.sites_autocomplete .custom_select_ul_list li a{
+.sites_autocomplete .custom_select_ul_list li a,.sites_autocomplete .custom_select_all a {
 	line-height:18px;
 	padding:0 20px 0 4px;
 	height:auto;
 	display:block;
 	text-decoration:none; 
 }
-.sites_autocomplete .custom_select_ul_list li a:hover{
+.sites_autocomplete .custom_select_ul_list li a:hover,.sites_autocomplete .custom_select_all a:hover{
 	background:#ebeae6;
 }
 
-.sites_autocomplete .custom_select_all {
-	padding:0 0 0 4px;
-}
 .sites_autocomplete .custom_select_all a{
-	text-decoration:none; 
+	text-decoration:none;
+	margin: 0 0 5px 0;
 }
 
 .sites_autocomplete .custom_select_search {
@@ -333,8 +331,12 @@ a {
 	cursor:pointer;
 }
 
+.sites_selector_container>.sites_autocomplete{
+	padding-left: 12px;
+}
+
 .custom_select_block{ height:0; overflow:hidden; }
-.custom_select_block_show{ height:auto; overflow:visible;  }
+.custom_select_block_show{ height:auto; overflow:visible;padding-top:5px;  }
 
 
 #siteSelect a {

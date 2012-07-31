@@ -16,7 +16,7 @@
  */
 class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 {
-    	static function orderByName($a, $b)
+	static function orderByName($a, $b)
 	{
 		return strcmp($a['name'], $b['name']);
 	}
@@ -36,16 +36,18 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 		if(count($IdSitesAdmin) > 0)
 		{
 			$defaultWebsiteId = $IdSitesAdmin[0];
-			$idSiteSelected = Piwik_Common::getRequestVar('idsite', $defaultWebsiteId);
+			$idSiteSelected = Piwik_Common::getRequestVar('idSite', $defaultWebsiteId);
 		}
 		
 		if($idSiteSelected==='all')
 		{
 			$usersAccessByWebsite = array();
+			$defaultReportSiteName = Piwik_Translate('UsersManager_ApplyToAllWebsites');
 		}
 		else
 		{
 			$usersAccessByWebsite = Piwik_UsersManager_API::getInstance()->getUsersAccessFromSite( $idSiteSelected );
+			$defaultReportSiteName = Piwik_Site::getNameFor($idSiteSelected);
 		}
 		 
 		// we dont want to display the user currently logged so that the user can't change his settings from admin to view...
@@ -85,6 +87,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 		}
 		
 		$view->idSiteSelected = $idSiteSelected;
+		$view->defaultReportSiteName = $defaultReportSiteName;
 		$view->users = $users;
 		$view->usersAliasByLogin = $usersAliasByLogin;
 		$view->usersCount = count($users) - 1;

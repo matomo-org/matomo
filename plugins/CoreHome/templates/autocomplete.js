@@ -12,12 +12,12 @@ $('.but').on('click', function(e)
 	return false;
 });
 
-function switchSite(id, name)
+function switchSite(id, name, showAjaxLoading)
 {
-    $("#sitesSelectionSearch .custom_select_block").toggleClass("custom_select_block_show");
+	$('.sites_autocomplete input').val(id);
     $('.custom_select_main_link').text(name);
     $('.custom_select_main_link').addClass('custom_select_loading');
-    broadcast.propagateNewPage('idSite='+id );
+    broadcast.propagateNewPage('idSite='+id, showAjaxLoading);
     return false;
 }
 
@@ -25,7 +25,14 @@ function switchSite(id, name)
 // can be overridden to customize behavior (see UsersManager)
 window.autocompleteOnNewSiteSelect = function(siteId, siteName)
 {
-	switchSite(siteId, siteName);
+    if (siteId == 'all')
+    {
+    	broadcast.propagateNewPage('module=MultiSites&action=index');
+    }
+    else
+    {
+		switchSite(siteId, siteName);
+    }
 };
 
 $(function() {
@@ -80,7 +87,7 @@ $(function() {
 			$("#sitesSelectionSearch .custom_select_main_link").addClass("custom_select_loading");
 		},
 		open: function(event, ui) {
-			widthSitesSelection = $("#sitesSelectionSearch ul").width();
+			var widthSitesSelection = +$("#sitesSelectionSearch ul").width(); // convert to int
 			$("#sitesSelectionSearch .custom_select_main_link").removeClass("custom_select_loading");
 			if(widthSitesSelection > $('#max_sitename_width').val())
 			{
@@ -88,15 +95,20 @@ $(function() {
 			}
 			else
 			{
-				widthSitesSelection = $('#max_sitename_width').val();
+				widthSitesSelection = +$('#max_sitename_width').val(); // convert to int
 			}
-
+			
 			$('.custom_select_ul_list').hide();
-			$("#siteSelect.ui-autocomplete").show();
-			$("#siteSelect.ui-autocomplete").css('top', '0px');
-			$("#siteSelect.ui-autocomplete").css('left', '-6px');
-			$("#siteSelect.ui-autocomplete").width(parseInt(widthSitesSelection));
-			$(".custom_select_block_show").width(parseInt(widthSitesSelection));
+			
+			// customize jquery-ui's autocomplete positioning
+			var cssToRemove = {float: 'none', position: 'static'};
+			$("#siteSelect.ui-autocomplete")
+				.show().width(widthSitesSelection).css(cssToRemove)
+				.find('li,a').each(function () {
+					$(this).css(cssToRemove);
+				});
+			
+			$(".custom_select_block_show").width(widthSitesSelection);
 		}
 	}).data("autocomplete")._renderItem = function( ul, item ) {
 		$(ul).attr('id', 'siteSelect');
@@ -125,8 +137,58 @@ $(function() {
 		$("#siteSelect.ui-autocomplete").hide();
 		$("#reset").hide();
 	}
-	$("#reset").click(function(e)
-	{
-		reset();
-	});
+	$("#reset").click(reset);
+
+	// set event handling code for non-jquery-autocomplete parts of widget
+    if($('.custom_select_ul_list li').length > 1) {
+    	// event handler for when site selector is clicked. shows dropdown w/ first X sites
+        $("#sitesSelectionSearch .custom_select_main_link").click(function(){
+    		$("#sitesSelectionSearch .custom_select_block").toggleClass("custom_select_block_show");
+    		$('.custom_select_ul_list').show();
+    		$('#websiteSearch').val('').focus();
+    		return false;
+    	});
+        $('#sitesSelectionSearch .custom_select_block').on('mouseenter', function(){
+            $('.custom_select_ul_list li a').each(function(){
+                var hash = broadcast.getHashFromUrl();
+                hash = hash ? hash.replace(/idSite=[0-9]+/, 'idSite='+$(this).attr('siteid')) : "";
+                
+                var queryString = piwikHelper.getCurrentQueryStringWithParametersModified(
+                	'idSite=' + $(this).attr('siteid'));
+                $(this).attr('href', queryString + hash);
+            });
+        });
+
+        // change selection. fire's site selector's on select event and modifies the attributes
+        // of the selected link
+		$('.custom_select_ul_list li a').each(function(){
+            $(this).click(function (e) {
+            	var idsite = $(this).attr('siteid'), name = $(this).text();
+            	window.autocompleteOnNewSiteSelect(idsite, name);
+            	
+            	$("#sitesSelectionSearch .custom_select_main_link")
+            		.attr('siteid', idsite)
+            		.text(name);
+            	
+            	// close the dropdown
+    			$("#sitesSelectionSearch .custom_select_block").toggleClass("custom_select_block_show");
+    			
+    			e.preventDefault();
+            });
+        });
+        
+        var inlinePaddingWidth = 22, staticPaddingWidth = 34;
+        if($(".custom_select_block ul")[0]){
+            var widthSitesSelection = Math.max($(".custom_select_block ul").width()+inlinePaddingWidth, $(".custom_select_main_link").width()+staticPaddingWidth);
+            $(".custom_select_block").css('width', widthSitesSelection);
+        }
+    } else {
+        $('.custom_select_main_link').addClass('noselect');
+    }
+    
+    // handle multi-sites link click
+    $('.custom_select_all').click(function () {
+		$("#sitesSelectionSearch .custom_select_block").toggleClass("custom_select_block_show");
+    	window.autocompleteOnNewSiteSelect('all', $('.custom_select_all>a').text());
+    });
 });

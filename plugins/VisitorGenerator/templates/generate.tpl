@@ -4,7 +4,7 @@
 
 <h2>{'VisitorGenerator_VisitorGenerator'|translate}</h2>
 
-Generated for {'General_LastDays'|translate:$days}.<br />
+Generated visits for {$siteName} and for {'General_LastDays'|translate:$days}.<br />
 Generated {'General_NbActions'|translate}: {$nbActionsTotal}<br />
 {'VisitorGenerator_NbRequestsPerSec'|translate}: {$nbRequestsPerSec}<br />
 {$timer}</p>
