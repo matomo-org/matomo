@@ -80,16 +80,32 @@ class Piwik_DataTable_Manager
 	}
 	
 	/**
+	 * Returns the latest used table ID
+	 * 
+	 * @return int
+	 */
+	public function getMostRecentTableId()
+	{
+		return $this->nextTableId - 1;
+	}
+	
+	/**
 	 * Delete all the registered DataTables from the manager
 	 */
-	public function deleteAll()
+	public function deleteAll( $deleteWhenIdTableGreaterThan = 0)
 	{
 		foreach($this->tables as $id => $table) 
 		{
-			$this->deleteTable($id);
+			if($id > $deleteWhenIdTableGreaterThan)
+			{
+				$this->deleteTable($id);
+			}
 		}
-		$this->tables = array();
-		$this->nextTableId = 0;
+		if($deleteWhenIdTableGreaterThan == 0)
+		{
+			$this->tables = array();
+			$this->nextTableId = 0;
+		}
 	}
 	
 	/**
@@ -102,8 +118,8 @@ class Piwik_DataTable_Manager
 	{
 		if(isset($this->tables[$id]))
 		{
-			$this->setTableDeleted($id);
 			destroy($this->tables[$id]);
+			$this->setTableDeleted($id);
 		}
 	}
 	

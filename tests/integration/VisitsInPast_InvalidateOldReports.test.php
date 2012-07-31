@@ -59,19 +59,22 @@ class Test_Piwik_Integration_VisitsInPast_InvalidateOldReports extends Test_Inte
 		// Test invalidate 1 date only
 		$r = new Piwik_API_Request("module=API&method=CoreAdminHome.invalidateArchivedReports
 			&idSites=4,5,6,55,-1,s',1&dates=2010-01-03");
-		($r->process());
+		$r->process();
+		
 		// Test invalidate comma separated dates
 		$r = new Piwik_API_Request("module=API&method=CoreAdminHome.invalidateArchivedReports
 			&idSites=".$this->idSite.",".$this->idSite2."&dates=2010-01-06,2009-10-30");
-		($r->process());
+		$r->process();
+		
 		// test invalidate date in the past
 		$r = new Piwik_API_Request("module=API&method=CoreAdminHome.invalidateArchivedReports
 			&idSites=".$this->idSite2."&dates=2009-06-29");
-		($r->process());
+		$r->process();
+		
 		// invalidate a date more recent to check the date is only updated when it's earlier than current
 		$r = new Piwik_API_Request("module=API&method=CoreAdminHome.invalidateArchivedReports
 			&idSites=".$this->idSite2."&dates=2010-03-03");
-		($r->process());
+		$r->process();
 		
 		// 2) Call API again, with an older date, which should now return data
 		// website 1
@@ -146,19 +149,27 @@ class Test_Piwik_Integration_VisitsInPast_InvalidateOldReports extends Test_Inte
 		$t->setIp('156.5.55.2');
         $t->setUrl( 'http://example.org/category/Page1');
         $this->checkResponse($t->doTrackPageView( 'Hello'));
+        $t->setUrl( 'http://example.org/category/Page1');
+        $this->checkResponse($t->doTrackPageView( 'Hello'));
         $t->setUrl( 'http://example.org/category/Page2');
         $this->checkResponse($t->doTrackPageView( 'Hello'));
-        $t->setUrl( 'http://example.org/category/Page3');
+        $t->setUrl( 'http://example.org/category/Pagexx');
+        $this->checkResponse($t->doTrackPageView( 'Blabla'));
         
     	// WEBSITE2
     	$t = $this->getTracker($this->idSite2, $this->dateTimeDateInPastWebsite2, $defaultInit = true);
 		$t->setIp('156.52.3.22');
         $t->setUrl( 'http://example.org/category/Page1');
         $this->checkResponse($t->doTrackPageView( 'Hello'));
+        $t->setUrl( 'http://example.org/category/Page1');
+        $this->checkResponse($t->doTrackPageView( 'Hello'));
         $t->setUrl( 'http://example.org/category/Page2');
         $this->checkResponse($t->doTrackPageView( 'Hello'));
-        $t->setUrl( 'http://example.org/category/Page3');
-        
+        $t->setUrl( 'http://example.org/category/Pageyy');
+        $this->checkResponse($t->doTrackPageView( 'Blabla'));
+        $t->setForceVisitDateTime(Piwik_Date::factory($this->dateTimeDateInPastWebsite2)->addHour(0.1)->getDatetime());
+        $t->setUrl( 'http://example.org/category/Pageyy');
+        $this->checkResponse($t->doTrackPageView( 'Blabla'));
 	}
 }
 

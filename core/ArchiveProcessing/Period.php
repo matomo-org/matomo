@@ -171,6 +171,9 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 										$maximumRowsInSubDataTable = null,
 										$columnToSortByBeforeTruncation = null )
 	{
+		// We clean up below all tables created during this function call (and recursive calls) 
+		$latestUsedTableId = Piwik_DataTable_Manager::getInstance()->getMostRecentTableId();
+		
 		$this->loadSubPeriods();
 		if(!is_array($aRecordName))
 		{
@@ -189,7 +192,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 			destroy($table);
 			$this->insertBlobRecord($recordName, $blob);
 		}
-		Piwik_DataTable_Manager::getInstance()->deleteAll();
+		Piwik_DataTable_Manager::getInstance()->deleteAll( $latestUsedTableId );
 		
 		return $nameToCount;
 	}
