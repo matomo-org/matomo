@@ -1,6 +1,5 @@
 #!/bin/sh
 
-
 LATEST=`curl -s http://api.piwik.org/1.0/getLatestVersion/`
 curl -s http://builds.piwik.org/piwik-$LATEST.tar.gz | gunzip | tar xf -
 
