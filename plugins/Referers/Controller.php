@@ -373,11 +373,16 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$request = new Piwik_API_Request($topPageUrlRequest);
 		$request = $request->process();
 		$tables = $request->getArray();
-		$topPageUrls = $tables[key($tables)];
-		$topPageUrls = $topPageUrls->getRowsMetadata('url');
-		$tmpTopPageUrls = array_values($topPageUrls);
-		$topPageUrl = current($tmpTopPageUrls);
 		
+		$topPageUrl = false;
+		$first = key($tables);
+		if(!empty($first))
+		{
+			$topPageUrls = $tables[$first];
+			$topPageUrls = $topPageUrls->getRowsMetadata('url');
+			$tmpTopPageUrls = array_values($topPageUrls);
+			$topPageUrl = current($tmpTopPageUrls);
+		}
 		if(empty($topPageUrl))
 		{
 			$topPageUrl = $this->site->getMainUrl();
