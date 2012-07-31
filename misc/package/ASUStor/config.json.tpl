@@ -3,6 +3,7 @@
         "package": "piwik",
         "name": "Piwik",
         "version": "{{VERSION}}",
+        "section": "Web Hosting",
         "visibility": true,
         "priority": "optional",
         "depends": [],
@@ -16,5 +17,11 @@
         "description": "Open source, self-hosted web analytics.",
         "changes": "http://piwik.org/changelog/",
         "tags": ["analytics", "visits", "visitors", "hits"]
+    },
+    "install": {
+        "dep-service": {
+            "start": ["httpd", "mysql"],
+            "restart": []
+        }
     }
 }
