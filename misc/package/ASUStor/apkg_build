@@ -11,7 +11,7 @@ THIS_DIR=`pwd`
 SCRIPT_PATH=`readlink -f $0`
 SCRIPT_DIR=`dirname ${SCRIPT_PATH}`
 
-JSON_GREP="$SCRIPT_DIR/jsongrep.py"
+JSON_GREP="python $SCRIPT_DIR/jsongrep.py"
 
 PKG_BUILD_PROGRAM=`basename $0`
 #PKG_BUILD_PROGRAM="apkg-build"
@@ -353,7 +353,7 @@ if [ -d $PKG_SRC_DIR/$PKG_WEB_DIR ]; then
 	echo -n "Force change $PKG_SRC_DIR/$PKG_WEB_DIR/* owner and group to $PKG_WEB_USER:$PKG_WEB_GROUP ... "
 	if [ `ls -la $PKG_SRC_DIR/$PKG_WEB_DIR | wc -l` -gt 3 ]; then
 		# change owner
-		chown $PKG_WEB_USER_ID:$PKG_WEB_GROUP_ID $PKG_SRC_DIR/$PKG_WEB_DIR -R
+		sudo chown $PKG_WEB_USER_ID:$PKG_WEB_GROUP_ID $PKG_SRC_DIR/$PKG_WEB_DIR -R
 		# TODO change file permission
 		# chmod $PKG_WEB_PERM $PKG_SRC_DIR/$PKG_WEB_DIR -R
 	fi
