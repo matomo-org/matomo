@@ -90,9 +90,22 @@ class Piwik_UserSettings_API
 	{
 		$dataTable = $this->getOS($idSite, $period, $date, $segment, $addShortLabel = false);
 		$dataTable->filter('GroupBy', array('label', 'Piwik_UserSettings_getDeviceTypeFromOS'));
+		
+		// make sure the datatable has a row for mobile & desktop (if it has rows)
+		$empty = new Piwik_DataTable();
+		$empty->addRowsFromSimpleArray(array(
+			array('label' => 'General_Desktop', Piwik_Archive::INDEX_NB_UNIQ_VISITORS => 0),
+			array('label' => 'General_Mobile', Piwik_Archive::INDEX_NB_UNIQ_VISITORS => 0)
+		));
+		self::addDataTableRecursive($dataTable, $empty);
+		
+		// set the logo metadata
 		$dataTable->queueFilter('MetadataCallbackReplace',
 			array('logo', 'Piwik_UserSettings_getDeviceTypeImg', null, array('label')));
+		
+		// translate the labels
 		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_Translate'));
+		
 		return $dataTable;
 	}
 	
@@ -197,5 +210,28 @@ class Piwik_UserSettings_API
 		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'ucfirst'));
 
 		return $dataTable;
+	}
+	
+	/**
+	 * Adds a DataTable to another. Will recurse on Piwik_DataTable_Arrays.
+	 * 
+	 * @ignore
+	 */
+	private static function addDataTableRecursive( $dataTable, $toAdd )
+	{
+		if ($dataTable instanceof Piwik_DataTable_Array)
+		{
+			foreach ($dataTable->getArray() as $childTable)
+			{
+				self::addDataTableRecursive($childTable, $toAdd);
+			}
+		}
+		else
+		{
+			if ($dataTable->getRowsCount() > 0)
+			{
+				$dataTable->addDataTable($toAdd);
+			}
+		}
 	}
 }
