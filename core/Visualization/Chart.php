@@ -181,12 +181,12 @@ abstract class Piwik_Visualization_Chart implements Piwik_View_Interface
 	public function customizeChartProperties()
 	{
 		// x axis labels with steps
-		if (isset($this->axes['xaxis']['ticks']) && !$this->showAllTicks)
+		if (isset($this->axes['xaxis']['ticks']))
 		{
 			foreach ($this->axes['xaxis']['ticks'] as $i => &$xLabel)
 			{
 				$this->axes['xaxis']['labels'][$i] = $xLabel;
-				if (($i % $this->xSteps) != 0)
+				if (!$this->showAllTicks && ($i % $this->xSteps) != 0)
 				{
 					$xLabel = ' ';
 				}

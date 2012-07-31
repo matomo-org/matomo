@@ -489,7 +489,8 @@ class Piwik_DataTable_Row
 			}
 			else
 			{
-				throw new Exception("Trying to add two strings values in DataTable_Row::sumRowArray.");
+				throw new Exception("Trying to add two strings values in DataTable_Row::sumRowArray: "
+					. "'$thisColumnValue' + '$columnToSumValue'");
 			}
 		}
 		
