@@ -102,8 +102,8 @@ class Piwik_DataTable_Manager
 	{
 		if(isset($this->tables[$id]))
 		{
-			destroy($this->tables[$id]);
 			$this->setTableDeleted($id);
+			destroy($this->tables[$id]);
 		}
 	}
 	
