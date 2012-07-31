@@ -228,7 +228,7 @@ abstract class Piwik_Archive
 	 * @param string $strDate The date or date range string.
 	 * @return Piwik_Period
 	 */
-	public function makePeriodFromQueryParams( $site, $strPeriod, $strDate )
+	static public function makePeriodFromQueryParams( $site, $strPeriod, $strDate )
 	{
 		$tz = $site->getTimezone();
 		
