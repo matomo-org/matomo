@@ -46,7 +46,7 @@ class Piwik_DataTable_Manager
 	 * Id of the next inserted table id in the Manager
 	 * @var int
 	 */
-	protected $nextTableId = 0;
+	protected $nextTableId = 1;
 	
 	/**
 	 * Add a DataTable to the registry
@@ -104,7 +104,7 @@ class Piwik_DataTable_Manager
 		if($deleteWhenIdTableGreaterThan == 0)
 		{
 			$this->tables = array();
-			$this->nextTableId = 0;
+			$this->nextTableId = 1;
 		}
 	}
 	
