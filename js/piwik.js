@@ -516,9 +516,11 @@ var
                 element.addEventListener(eventType, eventHandler, useCapture);
                 return true;
             }
+
             if (element.attachEvent) {
                 return element.attachEvent('on' + eventType, eventHandler);
             }
+
             element['on' + eventType] = eventHandler;
         }
 
@@ -856,6 +858,7 @@ var
                 href = documentAlias.links[0].href;
                 hostName = getHostName(href);
             }
+
             return [hostName, href, referrer];
         }
 
@@ -869,10 +872,12 @@ var
             if (domain.charAt(--dl) === '.') {
                 domain = domain.slice(0, dl);
             }
+
             // remove leading '*'
             if (domain.slice(0, 2) === '*.') {
                 domain = domain.slice(1);
             }
+
             return domain;
         }
 
@@ -884,6 +889,7 @@ var
                 title = title.text || '';
 
                 var tmp = documentAlias.getElementsByTagName('title');
+
                 if (tmp && isDefined(tmp[0])) {
                     title = tmp[0].text;
                 }
@@ -1049,6 +1055,7 @@ var
                 if (configCookiesDisabled) {
                     return;
                 }
+
                 var expiryDate;
 
                 // relative time to expire in milliseconds
@@ -1071,6 +1078,7 @@ var
                 if (configCookiesDisabled) {
                     return 0;
                 }
+
                 var cookiePattern = new RegExp('(^|;)[ ]*' + cookieName + '=([^;]*)'),
                     cookieMatch = cookiePattern.exec(documentAlias.cookie);
 
@@ -1090,6 +1098,7 @@ var
                     targetPattern = new RegExp('#.*');
                     return url.replace(targetPattern, '');
                 }
+
                 return url;
             }
 
@@ -1114,6 +1123,7 @@ var
                 if ((i = baseUrl.indexOf('?')) >= 0) {
                     baseUrl = baseUrl.slice(0, i);
                 }
+
                 if ((i = baseUrl.lastIndexOf('/')) !== baseUrl.length - 1) {
                     baseUrl = baseUrl.slice(0, i + 1);
                 }
@@ -1226,9 +1236,11 @@ var
                 if (configCookiesDisabled) {
                     return '0';
                 }
+
                 if (!isDefined(navigatorAlias.cookieEnabled)) {
                     var testCookieName = getCookieName('testcookie');
                     setCookie(testCookieName, '1');
+
                     return getCookie(testCookieName) === '1' ? '1' : '0';
                 }
 
@@ -1422,10 +1434,12 @@ var
                 visitCount = id[3];
                 currentVisitTs = id[4];
                 lastVisitTs = id[5];
+
                 // case migrating from pre-1.5 cookies
                 if (!isDefined(id[6])) {
                     id[6] = "";
                 }
+
                 lastEcommerceOrderTs = id[6];
 
                 if (!isDefined(currentEcommerceOrderTs)) {
@@ -1573,18 +1587,23 @@ var
                 }
 
                 request += '&revenue=' + grandTotal;
+
                 if (String(subTotal).length) {
                     request += '&ec_st=' + subTotal;
                 }
+
                 if (String(tax).length) {
                     request += '&ec_tx=' + tax;
                 }
+
                 if (String(shipping).length) {
                     request += '&ec_sh=' + shipping;
                 }
+
                 if (String(discount).length) {
                     request += '&ec_dt=' + discount;
                 }
+
                 if (ecommerceItems) {
                     // Removing the SKU index in the array before JSON encoding
                     for (sku in ecommerceItems) {
@@ -1593,19 +1612,23 @@ var
                             if (!isDefined(ecommerceItems[sku][1])) {
                                 ecommerceItems[sku][1] = "";
                             }
+
                             if (!isDefined(ecommerceItems[sku][2])) {
                                 ecommerceItems[sku][2] = "";
                             }
+
                             // Set price to zero
                             if (!isDefined(ecommerceItems[sku][3])
                                     || String(ecommerceItems[sku][3]).length === 0) {
                                 ecommerceItems[sku][3] = 0;
                             }
+
                             // Set quantity to 1
                             if (!isDefined(ecommerceItems[sku][4])
                                     || String(ecommerceItems[sku][4]).length === 0) {
                                 ecommerceItems[sku][4] = 1;
                             }
+
                             items.push(ecommerceItems[sku]);
                         }
                     }
@@ -1763,6 +1786,7 @@ var
                         classesRegExp += '|' + configClasses[i];
                     }
                 }
+
                 classesRegExp += ')( |$)';
 
                 return new RegExp(classesRegExp);
@@ -1772,11 +1796,6 @@ var
              * Link or Download?
              */
             function getLinkType(className, href, isInLink) {
-                // outlinks
-                if (!isInLink) {
-                    return 'link';
-                }
-
                 // does class indicate whether it is an (explicit/forced) outlink or a download?
                 var downloadPattern = getClassesRegExp(configDownloadClasses, 'download'),
                     linkPattern = getClassesRegExp(configLinkClasses, 'link'),
@@ -1785,10 +1804,10 @@ var
                     downloadExtensionsPattern = new RegExp('\\.(' + configDownloadExtensions + ')([?&#]|$)', 'i');
 
                 // optimization of the if..elseif..else construct below
-                return linkPattern.test(className) ? 'link' : (downloadPattern.test(className) || downloadExtensionsPattern.test(href) ? 'download' : 0);
+                return linkPattern.test(className) ? 'link' : (downloadPattern.test(className) || downloadExtensionsPattern.test(href) ? 'download' : (isInLink ? 0 : 'link'));
 
 /*
-                var linkType;
+                var linkType = 0;
 
                 if (linkPattern.test(className)) {
                     // class attribute contains 'piwik_link' (or user's override)
@@ -1799,9 +1818,8 @@ var
                 } else if (downloadExtensionsPattern.test(sourceHref)) {
                     // file extension matches a defined download extension
                     linkType = 'download';
-                } else {
-                    // otherwise none of the above
-                    linkType = 0;
+                } else if (!isInLink) {
+                    linkType = 'link';
                 }
 
                 return linkType;
@@ -2175,19 +2193,23 @@ var
                  */
                 getCustomVariable: function (index, scope) {
                     var cvar;
+
                     if (!isDefined(scope)) {
                         scope = "visit";
                     }
+
                     if (scope === "page" || scope === 3) {
                         cvar = customVariablesPage[index];
                     } else if (scope === "visit" || scope === 2) {
                         loadCustomVariables();
                         cvar = customVariables[index];
                     }
+
                     if (!isDefined(cvar)
                             || (cvar && cvar[0] === '')) {
                         return false;
                     }
+
                     return cvar;
                 },
 
@@ -2568,10 +2590,13 @@ var
                     } else if (category instanceof Array) {
                         category = JSON2.stringify(category);
                     }
+
                     customVariablesPage[5] = ['_pkc', category];
+
                     if (isDefined(price) && String(price).length) {
                         customVariablesPage[2] = ['_pkp', price];
                     }
+
                     // On a category page, do not track Product name not defined
                     if ((!isDefined(sku) || !sku.length)
                             && (!isDefined(name) || !name.length)) {
@@ -2581,9 +2606,11 @@ var
                     if (isDefined(sku) && sku.length) {
                         customVariablesPage[3] = ['_pks', sku];
                     }
+
                     if (!isDefined(name) || !name.length) {
                         name = "";
                     }
+
                     customVariablesPage[4] = ['_pkn', name];
                 },
 
@@ -2750,14 +2777,17 @@ var
         if (option) {
             piwikTracker.setLinkTrackingTimer(option);
         }
+
         option = getOption('download_extensions');
         if (option) {
             piwikTracker.setDownloadExtensions(option);
         }
+
         option = getOption('hosts_alias');
         if (option) {
             piwikTracker.setDomains(option);
         }
+
         option = getOption('ignore_classes');
         if (option) {
             piwikTracker.setIgnoreClasses(option);
