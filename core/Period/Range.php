@@ -298,6 +298,7 @@ class Piwik_Period_Range extends Piwik_Period
 				// We don't use the month if 
 				// the end day is in this month, is before today, and month not finished
 				&& !($endDate->isEarlier($this->today)
+					&& $this->today->toString('Y') == $endOfMonth->toString('Y')
 					&& $this->today->compareMonth($endOfMonth) == 0)
 			)
 			{
