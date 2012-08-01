@@ -365,4 +365,12 @@ class Piwik_DataTable_Array
 			$toTable->addRow($row);
 		}
 	}
+	
+	public function addDataTable( Piwik_DataTable $tableToSum )
+	{
+		foreach ($this->getArray() as $childTable)
+		{
+			$childTable->addDataTable($tableToSum);
+		}
+	}
 }

@@ -94,10 +94,10 @@ class Piwik_UserSettings_API
 		// make sure the datatable has a row for mobile & desktop (if it has rows)
 		$empty = new Piwik_DataTable();
 		$empty->addRowsFromSimpleArray(array(
-			array('label' => 'General_Desktop', Piwik_Archive::INDEX_NB_UNIQ_VISITORS => 0),
-			array('label' => 'General_Mobile', Piwik_Archive::INDEX_NB_UNIQ_VISITORS => 0)
+			array('label' => 'General_Desktop', Piwik_Archive::INDEX_NB_VISITS => 0),
+			array('label' => 'General_Mobile', Piwik_Archive::INDEX_NB_VISITS => 0)
 		));
-		self::addDataTableRecursive($dataTable, $empty);
+		$dataTable->addDataTable($empty);
 		
 		// set the logo metadata
 		$dataTable->queueFilter('MetadataCallbackReplace',
@@ -212,26 +212,4 @@ class Piwik_UserSettings_API
 		return $dataTable;
 	}
 	
-	/**
-	 * Adds a DataTable to another. Will recurse on Piwik_DataTable_Arrays.
-	 * 
-	 * @ignore
-	 */
-	private static function addDataTableRecursive( $dataTable, $toAdd )
-	{
-		if ($dataTable instanceof Piwik_DataTable_Array)
-		{
-			foreach ($dataTable->getArray() as $childTable)
-			{
-				self::addDataTableRecursive($childTable, $toAdd);
-			}
-		}
-		else
-		{
-			if ($dataTable->getRowsCount() > 0)
-			{
-				$dataTable->addDataTable($toAdd);
-			}
-		}
-	}
 }

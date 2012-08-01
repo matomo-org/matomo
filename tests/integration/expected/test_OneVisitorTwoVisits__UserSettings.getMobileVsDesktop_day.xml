@@ -13,7 +13,7 @@
 	</row>
 	<row>
 		<label>Mobile</label>
-		<nb_uniq_visitors>0</nb_uniq_visitors>
+		<nb_visits>0</nb_visits>
 		<logo>plugins/UserSettings/images/screens/mobile.gif</logo>
 	</row>
 </result>
