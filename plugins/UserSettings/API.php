@@ -97,7 +97,10 @@ class Piwik_UserSettings_API
 			array('label' => 'General_Desktop', Piwik_Archive::INDEX_NB_VISITS => 0),
 			array('label' => 'General_Mobile', Piwik_Archive::INDEX_NB_VISITS => 0)
 		));
-		$dataTable->addDataTable($empty);
+		if($dataTable->getRowsCount() > 0)
+		{
+			$dataTable->addDataTable($empty);
+		}
 		
 		// set the logo metadata
 		$dataTable->queueFilter('MetadataCallbackReplace',

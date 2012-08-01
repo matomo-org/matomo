@@ -366,11 +366,20 @@ class Piwik_DataTable_Array
 		}
 	}
 	
+	/**
+	 * Adds a DataTable to all the tables in this array
+	 * NOTE: Will only add $tableToSum if the childTable has some rows
+	 * 
+	 * @param Piwik_DataTable $tableToSum
+	 */
 	public function addDataTable( Piwik_DataTable $tableToSum )
 	{
 		foreach ($this->getArray() as $childTable)
 		{
-			$childTable->addDataTable($tableToSum);
+			if($childTable->getRowsCount() > 0)
+			{
+				$childTable->addDataTable($tableToSum);
+			}
 		}
 	}
 }
