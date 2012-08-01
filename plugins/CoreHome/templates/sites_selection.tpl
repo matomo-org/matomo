@@ -23,7 +23,7 @@
 <div class="sites_autocomplete">
     <div id="sitesSelectionSearch" class="custom_select">
     
-        <a href="#" onclick="return false" class="custom_select_main_link" siteid="{if isset($idSite)}{$idSite}{else}{$sites[0].id}{/if}">{if isset($siteName)}{$siteName}{else}{$sites[0].name}{/if}</a>
+        <a href="#" onclick="return false" class="custom_select_main_link" siteid="{if isset($idSite)}{$idSite}{else}{$sites[0].idsite}{/if}">{if isset($siteName)}{$siteName}{else}{$sites[0].name}{/if}</a>
         
         <div class="custom_select_block">
             {if isset($allWebsitesLinkLocation) && $allWebsitesLinkLocation eq 'top'}
