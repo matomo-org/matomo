@@ -17,6 +17,13 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
     protected static $idSite2        = 1;
     protected static $idGoalStandard = 1;
 
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+        self::setUpWebsitesAndGoals();
+        self::trackVisits();
+    }
+
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
@@ -166,20 +173,20 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
         return 'ecommerceOrderWithItems';
     }
 
-    public function setUpWebsitesAndGoals()
+    public static function setUpWebsitesAndGoals()
     {
-        $this->createWebsite(self::$dateTime, $ecommerce = 1);
-        $this->createWebsite(self::$dateTime);
+        self::createWebsite(self::$dateTime, $ecommerce = 1);
+        self::createWebsite(self::$dateTime);
         Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'title match, triggered ONCE', 'title', 'incredible', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = true);
     }
 
-    protected function trackVisits()
+    protected static function trackVisits()
     {
         $dateTime = self::$dateTime;
         $idSite   = self::$idSite;
         $idSite2  = self::$idSite2;
 
-        $t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+        $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
         // VISIT NO 1
         $t->setUrl('http://example.org/index.htm');
         $category = 'Electronics & Cameras';
@@ -189,25 +196,25 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
         $t->setEcommerceView('SKU2', 'PRODUCT name', $category, $price);
         $t->setCustomVariable(5, 'VisitorType', 'NewLoggedOut', 'visit');
         $t->setCustomVariable(4, 'ValueIsZero', '0', 'visit');
-        $this->assertTrue($t->getCustomVariable(3, 'page') == array('_pks', 'SKU2'));
-        $this->assertTrue($t->getCustomVariable(4, 'page') == array('_pkn', 'PRODUCT name'));
-        $this->assertTrue($t->getCustomVariable(5, 'page') == array('_pkc', $category));
-        $this->assertTrue($t->getCustomVariable(2, 'page') == array('_pkp', $price));
-        $this->assertTrue($t->getCustomVariable(5, 'visit') == array('VisitorType', 'NewLoggedOut'));
-        $this->checkResponse($t->doTrackPageView('incredible title!'));
+        self::assertTrue($t->getCustomVariable(3, 'page') == array('_pks', 'SKU2'));
+        self::assertTrue($t->getCustomVariable(4, 'page') == array('_pkn', 'PRODUCT name'));
+        self::assertTrue($t->getCustomVariable(5, 'page') == array('_pkc', $category));
+        self::assertTrue($t->getCustomVariable(2, 'page') == array('_pkp', $price));
+        self::assertTrue($t->getCustomVariable(5, 'visit') == array('VisitorType', 'NewLoggedOut'));
+        self::checkResponse($t->doTrackPageView('incredible title!'));
 
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
         $t->setEcommerceView($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name', $category, $price = 666);
-        $this->checkResponse($t->doTrackPageView('Another Product page'));
+        self::checkResponse($t->doTrackPageView('Another Product page'));
 
         // Note: here testing to pass a timestamp to the tracking API rather than the datetime string
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.2)->getTimestampUTC());
         $t->setEcommerceView($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name', '');
-        $this->checkResponse($t->doTrackPageView('Another Product page with no category'));
+        self::checkResponse($t->doTrackPageView('Another Product page with no category'));
 
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.2)->getDatetime());
         $t->setEcommerceView($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name', $categories = array('Multiple Category 1', '', 0, 'Multiple Category 2', 'Electronics & Cameras', 'Multiple Category 4', 'Multiple Category 5', 'SHOULD NOT BE REPORTEDSSSSSSSSSSSSSSssssssssssssssssssssssssssstttttttttttttttttttttttuuuu!'));
-        $this->checkResponse($t->doTrackPageView('Another Product page with multiple categories'));
+        self::checkResponse($t->doTrackPageView('Another Product page with multiple categories'));
 
         // VISIT NO 2
 
@@ -217,17 +224,17 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
         // VIEW category page
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1.6)->getDatetime());
         $t->setEcommerceView('', '', $category);
-        $this->checkResponse($t->doTrackPageView('Looking at ' . $category . ' page with a page level custom variable'));
+        self::checkResponse($t->doTrackPageView('Looking at ' . $category . ' page with a page level custom variable'));
 
         // VIEW category page again
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1.7)->getDatetime());
         $t->setEcommerceView('', '', $category);
-        $this->checkResponse($t->doTrackPageView('Looking at ' . $category . ' page again'));
+        self::checkResponse($t->doTrackPageView('Looking at ' . $category . ' page again'));
 
         // VIEW product page
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1.8)->getDatetime());
         $t->setEcommerceView($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name', $category = 'Electronics & Cameras', $price = 666);
-        $this->checkResponse($t->doTrackPageView('Looking at product page'));
+        self::checkResponse($t->doTrackPageView('Looking at product page'));
 
         // ADD TO CART
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1.9)->getDatetime());
@@ -235,13 +242,13 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
         $t->addEcommerceItem($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name', $category = 'Electronics & Cameras', $price = 500, $quantity = 1);
         $t->addEcommerceItem($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name', $category = 'Electronics & Cameras', $price = 500, $quantity = 2);
         $t->addEcommerceItem($sku = 'SKU WILL BE DELETED', $name = 'BLABLA DELETED', $category = '', $price = 5000000, $quantity = 20);
-        $this->checkResponse($t->doTrackEcommerceCartUpdate($grandTotal = 1000));
+        self::checkResponse($t->doTrackEcommerceCartUpdate($grandTotal = 1000));
 
         // ORDER NO 1
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(2)->getDatetime());
         $t->addEcommerceItem($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name', $categories, $price = 500, $quantity = 2);
         $t->addEcommerceItem($sku = 'ANOTHER SKU HERE', $name = 'PRODUCT name BIS', $category = '', $price = 100, $quantity = 6);
-        $this->checkResponse($t->doTrackEcommerceOrder($orderId = '937nsjusu 3894', $grandTotal = 1111.11, $subTotal = 1000, $tax = 111, $shipping = 0.11, $discount = 666));
+        self::checkResponse($t->doTrackEcommerceOrder($orderId = '937nsjusu 3894', $grandTotal = 1111.11, $subTotal = 1000, $tax = 111, $shipping = 0.11, $discount = 666));
 
         // ORDER NO 2
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(2.1)->getDatetime());
@@ -254,7 +261,7 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
         // without passing the custom variable 1st party cookie along since it's not known by back office
         $visitorCustomVarSave = $t->visitorCustomVar;
         $t->visitorCustomVar  = false;
-        $this->checkResponse($t->doTrackEcommerceOrder($orderId = '1037nsjusu4s3894', $grandTotal = 2000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
+        self::checkResponse($t->doTrackEcommerceOrder($orderId = '1037nsjusu4s3894', $grandTotal = 2000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
         $t->visitorCustomVar = $visitorCustomVarSave;
 
         // ORDER SHOULD DEDUPE
@@ -262,13 +269,13 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
         // we test that both the order, and the products, are not updated on subsequent "Receipt" views
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(2.2)->getDatetime());
         $t->addEcommerceItem($sku = 'SKU2', $name = 'Canon SLR NOT!', $category = 'Electronics & Cameras NOT!', $price = 15000000000, $quantity = 10000);
-        $this->checkResponse($t->doTrackEcommerceOrder($orderId = '1037nsjusu4s3894', $grandTotal = 20000000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
+        self::checkResponse($t->doTrackEcommerceOrder($orderId = '1037nsjusu4s3894', $grandTotal = 20000000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
 
         // Leave with an opened cart
         // No category
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(2.3)->getDatetime());
         $t->addEcommerceItem($sku = 'SKU IN ABANDONED CART ONE', $name = 'PRODUCT ONE LEFT in cart', $category = '', $price = 500.11111112, $quantity = 2);
-        $this->checkResponse($t->doTrackEcommerceCartUpdate($grandTotal = 1000));
+        self::checkResponse($t->doTrackEcommerceCartUpdate($grandTotal = 1000));
 
         // Record the same visit leaving twice an abandoned cart
         foreach (array(0, 5, 24) as $offsetHour) {
@@ -277,44 +284,44 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
             if ($offsetHour >= 24) {
                 $t->setDebugStringAppend("&_idvc=1");
                 $t->addEcommerceItem($sku = 'SKU2', $name = 'Canon SLR', $category = 'Electronics & Cameras', $price = 1500, $quantity = 1);
-                $this->checkResponse($t->doTrackEcommerceOrder($orderId = '1037nsjusu4s3894', $grandTotal = 20000000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
+                self::checkResponse($t->doTrackEcommerceOrder($orderId = '1037nsjusu4s3894', $grandTotal = 20000000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
             }
 
             // VIEW PRODUCT PAGES
             $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour($offsetHour + 2.5)->getDatetime());
             $t->setEcommerceView($sku = 'SKU VERY nice indeed', $name = 'PRODUCT THREE LEFT in cart', $category = '', $price = 999);
-            $this->checkResponse($t->doTrackPageView("View product left in cart"));
+            self::checkResponse($t->doTrackPageView("View product left in cart"));
 
             $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour($offsetHour + 2.55)->getDatetime());
             $t->setEcommerceView($sku = 'SKU VERY nice indeed', $name = 'PRODUCT THREE LEFT in cart', $category = '', $price = 333);
-            $this->checkResponse($t->doTrackPageView("View product left in cart"));
+            self::checkResponse($t->doTrackPageView("View product left in cart"));
 
             $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour($offsetHour + 2.6)->getDatetime());
             $t->setEcommerceView($sku = 'SKU IN ABANDONED CART TWO', $name = 'PRODUCT TWO LEFT in cart', $category = 'Category TWO LEFT in cart');
-            $this->checkResponse($t->doTrackPageView("View product left in cart"));
+            self::checkResponse($t->doTrackPageView("View product left in cart"));
 
             // ABANDONED CART
             $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour($offsetHour + 2.7)->getDatetime());
             $t->addEcommerceItem($sku = 'SKU IN ABANDONED CART ONE', $name = 'PRODUCT ONE LEFT in cart', $category = '', $price = 500.11111112, $quantity = 1);
             $t->addEcommerceItem($sku = 'SKU IN ABANDONED CART TWO', $name = 'PRODUCT TWO LEFT in cart', $category = 'Category TWO LEFT in cart', $price = 1000, $quantity = 2);
             $t->addEcommerceItem($sku = 'SKU VERY nice indeed', $name = 'PRODUCT THREE LEFT in cart', $category = 'Electronics & Cameras', $price = 10, $quantity = 1);
-            $this->checkResponse($t->doTrackEcommerceCartUpdate($grandTotal = 2510.11111112));
+            self::checkResponse($t->doTrackEcommerceCartUpdate($grandTotal = 2510.11111112));
         }
 
         // One more Ecommerce order to check weekly archiving works fine on orders
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(30.7)->getDatetime());
         $t->addEcommerceItem($sku = 'TRIPOD SKU', $name = 'TRIPOD - bought day after', $category = 'Tools', $price = 100, $quantity = 2);
-        $this->checkResponse($t->doTrackEcommerceOrder($orderId = '666', $grandTotal = 240, $subTotal = 200, $tax = 20, $shipping = 20, $discount = 20));
+        self::checkResponse($t->doTrackEcommerceOrder($orderId = '666', $grandTotal = 240, $subTotal = 200, $tax = 20, $shipping = 20, $discount = 20));
 
         // One more Ecommerce order, without any product in it, because we still track orders without products
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(30.8)->getDatetime());
-        $this->checkResponse($t->doTrackEcommerceOrder($orderId = '777', $grandTotal = 10000));
+        self::checkResponse($t->doTrackEcommerceOrder($orderId = '777', $grandTotal = 10000));
 
         // testing the same order in a different website should record
-        $t = $this->getTracker($idSite2, $dateTime, $defaultInit = true);
+        $t = self::getTracker($idSite2, $dateTime, $defaultInit = true);
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(30.9)->getDatetime());
         $t->addEcommerceItem($sku = 'TRIPOD SKU', $name = 'TRIPOD - bought day after', $category = 'Tools', $price = 100, $quantity = 2);
-        $this->checkResponse($t->doTrackEcommerceOrder($orderId = '777', $grandTotal = 250));
+        self::checkResponse($t->doTrackEcommerceOrder($orderId = '777', $grandTotal = 250));
         //------------------------------------- End tracking
     }
 }

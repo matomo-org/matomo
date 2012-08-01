@@ -18,6 +18,13 @@ class Test_Piwik_Integration_TrackGoals_AllowMultipleConversionsPerVisit extends
     protected static $idGoal_OneConversionPerVisit = 1;
     protected static $idGoal_MultipleConversionPerVisit = 2;
 
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+        self::setUpWebsitesAndGoals();
+        self::trackVisits();
+    }
+
     /**
      * @group        Integration
      * @group        TrackGoals_AllowMultipleConversionsPerVisit
@@ -57,9 +64,9 @@ class Test_Piwik_Integration_TrackGoals_AllowMultipleConversionsPerVisit extends
         return 'trackGoals_allowMultipleConversionsPerVisit';
     }
 
-    public function setUpWebsitesAndGoals()
+    public static function setUpWebsitesAndGoals()
     {
-        $this->createWebsite(self::$dateTime);
+        self::createWebsite(self::$dateTime);
 
         // First, a goal that is only recorded once per visit
         Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'triggered js ONCE', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = false);
@@ -68,37 +75,37 @@ class Test_Piwik_Integration_TrackGoals_AllowMultipleConversionsPerVisit extends
         Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'triggered js MULTIPLE ALLOWED', 'manually', '', '', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = true);
     }
 
-    protected function trackVisits()
+    protected static function trackVisits()
     {
         $dateTime                          = self::$dateTime;
         $idSite                            = self::$idSite;
         $idGoal_OneConversionPerVisit      = self::$idGoal_OneConversionPerVisit;
         $idGoal_MultipleConversionPerVisit = self::$idGoal_MultipleConversionPerVisit;
 
-        $t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+        $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
 
         // Record 1st goal, should only have 1 conversion
         $t->setUrl('http://example.org/index.htm');
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.3)->getDatetime());
-        $this->checkResponse($t->doTrackPageView('Thank you mate'));
+        self::checkResponse($t->doTrackPageView('Thank you mate'));
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.4)->getDatetime());
-        $this->checkResponse($t->doTrackGoal($idGoal_OneConversionPerVisit, $revenue = 10000000));
+        self::checkResponse($t->doTrackGoal($idGoal_OneConversionPerVisit, $revenue = 10000000));
 
         // Record 2nd goal, should record both conversions
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.5)->getDatetime());
-        $this->checkResponse($t->doTrackGoal($idGoal_MultipleConversionPerVisit, $revenue = 300));
+        self::checkResponse($t->doTrackGoal($idGoal_MultipleConversionPerVisit, $revenue = 300));
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.6)->getDatetime());
-        $this->checkResponse($t->doTrackGoal($idGoal_MultipleConversionPerVisit, $revenue = 366));
+        self::checkResponse($t->doTrackGoal($idGoal_MultipleConversionPerVisit, $revenue = 366));
 
         // Update & set to not allow multiple
         $goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
         $goal  = $goals[$idGoal_OneConversionPerVisit];
-        $this->assertTrue($goal['allow_multiple'] == 0);
+        self::assertTrue($goal['allow_multiple'] == 0);
         Piwik_Goals_API::getInstance()->updateGoal($idSite, $idGoal_OneConversionPerVisit, $goal['name'], @$goal['match_attribute'], @$goal['pattern'], @$goal['pattern_type'], @$goal['case_sensitive'], $goal['revenue'], $goal['allow_multiple'] = 1);
-        $this->assertTrue($goal['allow_multiple'] == 1);
+        self::assertTrue($goal['allow_multiple'] == 1);
 
         // 1st goal should Now be tracked
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.61)->getDatetime());
-        $this->checkResponse($t->doTrackGoal($idGoal_OneConversionPerVisit, $revenue = 656));
+        self::checkResponse($t->doTrackGoal($idGoal_OneConversionPerVisit, $revenue = 656));
     }
 }

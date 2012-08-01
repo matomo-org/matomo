@@ -22,6 +22,13 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
     protected static $idSite   = 1;
     protected static $dateTime = '2010-03-06 11:22:33';
 
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+        self::setUpWebsitesAndGoals();
+        self::trackVisits();
+    }
+
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
@@ -59,19 +66,22 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
         );
     }
 
-    protected function setUpWebsitesAndGoals()
+    protected static function setUpWebsitesAndGoals()
     {
         // tests run in UTC, the Tracker in UTC
-        $this->createWebsite(self::$dateTime);
+        self::createWebsite(self::$dateTime);
     }
 
-    protected function trackVisits()
+    protected static function trackVisits()
     {
-        $t = $this->getTracker(self::$idSite, self::$dateTime, $defaultInit = true);
-        $this->trackVisitsImpl($t);
+        $t = self::getTracker(self::$idSite, self::$dateTime, $defaultInit = true);
+        self::trackVisitsImpl($t);
     }
 
-    protected function trackVisitsImpl($t)
+    /**
+     * @param PiwikTracker $t
+     */
+    protected static function trackVisitsImpl($t)
     {
         $dateTime = self::$dateTime;
         $idSite   = self::$idSite;
@@ -87,7 +97,7 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
         // Record 1st page view
         $urlPage1 = 'http://example.org/index.htm?excluded_Parameter=SHOULD_NOT_DISPLAY&parameter=Should display';
         $t->setUrl($urlPage1);
-        $this->checkResponse($t->doTrackPageView('incredible title!'));
+        self::checkResponse($t->doTrackPageView('incredible title!'));
 
         // testing that / and index.htm above record with different URLs
         // Recording the 2nd page after 3 minutes
@@ -95,22 +105,22 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
         $urlPage2 = 'http://example.org/';
         $t->setUrl($urlPage2);
 //		$t->setUrlReferrer($urlPage1);
-        $this->checkResponse($t->doTrackPageView('Second page view - should be registered as URL /'));
+        self::checkResponse($t->doTrackPageView('Second page view - should be registered as URL /'));
 
 //		$t->setUrlReferrer($urlPage2);
         // Click on external link after 6 minutes (3rd action)
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
-        $this->checkResponse($t->doTrackAction('http://dev.piwik.org/svn', 'link'));
+        self::checkResponse($t->doTrackAction('http://dev.piwik.org/svn', 'link'));
 
         // Click on file download after 12 minutes (4th action)
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.2)->getDatetime());
-        $this->checkResponse($t->doTrackAction('http://piwik.org/path/again/latest.zip', 'download'));
+        self::checkResponse($t->doTrackAction('http://piwik.org/path/again/latest.zip', 'download'));
 
         // Click on two more external links, one the same as before (5th & 6th actions)
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.22)->getDateTime());
-        $this->checkResponse($t->doTrackAction('http://outlinks.org/other_outlink', 'link'));
+        self::checkResponse($t->doTrackAction('http://outlinks.org/other_outlink', 'link'));
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.25)->getDateTime());
-        $this->checkResponse($t->doTrackAction('http://dev.piwik.org/svn', 'link'));
+        self::checkResponse($t->doTrackAction('http://dev.piwik.org/svn', 'link'));
 
         // Create Goal 1: Triggered by JS, after 18 minutes
         $idGoal = Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');
@@ -118,17 +128,17 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
 
         // Change to Thai  browser to ensure the conversion is credited to FR instead (the visitor initial country)
         $t->setBrowserLanguage('th');
-        $this->checkResponse($t->doTrackGoal($idGoal, $revenue = 42));
+        self::checkResponse($t->doTrackGoal($idGoal, $revenue = 42));
 
         // Track same Goal twice (after 24 minutes), should only be tracked once
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.4)->getDatetime());
-        $this->checkResponse($t->doTrackGoal($idGoal, $revenue = 42));
+        self::checkResponse($t->doTrackGoal($idGoal, $revenue = 42));
 
         $t->setBrowserLanguage('fr');
         // Final page view (after 27 min)
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.45)->getDatetime());
         $t->setUrl('http://example.org/index.htm');
-        $this->checkResponse($t->doTrackPageView('Looking at homepage (again)...'));
+        self::checkResponse($t->doTrackPageView('Looking at homepage (again)...'));
 
         // -
         // End of first visit: 24min
@@ -145,7 +155,7 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
         $t->DEBUG_APPEND_URL = '&_idvc=2';
 
         // Goal Tracking URL matching, testing custom referer including keyword
-        $this->checkResponse($t->doTrackPageView('Checkout/Purchasing...'));
+        self::checkResponse($t->doTrackPageView('Checkout/Purchasing...'));
         // -
         // End of second visit
     }

@@ -20,21 +20,24 @@ class Test_Piwik_Integration_ApiGetReportMetadata extends IntegrationTestCase
     protected static $idGoal2  = 2;
     protected static $idGoal3  = 3;
 
-    protected function setUpWebsitesAndGoals()
-    {
-        $this->createWebsite(self::$dateTime, $ecommerce = 1);
-        Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
-        Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'Goal 2 - Hello', 'url', 'hellow', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 0);
-        Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'triggered js', 'manually', '', '');
-    }
 
-    public function setUp()
+    public static function setUpBeforeClass()
     {
-        parent::setUp();
+        parent::setUpBeforeClass();
+        self::setUpWebsitesAndGoals();
+        self::trackVisits();
 
         // From Piwik 1.5, we hide Goals.getConversions and other get* methods via @ignore, but we ensure that they still work
         // This hack allows the API proxy to let us generate example URLs for the ignored functions
         Piwik_API_Proxy::getInstance()->hideIgnoredFunctions = false;
+    }
+
+    protected static function setUpWebsitesAndGoals()
+    {
+        self::createWebsite(self::$dateTime, $ecommerce = 1);
+        Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
+        Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'Goal 2 - Hello', 'url', 'hellow', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 0);
+        Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'triggered js', 'manually', '', '');
     }
 
     public function getOutputPrefix()
@@ -59,19 +62,19 @@ class Test_Piwik_Integration_ApiGetReportMetadata extends IntegrationTestCase
         $this->runApiTests($api, $params);
     }
 
-    protected function trackVisits()
+    protected static function trackVisits()
     {
         $idSite   = self::$idSite;
         $dateTime = self::$dateTime;
 
-        $t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+        $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
 
         // Record 1st page view
         $t->setUrl('http://example.org/index.htm');
-        $this->checkResponse($t->doTrackPageView('incredible title!'));
+        self::checkResponse($t->doTrackPageView('incredible title!'));
 
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.3)->getDatetime());
-        $this->checkResponse($t->doTrackGoal(self::$idGoal3, $revenue = 42.256));
+        self::checkResponse($t->doTrackGoal(self::$idGoal3, $revenue = 42.256));
     }
 }
 

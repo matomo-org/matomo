@@ -14,7 +14,7 @@ require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
  * Provides helpers to track data and then call API get* methods to check outputs automatically.
  *
  */
-abstract class IntegrationTestCase extends DatabaseTestCase
+abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 {
 
     /**
@@ -24,15 +24,37 @@ abstract class IntegrationTestCase extends DatabaseTestCase
      */
     protected $lastLanguage;
 
-    /**
-     * Initializes the test
-     * Load english translations to ensure API response have english text
-     *
-     * @see tests/core/Test_Database#setUp()
-     */
-    public function setUp()
+    public static function setUpBeforeClass()
     {
-        parent::setUp();
+        try {
+            Piwik::createConfigObject();
+            Piwik_Config::getInstance()->setTestEnvironment();
+
+            $dbConfig = Piwik_Config::getInstance()->database;
+            $dbName = $dbConfig['dbname'];
+            $dbConfig['dbname'] = null;
+
+            Piwik::createDatabaseObject($dbConfig);
+
+            Piwik::dropDatabase();
+            Piwik::createDatabase($dbName);
+            Piwik::disconnectDatabase();
+
+            Piwik::createDatabaseObject();
+            Piwik::createTables();
+            Piwik::createLogObject();
+
+            Piwik_PluginsManager::getInstance()->loadPlugins(array());
+
+        } catch(Exception $e) {
+            self::fail("TEST INITIALIZATION FAILED: " .$e->getMessage());
+        }
+
+        include "DataFiles/SearchEngines.php";
+        include "DataFiles/Languages.php";
+        include "DataFiles/Countries.php";
+        include "DataFiles/Currencies.php";
+        include "DataFiles/LanguageToCountry.php";
 
         if (self::$widgetTestingLevel != self::NO_WIDGET_TESTING)
         {
@@ -60,8 +82,8 @@ abstract class IntegrationTestCase extends DatabaseTestCase
 
         // List of Modules, or Module.Method that should not be called as part of the XML output compare
         // Usually these modules either return random changing data, or are already tested in specific unit tests.
-        $this->setApiNotToCall(self::$defaultApiNotToCall);
-        $this->setApiToCall( array());
+        self::setApiNotToCall(self::$defaultApiNotToCall);
+        self::setApiToCall( array());
 
         if (self::$widgetTestingLevel != self::NO_WIDGET_TESTING)
         {
@@ -76,27 +98,44 @@ abstract class IntegrationTestCase extends DatabaseTestCase
             // disable shuffling of tag cloud visualization so output is consistent
             Piwik_Visualization_Cloud::$debugDisableShuffle = true;
         }
-
-        $this->setUpWebsitesAndGoals();
-        $this->trackVisits();
     }
 
-    abstract protected function setUpWebsitesAndGoals();
-
-    abstract protected function trackVisits();
-
-    public function tearDown()
+    public static function tearDownAfterClass()
     {
-        parent::tearDown();
+        try {
+            $plugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
+            foreach($plugins AS $plugin) {
+                $plugin->uninstall();
+            }
+            Piwik_PluginsManager::getInstance()->unloadPlugins();
+        } catch (Exception $e) {}
+        Piwik::dropDatabase();
+        Piwik_DataTable_Manager::getInstance()->deleteAll();
+        Piwik_Option::getInstance()->clearCache();
+        Piwik_Site::clearCache();
+        Piwik_Common::deleteTrackerCache();
+        Piwik_Config::getInstance()->clear();
+        Piwik_TablePartitioning::$tablesAlreadyInstalled = null;
+        Zend_Registry::_unsetInstance();
+
         $_GET = $_REQUEST = array();
         Piwik_Translate::getInstance()->unloadEnglishTranslation();
 
         // re-enable tag cloud shuffling
         Piwik_Visualization_Cloud::$debugDisableShuffle = true;
+
     }
 
-    protected $apiToCall = array();
-    protected $apiNotToCall = array();
+    public function setUp()
+    {
+    }
+
+    public function tearDown()
+    {
+    }
+
+    protected static $apiToCall = array();
+    protected static $apiNotToCall = array();
 
     public static $defaultApiNotToCall = array(
         'LanguagesManager',
@@ -167,7 +206,7 @@ abstract class IntegrationTestCase extends DatabaseTestCase
      * @throws Exception
      * @return void
      */
-    protected function setApiToCall( $apiToCall )
+    protected static function setApiToCall( $apiToCall )
     {
         if(func_num_args() != 1)
         {
@@ -177,7 +216,7 @@ abstract class IntegrationTestCase extends DatabaseTestCase
         {
             $apiToCall = array($apiToCall);
         }
-        $this->apiToCall = $apiToCall;
+        self::$apiToCall = $apiToCall;
     }
 
     /**
@@ -187,13 +226,13 @@ abstract class IntegrationTestCase extends DatabaseTestCase
      *
      * @return void
      */
-    protected function setApiNotToCall( $apiNotToCall )
+    protected static function setApiNotToCall( $apiNotToCall )
     {
         if(!is_array($apiNotToCall))
         {
             $apiNotToCall = array($apiNotToCall);
         }
-        $this->apiNotToCall = $apiNotToCall;
+        self::$apiNotToCall = $apiNotToCall;
     }
 
     /**
@@ -205,9 +244,9 @@ abstract class IntegrationTestCase extends DatabaseTestCase
      *
      * @return PiwikTracker
      */
-    protected function getTracker($idSite, $dateTime, $defaultInit = true )
+    protected static function getTracker($idSite, $dateTime, $defaultInit = true )
     {
-        $t = new PiwikTracker( $idSite, $this->getTrackerUrl());
+        $t = new PiwikTracker( $idSite, self::getTrackerUrl());
         $t->setForceVisitDateTime($dateTime);
 
         if($defaultInit)
@@ -235,7 +274,7 @@ abstract class IntegrationTestCase extends DatabaseTestCase
      *
      * @return int    idSite of website created
      */
-    protected function createWebsite( $dateTime, $ecommerce = 0, $siteName = 'Piwik test' )
+    protected static function createWebsite( $dateTime, $ecommerce = 0, $siteName = 'Piwik test' )
     {
         $idSite = Piwik_SitesManager_API::getInstance()->addSite(
             $siteName,
@@ -274,11 +313,11 @@ abstract class IntegrationTestCase extends DatabaseTestCase
      *
      * @param $response
      */
-    protected function checkResponse($response)
+    protected static function checkResponse($response)
     {
         $trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         $expectedResponse = base64_decode($trans_gif_64);
-        $this->assertEquals($expectedResponse, $response, "Expected GIF beacon, got: <br/>\n" . $response ."<br/>\n");
+        self::assertEquals($expectedResponse, $response, "Expected GIF beacon, got: <br/>\n" . $response ."<br/>\n");
     }
 
     /**
@@ -287,7 +326,7 @@ abstract class IntegrationTestCase extends DatabaseTestCase
      *
      * @return string
      */
-    protected function getTrackerUrl()
+    protected static function getTrackerUrl()
     {
         $piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
 
@@ -391,9 +430,9 @@ abstract class IntegrationTestCase extends DatabaseTestCase
                 $apiId = $moduleName.'.'.$methodName;
 
                 // If Api to test were set, we only test these
-                if(!empty($this->apiToCall)
-                    && in_array($moduleName, $this->apiToCall) === false
-                    && in_array($apiId, $this->apiToCall) === false)
+                if(!empty(self::$apiToCall)
+                    && in_array($moduleName, self::$apiToCall) === false
+                    && in_array($apiId, self::$apiToCall) === false)
                 {
                     $skipped[] = $apiId;
                     continue;
@@ -401,8 +440,8 @@ abstract class IntegrationTestCase extends DatabaseTestCase
                 // Excluded modules from test
                 elseif(
                     (strpos($methodName, 'get') !== 0
-                        || in_array($moduleName, $this->apiNotToCall) === true
-                        || in_array($apiId, $this->apiNotToCall) === true
+                        || in_array($moduleName, self::$apiNotToCall) === true
+                        || in_array($apiId, self::$apiNotToCall) === true
                         || $methodName == 'getLogoUrl'
                         || $methodName == 'getHeaderLogoUrl'
                     )
@@ -1074,8 +1113,8 @@ abstract class IntegrationTestCase extends DatabaseTestCase
 
         if ($api == 'all')
         {
-            $this->setApiToCall(array());
-            $this->setApiNotToCall(self::$defaultApiNotToCall);
+            self::setApiToCall(array());
+            self::setApiNotToCall(self::$defaultApiNotToCall);
         }
         else
         {
@@ -1084,8 +1123,8 @@ abstract class IntegrationTestCase extends DatabaseTestCase
                 $api = array($api);
             }
 
-            $this->setApiToCall($api);
-            $this->setApiNotToCall(array('API.getPiwikVersion'));
+            self::setApiToCall($api);
+            self::setApiNotToCall(array('API.getPiwikVersion'));
         }
 
         if (isset($params['disableArchiving']) && $params['disableArchiving'] === true)
@@ -1139,6 +1178,8 @@ abstract class IntegrationTestCase extends DatabaseTestCase
         // deal w/ any language changing hacks
         if (isset($params['language'])) {
             $this->changeLanguage($params['language']);
+        } else {
+            $this->changeLanguage('en');
         }
 
         // separate request parameters from function parameters
@@ -1157,11 +1198,6 @@ abstract class IntegrationTestCase extends DatabaseTestCase
             $requestParams,
             isset($params['userTypes']) ? $params['userTypes'] : false,
             isset($params['testingLevelOverride']) ? $params['testingLevelOverride'] : false);
-
-        // change the language back to en
-        if ($this->lastLanguage != 'en') {
-            $this->changeLanguage('en');
-        }
     }
 
     /**
@@ -1172,7 +1208,7 @@ abstract class IntegrationTestCase extends DatabaseTestCase
      */
     protected function changeLanguage( $langId )
     {
-        if (isset($this->lastLanguage) && $this->lastLanguage != $langId)
+        if ($this->lastLanguage != $langId)
         {
             $_GET['language'] = $langId;
             Piwik_Translate::reset();

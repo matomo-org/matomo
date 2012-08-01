@@ -11,9 +11,16 @@ require_once dirname(__FILE__) . '/TwoVisitsWithCustomVariablesTest.php';
 
 class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchALL_NoGoalData extends Test_Piwik_Integration_TwoVisitsWithCustomVariables
 {
-    protected static $width = 1111;
-    protected static $height = 222;
-    protected static $doExtraQuoteTests = false;
+    public static function setUpBeforeClass()
+    {
+        IntegrationTestCase::setUpBeforeClass();
+        self::$visitorId = substr(md5(uniqid()), 0, 16);
+        self::$width = 1111;
+        self::$height = 222;
+        self::$doExtraQuoteTests = false;
+        self::setUpWebsitesAndGoals();
+        self::trackVisits();
+    }
 
     /**
      * @dataProvider getApiForTesting

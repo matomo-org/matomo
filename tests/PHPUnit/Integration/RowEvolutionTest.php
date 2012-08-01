@@ -20,6 +20,13 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
         'justice )(&^#%$ NOT corruption!',
     );
 
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+        self::setUpWebsitesAndGoals();
+        self::trackVisits();
+    }
+
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
@@ -110,12 +117,12 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
         return 'RowEvolution';
     }
 
-    protected function setUpWebsitesAndGoals()
+    protected static function setUpWebsitesAndGoals()
     {
-        $this->createWebsite('2010-02-01 11:22:33');
+        self::createWebsite('2010-02-01 11:22:33');
     }
 
-    protected function trackVisits()
+    protected static function trackVisits()
     {
         $dateTime = self::$today;
         $idSite   = self::$idSite;
@@ -123,16 +130,16 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
         for ($daysIntoPast = 30; $daysIntoPast >= 0; $daysIntoPast--) {
             // Visit 1: referrer website + test page views
             $visitDateTime = Piwik_Date::factory($dateTime)->subDay($daysIntoPast)->getDatetime();
-            $t             = $this->getTracker($idSite, $visitDateTime, $defaultInit = true);
+            $t             = self::getTracker($idSite, $visitDateTime, $defaultInit = true);
             $t->setUrlReferrer('http://www.referrer' . ($daysIntoPast % 5) . '.com/theReferrerPage' . ($daysIntoPast % 2) . '.html');
             $t->setUrl('http://example.org/my/dir/page' . ($daysIntoPast % 4) . '?foo=bar&baz=bar');
             $t->setForceVisitDateTime($visitDateTime);
-            $this->checkResponse($t->doTrackPageView('incredible title ' . ($daysIntoPast % 3)));
+            self::checkResponse($t->doTrackPageView('incredible title ' . ($daysIntoPast % 3)));
 
             // VISIT 2: search engine
             $t->setForceVisitDateTime(Piwik_Date::factory($visitDateTime)->addHour(3)->getDatetime());
             $t->setUrlReferrer('http://google.com/search?q=' . urlencode(self::$keywords[$daysIntoPast % 3]));
-            $this->checkResponse($t->doTrackPageView('not an incredible title '));
+            self::checkResponse($t->doTrackPageView('not an incredible title '));
         }
     }
 }

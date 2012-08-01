@@ -16,8 +16,11 @@ class Test_Piwik_Integration_PeriodIsRange_DateIsLastN_MetadataAndNormalAPI exte
 {
     public static function setUpBeforeClass()
     {
-        parent::setUpBeforeClass();
+        IntegrationTestCase::setUpBeforeClass();
+        self::$visitorId = substr(md5(uniqid()), 0, 16);
         self::$dateTime = Piwik_Date::factory('now')->getDateTime();
+        self::setUpWebsitesAndGoals();
+        self::trackVisits();
     }
 
     public function setUp()

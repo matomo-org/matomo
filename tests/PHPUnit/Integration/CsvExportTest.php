@@ -14,8 +14,20 @@ require_once dirname(__FILE__).'/TwoVisitsWithCustomVariablesTest.php';
  */
 class Test_Piwik_Integration_CsvExport extends Test_Piwik_Integration_TwoVisitsWithCustomVariables
 {
-    protected static $useEscapedQuotes  = false;
-    protected static $doExtraQuoteTests = false;
+
+    public static function setUpBeforeClass()
+    {
+        IntegrationTestCase::setUpBeforeClass();
+        self::$visitorId = substr(md5(uniqid()), 0, 16);
+        self::setUpWebsitesAndGoals();
+        self::trackVisits();
+    }
+
+    protected static function trackVisits() {
+        self::$useEscapedQuotes  = false;
+        self::$doExtraQuoteTests = false;
+        parent::trackVisits();
+    }
 
     public function getApiForTesting()
     {
@@ -27,7 +39,8 @@ class Test_Piwik_Integration_CsvExport extends Test_Piwik_Integration_TwoVisitsW
 
         return array(
             array($apiToCall, array('idSite'                 => self::$idSite,
-                                    'date'                   => self::$dateTime, 'format' => 'csv',
+                                    'date'                   => self::$dateTime,
+                                    'format'                 => 'csv',
                                     'otherRequestParameters' => array('expanded' => 0, 'flat' => 0),
                                     'testSuffix'             => '_xp0')),
 

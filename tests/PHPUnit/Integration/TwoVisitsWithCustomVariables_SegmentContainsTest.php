@@ -14,7 +14,14 @@ require_once dirname(__FILE__) . '/TwoVisitsWithCustomVariablesTest.php';
  */
 class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentContains extends Test_Piwik_Integration_TwoVisitsWithCustomVariables
 {
-    protected static $doExtraQuoteTests = false;
+    public static function setUpBeforeClass()
+    {
+        IntegrationTestCase::setUpBeforeClass();
+        self::$visitorId = substr(md5(uniqid()), 0, 16);
+        self::$doExtraQuoteTests = false;
+        self::setUpWebsitesAndGoals();
+        self::trackVisits();
+    }
 
     /**
      * @dataProvider getApiForTesting

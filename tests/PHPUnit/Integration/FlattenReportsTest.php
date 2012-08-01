@@ -15,6 +15,13 @@ class Test_Piwik_Integration_FlattenReports extends IntegrationTestCase
     protected static $dateTime = '2010-03-06 11:22:33';
     protected static $idSite   = 1;
 
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+        self::setUpWebsitesAndGoals();
+        self::trackVisits();
+    }
+
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
@@ -85,12 +92,12 @@ class Test_Piwik_Integration_FlattenReports extends IntegrationTestCase
         return 'FlattenReports';
     }
 
-    protected function setUpWebsitesAndGoals()
+    protected static function setUpWebsitesAndGoals()
     {
-        $this->createWebsite(self::$dateTime);
+        self::createWebsite(self::$dateTime);
     }
 
-    protected function trackVisits()
+    protected static function trackVisits()
     {
         $dateTime = self::$dateTime;
         $idSite   = self::$idSite;
@@ -98,22 +105,22 @@ class Test_Piwik_Integration_FlattenReports extends IntegrationTestCase
         for ($referrerSite = 1; $referrerSite < 4; $referrerSite++) {
             for ($referrerPage = 1; $referrerPage < 3; $referrerPage++) {
                 $offset = $referrerSite * 3 + $referrerPage;
-                $t      = $this->getTracker($idSite, Piwik_Date::factory($dateTime)->addHour($offset)->getDatetime());
+                $t      = self::getTracker($idSite, Piwik_Date::factory($dateTime)->addHour($offset)->getDatetime());
                 $t->setUrlReferrer('http://www.referrer' . $referrerSite . '.com/sub/dir/page' . $referrerPage . '.html');
                 $t->setCustomVariable(1, 'CustomVarVisit', 'CustomVarValue' . $referrerPage, 'visit');
                 for ($page = 0; $page < 3; $page++) {
                     $t->setUrl('http://example.org/dir' . $referrerSite . '/sub/dir/page' . $page . '.html');
                     $t->setCustomVariable(1, 'CustomVarPage', 'CustomVarValue' . $page, 'page');
-                    $this->checkResponse($t->doTrackPageView('title'));
+                    self::checkResponse($t->doTrackPageView('title'));
                 }
             }
         }
 
-        $t = $this->getTracker($idSite, Piwik_Date::factory($dateTime)->addHour(24)->getDatetime());
+        $t = self::getTracker($idSite, Piwik_Date::factory($dateTime)->addHour(24)->getDatetime());
         $t->setCustomVariable(1, 'CustomVarVisit', 'CustomVarValue1', 'visit');
         $t->setUrl('http://example.org/sub/dir/dir1/page1.html');
         $t->setCustomVariable(1, 'CustomVarPage', 'CustomVarValue1', 'page');
-        $this->checkResponse($t->doTrackPageView('title'));
+        self::checkResponse($t->doTrackPageView('title'));
     }
 }
 

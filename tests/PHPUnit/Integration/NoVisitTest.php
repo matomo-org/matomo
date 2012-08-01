@@ -17,10 +17,17 @@ class Test_Piwik_Integration_NoVisit extends IntegrationTestCase
     protected static $idSite   = 1;
     protected static $dateTime = '2009-01-04 00:11:42';
 
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+        self::setUpWebsitesAndGoals();
+        self::trackVisits();
+    }
+
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        NoVisits
+     * @group        NoVisit
      */
     public function testApi($api, $params)
     {
@@ -46,38 +53,38 @@ class Test_Piwik_Integration_NoVisit extends IntegrationTestCase
         return 'noVisit';
     }
 
-    public function setUpWebsitesAndGoals()
+    public static function setUpWebsitesAndGoals()
     {
-        $this->createWebsite(self::$dateTime);
+        self::createWebsite(self::$dateTime);
     }
 
-    protected function trackVisits()
+    protected static function trackVisits()
     {
         $dateTime = self::$dateTime;
         $idSite   = self::$idSite;
 
         /*
            // Trigger invalid website
-           $trackerInvalidWebsite = $this->getTracker($idSiteFake = 0, $dateTime, $defaultInit = true);
+           $trackerInvalidWebsite = self::getTracker($idSiteFake = 0, $dateTime, $defaultInit = true);
            $response = Piwik_Http::fetchRemoteFile($trackerInvalidWebsite->getUrlTrackPageView());
-           $this->assertTrue(strpos($response, 'Invalid idSite') !== false, 'invalid website ID');
+           self::assertTrue(strpos($response, 'Invalid idSite') !== false, 'invalid website ID');
 
            // Trigger wrong website
-           $trackerWrongWebsite = $this->getTracker($idSiteFake = 33, $dateTime, $defaultInit = true);
+           $trackerWrongWebsite = self::getTracker($idSiteFake = 33, $dateTime, $defaultInit = true);
            $response = Piwik_Http::fetchRemoteFile($trackerWrongWebsite->getUrlTrackPageView());
-           $this->assertTrue(strpos($response, 'The requested website id = 33 couldn\'t be found') !== false, 'non-existent website ID');
+           self::assertTrue(strpos($response, 'The requested website id = 33 couldn\'t be found') !== false, 'non-existent website ID');
         */
 
         // Trigger empty request
-        $trackerUrl = $this->getTrackerUrl();
+        $trackerUrl = self::getTrackerUrl();
         $response   = Piwik_Http::fetchRemoteFile($trackerUrl);
-        $this->assertTrue(strpos($response, 'web analytics') !== false, 'Piwik empty request response not correct: ' . $response);
+        self::assertTrue(strpos($response, 'web analytics') !== false, 'Piwik empty request response not correct: ' . $response);
 
-        $t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+        $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
 
         // test GoogleBot UA visitor
         $t->setUserAgent('Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)');
-        $this->checkResponse($t->doTrackPageView('bot visit, please do not record'));
+        self::checkResponse($t->doTrackPageView('bot visit, please do not record'));
 
         // Test IP Exclusion works with or without IP exclusion
         foreach (array(false, true) as $enable) {
@@ -89,24 +96,24 @@ class Test_Piwik_Integration_NoVisit extends IntegrationTestCase
             $excludedIp = '154.1.12.34';
             Piwik_SitesManager_API::getInstance()->updateSite($idSite, 'new site name', $url = array('http://site.com'), $ecommerce = 0, $excludedIp . ',1.2.3.4');
             $t->setIp($excludedIp);
-            $this->checkResponse($t->doTrackPageView('visit from IP excluded'));
+            self::checkResponse($t->doTrackPageView('visit from IP excluded'));
 
             // test with global list of excluded IPs
             $excludedIpBis = '145.5.3.4';
             Piwik_SitesManager_API::getInstance()->setGlobalExcludedIps($excludedIpBis);
             $t->setIp($excludedIpBis);
-            $this->checkResponse($t->doTrackPageView('visit from IP globally excluded'));
+            self::checkResponse($t->doTrackPageView('visit from IP globally excluded'));
         }
 
         try {
             @$t->setAttributionInfo(array());
-            $this->fail();
+            self::fail();
         } catch (Exception $e) {
         }
 
         try {
             $t->setAttributionInfo(json_encode('test'));
-            $this->fail();
+            self::fail();
         } catch (Exception $e) {
         }
 

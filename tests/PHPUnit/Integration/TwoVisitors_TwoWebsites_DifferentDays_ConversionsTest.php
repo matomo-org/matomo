@@ -16,7 +16,13 @@ require_once 'Goals/Goals.php';
  */
 class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions extends Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays
 {
-    protected static $allowConversions = true;
+    public static function setUpBeforeClass()
+    {
+        IntegrationTestCase::setUpBeforeClass();
+        self::$allowConversions = true;
+        self::setUpWebsitesAndGoals();
+        self::trackVisits();
+    }
 
     /**
      * @dataProvider getApiForTesting

@@ -21,6 +21,13 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends I
     );
     protected static $idSite = 1;
 
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+        self::setUpWebsitesAndGoals();
+        self::trackVisits();
+    }
+
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
@@ -53,12 +60,12 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends I
         return 'oneVisitor_oneWebsite_severalDays_DateRange';
     }
 
-    protected function setUpWebsitesAndGoals()
+    protected static function setUpWebsitesAndGoals()
     {
-        $this->createWebsite(self::$dateTimes[0]);
+        self::createWebsite(self::$dateTimes[0]);
     }
 
-    protected function trackVisits()
+    protected static function trackVisits()
     {
         $dateTimes = self::$dateTimes;
         $idSite    = self::$idSite;
@@ -66,24 +73,24 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends I
         $i = 0;
         foreach ($dateTimes as $dateTime) {
             $i++;
-            $visitor = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+            $visitor = self::getTracker($idSite, $dateTime, $defaultInit = true);
             // Fake the visit count cookie
             $visitor->setDebugStringAppend("&_idvc=$i");
 
             $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
             $visitor->setUrl('http://example.org/homepage');
-            $this->checkResponse($visitor->doTrackPageView('ou pas'));
+            self::checkResponse($visitor->doTrackPageView('ou pas'));
 
             // Test change the IP, the visit should not be split but recorded to the same idvisitor
             $visitor->setIp('200.1.15.22');
 
             $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.2)->getDatetime());
             $visitor->setUrl('http://example.org/news');
-            $this->checkResponse($visitor->doTrackPageView('ou pas'));
+            self::checkResponse($visitor->doTrackPageView('ou pas'));
 
             $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1)->getDatetime());
             $visitor->setUrl('http://example.org/news');
-            $this->checkResponse($visitor->doTrackPageView('ou pas'));
+            self::checkResponse($visitor->doTrackPageView('ou pas'));
         }
     }
 }

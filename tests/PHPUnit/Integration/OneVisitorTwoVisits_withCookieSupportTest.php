@@ -15,6 +15,13 @@ require_once dirname(__FILE__) . '/OneVisitorTwoVisitsTest.php';
  */
 class Test_Piwik_Integration_OneVisitorTwoVisits_WithCookieSupport extends Test_Piwik_Integration_OneVisitorTwoVisits
 {
+    public static function setUpBeforeClass()
+    {
+        IntegrationTestCase::setUpBeforeClass();
+        self::setUpWebsitesAndGoals();
+        self::trackVisits();
+    }
+
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
@@ -42,10 +49,10 @@ class Test_Piwik_Integration_OneVisitorTwoVisits_WithCookieSupport extends Test_
         return 'OneVisitorTwoVisits_withCookieSupport';
     }
 
-    protected function trackVisits()
+    protected static function trackVisits()
     {
-        $t                   = $this->getTracker(self::$idSite, self::$dateTime, $defaultInit = true, $useThirdPartyCookie = 1);
+        $t                   = self::getTracker(self::$idSite, self::$dateTime, $defaultInit = true, $useThirdPartyCookie = 1);
         $t->DEBUG_APPEND_URL = '&forceUseThirdPartyCookie=1';
-        $this->trackVisitsImpl($t);
+        self::trackVisitsImpl($t);
     }
 }

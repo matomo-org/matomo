@@ -16,12 +16,19 @@ class Test_Piwik_Integration_ApiGetReportMetadata_Year extends IntegrationTestCa
     protected static $idSite   = 1;
     protected static $dateTime = '2009-01-04 00:11:42';
 
-    protected function setUpWebsitesAndGoals()
+    public static function setUpBeforeClass()
     {
-        $this->createWebsite(self::$dateTime);
+        parent::setUpBeforeClass();
+        self::setUpWebsitesAndGoals();
+        self::trackVisits();
     }
 
-    protected function trackVisits()
+    protected static function setUpWebsitesAndGoals()
+    {
+        self::createWebsite(self::$dateTime);
+    }
+
+    protected static function trackVisits()
     {
     }
 

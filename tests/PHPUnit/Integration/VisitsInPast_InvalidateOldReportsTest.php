@@ -20,6 +20,13 @@ class Test_Piwik_Integration_VisitsInPast_InvalidateOldReports extends Integrati
     protected static $idSite = 1;
     protected static $idSite2 = 2;
 
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+        self::setUpWebsitesAndGoals();
+        self::trackVisits();
+    }
+
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
@@ -112,69 +119,67 @@ class Test_Piwik_Integration_VisitsInPast_InvalidateOldReports extends Integrati
         return 'VisitsInPast_InvalidateOldReports';
     }
 
-    public function setUpWebsitesAndGoals()
+    public static function setUpWebsitesAndGoals()
     {
-        $this->createWebsite(self::$dateTimeFirstDateWebsite1);
-        $this->createWebsite(self::$dateTimeFirstDateWebsite2);
+        self::createWebsite(self::$dateTimeFirstDateWebsite1);
+        self::createWebsite(self::$dateTimeFirstDateWebsite2);
     }
 
-    protected function trackVisits()
+    protected static function trackVisits()
     {
         /**
          * Track Visits normal date for the 2 websites
          */
-
         // WEBSITE 1
-        $t = $this->getTracker(self::$idSite, self::$dateTimeFirstDateWebsite1, $defaultInit = true);
+        $t = self::getTracker(self::$idSite, self::$dateTimeFirstDateWebsite1, $defaultInit = true);
         $t->setUrl('http://example.org/category/Page1');
-        $this->checkResponse($t->doTrackPageView('Hello'));
+        self::checkResponse($t->doTrackPageView('Hello'));
         $t->setUrl('http://example.org/category/Page2');
-        $this->checkResponse($t->doTrackPageView('Hello'));
+        self::checkResponse($t->doTrackPageView('Hello'));
         $t->setUrl('http://example.org/category/Page3');
-        $this->checkResponse($t->doTrackPageView('Hello'));
+        self::checkResponse($t->doTrackPageView('Hello'));
         $t->setUrl('http://example.org/Home');
-        $this->checkResponse($t->doTrackPageView('Hello'));
+        self::checkResponse($t->doTrackPageView('Hello'));
         $t->setUrl('http://example.org/Contact');
-        $this->checkResponse($t->doTrackPageView('Hello'));
+        self::checkResponse($t->doTrackPageView('Hello'));
         $t->setUrl('http://example.org/Contact/ThankYou');
-        $this->checkResponse($t->doTrackPageView('Hello'));
+        self::checkResponse($t->doTrackPageView('Hello'));
 
         // WEBSITE 2
-        $t = $this->getTracker(self::$idSite2, self::$dateTimeFirstDateWebsite2, $defaultInit = true);
+        $t = self::getTracker(self::$idSite2, self::$dateTimeFirstDateWebsite2, $defaultInit = true);
         $t->setIp('156.15.13.12');
         $t->setUrl('http://example.org/category/Page1');
-        $this->checkResponse($t->doTrackPageView('Hello'));
+        self::checkResponse($t->doTrackPageView('Hello'));
         $t->setUrl('http://example.org/category/Page2');
-        $this->checkResponse($t->doTrackPageView('Hello'));
+        self::checkResponse($t->doTrackPageView('Hello'));
         $t->setUrl('http://example.org/category/Page3');
-        $this->checkResponse($t->doTrackPageView('Hello'));
+        self::checkResponse($t->doTrackPageView('Hello'));
         $t->setUrl('http://example.org/Home');
-        $this->checkResponse($t->doTrackPageView('Hello'));
+        self::checkResponse($t->doTrackPageView('Hello'));
         $t->setUrl('http://example.org/Contact');
-        $this->checkResponse($t->doTrackPageView('Hello'));
+        self::checkResponse($t->doTrackPageView('Hello'));
         $t->setUrl('http://example.org/Contact/ThankYou');
-        $this->checkResponse($t->doTrackPageView('Hello'));
+        self::checkResponse($t->doTrackPageView('Hello'));
 
         /**
          * Track visits in the past (before website creation date) for the 2 websites
          */
         // WEBSITE1
-        $t = $this->getTracker(self::$idSite, self::$dateTimeDateInPastWebsite1, $defaultInit = true);
+        $t = self::getTracker(self::$idSite, self::$dateTimeDateInPastWebsite1, $defaultInit = true);
         $t->setIp('156.5.55.2');
         $t->setUrl('http://example.org/category/Page1');
-        $this->checkResponse($t->doTrackPageView('Hello'));
+        self::checkResponse($t->doTrackPageView('Hello'));
         $t->setUrl('http://example.org/category/Page2');
-        $this->checkResponse($t->doTrackPageView('Hello'));
+        self::checkResponse($t->doTrackPageView('Hello'));
         $t->setUrl('http://example.org/category/Page3');
 
         // WEBSITE2
-        $t = $this->getTracker(self::$idSite2, self::$dateTimeDateInPastWebsite2, $defaultInit = true);
+        $t = self::getTracker(self::$idSite2, self::$dateTimeDateInPastWebsite2, $defaultInit = true);
         $t->setIp('156.52.3.22');
         $t->setUrl('http://example.org/category/Page1');
-        $this->checkResponse($t->doTrackPageView('Hello'));
+        self::checkResponse($t->doTrackPageView('Hello'));
         $t->setUrl('http://example.org/category/Page2');
-        $this->checkResponse($t->doTrackPageView('Hello'));
+        self::checkResponse($t->doTrackPageView('Hello'));
         $t->setUrl('http://example.org/category/Page3');
     }
 }
-

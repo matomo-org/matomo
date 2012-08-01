@@ -14,23 +14,60 @@ require_once dirname(__FILE__) . '/TwoVisitsWithCustomVariablesTest.php';
  */
 class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorType extends Test_Piwik_Integration_TwoVisitsWithCustomVariables
 {
-    protected static $doExtraQuoteTests = false;
+    public static function setUpBeforeClass()
+    {
+        IntegrationTestCase::setUpBeforeClass();
+        self::$visitorId = substr(md5(uniqid()), 0, 16);
+        self::$doExtraQuoteTests = false;
+        self::setUpWebsitesAndGoals();
+        self::trackVisits();
+    }
 
     /**
+     * @dataProvider getApiForTesting
      * @group        Integration
      * @group        TwoVisitsWithCustomVariables_SegmentMatchVisitorType
      */
-    public function testApi()
+    public function testApi($api, $params)
     {
-        $testData = $this->getApiForTesting();
+        $this->runApiTests($api, $params);
+    }
 
-        foreach ($testData AS $data) {
-            $api    = $data[0];
-            $params = $data[1];
-            $this->runApiTests($api, $params);
+    public function getApiForTesting()
+    {
+        // Segment matching some
+        $segments = array('customVariableName1==VisitorType;customVariableValue1==LoggedIn',
+            'customVariableName1==VisitorType;customVariableValue1=@LoggedI');
+
+        $apiToCall = array('Referers.getKeywords', 'CustomVariables.getCustomVariables', 'VisitsSummary.get');
+
+        $periods = array('day', 'week');
+
+        // We run it twice just to check that running archiving twice for same input parameters doesn't create more records/overhead
+        $result = array();
+        for ($i = 1; $i <= 2; $i++) {
+            foreach ($segments as $segment) {
+                $result[] = array(
+                    $apiToCall, array('idSite'       => 'all',
+                                      'date'         => self::$dateTime,
+                                      'periods'      => $periods,
+                                      'setDateLastN' => true,
+                                      'segment'      => $segment)
+                );
+            }
         }
 
-                // ----------------------------------------------
+        return $result;
+    }
+
+    /**
+     * @depends      testApi
+     * @group        Integration
+     * @group        TwoVisitsWithCustomVariables_SegmentMatchVisitorType
+     */
+    public function testCheck()
+    {
+        // ----------------------------------------------
         // Implementation Checks
         // ----------------------------------------------
         // Verify that, when a segment is specified, only the requested report is processed
@@ -61,37 +98,9 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorTyp
             foreach ($tests as $table => $expectedRows) {
                 $sql        = "SELECT count(*) FROM " . Piwik_Common::prefixTable($table);
                 $countBlobs = Zend_Registry::get('db')->fetchOne($sql);
-                $this->assertEqual($expectedRows, $countBlobs, "$table: %s");
+                $this->assertEquals($expectedRows, $countBlobs, "$table: %s");
             }
         }
-    }
-
-    public function getApiForTesting()
-    {
-        // Segment matching some
-        $segments = array('customVariableName1==VisitorType;customVariableValue1==LoggedIn',
-            'customVariableName1==VisitorType;customVariableValue1=@LoggedI');
-
-        $apiToCall = array('Referers.getKeywords', 'CustomVariables.getCustomVariables', 'VisitsSummary.get');
-
-        $periods = array('day', 'week');
-
-        // We run it twice just to check that running archiving twice for same input parameters doesn't create more records/overhead
-        $result = array();
-        for ($i = 1; $i <= 2; $i++) {
-            foreach ($segments as $segment) {
-                $result[] = array(
-                    $apiToCall, array('idSite'       => 'all',
-                                      'date'         => self::$dateTime,
-                                      'periods'      => $periods,
-                                      'setDateLastN' => true,
-                                      'segment'      => $segment)
-                );
-            }
-        }
-
-
-        return $result;
     }
 
     public function getOutputPrefix()

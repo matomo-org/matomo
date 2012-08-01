@@ -28,6 +28,8 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends IntegrationTes
     {
         parent::setUpBeforeClass();
         self::$visitorId = substr(md5(uniqid()), 0, 16);
+        self::setUpWebsitesAndGoals();
+        self::trackVisits();
     }
 
     public function getApiForTesting()
@@ -59,22 +61,22 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends IntegrationTes
         return 'twoVisitsWithCustomVariables';
     }
 
-    protected function setUpWebsitesAndGoals()
+    protected static function setUpWebsitesAndGoals()
     {
         // tests run in UTC, the Tracker in UTC
-        $this->createWebsite(self::$dateTime);
+        self::createWebsite(self::$dateTime);
         Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'triggered js', 'manually', '', '');
         Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'second goal', 'manually', '', '');
     }
 
-    protected function trackVisits()
+    protected static function trackVisits()
     {
         $dateTime = self::$dateTime;
         $idSite   = self::$idSite;
         $idGoal   = self::$idGoal1;
         $idGoal2  = self::$idGoal2;
 
-        $visitorA = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+        $visitorA = self::getTracker($idSite, $dateTime, $defaultInit = true);
         // Used to test actual referer + keyword position in Live!
         $visitorA->setUrlReferrer(urldecode('http://www.google.com/url?sa=t&source=web&cd=1&ved=0CB4QFjAA&url=http%3A%2F%2Fpiwik.org%2F&rct=j&q=this%20keyword%20should%20be%20ranked&ei=V8WfTePkKKLfiALrpZWGAw&usg=AFQjCNF_MGJRqKPvaKuUokHtZ3VvNG9ALw&sig2=BvKAdCtNixsmfNWXjsNyMw'));
 
@@ -93,8 +95,8 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends IntegrationTes
         $visitorA->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
         $visitorA->setUrl('http://example.org/homepage');
         $visitorA->setCustomVariable($id = 1, $name = 'VisitorType', $value = 'LoggedOut');
-        $this->checkResponse($visitorA->doTrackPageView('Homepage'));
-        $this->checkResponse($visitorA->doTrackGoal($idGoal2, 0));
+        self::checkResponse($visitorA->doTrackPageView('Homepage'));
+        self::checkResponse($visitorA->doTrackGoal($idGoal2));
 
         // After login, set to LoggedIn, should overwrite previous value
         $visitorA->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.2)->getDatetime());
@@ -107,15 +109,15 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends IntegrationTes
             $lookingAtProfile = 'looking at profile page';
         }
         $visitorA->setCustomVariable($id = 5, $name = 'Status user', $value = $lookingAtProfile, $scope = 'page');
-        $this->checkResponse($visitorA->doTrackPageView('Profile page'));
+        self::checkResponse($visitorA->doTrackPageView('Profile page'));
 
         $visitorA->setCustomVariable($id = 2, $name = 'SET WITH EMPTY VALUE', $value = '');
         $visitorA->setCustomVariable($id = 1, $name = 'Language', $value = 'FR', $scope = 'page');
         $visitorA->setCustomVariable($id = 2, $name = 'SET WITH EMPTY VALUE PAGE SCOPE', $value = '', $scope = 'page');
         $visitorA->setCustomVariable($id = 4, $name = 'Status user', $value = "looking at \"profile page\"", $scope = 'page');
         $visitorA->setCustomVariable($id = 3, $name = 'Value will be VERY long and truncated', $value = 'abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----');
-        $this->checkResponse($visitorA->doTrackPageView('Profile page for user *_)%'));
-        $this->checkResponse($visitorA->doTrackGoal($idGoal, 0));
+        self::checkResponse($visitorA->doTrackPageView('Profile page for user *_)%'));
+        self::checkResponse($visitorA->doTrackGoal($idGoal));
 
         if (self::$doExtraQuoteTests) {
             $visitorA->setCustomVariable($id = 2, $name = 'var1', $value = 'looking at "profile page"',
@@ -124,12 +126,12 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends IntegrationTes
                 $scope = 'page');
             $visitorA->setCustomVariable($id = 4, $name = 'var3', $value = '\\looking at "\profile page"\\',
                 $scope = 'page');
-            $this->checkResponse($visitorA->doTrackPageView('Concurrent page views'));
+            self::checkResponse($visitorA->doTrackPageView('Concurrent page views'));
         }
 
         // -
         // Second new visitor on Idsite 1: one page view
-        $visitorB = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+        $visitorB = self::getTracker($idSite, $dateTime, $defaultInit = true);
         $visitorB->setVisitorId(self::$visitorId);
         $visitorB->setUrlReferrer('');
 
@@ -149,14 +151,14 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends IntegrationTes
         $visitorB->setCustomVariable($id = 6, $name = 'not tracked', $value = 'not tracked');
         $visitorB->setCustomVariable($id = 6, $name = array('not tracked'), $value = 'not tracked');
         $visitorB->setUrl('http://example.org/homepage');
-        $this->checkResponse($visitorB->doTrackGoal($idGoal, 1000));
+        self::checkResponse($visitorB->doTrackGoal($idGoal, 1000));
 
         $visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1.1)->getDatetime());
-        $this->checkResponse($visitorB->doTrackPageView('Homepage'));
+        self::checkResponse($visitorB->doTrackPageView('Homepage'));
 
         // DIFFERENT test -
         // testing that starting the visit with an outlink works (doesn't trigger errors)
         $visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(2)->getDatetime());
-        $this->checkResponse($visitorB->doTrackAction('http://test.com', 'link'));
+        self::checkResponse($visitorB->doTrackAction('http://test.com', 'link'));
     }
 }

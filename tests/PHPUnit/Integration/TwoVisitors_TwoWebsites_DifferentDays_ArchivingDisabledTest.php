@@ -14,21 +14,22 @@ require_once dirname(__FILE__) . '/TwoVisitors_TwoWebsites_DifferentDaysTest.php
  */
 class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_ArchivingDisabled extends Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays
 {
-    protected static $allowConversions = true;
+    public static function setUpBeforeClass()
+    {
+        IntegrationTestCase::setUpBeforeClass();
+        self::$allowConversions = true;
+        self::setUpWebsitesAndGoals();
+        self::trackVisits();
+    }
 
     /**
+     * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        TwoWebsites_DifferentDays_ArchivingDisabled
+     * @group        TwoVisitors_TwoWebsites_DifferentDays_ArchivingDisabled
      */
-    public function testApi()
+    public function testApi($api, $params)
     {
-        $testData = $this->getApiForTesting();
-
-        foreach ($testData AS $data) {
-            $api    = $data[0];
-            $params = $data[1];
-            $this->runApiTests($api, $params);
-        }
+        $this->runApiTests($api, $params);
     }
 
     public function getApiForTesting()
