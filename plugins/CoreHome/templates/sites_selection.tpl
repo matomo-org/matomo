@@ -47,7 +47,7 @@
             </div>
         </div>
 	</div>
-	{if isset($inputName)}<input type="hidden" name="{$inputName}" value="{$idSite}"/>{/if}
+	{if isset($inputName)}<input type="hidden" name="{$inputName}" value="{if isset($idSite)}{$idSite}{else}{$sites[0].idsite}{/if}"/>{/if}
 	{if isset($switchSiteOnSelect) && $switchSiteOnSelect eq false}
 	<script type="text/javascript">
 	{literal}
