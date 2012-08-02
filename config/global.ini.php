@@ -96,7 +96,7 @@ action_category_level_limit = 10
 autocomplete_min_sites = 5
 
 ; maximum number of websites showed in search results in autocompleter
-site_selector_max_sites = 10
+site_selector_max_sites = 15
 
 ; if set to 1, shows sparklines (evolution graph) in 'All Websites' report (MultiSites plugin)
 show_multisites_sparklines = 1
