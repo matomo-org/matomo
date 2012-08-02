@@ -128,27 +128,23 @@ class Piwik_Tracker
 
 	protected function initRequests($args)
 	{
-		$post = serialize($_POST);
-		$usingBulkTracking = strpos($post, '"requests"') || strpos($post, "'requests'"); 
+		$usingBulkTracking = false;
+		$rawData = file_get_contents("php://input");
+		if (!empty($rawData))
+		{
+			$usingBulkTracking = strpos($rawData, '"requests"') || strpos($rawData, "'requests'"); 
+			if($usingBulkTracking)
+			{
+				return $this->initBulkTrackingRequests($rawData);
+			}
+		}
 		
-		if($usingBulkTracking)
-		{
-			$this->initBulkTrackingRequests();
-		}
-		else
-		{
-			$this->requests = $args ? $args : (!empty($_GET) || !empty($_POST) ? array($_GET + $_POST) : array());
-		}
+		// Not using bulk tracking
+		$this->requests = $args ? $args : (!empty($_GET) || !empty($_POST) ? array($_GET + $_POST) : array());
 	}
 
-	private function initBulkTrackingRequests()
+	private function initBulkTrackingRequests($rawData)
 	{
-		$rawData = file_get_contents("php://input");
-		if (empty($rawData))
-		{
-			return;
-		}
-
 		// POST data can be array of string URLs or array of arrays w/ visit info
 		$jsonData = Piwik_Common::json_decode($rawData, $assoc = true);
 
