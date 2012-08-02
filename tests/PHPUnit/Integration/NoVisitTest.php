@@ -20,8 +20,13 @@ class Test_Piwik_Integration_NoVisit extends IntegrationTestCase
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
-        self::setUpWebsitesAndGoals();
-        self::trackVisits();
+        try {
+            self::setUpWebsitesAndGoals();
+            self::trackVisits();
+        } catch(Exception $e) {
+            // Skip whole test suite if an error occurs while setup
+            throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
+        }
     }
 
     /**

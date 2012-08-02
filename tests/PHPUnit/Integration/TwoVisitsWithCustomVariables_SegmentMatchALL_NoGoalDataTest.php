@@ -18,8 +18,13 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchALL_NoGoal
         self::$width = 1111;
         self::$height = 222;
         self::$doExtraQuoteTests = false;
-        self::setUpWebsitesAndGoals();
-        self::trackVisits();
+        try {
+            self::setUpWebsitesAndGoals();
+            self::trackVisits();
+        } catch(Exception $e) {
+            // Skip whole test suite if an error occurs while setup
+            throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
+        }
     }
 
     /**

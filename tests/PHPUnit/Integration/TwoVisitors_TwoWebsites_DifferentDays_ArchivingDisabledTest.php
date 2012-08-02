@@ -18,8 +18,13 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_ArchivingDisa
     {
         IntegrationTestCase::setUpBeforeClass();
         self::$allowConversions = true;
-        self::setUpWebsitesAndGoals();
-        self::trackVisits();
+        try {
+            self::setUpWebsitesAndGoals();
+            self::trackVisits();
+        } catch(Exception $e) {
+            // Skip whole test suite if an error occurs while setup
+            throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
+        }
     }
 
     /**

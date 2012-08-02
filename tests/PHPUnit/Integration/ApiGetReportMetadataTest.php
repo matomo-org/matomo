@@ -24,8 +24,13 @@ class Test_Piwik_Integration_ApiGetReportMetadata extends IntegrationTestCase
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
-        self::setUpWebsitesAndGoals();
-        self::trackVisits();
+        try {
+            self::setUpWebsitesAndGoals();
+            self::trackVisits();
+        } catch(Exception $e) {
+            // Skip whole test suite if an error occurs while setup
+            throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
+        }
 
         // From Piwik 1.5, we hide Goals.getConversions and other get* methods via @ignore, but we ensure that they still work
         // This hack allows the API proxy to let us generate example URLs for the ignored functions

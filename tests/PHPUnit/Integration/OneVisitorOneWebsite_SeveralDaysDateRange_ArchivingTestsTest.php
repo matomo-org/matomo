@@ -15,6 +15,19 @@ require_once dirname(__FILE__) . '/OneVisitorOneWebsite_SeveralDaysDateRangeTest
  */
 class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_ArchivingTests extends Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange
 {
+
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+        try {
+            self::setUpWebsitesAndGoals();
+            self::trackVisits();
+        } catch(Exception $e) {
+            // Skip whole test suite if an error occurs while setup
+            throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
+        }
+    }
+
     /**
      * @dataProvider getApiForTesting
      * @group        Integration

@@ -19,8 +19,13 @@ class Test_Piwik_Integration_PeriodIsRange_DateIsLastN_MetadataAndNormalAPI exte
         IntegrationTestCase::setUpBeforeClass();
         self::$visitorId = substr(md5(uniqid()), 0, 16);
         self::$dateTime = Piwik_Date::factory('now')->getDateTime();
-        self::setUpWebsitesAndGoals();
-        self::trackVisits();
+        try {
+            self::setUpWebsitesAndGoals();
+            self::trackVisits();
+        } catch(Exception $e) {
+            // Skip whole test suite if an error occurs while setup
+            throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
+        };
     }
 
     public function setUp()

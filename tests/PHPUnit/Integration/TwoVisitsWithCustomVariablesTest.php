@@ -28,8 +28,13 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends IntegrationTes
     {
         parent::setUpBeforeClass();
         self::$visitorId = substr(md5(uniqid()), 0, 16);
-        self::setUpWebsitesAndGoals();
-        self::trackVisits();
+        try {
+            self::setUpWebsitesAndGoals();
+            self::trackVisits();
+        } catch(Exception $e) {
+            // Skip whole test suite if an error occurs while setup
+            throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
+        }
     }
 
     public function getApiForTesting()
