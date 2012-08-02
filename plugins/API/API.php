@@ -925,6 +925,7 @@ class Piwik_API_API
 		if(is_null($order))
 		{
 			$order = array(
+				Piwik_Translate('General_MultiSitesSummary'),
 				Piwik_Translate('VisitsSummary_VisitsSummary'),
 				Piwik_Translate('Goals_Ecommerce'),
 				Piwik_Translate('Actions_Actions'),
