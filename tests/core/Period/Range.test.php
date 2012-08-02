@@ -232,7 +232,7 @@ class Test_Piwik_Period_Range extends UnitTestCase
 	 		Piwik_Date::factory('2011-11-01'),
 	 		Piwik_Date::factory('2011-11-30'),
 	 		Piwik_Date::factory('2011-12-31'),
-	 		Piwik_Date::factory('2012-10-18')
+	 		Piwik_Date::factory('2021-10-18')
 	 	);
 	 	foreach($todays as $today)
 	 	{
@@ -331,7 +331,7 @@ class Test_Piwik_Period_Range extends UnitTestCase
 //		 	var_dump( $range->toString() );
 	 		
 		 	$this->assertEqual( $range->getNumberOfSubperiods(), count($correct));
-		 	$this->assertEqual( $range->toString(), $correct);
+		 	$this->assertEqual( $range->toString(), $correct, "Fail for Today = " . $today);
 	 	}
 	 }
  
@@ -425,8 +425,8 @@ class Test_Piwik_Period_Range extends UnitTestCase
 			"2011-08-31",
  		),
  		);
-	 	//var_dump($range->toString());
-	 	//var_dump($correct);
+//var_dump($range->toString());
+//var_dump($correct);
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), count($correct));
 	 	$this->assertEqual( $range->toString(), $correct);
 	}

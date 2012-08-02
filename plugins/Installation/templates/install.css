@@ -102,6 +102,7 @@ h3 {
 	margin: auto;
 	background: #FFFFFF;
 	padding: 0.2em 2em 2em 2em;
+	border-radius: 8px;
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
 }

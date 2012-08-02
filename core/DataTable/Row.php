@@ -93,9 +93,10 @@ class Piwik_DataTable_Row
 	 */
 	public function __sleep()
 	{
-		if(!empty($this->c[self::DATATABLE_ASSOCIATED]) && $this->c[self::DATATABLE_ASSOCIATED] < 0)
+		if(!empty($this->c[self::DATATABLE_ASSOCIATED]) 
+			&& $this->c[self::DATATABLE_ASSOCIATED] < 0)
 		{
-			$this->c[self::DATATABLE_ASSOCIATED] = abs($this->c[self::DATATABLE_ASSOCIATED]);
+			$this->c[self::DATATABLE_ASSOCIATED] = -1 * $this->c[self::DATATABLE_ASSOCIATED];
 		}
 		return array('c');
 	}

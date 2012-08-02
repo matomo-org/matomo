@@ -13,9 +13,9 @@ form {
 	margin-left: 8px;
 	padding: 16px 16px 40px 16px;
 	font-weight: bold;
+	border-radius: 5px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
-	border-radius: 5px;
 }
 
 form .forgetmenot {

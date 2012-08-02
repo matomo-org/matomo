@@ -55,6 +55,7 @@
 	overflow: hidden;
 	border-radius:4px;
 	font-size:14px;
+	border-radius:4px;
 	-moz-border-radius:4px;
 	-webkit-border-radius:4px;
 }
@@ -117,6 +118,7 @@
 	font-family:Arial,Verdana,Arial,Helvetica,sans-serif;
 	border-radius:4px;
 	padding:20px 10px;
+	border-radius:4px;
 	-moz-border-radius:4px;
 	-webkit-border-radius:4px;
 	min-height:0!important;

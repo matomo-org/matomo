@@ -65,7 +65,7 @@ class Test_Piwik_Integration_NoVisit extends Test_Integration_Facade
 		// Trigger empty request
 		$trackerUrl = $this->getTrackerUrl();
 		$response = Piwik_Http::fetchRemoteFile($trackerUrl);
-		$this->assertTrue(strpos($response, 'web analytics') !== false, 'Piwik empty request response not correct: ' . $response);
+		$this->assertTrue(strpos($response, 'is a free open source web') !== false, 'Piwik empty request response not correct: ' . $response);
 		
 		$t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
 		
