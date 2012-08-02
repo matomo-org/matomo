@@ -771,7 +771,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		if(!$excluded)
 		{
 			if( (isset($_SERVER["HTTP_X_PURPOSE"]) 
-					&& in_array($_SERVER["HTTP_X_PURPOSE"], array("preview", "instant"))
+					&& in_array($_SERVER["HTTP_X_PURPOSE"], array("preview", "instant")))
 			 || (isset($_SERVER['HTTP_X_MOZ'])
 			 		&& $_SERVER['HTTP_X_MOZ'] == "prefetch"))
 	 		{
