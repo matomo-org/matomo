@@ -86,14 +86,14 @@
 {if $isSuperUser}
 	<h2>{'UsersManager_MenuAnonymousUserSettings'|translate}</h2>
 	{if count($anonymousSites) == 0}
-		<br /><span class='form-description'><b>{'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed'|translate}</b></span><br />
+		<h3 class='form-description'><b>{'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed2'|translate}</b></h3><br />
 	{/if}
 	<br />
 	
 	{ajaxErrorDiv id=ajaxErrorAnonymousUserSettings}
 	{ajaxLoadingDiv id=ajaxLoadingAnonymousUserSettings}
 
-	<table id='anonymousUserSettingsTable' class="adminTable" style='width:850px'>
+	<table id='anonymousUserSettingsTable' class="adminTable" style='width:850px;{if empty($anonymousSites)}display:none;{/if}'>
 	<tr>
 		<td style='width:400px'>{'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess'|translate}</td>
 		<td>
@@ -125,7 +125,7 @@
 	
 	</table>
 	
-<input type="submit" value="{'General_Save'|translate}" id="anonymousUserSettingsSubmit" class="submit" />
+<input type="submit" value="{'General_Save'|translate}" id="anonymousUserSettingsSubmit" class="submit" {if empty($anonymousSites)}style="display:none;"{/if}/>
 
 {/if}
 
