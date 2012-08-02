@@ -699,37 +699,40 @@ class DataTableTest extends PHPUnit_Framework_TestCase
         $this->assertTrue( Piwik_DataTable::isEqual($table, $tableExpected) );
     }
 
+
+	/**
+	 * @group Core
+	 * @group DataTable
+	 */
 	public function testUnrelatedDataTableNotDestructed()
 	{
 		$mockedDataTable = $this->getMock('Piwik_DataTable', array('__destruct'));
 		$mockedDataTable->expects($this->never())->method('__destruct');
 
-		$dataTableBeingDestructed = new Piwik_DataTable();
 		$rowBeingDestructed = new Piwik_DataTable_Row();
-		$dataTableBeingDestructed->addRow($rowBeingDestructed);
 
 		// we simulate the fact that the value of Piwik_DataTable_Row::DATATABLE_ASSOCIATED retrieved
 		// from the database is in conflict with one of the Piwik_DataTable_Manager managed table identifiers.
 		// This is a rare but legitimate case as identifiers are not thoroughly synchronized
 		// when the expanded parameter is false.
-		$mockedDataTableId = $mockedDataTable->getId();
-		$rowBeingDestructed->c[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] = $mockedDataTableId;
+		$rowBeingDestructed->c[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] = $mockedDataTable->getId();
 
-		destroy($dataTableBeingDestructed);
+		destroy($rowBeingDestructed);
 	}
 
+	/**
+	 * @group Core
+	 * @group DataTable
+	 */
 	public function testSubDataTableIsDestructed()
 	{
 		$mockedDataTable = $this->getMock('Piwik_DataTable', array('__destruct'));
 		$mockedDataTable->expects($this->once())->method('__destruct');
 
-		$dataTableBeingDestructed = new Piwik_DataTable();
 		$rowBeingDestructed = new Piwik_DataTable_Row();
 		$rowBeingDestructed->setSubtable($mockedDataTable);
 
-		$dataTableBeingDestructed->addRow($rowBeingDestructed);
-
-		destroy($dataTableBeingDestructed);
+		destroy($rowBeingDestructed);
 	}
 
 	protected function _getDataTable1ForTest()
