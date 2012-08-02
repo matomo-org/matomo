@@ -36,7 +36,7 @@ class Test_Piwik_Integration_OneVisitorTwoVisits_WithCookieSupport extends Test_
 
 	protected function trackVisits()
 	{
-        $t = $this->getTracker($this->idSite, $this->dateTime, $defaultInit = true, $useThirdPartyCookie = 1);
+        $t = $this->getTracker($this->idSite, $this->dateTime, $defaultInit = true);
         $t->DEBUG_APPEND_URL = '&forceUseThirdPartyCookie=1';
 		$this->trackVisitsImpl($t);
 	}

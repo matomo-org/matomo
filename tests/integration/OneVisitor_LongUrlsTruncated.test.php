@@ -47,7 +47,7 @@ class Test_Piwik_Integration_OneVisitor_LongUrlsTruncated extends Test_Integrati
     	$idSite = $this->idSite;
 
     	// Visit 1: keyword and few URLs
-    	$t = $this->getTracker($idSite, $dateTime, $defaultInit = true, $useThirdPartyCookie = 1);
+    	$t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
         $t->setUrlReferrer( 'http://bing.com/search?q=Hello world');
         
         // Generate a few page views that will be truncated
