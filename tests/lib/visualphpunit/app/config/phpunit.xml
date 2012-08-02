@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<phpunit>
+
+  <testsuites>
+    <testsuite>
+      <directory>/srv/http/vpu/app/test</directory>
+    </testsuite>
+  </testsuites>
+
+  <!-- This is required for VPU to work correctly -->
+  <listeners>
+    <listener class="PHPUnit_Util_Log_JSON"></listener>
+  </listeners>
+
+</phpunit>

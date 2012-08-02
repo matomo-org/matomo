@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>VisualPHPUnit - Archives</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+
+    <link href="./css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+    <link href="./css/bootstrap-responsive.css" rel="stylesheet">
+    <link href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/themes/redmond/jquery-ui.css' rel='stylesheet'>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="./">VisualPHPUnit</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li><a href="./">Home</a></li>
+              <li class='active'><a href="./archives">Archives</a></li>
+              <li><a href="./graphs">Graphs</a></li>
+              <li><a href="./help">Help</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class='row'>
+
+        <div class='span3'>
+          <form action='./archives' method='get' class='well'>
+            <ul class="nav nav-list">
+              <li class='nav-header'>Archives</li>
+              <li>
+                <?php if ( empty($snapshots) ): ?>
+                  <p class='help-block'>No snapshots found.</p>
+                <?php else: ?>
+                <label for='snapshot'>Snapshot</label>
+                <select id='snapshot' name='snapshot'>
+                  <?php foreach ( $snapshots as $snapshot ): ?>
+                  <option value='<?=$snapshot;?>'><?=$snapshot;?></option>
+                  <?php endforeach; ?>
+                </select>
+                <?php endif; ?>
+              </li>
+
+              <li class='divider'></li>
+
+              <li class='nav-header'>Display</li>
+              <li>
+                <label for='sort' class='display-description'>
+                  <i class='icon-tasks'></i>
+                  Sort
+                </label>
+                <select id='sort' class='test-display'>
+                  <option value='Results (asc)'>Results (asc)</option>
+                  <option value='Results (desc)'>Results (desc)</option>
+                  <option value='Time (asc)'>Time (asc)</option>
+                  <option value='Time (desc)'>Time (desc)</option>
+                </select>
+              </li>
+
+              <li>
+                <span class='display-description'>
+                  <i class='icon-eye-open'></i>
+                  Show
+                </span>
+                <label for='display-failed' class='checkbox'>
+                  <input type='checkbox' id='display-failed' class='display-suite' value='1' checked='checked' data-target='failed' />
+                  <abbr title='Failed'>F</abbr>
+                </label>
+                <label for='display-incomplete' class='checkbox'>
+                  <input type='checkbox' id='display-incomplete' class='display-suite' value='1' checked='checked' data-target='incomplete' />
+                  <abbr title='Incomplete'>I</abbr>
+                </label>
+                <label for='display-skipped' class='checkbox'>
+                  <input type='checkbox' id='display-skipped' class='display-suite' value='1' checked='checked' data-target='skipped' />
+                  <abbr title='Skipped'>Sk</abbr>
+                </label>
+                <label for='display-succeeded' class='checkbox'>
+                  <input type='checkbox' id='display-succeeded' class='display-suite' value='1' checked='checked' data-target='succeeded' />
+                  <abbr title='Succeeded'>Su</abbr>
+                </label>
+              </li>
+
+              <li class='divider'></li>
+
+              <li class='centered'>
+                <button type="submit" id='view-snapshot' class="btn btn-primary">View</button>
+              </li>
+
+            </ul>
+          </form>
+        </div>
+
+        <div id='test-output' class='span9'></div>
+
+      </div>
+
+    </div>
+
+    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'></script>
+    <script src='./js/jquery.sortElements.js'></script>
+    <script>
+      $(document).ready(function() {
+
+        $('#view-snapshot').click(function(event) {
+          var $form = $(this).closest('form'),
+              $output = $('#test-output');
+
+          event.preventDefault();
+
+          $output.fadeOut(300, function() {
+            $output.html(
+              "<div class='loader'><img src='./img/ajax-loader.gif'></div>"
+            ).fadeIn(300);
+
+            $.get($form.attr('action'), $form.serialize(), function(response) {
+              $output.html(response);
+              $('#sort').triggerHandler('change');
+
+              $output.fadeIn(300, function() {
+                $('.display-suite').each(function(index, element) {
+                  $(element).triggerHandler('click');
+                });
+              });
+            });
+          });
+
+        });
+
+        $('#sort').change(function() {
+          switch ( $(this).val() ) {
+            case 'Results (asc)':
+              $('.suite').sortElements(function(a, b) {
+                return $(a).attr('data-suite-status') > $(b).attr('data-suite-status');
+              });
+              break;
+            case 'Results (desc)':
+              $('.suite').sortElements(function(a, b) {
+                return $(a).attr('data-suite-status') < $(b).attr('data-suite-status');
+              });
+              break;
+            case 'Time (asc)':
+              $('.suite').sortElements(function(a, b) {
+                return $(a).attr('data-suite-time') > $(b).attr('data-suite-time');
+              });
+              break;
+            case 'Time (desc)':
+              $('.suite').sortElements(function(a, b) {
+                return $(a).attr('data-suite-time') < $(b).attr('data-suite-time');
+              });
+              break;
+          }
+        });
+
+        $('.display-suite').click(function() {
+          var $checkbox = $(this),
+              $suites = $('.suite[data-suite-status="' + $checkbox.attr('data-target') + '"]');
+          if ( $checkbox.is(':checked') ) {
+              $suites.fadeIn();
+          } else  {
+              $suites.fadeOut();
+          }
+        });
+      });
+    </script>
+
+  </body>
+</html>

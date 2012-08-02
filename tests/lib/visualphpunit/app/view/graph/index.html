@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>VisualPHPUnit - Graphs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+
+    <link href="./css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+    <link href="./css/bootstrap-responsive.css" rel="stylesheet">
+    <link href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/themes/redmond/jquery-ui.css' rel='stylesheet'>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="./">VisualPHPUnit</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li><a href="./">Home</a></li>
+              <li><a href="./archives">Archives</a></li>
+              <li class='active'><a href="./graphs">Graphs</a></li>
+              <li><a href="./help">Help</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class='row'>
+
+        <div class='span3'>
+          <form class='well'>
+            <ul class="nav nav-list">
+              <li class='nav-header'>Options</li>
+              <li>
+                <label for='graph-type'>Type</label>
+                <select id='graph-type'>
+                  <option value='Suite'>Suites</option>
+                  <option value='Test'>Tests</option>
+                </select>
+              </li>
+              <li>
+                <label for='time-frame'>Time Frame</label>
+                <select id='time-frame'>
+                  <option value='Daily'>Daily</option>
+                  <option value='Weekly'>Weekly</option>
+                  <option value='Monthly'>Monthly</option>
+                </select>
+              </li>
+              <li>
+                <label for='start-date'>Start Date</label>
+                <input type='text' id='start-date' />
+              </li>
+              <li>
+                <label for='end-date'>End Date</label>
+                <input type='text' id='end-date' />
+              </li>
+
+              <li class='divider'></li>
+
+              <li class='centered'>
+                <button type="submit" id='draw-graph' class="btn btn-primary">Draw Graph</button>
+              </li>
+
+            </ul>
+          </form>
+        </div>
+
+        <div class='span9'>
+          <div id='graph'></div>
+        </div>
+      </div>
+
+    </div>
+
+    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'></script>
+    <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/jquery-ui.min.js'></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js'></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/highcharts/2.2.3/highcharts.js'></script>
+    <script src='./js/bootstrap-alert.js'></script>
+
+    <script type='text/html' id='error'>
+      <div class="alert alert-block alert-danger">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <h4 class="alert-heading"><%= error.title %></h4>
+        <p class='error-message'><%= error.message %></p>
+      </div>
+    </script>
+
+    <script>
+      $(document).ready(function() {
+        $('#draw-graph').click(function(event) {
+          event.preventDefault();
+
+          $.post('./graphs', {
+            'graph_type' : $('#graph-type').val(),
+            'time_frame' : $('#time-frame').val(),
+            'start_date' : $('#start-date').val(),
+            'end_date'   : $('#end-date').val()
+          }, function(response) {
+            var chart;
+
+            response = $.parseJSON(response);
+
+            if ( response.error ) {
+              $('#graph').html(_.template($('#error').html(), {
+                error: response.error
+              }));
+              return false;
+            }
+
+            chart = {
+              "chart": {
+                "renderTo": "graph",
+                "defaultSeriesType": "line",
+                "marginRight": 130,
+                "marginBottom": 25
+              },
+              "title": {
+                "text": response.type + " Results",
+                "x": -20
+              },
+              "subtitle": {
+                "text": response.timeFrame + " Average",
+                "x": -20
+              },
+              "xAxis": {
+                "categories": response.categories
+              },
+              "yAxis": {
+                "title": {
+                  "text": "Number of " + response.type + "s"
+                },
+                "plotLines": [{
+                  "value": 0,
+                  "width": 1,
+                  "color": "#808080"
+                }],
+                "min": 0
+              },
+              "legend": {
+                "layout": "vertical",
+                "align": "right",
+                "verticalAlign": "top",
+                "x": -10,
+                "y": 100,
+                "borderWidth": 0
+              },
+              "series": [{
+                "name": "Failed",
+                "color": "#b94a48",
+                "data": response.failed
+              }, {
+                "name": "Incomplete",
+                "color": "#f89406",
+                "data": response.incomplete
+              }, {
+                "name": "Skipped",
+                "color": "#3a87ad",
+                "data": response.skipped
+              }, {
+                "name": "Succeeded",
+                "color": "#468847",
+                "data": response.succeeded
+              }]
+            };
+
+            new Highcharts.Chart(chart);
+          });
+        });
+
+        $('#start-date, #end-date').datepicker();
+      });
+
+    </script>
+
+  </body>
+</html>
