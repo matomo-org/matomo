@@ -1231,7 +1231,6 @@ $translations = array(
 	'UsersManager_MenuUsers' => 'Пользователи',
 	'UsersManager_MenuUserSettings' => 'Мои настройки',
 	'UsersManager_MenuAnonymousUserSettings' => 'Настройки анонимности',
-	'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed' => 'Внимание: У вас нет ни одного сайта, к статистике которых имеют доступ анонимные пользователи. Эти настройки не будут использоваться.',
 	'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess' => 'Когда незарегистрированные пользователи посещают систему Piwik, они должны видеть',
 	'UsersManager_ChangePassword' => 'Изменить пароль',
 	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => 'Если вы хотите сменить пароль, введите новый. Иначе оставьте поле пустым.',

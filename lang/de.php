@@ -1360,7 +1360,6 @@ $translations = array(
 	'UsersManager_MenuUsers' => 'Benutzer',
 	'UsersManager_MenuUserSettings' => 'Benutzereinstellungen',
 	'UsersManager_MenuAnonymousUserSettings' => 'Gast-Besucher ("anonymous") Einstellungen',
-	'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed' => 'Hinweis: Sie haben keine Webseite, auf die der Gast ("anonymous") Besucher zugreifen kann. Die folgenden Einstellungen werden nicht benutzt.',
 	'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess' => 'Wenn Benutzer nicht eingeloggt sind und Piwik besuchen, sollten sie Zugriff haben auf',
 	'UsersManager_ChangePassword' => 'Passwort ändern',
 	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => 'Wenn Sie Ihr Passwort ändern möchten, geben Sie ein neues ein. Ansonsten lassen Sie dieses Feld frei.',

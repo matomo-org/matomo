@@ -1156,7 +1156,6 @@ $translations = array(
 	'UsersManager_MenuUsers' => 'Korisnici',
 	'UsersManager_MenuUserSettings' => 'Tekući korisnik',
 	'UsersManager_MenuAnonymousUserSettings' => 'Podešavanja anonimnih korisnika',
-	'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed' => 'Pažnja: nemate sajtova kojima anonimni korisnici mogu da pristupe te sledeća podešavanja neće biti u upotrebi.',
 	'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess' => 'Kada korisnik koji nije prijavljen pokuša da otvori Piwik, trebalo bi da se otvori:',
 	'UsersManager_ChangePassword' => 'Promena lozinke',
 	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => 'Ukoliko želite da promenite lozinku, upišite novu. U suprotnom ostavite polje prazno',

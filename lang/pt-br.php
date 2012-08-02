@@ -1038,7 +1038,6 @@ $translations = array(
 	'UsersManager_MenuUsers' => 'Usuários',
 	'UsersManager_MenuUserSettings' => 'Configurações de usuário',
 	'UsersManager_MenuAnonymousUserSettings' => 'Configurações de usuário anônimo',
-	'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed' => 'Nota: Você não tem nenhum website que um usuário anônimo pode acessar, as seguintes configurações não serão usadas.',
 	'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess' => 'Quando usuários não estão logados e visitam o Piwik, eles deveriam acessar',
 	'UsersManager_ChangePassword' => 'Mudar senha',
 	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => 'Se você gostaria de mudar a senha, digite uma nova. Senão, deixe em branco.',

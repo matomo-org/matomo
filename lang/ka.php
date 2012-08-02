@@ -1066,7 +1066,6 @@ $translations = array(
 	'UsersManager_MenuUsers' => 'მომხმარებლები',
 	'UsersManager_MenuUserSettings' => 'მომხმარებლის პარამეტრები',
 	'UsersManager_MenuAnonymousUserSettings' => 'ანონიმური მომხმარებლის პარამეტრები',
-	'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed' => 'შენიშვნა: თქვენ არ გაქვთ ისეთი ვებ საიტი, რომლის წვდომაც ანონიმურ მომხმარებელს შეუძლია, შემდეგი პარამეტრები გამოყენებული არ იქნება.',
 	'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess' => 'როდესაც მომხმარებლები სისტემაში არ არიან შესული და ეწვევიან Piwik–ს, მათ უნდა შეძლონ წვდომა',
 	'UsersManager_ChangePassword' => 'პაროლის შეცვლა',
 	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => 'თუ გსურთ პაროლის შეცვლა, აკრიფეთ ახალი. თუ არა, დატოვეთ ეს ველი ცარიელი.',

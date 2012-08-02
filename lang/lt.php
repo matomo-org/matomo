@@ -1100,7 +1100,6 @@ $translations = array(
 	'UsersManager_MenuUsers' => 'Naudotojai',
 	'UsersManager_MenuUserSettings' => 'Naudotojo nustatymai',
 	'UsersManager_MenuAnonymousUserSettings' => 'Anonimo nustatymai',
-	'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed' => 'Pastaba: Jūs neturite jokių svetainių, kurias gali pasiekti anonimas, todėl šie nustatymai nebus naudojami.',
 	'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess' => 'Kai naudotojai neprisijungę apsilanko Piwik, jie turi pasiekti',
 	'UsersManager_ChangePassword' => 'Pakeisti slaptažodį',
 	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => 'Jei norite pakeisti slaptažodį, įrašykite naują. Jei ne, palikite laukelį tuščią.',

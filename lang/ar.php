@@ -1158,7 +1158,6 @@ $translations = array(
 	'UsersManager_MenuUsers' => 'المستخدمون',
 	'UsersManager_MenuUserSettings' => 'إعدادات المستخدم',
 	'UsersManager_MenuAnonymousUserSettings' => 'إعدادات المستخدمين المجهولين',
-	'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed' => 'ملاحظة: لا توجد لديك أي موقع يمكن للمستخدمين المجهولين أن يصلوا إليها/ لن يتم استخدام الإعدادات التالية.',
 	'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess' => 'عندما لا يسجل المستخدمون دخولهم ويزورون Piwik،فسيمكنهم الوصول إلى',
 	'UsersManager_ChangePassword' => 'تغيير كلمة المرور',
 	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => 'إذا كنت ترغب في تغيير كلمة المرور، اكتب واحدة جديدة، أو اتركها فارغة لعدم تغييرها.',

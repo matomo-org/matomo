@@ -1148,7 +1148,6 @@ $translations = array(
 	'UsersManager_MenuUsers' => 'Felhasználók',
 	'UsersManager_MenuUserSettings' => 'Felhasználói beállítások',
 	'UsersManager_MenuAnonymousUserSettings' => 'Névtelen felhasználók beállításai',
-	'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed' => 'Megjegyzés: mivel nincs jelenleg olyan weboldal-statisztika, melyhez névtelen felhasználók is hozzáférhetnek, a következő beállítások nem kerülnek sehol felhasználásra.',
 	'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess' => 'Amikor a felhasználók nincsenek belépve a Piwik-be és így keresik fel a Piwik-et, akkor a következőhöz férjenek hozzá:',
 	'UsersManager_ChangePassword' => 'Jelszó megváltoztatása',
 	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => 'Ha szeretnéd megváltoztatni a jelszót, írd ide be az újat. Egyéb esetben hagyd üresen ezt a mezőt.',

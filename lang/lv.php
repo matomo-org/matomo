@@ -1127,7 +1127,6 @@ $translations = array(
 	'UsersManager_MenuUsers' => 'Lietotāji',
 	'UsersManager_MenuUserSettings' => 'Lietotāju iestatījumi',
 	'UsersManager_MenuAnonymousUserSettings' => 'Anonīmu lietotāju iestatījumi',
-	'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed' => 'Piezīme: Jums nav nevienas vietnes, kas atļautu anonīmu lietotāju pieejas atskaitēm. Sekojošie iestatījumi netiks izmantoti.',
 	'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess' => 'Kad lietotāji nav pieteikušies un apmeklē Piwik, tiem rādam',
 	'UsersManager_ChangePassword' => 'Mainīt paroli',
 	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => 'Ja vēlaties mainīt paroli, ievadiet jauno. Pretējā gadījumā atstājiet tukšu.',

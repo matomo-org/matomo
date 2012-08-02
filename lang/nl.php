@@ -1,5 +1,5 @@
 <?php
-$translations = array(	
+$translations = array(
 	'General_Locale' => 'nl_NL.UTF-8',
 	'General_TranslatorName' => 'Martijn van Laar, Hannes Bossuyt, Sigge Stegeman, Taco Vader, Benkheil Abdelouali',
 	'General_TranslatorEmail' => 'martijn@mvanlaar.net, hannes@randomize.be, benkheil.abdelouali@gmail.com',
@@ -1292,7 +1292,6 @@ $translations = array(
 	'UsersManager_MenuUsers' => 'Gebruikers',
 	'UsersManager_MenuUserSettings' => 'Gebruikers instellingen',
 	'UsersManager_MenuAnonymousUserSettings' => 'Anonieme gebruikers instellingen',
-	'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed' => 'Opmerking: u hoeft geen enkele website die de anonieme gebruiker toegang hebben, de volgende instellingen worden niet gebruikt.',
 	'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess' => 'Wanneer gebruikers niet ingelogd zij en Piwik bezoeken, moeten ze toegang krijgen',
 	'UsersManager_ChangePassword' => 'Wijzig wachtwoord',
 	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => 'Wilt u het wachtwoord wijzigen door een nieuwe. Anders laat deze leeg.',

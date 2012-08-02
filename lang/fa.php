@@ -1251,7 +1251,6 @@ $translations = array(
 	'UsersManager_MenuUsers' => 'کاربران',
 	'UsersManager_MenuUserSettings' => 'تنضیمات کاربران',
 	'UsersManager_MenuAnonymousUserSettings' => 'تنظیمات کاربران ناشناس',
-	'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed' => 'توجه: شما هر وب سایت است که کاربر گمنامی می توانید دسترسی را نداشته باشند، تنظیمات زیر را استفاده نخواهد شد.',
 	'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess' => 'هنگامی که کاربران وارد نشده اید و بازدید Piwik، آنها باید دسترسی داشته باشید',
 	'UsersManager_ChangePassword' => 'تغییر پسورد',
 	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => 'اگر می خواهید از نوع رمز عبور را تغییر جدید است. در غیر این صورت این قسمت را خالی بگذارید.',

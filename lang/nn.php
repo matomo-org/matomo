@@ -826,7 +826,6 @@ $translations = array(
 	'UsersManager_MenuUsers' => 'Brukarar',
 	'UsersManager_MenuUserSettings' => 'Brukarinnstillingar',
 	'UsersManager_MenuAnonymousUserSettings' => 'Innstillingar for anonyme brukarar',
-	'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed' => 'Merk: Disse innstillingane blir ikkje brukt om du ikkje har nokon sider som er tilgjengelge for anonyme brukarar.',
 	'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess' => 'Når brukarar vitjar Piwik uten å vera innlogga, skal dei ha tilgang til',
 	'UsersManager_ChangePassword' => 'Bytt passord',
 	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => 'Om du ønskjer å bytte passordet, skriv inn eit nytt et.    Ellers skriv du ingenting.',

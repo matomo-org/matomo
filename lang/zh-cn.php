@@ -1030,7 +1030,6 @@ $translations = array(
 	'UsersManager_MenuUsers' => '用户',
 	'UsersManager_MenuUserSettings' => '使用者设定',
 	'UsersManager_MenuAnonymousUserSettings' => '匿名用戶设定',
-	'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed' => '注意：您沒有任何网站能让匿名用戶存取，以下设定将无效。',
 	'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess' => '当使用者未登录且访问 Piwik 时，他们应该前往',
 	'UsersManager_ChangePassword' => '变更密码',
 	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => '如果您要变更密码时请输入新的密码。否则留空。',

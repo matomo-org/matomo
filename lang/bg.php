@@ -1103,7 +1103,6 @@ $translations = array(
 	'UsersManager_MenuUsers' => 'Потребители',
 	'UsersManager_MenuUserSettings' => 'Потребителски настройки',
 	'UsersManager_MenuAnonymousUserSettings' => 'Настройки на анонимните потребители',
-	'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed' => 'Забележка: Не е нужно във всеки уеб сайт анонимният потребител да има достъп, следните настройки няма да бъдат използвани.',
 	'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess' => 'Когато потребителите не са влезли и посетят Piwik, те се нуждаят от достъп',
 	'UsersManager_ChangePassword' => 'Нова парола',
 	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => 'Ако желаете да промените паролата си, въведете нова. В противен случай оставете полето празно.',

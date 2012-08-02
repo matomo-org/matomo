@@ -5293,10 +5293,6 @@
 		<value>Paramètres utilisateurs anonymes</value>
 	</row>
 	<row>
-		<label>UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed</label>
-		<value>Note: Vous n'avez aucun site web dont l'accès est accordé à l'utilisateur anonyme, les paramètres suivants resteront inutilisés.</value>
-	</row>
-	<row>
 		<label>UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess</label>
 		<value>Quand les utilisateurs ne sont pas connectés et accèdent à Piwik, ils verront</value>
 	</row>

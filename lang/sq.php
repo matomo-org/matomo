@@ -1320,7 +1320,6 @@ $translations = array(
 	'UsersManager_MenuUsers' => 'Përdorues',
 	'UsersManager_MenuUserSettings' => 'Rregullime përdoruesi',
 	'UsersManager_MenuAnonymousUserSettings' => 'Rregullime përdoruesi anonim',
-	'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed' => 'Shënim: Nuk keni ndonjë site web ku përdoruesi anonim mund të hynte, nuk do të përdoren rregullimet vijuese.',
 	'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess' => 'Kur përdoruesit nuk janë të futur dhe vizitojnë Piwik-un, do të duhej të hynin',
 	'UsersManager_ChangePassword' => 'Ndryshoni fjalëkalimin',
 	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => 'Nëse dëshironi të ndryshoni fjalëkalimin, shtypni një të ri. Përndryshe lëreni të zbrazët.',

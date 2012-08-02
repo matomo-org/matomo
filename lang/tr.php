@@ -858,7 +858,6 @@ $translations = array(
 	'UsersManager_MenuUsers' => 'Kullanıcılar',
 	'UsersManager_MenuUserSettings' => 'Kullanıcı ayarlari',
 	'UsersManager_MenuAnonymousUserSettings' => 'İsimsiz kullanıcı ayarlari',
-	'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed' => 'Not: Sizin isimsiz ziyaretçiler için erişilebilecek websitesi yok, aşağidaki ayarları kullanımda değil.',
 	'UsersManager_ChangePassword' => 'Şifre değiştir',
 	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => 'Şifrenizi değiştirmek istiyorsaniz eğer doldurunuz, aksi halde değiştirmeyecekseniz boş bırakınız.',
 	'UsersManager_TypeYourPasswordAgain' => 'Yeni parolanizi yeniden yazınız',

@@ -942,7 +942,6 @@ $translations = array(
 	'UsersManager_MenuUsers' => 'Brukere',
 	'UsersManager_MenuUserSettings' => 'Brukerinnstillinger',
 	'UsersManager_MenuAnonymousUserSettings' => 'Innstillinger for anonym bruker',
-	'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed' => 'Merk: Du har ingen nettsteder hvor anonyme brukere har tilgang så de følgende innstillingene blir ikke brukt.',
 	'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess' => 'Brukere som ikke er logget og besøker Piwik, skal sendes til',
 	'UsersManager_ChangePassword' => 'Endre passord',
 	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => 'Hvis du vil endre passordet, skriv inn et nytt. Hvis ikke, lar du feltet være tomt.',

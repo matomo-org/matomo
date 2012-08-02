@@ -1206,7 +1206,6 @@ $translations = array(
 	'UsersManager_MenuUsers' => 'ผู้ใช้',
 	'UsersManager_MenuUserSettings' => 'ตั้งค่าผู้ใช้',
 	'UsersManager_MenuAnonymousUserSettings' => 'การตั้งค่าผู้ใช้ที่ไม่ระบุชื่อ',
-	'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed' => 'หมายเหตุ: คุณไม่มีเว็บไซต์ใดๆ ที่ผู้ใช้ที่ไม่ระบุชื่อสามารถเข้าถึง การตั้งค่าต่อไปนี้จะไม่สามารถใช้งานได้',
 	'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess' => 'เมื่อผู้ใช้เข้าสู่ระบบและเข้าชม Piwik พวกเขาควรจะเข้าถึงได้',
 	'UsersManager_ChangePassword' => 'เปลี่ยนรหัสผ่าน',
 	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => 'ถ้าคุณต้องการที่จะเปลี่ยนชนิดของรหัสผ่านใหม่ มิฉะนั้นให้ปล่อยนี้ว่างไว้',

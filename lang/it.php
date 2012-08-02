@@ -1227,7 +1227,6 @@ $translations = array(
 	'UsersManager_MenuUsers' => 'Utenti',
 	'UsersManager_MenuUserSettings' => 'Impostazioni utente',
 	'UsersManager_MenuAnonymousUserSettings' => 'Impostazioni utente anonimo',
-	'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed' => 'Non hai nessun sito a cui i visitatori anonimi possano accedere, le impostazioni seguenti non verranno usate.',
 	'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess' => 'Quando gli utenti non si sono autentificati in Piwik, loro possono accedere a',
 	'UsersManager_ChangePassword' => 'Cambia la password',
 	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => 'Se vuoi cambiare la password scrivine qui una nuova. Altrimenti lascia pure bianco.',

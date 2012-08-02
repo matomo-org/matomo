@@ -1353,7 +1353,6 @@ $translations = array(
 	'UsersManager_MenuUsers' => 'Käyttäjät',
 	'UsersManager_MenuUserSettings' => 'Käyttäjäasetukset',
 	'UsersManager_MenuAnonymousUserSettings' => 'Anonyymin käyttäjän asetukset',
-	'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed' => 'Huom: jos sinulla ei ole yhtäkään verkkosivua jota anonyymit käyttäjät voivat katsella, seuraavia asetuksia ei käytetä.',
 	'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess' => 'Kun käyttäjä ei ole kirjautunut sisään ja käy Piwikissä, heillä on pääsy',
 	'UsersManager_ChangePassword' => 'Vaihda salasana',
 	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => 'Jos haluat vaihtaa salasanan, kirjoita uusi. Muuten jätä tyhjäksi.',

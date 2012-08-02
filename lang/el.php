@@ -1364,7 +1364,6 @@ $translations = array(
 	'UsersManager_MenuUsers' => 'Χρήστες',
 	'UsersManager_MenuUserSettings' => 'Ρυθμίσεις χρήστη',
 	'UsersManager_MenuAnonymousUserSettings' => 'Ρυθμίσεις ανώνυμου χρήστη',
-	'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed' => 'Σημείωση: Δεν έχετε κάποια ιστοσελίδα που ο ανώνυμος χρήστης μπορεί να έχει πρόσβαση. Οι ακόλουθες ρυθμίσεις δεν θα χρησιμοποιηθούν.',
 	'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess' => 'Όταν οι χρήστες δεν έχουν συνδεθεί και επισκέπτονται το Piwik, θα έχουν πρόσβαση',
 	'UsersManager_ChangePassword' => 'Αλλαγή κωδικού πρόσβασης',
 	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => 'Αν θέλετε να αλλάξετε τον κωδικός πρόσβασης, γράψτε έναν νέο. Διαφορετικά αφήστε το κενό.',

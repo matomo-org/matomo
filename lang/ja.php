@@ -1076,7 +1076,6 @@ $translations = array(
 	'UsersManager_MenuUsers' => 'ユーザー',
 	'UsersManager_MenuUserSettings' => 'ユーザーの設定',
 	'UsersManager_MenuAnonymousUserSettings' => 'anonymous ユーザーの設定',
-	'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed' => '注意： anonymous ユーザーがアクセスできるウェブサイトがないため、次の設定は使用されません。',
 	'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess' => '未ログインのユーザーが Piwik にアクセスした際に表示する画面',
 	'UsersManager_ChangePassword' => 'パスワードの変更',
 	'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne' => 'パスワードを変更したい場合は、新しいパスワードを入力します。 変更しない場合は、空欄のままにします。',
