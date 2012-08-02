@@ -84,7 +84,20 @@ class Piwik_DataTable_Row
 			&& $row[self::DATATABLE_ASSOCIATED] instanceof Piwik_DataTable)
 		{
 			$this->setSubtable($row[self::DATATABLE_ASSOCIATED]);
-		}	
+		}
+	}
+	
+	/**
+	 * Because $this->c[self::DATATABLE_ASSOCIATED] is negative when the table is in memory,
+	 * we must prior to serialize() call, make sure the ID is saved as positive integer
+	 */
+	public function __sleep()
+	{
+		if(!empty($this->c[self::DATATABLE_ASSOCIATED]) && $this->c[self::DATATABLE_ASSOCIATED] < 0)
+		{
+			$this->c[self::DATATABLE_ASSOCIATED] = abs($this->c[self::DATATABLE_ASSOCIATED]);
+		}
+		return array('c');
 	}
 	
 	/**
