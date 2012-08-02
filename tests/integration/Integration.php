@@ -1042,7 +1042,8 @@ abstract class Test_Integration extends Test_Database_Base
 	 */
 	protected function changeLanguage( $langId )
 	{
-		if (isset($this->lastLanguage) && $this->lastLanguage != $langId)
+		if (empty($this->lastLanguage) 
+			|| $this->lastLanguage != $langId)
 		{
 			$_GET['language'] = $langId;
 			Piwik_Translate::reset();

@@ -42,17 +42,17 @@
 		<country>France</country>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
 		<continent>Europe</continent>
-		<provider>Unknown</provider>
+		<provider>Inconnu</provider>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>search</referrerType>
-		<referrerTypeName>Search Engines</referrerTypeName>
+		<referrerTypeName>Moteurs de recherche</referrerTypeName>
 		<referrerName>Google</referrerName>
 		<referrerKeyword>&lt;&gt;&amp;\&quot;the pdo extension is required for this adapter but the extension is not loaded</referrerKeyword>
 		<referrerKeywordPosition>4</referrerKeywordPosition>
 		<referrerUrl>http://www.google.com.vn/search?q=%3C%3E%26%5C%22the+pdo+extension+is+required+for+this+adapter+but+the+extension+is+not+loaded</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
-		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystem>Inconnu</operatingSystem>
 		<operatingSystemShortName>Unknown</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily>gecko</browserFamily>
@@ -130,17 +130,17 @@
 		<country>France</country>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
 		<continent>Europe</continent>
-		<provider>Unknown</provider>
+		<provider>Inconnu</provider>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>search</referrerType>
-		<referrerTypeName>Search Engines</referrerTypeName>
+		<referrerTypeName>Moteurs de recherche</referrerTypeName>
 		<referrerName>Google</referrerName>
-		<referrerKeyword>Keyword not defined</referrerKeyword>
+		<referrerKeyword>Mot clef indéfini</referrerKeyword>
 		<referrerKeywordPosition>1</referrerKeywordPosition>
 		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
-		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystem>Inconnu</operatingSystem>
 		<operatingSystemShortName>Unknown</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily>gecko</browserFamily>

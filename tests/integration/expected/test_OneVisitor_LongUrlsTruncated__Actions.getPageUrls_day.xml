@@ -59,7 +59,7 @@
 				<url>http://example.org/category/Page2</url>
 			</row>
 			<row>
-				<label>Others</label>
+				<label>Autres</label>
 				<nb_visits>2</nb_visits>
 				<nb_uniq_visitors>2</nb_uniq_visitors>
 				<nb_hits>5</nb_hits>
@@ -71,7 +71,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Others</label>
+		<label>Autres</label>
 		<nb_visits>3</nb_visits>
 		<nb_uniq_visitors>3</nb_uniq_visitors>
 		<nb_hits>5</nb_hits>
