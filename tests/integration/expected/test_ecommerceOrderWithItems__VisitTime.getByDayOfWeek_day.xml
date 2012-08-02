@@ -8,14 +8,10 @@
 	<row>
 		<label>Tuesday</label>
 		<nb_visits>3</nb_visits>
-		<max_actions>6</max_actions>
 		<nb_actions>13</nb_actions>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_visit_length>5403</sum_visit_length>
-		<bounce_rate>0%</bounce_rate>
-		<nb_actions_per_visit>4.3</nb_actions_per_visit>
-		<avg_time_on_site>1801</avg_time_on_site>
 		<day_of_week>2</day_of_week>
 	</row>
 	<row>

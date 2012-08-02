@@ -29,14 +29,10 @@
 		<label>Saturday</label>
 		<nb_visits>2</nb_visits>
 		<bounce_count>1</bounce_count>
-		<max_actions>7</max_actions>
 		<nb_actions>8</nb_actions>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_visit_length>1621</sum_visit_length>
-		<bounce_rate>50%</bounce_rate>
-		<nb_actions_per_visit>4</nb_actions_per_visit>
-		<avg_time_on_site>811</avg_time_on_site>
 		<day_of_week>6</day_of_week>
 	</row>
 	<row>

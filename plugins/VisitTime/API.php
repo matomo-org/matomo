@@ -77,22 +77,25 @@ class Piwik_VisitTime_API
 			throw new Exception("VisitTime.getByDayOfWeek does not support multiple dates.");
 		}
 		
-		// get visit data for every day within the supplied period, then...
+		// metrics to query
+		$metrics = Piwik_ArchiveProcessing::getCoreMetrics();
+		
+		// get metric data for every day within the supplied period
 		$oSite = new Piwik_Site($idSite);
 		$oPeriod = Piwik_Archive::makePeriodFromQueryParams($oSite, $period, $date);
 		$dateRange = $oPeriod->getDateStart()->toString().','.$oPeriod->getDateEnd()->toString();
 		
-		$api = Piwik_VisitsSummary_API::getInstance();
-		$dataTable = $api->get($idSite, 'day', $dateRange, $segment)->mergeChildren();
-		
-		// ...group by the day of the week (see below for dayOfWeekFromDate function)
-		$dataTable->filter('GroupBy', array('label', 'Piwik_VisitTime_dayOfWeekFromDate'));
+		$archive = Piwik_Archive::build($idSite, 'day', $dateRange, $segment);
+		$dataTable = $archive->getDataTableFromNumeric($metrics)->mergeChildren();
 		
 		// if there's no data for this report, don't bother w/ anything else
 		if ($dataTable->getRowsCount() == 0)
 		{
 			return $dataTable;
 		}
+		
+		// group by the day of the week (see below for dayOfWeekFromDate function)
+		$dataTable->filter('GroupBy', array('label', 'Piwik_VisitTime_dayOfWeekFromDate'));
 		
 		// create new datatable w/ empty rows, then add calculated datatable
 		$rows = array();
