@@ -1458,9 +1458,11 @@ class Piwik_Tracker_Visit_Referer
 			$refererUrl = '';
 		}
 		
+		$currentUrl = Piwik_Tracker_Action::normalizeUrl($currentUrl);
+		
 		$this->refererUrl = $refererUrl;
 		$this->refererUrlParse = @parse_url($this->refererUrl);
-		$this->currentUrlParse = @parse_url(Piwik_Common::unsanitizeInputValue($currentUrl));
+		$this->currentUrlParse = @parse_url($currentUrl);
 		$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_DIRECT_ENTRY;
 		$this->nameRefererAnalyzed = '';
 		$this->keywordRefererAnalyzed = '';

@@ -53,14 +53,22 @@ class Test_Piwik_TrackerAction extends  Test_Database
 			'http://a.com/index?p1=v1&P2=v2&p3=v3',
 		
 			// testing with array []
-			'http://a.com/index?p1=v1&p2[]=v2a&p2[]=v2b&p2[]=v2c&p3=v3&p4=v4',
+			'http://a.com/index?p1=v1&p2[]=v;2a&p2[]=v2b&p2[]=v2c&p3=v3&p4=v4',
 
 			// testing with missing value
 			'http://a.com/index?p1=v1&p2=&p3=v3&p4',
 			'http://a.com/index?p1&p2=v2&p3=v3&p4',
 
 			// testing with extra &&
-			'http://a.com/index?p1=v1&&p2=v2&p3=v3&p4=v4&&',
+			'http://a.com/index?p1=v1&&p2=v;2&p3=v%3b3&p4=v4&&',
+		
+            // encoded entities
+            'http://a.com/index?p1=v1&p2%5B%5D=v2&p3=v3&p4=v4',
+            'http://a.com/index?var%5Bvalue%5D%5Bdate%5D=01.01.2012',
+
+            // matrix parameters
+            'http://a.com/index;jsessionid=value;p1=v1;p2=v2',
+            'http://a.com/index;jsessionid=value?p1=v1&p2=v2',
 		);
 		
 		return $urls;
@@ -78,7 +86,7 @@ class Test_Piwik_TrackerAction extends  Test_Database
 			'http://a.com/index?p1=v1',
 			'http://a.com/index?p1=v1',
 			'http://a.com/index?p1=v1&P2=v2&p3=v3',
-			'http://a.com/index?p1=v1&p2[]=v2a&p2[]=v2b&p2[]=v2c&p3=v3&p4=v4',
+			'http://a.com/index?p1=v1&p2[]=v;2a&p2[]=v2b&p2[]=v2c&p3=v3&p4=v4',
 
 			// normalize orphaned p4
 			'http://a.com/index?p1=v1&p2=&p3=v3&p4',
@@ -87,7 +95,15 @@ class Test_Piwik_TrackerAction extends  Test_Database
 			'http://a.com/index?p1&p2=v2&p3=v3&p4',
 
 			// the extra & are automatically cleaned up
-			'http://a.com/index?p1=v1&p2=v2&p3=v3&p4=v4',
+			'http://a.com/index?p1=v1&p2=v;2&p3=v%3b3&p4=v4',
+		
+            // encoded entities
+            'http://a.com/index?p1=v1&p2[]=v2&p3=v3&p4=v4',
+            'http://a.com/index?var[value][date]=01.01.2012',
+
+            // matrix parameters
+            'http://a.com/index?p1=v1&p2=v2',
+            'http://a.com/index?p1=v1&p2=v2',
 		);
 		$this->setUpRootAccess();
 		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0, $excludedIps = '', $excludedQueryParameters);
@@ -114,7 +130,11 @@ class Test_Piwik_TrackerAction extends  Test_Database
 			'http://a.com/index?p1=v1&p3=v3',
 			'http://a.com/index?p1=v1&p3=v3',
 			'http://a.com/index?p1&p3=v3',
-			'http://a.com/index?p1=v1&p3=v3',
+			'http://a.com/index?p1=v1&p3=v%3b3',
+		    'http://a.com/index?p1=v1&p3=v3',
+            'http://a.com/index?var[value][date]=01.01.2012',
+            'http://a.com/index?p1=v1',
+            'http://a.com/index?p1=v1',
 		);
 		$this->setUpRootAccess();
 		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0, $excludedIps = '', $excludedQueryParameters);
@@ -133,7 +153,7 @@ class Test_Piwik_TrackerAction extends  Test_Database
 	function test_excludeQueryParameters_siteAndGlobalExcluded()
 	{
 		// testing also that query parameters are case insensitive 
-		$excludedQueryParameters = 'P2';
+		$excludedQueryParameters = 'P2,var[value][date]';
 		$excludedGlobalParameters = 'blabla, P4';
 		$expectedUrls = array(
 			'http:////wrongurl',
@@ -144,8 +164,13 @@ class Test_Piwik_TrackerAction extends  Test_Database
 			'http://a.com/index?p1=v1&p3=v3',
 			'http://a.com/index?p1=v1&p3=v3',
 			'http://a.com/index?p1&p3=v3',
+			'http://a.com/index?p1=v1&p3=v%3b3',
 			'http://a.com/index?p1=v1&p3=v3',
+            'http://a.com/index',
+            'http://a.com/index?p1=v1',
+            'http://a.com/index?p1=v1',
 		);
+		
 		$this->setUpRootAccess();
 		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0, $excludedIps = '', $excludedQueryParameters);
 		Piwik_SitesManager_API::getInstance()->setGlobalExcludedQueryParameters($excludedGlobalParameters);
