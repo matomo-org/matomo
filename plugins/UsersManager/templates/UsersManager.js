@@ -138,7 +138,7 @@ function bindUpdateAccess()
 				.attr('src',"plugins/UsersManager/images/ok.png" )
 				.attr('class',"accessGranted" )
 				;
-			$('#accessUpdated').show();
+			$('#accessUpdated').css('display', 'inline-block');
 			hideAccessUpdated();
 		}
 	}
@@ -165,7 +165,6 @@ function bindUpdateAccess()
 }
 
 $(document).ready( function() {
-	$('#accessUpdated').hide();
 	var alreadyEdited = new Array;
 	// when click on edituser, the cells become editable
 	$('.edituser')

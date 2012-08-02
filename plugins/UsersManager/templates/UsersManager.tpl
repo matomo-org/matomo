@@ -53,10 +53,9 @@
 
 {ajaxErrorDiv}
 {ajaxLoadingDiv}
-<div id="accessUpdated" class="ajaxSuccess">{'General_Done'|translate}!</div>
 
-<div class="entityContainer" style='width:500px'>
-	<table class="entityTable dataTable" id="access">
+<div class="entityContainer" style='width:600px'>
+	<table class="entityTable dataTable" id="access" style="display:inline-table;width:500px;">
 		<thead>
 		<tr>
 			<th class='first'>{'UsersManager_User'|translate}</th>
@@ -81,6 +80,7 @@
 		{/foreach}
 		</tbody>
 	</table>
+	<div id="accessUpdated" class="ajaxSuccess" style="display:none;vertical-align:top;">{'General_Done'|translate}!</div>
 </div>
 
 <div class="ui-confirm" id="confirm">
