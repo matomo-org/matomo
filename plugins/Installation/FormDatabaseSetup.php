@@ -290,6 +290,7 @@ class Piwik_Installation_FormDatabaseSetup_Rule_checkUserPrivileges extends HTML
 	 */
 	private function isAccessDenied( $ex )
 	{
+		//NOte: this code is duplicated in Tracker.php error handler
 		return $ex->getCode() == 1044 || $ex->getCode() == 42000;
 	}
 	

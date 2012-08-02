@@ -128,63 +128,69 @@ class Piwik_Tracker
 
 	protected function initRequests($args)
 	{
-		if (!empty($args) || !empty($_GET))
+		$post = serialize($_POST);
+		$usingBulkTracking = strpos($post, '"requests"') || strpos($post, "'requests'"); 
+		
+		if($usingBulkTracking)
 		{
-			// Still reading $_POST here in case some users depend on it
-			$this->requests = $args ? $args : array($_GET + $_POST);
+			$this->initBulkTrackingRequests();
 		}
 		else
 		{
-			$rawData = file_get_contents("php://input");
-			if (empty($rawData))
-			{
-				return;
-			}
-
-			// doing bulk tracking. POST data can be array of string URLs or array of arrays w/ visit info
-			$jsonData = Piwik_Common::json_decode($rawData, $assoc = true);
-
-			if (isset($jsonData['requests']))
-			{
-				$this->requests = $jsonData['requests'];
-			}
-			$this->tokenAuth = Piwik_Common::getRequestVar('token_auth', false, null, $jsonData);
-			if(empty($this->tokenAuth))
-			{
-				throw new Exception(" token_auth must be specified when using Bulk Tracking Import. See <a href='http://piwik.org/docs/tracking-api/reference/'>Tracking Doc</a>");
-			}
-			if (!empty($this->requests))
-			{
-				$idSiteForAuthentication = 0;
-
-				foreach ($this->requests as &$request)
-				{
-					// if a string is sent, we assume its a URL and try to parse it
-					if (is_string($request))
-					{
-						$params = array();
-
-						$url = @parse_url($request);
-						if (!empty($url))
-						{
-							@parse_str($url['query'], $params);
-							$request = $params;
-							if(isset($request['idsite']) && !$idSiteForAuthentication)
-							{
-								$idSiteForAuthentication = $request['idsite'];
-							}
-						}
-					}
-				}
-
-				if(!$this->authenticateSuperUserOrAdmin(array('idsite' => $idSiteForAuthentication)))
-				{
-					throw new Exception(" token_auth specified is not valid for site ". intval($idSiteForAuthentication));
-				}
-			}
+			$this->requests = $args ? $args : (!empty($_GET) || !empty($_POST) ? array($_GET + $_POST) : array());
 		}
 	}
 
+	private function initBulkTrackingRequests()
+	{
+		$rawData = file_get_contents("php://input");
+		if (empty($rawData))
+		{
+			return;
+		}
+
+		// POST data can be array of string URLs or array of arrays w/ visit info
+		$jsonData = Piwik_Common::json_decode($rawData, $assoc = true);
+
+		if (isset($jsonData['requests']))
+		{
+			$this->requests = $jsonData['requests'];
+		}
+		$this->tokenAuth = Piwik_Common::getRequestVar('token_auth', false, null, $jsonData);
+		if(empty($this->tokenAuth))
+		{
+			throw new Exception(" token_auth must be specified when using Bulk Tracking Import. See <a href='http://piwik.org/docs/tracking-api/reference/'>Tracking Doc</a>");
+		}
+		if (!empty($this->requests))
+		{
+			$idSiteForAuthentication = 0;
+
+			foreach ($this->requests as &$request)
+			{
+				// if a string is sent, we assume its a URL and try to parse it
+				if (is_string($request))
+				{
+					$params = array();
+
+					$url = @parse_url($request);
+					if (!empty($url))
+					{
+						@parse_str($url['query'], $params);
+						$request = $params;
+						if(isset($request['idsite']) && !$idSiteForAuthentication)
+						{
+							$idSiteForAuthentication = $request['idsite'];
+						}
+					}
+				}
+			}
+
+			if(!$this->authenticateSuperUserOrAdmin(array('idsite' => $idSiteForAuthentication)))
+			{
+				throw new Exception(" token_auth specified is not valid for site ". intval($idSiteForAuthentication));
+			}
+		}
+	}
 	/**
 	 * Main - tracks the visit/action
 	 *
@@ -192,15 +198,21 @@ class Piwik_Tracker
 	 */
 	public function main($args = null)
 	{
+		$displayedGIF = false;
 		$this->initRequests($args);
 		if (!empty($this->requests))
 		{
-			$this->outputTransparentGif();
-		
 			// handle all visits
 			foreach ($this->requests as $request)
 			{
 				$this->init($request);
+				
+				if(!$displayedGIF && !$this->authenticated)
+				{
+					$this->outputTransparentGif();
+					$displayedGIF = true;
+				}
+			
 				try
 				{
 					if ($this->isVisitValid())
@@ -214,11 +226,18 @@ class Piwik_Tracker
 					}
 				} catch (Piwik_Tracker_Db_Exception $e) {
 					printDebug("<b>".$e->getMessage()."</b>");
+					Piwik_Tracker_ExitWithException($e, $this->authenticated);
 				} catch(Piwik_Tracker_Visit_Excluded $e) {
 				} catch(Exception $e) {
-					Piwik_Tracker_ExitWithException($e);
+					Piwik_Tracker_ExitWithException($e, $this->authenticated);
 				}
 				$this->clear();
+			}
+			
+			if(!$displayedGIF)
+			{
+				$this->outputTransparentGif();
+				$displayedGIF = true;
 			}
 		}
 		else
@@ -239,7 +258,7 @@ class Piwik_Tracker
 		}
 		catch (Exception $e)
 		{
-			Piwik_Tracker_ExitWithException($e);
+			Piwik_Tracker_ExitWithException($e, $this->authenticated);
 		}
 
 		$this->end();
@@ -282,7 +301,7 @@ class Piwik_Tracker
 
 			case self::STATE_EMPTY_REQUEST:
 				printDebug("Empty request => Piwik page");
-				echo "<a href='/'>Piwik</a> is a free open source <a href='http://piwik.org'>web analytics</a> alternative to Google analytics.";
+				echo "<a href='/'>Piwik</a> is a free open source web <a href='http://piwik.org'>analytics</a> that lets you keep control of your data.";
 			break;
 
 			case self::STATE_NOSCRIPT_REQUEST:
@@ -353,13 +372,17 @@ class Piwik_Tracker
 			return;
 		}
 
-		$db = null;
-		Piwik_PostEvent('Tracker.createDatabase', $db);
-		if(is_null($db))
-		{
-			$db = self::connectPiwikTrackerDb();
+		try {
+			$db = null;
+			Piwik_PostEvent('Tracker.createDatabase', $db);
+			if(is_null($db))
+			{
+				$db = self::connectPiwikTrackerDb();
+			}
+			self::$db = $db;
+		} catch(Exception $e) {
+			throw new Piwik_Tracker_Db_Exception($e->getMessage(), $e->getCode());
 		}
-		self::$db = $db;
 	}
 
 	/**
@@ -665,10 +688,10 @@ if(!function_exists('printDebug'))
  *
  * @param Exception $e
  */
-function Piwik_Tracker_ExitWithException($e)
+function Piwik_Tracker_ExitWithException($e, $authenticated = false)
 {
 	Piwik_Common::sendHeader('Content-Type: text/html; charset=utf-8');
-
+	
 	if(isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG'])
 	{
 		$trailer = '<font color="#888888">Backtrace:<br /><pre>'.$e->getTraceAsString().'</pre></font>';
@@ -678,7 +701,20 @@ function Piwik_Tracker_ExitWithException($e)
 
 		echo $headerPage . '<p>' . $e->getMessage() . '</p>' . $trailer . $footerPage;
 	}
-
+	// If not debug, but running authenticated (eg. during log import) then we display raw errors 
+	elseif($authenticated)
+	{
+		// Note: duplicated from FormDatabaseSetup.isAccessDenied
+		// Avoid leaking the username/db name when access denied
+		if($e->getCode() == 1044 || $e->getCode() == 42000)
+		{
+			echo "Error while connecting to the Piwik database - please check your credentials in config/config.ini.php file";
+		}
+		else
+		{
+			echo $e->getMessage();
+		}
+	}
 	exit;
 }
 

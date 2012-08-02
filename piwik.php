@@ -44,6 +44,7 @@ require_once PIWIK_INCLUDE_PATH .'/core/IP.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Config.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Db.php';
+require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Db/Exception.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker/IgnoreCookie.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Visit.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker/GoalManager.php';
@@ -87,4 +88,3 @@ if(!defined('PIWIK_ENABLE_TRACKING') || PIWIK_ENABLE_TRACKING)
 		printDebug($timer);
 	}
 }
-
