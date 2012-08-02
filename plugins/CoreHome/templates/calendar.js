@@ -4,25 +4,45 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+(function($) {
 
 Date.prototype.getWeek = function() {
 	var onejan = new Date(this.getFullYear(),0,1);
 	return Math.ceil((((this - onejan) / 86400000) + onejan.getDay())/7);
 }
 
-var splitDate = piwik.currentDateString.split("-");
-var currentYear = splitDate[0];
-var currentMonth = splitDate[1] - 1;
-var currentDay = splitDate[2];
-var currentDate = new Date(currentYear, currentMonth, currentDay);
+var currentYear, currentMonth, currentDay, currentDate;
+function setCurrentDate( dateStr )
+{
+	var splitDate = dateStr.split("-");
+	currentYear = splitDate[0];
+	currentMonth = splitDate[1] - 1;
+	currentDay = splitDate[2];
+	currentDate = new Date(currentYear, currentMonth, currentDay);
+}
+
+setCurrentDate(piwik.currentDateString);
 
 var todayDate = new Date;
 var todayMonth = todayDate.getMonth();
 var todayYear = todayDate.getFullYear();
 var todayDay = todayDate.getDate();
 
-function highlightCurrentPeriod( date )
+// min/max date for picker
+var piwikMinDate = new Date(piwik.minDateYear, piwik.minDateMonth - 1, piwik.minDateDay),
+	piwikMaxDate = new Date(piwik.maxDateYear, piwik.maxDateMonth - 1, piwik.maxDateDay);
+
+// we start w/ the current period
+var selectedPeriod = piwik.period;
+
+function isDateInCurrentPeriod( date )
 {
+	// if the selected period isn't the current period, don't highlight any dates
+	if (selectedPeriod != piwik.period)
+	{
+		return [true, ''];
+	}
+	
 	var valid = false;
 
 	var dateMonth = date.getMonth();
@@ -33,10 +53,13 @@ function highlightCurrentPeriod( date )
 	// we don't color dates in the future
 	if( dateMonth == todayMonth
 		&& dateYear == todayYear
-		&& dateDay >= todayDay
 	)
 	{
-		return [true, ''];
+		// we color 'today' if the selected period is 'day'. otherwise, we don't.
+		if ((selectedPeriod != 'day' && dateDay >= todayDay) || dateDay > todayDay)
+		{
+			return [true, ''];
+		}
 	}
 
 	// we don't color dates before the minimum date
@@ -93,32 +116,24 @@ function highlightCurrentPeriod( date )
 	return [true, ''];
 }
 
-function updateDate(dateText, inst)
-{
-    piwikHelper.showAjaxLoading('ajaxLoadingCalendar');
-	var date = dateText;
-	// Let broadcast do its job:
-	// It will replace date value to both search query and hash and load the new page.
-	broadcast.propagateNewPage('date=' + date);
-}
-
-
+var updateDate;
 function getDatePickerOptions()
 {
 	return {
-		onSelect: updateDate,
+		onSelect: function () { updateDate.apply(this, arguments); },
 		showOtherMonths: false,
 		dateFormat: 'yy-mm-dd',
 		firstDay: 1,
-		minDate: new Date(piwik.minDateYear, piwik.minDateMonth - 1, piwik.minDateDay),
-		maxDate: new Date(piwik.maxDateYear, piwik.maxDateMonth - 1, piwik.maxDateDay),
+		minDate: piwikMinDate,
+		maxDate: piwikMaxDate,
 		prevText: "",
 		nextText: "",
 		currentText: "",
-		beforeShowDay: highlightCurrentPeriod,
+		beforeShowDay: isDateInCurrentPeriod,
 		defaultDate: currentDate,
 		changeMonth: true,
 		changeYear: true,
+		stepMonths: selectedPeriod == 'year' ? 12 : 1,
 		// jquery-ui-i18n 1.7.2 lacks some translations, so we use our own
 		dayNamesMin: [
 			_pk_translate('CoreHome_DaySu_js'),
@@ -171,53 +186,209 @@ function getDatePickerOptions()
 			_pk_translate('CoreHome_MonthNovember_js'),
 			_pk_translate('CoreHome_MonthDecember_js')]
 	}
-}
-function displayCalendar()
-{
-	if(typeof piwik.currentDateString != "undefined")
-	{
-		$(document).ready(function(){
-			$('#datepicker').datepicker(getDatePickerOptions());
-			var period = broadcast.getValueFromUrl('period');
-			if(period == 'week') {
-				$('#datepicker').on('mouseover', function(){
-					$('.ui-datepicker-calendar td a').off('mouseenter mouseleave');
-					$('.ui-datepicker-calendar td a').hover(function(){
-						$('a', $(this).parents('tr')).addClass('ui-state-hover');
-						$('td', $(this).parents('tr')).addClass('ui-datepicker-days-cell-over');
-					}, function(){
-						$('a', $(this).parents('tr')).removeClass('ui-state-hover');
-						$('td', $(this).parents('tr')).removeClass('ui-datepicker-days-cell-over');
-					});
-				});
-			} else if(period == 'month' || period == 'year') {
-				$('#datepicker').on('mouseover', function(){
-					$('.ui-datepicker-calendar td a').off('mouseenter mouseleave');
-					$('.ui-datepicker-calendar td a').hover(function(){
-						$('a', $(this).parents('tbody')).addClass('ui-state-hover');
-						$('td', $(this).parents('tbody')).addClass('ui-datepicker-days-cell-over');
-					}, function(){
-						$('a', $(this).parents('tbody')).removeClass('ui-state-hover');
-						$('td', $(this).parents('tbody')).removeClass('ui-datepicker-days-cell-over');
-					});
-				});
-			}
-		});
-	}
-}
+};
+
 $(document).ready(function() {
 	
-	displayCalendar();
+	var datepickerElem = $('#datepicker').datepicker(getDatePickerOptions());
 	
+	var toggleExtraYearHighlighting = function (klass, toggle)
+	{
+		var viewedYear = $('.ui-datepicker-year', datepickerElem).val(),
+			viewedMonth = +$('.ui-datepicker-month', datepickerElem).val(), // convert to int w/ '+'
+			firstOfViewedMonth = new Date(viewedYear, viewedMonth, 1),
+			lastOfViewedMonth = new Date(viewedYear, viewedMonth + 1, 0);
+		
+		// if no toggle is specified, then toggle based on whether the current year is selected
+		if (typeof toggle === 'undefined')
+		{
+			toggle = piwik.period == 'year' && selectedPeriod == 'year' && currentYear == viewedYear;
+		}
+		
+		// only highlight dates between piwik.minDate... & piwik.maxDate...
+		// we select the cells to highlight by checking whether the first & last of the
+		// currently viewed month are within the min/max dates.
+		var cellsToHighlight = $();
+		if (firstOfViewedMonth >= piwikMinDate)
+		{
+			cellsToHighlight = cellsToHighlight.add(
+				'tbody>tr:first-child td.ui-datepicker-other-month', datepickerElem);
+		}
+		if (lastOfViewedMonth < piwikMaxDate)
+		{
+			cellsToHighlight = cellsToHighlight.add(
+				'tbody>tr:last-child td.ui-datepicker-other-month', datepickerElem);
+		}
+		cellsToHighlight.toggleClass(klass, toggle);
+	};
 	
-	// this will trigger to change only the period value on search query and hash string.
-	$("#otherPeriods input").on('click',function(e) {
-	    var request_URL = $(e.target).val();
-	    var period = broadcast.getValueFromUrl('period',request_URL);
-	    if(period == 'range') return true;
-	    broadcast.propagateNewPage('period='+period+'&date='+piwik.currentDateString);
-	    piwikHelper.showAjaxLoading('ajaxLoadingCalendar');
+	// 'this' is the table cell
+	var highlightCurrentPeriod = function ()
+	{
+		switch (selectedPeriod)
+		{
+			case 'day':
+				// highlight this link
+				$('a', this).addClass('ui-state-hover');
+				break;
+			case 'week':
+				// highlight parent row (the week)
+				$('a', $(this).parent()).addClass('ui-state-hover');
+				break;
+			case 'month':
+				// highlight all parent rows (the month)
+				$('a', $(this).parent().parent()).addClass('ui-state-hover');
+				break;
+			case 'year':
+				// highlight table (month + whitespace)
+				$('a', $(this).parent().parent()).addClass('ui-state-hover');
+				toggleExtraYearHighlighting('ui-state-hover', true);
+				break;
+		}
+		
+		// don't want to highlight 'today'
+		$('td.ui-datepicker-today a', datepickerElem).removeClass('ui-state-hover');
+	};
+	
+	var unhighlightAllDates = function ()
+	{
+		// make sure nothing is highlighted 
+		$('.ui-state-active,.ui-state-hover', datepickerElem).removeClass('ui-state-active ui-state-hover');
+		
+		toggleExtraYearHighlighting('ui-datepicker-current-period');
+	};
+	
+	updateDate = function (dateText, inst)
+	{
+		piwikHelper.showAjaxLoading('ajaxLoadingCalendar');
+		var date = dateText;
+	
+		// select new dates in calendar
+		setCurrentDate(dateText);
+		piwik.period = selectedPeriod;
+		
+		// make sure it's called after jquery-ui is done, otherwise everything we do will
+		// be undone.
+		setTimeout(unhighlightAllDates, 1);
+		
+		datepickerElem.datepicker('refresh');
+		
+		// Let broadcast do its job:
+		// It will replace date value to both search query and hash and load the new page.
+		broadcast.propagateNewPage('date=' + date + '&period=' + selectedPeriod);
+	};
+
+	var toggleMonthDropdown = function (disable)
+	{
+		if (typeof disable === 'undefined')
+		{
+			disable = selectedPeriod == 'year';
+		}
+		
+	    // enable/disable month dropdown based on period == year
+	    $('.ui-datepicker-month', datepickerElem).attr('disabled', disable);
+	};
+	
+	var togglePeriodPickers = function (showSingle)
+	{
+		$('#periodString .period-date').toggle(showSingle);
+		$('#periodString .period-range').toggle(!showSingle);
+		$('#calendarRangeApply').toggle(!showSingle);
+	};
+	
+	//
+	// setup datepicker
+	//
+	
+	unhighlightAllDates();
+	
+	//
+	// hook up event slots
+	//
+	
+	// highlight current period when mouse enters date
+	datepickerElem.on('mouseenter', 'tbody td', function() {
+		if ($(this).hasClass('ui-state-hover')) // if already highlighted, do nothing
+		{
+			return;
+		}
+		
+		// unhighlight if cell is disabled/blank, unless the period is year
+		if ($(this).hasClass('ui-state-disabled') && selectedPeriod != 'year')
+		{
+			unhighlightAllDates();
+		}
+		else
+		{
+			highlightCurrentPeriod.call(this);
+		}
+	});
+	
+	// make sure cell stays highlighted when mouse leaves cell (overrides jquery-ui behavior)
+	datepickerElem.on('mouseleave', 'tbody td', function () {
+		$('a', this).addClass('ui-state-hover');
+	});
+	
+	// unhighlight everything when mouse leaves table body (can't do event on tbody, for some reason
+	// that fails, so we do two events, one on the table & one on thead)
+	datepickerElem.on('mouseleave', 'table', unhighlightAllDates)
+				  .on('mouseenter', 'thead', unhighlightAllDates);
+	
+	// when non-range period is clicked, change the period & refresh the date picker
+	$("#otherPeriods input").on('click', function(e) {
+	    var request_URL = $(e.target).val(),
+	    	period = broadcast.getValueFromUrl('period', request_URL),
+	    	lastPeriod = selectedPeriod;
+	    
+	    // switch the selected period
+		selectedPeriod = period;
+		
+		// range periods are handled in an event handler below
+	    if (period == 'range')
+	    {
+	    	return true;
+	    }
+	    
+	    // toggle the right selector controls (show period selector datepicker & hide 'apply range' button)
+	    togglePeriodPickers(true);
+		
+	    // set months step to 12 for year period (or set back to 1 if leaving year period)
+	    if (selectedPeriod == 'year' || lastPeriod == 'year')
+	    {
+			// setting stepMonths will change the month in view back to the selected date. to avoid
+			// we set the selected date to the month in view.
+			var currentMonth = $('.ui-datepicker-month', datepickerElem).val(),
+				currentYear = $('.ui-datepicker-year', datepickerElem).val();
+			
+	    	datepickerElem
+	    		.datepicker('option', 'stepMonths', selectedPeriod == 'year' ? 12 : 1)
+		    	.datepicker('setDate', new Date(currentYear, currentMonth));
+	    }
+	    
+	    datepickerElem.datepicker('refresh'); // must be last datepicker call, otherwise cells get highlighted
+	    
+	    unhighlightAllDates();
+	    toggleMonthDropdown();
+	    
 		return true;
+	});
+	
+	// clicking left/right re-enables the month dropdown, so we disable it again
+	$(datepickerElem).on('click', '.ui-datepicker-next,.ui-datepicker-prev', function() {
+		unhighlightAllDates(); // make sure today's date isn't highlighted & toggle extra year highlighting
+		toggleMonthDropdown(selectedPeriod == 'year');
+	});
+	
+	// reset date/period when opening calendar
+	var firstClick = true;
+	$('#periodString #date').click(function() {
+		if (!firstClick)
+		{
+			datepickerElem.datepicker('setDate', currentDate);
+			$('#period_id_' + piwik.period).click();
+		}
+		
+		firstClick = false;
 	});
 	
 	function onDateRangeSelect(dateText, inst)
@@ -225,11 +396,11 @@ $(document).ready(function() {
 		var toOrFrom = inst.id == 'calendarFrom' ? 'From' : 'To';
 		$('#inputCalendar'+toOrFrom).val(dateText);
 	}
-	 
+	
 	// this will trigger to change only the period value on search query and hash string.
 	$("#period_id_range").on('click', function(e) {
-		$('.period-date').html('<div id="calendarRangeFrom"><h6>'+_pk_translate('General_DateRangeFrom_js')+'<input tabindex="1" type="text" id="inputCalendarFrom" name="inputCalendarFrom"/></h6><div id="calendarFrom"></div></div>'+
-		 			 				'<div id="calendarRangeTo"><h6>'+_pk_translate('General_DateRangeTo_js')+'<input tabindex="2" type="text" id="inputCalendarTo" name="inputCalendarTo"/></h6><div id="calendarTo"></div></div>');
+		togglePeriodPickers(false);
+		
 		var options = getDatePickerOptions();
 			 
 		// Custom Date range callback
@@ -305,3 +476,5 @@ $(document).ready(function() {
 		 $("#period_id_range").click();
 	 }
 });
+
+}(jQuery));

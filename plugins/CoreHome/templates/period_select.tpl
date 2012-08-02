@@ -7,6 +7,16 @@
 			<h6>{'General_Date'|translate}</h6>
 			<div id="datepicker"></div>
 		</div>
+		<div class="period-range" style="display:none;">
+			<div id="calendarRangeFrom">
+				<h6>{'General_DateRangeFrom_js'|translate}<input tabindex="1" type="text" id="inputCalendarFrom" name="inputCalendarFrom"/></h6>
+				<div id="calendarFrom"></div>
+			</div>
+			<div id="calendarRangeTo">
+				<h6>{'General_DateRangeTo_js'|translate}<input tabindex="2" type="text" id="inputCalendarTo" name="inputCalendarTo"/></h6>
+				<div id="calendarTo"></div>
+			</div>
+		</div>
 		<div class="period-type">
 			<h6>{'General_Period'|translate}</h6>            
 			<span id="otherPeriods">
