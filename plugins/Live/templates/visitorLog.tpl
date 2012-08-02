@@ -208,7 +208,7 @@
 				{elseif empty($action.goalName)}
 				{* Page view / Download / Outlink *}
 					{if !empty($action.pageTitle)>0}
-					 	{$action.pageTitle|urldecode|escape:'html'|truncate:80:"...":true}
+						{$action.pageTitle|unescape|urldecode|escape:'html'|truncate:80:"...":true}
 						<br/>
 					{/if}
 					{if $action.type == 'download'
