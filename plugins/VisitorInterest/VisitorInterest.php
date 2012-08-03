@@ -124,16 +124,18 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		Piwik_AddAction('template_footerVisitsFrequency', array('Piwik_VisitorInterest','footerVisitsFrequency'));
 	}
 	
+	// third element is unit (s for seconds, default is munutes)
 	protected static $timeGap = array(
-			array(0, 0.5),
-			array(0.5, 1),
+			array(0, 10, 's'),
+			array(11, 30, 's'),
+			array(31, 60, 's'),
 			array(1, 2),
 			array(2, 4),
-			array(4, 6),
-			array(6, 8),
-			array(8, 11),
-			array(11, 15),
-			array(15)
+			array(4, 7),
+			array(7, 10),
+			array(10, 15),
+			array(15, 30),
+			array(30)
 		);
 		
 	protected static $pageGap = array(
@@ -277,7 +279,11 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		$secondsGap = array();
 		foreach(self::$timeGap as $gap)
 		{
-			if (count($gap) == 2)
+			if (count($gap) == 3 && $gap[2] == 's') // if the units are already in seconds, just assign them
+			{
+				$secondsGap[] = array($gap[0], $gap[1]);
+			}
+			else if (count($gap) == 2)
 			{
 				$secondsGap[] = array($gap[0] * 60, $gap[1] * 60);
 			}

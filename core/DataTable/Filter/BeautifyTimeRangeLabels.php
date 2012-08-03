@@ -119,7 +119,8 @@ class Piwik_DataTable_Filter_BeautifyTimeRangeLabels extends Piwik_DataTable_Fil
 		}
 		else
 		{
-			return sprintf($this->labelPlural, "".ceil($lowerBound / 60).urlencode('+'));
+			// since we're using minutes, we use floor so 1801s+ will be 30m+ and not 31m+
+			return sprintf($this->labelPlural, "".floor($lowerBound / 60).urlencode('+'));
 		}
 	}
 }

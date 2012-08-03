@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>0-30s</label>
+		<label>0-10s</label>
 		<nb_visits>1</nb_visits>
 	</row>
 	<row>
-		<label>30-60s</label>
+		<label>11-30s</label>
+		<nb_visits>0</nb_visits>
+	</row>
+	<row>
+		<label>31-60s</label>
 		<nb_visits>0</nb_visits>
 	</row>
 	<row>
@@ -17,23 +21,23 @@
 		<nb_visits>0</nb_visits>
 	</row>
 	<row>
-		<label>4-6 min</label>
+		<label>4-7 min</label>
 		<nb_visits>0</nb_visits>
 	</row>
 	<row>
-		<label>6-8 min</label>
+		<label>7-10 min</label>
 		<nb_visits>0</nb_visits>
 	</row>
 	<row>
-		<label>8-11 min</label>
+		<label>10-15 min</label>
 		<nb_visits>0</nb_visits>
 	</row>
 	<row>
-		<label>11-15 min</label>
-		<nb_visits>0</nb_visits>
-	</row>
-	<row>
-		<label>16+ min</label>
+		<label>15-30 min</label>
 		<nb_visits>1</nb_visits>
+	</row>
+	<row>
+		<label>30+ min</label>
+		<nb_visits>0</nb_visits>
 	</row>
 </result>
