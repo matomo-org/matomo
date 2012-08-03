@@ -5,7 +5,7 @@ VERSION="$1"
 DEST_PATH=/home/piwik/builds
 URL_REPO=http://piwik@dev.piwik.org/svn/trunk
 URL_TAGS=http://piwik@dev.piwik.org/svn/tags
-HTTP_PATH=/home/www/builds.piwik.org
+HTTP_PATH=/home/piwik/www/builds.piwik.org
 
 # report error and exit
 function die() {
