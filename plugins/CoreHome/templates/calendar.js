@@ -7,11 +7,18 @@
 (function($) {
 
 Date.prototype.getWeek = function() {
-	var onejan = new Date(this.getFullYear(),0,1);
-	return Math.ceil((((this - onejan) / 86400000) + onejan.getDay())/7);
+	var onejan = new Date(this.getFullYear(),0,1), // needed for getDay()
+		
+		// use UTC times since getTime() can differ based on user's timezone
+		onejan_utc = Date.UTC(this.getFullYear(),0,1),
+		this_utc = Date.UTC(this.getFullYear(),this.getMonth(),this.getDate()),
+		
+		daysSinceYearStart = (this_utc - onejan_utc) / 86400000; // constant is millisecs in one day
+	
+	return Math.ceil((daysSinceYearStart + onejan.getDay()) / 7);
 }
 
-var currentYear, currentMonth, currentDay, currentDate;
+var currentYear, currentMonth, currentDay, currentDate, currentWeek;
 function setCurrentDate( dateStr )
 {
 	var splitDate = dateStr.split("-");
@@ -19,6 +26,7 @@ function setCurrentDate( dateStr )
 	currentMonth = splitDate[1] - 1;
 	currentDay = splitDate[2];
 	currentDate = new Date(currentYear, currentMonth, currentDay);
+	currentWeek = currentDate.getWeek();
 }
 
 setCurrentDate(piwik.currentDateString);
@@ -93,7 +101,7 @@ function isDateInCurrentPeriod( date )
 		valid = true;
 	}
 	else if(piwik.period == "week"
-			&& date.getWeek() == currentDate.getWeek()
+			&& date.getWeek() == currentWeek
 			&& dateYear == currentYear
 	)
 	{
