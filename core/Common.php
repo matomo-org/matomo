@@ -1549,7 +1549,13 @@ class Piwik_Common
 			$refererParsed['query'] = '';
 		}
 		$query = $refererParsed['query'];
-
+		
+		// Google Referrers URLs sometimes have the fragment which contains the keyword
+		if(!empty($refererParsed['fragment']))
+		{
+			$query .= '&' . $refererParsed['fragment'];
+		}
+		
 		$searchEngines = self::getSearchEngineUrls();
 
 		$hostPattern = self::getLossyUrl($refererHost);

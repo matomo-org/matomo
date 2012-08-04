@@ -755,9 +755,9 @@ class Test_Piwik_Common extends UnitTestCase
 			'http://www.google.com/url?sa=t&source=web&ct=res&cd=7&url=http%3A%2F%2Fwww.example.com%2Fmypage.htm&ei=0SjdSa-1N5O8M_qW8dQN&rct=j&q=flowers&usg=AFQjCNHJXSUh7Vw7oubPaO3tZOzz-F-u_w&sig2=X8uCFh6IoPtnwmvGMULQfw'
 				=> array('name' => 'Google', 'keywords' => 'flowers'),
 			'http://www.google.com/webhp?tab=mw#hl=en&source=hp&q=test+hash&btnG=Google+Search&aq=f&aqi=&aql=&oq=&fp=22b4dcbb1403dc0f'
-				=> false,
+				=> array('name' => 'Google', 'keywords' => 'test hash'),
 			'http://www.google.com/#hl=en&source=hp&q=test+hash&aq=f&aqi=n1g5g-s1g1g-s1g2&aql=&oq=&fp=22b4dcbb1403dc0f'
-				=> false,
+				=> array('name' => 'Google', 'keywords' => 'test hash'),
 			'http://www.google.com/reader/view/'
 				=> false,
 				
@@ -923,6 +923,10 @@ class Test_Piwik_Common extends UnitTestCase
 			// Google images no keyword next try
 			'http://www.google.fr/imgres?hl=en&biw=1680&bih=925&gbv=2&tbm=isch&tbnid=kBma1eg8aVOKoM:&imgrefurl=http://www.squido.com/research-keywords&docid=YSY3GQh3O8dkjM&imgurl=http://i3.squidocdn.com/resize/squidoo_images/590/draft_lens10233921module148408128photo_1298307262Research_keywords_6.jpg&w=590&h=412&ei=_OVZT4_3EInQ8gOWuqXbDg&zoom=1&iact=hc&vpx=164&vpy=205&dur=33&hovh=188&hovw=269&tx=137&ty=89&sig=113944581904793140725&page=1&tbnh=109&tbnw=156&start=0&ndsp=42&ved=1t:429,r:0,s:0www.google.fr/imgres?hl=en&biw=1680&bih=925&gbv=2&tbm=isch&tbnid=kBma1eg8aVOKoM:&imgrefurl=http://www.squido.com/research-keywords&docid=YSY3GQh3O8dkjM&imgurl=http://i3.squidocdn.com/resize/squidoo_images/590/draft_lens10233921module148408128photo_1298307262Research_keywords_6.jpg&w=590&h=412&ei=_OVZT4_3EInQ8gOWuqXbDg&zoom=1&iact=hc&vpx=164&vpy=205&dur=33&hovh=188&hovw=269&tx=137&ty=89&sig=113944581904793140725&page=1&tbnh=109&tbnw=156&start=0&ndsp=42&ved=1t:429,r:0,s:0'
 				=> array('name' => 'Google Images', 'keywords' => false),
+				
+			// Other google URL
+			'http://www.google.fr/webhp?hl=fr&tab=ww#hl=fr&gs_nf=1&pq=dahab%20securite&cp=5&gs_id=2g&xhr=t&q=dahab&pf=p&sclient=tablet-gws&safe=off&tbo=d&site=webhp&oq=dahab&gs_l=&pbx=1&bav=on.2,or.r_gc.r_pw.&fp=f8f370e996c0cd5f&biw=768&bih=928&bs=1'
+				=> array('name' => 'Google', 'keywords' => 'dahab')
 		);
 		
 		foreach($urls as $referrerUrl => $expectedReturnedValue) {
