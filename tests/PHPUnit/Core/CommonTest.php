@@ -659,9 +659,9 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
             array('http://www.google.com/url?sa=t&source=web&ct=res&cd=7&url=http%3A%2F%2Fwww.example.com%2Fmypage.htm&ei=0SjdSa-1N5O8M_qW8dQN&rct=j&q=flowers&usg=AFQjCNHJXSUh7Vw7oubPaO3tZOzz-F-u_w&sig2=X8uCFh6IoPtnwmvGMULQfw',
                   array('name' => 'Google', 'keywords' => 'flowers')),
             array('http://www.google.com/webhp?tab=mw#hl=en&source=hp&q=test+hash&btnG=Google+Search&aq=f&aqi=&aql=&oq=&fp=22b4dcbb1403dc0f',
-                  false),
+                  array('name' => 'Google', 'keywords' => 'test hash')),
             array('http://www.google.com/#hl=en&source=hp&q=test+hash&aq=f&aqi=n1g5g-s1g1g-s1g2&aql=&oq=&fp=22b4dcbb1403dc0f',
-                  false),
+                  array('name' => 'Google', 'keywords' => 'test hash')),
             array('http://www.google.com/reader/view/',
                   false),
 
@@ -678,6 +678,9 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
             array('http://www.google.fr/imgres?q=piwik&um=1&hl=fr&client=firefox-a&sa=N&rls=org.mozilla:fr:official&tbm=isch&tbnid=Xmlv3vfl6ost2M:&imgrefurl=http://example.com&docid=sCbh1P0moOANNM&w=500&h=690&ei=3OFpTpjvH4T6sgbosYTiBA&zoom=1&iact=hc&vpx=176&vpy=59&dur=299&hovh=264&hovw=191&tx=108&ty=140&page=1&tbnh=140&tbnw=103&start=0&ndsp=39&ved=1t:429,r:0,s:0&biw=1280&bih=885',
                   array('name' => 'Google Images', 'keywords' => 'piwik')),
 
+            // Other google URL
+            array('http://www.google.fr/webhp?hl=fr&tab=ww#hl=fr&gs_nf=1&pq=dahab%20securite&cp=5&gs_id=2g&xhr=t&q=dahab&pf=p&sclient=tablet-gws&safe=off&tbo=d&site=webhp&oq=dahab&gs_l=&pbx=1&bav=on.2,or.r_gc.r_pw.&fp=f8f370e996c0cd5f&biw=768&bih=928&bs=1',
+                  array('name' => 'Google', 'keywords' => 'dahab')),
 
             // Google CSE is not standard google
             array('http://www.google.com/cse?cx=006944612449134755049%3Ahq5up-97k4u&cof=FORID%3A10&q=piwik&ad=w9&num=10&rurl=http%3A%2F%2Fwww.homepagle.com%2Fsearch.php%3Fcx%3D006944612449134755049%253Ahq5up-97k4u%26cof%3DFORID%253A10%26q%3D89',
