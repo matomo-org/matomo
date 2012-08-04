@@ -131,7 +131,7 @@ class DataTable_Renderer_PHPTest extends PHPUnit_Framework_TestCase
                         'bounce_count' => 90,
                         'url' => 'http://www.yahoo.com',
                         'logo' => './plugins/Referers/images/searchEngines/www.yahoo.com.png',
-                          'idsubdatatable' => 1,
+                          'idsubdatatable' => 2,
                         'subtable' =>
                             array (
                               0 =>

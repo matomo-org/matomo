@@ -69,7 +69,7 @@ class RowTest extends PHPUnit_Framework_TestCase
 		$testRow = $this->getTestRowWithSubDataTableLoaded();
 
 		// testDataTableAssociatedIsPositiveOnSerializedRow is only valid as long as the Row is not modified after being unserialized
-		$this->assertTrue(!method_exists($testRow, '__wakeup'));
+		$this->assertFalse(method_exists($testRow, '__wakeup'));
 
 		$serializedTestRow = serialize($testRow);
 		$unserializedTestRow = unserialize($serializedTestRow);
@@ -88,7 +88,8 @@ class RowTest extends PHPUnit_Framework_TestCase
 
 		serialize($testRow);
 
-		//@review this is a failing test: after serializing a Piwik_DataTable_Row, c[Piwik_DataTable_Row::DataTable_ASSOCIATED] should still be negative as it's SubDataTable is still loaded in memory. @See testDataTableAssociatedIsNegativeWhenSubDataTableInMemory
+		$testRow->cleanPostSerialize();
+
 		$this->assertTrue($testRow->c[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] < 0);
 	}
 
@@ -113,7 +114,7 @@ class RowTest extends PHPUnit_Framework_TestCase
 	public function testIsSubDataTableLoadedIsFalseWhenSubDataTableNotInMemory()
 	{
 		$testRow = $this->getTestRowWithSubDataTableNotLoaded();
-		$this->assertTrue(!$testRow->isSubtableLoaded());
+		$this->assertFalse($testRow->isSubtableLoaded());
 	}
 
 	protected function getTestRowWithSubDataTableLoaded()

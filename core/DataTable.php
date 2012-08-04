@@ -1047,6 +1047,11 @@ class Piwik_DataTable
 			$addToRows[self::ID_PARENTS] = $this->parents;
 		}
 		$aSerializedDataTable[$forcedId] = serialize($this->rows + $addToRows);
+		foreach($this->rows as &$row)
+		{
+			$row->cleanPostSerialize();
+		}
+		
 		return $aSerializedDataTable;
 	}
 

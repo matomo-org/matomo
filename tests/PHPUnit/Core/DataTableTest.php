@@ -486,9 +486,31 @@ class DataTableTest extends PHPUnit_Framework_TestCase
         $serialized = ($table->getSerialized());
         
         $this->assertEquals(array_keys($serialized), array($idsubsubtable,$idsubtable,0));
+
+		// In the next test we compare an unserialized datatable with its original instance.
+		// The unserialized datatable rows will have positive DATATABLE_ASSOCIATED ids.
+		// Positive DATATABLE_ASSOCIATED ids mean that the associated sub-datatables are not loaded in memory.
+		// In this case, this is NOT true: we know that the sub-datatable is loaded in memory.
+		// HOWEVER, because of datatable id conflicts happening in the datatable manager, it is not yet
+		// possible to know, after unserializing a datatable, if its sub-datatables are loaded in memory.
+		$expectedTableRows = array();
+		foreach ($table->getRows() as $currentRow) {
+			$expectedTableRow = clone $currentRow;
+
+			$currentRowAssociatedDatatableId = $currentRow->c[Piwik_DataTable_Row::DATATABLE_ASSOCIATED];
+			if($currentRowAssociatedDatatableId != null)
+			{
+				// making DATATABLE_ASSOCIATED ids positive
+				$expectedTableRow->c[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] = -1 * $currentRowAssociatedDatatableId;
+			}
+
+			$expectedTableRows[] = $expectedTableRow;
+		}
+
         $tableAfter = new Piwik_DataTable;
         $tableAfter->addRowsFromSerializedArray($serialized[0]);
-        $this->assertEquals($table->getRows(),$tableAfter->getRows());
+
+        $this->assertEquals($expectedTableRows, $tableAfter->getRows());
 
         $subsubtableAfter = new Piwik_DataTable;
         $subsubtableAfter->addRowsFromSerializedArray($serialized[$idsubsubtable]);
@@ -718,6 +740,21 @@ class DataTableTest extends PHPUnit_Framework_TestCase
 		$rowBeingDestructed->c[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] = $mockedDataTable->getId();
 
 		destroy($rowBeingDestructed);
+	}
+
+	/**
+	 * @group Core
+	 * @group DataTable
+	 */
+	public function testGetSerializedCallsCleanPostSerialize()
+	{
+		$mockedDataTableRow = $this->getMock('Piwik_DataTable_Row', array('cleanPostSerialize'));
+		$mockedDataTableRow->expects($this->once())->method('cleanPostSerialize');
+
+		$dataTableBeingSerialized = new Piwik_DataTable();
+		$dataTableBeingSerialized->addRow($mockedDataTableRow);
+
+		$dataTableBeingSerialized->getSerialized();
 	}
 
 	/**

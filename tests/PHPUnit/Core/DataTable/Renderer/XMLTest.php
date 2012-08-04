@@ -129,7 +129,7 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
 		<bounce_count>90</bounce_count>
 		<url>http://www.yahoo.com</url>
 		<logo>./plugins/Referers/images/searchEngines/www.yahoo.com.png</logo>
-		<idsubdatatable>1</idsubdatatable>
+		<idsubdatatable>2</idsubdatatable>
 		<subtable>
 			<row>
 				<label>sub1</label>

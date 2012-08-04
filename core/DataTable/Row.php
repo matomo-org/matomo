@@ -42,6 +42,7 @@ class Piwik_DataTable_Row
 	 * @see constructor for more information
 	 */
 	public $c = array();
+	private $subtableIdWasNegativeBeforeSerialize = false;
 	
 	const COLUMNS = 0;
 	const METADATA = 1;
@@ -97,8 +98,22 @@ class Piwik_DataTable_Row
 			&& $this->c[self::DATATABLE_ASSOCIATED] < 0)
 		{
 			$this->c[self::DATATABLE_ASSOCIATED] = -1 * $this->c[self::DATATABLE_ASSOCIATED];
+			$this->subtableIdWasNegativeBeforeSerialize = true;
 		}
 		return array('c');
+	}
+
+	/**
+	 * Must be called after the row was serialized and __sleep was called
+	 * 
+	 */
+	public function cleanPostSerialize()
+	{
+		if($this->subtableIdWasNegativeBeforeSerialize)
+		{
+			$this->c[self::DATATABLE_ASSOCIATED] = -1 * $this->c[self::DATATABLE_ASSOCIATED];
+			$this->subtableIdWasNegativeBeforeSerialize = false;
+		}
 	}
 	
 	/**
@@ -272,9 +287,7 @@ class Piwik_DataTable_Row
 		{
 			throw new Exception("Adding a subtable to the row, but it already has a subtable associated.");
 		}
-		// Hacking -1 to ensure value is negative, so we know the table was loaded
-		// @see isSubtableLoaded()
-		$this->c[self::DATATABLE_ASSOCIATED] = -1 * $subTable->getId();
+		$this->setSubtable($subTable);
 	}
 	
 	/**
