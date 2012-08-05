@@ -56,11 +56,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         include "DataFiles/Currencies.php";
         include "DataFiles/LanguageToCountry.php";
 
-        if (self::$widgetTestingLevel != self::NO_WIDGET_TESTING)
-        {
-            self::initializeControllerTesting();
-        }
-
         Piwik::createAccessObject();
         Piwik_PostEvent('FrontController.initAuthenticationObject');
 
@@ -84,20 +79,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         // Usually these modules either return random changing data, or are already tested in specific unit tests.
         self::setApiNotToCall(self::$defaultApiNotToCall);
         self::setApiToCall( array());
-
-        if (self::$widgetTestingLevel != self::NO_WIDGET_TESTING)
-        {
-            Piwik::setUserIsSuperUser();
-
-            // create users for controller testing
-            $usersApi = Piwik_UsersManager_API::getInstance();
-            $usersApi->addUser('anonymous', self::DEFAULT_USER_PASSWORD, 'anonymous@anonymous.com');
-            $usersApi->addUser('test_view', self::DEFAULT_USER_PASSWORD, 'view@view.com');
-            $usersApi->addUser('test_admin', self::DEFAULT_USER_PASSWORD, 'admin@admin.com');
-
-            // disable shuffling of tag cloud visualization so output is consistent
-            Piwik_Visualization_Cloud::$debugDisableShuffle = true;
-        }
     }
 
     public static function tearDownAfterClass()
@@ -126,14 +107,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
     }
 
-    public function setUp()
-    {
-    }
-
-    public function tearDown()
-    {
-    }
-
     protected static $apiToCall = array();
     protected static $apiNotToCall = array();
 
@@ -150,49 +123,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         'API',
         'ImageGraph',
     );
-
-    /**
-     * Widget testing level constant. If self::$widgetTestingLevel is
-     * set to this, controller actions will not be tested.
-     */
-    const NO_WIDGET_TESTING = 'none';
-
-    /**
-     * Widget testing level constant. If self::$widgetTestingLevel is
-     * set to this, controller actions will be checked for non-fatal errors, but
-     * the output will be ignored.
-     */
-    const CHECK_WIDGET_ERRORS = 'check_errors';
-
-    /**
-     * Widget testing level constant. If self::$widgetTestingLevel is
-     * set to this, controller actions will be run & their output will be checked with
-     * expected output files.
-     */
-    const COMPARE_WIDGET_OUTPUT = 'compare_output';
-
-    /**
-     * Determines how much of controller actions are tested (if at all).
-     */
-    static public $widgetTestingLevel = self::NO_WIDGET_TESTING;
-
-    /**
-     * API testing level constant. If self::$apiTestingLevel is
-     * set to this, API methods will not be tested.
-     */
-    const NO_API_TESTING = 'none';
-
-    /**
-     * API testing level constant. If self::$apiTestingLevel is
-     * set to this, API methods will be run & their output will be checked with
-     * expected output files.
-     */
-    const COMPARE_API_OUTPUT = 'compare_output';
-
-    /**
-     * Determines how much testing API methods are subjected to (if any).
-     */
-    static public $apiTestingLevel = self::COMPARE_API_OUTPUT;
 
     const DEFAULT_USER_PASSWORD = 'nopass';
 
@@ -244,7 +174,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      *
      * @return PiwikTracker
      */
-    protected static function getTracker($idSite, $dateTime, $defaultInit = true )
+    public static function getTracker($idSite, $dateTime, $defaultInit = true )
     {
         $t = new PiwikTracker( $idSite, self::getTrackerUrl());
         $t->setForceVisitDateTime($dateTime);
@@ -274,7 +204,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      *
      * @return int    idSite of website created
      */
-    protected static function createWebsite( $dateTime, $ecommerce = 0, $siteName = 'Piwik test' )
+    public static function createWebsite( $dateTime, $ecommerce = 0, $siteName = 'Piwik test' )
     {
         $idSite = Piwik_SitesManager_API::getInstance()->addSite(
             $siteName,
@@ -294,15 +224,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
         // Clear the memory Website cache
         Piwik_Site::clearCache();
-
-        // add access to all test users if doing controller tests
-        if (self::$widgetTestingLevel != self::NO_WIDGET_TESTING)
-        {
-            $usersApi = Piwik_UsersManager_API::getInstance();
-            $usersApi->setUserAccess('anonymous', 'view', array($idSite));
-            $usersApi->setUserAccess('test_view', 'view', array($idSite));
-            $usersApi->setUserAccess('test_admin', 'admin', array($idSite));
-        }
 
         return $idSite;
     }
@@ -338,69 +259,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         }
         $piwikUrl = substr($piwikUrl, 0, strpos($piwikUrl, $pathBeforeRoot.'/')) . 'tests/PHPUnit/proxy-piwik.php';
         return $piwikUrl;
-    }
-
-    /**
-     * Initializes parts of Piwik so controller actions can be called & tested.
-     */
-    public static function initializeControllerTesting()
-    {
-        static $initialized = false;
-
-        if (!$initialized)
-        {
-            Zend_Registry::set('timer', new Piwik_Timer);
-
-            $pluginsManager = Piwik_PluginsManager::getInstance();
-            $pluginsToLoad = Piwik_Config::getInstance()->Plugins['Plugins'];
-            $pluginsManager->loadPlugins( $pluginsToLoad );
-
-            $initialized = true;
-        }
-    }
-
-    public static function processRequestArgs()
-    {
-        // set the widget testing level
-        if (isset($_GET['widgetTestingLevel']))
-        {
-            self::setWidgetTestingLevel($_GET['widgetTestingLevel']);
-        }
-
-        // set the API testing level
-        if (isset($_GET['apiTestingLevel']))
-        {
-            self::setApiTestingLevel($_GET['apiTestingLevel']);
-        }
-    }
-
-    public static function setWidgetTestingLevel($level)
-    {
-        if (!$level) return;
-
-        if ($level != self::NO_WIDGET_TESTING &&
-            $level != self::CHECK_WIDGET_ERRORS &&
-            $level != self::COMPARE_WIDGET_OUTPUT)
-        {
-            echo "<p>Invalid option for 'widgetTestingLevel', ignoring.</p>\n";
-            return;
-        }
-
-        self::$widgetTestingLevel = $level;
-    }
-
-    public function setApiTestingLevel($level)
-    {
-        if (!$level) return;
-
-        if ($level != self::NO_API_TESTING &&
-            $level != self::COMPARE_API_OUTPUT)
-        {
-            echo "<p>Invalid option for 'apiTestingLevel', ignoring.</p>";
-            return;
-        }
-
-        self::$apiTestingLevel = $level;
     }
 
     /**
@@ -511,12 +369,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Will call all get* methods on authorized modules,
-     * force the archiving,
-     * record output in XML files
-     * and compare with the expected outputs.
+     * Will return all api urls for the given data
      *
-     * @param string            $testName       Used to write the output in a file, used as filename prefix
      * @param string|array      $formats        String or array of formats to fetch from API
      * @param int|bool          $idSite         Id site
      * @param string|bool       $dateTime       Date time string of reports to request
@@ -531,17 +385,12 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      * @param bool              $apiAction
      * @param array             $otherRequestParameters
      *
-     * @return void
+     * @return array
      */
-    protected function _callGetApiCompareOutput($testName, $formats = 'xml', $idSite = false, $dateTime = false, $periods = false,
-                                     $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false,
-                                     $idGoal = false, $apiModule = false, $apiAction = false, $otherRequestParameters = array())
+    protected function _generateApiUrls($formats = 'xml', $idSite = false, $dateTime = false, $periods = false,
+                                         $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false,
+                                         $idGoal = false, $apiModule = false, $apiAction = false, $otherRequestParameters = array())
     {
-        if (self::$apiTestingLevel == self::NO_API_TESTING)
-        {
-            return;
-        }
-
         list($pathProcessed, $pathExpected) = $this->getProcessedAndExpectedDirs();
 
         if($periods === false)
@@ -606,353 +455,77 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         }
 
         $requestUrls = $this->generateUrlsApi($parametersToSet, $formats, $periods, $setDateLastN, $language, $segment);
-
-        foreach($requestUrls as $apiId => $requestUrl)
-        {
-            #echo "\n\n$requestUrl\n\n";
-            $isLiveMustDeleteDates = strpos($requestUrl, 'Live.getLastVisits') !== false;
-            $request = new Piwik_API_Request($requestUrl);
-
-            list($processedFilePath, $expectedFilePath) = $this->getProcessedAndExpectedPaths($testName, $apiId);
-
-            // Cast as string is important. For example when calling
-            // with format=original, objects or php arrays can be returned.
-            // we also hide errors to prevent the 'headers already sent' in the ResponseBuilder (which sends Excel headers multiple times eg.)
-            $response = (string)$request->process();
-
-            if($isLiveMustDeleteDates)
-            {
-                $response = $this->removeAllLiveDatesFromXml($response);
-            }
-
-            file_put_contents( $processedFilePath, $response );
-
-            $expected = $this->loadExpectedFile($expectedFilePath);
-            if (empty($expected))
-            {
-                continue;
-            }
-
-            // @todo This should not vary between systems AFAIK... "idsubdatatable can differ"
-            $expected = $this->removeXmlElement($expected, 'idsubdatatable',$testNotSmallAfter = false);
-            $response = $this->removeXmlElement($response, 'idsubdatatable',$testNotSmallAfter = false);
-
-            if($isLiveMustDeleteDates)
-            {
-                $expected = $this->removeAllLiveDatesFromXml($expected);
-            }
-            // If date=lastN the <prettyDate> element will change each day, we remove XML element before comparison
-            elseif(strpos($dateTime, 'last') !== false
-                || strpos($dateTime, 'today') !== false
-                || strpos($dateTime, 'now') !== false
-            )
-            {
-                if(strpos($requestUrl, 'API.getProcessedReport') !== false)
-                {
-                    $expected = $this->removePrettyDateFromXml($expected);
-                    $response = $this->removePrettyDateFromXml($response);
-                }
-                // avoid build failure when running just before midnight, generating visits in the future
-                $expected = $this->removeXmlElement($expected, 'sum_daily_nb_uniq_visitors');
-                $response = $this->removeXmlElement($response, 'sum_daily_nb_uniq_visitors');
-                $expected = $this->removeXmlElement($expected, 'nb_visits_converted');
-                $response = $this->removeXmlElement($response, 'nb_visits_converted');
-                $expected = $this->removeXmlElement($expected, 'imageGraphUrl');
-                $response = $this->removeXmlElement($response, 'imageGraphUrl');
-            }
-
-            // is there a better way to test for the current DB type in use?
-            if(Zend_Registry::get('db') instanceof Piwik_Db_Adapter_Mysqli)
-            {
-                // Do not test for TRUNCATE(SUM()) returning .00 on mysqli since this is not working
-                // http://bugs.php.net/bug.php?id=54508
-                $expected = str_replace('.00</revenue>', '</revenue>', $expected);
-                $response = str_replace('.00</revenue>', '</revenue>', $response);
-                $expected = str_replace('.1</revenue>', '</revenue>', $expected);
-                $expected = str_replace('.11</revenue>', '</revenue>', $expected);
-                $response = str_replace('.11</revenue>', '</revenue>', $response);
-                $response = str_replace('.1</revenue>', '</revenue>', $response);
-            }
-
-            if(strpos($requestUrl, 'format=xml') !== false) {
-                $this->assertXmlStringEqualsXmlString($expected, $response, "Differences with expected in: $processedFilePath %s ");
-            } else {
-                $this->assertEquals($expected, $response, "Differences with expected in: $processedFilePath %s ");
-            }
-            if(trim($response) == trim($expected))
-            {
-                file_put_contents( $processedFilePath, $response );
-            }
-        }
+        return $requestUrls;
     }
 
-    /**
-     * Calls a set of controller actions & either checks the result against
-     * expected output or just checks if errors occurred when called.
-     * The behavior of this function can be modified by setting
-     * self::$widgetTestingLevel (or $testingLevelOverride):
-     * <ul>
-     *   <li>If set to <b>NO_WIDGET_TESTING</b> this function simply returns.<li>
-     *   <li>If set to <b>CHECK_WIDGET_ERRORS</b> controller actions are called &
-     *       this function will just check for errors.</li>
-     *   <li>If set to <b>COMPARE_WIDGET_OUTPUT</b> controller actions are
-     *       called & the output is checked against expected output.</li>
-     * </ul>
-     *
-     * @param string $testName             Unique name of this test group. Expected/processed
-     *                                     file names use this as a prefix.
-     * @param array  $actions              Array of controller actions to call. Each element
-     *                                     must be in the following format: 'Controller.action'
-     * @param array  $requestParameters    The request parameters to set.
-     * @param array  $userTypes            The user types to test the controller with. Can contain
-     *                                     these values: 'anonymous', 'view', 'admin', 'superuser'.
-     *                                     Defaults to all four.
-     * @param int    $testingLevelOverride Overrides self::$widgetTestingLevel.
-     */
-    public function callWidgetsCompareOutput(
-        $testName, $actions, $requestParameters, $userTypes = null, $testingLevelOverride = null)
+    protected function _testApiUrl($testName, $apiId, $requestUrl)
     {
-        // deal with the testing level
-        if (self::$widgetTestingLevel == self::NO_WIDGET_TESTING)
-        {
+        $isLiveMustDeleteDates = strpos($requestUrl, 'Live.getLastVisits') !== false;
+        $request               = new Piwik_API_Request($requestUrl);
+        $dateTime             = Piwik_Common::getRequestVar('datetime', '', 'string', Piwik_Common::getArrayFromQueryString($requestUrl));
+
+        list($processedFilePath, $expectedFilePath) = $this->getProcessedAndExpectedPaths($testName, $apiId);
+
+        // Cast as string is important. For example when calling
+        // with format=original, objects or php arrays can be returned.
+        // we also hide errors to prevent the 'headers already sent' in the ResponseBuilder (which sends Excel headers multiple times eg.)
+        $response = (string)$request->process();
+
+        if ($isLiveMustDeleteDates) {
+            $response = $this->removeAllLiveDatesFromXml($response);
+        }
+
+        file_put_contents($processedFilePath, $response);
+
+        $expected = $this->loadExpectedFile($expectedFilePath);
+        if (empty($expected)) {
             return;
         }
 
-        if (is_null($testingLevelOverride))
-        {
-            $testingLevelOverride = self::$widgetTestingLevel;
-        }
+        // @todo This should not vary between systems AFAIK... "idsubdatatable can differ"
+        $expected = $this->removeXmlElement($expected, 'idsubdatatable', $testNotSmallAfter = false);
+        $response = $this->removeXmlElement($response, 'idsubdatatable', $testNotSmallAfter = false);
 
-        // process $userTypes argument
-        if (!$userTypes)
-        {
-            $userTypes = array('anonymous', 'view', 'admin', 'superuser');
-        }
-        else if (!is_array($userTypes))
-        {
-            $userTypes = array($userTypes);
-        }
-
-        $oldGet = $_GET;
-
-        // get all testable controller actions if necessary
-        $actionParams = array();
-        if ($actions == 'all')
-        {
-            // Goals.addWidgets requires idSite to be set
-            $_GET['idSite'] = isset($requestParameters['idSite']) ? $requestParameters['idSite'] : '0';
-
-            list($actions, $actionParams) = $this->findAllWidgets();
-
-            $_GET = $oldGet;
-        }
-        else if (!is_array($actions))
-        {
-            $actions = array($actions);
-        }
-
-        // run the tests
-        foreach ($actions as $controllerAction)
-        {
-            $customParams = isset($actionParams[$controllerAction]) ? $actionParams[$controllerAction] : array();
-            list($controllerName, $actionName) = explode('.', $controllerAction);
-
-            foreach ($userTypes as $userType)
-            {
-                $this->setUserType($userType);
-
-                try
-                {
-                    // set request parameters
-                    $_GET = array();
-                    foreach ($customParams as $key => $value)
-                    {
-                        $_GET[$key] = $value;
-                    }
-                    foreach ($requestParameters as $key => $value)
-                    {
-                        $_GET[$key] = $value;
-                    }
-
-                    $_GET['module'] = $controllerName;
-                    $_GET['action'] = $actionName;
-
-                    if ($testingLevelOverride == self::CHECK_WIDGET_ERRORS)
-                    {
-                        $this->errorsOccurredInTest = array();
-                        set_error_handler(array($this, "customErrorHandler"));
-                    }
-
-                    // call controller action
-                    $response = Piwik_FrontController::getInstance()->fetchDispatch();
-
-                    list($processedFilePath, $expectedFilePath) = $this->getProcessedAndExpectedPaths(
-                        $testName . '_' . $userType, $controllerAction, 'html');
-
-                    if ($testingLevelOverride == self::CHECK_WIDGET_ERRORS)
-                    {
-                        restore_error_handler();
-
-                        if (!empty($this->errorsOccurredInTest))
-                        {
-                            // write processed (only if there are errors)
-                            file_put_contents($processedFilePath, $response);
-
-                            $this->fail("PHP Errors occurred in calling controller action '$controllerAction':");
-                            foreach ($this->errorsOccurredInTest as $error)
-                            {
-                                echo "&nbsp;   $error<br/>\n";
-                            }
-                        }
-                    }
-                    else // check against expected
-                    {
-                        // write raw processed response
-                        file_put_contents($processedFilePath, $response);
-
-                        // load expected
-                        $expected = $this->loadExpectedFile($expectedFilePath);
-                        if (!$expected)
-                        {
-                            continue;
-                        }
-
-                        // normalize eol delimeters
-                        $expected = str_replace("\r\n", "\n", $expected);
-                        $response = str_replace("\r\n", "\n", $response);
-
-                        // check against expected
-                        $passed = $this->assertEquals(trim($expected), trim($response),
-                            "<br/>\nDifferences with expected in: $processedFilePath %s ");
-
-                        if (!$passed)
-                        {
-                            var_dump('ERROR FOR ' . $controllerAction . ' -- FETCHED RESPONSE, then EXPECTED RESPONSE - ');
-                            echo "<br/>\n";
-                            var_dump(htmlspecialchars($response));
-                            echo "<br/>\n";
-                            var_dump(htmlspecialchars($expected));
-                            echo "<br/>\n";
-                        }
-                    }
-                }
-                catch (Exception $e)
-                {
-                    $this->fail("EXCEPTION THROWN IN $controllerAction: ".$e->getTraceAsString());
-                }
+        if ($isLiveMustDeleteDates) {
+            $expected = $this->removeAllLiveDatesFromXml($expected);
+        } // If date=lastN the <prettyDate> element will change each day, we remove XML element before comparison
+        elseif (strpos($dateTime, 'last') !== false
+            || strpos($dateTime, 'today') !== false
+            || strpos($dateTime, 'now') !== false
+        ) {
+            if (strpos($requestUrl, 'API.getProcessedReport') !== false) {
+                $expected = $this->removePrettyDateFromXml($expected);
+                $response = $this->removePrettyDateFromXml($response);
             }
+            // avoid build failure when running just before midnight, generating visits in the future
+            $expected = $this->removeXmlElement($expected, 'sum_daily_nb_uniq_visitors');
+            $response = $this->removeXmlElement($response, 'sum_daily_nb_uniq_visitors');
+            $expected = $this->removeXmlElement($expected, 'nb_visits_converted');
+            $response = $this->removeXmlElement($response, 'nb_visits_converted');
+            $expected = $this->removeXmlElement($expected, 'imageGraphUrl');
+            $response = $this->removeXmlElement($response, 'imageGraphUrl');
         }
 
-        // reset $_GET to old values
-        $_GET = array();
-        foreach ($oldGet as $key => $value)
-        {
-            $_GET[$key] = $value;
+        // is there a better way to test for the current DB type in use?
+        if (Zend_Registry::get('db') instanceof Piwik_Db_Adapter_Mysqli) {
+            // Do not test for TRUNCATE(SUM()) returning .00 on mysqli since this is not working
+            // http://bugs.php.net/bug.php?id=54508
+            $expected = str_replace('.00</revenue>', '</revenue>', $expected);
+            $response = str_replace('.00</revenue>', '</revenue>', $response);
+            $expected = str_replace('.1</revenue>', '</revenue>', $expected);
+            $expected = str_replace('.11</revenue>', '</revenue>', $expected);
+            $response = str_replace('.11</revenue>', '</revenue>', $response);
+            $response = str_replace('.1</revenue>', '</revenue>', $response);
         }
 
-        // set user type
-        $this->setUserType('superuser');
-    }
-
-    /**
-     * Sets the access privilegs of the current user to the specified user type.
-     *
-     * @param $userType string Can be 'superuser', 'admin', 'view' or 'anonymous'.
-     */
-    protected function setUserType( $userType )
-    {
-        if ($userType == 'superuser')
-        {
-            $code = Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE;
-            $login = 'superUserLogin';
+        if (strpos($requestUrl, 'format=xml') !== false) {
+            $this->assertXmlStringEqualsXmlString($expected, $response, "Differences with expected in: $processedFilePath %s ");
+        } else {
+            $this->assertEquals($expected, $response, "Differences with expected in: $processedFilePath %s ");
         }
-        else
-        {
-            $code = 0;
-
-            $login = $userType;
-            if ($login != 'anonymous')
-            {
-                $login = 'test_' . $login;
-            }
+        if (trim($response) == trim($expected)) {
+            file_put_contents($processedFilePath, $response);
         }
-
-        $authResultObj = new Piwik_Auth_Result($code, $login, 'dummyTokenAuth');
-        $authObj = new MockPiwik_Auth();
-        $authObj->setReturnValue('getName', 'Login');
-        $authObj->setReturnValue('authenticate', $authResultObj);
-
-        Zend_Registry::get('access')->reloadAccess($authObj);
-    }
-
-    /**
-     * Set of messages for errors that occurred during the invocation of a
-     * controller action. If not empty, there was an error in the controller.
-     */
-    private $errorsOccurredInTest = array();
-
-    /**
-     * A custom error handler used with <code>set_error_handler</code>. If
-     * an error occurs, a message describing it is saved in an array.
-     *
-     * @param int    $errno
-     * @param string $errstr
-     * @param string $errfile
-     * @param int    $errline
-     *
-     * @return void
-     */
-    public function customErrorHandler($errno, $errstr, $errfile, $errline)
-    {
-        if (strpos(strtolower($errstr), 'cannot modify header information - headers already sent')) // HACK
-        {
-            $this->errorsOccurredInTest[] = "$errfile($errline): - $errstr";
-        }
-    }
-
-    /**
-     * Returns a list of all available widgets.
-     */
-    protected function findAllWidgets()
-    {
-        $widgetList = Piwik_GetWidgetsList();
-
-        $actions = array();
-        $customParams = array();
-
-        foreach($widgetList as $widgetCategory => $widgets)
-        {
-            foreach($widgets as $widgetInfo)
-            {
-                $module = $widgetInfo['parameters']['module'];
-                $moduleAction = $widgetInfo['parameters']['action'];
-                $wholeAction = "$module.$moduleAction";
-
-                // FIXME: can't test Referers.getKeywordsForPage since it tries to make a request to
-                // localhost w/ the wrong url. Piwik_Url::getCurrentUrlWithoutFileName
-                // returns /tests/integration/?... when used within a test.
-                if ($wholeAction == "Referers.getKeywordsForPage")
-                {
-                    continue;
-                }
-
-                // rss widgets depends on feedburner URL. don't test the widget just in case
-                // feedburner is down.
-                if ($module == "ExampleRssWidget"
-                    || $module == "ExampleFeedburner")
-                {
-                    continue;
-                }
-
-                unset($widgetInfo['parameters']['module']);
-                unset($widgetInfo['parameters']['action']);
-
-                $actions[] = $wholeAction;
-                $customParams[$wholeAction] = $widgetInfo['parameters'];
-            }
-        }
-
-        return array($actions, $customParams);
     }
 
     protected function removeAllLiveDatesFromXml($input)
@@ -1024,12 +597,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         return $result;
     }
 
-
-
-
-
-
-
     /**
      * Returns an array describing the API methods to call & compare with
      * expected output.
@@ -1073,30 +640,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Returns an array describing the Controller actions to call & compare
-     * with expected output.
-     *
-     * The returned array must be of the following format:
-     * <code>
-     * array(
-     *     array('Controller.action', array('testOption1' => 'value1', 'testOption2' => 'value2'),
-     *     array(array('Controller.action', 'OtherController.action'), array(...)),
-     *     .
-     *     .
-     *     .
-     * )
-     * </code>
-     *
-     * Valid test options:
-     * <ul>
-     *   <li><b>UNIMPLEMENTED</b></li>
-     * </ul>
-     */
-    public function getControllerActionsForTesting() {
-        return array();
-    }
-
-    /**
      * Gets the string prefix used in the name of the expected/processed output files.
      */
     public function getOutputPrefix()
@@ -1104,13 +647,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         return str_replace('Test_Piwik_Integration_', '', get_class($this));
     }
 
-    /**
-     * Runs API tests.
-     */
-    protected function runApiTests($api, $params)
+    protected function _setCallableApi($api)
     {
-        $testName = 'test_' . $this->getOutputPrefix();
-
         if ($api == 'all')
         {
             self::setApiToCall(array());
@@ -1126,6 +664,16 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             self::setApiToCall($api);
             self::setApiNotToCall(array('API.getPiwikVersion'));
         }
+    }
+
+    /**
+     * Runs API tests.
+     */
+    protected function runApiTests($api, $params)
+    {
+        $testName = 'test_' . $this->getOutputPrefix();
+
+        $this->_setCallableApi($api);
 
         if (isset($params['disableArchiving']) && $params['disableArchiving'] === true)
         {
@@ -1143,61 +691,31 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
         $testSuffix = isset($params['testSuffix']) ? $params['testSuffix'] : '';
 
-        $this->_callGetApiCompareOutput(
-            $testName . $testSuffix,
-            isset($params['format']) ? $params['format'] : 'xml',
-            isset($params['idSite']) ? $params['idSite'] : false,
-            isset($params['date']) ? $params['date'] : false,
-            isset($params['periods']) ? $params['periods'] : false,
-            isset($params['setDateLastN']) ? $params['setDateLastN'] : false,
-            isset($params['language']) ? $params['language'] : false,
-            isset($params['segment']) ? $params['segment'] : false,
-            isset($params['visitorId']) ? $params['visitorId'] : false,
-            isset($params['abandonedCarts']) ? $params['abandonedCarts'] : false,
-            isset($params['idGoal']) ? $params['idGoal'] : false,
-            isset($params['apiModule']) ? $params['apiModule'] : false,
-            isset($params['apiAction']) ? $params['apiAction'] : false,
-            isset($params['otherRequestParameters']) ? $params['otherRequestParameters'] : array());
+        $requestUrls = $this->_generateApiUrls(
+                    isset($params['format']) ? $params['format'] : 'xml',
+                    isset($params['idSite']) ? $params['idSite'] : false,
+                    isset($params['date']) ? $params['date'] : false,
+                    isset($params['periods']) ? $params['periods'] : false,
+                    isset($params['setDateLastN']) ? $params['setDateLastN'] : false,
+                    isset($params['language']) ? $params['language'] : false,
+                    isset($params['segment']) ? $params['segment'] : false,
+                    isset($params['visitorId']) ? $params['visitorId'] : false,
+                    isset($params['abandonedCarts']) ? $params['abandonedCarts'] : false,
+                    isset($params['idGoal']) ? $params['idGoal'] : false,
+                    isset($params['apiModule']) ? $params['apiModule'] : false,
+                    isset($params['apiAction']) ? $params['apiAction'] : false,
+                    isset($params['otherRequestParameters']) ? $params['otherRequestParameters'] : array());
+
+        foreach($requestUrls as $apiId => $requestUrl)
+        {
+            $this->_testApiUrl( $testName . $testSuffix, $apiId, $requestUrl);
+        }
 
         // change the language back to en
         if ($this->lastLanguage != 'en')
         {
             $this->changeLanguage('en');
         }
-    }
-
-    /**
-     * Runs controller tests.
-     */
-    protected function runControllerTests($actions, $params)
-    {
-        static $nonRequestParameters = array('testingLevelOverride' => null, 'userTypes' => null);
-
-        $testName = 'test_' . $this->getOutputPrefix();
-
-        // deal w/ any language changing hacks
-        if (isset($params['language'])) {
-            $this->changeLanguage($params['language']);
-        } else {
-            $this->changeLanguage('en');
-        }
-
-        // separate request parameters from function parameters
-        $requestParams = array();
-        foreach ($params as $key => $value) {
-            if (!isset($nonRequestParameters[$key])) {
-                $requestParams[$key] = $value;
-            }
-        }
-
-        $testSuffix = isset($params['testSuffix']) ? $params['testSuffix'] : '';
-
-        $this->callWidgetsCompareOutput(
-            $testName . $testSuffix,
-            $actions,
-            $requestParams,
-            isset($params['userTypes']) ? $params['userTypes'] : false,
-            isset($params['testingLevelOverride']) ? $params['testingLevelOverride'] : false);
     }
 
     /**

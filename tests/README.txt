@@ -48,7 +48,7 @@ See also http://dev.piwik.org/trac/ticket/1465
 	$ pear install --alldeps pear.phpunit.de/PHPUnit
 	Doc at: http://www.phpunit.de/manual/current/en/installation.html
 
-2) Configure PHPUnit: Edit the file piwik/tests/PHPUnit/phpunit.xml
+2) Configure PHPUnit: Copy the file piwik/tests/PHPUnit/phpunit.xml.dist as phpunit.xml.
 	In this file, you will find the following lines.
 	Please edit HTTP_HOST and REQUEST_URI to match the hostname and path of the Piwik files:
     <server name="HTTP_HOST" value="localhost"/>
@@ -57,8 +57,15 @@ See also http://dev.piwik.org/trac/ticket/1465
 3) Run the tests
 	$ cd /path/to/piwik/tests/PHPUnit
 	$ phpunit
-	This will run all unit + integration tests. It might take 10 minutes to run. 
-	
+	This will run all unit + integration tests. It might take 30 minutes to run.
+
+	You can also run tests of speciified "parts" of Piwik.
+	There are three main groups of tests: Core, Plugins and Integration
+	For example run
+	$ phpunit --group Core
+	to run all Core Piwik tests. You may also combine groups like
+	$ phpunit --group Core,Plugins
+
 4) Write more tests :)
 	See "Writing Unit tests with PHPUnit" 
 	http://www.phpunit.de/manual/current/en/writing-tests-for-phpunit.html

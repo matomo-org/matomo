@@ -17,12 +17,12 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorTyp
     public static function setUpBeforeClass()
     {
         IntegrationTestCase::setUpBeforeClass();
-        self::$visitorId = substr(md5(uniqid()), 0, 16);
+        self::$visitorId         = substr(md5(uniqid()), 0, 16);
         self::$doExtraQuoteTests = false;
         try {
             self::setUpWebsitesAndGoals();
             self::trackVisits();
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             // Skip whole test suite if an error occurs while setup
             throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
         }
@@ -78,33 +78,31 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorTyp
         // Verify that, when a segment is specified, only the requested report is processed
         // In this case, check that only the Custom Variables blobs have been processed
 
-        if (IntegrationTestCase::$apiTestingLevel != IntegrationTestCase::NO_API_TESTING) {
-            $tests = array(
-                // 1) CHECK 'day' archive stored in January
-                // We expect 2 segments * (1 custom variable name + 2 ref metrics + 6 subtable for the custom var values + 5 Referers blob)
-                'archive_blob_2010_01'    => 28,
-                // This contains all 'last N' weeks & days,
-                // (1 metrics
-                //  + 2 referer metrics
-                //  + 3 done flag )
-                //  * 2 segments
-                // + 1 Done flag per Plugin, for each "Last N" date
-                'archive_numeric_2010_01' => 138,
+        $tests = array(
+            // 1) CHECK 'day' archive stored in January
+            // We expect 2 segments * (1 custom variable name + 2 ref metrics + 6 subtable for the custom var values + 5 Referers blob)
+            'archive_blob_2010_01'    => 28,
+            // This contains all 'last N' weeks & days,
+            // (1 metrics
+            //  + 2 referer metrics
+            //  + 3 done flag )
+            //  * 2 segments
+            // + 1 Done flag per Plugin, for each "Last N" date
+            'archive_numeric_2010_01' => 138,
 
-                // 2) CHECK 'week' archive stored in December (week starts the month before)
-                // We expect 2 segments * (1 custom variable name + 2 ref metrics + 6 subtable for the values of the name + 5 referers blob)
-                'archive_blob_2009_12'    => 28,
-                // 6 metrics,
-                // 2 Referer metrics (Referers_distinctSearchEngines/Referers_distinctKeywords),
-                // 3 done flag (referers, CustomVar, VisitsSummary),
-                // X * 2 segments
-                'archive_numeric_2009_12' => (6 + 2 + 3) * 2,
-            );
-            foreach ($tests as $table => $expectedRows) {
-                $sql        = "SELECT count(*) FROM " . Piwik_Common::prefixTable($table);
-                $countBlobs = Zend_Registry::get('db')->fetchOne($sql);
-                $this->assertEquals($expectedRows, $countBlobs, "$table: %s");
-            }
+            // 2) CHECK 'week' archive stored in December (week starts the month before)
+            // We expect 2 segments * (1 custom variable name + 2 ref metrics + 6 subtable for the values of the name + 5 referers blob)
+            'archive_blob_2009_12'    => 28,
+            // 6 metrics,
+            // 2 Referer metrics (Referers_distinctSearchEngines/Referers_distinctKeywords),
+            // 3 done flag (referers, CustomVar, VisitsSummary),
+            // X * 2 segments
+            'archive_numeric_2009_12' => (6 + 2 + 3) * 2,
+        );
+        foreach ($tests as $table => $expectedRows) {
+            $sql        = "SELECT count(*) FROM " . Piwik_Common::prefixTable($table);
+            $countBlobs = Zend_Registry::get('db')->fetchOne($sql);
+            $this->assertEquals($expectedRows, $countBlobs, "$table: %s");
         }
     }
 

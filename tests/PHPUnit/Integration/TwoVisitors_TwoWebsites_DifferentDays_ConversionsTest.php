@@ -62,27 +62,6 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions e
         return $result;
     }
 
-    /**
-     * @dataProvider getControllerActionsForTesting
-     * @group        Integration
-     * @group        TwoVisitors_TwoWebsites_DifferentDays_Conversions
-     */
-    public function testControllerActions($actions, $params)
-    {
-        $this->runControllerTests($actions, $params);
-    }
-
-    public function getControllerActionsForTesting()
-    {
-        return array(
-            // test MultiSites.index using default testing level
-            array('MultiSites.index', array('date' => self::$dateTime, 'period' => 'month', 'idSite' => self::$idSite1)),
-
-            // test all widgets using default testing level
-            array('all', array('date' => self::$dateTime, 'period' => 'day', 'idSite' => self::$idSite1)),
-        );
-    }
-
     public function getOutputPrefix()
     {
         return 'TwoVisitors_twoWebsites_differentDays_Conversions';

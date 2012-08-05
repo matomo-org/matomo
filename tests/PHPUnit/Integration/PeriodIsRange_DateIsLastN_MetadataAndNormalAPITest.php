@@ -31,8 +31,7 @@ class Test_Piwik_Integration_PeriodIsRange_DateIsLastN_MetadataAndNormalAPI exte
     public function setUp()
     {
         if (date('G') == 23 || date('G') == 22) {
-            echo "SKIPPED test_periodIsRange_dateIsLastN_MetadataAndNormalAPI() since it fails around midnight...";
-            $this->markTestSkipped();
+            $this->markTestSkipped("SKIPPED since it fails around midnight...");
         }
 
         parent::setUp();

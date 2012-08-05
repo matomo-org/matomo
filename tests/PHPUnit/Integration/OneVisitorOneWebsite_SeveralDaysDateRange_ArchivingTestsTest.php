@@ -18,11 +18,11 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
 
     public static function setUpBeforeClass()
     {
-        parent::setUpBeforeClass();
+        IntegrationTestCase::setUpBeforeClass();
         try {
             self::setUpWebsitesAndGoals();
             self::trackVisits();
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             // Skip whole test suite if an error occurs while setup
             throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
         }
@@ -72,29 +72,27 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
      */
     public function testCheck()
     {
-        if (IntegrationTestCase::$apiTestingLevel != IntegrationTestCase::NO_API_TESTING) {
-            // Check that requesting period "Range" means
-            // only processing the requested Plugin blob (Actions in this case), not all Plugins blobs
-            $tests = array(
-                // 4 blobs for the Actions plugin, 7 blobs for UserSettings, 2 blobs VisitTime
-                'archive_blob_2010_12'    => (4 + 7 + 2) * 3,
-                // (VisitsSummary 5 metrics + 1 flag - no Unique visitors for range)
-                // + 1 flag archive UserSettings
-                // + (Actions 1 flag + 2 metrics - pageviews, unique pageviews)
-                // + (Frequency 5 metrics + 1 flag)
-                // + 1 flag VisitTime
-                // * 3 segments
-                'archive_numeric_2010_12' => (6 + 1 + 3 + 6 + 1) * 3,
+        // Check that requesting period "Range" means
+        // only processing the requested Plugin blob (Actions in this case), not all Plugins blobs
+        $tests = array(
+            // 4 blobs for the Actions plugin, 7 blobs for UserSettings, 2 blobs VisitTime
+            'archive_blob_2010_12'    => (4 + 7 + 2) * 3,
+            // (VisitsSummary 5 metrics + 1 flag - no Unique visitors for range)
+            // + 1 flag archive UserSettings
+            // + (Actions 1 flag + 2 metrics - pageviews, unique pageviews)
+            // + (Frequency 5 metrics + 1 flag)
+            // + 1 flag VisitTime
+            // * 3 segments
+            'archive_numeric_2010_12' => (6 + 1 + 3 + 6 + 1) * 3,
 
-                // all "Range" records are in December
-                'archive_blob_2011_01'    => 0,
-                'archive_numeric_2011_01' => 0,
-            );
-            foreach ($tests as $table => $expectedRows) {
-                $sql        = "SELECT count(*) FROM " . Piwik_Common::prefixTable($table) . " WHERE period = " . Piwik::$idPeriods['range'];
-                $countBlobs = Zend_Registry::get('db')->fetchOne($sql);
-                $this->assertEquals($expectedRows, $countBlobs, "$table expected $expectedRows, got $countBlobs");
-            }
+            // all "Range" records are in December
+            'archive_blob_2011_01'    => 0,
+            'archive_numeric_2011_01' => 0,
+        );
+        foreach ($tests as $table => $expectedRows) {
+            $sql        = "SELECT count(*) FROM " . Piwik_Common::prefixTable($table) . " WHERE period = " . Piwik::$idPeriods['range'];
+            $countBlobs = Zend_Registry::get('db')->fetchOne($sql);
+            $this->assertEquals($expectedRows, $countBlobs, "$table expected $expectedRows, got $countBlobs");
         }
     }
 
