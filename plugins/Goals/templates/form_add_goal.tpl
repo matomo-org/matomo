@@ -3,7 +3,7 @@
 <table class="dataTable entityTable">
 	<thead>
 		<tr class="first">
-			<th colspan="2">Create a Goal</th>
+			<th colspan="2">{'Goals_AddNewGoal'|translate}</th>
 		<tr>
 	</thead>
 	<tbody>
@@ -78,7 +78,7 @@
 	</tbody>
 	<tbody>
 		<tr>
-            <td class="first">(optional) {'Goals_DefaultRevenue'|translate}</td>
+            <td class="first">{'Goals_Optional'|translate} {'Goals_DefaultRevenue'|translate}</td>
 			<td>{' <input type="text" name="revenue" size="2" value="0" class="inp" /> '|money:$idSite}
             <div class="entityInlineHelp"> {'Goals_DefaultRevenueHelp'|translate} </div>
 			</td>

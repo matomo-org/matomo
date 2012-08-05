@@ -34,7 +34,7 @@ var aliasUrlsHelp = '{'SitesManager_AliasUrlHelp'|translate|inlineHelp|escape:ja
 {capture assign=excludedQueryParametersHelp}
 	{'SitesManager_ListOfQueryParametersToExclude'|translate}
 	<br /><br />
-	{'SitesManager_PiwikWillAutomaticallyExcludeCommonSessionParameters'|translate:"phpsessid, sessionid, etc."}
+	{'SitesManager_PiwikWillAutomaticallyExcludeCommonSessionParameters'|translate:"phpsessid, sessionid, ..."}
 {/capture}
 {assign var=excludedQueryParametersHelp value=$excludedQueryParametersHelp|inlineHelp}
 var excludedQueryParametersHelp = '{$excludedQueryParametersHelp|escape:javascript}';
