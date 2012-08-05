@@ -1,43 +1,3 @@
-            <?php foreach ( $suites as $key => $suite ): ?>
-
-            <div class='suite' data-suite-status='<?= $suite["status"]; ?>' data-suite-time='<?= $suite["time"]; ?>'>
-                <h3><?=$suite['name'];?></h3>
-                <div class='suite-status'>
-                    <span class="label label-<?=$suite['status'];?>"><?=ucfirst($suite['status']);?></span>
-                </div>
-
-                <?php foreach ( $suite['tests'] as $test ): ?>
-                <div class="alert alert-block alert-<?=$test['status'];?>">
-                    <h4 class="alert-heading"><?=$test['name'];?></h4>
-                    <?php if ( $test['message']): ?>
-                    <p class='test-message'>
-                        <strong><?=$test['message'];?></strong>
-                    </p>
-                    <?php endif; ?>
-                    <ul class='nav'>
-                        <li class='test-details'>
-                        <em>Execution time:</em>
-                        <?=$test['time'];?>s
-                        </li>
-                        <?php if ( $test['output']): ?>
-                        <li class='test-details'>
-                            <em>Debug Output:</em>
-                            <pre><?=$test['output'];?></pre>
-                        </li>
-                        <?php endif; ?>
-                        <?php if ( $test['trace']): ?>
-                        <li class='test-details'>
-                            <em>Stack Trace:</em>
-                            <pre><?=$test['trace'];?></pre>
-                        </li>
-                        <?php endif; ?>
-                    </ul>
-                </div>
-                <?php endforeach; ?>
-            </div>
-
-            <?php endforeach; ?>
-
             <div class='row statistics'>
                 <div class='span4'>
                     <h3>Suite Statistics</h3>
@@ -111,3 +71,44 @@
                 </ul>
             </div>
             <?php endforeach; ?>
+            
+            <?php foreach ( $suites as $key => $suite ): ?>
+
+            <div class='suite' data-suite-status='<?= $suite["status"]; ?>' data-suite-time='<?= $suite["time"]; ?>'>
+                <h3><?=$suite['name'];?></h3>
+                <div class='suite-status'>
+                    <span class="label label-<?=$suite['status'];?>"><?=ucfirst($suite['status']);?></span>
+                </div>
+
+                <?php foreach ( $suite['tests'] as $test ): ?>
+                <div class="alert alert-block alert-<?=$test['status'];?>">
+                    <h4 class="alert-heading"><?=$test['name'];?></h4>
+                    <?php if ( $test['message']): ?>
+                    <p class='test-message'>
+                        <strong><?=$test['message'];?></strong>
+                    </p>
+                    <?php endif; ?>
+                    <ul class='nav'>
+                        <li class='test-details'>
+                        <em>Execution time:</em>
+                        <?=$test['time'];?>s
+                        </li>
+                        <?php if ( $test['output']): ?>
+                        <li class='test-details'>
+                            <em>Debug Output:</em>
+                            <pre><?=$test['output'];?></pre>
+                        </li>
+                        <?php endif; ?>
+                        <?php if ( $test['trace']): ?>
+                        <li class='test-details'>
+                            <em>Stack Trace:</em>
+                            <pre><?=$test['trace'];?></pre>
+                        </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+                <?php endforeach; ?>
+            </div>
+
+            <?php endforeach; ?>
+

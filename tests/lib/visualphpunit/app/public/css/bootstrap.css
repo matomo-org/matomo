@@ -5036,3 +5036,7 @@ label.checkbox {
 .statistics {
   margin-bottom: 20px;
 }
+
+.statistics h4 {
+  font-size: 15px;
+}

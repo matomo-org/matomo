@@ -146,7 +146,7 @@
                   <abbr title='Skipped'>Sk</abbr>
                 </label>
                 <label for='display-succeeded' class='checkbox'>
-                  <input type='checkbox' id='display-succeeded' class='display-suite' value='1' checked='checked' data-target='succeeded' />
+                  <input type='checkbox' id='display-succeeded' class='display-suite' value='1' data-target='succeeded' />
                   <abbr title='Succeeded'>Su</abbr>
                 </label>
               </li>
@@ -174,54 +174,6 @@
     <script src='./js/bootstrap-alert.js'></script>
 
     <script type='text/html' id='test-results'>
-      <% _.each(notifications, function(notification) { %>
-        <div class="alert alert-block alert-<%= notification.type %>">
-          <button type="button" class="close" data-dismiss="alert">×</button>
-          <h4 class="alert-heading"><%= notification.title %></h4>
-          <p class='notification-message'><%= notification.message %></p>
-        </div>
-      <% }) %>
-
-      <% _.each(suites, function(suite) { %>
-        <div class='suite' data-suite-status='<%= suite.status %>' data-suite-time='<%= suite.time %>'>
-          <% var statusCap = suite.status.charAt(0).toUpperCase() + suite.status.slice(1); %>
-          <h3><%= suite.name %></h3>
-          <div class='suite-status'>
-            <span class="label label-<%= suite.status %>"><%= statusCap %></span>
-          </div>
-
-          <% _.each(suite.tests, function(test) { %>
-            <div class="alert alert-block alert-<%= test.status %>">
-              <h4 class="alert-heading"><%= test.name %></h4>
-              <% if ( test.message) { %>
-              <p class='test-message'>
-                <strong><%= test.message %></strong>
-              </p>
-              <% } %>
-              <ul class='nav'>
-                <li class='test-details'>
-                  <em>Execution time:</em>
-                  <%= test.time %>s
-                </li>
-                <% if ( test.output ) { %>
-                <li class='test-details'>
-                  <em>Debug Output:</em>
-                  <pre><%= test.output %></pre>
-                </li>
-                <% } %>
-                <% if ( test.trace ) { %>
-                <li class='test-details'>
-                  <em>Stack Trace:</em>
-                  <pre><%= test.trace %></pre>
-                </li>
-                <% } %>
-              </ul>
-            </div>
-          <% }) %>
-        </div>
-
-      <% }) %>
-
       <div class='row statistics'>
         <div class='span4'>
           <h3>Suite Statistics</h3>
@@ -295,44 +247,245 @@
         </div>
       <% }) %>
 
+      <% _.each(notifications, function(notification) { %>
+        <div class="alert alert-block alert-<%= notification.type %>">
+          <button type="button" class="close" data-dismiss="alert">×</button>
+          <h4 class="alert-heading"><%= notification.title %></h4>
+          <p class='notification-message'><%= notification.message %></p>
+        </div>
+      <% }) %>
+
+      <% _.each(suites, function(suite) { %>
+        <div class='suite' data-suite-status='<%= suite.status %>' data-suite-time='<%= suite.time %>'>
+          <% var statusCap = suite.status.charAt(0).toUpperCase() + suite.status.slice(1); %>
+          <h3><%= suite.name %></h3>
+          <div class='suite-status'>
+            <span class="label label-<%= suite.status %>"><%= statusCap %></span>
+          </div>
+
+          <% _.each(suite.tests, function(test) { %>
+            <div class="alert alert-block alert-<%= test.status %>">
+              <h4 class="alert-heading"><%= test.name %></h4>
+              <% if ( test.message) { %>
+              <p class='test-message'>
+                <strong><%= test.message %></strong>
+              </p>
+              <% } %>
+              <ul class='nav'>
+                <li class='test-details'>
+                  <em>Execution time:</em>
+                  <%= test.time %>s
+                </li>
+                <% if ( test.output ) { %>
+                <li class='test-details'>
+                  <em>Debug Output:</em>
+                  <pre><%= test.output %></pre>
+                </li>
+                <% } %>
+                <% if ( test.trace ) { %>
+                <li class='test-details'>
+                  <em>Stack Trace:</em>
+                  <pre><%= test.trace %></pre>
+                </li>
+                <% } %>
+              </ul>
+            </div>
+          <% }) %>
+        </div>
+
+      <% }) %>
+
     </script>
 
     <script>
       $(document).ready(function() {
 
+        var $file_selector = $('.file-selector');
+        var expandFileSet = function(fileset, callback, result) { // not very efficient...
+          if (typeof result === 'undefined') {
+            result = {};
+          }
+          
+          var waiting = 0, i = 0;
+          var done = function(result) {
+            if (waiting == 0 && i == fileset.length) {
+              arrayResult = []
+              for (var key in result) {
+                arrayResult.push(key);
+              }
+              
+              callback(arrayResult);
+            }
+          };
+          
+          // create a list of test files to run
+          for (i = 0; i != fileset.length; ++i) {
+            var file = fileset[i];
+            
+            // if ends with .php
+            if (file.length > 4 && file.substr(file.length - 4, 4) == '.php') {
+              result[file] = true;
+            } else {
+              var $entry = $('a[data-path="'+file+'"]', $file_selector),
+                  $parent = $entry.parent();
+              
+              // if a directory, and not the .svn dir 
+              if ($parent.hasClass('directory') && file.indexOf('.svn') == -1) {
+                ++waiting;
+                
+                // if it hasn't been loaded, load it
+                if ($parent.find('ul').length == 0) {
+                  $entry.fileSelector('expand', false, function(contents) {
+                    expandFileSet(contents, function(r) {
+                      --waiting;
+                      done(result); // r will be an array, so don't use that.
+                    }, result);
+                  });
+                } else {
+                  var contents = [];
+                  // TODO: above selector can be avoided since we know the element here
+                  $('ul a', $parent).each(function() {
+                    contents.push($(this).attr('data-path'));
+                  });
+                  
+                  expandFileSet(contents, function(r) {
+                    --waiting;
+                    done(result);
+                  }, result);
+                }
+              }
+            }
+          }
+          
+          done(result);
+        };
+          
         $('#run-tests').click(function(event) {
           var $form = $(this).closest('form'),
               $output = $('#test-output');
-
+          
           event.preventDefault();
 
           $output.fadeOut(300, function() {
             $output.html(
-              "<div class='loader'><img src='./img/ajax-loader.gif'></div>"
+              "<div class='loader'><img src='./img/ajax-loader.gif'><h2 id='currently-running'></h2><div id='fatal-test-error' class='alert alert-danger' style='display:none;'><strong>Invalid response sent from server:</strong><br><br><pre> </pre></div></div>"
             ).fadeIn(300);
+            
+            var file_selections = $('#test-files').val().split('|');
+            expandFileSet(file_selections, function (test_files) {
+              var allResults = {
+                errors: [],
+                notifications: [],
+                suites: {},
+                stats: {
+                  suites: {
+	                  succeeded: 0,
+                    skipped: 0,
+                    incomplete: 0,
+                    failed: 0,
+                    total: 0
+                  },
+                  tests: {
+	                  succeeded: 0,
+                    skipped: 0,
+                    incomplete: 0,
+                    failed: 0,
+                    total: 0
+                  }
+                }
+              };
+              
+              var baseReqData = {};
+              $.each($form.serializeArray(), function(_, kv) {
+                if (baseReqData.hasOwnProperty(kv.name)) {
+                  baseReqData[kv.name] = $.makeArray(baseReqData[kv.name]);
+                  baseReqData[kv.name].push(kv.value);
+                } else {
+                  baseReqData[kv.name] = kv.value;
+                }
+              });
+              
+              function runTest(testIdx, callback) {
+                if (testIdx >= test_files.length) {
+                  callback();
+                  return;
+                }
+                
+                // update 'currently running' text
+                var lastSlash = test_files[testIdx].lastIndexOf('/');
+                if (lastSlash === -1) {
+                  lastSlash = test_files[testIdx].lastIndex('\\');
+                }
+                var testShortName = test_files[testIdx].substr(lastSlash + 1);
+                
+                $('#currently-running').text("Currently running " + testShortName + '...');
+                
+                // run test
+                baseReqData.test_files = test_files[testIdx];
+                $.post($form.attr('action'), baseReqData, function(response) {
+                  try {
+                    response = $.parseJSON(response);
+                  } catch (e) {
+                    $('#fatal-test-error pre').text(response);
+                    $('#fatal-test-error').show();
+                    return;
+                  }
+                  
+                  allResults.errors.push.apply(allResults.errors, response.errors);
+                  allResults.notifications.push.apply(allResults.notifications, response.notifications);
+                  
+                  for (var key in response.suites) {
+                    if (key == ':') {
+                      if (response.suites[key].status != 'succeeded') {
+                        allResults.suites[key].status = response.suites[key].status;
+                      }
+                      
+                      allResults.suites[key].tests.push(allResults.suites[key].tests, response.suites[key].tests);
+                      allResults.suites[key].time += response.suites[key].time;
+                    } else {
+                      allResults.suites[key] = response.suites[key];
+                    }
+                  }
+                  
+                  for (var key in allResults.stats) {
+                    allResults.stats[key].succeeded += response.stats[key].succeeded;
+                    allResults.stats[key].skipped += response.stats[key].skipped;
+                    allResults.stats[key].incomplete += response.stats[key].incomplete;
+                    allResults.stats[key].failed += response.stats[key].failed;
+                    allResults.stats[key].total += response.stats[key].total;
+                    
+                    // recalculate percentages
+                    var total = allResults.stats[key].total;
+                    allResults.stats[key].percentFailed = (allResults.stats[key].failed / total) * 100;
+                    allResults.stats[key].percentIncomplete = (allResults.stats[key].incomplete / total) * 100;
+                    allResults.stats[key].percentSkipped = (allResults.stats[key].skipped / total) * 100;
+                    allResults.stats[key].percentSucceeded = (allResults.stats[key].succeeded / total) * 100;
+                  }
+                  
+                  runTest(testIdx + 1, callback);
+                });
+              }
+              
+              runTest(0, function() {
+                var template = $("#test-results").html();
 
-            $.post($form.attr('action'), $form.serialize(), function(response) {
-              var template = $("#test-results").html();
+                $output.fadeOut(300, function() {
+                  $output.html(_.template(template, {
+                    errors: allResults.errors,
+                    notifications: allResults.notifications,
+                    suites: allResults.suites,
+                    stats: allResults.stats
+                  }));
 
-              response = $.parseJSON(response);
+                  $('#sort').triggerHandler('change');
 
-              $output.fadeOut(300, function() {
-                $output.html(_.template(template, {
-                  errors: response.errors,
-                  notifications: response.notifications,
-                  suites: response.suites,
-                  stats: response.stats
-                }));
-
-                $('#sort').triggerHandler('change');
-
-                $output.fadeIn(300, function() {
-                  $('.display-suite').each(function(index, element) {
-                    $(element).triggerHandler('click');
+                  $output.fadeIn(300, function() {
+                    $('.display-suite').each(function(index, element) {
+                      $(element).triggerHandler('click');
+                    });
                   });
                 });
               });
-
             });
           });
 
