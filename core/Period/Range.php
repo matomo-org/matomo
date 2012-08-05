@@ -43,7 +43,7 @@ class Piwik_Period_Range extends Piwik_Period
 		//"30 Dec 08 - 26 Feb 09"
 		$dateStart = $this->getDateStart();
 		$dateEnd = $this->getDateEnd();
-		$template = "%day% %shortMonth% %shortYear%";
+		$template = Piwik_Translate('CoreHome_ShortDateFormatWithYear');
 		$shortDateStart = $dateStart->getLocalized($template);
 		$shortDateEnd = $dateEnd->getLocalized($template);
 		$out = "$shortDateStart - $shortDateEnd";

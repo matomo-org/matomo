@@ -26,7 +26,7 @@ class Piwik_Period_Month extends Piwik_Period
 	public function getLocalizedShortString()
 	{
 		//"Aug 09"
-		$out = $this->getDateStart()->getLocalized("%shortMonth% %longYear%");
+		$out = $this->getDateStart()->getLocalized(Piwik_Translate('CoreHome_ShortMonthFormat'));
 		return $out;
 	}
 

@@ -28,10 +28,10 @@ class Piwik_Period_Week extends Piwik_Period
 		//"30 Dec - 6 Jan 09"
 		$dateStart = $this->getDateStart();
 		$dateEnd = $this->getDateEnd();
-		$shortDateStart = $dateStart->getLocalized("%day% %shortMonth%");
-		$shortDateEnd = $dateEnd->getLocalized("%day% %shortMonth% %shortYear%");
-		$out = "$shortDateStart - $shortDateEnd";
-		return $out;
+		
+		$string = Piwik_Translate('CoreHome_ShortWeekFormat');
+		$string = self::getTranslatedRange($string, $dateStart, $dateEnd);
+		return $string;
 	}
 
 	/**
@@ -41,11 +41,20 @@ class Piwik_Period_Week extends Piwik_Period
 	 */
 	public function getLocalizedLongString()
 	{
-		$shortDateStart = $this->getDateStart()->getLocalized("%day% %longMonth%");
-		$shortDateEnd =  $this->getDateEnd()->getLocalized("%day% %longMonth% %longYear%");
-		return Piwik_Translate('CoreHome_PeriodWeek') . " $shortDateStart - $shortDateEnd";
+		$format = Piwik_Translate('CoreHome_LongWeekFormat');
+		$string = self::getTranslatedRange($format, $this->getDateStart(), $this->getDateEnd());
+		return Piwik_Translate('CoreHome_PeriodWeek') . " " . $string;
 	}
 
+	static protected function getTranslatedRange($format, $dateStart, $dateEnd)
+	{
+		$string = str_replace('From%', '%', $format);
+		$string = $dateStart->getLocalized($string);
+		$string = str_replace('To%', '%', $string);
+		$string = $dateEnd->getLocalized($string);
+		return $string;
+	}
+	
 	/**
 	 * Returns the current period as a string
 	 *
