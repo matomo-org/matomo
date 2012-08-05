@@ -74,9 +74,16 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
 		// set the footer message using the period start & end date
 		$start = $oPeriod->getDateStart()->toString();
 		$end = $oPeriod->getDateEnd()->toString();
+		if ($start == $end)
+		{
+			$dateRange = $start;
+		}
+		else
+		{
+			$dateRange = $start." &ndash; ".$end;
+		}
 		
-		$generatedFrom = $start == $end ? 'General_ReportGeneratedFrom1' : 'General_ReportGeneratedFrom2';
-		$view->setFooterMessage(Piwik_Translate($generatedFrom, array($start, $end)));
+		$view->setFooterMessage(Piwik_Translate('General_ReportGeneratedFrom', $dateRange));
 		
 		return $this->renderView($view, $fetch);
 	}
