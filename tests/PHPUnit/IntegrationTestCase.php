@@ -16,7 +16,6 @@ require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
  */
 abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 {
-
     /**
      * Identifies the last language used in an API/Controller call.
      *
@@ -462,7 +461,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     {
         $isLiveMustDeleteDates = strpos($requestUrl, 'Live.getLastVisits') !== false;
         $request               = new Piwik_API_Request($requestUrl);
-        $dateTime             = Piwik_Common::getRequestVar('datetime', '', 'string', Piwik_Common::getArrayFromQueryString($requestUrl));
+        $dateTime             = Piwik_Common::getRequestVar('date', '', 'string', Piwik_Common::getArrayFromQueryString($requestUrl));
 
         list($processedFilePath, $expectedFilePath) = $this->getProcessedAndExpectedPaths($testName, $apiId);
 
@@ -748,5 +747,4 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         //return dirname(__FILE__).DIRECTORY_SEPARATOR.'Integration';
         return dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'integration';
     }
-
 }

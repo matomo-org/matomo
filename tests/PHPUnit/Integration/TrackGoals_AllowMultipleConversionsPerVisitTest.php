@@ -31,19 +31,22 @@ class Test_Piwik_Integration_TrackGoals_AllowMultipleConversionsPerVisit extends
     }
 
     /**
+     * @dataProvider getApiForTesting
      * @group        Integration
      * @group        TrackGoals_AllowMultipleConversionsPerVisit
      */
-    public function testApi()
+    public function testApi($api, $params)
     {
-        $testData = $this->getApiForTesting();
-
-        foreach ($testData AS $data) {
-            $api    = $data[0];
-            $params = $data[1];
             $this->runApiTests($api, $params);
-        }
+    }
 
+    /**
+     * @depends      testApi
+     * @group        Integration
+     * @group        TrackGoals_AllowMultipleConversionsPerVisit
+     */
+    public function testCheck()
+    {
         $idSite = self::$idSite;
 
         // test delete is working as expected

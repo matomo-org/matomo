@@ -14,7 +14,7 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
 {
     protected static $dateTime       = '2011-04-05 00:11:42';
     protected static $idSite         = 1;
-    protected static $idSite2        = 1;
+    protected static $idSite2        = 2;
     protected static $idGoalStandard = 1;
 
     public static function setUpBeforeClass()

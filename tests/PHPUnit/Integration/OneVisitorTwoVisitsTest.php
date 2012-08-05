@@ -80,14 +80,7 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
     protected static function trackVisits()
     {
         $t = self::getTracker(self::$idSite, self::$dateTime, $defaultInit = true);
-        self::trackVisitsImpl($t);
-    }
 
-    /**
-     * @param PiwikTracker $t
-     */
-    protected static function trackVisitsImpl($t)
-    {
         $dateTime = self::$dateTime;
         $idSite   = self::$idSite;
 

@@ -7,24 +7,69 @@
  * @version $Id$
  */
 
-require_once dirname(__FILE__) . '/OneVisitorOneWebsite_SeveralDaysDateRangeTest.php';
-
 /**
  * Tests some API using range periods & makes sure the correct amount of blob/numeric
  * archives are created.
  */
-class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_ArchivingTests extends Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange
+class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_ArchivingTests extends IntegrationTestCase
 {
+    protected static $dateTimes = array(
+        '2010-12-14 01:00:00',
+        '2010-12-15 01:00:00',
+        '2010-12-25 01:00:00',
+        '2011-01-15 01:00:00',
+        '2011-01-16 01:00:00',
+    );
+    protected static $idSite = 1;
 
     public static function setUpBeforeClass()
     {
-        IntegrationTestCase::setUpBeforeClass();
+        parent::setUpBeforeClass();
         try {
             self::setUpWebsitesAndGoals();
             self::trackVisits();
-        } catch (Exception $e) {
+        } catch(Exception $e) {
             // Skip whole test suite if an error occurs while setup
             throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
+        }
+    }
+
+    public function getOutputPrefix()
+    {
+        return 'oneVisitor_oneWebsite_severalDays_DateRange';
+    }
+
+    protected static function setUpWebsitesAndGoals()
+    {
+        self::createWebsite(self::$dateTimes[0]);
+    }
+
+    protected static function trackVisits()
+    {
+        $dateTimes = self::$dateTimes;
+        $idSite    = self::$idSite;
+
+        $i = 0;
+        foreach ($dateTimes as $dateTime) {
+            $i++;
+            $visitor = self::getTracker($idSite, $dateTime, $defaultInit = true);
+            // Fake the visit count cookie
+            $visitor->setDebugStringAppend("&_idvc=$i");
+
+            $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
+            $visitor->setUrl('http://example.org/homepage');
+            self::checkResponse($visitor->doTrackPageView('ou pas'));
+
+            // Test change the IP, the visit should not be split but recorded to the same idvisitor
+            $visitor->setIp('200.1.15.22');
+
+            $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.2)->getDatetime());
+            $visitor->setUrl('http://example.org/news');
+            self::checkResponse($visitor->doTrackPageView('ou pas'));
+
+            $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1)->getDatetime());
+            $visitor->setUrl('http://example.org/news');
+            self::checkResponse($visitor->doTrackPageView('ou pas'));
         }
     }
 

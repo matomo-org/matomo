@@ -19,7 +19,7 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends IntegrationTes
     protected static $idSite    = 1;
     protected static $idGoal1   = 1;
     protected static $idGoal2   = 2;
-    protected static $visitorId = null;
+    protected static $visitorId = '61e8cc2d51fea26d';
 
     protected static $useEscapedQuotes  = true;
     protected static $doExtraQuoteTests = true;
@@ -27,7 +27,6 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends IntegrationTes
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
-        self::$visitorId = substr(md5(uniqid()), 0, 16);
         try {
             self::setUpWebsitesAndGoals();
             self::trackVisits();
