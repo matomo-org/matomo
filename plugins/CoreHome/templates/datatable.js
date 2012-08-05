@@ -166,6 +166,13 @@ dataTable.prototype =
 			$('#'+self.workingDivId+' .loadingPiwik').last().css('display','block');
 		}
 		
+		// when switching to display graphs, reset limit
+		if (self.param.viewDataTable && self.param.viewDataTable.indexOf('graph') === 0)
+		{
+			delete self.param.filter_offset;
+			delete self.param.filter_limit;
+		}
+		
 		var container = $('#'+self.workingDivId+' .piwik-graph');
 		piwikHelper.queueAjaxRequest($.ajax(self.buildAjaxRequest(function(response) {
 			container.trigger('piwikDestroyPlot');
@@ -542,10 +549,6 @@ dataTable.prototype =
 				var filters = self.resetAllFilters();
 				self.param.flat = filters.flat;
 				self.param.columns = filters.columns;
-				
-				// when switching to display graphs, reset limit
-				delete self.param.filter_offset;
-				delete self.param.filter_limit;
 				
 				self.param.viewDataTable = viewDataTable;
 				self.reloadAjaxDataTable();

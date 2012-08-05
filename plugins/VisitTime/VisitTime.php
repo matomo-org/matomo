@@ -68,12 +68,24 @@ class Piwik_VisitTime extends Piwik_Plugin
 			'constantRowsCount' => true,
 			'order' => 15,
 		);
+		
+		$reports[] = array(
+			'category' => Piwik_Translate('VisitsSummary_VisitsSummary'),
+			'name' => Piwik_Translate('VisitTime_VisitsByDayOfWeek'),
+			'module' => 'VisitTime',
+			'action' => 'getByDayOfWeek',
+			'dimension' => Piwik_Translate('VisitTime_DayOfWeek'),
+			'documentation' => Piwik_Translate('VisitTime_WidgetByDayOfWeekDocumentation'),
+			'constantRowsCount' => true,
+			'order' => 25,
+		);
 	}
 	
 	function addWidgets()
 	{
 		Piwik_AddWidget( 'VisitsSummary_VisitsSummary', 'VisitTime_WidgetLocalTime', 'VisitTime', 'getVisitInformationPerLocalTime');
 		Piwik_AddWidget( 'VisitsSummary_VisitsSummary', 'VisitTime_WidgetServerTime', 'VisitTime', 'getVisitInformationPerServerTime');
+		Piwik_AddWidget( 'VisitsSummary_VisitsSummary', 'VisitTime_VisitsByDayOfWeek', 'VisitTime', 'getByDayOfWeek');
 	}
 	
 	function addMenu()
