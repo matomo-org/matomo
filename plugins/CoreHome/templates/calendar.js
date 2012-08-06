@@ -61,13 +61,10 @@ function isDateInCurrentPeriod( date )
 	// we don't color dates in the future
 	if( dateMonth == todayMonth
 		&& dateYear == todayYear
+		&& dateDay > todayDay
 	)
 	{
-		// we color 'today' if the selected period is 'day'. otherwise, we don't.
-		if ((selectedPeriod != 'day' && dateDay >= todayDay) || dateDay > todayDay)
-		{
-			return [true, ''];
-		}
+		return [true, ''];
 	}
 
 	// we don't color dates before the minimum date
@@ -237,7 +234,7 @@ $(document).ready(function() {
 		{
 			case 'day':
 				// highlight this link
-				$('a', this).addClass('ui-state-hover');
+				$('a', $(this)).addClass('ui-state-hover');
 				break;
 			case 'week':
 				// highlight parent row (the week)
@@ -253,9 +250,6 @@ $(document).ready(function() {
 				toggleExtraYearHighlighting('ui-state-hover', true);
 				break;
 		}
-		
-		// don't want to highlight 'today'
-		$('td.ui-datepicker-today a', datepickerElem).removeClass('ui-state-hover');
 	};
 	
 	var unhighlightAllDates = function ()
