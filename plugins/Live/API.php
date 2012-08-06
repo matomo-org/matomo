@@ -189,7 +189,8 @@ class Piwik_Live_API
 					log_action_title.name AS pageTitle,
 					log_action.idaction AS pageIdAction,
 					log_link_visit_action.idlink_va AS pageId,
-					log_link_visit_action.server_time as serverTimePretty
+					log_link_visit_action.server_time as serverTimePretty,
+					log_link_visit_action.time_spent_ref_action as timeSpentRef
 					$sqlCustomVariables
 				FROM " .Piwik_Common::prefixTable('log_link_visit_action')." AS log_link_visit_action
 					INNER JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action
@@ -200,7 +201,7 @@ class Piwik_Live_API
 				 ";
 			$actionDetails = Piwik_FetchAll($sql, array($idvisit));
 			
-			foreach($actionDetails as &$actionDetail)
+			foreach($actionDetails as $actionIdx => &$actionDetail)
 			{
 				$customVariablesPage = array();
 				for($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++)
@@ -219,6 +220,13 @@ class Piwik_Live_API
 				if(!empty($customVariablesPage))
 				{
 					$actionDetail['customVariables'] = $customVariablesPage;
+				}
+				
+				// set the time spent for this action (which is the timeSpentRef of the next action)
+				if (isset($actionDetails[$actionIdx + 1]))
+				{
+					$timeSpent = $actionDetails[$actionIdx + 1]['timeSpentRef'];
+					$actionDetail['timeSpent'] = Piwik::getPrettyTimeFromSeconds($timeSpent);
 				}
 			}
 			

@@ -167,7 +167,7 @@
 				{if !$javascriptVariablesToSet.filterEcommerce 	
 					|| $action.type == 'ecommerceOrder' 	
 					|| $action.type == 'ecommerceAbandonedCart'}
-				<li class="{if !empty($action.goalName)}goal{else}action{/if}" title="{$action.serverTimePretty|escape:'html'}{if !empty($action.url) && strlen(trim($action.url))} - {$action.url|escape:'html'}{/if} {if strlen(trim($customVariablesTooltip))} - {$customVariablesTooltip}{/if}">
+				<li class="{if !empty($action.goalName)}goal{else}action{/if}" title="{$action.serverTimePretty|escape:'html'}{if !empty($action.url) && strlen(trim($action.url))} - {$action.url|escape:'html'}{/if} {if strlen(trim($customVariablesTooltip))} - {$customVariablesTooltip}{/if}{if isset($action.timeSpent)} - {'General_TimeOnPage'|translate}: {$action.timeSpent}{/if}">
 				{if $action.type == 'ecommerceOrder' || $action.type == 'ecommerceAbandonedCart'}
  					{* Ecommerce Abandoned Cart / Ecommerce Order *}
  					

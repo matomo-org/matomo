@@ -171,6 +171,7 @@ $translations = array(
 	'General_ColumnUniqueExits' => 'Unique exits',
 	'General_ColumnExitsDocumentation' => 'Number of visits that ended on this page.',
 	'General_ColumnAverageTimeOnPage' => 'Avg. time on page',
+	'General_TimeOnPage' => 'Time on page',
 	'General_ColumnAverageTimeOnPageDocumentation' => 'The average amount of time visitors spent on this page (only the page, not the entire website).',
 	'General_ColumnValuePerVisit' => 'Revenue per Visit',
 	'General_ColumnVisitsWithConversions' => 'Visits with Conversions',
