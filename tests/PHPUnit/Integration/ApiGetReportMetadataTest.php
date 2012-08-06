@@ -67,7 +67,16 @@ class Test_Piwik_Integration_ApiGetReportMetadata extends IntegrationTestCase
     public function getApiForTesting()
     {
         return array(
-            array('API', array('idSite' => self::$idSite, 'date' => self::$dateTime))
+            array('API', array('idSite' => self::$idSite, 'date' => self::$dateTime)),
+            
+			// test w/ hideMetricsDocs=true
+			array('API.getReportMetadata', array('idSite' => self::$idSite, 'date' => self::$dateTime,
+												 'testSuffix' => '_hideMetricsDoc',
+												 'otherRequestParameters' => array('hideMetricsDoc' => 1)) ),
+			array('API.getProcessedReport', array('idSite' => self::$idSite, 'date' => self::$dateTime,
+												  'apiModule' => 'Actions', 'apiAction' => 'get',
+												  'testSuffix' => '_hideMetricsDoc',
+												  'otherRequestParameters' => array('hideMetricsDoc' => 1)) ),
         );
     }
 

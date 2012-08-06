@@ -472,10 +472,11 @@ class Piwik_API_API
      * Loads reports metadata, then return the requested one,
      * matching optional API parameters.
      */
-	public function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $language = false, $period = false, $date = false)
+	public function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $language = false,
+								$period = false, $date = false, $hideMetricsDoc = false)
     {
     	Piwik_Translate::getInstance()->reloadLanguage($language);
-    	$reportsMetadata = $this->getReportMetadata($idSite, $period, $date);
+    	$reportsMetadata = $this->getReportMetadata($idSite, $period, $date, $hideMetricsDoc);
     	
     	foreach($reportsMetadata as $report)
     	{
@@ -516,7 +517,7 @@ class Piwik_API_API
 	 * @param string $idSites Comma separated list of website Ids
 	 * @return array
 	 */
-	public function getReportMetadata($idSites = '', $period = false, $date = false)
+	public function getReportMetadata($idSites = '', $period = false, $date = false, $hideMetricsDoc = false)
 	{
 		$idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
 		if(!empty($idSites))
@@ -535,7 +536,14 @@ class Piwik_API_API
 			if (!isset($availableReport['processedMetrics'])) {
 				$availableReport['processedMetrics'] = $this->getDefaultProcessedMetrics();
 			}
-			if (!isset($availableReport['metricsDocumentation'])) {
+			
+			if ($hideMetricsDoc) // remove metric documentation if it's not wanted
+			{
+				unset($availableReport['metricsDocumentation']);
+			}
+			else if (!isset($availableReport['metricsDocumentation']))
+			{
+				// set metric documentation to default if it's not set 
 				$availableReport['metricsDocumentation'] = $this->getDefaultMetricsDocumentation();
 			}
 		}
@@ -643,7 +651,9 @@ class Piwik_API_API
 		$availableReports[] = $metadata;
 	}
 
-	public function getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false, $apiParameters = false, $idGoal = false, $language = false, $showTimer = true)
+	public function getProcessedReport( $idSite, $period, $date, $apiModule, $apiAction, $segment = false,
+										$apiParameters = false, $idGoal = false, $language = false,
+										$showTimer = true, $hideMetricsDoc = false)
     {
     	$timer = new Piwik_Timer();
     	if($apiParameters === false)
@@ -656,7 +666,8 @@ class Piwik_API_API
 			$apiParameters['idGoal'] = $idGoal;
 		}
         // Is this report found in the Metadata available reports?
-        $reportMetadata = $this->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date);
+        $reportMetadata = $this->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language,
+        									 $period, $date, $hideMetricsDoc);
         if(empty($reportMetadata))
         {
         	throw new Exception("Requested report $apiModule.$apiAction for Website id=$idSite not found in the list of available reports. \n");

@@ -22,7 +22,16 @@ class Test_Piwik_Integration_ApiGetReportMetadata extends Test_Integration_Facad
 	public function getApiToTest()
 	{
 		return array(
-			array('API', array('idSite' => $this->idSite, 'date' => $this->dateTime))
+			array('API', array('idSite' => $this->idSite, 'date' => $this->dateTime)),
+			
+			// test w/ hideMetricsDocs=true
+			array('API.getReportMetadata', array('idSite' => $this->idSite, 'date' => $this->dateTime,
+												 'testSuffix' => '_hideMetricsDoc',
+												 'otherRequestParameters' => array('hideMetricsDoc' => 1)) ),
+			array('API.getProcessedReport', array('idSite' => $this->idSite, 'date' => $this->dateTime,
+												  'apiModule' => 'Actions', 'apiAction' => 'get',
+												  'testSuffix' => '_hideMetricsDoc',
+												  'otherRequestParameters' => array('hideMetricsDoc' => 1)) ),
 		);
 	}
 
