@@ -48,7 +48,7 @@
       <div class='row'>
 
         <div class='span3'>
-          <form action='./' method='post' class='well'>
+          <form id="test-runner-form" action='./' method='post' class='well'>
             <ul class="nav nav-list">
               <li class='nav-header'>Files</li>
 
@@ -359,19 +359,16 @@
           
           done(result);
         };
-          
-        $('#run-tests').click(function(event) {
-          var $form = $(this).closest('form'),
+        
+        var runSelectedTests = function(file_selections) {
+          var $form = $('#test-runner-form'),
               $output = $('#test-output');
-          
-          event.preventDefault();
 
           $output.fadeOut(300, function() {
             $output.html(
               "<div class='loader'><img src='./img/ajax-loader.gif'><h2 id='currently-running'></h2><div id='fatal-test-error' class='alert alert-danger' style='display:none;'><strong>Invalid response sent from server:</strong><br><br><pre> </pre></div></div>"
             ).fadeIn(300);
             
-            var file_selections = $('#test-files').val().split('|');
             expandFileSet(file_selections, function (test_files) {
               var allResults = {
                 errors: [],
@@ -488,7 +485,13 @@
               });
             });
           });
-
+        };
+          
+        $('#run-tests').click(function(event) {
+          event.preventDefault();
+          
+          var file_selections = $('#test-files').val().split('|');
+          runSelectedTests(file_selections);
         });
 
         $('#sort').change(function() {
@@ -537,6 +540,25 @@
           root: '<?=$test_directory;?>',
           serverEndpoint: './file-list'
         });
+        
+        // check for hash that specifies test(s) to run
+        var hash = window.location.hash;
+        if (hash && hash.length > 1) {
+          var tests = hash.substr(1).split(':'),
+              test_dir = '<?=$test_directory;?>';
+          
+          // remove trailing path separator (if any)
+          if (test_dir.lastIndexOf('/') == test_dir.length - 1) {
+            test_dir = test_dir.substr(0, test_dir.length - 1);
+          }
+          
+          // add test-directory prefix to each file
+          for (var i = 0; i != tests.length; ++i) {
+            tests[i] = test_dir + tests[i];
+          }
+          
+          runSelectedTests(tests);
+        }
       });
     </script>
 

@@ -22,11 +22,13 @@ class FileList extends \app\core\Controller {
         if ( count($files) < 3 ) {
             return array();
         }
+        
+        $show_hidden_files = \app\lib\Library::retrieve('show_hidden_files');
 
         $final_dirs = array();
         $final_files = array();
         foreach ( $files as $file ) {
-            if ( $file != '.' && $file != '..' ) {
+            if ( $file != '.' && $file != '..' && ($show_hidden_files || strpos($file, '.') !== 0) ) {
                 $path = $dir . $file;
                 $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
                 if ( is_dir($path) ) {

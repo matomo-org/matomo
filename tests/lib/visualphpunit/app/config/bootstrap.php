@@ -65,7 +65,10 @@ $config = array(
     'bootstraps' => array(
         "{$piwik_root}/tests/PHPUnit/bootstrap.php",
         "{$piwik_root}/libs/Event/Dispatcher.php"
-    )
+    ),
+    
+    // whether to show hidden files in the file explorer
+    'show_hidden_files' => false,
 );
 
 set_include_path(
