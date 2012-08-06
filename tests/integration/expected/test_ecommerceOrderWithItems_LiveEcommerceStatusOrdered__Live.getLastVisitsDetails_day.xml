@@ -147,6 +147,8 @@
 						<customVariableValue4>PRODUCT THREE LEFT in cart</customVariableValue4>
 					</row>
 				</customVariables>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -170,6 +172,8 @@
 						<customVariableValue4>PRODUCT THREE LEFT in cart</customVariableValue4>
 					</row>
 				</customVariables>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>

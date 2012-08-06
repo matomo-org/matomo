@@ -225,9 +225,11 @@ class Piwik_Live_API
 				// set the time spent for this action (which is the timeSpentRef of the next action)
 				if (isset($actionDetails[$actionIdx + 1]))
 				{
-					$timeSpent = $actionDetails[$actionIdx + 1]['timeSpentRef'];
-					$actionDetail['timeSpent'] = Piwik::getPrettyTimeFromSeconds($timeSpent);
+					$actionDetail['timeSpent'] = $actionDetails[$actionIdx + 1]['timeSpentRef'];
+					$actionDetail['timeSpentPretty'] = Piwik::getPrettyTimeFromSeconds($actionDetail['timeSpent']);
+					
 				}
+				unset($actionDetails[$actionIdx]['timeSpentRef']); // not needed after timeSpent is added
 			}
 			
 			// If the visitor converted a goal, we shall select all Goals

@@ -53,7 +53,7 @@
 				    {php}$col++; if ($col>=9) { $col=0; }{/php}
 					<a href="{$action.url|escape:'html'}" target="_blank">
 					{if $action.type == 'action'}
-						<img src="plugins/Live/templates/images/file{php} echo $col; {/php}.png" title="{if !empty($action.pageTitle)}{$action.pageTitle}{/if} - {$action.serverTimePretty|escape:'html'}{if isset($action.timeSpent)} - {'General_TimeOnPage'|translate}: {$action.timeSpent}{/if}" />
+						<img src="plugins/Live/templates/images/file{php} echo $col; {/php}.png" title="{if !empty($action.pageTitle)}{$action.pageTitle}{/if} - {$action.serverTimePretty|escape:'html'}{if isset($action.timeSpentPretty)} - {'General_TimeOnPage'|translate}: {$action.timeSpentPretty}{/if}" />
 					{elseif $action.type == 'outlink' || $action.type == 'download'}
 						<img class='iconPadding' src="{$action.icon}" title="{$action.url|escape:'html'} - {$action.serverTimePretty|escape:'html'}" />
 					{else}
