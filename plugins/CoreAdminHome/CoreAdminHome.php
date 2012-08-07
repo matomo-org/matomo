@@ -45,11 +45,12 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 		
 		// general data purge on older archive tables, executed daily
 		$priority = Piwik_ScheduledTask::NORMAL_PRIORITY;
-		$optimizeArchiveTableTask = new Piwik_ScheduledTask ( $this, 
+		$purgeArchiveTablesTask = new Piwik_ScheduledTask ( $this, 
 															'purgeOutdatedArchives',
 															new Piwik_ScheduledTime_Daily(),
 															$priority );
-															
+		$tasks[] = $purgeArchiveTablesTask;
+							
 		// lowest priority since tables should be optimized after they are modified
 		$priority = Piwik_ScheduledTask::LOWEST_PRIORITY;
 		$optimizeArchiveTableTask = new Piwik_ScheduledTask ( $this, 
