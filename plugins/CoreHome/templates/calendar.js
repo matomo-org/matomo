@@ -197,7 +197,7 @@ $(document).ready(function() {
 	
 	var datepickerElem = $('#datepicker').datepicker(getDatePickerOptions());
 	
-	var toggleExtraYearHighlighting = function (klass, toggle)
+	var toggleWhitespaceHighlighting = function (klass, toggleTop, toggleBottom)
 	{
 		var viewedYear = $('.ui-datepicker-year', datepickerElem).val(),
 			viewedMonth = +$('.ui-datepicker-month', datepickerElem).val(), // convert to int w/ '+'
@@ -205,26 +205,22 @@ $(document).ready(function() {
 			lastOfViewedMonth = new Date(viewedYear, viewedMonth + 1, 0);
 		
 		// if no toggle is specified, then toggle based on whether the current year is selected
-		if (typeof toggle === 'undefined')
+		if (typeof toggleTop === 'undefined' || typeof toggleBottom === 'undefined')
 		{
-			toggle = piwik.period == 'year' && selectedPeriod == 'year' && currentYear == viewedYear;
+			toggleTop = toggleBottom = piwik.period == 'year' && selectedPeriod == 'year' && currentYear == viewedYear;
 		}
 		
 		// only highlight dates between piwik.minDate... & piwik.maxDate...
 		// we select the cells to highlight by checking whether the first & last of the
 		// currently viewed month are within the min/max dates.
-		var cellsToHighlight = $();
 		if (firstOfViewedMonth >= piwikMinDate)
 		{
-			cellsToHighlight = cellsToHighlight.add(
-				'tbody>tr:first-child td.ui-datepicker-other-month', datepickerElem);
+			$('tbody>tr:first-child td.ui-datepicker-other-month', datepickerElem).toggleClass(klass, toggleTop);
 		}
 		if (lastOfViewedMonth < piwikMaxDate)
 		{
-			cellsToHighlight = cellsToHighlight.add(
-				'tbody>tr:last-child td.ui-datepicker-other-month', datepickerElem);
+			$('tbody>tr:last-child td.ui-datepicker-other-month', datepickerElem).toggleClass(klass, toggleBottom);
 		}
-		cellsToHighlight.toggleClass(klass, toggle);
 	};
 	
 	// 'this' is the table cell
@@ -237,8 +233,16 @@ $(document).ready(function() {
 				$('a', $(this)).addClass('ui-state-hover');
 				break;
 			case 'week':
+				var row = $(this).parent();
+				
 				// highlight parent row (the week)
-				$('a', $(this).parent()).addClass('ui-state-hover');
+				$('a', row).addClass('ui-state-hover');
+				
+				// toggle whitespace if week goes into previous or next month. we check if week is on
+				// top or bottom row.
+				var toggleTop = row.is(':first-child'),
+					toggleBottom = row.is(':last-child');
+				toggleWhitespaceHighlighting('ui-state-hover', toggleTop, toggleBottom);
 				break;
 			case 'month':
 				// highlight all parent rows (the month)
@@ -247,7 +251,7 @@ $(document).ready(function() {
 			case 'year':
 				// highlight table (month + whitespace)
 				$('a', $(this).parent().parent()).addClass('ui-state-hover');
-				toggleExtraYearHighlighting('ui-state-hover', true);
+				toggleWhitespaceHighlighting('ui-state-hover', true, true);
 				break;
 		}
 	};
@@ -257,7 +261,7 @@ $(document).ready(function() {
 		// make sure nothing is highlighted 
 		$('.ui-state-active,.ui-state-hover', datepickerElem).removeClass('ui-state-active ui-state-hover');
 		
-		toggleExtraYearHighlighting('ui-datepicker-current-period');
+		toggleWhitespaceHighlighting('ui-datepicker-current-period');
 	};
 	
 	updateDate = function (dateText, inst)
@@ -319,6 +323,12 @@ $(document).ready(function() {
 		if ($(this).hasClass('ui-state-disabled') && selectedPeriod != 'year')
 		{
 			unhighlightAllDates();
+			
+			// if period is week, then highlight the current week
+			if (selectedPeriod == 'week')
+			{
+				highlightCurrentPeriod.call(this);
+			}
 		}
 		else
 		{
