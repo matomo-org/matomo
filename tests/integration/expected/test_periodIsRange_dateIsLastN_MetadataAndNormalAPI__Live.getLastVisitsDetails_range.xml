@@ -203,6 +203,8 @@
 				<pageIdAction>2</pageIdAction>
 				<pageId>1</pageId>
 				
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
@@ -259,6 +261,8 @@
 						<customVariableValue5>looking at &quot;profile page&quot;</customVariableValue5>
 					</row>
 				</customVariables>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<icon />
 			</row>
 		</actionDetails>
