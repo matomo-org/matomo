@@ -204,12 +204,6 @@ $(document).ready(function() {
 			firstOfViewedMonth = new Date(viewedYear, viewedMonth, 1),
 			lastOfViewedMonth = new Date(viewedYear, viewedMonth + 1, 0);
 		
-		// if no toggle is specified, then toggle based on whether the current year is selected
-		if (typeof toggleTop === 'undefined' || typeof toggleBottom === 'undefined')
-		{
-			toggleTop = toggleBottom = piwik.period == 'year' && selectedPeriod == 'year' && currentYear == viewedYear;
-		}
-		
 		// only highlight dates between piwik.minDate... & piwik.maxDate...
 		// we select the cells to highlight by checking whether the first & last of the
 		// currently viewed month are within the min/max dates.
@@ -261,7 +255,19 @@ $(document).ready(function() {
 		// make sure nothing is highlighted 
 		$('.ui-state-active,.ui-state-hover', datepickerElem).removeClass('ui-state-active ui-state-hover');
 		
-		toggleWhitespaceHighlighting('ui-datepicker-current-period');
+		// color whitespace
+		if (piwik.period == 'year')
+		{
+			var viewedYear = $('.ui-datepicker-year', datepickerElem).val(),
+				toggle = selectedPeriod == 'year' && currentYear == viewedYear;
+			toggleWhitespaceHighlighting('ui-datepicker-current-period', toggle, toggle);
+		}
+		else if (piwik.period == 'week')
+		{
+			var toggleTop = $('tr:first-child a', datepickerElem).parent().hasClass('ui-datepicker-current-period'),
+				toggleBottom = $('tr:last-child a', datepickerElem).parent().hasClass('ui-datepicker-current-period');
+			toggleWhitespaceHighlighting('ui-datepicker-current-period', toggleTop, toggleBottom);
+		}
 	};
 	
 	updateDate = function (dateText, inst)
@@ -345,6 +351,25 @@ $(document).ready(function() {
 	// that fails, so we do two events, one on the table & one on thead)
 	datepickerElem.on('mouseleave', 'table', unhighlightAllDates)
 				  .on('mouseenter', 'thead', unhighlightAllDates);
+	
+	// make sure whitespace is clickable when the period makes it appropriate
+	datepickerElem.on('click', 'tbody td.ui-datepicker-other-month', function () {
+		if ($(this).hasClass('ui-state-hover'))
+		{
+			var row = $(this).parent(), tbody = row.parent();
+			
+			if (row.is(':first-child'))
+			{
+				// click on first of the month
+				$('a', tbody).first().click();
+			}
+			else
+			{
+				// click on last of month
+				$('a', tbody).last().click();
+			}
+		}
+	});
 	
 	// when non-range period is clicked, change the period & refresh the date picker
 	$("#otherPeriods input").on('click', function(e) {
