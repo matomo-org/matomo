@@ -150,6 +150,10 @@ class Piwik_Sql
 	 */
 	static public function optimizeTables( $tables )
 	{
+		if(empty($tables))
+		{
+			return false;
+		}
 		if (!is_array($tables))
 		{
 			$tables = array($tables);

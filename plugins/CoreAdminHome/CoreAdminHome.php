@@ -43,6 +43,13 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 	{
 		$tasks = &$notification->getNotificationObject();
 		
+		// general data purge on older archive tables, executed daily
+		$priority = Piwik_ScheduledTask::NORMAL_PRIORITY;
+		$optimizeArchiveTableTask = new Piwik_ScheduledTask ( $this, 
+															'purgeOutdatedArchives',
+															new Piwik_ScheduledTime_Daily(),
+															$priority );
+															
 		// lowest priority since tables should be optimized after they are modified
 		$priority = Piwik_ScheduledTask::LOWEST_PRIORITY;
 		$optimizeArchiveTableTask = new Piwik_ScheduledTask ( $this, 
@@ -89,19 +96,21 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 							$order = 6);
 	}
 	
-	function optimizeArchiveTable()
+	function purgeOutdatedArchives()
 	{
-		$tablesPiwik = Piwik::getTablesInstalled();
-		$archiveTables = array_filter ($tablesPiwik, array("Piwik_CoreAdminHome", "isArchiveTable"));
-		if(empty($archiveTables))
+		$archiveTables = Piwik::getTablesArchivesInstalled();
+		foreach($archiveTables as $table)
 		{
-			return;
+			if(strpos($table, 'numeric') !== false)
+			{
+				Piwik_ArchiveProcessing_Period::doPurgeOutdatedArchives($table);
+			}
 		}
-		Piwik_OptimizeTables($archiveTables);
 	}
 	
-	private function isArchiveTable ( $tableName )
+	function optimizeArchiveTable()
 	{
-		return preg_match ( '/'.Piwik_Common::prefixTable('archive_').'/', $tableName ) > 0;
+		$archiveTables = Piwik::getTablesArchivesInstalled();
+		Piwik_OptimizeTables($archiveTables);
 	}
 }

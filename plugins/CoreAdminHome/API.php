@@ -95,15 +95,7 @@ class Piwik_CoreAdminHome_API
 
 		// Lookup archive tables
 		$tables = Piwik::getTablesInstalled();
-		$archiveTables = array();
-		foreach($tables as $table)
-		{
-			if(strpos($table, 'archive_') !== false)
-			{
-				$archiveTables[] = $table;
-			}
-		}
-
+		$archiveTables = Piwik::getTablesArchivesInstalled();
 		
 		// If using the feature "Delete logs older than N days"...
 		$logsAreDeletedBeforeThisDate = Piwik_Config::getInstance()->Deletelogs['delete_logs_schedule_lowest_interval'];

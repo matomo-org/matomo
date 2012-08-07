@@ -52,30 +52,66 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
 		
 		if (Test_Integration::$apiTestingLevel != Test_Integration::NO_API_TESTING)
 		{
-			// Check that requesting period "Range" means 
-			// only processing the requested Plugin blob (Actions in this case), not all Plugins blobs
-			$tests = array(
-				// 4 blobs for the Actions plugin, 7 blobs for UserSettings, 2 blobs VisitTime
-				'archive_blob_2010_12' => (4 + 7 + 2) * 3, 
-				// (VisitsSummary 5 metrics + 1 flag - no Unique visitors for range) 
-				// + 1 flag archive UserSettings
-				// + (Actions 1 flag + 2 metrics - pageviews, unique pageviews)
-				// + (Frequency 5 metrics + 1 flag)
-				// + 1 flag VisitTime 
-				// * 3 segments
-				'archive_numeric_2010_12' => (6 + 1 + 3 + 6 + 1 ) * 3,   
-		
-				// all "Range" records are in December
-				'archive_blob_2011_01' => 0,
-				'archive_numeric_2011_01' => 0,
-			);
-			foreach($tests as $table => $expectedRows)
+			$this->_checkExpectedRowsInArchiveTable();
+			
+			// Force Purge to happen again this table (since it was called at end of archiving)
+			Piwik_SetOption( Piwik_ArchiveProcessing_Period::FLAG_TABLE_PURGED . Piwik_Common::prefixTable('archive_blob_2010_12'), '2010-01-01');
+			Piwik_SetOption( Piwik_ArchiveProcessing_Period::FLAG_TABLE_PURGED . Piwik_Common::prefixTable('archive_blob_2011_01'), '2010-01-01');
+			
+			foreach(array('archive_numeric_2010_12','archive_blob_2010_12','archive_numeric_2011_01','archive_blob_2011_01') as $table ) 
 			{
-				$sql = "SELECT count(*) FROM " . Piwik_Common::prefixTable($table) . " WHERE period = ".Piwik::$idPeriods['range'];
-				$countBlobs = Zend_Registry::get('db')->fetchOne($sql);
+				// INSERT some ERROR records.
+				// We use period=range since the test below is restricted to these
+				Piwik_Query(" INSERT INTO `"
+					. Piwik_Common::prefixTable($table)
+					."` (`idarchive` ,`name` ,`idsite` ,`date1` ,`date2` ,`period` ,`ts_archived` ,`value`)
+					VALUES  (10000, 'done', '1', '2010-12-06', '2010-12-06', '".Piwik::$idPeriods['range']."', '2010-12-06' , '".Piwik_ArchiveProcessing::DONE_ERROR."'), 
+							(20000, 'doneX', '2', '2012-07-06', '2012-07-06', '".Piwik::$idPeriods['range']."', '' , '".Piwik_ArchiveProcessing::DONE_ERROR."')"
+				);
+			}
+			
+			// We've added error rows which should fail the following test
+			$this->_checkExpectedRowsInArchiveTable( $expectPass = false );
+			
+			// Test Scheduled tasks Table Optimize, and Delete old reports
+			Piwik_CoreAdminHome::purgeOutdatedArchives();
+			Piwik_CoreAdminHome::optimizeArchiveTable();
+			
+			// Check that only the good reports were not deleted:
+			$this->_checkExpectedRowsInArchiveTable();
+		}
+	}
+	
+	// Check that requesting period "Range" means 
+	protected function _checkExpectedRowsInArchiveTable( $expectPass = true )
+	{
+		// only processing the requested Plugin blob (Actions in this case), not all Plugins blobs
+		$tests = array(
+			// 4 blobs for the Actions plugin, 7 blobs for UserSettings, 2 blobs VisitTime
+			'archive_blob_2010_12' => (4 + 7 + 2) * 3, 
+			// (VisitsSummary 5 metrics + 1 flag - no Unique visitors for range) 
+			// + 1 flag archive UserSettings
+			// + (Actions 1 flag + 2 metrics - pageviews, unique pageviews)
+			// + (Frequency 5 metrics + 1 flag)
+			// + 1 flag VisitTime 
+			// * 3 segments
+			'archive_numeric_2010_12' => (6 + 1 + 3 + 6 + 1 ) * 3,   
+	
+			// all "Range" records are in December
+			'archive_blob_2011_01' => 0,
+			'archive_numeric_2011_01' => 0,
+		);
+		foreach($tests as $table => $expectedRows)
+		{
+			$sql = "SELECT count(*) FROM " . Piwik_Common::prefixTable($table) . " WHERE period = ".Piwik::$idPeriods['range'];
+			$countBlobs = Zend_Registry::get('db')->fetchOne($sql);
+			if($expectPass) {
 				$this->assertEqual( $expectedRows, $countBlobs, "$table expected $expectedRows, got $countBlobs" );
+			} else {
+				$this->assertTrue( $expectedRows < $countBlobs, "$table expected $expectedRows < $countBlobs" );
 			}
 		}
+		
 	}
 }
 
