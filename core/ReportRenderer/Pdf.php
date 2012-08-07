@@ -88,8 +88,11 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 		switch ($locale)
 		{
 			case 'zh-tw':
-			case 'ja':
 				$reportFont = 'msungstdlight';
+				break;
+				
+			case 'ja':
+				$reportFont = 'kozgopromedium';
 				break;
 
 			case 'zh-cn':
