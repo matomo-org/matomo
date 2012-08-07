@@ -539,6 +539,7 @@ td.ui-datepicker-other-month.ui-state-hover {
 	color:#000!important;
 	opacity:1!important;
 	border-style: none;
+	cursor:pointer!important;
 }
 
 td.ui-datepicker-other-month.ui-state-hover.ui-datepicker-current-period{
