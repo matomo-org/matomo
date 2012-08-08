@@ -69,6 +69,12 @@
     top: -3000px;
 }
 
+.widgetContent.loading {
+    opacity: 0.5;
+    filter:Alpha(opacity:50);
+    background: url('../../../themes/default/images/loading-blue.gif') no-repeat top right;
+}
+
 .widget h2 {
 	font-size:1.2em;
 	margin-left:10px;
@@ -102,7 +108,7 @@
 	cursor: pointer;
 }
 
-#close.button, #maximise.button, #minimise.button {
+#close.button, #maximise.button, #minimise.button, #refresh.button {
 	float: right;
 	display: none;
 	margin: 6px 6px 0 0;

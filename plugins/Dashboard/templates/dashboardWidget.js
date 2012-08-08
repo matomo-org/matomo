@@ -137,6 +137,7 @@
             function onWidgetLoadedReplaceElementWithContent(loadedContent)
             {
                 $('.widgetContent', currentWidget).html(loadedContent);
+                $('.widgetContent', currentWidget).removeClass('loading');
             }
 
             // Reading segment from hash tag (standard case) or from the URL (when embedding dashboard) 
@@ -144,6 +145,8 @@
             if(segment.length) {
                 this.widgetParameters.segment = segment;
             }
+
+            $('.widgetContent', currentWidget).addClass('loading');
 
             piwikHelper.queueAjaxRequest( $.ajax(widgetsHelper.getLoadWidgetAjaxRequest(this.uniqueId, this.widgetParameters, onWidgetLoadedReplaceElementWithContent)) );
 
@@ -194,7 +197,7 @@
                         $('.widgetTop', this).addClass('widgetTopHover');
                         $('.button#close, .button#maximise', this).show();
                         if(!$('.widgetContent', this).hasClass('hidden')) {
-                            $('.button#minimise', this).show();
+                            $('.button#minimise, .button#refresh', this).show();
                         }
                     }
                 })
@@ -202,7 +205,7 @@
                     if(!self.isMaximised) {
                         $(this).removeClass('widgetHover');
                         $('.widgetTop', this).removeClass('widgetTopHover');
-                        $('.button#close, .button#maximise, .button#minimise', this).hide();
+                        $('.button#close, .button#maximise, .button#minimise, .button#refresh', this).hide();
                     }
                 });
 
@@ -225,7 +228,7 @@
                         self.isMaximised = false;
                         self.options.isHidden = false;
                         $('.widgetContent', $(this).parents('.widget')).removeClass('hidden');
-                        $('.button#minimise', $(this).parents('.widget')).show();
+                        $('.button#minimise, .button#refresh', $(this).parents('.widget')).show();
                         $(this).parents('.widget').find('div.piwik-graph').trigger('resizeGraph');
                         self.options.onChange();
                     } else {
@@ -237,12 +240,17 @@
                 .on( 'click.dashboardWidget', function(ev){
                     if(!self.isMaximised) {
                         $('.widgetContent', $(this).parents('.widget')).addClass('hidden');
-                        $('.button#minimise', $(this).parents('.widget')).hide();
+                        $('.button#minimise, .button#refresh', $(this).parents('.widget')).hide();
                         self.options.isHidden = true;
                         self.options.onChange();
                     } else {
                         self.element.dialog("close");
                     }
+                });
+
+            $('.button#refresh', widgetElement)
+                .on('click.dashboardWidget', function(ev){
+                    self.reload();
                 });
 
             widgetElement.show();

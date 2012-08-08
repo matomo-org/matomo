@@ -617,6 +617,7 @@ $translations = array(
 	'Dashboard_AddPreviewedWidget_js' => 'Click to add widget to the dashboard',
 	'Dashboard_WidgetPreview_js' => 'Widget preview',
 	'Dashboard_Close_js' => 'Close',
+	'Dashboard_Refresh_js' => 'Refresh',
 	'Dashboard_Maximise_js' => 'Maximise',
 	'Dashboard_Minimise_js' => 'Minimise',
 	'Dashboard_TitleWidgetInDashboard_js' => 'Widget already in dashboard',

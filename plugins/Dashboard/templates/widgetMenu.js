@@ -118,6 +118,9 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
 					'<div class="button" id="minimise">'+
 						'<img src="themes/default/images/minimise.png" title="'+_pk_translate('Dashboard_Minimise_js')+'" />'+
 					'</div>'+
+					'<div class="button" id="refresh">'+
+						'<img src="themes/default/images/refresh.png" title="'+_pk_translate('Dashboard_Refresh_js')+'" />'+
+					'</div>'+
 					'<div class="widgetName">'+widgetName+'</div>'+
 				'</div>'+
 				'<div class="widgetContent">'+ 
