@@ -54,7 +54,7 @@ See also http://dev.piwik.org/trac/ticket/1465
     <server name="HTTP_HOST" value="localhost"/>
     <server name="REQUEST_URI" value="/path/to/piwik/tests/all_tests.php"/>
 	
-3) Run the tests
+3) Run the tests (see the next section to run tests in the browser)
 	$ cd /path/to/piwik/tests/PHPUnit
 	$ phpunit
 	This will run all unit + integration tests. It might take 30 minutes to run.
@@ -69,6 +69,67 @@ See also http://dev.piwik.org/trac/ticket/1465
 4) Write more tests :)
 	See "Writing Unit tests with PHPUnit" 
 	http://www.phpunit.de/manual/current/en/writing-tests-for-phpunit.html
+
+ VISUALPHPUNIT
+=================
+Piwik comes with a modified copy of VisualPHPUnit (see https://github.com/NSinopoli/VisualPHPUnit)
+which you can use to run PHPUnit tests in your browser.
+
+- Starting VisualPHPUnit -
+
+To load VisualPHPUnit point your browser to http://path/to/piwik/trunk/tests/lib/visualphpunit/.
+
+VisualPHPUnit will already be configured for use with Piwik. You may, however, need to set the
+'pear_path' config option manually. You'll know you need to do this if PHP cannot require the
+necessary files. To set this option, edit the file located at
+
+/path/to/piwik/trunk/tests/lib/visualphpunit/app/config/bootstrap.php
+
+and set the 'pear_path' config option.
+
+- Running tests -
+
+Once VisualPHPUnit is loaded, you can run tests by selecting files or whole directories in the
+file selector on the left of the screen, then clicking the 'Run tests' button. To select
+files/directories ctrl+click them.
+
+To run all Piwik tests, ctrl+click the 'Core', 'Integration' and 'Plugins' directory, then
+click the 'Run tests' button.
+
+- Running tests by URL -
+
+If you're in need of a URL that will not only load VisualPHPUnit but run one or more tests,
+you may add the list of tests to run as the hash of the URL. For example,
+
+http://path/to/piwik/trunk/tests/lib/visualphpunit/#/Core/DataTableTest.php:/Core/CookieTest.php
+
+will load VisualPHPUnit and immediately run the tests in DataTableTest.php and CookieTest.php.
+Currently, this feature will not allow you to specify directories with tests to run.
+
+- Using phpunit.xml -
+
+By default, VisualPHPUnit lets you run tests by selecting individual test files or directories
+and clicking the 'Run Tests' button. If you want to use a phpunit.xml file, either your own or the
+one that comes with Piwik, you'll need to modify VisualPHPUnit's configuration. Edit the file
+located at
+
+/path/to/piwik/trunk/tests/lib/visualphpunit/app/config/bootstrap.php
+
+and set the 'xml_configuration_file' config option.
+
+Please note that when a phpunit.xml file is supplied in the configuration, VisualPHPUnit will
+always run tests with it, regardless of what files you select. You can override this behavior
+in the web UI by selecting 'No' in the 'Use XML Config' input.
+
+- Debugging invalid responses -
+
+Sometimes, VisualPHPUnit will run PHPUnit tests and get a response it can't read. These problems
+are usually caused by an unmatched ob_start() call in the code somewhere, or by the program
+prematurely exiting.
+
+To find the cause of such issues, it can help to determine what code can & can't affect the
+output VisualPHPUnit sees. Code that can affect what VisualPHPUnit sees is before the bug in
+question, and code that can't is after it.
 
  JAVASCRIPT TESTS
 =================
