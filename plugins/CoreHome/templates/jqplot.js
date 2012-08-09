@@ -390,8 +390,10 @@ JQPlot.prototype = {
 		};
 		
 		// pie charts have a different data format
-		for (var i = 0; i < this.data[0].length; i++) {
-			this.data[0][i] = [this.params.axes.xaxis.ticks[i], this.data[0][i]];
+		if (!(this.data[0][0] instanceof Array)) { // check if already in different format
+			for (var i = 0; i < this.data[0].length; i++) {
+				this.data[0][i] = [this.params.axes.xaxis.ticks[i], this.data[0][i]];
+			}
 		}
 	},
 	
