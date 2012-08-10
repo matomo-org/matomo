@@ -6,7 +6,7 @@
 	</row>
 	<row>
 		<label>General_TranslatorName</label>
-		<value>&lt;a href=&quot;http://danstoncloud.com/blogs/vincent/&quot;&gt;Vincent BIRET&lt;/a&gt;, &lt;a href=&quot;http://www.ludovicevrard.com&quot;&gt;Ludovic Evrard&lt;/a&gt;</value>
+		<value>&lt;a href=&quot;http://microsofttouch.fr/default/b/vincent/default.aspx&quot;&gt;Vincent BIRET&lt;/a&gt;, &lt;a href=&quot;http://www.ludovicevrard.com&quot;&gt;Ludovic Evrard&lt;/a&gt;</value>
 	</row>
 	<row>
 		<label>General_TranslatorEmail</label>
@@ -121,6 +121,22 @@
 		<value>Rapports</value>
 	</row>
 	<row>
+		<label>General_RelatedReport</label>
+		<value>Rapport lié</value>
+	</row>
+	<row>
+		<label>General_RelatedReports</label>
+		<value>Rapports liés</value>
+	</row>
+	<row>
+		<label>General_Metric</label>
+		<value>Métrique</value>
+	</row>
+	<row>
+		<label>General_Metrics</label>
+		<value>Métriques</value>
+	</row>
+	<row>
 		<label>General_Edit</label>
 		<value>Éditer</value>
 	</row>
@@ -139,6 +155,10 @@
 	<row>
 		<label>General_Close</label>
 		<value>Fermer</value>
+	</row>
+	<row>
+		<label>General_Cancel</label>
+		<value>Annuler</value>
 	</row>
 	<row>
 		<label>General_OrCancel</label>
@@ -167,6 +187,10 @@
 	<row>
 		<label>General_MetricsToPlot</label>
 		<value>Métriques à tracer</value>
+	</row>
+	<row>
+		<label>General_RowsToDisplay</label>
+		<value>Lignes à afficher</value>
 	</row>
 	<row>
 		<label>General_MetricToPlot</label>
@@ -753,8 +777,16 @@
 		<value>Aucune donnée pour ce graphique</value>
 	</row>
 	<row>
+		<label>General_DataForThisGraphHasBeenPurged</label>
+		<value>Les données de ce graphique ont plus de %s mois et ont été purgées.</value>
+	</row>
+	<row>
 		<label>General_NoDataForTagCloud</label>
 		<value>Aucune donnée pour ce nuage de tags.</value>
+	</row>
+	<row>
+		<label>General_DataForThisTagCloudHasBeenPurged</label>
+		<value>Les données pour ce nuage de termes ont plus de %s mois et ont été purgées.</value>
 	</row>
 	<row>
 		<label>General_DisplaySimpleTable</label>
@@ -985,6 +1017,26 @@
 		<value>Mensuellement</value>
 	</row>
 	<row>
+		<label>General_DailyReports</label>
+		<value>Rapports journaliers</value>
+	</row>
+	<row>
+		<label>General_WeeklyReports</label>
+		<value>Rapports hebdomadaires</value>
+	</row>
+	<row>
+		<label>General_MonthlyReports</label>
+		<value>Rapports mensuels</value>
+	</row>
+	<row>
+		<label>General_YearlyReports</label>
+		<value>Rapports annuels</value>
+	</row>
+	<row>
+		<label>General_RangeReports</label>
+		<value>Des plages de dates personnalisées</value>
+	</row>
+	<row>
 		<label>General_ConfigFileIsNotWritable</label>
 		<value>Le fichier de configuration de Piwik %s n'a pas la permission d'écriture, vos modifications ne seront pas sauvegardées. %s Merci de modifier les permissions du fichier de configuration de manière à le rendre accessible en écriture.</value>
 	</row>
@@ -1201,6 +1253,10 @@
 		<value>(recommandé)</value>
 	</row>
 	<row>
+		<label>General_NotRecommended</label>
+		<value>(non recommandé)</value>
+	</row>
+	<row>
 		<label>General_Goal</label>
 		<value>Objectif</value>
 	</row>
@@ -1245,6 +1301,22 @@
 		<value>Métriques principales</value>
 	</row>
 	<row>
+		<label>General_Mobile</label>
+		<value>Mobile</value>
+	</row>
+	<row>
+		<label>General_Desktop</label>
+		<value>Bureau</value>
+	</row>
+	<row>
+		<label>General_Rows</label>
+		<value>Rangées</value>
+	</row>
+	<row>
+		<label>General_GeneralInformation</label>
+		<value>Informations Générales</value>
+	</row>
+	<row>
 		<label>Actions_PluginDescription</label>
 		<value>Effectue des rapports sur les affichages de pages, les liens sortants et les téléchargements. Le suivi des liens sortants et des téléchargements est automatique!</value>
 	</row>
@@ -1263,6 +1335,14 @@
 	<row>
 		<label>Actions_SubmenuPagesExit</label>
 		<value>Pages de sortie</value>
+	</row>
+	<row>
+		<label>Actions_EntryPageTitles</label>
+		<value>Titres de la page d'entrée</value>
+	</row>
+	<row>
+		<label>Actions_ExitPageTitles</label>
+		<value>Titres de la page de sortie</value>
 	</row>
 	<row>
 		<label>Actions_SubmenuPageTitles</label>
@@ -1369,8 +1449,16 @@
 		<value>Ce rapport contient des informations à propos des pages d'entrées qui ont été utilisées durant la période spécifiée. Une page d'entrée est lapremière page qu'un utilisateur voit pendant sa visite. %s Les URLs des pages d'entrée sont affichées dans une structure de dossier.</value>
 	</row>
 	<row>
+		<label>Actions_EntryPageTitlesReportDocumentation</label>
+		<value>Ce rapport contient des informations à propos des titres des pages d'entrée qui ont été utilisées durant la période spécifiée.</value>
+	</row>
+	<row>
 		<label>Actions_ExitPagesReportDocumentation</label>
 		<value>Ce rapport contient des informations à propos des pages de sortie utilisées durant la période sélectionnée. Une page de sortie est là dernière page de la visite que l'utilisateur voit avant de sortir du site. %s Les Urls de sorties sont affichées dans une structure de dossier.</value>
+	</row>
+	<row>
+		<label>Actions_ExitPageTitlesReportDocumentation</label>
+		<value>Ce rapport contient des infromations à propos des titres de pages de sortie qui ont été utilisées durant la période spécifiée.</value>
 	</row>
 	<row>
 		<label>AnonymizeIP_PluginDescription</label>
@@ -1525,6 +1613,10 @@
 		<value>%s byte(s) - ex %s</value>
 	</row>
 	<row>
+		<label>PrivacyManager_DeleteDataSettings</label>
+		<value>Supprimer les journaux et rapports des anciens visiteurs</value>
+	</row>
+	<row>
 		<label>PrivacyManager_DeleteLogInfo</label>
 		<value>Les enregistrements des tables suivantes vont être supprimés: %s</value>
 	</row>
@@ -1533,12 +1625,24 @@
 		<value>Supprimer régulièrement les anciens logs de la base de données.</value>
 	</row>
 	<row>
+		<label>PrivacyManager_DeleteDataDescription</label>
+		<value>Vous pouvez configurer Piwik pour supprimer régulièrement les journaux des anciens visiteurs et/ou générer les rapports pour maintenir votre base de données à une taille minimale.</value>
+	</row>
+	<row>
+		<label>PrivacyManager_DeleteDataDescription2</label>
+		<value>Si souhaité, les rapports déjà calculés ne seront pas supprimés, uniquement les visites, pages vues et données de conversion seront supprimées. Ou les rapports déjà calculés peuvent être supprimés et les données conservées.</value>
+	</row>
+	<row>
 		<label>PrivacyManager_DeleteLogDescription2</label>
 		<value>Quand vous activez la suppression automatique des logs, vous devez vous assurer que tous les rapports précédents ont bien été compilés, de cette manière aucune donnée n'est perdue.</value>
 	</row>
 	<row>
 		<label>PrivacyManager_DeleteLogsOlderThan</label>
 		<value>Supprimer les logs plus anciens que</value>
+	</row>
+	<row>
+		<label>PrivacyManager_DeleteDataInterval</label>
+		<value>Supprimer les anciennes données toutes les</value>
 	</row>
 	<row>
 		<label>PrivacyManager_DeleteMaxRows</label>
@@ -1565,6 +1669,126 @@
 		<value>Veuillez spécifier un nombre de jours plus grand que %s.</value>
 	</row>
 	<row>
+		<label>PrivacyManager_LeastMonthsInput</label>
+		<value>Veuillez spécifier un nombre de mois supérieur à %s</value>
+	</row>
+	<row>
+		<label>PrivacyManager_UseDeleteReports</label>
+		<value>Supprimer régulièrement les anciens rapports de la base de données</value>
+	</row>
+	<row>
+		<label>PrivacyManager_DeleteReportsOlderThan</label>
+		<value>Supprimer les rapports plus anciens que</value>
+	</row>
+	<row>
+		<label>PrivacyManager_DeleteReportsInfo</label>
+		<value>Si activé, les anciens rapports seront supprimés. Nous vous recommandons de l'activer seulement quand l'espace de votre base de données est limité.</value>
+	</row>
+	<row>
+		<label>PrivacyManager_DeleteReportsInfo2</label>
+		<value>Si vous n'avez pas activé &quot;%s&quot; les anciens rapports seront recréés automatiquement à la demande.</value>
+	</row>
+	<row>
+		<label>PrivacyManager_DeleteReportsInfo3</label>
+		<value>Si vous avez activé &quot;%s&quot; les données seront perdues définitivement.</value>
+	</row>
+	<row>
+		<label>PrivacyManager_DeleteReportsDetailedInfo</label>
+		<value>Les données des tables d'archives numériques (%s) et d'archives binaires (%s) seront supprimées.</value>
+	</row>
+	<row>
+		<label>PrivacyManager_DeleteSchedulingSettings</label>
+		<value>Paramètres de planification</value>
+	</row>
+	<row>
+		<label>PrivacyManager_ReportsDataSavedEstimate</label>
+		<value>Taille de la base de données</value>
+	</row>
+	<row>
+		<label>PrivacyManager_KeepBasicMetrics</label>
+		<value>COnserver les métriques de base (visites, pages vues, taux de rebond, objectif, conversions, conversions ecommerce, etc.)</value>
+	</row>
+	<row>
+		<label>PrivacyManager_KeepDataFor</label>
+		<value>COnserver toutes les données pour :</value>
+	</row>
+	<row>
+		<label>PrivacyManager_DeleteLogsConfirm</label>
+		<value>Vous êtes sur le point d'activer suppression des données de journalisation. Si d'anciennes données sont supprimées et que les rapports n'ont pas encore été créés, vous ne serez pas en mesure de consulter l'historique des données d'analyse. Etes vous sûr(e) de vouloir effectuer cela?</value>
+	</row>
+	<row>
+		<label>PrivacyManager_DeleteReportsConfirm</label>
+		<value>Vous êtes sur le point d'activer la suppression des donées de rapports. Si d'anciens rapports sont supprimés, vous devrez les recalculer afin de les visualiser. Etes vous sûr(e) de vouloir effectuer cela?</value>
+	</row>
+	<row>
+		<label>PrivacyManager_DeleteBothConfirm</label>
+		<value>Vous êtes sur le point d'activer la suppression des données de journalisation et des données de rapports. Ceci vous empêchera définitivement de visualiser d'anciennes données d'analyse. Etes vous sûr(e) de vouloir effectuer cela?</value>
+	</row>
+	<row>
+		<label>PrivacyManager_PurgeNow</label>
+		<value>Purger la base de données maintenant</value>
+	</row>
+	<row>
+		<label>PrivacyManager_PurgingData</label>
+		<value>Purge des données...</value>
+	</row>
+	<row>
+		<label>PrivacyManager_SaveSettingsBeforePurge</label>
+		<value>Vous avez modifié les paramètres de suppression des données. Veuillez les sauvegarder avant de démmarrer une purge.</value>
+	</row>
+	<row>
+		<label>PrivacyManager_PurgeNowConfirm</label>
+		<value>Vous êtes sur le point de supprimer définitivement les données de votre base de données. Etes vous sûr(e) de vouloir continuer?</value>
+	</row>
+	<row>
+		<label>PrivacyManager_CurrentDBSize</label>
+		<value>Taille actuelle de la base de données</value>
+	</row>
+	<row>
+		<label>PrivacyManager_EstimatedDBSizeAfterPurge</label>
+		<value>Taille estimée de la base de données après la purge</value>
+	</row>
+	<row>
+		<label>PrivacyManager_EstimatedSpaceSaved</label>
+		<value>Espace libéré estimé</value>
+	</row>
+	<row>
+		<label>PrivacyManager_KeepReportSegments</label>
+		<value>Pour les données conservées précédemment, conserver aussi les rapports</value>
+	</row>
+	<row>
+		<label>PrivacyManager_DoNotTrack_SupportDNTPreference</label>
+		<value>Prendre en charge la préférence &quot;Ne pas Suivre&quot;</value>
+	</row>
+	<row>
+		<label>PrivacyManager_DoNotTrack_Description</label>
+		<value>&quot;Ne pas Suivre&quot; (Do Not Track) est une technologie et une proposition de politique qui permet aux utilisateurs de désactiver leur suivit par les sites web qu'ils ne visitent pas, incluant les services d'analyse, les réseaux publicitaires et les réseaux sociaux.</value>
+	</row>
+	<row>
+		<label>PrivacyManager_DoNotTrack_Enabled</label>
+		<value>Vous respectez actuellement actuellement la vie privée de vos utilisateurs, Bravo!</value>
+	</row>
+	<row>
+		<label>PrivacyManager_DoNotTrack_EnabledMoreInfo</label>
+		<value>Quand les utilisateurs ont définit au sein de leurs navigateurs &quot;Je ne veux plus être suivit&quot; (DoNoTrack est activé) Piwik ne suit plus leurs visites.</value>
+	</row>
+	<row>
+		<label>PrivacyManager_DoNotTrack_Disabled</label>
+		<value>Piwik suit actuellement tous les visiteurs, même si ils ont précisé &quot;Je ne veux pas être suivit&quot; dans leurs navigateurs.</value>
+	</row>
+	<row>
+		<label>PrivacyManager_DoNotTrack_DisabledMoreInfo</label>
+		<value>Nous vous recommandons de respecter la vie privée de vos visiteurs et d'activer la prise en charge de &quot;Ne pas Suivre&quot;</value>
+	</row>
+	<row>
+		<label>PrivacyManager_DoNotTrack_Enable</label>
+		<value>Activer la prise en charge de &quot;Ne pas Suivre&quot;</value>
+	</row>
+	<row>
+		<label>PrivacyManager_DoNotTrack_Disable</label>
+		<value>Désactiver la prise en charge de &quot;Ne pas Suivre&quot;</value>
+	</row>
+	<row>
 		<label>CoreHome_PluginDescription</label>
 		<value>Structure des rapports statistiques web.</value>
 	</row>
@@ -1585,6 +1809,10 @@
 		<value>Il n'y a pas de donnée pour ce rapport.</value>
 	</row>
 	<row>
+		<label>CoreHome_DataForThisReportHasBeenPurged</label>
+		<value>Les données pour ce rapport ont plus de %s mois et ont été purgées.</value>
+	</row>
+	<row>
 		<label>CoreHome_CategoryNoData</label>
 		<value>Aucune donnée pour cette catégorie. Essayez &quot;d'inclure toute la population&quot;.</value>
 	</row>
@@ -1593,8 +1821,36 @@
 		<value>Afficher le code JavaScript à insérer</value>
 	</row>
 	<row>
+		<label>CoreHome_IncludeRowsWithLowPopulation_js</label>
+		<value>Les lignes peu significantes sont cachées %s Afficher toutes les lignes</value>
+	</row>
+	<row>
+		<label>CoreHome_ExcludeRowsWithLowPopulation_js</label>
+		<value>Toutes les lignes sont affichées %s Exclure celles peu significantes</value>
+	</row>
+	<row>
+		<label>CoreHome_DataTableIncludeAggregateRows_js</label>
+		<value>Les lignes aggrégées sont cachées %s Les afficher</value>
+	</row>
+	<row>
+		<label>CoreHome_DataTableExcludeAggregateRows_js</label>
+		<value>Les lignes aggrégées sont affichées %s Les cacher</value>
+	</row>
+	<row>
+		<label>CoreHome_Default_js</label>
+		<value>par défaut</value>
+	</row>
+	<row>
 		<label>CoreHome_PageOf_js</label>
 		<value>%1$s de %2$s</value>
+	</row>
+	<row>
+		<label>CoreHome_FlattenDataTable_js</label>
+		<value>Le rapport est hiérarchique %s L'applatir</value>
+	</row>
+	<row>
+		<label>CoreHome_UnFlattenDataTable_js</label>
+		<value>Le rapport est plat %s Le rendre hiérarchique</value>
 	</row>
 	<row>
 		<label>CoreHome_DateFormat</label>
@@ -1623,6 +1879,10 @@
 	<row>
 		<label>CoreHome_PeriodYear</label>
 		<value>Année</value>
+	</row>
+	<row>
+		<label>CoreHome_PeriodRange</label>
+		<value>Etendue</value>
 	</row>
 	<row>
 		<label>CoreHome_PeriodDays</label>
@@ -1819,6 +2079,14 @@
 	<row>
 		<label>CoreHome_MonthDecember_js</label>
 		<value>Décembre</value>
+	</row>
+	<row>
+		<label>CoreHome_ReportGeneratedOn</label>
+		<value>Rapport généré le %s</value>
+	</row>
+	<row>
+		<label>CoreHome_ReportGeneratedXAgo</label>
+		<value>Rapport généré il y a %s</value>
 	</row>
 	<row>
 		<label>CorePluginsAdmin_PluginDescription</label>
@@ -2181,6 +2449,62 @@
 		<value>Veuillez sélectionner votre nouvelle mise en page pour le tableau de bord</value>
 	</row>
 	<row>
+		<label>Dashboard_DashboardOf</label>
+		<value>Tableau de bord de %s</value>
+	</row>
+	<row>
+		<label>Dashboard_ManageDashboard</label>
+		<value>Gérer le tableau de bord</value>
+	</row>
+	<row>
+		<label>Dashboard_CreateNewDashboard</label>
+		<value>Créer un nouveau tableau de bord</value>
+	</row>
+	<row>
+		<label>Dashboard_RenameDashboard</label>
+		<value>Renomer le tableau de bord</value>
+	</row>
+	<row>
+		<label>Dashboard_DashboardName</label>
+		<value>Nom du tableau de bord:</value>
+	</row>
+	<row>
+		<label>Dashboard_EmptyDashboard</label>
+		<value>Tableau de bord vide - Sélectionnez vos gadgets favoris</value>
+	</row>
+	<row>
+		<label>Dashboard_DefaultDashboard</label>
+		<value>Tableau de bord par défaut - Utilisant la sélection de gadgets par défaut et la disposition des colonnes.</value>
+	</row>
+	<row>
+		<label>Dashboard_RemoveDashboard</label>
+		<value>Supprimer le tableau de bord</value>
+	</row>
+	<row>
+		<label>Dashboard_SetAsDefaultWidgets</label>
+		<value>Définir comme sélection de gadgets par défaut</value>
+	</row>
+	<row>
+		<label>Dashboard_SetAsDefaultWidgetsConfirm</label>
+		<value>Etes vous sûr(e) de vouloir définir la sélection de gadgets actuelle et la disposition actuelle du tableau de bord comme modèle par défaut?</value>
+	</row>
+	<row>
+		<label>Dashboard_SetAsDefaultWidgetsConfirmHelp</label>
+		<value>Cette sélection de gadgets et cette disposition du tableau de bord seront utilisées à chaque création de tableau de bord par n'importe quel utilisateur ou quand la fonctionnalité &quot;%s&quot; est utilisée.</value>
+	</row>
+	<row>
+		<label>Dashboard_RemoveDashboardConfirm</label>
+		<value>Etes vous sûr(e) de vouloir supprimer le tableau de bord &quot;%s&quot; ?</value>
+	</row>
+	<row>
+		<label>Dashboard_NotUndo</label>
+		<value>Vous ne pourrez pas annuler cette action.</value>
+	</row>
+	<row>
+		<label>Dashboard_DashboardEmptyNotification</label>
+		<value>Votre tableau de bord ne contient aucun gadget. COmmencez par ajouter quelques gadgets ou réinitialisez le tableau de bord à la selection de gadgets par défaut.</value>
+	</row>
+	<row>
 		<label>DBStats_PluginDescription</label>
 		<value>Ce plugin effectue des rapports sur l'utilisation de la base de données MySQL par les tables de Piwik.</value>
 	</row>
@@ -2215,6 +2539,38 @@
 	<row>
 		<label>DBStats_TotalSize</label>
 		<value>Taille totale</value>
+	</row>
+	<row>
+		<label>DBStats_DBSize</label>
+		<value>Taille de la BDD</value>
+	</row>
+	<row>
+		<label>DBStats_ReportDataByYear</label>
+		<value>Tables de rapports par année</value>
+	</row>
+	<row>
+		<label>DBStats_MetricDataByYear</label>
+		<value>Tables de métriques par année</value>
+	</row>
+	<row>
+		<label>DBStats_EstimatedSize</label>
+		<value>Taille estimée</value>
+	</row>
+	<row>
+		<label>DBStats_TrackerTables</label>
+		<value>Tables de suivi</value>
+	</row>
+	<row>
+		<label>DBStats_ReportTables</label>
+		<value>Tables de rapport</value>
+	</row>
+	<row>
+		<label>DBStats_MetricTables</label>
+		<value>Tables de métriques</value>
+	</row>
+	<row>
+		<label>DBStats_OtherTables</label>
+		<value>Autres tables</value>
 	</row>
 	<row>
 		<label>ExampleAPI_PluginDescription</label>
@@ -2885,6 +3241,10 @@
 		<value>Vérification du système</value>
 	</row>
 	<row>
+		<label>Installation_RestartWebServer</label>
+		<value>Après avoir effectué ces modifications, redémarrez votre serveur web.</value>
+	</row>
+	<row>
 		<label>Installation_SystemCheckPhp</label>
 		<value>Version PHP</value>
 	</row>
@@ -3125,6 +3485,14 @@
 		<value>Erreur: il semble que vous essayez de sauter une étape du processus d'installation, ou vous avez désactivé les cookies, ou le fichier de configuration de Piwik est déjà créé. %1$sAssurez vous que les cookies sont bien activés%2$s et retournez %3$s à la première page d'installation %4$s.</value>
 	</row>
 	<row>
+		<label>Installation_InsufficientPrivileges</label>
+		<value>Droits insuffisants. L'utilisateur de base de données doit avoir les droits suivants : %s</value>
+	</row>
+	<row>
+		<label>Installation_InsufficientPrivilegesHelp</label>
+		<value>Vous pouvez donner ces droits en utilisant un outils tel que phpMyAdmin ou en exécutant les requêtes SQL appropriées. Si vous ne savez pas comment effectuer cela veuillez demander à votre administrateur système de donner ces droits pour vous.</value>
+	</row>
+	<row>
 		<label>LanguagesManager_PluginDescription</label>
 		<value>Ce plugin affichera la liste des langues disponibles pour l'interface de Piwik. Le langage sélectionné sera sauvegardé dans les préférences de chaque utilisateur.</value>
 	</row>
@@ -3175,6 +3543,10 @@
 	<row>
 		<label>Live_LastHours</label>
 		<value>Dernières %s heures</value>
+	</row>
+	<row>
+		<label>Live_MorePagesNotDisplayed</label>
+		<value>plus de pages de ce visiteur ne sont pas affichées</value>
 	</row>
 	<row>
 		<label>Live_GoalType</label>
@@ -4789,6 +5161,10 @@
 		<value>Surinam</value>
 	</row>
 	<row>
+		<label>UserCountry_country_ss</label>
+		<value>Soudan du Sud</value>
+	</row>
+	<row>
 		<label>UserCountry_country_st</label>
 		<value>Sao Tome et Principe</value>
 	</row>
@@ -5081,6 +5457,10 @@
 		<value>Système d'exploitation</value>
 	</row>
 	<row>
+		<label>UserSettings_OperatingSystemFamily</label>
+		<value>Famille de systèmes d'exploitation</value>
+	</row>
+	<row>
 		<label>UserSettings_Resolutions</label>
 		<value>Résolutions</value>
 	</row>
@@ -5163,6 +5543,14 @@
 	<row>
 		<label>UserSettings_SubmenuSettings</label>
 		<value>Paramètres</value>
+	</row>
+	<row>
+		<label>UserSettings_GamingConsole</label>
+		<value>Console de jeu</value>
+	</row>
+	<row>
+		<label>UserSettings_MobileVsDesktop</label>
+		<value>Mobile vs Fixe</value>
 	</row>
 	<row>
 		<label>UsersManager_PluginDescription</label>
@@ -5773,6 +6161,10 @@
 		<value>Afficher les tableaux de rapport et les graphiques pour tous les rapports</value>
 	</row>
 	<row>
+		<label>PDFReports_DisplayFormat_TablesOnly</label>
+		<value>Afficher uniquement les tableaux (pas de graphiques)</value>
+	</row>
+	<row>
 		<label>PDFReports_SentToMe</label>
 		<value>Envoyez-le moi</value>
 	</row>
@@ -5859,6 +6251,10 @@
 	<row>
 		<label>PDFReports_Pagination</label>
 		<value>Page %s sur %s</value>
+	</row>
+	<row>
+		<label>PDFReports_ReportIncludeNWebsites</label>
+		<value>Le rapport incluera les métriques principales pour tous les sites web qui ont au moisn une visite (depuis les %s sites web actuellement disponibles)</value>
 	</row>
 	<row>
 		<label>ImageGraph_PluginDescription</label>
