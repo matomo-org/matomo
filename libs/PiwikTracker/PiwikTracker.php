@@ -918,8 +918,8 @@ class PiwikTracker
 	        '&r=' . substr(strval(mt_rand()), 2, 6) .
     	
     		// XDEBUG_SESSIONS_START and KEY are related to the PHP Debugger, this can be ignored in other languages
-    		(!empty($_GET['XDEBUG_SESSION_START']) ? '&XDEBUG_SESSION_START=' . @$_GET['XDEBUG_SESSION_START'] : '') . 
-	        (!empty($_GET['KEY']) ? '&KEY=' . @$_GET['KEY'] : '') .
+    		(!empty($_GET['XDEBUG_SESSION_START']) ? '&XDEBUG_SESSION_START=' . @urlencode($_GET['XDEBUG_SESSION_START']) : '') . 
+	        (!empty($_GET['KEY']) ? '&KEY=' . @urlencode($_GET['KEY']) : '') .
     	 
     		// Only allowed for Super User, token_auth required,
 			(!empty($this->ip) ? '&cip=' . $this->ip : '') .
