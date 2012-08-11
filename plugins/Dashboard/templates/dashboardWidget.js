@@ -55,7 +55,7 @@
             var self = this;
             this.element.on('setParameters.dashboardWidget', function(e, params) { self.setParameters(params); });
 
-            this.reload();
+            this.reload(true);
         },
 
         /**
@@ -131,7 +131,7 @@
         /**
          * Reloads the widgets content with the currently set parameters
          */
-        reload: function() {
+        reload: function(hideLoading) {
 
             var currentWidget = this.element;
             function onWidgetLoadedReplaceElementWithContent(loadedContent)
@@ -146,7 +146,9 @@
                 this.widgetParameters.segment = segment;
             }
 
-            $('.widgetContent', currentWidget).addClass('loading');
+            if (!hideLoading) {
+                $('.widgetContent', currentWidget).addClass('loading');
+            }
 
             piwikHelper.queueAjaxRequest( $.ajax(widgetsHelper.getLoadWidgetAjaxRequest(this.uniqueId, this.widgetParameters, onWidgetLoadedReplaceElementWithContent)) );
 
