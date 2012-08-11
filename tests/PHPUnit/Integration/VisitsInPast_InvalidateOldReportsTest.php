@@ -71,6 +71,7 @@ class Test_Piwik_Integration_VisitsInPast_InvalidateOldReports extends Integrati
     }
 
     /**
+     * @depends      testApi
      * @dataProvider getAnotherApiForTesting
      * @group        Integration
      * @group        VisitsInPast_InvalidateOldReports
@@ -174,17 +175,26 @@ class Test_Piwik_Integration_VisitsInPast_InvalidateOldReports extends Integrati
         $t->setIp('156.5.55.2');
         $t->setUrl('http://example.org/category/Page1');
         self::checkResponse($t->doTrackPageView('Hello'));
+        $t->setUrl('http://example.org/category/Page1');
+        self::checkResponse($t->doTrackPageView('Hello'));
         $t->setUrl('http://example.org/category/Page2');
         self::checkResponse($t->doTrackPageView('Hello'));
-        $t->setUrl('http://example.org/category/Page3');
+        $t->setUrl('http://example.org/category/Pagexx');
+        self::checkResponse($t->doTrackPageView('Blabla'));
 
         // WEBSITE2
         $t = self::getTracker(self::$idSite2, self::$dateTimeDateInPastWebsite2, $defaultInit = true);
         $t->setIp('156.52.3.22');
         $t->setUrl('http://example.org/category/Page1');
         self::checkResponse($t->doTrackPageView('Hello'));
+        $t->setUrl('http://example.org/category/Page1');
+        self::checkResponse($t->doTrackPageView('Hello'));
         $t->setUrl('http://example.org/category/Page2');
         self::checkResponse($t->doTrackPageView('Hello'));
-        $t->setUrl('http://example.org/category/Page3');
+        $t->setUrl('http://example.org/category/Pageyy');
+        self::checkResponse($t->doTrackPageView('Blabla'));
+        $t->setForceVisitDateTime(Piwik_Date::factory(self::$dateTimeDateInPastWebsite2)->addHour(0.1)->getDatetime());
+        $t->setUrl('http://example.org/category/Pageyy');
+        self::checkResponse($t->doTrackPageView('Blabla'));
     }
 }
