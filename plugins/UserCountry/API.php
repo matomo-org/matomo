@@ -38,8 +38,8 @@ class Piwik_UserCountry_API
 		$dataTable->filter('ColumnCallbackAddMetadata', array('label', 'code', create_function('$label', 'return $label;')));
 		$dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getFlagFromCode'));
 		$dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_CountryTranslate'));
-		$dataTable->queueFilter('AddConstantMetadata', array('logoWidth', 18));
-		$dataTable->queueFilter('AddConstantMetadata', array('logoHeight', 12));
+		$dataTable->queueFilter('AddConstantMetadata', array('logoWidth', 16));
+		$dataTable->queueFilter('AddConstantMetadata', array('logoHeight', 11));
 		return $dataTable;
 	}
 	

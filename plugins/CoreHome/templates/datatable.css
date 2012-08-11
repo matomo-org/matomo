@@ -66,7 +66,9 @@ table.subDataTable img,
 table.dataTableActions img {
 	vertical-align: middle;
 }
-
+#UserCountrygetCountry table.dataTable img {
+	vertical-align: baseline;
+}
 table.dataTable img {
 	border: 0;
 	margin-right: 1em;
