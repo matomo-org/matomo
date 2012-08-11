@@ -73,8 +73,8 @@
 		<row>
 			<code>fr</code>
 			<logo>plugins/UserCountry/flags/fr.png</logo>
-			<logoWidth>18</logoWidth>
-			<logoHeight>12</logoHeight>
+			<logoWidth>16</logoWidth>
+			<logoHeight>11</logoHeight>
 		</row>
 	</reportMetadata>
 
