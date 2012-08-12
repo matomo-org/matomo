@@ -637,7 +637,7 @@ abstract class Piwik_ArchiveProcessing
 		if(empty($plugin)
 		    || !Piwik_PluginsManager::getInstance()->isPluginActivated($plugin))
 	    {
-	        throw new Exception("The requested report is not a valid report, please check the request");
+	        throw new Exception("Error: The report '$requestedReport' was requested but it is not available at this stage. You may also disable the related plugin to avoid this error.");
 	    }
 		return $plugin;
 	}
