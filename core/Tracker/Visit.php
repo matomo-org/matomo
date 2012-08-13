@@ -91,7 +91,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		Piwik_PostEvent('Tracker.setRequest.idSite', $idsite, $requestArray);
 		if($idsite <= 0)
 		{
-			Piwik_Tracker_ExitWithException(new Exception('Invalid idSite'));
+			throw new Exception('Invalid idSite');
 		}
 		$this->idsite = $idsite;
 
@@ -653,7 +653,17 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function getUserAgent()
 	{
-		return @$_SERVER['HTTP_USER_AGENT'];
+	    return Piwik_Common::getRequestVar('ua', @$_SERVER['HTTP_USER_AGENT'], 'string', $this->request);
+	}
+	
+	/**
+	 * Returns the language the visitor is viewing.
+	 * 
+	 * @return string browser language code, eg. "en-gb,en;q=0.5"
+	 */
+	protected function getBrowserLanguage()
+	{
+	    return Piwik_Common::getRequestVar('lang', Piwik_Common::getBrowserLanguage(), 'string', $this->request);
 	}
 
 	/**
@@ -1202,7 +1212,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$plugin_Silverlight		= Piwik_Common::getRequestVar( 'ag', 0, 'int', $this->request);
 		$plugin_Cookie 			= Piwik_Common::getRequestVar( 'cookie', 0, 'int', $this->request);
 
-		$userAgent		= Piwik_Common::sanitizeInputValues($this->getUserAgent());
+		$userAgent		= $this->getUserAgent();
 		$aBrowserInfo	= UserAgentParser::getBrowser($userAgent);
 
 		$browserName	= ($aBrowserInfo !== false && $aBrowserInfo['id'] !== false) ? $aBrowserInfo['id'] : 'UNK';
@@ -1213,7 +1223,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 		$resolution		= Piwik_Common::getRequestVar('res', 'unknown', 'string', $this->request);
 
-		$browserLang	= Piwik_Common::getBrowserLanguage();
+		$browserLang	= $this->getBrowserLanguage();
 
 		$configurationHash = $this->getConfigHash(
 												$os,

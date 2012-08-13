@@ -61,6 +61,20 @@ class Piwik_Tracker
 	 * @var string
 	 */
 	private $tokenAuth = null;
+	
+	/**
+	 * Whether we're currently using bulk tracking or not.
+	 * 
+	 * @var bool
+	 */
+	private $usingBulkTracking = false;
+	
+	/**
+	 * The number of requests that have been successfully logged.
+	 * 
+	 * @var int
+	 */
+	private $countOfLoggedRequests = 0;
 
 	public function clear()
 	{
@@ -132,8 +146,8 @@ class Piwik_Tracker
 		$rawData = file_get_contents("php://input");
 		if (!empty($rawData))
 		{
-			$usingBulkTracking = strpos($rawData, '"requests"') || strpos($rawData, "'requests'"); 
-			if($usingBulkTracking)
+			$this->usingBulkTracking = strpos($rawData, '"requests"') || strpos($rawData, "'requests'"); 
+			if($this->usingBulkTracking)
 			{
 				return $this->initBulkTrackingRequests($rawData);
 			}
@@ -222,12 +236,16 @@ class Piwik_Tracker
 					}
 				} catch (Piwik_Tracker_Db_Exception $e) {
 					printDebug("<b>".$e->getMessage()."</b>");
-					Piwik_Tracker_ExitWithException($e, $this->authenticated);
+					$this->exitWithException($e, $this->authenticated);
 				} catch(Piwik_Tracker_Visit_Excluded $e) {
 				} catch(Exception $e) {
-					Piwik_Tracker_ExitWithException($e, $this->authenticated);
+					$this->exitWithException($e, $this->authenticated);
 				}
 				$this->clear();
+				
+				// increment successfully logged request count. make sure to do this after try-catch,
+				// since an excluded visit is considered 'successfully logged'
+				++$this->countOfLoggedRequests;
 			}
 			
 			if(!$displayedGIF)
@@ -254,10 +272,40 @@ class Piwik_Tracker
 		}
 		catch (Exception $e)
 		{
-			Piwik_Tracker_ExitWithException($e, $this->authenticated);
+			$this->exitWithException($e, $this->authenticated);
 		}
 
 		$this->end();
+	}
+	
+	/**
+	 * Echos an error message & other information, then exits.
+	 * 
+	 * @param Exception $e
+	 * @param bool $authenticated
+	 */
+	protected function exitWithException($e, $authenticated)
+	{
+		if ($this->usingBulkTracking)
+		{
+			// when doing bulk tracking we return JSON so the caller will know how many succeeded
+			$result = array('succeeded' => $this->countOfLoggedRequests);
+			
+			// send error when in debug mode or when authenticated (which happens when doing log importing,
+			// for example)
+			if ((isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) || $authenticated)
+			{
+				$result['error'] = Piwik_Tracker_GetErrorMessage($e);
+			}
+			
+			echo Piwik_Common::json_encode($result);
+			
+			exit;
+		}
+		else
+		{
+    		Piwik_Tracker_ExitWithException($e, $authenticated);
+		}
 	}
 
 	/**
@@ -680,6 +728,26 @@ if(!function_exists('printDebug'))
 }
 
 /**
+ * Gets the error message to output when a tracking request fails.
+ * 
+ * @param Exception $e
+ * @return string
+ */
+function Piwik_Tracker_GetErrorMessage( $e )
+{
+	// Note: duplicated from FormDatabaseSetup.isAccessDenied
+	// Avoid leaking the username/db name when access denied
+	if($e->getCode() == 1044 || $e->getCode() == 42000)
+	{
+		return "Error while connecting to the Piwik database - please check your credentials in config/config.ini.php file";
+	}
+	else
+	{
+		return $e->getMessage();
+	}
+}
+
+/**
  * Displays exception in a friendly UI and exits.
  *
  * @param Exception $e
@@ -695,21 +763,12 @@ function Piwik_Tracker_ExitWithException($e, $authenticated = false)
 		$footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_footer.tpl');
 		$headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
 
-		echo $headerPage . '<p>' . $e->getMessage() . '</p>' . $trailer . $footerPage;
+		echo $headerPage . '<p>' . Piwik_Tracker_GetErrorMessage($e) . '</p>' . $trailer . $footerPage;
 	}
 	// If not debug, but running authenticated (eg. during log import) then we display raw errors 
 	elseif($authenticated)
 	{
-		// Note: duplicated from FormDatabaseSetup.isAccessDenied
-		// Avoid leaking the username/db name when access denied
-		if($e->getCode() == 1044 || $e->getCode() == 42000)
-		{
-			echo "Error while connecting to the Piwik database - please check your credentials in config/config.ini.php file";
-		}
-		else
-		{
-			echo $e->getMessage();
-		}
+		echo Piwik_Tracker_GetErrorMessage($e);
 	}
 	exit;
 }
