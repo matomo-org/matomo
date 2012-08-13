@@ -25,10 +25,10 @@ package {
 
 include git
 
-import 'php'
+import 'php-piwik'
 
 import 'piwikrepo'
 
-import 'mysql'
+import 'mysql-piwik'
 
 import 'nodes'
