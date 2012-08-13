@@ -7,5 +7,10 @@ vcsrepo { "/var/www/piwik":
 
 file { "/var/www/piwik/config":
   ensure => directory,
-  mode => '0766',
+  mode => '0777',
+}
+
+file { "/var/www/piwik/tmp":
+  ensure => directory,
+  mode => '0777',
 }
