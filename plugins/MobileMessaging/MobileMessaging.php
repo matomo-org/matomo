@@ -18,9 +18,10 @@ class Piwik_MobileMessaging extends Piwik_Plugin
 {
 	const DELEGATED_MANAGEMENT_OPTION = 'MobileMessaging_DelegatedManagement';
 	const PROVIDER_OPTION = 'Provider';
-	const USERNAME_OPTION = 'Username';
-	const PASSWORD_OPTION = 'Password';
+	const API_KEY_OPTION = 'APIKey';
 	const PHONE_NUMBERS_OPTION = 'PhoneNumbers';
+	const PHONE_NUMBER_VALIDATION_REQUEST_COUNT_OPTION = 'PhoneNumberValidationRequestCount';
+	const SMS_SENT_COUNT_OPTION = 'SMSSentCount';
 	const DELEGATED_MANAGEMENT_OPTION_DEFAULT = 'false';
 	const USER_SETTINGS_POSTFIX_OPTION = '_MobileMessagingSettings';
 
@@ -111,7 +112,6 @@ class Piwik_MobileMessaging extends Piwik_Plugin
 		$jsFiles = &$notification->getNotificationObject();
 
 		$jsFiles[] = "plugins/MobileMessaging/scripts/MobileMessagingSettings.js";
-		$jsFiles[] = "plugins/MobileMessaging/scripts/jquery.select-to-autocomplete.js"; // @review should this go in the LEGALNOTICE file ?
 	}
 
 	/**
@@ -129,7 +129,7 @@ class Piwik_MobileMessaging extends Piwik_Plugin
 			$phoneNumbers = $parameters[self::PHONE_NUMBERS_PARAMETER];
 			foreach($phoneNumbers as $key => $phoneNumber)
 			{
-				//@review when a wrong phone number is supplied we silently discard it, should an exception be raised?
+				//when a wrong phone number is supplied we silently discard it
 				if(!in_array($phoneNumber, $availablePhoneNumbers))
 				{
 					unset($phoneNumbers[$key]);
@@ -160,9 +160,12 @@ class Piwik_MobileMessaging extends Piwik_Plugin
 					$availableReport['module'],
 					$availableReport['action']
 				);
-				$reportMetadata = reset($reportMetadata);
 
-				$availableReportMetadata[] = $reportMetadata;
+				if($reportMetadata != null)
+				{
+					$reportMetadata = reset($reportMetadata);
+					$availableReportMetadata[] = $reportMetadata;
+				}
 			}
 		}
 	}
@@ -208,7 +211,17 @@ class Piwik_MobileMessaging extends Piwik_Plugin
 		if(self::manageEvent($notification))
 		{
 			$reportRenderer = &$notification->getNotificationObject();
-			$reportRenderer = new Piwik_MobileMessaging_ReportRenderer_Sms();
+
+			if(Piwik_PluginsManager::getInstance()->isPluginActivated('MultiSites'))
+			{
+				$reportRenderer = new Piwik_MobileMessaging_ReportRenderer_Sms();
+			}
+			else
+			{
+				$reportRenderer = new Piwik_MobileMessaging_ReportRenderer_Exception(
+					Piwik_Translate('MobileMessaging_MultiSites_Must_Be_Activated')
+				);
+			}
 		}
 	}
 
@@ -245,11 +258,19 @@ class Piwik_MobileMessaging extends Piwik_Plugin
 		{
 			$notificationInfo = $notification->getNotificationInfo();
 			$report = $notificationInfo[Piwik_PDFReports_API::REPORT_KEY];
-			$websiteName = $notificationInfo[Piwik_PDFReports_API::WEBSITE_NAME_KEY];
 			$contents = $notificationInfo[Piwik_PDFReports_API::REPORT_CONTENT_KEY];
 
 			$parameters = $report['parameters'];
 			$phoneNumbers = $parameters[self::PHONE_NUMBERS_PARAMETER];
+
+			if(in_array('MultiSites_getAll', $report['reports']))
+			{
+				$from = Piwik_Translate('General_Reports');
+			}
+			else
+			{
+				$from = $notificationInfo[Piwik_PDFReports_API::WEBSITE_NAME_KEY];
+			}
 
 			$mobileMessagingAPI = Piwik_MobileMessaging_API::getInstance();
 			foreach($phoneNumbers as $phoneNumber)
@@ -257,7 +278,7 @@ class Piwik_MobileMessaging extends Piwik_Plugin
 				$mobileMessagingAPI->sendSMS(
 					$contents,
 					$phoneNumber,
-					$websiteName
+					$from
 				);
 			}
 		}
@@ -291,7 +312,6 @@ class Piwik_MobileMessaging extends Piwik_Plugin
 		}
 	}
 
-	//@review should we also delete the plugin settings (API credentials, phone numbers) located in table piwik_option?
 	function deactivate()
 	{
 		// delete all mobile reports
@@ -305,5 +325,12 @@ class Piwik_MobileMessaging extends Piwik_Plugin
 				$pdfReportsAPIInstance->deleteReport($report['idreport']);
 			}
 		}
+	}
+
+	public function uninstall()
+	{
+		// currently the UI does not allow to delete a plugin
+		// when it becomes available, all the MobileMessaging settings (API credentials, phone numbers, etc..) should be removed from the option table
+		return;
 	}
 }

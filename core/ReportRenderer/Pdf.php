@@ -37,6 +37,8 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 	const MAX_GRAPH_REPORTS = 3;
 	const MAX_2COL_TABLE_REPORTS = 2;
 
+	const PDF_CONTENT_TYPE = 'pdf';
+
 	private $reportFontStyle = '';
 	private $reportSimpleFontSize = 9;
 	private $reportHeaderFontSize = 16;
@@ -117,7 +119,7 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 
 	public function sendToDisk($filename)
 	{
-		$filename = Piwik_ReportRenderer::appendExtension($filename, "pdf");
+		$filename = Piwik_ReportRenderer::appendExtension($filename, self::PDF_CONTENT_TYPE);
 		$outputFilename = Piwik_ReportRenderer::getOutputPath($filename);
 
 		$this->TCPDF->Output($outputFilename, 'F');
@@ -127,8 +129,14 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 
 	public function sendToBrowserDownload($filename)
 	{
-		$filename = Piwik_ReportRenderer::appendExtension($filename, "pdf");
+		$filename = Piwik_ReportRenderer::appendExtension($filename, self::PDF_CONTENT_TYPE);
 		$this->TCPDF->Output($filename, 'D');
+	}
+
+	public function sendToBrowserInline($filename)
+	{
+		$filename = Piwik_ReportRenderer::appendExtension($filename, self::PDF_CONTENT_TYPE);
+		$this->TCPDF->Output($filename, 'I');
 	}
 
 	public function renderFrontPage($websiteName, $prettyDate, $description, $reportMetadata)

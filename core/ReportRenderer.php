@@ -101,6 +101,13 @@ abstract class Piwik_ReportRenderer
 	abstract public function sendToBrowserDownload($filename);
 
 	/**
+	 * Output rendering to browser
+	 *
+	 * @param string $filename without path & without format extension
+	 */
+	abstract public function sendToBrowserInline($filename);
+
+	/**
 	 * Generate the first page.
 	 *
 	 * @param string $websiteName
@@ -172,6 +179,13 @@ abstract class Piwik_ReportRenderer
 		header('Content-Type: ' . $contentType);
 		header('Content-Disposition: attachment; filename="'.str_replace('"', '\'', basename($filename)).'";');
 		header('Content-Length: '.strlen($content));
+
+		echo $content;
+	}
+
+	protected static function inlineToBrowser($contentType, $content)
+	{
+		header('Content-Type: ' . $contentType);
 		echo $content;
 	}
 

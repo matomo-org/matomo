@@ -18,6 +18,9 @@ const FLOAT_REGEXP = '/[-+]?[0-9]*[\.,]?[0-9]+/';
  */
 class Piwik_MobileMessaging_ReportRenderer_Sms extends Piwik_ReportRenderer
 {
+	const SMS_CONTENT_TYPE = 'text/plain';
+	const SMS_FILE_EXTENSION = 'sms';
+
 	private $rendering = "";
 
 	public function setLocale($locale)
@@ -27,12 +30,17 @@ class Piwik_MobileMessaging_ReportRenderer_Sms extends Piwik_ReportRenderer
 
 	public function sendToDisk($filename)
 	{
-		return Piwik_ReportRenderer::writeFile($filename, 'sms', $this->rendering);
+		return Piwik_ReportRenderer::writeFile($filename, self::SMS_FILE_EXTENSION, $this->rendering);
 	}
 
 	public function sendToBrowserDownload($filename)
 	{
-		Piwik_ReportRenderer::sendToBrowser($filename, 'sms', 'text/plain', $this->rendering);
+		Piwik_ReportRenderer::sendToBrowser($filename, self::SMS_FILE_EXTENSION, self::SMS_CONTENT_TYPE, $this->rendering);
+	}
+
+	public function sendToBrowserInline($filename)
+	{
+		Piwik_ReportRenderer::inlineToBrowser(self::SMS_CONTENT_TYPE, $this->rendering);
 	}
 
 	public function renderFrontPage($websiteName, $prettyDate, $description, $reportMetadata)

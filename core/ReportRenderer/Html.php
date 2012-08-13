@@ -25,6 +25,9 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 	const REPORT_TABLE_ROW_TEXT_SIZE = 11;
 	const REPORT_BACK_TO_TOP_TEXT_SIZE = 9;
 
+	const HTML_CONTENT_TYPE = 'text/html';
+	const HTML_FILE_EXTENSION = 'html';
+
 	private $rendering = "";
 
 	public function setLocale($locale)
@@ -36,14 +39,21 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 	{
 		$this->epilogue();
 
-		return Piwik_ReportRenderer::writeFile($filename, 'html', $this->rendering);
+		return Piwik_ReportRenderer::writeFile($filename, self::HTML_FILE_EXTENSION, $this->rendering);
 	}
 
 	public function sendToBrowserDownload($filename)
 	{
 		$this->epilogue();
 
-		Piwik_ReportRenderer::sendToBrowser($filename, 'html', 'text/html', $this->rendering);
+		Piwik_ReportRenderer::sendToBrowser($filename, self::HTML_FILE_EXTENSION, self::HTML_CONTENT_TYPE, $this->rendering);
+	}
+
+	public function sendToBrowserInline($filename)
+	{
+		$this->epilogue();
+
+		Piwik_ReportRenderer::inlineToBrowser(self::HTML_CONTENT_TYPE, $this->rendering);
 	}
 
 	private function epilogue()

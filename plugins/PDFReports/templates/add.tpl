@@ -105,8 +105,8 @@
 						<div class='reportCategory'>{$category}</div><ul class='listReports'>
 						{foreach from=$reports item=report}
 							<li>
-								<input type='{$reportInputType}' id="{$report.uniqueId}" name='{$reportType}Reports'/>
-								<label for="{$report.uniqueId}">
+								<input type='{$reportInputType}' id="{$reportType}{$report.uniqueId}" report-unique-id='{$report.uniqueId}' name='{$reportType}Reports'/>
+								<label for="{$reportType}{$report.uniqueId}">
 									{$report.name|escape:"html"}
 									{if $report.uniqueId=='MultiSites_getAll'}
 										<div class="entityInlineHelp">{'PDFReports_ReportIncludeNWebsites'|translate:"$countWebsites "}</div>

@@ -217,7 +217,7 @@ class Piwik_MultiSites_API
 		}
 
 		// remove eCommerce related metrics on non eCommerce Piwik sites
-		// @review this is not optimal in terms of performance: those metrics should not be retrieved in the first place
+		// note: this is not optimal in terms of performance: those metrics should not be retrieved in the first place
 		if($enhanced)
 		{
 			// $dataTableRows instanceOf Piwik_DataTable_Row[]
@@ -254,13 +254,17 @@ class Piwik_MultiSites_API
 		$dataTable->filter('Sort', array(self::NB_VISITS_METRIC, 'desc', $naturalSort = false));
 
 		// filter rows without visits
-		$dataTable->filter(
-			'ColumnCallbackDeleteRow',
-			array(
-				self::NB_VISITS_METRIC,
-				create_function ( '$value', 'return $value != 0;')
-			)
-		);
+		// note: if only one website is queried and there are no visits, we can not remove the row otherwise Piwik_API_ResponseBuilder throws 'Call to a member function getColumns() on a non-object'
+		if($allWebsitesRequested)
+		{
+			$dataTable->filter(
+				'ColumnCallbackDeleteRow',
+				array(
+					self::NB_VISITS_METRIC,
+					create_function ( '$value', 'return $value != 0;')
+				)
+			);
+		}
 
 		return $dataTable;
 	}

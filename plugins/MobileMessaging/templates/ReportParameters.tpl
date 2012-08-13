@@ -56,6 +56,6 @@
 			{/foreach}
 			{'MobileMessaging_MobileReport_AdditionalPhoneNumbers'|translate}
 		{/if}
-			<a href='{url module="MobileMessaging"}'>{'MobileMessaging_MobileReport_MobileMessagingSettingsLink'|translate}</a>
+			<a href='{url module="MobileMessaging" updated="false"}'>{'MobileMessaging_MobileReport_MobileMessagingSettingsLink'|translate}</a>
 	</td>
 </tr>

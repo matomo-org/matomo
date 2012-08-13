@@ -1,5 +1,10 @@
 {strip}
 	{$prettyDate}.{literal} {/literal}
+
+	{if empty($reportRows)}
+		{'CoreHome_ThereIsNoDataForThisReport'|translate}
+	{/if}
+
 	{foreach name=reportRows from=$reportRows item=row key=rowId}
 
 		{assign var=rowMetrics value=$row->getColumns()}

@@ -41,7 +41,6 @@ class Piwik_MobileMessaging_Controller extends Piwik_Controller_Admin
 		if($view->credentialSupplied && $view->accountManagedByCurrentUser)
 		{
 			$view->provider = $mobileMessagingAPI->getSMSProvider();
-			$view->APIUsername = $mobileMessagingAPI->getAPIUsername();
 			$view->creditLeft = $mobileMessagingAPI->getCreditLeft();
 		}
 

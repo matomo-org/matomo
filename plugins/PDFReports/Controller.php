@@ -67,7 +67,7 @@ class Piwik_PDFReports_Controller extends Piwik_Controller
 		$view->reports = $reports;
 		$view->reportsJSON = Piwik_Common::json_encode($reportsById);
 
-		$view->downloadOutputType = Piwik_PDFReports_API::OUTPUT_DOWNLOAD;
+		$view->downloadOutputType = Piwik_PDFReports_API::OUTPUT_INLINE;
 
 		$periods = array_merge(
 			array('never' => Piwik_Translate('General_Never')),

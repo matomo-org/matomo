@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id$$
+ * @version $Id$
  *
  * @category Piwik_Plugins
  * @package Piwik_MobileMessaging_SMSProvider
@@ -15,7 +15,7 @@ require_once PIWIK_INCLUDE_PATH . "/plugins/MobileMessaging/APIException.php";
  *
  * @package Piwik_MobileMessaging_SMSProvider
  */
-class Piwik_MobileMessaging_SMSProvider_Mediaburst extends Piwik_MobileMessaging_SMSProvider
+class Piwik_MobileMessaging_SMSProvider_Clockwork extends Piwik_MobileMessaging_SMSProvider
 {
 	const SOCKET_TIMEOUT = 15;
 
@@ -26,42 +26,40 @@ class Piwik_MobileMessaging_SMSProvider_Mediaburst extends Piwik_MobileMessaging
 	const ERROR_STRING = 'Error';
 
 	const MAXIMUM_FROM_LENGTH = 11;
-	const MAXIMUM_CONTENT_LENGTH = 459;
+	const MAXIMUM_CONCATENATED_SMS = 3;
 
-	public function verifyCredential($username, $password)
+	public function verifyCredential($apiKey)
 	{
-		$this->getCreditLeft($username, $password);
+		$this->getCreditLeft($apiKey);
 
 		return true;
 	}
 
-	public function sendSMS($username, $password, $smsText, $phoneNumber, $from)
+	public function sendSMS($apiKey, $smsText, $phoneNumber, $from)
 	{
 		$from = substr($from, 0, self::MAXIMUM_FROM_LENGTH);
 
-		//@review the length of the SMS text is limited by Mediaburst. Here, we truncate the SMS content because MultiSites.getAll can return a lot of sites. Is this the proper way to handle this case?
-		$smsText = substr($smsText, 0, self::MAXIMUM_CONTENT_LENGTH);
+		$smsText = self::truncate($smsText, self::MAXIMUM_CONCATENATED_SMS);
 
 		$additionalParameters = array(
 			'To' => str_replace('+','', $phoneNumber),
 			'Content' => $smsText,
 			'From' => $from,
 			'Long' => 1,
+			'MsgType' => self::containsUCS2Characters($smsText) ? 'UCS2' : 'TEXT',
 		);
 
 		$this->issueApiCall(
-			$username,
-			$password,
+			$apiKey,
 			self::SEND_SMS_RESOURCE,
 			$additionalParameters
 		);
 	}
 
-	private function issueApiCall($username, $password, $resource, $additionalParameters = array())
+	private function issueApiCall($apiKey, $resource, $additionalParameters = array())
 	{
 		$accountParameters = array(
-			'Username' => $username,
-			'Password' => $password,
+			'Key' => $apiKey,
 		);
 
 		$parameters = array_merge($accountParameters, $additionalParameters);
@@ -87,18 +85,17 @@ class Piwik_MobileMessaging_SMSProvider_Mediaburst extends Piwik_MobileMessaging
 		if(strpos($result, self::ERROR_STRING) !== false)
 		{
 			throw new Piwik_MobileMessaging_APIException(
-				'Mediaburst API returned the following error message : ' . $result
+				'Clockwork API returned the following error message : ' . $result
 			);
 		}
 
 		return $result;
 	}
 
-	public function getCreditLeft($username, $password)
+	public function getCreditLeft($apiKey)
 	{
 		return $this->issueApiCall(
-					$username,
-					$password,
+					$apiKey,
 					self::CHECK_CREDIT_RESOURCE
 				);
 	}

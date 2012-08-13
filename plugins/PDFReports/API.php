@@ -37,6 +37,7 @@ class Piwik_PDFReports_API
 
 	const OUTPUT_DOWNLOAD = 1;
 	const OUTPUT_SAVE_ON_DISK = 2;
+	const OUTPUT_INLINE = 3;
 
 	const REPORT_TYPE_INFO_KEY = 'reportType';
 	const ID_SITE_INFO_KEY = 'idSite';
@@ -281,7 +282,7 @@ class Piwik_PDFReports_API
      * @param int $idReport ID of the report to generate.
      * @param string $date YYYY-MM-DD
 	 * @param bool|false|string $language If not passed, will use default language.
-	 * @param bool|false|int $outputType 1 = download report, 2 = save report to disk, defaults to download
+	 * @param bool|false|int $outputType 1 = download report, 2 = save report to disk, 3 = output report in browser, defaults to download
 	 * @param bool|false|string $period Defaults to 'day'. If not specified, will default to the report's period set when creating the report
 	 * @param bool|false|string $reportFormat 'pdf', 'html' or any other format provided via the PDFReports.getReportFormats hook
 	 * @param bool|false|string $parameters JSON encoded parameters
@@ -434,7 +435,7 @@ class Piwik_PDFReports_API
 
 		// init report renderer
 		$reportRenderer->setLocale($language);
-		$reportRenderer->setRenderImageInline($outputType == self::OUTPUT_DOWNLOAD ? true : false);
+		$reportRenderer->setRenderImageInline($outputType != self::OUTPUT_SAVE_ON_DISK);
 
 		// render report
 		$websiteName = Piwik_Site::getNameFor($idSite);
@@ -479,6 +480,11 @@ class Piwik_PDFReports_API
 					$additionalFiles,
 				);
 			break;
+
+			case self::OUTPUT_INLINE:
+
+				$reportRenderer->sendToBrowserInline("$websiteName - $prettyDate - $description");
+				break;
 
 			default:
 			case self::OUTPUT_DOWNLOAD:
@@ -604,7 +610,7 @@ class Piwik_PDFReports_API
 	{
 		if(!self::allowMultipleReports($reportType))
 		{
-			//@review sms can only contain one report, we currently silently discard all reports except the first one, is this ok or should we raise an exception?
+			//sms can only contain one report, we silently discard all but the first
 			$requestedReports = array_slice($requestedReports, 0, 1);
 		}
 

@@ -65,13 +65,13 @@
 				<nb_visits>1</nb_visits>
 				<visits_evolution>100%</visits_evolution>
 				<actions_evolution>100%</actions_evolution>
-				<revenue_evolution>$ 100%</revenue_evolution>
+				<revenue_evolution>100%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
 				<nb_conversions_evolution>0</nb_conversions_evolution>
 				<orders>0</orders>
 				<orders_evolution>0</orders_evolution>
 				<ecommerce_revenue>$ 0</ecommerce_revenue>
-				<ecommerce_revenue_evolution>$ 0</ecommerce_revenue_evolution>
+				<ecommerce_revenue_evolution>0</ecommerce_revenue_evolution>
 			</row>
 		</result>
 		<result prettyDate="Monday 4 January 2010">
@@ -81,14 +81,14 @@
 				<nb_visits>1</nb_visits>
 				<visits_evolution>0%</visits_evolution>
 				<actions_evolution>100%</actions_evolution>
-				<revenue_evolution>$ -100%</revenue_evolution>
+				<revenue_evolution>-100%</revenue_evolution>
 				<revenue>$ 0</revenue>
 				<nb_conversions>0</nb_conversions>
 				<nb_conversions_evolution>0</nb_conversions_evolution>
 				<orders>0</orders>
 				<orders_evolution>0</orders_evolution>
 				<ecommerce_revenue>$ 0</ecommerce_revenue>
-				<ecommerce_revenue_evolution>$ 0</ecommerce_revenue_evolution>
+				<ecommerce_revenue_evolution>0</ecommerce_revenue_evolution>
 			</row>
 			<row>
 				<label>Site 2</label>
@@ -97,13 +97,13 @@
 				<visits_evolution>100%</visits_evolution>
 				<actions_evolution>100%</actions_evolution>
 				<revenue>$ 0</revenue>
-				<revenue_evolution>$ 0</revenue_evolution>
+				<revenue_evolution>0</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
 				<nb_conversions_evolution>0</nb_conversions_evolution>
 				<orders>0</orders>
 				<orders_evolution>0</orders_evolution>
 				<ecommerce_revenue>$ 0</ecommerce_revenue>
-				<ecommerce_revenue_evolution>$ 0</ecommerce_revenue_evolution>
+				<ecommerce_revenue_evolution>0</ecommerce_revenue_evolution>
 			</row>
 		</result>
 		<result prettyDate="Tuesday 5 January 2010">
@@ -114,13 +114,13 @@
 				<nb_visits>1</nb_visits>
 				<visits_evolution>0%</visits_evolution>
 				<actions_evolution>150%</actions_evolution>
-				<revenue_evolution>$ 100%</revenue_evolution>
+				<revenue_evolution>100%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
 				<nb_conversions_evolution>0</nb_conversions_evolution>
 				<orders>0</orders>
 				<orders_evolution>0</orders_evolution>
 				<ecommerce_revenue>$ 0</ecommerce_revenue>
-				<ecommerce_revenue_evolution>$ 0</ecommerce_revenue_evolution>
+				<ecommerce_revenue_evolution>0</ecommerce_revenue_evolution>
 			</row>
 		</result>
 		<result prettyDate="Wednesday 6 January 2010" />

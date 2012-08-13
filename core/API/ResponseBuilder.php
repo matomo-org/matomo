@@ -229,39 +229,43 @@ class Piwik_API_ResponseBuilder
 	 */
 	protected function handleSuccess( $message = 'ok' )
 	{
-		switch($this->outputFormat)
+		// return a success message only if no content has already been buffered, useful when APIs return raw text or html content to the browser
+		if(!ob_get_contents())
 		{
-			case 'xml':
-				@header("Content-Type: text/xml;charset=utf-8");
-				$return = 
-					"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n" .
-					"<result>\n".
-					"\t<success message=\"".$message."\" />\n".
-					"</result>";
-			break;
-			case 'json':
-				@header( "Content-Type: application/json" );
-				$return = '{"result":"success", "message":"'.$message.'"}';
-			break;
-			case 'php':
-				$return = array('result' => 'success', 'message' => $message);
-				if($this->caseRendererPHPSerialize())
-				{
-					$return = serialize($return);
-				}
-			break;
-			
-			case 'csv':
-				@header("Content-Type: application/vnd.ms-excel");
-				@header("Content-Disposition: attachment; filename=piwik-report-export.csv");	
-				$return = "message\n".$message;
-			break;
-			
-			default:
-				$return = 'Success:'.$message;
-			break;
+			switch($this->outputFormat)
+			{
+				case 'xml':
+					@header("Content-Type: text/xml;charset=utf-8");
+					$return =
+						"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n" .
+						"<result>\n".
+						"\t<success message=\"".$message."\" />\n".
+						"</result>";
+				break;
+				case 'json':
+					@header( "Content-Type: application/json" );
+					$return = '{"result":"success", "message":"'.$message.'"}';
+				break;
+				case 'php':
+					$return = array('result' => 'success', 'message' => $message);
+					if($this->caseRendererPHPSerialize())
+					{
+						$return = serialize($return);
+					}
+				break;
+
+				case 'csv':
+					@header("Content-Type: application/vnd.ms-excel");
+					@header("Content-Disposition: attachment; filename=piwik-report-export.csv");
+					$return = "message\n".$message;
+				break;
+
+				default:
+					$return = 'Success:'.$message;
+				break;
+			}
+			return $return;
 		}
-		return $return;
 	}
 
 	/**

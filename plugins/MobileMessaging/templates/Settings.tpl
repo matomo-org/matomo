@@ -3,53 +3,43 @@
 {include file='CoreAdminHome/templates/header.tpl'}
 {loadJavascriptTranslations plugins='MobileMessaging'}
 
-{* TODO this UI probably needs some embellishment by working out a better HTML structure (table ? list ?), specifying better locations for errors and so on *}
-
-{if $isSuperUser}
-<h2>{'MobileMessaging_Settings_LetUsersManageAPICredential'|translate}</h2>
-
-<input
-	type='radio'
-	value='true'
-	name='delegatedManagement'{if $delegatedManagement} checked='checked'{/if} />
-{'General_Yes'|translate}
-
-<input
-	type='radio'
-	value='false'
-	name='delegatedManagement'{if !$delegatedManagement} checked='checked'{/if} />
-{'General_No'|translate}
-
-{/if}
-
 {if $accountManagedByCurrentUser}
 <h2>{'MobileMessaging_Settings_SMSAPIAccount'|translate}</h2>
 	{if $credentialSupplied}
-		{'MobileMessaging_Settings_CredentialProvided'|translate:$provider:$APIUsername}
+		{'MobileMessaging_Settings_CredentialProvided'|translate:$provider}
 		{$creditLeft}
-		<a id='deleteAccount'>{'MobileMessaging_Settings_DeleteAccount'|translate}</a>
 		<br/>
+		{'MobileMessaging_Settings_UpdateOrDeleteAccount'|translate:"<a id='displayAccountForm'>":"</a>":"<a id='deleteAccount'>":"</a>"}
+	{else}
+		{'MobileMessaging_Settings_PleaseSignUp'|translate}
 	{/if}
 
-	{'MobileMessaging_Settings_UpdateAccount'|translate} : <br/>
+	<div id='accountForm' {if $credentialSupplied}style='display: none;'{/if}>
+		<br/>
+		{'MobileMessaging_Settings_SMSProvider'|translate}
+		<select id='smsProviders'>
+			{foreach from=$smsProviders key=smsProvider item=description}
+				<option value='{$smsProvider}'>
+					{$smsProvider}
+				</option>
+			{/foreach}
+		</select>
 
-	{'MobileMessaging_Settings_SMSProvider'|translate}
-	<select id="smsProviders">
-		{foreach from=$smsProviders item=smsProvider}
-			<option value="{$smsProvider}">
-				{$smsProvider}
-			</option>
+		{'MobileMessaging_Settings_APIKey'|translate}
+		<input size='25' id='apiKey'/>
+
+		<input type='submit' value='{'General_Save'|translate}' id='apiAccountSubmit' class='submit' />
+
+		{foreach from=$smsProviders key=smsProvider item=description}
+			<p class='providerDescription' id='{$smsProvider}'>
+				{$description|translate}
+			</p>
 		{/foreach}
-	</select>
 
-	{'MobileMessaging_Settings_Username'|translate}
-	<input size='25' id='username'/>
-
-	{'MobileMessaging_Settings_Password'|translate}
-	<input size='25' id='password' type='password' autocomplete='off'/>
-
-	<input type='submit' value='{'General_Save'|translate}' id='apiAccountSubmit' class='submit' />
+	</div>
 {/if}
+
+{ajaxErrorDiv id=ajaxErrorMobileMessagingSettings}
 
 <h2>{'MobileMessaging_Settings_PhoneNumbers'|translate}</h2>
 {if !$credentialSupplied}
@@ -59,30 +49,53 @@
 		{'MobileMessaging_Settings_CredentialNotProvidedByAdmin'|translate}
 	{/if}
 {else}
+
+	{'MobileMessaging_Settings_PhoneNumbers_Help'|translate}<br/><br/>
+	<strong>{'MobileMessaging_Settings_PhoneNumbers_Add'|translate}</strong><br/><br/>
+
 	<span id='suspiciousPhoneNumber' style='display:none;'>
-		{'MobileMessaging_Settings_SuspiciousPhoneNumber'|translate}
-		<br/>
+		{'MobileMessaging_Settings_SuspiciousPhoneNumber'|translate}<br/><br/>
 	</span>
-	<select id='countries'>
-		<option>&nbsp;</option> {* this is a trick to avoid selecting the first country when no default could be found *}
-		{foreach from=$countries key=countryCode item=country}
-			<option
-				value='{$countryCode}'
-				calling-code='{$country.countryCallingCode}'
-				{if $defaultCountry==$countryCode} selected='selected' {/if}
-			>
-				 {$country.countryName}
-			 </option>
-		{/foreach}
-	</select>
-	+<input id='countryCallingCode'/>
+
+	+<input id='countryCallingCode' size='7' maxlength='4'/>&nbsp;
 	<input id='newPhoneNumber'/>
 	<input
 			type='submit'
 			value='{'MobileMessaging_Settings_AddPhoneNumber'|translate}'
 			id='addPhoneNumberSubmit'
-			class='submit'
-	/>
+			/>
+
+	<br/>
+	<span class="form-description">{'MobileMessaging_Settings_CountryCode'|translate}</span><span class="form-description">{'MobileMessaging_Settings_PhoneNumber'|translate}</span><br/><br/>
+
+	{'MobileMessaging_Settings_PhoneNumbers_CountryCode_Help'|translate}
+	<select id='countries'>
+		<option value=''>&nbsp;</option> {* this is a trick to avoid selecting the first country when no default could be found *}
+		{foreach from=$countries key=countryCode item=country}
+			<option
+					value='{$country.countryCallingCode}'
+				{if $defaultCountry==$countryCode} selected='selected' {/if}
+					>
+				{$country.countryName}
+			</option>
+		{/foreach}
+	</select>
+
+	{if $phoneNumbers|@count gt 0}
+		<br/>
+		<br/>
+		<strong>{'MobileMessaging_Settings_ManagePhoneNumbers'|translate}</strong><br/><br/>
+	{/if}
+
+	{ajaxErrorDiv id=invalidVerificationCodeAjaxError}
+
+	<div id='phoneNumberActivated' class="ajaxSuccess" style="display:none;">
+		{'MobileMessaging_Settings_PhoneActivated'|translate}
+	</div>
+
+	<div id='invalidActivationCode' style="display:none;">
+		{'MobileMessaging_Settings_InvalidActivationCode'|translate}
+	</div>
 
 	<ul>
 	{foreach from=$phoneNumbers key=phoneNumber item=validated}
@@ -93,20 +106,64 @@
 				<input
 						type='submit'
 						value='{'MobileMessaging_Settings_ValidatePhoneNumber'|translate}'
-						class='submit validatePhoneNumberSubmit'
+						class='validatePhoneNumberSubmit'
 				/>
 			{/if}
 			<input
 					type='submit'
 					value='{'MobileMessaging_Settings_RemovePhoneNumber'|translate}'
-					class='submit removePhoneNumberSubmit'
+					class='removePhoneNumberSubmit'
 			/>
+			{if !$validated}
+				<br/>
+				<span class='form-description'>{'MobileMessaging_Settings_VerificationCodeJustSent'|translate}</span>
+			{/if}
+			<br/>
+			<br/>
 		</li>
 	{/foreach}
 	</ul>
 {/if}
 
-{ajaxErrorDiv id=ajaxErrorMobileMessagingSettings}
+{if $isSuperUser}
+	<h2>{'MobileMessaging_Settings_SuperAdmin'|translate}</h2>
+
+	<table class='adminTable' style='width:650px;'>
+		<tr>
+			<td style='width:400px'>{'MobileMessaging_Settings_LetUsersManageAPICredential'|translate}</td>
+			<td style='width:250px'>
+				<fieldset>
+					<label>
+						<input
+								type='radio'
+								value='true'
+								name='delegatedManagement' {if $delegatedManagement} checked='checked'{/if} />
+					{'General_Yes'|translate}
+						<br/>
+					</label>
+					<br/>
+
+					<label>
+						<input
+								type='radio'
+								value='false'
+								name='delegatedManagement' {if !$delegatedManagement} checked='checked'{/if} />
+					{'General_No'|translate}
+						<br/>
+						<span class='form-description'>({'General_Default'|translate}) {'MobileMessaging_Settings_LetUsersManageAPICredential_No_Help'|translate}</span>
+					</label>
+				</fieldset>
+		</tr>
+	</table>
+{/if}
+
 {ajaxLoadingDiv id=ajaxLoadingMobileMessagingSettings}
 
 {include file='CoreAdminHome/templates/footer.tpl'}
+
+<div class='ui-confirm' id='confirmDeleteAccount'>
+	<h2>{'MobileMessaging_Settings_DeleteAccountConfirm'|translate}</h2>
+	<input role='yes' type='button' value='{'General_Yes'|translate}' />
+	<input role='no' type='button' value='{'General_No'|translate}' />
+</div>
+

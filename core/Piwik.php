@@ -1428,7 +1428,7 @@ class Piwik
 			return Piwik::getPrettyTimeFromSeconds($value, $timeAsSentence);
 		}
 		// Add revenue symbol to revenues
-		if(strpos($columnName, 'revenue') !== false)
+		if(strpos($columnName, 'revenue') !== false && strpos($columnName, 'evolution') === false)
 		{
 			return Piwik::getPrettyMoney($value, $idSite, $htmlAllowed);
 		}

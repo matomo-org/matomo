@@ -41,7 +41,7 @@ function formSetEditReport(idReport)
 	var key;
 	for(key in report.reports)
 	{
-		$('.' + report.type + ' #' + report.reports[key]).prop('checked','checked');
+		$('.' + report.type + ' [report-unique-id=' + report.reports[key] + ']').prop('checked','checked');
 	}
 
 	updateReportParametersFunctions[report.type](report.parameters);
@@ -88,7 +88,7 @@ function initManagePdf()
 
 		var reports = [];
 		$('[name=reportsList].'+apiParameters.reportType+' input:checked').each(function() {
-			reports.push($(this).attr('id'));
+			reports.push($(this).attr('report-unique-id'));
 		});
 		if(reports.length > 0)
 		{
