@@ -239,26 +239,37 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $expectedResponse = base64_decode($trans_gif_64);
         self::assertEquals($expectedResponse, $response, "Expected GIF beacon, got: <br/>\n" . $response ."<br/>\n");
     }
+	
+	/**
+	 * Returns URL to Piwik root.
+	 * 
+	 * @return string
+	 */
+	protected static function getRootUrl()
+	{
+		$piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
 
-    /**
-     * Returns URL to the proxy script, used to ensure piwik.php
-     * uses the test environment, and allows variable overwriting
-     *
-     * @return string
-     */
-    protected static function getTrackerUrl()
-    {
-        $piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
-
-        $pathBeforeRoot = 'tests';
-        // Running from a plugin
-        if(strpos($piwikUrl, 'plugins/') !== false)
-        {
-            $pathBeforeRoot = 'plugins';
-        }
-        $piwikUrl = substr($piwikUrl, 0, strpos($piwikUrl, $pathBeforeRoot.'/')) . 'tests/PHPUnit/proxy-piwik.php';
-        return $piwikUrl;
-    }
+		$pathBeforeRoot = 'tests';
+		// Running from a plugin
+		if(strpos($piwikUrl, 'plugins/') !== false)
+		{
+			$pathBeforeRoot = 'plugins';
+		}
+		
+		$piwikUrl = substr($piwikUrl, 0, strpos($piwikUrl, $pathBeforeRoot.'/'));
+		return $piwikUrl;
+	}
+	
+	/**
+	 * Returns URL to the proxy script, used to ensure piwik.php
+	 * uses the test environment, and allows variable overwriting
+	 *
+	 * @return string
+	 */
+	protected static function getTrackerUrl()
+	{
+		return self::getRootUrl().'tests/PHPUnit/proxy-piwik.php';
+	}
 
     /**
      * Given a list of default parameters to set, returns the URLs of APIs to call

@@ -205,6 +205,10 @@ class Configuration(object):
             help="REQUIRED Piwik base URL, eg. http://example.com/piwik/ or http://analytics.example.net",
         )
         option_parser.add_option(
+            '--tracker-url', dest='piwik_tracker_url', default=None,
+            help="Piwik tracker URL, defaults to http://piwik-url/piwik.php"
+        )
+        option_parser.add_option(
             '--dry-run', dest='dry_run',
             action='store_true', default=False,
             help="Perform a trial run with no tracking data being inserted into Piwik",
@@ -756,7 +760,8 @@ class Piwik(object):
                     time.sleep(PIWIK_DELAY_AFTER_FAILURE)
 
     def call(self, path, args, expected_content=None, headers=None):
-        return self._call_wrapper(self._call, expected_content, path, args, headers)
+        tracker_url = config.options.piwik_tracker_url
+        return self._call_wrapper(self._call, expected_content, path, args, headers, url=tracker_url)
 
     def call_api(self, method, **kwargs):
         return self._call_wrapper(self._call_api, None, method, **kwargs)

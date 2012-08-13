@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Unknown</label>
+		<nb_visits>17</nb_visits>
+		<nb_actions>17</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>17</bounce_count>
+		<nb_visits_converted>17</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>17</sum_daily_nb_uniq_visitors>
+		<logo>plugins/UserSettings/images/screens/unknown.gif</logo>
+	</row>
+</result>

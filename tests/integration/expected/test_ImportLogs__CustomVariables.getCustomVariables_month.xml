@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Not-Bot</label>
+		<nb_visits>17</nb_visits>
+		<nb_actions>17</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>17</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>17</nb_conversions>
+				<nb_visits_converted>17</nb_visits_converted>
+				<revenue>85</revenue>
+			</row>
+		</goals>
+		<nb_conversions>17</nb_conversions>
+		<revenue>85</revenue>
+		<sum_daily_nb_uniq_visitors>17</sum_daily_nb_uniq_visitors>
+		<subtable>
+			<row>
+				<label>Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/5.0)</label>
+				<nb_visits>2</nb_visits>
+				<nb_actions>2</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>2</bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+				</goals>
+				<nb_conversions>2</nb_conversions>
+				<revenue>10</revenue>
+				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+			</row>
+			<row>
+				<label>Mozilla/5.0 (compatible; MSIE 10.6; Windows NT 6.1; Trident/5.0; InfoPath.2; SLCC1; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; .NET CLR 2.0.50727) 3gpp-gba UNTRUSTED/1.0</label>
+				<nb_visits>2</nb_visits>
+				<nb_actions>2</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>2</bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+				</goals>
+				<nb_conversions>2</nb_conversions>
+				<revenue>10</revenue>
+				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+			</row>
+			<row>
+				<label>Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1092.0 Safari/536.6</label>
+				<nb_visits>2</nb_visits>
+				<nb_actions>2</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>2</bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+				</goals>
+				<nb_conversions>2</nb_conversions>
+				<revenue>10</revenue>
+				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+			</row>
+			<row>
+				<label>Mozilla/5.0 (X11; Linux i686; rv:6.0) Gecko/20100101 Firefox/6.0</label>
+				<nb_visits>2</nb_visits>
+				<nb_actions>2</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>2</bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+				</goals>
+				<nb_conversions>2</nb_conversions>
+				<revenue>10</revenue>
+				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+			</row>
+			<row>
+				<label>Mozilla/5.0 (X11; U; Linux x86_64; ca-ad) AppleWebKit/531.2  (KHTML, like Gecko) Safari/531.2  Epiphany/2.30.6</label>
+				<nb_visits>2</nb_visits>
+				<nb_actions>2</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>2</bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+				</goals>
+				<nb_conversions>2</nb_conversions>
+				<revenue>10</revenue>
+				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+			</row>
+			<row>
+				<label>Mozilla/5.0 (X11; U; Linux x86_64; fr-FR) AppleWebKit/534.7 (KHTML, like Gecko) Epiphany/2.30.6 Safari/534.7</label>
+				<nb_visits>2</nb_visits>
+				<nb_actions>2</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>2</bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<nb_visits_converted>2</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+				</goals>
+				<nb_conversions>2</nb_conversions>
+				<revenue>10</revenue>
+				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+			</row>
+			<row>
+				<label>Mozilla/5.0 (Linux; U; Android 2.3.5; en-us; HTC Vision Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			</row>
+			<row>
+				<label>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			</row>
+			<row>
+				<label>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_0) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			</row>
+			<row>
+				<label>Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.9 Safari/536.5</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			</row>
+			<row>
+				<label>Mozilla/5.0 (X11; U; Linux x86; en-US) AppleWebKit/534.7 (KHTML, like Gecko) Epiphany/2.30.6 Safari/534.7</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5</revenue>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			</row>
+		</subtable>
+	</row>
+</result>

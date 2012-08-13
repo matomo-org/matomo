@@ -273,14 +273,13 @@ abstract class Test_Integration extends Test_Database_Base
 		}
 		echo "Expected GIF beacon, got: <br/>\n" . $response ."<br/>\n";
 	}
-
+	
 	/**
-	 * Returns URL to the proxy script, used to ensure piwik.php
-	 * uses the test environment, and allows variable overwriting
-	 *
+	 * Returns URL to Piwik root.
+	 * 
 	 * @return string
 	 */
-	protected function getTrackerUrl()
+	protected function getRootUrl()
 	{
 		$piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
 
@@ -290,8 +289,20 @@ abstract class Test_Integration extends Test_Database_Base
 		{
 			$pathBeforeRoot = 'plugins';
 		}
-		$piwikUrl = substr($piwikUrl, 0, strpos($piwikUrl, $pathBeforeRoot.'/')) . 'tests/integration/proxy-piwik.php';
+		
+		$piwikUrl = substr($piwikUrl, 0, strpos($piwikUrl, $pathBeforeRoot.'/'));
 		return $piwikUrl;
+	}
+	
+	/**
+	 * Returns URL to the proxy script, used to ensure piwik.php
+	 * uses the test environment, and allows variable overwriting
+	 *
+	 * @return string
+	 */
+	protected function getTrackerUrl()
+	{
+		return $this->getRootUrl().'tests/integration/proxy-piwik.php';
 	}
 
 	/**

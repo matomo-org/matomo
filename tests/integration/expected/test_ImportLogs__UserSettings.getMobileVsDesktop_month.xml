@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Desktop</label>
+		<nb_visits>16</nb_visits>
+		<nb_actions>16</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>16</bounce_count>
+		<nb_visits_converted>16</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>16</sum_daily_nb_uniq_visitors>
+		<logo>plugins/UserSettings/images/screens/normal.gif</logo>
+	</row>
+	<row>
+		<label>Mobile</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<logo>plugins/UserSettings/images/screens/mobile.gif</logo>
+	</row>
+</result>
