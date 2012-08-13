@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<result />
+<result>
+	<nb_visits>0</nb_visits>
+	<nb_actions>0</nb_actions>
+	<revenue>0</revenue>
+	<visits_evolution>0%</visits_evolution>
+	<actions_evolution>0%</actions_evolution>
+	<revenue_evolution>0%</revenue_evolution>
+</result>
