@@ -419,47 +419,56 @@
                 
                 // run test
                 baseReqData.test_files = test_files[testIdx];
-                $.post($form.attr('action'), baseReqData, function(response) {
-                  try {
-                    response = $.parseJSON(response);
-                  } catch (e) {
-                    $('#fatal-test-error pre').text(response);
-                    $('#fatal-test-error').show();
-                    return;
-                  }
-                  
-                  allResults.errors.push.apply(allResults.errors, response.errors);
-                  allResults.notifications.push.apply(allResults.notifications, response.notifications);
-                  
-                  for (var key in response.suites) {
-                    if (key == ':') {
-                      if (response.suites[key].status != 'succeeded') {
-                        allResults.suites[key].status = response.suites[key].status;
-                      }
-                      
-                      allResults.suites[key].tests.push(allResults.suites[key].tests, response.suites[key].tests);
-                      allResults.suites[key].time += response.suites[key].time;
-                    } else {
-                      allResults.suites[key] = response.suites[key];
+                $.ajax({
+                  type: 'POST',
+                  url: $form.attr('action'),
+                  data: baseReqData,
+                  success: function(response) {
+                    try {
+                      response = $.parseJSON(response);
+                    } catch (e) {
+                      $('#fatal-test-error pre').text(response);
+                      $('#fatal-test-error').show();
+                      return;
                     }
-                  }
-                  
-                  for (var key in allResults.stats) {
-                    allResults.stats[key].succeeded += response.stats[key].succeeded;
-                    allResults.stats[key].skipped += response.stats[key].skipped;
-                    allResults.stats[key].incomplete += response.stats[key].incomplete;
-                    allResults.stats[key].failed += response.stats[key].failed;
-                    allResults.stats[key].total += response.stats[key].total;
                     
-                    // recalculate percentages
-                    var total = allResults.stats[key].total;
-                    allResults.stats[key].percentFailed = (allResults.stats[key].failed / total) * 100;
-                    allResults.stats[key].percentIncomplete = (allResults.stats[key].incomplete / total) * 100;
-                    allResults.stats[key].percentSkipped = (allResults.stats[key].skipped / total) * 100;
-                    allResults.stats[key].percentSucceeded = (allResults.stats[key].succeeded / total) * 100;
+                    allResults.errors.push.apply(allResults.errors, response.errors);
+                    allResults.notifications.push.apply(allResults.notifications, response.notifications);
+                    
+                    for (var key in response.suites) {
+                      if (key == ':') {
+                        if (response.suites[key].status != 'succeeded') {
+                          allResults.suites[key].status = response.suites[key].status;
+                        }
+                        
+                        allResults.suites[key].tests.push(allResults.suites[key].tests, response.suites[key].tests);
+                        allResults.suites[key].time += response.suites[key].time;
+                      } else {
+                        allResults.suites[key] = response.suites[key];
+                      }
+                    }
+                    
+                    for (var key in allResults.stats) {
+                      allResults.stats[key].succeeded += response.stats[key].succeeded;
+                      allResults.stats[key].skipped += response.stats[key].skipped;
+                      allResults.stats[key].incomplete += response.stats[key].incomplete;
+                      allResults.stats[key].failed += response.stats[key].failed;
+                      allResults.stats[key].total += response.stats[key].total;
+                      
+                      // recalculate percentages
+                      var total = allResults.stats[key].total;
+                      allResults.stats[key].percentFailed = (allResults.stats[key].failed / total) * 100;
+                      allResults.stats[key].percentIncomplete = (allResults.stats[key].incomplete / total) * 100;
+                      allResults.stats[key].percentSkipped = (allResults.stats[key].skipped / total) * 100;
+                      allResults.stats[key].percentSucceeded = (allResults.stats[key].succeeded / total) * 100;
+                    }
+                    
+                    runTest(testIdx + 1, callback);
+                  },
+                  error: function(xhr, status, error) {
+                    $('#fatal-test-error pre').text("Exception: " + error.message);
+                    $('#fatal-test-error').show();
                   }
-                  
-                  runTest(testIdx + 1, callback);
                 });
               }
               
