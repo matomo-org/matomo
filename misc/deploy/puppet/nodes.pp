@@ -1,13 +1,46 @@
 host {
     "piwik.local":
         ip      => "127.0.0.1";
-} # host
+} 
+
+$piwik_domain = 'piwik.local'
+$piwik_path   = '/var/www/piwik'
+$socket_path  = "${piwik_path}/tmp/fpm.socket"
+
+user { $piwik_domain:
+  ensure  => present,
+  comment => $piwik_domain,
+  home    => $piwik_path,
+  shell   => '/bin/false',
+}
+
+php::fpm::pool { $piwik_domain:
+  pool_prefix          => $piwik_path,
+  user                 => $piwik_domain,
+  group                => $piwik_domain,
+  listen_type          => 'socket',
+  listen               => $socket_path,
+  socket_owner         => 'www-data',
+  socket_group         => 'www-data',
+  socket_mode          => '0660',
+  catch_workers_output => 'yes',
+}
+
+$php_locations = {
+  "php-rewrite-${piwik_domain}" => {
+    location  => '~ \.php$',
+    vhost     => $piwik_domain,
+    try_files => '$uri =404',
+    fastcgi   => "unix:${socket_path}",
+  }
+}
 
 node default {
   class { 'nginx': }
-  nginx::resource::vhost { 'piwik.local':
+  nginx::resource::vhost { "${piwik_domain}":
     ensure   => present,
-    www_root => '/var/www/piwik',
+    www_root => $piwik_path,
     listen_port => 8001,
+    locations => $php_locations
   }
 }
