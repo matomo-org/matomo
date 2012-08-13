@@ -466,7 +466,11 @@
                     runTest(testIdx + 1, callback);
                   },
                   error: function(xhr, status, error) {
-                    $('#fatal-test-error pre').text("Exception: " + error.message);
+                  	if (error.message) {
+	                  $('#fatal-test-error pre').text("Exception: " + error.message);
+                    } else {
+                      $('#fatal-test-error pre').text("HTTP Error, response: " + xhr.responseText);
+                    }
                     $('#fatal-test-error').show();
                   }
                 });
