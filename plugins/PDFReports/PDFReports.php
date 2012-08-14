@@ -388,6 +388,9 @@ class Piwik_PDFReports extends Piwik_Plugin
 
 			foreach ($emails as $email)
 			{
+				if(empty($email)) {
+					continue;
+				}
 				$mail->addTo($email);
 
 				try {
