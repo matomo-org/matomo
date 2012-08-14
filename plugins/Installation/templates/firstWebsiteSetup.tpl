@@ -8,7 +8,7 @@
 {/if}
 
 <h2>{'Installation_SetupWebsite'|translate}</h2>
-
+<br/><p>{'Installation_SiteSetup'|translate}</p>
 {if isset($errorMessage)}
 	<div class="error">
 		<img src="themes/default/images/error_medium.png" />
@@ -21,3 +21,5 @@
 {if isset($form_data)}
 	{include file="default/genericForm.tpl"}
 {/if}
+<br/>
+<p><i>{'Installation_SiteSetupFootnote'|translate}</i></p>

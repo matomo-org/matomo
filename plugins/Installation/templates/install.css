@@ -4,7 +4,7 @@ div.both {
 }
 
 body {
-	background-color: #F9F9F9;
+	background-color: #FFFBF9;
 	text-align: center;
 	font-family:Arial,Georgia,"Times New Roman",Times,serif;
 	font-size:17px;
@@ -13,15 +13,17 @@ body {
 #title{
 	font-size:50px;
 	color:#284F92;
+	vertical-align: text-bottom;
 }
 
 #subtitle{
 	font-size:30px;
-	color:#C7D8D2;
+	color: #6B320B;    
+	font-size: 27px;
 }
 
 #logo {
-	padding:30px;
+	padding: 20px 30px 40px;
 }
 
 h2 {
@@ -97,7 +99,7 @@ h3 {
 	font-size: 90%;
 	line-height: 1.4em;
 	width: 860px;
-	border: 1px solid #3B62AF;
+	border: 1px solid #7A5A3F;
 	text-align: $rightouleft;
 	margin: auto;
 	background: #FFFFFF;
@@ -155,6 +157,7 @@ td {
 
 .submit {
 	text-align:center;
+	cursor: pointer;
 }
 .submit input{
 	margin-top:15px;
