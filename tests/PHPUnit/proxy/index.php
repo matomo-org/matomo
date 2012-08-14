@@ -27,6 +27,11 @@ class Piwik_FrontController_Test extends Piwik_FrontController
 		Piwik::createConfigObject();
 		Piwik_Config::getInstance()->setTestEnvironment();
 	}
+	protected function createAccessObject()
+	{
+		parent::createAccessObject();
+		Piwik::setUserIsSuperUser(true);
+	}
 }
 
 // Disable index.php dispatch since we do it manually below

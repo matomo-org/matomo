@@ -208,6 +208,11 @@ class Piwik_FrontController
 		return $exceptionToThrow;
 	}
 	
+	protected function createAccessObject()
+	{
+		Piwik::createAccessObject();
+	}
+	
 	/**
 	 * Must be called before dispatch()
 	 * - checks that directories are writable,
@@ -304,7 +309,7 @@ class Piwik_FrontController
 			Piwik::createLogObject();
 			
 			// creating the access object, so that core/Updates/* can enforce Super User and use some APIs
-			Piwik::createAccessObject();
+			$this->createAccessObject();
 			Piwik_PostEvent('FrontController.dispatchCoreAndPluginUpdatesScreen');
 
 			Piwik_PluginsManager::getInstance()->installLoadedPlugins();

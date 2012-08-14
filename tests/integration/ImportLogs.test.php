@@ -46,12 +46,14 @@ class Test_Piwik_Integration_ImportLogs extends Test_Integration_Facade
 	 */
 	protected function trackVisits()
 	{
+		$token_auth = Piwik_UsersManager_API::getInstance()->getTokenAuth(Zend_Registry::get('config')->superuser->login, Zend_Registry::get('config')->superuser->password);
 		$python = Piwik_Common::isWindows() ? "C:\Python27\python.exe" : 'python';
 		$cmd = $python . ' "'
 			 . PIWIK_INCLUDE_PATH.'/misc/log-analytics/import_logs.py" ' # script loc
 //			 . '-ddd ' // debug
 			 . '--url="'.$this->getRootUrl().'tests/PHPUnit/proxy/" ' # proxy so that piwik uses test config files
 			 . '--idsite='.$this->idSite.' '
+			 . '--token-auth='.$token_auth.' '
 			 . '--recorders=4 '
 			 . '--enable-http-errors '
 			 . '--enable-http-redirects '
