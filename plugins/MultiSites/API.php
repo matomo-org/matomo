@@ -188,6 +188,11 @@ class Piwik_MultiSites_API
 		{
 			$dataTable = $dataTable->mergeChildren();
 		}
+		else
+		{
+			$firstDataTableRow = $dataTable->getFirstRow();
+			$firstDataTableRow->setColumn('label', $sites);
+		}
 
 		// if the period isn't a range & a lastN/previousN date isn't used, we get the same
 		// data for the last period to show the evolution of visits/actions/revenue

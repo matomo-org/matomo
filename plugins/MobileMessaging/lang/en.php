@@ -49,6 +49,5 @@ $translations = array(
 	'MobileMessaging_MobileReport_MobileMessagingSettingsLink' => 'the Mobile Messaging settings page',
 	'MobileMessaging_MobileReport_AdditionalPhoneNumbers' => 'You can add more phone numbers by accessing',
 	'MobileMessaging_SMS_Content_Too_Long' => '[too long]',
-	'MobileMessaging_MultiSites_Must_Be_Activated' => 'To generate SMS texts of your website stats, please enable the MultiSites plugin in Piwik.',
-	'MobileMessaging_SMSProvider_Description_Clockwork' => 'You can use Clockwork.com to send SMS Reports from Piwik.<br/> * First, get an API Key form <a href="http://clockworksms.com/platforms/piwik/">Clockwork</a> (Signup is free with some test messages) <br/> * Put your Clockwork API Key in Piwik. <br/> About Clockwork <br/> * Clockwork gives you fast, reliable high quality worldwide SMS delivery, over 450 networks in every corner of the globe. <br/>  * Cost per SMS message is around ~0.08USD (0.06EUR). </br>  * Most countries and networks are supported but we suggest you check the latest position on their coverage map here <a href="www.clockworksms.com/sms-coverage/">www.clockworksms.com/sms-coverage/</a>',
+	'MobileMessaging_MultiSites_Must_Be_Activated' => 'To generate SMS texts of your website stats, please enable the MultiSites plugin in Piwik.'
 );

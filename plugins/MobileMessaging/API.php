@@ -290,13 +290,6 @@ class Piwik_MobileMessaging_API
 		$this->setCurrentUserSettings($settings);
 	}
 
-	private function saveSMSSentCount($smsSentCount)
-	{
-		$settings = $this->getCurrentUserSettings();
-		$settings[Piwik_MobileMessaging::SMS_SENT_COUNT_OPTION] = $smsSentCount;
-		$this->setCurrentUserSettings($settings);
-	}
-
 	/**
 	 * validate phone number
 	 *

@@ -117,6 +117,7 @@ class Piwik_MobileMessaging_ReportRenderer_Sms extends Piwik_ReportRenderer
 		$smarty->assign("reportRowsMetadata", $reportRowsMetadata);
 		$smarty->assign("prettyDate", $prettyDate);
 		$smarty->assign("siteHasECommerce", $siteHasECommerce);
+		$smarty->assign("displaySiteName", $processedReport['metadata']['action'] == 'getAll');
 
 		$this->rendering .= $smarty->fetch(PIWIK_USER_PATH . '/plugins/MobileMessaging/templates/SMSReport.tpl');
 	}

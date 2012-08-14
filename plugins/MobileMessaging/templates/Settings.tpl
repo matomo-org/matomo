@@ -32,7 +32,7 @@
 
 		{foreach from=$smsProviders key=smsProvider item=description}
 			<p class='providerDescription' id='{$smsProvider}'>
-				{$description|translate}
+				{$description}
 			</p>
 		{/foreach}
 
