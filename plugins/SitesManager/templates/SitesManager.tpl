@@ -7,6 +7,7 @@
 {capture assign=excludedIpHelpPlain}{'SitesManager_HelpExcludedIps'|translate:"1.2.3.*":"1.2.*.*"}<br /><br /> {'SitesManager_YourCurrentIpAddressIs'|translate:"<i>$currentIpAddress</i>"}{/capture}
 {assign var=excludedIpHelp value=$excludedIpHelpPlain|inlineHelp}
 var excludedIpHelp = '{$excludedIpHelp|escape:javascript}';
+var groupHelp = '{'SitesManager_GroupHelp'|translate|inlineHelp|escape:javascript}';
 var aliasUrlsHelp = '{'SitesManager_AliasUrlHelp'|translate|inlineHelp|escape:javascript}';
 {capture assign=defaultTimezoneHelpPlain}
 	{if $timezoneSupported}
@@ -119,6 +120,7 @@ vertical-align:middle;
 			<tr>
 			<th>{'General_Id'|translate}</th>
 			<th>{'General_Name'|translate}</th>
+			<th>{'SitesManager_Group'|translate}</th>
 			<th>{'SitesManager_Urls'|translate}</th>
 			<th>{'SitesManager_ExcludedIps'|translate}</th>
 			<th>{'SitesManager_ExcludedParameters'|translate|replace:" ":"<br />"}</th>
@@ -135,6 +137,7 @@ vertical-align:middle;
 			<tr id="row{$i}">
 				<td id="idSite">{$site.idsite}</td>
 				<td id="siteName" class="editableSite">{$site.name}</td>
+				<td id="group" class="editableSite">{$site.group}</td>
 				<td id="urls" class="editableSite">{foreach from=$site.alias_urls item=url}{$url|replace:"http://":""}<br />{/foreach}</td>       
 				<td id="excludedIps" class="editableSite">{foreach from=$site.excluded_ips item=ip}{$ip}<br />{/foreach}</td>       
 				<td id="excludedQueryParameters" class="editableSite">{foreach from=$site.excluded_parameters item=parameter}{$parameter}<br />{/foreach}</td>       
