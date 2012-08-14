@@ -31,7 +31,6 @@ var MobileMessagingSettings = MobileMessagingSettings || (function () {
 		confirmDeleteAccountSelector = '#confirmDeleteAccount',
 		accountFormSelector = '#accountForm',
 		displayAccountFormSelector = '#displayAccountForm',
-		autoCompleteInputSelector = 'input.ui-autocomplete-input',
 		phoneNumberActivatedSelector = '#phoneNumberActivated',
 		invalidActivationCodeMsgSelector = '#invalidActivationCode',
 		ajaxErrorsSelector = 'ajaxErrorMobileMessagingSettings',

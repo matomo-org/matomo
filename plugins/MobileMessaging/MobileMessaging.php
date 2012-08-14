@@ -289,8 +289,12 @@ class Piwik_MobileMessaging extends Piwik_Plugin
 	 */
 	static public function template_reportParametersPDFReports($notification)
 	{
+		if(Piwik::isUserIsAnonymous())
+		{
+			return;
+		}
+		
 		$out =& $notification->getNotificationObject();
-
 		$view = Piwik_View::factory('ReportParameters');
 		$view->reportType = self::MOBILE_TYPE;
 		$view->phoneNumbers = Piwik_MobileMessaging_API::getInstance()->getActivatedPhoneNumbers();

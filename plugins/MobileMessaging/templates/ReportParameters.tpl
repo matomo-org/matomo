@@ -49,13 +49,16 @@
 	</td>
 	<td>
 		{if $phoneNumbers|@count eq 0}
+			<div class="entityInlineHelp">
 			{'MobileMessaging_MobileReport_NoPhoneNumbers'|translate}
 		{else}
 			{foreach from=$phoneNumbers item=phoneNumber}
-				<input name='phoneNumbers' type='checkbox' id='{$phoneNumber}'/>{$phoneNumber}<br/>
+				<label><input name='phoneNumbers' type='checkbox' id='{$phoneNumber}'/>{$phoneNumber}</label><br/>
 			{/foreach}
-			{'MobileMessaging_MobileReport_AdditionalPhoneNumbers'|translate}
+			<div class="entityInlineHelp">
+				{'MobileMessaging_MobileReport_AdditionalPhoneNumbers'|translate}
 		{/if}
-			<a href='{url module="MobileMessaging" updated="false"}'>{'MobileMessaging_MobileReport_MobileMessagingSettingsLink'|translate}</a>
+			<a href='{url module="MobileMessaging" updated=null}'>{'MobileMessaging_MobileReport_MobileMessagingSettingsLink'|translate}</a>
+			</div>
 	</td>
 </tr>

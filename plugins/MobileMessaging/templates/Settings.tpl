@@ -51,36 +51,50 @@
 {else}
 
 	{'MobileMessaging_Settings_PhoneNumbers_Help'|translate}<br/><br/>
-	<strong>{'MobileMessaging_Settings_PhoneNumbers_Add'|translate}</strong><br/><br/>
-
-	<span id='suspiciousPhoneNumber' style='display:none;'>
-		{'MobileMessaging_Settings_SuspiciousPhoneNumber'|translate}<br/><br/>
-	</span>
-
-	+<input id='countryCallingCode' size='7' maxlength='4'/>&nbsp;
-	<input id='newPhoneNumber'/>
-	<input
-			type='submit'
-			value='{'MobileMessaging_Settings_AddPhoneNumber'|translate}'
-			id='addPhoneNumberSubmit'
-			/>
-
-	<br/>
-	<span class="form-description">{'MobileMessaging_Settings_CountryCode'|translate}</span><span class="form-description">{'MobileMessaging_Settings_PhoneNumber'|translate}</span><br/><br/>
-
-	{'MobileMessaging_Settings_PhoneNumbers_CountryCode_Help'|translate}
-	<select id='countries'>
-		<option value=''>&nbsp;</option> {* this is a trick to avoid selecting the first country when no default could be found *}
-		{foreach from=$countries key=countryCode item=country}
-			<option
-					value='{$country.countryCallingCode}'
-				{if $defaultCountry==$countryCode} selected='selected' {/if}
-					>
-				{$country.countryName}
-			</option>
-		{/foreach}
-	</select>
-
+	
+	<table style="width:900px;" class="adminTable">
+	<tbody><tr>
+	<td style="width:480px">
+		<strong>{'MobileMessaging_Settings_PhoneNumbers_Add'|translate}</strong><br/><br/>
+	
+		<span id='suspiciousPhoneNumber' style='display:none;'>
+			{'MobileMessaging_Settings_SuspiciousPhoneNumber'|translate:'54184032'}<br/><br/>
+		</span>
+	
+		+ <input id='countryCallingCode' size='4' maxlength='4'/>&nbsp;
+		<input id='newPhoneNumber'/>
+		<input
+				type='submit'
+				value='{'MobileMessaging_Settings_AddPhoneNumber'|translate}'
+				id='addPhoneNumberSubmit'
+				/>
+	
+		<br/>
+		
+		<span style=' font-size: 11px;'><span class="form-description">{'MobileMessaging_Settings_CountryCode'|translate}</span><span class="form-description">{'MobileMessaging_Settings_PhoneNumber'|translate}</span></span>
+		<br/><br/>
+	
+		{'MobileMessaging_Settings_PhoneNumbers_CountryCode_Help'|translate}
+		
+		<select id='countries'>
+			<option value=''>&nbsp;</option> {* this is a trick to avoid selecting the first country when no default could be found *}
+			{foreach from=$countries key=countryCode item=country}
+				<option
+						value='{$country.countryCallingCode}'
+					{if $defaultCountry==$countryCode} selected='selected' {/if}
+						>
+					{$country.countryName|truncate:15:'...'}
+				</option>
+			{/foreach}
+		</select>
+	
+	</td>
+	<td style="width:220px">
+		{$strHelpAddPhone|inlineHelp}
+	
+	</td></tr>
+	<tr><td colspan="2">
+	
 	{if $phoneNumbers|@count gt 0}
 		<br/>
 		<br/>
@@ -123,6 +137,10 @@
 		</li>
 	{/foreach}
 	</ul>
+	
+	</td>
+	</tr>
+	</tbody></table>
 {/if}
 
 {if $isSuperUser}
@@ -136,22 +154,24 @@
 					<label>
 						<input
 								type='radio'
-								value='true'
-								name='delegatedManagement' {if $delegatedManagement} checked='checked'{/if} />
-					{'General_Yes'|translate}
-						<br/>
-					</label>
-					<br/>
-
-					<label>
-						<input
-								type='radio'
 								value='false'
 								name='delegatedManagement' {if !$delegatedManagement} checked='checked'{/if} />
 					{'General_No'|translate}
 						<br/>
 						<span class='form-description'>({'General_Default'|translate}) {'MobileMessaging_Settings_LetUsersManageAPICredential_No_Help'|translate}</span>
 					</label>
+					<br/>
+					<br/>
+					<label>
+						<input
+								type='radio'
+								value='true'
+								name='delegatedManagement' {if $delegatedManagement} checked='checked'{/if} />
+					{'General_Yes'|translate}
+						<br/>						
+						<span class='form-description'>{'MobileMessaging_Settings_LetUsersManageAPICredential_Yes_Help'|translate}</span>
+					</label>
+
 				</fieldset>
 		</tr>
 	</table>
