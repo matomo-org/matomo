@@ -339,10 +339,8 @@ class Configuration(object):
             "You can also experiment with higher values which may increase performance until a certain point",
         )
         option_parser.add_option(
-            '--recorder-max-payload-size', dest='recorder_max_payload_size', default=300, type='int',
+            '--recorder-max-payload-size', dest='recorder_max_payload_size', default=200, type='int',
             help="Maximum number of log entries to record in one tracking request (default: %default). "
-            "The more recorders you use, the larger this number should be. When in doubt, pick a large "
-            "number."
         )
         option_parser.add_option(
             '--output', dest='output',
@@ -1301,7 +1299,7 @@ class Parser(object):
             if all((method(hit) for name, method in check_methods if name.startswith('check_'))):
                 hits.append(hit)
             
-                if len(hits) >= config.options.recorder_max_payload_size:
+                if len(hits) >= config.options.recorder_max_payload_size * len(Recorder.recorders):
                     Recorder.add_hits(hits)
                     hits = []
         
