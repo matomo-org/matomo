@@ -700,6 +700,8 @@ class Piwik_UsersManager_API
 	{
 		if(strlen($md5Password) != 32) 
 		{
+			//FIXME TODO TEMP
+			throw new Exception("what's going on here! '$md5Password' " . var_export($_REQUEST,true));
 			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionPasswordMD5HashExpected'));
 		}
 		return md5($userLogin . $md5Password );
