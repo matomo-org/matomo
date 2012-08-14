@@ -757,7 +757,7 @@ class Piwik(object):
                     if on_failure is not None:
                         error_message = on_failure(response, kwargs.get('data'))
                     else:
-                        truncated_response = (response[:200] + '..') if len(response) > 200 else response
+                        truncated_response = (response[:250] + '..') if len(response) > 250 else response
                         error_message = "didn't receive the expected response. Response was %s " % truncated_response
                         
                     raise urllib2.URLError(error_message)
