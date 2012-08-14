@@ -19,8 +19,6 @@ package {
         ensure => latest;
     'wget':
         ensure => latest;
-    'python-software-properties':
-        ensure => installed;
 }
 
 include git

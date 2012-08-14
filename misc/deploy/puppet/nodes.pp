@@ -1,11 +1,13 @@
+
+$piwik_domain = 'nginx.piwik'
+$piwik_path   = '/var/www/piwik'
+$piwik_port   = 80
+$socket_path  = "${piwik_path}/tmp/fpm.socket"
+
 host {
-    "piwik.local":
+    "${piwik_domain}":
         ip      => "127.0.0.1";
 } 
-
-$piwik_domain = 'piwik.local'
-$piwik_path   = '/var/www/piwik'
-$socket_path  = "${piwik_path}/tmp/fpm.socket"
 
 user { $piwik_domain:
   ensure  => present,
@@ -40,7 +42,7 @@ node default {
   nginx::resource::vhost { "${piwik_domain}":
     ensure   => present,
     www_root => $piwik_path,
-    listen_port => 8001,
+    listen_port => 8080,
     locations => $php_locations
   }
 }
