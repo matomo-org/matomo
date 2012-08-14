@@ -8,7 +8,7 @@
 {/if}
 
 <h2>{'Installation_SetupWebsite'|translate}</h2>
-<br/><p>{'Installation_SiteSetup'|translate}</p>
+<p>{'Installation_SiteSetup'|translate}</p>
 {if isset($errorMessage)}
 	<div class="error">
 		<img src="themes/default/images/error_medium.png" />
