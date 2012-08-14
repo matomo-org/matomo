@@ -205,10 +205,6 @@ class Configuration(object):
             help="REQUIRED Piwik base URL, eg. http://example.com/piwik/ or http://analytics.example.net",
         )
         option_parser.add_option(
-            '--tracker-url', dest='piwik_tracker_url', default=None,
-            help="Piwik tracker URL, defaults to http://piwik-url/piwik.php"
-        )
-        option_parser.add_option(
             '--dry-run', dest='dry_run',
             action='store_true', default=False,
             help="Perform a trial run with no tracking data being inserted into Piwik",
@@ -355,6 +351,10 @@ class Configuration(object):
         option_parser.add_option(
             '--encoding', dest='encoding', default='utf8',
             help="Log files encoding (default: %default)"
+        )
+        option_parser.add_option(
+            '--tracker-url', dest='piwik_tracker_url', default=None,
+            help="(Used in our integration tests) Overrides the Piwik tracker URL, defaults to http://piwik-url/piwik.php"
         )
 
 
