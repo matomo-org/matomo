@@ -46,20 +46,20 @@ class Test_Piwik_Integration_ImportLogs extends Test_Integration_Facade
 	 */
 	protected function trackVisits()
 	{
-		$cmd = "python "
-			 . PIWIK_INCLUDE_PATH.'/misc/log-analytics/import_logs.py ' # script loc
-			 . '--url="'.$this->getRootUrl().'" '
-			 . '--tracker-url="'.$this->getTrackerUrl().'" '
+		$python = Piwik_Common::isWindows() ? "C:\Python27\python.exe" : 'python';
+		$cmd = $python . ' "'
+			 . PIWIK_INCLUDE_PATH.'/misc/log-analytics/import_logs.py" ' # script loc
+//			 . '-ddd ' // debug
+			 . '--url="'.$this->getRootUrl().'tests/PHPUnit/proxy/" ' # proxy so that piwik uses test config files
 			 . '--idsite='.$this->idSite.' '
 			 . '--recorders=4 '
 			 . '--enable-http-errors '
 			 . '--enable-http-redirects '
 			 . '--enable-static '
-			 . '--enable-bots '
-			 . PIWIK_INCLUDE_PATH.'/tests/resources/fake_logs.log ' # log file
+			 . '--enable-bots "'
+			 . PIWIK_INCLUDE_PATH.'/tests/resources/fake_logs.log" ' # log file
 			 . '2>&1'
 			 ;
-		
 		exec($cmd, $output, $result);
 		if ($result !== 0)
 		{

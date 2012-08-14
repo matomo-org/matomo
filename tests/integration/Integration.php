@@ -302,7 +302,7 @@ abstract class Test_Integration extends Test_Database_Base
 	 */
 	protected function getTrackerUrl()
 	{
-		return $this->getRootUrl().'tests/integration/proxy-piwik.php';
+		return $this->getRootUrl().'tests/PHPUnit/proxy-piwik.php';
 	}
 
 	/**

@@ -265,7 +265,8 @@ class Piwik_Updater
 			{
 				if($name === 'core')
 				{
-					$currentVersion = '0.2.9';
+					// This should not happen
+					$currentVersion = Piwik_Version::VERSION;
 				}
 				else
 				{

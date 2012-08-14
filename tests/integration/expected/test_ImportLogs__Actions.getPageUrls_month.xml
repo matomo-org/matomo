@@ -44,7 +44,7 @@
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
-						<url>http://doctorwho.com/docs/manage-websites/</url>
+						<url>http://piwik.net/docs/manage-websites/</url>
 					</row>
 				</subtable>
 			</row>
@@ -64,7 +64,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<url>http://doctorwho.com/docs/</url>
+				<url>http://piwik.net/docs/</url>
 			</row>
 			<row>
 				<label>manage-users</label>
@@ -96,7 +96,7 @@
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
-						<url>http://doctorwho.com/docs/manage-users/</url>
+						<url>http://piwik.net/docs/manage-users/</url>
 					</row>
 				</subtable>
 			</row>
@@ -132,7 +132,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<url>http://doctorwho.com/faq/</url>
+				<url>http://piwik.net/faq/</url>
 			</row>
 			<row>
 				<label>how-to</label>
@@ -164,7 +164,7 @@
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
-						<url>http://doctorwho.com/faq/how-to/</url>
+						<url>http://piwik.net/faq/how-to/</url>
 					</row>
 				</subtable>
 			</row>
@@ -198,7 +198,7 @@
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
-						<url>http://doctorwho.com/faq/how-to-install/</url>
+						<url>http://piwik.net/faq/how-to-install/</url>
 					</row>
 				</subtable>
 			</row>
@@ -262,7 +262,7 @@
 								<avg_time_on_page>0</avg_time_on_page>
 								<bounce_rate>100%</bounce_rate>
 								<exit_rate>100%</exit_rate>
-								<url>http://doctorwho.com/blog/category/community/</url>
+								<url>http://piwik.net/blog/category/community/</url>
 							</row>
 						</subtable>
 					</row>
@@ -296,7 +296,7 @@
 								<avg_time_on_page>0</avg_time_on_page>
 								<bounce_rate>100%</bounce_rate>
 								<exit_rate>100%</exit_rate>
-								<url>http://doctorwho.com/blog/category/meta/</url>
+								<url>http://piwik.net/blog/category/meta/</url>
 							</row>
 						</subtable>
 					</row>
@@ -360,7 +360,7 @@
 										<avg_time_on_page>0</avg_time_on_page>
 										<bounce_rate>100%</bounce_rate>
 										<exit_rate>100%</exit_rate>
-										<url>http://doctorwho.com/blog/2012/08/survey-your-opinion-matters/</url>
+										<url>http://piwik.net/blog/2012/08/survey-your-opinion-matters/</url>
 									</row>
 								</subtable>
 							</row>
@@ -386,7 +386,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<url>http://doctorwho.com/</url>
+		<url>http://piwik.net/</url>
 	</row>
 	<row>
 		<label>download</label>
@@ -432,7 +432,7 @@
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
-						<url>http://doctorwho.com/download/counter/</url>
+						<url>http://piwik.net/download/counter/</url>
 					</row>
 				</subtable>
 			</row>
@@ -468,7 +468,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<url>http://doctorwho.com/hosting/</url>
+				<url>http://piwik.net/hosting/</url>
 			</row>
 		</subtable>
 	</row>
@@ -502,7 +502,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<url>http://doctorwho.com/intranet-analytics/</url>
+				<url>http://piwik.net/intranet-analytics/</url>
 			</row>
 		</subtable>
 	</row>
@@ -536,7 +536,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<url>http://doctorwho.com/newsletter/</url>
+				<url>http://piwik.net/newsletter/</url>
 			</row>
 		</subtable>
 	</row>
@@ -570,7 +570,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<url>http://doctorwho.com/translations/</url>
+				<url>http://piwik.net/translations/</url>
 			</row>
 		</subtable>
 	</row>

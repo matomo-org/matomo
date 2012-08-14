@@ -280,7 +280,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 										$refererTimestamp,
 										$refererUrl,
 										$refererCampaignName,
-										$refererCampaignKeyword
+										$refererCampaignKeyword,
+										$this->getBrowserLanguage()
 			);
 		}
 		unset($this->goalManager);

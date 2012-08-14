@@ -8,11 +8,12 @@
  * @see Main.test.php
  * 
  */
+
 // Wrapping the request inside ob_start() calls to ensure that the Test
 // calling us waits for the full request to process before unblocking
 ob_start();
 
-define('PIWIK_INCLUDE_PATH', '../..');
+define('PIWIK_INCLUDE_PATH', '../../..');
 define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
 
 require_once PIWIK_INCLUDE_PATH .'/libs/upgradephp/upgrade.php';
@@ -31,5 +32,5 @@ Piwik_Option::getInstance()->clearCache();
 Piwik_Site::clearCache();
 Piwik_Common::deleteTrackerCache();
 
-include '../../piwik.php';
+include PIWIK_INCLUDE_PATH . '/piwik.php';
 ob_flush();

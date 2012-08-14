@@ -234,12 +234,12 @@ class Piwik_Tracker_GoalManager
 	 * @param string $referrerCampaignName
 	 * @param string $referrerCampaignKeyword
 	 */
-	public function recordGoals($idSite, $visitorInformation, $visitCustomVariables, $action, $referrerTimestamp, $referrerUrl, $referrerCampaignName, $referrerCampaignKeyword)
+	public function recordGoals($idSite, $visitorInformation, $visitCustomVariables, $action, $referrerTimestamp, $referrerUrl, $referrerCampaignName, $referrerCampaignKeyword, $browserLanguage)
 	{
 		$location_country = isset($visitorInformation['location_country']) 
 							? $visitorInformation['location_country'] 
 							: Piwik_Common::getCountry( 
-									Piwik_Common::getBrowserLanguage(), 
+									$browserLanguage, 
 									$enableLanguageToCountryGuess = Piwik_Config::getInstance()->Tracker['enable_language_to_country_guess'],
 									$visitorInformation['location_ip'] 
 							);

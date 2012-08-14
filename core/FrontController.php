@@ -193,6 +193,22 @@ class Piwik_FrontController
 	}
 
 	/**
+	 * Loads the config file and assign to the global registry
+	 * This is overriden in tests to ensure test config file is used
+	 */
+	protected function createConfigObject()
+	{
+		$exceptionToThrow = false;
+		try {
+			Piwik::createConfigObject();
+		} catch(Exception $e) {
+			Piwik_PostEvent('FrontController.NoConfigurationFile', $e, $info = array(), $pending = true);
+			$exceptionToThrow = $e;
+		}
+		return $exceptionToThrow;
+	}
+	
+	/**
 	 * Must be called before dispatch()
 	 * - checks that directories are writable,
 	 * - loads the configuration file,
@@ -230,14 +246,7 @@ class Piwik_FrontController
 
 			Piwik_Translate::getInstance()->loadEnglishTranslation();
 
-			$exceptionToThrow = false;
-
-			try {
-				Piwik::createConfigObject();
-			} catch(Exception $e) {
-				Piwik_PostEvent('FrontController.NoConfigurationFile', $e, $info = array(), $pending = true);
-				$exceptionToThrow = $e;
-			}
+			$exceptionToThrow = $this->createConfigObject();
 
 			if(Piwik_Session::isFileBasedSessions())
 			{
@@ -271,8 +280,7 @@ class Piwik_FrontController
 				$url = str_replace("http://", "https://", $url);
 				Piwik_Url::redirectToUrl($url);
 			}
-				
-				
+
 			$pluginsManager = Piwik_PluginsManager::getInstance();
 			$pluginsToLoad = Piwik_Config::getInstance()->Plugins['Plugins'];
 			$pluginsManager->loadPlugins( $pluginsToLoad );
