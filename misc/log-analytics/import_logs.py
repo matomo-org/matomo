@@ -350,11 +350,6 @@ class Configuration(object):
             '--encoding', dest='encoding', default='utf8',
             help="Log files encoding (default: %default)"
         )
-        option_parser.add_option(
-            '--tracker-url', dest='piwik_tracker_url', default=None,
-            help="(Used in our integration tests) Overrides the Piwik tracker URL, defaults to http://piwik-url/piwik.php"
-        )
-
 
         self.options, self.filenames = option_parser.parse_args(sys.argv[1:])
 
@@ -778,14 +773,10 @@ class Piwik(object):
                     time.sleep(PIWIK_DELAY_AFTER_FAILURE)
 
     def call(self, path, args, expected_content=None, headers=None, data=None, on_failure=None):
-        tracker_url = config.options.piwik_tracker_url
-        return self._call_wrapper(self._call, expected_content, on_failure, path, args, headers,
-                                  url=tracker_url, data=data)
+         return self._call_wrapper(self._call, expected_content, path, args, headers)
 
     def call_api(self, method, **kwargs):
         return self._call_wrapper(self._call_api, None, None, method, **kwargs)
-
-
 
 ##
 ## Resolvers.

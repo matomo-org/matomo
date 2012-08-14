@@ -46,7 +46,10 @@ class Test_Piwik_Integration_ImportLogs extends Test_Integration_Facade
 	 */
 	protected function trackVisits()
 	{
-		$token_auth = Piwik_UsersManager_API::getInstance()->getTokenAuth(Zend_Registry::get('config')->superuser->login, Zend_Registry::get('config')->superuser->password);
+		$pwd = Zend_Registry::get('config')->superuser->password;
+		if(strlen($pwd) != 32) $pwd = md5($pwd);
+		
+		$token_auth = Piwik_UsersManager_API::getInstance()->getTokenAuth(Zend_Registry::get('config')->superuser->login, $pwd);
 		$python = Piwik_Common::isWindows() ? "C:\Python27\python.exe" : 'python';
 		$cmd = $python . ' "'
 			 . PIWIK_INCLUDE_PATH.'/misc/log-analytics/import_logs.py" ' # script loc
