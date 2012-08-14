@@ -2,7 +2,7 @@
 <result>
 	<row>
 		<category>All Websites</category>
-		<name>Single Websites dashboard</name>
+		<name>Single Website dashboard</name>
 		<module>MultiSites</module>
 		<action>getOne</action>
 		<dimension>Website</dimension>

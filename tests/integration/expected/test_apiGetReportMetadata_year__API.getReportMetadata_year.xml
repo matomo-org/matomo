@@ -445,7 +445,7 @@
 	</row>
 	<row>
 		<category>Tous les sites web</category>
-		<name>Single Websites dashboard</name>
+		<name>Single Website dashboard</name>
 		<module>MultiSites</module>
 		<action>getOne</action>
 		<dimension>Site</dimension>
