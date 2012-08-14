@@ -752,7 +752,8 @@ class Piwik(object):
                     if on_failure is not None:
                         error_message = on_failure(response, kwargs.get('data'))
                     else:
-                        truncated_response = (response[:250] + '..') if len(response) > 250 else response
+                    	truncate_after = 300
+                        truncated_response = (response[:truncate_after] + '..') if len(response) > truncate_after else response
                         error_message = "didn't receive the expected response. Response was %s " % truncated_response
                         
                     raise urllib2.URLError(error_message)
@@ -773,8 +774,9 @@ class Piwik(object):
                     time.sleep(PIWIK_DELAY_AFTER_FAILURE)
 
     def call(self, path, args, expected_content=None, headers=None, data=None, on_failure=None):
-         return self._call_wrapper(self._call, expected_content, path, args, headers)
-
+        return self._call_wrapper(self._call, expected_content, on_failure, path, args, headers,
+                                    data=data)
+                                    
     def call_api(self, method, **kwargs):
         return self._call_wrapper(self._call_api, None, None, method, **kwargs)
 
