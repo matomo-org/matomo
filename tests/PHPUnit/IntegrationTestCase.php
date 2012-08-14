@@ -268,7 +268,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 	 */
 	protected static function getTrackerUrl()
 	{
-		return self::getRootUrl().'tests/PHPUnit/proxy-piwik.php';
+		return self::getRootUrl().'tests/PHPUnit/proxy/piwik.php';
 	}
 
     /**
