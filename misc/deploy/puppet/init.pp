@@ -7,21 +7,23 @@ Exec {
 include apt
 
 package {
-    'vim':
-        ensure => installed;
-    'subversion':
-        ensure => installed;
-    'facter':
-        ensure => latest;
-    'strace':
-        ensure => latest;
-    'tcpdump':
-        ensure => latest;
-    'wget':
-        ensure => latest;
+  'vim':
+      ensure => installed;
+  'subversion':
+      ensure => installed;
+  'facter':
+      ensure => latest;
+  'strace':
+      ensure => latest;
+  'tcpdump':
+      ensure => latest;
+  'wget':
+      ensure => latest;
 }
 
 include git
+
+import 'log-analytics'
 
 import 'php-piwik'
 
