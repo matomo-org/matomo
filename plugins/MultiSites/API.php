@@ -190,8 +190,11 @@ class Piwik_MultiSites_API
 		}
 		else
 		{
-			$firstDataTableRow = $dataTable->getFirstRow();
-			$firstDataTableRow->setColumn('label', $sites);
+			if(!$dataTable instanceof Piwik_DataTable_Array)
+			{
+				$firstDataTableRow = $dataTable->getFirstRow();
+				$firstDataTableRow->setColumn('label', $sites);
+			}
 		}
 
 		// if the period isn't a range & a lastN/previousN date isn't used, we get the same
@@ -250,6 +253,10 @@ class Piwik_MultiSites_API
 		{
 			$getNameFor = array('Piwik_Site', 'getNameFor');
 			$dataTable->filter('ColumnCallbackReplace', array('label', $getNameFor));
+		}
+		else
+		{
+			$dataTable->filter('ColumnDelete', array('label'));
 		}
 
 		// replace record names with user friendly metric names
