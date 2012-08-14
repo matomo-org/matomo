@@ -65,6 +65,7 @@ class Test_Piwik_Integration_ImportLogs extends Test_Integration_Facade
 			 . PIWIK_INCLUDE_PATH.'/tests/resources/fake_logs.log" ' # log file
 			 . '2>&1'
 			 ;
+	    echo $cmd;
 		exec($cmd, $output, $result);
 		if ($result !== 0)
 		{
