@@ -650,10 +650,11 @@ Performance summary
         latest_total_recorded = 0
         while not self.monitor_stop:
             current_total = stats.count_lines_recorded.value
-            print '%d lines parsed, %d lines recorded, %d records/sec' % (
+            print '%d lines parsed, %d lines recorded, %d records/sec (avg), %d records/sec (current)' % (
                 stats.count_lines_parsed.value,
                 current_total,
-                current_total - latest_total_recorded,
+                current_total / (time.time() - self.time_start),
+                current_total - latest_total_recorded
             )
             latest_total_recorded = current_total
             time.sleep(1)
@@ -1307,10 +1308,10 @@ def main():
     """
     Start the importing process.
     """
+    stats.set_time_start()
+    
     if config.options.show_progress:
         stats.start_monitor()
-
-    stats.set_time_start()
 
     recorders = Recorder.launch(config.options.recorders)
 
