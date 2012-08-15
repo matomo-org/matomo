@@ -75,7 +75,7 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
 //			 . '-ddd ' // debug
 			 . '--url="'.self::getRootUrl().'tests/PHPUnit/proxy/" ' # proxy so that piwik uses test config files
 			 . '--idsite='.self::$idSite.' '
-			 . '--token-auth='.$token_auth.' '
+			 . '--token-auth="'.$token_auth.'" '
 			 . '--recorders=4 '
 			 . '--enable-http-errors '
 			 . '--enable-http-redirects '
