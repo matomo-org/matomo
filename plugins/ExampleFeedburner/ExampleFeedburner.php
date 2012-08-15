@@ -79,7 +79,13 @@ class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 		}
 		$view->feedburnerFeedName = $feedburnerFeedName;
 		$view->idSite = $idSite;
-		$view->fbStats = $this->getFeedData($feedburnerFeedName);
+		
+		try {
+			$stats = $this->getFeedData($feedburnerFeedName);
+		} catch(Exception $e) {
+			$stats = $e->getMessage();
+		}
+		$view->fbStats = $stats;
 		echo $view->render();
 	}
 
@@ -100,7 +106,7 @@ class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 		$beforeYesterday = Piwik_Date::factory('-2 day', 'America/Los_Angeles');
 		
 		//create url to gather XML feed from
-		$url = 'https://feedburner.google.com/api/awareness/1.0/GetFeedData?uri='.urlencode($uri).'&dates='.$beforeYesterday->toString().','.$yesterday->toString();
+		$url = 'https://feedburner.goosgle.com/api/awareness/1.0/GetFeedData?uri='.urlencode($uri).'&dates='.$beforeYesterday->toString().','.$yesterday->toString();
 		$data = '';
 		try {
 			$data = Piwik_Http::sendHttpRequest($url, 5);

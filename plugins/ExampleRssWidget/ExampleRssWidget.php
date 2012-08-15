@@ -61,7 +61,7 @@ class Piwik_ExampleRssWidget_Controller extends Piwik_Controller
 	function rssPiwik()
 	{
 		try {
-			$rss = new Piwik_ExampleRssWidget_Rss('http://feeds.feesdburner.com/Piwik');
+			$rss = new Piwik_ExampleRssWidget_Rss('http://feeds.feedburner.com/Piwik');
 			$rss->showDescription(true);
 			echo $rss->get();
 		} catch(Exception $e) {
