@@ -2,21 +2,16 @@ class piwik::php {
 
   include php
 
-  php::module { ['snmp', 'xdebug', 'mysql', 'gd', 'sqlite', 'memcache', 'mcrypt', 'imagick', 'geoip', 'uuid', 'recode', 'cgi']:
-    notify => Class['php::fpm::service'],
-  }
+  php::module { ['snmp', 'xdebug', 'mysql', 'gd', 'sqlite', 'memcache', 'mcrypt', 'imagick', 'geoip', 'uuid', 'recode', 'cgi']: }
 
   php::conf { [ 'pdo' ]:
     source => 'puppet:///modules/piwik/etc/php5/conf.d/',
-    notify => Class['php::fpm::service'],
   }
   php::conf { [ 'pdo_mysql' ]:
     source => 'puppet:///modules/piwik/etc/php5/conf.d/',
-    notify => Class['php::fpm::service'],
   }
   php::conf { [ 'mysqli' ]:
     source => 'puppet:///modules/piwik/etc/php5/conf.d/',
-    notify => Class['php::fpm::service'],
   }
 
   include pear
