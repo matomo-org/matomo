@@ -162,6 +162,12 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 		{
 			return true;
 		}
+		
+		// Allow clockworksms domain
+		if(strpos($url, 'http://www.clockworksms.com/') === 0)
+		{
+			return true;
+		}
 
 		return false;
 	}

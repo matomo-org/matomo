@@ -3,6 +3,22 @@
 {include file='CoreAdminHome/templates/header.tpl'}
 {loadJavascriptTranslations plugins='MobileMessaging'}
 
+{literal}
+<style>#accountForm ul {
+	list-style: circle;
+	margin-left: 17px;
+	line-height: 1.5em;
+}
+.providerDescription {
+    border: 2px dashed #C5BDAD;
+    border-radius: 16px 16px 16px 16px;
+    margin-left: 24px;
+    padding: 11px;
+    width: 600px;
+}
+</style>
+{/literal}
+
 {if $accountManagedByCurrentUser}
 <h2>{'MobileMessaging_Settings_SMSAPIAccount'|translate}</h2>
 	{if $credentialSupplied}
@@ -31,9 +47,9 @@
 		<input type='submit' value='{'General_Save'|translate}' id='apiAccountSubmit' class='submit' />
 
 		{foreach from=$smsProviders key=smsProvider item=description}
-			<p class='providerDescription' id='{$smsProvider}'>
+			<div class='providerDescription' id='{$smsProvider}'>
 				{$description}
-			</p>
+			</div>
 		{/foreach}
 
 	</div>

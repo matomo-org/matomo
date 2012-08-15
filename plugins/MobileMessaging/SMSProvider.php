@@ -24,7 +24,18 @@ abstract class Piwik_MobileMessaging_SMSProvider
 	const MAX_UCS2_CHARS_IN_ONE_CONCATENATED_SMS = 67;
 
 	static public $availableSMSProviders = array(
-		'Clockwork' => 'You can use <img src="/plugins/MobileMessaging/images/Clockwork.png"/>to send SMS Reports from Piwik.<br/> * First, get an API Key form <a href="http://clockworksms.com/platforms/piwik/">Clockwork</a> (Signup is free with some test messages) <br/> * Put your Clockwork API Key in Piwik. <br/> About Clockwork <br/> * Clockwork gives you fast, reliable high quality worldwide SMS delivery, over 450 networks in every corner of the globe. <br/>  * Cost per SMS message is around ~0.08USD (0.06EUR). </br>  * Most countries and networks are supported but we suggest you check the latest position on their coverage map here <a href="http://www.clockworksms.com/sms-coverage/">www.clockworksms.com/sms-coverage/</a>',
+		'Clockwork' => 'You can use <a target="_blank" href="?module=Proxy&action=redirect&url=http://www.clockworksms.com/platforms/piwik/"><img src="plugins/MobileMessaging/images/Clockwork.png"/></a> to send SMS Reports from Piwik.<br/> 
+			<ul>
+			<li> First, <a target="_blank" href="?module=Proxy&action=redirect&url=http://www.clockworksms.com/platforms/piwik/">get an API Key from Clockwork</a> (Signup is free!) 
+			</li><li> Enter your Clockwork API Key on this page. </li>
+			</ul>
+			<br/><i>About Clockwork: </i><ul>
+			<li>Clockwork gives you fast, reliable high quality worldwide SMS delivery, over 450 networks in every corner of the globe. 
+			</li><li>Cost per SMS message is around ~0.08USD (0.06EUR).
+			</li><li>Most countries and networks are supported but we suggest you check the latest position on their coverage map <a target="_blank" href="?module=Proxy&action=redirect&url=http://www.clockworksms.com/sms-coverage/">here</a>.
+			</li>
+			</ul>
+			',
 	);
 
 	/**
