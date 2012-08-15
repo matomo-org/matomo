@@ -119,6 +119,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         'SEO',
         'ExampleAPI',
         'PDFReports',
+        'MobileMessaging',
         'API',
         'ImageGraph',
     );
