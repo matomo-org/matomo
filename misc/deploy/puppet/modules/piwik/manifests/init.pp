@@ -12,14 +12,6 @@ class piwik(
 
   include piwik::php
 
-  # user for apache / nginx
-  user { "${piwik::params::user}":
-    ensure  => present,
-    comment => $name,
-    home    => $directory,
-    shell   => '/bin/false',
-  }
-
   if $log_analytics == true {
     include piwik::loganalytics
   }
@@ -36,6 +28,14 @@ class piwik(
     directory  => $directory,
     version    => $version,
     repository => $repository,
+  }
+
+  # user for apache / nginx
+  user { "${piwik::params::user}":
+    ensure  => present,
+    comment => $name,
+    home    => $directory,
+    shell   => '/bin/false',
   }
 
 }
