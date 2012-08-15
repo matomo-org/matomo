@@ -1,0 +1,8 @@
+name    'puppet-piwik'
+version '0.1.0'
+source 'UNKNOWN'
+author 'tsteur'
+license 'GPL v3 or later'
+summary 'Piwik Development Environment'
+description 'Setup Piwik with MySQL and Apache or Nginx via puppet'
+project_page 'http://piwik.org'
