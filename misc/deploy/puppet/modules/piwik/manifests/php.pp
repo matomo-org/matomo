@@ -37,6 +37,8 @@ class piwik::php {
     require    => [ Pear::Package["PEAR"], Class['pear'] ],
   }
 
+  package { "percona-toolkit": ensure => installed }
+
   # TODO add channels... we should fork pear module and send pull requests
   # pear module should allow to add channels, do upgrade and install a
   # package only if not already installed
