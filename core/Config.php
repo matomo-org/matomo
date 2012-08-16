@@ -28,11 +28,13 @@
  *    $brandingConfig = array(
  *        'use_custom_logo' => 1,
  *    );
- *    Piwik_Config::getInstance()->setConfigSection('branding', $brandingConfig);
+ *    Piwik_Config::getInstance()->branding = $brandingConfig;
  *
  * Example setting an option within a section in the configuration:
- *
- *    Piwik_Config::getInstance()->setConfigOption('branding', 'use_custom_logo', '1');
+ * 
+ *    $brandingConfig = Piwik_Config::getInstance()->branding;
+ *    $brandingConfig['use_custom_logo'] = 1;
+ *    Piwik_Config::getInstance()->branding = $brandingConfig;
  *
  * @package Piwik
  * @subpackage Piwik_Config
