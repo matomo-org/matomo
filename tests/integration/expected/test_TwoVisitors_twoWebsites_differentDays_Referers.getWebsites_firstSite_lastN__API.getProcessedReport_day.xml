@@ -7,9 +7,9 @@
 		<name>Websites</name>
 		<module>Referers</module>
 		<action>getWebsites</action>
-		<actionToLoadSubTables>getUrlsFromWebsiteId</actionToLoadSubTables>
 		<dimension>Website</dimension>
 		<documentation>In this table, you can see which websites referred visitors to your site. &lt;br /&gt; By clicking on a row in the table, you can see which URLs the links to your website were on.</documentation>
+		<actionToLoadSubTables>getUrlsFromWebsiteId</actionToLoadSubTables>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>

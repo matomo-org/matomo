@@ -19,6 +19,7 @@
 
 		</metricsDocumentation>
 		<documentation>This report shows a hierarchical list of outlink URLs that were clicked by your visitors. An outlink is a link that leads the visitor away from your website (to another domain).&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
+		<actionToLoadSubTables>getOutlinks</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getOutlinks&amp;period=range&amp;date=2010-01-03%2C2010-01-09</imageGraphUrl>
 		<uniqueId>Actions_getOutlinks</uniqueId>
 

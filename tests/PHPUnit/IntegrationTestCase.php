@@ -286,7 +286,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      *
      * @return array of API URLs query strings
      */
-    protected function generateUrlsApi( $parametersToSet, $formats, $periods, $setDateLastN = false, $language = false, $segment = false )
+    protected function generateUrlsApi( $parametersToSet, $formats, $periods, $supertableApi = false, $setDateLastN = false, $language = false, $segment = false )
     {
         // Get the URLs to query against the API for all functions starting with get*
         $skipped = $requestUrls = array();
@@ -347,6 +347,38 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                     {
                         $parametersToSet['language'] = $language;
                     }
+                    
+                    // set idSubtable if subtable API is set
+                    if ($supertableApi !== false)
+                    {
+                    	$request = new Piwik_API_Request(array(
+                    		'module' => 'API',
+                    		'method' => $supertableApi,
+                    		'idSite' => $parametersToSet['idSite'],
+                    		'period' => $parametersToSet['period'],
+                    		'date' => $parametersToSet['date'],
+                    		'format' => 'php',
+                    		'serialize' => 0,
+                    	));
+                    	
+                    	// find first row w/ subtable
+                    	foreach ($request->process() as $row)
+                    	{
+                    		if (isset($row['idsubdatatable']))
+                    		{
+                    			$parametersToSet['idSubtable'] = $row['idsubdatatable'];
+                    			break;
+                    		}
+                    	}
+                    	
+                    	// if no subtable found, throw
+                    	if (!isset($parametersToSet['idSubtable']))
+                    	{
+	                    	throw new Exception(
+	                    		"Cannot find subtable to load for $apiId in $supertableApi.");
+                    	}
+                    }
+                    
                     // Generate for each specified format
                     foreach($formats as $format)
                     {
@@ -400,7 +432,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      */
     protected function _generateApiUrls($formats = 'xml', $idSite = false, $dateTime = false, $periods = false,
                                          $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false,
-                                         $idGoal = false, $apiModule = false, $apiAction = false, $otherRequestParameters = array())
+                                         $idGoal = false, $apiModule = false, $apiAction = false, $otherRequestParameters = array(), $supertableApi = false)
     {
         list($pathProcessed, $pathExpected) = $this->getProcessedAndExpectedDirs();
 
@@ -465,7 +497,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             $parametersToSet['idGoal'] = $idGoal;
         }
 
-        $requestUrls = $this->generateUrlsApi($parametersToSet, $formats, $periods, $setDateLastN, $language, $segment);
+        $requestUrls = $this->generateUrlsApi($parametersToSet, $formats, $periods, $supertableApi, $setDateLastN, $language, $segment);
         return $requestUrls;
     }
 
@@ -715,7 +747,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                     isset($params['idGoal']) ? $params['idGoal'] : false,
                     isset($params['apiModule']) ? $params['apiModule'] : false,
                     isset($params['apiAction']) ? $params['apiAction'] : false,
-                    isset($params['otherRequestParameters']) ? $params['otherRequestParameters'] : array());
+                    isset($params['otherRequestParameters']) ? $params['otherRequestParameters'] : array(),
+                    isset($params['supertableApi']) ? $params['supertableApi'] : false);
 
         foreach($requestUrls as $apiId => $requestUrl)
         {

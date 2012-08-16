@@ -48,6 +48,11 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorTyp
 	{
 		return array();
 	}
+
+	public function getAnotherApiToTest()
+	{
+		return array();
+	}
 	
 	public function getOutputPrefix()
 	{

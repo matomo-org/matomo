@@ -57,6 +57,11 @@ class Test_Piwik_Integration_PeriodIsRange_DateIsLastN_MetadataAndNormalAPI exte
 		return $result;
 	}
 
+	public function getAnotherApiToTest()
+	{
+		return array();
+	}
+
 	public function getControllerActionsToTest()
 	{
 		return array();

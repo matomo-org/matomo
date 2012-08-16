@@ -243,6 +243,7 @@ class Piwik_Actions extends Piwik_Plugin
 			'documentation' => Piwik_Translate('Actions_PagesReportDocumentation', '<br />')
 					.'<br />'.Piwik_Translate('General_UsePlusMinusIconsDocumentation'),
 			'processedMetrics' => false,
+			'actionToLoadSubTables' => 'getPageUrls',
 			'order' => 2
 		);
 		
@@ -266,6 +267,7 @@ class Piwik_Actions extends Piwik_Plugin
 			'documentation' => Piwik_Translate('Actions_EntryPagesReportDocumentation', '<br />')
 					.' '.Piwik_Translate('General_UsePlusMinusIconsDocumentation'),
 			'processedMetrics' => false,
+			'actionToLoadSubTables' => 'getEntryPageUrls',
 			'order' => 3
 		);
 		
@@ -289,6 +291,7 @@ class Piwik_Actions extends Piwik_Plugin
 			'documentation' => Piwik_Translate('Actions_ExitPagesReportDocumentation', '<br />')
 					.' '.Piwik_Translate('General_UsePlusMinusIconsDocumentation'),
 			'processedMetrics' => false,
+			'actionToLoadSubTables' => 'getExitPageUrls',
 			'order' => 4
 		);
 		
@@ -303,6 +306,7 @@ class Piwik_Actions extends Piwik_Plugin
 			'metricsDocumentation' => $documentation,
 			'documentation' => Piwik_Translate('Actions_PageTitlesReportDocumentation', array('<br />', htmlentities('<title>'))),
 			'processedMetrics' => false,
+			'actionToLoadSubTables' => 'getPageTitles',
 			'order' => 5,
 			
 		);
@@ -327,6 +331,7 @@ class Piwik_Actions extends Piwik_Plugin
 			'documentation' => Piwik_Translate('Actions_ExitPageTitlesReportDocumentation', '<br />')
 					.' '.Piwik_Translate('General_UsePlusMinusIconsDocumentation'),
 			'processedMetrics' => false,
+			'actionToLoadSubTables' => 'getEntryPageTitles',
 			'order' => 6
 		);
 		
@@ -350,6 +355,7 @@ class Piwik_Actions extends Piwik_Plugin
 			'documentation' => Piwik_Translate('Actions_EntryPageTitlesReportDocumentation', '<br />')
 					.' '.Piwik_Translate('General_UsePlusMinusIconsDocumentation'),
 			'processedMetrics' => false,
+			'actionToLoadSubTables' => 'getExitPageTitles',
 			'order' => 7
 		);
     	
@@ -374,6 +380,7 @@ class Piwik_Actions extends Piwik_Plugin
 					.Piwik_Translate('Actions_OutlinkDocumentation').'<br />'
 					.Piwik_Translate('General_UsePlusMinusIconsDocumentation'),
 			'processedMetrics' => false,
+			'actionToLoadSubTables' => 'getOutlinks',
 			'order' => 8,
 		);
 		
@@ -391,6 +398,7 @@ class Piwik_Actions extends Piwik_Plugin
 			'metricsDocumentation' => $documentation,
 			'documentation' => Piwik_Translate('Actions_DownloadsReportDocumentation', '<br />'),
 			'processedMetrics' => false,
+			'actionToLoadSubTables' => 'getDownloads',
 			'order' => 9,
 		);
 	}

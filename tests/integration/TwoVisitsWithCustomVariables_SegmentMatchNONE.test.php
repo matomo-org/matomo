@@ -68,6 +68,11 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchNONE exten
 		return $this->segment;
 	}
 
+	public function getAnotherApiToTest()
+	{
+		return array();
+	}
+
 	public function getControllerActionsToTest()
 	{
 		return array();

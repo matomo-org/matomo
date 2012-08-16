@@ -45,6 +45,15 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends IntegrationTes
                                     'date'         => self::$dateTime,
                                     'periods'      => array('day', 'week'),
                                     'setDateLastN' => true)),
+			
+			// test getProcessedReport w/ custom variables subtable
+			array('API.getProcessedReport', array('idSite' => self::$idSite,
+												  'date' => self::$dateTime,
+												  'periods' => 'day',
+												  'apiModule' => 'CustomVariables',
+												  'apiAction' => 'getCustomVariablesValuesFromNameId',
+												  'supertableApi' => 'CustomVariables.getCustomVariables',
+												  'testSuffix' => '__subtable' )),
         );
 
         return $return;

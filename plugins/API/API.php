@@ -473,10 +473,10 @@ class Piwik_API_API
      * matching optional API parameters.
      */
 	public function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $language = false,
-								$period = false, $date = false, $hideMetricsDoc = false)
+								$period = false, $date = false, $hideMetricsDoc = false, $showSubtableReports = false)
     {
     	Piwik_Translate::getInstance()->reloadLanguage($language);
-    	$reportsMetadata = $this->getReportMetadata($idSite, $period, $date, $hideMetricsDoc);
+    	$reportsMetadata = $this->getReportMetadata($idSite, $period, $date, $hideMetricsDoc, $showSubtableReports);
     	
     	foreach($reportsMetadata as $report)
     	{
@@ -517,7 +517,8 @@ class Piwik_API_API
 	 * @param string $idSites Comma separated list of website Ids
 	 * @return array
 	 */
-	public function getReportMetadata($idSites = '', $period = false, $date = false, $hideMetricsDoc = false)
+	public function getReportMetadata($idSites = '', $period = false, $date = false, $hideMetricsDoc = false,
+									  $showSubtableReports = false)
 	{
 		$idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
 		if(!empty($idSites))
@@ -610,6 +611,18 @@ class Piwik_API_API
 			unset($availableReport['order']);
 		}
 		
+		// remove subtable reports
+		if (!$showSubtableReports)
+		{
+			foreach ($availableReports as $idx => $report)
+			{
+				if (isset($report['isSubtableReport']) && $report['isSubtableReport'])
+				{
+					unset($availableReports[$idx]);
+				}
+			}
+		}
+		
 		return $availableReports;
 	}
 	
@@ -653,7 +666,7 @@ class Piwik_API_API
 
 	public function getProcessedReport( $idSite, $period, $date, $apiModule, $apiAction, $segment = false,
 										$apiParameters = false, $idGoal = false, $language = false,
-										$showTimer = true, $hideMetricsDoc = false)
+										$showTimer = true, $hideMetricsDoc = false, $idSubtable = false)
     {
     	$timer = new Piwik_Timer();
     	if($apiParameters === false)
@@ -667,7 +680,7 @@ class Piwik_API_API
 		}
         // Is this report found in the Metadata available reports?
         $reportMetadata = $this->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language,
-        									 $period, $date, $hideMetricsDoc);
+        									 $period, $date, $hideMetricsDoc, $showSubtableReports = true);
         if(empty($reportMetadata))
         {
         	throw new Exception("Requested report $apiModule.$apiAction for Website id=$idSite not found in the list of available reports. \n");
@@ -683,6 +696,7 @@ class Piwik_API_API
 			'format' => 'original',
 			'serialize' => '0',
 			'language' => $language,
+			'idSubtable' => $idSubtable,
 		));
 		if(!empty($segment)) $parameters['segment'] = $segment;
 		

@@ -32,6 +32,11 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchALL_NoGoal
 		);
 	}
 
+	public function getAnotherApiToTest()
+	{
+		return array();
+	}
+
 	public function getControllerActionsToTest()
 	{
 		return array();

@@ -35,6 +35,21 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends Test_Integrati
 		return $return;
 	}
 
+	public function getAnotherApiToTest()
+	{
+		$table = Piwik_CustomVariables_API::getInstance()->getCustomVariables($this->idSite, 'day', '2010-01-03');
+		$idsubtable = reset($table->getRows())->getIdSubDataTable();
+
+		// test getProcessedReport w/ custom variables
+		return array(
+					array('API.getProcessedReport', array('idSite' => $this->idSite, 'date' => $this->dateTime,
+														  'periods' => 'day', 'apiModule' => 'CustomVariables',
+														  'apiAction' => 'getCustomVariablesValuesFromNameId',
+														  'testSuffix' => '__subtable',
+														  'otherRequestParameters' => array('idSubtable' => $idsubtable) )),
+		);
+	}
+
 	public function getControllerActionsToTest()
 	{
 		return array();

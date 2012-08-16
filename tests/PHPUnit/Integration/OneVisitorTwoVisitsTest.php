@@ -68,6 +68,15 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
                                    'testSuffix'             => '_csv')),
 
             array('API.getBulkRequest', array('otherRequestParameters' => array('urls' => $bulkUrls))),
+            
+            // test API.getProcessedReport w/ report that is its own 'actionToLoadSubTables'
+            array('API.getProcessedReport', array('idSite'		  => self::$idSite,
+            									  'date'		  => self::$dateTime,
+            									  'periods'		  => array('week'),
+            									  'apiModule'	  => 'Actions',
+            									  'apiAction'	  => 'getPageUrls',
+            									  'supertableApi' => 'Actions.getPageUrls',
+            									  'testSuffix'	  => '__subtable')),
         );
     }
 

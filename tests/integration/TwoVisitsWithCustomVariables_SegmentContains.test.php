@@ -44,6 +44,11 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentContains extend
 		return $return;
 	}
 
+	public function getAnotherApiToTest()
+	{
+		return array();
+	}
+
 	public function getControllerActionsToTest()
 	{
 		return array();

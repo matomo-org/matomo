@@ -2,44 +2,6 @@
 <result>
 	<row>
 		<category>All Websites</category>
-		<name>Single Website dashboard</name>
-		<module>MultiSites</module>
-		<action>getOne</action>
-		<dimension>Website</dimension>
-		<metrics>
-			<nb_visits>Visits</nb_visits>
-			<visits_evolution>Visits Evolution</visits_evolution>
-			<nb_actions>Actions</nb_actions>
-			<actions_evolution>Actions Evolution</actions_evolution>
-			<revenue>Revenue</revenue>
-			<revenue_evolution>Revenue Evolution</revenue_evolution>
-			<nb_conversions>Conversions</nb_conversions>
-			<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
-			<orders>Ecommerce Orders</orders>
-			<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
-			<ecommerce_revenue>Product Revenue</ecommerce_revenue>
-			<ecommerce_revenue_evolution>Product Revenue Evolution</ecommerce_revenue_evolution>
-
-		</metrics>
-		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
-			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
-			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
-			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
-			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
-			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
-			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
-			<nb_hits>The number of times this page was visited.</nb_hits>
-			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
-		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getOne&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
-		<uniqueId>MultiSites_getOne</uniqueId>
-
-	</row>
-	<row>
-		<category>All Websites</category>
 		<name>All Websites dashboard</name>
 		<module>MultiSites</module>
 		<action>getAll</action>
@@ -74,6 +36,44 @@
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getAll&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>MultiSites_getAll</uniqueId>
+
+	</row>
+	<row>
+		<category>All Websites</category>
+		<name>Single Website dashboard</name>
+		<module>MultiSites</module>
+		<action>getOne</action>
+		<dimension>Website</dimension>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<visits_evolution>Visits Evolution</visits_evolution>
+			<nb_actions>Actions</nb_actions>
+			<actions_evolution>Actions Evolution</actions_evolution>
+			<revenue>Revenue</revenue>
+			<revenue_evolution>Revenue Evolution</revenue_evolution>
+			<nb_conversions>Conversions</nb_conversions>
+			<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
+			<orders>Ecommerce Orders</orders>
+			<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
+			<ecommerce_revenue>Product Revenue</ecommerce_revenue>
+			<ecommerce_revenue_evolution>Product Revenue Evolution</ecommerce_revenue_evolution>
+
+		</metrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
+
+		</metricsDocumentation>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getOne&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<uniqueId>MultiSites_getOne</uniqueId>
 
 	</row>
 	<row>
@@ -458,6 +458,7 @@
 
 		</metricsDocumentation>
 		<documentation>This report contains information about the page URLs that have been visited. &lt;br /&gt; The table is organized hierarchically, the URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
+		<actionToLoadSubTables>getPageUrls</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Actions_getPageUrls</uniqueId>
 
@@ -481,6 +482,7 @@
 
 		</metricsDocumentation>
 		<documentation>This report contains information about the entry pages that were used during the specified period. An entry page is the first page that a user views during his visit. &lt;br /&gt; The entry URLs are displayed as a folder structure. Use the plus and minus icons on the left to navigate.</documentation>
+		<actionToLoadSubTables>getEntryPageUrls</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getEntryPageUrls&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Actions_getEntryPageUrls</uniqueId>
 
@@ -504,6 +506,7 @@
 
 		</metricsDocumentation>
 		<documentation>This report contains information about the exit pages that occurred during the specified period. An exit page is the last page that a user views during his visit. &lt;br /&gt; The exit URLs are displayed as a folder structure. Use the plus and minus icons on the left to navigate.</documentation>
+		<actionToLoadSubTables>getExitPageUrls</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getExitPageUrls&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Actions_getExitPageUrls</uniqueId>
 
@@ -531,6 +534,7 @@
 
 		</metricsDocumentation>
 		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
+		<actionToLoadSubTables>getPageTitles</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Actions_getPageTitles</uniqueId>
 
@@ -554,6 +558,7 @@
 
 		</metricsDocumentation>
 		<documentation>This report contains information about the titles of exit pages that occurred during the specified period. Use the plus and minus icons on the left to navigate.</documentation>
+		<actionToLoadSubTables>getEntryPageTitles</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getEntryPageTitles&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Actions_getEntryPageTitles</uniqueId>
 
@@ -577,6 +582,7 @@
 
 		</metricsDocumentation>
 		<documentation>This report contains information about the titles of entry pages that were used during the specified period. Use the plus and minus icons on the left to navigate.</documentation>
+		<actionToLoadSubTables>getExitPageTitles</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getExitPageTitles&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Actions_getExitPageTitles</uniqueId>
 
@@ -598,6 +604,7 @@
 
 		</metricsDocumentation>
 		<documentation>This report shows a hierarchical list of outlink URLs that were clicked by your visitors. An outlink is a link that leads the visitor away from your website (to another domain).&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
+		<actionToLoadSubTables>getOutlinks</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getOutlinks&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Actions_getOutlinks</uniqueId>
 
@@ -619,6 +626,7 @@
 
 		</metricsDocumentation>
 		<documentation>In this report, you can see which files your visitors have downloaded. &lt;br /&gt; What Piwik counts as a download is the click on a download link. Whether the download was completed or not isn't known to Piwik.</documentation>
+		<actionToLoadSubTables>getDownloads</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getDownloads&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Actions_getDownloads</uniqueId>
 
@@ -719,9 +727,9 @@
 		<name>Websites</name>
 		<module>Referers</module>
 		<action>getWebsites</action>
-		<actionToLoadSubTables>getUrlsFromWebsiteId</actionToLoadSubTables>
 		<dimension>Website</dimension>
 		<documentation>In this table, you can see which websites referred visitors to your site. &lt;br /&gt; By clicking on a row in the table, you can see which URLs the links to your website were on.</documentation>
+		<actionToLoadSubTables>getUrlsFromWebsiteId</actionToLoadSubTables>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -765,9 +773,9 @@
 		<name>Search Engines</name>
 		<module>Referers</module>
 		<action>getSearchEngines</action>
-		<actionToLoadSubTables>getKeywordsFromSearchEngineId</actionToLoadSubTables>
 		<dimension>Search Engine</dimension>
 		<documentation>This report shows which search engines referred users to your website. &lt;br /&gt; By clicking on a row in the table, you can see what users were searching for using a specific search engine.</documentation>
+		<actionToLoadSubTables>getKeywordsFromSearchEngineId</actionToLoadSubTables>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -811,9 +819,9 @@
 		<name>Campaigns</name>
 		<module>Referers</module>
 		<action>getCampaigns</action>
-		<actionToLoadSubTables>getKeywordsFromCampaignId</actionToLoadSubTables>
 		<dimension>Campaign</dimension>
 		<documentation>This report shows which campaigns led visitors to your website. &lt;br /&gt; For more information about tracking campaigns, read the &lt;a href=&quot;http://piwik.org/docs/tracking-campaigns/&quot; target=&quot;_blank&quot;&gt;campaigns documentation on piwik.org&lt;/a&gt;</documentation>
+		<actionToLoadSubTables>getKeywordsFromCampaignId</actionToLoadSubTables>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>

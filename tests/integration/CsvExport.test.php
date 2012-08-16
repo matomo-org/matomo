@@ -41,6 +41,11 @@ class Test_Piwik_Integration_CsvExport extends Test_Piwik_Integration_TwoVisitsW
 		);
 	}
 
+	public function getAnotherApiToTest()
+	{
+		return array();
+	}
+
 	public function getControllerActionsToTest()
 	{
 		return array();
