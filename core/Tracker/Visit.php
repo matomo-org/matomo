@@ -1469,7 +1469,7 @@ class Piwik_Tracker_Visit_Referer
 			$refererUrl = '';
 		}
 		
-		$currentUrl = Piwik_Tracker_Action::normalizeUrl($currentUrl);
+		$currentUrl = Piwik_Tracker_Action::cleanupUrl($currentUrl);
 		
 		$this->refererUrl = $refererUrl;
 		$this->refererUrlParse = @parse_url($this->refererUrl);

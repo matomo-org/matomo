@@ -164,6 +164,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 									  name TEXT,
 									  hash INTEGER(10) UNSIGNED NOT NULL,
   									  type TINYINT UNSIGNED NULL,
+  									  url_prefix TINYINT(2) NULL,
 									  PRIMARY KEY(idaction),
 									  INDEX index_type_hash (type, hash)
 						)  DEFAULT CHARSET=utf8

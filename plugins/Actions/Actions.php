@@ -134,6 +134,12 @@ class Piwik_Actions extends Piwik_Plugin
 							? Piwik_Tracker_Action::TYPE_ACTION_URL
 							: Piwik_Tracker_Action::TYPE_ACTION_NAME;
 		
+		if ($actionType == Piwik_Tracker_Action::TYPE_ACTION_URL)
+		{
+			// for urls trim protocol and www because it is not recorded in the db
+			$string = preg_replace('@^http[s]?://(www\.)?@i', '', $string);
+		}
+		
         // exact matches work by returning the id directly
         if ($matchType == Piwik_SegmentExpression::MATCH_EQUAL 
 			|| $matchType == Piwik_SegmentExpression::MATCH_NOT_EQUAL)
@@ -514,6 +520,7 @@ class Piwik_Actions extends Piwik_Plugin
 		$select = "log_action.name,
 				log_action.type,
 				log_action.idaction,
+				log_action.url_prefix,
 				count(distinct log_link_visit_action.idvisit) as `". Piwik_Archive::INDEX_NB_VISITS ."`,
 				count(distinct log_link_visit_action.idvisitor) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`,
 				count(*) as `". Piwik_Archive::INDEX_PAGE_NB_HITS ."`";
@@ -721,15 +728,29 @@ class Piwik_Actions extends Piwik_Plugin
 	 *
 	 * @param string action name
 	 * @param int action type
+	 * @param int url prefix (only used for TYPE_ACTION_URL)
 	 * @return array of exploded elements from $name
 	 */
-	static public function getActionExplodedNames($name, $type)
+	static public function getActionExplodedNames($name, $type, $urlPrefix=null)
 	{
 		$matches = array();
 		$isUrl = false;
 		$name = str_replace("\n", "", $name);
-		preg_match('@^http[s]?://([^/]+)[/]?([^#]*)[#]?(.*)$@i', $name, $matches);
-
+		
+		$urlRegexAfterDomain = '([^/]+)[/]?([^#]*)[#]?(.*)';
+		if ($urlPrefix === null)
+		{
+			// match url with protocol (used for outlinks / downloads)
+			$urlRegex = '@^http[s]?://'.$urlRegexAfterDomain.'$@i';
+		}
+		else
+		{
+			// the name is a url that does not contain protocol and www anymore
+			// we know that normalization has been done on db level because $urlPrefix is set
+			$urlRegex = '@^'.$urlRegexAfterDomain.'$@i';
+		}
+		
+		preg_match($urlRegex, $name, $matches);
 		if( count($matches) )
 		{
 			$isUrl = true;
@@ -843,6 +864,8 @@ class Piwik_Actions extends Piwik_Plugin
 			{
 				$actionName = $row['name'];
 				$actionType = $row['type'];
+				$urlPrefix = $row['url_prefix'];
+				
     			// in some unknown case, the type field is NULL, as reported in #1082 - we ignore this page view
     			if(empty($actionType))
     			{
@@ -850,7 +873,7 @@ class Piwik_Actions extends Piwik_Plugin
     				continue;
     			}
     
-    			$currentTable = $this->parseActionNameCategoriesInDataTable($actionName, $actionType);
+    			$currentTable = $this->parseActionNameCategoriesInDataTable($actionName, $actionType, $urlPrefix);
     			
 				self::$cacheParsedAction[$row['idaction']] = $currentTable;
 			}
@@ -874,6 +897,7 @@ class Piwik_Actions extends Piwik_Plugin
 			unset($row['name']);
 			unset($row['type']);
 			unset($row['idaction']);
+			unset($row['url_prefix']);
 			foreach($row as $name => $value)
 			{
 				// in some edge cases, we have twice the same action name with 2 different idaction
@@ -916,15 +940,16 @@ class Piwik_Actions extends Piwik_Plugin
 	 *
 	 * @param string $actionName
 	 * @param int $actionType
+	 * @param int $urlPrefix
 	 * @return Piwik_DataTable
 	 */
-	protected function parseActionNameCategoriesInDataTable($actionName, $actionType)
+	protected function parseActionNameCategoriesInDataTable($actionName, $actionType, $urlPrefix=null)
 	{
 		// we work on the root table of the given TYPE (either ACTION_URL or DOWNLOAD or OUTLINK etc.)
 		$currentTable =& $this->actionsTablesByType[$actionType];
 
 		// go to the level of the subcategory
-		$actionExplodedNames = $this->getActionExplodedNames($actionName, $actionType);
+		$actionExplodedNames = $this->getActionExplodedNames($actionName, $actionType, $urlPrefix);
 		$end = count($actionExplodedNames)-1;
 		for($level = 0 ; $level < $end; $level++)
 		{
@@ -957,7 +982,8 @@ class Piwik_Actions extends Piwik_Plugin
 			{
 				$currentTable = new Piwik_DataTable_Row(array(
 						Piwik_DataTable_Row::COLUMNS => $defaultColumnsNewRow,
-						Piwik_DataTable_Row::METADATA => array('url' => (string)$actionName),
+						Piwik_DataTable_Row::METADATA => array('url' =>
+							Piwik_Tracker_Action::reconstructNormalizedUrl((string)$actionName, $urlPrefix)),
 					));
 			}
 		}

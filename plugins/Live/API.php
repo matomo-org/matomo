@@ -184,8 +184,9 @@ class Piwik_Live_API
 			// eg. Downloads, Outlinks. For these, idaction_name is set to 0
 			$sql = "
 				SELECT
-					log_action.type as type,
+					log_action.type AS type,
 					log_action.name AS url,
+					log_action.url_prefix,
 					log_action_title.name AS pageTitle,
 					log_action.idaction AS pageIdAction,
 					log_link_visit_action.idlink_va AS pageId,
@@ -221,7 +222,9 @@ class Piwik_Live_API
 				{
 					$actionDetail['customVariables'] = $customVariablesPage;
 				}
-				
+				// reconstruct url from prefix
+				$actionDetail['url'] = Piwik_Tracker_Action::reconstructNormalizedUrl($actionDetail['url'], $actionDetail['url_prefix']);
+				unset($actionDetail['url_prefix']);
 				// set the time spent for this action (which is the timeSpentRef of the next action)
 				if (isset($actionDetails[$actionIdx + 1]))
 				{

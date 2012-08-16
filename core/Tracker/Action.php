@@ -61,6 +61,57 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	static private $queryParametersToExclude = array('phpsessid', 'jsessionid', 'sessionid', 'aspsessionid', 'fb_xd_fragment', 'fb_comment_id');
 
 	/**
+	 * Map URL prefixes to integers.
+	 * @see self::normalizeUrl(), self::reconstructNormalizedUrl()
+	 */
+	static private $urlPrefixMap = array(
+		'http://www.' => 1,
+		'http://' => 0,
+		'https://www.' => 3,
+		'https://' => 2
+	);
+
+	/**
+	 * Extract the prefix from a URL.
+	 * Return the prefix ID and the rest.
+	 * 
+	 * @param string $url
+	 * @return array
+	 */
+	static public function normalizeUrl($url)
+	{
+		foreach (self::$urlPrefixMap as $prefix => $id)
+		{
+			if (strtolower(substr($url, 0, strlen($prefix))) == $prefix)
+			{
+				return array(
+					'url' => substr($url, strlen($prefix)),
+					'prefixId' => $id
+				);
+			}
+		}
+		return array('url' => $url, 'prefixId' => null);
+	}
+
+	/**
+	 * Build the full URL from the prefix ID and the rest.
+	 * 
+	 * @param string $url
+	 * @param integer $prefixId
+	 * @return string
+	 */
+	static public function reconstructNormalizedUrl($url, $prefixId)
+	{
+		$map = array_flip(self::$urlPrefixMap);
+		if ($prefixId !== null && isset($map[$prefixId]))
+		{
+			return $map[$prefixId].$url;
+		}
+		return $url;
+	}
+	
+
+	/**
 	 * Set request parameters
 	 *
 	 * @param array  $requestArray
@@ -167,7 +218,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	    return $originalUrl;
 	}
 	
-	static public function normalizeUrl($url)
+	static public function cleanupUrl($url)
 	{
 		$url = Piwik_Common::unsanitizeInputValue($url);
 		$url = self::cleanupString($url);
@@ -178,7 +229,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	static public function excludeQueryParametersFromUrl($originalUrl, $idSite)
 	{
 		$website = Piwik_Common::getCacheWebsiteAttributes( $idSite );
-		$originalUrl = self::normalizeUrl($originalUrl);
+		$originalUrl = self::cleanupUrl($originalUrl);
 		$parsedUrl = @parse_url($originalUrl);
 		if(empty($parsedUrl['query']))
 		{
@@ -278,8 +329,9 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		// First, we try and select the actions that are already recorded
 		$sql = self::getSqlSelectActionId();
 		$bind = array();
+		$normalizedUrls = array();
 		$i = 0;
-		foreach($actionNamesAndTypes as &$actionNameType)
+		foreach($actionNamesAndTypes as $index => &$actionNameType)
 		{
 			list($name,$type) = $actionNameType;
 			if(empty($name))
@@ -290,6 +342,12 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			if($i > 0)
 			{
 				$sql .= " OR ( hash = CRC32(?) AND name = ? AND type = ? ) ";
+			}
+			if ($type == Piwik_Tracker_Action::TYPE_ACTION_URL)
+			{
+				// normalize urls by stripping protocol and www
+				$normalizedUrls[$index] = self::normalizeUrl($name);
+				$name = $normalizedUrls[$index]['url'];
 			}
 			$bind[] = $name;
 			$bind[] = $name;
@@ -310,6 +368,10 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		{
 			list($name,$type) = $actionNameType;
 			if(empty($name)) { continue; }
+			if(isset($normalizedUrls[$index]))
+			{
+				$name = $normalizedUrls[$index]['url'];
+			}
 			$found = false;
 			foreach($actionIds as $row)
 			{
@@ -328,13 +390,20 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		}
 		
 		$sql = "INSERT INTO ". Piwik_Common::prefixTable('log_action'). 
-				"( name, hash, type ) VALUES (?,CRC32(?),?)";
+				"( name, hash, type, url_prefix ) VALUES (?,CRC32(?),?,?)";
 		// Then, we insert all new actions in the lookup table
 		foreach($actionsToInsert as $actionToInsert)
 		{
 			list($name,$type) = $actionNamesAndTypes[$actionToInsert];
-	
-			Piwik_Tracker::getDatabase()->query($sql, array($name, $name, $type));
+			
+			$urlPrefix = null;
+			if(isset($normalizedUrls[$actionToInsert]))
+			{
+				$name = $normalizedUrls[$actionToInsert]['url'];
+				$urlPrefix = $normalizedUrls[$actionToInsert]['prefixId'];
+			}
+			
+			Piwik_Tracker::getDatabase()->query($sql, array($name, $name, $type, $urlPrefix));
 			$actionId = Piwik_Tracker::getDatabase()->lastInsertId();
 			printDebug("Recorded a new action (".self::getActionTypeName($type).") in the lookup table: ". $name . " (idaction = ".$actionId.")");
 			
