@@ -43,6 +43,10 @@ class Piwik_Updates_1_8_3_b1 extends Piwik_Updates
 	static function update()
 	{
 		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+		if(!Piwik_PluginsManager::getInstance()->isPluginLoaded('PDFReports'))
+		{
+			return;
+		}
 		
 		try {
 
