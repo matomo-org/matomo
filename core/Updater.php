@@ -98,6 +98,33 @@ class Piwik_Updater
 	}
 
 	/**
+	 * Does one of the new versions involve a major database update?
+	 * 
+	 * @return bool
+	 */
+	public function hasMajorDbUpdate()
+	{
+		foreach($this->componentsWithUpdateFile as $componentName => $componentUpdateInfo) 
+		{
+			foreach($componentUpdateInfo as $file => $fileVersion)
+			{
+				require_once $file;
+				
+				$className = $this->getUpdateClassName($componentName, $fileVersion);
+				if(class_exists($className, false))
+				{
+					$isMajor = call_user_func( array($className, 'isMajorUpdate'));
+					if ($isMajor) {
+						return true;
+					}
+				}
+			}
+		}
+		
+		return false;
+	}
+
+	/**
 	 * Returns the list of SQL queries that would be executed during the update
 	 * 
 	 * @return array of SQL queries 

@@ -93,3 +93,7 @@ a { color: #006; }
 	-webkit-border-radius:4px; 
 	padding:15px;
 }
+.warning.normalFontSize {
+	font-size: 100%;
+	padding: 10px;
+}

@@ -28,6 +28,12 @@
 		{/if}
 
 		<h3 id='titleUpdate'>{'CoreUpdater_NoteForLargePiwikInstances'|translate}</h3>
+		{if $isMajor}
+			<p class="warning normalFontSize">
+				{'CoreUpdater_MajorUpdateWarning1'|translate}<br />
+				{'CoreUpdater_MajorUpdateWarning2'|translate}
+			</p>
+		{/if}
 		<ul>
 		<li>{'CoreUpdater_TheUpgradeProcessMayFailExecuteCommand'|translate:$commandUpgradePiwik}</li>
 		<li>It is also recommended for high traffic Piwik servers to <a target='_blank' href='?module=Proxy&action=redirect&url={"http://piwik.org/faq/how-to/#faq_111"|escape:"url"}'>momentarily disable visitor Tracking and put the Piwik User Interface in maintenance mode</a>.</li>

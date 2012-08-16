@@ -280,6 +280,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		{
 			$view = Piwik_View::factory('update_welcome');
 			$view->queries = $sqlQueries;
+			$view->isMajor = $updater->hasMajorDbUpdate();
 			$this->doWelcomeUpdates($view, $componentsWithUpdateFile);
 			echo $view->render();
 		}
