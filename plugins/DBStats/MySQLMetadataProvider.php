@@ -272,6 +272,10 @@ class Piwik_DBStats_MySQLMetadataProvider
 	 */
 	public function getEstimatedRowsSize( $row_count, $status )
 	{
+		if($status['Rows'] == 0)
+		{
+			return 0;
+		}
 		$avgRowSize = ($status['Data_length'] + $status['Index_length']) / $status['Rows'];
 		return $avgRowSize * $row_count;
 	}
