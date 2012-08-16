@@ -38,6 +38,11 @@ class piwik::php {
   }
 
   package { "percona-toolkit": ensure => installed }
+  
+  exec { 'install_composer':
+    command => 'wget http://getcomposer.org/composer.phar -O composer.phar | php -- --install-dir=bin',
+    require => [ Package['wget'], Class["php::install", "php::config"] ],
+  }
 
   # TODO add channels... we should fork pear module and send pull requests
   # pear module should allow to add channels, do upgrade and install a

@@ -45,7 +45,6 @@ Do not forget to update your local hosts file when adding servers
 
 ### Requirements
 * saz-php
-* dazz/puppet-composer
 * puppet-augeas
 * rafaelfc-phpqatools
 * puppet-pear
