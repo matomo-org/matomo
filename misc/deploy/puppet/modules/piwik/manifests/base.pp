@@ -2,20 +2,21 @@ class piwik::base {
 
   include apt
 
-  package {
-    'vim':
-        ensure => installed;
-    'subversion':
-        ensure => installed;
-    'facter':
-        ensure => latest;
-    'strace':
-        ensure => latest;
-    'tcpdump':
-        ensure => latest;
-    'wget':
-        ensure => latest;
-  }
+  notify {"apt-get_update": }
+
+  exec { "base_apt-get_update": command => "apt-get update" }
+
+  package { 'vim': ensure => installed, require => Exec['base_apt-get_update'] }
+
+  package { 'subversion': ensure => installed, require => Exec['base_apt-get_update'] }
+
+  package { 'facter': ensure => latest, require => Exec['base_apt-get_update'] }
+
+  package { 'strace': ensure => latest, require => Exec['base_apt-get_update'] }
+
+  package { 'tcpdump': ensure => latest, require => Exec['base_apt-get_update'] }
+
+  package { 'wget': ensure => latest, require => Exec['base_apt-get_update'] }
 
   include git
 }

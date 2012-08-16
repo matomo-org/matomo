@@ -2,16 +2,21 @@ class piwik::php {
 
   include php
 
-  php::module { ['snmp', 'xdebug', 'mysql', 'gd', 'sqlite', 'memcache', 'mcrypt', 'imagick', 'geoip', 'uuid', 'recode', 'cgi']: }
+  php::module { ['snmp', 'xdebug', 'mysql', 'gd', 'sqlite', 'memcache', 'mcrypt', 'imagick', 'geoip', 'uuid', 'recode', 'cgi']: 
+    require => Class["php::install", "php::config"],
+  }
 
   php::conf { [ 'pdo' ]:
-    source => 'puppet:///modules/piwik/etc/php5/conf.d/',
+    source  => 'puppet:///modules/piwik/etc/php5/conf.d/',
+    require => Class["php::install", "php::config"],
   }
   php::conf { [ 'pdo_mysql' ]:
-    source => 'puppet:///modules/piwik/etc/php5/conf.d/',
+    source  => 'puppet:///modules/piwik/etc/php5/conf.d/',
+    require => Class["php::install", "php::config"],
   }
   php::conf { [ 'mysqli' ]:
-    source => 'puppet:///modules/piwik/etc/php5/conf.d/',
+    source  => 'puppet:///modules/piwik/etc/php5/conf.d/',
+    require => Class["php::install", "php::config"],
   }
 
   include pear
@@ -19,17 +24,17 @@ class piwik::php {
 
   pear::package { "PHPUnit_MockObject":
     repository => "pear.phpunit.de",
-    require => Pear::Package["PEAR"],
+    require    => [ Pear::Package["PEAR"], Class['pear'] ],
   }
 
   pear::package { "PHP_CodeCoverage":
     repository => "pear.phpunit.de",
-    require => Pear::Package["PEAR"],
+    require    => [ Pear::Package["PEAR"], Class['pear'] ],
   }
 
   pear::package { "PHPUnit_Selenium":
     repository => "pear.phpunit.de",
-    require => Pear::Package["PEAR"],
+    require    => [ Pear::Package["PEAR"], Class['pear'] ],
   }
 
   # TODO add channels... we should fork pear module and send pull requests

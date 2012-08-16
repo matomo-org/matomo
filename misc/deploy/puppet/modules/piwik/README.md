@@ -31,11 +31,13 @@ http://piwik.org
 	  port     => 80,
 	  docroot  => '/var/www/piwik',
 	  priority => '10',
+	  require  => Class['piwik'],
 	}
 	
 	piwik::nginx { 'nginx.piwik':
 	  port    => 8080,
 	  docroot => '/var/www/piwik',
+	  require => Class['piwik'],
 	}
 ```
 

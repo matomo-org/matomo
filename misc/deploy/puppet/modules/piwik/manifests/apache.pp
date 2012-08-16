@@ -4,16 +4,16 @@ define piwik::apache (
   $priority = '10'
 ) {
 
+  host { "${$name}":
+    ip => "127.0.0.1";
+  } 
+
   class {'apache': }
 
   include apache::mod::php
   apache::mod {'vhost_alias': }
   apache::mod {'auth_basic': }
   apache::mod {'rewrite': }
-
-  host { "${$name}":
-    ip => "127.0.0.1";
-  } 
 
   apache::vhost { "${name}":
     priority   => $priority,

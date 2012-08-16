@@ -21,6 +21,7 @@ class piwik(
     username      => $db_user,
     password      => $db_password,
     root_password => $db_root_password,
+    require       => Class['piwik::php']
   }
 
   # repo checkout
@@ -28,6 +29,7 @@ class piwik(
     directory  => $directory,
     version    => $version,
     repository => $repository,
+    require    => Piwik::Db['piwik_db_setup'],
   }
 
   # user for apache / nginx

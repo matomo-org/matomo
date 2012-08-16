@@ -4,6 +4,10 @@ define piwik::repo(
   $repository = $piwik::params::repository
 ) {
 
+  if ! defined(File[$directory]) {
+    file { "${directory}": }
+  }
+
   if $repository == 'svn' {
     vcsrepo { "${directory}":
       ensure   => present,
@@ -25,13 +29,15 @@ define piwik::repo(
   }
 
   file { "${directory}/config":
-    ensure => directory,
-    mode   => '0777',
+    ensure  => directory,
+    mode    => '0777',
+    require => Vcsrepo["${directory}"],
   }
 
   file { "${directory}/tmp":
-    ensure => directory,
-    mode   => '0777',
+    ensure  => directory,
+    mode    => '0777',
+    require => Vcsrepo["${directory}"],
   }
 
 }

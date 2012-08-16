@@ -14,13 +14,13 @@ class piwik::loganalytics {
   exec { "easy_install_pip":
     command => "easy_install pip",
     require => [ Package['python-setuptools'], Package['python-dev'], Package['build-essential'] ],
-    unless  => "pip --help";
+    unless  => "which pip";
   }
 
   exec { "install_simplejson":
     command => "pip install simplejson",
     require => Exec['easy_install_pip'],
-    unless  => "pip search simplejson";
+    unless  => 'pip freeze | grep "simplejson" > /dev/null';
   }
 
 }
