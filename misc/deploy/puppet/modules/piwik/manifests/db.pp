@@ -30,4 +30,6 @@ define piwik::db(
 
   include mysql::server::mysqltuner
 
+  package { "percona-toolkit": ensure => installed }
+
 }

@@ -19,26 +19,24 @@ class piwik::php {
     require => Class["php::install", "php::config"],
   }
 
-  include pear
-  include phpqatools
+  class { 'pear': require => Class['php::install'] }
+  class { 'phpqatools': require => Class['pear'] }
 
   pear::package { "PHPUnit_MockObject":
     repository => "pear.phpunit.de",
-    require    => [ Pear::Package["PEAR"], Class['pear'] ],
+    require    => Pear::Package["PEAR"],
   }
 
   pear::package { "PHP_CodeCoverage":
     repository => "pear.phpunit.de",
-    require    => [ Pear::Package["PEAR"], Class['pear'] ],
+    require    => Pear::Package["PEAR"],
   }
 
   pear::package { "PHPUnit_Selenium":
     repository => "pear.phpunit.de",
-    require    => [ Pear::Package["PEAR"], Class['pear'] ],
+    require    => Pear::Package["PEAR"],
   }
 
-  package { "percona-toolkit": ensure => installed }
-  
   exec { 'install_composer':
     command => 'wget http://getcomposer.org/composer.phar -O composer.phar | php -- --install-dir=bin',
     require => [ Package['wget'], Class["php::install", "php::config"] ],

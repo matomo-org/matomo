@@ -19,6 +19,7 @@ define piwik::nginx (
     socket_group         => $piwik::params::group,
     socket_mode          => '0660',
     catch_workers_output => 'yes',
+    require              => [ Host[$name], Piwik::Repo['piwik_repo_setup'], Class['piwik::php'] ]
   }
 
   $php_locations = {
@@ -30,13 +31,13 @@ define piwik::nginx (
     }
   }
 
-  class { 'nginx': }
+  include nginx
 
   nginx::resource::vhost { "${name}":
     ensure      => present,
     www_root    => $docroot,
     listen_port => $port,
-    locations   => $php_locations,
+    locations   => $php_locations
   }
 
 }

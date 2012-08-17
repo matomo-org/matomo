@@ -13,8 +13,6 @@ define piwik::repo(
       ensure   => present,
       provider => svn,
       source   => "${piwik::params::svn_repository}/${version}",
-      owner    => $piwik::params::user,
-      group    => $piwik::params::group,
     }
   }
 
@@ -29,15 +27,15 @@ define piwik::repo(
   }
 
   file { "${directory}/config":
-    ensure  => directory,
-    mode    => '0777',
-    require => Vcsrepo["${directory}"],
+    ensure    => directory,
+    mode      => '0777',
+    subscribe => Vcsrepo["${directory}"],
   }
 
   file { "${directory}/tmp":
-    ensure  => directory,
-    mode    => '0777',
-    require => Vcsrepo["${directory}"],
+    ensure    => directory,
+    mode      => '0777',
+    subscribe => Vcsrepo["${directory}"],
   }
 
 }
