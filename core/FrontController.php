@@ -258,33 +258,8 @@ class Piwik_FrontController
 				Piwik_Session::start();
 			}
 
-			if(Piwik_Config::getInstance()->General['maintenance_mode'] == 1
-				&& !Piwik_Common::isPhpCliMode())
-			{
-				$format = Piwik_Common::getRequestVar('format', '');
-				$exception = new Exception("Piwik is in scheduled maintenance. Please come back later.");
-				if(empty($format))
-				{
-					throw $exception;
-				}
-				$response = new Piwik_API_ResponseBuilder( $format );
-				echo $response->getResponseException( $exception );
-				exit;
-			}
-
-			
-			if(!Piwik_Common::isPhpCliMode()
-				&& Piwik_Config::getInstance()->General['force_ssl'] == 1
-				&& !Piwik::isHttps()
-				// Specifically disable for the opt out iframe 
-				&& !(Piwik_Common::getRequestVar('module', '') == 'CoreAdminHome'
-					&& Piwik_Common::getRequestVar('action', '') == 'optOut')
-			)
-			{
-				$url = Piwik_Url::getCurrentUrl();
-				$url = str_replace("http://", "https://", $url);
-				Piwik_Url::redirectToUrl($url);
-			}
+			$this->handleMaintenanceMode();
+			$this->handleSSLRedirection();
 
 			$pluginsManager = Piwik_PluginsManager::getInstance();
 			$pluginsToLoad = Piwik_Config::getInstance()->Plugins['Plugins'];
@@ -355,6 +330,50 @@ class Piwik_FrontController
 		}
 		
 //		Piwik::log('End FrontController->init() - Request: '. var_export($_REQUEST, true));
+	}
+	
+	protected function handleMaintenanceMode()
+	{
+		if(Piwik_Config::getInstance()->General['maintenance_mode'] == 1
+			&& !Piwik_Common::isPhpCliMode())
+		{
+			$format = Piwik_Common::getRequestVar('format', '');
+			
+			$message = "Piwik is in scheduled maintenance. Please come back later."
+					 . " The administrator can disable maintenance by editing the file piwik/config/config.ini.php and removing the following: "
+					 . " maintenance_mode=1 ";
+			if(Piwik_Config::getInstance()->Tracker['record_statistics'] == 0)
+			{
+				$message .= ' and record_statistics=0';
+			}
+			
+			$exception = new Exception($message);
+			// extend explain how to re-enable
+			// show error message when record stats = 0 
+			if(empty($format))
+			{
+				throw $exception;
+			}
+			$response = new Piwik_API_ResponseBuilder( $format );
+			echo $response->getResponseException( $exception );
+			exit;
+		}
+	}
+	
+	protected function handleSSLRedirection()
+	{
+		if(!Piwik_Common::isPhpCliMode()
+			&& Piwik_Config::getInstance()->General['force_ssl'] == 1
+			&& !Piwik::isHttps()
+			// Specifically disable for the opt out iframe 
+			&& !(Piwik_Common::getRequestVar('module', '') == 'CoreAdminHome'
+				&& Piwik_Common::getRequestVar('action', '') == 'optOut')
+		)
+		{
+			$url = Piwik_Url::getCurrentUrl();
+			$url = str_replace("http://", "https://", $url);
+			Piwik_Url::redirectToUrl($url);
+		}
 	}
 }
 
