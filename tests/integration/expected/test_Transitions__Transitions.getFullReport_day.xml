@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<pageMetrics>
+		<pageviews>12</pageviews>
+		<exits>3</exits>
+		<bounces>2</bounces>
+		<loops>1</loops>
+		<entries>4</entries>
+		<internalTrafficIn>8</internalTrafficIn>
+		<internalTrafficOut>9</internalTrafficOut>
+
+	</pageMetrics>
+	<previousPages>
+		<row>
+			<url>https://example.org/the/third_page.html?foo=bar</url>
+			<referrals>3</referrals>
+		</row>
+		<row>
+			<url>http://www.example.org/sub/dir/page2.html</url>
+			<referrals>2</referrals>
+		</row>
+		<row>
+			<url>Others</url>
+			<referrals>2</referrals>
+		</row>
+	</previousPages>
+	<followingPages>
+		<row>
+			<url>http://www.example.org/sub/dir/page2.html</url>
+			<referrals>2</referrals>
+		</row>
+		<row>
+			<url>https://example.org/the/third_page.html?foo=bar</url>
+			<referrals>2</referrals>
+		</row>
+		<row>
+			<url>Others</url>
+			<referrals>4</referrals>
+		</row>
+	</followingPages>
+	<outlinks/>
+	<downloads/>
+	<referrers>
+		<row>
+			<label>Direct Entry</label>
+			<shortName>direct</shortName>
+			<visits>1</visits>
+			<details/>
+
+		</row>
+		<row>
+			<label>Search Engines</label>
+			<shortName>search</shortName>
+			<visits>1</visits>
+			<details>
+				<row>
+					<label>&lt;&gt;&amp;\&quot;the pdo extension is required for this adapter but the extension is not loaded</label>
+					<referrals>1</referrals>
+
+				</row>
+
+			</details>
+
+		</row>
+		<row>
+			<label>Websites</label>
+			<shortName>website</shortName>
+			<visits>1</visits>
+			<details>
+				<row>
+					<label>http://www.external.com.vn/referrerPage-counted.html</label>
+					<referrals>1</referrals>
+
+				</row>
+
+			</details>
+
+		</row>
+		<row>
+			<label>Campaigns</label>
+			<shortName>campaign</shortName>
+			<visits>1</visits>
+			<details>
+				<row>
+					<label>TestCampaign: TestKeyword</label>
+					<referrals>1</referrals>
+
+				</row>
+
+			</details>
+
+		</row>
+
+	</referrers>
+
+</result>
