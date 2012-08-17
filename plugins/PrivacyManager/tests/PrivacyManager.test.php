@@ -447,7 +447,7 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 		
 		$this->unusedIdAction = Piwik_FetchOne(
 			"SELECT idaction FROM ".Piwik_Common::prefixTable('log_action')." WHERE name = ?",
-			array('http://whatever.com/_40'));
+			array('whatever.com/_40'));
 		$this->assertTrue($this->unusedIdAction);
 		
 		// purge data
@@ -769,7 +769,7 @@ class Test_Piwik_PrivacyManager extends Test_Integration
 	public function addReferenceToUnusedAction( $notification )
 	{
 		$unusedIdAction = $this->unusedIdAction;
-		if (is_null($unusedIdAction)) // make sure we only do this for one test case
+		if (empty($unusedIdAction)) // make sure we only do this for one test case
 		{
 			return;
 		}

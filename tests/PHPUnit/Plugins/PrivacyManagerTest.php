@@ -493,7 +493,7 @@ class PrivacyManagerTest extends DatabaseTestCase
         
         $this->unusedIdAction = Piwik_FetchOne(
             "SELECT idaction FROM ".Piwik_Common::prefixTable('log_action')." WHERE name = ?",
-            array('http://whatever.com/_40'));
+            array('whatever.com/_40'));
         $this->assertTrue($this->unusedIdAction > 0);
         
         // purge data
@@ -801,7 +801,7 @@ class PrivacyManagerTest extends DatabaseTestCase
     public function addReferenceToUnusedAction( $notification )
     {
         $unusedIdAction = $this->unusedIdAction;
-        if (is_null($unusedIdAction)) // make sure we only do this for one test case
+        if (empty($unusedIdAction)) // make sure we only do this for one test case
         {
             return;
         }
