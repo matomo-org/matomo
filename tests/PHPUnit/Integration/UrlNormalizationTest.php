@@ -42,11 +42,26 @@ class Test_Piwik_Integration_UrlNormalization extends IntegrationTestCase
             'idSite'     => self::$idSite,
             'date'       => self::$dateTime,
         ));
+        
         $return[] = array('Actions.getPageUrls', array(
             'testSuffix' => '_pagesSegmented',
             'idSite'     => self::$idSite,
             'date'       => self::$dateTime,
             'segment'    => 'pageUrl==https://WWw.example.org/foo/bar2.html',
+        ));
+        // Testing entryPageUrl  with AND segment
+        $return[] = array('Actions.getPageUrls', array(
+            'testSuffix' => '_pagesSegmented',
+            'idSite'     => self::$idSite,
+            'date'       => self::$dateTime,
+            'segment'    => 'entryPageUrl==http://example.org/foo/bar.html;pageUrl==https://WWw.example.org/foo/bar2.html',
+        ));
+        // Testing exitPageUrl with AND segment
+        $return[] = array('Actions.getPageUrls', array(
+            'testSuffix' => '_pagesSegmented',
+            'idSite'     => self::$idSite,
+            'date'       => self::$dateTime,
+            'segment'    => 'exitPageUrl==example.org/foo/bar4.html;pageUrl==https://WWw.example.org/foo/bar2.html',
         ));
         $return[] = array('Actions.getPageUrls', array(
             'testSuffix' => '_pagesSegmented',

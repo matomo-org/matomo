@@ -28,8 +28,8 @@ class Piwik_Updater
 	
 	public $pathUpdateFileCore;
 	public $pathUpdateFilePlugins;
-
 	private $componentsToCheck = array();
+	private $hasMajorDbUpdate = false;
 	
 	public function __construct()
 	{
@@ -99,29 +99,13 @@ class Piwik_Updater
 
 	/**
 	 * Does one of the new versions involve a major database update?
+	 * Note: getSqlQueriesToExecute() must be called before this method!
 	 * 
 	 * @return bool
 	 */
 	public function hasMajorDbUpdate()
 	{
-		foreach($this->componentsWithUpdateFile as $componentName => $componentUpdateInfo) 
-		{
-			foreach($componentUpdateInfo as $file => $fileVersion)
-			{
-				require_once $file;
-				
-				$className = $this->getUpdateClassName($componentName, $fileVersion);
-				if(class_exists($className, false))
-				{
-					$isMajor = call_user_func( array($className, 'isMajorUpdate'));
-					if ($isMajor) {
-						return true;
-					}
-				}
-			}
-		}
-		
-		return false;
+		return $this->hasMajorDbUpdate;
 	}
 
 	/**
@@ -145,6 +129,8 @@ class Piwik_Updater
 					foreach($queriesForComponent as $query => $error) {
 						$queries[] = $query.';';
 					}
+					
+					$this->hasMajorDbUpdate = $this->hasMajorDbUpdate || call_user_func( array($className, 'isMajorUpdate'));
 				}
 			}
 			// unfortunately had to extract this query from the Piwik_Option class
