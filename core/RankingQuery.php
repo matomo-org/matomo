@@ -34,6 +34,9 @@
  * $rankingQuery->execute($sql);
  * 
  * 
+ * For more examples, see RankingQueryTest.php
+ * 
+ * 
  * @package Piwik
  */
 class Piwik_RankingQuery
