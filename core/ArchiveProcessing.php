@@ -322,22 +322,47 @@ abstract class Piwik_ArchiveProcessing
 		$this->idsite = $this->site->getId();
 		$this->periodId = $this->period->getId();
 
-		$dateStartLocalTimezone = $this->period->getDateStart();
-		$dateEndLocalTimezone = $this->period->getDateEnd();
+		$this->initDates();
 		
 		$this->tableArchiveNumeric = self::makeNumericArchiveTable($this->period);
 		$this->tableArchiveBlob = self::makeBlobArchiveTable($this->period);
 
+		$this->minDatetimeArchiveProcessedUTC = $this->getMinTimeArchivedProcessed();
+		$db = Zend_Registry::get('db');
+		$this->compressBlob = $db->hasBlobDataType();
+	}
+
+	/**
+	 * The archive processing classes have features that might be useful for live querying;
+	 * In particular, Piwik_ArchiveProcessing_Day::query*. In order to reuse those methods
+	 * outside the actual archiving or to reuse archiving code for live querying, an instance
+	 * of archive processing has to be faked.
+	 * 
+	 * For example, this code can be used in an API method:
+	 * $archiveProcessing = new Piwik_ArchiveProcessing_Day();
+	 * $archiveProcessing->setSite(new Piwik_Site($idSite));
+	 * $archiveProcessing->setPeriod(Piwik_Period::advancedFactory($period, $date));
+	 * $archiveProcessing->setSegment(new Piwik_Segment($segment, $idSite));
+	 * $archiveProcessing->initForLiveUsage(); 
+	 * Then, either use $archiveProcessing->query* or pass the instance to the archiving
+	 * code of the plugin. Note that even though we use Piwik_ArchiveProcessing_Day, this
+	 * works for any $period and $date that has been passed to the API.
+	 */
+	public function initForLiveUsage() {
+		$this->idsite = $this->site->getId();
+		$this->initDates();
+	}
+	
+	private function initDates() {
+		$dateStartLocalTimezone = $this->period->getDateStart();
+		$dateEndLocalTimezone = $this->period->getDateEnd();
+		
 		$dateStartUTC = $dateStartLocalTimezone->setTimezone($this->site->getTimezone());
 		$dateEndUTC = $dateEndLocalTimezone->setTimezone($this->site->getTimezone());
 		$this->startDatetimeUTC = $dateStartUTC->getDateStartUTC();
 		$this->endDatetimeUTC = $dateEndUTC->getDateEndUTC();
 		$this->startTimestampUTC = $dateStartUTC->getTimestamp();
-		$this->endTimestampUTC = strtotime($this->endDatetimeUTC);
-		
-		$this->minDatetimeArchiveProcessedUTC = $this->getMinTimeArchivedProcessed();
-		$db = Zend_Registry::get('db');
-		$this->compressBlob = $db->hasBlobDataType();
+		$this->endTimestampUTC = strtotime($this->endDatetimeUTC);		
 	}
 	
 	/**

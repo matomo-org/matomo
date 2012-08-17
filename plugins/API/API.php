@@ -716,23 +716,8 @@ class Piwik_API_API
     	}
     	$website = new Piwik_Site($idSite);
 //    	$segment = new Piwik_Segment($segment, $idSite);
-
-		if(Piwik_Archive::isMultiplePeriod($date, $period))
-		{
-			$period =  new Piwik_Period_Range($period, $date);
-		}
-		else
-		{
-			if($period == 'range')
-			{
-				$period = new Piwik_Period_Range($period, $date);
-			}
-			else
-			{
-				$period = Piwik_Period::factory($period, Piwik_Date::factory($date));
-			}
-		}
-
+		
+		$period = Piwik_Period::advancedFactory($period, $date);
 		$period = $period->getLocalizedLongString();
     	
     	$return = array(

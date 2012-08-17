@@ -72,6 +72,25 @@ abstract class Piwik_Period
 				break;
 		}
 	}
+	
+	/**
+	 * The advanced factory method is easier to use from the API than the factory
+	 * method above. It doesn't require an instance of Piwik_Date and works for
+	 * period=range. Generally speaking, anything that can be passed as period
+	 * and range to the API methods can directly be forwarded to this factory
+	 * method in order to get a suitable instance of Piwik_Period.
+	 * 
+	 * @param string $strPeriod "day", "week", "month", "year", "range"
+	 * @param string $strDate
+	 * @return Piwik_Period
+	 */
+	static public function advancedFactory($strPeriod, $strDate) {
+		if (Piwik_Archive::isMultiplePeriod($strDate, $strPeriod) || $strPeriod == 'range')
+		{
+			return new Piwik_Period_Range($strPeriod, $strDate);
+		}
+		return self::factory($strPeriod, Piwik_Date::factory($strDate));
+	}
 
 	
 	/**
