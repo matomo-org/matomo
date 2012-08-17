@@ -299,12 +299,31 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 
 	/**
 	 * Returns the actions by the given dimension
+	 * 
+	 * - The basic use case is to use $label and optionally $where.
+	 * - If you want to apply a limit and group the others, use $orderBy to sort the way you
+	 *   want the limit to be applied and pass a pre-configured instance of Piwik_RankingQuery.
+	 *   The ranking query instance has to have a limit and at least one label column.
+	 *   See Piwik_RankingQuery::setLimit() and Piwik_RankingQuery::addLabelColumn().
+	 *   If $rankingQuery is set, the return value is the array returned by 
+	 *   Piwik_RankingQuery::execute().
+	 * - By default, the method only queries log_link_visit_action. If you need data from
+	 *   log_action (e.g. to partition the result from the ranking query into the different
+	 *   action types), use $joinLogActionOnColumn and $addSelect to join log_action and select
+	 *   the column you need from log_action.
+	 * 
 	 *
-	 * @param array|string  $label
-	 * @param string        $where
+	 * @param array|string  $label      the dimensions(s) you're interested in
+	 * @param string        $where      where clause
+	 * @param bool|string   $orderBy    order by clause
+	 * @param Piwik_RankingQuery  $rankingQuery     pre-configured ranking query instance
+	 * @param bool|string   $joinLogActionOnColumn  column from log_link_visit_action that
+	 *                                              log_action should be joined on
+	 * @param bool|string   $addSelect  additional select clause
 	 * @return mixed
 	 */
-	public function queryActionsByDimension($label, $where = '')
+	public function queryActionsByDimension($label, $where = '', $orderBy = false, $rankingQuery = null,
+			$joinLogActionOnColumn = false, $addSelect = false)
 	{
 	    if(is_array($label))
 	    {
@@ -327,15 +346,13 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	        $groupBy = 'label';
 	    }
 	    
-	    if(!empty($where))
+		if(!empty($where))
 	    {
 	    	$where = sprintf($where, "log_link_visit_action", "log_link_visit_action");
 	        $where = ' AND '.$where;
 	    }
 	    
-		/*
-		 * Page URLs and Page names, general stats
-		 */
+		// page URLs and page names, general stats
 		$select = "$select,
 				count(distinct log_link_visit_action.idvisit) as `". Piwik_Archive::INDEX_NB_VISITS ."`,
 				count(distinct log_link_visit_action.idvisitor) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`,
@@ -343,31 +360,64 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 
 		$from = "log_link_visit_action";
 		
+		if ($joinLogActionOnColumn !== false)
+		{
+			$from = array(
+				$from,
+				array(
+					'table' => 'log_action', 
+					'joinOn' => 'log_action.idaction = log_link_visit_action.'.$joinLogActionOnColumn,
+				)
+			);
+		}
+		
+		if ($addSelect !== false)
+		{
+			$select .= ', '.$addSelect;
+		}
+		
 		$where = "log_link_visit_action.server_time >= ?
 				AND log_link_visit_action.server_time <= ?
 				AND log_link_visit_action.idsite = ?
 				$where";
-				 		
+
 		$bind = array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite);
         
-		$query = $this->getSegment()->getSelectQuery($select, $from, $where, $bind, $orderBy=false, $groupBy);
+		$query = $this->getSegment()->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy);
+		
+		if ($rankingQuery !== null)
+		{
+			$sumColumns = array(
+				Piwik_Archive::INDEX_NB_UNIQ_VISITORS,
+				Piwik_Archive::INDEX_NB_VISITS,
+				Piwik_Archive::INDEX_NB_ACTIONS
+			);
+			$rankingQuery->addColumn($sumColumns, 'sum');
+			return $rankingQuery->execute($query['sql'], $query['bind']);
+		}
 		
 		return $this->db->query($query['sql'], $query['bind']);
 	}
-	
+
 	/**
 	 * Query visits by dimension
 	 *
-	 * @param array|string  $label  mixed Can be a string, eg. "referer_name", will be aliased as 'label' in the returned rows
-	 * 				                Can also be an array of strings, when the dimension spans multiple fields, eg. array("referer_name", "referer_keyword")
-	 * @param string        $where  Additional condition for WHERE clause
+	 * @param array|string  $label    Can be a string, eg. "referer_name", will be aliased as 'label' in the returned rows
+	 *                                Can also be an array of strings, when the dimension spans multiple fields, 
+	 *                                eg. array("referer_name", "referer_keyword")
+	 * @param string        $where    Additional condition for WHERE clause
+	 * @param bool|string   $orderBy  ORDER BY clause. This is needed in combination with $rankingQuery.
+	 * @param Piwik_RankingQuery $rankingQuery
+	 *                                A pre-configured ranking query instance that is used to limit the result.
+	 *                                If set, the return value is the array returned by Piwik_RankingQuery::execute().
+	 * @return mixed
 	 */
-	public function queryVisitsByDimension($label, $where = '')
+	public function queryVisitsByDimension($label, $where = '', $orderBy = false, $rankingQuery = null)
 	{
 	    if(is_array($label))
 	    {
 	        $groupBy = "log_visit.".implode(", log_visit.", $label);
-	    	foreach($label as &$field)
+			foreach($label as &$field)
 	    	{
 	    		$field = 'log_visit.'.$field.' AS '.$field;
 	    	}
@@ -403,7 +453,19 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		
 		$bind = array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite);
 		
-		$query = $this->getSegment()->getSelectQuery($select, $from, $where, $bind, $orderBy=false, $groupBy);
+		$query = $this->getSegment()->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy);
+		
+		if ($rankingQuery !== null)
+		{
+			$sumColumns = array(
+				Piwik_Archive::INDEX_NB_UNIQ_VISITORS, Piwik_Archive::INDEX_NB_VISITS,
+				Piwik_Archive::INDEX_NB_ACTIONS, Piwik_Archive::INDEX_SUM_VISIT_LENGTH,
+				Piwik_Archive::INDEX_BOUNCE_COUNT, Piwik_Archive::INDEX_NB_VISITS_CONVERTED
+			);
+			$rankingQuery->addColumn($sumColumns, 'sum');
+			$rankingQuery->addColumn(Piwik_Archive::INDEX_MAX_ACTIONS, 'max');
+			return $rankingQuery->execute($query['sql'], $query['bind']);
+		}
 		
 		return $this->db->query($query['sql'], $query['bind']);
 	}
