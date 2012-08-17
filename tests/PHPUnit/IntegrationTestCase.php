@@ -463,10 +463,10 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             // Used in Actions.getPageUrl, .getDownload, etc.
             // tied to Main.test.php doTest_oneVisitorTwoVisits
             // will need refactoring when these same API functions are tested in a new function
-            'downloadUrl'      => urlencode('http://piwik.org/path/again/latest.zip?phpsessid=this is ignored when searching'),
-            'outlinkUrl'       => urlencode('http://dev.piwik.org/svn'),
-            'pageUrl'          => urlencode('http://example.org/index.htm?sessionid=this is also ignored by default'),
-            'pageName'         => urlencode(' Checkout / Purchasing... '),
+            'downloadUrl'      => 'http://piwik.org/path/again/latest.zip?phpsessid=this is ignored when searching',
+            'outlinkUrl'       => 'http://dev.piwik.org/svn',
+            'pageUrl'          => 'http://example.org/index.htm?sessionid=this is also ignored by default',
+            'pageName'         => ' Checkout / Purchasing... ',
 
             // do not show the millisec timer in response or tests would always fail as value is changing
             'showTimer'        => 0,
