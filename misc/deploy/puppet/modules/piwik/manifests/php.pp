@@ -38,8 +38,9 @@ class piwik::php {
   }
 
   exec { 'install_composer':
-    command => 'wget http://getcomposer.org/composer.phar -O composer.phar | php -- --install-dir=bin',
-    require => [ Package['wget'], Class["php::install", "php::config"] ],
+    command => 'curl -s https://getcomposer.org/installer | php -- --install-dir="/bin"',
+    require => [ Package['curl'], Class["php::install", "php::config"] ],
+    unless  => 'which composer.phar',
   }
 
   # TODO add channels... we should fork pear module and send pull requests

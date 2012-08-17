@@ -18,5 +18,7 @@ class piwik::base {
 
   package { 'wget': ensure => latest, require => Exec['base_apt-get_update'] }
 
+  package { 'curl': ensure => latest, require => Exec['base_apt-get_update'] }
+
   include git
 }
