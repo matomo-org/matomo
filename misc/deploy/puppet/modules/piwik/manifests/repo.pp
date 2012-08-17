@@ -13,6 +13,8 @@ define piwik::repo(
       ensure   => present,
       provider => svn,
       source   => "${piwik::params::svn_repository}/${version}",
+      owner    => $piwik::params::user,
+      group    => $piwik::params::group,
     }
   }
 
