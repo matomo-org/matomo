@@ -184,6 +184,10 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 										  FROM '.Piwik_Common::prefixTable('user_dashboard') .
 										' WHERE login = ?', array($login));
 
+			if(empty($nextId)) {
+				$nextId = 1;
+			}
+			
 			$name = urldecode(Piwik_Common::getRequestVar('name', '', 'string'));
 			$type = urldecode(Piwik_Common::getRequestVar('type', 'default', 'string'));
 			$layout = '{}';
