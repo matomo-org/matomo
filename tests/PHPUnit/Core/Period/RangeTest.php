@@ -744,7 +744,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
             Piwik_Date::factory('2011-11-01'),
             Piwik_Date::factory('2011-11-30'),
             Piwik_Date::factory('2011-12-31'),
-            Piwik_Date::factory('2012-10-18')
+            Piwik_Date::factory('2021-10-18')
         );
         foreach($todays as $today)
         {

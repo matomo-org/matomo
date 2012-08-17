@@ -44,7 +44,6 @@ class UpdaterTest extends DatabaseTestCase
             $path . '0.1.php' => '0.1'
         );
         $this->assertEquals($expectedInOrder, array_map("basename", $updateFiles));
-        
     }
 
     /**

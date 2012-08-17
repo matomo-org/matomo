@@ -45,7 +45,7 @@ class SEOTest extends PHPUnit_Framework_TestCase
         $ranks = $renderer->render($dataTable);
         foreach ($ranks as $rank)
         {
-            $this->assertTrue(!empty($rank['rank']), $rank['id'] . ' expected non-zero rank, got [' . $rank['rank'] . ']');
+            $this->assertNotEmpty($rank['rank'], $rank['id'] . ' expected non-zero rank, got [' . $rank['rank'] . ']');
         }
     }
 }

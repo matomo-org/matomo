@@ -88,10 +88,10 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
 
     protected static function trackVisits()
     {
-        $t = self::getTracker(self::$idSite, self::$dateTime, $defaultInit = true);
-
         $dateTime = self::$dateTime;
         $idSite   = self::$idSite;
+
+        $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
 
         $t->disableCookieSupport();
 

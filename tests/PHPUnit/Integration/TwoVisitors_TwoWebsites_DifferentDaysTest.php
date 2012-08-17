@@ -113,7 +113,7 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays extends Integ
         return 'TwoVisitors_twoWebsites_differentDays';
     }
 
-    public static function setUpWebsitesAndGoals()
+    protected static function setUpWebsitesAndGoals()
     {
         // tests run in UTC, the Tracker in UTC
         $ecommerce = self::$allowConversions ? 1 : 0;
