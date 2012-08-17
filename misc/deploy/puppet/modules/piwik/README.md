@@ -54,7 +54,6 @@ Do not forget to update your local hosts file when adding servers
 * puppetlabs-git
 * camptocamp/puppet-common
 * camptocamp/puppet-apt
-* codec/puppet-users
 * puppetlabs-apache
 * puppetlabs-mysql
 * puppetlabs-nginx
