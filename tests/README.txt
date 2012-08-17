@@ -79,13 +79,10 @@ which you can use to run PHPUnit tests in your browser.
 
 To load VisualPHPUnit point your browser to http://path/to/piwik/trunk/tests/lib/visualphpunit/.
 
-VisualPHPUnit will already be configured for use with Piwik. You may, however, need to set the
-'pear_path' config option manually. You'll know you need to do this if PHP cannot require the
-necessary files. To set this option, edit the file located at
-
-/path/to/piwik/trunk/tests/lib/visualphpunit/app/config/bootstrap.php
-
-and set the 'pear_path' config option.
+VisualPHPUnit will already be configured for use with Piwik. 
+If you get an error such as "Warning: require_once(PHPUnit/Autoload.php)" it is because the PEAR path 
+is not set in your php.ini. Edit in php.ini the value include_path to include the path to your
+PEAR setup, and restart Apache.
 
 - Running tests -
 
