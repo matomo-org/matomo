@@ -1,3 +1,16 @@
+# = Class: piwik::base
+# 
+# This class installes some base packages like git, subversion, vim
+# and more.
+# 
+# == Parameters: 
+# 
+# == Requires: 
+# 
+# == Sample Usage:
+#
+#  include piwik::base
+#
 class piwik::base {
 
   include apt

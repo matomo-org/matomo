@@ -1,3 +1,31 @@
+# = Definition: piwik::repo
+#
+# This definition clones a specific version from a Piwik
+# repository into the specified directory.
+#
+# == Parameters: 
+#
+# $directory::   The piwik repository will be checked out/cloned into this 
+#                directory.
+# $version::     The Piwik version. Defaults to 'trunk'. 
+#                Valid values: For example 'tags/1.8.3' or 'branch/whatever'.
+# $repository::  Whether to checkout the SVN or Git reporitory. Defaults to svn. 
+#                Valid values: 'svn' and 'git'.  
+#
+# == Actions:
+#
+# == Requires: 
+#
+# == Sample Usage:
+#
+#  piwik::repo { 'piwik_repo_simple': }
+#
+#  piwik::repo { 'piwik_repo_full':
+#    directory  => '/var/www/piwik',
+#    version    => 'trunk',
+#    repository => 'svn',
+#  }
+#
 define piwik::repo(
   $directory  = $piwik::params::docroot,
   $version    = $piwik::params::piwik_version,

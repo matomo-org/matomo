@@ -1,3 +1,29 @@
+# = Definition: piwik::nginx
+#
+# This definition installs NGINX + PHP-FPM and creates a 
+# virtual host.
+#
+# == Parameters: 
+#
+# $name::     The name of the host
+# $port::     The port to configure the host
+# $docroot::  The location of the files for this host
+#
+# == Actions:
+#
+# == Requires: 
+#
+# The piwik class
+#
+# == Sample Usage:
+#
+#  piwik::nginx { 'nginx.piwik': }
+#
+#  piwik::nginx { 'nginx.piwik':
+#    port     => 8080,
+#    docroot  => '/var/www/piwik',
+#  }
+#
 define piwik::nginx (
   $port    = 8080,
   $docroot = $piwik::params::docroot

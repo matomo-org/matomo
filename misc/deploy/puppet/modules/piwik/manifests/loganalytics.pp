@@ -1,6 +1,18 @@
+# = Class: piwik::loganalytics
+# 
+# This class installes all required packages in order to use
+# Log Analytics. Those packages are also required to run the
+# Log Analytics integration tests.
+# 
+# == Parameters: 
+# 
+# == Requires: 
+# 
+# == Sample Usage:
+#
+#  include piwik::loganalytics
+#
 class piwik::loganalytics {
-
-  # required for Log Analytics (integration tests)
 
   package {
     'python-setuptools':

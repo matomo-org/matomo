@@ -2,16 +2,16 @@
 # 
 # This class installs all required packages and services in order to run Piwik. 
 # It'll do a checkout of the Piwik repository as well. You only have to setup
-# Apache and/or Nginx afterwards and Piwik is running.
+# Apache and/or NGINX afterwards.
 # 
 # == Parameters: 
 #
 # $directory::         The piwik repository will be checked out into this directory.
 # $repository::        Whether to checkout the SVN or Git reporitory. Defaults to svn. 
 #                      Valid values: 'svn' and 'git'. 
-# $version::           The Piwik version that should be used. Defaults to 'trunk'. 
+# $version::           The Piwik version. Defaults to 'trunk'. 
 #                      Valid values: For example 'tags/1.8.3' or 'branch/whatever'. 
-# $db_user::           Setups a MySQL user with that name beside the root user.
+# $db_user::           If defined, it creates a MySQL user with this username.
 # $db_password::       The MySQL user's password.
 # $db_root_password::  A password for the MySQL root user.
 # $log_analytics::     Whether log analytics will be used. Defaults to true. 
@@ -23,12 +23,12 @@
 # 
 # == Sample Usage:
 #
-#   class {'piwik': }
+#  class {'piwik': }
 #
-#   class {'piwik':
-#     db_root_password => '123456',
-#     repository => 'git',
-#   }
+#  class {'piwik':
+#    db_root_password => '123456',
+#    repository => 'git',
+#  }
 #
 class piwik(
   $directory   = $piwik::params::docroot,
