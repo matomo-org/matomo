@@ -823,19 +823,28 @@ class DynamicResolver(object):
     Use Piwik API to determine the site ID.
     """
 
+    _add_site_lock = threading.Lock()
+    
     def __init__(self):
         self._cache = {}
-
-    def _resolve(self, hit):
+    
+    def _get_site_id_from_hit_host(self, hit):
         main_url = 'http://' + hit.host
-        res = piwik.call_api(
+        return piwik.call_api(
             'SitesManager.getSitesIdFromSiteUrl',
             url=main_url,
         )
-        if res:
-            # The site already exists.
-            site_id = res[0]['idsite']
-        else:
+    
+    def _add_site(self, hit):
+        main_url = 'http://' + hit.host
+        DynamicResolver._add_site_lock.acquire()
+        
+        try:
+            # After we obtain the lock, make sure the site hasn't already been created.
+            res = self._get_site_id_from_hit_host(hit)
+            if res:
+                return res[0]['idsite']
+            
             # The site doesn't exist.
             logging.debug('No Piwik site found for the hostname: %s', hit.host)
             if config.options.site_id_fallback is not None:
@@ -855,13 +864,25 @@ class DynamicResolver(object):
                     logging.error("Couldn't create a Piwik site for host %s: %s",
                         hit.host, result.get('message'),
                     )
+                    return None
                 else:
                     site_id = result['value']
                     stats.piwik_sites_created.append((hit.host, site_id))
+                    return site_id
             else:
                 # The site doesn't exist, we don't want to create new sites and
                 # there's no default site ID. We thus have to ignore this hit.
-                site_id = None
+                return None
+        finally:
+            DynamicResolver._add_site_lock.release()
+    
+    def _resolve(self, hit):
+        res = self._get_site_id_from_hit_host(hit)
+        if res:
+            # The site already exists.
+            site_id = res[0]['idsite']
+        else:
+            site_id = self._add_site(hit)
         if site_id is not None:
             stats.piwik_sites.add(site_id)
         return site_id
