@@ -93,6 +93,7 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
     protected static function trackVisits()
     {
     	self::logVisitsWithStaticResolver(self::$tokenAuth);
+    	self::logVisitsWithAllEnabled(self::$tokenAuth);
     }
 
 	/**
@@ -105,11 +106,7 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
     	$opts = array('--idsite' => self::$idSite,
     				  '--token-auth' => $token_auth,
     				  '--recorders' => '4',
-    				  '--recorder-max-payload-size' => '2',
-    				  '--enable-http-errors' => false,
-    				  '--enable-http-redirects' => false,
-    				  '--enable-static' => false,
-    				  '--enable-bots' => false);
+    				  '--recorder-max-payload-size' => '2');
 		
 		self::executeLogImporter($logFile, $opts);
 	}
@@ -125,11 +122,28 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
 		$opts = array('--add-sites-new-hosts' => false,
 					  '--token-auth' => $token_auth,
     				  '--recorders' => '4',
-    				  '--recorder-max-payload-size' => '1',
-    				  '--enable-http-errors' => false,
-    				  '--enable-http-redirects' => false,
-    				  '--enable-static' => false,
-    				  '--enable-bots' => false);
+    				  '--recorder-max-payload-size' => '1');
+		
+		self::executeLogImporter($logFile, $opts);
+	}
+	
+	/**
+	 * Logs a couple visits for the site we created w/ all log importer options
+	 * enabled. Visits are for Aug 11 of 2012.
+	 */
+	protected static function logVisitsWithAllEnabled( $token_auth )
+	{
+		$logFile = PIWIK_INCLUDE_PATH.'/tests/resources/fake_logs_enable_all.log';
+		
+		$opts = array('--idsite' => self::$idSite,
+					  '--token-auth' => $token_auth,
+					  '--recorders' => '4',
+					  '--recorder-max-payload-size' => '2',
+					  '--enable-static' => false,
+					  '--enable-bots' => false,
+					  '--enable-http-errors' => false,
+					  '--enable-http-redirects' => false,
+					  '--enable-reverse-dns' => false);
 		
 		self::executeLogImporter($logFile, $opts);
 	}

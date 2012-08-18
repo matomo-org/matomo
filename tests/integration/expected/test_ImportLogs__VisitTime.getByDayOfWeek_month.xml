@@ -35,11 +35,12 @@
 	</row>
 	<row>
 		<label>Saturday</label>
-		<nb_visits>2</nb_visits>
-		<bounce_count>2</bounce_count>
-		<nb_actions>2</nb_actions>
-		<nb_uniq_visitors>2</nb_uniq_visitors>
-		<nb_visits_converted>2</nb_visits_converted>
+		<nb_visits>7</nb_visits>
+		<bounce_count>5</bounce_count>
+		<nb_actions>10</nb_actions>
+		<nb_uniq_visitors>7</nb_uniq_visitors>
+		<nb_visits_converted>6</nb_visits_converted>
+		<sum_visit_length>305</sum_visit_length>
 		<day_of_week>6</day_of_week>
 	</row>
 	<row>
