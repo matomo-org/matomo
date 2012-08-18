@@ -1,4 +1,4 @@
-define piwik::db(
+class piwik::db(
   $username      = $piwik::params::db_user,
   $password      = $piwik::params::db_password,
   $root_password = $piwik::params::db_password

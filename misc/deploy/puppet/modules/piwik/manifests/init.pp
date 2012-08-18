@@ -43,7 +43,7 @@ class piwik(
   include piwik::base
 
   # mysql / db
-  piwik::db { 'piwik_db_setup':
+  class { 'piwik::db':
     username      => $db_user,
     password      => $db_password,
     root_password => $db_root_password,
@@ -51,7 +51,7 @@ class piwik(
   }
 
   class { 'piwik::php':
-     require => Piwik::Db['piwik_db_setup'],
+     require => Class['piwik::db'],
   }
 
   if $log_analytics == true {

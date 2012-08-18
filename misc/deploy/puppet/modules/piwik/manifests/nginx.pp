@@ -4,7 +4,7 @@ define piwik::nginx (
 ) {
 
   $socket_path = "${docroot}/tmp/fpm.socket"
-
+  
   host { "${name}":
     ip => "127.0.0.1";
   } 

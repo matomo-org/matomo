@@ -3,15 +3,6 @@ define piwik::apache (
   $docroot  = $piwik::params::docroot,
   $priority = '10'
 ) {  
-  
-  # user for apache / nginx
-  user { "${piwik::params::user}":
-    ensure    => present,
-    comment   => $name,
-    home      => $directory,
-    shell     => '/bin/false',
-    require   => [ Piwik::Repo['piwik_repo_setup'], Class['piwik::php'] ],
-  }
 
   host { "${name}":
     ip => "127.0.0.1";
@@ -29,7 +20,7 @@ define piwik::apache (
     vhost_name => '_default_',
     port       => $port,
     docroot    => $docroot,
-    require    => [ Piwik::Repo['piwik_repo_setup'], Class['piwik::php'], User["${piwik::params::user}"] ],
+    require    => [ Host[$name], Piwik::Repo['piwik_repo_setup'], Class['piwik::php'] ],
     configure_firewall => true,
   }
 

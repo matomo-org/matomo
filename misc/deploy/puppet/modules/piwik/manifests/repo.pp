@@ -8,6 +8,8 @@ define piwik::repo(
     file { "${directory}": }
   }
 
+  class { 'piwik::user': directory => $directory }
+
   if $repository == 'svn' {
     vcsrepo { "${directory}":
       ensure   => present,
@@ -15,6 +17,7 @@ define piwik::repo(
       source   => "${piwik::params::svn_repository}/${version}",
       owner    => $piwik::params::user,
       group    => $piwik::params::group,
+      require  => User["${piwik::params::user}"],
     }
   }
 
@@ -25,6 +28,7 @@ define piwik::repo(
       source   => "${piwik::params::svn_repository}/${version}",
       owner    => $piwik::params::user,
       group    => $piwik::params::group,
+      require  => User["${piwik::params::user}"],
     }
   }
 
