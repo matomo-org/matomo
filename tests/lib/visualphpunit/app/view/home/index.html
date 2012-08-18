@@ -37,6 +37,7 @@
               <li><a href="./archives">Archives</a></li>
               <li><a href="./graphs">Graphs</a></li>
               <li><a href="./help">Help</a></li>
+              <li><button type="submit" id='run-tests' class="btn btn-primary">Run Tests</button></li>
             </ul>
           </div>
         </div>
@@ -155,7 +156,6 @@
 
               <li class='centered'>
                 <input type='hidden' name='test_files' id='test-files' />
-                <button type="submit" id='run-tests' class="btn btn-primary">Run Tests</button>
               </li>
 
             </ul>
@@ -322,8 +322,9 @@
           for (i = 0; i != fileset.length; ++i) {
             var file = fileset[i];
             
+            // TODO: there should be filters to easily control what to run & what not to run.
             // if ends with .php
-            if (file.length > 4 && file.substr(file.length - 4, 4) == '.php') {
+            if (file.length > 4 && file.substr(file.length - 4, 4) == '.php' && file.indexOf('.ini') == -1) {
               result[file] = true;
             } else {
               var $entry = $('a[data-path="'+file+'"]', $file_selector),
