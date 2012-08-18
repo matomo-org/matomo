@@ -27,7 +27,7 @@
 {if $show_sparklines}
 <td style="width:180px">
     <div id="sparkline_%idsite%" style="width: 100px; margin: auto">
-	%sparkline%
+    	<a target="_blank" href="index.php?module=CoreHome&action=index&date=%date%&period=%period%&idSite=%idsite%">%sparkline%</a>
     </div>
 </td>
 {/if}
