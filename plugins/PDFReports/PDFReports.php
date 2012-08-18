@@ -532,11 +532,15 @@ class Piwik_PDFReports extends Piwik_Plugin
 		
     function addTopMenu()
     {
+    	$isMobileMessagingActivated = Piwik_PluginsManager::getInstance()->isPluginActivated('MobileMessaging');
+    	$tooltip = $isMobileMessagingActivated ? 'MobileMessaging_TopLinkTooltip' : 'PDFReports_TopLinkTooltip';
     	Piwik_AddTopMenu(
-			Piwik_PluginsManager::getInstance()->isPluginActivated('MobileMessaging') ? 'MobileMessaging_TopMenu' : 'PDFReports_EmailReports',
+			$isMobileMessagingActivated ? 'MobileMessaging_TopMenu' : 'PDFReports_EmailReports',
 			array('module' => 'PDFReports', 'action' => 'index'),
 			true,
-			13
+			13,
+			$isHTML = false,
+			$tooltip = Piwik_Translate($tooltip)
 		);
     }
 

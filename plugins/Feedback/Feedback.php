@@ -37,7 +37,14 @@ class Piwik_Feedback extends Piwik_Plugin
 
 	public function addTopMenu()
 	{
-		Piwik_AddTopMenu('General_GiveUsYourFeedback', array('module' => 'Feedback', 'action' => 'index'), true, $order = 20);
+		Piwik_AddTopMenu(
+			'General_GiveUsYourFeedback',
+			array('module' => 'Feedback', 'action' => 'index'),
+			true,
+			$order = 20,
+			$isHTML = false,
+			$tooltip = Piwik_Translate('Feedback_TopLinkTooltip')
+		);
 	}
 
 	/**

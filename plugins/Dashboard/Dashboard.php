@@ -89,7 +89,19 @@ class Piwik_Dashboard extends Piwik_Plugin
 
 	public function addTopMenu()
 	{
-		Piwik_AddTopMenu('General_Dashboard', array('module' => 'CoreHome', 'action' => 'index'), true, 1);
+		$tooltip = false;
+		try
+		{
+			$idSite = Piwik_Common::getRequestVar('idSite');
+			$tooltip = Piwik_Translate('Dashboard_TopLinkTooltip', Piwik_Site::getNameFor($idSite));
+		}
+		catch (Exception $ex)
+		{
+			// if no idSite parameter, show no tooltip
+		}
+		
+		$urlParams = array('module' => 'CoreHome', 'action' => 'index');
+		Piwik_AddTopMenu('General_Dashboard', $urlParams, true, 1, $isHTML = false, $tooltip);
 	}
 
 	/**

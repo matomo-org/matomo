@@ -14,6 +14,7 @@ $translations = array(
 	'MobileMessaging_Exception_UnknownProvider' => 'Provider name \'%s\' unknown. Try any of the following instead: %s.',
 	'MobileMessaging_PluginDescription' => 'Create and download custom SMS reports and have them sent to your mobile on a daily, weekly or monthly basis.',
 	'MobileMessaging_TopMenu' => 'Email & SMS Reports',
+	'MobileMessaging_TopLinkTooltip' => 'Get Web Analytics Reports delivered to your email inbox or your mobile phone!',
 	'MobileMessaging_SettingsMenu' => 'Mobile Messaging',
 	'MobileMessaging_Settings_SuperAdmin' => 'Super User Settings',
 	'MobileMessaging_VerificationText' => 'Code is %s. To validate your phone number and receive Piwik SMS reports please copy this code in the form accessible via Piwik > %s > %s.',

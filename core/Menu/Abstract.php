@@ -49,8 +49,9 @@ abstract class Piwik_Menu_Abstract
 	 * @param string  $url
 	 * @param bool    $displayedForCurrentUser
 	 * @param int     $order
+	 * @param string  $tooltip Tooltip to display.
 	 */
-	public function add($menuName, $subMenuName, $url, $displayedForCurrentUser, $order = 50)
+	public function add($menuName, $subMenuName, $url, $displayedForCurrentUser, $order = 50, $tooltip = false)
 	{
 		if($displayedForCurrentUser)
 		{
@@ -58,7 +59,8 @@ abstract class Piwik_Menu_Abstract
 				$menuName,
 				$subMenuName,
 				$url,
-				$order
+				$order,
+				$tooltip
 			);
 		}
 	}
@@ -70,8 +72,9 @@ abstract class Piwik_Menu_Abstract
 	 * @param string  $subMenuName
 	 * @param string  $url
 	 * @param int     $order
+	 * @param string  $tooltip Tooltip to display.
 	 */
-	private function buildMenuItem($menuName, $subMenuName, $url, $order = 50)
+	private function buildMenuItem($menuName, $subMenuName, $url, $order = 50, $tooltip = false)
 	{
 		if (!isset($this->menu[$menuName]) || empty($subMenuName))
 		{
@@ -79,6 +82,7 @@ abstract class Piwik_Menu_Abstract
 			$this->menu[$menuName]['_order'] = $order;
 			$this->menu[$menuName]['_name'] = $menuName;
 			$this->menu[$menuName]['_hasSubmenu'] = false;
+			$this->menu[$menuName]['_tooltip'] = $tooltip;
 		}
 		if (!empty($subMenuName))
 		{
@@ -86,6 +90,7 @@ abstract class Piwik_Menu_Abstract
 			$this->menu[$menuName][$subMenuName]['_order'] = $order;
 			$this->menu[$menuName][$subMenuName]['_name'] = $subMenuName;
 			$this->menu[$menuName]['_hasSubmenu'] = true;
+			$this->menu[$menuName]['_tooltip'] = $tooltip;
 		}
 	}
 
@@ -96,7 +101,7 @@ abstract class Piwik_Menu_Abstract
 	{
 		foreach ($this->menuEntries as $menuEntry)
 		{
-			$this->buildMenuItem($menuEntry[0], $menuEntry[1], $menuEntry[2], $menuEntry[3]);
+			$this->buildMenuItem($menuEntry[0], $menuEntry[1], $menuEntry[2], $menuEntry[3], $menuEntry[4]);
 		}
 	}
 

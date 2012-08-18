@@ -39,7 +39,10 @@ class Piwik_Widgetize extends Piwik_Plugin
 	
 	public function addTopMenu() 
 	{
-		Piwik_AddTopMenu('General_Widgets', array('module' => 'Widgetize', 'action' => 'index'), true, 5);
+		$tooltip = Piwik_Translate('Widgetize_TopLinkTooltip');
+		$urlParams = array('module' => 'Widgetize', 'action' => 'index');
+		
+		Piwik_AddTopMenu('General_Widgets', $urlParams, true, 5, $isHTML = false, $tooltip);
 	}
 
 	/**

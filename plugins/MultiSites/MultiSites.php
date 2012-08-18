@@ -79,7 +79,9 @@ class Piwik_MultiSites extends Piwik_Plugin
 
 	public function addTopMenu()
 	{
-		Piwik_AddTopMenu('General_MultiSitesSummary', array('module' => 'MultiSites', 'action' => 'index'), true, 3);
+		$urlParams = array('module' => 'MultiSites', 'action' => 'index');
+		$tooltip = Piwik_Translate('MultiSites_TopLinkTooltip');
+		Piwik_AddTopMenu('General_MultiSitesSummary', $urlParams, true, 3, $isHTML = false, $tooltip);
 	}
 
 	/**

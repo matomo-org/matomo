@@ -6,9 +6,9 @@
         {if isset($menu._html)}
             {$menu._html}
         {elseif $menu._url.module == $currentModule && (empty($menu._url.action) || $menu._url.action == $currentAction)}
-            <span class="topBarElem" {if isset($menu._url.tooltip)}title="{$menu._url.tooltip}"{/if}><b>{$label|translate}</b></span> | 
+            <span class="topBarElem"><b>{$label|translate}</b></span> | 
         {else}
-            <span class="topBarElem" {if isset($menu._url.tooltip)}title="{$menu._url.tooltip}"{/if}><a id="topmenu-{$menu._url.module|strtolower}" href="index.php{$menu._url|@urlRewriteWithParameters}">{$label|translate}</a></span> | 
+            <span class="topBarElem" {if isset($menu._tooltip)}title="{$menu._tooltip}"{/if}><a id="topmenu-{$menu._url.module|strtolower}" href="index.php{$menu._url|@urlRewriteWithParameters}">{$label|translate}</a></span> | 
         {/if}
     
 {/foreach}
