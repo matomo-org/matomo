@@ -45,7 +45,7 @@ See also http://dev.piwik.org/trac/ticket/1465
 	$ cd your/php/directory
 	$ sudo pear upgrade PEAR
 	$ pear config-set auto_discover 1
-	$ pear install --alldeps pear.phpunit.de/PHPUnit
+	$ sudo pear install --alldeps pear.phpunit.de/PHPUnit
 	Doc at: http://www.phpunit.de/manual/current/en/installation.html
 
 2) Configure PHPUnit: Copy the file piwik/tests/PHPUnit/phpunit.xml.dist as phpunit.xml.
@@ -80,9 +80,15 @@ which you can use to run PHPUnit tests in your browser.
 To load VisualPHPUnit point your browser to http://path/to/piwik/trunk/tests/lib/visualphpunit/.
 
 VisualPHPUnit will already be configured for use with Piwik. 
-If you get an error such as "Warning: require_once(PHPUnit/Autoload.php)" it is because the PEAR path 
-is not set in your php.ini. Edit in php.ini the value include_path to include the path to your
-PEAR setup, and restart Apache.
+
+Troubleshooting
+ * If at this URL you see a listing of files instead of seeing VisualPHPUnit, 
+   enable mod_rewrite apache module, and make sure your vhost in apache 
+   configuration has "AllowOverride all" so that .htaccess are loaded.
+ 
+ * If you get an error such as "Warning: require_once(PHPUnit/Autoload.php)" it is because the PEAR path 
+   is not set in your php.ini. Edit in php.ini the value include_path to include the path to your
+   PEAR setup, and restart Apache.
 
 - Running tests -
 
