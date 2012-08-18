@@ -75,7 +75,13 @@
 			<td>{$usersAliasByLogin[$login]}</td>
 			<td id='noaccess'>{if $access=='noaccess' and $idSiteSelected!='all'}{$accesValid}{else}{$accesInvalid}{/if}&nbsp;</td>
 			<td id='view'>{if $access=='view' and $idSiteSelected!='all'}{$accesValid}{else}{$accesInvalid}{/if}&nbsp;</td>
-			<td id='admin'>{if $access=='admin' and $idSiteSelected!='all'}{$accesValid}{else}{$accesInvalid}{/if}&nbsp;</td>
+			<td id='admin'>
+				{if $login=='anonymous'}
+					N/A
+				{else}
+					{if $access=='admin' and $idSiteSelected!='all'}{$accesValid}{else}{$accesInvalid}{/if}&nbsp;
+				{/if}
+			</td>
 		</tr>
 		{/foreach}
 		</tbody>
