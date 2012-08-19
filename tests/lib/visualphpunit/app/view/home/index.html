@@ -268,7 +268,7 @@
                            || (suite.status == 'succeeded' && display_succeeded); %>
         
         <div class='suite' data-suite-status='<%= suite.status %>' data-suite-time='<%= suite.time %>'
-             <% if (displaySuite) { %>style='display:none;'<% } %> >
+             <% if (!displaySuite) { %>style='display:none;'<% } %> >
           <% var statusCap = suite.status.charAt(0).toUpperCase() + suite.status.slice(1); %>
           <h3><%= suite.name %></h3>
           <div class='suite-status'>
