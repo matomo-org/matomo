@@ -223,6 +223,12 @@
           </div>
         </div>
       </div>
+      <div class='row execution-time' style="margin-bottom:20px">
+        <div class='span8'>
+          <h3>Total Execution Time</h3>
+          <div><em><%= _.reduce(_.values(suites), function(sum, suite){ return sum + suite.time; }, 0) %>s</em></div>
+        </div>
+      </div>
 
       <% if ( errors.length ) { %>
         <h3>Errors</h3>
@@ -377,14 +383,14 @@
                 suites: {},
                 stats: {
                   suites: {
-	                  succeeded: 0,
+	                succeeded: 0,
                     skipped: 0,
                     incomplete: 0,
                     failed: 0,
                     total: 0
                   },
                   tests: {
-	                  succeeded: 0,
+	                succeeded: 0,
                     skipped: 0,
                     incomplete: 0,
                     failed: 0,
