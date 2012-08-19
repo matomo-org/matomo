@@ -41,6 +41,22 @@ http://piwik.org
 	}
 ```
 
+### Add further Piwik versions/hosts:
+```
+	piwik::repo { 'piwik_repo_17':
+	  directory  => '/var/www/piwik17',
+	  version    => 'tags/1.7',
+	  repository => 'svn',
+	  require    => Class['piwik'],
+	}
+	
+	piwik::nginx { 'version17.piwik':
+	  port     => 8170,
+	  docroot  => '/var/www/piwik17',
+	  require  => Piwik::Repo['piwik_repo_17'],
+}
+```
+
 Do not forget to update your local hosts file when adding servers
 
 ### Requirements

@@ -36,8 +36,6 @@ define piwik::repo(
     file { "${directory}": }
   }
 
-  class { 'piwik::user': directory => $directory }
-
   if $repository == 'svn' {
     vcsrepo { "${directory}":
       ensure   => present,
