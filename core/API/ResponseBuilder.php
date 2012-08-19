@@ -305,6 +305,15 @@ class Piwik_API_ResponseBuilder
 			$datatable->applyQueuedFilters();
 		}
 		
+		// use the RemoveColumns filter if hideColumns/showColumns is provided (must be done
+		// after queued filters are run so processed metrics can be removed, too)
+		$hideColumns = Piwik_Common::getRequestVar('hideColumns', '', 'string', $this->request);
+		$showColumns = Piwik_Common::getRequestVar('showColumns', '', 'string', $this->request);
+		if ($hideColumns !== '' || $showColumns !== '')
+		{
+			$datatable->filter('ColumnDelete', array($hideColumns, $showColumns));
+		}
+		
 		// if requested, flatten nested tables
 		if (Piwik_Common::getRequestVar('flat', '0', 'string', $this->request) == '1')
 		{

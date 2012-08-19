@@ -77,6 +77,54 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
             									  'apiAction'	  => 'getPageUrls',
             									  'supertableApi' => 'Actions.getPageUrls',
             									  'testSuffix'	  => '__subtable')),
+
+			// test hideColumns && showColumns parameters
+			array('VisitsSummary.get', array('idSite' => self::$idSite, 'date' => self::$dateTime, 'periods' => 'day',
+											 'testSuffix' => '_hideColumns_',
+											 'otherRequestParameters' => array(
+											 	'hideColumns' => 'nb_visits_converted,max_actions,bounce_count,nb_hits,'
+											 		.'nb_visits,nb_actions,sum_visit_length,avg_time_on_site'
+											 ))),
+			array('VisitsSummary.get', array('idSite' => self::$idSite, 'date' => self::$dateTime, 'periods' => 'day',
+											 'testSuffix' => '_showColumns_',
+											 'otherRequestParameters' => array(
+											 	'showColumns' => 'nb_visits,nb_actions,nb_hits'
+											 ))),
+			array('VisitsSummary.get', array('idSite' => self::$idSite, 'date' => self::$dateTime, 'periods' => 'day',
+											 'testSuffix' => '_hideAllColumns_',
+											 'otherRequestParameters' => array(
+											 	'hideColumns' => 'nb_visits_converted,max_actions,bounce_count,nb_hits,'
+											 		.'nb_visits,nb_actions,sum_visit_length,avg_time_on_site,'
+											 		.'bounce_rate,nb_uniq_visitors,nb_actions_per_visit,'
+											 ))),
+			
+			// test hideColumns w/ API.getProcessedReport
+			array('API.getProcessedReport', array('idSite' => self::$idSite, 'date' => self::$dateTime,
+												  'periods' => 'day', 'apiModule' => 'Actions',
+												  'apiAction' => 'getPageTitles', 'testSuffix' => '_hideColumns_',
+												  'otherRequestParameters' => array(
+												  	'hideColumns' => 'nb_visits_converted,entry_nb_visits,'.
+												  		'bounce_rate,nb_hits,nb_visits,avg_time_on_page'
+												  ))),
+			
+			array('API.getProcessedReport', array('idSite' => self::$idSite, 'date' => self::$dateTime,
+												  'periods' => 'day', 'apiModule' => 'Actions',
+												  'apiAction' => 'getPageTitles', 'testSuffix' => '_showColumns_',
+												  'otherRequestParameters' => array(
+												  	'showColumns' => 'nb_visits_converted,entry_nb_visits,'.
+												  		'bounce_rate,nb_hits'
+												  ))),
+			
+			// test hideColumns w/ expanded=1
+			array('Actions.getPageTitles', array('idSite' => self::$idSite, 'date' => self::$dateTime,
+												 'periods' => 'day', 'testSuffix' => '_hideColumns_',
+												  'otherRequestParameters' => array(
+												  	'hideColumns' => 'nb_visits_converted,entry_nb_visits,'.
+												  		'bounce_rate,nb_hits,nb_visits,sum_time_spent,'.
+												  		'entry_sum_visit_length,entry_bounce_count,exit_nb_visits,'.
+												  		'entry_nb_uniq_visitors,exit_nb_uniq_visitors,entry_nb_actions',
+												  	'expanded' => '1'
+												 ))),
         );
     }
 

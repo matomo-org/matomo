@@ -192,6 +192,8 @@ class Piwik_API_DocumentationGenerator
 		$aParameters['flat'] = false;
 		$aParameters['include_aggregate_rows'] = false;
         $aParameters['filter_truncate'] = false;
+        $aParameters['hideColumns'] = false;
+        $aParameters['showColumns'] = false;
         
 		$moduleName = Piwik_API_Proxy::getInstance()->getModuleNameFromClassName($class);
 		$aParameters = array_merge(array('module' => 'API', 'method' => $moduleName.'.'.$methodName), $aParameters);

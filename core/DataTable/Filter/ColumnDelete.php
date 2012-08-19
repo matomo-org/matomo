@@ -11,7 +11,8 @@
  */
 
 /**
- * Deletes a column from a data table
+ * Filter that will remove columns from a DataTable using either a blacklist,
+ * whitelist or both.
  * 
  * @package Piwik
  * @subpackage Piwik_DataTable
@@ -19,32 +20,100 @@
 class Piwik_DataTable_Filter_ColumnDelete extends Piwik_DataTable_Filter
 {
 	/**
-	 * Column that should be removed
-	 *
-	 * @var string
+	 * The columns that should be removed from DataTable rows.
+	 * 
+	 * @var array
 	 */
-	private $columnToDelete;
-
+	private $columnsToRemove;
+	
 	/**
-	 * Constructor - sets the column to be deleted
-	 *
-	 * @param Piwik_DataTable  $table           data table
-	 * @param string           $columnToDelete  column to delete
+	 * The columns that should be kept in DataTable rows. All other columns will be
+	 * removed. If a column is in $columnsToRemove and this variable, it will NOT be kept.
+	 * 
+	 * @var array
 	 */
-	public function __construct( $table, $columnToDelete )
+	private $columnsToKeep;
+	
+	/**
+	 * Constructor.
+	 * 
+	 * @param Piwik_DataTable $table
+	 * @param array|string $columnsToRemove An array of column names or a comma-separated list of
+	 *                                      column names. These columns will be removed.
+	 * @param array|string $columnsToKeep An array of column names that should be kept or a
+	 *                                    comma-separated list of column names. Columns not in
+	 *                                    this list will be removed.
+	 */
+	public function __construct( $table, $columnsToRemove, $columnsToKeep = array() )
 	{
 		parent::__construct($table);
-		$this->columnToDelete = $columnToDelete;
+		
+		if (is_string($columnsToRemove))
+		{
+			$columnsToRemove = $columnsToRemove == '' ? array() : explode(',', $columnsToRemove);
+		}
+		
+		if (is_string($columnsToKeep))
+		{
+			$columnsToKeep = $columnsToKeep == '' ? array() : explode(',', $columnsToKeep);
+		}
+		
+		$this->columnsToRemove = $columnsToRemove;
+		$this->columnsToKeep = array_flip($columnsToKeep); // flip so we can use isset instead of in_array
+		
+		// always do recursive filter
+		$this->enableRecursive(true);
 	}
-
+	
 	/**
-	 * Executes the filter and removes the specified column in the given data table
-	 *
-	 * @param Piwik_DataTable  $table
+	 * Filters the given DataTable. Removes columns that are not desired from
+	 * each DataTable row.
+	 * 
+	 * @param Piwik_DataTable $table
 	 */
 	public function filter($table)
 	{
-		$table->deleteColumn($this->columnToDelete);
+		$recurse = false; // only recurse if there are columns to remove/keep
+		
+		// remove columns specified in $this->columnsToRemove
+		if (!empty($this->columnsToRemove))
+		{
+			foreach ($table->getRows() as $row)
+			{
+				foreach ($this->columnsToRemove as $column)
+				{
+					$row->deleteColumn($column);
+				}
+			}
+			
+			$recurse = true;
+		}
+		
+		// remove columns not specified in $columnsToKeep
+		if (!empty($this->columnsToKeep))
+		{
+			foreach ($table->getRows() as $row)
+			{
+				foreach ($row->getColumns() as $name => $value)
+				{
+					// label cannot be removed via whitelisting
+					if ($name != 'label' && !isset($this->columnsToKeep[$name]))
+					{
+						$row->deleteColumn($name);
+					}
+				}
+			}
+			
+			$recurse = true;
+		}
+		
+		// recurse
+		if ($recurse)
+		{
+			foreach ($table->getRows() as $row)
+			{
+				$this->filterSubTable($row);
+			}
+		}
 	}
-	
 }

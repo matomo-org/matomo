@@ -757,7 +757,8 @@ class Piwik_API_API
     private function handleTableReport($idSite, $dataTable, &$reportMetadata, $hasDimension)
     {
     	$columns = $reportMetadata['metrics'];
-
+    	$columns = $this->hideShowMetrics($columns);
+    	
 		if($hasDimension)
 		{
 			$columns = array_merge(
@@ -832,6 +833,50 @@ class Piwik_API_API
     		$columns,
     		$rowsMetadata
     	);
+    }
+    
+    /**
+     * Removes column names from an array based on the values in the hideColumns,
+     * showColumns query parameters. This is a hack that provides the ColumnDelete
+     * filter functionality in processed reports.
+     * 
+     * @param array $columns List of metrics shown in a processed report.
+     * @return array Filtered list of metrics.
+     */
+    private function hideShowMetrics( $columns )
+    {
+    	// remove columns if hideColumns query parameters exist
+    	$columnsToRemove = Piwik_Common::getRequestVar('hideColumns', '');
+    	if ($columnsToRemove != '')
+    	{
+    		$columnsToRemove = explode(',', $columnsToRemove);
+    		foreach ($columnsToRemove as $name)
+    		{
+    			// if a column to remove is in the column list, remove it
+    			if (isset($columns[$name]))
+    			{
+    				unset($columns[$name]);
+    			}
+    		}
+    	}
+		
+		// remove columns if showColumns query parameters exist
+    	$columnsToKeep = Piwik_Common::getRequestVar('showColumns', '');
+    	if ($columnsToKeep != '')
+    	{
+    		$columnsToKeep = explode(',', $columnsToKeep);
+    		foreach ($columns as $name => $ignore)
+    		{
+    			// if the current column should not be kept, remove it
+    			$idx = array_search($name, $columnsToKeep);
+    			if ($idx === FALSE) // if $name is not in $columnsToKeep
+    			{
+    				unset($columns[$name]);
+    			}
+    		}
+    	}
+    	
+    	return $columns;
     }
 
 	/**
