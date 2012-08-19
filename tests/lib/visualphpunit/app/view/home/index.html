@@ -262,7 +262,13 @@
       <% }) %>
 
       <% _.each(suites, function(suite) { %>
-        <div class='suite' data-suite-status='<%= suite.status %>' data-suite-time='<%= suite.time %>'>
+        <% var displaySuite = (suite.status == 'failed' && display_failed)
+                           || (suite.status == 'incomplete' && display_incomplete)
+                           || (suite.status == 'skipped' && display_skipped)
+                           || (suite.status == 'succeeded' && display_succeeded); %>
+        
+        <div class='suite' data-suite-status='<%= suite.status %>' data-suite-time='<%= suite.time %>'
+             <% if (displaySuite) { %>style='display:none;'<% } %> >
           <% var statusCap = suite.status.charAt(0).toUpperCase() + suite.status.slice(1); %>
           <h3><%= suite.name %></h3>
           <div class='suite-status'>
@@ -491,16 +497,16 @@
                     errors: allResults.errors,
                     notifications: allResults.notifications,
                     suites: allResults.suites,
-                    stats: allResults.stats
+                    stats: allResults.stats,
+                    display_failed: $('#display-failed').val(),
+                    display_incomplete: $('#display-incomplete').val(),
+                    display_skipped: $('#display-skipped').val(),
+                    display_succeeded: $('#display-succeeded').val()
                   }));
 
                   $('#sort').triggerHandler('change');
 
-                  $output.fadeIn(300, function() {
-                    $('.display-suite').each(function(index, element) {
-                      $(element).triggerHandler('click');
-                    });
-                  });
+                  $output.fadeIn(300);
                 });
               });
             });
