@@ -40,6 +40,7 @@ define piwik::apache (
 
   include apache::mod::php
   include apache::mod::auth_basic
+  # TODO move this to a class and include it. This allows us to define multiple apache hosts
   apache::mod {'vhost_alias': }
   apache::mod {'rewrite': }
 
