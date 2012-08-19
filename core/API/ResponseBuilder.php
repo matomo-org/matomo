@@ -305,7 +305,7 @@ class Piwik_API_ResponseBuilder
 			$datatable->applyQueuedFilters();
 		}
 		
-		// use the RemoveColumns filter if hideColumns/showColumns is provided (must be done
+		// use the ColumnDelete filter if hideColumns/showColumns is provided (must be done
 		// after queued filters are run so processed metrics can be removed, too)
 		$hideColumns = Piwik_Common::getRequestVar('hideColumns', '', 'string', $this->request);
 		$showColumns = Piwik_Common::getRequestVar('showColumns', '', 'string', $this->request);
