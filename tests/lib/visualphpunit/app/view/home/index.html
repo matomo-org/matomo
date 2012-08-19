@@ -498,10 +498,10 @@
                     notifications: allResults.notifications,
                     suites: allResults.suites,
                     stats: allResults.stats,
-                    display_failed: $('#display-failed').val(),
-                    display_incomplete: $('#display-incomplete').val(),
-                    display_skipped: $('#display-skipped').val(),
-                    display_succeeded: $('#display-succeeded').val()
+                    display_failed: $('#display-failed').is(':checked'),
+                    display_incomplete: $('#display-incomplete').is(':checked'),
+                    display_skipped: $('#display-skipped').is(':checked'),
+                    display_succeeded: $('#display-succeeded').is(':checked')
                   }));
 
                   $('#sort').triggerHandler('change');
