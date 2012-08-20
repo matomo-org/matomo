@@ -108,6 +108,11 @@ abstract class Piwik_ReportRenderer
 	abstract public function sendToBrowserInline($filename);
 
 	/**
+	 * Get rendered report
+	 */
+	abstract public function getRenderedReport();
+
+	/**
 	 * Generate the first page.
 	 *
 	 * @param string $websiteName

@@ -139,6 +139,11 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 		$this->TCPDF->Output($filename, 'I');
 	}
 
+	public function getRenderedReport()
+	{
+		return $this->TCPDF->Output(null, 'S');
+	}
+
 	public function renderFrontPage($websiteName, $prettyDate, $description, $reportMetadata)
 	{
 		$websiteTitle = $this->formatText(Piwik_Translate('General_Website') . " " . $websiteName);

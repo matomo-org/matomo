@@ -81,7 +81,14 @@ class FakeAccess
         
         if(!is_array($idSites))
         {
-            $idSites=array($idSites);
+			if($idSites == 'all')
+			{
+				$idSites = Piwik_SitesManager_API::getInstance()->getAllSitesId();
+			}
+			else
+			{
+				$idSites = explode(',', $idSites);
+			}
         }
         foreach($idSites as $idsite)
         {

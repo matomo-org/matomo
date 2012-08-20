@@ -56,6 +56,13 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 		Piwik_ReportRenderer::inlineToBrowser(self::HTML_CONTENT_TYPE, $this->rendering);
 	}
 
+	public function getRenderedReport()
+	{
+		$this->epilogue();
+
+		return $this->rendering;
+	}
+
 	private function epilogue()
 	{
 		$smarty = new Piwik_Smarty();

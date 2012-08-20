@@ -30,6 +30,7 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays extends Integ
         parent::setUpBeforeClass();
         try {
             self::setUpWebsitesAndGoals();
+			self::setUpScheduledReports(self::$idSite1);
             self::trackVisits();
         } catch(Exception $e) {
             // Skip whole test suite if an error occurs while setup
@@ -105,7 +106,7 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays extends Integ
             );
         }
 
-        return $result;
+        return array_merge($result, self::getApiForTestingScheduledReports(self::$dateTime, 'month'));
     }
 
     public function getOutputPrefix()

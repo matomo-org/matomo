@@ -38,6 +38,7 @@ class Piwik_PDFReports_API
 	const OUTPUT_DOWNLOAD = 1;
 	const OUTPUT_SAVE_ON_DISK = 2;
 	const OUTPUT_INLINE = 3;
+	const OUTPUT_RETURN = 4;
 
 	const REPORT_TYPE_INFO_KEY = 'reportType';
 	const ID_SITE_INFO_KEY = 'idSite';
@@ -72,8 +73,8 @@ class Piwik_PDFReports_API
 	 * @param string $period Schedule frequency: day, week or month
 	 * @param string $reportType 'email' or any other format provided via the PDFReports.getReportTypes hook
 	 * @param string $reportFormat 'pdf', 'html' or any other format provided via the PDFReports.getReportFormats hook
-	 * @param string $reports JSON array of reports
-	 * @param string $parameters JSON encoded parameters
+	 * @param array $reports array of reports
+	 * @param array $parameters array of parameters
 	 *
 	 * @return int idReport generated
 	 */
@@ -282,10 +283,10 @@ class Piwik_PDFReports_API
      * @param int $idReport ID of the report to generate.
      * @param string $date YYYY-MM-DD
 	 * @param bool|false|string $language If not passed, will use default language.
-	 * @param bool|false|int $outputType 1 = download report, 2 = save report to disk, 3 = output report in browser, defaults to download
+	 * @param bool|false|int $outputType 1 = download report, 2 = save report to disk, 3 = output report in browser, 4 = return report content to caller, defaults to download
 	 * @param bool|false|string $period Defaults to 'day'. If not specified, will default to the report's period set when creating the report
 	 * @param bool|false|string $reportFormat 'pdf', 'html' or any other format provided via the PDFReports.getReportFormats hook
-	 * @param bool|false|string $parameters JSON encoded parameters
+	 * @param bool|false|array $parameters array of parameters
 	 * @return array|void
 	 */
 	public function generateReport($idReport, $date, $language = false, $outputType = false, $period = false, $reportFormat = false, $parameters = false)
@@ -484,6 +485,11 @@ class Piwik_PDFReports_API
 			case self::OUTPUT_INLINE:
 
 				$reportRenderer->sendToBrowserInline("$websiteName - $prettyDate - $description");
+				break;
+
+			case self::OUTPUT_RETURN:
+
+				return $reportRenderer->getRenderedReport();
 				break;
 
 			default:

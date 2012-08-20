@@ -228,7 +228,177 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         return $idSite;
     }
 
-    /**
+	/**
+	 * Create one MAIL and two MOBILE scheduled reports
+	 *
+	 * @param int $idSite id of website created
+	 * @param boolean $ecommerce if true, ecommerce reports are included
+	 */
+	protected static function setUpScheduledReports($idSite, $ecommerce = false)
+	{
+		// fake access is needed so API methods can call Piwik::getCurrentUserLogin(), e.g: 'PDFReports.addReport'
+		$pseudoMockAccess = new FakeAccess;
+		FakeAccess::$superUser = true;
+		Zend_Registry::set('access', $pseudoMockAccess);
+
+		// all available reports
+		$reports = array(
+			// All Websites
+			"MultiSites_getAll",
+
+			// Visits Summary
+			"VisitsSummary_get", "VisitTime_getVisitInformationPerServerTime",
+			"VisitTime_getVisitInformationPerLocalTime", "VisitTime_getByDayOfWeek",
+
+			// Actions
+			"Actions_get", "Actions_getPageUrls", "Actions_getEntryPageUrls", "Actions_getExitPageUrls",
+			"Actions_getPageTitles", "Actions_getEntryPageTitles", "Actions_getExitPageTitles",
+			"Actions_getOutlinks", "Actions_getDownloads",
+
+			// Referrers
+			"Referers_getRefererType", "Referers_getKeywords", "Referers_getWebsites", "Referers_getSearchEngines",
+			"Referers_getCampaigns",
+
+			// Goals
+			"Goals_get", "Goals_getVisitsUntilConversion", "Goals_getDaysToConversion",
+
+			// Visitors
+			"UserCountry_getCountry", "UserCountry_getContinent", "CustomVariables_getCustomVariables",
+			"VisitorInterest_getNumberOfVisitsPerVisitDuration", "VisitorInterest_getNumberOfVisitsPerPage",
+			"VisitorInterest_getNumberOfVisitsByVisitCount", "VisitorInterest_getNumberOfVisitsByDaysSinceLast",
+			"VisitFrequency_get", "Provider_getProvider",
+
+			// Visitor Settings
+			"UserSettings_getResolution", "UserSettings_getBrowser", "UserSettings_getBrowserVersion",
+			"UserSettings_getBrowserType", "UserSettings_getPlugin", "UserSettings_getWideScreen",
+			"UserSettings_getOS", "UserSettings_getConfiguration", "UserSettings_getOSFamily",
+			"UserSettings_getMobileVsDesktop"
+		);
+
+		if($ecommerce)
+		{
+			$reports = array_merge(
+				$reports,
+
+				// Ecommerce
+				array(
+					"Goals_get_idGoal--ecommerceOrder", "Goals_getVisitsUntilConversion_idGoal--ecommerceOrder",
+					"Goals_getDaysToConversion_idGoal--ecommerceOrder", "Goals_get_idGoal--ecommerceAbandonedCart",
+					"Goals_getVisitsUntilConversion_idGoal--ecommerceAbandonedCart",
+					"Goals_getDaysToConversion_idGoal--ecommerceAbandonedCart", "Goals_getItemsSku", "Goals_getItemsName",
+					"Goals_getItemsCategory",
+				)
+			);
+		}
+
+		// set-up mail report
+		Piwik_PDFReports_API::getInstance()->addReport(
+			$idSite,
+			'Mail Test report',
+			'day', // overridden in getApiForTestingScheduledReports()
+			Piwik_PDFReports::EMAIL_TYPE,
+			Piwik_ReportRenderer::HTML_FORMAT, // overridden in getApiForTestingScheduledReports()
+			$reports,
+			array("displayFormat"=>Piwik_PDFReports::DISPLAY_FORMAT_TABLES_AND_GRAPHS)
+		);
+
+		// set-up sms report for one website
+		Piwik_PDFReports_API::getInstance()->addReport(
+			$idSite,
+			'SMS Test report, one website',
+			'day', // overridden in getApiForTestingScheduledReports()
+			Piwik_MobileMessaging::MOBILE_TYPE,
+			Piwik_MobileMessaging::SMS_FORMAT,
+			array("MultiSites_getOne"),
+			array("phoneNumbers"=>array())
+		);
+
+		// set-up sms report for all websites
+		Piwik_PDFReports_API::getInstance()->addReport(
+			$idSite,
+			'SMS Test report, all websites',
+			'day', // overridden in getApiForTestingScheduledReports()
+			Piwik_MobileMessaging::MOBILE_TYPE,
+			Piwik_MobileMessaging::SMS_FORMAT,
+			array("MultiSites_getAll"),
+			array("phoneNumbers"=>array())
+		);
+	}
+
+	/**
+	 * Return 4 Api Urls for testing scheduled reports :
+	 * - one in HTML format with all available reports
+	 * - one in PDF format with all available reports
+	 * - two in SMS (one for each available report: MultiSites.getOne & MultiSites.getAll)
+	 *
+	 * @param string $dateTime eg '2010-01-01 12:34:56'
+	 * @param string $period eg 'day', 'week', 'month', 'year'
+	 */
+	protected static function getApiForTestingScheduledReports($dateTime, $period)
+	{
+		return array(
+			// HTML Scheduled Report
+			array(
+				'PDFReports.generateReport',
+				array(
+					'testSuffix' => '_scheduled_report_in_html',
+					'date' => $dateTime,
+					'periods' => array($period),
+					'format' => 'original',
+					'otherRequestParameters' => array(
+						'idReport' => 1,
+						'reportFormat' => Piwik_ReportRenderer::HTML_FORMAT,
+						'outputType' => Piwik_PDFReports_API::OUTPUT_RETURN
+					)
+				)
+			),
+			// PDF Scheduled Report
+			array(
+				'PDFReports.generateReport',
+				array(
+					'testSuffix' => '_scheduled_report_in_pdf',
+					'date' => $dateTime,
+					'periods' => array($period),
+					'format' => 'original',
+					'otherRequestParameters' => array(
+						'idReport' => 1,
+						'reportFormat' => Piwik_ReportRenderer::PDF_FORMAT,
+						'outputType' => Piwik_PDFReports_API::OUTPUT_RETURN
+					)
+				)
+			),
+			// SMS Scheduled Report, one site
+			array(
+				'PDFReports.generateReport',
+				array(
+					'testSuffix' => '_scheduled_report_via_sms_one_site',
+					'date' => $dateTime,
+					'periods' => array($period),
+					'format' => 'original',
+					'otherRequestParameters' => array(
+						'idReport' => 2,
+						'outputType' => Piwik_PDFReports_API::OUTPUT_RETURN
+					)
+				)
+			),
+			// SMS Scheduled Report, all sites
+			array(
+				'PDFReports.generateReport',
+				array(
+					'testSuffix' => '_scheduled_report_via_sms_all_sites',
+					'date' => $dateTime,
+					'periods' => array($period),
+					'format' => 'original',
+					'otherRequestParameters' => array(
+						'idReport' => 3,
+						'outputType' => Piwik_PDFReports_API::OUTPUT_RETURN
+					)
+				)
+			)
+		);
+	}
+
+	/**
      * Checks that the response is a GIF image as expected.
      * Will fail the test if the response is not the expected GIF
      *
@@ -308,7 +478,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                 }
                 // Excluded modules from test
                 elseif(
-                    (strpos($methodName, 'get') !== 0
+                    ((strpos($methodName, 'get') !== 0 && $methodName != 'generateReport')
                         || in_array($moduleName, self::$apiNotToCall) === true
                         || in_array($apiId, self::$apiNotToCall) === true
                         || $methodName == 'getLogoUrl'
@@ -517,6 +687,15 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         if ($isLiveMustDeleteDates) {
             $response = $this->removeAllLiveDatesFromXml($response);
         }
+
+		// normalize date markups and document ID in pdf files :
+		// - /LastModified (D:20120820204023+00'00')
+		// - /CreationDate (D:20120820202226+00'00')
+		// - /ModDate (D:20120820202226+00'00')
+		// - /M (D:20120820202226+00'00')
+		// - /ID [ <0f5cc387dc28c0e13e682197f485fe65> <0f5cc387dc28c0e13e682197f485fe65> ]
+		$response = preg_replace('/\(D:[0-9]{14}/', '(D:19700101000000', $response);
+		$response = preg_replace('/\/ID \[ <.*> ]/', '', $response);
 
         file_put_contents($processedFilePath, $response);
 

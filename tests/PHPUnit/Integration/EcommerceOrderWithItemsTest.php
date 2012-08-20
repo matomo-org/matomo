@@ -22,6 +22,7 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
         parent::setUpBeforeClass();
         try {
             self::setUpWebsitesAndGoals();
+			self::setUpScheduledReports(self::$idSite, $ecommerce = true);
             self::trackVisits();
         } catch(Exception $e) {
             // Skip whole test suite if an error occurs while setup
@@ -52,7 +53,8 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
         $processedReportApi = array('API.getProcessedReport');
 
         // Normal standard goal
-        return array(
+        return array_merge(array(
+
             // day tests
             array($dayApi, array('idSite' => self::$idSite, 'date' => self::$dateTime, 'periods' => array('day'), 'otherRequestParameters' => array('_leavePiwikCoreVariables' => 1))),
 
@@ -170,7 +172,8 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
             // Website2
             array($goalWeekApi, array('idSite'     => self::$idSite2, 'date' => self::$dateTime, 'periods' => array('week'),
                                       'testSuffix' => '_Website2')),
-        );
+
+			), self::getApiForTestingScheduledReports(self::$dateTime, 'week'));
     }
 
     public function getOutputPrefix()

@@ -43,6 +43,11 @@ class Piwik_MobileMessaging_ReportRenderer_Sms extends Piwik_ReportRenderer
 		Piwik_ReportRenderer::inlineToBrowser(self::SMS_CONTENT_TYPE, $this->rendering);
 	}
 
+	public function getRenderedReport()
+	{
+		return $this->rendering;
+	}
+
 	public function renderFrontPage($websiteName, $prettyDate, $description, $reportMetadata)
 	{
 		// nothing to do
