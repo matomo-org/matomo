@@ -223,6 +223,6 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	 */
 	public function disableRowEvolution()
 	{
-		$this->viewProperties['disable_row_evolution'] = true;
+		$this->variablesDefault['disable_row_evolution'] = true;
 	}
 }

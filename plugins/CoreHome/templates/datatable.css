@@ -584,7 +584,6 @@ table.dataTable .dataTableRowActions {
 	display: none;
 	overflow: hidden;
 	margin-top: -5px;
-	width: 40px;
 }
 *+html table.dataTable .dataTableRowActions {
 	margin-top: -7px;
@@ -601,6 +600,8 @@ table.dataTable .dataTableRowActions a img {
 	margin: 0;
 	padding: 0;
 	border: 0;
+	width: 20px;
+	height: 17px;
 }
 
 

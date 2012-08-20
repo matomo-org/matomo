@@ -1,5 +1,63 @@
 /**
- * DataTable RowActions
+ * Registry for row actions
+ * 
+ * Plugins can call DataTable_RowActions_Registry.register() from their JS
+ * files in order to add new actions to arbitrary data tables. The register()
+ * method takes an object containing:
+ * - name: string identifying the action. must be short, no spaces.
+ * - dataTableIcon: path to the icon for the action
+ * - createInstance: a factory method to create an instance of the appropriate
+ *                   subclass of DataTable_RowAction
+ * - isAvailable: a method to determine whether the action is available in a
+ *                given row of a data table
+ */
+var DataTable_RowActions_Registry = {
+	
+	registry: [],
+	
+	register: function(action) {
+		this.registry.push(action);
+	},
+	
+	getAvailableActions: function(dataTableParams, tr) {
+		var available = [];
+		for (var i = 0; i < this.registry.length; i++) {
+			if (this.registry[i].isAvailable(dataTableParams, tr)) {
+				available.push(this.registry[i]);
+			}
+		}
+		return available;
+	}
+	
+};
+
+// Register Row Evolution (also servers as example)
+DataTable_RowActions_Registry.register({
+	
+	name: 'RowEvolution',
+	
+	dataTableIcon: 'themes/default/images/row_evolution.png',
+	
+	createInstance: function(dataTable) {
+		return new DataTable_RowActions_RowEvolution(dataTable);
+	},
+	
+	isAvailable: function(dataTableParams, tr) {
+		return (
+			typeof dataTableParams.disable_row_evolution == 'undefined'
+			|| dataTableParams.disable_row_evolution == "0"
+		) && (
+			typeof dataTableParams.flat == 'undefined'
+			|| dataTableParams.flat == "0"
+		);
+	}
+
+});
+
+
+
+/**
+ * DataTable Row Actions
  *
  * The lifecycle of an action is as follows:
  * - for each data table, a new instance of the action is created using the factory
@@ -11,19 +69,6 @@
  *
  * The two template methods are performAction and doOpenPopover
  */
-
-
-/**
- * Factory function for creating action instances dynamically.
- * It's designed to decouple the row actions from the data table code.
- * Also, custom actions can be added more easily this way.
- */
-function DataTable_RowActions_Factory(actionName, dataTable) {
-	var className = 'DataTable_RowActions_' + actionName;
-	eval('if (typeof ' + className + ' == "undefined") alert("Invalid action: ' + className + '");' +
-		'var instance = new ' + className + '(dataTable)');
-	return instance;
-}
 
 
 //

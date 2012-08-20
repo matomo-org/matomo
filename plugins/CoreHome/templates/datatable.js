@@ -1244,61 +1244,83 @@ dataTable.prototype =
 		trs.each(function()
 		{
 			var tr = $(this);
-			var actions = tr.find('div.dataTableRowActions');
-			if (actions.size() == 0)
+			var td = tr.find('td:first');
+			
+			// load available actions for this row
+			var availableActions = DataTable_RowActions_Registry.getAvailableActions(self.param, tr);
+			if (availableActions.length == 0)
 			{
-				return true;
+				return;
 			}
 			
-			// move before image in actions data table
-			if (actions.prev().size() > 0)
+			// call initTr on all available actions
+			for (var i = 0; i < availableActions.length; i++)
 			{
-				actions.prev().before(actions);
+				var action = availableActions[i];
+				if (typeof actionInstances[action.name] == "undefined")
+				{
+					actionInstances[action.name] = action.createInstance(self);
+				}
+				var actionInstance = actionInstances[action.name];
+				actionInstance.initTr(tr);
 			}
 			
 			// show actions on hover
+			var actionsDom = null;
 			tr.hover(function()
 			{
-				self.repositionRowActions($(this));
-				actions.show();
+				if (actionsDom === null)
+				{
+					// create dom nodes on the fly
+					actionsDom = self.createRowActions(availableActions, tr, actionInstances);
+					td.prepend(actionsDom);
+				}
+				// reposition and show the actions
+				self.repositionRowActions(tr);
+				actionsDom.show();
 			},
 			function()
 			{
-				actions.hide();
-			});
-			
-			// handle the individual actions
-			actions.find('> a').each(function()
-			{
-				var a = $(this);
-				var className = a.attr('class');
-				if (className.substring(0, 6) == 'action')
+				if (actionsDom !== null)
 				{
-					var actionName = className.substring(6, className.length);
-					if (typeof actionInstances[actionName] == "undefined")
-					{
-						actionInstances[actionName] = DataTable_RowActions_Factory(actionName, self);
-					}
-					var action = actionInstances[actionName];
-					action.initTr(tr);
-					
-					a.click(function(e)
-					{
-						$(this).blur();
-						actions.hide();
-						action.trigger(tr, e);
-						return false;
-					});
+					actionsDom.hide();
 				}
 			});
 		});
 	},
 	
+	createRowActions: function(availableActions, tr, actionInstances)
+	{
+		var container = $(document.createElement('div')).addClass('dataTableRowActions');
+		
+		for (var i = 0; i < availableActions.length; i++)
+		{
+			var action = availableActions[i];
+			
+			var actionEl = $(document.createElement('a')).attr({href: '#'}).addClass('action' + action.name);
+			actionEl.append($(document.createElement('img')).attr({src: action.dataTableIcon}));
+			container.append(actionEl);
+			
+			actionEl.click((function(action)
+			{
+				return function(e)
+				{
+					$(this).blur();
+					container.hide();
+					actionInstances[action.name].trigger(tr, e);
+					return false;
+				}
+			})(action));
+		}
+		
+		return container;
+	},
+	
 	repositionRowActions: function(tr) {
 		var td = tr.find('td:first');
 		var actions = tr.find('div.dataTableRowActions');
-		actions.height(tr.innerHeight() - 2)
-			.css('marginLeft', (td.width() + 5 - actions.outerWidth())+'px');
+		actions.height(tr.innerHeight() - 2);
+		actions.css('marginLeft', (td.width() + 5 - actions.outerWidth()) + 'px');
 	},
 	
 	_findReportHeader: function(domElem) {
@@ -1356,6 +1378,7 @@ actionDataTable.prototype =
 	handleColumnDocumentation: dataTable.prototype.handleColumnDocumentation,
 	handleReportDocumentation: dataTable.prototype.handleReportDocumentation,
 	doHandleRowActions: dataTable.prototype.doHandleRowActions,
+	createRowActions: dataTable.prototype.createRowActions,
 	repositionRowActions: dataTable.prototype.repositionRowActions,
 	onClickSort: dataTable.prototype.onClickSort,
 	truncate: dataTable.prototype.truncate,
