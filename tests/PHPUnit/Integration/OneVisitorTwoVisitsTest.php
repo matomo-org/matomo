@@ -103,7 +103,7 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
 												  'periods' => 'day', 'apiModule' => 'Actions',
 												  'apiAction' => 'getPageTitles', 'testSuffix' => '_hideColumns_',
 												  'otherRequestParameters' => array(
-												  	'hideColumns' => 'nb_visits_converted,entry_nb_visits,'.
+												  	'hideColumns' => 'nb_visits_converted,xyzaug,entry_nb_visits,'.
 												  		'bounce_rate,nb_hits,nb_visits,avg_time_on_page'
 												  ))),
 			
@@ -111,7 +111,7 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
 												  'periods' => 'day', 'apiModule' => 'Actions',
 												  'apiAction' => 'getPageTitles', 'testSuffix' => '_showColumns_',
 												  'otherRequestParameters' => array(
-												  	'showColumns' => 'nb_visits_converted,entry_nb_visits,'.
+												  	'showColumns' => 'nb_visits_converted,xuena,entry_nb_visits,'.
 												  		'bounce_rate,nb_hits'
 												  ))),
 			
