@@ -53,7 +53,7 @@ class Piwik_ExampleFeedburner extends Piwik_Plugin
 	}
 }
 
-Piwik_AddWidget('Example Widgets', 'Feedburner statistics', 'ExampleFeedburner', 'feedburner');
+Piwik_AddWidget('Example Widgets', 'Feedburner Statistics', 'ExampleFeedburner', 'feedburner');
 
 /**
  *

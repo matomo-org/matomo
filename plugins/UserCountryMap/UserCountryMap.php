@@ -29,6 +29,6 @@ class Piwik_UserCountryMap extends Piwik_Plugin
 
 	function postLoad()
 	{
-		Piwik_AddWidget('General_Visitors', Piwik_Translate('UserCountry_WidgetCountries').' ('.Piwik_Translate('UserCountryMap_worldMap').')', 'UserCountryMap', 'worldMap');
+		Piwik_AddWidget('General_Visitors', Piwik_Translate('UserCountry_WidgetLocation').' ('.Piwik_Translate('UserCountryMap_worldMap').')', 'UserCountryMap', 'worldMap');
 	}
 }

@@ -406,13 +406,13 @@ class Piwik_Actions extends Piwik_Plugin
 	function addWidgets()
 	{
 		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuPages', 'Actions', 'getPageUrls');
-		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuPageTitles', 'Actions', 'getPageTitles');
+		Piwik_AddWidget( 'Actions_Actions', 'Actions_WidgetPageTitles', 'Actions', 'getPageTitles');
 		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuOutlinks', 'Actions', 'getOutlinks');
 		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuDownloads', 'Actions', 'getDownloads');
-		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuPagesEntry', 'Actions', 'getEntryPageUrls');
-		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuPagesExit', 'Actions', 'getExitPageUrls');
-		Piwik_AddWidget( 'Actions_Actions', 'Actions_EntryPageTitles', 'Actions', 'getEntryPageTitles' );
-		Piwik_AddWidget( 'Actions_Actions', 'Actions_ExitPageTitles', 'Actions', 'getExitPageTitles' );
+		Piwik_AddWidget( 'Actions_Actions', 'Actions_WidgetPagesEntry', 'Actions', 'getEntryPageUrls');
+		Piwik_AddWidget( 'Actions_Actions', 'Actions_WidgetPagesExit', 'Actions', 'getExitPageUrls');
+		Piwik_AddWidget( 'Actions_Actions', 'Actions_WidgetEntryPageTitles', 'Actions', 'getEntryPageTitles' );
+		Piwik_AddWidget( 'Actions_Actions', 'Actions_WidgetExitPageTitles', 'Actions', 'getExitPageTitles' );
 	}
 	
 	function addMenus()

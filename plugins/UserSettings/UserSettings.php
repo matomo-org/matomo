@@ -67,7 +67,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 		
 		// browser version
 		array( 	'UserSettings_VisitorSettings',
-				'UserSettings_ColumnBrowserVersion',
+				'UserSettings_WidgetBrowserVersion',
 				'UserSettings',
 				'getBrowserVersion',
 				'UserSettings_ColumnBrowserVersion',
@@ -128,7 +128,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 		
 		// operating system family
 		array(	'UserSettings_VisitorSettings',
-				'UserSettings_OperatingSystemFamily',
+				'UserSettings_WidgetOperatingSystemFamily',
 				'UserSettings',
 				'getOSFamily',
 				'UserSettings_OperatingSystemFamily',

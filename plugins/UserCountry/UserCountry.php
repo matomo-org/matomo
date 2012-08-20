@@ -43,8 +43,13 @@ class Piwik_UserCountry extends Piwik_Plugin
 
 	function addWidgets()
 	{
-		Piwik_AddWidget( 'General_Visitors', 'UserCountry_WidgetContinents', 'UserCountry', 'getContinent');
-		Piwik_AddWidget( 'General_Visitors', 'UserCountry_WidgetCountries', 'UserCountry', 'getCountry');
+		$widgetContinentLabel = Piwik_Translate('UserCountry_WidgetLocation')
+							  . ' ('.Piwik_Translate('UserCountry_Continent').')';
+		$widgetCountryLabel = Piwik_Translate('UserCountry_WidgetLocation')
+							. ' ('.Piwik_Translate('UserCountry_Country').')';
+		
+		Piwik_AddWidget( 'General_Visitors', $widgetContinentLabel, 'UserCountry', 'getContinent');
+		Piwik_AddWidget( 'General_Visitors', $widgetCountryLabel, 'UserCountry', 'getCountry');
 	}
 
 	function addMenu()

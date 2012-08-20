@@ -2,7 +2,7 @@
 <a name="evolutionGraph" graphId="VisitsSummarygetEvolutionGraph"></a>
 
 <h2>{if $period=='range'}{'Referers_Evolution'|translate}
-	{else}{'VisitsSummary_EvolutionOverLastPeriods'|translate:$periodsNames.$period.plural}{/if}
+	{else}{'VisitsSummary_EvolutionOverLastPeriods'|translate:'30':$periodsNames.$period.plural}{/if}
 </h2>
 {$graphEvolutionVisitsSummary}
 
