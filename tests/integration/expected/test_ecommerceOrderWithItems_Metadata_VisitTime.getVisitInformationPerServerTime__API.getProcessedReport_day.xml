@@ -4,7 +4,7 @@
 	<prettyDate>Tuesday 5 April 2011</prettyDate>
 	<metadata>
 		<category>Visits Summary</category>
-		<name>Visits by server time</name>
+		<name>Visits by Server Time</name>
 		<module>VisitTime</module>
 		<action>getVisitInformationPerServerTime</action>
 		<dimension>Server time</dimension>

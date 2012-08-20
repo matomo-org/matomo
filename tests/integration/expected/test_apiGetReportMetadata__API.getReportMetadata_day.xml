@@ -110,7 +110,7 @@
 	</row>
 	<row>
 		<category>Visits Summary</category>
-		<name>Visits by server time</name>
+		<name>Visits by Server Time</name>
 		<module>VisitTime</module>
 		<action>getVisitInformationPerServerTime</action>
 		<dimension>Server time</dimension>
@@ -156,7 +156,7 @@
 	</row>
 	<row>
 		<category>Visits Summary</category>
-		<name>Visits by local time</name>
+		<name>Visits by Local Time</name>
 		<module>VisitTime</module>
 		<action>getVisitInformationPerLocalTime</action>
 		<dimension>Local time</dimension>
@@ -1255,7 +1255,7 @@
 	</row>
 	<row>
 		<category>Visitors</category>
-		<name>Pages per visit</name>
+		<name>Pages per Visit</name>
 		<module>VisitorInterest</module>
 		<action>getNumberOfVisitsPerPage</action>
 		<dimension>Pages per visit</dimension>
@@ -1284,10 +1284,10 @@
 	</row>
 	<row>
 		<category>Visitors</category>
-		<name>Visits by visit number</name>
+		<name>Visits by Visit Number</name>
 		<module>VisitorInterest</module>
 		<action>getNumberOfVisitsByVisitCount</action>
-		<dimension>Visits by visit number</dimension>
+		<dimension>Visits by Visit Number</dimension>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_visits_percentage>% Visits</nb_visits_percentage>
@@ -1411,7 +1411,7 @@
 	</row>
 	<row>
 		<category>Visitor Settings</category>
-		<name>Screen resolutions</name>
+		<name>Screen Resolution</name>
 		<module>UserSettings</module>
 		<action>getResolution</action>
 		<dimension>Resolution</dimension>
@@ -1447,7 +1447,7 @@
 	</row>
 	<row>
 		<category>Visitor Settings</category>
-		<name>Visitor browsers</name>
+		<name>Visitor Browser</name>
 		<module>UserSettings</module>
 		<action>getBrowser</action>
 		<dimension>Browser</dimension>
@@ -1484,7 +1484,7 @@
 	</row>
 	<row>
 		<category>Visitor Settings</category>
-		<name>Browser version</name>
+		<name>Browser Version</name>
 		<module>UserSettings</module>
 		<action>getBrowserVersion</action>
 		<dimension>Browser version</dimension>
@@ -1520,7 +1520,7 @@
 	</row>
 	<row>
 		<category>Visitor Settings</category>
-		<name>Browsers by family</name>
+		<name>Browser Family</name>
 		<module>UserSettings</module>
 		<action>getBrowserType</action>
 		<dimension>Browser family</dimension>
@@ -1557,7 +1557,7 @@
 	</row>
 	<row>
 		<category>Visitor Settings</category>
-		<name>List of Plugins</name>
+		<name>Browser Plugins</name>
 		<module>UserSettings</module>
 		<action>getPlugin</action>
 		<dimension>Plugin</dimension>
@@ -1623,7 +1623,7 @@
 	</row>
 	<row>
 		<category>Visitor Settings</category>
-		<name>Operating systems</name>
+		<name>Operating System</name>
 		<module>UserSettings</module>
 		<action>getOS</action>
 		<dimension>Operating system</dimension>
@@ -1659,7 +1659,7 @@
 	</row>
 	<row>
 		<category>Visitor Settings</category>
-		<name>Global visitors configuration</name>
+		<name>Visitor Configuration</name>
 		<module>UserSettings</module>
 		<action>getConfiguration</action>
 		<dimension>Configuration</dimension>
@@ -1696,7 +1696,7 @@
 	</row>
 	<row>
 		<category>Visitor Settings</category>
-		<name>Operating system family</name>
+		<name>Operating System Family</name>
 		<module>UserSettings</module>
 		<action>getOSFamily</action>
 		<dimension>Operating system family</dimension>

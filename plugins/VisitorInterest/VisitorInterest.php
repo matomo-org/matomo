@@ -109,7 +109,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		Piwik_AddWidget( 'General_Visitors', 'VisitorInterest_WidgetLengths', 'VisitorInterest', 'getNumberOfVisitsPerVisitDuration');
 		Piwik_AddWidget( 'General_Visitors', 'VisitorInterest_WidgetPages', 'VisitorInterest', 'getNumberOfVisitsPerPage');
 		Piwik_AddWidget( 'General_Visitors', 'VisitorInterest_visitsByVisitCount', 'VisitorInterest', 'getNumberOfVisitsByVisitCount');
-		Piwik_AddWidget( 'General_Visitors', 'VisitorInterest_VisitsByDaysSinceLast', 'VisitorInterest', 'getNumberOfVisitsByDaysSinceLast');
+		Piwik_AddWidget( 'General_Visitors', 'VisitorInterest_WidgetVisitsByDaysSinceLast', 'VisitorInterest', 'getNumberOfVisitsByDaysSinceLast');
 	}
 	
 	function addMenu()
