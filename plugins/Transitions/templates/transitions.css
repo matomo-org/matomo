@@ -6,9 +6,14 @@
 	text-align: left;
 }
 
-#Transitions_Canvas {
+#Transitions_Canvas_Background {
 	position: absolute;
 	z-index: 1501;
+}
+
+#Transitions_Canvas {
+	position: absolute;
+	z-index: 1502;
 }
 
 .Transitions_Text {
@@ -25,7 +30,7 @@
 #Transitions_CenterBox {
 	margin: 60px 0 0 320px;
 	width: 208px;
-	height: 270px;
+	height: 304px;
 	background: #f7f7f7;
 	border: 1px solid #a9a399;
 	border-radius:10px;
@@ -34,6 +39,7 @@
 	-webkit-box-shadow: 0px 0px 9px 0px #999;
 	-moz-box-shadow: 0px 0px 9px 0px #999;
 	box-shadow: 0px 0px 9px 0px #999;
+	z-index: 1503;
 }
 
 #Transitions_CenterBox.Transitions_Loading {
@@ -65,12 +71,13 @@
 }
 
 #Transitions_Loops {
-	margin: 360px 0 0 320px;
+	margin: 395px 0 0 320px;
 	width: 208px;
 	text-align: center;
 	line-height: 25px;
 	font-size: 12px;
 	display: none;
+	z-index: 1503;
 }
 
 .Transitions_CenterBoxMetrics p {
@@ -85,6 +92,12 @@
 #Transitions_Loops .Transitions_Metric,
 .Transitions_CenterBoxMetrics p .Transitions_Metric {
 	font-weight: bold;
+}
+
+.Transitions_TitleOfOpenGroup {
+	font-size: 12px;
+	color: #255792;
+	font-weight: bold
 }
 
 .Transitions_BoxTextLeft,

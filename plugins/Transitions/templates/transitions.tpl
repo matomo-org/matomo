@@ -13,6 +13,10 @@
 				(<span class="Transitions_DirectEntriesPercentage"></span>)
 			</p>
 			<p>
+				<span class="Transitions_InternalTrafficIn Transitions_Metric"></span> {'Transitions_FromInternalPages'|translate:''} 
+				(<span class="Transitions_InternalTrafficInPercentage"></span>)
+			</p>
+			<p>
 				<span class="Transitions_SearchEngines Transitions_Metric"></span> {'Referers_TypeSearchEngines'|translate:''}
 				(<span class="Transitions_SearchEnginesPercentage"></span>)
 			</p>
@@ -22,6 +26,10 @@
 			</p>
 			
 			<h3>{'Transitions_OutgoingTraffic'|translate}</h3>
+			<p>
+				<span class="Transitions_InternalTrafficOut Transitions_Metric"></span> {'Transitions_ToInternalPages'|translate:''} 
+				(<span class="Transitions_InternalTrafficOutPercentage"></span>)
+			</p>
 			<p>
 				<span class="Transitions_Exits Transitions_Metric"></span> {'General_ColumnExits'|translate} 
 				(<span class="Transitions_ExitsPercentage"></span>), {'Transitions_Including'|translate}
@@ -36,5 +44,6 @@
 		<span class="Transitions_Loops Transitions_Metric"></span> {'Transitions_Loops'|translate} 
 		(<span class="Transitions_LoopsPercentage"></span>)
 	</div>
+	<canvas id="Transitions_Canvas_Background"></canvas>
 	<canvas id="Transitions_Canvas"></canvas>
 </div>
