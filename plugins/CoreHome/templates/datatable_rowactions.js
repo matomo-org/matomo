@@ -77,6 +77,9 @@ DataTable_RowActions_Registry.register({
 
 function DataTable_RowAction(dataTable) {
 	this.dataTable = dataTable;
+	
+	// has to be overridden in subclasses
+	this.trEventName = 'piwikTriggerRowAction';
 }
 
 /** Initialize a row when the table is loaded */
@@ -88,13 +91,13 @@ DataTable_RowAction.prototype.initTr = function(tr) {
 	// for multi-row evolution) wouldn't be possible. Also, sub-tables might have different
 	// API actions. For the label filter to work, we need to use the parent action.
 	// We use jQuery events to let subtables access their parents.
-	tr.bind('piwikTriggerRowAction', function(e, params) {
+	tr.bind(self.trEventName, function(e, params) {
 		self.trigger($(this), params.originalEvent, params.label);
 	});
 };
 
 /**
- * This method is called from the click event and the piwikTriggerRowAction event.
+ * This method is called from the click event and the tr event (see this.trEventName).
  * It derives the label and calls performAction.
  */
 DataTable_RowAction.prototype.trigger = function(tr, e, subTableLabel) {
@@ -108,7 +111,7 @@ DataTable_RowAction.prototype.trigger = function(tr, e, subTableLabel) {
 	// handle sub tables in nested reports: forward to parent
 	var subtable = tr.closest('table');
 	if (subtable.is('.subDataTable')) {
-		subtable.closest('tr').prev().trigger('piwikTriggerRowAction', {
+		subtable.closest('tr').prev().trigger(this.trEventName, {
 			label: label,
 			originalEvent: e
 		});
@@ -128,7 +131,7 @@ DataTable_RowAction.prototype.trigger = function(tr, e, subTableLabel) {
 				if (!ptr.hasClass(findLevel)) {
 					continue;
 				}
-				ptr.trigger('piwikTriggerRowAction', {
+				ptr.trigger(this.trEventName, {
 					label: label,
 					originalEvent: e
 				});
@@ -184,7 +187,8 @@ DataTable_RowAction.prototype.doOpenPopover = function(parameter) {
 
 function DataTable_RowActions_RowEvolution(dataTable) {
 	this.dataTable = dataTable;
-
+	this.trEventName = 'piwikTriggerRowEvolution';
+	
 	/** The rows to be compared in multi row evolution */
 	this.multiEvolutionRows = [];
 }

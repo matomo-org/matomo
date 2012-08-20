@@ -1657,4 +1657,8 @@ Note: this token will expire in 24 hrs.',
 	'RowEvolution_PickARow' => 'Pick a row to compare',
 	'RowEvolution_PickAnotherRow' => 'Pick another row to compare',
 	'RowEvolution_MultiRowEvolutionTitle' => 'Evolution of multiple rows',
+	'Transitions_IncomingTraffic' => 'Incoming Traffic',
+	'Transitions_OutgoingTraffic' => 'Outgoing Traffic',
+	'Transitions_Including' => 'including',
+	'Transitions_Loops' => 'Page Reloads'
 );

@@ -31,8 +31,6 @@ class Piwik_Transitions extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		return array(
-			'ArchiveProcessing_Day.compute.Actions_PageUrlTable' => 'postArchiveDay',
-			'ArchiveProcessing_Period.compute.Actions_PageUrlTable' => 'archivePeriod',
 			'AssetManager.getCssFiles' => 'getCssFiles',
 			'AssetManager.getJsFiles' => 'getJsFiles'
 		);
