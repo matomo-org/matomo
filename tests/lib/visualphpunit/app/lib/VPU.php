@@ -2,6 +2,19 @@
 
 namespace app\lib;
 
+// work around bug in phpunit
+class VPU_Log_JSON extends \PHPUnit_Util_Log_JSON {
+    protected function writeCase($status, $time, array $trace = array(), $message = '', $test = NULL) {
+        if ($test === NULL || $test instanceof \PHPUnit_Framework_TestCase) {
+          parent::writeCase($status, $time, $trace, $message, $test);
+        } else {
+          foreach ($test->tests() as $case) {
+            $this->writeCase($status, $time, $trace, $message, $case);
+          }
+        }
+    }
+}
+
 class VPU {
 
    /**
@@ -412,10 +425,12 @@ class VPU {
     *
     * @param array $tests    The directories/filenames containing the tests
     *                        to be run through PHPUnit.
+    * @param array $data     Global variable names and values to set before
+    *                        running tests.
     * @access public
     * @return string
     */
-    public function run_tests($tests) {
+    public function run_tests($tests, $data) {
         $suite = new \PHPUnit_Framework_TestSuite();
 
         $tests = $this->_parse_tests($tests);
@@ -436,9 +451,15 @@ class VPU {
 
             $suite->addTestSuite($test);
         }
+        
+        foreach ($data as $key => $value) {
+            if (trim($key) != '') {
+                $GLOBALS[$key] = $value;
+            }
+        }
 
         $result = new \PHPUnit_Framework_TestResult();
-        $result->addListener(new \PHPUnit_Util_Log_JSON());
+        $result->addListener(new VPU_Log_JSON());
 
         // We need to temporarily turn off html_errors to ensure correct
         // parsing of test debug output

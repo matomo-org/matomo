@@ -5040,3 +5040,9 @@ label.checkbox {
 .statistics h4 {
   font-size: 15px;
 }
+
+.test-config-data input {
+  width: 100px;
+  margin-right: 5px;
+}
+

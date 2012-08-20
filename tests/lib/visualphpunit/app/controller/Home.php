@@ -60,6 +60,12 @@ class Home extends \app\core\Controller {
             );
         }
 
+        $data = array();
+        if (!empty($request->data['data_keys']) && !empty($request->data['data_values']))
+        {
+	        $data = array_combine($request->data['data_keys'], $request->data['data_values']);
+        }
+        
         $tests = explode('|', $request->data['test_files']);
         $vpu = new \app\lib\VPU();
 
@@ -87,7 +93,7 @@ class Home extends \app\core\Controller {
 
         $results = ( $xml_config )
             ? $vpu->run_with_xml($xml_config)
-            : $vpu->run_tests($tests);
+            : $vpu->run_tests($tests, $data);
         $results = $vpu->compile_suites($results, 'web');
 
         if ( $request->data['sandbox_errors'] ) {

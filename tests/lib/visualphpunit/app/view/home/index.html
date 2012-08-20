@@ -64,6 +64,19 @@
                   ctrl+click to select an entire directory.
                 </p>
               </li>
+              
+              <li class='divider'></li>
+              
+              <li class='nav-header'>Globals</li>
+              <li class='test-config-data'>
+                <table>
+                  <tr>
+                    <td><input placeholder="Name" type="text" value="" name="data_keys"/></td>
+                    <td><input placeholder="Value" type="text" value="" name="data_values"/></td>
+                  </tr>
+                </table>
+                <a href="#" id='add-test-config-data'>Add</a>
+              </li>
 
               <li class='divider'></li>
 
@@ -415,6 +428,14 @@
                 }
               });
               
+              _.each(['data_keys', 'data_values'], function(key) {
+                if (baseReqData[key] == '') {
+                  baseReqData[key] = [];
+                } else if (typeof baseReqData[key] == 'string') {
+                  baseReqData[key] = [baseReqData[key]];
+                }
+              });
+              
               function runTest(testIdx, callback) {
                 if (testIdx >= test_files.length) {
                   callback();
@@ -585,6 +606,20 @@
           
           runSelectedTests(tests);
         }
+        
+        $('#add-test-config-data').click(function(e) {
+          var $table = $('.test-config-data>table>tbody'),
+              templateRow = $('<tr>' + $table.find('tr').first().html() + '</tr>');
+          
+          var $inputs = $('input', templateRow);
+          $($inputs[0]).val('');
+          $($inputs[1]).val('');
+          
+          $table.append(templateRow);
+          
+          e.preventDefault();
+          return false;
+        });
       });
     </script>
 
