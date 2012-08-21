@@ -1130,7 +1130,7 @@ class Piwik_Common
 			return _json_encode($value);
 		}
 
-		return json_encode($value);
+		return @json_encode($value);
 	}
 
 	/**
