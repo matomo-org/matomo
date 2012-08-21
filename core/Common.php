@@ -547,7 +547,7 @@ class Piwik_Common
 
 		if($denyAccess)
 		{
-			self::createHtAccess($path);
+			self::createHtAccess($path, $overwrite = false);
 		}
 	}
 
@@ -557,13 +557,18 @@ class Piwik_Common
 	 * Apache-specific; for IIS @see web.config
 	 *
 	 * @param string  $path     without trailing slash
+	 * @param bool    $overwrite whether to overwrite an existing file or not
 	 * @param string  $content
 	 */
-	static public function createHtAccess( $path, $content = "<Files \"*\">\n<IfModule mod_access.c>\nDeny from all\n</IfModule>\n<IfModule !mod_access_compat>\n<IfModule mod_authz_host.c>\nDeny from all\n</IfModule>\n</IfModule>\n<IfModule mod_access_compat>\nDeny from all\n</IfModule>\n</Files>\n" )
+	static public function createHtAccess( $path, $overwrite = true, $content = "<Files \"*\">\n<IfModule mod_access.c>\nDeny from all\n</IfModule>\n<IfModule !mod_access_compat>\n<IfModule mod_authz_host.c>\nDeny from all\n</IfModule>\n</IfModule>\n<IfModule mod_access_compat>\nDeny from all\n</IfModule>\n</Files>\n" )
 	{
 		if(self::isApache())
 		{
-			@file_put_contents($path . '/.htaccess', $content);
+			$file = $path . '/.htaccess';
+			if ($overwrite || !file_exists($file))
+			{
+				@file_put_contents($file, $content);
+			}
 		}
 	}
 

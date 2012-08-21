@@ -563,7 +563,7 @@ class Piwik
 		);
 		foreach($directoriesToProtect as $directoryToProtect)
 		{
-			Piwik_Common::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect);
+			Piwik_Common::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $overwrite = true);
 		}
 
 		// Allow/Deny lives in different modules depending on the Apache version
@@ -583,7 +583,7 @@ class Piwik
 		);
 		foreach($directoriesToProtect as $directoryToProtect => $content)
 		{
-			Piwik_Common::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $content);
+			Piwik_Common::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $overwrite = true, $content);
 		}
 	}
 
