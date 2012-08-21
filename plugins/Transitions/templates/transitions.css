@@ -111,7 +111,15 @@
 	text-align: right;
 }
 
-.Transitions_CurveText {
+.Transitions_BoxTextLeft.Transitions_HasBackground {
+	background-repeat: no-repeat;
+	background-position: 0 1px;
+	padding-left: 15px;
+	height: 18px;
+}
+
+.Transitions_CurveTextLeft,
+.Transitions_CurveTextRight {
 	color: #255792;
 	font-weight: bold;
 	width: 25px;

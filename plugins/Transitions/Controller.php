@@ -19,6 +19,12 @@ class Piwik_Transitions_Controller extends Piwik_Controller
 	public function renderPopover()
 	{
 		$view = Piwik_View::factory('transitions');
+		
+		$view->addTranslations = array(
+			'Transitions_FromPreviousPages',
+			'Transitions_ToFollwoingPages'
+		);
+		
 		echo $view->render();
 	}
 	

@@ -1669,5 +1669,8 @@ Note: this token will expire in 24 hrs.',
 	'Transitions_FromInternalPages' => 'from internal pages',
 	'Transitions_ToInternalPages' => 'to internal pages',
 	'Transitions_Including' => 'including',
-	'Transitions_Loops' => 'page reloads'
+	'Transitions_Loops' => 'page reloads',
+	'Transitions_From' => 'From %s',
+	'Transitions_FromPreviousPages' => 'From Internal Pages',
+	'Transitions_ToFollwoingPages' => 'To Internal Pages',
 );

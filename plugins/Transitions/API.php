@@ -144,7 +144,7 @@ class Piwik_Transitions_API
 		
 		$data = $transitionsArchiving->queryInternalReferrers($idaction, $archiveProcessing, $limitBeforeGrouping);
 		$report['previousPages'] = &$data['previousPages'];
-		$report['pageMetrics']['loops'] = $data['loops'];
+		$report['pageMetrics']['loops'] = intval($data['loops']);
 		
 		$data = $transitionsArchiving->queryFollowingActions($idaction, $archiveProcessing, $limitBeforeGrouping);
 		foreach ($data as $tableName => $table) {
@@ -175,7 +175,7 @@ class Piwik_Transitions_API
 					}
 				}
 				$report['referrers'][] = array(
-					'label' => Piwik_getRefererTypeLabel($referrerId),
+					'label' => $this->getReferrerLabel($referrerId),
 					'shortName' => Piwik_getRefererTypeFromShortName($referrerId),
 					'visits' => $visits,
 					'details' => $details
@@ -190,11 +190,16 @@ class Piwik_Transitions_API
 		if (count($report['referrers']) == 0)
 		{
 			$report['referrers'][] = array(
-				'label' => Piwik_getRefererTypeLabel(Piwik_Common::REFERER_TYPE_DIRECT_ENTRY),
+				'label' => $this->getReferrerLabel(Piwik_Common::REFERER_TYPE_DIRECT_ENTRY),
 				'shortName' => Piwik_getRefererTypeLabel(Piwik_Common::REFERER_TYPE_DIRECT_ENTRY),
 				'visits' => 0
 			);
 		}
+	}
+	
+	private function getReferrerLabel($referrerId) {
+		$name = Piwik_getRefererTypeLabel($referrerId);
+		return Piwik_Translate('Transitions_From', $name);
 	}
 	
 }

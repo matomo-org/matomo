@@ -47,3 +47,11 @@
 	<canvas id="Transitions_Canvas_Background"></canvas>
 	<canvas id="Transitions_Canvas"></canvas>
 </div>
+
+<script type="text/javascript">
+	var Transitions_Translations = {literal}{{/literal}
+		{foreach from=$addTranslations item=key key=i}{if $i > 0},{/if}
+		"{$key}": "{$key|translate|addslashes}"
+		{/foreach}
+	{literal}}{/literal};
+</script>

@@ -63,11 +63,13 @@ function Piwik_Transitions(link, rowAction) {
 	
 	this.ajax = new Piwik_Transitions_Ajax();
 	this.model = new Piwik_Transitions_Model(this.ajax);
+	
+	this.leftGroups = ['previousPages', 'searchEngines', 'websites', 'campaigns'];
+	this.leftOpenGroup = 'previousPages';
 }
 
 Piwik_Transitions.prototype.reset = function(link) {
 	this.link = link;
-	
 	this.popover = null;
 	this.canvas = null;
 	this.centerBox = null;
@@ -128,14 +130,30 @@ Piwik_Transitions.prototype.addBreakpoints = function(text) {
 Piwik_Transitions.prototype.render = function() {
 	this.renderCenterBox();
 	
-	this.renderPreviousPages();
-	this.renderFollowingPages();
-	
-	this.renderReferrers();
-	
-	this.renderEntriesAndExits();
+	this.renderLeftSide();
+	this.renderRightSide();
 	
 	this.renderLoops();
+};
+
+Piwik_Transitions.prototype.renderLeftSide = function() {
+	this.renderOpenGroup(this.leftOpenGroup, 'left');
+	
+	for (var i = 0; i < this.leftGroups.length; i++) {
+		var groupName = this.leftGroups[i];
+		if (groupName != this.leftOpenGroup) {
+			this.renderClosedGroup(groupName, 'left');
+		}
+	} 
+	
+	this.canvas.addBoxSpacing(13, 'left');
+	
+	this.renderEntries();
+};
+
+Piwik_Transitions.prototype.renderRightSide = function() {
+	this.renderOpenGroup('followingPages', 'right');
+	this.renderExits();
 };
 
 Piwik_Transitions.prototype.renderCenterBox = function() {
@@ -152,8 +170,8 @@ Piwik_Transitions.prototype.renderCenterBox = function() {
 
 	showMetric('DirectEntries', 'directEntries');
 	showMetric('InternalTrafficIn', 'internalTrafficIn');
-	showMetric('SearchEngines', 'searchEngineReferrals');
-	showMetric('Websites', 'websiteReferrals');
+	showMetric('SearchEngines', 'searchEnginesNbTransitions');
+	showMetric('Websites', 'websitesNbTransitions');
 
 	showMetric('InternalTrafficOut', 'internalTrafficOut');
 	showMetric('Exits', 'exits');
@@ -172,7 +190,7 @@ Piwik_Transitions.prototype.renderLoops = function() {
 	this.canvas.renderLoops(this.model.getPercentage('loops'));
 };
 
-Piwik_Transitions.prototype.renderEntriesAndExits = function() {
+Piwik_Transitions.prototype.renderEntries = function() {
 	if (this.model.directEntries > 0) {
 		this.canvas.renderBox({
 			side: 'left',
@@ -185,7 +203,9 @@ Piwik_Transitions.prototype.renderEntriesAndExits = function() {
 		});
 		this.canvas.addBoxSpacing(20, 'left');
 	}
+};
 
+Piwik_Transitions.prototype.renderExits = function() {
 	if (this.model.exits > 0) {
 		this.canvas.renderBox({
 			side: 'right',
@@ -200,54 +220,56 @@ Piwik_Transitions.prototype.renderEntriesAndExits = function() {
 	}
 };
 
-Piwik_Transitions.prototype.renderPreviousPages = function() {
-	this.renderPages(this.model.getPreviousPages(), 'left');
-};
-
-Piwik_Transitions.prototype.renderFollowingPages = function() {
-	this.renderPages(this.model.getFollowingPages(), 'right');
-};
-
-Piwik_Transitions.prototype.renderPages = function(pagesData, side) {
+Piwik_Transitions.prototype.renderOpenGroup = function(groupName, side) {
 	var self = this;
-	var curveBegin = (side == 'left' ? this.canvas.leftCurvePositionY : this.canvas.rightCurvePositionY);
+	
+	// get data from the model
+	var nbTransitionsVarName = groupName + 'NbTransitions';
+	var nbTransitions = self.model[nbTransitionsVarName];
+	if (nbTransitions == 0) {
+		return;
+	}
+	
+	var totalShare = this.model.getPercentage(nbTransitionsVarName);
+	var details = self.model.getDetailsForGroup(groupName);
 	
 	// prepare gradients
-	var gradientPages = this.canvas.createHorizontalGradient('#EDEBE1', '#CFCBB6', side);
+	var gradientItems = this.canvas.createHorizontalGradient('#EDEBE1', '#CFCBB6', side);
 	var gradientOthers = this.canvas.createHorizontalGradient('#F5F3EB', '#E3E1D8', side);
 	var gradientBackground = this.canvas.createHorizontalGradient('#FFFFFF', '#E1E9F2', side);
 	
 	// headline of the open group
-	var titleText, titleX, titleClass;
+	var titleX, titleClass;
 	if (side == 'left') {
-		titleText = 'Internal Traffic (In)';
 		titleX = this.canvas.leftBoxBeginX + 10;
 		titleClass = 'BoxTextLeft';
 	} else {
-		titleText = 'Internal Traffic (Out)';
 		titleX = this.canvas.rightBoxBeginX - 1;
 		titleClass = 'BoxTextRight'
 	}
-	this.canvas.renderText(titleText, titleX , 11, [titleClass, 'TitleOfOpenGroup']);
+	var groupTitle = self.model.getGroupTitle(groupName);
+	this.canvas.renderText(groupTitle, titleX , 11, [titleClass, 'TitleOfOpenGroup']);
 	this.canvas.addBoxSpacing(34, side);
 	
-	// draw pages
-	var totalShare = this.model.getPercentage(side == 'left' ? 'internalTrafficIn' : 'internalTrafficOut');
-	totalShare -= this.model.getPercentage('loops');
-	
-	for (var i = 0; i < pagesData.length; i++) {
-		var pageData = pagesData[i];
-		var isOthers = pageData.url == 'Others';
+	// draw boxes
+	for (var i = 0; i < details.length; i++) {
+		var data = details[i];
+		var label = (typeof data.url != 'undefined' ? data.url : data.label);
+		var isOthers = (label == 'Others');
+		var onClick = false;
+		if (!isOthers && (groupName == 'previousPages' || groupName == 'followingPages')) {
+			onClick = (function(url) {
+				return function() { self.reloadPopover(url) };
+			})(label);
+		}
 		this.canvas.renderBox({
 			side: side,
-			share: pageData.percentage / 100 * totalShare,
-			gradient: isOthers ? gradientOthers : gradientPages,
-			boxText: pageData.url + ' (' + pageData.referrals + ')',
+			share: data.percentage / 100 * totalShare,
+			gradient: isOthers ? gradientOthers : gradientItems,
+			boxText: label + ' (' + data.referrals + ')',
 			boxTextNumLines: 3,
-			curveText: pageData.percentage + '%',
-			onClick: isOthers ? false : (function(url) {
-				return function() { self.reloadPopover(url) };
-			})(pageData.url)
+			curveText: data.percentage + '%',
+			onClick: onClick
 		});
 	}
 	
@@ -256,19 +278,19 @@ Piwik_Transitions.prototype.renderPages = function(pagesData, side) {
 	if (side == 'left') {
 		boxPosition = this.canvas.leftBoxPositionY;
 		curvePosition = this.canvas.leftCurvePositionY;
-		this.canvas.leftBoxPositionY = 0;
-		this.canvas.leftCurvePositionY = curveBegin;
+		this.canvas.leftBoxPositionY = this.canvas.originalBoxPositionY;
+		this.canvas.leftCurvePositionY = this.canvas.originalCurvePositionY;
 	} else {
 		boxPosition = this.canvas.rightBoxPositionY;
 		curvePosition = this.canvas.rightCurvePositionY;
-		this.canvas.rightBoxPositionY = 0;
-		this.canvas.rightCurvePositionY = curveBegin;
+		this.canvas.rightBoxPositionY = this.canvas.originalBoxPositionY;
+		this.canvas.rightCurvePositionY = this.canvas.originalCurvePositionY;
 	}
 	
 	this.canvas.renderBox({
 		side: side,
 		boxHeight: boxPosition - this.canvas.boxSpacing - 2,
-		curveHeight: curvePosition - this.canvas.curveSpacing - curveBegin,
+		curveHeight: curvePosition - this.canvas.curveSpacing - this.canvas.originalCurvePositionY,
 		gradient: gradientBackground,
 		bgCanvas: true
 	});
@@ -276,35 +298,50 @@ Piwik_Transitions.prototype.renderPages = function(pagesData, side) {
 	this.canvas.addBoxSpacing(15, side);
 };
 
-Piwik_Transitions.prototype.renderReferrers = function() {
+Piwik_Transitions.prototype.renderClosedGroup = function(groupName, side) {
 	var self = this;
-	var gradient = this.canvas.createHorizontalGradient('#DDE4ED', '#9BBADE', 'left');
+	var gradient = this.canvas.createHorizontalGradient('#DDE4ED', '#9BBADE', side);
 	
-	var renderBox = function(modelVariable, text) {
-		if (self.model[modelVariable] == 0) {
-			return;
+	var nbTransitionsVarName = groupName + 'NbTransitions';
+	
+	if (self.model[nbTransitionsVarName] == 0) {
+		return;
+	}
+	
+	self.canvas.renderBox({
+		side: side,
+		share: self.model.getPercentage(nbTransitionsVarName),
+		gradient: gradient,
+		boxText: self.model.getGroupTitle(groupName),
+		boxTextNumLines: 1,
+		boxTextCssClass: 'SingleLine',
+		boxIcon: 'themes/default/images/plus_blue.png',
+		smallBox: true,
+		onClick: function() {
+			self.openGroup(side, groupName);
 		}
-		self.canvas.renderBox({
-			side: 'left',
-			share: self.model.getPercentage(modelVariable),
-			gradient: gradient,
-			boxText: text,
-			boxTextNumLines: 1,
-			boxTextCssClass: 'SingleLine',
-			smallBox: true
-		});
-	};
-
-	renderBox('searchEngineReferrals', 'From Search Engines');
-	renderBox('websiteReferrals', 'From other Websites');
-	renderBox('campaignReferrals', 'From Campaigns');
-	
-	this.canvas.addBoxSpacing(13, 'left');
+	});
 };
 
-Piwik_Transitions.prototype.reloadPopover = function(link) {
+/** Reload the entire popover for a different URL */
+Piwik_Transitions.prototype.reloadPopover = function(url) {
 	this.popover.dialog('close');
-	this.rowAction.openPopover(link);
+	this.rowAction.openPopover(url);
+};
+
+/** Redraw the left or right sides with a different group opened */
+Piwik_Transitions.prototype.openGroup = function(side, groupName) {
+	
+	this.canvas.clearSide(side);
+	
+	if (side == 'left') {
+		this.leftOpenGroup = groupName;
+		this.renderLeftSide();
+	} else {
+		this.renderRightSide();
+	}
+	
+	this.renderLoops();
 };
 
 
@@ -331,10 +368,10 @@ function Piwik_Transitions_Canvas(canvasDom, canvasBgDom, width, height) {
 	this.height = canvasDom.height = canvasBgDom.height = height;
 
 	/** Current Y positions */
-	this.leftBoxPositionY = 0;
-	this.leftCurvePositionY = 110;
-	this.rightBoxPositionY = 0;
-	this.rightCurvePositionY = 110;
+	this.leftBoxPositionY = this.originalBoxPositionY = 0;
+	this.leftCurvePositionY = this.originalCurvePositionY = 110;
+	this.rightBoxPositionY = this.originalBoxPositionY;
+	this.rightCurvePositionY = this.originalCurvePositionY;
 
 	/** Width of the rectangular box */
 	this.boxWidth = 140;
@@ -394,13 +431,17 @@ Piwik_Transitions_Canvas.prototype.createHorizontalGradient = function(lightColo
 };
 
 /** Render text using a div inside the container */
-Piwik_Transitions_Canvas.prototype.renderText = function(text, x, y, cssClass, onClick) {
+Piwik_Transitions_Canvas.prototype.renderText = function(text, x, y, cssClass, onClick, icon) {
 	var div = this.addDomElement('div', 'Text');
 	div.html(Piwik_Transitions.prototype.addBreakpoints(text));
 	div.css({
 		left: x + 'px',
 		top: y + 'px'
 	});
+	if (icon) {
+		div.addClass('Transitions_HasBackground');
+		div.css({backgroundImage: 'url(' + icon + ')'});
+	}
 	if (cssClass) {
 		if (typeof cssClass == 'object') {
 			for (var i = 0; i < cssClass.length; i++) {
@@ -440,6 +481,8 @@ Piwik_Transitions_Canvas.prototype.addDomElement = function(tagName, cssClass) {
  * boxTextCssClass: for divs containing the texts (optional)
  * curveText: to be placed where the curve begins (optional)
  * smallBox: use this.smallBoxHeight instead of this.boxHeight (optional)
+ * boxIcon: path to an icon that is put in front of the text (optional)
+ * onClick: click callback for the text in the box (optional)
  * 
  * Only used for background:
  * curveHeight: fix height in px instead of share
@@ -476,11 +519,11 @@ Piwik_Transitions_Canvas.prototype.renderBox = function(params) {
 		if (params.side == 'left') {
 			boxTextLeft = this.leftBoxBeginX + 10;
 			boxTextTop = this.leftBoxPositionY + boxHeight / 2 - params.boxTextNumLines * this.lineHeight / 2;
-			el = this.renderText(params.boxText, boxTextLeft, boxTextTop, 'BoxTextLeft', onClick);
+			el = this.renderText(params.boxText, boxTextLeft, boxTextTop, 'BoxTextLeft', onClick, params.boxIcon);
 		} else {
 			boxTextLeft = this.rightBoxBeginX;
 			boxTextTop = this.rightBoxPositionY + boxHeight / 2 - params.boxTextNumLines * this.lineHeight / 2;
-			el = this.renderText(params.boxText, boxTextLeft, boxTextTop, 'BoxTextRight', onClick);
+			el = this.renderText(params.boxText, boxTextLeft, boxTextTop, 'BoxTextRight', onClick, params.boxIcon);
 		}
 		if (params.boxTextCssClass) {
 			el.addClass('Transitions_' + params.boxTextCssClass);
@@ -497,7 +540,8 @@ Piwik_Transitions_Canvas.prototype.renderBox = function(params) {
 			curveTextLeft = this.rightBoxBeginX - 35;
 			curveTextTop = this.rightBoxPositionY + boxHeight / 2 - this.lineHeight / 2;
 		}
-		this.renderText(params.curveText, curveTextLeft, curveTextTop, 'CurveText');
+		this.renderText(params.curveText, curveTextLeft, curveTextTop,
+			params.side == 'left' ? 'CurveTextLeft' : 'CurveTextRight');
 	}
 	
 	if (params.side == 'left') {
@@ -642,6 +686,27 @@ Piwik_Transitions_Canvas.prototype.renderLoops = function(share) {
 
 };
 
+/** Clear one side for redrawing */
+Piwik_Transitions_Canvas.prototype.clearSide = function(side) {
+	var x = (side == 'left' ? 0 : this.width / 2);
+	var y = 0;
+	var w = this.width / 2;
+	var h = this.height;
+	
+	this.context.clearRect(x, y, w, h);
+	this.bgContext.clearRect(x, y, w, h);
+	
+	this.container.find('.Transitions_BoxTextLeft, .Transitions_CurveTextLeft').remove();
+	
+	if (side == 'left') {
+		this.leftBoxPositionY = this.originalBoxPositionY;
+		this.leftCurvePositionY = this.originalCurvePositionY;	
+	} else {
+		this.rightBoxPositionY = this.originalBoxPositionY;
+		this.rightCurvePositionY = this.originalCurvePositionY;
+	}
+};
+
 
 // --------------------------------------
 // MODEL
@@ -663,12 +728,26 @@ Piwik_Transitions_Model.prototype.loadData = function(link, callback) {
 	this.internalTrafficOut = 0;
 
 	this.directEntries = 0;
-	this.searchEngineReferrals = 0;
-	this.websiteReferrals = 0;
-	this.campaignReferrals = 0;
+	
+	this.searchEnginesNbTransitions = 0;
+	this.searchEngines = [];
+	
+	this.websitesNbTransitions = 0;
+	this.websites = [];
+	
+	this.campaignsNbTransitions = 0;
+	this.campaigns = [];
 
-	this.followingPages = [];
+	this.previousPagesNbTransitions = 0;
 	this.previousPages = [];
+	
+	this.followingPagesNbTransitions = 0;
+	this.followingPages = [];
+	
+	this.groupTitles = {
+		previousPages: Transitions_Translations.Transitions_FromPreviousPages,
+		followingPages: Transitions_Translations.Transitions_ToFollwoingPages
+	};
 
 	this.ajax.callApi('Transitions.getFullReport', {
 			pageUrl: link,
@@ -682,6 +761,8 @@ Piwik_Transitions_Model.prototype.loadData = function(link, callback) {
 			self.loops = report.pageMetrics.loops;
 			self.internalTrafficIn = report.pageMetrics.internalTrafficIn;
 			self.internalTrafficOut = report.pageMetrics.internalTrafficOut;
+			self.previousPagesNbTransitions = self.internalTrafficIn - self.loops;
+			self.followingPagesNbTransitions = self.internalTrafficOut - self.loops;
 
 			// load referrers: split direct entries and others
 			for (var i = 0; i < report.referrers.length; i++) {
@@ -689,11 +770,17 @@ Piwik_Transitions_Model.prototype.loadData = function(link, callback) {
 				if (referrer.shortName == 'direct') {
 					self.directEntries = referrer.visits;
 				} else if (referrer.shortName == 'search') {
-					self.searchEngineReferrals = referrer.visits;
+					self.searchEnginesNbTransitions = referrer.visits;
+					self.searchEngines = referrer.details;
+					self.groupTitles.searchEngines = referrer.label;
 				} else if (referrer.shortName == 'website') {
-					self.websiteReferrals = referrer.visits;
+					self.websitesNbTransitions = referrer.visits;
+					self.websites = referrer.details;
+					self.groupTitles.websites = referrer.label;
 				} else if (referrer.shortName == 'campaign') {
-					self.campaignReferrals = referrer.visits;
+					self.campaignsNbTransitions = referrer.visits;
+					self.campaigns = referrer.details;
+					self.groupTitles.campaigns = referrer.label;
 				}
 			}
 
@@ -703,6 +790,17 @@ Piwik_Transitions_Model.prototype.loadData = function(link, callback) {
 
 			callback();
 		});
+};
+
+Piwik_Transitions_Model.prototype.getGroupTitle = function(groupName) {
+	if (typeof this.groupTitles[groupName] != 'undefined') {
+		return this.groupTitles[groupName];
+	}
+	return groupName;
+};
+
+Piwik_Transitions_Model.prototype.getDetailsForGroup = function(groupName) {
+	return this.addPercentagesToData(this[groupName]);
 };
 
 Piwik_Transitions_Model.prototype.getPercentage = function(metric, formatted) {
@@ -716,31 +814,18 @@ Piwik_Transitions_Model.prototype.getPercentage = function(metric, formatted) {
 	return percentage;
 };
 
-Piwik_Transitions_Model.prototype.getPreviousPages = function() {
-	var total = 0;
-	for (var i = 0; i < this.previousPages.length; i++) {
-		total += parseInt(this.previousPages[i].referrals, 10);
-	}
-
-	for (var i = 0; i < this.previousPages.length; i++) {
-		this.previousPages[i].percentage = this.roundPercentage(this.previousPages[i].referrals / total);
-	}
-
-	return this.previousPages;
-};
-
-Piwik_Transitions_Model.prototype.getFollowingPages = function() {
+Piwik_Transitions_Model.prototype.addPercentagesToData = function(data) {
 	var total = 0;
 
-	for (var i = 0; i < this.followingPages.length; i++) {
-		total += parseInt(this.followingPages[i].referrals, 10);
+	for (var i = 0; i < data.length; i++) {
+		total += parseInt(data[i].referrals, 10);
 	}
 
-	for (var i = 0; i < this.followingPages.length; i++) {
-		this.followingPages[i].percentage = this.roundPercentage(this.followingPages[i].referrals / total);
+	for (i = 0; i < data.length; i++) {
+		data[i].percentage = this.roundPercentage(data[i].referrals / total);
 	}
 
-	return this.followingPages;
+	return data;
 };
 
 Piwik_Transitions_Model.prototype.roundPercentage = function(value) {
