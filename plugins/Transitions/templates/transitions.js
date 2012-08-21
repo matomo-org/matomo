@@ -65,7 +65,6 @@ function Piwik_Transitions(link, rowAction) {
 	this.model = new Piwik_Transitions_Model(this.ajax);
 	
 	this.leftGroups = ['previousPages', 'searchEngines', 'websites', 'campaigns'];
-	this.leftOpenGroup = 'previousPages';
 }
 
 Piwik_Transitions.prototype.reset = function(link) {
@@ -73,6 +72,7 @@ Piwik_Transitions.prototype.reset = function(link) {
 	this.popover = null;
 	this.canvas = null;
 	this.centerBox = null;
+	this.leftOpenGroup = 'previousPages';
 };
 
 /** Open the popover */
@@ -245,7 +245,7 @@ Piwik_Transitions.prototype.renderOpenGroup = function(groupName, side) {
 		titleClass = 'BoxTextLeft';
 	} else {
 		titleX = this.canvas.rightBoxBeginX - 1;
-		titleClass = 'BoxTextRight'
+		titleClass = 'BoxTextRight';
 	}
 	var groupTitle = self.model.getGroupTitle(groupName);
 	this.canvas.renderText(groupTitle, titleX , 11, [titleClass, 'TitleOfOpenGroup']);
@@ -259,7 +259,7 @@ Piwik_Transitions.prototype.renderOpenGroup = function(groupName, side) {
 		var onClick = false;
 		if (!isOthers && (groupName == 'previousPages' || groupName == 'followingPages')) {
 			onClick = (function(url) {
-				return function() { self.reloadPopover(url) };
+				return function() { self.reloadPopover(url); };
 			})(label);
 		}
 		this.canvas.renderBox({
