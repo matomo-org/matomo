@@ -410,9 +410,13 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * @param Piwik_RankingQuery $rankingQuery
 	 *                                A pre-configured ranking query instance that is used to limit the result.
 	 *                                If set, the return value is the array returned by Piwik_RankingQuery::execute().
+	 * @param string      $addSelect  Additional SELECT clause
+	 * @param bool        $addSelectGeneratesLabelColumn
+	 *                                Set to true if the $label column is generated in $addSelect.
 	 * @return mixed
 	 */
-	public function queryVisitsByDimension($label, $where = '', $orderBy = false, $rankingQuery = null)
+	public function queryVisitsByDimension($label, $where = '', $orderBy = false, $rankingQuery = null,
+			$addSelect = false, $addSelectGeneratesLabelColumn = false)
 	{
 	    if(is_array($label))
 	    {
@@ -423,6 +427,11 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	    	}
 	        $select = implode(", ", $label);
 	    }
+		else if ($addSelectGeneratesLabelColumn)
+		{
+			$select = $addSelect;
+			$groupBy = $label;
+		}
 	    else
 	    {
 	        $select = $label . " AS label ";
@@ -444,6 +453,10 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 				sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `". Piwik_Archive::INDEX_BOUNCE_COUNT ."`,
 				sum(case log_visit.visit_goal_converted when 1 then 1 else 0 end) as `". Piwik_Archive::INDEX_NB_VISITS_CONVERTED ."`";
 	    
+		if ($addSelect && !$addSelectGeneratesLabelColumn) {
+			$select .= ', '.$addSelect;
+		}
+		
 	    $from = "log_visit";
 	    
 	    $where = "log_visit.visit_last_action_time >= ?

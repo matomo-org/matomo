@@ -58,11 +58,26 @@ class Piwik_Transitions extends Piwik_Plugin
 	public function queryExternalReferrers($idaction, Piwik_ArchiveProcessing_Day $archiveProcessing,
 				$limitBeforeGrouping = false)
 	{
-		// query the visits table, grouping by referrer columns
-		$dimension = array('referer_type', 'referer_name', 'referer_keyword', 'referer_url');
-		
 		$rankingQuery = new Piwik_RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
-		$rankingQuery->addLabelColumn(array('referer_name', 'referer_keyword', 'referer_url'));
+		
+		// we generate a single column that contains the interesting data for each referrer.
+		// the reason we cannot group by referer_* becomes clear when we look at search engine keywords.
+		// referer_url contains the url from the search engine, referer_keyword is the keyword we want to
+		// group by. when we group by both, we don't get a single row for the keyword but instead
+		// one column per keyword + search engine url. this way, we could not get the top keywords using
+		// the ranking query.
+		$dimension = 'referrer_data';
+		$rankingQuery->addLabelColumn('referrer_data');
+		$select = '
+			CASE referer_type
+				WHEN '.Piwik_Common::REFERER_TYPE_DIRECT_ENTRY.' THEN ""
+				WHEN '.Piwik_Common::REFERER_TYPE_SEARCH_ENGINE.' THEN referer_keyword
+				WHEN '.Piwik_Common::REFERER_TYPE_WEBSITE.' THEN referer_url
+				WHEN '.Piwik_Common::REFERER_TYPE_CAMPAIGN.' THEN CONCAT(referer_name, " ", referer_keyword)
+			END AS referrer_data,
+			referer_type';
+		
+		// get one limited group per referrer type
 		$rankingQuery->partitionResultIntoMultipleGroups('referer_type', array(
 				Piwik_Common::REFERER_TYPE_DIRECT_ENTRY,
 				Piwik_Common::REFERER_TYPE_SEARCH_ENGINE,
@@ -73,7 +88,8 @@ class Piwik_Transitions extends Piwik_Plugin
 		$orderBy = '`'.Piwik_Archive::INDEX_NB_VISITS.'` DESC';
 		$where = 'visit_entry_idaction_url = '.intval($idaction);
 		
-		$data = $archiveProcessing->queryVisitsByDimension($dimension, $where, $orderBy, $rankingQuery);
+		$data = $archiveProcessing->queryVisitsByDimension($dimension, $where, $orderBy, $rankingQuery,
+					$select, $selectGeneratesLabelColumn = true);
 		
 		$referrerData = array();
 		$referrerSubData = array();
@@ -88,32 +104,15 @@ class Piwik_Transitions extends Piwik_Plugin
 			
 			foreach ($subData as &$row)
 			{
-				if ($referrerType == Piwik_Common::REFERER_TYPE_SEARCH_ENGINE && empty($row['referer_keyword']))
+				if ($referrerType == Piwik_Common::REFERER_TYPE_SEARCH_ENGINE && empty($row['referrer_data']))
 				{
-					$row['referer_keyword'] = Piwik_Referers::LABEL_KEYWORD_NOT_DEFINED;
-				}
-				
-				// label has to be taken from different places depending on the referrer type
-				$label = false;
-				switch ($referrerType)
-				{
-					case Piwik_Common::REFERER_TYPE_SEARCH_ENGINE:
-						$label = $row['referer_keyword'];
-						break;
-					case Piwik_Common::REFERER_TYPE_WEBSITE:
-						$label = $row['referer_url'];
-						break;
-					case Piwik_Common::REFERER_TYPE_CAMPAIGN:
-						$label = $row['referer_name'];
-						if (!empty($row['referer_keyword']) && $label != 'Others')
-						{
-							$label .= ': '.$row['referer_keyword'].'';
-						}
-						break;
+					$row['referrer_data'] = Piwik_Referers::LABEL_KEYWORD_NOT_DEFINED;
 				}
 				
 				$referrerData[$referrerType][Piwik_Archive::INDEX_NB_VISITS] += $row[Piwik_Archive::INDEX_NB_VISITS];
-				if ($label !== false)
+				
+				$label = $row['referrer_data'];
+				if ($label)
 				{
 					$referrerSubData[$referrerType][$label] = array(
 						Piwik_Archive::INDEX_NB_VISITS => $row[Piwik_Archive::INDEX_NB_VISITS]
@@ -160,7 +159,7 @@ class Piwik_Transitions extends Piwik_Plugin
 			$previousPagesDataTable->addRow(new Piwik_DataTable_Row(array(
 				Piwik_DataTable_Row::COLUMNS => array(
 					'label' => Piwik_Tracker_Action::reconstructNormalizedUrl($page['name'], $page['url_prefix']),
-					Piwik_Archive::INDEX_NB_ACTIONS => $page[Piwik_Archive::INDEX_NB_ACTIONS]
+					Piwik_Archive::INDEX_NB_ACTIONS => intval($page[Piwik_Archive::INDEX_NB_ACTIONS])
 				)
 			)));
 		}
@@ -168,7 +167,7 @@ class Piwik_Transitions extends Piwik_Plugin
 		$loops = 0;
 		if (count($data['excludedFromLimit']))
 		{
-			$loops = $data['excludedFromLimit'][0][Piwik_Archive::INDEX_NB_ACTIONS];
+			$loops = intval($data['excludedFromLimit'][0][Piwik_Archive::INDEX_NB_ACTIONS]);
 		}
 		
 		return array(
@@ -223,7 +222,7 @@ class Piwik_Transitions extends Piwik_Plugin
 							'label' => $type == Piwik_Tracker_Action::TYPE_ACTION_URL ?
 									Piwik_Tracker_Action::reconstructNormalizedUrl($record['name'], $record['url_prefix']) :
 									$record['name'],
-							Piwik_Archive::INDEX_NB_ACTIONS => $record[Piwik_Archive::INDEX_NB_ACTIONS]
+							Piwik_Archive::INDEX_NB_ACTIONS => intval($record[Piwik_Archive::INDEX_NB_ACTIONS])
 						)
 					)));
 				}
