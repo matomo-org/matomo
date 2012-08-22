@@ -30,7 +30,7 @@
 #Transitions_CenterBox {
 	margin: 60px 0 0 320px;
 	width: 208px;
-	height: 304px;
+	height: 344px;
 	background: #f7f7f7;
 	border: 1px solid #a9a399;
 	border-radius:10px;
@@ -71,7 +71,7 @@
 }
 
 #Transitions_Loops {
-	margin: 395px 0 0 320px;
+	margin: 435px 0 0 320px;
 	width: 208px;
 	text-align: center;
 	line-height: 25px;
@@ -97,7 +97,7 @@
 .Transitions_TitleOfOpenGroup {
 	font-size: 12px;
 	color: #255792;
-	font-weight: bold
+	font-weight: bold;
 }
 
 .Transitions_BoxTextLeft,
@@ -111,19 +111,41 @@
 	text-align: right;
 }
 
-.Transitions_BoxTextLeft.Transitions_HasBackground {
+.Transitions_BoxTextLeft.Transitions_HasBackground,
+.Transitions_BoxTextRight.Transitions_HasBackground {
 	background-repeat: no-repeat;
-	background-position: 0 1px;
-	padding-left: 15px;
 	height: 18px;
+}
+
+.Transitions_BoxTextLeft.Transitions_HasBackground {
+	background-position: 0 1px;
+	width: 150px;
+}
+.Transitions_BoxTextLeft.Transitions_HasBackground span {
+	display: block;
+	padding-left: 16px;
+}
+
+.Transitions_BoxTextRight.Transitions_HasBackground {
+	background-position: right 1px;
+}
+.Transitions_BoxTextRight.Transitions_HasBackground span {
+	display: block;
+	padding-right: 17px;
 }
 
 .Transitions_CurveTextLeft,
 .Transitions_CurveTextRight {
 	color: #255792;
 	font-weight: bold;
-	width: 25px;
+	width: 28px;
 	text-align: right;
+	cursor: default;
+}
+
+body .piwik-tooltip.Transitions_Tooltip_CurveText {
+	font-size: 11px;
+	padding: 3px 5px 3px 6px;
 }
 
 .Transitions_SingleLine {

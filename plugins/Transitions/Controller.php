@@ -22,7 +22,10 @@ class Piwik_Transitions_Controller extends Piwik_Controller
 		
 		$view->addTranslations = array(
 			'Transitions_FromPreviousPages',
-			'Transitions_ToFollwoingPages'
+			'Transitions_ToFollwoingPages',
+			'Transitions_ToOutlinks',
+			'Transitions_ToDownloads',
+			'Transitions_XOfY'
 		);
 		
 		echo $view->render();

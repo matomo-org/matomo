@@ -6,8 +6,6 @@
 		<bounces>2</bounces>
 		<loops>1</loops>
 		<entries>4</entries>
-		<internalTrafficIn>8</internalTrafficIn>
-		<internalTrafficOut>9</internalTrafficOut>
 
 	</pageMetrics>
 	<previousPages>
@@ -82,7 +80,7 @@
 			<visits>1</visits>
 			<details>
 				<row>
-					<label>TestCampaign: TestKeyword</label>
+					<label>TestCampaign TestKeyword</label>
 					<referrals>1</referrals>
 
 				</row>

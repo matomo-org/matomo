@@ -13,8 +13,8 @@
 				(<span class="Transitions_DirectEntriesPercentage"></span>)
 			</p>
 			<p>
-				<span class="Transitions_InternalTrafficIn Transitions_Metric"></span> {'Transitions_FromInternalPages'|translate:''} 
-				(<span class="Transitions_InternalTrafficInPercentage"></span>)
+				<span class="Transitions_PreviousPages Transitions_Metric"></span> {'Transitions_FromInternalPages'|translate} 
+				(<span class="Transitions_PreviousPagesPercentage"></span>)
 			</p>
 			<p>
 				<span class="Transitions_SearchEngines Transitions_Metric"></span> {'Referers_TypeSearchEngines'|translate:''}
@@ -27,8 +27,16 @@
 			
 			<h3>{'Transitions_OutgoingTraffic'|translate}</h3>
 			<p>
-				<span class="Transitions_InternalTrafficOut Transitions_Metric"></span> {'Transitions_ToInternalPages'|translate:''} 
-				(<span class="Transitions_InternalTrafficOutPercentage"></span>)
+				<span class="Transitions_FollowingPages Transitions_Metric"></span> {'Transitions_ToInternalPages'|translate} 
+				(<span class="Transitions_FollowingPagesPercentage"></span>)
+			</p>
+			<p>
+				<span class="Transitions_Downloads Transitions_Metric"></span> {'VisitsSummary_NbDownloadsDescription'|translate:''} 
+				(<span class="Transitions_DownloadsPercentage"></span>)
+			</p>
+			<p>
+				<span class="Transitions_Outlinks Transitions_Metric"></span> {'VisitsSummary_NbOutlinksDescription'|translate:''} 
+				(<span class="Transitions_OutlinksPercentage"></span>)
 			</p>
 			<p>
 				<span class="Transitions_Exits Transitions_Metric"></span> {'General_ColumnExits'|translate} 

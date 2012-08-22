@@ -65,6 +65,7 @@ function Piwik_Transitions(link, rowAction) {
 	this.model = new Piwik_Transitions_Model(this.ajax);
 	
 	this.leftGroups = ['previousPages', 'searchEngines', 'websites', 'campaigns'];
+	this.rightGroups = ['followingPages', 'downloads', 'outlinks'];
 }
 
 Piwik_Transitions.prototype.reset = function(link) {
@@ -72,7 +73,9 @@ Piwik_Transitions.prototype.reset = function(link) {
 	this.popover = null;
 	this.canvas = null;
 	this.centerBox = null;
+	
 	this.leftOpenGroup = 'previousPages';
+	this.rightOpenGroup = 'followingPages';
 };
 
 /** Open the popover */
@@ -136,26 +139,56 @@ Piwik_Transitions.prototype.render = function() {
 	this.renderLoops();
 };
 
+/** Render left side: referrer groups & direct entries */
 Piwik_Transitions.prototype.renderLeftSide = function() {
-	this.renderOpenGroup(this.leftOpenGroup, 'left');
+	this.renderGroups(this.leftGroups, this.leftOpenGroup, 'left');
+	this.renderEntries();
 	
-	for (var i = 0; i < this.leftGroups.length; i++) {
-		var groupName = this.leftGroups[i];
-		if (groupName != this.leftOpenGroup) {
-			this.renderClosedGroup(groupName, 'left');
+	this.reRenderIfNeededToCenter('left');
+};
+
+/** Render right side: following pages & exits */
+Piwik_Transitions.prototype.renderRightSide = function() {
+	this.renderGroups(this.rightGroups, this.rightOpenGroup, 'right');
+	this.renderExits();
+	
+	this.reRenderIfNeededToCenter('right');
+};
+
+/** Helper method to render open and closed groups for both sides */
+Piwik_Transitions.prototype.renderGroups = function(groups, openGroup, side) {
+	for (var i = 0; i < groups.length; i++) {
+		var groupName = groups[i];
+		if (groupName == openGroup) {
+			if (i != 0) {
+				this.canvas.addBoxSpacing(13, side);
+			}
+			this.renderOpenGroup(groupName, side);
+		} else {
+			this.renderClosedGroup(groupName, side);
 		}
 	} 
 	
-	this.canvas.addBoxSpacing(13, 'left');
-	
-	this.renderEntries();
+	this.canvas.addBoxSpacing(13, side);
 };
 
-Piwik_Transitions.prototype.renderRightSide = function() {
-	this.renderOpenGroup('followingPages', 'right');
-	this.renderExits();
+/**
+ * If one side doesn't have much information, it doesn't look good to start from y=0.
+ * In this case, add some spacing on top and redraw.
+ */
+Piwik_Transitions.prototype.reRenderIfNeededToCenter = function(side) {
+	var height = (side == 'left' ? this.canvas.leftBoxPositionY : this.canvas.rightBoxPositionY) - 20;
+	if (height < 460 && !this.reRendering) {
+		var yOffset = (460 - height) / 2;
+		this.canvas.clearSide(side);
+		this.canvas.addBoxSpacing(yOffset, side);
+		this.reRendering = true;
+		side == 'left' ? this.renderLeftSide() : this.renderRightSide();
+		this.reRendering = false;
+	}
 };
 
+/** Render the center box with the main metrics */
 Piwik_Transitions.prototype.renderCenterBox = function() {
 	var box = this.centerBox;
 	box.removeClass('Transitions_Loading');
@@ -169,17 +202,20 @@ Piwik_Transitions.prototype.renderCenterBox = function() {
 	};
 
 	showMetric('DirectEntries', 'directEntries');
-	showMetric('InternalTrafficIn', 'internalTrafficIn');
+	showMetric('PreviousPages', 'previousPagesNbTransitions');
 	showMetric('SearchEngines', 'searchEnginesNbTransitions');
 	showMetric('Websites', 'websitesNbTransitions');
 
-	showMetric('InternalTrafficOut', 'internalTrafficOut');
+	showMetric('FollowingPages', 'followingPagesNbTransitions');
+	showMetric('Outlinks', 'outlinksNbTransitions');
+	showMetric('Downloads', 'downloadsNbTransitions');
 	showMetric('Exits', 'exits');
 	showMetric('Bounces', 'bounces');
 
 	box.find('.Transitions_CenterBoxMetrics').show();
 };
 
+/** Render the loops (i.e. page refreshes) */
 Piwik_Transitions.prototype.renderLoops = function() {
 	if (this.model.loops == 0) {
 		return;
@@ -220,6 +256,7 @@ Piwik_Transitions.prototype.renderExits = function() {
 	}
 };
 
+/** Render the open group with the detailed data */
 Piwik_Transitions.prototype.renderOpenGroup = function(groupName, side) {
 	var self = this;
 	
@@ -234,9 +271,19 @@ Piwik_Transitions.prototype.renderOpenGroup = function(groupName, side) {
 	var details = self.model.getDetailsForGroup(groupName);
 	
 	// prepare gradients
-	var gradientItems = this.canvas.createHorizontalGradient('#EDEBE1', '#CFCBB6', side);
-	var gradientOthers = this.canvas.createHorizontalGradient('#F5F3EB', '#E3E1D8', side);
-	var gradientBackground = this.canvas.createHorizontalGradient('#FFFFFF', '#E1E9F2', side);
+	var gradientItems = this.canvas.createHorizontalGradient('#E3DFD1', '#E8E4D5', side);
+	var gradientOthers = this.canvas.createHorizontalGradient('#F5F3EB', '#E8E4D5', side);
+	var gradientBackground = this.canvas.createHorizontalGradient('#FFFFFF', '#B0CAE8', side);
+	
+	// remember current offsets to reset them later for drawing the background
+	var boxPositionBefore, curvePositionBefore;
+	if (side == 'left') {
+		boxPositionBefore = this.canvas.leftBoxPositionY;
+		curvePositionBefore = this.canvas.leftCurvePositionY;
+	} else {
+		boxPositionBefore = this.canvas.rightBoxPositionY;
+		curvePositionBefore = this.canvas.rightCurvePositionY;
+	}
 	
 	// headline of the open group
 	var titleX, titleClass;
@@ -248,10 +295,10 @@ Piwik_Transitions.prototype.renderOpenGroup = function(groupName, side) {
 		titleClass = 'BoxTextRight';
 	}
 	var groupTitle = self.model.getGroupTitle(groupName);
-	this.canvas.renderText(groupTitle, titleX , 11, [titleClass, 'TitleOfOpenGroup']);
+	this.canvas.renderText(groupTitle, titleX , boxPositionBefore + 11, [titleClass, 'TitleOfOpenGroup']);
 	this.canvas.addBoxSpacing(34, side);
 	
-	// draw boxes
+	// draw detail boxes
 	for (var i = 0; i < details.length; i++) {
 		var data = details[i];
 		var label = (typeof data.url != 'undefined' ? data.url : data.label);
@@ -262,35 +309,40 @@ Piwik_Transitions.prototype.renderOpenGroup = function(groupName, side) {
 				return function() { self.reloadPopover(url); };
 			})(label);
 		}
+		
+		var tooltip = Transitions_Translations.Transitions_XOfY;
+		tooltip = '<b>' + tooltip.replace(/%s/, data.referrals + '</b>').replace(/%s/, nbTransitions);
+		
 		this.canvas.renderBox({
 			side: side,
 			share: data.percentage / 100 * totalShare,
 			gradient: isOthers ? gradientOthers : gradientItems,
-			boxText: label + ' (' + data.referrals + ')',
+			boxText: label,
 			boxTextNumLines: 3,
 			curveText: data.percentage + '%',
+			curveTextTooltip: tooltip,
 			onClick: onClick
 		});
 	}
 	
 	// draw background
-	var boxPosition, curvePosition;
+	var boxPositionAfter, curvePositionAfter;
 	if (side == 'left') {
-		boxPosition = this.canvas.leftBoxPositionY;
-		curvePosition = this.canvas.leftCurvePositionY;
-		this.canvas.leftBoxPositionY = this.canvas.originalBoxPositionY;
-		this.canvas.leftCurvePositionY = this.canvas.originalCurvePositionY;
+		boxPositionAfter = this.canvas.leftBoxPositionY;
+		curvePositionAfter = this.canvas.leftCurvePositionY;
+		this.canvas.leftBoxPositionY = boxPositionBefore;
+		this.canvas.leftCurvePositionY = curvePositionBefore;
 	} else {
-		boxPosition = this.canvas.rightBoxPositionY;
-		curvePosition = this.canvas.rightCurvePositionY;
-		this.canvas.rightBoxPositionY = this.canvas.originalBoxPositionY;
-		this.canvas.rightCurvePositionY = this.canvas.originalCurvePositionY;
+		boxPositionAfter = this.canvas.rightBoxPositionY;
+		curvePositionAfter = this.canvas.rightCurvePositionY;
+		this.canvas.rightBoxPositionY = boxPositionBefore;
+		this.canvas.rightCurvePositionY = curvePositionBefore;
 	}
 	
 	this.canvas.renderBox({
 		side: side,
-		boxHeight: boxPosition - this.canvas.boxSpacing - 2,
-		curveHeight: curvePosition - this.canvas.curveSpacing - this.canvas.originalCurvePositionY,
+		boxHeight: boxPositionAfter - boxPositionBefore - this.canvas.boxSpacing - 2,
+		curveHeight: curvePositionAfter - curvePositionBefore - this.canvas.curveSpacing,
 		gradient: gradientBackground,
 		bgCanvas: true
 	});
@@ -298,6 +350,7 @@ Piwik_Transitions.prototype.renderOpenGroup = function(groupName, side) {
 	this.canvas.addBoxSpacing(15, side);
 };
 
+/** Render a closed group without detailed data, only one box for the sum */
 Piwik_Transitions.prototype.renderClosedGroup = function(groupName, side) {
 	var self = this;
 	var gradient = this.canvas.createHorizontalGradient('#DDE4ED', '#9BBADE', side);
@@ -338,6 +391,7 @@ Piwik_Transitions.prototype.openGroup = function(side, groupName) {
 		this.leftOpenGroup = groupName;
 		this.renderLeftSide();
 	} else {
+		this.rightOpenGroup = groupName;
 		this.renderRightSide();
 	}
 	
@@ -386,14 +440,14 @@ function Piwik_Transitions_Canvas(canvasDom, canvasBgDom, width, height) {
 	/** Spacing between rectangular boxes */
 	this.boxSpacing = 7;
 	/** Spacing between the curves where they connect to the center */
-	this.curveSpacing = 2;
+	this.curveSpacing = 1.5;
 
 	/** The total net height (without curve spacing) of the curves as they connect to the center */
 	this.totalHeightOfConnections = 205;
 
 	/** X positions of the left box - begin means left, end means right */
 	this.leftBoxBeginX = 0;
-	this.leftBoxEndX = this.leftCurveBeginX = this.leftBoxBeginX + this.boxWidth;
+	this.leftCurveBeginX = this.leftBoxBeginX + this.boxWidth;
 	this.leftCurveEndX = this.leftCurveBeginX + this.curveWidth;
 
 	/** X positions of the right box - begin means left, end means right */
@@ -433,7 +487,7 @@ Piwik_Transitions_Canvas.prototype.createHorizontalGradient = function(lightColo
 /** Render text using a div inside the container */
 Piwik_Transitions_Canvas.prototype.renderText = function(text, x, y, cssClass, onClick, icon) {
 	var div = this.addDomElement('div', 'Text');
-	div.html(Piwik_Transitions.prototype.addBreakpoints(text));
+	div.html('<span>' + Piwik_Transitions.prototype.addBreakpoints(text) + '</span>');
 	div.css({
 		left: x + 'px',
 		top: y + 'px'
@@ -480,6 +534,7 @@ Piwik_Transitions_Canvas.prototype.addDomElement = function(tagName, cssClass) {
  * boxTextNumLines: the number of lines to be placed in the box (optional)
  * boxTextCssClass: for divs containing the texts (optional)
  * curveText: to be placed where the curve begins (optional)
+ * curveTextTooltip: text for a tooltip that is shown when hovering the curve text (optional)
  * smallBox: use this.smallBoxHeight instead of this.boxHeight (optional)
  * boxIcon: path to an icon that is put in front of the text (optional)
  * onClick: click callback for the text in the box (optional)
@@ -540,8 +595,16 @@ Piwik_Transitions_Canvas.prototype.renderBox = function(params) {
 			curveTextLeft = this.rightBoxBeginX - 35;
 			curveTextTop = this.rightBoxPositionY + boxHeight / 2 - this.lineHeight / 2;
 		}
-		this.renderText(params.curveText, curveTextLeft, curveTextTop,
+		var textDiv = this.renderText(params.curveText, curveTextLeft, curveTextTop,
 			params.side == 'left' ? 'CurveTextLeft' : 'CurveTextRight');
+		
+		if (params.curveTextTooltip) {
+			textDiv.hover(function() {
+				Piwik_Tooltip.show(params.curveTextTooltip, 'Transitions_Tooltip_CurveText');
+			}, function() {
+				Piwik_Tooltip.hide();
+			});
+		}
 	}
 	
 	if (params.side == 'left') {
@@ -636,7 +699,7 @@ Piwik_Transitions_Canvas.prototype.renderLoops = function(share) {
 	
 	// curve from the upper left connection to the center box to the lower left connection to the text box 
 	var point1 = {x: this.leftCurveEndX, y: this.leftCurvePositionY};
-	var point2 = {x: this.leftCurveEndX, y: 420};
+	var point2 = {x: this.leftCurveEndX, y: 460};
 	
 	var cpLeftX = (this.leftCurveBeginX + this.leftCurveEndX) / 2 + 30;
 	var cp1 = {x: cpLeftX, y: point1.y};
@@ -696,12 +759,14 @@ Piwik_Transitions_Canvas.prototype.clearSide = function(side) {
 	this.context.clearRect(x, y, w, h);
 	this.bgContext.clearRect(x, y, w, h);
 	
-	this.container.find('.Transitions_BoxTextLeft, .Transitions_CurveTextLeft').remove();
-	
 	if (side == 'left') {
+		this.container.find('.Transitions_BoxTextLeft').remove();
+		this.container.find('.Transitions_CurveTextLeft').remove();
 		this.leftBoxPositionY = this.originalBoxPositionY;
 		this.leftCurvePositionY = this.originalCurvePositionY;	
 	} else {
+		this.container.find('.Transitions_BoxTextRight').remove();
+		this.container.find('.Transitions_CurveTextRight').remove();
 		this.rightBoxPositionY = this.originalBoxPositionY;
 		this.rightCurvePositionY = this.originalCurvePositionY;
 	}
@@ -724,9 +789,6 @@ Piwik_Transitions_Model.prototype.loadData = function(link, callback) {
 	this.bounces = 0;
 	this.loops = 0;
 
-	this.internalTrafficIn = 0;
-	this.internalTrafficOut = 0;
-
 	this.directEntries = 0;
 	
 	this.searchEnginesNbTransitions = 0;
@@ -744,9 +806,17 @@ Piwik_Transitions_Model.prototype.loadData = function(link, callback) {
 	this.followingPagesNbTransitions = 0;
 	this.followingPages = [];
 	
+	this.downloadsNbTransitions = 0;
+	this.downloads = [];
+	
+	this.outlinksNbTransitions = 0;
+	this.outlinks = [];
+	
 	this.groupTitles = {
 		previousPages: Transitions_Translations.Transitions_FromPreviousPages,
-		followingPages: Transitions_Translations.Transitions_ToFollwoingPages
+		followingPages: Transitions_Translations.Transitions_ToFollwoingPages,
+		outlinks: Transitions_Translations.Transitions_ToOutlinks,
+		downloads: Transitions_Translations.Transitions_ToDownloads
 	};
 
 	this.ajax.callApi('Transitions.getFullReport', {
@@ -759,11 +829,7 @@ Piwik_Transitions_Model.prototype.loadData = function(link, callback) {
 			self.exits = report.pageMetrics.exits;
 			self.bounces = report.pageMetrics.bounces;
 			self.loops = report.pageMetrics.loops;
-			self.internalTrafficIn = report.pageMetrics.internalTrafficIn;
-			self.internalTrafficOut = report.pageMetrics.internalTrafficOut;
-			self.previousPagesNbTransitions = self.internalTrafficIn - self.loops;
-			self.followingPagesNbTransitions = self.internalTrafficOut - self.loops;
-
+			
 			// load referrers: split direct entries and others
 			for (var i = 0; i < report.referrers.length; i++) {
 				var referrer = report.referrers[i];
@@ -784,12 +850,23 @@ Piwik_Transitions_Model.prototype.loadData = function(link, callback) {
 				}
 			}
 
-			// load previous and following pages
-			self.previousPages = report.previousPages;
-			self.followingPages = report.followingPages;
+			self.loadAndSumReport(report, 'previousPages');
+			self.loadAndSumReport(report, 'followingPages');
+			self.loadAndSumReport(report, 'downloads');
+			self.loadAndSumReport(report, 'outlinks');
 
 			callback();
 		});
+};
+
+Piwik_Transitions_Model.prototype.loadAndSumReport = function(apiData, reportName) {
+	var data = this[reportName] = apiData[reportName];
+	var sumVarName = reportName + 'NbTransitions';
+	
+	this[sumVarName] = 0;
+	for (var i = 0; i < data.length; i++) {
+		this[sumVarName] += data[i].referrals;
+	}
 };
 
 Piwik_Transitions_Model.prototype.getGroupTitle = function(groupName) {

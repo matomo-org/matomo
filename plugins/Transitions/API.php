@@ -56,11 +56,6 @@ class Piwik_Transitions_API
 			}
 		}
 		
-		// derive totals for internal traffic
-		$metrics = &$report['pageMetrics'];
-		$metrics['internalTrafficIn'] = $metrics['pageviews'] - $metrics['entries'];
-		$metrics['internalTrafficOut'] = $metrics['pageviews'] - $metrics['exits'];
-		
 		return $report;
 	}
 
