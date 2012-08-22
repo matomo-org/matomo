@@ -62,8 +62,8 @@ class Piwik_Transitions extends Piwik_Plugin
 		
 		// we generate a single column that contains the interesting data for each referrer.
 		// the reason we cannot group by referer_* becomes clear when we look at search engine keywords.
-		// referer_url contains the url from the search engine, referer_keyword is the keyword we want to
-		// group by. when we group by both, we don't get a single row for the keyword but instead
+		// referer_url contains the url from the search engine, referer_keyword the keyword we want to
+		// group by. when we group by both, we don't get a single column for the keyword but instead
 		// one column per keyword + search engine url. this way, we could not get the top keywords using
 		// the ranking query.
 		$dimension = 'referrer_data';

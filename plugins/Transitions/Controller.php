@@ -16,18 +16,58 @@
 class Piwik_Transitions_Controller extends Piwik_Controller
 {
 	
+	/**
+	 * Since the metric translations are taken from different plugins,
+	 * it makes the rest of the code easier to read and maintain when we
+	 * use this indirection to map between the metrics and the actual
+	 * translation keys. 
+	 */
+	private static $metricTranslations = array(
+		'pageviewsInline' => 'Transitions_PageviewsInline',
+		'loopsInline' => 'Transitions_LoopsInline',
+		'fromPreviousPages' => 'Transitions_FromPreviousPages',
+		'fromPreviousPagesInline' => 'Transitions_FromPreviousPagesInline',
+		'fromSearchEngines' => 'Transitions_FromSearchEngines',
+		'fromSearchEnginesInline' => 'Transitions_FromSearchEnginesInline',
+		'fromWebsites' => 'Transitions_FromWebsites',
+		'fromWebsitesInline' => 'Transitions_FromWebsitesInline',
+		'fromCampaigns' => 'Transitions_FromCampaigns',
+		'fromCampaignsInline' => 'Transitions_FromCampaignsInline',
+		'directEntries' => 'Transitions_DirectEntries',
+		'directEntriesInline' => 'Referers_TypeDirectEntries',
+		'toFollowingPages' => 'Transitions_ToFollowingPages',
+		'toFollowingPagesInline' => 'Transitions_ToFollowingPagesInline',
+		'downloads' => 'Actions_ColumnDownloads',
+		'downloadsInline' => 'VisitsSummary_NbDownloadsDescription',
+		'outlinks' => 'Actions_ColumnOutlinks',
+		'outlinksInline' => 'VisitsSummary_NbOutlinksDescription',
+		'exits' => 'General_ColumnExits',
+		'exitsInline' => 'Transitions_ExitsInline',
+		'bouncesInline' => 'Transitions_BouncesInline'
+	);
+
+	/**
+	 * Translations that are added to JS
+	 * (object Piwik_Transitions_Translations)
+	 */
+	private static $jsTranslations = array(
+		'XOfY' => 'Transitions_XOfY',
+		'XOfAllPageviews' => 'Transitions_XOfAllPageviews'
+	);
+
+	public static function getTranslation($key)
+	{
+		return Piwik_Translate(self::$metricTranslations[$key]);
+	}
+	
+	/**
+	 * The main method of the plugin. 
+	 * It is triggered from the Transitions data table action.
+	 */
 	public function renderPopover()
 	{
 		$view = Piwik_View::factory('transitions');
-		
-		$view->addTranslations = array(
-			'Transitions_FromPreviousPages',
-			'Transitions_ToFollwoingPages',
-			'Transitions_ToOutlinks',
-			'Transitions_ToDownloads',
-			'Transitions_XOfY'
-		);
-		
+		$view->translations = self::$metricTranslations + self::$jsTranslations;
 		echo $view->render();
 	}
 	

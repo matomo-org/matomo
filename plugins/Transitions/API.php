@@ -193,8 +193,19 @@ class Piwik_Transitions_API
 	}
 	
 	private function getReferrerLabel($referrerId) {
-		$name = Piwik_getRefererTypeLabel($referrerId);
-		return Piwik_Translate('Transitions_From', $name);
+		switch ($referrerId)
+		{
+			case Piwik_Common::REFERER_TYPE_DIRECT_ENTRY:
+				return Piwik_Transitions_Controller::getTranslation('directEntries');
+			case Piwik_Common::REFERER_TYPE_SEARCH_ENGINE:
+				return Piwik_Transitions_Controller::getTranslation('fromSearchEngines');
+			case Piwik_Common::REFERER_TYPE_WEBSITE:
+				return Piwik_Transitions_Controller::getTranslation('fromWebsites');
+			case Piwik_Common::REFERER_TYPE_CAMPAIGN:
+				return Piwik_Transitions_Controller::getTranslation('fromCampaigns');
+			default:
+				return Piwik_Translate('General_Others');
+		}
 	}
 	
 }

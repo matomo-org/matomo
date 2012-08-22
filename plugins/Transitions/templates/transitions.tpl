@@ -8,58 +8,31 @@
 			</p>
 			
 			<h3>{'Transitions_IncomingTraffic'|translate}</h3>
-			<p>
-				<span class="Transitions_DirectEntries Transitions_Metric"></span> {'Referers_TypeDirectEntries'|translate:''} 
-				(<span class="Transitions_DirectEntriesPercentage"></span>)
-			</p>
-			<p>
-				<span class="Transitions_PreviousPages Transitions_Metric"></span> {'Transitions_FromInternalPages'|translate} 
-				(<span class="Transitions_PreviousPagesPercentage"></span>)
-			</p>
-			<p>
-				<span class="Transitions_SearchEngines Transitions_Metric"></span> {'Referers_TypeSearchEngines'|translate:''}
-				(<span class="Transitions_SearchEnginesPercentage"></span>)
-			</p>
-			<p>
-				<span class="Transitions_Websites Transitions_Metric"></span> {'Referers_TypeWebsites'|translate:''}
-				(<span class="Transitions_WebsitesPercentage"></span>)
-			</p>
+			<p class="Transitions_DirectEntries">{$translations.directEntriesInline|translate} </p>
+			<p class="Transitions_PreviousPages">{$translations.fromPreviousPagesInline|translate}</p>
+			<p class="Transitions_SearchEngines">{$translations.fromSearchEnginesInline|translate}</p>
+			<p class="Transitions_Websites">{$translations.fromWebsitesInline|translate}</p>
 			
 			<h3>{'Transitions_OutgoingTraffic'|translate}</h3>
-			<p>
-				<span class="Transitions_FollowingPages Transitions_Metric"></span> {'Transitions_ToInternalPages'|translate} 
-				(<span class="Transitions_FollowingPagesPercentage"></span>)
-			</p>
-			<p>
-				<span class="Transitions_Downloads Transitions_Metric"></span> {'VisitsSummary_NbDownloadsDescription'|translate:''} 
-				(<span class="Transitions_DownloadsPercentage"></span>)
-			</p>
-			<p>
-				<span class="Transitions_Outlinks Transitions_Metric"></span> {'VisitsSummary_NbOutlinksDescription'|translate:''} 
-				(<span class="Transitions_OutlinksPercentage"></span>)
-			</p>
-			<p>
-				<span class="Transitions_Exits Transitions_Metric"></span> {'General_ColumnExits'|translate} 
-				(<span class="Transitions_ExitsPercentage"></span>), {'Transitions_Including'|translate}
-			</p>
-			<p>
-				<span class="Transitions_Bounces Transitions_Metric"></span> {'General_ColumnBounces'|translate} 
-				(<span class="Transitions_BouncesPercentage"></span>)
-			</p>
+			<p class="Transitions_FollowingPages">{$translations.toFollowingPagesInline|translate}</p>
+			<p class="Transitions_Downloads">{$translations.downloadsInline|translate}</p>
+			<p class="Transitions_Outlinks">{$translations.outlinksInline|translate}</p>
+			<p class="Transitions_Exits">{$translations.exitsInline|translate}, {'Transitions_Including'|translate}</p>
+			<p class="Transitions_Bounces">{$translations.bouncesInline|translate}</p>
 		</div>
 	</div>
 	<div id="Transitions_Loops" class="Transitions_Text">
-		<span class="Transitions_Loops Transitions_Metric"></span> {'Transitions_Loops'|translate} 
-		(<span class="Transitions_LoopsPercentage"></span>)
+		{$translations.loopsInline|translate} 
 	</div>
 	<canvas id="Transitions_Canvas_Background"></canvas>
 	<canvas id="Transitions_Canvas"></canvas>
 </div>
 
 <script type="text/javascript">
-	var Transitions_Translations = {literal}{{/literal}
-		{foreach from=$addTranslations item=key key=i}{if $i > 0},{/if}
-		"{$key}": "{$key|translate|addslashes}"
+	var Piwik_Transitions_Translations = {literal}{{/literal}
+		{foreach from=$translations key=internalKey item=translationKey}
+			"{$internalKey}": "{$translationKey|translate}",
 		{/foreach}
+		"": ""
 	{literal}}{/literal};
 </script>

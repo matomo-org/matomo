@@ -25,6 +25,7 @@
 	font-family: Arial, Helvetica, sans-serif;
 	word-wrap: break-word;
 	text-align: left;
+	cursor: default;
 }
 
 #Transitions_CenterBox {
@@ -62,6 +63,15 @@
 	font-size: 12px;
 }
 
+.Transitions_CenterBoxMetrics table td {
+	padding: 0 0 5px 0;
+}
+
+.Transitions_CenterBoxMetrics table td.Transitions_Percentage {
+	padding-right: 6px;
+	font-weight: bold;
+}
+
 #Transitions_CenterBox h3 {
 	font-weight: bold;
 	font-size: 12px;
@@ -78,20 +88,22 @@
 	font-size: 12px;
 	display: none;
 	z-index: 1503;
+	cursor: default;
 }
 
 .Transitions_CenterBoxMetrics p {
 	margin: 0 0 5px 0;
 	padding: 0;
+	cursor: default;
 }
 
 .Transitions_CenterBoxMetrics p.Transitions_Margin {
 	margin-bottom: 11px;
 }
 
-#Transitions_Loops .Transitions_Metric,
-.Transitions_CenterBoxMetrics p .Transitions_Metric {
+span.Transitions_Metric {
 	font-weight: bold;
+	cursor: default;
 }
 
 .Transitions_TitleOfOpenGroup {
@@ -143,9 +155,10 @@
 	cursor: default;
 }
 
-body .piwik-tooltip.Transitions_Tooltip_CurveText {
+body .piwik-tooltip.Transitions_Tooltip_Small {
 	font-size: 11px;
 	padding: 3px 5px 3px 6px;
+	background: white;
 }
 
 .Transitions_SingleLine {

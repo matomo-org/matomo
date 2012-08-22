@@ -43,7 +43,7 @@ var Piwik_Tooltip = (function() {
 	return {
 		
 		/** Show the tooltip with HTML content. */
-		show: function(html, addClass) {
+		show: function(html, addClass, maxWidth) {
 			if (domElement === false) {
 				initialize();
 			}
@@ -61,7 +61,11 @@ var Piwik_Tooltip = (function() {
 				domElement.addClass(addClass);
 			}
 			
+			domElement.css({width: 'auto'});
 			domElement.html(html);
+			if (domElement.outerWidth() > maxWidth) {
+				domElement.css({width: maxWidth + 'px'});
+			}
 			
 			if (domElement.outerHeight() < 25) {
 				topOffset = 5;
