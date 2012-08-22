@@ -656,7 +656,7 @@ class Piwik_PDFReports_API
 		if(!in_array($reportType, $reportTypes))
 		{
 			throw new Exception(
-				'Rerport type \'' . $reportType . '\' not valid. Try one of the following ' . implode(', ', $reportTypes)
+				'Report type \'' . $reportType . '\' not valid. Try one of the following ' . implode(', ', $reportTypes)
 			);
 		}
 	}
