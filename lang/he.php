@@ -485,7 +485,6 @@ $translations = array(
 	'VisitsSummary_MaxNbActions' => '%s מספר פעולות מקסימלי בביקור אחד',
 	'VisitsSummary_NbActionsPerVisit' => '%s פעולות בביקור',
 	'VisitsSummary_NbVisitsBounced' => '%s ביקורים קפצו (עזבו את האתר אחרי עמוד אחד)',
-	'VisitsSummary_EvolutionOverLastPeriods' => 'צמיחה ב%s האחרון/ה',
 	'VisitsSummary_GenerateTime' => '%s שניות בכדי לחולל את העמוד',
 	'VisitsSummary_GenerateQueries' => '%s שאילתות בוצעו',
 	'VisitsSummary_WidgetLastVisits' => 'גרף ביקורים אחרונים',
