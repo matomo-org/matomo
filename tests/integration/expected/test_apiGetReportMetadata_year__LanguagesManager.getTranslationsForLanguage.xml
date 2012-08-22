@@ -1681,10 +1681,6 @@
 		<value>Supprimer les rapports plus anciens que</value>
 	</row>
 	<row>
-		<label>PrivacyManager_DeleteReportsInfo</label>
-		<value>Si activé, les anciens rapports seront supprimés. Nous vous recommandons de l'activer seulement quand l'espace de votre base de données est limité.</value>
-	</row>
-	<row>
 		<label>PrivacyManager_DeleteReportsInfo2</label>
 		<value>Si vous n'avez pas activé &quot;%s&quot; les anciens rapports seront recréés automatiquement à la demande.</value>
 	</row>
@@ -4277,14 +4273,6 @@
 		<value>Provenances géographiques</value>
 	</row>
 	<row>
-		<label>UserCountry_WidgetContinents</label>
-		<value>Continents des visiteurs</value>
-	</row>
-	<row>
-		<label>UserCountry_WidgetCountries</label>
-		<value>Pays des visiteurs</value>
-	</row>
-	<row>
 		<label>UserCountry_country_ac</label>
 		<value>Ascension (île)</value>
 	</row>
@@ -6031,10 +6019,6 @@
 	<row>
 		<label>VisitsSummary_NbVisitsBounced</label>
 		<value>%s visiteurs ont survolé (quitté le site après une page)</value>
-	</row>
-	<row>
-		<label>VisitsSummary_EvolutionOverLastPeriods</label>
-		<value>Évolution sur les 30 derniers %s</value>
 	</row>
 	<row>
 		<label>VisitsSummary_GenerateTime</label>
