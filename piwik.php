@@ -18,7 +18,7 @@ if(file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php'))
 	require_once PIWIK_DOCUMENT_ROOT . '/bootstrap.php';
 }
 
-$GLOBALS['PIWIK_TRACKER_MODE'] = true; 
+$GLOBALS['PIWIK_TRACKER_MODE'] = true;
 error_reporting(E_ALL|E_NOTICE);
 @ini_set('xdebug.show_exception_trace', 0);
 @ini_set('magic_quotes_runtime', 0);
