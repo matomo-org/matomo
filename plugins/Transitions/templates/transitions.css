@@ -57,6 +57,14 @@
 	color: #255792;
 }
 
+.Transitions_Pageviews {
+	text-align: center;
+}
+
+.Transitions_OutgoingTraffic {
+	text-align: right;
+}
+
 .Transitions_CenterBoxMetrics {
 	padding: 15px 10px 0 10px;
 	display: none;
@@ -92,9 +100,11 @@
 }
 
 .Transitions_CenterBoxMetrics p {
-	margin: 0 0 5px 0;
+	margin: 0 0 3px 0;
 	padding: 0;
 	cursor: default;
+	font-size: 12px;
+	line-height: 16px;
 }
 
 .Transitions_CenterBoxMetrics p.Transitions_Margin {

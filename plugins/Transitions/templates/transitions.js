@@ -189,18 +189,13 @@ Piwik_Transitions.prototype.renderCenterBox = function() {
 	var box = this.centerBox;
 	box.removeClass('Transitions_Loading');
 
-	box.find('.Transitions_Pageviews').html(this.model.pageviews);
+	Piwik_Transitions_Util.replacePlaceholderInHtml(
+			box.find('.Transitions_Pageviews'), this.model.pageviews);
 
 	var self = this;
 	var showMetric = function(cssClass, modelProperty) {
 		var el = box.find('.Transitions_' + cssClass);
-		var span = el.find('span');
-		if (span.size() == 0) {
-			var html = el.html().replace(/%s/, '<span></span>');
-			el.html(html);
-			span = el.find('span').addClass('Transitions_Metric');
-		}
-		span.html(self.model[modelProperty]);
+		Piwik_Transitions_Util.replacePlaceholderInHtml(el, self.model[modelProperty]);
 		self.addTooltipShowingPercentageOfAllPageviews(el, modelProperty);
 	};
 
@@ -237,13 +232,7 @@ Piwik_Transitions.prototype.renderLoops = function() {
 	}
 	
 	var loops = this.popover.find('#Transitions_Loops').show();
-	
-	var span = loops.find('span');
-	if (span.size() == 0) {
-		var html = loops.html().replace(/%s/g, '<span></span>');
-		span = loops.html(html).find('span').addClass('Transitions_Metric');
-	}
-	span.html(this.model.loops);
+	Piwik_Transitions_Util.replacePlaceholderInHtml(loops, this.model.loops);
 	
 	this.addTooltipShowingPercentageOfAllPageviews(loops, 'loops');
 	
@@ -336,7 +325,7 @@ Piwik_Transitions.prototype.renderOpenGroup = function(groupName, side) {
 		
 		var tooltip = Piwik_Transitions_Translations.XOfY;
 		tooltip = '<b>' + tooltip.replace(/%s/, data.referrals + '</b>').replace(/%s/, nbTransitions);
-		var tooltip = this.model.getShareInGroupTooltip(tooltip, groupName);
+		tooltip = this.model.getShareInGroupTooltip(tooltip, groupName);
 		
 		var fullLabel = label;
 		var shortened = false;
@@ -1065,6 +1054,25 @@ Piwik_Transitions_Util = {
 	/** Add break points to string so that it can be displayed more compactly */
 	addBreakpoints: function(text) {
 		return text.replace(/([\/&=?\.%#:])/g, '$1<wbr>');
+	},
+
+	/**
+	 * Replaces a %s placeholder in the HTML.
+	 * The special feature is that it can be called multiple times, replacing the already
+	 * replaced placeholder again. It creates a span that can be assigned a class using the
+	 * spanClass parameter. The default class is 'Transitions_Metric'.
+	 */ 
+	replacePlaceholderInHtml: function(container, value, spanClass) {
+		var span = container.find('span');
+		if (span.size() == 0) {
+			var html = container.html().replace(/%s/, '<span></span>');
+			span = container.html(html).find('span');
+			if (!spanClass) {
+				spanClass = 'Transitions_Metric';
+			}
+			span.addClass(spanClass);
+		}
+		span.html(value);
 	}
 	
 };
