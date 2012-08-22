@@ -315,6 +315,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 *
 	 * @param array|string  $label      the dimensions(s) you're interested in
 	 * @param string        $where      where clause
+	 * @param bool|array    $metrics    Set this if you want to limit the columns that are returned.
+	 *                                  The possible values in the array are Piwik_Archive::INDEX_*.
 	 * @param bool|string   $orderBy    order by clause
 	 * @param Piwik_RankingQuery  $rankingQuery     pre-configured ranking query instance
 	 * @param bool|string   $joinLogActionOnColumn  column from log_link_visit_action that
@@ -322,8 +324,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * @param bool|string   $addSelect  additional select clause
 	 * @return mixed
 	 */
-	public function queryActionsByDimension($label, $where = '', $orderBy = false, $rankingQuery = null,
-			$joinLogActionOnColumn = false, $addSelect = false)
+	public function queryActionsByDimension($label, $where = '', $metrics = false, $orderBy = false,
+			$rankingQuery = null, $joinLogActionOnColumn = false, $addSelect = false)
 	{
 	    if(is_array($label))
 	    {
@@ -351,12 +353,14 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	    	$where = sprintf($where, "log_link_visit_action", "log_link_visit_action");
 	        $where = ' AND '.$where;
 	    }
-	    
-		// page URLs and page names, general stats
-		$select = "$select,
-				count(distinct log_link_visit_action.idvisit) as `". Piwik_Archive::INDEX_NB_VISITS ."`,
-				count(distinct log_link_visit_action.idvisitor) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`,
-				count(*) as `". Piwik_Archive::INDEX_NB_ACTIONS ."`";
+		
+		$pre = ", \n\t\t\t";
+		if (!$metrics || in_array(Piwik_Archive::INDEX_NB_VISITS, $metrics))
+			$select .= $pre . "count(distinct log_link_visit_action.idvisit) as `". Piwik_Archive::INDEX_NB_VISITS ."`";
+		if (!$metrics || in_array(Piwik_Archive::INDEX_NB_UNIQ_VISITORS, $metrics))
+			$select .= $pre . "count(distinct log_link_visit_action.idvisitor) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`";
+		if (!$metrics || in_array(Piwik_Archive::INDEX_NB_ACTIONS, $metrics))
+			$select .= $pre . "count(*) as `". Piwik_Archive::INDEX_NB_ACTIONS ."`";
 
 		$from = "log_link_visit_action";
 		
@@ -392,6 +396,17 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 				Piwik_Archive::INDEX_NB_VISITS,
 				Piwik_Archive::INDEX_NB_ACTIONS
 			);
+			if ($metrics)
+			{
+				foreach ($sumColumns as $i => $column)
+				{
+					if (!in_array($column, $metrics))
+					{
+						unset($sumColumns[$i]);
+					}			
+				}
+				$sumColumns = array_values($sumColumns);
+			}
 			$rankingQuery->addColumn($sumColumns, 'sum');
 			return $rankingQuery->execute($query['sql'], $query['bind']);
 		}
@@ -406,6 +421,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 *                                Can also be an array of strings, when the dimension spans multiple fields, 
 	 *                                eg. array("referer_name", "referer_keyword")
 	 * @param string        $where    Additional condition for WHERE clause
+	 * @param bool|array    $metrics  Set this if you want to limit the columns that are returned.
+	 *                                The possible values in the array are Piwik_Archive::INDEX_*.
 	 * @param bool|string   $orderBy  ORDER BY clause. This is needed in combination with $rankingQuery.
 	 * @param Piwik_RankingQuery $rankingQuery
 	 *                                A pre-configured ranking query instance that is used to limit the result.
@@ -415,8 +432,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 *                                Set to true if the $label column is generated in $addSelect.
 	 * @return mixed
 	 */
-	public function queryVisitsByDimension($label, $where = '', $orderBy = false, $rankingQuery = null,
-			$addSelect = false, $addSelectGeneratesLabelColumn = false)
+	public function queryVisitsByDimension($label, $where = '', $metrics = false, $orderBy = false,
+			$rankingQuery = null, $addSelect = false, $addSelectGeneratesLabelColumn = false)
 	{
 	    if(is_array($label))
 	    {
@@ -444,15 +461,22 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	        $where = ' AND '.$where;
 	    }
 	    
-	    $select = "$select,
-				count(distinct log_visit.idvisitor) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`,
-				count(*) as `". Piwik_Archive::INDEX_NB_VISITS ."`,
-				sum(log_visit.visit_total_actions) as `". Piwik_Archive::INDEX_NB_ACTIONS ."`,
-				max(log_visit.visit_total_actions) as `". Piwik_Archive::INDEX_MAX_ACTIONS ."`,
-				sum(log_visit.visit_total_time) as `". Piwik_Archive::INDEX_SUM_VISIT_LENGTH ."`,
-				sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `". Piwik_Archive::INDEX_BOUNCE_COUNT ."`,
-				sum(case log_visit.visit_goal_converted when 1 then 1 else 0 end) as `". Piwik_Archive::INDEX_NB_VISITS_CONVERTED ."`";
-	    
+		$pre = ", \n\t\t\t";
+		if (!$metrics || in_array(Piwik_Archive::INDEX_NB_UNIQ_VISITORS, $metrics))
+			$select .= $pre . "count(distinct log_visit.idvisitor) as `". Piwik_Archive::INDEX_NB_UNIQ_VISITORS ."`";
+		if (!$metrics || in_array(Piwik_Archive::INDEX_NB_VISITS, $metrics))
+			$select .= $pre . "count(*) as `". Piwik_Archive::INDEX_NB_VISITS ."`";
+		if (!$metrics || in_array(Piwik_Archive::INDEX_NB_ACTIONS, $metrics))
+			$select .= $pre . "sum(log_visit.visit_total_actions) as `". Piwik_Archive::INDEX_NB_ACTIONS ."`";
+		if (!$metrics || in_array(Piwik_Archive::INDEX_MAX_ACTIONS, $metrics))
+			$select .= $pre . "max(log_visit.visit_total_actions) as `". Piwik_Archive::INDEX_MAX_ACTIONS ."`";
+		if (!$metrics || in_array(Piwik_Archive::INDEX_SUM_VISIT_LENGTH, $metrics))
+			$select .= $pre . "sum(log_visit.visit_total_time) as `". Piwik_Archive::INDEX_SUM_VISIT_LENGTH ."`";
+		if (!$metrics || in_array(Piwik_Archive::INDEX_BOUNCE_COUNT, $metrics))
+			$select .= $pre . "sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `". Piwik_Archive::INDEX_BOUNCE_COUNT ."`";
+		if (!$metrics || in_array(Piwik_Archive::INDEX_NB_VISITS_CONVERTED, $metrics))
+			$select .= $pre . "sum(case log_visit.visit_goal_converted when 1 then 1 else 0 end) as `". Piwik_Archive::INDEX_NB_VISITS_CONVERTED ."`";
+		
 		if ($addSelect && !$addSelectGeneratesLabelColumn) {
 			$select .= ', '.$addSelect;
 		}
@@ -475,8 +499,22 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 				Piwik_Archive::INDEX_NB_ACTIONS, Piwik_Archive::INDEX_SUM_VISIT_LENGTH,
 				Piwik_Archive::INDEX_BOUNCE_COUNT, Piwik_Archive::INDEX_NB_VISITS_CONVERTED
 			);
+			if ($metrics)
+			{
+				foreach ($sumColumns as $i => $column)
+				{
+					if (!in_array($column, $metrics))
+					{
+						unset($sumColumns[$i]);
+					}			
+				}
+				$sumColumns = array_values($sumColumns);
+			}
 			$rankingQuery->addColumn($sumColumns, 'sum');
-			$rankingQuery->addColumn(Piwik_Archive::INDEX_MAX_ACTIONS, 'max');
+			if (!$metrics || in_array(Piwik_Archive::INDEX_MAX_ACTIONS, $metrics))
+			{
+				$rankingQuery->addColumn(Piwik_Archive::INDEX_MAX_ACTIONS, 'max');
+			}
 			return $rankingQuery->execute($query['sql'], $query['bind']);
 		}
 		

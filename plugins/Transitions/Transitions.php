@@ -88,8 +88,9 @@ class Piwik_Transitions extends Piwik_Plugin
 		$orderBy = '`'.Piwik_Archive::INDEX_NB_VISITS.'` DESC';
 		$where = 'visit_entry_idaction_url = '.intval($idaction);
 		
-		$data = $archiveProcessing->queryVisitsByDimension($dimension, $where, $orderBy, $rankingQuery,
-					$select, $selectGeneratesLabelColumn = true);
+		$metrics = array(Piwik_Archive::INDEX_NB_VISITS);
+		$data = $archiveProcessing->queryVisitsByDimension($dimension, $where, $metrics, $orderBy,
+					$rankingQuery, $select, $selectGeneratesLabelColumn = true);
 		
 		$referrerData = array();
 		$referrerSubData = array();
@@ -150,7 +151,8 @@ class Piwik_Transitions extends Piwik_Plugin
 		
 		$orderBy = '`'.Piwik_Archive::INDEX_NB_ACTIONS.'` DESC';
 		
-		$data = $archiveProcessing->queryActionsByDimension(array($dimension), $where, $orderBy,
+		$metrics = array(Piwik_Archive::INDEX_NB_ACTIONS);
+		$data = $archiveProcessing->queryActionsByDimension(array($dimension), $where, $metrics, $orderBy,
 					$rankingQuery, $dimension, $addSelect);
 		
 		$previousPagesDataTable = new Piwik_DataTable;
@@ -206,7 +208,8 @@ class Piwik_Transitions extends Piwik_Plugin
 		
 		$orderBy = '`'.Piwik_Archive::INDEX_NB_ACTIONS.'` DESC';
 		
-		$data = $archiveProcessing->queryActionsByDimension(array($dimension), $where, $orderBy, 
+		$metrics = array(Piwik_Archive::INDEX_NB_ACTIONS);
+		$data = $archiveProcessing->queryActionsByDimension(array($dimension), $where, $metrics, $orderBy, 
 					$rankingQuery, $dimension, $addSelect);
 		
 		$dataTables = array();
