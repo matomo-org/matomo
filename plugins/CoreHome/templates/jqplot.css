@@ -5,34 +5,6 @@
 	z-index: 10;
 }
 
-.jqplot-tooltip {
-	position: absolute;
-	z-index: 2000;
-	text-align: left;
-	background: #f7f7f7;
-	color: #444;
-	font-size: 12px;
-	font-weight: normal; 
-	border: 1px solid #e4e5e4;
-	padding: 5px 10px 6px 10px;
-	border-radius: 4px;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px; 
-	-moz-box-shadow: 1px 1px 2px #666;
-	-webkit-box-shadow: 1px 1px 2px #666;
-	box-shadow: 1px 1px 2px #666;
-	white-space: nowrap;
-}
-
-.jqplot-highlighter-tooltip .jqplot-tooltip {
-	position: relative;
-}
-
-.jqplot-tooltip .tip-title {
-	font-weight: bold;
-	color: #7E7363;
-}
-
 .jqplot-target {
     position: relative;
     color: #333;
