@@ -68,7 +68,11 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	
 	public function enableShowExportAsImageIcon()
 	{
-		$this->viewProperties['show_export_as_image_icon'] = true;
+		// If user passed 0 or 1 in request, value is not overwritten. false is default
+		if (false === $this->viewProperties['show_export_as_image_icon'])
+		{
+			$this->viewProperties['show_export_as_image_icon'] = true;
+		}
 	}
 	
 	public function addRowEvolutionSeriesToggle($initiallyShowAllMetrics) {
