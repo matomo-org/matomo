@@ -242,6 +242,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 		FakeAccess::$superUser = true;
 		Zend_Registry::set('access', $pseudoMockAccess);
 
+        Piwik_LanguagesManager_API::getInstance()->setLanguageForUser('superUserLogin', 'en');
+
 		// all available reports
 		$reports = array(
 			// All Websites
