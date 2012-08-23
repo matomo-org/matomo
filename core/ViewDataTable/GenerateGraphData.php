@@ -91,7 +91,14 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 	{
 		// the array contains values if enableShowGoals() has been used
 		// add $columnsNames to the beginning of the array
-		$this->selectableColumns = array_merge($columnsNames, $this->selectableColumns);
+		if (Piwik_Common::getRequestVar('seriesPicker', true))
+		{
+			$this->selectableColumns = array_merge($columnsNames, $this->selectableColumns);
+		}
+		else
+		{
+			$this->selectableColumns = array();
+		}
 	}
 	
 	/**
