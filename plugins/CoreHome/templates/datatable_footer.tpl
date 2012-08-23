@@ -99,7 +99,7 @@
 {/if}
 
 <div class="datatableRelatedReports">
-	{if !empty($properties.relatedReports) && (!empty($arrayDataTable) || !empty($cloudValues) || (isset($isDataAvailable) && $isDataAvailable))}
+	{if !empty($properties.relatedReports) && (!empty($arrayDataTable) || !empty($cloudValues) || (isset($isDataAvailable) && $isDataAvailable)) && $properties.show_related_reports}
 		{if count($properties.relatedReports) == 1}{'General_RelatedReport'|translate}{else}{'General_RelatedReports'|translate}{/if}:
 		<ul style="list-style:none;{if count($properties.relatedReports) == 1}display:inline-block;{/if}">
 			<li><span href="{$properties.self_url}" style="display:none;">{$properties.title}</span></li>
