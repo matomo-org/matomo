@@ -109,11 +109,20 @@ class Piwik_Transitions_API
 		}
 		
 		$row = $dataTable->getFirstRow();
-		$report['pageMetrics'] = array(
-			'pageviews' => intval($row->getColumn('nb_hits')),
-			'exits' => intval($row->getColumn('exit_nb_visits')),
-			'bounces' => intval($row->getColumn('entry_bounce_count'))
-		);
+
+        if ($row !== false) {
+            $report['pageMetrics'] = array(
+                'pageviews' => intval($row->getColumn('nb_hits')),
+                'exits'     => intval($row->getColumn('exit_nb_visits')),
+                'bounces'   => intval($row->getColumn('entry_bounce_count'))
+            );
+        } else {
+            $report['pageMetrics'] = array(
+                'pageviews' => 0,
+                'exits'     => 0,
+                'bounces'   => 0
+            );
+        }
 	}
 
 	/**

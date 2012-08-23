@@ -63,7 +63,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
         // Load and install plugins
         $pluginsManager = Piwik_PluginsManager::getInstance();
-        $plugins = Piwik_Config::getInstance()->Plugins['Plugins'];
+        $plugins = $pluginsManager->readPluginsDirectory();
 
         $pluginsManager->loadPlugins( $plugins );
         $pluginsManager->installLoadedPlugins();
@@ -120,6 +120,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         'ExampleAPI',
         'PDFReports',
         'MobileMessaging',
+        'Transitions',
         'API',
         'ImageGraph',
     );
