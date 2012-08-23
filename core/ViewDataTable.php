@@ -67,6 +67,14 @@ abstract class Piwik_ViewDataTable
 	 * @var array
 	 */
 	protected $viewProperties = array();
+
+	/**
+	 * Array of properties that override default plot properties
+	 * Used to manipulate plot parameters, eg. canvasLegend
+	 *
+	 * @var array
+	 */
+	protected $plotProperties = array();
 	
 	/**
 	 * If the current dataTable refers to a subDataTable (eg. keywordsBySearchEngineId for id=X) this variable is set to the Id
@@ -312,6 +320,9 @@ abstract class Piwik_ViewDataTable
 		$this->viewProperties['title'] = 'unknown';
 		$this->viewProperties['self_url'] = $this->getBaseReportUrl($currentControllerName, $currentControllerAction);
 		$this->viewProperties['tooltip_metadata_name'] = false;
+
+		// Read plot properties
+		$this->plotProperties['canvasLegend']['show'] = (bool) Piwik_Common::getRequestVar('show_canvas_legend', true);
 		
 		$standardColumnNameToTranslation = array_merge(
 			Piwik_API_API::getInstance()->getDefaultMetrics(),

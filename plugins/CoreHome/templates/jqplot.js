@@ -330,9 +330,10 @@ JQPlot.prototype = {
 		this.params.legend = {
 			show: false
 		};
-		this.params.canvasLegend = {
+		var canvasLegend = {
 			show: true
 		};
+		this.params.canvasLegend = $.extend({}, canvasLegend, this.params.canvasLegend);
 	},
 	
 	showEvolutionChartTooltip: function(i) {
@@ -383,10 +384,12 @@ JQPlot.prototype = {
 		this.params.pieLegend = {
 			show: true
 		};
-		this.params.canvasLegend = {
+
+		var canvasLegend = {
 			show: true,
 			singleMetric: true
 		};
+		this.params.canvasLegend = $.extend({}, canvasLegend, this.params.canvasLegend);
 		
 		// pie charts have a different data format
 		if (!(this.data[0][0] instanceof Array)) { // check if already in different format
@@ -438,9 +441,10 @@ JQPlot.prototype = {
 			showGridline: false
 		};
 		
-		this.params.canvasLegend = {
+		var canvasLegend = {
 			show: true
 		};
+		this.params.canvasLegend = $.extend({}, canvasLegend, this.params.canvasLegend);
 	},
 	
 	showBarChartTooltip: function(s, i) {
