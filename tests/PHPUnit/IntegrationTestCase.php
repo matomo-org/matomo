@@ -73,6 +73,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
         // Make sure translations are loaded to check messages in English
         Piwik_Translate::getInstance()->loadEnglishTranslation();
+        Piwik_LanguagesManager_API::getInstance()->setLanguageForUser('superUserLogin', 'en');
 
         // List of Modules, or Module.Method that should not be called as part of the XML output compare
         // Usually these modules either return random changing data, or are already tested in specific unit tests.
@@ -103,6 +104,11 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
         // re-enable tag cloud shuffling
         Piwik_Visualization_Cloud::$debugDisableShuffle = true;
+    }
+
+    public function setUp()
+    {
+        $this->changeLanguage('en');
     }
 
     protected static $apiToCall = array();
@@ -240,8 +246,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 		$pseudoMockAccess = new FakeAccess;
 		FakeAccess::$superUser = true;
 		Zend_Registry::set('access', $pseudoMockAccess);
-
-        Piwik_LanguagesManager_API::getInstance()->setLanguageForUser('superUserLogin', 'en');
 
 		// all available reports
 		$reports = array(
