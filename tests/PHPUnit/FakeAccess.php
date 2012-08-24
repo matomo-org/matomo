@@ -90,6 +90,12 @@ class FakeAccess
 				$idSites = explode(',', $idSites);
 			}
         }
+        
+        if (empty($websitesAccess))
+        {
+        	throw new Exception("checkUserHasViewAccess Fake exception // string not to be tested");
+        }
+        
         foreach($idSites as $idsite)
         {
             if(!in_array($idsite, $websitesAccess))

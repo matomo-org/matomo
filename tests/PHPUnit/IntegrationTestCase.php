@@ -103,7 +103,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
         // re-enable tag cloud shuffling
         Piwik_Visualization_Cloud::$debugDisableShuffle = true;
-
     }
 
     protected static $apiToCall = array();
@@ -444,6 +443,22 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 	{
 		return self::getRootUrl().'tests/PHPUnit/proxy/piwik.php';
 	}
+
+	/**
+	 * Returns the super user token auth that can be used in tests. Can be used to
+	 * do bulk tracking.
+	 * 
+	 * @return string
+	 */
+	public static function getTokenAuth()
+	{
+        // get token auth
+	    $pwd = Zend_Registry::get('config')->superuser->password;
+	    if(strlen($pwd) != 32) $pwd = md5($pwd);
+	    
+	    return Piwik_UsersManager_API::getInstance()->getTokenAuth(
+	        Zend_Registry::get('config')->superuser->login, $pwd);
+    }
 
     /**
      * Given a list of default parameters to set, returns the URLs of APIs to call

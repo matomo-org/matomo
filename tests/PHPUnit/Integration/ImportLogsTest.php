@@ -21,12 +21,7 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
     {
         parent::setUpBeforeClass();
         try {
-            // get token auth
-		    $pwd = Zend_Registry::get('config')->superuser->password;
-		    if(strlen($pwd) != 32) $pwd = md5($pwd);
-		
-		    self::$tokenAuth = Piwik_UsersManager_API::getInstance()->getTokenAuth(
-		        Zend_Registry::get('config')->superuser->login, $pwd);
+		    self::$tokenAuth = self::getTokenAuth();
             
             self::setUpWebsitesAndGoals();
             self::trackVisits();

@@ -39,7 +39,7 @@ class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
      */
     public function testFlagsAndContinents()
     {
-        require_once PIWIK_PATH_TEST_TO_ROOT . '/core/DataFiles/Countries.php';
+        require PIWIK_PATH_TEST_TO_ROOT . '/core/DataFiles/Countries.php';
 
         $continents = $GLOBALS['Piwik_ContinentList'];
         $countries = array_merge($GLOBALS['Piwik_CountryList'], $GLOBALS['Piwik_CountryList_Extras']);
