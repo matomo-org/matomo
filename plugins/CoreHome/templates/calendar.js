@@ -270,7 +270,7 @@ $(document).ready(function() {
 		}
 	};
 	
-	updateDate = function (dateText, inst)
+	updateDate = function (dateText)
 	{
 		piwikHelper.showAjaxLoading('ajaxLoadingCalendar');
 		var date = dateText;
@@ -376,6 +376,17 @@ $(document).ready(function() {
 	    var request_URL = $(e.target).val(),
 	    	period = broadcast.getValueFromUrl('period', request_URL),
 	    	lastPeriod = selectedPeriod;
+	    
+	    // if clicking on the selected period, change the period but not the date
+	    if (selectedPeriod == period)
+	    {
+	    	if (piwik.period != selectedPeriod) // only reload if current period is different from selected
+	    	{
+	    		selectedPeriod = period;
+	    		updateDate(piwik.currentDateString);
+	    	}
+	    	return true;
+	    }
 	    
 	    // switch the selected period
 		selectedPeriod = period;
