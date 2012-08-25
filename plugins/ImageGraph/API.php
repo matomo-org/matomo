@@ -97,7 +97,7 @@ class Piwik_ImageGraph_API
 	public function get($idSite, $period, $date, $apiModule, $apiAction, $graphType = false,
 						$outputType = Piwik_ImageGraph_API::GRAPH_OUTPUT_INLINE, $column = false, $showMetricTitle = true,
 						$width = false, $height = false, $fontSize = Piwik_ImageGraph_API::DEFAULT_FONT_SIZE, $aliasedGraph = true,
-						$idGoal = false, $colors = false)
+						$idGoal = false, $colors = false, $idSubtable = false)
 	{
 		Piwik::checkUserHasViewAccess($idSite);
 
@@ -128,7 +128,9 @@ class Piwik_ImageGraph_API
 				$apiParameters = array( 'idGoal' => $idGoal);
 			}
 			// Fetch the metadata for given api-action
-			$metadata = Piwik_API_API::getInstance()->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $languageLoaded, $period, $date);
+			$metadata = Piwik_API_API::getInstance()->getMetadata(
+				$idSite, $apiModule, $apiAction, $apiParameters, $languageLoaded, $period, $date,
+				$hideMetricsDoc = false, $showSubtableReports = true);
 			if(!$metadata)
 			{
 				throw new Exception('Invalid API Module and/or API Action');
@@ -264,7 +266,10 @@ class Piwik_ImageGraph_API
 				$segment = false,
 				$apiParameters = false, 
 				$idGoal, 
-				$languageLoaded
+				$languageLoaded,
+				$showTimer = true,
+				$hideMetricsDoc = false,
+				$idSubtable
 			);
 			// prepare abscissa and ordinate series
 			$abscissaSerie = array();
