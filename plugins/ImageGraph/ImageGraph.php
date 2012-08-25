@@ -128,6 +128,13 @@ class Piwik_ImageGraph extends Piwik_Plugin
 				$parameters['date'] = $dateForSinglePeriodGraph;
 			}
 			
+			// add the idSubtable if it exists
+			$idSubtable = Piwik_Common::getRequestVar('idSubtable', false);
+			if ($idSubtable !== false)
+			{
+				$parameters['idSubtable'] = $idSubtable;
+			}
+			
 			$report['imageGraphUrl'] = $urlPrefix . Piwik_Url::getQueryStringFromParameters($parameters);
 		}
 			

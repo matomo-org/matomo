@@ -36,7 +36,7 @@
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariablesValuesFromNameId&amp;period=day&amp;date=2010-01-03</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariablesValuesFromNameId&amp;period=day&amp;date=2010-01-03&amp;idSubtable=8</imageGraphUrl>
 		<uniqueId>CustomVariables_getCustomVariablesValuesFromNameId</uniqueId>
 
 	</metadata>
