@@ -302,9 +302,11 @@ abstract class Piwik_ViewDataTable
 		$this->viewProperties['show_pagination_control'] = Piwik_Common::getRequestVar('show_pagination_control', true);
 		$this->viewProperties['show_footer'] = Piwik_Common::getRequestVar('show_footer', true);
 		$this->viewProperties['show_footer_icons'] = ($this->idSubtable == false);
+		$this->viewProperties['show_related_reports'] = Piwik_Common::getRequestVar('show_related_reports', true);
 		$this->viewProperties['apiMethodToRequestDataTable'] = $this->apiMethodToRequestDataTable;
 		$this->viewProperties['uniqueId'] = $this->getUniqueIdViewDataTable();
 		$this->viewProperties['exportLimit'] = Piwik_Config::getInstance()->General['API_datatable_default_limit'];
+
 		$this->viewProperties['highlight_summary_row'] = false;
 		$this->viewProperties['metadata'] = array();
 		
@@ -972,6 +974,14 @@ abstract class Piwik_ViewDataTable
 	public function disableTagCloud()
 	{
 		$this->viewProperties['show_tag_cloud'] = false;
+	}
+
+	/**
+	 * Whether or not to show related reports in the footer
+	 */
+	public function disableShowRelatedReports()
+	{
+		$this->viewProperties['show_related_reports'] = false;
 	}
 
 	/**
