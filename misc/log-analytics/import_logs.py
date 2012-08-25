@@ -650,10 +650,11 @@ Performance summary
         latest_total_recorded = 0
         while not self.monitor_stop:
             current_total = stats.count_lines_recorded.value
+            time_elapsed = time.time() - self.time_start
             print '%d lines parsed, %d lines recorded, %d records/sec (avg), %d records/sec (current)' % (
                 stats.count_lines_parsed.value,
                 current_total,
-                current_total / (time.time() - self.time_start),
+                current_total / time_elapsed if time_elapsed != 0 else 0,
                 current_total - latest_total_recorded
             )
             latest_total_recorded = current_total
