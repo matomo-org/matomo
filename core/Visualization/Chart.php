@@ -27,6 +27,9 @@ abstract class Piwik_Visualization_Chart implements Piwik_View_Interface
 	protected $tooltip = array();
 	protected $seriesColors = array('#000000');
 	protected $seriesPicker = array();
+
+	// additional jqplot properties that can be customized via request parameter
+	protected $customPlotProperties = array();
 	
 	// other attributes (not directly used for jqplot)
 	protected $maxValue;
@@ -160,16 +163,23 @@ abstract class Piwik_Visualization_Chart implements Piwik_View_Interface
 		$this->showAllTicks = true;
 	}
 
+	public function setCustomPlotProperties($plotProperties)
+	{
+		$this->customPlotProperties = $plotProperties;
+	}
+
 	public function render()
 	{
 		Piwik::overrideCacheControlHeaders();
 		
-		$data = array(
-			'params' => array(
+		$params = array_merge(
+			array(
 				'axes' => &$this->axes,
 				'series' => &$this->series,
-				'seriesColors' => &$this->seriesColors
-			),
+				'seriesColors' => &$this->seriesColors,
+			), $this->customPlotProperties);
+		$data = array(
+			'params' => $params,
 			'data' => &$this->data,
 			'tooltip' => &$this->tooltip,
 			'seriesPicker' => &$this->seriesPicker

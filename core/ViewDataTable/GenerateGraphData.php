@@ -231,6 +231,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		$this->view->setAxisYLabels($columnNameToTranslation);
 		$this->view->setAxisYUnit($this->yAxisUnit);
 		$this->view->setDisplayPercentageInTooltip($this->displayPercentageInTooltip);
+		$this->view->setCustomPlotProperties($this->plotProperties);
 		
 		// show_all_ticks is not real query param, it is set by GenerateGraphHTML.
 		if (Piwik_Common::getRequestVar('show_all_ticks', 0) == 1)
