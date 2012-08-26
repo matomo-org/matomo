@@ -37,6 +37,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		
 		var parameters = {};
 	 	var siteName = $(row).find('input#name').val();
+	 	var group = $(row).find('input#group').val();
 	 	var urls =  $(row).find('textarea#urls').val();
 		urls = getApiFormatUrls(urls);
 		var excludedIps = $(row).find('textarea#excludedIps').val();
@@ -53,6 +54,8 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		request += '&method=SitesManager.addSite';
 		siteName = encodeURIComponent(siteName);
 		request += '&siteName='+siteName;
+		group = encodeURIComponent(group);
+		request += '&group='+group;
 		request += '&timezone='+timezone;
 		request += '&currency='+currency;
 		request += '&ecommerce='+ecommerce;
@@ -81,6 +84,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		ajaxRequest.type = 'POST';
 		
 		var siteName = $(row).find('input#siteName').val();
+		var group = $(row).find('input#group').val();
 		var idSite = $(row).children('#idSite').html();
 		var urls = $(row).find('textarea#urls').val();
 		urls = getApiFormatUrls(urls);
@@ -97,6 +101,8 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		request += '&method=SitesManager.updateSite';
 		siteName = encodeURIComponent(siteName);
 		request += '&siteName='+siteName;
+		group = encodeURIComponent(group);
+		request += '&group='+group;
 		request += '&idSite='+idSite;
 		request += '&timezone='+timezone;
 		request += '&currency='+currency;
@@ -144,6 +150,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		$(' <tr id="'+newRowId+'">\
 				<td>&nbsp;</td>\
 				<td><input id="name" value="Name" size="15" /><br/><br/><br/>'+submitButtonHtml+'</td>\
+				<td><input id="group" value="Group Name" size="15" />'+groupHelp+'</td>\
 				<td><textarea cols="25" rows="3" id="urls">http://siteUrl.com/\nhttp://siteUrl2.com/</textarea><br />'+aliasUrlsHelp+'</td>\
 				<td><textarea cols="20" rows="4" id="excludedIps"></textarea><br />'+excludedIpHelp+'</td>\
 				<td><textarea cols="20" rows="4" id="excludedQueryParameters"></textarea><br />'+excludedQueryParametersHelp+'</td>\
@@ -220,6 +227,12 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 							.keypress( submitSiteOnEnter )
 							.append(inputSave)
 							.append(spanCancel);
+					}
+					else if(idName == 'group')
+					{
+						var contentAfter = '<input id="group" value="'+piwikHelper.htmlEntities(contentBefore)+'" size="15" /">';
+						contentAfter += '<br />'+groupHelp;
+						$(n).html(contentAfter);
 					}
 					else if(idName == 'urls')
 					{
