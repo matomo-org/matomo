@@ -195,7 +195,17 @@ function getDatePickerOptions()
 
 $(document).ready(function() {
 	
-	var datepickerElem = $('#datepicker').datepicker(getDatePickerOptions());
+	var datepickerElem = $('#datepicker').datepicker(getDatePickerOptions()),
+		periodLabels = $('#periodString .period-type label'),
+		periodTooltip = $('#periodString .period-click-tooltip').html();
+	
+	var setPeriodClickTooltip = function($input, period)
+	{
+		if (period != piwik.period) // don't add tooltip for current period
+		{
+			$input.parent().find('label[for=period_id_'+period+']').attr('title', periodTooltip);
+		}
+	};
 	
 	var toggleWhitespaceHighlighting = function (klass, toggleTop, toggleBottom)
 	{
@@ -391,11 +401,17 @@ $(document).ready(function() {
 	    // switch the selected period
 		selectedPeriod = period;
 		
+		// remove tooltips from the period inputs
+		periodLabels.each(function() { $(this).attr('title', ''); });
+		
 		// range periods are handled in an event handler below
 	    if (period == 'range')
 	    {
 	    	return true;
 	    }
+	    
+	    // set the tooltip of the current period
+	    setPeriodClickTooltip($(this), period);
 	    
 	    // toggle the right selector controls (show period selector datepicker & hide 'apply range' button)
 	    togglePeriodPickers(true);
@@ -519,10 +535,15 @@ $(document).ready(function() {
 		  return !isNaN(d.getTime());
 		}
 	
-	 var period = broadcast.getValueFromUrl('period');
-	 if(period == 'range') { 
-		 $("#period_id_range").click();
-	 }
+	var period = broadcast.getValueFromUrl('period');
+	if (period == 'range')
+	{
+		$("#period_id_range").click();
+	}
+	else
+	{
+		setPeriodClickTooltip($('#period_id_' + period), period);
+	}
 });
 
 }(jQuery));

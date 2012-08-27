@@ -337,6 +337,7 @@ $translations = array(
 	'General_Rows' => 'Rows',
 	'General_GeneralInformation' => 'General Information',
 	'General_ReportGeneratedFrom' => 'This report was generated using data from %s.',
+	'General_ClickToChangePeriod' => 'Click again to change the period.',
 	'Actions_PluginDescription' => 'Reports about the page views, the outlinks and downloads. Outlinks and Downloads tracking is automatic!',
 	'Actions_Actions' => 'Actions',
 	'Actions_SubmenuPages' => 'Pages',

@@ -29,4 +29,5 @@
 			{ajaxLoadingDiv id=ajaxLoadingCalendar}
 		</div>
 	</div>
+	<div class="period-click-tooltip" style="display:none;">{'General_ClickToChangePeriod'|translate}</div>
 </div>
