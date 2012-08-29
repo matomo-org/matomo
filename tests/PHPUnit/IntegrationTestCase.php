@@ -238,63 +238,21 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 	 * Create one MAIL and two MOBILE scheduled reports
 	 *
 	 * @param int $idSite id of website created
-	 * @param boolean $ecommerce if true, ecommerce reports are included
 	 */
-	protected static function setUpScheduledReports($idSite, $ecommerce = false)
+	protected static function setUpScheduledReports($idSite)
 	{
 		// fake access is needed so API methods can call Piwik::getCurrentUserLogin(), e.g: 'PDFReports.addReport'
 		$pseudoMockAccess = new FakeAccess;
 		FakeAccess::$superUser = true;
 		Zend_Registry::set('access', $pseudoMockAccess);
 
-		// all available reports
-		$reports = array(
-			// All Websites
-			"MultiSites_getAll",
+		// retrieve available reports
+		$availableReportMetadata = Piwik_PDFReports_API::getReportMetadata($idSite, Piwik_PDFReports::EMAIL_TYPE);
 
-			// Visits Summary
-			"VisitsSummary_get", "VisitTime_getVisitInformationPerServerTime",
-			"VisitTime_getVisitInformationPerLocalTime", "VisitTime_getByDayOfWeek",
-
-			// Actions
-			"Actions_get", "Actions_getPageUrls", "Actions_getEntryPageUrls", "Actions_getExitPageUrls",
-			"Actions_getPageTitles", "Actions_getEntryPageTitles", "Actions_getExitPageTitles",
-			"Actions_getOutlinks", "Actions_getDownloads",
-
-			// Referrers
-			"Referers_getRefererType", "Referers_getKeywords", "Referers_getWebsites", "Referers_getSearchEngines",
-			"Referers_getCampaigns",
-
-			// Goals
-			"Goals_get", "Goals_getVisitsUntilConversion", "Goals_getDaysToConversion",
-
-			// Visitors
-			"UserCountry_getCountry", "UserCountry_getContinent", "CustomVariables_getCustomVariables",
-			"VisitorInterest_getNumberOfVisitsPerVisitDuration", "VisitorInterest_getNumberOfVisitsPerPage",
-			"VisitorInterest_getNumberOfVisitsByVisitCount", "VisitorInterest_getNumberOfVisitsByDaysSinceLast",
-			"VisitFrequency_get", "Provider_getProvider",
-
-			// Visitor Settings
-			"UserSettings_getResolution", "UserSettings_getBrowser", "UserSettings_getBrowserVersion",
-			"UserSettings_getBrowserType", "UserSettings_getPlugin", "UserSettings_getWideScreen",
-			"UserSettings_getOS", "UserSettings_getConfiguration", "UserSettings_getOSFamily",
-			"UserSettings_getMobileVsDesktop"
-		);
-
-		if($ecommerce)
+		$availableReportIds = array();
+		foreach($availableReportMetadata as $reportMetadata)
 		{
-			$reports = array_merge(
-				$reports,
-
-				// Ecommerce
-				array(
-					"Goals_get_idGoal--ecommerceOrder", "Goals_getVisitsUntilConversion_idGoal--ecommerceOrder",
-					"Goals_getDaysToConversion_idGoal--ecommerceOrder", "Goals_get_idGoal--ecommerceAbandonedCart",
-					"Goals_getVisitsUntilConversion_idGoal--ecommerceAbandonedCart",
-					"Goals_getDaysToConversion_idGoal--ecommerceAbandonedCart", "Goals_getItemsSku", "Goals_getItemsName",
-					"Goals_getItemsCategory",
-				)
-			);
+			$availableReportIds[] = $reportMetadata['uniqueId'];
 		}
 
 		// set-up mail report
@@ -304,7 +262,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 			'day', // overridden in getApiForTestingScheduledReports()
 			Piwik_PDFReports::EMAIL_TYPE,
 			Piwik_ReportRenderer::HTML_FORMAT, // overridden in getApiForTestingScheduledReports()
-			$reports,
+			$availableReportIds,
 			array("displayFormat"=>Piwik_PDFReports::DISPLAY_FORMAT_TABLES_AND_GRAPHS)
 		);
 
@@ -351,6 +309,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 					'date' => $dateTime,
 					'periods' => array($period),
 					'format' => 'original',
+					'fileExtension' => 'html',
 					'otherRequestParameters' => array(
 						'idReport' => 1,
 						'reportFormat' => Piwik_ReportRenderer::HTML_FORMAT,
@@ -366,6 +325,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 					'date' => $dateTime,
 					'periods' => array($period),
 					'format' => 'original',
+					'fileExtension' => 'pdf',
 					'otherRequestParameters' => array(
 						'idReport' => 1,
 						'reportFormat' => Piwik_ReportRenderer::PDF_FORMAT,
@@ -381,6 +341,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 					'date' => $dateTime,
 					'periods' => array($period),
 					'format' => 'original',
+					'fileExtension' => 'sms.txt',
 					'otherRequestParameters' => array(
 						'idReport' => 2,
 						'outputType' => Piwik_PDFReports_API::OUTPUT_RETURN
@@ -395,6 +356,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 					'date' => $dateTime,
 					'periods' => array($period),
 					'format' => 'original',
+					'fileExtension' => 'sms.txt',
 					'otherRequestParameters' => array(
 						'idReport' => 3,
 						'outputType' => Piwik_PDFReports_API::OUTPUT_RETURN
@@ -475,10 +437,11 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      * @param bool        $setDateLastN    If set to true, the 'date' parameter will be rewritten to query instead a range of dates, rather than one period only.
      * @param bool|string $language        2 letter language code, defaults to default piwik language
      * @param bool|string $segment
+     * @param bool|string $fileExtension
      *
      * @return array of API URLs query strings
      */
-    protected function generateUrlsApi( $parametersToSet, $formats, $periods, $supertableApi = false, $setDateLastN = false, $language = false, $segment = false )
+    protected function generateUrlsApi( $parametersToSet, $formats, $periods, $supertableApi = false, $setDateLastN = false, $language = false, $segment = false, $fileExtension = false )
     {
         // Get the URLs to query against the API for all functions starting with get*
         $skipped = $requestUrls = array();
@@ -595,6 +558,11 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
                         $apiRequestId .= '.' . $format;
 
+						if($fileExtension)
+						{
+							$apiRequestId .= '.' . $fileExtension;
+						}
+
                         $requestUrls[$apiRequestId] = $exampleUrl;
                     }
                 }
@@ -619,12 +587,15 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      * @param bool              $apiModule
      * @param bool              $apiAction
      * @param array             $otherRequestParameters
+     * @param array             $supertableApi
+     * @param array             $fileExtension
      *
      * @return array
      */
     protected function _generateApiUrls($formats = 'xml', $idSite = false, $dateTime = false, $periods = false,
-                                         $setDateLastN = false, $language = false, $segment = false, $visitorId = false, $abandonedCarts = false,
-                                         $idGoal = false, $apiModule = false, $apiAction = false, $otherRequestParameters = array(), $supertableApi = false)
+										 $setDateLastN = false, $language = false, $segment = false, $visitorId = false,
+										 $abandonedCarts = false, $idGoal = false, $apiModule = false, $apiAction = false,
+										 $otherRequestParameters = array(), $supertableApi = false, $fileExtension = false)
     {
         list($pathProcessed, $pathExpected) = $this->getProcessedAndExpectedDirs();
 
@@ -689,7 +660,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             $parametersToSet['idGoal'] = $idGoal;
         }
 
-        $requestUrls = $this->generateUrlsApi($parametersToSet, $formats, $periods, $supertableApi, $setDateLastN, $language, $segment);
+        $requestUrls = $this->generateUrlsApi($parametersToSet, $formats, $periods, $supertableApi, $setDateLastN, $language, $segment, $fileExtension);
         return $requestUrls;
     }
 
@@ -949,7 +920,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                     isset($params['apiModule']) ? $params['apiModule'] : false,
                     isset($params['apiAction']) ? $params['apiAction'] : false,
                     isset($params['otherRequestParameters']) ? $params['otherRequestParameters'] : array(),
-                    isset($params['supertableApi']) ? $params['supertableApi'] : false);
+                    isset($params['supertableApi']) ? $params['supertableApi'] : false,
+                    isset($params['fileExtension']) ? $params['fileExtension'] : false);
 
         foreach($requestUrls as $apiId => $requestUrl)
         {
