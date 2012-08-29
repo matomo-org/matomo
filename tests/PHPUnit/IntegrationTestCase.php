@@ -378,10 +378,10 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $expectedResponse = base64_decode($trans_gif_64);
         self::assertEquals($expectedResponse, $response, "Expected GIF beacon, got: <br/>\n" . $response ."<br/>\n");
     }
-	
+
 	/**
 	 * Returns URL to Piwik root.
-	 * 
+	 *
 	 * @return string
 	 */
 	protected static function getRootUrl()
@@ -394,11 +394,11 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 		{
 			$pathBeforeRoot = 'plugins';
 		}
-		
+
 		$piwikUrl = substr($piwikUrl, 0, strpos($piwikUrl, $pathBeforeRoot.'/'));
 		return $piwikUrl;
 	}
-	
+
 	/**
 	 * Returns URL to the proxy script, used to ensure piwik.php
 	 * uses the test environment, and allows variable overwriting
@@ -413,7 +413,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Returns the super user token auth that can be used in tests. Can be used to
 	 * do bulk tracking.
-	 * 
+	 *
 	 * @return string
 	 */
 	public static function getTokenAuth()
@@ -421,7 +421,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         // get token auth
 	    $pwd = Zend_Registry::get('config')->superuser->password;
 	    if(strlen($pwd) != 32) $pwd = md5($pwd);
-	    
+
 	    return Piwik_UsersManager_API::getInstance()->getTokenAuth(
 	        Zend_Registry::get('config')->superuser->login, $pwd);
     }
@@ -434,11 +434,13 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      * @param array       $parametersToSet Parameters to set in api call
      * @param array       $formats         Array of 'format' to fetch from API
      * @param array       $periods         Array of 'period' to query API
+     * @param bool        $supertableApi
      * @param bool        $setDateLastN    If set to true, the 'date' parameter will be rewritten to query instead a range of dates, rather than one period only.
      * @param bool|string $language        2 letter language code, defaults to default piwik language
      * @param bool|string $segment
      * @param bool|string $fileExtension
      *
+     * @throws Exception
      * @return array of API URLs query strings
      */
     protected function generateUrlsApi( $parametersToSet, $formats, $periods, $supertableApi = false, $setDateLastN = false, $language = false, $segment = false, $fileExtension = false )

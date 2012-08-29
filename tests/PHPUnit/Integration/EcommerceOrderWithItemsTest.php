@@ -204,11 +204,11 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
         $t->setEcommerceView('SKU2', 'PRODUCT name', $category, $price);
         $t->setCustomVariable(5, 'VisitorType', 'NewLoggedOut', 'visit');
         $t->setCustomVariable(4, 'ValueIsZero', '0', 'visit');
-        self::assertTrue($t->getCustomVariable(3, 'page') == array('_pks', 'SKU2'));
-        self::assertTrue($t->getCustomVariable(4, 'page') == array('_pkn', 'PRODUCT name'));
-        self::assertTrue($t->getCustomVariable(5, 'page') == array('_pkc', $category));
-        self::assertTrue($t->getCustomVariable(2, 'page') == array('_pkp', $price));
-        self::assertTrue($t->getCustomVariable(5, 'visit') == array('VisitorType', 'NewLoggedOut'));
+        self::assertEquals(array('_pks', 'SKU2'), $t->getCustomVariable(3, 'page'));
+        self::assertEquals(array('_pkn', 'PRODUCT name'), $t->getCustomVariable(4, 'page'));
+        self::assertEquals(array('_pkc', $category), $t->getCustomVariable(5, 'page'));
+        self::assertEquals(array('_pkp', $price), $t->getCustomVariable(2, 'page'));
+        self::assertEquals(array('VisitorType', 'NewLoggedOut'), $t->getCustomVariable(5, 'visit'));
         self::checkResponse($t->doTrackPageView('incredible title!'));
 
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
