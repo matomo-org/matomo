@@ -722,6 +722,14 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             $expected = $this->removeXmlElement($expected, 'imageGraphUrl');
             $response = $this->removeXmlElement($response, 'imageGraphUrl');
         }
+        
+        // if idSubtable is in request URL, make sure idSubtable values are not in any urls
+        if (strpos($requestUrl, 'idSubtable=') !== false)
+        {
+        	$regex = "/idSubtable=[0-9]+/";
+        	$expected = preg_replace($regex, 'idSubtable=', $expected);
+        	$response = preg_replace($regex, 'idSubtable=', $response);
+        }
 
         // is there a better way to test for the current DB type in use?
         if (Zend_Registry::get('db') instanceof Piwik_Db_Adapter_Mysqli) {
