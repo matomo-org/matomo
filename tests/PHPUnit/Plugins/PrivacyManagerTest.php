@@ -8,7 +8,7 @@
  */
 require_once 'PrivacyManager/PrivacyManager.php';
 
-class PrivacyManagerTest extends DatabaseTestCase
+class PrivacyManagerTest extends IntegrationTestCase
 {
     // constants used in checking whether numeric tables are populated correctly.
     // 'done' entries exist for every period, even if there's no metric data, so we need the 
@@ -24,44 +24,49 @@ class PrivacyManagerTest extends DatabaseTestCase
     // fake metric/report name used to make sure unwanted metrics are purged
     const GARBAGE_FIELD = 'abcdefg';
 
-    private $idSite = null;
-    private $dateTime = null;
+    private static $idSite = 1;
+    private static $dateTime = '2012-02-28';
+    private static $daysAgoStart = 50;
+    
+    // maps table names w/ array rows
+    private static $dbData = null;
+    
     /**
      * @var Piwik_PrivacyManager
      */
     private $instance = null;
-    private $daysAgoStart = 50;
     private $settings = null;
 
     private $unusedIdAction = null;
 
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+        
+        self::_addLogData();
+        self::_addReportData();
+        
+        self::$dbData = self::getDbTablesWithData();
+    }
+    
     public function setUp()
     {
-        parent::setUp();
-
-        $this->dateTime = Piwik_Date::factory('2012-02-28');
-
-        Piwik_PluginsManager::getInstance()->loadPlugins( array('API', 'PrivacyManager', 'VisitsSummary', 'VisitorInterest', 'UserSettings', 'Goals') );
-        Piwik_PluginsManager::getInstance()->installLoadedPlugins();
-
-        Piwik::createAccessObject();
-        Piwik_PostEvent('FrontController.initAuthenticationObject');
-
-        // We need to be SU to create websites for tests
-        Piwik::setUserIsSuperUser();
-
-        Piwik_TablePartitioning::$tablesAlreadyInstalled = null;
-
+    	parent::setUp();
+    	
         Piwik_PrivacyManager_LogDataPurger::$selectSegmentSize = 2;
         Piwik_PrivacyManager_ReportsPurger::$selectSegmentSize = 2;
         Piwik::$lockPrivilegeGranted = null;
-
+        
+        self::restoreDbTables(self::$dbData);
+        
+        $dateTime = Piwik_Date::factory(self::$dateTime);
+        
         // purging depends upon today's date, so 'older_than' parts must be dependent upon today
         $today = Piwik_Date::factory('today');
-        $daysSinceToday = ($today->getTimestamp() - $this->dateTime->getTimestamp()) / (24 * 60 * 60);
+        $daysSinceToday = ($today->getTimestamp() - $dateTime->getTimestamp()) / (24 * 60 * 60);
         
         $monthsSinceToday = 0;
-        for ($date = $today; $date->toString('Y-m') != $this->dateTime->toString('Y-m'); $date = $date->subMonth(1))
+        for ($date = $today; $date->toString('Y-m') != $dateTime->toString('Y-m'); $date = $date->subMonth(1))
         {
             ++$monthsSinceToday;
         }
@@ -69,6 +74,7 @@ class PrivacyManagerTest extends DatabaseTestCase
         // set default config
         $settings = array();
         $settings['delete_logs_enable'] = 1;
+        
         // purging log data from before 2012-01-24
         $settings['delete_logs_older_than'] = 35 + $daysSinceToday;
         $settings['delete_logs_schedule_lowest_interval'] = 7;
@@ -88,6 +94,19 @@ class PrivacyManagerTest extends DatabaseTestCase
         $this->instance = new Piwik_PrivacyManager();
     }
     
+    public function tearDown()
+    {
+        parent::tearDown();
+        Piwik_DataTable_Manager::getInstance()->deleteAll();
+        Piwik_Option::getInstance()->clearCache();
+        Piwik_Site::clearCache();
+        Piwik_Common::deleteTrackerCache();
+        Piwik_TablePartitioning::$tablesAlreadyInstalled = null;
+        
+        $tempTableName = Piwik_Common::prefixTable(Piwik_PrivacyManager_LogDataPurger::TEMP_TABLE_NAME);
+        Piwik_Query("DROP TABLE IF EXISTS ".$tempTableName);
+    }
+    
     /**
      * Make sure the first time deleteLogData is run, nothing happens.
      *
@@ -96,9 +115,6 @@ class PrivacyManagerTest extends DatabaseTestCase
      */
     public function testDeleteLogDataInitialRun()
     {
-        $this->_addLogData();
-        $this->_addReportData();
-        
         $this->instance->deleteLogData();
         
         // check that initial option is set
@@ -117,9 +133,6 @@ class PrivacyManagerTest extends DatabaseTestCase
      */
     public function testDeleteReportDataInitialRun()
     {
-        $this->_addLogData();
-        $this->_addReportData();
-        
         $this->instance->deleteReportData();
         
         // check that initial option is set
@@ -137,9 +150,6 @@ class PrivacyManagerTest extends DatabaseTestCase
      */
     public function testPurgeDataNotTimeToRun()
     {
-        $this->_addLogData();
-        $this->_addReportData();
-        
         $yesterdaySecs = Piwik_Date::factory('yesterday')->getTimestamp();
         
         Piwik_SetOption(Piwik_PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL, 1);
@@ -160,9 +170,6 @@ class PrivacyManagerTest extends DatabaseTestCase
      */
     public function testPurgeDataNotInitialAndTimeToRun()
     {
-        $this->_addLogData();
-        $this->_addReportData();
-        
         // get purge data prediction
         $prediction = Piwik_PrivacyManager::getPurgeEstimate();
         
@@ -185,7 +192,7 @@ class PrivacyManagerTest extends DatabaseTestCase
         // perform checks
         $this->checkLogDataPurged();
         
-        $archiveTables = $this->_getArchiveTableNames();
+        $archiveTables = self::_getArchiveTableNames();
         
         // January numeric table should be dropped
         $this->assertFalse($this->_tableExists($archiveTables['numeric'][0])); // January
@@ -215,9 +222,6 @@ class PrivacyManagerTest extends DatabaseTestCase
             'delete_reports_enable' => 0
         ));
 
-        $this->_addLogData();
-        $this->_addReportData();
-        
         // get purge data prediction
         $prediction = Piwik_PrivacyManager::getPurgeEstimate();
         
@@ -242,6 +246,12 @@ class PrivacyManagerTest extends DatabaseTestCase
      */
     public function testPurgeDataDeleteLogsNoData()
     {
+    	Piwik::truncateAllTables();
+    	foreach (Piwik::getTablesArchivesInstalled() as $table)
+    	{
+    		Piwik_Exec("DROP TABLE $table");
+    	}
+    	
         // get purge data prediction
         $prediction = Piwik_PrivacyManager::getPurgeEstimate();
         
@@ -260,7 +270,7 @@ class PrivacyManagerTest extends DatabaseTestCase
         $this->assertEquals(0, $this->_getTableCount('log_link_visit_action'));
         $this->assertEquals(0, $this->_getTableCount('log_conversion_item'));
         
-        $archiveTables = $this->_getArchiveTableNames();
+        $archiveTables = self::_getArchiveTableNames();
         $this->assertFalse($this->_tableExists($archiveTables['numeric'][0])); // January
         $this->assertFalse($this->_tableExists($archiveTables['numeric'][1])); // February
         $this->assertFalse($this->_tableExists($archiveTables['blob'][0])); // January
@@ -279,9 +289,6 @@ class PrivacyManagerTest extends DatabaseTestCase
             'delete_reports_keep_basic_metrics' => 1
         ));
         
-        $this->_addLogData();
-        $this->_addReportData();
-
         // get purge data prediction
         $prediction = Piwik_PrivacyManager::getPurgeEstimate();
         
@@ -304,7 +311,7 @@ class PrivacyManagerTest extends DatabaseTestCase
         // perform checks
         $this->checkLogDataPurged();
         
-        $archiveTables = $this->_getArchiveTableNames();
+        $archiveTables = self::_getArchiveTableNames();
         
         // all numeric metrics should be saved except the garbage metric
         $janRowCount = $this->_getExpectedNumericArchiveCountJan() - 1;
@@ -332,9 +339,6 @@ class PrivacyManagerTest extends DatabaseTestCase
         Piwik_PrivacyManager::savePurgeDataSettings(array(
             'delete_reports_keep_day_reports' => 1
         ));
-
-        $this->_addLogData();
-        $this->_addReportData();
 
         // get purge data prediction
         $prediction = Piwik_PrivacyManager::getPurgeEstimate();
@@ -372,9 +376,6 @@ class PrivacyManagerTest extends DatabaseTestCase
             'delete_reports_keep_week_reports' => 1
         ));
 
-        $this->_addLogData();
-        $this->_addReportData();
-
         // get purge data prediction
         $prediction = Piwik_PrivacyManager::getPurgeEstimate();
         
@@ -411,9 +412,6 @@ class PrivacyManagerTest extends DatabaseTestCase
             'delete_reports_keep_month_reports' => 1
         ));
 
-        $this->_addLogData();
-        $this->_addReportData();
-        
         // get purge data prediction
         $prediction = Piwik_PrivacyManager::getPurgeEstimate();
         
@@ -450,9 +448,6 @@ class PrivacyManagerTest extends DatabaseTestCase
             'delete_reports_keep_year_reports' => 1
         ));
 
-        $this->_addLogData();
-        $this->_addReportData();
-        
         // get purge data prediction
         $prediction = Piwik_PrivacyManager::getPurgeEstimate();
         
@@ -487,8 +482,6 @@ class PrivacyManagerTest extends DatabaseTestCase
     {
         Piwik_AddAction("LogDataPurger.actionsToKeepInserted.olderThan", array($this, 'addReferenceToUnusedAction'));
         
-        $this->_addLogData();
-        
         $purger = Piwik_PrivacyManager_LogDataPurger::make($this->settings, true);
         
         $this->unusedIdAction = Piwik_FetchOne(
@@ -522,9 +515,6 @@ class PrivacyManagerTest extends DatabaseTestCase
         Piwik_PrivacyManager::savePurgeDataSettings(array(
             'delete_reports_keep_range_reports' => 1
         ));
-        
-        $this->_addLogData();
-        $this->_addReportData();
         
         // get purge data prediction
         $prediction = Piwik_PrivacyManager::getPurgeEstimate();
@@ -563,9 +553,6 @@ class PrivacyManagerTest extends DatabaseTestCase
             'delete_reports_keep_segment_reports' => 1
         ));
         
-        $this->_addLogData();
-        $this->_addReportData();
-        
         // get purge data prediction
         $prediction = Piwik_PrivacyManager::getPurgeEstimate();
         
@@ -592,7 +579,7 @@ class PrivacyManagerTest extends DatabaseTestCase
     
     // --- utility functions follow ---
     
-    protected function _addLogData()
+    protected static function _addLogData()
     {
         // tracks visits on the following days:
         // - 2012-01-09
@@ -618,14 +605,14 @@ class PrivacyManagerTest extends DatabaseTestCase
         //   - http://whatever.com/_{$daysSinceLastVisit}
         //   - http://whatever.com/42/{$daysSinceLastVisit}
         
-        $start = $this->dateTime;
-        $this->idSite = IntegrationTestCase::createWebsite('2012-01-01', $ecommerce=1);
-        $idGoal = Piwik_Goals_API::getInstance()->addGoal($this->idSite, 'match all', 'url', 'http', 'contains');
+        $start = Piwik_Date::factory(self::$dateTime);
+        self::createWebsite('2012-01-01', $ecommerce=1);
+        $idGoal = Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'match all', 'url', 'http', 'contains');
         
-        $t = IntegrationTestCase::getTracker($this->idSite, $start, $defaultInit = true);
+        $t = IntegrationTestCase::getTracker(self::$idSite, $start, $defaultInit = true);
         $t->enableBulkTracking();
         $t->setTokenAuth(IntegrationTestCase::getTokenAuth());
-        for ($daysAgo = $this->daysAgoStart; $daysAgo >= 0; $daysAgo -= 5) // one visit every 5 days
+        for ($daysAgo = self::$daysAgoStart; $daysAgo >= 0; $daysAgo -= 5) // one visit every 5 days
         {
             $dateTime = $start->subDay($daysAgo)->toString();
             
@@ -648,52 +635,53 @@ class PrivacyManagerTest extends DatabaseTestCase
         $t->doBulkTrack();
     }
     
-    protected function _addReportData()
+    protected static function _addReportData()
     {
-        $archive = Piwik_Archive::build($this->idSite, 'year', $this->dateTime);
+    	$date = Piwik_Date::factory(self::$dateTime);
+    	
+        $archive = Piwik_Archive::build(self::$idSite, 'year', $date);
         $archive->getNumeric('nb_visits', 'nb_hits');
         
-        Piwik_VisitorInterest_API::getInstance()->getNumberOfVisitsPerVisitDuration(
-            $this->idSite, 'year', $this->dateTime);
+        Piwik_VisitorInterest_API::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'year', $date);
         
         // months are added via the 'year' period, but weeks must be done manually
-        for ($daysAgo = $this->daysAgoStart; $daysAgo > 0; $daysAgo -= 7) // every week
+        for ($daysAgo = self::$daysAgoStart; $daysAgo > 0; $daysAgo -= 7) // every week
         {
-            $dateTime = $this->dateTime->subDay($daysAgo);
+            $dateTime = $date->subDay($daysAgo);
             
-            $archive = Piwik_Archive::build($this->idSite, 'week', $dateTime);
+            $archive = Piwik_Archive::build(self::$idSite, 'week', $dateTime);
             $archive->getNumeric('nb_visits');
             
             Piwik_VisitorInterest_API::getInstance()->getNumberOfVisitsPerVisitDuration(
-                $this->idSite, 'week', $dateTime);
+                self::$idSite, 'week', $dateTime);
         }
         
         // add segment for one day
-        $archive = Piwik_Archive::build($this->idSite, 'day', '2012-01-14', 'browserName==FF');
+        $archive = Piwik_Archive::build(self::$idSite, 'day', '2012-01-14', 'browserName==FF');
         $archive->getNumeric('nb_visits', 'nb_hits');
         
         Piwik_VisitorInterest_API::getInstance()->getNumberOfVisitsPerVisitDuration(
-            $this->idSite, 'day', '2012-01-14', 'browserName==FF');
+            self::$idSite, 'day', '2012-01-14', 'browserName==FF');
         
         // add range within January
         $rangeEnd = Piwik_Date::factory('2012-01-29');
         $rangeStart = $rangeEnd->subDay(1);
         $range = $rangeStart->toString('Y-m-d').",".$rangeEnd->toString('Y-m-d');
         
-        $rangeArchive = Piwik_Archive::build($this->idSite, 'range', $range);
+        $rangeArchive = Piwik_Archive::build(self::$idSite, 'range', $range);
         $rangeArchive->getNumeric('nb_visits', 'nb_hits');
         
-        Piwik_VisitorInterest_API::getInstance()->getNumberOfVisitsPerVisitDuration($this->idSite, 'range', $range);
+        Piwik_VisitorInterest_API::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'range', $range);
         
         // add range between January & February
         $rangeStart = $rangeEnd;
         $rangeEnd = $rangeStart->addDay(3);
         $range = $rangeStart->toString('Y-m-d').",".$rangeEnd->toString('Y-m-d');
         
-        $rangeArchive = Piwik_Archive::build($this->idSite, 'range', $range);
+        $rangeArchive = Piwik_Archive::build(self::$idSite, 'range', $range);
         $rangeArchive->getNumeric('nb_visits', 'nb_hits');
         
-        Piwik_VisitorInterest_API::getInstance()->getNumberOfVisitsPerVisitDuration($this->idSite, 'range', $range);
+        Piwik_VisitorInterest_API::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'range', $range);
         
         // when archiving is initiated, the archive metrics & reports for EVERY loaded plugin
         // are archived. don't want this test to depend on every possible metric, so get rid of
@@ -706,7 +694,7 @@ class PrivacyManagerTest extends DatabaseTestCase
             Piwik_Goals::getRecordName('revenue', Piwik_Tracker_GoalManager::IDGOAL_ORDER)
         );
         
-        $archiveTables = $this->_getArchiveTableNames();
+        $archiveTables = self::_getArchiveTableNames();
         foreach ($archiveTables['numeric'] as $table)
         {
             $realTable = Piwik_Common::prefixTable($table);
@@ -747,7 +735,7 @@ class PrivacyManagerTest extends DatabaseTestCase
         $this->assertEquals(11, $this->_getTableCount('log_conversion_item'));
         $this->assertEquals(27, $this->_getTableCount('log_action'));
         
-        $archiveTables = $this->_getArchiveTableNames();
+        $archiveTables = self::_getArchiveTableNames();
         
         $janMetricCount = $this->_getExpectedNumericArchiveCountJan();
         $this->assertEquals($janMetricCount, $this->_getTableCount($archiveTables['numeric'][0])); // January
@@ -768,7 +756,7 @@ class PrivacyManagerTest extends DatabaseTestCase
      */
     protected function _checkReportsAndMetricsPurged( $janBlobsRemaining )
     {
-        $archiveTables = $this->_getArchiveTableNames();
+        $archiveTables = self::_getArchiveTableNames();
         
         // check that the january numeric table was dropped
         $this->assertFalse($this->_tableExists($archiveTables['numeric'][0])); // January
@@ -846,7 +834,7 @@ class PrivacyManagerTest extends DatabaseTestCase
         return Piwik_FetchOne($sql, array($dbName, Piwik_Common::prefixTable($tableName))) == 1;
     }
     
-    protected function _getArchiveTableNames()
+    protected static function _getArchiveTableNames()
     {
         return array(
             'numeric' => array(

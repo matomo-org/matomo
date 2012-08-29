@@ -993,4 +993,81 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         //return dirname(__FILE__).DIRECTORY_SEPARATOR.'Integration';
         return dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'integration';
     }
+    
+    /**
+     * Returns an array associating table names w/ lists of row data.
+     * 
+     * @return array
+     */
+    protected static function getDbTablesWithData()
+    {
+    	$result = array();
+    	foreach (Piwik::getTablesInstalled() as $tableName)
+    	{
+    		$result[$tableName] = Piwik_FetchAll("SELECT * FROM $tableName");
+    	}
+    	return $result;
+    }
+    
+    /**
+     * Truncates all tables then inserts the data in $tables into each
+     * mapped table.
+     * 
+     * @param array $tables Array mapping table names with arrays of row data.
+     */
+    protected static function restoreDbTables( $tables )
+    {
+    	// truncate existing tables
+    	Piwik::truncateAllTables();
+    	
+    	// insert data
+    	$existingTables = Piwik::getTablesInstalled();
+    	foreach ($tables as $table => $rows)
+    	{
+    		// create table if it's an archive table
+    		if (strpos($table, 'archive_') !== false && !in_array($table, $existingTables))
+    		{
+    			$tableType = strpos($table, 'archive_numeric') !== false ? 'archive_numeric' : 'archive_blob';
+    			
+    			$createSql = Piwik::getTableCreateSql($tableType);
+    			$createSql = str_replace(Piwik_Common::prefixTable($tableType), $table, $createSql);
+    			Piwik_Query($createSql);
+    		}
+    		
+    		if (empty($rows))
+    		{
+    			continue;
+    		}
+    		
+    		$rowsSql = array();
+    		foreach ($rows as $row)
+    		{
+    			$values = array();
+    			foreach ($row as $name => $value)
+    			{
+    				if (is_null($value))
+    				{
+    					$values[] = 'NULL';
+    				}
+    				else if (is_numeric($value))
+    				{
+    					$values[] = $value;
+    				}
+    				else if (!ctype_print($value))
+    				{
+    					$values[] = "x'".bin2hex(substr($value, 1))."'";
+    				}
+    				else
+    				{
+    					$values[] = "'$value'";
+    				}
+    			}
+    			
+    			$rowsSql[] = "(".implode(',', $values).")";
+    		}
+    		
+    		$sql = "INSERT INTO $table VALUES ".implode(',', $rowsSql);
+    		Piwik_Query($sql);
+    	}
+    }
 }
