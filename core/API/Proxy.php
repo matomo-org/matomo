@@ -35,7 +35,7 @@ class Piwik_API_Proxy
 	protected $alreadyRegistered = array();
 	
 	private $metadataArray = array();
-	public $hideIgnoredFunctions = true;
+	private $hideIgnoredFunctions = true;
 	
 	// when a parameter doesn't have a default value we use this
 	private $noDefaultValue;
@@ -251,6 +251,20 @@ class Piwik_API_Proxy
 	public function getModuleNameFromClassName( $className )
 	{
 		return str_replace(array('Piwik_', '_API'), '', $className);
+	}
+	
+	/**
+	 * Sets whether to hide '@ignore'd functions from method metadata or not.
+	 * 
+	 * @param bool $hideIgnoredFunctions
+	 */
+	public function setHideIgnoredFunctions( $hideIgnoredFunctions )
+	{
+		$this->hideIgnoredFunctions = $hideIgnoredFunctions;
+		
+		// make sure metadata gets reloaded
+		$this->alreadyRegistered = array();
+		$this->metadataArray = array();
 	}
 
 	/**

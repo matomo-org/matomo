@@ -48,7 +48,7 @@ class Test_Piwik_Integration_ApiGetReportMetadata extends IntegrationTestCase
 
         // From Piwik 1.5, we hide Goals.getConversions and other get* methods via @ignore, but we ensure that they still work
         // This hack allows the API proxy to let us generate example URLs for the ignored functions
-        Piwik_API_Proxy::getInstance()->hideIgnoredFunctions = false;
+        Piwik_API_Proxy::getInstance()->setHideIgnoredFunctions(false);
     }
 
     public function tearDown()
@@ -56,7 +56,7 @@ class Test_Piwik_Integration_ApiGetReportMetadata extends IntegrationTestCase
         parent::tearDown();
 
         // reset that value after the test
-        Piwik_API_Proxy::getInstance()->hideIgnoredFunctions = true;
+        Piwik_API_Proxy::getInstance()->setHideIgnoredFunctions(true);
     }
 
     public function getOutputPrefix()
