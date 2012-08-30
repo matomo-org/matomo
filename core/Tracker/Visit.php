@@ -654,7 +654,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function getUserAgent()
 	{
-	    return Piwik_Common::getRequestVar('ua', @$_SERVER['HTTP_USER_AGENT'], 'string', $this->request);
+		$default = @$_SERVER['HTTP_USER_AGENT'];
+		return Piwik_Common::getRequestVar('ua', is_null($default) ? false : $default, 'string', $this->request);
 	}
 	
 	/**
