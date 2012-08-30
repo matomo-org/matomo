@@ -158,7 +158,9 @@ a {
 	padding: 2px 0 3px 0;
 	vertical-align:top; 
 }
-
+#periodString label.selected-period-label {
+	text-decoration: underline;
+}
 
 /* About Piwik box top right */
 #header_message {
