@@ -15,7 +15,15 @@ class FakeAccess
     public static $idSitesAdmin = array();
     public static $idSitesView = array();
     public static $identity = 'superUserLogin';
-    
+
+    public function __construct()
+    {
+        self::$superUser    = false;
+        self::$idSitesAdmin = array();
+        self::$idSitesView  = array();
+        self::$identity     = 'superUserLogin';
+    }
+
     public static function setIdSitesAdmin($ids)
     {
         self::$superUser = false;
