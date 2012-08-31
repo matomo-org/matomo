@@ -80,7 +80,7 @@ class Piwik_Updates_1_8_3_b1 extends Piwik_Updates
 					$parameters[Piwik_PDFReports::ADDITIONAL_EMAILS_PARAMETER] = preg_split('/,/', $additional_emails);
 				}
 
-				$parameters[Piwik_PDFReports::EMAIL_ME_PARAMETER] = is_null($email_me) ? Piwik_PDFReports::EMAIL_ME_PARAMETER_DEFAULT_VALUE : filter_var($email_me, FILTER_VALIDATE_BOOLEAN);
+				$parameters[Piwik_PDFReports::EMAIL_ME_PARAMETER] = is_null($email_me) ? Piwik_PDFReports::EMAIL_ME_PARAMETER_DEFAULT_VALUE : (bool)$email_me;
 				$parameters[Piwik_PDFReports::DISPLAY_FORMAT_PARAMETER] = $display_format;
 
 				Piwik_Query(

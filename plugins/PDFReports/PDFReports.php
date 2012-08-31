@@ -135,11 +135,7 @@ class Piwik_PDFReports extends Piwik_Plugin
 			}
 			else
 			{
-				$parameters[self::EMAIL_ME_PARAMETER] =
-					filter_var(
-						$parameters[self::EMAIL_ME_PARAMETER],
-						FILTER_VALIDATE_BOOLEAN
-					);
+				$parameters[self::EMAIL_ME_PARAMETER] = (bool)$parameters[self::EMAIL_ME_PARAMETER];
 			}
 
 			// additionalEmails is an optional parameter
