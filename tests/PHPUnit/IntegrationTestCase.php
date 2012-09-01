@@ -505,7 +505,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                     {
                         $parametersToSet['language'] = $language;
                     }
-                    
+
                     // set idSubtable if subtable API is set
                     if ($supertableApi !== false)
                     {
@@ -518,7 +518,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                     		'format' => 'php',
                     		'serialize' => 0,
                     	));
-                    	
+
                     	// find first row w/ subtable
                     	foreach ($request->process() as $row)
                     	{
@@ -528,7 +528,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                     			break;
                     		}
                     	}
-                    	
+
                     	// if no subtable found, throw
                     	if (!isset($parametersToSet['idSubtable']))
                     	{
@@ -536,7 +536,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 	                    		"Cannot find subtable to load for $apiId in $supertableApi.");
                     	}
                     }
-                    
+
                     // Generate for each specified format
                     foreach($formats as $format)
                     {
@@ -590,8 +590,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      * @param bool              $apiModule
      * @param bool              $apiAction
      * @param array             $otherRequestParameters
-     * @param array             $supertableApi
-     * @param array             $fileExtension
+     * @param array|bool        $supertableApi
+     * @param array|bool        $fileExtension
      *
      * @return array
      */
@@ -723,7 +723,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             $expected = $this->removeXmlElement($expected, 'imageGraphUrl');
             $response = $this->removeXmlElement($response, 'imageGraphUrl');
         }
-        
+
         // if idSubtable is in request URL, make sure idSubtable values are not in any urls
         if (strpos($requestUrl, 'idSubtable=') !== false)
         {
@@ -745,9 +745,10 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         }
 
         if (strpos($requestUrl, 'format=xml') !== false) {
-            $this->assertXmlStringEqualsXmlString($expected, $response, "Differences with expected in: $processedFilePath %s ");
+            $this->assertXmlStringEqualsXmlString($expected, $response, "Differences with expected in: $processedFilePath");
         } else {
-            $this->assertEquals($expected, $response, "Differences with expected in: $processedFilePath %s ");
+            $this->assertEquals(strlen($expected), strlen($response), "Differences with expected in: $processedFilePath");
+            $this->assertEquals($expected, $response, "Differences with expected in: $processedFilePath");
         }
         if (trim($response) == trim($expected)) {
             file_put_contents($processedFilePath, $response);
@@ -817,7 +818,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         if(empty($result))
         {
             $expectedDir = dirname($filePath);
-            $this->fail(" ERROR: Could not find expected API output '$filePath'. For new tests, to pass the test, you can copy files from the processed/ directory into $expectedDir  after checking that the output is valid. %s ");
+            $this->markTestIncomplete(" ERROR: Could not find expected API output '$filePath'. For new tests, to pass the test, you can copy files from the processed/ directory into $expectedDir  after checking that the output is valid. %s ");
             return null;
         }
         return $result;
