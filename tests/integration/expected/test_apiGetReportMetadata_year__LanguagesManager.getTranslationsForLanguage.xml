@@ -3613,24 +3613,8 @@
 		<value>Mot de passe perdu ?</value>
 	</row>
 	<row>
-		<label>Login_RemindPassword</label>
-		<value>Rappeler le mot de passe</value>
-	</row>
-	<row>
-		<label>Login_PasswordResetToken</label>
-		<value>Clef de remise à zéro du mot de passe</value>
-	</row>
-	<row>
-		<label>Login_PasswordReminder</label>
-		<value>Entrez un nom d'utilisateur ou un courriel valide, vous recevrez votre nouveau mot de passe par courriel.</value>
-	</row>
-	<row>
 		<label>Login_PasswordsDoNotMatch</label>
 		<value>Les mots de passe ne correspondent pas.</value>
-	</row>
-	<row>
-		<label>Login_PasswordSuccessfullyChanged</label>
-		<value>Mot de passe modifié avec succès!</value>
 	</row>
 	<row>
 		<label>Login_InvalidUsernameEmail</label>
@@ -3643,18 +3627,6 @@
 	<row>
 		<label>Login_InvalidOrExpiredToken</label>
 		<value>La clef est invalide ou a expiré</value>
-	</row>
-	<row>
-		<label>Login_MailTopicPasswordRecovery</label>
-		<value>Récupération du mot de passe</value>
-	</row>
-	<row>
-		<label>Login_MailPasswordRecoveryBody</label>
-		<value>Bonjour %1$s, Une requête de remise à zéro du mot de passe a été reçue depuis %2$s. Pour remettre à zéro le mot de passe: 1) Rendez vous au formulaire de remise à zéro du mot de passe à l'adresse : %3$s 2) Entrez la clef suivante: %4$s 3) Remplissez le formulaire (en entrant deux fois votre nouveaux mot de passe) et soumettez le.Note: cette clef expirera dans 24h.</value>
-	</row>
-	<row>
-		<label>Login_PasswordSent</label>
-		<value>Le mot de passe vient juste d'être envoyé. Veuillez vérifier vos courriels.</value>
 	</row>
 	<row>
 		<label>Login_ContactAdmin</label>

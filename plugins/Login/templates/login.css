@@ -24,7 +24,7 @@ form .forgetmenot {
 	margin-bottom: 0;
 }
 
-#login form .submit input {
+#login form input.submit {
 	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana,
 		sans-serif;
 	padding: 3px 5px;
@@ -67,7 +67,8 @@ form p {
 	padding: 16px;
 }
 
-#form_password,#form_password_bis,#form_login,#user_email,#form_token {
+#login_form_password,#reset_form_password,#reset_form_password_bis,
+#login_form_login,#reset_form_login {
 	font-size: 20px;
 	width: 97%;
 	padding: 3px;
@@ -82,7 +83,7 @@ form p {
 	background-color: #eaf3fa;
 }
 
-#login form .submit input {
+#login form input.submit {
 	background-color: #cee1ef !important;
 }
 
@@ -91,17 +92,14 @@ form p {
 	border-color: #c00;
 }
 
-#login form .submit input {
+#login form input.submit {
 	background-color: #e5e5e5;
 	color: #246;
 	border-color: #80b5d0;
 }
 
-#login form .submit input:hover {
+#login form input.submit:hover {
 	color: #d54e21;
-}
-
-#login form .submit input:hover {
 	border-color: #328ab2;
 }
 
@@ -155,4 +153,9 @@ a {
 	font-size: 18pt;
 	margin-left:50px;
 	margin-bottom:30px;
+}
+
+.loadingPiwik {
+	float: left;
+	margin-left: 16px;
 }

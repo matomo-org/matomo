@@ -138,5 +138,57 @@ class Piwik_Login extends Piwik_Plugin
 		$cookie->save();
 
 		@Piwik_Session::regenerateId();
+		
+		// remove password reset entry if it exists
+		self::removePasswordResetInfo($login);
+	}
+	
+	/**
+	 * Stores password reset info for a specific login.
+	 * 
+	 * @param string $login The user login for whom a password change was requested.
+	 * @param string $password The new password to set.
+	 */
+	public static function savePasswordResetInfo( $login, $password )
+	{
+		$optionName = self::getPasswordResetInfoOptionName($login);
+		$optionData = Piwik_UsersManager::getPasswordHash($password);
+		
+		Piwik_SetOption($optionName, $optionData);
+	}
+	
+	/**
+	 * Removes stored password reset info if it exists.
+	 * 
+	 * @param string $login The user login to check for.
+	 */
+	public static function removePasswordResetInfo( $login )
+	{
+		$optionName = self::getPasswordResetInfoOptionName($login);
+		Piwik_Option::getInstance()->delete($optionName);
+	}
+	
+	/**
+	 * Gets password hash stored in password reset info.
+	 * 
+	 * @param string $login The user login to check for.
+	 * @return string|false The hashed password or false if no reset info exists.
+	 */
+	public static function getPasswordToResetTo( $login )
+	{
+		$optionName = self::getPasswordResetInfoOptionName($login);
+		return Piwik_GetOption($optionName);
+	}
+	
+	/**
+	 * Gets the option name for the option that will store a user's password change
+	 * request.
+	 * 
+	 * @param string $login The user login for whom a password change was requested.
+	 * @return string
+	 */
+	public static function getPasswordResetInfoOptionName( $login )
+	{
+		return $login.'_reset_password_info';
 	}
 }

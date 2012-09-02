@@ -189,6 +189,7 @@ class Piwik_Access
 	{
 		$this->isSuperUser = true;
 		$this->idsitesByAccess['superuser'] = Piwik_SitesManager_API::getInstance()->getAllSitesId();
+		$this->login = Piwik_Config::getInstance()->superuser['login'];
 		return true;
 	}
 

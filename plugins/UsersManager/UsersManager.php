@@ -17,6 +17,9 @@
  */
 class Piwik_UsersManager extends Piwik_Plugin
 {
+	const PASSWORD_MIN_LENGTH = 6;
+	const PASSWORD_MAX_LENGTH = 26;
+	
 	/**
 	 * Plugin information
 	 *
@@ -117,5 +120,37 @@ class Piwik_UsersManager extends Piwik_Plugin
 							array('module' => 'UsersManager', 'action' => 'userSettings'),
 							Piwik::isUserHasSomeViewAccess(),
 							$order = 1);
+	}
+
+	/**
+	 * Returns true if the password is complex enough (at least 6 characters and max 26 characters)
+	 * 
+	 * @param string email
+	 * @return bool
+	 */
+	public static function isValidPasswordString( $input )
+	{
+		if(!Piwik::isChecksEnabled()
+			&& !empty($input))
+		{
+			return true;
+		}
+		$l = strlen($input);
+		return $l >= self::PASSWORD_MIN_LENGTH && $l <= self::PASSWORD_MAX_LENGTH;
+	}
+	
+	public static function checkPassword($password)
+	{
+		if(!self::isValidPasswordString($password))
+		{
+			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidPassword', array(self::PASSWORD_MIN_LENGTH, self::PASSWORD_MAX_LENGTH)));
+		}
+	}
+	
+	public static function getPasswordHash($password)
+	{
+		// if change here, should also edit the installation process 
+		// to change how the root pwd is saved in the config file
+		return md5($password);
 	}
 }

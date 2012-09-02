@@ -877,31 +877,10 @@ $translations = array(
 	'Login_LogIn' => 'Masuk-log',
 	'Login_Logout' => 'Keluar',
 	'Login_LostYourPassword' => 'Lupa sandi?',
-	'Login_RemindPassword' => 'Kirim ulang sandi',
-	'Login_PasswordResetToken' => 'Kepingan Pemulihan Sandi',
-	'Login_PasswordReminder' => 'Silakan masukkan nama-id atau surel Anda. Anda akan menerima surat elektronik yang berisi informasi pemulihan sandi Anda.',
 	'Login_PasswordsDoNotMatch' => 'Sandi tak sesuai.',
-	'Login_PasswordSuccessfullyChanged' => 'Sandi berhasil diubah!',
 	'Login_InvalidUsernameEmail' => 'Nama-id dan/atau alamat surel tak sahih',
 	'Login_InvalidNonceOrHeadersOrReferer' => 'Borang keamanan gagal. Silkan muat ulang borang dan periksa apakah kuki Anda telah aktif. Bila Anda menggunakan peladen wali, Anda harus %s mengkonfigurasi Piwik untuk menerima `header` wali%s yang meneruskan `header` Inang. Serta, periksa apakah `header` Pengarah telah terkirim dengan benar.',
 	'Login_InvalidOrExpiredToken' => 'Kepingan tak sahih atau telah kedaluwarsa.',
-	'Login_MailTopicPasswordRecovery' => 'Pemulihan sandi',
-	'Login_MailPasswordRecoveryBody' => 'Hai %1$s,
-
-Permintaan pemulihan sandi telah dikirim dari %2$s.
-
-Untuk memulihkan sandi Anda::
-
-1) Kunjungi Borang Pemulihan Sandi di:
-	%3$s
-
-2) Masukkan kepingan berikut:
-	%4$s
-
-3) Isi borang (masukkan sandi baru Anda dua kali) dan kirim.
-
-Catatan: kepingan ini akan kedaluwarsa dalam 24 jam.',
-	'Login_PasswordSent' => 'Informasi untuk memulihkan sandi Anda telah dikirim. Perikasa surel Anda.',
 	'Login_ContactAdmin' => 'Kemungkinan: inang Anda kemungkinan mematikan fungsi mail(). <br />Silakan hubungi pengelola Piwik Anda.',
 	'Login_ExceptionPasswordMD5HashExpected' => 'Parameter sandi diperkirakan menjadi hash MD5 dari sandi.',
 	'Login_ExceptionInvalidSuperUserAuthenticationMethod' => 'Pengguna super tidak dapat diotentikasi menggunakan mekanisme \'%s\'.',

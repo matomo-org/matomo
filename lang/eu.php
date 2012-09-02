@@ -427,44 +427,9 @@ $translations = array(
 	'Login_LogIn' => 'Hasi saioa',
 	'Login_Logout' => 'Amaitu saioa',
 	'Login_LostYourPassword' => 'Pasahitza galdu duzu?',
-	'Login_RemindPassword' => 'Bidali pasahitz berrezartzea',
-	'Login_PasswordResetToken' => 'Pasahitza berrezartzeko tokena',
-	'Login_PasswordReminder' => 'Idatzi zure erabiltzaile-izen edo e-posta. Mezu elektroniko bat jasoko duzu zure pasahitza berrezartzeko informazioarekin.',
 	'Login_PasswordsDoNotMatch' => 'Pasahitzak ez datoz bat.',
-	'Login_PasswordSuccessfullyChanged' => 'Pasahitza ondo aldatu da!',
 	'Login_InvalidUsernameEmail' => 'Erabiltzaile-izen edo helbide elektroniko baliogabea',
 	'Login_InvalidOrExpiredToken' => 'Tokena baliogabea da edo iraungi egin da',
-	'Login_MailTopicPasswordRecovery' => 'Pasahitza berreskuratzea',
-	'Login_MailPasswordRecoveryBody' => 'Kaixo %1$s,
-
-
-
-Pasahitza berrezartzeko eskaria jaso da %2$s helbidetik.
-
-
-
-Zure pasahitza berrezartzeko:
-
-
-
-1) Zoaz pasahitza berrezartzeko inprimakira:
-
-	%3$s
-
-
-
-2) Idatz ezazu ondorengo tokena:
-
-	%4$s
-
-
-
-3) Bete eta bidal ezazu inprimakia (zure pasahitz berria birritan sartuz) inprimakia.
-
-
-
-Oharra: tokena 24 ordutan iraungiko da.',
-	'Login_PasswordSent' => 'Zure pasahitza berrezartzeko informazioa bidali da. Begira ezazu zure posta elektronikoa.',
 	'Login_ContactAdmin' => 'Arrazoi posiblea: zure ostalariak mail() funtzioa ezgaituta izan dezake.<br />Jar zaitez harremanetan zure Piwik kudeatzailearekin.',
 	'Provider_WidgetProviders' => 'Hornitzaileak',
 	'Provider_ColumnProvider' => 'Hornitzailea',

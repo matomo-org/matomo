@@ -751,30 +751,9 @@ $translations = array(
 	'Login_LogIn' => 'Zaloguj się',
 	'Login_Logout' => 'Wyloguj się',
 	'Login_LostYourPassword' => 'Nie pamiętam hasła',
-	'Login_RemindPassword' => 'Wyślij sekwencję kasowania hasła',
-	'Login_PasswordResetToken' => 'Token kasowania hasła',
-	'Login_PasswordReminder' => 'Proszę, wprowadź nazwę użytkownika lub adres e-mail. Otrzymasz e-mail z informacją pomocną do zmiany twojego hasła.',
 	'Login_PasswordsDoNotMatch' => 'Hasła nie pasują.',
-	'Login_PasswordSuccessfullyChanged' => 'Hasło zmieniono pomyślnie!',
 	'Login_InvalidUsernameEmail' => 'Błędna nazwa użytkownika i/lub adres e-mail',
 	'Login_InvalidOrExpiredToken' => 'Token jest błędny lub już wygasł.',
-	'Login_MailTopicPasswordRecovery' => 'Odzyskiwanie hasła',
-	'Login_MailPasswordRecoveryBody' => 'Cześć %1$s,
-
-Żądanie zmiany hasła zostało otrzymane z %2$s.
-
-Aby zmienić hasło:
-
-1) Przejdź do formularza zmiany haseł w:
-	%3$s
-
-2) Wprowadź następujące token:
-	%4$s
-
-3) Wypełnij formularz (wpisując nowe hasło dwa razy) i zatwierdź zmianę.
-
-Uwaga: token ten utraci swoją ważność w ciągu 24 godzin.',
-	'Login_PasswordSent' => 'Informacje potrzebne do zmiany hasła zostały wysłane. Sprawdź zawartość skrzynki e-mail.',
 	'Login_ContactAdmin' => 'Prawdopodobny powód: twój host mógł wyłączyć działanie funkcji mail(). <br />Skontaktuj się w tej sprawie ze swoim administratorem statystyk Piwik.',
 	'Login_ExceptionPasswordMD5HashExpected' => 'Oczekiwanym parametrem hasła jest hash z MD5 uzyskany z hasła.',
 	'Login_ExceptionInvalidSuperUserAuthenticationMethod' => 'Osoba o uprawnieniach Super Użytkownika nie może być uwierzytelniona stosując mechanizm \'%s\'.',

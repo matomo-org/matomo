@@ -428,7 +428,7 @@ $translations = array(
 	'PrivacyManager_DeleteLogsOlderThan' => 'Delete logs older than',
 	'PrivacyManager_DeleteDataInterval' => 'Delete old data every',
 	'PrivacyManager_DeleteMaxRows' => 'Maximum number of rows to delete in one run:',
-    'PrivacyManager_DeleteMaxRowsNoLimit' => 'no limit',
+	'PrivacyManager_DeleteMaxRowsNoLimit' => 'no limit',
 	'PrivacyManager_LastDelete' => 'Last deletion was on',
 	'PrivacyManager_NextDelete' => 'Next scheduled deletion in',
 	'PrivacyManager_ClickHereSettings' => 'Click here to access the %s settings.',
@@ -483,10 +483,10 @@ $translations = array(
 	'CoreHome_FlattenDataTable_js' => 'The report is hierarchical %s Make it flat',
 	'CoreHome_UnFlattenDataTable_js' => 'The report is flat %s Make it hierarchical',
 	'CoreHome_DateFormat' => '%longDay% %day% %longMonth% %longYear%',
-    'CoreHome_ShortDateFormat' => '%shortDay% %day% %shortMonth%',
-    'CoreHome_ShortDateFormatWithYear' => '%day% %shortMonth% %shortYear%',
-    'CoreHome_ShortMonthFormat' => '%shortMonth% %longYear%',
-    'CoreHome_LongMonthFormat' => '%longYear%, %longMonth%',
+	'CoreHome_ShortDateFormat' => '%shortDay% %day% %shortMonth%',
+	'CoreHome_ShortDateFormatWithYear' => '%day% %shortMonth% %shortYear%',
+	'CoreHome_ShortMonthFormat' => '%shortMonth% %longYear%',
+	'CoreHome_LongMonthFormat' => '%longYear%, %longMonth%',
 	'CoreHome_ShortWeekFormat' => '%dayFrom% %shortMonthFrom% - %dayTo% %shortMonthTo% %shortYearTo%',
 	'CoreHome_LongWeekFormat' => '%dayFrom% %longMonthFrom% - %dayTo% %longMonthTo% %longYearTo%',
 	'CoreHome_PeriodDay' => 'Day',
@@ -934,34 +934,26 @@ $translations = array(
 	'Login_LogIn' => 'Sign in',
 	'Login_Logout' => 'Sign out',
 	'Login_LostYourPassword' => 'Lost your password?',
-	'Login_RemindPassword' => 'Send password reset',
-	'Login_PasswordResetToken' => 'Password reset token',
-	'Login_PasswordReminder' => 'Please enter your username or e-mail address. You will receive an e-mail with information to reset your password.',
 	'Login_PasswordsDoNotMatch' => 'Passwords do not match.',
-	'Login_PasswordSuccessfullyChanged' => 'Password successfully changed!',
-	'Login_InvalidUsernameEmail' => 'Invalid username and/or e-mail address',
+	'Login_InvalidUsernameEmail' => 'Invalid username or e-mail address.',
 	'Login_InvalidNonceOrHeadersOrReferer' => 'Form security failed. Please reload the form and check that your cookies are enabled. If you use a proxy server, you must %s configure Piwik to accept the proxy header%s that forwards the Host header. Also, check that your Referer header is sent correctly.',
 	'Login_InvalidOrExpiredToken' => 'Token is invalid or has expired.',
-	'Login_MailTopicPasswordRecovery' => 'Password recovery',
-	'Login_MailPasswordRecoveryBody' => 'Hi %1$s,
+	'Login_MailTopicPasswordChange' => 'Confirm Password Change',
+	'Login_MailPasswordChangeBody' => 'Hi %1$s,
 
-A password reset request was received from %2$s.
+A password reset request was received from %2$s. To confirm this password change so you can login with your new credentials, visit the following link:
 
-To reset your password:
+%3$s
 
-1) Go to the Password Reset Form at:
-	%3$s
+Note: this token will expire in 24 hours.
 
-2) Enter the following token:
-	%4$s
-
-3) Fill out the form (entering your new password twice) and submit.
-
-Note: this token will expire in 24 hrs.',
-	'Login_PasswordSent' => 'Information to reset your password has been sent. Check your e-mail.',
+And thank you for using Piwik!',
+	'Login_ConfirmationLinkSent' => 'A confirmation link has been sent to your inbox. Check your e-mail and visit this link to authorize your password change request.',
+	'Login_PasswordChanged' => 'Your password has been changed.',
 	'Login_ContactAdmin' => 'Possible reason: your host may have disabled the mail() function. <br />Please contact your Piwik administrator.',
 	'Login_ExceptionPasswordMD5HashExpected' => 'The password parameter is expected to be a MD5 hash of the password.',
 	'Login_ExceptionInvalidSuperUserAuthenticationMethod' => 'The Super User cannot be authenticated using the \'%s\' mechanism.',
+	'Login_ResetPasswordInstructions' => 'Enter a new password for your account.',
 	'Mobile_Accounts' => 'Accounts',
 	'Mobile_AddAccount' => 'Add account',
 	'Mobile_AddPiwikDemo' => 'Add Piwik Demo',
@@ -978,8 +970,8 @@ Note: this token will expire in 24 hrs.',
 	'Mobile_LoginUseHttps' => 'Use https',
 	'Mobile_PullDownToRefresh' => 'Pull down to refresh...',
 	'Mobile_RatingNotNow' => 'Not now',
-	'Mobile_RatingNow' => "OK, I'll rate it now",
-	'Mobile_RatingDontRemindMe' => "Don't remind me",
+	'Mobile_RatingNow' => 'OK, I\'ll rate it now',
+	'Mobile_RatingDontRemindMe' => 'Don\'t remind me',
 	'Mobile_RatingPleaseRateUs' => 'Piwik Mobile App is a Free Software, we would really appreciate if you took 1 minute to rate the app in the %s. If you have suggestions of new features or bug reports, please contact %s',
 	'Mobile_Refresh' => 'Refresh',
 	'Mobile_Reloading' => 'Reloading...',
@@ -1367,7 +1359,7 @@ Note: this token will expire in 24 hrs.',
 	'UserCountry_country_sn' => 'Senegal',
 	'UserCountry_country_so' => 'Somalia',
 	'UserCountry_country_sr' => 'Suriname',
-        'UserCountry_country_ss' => 'South Sudan',
+	'UserCountry_country_ss' => 'South Sudan',
 	'UserCountry_country_st' => 'Sao Tome and Principe',
 	'UserCountry_country_su' => 'Old U.S.S.R',
 	'UserCountry_country_sx' => 'Sint Maarten (Dutch part)',
@@ -1684,7 +1676,6 @@ Note: this token will expire in 24 hrs.',
 	'Transitions_FromWebsitesInline' => '%s from websites',
 	'Transitions_FromCampaigns' => 'From Campaigns',
 	'Transitions_FromCampaignsInline' => '%s from campaigns',
-	'Transitions_DirectEntries' => 'Direct Entries',
 	'Transitions_ExitsInline' => '%s exits',
 	'Transitions_BouncesInline' => '%s bounces',
 );

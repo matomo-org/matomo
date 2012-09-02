@@ -127,7 +127,7 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
                 if(!empty($cleanedStrings[$stringLabel]))
                 {
                     $stringNoLineBreak = trim($cleanedStrings[$stringLabel]);
-                    if($stringLabel != 'Login_MailPasswordRecoveryBody')
+                    if($stringLabel != 'Login_MailPasswordChangeBody')
                     {
                         $stringNoLineBreak = str_replace(array("\n", "\r"), " ", $stringNoLineBreak);
                     }

@@ -900,31 +900,10 @@ $translations = array(
 	'Login_LogIn' => 'Log på',
 	'Login_Logout' => 'Log af',
 	'Login_LostYourPassword' => 'Glemt adgangskoden?',
-	'Login_RemindPassword' => 'Send adgangskode nulstilling',
-	'Login_PasswordResetToken' => 'Token til nulstilling af adgangskode',
-	'Login_PasswordReminder' => 'Indtaste brugernavn eller e-mail-adresse. Du vil modtage en e-mail med oplysninger til at nulstille adgangskoden.',
 	'Login_PasswordsDoNotMatch' => 'Adgangskoder er ikke ens.',
-	'Login_PasswordSuccessfullyChanged' => 'Adgangskode er ændret!',
 	'Login_InvalidUsernameEmail' => 'Fejl i brugernavn og/eller e-mailadresse.',
 	'Login_InvalidNonceOrHeadersOrReferer' => 'Formularsikkerhed fejlede. Genindlæs formularen og kontroller, at dine cookies er aktiveret. Hvis du bruger en proxyserver, skal du %s konfigurere Piwik til at acceptere  proxyheaderen%s, der videresender hostheaderen. Kontroller også, at din Referer header er sendt korrekt',
 	'Login_InvalidOrExpiredToken' => 'Nøglen er forkert eller udløbet',
-	'Login_MailTopicPasswordRecovery' => 'Genopret adgangskode',
-	'Login_MailPasswordRecoveryBody' => 'Hej %1$s,
-
-Anmodning om nulstilling af adgangskode er modtaget fra %2$s.
-
-For at nulstille adgangskode:
-
-1) Gå til nulstil adgangskode formularen:
-%3$s
-
-2) Indtast følgende nøgle:
-%4$s
-
-3) Udfyld formularen (indtast ny adgangskode 2 gange) og send.
-
-Obs: nøglen udløber efter 24 timer.',
-	'Login_PasswordSent' => 'Oplysninger til at nulstille din adgangskode er blevet sendt. Tjek din e-mail.',
 	'Login_ContactAdmin' => 'Mulig årsag: udbyderen har måske deaktiveret mail()-funktionen. <br />Kontakt Piwik administrator.',
 	'Login_ExceptionPasswordMD5HashExpected' => 'Adgangskode parameteren forventes at være en MD5 hash af adgangskoden.',
 	'Login_ExceptionInvalidSuperUserAuthenticationMethod' => 'Superbrugeren kan ikke bekræftes ved hjælp af \'%s\' metoden.',

@@ -108,4 +108,29 @@ abstract class Piwik_QuickForm2 extends HTML_QuickForm2
 		$value = $this->getValue();
 		return isset($value[$elementName]) ? $value[$elementName] : null;
 	}
+	
+	/**
+	 * Returns the rendered form as an array.
+	 * 
+	 * @param bool $groupErrors Whether to group errors together or not.
+	 * @return array
+	 */
+	public function getFormData( $groupErrors = true )
+	{
+		static $registered = false;
+		if(!$registered)
+		{
+			HTML_QuickForm2_Renderer::register('smarty', 'HTML_QuickForm2_Renderer_Smarty');
+			$registered = true;
+		}
+		
+		// Create the renderer object
+		$renderer = HTML_QuickForm2_Renderer::factory('smarty');
+		$renderer->setOption('group_errors', $groupErrors);
+
+		// build the HTML for the form
+		$this->render($renderer);
+		
+		return $renderer->toArray();
+	}
 }
