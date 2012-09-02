@@ -846,7 +846,7 @@ class PiwikTracker
 			// only supports JSON data
 			if (!empty($data))
 			{
-				$stream_options['http']['header'][] = 'Content-Type: application/json';
+				$stream_options['http']['header'] .= "Content-Type: application/json \r\n";
 				$stream_options['http']['content'] = $data;
 			}
 			
