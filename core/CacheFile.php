@@ -93,11 +93,11 @@ class Piwik_CacheFile
 		// Write cache to a temp file, then rename it, overwritng the old cache
 		// On *nix systems this should guarantee atomicity
 		$tmp_filename = tempnam($this->cachePath, 'tmp_');
-		@chmod($tmp_filename, 0600);
+		@chmod($tmp_filename, 0640);
 		if ($fp = @fopen($tmp_filename, 'wb')) {
 			@fwrite ($fp, $cache_literal, strlen($cache_literal));
 			@fclose ($fp);
-
+			
 			if (!@rename($tmp_filename, $id)) {
 				// On some systems rename() doesn't overwrite destination
 				@unlink($id);
