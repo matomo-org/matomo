@@ -10,7 +10,6 @@
  * @package Piwik_MobileMessaging_ReportRenderer
  */
 
-const FLOAT_REGEXP = '/[-+]?[0-9]*[\.,]?[0-9]+/';
 
 /**
  *
@@ -18,6 +17,7 @@ const FLOAT_REGEXP = '/[-+]?[0-9]*[\.,]?[0-9]+/';
  */
 class Piwik_MobileMessaging_ReportRenderer_Sms extends Piwik_ReportRenderer
 {
+	const FLOAT_REGEXP = '/[-+]?[0-9]*[\.,]?[0-9]+/';
 	const SMS_CONTENT_TYPE = 'text/plain';
 	const SMS_FILE_EXTENSION = 'sms';
 
@@ -75,7 +75,7 @@ class Piwik_MobileMessaging_ReportRenderer_Sms extends Piwik_ReportRenderer
 					'$value',
 					'
 					return preg_replace_callback (
-						FLOAT_REGEXP,
+						"'.self::FLOAT_REGEXP.'",
 						create_function (
 							\'$matches\',
 							\'return round($matches[0]);\'
@@ -98,7 +98,7 @@ class Piwik_MobileMessaging_ReportRenderer_Sms extends Piwik_ReportRenderer
 				create_function (
 					'$value',
 					'
-					$matched = preg_match(FLOAT_REGEXP, $value, $matches);
+					$matched = preg_match("'.self::FLOAT_REGEXP.'", $value, $matches);
 					return $matched ? sprintf("%+d",$matches[0]) : $value;
 					'
 				)
