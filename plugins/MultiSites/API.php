@@ -196,6 +196,9 @@ class Piwik_MultiSites_API
 				$firstDataTableRow->setColumn('label', $sites);
 			}
 		}
+		
+		// calculate total visits/actions/revenue
+		$this->setMetricsTotalsMetadata($dataTable, $apiMetrics);
 
 		// if the period isn't a range & a lastN/previousN date isn't used, we get the same
 		// data for the last period to show the evolution of visits/actions/revenue
@@ -212,7 +215,13 @@ class Piwik_MultiSites_API
 			}
 			else
 			{
-				$strLastDate = Piwik_Period_Range::removePeriod($period, Piwik_Date::factory($date), $n = 1)->toString();
+				$lastPeriod = Piwik_Period_Range::removePeriod($period, Piwik_Date::factory($date), $n = 1);
+				$strLastDate = $lastPeriod->toString();
+				
+				// NOTE: no easy way to set last period date metadata when range of dates is requested.
+				//       will be easier if DataTable_Array::metadata is removed, and metadata that is
+				//       put there is put directly in Piwik_DataTable::metadata.
+				$dataTable->setMetadata(self::getLastPeriodMetadataName('date'), $lastPeriod);
 			}
 
 			$pastArchive = Piwik_Archive::build('all', $period, $strLastDate, $segment, $_restrictSitesToLogin);
@@ -222,6 +231,8 @@ class Piwik_MultiSites_API
 
 			// use past data to calculate evolution percentages
 			$this->calculateEvolutionPercentages($dataTable, $pastData, $apiMetrics);
+			
+			$this->setPastDataMetadata($dataTable, $pastData, $apiMetrics);
 		}
 
 		// remove eCommerce related metrics on non eCommerce Piwik sites
@@ -316,6 +327,100 @@ class Piwik_MultiSites_API
 			}
 		}
 	}
+	
+	/**
+	 * Sets the total visits, actions & revenue for a DataTable returned by
+	 * $this->buildDataTable.
+	 * 
+	 * @param Piwik_DataTable $dataTable
+	 * @param array $apiMetrics Metrics info.
+	 * @return array Array of three values: total visits, total actions, total revenue
+	 */
+	private function setMetricsTotalsMetadata( $dataTable, $apiMetrics )
+	{
+		if ($dataTable instanceof Piwik_DataTable_Array)
+		{
+			foreach ($dataTable->getArray() as $table)
+			{
+				$this->setMetricsTotalsMetadata($table, $apiMetrics);
+			}
+		}
+		else
+		{
+			$revenueMetric = '';
+			if (Piwik_Common::isGoalPluginEnabled())
+			{
+				$revenueMetric = Piwik_Goals::getRecordName(self::GOAL_REVENUE_METRIC);
+			}
+			
+			$totals = array();
+			foreach ($apiMetrics as $metricInfo)
+			{
+				$totalMetadataName = self::getTotalMetadataName($metricInfo[self::METRIC_RECORD_NAME_KEY]);
+				$totals[$totalMetadataName] = 0;
+			}
+			
+			foreach ($dataTable->getRows() as $row)
+			{
+				foreach ($apiMetrics as $metricInfo)
+				{
+					$recordName = $metricInfo[self::METRIC_RECORD_NAME_KEY];
+					$totalMetadataName = self::getTotalMetadataName($recordName);
+					
+					$totals[$totalMetadataName] = $row->getColumn($recordName);
+				}
+			}
+			
+			foreach ($totals as $name => $value)
+			{
+				$dataTable->setMetadata($name, $value);
+			}
+		}
+	}
+	
+	/**
+	 * Sets the total evolution metadata for a datatable returned by $this->buildDataTable
+	 * given data for the last period.
+	 * 
+	 * @param Piwik_DataTable $dataTable
+	 * @param Piwik_DataTable $pastData
+	 * @param array $apiMetrics Metrics info.
+	 */
+	private function setPastDataMetadata( $dataTable, $pastData, $apiMetrics )
+	{
+		if ($dataTable instanceof Piwik_DataTable_Array)
+		{
+			$pastArray = $pastData->getArray();
+			foreach ($dataTable->getArray() as $subTable)
+			{
+				$this->setPastDataMetadata($subTable, current($pastArray), $apiMetrics);
+				next($pastArray);
+			}
+		}
+		else
+		{
+			// calculate total visits/actions/revenue for past data
+			$this->setMetricsTotalsMetadata($pastData, $apiMetrics);
+			
+			foreach ($apiMetrics as $metricInfo)
+			{
+				// get the names of metadata to set
+				$totalMetadataName = self::getTotalMetadataName($metricInfo[self::METRIC_RECORD_NAME_KEY]);
+				$lastPeriodTotalMetadataName = self::getLastPeriodMetadataName($totalMetadataName);
+				$totalEvolutionMetadataName =
+					self::getTotalMetadataName($metricInfo[self::METRIC_EVOLUTION_COL_NAME_KEY]);
+				
+				// set last period total
+				$pastTotal = $pastData->getMetadata($totalMetadataName);
+				$dataTable->setMetadata($lastPeriodTotalMetadataName, $pastTotal);
+				
+				// calculate & set evolution
+				$currentTotal = $dataTable->getMetadata($totalMetadataName);
+				$evolution = Piwik_MultiSites_CalculateEvolutionFilter::calculate($currentTotal, $pastTotal);
+				$dataTable->setMetadata($totalEvolutionMetadataName, $evolution);
+			}
+		}
+	}
 
 	/**
 	 * @ignore
@@ -362,5 +467,15 @@ class Piwik_MultiSites_API
 		}
 
 		return $metrics;
+	}
+	
+	private static function getTotalMetadataName( $name )
+	{
+		return 'total_'.$name;
+	}
+	
+	private static function getLastPeriodMetadataName( $name )
+	{
+		return 'last_period_'.$name;
 	}
 }

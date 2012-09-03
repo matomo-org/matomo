@@ -33,7 +33,9 @@
 <div class="centerLargeDiv">
 
 <h2>{'General_AllWebsitesDashboard'|translate} 
-	<span class='smallTitle'>{'General_TotalVisitsActionsRevenue'|translate:"<strong>$totalVisits</strong>":"<strong>$totalActions</strong>":"<strong>$totalRevenue</strong>"}</span>
+	<span class='smallTitle' {if $totalVisitsEvolution}title="{'MultiSites_TotalsEvolutionSummary'|translate:$totalVisits:$prettyDate:$pastTotalVisits:$totalVisitsEvolution:$pastPeriodPretty}"{/if}>
+		{'General_TotalVisitsActionsRevenue'|translate:"<strong>$totalVisits</strong>":"<strong>$totalActions</strong>":"<strong>$totalRevenue</strong>"}
+	</span>
 </h2>
 
 <table id="mt" class="dataTable" cellspacing="0">

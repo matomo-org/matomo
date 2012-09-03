@@ -65,8 +65,6 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		$dataTable = Piwik_MultiSites_API::getInstance()->getAll($period, $date, $segment = false);
 
 		list($minDate, $maxDate) = $this->getMinMaxDateAcrossWebsites($siteIds);
-		
-		$totalVisits = $totalActions = $totalRevenue = 0;
 
 		// put data into a form the template will understand better
 		$digestableData = array();
@@ -106,17 +104,13 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 			$site = &$digestableData[$idsite];
 			
 			$site['visits'] = (int)$row->getColumn('nb_visits');
-			$totalVisits += $site['visits'];
-
 			$site['actions'] = (int)$row->getColumn('nb_actions');
-			$totalActions += $site['actions'];
 
 			if ($displayRevenueColumn)
 			{
 				if ($row->getColumn('revenue') !== false)
 				{
 					$site['revenue'] = $row->getColumn('revenue');
-					$totalRevenue += $site['revenue'];
 				}
 			}
 
@@ -142,10 +136,30 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		$view->limit = $this->limit;
 		$view->orderBy = $this->orderBy;
 		$view->order = $this->order;
-		$view->totalVisits = $totalVisits;
+		$view->totalVisits = $dataTable->getMetadata('total_nb_visits');
+		
+		$totalRevenue = false;
+		if (Piwik_Common::isGoalPluginEnabled())
+		{
+			$totalRevenue = $dataTable->getMetadata('total_'.Piwik_Goals::getRecordName('revenue'));
+		}
 		$view->totalRevenue = $totalRevenue;
+		
 		$view->displayRevenueColumn = $displayRevenueColumn;
-		$view->totalActions = $totalActions;
+		$view->totalActions = $dataTable->getMetadata('total_nb_actions');
+		$view->pastTotalVisits = $dataTable->getMetadata('last_period_total_nb_visits');
+		
+		$view->totalVisitsEvolution = $dataTable->getMetadata('total_visits_evolution');
+		if ($view->totalVisitsEvolution > 0)
+		{
+			$view->totalVisitsEvolution = '+'.$view->totalVisitsEvolution;
+		}
+		
+		if ($period != 'range')
+		{
+			$lastPeriod = Piwik_Period::factory($period, $dataTable->getMetadata('last_period_date'));
+			$view->pastPeriodPretty = self::getCalendarPrettyDate($lastPeriod);
+		}
 	
 		$params = $this->getGraphParamsModified();
 		$view->dateSparkline = $period == 'range' ? $dateRequest : $params['date'];

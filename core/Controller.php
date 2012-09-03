@@ -439,15 +439,7 @@ abstract class Piwik_Controller
 				$period = new Piwik_Period_Range($periodStr, $rawDate, $this->site->getTimezone());
 			}
 			$view->rawDate = $rawDate;
-			
-			if ($period instanceof Piwik_Period_Month) // show month name when period is for a month
-			{
-				$view->prettyDate = $period->getLocalizedLongString();
-			}
-			else
-			{
-				$view->prettyDate = $period->getPrettyString();
-			}
+			$view->prettyDate = self::getCalendarPrettyDate($period);
 			
 			$view->siteName = $this->site->getName();
 			$view->siteMainUrl = $this->site->getMainUrl();
@@ -756,6 +748,24 @@ abstract class Piwik_Controller
 	{
 		if(Piwik_Common::getRequestVar('token_auth', false) != Piwik::getCurrentUserTokenAuth()) {
 			throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionInvalidToken'));
+		}
+	}
+	
+	/**
+	 * Returns pretty date for use in period selector widget.
+	 * 
+	 * @param Piwik_Period $period
+	 * @return string
+	 */
+	public static function getCalendarPrettyDate($period)
+	{
+		if ($period instanceof Piwik_Period_Month) // show month name when period is for a month
+		{
+			return $period->getLocalizedLongString();
+		}
+		else
+		{
+			return $period->getPrettyString();
 		}
 	}
 }

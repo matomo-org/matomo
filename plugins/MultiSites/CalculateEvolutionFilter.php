@@ -113,6 +113,37 @@ class Piwik_MultiSites_CalculateEvolutionFilter extends Piwik_DataTable_Filter_C
 	 */
 	protected function formatValue($value, $divisor)
 	{
+		return self::makePercent($value, $divisor, $this->quotientPrecision);
+	}
+
+	/**
+	 * Utility function. Returns the current row in the past DataTable.
+	 * 
+	 * @param Piwik_DataTable_Row $row The row in the 'current' DataTable.
+	 */
+	private function getPastRowFromCurrent($row)
+	{
+		return $this->pastDataTable->getRowFromLabel($row->getColumn('label'));
+	}
+	
+	/**
+	 * Calculates the evolution percentage for two arbitrary values.
+	 * 
+	 * @param numeric $currentValue The current metric value.
+	 * @param numeric $pastValue The value of the metric in the past. We measure the % change
+	 *                           from this value to $currentValue.
+	 * @return string The evolution percent.
+	 */
+	public static function calculate($currentValue, $pastValue, $quotientPrecision = 0)
+	{
+		return self::makePercent($currentValue - $pastValue, $pastValue, $quotientPrecision);
+	}
+	
+	/**
+	 * Returns an evolution percent based on a value & divisor.
+	 */
+	private static function makePercent($value, $divisor, $quotientPrecision)
+	{
 		if($value == 0)
 		{
 			$evolution = 0;
@@ -126,16 +157,6 @@ class Piwik_MultiSites_CalculateEvolutionFilter extends Piwik_DataTable_Filter_C
 			$evolution = ($value / $divisor) * 100;
 		}
 
-		return round($evolution, $this->quotientPrecision).'%';
-	}
-
-	/**
-	 * Utility function. Returns the current row in the past DataTable.
-	 * 
-	 * @param Piwik_DataTable_Row $row The row in the 'current' DataTable.
-	 */
-	private function getPastRowFromCurrent($row)
-	{
-		return $this->pastDataTable->getRowFromLabel($row->getColumn('label'));
+		return round($evolution, $quotientPrecision).'%';
 	}
 }
