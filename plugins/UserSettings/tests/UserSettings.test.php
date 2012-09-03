@@ -166,6 +166,10 @@ class Test_Piwik_UserSettings extends UnitTestCase
 			array('BP', 'PlayBook', 'PlayBook', '0.0', '0', '0', 'webkit' ),
 			array('QNX', 'QNX', 'QNX')),
 
+		'Mozilla/5.0 (BB10; Dev Alpha) AppleWebKit/534.11+ (KHTML, like Gecko) Version/10.0 Mobile Safari/534.11+' => array(
+			array('B2', 'BlackBerry', 'BlackBerry', '10.0', '10', '0', 'webkit' ),
+			array('BBX', 'BB10', 'BB10')),
+
 		// BrowseX
 		'Mozilla/4.61 [en] (X11; U; ) - BrowseX (2.0.0 Windows)' => array(
 			array('BX', 'BrowseX', 'BrowseX', '2.0', '2', '0', 'unknown'),

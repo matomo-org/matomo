@@ -74,6 +74,7 @@ class UserAgentParser
 
 			// BlackBerry smartphones and tablets
 			'blackberry'					=> 'BB', // BlackBerry 6 and PlayBook adopted webkit
+			'bb10'							=> 'B2', // BlackBerry 10
 			'playbook'						=> 'BP',
 
 			'browsex'						=> 'BX',
@@ -174,7 +175,7 @@ class UserAgentParser
 			'ie'	 => array('IE'),
 			'gecko'  => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'KP', 'KZ'),
 			'khtml'  => array('KO'),
-			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF', 'BB', 'BP', 'TI', 'CF', 'RK'),
+			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF', 'BB', 'BP', 'TI', 'CF', 'RK', 'B2'),
 			'opera'  => array('OP'),
 		);
 
@@ -280,6 +281,7 @@ class UserAgentParser
 			'PalmOS'				=> 'POS',
 			'Palm OS'				=> 'POS',
 
+			'BB10'					=> 'BBX',
 			'BlackBerry'			=> 'BLB',
 			'RIM Tablet OS'			=> 'QNX',
 			'QNX'					=> 'QNX',
@@ -453,6 +455,9 @@ class UserAgentParser
 			else if(strpos($userAgent, 'RIM Tablet OS') !== false) {
 				$info['id'] = 'BP';
 			}
+			else if(strpos($userAgent, 'BB10') !== false) {
+				$info['id'] = 'B2';
+			}
 
 			// Version/X.Y.Z override
 			if(preg_match_all("/(version)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $newResults))
@@ -544,6 +549,7 @@ class UserAgentParser
 		self::$browserIdToName['AW'] = 'Amiga AWeb';
 		self::$browserIdToName['BB'] = 'BlackBerry';
 		self::$browserIdToName['BP'] = 'PlayBook';
+		self::$browserIdToName['B2'] = 'BlackBerry';
 		self::$browserIdToName['BX'] = 'BrowseX';
 		self::$browserIdToName['CF'] = 'Chrome Frame';
 		self::$browserIdToName['CO'] = 'CometBird';
