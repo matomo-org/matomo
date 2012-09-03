@@ -794,6 +794,11 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
                 false,
                 array('PSP', 'PlayStation Portable', 'PSP'))),
 
+            // Rekonq 1.0+
+            array('Mozilla/5.0 (X11; Linux i686) AppleWebKit/534.34 (KHTML, like Gecko) rekonq/1.0 Safari/534.34', array(
+                array('RK', 'Rekonq', 'Rekonq', '1.0', '1', '0', 'webkit'),
+                array('LIN', 'Linux', 'Linux'))),
+
             // Safari
             array('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Version/3.1.2 Safari/525.21', array(
                 array('SF', 'Safari', 'Safari', '3.1', '3', '1', 'webkit'),

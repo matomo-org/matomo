@@ -864,6 +864,11 @@ class Test_Piwik_UserSettings extends UnitTestCase
 			array('WP', 'WebPro', 'WebPro', '3.0', '3', '0', 'unknown'),
 			array('POS', 'Palm OS', 'Palm OS')),
 
+		// Rekonq 1.0+
+		'Mozilla/5.0 (X11; Linux i686) AppleWebKit/534.34 (KHTML, like Gecko) rekonq/1.0 Safari/534.34' => array(
+			array('RK', 'Rekonq', 'Rekonq', '1.0', '1', '0', 'webkit'),
+			array('LIN', 'Linux', 'Linux')),
+
 		// Shiira 1.x - treat as Safari since it uses the installed version of Safari's WebKit
 		'Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/417.9 (KHTML, like Gecko, Safari) Shiira/1.1' => array(
 			array('SF', 'Safari', 'Safari', '2.0', '2', '0', 'webkit'),

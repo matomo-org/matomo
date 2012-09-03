@@ -157,6 +157,8 @@ class UserAgentParser
 			'nitro) opera'					=> 'OP',
 			'opera'							=> 'OP',
 
+			'rekonq'						=> 'RK',
+
 			// Safari
 			'safari'						=> 'SF',
 			'applewebkit'					=> 'SF',
@@ -172,7 +174,7 @@ class UserAgentParser
 			'ie'	 => array('IE'),
 			'gecko'  => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'KP', 'KZ'),
 			'khtml'  => array('KO'),
-			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF', 'BB', 'BP', 'TI', 'CF'),
+			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF', 'BB', 'BP', 'TI', 'CF', 'RK'),
 			'opera'  => array('OP'),
 		);
 
